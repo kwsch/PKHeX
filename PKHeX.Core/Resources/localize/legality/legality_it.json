@@ -265,6 +265,11 @@
     "PIDNatureMismatch": "La Natura non combacia con il PID.",
     "PIDTypeMismatch": "PID+ correlation does not match what was expected for the Encounter's type.",
     "PIDZero": "Il PID non è impostato.",
+    "PlusMoveAlphaMissing_0": "Expected to have mastered the move {0} when encountered as an alpha.",
+    "PlusMoveMultipleInvalid": "Multiple Plus Move flags are invalid.",
+    "PlusMoveInvalid_0": "{0} cannot be learned and set as a Plus Move.",
+    "PlusMoveSufficientLevelMissing_0": "Plus Move flag for {0} must be set.",
+    "PlusMoveCountInvalid": "Out of range Plus Move flag index is set.",
     "PokerusDaysTooHigh_0": "I giorni di Pokérus rimanenti sono troppi, previsto <= {0}.",
     "PokerusStrainUnobtainable_0": "Pokérus Strain {0} non può essere ottenuta.",
     "RibbonAllValid": "Tutti i fiocchi sono stati contabilizzati.",
@@ -359,5 +364,11 @@
     "BulkSharingPIDRNGType": "Detected sharing of PID for different RNG encounters.",
     "BulkDuplicateMysteryGiftEggReceived": "Detected multiple redemptions of the same non-repeatable Mystery Gift Egg.",
     "BulkSharingTrainerID": "Detected sharing of Trainer ID across multiple trainer names.",
-    "BulkSharingTrainerVersion": "Detected sharing of Trainer ID across multiple versions."
+    "BulkSharingTrainerVersion": "Detected sharing of Trainer ID across multiple versions.",
+    "BulkDuplicateFusionSlot": "Detected multiple fusions of the same fusion stored slot species.",
+    "BulkDuplicateMegaStoneSlot": "Detected multiple Pokémon holding the same Mega Stone.",
+    "BulkDuplicateMegaStoneInventory": "Detected Pokémon holding a Mega Stone still stored in player inventory.",
+    "BulkNotAcquiredMegaStoneInventory": "Mega Stone held by Pokémon has not been acquired in player inventory.",
+    "BulkAssignedMegaStoneNotFound_0": "{0} is marked as held by Pokémon but none found in slots checked.",
+    "BulkFusionSourceInvalid": "The consumed Species-Form stored in the save file does not match the expected Species-Form of the fused slot."
 }

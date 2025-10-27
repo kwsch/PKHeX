@@ -265,6 +265,11 @@
     "PIDNatureMismatch": "性格と性格値が一致しません。",
     "PIDTypeMismatch": "エンカウントタイプと性格値が一致しません。",
     "PIDZero": "性格値が設定されていません。",
+    "PlusMoveAlphaMissing_0": "Expected to have mastered the move {0} when encountered as an alpha.",
+    "PlusMoveMultipleInvalid": "Multiple Plus Move flags are invalid.",
+    "PlusMoveInvalid_0": "{0} cannot be learned and set as a Plus Move.",
+    "PlusMoveSufficientLevelMissing_0": "Plus Move flag for {0} must be set.",
+    "PlusMoveCountInvalid": "Out of range Plus Move flag index is set.",
     "PokerusDaysTooHigh_0": "ポケルスの残り日数が多すぎます; 範囲 <= {0}.",
     "PokerusStrainUnobtainable_0": "ポケルス株 {0} は取得できません。",
     "RibbonAllValid": "全てのリボンからなっている",
@@ -359,5 +364,11 @@
     "BulkSharingPIDRNGType": "Detected sharing of PID for different RNG encounters.",
     "BulkDuplicateMysteryGiftEggReceived": "Detected multiple redemptions of the same non-repeatable Mystery Gift Egg.",
     "BulkSharingTrainerID": "Detected sharing of Trainer ID across multiple trainer names.",
-    "BulkSharingTrainerVersion": "Detected sharing of Trainer ID across multiple versions."
+    "BulkSharingTrainerVersion": "Detected sharing of Trainer ID across multiple versions.",
+    "BulkDuplicateFusionSlot": "Detected multiple fusions of the same fusion stored slot species.",
+    "BulkDuplicateMegaStoneSlot": "Detected multiple Pokémon holding the same Mega Stone.",
+    "BulkDuplicateMegaStoneInventory": "Detected Pokémon holding a Mega Stone still stored in player inventory.",
+    "BulkNotAcquiredMegaStoneInventory": "Mega Stone held by Pokémon has not been acquired in player inventory.",
+    "BulkAssignedMegaStoneNotFound_0": "{0} is marked as held by Pokémon but none found in slots checked.",
+    "BulkFusionSourceInvalid": "The consumed Species-Form stored in the save file does not match the expected Species-Form of the fused slot."
 }
