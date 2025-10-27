@@ -1,53 +1,71 @@
+0303	r	勾帕路翁 已捕獲
 0802	r	勾帕路翁 已消失
 0302	r	勾帕路翁 (重戰, 等級 +20)
+0330	r	代拉基翁 已捕獲
 0810	r	代拉基翁 已消失
 0329	r	代拉基翁 (重戰, 等級 +20)
+0301	r	畢力吉翁 已捕獲
 0801	r	畢力吉翁 已消失
 0300	r	畢力吉翁 (重戰, 等級 +20)
-0928	r	Volcarona Disappeared
-0403	r	Volcarona Captured (Level 35/65)
-0404	r	Volcarona Defeated (Level 35)
+0928	r	火神蛾 已消失
+0403	r	火神蛾 已捕獲 (等級 35/65)
+0404	r	火神蛾 已擊倒 (等級 35)
+0234	r	萊希拉姆/捷克羅姆 已捕獲
 0667	r	萊希拉姆/捷克羅姆 已消失
+0249	r	酋雷姆 已捕獲
 1004	r	酋雷姆 已消失
+0399	r	雷吉洛克 已捕獲
 0922	r	雷吉洛克 已消失
+0400	r	雷吉艾斯 已捕獲
 0921	r	雷吉艾斯 已消失
+0401	r	雷吉斯奇魯 已捕獲
 0923	r	雷吉斯奇魯 已消失
+0374	r	拉帝歐斯/拉帝亞斯 已捕獲
+0396	r	由克希 已捕獲
 0918	r	由克希 已消失
+0397	r	艾姆利多 已捕獲
 0919	r	艾姆利多 已消失
+0398	r	亞克諾姆 已捕獲
 0920	r	亞克諾姆 已消失
+0380	r	席多藍恩 已捕獲
 0900	r	席多藍恩 已消失
+0402	r	雷吉奇卡斯 已捕獲
 0924	r	雷吉奇卡斯 已消失
+0379	r	克雷色利亞 已捕獲
 0897	r	克雷色利亞 已消失
 0106	*	開啟交換功能 (寶可夢中心)
 2403	*	得到跑步鞋
-2400	s	Entered Hall of Fame
-0250	g	Purchased Magikarp
-0256	g	Traded for Gigalith on Route 7
-0259	g	Traded for Rotom on Route 15
-0289	g	Received N's Zorua (1/2)
-0714	g	Received N's Zorua (2/2)
-0394	g	Received Eevee Gift
-0405	g	Traded for Tangrowth in Humilau City
-0412	g	Traded for Petilil/Cottonee on Route 4
-0426	g	Received Deerling Gift
-0431	g	Traded for Ambipom in Accumula Town
-0432	g	Traded for Alakazam in Accumula Town
-0433	g	Battled Lass Diana 1st Time (Can Trade for Alakazam)
-0434	s	Battled Lass Diana 2nd Time
-0437	g	Received Happiny Egg Gift
-0445	g	Chose Cover/Plume Fossil from Lenora
-0420	r	Shiny Haxorus in Nature Preserve captured
-0946	r	Shiny Haxorus in Nature Preserve disappeared
-0996	g	Benga with Shiny Gible/Dratini Gift disappeared from Alder's house
-2744	s	Rode Royal Unova (Today)
-2747	s	Received a Fossil from Twist Mountain Worker (Today)
-2774	r	Weekly Mandibuzz/Braviary on Route 4 disappeared
-2775	r	Weekly Jellicent in Undella Bay disappeared
-2442	r	N's Pokémon in the Wild
-0929	r	Route 6	 Capture/Defeat Foongus (1)
-0930	r	Route 6	 Capture/Defeat Foongus (2)
-0931	r	Route 6	 Capture/Defeat Foongus (3)
-0932	r	Route 7	 Capture/Defeat Foongus (1)
-0933	r	Route 7	 Capture/Defeat Foongus (2)
-0868	r	Defeated Seaside Cave Crustle
-2793	t	Rematched Colress (Today)
+2400	s	進入名人堂
+0250	g	購買鯉魚王
+0256	g	在7號道路交換了龐岩怪
+0259	g	在15號道路交換了洛托姆
+0289	g	獲得N的索羅亞 (1/2)
+0714	g	獲得N的索羅亞 (2/2)
+0394	g	已領取 伊布
+0405	g	在青海波市交換了巨蔓藤
+0412	g	在4號道路交換了百合根娃娃/木棉球
+0426	g	已領取 四季鹿
+0431	g	在唐草鎮交換了雙尾怪手
+0432	g	在唐草鎮交換了胡地
+0433	g	與迷你裙 初音第一次對戰(交換了胡地)
+0434	s	與迷你裙 初音第二次對戰
+0437	g	已領取 小福蛋
+0445	g	從蘆薈處選擇了羽毛化石
+0420	r	異色雙斧戰龍 (自然保護區) 已捕獲
+0946	r	異色雙斧戰龍 (自然保護區) 已消失
+0996	g	蕃石郎和閃亮的圓陸鯊/迷你龍（禮物）從阿戴克的房子消失了
+2464	s	到達海底遺跡
+0979	s	維奧 已消失 (漣漪鎮)
+2744	s	乘坐皇家合眾號 (當天)
+2747	s	從反轉山工人那裡得到化石 (當天)
+2774	r	每週事件 4號道路的禿鷹娜/勇士雄鷹消失了
+2775	r	每週事件 涟漪灣的胖嘟嘟消失了
+2442	r	N的寶可夢在野外
+0929	r	6號道路 哎呀球菇 已消失 (1)
+0930	r	6號道路 哎呀球菇 已消失 (2)
+0931	r	6號道路 哎呀球菇 已消失 (3)
+0932	r	7號道路 哎呀球菇 已消失 (1)
+0933	r	7號道路 哎呀球菇 已消失 (2)
+0868	r	海邊洞窟的岩殿居蟹 已消失
+1469	s	找到古代王冠 (海底遺跡 4F)
+2793	t	阿克羅瑪 可再戰 (當天)

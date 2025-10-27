@@ -1,11 +1,18 @@
 0669	r	Guía del Equipo Plasma desaparecido (Centro Pokémon de la Liga Pokémon)
 0661	r	Reshiram/Zekrom desaparecido (Castillo de N)
+0307	r	Reshiram/Zekrom capturado
 0766	r	Reshiram/Zekrom desaparecido (Torre Duodraco)
+0338	r	Kyurem capturado
 0801	r	Kyurem desaparecido
+0348	r	Volcarona capturado
 0810	r	Volcarona desaparecido
+0166	r	Cobalion capturado
 0649	r	Cobalion desaparecido
+0167	r	Terrakion capturado
 0650	r	Terrakion desaparecido
+0168	r	Virizion capturado
 0651	r	Virizion desaparecido
+0313	r	Landorus capturado
 0652	s	Obstáculo pasado (Calle Victoria)
 0653	s	Obstáculo pasado (Bosque Azulejo)
 2403	*	Tiene las Deportivas
@@ -40,3 +47,5 @@
 0770	r	Captura/Derrota al Amoonguss de la Ruta 10 (2)
 0771	r	Captura/Derrota al Foongus de la Ruta 10 (1)
 0772	r	Captura/Derrota al Foongus de la Ruta 10 (2)
+2748	r	Solar de los Sueños Musharna desaparecido (Viernes)
+1372	s	Encontrada Corona Antigua (Ruinas Submarinas 4F)

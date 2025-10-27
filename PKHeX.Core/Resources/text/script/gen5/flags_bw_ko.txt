@@ -1,42 +1,51 @@
 0669	r	플라즈마단 (포켓몬리그 포켓몬센터) 사라짐
 0661	r	레시라무/제크로무 (N의 성) 사라짐
+0307	r	레시라무/제크로무 잡음
 0766	r	레시라무/제크로무 (용나선탑) 사라짐
+0338	r	큐레무 잡음
 0801	r	큐레무 사라짐
+0348	r	불카모스 잡음
 0810	r	불카모스 사라짐
+0166	r	코바르온 잡음
 0649	r	코바르온 사라짐
+0167	r	테라키온 잡음
 0650	r	테라키온 사라짐
+0168	r	비리디온 잡음
 0651	r	비리디온 사라짐
+0313	r	랜드로스 잡음
 0652	s	챔피언로드 장애물 제거됨
 0653	s	바람개비숲 장애물 제거됨
 2403	*	러닝슈즈 받음
 0115	*	교환 기능 활성화됨 (포켓몬센터)
-2400	s	Defeated Ghetsis (First game clear)
-0145	s	Received Cover/Plume Fossil from Backpacker (Relic Castle)
+2400	s	게치스 쓰러뜨림 (첫 클리어)
+0145	s	백팩커에게서 덮개/깃털화석을 받았다 (Relic Castle)
 0148	g	In-Game Trade Petilil (B)/Cottonee (W) (Nacrene City)
 0280	g	In-Game Trade Minccino for Basculin (Driftveil City)
-0315	g	Received Larvesta Egg Gift (Route 18)
+0315	g	활화르바 알 선물 받음 (18번도로)
 0352	t	Battled Youngster Kyle (Driftveil City)
 0355	t	Can Battle Lass Dye (Nacrene City)
 1937	t	Battled Lass Dye (Nacrene City)
-0339	g	Purchased Magikarp (Marvelous Bridge)
+0339	g	잉어킹을 샀다 (원더 브리지)
 0347	g	In-Game Trade Boldore for Emolga (Route 7)
 0360	g	In-Game Trade Ditto for Rotom (Route 15)
-0663	g	Darmanitan (middle-left) disappeared from Desert Resort
-0664	g	Darmanitan (bottom-left) disappeared from Desert Resort
-0665	g	Darmanitan (top-left) disappeared from Desert Resort
-0666	g	Darmanitan (middle-right) disappeared from Desert Resort
-0667	g	Darmanitan (top-right) disappeared from Desert Resort
+0663	g	불비달마 (중간 왼쪽) 사라짐 (리조트데저트)
+0664	g	불비달마 (왼쪽 아래) 사라짐 (리조트데저트)
+0665	g	불비달마 (왼쪽 위) 사라짐 (리조트데저트)
+0666	g	불비달마 (오른쪽 가운데) 사라짐 (리조트데저트)
+0667	g	불비달마 (오른쪽 위) 사라짐 (리조트데저트)
 0729	s	Zorua as little boy (1) disappeared from GAME FREAK building 1F (Zorua event)
 0730	s	Girl disappeared from GAME FREAK building 1F (Zorua event)
 0731	s	Zorua (2) disappeared from GAME FREAK building 1F (Zorua event)
-2754	s	Rode Royal Unova (Today)
-2762	s	Received a Fossil from Twist Mountain Worker (Today)
+2754	s	저는 로열하나호를 탔어요 (오늘)
+2762	s	태엽산 작업원에게서 화석을 받았다 (오늘)
 0683	a	Battle Subway: does not possess super single trophy
 0684	a	Battle Subway: does not possess super double trophy
 0685	a	Battle Subway: does not possess super multi trophy
-0767	r	Route 6	 Capture/Defeat Foongus (1)
-0768	r	Route 6	 Capture/Defeat Foongus (2)
-0769	r	Route 10 Capture/Defeat Amoonguss (1)
-0770	r	Route 10 Capture/Defeat Amoonguss (2)
-0771	r	Route 10 Capture/Defeat Foongus (1)
-0772	r	Route 10 Capture/Defeat Foongus (2)
+0767	r	6번도로 깜놀버슬 사라짐 (1)
+0768	r	6번도로 깜놀버슬 사라짐 (2)
+0769	r	10번도로 뽀록나 사라짐 (1)
+0770	r	10번도로 뽀록나 사라짐 (2)
+0771	r	10번도로 깜놀버슬 사라짐 (1)
+0772	r	10번도로 깜놀버슬 사라짐 (2)
+2748	r	꿈터 몽얌나 사라짐 (금요일)
+1372	s	고대의왕관 찾음 (해저유적 4F)

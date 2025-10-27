@@ -9,7 +9,7 @@
 0x405D	s	Rival Derrotado (Torre Pokémon)	0:No,1:Sí
 0x4089	s	Rival Encontrado (Centro Pokémon de Isla Sexta)	0:No,1:Sí
 
-0x4024	r	Pokémon Salvaje en Cueva Cambiante	00:Zubat,01:Mareep,02:Pineco,03:Houndour,04:Teddiursa,05:Aipom,06:Shuckle,07:Stantler,08:Smeargle
+0x4024	r	Pokémon Salvaje en Cueva Cambiante	00:Zubat,01:Mareep (Ilegal),02:Pineco (Ilegal),03:Houndour (Ilegal),04:Teddiursa (Ilegal),05:Aipom (Ilegal),06:Shuckle (Ilegal),07:Stantler (Ilegal),08:Smeargle (Ilegal)
 
 0x4049	a	Sticker del Hall de la Fama en la Tarjeta Entrenador	0:Ningún,1:Nivel 1,2:Nivel 2,3:Nivel 3
 0x404A	a	Sticker de Huevos Eclosionados en la Tarjeta Entrenador 0:Ningún,1:Nivel 1,2:Nivel 2,3:Nivel 3

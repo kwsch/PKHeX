@@ -1,11 +1,18 @@
 0669	r	Team Plasma Guide (Pokemon League Pokemon Center) Disappeared
 0661	r	Reshiram/Zekrom (N's Castle) Disappeared
+0307	r	Reshiram/Zekrom Captured
 0766	r	Reshiram/Zekrom (Dragonspiral Tower) Disappeared
+0338	r	Kyurem Captured
 0801	r	Kyurem Disappeared
+0348	r	Volcarona Captured
 0810	r	Volcarona Disappeared
+0166	r	Cobalion Captured
 0649	r	Cobalion Disappeared
+0167	r	Terrakion Captured
 0650	r	Terrakion Disappeared
+0168	r	Virizion Captured
 0651	r	Virizion Disappeared
+0313	r	Landorus Captured
 0652	s	Obstacle (Victory Road) Cleared
 0653	s	Obstacle (Pinwheel Forest) Cleared
 2403	*	Has Running Shoes
@@ -34,9 +41,11 @@
 0683	a	Battle Subway: does not possess super single trophy
 0684	a	Battle Subway: does not possess super double trophy
 0685	a	Battle Subway: does not possess super multi trophy
-0767	r	Route 6	 Captured/Defeated Foongus (1)
-0768	r	Route 6	 Captured/Defeated Foongus (2)
-0769	r	Route 10 Captured/Defeated Amoonguss (1)
-0770	r	Route 10 Captured/Defeated Amoonguss (2)
-0771	r	Route 10 Captured/Defeated Foongus (1)
-0772	r	Route 10 Captured/Defeated Foongus (2)
+0767	r	Route 6 Foongus Disappeared (1)
+0768	r	Route 6	Foongus Disappeared (2)
+0769	r	Route 10 Amoonguss Disappeared (1)
+0770	r	Route 10 Amoonguss Disappeared (2)
+0771	r	Route 10 Foongus Disappeared (1)
+0772	r	Route 10 Foongus Disappeared (2)
+2748	r	Dreamyard Musharna Disappeared (Friday)
+1372	s	Found Relic Crown (Abyssal Ruins 4F)

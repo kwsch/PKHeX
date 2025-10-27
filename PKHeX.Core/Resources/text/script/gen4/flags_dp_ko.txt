@@ -1,21 +1,33 @@
-0350	s	Route 222 Accessible/Can get Palkia/Dialga entry at Celestic Town
-0351	s	Dialga/Palkia Caught
-0482	s	Dialga/Palkia Gone from Spear Pillar
+0318	s	입지호수의 공동에서 새턴을 쓰러뜨렸어/진실호수가 회복됐어
+0350	s	입지호수 물이 회복됐어/봉신마을에서 펄기아/디아루가 도감 등록을 할 수 있어
+0351	r	디아루가/펄기아 잡음
+0482	s	디아루가/펄기아가 창기둥에서 사라졌어
 0511	r	유크시 사라짐
+0295	r	유크시 잡음
 0509	r	엠라이트 (진실호수 동굴) 사라짐
 0510	r	아그놈 사라짐
+0294	r	아그놈 잡음
 0621	r	크레세리아 (만월섬) 사라짐
-0288	r	히드런 사라짐
+0507	r	크레세리아 사라짐
+0288	r	히드런 잡음
 0609	r	레지기가스 사라짐
+0283	r	레지기가스 잡음
 0622	r	기라티나 사라짐
-0606	r	다크라이 사라짐
-0623	r	쉐이미 (꽃의 낙원) 사라짐
-0620	r	아르세우스 사라짐
-0286	r	시작의 방 사라짐
+0289	r	기라티나 잡음
+0606	r	다크라이 사라짐 (미발매)
+0344	r	다크라이 잡음/항구 숙소 출입 금지 (불법적인)
+0623	r	쉐이미 (꽃의 낙원) 사라짐 (미발매)
+0291	r	쉐이미 잡음 (불법적인)
+0620	r	아르세우스 사라짐 (미발매)
+0286	r	아르세우스 잡음 (불법적인)
 0307	r	배로 만월섬 이동 가능
-0316	r	배로 신월섬 이동 가능
-0301	r	오박사 (224번도로) 사라짐
-0634	r	쉐이미 사라짐
+0316	r	배로 신월섬 이동 가능 (미발매)
+0607	r	항구 숙소 방문함 (미발매)
+2532	r	신월섬 방문함 (미발매)
+2517	r	꽃의 낙원 방문함 (미발매)
+0301	r	224번도로의 흰 바위에 글을 썼어 (미발매)
+0624	r	오박사 (224번도로) 사라짐 (미발매)
+0634	r	쉐이미 (224번도로) 사라짐 (미발매)
 2404	a	전당등록 완료 (트레이너 카드 업그레이드)
 2408	a	근사함콘테스트 마스터
 2409	a	아름다움콘테스트 마스터
@@ -27,22 +39,25 @@
 0666	s	숲의양옥집에서 유령 소녀 만남
 0897	s	숲의양옥집에서 숨겨진 해독제 찾음
 1008	s	숲의양옥집에서 숲의양갱 찾음
-1023	s	Found Adamant/Lustrous Orb in Spear Pillar
+1023	s	창기둥에서에서 금강옥/백옥 찾음
 1233	s	숲의양옥집에서 공포플레이트 찾음
 1234	s	숲의양옥집에서 TM90 찾음
-2401	*	Running Shoes disabled
-2433	s	2nd Rematch Against Trainers Unlocked
-0251	g	Received Happiny Egg Gift
-0305	g	Received Eevee
-2430	*	Unlocked Bebe's PC
-2728	r	Friday Drifloon Disappeared
-2722	r	Today's Trophy Garden Pokémon Known
-0133	g	Traded in Oreburgh City
-0134	g	Traded in Eterna City
-0244	g	Traded in Snowpoint City
-0245	g	Traded on Route 226
-0787	s	Found HP Up in dried Lake Valor
-2507	s	Entered Pal Park Catching Show
+2401	*	러닝슈즈 사용 불가
+2433	s	트레이너와 2차 리매치 잠금 해제됨
+0251	g	핑복 알 선물 받음
+0305	g	이브이 받음
+0226	g	리오르 알 현이에게서 받은 선물 대기 중 (강철섬)
+0229	g	리오르 알 선물 받음 현이에게서 (강철섬)
+0515	s	현이가 강철섬에서 사라짐
+2430	*	이수진의 PC 개방됨
+2728	r	금요일 흔들풍손 사라짐
+2722	r	오늘의 자랑의 뒷마당에서 알려진 포켓몬
+0133	g	무쇠시티에서 교환했다
+0134	g	영원시티에서 교환했다
+0244	g	선단시티에서 교환했다
+0245	g	226번도로에서 교환했다
+0787	s	마른 입지호수에서 맥스업 찾음
+2507	s	팔파크 잡기쇼에 들어갔어
 1409	t	Defeated Jogger Richard (Morning)
 1448	t	Defeated Policeman Bobby (Night)
 1449	t	Defeated Policeman Alex (Night)
