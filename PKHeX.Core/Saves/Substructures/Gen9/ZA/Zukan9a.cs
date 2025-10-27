@@ -34,6 +34,7 @@ public sealed class Zukan9a(SAV9ZA sav, SCBlock block) : ZukanBase<SAV9ZA>(sav, 
         var entry = GetEntry(species);
         var isRegistered = entry.IsCaught;
 
+        entry.SetIsGenderSeen(pk.Gender, true);
         entry.SetIsFormSeen(form, true);
         entry.SetIsFormCaught(form, true);
         if (FormInfo.IsMegaForm(species, form))

@@ -92,7 +92,7 @@ public partial class SAV_Pokedex9a : Form
                 if (entry.DexIndex != 0)
                     return entry.DexIndex;
             }
-            return default;
+            return 0;
         }
 
         public string GetDexString()
