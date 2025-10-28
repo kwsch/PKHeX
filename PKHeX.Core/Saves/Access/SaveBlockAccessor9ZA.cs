@@ -27,12 +27,12 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     public PlayerFashion9a PlayerFashion { get; } = new(sav, Block(sav, KCurrentClothing));
 
     public EventWorkFlagStorage Event { get; } = new(sav, Block(sav, KEventFlag));
-    public EventWorkValueStorage Quest { get; } = new(sav, Block(sav, KEventWorkQuest));
-    public EventWorkValueStorage Mable { get; } = new(sav, Block(sav, KEventWorkMable));
     public EventWorkValueStorage Work { get; } = new(sav, Block(sav, KEventWork));
+    public EventWorkValueStorage Quest { get; } = new(sav, Block(sav, KEventWorkQuest));
+    public EventWorkValueStorage WorkMable { get; } = new(sav, Block(sav, KEventWorkMable));
+    public EventWorkValueStorage CountMable { get; } = new(sav, Block(sav, KEventCountMable));
     public EventWorkValueStorage Work1 { get; } = new(sav, Block(sav, KEventWork1));
-    public EventWorkValueStorage Work2 { get; } = new(sav, Block(sav, KEventWork2));
-    public EventWorkValueStorage Work3 { get; } = new(sav, Block(sav, KEventWork3));
+    public EventWorkValueStorage WorkSpawn { get; } = new(sav, Block(sav, KEventWorkSpawn));
     public EventWorkFlagStorage Flags { get; } = new(sav, Block(sav, KEventFlagsOther));
 
     private const uint KBox = 0x0d66012c; // Box Data
@@ -55,12 +55,14 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
 
     private const uint KEventFlag = 0x58505C5E; // event_flag (u64,bool)[2048]
     private const uint KEventFlagsOther = 0xED6F46E7; // system_flag (u64,bool)[2048]
-    private const uint KEventWorkQuest = 0xB9B223B9; // quest_work (u64,u64)[1024]
     private const uint KEventWork = 0xFADA7742; // system_work (u64,u64)[256]
+
+    private const uint KEventWorkQuest = 0xB9B223B9; // quest_work (u64,u64)[1024] - Story Quest Status 
+    private const uint KEventWorkMable = 0x03913534; // momiji_work (u64,u64)[1024] - Mable Tasks Status
+    private const uint KEventCountMable = 0x8D80EC0F; // momiji_count (u64,u64)[64] - Mable Tasks Counts
+
     private const uint KEventWork1 = 0x2C2C6964; // object 0x400 records? (u64,u64)[64]
-    private const uint KEventWork2 = 0x8D80EC0F; // object 0x400 records? (u64,u64)[64]
-    private const uint KEventWorkMable = 0x03913534; // object 0x4000 work-like
-    private const uint KEventWork3 = 0x53FD0223; // object 0x46500 small values (u64,u64)[18000]
+    private const uint KEventWorkSpawn = 0x53FD0223; // object 0x46500 small values (u64,u64)[18000]
                                                  // 7C896A83 0x2000 unused
                                                  // B25E7EE5 0x400 unused
                                                  // AF2165F0 0x3000 (u64,u64,value)
