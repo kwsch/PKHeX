@@ -1,0 +1,51 @@
+0669	r	Guide Team Plasma Disparu (Centre Pokémon de la Ligue)
+0661	r	Reshiram/Zekrom Disparu (Château de N)
+0307	r	Reshiram/Zekrom Capturé
+0766	r	Reshiram/Zekrom Disparu (Tour Dragospire)
+0338	r	Kyurem Capturé
+0801	r	Kyurem Disparu
+0348	r	Pyrax Capturé
+0810	r	Pyrax Disparu
+0166	r	Cobaltium Capturé
+0649	r	Cobaltium Disparu
+0167	r	Terrakium Capturé
+0650	r	Terrakium Disparu
+0168	r	Viridium Capturé
+0651	r	Viridium Disparu
+0313	r	Démétéros Capturé
+0652	s	Obstacle Enlevé (Route Victoire)
+0653	s	Obstacle Enlevé (Forêt d'Empoigne)
+2403	*	A les Chaussures de Sport
+0115	*	Fonctionnalité d'Échange Activée (Centre Pokémon)
+2400	s	A Vaincu Ghetis (Première Complétion du Jeu)
+0145	s	Fossile Plaque/Plume Reçu de la Randonneuse (Château Enfoui)
+0148	g	Échange Interne Doudouvet (N)/Chlorobule (B) (Maillard)
+0280	g	Échange Interne Chinchidou Contre Bargantua (Port Yoneuve)
+0315	g	Œuf de Pyronille Reçu (Route 18)
+0352	t	A Vaincu Gamin Vince (Port Yoneuve)
+0355	t	Peut Affronter Fillette Anémone (Maillard)
+1937	t	A Vaincu Fillette Anémone (Maillard)
+0339	g	Magicarpe Acheté (Pont de l'Inconnu)
+0347	g	Échange Interne Géolithe Contre Emolga (Route 7)
+0360	g	Échange Interne Métamorph Contre Motisma (Route 15)
+0663	g	Darumacho (milieu à gauche) Disparu du Désert Délassant
+0664	g	Darumacho (en bas à gauche) Disparu du Désert Délassant
+0665	g	Darumacho (en haut à gauche) Disparu du Désert Délassant
+0666	g	Darumacho (milieu à droite) Disparu du Désert Délassant
+0667	g	Darumacho (en haut à droite) Disparu du Désert Délassant
+0729	s	Zorua en Petit Garçon (1) a Disparu du RDC du Bâtiment GAME FREAK (événement Zorua)
+0730	s	La Fille a Disparu du RDC du Bâtiment GAME FREAK (événement Zorua)
+0731	s	Zorua (2) a Disparu du RDC du Bâtiment GAME FREAK (événement Zorua)
+2754	s	Étoile d'Unys Embarquée à Volucité (Aujourd'hui)
+2762	s	Fossile reçu de l'Ouvrier du Mont Foré (Aujourd'hui)
+0683	a	Métro de Combat : Trophée Super Solo non Obtenu
+0684	a	Métro de Combat : Trophée Super Duo non Obtenu
+0685	a	Métro de Combat : Trophée Super Multi non Obtenu
+0767	r	Trompignon Route 6 Disparu (1)
+0768	r	Trompignon Route 6 Disparu (2)
+0769	r	Gaulet Route 10 Disparu (1)
+0770	r	Gaulet Route 10 Disparu (2)
+0771	r	Trompignon Route 10 Disparu (1)
+0772	r	Trompignon Route 10 Disparu (2)
+2748	r	Mushana Vestiges du Rêve Disparu (Vendredi)
+1372	s	Trouvé Vieux Tortil (Ruines des Abysses Niveau 3)

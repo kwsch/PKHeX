@@ -1,37 +1,25 @@
-﻿namespace PKHeX.Core
-{
-    /// <summary> Ribbons introduced in Generation 3 for Special Events </summary>
-    internal interface IRibbonSetEvent3
-    {
-        bool RibbonEarth { get; set; }
-        bool RibbonNational { get; set; }
-        bool RibbonCountry { get; set; }
-        bool RibbonChampionBattle { get; set; }
-        bool RibbonChampionRegional { get; set; }
-        bool RibbonChampionNational { get; set; }
-    }
+namespace PKHeX.Core;
 
-    internal static partial class RibbonExtensions
+/// <summary> Ribbons introduced in Generation 3 for Special Events </summary>
+public interface IRibbonSetEvent3
+{
+    bool RibbonEarth { get; set; }
+    bool RibbonNational { get; set; }
+    bool RibbonCountry { get; set; }
+    bool RibbonChampionBattle { get; set; }
+    bool RibbonChampionRegional { get; set; }
+    bool RibbonChampionNational { get; set; }
+}
+
+public static partial class RibbonExtensions
+{
+    public static void CopyRibbonSetEvent3(this IRibbonSetEvent3 set, IRibbonSetEvent3 dest)
     {
-        private static readonly string[] RibbonSetNamesEvent3 =
-        {
-            nameof(IRibbonSetEvent3.RibbonEarth), nameof(IRibbonSetEvent3.RibbonNational), nameof(IRibbonSetEvent3.RibbonCountry),
-            nameof(IRibbonSetEvent3.RibbonChampionBattle), nameof(IRibbonSetEvent3.RibbonChampionRegional), nameof(IRibbonSetEvent3.RibbonChampionNational)
-        };
-        internal static bool[] RibbonBits(this IRibbonSetEvent3 set)
-        {
-            if (set == null)
-                return new bool[6];
-            return new[]
-            {
-                set.RibbonEarth,
-                set.RibbonNational,
-                set.RibbonCountry,
-                set.RibbonChampionBattle,
-                set.RibbonChampionRegional,
-                set.RibbonChampionNational,
-            };
-        }
-        internal static string[] RibbonNames(this IRibbonSetEvent3 _) => RibbonSetNamesEvent3;
+        dest.RibbonEarth            = set.RibbonEarth;
+        dest.RibbonNational         = set.RibbonNational;
+        dest.RibbonCountry          = set.RibbonCountry;
+        dest.RibbonChampionBattle   = set.RibbonChampionBattle;
+        dest.RibbonChampionRegional = set.RibbonChampionRegional;
+        dest.RibbonChampionNational = set.RibbonChampionNational;
     }
 }

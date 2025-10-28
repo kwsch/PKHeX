@@ -1,0 +1,51 @@
+0669	r	Team Plasma Guide (Pokemon League Pokemon Center) Disappeared
+0661	r	Reshiram/Zekrom (N's Castle) Disappeared
+0307	r	Reshiram/Zekrom Captured
+0766	r	Reshiram/Zekrom (Dragonspiral Tower) Disappeared
+0338	r	Kyurem Captured
+0801	r	Kyurem Disappeared
+0348	r	Volcarona Captured
+0810	r	Volcarona Disappeared
+0166	r	Cobalion Captured
+0649	r	Cobalion Disappeared
+0167	r	Terrakion Captured
+0650	r	Terrakion Disappeared
+0168	r	Virizion Captured
+0651	r	Virizion Disappeared
+0313	r	Landorus Captured
+0652	s	Obstacle (Victory Road) Cleared
+0653	s	Obstacle (Pinwheel Forest) Cleared
+2403	*	Has Running Shoes
+0115	*	Trading Functionality Enabled (Pokecenter)
+2400	s	Defeated Ghetsis (First game clear)
+0145	s	Received Cover/Plume Fossil from Backpacker (Relic Castle)
+0148	g	In-Game Trade Petilil (B)/Cottonee (W) (Nacrene City)
+0280	g	In-Game Trade Minccino for Basculin (Driftveil City)
+0315	g	Received Larvesta Egg Gift (Route 18)
+0352	t	Battled Youngster Kyle (Driftveil City)
+0355	t	Can Battle Lass Dye (Nacrene City)
+1937	t	Battled Lass Dye (Nacrene City)
+0339	g	Purchased Magikarp (Marvelous Bridge)
+0347	g	In-Game Trade Boldore for Emolga (Route 7)
+0360	g	In-Game Trade Ditto for Rotom (Route 15)
+0663	g	Darmanitan (middle-left) disappeared from Desert Resort
+0664	g	Darmanitan (bottom-left) disappeared from Desert Resort
+0665	g	Darmanitan (top-left) disappeared from Desert Resort
+0666	g	Darmanitan (middle-right) disappeared from Desert Resort
+0667	g	Darmanitan (top-right) disappeared from Desert Resort
+0729	s	Zorua as little boy (1) disappeared from GAME FREAK building 1F (Zorua event)
+0730	s	Girl disappeared from GAME FREAK building 1F (Zorua event)
+0731	s	Zorua (2) disappeared from GAME FREAK building 1F (Zorua event)
+2754	s	Rode Royal Unova (Today)
+2762	s	Received a Fossil from Twist Mountain Worker (Today)
+0683	a	Battle Subway: does not possess super single trophy
+0684	a	Battle Subway: does not possess super double trophy
+0685	a	Battle Subway: does not possess super multi trophy
+0767	r	Route 6 Foongus Disappeared (1)
+0768	r	Route 6	Foongus Disappeared (2)
+0769	r	Route 10 Amoonguss Disappeared (1)
+0770	r	Route 10 Amoonguss Disappeared (2)
+0771	r	Route 10 Foongus Disappeared (1)
+0772	r	Route 10 Foongus Disappeared (2)
+2748	r	Dreamyard Musharna Disappeared (Friday)
+1372	s	Found Relic Crown (Abyssal Ruins 4F)

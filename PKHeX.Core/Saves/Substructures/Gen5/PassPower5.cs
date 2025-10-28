@@ -1,0 +1,76 @@
+namespace PKHeX.Core;
+
+/// <summary>
+/// Text File 263 in Black2/White2
+/// </summary>
+public enum PassPower5
+{
+    EncounterPlus1 = 0,
+    EncounterPlus2 = 1,
+    EncounterPlus3 = 2,
+    EncounterNegative1 = 3,
+    EncounterNegative2 = 4,
+    EncounterNegative3 = 5,
+    HatchingPlus1 = 6,
+    HatchingPlus2 = 7,
+    HatchingPlus3 = 8,
+    BefriendingPlus1 = 9,
+    BefriendingPlus2 = 10,
+    BefriendingPlus3 = 11,
+    BargainPlus1 = 12,
+    BargainPlus2 = 13,
+    BargainPlus3 = 14,
+    HPPlus1 = 15,
+    HPPlus2 = 16,
+    HPPlus3 = 17,
+    PPPlus1 = 18,
+    PPPlus2 = 19,
+    PPPlus3 = 20,
+    EXPPlus1 = 21,
+    EXPPlus2 = 22,
+    EXPPlus3 = 23,
+    EXPNegative1 = 24,
+    EXPNegative2 = 25,
+    EXPNegative3 = 26,
+    PrizeMoneyPlus1 = 27,
+    PrizeMoneyPlus2 = 28,
+    PrizeMoneyPlus3 = 29,
+    CapturePlus1 = 30,
+    CapturePlus2 = 31,
+    CapturePlus3 = 32,
+
+    HatchingS = 33,
+    BargainS = 34,
+    BefriendingS = 35,
+    EXPS = 36,
+    PrizeMoneyS = 37,
+    CaptureS = 38,
+    HPFullRecoveryS = 39,
+    HatchMAX = 40,
+    BargainMAX = 41,
+    BefriendingMAX = 42,
+    EXPMAX = 43,
+    PrizeMoneyMAX = 44,
+    CaptureMAX = 45,
+    // 46
+    // 47
+    None = 48,
+
+    // B2/W2
+    SearchPlus1 = 49,
+    SearchPlus2 = 50,
+    SearchPlus3 = 51,
+    HiddenGrottoPlus1 = 52,
+    HiddenGrottoPlus2 = 53,
+    HiddenGrottoPlus3 = 54,
+    CharmPlus1 = 55,
+    CharmPlus2 = 56,
+    CharmPlus3 = 57,
+
+    SearchS = 58,
+    SearchMAX = 59,
+    HiddenGrottoS = 60,
+    HiddenGrottoMAX = 61,
+    CharmS = 62,
+    CharmMAX = 63,
+}

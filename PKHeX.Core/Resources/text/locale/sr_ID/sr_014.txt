@@ -1,8 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-002,カヨー州,Cayo,Cayo,Cayo,Cayo,Cayo,卡约区,카요 주,
-003,ベリーズ州,Belize,Belize,Belize,Belize,Belice,伯利兹城,벨리즈 주,
-004,コロサル州,Corozal,Corozal,Corozal,Corozal,Corozal,科罗萨尔区,코로살 주,
-005,オレンジウォーク州,Orange Walk,Orange Walk,Orange Walk,Orange Walk,Orange Walk,橘园区,오렌지워크 주,
-006,スタンクリーク州,Stann Creek,Stann Creek,Stann Creek,Stann Creek,Stann Creek,斯坦港区,스탠크리크 주,
-007,トレド州,Toledo,Toledo,Toledo,Toledo,Toledo,托莱多区,톨레도 주,

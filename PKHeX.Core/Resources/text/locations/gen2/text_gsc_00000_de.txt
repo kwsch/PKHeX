@@ -1,0 +1,128 @@
+(Keiner)
+Neuborkia
+Route 29
+Rosalia City
+Route 30
+Route 31
+Viola City
+Knofensa-Turm
+Route 32
+Alph-Ruinen
+Einheitstunnel
+Route 33
+Azalea City
+Flegmon-Brunnen
+Steineichenwald
+Route 34
+Dukatia City
+Radioturm
+Route 35
+Nationalpark
+Route 36
+Route 37
+Teak City
+Zinnturm
+Turmruine
+Route 38
+Route 39
+Oliviana City
+Leuchtturm
+Duellturm
+Route 40
+Strudelinseln
+Route 41
+Anemonia City
+Route 42
+Kesselberg
+Mahagonia City
+Route 43
+See des Zorns
+Route 44
+Eispfad
+Ebenholz City
+Drachenhöhle
+Route 45
+Dunkelhöhle
+Route 46
+Silberhöhle
+Alabastia
+Route 1
+Vertania City
+Route 2
+Marmoria City
+Route 3
+Mondberg
+Route 4
+Azuria City
+Route 24
+Route 25
+Route 5
+Untergrund
+Route 6
+Orania City
+Digdas Höhle
+Route 7
+Route 8
+Route 9
+Felstunnel
+Route 10
+Kraftwerk
+Lavandia
+Radioturm Lav.
+Prismania City
+Saffronia City
+Route 11
+Route 12
+Route 13
+Route 14
+Route 15
+Route 16
+Route 17
+Route 18
+Fuchsania City
+Route 19
+Route 20
+Seeschauminseln
+Zinnoberinsel
+Route 21
+Route 22
+Siegesstrasse
+Route 23
+Indigo Plateau
+Route 26
+Route 27
+Tohjo-Fälle
+Route 28
+Schnellboot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(Ich kann nicht sagen)
+(Event)

@@ -1,0 +1,311 @@
+-
+Tanfo
+Piovischio
+Acceleratore
+Lottascudo
+Vigore
+Umidità
+Scioltezza
+Sabbiavelo
+Statico
+Assorbivolt
+Assorbacqua
+Indifferenza
+Antimeteo
+Insettocchi
+Insonnia
+Cambiacolore
+Immunità
+Fuocardore
+Polvoscudo
+Mente Locale
+Ventose
+Prepotenza
+Pedinombra
+Cartavetro
+Magidifesa
+Levitazione
+Spargispora
+Sincronismo
+Corpochiaro
+Alternacura
+Parafulmine
+Leggiadro
+Nuotovelox
+Clorofilla
+Risplendi
+Traccia
+Macroforza
+Velenopunte
+Forza Interiore
+Magmascudo
+Idrovelo
+Magnetismo
+Antisuono
+Copripioggia
+Sabbiafiume
+Pressione
+Grassospesso
+Sveglialampo
+Corpodifuoco
+Fugafacile
+Sguardofermo
+Ipertaglio
+Raccolta
+Pigrone
+Tuttafretta
+Incantevole
+Più
+Meno
+Previsioni
+Antifurto
+Muta
+Dentistretti
+Pelledura
+Melma
+Erbaiuto
+Aiutofuoco
+Acquaiuto
+Aiutinsetto
+Testadura
+Siccità
+Trappoarena
+Spiritovivo
+Fumochiaro
+Forzapura
+Guscioscudo
+Riparo
+Intricopiedi
+Elettrorapid
+Antagonismo
+Cuordeciso
+Mantelneve
+Voracità
+Grancollera
+Agiltecnica
+Antifuoco
+Disinvoltura
+Pellearsa
+Download
+Ferropugno
+Velencura
+Adattabilità
+Abillegame
+Idratazione
+Solarpotere
+Piedisvelti
+Normalità
+Cecchino
+Magicscudo
+Nullodifesa
+Rallentatore
+Tecnico
+Fogliamanto
+Impaccio
+Rompiforma
+Supersorte
+Scoppio
+Presagio
+Premonizione
+Imprudenza
+Lentifumé
+Filtro
+Lentoinizio
+Nervisaldi
+Acquascolo
+Corpogelo
+Solidroccia
+Scendineve
+Mielincetta
+Indagine
+Temerarietà
+Multitipo
+Regalfiore
+Sogniamari
+Arraffalesto
+Forzabruta
+Inversione
+Agitazione
+Agonismo
+Sconforto
+Corpofunesto
+Curacuore
+Amicoscudo
+Sottilguscio
+Metalpesante
+Metalleggero
+Multisquame
+Velenimpeto
+Bruciaimpeto
+Coglibacche
+Telepatia
+Altalena
+Copricapo
+Velentocco
+Rigenergia
+Pettinfuori
+Remasabbia
+Splendicute
+Ponderazione
+Illusione
+Sosia
+Intrapasso
+Mummia
+Arroganza
+Giustizia
+Paura
+Magispecchio
+Mangiaerba
+Burla
+Silicoforza
+Spineferrate
+Stato Zen
+Vittorstella
+Piroturbina
+Teravolt
+Aromavelo
+Fiorvelo
+Guancegonfie
+Mutatipo
+Foltopelo
+Prestigiatore
+Antiproiettile
+Tenacia
+Ferromascella
+Pellegelo
+Dolcevelo
+Accendilotta
+Aliraffica
+Megalancio
+Peloderba
+Simbiosi
+Unghiedure
+Pellefolletto
+Viscosità
+Pellecielo
+Amorefiliale
+Auratetra
+Aurafolletto
+Frangiaura
+Mare Primordiale
+Terra Estrema
+Flusso Delta
+Sopportazione
+Fuggifuggi
+Passoindietro
+Idrorinforzo
+Spietatezza
+Scudosoglia
+Sorveglianza
+Bolladacqua
+Tempracciaio
+Furore
+Spalaneve
+Distacco
+Idrovoce
+Primacura
+Pellelettro
+Codasurf
+Banco
+Fantasmanto
+Morfosintonia
+Sciamefusione
+Corrosione
+Sonno Assoluto
+Regalità
+Espellinterno
+Sincrodanza
+Batteria
+Morbidone
+Corposgargiante
+Cuoreanima
+Boccolidoro
+Ricezione
+Forza Chimica
+Ultraboost
+Sistema Primevo
+Elettrogenesi
+Psicogenesi
+Nebbiogenesi
+Erbogenesi
+Metalprotezione
+Spettroguardia
+Scudoprisma
+Cerebroforza
+Spada Indomita
+Scudo Saldo
+Libero
+Raccattapalle
+Lanugine
+Elicopinna
+Blindospecchio
+Inghiottimissile
+Volontà di Ferro
+Vapormacchina
+Punk Rock
+Sputasabbia
+Geloscaglie
+Maturazione
+Gelofaccia
+Fonte Energetica
+Mimetismo
+Annullabarriere
+Spiritoferreo
+Ultimotocco
+Anima Errante
+Vigorilla
+Gas Reagente
+Pastelvelo
+Pancialterna
+Colpolesto
+Pugni Invisibili
+Stranofarmaco
+Transistor
+Dragomascelle
+Nitrito Bianco
+Nitrito Nero
+Sintonia Equina
+Sintonia Equina
+Odore Tenace
+Spargisemi
+Termoscambio
+Iraguscio
+Sale Purificante
+Bentostato
+Vento Propizio
+Cane da Guardia
+Portamassi
+Energia Eolica
+Supercambio
+Torre di Comando
+Convertivolt
+Paleoattivazione
+Carica Quark
+Corpo Aureo
+Vaso Nefasto
+Spada Nefasta
+Amuleto Nefasto
+Monile Nefasto
+Ritmo d’Oricalco
+Motore Adronico
+Scrocco
+Ruminante
+Affilama
+Generale Supremo
+Coprotagonismo
+Mantossina
+Codarmatura
+Mangiaterra
+Micoforza
+Ospitalità
+Occhio Interiore
+Albergamemorie
+Albergamemorie
+Albergamemorie
+Albergamemorie
+Catena Tossica
+Sciroppo Sublime
+Teramorfosi
+Teraguscio
+Zeroformazione
+Malia Tossica

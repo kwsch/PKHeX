@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,セントビンセント・グレナディーン,St. Vincent and the Grenadines,Saint-Vincent-et-les-Grenadines,St. Vincent und die Grenadinen,Saint Vincent e Grenadine,San Vicente y las Granadinas,圣文森特和格林纳丁斯,세인트빈센트 그레나딘,

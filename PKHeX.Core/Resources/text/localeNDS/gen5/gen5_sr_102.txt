@@ -1,0 +1,21 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	アブルッツォ	Abruzzo	Abruzzes	Abruzzen	Abruzzo	Abruzos	阿布鲁佐大区	아브루초	阿布魯佐大區
+002	バジリカータ	Basilicata	Basilicate	Basilikata	Basilicata	Basilicata	巴西利卡塔大区	바실리카타	巴西利卡塔大區
+003	カラブリア	Calabria	Calabre	Kalabrien	Calabria	Calabria	卡拉布里亚大区	칼라브리아	卡拉布裏亞大區
+004	カンパニア	Campania	Campanie	Kampanien	Campania	Campania	坎帕尼亚大区	캄파니아	坎帕尼亞大區
+005	エミリア・ロマーニャ	Emilia-Romagna	Émilie-Romagne	Emilia-Romagna	Emilia-Romagna	Emilia-Romaña	艾米利亚-罗马涅大区	에밀리아로마냐	艾米利亞-羅馬涅大區
+006	フリウリ・ベネツィア・ジュリア	Friuli-Venezia Giulia	Frioul-Vénétie Julienne	Friaul-Julisch Venetien	Friuli-Venezia Giulia	Friuli-Venecia Julia	弗留利-威尼斯朱利亚大区	프리울리베네치아줄리아	弗留利-威尼斯朱利亞大區
+007	ラツィオ	Lazio	Latium	Latium	Lazio	Lacio	拉齐奥大区	라치오	拉齊奧大區
+008	リグーリア	Liguria	Ligurie	Ligurien	Liguria	Liguria	利古里亚大区	리구리아	利古裏亞大區
+009	ロンバルディア	Lombardy	Lombardie	Lombardei	Lombardia	Lombardía	伦巴第大区	롬바르디아	倫巴第大區
+010	マルケ	Marche	Marches	Marken	Marche	Marcas	马尔凯大区	마르케	馬爾凱大區
+011	モリーゼ	Molise	Molise	Molise	Molise	Molise	莫利塞大区	몰리세	莫利塞大區
+012	ピエモンテ	Piedmont	Piémont	Piemont	Piemonte	Piamonte	皮埃蒙特大区	피에몬테	皮埃蒙特大區
+013	プーリア	Apulia	Pouilles	Apulien	Puglia	Apulia	普利亚大区	풀리아	普利亞大區
+014	サルデーニャ	Sardinia	Sardaigne	Sardinien	Sardegna	Cerdeña	撒丁大区	사르데냐	撒丁大區
+015	シチリア	Sicily	Sicile	Sizilien	Sicilia	Sicilia	西西里大区	시칠리아	西西里大區
+016	トスカーナ	Tuscany	Toscane	Toskana	Toscana	Toscana	托斯卡纳大区	토스카나	託斯卡納大區
+017	トレンティーノ・アルト・アディジェ	Trentino-Alto Adige	Trentin-Haut-Adige	Trentino-Südtirol	Trentino-Alto Adige	Trentino-Alto Adigio	特伦蒂诺-上阿迪杰大区	트렌티노알토아디제	特倫蒂諾-上阿迪傑大區
+018	ウンブリア	Umbria	Ombrie	Umbrien	Umbria	Umbría	翁布里亚大区	움브리아	翁布裏亞大區
+019	バッレ・ダオスタ	Valle d'Aosta	Vallée d'Aoste	Aostatal	Valle d'Aosta	Valle de Aosta	瓦莱-达奥斯塔大区	발레다오스타	瓦萊-達奧斯塔大區
+020	ベネト	Veneto	Vénétie	Venetien	Veneto	Véneto	威尼托大区	베네토	威尼託大區

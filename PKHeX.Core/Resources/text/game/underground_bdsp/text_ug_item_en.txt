@@ -1,0 +1,940 @@
+
+Red Sphere S
+Blue Sphere S
+Green Sphere S
+Prism Sphere S
+Pale Sphere S
+Red Sphere L
+Blue Sphere L
+Green Sphere L
+Prism Sphere L
+Pale Sphere L
+Revive
+Max Revive
+Red Shard
+Blue Shard
+Yellow Shard
+Green Shard
+Sun Stone
+Moon Stone
+Fire Stone
+Thunder Stone
+Water Stone
+Leaf Stone
+Oval Stone
+Everstone
+Odd Keystone
+Star Piece
+Heart Scale
+Root Fossil
+Claw Fossil
+Helix Fossil
+Dome Fossil
+Old Amber
+Armor Fossil
+Skull Fossil
+Rare Bone
+Light Clay
+Iron Ball
+Icy Rock
+Smooth Rock
+Heat Rock
+Damp Rock
+Mysterious Shard S
+Mysterious Shard L
+Hard Stone
+Flame Plate
+Splash Plate
+Zap Plate
+Meadow Plate
+Icicle Plate
+Fist Plate
+Toxic Plate
+Earth Plate
+Sky Plate
+Mind Plate
+Insect Plate
+Stone Plate
+Spooky Plate
+Draco Plate
+Dread Plate
+Iron Plate
+Pixie Plate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Square Pedestal XS
+Square Pedestal S
+Square Pedestal M
+Square Pedestal L
+Round Pedestal XS
+Round Pedestal M
+Round Pedestal L
+Sturdy Pedestal XS
+Sturdy Pedestal S
+Sturdy Pedestal M
+Sturdy Pedestal L
+Clear Pedestal XS
+Clear Pedestal S
+Clear Pedestal M
+Clear Pedestal L
+Dawn Pedestal L
+Dawn Pedestal XL
+Night Pedestal L
+Night Pedestal XL
+Diamond Pedestal L
+Diamond Pedestal XL
+Pearl Pedestal L
+Pearl Pedestal XL
+Spin Pedestal XS
+Spin Pedestal M
+Spin Pedestal L
+Spinback Pedestal XS
+Spinback Pedestal M
+Spinback Pedestal L
+Digger Drill
+TM01
+TM02
+TM03
+TM04
+TM05
+TM06
+TM07
+TM08
+TM09
+TM10
+TM11
+TM12
+TM13
+TM14
+TM15
+TM16
+TM17
+TM18
+TM19
+TM20
+TM21
+TM22
+TM23
+TM24
+TM25
+TM26
+TM27
+TM28
+TM29
+TM30
+TM31
+TM32
+TM33
+TM34
+TM35
+TM36
+TM37
+TM38
+TM39
+TM40
+TM41
+TM42
+TM43
+TM44
+TM45
+TM46
+TM47
+TM48
+TM49
+TM50
+TM51
+TM52
+TM53
+TM54
+TM55
+TM56
+TM57
+TM58
+TM59
+TM60
+TM61
+TM62
+TM63
+TM64
+TM65
+TM66
+TM67
+TM68
+TM69
+TM70
+TM71
+TM72
+TM73
+TM74
+TM75
+TM76
+TM77
+TM78
+TM79
+TM80
+TM81
+TM82
+TM83
+TM84
+TM85
+TM86
+TM87
+TM88
+TM89
+TM90
+TM91
+TM92
+Bulbasaur Statue
+Ivysaur Statue
+Venusaur Statue
+Charmander Statue
+Charmeleon Statue
+Charizard Statue
+Squirtle Statue
+Wartortle Statue
+Blastoise Statue
+Pikachu Statue
+Nidoqueen Statue
+Nidoking Statue
+Clefairy Statue
+Vulpix Statue
+Jigglypuff Statue
+Oddish Statue
+Meowth Statue
+Psyduck Statue
+Arcanine Statue
+Poliwrath Statue
+Alakazam Statue
+Machamp Statue
+Tentacruel Statue
+Geodude Statue
+Rapidash Statue
+Slowpoke Statue
+Farfetch’d Statue
+Gengar Statue
+Cubone Statue
+Lickitung Statue
+Weezing Statue
+Chansey Statue
+Kangaskhan Statue
+Seaking Statue
+Mr. Mime Statue
+Tauros Statue
+Magikarp Statue
+Gyarados Statue
+Lapras Statue
+Ditto Statue
+Eevee Statue
+Vaporeon Statue
+Jolteon Statue
+Flareon Statue
+Porygon Statue
+Omastar Statue
+Snorlax Statue
+Dragonite Statue
+Chikorita Statue
+Bayleef Statue
+Meganium Statue
+Cyndaquil Statue
+Quilava Statue
+Typhlosion Statue
+Totodile Statue
+Croconaw Statue
+Feraligatr Statue
+Furret Statue
+Noctowl Statue
+Crobat Statue
+Togepi Statue
+Ampharos Statue
+Bellossom Statue
+Marill Statue
+Sudowoodo Statue
+Aipom Statue
+Sunkern Statue
+Quagsire Statue
+Espeon Statue
+Umbreon Statue
+Murkrow Statue
+Unown Statue
+Wobbuffet Statue
+Girafarig Statue
+Dunsparce Statue
+Steelix Statue
+Snubbull Statue
+Scizor Statue
+Heracross Statue
+Magcargo Statue
+Octillery Statue
+Mantine Statue
+Smeargle Statue
+Miltank Statue
+Tyranitar Statue
+Treecko Statue
+Grovyle Statue
+Sceptile Statue
+Torchic Statue
+Combusken Statue
+Blaziken Statue
+Mudkip Statue
+Marshtomp Statue
+Swampert Statue
+Beautifly Statue
+Dustox Statue
+Ludicolo Statue
+Pelipper Statue
+Gardevoir Statue
+Shroomish Statue
+Slaking Statue
+Ninjask Statue
+Exploud Statue
+Skitty Statue
+Sableye Statue
+Mawile Statue
+Aggron Statue
+Medicham Statue
+Manectric Statue
+Plusle Statue
+Minun Statue
+Volbeat Statue
+Illumise Statue
+Roselia Statue
+Sharpedo Statue
+Wailmer Statue
+Camerupt Statue
+Torkoal Statue
+Spinda Statue
+Flygon Statue
+Cacturne Statue
+Altaria Statue
+Zangoose Statue
+Seviper Statue
+Lunatone Statue
+Solrock Statue
+Whiscash Statue
+Claydol Statue
+Cradily Statue
+Milotic Statue
+Castform Statue
+Kecleon Statue
+Tropius Statue
+Chimecho Statue
+Absol Statue
+Spheal Statue
+Clamperl Statue
+Relicanth Statue
+Luvdisc Statue
+Salamence Statue
+Metagross Statue
+Turtwig Statue
+Grotle Statue
+Torterra Statue
+Chimchar Statue
+Monferno Statue
+Infernape Statue
+Piplup Statue
+Prinplup Statue
+Empoleon Statue
+Staraptor Statue
+Bibarel Statue
+Kricketot Statue
+Luxray Statue
+Budew Statue
+Roserade Statue
+Cranidos Statue
+Bastiodon Statue
+Burmy Statue
+Wormadam Statue
+Mothim Statue
+Vespiquen Statue
+Pachirisu Statue
+Floatzel Statue
+Cherubi Statue
+Gastrodon Statue
+Ambipom Statue
+Drifloon Statue
+Buneary Statue
+Mismagius Statue
+Honchkrow Statue
+Purugly Statue
+Skuntank Statue
+Bronzong Statue
+Happiny Statue
+Chatot Statue
+Spiritomb Statue
+Garchomp Statue
+Lucario Statue
+Hippowdon Statue
+Drapion Statue
+Croagunk Statue
+Carnivine Statue
+Lumineon Statue
+Abomasnow Statue
+Weavile Statue
+Magnezone Statue
+Rhyperior Statue
+Tangrowth Statue
+Electivire Statue
+Magmortar Statue
+Togekiss Statue
+Yanmega Statue
+Leafeon Statue
+Glaceon Statue
+Gliscor Statue
+Mamoswine Statue
+Porygon-Z Statue
+Gallade Statue
+Probopass Statue
+Dusknoir Statue
+Froslass Statue
+Rotom Statue
+Rotom Statue
+Rotom Statue
+Rotom Statue
+Rotom Statue
+Rotom Statue
+Articuno Statue
+Zapdos Statue
+Moltres Statue
+Mewtwo Statue
+Raikou Statue
+Entei Statue
+Suicune Statue
+Lugia Statue
+Ho-Oh Statue
+Regirock Statue
+Regice Statue
+Registeel Statue
+Latias Statue
+Latios Statue
+Kyogre Statue
+Groudon Statue
+Rayquaza Statue
+Bulbasaur Statue 
+Ivysaur Statue 
+Venusaur Statue 
+Charmander Statue 
+Charmeleon Statue 
+Charizard Statue 
+Squirtle Statue 
+Wartortle Statue 
+Blastoise Statue 
+Pikachu Statue 
+Nidoqueen Statue 
+Nidoking Statue 
+Clefairy Statue 
+Vulpix Statue 
+Jigglypuff Statue 
+Oddish Statue 
+Meowth Statue 
+Psyduck Statue 
+Arcanine Statue 
+Poliwrath Statue 
+Alakazam Statue 
+Machamp Statue 
+Tentacruel Statue 
+Geodude Statue 
+Rapidash Statue 
+Slowpoke Statue 
+Farfetch’d Statue 
+Gengar Statue 
+Cubone Statue 
+Lickitung Statue 
+Weezing Statue 
+Chansey Statue 
+Kangaskhan Statue 
+Seaking Statue 
+Mr. Mime Statue 
+Tauros Statue 
+Magikarp Statue 
+Gyarados Statue 
+Lapras Statue 
+Ditto Statue 
+Eevee Statue 
+Vaporeon Statue 
+Jolteon Statue 
+Flareon Statue 
+Porygon Statue 
+Omastar Statue 
+Snorlax Statue 
+Dragonite Statue 
+Chikorita Statue 
+Bayleef Statue 
+Meganium Statue 
+Cyndaquil Statue 
+Quilava Statue 
+Typhlosion Statue 
+Totodile Statue 
+Croconaw Statue 
+Feraligatr Statue 
+Furret Statue 
+Noctowl Statue 
+Crobat Statue 
+Togepi Statue 
+Ampharos Statue 
+Bellossom Statue 
+Marill Statue 
+Sudowoodo Statue 
+Aipom Statue 
+Sunkern Statue 
+Quagsire Statue 
+Espeon Statue 
+Umbreon Statue 
+Murkrow Statue 
+Unown Statue 
+Wobbuffet Statue 
+Girafarig Statue 
+Dunsparce Statue 
+Steelix Statue 
+Snubbull Statue 
+Scizor Statue 
+Heracross Statue 
+Magcargo Statue 
+Octillery Statue 
+Mantine Statue 
+Smeargle Statue 
+Miltank Statue 
+Tyranitar Statue 
+Treecko Statue 
+Grovyle Statue 
+Sceptile Statue 
+Torchic Statue 
+Combusken Statue 
+Blaziken Statue 
+Mudkip Statue 
+Marshtomp Statue 
+Swampert Statue 
+Beautifly Statue 
+Dustox Statue 
+Ludicolo Statue 
+Pelipper Statue 
+Gardevoir Statue 
+Shroomish Statue 
+Slaking Statue 
+Ninjask Statue 
+Exploud Statue 
+Skitty Statue 
+Sableye Statue 
+Mawile Statue 
+Aggron Statue 
+Medicham Statue 
+Manectric Statue 
+Plusle Statue 
+Minun Statue 
+Volbeat Statue 
+Illumise Statue 
+Roselia Statue 
+Sharpedo Statue 
+Wailmer Statue 
+Camerupt Statue 
+Torkoal Statue 
+Spinda Statue 
+Flygon Statue 
+Cacturne Statue 
+Altaria Statue 
+Zangoose Statue 
+Seviper Statue 
+Lunatone Statue 
+Solrock Statue 
+Whiscash Statue 
+Claydol Statue 
+Cradily Statue 
+Milotic Statue 
+Castform Statue 
+Kecleon Statue 
+Tropius Statue 
+Chimecho Statue 
+Absol Statue 
+Spheal Statue 
+Clamperl Statue 
+Relicanth Statue 
+Luvdisc Statue 
+Salamence Statue 
+Metagross Statue 
+Turtwig Statue 
+Grotle Statue 
+Torterra Statue 
+Chimchar Statue 
+Monferno Statue 
+Infernape Statue 
+Piplup Statue 
+Prinplup Statue 
+Empoleon Statue 
+Staraptor Statue 
+Bibarel Statue 
+Kricketot Statue 
+Luxray Statue 
+Budew Statue 
+Roserade Statue 
+Cranidos Statue 
+Bastiodon Statue 
+Burmy Statue 
+Wormadam Statue 
+Mothim Statue 
+Vespiquen Statue 
+Pachirisu Statue 
+Floatzel Statue 
+Cherubi Statue 
+Gastrodon Statue 
+Ambipom Statue 
+Drifloon Statue 
+Buneary Statue 
+Mismagius Statue 
+Honchkrow Statue 
+Purugly Statue 
+Skuntank Statue 
+Bronzong Statue 
+Happiny Statue 
+Chatot Statue 
+Spiritomb Statue 
+Garchomp Statue 
+Lucario Statue 
+Hippowdon Statue 
+Drapion Statue 
+Croagunk Statue 
+Carnivine Statue 
+Lumineon Statue 
+Abomasnow Statue 
+Weavile Statue 
+Magnezone Statue 
+Rhyperior Statue 
+Tangrowth Statue 
+Electivire Statue 
+Magmortar Statue 
+Togekiss Statue 
+Yanmega Statue 
+Leafeon Statue 
+Glaceon Statue 
+Gliscor Statue 
+Mamoswine Statue 
+Porygon-Z Statue 
+Gallade Statue 
+Probopass Statue 
+Dusknoir Statue 
+Froslass Statue 
+Rotom Statue 
+Rotom Statue 
+Rotom Statue 
+Rotom Statue 
+Rotom Statue 
+Rotom Statue 
+TM93
+TM94
+TM95
+TM96
+TM97
+TM98
+TM99
+TM100
+Square Pedestal XL
+Round Pedestal XL
+Sturdy Pedestal XL
+Clear Pedestal XL
+Spin Pedestal XL
+Spinback Pedestal XL
+Giratina Origin Statue

@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,ガーンジー島,Guernsey,Guernesey,Guernsey,Guernsey,Guernsey,根西,건지 섬,

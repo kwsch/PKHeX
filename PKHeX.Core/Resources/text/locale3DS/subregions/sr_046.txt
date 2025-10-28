@@ -1,0 +1,11 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	パラマリボ	Paramaribo	Paramaribo	Paramaribo	Paramaribo	Paramaribo	帕拉马里博市	파라마리보	帕拉馬裏博市
+003	ブロコポンド	Brokopondo	Brokopondo	Brokopondo	Brokopondo	Brokopondo	布罗科蓬多区	브로코폰도	布羅科蓬多區
+004	コメウィネ	Commewijne	Commewijne	Commewijne	Commewijne	Commewijne	科默韦讷区	코메베이너	科默韋訥區
+005	コロニー	Coronie	Coronie	Coronie	Coronie	Coronie	科罗尼区	코로니	科羅尼區
+006	マロウィネ	Marowijne	Marowijne	Marowijne	Marowijne	Marowijne	马罗韦讷区	마로베이너	馬羅韋訥區
+007	ニッケリー	Nickerie	Nickerie	Nickerie	Nickerie	Nickerie	尼克里区	니케리	尼克裏區
+008	パラ	Para	Para	Para	Para	Para	帕拉区	파라	帕拉區
+009	サラマッカ	Saramacca	Saramacca	Saramacca	Saramacca	Saramacca	萨拉马卡区	사라마카	薩拉馬卡區
+010	シパリウィニ	Sipaliwini	Sipaliwini	Sipaliwini	Sipaliwini	Sipaliwini	西帕里维尼区	시팔리비니	西帕裏維尼區
+011	ワニカ	Wanica	Wanica	Wanica	Wanica	Wanica	瓦尼卡区	바니카	瓦尼卡區

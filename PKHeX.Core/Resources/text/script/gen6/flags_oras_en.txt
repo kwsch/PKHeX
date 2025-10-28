@@ -1,0 +1,555 @@
+0744	r	(OR) Groudon Defeated
+2935	r	(OR) Groudon Captured
+0743	r	(AS) Kyogre Defeated
+2936	r	(AS) Kyogre Captured
+0304	r	(OR) Ho-Oh Defeated
+2911	r	(OR) Ho-Oh Captured
+0305	r	(AS) Lugia Defeated
+2910	r	(AS) Lugia Captured
+2915	r	(AS) Dialga Captured
+2916	r	(OR) Palkia Captured
+2924	r	(OR) Tornadus Captured
+2925	r	(AS) Thundurus Captured
+2928	r	Landorus Captured
+0278	r	(OR) Reshiram Defeated
+2926	r	(OR) Reshiram Captured
+0279	r	(AS) Zekrom Defeated
+2927	r	(AS) Zekrom Captured
+0515	r	Latias Disappeared
+2930	r	Latias Captured
+0516	r	Latios Disappeared
+2931	r	Latios Captured
+3010	e	Received Eon Ticket
+3011	e	Eon Ticket Event Completed
+1041	r	Deoxys Disappeared @ Sky Pillar
+2938	r	Deoxys Captured @ Sky Pillar
+0269	r	Raikou Defeated
+2907	r	Raikou Captured
+0270	r	Entei Defeated
+2908	r	Entei Captured
+0271	r	Suicune Defeated
+2909	r	Suicune Captured
+0272	r	Cobalion Defeated
+2921	r	Cobalion Captured
+0273	r	Terrakion Defeated
+2922	r	Terrakion Captured
+0274	r	Virizion Defeated
+2923	r	Virizion Captured
+0280	r	Kyurem Defeated
+2929	r	Kyurem Captured
+0275	r	Uxie Defeated
+2912	r	Uxie Captured
+0276	r	Mesprit Defeated
+2913	r	Mesprit Captured
+0277	r	Azelf Defeated
+2914	r	Azelf Captured
+0268	r	Cresselia Defeated
+2920	r	Cresselia Captured
+2919	r	Giratina Captured
+0356	r	Heatran Defeated
+2917	r	Heatran Captured
+1052	r	Regirock Defeated
+2932	r	Regirock Captured
+1053	r	Regice Defeated
+2933	r	Regice Captured
+1054	r	Registeel Defeated
+2934	r	Registeel Captured
+0348	r	Regigigas Defeated
+2918	r	Regigigas Captured
+0380	a	Singles Statuette (Battle Maison)
+0381	a	Doubles Statuette (Battle Maison)
+0382	a	Triples Statuette (Battle Maison)
+0383	a	Rotation Statuette (Battle Maison)
+0384	a	Multi Statuette (Battle Maison)
+0385	*	Super Singles Unlocked
+0386	*	Super Doubles Unlocked
+0387	*	Super Triples Unlocked
+0388	*	Super Rotation Unlocked
+0389	*	Super Multi Unlocked
+2722	s	Pokédex Obtained
+2738	*	Foreign DexNav Encounters Unlocked
+0301	s	Defeated Primal Groudon/Kyogre (Story Event)
+2720	s	Entered Hall of Fame
+2729	s	Completed Delta Episode
+0361	s	Rematched Elite Four
+3023	s	Can Give Red Orb and Blue Orb
+0148	s	Met old hot-springs visitor
+0147	g	Received Wynaut Egg Gift (Lavaridge Town Hot-Springs)
+0187	g	Received Togepi Egg Gift (Lavaridge Town Hot-Springs)
+0119	g	Received Castform Gift (Weather Institute)
+0249	g	Received Beldum Gift (Mossdeep City Steven's House)
+0264	g	Received Camerupt Gift (Battle Resort)
+0265	g	Received Sharpedo Gift (Battle Resort)
+0298	s	Received Diancite (Diancie Event)
+0308	s	Received Prison Bottle (Hoopa Event)
+0310	g	Received Johto Starter
+0349	g	Received Sinnoh Starter
+0311	g	Received Unova Starter
+0166	g	In-Game Trade Slakoth for Makuhita (Rustboro City)
+0167	g	In-Game Trade Spinda for Skitty (Fortree City)
+0168	g	In-Game Trade Bellosom for Corsola (Pacifidlog Town)
+0692	s	Defeated Winstrate Family (Route 111)
+0806	s	Steven Disappeared from Route 120 Bridge
+0808	g	Breeder (Cosplay Pikachu Changer) Disappeared
+0699	s	Steven and Lati@s Disappeared from Route 118
+0789	s	Root Fossil Disappeared from Route 111
+0790	s	Claw Fossil Disappeared from Route 111
+0927	r	Voltorb (1) Disappeared from New Mauville
+0928	r	Voltorb (2) Disappeared from New Mauville
+0929	r	Voltorb (3) Disappeared from New Mauville
+0930	r	Voltorb (4) Disappeared from New Mauville
+1044	r	(OR) Electrode (1) Disappeared from Team Magma Hideout
+1045	r	(OR) Electrode (2) Disappeared from Team Magma Hideout
+1042	r	(AS) Electrode (1) Disappeared from Team Aqua Hideout
+1043	r	(AS) Electrode (2) Disappeared from Team Aqua Hideout
+0697	r	Invisible Kecleon Disappeared (Blocking Fortree Gym)
+0702	r	Invisible Kecleon Disappeared (Route 120, Bridge)
+0504	r	Invisible Kecleon Disappeared (Route 119, Above the Waterfall)
+0506	r	Invisible Kecleon Disappeared (Route 120, Stairs)
+0508	r	Invisible Kecleon Disappeared (Route 120, Left of Long Grass Maze)
+0510	r	Invisible Kecleon Disappeared (Lavaridge Town)
+0512	r	Invisible Kecleon Disappeared (Mossdeep Space Center)
+0302	r	Spiritomb Defeated
+0303	r	Spiritomb Captured
+0500	s	Sealed Chamber Puzzle Braille Text Disappeared
+3007	s	Sealed Chamber Puzzle Completed
+3008	r	Regi Caves Unlocked
+0501	s	Desert Ruins Puzzle Braille Text Disappeared
+3004	s	Desert Ruins Puzzle Completed
+0502	s	Island Cave Puzzle Braille Text Disappeared
+3005	s	Island Cave Puzzle Completed
+0503	s	Ancient Tomb Puzzle Braille Text Disappeared
+3006	s	Ancient Tomb Puzzle Completed
+1034	s	Cave of Origin B5F Pathway Cleared
+2746	*	Unlocked Lanette's PC
+3009	*	Organize Boxes at top of PC menu
+2758	f	Visited Littleroot Town
+2833	f	Can Fly to Littleroot Town
+2759	f	Visited Oldale Town
+2834	f	Can Fly to Oldale Town
+2760	f	Visited Dewford Town
+2835	f	Can Fly to Dewford Town
+2761	f	Visited Lavaridge Town
+2836	f	Can Fly to Lavaridge Town
+2762	f	Visited Fallarbor Town
+2837	f	Can Fly to Fallarbor Town
+2763	f	Visited Verdanturf Town
+2838	f	Can Fly to Verdanturf Town
+2764	f	Visited Pacifidlog Town
+2839	f	Can Fly to Pacifidlog Town
+2765	f	Visited Petalburg City
+2840	f	Can Fly to Petalburg City
+2766	f	Visited Slateport City
+2841	f	Can Fly to Slateport City
+2767	f	Visited Mauville City
+2842	f	Can Fly to Mauville City
+2768	f	Visited Rustboro City
+2843	f	Can Fly to Rustboro City
+2769	f	Visited Fortree City
+2844	f	Can Fly to Fortree City
+2770	f	Visited Lilycove City
+2845	f	Can Fly to Lilycove City
+2771	f	Visited Mossdeep City
+2846	f	Can Fly to Mossdeep City
+2772	f	Visited Sootopolis City
+2847	f	Can Fly to Sootopolis City
+2773	f	Visited Ever Grande City
+2848	f	Can Fly to Ever Grande City
+2774	f	Visited Route 101
+2849	f	Can Fly to Route 101
+2775	f	Visited Route 102
+2850	f	Can Fly to Route 102
+2776	f	Visited Route 103
+2851	f	Can Fly to Route 103
+2777	f	Visited Route 104
+2852	f	Can Fly to Route 104
+2778	f	Visited Route 105
+2853	f	Can Fly to Route 105
+2779	f	Visited Route 106
+2854	f	Can Fly to Route 106
+2780	f	Visited Route 107
+2855	f	Can Fly to Route 107
+2781	f	Visited Route 108
+2856	f	Can Fly to Route 108
+2782	f	Visited Route 109
+2857	f	Can Fly to Route 109
+2783	f	Visited Route 110
+2858	f	Can Fly to Route 110
+2784	f	Visited Route 111
+2859	f	Can Fly to Route 111
+2785	f	Visited Route 112
+2860	f	Can Fly to Route 112
+2786	f	Visited Route 113
+2861	f	Can Fly to Route 113
+2787	f	Visited Route 114
+2862	f	Can Fly to Route 114
+2788	f	Visited Route 115
+2863	f	Can Fly to Route 115
+2789	f	Visited Route 116
+2864	f	Can Fly to Route 116
+2790	f	Visited Route 117
+2865	f	Can Fly to Route 117
+2791	f	Visited Route 118
+2866	f	Can Fly to Route 118
+2792	f	Visited Route 119
+2867	f	Can Fly to Route 119
+2793	f	Visited Route 120
+2868	f	Can Fly to Route 120
+2794	f	Visited Route 121
+2869	f	Can Fly to Route 121
+2795	f	Visited Route 122
+2870	f	Can Fly to Route 122
+2796	f	Visited Route 123
+2871	f	Can Fly to Route 123
+2797	f	Visited Route 124
+2872	f	Can Fly to Route 124
+2798	f	Visited Route 125
+2873	f	Can Fly to Route 125
+2799	f	Visited Route 126
+2874	f	Can Fly to Route 126
+2800	f	Visited Route 127
+2875	f	Can Fly to Route 127
+2801	f	Visited Route 128
+2876	f	Can Fly to Route 128
+2802	f	Visited Route 129
+2877	f	Can Fly to Route 129
+2803	f	Visited Route 130
+2878	f	Can Fly to Route 130
+2804	f	Visited Route 131
+2879	f	Can Fly to Route 131
+2805	f	Visited Route 132
+2880	f	Can Fly to Route 132
+2806	f	Visited Route 133
+2881	f	Can Fly to Route 133
+2807	f	Visited Route 134
+2882	f	Can Fly to Route 134
+2808	f	Visited Meteor Falls
+2883	f	Can Fly to Meteor Falls
+2809	f	Visited Rusturf Tunnel
+2884	f	Can Fly to Rusturf Tunnel
+2812	f	Visited Granite Cave
+2885	f	Can Fly to Granite Cave
+2813	f	Visited Petalburg Woods
+2886	f	Can Fly to Petalburg Woods
+2814	f	Visited Mt. Chimney
+2887	f	Can Fly to Mt. Chimney
+2815	f	Visited Jagged Pass
+2888	f	Can Fly to Jagged Pass
+2816	f	Visited Fiery Path
+2889	f	Can Fly to Fiery Path
+2817	f	Visited Mt. Pyre
+2890	f	Can Fly to Mt. Pyre
+2819	f	Visited Seafloor Cavern
+2820	f	Visited Cave of Origin
+2821	f	Visited Victory Road
+2891	f	Can Fly to Victory Road
+2822	f	Visited Shoal Cave
+2892	f	Can Fly to Shoal Cave
+2823	f	Visited New Mauville
+2893	f	Can Fly to New Mauville
+2824	f	Visited Sea Mauville
+2894	f	Can Fly to Sea Mauville
+2831	f	Visited Sky Pillar
+2895	f	Can Fly to Sky Pillar
+2984	f	Sky Pillar on the Map
+2897	f	Visited Pokémon League
+2901	f	Can Fly to Pokémon League
+2898	f	Visited Safari Zone
+2902	f	Can Fly to Safari Zone
+2899	f	Visited Southern Island
+2903	f	Discovered Southern Island (Story Event)
+2985	f	Southern Island on the Map
+2900	f	Visited Battle Resort
+3019	f	Can Fly to Battle Resort
+2986	f	Battle Resort on the Map
+2976	f	Visited Secret Islet
+2977	f	Visited Secret Shore
+2978	f	Visited Secret Meadow
+2979	f	Can Fly to Secret Islet
+2987	f	Discovered Secret Islet
+2980	f	Can Fly to Secret Shore
+2988	f	Discovered Secret Shore
+2981	f	Can Fly to Secret Meadow
+2989	f	Discovered Secret Meadow
+2982	f	(OR) Visited Team Magma Hideout
+2983	f	(AS) Visited Team Aqua Hideout
+2905	*	Extremely Harsh Sunlight in eastern Hoenn
+2906	*	Heavy Rain in eastern Hoenn
+3063	s	Had Village Sub Combo (Today)
+3064	s	Had Magnemite Croquette (Today)
+3065	s	Had Mauville Ramen Bowl (Today)
+3077	m	Current Battle Resort BGM: Victory Road
+3078	m	Current Battle Resort BGM: Secret Super Training
+3079	m	Current Battle Resort BGM: Hurry Along
+3080	m	Current Battle Resort BGM: Vs. Wally
+0443	s	Found Big Nugget in Trick House Prize Room
+1166	s	Found Yellow Shard Underwater (Route 107)
+1167	s	Found Flame Plate Underwater (Route 107)
+1168	s	Found Heart Scale (1) Underwater (Route 124)
+1170	s	Found Pearl Underwater (Route 124)
+1169	s	Found Heart Scale (2) Underwater (Route 124)
+1174	s	Found Green Shard Underwater (Route 124)
+1175	s	Found Sky Plate Underwater (Route 124)
+1171	s	Found Big Pearl Underwater (Route 124)
+1172	s	Found Calcium Underwater (Route 124)
+1173	s	Found Carbos Underwater (Route 124)
+1177	s	Found Ultra Ball Underwater (Route 126)
+1176	s	Found Heart Scale Underwater (Route 126)
+1184	s	Found Mind Plate Underwater (Route 126)
+1178	s	Found Big Pearl Underwater (Route 126)
+1179	s	Found Blue Shard Underwater (Route 126)
+1180	s	Found Pearl Underwater (Route 126)
+1183	s	Found Yellow Shard Underwater (Route 126)
+1181	s	Found Stardust Underwater (Route 126)
+1182	s	Found Iron Underwater (Route 126)
+1187	s	Found Red Shard Underwater (Route 126)
+1188	s	Found Heart Scale Underwater (Route 127)
+1191	s	Found Dread Plate Underwater (Route 127)
+1190	s	Found Spooky Plate Underwater (Route 127)
+1185	s	Found HP Up Underwater (Route 127)
+1186	s	Found Star Piece Underwater (Route 127)
+1189	s	Found Insect Plate Underwater (Route 127)
+1194	s	Found Stone Plate Underwater (Route 128)
+1195	s	Found Draco Plate Underwater (Route 128)
+1196	s	Found Pixie Plate Underwater (Route 128)
+1197	s	Found Adamant Orb Underwater (Route 128)
+1198	s	Found Blue Shard Underwater (Route 129)
+1192	s	Found Protein Underwater (Route 128)
+1193	s	Found Pearl Underwater (Route 128)
+1202	s	Found Lustrous Orb Underwater (Route 129)
+1199	s	Found Splash Plate Underwater (Route 129)
+1200	s	Found Zap Plate Underwater (Route 129)
+1201	s	Found Toxic Plate Underwater (Route 129)
+1203	s	Found Green Shard Underwater (Route 130)
+1206	s	Found Fist Plate Underwater (Route 130)
+1205	s	Found Icicle Plate Underwater (Route 130)
+1207	s	Found Earth Plate Underwater (Route 130)
+1204	s	Found Meadow Plate Underwater (Route 130)
+1208	s	Found Griseous Orb Underwater (Route 130)
+1935	t	Had Youngster Calvin 1st Rematch (Route 102)
+1936	t	Had Youngster Calvin 2nd Rematch (Route 102)
+1937	t	Had Youngster Calvin 3rd Rematch (Route 102)
+1938	t	Had Youngster Calvin 4th Rematch (Route 102)
+2391	t	Had Poké Fan Miguel 1st Rematch (Route 103)
+2392	t	Had Poké Fan Miguel 2nd Rematch (Route 103)
+2393	t	Had Poké Fan Miguel 3rd Rematch (Route 103)
+2394	t	Had Poké Fan Miguel 4th Rematch (Route 103)
+1795	t	Had Twins Amy & Liv 1st Rematch (Route 103)
+2108	t	Had Twins Amy & Liv 2nd Rematch (Route 103)
+2336	t	Had Twins Amy & Liv 3rd Rematch (Route 103)
+2337	t	Had Twins Amy & Liv 4th Rematch (Route 103)
+1939	t	Had Lass Haley 1st Rematch (Route 104)
+1940	t	Had Lass Haley 2nd Rematch (Route 104)
+1941	t	Had Lass Haley 3rd Rematch (Route 104)
+1942	t	Had Lass Haley 4th Rematch (Route 104)
+2395	t	Had Lady Cindy 1st Rematch (Route 104)
+2396	t	Had Lady Cindy 2nd Rematch (Route 104)
+2397	t	Had Lady Cindy 3rd Rematch (Route 104)
+2299	t	Had Lady Cindy 4th Rematch (Route 104)
+2398	t	Had Rich Boy Winston 1st Rematch (Route 104)
+2399	t	Had Rich Boy Winston 2nd Rematch (Route 104)
+2400	t	Had Rich Boy Winston 3rd Rematch (Route 104)
+2300	t	Had Rich Boy Winston 4th Rematch (Route 104)
+2217	t	Had Bug Catcher James 1st Rematch (Petalburg Woods)
+2218	t	Had Bug Catcher James 2nd Rematch (Petalburg Woods)
+2219	t	Had Bug Catcher James 3rd Rematch (Petalburg Woods)
+2220	t	Had Bug Catcher James 4th Rematch (Petalburg Woods)
+2465	t	Had Backpacker Graeme 1st Rematch (Route 106)
+2466	t	Had Backpacker Graeme 2nd Rematch (Route 106)
+2467	t	Had Backpacker Graeme 3rd Rematch (Route 106)
+2468	t	Had Backpacker Graeme 4th Rematch (Route 106)
+2109	t	Had Fisherman Elliot 1st Rematch (Route 106)
+2110	t	Had Fisherman Elliot 2nd Rematch (Route 106)
+2111	t	Had Fisherman Elliot 3rd Rematch (Route 106)
+2112	t	Had Fisherman Elliot 4th Rematch (Route 106)
+2251	t	Had Swimmer Tony 1st Rematch (Route 107)
+2252	t	Had Swimmer Tony 2nd Rematch (Route 107)
+2253	t	Had Swimmer Tony 3rd Rematch (Route 107)
+2254	t	Had Swimmer Tony 4th Rematch (Route 107)
+2550	t	Had Ace Trainer Neville 1st Rematch (Route 108)
+2551	t	Had Ace Trainer Neville 2nd Rematch (Route 108)
+2552	t	Had Ace Trainer Neville 3rd Rematch (Route 108)
+2553	t	Had Ace Trainer Neville 4th Rematch (Route 108)
+2522	t	Had Mysterious Sisters Scall & Ion 1st Rematch (Sea Mauville - Illegal)
+2523	t	Had Mysterious Sisters Scall & Ion 2nd Rematch (Sea Mauville)
+2524	t	Had Mysterious Sisters Scall & Ion 3rd Rematch (Sea Mauville)
+2525	t	Had Mysterious Sisters Scall & Ion 4th Rematch (Sea Mauville)
+2205	t	Had Young Couple Lois & Hal 1st Rematch (Sea Mauville)
+2206	t	Had Young Couple Lois & Hal 2nd Rematch (Sea Mauville)
+2207	t	Had Young Couple Lois & Hal 3rd Rematch (Sea Mauville)
+2208	t	Had Young Couple Lois & Hal 4th Rematch (Sea Mauville)
+2559	t	Had Ace Trainer Portia 1st Rematch (Route 109)
+2560	t	Had Ace Trainer Portia 2nd Rematch (Route 109)
+2561	t	Had Ace Trainer Portia 3rd Rematch (Route 109)
+2562	t	Had Ace Trainer Portia 4th Rematch (Route 109)
+2338	t	Had Tuber Ricky 1st Rematch (Route 109)
+2339	t	Had Tuber Ricky 2nd Rematch (Route 109)
+2340	t	Had Tuber Ricky 3rd Rematch (Route 109)
+2341	t	Had Tuber Ricky 4th Rematch (Route 109)
+2113	t	Had Tuber Lola 1st Rematch (Route 109)
+2114	t	Had Tuber Lola 2nd Rematch (Route 109)
+2115	t	Had Tuber Lola 3rd Rematch (Route 109)
+2116	t	Had Tuber Lola 4th Rematch (Route 109)
+2125	t	Had Collector Edwin 1st Rematch (Route 110)
+2126	t	Had Collector Edwin 2nd Rematch (Route 110)
+2127	t	Had Collector Edwin 3rd Rematch (Route 110)
+2128	t	Had Collector Edwin 4th Rematch (Route 110)
+2401	t	Had Poké Fan Isabel 1st Rematch (Route 110)
+2402	t	Had Poké Fan Isabel 2nd Rematch (Route 110)
+2403	t	Had Poké Fan Isabel 3rd Rematch (Route 110)
+2404	t	Had Poké Fan Isabel 4th Rematch (Route 110)
+2117	t	Had Triathlete Benjamin 1st Rematch (Route 110)
+2118	t	Had Triathlete Benjamin 2nd Rematch (Route 110)
+2119	t	Had Triathlete Benjamin 3rd Rematch (Route 110)
+2120	t	Had Triathlete Benjamin 4th Rematch (Route 110)
+2342	t	Had Ruin Maniac Dusty 1st Rematch (Route 111)
+2343	t	Had Ruin Maniac Dusty 2nd Rematch (Route 111)
+2344	t	Had Ruin Maniac Dusty 3rd Rematch (Route 111)
+2345	t	Had Ruin Maniac Dusty 4th Rematch (Route 111)
+2129	t	Had Ace Trainer Wilton 1st Rematch (Route 111)
+2130	t	Had Ace Trainer Wilton 2nd Rematch (Route 111)
+2131	t	Had Ace Trainer Wilton 3rd Rematch (Route 111)
+2132	t	Had Ace Trainer Wilton 4th Rematch (Route 111)
+2133	t	Had Ace Trainer Brooke 1st Rematch (Route 111)
+2134	t	Had Ace Trainer Brooke 2nd Rematch (Route 111)
+2135	t	Had Ace Trainer Brooke 3rd Rematch (Route 111)
+2136	t	Had Ace Trainer Brooke 4th Rematch (Route 111)
+2137	t	Had Hiker Trent 1st Rematch (Route 112)
+2138	t	Had Hiker Trent 2nd Rematch (Route 112)
+2139	t	Had Hiker Trent 3rd Rematch (Route 112)
+2140	t	Had Hiker Trent 4th Rematch (Route 112)
+2209	t	Had Camper Ethan 1st Rematch (Jagged Pass)
+2210	t	Had Camper Ethan 2nd Rematch (Jagged Pass)
+2211	t	Had Camper Ethan 3rd Rematch (Jagged Pass)
+2212	t	Had Camper Ethan 4th Rematch (Jagged Pass)
+2197	t	Had Expert Shelby 1st Rematch (Jagged Pass)
+2198	t	Had Expert Shelby 2nd Rematch (Jagged Pass)
+2199	t	Had Expert Shelby 3rd Rematch (Jagged Pass)
+2200	t	Had Expert Shelby 4th Rematch (Jagged Pass)
+2213	t	Had Picnicker Diana 1st Rematch (Jagged Pass)
+2214	t	Had Picnicker Diana 2nd Rematch (Jagged Pass)
+2215	t	Had Picnicker Diana 3rd Rematch (Jagged Pass)
+2216	t	Had Picnicker Diana 4th Rematch (Jagged Pass)
+2359	t	Had Parasol Lady Madeline 1st Rematch (Route 113)
+2360	t	Had Parasol Lady Madeline 2nd Rematch (Route 113)
+2361	t	Had Parasol Lady Madeline 3rd Rematch (Route 113)
+2362	t	Had Parasol Lady Madeline 4th Rematch (Route 113)
+2654	t	Had Ninja Boy Lao 1st Rematch (Route 113)
+2655	t	Had Ninja Boy Lao 2nd Rematch (Route 113)
+2656	t	Had Ninja Boy Lao 3rd Rematch (Route 113)
+2657	t	Had Ninja Boy Lao 4th Rematch (Route 113)
+2145	t	Had Kindler Bernie 1st Rematch (Route 114)
+2146	t	Had Kindler Bernie 2nd Rematch (Route 114)
+2147	t	Had Kindler Bernie 3rd Rematch (Route 114)
+2148	t	Had Kindler Bernie 4th Rematch (Route 114)
+2141	t	Had Poké Maniac Steve 1st Rematch (Route 114)
+2142	t	Had Poké Maniac Steve 2nd Rematch (Route 114)
+2143	t	Had Poké Maniac Steve 3rd Rematch (Route 114)
+2144	t	Had Poké Maniac Steve 4th Rematch (Route 114)
+2221	t	Had Dragon Tamer Nicolas Rematch (Meteor Falls)
+2375	t	Had Old Couple John & Jay Rematch (Meteor Falls)
+2149	t	Had Battle Girl Cyndy 1st Rematch (Route 115)
+2150	t	Had Battle Girl Cyndy 2nd Rematch (Route 115)
+2151	t	Had Battle Girl Cyndy 3rd Rematch (Route 115)
+2152	t	Had Battle Girl Cyndy 4th Rematch (Route 115)
+2346	t	Had Expert Timothy 1st Rematch (Route 115)
+2347	t	Had Expert Timothy 2nd Rematch (Route 115)
+2348	t	Had Expert Timothy 3rd Rematch (Route 115)
+2349	t	Had Expert Timothy 4th Rematch (Route 115)
+1943	t	Had Black Belt Nob 1st Rematch (Route 115)
+1944	t	Had Black Belt Nob 2nd Rematch (Route 115)
+1945	t	Had Black Belt Nob 3rd Rematch (Route 115)
+1983	t	Had Black Belt Nob 4th Rematch (Route 115)
+2153	t	Had Schoolkid Jerry 1st Rematch (Route 116)
+2154	t	Had Schoolkid Jerry 2nd Rematch (Route 116)
+2155	t	Had Schoolkid Jerry 3rd Rematch (Route 116)
+2156	t	Had Schoolkid Jerry 4th Rematch (Route 116)
+2157	t	Had Schoolkid Karen 1st Rematch (Route 116)
+2158	t	Had Schoolkid Karen 2nd Rematch (Route 116)
+2159	t	Had Schoolkid Karen 3rd Rematch (Route 116)
+2160	t	Had Schoolkid Karen 4th Rematch (Route 116)
+2234	t	Had Triathlete Dylan 1st Rematch (Route 117)
+2235	t	Had Triathlete Dylan 2nd Rematch (Route 117)
+2236	t	Had Triathlete Dylan 3rd Rematch (Route 117)
+2237	t	Had Triathlete Dylan 4th Rematch (Route 117)
+2263	t	Had Pokémon Breeder Isaac 1st Rematch (Route 117)
+2264	t	Had Pokémon Breeder Isaac 2nd Rematch (Route 117)
+2265	t	Had Pokémon Breeder Isaac 3rd Rematch (Route 117)
+2266	t	Had Pokémon Breeder Isaac 4th Rematch (Route 117)
+2259	t	Had Pokémon Breeder Lydia 1st Rematch (Route 117)
+2260	t	Had Pokémon Breeder Lydia 2nd Rematch (Route 117)
+2261	t	Had Pokémon Breeder Lydia 3rd Rematch (Route 117)
+2262	t	Had Pokémon Breeder Lydia 4th Rematch (Route 117)
+2363	t	Had Teammates Anna & Meg 1st Rematch (Route 117)
+2364	t	Had Teammates Anna & Meg 2nd Rematch (Route 117)
+2365	t	Had Teammates Anna & Meg 3rd Rematch (Route 117)
+2366	t	Had Teammates Anna & Meg 4th Rematch (Route 117)
+2161	t	Had Aroma Lady Rose 1st Rematch (Route 118)
+2162	t	Had Aroma Lady Rose 2nd Rematch (Route 118)
+2163	t	Had Aroma Lady Rose 3rd Rematch (Route 118)
+2164	t	Had Aroma Lady Rose 4th Rematch (Route 118)
+2165	t	Had Guitarist Dalton 1st Rematch (Route 118)
+2166	t	Had Guitarist Dalton 2nd Rematch (Route 118)
+2167	t	Had Guitarist Dalton 3rd Rematch (Route 118)
+2168	t	Had Guitarist Dalton 4th Rematch (Route 118)
+2473	t	Had Brains & Brawn Jael & Kael 1st Rematch(Route 119)
+2474	t	Had Brains & Brawn Jael & Kael 2nd Rematch(Route 119)
+2475	t	Had Brains & Brawn Jael & Kael 3rd Rematch(Route 119)
+2476	t	Had Brains & Brawn Jael & Kael 4th Rematch(Route 119)
+2169	t	Had Pokémon Ranger Jackson 1st Rematch (Route 119)
+2170	t	Had Pokémon Ranger Jackson 2nd Rematch (Route 119)
+2171	t	Had Pokémon Ranger Jackson 3rd Rematch (Route 119)
+2172	t	Had Pokémon Ranger Jackson 4th Rematch (Route 119)
+2173	t	Had Pokémon Ranger Catherine 1st Rematch (Route 119)
+2174	t	Had Pokémon Ranger Catherine 2nd Rematch (Route 119)
+2175	t	Had Pokémon Ranger Catherine 3rd Rematch (Route 119)
+2176	t	Had Pokémon Ranger Catherine 4th Rematch (Route 119)
+2177	t	Had Bird Keeper Robert 1st Rematch (Route 120)
+2178	t	Had Bird Keeper Robert 2nd Rematch (Route 120)
+2179	t	Had Bird Keeper Robert 3rd Rematch (Route 120)
+2181	t	Had Bug Maniac Brandon 1st Rematch (Route 120)
+2182	t	Had Bug Maniac Brandon 2nd Rematch (Route 120)
+2183	t	Had Bug Maniac Brandon 3rd Rematch (Route 120)
+2534	t	Had Street Thug Gomez 1st Rematch (Route 120)
+2535	t	Had Street Thug Gomez 2nd Rematch (Route 120)
+2536	t	Had Street Thug Gomez 3rd Rematch (Route 120)
+2542	t	Had Delinquent Sharlene 1st Rematch (Route 120)
+2543	t	Had Delinquent Sharlene 2nd Rematch (Route 120)
+2544	t	Had Delinquent Sharlene 3rd Rematch (Route 120)
+2184	t	Had Gentleman Walter 1st Rematch (Route 121)
+2350	t	Had Gentleman Walter 2nd Rematch (Route 121)
+2351	t	Had Gentleman Walter 3rd Rematch (Route 121)
+2367	t	Had Beauty Jessica 1st Rematch (Route 121)
+2368	t	Had Beauty Jessica 2nd Rematch (Route 121)
+2369	t	Had Beauty Jessica 3rd Rematch (Route 121)
+2510	t	Had Fairy Tale Girl Momo 1st Rematch (Mt. Pyre)
+2511	t	Had Fairy Tale Girl Momo 2nd Rematch (Mt. Pyre)
+2512	t	Had Fairy Tale Girl Momo 3rd Rematch (Mt. Pyre)
+2201	t	Had Hex Maniac Valerie 1st Rematch (Mt. Pyre)
+2202	t	Had Hex Maniac Valerie 2nd Rematch (Mt. Pyre)
+2203	t	Had Hex Maniac Valerie 3rd Rematch (Mt. Pyre)
+2185	t	Had Psychic Cameron 1st Rematch (Route 123)
+2186	t	Had Psychic Cameron 2nd Rematch (Route 123)
+2187	t	Had Psychic Cameron 3rd Rematch (Route 123)
+2286	t	Had Sis & Bro Rita & Sam 1st Rematch (Route 124)
+2287	t	Had Sis & Bro Rita & Sam 2nd Rematch (Route 124)
+2288	t	Had Sis & Bro Rita & Sam 3rd Rematch (Route 124)
+2247	t	Had Swimmer Jenny 1st Rematch (Route 124)
+2248	t	Had Swimmer Jenny 2nd Rematch (Route 124)
+2486	t	Had Scuba Diver Kylan 1st Rematch (Route 124)
+2487	t	Had Scuba Diver Kylan 2nd Rematch (Route 124)
+2499	t	Had Free Diver Arzu 1st Rematch (Route 124)
+2500	t	Had Free Diver Arzu 2nd Rematch (Route 124)
+2193	t	Had Sailor Ernest 1st Rematch (Route 125)
+2194	t	Had Sailor Ernest 2nd Rematch (Route 125)
+2224	t	Had Triathlete Isaiah 1st Rematch (Route 128)
+2225	t	Had Triathlete Isaiah 2nd Rematch (Route 128)
+2226	t	Had Triathlete Isaiah 3rd Rematch (Route 128)
+2571	t	Had Ace Duo Jude & Rory Rematch (Victory Road)
+1914	t	Had Gabby and Ty 1st Rematch
+1915	t	Had Gabby and Ty 2nd Rematch
+1916	t	Had Gabby and Ty 3rd Rematch
+1917	t	Had Gabby and Ty 4th Rematch
+2322	t	Had Gabby and Ty 5th Rematch
+2684	t	Had Wally 1st Rematch (Battle House)
+2686	t	Had Wally 2nd Rematch (Battle House)

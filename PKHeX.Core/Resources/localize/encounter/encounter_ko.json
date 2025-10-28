@@ -1,0 +1,15 @@
+{
+    "Format": "{0}: {1}",
+    "FormatLevelRange": "{0}: {1}-{2}",
+    "EncounterType": "조우 유형",
+    "Version": "버전",
+    "Level": "레벨",
+    "LevelRange": "레벨 범위",
+    "Location": "위치",
+    "OriginSeed": "원본 시드",
+    "PIDType": "PID 유형",
+    "Time": "시간",
+    "FrameNewGame": "새 게임: 0x{0}, 프레임: {1}",
+    "FrameInitial": "초기값: 0x{0}, 프레임: {1}",
+    "SuffixDays": " (일: {0})"
+}

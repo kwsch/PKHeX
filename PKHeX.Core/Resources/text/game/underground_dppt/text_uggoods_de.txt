@@ -1,0 +1,139 @@
+(Kein)
+
+
+
+
+
+
+Gelbes Kissen
+Blaues Kissen
+Holzstuhl
+Großer Tisch
+Einfacher Tisch
+Kleiner Tisch
+Langer Tisch
+Breiter Tisch
+Poké-Tisch
+Gr. Bücherregal
+Kl. Bücherregal
+Laborregal
+Werkzeugregal
+Ladenregal
+Vitrine
+Schrank
+Holzkommode
+Rosa Kommode
+Fernseher
+Kühlschrank
+Spülbecken
+Leichtes Bett
+Abfalleimer
+Pappkarton
+Kiste
+Behälter
+Ölfass
+Ölvorrat
+Eisenträger
+Topfpflanze
+Poké-Blume
+Vitalisator
+Labormaschine
+Testmaschine
+Spielkonsole
+Getränke
+Rotes Fahrrad
+Grünes Fahrrad
+Fernglas
+Globus
+Arena-Statue
+Rotes Zelt
+Blaues Zelt
+Helles Zelt
+Irrblock 1
+Irrblock 2
+Irrblock 3
+Irrblock 4
+Irrblock 5
+Lochwerkzeug
+Grubenwerkzeug
+Dunstwerkzeug
+Rauchwerkzeug
+Felswerkzeug
+Gesteinswerkz.
+Schaumwerkzeug
+Blasenwerkzeug
+Botschaft 1
+Botschaft 2
+Botschaft 3
+Botschaft 4
+Blätterwerkz.
+Blumenwerkzeug
+Aschewerkzeug
+Feuerwerkzeug
+Anmut-Cup
+Coolness-Cup
+Schönheit-Cup
+Stärke-Cup
+Klugheit-Cup
+Blauer Kristall
+Rosa Kristall
+Roter Kristall
+Gelber Kristall
+Hübsches Juwel
+Leuchten. Juwel
+Mystisch. Juwel
+Funkeln. Juwel
+Bronzetrophäe
+Silbertrophäe
+Goldtrophäe
+Supertrophäe
+Ballornament
+Rundes Ornament
+Klares Ornament
+GLUMANDA-Puppe
+BISASAM-Puppe
+SCHIGGY-Puppe
+FEURIGEL-Puppe
+ENDIVIE-Puppe
+KARNIMANI-Pup.
+FLEMMLI-Puppe
+GECKARBOR-Pup.
+HYDROPI-Puppe
+PANFLAM-Puppe
+CHELAST-Puppe
+PLINFA-Puppe
+PIKACHU-Puppe
+PLUSLE-Puppe
+MINUN-Puppe
+PIEPI-Puppe
+PUMMELUFF-Pup.
+WOINGENAU-Pup.
+MAUZI-Puppe
+ENECO-Puppe
+CHARMIAN-Puppe
+HASPIROR-Puppe
+SNIBUNNA-Puppe
+MAMPFAXO-Puppe
+MOBAI-Puppe
+PANTIMIMI-Pup.
+LUCARIO-Puppe
+MANTIRPS-Puppe
+BAMELIN-Puppe
+PLAUDAGEI-Pup.
+MANAPHY-Puppe
+RELAXO-Puppe
+WAILORD-Puppe
+MAGNEZONE-Pup.
+DRIFTLON-Puppe
+WONNEIRA-Puppe
+PACHIRISU-Pup.
+
+
+
+
+Breites Sofa
+Bonsai
+Zarte Blumen
+Schöne Blumen
+Hübsche Blumen
+Üppige Blumen

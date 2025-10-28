@@ -1,48 +1,75 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
+using PKHeX.Core;
 using PKHeX.WinForms.Controls;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms;
+
+public sealed partial class SAV_BoxViewer : Form
 {
-    public sealed partial class SAV_BoxViewer : Form
+    private readonly SAVEditor parent;
+
+    public SAV_BoxViewer(SAVEditor p, SlotChangeManager m, int box)
     {
-        private readonly SAVEditor parent;
-        public SAV_BoxViewer(SAVEditor p, SlotChangeManager m)
+        InitializeComponent();
+
+        parent = p;
+        int deltaW = Width - Box.BoxPokeGrid.Width;
+        int deltaH = Height - Box.BoxPokeGrid.Height;
+        Box.Editor = new BoxEdit(m.SE.SAV);
+        Box.Setup(m);
+        Box.InitializeGrid();
+
+        Width = Box.BoxPokeGrid.Width + deltaW + 2;
+        Height = Box.BoxPokeGrid.Height + deltaH + 2;
+
+        Box.RecenterControls();
+        Box.HorizontallyCenter(this);
+        Box.Reset();
+        CenterToParent();
+
+        AllowDrop = true;
+        GiveFeedback += (_, e) => e.UseDefaultCursors = false;
+        DragEnter += Main_DragEnter;
+        DragDrop += (_, _) =>
         {
-            parent = p;
-            InitializeComponent();
-            Box.Setup(m);
-            CenterToParent();
+            Cursor = DefaultCursor;
+            System.Media.SystemSounds.Asterisk.Play();
+        };
+        Owner = p.ParentForm;
 
-            AllowDrop = true;
-            GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
-            DragEnter += Main_DragEnter;
-            DragDrop += (sender, e) =>
-            {
-                Cursor = DefaultCursor;
-                System.Media.SystemSounds.Asterisk.Play();
-            };
-            Owner = p.ParentForm;
-
-            foreach (PictureBox pb in Box.SlotPictureBoxes)
-                pb.ContextMenuStrip = parent.SlotPictureBoxes[0].ContextMenuStrip;
-        }
-        public int CurrentBox => Box.CurrentBox;
-        private void PB_BoxSwap_Click(object sender, EventArgs e) => Box.CurrentBox = parent.SwapBoxesViewer(Box.CurrentBox);
-        public void SetPKMBoxes() => Box.ResetSlots();
-
-        private static void Main_DragEnter(object sender, DragEventArgs e)
+        MouseWheel += (_, e) =>
         {
-            if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
-                e.Effect = DragDropEffects.Copy;
-            else if (e.Data != null) // within
-                e.Effect = DragDropEffects.Move;
-        }
+            if (parent.menu.mnuVSD.Visible)
+                return;
+            Box.CurrentBox = e.Delta > 1 ? Box.Editor.MoveLeft() : Box.Editor.MoveRight();
+        };
 
-        private void SAV_BoxViewer_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Remove viewer from manager list
-            Box.M.Boxes.Remove(Box);
-        }
+        var mnu = parent.SlotPictureBoxes[0].ContextMenuStrip;
+        foreach (var pb in Box.SlotPictureBoxes)
+            pb.ContextMenuStrip = mnu;
+
+        Box.ResetBoxNames(box); // fix box names
+        Box.ResetSlots(); // refresh box background
+        p.EditEnv.Slots.Publisher.Subscribe(Box);
+    }
+
+    private void PB_BoxSwap_Click(object sender, EventArgs e) => Box.CurrentBox = parent.SwapBoxesViewer(Box.CurrentBox);
+
+    private static void Main_DragEnter(object? sender, DragEventArgs? e)
+    {
+        if (e is null)
+            return;
+        if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
+            e.Effect = DragDropEffects.Copy;
+        else if (e.Data is not null) // within
+            e.Effect = DragDropEffects.Move;
+    }
+
+    private void SAV_BoxViewer_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        // Remove viewer from manager list
+        Box.M?.Boxes.Remove(Box);
+        parent.EditEnv.Slots.Publisher.Unsubscribe(Box);
     }
 }

@@ -1,0 +1,34 @@
+250	*	SYS_WORK_FIRST_POKE_NO
+
+267	*	SYS_WORK_HAIHU_EVENT01
+268	*	SYS_WORK_HAIHU_EVENT02
+269	*	SYS_WORK_HAIHU_EVENT03
+275	*	HAIHUEVENT_ID_D30 (達克萊伊)
+276	*	HAIHUEVENT_ID_D18 (謝米)
+277	*	HAIHUEVENT_ID_D05 (阿爾宙斯)
+330	*	HAIHUEVENT_ID_C04 (玫瑰公園)
+
+157	*	WK_SCENE_GAME_START	00:略過開幕視訊,01:播放開幕視訊
+
+363	g	WK_SCENE_T03_SP_MADAM (夢幻)	00:未接收,03:經已接收
+364	g	WK_SCENE_T03_SP_GENTLEMAN (基拉祈)	00:未接收,03:經已接收
+
+254	*	SYS_WORK_HIDEMAP_01
+255	*	SYS_WORK_HIDEMAP_02
+256	*	SYS_WORK_HIDEMAP_03
+257	*	SYS_WORK_HIDEMAP_04
+
+278	*	HIDEMAP_ID_D15
+279	*	HIDEMAP_ID_D30
+280	*	HIDEMAP_ID_L04
+281	*	HIDEMAP_ID_D18
+291	*	HIDEMAP_ID_C10
+292	*	HIDEMAP_ID_D10R0101
+
+331	*	WK_PLAYER_BIRTH_MOUNTH
+332	*	WK_PLAYER_BIRTH_DAY
+
+422	*	Total Battle Tower Master Class Wins
+424	*	Battle Tower Master Class Next Prize Streak
+
+436	*	SWARM_SEED	00:嘟嘟 (201號道路),01:蛇紋熊 (202號道路),02:卡拉卡拉 (203號道路),03:朝北鼻 (206號道路),04:小小象 (207號道路),05:土龍弟弟 (208號道路),06:布魯 (209號道路),07:阿勃梭魯 (213號道路),08:跳跳豬 (214號道路),09:催眠貘 (215號道路),10:信使鳥 (216號道路),11:小山豬 (217號道路),12:霹靂電球 (218號道路),13:大蔥鴨 (221號道路),14:向尾喵 (222號道路),15:天然雀 (224號道路),16:幕下力士 (225號道路),17:大鉗蟹 (226號道路),18:晃晃斑 (227號道路),19:鐵啞鈴 (228號道路),20:波波 (229號道路),21:太陽珊瑚 (230號道路),22:溜溜糖球 (心齊湖),23:大舌頭 (立志湖),24:迷唇娃 (睿智湖),25:落雷獸 (山谷發電廠),26:懶人獺 (百代森林),27:小磁怪 (多多羅鋼鐵廠)

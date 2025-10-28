@@ -1,0 +1,21 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	アーケシュフース	Akershus	Akershus	Akershus	Akershus	Akershus	阿克什胡斯郡	아케르스후스	阿克什胡斯郡
+002	アウスト・ベグダル	Aust-Agder	Aust-Agder	Aust-Agder	Aust-Agder	Aust-Agder	东阿格德尔郡	에우스트아그데르	東阿格德爾郡
+003	ブスケルー	Buskerud	Buskerud	Buskerud	Buskerud	Buskerud	布斯克吕郡	부스케루	布斯克呂郡
+004	フィンマルク	Finnmark	Finnmark	Finnmark	Finnmark	Finnmark	芬马克郡	핀마르크	芬馬克郡
+005	ヘーマルク	Hedmark	Hedmark	Hedmark	Hedmark	Hedmark	海德马克郡	헤드마르크	海德馬克郡
+006	ホーダラン	Hordaland	Hordaland	Hordaland	Hordaland	Hordaland	霍达兰郡	호르달란	霍達蘭郡
+007	ロフォーテンしょとう	Lofoten	Lofoten	Lofoten	Lofoten	Lofoten	罗弗敦群岛	로포텐	羅弗敦群島
+008	ムーレ・オ・ロムスダール	More og Romsdal	Møre og Romsdal	Møre und Romsdal	Møre og Romsdal	Møre og Romsdal	默勒-鲁姆斯达尔郡	뫼레오그롬스달	默勒-魯姆斯達爾郡
+009	ノールラン	Nordland	Nordland	Nordland	Nordland	Nordland	诺尔兰郡	노를란	諾爾蘭郡
+010	ノール・トランデラーグ	Nord-Trondelag	Nord-Trøndelag	Nord-Trøndelag	Nord-Trøndelag	Nord-Trøndelag	北特伦德拉格郡	노르트뢴델라그	北特倫德拉格郡
+011	オップラン	Oppland	Oppland	Oppland	Oppland	Oppland	奥普兰郡	오플란	奧普蘭郡
+012	オスロ	Oslo	Oslo	Oslo	Oslo	Oslo	奥斯陆	오슬로	奧斯陸
+013	ローガラン	Rogaland	Rogaland	Rogaland	Rogaland	Rogaland	罗加兰郡	로갈란	羅加蘭郡
+014	ソグン・オ・フィヨルダーネ	Sogn og Fjordane	Sogn og Fjordane	Sogn und Fjordane	Sogn og Fjordane	Sogn og Fjordane	松恩-菲尤拉讷郡	송노표르다네	松恩-菲尤拉訥郡
+015	ソール・トランデラーグ	Sor-Trondelag	Sør-Trøndelag	Sør-Trøndelag	Sør-Trøndelag	Sør-Trøndelag	南特伦德拉格郡	쇠르트뢴델라그	南特倫德拉格郡
+016	スバルバールしょとう	Svalbard	Svalbard	Svalbard	Svalbard	Svalbard	斯瓦尔巴群岛	스발바르 제도	斯瓦爾巴羣島
+017	テレマルク	Telemark	Telemark	Telemark	Telemark	Telemark	泰勒马克郡	텔레마르크	泰勒馬克郡
+018	トロムス	Troms	Troms	Troms	Troms	Troms	特罗姆斯郡	트롬스	特羅姆斯郡
+019	べスト・アグダル	Vest-Agder	Vest-Agder	Vest-Agder	Vest-Agder	Vest-Agder	西阿格德尔郡	베스트아그데르	西阿格德爾郡
+020	オストフォル	Ostfold	Østfold	Østfold	Østfold	Østfold	东福尔郡	어스트폴	東福爾郡

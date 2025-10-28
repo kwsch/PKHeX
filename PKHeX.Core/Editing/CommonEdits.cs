@@ -1,692 +1,510 @@
-﻿using System;
-using System.Linq;
+using System;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Contains extension logic for modifying <see cref="PKM"/> data.
+/// </summary>
+public static class CommonEdits
 {
     /// <summary>
-    /// Contains extension logic for modifying <see cref="PKM"/> data.
+    /// Setting which enables/disables automatic manipulation of <see cref="IAppliedMarkings"/> when importing from a <see cref="IBattleTemplate"/>.
     /// </summary>
-    public static class CommonEdits
+    public static bool ShowdownSetIVMarkings { get; set; } = true;
+
+    /// <summary>
+    /// Setting which causes the <see cref="PKM.StatNature"/> to the <see cref="PKM.Nature"/> in Gen8+ formats.
+    /// </summary>
+    public static bool ShowdownSetBehaviorNature { get; set; }
+
+    /// <summary>
+    /// Sets the <see cref="PKM.Nickname"/> to the provided value.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="nick"><see cref="PKM.Nickname"/> to set. If no nickname is provided, the <see cref="PKM.Nickname"/> is set to the default value for its current language and format.</param>
+    public static void SetNickname(this PKM pk, string nick)
     {
-        public static bool ShowdownSetIVMarkings { get; set; } = true;
-
-        /// <summary>
-        /// Sets the <see cref="PKM.Nickname"/> to the provided value.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="nick"><see cref="PKM.Nickname"/> to set. If no nickname is provided, the <see cref="PKM.Nickname"/> is set to the default value for its current language and format.</param>
-        public static void SetNickname(this PKM pk, string nick = null)
+        if (nick.Length == 0)
         {
-            if (nick != null)
-            {
-                pk.IsNicknamed = true;
-                pk.Nickname = nick;
-            }
-            else
-            {
-                pk.IsNicknamed = false;
-                pk.Nickname = PKX.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
-                if (pk is PK1 pk1) pk1.SetNotNicknamed();
-                if (pk is PK2 pk2) pk2.SetNotNicknamed();
-            }
+            pk.ClearNickname();
+            return;
         }
+        pk.IsNicknamed = true;
+        pk.Nickname = nick;
+    }
 
-        /// <summary>
-        /// Sets the <see cref="PKM.AltForm"/> value, with special consideration for <see cref="PKM.Format"/> values which derive the <see cref="PKM.AltForm"/> value.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="form">Desired <see cref="PKM.AltForm"/> value to set.</param>
-        public static void SetAltForm(this PKM pk, int form)
+    /// <summary>
+    /// Sets the <see cref="PKM.Nickname"/> to the default value of the current species and language.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <returns>Default nickname for the current species and language.</returns>
+    public static string ClearNickname(this PKM pk)
+    {
+        pk.IsNicknamed = false;
+        string nick = SpeciesName.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
+        pk.SetString(pk.NicknameTrash, nick, nick.Length, StringConverterOption.None);
+        if (pk is GBPKM pk12)
+            pk12.SetNotNicknamed();
+        return nick;
+    }
+
+    /// <summary>
+    /// Sets the <see cref="PKM.Ability"/> value by sanity checking the provided <see cref="PKM.Ability"/> against the possible pool of abilities.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="abilityID">Desired <see cref="Ability"/> value to set.</param>
+    public static void SetAbility(this PKM pk, int abilityID)
+    {
+        if (abilityID < 0)
+            return;
+        var index = pk.PersonalInfo.GetIndexOfAbility(abilityID);
+        if (index < 0)
+            return; // leave original value
+        pk.SetAbilityIndex(index);
+    }
+
+    /// <summary>
+    /// Sets the <see cref="PKM.Ability"/> value based on the provided ability index (0-2)
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="index">Desired <see cref="PKM.AbilityNumber"/> (shifted by 1) to set.</param>
+    public static void SetAbilityIndex(this PKM pk, int index)
+    {
+        if (pk is PK5 pk5 && index == 2)
+            pk5.HiddenAbility = true;
+        else if (pk.Format <= 5)
+            pk.PID = EntityPID.GetRandomPID(Util.Rand, pk.Species, pk.Gender, pk.Version, pk.Nature, pk.Form, (uint)(index * 0x10001));
+        pk.RefreshAbility(index);
+    }
+
+    /// <summary>
+    /// Sets a Random <see cref="PKM.EncryptionConstant"/> value. The <see cref="PKM.EncryptionConstant"/> is not updated if the value should match the <see cref="PKM.PID"/> instead.
+    /// </summary>
+    /// <remarks>Accounts for Wurmple evolutions.</remarks>
+    /// <param name="pk">Pokémon to modify.</param>
+    public static void SetRandomEC(this PKM pk)
+    {
+        var gen = pk.Generation;
+        if (gen is 3 or 4 or 5)
         {
-            switch (pk.Format)
-            {
-                case 2:
-                    while (pk.AltForm != form)
-                        pk.SetRandomIVs();
-                    break;
-                case 3:
-                    pk.SetPIDUnown3(form);
-                    break;
-                default:
-                    pk.AltForm = form;
-                    break;
-            }
+            pk.EncryptionConstant = pk.PID;
+            return;
         }
+        pk.EncryptionConstant = GetComplicatedEC(pk);
+    }
 
-        /// <summary>
-        /// Sets the <see cref="PKM.Ability"/> value by sanity checking the provided <see cref="PKM.Ability"/> against the possible pool of abilities.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="abil">Desired <see cref="PKM.Ability"/> to set.</param>
-        public static void SetAbility(this PKM pk, int abil)
+    /// <summary>
+    /// Sets the <see cref="PKM.IsShiny"/> derived value.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="shiny">Desired <see cref="PKM.IsShiny"/> state to set.</param>
+    public static bool SetIsShiny(this PKM pk, bool shiny) => shiny ? SetShiny(pk) : pk.SetUnshiny();
+
+    /// <summary>
+    /// Makes a <see cref="PKM"/> shiny.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="type">Shiny type to force. Only use Always* or Random</param>
+    /// <returns>Returns true if the <see cref="PKM"/> data was modified.</returns>
+    public static bool SetShiny(PKM pk, Shiny type = Shiny.Random)
+    {
+        if (pk.IsShiny && type.IsValid(pk))
+            return false;
+
+        if (type == Shiny.Random || pk.FatefulEncounter || pk.Version == GameVersion.GO || pk.Format <= 2)
         {
-            if (abil < 0)
-                return;
-            var abilities = pk.PersonalInfo.Abilities;
-            int abilIndex = Array.IndexOf(abilities, abil);
-            abilIndex = Math.Max(0, abilIndex);
-
-            if (pk is PK5 pk5 && abilIndex == 2)
-                pk5.HiddenAbility = true;
-            else if (pk.Format <= 5)
-                pk.PID = PKX.GetRandomPID(pk.Species, pk.Gender, pk.Version, pk.Nature, pk.AltForm, (uint)(abilIndex * 0x10001));
-            pk.RefreshAbility(abilIndex);
-        }
-
-        /// <summary>
-        /// Sets a Random <see cref="PKM.EncryptionConstant"/> value. The <see cref="PKM.EncryptionConstant"/> is not updated if the value should match the <see cref="PKM.PID"/> instead.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        public static void SetRandomEC(this PKM pk)
-        {
-            int gen = pk.GenNumber;
-            if (gen < 6 && gen > 2)
-                pk.EncryptionConstant = pk.PID;
-            else
-                pk.EncryptionConstant = Util.Rand32();
-        }
-
-        /// <summary>
-        /// Sets the <see cref="PKM.IsShiny"/> derived value.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="shiny">Desired <see cref="PKM.IsShiny"/> state to set.</param>
-        /// <returns></returns>
-        public static bool SetIsShiny(this PKM pk, bool shiny) => shiny ? pk.SetShiny() : pk.SetUnshiny();
-
-        /// <summary>
-        /// Makes a <see cref="PKM"/> shiny.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <returns>Returns true if the <see cref="PKM"/> data was modified.</returns>
-        public static bool SetShiny(this PKM pk)
-        {
-            if (pk.IsShiny)
-                return false;
-
-            if (pk.Format > 2)
-                pk.SetShinyPID();
-            else
-                pk.SetShinyIVs();
+            pk.SetShiny();
             return true;
         }
 
-        /// <summary>
-        /// Makes a <see cref="PKM"/> not-shiny.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <returns>Returns true if the <see cref="PKM"/> data was modified.</returns>
-        public static bool SetUnshiny(this PKM pk)
-        {
-            if (!pk.IsShiny)
-                return false;
+        do { pk.SetShiny(); }
+        while (!type.IsValid(pk));
 
-            pk.SetPIDGender(pk.Gender);
-            return true;
-        }
+        return true;
+    }
 
-        /// <summary>
-        /// Sets the <see cref="PKM.Nature"/> value, with special consideration for the <see cref="PKM.Format"/> values which derive the <see cref="PKM.Nature"/> value.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="nature">Desired <see cref="PKM.Nature"/> value to set.</param>
-        public static void SetNature(this PKM pk, int nature)
+    /// <summary>
+    /// Makes a <see cref="PKM"/> not-shiny.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <returns>Returns true if the <see cref="PKM"/> data was modified.</returns>
+    public static bool SetUnshiny(this PKM pk)
+    {
+        if (!pk.IsShiny)
+            return false;
+
+        pk.SetPIDGender(pk.Gender);
+        return true;
+    }
+
+    /// <summary>
+    /// Sets the <see cref="PKM.Nature"/> value, with special consideration for the <see cref="PKM.Format"/> values which derive the <see cref="PKM.Nature"/> value.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="nature">Desired <see cref="PKM.Nature"/> value to set.</param>
+    public static void SetNature(this PKM pk, Nature nature)
+    {
+        if (!nature.IsFixed())
+            nature = 0; // default valid
+
+        var format = pk.Format;
+        if (format >= 8)
+            pk.StatNature = nature;
+        else if (format is 3 or 4)
+            pk.SetPIDNature(nature);
+        else
+            pk.Nature = nature;
+    }
+
+    /// <summary>
+    /// Copies <see cref="IBattleTemplate"/> details to the <see cref="PKM"/>.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="set"><see cref="IBattleTemplate"/> details to copy from.</param>
+    public static void ApplySetDetails(this PKM pk, IBattleTemplate set)
+    {
+        pk.Species = Math.Min(pk.MaxSpeciesID, set.Species);
+        pk.Form = set.Form;
+
+        ReadOnlySpan<ushort> moves = set.Moves;
+        if (moves[0] != 0)
+            pk.SetMoves(moves, true);
+        if (Legal.IsPPUpAvailable(pk))
+            pk.SetMaximumPPUps(moves);
+
+        pk.ApplyHeldItem(set.HeldItem, set.Context);
+        pk.CurrentLevel = set.Level;
+        pk.CurrentFriendship = set.Friendship;
+
+        ReadOnlySpan<int> ivs = set.IVs;
+        ReadOnlySpan<int> evs = set.EVs;
+        pk.SetIVs(ivs);
+
+        if (pk is GBPKM gb)
         {
-            if (pk.Format <= 4)
-                pk.SetPIDNature(Math.Max(0, nature));
+            // In Generation 1/2 Format sets, when IVs are not specified with a Hidden Power set, we might not have the hidden power type.
+            // Under this scenario, just force the Hidden Power type.
+            if (moves.Contains((ushort)Move.HiddenPower) && gb.HPType != set.HiddenPowerType)
+            {
+                if (ivs.ContainsAny(30, 31))
+                    gb.SetHiddenPower(set.HiddenPowerType);
+            }
+
+            // In Generation 1/2 Format sets, when EVs are not specified at all, it implies maximum EVs instead!
+            // Under this scenario, just apply maximum EVs (65535).
+            if (!evs.ContainsAnyExcept(0))
+                gb.MaxEVs();
+            else if (evs.ContainsAnyExceptInRange(0, 252)) // Any specified above 252
+                gb.SetEVs(evs);
             else
-                pk.Nature = Math.Max(0, nature);
+                gb.SetSqrtEVs(evs);
+        }
+        else
+        {
+            pk.SetEVs(evs);
         }
 
-        /// <summary>
-        /// Sets the <see cref="PKM.Nature"/> value, with special consideration for the <see cref="PKM.Format"/> values which derive the <see cref="PKM.Nature"/> value.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="nature">Desired <see cref="PKM.Nature"/> value to set.</param>
-        public static void SetNature(this PKM pk, Nature nature) => pk.SetNature((int) nature);
+        // IVs have no side effects such as hidden power type in gen 8
+        // therefore all specified IVs are deliberate and should not be Hyper Trained for Pokémon met in gen 8
+        if (pk.Generation < 8)
+            pk.SetSuggestedHyperTrainingData(ivs);
 
-        /// <summary>
-        /// Sets the individual PP Up count values depending if a Move is present in the moveslot or not.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="Moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-        public static void SetMaximumPPUps(this PKM pk, int[] Moves = null)
+        if (ShowdownSetIVMarkings)
+            pk.SetMarkings();
+
+        pk.SetNickname(set.Nickname);
+        pk.SetSaneGender(set.Gender);
+
+        if (pk.Format >= 3)
         {
-            if (Moves == null)
-                Moves = pk.Moves;
-
-            pk.Move1_PPUps = GetPPUpCount(Moves[0]);
-            pk.Move2_PPUps = GetPPUpCount(Moves[1]);
-            pk.Move3_PPUps = GetPPUpCount(Moves[2]);
-            pk.Move4_PPUps = GetPPUpCount(Moves[3]);
-
-            pk.SetMaximumPPCurrent(Moves);
-            int GetPPUpCount(int moveID) => moveID > 0 ? 3 : 0;
+            pk.SetAbility(set.Ability);
+            pk.SetNature(set.Nature);
         }
 
-        /// <summary>
-        /// Updates the <see cref="PKM.Moves"/> and updates the current PP counts.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="Moves"><see cref="PKM.Moves"/> to set. Will be resized if 4 entries are not present.</param>
-        /// <param name="maxPP">Option to maximize PP Ups</param>
-        public static void SetMoves(this PKM pk, int[] Moves, bool maxPP = false)
+        pk.SetIsShiny(set.Shiny);
+        pk.SetRandomEC();
+
+        if (pk is IAwakened a)
         {
-            if (Moves.Any(z => z > pk.MaxMoveID))
-                Moves = Moves.Where(z => z <= pk.MaxMoveID).ToArray();
-            if (Moves.Length != 4)
-                Array.Resize(ref Moves, 4);
-
-            pk.Moves = Moves;
-            if (maxPP)
-                pk.SetMaximumPPUps(Moves);
-            else
-                pk.SetMaximumPPCurrent(Moves);
-            pk.FixMoves();
-        }
-
-        /// <summary>
-        /// Updates the individual PP count values for each moveslot based on the maximum possible value.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="Moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-        public static void SetMaximumPPCurrent(this PKM pk, int[] Moves = null)
-        {
-            if (Moves == null)
-                Moves = pk.Moves;
-
-            pk.Move1_PP = Moves.Length <= 0 ? 0 : pk.GetMovePP(Moves[0], pk.Move1_PPUps);
-            pk.Move2_PP = Moves.Length <= 1 ? 0 : pk.GetMovePP(Moves[1], pk.Move2_PPUps);
-            pk.Move3_PP = Moves.Length <= 2 ? 0 : pk.GetMovePP(Moves[2], pk.Move3_PPUps);
-            pk.Move4_PP = Moves.Length <= 3 ? 0 : pk.GetMovePP(Moves[3], pk.Move4_PPUps);
-        }
-
-        /// <summary>
-        /// Sets the <see cref="PKM.Gender"/> value, with special consideration for the <see cref="PKM.Format"/> values which derive the <see cref="PKM.Gender"/> value.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="gender">Desired <see cref="PKM.Gender"/> value to set.</param>
-        public static void SetGender(this PKM pk, string gender)
-        {
-            int g = gender == null
-                ? pk.GetSaneGender()
-                : PKX.GetGenderFromString(gender);
-            pk.SetGender(g);
-        }
-
-        /// <summary>
-        /// Sets the <see cref="PKM.Gender"/> value, with special consideration for the <see cref="PKM.Format"/> values which derive the <see cref="PKM.Gender"/> value.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="gender">Desired <see cref="PKM.Gender"/> value to set.</param>
-        public static void SetGender(this PKM pk, int gender)
-        {
-            gender = Math.Min(2, Math.Max(0, gender));
-            if (pk.Format <= 2)
+            a.SetSuggestedAwakenedValues(pk);
+            if (pk is PB7 b)
             {
-                pk.SetATKIVGender(gender);
-            }
-            else if (pk.Format <= 5)
-            {
-                pk.SetPIDGender(gender);
-                pk.Gender = gender;
-            }
-            else
-            {
-                pk.Gender = gender;
+                for (int i = 0; i < 6; i++)
+                    b.SetEV(i, 0);
+                b.ResetCalculatedValues();
             }
         }
+        if (pk is IGanbaru g)
+            g.SetSuggestedGanbaruValues(pk);
 
-        /// <summary>
-        /// Fetches <see cref="PKM.RelearnMoves"/> based on the provided <see cref="LegalityAnalysis"/>.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="legal"><see cref="LegalityAnalysis"/> which contains parsed information pertaining to legality.</param>
-        /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
-        public static int[] GetSuggestedRelearnMoves(this PKM pk, LegalityAnalysis legal)
+        if (pk is IGigantamax c)
+            c.CanGigantamax = set.CanGigantamax;
+        if (pk is IDynamaxLevel d)
+            d.DynamaxLevel = d.GetSuggestedDynamaxLevel(pk, requested: set.DynamaxLevel);
+        if (pk is ITeraType tera)
         {
-            int[] m = legal.GetSuggestedRelearn();
-            if (!m.All(z => z == 0))
-                return m;
-
-            if (pk.WasEgg || pk.WasEvent || pk.WasEventEgg || pk.WasLink)
-                return m;
-
-            var encounter = legal.GetSuggestedMetInfo();
-            if (encounter != null)
-                m = encounter.Relearn;
-
-            return m;
+            var type = set.TeraType == MoveType.Any ? (MoveType)pk.PersonalInfo.Type1 : set.TeraType;
+            tera.SetTeraType(type);
         }
 
-        /// <summary>
-        /// Sanity checks the provided <see cref="PKM.Gender"/> value, and returns a sane value.
-        /// </summary>
-        /// <param name="pkm"></param>
-        /// <returns>Most-legal <see cref="PKM.Gender"/> value</returns>
-        public static int GetSaneGender(this PKM pkm)
+        if (pk is IMoveShop8Mastery s)
+            s.SetMoveShopFlags(set.Moves, pk);
+
+        if (ShowdownSetBehaviorNature && pk.Format >= 8)
+            pk.Nature = pk.StatNature;
+
+        var legal = new LegalityAnalysis(pk);
+        if (pk is ITechRecord t)
         {
-            int gt = pkm.PersonalInfo.Gender;
-            switch (gt)
-            {
-                case 255: return 2; // Genderless
-                case 254: return 1; // Female-Only
-                case 0: return 0; // Male-Only
-            }
-            if (!pkm.IsGenderValid())
-                return PKX.GetGenderFromPIDAndRatio(pkm.PID, gt);
-            return pkm.Gender;
+            t.ClearRecordFlags();
+            t.SetRecordFlags(set.Moves, legal.Info.EvoChainsAllGens.Get(pk.Context));
         }
 
-        /// <summary>
-        /// Copies <see cref="ShowdownSet"/> details to the <see cref="PKM"/>.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="Set"><see cref="ShowdownSet"/> details to copy from.</param>
-        public static void ApplySetDetails(this PKM pk, ShowdownSet Set)
+        if (pk is IPlusRecord plus && pk.PersonalInfo is IPermitPlus permit)
         {
-            pk.Species = Math.Min(pk.MaxSpeciesID, Set.Species);
-            pk.SetMoves(Set.Moves, true);
-            pk.ApplyHeldItem(Set.HeldItem, Set.Format);
-            pk.CurrentLevel = Set.Level;
-            pk.CurrentFriendship = Set.Friendship;
-            pk.IVs = Set.IVs;
-            pk.EVs = Set.EVs;
-
-            pk.SetSuggestedHyperTrainingData(Set.IVs);
-            if (ShowdownSetIVMarkings)
-                pk.SetMarkings();
-
-            pk.SetNickname(Set.Nickname);
-            pk.SetAltForm(Set.FormIndex);
-            pk.SetGender(Set.Gender);
-            pk.SetMaximumPPUps(Set.Moves);
-            pk.SetAbility(Set.Ability);
-            pk.SetNature(Set.Nature);
-            pk.SetIsShiny(Set.Shiny);
-            pk.SetRandomEC();
-
-            var legal = new LegalityAnalysis(pk);
-            if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
-                pk.RelearnMoves = pk.GetSuggestedRelearnMoves(legal);
-            pk.RefreshChecksum();
+            plus.ClearPlusFlags(permit.PlusCountTotal);
+            plus.SetPlusFlags(permit, legal, true, true);
         }
 
-        /// <summary>
-        /// Sets the <see cref="PKM.HeldItem"/> value depending on the current format and the provided item index & format.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="item">Held Item to apply</param>
-        /// <param name="format">Format required for importing</param>
-        public static void ApplyHeldItem(this PKM pk, int item, int format)
-        {
-            if (item <= 0)
-            {
-                pk.HeldItem = 0;
-                return;
-            }
+        if (legal.Parsed && !MoveResult.AllValid(legal.Info.Relearn))
+            pk.SetRelearnMoves(legal);
+        pk.ResetPartyStats();
+        pk.RefreshChecksum();
+    }
 
-            if (format <= 3 && pk.Format != format)
+    /// <summary>
+    /// Sets the <see cref="PKM.HeldItem"/> value depending on the current format and the provided item index &amp; format.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="item">Held Item to apply</param>
+    /// <param name="context">Format required for importing</param>
+    public static void ApplyHeldItem(this PKM pk, int item, EntityContext context)
+    {
+        item = ItemConverter.GetItemForFormat(item, context, pk.Context);
+        pk.HeldItem = ((uint)item > pk.MaxItemID) ? 0 : item;
+    }
+
+    /// <summary>
+    /// Sets one of the <see cref="EffortValues"/> based on its index within the array.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="index">Index to set to</param>
+    /// <param name="value">Value to set</param>
+    public static int SetEV(this PKM pk, int index, int value) => index switch
+    {
+        0 => pk.EV_HP = value,
+        1 => pk.EV_ATK = value,
+        2 => pk.EV_DEF = value,
+        3 => pk.EV_SPE = value,
+        4 => pk.EV_SPA = value,
+        5 => pk.EV_SPD = value,
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
+    };
+
+    /// <summary>
+    /// Sets one of the <see cref="PKM.IVs"/> based on its index within the array.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="index">Index to set to</param>
+    /// <param name="value">Value to set</param>
+    public static int SetIV(this PKM pk, int index, int value) => index switch
+    {
+        0 => pk.IV_HP = value,
+        1 => pk.IV_ATK = value,
+        2 => pk.IV_DEF = value,
+        3 => pk.IV_SPE = value,
+        4 => pk.IV_SPA = value,
+        5 => pk.IV_SPD = value,
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
+    };
+
+    /// <summary>
+    /// Fetches the highest value the provided <see cref="EffortValues"/> index can be while considering others.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="index">Index to fetch for</param>
+    /// <returns>Highest value the value can be.</returns>
+    public static int GetMaximumEV(this PKM pk, int index)
+    {
+        if (pk.Format < 3)
+            return EffortValues.Max12;
+
+        var sum = pk.EVTotal - pk.GetEV(index);
+        int remaining = EffortValues.Max510 - sum;
+        return Math.Clamp(remaining, 0, EffortValues.Max252);
+    }
+
+    /// <summary>
+    /// Fetches the highest value the provided <see cref="PKM.IVs"/>.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="index">Index to fetch for</param>
+    /// <param name="allow30">Causes the returned value to be dropped down -1 if the value is already at a maximum.</param>
+    /// <returns>Highest value the value can be.</returns>
+    public static int GetMaximumIV(this PKM pk, int index, bool allow30 = false)
+    {
+        if (pk.GetIV(index) == pk.MaxIV && allow30)
+            return pk.MaxIV - 1;
+        return pk.MaxIV;
+    }
+
+    /// <summary>
+    /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
+    /// </summary>
+    /// <param name="pk">PKM to apply hatch details to</param>
+    /// <param name="tr">Trainer to force hatch with if Version is not currently set.</param>
+    /// <param name="reHatch">Re-hatch already hatched <see cref="PKM"/> inputs</param>
+    public static void ForceHatchPKM(this PKM pk, ITrainerInfo? tr = null, bool reHatch = false)
+    {
+        if (!pk.IsEgg && !reHatch)
+            return;
+        pk.IsEgg = false;
+        pk.ClearNickname();
+        pk.OriginalTrainerFriendship = Math.Min(pk.OriginalTrainerFriendship, EggStateLegality.GetEggHatchFriendship(pk.Context));
+        if (pk.IsTradedEgg)
+            pk.EggLocation = pk.MetLocation;
+        if (pk.Version == 0)
+            pk.Version = EggStateLegality.GetEggHatchVersion(pk, tr?.Version ?? RecentTrainerCache.Version);
+        var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pk);
+        if (loc != EncounterSuggestion.LocationNone)
+            pk.MetLocation = loc;
+        if (pk.Format >= 4)
+            pk.MetDate = EncounterDate.GetDate(pk.Context.GetConsole());
+        if (pk.Gen6)
+            pk.SetHatchMemory6();
+    }
+
+    /// <summary>
+    /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
+    /// </summary>
+    /// <param name="pk">PKM to apply hatch details to</param>
+    /// <param name="origin">Game the egg originated from</param>
+    /// <param name="dest">Game the egg is currently present on</param>
+    public static void SetEggMetData(this PKM pk, GameVersion origin, GameVersion dest)
+    {
+        if (pk.Format < 4)
+            return;
+
+        var console = pk.Context.GetConsole();
+        var date = EncounterDate.GetDate(console);
+        var today = pk.MetDate = date;
+        bool traded = origin != dest;
+        pk.EggLocation = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.Generation, origin, traded);
+        pk.EggMetDate = today;
+    }
+
+    /// <summary>
+    /// Maximizes the <see cref="PKM.CurrentFriendship"/>. If the <see cref="PKM.IsEgg"/>, the hatch counter is set to 1.
+    /// </summary>
+    /// <param name="pk">PKM to apply hatch details to</param>
+    public static void MaximizeFriendship(this PKM pk)
+    {
+        if (pk.IsEgg)
+            pk.OriginalTrainerFriendship = 1;
+        else
+            pk.CurrentFriendship = byte.MaxValue;
+        if (pk is ICombatPower pb)
+            pb.ResetCP();
+    }
+
+    /// <summary>
+    /// Maximizes the <see cref="PKM.CurrentLevel"/>. If the <see cref="PKM.IsEgg"/>, the <see cref="PKM"/> is ignored.
+    /// </summary>
+    /// <param name="pk">PKM to apply hatch details to</param>
+    public static void MaximizeLevel(this PKM pk)
+    {
+        if (pk.IsEgg)
+            return;
+        pk.CurrentLevel = Experience.MaxLevel;
+        if (pk is ICombatPower pb)
+            pb.ResetCP();
+    }
+
+    /// <summary>
+    /// Sets the <see cref="PKM.Nickname"/> to its default value.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="la">Precomputed optional</param>
+    public static void SetDefaultNickname(this PKM pk, LegalityAnalysis la)
+    {
+        if (la is { Parsed: true, EncounterOriginal: IFixedNickname {IsFixedNickname: true} t })
+            pk.SetNickname(t.GetNickname(pk.Language));
+        else
+            pk.ClearNickname();
+    }
+
+    /// <summary>
+    /// Sets the <see cref="PKM.Nickname"/> to its default value.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    public static void SetDefaultNickname(this PKM pk) => pk.SetDefaultNickname(new LegalityAnalysis(pk));
+
+    // Extensions
+    /// <summary>
+    /// Gets the Location Name for the <see cref="PKM"/>
+    /// </summary>
+    /// <param name="pk">PKM to fetch data for</param>
+    /// <param name="eggmet">Location requested is the egg obtained location, not met location.</param>
+    /// <returns>Location string</returns>
+    public static string GetLocationString(this PKM pk, bool eggmet)
+    {
+        if (pk.Format < 2)
+            return string.Empty;
+
+        ushort location = eggmet ? pk.EggLocation : pk.MetLocation;
+        return GameInfo.GetLocationName(eggmet, location, pk.Format, pk.Generation, pk.Version);
+    }
+
+    public const char OptionNone = '\0';
+
+    /// <summary>
+    /// Gets a <see cref="PKM.EncryptionConstant"/> to match the requested option.
+    /// </summary>
+    public static uint GetComplicatedEC(ISpeciesForm pk, char option = OptionNone)
+    {
+        var species = pk.Species;
+        var form = pk.Form;
+        return GetComplicatedEC(species, form, option);
+    }
+
+    /// <inheritdoc cref="GetComplicatedEC(ISpeciesForm,char)"/>
+    public static uint GetComplicatedEC(ushort species, byte form, char option = OptionNone)
+    {
+        var rng = Util.Rand;
+        uint rand = rng.Rand32();
+        uint mod, noise;
+        if (species is >= (int)Species.Wurmple and <= (int)Species.Dustox)
+        {
+            mod = 10;
+            bool lower = option is '0' or 'B' or 'S' || WurmpleUtil.GetWurmpleEvoGroup(species) == 0;
+            noise = (lower ? 0u : 5u) + (uint)rng.Next(0, 5);
+        }
+        else if (species is (int)Species.Dunsparce or (int)Species.Dudunsparce or (int)Species.Tandemaus or (int)Species.Maushold)
+        {
+            mod = 100;
+            noise = species switch
             {
-                if (pk.Format > 3) // try remapping
+                // Retain requisite correlation to allow for evolving into this species too.
+                (int)Species.Dudunsparce => form == 1 ? 0 : (uint)rng.Next(1, 100), // 3 Segment
+                (int)Species.Maushold => form == 0 ? 0 : (uint)rng.Next(1, 100), // Family of 3
+
+                // Otherwise, check if one is preferred, and if not, just make it the more common outcome.
+                _ => option switch
                 {
-                    item = format == 2 ? ItemConverter.GetG4Item((byte) item) : ItemConverter.GetG4Item((ushort) item);
-                    pk.ApplyHeldItem(item, pk.Format);
-                    return;
-                }
-
-                if (pk.Format > format) // can't set past gen items
-                {
-                    pk.HeldItem = 0;
-                    return;
-                }
-
-                // ShowdownSet checks gen3 then gen2. For gen2 collisions (if any?) remap 3->4->2.
-                item = ItemConverter.GetG4Item((ushort) item);
-                item = ItemConverter.GetG2Item((ushort) item);
-                if (item == 0 || item < 0)
-                {
-                    pk.HeldItem = 0;
-                    return;
-                }
-            }
-
-            switch (pk.Format)
-            {
-                case 3: pk.HeldItem = ItemConverter.GetG3Item((ushort)item); break;
-                case 2: pk.HeldItem = ItemConverter.GetG2Item((ushort)item); break;
-                case 1: pk.HeldItem = 0; break;
-                default: pk.HeldItem = item; break;
-            }
-
-            if (pk.HeldItem > pk.MaxItemID)
-                pk.HeldItem = 0;
+                    '0' or '3' => 0u,
+                    _ => (uint)rng.Next(1, 100),
+                },
+            };
         }
-
-        /// <summary>
-        /// Sets all Memory related data to the default value (zero).
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        public static void ClearMemories(this PKM pk)
+        else if (option is >= '0' and <= '5')
         {
-            pk.OT_Memory = pk.OT_Affection = pk.OT_Feeling = pk.OT_Intensity = pk.OT_TextVar =
-            pk.HT_Memory = pk.HT_Affection = pk.HT_Feeling = pk.HT_Intensity = pk.HT_TextVar = 0;
+            mod = 6;
+            noise = (uint)(option - '0');
         }
-
-        /// <summary>
-        /// Sets the <see cref="PKM.Markings"/> to indicate flawless (or near-flawless) <see cref="PKM.IVs"/>.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="IVs"><see cref="PKM.IVs"/> to use (if already known). Will fetch the current <see cref="PKM.IVs"/> if not provided.</param>
-        public static void SetMarkings(this PKM pk, int[] IVs = null)
+        else
         {
-            if (pk.Format <= 3)
-                return; // no markings (gen3 only has 4; can't mark stats intelligently
-
-            if (IVs == null)
-                IVs = pk.IVs;
-            var markings = IVs.Select(MarkingMethod(pk)).ToArray();
-            pk.Markings = PKX.ReorderSpeedLast(markings);
+            return rand;
         }
-
-        public static Func<PKM, Func<int, int, int>> MarkingMethod { get; set; } = FlagHighLow;
-        private static Func<int, int, int> FlagHighLow(PKM pk)
-        {
-            if (pk.Format < 7)
-                return GetSimpleMarking;
-            return GetComplexMarking;
-
-            int GetSimpleMarking(int val, int _) => val == 31 ? 1 : 0;
-            int GetComplexMarking(int val, int _)
-            {
-                if (val == 31 || val == 1)
-                    return 1;
-                if (val == 30 || val == 0)
-                    return 2;
-                return 0;
-            }
-        }
-
-        /// <summary>
-        /// Sets one of the <see cref="PKM.EVs"/> based on its index within the array.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="index">Index to set to</param>
-        /// <param name="value">Value to set</param>
-        public static void SetEV(this PKM pk, int index, int value)
-        {
-            switch (index)
-            {
-                case 0: pk.EV_HP = value; break;
-                case 1: pk.EV_ATK = value; break;
-                case 2: pk.EV_DEF = value; break;
-                case 3: pk.EV_SPE = value; break;
-                case 4: pk.EV_SPA = value; break;
-                case 5: pk.EV_SPD = value; break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-        /// <summary>
-        /// Sets one of the <see cref="PKM.IVs"/> based on its index within the array.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="index">Index to set to</param>
-        /// <param name="value">Value to set</param>
-        public static void SetIV(this PKM pk, int index, int value)
-        {
-            switch (index)
-            {
-                case 0: pk.IV_HP = value; break;
-                case 1: pk.IV_ATK = value; break;
-                case 2: pk.IV_DEF = value; break;
-                case 3: pk.IV_SPE = value; break;
-                case 4: pk.IV_SPA = value; break;
-                case 5: pk.IV_SPD = value; break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-
-        /// <summary>
-        /// Gets one of the <see cref="PKM.EVs"/> based on its index within the array.
-        /// </summary>
-        /// <param name="pk">Pokémon to check.</param>
-        /// <param name="index">Index to get</param>
-        public static int GetEV(this PKM pk, int index)
-        {
-            switch (index)
-            {
-                case 0: return pk.EV_HP ;
-                case 1: return pk.EV_ATK;
-                case 2: return pk.EV_DEF;
-                case 3: return pk.EV_SPE;
-                case 4: return pk.EV_SPA;
-                case 5: return pk.EV_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-        /// <summary>
-        /// Gets one of the <see cref="PKM.IVs"/> based on its index within the array.
-        /// </summary>
-        /// <param name="pk">Pokémon to check.</param>
-        /// <param name="index">Index to get</param>
-        public static int GetIV(this PKM pk, int index)
-        {
-            switch (index)
-            {
-                case 0: return pk.IV_HP ;
-                case 1: return pk.IV_ATK;
-                case 2: return pk.IV_DEF;
-                case 3: return pk.IV_SPE;
-                case 4: return pk.IV_SPA;
-                case 5: return pk.IV_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
-
-        /// <summary>
-        /// Updates the <see cref="PKM.IV_ATK"/> for a Generation 1/2 format <see cref="PKM"/>.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="gender">Desired <see cref="PKM.Gender"/>.</param>
-        public static void SetATKIVGender(this PKM pk, int gender)
-        {
-            do { pk.IV_ATK = Util.Rand.Next(pk.MaxIV + 1); }
-            while (pk.Gender != gender);
-        }
-
-        /// <summary>
-        /// Fetches the highest value the provided <see cref="PKM.EVs"/> index can be while considering others.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="index">Index to fetch for</param>
-        /// <returns>Highest value the value can be.</returns>
-        public static int GetMaximumEV(this PKM pk, int index)
-        {
-            if (pk.Format < 3)
-                return ushort.MaxValue;
-
-            var EVs = pk.EVs;
-            EVs[index] = 0;
-            var sum = EVs.Sum();
-            int remaining = 510 - sum;
-            var newEV = Math.Min(Math.Max(remaining, 0), 252);
-            return newEV;
-        }
-
-        /// <summary>
-        /// Fetches the highest value the provided <see cref="PKM.IVs"/>.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="index">Index to fetch for</param>
-        /// <param name="Allow30">Causes the returned value to be dropped down -1 if the value is already at a maxmimum.</param>
-        /// <returns>Highest value the value can be.</returns>
-        public static int GetMaximumIV(this PKM pk, int index, bool Allow30 = false)
-        {
-            if (pk.IVs[index] == pk.MaxIV && Allow30)
-                return pk.MaxIV - 1;
-            return pk.MaxIV;
-        }
-
-        /// <summary>
-        /// Sets the <see cref="PKM.IVs"/> to match a provided <see cref="hptype"/>.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="hptype">Desired Hidden Power typing.</param>
-        public static void SetHiddenPower(this PKM pk, int hptype)
-        {
-            var IVs = pk.IVs;
-            HiddenPower.SetIVsForType(hptype, pk.IVs);
-            pk.IVs = IVs;
-        }
-
-        /// <summary>
-        /// Sets the <see cref="PKM.IVs"/> to match a provided <see cref="hptype"/>.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="hptype">Desired Hidden Power typing.</param>
-        public static void SetHiddenPower(this PKM pk, MoveType hptype) => pk.SetHiddenPower((int) hptype);
-
-        /// <summary>
-        /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
-        /// </summary>
-        /// <param name="pkm">PKM to apply hatch details to</param>
-        /// <param name="reHatch">Re-hatch already hatched <see cref="PKM"/> inputs</param>
-        public static void ForceHatchPKM(this PKM pkm, bool reHatch = false)
-        {
-            if (!pkm.IsEgg && !reHatch)
-                return;
-            pkm.IsEgg = false;
-            pkm.SetNickname();
-            pkm.CurrentFriendship = pkm.PersonalInfo.BaseFriendship;
-            var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pkm);
-            if (loc >= 0)
-                pkm.Met_Location = loc;
-            pkm.MetDate = DateTime.Today;
-            if (pkm.Gen6)
-                pkm.SetHatchMemory6();
-        }
-
-        /// <summary>
-        /// Maximizes the <see cref="PKM.CurrentFriendship"/>. If the <see cref="PKM.IsEgg"/>, the hatch counter is set to 1.
-        /// </summary>
-        /// <param name="pkm">PKM to apply hatch details to</param>
-        public static void MaximizeFriendship(this PKM pkm)
-        {
-            if (pkm.IsEgg)
-                pkm.OT_Friendship = 1;
-            else
-                pkm.CurrentFriendship = byte.MaxValue;
-        }
-
-        /// <summary>
-        /// Maximizes the <see cref="PKM.CurrentLevel"/>. If the <see cref="PKM.IsEgg"/>, the <see cref="PKM"/> is ignored.
-        /// </summary>
-        /// <param name="pkm">PKM to apply hatch details to</param>
-        public static void MaximizeLevel(this PKM pkm)
-        {
-            if (pkm.IsEgg)
-                return;
-            pkm.CurrentLevel = 100;
-        }
-
-        /// <summary>
-        /// Gets a moveset for the provided <see cref="PKM"/> data.
-        /// </summary>
-        /// <param name="pkm">PKM to generate for</param>
-        /// <param name="random">Full movepool & shuffling</param>
-        /// <param name="la">Precomputed optional</param>
-        /// <returns>4 moves</returns>
-        public static int[] GetMoveSet(this PKM pkm, bool random = false, LegalityAnalysis la = null)
-        {
-            if (la == null)
-                la = new LegalityAnalysis(pkm);
-            int[] m = la.GetSuggestedMoves(tm: random, tutor: random, reminder: random);
-            if (m == null)
-                return pkm.Moves;
-
-            if (!m.All(z => la.AllSuggestedMovesAndRelearn.Contains(z)))
-                m = m.Intersect(la.AllSuggestedMovesAndRelearn).ToArray();
-
-            if (random)
-                Util.Shuffle(m);
-
-            const int count = 4;
-            if (m.Length > count)
-                return m.Skip(m.Length - count).ToArray();
-            Array.Resize(ref m, count);
-            return m;
-        }
-
-        /// <summary>
-        /// Toggles the marking at a given index.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="index">Marking index to toggle</param>
-        /// <param name="markings">Current marking values (optional)</param>
-        /// <returns>Current marking values</returns>
-        public static int[] ToggleMarking(this PKM pk, int index, int[] markings = null)
-        {
-            if (markings == null)
-                markings = pk.Markings;
-            switch (pk.Format)
-            {
-                case 3:
-                case 4:
-                case 5:
-                case 6: // on/off
-                    markings[index] ^= 1; // toggle
-                    pk.Markings = markings;
-                    break;
-                case 7: // 0 (none) | 1 (blue) | 2 (pink)
-                    markings[index] = (markings[index] + 1) % 3; // cycle
-                    pk.Markings = markings;
-                    break;
-            }
-            return markings;
-        }
-
-        /// <summary>
-        /// Sets the Memory details to a Hatched Egg's memories.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        public static void SetHatchMemory6(this PKM pk)
-        {
-            pk.OT_Memory = 2;
-            pk.OT_Affection = 0;
-            pk.OT_Feeling = Memories.GetRandomFeeling(pk.OT_Memory);
-            pk.OT_Intensity = 1;
-            pk.OT_TextVar = pk.XY ? 43 : 27; // riverside road : battling spot
-        }
-
-        /// <summary>
-        /// Sets a random memory specific to <see cref="GameVersion.Gen6"/> locality.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        public static void SetRandomMemory6(this PKM pk)
-        {
-            // for lack of better randomization :)
-            pk.OT_Memory = 63;
-            pk.OT_Intensity = 6;
-            pk.OT_Feeling = Memories.GetRandomFeeling(pk.OT_Memory);
-        }
-
-        /// <summary>
-        /// Sets the <see cref="PKM.Nickname"/> to its default value.
-        /// </summary>
-        /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="la">Precomputed optional</param>
-        public static void SetDefaultNickname(this PKM pk, LegalityAnalysis la = null)
-        {
-            if (la == null)
-                la = new LegalityAnalysis(pk);
-            if (la.Parsed && la.EncounterOriginal is EncounterTrade t && t.HasNickname)
-                pk.SetNickname(t.GetNickname(pk.Language));
-            else
-                pk.SetNickname();
-        }
+        return unchecked(rand - (rand % mod) + noise);
     }
 }

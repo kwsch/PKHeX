@@ -1,68 +1,65 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+public sealed class SecretBase3Team
 {
-    public class SecretBase3Team
+    private const int O_PID = 0;
+    private const int O_Moves = 0x18;
+    private const int O_Species = 0x48;
+    private const int O_Item = 0x54;
+    private const int O_Level = 0x60;
+    private const int O_EV = 0x66;
+
+    private static int GetOffsetPID(int index) => O_PID + (index * 4);
+    private static int GetOffsetMove(int index, int moveIndex) => O_Moves + (index * 8) + (moveIndex * 2);
+    private static int GetOffsetSpecies(int index) => O_Species + (index * 2);
+    private static int GetOffsetItem(int index) => O_Item + (index * 2);
+
+    public readonly SecretBase3PKM[] Team;
+    private readonly Memory<byte> Raw;
+    public Span<byte> Data => Raw.Span;
+
+    public SecretBase3Team(Memory<byte> raw)
     {
-        private const int O_PID = 0;
-        private const int O_Moves = 0x18;
-        private const int O_Species = 0x24;
-        private const int O_Item = 0x30;
-        private const int O_Level = 0x3C;
-        private const int O_EV = 0x42;
+        Raw = raw;
+        Team = new SecretBase3PKM[6];
+        for (int i = 0; i < Team.Length; i++)
+            Team[i] = GetPKM(i);
+    }
 
-        private static int GetOffsetPID(int i) => O_PID + (i * 4);
-        private static int GetOffsetMove(int i, int move) => O_Moves + (i * 8) + (move * 2);
-        private static int GetOffsetSpecies(int i) => O_Species + (i * 2);
-        private static int GetOffsetItem(int i) => O_Item + (i * 2);
+    public byte[] Write()
+    {
+        for (int i = 0; i < Team.Length; i++)
+            SetPKM(i);
+        return Data.ToArray();
+    }
 
-        public readonly SecretBase3PKM[] Team;
-        private readonly byte[] Data;
-        public SecretBase3Team(byte[] data)
-        {
-            Team = new SecretBase3PKM[6];
-            for (int i = 0; i < Team.Length; i++)
-                Team[i] = GetPKM(i);
-            Data = data;
-        }
+    private SecretBase3PKM GetPKM(int index) => new()
+    {
+        PID = ReadUInt32LittleEndian(Data[GetOffsetPID(index)..]),
+        SpeciesInternal = ReadUInt16LittleEndian(Data[GetOffsetSpecies(index)..]),
+        HeldItem = ReadUInt16LittleEndian(Data[GetOffsetItem(index)..]),
+        Move1 = ReadUInt16LittleEndian(Data[GetOffsetMove(index, 0)..]),
+        Move2 = ReadUInt16LittleEndian(Data[GetOffsetMove(index, 1)..]),
+        Move3 = ReadUInt16LittleEndian(Data[GetOffsetMove(index, 2)..]),
+        Move4 = ReadUInt16LittleEndian(Data[GetOffsetMove(index, 3)..]),
+        Level = Data[O_Level + index],
+        EVAll = Data[O_EV + index],
+    };
 
-        public byte[] Write()
-        {
-            for (int i = 0; i < Team.Length; i++)
-                SetPKM(i);
-            return Data;
-        }
-
-        private SecretBase3PKM GetPKM(int i)
-        {
-            return new SecretBase3PKM
-            {
-                PID = BitConverter.ToUInt32(Data, GetOffsetPID(i)),
-                Species = BitConverter.ToUInt16(Data, GetOffsetSpecies(i)),
-                HeldItem = BitConverter.ToUInt16(Data, GetOffsetItem(i)),
-                Move1 = BitConverter.ToUInt16(Data, GetOffsetMove(i, 0)),
-                Move2 = BitConverter.ToUInt16(Data, GetOffsetMove(i, 1)),
-                Move3 = BitConverter.ToUInt16(Data, GetOffsetMove(i, 2)),
-                Move4 = BitConverter.ToUInt16(Data, GetOffsetMove(i, 3)),
-                Level = Data[O_Level + i],
-                EVAll = Data[O_EV + i],
-            };
-        }
-
-        private void SetPKM(int i)
-        {
-            var pk = Team[i];
-            BitConverter.GetBytes((uint) pk.PID).CopyTo(Data, GetOffsetPID(i));
-            BitConverter.GetBytes((ushort)pk.Species).CopyTo(Data, GetOffsetSpecies(i));
-            BitConverter.GetBytes((ushort)pk.HeldItem).CopyTo(Data, GetOffsetItem(i));
-            BitConverter.GetBytes((ushort)pk.Move1).CopyTo(Data, GetOffsetMove(i, 0));
-            BitConverter.GetBytes((ushort)pk.Move2).CopyTo(Data, GetOffsetMove(i, 1));
-            BitConverter.GetBytes((ushort)pk.Move3).CopyTo(Data, GetOffsetMove(i, 2));
-            BitConverter.GetBytes((ushort)pk.Move4).CopyTo(Data, GetOffsetMove(i, 3));
-            Data[O_Level + i] = (byte) pk.Level;
-            Data[O_EV + i] = (byte) pk.EVAll;
-
-            BitConverter.GetBytes((uint) pk.PID).CopyTo(Data, GetOffsetPID(i));
-        }
+    private void SetPKM(int index)
+    {
+        var pk = Team[index];
+        WriteUInt32LittleEndian(Data[GetOffsetPID(index)..], pk.PID);
+        WriteUInt16LittleEndian(Data[GetOffsetSpecies(index)..], pk.SpeciesInternal);
+        WriteUInt16LittleEndian(Data[GetOffsetItem(index)..], pk.HeldItem);
+        WriteUInt16LittleEndian(Data[GetOffsetMove(index, 0)..], pk.Move1);
+        WriteUInt16LittleEndian(Data[GetOffsetMove(index, 1)..], pk.Move2);
+        WriteUInt16LittleEndian(Data[GetOffsetMove(index, 2)..], pk.Move3);
+        WriteUInt16LittleEndian(Data[GetOffsetMove(index, 3)..], pk.Move4);
+        Data[O_Level + index] = pk.Level;
+        Data[O_EV + index] = pk.EVAll;
     }
 }

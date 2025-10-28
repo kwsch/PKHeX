@@ -1,0 +1,5 @@
+Ejemplares capturados por la mañana
+Ejemplares capturados al mediodía
+Ejemplares capturados por la tarde
+Ejemplares capturados por la noche
+Ejemplares capturados durante el día

@@ -1,0 +1,27 @@
+Ejemplares capturados
+Veces que lo has visto usar {0}
+Ejemplares derrotados con movimientos de tipo {0}
+Ejemplares derrotados
+Ejemplares evolucionados
+Ejemplares alfa capturados
+Ejemplares grandes capturados
+Ejemplares pequeños capturados
+Ejemplares pesados capturados
+Ejemplares ligeros capturados
+Ejemplares capturados durante el {0}
+Ejemplares capturados mientras dormían
+Ejemplares capturados en el aire
+Ejemplares capturados sin que te detecten
+Veces que lo has alimentado
+Veces que lo has fatigado
+Veces que lo has asustado con una Bola Ruidosa
+Veces que lo has atraído con una Poké Muñeca
+Veces que ha usado movimientos con estilo fuerte
+Veces que ha usado movimientos con estilo rápido
+Ejemplares avistados saliendo de árboles
+Ejemplares avistados saliendo de hojas caídas
+Ejemplares avistados saliendo de montones de nieve
+Ejemplares avistados saliendo de rocas agrietadas
+Ejemplares avistados saliendo de matas de hierba
+Variaciones de forma y aspecto avistadas
+Has recibido la gracia de Arceus

@@ -1,0 +1,255 @@
+Premiers Pas
+Prix d'Honneur
+Médaillé Novice
+Médaillé d'Élite
+Médaillé Maître
+Médaillé Légendaire
+Numismate
+Marcheur du Dimanche
+Marcheur Assidu
+Marcheur Chevronné
+Vieux Routard
+Archiviste Débutant
+Archiviste Confirmé
+Archiviste Expert
+Grand Conservateur
+Fan du Centre Pokémon
+Novice des Panneaux
+Prince des Panneaux
+Critique d'Art de Rue
+Cycliste Débutant
+Cycliste Pépère
+Cycliste Passionné
+Légende du Guidon
+Pêcheur du Dimanche
+Super Pêcheur
+Méga Pêcheur
+Champion de l'Hameçon
+Collectionneur Normal
+Collectionneur Feu
+Collectionneur Eau
+Collectionneur Électr
+Collectionneur Plante
+Collectionneur Glace
+Collectionneur Combat
+Collectionneur Poison
+Collectionneur Sol
+Collectionneur Vol
+Collectionneur Psy
+Collectionneur Insect
+Collectionneur Roche
+Collectionneur Spectr
+Collectionneur Dragon
+Collectionneur Ténèbr
+Collectionneur Acier
+Collection Unys
+Collection Nationale
+30 en Boîte
+120 en Boîte
+360 en Boîte
+À Ras Bords
+Coup de Filet
+Maître du Distributeur
+Garçon, une autre!
+Espoir de l'Évolution
+Technicien Évolution
+Expert de l'Évolution
+Évolution en Marche
+Écuyer du Ciel
+Fortiche
+Grand Chiffonnier
+Jeune Radiesthésiste
+Grand Radiesthésiste
+Expert Radiesthésiste
+Roi du Cherch'Objet
+Nominator
+Enfant de la Télé
+Client Régulier
+Grosses Dépenses
+Folles Dépenses
+Dépenses Somptuaires
+Ploutocrate
+Sens des Affaires
+Home, Sweet Home
+Premier Chassé-Croisé
+30 Chassés-Croisés
+100 Chassés-Croisés
+Heure de Pointe
+Offri-Aura +
+Offri-Aura ++
+Offri-Aura +++
+Offri-Aura MAX
+Roupillon Productif
+Sieste Productive
+Sommeil Productif
+Fais de Beaux Rêves!
+Garde-Forestier
+Couveur Débutant
+Couveur Amateur
+Couveur Confirmé
+Miracle de la Vie
+Habitué de la Pension
+Paléontologue
+Pur et Innocent
+Couleur Chance
+Pokérussologue
+Caïd de Volucité
+Mordu des Trains
+Coucou Wailord!
+Souvenir de Vacances
+Mordu de Mécanique
+Archéologue
+Vent de Glace
+Mordu des Ponts
+Le Tour d'Unys
+Roi de l'Aventure
+Combattant Apprenti
+Combattant Confirmé
+Maître Combattant
+Vétéran du Combat
+Duelliste Débutant
+Duelliste Pionnier
+Duelliste Expert
+Belliciste
+Prix Magicarpe
+Irréductible
+Roi de la Gaffe
+Superbement Efficace
+Voyageur 3e Classe
+Voyageur 2e Classe
+Voyageur 1re Classe
+Train d'Enfer
+Solo Express
+Duo Express
+Multi Express
+Testeur Débutant
+Testeur Assidu
+Testeur Mordu
+Maître du Test
+Millionnaire Pts Exp.
+Millionnaire en PCo
+Aux Aguets
+Sportif Pro
+Croisiériste
+Top de Yoneuve
+Roi de la Location
+Roi du Mix
+Top d'Unys
+Top de Kanto
+Top de Johto
+Top de Hoenn
+Top de Sinnoh
+Top des Champions
+Top Mondial
+Empereur de Location
+Empereur du Mix
+Roi des Types
+Demi-Gratte-Ciel
+Chef du Gratte-Ciel
+Demi-Arbre Creux
+Chef de l'Arbre Creux
+20 Victoires
+50 Victoires
+100 Victoires
+1 000 Bravos
+Apprenti Nettoyeur
+Maître Nettoyeur
+Apprenti Faufileur
+Maître Faufileur
+Apprenti Traceur
+Maître Traceur
+Général en Chef
+Premier Échange
+Échanges Réguliers
+Échanges Massifs
+Empereur du Troc
+Méli-Mélo
+Sincèrement Vôtre
+Brûleur de Planches
+Graine de Star
+Star Montante
+Superstar
+Bête de Scène
+Fashion Victim
+Idole des Fans
+Premier Ami
+Le Plein d'Amis
+Cercle d'Amis
+Cosmopolite
+Maestro Œuf Surprise
+Joli Cœur
+As de Cœur
+Jamais Seul
+Guide Débutant
+Guide Confirmé
+Guide Vétéran
+Maître Guide
+Boutiquier
+Entrepreneur
+PDG
+Magnat du Commerce
+Cadeaux de Bienvenue
+Petits Cadeaux
+Pluie de Cadeaux
+Enfant Gâté
+Avenue de Rêve
+Fan de Mini-Jeux
+Mordu de Mini-Jeux
+Maître des Mini-Jeux
+Mini-Gamer
+Novice du Ballon
+Technicien du Ballon
+Expert du Ballon
+Roi de la Baudruche
+Graine de Héros
+Super Héros
+Maître du Polar
+Maître des OVNI
+Maître des Monstres
+Maître de la SF
+Star Romantique
+Maître du Fantastique
+Roi de la Comédie
+Roi de l'Épouvante
+Maestro des Robots
+Maître des Fantômes
+Final Héroïque
+Grande Vedette
+Icône du Cinéma
+Star du Box Office
+Art et Essais...
+Génie Incompris
+Mission à 10
+Mission à 30
+Record: 100
+Record: 1 000
+Organisateur Niveau 1
+Organisateur Niveau 2
+Participant Niveau 1
+Participant Niveau 2
+Triomphe Niveau 1
+Triomphe Niveau 2
+Fiesta, la Totale
+Bonne Nuit
+Réminiscence
+Mémoire Vivante
+Roi du Divertissement
+Pro Normal
+Pro Feu
+Pro Eau
+Pro Électrik
+Pro Plante
+Pro Glace
+Pro Combat
+Pro Poison
+Pro Sol
+Pro Vol
+Pro Psy
+Pro Insecte
+Pro Roche
+Pro Spectre
+Pro Dragon
+Pro Ténèbres
+Pro Acier
+Seul contre Tous
+Génie des Défis

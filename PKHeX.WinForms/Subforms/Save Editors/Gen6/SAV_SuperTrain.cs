@@ -1,156 +1,201 @@
-﻿using System;
-using System.Linq;
+using System;
+using System.Globalization;
 using System.Windows.Forms;
 using PKHeX.Core;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms;
+
+public partial class SAV_SuperTrain : Form
 {
-    public partial class SAV_SuperTrain : Form
+    private readonly SaveFile Origin;
+    private readonly SAV6 SAV;
+    private readonly SuperTrainBlock STB;
+
+    private readonly string[] trba;
+
+    public SAV_SuperTrain(SAV6 sav)
     {
-        private readonly SaveFile Origin;
-        private readonly SAV6 SAV;
-        public SAV_SuperTrain(SaveFile sav)
-        {
-            InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV6)(Origin = sav).Clone();
-            trba = GameInfo.Strings.trainingbags;
-            trba[0] = "---";
-            offsetTime = SAV.SuperTrain + 0x08;
-            offsetSpec = SAV.SuperTrain + 0x188;
-            offsetVal = SAV.SuperTrain + 0x18A;
-            string[] stages = GameInfo.Strings.trainingstage;
-            listBox1.Items.Clear();
-            for (int i = 0; i < 32; i++)
-                listBox1.Items.Add($"{i+1:00} - {stages[i]}");
+        InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+        SAV = (SAV6)(Origin = sav).Clone();
+        trba = GameInfo.Strings.trainingbags;
+        trba[0] = "---";
+        STB = ((ISaveBlock6Main)SAV).SuperTrain;
+        string[] stages = GameInfo.Strings.trainingstage;
+        listBox1.Items.Clear();
+        for (int i = 0; i < 32; i++)
+            listBox1.Items.Add($"{i + 1:00} - {stages[i]}");
 
-            Setup();
+        Setup();
+    }
+
+    private void Setup()
+    {
+        dataGridView1.Rows.Clear();
+        dataGridView1.Columns.Clear();
+        {
+            CB_Species1.InitializeBinding();
+            CB_Species1.DataSource = new BindingSource(GameInfo.FilteredSources.Species, string.Empty);
+
+            CB_Species2.InitializeBinding();
+            CB_Species2.DataSource = new BindingSource(GameInfo.FilteredSources.Species, string.Empty);
         }
+        listBox1.SelectedIndex = 0;
+        FillTrainingBags();
+    }
 
-        private readonly string[] trba;
-        private readonly int offsetVal;
-        private readonly int offsetTime;
-        private readonly int offsetSpec;
-        private void Setup()
+    private void FillTrainingBags()
+    {
+        DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
         {
-            dataGridView1.Rows.Clear();
-            dataGridView1.Columns.Clear();
+            dgvIndex.HeaderText = "Slot";
+            dgvIndex.DisplayIndex = 0;
+            dgvIndex.Width = 25;
+            dgvIndex.ReadOnly = true;
+            dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        }
+        DataGridViewComboBoxColumn dgvBag = new()
+        {
+            DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
+        };
+        {
+            foreach (string t in trba)
             {
-                CB_Species.DisplayMember = "Text";
-                CB_Species.ValueMember = "Value";
-                CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
-
-                CB_S2.DisplayMember = "Text";
-                CB_S2.ValueMember = "Value";
-                CB_S2.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+                if (t.Length != 0)
+                    dgvBag.Items.Add(t);
             }
-            listBox1.SelectedIndex = 0;
-            FillTrainingBags();
 
-            CB_S2.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + 4 * 30);
-            TB_Time1.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * 30).ToString();
-            TB_Time2.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * 31).ToString();
+            dgvBag.DisplayIndex = 1;
+            dgvBag.Width = 135;
+            dgvBag.FlatStyle = FlatStyle.Flat;
         }
-        private void FillTrainingBags()
-        {
-            DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
-            {
-                dgvIndex.HeaderText = "Slot";
-                dgvIndex.DisplayIndex = 0;
-                dgvIndex.Width = 25;
-                dgvIndex.ReadOnly = true;
-                dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            }
-            DataGridViewComboBoxColumn dgvBag = new DataGridViewComboBoxColumn
-            {
-                DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
-            };
-            {
-                foreach (string t in trba)
-                    if (t.Length > 0)
-                        dgvBag.Items.Add(t);
+        dataGridView1.Columns.Add(dgvIndex);
+        dataGridView1.Columns.Add(dgvBag);
 
-                dgvBag.DisplayIndex = 1;
-                dgvBag.Width = 135;
-                dgvBag.FlatStyle = FlatStyle.Flat;
-            }
-            dataGridView1.Columns.Add(dgvIndex);
-            dataGridView1.Columns.Add(dgvBag);
-
-            dataGridView1.Rows.Add(12);
-            int offset = SAV.SuperTrain + 0x308;
-            for (int i = 0; i < 12; i++)
-            {
-                dataGridView1.Rows[i].Cells[0].Value = (i + 1).ToString();
-                dataGridView1.Rows[i].Cells[1].Value = trba[SAV.Data[offset + i]];
-            }
-        }
-        private void DropClick(object sender, DataGridViewCellEventArgs e)
+        dataGridView1.Rows.Add(12);
+        for (int i = 0; i < 12; i++)
         {
-            try
-            {
-                if (e.ColumnIndex != 1) return;
-                ComboBox comboBox = (ComboBox)dataGridView1.EditingControl;
-                comboBox.DroppedDown = true;
-            }
-            catch { }
-        }
-
-        private bool loading = true;
-        private void ChangeListRecordSelection(object sender, EventArgs e)
-        {
-            int index = listBox1.SelectedIndex;
-            if (index < 0) return;
-            loading = true;
-            TB_Time.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * index).ToString();
-            TB_Unk.Text = BitConverter.ToUInt16(SAV.Data, offsetVal + 4 * index).ToString();
-            CB_Species.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + 4 * index);
-            loading = false;
-        }
-        private void B_Save_Click(object sender, EventArgs e)
-        {
-            // Copy Bags
-            byte[] bagarray = new byte[12];
-            int emptyslots = 0;
-            for (int i = 0; i < 12; i++)
-            {
-                string bag = dataGridView1.Rows[i].Cells[1].Value.ToString();
-                if (Array.IndexOf(trba, bag) == 0)
-                {
-                    emptyslots++;
-                    continue;
-                }
-                bagarray[i - emptyslots] = (byte)Array.IndexOf(trba, bag);
-            }
-            try { BitConverter.GetBytes(float.Parse(TB_Time1.Text)).CopyTo(SAV.Data, offsetTime + 4 * 30); } catch { }
-            try { BitConverter.GetBytes(float.Parse(TB_Time2.Text)).CopyTo(SAV.Data, offsetTime + 4 * 31); } catch { }
-            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_S2)).CopyTo(SAV.Data, offsetSpec + 4 * 30);
-            bagarray.CopyTo(SAV.Data, SAV.SuperTrain + 0x308);
-            Origin.SetData(SAV.Data, 0);
-            Close();
-        }
-        private void B_Cancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-        private void ChangeRecordSpecies(object sender, EventArgs e)
-        {
-            int index = listBox1.SelectedIndex;
-            if (index < 0 || loading) return;
-            BitConverter.GetBytes(WinFormsUtil.GetIndex(CB_Species)).CopyTo(SAV.Data, offsetSpec + 4 * index);
-        }
-        private void ChangeRecordVal(object sender, EventArgs e)
-        {
-            int index = listBox1.SelectedIndex;
-            if (index < 0 || loading) return;
-            try { BitConverter.GetBytes(ushort.Parse(TB_Unk.Text)).CopyTo(SAV.Data, offsetVal + 4 * index); } catch { }
-        }
-        private void ChangeRecordTime(object sender, EventArgs e)
-        {
-            int index = listBox1.SelectedIndex;
-            if (index < 0 || loading) return;
-            try { BitConverter.GetBytes(float.Parse(TB_Time.Text)).CopyTo(SAV.Data, offsetTime + 4 * index); } catch { }
+            dataGridView1.Rows[i].Cells[0].Value = (i + 1).ToString();
+            dataGridView1.Rows[i].Cells[1].Value = trba[STB.GetBag(i)];
         }
     }
-}
 
+    private void DropClick(object sender, DataGridViewCellEventArgs e)
+    {
+        try
+        {
+            if (e.ColumnIndex != 1)
+                return;
+            if (sender is not DataGridView { EditingControl: ComboBox cb })
+                return;
+            cb.DroppedDown = true;
+        }
+        catch { System.Diagnostics.Debug.WriteLine("Failed to modify item."); }
+    }
+
+    private bool loading = true;
+
+    private void ChangeListRecordSelection(object sender, EventArgs e)
+    {
+        int index = listBox1.SelectedIndex;
+        if (index < 0)
+            return;
+
+        loading = true;
+        var holder1 = STB.GetHolder1(index);
+        var holder2 = STB.GetHolder2(index);
+        CB_Species1.SelectedValue = (int)holder1.Species;
+        MTB_Gender1.Text = holder1.Gender.ToString();
+        MTB_Form1.Text = holder1.Form.ToString();
+        CB_Species2.SelectedValue = (int)holder2.Species;
+        MTB_Gender2.Text = holder2.Gender.ToString();
+        MTB_Form2.Text = holder2.Form.ToString();
+        TB_Time1.Text = STB.GetTime1(index).ToString(CultureInfo.InvariantCulture);
+        TB_Time2.Text = STB.GetTime2(index).ToString(CultureInfo.InvariantCulture);
+        loading = false;
+    }
+
+    private void B_Save_Click(object sender, EventArgs e)
+    {
+        // Copy Bags
+        int emptyslots = 0;
+        for (int i = 0; i < 12; i++)
+        {
+            var bag = dataGridView1.Rows[i].Cells[1].Value!.ToString();
+            if (Array.IndexOf(trba, bag) == 0)
+            {
+                emptyslots++;
+                continue;
+            }
+            STB.SetBag(i - emptyslots, (byte)Array.IndexOf(trba, bag));
+        }
+
+        Origin.CopyChangesFrom(SAV);
+        Close();
+    }
+
+    private void B_Cancel_Click(object sender, EventArgs e)
+    {
+        Close();
+    }
+
+    private void ChangeRecordSpecies1(object sender, EventArgs e)
+    {
+        int index = listBox1.SelectedIndex;
+        if (index < 0 || loading)
+            return;
+        var holder = STB.GetHolder1(index);
+        holder.Species = (ushort)WinFormsUtil.GetIndex(CB_Species1);
+    }
+
+    private void ChangeRecordMisc1(object sender, EventArgs e)
+    {
+        int index = listBox1.SelectedIndex;
+        if (index < 0 || loading)
+            return;
+        var holder = STB.GetHolder1(index);
+        if (byte.TryParse(MTB_Form1.Text, out var form))
+            holder.Form = form;
+        if (byte.TryParse(MTB_Gender1.Text, out var gender))
+            holder.Gender = gender;
+    }
+
+    private void ChangeRecordSpecies2(object sender, EventArgs e)
+    {
+        int index = listBox1.SelectedIndex;
+        if (index < 0 || loading)
+            return;
+        var holder = STB.GetHolder2(index);
+        holder.Species = (ushort)WinFormsUtil.GetIndex(CB_Species2);
+    }
+
+    private void ChangeRecordMisc2(object sender, EventArgs e)
+    {
+        int index = listBox1.SelectedIndex;
+        if (index < 0 || loading)
+            return;
+        var holder = STB.GetHolder2(index);
+        if (byte.TryParse(MTB_Form2.Text, out var form))
+            holder.Form = form;
+        if (byte.TryParse(MTB_Gender2.Text, out var gender))
+            holder.Gender = gender;
+    }
+
+    private void ChangeRecordTime1(object sender, EventArgs e)
+    {
+        int index = listBox1.SelectedIndex;
+        if (index < 0 || loading)
+            return;
+        if (float.TryParse(TB_Time1.Text, out var value))
+            STB.SetTime1(index, value);
+    }
+
+    private void ChangeRecordTime2(object sender, EventArgs e)
+    {
+        int index = listBox1.SelectedIndex;
+        if (index < 0 || loading)
+            return;
+        if (float.TryParse(TB_Time2.Text, out var value))
+            STB.SetTime2(index, value);
+    }
+}

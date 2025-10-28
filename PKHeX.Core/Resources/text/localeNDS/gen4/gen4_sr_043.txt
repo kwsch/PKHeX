@@ -1,0 +1,32 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	あんき	Anhui	Anhui	Anhui	Anhui	Anhui	安徽省	안후이	安徽省
+002	ペキン	Beijing	Pékin	Peking	Pechino	Beijing	北京市	베이징	北京市
+003	じゅうけい	Chongqing	Chongqing	Chongqing	Chongqing	Chongqing	重庆市	충칭	重慶市
+004	ふっけん	Fujian	Fujian	Fujian	Fujian	Fujian	福建省	푸젠	福建省
+005	かんしゅく	Gansu	Gansu	Gansu	Gansu	Gansu	甘肃省	간쑤	甘肅省
+006	かんとん	Guangdong	Guangdong	Guangdong	Guangdong	Guangdong	广东省	광둥	廣東省
+007	こうせいチワンぞくじちく	Guanxi	Guangxi	Guangxi	Guangxi	Guangxi	广西壮族自治区	광시좡족자치구	廣西壯族自治區
+008	きしゅう	Guizhou	Guizhou	Guizhou	Guizhou	Guizhou	贵州省	구이저우	貴州省
+009	かいなん	Hainan	Hainan	Hainan	Hainan	Hainan	海南省	하이난	海南省
+010	かほく	Hebei	Hebei	Hebei	Hebei	Hebei	河北省	허베이	河北省
+011	こくりゅうこう	Heilongjiang	Heilongjiang	Heilongjiang	Heilongjiang	Heilongjiang	黑龙江省	헤이룽장	黑龍江省
+012	かなん	Henan	Henan	Henan	Henan	Henan	河南省	허난	河南省
+013	こほく	Hubei	Hubei	Hubei	Hubei	Hubei	湖北省	후베이	湖北省
+014	こなん	Hunan	Hunan	Hunan	Hunan	Hunan	湖南省	후난	湖南省
+015	こうそ	Jiangsu	Jiangsu	Jiangsu	Jiangsu	Jiangsu	江苏省	장쑤	江蘇省
+016	こうせい	Jiangxi	Jiangxi	Jiangxi	Jiangxi	Jiangxi	江西省	장시	江西省
+017	きつりん	Jilin	Jilin	Jilin	Jilin	Jilin	吉林省	지린	吉林省
+018	りょうねい	Liaoning	Liaoning	Liaoning	Liaoning	Liaoning	辽宁省	랴오닝	遼寧省
+019	うちモンゴルじちく	Neimenggu	Mongolie-Intérieure	Innere Mongolei	Neimenggu	Neimenggu	内蒙古自治区	네이멍구자치구	內蒙古自治區
+020	ねいかかいぞくじちく	Ningxia	Ningxia	Ningxia	Ningxia	Ningxia	宁夏回族自治区	닝샤후이족자치구	寧夏回族自治區
+021	せいかい	Qinghai	Qinghai	Qinghai	Qinghai	Qinghai	青海省	칭하이	青海省
+022	せんせい	Shaanxi	Shaanxi	Shaanxi	Shaanxi	Shaanxi	陕西省	산시 (섬서)	陝西省
+023	さんとう	Shandong	Shandong	Shandong	Shandong	Shandong	山东省	산둥	山東省
+024	シャンハイ	Shanghai	Shanghai	Shanghai	Shanghai	Shanghai	上海市	상하이	上海市
+025	さんせい	Shanxi	Shanxi	Shanxi	Shanxi	Shanxi	山西省	산시 (산서)	山西省
+026	しせん	Sichuan	Sichuan	Sichuan	Sichuan	Sichuan	四川省	쓰촨	四川省
+027	てんしん	Tianjin	Tianjin	Tianjin	Tianjin	Tianjin	天津市	톈진	天津市
+028	しんきょうウイグルじちく	Xinjiang	Xinjiang	Xinjiang	Xinjiang Uygur	Xinjiang	新疆维吾尔自治区	신장	新疆維吾爾自治區
+029	チベットじちく	Xizang	Tibet	Tibet	Tibet (Xizang)	Xizang	西藏自治区	시짱	西藏自治區
+030	うんなん	Yunnan	Yunnan	Yunnan	Yunnan	Yunnan	云南省	윈난	雲南省
+031	せっこう	Zhejiang	Zhejiang	Zhejiang	Zhejiang	Zhejiang	浙江省	저장	浙江省

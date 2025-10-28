@@ -1,0 +1,90 @@
+﻿{0} se rappelle un bon souvenir, mais les détails lui semblent flous...
+{0} a rencontré {1} {2}. Il a accepté d’entrer dans sa Poké Ball, et c’est ainsi que leur amitié a commencé. {4} {3}.
+{0} a brisé la coquille de son Œuf {2} et a fait la rencontre {1}. {4} {3}.
+{0} a rencontré {1} {2}. {4} {3}.
+{0} est devenu l’ami {1} lors d’un échange {2}. {4} {3}.
+{0} est allé dans un Centre Pokémon avec {1} pour acheter {2}. {4} {3}.
+{0} est allé se reposer un moment avec {1} dans un Centre Pokémon. {4} {3}.
+{0} est allé à la pêche avec {1} et ils ont attrapé un {2}. {4} {3}.
+{0} est allé à la pêche avec {1}. Quelque chose a mordu à l’hameçon, mais la prise s’est échappée. {4} {3}.
+{0} a vu {1} s’occuper d’un {2}. {4} {3}.
+{0} a reçu une sucrerie {1}. {4} {3}.
+{0} est allé acheter des vêtements avec {1}. {4} {3}.
+{0} a appris {2} grâce à {1}. {4} {3}.
+{0} était avec {1} quand il a aidé un {2} à sortir de son Œuf. {4} {3}.
+{0} était avec {1} lorsqu’ils ont attrapé un {2}. {4} {3}.
+{0} était en mauvaise posture, quand {1} a utilisé {2}. {4} {3}.
+{0} a utilisé {2} sur les indications {1}, mais ça n’a eu aucun effet. {4} {3}.
+{0} a aidé {1} à vaincre un {2}. {4} {3}.
+{0} a été battu par un {2} et s’est enfui avec {1}. {4} {3}.
+{0} a été entraîné par {1} et a évolué {2}. {4} {3}.
+{0} a transporté {1} sur son dos pour lui permettre de traverser une étendue d’eau. {4} {3}.
+{0} a vu un {2} porter {1} sur son dos. {4} {3}.
+{0} a aidé {1} à vaincre un Champion d’Arène. {4} {3}.
+{0} était vraiment tendu quand il a aidé {1} à relever le défi de la Maison de Combat. {4} {3}.
+{0} a amené {1} {2} en volant. {4} {3}.
+{0} et {1} ont été surpris par un {2} qui a jailli devant eux. {4} {3}.
+{0} a vu {1} utiliser {2}. {4} {3}.
+{0} a aidé {1} à vaincre le Maître de la Ligue. {4} {3}.
+{0} était là quand {1} a complété son Pokédex. {4} {3}.
+{0} a croisé un {2} avec {1}. {4} {3}.
+{0} a aidé {1} à vaincre une sommité dans le monde des Dresseurs. {4} {3}.
+{0} était avec {1} quand ils ont utilisé le Cherch’Objet, {2}. {4} {3}.
+{0} est monté à Bicyclette avec {1} {2}. {4} {3}.
+{0} a consulté la Carte avec {1} {2}. {4} {3}.
+{0} a planté des Baies avec {1}, et s’est imaginé à quel point les arbustes seraient jolis à l’heure de la récolte. {4} {3}.
+{0} a utilisé Force {2} sur les instructions {1}. {4} {3}.
+{0} a utilisé Coupe {2} sur les instructions {1}. {4} {3}.
+{0} a détruit des rochers {2} sur les instructions {1}. {4} {3}.
+{0} a utilisé Cascade pour aider {1} à remonter le courant {2}. {4} {3}.
+{0} a vu {1} ramasser un objet {2}. {4} {3}.
+{0} a reçu {2} des mains {1}. {4} {3}.
+{0} a aidé {1} à relever le défi de la Route Victoire. {4} {3}.
+{0} a regardé un panneau avec {1} {2}. {4} {3}.
+{0} a été impressionné par la vitesse du train qu’il a pris avec {1}. {4} {3}.
+{0} était avec {1} quand ils ont trouvé un {2} avec le Poké Radar. {4} {3}.
+{0} a fui avec {1} face à un {2} sorti de nulle part. {4} {3}.
+{0} a aidé {1} à obtenir un bon score à un Test Combat, au Club des Épreuves. {4} {3}.
+{1} a présenté {0} au Juge pour qu’il l’examine de près. {4} {3}.
+{1} a présenté {0} à l’Effaceur de Capacités pour qu’il lui fasse oublier {2}. {4} {3}.
+{0} s’est remémoré {2}, à la demande {1}. {4} {3}.
+{0} a été amené à la Pension Pokémon par {1}. Il y a séjourné avec un {2}. {4} {3}.
+{0} a vu {1} gagner {2} à la Loterie. {4} {3}.
+{0} était avec {1} quand ils ont utilisé un Repousse {2}. {4} {3}.
+{0} se rappelle une session d’entraînement particulièrement difficile avec {1}. {4} {3}.
+{0} est monté dans un ascenseur avec {1}. {4} {3}.
+{0} est allé voir le Spécialiste des Noms avec {1}, et il s’est vu attribuer un très joli surnom. {4} {3}.
+{0} a vu {1} essayer des vêtements dans une boutique, sans rien trouver à son goût. {4} {3}.
+{0} est allé dans un grand restaurant s’offrir un menu gastronomique avec {1}. {4} {3}.
+{0} a été amené par {1} chez une gentille dame qui aime les Pokémon. {4} {3}.
+{0} a fouillé les poubelles avec {1} {2}. {4} {3}.
+{0} a combattu aux côtés {1} contre un {2}, et a fini par utiliser la capacité Lutte. {4} {3}.
+{0} a admiré le monde du haut d’une grande tour aux côtés {1}. {4} {3}.
+{0} est allé avec {1} dans une grotte qui semblait couverte de miroirs, et y a aperçu son reflet. {4} {3}.
+{0} a failli se perdre en forêt avec {1}. {4} {3}.
+{0} est allé avec {1} dans une usine remplie de machines étranges. {4} {3}.
+{0} a vu {1} créer sa propre Base Secrète. {4} {3}.
+{0} a participé à un Concours Pokémon aux côtés {1}. Il a pu faire son show en effectuant toutes sortes de Démonstrations devant un large public. {4} {3}.
+{0} a participé à un Concours Pokémon aux côtés {1} et il a réussi à gagner ! {4} {3}.
+{0} a pris son envol aux côtés {1} et a visité quelques endroits exotiques. {4} {3}.
+{0} a plongé au cœur de l’océan sur les instructions {1} pour explorer les abysses. {4} {3}.
+{0} s’est assis sur un banc avec {1} {2}. {4} {3}.
+{0} s’est battu aux côtés {1} contre un {2} sous sa forme Dynamax. {4} {3}.
+{0} s’est dynamaxé à la demande {1} pour combattre un {2}. {4} {3}.
+{0} a fait du camping avec {1}. {4} {3}.
+{0} a cuisiné avec {1}. {4} {3}.
+{0} a été amené à la Garderie Pokémon par {1}. Il y a séjourné avec un {2}. {4} {3}.
+{0} a fêté l’anniversaire {1} au Centre Pokémon. {4} {3}.
+{0} a aidé {1} à choisir une nouvelle coupe dans un salon de coiffure. {4} {3}.
+{0} se baladait avec {1} quand la pluie s’est mise à tomber. Ils se sont retrouvés trempés. {4} {3}.
+{0} a participé à une course avec {1}. Ils ont foncé à une vitesse ahurissante. {4} {3}.
+Dans une Boîte PC, {0} s’est entraîné à utiliser {2} pour impressionner {1}. {4} {3}.
+Dans une Boîte PC, {0} s’est entraîné à utiliser {2} en restant cool pour impressionner {1}. {4} {3}.
+{0} a parlé {1} avec {2} dans une Boîte PC. {4} {3}.
+{0} s’est lié d’amitié avec {2} dans une Boîte PC, et a décidé de s’entraîner à utiliser des capacités avec lui pour impressionner {1}. {4} {3}.
+{0} s’est demandé si {1} n’avait pas oublié de récupérer {2} qu’il tenait au moment d’être envoyé vers une Boîte PC. {4} {3}.
+{0} a fait le timide quand {1} lui a rendu visite dans sa Boîte PC. {4} {3}.
+Depuis sa Boîte PC, {0} a entendu {1} était {2}, et s’est imaginé à quoi cela pouvait bien ressembler. {4} {3}.
+Dans sa Boîte PC, {0} s’est disputé avec {2} à cause d’un désaccord à propos {1}. {4} {3}.
+Dans sa Boîte PC, {0} s’est demandé pourquoi {1} lui avait donné {2}. {4} {3}.
+Dans sa Boîte PC, {0} a rêvé {1} utilisait la capacité {2}. {4} {3}.

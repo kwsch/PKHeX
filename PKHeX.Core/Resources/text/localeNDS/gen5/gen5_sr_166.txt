@@ -1,0 +1,17 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	ドルニィシロンスク	Lower Silesia	Basse-Silésie	Niederschlesien	Bassa Slesia	Baja Silesia	下西里西亚省	돌노슬롱스키에	下西裏西亞省
+002	クヤビ・ポモージェ	Kuyavia-Pomerania	Cujavie-Poméranie	Kujawien-Pommern	Cuiavia-Pomerania	Cuyavia y Pomerania	库亚瓦滨海省	쿠야비아-포메라니아	庫亞瓦濱海省
+003	ルブリン	Lublin	Lublin	Lublin	Lublino	Lublin	卢布林省	루블린	盧布林省
+004	ルブシュ	Lubusz	Lubusz	Lebus	Lebus	Lebus	鲁布斯卡省	루부슈	魯布斯卡省
+005	ウーチ	Lodz	Lódz	Lodz	Lodz	Lodz	罗兹省	워지	羅茲省
+006	マウォポルスカ	Lesser Poland	Petite-Pologne	Kleinpolen	Piccola Polonia	Pequeña Polonia	小波兰省	말로폴스키에	小波蘭省
+007	マゾフシェ	Masovia	Mazovie	Masowien	Masovia	Mazovia	马佐夫舍省	마소비아	馬佐夫舍省
+008	オポーレ	Opole	Opole	Oppeln	Opole	Opole	奥波莱省	오폴레	奧波萊省
+009	ポトカルパチェ	Subcarpathia	Basses-Carpates	Karpatenvorland	Precarpazi	Podkarpackie	喀尔巴阡山省	포드칼파키에	喀爾巴阡山省
+010	ポドラシェ	Podlachia	Podlachie	Podlachien	Podlachia	Podlaquia	波德拉斯省	포들라시에	波德拉斯省
+011	ポモージェ	Pomerania	Poméranie	Pommern	Pomerania	Pomerania	滨海省	포메라니아	濱海省
+012	シロンスク	Silesia	Silésie	Schlesien	Slesia	Silesia	西里西亚省	실롱스키에	西裏西亞省
+013	シフェンティクシシ	Holy Cross	Sainte-Croix	Heiligkreuz	Santacroce	Santa Cruz	圣十字省	시비엥토크시스키에	聖十字省
+014	バルミア・マズーリ	Warmia-Masuria	Varmie-Mazurie	Ermland-Masuren	Varmia-Masuria	Varmia y Masuria	瓦尔米亚马祖尔省	바르민스코 마즐스키에	瓦爾米亞馬祖爾省
+015	ビエルコポルスカ	Greater Poland	Grande-Pologne	Großpolen	Grande Polonia	Gran Polonia	大波兰省	비엘코폴스키에	大波蘭省
+016	にしポモージェ	West Pomerania	Poméranie Occidentale	Westpommern	Pomerania Occidentale	Pomerania Occidental	西滨海省	서포메라니아	西濱海省

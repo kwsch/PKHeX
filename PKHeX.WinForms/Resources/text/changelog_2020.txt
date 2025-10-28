@@ -1,0 +1,290 @@
+20/12/30 - New Update: (84117) [3403296]
+ - Legality:
+ - - Updated Mystery Gift & GO Legality encounter data.
+ - - Added: Gen8 introduced new memory values; these are now checked the same as those introduced in Gen6. Still no intensity/feeling checks.
+ - - Added: Gen5 N's Pokémon now check for a male OT Gender.
+ - - Fixed: Gen1 Non-Japanese VC encounters originating from "Blue (JP)" version are now recognized as invalid. Thanks @CarlosofKalos!
+ - - Fixed: Gen3 Colosseum Starters are now recognized correctly (was ~1% chance of being incorrectly flagged). Thanks Loptous!
+ - - Fixed: Gen8 Simplified Chinese IoA trades are now recognized with the correct OT Name.
+ - - Fixed: Gen8 Base Friendship for HOME/certain forms is now verified correctly.
+ - - Fixed: Gen1/2 Events are now yielded again by the Moveset Generator (used by SysBot/ALM).
+ - Added: Gen8 can now deactivate all raids by holding Alt when clicking the Activate All button.
+ - Added: Gen7 USUM Rotom Dex affection & Loto bitflags can now be edited in the Trainer Editor.
+ - Changed: PKM Database loading now alerts when it fails to load the database.
+ - Fixed: Gen8 setting party to title screen now sets the correct empty slots if your party isn't full.
+ - Fixed: Gen6 Cosplay Pikachu now fetches sprites correctly when using the old 40x30 sprites.
+ - Refactored: Some API's and properties exposed by PKHeX.Core have been renamed/moved. Examples: AltForm/Forme=>Form, GenNumber=>Generation.
+ - Refactored: Implemented new C#9 language features. Some expressions in the source code are cleaner and easier to maintain :)
+
+20/11/28 - New Update: (84108) [3319179]
+ - Legality:
+ - - Added: Pokémon GO Legality checks, including date-range legality checks. Thanks @Lusamine & @sora10pls!
+ - - Added: Nickname checks for Generation 1 in-game trades. Thanks @ShadowMario3!
+ - - Added: RibbonMasterRank permissions now allow the updated species list. Thanks @Bappsack!
+ - - Fixed: Ability Patch edge case for changing forms (ex. Landorus) where the current form does not have a Hidden Ability.
+ - - Fixed: Gen8 Wild encounters with levels above 60 are now required to match the encounter's level.
+ - - Fixed: Gen8 symbol encounters incorrect location ID hash fixed. Thanks @sora10pls!
+ - - Fixed: Added Frostpoint Field for dens 175/176.
+ - Added: Shiny Sprites for Crown Tundra. Thanks @msikma + github.com/msikma/pokesprite!
+ - Added: Fused Calyrex slot viewing.
+ - Added: More Gen4 Event Flags. Thanks @zzzzRuby & @ShadyRelapse-PP!
+ - Changed: KChart now shows the "Native" state for all Armor/Crown natives in addition to the mainland natives.
+ - Changed: .NET Core 3.1 builds changed to .NET 5; downloads are still .NET Framework ~4.6.
+ - Fixed: Clearing a box other than the first box on a blank save file now clears the box... as intended. Thanks @Lusamine!
+ - Fixed: Gen8 Yamask-1 and Runerigus now show all possible FormArgument values. Thanks @sora10pls!
+ - Fixed: Gen1 Daycare slot is no longer marked as active when exporting a save file with an flagged-empty daycare.
+
+20/10/31 - New Update: (93960) [3235071]
+ - Legality:
+ - - Added: Gen8 static encounters now permit more met locations (roamers, strong encounters). Thanks @Lusamine & @ReignOfComputer!
+ - - Fixed: Gen8 breeds of Gen3 Starters and Porygon now allow the Gen8 wild balls.
+ - - Fixed: Gen8 unavailable Alolan evolutions are now recognized correctly.
+ - - Fixed: Gen8 Keldeo now requires a Fateful Encounter Flag.
+ - - Fixed: Gen8 Calyrex fuse-unfuse TR flag edge case is handled correctly, allowing Agility and fused-TR flags when unfused.
+ - - Fixed: Gen6 Friend Safari Vivillon is now recognized correctly.
+ - - Fixed: Gen3 Birth Island Deoxys is now disallowed for Japanese Emerald.
+ - - Fixed: Nicknames can now be set for Gen6+ EncounterTrades that did not originally have a nickname, when in Gen8 format.
+ - Added: Can now control-click the Shiny button to force a Star shiny, and use .PID=$shiny1 in the batch editor for the same effect.
+ - Added: Gen8 now has more block key labels for CT content, like event flags and important stored values. Thanks @CanoeHope, @sora10pls!
+ - Fixed: Gen8 Nidoran♂/♀ strings no longer result in ? for the gender symbol.
+ - Fixed: Gen8 Registering new Pokédex entries on setting a PKM will set female gender if appropriate instead of skipping gender set. Thanks @xXAquaNightXx
+ - Fixed: Gen8 CT raid den list is now clamped at the valid amount of raids. All unused dens are hidden. Thanks @Leanny!
+- Fixed: Stat tooltips for nature (+/-) now show on both StatNature and Nature. Thanks @ReignOfComputer!
+ - Changed: Dropping a PKM file into the PKM Editor will now try to adapt it to the save file (Handling Trainer details), reducing legality issues.
+ - Changed: Updated Chinese translations. Thanks @easyworld!
+
+20/10/24 - New Update: (50004) [3141111]
+ - Introducing Crown Tundra support! Thanks @SciresM, @sora10pls, @architdate, @Lusamine, @Bappsack, and @ReignOfComputer for troubleshooting prior to release!
+ - Legality:
+ - - Changed: New checking rules for all added content in the latest DLC.
+ - - Added: More Gen1/2-era Event Data has been added, along with shiny checks. Thanks @ShadowMario3!
+ - - Fixed: Gen5 PID bit checking for static encounters now gets flagged correctly. Thanks @LegoFigure11 && Princess Emily#4650!
+ - - Fixed: Gen3 ability bit checking is now done for Gen3 format PKM files.
+ - Added: Crown Tundra Raid Seed / Detail editor; separate from the mainland raids.
+ - Added: Crown Tundra Pokédex editing is now available in the same Pokédex editor. Keep in mind that the game uses the first dex that has the Species-Form.
+ - Changed: Suggested encounters now try to match the current AltForm. Thanks @CScorpion-h!
+ - Changed: Nullable compiler checks enabled for PKHeX.WinForms; all sub-projects now have this feature enabled.
+ - Updated: Spanish GUI localization files updated. Thanks @XxPhoenix1996xX!
+
+20/10/10 - New Update: (44027) [3091107]
+ - Added: Pokémon Stadium save file support!
+ - - Supports all 3 game types: Pocket Monsters Stadium, Pokémon Stadium, and Pokémon Stadium 2.
+ - - Added a new PKM format: SK2. Special format used by Stadium 2, different from PK2.
+ - - Added a team viewer for registered teams; each slot on the team can be viewed into the PKM Editor.
+ - - Due to endianness inconsistencies with emulators and storage media, PKHeX will automatically save-swap endianness for these saves!
+ - - With the addition of Stadium support, every playable game that stores PKM data can now be edited!
+ - Legality:
+ - - Refactored: IEncounterable objects use inheritance rather than having a single base class for each type.
+ - - Refactored: EncounterSlot objects are now pre-computed by another project in order to simplify data loading.
+ - - Added: Gen1/2 GB Era event data is now recognized for most events that were distributed. Thanks @ShadowMario3!
+ - - Added: Gen8 Affixed Ribbon is now legality checked. The value can be changed in the Extra Bytes editor.
+ - - Fixed: Gen8 HOME gifts are now disallowed from having a TSV of 0.
+ - - Fixed: Gen8 PIDs for Mystery Gifts are now generated correctly, and are verified by the legality checks.
+ - - Fixed: Gen8 Shared Egg moves are now verified correctly. Thanks @Lusamine!
+ - - Fixed: Gen8 Gigantamax Forms are now correctly prevented for special forms like Cap Pikachu.
+ - - Fixed: Gen8 transfers from Gen7 without nicknames now re-sync their names. Mismatched Language-NotNicknames are now flagged. Thanks @Lusamine!
+ - - Fixed: Gen7 transfers from VC now generate with the official PID creation method. Star shinies are double shinies!
+ - - Fixed: Gen4 French Egg names are now recognized correctly. Thanks @ReignOfComputer!
+ - - Fixed: Gen4 Korean Arcanine PCD now generates correctly. Thanks @Lusamine!
+ - - Fixed: Gen3 Winning/Victory ribbons are now verified. Thanks @Atrius97!
+ - - Fixed: Gen3 Artist ribbon no longer requires a Master ribbon in any contest due to Link Contests. Thanks @sarahlicity!
+ - - Fixed: Gen3 Shadow Teddiursa is now treated as a "Gift", which only allows it being in a Poké Ball (forced capture, no other balls).
+ - - Fixed: Gen2 eggs are now allowed to have Pokérus.
+ - - Fixed: Gen1 level up moves are now allowed on PK2s with met data when using Stadium 2. Thanks @MrPerson0!
+ - - Fixed: Gen1 Magnemite Types can now have "Steel" as a valid type when using Stadium 2. Thanks @MrPerson0!
+ - Added: Save Files with different revisions (DLC patches) now indicate the patch version they were saved with.
+ - Added: Catch Rate is now shown in KChart. Thanks @sora10pls!
+ - Added: Hidden Power's move power is now shown next to the type. Thanks @soopercool101!
+ - Added: Gen8 SWSH Block Labels have been added for Restricted Sparring. Thanks @CanoeHope!
+ - Added: Gen7 LGPE catch count records can now be edited in the Pokedex Editor. Click labels to min-max the counts. Thanks @sora10pls!
+ - Added: Gen4 Underground Items are now editable. Thanks @egzn!
+ - Changed: Default TID/SID for Gen7+ blank save files is now 123456 (SID 1234).
+ - Changed: Blank Save files will try to initialize with the current save file's language. For Japanese saves, the blank OT will be [a fullwidth PKHeX] if possible.
+ - Fixed: The Gen6 font file will no longer throw errors under certain scenarios. Thanks @foohyfooh!
+ - Fixed: Gen1 Pikachu Beach score editing reads & writes correctly now. Thanks @ShadowMario3!
+ - Showdown Set Imports:
+ - - Importing to a Gen8+ format will retain the specified IVs and not Hyper Train them. Thanks @rat01!
+ - - Importing a set to Gen1/2 format will try to set the EVs to max (65535). Thanks @soopercool101
+
+20/08/07 - New Update: (127790) [3047080]
+ - Legality:
+ - - Added Zarude and Shiny Celebi event data.
+ - - Changed: Payapa berry is now recognized as a legal held item in Gen8.
+ - - Changed: XD antishiny logic simplified slightly. Thanks Admiral-Fish!
+ - Added: Gen8 Inventory editing now preserves and shows the "NEW" flag.
+ - Added: Clicking on the Battle Version / Version sprite on the OT tab will now jump to the Met tab and drop-down the corresponding list.
+ - Added: Gen4 Pokewalker editing now has a GUI in the Misc Edits. Thanks @PlasticJustice!
+ - Fixed: Resizing the recent SaveFile Folder browsing now displays the window correctly for the all-saves tab.
+ - Changed: Spanish translation updated. Thanks @ajtudela!
+
+20/07/18 - New Update: (51597) [2919290]
+ - Legality:
+ - - Added latest HOME gifts (Shiny Zeraora)
+ - - Handled GMax state toggling edge cases.
+ - - Fixed: Gen2 Dizzy Punch egg recognition, DP Rotom egg recognition.
+ - - Fixed: Gen3 event gift encounters should now check the allowed Versions.
+ - - Fixed: Gen8 Memory Check for "Defeated Strongest Trainer" now no longer flags Skillful Battler ribbon.
+ - - Fixed: Den Detail Exporting no longer throws an exception.
+ - Fixed: Gen8 Generating encounters from the Encounter Database will now set the Stat Nature value.
+ - Fixed: Gen4 save file detection should now work better for new saves.
+
+20/06/22 - New Update: (83657) [2867693]
+ - Legality:
+ - - Handled edge cases from various reports, and added the event gift data from the recent events.
+ - - Fixed: Verification for Neutral nature mint, IoA hatch location, Galarian Slowbro, raid Hidden Ability, Master Rank ribbon.
+ - Added: SWSH save file size recognition for 1.0 saves that were directly upgraded to 1.2 (skipped 1.1 unused block additions).
+ - Added: Urshifu-1 Gigantamax form now can be toggled in the Pokédex editor. Thanks @sora10pls!
+ - Fixed: Raid details now save correctly when clicking Save, and show the correct amount of raids.
+ - Changed: Spanish and Chinese translations have been updated. Thanks @XxPhoenix1996xX, @easyworld, @gjfkkk!
+
+20/06/19 - New Update: (21816) [2784036]
+ - Introducing Isle of Armor support! Thanks @SciresM, @sora10pls, @architdate, @Lusamine, @Bappsack for troubleshooting prior to release!
+ - Legality:
+ - - Added: New checking rules for gaining/losing the ability to Gigantamax.
+ - - Added: New checking rules when a past-generation-origin Pokémon's battle version has been set in order to participate in ranked.
+ - - Changed: New checking rules for new Pokéball inheritance, now that Safari and Sport balls can be obtained for regular use.
+ - - Changed: New checking rules for new Hidden Ability availability, as the Isle of Armor raids have vastly simplified restrictions.
+ - Added: Battle Version -- by resetting a past-generation Pokémon's moves, they can participate in ranked. The game saves the version this was performed on.
+ - Added: Isle of Armor Raid Seed / Detail editor; separate from the mainland raids.
+ - Added: Isle of Armor Pokédex editing is now available in the same Pokédex editor. Keep in mind that the game uses the first dex that has the Species-Form.
+ - Added: Isle of Armor trainer records (2 new stats are tracked).
+ ===
+ - Legality:
+ - - Added: Fullness checking rules.
+ - - Fixed: Gen8: Level comparison for down-leveled raids has been updated to reflect game behavior. Thanks @Lusamine!
+ - - Fixed: Gen6: Removed edge case static encounter Kecleon that was mismatching a dexnav wild encounter. Thanks @KR1dude!
+ - - Fixed: Gen5: Contest stats are now verified rather than ignored.
+ - - Fixed: Gen4 Tower ribbons are no longer recognized as valid on Gen5 origin Pokémon.
+ - - Fixed: Gen8 Master Rank ribbon is no longer recognized as valid on Pokémon that can't participate in ranked.
+ - Added: Generic [Block Editor] now exposes Gen5-Gen7 save files so you can edit many properties directly from a PropertyGrid.
+ - Added: Gen8 Box Backgrounds are now displayed and can be changed from the Box Layout Editor. Thanks @sora10pls!
+ - Added: Loading a new save file will ask for confirmation if the currently loaded save file hasn't been saved yet.
+ - Added: Battle Tree scout editor. Thanks @sora10pls!
+ - Added: AHTB (hash) names can now be loaded into the block editor via a text file located in the same folder as the executable.
+ - - This is a research feature; only a few people need this.
+ - Added: Gen3 Chinese Event Flag localizations. Thanks @kamisama6866!
+ - Changed: Updated Spanish localization. Thanks @XxPhoenix1996xX!
+ - Changed: IVersion and IGeneration are now implemented into IEncounterable.
+ - Changed: Dynamax Level is now automatically set to 10 (if appropriate) when importing a Showdown Set. Thanks @Mikewando!
+ - Changed: Loading a detected save file is now twice as fast.
+ - Fixed: Sorting Boxes or Modifying Pokémon via the shortcut dropdown will no longer add to trainer stat records or the Pokédex.
+ - Fixed: Gen6 GameSync ID is now displayed rather than hidden. Thanks @sora10pls!
+ - Fixed: Gen6 XY Trainer Nickname is now set correctly, rather than truncated.
+ - Fixed: Gen4 Save Files will now correctly detect the correct save data to edit, rather than the backup. Thanks @Ammako!
+ - Fixed: Gen3 Ruby/Sapphire trainer editor no longer shows unavailable fields like BP.
+ - Fixed: Gen2 Save loading should no longer incorrectly recognize some save files as Korean.
+ - Fixed: Requests for setting square shiny for past-generation-origin Pokémon will now be honored (if allowed), rather than skipped.
+
+20/04/14 - New Update: (163231) [2762220]
+ - Legality:
+ - - Added: Latest raid news data.
+ - - Fixed: HOME gifts now recognized.
+ - - Fixed: Antishiny Colosseum/XD spreads are recognized better for various gifts.
+ - - Fixed: Some unavailable evolution cases are now recognized correctly.
+ - - Fixed: Silvally Pixie Plate is now recognized correctly.
+ - - Fixed: Gen8 Raid downleveling thresholds are now recognized correctly.
+ - - Fixed: Gen8 Link trade eggs are now allowed to have OT memories prior to hatching (...)
+ - - Fixed: Gen8 Chinese2 language in-game trade strings are now recognized correctly (not a copy of the other Chinese strings).
+ - - Changed: Gen3/4 in-game trade met levels are now accurately restricted to their obtainable minimum level. The PID check now works.
+ - - Changed: Gen8 static (gift) encounters now verify specific ability indexes.
+ - Added: Batch Editor $suggest for EggDate/MetDate (copies the other).
+ - Added: Gen8 HOME tracker control can now be hidden (same as PID/EC) if the Hide Secret Values setting is set.
+ - Added: New setting to copy the stat-nature to the behavior (original) nature when importing a Showdown Set.
+ - Added: New setting to force large sprites for past generation games. Old sprites will eventually be removed!
+ - Changed: Past generation sprites will now use the larger sprites from Gen8. Opt out (for now) with the setting described above.
+ - Changed: Met Location combobox has been widened to show more text (Gen8's long met locations).
+ - Fixed: Game Origin markings in PKM Editor now show the correct game lump sprite.
+ - Fixed: BK4 file recognition has been fixed.
+
+20/03/14 - New Update: (81209) [2598989]
+ - Added: Shiny Sprites for the new 68x56 box sprites. Thanks @msikma! https://github.com/msikma/pokesprite
+ - Legality:
+ - - Added: Latest raid news data.
+ - - Fixed: Shared egg moves are now allowed for past-gen transfers.
+ - - Fixed: Gen8 unavailable evolutions (like Alolan Raichu) are now recognized correctly. Thanks @sora10pls!
+ - - Fixed: Gen8 Pumpkaboo/Gourgeist Hidden Abilities are now restricted correctly in Gen8. Thanks @Lusamine!
+ - - Fixed: Gen8 Alola starters are now correctly banned from inheriting balls (only Poké Ball). Thanks @Lusamine!
+ - - Fixed: Gen8 Past gen species are now correctly allowed to inherit balls using Gen7 and prior rules. Thanks @Lusamine!
+ - - Fixed: Gen3 Antishiny trainer Pokémon mechanism for XD is now checked correctly. Thanks @ijuintekka!
+ - - Fixed: Gen4 HGSS egg hatch locations now allow the Battle Fontier. Thanks @sora10pls!
+ - - Added: Gen3/4 Min levels for in-game trades are now enforced.
+ - - Fixed: Gen3/4/5 ShinyXor8-15 Antishiny mechanism is now checked correctly. Thanks @Lusamine!
+ - Added: Current Box is now used when loading SW/SH save files.
+ - Added: Box manipulations (right click the Box tab) now has a Heal All manipulation (like the Pokécenter heal).
+ - Added: Gen8 Indicator for dummied moves. Thanks @sora10pls!
+ - Added: Gen8 now exposes NPC and Friend League card accessors in the block editor.
+ - Added: Gen3 More event flags. Thanks @Kermalis, @FeralFalcon!
+ - Fixed: Gen8 Showdown set parsing for Toxtricity now behaves correctly with Showdown's latest set syntax updates.
+ - Fixed: Gen6+ Loading a version-less PKM will no longer copy PID->EC. Only for Gen3/4/5 origins.
+ - Fixed: Gen8 converted PK2/PK7 files are now healed.
+ - Fixed: Gen8 affection fields are now hidden (properties don't exist in PK8 format).
+ - Fixed: Gen3 PC Item list no longer lists key items twice. Thanks @Kermalis!
+ - Changed: Gen8 now only sets the display form if it is not already owned; retaining the original displayed form. Thanks @CanoeHope!
+ - Updated: Spanish/Chinese translations. Thanks @qhq, @easyworld, @XxPhoenix1996xX !
+
+20/02/14 - New Update: (106566) [2517780]
+ - Legality:
+ - - Added: Initial handling for HOME Transfers.
+ - - Note: Tracker value is currently not flagged if missing; there's a setting to enable flagging.
+ - - Note: Pokémon that haven't yet visited HOME do not have a tracker.
+ - - Note: Fake WC8 data will have to be prepared to recognize HOME gifts.
+ - Added: More Gen8 editable fields. Thanks @CanoeHope!
+ - Added: More Gen4 Event Flags. Thanks @FeralFalcon!
+ - Changed: Revised suggested hatch locations. Thanks @CanoeHope!
+ - Fixed: Gen5 Entree Forest randomization no longer causes errors. Thanks Pocket Monsters (user)!
+ - Fixed: Gen4 HGSS Box Wallpapers are now read correctly. Thanks @Ammako!
+
+20/02/08 - New Update: (27045) [2411214]
+ - Legality:
+ - - Added: Milcery & Toxtricity distribution data.
+ - - Fixed: Runerigus FormArgument handling checks updated.
+ - - Fixed: ORAS flute level boosts increased from 3 to 4.
+ - - Fixed: FRLG Unown locations are now checked correctly. Thanks @Kermalis!
+ - - Fixed: Gen1/2 Stadium gifts are now checked more thoroughly. Thanks @FeralFalcon!
+ - Added: Gen8 Team Slots are now recognized and locked for editing. Thanks Anubis, @architdate, @Wanderer1391!
+ - Added: Gen8 Block Info editor now has more blocks labeled.
+ - Added: Gen8 Raid editor now shows the raid type enumeration, and more cleanly sets flags. Thanks @3096 & @slp32!
+ - Added: Gen8 setting to a slot will now increment game records. Thanks @CanoeHope!
+ - Added: Gen8 Rental Team reading. Thanks @architdate!
+ - Added: Gen4 Togepi egg gift event constant. Thanks @asterysx!
+ - Changed: Gen8 Block Info editor now sorts blocks by current value.
+ - Changed: Gen7 default hatch location is now Paniola Ranch instead of one of the routes. Thanks @CanoeHope!
+ - Changed: Tab indexes (pressing tab to jump between controls) now behaves more fluidly in the main window.
+ - Changed: Save Editor buttons (like Trainer Info, Pokédex) are now sorted alphabetically for easier locating.
+ - Changed: Mystery Gift - Can now delete multiple Gift Received flags at a time. Thanks @murrty!
+ - Changed: Updated Korean translation. Thanks @yurical!
+ - Fixed: Gen8 Trainer Editor no longer screws up game language.
+ - Fixed: Showdown Sets are now exported more accurately (hyper training / foreign species names).
+
+20/01/26 - New Update: (32160) [2384169]
+ - Legality:
+ - - Added: Form Argument legality checks. Alcremie, Runerigus, Yamask, Hoopa, and Furfrou. Thanks @CanoeHope!
+ - - Added: More static encounter locations.
+ - - Fixed: Footprint ribbon is now checked for Gen8.
+ - - Fixed: Slowpoke-1 Hidden Ability is now banned, and bred Mimikyu now allows Hidden Ability.
+ - - Changed: A little bit of the program's internal structures have been tweaked for performance.
+ - Added: Gen8 Block Research/Export/Import tool, with direct block edits.
+ - - Can swap in a full Fashion block, for example. Or, edit your title screen to show 6 Magikarp!
+ - - Edit things directly! Known block objects can be selected, and all exposed Properties can be changed.
+ - - Can compare two saves to see what blocks/values changed.
+ - Added: Gen5 Subway score editing. Thanks @egzn!
+ - Added: More event flag/const have been documented. Thanks @FeralFalcon & @asterysx!
+ - Fixed: Internal API changes for more Thread safety. (People reuse PKHeX.Core in multithreaded applications, and the Rand utility didn't work correctly).
+ - Fixed: German translation no longer misbehaves for certain ribbons.
+ - Fixed: Handling for Form Arguments is now performed correctly. Will no longer clear for Runerigus on edit.
+ - Fixed: Gen7 LGPE Dumping of Go Park Entities with invalid file names are now sanitized before saving. Thanks @xJam-es!
+ - Fixed: Gen4 HGSS Pokéwalker course unlock cheat now works as intended.
+ - Changed: Gen8 SWSH Block reading/writing is now much more efficient.
+ - Changed: Gen7 LGPE Awakening Values are now applied more liberally via Control-click Random. Only an attack IV of 0 will not add AVs. Thanks slp32!
+ - Changed: Spanish Translation updated. Thanks @egzn!
+
+20/01/10 - New Update: (43722) [2352009]
+ - Added: Gen8 Support for save data from the latest game patch.
+ - Legality: More handling for new additions.
+ - Added: Move#_PP $suggest for batch editor.
+ - Added: Click the PP label to refresh PP counts.
+ - Added: Setting to disable sounds on save file load and legality checks (nuisance).
+ - Fixed: Gen8 Mimikyu Busted form now shows up in Pokédex editor.
+ - Fixed: Gen4 Event Constants are now read correctly.
+ - Fixed: Disabled pk slot glow effect will no longer leave the frosted effect behind.
+ - Changed: GUI translation (winforms only) files moved to WinForms project (no longer in PKHeX.Core). Still need translations ;)

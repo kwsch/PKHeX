@@ -1,240 +1,289 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.GameVersion;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Utility class for <see cref="GameVersion"/> logic.
+/// </summary>
+public static class GameUtil
 {
     /// <summary>
-    /// Utility class for <see cref="GameVersion"/> logic.
+    /// All possible <see cref="GameVersion"/> values a <see cref="PKM.Version"/> can have.
     /// </summary>
-    public static class GameUtil
+    /// <remarks>Ordered roughly by most recent games first.</remarks>
+    public static readonly GameVersion[] GameVersions = GetValidGameVersions();
+
+    private static GameVersion[] GetValidGameVersions()
     {
-        /// <summary>
-        /// List of possible <see cref="GameVersion"/> values a <see cref="PKM.Version"/> can have.
-        /// </summary>
-        public static readonly GameVersion[] GameVersions = ((GameVersion[])Enum.GetValues(typeof(GameVersion))).Where(z => z < RB && z > 0).Reverse().ToArray();
+        var all = Enum.GetValues<GameVersion>();
+        var valid = Array.FindAll(all, IsValidSavedVersion);
+        Array.Reverse(valid);
+        return valid;
+    }
 
-        /// <summary>
-        /// Indicates if the <see cref="GameVersion"/> value is a value used by the games or is an aggregate indicator.
-        /// </summary>
-        /// <param name="game">Game to check</param>
-        public static bool IsValidSavedVersion(this GameVersion game) => 0 < game && game <= RB;
+    /// <summary>
+    /// Indicates if the <see cref="GameVersion"/> value is a value used by the games or is an aggregate indicator.
+    /// </summary>
+    /// <param name="version">Game to check</param>
+    public static bool IsValidSavedVersion(this GameVersion version) => version is > 0 and <= HighestGameID;
 
-        /// <summary>Determines the Version Grouping of an input Version ID</summary>
-        /// <param name="Version">Version of which to determine the group</param>
-        /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion GetMetLocationVersionGroup(GameVersion Version)
-        {
-            switch (Version)
-            {
-                // Sidegame
-                case CXD:
-                    return CXD;
-                case GO:
-                    return GO;
+    /// <summary>
+    /// Most recent game ID utilized by official games.
+    /// </summary>
+    internal const GameVersion HighestGameID = RB - 1;
 
-                // Gen1
-                case RBY: case RD: case BU: case YW: case GN:
-                    return RBY;
+    /// <summary>Determines the Version Grouping of an input Version ID</summary>
+    /// <param name="version">Version of which to determine the group</param>
+    /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
+    public static GameVersion GetMetLocationVersionGroup(GameVersion version) => version switch
+    {
+        // Side games
+        CXD => CXD,
+        GO => GO,
 
-                // Gen2
-                case GS: case GD: case SV: case C:
-                    return GSC;
+        // VC Transfers
+        RD or BU or YW or GN or GD or SI or C => USUM,
 
-                // Gen3
-                case R: case S:
-                    return RS;
-                case E:
-                    return E;
-                case FR: case LG:
-                    return FR;
+        // Gen2 -- PK2
+        GS or GSC => GSC,
 
-                // Gen4
-                case D: case P:
-                    return DP;
-                case Pt:
-                    return Pt;
-                case HG: case SS:
-                    return HGSS;
+        // Gen3
+        R or S => RS,
+        E => E,
+        FR or LG => FR,
 
-                // Gen5
-                case B: case W:
-                    return BW;
-                case B2: case W2:
-                    return B2W2;
+        // Gen4
+        D or P => DP,
+        Pt => Pt,
+        HG or SS => HGSS,
 
-                // Gen6
-                case X: case Y:
-                    return XY;
-                case OR: case AS:
-                    return ORAS;
+        // Gen5
+        B or W => BW,
+        B2 or W2 => B2W2,
 
-                // Gen7
-                case SN: case MN:
-                    return SM;
-                case US: case UM:
-                    return USUM;
+        // Gen6
+        X or Y => XY,
+        OR or AS => ORAS,
 
-                default:
-                    return Invalid;
-            }
-        }
+        // Gen7
+        SN or MN => SM,
+        US or UM => USUM,
+        GP or GE => GG,
 
-        /// <summary>
-        /// Gets a Version ID from the end of that Generation
-        /// </summary>
-        /// <param name="generation">Generation ID</param>
-        /// <returns>Version ID from requested generation. If none, return Unknown.</returns>
-        public static GameVersion GetVersion(int generation)
-        {
-            switch (generation)
-            {
-                case 1: return RBY;
-                case 2: return C;
-                case 3: return E;
-                case 4: return SS;
-                case 5: return W2;
-                case 6: return AS;
-                case 7: return UM;
-                default:
-                    return Invalid;
-            }
-        }
+        // Gen8
+        SW or SH => SWSH,
+        BD or SP => BDSP,
+        PLA => PLA,
 
-        /// <summary>
-        /// Gets the Generation the <see cref="GameVersion"/> belongs to.
-        /// </summary>
-        /// <param name="game">Game to retrieve the generation for</param>
-        /// <returns>Generation ID</returns>
-        public static int GetGeneration(this GameVersion game)
-        {
-            if (Gen1.Contains(game)) return 1;
-            if (Gen2.Contains(game)) return 2;
-            if (Gen3.Contains(game)) return 3;
-            if (Gen4.Contains(game)) return 4;
-            if (Gen5.Contains(game)) return 5;
-            if (Gen6.Contains(game)) return 6;
-            if (Gen7.Contains(game)) return 7;
-            return -1;
-        }
+        // Gen9
+        SL or VL => SV,
+        ZA => ZA,
 
-        /// <summary>
-        /// Gets the Generation the <see cref="GameVersion"/> belongs to.
-        /// </summary>
-        /// <param name="game">Game to retrieve the generation for</param>
-        /// <returns>Generation ID</returns>
-        public static int GetMaxSpeciesID(this GameVersion game)
-        {
-            if (Gen1.Contains(game)) return Legal.MaxSpeciesID_1;
-            if (Gen2.Contains(game)) return Legal.MaxSpeciesID_2;
-            if (Gen3.Contains(game)) return Legal.MaxSpeciesID_3;
-            if (Gen4.Contains(game)) return Legal.MaxSpeciesID_4;
-            if (Gen5.Contains(game)) return Legal.MaxSpeciesID_5;
-            if (Gen6.Contains(game)) return Legal.MaxSpeciesID_6;
-            if (Gen7.Contains(game))
-            {
-                if (SM.Contains(game))
-                    return Legal.MaxSpeciesID_7;
-                if (USUM.Contains(game))
-                    return Legal.MaxSpeciesID_7_USUM;
-                return Legal.MaxSpeciesID_7_USUM;
-            }
-            return -1;
-        }
+        _ => Invalid,
+    };
 
+    /// <summary>
+    /// Gets a Version ID from the end of that Generation
+    /// </summary>
+    /// <param name="generation">Generation ID</param>
+    /// <returns>Version ID from requested generation. If none, return <see cref="Invalid"/>.</returns>
+    public static GameVersion GetVersion(byte generation) => generation switch
+    {
+        1 => RBY,
+        2 => C,
+        3 => E,
+        4 => SS,
+        5 => W2,
+        6 => AS,
+        7 => UM,
+        8 => SH,
+        9 => VL,
+        _ => Invalid,
+    };
 
-        /// <summary>
-        /// Checks if the <see cref="g1"/> version (or subset versions) is equivalent to <see cref="g2"/>.
-        /// </summary>
-        /// <param name="g1">Version (set)</param>
-        /// <param name="g2">Individual version</param>
-        public static bool Contains(this GameVersion g1, GameVersion g2)
-        {
-            if (g1 == g2 || g1 == Any)
-                return true;
+    /// <summary>
+    /// Gets the Generation the <see cref="GameVersion"/> belongs to.
+    /// </summary>
+    /// <param name="version">Game to retrieve the generation for</param>
+    /// <returns>Generation ID</returns>
+    public static byte GetGeneration(this GameVersion version)
+    {
+        if (version.IsValidSavedVersion())
+            return version.GetGenerationFromSaved();
 
-            switch (g1)
-            {
-                case RB:
-                    return g2 == RD || g2 == BU || g2 == GN;
-                case RBY:
-                    return RB.Contains(g2) || g2 == YW;
-                case Gen1:
-                    return RBY.Contains(g2) || g2 == Stadium || g2 == EventsGBGen1 || g2 == VCEvents;
-                case Stadium:
-                case EventsGBGen1:
-                case VCEvents:
-                    goto case RBY;
+        if (Gen1.Contains(version)) return 1;
+        if (Gen2.Contains(version)) return 2;
+        if (Gen3.Contains(version)) return 3;
+        if (Gen4.Contains(version)) return 4;
+        if (Gen5.Contains(version)) return 5;
+        if (Gen6.Contains(version)) return 6;
+        if (Gen7.Contains(version)) return 7;
+        if (Gen7b.Contains(version)) return 7;
+        if (Gen8.Contains(version)) return 8;
+        if (Gen9.Contains(version)) return 9;
+        return 0;
+    }
 
-                case GS: return g2 == GD || g2 == SV;
-                case GSC:
-                    return GS.Contains(g2) || g2 == C;
-                case Gen2:
-                    return GSC.Contains(g2) || g2 == Stadium2 || g2 == EventsGBGen2;
-                case Stadium2:
-                case EventsGBGen2:
-                    goto case GSC;
-                case GBCartEraOnly:
-                    return g2 == Stadium || g2 == Stadium2 || g2 == EventsGBGen1 || g2 == EventsGBGen2;
+    public static byte GetGenerationFromSaved(this GameVersion version) => version switch
+    {
+        RD or GN or BU or YW => 1,
+        GD or SI or C => 2,
+        S or R or E or FR or LG or CXD => 3,
+        D or P or Pt or HG or SS or BATREV => 4,
+        B or W or B2 or W2 => 5,
+        X or Y or AS or OR => 6,
+        GP or GE => 7,
+        SN or MN => 7,
+        US or UM => 7,
+        PLA => 8,
+        BD or SP => 8,
+        SW or SH => 8,
+        SL or VL => 9,
+        ZA => 9,
+        _ => 0
+    };
 
-                case RS: return g2 == R || g2 == S;
-                case RSE:
-                    return RS.Contains(g2) || g2 == E;
-                case FRLG: return g2 == FR || g2 == LG;
-                case COLO:
-                case XD: return g2 == CXD;
-                case CXD: return g2 == COLO || g2 == XD;
-                case RSBOX: return RS.Contains(g2) || g2 == E || FRLG.Contains(g2);
-                case Gen3:
-                    return RSE.Contains(g2) || FRLG.Contains(g2) || CXD.Contains(g2) || g2 == RSBOX;
+    /// <summary>
+    /// Gets the Generation the <see cref="GameVersion"/> belongs to.
+    /// </summary>
+    /// <param name="version">Game to retrieve the generation for</param>
+    /// <returns>Generation ID</returns>
+    public static ushort GetMaxSpeciesID(this GameVersion version) => version switch
+    {
+        RD or GN or BU or YW => Legal.MaxSpeciesID_1,
+        GD or SI or C        => Legal.MaxSpeciesID_2,
+        S or R or E or FR or LG or CXD => Legal.MaxSpeciesID_3,
+        D or P or Pt or HG or SS       => Legal.MaxSpeciesID_4,
+        B or W or B2 or W2 => Legal.MaxSpeciesID_5,
+        X or Y or AS or OR => Legal.MaxSpeciesID_6,
+        GP or GE => Legal.MaxSpeciesID_7b,
+        SN or MN => Legal.MaxSpeciesID_7,
+        US or UM => Legal.MaxSpeciesID_7_USUM,
+        PLA      => Legal.MaxSpeciesID_8a,
+        BD or SP => Legal.MaxSpeciesID_8b,
+        SW or SH => Legal.MaxSpeciesID_8,
+        SL or VL => Legal.MaxSpeciesID_9,
+        ZA       => Legal.MaxSpeciesID_9a,
+        _ => 0
+    };
 
-                case DP: return g2 == D || g2 == P;
-                case HGSS: return g2 == HG || g2 == SS;
-                case DPPt:
-                    return DP.Contains(g2) || g2 == Pt;
-                case BATREV: return DP.Contains(g2) || g2 == Pt || HGSS.Contains(g2);
-                case Gen4:
-                    return DPPt.Contains(g2) || HGSS.Contains(g2) || g2 == BATREV;
+    /// <summary>
+    /// Checks if the <see cref="g1"/> version (or subset versions) is equivalent to <see cref="g2"/>.
+    /// </summary>
+    /// <param name="g1">Version (set)</param>
+    /// <param name="g2">Individual version</param>
+    public static bool Contains(this GameVersion g1, GameVersion g2)
+    {
+        if (g1 == g2 || g1 == Any)
+            return true;
+        if (g1.IsValidSavedVersion())
+            return false;
+        return g1.ContainsFromLumped(g2);
+    }
 
-                case BW: return g2 == B || g2 == W;
-                case B2W2: return g2 == B2 || g2 == W2;
-                case Gen5:
-                    return BW.Contains(g2) || B2W2.Contains(g2);
+    public static bool IsGen1(this GameVersion version) => version is RD or GN or BU or YW;
+    public static bool IsGen2(this GameVersion version) => version is GD or SI or C;
+    public static bool IsGen3(this GameVersion version) => version is S or R or E or FR or LG or CXD;
+    public static bool IsGen4(this GameVersion version) => version is HG or SS or D or P or Pt;
+    public static bool IsGen5(this GameVersion version) => version is W or B or W2 or B2;
+    public static bool IsGen6(this GameVersion version) => version is X or Y or AS or OR;
+    public static bool IsGen7(this GameVersion version) => version is SN or MN or US or UM;
+    public static bool IsGen7b(this GameVersion version) => version is GP or GE;
+    public static bool IsGen8(this GameVersion version) => version is SW or SH or PLA or BD or SP;
+    public static bool IsGen9(this GameVersion version) => version is SL or VL or ZA;
 
-                case XY: return g2 == X || g2 == Y;
-                case ORAS: return g2 == OR || g2 == AS;
-                case Gen6:
-                    return XY.Contains(g2) || ORAS.Contains(g2);
+    /// <summary>
+    /// Checks if the <see cref="lump"/> version is the lump of the requested saved <see cref="version"/>.
+    /// </summary>
+    public static bool ContainsFromLumped(this GameVersion lump, GameVersion version) => lump switch
+    {
+        RB       => version is RD or BU or GN,
+        RBY      => version is RD or BU or GN or YW or RB,
+        Stadium  => version is RD or BU or GN or YW or RB or RBY,
+        StadiumJ => version is RD or BU or GN or YW or RB or RBY,
+        Gen1     => version is RD or BU or GN or YW or RB or RBY or Stadium,
 
-                case SM:
-                    return g2 == SN || g2 == MN;
-                case USUM:
-                    return g2 == US || g2 == UM;
-                case Gen7:
-                    return SM.Contains(g2) || USUM.Contains(g2);
+        GS       => version is GD or SI,
+        GSC      => version is GD or SI or C or GS,
+        Stadium2 => version is GD or SI or C or GS or GSC,
+        Gen2     => version is GD or SI or C or GS or GSC or Stadium2,
 
-                default: return false;
-            }
-        }
+        RS     => version is R or S,
+        RSE    => version is R or S or E or RS,
+        FRLG   => version is FR or LG,
+        EFL    => version is E or FR or LG,
+        RSBOX  => version is R or S or E or FR or LG,
+        Gen3   => version is R or S or E or FR or LG or CXD or RSBOX or RS or RSE or FRLG,
+        COLO   => version is CXD,
+        XD     => version is CXD,
 
-        /// <summary>
-        /// List of possible <see cref="GameVersion"/> values within the provided <see cref="generation"/>.
-        /// </summary>
-        /// <param name="generation">Generation to look within</param>
-        public static GameVersion[] GetVersionsInGeneration(int generation) => GameVersions.Where(z => z.GetGeneration() == generation).ToArray();
+        DP     => version is D or P,
+        HGSS   => version is HG or SS,
+        DPPt   => version is D or P or Pt or DP,
+        Gen4   => version is D or P or Pt or HG or SS or BATREV or DP or HGSS or DPPt,
 
-        /// <summary>
-        /// List of possible <see cref="GameVersion"/> values within the provided <see cref="IGameValueLimit"/> criteria.
-        /// </summary>
-        /// <param name="obj">Criteria for retrieving versions</param>
-        /// <param name="generation">Generation format minimum (necessary for the CXD/Gen4 swap etc)</param>
-        public static IEnumerable<GameVersion> GetVersionsWithinRange(IGameValueLimit obj, int generation = -1)
-        {
-            var vers = GameVersions.Where(z => z >= (GameVersion)obj.MinGameID && z <= (GameVersion)obj.MaxGameID);
-            if (generation == -1)
-                return vers;
-            return vers.Where(z => z.GetGeneration() <= generation);
-        }
+        BW     => version is B or W,
+        B2W2   => version is B2 or W2,
+        Gen5   => version is B or W or B2 or W2 or BW or B2W2,
+
+        XY     => version is X or Y,
+        ORAS   => version is OR or AS,
+        Gen6   => version is X or Y or OR or AS or XY or ORAS,
+
+        SM     => version is SN or MN,
+        USUM   => version is US or UM,
+        Gen7   => version is SN or MN or US or UM or SM or USUM,
+
+        GG     => version is GP or GE,
+        Gen7b  => version is GP or GE or GO or GG,
+
+        SWSH   => version is SW or SH,
+        BDSP   => version is BD or SP,
+        Gen8   => version is SW or SH or BD or SP or SWSH or BDSP or PLA,
+
+        SV     => version is SL or VL,
+        Gen9   => version is SL or VL or SV or ZA,
+
+        _      => false,
+    };
+
+    /// <summary>
+    /// List of possible <see cref="GameVersion"/> values within the provided <see cref="generation"/>.
+    /// </summary>
+    /// <param name="generation">Generation to look within</param>
+    /// <param name="version">Entity version</param>
+    public static GameVersion[] GetVersionsInGeneration(byte generation, GameVersion version)
+    {
+        if (Gen7b.Contains(version))
+            return [GO, GP, GE];
+        return Array.FindAll(GameVersions, z => z.GetGeneration() == generation);
+    }
+
+    /// <summary>
+    /// List of possible <see cref="GameVersion"/> values within the provided <see cref="IGameValueLimit"/> criteria.
+    /// </summary>
+    /// <param name="obj">Criteria for retrieving versions</param>
+    /// <param name="generation">Generation format minimum (necessary for the CXD/Gen4 swap etc.)</param>
+    public static IEnumerable<GameVersion> GetVersionsWithinRange(IGameValueLimit obj, byte generation = 0)
+    {
+        var max = obj.MaxGameID;
+        if (max == Legal.MaxGameID_7b) // edge case
+            return [GO, GP, GE];
+        var versions = GameVersions
+            .Where(version => obj.MinGameID <= version && version <= max);
+        if (max != BATREV)
+            versions = versions.Where(static version => version != BATREV);
+        if (generation == 0)
+            return versions;
+        if (max == Legal.MaxGameID_7 && generation == 7)
+            versions = versions.Where(static version => version != GO);
+
+        // HOME allows up-reach to Gen9
+        if (generation >= 8)
+            generation = 9;
+        return versions.Where(version => version.GetGeneration() <= generation);
     }
 }

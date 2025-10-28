@@ -1,0 +1,255 @@
+(Aucun)
+Master Ball
+Hyper Ball
+Poudreclaire
+Super Ball
+Poké Ball
+Teru-sama (0)
+Bicyclette
+Pierre Lune
+Antidote
+Anti-Brûle
+Antigel
+Réveil
+Anti-Para
+Guérison
+Potion Max
+Hyper Potion
+Super Potion
+Potion
+Corde Sortie
+Repousse
+Max Élixir
+Pierre Feu
+Pierrefoudre
+Pierre Eau
+Teru-sama (1)
+PV Plus
+Proteine
+Fer
+Carbone
+Poing Chance
+Calcium
+Super Bonbon
+Précision +
+Pierreplante
+Poudre Métal
+Pépite
+Poké Poupée
+Total Soin
+Rappel
+Rappel Max
+Défense Spéc
+Superepousse
+Max Repousse
+Muscle +
+Teru-sama (2)
+Eau Fraîche
+Soda Cool
+Limonade
+Attaque +
+Teru-sama (3)
+Défense +
+Vitesse +
+Spécial +
+Boîte Jeton
+Cherch'Objet
+Teru-sama (4)
+Multi Exp
+Canne
+Super Canne
+Feuille Arg.
+Méga Canne
+PP Plus
+Huile
+Huile Max
+Élixir
+Écaillerouge
+Potionsecret
+Passe Bateau
+Œuf Mystère
+Glas Transp.*
+Aile Argent
+Lait Meumeu
+Vive Griffe
+Baie Antidot
+Feuille d'Or
+Sable Doux
+Bec Pointu
+Baie Antipar
+Baie Brûlure
+Baie Gel
+Pic Venin
+Roche Royale
+Baie Amère
+Baie Menthe
+Noigrume Rge
+Petit Champi
+Gros Champi
+Poudre Arg.
+Noigrume Blu
+Teru-sama (5)
+Pièce Rune
+Noigrume Jne
+Noigrume Ver
+Rune Purif.
+Eau Mystique
+Cuillertordu
+Noigrume Blc
+Ceint.Noire
+Noigrume Noi
+Teru-sama (6)
+Noigrume Ros
+Lunet.Noires
+Queueramolos
+Ruban Rose
+Bâton
+Boule Fumée
+Glacéternel
+Aimant
+Baie Miracle
+Perle
+Grande Perle
+Pierre Stase
+Rune Sort
+Bonbon Rage
+GS Ball*
+Carte Bleue*
+Grain Miracl
+Masse Os
+Bandeau +
+Teru-sama (7)
+Poudrénergie
+Racinénergie
+Poudre Soin
+Herbe Rappel
+Pierre Dure
+Œuf Chance
+Carte Magn.
+Partie Mach.
+Ticket Œuf*
+Objet perdu
+Pouss.Étoile
+Morc. Étoile
+Clé Sous-Sol
+Passe
+Teru-sama (8)
+Teru-sama (9)
+Teru-sama (10)
+Charbon
+Jus de Baie
+Lentilscope
+Teru-sama (11)
+Teru-sama (12)
+Peau Métal
+Croc Dragon
+Teru-sama (13)
+Restes
+Teru-sama (14)
+Teru-sama (15)
+Teru-sama (16)
+Baie Mystère
+Ecailledraco
+ADN Berzerk
+Teru-sama (17)
+Teru-sama (18)
+Teru-sama (19)
+Cendresacrée
+Masse Ball
+Letr Fleur
+Niveau Ball
+Appât Ball
+Speed Ball
+Teru-sama (20)
+Ballelumière
+Copain Ball
+Lune Ball
+Love Ball
+Coffre Nml
+Coffre Luxe
+Pierresoleil
+Ruban à Pois
+Teru-sama (21)
+Evolutor
+Baie
+Baie Dorée
+Carapuce à O
+Teru-sama (22)
+Parc Ball
+Arcenci'Aile
+Teru-sama (23)
+Morc. Brique
+Letr Surf
+Letrbleuciel
+Letrportrait
+Letrcharm.
+Letr Évoli
+Letr Morph
+Letrcielbleu
+Letr Musique
+Letr Mirage
+Teru-sama (24)
+CT01
+CT02
+CT03
+CT04
+CT04 (Inutilisé)
+CT05
+CT06
+CT07
+CT08
+CT09
+CT10
+CT11
+CT12
+CT13
+CT14
+CT15
+CT16
+CT17
+CT18
+CT19
+CT20
+CT21
+CT22
+CT23
+CT24
+CT25
+CT26
+CT27
+CT28
+CT28 (Inutilisé)
+CT29
+CT30
+CT31
+CT32
+CT33
+CT34
+CT35
+CT36
+CT37
+CT38
+CT39
+CT40
+CT41
+CT42
+CT43
+CT44
+CT45
+CT46
+CT47
+CT48
+CT49
+CT50
+CS01
+CS02
+CS03
+CS04
+CS05
+CS06
+CS07
+CS08 (Inutilisé)
+CS09 (Inutilisé)
+CS10 (Inutilisé)
+CS11 (Inutilisé)
+CS12 (Inutilisé)

@@ -1,0 +1,14 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	レジョン・メトロポリタナ州	Región Metropolitana	Région Métropolitaine de Santiago	Región Metropolitana	Regione Metropolitana di Santiago	Región Metropolitana	圣地亚哥首都区	산티아고 수도주	聖地亞哥首都區
+003	バルパライソ州	Valparaíso	Valparaiso	Valparaíso (Region V)	Valparaíso	Valparaíso	瓦尔帕莱索大区	발파라이소 주	瓦爾帕萊索大區
+004	アイセン・デル・Ｇ・カルロス・イバニェス・デル・カンポ州	Aisén del General Carlos Ibáñez del Campo	Aisén del General Carlos Ibáñez del Campo	Aisén (Region XI)	Aisén del General Carlos Ibáñez del Campo	Aisén del General Carlos Ibáñez del Campo	伊瓦涅斯将军的艾森大区	아이센 주	伊瓦涅斯將軍的艾森大區
+005	アントファガスタ州	Antofagasta	Antofagasta	Antofagasta (Region II)	Antofagasta	Antofagasta	安托法加斯塔大区	안토파가스타 주	安託法加斯塔大區
+006	アラウカニア州	Araucanía	Araucanie	Araukanien (Region IX)	Araucanía	Araucanía	阿劳卡尼亚大区	아라우카니아 주	阿勞卡尼亞大區
+007	アタカマ州	Atacama	Atacama	Atacama (Region III)	Atacama	Atacama	阿塔卡马大区	아타카마 주	阿塔卡馬大區
+008	ビオビオ州	Bío-Bío	Biobío	Bío-Bío (Region VIII)	Biobío	Bío-Bío	比奥比奥大区	비오비오 주	比奧比奧大區
+009	コキンボ州	Coquimbo	Coquimbo	Coquimbo (Region IV)	Coquimbo	Coquimbo	科金博大区	코킴보 주	科金博大區
+010	L・ベルナルド・オヒギンス州	Libertador General Bernardo O'Higgins	Libertador General Bernardo O'Higgins	Libertador General Bernardo O'Higgins (Region VI)	Libertador General Bernardo O'Higgins	Libertador General Bernardo O'Higgins	奥伊金斯将军解放者大区	오이긴스 주	奧伊金斯將軍解放者大區
+011	ロス・ラゴス州	Los Lagos	Los Lagos	Los Lagos (Region X)	Los Lagos	Los Lagos	湖大区	로스라고스 주	湖大區
+012	マガリャネス州	Magallanes y Antártica Chilena	Magellan et Antarctique Chilienne	Magallanes (Region XII) und Chilenische Antarktis	Magellane e Antartide Cilena	Magallanes y Antártica Chilena	麦哲伦-智利南极大区	마가야네스 주	麥哲倫-智利南極大區
+013	マウレ州	Maule	Maule	Maule (Region VII)	Maule	Maule	马乌莱大区	마울레 주	馬烏萊大區
+014	タラパカ州	Tarapacá	Tarapacá	Tarapacá (Region I)	Tarapacá	Tarapacá	塔拉帕卡大区	타라파카 주	塔拉帕卡大區

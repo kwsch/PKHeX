@@ -1,0 +1,28 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	アクレ	Acre	Acre	Acre	Acre	Acre	阿克里州	아크리	阿克裏州
+002	ロンドーニア	Rondônia	Rondônia	Rondônia	Rondônia	Rondônia	朗多尼亚州	혼도니아	朗多尼亞州
+003	アラゴーアス	Alagoas	Alagoas	Alagoas	Alagoas	Alagoas	阿拉戈斯州	알라고아스	阿拉戈斯州
+004	アマパ	Amapá	Amapá	Amapá	Amapa	Amapá	阿马帕州	아마파	阿馬帕州
+005	アマゾナス	Amazonas	Amazonas	Amazonas	Amazonas	Amazonas	亚马孙州	아마조나스	亞馬孫州
+006	バイーア	Bahia	Bahia	Bahia	Bahia	Bahía	巴伊亚州	바이아	巴伊亞州
+007	セアラー	Ceará	Ceará	Ceará	Ceará	Ceará	塞阿拉州	세아라	塞阿拉州
+008	れんぽうく	Federal District	District fédéral	Bundesdistrikt	Distretto Federale	Distrito Federal	联邦区	연방구	聯邦區
+009	エスピリト・サント	Espírito Santo	Espírito Santo	Espírito Santo	Espírito Santo	Espírito Santo	圣埃斯皮里图州	에스피리투산투	聖埃斯皮裏圖州
+010	ゴイアース	Goias	Goiás	Goiás	Goiás	Goiás	戈亚斯州	고이아스	戈亞斯州
+011	マランニョン	Maranhão	Maranhão	Maranhão	Maranhão	Maranhão	马拉尼昂州	마라냥	馬拉尼昂州
+012	マット・グロッソ	Mato Grosso	Mato Grosso	Mato Grosso	Mato Grosso	Mato Grosso	马托格罗索州	마투그로수	馬託格羅索州
+013	マット・グロッソ・ド・スール	Mato Grosso do Sul	Mato Grosso do Sul	Mato Grosso do Sul	Mato Grosso del Sud	Mato Grosso do Sul	南马托格罗索州	마투그로수두술	南馬託格羅索州
+014	ミナス・ジェライス	Minas Gerais	Minas Gerais	Minas Gerais	Minas Gerais	Minas Gerais	米纳斯吉拉斯州	미나스제라이스	米納斯吉拉斯州
+015	パラー	Pará	Pará	Pará	Pará	Pará	帕拉州	파라	帕拉州
+016	パライーバ	Paraíba	Paraíba	Paraíba	Paraíba	Paraíba	帕拉伊巴州	파라이바	帕拉伊巴州
+017	パラナー	Paraná	Paraná	Paraná	Paraná	Paraná	巴拉那州	파라나	巴拉那州
+018	ペルナンブッコ	Pernambuco	Pernambouc	Pernambuco	Pernambuco	Pernambuco	伯南布哥州	페르남부쿠	伯南布哥州
+019	ピアウィー	Piauí	Piauí	Piauí	Piauí	Piauí	皮奥伊州	피아우이	皮奧伊州
+020	リオ・デ・ジャネイロ	Rio de Janeiro	Rio de Janeiro	Rio de Janeiro	Rio de Janeiro	Río de Janeiro	里约热内卢州	리우데자네이루	裏約熱內盧州
+021	リオ・グランデ・ド・スール	Rio Grande do Sul	Rio Grande do Sul	Rio Grande do Sul	Rio Grande del Sud	Río Grande del Sur	南里奥格兰德州	히우그란지두술	南裏奧格蘭德州
+022	リオ・グランデ・ド・ノルテ	Rio Grande do Norte	Rio Grande do Norte	Rio Grande do Norte	Rio Grande del Nord	Río Grande del Norte	北里奥格兰德州	히우그란지두노르치	北裏奧格蘭德州
+023	ロライマ	Roraima	Roraima	Roraima	Roraima	Roraima	罗赖马州	호라이마	羅賴馬州
+024	サンタ・カタリーナ	Santa Catarina	Santa Catarina	Santa Catarina	Santa Catarina	Santa Catarina	圣卡塔琳娜州	산타카타리나	聖卡塔琳娜州
+025	サン・パウロ	São Paulo	São Paulo	São Paulo	San Paolo	São Paulo	圣保罗州	상파울루	聖保羅州
+026	セルジッペ	Sergipe	Sergipe	Sergipe	Sergipe	Sergipe	塞尔希培州	세르지피	塞爾希培州
+027	トカンチンス	Tocantins	Tocantins	Tocantins	Tocantins	Tocantins	托坎廷斯州	토칸칭스	託坎廷斯州

@@ -1,0 +1,15 @@
+{
+    "Format": "{0}：{1}",
+    "FormatLevelRange": "{0}：{1}-{2}",
+    "EncounterType": "遭遇類型",
+    "Version": "版本",
+    "Level": "等級",
+    "LevelRange": "等級範圍",
+    "Location": "地點",
+    "OriginSeed": "原始 Seed",
+    "PIDType": "PID類型",
+    "Time": "時間",
+    "FrameNewGame": "新遊戲：0x{0}，幀：{1}",
+    "FrameInitial": "初始：0x{0}，幀：{1}",
+    "SuffixDays": " (天數：{0})"
+}

@@ -1,0 +1,25 @@
+None
+Sand
+Grass
+
+Rock
+Cave
+
+Water
+
+Building
+Marsh
+
+Unspecific (DP)
+
+
+
+
+
+
+
+
+
+
+Distortion World
+Unspecific (Pt/HGSS)

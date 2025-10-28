@@ -1,0 +1,8 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	サン・ホセ州	San José	San José	San José	San José	San José	圣何塞省	산호세 주	聖何塞省
+003	アラフエラ州	Alajuela	Alajuela	Alajuela	Alajuela	Alajuela	阿拉胡埃拉省	알라후엘라 주	阿拉胡埃拉省
+004	カルタゴ州	Cartago	Cartago	Cartago	Cartago	Cartago	卡塔戈省	카르타고 주	卡塔戈省
+005	グアナカステ州	Guanacaste	Guanacaste	Guanacaste	Guanacaste	Guanacaste	瓜纳卡斯特省	과나카스테 주	瓜納卡斯特省
+006	エレディア州	Heredia	Heredia	Heredia	Heredia	Heredia	埃雷迪亚省	에레디아 주	埃雷迪亞省
+007	リモン州	Limón	Limón	Limón	Limón	Limón	利蒙省	리몬 주	利蒙省
+008	プンタレナス州	Puntarenas	Puntarenas	Puntarenas	Puntarenas	Puntarenas	蓬塔雷纳斯省	푼타레나스 주	蓬塔雷納斯省

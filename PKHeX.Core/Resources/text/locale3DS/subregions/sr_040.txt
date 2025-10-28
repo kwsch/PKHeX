@@ -1,0 +1,11 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	パナマ	Panamá	Panama	Panama	Panamá	Panamá	巴拿马省	파나마	巴拿馬省
+003	ボカズ・デル・トーロ	Bocas del Toro	Bocas del Toro	Bocas del Toro	Bocas del Toro	Bocas del Toro	博卡斯-德尔托罗省	보카스델토로	博卡斯-德爾託羅省
+004	チリキ	Chiriquí	Chiriquí	Chiriquí	Chiriquí	Chiriquí	奇里基省	치리키	奇裏基省
+005	コクレ	Coclé	Coclé	Coclé	Coclé	Coclé	科克莱省	코클레	科克萊省
+006	コロン	Colón	Colón	Colón	Colón	Colón	科隆省	콜론	科隆省
+007	ダリエン	Darién	Darién	Darién	Darién	Darién	达连省	다리엔	達連省
+008	エレーラ	Herrera	Herrera	Herrera	Herrera	Herrera	埃雷拉省	에레라	埃雷拉省
+009	ロス・サントス	Los Santos	Los Santos	Los Santos	Los Santos	Los Santos	洛斯桑托斯省	로스 산토스	洛斯桑託斯省
+010	サンブラス諸島	Kuna Yala	Kuna Yala	Kuna Yala	Kuna Yala	Kuna Yala	圣布拉斯特区	산블라스 제도	聖布拉斯特區
+011	ベラグアス	Veraguas	Veraguas	Veraguas	Veraguas	Veraguas	贝拉瓜斯省	베라과스	貝拉瓜斯省

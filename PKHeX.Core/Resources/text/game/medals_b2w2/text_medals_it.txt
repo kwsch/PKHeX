@@ -1,0 +1,255 @@
+Primi passi
+Obiettivo raggiunto
+Concorrente recluta
+Concorrente d'élite
+Concorrente eminente
+Concorrente leggenda
+N° 1 in assoluto
+Podista principiante
+Podista professionista
+Maratoneta
+Orme d'oro
+Cronista esordiente
+Cronista in carriera
+Cronista di successo
+Reporter d'assalto
+Fan dei Centri Pokémon
+Passione cartelli
+Leggicartelli
+Scoprigraffiti
+Bici di bronzo
+Bici d'argento
+Bici d'oro
+Leggenda su due ruote
+Lenza vecchia
+Lenza buona
+Super lenza
+Lenza infallibile
+Collezione Normale
+Collezione Fuoco
+Collezione Acqua
+Collezione Elettro
+Collezione Erba
+Collezione Ghiaccio
+Collezione Lotta
+Collezione Veleno
+Collezione Terra
+Collezione Volante
+Collezione Psico
+Collezione Coleottero
+Collezione Roccia
+Collezione Spettro
+Collezione Drago
+Collezione Buio
+Collezione Acciaio
+Collezione Unima
+Collezione Nazionale
+30 nei Box
+120 nei Box
+360 nei Box
+Box al massimo
+Cattura grossa
+Gola secca
+Bibita omaggio
+Evoluzionista in erba
+Evoluzionista capace
+Evoluzionista di fama
+Evoluzionista prodigio
+Asso dei cieli
+Forza pura
+Frugacestini
+Neofita della ricerca
+Ritrovastrumenti
+Amante della ricerca
+Guru della ricerca
+Inventanomi
+Teledipendente
+Cliente abituale
+Spese oculate
+Spese abbondanti
+Spese forsennate
+Spese multimilionarie
+Asso del risparmio
+Casa dolce casa
+Primo contatto
+30 contatti
+100 contatti
+Contatti a bizzeffe
+Passapotere +
+Passapotere ++
+Passapotere +++
+Passapotere MAX
+Sogni di bronzo
+Sogni d'argento
+Sogni d'oro
+Vita da sogno
+Genio dei meandri
+Dilettante delle Uova
+Specialista delle Uova
+Luminare delle Uova
+Prodigio della vita
+W la Pensione
+Archeomania
+Pura innocenza
+Colore fortunato
+Trova Pokérus
+Caporione Austropoli
+Fan dei treni
+Avvistamento Wailord
+Viso nel pannello
+Fan delle macchine
+Esplora rovine
+Cristalli di ghiaccio
+Fan dei ponti
+Unima tour
+Asso dell'avventura
+Esordiente delle sfide
+Promessa della lotta
+Guru della lotta
+Specialista lotta
+Esordiente in link
+Promessa del link
+Asso del link
+Portento del link
+Trofeo Magikarp
+Mai arrendersi
+Asso del futile
+Asso del superefficace
+A folle
+In accelerazione
+A tutto gas
+Treno inarrestabile
+Espresso singolo
+Espresso doppio
+Espresso multiplo
+Primo esame
+Fan degli esami
+Asso degli esami
+Guru degli esami
+Magnate ESP
+Magnate PL
+Cogli l'attimo
+Tenacia sportiva
+Crociera al tramonto
+N° 1 di Libecciopoli
+Asso del nolo
+Asso del misto
+N° 1 di Unima
+N° 1 di Kanto
+N° 1 di Johto
+N° 1 di Hoenn
+N° 1 di Sinnoh
+Capopalestra n° 1
+N° 1 al mondo
+Autorità del nolo
+Autorità del misto
+Asso dei tipi
+Metà Grattacielo
+Grattacielo Completo
+Metà Antro
+Antro Completo
+20 vittorie
+50 vittorie
+100 vittorie
+1000 vittorie
+Supremazia facile
+Supremazia difficile
+Dritto al sodo
+Colpo sicuro
+Scatto facile
+Scatto difficile
+Eccellenza nella lotta
+Primo scambio
+Fan degli scambi
+Asso degli scambi
+Guru degli scambi
+Scambio agli antipodi
+Amico di penna
+Star del palco
+Stella nascente
+Stella locale
+Stella indiscussa
+Stella del Musical
+Guru della moda
+Idolo dei fan
+Prima amicizia
+Comitiva media
+Comitiva larga
+Amici senza frontiere
+Girafan
+Guru dell’affinità
+Asso di cuori
+Asso degli incontri
+Guida junior
+Guida esperta
+Guida veterana
+Guida leggendaria
+Voglia d’imprenditoria
+Spirito imprenditoriale
+Guru imprenditoria
+Magnate della finanza
+Manciata di souvenir
+Set di souvenir
+Collezione di souvenir
+Montagna di souvenir
+Via dei sogni
+Amante dei minigiochi
+Fan dei minigiochi
+Asso dei minigiochi
+Guru dei minigiochi
+Eliminapalloncini
+Devastapalloncini
+Sterminapalloncini
+Mietipalloncini
+Super debuttante
+Super protagonista
+Star dei polizieschi
+Star degli UFO
+Star dei mostri
+Star di fantascienza
+Protagonista amore
+Star del fantasy
+Protagonista commedia
+Protagonista occulto
+Star dei robot
+Star dell'horror
+Finali eroici
+Celebrità
+Star dei capolavori
+Star milionaria
+Primo film cult
+Star dei cult
+Missione festival in 10
+Missione festival in 30
+100 punti in missione
+1000 punti in missione
+Organizzazione 1
+Organizzazione 2
+Partecipazione 1
+Partecipazione 2
+Successo 1
+Successo 2
+Festival perfetto
+Buonanotte
+Primi ricordi
+Memoria di ferro
+Spasso senza fine
+Campione Normale
+Campione Fuoco
+Campione Acqua
+Campione Elettro
+Campione Erba
+Campione Ghiaccio
+Campione Lotta
+Campione Veleno
+Campione Terra
+Campione Volante
+Campione Psico
+Campione Coleottero
+Campione Roccia
+Campione Spettro
+Campione Drago
+Campione Buio
+Campione Acciaio
+Unico Pokémon
+Sfidante geniale

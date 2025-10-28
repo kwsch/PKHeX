@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,ホンコン,Hong Kong,Hong Kong,Hongkong,Hong Kong,Hong Kong,中国 香港,홍콩,

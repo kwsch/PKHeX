@@ -1,0 +1,13 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	ひがしイングランド	East of England	Angleterre de l'Est	Osten Englands	Est dell'Inghilterra	Este de Inglaterra	东英格兰	동 잉글랜드	東英格蘭
+002	イースト・ミッドランド	East Midlands	Midlands de l'Est	East Midlands	Midlands Orientali	Midlands Orientales	东米德兰兹	이스트미들랜즈	東米德蘭茲
+003	グレーター・ロンドン	Greater London	Grand Londres	Groß-London	Grande Londra	Gran Londres	大伦敦	그레이터런던	大倫敦
+004	ほくとうイングランド	North East England	Angleterre du Nord-Est	Nordostengland	Nord Est	Noreste de Inglaterra	东北英格兰	북동 잉글랜드	東北英格蘭
+005	ほくせいイングランド	North West England	Angleterre du Nord-Ouest	Nordwestengland	Nord Ovest	Noroeste de Inglaterra	西北英格兰	북서 잉글랜드	西北英格蘭
+006	きたアイルランド	Northern Ireland	Irlande du Nord	Nordirland	Irlanda del Nord	Irlanda del Norte	北爱尔兰	북아일랜드	北愛爾蘭
+007	スコットランド	Scotland	Écosse	Schottland	Scozia	Escocia	苏格兰	스코틀랜드	蘇格蘭
+008	なんとうイングランド	South East England	Angleterre du Sud-Est	Südostengland	Sud Est	Sudeste de Inglaterra	东南英格兰	남동 잉글랜드	東南英格蘭
+009	なんせいイングランド	South West England	Angleterre du Sud-Ouest	Südwestengland	Sud Ovest	Sudoeste de Inglaterra	西南英格兰	남서 잉글랜드	西南英格蘭
+010	ウェールズ	Wales	Pays de Galles	Wales	Galles	Gales	威尔士	웨일스	威爾斯
+011	ウェスト・ミッドランド	West Midlands	Midlands de l'Ouest	West Midlands	Midlands Occidentali	Midlands Occidentales	西米德兰兹	웨스트미들랜즈	西米德蘭茲
+012	ヨークシャー・ハンバーサイド	Yorkshire and the Humber	Yorkshire et Humber	Yorkshire & Humber	Yorkshire e Humber	Yorkshire y el Humber	约克郡-亨伯	요크셔, 험버사이드	約克郡-亨伯

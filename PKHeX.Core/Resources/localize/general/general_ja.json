@@ -1,0 +1,8 @@
+{
+    "StatNames": [ "HP", "こうげき", "ぼうぎょ", "とくこう", "とくぼう", "すばやさ" ],
+    "OriginalTrainer": "親",
+    "HandlingTrainer": "最近一緒にいた人",
+    "GenderMale": "♂",
+    "GenderFemale": "♀",
+    "GenderGenderless": "不明"
+}

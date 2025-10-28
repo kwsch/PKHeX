@@ -1,0 +1,9 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	オーストラリアしゅととくべつちいき	Australian Capital Territory	Territoire de la cap. australienne	Austral. Hauptstadtterritorium	Territ. della capitale australiana	Territorio de la Capital Australiana	澳大利亚首都直辖区	오스트레일리아 수도주	澳大利亞首都直轄區
+002	ニュー・サウス・ウェールズ	New South Wales	Nouvelle-Galles du Sud	Neusüdwales	Nuovo Galles del Sud	Nueva Gales del Sur	新南威尔士州	뉴사우스웨일스	新南威爾斯州
+003	ほくぶ	Northern Territory	Territoire du Nord	Nördliches Territorium	Territorio del Nord	Territorio del Norte	北部地区	북부	北部地區
+004	クイーンズランド	Queensland	Queensland	Queensland	Queensland	Queensland	昆士兰州	퀸즐랜드	昆士蘭州
+005	みなみオーストラリア	South Australia	Australie-Méridionale	Südaustralien	Australia Meridionale	Australia Meridional	南澳大利亚州	사우스오스트레일리아	南澳大利亞州
+006	タスマニア	Tasmania	Tasmanie	Tasmanien	Tasmania	Tasmania	塔斯马尼亚州	태즈메이니아	塔斯馬尼亞州
+007	ビクトリア	Victoria	Victoria	Victoria	Victoria	Victoria	维多利亚州	빅토리아	維多利亞州
+008	にしオーストラリア	Western Australia	Australie-Occidentale	Westaustralien	Australia Occidentale	Australia Occidental	西澳大利亚州	웨스턴오스트레일리아	西澳大利亞州

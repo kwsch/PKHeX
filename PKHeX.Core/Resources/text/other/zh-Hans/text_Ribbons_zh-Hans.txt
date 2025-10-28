@@ -1,0 +1,164 @@
+RibbonChampionKalos	卡洛斯冠军奖章
+RibbonChampionG3	冠军奖章 (3代)
+RibbonChampionSinnoh	神奥冠军奖章
+RibbonBestFriends	好友奖章
+RibbonTraining	修行奖章
+RibbonBattlerSkillful	高手对战奖章
+RibbonBattlerExpert	大师对战奖章
+RibbonEffort	努力奖章
+RibbonAlert	振奋奖章
+RibbonShock	心跳奖章
+RibbonDowncast	失望奖章
+RibbonCareless	大意奖章
+RibbonRelax	畅快奖章
+RibbonSnooze	酣睡奖章
+RibbonSmile	欢笑奖章
+RibbonGorgeous	豪华奖章
+RibbonRoyal	高贵奖章
+RibbonGorgeousRoyal	豪华高贵奖章
+RibbonArtist	肖像奖章
+RibbonFootprint	脚印奖章
+RibbonRecord	纪录奖章
+RibbonLegend	传说奖章
+RibbonCountry	地区奖章
+RibbonNational	国家奖章
+RibbonEarth	地球奖章
+RibbonWorld	世界奖章
+RibbonClassic	经典奖章
+RibbonPremier	纪念奖章
+RibbonEvent	活动奖章
+RibbonBirthday	生日奖章
+RibbonSpecial	特殊奖章
+RibbonSouvenir	回忆奖章
+RibbonWishing	许愿奖章
+RibbonChampionBattle	对战冠军奖章
+RibbonChampionRegional	地区冠军奖章
+RibbonChampionNational	国家冠军奖章
+RibbonChampionWorld	世界冠军奖章
+RibbonCountMemoryContest	华丽大赛回忆奖章
+RibbonCountMemoryBattle	对战回忆奖章
+RibbonChampionG6Hoenn	丰缘冠军奖章 (6代)
+RibbonContestStar	华丽大赛之星奖章
+RibbonMasterCoolness	帅气大师奖章 (6代)
+RibbonMasterBeauty	美丽大师奖章 (6代)
+RibbonMasterCuteness	可爱大师奖章 (6代)
+RibbonMasterCleverness	聪明大师奖章 (6代)
+RibbonMasterToughness	强壮大师奖章 (6代)
+RibbonG3Cool	帅气奖章 (3代)
+RibbonG3CoolSuper	帅气超级奖章 (3代)
+RibbonG3CoolHyper	帅气高级奖章 (3代)
+RibbonG3CoolMaster	帅气大师奖章 (3代)
+RibbonG3Beauty	美丽奖章 (3代)
+RibbonG3BeautySuper	美丽超级奖章 (3代)
+RibbonG3BeautyHyper	美丽高级奖章 (3代)
+RibbonG3BeautyMaster	美丽大师奖章 (3代)
+RibbonG3Cute	可爱奖章 (3代)
+RibbonG3CuteSuper	可爱超级奖章 (3代)
+RibbonG3CuteHyper	可爱高级奖章 (3代)
+RibbonG3CuteMaster	可爱大师奖章 (3代)
+RibbonG3Smart	聪明奖章 (3代)
+RibbonG3SmartSuper	聪明超级奖章 (3代)
+RibbonG3SmartHyper	聪明高级奖章 (3代)
+RibbonG3SmartMaster	聪明大师奖章 (3代)
+RibbonG3Tough	强壮奖章 (3代)
+RibbonG3ToughSuper	强壮超级奖章 (3代)
+RibbonG3ToughHyper	强壮高级奖章 (3代)
+RibbonG3ToughMaster	强壮大师奖章 (3代)
+RibbonG4Cool	帅气奖章 (4代)
+RibbonG4CoolGreat	帅气上级奖章 (4代)
+RibbonG4CoolUltra	帅气究极奖章 (4代)
+RibbonG4CoolMaster	帅气大师奖章 (4代)
+RibbonG4Beauty	美丽奖章 (4代)
+RibbonG4BeautyGreat	美丽上级奖章 (4代)
+RibbonG4BeautyUltra	美丽究极奖章 (4代)
+RibbonG4BeautyMaster	美丽大师奖章 (4代)
+RibbonG4Cute	可爱奖章 (4代)
+RibbonG4CuteGreat	可爱上级奖章 (4代)
+RibbonG4CuteUltra	可爱究极奖章 (4代)
+RibbonG4CuteMaster	可爱大师奖章 (4代)
+RibbonG4Smart	聪明奖章 (4代)
+RibbonG4SmartGreat	聪明上级奖章 (4代)
+RibbonG4SmartUltra	聪明究极奖章 (4代)
+RibbonG4SmartMaster	聪明大师奖章 (4代)
+RibbonG4Tough	强壮奖章 (4代)
+RibbonG4ToughGreat	强壮上级奖章 (4代)
+RibbonG4ToughUltra	强壮究极奖章 (4代)
+RibbonG4ToughMaster	强壮大师奖章 (4代)
+RibbonWinning	成功奖章
+RibbonVictory	胜利奖章
+RibbonAbility	才能奖章
+RibbonAbilityGreat	超级才能奖章
+RibbonAbilityDouble	双人才能奖章
+RibbonAbilityMulti	多人才能奖章
+RibbonAbilityPair	组队双打才能奖章
+RibbonAbilityWorld	世界才能奖章
+RibbonCountG3Cool	帅气奖章
+RibbonCountG3Beauty	美丽奖章
+RibbonCountG3Cute	可爱奖章
+RibbonCountG3Smart	聪明奖章
+RibbonCountG3Tough	强壮奖章
+RibbonChampionAlola	阿罗拉冠军奖章
+RibbonBattleRoyale	皇家大师奖章
+RibbonBattleTreeGreat	高手对战树奖章
+RibbonBattleTreeMaster	大师对战树奖章
+RibbonChampionGalar	伽勒尔冠军奖章
+RibbonTowerMaster	对战塔大师奖章
+RibbonMasterRank	级别对战大师奖章
+RibbonMarkLunchtime	正午之证
+RibbonMarkSleepyTime	午夜之证
+RibbonMarkDusk	黄昏之证
+RibbonMarkDawn	拂晓之证
+RibbonMarkCloudy	阴云之证
+RibbonMarkRainy	降雨之证
+RibbonMarkStormy	落雷之证
+RibbonMarkSnowy	降雪之证
+RibbonMarkBlizzard	暴雪之证
+RibbonMarkDry	干燥之证
+RibbonMarkSandstorm	沙尘之证
+RibbonMarkMisty	浓雾之证
+RibbonMarkDestiny	命运之证
+RibbonMarkFishing	上钩之证
+RibbonMarkCurry	咖喱之证
+RibbonMarkUncommon	偶遇之证
+RibbonMarkRare	未知之证
+RibbonMarkRowdy	淘气之证
+RibbonMarkAbsentMinded	无虑之证
+RibbonMarkJittery	紧张之证
+RibbonMarkExcited	期待之证
+RibbonMarkCharismatic	领袖之证
+RibbonMarkCalmness	冷静之证
+RibbonMarkIntense	热情之证
+RibbonMarkZonedOut	疏忽之证
+RibbonMarkJoyful	幸福之证
+RibbonMarkAngry	愤怒之证
+RibbonMarkSmiley	微笑之证
+RibbonMarkTeary	悲伤之证
+RibbonMarkUpbeat	爽快之证
+RibbonMarkPeeved	激动之证
+RibbonMarkIntellectual	理性之证
+RibbonMarkFerocious	本能之证
+RibbonMarkCrafty	狡猾之证
+RibbonMarkScowling	凶悍之证
+RibbonMarkKindly	优雅之证
+RibbonMarkFlustered	动摇之证
+RibbonMarkPumpedUp	昂扬之证
+RibbonMarkZeroEnergy	倦怠之证
+RibbonMarkPrideful	自信之证
+RibbonMarkUnsure	自卑之证
+RibbonMarkHumble	木讷之证
+RibbonMarkThorny	不纯之证
+RibbonMarkVigor	活力之证
+RibbonMarkSlump	不振之证
+RibbonHisui	洗翠奖章
+RibbonTwinklingStar	闪亮之星奖章
+RibbonChampionPaldea	帕底亚冠军奖章
+RibbonMarkJumbo	大个子之证
+RibbonMarkMini	小不点之证
+RibbonMarkItemfinder	捡拾之证
+RibbonMarkPartner	搭档之证
+RibbonMarkGourmand	美食之证
+RibbonOnceInALifetime	千载难逢奖章
+RibbonMarkAlpha	头目之证
+RibbonMarkMightiest	最强之证
+RibbonMarkTitan	宝主之证
+RibbonPartner	同伴奖章

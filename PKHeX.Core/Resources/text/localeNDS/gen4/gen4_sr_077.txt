@@ -1,0 +1,17 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	バーデン=ビュルテンベルク	Baden-Wurttemberg	Bade-Wurtemberg	Baden-Württemberg	Baden-Württemberg	Baden-Wurtemberg	巴登-符腾堡州	바덴뷔르템베르크	巴登-符騰堡州
+002	バイエルン	Bayern	Bavière	Bayern	Baviera	Baviera	巴伐利亚州	바이에른	巴伐利亞州
+003	ベルリン	Berlin	Berlin	Berlin	Berlino	Berlín	柏林市	베를린	柏林市
+004	ブランデンブルク	Brandenburg	Brandebourg	Brandenburg	Brandeburgo	Brandeburgo	勃兰登堡州	브란덴부르크	勃蘭登堡州
+005	ブレーメン	Bremen	Brême	Bremen	Brema	Bremen	不来梅市	브레멘	不來梅市
+006	ハンブルク	Hamburg	Hambourg	Hamburg	Amburgo	Hamburgo	汉堡市	함부르크	漢堡市
+007	ヘッセン	Hessen	Hesse	Hessen	Assia	Hesse	黑森州	헤센	黑森州
+008	メクレンブルク・フォアポメルン	Mecklenburg-Vorpommern	Mecklembourg-Poméranie-Occidentale	Mecklenburg-Vorpommern	Meclemburgo-Pomerania Occidentale	Mecklemburgo-Pomerania Occidental	梅克伦堡-前波莫瑞州	메클렌부르크포어포메른	梅克倫堡-前波美拉尼亞州
+009	ニーダーザクセン	Niedersachsen	Basse-Saxe	Niedersachsen	Bassa Sassonia	Baja Sajonia	下萨克森州	니더작센	下薩克森州
+010	ノルトライン・ベストファーレン	Nordrhein-Westfalen	Rhénanie-du-Nord-Westphalie	Nordrhein-Westfalen	Renania Settentrionale-Westfalia	Renania del Norte-Westfalia	北莱茵-威斯特法伦州	노르트라인베스트팔렌	北萊茵-威斯特法倫州
+011	ラインラント・プファルツ	Rheinland-Pfalz	Rhénanie-Palatinat	Rheinland-Pfalz	Renania-Palatinato	Renania-Palatinado	莱茵兰-普法尔茨州	라인란트팔츠	萊茵蘭-普法爾茨州
+012	ザールラント	Saarland	Sarre	Saarland	Saarland	Sarre	萨尔州	자를란트	薩爾州
+013	ザクセン	Sachsen	Saxe	Sachsen	Sassonia	Sajonia	萨克森州	작센	薩克森州
+014	ザクセン・アンハルト	Sachsen-Anhalt	Saxe-Anhalt	Sachsen-Anhalt	Sassonia-Anhalt	Sajonia-Anhalt	萨克森-安哈特州	작센안할트	薩克森-安哈爾特州
+015	シュレスビヒ・ホルシュタイン	Schleswig-Holstein	Schleswig-Holstein	Schleswig-Holstein	Schleswig-Holstein	Schleswig-Holstein	石勒苏益格-荷尔斯泰因州	슐레스비히홀슈타인	石勒蘇益格-荷爾斯泰因州
+016	チューリンゲン	Freistaat Thuringen	Etat libre de Thuringe	Thüringen	Turingia	Turingia	图林根州	튀링겐	圖林根州

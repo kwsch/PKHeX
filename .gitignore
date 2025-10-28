@@ -1,3 +1,6 @@
+Tests/PKHeX.Core.Tests/Legality/Private/
+
+
 #################
 ## Eclipse
 #################
@@ -166,6 +169,17 @@ UpgradeLog*.htm
 App_Data/*.mdf
 App_Data/*.ldf
 
+# Local History for Visual Studio
+.localhistory/
+
+# Local History for Visual Studio Code
+.history/
+
+#################
+## Jetbrains
+#################
+.idea/
+*.sln.iml
 
 #############
 ## Qt Creator
@@ -212,37 +226,6 @@ $RECYCLE.BIN/
 *.resources
 pingme.txt
 
-
-#############
-## Python
-#############
-
-*.py[co]
-
-# Packages
-*.egg
-*.egg-info
-dist/
-build/
-eggs/
-parts/
-var/
-sdist/
-develop-eggs/
-.installed.cfg
-
-# Installer logs
-pip-log.txt
-
-# Unit test / coverage reports
-.coverage
-.tox
-
-# Translations
-*.mo
-
-# Mr Developer
-.mr.developer.cfg
 
 #################
 ## MonoDevelop

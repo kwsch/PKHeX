@@ -1,0 +1,4 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ボスニア・ヘルツェゴビナ連邦	Federation of Bosnia and Herzegovina	Fédération de Bosnie-Herzégovine	Föderation Bosnien und Herzegowina	Federazione di Bosnia-Erzegovina	Federación de Bosnia-Herzegovina	波黑联邦	보스니아헤르체고비나 연방	波黑聯邦
+003	セルビア人共和国	Republika Srpska	République serbe de Bosnie	Serbische Republik	Repubblica Serba di Bosnia-Erzegovina	República Srpska	塞族共和国	스릅스카 공화국	塞族共和國
+004	ブルチュコ	Brčko District	Brčko (district)	Brčko-Distrikt	Distretto di Brčko	Distrito de Brčko	布尔奇科特区	브르치코	布爾奇科特區

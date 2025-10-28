@@ -1,106 +1,113 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
+using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+public static class MysteryGiftVerifier
 {
-    public static class MysteryGiftVerifier
+    private static readonly Dictionary<int, MysteryGiftRestriction>?[] RestrictionSet = Get();
+
+    private static Dictionary<int, MysteryGiftRestriction>?[] Get()
     {
-        private static readonly Dictionary<int, MysteryGiftRestriction>[] RestrictionSet = Get();
-        private static Dictionary<int, MysteryGiftRestriction>[] Get()
+        var s = new Dictionary<int, MysteryGiftRestriction>?[Latest.Generation + 1];
+        for (byte i = 3; i < s.Length; i++)
+            s[i] = GetRestriction(i);
+        return s;
+    }
+
+    private static string RestrictionSetName(byte generation) => $"mgrestrict{generation}.pkl";
+
+    private static Dictionary<int, MysteryGiftRestriction> GetRestriction(byte generation)
+    {
+        var resource = RestrictionSetName(generation);
+        var data = Util.GetBinaryResource(resource).AsSpan();
+        var dict = new Dictionary<int, MysteryGiftRestriction>();
+        for (int i = 0; i < data.Length; i += 8)
         {
-            var s = new Dictionary<int, MysteryGiftRestriction>[PKX.Generation + 1];
-            for (int i = 3; i < s.Length; i++)
-                s[i] = GetRestriction(i);
-            return s;
+            var entry = data[i..];
+            int hash = ReadInt32LittleEndian(entry);
+            var restrict = ReadInt32LittleEndian(entry[4..]);
+            dict.Add(hash, (MysteryGiftRestriction)restrict);
+        }
+        return dict;
+    }
+
+    public static CheckResult VerifyGift(PKM pk, MysteryGift g)
+    {
+        bool restricted = TryGetRestriction(g, out var value);
+        if (!restricted)
+            return CheckResult.GetValid(CheckIdentifier.GameOrigin);
+
+        var version = (int)value >> 16;
+        if (version != 0 && !CanVersionReceiveGift(g.Generation, version, pk.Version))
+            return CheckResult.Get(Severity.Invalid, CheckIdentifier.GameOrigin, EncGiftVersionNotDistributed);
+
+        var lang = value & MysteryGiftRestriction.LangRestrict;
+        if (lang != 0 && !lang.HasFlag((MysteryGiftRestriction) (1 << pk.Language)))
+            return CheckResult.Get(Severity.Invalid, CheckIdentifier.GameOrigin, OTLanguageShouldBe_0, (ushort)lang.GetSuggestedLanguage());
+
+        if (pk is IRegionOriginReadOnly tr)
+        {
+            var region = value & MysteryGiftRestriction.RegionRestrict;
+            if (region != 0 && !region.HasFlag((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << tr.ConsoleRegion)))
+                return CheckResult.Get(Severity.Invalid, CheckIdentifier.GameOrigin, EncGiftRegionNotDistributed, (ushort)region.GetSuggestedRegion());
         }
 
-        private static string RestrictionSetName(int i) => $"mgrestrict{i}.pkl";
-        private static Dictionary<int, MysteryGiftRestriction> GetRestriction(int generation)
-        {
-            var resource = RestrictionSetName(generation);
-            var data = Util.GetBinaryResource(resource);
-            var dict = new Dictionary<int, MysteryGiftRestriction>();
-            for (int i = 0; i < data.Length; i += 8)
-            {
-                int hash = BitConverter.ToInt32(data, i + 0);
-                var restrict = BitConverter.ToInt32(data, i + 4);
-                dict.Add(hash, (MysteryGiftRestriction)restrict);
-            }
-            return dict;
-        }
+        return CheckResult.GetValid(CheckIdentifier.GameOrigin);
+    }
 
-        public static CheckResult VerifyGift(PKM pk, MysteryGift g)
-        {
-            bool restricted = TryGetRestriction(g, out var val);
-            if (!restricted)
-                return new CheckResult(CheckIdentifier.GameOrigin);
+    private static bool TryGetRestriction(MysteryGift g, out MysteryGiftRestriction val)
+    {
+        var restrict = RestrictionSet[g.Generation];
+        if (restrict is not null)
+            return restrict.TryGetValue(g.GetHashCode(), out val);
+        val = MysteryGiftRestriction.None;
+        return false;
+    }
 
-            var ver = (int)val >> 16;
-            if (ver != 0 && !CanVersionRecieveGift(g.Format, ver, pk.Version))
-                return new CheckResult(Severity.Invalid, V416, CheckIdentifier.GameOrigin);
-
-            var lang = val & MysteryGiftRestriction.LangRestrict;
-            if (lang != 0 && !lang.HasFlagFast((MysteryGiftRestriction) (1 << pk.Language)))
-                return new CheckResult(Severity.Invalid, string.Format(V5, lang.GetSuggestedLanguage(), pk.Language), CheckIdentifier.GameOrigin);
-
-            var region = val & MysteryGiftRestriction.RegionRestrict;
-            if (region != 0 && !region.HasFlagFast((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << pk.ConsoleRegion)))
-                return new CheckResult(Severity.Invalid, V301, CheckIdentifier.GameOrigin);
-
-            return new CheckResult(CheckIdentifier.GameOrigin);
-        }
-
-        private static bool TryGetRestriction(MysteryGift g, out MysteryGiftRestriction val)
-        {
-            var restrict = RestrictionSet[g.Generation];
-            if (restrict != null)
-                return restrict.TryGetValue(g.GetHashCode(), out val);
-            val = MysteryGiftRestriction.None;
+    public static bool IsValidChangedOTName(PKM pk, MysteryGift g)
+    {
+        bool restricted = TryGetRestriction(g, out var val);
+        if (!restricted)
+            return false; // no data
+        if (!val.HasFlag(MysteryGiftRestriction.OTReplacedOnTrade))
             return false;
-        }
 
-        public static bool IsValidChangedOTName(PKM pk, MysteryGift g)
-        {
-            bool restricted = TryGetRestriction(g, out var val);
-            if (!restricted)
-                return false; // no data
-            if (!val.HasFlagFast(MysteryGiftRestriction.OTReplacedOnTrade))
-                return false;
-            return CurrentOTMatchesReplaced(g.Format, pk.OT_Name);
-        }
+        Span<char> trainer = stackalloc char[pk.TrashCharCountTrainer];
+        int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
+        trainer = trainer[..len];
 
-        private static bool CanVersionRecieveGift(int format, int version4bit, int version)
-        {
-            switch (format)
-            {
-                // todo
-                default:
-                    return false;
-            }
-        }
+        return CurrentOTMatchesReplaced(g.Generation, trainer);
+    }
 
-        private static bool CurrentOTMatchesReplaced(int format, string pkOtName)
+    private static bool CanVersionReceiveGift(byte generation, int version4bit, GameVersion version)
+    {
+        return generation switch
         {
-            if (format <= 4 && IsMatchName(pkOtName, 4))
-                return true;
-            if (format <= 5 && IsMatchName(pkOtName, 5))
-                return true;
-            if (format <= 6 && IsMatchName(pkOtName, 6))
-                return true;
-            if (format <= 7 && IsMatchName(pkOtName, 7))
-                return true;
-            return false;
-        }
+            _ => false,
+        };
+    }
 
-        private static bool IsMatchName(string pkOtName, int generation)
+    private static bool CurrentOTMatchesReplaced(byte format, ReadOnlySpan<char> pkOtName)
+    {
+        if (format <= 4 && IsMatchName(pkOtName, 4))
+            return true;
+        if (format <= 5 && IsMatchName(pkOtName, 5))
+            return true;
+        if (format <= 6 && IsMatchName(pkOtName, 6))
+            return true;
+        if (format <= 7 && IsMatchName(pkOtName, 7))
+            return true;
+        return false;
+    }
+
+    private static bool IsMatchName(ReadOnlySpan<char> ot, byte generation)
+    {
+        return generation switch
         {
-            switch (generation)
-            {
-                // todo
-                default:
-                    return false;
-            }
-        }
+            _ => false,
+        };
     }
 }

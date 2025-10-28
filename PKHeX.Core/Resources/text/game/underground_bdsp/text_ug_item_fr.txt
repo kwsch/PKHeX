@@ -1,0 +1,940 @@
+
+Sphère Rouge S
+Sphère Bleue S
+Sphère Verte S
+Sphère Prisme S
+Sphère Pâle S
+Sphère Rouge L
+Sphère Bleue L
+Sphère Verte L
+Sphère Prisme L
+Sphère Pâle L
+Rappel
+Rappel Max
+Tesson Rouge
+Tesson Bleu
+Tesson Jaune
+Tesson Vert
+Pierre Soleil
+Pierre Lune
+Pierre Feu
+Pierre Foudre
+Pierre Eau
+Pierre Plante
+Pierre Ovale
+Pierre Stase
+Clé de Voûte
+Morceau d’Étoile
+Écaille Cœur
+Fossile Racine
+Fossile Griffe
+Nautile
+Fossile Dôme
+Vieil Ambre
+Fossile Armure
+Fossile Crâne
+Os Rare
+Lumargile
+Balle Fer
+Roche Glace
+Roche Lisse
+Roche Chaude
+Roche Humide
+Éclat Étrange S
+Éclat Étrange L
+Pierre Dure
+Plaque Flamme
+Plaque Hydro
+Plaque Volt
+Plaque Herbe
+Plaque Glace
+Plaque Poing
+Plaque Toxicité
+Plaque Terre
+Plaque Ciel
+Plaque Esprit
+Plaque Insecte
+Plaque Roc
+Plaque Fantôme
+Plaque Draco
+Plaque Ombre
+Plaque Fer
+Plaque Pixie
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Socle Carré XS
+Socle Carré S
+Socle Carré M
+Socle Carré L
+Socle Rond XS
+Socle Rond M
+Socle Rond L
+Socle Trapèze XS
+Socle Trapèze S
+Socle Trapèze M
+Socle Trapèze L
+Socle Transparent XS
+Socle Transparent S
+Socle Transparent M
+Socle Transparent L
+Socle de l’Aube L
+Socle de l’Aube XL
+Socle de la Nuit L
+Socle de la Nuit XL
+Socle Diamant L
+Socle Diamant XL
+Socle Perle L
+Socle Perle XL
+Socle Giradroite XS
+Socle Giradroite M
+Socle Giradroite L
+Socle Giragauche XS
+Socle Giragauche M
+Socle Giragauche L
+Foreuse
+CT01
+CT02
+CT03
+CT04
+CT05
+CT06
+CT07
+CT08
+CT09
+CT10
+CT11
+CT12
+CT13
+CT14
+CT15
+CT16
+CT17
+CT18
+CT19
+CT20
+CT21
+CT22
+CT23
+CT24
+CT25
+CT26
+CT27
+CT28
+CT29
+CT30
+CT31
+CT32
+CT33
+CT34
+CT35
+CT36
+CT37
+CT38
+CT39
+CT40
+CT41
+CT42
+CT43
+CT44
+CT45
+CT46
+CT47
+CT48
+CT49
+CT50
+CT51
+CT52
+CT53
+CT54
+CT55
+CT56
+CT57
+CT58
+CT59
+CT60
+CT61
+CT62
+CT63
+CT64
+CT65
+CT66
+CT67
+CT68
+CT69
+CT70
+CT71
+CT72
+CT73
+CT74
+CT75
+CT76
+CT77
+CT78
+CT79
+CT80
+CT81
+CT82
+CT83
+CT84
+CT85
+CT86
+CT87
+CT88
+CT89
+CT90
+CT91
+CT92
+Statue de Bulbizarre
+Statue d’Herbizarre
+Statue de Florizarre
+Statue de Salamèche
+Statue de Reptincel
+Statue de Dracaufeu
+Statue de Carapuce
+Statue de Carabaffe
+Statue de Tortank
+Statue de Pikachu
+Statue de Nidoqueen
+Statue de Nidoking
+Statue de Mélofée
+Statue de Goupix
+Statue de Rondoudou
+Statue de Mystherbe
+Statue de Miaouss
+Statue de Psykokwak
+Statue d’Arcanin
+Statue de Tartard
+Statue d’Alakazam
+Statue de Mackogneur
+Statue de Tentacruel
+Statue de Racaillou
+Statue de Galopa
+Statue de Ramoloss
+Statue de Canarticho
+Statue d’Ectoplasma
+Statue d’Osselait
+Statue d’Excelangue
+Statue de Smogogo
+Statue de Leveinard
+Statue de Kangourex
+Statue de Poissoroy
+Statue de M. Mime
+Statue de Tauros
+Statue de Magicarpe
+Statue de Léviator
+Statue de Lokhlass
+Statue de Métamorph
+Statue d’Évoli
+Statue d’Aquali
+Statue de Voltali
+Statue de Pyroli
+Statue de Porygon
+Statue d’Amonistar
+Statue de Ronflex
+Statue de Dracolosse
+Statue de Germignon
+Statue de Macronium
+Statue de Méganium
+Statue de Héricendre
+Statue de Feurisson
+Statue de Typhlosion
+Statue de Kaiminus
+Statue de Crocrodil
+Statue d’Aligatueur
+Statue de Fouinar
+Statue de Noarfang
+Statue de Nostenfer
+Statue de Togepi
+Statue de Pharamp
+Statue de Joliflor
+Statue de Marill
+Statue de Simularbre
+Statue de Capumain
+Statue de Tournegrin
+Statue de Maraiste
+Statue de Mentali
+Statue de Noctali
+Statue de Cornèbre
+Statue de Zarbi
+Statue de Qulbutoké
+Statue de Girafarig
+Statue d’Insolourdo
+Statue de Steelix
+Statue de Snubbull
+Statue de Cizayox
+Statue de Scarhino
+Statue de Volcaropod
+Statue d’Octillery
+Statue de Démanta
+Statue de Queulorior
+Statue d’Écrémeuh
+Statue de Tyranocif
+Statue d’Arcko
+Statue de Massko
+Statue de Jungko
+Statue de Poussifeu
+Statue de Galifeu
+Statue de Braségali
+Statue de Gobou
+Statue de Flobio
+Statue de Laggron
+Statue de Charmillon
+Statue de Papinox
+Statue de Ludicolo
+Statue de Bekipan
+Statue de Gardevoir
+Statue de Balignon
+Statue de Monaflèmit
+Statue de Ninjask
+Statue de Brouhabam
+Statue de Skitty
+Statue de Ténéfix
+Statue de Mysdibule
+Statue de Galeking
+Statue de Charmina
+Statue d’Élecsprint
+Statue de Posipi
+Statue de Négapi
+Statue de Muciole
+Statue de Lumivole
+Statue de Rosélia
+Statue de Sharpedo
+Statue de Wailmer
+Statue de Camérupt
+Statue de Chartor
+Statue de Spinda
+Statue de Libégon
+Statue de Cacturne
+Statue d’Altaria
+Statue de Mangriff
+Statue de Séviper
+Statue de Séléroc
+Statue de Solaroc
+Statue de Barbicha
+Statue de Kaorine
+Statue de Vacilys
+Statue de Milobellus
+Statue de Morphéo
+Statue de Kecleon
+Statue de Tropius
+Statue d’Éoko
+Statue d’Absol
+Statue d’Obalie
+Statue de Coquiperl
+Statue de Relicanth
+Statue de Lovdisc
+Statue de Drattak
+Statue de Métalosse
+Statue de Tortipouss
+Statue de Boskara
+Statue de Torterra
+Statue de Ouisticram
+Statue de Chimpenfeu
+Statue de Simiabraz
+Statue de Tiplouf
+Statue de Prinplouf
+Statue de Pingoléon
+Statue d’Étouraptor
+Statue de Castorno
+Statue de Crikzik
+Statue de Luxray
+Statue de Rozbouton
+Statue de Roserade
+Statue de Kranidos
+Statue de Bastiodon
+Statue de Cheniti
+Statue de Cheniselle
+Statue de Papilord
+Statue d’Apireine
+Statue de Pachirisu
+Statue de Mustéflott
+Statue de Ceribou
+Statue de Tritosor
+Statue de Capidextre
+Statue de Baudrive
+Statue de Laporeille
+Statue de Magirêve
+Statue de Corboss
+Statue de Chaffreux
+Statue de Moufflair
+Statue d’Archéodong
+Statue de Ptiravi
+Statue de Pijako
+Statue de Spiritomb
+Statue de Carchacrok
+Statue de Lucario
+Statue d’Hippodocus
+Statue de Drascore
+Statue de Cradopaud
+Statue de Vortente
+Statue de Luminéon
+Statue de Blizzaroi
+Statue de Dimoret
+Statue de Magnézone
+Statue de Rhinastoc
+Statue de Bouldeneu
+Statue d’Élekable
+Statue de Maganon
+Statue de Togekiss
+Statue de Yanmega
+Statue de Phyllali
+Statue de Givrali
+Statue de Scorvol
+Statue de Mammochon
+Statue de Porygon-Z
+Statue de Gallame
+Statue de Tarinorme
+Statue de Noctunoir
+Statue de Momartik
+Statue de Motisma
+Statue de Motisma
+Statue de Motisma
+Statue de Motisma
+Statue de Motisma
+Statue de Motisma
+Statue d’Artikodin
+Statue d’Électhor
+Statue de Sulfura
+Statue de Mewtwo
+Statue de Raikou
+Statue d’Entei
+Statue de Suicune
+Statue de Lugia
+Statue de Ho-Oh
+Statue de Regirock
+Statue de Regice
+Statue de Registeel
+Statue de Latias
+Statue de Latios
+Statue de Kyogre
+Statue de Groudon
+Statue de Rayquaza
+Statue de Bulbizarre 
+Statue d’Herbizarre 
+Statue de Florizarre 
+Statue de Salamèche 
+Statue de Reptincel 
+Statue de Dracaufeu 
+Statue de Carapuce 
+Statue de Carabaffe 
+Statue de Tortank 
+Statue de Pikachu 
+Statue de Nidoqueen 
+Statue de Nidoking 
+Statue de Mélofée 
+Statue de Goupix 
+Statue de Rondoudou 
+Statue de Mystherbe 
+Statue de Miaouss 
+Statue de Psykokwak 
+Statue d’Arcanin 
+Statue de Tartard 
+Statue d’Alakazam 
+Statue de Mackogneur 
+Statue de Tentacruel 
+Statue de Racaillou 
+Statue de Galopa 
+Statue de Ramoloss 
+Statue de Canarticho 
+Statue d’Ectoplasma 
+Statue d’Osselait 
+Statue d’Excelangue 
+Statue de Smogogo 
+Statue de Leveinard 
+Statue de Kangourex 
+Statue de Poissoroy 
+Statue de M. Mime 
+Statue de Tauros 
+Statue de Magicarpe 
+Statue de Léviator 
+Statue de Lokhlass 
+Statue de Métamorph 
+Statue d’Évoli 
+Statue d’Aquali 
+Statue de Voltali 
+Statue de Pyroli 
+Statue de Porygon 
+Statue d’Amonistar 
+Statue de Ronflex 
+Statue de Dracolosse 
+Statue de Germignon 
+Statue de Macronium 
+Statue de Méganium 
+Statue de Héricendre 
+Statue de Feurisson 
+Statue de Typhlosion 
+Statue de Kaiminus 
+Statue de Crocrodil 
+Statue d’Aligatueur 
+Statue de Fouinar 
+Statue de Noarfang 
+Statue de Nostenfer 
+Statue de Togepi 
+Statue de Pharamp 
+Statue de Joliflor 
+Statue de Marill 
+Statue de Simularbre 
+Statue de Capumain 
+Statue de Tournegrin 
+Statue de Maraiste 
+Statue de Mentali 
+Statue de Noctali 
+Statue de Cornèbre 
+Statue de Zarbi 
+Statue de Qulbutoké 
+Statue de Girafarig 
+Statue d’Insolourdo 
+Statue de Steelix 
+Statue de Snubbull 
+Statue de Cizayox 
+Statue de Scarhino 
+Statue de Volcaropod 
+Statue d’Octillery 
+Statue de Démanta 
+Statue de Queulorior 
+Statue d’Écrémeuh 
+Statue de Tyranocif 
+Statue d’Arcko 
+Statue de Massko 
+Statue de Jungko 
+Statue de Poussifeu 
+Statue de Galifeu 
+Statue de Braségali 
+Statue de Gobou 
+Statue de Flobio 
+Statue de Laggron 
+Statue de Charmillon 
+Statue de Papinox 
+Statue de Ludicolo 
+Statue de Bekipan 
+Statue de Gardevoir 
+Statue de Balignon 
+Statue de Monaflèmit 
+Statue de Ninjask 
+Statue de Brouhabam 
+Statue de Skitty 
+Statue de Ténéfix 
+Statue de Mysdibule 
+Statue de Galeking 
+Statue de Charmina 
+Statue d’Élecsprint 
+Statue de Posipi 
+Statue de Négapi 
+Statue de Muciole 
+Statue de Lumivole 
+Statue de Rosélia 
+Statue de Sharpedo 
+Statue de Wailmer 
+Statue de Camérupt 
+Statue de Chartor 
+Statue de Spinda 
+Statue de Libégon 
+Statue de Cacturne 
+Statue d’Altaria 
+Statue de Mangriff 
+Statue de Séviper 
+Statue de Séléroc 
+Statue de Solaroc 
+Statue de Barbicha 
+Statue de Kaorine 
+Statue de Vacilys 
+Statue de Milobellus 
+Statue de Morphéo 
+Statue de Kecleon 
+Statue de Tropius 
+Statue d’Éoko 
+Statue d’Absol 
+Statue d’Obalie 
+Statue de Coquiperl 
+Statue de Relicanth 
+Statue de Lovdisc 
+Statue de Drattak 
+Statue de Métalosse 
+Statue de Tortipouss 
+Statue de Boskara 
+Statue de Torterra 
+Statue de Ouisticram 
+Statue de Chimpenfeu 
+Statue de Simiabraz 
+Statue de Tiplouf 
+Statue de Prinplouf 
+Statue de Pingoléon 
+Statue d’Étouraptor 
+Statue de Castorno 
+Statue de Crikzik 
+Statue de Luxray 
+Statue de Rozbouton 
+Statue de Roserade 
+Statue de Kranidos 
+Statue de Bastiodon 
+Statue de Cheniti 
+Statue de Cheniselle 
+Statue de Papilord 
+Statue d’Apireine 
+Statue de Pachirisu 
+Statue de Mustéflott 
+Statue de Ceribou 
+Statue de Tritosor 
+Statue de Capidextre 
+Statue de Baudrive 
+Statue de Laporeille 
+Statue de Magirêve 
+Statue de Corboss 
+Statue de Chaffreux 
+Statue de Moufflair 
+Statue d’Archéodong 
+Statue de Ptiravi 
+Statue de Pijako 
+Statue de Spiritomb 
+Statue de Carchacrok 
+Statue de Lucario 
+Statue d’Hippodocus 
+Statue de Drascore 
+Statue de Cradopaud 
+Statue de Vortente 
+Statue de Luminéon 
+Statue de Blizzaroi 
+Statue de Dimoret 
+Statue de Magnézone 
+Statue de Rhinastoc 
+Statue de Bouldeneu 
+Statue d’Élekable 
+Statue de Maganon 
+Statue de Togekiss 
+Statue de Yanmega 
+Statue de Phyllali 
+Statue de Givrali 
+Statue de Scorvol 
+Statue de Mammochon 
+Statue de Porygon-Z 
+Statue de Gallame 
+Statue de Tarinorme 
+Statue de Noctunoir 
+Statue de Momartik 
+Statue de Motisma 
+Statue de Motisma 
+Statue de Motisma 
+Statue de Motisma 
+Statue de Motisma 
+Statue de Motisma 
+CT93
+CT94
+CT95
+CT96
+CT97
+CT98
+CT99
+CT100
+Socle Carré XL
+Socle Rond XL
+Socle Trapèze XL
+Socle Transparent XL
+Socle Giradroite XL
+Socle Giragauche XL
+Giratina Origin Statue

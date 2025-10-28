@@ -1,69 +1,55 @@
-﻿using PKHeX.Core;
+using System;
+using PKHeX.Core;
 
-namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls;
+
+public partial class PKMEditor
 {
-    public partial class PKMEditor
+    private void PopulateFieldsPK4()
     {
-        private void PopulateFieldsPK4()
-        {
-            var pk4 = pkm;
-            if (pk4?.Format != 4)
-                return;
+        if (Entity is not G4PKM pk4)
+            throw new FormatException(nameof(Entity));
 
-            LoadMisc1(pk4);
-            LoadMisc2(pk4);
-            LoadMisc3(pk4);
-            LoadMisc4(pk4);
+        LoadMisc1(pk4);
+        LoadMisc2(pk4);
+        LoadMisc3(pk4);
+        LoadMisc4(pk4);
 
-            CB_EncounterType.SelectedValue = pk4.Gen4 ? pk4.EncounterType : 0;
-            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4;
+        CB_GroundTile.SelectedValue = pk4.Gen4 ? (int)pk4.GroundTile : 0;
+        CB_GroundTile.Visible = Label_GroundTile.Visible = Entity.Gen4;
 
-            if (HaX)
-                DEV_Ability.SelectedValue = pk4.Ability;
-            else
-                LoadAbility4(pk4);
+        if (HaX)
+            DEV_Ability.SelectedValue = pk4.Ability;
+        else
+            LoadAbility4(pk4);
 
-            // Minor properties
-            switch (pk4)
-            {
-                case PK4 p4: ShinyLeaf.Value = p4.ShinyLeaf;
-                    break;
-                case BK4 b4: ShinyLeaf.Value = b4.ShinyLeaf;
-                    break;
-            }
+        // Minor properties
+        ShinyLeaf.SetValue(pk4.ShinyLeaf);
+        NUD_WalkingMood.Value = pk4.WalkingMood;
 
-            LoadPartyStats(pk4);
-            UpdateStats();
-        }
+        LoadPartyStats(pk4);
+        UpdateStats();
+    }
 
-        private PKM PreparePK4()
-        {
-            var pk4 = pkm;
-            if (pk4?.Format != 4)
-                return null;
+    private G4PKM PreparePK4()
+    {
+        if (Entity is not G4PKM pk4)
+            throw new FormatException(nameof(Entity));
 
-            SaveMisc1(pk4);
-            SaveMisc2(pk4);
-            SaveMisc3(pk4);
-            SaveMisc4(pk4);
+        SaveMisc1(pk4);
+        SaveMisc2(pk4);
+        SaveMisc3(pk4);
+        SaveMisc4(pk4);
 
-            pk4.EncounterType = WinFormsUtil.GetIndex(CB_EncounterType);
+        pk4.GroundTile = (GroundTileType)WinFormsUtil.GetIndex(CB_GroundTile);
 
-            // Minor properties
-            switch (pk4)
-            {
-                case PK4 p4:
-                    p4.ShinyLeaf = ShinyLeaf.Value;
-                    break;
-                case BK4 b4:
-                    b4.ShinyLeaf = ShinyLeaf.Value;
-                    break;
-            }
+        // Minor properties
+        pk4.ShinyLeaf = ShinyLeaf.GetValue();
+        pk4.WalkingMood = (sbyte)NUD_WalkingMood.Value;
 
-            SavePartyStats(pk4);
-            pk4.FixMoves();
-            pk4.RefreshChecksum();
-            return pk4;
-        }
+        SavePartyStats(pk4);
+        pk4.FixMoves();
+        pk4.RefreshChecksum();
+        return pk4;
     }
 }

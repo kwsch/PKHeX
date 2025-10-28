@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,キプロス,Cyprus,Chypre,Zypern,Cipro,Chipre,塞浦路斯,키프로스,

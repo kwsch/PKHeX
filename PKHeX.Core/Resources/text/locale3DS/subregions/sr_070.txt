@@ -1,0 +1,29 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ソフィア市	Sofia City	Sofia (ville)	Sofia (Stadt)	Sofia	Ciudad de Sofía	索非亚市	소피아	索非亞市
+003	ソフィア州	Sofia Province	Sofia (oblast)	Sofia (Region)	Regione di Sofia	Provincia de Sofía	索非亚州	소피아 주	索非亞州
+004	ブラゴエブグラト州	Blagoevgrad	Blagoevgrad	Blagoewgrad	Blagoevgrad	Blagoevgrad	布拉格耶夫格勒州	블라고예브그라드 주	布拉格耶夫格勒州
+005	プレベン州	Pleven	Pleven	Plewen	Pleven	Pleven	普列文州	플레벤 주	普列文州
+006	ビディン州	Vidin	Vidin	Widin	Vidin	Vidin	维丁州	비딘 주	維丁州
+007	バルナ州	Varna	Varna	Warna	Varna	Varna	瓦尔纳州	바르나 주	瓦爾納州
+008	ブルガス州	Burgas	Bourgas	Burgas	Burgas	Burgas	布尔加斯州	부르가스 주	布爾加斯州
+009	ドブリチ州	Dobrich	Dobritch	Dobritsch	Dobrich	Dobrich	多布里奇州	도브리치 주	多布裏奇州
+010	ガブロボ州	Gabrovo	Gabrovo	Gabrowo	Gabrovo	Gabrovo	加布罗沃州	가브로보 주	加布羅沃州
+011	ハスコボ州	Haskovo	Khaskovo	Chaskowo	Haskovo	Haskovo	哈斯科沃州	하스코보 주	哈斯科沃州
+012	ヤンボル州	Yambol	Yambol	Jambol	Jambol	Yambol	扬博尔州	얌볼 주	揚博爾州
+013	クルジャリ州	Kardzhali	Kardjali	Kardschali	Kardzhali	Kardzhali	克尔贾利州	쿠르잘리 주	克爾賈利州
+014	キュステンディル州	Kyustendil	Kyoustendil	Kjustendil	Kjustendil	Kyustendil	丘斯滕迪尔州	큐스텐딜 주	丘斯滕迪爾州
+015	ロベチ州	Lovech	Lovetch	Lowetsch	Lovech	Lovech	洛维奇州	로베치 주	洛維奇州
+016	モンタナ州	Montana	Montana	Montana	Montana	Montana	蒙塔纳州	몬타나 주	蒙塔納州
+017	パザルジク州	Pazardzhik	Pazardjik	Pasardschik	Pazardzhik	Pazardzhik	帕扎尔吉克州	파자르지크 주	帕扎爾吉克州
+018	ペルニク州	Pernik	Pernik	Pernik	Pernik	Pernik	佩尔尼克州	페르니크 주	佩爾尼克州
+019	プロブディフ州	Plovdiv	Plovdiv	Plowdiw	Plovdiv	Plovdiv	普罗夫迪夫州	플로브디브 주	普羅夫迪夫州
+020	ラズグラド州	Razgrad	Razgrad	Rasgrad	Razgrad	Razgrad	拉兹格勒州	라즈그라드 주	拉茲格勒州
+021	ルセ州	Ruse	Roussé	Russe	Ruse	Ruse	鲁塞州	루세 주	魯塞州
+022	シリストラ州	Silistra	Silistra	Silistra	Silistra	Silistra	锡利斯特拉州	실리스트라 주	錫利斯特拉州
+023	スリベン州	Sliven	Sliven	Sliwen	Sliven	Sliven	斯利文州	슬리벤 주	斯利文州
+024	スモリャン州	Smolyan	Smolyan	Smoljan	Smoljan	Smolyan	斯莫梁州	스몰랸 주	斯莫梁州
+025	スタラ・ザゴラ州	Stara Zagora	Stara Zagora	Stara Sagora	Stara Zagora	Stara Zagora	旧扎戈拉州	스타라자고라 주	舊扎戈拉州
+026	シュメン州	Shumen	Choumen	Schumen	Shumen	Shumen	舒门州	슈멘 주	舒門州
+027	トゥルゴビシュテ州	Targovishte	Targovichte	Targowischte	Targovishte	Targovishte	特尔戈维什特州	투르고비슈테 주	特爾戈維什特州
+028	ベリコ・トゥルノボ州	Veliko Tarnovo	Veliko Tarnovo	Weliko Tarnowo	Veliko Tarnovo	Veliko Tarnovo	大特尔诺沃州	벨리코투르노보 주	大特爾諾沃州
+029	ブラツァ州	Vratsa	Vratsa	Wraza	Vratsa	Vratsa	弗拉察州	브라차 주	弗拉察州

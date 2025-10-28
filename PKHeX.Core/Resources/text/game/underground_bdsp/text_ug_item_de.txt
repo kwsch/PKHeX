@@ -1,0 +1,940 @@
+
+Purpursphäre S
+Indigosphäre S
+Jadesphäre S
+Prismensphäre S
+Weißsphäre S
+Purpursphäre L
+Indigosphäre L
+Jadesphäre L
+Prismensphäre L
+Weißsphäre L
+Beleber
+Top-Beleber
+Purpurstück
+Indigostück
+Gelbstück
+Grünstück
+Sonnenstein
+Mondstein
+Feuerstein
+Donnerstein
+Wasserstein
+Blattstein
+Ovaler Stein
+Ewigstein
+Spiritkern
+Sternenstück
+Herzschuppe
+Wurzelfossil
+Klauenfossil
+Helixfossil
+Domfossil
+Altbernstein
+Panzerfossil
+Kopffossil
+Steinknochen
+Lichtlehm
+Eisenkugel
+Eisbrocken
+Glattbrocken
+Heißbrocken
+Nassbrocken
+Enigmafragment S
+Enigmafragment L
+Granitstein
+Feuertafel
+Wassertafel
+Blitztafel
+Wiesentafel
+Frosttafel
+Fausttafel
+Gifttafel
+Erdtafel
+Wolkentafel
+Hirntafel
+Käfertafel
+Steintafel
+Spuktafel
+Dracotafel
+Furchttafel
+Eisentafel
+Feentafel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ecksockel XS
+Ecksockel S
+Ecksockel M
+Ecksockel L
+Rundsockel XS
+Rundsockel M
+Rundsockel L
+Trapezsockel XS
+Trapezsockel S
+Trapezsockel M
+Trapezsockel L
+Transparentsockel XS
+Transparentsockel S
+Transparentsockel M
+Transparentsockel L
+Morgenrotsockel L
+Morgenrotsockel XL
+Düsternachtsockel L
+Düsternachtsockel XL
+Diamantsockel L
+Diamantsockel XL
+Perlsockel L
+Perlsockel XL
+Rechtsdrehsockel XS
+Rechtsdrehsockel M
+Rechtsdrehsockel L
+Linksdrehsockel XS
+Linksdrehsockel M
+Linksdrehsockel L
+Einwegbohrer
+TM01
+TM02
+TM03
+TM04
+TM05
+TM06
+TM07
+TM08
+TM09
+TM10
+TM11
+TM12
+TM13
+TM14
+TM15
+TM16
+TM17
+TM18
+TM19
+TM20
+TM21
+TM22
+TM23
+TM24
+TM25
+TM26
+TM27
+TM28
+TM29
+TM30
+TM31
+TM32
+TM33
+TM34
+TM35
+TM36
+TM37
+TM38
+TM39
+TM40
+TM41
+TM42
+TM43
+TM44
+TM45
+TM46
+TM47
+TM48
+TM49
+TM50
+TM51
+TM52
+TM53
+TM54
+TM55
+TM56
+TM57
+TM58
+TM59
+TM60
+TM61
+TM62
+TM63
+TM64
+TM65
+TM66
+TM67
+TM68
+TM69
+TM70
+TM71
+TM72
+TM73
+TM74
+TM75
+TM76
+TM77
+TM78
+TM79
+TM80
+TM81
+TM82
+TM83
+TM84
+TM85
+TM86
+TM87
+TM88
+TM89
+TM90
+TM91
+TM92
+Bisasam-Statue
+Bisaknosp-Statue
+Bisaflor-Statue
+Glumanda-Statue
+Glutexo-Statue
+Glurak-Statue
+Schiggy-Statue
+Schillok-Statue
+Turtok-Statue
+Pikachu-Statue
+Nidoqueen-Statue
+Nidoking-Statue
+Piepi-Statue
+Vulpix-Statue
+Pummeluff-Statue
+Myrapla-Statue
+Mauzi-Statue
+Enton-Statue
+Arkani-Statue
+Quappo-Statue
+Simsala-Statue
+Machomei-Statue
+Tentoxa-Statue
+Kleinstein-Statue
+Gallopa-Statue
+Flegmon-Statue
+Porenta-Statue
+Gengar-Statue
+Tragosso-Statue
+Schlurp-Statue
+Smogmog-Statue
+Chaneira-Statue
+Kangama-Statue
+Golking-Statue
+Pantimos-Statue
+Tauros-Statue
+Karpador-Statue
+Garados-Statue
+Lapras-Statue
+Ditto-Statue
+Evoli-Statue
+Aquana-Statue
+Blitza-Statue
+Flamara-Statue
+Porygon-Statue
+Amoroso-Statue
+Relaxo-Statue
+Dragoran-Statue
+Endivie-Statue
+Lorblatt-Statue
+Meganie-Statue
+Feurigel-Statue
+Igelavar-Statue
+Tornupto-Statue
+Karnimani-Statue
+Tyracroc-Statue
+Impergator-Statue
+Wiesenior-Statue
+Noctuh-Statue
+Iksbat-Statue
+Togepi-Statue
+Ampharos-Statue
+Blubella-Statue
+Marill-Statue
+Mogelbaum-Statue
+Griffel-Statue
+Sonnkern-Statue
+Morlord-Statue
+Psiana-Statue
+Nachtara-Statue
+Kramurx-Statue
+Icognito-Statue
+Woingenau-Statue
+Girafarig-Statue
+Dummisel-Statue
+Stahlos-Statue
+Snubbull-Statue
+Scherox-Statue
+Skaraborn-Statue
+Magcargo-Statue
+Octillery-Statue
+Mantax-Statue
+Farbeagle-Statue
+Miltank-Statue
+Despotar-Statue
+Geckarbor-Statue
+Reptain-Statue
+Gewaldro-Statue
+Flemmli-Statue
+Jungglut-Statue
+Lohgock-Statue
+Hydropi-Statue
+Moorabbel-Statue
+Sumpex-Statue
+Papinella-Statue
+Pudox-Statue
+Kappalores-Statue
+Pelipper-Statue
+Guardevoir-Statue
+Knilz-Statue
+Letarking-Statue
+Ninjask-Statue
+Krawumms-Statue
+Eneco-Statue
+Zobiris-Statue
+Flunkifer-Statue
+Stolloss-Statue
+Meditalis-Statue
+Voltenso-Statue
+Plusle-Statue
+Minun-Statue
+Volbeat-Statue
+Illumise-Statue
+Roselia-Statue
+Tohaido-Statue
+Wailmer-Statue
+Camerupt-Statue
+Qurtel-Statue
+Pandir-Statue
+Libelldra-Statue
+Noktuska-Statue
+Altaria-Statue
+Sengo-Statue
+Vipitis-Statue
+Lunastein-Statue
+Sonnfel-Statue
+Welsar-Statue
+Lepumentas-Statue
+Wielie-Statue
+Milotic-Statue
+Formeo-Statue
+Kecleon-Statue
+Tropius-Statue
+Palimpalim-Statue
+Absol-Statue
+Seemops-Statue
+Perlu-Statue
+Relicanth-Statue
+Liebiskus-Statue
+Brutalanda-Statue
+Metagross-Statue
+Chelast-Statue
+Chelcarain-Statue
+Chelterrar-Statue
+Panflam-Statue
+Panpyro-Statue
+Panferno-Statue
+Plinfa-Statue
+Pliprin-Statue
+Impoleon-Statue
+Staraptor-Statue
+Bidifas-Statue
+Zirpurze-Statue
+Luxtra-Statue
+Knospi-Statue
+Roserade-Statue
+Koknodon-Statue
+Bollterus-Statue
+Burmy-Statue
+Burmadame-Statue
+Moterpel-Statue
+Honweisel-Statue
+Pachirisu-Statue
+Bojelin-Statue
+Kikugi-Statue
+Gastrodon-Statue
+Ambidiffel-Statue
+Driftlon-Statue
+Haspiror-Statue
+Traunmagil-Statue
+Kramshef-Statue
+Shnurgarst-Statue
+Skuntank-Statue
+Bronzong-Statue
+Wonneira-Statue
+Plaudagei-Statue
+Kryppuk-Statue
+Knakrack-Statue
+Lucario-Statue
+Hippoterus-Statue
+Piondragi-Statue
+Glibunkel-Statue
+Venuflibis-Statue
+Lumineon-Statue
+Rexblisar-Statue
+Snibunna-Statue
+Magnezone-Statue
+Rihornior-Statue
+Tangoloss-Statue
+Elevoltek-Statue
+Magbrant-Statue
+Togekiss-Statue
+Yanmega-Statue
+Folipurba-Statue
+Glaziola-Statue
+Skorgro-Statue
+Mamutel-Statue
+Porygon-Z-Statue
+Galagladi-Statue
+Voluminas-Statue
+Zwirrfinst-Statue
+Frosdedje-Statue
+Rotom-Statue
+Rotom-Statue
+Rotom-Statue
+Rotom-Statue
+Rotom-Statue
+Rotom-Statue
+Arktos-Statue
+Zapdos-Statue
+Lavados-Statue
+Mewtu-Statue
+Raikou-Statue
+Entei-Statue
+Suicune-Statue
+Lugia-Statue
+Ho-Oh-Statue
+Regirock-Statue
+Regice-Statue
+Registeel-Statue
+Latias-Statue
+Latios-Statue
+Kyogre-Statue
+Groudon-Statue
+Rayquaza-Statue
+Bisasam-Statue 
+Bisaknosp-Statue 
+Bisaflor-Statue 
+Glumanda-Statue 
+Glutexo-Statue 
+Glurak-Statue 
+Schiggy-Statue 
+Schillok-Statue 
+Turtok-Statue 
+Pikachu-Statue 
+Nidoqueen-Statue 
+Nidoking-Statue 
+Piepi-Statue 
+Vulpix-Statue 
+Pummeluff-Statue 
+Myrapla-Statue 
+Mauzi-Statue 
+Enton-Statue 
+Arkani-Statue 
+Quappo-Statue 
+Simsala-Statue 
+Machomei-Statue 
+Tentoxa-Statue 
+Kleinstein-Statue 
+Gallopa-Statue 
+Flegmon-Statue 
+Porenta-Statue 
+Gengar-Statue 
+Tragosso-Statue 
+Schlurp-Statue 
+Smogmog-Statue 
+Chaneira-Statue 
+Kangama-Statue 
+Golking-Statue 
+Pantimos-Statue 
+Tauros-Statue 
+Karpador-Statue 
+Garados-Statue 
+Lapras-Statue 
+Ditto-Statue 
+Evoli-Statue 
+Aquana-Statue 
+Blitza-Statue 
+Flamara-Statue 
+Porygon-Statue 
+Amoroso-Statue 
+Relaxo-Statue 
+Dragoran-Statue 
+Endivie-Statue 
+Lorblatt-Statue 
+Meganie-Statue 
+Feurigel-Statue 
+Igelavar-Statue 
+Tornupto-Statue 
+Karnimani-Statue 
+Tyracroc-Statue 
+Impergator-Statue 
+Wiesenior-Statue 
+Noctuh-Statue 
+Iksbat-Statue 
+Togepi-Statue 
+Ampharos-Statue 
+Blubella-Statue 
+Marill-Statue 
+Mogelbaum-Statue 
+Griffel-Statue 
+Sonnkern-Statue 
+Morlord-Statue 
+Psiana-Statue 
+Nachtara-Statue 
+Kramurx-Statue 
+Icognito-Statue 
+Woingenau-Statue 
+Girafarig-Statue 
+Dummisel-Statue 
+Stahlos-Statue 
+Snubbull-Statue 
+Scherox-Statue 
+Skaraborn-Statue 
+Magcargo-Statue 
+Octillery-Statue 
+Mantax-Statue 
+Farbeagle-Statue 
+Miltank-Statue 
+Despotar-Statue 
+Geckarbor-Statue 
+Reptain-Statue 
+Gewaldro-Statue 
+Flemmli-Statue 
+Jungglut-Statue 
+Lohgock-Statue 
+Hydropi-Statue 
+Moorabbel-Statue 
+Sumpex-Statue 
+Papinella-Statue 
+Pudox-Statue 
+Kappalores-Statue 
+Pelipper-Statue 
+Guardevoir-Statue 
+Knilz-Statue 
+Letarking-Statue 
+Ninjask-Statue 
+Krawumms-Statue 
+Eneco-Statue 
+Zobiris-Statue 
+Flunkifer-Statue 
+Stolloss-Statue 
+Meditalis-Statue 
+Voltenso-Statue 
+Plusle-Statue 
+Minun-Statue 
+Volbeat-Statue 
+Illumise-Statue 
+Roselia-Statue 
+Tohaido-Statue 
+Wailmer-Statue 
+Camerupt-Statue 
+Qurtel-Statue 
+Pandir-Statue 
+Libelldra-Statue 
+Noktuska-Statue 
+Altaria-Statue 
+Sengo-Statue 
+Vipitis-Statue 
+Lunastein-Statue 
+Sonnfel-Statue 
+Welsar-Statue 
+Lepumentas-Statue 
+Wielie-Statue 
+Milotic-Statue 
+Formeo-Statue 
+Kecleon-Statue 
+Tropius-Statue 
+Palimpalim-Statue 
+Absol-Statue 
+Seemops-Statue 
+Perlu-Statue 
+Relicanth-Statue 
+Liebiskus-Statue 
+Brutalanda-Statue 
+Metagross-Statue 
+Chelast-Statue 
+Chelcarain-Statue 
+Chelterrar-Statue 
+Panflam-Statue 
+Panpyro-Statue 
+Panferno-Statue 
+Plinfa-Statue 
+Pliprin-Statue 
+Impoleon-Statue 
+Staraptor-Statue 
+Bidifas-Statue 
+Zirpurze-Statue 
+Luxtra-Statue 
+Knospi-Statue 
+Roserade-Statue 
+Koknodon-Statue 
+Bollterus-Statue 
+Burmy-Statue 
+Burmadame-Statue 
+Moterpel-Statue 
+Honweisel-Statue 
+Pachirisu-Statue 
+Bojelin-Statue 
+Kikugi-Statue 
+Gastrodon-Statue 
+Ambidiffel-Statue 
+Driftlon-Statue 
+Haspiror-Statue 
+Traunmagil-Statue 
+Kramshef-Statue 
+Shnurgarst-Statue 
+Skuntank-Statue 
+Bronzong-Statue 
+Wonneira-Statue 
+Plaudagei-Statue 
+Kryppuk-Statue 
+Knakrack-Statue 
+Lucario-Statue 
+Hippoterus-Statue 
+Piondragi-Statue 
+Glibunkel-Statue 
+Venuflibis-Statue 
+Lumineon-Statue 
+Rexblisar-Statue 
+Snibunna-Statue 
+Magnezone-Statue 
+Rihornior-Statue 
+Tangoloss-Statue 
+Elevoltek-Statue 
+Magbrant-Statue 
+Togekiss-Statue 
+Yanmega-Statue 
+Folipurba-Statue 
+Glaziola-Statue 
+Skorgro-Statue 
+Mamutel-Statue 
+Porygon-Z-Statue 
+Galagladi-Statue 
+Voluminas-Statue 
+Zwirrfinst-Statue 
+Frosdedje-Statue 
+Rotom-Statue 
+Rotom-Statue 
+Rotom-Statue 
+Rotom-Statue 
+Rotom-Statue 
+Rotom-Statue 
+TM93
+TM94
+TM95
+TM96
+TM97
+TM98
+TM99
+TM100
+Ecksockel XL
+Rundsockel XL
+Trapezsockel XL
+Transparentsockel XL
+Rechtsdrehsockel XL
+Linksdrehsockel XL
+Giratina Origin Statue

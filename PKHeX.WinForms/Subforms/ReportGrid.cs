@@ -1,372 +1,227 @@
-﻿using System;
-using System.Collections;
+using System;
+using System.Buffers;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing.PokeSprite;
 using static PKHeX.Core.MessageStrings;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms;
+
+public partial class ReportGrid : Form
 {
-    public partial class ReportGrid : Form
+    public IPropertyProvider PropertyProvider { get; init; } = DefaultPropertyProvider.Instance;
+    private sealed class PokemonList<T> : SortableBindingList<T> where T : class;
+
+    public ReportGrid()
     {
-        private struct Preview
+        InitializeComponent();
+        CenterToParent();
+        GetContextMenu();
+    }
+
+    private void GetContextMenu()
+    {
+        var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = MsgReportColumnHide };
+        mnuHide.Click += (_, _) =>
         {
-            private readonly PKM pkm;
-            private readonly ushort[] Stats;
-            public string Position => pkm.Identifier;
-            public Image Sprite => pkm.Sprite();
-            public string Nickname => pkm.Nickname;
-            public string Species => Get(GameInfo.Strings.specieslist, pkm.Species);
-            public string Nature => Get(GameInfo.Strings.natures, pkm.Nature);
-            public string Gender => Get(Main.GenderSymbols, pkm.Gender);
-            public string ESV => pkm.PSV.ToString("0000");
-            public string HP_Type => Get(GameInfo.Strings.types, pkm.HPType+1);
-            public string Ability => Get(GameInfo.Strings.abilitylist, pkm.Ability);
-            public string Move1 => Get(GameInfo.Strings.movelist, pkm.Move1);
-            public string Move2 => Get(GameInfo.Strings.movelist, pkm.Move2);
-            public string Move3 => Get(GameInfo.Strings.movelist, pkm.Move3);
-            public string Move4 => Get(GameInfo.Strings.movelist, pkm.Move4);
-            public string HeldItem => Get(GameInfo.Strings.itemlist, pkm.HeldItem);
-            public string HP => Stats[0].ToString();
-            public string ATK => Stats[1].ToString();
-            public string DEF => Stats[2].ToString();
-            public string SPA => Stats[4].ToString();
-            public string SPD => Stats[5].ToString();
-            public string SPE => Stats[3].ToString();
-            public string MetLoc => pkm.GetLocationString(eggmet: false);
-            public string EggLoc => pkm.GetLocationString(eggmet: true);
-            public string Ball => Get(GameInfo.Strings.balllist, pkm.Ball);
-            public string OT => pkm.OT_Name;
-            public string Version => Get(GameInfo.Strings.gamelist, pkm.Version);
-            public string OTLang => Get(GameInfo.Strings.gamelanguages, pkm.Language) ?? $"UNK {pkm.Language}";
-            public string Legal { get { var la = new LegalityAnalysis(pkm); return la.Parsed ? la.Valid.ToString() : "-"; } }
-            public string CountryID => pkm.Format > 5 ? pkm.Country.ToString() : "N/A";
-            public string RegionID => pkm.Format > 5 ? pkm.Region.ToString() : "N/A";
-            public string DSRegionID => pkm.Format > 5 ? pkm.ConsoleRegion.ToString() : "N/A";
+            int c = dgData.SelectedCells.Count;
+            if (c == 0)
+            { WinFormsUtil.Alert(MsgReportColumnHideFail); return; }
 
-            #region Extraneous
-            public string EC => pkm.EncryptionConstant.ToString("X8");
-            public string PID => pkm.PID.ToString("X8");
-            public int HP_IV => pkm.IV_HP;
-            public int ATK_IV => pkm.IV_ATK;
-            public int DEF_IV => pkm.IV_DEF;
-            public int SPA_IV => pkm.IV_SPA;
-            public int SPD_IV => pkm.IV_SPD;
-            public int SPE_IV => pkm.IV_SPE;
-            public uint EXP => pkm.EXP;
-            public int Level => pkm.CurrentLevel;
-            public int HP_EV => pkm.EV_HP;
-            public int ATK_EV => pkm.EV_ATK;
-            public int DEF_EV => pkm.EV_DEF;
-            public int SPA_EV => pkm.EV_SPA;
-            public int SPD_EV => pkm.EV_SPD;
-            public int SPE_EV => pkm.EV_SPE;
-            public int Cool => pkm is IContestStats s ? s.CNT_Cool : 0;
-            public int Beauty => pkm is IContestStats s ? s.CNT_Beauty : 0;
-            public int Cute => pkm is IContestStats s ? s.CNT_Cute : 0;
-            public int Smart => pkm is IContestStats s ? s.CNT_Smart : 0;
-            public int Tough => pkm is IContestStats s ? s.CNT_Tough : 0;
-            public int Sheen => pkm is IContestStats s ? s.CNT_Sheen : 0;
-            public int Markings => pkm.MarkValue;
+            for (int i = 0; i < c; i++)
+                dgData.Columns[dgData.SelectedCells[i].ColumnIndex].Visible = false;
+        };
+        var mnuRestore = new ToolStripMenuItem { Name = "mnuRestore", Text = MsgReportColumnRestore };
+        mnuRestore.Click += (_, _) =>
+        {
+            int c = dgData.ColumnCount;
+            for (int i = 0; i < c; i++)
+                dgData.Columns[i].Visible = true;
 
-            public string NotOT => pkm.Format > 5 ? pkm.HT_Name : "N/A";
+            WinFormsUtil.Alert(MsgReportColumnRestoreSuccess);
+        };
 
-            public int AbilityNum => pkm.Format > 5 ? pkm.AbilityNumber : -1;
-            public int GenderFlag => pkm.Gender;
-            public int AltForms => pkm.AltForm;
-            public int PKRS_Strain => pkm.PKRS_Strain;
-            public int PKRS_Days => pkm.PKRS_Days;
-            public int MetLevel => pkm.Met_Level;
-            public int OT_Gender => pkm.OT_Gender;
+        ContextMenuStrip mnu = new();
+        mnu.Items.Add(mnuHide);
+        mnu.Items.Add(mnuRestore);
 
-            public bool FatefulFlag => pkm.FatefulEncounter;
-            public bool IsEgg => pkm.IsEgg;
-            public bool IsNicknamed => pkm.IsNicknamed;
-            public bool IsShiny => pkm.IsShiny;
+        dgData.ContextMenuStrip = mnu;
+    }
 
-            public int TID => pkm.GenNumber >= 7 ? pkm.TrainerID7 : pkm.TID;
-            public int SID => pkm.GenNumber >= 7 ? pkm.TrainerSID7 : pkm.SID;
-            public int TSV => pkm.TSV;
-            public int Move1_PP => pkm.Move1_PP;
-            public int Move2_PP => pkm.Move2_PP;
-            public int Move3_PP => pkm.Move3_PP;
-            public int Move4_PP => pkm.Move4_PP;
-            public int Move1_PPUp => pkm.Move1_PPUps;
-            public int Move2_PPUp => pkm.Move2_PPUps;
-            public int Move3_PPUp => pkm.Move3_PPUps;
-            public int Move4_PPUp => pkm.Move4_PPUps;
-            public string Relearn1 => Get(GameInfo.Strings.movelist, pkm.RelearnMove1);
-            public string Relearn2 => Get(GameInfo.Strings.movelist, pkm.RelearnMove2);
-            public string Relearn3 => Get(GameInfo.Strings.movelist, pkm.RelearnMove3);
-            public string Relearn4 => Get(GameInfo.Strings.movelist, pkm.RelearnMove4);
-            public ushort Checksum => pkm.Checksum;
-            public int Friendship => pkm.OT_Friendship;
-            public int OT_Affection => pkm.OT_Affection;
-            public int Egg_Year => pkm.EggMetDate.GetValueOrDefault().Year;
-            public int Egg_Month => pkm.EggMetDate.GetValueOrDefault().Month;
-            public int Egg_Day => pkm.EggMetDate.GetValueOrDefault().Day;
-            public int Met_Year => pkm.MetDate.GetValueOrDefault().Year;
-            public int Met_Month => pkm.MetDate.GetValueOrDefault().Month;
-            public int Met_Day => pkm.MetDate.GetValueOrDefault().Day;
-            public int Encounter => pkm.EncounterType;
+    public void PopulateData(IReadOnlyList<SlotCache> data) => PopulateData(data, [], []);
 
-            #endregion
-
-            public Preview(PKM p)
+    public void PopulateData(IReadOnlyList<SlotCache> data, ReadOnlySpan<string> extra, ReadOnlySpan<string> hide)
+    {
+        SuspendLayout();
+        var PL = new PokemonList<EntitySummaryImage>();
+        var strings = GameInfo.Strings;
+        foreach (var entry in data)
+        {
+            var pk = entry.Entity;
+            if (pk.Species - 1u >= pk.MaxSpeciesID)
             {
-                pkm = p;
-                Stats = pkm.GetStats(pkm.PersonalInfo);
+                continue;
+            }
+            pk.Stat_Level = pk.CurrentLevel; // recalc Level
+            PL.Add(new EntitySummaryImage(pk, strings, entry.Identify()));
+        }
+
+        dgData.DataSource = PL;
+        dgData.AutoGenerateColumns = true;
+
+        if (hide.Length != 0)
+            HideSpecifiedColumns(hide);
+        if (extra.Length != 0)
+            AddExtraColumns(PL, extra);
+
+        for (int i = 0; i < dgData.Columns.Count; i++)
+        {
+            var col = dgData.Columns[i];
+            if (col is DataGridViewImageColumn)
+                continue; // Don't add sorting for Sprites
+            col.SortMode = DataGridViewColumnSortMode.Automatic;
+        }
+
+        // Trigger Resizing
+        dgData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+        for (int i = 0; i < dgData.Columns.Count; i++)
+        {
+            int w = dgData.Columns[i].Width;
+            dgData.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dgData.Columns[i].Width = w;
+        }
+        dgData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        Data_Sorted(this, EventArgs.Empty); // trigger row resizing
+
+        ResumeLayout();
+    }
+
+    private void HideSpecifiedColumns(ReadOnlySpan<string> hide)
+    {
+        foreach (var prop in hide)
+        {
+            if (prop.Length == 0)
+                continue;
+            var col = dgData.Columns[prop];
+            if (col is not null)
+                col.Visible = false;
+        }
+    }
+
+    private void AddExtraColumns(PokemonList<EntitySummaryImage> data, ReadOnlySpan<string> extra)
+    {
+        var rent = ArrayPool<string>.Shared.Rent(data.Count);
+        var span = rent.AsSpan(0, data.Count);
+        foreach (var prop in extra)
+        {
+            if (prop.Length == 0)
+                continue;
+            span.Clear();
+            bool any = false;
+            for (int i = 0; i < data.Count; i++)
+            {
+                var pk = data[i].Entity;
+                if (!TryGetCustomCell(pk, prop, out var str))
+                    continue;
+                span[i] = str;
+                any = true;
             }
 
-            private static string Get(IReadOnlyList<string> arr, int val) => arr?.Count > val && val >= 0 ? arr[val] : null;
+            if (!any)
+                continue;
+
+            var col = new DataGridViewTextBoxColumn { Name = prop, HeaderText = prop };
+            var c = dgData.Columns.Add(col);
+            for (int i = 0; i < data.Count; i++)
+                dgData.Rows[i].Cells[c].Value = span[i];
         }
-        public ReportGrid()
+        ArrayPool<string>.Shared.Return(rent, true);
+    }
+
+    private bool TryGetCustomCell(PKM pk, string prop, [NotNullWhen(true)] out string? result)
+    {
+        if (PropertyProvider.TryGetProperty(pk, prop, out result))
+            return true;
+        return false;
+    }
+
+    private void Data_Sorted(object sender, EventArgs e)
+    {
+        int height = SpriteUtil.Spriter.Height + 1; // max height of a row, +1px
+        for (int i = 0; i < dgData.Rows.Count; i++)
+            dgData.Rows[i].Height = height;
+    }
+
+    private void PromptSaveCSV(object sender, FormClosingEventArgs e)
+    {
+        if (ModifierKeys.HasFlag(Keys.Shift))
+            return;
+        if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportCSV) != DialogResult.Yes)
+            return;
+        using var savecsv = new SaveFileDialog();
+        savecsv.Filter = "Spreadsheet|*.csv";
+        savecsv.FileName = "Box Data Dump.csv";
+        if (savecsv.ShowDialog() == DialogResult.OK)
         {
-            InitializeComponent();
-            dgData.DoubleBuffered(true);
-            CenterToParent();
-            GetContextMenu();
+            Hide();
+            var path = savecsv.FileName;
+            var t = Task.Run(() => Export_CSV(path));
+            t.Wait(); // don't start disposing until the saving is complete
         }
-        private void GetContextMenu()
+    }
+
+    private async Task Export_CSV(string path)
+    {
+        await using var fs = new FileStream(path, FileMode.Create);
+        await using var s = new StreamWriter(fs, new UTF8Encoding(false));
+
+        var headers = dgData.Columns.Cast<DataGridViewColumn>();
+        await s.WriteLineAsync(string.Join(",", headers.Skip(1).Select(column => $"\"{column.HeaderText}\""))).ConfigureAwait(false);
+
+        foreach (var cells in dgData.Rows.Cast<DataGridViewRow>().Select(row => row.Cells.Cast<DataGridViewCell>()))
+            await s.WriteLineAsync(string.Join(",", cells.Skip(1).Select(cell => $"\"{cell.Value}\""))).ConfigureAwait(false);
+    }
+
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+        bool cp = keyData == (Keys.Control | Keys.C) && ActiveControl is DataGridView;
+        if (!cp)
+            return base.ProcessCmdKey(ref msg, keyData);
+
+        var content = dgData.GetClipboardContent();
+        if (content is null)
+            return base.ProcessCmdKey(ref msg, keyData);
+
+        string data = content.GetText();
+        var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportTable);
+        if (dr != DialogResult.Yes)
         {
-            var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = MsgReportColumnHide, };
-            mnuHide.Click += (sender, e) =>
-            {
-                int c = dgData.SelectedCells.Count;
-                if (c == 0)
-                { WinFormsUtil.Alert(MsgReportColumnHideFail); return; }
-
-                for (int i = 0; i < c; i++)
-                    dgData.Columns[dgData.SelectedCells[i].ColumnIndex].Visible = false;
-            };
-            var mnuRestore = new ToolStripMenuItem { Name = "mnuRestore", Text = MsgReportColumnRestore, };
-            mnuRestore.Click += (sender, e) =>
-            {
-                int c = dgData.ColumnCount;
-                for (int i = 0; i < c; i++)
-                    dgData.Columns[i].Visible = true;
-
-                WinFormsUtil.Alert(MsgReportColumnRestoreSuccess);
-            };
-
-            ContextMenuStrip mnu = new ContextMenuStrip();
-            mnu.Items.Add(mnuHide);
-            mnu.Items.Add(mnuRestore);
-
-            dgData.ContextMenuStrip = mnu;
-        }
-        public void PopulateData(IList<PKM> Data)
-        {
-            SuspendLayout();
-            BoxBar.Step = 1;
-            PokemonList PL = new PokemonList();
-            foreach (PKM pkm in Data.Where(pkm => pkm.ChecksumValid && pkm.Species != 0))
-            {
-                pkm.Stat_Level = PKX.GetLevel(pkm.Species, pkm.EXP); // recalc Level
-                PL.Add(new Preview(pkm));
-                BoxBar.PerformStep();
-            }
-
-            dgData.DataSource = PL;
-            dgData.AutoGenerateColumns = true;
-            BoxBar.Maximum = Data.Count + dgData.Columns.Count;
-            for (int i = 0; i < dgData.Columns.Count; i++)
-            {
-                BoxBar.PerformStep();
-                if (dgData.Columns[i] is DataGridViewImageColumn) continue; // Don't add sorting for Sprites
-                dgData.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
-            }
-            BoxBar.Visible = false;
-
-            // Trigger Resizing
-            dgData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            for (int i = 0; i < dgData.Columns.Count; i++)
-            {
-                int w = dgData.Columns[i].Width;
-                dgData.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                dgData.Columns[i].Width = w;
-            }
-            dgData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            Data_Sorted(null, null); // trigger row resizing
-
-            ResumeLayout();
-        }
-        private void Data_Sorted(object sender, EventArgs e)
-        {
-            int height = PKMUtil.GetSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
-            for (int i = 0; i < dgData.Rows.Count; i++)
-                dgData.Rows[i].Height = height;
-        }
-        private void PromptSaveCSV(object sender, FormClosingEventArgs e)
-        {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportCSV) != DialogResult.Yes)
-                return;
-            SaveFileDialog savecsv = new SaveFileDialog
-            {
-                Filter = "Spreadsheet|*.csv",
-                FileName = "Box Data Dump.csv"
-            };
-            if (savecsv.ShowDialog() == DialogResult.OK)
-                Export_CSV(savecsv.FileName);
-        }
-        private void Export_CSV(string path)
-        {
-            var sb = new StringBuilder();
-
-            var headers = dgData.Columns.Cast<DataGridViewColumn>();
-            sb.AppendLine(string.Join(",", headers.Select(column => $"\"{column.HeaderText}\"")));
-
-            foreach (var cells in from DataGridViewRow row in dgData.Rows select row.Cells.Cast<DataGridViewCell>())
-                sb.AppendLine(string.Join(",", cells.Select(cell => $"\"{cell.Value}\"")));
-
-            File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
-        }
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            bool cp = keyData == (Keys.Control | Keys.C) && ActiveControl is DataGridView;
-            if (!cp)
-                return base.ProcessCmdKey(ref msg, keyData);
-
-            string data = dgData.GetClipboardContent().GetText();
-            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportTable);
-            if (dr != DialogResult.Yes)
-            {
-                Clipboard.SetText(data);
-                return true;
-            }
-
-            // Reformat datagrid clipboard content
-            string[] lines = data.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            int tabcount = lines[0].Count(c => c == '\t');
-
-            string[] newlines = new string[lines.Length + 1];
-            newlines[0] = lines[0].Replace('\t', '|');
-            newlines[1] = string.Join(":--:", new int[tabcount + 2].Select(_ => '|')); // 2 pipes for each end
-            for (int i = 1; i < lines.Length; i++)
-                newlines[i + 1] = lines[i].Replace('\t', '|');
-
-            Clipboard.SetText(string.Join(Environment.NewLine, newlines));
-
+            WinFormsUtil.SetClipboardText(data);
             return true;
         }
 
-        private sealed class PokemonList : SortableBindingList<Preview> { }
+        // Reformat datagrid clipboard content
+        string[] lines = data.Split(Environment.NewLine);
+        string[] newlines = ConvertTabbedToRedditTable(lines);
+        WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, newlines));
+        return true;
     }
-    public static class ExtensionMethods
+
+    private static string[] ConvertTabbedToRedditTable(ReadOnlySpan<string> lines)
     {
-        public static void DoubleBuffered(this DataGridView dgv, bool setting)
-        {
-            Type dgvType = dgv.GetType();
-            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-            pi.SetValue(dgv, setting, null);
-        }
-    }
-    public class SortableBindingList<T> : BindingList<T>
-    {
-        private readonly Dictionary<Type, PropertyComparer<T>> comparers;
-        private bool isSorted;
-        private ListSortDirection listSortDirection;
-        private PropertyDescriptor propertyDescriptor;
+        string[] newlines = new string[lines.Length + 1];
+        int tabcount = lines[0].AsSpan().Count('\t');
 
-        protected SortableBindingList() : base(new List<T>())
-        {
-            comparers = new Dictionary<Type, PropertyComparer<T>>();
-        }
-
-        protected override bool SupportsSortingCore => true;
-
-        protected override bool IsSortedCore => isSorted;
-
-        protected override PropertyDescriptor SortPropertyCore => propertyDescriptor;
-
-        protected override ListSortDirection SortDirectionCore => listSortDirection;
-
-        protected override bool SupportsSearchingCore => true;
-
-        protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
-        {
-            List<T> itemsList = (List<T>)Items;
-
-            Type propertyType = prop.PropertyType;
-            if (!comparers.TryGetValue(propertyType, out PropertyComparer<T> comparer))
-            {
-                comparer = new PropertyComparer<T>(prop, direction);
-                comparers.Add(propertyType, comparer);
-            }
-
-            comparer.SetPropertyAndDirection(prop, direction);
-            itemsList.Sort(comparer);
-
-            propertyDescriptor = prop;
-            listSortDirection = direction;
-            isSorted = true;
-
-            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
-        }
-
-        protected override void RemoveSortCore()
-        {
-            isSorted = false;
-            propertyDescriptor = base.SortPropertyCore;
-            listSortDirection = base.SortDirectionCore;
-
-            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
-        }
-
-        protected override int FindCore(PropertyDescriptor prop, object key)
-        {
-            int count = Count;
-            for (int i = 0; i < count; ++i)
-                if (prop.GetValue(this[i]).Equals(key))
-                    return i;
-
-            return -1;
-        }
-    }
-    public class PropertyComparer<T> : IComparer<T>
-    {
-        private readonly IComparer comparer;
-        private PropertyDescriptor propertyDescriptor;
-        private int reverse;
-
-        public PropertyComparer(PropertyDescriptor property, ListSortDirection direction)
-        {
-            propertyDescriptor = property;
-            Type comparerForPropertyType = typeof(Comparer<>).MakeGenericType(property.PropertyType);
-            comparer = (IComparer)comparerForPropertyType.InvokeMember("Default", BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, null, null, null);
-            SetListSortDirection(direction);
-        }
-
-        #region IComparer<T> Members
-
-        public int Compare(T x, T y)
-        {
-            return reverse * comparer.Compare(propertyDescriptor.GetValue(x), propertyDescriptor.GetValue(y));
-        }
-
-        #endregion
-
-        private void SetPropertyDescriptor(PropertyDescriptor descriptor)
-        {
-            propertyDescriptor = descriptor;
-        }
-
-        private void SetListSortDirection(ListSortDirection direction)
-        {
-            reverse = direction == ListSortDirection.Ascending ? 1 : -1;
-        }
-
-        public void SetPropertyAndDirection(PropertyDescriptor descriptor, ListSortDirection direction)
-        {
-            SetPropertyDescriptor(descriptor);
-            SetListSortDirection(direction);
-        }
+        newlines[0] = lines[0].Replace('\t', '|');
+        newlines[1] = string.Join(":--:", Enumerable.Repeat('|', tabcount + 2)); // 2 pipes for each end
+        for (int i = 1; i < lines.Length; i++)
+            newlines[i + 1] = lines[i].Replace('\t', '|');
+        return newlines;
     }
 }

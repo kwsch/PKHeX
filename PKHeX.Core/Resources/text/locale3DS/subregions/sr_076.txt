@@ -1,0 +1,21 @@
+﻿000	—	—	—	—	—	—	—	—	—
+008	ウーシマー県	Uusimaa / Nyland	Uusimaa	Uusimaa	Uusimaa	Uusimaa	新地区	우시마 주	新地區
+009	ラッピ州	Lappi / Lapland	Laponie	Lappland	Lapponia	Laponia finlandesa	拉普兰省	라피 주	拉普蘭省
+010	北ポフヤンマー県	Pohjois-Pohjanmaa / Norra Österbotten	Ostrobotnie du Nord	Nordösterbotten	Ostrobotnia Settentrionale	Ostrobothnia del Norte	北博滕区	북오스트로보트니아 주	北博滕區
+011	カイヌー県	Kainuu / Kajanaland	Kainuu	Kainuu	Kainuu	Kainuu	凯努区	카이누 주	凱努區
+012	北カレリア県	Pohjois-Karjala / Norra Karelen	Carélie du Nord	Nordkarelien	Carelia Settentrionale	Karelia del Norte	北卡累利阿区	북카렐리아 주	北卡累利阿區
+013	北サヴォ県	Pohjois-Savo / Norra Savolax	Savonie du Nord	Nordsavo	Savo Settentrionale	Savonia del Norte	北萨沃区	북사보 주	北薩沃區
+014	南サヴォ県	Etelä-Savo / Södra Savolax	Savonie du Sud	Südsavo	Savo Meridionale	Savonia del Sur	南萨沃区	남사보 주	南薩沃區
+015	南ポフヤンマー県	Etelä-Pohjanmaa / Södra Österbotten	Ostrobotnie du Sud	Südösterbotten	Ostrobotnia Meridionale	Ostrobothnia del Sur	南博滕区	남오스트로보트니아 주	南博滕區
+016	ポフヤンマー県	Pohjanmaa / Österbotten	Ostrobotnie	Österbotten	Ostrobotnia	Ostrobothnia	博滕区	오스트로보트니아 주	博滕區
+017	ピルカンマー県	Pirkanmaa / Birkaland	Pirkanmaa	Pirkanmaa	Pirkanmaa	Pirkanmaa	皮尔卡区	피르칸마 주	皮爾卡區
+018	サタクンタ県	Satakunta / Satakunda	Satakunta	Satakunta	Satakunta	Satakunta	萨塔昆塔区	사타쿤타 주	薩塔昆塔區
+019	中部ポフヤンマー県	Keski-Pohjanmaa / Mellersta Österbotten	Ostrobotnie-Centrale	Mittelösterbotten	Ostrobotnia Centrale	Ostrobothnia Central	中博滕区	중앙오스트로보트니아 주	中博滕區
+020	中央スオミ県	Keski-Suomi / Mellersta Finland	Finlande-Centrale	Mittelfinnland	Finlandia Centrale	Finlandia Central	中芬兰区	케스키수오미 주	中芬蘭區
+021	ヴァルシナイス=スオミ県	Varsinais-Suomi / Egentliga Finland	Finlande propre	Varsinais-Suomi	Finlandia Sud-Occidentale	Finlandia Propia	西南芬兰区	바르시나이스수오미 주	西南芬蘭區
+022	南カレリア県	Etelä-Karjala / Södra Karelen	Carélie du Sud	Südkarelien	Carelia Meridionale	Karelia del Sur	南卡累利阿区	남카렐리아 주	南卡累利阿區
+023	パイヤト=ハメ県	Päijät-Häme / Päijänne Tavastland	Päijät-Häme	Päijät-Häme	Päijät-Häme	Päijänne Tavastia	派亚特海梅区	파이얏하메 주	派亞特海梅區
+024	カンタ=ハメ県	Kanta-Häme / Egentliga Tavastland	Kanta-Häme	Kanta-Häme	Kanta-Häme	Tavastia Propia	坎塔海梅区	칸타하메 주	坎塔海梅區
+025	東ウーシマー県	Itä-Uusimaa / Östra Nyland	Uusimaa de l'Est	Ostuusimaa	Uusimaa Orientale	Uusimaa Oriental	东新地区	동우시마 주	東新地區
+026	キュメンラークソ県	Kymenlaakso / Kymmenedalen	Vallée de la Kymi	Kymenlaakso	Kymenlaakso	Kymenlaakso	屈米区	퀴멘락소 주	屈米區
+027	アハベナンマー州	Ahvenanmaa / Åland	Åland	Åland	Isole Åland	Islas de Åland	奥兰岛自治区	아베난마 주	奧蘭島自治區

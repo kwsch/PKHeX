@@ -1,0 +1,10 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ラパス県	La Paz	La Paz	La Paz	La Paz	La Paz	拉巴斯省	라파스 주	拉巴斯省
+003	チュキサカ県	Chuquisaca	Chuquisaca	Chuquisaca	Chuquisaca	Chuquisaca	丘基萨卡省	추키사카 주	丘基薩卡省
+004	コチャバンバ県	Cochabamba	Cochabamba	Cochabamba	Cochabamba	Cochabamba	科恰班巴省	코차밤바 주	科恰班巴省
+005	ベニ県	El Beni	Beni	Beni	Beni	El Beni	贝尼省	엘베니 주	貝尼省
+006	オルロ県	Oruro	Oruro	Oruro	Oruro	Oruro	奥鲁罗省	오루로 주	奧魯羅省
+007	パンド県	Pando	Pando	Pando	Pando	Pando	潘多省	판도 주	潘多省
+008	ポトシ県	Potosí	Potosí	Potosí	Potosí	Potosí	波托西省	포토시 주	波託西省
+009	サンタ・クルス県	Santa Cruz	Santa Cruz	Santa Cruz	Santa Cruz	Santa Cruz	圣克鲁斯省	산타크루스 주	聖克魯斯省
+010	タリハ県	Tarija	Tarija	Tarija	Tarija	Tarija	塔里哈省	타리하 주	塔裏哈省

@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,モントセラト,Montserrat,Montserrat,Montserrat,Montserrat,Montserrat,蒙特塞拉特,몬트세랫,

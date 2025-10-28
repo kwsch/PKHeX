@@ -1,164 +1,171 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
-namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls;
+
+public partial class TrainerID : UserControl
 {
-    public partial class TrainerID : UserControl
+    public TrainerID() => InitializeComponent();
+    public event EventHandler? UpdatedID;
+
+    private bool LoadingFields;
+
+    private int XorFormat;
+    private TrainerIDFormat DisplayType { get; set; }
+    private ITrainerID32 Trainer = null!;
+
+    public void UpdateTSV()
     {
-        public TrainerID() => InitializeComponent();
-        public event EventHandler UpdatedID;
+        var tsv = GetTSV();
+        if (tsv > ushort.MaxValue)
+            return;
 
-        private int Format = -1;
-        private ITrainerID Trainer;
-        private readonly ToolTip TSVTooltip = new ToolTip();
+        string IDstr = $"TSV: {tsv:d4}{Environment.NewLine}{GetAlternateRepresentation(Trainer, DisplayType)}";
+        TSVTooltip.SetToolTip(TB_TID, IDstr);
+        TSVTooltip.SetToolTip(TB_SID, IDstr);
+        TSVTooltip.SetToolTip(TB_TID7, IDstr);
+        TSVTooltip.SetToolTip(TB_SID7, IDstr);
+    }
 
-        public void UpdateTSV()
+    private static string GetAlternateRepresentation(ITrainerID32 tr, TrainerIDFormat format)
+    {
+        if (format is not TrainerIDFormat.SixteenBit)
+            return $"ID: {tr.TID16:D5}/{tr.SID16:D5}";
+        var id = tr.ID32;
+        return $"G7ID: ({id / 1_000_000:D4}){id % 1_000_000:D6}";
+    }
+
+    private uint GetTSV()
+    {
+        if (DisplayType is TrainerIDFormat.None)
+            return uint.MaxValue;
+        var xor = (uint)(Trainer.SID16 ^ Trainer.TID16);
+        if (XorFormat <= 5)
+            return xor >> 3;
+        return xor >> 4;
+    }
+
+    public void LoadIDValues(ITrainerID32 tr, byte format)
+    {
+        Trainer = tr;
+        var display = tr.GetTrainerIDFormat();
+        SetFormat(display, format);
+        LoadValues();
+    }
+
+    public void UpdateSID() => LoadValues();
+
+    public void LoadInfo(ITrainerInfo info)
+    {
+        Trainer.TID16 = info.TID16;
+        Trainer.SID16 = info.SID16;
+        LoadValues();
+    }
+
+    private void LoadValues()
+    {
+        LoadingFields = true;
+        if (XorFormat <= 2)
+            TB_TID.Text = Trainer.TID16.ToString();
+        else if (DisplayType == TrainerIDFormat.SixteenBit)
+            LoadTID(Trainer);
+        else
+            LoadTID7(Trainer);
+        LoadingFields = false;
+    }
+
+    private void LoadTID(ITrainerID32 tr)
+    {
+        TB_TID.Text = tr.TID16.ToString(TrainerIDExtensions.TID16);
+        TB_SID.Text = tr.SID16.ToString(TrainerIDExtensions.SID16);
+    }
+
+    private void LoadTID7(ITrainerID32 tr)
+    {
+        TB_TID7.Text = tr.GetTrainerTID7().ToString(TrainerIDExtensions.TID7);
+        TB_SID7.Text = tr.GetTrainerSID7().ToString(TrainerIDExtensions.SID7);
+    }
+
+    private void SetFormat(TrainerIDFormat display, byte format)
+    {
+        if ((display, format) == (DisplayType, XorFormat))
+            return;
+
+        var controls = GetControlsForFormat(display);
+        FLP.Controls.Clear(); int i = 0;
+        foreach (var c in controls)
         {
-            var tsv = GetTSV();
-            if (tsv < 0)
-                return;
-            string IDstr = $"TSV: {tsv:d4}";
-            var repack = Trainer.SID * 1_000_000 + Trainer.TID;
-            string supplement = Format < 7
-                ? $"G7ID: ({repack / 1_000_000:D4}){repack % 1_000_000:D6}"
-                : $"ID: {Trainer.TID:D5}/{Trainer.SID:D5}";
-            IDstr += Environment.NewLine + supplement;
-            TSVTooltip.SetToolTip(TB_TID, IDstr);
-            TSVTooltip.SetToolTip(TB_SID, IDstr);
-            TSVTooltip.SetToolTip(TB_TID7, IDstr);
-            TSVTooltip.SetToolTip(TB_SID7, IDstr);
+            FLP.Controls.Add(c);
+            FLP.Controls.SetChildIndex(c, i++); // because you don't listen the first time
         }
-        private int GetTSV()
+
+        (DisplayType, XorFormat) = (display, format);
+    }
+
+    private Control[] GetControlsForFormat(TrainerIDFormat format) => format switch
+    {
+        TrainerIDFormat.SixDigit => [Label_SID, TB_SID7, Label_TID, TB_TID7],
+        TrainerIDFormat.SixteenBitSingle => [Label_TID, TB_TID], // Gen1/2
+        _ => [Label_TID, TB_TID, Label_SID, TB_SID],
+    };
+
+    private void UpdateTSV(object sender, EventArgs e) => UpdateTSV();
+
+    private void Update_ID(object sender, EventArgs e)
+    {
+        if (sender is not MaskedTextBox mt)
+            return;
+
+        if (!uint.TryParse(mt.Text, out var value))
+            value = 0;
+        if (mt == TB_TID7)
         {
-            if (Format <= 2)
-                return -1;
-            var xor = Trainer.SID ^ Trainer.TID;
-            if (Format <= 5)
-                return xor >> 3;
-            return xor >> 4;
-        }
-        public void LoadIDValues(ITrainerID tr)
-        {
-            Trainer = tr;
-            int format;
-            if (tr is PKM p)
+            if (value > 999_999)
             {
-                format = p.GenNumber;
-                if (format < 3 && p.Format >= 7 || format <= 0) // VC or bad gen
-                    format = 4; // use TID/SID 16bit style
+                mt.Text = "999999";
+                return;
             }
+            if (!uint.TryParse(TB_SID7.Text, out var sid))
+                sid = 0;
+            SanityCheckSID7(value, sid);
+        }
+        else if (mt == TB_SID7)
+        {
+            if (value > 4294) // max 4 digits of 32bit int
+            {
+                mt.Text = "4294";
+                return;
+            }
+            if (!uint.TryParse(TB_TID7.Text, out var tid))
+                tid = 0;
+            SanityCheckSID7(tid, value);
+        }
+        else
+        {
+            if (value > ushort.MaxValue) // prior to Gen7
+                mt.Text = (value = ushort.MaxValue).ToString();
+
+            if (mt == TB_TID)
+                Trainer.TID16 = (ushort)value;
             else
-                format = tr is SaveFile s ? s.Generation : -1;
-            SetFormat(format);
-            LoadValues();
-        }
-        public void UpdateSID() => LoadValues();
-        public void LoadInfo(ITrainerInfo info)
-        {
-            Trainer.TID = info.TID;
-            Trainer.SID = info.SID;
-            LoadValues();
+                Trainer.SID16 = (ushort)value;
         }
 
-        private void LoadValues()
-        {
-            if (Format <= 2)
-                TB_TID.Text = Trainer.TID.ToString();
-            else if (Format <= 6)
-                LoadTID(Trainer.TID, Trainer.SID);
-            else
-                LoadTID7(Trainer.TID, Trainer.SID);
-        }
-        private void LoadTID(int tid, int sid)
-        {
-            TB_TID.Text = tid.ToString("D5");
-            TB_SID.Text = sid.ToString("D5");
-        }
-        private void LoadTID7(int tid, int sid)
-        {
-            var repack = (uint)((sid << 16) | tid);
-            sid = (int)(repack / 1_000_000);
-            tid = (int)(repack % 1_000_000);
+        UpdatedID?.Invoke(sender, e);
+    }
 
-            TB_TID7.Text = tid.ToString("D6");
-            TB_SID7.Text = sid.ToString("D4");
-        }
-        private void SetFormat(int format)
+    private void SanityCheckSID7(uint tid, uint sid)
+    {
+        if (LoadingFields)
+            return;
+
+        var repack = ((ulong)sid * 1_000_000) + tid;
+        if (repack > uint.MaxValue)
         {
-            if (format == Format)
-                return;
-
-            var controls = GetControlsForFormat(format);
-            FLP.Controls.Clear(); int i = 0;
-            foreach (var c in controls)
-            {
-                FLP.Controls.Add(c);
-                FLP.Controls.SetChildIndex(c, i++); // because you don't listen the first time
-            }
-
-            Format = format;
+            TB_SID7.Text = (sid - 1).ToString();
+            return; // GUI triggers change event, so we'll eventually reach below.
         }
-        private IEnumerable<Control> GetControlsForFormat(int format)
-        {
-            if (format >= 7)
-                return new Control[] { Label_SID, TB_SID7, Label_TID, TB_TID7 };
-            if (format >= 3)
-                return new Control[] { Label_TID, TB_TID, Label_SID, TB_SID };
-            return new Control[] { Label_TID, TB_TID };
-        }
-        private void UpdateTSV(object sender, EventArgs e) => UpdateTSV();
-        private void Update_ID(object sender, EventArgs e)
-        {
-            if (!(sender is MaskedTextBox mt))
-                return;
-
-            int.TryParse(mt.Text, out var val);
-            if (mt == TB_TID7)
-            {
-                if (val > 999_999)
-                {
-                    mt.Text = "999999";
-                    return;
-                }
-                int.TryParse(TB_SID7.Text, out var sid);
-                SanityCheckSID7(val, sid);
-            }
-            else if (mt == TB_SID7)
-            {
-                if (val > 4294) // max 4 digits of 32bit int
-                {
-                    mt.Text = "4294";
-                    return;
-                }
-                int.TryParse(TB_TID7.Text, out var tid);
-                SanityCheckSID7(tid, val);
-            }
-            else
-            {
-                if (val > ushort.MaxValue) // prior to gen7
-                    mt.Text = (val = ushort.MaxValue).ToString();
-
-                if (mt == TB_TID)
-                    Trainer.TID = val;
-                else
-                    Trainer.SID = val;
-            }
-
-            UpdatedID?.Invoke(sender, e);
-        }
-        private void SanityCheckSID7(int tid, int sid)
-        {
-            var repack = (long)sid * 1_000_000 + tid;
-            if (repack > uint.MaxValue)
-            {
-                TB_SID7.Text = (sid - 1).ToString();
-                return;
-            }
-
-            Trainer.SID = (ushort)(repack >> 16);
-            Trainer.TID = (ushort)repack;
-        }
+        Trainer.SetTrainerID7(sid, tid);
     }
 }

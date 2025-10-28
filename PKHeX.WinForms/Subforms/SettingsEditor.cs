@@ -1,63 +1,96 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
 using PKHeX.Core;
-using PKHeX.WinForms.Properties;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms;
+
+public partial class SettingsEditor : Form
 {
-    public partial class SettingsEditor : Form
+    public bool BlankChanged { get; private set; }
+
+    // Remember the last settings tab for the remainder of the session.
+    private static string? Last;
+
+    public SettingsEditor(object obj)
     {
-        public SettingsEditor(object obj, params string[] blacklist)
-        {
-            InitializeComponent();
-            SettingsObject = obj;
-            LoadSettings(blacklist);
+        InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+        LoadSettings(obj);
 
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            this.CenterToForm(FindForm());
-        }
-        private void SettingsEditor_FormClosing(object sender, FormClosingEventArgs e) => SaveSettings();
-
-        private readonly object SettingsObject;
-        private void LoadSettings(IEnumerable<string> blacklist)
+        if (obj is PKHeXSettings s)
         {
-            var type = SettingsObject.GetType();
-            var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(type).Except(blacklist);
-            foreach (var p in props)
+            static bool IsInvalidSaveFileVersion(GameVersion value) => value is 0 or GameVersion.GO;
+            CB_Blank.InitializeBinding();
+            CB_Blank.DataSource = GameInfo.Sources.VersionDataSource.Where(z => !IsInvalidSaveFileVersion((GameVersion)z.Value)).ToList();
+            CB_Blank.SelectedValue = (int)s.Startup.DefaultSaveVersion;
+            CB_Blank.SelectedValueChanged += (_, _) =>
             {
-                var state = ReflectUtil.GetValue(Settings.Default, p);
-                switch (state)
-                {
-                    case bool b:
-                        var chk = GetCheckBox(p, b);
-                        FLP_Settings.Controls.Add(chk);
-                        FLP_Settings.SetFlowBreak(chk, true);
-                        continue;
-                }
-            }
+                var index = WinFormsUtil.GetIndex(CB_Blank);
+                var version = (GameVersion)index;
+                if (IsInvalidSaveFileVersion(version))
+                    return;
+                s.Startup.DefaultSaveVersion = version;
+            };
+            CB_Blank.SelectedIndexChanged += (_, _) => BlankChanged = !IsInvalidSaveFileVersion((GameVersion)WinFormsUtil.GetIndex(CB_Blank));
+            B_Reset.Click += (_, _) => DeleteSettings();
         }
-        private void SaveSettings()
+        else
         {
-            foreach (var s in FLP_Settings.Controls.OfType<Control>())
-                ReflectUtil.SetValue(SettingsObject, s.Name, GetValue(s));
+            FLP_Blank.Visible = false;
+            B_Reset.Visible = false;
         }
 
-        private static CheckBox GetCheckBox(string name, bool state) => new CheckBox
+        if (Last is not null && tabControl1.Controls[Last] is TabPage tab)
+            tabControl1.SelectedTab = tab;
+        tabControl1.SelectedIndexChanged += (_, _) => Last = tabControl1.SelectedTab?.Name;
+
+        this.CenterToForm(FindForm());
+    }
+
+    private void LoadSettings(object obj)
+    {
+        var type = obj.GetType();
+        var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(type)
+            .Order();
+        foreach (var p in props)
         {
-            Name = name, Checked = state, Text = name,
-            AutoSize = true,
-        };
-        private static object GetValue(IDisposable control)
+            var state = ReflectUtil.GetValue(obj, p);
+            if (state is null)
+                continue;
+
+            var tab = new TabPage(p) { Name = $"Tab_{p}" };
+            var pg = new PropertyGrid { SelectedObject = state, Dock = DockStyle.Fill };
+            tab.Controls.Add(pg);
+            pg.ExpandAllGridItems();
+            tabControl1.TabPages.Add(tab);
+        }
+    }
+
+    private void SettingsEditor_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.W && ModifierKeys == Keys.Control)
+            Close();
+    }
+
+    private static void DeleteSettings()
+    {
+        try
         {
-            switch (control)
-            {
-                case CheckBox cb:
-                    return cb.Checked;
-                default: return null;
-            }
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Resetting settings requires the program to exit.", MessageStrings.MsgContinue);
+            if (dr != DialogResult.Yes)
+                return;
+            var path = Program.PathConfig;
+            if (File.Exists(path))
+                File.Delete(path);
+            System.Diagnostics.Process.Start(Application.ExecutablePath);
+            Environment.Exit(0);
+        }
+        catch (Exception ex)
+        {
+            WinFormsUtil.Error("Failed to delete settings.", ex.Message);
         }
     }
 }

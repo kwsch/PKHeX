@@ -1,0 +1,164 @@
+RibbonChampionKalos	カロス チャンプ
+RibbonChampionG3	チャンプ (Gen3)
+RibbonChampionSinnoh	シンオウ チャンプ
+RibbonBestFriends	なかよし
+RibbonTraining	しゅぎょう
+RibbonBattlerSkillful	グレートバトル
+RibbonBattlerExpert	マスターバトル
+RibbonEffort	がんば
+RibbonAlert	しゃっき
+RibbonShock	どっき
+RibbonDowncast	しょんぼ
+RibbonCareless	うっか
+RibbonRelax	すっき
+RibbonSnooze	ぐっす
+RibbonSmile	にっこ
+RibbonGorgeous	ゴージャス
+RibbonRoyal	ロイヤル
+RibbonGorgeousRoyal	ゴージャスロイヤル
+RibbonArtist	ブロマイド
+RibbonFootprint	あしあと
+RibbonRecord	レコード
+RibbonLegend	レジェンド
+RibbonCountry	カントリー
+RibbonNational	ナショナル
+RibbonEarth	アース
+RibbonWorld	ワールド
+RibbonClassic	クラシック
+RibbonPremier	プレミア
+RibbonEvent	イベント
+RibbonBirthday	バースデー
+RibbonSpecial	スペシャル
+RibbonSouvenir	メモリアル
+RibbonWishing	ウィッシュ
+RibbonChampionBattle	バトルチャンプ
+RibbonChampionRegional	エリアチャンプ
+RibbonChampionNational	ナショナルチャンプ
+RibbonChampionWorld	ワールドチャンプ
+RibbonCountMemoryContest	おもいでコンテスト
+RibbonCountMemoryBattle	おもいでバトル
+RibbonChampionG6Hoenn	ホウエン　チャンプ (ORAS)
+RibbonContestStar	コンテストスター
+RibbonMasterCoolness	かっこよさマスター
+RibbonMasterBeauty	うつくしさマスター
+RibbonMasterCuteness	かわいさマスター
+RibbonMasterCleverness	かしこさマスター
+RibbonMasterToughness	たくましさマスター
+RibbonG3Cool	クール (G3)
+RibbonG3CoolSuper	クールリボンスーパー (G3)
+RibbonG3CoolHyper	クールリボンハイパー (G3)
+RibbonG3CoolMaster	クールリボンマスター (G3)
+RibbonG3Beauty	ビューティー (G3)
+RibbonG3BeautySuper	ビューティーリボンスーパー (G3)
+RibbonG3BeautyHyper	ビューティーリボンハイパー (G3)
+RibbonG3BeautyMaster	ビューティーリボンマスター (G3)
+RibbonG3Cute	キュート (G3)
+RibbonG3CuteSuper	キュートリボンスーパー (G3)
+RibbonG3CuteHyper	キュートリボンハイパー (G3)
+RibbonG3CuteMaster	キュートリボンマスター (G3)
+RibbonG3Smart	ジーニアス (G3)
+RibbonG3SmartSuper	ジーニアスリボンスーパー (G3)
+RibbonG3SmartHyper	ジーニアスリボンハイパー (G3)
+RibbonG3SmartMaster	ジーニアスリボンマスター (G3)
+RibbonG3Tough	パワフル (G3)
+RibbonG3ToughSuper	パワフルリボンスーパー (G3)
+RibbonG3ToughHyper	パワフルリボンハイパー (G3)
+RibbonG3ToughMaster	パワフルリボンマスター (G3)
+RibbonG4Cool	クール (G4)
+RibbonG4CoolGreat	クールリボングレート (G4)
+RibbonG4CoolUltra	クールリボンウルトラ (G4)
+RibbonG4CoolMaster	クールリボンマスター (G4)
+RibbonG4Beauty	ビューティー (G4)
+RibbonG4BeautyGreat	ビューティーリボングレート (G4)
+RibbonG4BeautyUltra	ビューティーリボンウルトラ (G4)
+RibbonG4BeautyMaster	ビューティーリボンマスター (G4)
+RibbonG4Cute	キュート (G4)
+RibbonG4CuteGreat	キュートリボングレート (G4)
+RibbonG4CuteUltra	キュートリボンウルトラ (G4)
+RibbonG4CuteMaster	キュートリボンマスター (G4)
+RibbonG4Smart	ジーニアス (G4)
+RibbonG4SmartGreat	ジーニアスリボングレート (G4)
+RibbonG4SmartUltra	ジーニアスリボンウルトラ (G4)
+RibbonG4SmartMaster	ジーニアスリボンマスター (G4)
+RibbonG4Tough	パワフル (G4)
+RibbonG4ToughGreat	パワフルリボングレート (G4)
+RibbonG4ToughUltra	パワフルリボンウルトラ (G4)
+RibbonG4ToughMaster	パワフルリボンマスター (G4)
+RibbonWinning	ウイニング
+RibbonVictory	ビクトリー
+RibbonAbility	アビリティ
+RibbonAbilityGreat	グレートアビリティ
+RibbonAbilityDouble	ダブルアビリティ
+RibbonAbilityMulti	マルチアビリティ
+RibbonAbilityPair	ペアアビリティ
+RibbonAbilityWorld	ワールドアビリティ
+RibbonCountG3Cool	かっこよさ
+RibbonCountG3Beauty	うつくしさ
+RibbonCountG3Cute	かわいさ
+RibbonCountG3Smart	かしこさ
+RibbonCountG3Tough	たくましさ
+RibbonChampionAlola	アローラ　チャンプ
+RibbonBattleRoyale	ロイヤルマスター
+RibbonBattleTreeGreat	グレートツリー
+RibbonBattleTreeMaster	マスターツリー
+RibbonChampionGalar	ガラル チャンプリボン
+RibbonTowerMaster	マスタータワーリボン
+RibbonMasterRank	マスターランクリボン
+RibbonMarkLunchtime	しょうごのあかし
+RibbonMarkSleepyTime	しょうしのあかし
+RibbonMarkDusk	たそがれのあかし
+RibbonMarkDawn	あかつきのあかし
+RibbonMarkCloudy	どんてんのあかし
+RibbonMarkRainy	あめふりのあかし
+RibbonMarkStormy	いかづちのあかし
+RibbonMarkSnowy	こうせつのあかし
+RibbonMarkBlizzard	ごうせつのあかし
+RibbonMarkDry	かんそうのあかし
+RibbonMarkSandstorm	さじんのあかし
+RibbonMarkMisty	のうむのあかし
+RibbonMarkDestiny	うんめいのあかし
+RibbonMarkFishing	つりあげられたあかし
+RibbonMarkCurry	カレーのあかし
+RibbonMarkUncommon	ときどきみるあかし
+RibbonMarkRare	みたことのないあかし
+RibbonMarkRowdy	わんぱくなあかし
+RibbonMarkAbsentMinded	のうてんきなあかし
+RibbonMarkJittery	きんちょうのあかし
+RibbonMarkExcited	きたいのあかし
+RibbonMarkCharismatic	カリスマのあかし
+RibbonMarkCalmness	れいせいのあかし
+RibbonMarkIntense	じょうねつのあかし
+RibbonMarkZonedOut	ゆだんのあかし
+RibbonMarkJoyful	たこうのあかし
+RibbonMarkAngry	ふんぬのあかし
+RibbonMarkSmiley	びしょうのあかし
+RibbonMarkTeary	ひそうのあかし
+RibbonMarkUpbeat	かいちょうのあかし
+RibbonMarkPeeved	げきはつのあかし
+RibbonMarkIntellectual	りせいのあかし
+RibbonMarkFerocious	ほんのうのあかし
+RibbonMarkCrafty	こうかつのあかし
+RibbonMarkScowling	こわもてのあかし
+RibbonMarkKindly	やさがたのあかし
+RibbonMarkFlustered	どうようのあかし
+RibbonMarkPumpedUp	こうようのあかし
+RibbonMarkZeroEnergy	けんたいのあかし
+RibbonMarkPrideful	じしんのあかし
+RibbonMarkUnsure	ふしんのあかし
+RibbonMarkHumble	ぼくとつのあかし
+RibbonMarkThorny	ふじゅんのあかし
+RibbonMarkVigor	げんきのあかし
+RibbonMarkSlump	ふちょうのあかし
+RibbonHisui	ヒスイリボン
+RibbonTwinklingStar	トゥインクルスターリボン
+RibbonChampionPaldea	パルデア　チャンプリボン
+RibbonMarkJumbo	でっかいあかし
+RibbonMarkMini	ちっちゃいあかし
+RibbonMarkItemfinder	ものひろいのあかし
+RibbonMarkPartner	あいぼうのあかし
+RibbonMarkGourmand	グルメなあかし
+RibbonOnceInALifetime	せんざいいちぐうリボン
+RibbonMarkAlpha	オヤブンのあかし
+RibbonMarkMightiest	さいきょうのあかし
+RibbonMarkTitan	ヌシのあかし
+RibbonPartner	パートナーリボン

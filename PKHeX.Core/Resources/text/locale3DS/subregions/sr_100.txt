@@ -1,0 +1,84 @@
+﻿000	—	—	—	—	—	—	—	—	—
+009	モスクワ市	Moscow City	Moscou (ville)	Moskau (Stadt)	Mosca	Ciudad de Moscú	莫斯科市	모스크바	莫斯科市
+010	アディゲ共和国	Adygey	Adyguée	Republik Adygeja	Repubblica di Adighezia	República de Adigueya	阿迪格共和国	아디게야 공화국	阿迪格共和國
+011	アルタイ共和国	Gorno-Altay	Altaï (république)	Republik Altai	Repubblica dell'Altaj	República de Altái	阿尔泰共和国	고르노알타이 공화국	阿爾泰共和國
+012	アルタイ地方	Altay	Altaï (kraï)	Region Altai	Territorio dell'Altaj	Territorio de Altái	阿尔泰边疆区	알타이 지방	阿爾泰邊疆區
+013	アムール州	Amur	Amour	Oblast Amur	Regione dell'Amur	Región de Amur	阿穆尔州	아무르 주	阿穆爾州
+014	アルハンゲリスク州	Arkhangel'sk	Arkhangelsk	Oblast Archangelsk	Regione di Arcangelo	Región de Arjánguelsk	阿尔汉格尔斯克州	아르한겔스크 주	阿爾漢格爾斯克州
+015	アストラハン州	Astrakhan'	Astrakhan	Oblast Astrachan	Regione di Astrachan'	Región de Astracán	阿斯特拉罕州	아스트라한 주	阿斯特拉罕州
+016	バシコルトスタン共和国	Bashkortostan	Bachkirie	Republik Baschkortostan	Repubblica del Baškortostan	República de Baskortostán	巴什科尔托斯坦共和国	바시키르 공화국	巴什科爾託斯坦共和國
+017	ベルゴロド州	Belgorod	Belgorod	Oblast Belgorod	Regione di Belgorod	Región de Bélgorod	别尔哥罗德州	벨고로트 주	別爾哥羅德州
+018	ブリャンスク州	Bryansk	Briansk	Oblast Brjansk	Regione di Brjansk	Región de Briansk	布良斯克州	브랸스크 주	布良斯克州
+019	ブリヤート共和国	Buryat	Bouriatie	Republik Burjatien	Repubblica di Buriazia	República de Buriatia	布里亚特共和国	부랴트 공화국	布裏亞特共和國
+020	チェチェン共和国	Chechnya	Tchétchénie	Republik Tschetschenien	Repubblica Cecena	República de Chechenia	车臣共和国	체첸 공화국	車臣共和國
+021	チェリャビンスク州	Chelyabinsk	Tcheliabinsk	Oblast Tscheljabinsk	Regione di Čeljabinsk	Región de Cheliábinsk	车里雅宾斯克州	첼랴빈스크 주	車里雅賓斯克州
+022	チュクチ自治管区	Chukot	Tchoukotka	Autonomer Kreis der Tschuktschen	Circondario Autonomo di Čukotka	Distrito autónomo de Chukotka	楚科奇自治区	축치 자치구	楚科奇自治區
+023	チュヴァシ共和国	Chuvash	Tchouvachie	Republik Tschuwaschien	Repubblica Ciuvascia	República de Chuvasia	楚瓦什共和国	추바시 공화국	楚瓦什共和國
+024	ダゲスタン共和国	Dagestan	Daguestan	Republik Dagestan	Repubblica del Dagestan	República de Daguestán	达吉斯坦共和国	다게스탄 공화국	達吉斯坦共和國
+025	イングーシ共和国	Ingushetia	Ingouchie	Republik Inguschetien	Repubblica di Inguscezia	República de Ingusetia	印古什共和国	인구시 공화국	印古什共和國
+026	イルクーツク州	Irkutsk	Irkoutsk	Oblast Irkutsk	Regione di Irkutsk	Región de Irkutsk	伊尔库茨克州	이르쿠츠크 주	伊爾庫茨克州
+027	イヴァノヴォ州	Ivanovo	Ivanovo	Oblast Iwanowo	Regione di Ivanovo	Región de Ivánovo	伊万诺沃州	이바노보 주	伊萬諾沃州
+028	カバルダ・バルカル共和国	Kabardin-Balkar	Kabardino-Balkarie	Republik Kabardino-Balkarien	Repubblica di Cabardino-Balcaria	República de Kabardino-Balkaria	卡巴尔达-巴尔卡尔共和国	카바르디노발카르 공화국	卡巴爾達-巴爾卡爾共和國
+029	カリーニングラード州	Kaliningrad	Kaliningrad	Oblast Kaliningrad	Regione di Kaliningrad	Región de Kaliningrado	加里宁格勒州	칼리닌그라드 주	加裏寧格勒州
+030	カルムイク共和国	Kalmyk	Kalmoukie	Republik Kalmückien	Repubblica di Calmucchia	República de Kalmukia	卡尔梅克共和国	칼미크 공화국	卡爾梅克共和國
+031	カルーガ州	Kaluga	Kalouga	Oblast Kaluga	Regione di Kaluga	Región de Kaluga	卡卢加州	칼루가 주	卡盧加州
+032	カムチャツカ地方	Kamchatka	Kamtchatka	Region Kamtschatka	Territorio della Kamčatka	Territorio de Kamchatka	勘察加边疆区	캄차카 지방	勘察加邊疆區
+033	カラチャイ・チェルケス共和国	Karachay-Cherkess	Karatchaïévo-Tcherkessie	Republik Karatschai-Tscherkessien	Repubblica Karačajevo-Čerkessia	República de Karacháyevo-Cherkesia	卡拉恰耶夫-切尔克斯共和国	카라차예보체르케스카야 공화국	卡拉恰耶夫-切爾克斯共和國
+034	カレリア共和国	Karelia	Carélie	Republik Karelien	Repubblica di Carelia	República de Carelia	卡累利阿共和国	카렐리야 공화국	卡累利阿共和國
+035	ケメロヴォ州	Kemerovo	Kemerovo	Oblast Kemerowo	Regione di Kemerovo	Región de Kémerovo	克麦罗沃州	케메로보 주	克麥羅沃州
+036	ハバロフスク地方	Khabarovsk	Khabarovsk	Region Chabarowsk	Territorio di Chabarovsk	Territorio de Jabárovsk	哈巴罗夫斯克边疆区	하바롭스크 지방	哈巴羅夫斯克邊疆區
+037	ハカス共和国	Khakassia	Khakassie	Republik Chakassien	Repubblica di Khakassia	República de Jakasia	哈卡斯共和国	하카스 공화국	哈卡斯共和國
+038	ハンティ・マンシ自治管区	Khanty-Mansiy	Khantys-Mansis	Autonomer Kreis der Chanten und Mansen	Circondario Autonomo di Chantia-Mansia	Distrito autónomo de Janti-Mansi	汉特-曼西自治区	한티만시 자치구	漢特-曼西自治區
+039	キーロフ州	Kirov	Kirov	Oblast Kirow	Regione di Kirov	Región de Kírov	基洛夫州	키로프 주	基洛夫州
+040	コミ共和国	Komi	Komis	Republik Komi	Repubblica di Komi	República de Komi	科米共和国	코미 공화국	科米共和國
+041	コストロマ州	Kostroma	Kostroma	Oblast Kostroma	Regione di Kostroma	Región de Kostromá	科斯特罗马州	코스트로마 주	科斯特羅馬州
+042	クラスノダール地方	Krasnodar	Krasnodar	Region Krasnodar	Territorio di Krasnodar	Territorio de Krasnodar	克拉斯诺达尔边疆区	크라스노다르 지방	克拉斯諾達爾邊疆區
+043	クラスノヤルスク地方	Krasnoyarsk	Krasnoïarsk	Region Krasnojarsk	Territorio di Krasnojarsk	Territorio de Krasnoyarsk	克拉斯诺亚尔斯克边疆区	크라스노야르스크 지방	克拉斯諾亞爾斯克邊疆區
+044	クルガン州	Kurgan	Kourgan	Oblast Kurgan	Regione di Kurgan	Región de Kurgán	库尔干州	쿠르간 주	庫爾幹州
+045	クルスク州	Kursk	Koursk	Oblast Kursk	Regione di Kursk	Región de Kursk	库尔斯克州	쿠르스크 주	庫爾斯克州
+046	レニングラード州	Leningrad	Léningrad	Oblast Leningrad	Regione di Leningrado	Región de Leningrado	列宁格勒州	레닌그라드 주	列寧格勒州
+047	リペツク州	Lipetsk	Lipetsk	Oblast Lipezk	Regione di Lipeck	Región de Lípetsk	利佩茨克州	리페츠크 주	利佩茨克州
+048	マガダン州	Magadan	Magadan	Oblast Magadan	Regione di Magadan	Región de Magadán	马加丹州	마가단 주	馬加丹州
+049	マリ・エル共和国	Mariy-El	Maris	Republik Mari El	Repubblica di Mari-El	República de Mari-El	马里-埃尔共和国	마리옐 공화국	馬裏-埃爾共和國
+050	モルドヴィア共和国	Mordovia	Mordovie	Republik Mordwinien	Repubblica di Mordovia	República de Mordovia	莫尔多瓦社会主义共和国	모르도바 공화국	莫爾多瓦社會主義共和國
+051	モスクワ州	Moscow	Moscou (oblast)	Oblast Moskau	Regione di Mosca	Región de Moscú	莫斯科州	모스크바 주	莫斯科州
+052	ムルマンスク州	Murmansk	Mourmansk	Oblast Murmansk	Regione di Murmansk	Región de Múrmansk	摩尔曼斯克州	무르만스크 주	摩爾曼斯克州
+053	ネネツ自治管区	Nenets	Nénétsie	Autonomer Kreis der Nenzen	Circondario Autonomo di Nenec	Distrito autónomo de Nenetsia	涅涅茨自治区	네네츠 자치구	涅涅茨自治區
+054	ニジニ・ノヴゴロド州	Nizhegorod	Nijni Novgorod	Oblast Nischni Nowgorod	Regione di Nižnij Novgorod	Región de Nizhni Nóvgorod	下诺夫哥罗德州	니제고로드 주	下諾夫哥羅德州
+055	ノヴゴロド州	Novgorod	Novgorod	Oblast Nowgorod	Regione di Novgorod	Región de Nóvgorod	诺夫哥罗德州	노브고로드 주	諾夫哥羅德州
+056	ノヴォシビルスク州	Novosibirsk	Novossibirsk	Oblast Nowosibirsk	Regione di Novosibirsk	Región de Novosibirsk	新西伯利亚州	노보시비르스크 주	新西伯利亞州
+057	オムスク州	Omsk	Omsk	Oblast Omsk	Regione di Omsk	Región de Omsk	鄂木斯克州	옴스크 주	鄂木斯克州
+058	オレンブルク州	Orenburg	Orenbourg	Oblast Orenburg	Regione di Orenburg	Región de Oremburgo	奥伦堡州	오렌부르크 주	奧倫堡州
+059	オリョール州	Orel	Orel	Oblast Orjol	Regione di Orël	Región de Oriol	奥廖尔州	오룔 주	奧廖爾州
+060	ペンザ州	Penza	Penza	Oblast Pensa	Regione di Penza	Región de Penza	奔萨州	펜자 주	奔薩州
+061	ペルミ地方	Perm'	Perm	Region Perm	Territorio di Perm'	Territorio de Perm	彼尔姆边疆区	페름 지방	彼爾姆邊疆區
+062	沿海地方	Primor'ye	Primorie	Region Primorje	Territorio del Litorale	Territorio de Primorie	滨海边疆区	프리모르스키 지방	濱海邊疆區
+063	プスコフ州	Pskov	Pskov	Oblast Pskow	Regione di Pskov	Región de Pskov	普斯科夫州	프스코프 부	普斯科夫州
+064	ロストフ州	Rostov	Rostov	Oblast Rostow	Regione di Rostov	Región de Rostov	罗斯托夫州	로스토프 주	羅斯託夫州
+065	リャザン州	Ryazan'	Riazan	Oblast Rjasan	Regione di Rjazan'	Región de Riazán	梁赞州	랴잔 주	梁贊州
+066	サハ共和国	Sakha	Sakha (Iakoutie)	Republik Sacha (Jakutien)	Repubblica di Sacha (Jacuzia)	República de Sajá (Yakutia)	萨哈共和国	사하 공화국	薩哈共和國
+067	サハリン州	Sakhalin	Sakhaline	Oblast Sachalin	Regione di Sachalin	Región de Sajalín	萨哈林州	사할린 주	薩哈林州
+068	サマラ州	Samara	Samara	Oblast Samara	Regione di Samara	Región de Samara	萨马拉州	사마라 주	薩馬拉州
+069	サンクトペテルブルク市	St. Petersburg	Saint-Pétersbourg	Sankt Petersburg	San Pietroburgo	San Petersburgo	圣彼得堡市	상트페테르부르크 주	聖彼得堡市
+070	サラトフ州	Saratov	Saratov	Oblast Saratow	Regione di Saratov	Región de Sarátov	萨拉托夫州	사라토프 주	薩拉託夫州
+071	北オセチア共和国	North Ossetia	Ossétie-du-Nord-Alanie	Republik Nordossetien-Alanien	Repubblica dell'Ossezia Settentrionale-Alania	República de Osetia del Norte-Alania	北奥塞梯-阿兰社会主义共和国	북오세티야 공화국	北奧塞梯-阿蘭社會主義共和國
+072	スモレンスク州	Smolensk	Smolensk	Oblast Smolensk	Regione di Smolensk	Región de Smolensk	斯摩棱斯克州	스몰렌스크 주	斯摩稜斯克州
+073	スタヴロポリ地方	Stavropol'	Stavropol	Region Stawropol	Territorio di Stavropol'	Territorio de Stávropol	斯塔夫罗波尔边疆区	스타브로폴 지방	斯塔夫羅波爾邊疆區
+074	スヴェルドロフスク州	Sverdlovsk	Sverdlovsk	Oblast Swerdlowsk	Regione di Sverdlovsk	Región de Sverdlovsk	斯维尔德洛夫斯克州	스베르들롭스크 주	斯維爾德洛夫斯克州
+075	タンボフ州	Tambov	Tambov	Oblast Tambow	Regione di Tambov	Región de Tambov	坦波夫州	탐보프 주	坦波夫州
+076	タタールスタン共和国	Tatarstan	Tatarstan	Republik Tatarstan	Repubblica del Tatarstan	República de Tartaristán	鞑靼斯坦共和国	타타르 공화국	韃靼斯坦共和國
+077	トムスク州	Tomsk	Tomsk	Oblast Tomsk	Regione di Tomsk	Región de Tomsk	托木斯克州	톰스크 주	託木斯克州
+078	トゥーラ州	Tula	Toula	Oblast Tula	Regione di Tula	Región de Tula	图拉州	툴라 주	圖拉州
+079	トヴェリ州	Tver'	Tver	Oblast Twer	Regione di Tver	Región de Tver	特维尔州	트베리 주	特維爾州
+080	チュメニ州	Tyumen'	Tioumen	Oblast Tjumen	Regione di Tjumen'	Región de Tiumén	秋明州	튜멘 주	秋明州
+081	トゥヴァ共和国	Tuva	Touva	Republik Tuwa	Repubblica di Tuva	República de Tuvá	特瓦共和国	투바 공화국	特瓦共和國
+082	ウドムルト共和国	Udmurt	Oudmourtie	Republik Udmurtien	Repubblica Udmurta	República de Udmurtia	乌德穆尔特共和国	우드무르트 공화국	烏德穆爾特共和國
+083	ウリヤノフスク州	Ul'yanovsk	Oulianovsk	Oblast Uljanowsk	Regione di Ul'janovsk	Región de Uliánovsk	乌里扬诺夫斯克州	울리야놉스크 주	烏裏揚諾夫斯克州
+084	ヴラジーミル州	Vladimir	Vladimir	Oblast Wladimir	Regione di Vladimir	Región de Vladímir	弗拉基米尔州	블라디미르 주	弗拉基米爾州
+085	ヴォルゴグラード州	Volgograd	Volgograd	Oblast Wolgograd	Regione di Volgograd	Región de Volgogrado	伏尔加格勒州	볼고그라드 주	伏爾加格勒州
+086	ヴォログダ州	Vologda	Vologda	Oblast Wologda	Regione di Vologda	Región de Vólogda	沃洛格达州	볼로그다 주	沃洛格達州
+087	ヴォロネジ州	Voronezh	Voronej	Oblast Woronesch	Regione di Voronež	Región de Vorónezh	沃罗涅什州	보로네시 주	沃羅涅什州
+088	ヤマロ・ネネツ自治管区	Yamal-Nenets	Iamalie	Autonomer Kreis der Jamal-Nenzen	Circondario Autonomo Jamalo-Nenec	Distrito autónomo de Yamalo-Nénets	亚马尔-涅涅茨自治区	야말로네네츠 자치구	亞馬爾-涅涅茨自治區
+089	ヤロスラヴリ州	Yaroslavl'	Iaroslavl	Oblast Jaroslawl	Regione di Jaroslavl'	Región de Yaroslavl	雅罗斯拉夫尔州	야로슬라블 주	雅羅斯拉夫爾州
+090	ユダヤ自治州	Yevrey	Oblast autonome juif	Jüdisches Autonomes Gebiet	Regione Autonoma Ebraica	Región Autónoma Hebrea	犹太自治州	유태인 자치주	猶太自治州
+091	ザバイカリエ地方	Zabaykal'ye	Transbaïkalie	Region Transbaikalien	Territorio della Transbajkalia	Territorio de Zabaikalie	外贝加尔边疆区	자바이칼 지방	外貝加爾邊疆區

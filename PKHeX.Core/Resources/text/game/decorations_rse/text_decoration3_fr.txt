@@ -1,0 +1,121 @@
+(Aucun)
+Petit Bureau
+Bureau Pokémon
+Grand Bureau
+Bureau Brut
+Bureau Coquet
+Joli Bureau
+Bureau Briques
+Bureau Campeur
+Bureau Pierres
+Petite Chaise
+Chaise Pokémon
+Grande Chaise
+Jolie Chaise
+Chaise Coquette
+Chaise Brute
+Chaise Briques
+Chaise Campeur
+Chaise Pierres
+Plante Rouge
+Plante Tropic
+Jolies Fleurs
+Plante Colorée
+Grosse Plante
+Belle Plante
+Brique Rouge
+Brique Jaune
+Brique Bleue
+Ballon Rouge
+Ballon Bleu
+Ballon Jaune
+Tente Rouge
+Tente Bleue
+Planche Solide
+Toboggan
+Barrière Haute
+Barrière Large
+Pneu
+Estrade
+Boule de Boue
+Porte Cassable
+Déco de Sable
+Bouclier Argent
+Bouclier Or
+Ornement Verre
+TV
+TV Ronde
+Jolie TV
+Tapis Brillant
+Tapis Sauteur
+Tapis Tournant
+Tapis Do Grave
+Tapis Ré
+Tapis Mi
+Tapis Fa
+Tapis Sol
+Tapis La
+Tapis Si
+Tapis Do Aigu
+Tapis Surf
+Ta.Fatal-Foudre
+Ta.Déflagration
+Tapis Poudreuse
+Tap. Attraction
+Tapis Abîme
+Tapis Picots
+Poster Ball
+Poster Vert
+Poster Rouge
+Poster Bleu
+Joli Poster
+Poster Pika
+Grand Poster
+Poster Océan
+Poster Ciel
+Poster Baiser
+Poupée Pichu
+Poupée Pikachu
+Poupée Marill
+Poupée Togepi
+Poup.Héricendre
+Poup. Germignon
+Poupée Kaiminus
+Poup. Rondoudou
+Poupée Miaouss
+Poupée Mélofée
+Poup. Métamorph
+Poupée Lippouti
+Poupée Arcko
+Poup.Poussifeu
+Poupée Gobou
+Poupée Skelénox
+Poupée Okéoké
+Poupée Balbuto
+Poupée Kecleon
+Poupée Azurill
+Poupée Skitty
+Poupée Tylton
+Poupée Gloupti
+Poupée Nénupiot
+Poup.Grainipiot
+Coussin Pikachu
+Coussin Rond
+Coussin Baiser
+Coussin Zigzag
+Coussin Spirale
+Coussin Diamant
+Coussin Ball
+Coussin Plante
+Coussin Feu
+Coussin Eau
+Poupée Ronflex
+Poup.Rhinoféros
+Poupée Lokhlass
+Poup.Florizarre
+Poup. Dracaufeu
+Poupée Tortank
+Poupée Wailmer
+Poupée Regirock
+Poupée Regice
+Poup. Registeel

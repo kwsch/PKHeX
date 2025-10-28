@@ -1,49 +1,47 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms;
+
+public partial class SAV_BerryFieldXY : Form
 {
-    public partial class SAV_BerryFieldXY : Form
+    private readonly SAV6XY SAV;
+
+    public SAV_BerryFieldXY(SAV6XY sav)
     {
-        private readonly SaveFile Origin;
-        private readonly SAV6 SAV;
-        public SAV_BerryFieldXY(SaveFile sav)
-        {
-            InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV6)(Origin = sav).Clone();
-            listBox1.SelectedIndex = 0;
-        }
-
-        private void Changefield(object sender, EventArgs e)
-        {
-            // Change Berry Field
-
-            // Gather Data
-            int berry = BitConverter.ToUInt16(SAV.Data, SAV.BerryField + 0xC + listBox1.SelectedIndex*0x18 + 1 * 0);
-            int u1 = BitConverter.ToUInt16(SAV.Data, SAV.BerryField + 0xC + listBox1.SelectedIndex * 0x18 + 1 * 2);
-            int u2 = BitConverter.ToUInt16(SAV.Data, SAV.BerryField + 0xC + listBox1.SelectedIndex * 0x18 + 2 * 2);
-            int u3 = BitConverter.ToUInt16(SAV.Data, SAV.BerryField + 0xC + listBox1.SelectedIndex * 0x18 + 3 * 2);
-            int u4 = BitConverter.ToUInt16(SAV.Data, SAV.BerryField + 0xC + listBox1.SelectedIndex * 0x18 + 4 * 2);
-            int u5 = BitConverter.ToUInt16(SAV.Data, SAV.BerryField + 0xC + listBox1.SelectedIndex * 0x18 + 5 * 2);
-            int u6 = BitConverter.ToUInt16(SAV.Data, SAV.BerryField + 0xC + listBox1.SelectedIndex * 0x18 + 6 * 2);
-            int u7 = BitConverter.ToUInt16(SAV.Data, SAV.BerryField + 0xC + listBox1.SelectedIndex * 0x18 + 7 * 2);
-
-            // Display Data
-            TB_Berry.Text = berry.ToString();
-            TB_u1.Text = u1.ToString();
-            TB_u2.Text = u2.ToString();
-            TB_u3.Text = u3.ToString();
-            TB_u4.Text = u4.ToString();
-            TB_u5.Text = u5.ToString();
-            TB_u6.Text = u6.ToString();
-            TB_u7.Text = u7.ToString();
-        }
-
-        private void B_Cancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+        SAV = sav;
+        listBox1.SelectedIndex = 0;
     }
+
+    private void Changefield(object sender, EventArgs e)
+    {
+        // Change Berry Field
+
+        // Gather Data
+        var span = SAV.BerryField.GetPlot(listBox1.SelectedIndex);
+        int berry = ReadUInt16LittleEndian(span);
+        int u1 = ReadUInt16LittleEndian(span[(2 * 1)..]);
+        int u2 = ReadUInt16LittleEndian(span[(2 * 2)..]);
+        int u3 = ReadUInt16LittleEndian(span[(2 * 3)..]);
+        int u4 = ReadUInt16LittleEndian(span[(2 * 4)..]);
+        int u5 = ReadUInt16LittleEndian(span[(2 * 5)..]);
+        int u6 = ReadUInt16LittleEndian(span[(2 * 6)..]);
+        int u7 = ReadUInt16LittleEndian(span[(2 * 7)..]);
+
+        // Display Data
+        TB_Berry.Text = berry.ToString();
+        TB_u1.Text = u1.ToString();
+        TB_u2.Text = u2.ToString();
+        TB_u3.Text = u3.ToString();
+        TB_u4.Text = u4.ToString();
+        TB_u5.Text = u5.ToString();
+        TB_u6.Text = u6.ToString();
+        TB_u7.Text = u7.ToString();
+    }
+
+    private void B_Cancel_Click(object sender, EventArgs e) => Close();
 }

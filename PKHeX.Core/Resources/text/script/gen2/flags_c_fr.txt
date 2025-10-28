@@ -1,0 +1,148 @@
+0026	s	Pokémon de Départ choisi
+0027	*	Pokémon de Départ est Héricendre
+0028	*	Pokémon de Départ est Kaiminus
+0029	*	Pokémon de Départ est Germignon
+1600	s	Ball d'Héricendre au Labo du Prof. Orme disparue
+1601	s	Ball de Kaiminus au Labo du Prof. Orme disparue
+1602	s	Ball de Germignon au Labo du Prof. Orme disparue
+1784	r	Simularbre disparu
+1760	r	Électrode (coins du haut) disparus du Repaire Rocket -2
+1761	r	Électrode (coins du milieu) disparus du Repaire Rocket -2
+1762	r	Électrode (coins du bas) disparus du Repaire Rocket -2
+0079	g	Évoli reçu
+1867	*	Fauves légendaires disparus de la Tour Ferraille
+0190	*	Fargas peut vérifier la GS Ball
+0191	*	Fargas est prêt à rendre la GS Ball (à combiner avec le drapeau du dessus)
+0192	*	La GS Ball peut être insérée dans l'autel du Bois aux Chênes
+1809	*	Aucun objet de Cadeau Mystère n'attend au Centre Pokémon
+0672	*	Puzzle d'Ho-Oh résolu aux Ruines d'Alpha
+0673	*	Puzzle de Kabuto résolu aux Ruines d'Alpha
+0674	*	Puzzle d'Amonita résolu aux Ruines d'Alpha
+0675	*	Puzzle de Ptéra résolu aux Ruines d'Alpha
+0676	*	Lit à Plumes
+0677	*	Lit Rose
+0678	*	Lit à Pois
+0679	*	Lit Pikachu (Illégal)
+0680	*	Tapis Rouge
+0681	*	Tapis Bleu
+0682	*	Tapis Jaune
+0683	*	Tapis Vert
+0684	*	Grosse Plante
+0685	*	Plante Tropicale
+0686	*	Maxi Plante
+0687	*	Carte
+0688	*	Poster Pikachu
+0689	*	Poster Mélofée
+0690	*	Poster Rondoudou
+0691	*	NES
+0692	*	Super Nintendo
+0693	*	Nintendo 64
+0694	*	Virtual Boy
+0695	*	Poupée Pikachu
+0696	*	Jouet Pikachu Surf
+0697	*	Poupée Mélofée
+0698	*	Poupée Rondoudou
+0699	*	Poupée Bulbizarre
+0700	*	Poupée Salamèche
+0701	*	Poupée Carapuce
+0702	*	Poupée Ptitard
+0703	*	Poupée Taupiqueur
+0704	*	Poupée Stari
+0705	*	Poupée Magicarpe
+0706	*	Poupée Mystherbe
+0707	*	Poupée Ectoplasma
+0708	*	Poupée Kokiyas
+0709	*	Poupée Tadmorv
+0710	*	Poupée Voltorbe
+0711	*	Poupée Aspicot
+0712	*	Poupée Zarbi (Illégal)
+0713	*	Poupée Racaillou
+0714	*	Poupée Machoc
+0715	*	Poupée Tentacool (Illégal)
+0717	*	Trophée Or
+0718	*	Trophée Argent
+0719	*	Ronflex Super
+0720	*	Onix Super
+0721	*	Lokhlass Super
+0791	r	Ho-oh disparu
+0792	r	Lugia disparu
+0830	r	Œuf Bizarre reçu
+0832	r	GS Ball reçue
+1904	r	Ronflex disparu
+1873	r	Léviator Rouge disparu
+0068	s	A battu le Conseil 4/Prof. Orme peut donner le Passe Bateau
+1890	*	Red a disparu du Mont Argenté
+0069	g	Caratroc reçu à Irisia
+0070	g	Caratroc revenu/offert
+0080	g	Piafabec reçu à la Route 35
+0081	s	Lettre peut être livrée à Route 31
+0082	s	PV Plus donné par le garde à la Route 35
+0083	s	Lettre délivrée à la Route 31/CT50 reçue
+0084	s	Œuf de Togepi éclos
+0085	s	Togepi montré au Prof. Orme
+0086	s	Reçu Pierre Stase de la part du Prof. Orme
+1193	t	Karatéka Fei vaincu (peut recevoir Débugant)
+0097	g	Débugant reçu
+0046	s	Zarbi apparus aux Ruines d'Alpha
+0098	s	Vanessa rencontrée
+0099	s	Pic Venin reçu de Vanessa
+0100	s	Marie rencontrée
+0101	s	Ruban Rose reçu de Marie
+0102	s	Jérôme rencontré
+0103	s	Pierre Dure reçue de Jérôme
+0104	s	Dimitri rencontré
+0105	s	Aimant reçu de Dimitri
+0106	s	Homer rencontré
+0107	s	Ceint.Noire reçue de Homer
+0108	s	Samuel rencontré
+0109	s	Rune Sort reçu de Samuel
+0110	s	Lucie rencontrée
+0111	s	Bec Pointu reçu de Lucie
+0189	g	Minidraco reçu
+0193	g	Quiz mal répondu (le Minidraco offert n'aura pas Vit.Extrême)
+0205	s	Alimentation revenue à Kanto/Train Magnet utilisable
+0256	s	Gina a offert une Pierre Plante
+0257	s	Samson a offert une Pierre Feu
+0258	s	Armelle a offert une Pierre Foudre
+0259	s	Amédée a offert une Pierre Eau
+0260	s	Tiff a offert un Ruban Rose
+0613	s	Protéine reçue de Marin Georges au 3ème combat
+0614	s	PV Plus reçu de Gamin Gaspard au 4ème combat
+0615	s	Carbone reçu de Ornithologue Léo au 2ème combat
+0616	s	Fer reçu de Montagnard Martin au 3ème combat
+0617	s	Calcium reçu de Pique-Nique Érin au 2ème combat
+0823	s	Protéine de Georges du 3ème combat en attente
+0824	s	PV Plus de Gaspard du 4ème combat en attente
+0825	s	Carbone de Léo du 2ème combat en attente
+0826	s	Fer de Martin du 2ème combat en attente
+0827	s	Calcium de Érin du 2ème combat en attente
+0607	t	A demandé le numéro de Écolier Jules au moins une fois
+0609	t	A demandé le numéro de Pokéfan Angèle au moins une fois
+0611	t	A demandé le numéro de Marin Georges au moins une fois
+0619	t	A demandé le numéro de Topdresseur Gavin au moins une fois
+0621	t	A demandé le numéro de Topdresseur Ella au moins une fois
+0623	t	A demandé le numéro d'Ornithologue José au moins une fois
+0625	t	A demandé le numéro de Topdresseur Nina au moins une fois
+0627	t	A demandé le numéro de Gamin Gaspard au moins une fois
+0629	t	A demandé le numéro de Scout Maxime au moins une fois
+0631	t	A demandé le numéro de Pêcheur Lazare au moins une fois
+0633	t	A demandé le numéro de Pique-Nique Liz au moins une fois
+0635	t	A demandé le numéro de Montagnard Mario au moins une fois
+0637	t	A demandé le numéro de Campeur Bastien au moins une fois
+0639	t	A demandé le numéro de Pique-Nique Gina au moins une fois
+0641	t	A demandé le numéro de Jongleur Zeppo au moins une fois
+0643	t	A demandé le numéro de Scout Hans au moins une fois
+0645	t	A demandé le numéro d'Écolier Samson au moins une fois
+0649	t	A demandé le numéro de Fillette Armelle au moins une fois
+0651	t	A demandé le numéro de Écolier Vincent au moins une fois
+0653	t	A demandé le numéro de Pokéfan Étienne au moins une fois
+0655	t	A demandé le numéro de Pêcheur Amédée au moins une fois
+0657	t	A demandé le numéro de Pokémaniac Julien au moins une fois
+0659	t	A demandé le numéro de Pique-Nique Tiff au moins une fois
+0661	t	A demandé le numéro de Ornithologue Léo au moins une fois
+0663	t	A demandé le numéro de Pêcheur Justin au moins une fois
+0665	t	A demandé le numéro de Karatéka Takao au moins une fois
+0667	t	A demandé le numéro de Montagnard Martin au moins une fois
+0669	t	A demandé le numéro de Pique-Nique Érin au moins une fois
+0828	t	Buena a proposé son numéro au moins une fois
+0670	t	Buena a proposé son numéro (2ème fois)

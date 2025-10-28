@@ -1,0 +1,17 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ベルリン	Berlin	Berlin	Berlin	Berlino	Berlín	柏林市	베를린	柏林市
+003	ヘッセン州	Hesse	Hesse	Hessen	Assia	Hesse	黑森州	헤센 주	黑森州
+004	バーデン・ビュルテンベルク州	Baden-Württemberg	Bade-Wurtemberg	Baden-Württemberg	Baden-Württemberg	Baden-Wurtemberg	巴登-符腾堡州	바덴뷔르템베르크 주	巴登-符騰堡州
+005	バイエルン州	Bavaria	Bavière	Bayern	Baviera	Baviera	巴伐利亚州	바이에른 주	巴伐利亞州
+006	ブランデンブルク州	Brandenburg	Brandebourg	Brandenburg	Brandeburgo	Brandeburgo	勃兰登堡州	브란덴부르크 주	勃蘭登堡州
+007	ブレーメン	Bremen	Brême	Bremen	Brema	Bremen	不来梅市	브레멘 주	不來梅市
+008	ハンブルク	Hamburg	Hambourg	Hamburg	Amburgo	Hamburgo	汉堡市	함부르크 주	漢堡市
+009	メクレンブルク・フォアポンメルン州	Mecklenburg-Vorpommern	Mecklembourg-Poméranie antérieure	Mecklenburg-Vorpommern	Meclemburgo-Pomerania Anteriore	Mecklemburgo-Pomerania Occidental	梅克伦堡-前波莫瑞州	메클렌부르크포어포메른 주	梅克倫堡-前波美拉尼亞州
+010	ニーダーザクセン州	Lower Saxony	Basse-Saxe	Niedersachsen	Bassa Sassonia	Baja Sajonia	下萨克森州	니더작센 주	下薩克森州
+011	ノルトライン・ウェストファーレン州	North Rhine-Westphalia	Rhénanie-du-Nord-Westphalie	Nordrhein-Westfalen	Renania Settentrionale-Vestfalia	Renania del Norte-Westfalia	北莱茵-威斯特法伦州	노르트라인베스트팔렌 주	北萊茵-威斯特法倫州
+012	ラインラント・ファルツ州	Rhineland-Palatinate	Rhénanie-Palatinat	Rheinland-Pfalz	Renania-Palatinato	Renania-Palatinado	莱茵兰-普法尔茨州	라인란트팔츠 주	萊茵蘭-普法爾茨州
+013	ザールラント州	Saarland	Sarre	Saarland	Saarland	Sarre	萨尔州	자를란트 주	薩爾州
+014	ザクセン州	Saxony	Saxe	Sachsen	Sassonia	Sajonia	萨克森州	작센 주	薩克森州
+015	ザクセン・アンハルト州	Saxony-Anhalt	Saxe-Anhalt	Sachsen-Anhalt	Sassonia-Anhalt	Sajonia-Anhalt	萨克森-安哈特州	작센안할트 주	薩克森-安哈爾特州
+016	シュレスビヒ・ホルシュタイン州	Schleswig-Holstein	Schleswig-Holstein	Schleswig-Holstein	Schleswig-Holstein	Schleswig-Holstein	石勒苏益格-荷尔斯泰因州	슐레스비히홀슈타인 주	石勒蘇益格-荷爾斯泰因州
+017	テューリンゲン州	Thuringia	Thuringe	Thüringen	Turingia	Turingia	图林根州	튀링겐 주	圖林根州

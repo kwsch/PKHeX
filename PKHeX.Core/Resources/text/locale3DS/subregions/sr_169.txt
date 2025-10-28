@@ -1,0 +1,35 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	デリー	Delhi	Delhi	Delhi	Delhi	Delhi	德里中央直辖区	델리	德裏中央直轄區
+003	アンダマン・ニコバル諸島	Andaman and Nicobar Islands	Îles Andaman-et-Nicobar	Andamanen und Nikobaren	Andamane e Nicobare	Islas Andamán y Nicobar	安达曼和尼科巴群岛中央直辖区	안다만 니코바르 제도	安達曼和尼科巴羣島中央直轄區
+004	アーンドラ・プラデーシュ州	Andhra Pradesh	Andhra Pradesh	Andhra Pradesh	Andhra Pradesh	Andhra Pradesh	安得拉邦	안드라프라데시 주	安得拉邦
+005	アッサム州	Assam	Assam	Assam	Assam	Assam	阿萨姆邦	아삼 주	阿薩姆邦
+006	チャンディーガル州	Chandīgarh	Chandigarh	Chandigarh	Chandigarh	Chandigarh	昌迪加尔中央直辖区	찬디가르 주	昌迪加爾中央直轄區
+007	ダドラ及びナガル・アベリ連邦直轄地	Dadra and Nagar Haveli	Dadra et Nagar Haveli	Dadra und Nagar Haveli	Dadra e Nagar Haveli	Dadra y Nagar Haveli	达德拉和纳加尔哈维利中央直辖区	다드라나가르하벨리 연방직할주	達德拉和納加爾哈維利中央直轄區
+008	グジャラート州	Gujarāt	Gujarat	Gujarat	Gujarat	Gujarat	古吉拉特邦	구자라트 주	古吉拉特邦
+009	ハリヤーナー州	Haryāna	Haryana	Haryana	Haryana	Haryana	哈里亚纳邦	하리아나 주	哈裏亞納邦
+010	ヒマーチャル・プラデーシュ州	Himachal Pradesh	Himachal Pradesh	Himachal Pradesh	Himachal Pradesh	Himachal Pradesh	喜马偕尔邦	히마찰프라데시 주	喜馬偕爾邦
+012	ケーララ州	Kerala	Kerala	Kerala	Kerala	Kerala	喀拉拉邦	케랄라 주	喀拉拉邦
+013	ラクシャドウィープ	Lakshadweep	Lakshadweep	Lakshadweep	Laccadive	Lakshadweep	拉克沙群岛中央直辖区	락샤드위프	拉克沙羣島中央直轄區
+014	マハーラーシュトラ州	Mahārāshtra	Maharashtra	Maharashtra	Maharashtra	Maharashtra	马哈拉施特拉邦	마하라슈트라 주	馬哈拉施特拉邦
+015	マニプル州	Manipur	Manipur	Manipur	Manipur	Manipur	曼尼普尔邦	마니푸르 주	曼尼普爾邦
+016	メガラヤ州	Meghālaya	Meghalaya	Meghalaya	Meghalaya	Meghalaya	梅加拉亚邦	메갈라야 주	梅加拉亞邦
+017	カルナータカ州	Karnātaka	Karnataka	Karnataka	Karnataka	Karnataka	卡纳塔克邦	카르나타카 주	卡納塔克邦
+018	ナーガーランド州	Nāgāland	Nagaland	Nagaland	Nagaland	Nagaland	那加兰邦	나갈랜드 주	那加蘭邦
+019	オリッサ州	Odisha	Odisha	Odisha	Odisha	Odisha	奥里萨邦	오리사 주	奧裏薩邦
+020	ポンディシェリー	Puducherry	Pondichéry	Puducherry	Pondicherry	Puducherry	本地治里中央直辖区	퐁디셰리	本地治裏中央直轄區
+021	パンジャーブ州	Punjab	Penjab	Punjab	Punjab	Punyab	旁遮普邦	펀자브 주	旁遮普邦
+022	ラージャスターン州	Rājasthān	Rajasthan	Rajasthan	Rajasthan	Rajastán	拉贾斯坦邦	라자스탄 주	拉賈斯坦邦
+023	タミル・ナードゥ州	Tamil Nadu	Tamil Nadu	Tamil Nadu	Tamil Nadu	Tamil Nadu	泰米尔纳德邦	타밀나두 주	泰米爾納德邦
+024	トリプラ州	Tripura	Tripura	Tripura	Tripura	Tripura	特里普拉邦	트리프라 주	特裏普拉邦
+025	西ベンガル州	West Bengal	Bengale-Occidental	Westbengalen	Bengala Occidentale	Bengala Occidental	西孟加拉邦	서벵골 주	西孟加拉邦
+026	シッキム州	Sikkim	Sikkim	Sikkim	Sikkim	Sikkim	锡金邦	시킴 주	錫金邦
+028	ミゾラム州	Mizoram	Mizoram	Mizoram	Mizoram	Mizoram	米佐拉姆邦	미조람 주	米佐拉姆邦
+029	ダマン・ディウ直轄地	Daman and Diu	Daman et Diu	Daman und Diu	Daman e Diu	Damán y Diu	达曼和第乌中央直辖区	다만디우 연방직할주	達曼和第烏中央直轄區
+030	ゴア州	Goa	Goa	Goa	Goa	Goa	果阿邦	고아 주	果阿邦
+031	ビハール州	Bihār	Bihar	Bihar	Bihar	Bihar	比哈尔邦	비하르 주	比哈爾邦
+032	マディヤ・プラデーシュ州	Madhya Pradesh	Madhya Pradesh	Madhya Pradesh	Madhya Pradesh	Madhya Pradesh	中央邦	마디아프라데시 주	中央邦
+033	ウッタル・プラデーシュ州	Uttar Pradesh	Uttar Pradesh	Uttar Pradesh	Uttar Pradesh	Uttar Pradesh	北方邦	우타르프라데시 주	北方邦
+034	チャッティースガル州	Chhattīsgarh	Chhattisgarh	Chhattisgarh	Chhattisgarh	Chhattisgarh	查蒂斯加尔邦	차티스가르 주	查蒂斯加爾邦
+035	ジャールカンド州	Jharkhand	Jharkhand	Jharkhand	Jharkhand	Jharkhand	贾坎德邦	자르칸드 주	賈坎德邦
+036	ウッタラーカンド州	Uttarakhand	Uttarakhand	Uttarakhand	Uttarakhand	Uttarakhand	乌塔拉坎德邦	우타라칸드 주	烏塔拉坎德邦
+037	その他	Other	Autre	Sonstige	Altro	(Otra)	其他	기타	其他

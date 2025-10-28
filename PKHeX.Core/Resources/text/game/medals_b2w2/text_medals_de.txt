@@ -1,0 +1,255 @@
+Erste Schritte
+Zielgerade
+Medaillenamateur
+Medaillenprofi
+Medaillenmeister
+Medaillenlegende
+Medaillenkönig
+Spaziergang
+Kurzstrecke
+Langstrecke
+Marathon
+Kritzler
+Schreiber
+Notar
+Archivar
+Pokémon-Center-Fan
+Mach dich schlau
+Superschlau
+Graffitifinder
+Stützräder
+Spazierfahrt
+Radtour
+Radlegende
+Angler
+Profi-Angler
+Super-Angler
+Großer Fang
+Normal-Sammler
+Feuer-Sammler
+Wasser-Sammler
+Elektro-Sammler
+Pflanze-Sammler
+Eis-Sammler
+Kampf-Sammler
+Gift-Sammler
+Boden-Sammler
+Flug-Sammler
+Psycho-Sammler
+Käfer-Sammler
+Gestein-Sammler
+Geist-Sammler
+Drachen-Sammler
+Unlicht-Sammler
+Stahl-Sammler
+Einall-Sammler
+National-Sammler
+Ab in die Box 30
+Ab in die Box 120
+Ab in die Box 360
+Die Box ist voll
+50 an einem Tag
+Durstlöscher
+Freigetränk
+Aufkeimende Hoffnung
+Fortentwicklung
+Weise Selektion
+Krone der Evolution
+Fliegerass
+Kraftmeier
+Pedant
+Fundsachen-Sucher
+Fundsachen-Sammler
+Radarstar
+Itemradar-König
+Spitznamenkönig
+Fernsehkind
+König Kunde
+Spendierhosen
+Auf großem Fuß
+Millionenschwer
+Was kostet die Welt
+Schnäppchenjäger
+Trautes Heim
+Erster Passant
+30 Passanten
+100 Passanten
+1 000 Passanten
+Transferkraft+
+Transferkraft++
+Transferkraft+++
+Transferkraft MAX
+Wachträumer
+Schlafmütze
+Tiefschläfer
+Traumwandler
+Lichtungsmeister
+Ursprung des Lebens
+Geheimnis des Lebens
+Zauber des Lebens
+Wunder des Lebens
+Pensionsmaniac
+Paläontologe
+Reines Herz
+Schillerndes Glück
+Jäger des Pokérus
+Stratos-Bandenchef
+Schienenmaniac
+Wailord-Schau
+Pappkamerad
+Schwermetallmaniac
+Ruinenmeister
+Diamantstaub
+Brückenmaniac
+Quer durch Einall
+Abenteuerkönig
+Kampfschüler
+Kampfgeselle
+Kampfmeister
+Legende der Arena
+Link-Neuling
+Link-Pionier
+Link-Experte
+Geborener Kämpfer
+Karpador-Preis
+Aufgeben, nein danke!
+Fehlgriff
+Effektivität
+Tageskarte
+Wochenkarte
+Monatskarte
+Jahresabo
+Einzelexpress
+Doppelexpress
+Multiexpress
+Angetestet
+Auf dem Prüfstand
+Auf Herz und Nieren
+Mit Brief und Siegel
+E.-Punkte-Krösus
+GP-Krösus
+Jägerglück
+Einer geht noch
+Kreuzfahrer
+Marea-Meister
+Verleihkönig
+Austauschkönig
+Einall-Meister
+Kanto-Meister
+Johto-Meister
+Hoenn-Meister
+Sinnoh-Meister
+Arenaleitermeister
+Weltmeister
+Verleihkaiser
+Austauschkaiser
+Meister aller Typen
+Hochhaus 50 %
+Hochhaus 100 %
+Baumhöhle 50 %
+Baumhöhle 100 %
+20 besiegt!
+50 besiegt!
+100 besiegt!
+1 000 besiegt!
+Einfach leergefegt
+Meisterlich leergefegt
+Einfach zielstrebig
+Meisterlich zielstrebig
+Einfach flott
+Meisterlich flott
+Kampfveteran
+Erster Tausch
+Tauschfreudig
+Tauschgewaltig
+Tauschrausch
+Tausch ohne Grenzen
+Brieffreund
+Auf der Bühne daheim
+Starkes Debüt
+Aufgehender Stern
+Bühnenveteran
+Bühnenlegende
+Dekoryphäe
+Fangemeinde
+Erste Freundschaft
+Freundeskreis
+Unter Freunden
+Vernetzte Welt
+Reihumtauschmeister
+Harmoniemeister
+Herzass
+Rad der Jahreszeiten
+Werbetrommel 10
+Werbetrommel 20
+Werbetrommel 50
+Werbetrommel 100
+Bauchladen
+Kiosk
+Kaufhaus
+Kaufhauskette
+Souvenirecke
+Souvenirvitrine
+Souvenirsammlung
+Souvenirmuseum
+Die Avenue der Träume
+Minispielspaß
+Minispielmanie
+Minispielmeister
+Minispielgroßmeister
+Ballonpiekser
+Ballonschreck
+Ballonjäger
+Ballonbaron
+Neuer Actionheld
+Action Ahoi!
+Polizeiparade
+UFO-Unruhe
+Meister der Monster
+Zeitreisezauber
+Große Gefühle
+Fantastische Fiktion
+Lauter Lacher
+Gruseliges Grauen
+Robo-Rhapsody
+Geisel der Geister
+Ein Hoch dem Helden
+Pokéwood-Star
+Ende gut, alles gut
+Kassenschlager
+Auf Anhieb Kult
+Kultfilmstar
+Festival für 10
+Festival für 30
+Festival für 100
+Festival für 1 000
+Gastgeber
+Supergastgeber
+Teilnehmer
+Superteilnehmer
+Missionserfolg
+Supermissionserfolg
+Festival geschafft!
+Ab in die Heia!
+Erste Erinnerung
+Absolute Erinnerung
+Spaßgarant
+Normal-Champ
+Feuer-Champ
+Wasser-Champ
+Elektro-Champ
+Pflanzen-Champ
+Eis-Champ
+Kampf-Champ
+Gift-Champ
+Boden-Champ
+Flug-Champ
+Psycho-Champ
+Käfer-Champ
+Gestein-Champ
+Geist-Champ
+Drachen-Champ
+Unlicht-Champ
+Stahl-Champ
+Im Alleingang
+Allein auf weiter Flur

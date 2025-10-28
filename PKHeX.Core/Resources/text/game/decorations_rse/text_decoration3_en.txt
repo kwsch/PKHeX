@@ -1,0 +1,121 @@
+(None)
+Small Desk
+Pokémon Desk
+Heavy Desk
+Ragged Desk
+Comfort Desk
+Pretty Desk
+Brick Desk
+Camp Desk
+Hard Desk
+Small Chair
+Pokémon Chair
+Heavy Chair
+Pretty Chair
+Comfort Chair
+Ragged Chair
+Brick Chair
+Camp Chair
+Hard Chair
+Red Plant
+Tropical Plant
+Pretty Flowers
+Colorful Plant
+Big Plant
+Gorgeous Plant
+Red Brick
+Yellow Brick
+Blue Brick
+Red Balloon
+Blue Balloon
+Yellow Balloon
+Red Tent
+Blue Tent
+Solid Board
+Slide
+Fence Length
+Fence Width
+Tire
+Stand
+Mud Ball
+Breakable Door
+Sand Ornament
+Silver Shield
+Gold Shield
+Glass Ornament
+TV
+Round TV
+Cute TV
+Glitter Mat
+Jump Mat
+Spin Mat
+C Low Note Mat
+D Note Mat
+E Note Mat
+F Note Mat
+G Note Mat
+A Note Mat
+B Note Mat
+C High Note Mat
+Surf Mat
+Thunder Mat
+Fire Blast Mat
+Powder Snow Mat
+Attract Mat
+Fissure Mat
+Spikes Mat
+Ball Poster
+Green Poster
+Red Poster
+Blue Poster
+Cute Poster
+Pika Poster
+Long Poster
+Sea Poster
+Sky Poster
+Kiss Poster
+Pichu Doll
+Pikachu Doll
+Marill Doll
+Togepi Doll
+Cyndaquil Doll
+Chikorita Doll
+Totodile Doll
+Jigglypuff Doll
+Meowth Doll
+Clefairy Doll
+Ditto Doll
+Smoochum Doll
+Treecko Doll
+Torchic Doll
+Mudkip Doll
+Duskull Doll
+Wynaut Doll
+Baltoy Doll
+Kecleon Doll
+Azurill Doll
+Skitty Doll
+Swablu Doll
+Gulpin Doll
+Lotad Doll
+Seedot Doll
+Pika Cushion
+Round Cushion
+Kiss Cushion
+Zigzag Cushion
+Spin Cushion
+Diamond Cushion
+Ball Cushion
+Grass Cushion
+Fire Cushion
+Water Cushion
+Snorlax Doll
+Rhydon Doll
+Lapras Doll
+Venusaur Doll
+Charizard Doll
+Blastoise Doll
+Wailmer Doll
+Regirock Doll
+Regice Doll
+Registeel Doll

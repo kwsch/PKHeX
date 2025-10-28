@@ -1,253 +1,288 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms;
+
+public partial class BatchEditor : Form
 {
-    public partial class BatchEditor : Form
+    private readonly SaveFile SAV;
+
+    // Mass Editing
+    private Core.BatchEditor editor = new();
+    private readonly EntityInstructionBuilder UC_Builder;
+
+    private static string LastUsedCommands = string.Empty;
+
+    public BatchEditor(PKM pk, SaveFile sav)
     {
-        private readonly SaveFile SAV;
-        public BatchEditor(PKM pk, SaveFile sav)
+        InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+        var above = FLP_RB.Location;
+        UC_Builder = new EntityInstructionBuilder(() => pk)
         {
-            InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            pkmref = pk;
-            SAV = sav;
-            DragDrop += TabMain_DragDrop;
-            DragEnter += TabMain_DragEnter;
+            Location = new() { Y = above.Y + FLP_RB.Height + 4 - 1, X = above.X + 1 },
+            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
+            Width = B_Add.Location.X - above.X - 2,
+        };
+        Controls.Add(UC_Builder);
+        SAV = sav;
+        DragDrop += TabMain_DragDrop;
+        DragEnter += TabMain_DragEnter;
 
-            CB_Format.Items.Clear();
-            CB_Format.Items.Add(MsgAny);
-            foreach (Type t in BatchEditing.Types)
-                CB_Format.Items.Add(t.Name.ToLower());
-            CB_Format.Items.Add(MsgAll);
+        RTB_Instructions.Text = LastUsedCommands;
+        Closing += (_, _) => LastUsedCommands = RTB_Instructions.Text;
+    }
 
-            CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
-            new ToolTip().SetToolTip(CB_Property, MsgBEToolTipPropName);
-            new ToolTip().SetToolTip(L_PropType, MsgBEToolTipPropType);
-            new ToolTip().SetToolTip(L_PropValue, MsgBEToolTipPropValue);
+    private void B_Open_Click(object sender, EventArgs e)
+    {
+        if (!B_Go.Enabled)
+            return;
+        using var fbd = new FolderBrowserDialog();
+        if (fbd.ShowDialog() != DialogResult.OK)
+            return;
+
+        TB_Folder.Text = fbd.SelectedPath;
+        TB_Folder.Visible = true;
+    }
+
+    private void B_SAV_Click(object sender, EventArgs e)
+    {
+        TB_Folder.Text = string.Empty;
+        TB_Folder.Visible = false;
+    }
+
+    private void B_Go_Click(object sender, EventArgs e)
+    {
+        RunBackgroundWorker();
+    }
+
+    private void B_Add_Click(object sender, EventArgs e)
+    {
+        var s = UC_Builder.Create();
+        if (s.Length == 0)
+        { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
+
+        // If we already have text, add a new line (except if the last line is blank).
+        var tb = RTB_Instructions;
+        var batchText = tb.Text;
+        if (batchText.Length != 0 && !batchText.EndsWith('\n'))
+            tb.AppendText(Environment.NewLine);
+        RTB_Instructions.AppendText(s);
+    }
+
+    private static void TabMain_DragEnter(object? sender, DragEventArgs? e)
+    {
+        if (e?.Data is null)
+            return;
+        if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            e.Effect = DragDropEffects.Copy;
+    }
+
+    private void TabMain_DragDrop(object? sender, DragEventArgs? e)
+    {
+        if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
+            return;
+        if (!Directory.Exists(files[0]))
+            return;
+
+        TB_Folder.Text = files[0];
+        TB_Folder.Visible = true;
+        RB_Boxes.Checked = RB_Party.Checked = false;
+        RB_Path.Checked = true;
+    }
+
+    private void RunBackgroundWorker()
+    {
+        ReadOnlySpan<char> text = RTB_Instructions.Text;
+        if (StringInstructionSet.HasEmptyLine(text))
+        { WinFormsUtil.Error(MsgBEInstructionInvalid); return; }
+
+        var sets = StringInstructionSet.GetBatchSets(text);
+        if (Array.Exists(sets, s => s.Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue))))
+        { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
+
+        if (Array.Exists(sets, z => z.Instructions.Count == 0))
+        { WinFormsUtil.Error(MsgBEInstructionNone); return; }
+
+        var emptyVal = sets.SelectMany(s => s.Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue))).ToArray();
+        if (emptyVal.Length != 0)
+        {
+            string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
+            string invalid = MsgBEPropertyEmpty + Environment.NewLine + props;
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, invalid, MsgContinue))
+                return;
         }
 
-        private readonly PKM pkmref;
-
-        private int currentFormat = -1;
-
-        // GUI Methods
-        private void B_Open_Click(object sender, EventArgs e)
+        string? destPath = null;
+        if (RB_Path.Checked)
         {
-            if (!B_Go.Enabled) return;
-            var fbd = new FolderBrowserDialog();
-            if (fbd.ShowDialog() != DialogResult.OK)
+            WinFormsUtil.Alert(MsgExportFolder, MsgExportFolderAdvice);
+            using var fbd = new FolderBrowserDialog();
+            var dr = fbd.ShowDialog();
+            if (dr != DialogResult.OK)
                 return;
 
-            TB_Folder.Text = fbd.SelectedPath;
-            TB_Folder.Visible = true;
+            destPath = fbd.SelectedPath;
         }
-        private void B_SAV_Click(object sender, EventArgs e)
-        {
-            TB_Folder.Text = "";
-            TB_Folder.Visible = false;
-        }
-        private void B_Go_Click(object sender, EventArgs e)
-        {
-            RunBackgroundWorker();
-        }
-        private void B_Add_Click(object sender, EventArgs e)
-        {
-            if (CB_Property.SelectedIndex < 0)
-            { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
 
-            char[] prefix = StringInstruction.Prefixes;
-            string s = prefix[CB_Require.SelectedIndex] + CB_Property.Items[CB_Property.SelectedIndex].ToString() + "=";
-            if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines.Last().Length > 0)
-                s = Environment.NewLine + s;
+        FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = false;
 
-            RTB_Instructions.AppendText(s);
-        }
-        private void CB_Format_SelectedIndexChanged(object sender, EventArgs e)
+        foreach (var set in sets)
         {
-            if (currentFormat == CB_Format.SelectedIndex)
+            BatchEditing.ScreenStrings(set.Filters);
+            BatchEditing.ScreenStrings(set.Instructions);
+        }
+        RunBatchEdit(sets, TB_Folder.Text, destPath);
+    }
+
+    private void RunBatchEdit(StringInstructionSet[] sets, string source, string? destination)
+    {
+        editor = new Core.BatchEditor();
+        bool finished = false, displayed = false; // hack cuz DoWork event isn't cleared after completion
+        b.DoWork += (_, _) =>
+        {
+            if (finished)
                 return;
-
-            int format = CB_Format.SelectedIndex;
-            CB_Property.Items.Clear();
-            CB_Property.Items.AddRange(BatchEditing.Properties[format]);
-            CB_Property.SelectedIndex = 0;
-            currentFormat = format;
-        }
-        private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
+            if (RB_Boxes.Checked)
+                RunBatchEditSaveFile(sets, boxes: true);
+            else if (RB_Party.Checked)
+                RunBatchEditSaveFile(sets, party: true);
+            else if (destination is not null)
+                RunBatchEditFolder(sets, source, destination);
+            finished = true;
+        };
+        b.ProgressChanged += (_, e) => SetProgressBar(e.ProgressPercentage);
+        b.RunWorkerCompleted += (_, _) =>
         {
-            L_PropType.Text = BatchEditing.GetPropertyType(CB_Property.Text, CB_Format.SelectedIndex);
-            if (BatchEditing.TryGetHasProperty(pkmref, CB_Property.Text, out var pi))
-            {
-                L_PropValue.Text = pi.GetValue(pkmref).ToString();
-                L_PropType.ForeColor = L_PropValue.ForeColor; // reset color
-            }
-            else // no property, flag
-            {
-                L_PropValue.Text = string.Empty;
-                L_PropType.ForeColor = Color.Red;
-            }
-        }
-        private static void TabMain_DragEnter(object sender, DragEventArgs e)
+            string result = editor.GetEditorResults(sets);
+            if (!displayed) WinFormsUtil.Alert(result);
+            displayed = true;
+            FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
+            SetupProgressBar(0);
+        };
+        b.RunWorkerAsync();
+    }
+
+    private void RunBatchEditFolder(IReadOnlyCollection<StringInstructionSet> sets, string source, string destination)
+    {
+        var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
+        SetupProgressBar(files.Length * sets.Count);
+        foreach (var set in sets)
+            ProcessFolder(files, destination, set.Filters, set.Instructions);
+    }
+
+    private void RunBatchEditSaveFile(IReadOnlyCollection<StringInstructionSet> sets, bool boxes = false, bool party = false)
+    {
+        if (party)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.Copy;
+            var data = new List<SlotCache>(SAV.PartyCount);
+            SlotInfoLoader.AddPartyData(SAV, data);
+            process(data);
+            foreach (var slot in data)
+                slot.Source.WriteTo(SAV, slot.Entity, EntityImportSettings.None);
         }
-        private void TabMain_DragDrop(object sender, DragEventArgs e)
+        if (boxes)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (!Directory.Exists(files[0]))
-                return;
-
-            TB_Folder.Text = files[0];
-            TB_Folder.Visible = true;
-            RB_Boxes.Checked = RB_Party.Checked = false;
-            RB_Path.Checked = true;
+            var data = new List<SlotCache>(SAV.SlotCount);
+            SlotInfoLoader.AddBoxData(SAV, data);
+            process(data);
+            foreach (var slot in data)
+                slot.Source.WriteTo(SAV, slot.Entity, EntityImportSettings.None);
         }
-
-        private BackgroundWorker b;
-        private void RunBackgroundWorker()
+        void process(IList<SlotCache> d)
         {
-            if (RTB_Instructions.Lines.Any(line => line.Length == 0))
-            { WinFormsUtil.Error(MsgBEInstructionInvalid); return; }
-
-            var sets = StringInstructionSet.GetBatchSets(RTB_Instructions.Lines).ToArray();
-            if (sets.Any(s => s.Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue))))
-            { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
-
-            if (sets.Any(z => z.Instructions.Count == 0))
-            { WinFormsUtil.Error(MsgBEInstructionNone); return; }
-
-            var emptyVal = sets.SelectMany(s => s.Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue))).ToArray();
-            if (emptyVal.Length > 0)
-            {
-                string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
-                string invalid = MsgBEPropertyEmpty + Environment.NewLine + props;
-                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, invalid, MsgContinue))
-                    return;
-            }
-
-            string destPath = null;
-            if (RB_Path.Checked)
-            {
-                WinFormsUtil.Alert(MsgExportFolder, MsgExportFolderAdvice);
-                var fbd = new FolderBrowserDialog();
-                var dr = fbd.ShowDialog();
-                if (dr != DialogResult.OK)
-                    return;
-
-                destPath = fbd.SelectedPath;
-            }
-
-            FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = false;
-
+            SetupProgressBar(d.Count * sets.Count);
             foreach (var set in sets)
-            {
-                BatchEditing.ScreenStrings(set.Filters);
-                BatchEditing.ScreenStrings(set.Instructions);
-            }
-            RunBatchEdit(sets, TB_Folder.Text, destPath);
-        }
-        private void RunBatchEdit(StringInstructionSet[] sets, string source, string destination)
-        {
-            editor = new Core.BatchEditor();
-            b = new BackgroundWorker { WorkerReportsProgress = true };
-            b.DoWork += (sender, e) =>
-            {
-                if (RB_Boxes.Checked)
-                    RunBatchEditSaveFile(sets, boxes: true);
-                else if (RB_Party.Checked)
-                    RunBatchEditSaveFile(sets, party: true);
-                else
-                    RunBatchEditFolder(sets, source, destination);
-            };
-            b.ProgressChanged += (sender, e) => SetProgressBar(e.ProgressPercentage);
-            b.RunWorkerCompleted += (sender, e) =>
-            {
-                string result = editor.GetEditorResults(sets);
-                WinFormsUtil.Alert(result);
-                FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
-                SetupProgressBar(0);
-            };
-            b.RunWorkerAsync();
-        }
-
-        private void RunBatchEditFolder(IList<StringInstructionSet> sets, string source, string destination)
-        {
-            var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
-            SetupProgressBar(files.Length * sets.Count);
-            foreach (var set in sets)
-            ProcessFolder(files, set.Filters, set.Instructions, destination);
-        }
-        private void RunBatchEditSaveFile(IList<StringInstructionSet> sets, bool boxes = false, bool party = false)
-        {
-            IList<PKM> data;
-            if (party && SAV.HasParty && process(data = SAV.PartyData))
-                SAV.PartyData = data;
-            if (boxes && SAV.HasBox && process(data = SAV.BoxData))
-                SAV.BoxData = data;
-            bool process(IList<PKM> d)
-            {
-                SetupProgressBar(d.Count * sets.Count);
-                foreach (var set in sets)
                 ProcessSAV(d, set.Filters, set.Instructions);
-                return d.Count != 0;
-            }
         }
+    }
 
-        // Progress Bar
-        private void SetupProgressBar(int count)
+    // Progress Bar
+    private void SetupProgressBar(int count) => PB_Show.BeginInvoke(() =>
+    {
+        PB_Show.Minimum = 0;
+        PB_Show.Step = 1;
+        PB_Show.Value = 0;
+        PB_Show.Maximum = count;
+    });
+
+    private void SetProgressBar(int position) => PB_Show.BeginInvoke(() => PB_Show.Value = position);
+
+    private void ProcessSAV(IList<SlotCache> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
+    {
+        if (data.Count == 0)
+            return;
+
+        // Pull out any filter meta instructions from the filters.
+        var filterMeta = Filters.Where(f => BatchFilters.FilterMeta.Any(z => z.IsMatch(f.PropertyName))).ToArray();
+        if (filterMeta.Length != 0)
+            Filters = Filters.Except(filterMeta).ToArray();
+
+        var max = SAV.MaxSpeciesID;
+
+        for (int i = 0; i < data.Count; i++)
         {
-            MethodInvoker mi = () => { PB_Show.Minimum = 0; PB_Show.Step = 1; PB_Show.Value = 0; PB_Show.Maximum = count; };
-            if (PB_Show.InvokeRequired)
-                PB_Show.Invoke(mi);
+            var entry = data[i];
+            var pk = entry.Entity;
+
+            // Ignore empty/invalid slots.
+            var spec = pk.Species;
+            if (spec == 0 || spec > max)
+            {
+                b.ReportProgress(i);
+                continue;
+            }
+
+            if (entry.Source is SlotInfoBox info && SAV.GetBoxSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
+                editor.AddSkipped();
+            else if (!BatchEditing.IsFilterMatchMeta(filterMeta, entry))
+                editor.AddSkipped();
             else
-                mi.Invoke();
+                editor.Process(pk, Filters, Instructions);
+
+            b.ReportProgress(i);
         }
-        private void SetProgressBar(int i)
+    }
+
+    private void ProcessFolder(IReadOnlyList<string> files, string destDir, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions)
+    {
+        var filterMeta = pkFilters.Where(f => BatchFilters.FilterMeta.Any(z => z.IsMatch(f.PropertyName))).ToArray();
+        if (filterMeta.Length != 0)
+            pkFilters = pkFilters.Except(filterMeta).ToArray();
+
+        for (int i = 0; i < files.Count; i++)
         {
-            if (PB_Show.InvokeRequired)
-                PB_Show.Invoke((MethodInvoker)(() => PB_Show.Value = i));
-            else { PB_Show.Value = i; }
+            TryProcess(files[i], destDir, filterMeta, pkFilters, instructions);
+            b.ReportProgress(i);
+        }
+    }
+
+    private void TryProcess(string source, string destDir, IReadOnlyList<StringInstruction> metaFilters, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions)
+    {
+        var fi = new FileInfo(source);
+        if (!EntityDetection.IsSizePlausible(fi.Length))
+            return;
+
+        byte[] data = File.ReadAllBytes(source);
+        _ = FileUtil.TryGetPKM(data, out var pk, fi.Extension, SAV);
+        if (pk is null)
+            return;
+
+        var info = new SlotInfoFileSingle(source);
+        var entry = new SlotCache(info, pk);
+        if (!BatchEditing.IsFilterMatchMeta(metaFilters, entry))
+        {
+            editor.AddSkipped();
+            return;
         }
 
-        // Mass Editing
-        private Core.BatchEditor editor = new Core.BatchEditor();
-        private void ProcessSAV(IList<PKM> data, IList<StringInstruction> Filters, IList<StringInstruction> Instructions)
-        {
-            for (int i = 0; i < data.Count; i++)
-            {
-                editor.ProcessPKM(data[i], Filters, Instructions);
-                b.ReportProgress(i);
-            }
-        }
-        private void ProcessFolder(IReadOnlyList<string> files, IList<StringInstruction> Filters, IList<StringInstruction> Instructions, string destPath)
-        {
-            for (int i = 0; i < files.Count; i++)
-            {
-                string file = files[i];
-                var fi = new FileInfo(file);
-                if (!PKX.IsPKM(fi.Length))
-                {
-                    b.ReportProgress(i);
-                    continue;
-                }
-
-                int format = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
-                byte[] data = File.ReadAllBytes(file);
-                var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
-                if (editor.ProcessPKM(pkm, Filters, Instructions))
-                    File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pkm.DecryptedBoxData);
-
-                b.ReportProgress(i);
-            }
-        }
+        if (editor.Process(pk, pkFilters, instructions))
+            File.WriteAllBytes(Path.Combine(destDir, Path.GetFileName(source)), pk.DecryptedPartyData);
     }
 }

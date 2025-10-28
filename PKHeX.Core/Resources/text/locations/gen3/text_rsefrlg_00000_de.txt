@@ -1,0 +1,256 @@
+Wurzelheim
+Rosaltstadt
+Faustauhaven
+Bad Lavastadt
+Laubwechselfeld
+Wiesenflur
+Floßbrunn
+Blütenburg City
+Graphitport City
+Malvenfroh City
+Metarost City
+Baumhausen City
+Seegrasulb City
+Moosbach City
+Xeneroville
+Prachtpolis City
+Route 101
+Route 102
+Route 103
+Route 104
+Route 105
+Route 106
+Route 107
+Route 108
+Route 109
+Route 110
+Route 111
+Route 112
+Route 113
+Route 114
+Route 115
+Route 116
+Route 117
+Route 118
+Route 119
+Route 120
+Route 121
+Route 122
+Route 123
+Route 124
+Route 125
+Route 126
+Route 127
+Route 128
+Route 129
+Route 130
+Route 131
+Route 132
+Route 133
+Route 134
+Unterwasser (Route 124)
+Unterwasser (Route 126)
+Unterwasser (Route 127)
+Unterwasser (Route 128)
+Unterwasser (Prachtpolis City)
+Granithöhle
+Schlotberg
+Safari-Zone (RSE)
+Duellturm (RS) / Kampfzone (E)
+Blütenburgwald
+Metaflurtunnel
+Schiffswrack
+Neu Malvenfroh
+Meteorfälle
+Meteorfälle (unbenutzt)
+Pyroberg
+Versteck
+Küstenhöhle
+Tiefseehöhle
+Unterwasser (Tiefseehöhle)
+Siegesstraße (RSE)
+Wundereiland
+Urzeithöhle
+Insel im Süden
+Feuriger Pfad
+Feuriger Pfad (unbenutzt)
+Steilpass
+Steilpass (unbenutzt)
+Siegelkammer
+Unterwasser (Route 134)
+Sonnengrotte
+Inselhöhle
+Wüstenruine
+Grabmal
+Im Möbelwagen
+Himmelturm
+Geheimbasis
+Fähre
+Alabastia
+Vertania City
+Marmoria City
+Azuria City
+Lavandia
+Orania City
+Prismania City
+Fuchsania City
+Zinnoberinsel
+Indigo Plateau
+Saffronia City
+Route 4 (Pokémon Center)
+Route 10 (Pokémon Center)
+Route 1
+Route 2
+Route 3
+Route 4
+Route 5
+Route 6
+Route 7
+Route 8
+Route 9
+Route 10
+Route 11
+Route 12
+Route 13
+Route 14
+Route 15
+Route 16
+Route 17
+Route 18
+Route 19
+Route 20
+Route 21
+Route 22
+Route 23
+Route 24
+Route 25
+Vertania-Wald
+Mondberg
+M.S. Anne
+Tunnelpfad (Routes 5-6)
+Tunnelpfad (Routes 7-8)
+Digdas Höhle
+Siegesstraße (Kanto)
+Rocket HQ
+Silph Co.
+Pokémon-Haus
+Safari-Zone (Kanto)
+Pokémon Liga
+Felstunnel
+Seeschauminseln
+Pokémon Turm
+Azuria-Höhle
+Kraftwerk
+Eiland Eins
+Eiland Zwei
+Eiland Drei
+Eiland Vier
+Eiland Fünf
+Eiland Sieben
+Eiland Sechs
+Glühweg
+Schatzgestade
+Kap Kante
+Bundbrücke
+Tri-Eiland Hafen
+Sevii Eiland 6
+Sevii Eiland 7
+Sevii Eiland 8
+Sevii Eiland 9
+Ferienparadies
+Wasserirrgarten
+Eiland 5-Weide
+Gedenksäule
+Fern-Eiland
+Grüner Pfad
+Wasserweg
+Ruinental
+Trainerturm (Außenbereich)
+Schluchteingang
+7-Schatzschlucht
+Tanibo-Ruinen
+Sevii Eiland 22
+Sevii Eiland 23
+Sevii Eiland 24
+Nabelfels (FRLG)
+Glutberg
+Beerenforst
+Eiskaskadenhöhle
+Rocket-Lager
+Trainerturm
+Punktloch
+Verlorene Höhle
+Musterbuschwald
+Wandelhöhle (FRLG)
+Tanibo-Kammer
+Tri-Eiland-Pfad
+Tanibo-Schlüssel
+Entstehungsinsel (FRLG)
+Einamon-Kammer
+Pezwulp-Kammer
+Dreicke-Kammer
+Vierzisse-Kammer
+Fünibisku-Kammer
+Lilechs-Kammer
+Sieborbia-Kammer
+Gluttherme
+Prismania Eink. (FRLG)
+Aquas Versteck
+Magmas Versteck
+Wunderturm
+Entstehungsinsel (E)
+Ferneiland
+Höhlenatelier
+Ozeanhöhle
+Unterwasser (Marine Cave)
+Terrahöhle
+Unterwasser (Route 105)
+Unterwasser (Route 125)
+Unterwasser (Route 129)
+Wüstentunnel
+Wandelhöhle (E)
+Nabelfels (E)
+Trainerberg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(Ei Geschenk)
+(In-Game Tausch)
+(Schicksalhafte Begegnung)

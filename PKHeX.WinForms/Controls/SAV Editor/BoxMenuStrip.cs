@@ -1,139 +1,137 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Properties;
 
-namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls;
+
+public sealed class BoxMenuStrip : ContextMenuStrip
 {
-    public sealed class BoxMenuStrip : ContextMenuStrip
+    private readonly SAVEditor SAV;
+    private readonly List<ItemVisibility> CustomItems = [];
+    private readonly BoxManipulator Manipulator;
+
+    public BoxMenuStrip(SAVEditor sav)
     {
-        private readonly SAVEditor sav;
-        private readonly List<ItemVisibility> CustomItems = new List<ItemVisibility>();
-
-        public BoxMenuStrip(SAVEditor SAV)
+        Manipulator = new BoxManipulatorWF(sav);
+        SAV = sav;
+        var categories = BoxManipUtil.ManipCategories;
+        var names = BoxManipUtil.ManipCategoryNames;
+        for (int i = 0; i < categories.Length; i++)
         {
-            sav = SAV;
-            foreach (Level z in Enum.GetValues(typeof(Level)))
-            {
-                var ctrl = new ToolStripMenuItem {Name = $"mnu_{z}", Text = z.ToString(), Image = GetImage(z)};
-                Items.Add(ctrl);
-            }
-
-            AddItem(Level.Delete, GetItem("All", "Clear", () => Clear(), Resources.nocheck));
-            AddItem(Level.Delete, GetItem("Eggs", "Eggs", () => Clear(pk => ModifierKeys == Keys.Control != pk.IsEgg), Resources.about), s => s.Generation >= 2);
-            AddItem(Level.Delete, GetItem("PastGen", "Past Generation", () => Clear(pk => pk.GenNumber != sav.SAV.Generation), Resources.bak), s => s.Generation >= 4);
-            AddItem(Level.Delete, GetItem("Foreign", "Foreign", () => Clear(pk => !sav.SAV.IsOriginalHandler(pk, pk.Format > 2)), Resources.users));
-            AddItem(Level.Delete, GetItem("Untrained", "Untrained", () => Clear(pk => pk.EVTotal == 0), Resources.gift));
-            AddItem(Level.Delete, GetItem("Itemless", "No Held Item", () => Clear(pk => pk.HeldItem == 0), Resources.main), s => s.Generation >= 2);
-            AddItem(Level.Delete, GetItem("Illegal", "Illegal", () => Clear(pk => ModifierKeys == Keys.Control != !new LegalityAnalysis(pk).Valid), Resources.export));
-
-            AddItem(Level.SortBox, GetItem("Species", "Pokédex No.", () => Sort(PKMSorting.OrderBySpecies), Resources.numlohi));
-            AddItem(Level.SortBox, GetItem("SpeciesRev", "Pokédex No. (Reverse)", () => Sort(PKMSorting.OrderByDescendingSpecies), Resources.numhilo));
-            AddItem(Level.SortBox, GetItem("Level", "Level (Low to High)", () => Sort(PKMSorting.OrderByLevel), Resources.vallohi));
-            AddItem(Level.SortBox, GetItem("LevelRev", "Level (High to Low)", () => Sort(PKMSorting.OrderByDescendingLevel), Resources.valhilo));
-            AddItem(Level.SortBox, GetItem("Date", "Met Date", () => Sort(PKMSorting.OrderByDateObtained), Resources.date), s => s.Generation >= 4);
-            AddItem(Level.SortBox, GetItem("Name", "Species Name", () => Sort(list => list.OrderBySpeciesName(GameInfo.Strings.Species)), Resources.alphaAZ));
-            AddItem(Level.SortBox, GetItem("Shiny", "Shiny", () => Sort(list => list.OrderByCustom(pk => !pk.IsShiny)), Resources.showdown));
-            AddItem(Level.SortBox, GetItem("Random", "Random", () => Sort(list => list.OrderByCustom(_ => Util.Rand32())), Resources.wand));
-
-            AddItem(Level.SortBoxAdvanced, GetItem("Usage", "Usage", () => Sort(PKMSorting.OrderByUsage), Resources.heart), s => s.Generation >= 3);
-            AddItem(Level.SortBoxAdvanced, GetItem("Potential", "IV Potential", () => Sort(list => list.OrderByCustom(pk => pk.MaxIV * 6 - pk.IVTotal)), Resources.numhilo));
-            AddItem(Level.SortBoxAdvanced, GetItem("Training", "EV Training", () => Sort(list => list.OrderByCustom(pk => pk.MaxEV * 6 - pk.EVTotal)), Resources.showdown));
-            AddItem(Level.SortBoxAdvanced, GetItem("Owner", "Ownership", () => Sort(list => list.OrderByOwnership(sav.SAV)), Resources.users));
-            AddItem(Level.SortBoxAdvanced, GetItem("Type", "Type", () => Sort(list => list.OrderByCustom(pk => pk.PersonalInfo.Type1, pk => pk.PersonalInfo.Type2)), Resources.main));
-            AddItem(Level.SortBoxAdvanced, GetItem("Version", "Version", () => Sort(list => list.OrderByCustom(pk => pk.GenNumber, pk => pk.Version)), Resources.numlohi), s => s.Generation >= 3);
-            AddItem(Level.SortBoxAdvanced, GetItem("BST", "Base Stat Total", () => Sort(list => list.OrderByCustom(pk => pk.PersonalInfo.BST)), Resources.vallohi));
-            AddItem(Level.SortBoxAdvanced, GetItem("Legal", "Legal", () => Sort(list => list.OrderByCustom(pk => !new LegalityAnalysis(pk).Valid)), Resources.export));
-
-            AddItem(Level.Modify, GetItem("HatchEggs", "Hatch Eggs", () => Modify(z => z.ForceHatchPKM()), Resources.about), s => s.Generation >= 2);
-            AddItem(Level.Modify, GetItem("MaxFriendship", "Max Friendship", () => Modify(z => z.MaximizeFriendship()), Resources.heart));
-            AddItem(Level.Modify, GetItem("MaxLevel", "Max Level", () => Modify(z => z.MaximizeLevel()), Resources.showdown));
-            AddItem(Level.Modify, GetItem("ResetMoves", "Reset Moves", () => Modify(z => z.SetMoves(z.GetMoveSet())), Resources.date), s => s.Generation >= 3);
-            AddItem(Level.Modify, GetItem("RandomMoves", "Randomize Moves", () => Modify(z => z.SetMoves(z.GetMoveSet(true))), Resources.wand));
-            AddItem(Level.Modify, GetItem("HyperTrain", "Hyper Train", () => Modify(z => z.SetSuggestedHyperTrainingData()), Resources.vallohi), s => s.Generation >= 7);
-            AddItem(Level.Modify, GetItem("RemoveNicknames", "Remove Nicknames", () => Modify(z => z.SetDefaultNickname()), Resources.alphaAZ));
-            AddItem(Level.Modify, GetItem("RemoveItem", "Delete Held Item", () => Modify(z => z.HeldItem = 0), Resources.gift), s => s.Generation >= 2);
+            var category = categories[i];
+            var sprite = TopLevelImages[i];
+            var name = names[i];
+            var parent = new ToolStripMenuItem {Name = $"mnu_{name}", Text = name, Image = sprite};
+            foreach (var item in category)
+                AddItem(sav, parent, item);
+            Items.Add(parent);
         }
+    }
 
-        private enum Level
-        {
-            Delete,
-            SortBox,
-            SortBoxAdvanced,
-            Modify,
-        }
+    private void AddItem(ISaveFileProvider sav, ToolStripDropDownItem parent, IBoxManip item)
+    {
+        var name = item.Type.ToString();
+        ManipTypeImage.TryGetValue(item.Type, out var img);
+        var tsi = new ToolStripMenuItem { Name = $"mnu_{name}", Text = name, Image = img };
+        tsi.Click += (_, _) => Manipulator.Execute(item, sav.CurrentBox, All, Reverse);
+        parent.DropDownItems.Add(tsi);
+        CustomItems.Add(new ItemVisibility(tsi, item));
+    }
 
-        private sealed class ItemVisibility
-        {
-            private readonly ToolStripItem Item;
-            private readonly Func<SaveFile, bool> IsVisible;
+    private static readonly Dictionary<BoxManipType, Image> ManipTypeImage = new()
+    {
+        [BoxManipType.DeleteAll] = Resources.nocheck,
+        [BoxManipType.DeleteEggs] = Resources.about,
+        [BoxManipType.DeletePastGen] = Resources.bak,
+        [BoxManipType.DeleteForeign] = Resources.language,
+        [BoxManipType.DeleteUntrained] = Resources.gift,
+        [BoxManipType.DeleteItemless] = Resources.main,
+        [BoxManipType.DeleteIllegal] = Resources.export,
+        [BoxManipType.DeleteClones] = Resources.users,
 
-            public ItemVisibility(ToolStripItem toolStripItem, Func<SaveFile, bool> visible)
-            {
-                Item = toolStripItem;
-                IsVisible = visible;
-            }
+        [BoxManipType.SortSpecies] = Resources.numlohi,
+        [BoxManipType.SortSpeciesReverse] = Resources.numhilo,
+        [BoxManipType.SortLevel] = Resources.vallohi,
+        [BoxManipType.SortLevelReverse] = Resources.valhilo,
+        [BoxManipType.SortDate] = Resources.date,
+        [BoxManipType.SortName] = Resources.alphaAZ,
+        [BoxManipType.SortFavorite] = Resources.heart,
+        [BoxManipType.SortParty] = Resources.users,
+        [BoxManipType.SortShiny] = Resources.showdown,
+        [BoxManipType.SortAlpha] = Resources.alpha,
+        [BoxManipType.SortRandom] = Resources.wand,
 
-            public void SetVisibility(SaveFile s) => Item.Visible = IsVisible(s);
-        }
+        [BoxManipType.SortUsage] = Resources.heart,
+        [BoxManipType.SortPotential] = Resources.numhilo,
+        [BoxManipType.SortTraining] = Resources.showdown,
+        [BoxManipType.SortOwner] = Resources.users,
+        [BoxManipType.SortType] = Resources.main,
+        [BoxManipType.SortTypeTera] = Resources.main,
+        [BoxManipType.SortVersion] = Resources.numlohi,
+        [BoxManipType.SortBST] = Resources.vallohi,
+        [BoxManipType.SortCP] = Resources.vallohi,
+        [BoxManipType.SortScale] = Resources.vallohi,
+        [BoxManipType.SortRibbons] = Resources.valhilo,
+        [BoxManipType.SortMarks] = Resources.valhilo,
+        [BoxManipType.SortLegal] = Resources.export,
+        [BoxManipType.SortEncounterType] = Resources.about,
 
-        public void ToggleVisibility()
-        {
-            foreach (var s in CustomItems)
-                s.SetVisibility(sav.SAV);
-        }
+        [BoxManipType.ModifyHatchEggs] = Resources.about,
+        [BoxManipType.ModifyMaxFriendship] = Resources.users,
+        [BoxManipType.ModifyMaxLevel] = Resources.showdown,
+        [BoxManipType.ModifyResetMoves] = Resources.date,
+        [BoxManipType.ModifyRandomMoves] = Resources.wand,
+        [BoxManipType.ModifyHyperTrain] = Resources.vallohi,
+        [BoxManipType.ModifyGanbaru] = Resources.vallohi,
+        [BoxManipType.ModifyRemoveNicknames] = Resources.alphaAZ,
+        [BoxManipType.ModifyRemoveItem] = Resources.gift,
+        [BoxManipType.ModifyHeal] = Resources.heart,
+    };
 
-        private static Image GetImage(Level l)
-        {
-            switch (l)
-            {
-                case Level.Delete: return Resources.nocheck;
-                case Level.SortBox: return Resources.swapBox;
-                case Level.SortBoxAdvanced: return Resources.settings;
-                case Level.Modify: return Resources.wand;
-                default: return null;
-            }
-        }
+    private sealed class ItemVisibility(ToolStripItem toolStripItem, IBoxManip visible)
+    {
+        public void SetVisibility(SaveFile s) => toolStripItem.Visible = visible.Usable(s);
+    }
 
-        private static ToolStripItem GetItem(string name, string text, Action action, Image img)
-        {
-            var tsi = new ToolStripMenuItem { Name = name, Text = text, Image = img };
-            tsi.Click += (s, e) => action();
-            return tsi;
-        }
+    public void ToggleVisibility()
+    {
+        foreach (var s in CustomItems)
+            s.SetVisibility(SAV.SAV);
+    }
 
-        private void AddItem(Level v, ToolStripItem t, Func<SaveFile, bool> visible = null)
-        {
-            var item = (ToolStripMenuItem)Items[(int)v];
-            t.Name = item.Name + t.Name;
-            item.DropDownItems.Add(t);
-            CustomItems.Add(new ItemVisibility(t, visible ?? (_ => true)));
-        }
+    private static readonly Image[] TopLevelImages =
+    [
+        Resources.nocheck,
+        Resources.swapBox,
+        Resources.settings,
+        Resources.wand,
+    ];
 
-        private static bool All => (ModifierKeys & Keys.Shift) != 0;
-        private static bool Reverse => (ModifierKeys & Keys.Control) != 0;
-        private void Clear(Func<PKM, bool> criteria = null)
-        {
-            if (All)
-                sav.ClearAll(criteria);
-            else
-                sav.ClearCurrent(criteria);
-        }
-        private void Sort(Func<IEnumerable<PKM>, IEnumerable<PKM>> sorter)
-        {
-            if (All)
-                sav.SortAll(sorter, Reverse);
-            else
-                sav.SortCurrent(sorter, Reverse);
-        }
-        private void Modify(Action<PKM> action)
-        {
-            if (All)
-                sav.ModifyAll(action);
-            else
-                sav.ModifyCurrent(action);
-        }
+    public void Clear() => Manipulator.Execute(BoxManipType.DeleteAll, SAV.CurrentBox, All);
+    public void Sort() => Manipulator.Execute(BoxManipType.SortSpecies, SAV.CurrentBox, All);
+
+    private static bool All => (ModifierKeys & Keys.Shift) != 0;
+    private static bool Reverse => (ModifierKeys & Keys.Control) != 0;
+}
+
+/// <summary>
+/// Implementation of a WinForms box manipulator (using MessageBox prompts)
+/// </summary>
+public sealed class BoxManipulatorWF(SAVEditor editor) : BoxManipulator
+{
+    protected override SaveFile SAV => editor.SAV;
+
+    protected override void FinishBoxManipulation(string message, bool all, int count) => editor.FinishBoxManipulation(message, all, count);
+
+    protected override bool CanManipulateRegion(int start, int end, string prompt, string fail)
+    {
+        if (!string.IsNullOrEmpty(prompt) && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, prompt) != DialogResult.Yes)
+            return false;
+        bool canModify = base.CanManipulateRegion(start, end, prompt, fail);
+        if (!canModify && !string.IsNullOrEmpty(fail))
+            WinFormsUtil.Alert(fail);
+        return canModify;
     }
 }

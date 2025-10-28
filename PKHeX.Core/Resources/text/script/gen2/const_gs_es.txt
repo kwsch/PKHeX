@@ -1,0 +1,37 @@
+4	s	Central Energía	0:Normal,1:Guardia recibirá una llamada telefónica (evento de la historia)
+5	s	Gimnasio de Celeste	0:Norma;,1:Aparece un Recluta del Rocket (evento de la historia)
+6	s	Ruta 25	0:Normal,1:Misty está en una cita (evento de la historia)
+8	s	Puerta de Recepción de la Liga	0:No has mostrado las 8 Medallas de Johto,1:Has mostrado las 8 Medallas de Johto
+13	s	Cuarto de Mento	0:Reiniciado,1:Accedido recientemente
+14	s	Cuarto de Koga	0:Reiniciado,1:Accedido recientemente
+15	s	Cuarto de Bruno	0:Reiniciado,1:Accedido recientemente
+16	s	Cuarto de Karen	0:Reiniciado,1:Accedido recientemente
+17	s	Cuarto de Lance	0:Reiniciado,1:Accedido recientemente,2:Lance derrotado,3:Han aparecido DJ Rosa y Oak
+18	s	Cuarto de Hall de la Fama	0:Lance registrará tu equipo,1:Accedido recientemente
+19	s	Hombre de Ruta 27	0:Dirá que has entrado en Kanto,1:Ya ha dicho que has entrado en Kanto
+20	s	Mujer de Pueblo Primavera	0:Antes del Pokémon inicial (Bloquea el acceso a la Ruta 29),1:Después del Pokémon inicial (Permite el acceso a la Ruta 29)
+21	s	Evento del Lab de Elm	0:Inicio del juego,1:Te han pedido que elijas un inicial (no puedes salir lab),2:Normal,3:Aparece el oficial (pregunta el nombre del rival),,5:El ayudante te dará una Poción,6:El ayudante te dará 5 Poké balls
+22	s	Madre	0:Inicio del juego,1:Entregó y explicó el PokéGear
+23	s	Amigo (Ruta 29)	0:Normal,1:Pedirá mostrar el tutorial de captura
+24	s	Rival (Ciudad Cerezo)	0:Desaparecido,1:Te retará
+25	s	Casa del Sr. Pokémon	0:No ha entrado,1:Entró (Conoció al Sr. Pokémon y Oak)
+26	s	Evento de historia en Ruta 32	0:Tipo bloquea el paso,1:Paso permitido (Aceptó el Huevo del ayudante),2:Encontró al vendedor de Colaslowpoke
+29	s	Rival (Pueblo Azalea)	0:Disappeared,1:Te retará
+30	s	Chica Paloma	0:Normal,1:Te informará que hiciste llorar a Blanca
+32	s	Rival (Ciudad Olivo)	0:No encontrado,1:Encontrado
+34	s	Pensador de puerta de Torre de Hojalata	0:Paso denegado,1:Paso permitido (Mostrada la Medalla Niebla)
+35	s	Centro Pokémon de Iris	0:No ha entrado,1:Entró (Conoció a Bill)
+36	s	Hombre del Caramelo Furia	0: Bloquea el acceso a la Ruta 44,1:Desaparecido (Se puede acceder a la Ruta 44)
+37	s	Puerta de Ruta 43	0:Aparecen Reclutas del Team Rocket (requiere pago),1:Pagaste a los Reclutas/Reclutas desaparecido
+38	s	Rival (Monte Moon)	0:Te retará,1:Desaparecido
+39	s	Rival (Torre Bellsprout)	0:No encontrado,1:Encontrado
+40	s	Evento de historia en la Torre Quemada	0:No ha entrado/El Rival te retará,1:Rival derrotado,2:Comefuego Darío derrotado
+41	*	Bestias legendarias (Torre Quemada)	0:No se han despertado,1:Despertar/Huida
+42	s	Evento de historia en la 5F de la Torre Radio	0:Batalla contra el Director impostor,1:Recluta del Team Rocket disfrazado derrotado,2:Ejecutivo principal del Team Rocket derrotado en la sala del director
+46	s	Tienda de recuerdos en Caoba	0:Normal,1:Lance apareció (Evento de la historia)
+48	s	Evento de la historia en el escondite B2F	0:No accedido,1:Lance curó a tu equipo/Vas a luchar contra el Ejecutivo del Team Rocket,2:Lance quiere que luches contra Electrode (No puedes salir de la sala del transmisor),3:Transmisor desactivado
+49	s	Evento de la historia en el escondite B3F	0:No accedido,1:Lance explicó las contraseñas,2:Encuentro el Rival,3:Derrotado el Ejecutivo del Team Rocket
+50	s	Rival (Subterráneo)	0:Desaparecido,1:Te retará
+52	s	Rival (Calle Victoria)	0:Desaparecido,1:Te retará
+56	s	Evento de S.S. Aqua	0:Normal,2:Un caballero se cruzará contigo (Evento de la historia)
+57	s	Marinero en S.S. Aqua B1F	0:Paso denegado,1:Paso permitido

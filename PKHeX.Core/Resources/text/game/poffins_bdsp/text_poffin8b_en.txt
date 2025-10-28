@@ -1,0 +1,31 @@
+
+Spicy Poffin
+Spicy-Dry Poffin
+Spicy-Sweet Poffin
+Spicy-Bitter Poffin
+Spicy-Sour Poffin
+Dry Poffin
+Dry-Spicy Poffin
+Dry-Sweet Poffin
+Dry-Bitter Poffin
+Dry-Sour Poffin
+Sweet Poffin
+Sweet-Spicy Poffin
+Sweet-Dry Poffin
+Sweet-Bitter Poffin
+Sweet-Sour Poffin
+Bitter Poffin
+Bitter-Spicy Poffin
+Bitter-Dry Poffin
+Bitter-Sweet Poffin
+Bitter-Sour Poffin
+Sour Poffin
+Sour-Spicy Poffin
+Sour-Dry Poffin
+Sour-Sweet Poffin
+Sour-Bitter Poffin
+Rich Poffin
+Overripe Poffin
+Foul Poffin
+Mild Poffin
+Super Mild Poffin

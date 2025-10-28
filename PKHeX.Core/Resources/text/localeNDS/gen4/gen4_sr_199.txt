@@ -1,0 +1,25 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	オンゲルマンランド	Angermanland	Ångermanland	Ångermanland	Ångermanland	Ångermanland	翁厄曼兰	옹게르만란드	翁厄曼蘭
+002	ブレーキンゲ	Blekinge	Blekinge	Blekinge	Blekinge	Blekinge	布莱金厄	블레킹에	布萊金厄
+003	ボーフュースレン	Bohuslan	Bohuslän 	Bohuslän	Bohuslän 	Bohuslän	布胡斯	보후슬란	布胡斯
+004	ダーラナ	Dalarna	Dalécarlie	Dalarna	Dalarna	Dalecarlia	达拉纳	달라르나	達拉納
+005	ダールスランド	Dalsland	Dalie	Dalsland	Dalsland	Dalsland	达尔斯兰	달스란드	達爾斯蘭
+006	イェストリクランド	Gastrikland	Gästrikland	Gästrikland	Gästrikland	Gästrikland	耶斯特里克兰	예스트리크란드	耶斯特里克蘭
+007	ゴットランド	Gotland	Gotland	Gotland	Gotland	Gotland	哥特兰	고틀란드	哥特蘭
+008	ハランド	Halland	Halland	Halland	Halland	Halland	哈兰	할란드	哈蘭
+009	ヘルシングランド	Halsingland	Hälsingland	Hälsingland	Hälsingland	Hälsingland	海尔辛兰	헬싱란드	海爾辛蘭
+010	イェムトランド	Jamtland	Jämtland 	Jämtland	Jämtland	Jämtland	耶姆特兰	옘틀란드	耶姆特蘭
+011	きたラップランド	North Lapland	Laponie (Nord)	Lappland (Nord)	Lapponia (Nord)	Laponia (norte)	北拉普兰	북 라플란드	北拉普蘭
+012	みなみラップランド	South Lapland	Laponie (Sud)	Lappland (Süd)	Lapponia (Sud)	Laponia (sur)	南拉普兰	남 라플란드	南拉普蘭
+013	メデルパッド	Medelpad	Medelpad	Medelpad	Medelpad	Medelpad	梅代尔帕德	메델파드	梅代爾帕德
+014	ネルケ	Narke	Néricie	Närke	Närke	Närke	内尔彻	네르케	內爾徹
+015	ノルボッテン	Norrbotten	Botnie Septentrionale	Norrbotten	Norrbotten	Norrbotten	北博滕	노르보텐	北博滕
+016	エーランド	Oland	Öland	Öland	Öland	Öland	厄兰	욀란드	厄蘭
+017	エステルヨットランド	Ostergotland / Vastergotland	Västergötland / Östergötland	Västergötland / Östergötland	Östergötland/Västergötland	Östergötland / Västergötland	东约特兰	외스테르예틀란드	東約特蘭
+018	スコーネ	Skane	Scanie	Skåne	Scania	Escania	斯科讷	스코네	斯科訥
+019	スモーランド	Smaland	Småland	Småland	Småland	Småland	斯莫兰	스몰란드	斯莫蘭
+020	セーデルマンランド	Sodermanland	Södermanland	Södermanland	Södermanland	Södermanland	南曼兰	쇠데르만란드	南曼蘭
+021	ウップランド	Uppland	Uppland	Uppland	Uppland	Uppland	乌普兰	우플란드	烏普蘭
+022	ベームランド	Varmland	Värmland	Värmland	Värmland	Värmland	韦姆兰	베름란드	韋姆蘭
+023	ベステルポッテン	Vasterbotten	Botnie Occidentale	Västerbotten	Västerbotten	Västerbotten	西博滕	베스테르보텐	西博滕
+024	ベストマンランド	Vastmanland	Västmanland	Västmanland	Västmanland	Västmanland	西曼兰	베스트만란드	西曼蘭

@@ -1,0 +1,8 @@
+{
+    "StatNames": [ "HP", "공격", "방어", "특수공격", "특수방어", "스피드" ],
+    "OriginalTrainer": "원래 트레이너",
+    "HandlingTrainer": "이전 트레이너",
+    "GenderMale": "수컷",
+    "GenderFemale": "암컷",
+    "GenderGenderless": "성별불명"
+}

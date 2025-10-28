@@ -1,0 +1,7 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	オーランド	Aland Islands	Iles Åland	Åland	Isole Åland	Islas de Åland	奥兰岛自治区	올란드	奧蘭島自治區
+002	ラップランド	Lapland	Laponie	Lappland	Lapponia	Laponia	拉普兰省	라플란드	拉普蘭省
+003	ひがしフィンランド	East Finland	Finlande orientale	Ostfinnland	Finlandia Orientale	Finlandia Oriental	东芬兰省	동핀란드	東芬蘭省
+004	みなみフィンランド	South Finland	Finlande méridionale	Südfinnland	Finlandia Meridionale	Finlandia Meridional	南芬兰省	남핀란드	南芬蘭省
+005	オウル	Oulun	Oulu	Oulu	Oulu	Oulu	奥卢省	오울루	奧盧省
+006	にしフィンランド	West Finland	Finlande occidentale	Westfinnland	Finlandia Occidentale	Finlandia Occidental	西芬兰省	서핀란드	西芬蘭省

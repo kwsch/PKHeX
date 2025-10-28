@@ -1,0 +1,15 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	セント・ジョージ・バセテール	Saint George Basseterre	Saint George Basseterre	Saint George Basseterre	Saint George Basseterre	Saint George Basseterre	圣乔治巴斯特尔区	세인트조지바스테르	聖佐治巴斯特爾區
+003	クライスト・チャーチ・ニコラタウン	Christ Church Nichola Town	Christ Church Nichola Town	Christ Church Nichola Town	Christ Church Nichola Town	Christ Church Nichola Town	克赖斯特彻奇尼古拉镇区	크라이스트처치니콜라타운	克賴斯特徹奇尼古拉鎮區
+004	セント・アン・サンディ・ポイント	Saint Anne Sandy Point	Saint Anne Sandy Point	Saint Anne Sandy Point	Saint Anne Sandy Point	Saint Anne Sandy Point	圣安妮桑迪波因特区	세인트앤샌디포인트	聖安妮桑迪波因特區
+005	セント・ジョージ・ジンジャーランド	Saint George Gingerland	Saint George Gingerland	Saint George Gingerland	Saint George Gingerland	Saint George Gingerland	圣乔治金杰兰区	세인트조지진저랜드	聖佐治金傑蘭區
+006	セント・ジェームズ・ウィンドワード	Saint James Windward	Saint James Windward	Saint James Windward	Saint James Windward	Saint James Windward	圣詹姆斯温德沃德区	세인트제임스윈드워드	聖詹姆斯温德沃德區
+007	セント・ジョン・カピステール	Saint John Capesterre	Saint John Capesterre	Saint John Capisterre	Saint John Capisterre	Saint John Capesterre	圣约翰卡皮斯特尔区	세인트존카페스테르	聖約翰卡皮斯特爾區
+008	セント・ジョン・フィッグトリー	Saint John Figtree	Saint John Figtree	Saint John Figtree	Saint John Figtree	Saint John Figtree	圣约翰菲格特里区	세인트존피그트리	聖約翰菲格特裏區
+009	セント・メリー・ケーヨン	Saint Mary Cayon	Saint Mary Cayon	Saint Mary Cayon	Saint Mary Cayon	Saint Mary Cayon	圣玛丽卡永区	세인트메리케이언	聖瑪麗卡永區
+010	セント・ポール・カピステール	Saint Paul Capesterre	Saint Paul Capesterre	Saint Paul Capisterre	Saint Paul Capisterre	Saint Paul Capesterre	圣保罗卡皮斯特尔区	세인트폴카페스테르	聖保羅卡皮斯特爾區
+011	セント・ポール・チャールズタウン	Saint Paul Charlestown	Saint Paul Charlestown	Saint Paul Charlestown	Saint Paul Charlestown	Saint Paul Charlestown	圣保罗查尔斯敦区	세인트폴찰스타운	聖保羅查爾斯敦區
+012	セント・ピーター・バセテール	Saint Peter Basseterre	Saint Peter Basseterre	Saint Peter Basseterre	Saint Peter Basseterre	Saint Peter Basseterre	圣彼得巴斯特尔区	세인트피터바스테르	聖彼得巴斯特爾區
+013	セント・トーマス・ロウランド	Saint Thomas Lowland	Saint Thomas Lowland	Saint Thomas Lowland	Saint Thomas Lowland	Saint Thomas Lowland	圣托马斯洛兰区	세인트토머스롤랜드	聖託馬斯洛蘭區
+014	セント・トーマス・ミドルアイランド	Saint Thomas Middle Island	Saint Thomas Middle Island	Saint Thomas Middle Island	Saint Thomas Middle Island	Saint Thomas Middle Island	圣托马斯米德尔艾兰区	세인트토머스미들아일랜드	聖託馬斯米德爾艾蘭區
+015	トリニティ・パルメット・ポイント	Trinity Palmetto Point	Trinity Palmetto Point	Trinity Palmetto Point	Trinity Palmetto Point	Trinity Palmetto Point	特里尼蒂帕尔梅托波因特区	트리니티팰머토포인트	特裏尼蒂帕爾梅託波因特區

@@ -1,0 +1,77 @@
+4	s	Centrale	0:Normal,1:Le garde va avoir un appel (évènement scénario)
+5	s	Arène d'Azuria	0:Normal,1:Sbire Rocket apparu (évènement scénario)
+6	s	Route 25	0:Normal,1:Ondine en rencard (évènement scénario)
+8	s	Accueil de la Ligue Pokémon	0:N'a pas montré les 8 badges de Johto,1:A montré les 8 badges de Johto
+13	s	Salle de Clément	0:Réinitialisé,1:Récemment accédé
+14	s	Salle de Koga	0:Réinitialisé,1:Récemment accédé
+15	s	Salle d'Aldo	0:Réinitialisé,1:Récemment accédé
+16	s	Salle de Marion	0:Réinitialisé,1:Récemment accédé
+17	s	Salle de Peter	0:Réinitialisé,1:Récemment accédé,2:A battu Peter,3:Lula et Prof. Chen apparus
+18	s	Salle du Panthéon	0:Peter va enregister votre équipe,1:Récemment accédé
+19	s	Homme de la Route 27	0:Va annoncer votre arrivée à Kanto,1:A annoncé votre arrivée à Kanto
+20	s	Dame de Bourg Geon	0:Avant le Pokémon de Départ (bloque l'accès à la Route 29),1:Après le Pokémon de Départ (donne accès à la Route 29)
+21	s	Évènement du Labo du Prof. Orme	0:Début du jeu,1:A demandé de choisir le Pokémon de départ (sortie du labo impossible),2:Normal,3:L'officier est présent (demande le nom du Rival),5:Assistant va donner une Potion,6:Assistant va donner 5 Poké Balls
+22	s	Maman	0:Début du jeu,1:A donné et expliqué le Pokématos
+23	s	Gars (Route 29)	0:Normal,1:Va montrer le tutoriel de capture
+24	s	Rival (Ville Griotte)	0:A disparu,1:Va vous affronter
+25	s	Maison de M. Pokémon	0:Pas encore entré,1:Entré (a rencontré M. Pokémon et Prof. Chen)
+26	s	Évènement scénario Route 32	0:Gars bloque accès,1:Peut aller plus loin (a accepté Œuf de l'assistant),2:A rencontré le vendeur de Queueramolos
+28	s	Suicune (Route 36)	0:Disparu,1:Présent
+30	s	Évènement Écorcia	0:Normal,1:Rival va vous affronter,2:Fargas va vous donner la GS Ball dehors (évènement GS Ball)
+31	s	Fillette Bridget	0:Normal,1:Va informer que Blanche pleure
+34	s	Rival (Oliville)	0:Pas rencontré,1:Rencontré
+37	s	Sage gardant porte Tour Ferraille	0:Bloque le passage,1:Permet de passer
+38	s	Trio des Sages (Entrée de la Tour Ferraille)	0:Bloque le passage vers la Tour Ferraille,1:Permet de passer
+39	s	Centre Pokémon de Rosalia	0:Pas entré,1:Entré (a rencontré Léo)
+40	s	Arène de Rosalia	0:Viei homme bloque l'accès,1:Accessible
+41	s	Vendeur de Bonbon Rage	0:Bloque l'accès à la Route 44,1:Disparu (peut accéder à la Route 44)
+42	s	Suicune (Route 42)	0:Disparu,1:Présent
+43	s	Suicune (Irisia)	0:Disparu,1:Présent
+44	s	RDC Tour de Combat	0:Pas accédé,1:Accédé
+45	s	Salle de Combat Tour de Combat	0:Pas accédé,1:Accédé
+46	s	Ascenseur Tour de Combat	0:Pas accédé,1:Accédé
+47	s	Couloir Tour de Combat	0:Pas accédé,1:Accédé
+49	s	Porte de la Route 43	0:Sbires Rocket apparus (péage),1:Sbires Rocket payés/disparus
+50	s	Rival (Mont Sélénite)	0:Va vous affronter,1:Disparu
+51	s	Rival (Tour Chétiflor)	0:Pas rencontré,1:Rencontré
+52	r	Suicune (Tour Ferraille)	0:Affrontable,1:Capturé/Vaincu
+53	s	Évènement scénario Tour Cendrée	0:Pas entré,1:A rencontré Eusine,2:Rival vaincu
+54	r	Fauves légendaires (Tour Cendrée)	0:as éveillés,1:Éveillés/Ont fui
+55	s	Évènement scénario Tour Radio 4ème	0:Va affronter l'imposteur du directeur,1:A battu le Caïd Rocket déguisé,2:A battu le Caïd Rocket principal dans la salle du studio
+58	*	Ruine nord-ouest (Ruines d'Alpha)	0:Puzzle du mur non résolu,1:Puzzle du mur résolu
+59	*	Ruine nord-est (Ruines d'Alpha)	0:Puzzle du mur non résolu,1:Puzzle du mur résolu
+60	*	Ruine sud-ouest (Ruines d'Alpha)	0:Puzzle du mur non résolu,1:Puzzle du mur résolu
+61	*	Ruine sud-est (Ruines d'Alpha)	0:Puzzle du mur non résolu,1:Puzzle du mur résolu
+63	s	Boutique Souvenir d'Acajou	0:Normal,1:Peter apparu (évènement scénario)
+65	s	Repaire Rocket -2 évènement scénario	0:Pas encore accédé,1:Peter va soigner votre équipe/Va affronter le Caïd Rocket,2:Peter veut vous faire affronter les Électrode (peut pas quitter la salle du générateur),3:Générateur plus alimenté
+66	s	Repaire Rocket -3 évènement scénario	0:Pas accédé,1:Peter a expliqué les mots de passe,2:Rival rencontré,3:Caïd Rocket vaincu
+67	s	Rival (Souterrain)	0:Va vous affronter,1:Disparu
+69	s	Rival (Route Victoire)	0:Va vous affronter,1:Disparu
+70	s	Sandra (Antre du Dragon)	0:Disparu,1:Va vous donner la CT24 juste après être sorti du sanctuaire
+71	s	Sanctuaire de l'Antre du Dragon	0:Entré,1:Entré et a fait le quiz
+74	s	Évènement Aquaria	0:Normal,2:Gentleman va vous rentrer dedans (évènement scénario)
+75	s	Aquaria -1 Marin	0:Bloque l'accès,1:Ne bloque plus l'accès
+128	t	Écolier Jules	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+130	t	Marin Georges	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches (Final)
+131	t	Topdresseur Gaven	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches (Final)
+132	t	Topdresseur Ella	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches (Final)
+133	t	Ornithologue José	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches (Final)
+134	t	Topdresseur Nina	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches (Final)
+135	t	Gamin Gaspard	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+136	t	Scout Maxime	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+137	t	Pêcheur Lazare	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+138	t	Pique-Nique Liz	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+139	t	Montagnard Mario	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+140	t	Campeur Bastien	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+141	t	Pique-Nique Gina	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+143	t	Scout Hans	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+144	t	Écolier Samson	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+145	t	Fillette Armelle	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+146	t	Écolier Vincent	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches,4:A fait 4 revanches (Final)
+148	t	Pêcheur Amédée	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches (Final)
+149	t	Pokémaniac Julien	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches (Final)
+150	t	Pique-Nique Tiff	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches,3:A fait 3 revanches (Final)
+151	t	Ornithologue Léo	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches (Final)
+152	t	Pêcheur Justin	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches (Final)
+154	t	Montagnard Martin	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches (Final)
+155	t	Pique-Nique Érin	0:Aucune revanche,1:A fait 1 revanche,2:A fait 2 revanches (Final)

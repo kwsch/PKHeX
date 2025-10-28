@@ -1,98 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using static PKHeX.Core.LegalityCheckStrings;
+using System;
+using static PKHeX.Core.LegalityCheckResultCode;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Verifies the <see cref="PKM.IVs"/>.
+/// </summary>
+public sealed class IndividualValueVerifier : Verifier
 {
-    /// <summary>
-    /// Verifies the <see cref="PKM.IVs"/>.
-    /// </summary>
-    public sealed class IndividualValueVerifier : Verifier
+    protected override CheckIdentifier Identifier => CheckIdentifier.IVs;
+
+    public override void Verify(LegalityAnalysis data)
     {
-        protected override CheckIdentifier Identifier => CheckIdentifier.IVs;
-        public override void Verify(LegalityAnalysis data)
+        switch (data.EncounterMatch)
         {
-            switch (data.EncounterMatch)
-            {
-                case EncounterStatic s:
-                    VerifyIVsStatic(data, s);
-                    break;
-                case EncounterSlot w:
-                    VerifyIVsSlot(data, w);
-                    break;
-                case MysteryGift g:
-                    VerifyIVsMystery(data, g);
-                    break;
-            }
-
-            var pkm = data.pkm;
-            if (pkm.IVTotal == 0)
-                data.AddLine(Get(V321, Severity.Fishy));
-            else
-            {
-                var hpiv = pkm.IV_HP;
-                if (hpiv < 30 && AllIVsEqual(pkm, hpiv))
-                    data.AddLine(Get(V32, Severity.Fishy));
-            }
+            case IPogoSlot s:
+                VerifyIVsGoTransfer(data, s);
+                break;
+            case IFlawlessIVCount s:
+                VerifyIVsFlawless(data, s);
+                break;
+            case EncounterSlot7:
+                VerifyIVsGen7(data);
+                break;
+            case MysteryGift g:
+                VerifyIVsMystery(data, g);
+                break;
         }
+        var pk = data.Entity;
+        var hp = pk.IV_HP;
+        if (hp < 30 && AllIVsEqual(pk, hp))
+            data.AddLine(Get(Severity.Fishy, IVAllEqual_0, (ushort)hp));
+    }
 
-        public static bool AllIVsEqual(PKM pkm) => AllIVsEqual(pkm, pkm.IV_HP);
+    private static bool AllIVsEqual(PKM pk, int hp) => pk.IV_ATK == hp
+                                                    && pk.IV_DEF == hp
+                                                    && pk.IV_SPA == hp
+                                                    && pk.IV_SPD == hp
+                                                    && pk.IV_SPE == hp;
 
-        private static bool AllIVsEqual(PKM pkm, int hpiv)
+    private void VerifyIVsMystery(LegalityAnalysis data, MysteryGift g)
+    {
+        if (!g.HasFixedIVs)
+            return; // PID/IV style instead of fixed IVs.
+
+        Span<int> IVs = stackalloc int[6];
+        g.GetIVs(IVs);
+        var ivflag = IVs.IndexOfAny(0xFC, 0xFD, 0xFE);
+        if (ivflag == -1) // Random IVs
         {
-            return (pkm.IV_ATK == hpiv) && (pkm.IV_DEF == hpiv) && (pkm.IV_SPA == hpiv) && (pkm.IV_SPD == hpiv) && (pkm.IV_SPE == hpiv);
+            bool valid = Legal.GetIsFixedIVSequenceValidSkipRand(IVs, data.Entity);
+            if (!valid)
+                data.AddLine(GetInvalid(EncGiftIVMismatch));
         }
-
-        private void VerifyIVsMystery(LegalityAnalysis data, MysteryGift g)
+        else
         {
-            int[] IVs = g.IVs;
-            if (IVs == null)
-                return;
-
-            var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
-            if (ivflag == 0) // Random IVs
-            {
-                bool valid = GetIsFixedIVSequenceValid(IVs, data.pkm.IVs);
-                if (!valid)
-                    data.AddLine(GetInvalid(V30));
-            }
-            else
-            {
-                int IVCount = ivflag - 0xFB;  // IV2/IV3
-                VerifyIVsFlawless(data, IVCount);
-            }
+            int IVCount = IVs[ivflag] - 0xFB;  // IV2/IV3
+            VerifyIVsFlawless(data, IVCount);
         }
+    }
 
-        private static bool GetIsFixedIVSequenceValid(IReadOnlyList<int> IVs, IReadOnlyList<int> pkIVs)
+    private void VerifyIVsGen7(LegalityAnalysis data)
+    {
+        var pk = data.Entity;
+        if (pk.AbilityNumber == 4)
         {
-            for (int i = 0; i < 6; i++)
-                if (IVs[i] <= 31 && IVs[i] != pkIVs[i])
-                    return false;
-            return true;
+            var abilities = (IPersonalAbility12H)pk.PersonalInfo;
+            if (!AbilityVerifier.CanAbilityPatch(pk.Format, abilities, pk.Species))
+                VerifyIVsFlawless(data, 2); // Chain of 10 yields 5% HA and 2 flawless IVs
         }
+    }
 
-        private void VerifyIVsSlot(LegalityAnalysis data, EncounterSlot w)
-        {
-            var pkm = data.pkm;
-            if (w.Generation == 7 && pkm.AbilityNumber == 4)
-                VerifyIVsFlawless(data, 3);
-            else if (pkm.XY && PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
-                VerifyIVsFlawless(data, 3);
-            else if (w.Type == SlotType.FriendSafari)
-                VerifyIVsFlawless(data, 2);
-        }
+    private void VerifyIVsFlawless(LegalityAnalysis data, IFlawlessIVCount s)
+    {
+        if (s.FlawlessIVCount != 0)
+            VerifyIVsFlawless(data, s.FlawlessIVCount);
+    }
 
-        private void VerifyIVsFlawless(LegalityAnalysis data, int count)
-        {
-            if (data.pkm.IVs.Count(iv => iv == 31) < count)
-                data.AddLine(GetInvalid(string.Format(V28, count)));
-        }
+    private void VerifyIVsFlawless(LegalityAnalysis data, int count)
+    {
+        if (data.Entity.FlawlessIVCount < count)
+            data.AddLine(GetInvalid(IVFlawlessCountGEQ_0, (ushort)count));
+    }
 
-        private void VerifyIVsStatic(LegalityAnalysis data, EncounterStatic s)
-        {
-            if (s.FlawlessIVCount != 0)
-                VerifyIVsFlawless(data, s.FlawlessIVCount);
-        }
+    private void VerifyIVsGoTransfer(LegalityAnalysis data, IPogoSlot g)
+    {
+        if (!g.GetIVsValid(data.Entity))
+            data.AddLine(GetInvalid(IVNotCorrect));
     }
 }

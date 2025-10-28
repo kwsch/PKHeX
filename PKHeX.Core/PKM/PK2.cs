@@ -1,588 +1,297 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary> Generation 2 <see cref="PKM"/> format. </summary>
+public sealed class PK2 : GBPKML, ICaughtData2
 {
-    /// <summary> Generation 2 <see cref="PKM"/> format. </summary>
-    public sealed class PK2 : PKM
+    public override PersonalInfo2 PersonalInfo => PersonalTable.C[Species];
+
+    public override bool Valid => Species <= Legal.MaxSpeciesID_2;
+
+    public override int SIZE_PARTY => PokeCrypto.SIZE_2PARTY;
+    public override int SIZE_STORED => PokeCrypto.SIZE_2STORED;
+    public override bool Korean => !Japanese && OriginalTrainerTrash[0] <= 0xB;
+
+    public override EntityContext Context => EntityContext.Gen2;
+
+    public PK2(bool jp = false) : base(PokeCrypto.SIZE_2PARTY, jp) { }
+    public PK2(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
+
+    public PK2(ReadOnlySpan<byte> data, ReadOnlySpan<byte> ot, ReadOnlySpan<byte> nick)
+        : this(ot.Length == StringLengthJapanese)
     {
-        internal byte[] otname;
-        internal byte[] nick;
-        public override PersonalInfo PersonalInfo => PersonalTable.C[Species];
-
-        public byte[] OT_Name_Raw => (byte[])otname.Clone();
-        public byte[] Nickname_Raw => (byte[])nick.Clone();
-        public override bool Valid => Species <= 252;
-
-        public override int SIZE_PARTY => PKX.SIZE_2PARTY;
-        public override int SIZE_STORED => PKX.SIZE_2STORED;
-        internal const int STRLEN_J = 6;
-        internal const int STRLEN_U = 11;
-        private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
-        public override bool Korean => !Japanese && otname[0] <= 0xB;
-
-        private string GetString(int Offset, int Count)
-        {
-            if (Korean)
-                return StringConverter.GetString2KOR(Data, Offset, Count);
-            return StringConverter.GetString1(Data, Offset, Count, Japanese);
-        }
-
-        private byte[] SetString(string value, int maxLength)
-        {
-            if (Korean)
-                return StringConverter.SetString2KOR(value, maxLength - 1);
-            return StringConverter.SetString1(value, maxLength - 1, Japanese);
-        }
-
-        // Trash Bytes
-        public override byte[] Nickname_Trash { get => nick; set { if (value?.Length == nick.Length) nick = value; } }
-        public override byte[] OT_Trash { get => otname; set { if (value?.Length == otname.Length) otname = value; } }
-
-        public override int Format => 2;
-
-        public override bool Japanese => otname.Length == STRLEN_J;
-        public override string FileName
-        {
-            get
-            {
-                string form = AltForm > 0 ? $"-{AltForm:00}" : "";
-                string star = IsShiny ? " ★" : "";
-                return $"{Species:000}{form}{star} - {Nickname} - {SaveUtil.CRC16_CCITT(Encrypt()):X4}.{Extension}";
-            }
-        }
-
-        public PK2(byte[] decryptedData = null, string ident = null, bool jp = false)
-        {
-            Data = decryptedData ?? new byte[SIZE_PARTY];
-            Identifier = ident;
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
-            int strLen = jp ? STRLEN_J : STRLEN_U;
-            otname = Enumerable.Repeat((byte) 0x50, strLen).ToArray();
-            nick = Enumerable.Repeat((byte) 0x50, strLen).ToArray();
-        }
-
-        public override PKM Clone() => new PK2((byte[])Data.Clone(), Identifier, Japanese)
-        {
-            otname = (byte[])otname.Clone(),
-            nick = (byte[])nick.Clone(),
-            IsEgg = IsEgg,
-        };
-        public override string Nickname
-        {
-            get
-            {
-                if (Korean)
-                    return StringConverter.GetString2KOR(nick, 0, nick.Length);
-                return StringConverter.GetString1(nick, 0, nick.Length, Japanese);
-            }
-            set
-            {
-                if (!IsNicknamed && Nickname == value)
-                    return;
-
-                byte[] strdata = SetString(value, StringLength);
-                if (nick.Any(b => b == 0) && nick[StringLength - 1] == 0x50 && Array.FindIndex(nick, b => b == 0) == strdata.Length - 1) // Handle JP Mew event with grace
-                {
-                    int firstInd = Array.FindIndex(nick, b => b == 0);
-                    for (int i = firstInd; i < StringLength - 1; i++)
-                        if (nick[i] != 0)
-                            break;
-                    strdata = strdata.Take(strdata.Length - 1).ToArray();
-                }
-                strdata.CopyTo(nick, 0);
-            }
-        }
-
-        public override string OT_Name
-        {
-            get
-            {
-                if (Korean)
-                    return StringConverter.GetString2KOR(otname, 0, otname.Length);
-                return StringConverter.GetString1(otname, 0, otname.Length, Japanese);
-            }
-            set
-            {
-                byte[] strdata = SetString(value, StringLength);
-                if (otname.Any(b => b == 0) && otname[StringLength - 1] == 0x50 && Array.FindIndex(otname, b => b == 0) == strdata.Length - 1) // Handle JP Mew event with grace
-                {
-                    int firstInd = Array.FindIndex(otname, b => b == 0);
-                    for (int i = firstInd; i < StringLength - 1; i++)
-                        if (otname[i] != 0)
-                            break;
-                    strdata = strdata.Take(strdata.Length - 1).ToArray();
-                }
-                strdata.CopyTo(otname, 0);
-            }
-        }
-
-        protected override byte[] Encrypt() => new PokemonList2(this).GetBytes();
-        public override byte[] EncryptedPartyData => Encrypt();
-        public override byte[] EncryptedBoxData => Encrypt();
-        public override byte[] DecryptedBoxData => Encrypt();
-        public override byte[] DecryptedPartyData => Encrypt();
-
-        private bool? _isnicknamed;
-        public override bool IsNicknamed
-        {
-            get => (bool)(_isnicknamed ?? (_isnicknamed = !nick.SequenceEqual(GetNonNickname())));
-            set
-            {
-                _isnicknamed = value;
-                if (_isnicknamed == false)
-                    SetNotNicknamed();
-            }
-        }
-        public void SetNotNicknamed() => nick = GetNonNickname().ToArray();
-        private IEnumerable<byte> GetNonNickname()
-        {
-            var name = PKX.GetSpeciesNameGeneration(Species, GuessedLanguage(), Format);
-            var bytes = SetString(name, StringLength);
-            var data = bytes.Concat(Enumerable.Repeat((byte) 0x50, nick.Length - bytes.Length));
-            if (!Korean)
-                data = data.Select(b => (byte)(b == 0xF2 ? 0xE8 : b)); // Decimal point<->period fix
-            return data;
-        }
-        public bool IsNicknamedBank
-        {
-            get
-            {
-                var spName = PKX.GetSpeciesNameGeneration(Species, GuessedLanguage(), Format);
-                return Nickname != spName;
-            }
-        }
-        public override int Language
-        {
-            get
-            {
-                if (Japanese)
-                    return (int)LanguageID.Japanese;
-                if (Korean)
-                    return (int)LanguageID.Korean;
-                if (StringConverter.IsG12German(otname))
-                    return (int)LanguageID.German; // german
-                int lang = PKX.GetSpeciesNameLanguage(Species, Nickname, Format);
-                if (lang > 0)
-                    return lang;
-                return 0;
-            }
-            set { }
-        }
-        private int GuessedLanguage(int fallback = (int)LanguageID.English)
-        {
-            int lang = Language;
-            if (lang > 0)
-                return lang;
-            if (fallback == (int)LanguageID.French || fallback == (int)LanguageID.German) // only other permitted besides English
-                return fallback;
-            return (int)LanguageID.English;
-        }
-
-        #region Stored Attributes
-        public override int Species
-        {
-            get => Data[0];
-            set => Data[0] = (byte)value;
-        }
-        public override int SpriteItem => ItemConverter.GetG4Item((byte)HeldItem);
-        public override int HeldItem { get => Data[0x1]; set => Data[0x1] = (byte)value; }
-        public override int Move1 { get => Data[2]; set => Data[2] = (byte)value; }
-        public override int Move2 { get => Data[3]; set => Data[3] = (byte)value; }
-        public override int Move3 { get => Data[4]; set => Data[4] = (byte)value; }
-        public override int Move4 { get => Data[5]; set => Data[5] = (byte)value; }
-        public override int TID { get => BigEndian.ToUInt16(Data, 6); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 6); }
-        public override uint EXP
-        {
-            get => (BigEndian.ToUInt32(Data, 8) >> 8) & 0x00FFFFFF;
-            set => Array.Copy(BigEndian.GetBytes((value << 8) & 0xFFFFFF00), 0, Data, 8, 3);
-        }
-        public override int EV_HP { get => BigEndian.ToUInt16(Data, 0xB); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xB); }
-        public override int EV_ATK { get => BigEndian.ToUInt16(Data, 0xD); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xD); }
-        public override int EV_DEF { get => BigEndian.ToUInt16(Data, 0xF); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xF); }
-        public override int EV_SPE { get => BigEndian.ToUInt16(Data, 0x11); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x11); }
-        public int EV_SPC { get => BigEndian.ToUInt16(Data, 0x13); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x13); }
-        public override int EV_SPA { get => EV_SPC; set => EV_SPC = value; }
-        public override int EV_SPD { get => EV_SPC; set { } }
-        public ushort DV16 { get => BigEndian.ToUInt16(Data, 0x15); set => BigEndian.GetBytes(value).CopyTo(Data, 0x15); }
-        public override int IV_HP { get => ((IV_ATK & 1) << 3) | ((IV_DEF & 1) << 2) | ((IV_SPE & 1) << 1) | ((IV_SPC & 1) << 0); set { } }
-        public override int IV_ATK { get => (DV16 >> 12) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 12)) | (ushort)((value > 0xF ? 0xF : value) << 12)); }
-        public override int IV_DEF { get => (DV16 >> 8) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 8)) | (ushort)((value > 0xF ? 0xF : value) << 8)); }
-        public override int IV_SPE { get => (DV16 >> 4) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 4)) | (ushort)((value > 0xF ? 0xF : value) << 4)); }
-        public int IV_SPC { get => (DV16 >> 0) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 0)) | (ushort)((value > 0xF ? 0xF : value) << 0)); }
-        public override int IV_SPA { get => IV_SPC; set => IV_SPC = value; }
-        public override int IV_SPD { get => IV_SPC; set { } }
-        public override int Move1_PP { get => Data[0x17] & 0x3F; set => Data[0x17] = (byte)((Data[0x17] & 0xC0) | Math.Min(63, value)); }
-        public override int Move2_PP { get => Data[0x18] & 0x3F; set => Data[0x18] = (byte)((Data[0x18] & 0xC0) | Math.Min(63, value)); }
-        public override int Move3_PP { get => Data[0x19] & 0x3F; set => Data[0x19] = (byte)((Data[0x19] & 0xC0) | Math.Min(63, value)); }
-        public override int Move4_PP { get => Data[0x1A] & 0x3F; set => Data[0x1A] = (byte)((Data[0x1A] & 0xC0) | Math.Min(63, value)); }
-        public override int Move1_PPUps { get => (Data[0x17] & 0xC0) >> 6; set => Data[0x17] = (byte)((Data[0x17] & 0x3F) | ((value & 0x3) << 6)); }
-        public override int Move2_PPUps { get => (Data[0x18] & 0xC0) >> 6; set => Data[0x18] = (byte)((Data[0x18] & 0x3F) | ((value & 0x3) << 6)); }
-        public override int Move3_PPUps { get => (Data[0x19] & 0xC0) >> 6; set => Data[0x19] = (byte)((Data[0x19] & 0x3F) | ((value & 0x3) << 6)); }
-        public override int Move4_PPUps { get => (Data[0x1A] & 0xC0) >> 6; set => Data[0x1A] = (byte)((Data[0x1A] & 0x3F) | ((value & 0x3) << 6)); }
-        public override int CurrentFriendship { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
-        private byte PKRS { get => Data[0x1C]; set => Data[0x1C] = value; }
-        public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)(PKRS & ~0xF | value); }
-        public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)(PKRS & 0xF | value << 4); }
-        // Crystal only Caught Data
-        public int CaughtData { get => BigEndian.ToUInt16(Data, 0x1D); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1D); }
-        public int Met_TimeOfDay { get => (CaughtData >> 14) & 0x3; set => CaughtData = (CaughtData & 0x3FFF) | ((value & 0x3) << 14); }
-        public override int Met_Level { get => (CaughtData >> 8) & 0x3F; set => CaughtData = (CaughtData & 0xC0FF) | ((value & 0x3F) << 8); }
-        public override int OT_Gender { get => (CaughtData >> 7) & 1; set => CaughtData = (CaughtData & 0xFF7F) | ((value & 1) << 7); }
-        public override int Met_Location { get => CaughtData & 0x7F; set => CaughtData = (CaughtData & 0xFF80) | (value & 0x7F); }
-
-        public override int Stat_Level
-        {
-            get => Data[0x1F];
-            set => Data[0x1F] = (byte)value;
-        }
-
-        #endregion
-
-        #region Party Attributes
-        public int Status_Condition { get => Data[0x20]; set => Data[0x20] = (byte)value; }
-
-        public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x22); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x22); }
-        public override int Stat_HPMax { get => BigEndian.ToUInt16(Data, 0x24); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x24); }
-        public override int Stat_ATK { get => BigEndian.ToUInt16(Data, 0x26); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x26); }
-        public override int Stat_DEF { get => BigEndian.ToUInt16(Data, 0x28); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x28); }
-        public override int Stat_SPE { get => BigEndian.ToUInt16(Data, 0x2A); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2A); }
-        public override int Stat_SPA { get => BigEndian.ToUInt16(Data, 0x2C); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2C); }
-        public override int Stat_SPD { get => BigEndian.ToUInt16(Data, 0x2E); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2E); }
-        #endregion
-
-        public override int GetMovePP(int move, int ppup) => Math.Min(61, base.GetMovePP(move, ppup));
-        public override ushort[] GetStats(PersonalInfo p)
-        {
-            ushort[] Stats = new ushort[6];
-            for (int i = 0; i < Stats.Length; i++)
-            {
-                ushort L = (ushort)Stat_Level;
-                ushort B = (ushort)p.Stats[i];
-                ushort I = (ushort)IVs[i];
-                ushort E = // Fixed formula via http://www.smogon.com/ingame/guides/rby_gsc_stats
-                    (ushort)Math.Floor(Math.Min(255, Math.Floor(Math.Sqrt(Math.Max(0, EVs[i] - 1)) + 1)) / 4.0);
-                Stats[i] = (ushort)Math.Floor((2 * (B + I) + E) * L / 100.0 + 5);
-            }
-            Stats[0] += (ushort)(5 + Stat_Level); // HP
-
-            return Stats;
-        }
-
-        public override bool IsEgg { get; set; }
-
-        public override int Gender
-        {
-            get
-            {
-                int gv = PersonalInfo.Gender;
-                if (gv == 255)
-                    return 2;
-                if (gv == 254)
-                    return 1;
-                if (gv == 0)
-                    return 0;
-                return IV_ATK > gv >> 4 ? 0 : 1;
-            }
-            set { }
-        }
-
-        public override bool HasOriginalMetLocation => CaughtData != 0;
-
-        #region Future, Unused Attributes
-        public override bool IsGenderValid() => true; // not a separate property, derived via IVs
-        public override uint EncryptionConstant { get => 0; set { } }
-        public override uint PID { get => 0; set { } }
-        public override int Nature { get => 0; set { } }
-
-        public override int AltForm
-        {
-            get
-            {
-                if (Species != 201) // Unown
-                    return 0;
-
-                uint formeVal = 0;
-                formeVal |= (uint)((IV_ATK & 0x6) << 5);
-                formeVal |= (uint)((IV_DEF & 0x6) << 3);
-                formeVal |= (uint)((IV_SPE & 0x6) << 1);
-                formeVal |= (uint)((IV_SPC & 0x6) >> 1);
-                return (int)(formeVal / 10);
-            }
-            set { }
-        }
-
-        private int HPVal => GetHiddenPowerBitVal(new[] {IV_SPC, IV_SPE, IV_DEF, IV_ATK});
-        public override int HPPower => (5 * HPVal + IV_SPC % 4) / 2 + 31;
-        public override int HPType
-        {
-            get => ((IV_ATK & 3) << 2) | (IV_DEF & 3); set
-            {
-                IV_DEF = ((IV_DEF >> 2) << 2) | (value & 3);
-                IV_DEF = ((IV_ATK >> 2) << 2) | ((value >> 2) & 3);
-            }
-        }
-        public override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
-        public override ushort Sanity { get => 0; set { } }
-        public override bool ChecksumValid => true;
-        public override ushort Checksum { get => 0; set { } }
-        public override bool FatefulEncounter { get => false; set { } }
-        public override int TSV => 0x0000;
-        public override int PSV => 0xFFFF;
-        public override int Characteristic => -1;
-        public override int MarkValue { get => 0; protected set { } }
-        public override int Ability { get => -1; set { } }
-        public override int CurrentHandler { get => 0; set { } }
-        public override int Egg_Location { get => 0; set { } }
-        public override int OT_Friendship { get => 0; set { } }
-        public override int Ball { get => 0; set { } }
-        public override int Version { get => HasOriginalMetLocation ? (int)GameVersion.C : (int)GameVersion.GSC; set { } }
-        public override int SID { get => 0; set { } }
-        #endregion
-
-        // Maximums
-        public override int MaxMoveID => Legal.MaxMoveID_2;
-        public override int MaxSpeciesID => Legal.MaxSpeciesID_2;
-        public override int MaxAbilityID => Legal.MaxAbilityID_2;
-        public override int MaxItemID => Legal.MaxItemID_2;
-        public override int MaxBallID => -1;
-        public override int MaxGameID => -1;
-        public override int MaxIV => 15;
-        public override int MaxEV => ushort.MaxValue;
-        public override int OTLength => Japanese ? 5 : 7;
-        public override int NickLength => Japanese ? 5 : 10;
-
-        public PK1 ConvertToPK1()
-        {
-            PK1 pk1 = new PK1(null, Identifier, Japanese) {TradebackStatus = TradebackType.WasTradeback};
-            Array.Copy(Data, 0x1, pk1.Data, 0x7, 0x1A);
-            pk1.Species = Species; // This will take care of Typing :)
-            pk1.Stat_HPCurrent = Stat_HPCurrent;
-            pk1.Stat_Level = Stat_Level;
-            // Status = 0
-            Array.Copy(otname, 0, pk1.otname, 0, otname.Length);
-            Array.Copy(nick, 0, pk1.nick, 0, nick.Length);
-
-            pk1.ClearInvalidMoves();
-
-            return pk1;
-        }
-
-        public PK7 ConvertToPK7()
-        {
-            var pk7 = new PK7
-            {
-                EncryptionConstant = Util.Rand32(),
-                Species = Species,
-                TID = TID,
-                CurrentLevel = CurrentLevel,
-                EXP = EXP,
-                Met_Level = CurrentLevel,
-                Nature = (int)(EXP % 25),
-                PID = Util.Rand32(),
-                Ball = 4,
-                MetDate = DateTime.Now,
-                Version = CaughtData != 0 ? (int)GameVersion.C : (int)GameVersion.SV,
-                Move1 = Move1,
-                Move2 = Move2,
-                Move3 = Move3,
-                Move4 = Move4,
-                Move1_PPUps = Move1_PPUps,
-                Move2_PPUps = Move2_PPUps,
-                Move3_PPUps = Move3_PPUps,
-                Move4_PPUps = Move4_PPUps,
-                Move1_PP = Move1_PP,
-                Move2_PP = Move2_PP,
-                Move3_PP = Move3_PP,
-                Move4_PP = Move4_PP,
-                Met_Location = Legal.Transfer2, // "Johto region", hardcoded.
-                Gender = Gender,
-                IsNicknamed = false,
-                AltForm = AltForm,
-
-                Country = PKMConverter.Country,
-                Region = PKMConverter.Region,
-                ConsoleRegion = PKMConverter.ConsoleRegion,
-                CurrentHandler = 1,
-                HT_Name = PKMConverter.OT_Name,
-                HT_Gender = PKMConverter.OT_Gender,
-                Geo1_Country = PKMConverter.Country,
-                Geo1_Region = PKMConverter.Region
-            };
-            pk7.Language = GuessedLanguage(PKMConverter.Language);
-            pk7.Nickname = PKX.GetSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
-            if (otname[0] == 0x5D) // Ingame Trade
-            {
-                var s = StringConverter.GetG1Char(0x5D, Japanese);
-                pk7.OT_Name = s.Substring(0, 1) + s.Substring(1).ToLower();
-            }
-            pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
-
-            // IVs
-            var special = Species == 151 || Species == 251;
-            var new_ivs = new int[6];
-            int flawless = special ? 5 : 3;
-            for (var i = 0; i < new_ivs.Length; i++) new_ivs[i] = Util.Rand.Next(pk7.MaxIV + 1);
-            for (var i = 0; i < flawless; i++) new_ivs[i] = 31;
-            Util.Shuffle(new_ivs);
-            pk7.IVs = new_ivs;
-
-            if (IsShiny)
-                pk7.SetShinyPID();
-
-            int abil = 2; // Hidden
-            if (Legal.TransferSpeciesDefaultAbility_2.Contains(Species))
-                abil = 0; // Reset
-            pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
-
-            if (special)
-                pk7.FatefulEncounter = true;
-            else if (IsNicknamedBank)
-            {
-                pk7.IsNicknamed = true;
-                pk7.Nickname = Korean ? Nickname
-                    : StringConverter.GetG1ConvertedString(nick, Japanese);
-            }
-            pk7.OT_Name = Korean ? OT_Name
-                : StringConverter.GetG1ConvertedString(otname, Japanese);
-            pk7.OT_Gender = OT_Gender; // Crystal
-
-            pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
-
-            // Dizzy Punch cannot be transferred
-            {
-                var moves = pk7.Moves;
-                var index = Array.IndexOf(moves, 146); // Dizzy Punch
-                if (index != -1)
-                {
-                    moves[index] = 0;
-                    pk7.Moves = moves;
-                    pk7.FixMoves();
-                }
-            }
-
-            pk7.RefreshChecksum();
-            return pk7;
-        }
+        data.CopyTo(Data);
+        ot.CopyTo(OriginalTrainerTrash);
+        nick.CopyTo(NicknameTrash);
     }
 
-    public class PokemonList2
+    private static byte[] EnsurePartySize(byte[] data)
     {
-        private const int CAPACITY_DAYCARE = 1;
-        private const int CAPACITY_PARTY = 6;
-        private const int CAPACITY_STORED = 20;
-        private const int CAPACITY_STORED_JP = 30;
+        if (data.Length != PokeCrypto.SIZE_2PARTY)
+            Array.Resize(ref data, PokeCrypto.SIZE_2PARTY);
+        return data;
+    }
 
-        private readonly bool Japanese;
+    public override PK2 Clone()
+    {
+        PK2 clone = new(Data.ToArray(), Japanese) { IsEgg = IsEgg };
+        OriginalTrainerTrash.CopyTo(clone.OriginalTrainerTrash);
+        NicknameTrash.CopyTo(clone.NicknameTrash);
+        return clone;
+    }
 
-        private int StringLength => Japanese ? PK2.STRLEN_J : PK2.STRLEN_U;
+    protected override byte[] Encrypt() => PokeList2.WrapSingle(this);
 
-        public enum CapacityType
+    #region Stored Attributes
+    public override ushort Species { get => Data[0]; set => Data[0] = (byte)value; }
+    public byte SpeciesInternal { get => Data[0]; set => Data[0] = value; } // Alias with a different type.
+    public override int SpriteItem => ItemConverter.GetItemFuture2((byte)HeldItem);
+    public override int HeldItem { get => Data[1]; set => Data[1] = (byte)value; }
+    public override ushort Move1 { get => Data[2]; set => Data[2] = (byte)value; }
+    public override ushort Move2 { get => Data[3]; set => Data[3] = (byte)value; }
+    public override ushort Move3 { get => Data[4]; set => Data[4] = (byte)value; }
+    public override ushort Move4 { get => Data[5]; set => Data[5] = (byte)value; }
+    public override ushort TID16 { get => ReadUInt16BigEndian(Data[6..]); set => WriteUInt16BigEndian(Data[6..], value); }
+    public override uint EXP { get => ReadUInt32BigEndian(Data[0x08..]) >> 8; set => WriteUInt32BigEndian(Data[8..], (value << 8) | Data[0xB]); }
+    public override int EV_HP  { get => ReadUInt16BigEndian(Data[0x0B..]); set => WriteUInt16BigEndian(Data[0xB..], (ushort)value); }
+    public override int EV_ATK { get => ReadUInt16BigEndian(Data[0x0D..]); set => WriteUInt16BigEndian(Data[0xD..], (ushort)value); }
+    public override int EV_DEF { get => ReadUInt16BigEndian(Data[0x0F..]); set => WriteUInt16BigEndian(Data[0xF..], (ushort)value); }
+    public override int EV_SPE { get => ReadUInt16BigEndian(Data[0x11..]); set => WriteUInt16BigEndian(Data[0x11..], (ushort)value); }
+    public override int EV_SPC { get => ReadUInt16BigEndian(Data[0x13..]); set => WriteUInt16BigEndian(Data[0x13..], (ushort)value); }
+    public override ushort DV16 { get => ReadUInt16BigEndian(Data[0x15..]); set => WriteUInt16BigEndian(Data[0x15..], value); }
+    public override int Move1_PP { get => Data[0x17] & 0x3F; set => Data[0x17] = (byte)((Data[0x17] & 0xC0) | Math.Min(63, value)); }
+    public override int Move2_PP { get => Data[0x18] & 0x3F; set => Data[0x18] = (byte)((Data[0x18] & 0xC0) | Math.Min(63, value)); }
+    public override int Move3_PP { get => Data[0x19] & 0x3F; set => Data[0x19] = (byte)((Data[0x19] & 0xC0) | Math.Min(63, value)); }
+    public override int Move4_PP { get => Data[0x1A] & 0x3F; set => Data[0x1A] = (byte)((Data[0x1A] & 0xC0) | Math.Min(63, value)); }
+    public override int Move1_PPUps { get => (Data[0x17] & 0xC0) >> 6; set => Data[0x17] = (byte)((Data[0x17] & 0x3F) | ((value & 0x3) << 6)); }
+    public override int Move2_PPUps { get => (Data[0x18] & 0xC0) >> 6; set => Data[0x18] = (byte)((Data[0x18] & 0x3F) | ((value & 0x3) << 6)); }
+    public override int Move3_PPUps { get => (Data[0x19] & 0xC0) >> 6; set => Data[0x19] = (byte)((Data[0x19] & 0x3F) | ((value & 0x3) << 6)); }
+    public override int Move4_PPUps { get => (Data[0x1A] & 0xC0) >> 6; set => Data[0x1A] = (byte)((Data[0x1A] & 0x3F) | ((value & 0x3) << 6)); }
+    public override byte CurrentFriendship { get => Data[0x1B]; set => Data[0x1B] = value; }
+    public byte PokerusState { get => Data[0x1C]; set => Data[0x1C] = value; }
+    public override int PokerusDays { get => PokerusState & 0xF; set => PokerusState = (byte)((PokerusState & ~0xF) | value); }
+    public override int PokerusStrain { get => PokerusState >> 4; set => PokerusState = (byte)((PokerusState & 0xF) | (value << 4)); }
+    // Crystal only Caught Data
+    public ushort CaughtData { get => ReadUInt16BigEndian(Data[0x1D..]); set => WriteUInt16BigEndian(Data[0x1D..], value); }
+    public int MetTimeOfDay         { get => (CaughtData >> 14) & 0x3; set => CaughtData = (ushort)((CaughtData & 0x3FFF) | ((value & 0x3) << 14)); }
+    public override byte MetLevel    { get => (byte)((CaughtData >> 8) & 0x3F); set => CaughtData = (ushort)((CaughtData & 0xC0FF) | ((value & 0x3F) << 8)); }
+    public override byte OriginalTrainerGender    { get => (byte)((CaughtData >> 7) & 1); set => CaughtData = (ushort)((CaughtData & 0xFF7F) | ((value & 1) << 7)); }
+    public override ushort MetLocation { get => (byte)(CaughtData & 0x7F); set => CaughtData = (ushort)((CaughtData & 0xFF80) | (value & 0x7F)); }
+
+    public override byte Stat_Level
+    {
+        get => Data[0x1F];
+        set => Data[0x1F] = value;
+    }
+
+    #endregion
+
+    #region Party Attributes
+    public override int Status_Condition { get => Data[0x20]; set => Data[0x20] = (byte)value; }
+
+    public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data[0x22..]); set => WriteUInt16BigEndian(Data[0x22..], (ushort)value); }
+    public override int Stat_HPMax     { get => ReadUInt16BigEndian(Data[0x24..]); set => WriteUInt16BigEndian(Data[0x24..], (ushort)value); }
+    public override int Stat_ATK       { get => ReadUInt16BigEndian(Data[0x26..]); set => WriteUInt16BigEndian(Data[0x26..], (ushort)value); }
+    public override int Stat_DEF       { get => ReadUInt16BigEndian(Data[0x28..]); set => WriteUInt16BigEndian(Data[0x28..], (ushort)value); }
+    public override int Stat_SPE       { get => ReadUInt16BigEndian(Data[0x2A..]); set => WriteUInt16BigEndian(Data[0x2A..], (ushort)value); }
+    public override int Stat_SPA       { get => ReadUInt16BigEndian(Data[0x2C..]); set => WriteUInt16BigEndian(Data[0x2C..], (ushort)value); }
+    public override int Stat_SPD       { get => ReadUInt16BigEndian(Data[0x2E..]); set => WriteUInt16BigEndian(Data[0x2E..], (ushort)value); }
+    #endregion
+
+    public override bool IsEgg { get; set; }
+    public override byte OriginalTrainerFriendship { get => CurrentFriendship; set => CurrentFriendship = value; }
+    public override bool HasOriginalMetLocation => CaughtData != 0;
+    public override GameVersion Version { get => GameVersion.GSC; set { } }
+
+    // Maximums
+    public override ushort MaxMoveID => Legal.MaxMoveID_2;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_2;
+    public override int MaxAbilityID => Legal.MaxAbilityID_2;
+    public override int MaxItemID => Legal.MaxItemID_2;
+
+    public PK1 ConvertToPK1()
+    {
+        PK1 pk1 = new(Japanese);
+        Data.Slice(1, 0x1A).CopyTo(pk1.Data[7..]);
+        pk1.Species = Species; // This will take care of Typing :)
+
+        var lvl = Stat_Level;
+        if (lvl == 0) // no party stats (originated from box format), need to regenerate
         {
-            Daycare = CAPACITY_DAYCARE,
-            Party = CAPACITY_PARTY,
-            Stored = CAPACITY_STORED,
-            StoredJP = CAPACITY_STORED_JP,
-            Single
+            pk1.Stat_HPCurrent = GetStat(PersonalInfo.HP, IV_ATK, EV_ATK, Stat_Level);
+            pk1.Stat_Level = CurrentLevel;
+        }
+        else
+        {
+            pk1.Stat_HPCurrent = Stat_HPCurrent;
+            pk1.Stat_Level = Stat_Level;
+        }
+        // Status = 0
+        OriginalTrainerTrash.CopyTo(pk1.OriginalTrainerTrash);
+        NicknameTrash.CopyTo(pk1.NicknameTrash);
+
+        pk1.ClearInvalidMoves();
+
+        return pk1;
+    }
+
+    public PK7 ConvertToPK7()
+    {
+        var rnd = Util.Rand;
+        var lang = TransferLanguage(RecentTrainerCache.Language);
+        if ((lang == 1) != Japanese)
+            lang = Japanese ? 1 : 2;
+        var pi = PersonalTable.SM[Species];
+        int ability = TransporterLogic.IsHiddenDisallowedVC2(Species) ? 0 : 2; // Hidden
+        var pk7 = new PK7
+        {
+            EncryptionConstant = rnd.Rand32(),
+            Species = Species,
+            TID16 = TID16,
+            CurrentLevel = CurrentLevel,
+            EXP = EXP,
+            MetLevel = CurrentLevel,
+            Nature = Experience.GetNatureVC(EXP),
+            PID = rnd.Rand32(),
+            Ball = 4,
+            MetDate = EncounterDate.GetDate3DS(),
+            Version = HasOriginalMetLocation ? GameVersion.C : EntityConverter.VirtualConsoleSourceGen2,
+            Move1 = Move1,
+            Move2 = Move2,
+            Move3 = Move3,
+            Move4 = Move4,
+            Move1_PPUps = Move1_PPUps,
+            Move2_PPUps = Move2_PPUps,
+            Move3_PPUps = Move3_PPUps,
+            Move4_PPUps = Move4_PPUps,
+            MetLocation = Locations.Transfer2, // "Johto region", hardcoded.
+            Gender = Gender,
+            IsNicknamed = false,
+            Form = Form,
+
+            CurrentHandler = 1,
+            HandlingTrainerName = RecentTrainerCache.OriginalTrainerName,
+            HandlingTrainerGender = RecentTrainerCache.OriginalTrainerGender,
+
+            Language = lang,
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, 7),
+            OriginalTrainerName = GetTransferTrainerName(lang),
+            OriginalTrainerGender = OriginalTrainerGender, // Crystal
+            OriginalTrainerFriendship = pi.BaseFriendship,
+            HandlingTrainerFriendship = pi.BaseFriendship,
+
+            Ability = pi.GetAbilityAtIndex(ability),
+            AbilityNumber = 1 << ability,
+        };
+
+        var special = Species is 151 or 251;
+        int flawless = special ? 5 : 3;
+        pk7.SetTransferIVs(flawless, rnd);
+        pk7.SetTransferPID(IsShiny);
+        pk7.SetTransferLocale(lang);
+
+        if (special)
+        {
+            pk7.FatefulEncounter = true;
+        }
+        else if (IsNicknamedBank)
+        {
+            pk7.IsNicknamed = true;
+            pk7.Nickname = Korean ? Nickname : StringConverter12Transporter.GetString(NicknameTrash, Japanese);
         }
 
-        private static int GetEntrySize(CapacityType c) => c == CapacityType.Single || c == CapacityType.Party
-            ? PKX.SIZE_2PARTY
-            : PKX.SIZE_2STORED;
-
-        private static byte GetCapacity(CapacityType c) => c == CapacityType.Single ? (byte)1 : (byte)c;
-
-        private static byte[] GetEmptyList(CapacityType c, bool is_JP = false)
+        // Dizzy Punch cannot be transferred
+        var dizzy = pk7.GetMoveIndex(146); // Dizzy Punch
+        if (dizzy != -1)
         {
-            int cap = GetCapacity(c);
-            return new[] { (byte)0 }.Concat(Enumerable.Repeat((byte)0xFF, cap + 1)).Concat(Enumerable.Repeat((byte)0, GetEntrySize(c) * cap)).Concat(Enumerable.Repeat((byte)0x50, (is_JP ? PK2.STRLEN_J : PK2.STRLEN_U) * 2 * cap)).ToArray();
+            pk7.SetMove(dizzy, 0);
+            pk7.FixMoves();
         }
 
-        public PokemonList2(byte[] d, CapacityType c = CapacityType.Single, bool jp = false)
-        {
-            Japanese = jp;
-            Data = d ?? GetEmptyList(c, Japanese);
-            Capacity = GetCapacity(c);
-            Entry_Size = GetEntrySize(c);
+        pk7.HealPP();
+        pk7.RefreshChecksum();
+        return pk7;
+    }
 
-            if (Data.Length != DataSize)
-            {
-                Array.Resize(ref Data, DataSize);
-            }
+    private string GetTransferTrainerName(int lang)
+    {
+        if (OriginalTrainerTrash[0] == StringConverter1.TradeOTCode) // In-game Trade
+            return StringConverter12Transporter.GetTradeNameGen1(lang);
+        if (Korean)
+            return OriginalTrainerName;
+        return StringConverter12Transporter.GetString(OriginalTrainerTrash, Japanese);
+    }
 
-            Pokemon = new PK2[Capacity];
-            for (int i = 0; i < Capacity; i++)
-            {
-                int base_ofs = 2 + Capacity;
-                byte[] dat = new byte[Entry_Size];
-                byte[] otname = new byte[StringLength];
-                byte[] nick = new byte[StringLength];
-                Buffer.BlockCopy(Data, base_ofs + Entry_Size * i, dat, 0, Entry_Size);
-                Buffer.BlockCopy(Data, base_ofs + Capacity * Entry_Size + StringLength * i, otname, 0, StringLength);
-                Buffer.BlockCopy(Data, base_ofs + Capacity * Entry_Size + StringLength * (i + Capacity), nick, 0, StringLength);
-                Pokemon[i] = new PK2(dat, null, jp) {IsEgg = Data[1 + i] == 0xFD, otname = otname, nick = nick};
-            }
-        }
+    public SK2 ConvertToSK2() => new(Japanese)
+    {
+        Species = Species,
+        HeldItem = HeldItem,
+        Move1 = Move1,
+        Move2 = Move2,
+        Move3 = Move3,
+        Move4 = Move4,
+        TID16 = TID16,
+        EXP = EXP,
+        EV_HP = EV_HP,
+        EV_ATK = EV_ATK,
+        EV_DEF = EV_DEF,
+        EV_SPE = EV_SPE,
+        EV_SPC = EV_SPC,
+        DV16 = DV16,
+        Move1_PP = Move1_PP,
+        Move2_PP = Move2_PP,
+        Move3_PP = Move3_PP,
+        Move4_PP = Move4_PP,
+        Move1_PPUps = Move1_PPUps,
+        Move2_PPUps = Move2_PPUps,
+        Move3_PPUps = Move3_PPUps,
+        Move4_PPUps = Move4_PPUps,
+        CurrentFriendship = CurrentFriendship,
+        IsEgg = IsEgg,
+        Stat_Level = Stat_Level,
+        PokerusState = PokerusState,
+        CaughtData = CaughtData,
 
-        public PokemonList2(CapacityType c = CapacityType.Single, bool jp = false)
-            : this(null, c, jp) => Count = 1;
+        // Only copies until first 0x50 terminator, but just copy everything
+        Nickname = Nickname,
+        OriginalTrainerName = OriginalTrainerName,
+    };
 
-        public PokemonList2(PK2 pk)
-            : this(CapacityType.Single, pk.Japanese)
-        {
-            this[0] = pk;
-            Count = 1;
-        }
+    public override string GetString(ReadOnlySpan<byte> data)
+    {
+        if (Korean)
+            return StringConverter2KOR.GetString(data);
+        return StringConverter2.GetString(data, Language);
+    }
 
-        private readonly byte[] Data;
-        private readonly byte Capacity;
-        private readonly int Entry_Size;
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+    {
+        if (Korean)
+            return StringConverter2KOR.LoadString(data, destBuffer);
+        return StringConverter2.LoadString(data, destBuffer, Language);
+    }
 
-        public byte Count
-        {
-            get => Data[0];
-            set => Data[0] = value > Capacity ? Capacity : value;
-        }
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+    {
+        if (Korean)
+            return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);
+        return StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
+    }
+    public override int GetStringTerminatorIndex(ReadOnlySpan<byte> data)
+        => Korean ? StringConverter2KOR.GetTerminatorIndex(data) : TrashBytesGB.GetTerminatorIndex(data);
+    public override int GetStringLength(ReadOnlySpan<byte> data)
+        => Korean ? StringConverter2KOR.GetStringLength(data) : TrashBytesGB.GetStringLength(data);
+    public override int GetBytesPerChar() => 1;
 
-        public readonly PK2[] Pokemon;
-
-        public PK2 this[int i]
-        {
-            get
-            {
-                if (i > Capacity || i < 0) throw new ArgumentOutOfRangeException($"Invalid PokemonList Access: {i}");
-                return Pokemon[i];
-            }
-            set
-            {
-                if (value == null) return;
-                Pokemon[i] = (PK2)value.Clone();
-            }
-        }
-
-        private void Update()
-        {
-            int count = Array.FindIndex(Pokemon, pk => pk.Species == 0);
-            Count = count < 0 ? Capacity : (byte)count;
-            for (int i = 0; i < Count; i++)
-            {
-                Data[1 + i] = Pokemon[i].IsEgg ? (byte)0xFD : (byte)Pokemon[i].Species;
-                Array.Copy(Pokemon[i].Data, 0, Data, 2 + Capacity + Entry_Size * i, Entry_Size);
-                Array.Copy(Pokemon[i].OT_Name_Raw, 0, Data, 2 + Capacity + Capacity * Entry_Size + StringLength * i, StringLength);
-                Array.Copy(Pokemon[i].Nickname_Raw, 0, Data, 2 + Capacity + Capacity * Entry_Size + StringLength * Capacity + StringLength * i, StringLength);
-            }
-            Data[1 + Count] = byte.MaxValue;
-        }
-
-        public byte[] GetBytes()
-        {
-            Update();
-            return Data;
-        }
-
-        private int DataSize => Capacity * (Entry_Size + 1 + 2 * StringLength) + 2;
-        public static int GetDataLength(CapacityType c, bool jp = false) => GetCapacity(c) * (GetEntrySize(c) + 1 + 2 * (jp ? PK2.STRLEN_J : PK2.STRLEN_U)) + 2;
+    /// <summary>
+    /// Gets a checksum over all the entity's data using a single list to wrap all components.
+    /// </summary>
+    public ushort GetSingleListChecksum()
+    {
+        Span<byte> tmp = stackalloc byte[PokeList2.GetListLengthSingle(Japanese)];
+        PokeList2.WrapSingle(this, tmp);
+        return Checksums.CRC16_CCITT(tmp);
     }
 }

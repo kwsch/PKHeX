@@ -1,45 +1,41 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Verifies the specific origin data of <see cref="GameVersion.CXD"/> encounters.
+/// </summary>
+public sealed class CXDVerifier : Verifier
 {
-    /// <summary>
-    /// Verifies the specific origin data of <see cref="GameVersion.CXD"/> encounters.
-    /// </summary>
-    public sealed class CXDVerifier : Verifier
+    protected override CheckIdentifier Identifier => CheckIdentifier.Misc;
+
+    public override void Verify(LegalityAnalysis data)
     {
-        protected override CheckIdentifier Identifier => CheckIdentifier.Misc;
-        public override void Verify(LegalityAnalysis data)
-        {
-            var pkm = data.pkm;
-            if (data.EncounterMatch is EncounterStatic)
-                VerifyCXDStarterCorrelation(data);
-            else if (pkm.WasEgg) // can't obtain eggs in CXD
-                data.AddLine(GetInvalid(V80, CheckIdentifier.Encounter)); // invalid encounter
+        var pk = data.Entity;
+        if (data.EncounterMatch is EncounterStatic3XD { Species: (ushort)Species.Eevee })
+            VerifyStarterXD(data);
+        // Colo starters are already hard-verified. No need to check them here.
 
-            if (pkm.OT_Gender == 1)
-                data.AddLine(GetInvalid(V407, CheckIdentifier.Trainer));
-        }
-        private static void VerifyCXDStarterCorrelation(LegalityAnalysis data)
-        {
-            var pidiv = data.Info.PIDIV;
-            if (pidiv.Type != PIDType.CXD)
-                return;
+        if (pk.OriginalTrainerGender == 1)
+            data.AddLine(GetInvalid(CheckIdentifier.Trainer, G3OTGender));
 
-            bool valid;
-            var EncounterMatch = data.EncounterMatch;
-            var pkm = data.pkm;
-            switch (EncounterMatch.Species)
-            {
-                case 133:
-                    valid = LockFinder.IsXDStarterValid(pidiv.OriginSeed, pkm.TID, pkm.SID); break;
-                case 196:
-                case 197:
-                    valid = pidiv.Type == PIDType.CXD_ColoStarter; break;
-                default:
-                    return;
-            }
-            if (!valid)
-                data.AddLine(GetInvalid(V400, CheckIdentifier.PID));
-        }
+        // Trainer ID is checked in another verifier. Don't duplicate it here.
+    }
+
+    private static void VerifyStarterXD(LegalityAnalysis data)
+    {
+        // The starter in XD must have the correct PIDIV type.
+        var info = data.Info.PIDIV;
+        if (info.Type is not (PIDType.CXD or PIDType.CXD_ColoStarter))
+            return; // already flagged as invalid
+
+        // Ensure the TID/SID match the expected result, as this isn't hard-checked earlier.
+        var pk = data.Entity;
+
+        bool valid = MethodCXD.TryGetSeedStarterXD(pk, out var seed);
+        if (!valid)
+            data.AddLine(GetInvalid(CheckIdentifier.PID, EncConditionBadRNGFrame));
+        else
+            data.Info.PIDIV = new PIDIV(PIDType.CXD, seed);
     }
 }

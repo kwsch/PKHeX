@@ -1,31 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+public static partial class Util
 {
-    public static partial class Util
-    {
-        public static readonly Random Rand = new Random();
-        public static uint Rand32()
-        {
-            return (uint)Rand.Next(1 << 30) << 2 | (uint)Rand.Next(1 << 2);
-        }
+    /// <inheritdoc cref="Random.Shared"/>
+    public static Random Rand => Random.Shared;
 
-        /// <summary>
-        /// Shuffles the order of items within a collection of items.
-        /// </summary>
-        /// <typeparam name="T">Item type</typeparam>
-        /// <param name="items">Item collection</param>
-        public static void Shuffle<T>(IList<T> items)
-        {
-            int n = items.Count;
-            for (int i = 0; i < n; i++)
-            {
-                int r = i + Rand.Next(n-i);
-                T t = items[r];
-                items[r] = items[i];
-                items[i] = t;
-            }
-        }
-    }
+    /// <inheritdoc cref="Rand32(Random)"/>
+    /// <remarks>Uses <see cref="Random.Shared"/> to generate the random number.</remarks>
+    public static uint Rand32() => Rand32(Rand);
+
+    /// <summary>
+    /// Generates a random 32-bit unsigned integer.
+    /// </summary>
+    /// <param name="rnd">The <see cref="Random"/> instance used to generate the random number.</param>
+    /// <returns>A random 32-bit unsigned integer.</returns>
+    public static uint Rand32(this Random rnd) => (uint)rnd.NextInt64();
+
+    /// <summary>
+    /// Generates a 64-bit unsigned random number by combining two 32-bit random values.
+    /// </summary>
+    /// <remarks>
+    /// This method extends the <see cref="Random"/> class to provide a 64-bit random number by  combining the results of two 32-bit random number generations.
+    /// The lower 32 bits are  derived from one call to <c>Rand32</c>, and the upper 32 bits are derived from another call.
+    /// </remarks>
+    /// <param name="rnd">The <see cref="Random"/> instance used to generate the random values.</param>
+    /// <returns>A 64-bit unsigned integer representing the combined random value.</returns>
+    public static ulong Rand64(this Random rnd) => rnd.Rand32() | ((ulong)rnd.Rand32() << 32);
 }

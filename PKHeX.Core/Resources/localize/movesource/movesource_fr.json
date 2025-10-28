@@ -1,0 +1,21 @@
+{
+    "FormatMove": "{0} Capacité {1} : {2}",
+    "FormatRelearn": "{0} Capacité Réapprise {1} : {2}",
+    "SourceDefault": "Capacité par défaut.",
+    "SourceDuplicate": "Capacité dupliquée.",
+    "SourceEmpty": "Capacité vide.",
+    "SourceInvalid": "Capacité non valide.",
+    "SourceLevelUp": "Apprise par montée de niveau.",
+    "SourceRelearn": "Capacité réapprenable.",
+    "SourceSpecial": "Capacité non-réapprise spéciale.",
+    "SourceTMHM": "Apprise par CT/CS.",
+    "SourceTutor": "Apprise par Tuteur de Capacités.",
+    "SourceShared": "Capacité partagée non-réapprise.",
+    "RelearnEgg": "Capacité Œuf de base.",
+    "EggInherited": "Capacité Œuf héritée.",
+    "EggTMHM": "Capacité CT/CS héritée.",
+    "EggInheritedTutor": "Capacité tuteur héritée.",
+    "EggInvalid": "Capacité Œuf non attendue.",
+    "EggLevelUp": "Capacité héritée apprise par montée de niveau.",
+    "LevelUpSuffix": " @ lv{0}"
+}

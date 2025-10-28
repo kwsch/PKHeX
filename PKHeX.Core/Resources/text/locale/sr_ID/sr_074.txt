@@ -1,9 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-018,グリーンランド,Greenland,Groenland,Grönland,Groenlandia,Groenlandia,格陵兰,그린란드,
-019,デンマーク首都地域,Capital Region of Denmark,Hovedstaden,Hauptstadtregion,Hovedstaden,Hovedstaden,首都大区,덴마크 수도권 지역,
-020,中央ユラン地域,Central Denmark Region,Jutland-Central,Mitteljütland,Jutland Centrale,Jutlandia Central,中日德兰大区,중부 덴마크 지역,
-021,北ユラン地域,North Denmark Region,Jutland-du-Nord,Nordjütland,Jutland Settentrionale,Jutlandia Septentrional,北日德兰大区,북부 덴마크 지역,
-022,シェラン地域,Region Zealand,Zélande-du-Nord,Seeland,Sjælland,Selandia,西兰大区,셸란 지역,
-023,南デンマーク地域,Region of Southern Denmark,Danemark-du-Sud,Süddänemark,Syddanmark,Dinamarca del Sur,南丹麦大区,남부 덴마크 지역,
-024,フェロー諸島,Faroe Islands,Îles Féroé,Färöer,Isole Fær Øer,Islas Feroe,法罗群岛,페로 제도,

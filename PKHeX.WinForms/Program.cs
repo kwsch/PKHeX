@@ -1,160 +1,241 @@
-﻿using Microsoft.Win32;
 using System;
-using System.Diagnostics;
-using System.Windows.Forms;
-#if !DEBUG
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using PKHeX.Core;
+
+#if !DEBUG
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 #endif
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms;
+
+internal static class Program
 {
-    internal static class Program
+    // Pipelines build can sometimes tack on text to the version code. Strip it out.
+    public static readonly Version CurrentVersion = Version.Parse(GetSaneVersionTag(Application.ProductVersion));
+
+    public static readonly string WorkingDirectory = Path.GetDirectoryName(Environment.ProcessPath) ?? "";
+    public const string ConfigFileName = "cfg.json";
+    public static string PathConfig => Path.Combine(WorkingDirectory, ConfigFileName);
+
+    /// <summary>
+    /// Global settings instance, loaded before any forms are created.
+    /// </summary>
+    public static PKHeXSettings Settings { get; }
+
+    public static bool HaX { get; private set; }
+    static Program()
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        private static void Main()
-        {
 #if !DEBUG
-            // Add the event handler for handling UI thread exceptions to the event.
-            Application.ThreadException += UIThreadException;
-
-            // Set the unhandled exception mode to force all Windows Forms errors to go through our handler.
-            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-
-            // Add the event handler for handling non-UI thread exceptions to the event.
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        Application.ThreadException += UIThreadException;
+        Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 #endif
-            if (!CheckNETFramework())
-                return;
-            // Run the application
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        Settings = PKHeXSettings.GetSettings(PathConfig);
+
+        if (Settings.Startup.DarkMode)
+#pragma warning disable WFO5001
+            Application.SetColorMode(SystemColorMode.Dark);
+#pragma warning restore WFO5001
+    }
+
+    [STAThread]
+    private static void Main()
+    {
+        // Load settings first
+        var settings = Settings;
+        settings.LocalResources.SetLocalPath(WorkingDirectory);
+        StartupUtil.ReloadSettings(settings);
+
+        SplashScreen? splash = null;
+        if (!settings.Startup.SkipSplashScreen)
+        {
+            // Show splash screen on a dedicated STA thread so it can pump its own message loop.
+            var splashThread = new Thread(() =>
+            {
+                splash = new SplashScreen();
+                Application.Run(splash);
+            })
+            { IsBackground = true };
+            splashThread.SetApartmentState(ApartmentState.STA);
+            splashThread.Start();
         }
 
-        private static bool CheckNETFramework()
-        {
-            if (IsOnWindows())
-            {
-                #if MONO
-                Error("Mono version should not be used on a Windows system.");
-                #endif
-                if (GetFrameworkVersion() >= 393295)
-                    return true;
-                Error(".NET Framework 4.6 needs to be installed for this version of PKHeX to run.");
-                Process.Start("https://www.microsoft.com/download/details.aspx?id=48130");
-                return false;
-            }
+        var args = Environment.GetCommandLineArgs();
+        // Prepare initial values for the main form.
+        var startup = StartupUtil.GetStartup(args, settings);
+        var init = StartupUtil.FormLoadInitialActions(args, settings, CurrentVersion);
+        HaX = init.HaX;
+        var main = new Main();
 
-            //CLR Version 4.0.30319.42000 is equivalent to .NET Framework version 4.6
-            if (Environment.Version.CompareTo(Version.Parse("4.0.30319.42000")) >= 0)
-                return true;
-            Error("Your version of Mono needs to target the .NET Framework 4.6 or higher for this version of PKHeX to run.");
-            return false;
-        }
-        private static bool IsOnWindows()
+        // Close splash when Main is ready to display, then perform startup animation.
+        main.Shown += (_, _) =>
         {
-            // 4 -> UNIX, 6 -> Mac OSX, 128 -> UNIX (old)
-            int p = (int)Environment.OSVersion.Platform;
-            return p != 4 && p != 6 && p != 128;
-        }
-        private static int GetFrameworkVersion()
+            Task.Run(() => splash?.BeginInvoke(splash.ForceClose));
+            main.Activate();
+
+            // Follow-up: display popups if needed.
+            if (init.HaX)
+                main.WarnBehavior();
+            else if (init.ShowChangelog)
+                main.ShowAboutDialog(AboutPage.Changelog);
+            else if (init.BackupPrompt)
+                main.PromptBackup(settings.LocalResources.GetBackupPath());
+
+            Task.Run(main.CheckForUpdates);
+        };
+
+        // Setup complete.
+        if (Settings.Startup.PluginLoadEnable)
+            main.AttachPlugins();
+        main.LoadInitialFiles(startup);
+        Application.Run(main);
+    }
+
+    private static ReadOnlySpan<char> GetSaneVersionTag(ReadOnlySpan<char> productVersion)
+    {
+        for (int i = 0; i < productVersion.Length; i++)
         {
-            const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
-            using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
-            {
-                if (ndpKey == null)
-                    return 0;
-                int releaseKey = (int)ndpKey.GetValue("Release");
-                return releaseKey;
-            }
+            char c = productVersion[i];
+            if (c == '.')
+                continue;
+            if (char.IsNumber(c))
+                continue;
+            return productVersion[..i];
         }
-        private static void Error(string msg) => MessageBox.Show(msg, "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+        return productVersion;
+    }
 
 #if !DEBUG
-        // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
-        private static void UIThreadException(object sender, ThreadExceptionEventArgs t)
-        {
-            DialogResult result = DialogResult.Cancel;
-            try
-            {
-                result = ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nYou can continue running PKHeX, but please report this error.", t.Exception, true);
-            }
-            catch (Exception reportingException)
-            {
-                HandleReportingException(t.Exception, reportingException);
-            }
+    private static void Error(string msg) => MessageBox.Show(msg, "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
-            // Exits the program when the user clicks Abort.
-            if (result == DialogResult.Abort)
-                Application.Exit();
+    private static void UIThreadException(object sender, ThreadExceptionEventArgs t)
+    {
+        DialogResult result = DialogResult.Cancel;
+        try
+        {
+            var e = t.Exception;
+            string errorMessage = GetErrorMessage(e);
+            result = ErrorWindow.ShowErrorDialog(errorMessage, e, true);
+        }
+        catch (Exception reportingException)
+        {
+            HandleReportingException(t.Exception, reportingException);
         }
 
-        // Handle the UI exceptions by showing a dialog box, and asking the user whether
-        // or not they wish to abort execution.
-        // NOTE: This exception cannot be kept from terminating the application - it can only
-        // log the event, and inform the user about it.
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        if (result == DialogResult.Abort)
+            Application.Exit();
+    }
+
+    private static string GetErrorMessage(Exception e)
+    {
+        try
         {
-            var ex = e.ExceptionObject as Exception;
-            try
+            if (IsPluginError<IPlugin>(e, out var pluginName))
+                return $"An error occurred in a PKHeX plugin. Please report this error to the plugin author/maintainer.\n{pluginName}";
+        }
+        catch { }
+        return "An error occurred in PKHeX. Please report this error to the PKHeX author.";
+    }
+
+    private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        var ex = e.ExceptionObject as Exception;
+        try
+        {
+            if (IsOldPkhexCorePresent(ex))
             {
-                if (ex != null)
-                {
-                    ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX must now close.", ex, false);
-                }
-                else
-                {
-                    Error("A fatal non-UI error has occurred in PKHeX, and the details could not be displayed.  Please report this to the author.");
-                }
+                Error("You have upgraded PKHeX incorrectly. Please delete PKHeX.Core.dll.");
             }
-            catch (Exception reportingException)
+            else if (IsPkhexCoreMissing(ex))
             {
-                HandleReportingException(ex, reportingException);
+                Error("You have installed PKHeX incorrectly. Please ensure you have unzipped all files before running.");
+            }
+            else if (ex is not null)
+            {
+                var msg = GetErrorMessage(ex);
+                ErrorWindow.ShowErrorDialog($"{msg}\nPKHeX must now close.", ex, false);
+            }
+            else
+            {
+                Error("A fatal non-UI error has occurred in PKHeX, and the details could not be displayed.  Please report this to the author.");
             }
         }
-
-        private static void HandleReportingException(Exception ex, Exception reportingException)
+        catch (Exception reportingException)
         {
-            if (reportingException is FileNotFoundException x && x.FileName.StartsWith("PKHeX.Core"))
-            {
-                Error("Could not locate PKHeX.Core.dll. Make sure you're running PKHeX together with its code library. Usually caused when all files are not extracted.");
-                return;
-            }
-            try
-            {
-                Error("A fatal non-UI error has occurred in PKHeX, and there was a problem displaying the details.  Please report this to the author.");
-                EmergencyErrorLog(ex, reportingException);
-            }
-            finally
-            {
-                Application.Exit();
-            }
+            HandleReportingException(ex, reportingException);
         }
+    }
 
-        /// <summary>
-        /// Attempt to log exceptions to a file when there's an error displaying exception details.
-        /// </summary>
-        /// <param name="originalException"></param>
-        /// <param name="errorHandlingException"></param>
-        private static bool EmergencyErrorLog(Exception originalException, Exception errorHandlingException)
+    private static bool IsPluginError<T>(Exception exception, out string pluginName)
+    {
+        pluginName = string.Empty;
+        var stackTrace = new System.Diagnostics.StackTrace(exception);
+        foreach (var frame in stackTrace.GetFrames())
         {
-            try
-            {
-                // Not using a string builder because something's very wrong, and we don't want to make things worse
-                var message = (originalException?.ToString() ?? "null first exception") + Environment.NewLine + errorHandlingException;
-                File.WriteAllText($"PKHeX_Error_Report {DateTime.Now:yyyyMMddHHmmss}.txt", message);
-            }
-            catch (Exception)
-            {
-                // We've failed to save the error details twice now. There's nothing else we can do.
-                return false;
-            }
+            var method = frame.GetMethod();
+            var type = method?.DeclaringType;
+            if (!typeof(T).IsAssignableFrom(type))
+                continue;
+            pluginName = type.Namespace ?? string.Empty;
             return true;
         }
-#endif
+        return false;
     }
+
+    private static void HandleReportingException(Exception? ex, Exception reportingException)
+    {
+        try
+        {
+            EmergencyErrorLog(ex, reportingException);
+        }
+        catch
+        {
+        }
+        if (reportingException is FileNotFoundException x && x.FileName?.StartsWith("PKHeX.Core") == true)
+        {
+            Error("Could not locate PKHeX.Core.dll. Make sure you're running PKHeX together with its code library. Usually caused when all files are not extracted.");
+            return;
+        }
+        try
+        {
+            Error("A fatal non-UI error has occurred in PKHeX, and there was a problem displaying the details.  Please report this to the author.");
+        }
+        finally
+        {
+            Application.Exit();
+        }
+    }
+
+    private static bool EmergencyErrorLog(Exception? originalException, Exception errorHandlingException)
+    {
+        try
+        {
+            var message = (originalException?.ToString() ?? "null first exception") + Environment.NewLine + errorHandlingException;
+            File.WriteAllText($"PKHeX_Error_Report {DateTime.Now:yyyyMMddHHmmss}.txt", message);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private static bool IsOldPkhexCorePresent([NotNullWhen(true)] Exception? ex)
+    {
+        return ex is MissingMethodException or TypeLoadException or TypeInitializationException
+            && File.Exists("PKHeX.Core.dll")
+            && AssemblyName.GetAssemblyName("PKHeX.Core.dll").Version < CurrentVersion;
+    }
+
+    private static bool IsPkhexCoreMissing([NotNullWhen(true)] Exception? ex)
+    {
+        return ex is FileNotFoundException { FileName: {} n } && n.Contains("PKHeX.Core");
+    }
+#endif
 }

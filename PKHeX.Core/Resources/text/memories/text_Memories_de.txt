@@ -1,0 +1,90 @@
+﻿{0} scheint schöne Erinnerungen zu haben, kann sich aber gerade nicht entsinnen.
+{0} ist {1} {2} begegnet. Die gemeinsame Reise begann mit einem gezielten Pokéball-Wurf. {4} {3}.
+{0} hat {1} zum ersten Mal gesehen, als es {2} aus seinem Ei geschlüpft ist. {4} {3}.
+{0} ist {1} {2} begegnet. {4} {3}.
+{0} gelangte durch einen Tausch {2} in das Team von {1}. {4} {3}.
+{0} ist mit {1} in ein Pokémon-Center gegangen, um {2} zu kaufen. {4} {3}.
+{0} wurde von {1} ins Pokémon-Center gebracht und aufgepäppelt. {4} {3}.
+{0} war mit {1} angeln. Zusammen haben sie ein {2} an Land gezogen. {4} {3}.
+{0} war mit {1} angeln, als ihnen ein mühsam an Land gezogenes Pokémon doch noch entkommen ist. {4} {3}.
+{0} hat gesehen, wie {1} sich um ein {2} gekümmert hat. {4} {3}.
+{0} hat von {1} Süßigkeiten bekommen. {4} {3}.
+{0} war mit {1} Klamotten shoppen. {4} {3}.
+{0} bekam von {1} die Attacke {2} beigebracht. {4} {3}.
+{0} hat {1} dabei geholfen, ein {2} aus einem Ei schlüpfen zu lassen. {4} {3}.
+{0} war dabei, als {1} ein {2} gefangen hat. {4} {3}.
+Als {0} in der Klemme steckte, hat {1} {2} eingesetzt. {4} {3}.
+{0} hat auf Anweisung von {1} die Attacke {2} eingesetzt, aber sie zeigte keine Wirkung. {4} {3}.
+{0} hat an der Seite von {1} gekämpft und ein {2} besiegt. {4} {3}.
+{0} wurde von einem {2} besiegt und ist mit {1} geflüchtet. {4} {3}.
+{0} wurde von {1} trainiert und hat sich dann {2} entwickelt. {4} {3}.
+{0} ist übers Wasser gesurft und hat dabei {1} auf dem Rücken getragen. {4} {3}.
+{0} hat gesehen, wie {1} von einem {2} auf dessen Rücken getragen wurde. {4} {3}.
+{0} hat mit {1} einen Arenaleiterkampf gewonnen. {4} {3}.
+Als {1} sich der Herausforderung im Kampfhaus gestellt hat, war {0} extrem nervös. {4} {3}.
+{0} ist mit {1} auf dem Rücken losgeflogen, um dann {2} zu landen. {4} {3}.
+{0} wurde zusammen mit {1} von einem wilden {2} überrascht. {4} {3}.
+{0} hat gesehen, wie {1} {2} eingesetzt hat. {4} {3}.
+{0} hat zusammen mit {1} den Champ besiegt. {4} {3}.
+{0} war dabei, als {1} den Pokédex vervollständigt hat. {4} {3}.
+{0} und {1} sind zusammen einem {2} begegnet. {4} {3}.
+{0} war dabei, als {1} die höchste Autorität in Sachen Kämpfe besiegt hat. {4} {3}.
+{0} hat mit {1} {2} mit dem Itemradar nach versteckten Items gesucht. {4} {3}.
+{0} war mit {1} {2} Radfahren. {4} {3}.
+{0} hat mit {1} {2} auf der Karte überprüft, wo es langgeht. {4} {3}.
+{0} hat mit {1} {2} gepflanzt und sich vorgestellt, wie reich die Ernte sein würde. {4} {3}.
+{0} hat auf Wunsch von {1} stolz die Attacke Stärke {2} eingesetzt. {4} {3}.
+{0} hat auf Wunsch von {1} die Attacke Zerschneider {2} zur Schau gestellt. {4} {3}.
+{0} hat auf Wunsch von {1} mit aller Kraft {2} einen Felsen zertrümmert. {4} {3}.
+{0} hat die Attacke Kaskade {2} eingesetzt, während {1} auf seinem Rücken saß. {4} {3}.
+{0} hat gesehen, wie {1} heimlich etwas {2} aufgehoben hat. {4} {3}.
+{0} hat von {1} {2} zum Tragen bekommen. {4} {3}.
+{0} ist mit {1} zur Siegesstraße gegangen. {4} {3}.
+{0} hat mit {1} {2} ein Schild gelesen. {4} {3}.
+{0} war sehr beeindruckt von der Geschwindigkeit des Zugs, den es mit {1} genommen hatte. {4} {3}.
+{0} hat mit {1} das Pokéradar benutzt und zusammen sind sie einem {2} begegnet. {4} {3}.
+{0} war mit {1} unterwegs, als sie plötzlich von einem wilden {2} angegriffen wurden. Völlig überrumpelt haben sie das Weite gesucht. {4} {3}.
+{0} hat mit {1} im Haus der Prüfung eine hohe Punktzahl erreicht. {4} {3}.
+{0} hat über {1} den Richter kennengelernt, der es unverwandt angestarrt hat. {4} {3}.
+{0} hat über {1} den Attacken-Verlerner kennengelernt, durch den es {2} vergessen hat. {4} {3}.
+{0} konnte sich unter Anleitung von {1} wieder an {2} erinnern. {4} {3}.
+{0} wurde von {1} in der Pokémon-Pension abgegeben und verbrachte seine Zeit dort mit einem {2}. {4} {3}.
+{0} war neidisch, als {1} mit einem Los {2} gewonnen hat. {4} {3}.
+{0} war dabei, als {1} das Item Schutz {2} eingesetzt hat. {4} {3}.
+{0} hat mit {1} ein anstrengendes Spezialtraining absolviert. {4} {3}.
+{0} hat mit {1} einen Fahrstuhl genommen. {4} {3}.
+{0} wurde von {1} zum Namenbewerter gebracht und hat dort einen schicksalhaften Namen erhalten. {4} {3}.
+{0} war mit {1} in einer Boutique. {1} hat einiges anprobiert, aber nichts gekauft. {4} {3}.
+{0} war mit {1} in einem tollen Restaurant und hat dort ordentlich gemampft. {4} {3}.
+{0} wurde von {1} zu einer freundlichen Frau gebracht, die sich liebevoll um es gekümmert hat. {4} {3}.
+{0} hat mit {1} {2} einen Abfalleimer durchstöbert. {4} {3}.
+{0} hat mit {1} gegen ein {2} gekämpft und sich dabei so sehr angestrengt, dass es sogar Verzweifler eingesetzt hat. {4} {3}.
+{0} war mit {1} auf einem hohen Turm und hat von dort die Welt unter sich betrachtet. {4} {3}.
+{0} war mit {1} in der Spiegelhöhle und hat dort sein Spiegelbild betrachtet. {4} {3}.
+{0} hat sich mit {1} fast verlaufen, als sie gemeinsam einen Wald erkundet haben. {4} {3}.
+{0} war mit {1} in einer Fabrik, in der es viele kompliziert aussehende Maschinen gab. {4} {3}.
+{0} war dabei, als {1} eine Geheimbasis eingerichtet hat. {4} {3}.
+{0} hat mit {1} an einem Wettbewerb teilgenommen und dabei viele Leute beeindruckt. {4} {3}.
+{0} hat mit {1} an einem Wettbewerb teilgenommen und einen spektakulären Sieg errungen. {4} {3}.
+{0} ist mit {1} per Überflieger durch die Lüfte gesaust und zu vielen verschiedenen Orten geflogen. {4} {3}.
+{0} wurde von {1} gebeten, in die Tiefe hinabzutauchen und den Meeresboden zu erkunden. {4} {3}.
+{0} hat sich mit {1} {2} auf eine Bank gesetzt. {4} {3}.
+{0} hat mit {1} gegen ein dynamaximiertes {2} gekämpft. {4} {3}.
+{0} hat sich auf Befehl von {1} dynamaximiert und gegen ein {2} gekämpft. {4} {3}.
+{0} war mit {1} campen. {4} {3}.
+{0} hat zusammen mit {1} gekocht. {4} {3}.
+{0} wurde von {1} im Pokémon-Hort abgegeben und verbrachte seine Zeit dort mit einem {2}. {4} {3}.
+{0} hat mit {1} im Pokémon-Center Geburtstag gefeiert. {4} {3}.
+{0} war mit {1} im Friseursalon und hat gesehen, wie schwer es {1} gefallen ist, sich für eine Frisur zu entscheiden. {4} {3}.
+{0} war mit {1} unterwegs, als es anfing zu regnen. Beide wurden klitschnass. {4} {3}.
+{0} hat mit {1} an einer Rallye teilgenommen, bei der sie rasend schnell waren. {4} {3}.
+Als {0} in einer Box war, hat es sich {1} zuliebe überlegt, wie es {2} gut einsetzen könnte. {4} {3}.
+Als {0} in einer Box war, hat es eine besonders coole Pose für die Attacke {2} geübt, damit es von {1} gelobt wird. {4} {3}.
+{0} war in derselben Box wie {2} und hat sich gut mit ihm über {1} unterhalten. {4} {3}.
+{0} hat sich in einer Box mit {2} angefreundet. Zusammen haben sie Attacken geübt und über den Tag geredet, an dem sie von {1} gelobt werden würden. {4} {3}.
+Als {0} in einer Box war, hat es sich darüber Sorgen gemacht, dass {1} das Item suchen könnte, das es bei sich trug. Es war {2}. {4} {3}.
+Als {1} in einer Box nach {0} sehen kam, war es so nervös, dass es den Blick nicht heben konnte. {4} {3}.
+Als {0} in einer Box war, hat es gehört, wie {1} {2} ankam. Es konnte sich diesen Moment bildlich vorstellen. {4} {3}.
+Als {0} in derselben Box wie {2} war, haben sie sich über {1} gestritten. {4} {3}.
+Als {0} in einer Box war, hat es darüber nachgedacht, warum {1} ihm {2} zum Tragen gegeben hatte. {4} {3}.
+Als {0} in einer Box war, hatte es einen seltsamen Traum, in dem {1} {2} eingesetzt hat. {4} {3}.

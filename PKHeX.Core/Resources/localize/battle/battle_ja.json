@@ -1,0 +1,35 @@
+{
+ "StatNames": {
+  "Names": ["HP", "攻撃", "防御", "特攻", "特防", "素早さ"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "StatNamesFull": {
+  "Names": ["HP", "攻撃", "防御", "特攻", "特防", "素早さ"],
+  "ValueGap":  " ",
+  "Separator": " / "
+ },
+ "Male":  "男性",
+ "Female":  "女性",
+ "Left": [
+  { "Token": "Friendship", "Text": "なつき度 " },
+  { "Token": "EVs", "Text": "努力値 " },
+  { "Token": "IVs", "Text": "個体値 " },
+  { "Token": "AVs", "Text": "AVs " },
+  { "Token": "GVs", "Text": "頑張る " },
+  { "Token": "Level", "Text": "Lv " },
+  { "Token": "Ability", "Text": "特性 " },
+  { "Token": "DynamaxLevel", "Text": "ダイマックスレベル " },
+  { "Token": "TeraType", "Text": "テラスタイプ " },
+  { "Token": "Gender", "Text": "性別 "},
+  { "Token": "Nickname", "Text": "ニックネーム "},
+  { "Token": "HeldItem", "Text": "持ち物 "}
+ ],
+ "Right": [
+  { "Token": "Nature", "Text": "性格" }
+ ],
+ "Center": [
+  { "Token": "Shiny", "Text": "光ひかる: はい" },
+  { "Token": "Gigantamax", "Text": "キョダイマックス: はい" }
+ ]
+}

@@ -1,0 +1,256 @@
+﻿(Aucun)
+Master Ball
+Hyper Ball
+Super Ball
+Poké Ball
+Carte
+Bicyclette
+????? (7)
+Safari Ball
+Pokédex
+Pierre Lune
+Antidote
+Anti-Brûle
+Antigel
+Réveil
+Anti-Para
+Guérison
+Potion Max
+Hyper Potion
+Super Potion
+Potion
+Badge Roche
+Badge Cascade
+Badge Foudre
+Badge Prisme
+Badge Âme
+Badge Marais
+Badge Volcan
+Badge Terre
+Corde Sortie
+Repousse
+Vieil Ambre
+Pierre Feu
+Pierrefoudre
+Pierre Eau
+PV Plus
+Proteine
+Fer
+Carbone
+Calcium
+Super Bonbon
+Fossile Dôme
+Nautile
+Clé Secrète
+????? (44)
+Bon Commande
+Précision +
+Pierreplante
+Carte Magnétique
+Pépite
+PP Plus (Inutilisé)
+Poké Poupée
+Total Soin
+Rappel
+Rappel Max
+Défense Spéciale
+Super Repousse
+Repousse Max
+Muscle +
+Pièce
+Eau Fraîche
+Soda Cool
+Limonade
+Passe Bateau
+Dent d'Or
+Attaque +
+Défense +
+Vitesse +
+Spécial +
+Boite Jetons
+Colis
+Cherch'Objet
+Scope Sylphe
+Poké Flute
+Clé Ascenseur
+Multi Exp
+Acienne Canne
+Super Canne
+Méga Canne
+PP Plus
+Huile
+Huile Max
+Élixir
+Max Élixir
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HM01
+HM02
+HM03
+HM04
+HM05
+TM01
+TM02
+TM03
+TM04
+TM05
+TM06
+TM07
+TM08
+TM09
+TM10
+TM11
+TM12
+TM13
+TM14
+TM15
+TM16
+TM17
+TM18
+TM19
+TM20
+TM21
+TM22
+TM23
+TM24
+TM25
+TM26
+TM27
+TM28
+TM29
+TM30
+TM31
+TM32
+TM33
+TM34
+TM35
+TM36
+TM37
+TM38
+TM39
+TM40
+TM41
+TM42
+TM43
+TM44
+TM45
+TM46
+TM47
+TM48
+TM49
+TM50
+TM51
+TM52
+TM53
+TM54
+TM55

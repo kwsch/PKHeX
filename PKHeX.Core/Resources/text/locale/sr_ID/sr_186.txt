@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,バーミューダ,Bermuda,Bermudes,Bermuda,Bermude,Bermudas,百慕大,버뮤다,

@@ -1,0 +1,272 @@
+0x237	s	獲得秘傳學習器01居合斬
+0x238	s	獲得秘傳學習器02飛翔
+0x239	s	獲得秘傳學習器03衝浪
+0x23A	s	獲得秘傳學習器04怪力
+0x23B	s	獲得秘傳學習器05閃光
+0x2EF	s	獲得秘傳學習器06碎岩
+
+0x820	*	獲得灰色徽章
+0x821	*	獲得藍色徽章
+0x822	*	獲得橙色徽章
+0x823	*	獲得彩虹徽章
+0x824	*	獲得粉紅徽章
+0x825	*	獲得金色徽章
+0x826	*	獲得深紅徽章
+0x827	*	獲得綠色徽章
+
+0x24B	g	在地下通道交換
+0x24D	g	在枯葉市交換
+0x248	g	在2號道路交換
+0x257	g	在18號道路交換
+0x274	g	在紅蓮研究所交換
+
+0x249	g	購買鯉魚王
+0x232	g	獲得貝殼化石/甲殼化石
+0x057	g	獲得伊布
+0x246	g	獲得拉普拉斯
+0x278	g	獲得快拳郎/飛腿郎
+0x2DA	g	獲得波克比的蛋
+
+0x2A7	e	從神秘禮物中獲得極光船票
+0x2A8	e	從神秘禮物中獲得神秘船票
+
+0x2F0	e	顯示神秘船票
+0x2F1	e	顯示極光船票
+
+0x84A	e	可以前往肚臍岩
+0x84B	e	可以前往誕生之島
+
+0x2BE	r	捕獲/打敗急凍鳥
+0x2BF	r	捕獲/打敗閃電鳥
+0x2BD	r	捕獲/打敗火焰鳥
+0x2F2	r	捕獲洛奇亞
+0x2F5	r	打敗洛奇亞
+0x2F3	r	捕獲鳳王
+0x2F6	r	打敗鳳王
+0x2E4	r	捕獲代歐奇希斯
+0x2F7	r	打敗代歐奇希斯
+0x085	r	打敗霹靂電球(1)
+0x086	r	打敗霹靂電球(2)
+0x2D0	r	打敗頑皮雷蛋(1)
+0x2D2	r	打敗頑皮雷蛋(2)
+
+0x060	r	隱藏地區 (飛腿郎)
+0x061	r	隱藏地區 (快拳郎)
+0x02F	r	隱藏地區 (甲殼化石)
+0x030	r	隱藏地區 (貝殼化石)
+0x082	r	隱藏地區 (急凍鳥)
+0x05D	r	隱藏地區 (閃電鳥)
+0x052	r	隱藏地區 (火焰鳥)
+0x081	r	隱藏地區 (超夢)
+0x09B	r	隱藏地區 (洛奇亞)
+0x09C	r	隱藏地區 (鳳王)
+0x09A	r	隱藏地區 (代歐奇希斯)
+0x054	r	隱藏地區 (卡比獸, 12號道路)
+0x080	r	隱藏地區 (卡比獸, 16號道路)
+
+0x2C0	*	冠軍之路教授招式 (捨身衝撞)
+0x2C1	*	西爾佛公司教授招式(電磁波)
+0x2C2	*	岩石隧道教授招式(岩崩)
+0x2C3	*	燈火山教授招式(大爆炸)
+0x2C4	*	4號道路教授招式(百萬噸重拳)
+0x2C5	*	4號道路教授招式(百萬噸重踢)
+0x2C6	*	常青市教授招式(食夢)
+0x2C7	*	玉虹百貨公司教授招式(生蛋)
+0x2C8	*	淺紅市教授招式(替身)
+0x2C9	*	七之島教授招式(劍舞)
+0x2CA	*	深灰市教授招式(地球上投)
+0x2CB	*	玉虹市教授招式(雙倍奉還)
+0x2CC	*	紅蓮鎮教授招式(揮指)
+0x2CD	*	金黃市教授招式(模仿)
+0x2CE	*	四之島教授招式(泰山壓頂)
+0x2DE	*	歧波海灣祈禱師教授招式(瘋狂植物)
+0x2DF	*	歧波海灣祈禱師教授招式(爆炸烈焰)
+0x2E0	*	歧波海灣祈禱師教授招式(加農水炮)
+0x2E1	*	歧波海灣祈禱師已教授所有3個招式
+
+0x829	s	獲得寶可夢圖鑒
+0x82F	s	獲得跑步鞋
+0x834	s	解鎖正輝的電腦
+0x839	s	開啟神秘禮物
+0x840	s	收到全國圖鑒
+0x2A1	s	恢復了與關都的連接
+0x844	s	恢復了與豐緣的連接
+0x845	s	收到三島通行證
+0x846	s	收到七島通行證
+0x29B	s	獲得聲音記錄器
+0x241	s	獲得兌換券
+0x2A5	s	獲得電梯鑰匙
+0x2A6	s	獲得茶
+0x23C	s	營救富士老人
+0x23D	s	獲得寶可夢之笛
+0x82C	s	進入名人堂
+0x2DD	s	獲得紅寶石
+0x2E3	s	點之穴門打開
+0x2D8	s	藍寶石被盜
+0x2D6	s	火箭隊倉庫門打開
+0x2DC	s	獲得藍寶石
+0x2FA	s	獲得不變之石(大木博士助手, 岩石隧道寶可夢中心)
+0x252	s	獲得探寶器  (大木博士助手, 11號道路)
+0x256	s	獲得學習裝置(大木博士助手, 15號道路)
+0x2FD	s	獲得護符金幣 大木博士助手, 16號道路)
+0x25E	s	獲得秘密琥珀
+0x236	s	把果汁牛奶交給口渴的女孩
+0x2D9	s	設置赫拉克羅斯長度記錄
+0040	s	大木博士的妙蛙種子精靈球消失了
+0041	s	大木博士的傑尼龜精靈球消失了
+0042	s	大木博士的小火龍精靈球消失了
+2121	s	阿斯卡納的鎖謎題解開/野生未知圖騰在阿斯卡納石室出現
+0424	s	Found Secret Key
+1190	s	Found Lava Cookie in S.S. Anne port
+0626	s	Chose Dome Fossil (Omanyte in Pokémon Zoo)
+0627	s	Chose Helix Fossil (Kabuto in Pokémon Zoo)
+2192	f	Can Fly to Pallet Town
+2193	f	Can Fly to Viridian City
+2194	f	Can Fly to Pewter City
+2195	f	Can Fly to Cerulean City
+2196	f	Can Fly to Lavender Town
+2197	f	Can Fly to Vermilion City
+2198	f	Can Fly to Celadon City
+2199	f	Can Fly to Fuchsia City
+2200	f	Can Fly to Cinnabar Island
+2201	f	Can Fly to Indigo Plateau
+2202	f	Can Fly to Saffron City
+2203	f	Can Fly to One Island
+2204	f	Can Fly to Two Island
+2205	f	Can Fly to Three Island
+2206	f	Can Fly to Four Island
+2207	f	Can Fly to Five Island
+2209	f	Can Fly to Six Island
+2208	f	Can Fly to Seven Island
+2210	f	Can Fly to Route 4 (Pokémon Center)
+2211	f	Can Fly to Route 10 (Pokémon Center)
+1381	t	Had Youngster Ben 1st Rematch
+1778	t	Had Youngster Ben 2nd Rematch
+1779	t	Had Youngster Ben 3rd Rematch
+1780	t	Had Youngster Chad 1st Rematch
+1786	t	Had Youngster Chad 2nd Rematch
+1789	t	Had Youngster Chad 3rd Rematch
+1781	t	Had Lass Reli 1st Rematch
+1782	t	Had Lass Reli 2nd Rematch
+1383	t	Had Youngster Timmy 1st Rematch
+1784	t	Had Youngster Timmy 2nd Rematch
+1785	t	Had Youngster Timmy 3rd Rematch
+1787	t	Had Lass Janice 1st Rematch
+1788	t	Had Lass Janice 2nd Rematch
+1790	t	Had Hiker Franklin Rematch
+1813	t	Had Twins Eli and Anne Rematch
+1874	t	Had PokéManiac Mark 1st Rematch
+1924	t	Had PokéManiac Mark 2nd Rematch
+1901	t	Had Picnicker Kelsey 1st Rematch
+1902	t	Had Picnicker Kelsey 2nd Rematch
+1903	t	Had Picnicker Kelsey 3rd Rematch
+1904	t	Had Camper Ricky 1st Rematch
+1905	t	Had Camper Ricky 2nd Rematch
+1906	t	Had Camper Ricky 3rd Rematch
+1907	t	Had Camper Jeff 1st Rematch
+1908	t	Had Camper Jeff 2nd Rematch
+1909	t	Had Camper Jeff 3rd Rematch
+1910	t	Had Picnicker Isabelle 1st Rematch
+1911	t	Had Picnicker Isabelle 2nd Rematch
+1912	t	Had Picnicker Isabelle 3rd Rematch
+1913	t	Had Youngster Yasu 1st Rematch
+1914	t	Had Youngster Yasu 2nd Rematch
+1915	t	Had Engineer Bernie Rematch
+1916	t	Had Gamer Darian Rematch
+1917	t	Had Camper Chris 1st Rematch
+1918	t	Had Camper Chris 2nd Rematch
+1919	t	Had Camper Chris 3rd Rematch
+1920	t	Had Picnicker Alicia 1st Rematch
+1921	t	Had Picnicker Alicia 2nd Rematch
+1922	t	Had Picnicker Alicia 3rd Rematch
+1923	t	Had Hiker Jeremy Rematch
+1925	t	Had PokéManiac Herman 1st Rematch
+1926	t	Had PokéManiac Herman 2nd Rematch
+1927	t	Had Hiker Trent Rematch
+1928	t	Had Lass Megan 1st Rematch
+1929	t	Had Lass Megan 2nd Rematch
+1930	t	Had Super Nerd Glenn Rematch
+1931	t	Had Gamer Rich Rematch
+1932	t	Had Biker Jaren Rematch
+1933	t	Had Fisherman Elliot Rematch
+1934	t	Had Rocker Luca Rematch
+1935	t	Had Beauty Sheila Rematch
+1936	t	Had Bird Keeper Robert 1st Rematch
+1937	t	Had Bird Keeper Robert 2nd Rematch
+1938	t	Had Picnicker Susie 1st Rematch
+1939	t	Had Picnicker Susie 2nd Rematch
+1940	t	Had Picnicker Susie 3rd Rematch
+1941	t	Had Biker Lukas Rematch
+1942	t	Had Bird Keeper Benny 1st Rematch
+1943	t	Had Bird Keeper Benny 2nd Rematch
+1944	t	Had Bird Keeper Marlon 1st Rematch
+1945	t	Had Bird Keeper Marlon 2nd Rematch
+1946	t	Had Beauty Grace Rematch
+1947	t	Had Bird Keeper Chester 1st Rematch
+1948	t	Had Bird Keeper Chester 2nd Rematch
+1949	t	Had Picnicker Becky 1st Rematch
+1950	t	Had Picnicker Becky 2nd Rematch
+1951	t	Had Picnicker Becky 3rd Rematch
+1952	t	Had Crush Kin Ron and Mya 1st Rematch
+1953	t	Had Crush Kin Ron and Mya 2nd Rematch
+1954	t	Had Crush Kin Ron and Mya 3rd Rematch
+1955	t	Had Biker Ruben Rematch
+1956	t	Had Cue Ball Camron Rematch
+1957	t	Had Biker Jaxon Rematch
+1958	t	Had Cue Ball Isaiah Rematch
+1959	t	Had Cue Ball Corey Rematch
+1960	t	Had Bird Keeper Jacob 1st Rematch
+1961	t	Had Bird Keeper Jacob 2nd Rematch
+1962	t	Had Swimmer Alice Rematch
+1963	t	Had Swimmer Darrin Rematch
+1964	t	Had Picnicker Missy 1st Rematch
+1965	t	Had Picnicker Missy 2nd Rematch
+1966	t	Had Fisherman Wade Rematch
+1967	t	Had Swimmer Jack Rematch
+1968	t	Had Sis and Bro Lil and Ian 1st Rematch
+1969	t	Had Sis and Bro Lil and Ian 2nd Rematch
+1970	t	Had Swimmer Finn Rematch
+1971	t	Had Crush Girl Sharon 1st Rematch
+1972	t	Had Crush Girl Sharon 2nd Rematch
+1973	t	Had Crush Girl Tanya 1st Rematch
+1974	t	Had Crush Girl Tanya 2nd Rematch
+1975	t	Had Black Belt Shea 1st Rematch
+1976	t	Had Black Belt Shea 2nd Rematch
+1977	t	Had Black Belt Hugh 1st Rematch
+1978	t	Had Black Belt Hugh 2nd Rematch
+1979	t	Had Crush Kin Mik and Kia 1st Rematch
+1980	t	Had Crush Kin Mik and Kia 2nd Rematch
+1981	t	Had Tuber Amira Rematch
+1982	t	Had Twins Joy and Meg Rematch
+1983	t	Had Painter Rayna Rematch
+1984	t	Had Youngster Destin Rematch
+1985	t	Had Pokémon Breeder Alize Rematch
+1986	t	Had Young Couple Gia and Jes 1st Rematch
+1987	t	Had Young Couple Gia and Jes 2nd Rematch
+1988	t	Had Bird Keeper Milo Rematch
+1989	t	Had Bird Keeper Chaz Rematch
+1990	t	Had Bird Keeper Harold Rematch
+1991	t	Had Swimmer Nicole Rematch
+1992	t	Had Psychic Jaclyn Rematch
+1993	t	Had Swimmer Samir Rematch
+1994	t	Had Hiker Earl Rematch
+1995	t	Had Ruin Maniac Larry Rematch
+1996	t	Had PokéManiac Hector Rematch
+1997	t	Had Psychic Dario Rematch
+1998	t	Had Psychic Rodette Rematch
+1999	t	Had Juggler Mason Rematch
+2000	t	Had Pokémon Ranger Nicolas Rematch
+2001	t	Had Pokémon Ranger Madeline Rematch
+2002	t	Had Crush Girl Cyndy Rematch
+2003	t	Had Tamer Evan Rematch
+2004	t	Had Pokémon Ranger Jackson Rematch
+2005	t	Had Pokémon Ranger Katelyn Rematch
+2006	t	Had Cooltrainer Leroy Rematch
+2007	t	Had Cooltrainer Michelle Rematch
+2008	t	Had Cool Couple Lex and Nya Rematch
+2009	t	Had Bug Catcher Colton 1st Rematch
+2010	t	Had Bug Catcher Colton 2nd Rematch
+2011	t	Had Bug Catcher Colton 3rd Rematch
+2012	t	Had Swimmer Matthew Rematch
+2013	t	Had Swimmer Tony Rematch
+2014	t	Had Swimmer Melissa Rematch

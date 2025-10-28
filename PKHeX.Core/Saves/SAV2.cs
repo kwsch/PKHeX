@@ -1,635 +1,865 @@
-﻿using System;
-using System.Linq;
+using System;
+using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Generation 2 <see cref="SaveFile"/> object.
+/// </summary>
+public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWorkArray<byte>, IBoxDetailName, IDaycareStorage, IDaycareEggState
 {
+    protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
+    public override string Extension => ".sav";
+    public bool IsVirtualConsole => State.Exportable && Metadata.FileName is { } s && s.StartsWith("sav", StringComparison.Ordinal) && s.Contains(".dat"); // default to GB-Era for non-exportable
+
+    public int SaveRevision => Japanese ? 0 : !Korean ? 1 : 2;
+    public string SaveRevisionString => (Japanese ? "J" : !Korean ? "U" : "K") + (IsVirtualConsole ? "VC" : "GB");
+    public bool Japanese { get; }
+    public bool Korean { get; }
+    public override int Language { get; set; }
+
     /// <summary>
-    /// Generation 2 <see cref="SaveFile"/> object.
+    /// Rather than deal with managing lists on each slot read/write, store all sequentially in a single buffer.
     /// </summary>
-    public sealed class SAV2 : SaveFile
+    private readonly Memory<byte> Reserved = new byte[0x8000]; // chunk of RAM to store unpacked [..box, ..party, ..etc] data
+
+    protected override Span<byte> BoxBuffer => Reserved.Span;
+    protected override Span<byte> PartyBuffer => Reserved.Span;
+
+    private readonly SAV2Offsets Offsets;
+
+    public override PersonalTable2 Personal { get; }
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_GSC;
+
+    public override IReadOnlyList<string> PKMExtensions => Korean ? ["pk2"]
+        : EntityFileExtension.GetExtensionsAtOrBelow(2);
+
+    public SAV2(LanguageID language = LanguageID.English, GameVersion version = GameVersion.C) : base(SaveUtil.SIZE_G2RAW_J)
     {
-        public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
-        public override string Filter => "SAV File|*.sav|All Files|*.*";
-        public override string Extension => ".sav";
-        public override string[] PKMExtensions => PKM.Extensions.Where(f =>
+        Version = version;
+        switch (language)
         {
-            int gen = f.Last() - 0x30;
-            if (Korean)
-                return gen == 2;
-            return 1 <= gen && gen <= 2;
-        }).ToArray();
+            case LanguageID.Japanese:
+                Japanese = true;
+                Language = 1;
+                break;
+            case LanguageID.Korean:
+                Korean = true;
+                Language = (int)LanguageID.Korean;
+                break;
+            default: // otherwise, both false
+                Language = -1;
+                break;
+        }
+        Offsets = new SAV2Offsets(this);
+        Personal = Version == GameVersion.C ? PersonalTable.C : PersonalTable.GS;
+        Initialize();
+        ClearBoxes();
+    }
 
-        public SAV2(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
+    public SAV2(Memory<byte> data, LanguageID language, GameVersion version) : base(data)
+    {
+        Version = version == GameVersion.C ? GameVersion.C : GameVersion.GS;
+        Japanese = language == LanguageID.Japanese;
+        Korean = language == LanguageID.Korean;
+        Language = (int)language;
+
+        Offsets = new SAV2Offsets(this);
+        Personal = Version == GameVersion.C ? PersonalTable.C : PersonalTable.GS;
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        Box = Data.Length;
+        Party = GetPartyOffset(0);
+
+        // Stash boxes after the save file's end.
+        int splitAtIndex = (Japanese ? 6 : 7);
+        int stored = SIZE_BOX_LIST;
+        var capacity = BoxSlotCount;
+        for (int i = 0; i < BoxCount; i++)
         {
-            Data = data ?? new byte[SaveUtil.SIZE_G2RAW_U];
-            BAK = (byte[])Data.Clone();
-            Exportable = !IsRangeEmpty(0, Data.Length);
-
-            if (data == null)
-                Version = GameVersion.C;
-            else if (versionOverride != GameVersion.Any)
-                Version = versionOverride;
-            else
-                Version = SaveUtil.GetIsG2SAV(Data);
-
-            if (Version == GameVersion.Invalid)
-                return;
-
-            Japanese = SaveUtil.GetIsG2SAVJ(Data) != GameVersion.Invalid;
-            if (!Japanese)
-                Korean = SaveUtil.GetIsG2SAVK(Data) != GameVersion.Invalid;
-
-            Box = Data.Length;
-            Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
-            Party = GetPartyOffset(0);
-
-            Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
-
-            Offsets = new SAV2Offsets(this);
-
-            LegalItems = Legal.Pouch_Items_GSC;
-            LegalBalls = Legal.Pouch_Ball_GSC;
-            LegalKeyItems = Version == GameVersion.C ? Legal.Pouch_Key_C : Legal.Pouch_Key_GS;
-            LegalTMHMs = Legal.Pouch_TMHM_GSC;
-            HeldItems = Legal.HeldItems_GSC;
-
-            // Stash boxes after the save file's end.
-            byte[] TempBox = new byte[SIZE_STOREDBOX];
-            for (int i = 0; i < BoxCount; i++)
-            {
-                if (i < (Japanese ? 6 : 7))
-                    Array.Copy(Data, 0x4000 + i * (TempBox.Length + 2), TempBox, 0, TempBox.Length);
-                else
-                    Array.Copy(Data, 0x6000 + (i - (Japanese ? 6 : 7)) * (TempBox.Length + 2), TempBox, 0, TempBox.Length);
-                PokemonList2 PL2 = new PokemonList2(TempBox, Japanese ? PokemonList2.CapacityType.StoredJP : PokemonList2.CapacityType.Stored, Japanese);
-                for (int j = 0; j < PL2.Pokemon.Length; j++)
-                {
-                    if (j < PL2.Count)
-                    {
-                        byte[] pkDat = new PokemonList2(PL2[j]).GetBytes();
-                        pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + i * SIZE_BOX + j * SIZE_STORED);
-                    }
-                    else
-                    {
-                        byte[] pkDat = new byte[PokemonList2.GetDataLength(PokemonList2.CapacityType.Single, Japanese)];
-                        pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + i * SIZE_BOX + j * SIZE_STORED);
-                    }
-                }
-            }
-
-            Array.Copy(Data, Offsets.CurrentBox, TempBox, 0, TempBox.Length);
-            PokemonList2 curBoxPL = new PokemonList2(TempBox, Japanese ? PokemonList2.CapacityType.StoredJP : PokemonList2.CapacityType.Stored, Japanese);
-            for (int i = 0; i < curBoxPL.Pokemon.Length; i++)
-            {
-                if (i < curBoxPL.Count)
-                {
-                    byte[] pkDat = new PokemonList2(curBoxPL[i]).GetBytes();
-                    pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + CurrentBox * SIZE_BOX + i * SIZE_STORED);
-                }
-                else
-                {
-                    byte[] pkDat = new byte[PokemonList2.GetDataLength(PokemonList2.CapacityType.Single, Japanese)];
-                    pkDat.CopyTo(Data, Data.Length - SIZE_RESERVED + CurrentBox * SIZE_BOX + i * SIZE_STORED);
-                }
-            }
-
-            byte[] TempParty = new byte[PokemonList2.GetDataLength(PokemonList2.CapacityType.Party, Japanese)];
-            Array.Copy(Data, Offsets.Party, TempParty, 0, TempParty.Length);
-            PokemonList2 partyList = new PokemonList2(TempParty, PokemonList2.CapacityType.Party, Japanese);
-            for (int i = 0; i < partyList.Pokemon.Length; i++)
-            {
-                if (i < partyList.Count)
-                {
-                    byte[] pkDat = new PokemonList2(partyList[i]).GetBytes();
-                    pkDat.CopyTo(Data, GetPartyOffset(i));
-                }
-                else
-                {
-                    byte[] pkDat = new byte[PokemonList2.GetDataLength(PokemonList2.CapacityType.Single, Japanese)];
-                    pkDat.CopyTo(Data, GetPartyOffset(i));
-                }
-            }
-
-            // Daycare currently undocumented for all Gen II games.
-            if (Offsets.Daycare >= 0)
-            {
-                int offset = Offsets.Daycare;
-
-                DaycareFlags[0] = Data[offset]; offset++;
-                var pk1 = ReadPKMFromOffset(offset); // parent 1
-                var daycare1 = new PokemonList2(pk1);
-                offset += StringLength * 2 + 0x20; // nick/ot/pkm
-                DaycareFlags[1] = Data[offset]; offset++;
-                byte steps = Data[offset]; offset++;
-                byte BreedMotherOrNonDitto = Data[offset]; offset++;
-                var pk2 = ReadPKMFromOffset(offset); // parent 2
-                var daycare2 = new PokemonList2(pk2);
-                offset += StringLength * 2 + PKX.SIZE_2STORED; // nick/ot/pkm
-                var pk3 = ReadPKMFromOffset(offset); // egg!
-                pk3.IsEgg = true;
-                var daycare3 = new PokemonList2(pk3);
-
-                daycare1.GetBytes().CopyTo(Data, GetPartyOffset(7 + (0 * 2)));
-                daycare2.GetBytes().CopyTo(Data, GetPartyOffset(7 + (1 * 2)));
-                daycare3.GetBytes().CopyTo(Data, GetPartyOffset(7 + (2 * 2)));
-                Daycare = Offsets.Daycare;
-            }
-
-            // Enable Pokedex editing
-            PokeDex = 0;
-            EventFlag = Offsets.EventFlag;
-
-            if (!Exportable)
-                ClearBoxes();
+            int ofs = GetBoxRawDataOffset(i, splitAtIndex);
+            var src = Data.Slice(ofs, stored);
+            var dest = BoxBuffer[(i * SIZE_BOX_AS_SINGLES)..];
+            PokeList2.Unpack(src, dest, StringLength, capacity, false);
         }
 
-        private PK2 ReadPKMFromOffset(int offset)
+        // Don't treat the CurrentBox segment as valid; Stadium ignores it and will de-synchronize it.
+        // The main box data segment is the truth, the CurrentBox copy is not always up-to-date.
+        // When exporting an updated save file in this program, be nice and re-synchronize.
+
+        // Stash party immediately after.
         {
-            byte[] nick = new byte[StringLength];
-            byte[] ot = new byte[StringLength];
-            byte[] pk = new byte[PKX.SIZE_2STORED];
-
-            Array.Copy(Data, offset, nick, 0, nick.Length); offset += nick.Length;
-            Array.Copy(Data, offset, ot, 0, ot.Length); offset += ot.Length;
-            Array.Copy(Data, offset, pk, 0, pk.Length);
-
-            return new PK2(pk, jp: Japanese) { otname = ot, nick = nick };
-        }
-
-        private const int SIZE_RESERVED = 0x8000; // unpacked box data
-        public bool Korean { get; }
-        private readonly SAV2Offsets Offsets;
-
-        protected override byte[] Write(bool DSV)
-        {
-            for (int i = 0; i < BoxCount; i++)
-            {
-                PokemonList2 boxPL = new PokemonList2(Japanese ? PokemonList2.CapacityType.StoredJP : PokemonList2.CapacityType.Stored, Japanese);
-                int slot = 0;
-                for (int j = 0; j < boxPL.Pokemon.Length; j++)
-                {
-                    PK2 boxPK = (PK2) GetPKM(GetData(GetBoxOffset(i) + j*SIZE_STORED, SIZE_STORED));
-                    if (boxPK.Species > 0)
-                        boxPL[slot++] = boxPK;
-                }
-                if (i < (Japanese ? 6 : 7))
-                    boxPL.GetBytes().CopyTo(Data, 0x4000 + i * (SIZE_STOREDBOX + 2));
-                else
-                    boxPL.GetBytes().CopyTo(Data, 0x6000 + (i - (Japanese ? 6 : 7)) * (SIZE_STOREDBOX + 2));
-                if (i == CurrentBox)
-                    boxPL.GetBytes().CopyTo(Data, Offsets.CurrentBox);
-            }
-
-            PokemonList2 partyPL = new PokemonList2(PokemonList2.CapacityType.Party, Japanese);
-            int pSlot = 0;
-            for (int i = 0; i < 6; i++)
-            {
-                PK2 partyPK = (PK2)GetPKM(GetData(GetPartyOffset(i), SIZE_STORED));
-                if (partyPK.Species > 0)
-                    partyPL[pSlot++] = partyPK;
-            }
-            partyPL.GetBytes().CopyTo(Data, Offsets.Party);
-
-            SetChecksums();
-            if (Japanese)
-            {
-                switch (Version)
-                {
-                    case GameVersion.GS: Array.Copy(Data, Offsets.Trainer1, Data, 0x7209, 0xC83); break;
-                    case GameVersion.C:  Array.Copy(Data, Offsets.Trainer1, Data, 0x7209, 0xADA); break;
-                }
-            }
-            else if (Korean)
-            {
-                // Calculate oddball checksum
-                ushort sum = 0;
-                ushort[][] offsetpairs =
-                {
-                    new ushort[] {0x106B, 0x1533},
-                    new ushort[] {0x1534, 0x1A12},
-                    new ushort[] {0x1A13, 0x1C38},
-                    new ushort[] {0x3DD8, 0x3F79},
-                    new ushort[] {0x7E39, 0x7E6A},
-                };
-                foreach (ushort[] p in offsetpairs)
-                    for (int i = p[0]; i < p[1]; i++)
-                        sum += Data[i];
-                BitConverter.GetBytes(sum).CopyTo(Data, 0x7E6B);
-            }
-            else
-            {
-                switch (Version)
-                {
-                    case GameVersion.GS:
-                        Array.Copy(Data, 0x2009, Data, 0x15C7, 0x222F - 0x2009);
-                        Array.Copy(Data, 0x222F, Data, 0x3D69, 0x23D9 - 0x222F);
-                        Array.Copy(Data, 0x23D9, Data, 0x0C6B, 0x2856 - 0x23D9);
-                        Array.Copy(Data, 0x2856, Data, 0x7E39, 0x288A - 0x2856);
-                        Array.Copy(Data, 0x288A, Data, 0x10E8, 0x2D69 - 0x288A);
-                        break;
-                    case GameVersion.C:
-                        Array.Copy(Data, 0x2009, Data, 0x1209, 0xB7A);
-                        break;
-                }
-            }
-            byte[] outData = new byte[Data.Length - SIZE_RESERVED];
-            Array.Copy(Data, outData, outData.Length);
-            return outData;
+            var ofs = Offsets.Party;
+            var src = Data.Slice(ofs, SIZE_PARTY_LIST);
+            var dest = PartyBuffer[GetPartyOffset(0)..];
+            PokeList2.Unpack(src, dest, StringLength, 6, true);
         }
 
-        // Configuration
-        public override SaveFile Clone() { return new SAV2(Write(DSV: false)); }
+        if (Offsets.Daycare >= 0)
+        {
+            var dc0 = PartyBuffer[GetDaycareSlotOffset(0)..];
+            PokeList2.UnpackNOB(Data[GetRawDaycareSlotOffset(0)..], dc0, StringLength);
 
-        public override int SIZE_STORED => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
-        protected override int SIZE_PARTY => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
-        public override PKM BlankPKM => new PK2(jp: Japanese);
-        public override Type PKMType => typeof(PK2);
+            var dc1 = PartyBuffer[GetDaycareSlotOffset(1)..];
+            PokeList2.UnpackNOB(Data[GetRawDaycareSlotOffset(1)..], dc1, StringLength);
 
-        private int SIZE_BOX => BoxSlotCount*SIZE_STORED;
-        private int SIZE_STOREDBOX => PokemonList2.GetDataLength(Japanese ? PokemonList2.CapacityType.StoredJP : PokemonList2.CapacityType.Stored, Japanese);
-
-        public override int MaxMoveID => Legal.MaxMoveID_2;
-        public override int MaxSpeciesID => Legal.MaxSpeciesID_2;
-        public override int MaxAbilityID => Legal.MaxAbilityID_2;
-        public override int MaxItemID => Legal.MaxItemID_2;
-        public override int MaxBallID => 0; // unused
-        public override int MaxGameID => 99; // unused
-        public override int MaxMoney => 999999;
-        public override int MaxCoins => 9999;
-
-        public override bool IsPKMPresent(int Offset) => PKX.IsPKMPresentGB(Data, Offset);
-
-        // not correct, but whole contains. Data[EventFlag+0x22F]=Data[0x1A2F] means repel count.
-        protected override int EventFlagMax => Version == GameVersion.C ? 0x230 << 3 : base.EventFlagMax;
-        protected override int EventConstMax => Version == GameVersion.C ? 0 : base.EventConstMax;
-
-        public override int BoxCount => Japanese ? 9 : 14;
-        public override int MaxEV => 65535;
-        public override int MaxIV => 15;
-        public override int Generation => 2;
-        protected override int GiftCountMax => 0;
-        public override int OTLength => Japanese || Korean ? 5 : 7;
-        public override int NickLength => Japanese || Korean ? 5 : 10;
-        public override int BoxSlotCount => Japanese ? 30 : 20;
-
-        public override bool HasParty => true;
-        public override bool HasNamableBoxes => true;
-        private int StringLength => Japanese ? PK1.STRLEN_J : PK1.STRLEN_U;
-
-        // Checksums
-        private ushort GetChecksum()
-        {
-            return (ushort)Data.Skip(Offsets.Trainer1).Take(Offsets.AccumulatedChecksumEnd - Offsets.Trainer1 + 1).Sum(a => a);
-        }
-        protected override void SetChecksums()
-        {
-            ushort accum = GetChecksum();
-            BitConverter.GetBytes(accum).CopyTo(Data, Offsets.OverallChecksumPosition);
-            BitConverter.GetBytes(accum).CopyTo(Data, Offsets.OverallChecksumPosition2);
-        }
-        public override bool ChecksumsValid
-        {
-            get
-            {
-                ushort accum = GetChecksum();
-                ushort actual = BitConverter.ToUInt16(Data, Offsets.OverallChecksumPosition);
-                return accum == actual;
-            }
-        }
-
-        public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
-
-        // Trainer Info
-        public override GameVersion Version { get; protected set; }
-
-        public override string OT
-        {
-            get => GetString(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * OTLength);
-            set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Trainer1 + 2);
-        }
-        public byte[] OT_Trash { get => GetData(Offsets.Trainer1 + 2, StringLength); set { if (value?.Length == StringLength) SetData(value, Offsets.Trainer1 + 2); } }
-        public override int Gender
-        {
-            get => Version == GameVersion.C ? Data[Offsets.Gender] : 0;
-            set
-            {
-                if (Version != GameVersion.C)
-                    return;
-                Data[Offsets.Gender] = (byte) value;
-                Data[Offsets.Palette] = (byte) value;
-            }
-        }
-        public override int TID
-        {
-            get => BigEndian.ToUInt16(Data, Offsets.Trainer1); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Trainer1);
-        }
-        public override int SID { get => 0; set { } }
-        public override int PlayedHours
-        {
-            get => BigEndian.ToUInt16(Data, Offsets.TimePlayed);
-            set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.TimePlayed);
-        }
-        public override int PlayedMinutes
-        {
-            get => Data[Offsets.TimePlayed + 2];
-            set => Data[Offsets.TimePlayed + 2] = (byte)value;
-        }
-        public override int PlayedSeconds
-        {
-            get => Data[Offsets.TimePlayed + 3];
-            set => Data[Offsets.TimePlayed + 3] = (byte)value;
-        }
-
-        public int Badges
-        {
-            get => BitConverter.ToUInt16(Data, Offsets.JohtoBadges);
-            set { if (value < 0) return; BitConverter.GetBytes((ushort)value).CopyTo(Data, Offsets.JohtoBadges); }
-        }
-        private byte Options
-        {
-            get => Data[Offsets.Options];
-            set => Data[Offsets.Options] = value;
-        }
-        public bool BattleEffects
-        {
-            get => (Options & 0x80) == 0;
-            set => Options = (byte)((Options & 0x7F) | (value ? 0 : 0x80));
-        }
-        public bool BattleStyleSwitch
-        {
-            get => (Options & 0x40) == 0;
-            set => Options = (byte)((Options & 0xBF) | (value ? 0 : 0x40));
-        }
-        public int Sound
-        {
-            get => (Options & 0x30) >> 4;
-            set
-            {
-                var new_sound = value;
-                if (new_sound > 0)
-                    new_sound = 2; // Stereo
-                if (new_sound < 0)
-                    new_sound = 0; // Mono
-                Options = (byte)((Options & 0xCF) | (new_sound << 4));
-            }
-        }
-        public int TextSpeed
-        {
-            get => Options & 0x7;
-            set
-            {
-                var new_speed = value;
-                if (new_speed > 7)
-                    new_speed = 7;
-                if (new_speed < 0)
-                    new_speed = 0;
-                Options = (byte)((Options & 0xF8) | new_speed);
-            }
-        }
-        public override uint Money
-        {
-            get => BigEndian.ToUInt32(Data, Offsets.Money - 1) & 0xFFFFFF;
-            set
-            {
-                byte[] data = BigEndian.GetBytes((uint) Math.Min(value, MaxMoney));
-                Array.Copy(data, 1, Data, Offsets.Money, 3);
-            }
-        }
-        public uint Coin
-        {
-            get => BigEndian.ToUInt16(Data, Offsets.Money + 7);
-            set
-            {
-                value = (ushort)Math.Min(value, MaxCoins);
-                BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Money + 7);
-            }
-        }
-
-        private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs;
-        public override InventoryPouch[] Inventory
-        {
-            get
-            {
-                var pouch = new[]
-                {
-                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 99, Offsets.PouchTMHM, 57),
-                    new InventoryPouch(InventoryType.Items, LegalItems, 99, Offsets.PouchItem, 20),
-                    new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 99, Offsets.PouchKey, 26),
-                    new InventoryPouch(InventoryType.Balls, LegalBalls, 99, Offsets.PouchBall, 12),
-                    new InventoryPouch(InventoryType.PCItems, LegalItems.Concat(LegalKeyItems).Concat(LegalBalls).Concat(LegalTMHMs).ToArray(), 99, Offsets.PouchPC, 50)
-                };
-                foreach (var p in pouch)
-                {
-                    p.GetPouchG1(Data);
-                }
-                return pouch;
-            }
-            set
-            {
-                foreach (var p in value)
-                {
-                    int ofs = 0;
-                    for (int i = 0; i < p.Count; i++)
-                    {
-                        while (p.Items[ofs].Count == 0)
-                            ofs++;
-                        p.Items[i] = p.Items[ofs++];
-                    }
-                    while (ofs < p.Items.Length)
-                        p.Items[ofs++] = new InventoryItem();
-                    p.SetPouchG1(Data);
-                }
-            }
-        }
-
-        private readonly byte[] DaycareFlags = new byte[2];
-        public override int GetDaycareSlotOffset(int loc, int slot) => GetPartyOffset(7 + slot*2);
-        public override uint? GetDaycareEXP(int loc, int slot) => null;
-        public override bool? IsDaycareOccupied(int loc, int slot) => (DaycareFlags[slot] & 1) != 0;
-        public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
-
-        // Storage
-        public override int PartyCount
-        {
-            get => Data[Offsets.Party]; protected set => Data[Offsets.Party] = (byte)value;
-        }
-        public override int GetBoxOffset(int box)
-        {
-            return Data.Length - SIZE_RESERVED + box * SIZE_BOX;
-        }
-        public override int GetPartyOffset(int slot)
-        {
-            return Data.Length - SIZE_RESERVED + BoxCount * SIZE_BOX + slot * SIZE_STORED;
-        }
-        public override int CurrentBox
-        {
-            get => Data[Offsets.CurrentBoxIndex] & 0x7F; set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.OtherCurrentBox] & 0x80) | (value & 0x7F));
-        }
-
-        public override string GetBoxName(int box)
-        {
-            int len = Korean ? 17 : 9;
-            return GetString(Offsets.BoxNames + box * len, len);
-        }
-        public override void SetBoxName(int box, string value)
-        {
-            int len = Korean ? 17 : 9;
-            var data = SetString(value, len, len, 0x50);
-            SetData(data, Offsets.BoxNames + box * len);
-        }
-
-        public override PKM GetPKM(byte[] data)
-        {
-            if (data.Length == SIZE_STORED)
-                return new PokemonList2(data, PokemonList2.CapacityType.Single, Japanese)[0];
-            return new PK2(data);
-        }
-        public override byte[] DecryptPKM(byte[] data)
-        {
-            return data;
-        }
-
-        // Pokédex
-        protected override void SetDex(PKM pkm)
-        {
-            int species = pkm.Species;
-            if (!CanSetDex(species))
-                return;
-
-            SetCaught(pkm.Species, true);
-            SetSeen(pkm.Species, true);
-        }
-        private bool CanSetDex(int species)
-        {
-            if (species <= 0)
-                return false;
-            if (species > MaxSpeciesID)
-                return false;
-            if (Version == GameVersion.Invalid)
-                return false;
-            return true;
-        }
-        public override void SetSeen(int species, bool seen)
-        {
-            int bit = species - 1;
-            int ofs = bit >> 3;
-            SetFlag(Offsets.PokedexSeen + ofs, bit & 7, seen);
-        }
-        public override void SetCaught(int species, bool caught)
-        {
-            int bit = species - 1;
-            int ofs = bit >> 3;
-            SetFlag(Offsets.PokedexCaught + ofs, bit & 7, caught);
-            if (caught && species == 201)
-                SetUnownFormFlags();
-        }
-        private void SetUnownFormFlags()
-        {
-            // Give all Unown caught to prevent a crash on pokedex view
-            for (int i = 1; i <= 26; i++)
-                Data[Offsets.PokedexSeen + 0x1F + i] = (byte)i;
-            if (UnownFirstSeen == 0) // Invalid
-                UnownFirstSeen = 1; // A
-        }
-        /// <summary>
-        /// Toggles the availability of Unown letter groups in the Wild
-        /// </summary>
-        /// <remarks>
-        /// Max value of 0x0F, 4 bitflags
-        /// 1 lsh 0: A, B, C, D, E, F, G, H, I, J, K
-        /// 1 lsh 1: L, M, N, O, P, Q, R
-        /// 1 lsh 2: S, T, U, V, W
-        /// 1 lsh 3: X, Y, Z
-        /// </remarks>
-        public int UnownUnlocked
-        {
-            get => Data[Offsets.PokedexSeen + 0x1F + 27];
-            set => Data[Offsets.PokedexSeen + 0x1F + 27] = (byte)value;
-        }
-        /// <summary>
-        /// Unlocks all Unown letters/forms in the wild.
-        /// </summary>
-        public void UnownUnlockAll() => UnownUnlocked = 0x0F; // all 4 bitflags
-        /// <summary>
-        /// Flag that determines if Unown Letters are available in the wild: A, B, C, D, E, F, G, H, I, J, K
-        /// </summary>
-        public bool UnownUnlocked0
-        {
-            get => (UnownUnlocked & 1 << 0) == 1 << 0;
-            set => UnownUnlocked |= 1 << 0;
-        }
-        /// <summary>
-        /// Flag that determines if Unown Letters are available in the wild: L, M, N, O, P, Q, R
-        /// </summary>
-        public bool UnownUnlocked1
-        {
-            get => (UnownUnlocked & 1 << 1) == 1 << 1;
-            set => UnownUnlocked |= 1 << 1;
-        }
-        /// <summary>
-        /// Flag that determines if Unown Letters are available in the wild: S, T, U, V, W
-        /// </summary>
-        public bool UnownUnlocked2
-        {
-            get => (UnownUnlocked & 1 << 2) == 1 << 2;
-            set => UnownUnlocked |= 1 << 2;
-        }
-        /// <summary>
-        /// Flag that determines if Unown Letters are available in the wild: X, Y, Z
-        /// </summary>
-        public bool UnownUnlocked3
-        {
-            get => (UnownUnlocked & 1 << 3) == 1 << 3;
-            set => UnownUnlocked |= 1 << 3;
-        }
-        /// <summary>
-        /// Chooses which Unown sprite to show in the regular Pokédex View
-        /// </summary>
-        public int UnownFirstSeen
-        {
-            get => Data[Offsets.PokedexSeen + 0x1F + 28];
-            set => Data[Offsets.PokedexSeen + 0x1F + 28] = (byte)value;
-        }
-        public override bool GetSeen(int species)
-        {
-            int bit = species - 1;
-            int ofs = bit >> 3;
-            return GetFlag(Offsets.PokedexSeen + ofs, bit & 7);
-        }
-        public override bool GetCaught(int species)
-        {
-            int bit = species - 1;
-            int ofs = bit >> 3;
-            return GetFlag(Offsets.PokedexCaught + ofs, bit & 7);
-        }
-
-        // Misc
-        public ushort ResetKey => GetResetKey();
-        private ushort GetResetKey()
-        {
-            var val = (TID >> 8) + (TID & 0xFF) + ((Money >> 16) & 0xFF) + ((Money >> 8) & 0xFF) + (Money & 0xFF);
-            var ot = Data.Skip(Offsets.Trainer1 + 2).TakeWhile((z, i) => i < 5 && z != 0x50);
-            var tr = ot.Sum(z => z);
-            return (ushort)(val + tr);
-        }
-        public void UnlockAllDecorations()
-        {
-            for (int i = 676; i <= 721; i++)
-                SetEventFlag(i, true);
-        }
-
-        public override string GetString(int Offset, int Length)
-        {
-            if (Korean)
-                return StringConverter.GetString2KOR(Data, Offset, Length);
-            return StringConverter.GetString1(Data, Offset, Length, Japanese);
-        }
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
-        {
-            if (Korean)
-                return StringConverter.SetString2KOR(value, maxLength);
-            return StringConverter.SetString1(value, maxLength, Japanese);
+            var egg = PartyBuffer[GetDaycareSlotOffset(2)..];
+            PokeList2.UnpackNOB(Data[GetRawDaycareSlotOffset(2)..], egg, StringLength);
+            if (egg[2] != PokeList2.SlotEmpty)
+                egg[1] = PokeList2.SlotEgg;
         }
     }
+
+    private int GetRawDaycareSlotOffset(int index)
+    {
+        int offset = Offsets.Daycare;
+
+        offset++; // Breeding Status flags
+        if (index == 0)
+            return offset;
+
+        offset += (StringLength * 2) + PokeCrypto.SIZE_2STORED; // nick/ot/pk
+        offset++; // Lady Status flags
+        offset++; // Steps until Egg
+        offset++; // Ditto Parent state
+        if (index == 1)
+            return offset;
+
+        offset += (StringLength * 2) + PokeCrypto.SIZE_2STORED; // nick/ot/pk
+        return offset;
+    }
+
+    public override bool HasPokeDex => true;
+
+    private int EventFlag => Offsets.EventFlag;
+    private int EventWork => Offsets.EventWork;
+
+    private int GetBoxRawDataOffset(int i, int splitAtIndex)
+    {
+        if (i < splitAtIndex)
+            return 0x4000 + (i * (SIZE_BOX_LIST + 2));
+        return 0x6000 + ((i - splitAtIndex) * (SIZE_BOX_LIST + 2));
+    }
+
+    protected override Memory<byte> GetFinalData()
+    {
+        int splitAtIndex = (Japanese ? 6 : 7);
+        int boxListLength = SIZE_BOX_LIST;
+        var boxSlotCount = BoxSlotCount;
+        for (int i = 0; i < BoxCount; i++)
+        {
+            int ofs = GetBoxRawDataOffset(i, splitAtIndex);
+            var dest = Data.Slice(ofs, boxListLength);
+            var src = BoxBuffer.Slice(i * SIZE_BOX_AS_SINGLES, SIZE_BOX_AS_SINGLES);
+
+            bool written = PokeList2.MergeSingles(src, dest, StringLength, boxSlotCount, false);
+            if (written && i == CurrentBox)
+                dest.CopyTo(Data[Offsets.CurrentBox..]);
+        }
+
+        // Write Party
+        {
+            int ofs = Offsets.Party;
+            var dest = Data.Slice(ofs, SIZE_PARTY_LIST);
+            var src = PartyBuffer[GetPartyOffset(0)..];
+
+            PokeList2.MergeSingles(src, dest, StringLength, 6, true);
+        }
+
+        // Write Daycare
+
+        if (Offsets.Daycare >= 0)
+        {
+            var dc0 = PartyBuffer[GetDaycareSlotOffset(0)..];
+            PokeList2.PackNOB(dc0, Data[GetRawDaycareSlotOffset(0)..], StringLength);
+
+            var dc1 = PartyBuffer[GetDaycareSlotOffset(1)..];
+            PokeList2.PackNOB(dc1, Data[GetRawDaycareSlotOffset(1)..], StringLength);
+
+            var egg = PartyBuffer[GetDaycareSlotOffset(2)..];
+            PokeList2.PackNOB(egg, Data[GetRawDaycareSlotOffset(2)..], StringLength);
+        }
+
+        SetChecksums();
+        if (Japanese)
+        {
+            switch (Version)
+            {
+                case GameVersion.C:
+                    Data.Slice(Offsets.Trainer1, 0xADA).CopyTo(Data[0x7209..]); break;
+                default:
+                    Data.Slice(Offsets.Trainer1, 0xC83).CopyTo(Data[0x7209..]); break;
+            }
+        }
+        else if (Korean)
+        {
+            var sum = GetKoreanChecksum();
+            WriteUInt16LittleEndian(Data[0x7E6B..], sum);
+        }
+        else
+        {
+            switch (Version)
+            {
+                case GameVersion.C:
+                    Data.Slice(0x2009, 0xB7A).CopyTo(Data[0x1209..]);
+                    break;
+                default:
+                    Data[0x2009..0x222F].CopyTo(Data[0x15C7..]);
+                    Data[0x222F..0x23D9].CopyTo(Data[0x3D69..]);
+                    Data[0x23D9..0x2856].CopyTo(Data[0x0C6B..]);
+                    Data[0x2856..0x288A].CopyTo(Data[0x7E39..]);
+                    Data[0x288A..0x2D69].CopyTo(Data[0x10E8..]);
+                    break;
+            }
+        }
+        return Data.ToArray();
+    }
+
+    private ushort GetKoreanChecksum()
+    {
+        // Calculate oddball checksum
+        ushort sum = 0;
+        Span<(ushort Start, ushort EndExclusive)> offsetpairs =
+        [
+            (0x106B, 0x1533),
+            (0x1534, 0x1A12),
+            (0x1A13, 0x1C38),
+            (0x3DD8, 0x3F79),
+            (0x7E39, 0x7E6A),
+        ];
+        foreach (var p in offsetpairs)
+        {
+            for (int i = p.Start; i < p.EndExclusive; i++)
+                sum += Data[i];
+        }
+        return sum;
+    }
+
+    // Configuration
+    protected override SAV2 CloneInternal() => new(GetFinalData(), (LanguageID)Language, Version);
+
+    protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
+    protected override int SIZE_PARTY => SIZE_STORED;
+    public override PK2 BlankPKM => new(jp: Japanese);
+    public override Type PKMType => typeof(PK2);
+
+    private int SIZE_BOX_AS_SINGLES => BoxSlotCount * SIZE_STORED;
+    private int SIZE_BOX_LIST => (((StringLength * 2) + PokeCrypto.SIZE_2STORED + 1) * BoxSlotCount) + 2;
+    private int SIZE_PARTY_LIST => (((StringLength * 2) + PokeCrypto.SIZE_2PARTY + 1) * 6) + 2;
+
+    public override ushort MaxMoveID => Legal.MaxMoveID_2;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_2;
+    public override int MaxAbilityID => Legal.MaxAbilityID_2;
+    public override int MaxItemID => Legal.MaxItemID_2;
+    public override int MaxBallID => 0; // unused
+    public override GameVersion MaxGameID => GameVersion.C; // unused
+    public override int MaxMoney => 999999;
+    public override int MaxCoins => 9999;
+
+    public override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentGB(data);
+
+    public int EventWorkCount => 0x100;
+    public int EventFlagCount => 2000;
+
+    public override int BoxCount => Japanese ? 9 : 14;
+    public override int MaxEV => EffortValues.Max12;
+    public override int MaxIV => 15;
+    public override byte Generation => 2;
+    public override EntityContext Context => EntityContext.Gen2;
+    public override int MaxStringLengthTrainer => Japanese || Korean ? 5 : 7;
+    public override int MaxStringLengthNickname => Japanese || Korean ? 5 : 10;
+    public override int BoxSlotCount => Japanese ? 30 : 20;
+
+    public override bool HasParty => true;
+    private int StringLength => Japanese ? GBPKML.StringLengthJapanese : GBPKML.StringLengthNotJapan;
+
+    // Checksums
+    private ushort GetChecksum()
+    {
+        ushort sum = 0;
+        for (int i = Offsets.Trainer1; i <= Offsets.AccumulatedChecksumEnd; i++)
+            sum += Data[i];
+        return sum;
+    }
+
+    protected override void SetChecksums()
+    {
+        ushort checksum = GetChecksum();
+        WriteUInt16LittleEndian(Data[Offsets.OverallChecksumPosition..], checksum);
+        WriteUInt16LittleEndian(Data[Offsets.OverallChecksumPosition2..], checksum);
+    }
+
+    public override bool ChecksumsValid => !ChecksumInfo.Contains("Invalid");
+
+    public override string ChecksumInfo
+    {
+        get
+        {
+            ushort checksum = GetChecksum();
+            ushort actual1 = ReadUInt16LittleEndian(Data[Offsets.OverallChecksumPosition..]);
+            ushort actual2 = ReadUInt16LittleEndian(Data[Offsets.OverallChecksumPosition2..]);
+
+            bool checksum1Valid = (checksum == actual1);
+            bool checksum2Valid = (checksum == actual2);
+            static string valid(bool s) => s ? "Valid" : "Invalid";
+            return $"Checksum 1 {valid(checksum1Valid)}, Checksum 2 {valid(checksum2Valid)}.";
+        }
+    }
+
+    // Trainer Info
+    public override GameVersion Version { get; set; }
+
+    public override string OT
+    {
+        get => GetString(Data.Slice(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthTrainer));
+        set => SetString(Data.Slice(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthTrainer), value, 8, StringConverterOption.Clear50);
+    }
+
+    public Span<byte> OriginalTrainerTrash
+    {
+        get => Data.Slice(Offsets.Trainer1 + 2, StringLength);
+        set { if (value.Length == StringLength) value.CopyTo(Data[(Offsets.Trainer1 + 2)..]); }
+    }
+
+    public string Rival
+    {
+        get => GetString(Data.Slice(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthTrainer));
+        set => SetString(Data.Slice(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthTrainer), value, 8, StringConverterOption.Clear50);
+    }
+
+    public Span<byte> RivalTrash
+    {
+        get => Data.Slice(Offsets.Rival, StringLength);
+        set { if (value.Length == StringLength) value.CopyTo(Data[Offsets.Rival..]); }
+    }
+
+    public override byte Gender
+    {
+        get => Version == GameVersion.C ? Data[Offsets.Gender] : (byte)0;
+        set
+        {
+            if (Version != GameVersion.C)
+                return;
+            Data[Offsets.Gender] = value;
+            Data[Offsets.Palette] = value;
+        }
+    }
+
+    public byte Palette
+    {
+        get => Data[Offsets.Palette];
+        set => Data[Offsets.Palette] = value;
+    }
+
+    public override uint ID32
+    {
+        get => TID16;
+        set => TID16 = (ushort)value;
+    }
+
+    public override ushort TID16
+    {
+        get => ReadUInt16BigEndian(Data[Offsets.Trainer1..]);
+        set => WriteUInt16BigEndian(Data[Offsets.Trainer1..], value);
+    }
+
+    public override ushort SID16 { get => 0; set { } }
+
+    public override int PlayedHours
+    {
+        get => ReadUInt16BigEndian(Data[Offsets.TimePlayed..]);
+        set => WriteUInt16BigEndian(Data[Offsets.TimePlayed..], (ushort)value);
+    }
+
+    public override int PlayedMinutes
+    {
+        get => Data[Offsets.TimePlayed + 2];
+        set => Data[Offsets.TimePlayed + 2] = (byte)value;
+    }
+
+    public override int PlayedSeconds
+    {
+        get => Data[Offsets.TimePlayed + 3];
+        set => Data[Offsets.TimePlayed + 3] = (byte)value;
+    }
+
+    public int Badges
+    {
+        get => ReadUInt16LittleEndian(Data[Offsets.JohtoBadges..]);
+        set { if (value < 0) return; WriteUInt16LittleEndian(Data[Offsets.JohtoBadges..], (ushort)value); }
+    }
+
+    private byte Options
+    {
+        get => Data[Offsets.Options];
+        set => Data[Offsets.Options] = value;
+    }
+
+    public bool BattleEffects
+    {
+        get => (Options & 0x80) == 0;
+        set => Options = (byte)((Options & 0x7F) | (value ? 0 : 0x80));
+    }
+
+    public bool BattleStyleSwitch
+    {
+        get => (Options & 0x40) == 0;
+        set => Options = (byte)((Options & 0xBF) | (value ? 0 : 0x40));
+    }
+
+    public int Sound
+    {
+        get => (Options & 0x30) >> 4;
+        set => Options = (byte)((Options & 0xCF) | ((value != 0 ? 2 : 0) << 4)); // Stereo 2, Mono 0
+    }
+
+    public int TextSpeed
+    {
+        get => Options & 0x7;
+        set => Options = (byte)((Options & 0xF8) | (value & 7));
+    }
+
+    public bool SaveFileExists
+    {
+        get => Data[Offsets.Options + 1] == 1;
+        set => Data[Offsets.Options + 1] = value ? (byte)1 : (byte)0;
+    }
+
+    public int TextBoxFrame // 3bits
+    {
+        get => Data[Offsets.Options + 2] & 0b0000_0111;
+        set => Data[Offsets.Options + 2] = (byte)((Data[Offsets.Options + 2] & 0b1111_1000) | (value & 0b0000_0111));
+    }
+
+    public int TextBoxFlags { get => Data[Offsets.Options + 3]; set => Data[Offsets.Options + 3] = (byte)value; }
+
+    public bool TextBoxFrameDelay1 // bit 0
+    {
+        get => (TextBoxFlags & 0x01) == 0x01;
+        set => TextBoxFlags = (TextBoxFlags & ~0x01) | (value ? 0x01 : 0);
+    }
+
+    public bool TextBoxFrameDelayNone // bit 4
+    {
+        get => (TextBoxFlags & 0x10) == 0x10;
+        set => TextBoxFlags = (TextBoxFlags & ~0x10) | (value ? 0x10 : 0);
+    }
+
+    public byte GBPrinterBrightness { get => Data[Offsets.Options + 4]; set => Data[Offsets.Options + 4] = value; }
+
+    public bool MenuAccountOn
+    {
+        get => Data[Offsets.Options + 5] == 1;
+        set => Data[Offsets.Options + 5] = value ? (byte)1 : (byte)0;
+    }
+
+    // 3 bytes
+    public override uint Money
+    {
+        get => ReadUInt32BigEndian(Data[Offsets.Money..]) >> 8;
+        set
+        {
+            var clamp = (uint)Math.Min(value, MaxMoney);
+            var toWrite = (clamp << 8) | Data[Offsets.Money + 3];
+            WriteUInt32BigEndian(Data[Offsets.Money..], toWrite);
+        }
+    }
+
+    public uint Coin
+    {
+        get => ReadUInt16BigEndian(Data[(Offsets.Money + 7)..]);
+        set
+        {
+            var clamped = (ushort)Math.Min(value, MaxCoins);
+            WriteUInt16BigEndian(Data[(Offsets.Money + 7)..], clamped);
+        }
+    }
+
+    public byte BlueCardPoints
+    {
+        get
+        {
+            int ofs = Offsets.BlueCardPoints;
+            if (ofs == -1)
+                return 0;
+            return Data[ofs];
+        }
+        set
+        {
+            int ofs = Offsets.BlueCardPoints;
+            if (ofs == -1)
+                return;
+            Data[ofs] = value;
+        }
+    }
+
+    public byte MysteryGiftItem
+    {
+        get
+        {
+            int ofs = Offsets.MysteryGiftItem;
+            if (ofs == -1)
+                return 0;
+            if (GetEventFlag(1809))
+                return 0;
+            return Data[ofs];
+        }
+        set
+        {
+            int ofs = Offsets.MysteryGiftItem;
+            if (ofs == -1)
+                return;
+
+            SetEventFlag(1809, value == 0);
+            Data[ofs] = value;
+        }
+    }
+
+    public bool IsMysteryGiftUnlocked
+    {
+        get
+        {
+            int ofs = Offsets.MysteryGiftIsUnlocked;
+            if (ofs == -1)
+                return false;
+            return (sbyte)Data[ofs] >= 0x00; // -1 is disabled; [0,5] is unlocked
+        }
+        set
+        {
+            int ofs = Offsets.MysteryGiftIsUnlocked;
+            if (ofs == -1)
+                return;
+
+            Data[ofs] = (byte)(value ? 0x00 : 0xFF);
+            Data[ofs + 2] = Data[ofs];
+        }
+    }
+
+    public override IReadOnlyList<InventoryPouch> Inventory
+    {
+        get
+        {
+            var info = Version == GameVersion.C ? ItemStorage2.InstanceC : ItemStorage2.InstanceGS;
+            InventoryPouch[] pouch =
+            [
+                new InventoryPouchGB(InventoryType.TMHMs, info, 99, Offsets.PouchTMHM, 57),
+                new InventoryPouchGB(InventoryType.Items, info, 99, Offsets.PouchItem, 20),
+                new InventoryPouchGB(InventoryType.KeyItems, info, 99, Offsets.PouchKey, 26),
+                new InventoryPouchGB(InventoryType.Balls, info, 99, Offsets.PouchBall, 12),
+                new InventoryPouchGB(InventoryType.PCItems, info, 99, Offsets.PouchPC, 50),
+            ];
+            return pouch.LoadAll(Data);
+        }
+        set => value.SaveAll(Data);
+    }
+
+    public ref byte DaycareFlagByte(int index)
+    {
+        var offset = GetDaycareOffset(index);
+        return ref Data[offset];
+    }
+
+    private int GetDaycareOffset(int index)
+    {
+        int offset = Offsets.Daycare;
+        if (index != 0)
+            offset += (StringLength * 2) + PokeCrypto.SIZE_2STORED + 1;
+        return offset;
+    }
+
+    public int DaycareSlotCount => 2;
+    private int GetDaycareSlotOffset(int slot) => GetPartyOffset(6 + slot);
+    public Memory<byte> GetDaycareSlot(int slot) => Reserved.Slice(GetDaycareSlotOffset(slot), SIZE_STORED);
+    public Memory<byte> GetDaycareEgg() => Reserved.Slice(GetDaycareSlotOffset(2), SIZE_STORED);
+    public bool IsDaycareOccupied(int slot) => (DaycareFlagByte(slot) & 1) != 0;
+
+    public void SetDaycareOccupied(int slot, bool occupied)
+    {
+        if (occupied)
+            DaycareFlagByte(slot) |= 1;
+        else
+            DaycareFlagByte(slot) &= 0xFE;
+    }
+
+    // bit 6 of the first flag byte
+    public bool IsEggAvailable { get => (DaycareFlagByte(0) & 0x40) != 0; set => DaycareFlagByte(0) = (byte)((DaycareFlagByte(0) & 0xBF) | (value ? 0x40 : 0)); }
+
+    // Storage
+    public override int PartyCount
+    {
+        get => Data[Offsets.Party]; protected set => Data[Offsets.Party] = (byte)value;
+    }
+
+    public override int GetBoxOffset(int box) => box * SIZE_BOX_AS_SINGLES;
+    public override int GetPartyOffset(int slot) => (BoxCount * SIZE_BOX_AS_SINGLES) + (slot * SIZE_STORED);
+
+    public override int CurrentBox
+    {
+        get => Data[Offsets.CurrentBoxIndex];
+        set => Data[Offsets.CurrentBoxIndex] = (byte)value;
+    }
+
+    public string GetBoxName(int box)
+    {
+        var result = GetString(GetBoxNameSpan(box));
+        if (!Korean)
+            result = StringConverter2.InflateLigatures(result, Language);
+        return result;
+    }
+
+    private Span<byte> GetBoxNameSpan(int box)
+    {
+        int len = Korean ? 17 : 9;
+        return Data.Slice(Offsets.BoxNames + (box * len), len);
+    }
+
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
+    {
+        var span = GetBoxNameSpan(box);
+        const int maxLen = 8;
+        Span<char> deflated = stackalloc char[maxLen];
+        int len = StringConverter2.DeflateLigatures(value, deflated, Language);
+        SetString(span, deflated[..len], maxLen, StringConverterOption.Clear50);
+    }
+
+    protected override PK2 GetPKM(byte[] data)
+    {
+        if (data.Length == SIZE_STORED)
+            return PokeList2.ReadFromList(data, StringLength);
+        return new(data);
+    }
+
+    protected override byte[] DecryptPKM(byte[] data)
+    {
+        return data;
+    }
+
+    // Pokédex
+    protected override void SetDex(PKM pk)
+    {
+        ushort species = pk.Species;
+        if (species is 0 or > Legal.MaxSpeciesID_2)
+            return;
+        if (pk.IsEgg)
+            return;
+
+        SetCaught(pk.Species, true);
+        SetSeen(pk.Species, true);
+    }
+
+    private void SetUnownFormFlags()
+    {
+        // Give all Unown caught to prevent a crash on Pokédex view
+        for (int i = 1; i <= 26; i++)
+            Data[Offsets.PokedexSeen + 0x1F + i] = (byte)i;
+        if (UnownFirstSeen == 0) // Invalid
+            UnownFirstSeen = 1; // A
+    }
+
+    /// <summary>
+    /// Toggles the availability of Unown letter groups in the Wild
+    /// </summary>
+    /// <remarks>
+    /// Max value of 0x0F, 4 bitflags
+    /// 1 lsh 0: A, B, C, D, E, F, G, H, I, J, K
+    /// 1 lsh 1: L, M, N, O, P, Q, R
+    /// 1 lsh 2: S, T, U, V, W
+    /// 1 lsh 3: X, Y, Z
+    /// </remarks>
+    public int UnownUnlocked
+    {
+        get => Data[Offsets.PokedexSeen + 0x1F + 27];
+        set => Data[Offsets.PokedexSeen + 0x1F + 27] = (byte)value;
+    }
+
+    /// <summary>
+    /// Unlocks all Unown letters/forms in the wild.
+    /// </summary>
+    public void UnownUnlockAll() => UnownUnlocked = 0x0F; // all 4 bitflags
+
+    /// <summary>
+    /// Flag that determines if Unown Letters are available in the wild: A, B, C, D, E, F, G, H, I, J, K
+    /// </summary>
+    public bool UnownUnlocked0
+    {
+        get => (UnownUnlocked & (1 << 0)) == 1 << 0;
+        set => UnownUnlocked = (UnownUnlocked & ~(1 << 0)) | ((value ? 1 : 0) << 0);
+    }
+
+    /// <summary>
+    /// Flag that determines if Unown Letters are available in the wild: L, M, N, O, P, Q, R
+    /// </summary>
+    public bool UnownUnlocked1
+    {
+        get => (UnownUnlocked & (1 << 1)) == 1 << 1;
+        set => UnownUnlocked = (UnownUnlocked & ~(1 << 1)) | ((value ? 1 : 0) << 1);
+    }
+
+    /// <summary>
+    /// Flag that determines if Unown Letters are available in the wild: S, T, U, V, W
+    /// </summary>
+    public bool UnownUnlocked2
+    {
+        get => (UnownUnlocked & (1 << 2)) == 1 << 2;
+        set => UnownUnlocked = (UnownUnlocked & ~(1 << 2)) | ((value ? 1 : 0) << 2);
+    }
+
+    /// <summary>
+    /// Flag that determines if Unown Letters are available in the wild: X, Y, Z
+    /// </summary>
+    public bool UnownUnlocked3
+    {
+        get => (UnownUnlocked & (1 << 3)) == 1 << 3;
+        set => UnownUnlocked = (UnownUnlocked & ~(1 << 3)) | ((value ? 1 : 0) << 3);
+    }
+
+    /// <summary>
+    /// Chooses which Unown sprite to show in the regular Pokédex View
+    /// </summary>
+    public int UnownFirstSeen
+    {
+        get => Data[Offsets.PokedexSeen + 0x1F + 28];
+        set => Data[Offsets.PokedexSeen + 0x1F + 28] = (byte)value;
+    }
+
+    public override bool GetSeen(ushort species) => GetDexFlag(Offsets.PokedexSeen, species);
+    public override bool GetCaught(ushort species) => GetDexFlag(Offsets.PokedexCaught, species);
+    public override void SetSeen(ushort species, bool seen) => SetDexFlag(Offsets.PokedexSeen, species, seen);
+
+    public override void SetCaught(ushort species, bool caught)
+    {
+        SetDexFlag(Offsets.PokedexCaught, species, caught);
+        if (caught && species == (int)Species.Unown)
+            SetUnownFormFlags();
+    }
+
+    private bool GetDexFlag(int region, ushort species)
+    {
+        int bit = species - 1;
+        int ofs = bit >> 3;
+        return GetFlag(region + ofs, bit & 7);
+    }
+
+    private void SetDexFlag(int region, ushort species, bool value)
+    {
+        int bit = species - 1;
+        int ofs = bit >> 3;
+        SetFlag(region + ofs, bit & 7, value);
+    }
+
+    public byte GetWork(int index) => Data[EventWork + index];
+    public void SetWork(int index, byte value) => Data[EventWork + index] = value;
+    public bool GetEventFlag(int flagNumber)
+    {
+        if ((uint)flagNumber >= EventFlagCount)
+            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
+        return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
+    }
+
+    public void SetEventFlag(int flagNumber, bool value)
+    {
+        if ((uint)flagNumber >= EventFlagCount)
+            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
+        SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
+    }
+
+    // Misc
+    public ushort ResetKey => GetResetKey();
+
+    private ushort GetResetKey()
+    {
+        ushort result = 0;
+        foreach (var b in Data.Slice(Offsets.Money, 3))
+            result += b;
+        var tr = Data.Slice(Offsets.Trainer1, 7);
+        var end = tr[2..].IndexOf(StringConverter1.TerminatorCode);
+        if (end >= 0)
+            tr = tr[..(end + 2)];
+        foreach (var b in tr)
+            result += b;
+        return result;
+    }
+
+    /// <summary>
+    /// Sets the "Time Not Set" flag to the RTC Flag list.
+    /// </summary>
+    public void ResetRTC() => Data[Offsets.RTCFlags] |= 0x80;
+
+    public void UnlockAllDecorations()
+    {
+        for (int i = 676; i <= 721; i++)
+            SetEventFlag(i, true);
+    }
+
+    public override string GetString(ReadOnlySpan<byte> data)
+    {
+        if (Korean)
+            return StringConverter2KOR.GetString(data);
+        return StringConverter2.GetString(data, Language);
+    }
+
+    public override int LoadString(ReadOnlySpan<byte> data, Span<char> text)
+    {
+        if (Korean)
+            return StringConverter2KOR.LoadString(data, text);
+        return StringConverter2.LoadString(data, text, Language);
+    }
+
+    public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
+    {
+        if (Korean)
+            return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);
+        return StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
+    }
+
+    public bool IsGBMobileAvailable => Japanese && Version == GameVersion.C;
+    public bool IsGBMobileEnabled => Japanese && Enum.IsDefined(GBMobileCable);
+
+    public GBMobileCableColor GBMobileCable
+    {
+        get => (GBMobileCableColor) Data[0xE800];
+        set
+        {
+            Data[0xE800] = (byte)value;
+            Data[0x9000] = (byte)(0xFF - value);
+        }
+    }
+
+    private const byte GS_BALL_AVAILABLE = 0x0B;
+
+    /// <summary>
+    /// Triggered on Virtual Console by adding Hall of Fame entry, enabling the event.
+    /// </summary>
+    public void EnableGSBallMobileEvent()
+    {
+        if (Version is not GameVersion.C)
+            return;
+
+        // Write to the Crystal region of savedata
+        var primary = Japanese ? 0xA000 : 0x3E3C;
+        var backup = Japanese ? 0xA083 : 0x3E44;
+
+        Data[primary] = Data[backup] = GS_BALL_AVAILABLE;
+    }
+
+    public bool IsEnabledGSBallMobileEvent => Data[Japanese ? 0xA000 : 0x3E3C] == GS_BALL_AVAILABLE;
+}
+
+public enum GBMobileCableColor : byte
+{
+    None = 0,
+    Blue = 1,
+    Yellow = 2,
+    Green = 3,
+    Red = 4,
+    Purple = 5,
+    Black = 6,
+    Pink = 7,
+    Gray = 8,
+    Debug = 0x81,
+    Disabled = 0xFF,
 }

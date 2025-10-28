@@ -1,0 +1,164 @@
+RibbonChampionKalos	Campione Kalos
+RibbonChampionG3	Campione (Gen3)
+RibbonChampionSinnoh	Campione Sinnoh
+RibbonBestFriends	Amicizia
+RibbonTraining	Training
+RibbonBattlerSkillful	Asso della Lotta
+RibbonBattlerExpert	Genio della Lotta
+RibbonEffort	Merito
+RibbonAlert	Allarme
+RibbonShock	Stupore
+RibbonDowncast	Sconforto
+RibbonCareless	Indolenza
+RibbonRelax	Relax
+RibbonSnooze	Pisolino
+RibbonSmile	Sorriso
+RibbonGorgeous	Meraviglia
+RibbonRoyal	Reale
+RibbonGorgeousRoyal	Meraviglia Reale
+RibbonArtist	Artista
+RibbonFootprint	Orma
+RibbonRecord	Record
+RibbonLegend	Leggenda
+RibbonCountry	Paese
+RibbonNational	Nazionale
+RibbonEarth	Geo
+RibbonWorld	Mondiale
+RibbonClassic	Classico
+RibbonPremier	Principale
+RibbonEvent	Evento
+RibbonBirthday	Compleanno
+RibbonSpecial	Speciale
+RibbonSouvenir	Ricordo
+RibbonWishing	Desiderio
+RibbonChampionBattle	Campione Lotta
+RibbonChampionRegional	Campione Locale
+RibbonChampionNational	Campione Nazionale
+RibbonChampionWorld	Campione Mondiale
+RibbonCountMemoryContest	Ricordo delle Gare
+RibbonCountMemoryBattle	Ricordo delle Lotte
+RibbonChampionG6Hoenn	Campione Hoenn (ORAS)
+RibbonContestStar	Stella delle Gare
+RibbonMasterCoolness	Classe Suprema
+RibbonMasterBeauty	Bellezza Suprema
+RibbonMasterCuteness	Grazia Suprema
+RibbonMasterCleverness	Acume Supremo
+RibbonMasterToughness	Grinta Suprema
+RibbonG3Cool	Cool (G3)
+RibbonG3CoolSuper	Cool Super
+RibbonG3CoolHyper	Cool Hyper
+RibbonG3CoolMaster	Cool Master
+RibbonG3Beauty	Beauty (G3)
+RibbonG3BeautySuper	Beauty Super
+RibbonG3BeautyHyper	Beauty Hyper
+RibbonG3BeautyMaster	Beauty Master
+RibbonG3Cute	Cute (G3)
+RibbonG3CuteSuper	Cute Super
+RibbonG3CuteHyper	Cute Hyper
+RibbonG3CuteMaster	Cute Master
+RibbonG3Smart	Smart (G3)
+RibbonG3SmartSuper	Smart Super
+RibbonG3SmartHyper	Smart Hyper
+RibbonG3SmartMaster	Smart Master
+RibbonG3Tough	Tough (G3)
+RibbonG3ToughSuper	Tough Super
+RibbonG3ToughHyper	Tough Hyper
+RibbonG3ToughMaster	Tough Master
+RibbonG4Cool	Cool (G4)
+RibbonG4CoolGreat	Cool Great
+RibbonG4CoolUltra	Cool Ultra
+RibbonG4CoolMaster	Cool Master
+RibbonG4Beauty	Beauty (G4)
+RibbonG4BeautyGreat	Beauty Great
+RibbonG4BeautyUltra	Beauty Ultra
+RibbonG4BeautyMaster	Beauty Master
+RibbonG4Cute	Cute (G4)
+RibbonG4CuteGreat	Cute Great
+RibbonG4CuteUltra	Cute Ultra
+RibbonG4CuteMaster	Cute Master
+RibbonG4Smart	Smart (G4)
+RibbonG4SmartGreat	Smart Great
+RibbonG4SmartUltra	Smart Ultra
+RibbonG4SmartMaster	Smart Master
+RibbonG4Tough	Tough (G4)
+RibbonG4ToughGreat	Tough Great
+RibbonG4ToughUltra	Tough Ultra
+RibbonG4ToughMaster	Tough Master
+RibbonWinning	Winning
+RibbonVictory	Victory
+RibbonAbility	Ability
+RibbonAbilityGreat	Great Ability
+RibbonAbilityDouble	Double Ability
+RibbonAbilityMulti	Multi Ability
+RibbonAbilityPair	Pair Ability
+RibbonAbilityWorld	World Ability
+RibbonCountG3Cool	Cool
+RibbonCountG3Beauty	Beauty
+RibbonCountG3Cute	Cute
+RibbonCountG3Smart	Smart
+RibbonCountG3Tough	Tough
+RibbonChampionAlola	Campione Alola
+RibbonBattleRoyale	Asso Royale
+RibbonBattleTreeGreat	Asso dell’Albero
+RibbonBattleTreeMaster	Genio dell’Albero
+RibbonChampionGalar	Campione Galar
+RibbonTowerMaster	Asso della Torre
+RibbonMasterRank	Asso Competizione
+RibbonMarkLunchtime	Emblema Mezzogiorno
+RibbonMarkSleepyTime	Emblema Mezzanotte
+RibbonMarkDusk	Emblema Tramonto
+RibbonMarkDawn	Emblema Alba
+RibbonMarkCloudy	Emblema Nuvolo
+RibbonMarkRainy	Emblema Pioggia
+RibbonMarkStormy	Emblema Tuoni e Lampi
+RibbonMarkSnowy	Emblema Neve
+RibbonMarkBlizzard	Emblema Tormenta
+RibbonMarkDry	Emblema Arsura
+RibbonMarkSandstorm	Emblema Tempesta di Sabbia
+RibbonMarkMisty	Emblema Nebbia
+RibbonMarkDestiny	Emblema Destino
+RibbonMarkFishing	Emblema Pesca
+RibbonMarkCurry	Emblema Curry
+RibbonMarkUncommon	Emblema Sporadicità
+RibbonMarkRare	Emblema Rarità
+RibbonMarkRowdy	Emblema Monello
+RibbonMarkAbsentMinded	Emblema Spensieratezza
+RibbonMarkJittery	Emblema Nervosismo
+RibbonMarkExcited	Emblema Speranza
+RibbonMarkCharismatic	Emblema Carisma
+RibbonMarkCalmness	Emblema Sangue Freddo
+RibbonMarkIntense	Emblema Sangue Caldo
+RibbonMarkZonedOut	Emblema Disattenzione
+RibbonMarkJoyful	Emblema Felicità
+RibbonMarkAngry	Emblema Collera
+RibbonMarkSmiley	Emblema Sorriso
+RibbonMarkTeary	Emblema Sconforto
+RibbonMarkUpbeat	Emblema Buonumore
+RibbonMarkPeeved	Emblema Malumore
+RibbonMarkIntellectual	Emblema Ragione
+RibbonMarkFerocious	Emblema Istinto
+RibbonMarkCrafty	Emblema Astuzia
+RibbonMarkScowling	Emblema Aria Minacciosa
+RibbonMarkKindly	Emblema Aria Gentile
+RibbonMarkFlustered	Emblema Agitazione
+RibbonMarkPumpedUp	Emblema Entusiasmo
+RibbonMarkZeroEnergy	Emblema Pigrizia
+RibbonMarkPrideful	Emblema Sicurezza
+RibbonMarkUnsure	Emblema Insicurezza
+RibbonMarkHumble	Emblema Ingenuità
+RibbonMarkThorny	Emblema Artificio
+RibbonMarkVigor	Emblema Vitalità
+RibbonMarkSlump	Emblema Sottotono
+RibbonHisui	Hisui
+RibbonTwinklingStar	Stella Brillante
+RibbonChampionPaldea	Campione Paldea
+RibbonMarkJumbo	Emblema Grande e Grosso
+RibbonMarkMini	Emblema Piccoletto
+RibbonMarkItemfinder	Emblema Pigliatutto
+RibbonMarkPartner	Emblema Compagno Fidato
+RibbonMarkGourmand	Emblema Gourmet
+RibbonOnceInALifetime	Eccezionale
+RibbonMarkAlpha	Emblema dell’Alfa
+RibbonMarkMightiest	Emblema della Forza Assoluta
+RibbonMarkTitan	Emblema del dominante
+RibbonPartner	Compagno

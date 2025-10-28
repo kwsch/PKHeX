@@ -1,0 +1,25 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	特別区	Distrito Federal	District Fédéral	Autonome Stadt Buenos Aires	Capitale Federale	Ciudad de Buenos Aires	联邦首都区	아르헨티나 연방구	聯邦首都區
+003	ブエノスアイレス州	Buenos Aires	Buenos Aires	Buenos Aires	Buenos Aires	Provincia de Buenos Aires	布宜诺斯艾利斯省	부에노스아이레스 주	布宜諾斯艾利斯省
+004	カタマルカ州	Catamarca	Catamarca	Catamarca	Catamarca	Catamarca	卡塔马卡省	카타마르카 주	卡塔馬卡省
+005	チャコ州	Chaco	Chaco	Chaco	Chaco	Chaco	查科省	차코 주	查科省
+006	チュブト州	Chubut	Chubut	Chubut	Chubut	Chubut	丘布特省	추부트 주	丘布特省
+007	コルドバ州	Córdoba	Córdoba	Córdoba	Córdoba	Córdoba	科尔多瓦省	코르도바 주	科爾多瓦省
+008	コリエンテス州	Corrientes	Corrientes	Corrientes	Corrientes	Corrientes	科连特斯省	코리엔테스 주	科連特斯省
+009	エントレ・リオス州	Entre Ríos	Entre Ríos	Entre Ríos	Entre Ríos	Entre Ríos	恩特雷里奥斯省	엔트레리오스 주	恩特雷裏奧斯省
+010	フォルモサ州	Formosa	Formosa	Formosa	Formosa	Formosa	福尔摩沙省	포르모사 주	福爾摩沙省
+011	フフイ州	Jujuy	Jujuy	Jujuy	Jujuy	Jujuy	胡胡伊省	후후이 주	胡胡伊省
+012	ラ・パンパ州	La Pampa	La Pampa	La Pampa	La Pampa	La Pampa	拉潘帕省	라팜파 주	拉潘帕省
+013	ラ・リオハ州	La Rioja	La Rioja	La Rioja	La Rioja	La Rioja	拉里奥哈省	라리오하 주	拉裏奧哈省
+014	メンドーサ州	Mendoza	Mendoza	Mendoza	Mendoza	Mendoza	门多萨省	멘도사 주	門多薩省
+015	ミシオネス州	Misiones	Misiones	Misiones	Misiones	Misiones	米西奥内斯省	미시오네스 주	米西奧內斯省
+016	ネウケン州	Neuquén	Neuquén	Neuquén	Neuquén	Neuquén	内乌肯省	네우켄 주	內烏肯省
+017	リオネグロ州	Río Negro	Río Negro	Río Negro	Río Negro	Río Negro	里奥内格罗省	리오네그로 주	裏奧內格羅省
+018	サルタ州	Salta	Salta	Salta	Salta	Salta	萨尔塔省	살타 주	薩爾塔省
+019	サン・フアン州	San Juan	San Juan	San Juan	San Juan	San Juan	圣胡安省	산후안 주	聖胡安省
+020	サン・ルイス州	San Luis	San Luis	San Luis	San Luis	San Luis	圣路易斯省	산루이스 주	聖路易斯省
+021	サンタ・クルス州	Santa Cruz	Santa Cruz	Santa Cruz	Santa Cruz	Santa Cruz	圣克鲁斯省	산타크루스 주	聖克魯斯省
+022	サンタ・フェ州	Santa Fe	Santa Fe	Santa Fe	Santa Fe	Santa Fe	圣菲省	산타페 주	聖菲省
+023	サンティアゴ・デル・エステロ州	Santiago del Estero	Santiago del Estero	Santiago del Estero	Santiago del Estero	Santiago del Estero	圣地亚哥-德尔埃斯特罗省	산티아고델에스테로 주	聖地亞哥-德爾埃斯特羅省
+024	ティエラ・デル・フエゴ州	Tierra del Fuego, Antártida e Islas del Atlántico Sur	Terre de Feu, Antarctique et Îles de l’Atlantique Sud	Feuerland	Terra del Fuoco	Tierra del Fuego	火地岛省	티에라델푸에고 주	火地島省
+025	トゥクマン州	Tucumán	Tucumán	Tucumán	Tucumán	Tucumán	图库曼省	투쿠만 주	圖庫曼省

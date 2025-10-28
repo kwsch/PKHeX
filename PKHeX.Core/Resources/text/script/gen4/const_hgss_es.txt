@@ -1,0 +1,22 @@
+0048	*	Incial	0:Sin elegir,152:Chikorita,155:Cyndaquil,158:Totodile
+0299	r	Pichu Picoreja (Encinar)	0:Sin activar,1:Pendiente,2:Obtenida
+0161	r	Perros (Torre Quemada)	0:Aparecido,1:Errante/Escapado
+0304	s	Estado Máximo Peñas	0:Muñeca Clefairy pendiente,1:Pendiente de conocer en Carmín (Lati@s pendiente),2:Conocido (Lati@s errante),3:Da a elegir inicial de Hoenn,4:Entrega inicial de Hoenn,5:Hablado con él en el Museo de Plateada,6:Quiere intercambiar en Silph S.A.,7:Intercambio por Beldum
+0067	e	Piedra Enigma	0:Sin activar,1778:Activa
+0249	e	Torre Oculta	0:Sin recibir inicial de Kanto,1:Obtenido inicial de Kanto,2:Orbe obtenido,3:Kyogre/Groudon activado,4:Kyogre/Groudon desaparecido,5:Recibido Esfera Verde,6:Rayquaza activado,7:Rayquaza capturado,8:Evento completado,9:Rayquaza desaparecido
+0251	e	Ruinas Sinjoh	1:Sin entra,4:Teletransportado (1ra),5:Salido fuera,6:Cynthia hablable (cabaña),7:Cynthia hablable,8:Antes de elegir legendario,10:Obtenido primer legendario,13:Teletransportado (2da),14:Obtenido segundo legendario
+0259	r	Legendario de Sinnoh (1er)	1:Dialga,2:Palkia,3:Giratina
+0258	r	Teletransportable (2do) Arceus	1:Sala Origen,2:Encuentro fatídico
+0305	r	Inicial de Kanto	0:Sin activar,1:Activado,2:Pendiente,3:Bulbasaur,4:Squirtle,5:Charmander,6:Completado
+0116	r	Togepi de regalo	0:Sin activar,1:Activado,2:Pendiente,3:Obtenido,4:Completado
+0254	r	Evento de Celebi	0:Sin activar,5:Completado
+0314	a	Puntos de la Tarjeta Azul	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,11:11,12:12,13:13,14:14,15:15,16:16,17:17,18:18,19:19,20:20,21:21,22:22,23:23,24:24,25:25,26:26,27:27,28:28,29:29
+0069	r	Estado Raikou	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
+0070	r	Estado Entei	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
+0071	r	Estado Latias errante (HG)	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
+0072	r	Estado Latios errante (SS)	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
+0148	+	Total de Hermanos semanales conocidos	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7
+0151	s	Hermanas entrenadoras guay (Ruta 34)	0:Sin luchar,1:Iida y Mar derrotadas,2:Hierba única pendiente,3:Lisa derrotada/Hierba única obtenida
+0253	r	Rojo (Monte Plateado)	0:No Derrotado,1:Derrotado (Inicial de Hoenn Activado)
+0276	s	Tarea de la carta	0:Sin activar,1:Spearow con Carta recibido,2:Carta entregada en la Ruta 31 (Mochila llena),3:Carta entregada en la Ruta 31,5:Quintín da Más PP (Completado)
+0291	+	Mejor puntuación capturas en Parque Compi

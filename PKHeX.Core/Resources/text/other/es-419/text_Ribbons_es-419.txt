@@ -1,0 +1,164 @@
+RibbonChampionKalos	Campeón de Kalos
+RibbonChampionG3	Campeón (Gen3)
+RibbonChampionSinnoh	Campeón de Sinnoh
+RibbonBestFriends	Afecto
+RibbonTraining	Entrenamiento
+RibbonBattlerSkillful	Élite del Combate
+RibbonBattlerExpert	Experto del Combate
+RibbonEffort	Esfuerzo
+RibbonAlert	Alerta
+RibbonShock	Impacto
+RibbonDowncast	Abatimiento
+RibbonCareless	Descuido
+RibbonRelax	Relajación
+RibbonSnooze	Siesta
+RibbonSmile	Sonrisa
+RibbonGorgeous	Maravilla
+RibbonRoyal	Realeza
+RibbonGorgeousRoyal	Realeza Maravila
+RibbonArtist	Artista
+RibbonFootprint	Huella
+RibbonRecord	Récord
+RibbonLegend	Leyenda
+RibbonCountry	Campo
+RibbonNational	Nacional
+RibbonEarth	Planeta
+RibbonWorld	Mundo
+RibbonClassic	Clásica
+RibbonPremier	Principal
+RibbonEvent	Evento
+RibbonBirthday	Cumpleaños
+RibbonSpecial	Especial
+RibbonSouvenir	Recuerdo
+RibbonWishing	Deseo
+RibbonChampionBattle	Campeón de Torneo
+RibbonChampionRegional	Campeón de Área
+RibbonChampionNational	Campeón Nacional
+RibbonChampionWorld	Campeón Mundial
+RibbonCountMemoryContest	Cintas de concursos anteriores
+RibbonCountMemoryBattle	Cintas de batallas anteriores
+RibbonChampionG6Hoenn	Campeón de Hoenn (ORAS)
+RibbonContestStar	Cinta estelar de los concursos
+RibbonMasterCoolness	Cinta estrella del carisma
+RibbonMasterBeauty	Cinta estrella de la belleza
+RibbonMasterCuteness	Cinta estrella de la dulzura
+RibbonMasterCleverness	Cinta estrella del ingenio
+RibbonMasterToughness	Cinta estrella de la solidez
+RibbonG3Cool	Carisma (G3)
+RibbonG3CoolSuper	Carisma Alto
+RibbonG3CoolHyper	Carisma Avanzado
+RibbonG3CoolMaster	Carisma Experto
+RibbonG3Beauty	Belleza (G3)
+RibbonG3BeautySuper	Belleza Alto
+RibbonG3BeautyHyper	Belleza Avanzado
+RibbonG3BeautyMaster	Belleza Experto
+RibbonG3Cute	Dulzura (G3)
+RibbonG3CuteSuper	Dulzura Alto
+RibbonG3CuteHyper	Dulzura Avanzado
+RibbonG3CuteMaster	Dulzura Experto
+RibbonG3Smart	Ingenio (G3)
+RibbonG3SmartSuper	Ingenio Alto
+RibbonG3SmartHyper	Ingenio Avanzado
+RibbonG3SmartMaster	Ingenio Experto
+RibbonG3Tough	Solidez (G3)
+RibbonG3ToughSuper	Solidez Alto
+RibbonG3ToughHyper	Solidez Avanzado
+RibbonG3ToughMaster	Solidez Experto
+RibbonG4Cool	Carisma (G4)
+RibbonG4CoolGreat	Carisma Difícil
+RibbonG4CoolUltra	Carisma Superior
+RibbonG4CoolMaster	Carisma Experto
+RibbonG4Beauty	Belleza (G4)
+RibbonG4BeautyGreat	Belleza Difícil
+RibbonG4BeautyUltra	Belleza Superior
+RibbonG4BeautyMaster	Belleza Experto
+RibbonG4Cute	Dulzura (G4)
+RibbonG4CuteGreat	Dulzura Difícil
+RibbonG4CuteUltra	Dulzura Superior
+RibbonG4CuteMaster	Dulzura Experto
+RibbonG4Smart	Ingenio (G4)
+RibbonG4SmartGreat	Ingenio Difícil
+RibbonG4SmartUltra	Ingenio Superior
+RibbonG4SmartMaster	Ingenio Experto
+RibbonG4Tough	Solidez (G4)
+RibbonG4ToughGreat	Solidez Difícil
+RibbonG4ToughUltra	Solidez Superior
+RibbonG4ToughMaster	Solidez Experto
+RibbonWinning	Ganador
+RibbonVictory	Victoria
+RibbonAbility	Habilidad
+RibbonAbilityGreat	Gran Habilidad
+RibbonAbilityDouble	Doble Habilidad
+RibbonAbilityMulti	Habilidad Múltiple
+RibbonAbilityPair	Habilidad Par
+RibbonAbilityWorld	Hablildad Mundial
+RibbonCountG3Cool	Carisma
+RibbonCountG3Beauty	Belleza
+RibbonCountG3Cute	Dulzura
+RibbonCountG3Smart	Ingenio
+RibbonCountG3Tough	Solidez
+RibbonChampionAlola	Campeón de Alola
+RibbonBattleRoyale	Maestro Batalla Royale
+RibbonBattleTreeGreat	As del Árbol
+RibbonBattleTreeMaster	Maestro del Árbol
+RibbonChampionGalar	Campeón de Galar
+RibbonTowerMaster	Maestro de la Torre
+RibbonMasterRank	Rango Maestro
+RibbonMarkLunchtime	Emblema Almuerzo
+RibbonMarkSleepyTime	Emblema Noche
+RibbonMarkDusk	Emblema Ocaso
+RibbonMarkDawn	Emblema Alba
+RibbonMarkCloudy	Emblema Nube
+RibbonMarkRainy	Emblema Lluvia
+RibbonMarkStormy	Emblema Tormenta
+RibbonMarkSnowy	Emblema Nieve
+RibbonMarkBlizzard	Emblema Nevasca
+RibbonMarkDry	Emblema Sequedad
+RibbonMarkSandstorm	Emblema Polvareda
+RibbonMarkMisty	Emblema Bruma
+RibbonMarkDestiny	Emblema Destino
+RibbonMarkFishing	Emblema Pesca
+RibbonMarkCurry	Emblema Curry
+RibbonMarkUncommon	Emblema Familiaridad
+RibbonMarkRare	Emblema Introspección
+RibbonMarkRowdy	Emblema Travesura
+RibbonMarkAbsentMinded	Emblema Despreocupación
+RibbonMarkJittery	Emblema Nerviosismo
+RibbonMarkExcited	Emblema Ilusión
+RibbonMarkCharismatic	Emblema Carisma
+RibbonMarkCalmness	Emblema Compostura
+RibbonMarkIntense	Emblema Pasión
+RibbonMarkZonedOut	Emblema Distracción
+RibbonMarkJoyful	Emblema Felicidad
+RibbonMarkAngry	Emblema Ira
+RibbonMarkSmiley	Emblema Sonrisa
+RibbonMarkTeary	Emblema Llanto
+RibbonMarkUpbeat	Emblema Buen Humor
+RibbonMarkPeeved	Emblema Mal Humor
+RibbonMarkIntellectual	Emblema Intelecto
+RibbonMarkFerocious	Emblema Impulsividad
+RibbonMarkCrafty	Emblema Astucia
+RibbonMarkScowling	Emblema Intimidación
+RibbonMarkKindly	Emblema Amabilidad
+RibbonMarkFlustered	Emblema Desconcierto
+RibbonMarkPumpedUp	Emblema Motivación
+RibbonMarkZeroEnergy	Emblema Desgano
+RibbonMarkPrideful	Emblema Confianza
+RibbonMarkUnsure	Emblema Inseguridad
+RibbonMarkHumble	Emblema Modestia
+RibbonMarkThorny	Emblema Altanería
+RibbonMarkVigor	Emblema Vigor
+RibbonMarkSlump	Emblema Extenuación
+RibbonHisui	Hisui
+RibbonTwinklingStar	Estrella Resplandeciente
+RibbonChampionPaldea	Campeón de Paldea
+RibbonMarkJumbo	Emblema Enormidad
+RibbonMarkMini	Emblema Miniatura
+RibbonMarkItemfinder	Emblema Recolección
+RibbonMarkPartner	Emblema Compañerismo
+RibbonMarkGourmand	Emblema Gourmet
+RibbonOnceInALifetime	Excepcionalidad
+RibbonMarkAlpha	Emblema Alfa
+RibbonMarkMightiest	Emblema Imbatibilidad
+RibbonMarkTitan	Emblema Dominio
+RibbonPartner	Camarada

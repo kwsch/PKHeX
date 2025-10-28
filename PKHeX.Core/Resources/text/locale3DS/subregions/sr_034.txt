@@ -1,0 +1,15 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	セント・トーマス	Saint Thomas	Saint-Thomas	Saint Thomas	Saint Thomas	Saint Thomas	圣托马斯区	세인트토머스	聖託馬斯區
+003	クラレンドン	Clarendon	Clarendon	Clarendon	Clarendon	Clarendon	克拉伦登区	클래런던	克拉倫登區
+004	ハノーバー	Hanover	Hanover	Hanover	Hanover	Hanover	汉诺威区	해노버	漢諾威區
+005	マンチェスター	Manchester	Manchester	Manchester	Manchester	Manchester	曼彻斯特区	맨체스터	曼徹斯特區
+006	ポートランド	Portland	Portland	Portland	Portland	Portland	波特兰区	포틀랜드	波特蘭區
+007	セント・アンドリュー	Saint Andrew	Saint Andrew	Saint Andrew	Saint Andrew	Saint Andrew	圣安德鲁区	세인트앤드루	聖安德魯區
+008	セント・アン	Saint Ann	Saint Ann	Saint Ann	Saint Ann	Saint Ann	圣安娜区	세인트앤	聖安娜區
+009	セント・キャサリン	Saint Catherine	Saint Catherine	Saint Catherine	Saint Catherine	Saint Catherine	圣凯瑟琳区	세인트캐서린	聖嘉芙蓮區
+010	セント・エリザベス	Saint Elizabeth	Saint Elizabeth	Saint Elizabeth	Saint Elizabeth	Saint Elizabeth	圣伊丽莎白区	세인트엘리자베스	聖伊麗莎白區
+011	セント・ジェームズ	Saint James	Saint James	Saint James	Saint James	Saint James	圣詹姆斯区	세인트제임스	聖詹姆斯區
+012	セント・メアリー	Saint Mary	Saint Mary	Saint Mary	Saint Mary	Saint Mary	圣玛丽区	세인트메리	聖瑪麗區
+013	トレローニー	Trelawny	Trelawny	Trelawny	Trelawny	Trelawny	特里洛尼区	트렐로니	特裏洛尼區
+014	ウェストモアランド	Westmoreland	Westmoreland	Westmoreland	Westmoreland	Westmoreland	西摩兰区	웨스트모얼랜드	西摩蘭區
+015	キングストン	Kingston	Kingston	Kingston	Kingston	Kingston	金斯敦区	킹스턴	金斯敦區

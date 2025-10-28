@@ -1,0 +1,27 @@
+Exemplare gefangen
+Einsatz von {0} gesehen
+Mit Attacke vom Typ {0} besiegt
+Exemplare besiegt
+Exemplare, die sich entwickelt haben
+Elite-Pokémon gefangen
+Große Exemplare gefangen
+Kleine Exemplare gefangen
+Schwere Exemplare gefangen
+Leichte Exemplare gefangen
+Bei {0} gefangen
+Gefangen, während es geschlafen hat
+Gefangen, während es in der Luft war
+Exemplare gefangen, ohne entdeckt zu werden
+Mit Nahrung gefüttert
+Schwerfällig gemacht
+Mit einer Knallkugel erschreckt
+Mit einer Pokémon-Kokeshi angelockt
+Krafttechnik gesehen
+Tempotechnik gesehen
+Von einem Baum springen gesehen
+Aus einem grünen Laubhaufen springen gesehen
+Aus dem Schnee springen gesehen
+Aus einem Kristallstein springen gesehen
+Aus einem Heukopf springen gesehen
+Registrierte Formen
+Einen Teil von Arceus anvertraut bekommen

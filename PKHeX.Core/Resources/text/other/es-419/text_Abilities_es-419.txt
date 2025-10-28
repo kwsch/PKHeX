@@ -1,0 +1,311 @@
+—
+Hedor
+Llovizna
+Impulso
+Armadura Batalla
+Robustez
+Humedad
+Flexibilidad
+Velo de Arena
+Elec. Estática
+Absorbevoltios
+Absorbeagua
+Despistado
+Aclimatación
+Ojo Compuesto
+Insomnio
+Cambio de Color
+Inmunidad
+Absorbefuego
+Polvo Escudo
+Ritmo Propio
+Ventosas
+Intimidación
+Sombra Trampa
+Piel Tosca
+Superguardia
+Levitación
+Efecto Espora
+Sincronía
+Cuerpo Puro
+Curación Natural
+Pararrayos
+Dicha
+Nado Rápido
+Clorofila
+Iluminación
+Calco
+Potencia
+Punto Tóxico
+Fuerza Mental
+Escudo de Magma
+Velo de Agua
+Imán
+Insonorización
+Curación Pluvial
+Chorro de Arena
+Presión
+Sebo
+Madrugador
+Cuerpo de Fuego
+Fuga
+Perspicacia
+Corte Fuerte
+Recolección
+Pereza
+Entusiasmo
+Gran Encanto
+Más
+Menos
+Predicción
+Viscosidad
+Mudar
+Agallas
+Escama Especial
+Toxisecreción
+Espesura
+Mar de Llamas
+Torrente
+Enjambre
+Cabeza Roca
+Sequía
+Trampa de Arena
+Espíritu Vital
+Humo Blanco
+Energía Pura
+Caparazón
+Esclusa de Aire
+Tambaleo
+Electromotor
+Rivalidad
+Impasible
+Manto Níveo
+Gula
+Irascible
+Liviano
+Ignífugo
+Simple
+Piel Seca
+Descarga
+Puño Férreo
+Antídoto
+Adaptable
+Encadenado
+Hidratación
+Poder Solar
+Pies Rápidos
+Normalidad
+Puntería
+Muro Mágico
+Indefenso
+Rezagado
+Experto
+Defensa Hoja
+Torpeza
+Rompemoldes
+Supersuerte
+Secuela
+Anticipación
+Alerta
+Ignorancia
+Cromolente
+Filtro
+Inicio Lento
+Intrépido
+Colector
+Cuerpo de Hielo
+Roca Sólida
+Nevada
+Cosechamiel
+Inspección
+Audaz
+Multitipo
+Don Floral
+Mal Sueño
+Hurto
+Potencia Bruta
+Respondón
+Nerviosismo
+Competitivo
+Flaquear
+Cuerpo Maldito
+Alma Sanadora
+Compiescolta
+Armadura Frágil
+Metal Pesado
+Metal Liviano
+Multiescamas
+Ímpetu Tóxico
+Ímpetu Ardiente
+Cosecha
+Telepatía
+Temperamental
+Funda
+Contacto Tóxico
+Regeneración
+Sacapecho
+Ímpetu Arena
+Piel Milagrosa
+Cálculo Final
+Ilusión
+Impostor
+Allanamiento
+Momia
+Autoestima
+Justiciero
+Cobardía
+Espejo Mágico
+Herbívoro
+Timador
+Poder Arenoso
+Punta Acero
+Modo Zen
+Tinovictoria
+Turbollama
+Terravoltaje
+Velo Aromático
+Velo Florido
+Mejillas
+Mutatipo
+Pelaje Recio
+Prestidigitador
+Antibalas
+Tenacidad
+Mandíbula Fuerte
+Piel Helada
+Velo Dulce
+Cambio Táctico
+Alas Vendaval
+Megalanzador
+Manto Frondoso
+Simbiosis
+Garra Dura
+Piel Feérica
+Baba
+Piel Celeste
+Amor Filial
+Aura Oscura
+Aura Feérica
+Rompeaura
+Mar del Albor
+Tierra del Ocaso
+Ráfaga Delta
+Firmeza
+Huida
+Retirada
+Hidrorrefuerzo
+Ensañamiento
+Escudo Limitado
+Vigilante
+Acuaburbuja
+Acero Templado
+Ira
+Quitanieves
+Remoto
+Voz Fluida
+Socorro
+Piel Eléctrica
+Cola Surf
+Banco
+Disfraz
+Fuerte Afecto
+Agrupamiento
+Corrosión
+Letargo Perenne
+Regia Presencia
+Revés
+Pareja de Baile
+Batería
+Mullido
+Cuerpo Vívido
+Coránima
+Rizos Rebeldes
+Receptor
+Reacción Química
+Ultraimpulso
+Sistema Alfa
+Electrogénesis
+Psicogénesis
+Nebulogénesis
+Herbogénesis
+Guardia Metálica
+Guardia Espectro
+Armadura Prisma
+Fuerza Cerebral
+Espada Indómita
+Escudo Recio
+Líbero
+Buscabola
+Pelusa
+Hélice Caudal
+Coraza Reflejo
+Tragamisil
+Acérrimo
+Combustible
+Punk Rock
+Expulsarena
+Escama de Hielo
+Maduración
+Cara de Hielo
+Fuente Energía
+Mimetismo
+Antibarrera
+Alma Acerada
+Cuerpo Mortal
+Alma Errante
+Obstinación
+Gas Reactivo
+Velo Pastel
+Mutapetito
+Mano Rápida
+Puño Invisible
+Medicina Extraña
+Transistor
+Mandíbula Dragón
+Relincho Blanco
+Relincho Negro
+Unidad Ecuestre
+Unidad Ecuestre
+Aroma Incesante
+Disemillar
+Termoconversión
+Coraza Ira
+Sal Purificadora
+Pan Comido
+Surcavientos
+Perro Guardián
+Transportarrocas
+Energía Eólica
+Cambio Heroico
+Comandante
+Dinamo
+Paleosíntesis
+Carga Cuark
+Cuerpo Áureo
+Caldero Debacle
+Espada Debacle
+Tablilla Debacle
+Cuenta Debacle
+Latido Oricalco
+Motor Hadrónico
+Oportunista
+Rumia
+Cortante
+General Supremo
+Unísono
+Capa Tóxica
+Cola Armadura
+Geofagia
+Poder Fúngico
+Hospitalidad
+Ojo Mental
+Evocarrecuerdos
+Evocarrecuerdos
+Evocarrecuerdos
+Evocarrecuerdos
+Cadena Tóxica
+Néctar Dulce
+Teracambio
+Teracaparazón
+Teraformación 0
+Títere Tóxico

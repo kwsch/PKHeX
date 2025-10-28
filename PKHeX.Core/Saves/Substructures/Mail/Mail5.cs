@@ -1,66 +1,59 @@
-﻿using System;
+using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+public sealed class Mail5 : MailDetail
 {
-    public class Mail5 : Mail
-    {
-        private const int SIZE = 0x38;
+    public const int SIZE = 0x38;
 
-        public Mail5(SAV5 sav, int index)
-        {
-            DataOffset = index * SIZE + 0x1DD00;
-            Data = sav.GetData(DataOffset, SIZE);
-        }
-        public Mail5(byte[] data)
-        {
-            Data = data;
-            DataOffset = -1;
-        }
-        public Mail5(byte? lang = null, byte? ver = null)
-        {
-            Data = new byte[SIZE];
-            DataOffset = -1;
-            if (lang != null) AuthorLanguage = (byte)lang;
-            if (ver != null) AuthorVersion = (byte)ver;
-            ResetData();
-        }
-        private void ResetData()
-        {
-            AuthorTID = 0;
-            AuthorSID = 0;
-            AuthorGender = 0;
-            MailType = 0xFF;
-            AuthorName = "";
-            for (int i = 0; i < 3; i++)
-                SetMisc(i, 0);
-            MessageEnding = 0xFFFF;
-            for (int y = 0; y < 3; y++)
-            for (int x = 0; x < 4; x++)
-                SetMessage(y, x, (ushort)(x == 1 ? 0 : 0xFFFF));
-        }
-        public override void CopyTo(PK5 pk5) => pk5.HeldMailData = Data;
-        public override ushort AuthorTID { get => BitConverter.ToUInt16(Data, 0); set => BitConverter.GetBytes(value).CopyTo(Data, 0); }
-        public ushort AuthorSID { get => BitConverter.ToUInt16(Data, 2); set => BitConverter.GetBytes(value).CopyTo(Data, 2); }
-        public override byte AuthorGender { get => Data[4]; set => Data[4] = value; }
-        public byte AuthorLanguage { get => Data[5]; set => Data[5] = value; }
-        public byte AuthorVersion { get => Data[6]; set => Data[6] = value; }
-        public override int MailType { get => Data[7]; set => Data[7] = (byte)value; }
-        public override string AuthorName { get => StringConverter.GetString5(Data, 8, 0x10); set => StringConverter.SetString5(value, 7, 8).CopyTo(Data, 8); }
-        public int GetMisc(int index) => BitConverter.ToUInt16(Data, 0x1C - index * 2);
-        public void SetMisc(int index, int value) => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1C - index * 2);
-        public ushort MessageEnding { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1E); }
-        public override ushort GetMessage(int index1, int index2) => BitConverter.ToUInt16(Data, 0x20 + (index1 * 4 + index2) * 2);
-        public override void SetMessage(int index1, int index2, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, 0x20 + (index1 * 4 + index2) * 2);
-        public override bool? IsEmpty
-        {
-            get
-            {
-                if (MailType == 0xFF) return true;
-                if (MailType <= 11) return false;
-                return null;
-            }
-        }
-        public override void SetBlank() => SetBlank(null, null);
-        public void SetBlank(byte? lang, byte? ver) => new Mail5(lang: lang, ver: ver).Data.CopyTo(Data, 0);
+    public Mail5(Memory<byte> raw, int ofs = -1) : base(raw, ofs) { }
+
+    public Mail5(byte? lang, byte? version) : base(new byte[SIZE])
+    {
+        if (lang is not null) AuthorLanguage = (byte)lang;
+        if (version is not null) AuthorVersion = (byte)version;
+        ResetData();
     }
+
+    private void ResetData()
+    {
+        AuthorTID = 0;
+        AuthorSID = 0;
+        AuthorGender = 0;
+        MailType = 0xFF;
+        AuthorName = string.Empty;
+        for (int i = 0; i < 3; i++)
+            SetMisc(i, 0);
+        MessageEnding = 0xFFFF;
+        for (int y = 0; y < 3; y++)
+        {
+            for (int x = 0; x < 4; x++)
+                SetMessage(y, x, x == 1 ? (ushort)0 : (ushort)0xFFFF);
+        }
+    }
+
+    public override void CopyTo(PK5 pk5) => Data.CopyTo(pk5.HeldMail);
+    public override ushort AuthorTID { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
+    public override ushort AuthorSID { get => ReadUInt16LittleEndian(Data[2..]); set => WriteUInt16LittleEndian(Data[2..], value); }
+    public override byte AuthorGender { get => Data[4]; set => Data[4] = value; }
+    public override byte AuthorLanguage { get => Data[5]; set => Data[5] = value; }
+    public override byte AuthorVersion { get => Data[6]; set => Data[6] = value; }
+    public override int MailType { get => Data[7]; set => Data[7] = (byte)value; }
+    public override string AuthorName { get => StringConverter5.GetString(Data.Slice(8, 0x10)); set => StringConverter5.SetString(Data.Slice(8, 0x10), value, 7, AuthorLanguage, StringConverterOption.ClearZero); }
+    public int GetMisc(int index) => ReadUInt16LittleEndian(Data[(0x1C - (index * 2))..]);
+    public void SetMisc(int index, int value) => WriteUInt16LittleEndian(Data[(0x1C - (index * 2))..], (ushort)value);
+    public ushort MessageEnding { get => ReadUInt16LittleEndian(Data[0x1E..]); set => WriteUInt16LittleEndian(Data[0x1E..], value); }
+    public override ushort GetMessage(int index1, int index2) => ReadUInt16LittleEndian(Data[(0x20 + (((index1 * 4) + index2) * 2))..]);
+    public override void SetMessage(int index1, int index2, ushort value) => WriteUInt16LittleEndian(Data[(0x20 + (((index1 * 4) + index2) * 2))..], value);
+
+    public override bool? IsEmpty => MailType switch
+    {
+        0xFF => true,
+        <= 11 => false,
+        _ => null,
+    };
+
+    public override void SetBlank() => SetBlank(null, null);
+    public void SetBlank(byte? lang, byte? version) => new Mail5(lang: lang, version: version).Data.CopyTo(Data);
 }

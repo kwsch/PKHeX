@@ -1,0 +1,25 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	ブエノスアイレス	Buenos Aires	Buenos Aires	Buenos Aires	Buenos Aires	Buenos Aires	布宜诺斯艾利斯省	부에노스아이레스	布宜諾斯艾利斯省
+002	ブエノスアイレスとくべつく	Ciudad Autónoma de Buenos Aires	Ville autonome de Buenos Aires	Autonome Stadt Buenos Aires	Città Autonoma di Buenos Aires	Ciudad Autónoma de Buenos Aires	布宜诺斯艾利斯自治市	부에노스아이레스 특별구	布宜諾斯艾利斯自治市
+003	カタマルカ	Catamarca	Catamarca	Catamarca	Catamarca	Catamarca	卡塔马卡省	카타마르카	卡塔馬卡省
+004	チャコ	Chaco	Chaco	Chaco	Chaco	Chaco	查科省	차코	查科省
+005	チュブ	Chubut	Chubut	Chubut	Chubut	Chubut	丘布特省	추부트	丘布特省
+006	コルドバ	Córdoba	Córdoba	Córdoba	Córdoba	Córdoba	科尔多瓦省	코르도바	科爾多瓦省
+007	コリエンテス	Corrientes	Corrientes	Corrientes	Corrientes	Corrientes	科连特斯省	코리엔테스	科連特斯省
+008	エントレリオ	Entre Ríos	Entre Ríos	Entre Ríos	Entre Ríos	Entre Ríos	恩特雷里奥斯省	엔트레리오스	恩特雷裏奧斯省
+009	フォルモサ	Formosa	Formosa	Formosa	Formosa	Formosa	福尔摩沙省	포르모사	福爾摩沙省
+010	フフイ	Jujuy	Jujuy	Jujuy	Jujuy	Jujuy	胡胡伊省	후후이	胡胡伊省
+011	ラ・パンパ	La Pampa	La Pampa	La Pampa	La Pampa	La Pampa	拉潘帕省	라팜파	拉潘帕省
+012	ラ・リオハ	La Rioja	La Rioja	La Rioja	La Rioja	La Rioja	拉里奥哈省	라리오하	拉裏奧哈省
+013	メンドサ	Mendoza	Mendoza	Mendoza	Mendoza	Mendoza	门多萨省	멘도사	門多薩省
+014	ミシオネス	Misiones	Misiones	Misiones	Misiones	Misiones	米西奥内斯省	미시오네스	米西奧內斯省
+015	ネウケン	Neuquén	Neuquén	Neuquén	Neuquén	Neuquén	内乌肯省	네우켄	內烏肯省
+016	リオネグロ	Río Negro	Río Negro	Río Negro	Río Negro	Río Negro	里奥内格罗省	리오네그로	裏奧內格羅省
+017	サルタ	Salta	Salta	Salta	Salta	Salta	萨尔塔省	살타	薩爾塔省
+018	サンファン	San Juan	San Juan	San Juan	San Juan	San Juan	圣胡安省	산후안	聖胡安省
+019	サンルイス	San Luis	San Luis	San Luis	San Luis	San Luis	圣路易斯省	산루이스	聖路易斯省
+020	サンタクルス	Santa Cruz	Santa Cruz	Santa Cruz	Santa Cruz	Santa Cruz	圣克鲁斯省	산타크루즈	聖克魯斯省
+021	サンタフェ	Santa Fe	Santa Fe	Santa Fe	Santa Fe	Santa Fe	圣菲省	산타페	聖菲省
+022	サンティアゴ・デル・エステロ	Santiago del Estero	Santiago del Estero	Santiago del Estero	Santiago del Estero	Santiago del Estero	圣地亚哥-德尔埃斯特罗省	산티아고델에스테로	聖地亞哥-德爾埃斯特羅省
+023	ティエラ・デル・フエゴ	Tierra del Fuego	Terre de Feu	Feuerland	Terra del Fuoco	Tierra del Fuego	火地岛省	티에라델푸에고	火地島省
+024	トゥクマン	Tucumán	Tucumán	Tucumán	Tucumán	Tucumán	图库曼省	투쿠만	圖庫曼省

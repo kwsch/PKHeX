@@ -1,0 +1,32 @@
+Wald
+Stadt
+Wüste
+Steppe
+Geröll
+Vulkan
+Schnee
+Höhle
+Strand
+Tiefsee
+Fluss
+Himmel
+Poké-Center
+Metall
+Kariert
+Weiß
+Spezialmotiv 1
+Spezialmotiv 2
+Spezialmotiv 3
+Spezialmotiv 4
+Spezialmotiv 5
+Spezialmotiv 6
+Spezialmotiv 7
+Spezialmotiv 8
+Spezialmotiv 9
+Spezialmotiv 10
+Spezialmotiv 11
+Spezialmotiv 12
+Spezialmotiv 13
+Spezialmotiv 14
+Spezialmotiv 15
+Spezialmotiv 16

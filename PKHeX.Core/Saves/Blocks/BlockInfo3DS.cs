@@ -1,69 +1,64 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Gen6+ Block Info (inside BEEF chunk)
+/// </summary>
+public abstract class BlockInfo3DS : BlockInfo
 {
-    public sealed class BlockInfo3DS : BlockInfo
+    private readonly int BlockInfoOffset;
+
+    // ==chunk def== @ BlockInfoOffset
+    // u64 timestamp1
+    // u64 timestamp2
+    // u8[4] BEEF magic
+    // n*{blockInfo}, where n varies per sav type
+
+    // ==block info def==
+    // u32 length
+    // u16 id
+    // u16 checksum
+
+    // when stored, each block size is rounded up to nearest 0x200, and the next chunk is immediately after
+
+    protected BlockInfo3DS(int bo, uint id, int ofs, int len)
     {
-        public ushort Checksum;
-        private int BlockInfoOffset;
-        private readonly Func<byte[], int, int, ushort> CheckFunc;
-
-        private BlockInfo3DS(Func<byte[], int, int, ushort> func) => CheckFunc = func;
-        private int ChecksumOffset => BlockInfoOffset + 6 + (int)ID * 8;
-        private ushort GetChecksum(byte[] data) => CheckFunc(data, Offset, Length);
-
-        protected override bool ChecksumValid(byte[] data)
-        {
-            ushort chk = GetChecksum(data);
-            var old = BitConverter.ToUInt16(data, ChecksumOffset);
-            return chk == old;
-        }
-        protected override void SetChecksum(byte[] data)
-        {
-            ushort chk = GetChecksum(data);
-            BitConverter.GetBytes(chk).CopyTo(data, ChecksumOffset);
-        }
-
-        /// <summary>
-        /// Gets the <see cref="BlockInfo"/> table for the input <see cref="data"/>.
-        /// </summary>
-        /// <param name="data">Complete data array</param>
-        /// <param name="blockInfoOffset">Offset the <see cref="BlockInfo"/> starts at.</param>
-        /// <param name="CheckFunc">Checksum method for validating each block.</param>
-        public static BlockInfo[] GetBlockInfoData(byte[] data, out int blockInfoOffset, Func<byte[], int, int, ushort> CheckFunc)
-        {
-            blockInfoOffset = data.Length - 0x200 + 0x10;
-            if (BitConverter.ToUInt32(data, blockInfoOffset) != SaveUtil.BEEF)
-                blockInfoOffset -= 0x200; // No savegames have more than 0x3D blocks, maybe in the future?
-            int count = (data.Length - blockInfoOffset - 0x8) / 8;
-            blockInfoOffset += 4;
-
-            var Blocks = new BlockInfo[count];
-            int CurrentPosition = 0;
-            for (int i = 0; i < Blocks.Length; i++)
-            {
-                Blocks[i] = new BlockInfo3DS(CheckFunc)
-                {
-                    Offset = CurrentPosition,
-                    Length = BitConverter.ToInt32(data, blockInfoOffset + 0 + 8 * i),
-                    ID = BitConverter.ToUInt16(data, blockInfoOffset + 4 + 8 * i),
-                    Checksum = BitConverter.ToUInt16(data, blockInfoOffset + 6 + 8 * i),
-
-                    BlockInfoOffset = blockInfoOffset
-                };
-
-                // Expand out to nearest 0x200
-                var remainder = Blocks[i].Length & 0x1FF;
-                CurrentPosition += remainder == 0 ? Blocks[i].Length : Blocks[i].Length + 0x200 - remainder;
-
-                if (Blocks[i].ID != 0 || i == 0)
-                    continue;
-                count = i;
-                break;
-            }
-            // Fix Final Array Lengths
-            Array.Resize(ref Blocks, count);
-            return Blocks;
-        }
+        BlockInfoOffset = bo;
+        ID = id;
+        Offset = ofs;
+        Length = len;
     }
+
+    private int ChecksumOffset => BlockInfoOffset + 0x14 + ((int)ID * 8) + 6;
+    protected abstract ushort GetChecksum(ReadOnlySpan<byte> data);
+
+    protected override bool ChecksumValid(ReadOnlySpan<byte> data)
+    {
+        ushort chk = GetChecksum(data);
+        var old = ReadUInt16LittleEndian(data[ChecksumOffset..]);
+        return chk == old;
+    }
+
+    protected override void SetChecksum(Span<byte> data)
+    {
+        ushort chk = GetChecksum(data);
+        WriteUInt16LittleEndian(data[ChecksumOffset..], chk);
+    }
+}
+
+public sealed class BlockInfo6(int bo, uint id, int ofs, int len) : BlockInfo3DS(bo, id, ofs, len)
+{
+    protected override ushort GetChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16_CCITT(data.Slice(Offset, Length));
+}
+
+public sealed class BlockInfo7(int bo, uint id, int ofs, int len) : BlockInfo3DS(bo, id, ofs, len)
+{
+    protected override ushort GetChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16Invert(data.Slice(Offset, Length));
+}
+
+public sealed class BlockInfo7b(int bo, uint id, int ofs, int len) : BlockInfo3DS(bo, id, ofs, len)
+{
+    protected override ushort GetChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16NoInvert(data.Slice(Offset, Length));
 }

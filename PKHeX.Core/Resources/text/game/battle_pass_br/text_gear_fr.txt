@@ -1,0 +1,1535 @@
+Bonnet d'été A
+Bonnet d'été B
+Bonnet d'été C
+Bonnet d'été D
+Chapeau de ville A
+Chapeau de ville B
+Chapeau de ville C
+Chapeau de ville D
+Chapeau cow-boy A
+Chapeau cow-boy B
+Chapeau cow-boy C
+Chapeau cow-boy D
+Tenue Groudon
+Tenue Groudon (Chromatique)
+Casquette Pikachu
+Couronne
+Béret Pokétopia
+Châtains
+Blond clair
+Violet foncé
+Roux
+Bleus
+Turquoise
+Tenue Groudon
+Tenue Groudon (Chromatique)
+(Enlever)
+Yeux noisette
+Ecarte-narines
+Tenue Groudon
+Tenue Groudon (Chromatique)
+Maquillage Pikachu
+Maquillage Poké Ball
+Maquillage obscur
+Yeux rouges
+Yeux olive
+Yeux verts
+T-shirt d'été A
+T-shirt d'été B
+T-shirt d'été C
+T-shirt d'été D
+Chemise de ville A
+Chemise de ville B
+Chemise cow-boy A
+Chemise cow-boy B
+Tenue Groudon
+Tenue Groudon (Chromatique)
+T-shirt Pikachu
+T-shirt Pokétopia
+T-shirt Poké Ball
+Chemise safari
+T-shirt océanique
+T-shirt désert
+T-shirt high-tech
+T-shirt flammes
+Jean d'été A
+Jean d'été B
+Jean d'été C
+Jean d'été D
+Pantalon de ville A
+Pantalon de ville B
+Pantalon cow-boy A
+Pantalon cow-boy B
+Tenue Groudon
+Tenue Groudon (Chromatique)
+Pantalon Pikachu
+Pantalon Pokétopia
+Pantalon Poké Ball
+Pantalon safari
+Pantalon océanique
+Pantalon désert
+Pantalon high-tech
+Pantalon flammes
+Baskets d'été A
+Baskets d'été B
+Baskets d'été C
+Baskets d'été D
+Baskets de ville A
+Baskets de ville B
+Baskets de ville C
+Baskets de ville D
+Chaussures cow-boy A
+Chaussures cow-boy B
+Chaussures cow-boy C
+Chaussures cow-boy D
+Tenue Groudon
+Tenue Groudon (Chromatique)
+(Enlever)
+Montre d'été A
+Montre d'été B
+Montre d'été C
+Montre d'été D
+Montre de ville A
+Montre de ville B
+Montre de ville C
+Montre de ville D
+Gants cow-boy A
+Gants cow-boy B
+Gants cow-boy C
+Gants cow-boy D
+Tenue Groudon
+Tenue Groudon (Chromatique)
+Gants Pikachu
+Mitaines
+(Enlever)
+Sac d'été A
+Sac d'été B
+Sac d'été C
+Sac d'été D
+Sacoche de ville A
+Sacoche de ville B
+Sacoche de ville C
+Sacoche de ville D
+Sacoche cow-boy A
+Sacoche cow-boy B
+Sacoche cow-boy C
+Sacoche cow-boy D
+Tenue Groudon
+Tenue Groudon (Chromatique)
+Sac Pikachu
+Sac Poké Ball
+(Enlever)
+Lunettes studieuses
+Lunettes noires
+Lunettes sans monture
+Lunettes miroir
+Lunettes en étoile
+Lunettes postiches
+Lunettes institutrice
+Pince-nez d'époque
+(Enlever)
+Badge cœur
+Badge métal Poké Ball
+Badge porte-bonheur
+Badge feu
+Badge Pikachu
+Badge feuille
+Badge Poké Ball
+Rose à la boutonnière
+Broche d'or
+Broche d'argent
+Broche de bronze
+Broche de diamant
+Broche de perle
+Broche de rubis
+Broche de saphir
+Broche d'émeraude
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Feutre branché A
+Feutre branché B
+Feutre branché C
+Feutre branché D
+Casquette de moto A
+Casquette de moto B
+Casquette de moto C
+Casquette de moto D
+Haut-de-forme chic A
+Haut-de-forme chic B
+Haut-de-forme chic C
+Haut-de-forme chic D
+Tenue Lucario
+Tenue Lucario (Chromatique)
+Casquette Pikachu
+Couronne
+Béret Pokétopia
+Bleu clair
+Châtain clair
+Noir argenté
+Blond pâle
+Vert menthe
+Bleu métallique
+Tenue Lucario
+Tenue Lucario (Chromatique)
+(Enlever)
+Yeux émeraude
+Maquillage chic
+Tenue Lucario
+Tenue Lucario (Chromatique)
+Maquillage Pikachu
+Maquillage Poké Ball
+Maquillage obscur
+Yeux rouges
+Yeux olive
+Yeux verts
+Blouson branché A
+Blouson branché B
+Blouson branché C
+Blouson branché D
+Blouson de moto A
+Blouson de moto B
+Veston chic A
+Veston chic B
+Tenue Lucario
+Tenue Lucario (Chromatique)
+Veste Pikachu
+Veste Pokétopia
+Veste Poké Ball
+Veste safari
+Veste océanique
+Veste désert
+Veste high-tech
+Veste flammes
+Pantalon branché A
+Pantalon branché B
+Pantalon branché C
+Pantalon branché D
+Pantalon de moto A
+Pantalon de moto B
+Pantalon chic A
+Pantalon chic B
+Tenue Lucario
+Tenue Lucario (Chromatique)
+Pantalon Pikachu
+Pantalon Pokétopia
+Pantalon Poké Ball
+Pantalon safari
+Pantalon océanique
+Pantalon désert
+Pantalon high-tech
+Pantalon flammes
+Chauss. branchées A
+Chauss. branchées B
+Chauss. branchées C
+Chauss. branchées D
+Chaussures de moto A
+Chaussures de moto B
+Chaussures de moto C
+Chaussures de moto D
+Souliers chic A
+Souliers chic B
+Souliers chic C
+Souliers chic D
+Tenue Lucario
+Tenue Lucario (Chromatique)
+(Enlever)
+Gants de moto A
+Gants de moto B
+Gants de moto C
+Gants de moto D
+Tenue Lucario
+Tenue Lucario (Chromatique)
+Gants Pikachu
+Mitaines
+(Enlever)
+Tenue Lucario
+Tenue Lucario (Chromatique)
+Sac Pikachu
+Sac Poké Ball
+(Enlever)
+Lunettes studieuses
+Lunettes noires
+Lunettes sans monture
+Lunettes miroir
+Lunettes en étoile
+Lunettes postiches
+Lunettes institutrice
+Pince-nez d'époque
+(Enlever)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cheveux hérissés
+Casquette de sport A
+Casquette de sport B
+Casquette de sport C
+Casquette de sport D
+Casque futuriste A
+Casque futuriste B
+Casque futuriste C
+Casque futuriste D
+Tenue Elekable
+Tenue Elekable (Chromatique)
+Casquette Pikachu
+Couronne
+Béret Pokétopia
+Beige
+Bleu-gris
+Auburn
+Blond paille
+Chocolat
+Brun cuivré
+Tenue Elekable
+Tenue Elekable (Chromatique)
+(Enlever)
+Sparadrap de sport
+Tenue Elekable
+Tenue Elekable (Chromatique)
+Maquillage Pikachu
+Maquillage Poké Ball
+Maquillage obscur
+Yeux rouges
+Yeux olive
+Yeux verts
+Débardeur militaire A
+Débardeur militaire B
+Débardeur militaire C
+Débardeur militaire D
+Débardeur de sport A
+Débardeur de sport B
+Débardeur futuriste A
+Débardeur futuriste B
+Tenue Elekable
+Tenue Elekable (Chromatique)
+Débardeur Pikachu
+Débardeur Pokétopia
+Débardeur Poké Ball
+Débardeur safari
+Débardeur océanique
+Débardeur désert
+Débardeur high-tech
+Débardeur flammes
+Pantalon militaire A
+Pantalon militaire B
+Pantalon militaire C
+Pantalon militaire D
+Pantalon de sport A
+Pantalon de sport B
+Pantalon futuriste A
+Pantalon futuriste B
+Tenue Elekable
+Tenue Elekable (Chromatique)
+Pantalon Pikachu
+Pantalon Pokétopia
+Pantalon Poké Ball
+Pantalon safari
+Pantalon océanique
+Pantalon désert
+Pantalon high-tech
+Pantalon flammes
+Bottes militaires A
+Bottes militaires B
+Bottes militaires C
+Bottes militaires D
+Bottes de sport A
+Bottes de sport B
+Bottes de sport C
+Bottes de sport D
+Bottes futuristes A
+Bottes futuristes B
+Bottes futuristes C
+Bottes futuristes D
+Tenue Elekable
+Tenue Elekable (Chromatique)
+(Enlever)
+Montre militaire A
+Montre militaire B
+Montre militaire C
+Montre militaire D
+Montre de sport A
+Montre de sport B
+Montre de sport C
+Montre de sport D
+Gants futuristes A
+Gants futuristes B
+Gants futuristes C
+Gants futuristes D
+Tenue Elekable
+Tenue Elekable (Chromatique)
+Gants Pikachu
+Mitaines
+(Enlever)
+Sacoche militaire A
+Sacoche militaire B
+Sacoche militaire C
+Sacoche militaire D
+Sac de sport A
+Sac de sport B
+Sac de sport C
+Sac de sport D
+Sac futuriste A
+Sac futuriste B
+Sac futuriste C
+Sac futuriste D
+Tenue Elekable
+Tenue Elekable (Chromatique)
+Sac à dos Pikachu
+Sac à dos Poké Ball
+(Enlever)
+Lunettes studieuses
+Lunettes noires
+Lunettes sans monture
+Lunettes miroir
+Lunettes en étoile
+Lunettes postiches
+Lunettes institutrice
+Pince-nez d'époque
+(Enlever)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Casquette fille A
+Casquette fille B
+Casquette fille C
+Casquette fille D
+Chapeau pique-nique A
+Chapeau pique-nique B
+Chapeau pique-nique C
+Chapeau pique-nique D
+Chapeau pirate A
+Chapeau pirate B
+Chapeau pirate C
+Chapeau pirate D
+Tenue Kyogre
+Tenue Kyogre (Chromatique)
+Casquette Pikachu
+Couronne
+Béret Pokétopia
+Bleu ciel
+Gris foncé
+Blonds
+Fraise
+Brun clair
+Bleu laiteux
+Tenue Kyogre
+Tenue Kyogre (Chromatique)
+(Enlever)
+Yeux bleu ciel
+Yeux violets
+Tenue Kyogre
+Tenue Kyogre (Chromatique)
+Maquillage Pikachu
+Maquillage Poké Ball
+Maquillage obscur
+Yeux rouges
+Yeux olive
+Yeux verts
+Minirobe fille A
+Minirobe fille B
+Minirobe fille C
+Minirobe fille D
+Minirobe pique-nique A
+Minirobe pique-nique B
+Minirobe pirate A
+Minirobe pirate B
+Tenue Kyogre
+Tenue Kyogre (Chromatique)
+Minirobe Pikachu
+Minirobe Pokétopia
+Minirobe Poké Ball
+Minirobe safari
+Minirobe océanique
+Minirobe désert
+Minirobe high-tech
+Minirobe flammes
+Short fille A
+Short fille B
+Short fille C
+Short fille D
+Short pique-nique A
+Short pique-nique B
+Short pirate A
+Short pirate B
+Tenue Kyogre
+Tenue Kyogre (Chromatique)
+Short Pikachu
+Short Pokétopia
+Short Poké Ball
+Short safari
+Short océanique
+Short désert
+Short high-tech
+Short flammes
+Baskets fille A
+Baskets fille B
+Baskets fille C
+Baskets fille D
+Tennis pique-nique A
+Tennis pique-nique B
+Tennis pique-nique C
+Tennis pique-nique D
+Chaussures pirate A
+Chaussures pirate B
+Chaussures pirate C
+Chaussures pirate D
+Tenue Kyogre
+Tenue Kyogre (Chromatique)
+(Enlever)
+Montre fille A
+Montre fille B
+Montre fille C
+Montre fille D
+Brac. pique-nique A
+Brac. pique-nique B
+Brac. pique-nique C
+Brac. pique-nique D
+Gants pirate A
+Gants pirate B
+Gants pirate C
+Gants pirate D
+Tenue Kyogre
+Tenue Kyogre (Chromatique)
+Gants Pikachu
+Mitaines
+(Enlever)
+Sac fille A
+Sac fille B
+Sac fille C
+Sac fille D
+Sac pique-nique A
+Sac pique-nique B
+Sac pique-nique C
+Sac pique-nique D
+Sac pirate A
+Sac pirate B
+Sac pirate C
+Sac pirate D
+Tenue Kyogre
+Tenue Kyogre (Chromatique)
+Sac Pikachu
+Sac Poké Ball
+(Enlever)
+Lunettes studieuses
+Lunettes noires
+Lunettes sans monture
+Lunettes miroir
+Lunettes en étoile
+Lunettes postiches
+Lunettes institutrice
+Pince-nez d'époque
+(Enlever)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Casquette branchée A
+Casquette branchée B
+Casquette branchée C
+Casquette branchée D
+Capeline de star A
+Capeline de star B
+Capeline de star C
+Capeline de star D
+Chapeau sylvestre A
+Chapeau sylvestre B
+Chapeau sylvestre C
+Chapeau sylvestre D
+Tenue Roserade
+Tenue Roserade (Chromatique)
+Casquette Pikachu
+Couronne
+Béret Pokétopia
+Mauves
+Argentés
+Bleu horizon
+Blond cendré
+Noir de jais
+Brun-roux
+Tenue Roserade
+Tenue Roserade (Chromatique)
+(Enlever)
+Yeux de star
+Yeux sylvestres
+Tenue Roserade
+Tenue Roserade (Chromatique)
+Maquillage Pikachu
+Maquillage Poké Ball
+Maquillage obscur
+Yeux rouges
+Yeux olive
+Yeux verts
+Débardeur branché A
+Débardeur branché B
+Débardeur branché C
+Débardeur branché D
+Débardeur de star A
+Débardeur de star B
+Débardeur sylvestre A
+Débardeur sylvestre B
+Tenue Roserade
+Tenue Roserade (Chromatique)
+Débardeur Pikachu
+Débardeur Pokétopia
+Débardeur Poké Ball
+Débardeur safari
+Débardeur océanique
+Débardeur désert
+Débardeur high-tech
+Débardeur flammes
+Pantalon branché A
+Pantalon branché B
+Pantalon branché C
+Pantalon branché D
+Pantalon de star A
+Pantalon de star B
+Pantalon sylvestre A
+Pantalon sylvestre B
+Tenue Roserade
+Tenue Roserade (Chromatique)
+Pantalon Pikachu
+Pantalon Pokétopia
+Pantalon Poké Ball
+Pantalon safari
+Pantalon océanique
+Pantalon désert
+Pantalon high-tech
+Pantalon flammes
+Escarpins branchés A
+Escarpins branchés B
+Escarpins branchés C
+Escarpins branchés D
+Escarpins de star A
+Escarpins de star B
+Escarpins de star C
+Escarpins de star D
+Sandales sylvestres A
+Sandales sylvestres B
+Sandales sylvestres C
+Sandales sylvestres D
+Tenue Roserade
+Tenue Roserade (Chromatique)
+(Enlever)
+Bracelets branchés A
+Bracelets branchés B
+Bracelets branchés C
+Bracelets branchés D
+Gants de star A
+Gants de star B
+Gants de star C
+Gants de star D
+Gants sylvestres A
+Gants sylvestres B
+Gants sylvestres C
+Gants sylvestres D
+Tenue Roserade
+Tenue Roserade (Chromatique)
+Gants Pikachu
+Mitaines
+(Enlever)
+Sac sylvestre A
+Sac sylvestre B
+Sac sylvestre C
+Sac sylvestre D
+Sac Pikachu
+Sac Poké Ball
+(Enlever)
+Lunettes de star A
+Lunettes de star B
+Lunettes de star C
+Lunettes de star D
+Tenue Roserade
+Tenue Roserade (Chromatique)
+Lunettes studieuses
+Lunettes noires
+Lunettes sans monture
+Lunettes miroir
+Lunettes en étoile
+Lunettes postiches
+Lunettes institutrice
+Pince-nez d'époque
+(Enlever)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Joli serre-tête A
+Joli serre-tête B
+Joli serre-tête C
+Joli serre-tête D
+Serre-tête écolière A
+Serre-tête écolière B
+Serre-tête écolière C
+Serre-tête écolière D
+Serre-tête cosmique A
+Serre-tête cosmique B
+Serre-tête cosmique C
+Serre-tête cosmique D
+Tenue Pachirisu
+Tenue Pachirisu (Chromatique)
+Serre-tête Pikachu
+Couronne
+Serre-tête Pokétopia
+Roses
+Orange
+Noirs
+Gris argenté
+Châtains
+Bleu céleste
+Tenue Pachirisu
+Tenue Pachirisu (Chromatique)
+(Enlever)
+Yeux bleus
+Yeux roses
+Tenue Pachirisu
+Tenue Pachirisu (Chromatique)
+Maquillage Pikachu
+Maquillage Poké Ball
+Maquillage obscur
+Yeux rouges
+Yeux olive
+Yeux verts
+Jolie robe A
+Jolie robe B
+Jolie robe C
+Jolie robe D
+Uniforme écolière A
+Uniforme écolière B
+Robe cosmique A
+Robe cosmique B
+Tenue Pachirisu
+Tenue Pachirisu (Chromatique)
+Robe Pikachu
+Robe Pokétopia
+Robe Poké Ball
+Robe safari
+Robe océanique
+Robe désert
+Robe high-tech
+Robe flammes
+(Inutilisé 0)
+(Inutilisé 1)
+Jolies ballerines A
+Jolies ballerines B
+Jolies ballerines C
+Jolies ballerines D
+Chaussures écolière A
+Chaussures écolière B
+Chaussures écolière C
+Chaussures écolière D
+Chauss. cosmiques A
+Chauss. cosmiques B
+Chauss. cosmiques C
+Chauss. cosmiques D
+Tenue Pachirisu
+Tenue Pachirisu (Chromatique)
+(Enlever)
+Jolis bracelets A
+Jolis bracelets B
+Jolis bracelets C
+Jolis bracelets D
+Montre écolière A
+Montre écolière B
+Montre écolière C
+Montre écolière D
+Gants cosmiques A
+Gants cosmiques B
+Gants cosmiques C
+Gants cosmiques D
+Tenue Pachirisu
+Tenue Pachirisu (Chromatique)
+Gants Pikachu
+Mitaines
+(Enlever)
+Sac cosmique A
+Sac cosmique B
+Sac cosmique C
+Sac cosmique D
+Tenue Pachirisu
+Tenue Pachirisu (Chromatique)
+Sac Pikachu
+Sac Poké Ball
+(Enlever)
+Lunettes écolière A
+Lunettes écolière B
+Lunettes écolière C
+Lunettes écolière D
+Lunettes studieuses
+Lunettes noires
+Lunettes sans monture
+Lunettes miroir
+Lunettes en étoile
+Lunettes postiches
+Lunettes institutrice
+Pince-nez d'époque
+(Enlever)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

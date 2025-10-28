@@ -1,0 +1,31 @@
+
+scharfer Knursp
+scharf-herber Knursp
+scharf-süßer Knursp
+scharf-bitterer Knursp
+scharf-saurer Knursp
+herber Knursp
+herb-scharfer Knursp
+herb-süßer Knursp
+herb-bitterer Knursp
+herb-saurer Knursp
+süßer Knursp
+süß-scharfer Knursp
+süß-herber Knursp
+süß-bitterer Knursp
+süß-saurer Knursp
+bitterer Knursp
+bitter-scharfer Knursp
+bitter-herber Knursp
+bitter-süßer Knursp
+bitter-saurer Knursp
+saurer Knursp
+sauer-scharfer Knursp
+sauer-herber Knursp
+sauer-süßer Knursp
+sauer-bitterer Knursp
+reichhaltiger Knursp
+opulenter Knursp
+schlechter Knursp
+exquisiter Knursp
+sehr exquisiter Knursp

@@ -1,94 +1,91 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckResultCode;
 
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+/// <summary>
+/// Verifies the <see cref="PKM.Gender"/>.
+/// </summary>
+public sealed class GenderVerifier : Verifier
 {
-    /// <summary>
-    /// Verifies the <see cref="PKM.Gender"/>.
-    /// </summary>
-    public sealed class GenderVerifier : Verifier
+    protected override CheckIdentifier Identifier => CheckIdentifier.Gender;
+
+    public override void Verify(LegalityAnalysis data)
     {
-        protected override CheckIdentifier Identifier => CheckIdentifier.Gender;
-
-        public override void Verify(LegalityAnalysis data)
+        var pk = data.Entity;
+        var pi = data.PersonalInfo;
+        var gender = pk.Gender;
+        if (pi.Genderless != (gender == 2))
         {
-            var pkm = data.pkm;
-            var pi = pkm.PersonalInfo;
-            if (pi.Genderless != (pkm.Gender == 2))
-            {
-                // DP/HGSS shedinja glitch -- only generation 4 spawns
-                bool ignore = pkm.Format == 4 && pkm.Species == 292 && pkm.Met_Level != pkm.CurrentLevel;
-                if (!ignore)
-                    data.AddLine(GetInvalid(V203));
-                return;
-            }
-
-            // Check for PID relationship to Gender & Nature if applicable
-            int gen = data.Info.Generation;
-
-            if (3 <= gen && gen <= 5)
-            {
-                // Gender-PID & Nature-PID relationship check
-                if (IsValidGenderPID(data))
-                    data.AddLine(GetValid(V250));
-                else
-                    data.AddLine(GetInvalid(V251));
-
-                if (gen != 5)
-                    VerifyNaturePID(data);
-                return;
-            }
-
-            // Check fixed gender cases
-            if ((pi.OnlyFemale && pkm.Gender != 1) || (pi.OnlyMale && pkm.Gender != 0))
-                data.AddLine(GetInvalid(V203));
+            // D/P/Pt & HG/SS Shedinja glitch -- only generation 4 spawns
+            bool ignore = pk is { Format: 4, Species: (int)Species.Shedinja } && pk.MetLevel != pk.CurrentLevel;
+            if (!ignore)
+                data.AddLine(GetInvalid(GenderInvalidNone));
+            return;
         }
 
-        private void VerifyNaturePID(LegalityAnalysis data)
+        // Check for PID relationship to Gender & Nature if applicable
+        var gen = data.Info.Generation;
+        if (gen is 3 or 4 or 5)
         {
-            var pkm = data.pkm;
-            var result = pkm.EncryptionConstant % 25 == pkm.Nature
-                ? GetValid(V252, CheckIdentifier.Nature)
-                : GetInvalid(V253, CheckIdentifier.Nature);
+            // Gender-PID & Nature-PID relationship check
+            var result = IsValidGenderPID(data) ? GetValid(PIDGenderMatch) : GetInvalid(PIDGenderMismatch);
             data.AddLine(result);
+
+            if (gen != 5)
+                VerifyNaturePID(data);
+            return;
         }
 
-        private bool IsValidGenderPID(LegalityAnalysis data)
-        {
-            var pkm = data.pkm;
-            bool genderValid = pkm.IsGenderValid();
-            if (!genderValid)
-                return IsValidGenderMismatch(pkm);
-
-            // check for mixed->fixed gender incompatibility by checking the gender of the original species
-            int original = data.EncounterMatch.Species;
-            if (Legal.FixedGenderFromBiGender.Contains(original))
-                return IsValidFixedGenderFromBiGender(pkm, original);
-
-            return true;
-        }
-
-        private static bool IsValidFixedGenderFromBiGender(PKM pkm, int original)
-        {
-            var current = pkm.Gender;
-            if (current == 2) // shedinja, genderless
-                return true;
-            var gender = PKX.GetGenderFromPID(original, pkm.EncryptionConstant);
-            return gender == current;
-        }
-
-        private static bool IsValidGenderMismatch(PKM pkm)
-        {
-            switch (pkm.Species)
-            {
-                case 292 when pkm.Format == 4: // Shedinja evolution gender glitch, should match original Gender
-                    return pkm.Gender == PKX.GetGenderFromPIDAndRatio(pkm.EncryptionConstant, 0x7F); // 50M-50F
-
-                case 183 when pkm.Format >= 6:
-                case 184 when pkm.Format >= 6: // evolved from azurill after transferring to keep gender
-                    return pkm.Gender == 1 && (pkm.EncryptionConstant & 0xFF) > 0x3F;
-
-                default: return false;
-            }
-        }
+        // Check fixed gender cases
+        if ((pi.OnlyFemale && gender != 1) || (pi.OnlyMale && gender != 0))
+            data.AddLine(GetInvalid(GenderInvalidNone));
     }
+
+    private static void VerifyNaturePID(LegalityAnalysis data)
+    {
+        var pk = data.Entity;
+        var result = GetExpectedNature(pk) == pk.Nature
+            ? GetValid(CheckIdentifier.Nature, PIDNatureMatch)
+            : GetInvalid(CheckIdentifier.Nature, PIDNatureMismatch);
+        data.AddLine(result);
+    }
+
+    private static Nature GetExpectedNature(PKM pk) => (Nature)(pk.EncryptionConstant % 25);
+
+    private static bool IsValidGenderPID(LegalityAnalysis data)
+    {
+        var pk = data.Entity;
+        bool genderValid = pk.IsGenderValid();
+        if (!genderValid)
+            return IsValidGenderMismatch(pk);
+
+        // Check for mixed->fixed gender incompatibility by checking the gender of the original species
+        if (SpeciesCategory.IsFixedGenderFromDual(pk.Species))
+            return IsValidFixedGenderFromBiGender(pk, data.EncounterMatch.Species);
+
+        return true;
+    }
+
+    private static bool IsValidFixedGenderFromBiGender(PKM pk, ushort originalSpecies)
+    {
+        var current = pk.Gender;
+        if (current == 2) // Shedinja, genderless
+            return true;
+        var gender = EntityGender.GetFromPID(originalSpecies, pk.EncryptionConstant);
+        return gender == current;
+    }
+
+    /// <summary>
+    /// Checks the un-evolved species' gender ratio instead of the current species.
+    /// </summary>
+    private static bool IsValidGenderMismatch(PKM pk) => pk.Species switch
+    {
+        // Shedinja evolution gender glitch (doesn't set as Genderless): should match original Gender
+        (int) Species.Shedinja when pk.Format == 4 => pk.Gender == EntityGender.GetFromPIDAndRatio(pk.EncryptionConstant, EntityGender.HH), // 1:1 (Nincada)
+
+        // Azurill gender changing: Different gender ratios, will "change" genders if evolved in games where PID-Gender is still coupled (<= Gen5).
+        (int) Species.Marill or (int) Species.Azumarill when pk.Format >= 6 => pk.Gender == 1 && (byte)pk.EncryptionConstant is >= EntityGender.HH and < EntityGender.MF, // 3F:1M (Azurill)
+
+        _ => false,
+    };
 }

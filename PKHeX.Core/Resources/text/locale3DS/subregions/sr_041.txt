@@ -1,0 +1,19 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	セントラル県	Central	Central	Central	Central	Central	中央省	센트랄 주	中央省
+003	アルト・パラナ県	Alto Paraná	Alto Paraná	Alto Paraná	Alto Paraná	Alto Paraná	上巴拉那省	알토파라나 주	上巴拉那省
+004	アマンバイ県	Amambay	Amambay	Amambay	Amambay	Amambay	阿曼拜省	아맘바이 주	阿曼拜省
+005	カアグアスー県	Caaguazú	Caaguazú	Caaguazú	Caaguazú	Caaguazú	卡瓜苏省	카아과수 주	卡瓜蘇省
+006	カアサパ県	Caazapá	Caazapá	Caazapá	Caazapá	Caazapá	卡萨帕省	카아사파 주	卡薩帕省
+007	コンセプシオン県	Concepción	Concepción	Concepción	Concepción	Concepción	康塞普西翁省	콘셉시온 주	康塞普西翁省
+008	コルディリェラ県	Cordillera	Cordillera	Cordillera	Cordillera	Cordillera	科迪勒拉省	코르디예라 주	科迪勒拉省
+009	グアイラー県	Guairá	Guairá	Guairá	Guairá	Guairá	瓜伊拉省	과이라 주	瓜伊拉省
+010	イタプア県	Itapúa	Itapúa	Itapúa	Itapúa	Itapúa	伊塔普阿省	이타푸아 주	伊塔普阿省
+011	ミシオネス県	Misiones	Misiones	Misiones	Misiones	Misiones	米西奥内斯省	미시오네스 주	米西奧內斯省
+012	ニェエンブク県	Ñeembucú	Ñeembucú	Ñeembucú	Ñeembucú	Ñeembucú	涅恩布库省	네엠부쿠 주	涅恩布庫省
+013	パラグアリ県	Paraguarí	Paraguarí	Paraguarí	Paraguarí	Paraguarí	巴拉瓜里省	파라과리 주	巴拉瓜裏省
+014	プレジデンテ・アエス県	Presidente Hayes	Presidente Hayes	Presidente Hayes	Presidente Hayes	Presidente Hayes	阿耶斯总统省	프레시덴테아예스 주	阿耶斯總統省
+015	サン・ペドロ県	San Pedro	San Pedro	San Pedro	San Pedro	San Pedro	圣佩德罗省	산페드로 주	聖佩德羅省
+016	カニンデジュ県	Canindeyú	Canindeyú	Canindeyú	Canindeyú	Canindeyú	卡宁迪尤省	카넨디유 주	卡寧迪尤省
+017	アスンシオン市	Asunción	Asunción	Asunción D.C.	Asunción	Asunción	亚松森首都特别区	아순시온	亞松森首都特別區
+018	アルト・パラグアイ県	Alto Paraguay	Alto Paraguay	Alto Paraguay	Alto Paraguay	Alto Paraguay	上巴拉圭省	알토파라과이 주	上巴拉圭省
+019	ボケロン県	Boquerón	Boquerón	Boquerón	Boquerón	Boquerón	博克龙省	보케론 주	博克龍省

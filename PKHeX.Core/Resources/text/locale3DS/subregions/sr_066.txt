@@ -1,0 +1,10 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ウィーン	Vienna	Vienne	Wien	Vienna	Viena	维也纳州	빈	維也納州
+003	ブルゲンラント州	Burgenland	Burgenland	Burgenland	Burgenland	Burgenland	布尔根兰州	부르겐란트 주	布爾根蘭州
+004	ケルンテン州	Carinthia	Carinthie	Kärnten	Carinzia	Carintia	克恩顿州	케른텐 주	克恩頓州
+005	ニーダー・エスターライヒ州	Lower Austria	Basse-Autriche	Niederösterreich	Bassa Austria	Baja Austria	下奥地利州	니더외스터라이히 주	下奧地利州
+006	オーバー・エスターライヒ州	Upper Austria	Haute-Autriche	Oberösterreich	Alta Austria	Alta Austria	上奥地利州	오버외스터라이히 주	上奧地利州
+007	ザルツブルク州	Salzburg	Salzbourg	Salzburg	Salisburghese	Salzburgo	萨尔茨堡州	잘츠부르크 주	薩爾茨堡州
+008	シュタイアーマルク州	Styria	Styrie	Steiermark	Stiria	Estiria	施蒂利亚州	슈타이어마르크 주	施蒂利亞州
+009	ティロル州	Tyrol	Tyrol	Tirol	Tirolo	Tirol	蒂罗尔州	티롤 주	蒂羅爾州
+010	フォアアールベルク州	Vorarlberg	Vorarlberg	Vorarlberg	Vorarlberg	Vorarlberg	福拉尔贝格州	포어아를베르크 주	福拉爾貝格州

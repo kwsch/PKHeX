@@ -1,0 +1,27 @@
+Spécimens attrapés
+Fois où l’espèce a utilisé {0}
+Spécimens vaincus par une capacité de type {0}
+Spécimens vaincus
+Spécimens que vous avez fait évoluer
+Spécimens Barons attrapés
+Spécimens de grande taille attrapés
+Spécimens de petite taille attrapés
+Spécimens poids lourds attrapés
+Spécimens poids plumes attrapés
+Spécimens attrapés pendant la {0}
+Spécimens attrapés dans leur sommeil
+Spécimens attrapés en plein vol
+Spécimens attrapés sans qu’ils vous repèrent
+Fois où l’espèce a reçu de la nourriture
+Fois où vous avez ralenti les mouvements de l’espèce
+Fois où l’espèce a été effrayée par un Sachet Pétarade
+Fois où l’espèce a été attirée par une Poupée Pokéshi
+Fois où l’espèce a utilisé le Style Puissant
+Fois où l’espèce a utilisé le Style Rapide
+Spécimens aperçus surgissant d’un arbre
+Spécimens aperçus surgissant d’un tas de feuilles vertes
+Spécimens aperçus surgissant de la neige
+Spécimens aperçus surgissant d’un gisement minier
+Spécimens aperçus surgissant d’un touradon
+Apparences différentes constatées
+Bénédiction d’Arceus reçue

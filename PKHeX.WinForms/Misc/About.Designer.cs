@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class About
     {
@@ -28,85 +28,113 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
-            this.B_Close = new System.Windows.Forms.Button();
-            this.RTB = new System.Windows.Forms.RichTextBox();
-            this.L_Thanks = new System.Windows.Forms.Label();
-            this.B_Shortcuts = new System.Windows.Forms.Button();
-            this.SuspendLayout();
-            // 
-            // B_Close
-            // 
-            this.B_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Close.Location = new System.Drawing.Point(412, 340);
-            this.B_Close.Name = "B_Close";
-            this.B_Close.Size = new System.Drawing.Size(75, 23);
-            this.B_Close.TabIndex = 0;
-            this.B_Close.Text = "Close";
-            this.B_Close.UseVisualStyleBackColor = true;
-            this.B_Close.Click += new System.EventHandler(this.B_Close_Click);
-            // 
-            // RTB
-            // 
-            this.RTB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB.Location = new System.Drawing.Point(7, 9);
-            this.RTB.Name = "RTB";
-            this.RTB.ReadOnly = true;
-            this.RTB.Size = new System.Drawing.Size(480, 322);
-            this.RTB.TabIndex = 1;
-            this.RTB.Text = "";
-            this.RTB.WordWrap = false;
+            L_Thanks = new System.Windows.Forms.Label();
+            TC_About = new System.Windows.Forms.TabControl();
+            Tab_Shortcuts = new System.Windows.Forms.TabPage();
+            RTB_Shortcuts = new System.Windows.Forms.RichTextBox();
+            Tab_Changelog = new System.Windows.Forms.TabPage();
+            RTB_Changelog = new System.Windows.Forms.RichTextBox();
+            TC_About.SuspendLayout();
+            Tab_Shortcuts.SuspendLayout();
+            Tab_Changelog.SuspendLayout();
+            SuspendLayout();
             // 
             // L_Thanks
             // 
-            this.L_Thanks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.L_Thanks.AutoSize = true;
-            this.L_Thanks.Location = new System.Drawing.Point(12, 345);
-            this.L_Thanks.Name = "L_Thanks";
-            this.L_Thanks.Size = new System.Drawing.Size(147, 13);
-            this.L_Thanks.TabIndex = 2;
-            this.L_Thanks.Text = "Thanks to all the researchers!";
+            L_Thanks.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            L_Thanks.Location = new System.Drawing.Point(309, 5);
+            L_Thanks.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Thanks.Name = "L_Thanks";
+            L_Thanks.Size = new System.Drawing.Size(262, 15);
+            L_Thanks.TabIndex = 2;
+            L_Thanks.Text = "Thanks to all the researchers!";
+            L_Thanks.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // B_Shortcuts
+            // TC_About
             // 
-            this.B_Shortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Shortcuts.Location = new System.Drawing.Point(337, 340);
-            this.B_Shortcuts.Name = "B_Shortcuts";
-            this.B_Shortcuts.Size = new System.Drawing.Size(69, 23);
-            this.B_Shortcuts.TabIndex = 4;
-            this.B_Shortcuts.Text = "Shortcuts";
-            this.B_Shortcuts.UseVisualStyleBackColor = true;
-            this.B_Shortcuts.Click += new System.EventHandler(this.B_Shortcuts_Click);
+            TC_About.Controls.Add(Tab_Shortcuts);
+            TC_About.Controls.Add(Tab_Changelog);
+            TC_About.Dock = System.Windows.Forms.DockStyle.Fill;
+            TC_About.Location = new System.Drawing.Point(0, 0);
+            TC_About.Margin = new System.Windows.Forms.Padding(0);
+            TC_About.Name = "TC_About";
+            TC_About.SelectedIndex = 0;
+            TC_About.Size = new System.Drawing.Size(576, 429);
+            TC_About.TabIndex = 5;
+            // 
+            // Tab_Shortcuts
+            // 
+            Tab_Shortcuts.Controls.Add(RTB_Shortcuts);
+            Tab_Shortcuts.Location = new System.Drawing.Point(4, 24);
+            Tab_Shortcuts.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Shortcuts.Name = "Tab_Shortcuts";
+            Tab_Shortcuts.Size = new System.Drawing.Size(568, 401);
+            Tab_Shortcuts.TabIndex = 0;
+            Tab_Shortcuts.Text = "Shortcuts";
+            Tab_Shortcuts.UseVisualStyleBackColor = true;
+            // 
+            // RTB_Shortcuts
+            // 
+            RTB_Shortcuts.Dock = System.Windows.Forms.DockStyle.Fill;
+            RTB_Shortcuts.Location = new System.Drawing.Point(0, 0);
+            RTB_Shortcuts.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            RTB_Shortcuts.Name = "RTB_Shortcuts";
+            RTB_Shortcuts.ReadOnly = true;
+            RTB_Shortcuts.Size = new System.Drawing.Size(568, 401);
+            RTB_Shortcuts.TabIndex = 3;
+            RTB_Shortcuts.Text = "";
+            RTB_Shortcuts.WordWrap = false;
+            // 
+            // Tab_Changelog
+            // 
+            Tab_Changelog.Controls.Add(RTB_Changelog);
+            Tab_Changelog.Location = new System.Drawing.Point(4, 24);
+            Tab_Changelog.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Changelog.Name = "Tab_Changelog";
+            Tab_Changelog.Size = new System.Drawing.Size(568, 401);
+            Tab_Changelog.TabIndex = 1;
+            Tab_Changelog.Text = "Changelog";
+            Tab_Changelog.UseVisualStyleBackColor = true;
+            // 
+            // RTB_Changelog
+            // 
+            RTB_Changelog.Dock = System.Windows.Forms.DockStyle.Fill;
+            RTB_Changelog.Location = new System.Drawing.Point(0, 0);
+            RTB_Changelog.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            RTB_Changelog.Name = "RTB_Changelog";
+            RTB_Changelog.ReadOnly = true;
+            RTB_Changelog.Size = new System.Drawing.Size(568, 401);
+            RTB_Changelog.TabIndex = 2;
+            RTB_Changelog.Text = "";
+            RTB_Changelog.WordWrap = false;
             // 
             // About
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(494, 372);
-            this.Controls.Add(this.B_Shortcuts);
-            this.Controls.Add(this.L_Thanks);
-            this.Controls.Add(this.RTB);
-            this.Controls.Add(this.B_Close);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(910, 710);
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(510, 410);
-            this.Name = "About";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "About";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            ClientSize = new System.Drawing.Size(576, 429);
+            Controls.Add(L_Thanks);
+            Controls.Add(TC_About);
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MaximumSize = new System.Drawing.Size(1059, 813);
+            MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(592, 467);
+            Name = "About";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "About";
+            TC_About.ResumeLayout(false);
+            Tab_Shortcuts.ResumeLayout(false);
+            Tab_Changelog.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
-
-        private System.Windows.Forms.Button B_Close;
-        private System.Windows.Forms.RichTextBox RTB;
         private System.Windows.Forms.Label L_Thanks;
-        private System.Windows.Forms.Button B_Shortcuts;
+        private System.Windows.Forms.TabControl TC_About;
+        private System.Windows.Forms.TabPage Tab_Shortcuts;
+        private System.Windows.Forms.RichTextBox RTB_Shortcuts;
+        private System.Windows.Forms.TabPage Tab_Changelog;
+        private System.Windows.Forms.RichTextBox RTB_Changelog;
     }
 }

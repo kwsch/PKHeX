@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls
 {
     partial class ContextMenuSAV
     {
@@ -28,65 +28,65 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.mnuVSD = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSet = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLegality = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuVSD.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            mnuVSD = new System.Windows.Forms.ContextMenuStrip(components);
+            mnuView = new System.Windows.Forms.ToolStripMenuItem();
+            mnuSet = new System.Windows.Forms.ToolStripMenuItem();
+            mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
+            mnuLegality = new System.Windows.Forms.ToolStripMenuItem();
+            mnuVSD.SuspendLayout();
+            SuspendLayout();
             // 
             // mnuVSD
             // 
-            this.mnuVSD.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuView,
-            this.mnuSet,
-            this.mnuDelete,
-            this.mnuLegality});
-            this.mnuVSD.Name = "mnuVSD";
-            this.mnuVSD.Size = new System.Drawing.Size(153, 114);
-            this.mnuVSD.Opening += new System.ComponentModel.CancelEventHandler(this.MenuOpening);
+            mnuVSD.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            mnuView,
+            mnuSet,
+            mnuDelete,
+            mnuLegality});
+            mnuVSD.Name = "mnuVSD";
+            mnuVSD.Size = new System.Drawing.Size(153, 114);
+            mnuVSD.Opening += new System.ComponentModel.CancelEventHandler(MenuOpening);
             // 
             // mnuView
             // 
-            this.mnuView.Image = global::PKHeX.WinForms.Properties.Resources.other;
-            this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(152, 22);
-            this.mnuView.Text = "View";
-            this.mnuView.Click += new System.EventHandler(this.ClickView);
+            mnuView.Image = global::PKHeX.WinForms.Properties.Resources.other;
+            mnuView.Name = "mnuView";
+            mnuView.Size = new System.Drawing.Size(152, 22);
+            mnuView.Text = "View";
+            mnuView.Click += new System.EventHandler(ClickView);
             // 
             // mnuSet
             // 
-            this.mnuSet.Image = global::PKHeX.WinForms.Properties.Resources.exit;
-            this.mnuSet.Name = "mnuSet";
-            this.mnuSet.Size = new System.Drawing.Size(152, 22);
-            this.mnuSet.Text = "Set";
-            this.mnuSet.Click += new System.EventHandler(this.ClickSet);
+            mnuSet.Image = global::PKHeX.WinForms.Properties.Resources.exit;
+            mnuSet.Name = "mnuSet";
+            mnuSet.Size = new System.Drawing.Size(152, 22);
+            mnuSet.Text = "Set";
+            mnuSet.Click += new System.EventHandler(ClickSet);
             // 
             // mnuDelete
             // 
-            this.mnuDelete.Image = global::PKHeX.WinForms.Properties.Resources.nocheck;
-            this.mnuDelete.Name = "mnuDelete";
-            this.mnuDelete.Size = new System.Drawing.Size(152, 22);
-            this.mnuDelete.Text = "Delete";
-            this.mnuDelete.Click += new System.EventHandler(this.ClickDelete);
+            mnuDelete.Image = global::PKHeX.WinForms.Properties.Resources.nocheck;
+            mnuDelete.Name = "mnuDelete";
+            mnuDelete.Size = new System.Drawing.Size(152, 22);
+            mnuDelete.Text = "Delete";
+            mnuDelete.Click += new System.EventHandler(ClickDelete);
             // 
             // mnuLegality
             // 
-            this.mnuLegality.Image = global::PKHeX.WinForms.Properties.Resources.export;
-            this.mnuLegality.Name = "mnuLegality";
-            this.mnuLegality.Size = new System.Drawing.Size(152, 22);
-            this.mnuLegality.Text = "Legality";
-            this.mnuLegality.Click += new System.EventHandler(this.ClickShowLegality);
+            mnuLegality.Image = global::PKHeX.WinForms.Properties.Resources.export;
+            mnuLegality.Name = "mnuLegality";
+            mnuLegality.Size = new System.Drawing.Size(152, 22);
+            mnuLegality.Text = "Legality";
+            mnuLegality.Click += new System.EventHandler(ClickShowLegality);
             // 
             // ContextMenuSAV
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.AutoSize = true;
-            this.Name = "ContextMenuSAV";
-            this.mnuVSD.ResumeLayout(false);
-            this.ResumeLayout(false);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            AutoSize = true;
+            Name = "ContextMenuSAV";
+            mnuVSD.ResumeLayout(false);
+            ResumeLayout(false);
 
         }
 
