@@ -6,7 +6,7 @@
 0x06B	s	Recibido MO06 Rompe Roca
 0x423	s	Recibido MO07 Cascada
 0x07B	s	Recibido MO08 Buceo
-0302	s	Received HM08 Before Groudon/Kyogre Awakening
+0302	s	Recibido HM08 Antes del despertar de Groudon/Kyogre
 0x05A	s	Recibida Bici Carrera/Acrobática
 
 0x807	*	Recibida Medalla Piedra
@@ -62,7 +62,7 @@
 0x800	s	Recibido Pokémon Inicial
 0x801	s	Recibida PokéDex
 0x802	s	Recibido PokeNav
-0x804	s	Entrada al Hall de la Fama
+0x804	s	Entrada al Salón de la Fama
 0x805	s	Usado Easy Chat
 0x806	s	Encontrar al Fardón
 0x830	s	Vista TV en Casa
@@ -84,23 +84,23 @@
 0x860	*	Recibidas Deportivas
 0x862	*	Reinicio de RTR Habilitado
 2090	*	Harsh Sunlight/Rain in Eastern Hoenn
-2063	f	Can Fly to Littleroot Town
-2064	f	Can Fly to Oldale Town
-2065	f	Can Fly to Dewford Town
-2066	f	Can Fly to Lavaridge Town
-2067	f	Can Fly to Fallarbor Town
-2068	f	Can Fly to Verdanturf Town
-2069	f	Can Fly to Pacifidlog Town
-2070	f	Can Fly to Petalburg City
-2071	f	Can Fly to Slateport City
-2072	f	Can Fly to Mauville City
-2073	f	Can Fly to Rustboro City
-2074	f	Can Fly to Fortree City
-2075	f	Can Fly to Lilycove City
-2076	f	Can Fly to Mossdeep City
-2077	f	Can Fly to Sootopolis City
-2078	f	Can Fly to Ever Grande City
-2120	f	Can Fly to Battle Tower
+2063	f	Puede volar a Villa Raiz
+2064	f	Puede volar a Pueblo Escaso
+2065	f	Puede volar a Pueblo Azuliza
+2066	f	Puede volar a Pueblo Lavacalda
+2067	f	Puede volar a Pueblo Pardal
+2068	f	Puede volar a Pueblo Verdegal
+2069	f	Puede volar a Pueblo Oromar
+2070	f	Puede volar a Ciudad Petalia
+2071	f	Puede volar a Ciudad Portual
+2072	f	Puede volar a Ciudad Malvalona
+2073	f	Puede volar a Ciudad Férrica
+2074	f	Puede volar a Ciudad Arborada
+2075	f	Puede volar a Ciudad Calagua
+2076	f	Puede volar a Ciudad Algaría
+2077	f	Puede volar a Arrecípolis
+2078	f	Puede volar a Ciudad Colosalia
+2120	f	Puede volar a Torre Batalla
 2108	m	Visited Flower Shop
 2109	m	Visited Mr. Briney's Cottage
 2110	m	Visited Abandoned Ship
@@ -125,31 +125,31 @@
 2140	m	Visited Sealed Chamber
 2142	m	Visited Sky Pillar
 2147	m	Visited Berry Master's House
-0768	s	Defeated The Winstrate Family
-1800	t	Pokémon Trainer Brendan on Route 103 defeated (Starter Mudkip)
-1801	t	Pokémon Trainer Brendan on Route 110 defeated (Starter Mudkip)
-1802	t	Pokémon Trainer Brendan on Route 119 defeated (Starter Mudkip)
-1803	t	Pokémon Trainer Brendan on Route 103 defeated (Starter Treecko)
-1804	t	Pokémon Trainer Brendan on Route 110 defeated (Starter Treecko)
-1805	t	Pokémon Trainer Brendan on Route 119 defeated (Starter Treecko)
-1806	t	Pokémon Trainer Brendan on Route 103 defeated (Starter Torchic)
-1807	t	Pokémon Trainer Brendan on Route 110 defeated (Starter Torchic)
-1808	t	Pokémon Trainer Brendan on Route 119 defeated (Starter Torchic)
-1809	t	Pokémon Trainer May on Route 103 defeated (Starter Mudkip)
-1810	t	Pokémon Trainer May on Route 110 defeated (Starter Mudkip)
-1811	t	Pokémon Trainer May on Route 119 defeated (Starter Mudkip)
-1812	t	Pokémon Trainer May on Route 103 defeated (Starter Treecko)
-1813	t	Pokémon Trainer May on Route 110 defeated (Starter Treecko)
-1814	t	Pokémon Trainer May on Route 119 defeated (Starter Treecko)
-1815	t	Pokémon Trainer May on Route 103 defeated (Starter Torchic)
-1816	t	Pokémon Trainer May on Route 110 defeated (Starter Torchic)
-1817	t	Pokémon Trainer May on Route 119 defeated (Starter Torchic)
-1941	t	Brendan in Lilycove City defeated (Starter Mudkip)
-1942	t	Brendan in Lilycove City defeated (Starter Treecko)
-1943	t	Brendan in Lilycove City defeated (Starter Torchic)
-1944	t	May in Lilycove City defeated (Starter Mudkip)
-1945	t	May in Lilycove City defeated (Starter Treecko)
-1946	t	May in Lilycove City defeated (Starter Torchic)
+0768	s	derrotado The Winstrate Family
+1800	t	Entrenador Pokémon Bruno en la Ruta 103 derrotado (Inicial Mudkip)
+1801	t	Entrenador Pokémon Bruno en la Ruta 110 derrotado (Inicial Mudkip)
+1802	t	Entrenador Pokémon Bruno en la Ruta 119 derrotado (Inicial Mudkip)
+1803	t	Entrenador Pokémon Bruno en la Ruta 103 derrotado (Inicial Treecko)
+1804	t	Entrenador Pokémon Bruno en la Ruta 110 derrotado (Inicial Treecko)
+1805	t	Entrenador Pokémon Bruno en la Ruta 119 derrotado (Inicial Treecko)
+1806	t	Entrenador Pokémon Bruno en la Ruta 103 derrotado (Inicial Torchic)
+1807	t	Entrenador Pokémon Bruno en la Ruta 110 derrotado (Inicial Torchic)
+1808	t	Entrenador Pokémon Bruno en la Ruta 119 derrotado (Inicial Torchic)
+1809	t	Entrenadora Pokémon Aura en la Ruta 103 derrotada (Inicial Mudkip)
+1810	t	Entrenadora Pokémon Aura en la Ruta 110 derrotada (Inicial Mudkip)
+1811	t	Entrenadora Pokémon Aura en la Ruta 119 derrotada (Inicial Mudkip)
+1812	t	Entrenadora Pokémon Aura en la Ruta 103 derrotada (Inicial Treecko)
+1813	t	Entrenadora Pokémon Aura en la Ruta 110 derrotada (Inicial Treecko)
+1814	t	Entrenadora Pokémon Aura en la Ruta 119 derrotada (Inicial Treecko)
+1815	t	Entrenadora Pokémon Aura en la Ruta 103 derrotada (Inicial Torchic)
+1816	t	Entrenadora Pokémon Aura en la Ruta 110 derrotada (Inicial Torchic)
+1817	t	Entrenadora Pokémon Aura en la Ruta 119 derrotada (Inicial Torchic)
+1941	t	Entrenador Pokémon Bruno en Ciudad Calagua derrotado (Inicial Mudkip)
+1942	t	Entrenador Pokémon Bruno en Ciudad Calagua derrotado (Inicial Treecko)
+1943	t	Entrenador Pokémon Bruno en Ciudad Calagua derrotado (Inicial Torchic)
+1944	t	Entrenadora Pokémon Aura en Ciudad Calagua derrotado (Inicial Mudkip)
+1945	t	Entrenadora Pokémon Aura en Ciudad Calagua derrotado (Inicial Treecko)
+1946	t	Entrenadora Pokémon Aura en Ciudad Calagua derrotado (Inicial Torchic)
 1320	t	Had Srta. Aroma Rose 1st Rematch
 1321	t	Had Srta. Aroma Rose 2nd Rematch
 1322	t	Had Srta. Aroma Rose 3rd Rematch
