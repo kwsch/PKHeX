@@ -83,6 +83,7 @@
 0x2DF	*	Usado Tutor de Movimientos en Cabo Extremo (Anillo Ígneo)
 0x2E0	*	Usado Tutor de Movimientos en Cabo Extremo (Hidrocañón)
 0x2E1	*	El Tutor del Cabo Extremo  enseñó todos los 3 Movimientos
+
 0x829	s	PokéDex recibida
 0x82F	s	Deportivas recibidas
 0x834	s	PC de Bill desbloqueado
