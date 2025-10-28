@@ -31,7 +31,7 @@ public sealed partial class SAV_FlagWork9a : Form
             EventWorkGrid64<ulong>.CreateValues(GetTab(nameof(sav.Blocks.WorkMable)), sav.Blocks.WorkMable, Lookup),
             EventWorkGrid64<ulong>.CreateValues(GetTab(nameof(sav.Blocks.CountMable)), sav.Blocks.CountMable, Lookup),
 
-            EventWorkGrid64<ulong>.CreateValues(GetTab(nameof(sav.Blocks.Work1)), sav.Blocks.Work1, Lookup),
+            EventWorkGrid64<ulong>.CreateValues(GetTab(nameof(sav.Blocks.CountTitle)), sav.Blocks.CountTitle, Lookup),
             EventWorkGrid64<ulong>.CreateValues(GetTab(nameof(sav.Blocks.WorkSpawn)), sav.Blocks.WorkSpawn, Lookup),
         ];
 
@@ -108,7 +108,7 @@ public sealed partial class SAV_FlagWork9a : Form
         AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.Quest, previous.Blocks.Quest);
         AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.WorkMable, previous.Blocks.WorkMable);
         AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.CountMable, previous.Blocks.CountMable);
-        AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.Work1, previous.Blocks.Work1);
+        AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.CountTitle, previous.Blocks.CountTitle);
         AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.WorkSpawn, previous.Blocks.WorkSpawn);
 
         if (result.Count == 0)

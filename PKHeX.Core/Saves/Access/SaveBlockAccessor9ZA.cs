@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Net.Mail;
 // ReSharper disable UnusedMember.Local
 #pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable RCS1213 // Remove unused member declaration.
@@ -31,7 +30,7 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     public EventWorkValueStorage Quest { get; } = new(sav, Block(sav, KEventWorkQuest));
     public EventWorkValueStorage WorkMable { get; } = new(sav, Block(sav, KEventWorkMable));
     public EventWorkValueStorage CountMable { get; } = new(sav, Block(sav, KEventCountMable));
-    public EventWorkValueStorage Work1 { get; } = new(sav, Block(sav, KEventWork1));
+    public EventWorkValueStorage CountTitle { get; } = new(sav, Block(sav, KEventCountTitle));
     public EventWorkValueStorage WorkSpawn { get; } = new(sav, Block(sav, KEventWorkSpawn));
     public EventWorkFlagStorage Flags { get; } = new(sav, Block(sav, KEventFlagsOther));
 
@@ -61,8 +60,8 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     private const uint KEventWorkMable = 0x03913534; // momiji_work (u64,u64)[1024] - Mable Tasks Status
     private const uint KEventCountMable = 0x8D80EC0F; // momiji_count (u64,u64)[64] - Mable Tasks Counts
 
-    private const uint KEventWork1 = 0x2C2C6964; // object 0x400 records? (u64,u64)[64]
-    private const uint KEventWorkSpawn = 0x53FD0223; // object 0x46500 small values (u64,u64)[18000]
+    private const uint KEventCountTitle = 0x2C2C6964; // TITLE_COUNT_XXXX (u64,u64)[64], such as total Money earned/spent (TITLE=TOTAL/placeholder title?)
+    private const uint KEventWorkSpawn = 0x53FD0223; // Overworld Spawner 0x46500 small values (u64,u64)[18000]
                                                  // 7C896A83 0x2000 unused
                                                  // B25E7EE5 0x400 unused
                                                  // AF2165F0 0x3000 (u64,u64,value)
