@@ -162,7 +162,7 @@
 2172	f	Puede volar a Ciudad Algaría
 2173	f	Puede volar a Arrecípolis
 2174	f	Puede volar a Ciudad Colosalia
-2216	f	Puede volar a Frontera Battalla
+2216	f	Puede volar a Frontera Batalla
 2204	m	Visited Flower Shop
 2205	m	Visited Mr. Briney's Cottage
 2206	m	Visited Abandoned Ship
