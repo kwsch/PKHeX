@@ -146,23 +146,23 @@
 0336	s	Fósil Garra elegido en Torre Espejismo (Fósil Raíz en Gruta Desértica)
 
 2186	m	Rain and Harsh Sunlight in Eastern Hoenn
-2159	f	Can Fly to Littleroot Town
-2160	f	Can Fly to Oldale Town
-2161	f	Can Fly to Dewford Town
-2162	f	Can Fly to Lavaridge Town
-2163	f	Can Fly to Fallarbor Town
-2164	f	Can Fly to Verdanturf Town
-2165	f	Can Fly to Pacifidlog Town
-2166	f	Can Fly to Petalburg City
-2167	f	Can Fly to Slateport City
-2168	f	Can Fly to Mauville City
-2169	f	Can Fly to Rustboro City
-2170	f	Can Fly to Fortree City
-2171	f	Can Fly to Lilycove City
-2172	f	Can Fly to Mossdeep City
-2173	f	Can Fly to Sootopolis City
-2174	f	Can Fly to Ever Grande City
-2216	f	Can Fly to Battle Frontier
+2159	f	Puede volar a Villa Raiz
+2160	f	Puede volar a Pueblo Escaso
+2161	f	Puede volar a Pueblo Azuliza
+2162	f	Puede volar a Pueblo Lavacalda
+2163	f	Puede volar a Pueblo Pardal
+2164	f	Puede volar a Pueblo Verdegal
+2165	f	Puede volar a Pueblo Oromar
+2166	f	Puede volar a Ciudad Petalia
+2167	f	Puede volar a Ciudad Portual
+2168	f	Puede volar a Ciudad Malvalona
+2169	f	Puede volar a Ciudad Férrica
+2170	f	Puede volar a Ciudad Arborada
+2171	f	Puede volar a Ciudad Calagua
+2172	f	Puede volar a Ciudad Algaría
+2173	f	Puede volar a Arrecípolis
+2174	f	Puede volar a Ciudad Colosalia
+2216	f	Puede volar a Frontera Batalla
 2204	m	Visited Flower Shop
 2205	m	Visited Mr. Briney's Cottage
 2206	m	Visited Abandoned Ship

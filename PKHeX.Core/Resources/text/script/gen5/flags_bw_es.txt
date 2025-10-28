@@ -17,7 +17,7 @@
 0653	s	Obstáculo pasado (Bosque Azulejo)
 2403	*	Tiene las Deportivas
 0115	*	Funcionabilidad de intercambio habilitada (Centro Pokémon)
-2400	s	Ghetsis derrotado (Primera partida completada)
+2400	s	Ghechis derrotado (Primera partida completada)
 0145	s	Recibido el Fósil Tapa/Pluma de Mochilero
 0148	g	Intercambio por Petilil/Cottonee
 0280	g	Intercambio por Basculin
@@ -38,9 +38,9 @@
 0731	s	Zorua (2) desaparecido de primera planta de las Oficinas de GAME FREAK (Evento de Zorua)
 2754	s	Embarcado en el Real Teselia (hoy)
 2762	s	Fósil recibido de Operario del Monte Tuerca (hoy)
-0683	a	Battle Subway: does not possess super single trophy
-0684	a	Battle Subway: does not possess super double trophy
-0685	a	Battle Subway: does not possess super multi trophy
+0683	a	Metro Batalla: no posee un súper trofeo individual
+0684	a	Metro Batalla: no posee un súper trofeo doble
+0685	a	Metro Batalla: no posee un súper trofeo multi
 0767	r	Captura/Derrota al Foongus de la Ruta 6 (1)
 0768	r	Captura/Derrota al Foongus de la Ruta 6 (2)
 0769	r	Captura/Derrota al Amoonguss de la Ruta 10 (1)
