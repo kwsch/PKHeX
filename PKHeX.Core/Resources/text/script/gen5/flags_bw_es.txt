@@ -40,7 +40,7 @@
 2762	s	Fósil recibido de Operario del Monte Tuerca (hoy)
 0683	a	Metro Batalla: no posee un súper trofeo individual
 0684	a	Metro Batalla: no posee un súper trofeo doble
-0685	a	Battle Subway: no posee un súper trofeo multi
+0685	a	Metro Batalla: no posee un súper trofeo multi
 0767	r	Captura/Derrota al Foongus de la Ruta 6 (1)
 0768	r	Captura/Derrota al Foongus de la Ruta 6 (2)
 0769	r	Captura/Derrota al Amoonguss de la Ruta 10 (1)
