@@ -1028,6 +1028,7 @@ namespace PKHeX.WinForms.Controls
             DEV_Ability.Size = new System.Drawing.Size(126, 25);
             DEV_Ability.TabIndex = 14;
             DEV_Ability.Visible = false;
+            TB_AbilityNumber.Click += ClickManualAbility;
             // 
             // TB_AbilityNumber
             // 
@@ -1040,6 +1041,7 @@ namespace PKHeX.WinForms.Controls
             TB_AbilityNumber.TabIndex = 14;
             TB_AbilityNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_AbilityNumber.Visible = false;
+            TB_AbilityNumber.Click += ClickManualAbility;
             // 
             // FLP_Friendship
             // 

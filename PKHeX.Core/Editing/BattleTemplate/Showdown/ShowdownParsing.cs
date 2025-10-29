@@ -78,6 +78,8 @@ public static class ShowdownParsing
         var result = form >= forms.Length ? string.Empty : forms[form];
 
         // Showdown uses a non-standard representation for some forms, and uses interstitial dashes instead of spaces.
+        if (strings.Language != LanguageID.English)
+            return result;
         return GetShowdownFormName(species, result);
     }
 
@@ -316,7 +318,7 @@ public static class ShowdownParsing
     {
         if (pk.Species == 0)
             return string.Empty;
-        var set = new ShowdownSet(pk);
+        var set = new ShowdownSet(pk, settings.Localization);
         set.InterpretAsPreview(pk);
         return set.GetText(settings);
     }
@@ -371,7 +373,7 @@ public static class ShowdownParsing
     /// <returns>Multi-line string</returns>
     public static string GetLocalizedPreviewText(PKM pk, in BattleTemplateExportSettings settings)
     {
-        var set = new ShowdownSet(pk);
+        var set = new ShowdownSet(pk, settings.Localization);
         set.InterpretAsPreview(pk);
         return set.GetText(settings);
     }

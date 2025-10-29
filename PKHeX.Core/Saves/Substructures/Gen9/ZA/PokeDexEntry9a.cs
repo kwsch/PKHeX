@@ -101,7 +101,7 @@ public readonly ref struct PokeDexEntry9a
     public bool GetIsGenderSeen(byte gender) => (FlagsGenderSeen & (1u << gender)) != 0;
     public void SetIsGenderSeen(byte gender, bool value)
     {
-        gender &= 1;
+        gender = Math.Clamp(gender, (byte)0, (byte)2); // M/F/Genderless
         var flag = 1u << gender;
         if (value)
             FlagsGenderSeen |= (byte)flag;

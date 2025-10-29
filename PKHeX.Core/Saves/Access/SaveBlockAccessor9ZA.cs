@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Net.Mail;
 // ReSharper disable UnusedMember.Local
 #pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable RCS1213 // Remove unused member declaration.
@@ -27,13 +26,15 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     public PlayerFashion9a PlayerFashion { get; } = new(sav, Block(sav, KCurrentClothing));
 
     public EventWorkFlagStorage Event { get; } = new(sav, Block(sav, KEventFlag));
-    public EventWorkValueStorage Quest { get; } = new(sav, Block(sav, KEventWorkQuest));
-    public EventWorkValueStorage Mable { get; } = new(sav, Block(sav, KEventWorkMable));
     public EventWorkValueStorage Work { get; } = new(sav, Block(sav, KEventWork));
-    public EventWorkValueStorage Work1 { get; } = new(sav, Block(sav, KEventWork1));
-    public EventWorkValueStorage Work2 { get; } = new(sav, Block(sav, KEventWork2));
-    public EventWorkValueStorage Work3 { get; } = new(sav, Block(sav, KEventWork3));
+    public EventWorkValueStorage Quest { get; } = new(sav, Block(sav, KEventWorkQuest));
+    public EventWorkValueStorage WorkMable { get; } = new(sav, Block(sav, KEventWorkMable));
+    public EventWorkValueStorage CountMable { get; } = new(sav, Block(sav, KEventCountMable));
+    public EventWorkValueStorage CountTitle { get; } = new(sav, Block(sav, KEventCountTitle));
+    public EventWorkValueStorage WorkSpawn { get; } = new(sav, Block(sav, KEventWorkSpawn));
     public EventWorkFlagStorage Flags { get; } = new(sav, Block(sav, KEventFlagsOther));
+
+    public MableStatus9a Mable { get; } = new(sav, Block(sav, KStatusMable));
 
     private const uint KBox = 0x0d66012c; // Box Data
     private const uint KParty = 0x3AA1A9AD; // Party Data
@@ -55,12 +56,14 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
 
     private const uint KEventFlag = 0x58505C5E; // event_flag (u64,bool)[2048]
     private const uint KEventFlagsOther = 0xED6F46E7; // system_flag (u64,bool)[2048]
-    private const uint KEventWorkQuest = 0xB9B223B9; // quest_work (u64,u64)[1024]
     private const uint KEventWork = 0xFADA7742; // system_work (u64,u64)[256]
-    private const uint KEventWork1 = 0x2C2C6964; // object 0x400 records? (u64,u64)[64]
-    private const uint KEventWork2 = 0x8D80EC0F; // object 0x400 records? (u64,u64)[64]
-    private const uint KEventWorkMable = 0x03913534; // object 0x4000 work-like
-    private const uint KEventWork3 = 0x53FD0223; // object 0x46500 small values (u64,u64)[18000]
+
+    private const uint KEventWorkQuest = 0xB9B223B9; // quest_work (u64,u64)[1024] - Story Quest Status 
+    private const uint KEventWorkMable = 0x03913534; // momiji_work (u64,u64)[1024] - Mable Tasks Status
+    private const uint KEventCountMable = 0x8D80EC0F; // momiji_count (u64,u64)[64] - Mable Tasks Counts
+
+    private const uint KEventCountTitle = 0x2C2C6964; // title_count (u64,u64)[64] - Player earned display titles
+    private const uint KEventWorkSpawn = 0x53FD0223; // Overworld Spawner 0x46500 small values (u64,u64)[18000]
                                                  // 7C896A83 0x2000 unused
                                                  // B25E7EE5 0x400 unused
                                                  // AF2165F0 0x3000 (u64,u64,value)
@@ -131,4 +134,6 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     private const uint KNightRoyalePostBattleRewards = 0x356087AD; // object
     private const uint KNightRoyaleTrainerStatus = 0x718B8CB1; // object
     private const uint KNightRoyaleBonusCards = 0x2A07F494; // object
+
+    private const uint KStatusMable = 0x85DBDCE9; // Mable Overall Status
 }

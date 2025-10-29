@@ -465,7 +465,11 @@ public sealed class AbilityVerifier : Verifier
     {
         var enc = data.EncounterMatch;
         var pi = PersonalTable.ZA[enc.Species, enc.Form];
-        var index = pa9.AbilityNumber >> 1;
+        var bitNum = pa9.AbilityNumber;
+        if (!IsValidAbilityBits(bitNum))
+            return INVALID;
+
+        var index = bitNum >> 1;
         var expect = pi.GetAbilityAtIndex(index);
         if (pa9.Ability != expect)
             return GetInvalid(AbilityMismatch);

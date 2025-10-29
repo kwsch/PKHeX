@@ -217,6 +217,6 @@
 2135	t	2da revancha contra Tuber Chelsea
 2134	t	1ra revancha contra Veteran Brian
 2136	t	2da revancha contra Veteran Brian
-2137	t	Revancha contra Veteran Armando
-2733	s	Learned trendy phrase (Today)
+2137	t	Revancha contra Veterano Armando
+2733	s	Frase de moda aprendida (Hoy)
 2738	t	Rival derrotado en Zona Combate (Sábado/Domingo actual)

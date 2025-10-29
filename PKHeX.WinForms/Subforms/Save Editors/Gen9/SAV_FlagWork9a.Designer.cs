@@ -32,25 +32,25 @@ namespace PKHeX.WinForms
             B_Save = new System.Windows.Forms.Button();
             L_EventFlagWarn = new System.Windows.Forms.Label();
             GB_Research = new System.Windows.Forms.TabPage();
-            RTB_Diff = new System.Windows.Forms.RichTextBox();
-            TB_NewSAV = new System.Windows.Forms.TextBox();
-            B_LoadOld = new System.Windows.Forms.Button();
-            TB_OldSAV = new System.Windows.Forms.TextBox();
-            B_LoadNew = new System.Windows.Forms.Button();
-            TC_Features = new System.Windows.Forms.TabControl();
             splitContainer1 = new System.Windows.Forms.SplitContainer();
+            B_LoadOld = new System.Windows.Forms.Button();
+            TB_NewSAV = new System.Windows.Forms.TextBox();
+            B_LoadNew = new System.Windows.Forms.Button();
+            TB_OldSAV = new System.Windows.Forms.TextBox();
+            RTB_Diff = new System.Windows.Forms.RichTextBox();
+            TC_Features = new System.Windows.Forms.TabControl();
             GB_Research.SuspendLayout();
-            TC_Features.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            TC_Features.SuspendLayout();
             SuspendLayout();
             // 
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(346, 397);
+            B_Cancel.Location = new System.Drawing.Point(427, 401);
             B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(88, 27);
@@ -62,7 +62,7 @@ namespace PKHeX.WinForms
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(442, 397);
+            B_Save.Location = new System.Drawing.Point(523, 401);
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(88, 27);
@@ -75,7 +75,7 @@ namespace PKHeX.WinForms
             // 
             L_EventFlagWarn.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             L_EventFlagWarn.ForeColor = System.Drawing.Color.Red;
-            L_EventFlagWarn.Location = new System.Drawing.Point(13, 392);
+            L_EventFlagWarn.Location = new System.Drawing.Point(13, 396);
             L_EventFlagWarn.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_EventFlagWarn.Name = "L_EventFlagWarn";
             L_EventFlagWarn.Size = new System.Drawing.Size(306, 36);
@@ -90,76 +90,10 @@ namespace PKHeX.WinForms
             GB_Research.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Research.Name = "GB_Research";
             GB_Research.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Research.Size = new System.Drawing.Size(517, 347);
+            GB_Research.Size = new System.Drawing.Size(598, 351);
             GB_Research.TabIndex = 2;
             GB_Research.Text = "Research";
             GB_Research.UseVisualStyleBackColor = true;
-            // 
-            // RTB_Diff
-            // 
-            RTB_Diff.Dock = System.Windows.Forms.DockStyle.Fill;
-            RTB_Diff.Location = new System.Drawing.Point(0, 0);
-            RTB_Diff.Margin = new System.Windows.Forms.Padding(0);
-            RTB_Diff.Name = "RTB_Diff";
-            RTB_Diff.ReadOnly = true;
-            RTB_Diff.Size = new System.Drawing.Size(509, 277);
-            RTB_Diff.TabIndex = 6;
-            RTB_Diff.Text = "";
-            // 
-            // TB_NewSAV
-            // 
-            TB_NewSAV.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            TB_NewSAV.Location = new System.Drawing.Point(98, 35);
-            TB_NewSAV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TB_NewSAV.Name = "TB_NewSAV";
-            TB_NewSAV.ReadOnly = true;
-            TB_NewSAV.Size = new System.Drawing.Size(406, 25);
-            TB_NewSAV.TabIndex = 5;
-            // 
-            // B_LoadOld
-            // 
-            B_LoadOld.Location = new System.Drawing.Point(4, 3);
-            B_LoadOld.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_LoadOld.Name = "B_LoadOld";
-            B_LoadOld.Size = new System.Drawing.Size(88, 27);
-            B_LoadOld.TabIndex = 0;
-            B_LoadOld.Text = "Load Old";
-            B_LoadOld.UseVisualStyleBackColor = true;
-            B_LoadOld.Click += OpenSAV;
-            // 
-            // TB_OldSAV
-            // 
-            TB_OldSAV.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            TB_OldSAV.Location = new System.Drawing.Point(98, 5);
-            TB_OldSAV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TB_OldSAV.Name = "TB_OldSAV";
-            TB_OldSAV.ReadOnly = true;
-            TB_OldSAV.Size = new System.Drawing.Size(406, 25);
-            TB_OldSAV.TabIndex = 4;
-            // 
-            // B_LoadNew
-            // 
-            B_LoadNew.Location = new System.Drawing.Point(4, 33);
-            B_LoadNew.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_LoadNew.Name = "B_LoadNew";
-            B_LoadNew.Size = new System.Drawing.Size(88, 27);
-            B_LoadNew.TabIndex = 1;
-            B_LoadNew.Text = "Load New";
-            B_LoadNew.UseVisualStyleBackColor = true;
-            B_LoadNew.Click += OpenSAV;
-            // 
-            // TC_Features
-            // 
-            TC_Features.AllowDrop = true;
-            TC_Features.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            TC_Features.Controls.Add(GB_Research);
-            TC_Features.Location = new System.Drawing.Point(9, 9);
-            TC_Features.Margin = new System.Windows.Forms.Padding(0);
-            TC_Features.Name = "TC_Features";
-            TC_Features.Padding = new System.Drawing.Point(0, 0);
-            TC_Features.SelectedIndex = 0;
-            TC_Features.Size = new System.Drawing.Size(525, 377);
-            TC_Features.TabIndex = 42;
             // 
             // splitContainer1
             // 
@@ -178,15 +112,81 @@ namespace PKHeX.WinForms
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(RTB_Diff);
-            splitContainer1.Size = new System.Drawing.Size(509, 341);
+            splitContainer1.Size = new System.Drawing.Size(590, 345);
             splitContainer1.SplitterDistance = 60;
             splitContainer1.TabIndex = 7;
+            // 
+            // B_LoadOld
+            // 
+            B_LoadOld.Location = new System.Drawing.Point(4, 3);
+            B_LoadOld.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_LoadOld.Name = "B_LoadOld";
+            B_LoadOld.Size = new System.Drawing.Size(88, 27);
+            B_LoadOld.TabIndex = 0;
+            B_LoadOld.Text = "Load Old";
+            B_LoadOld.UseVisualStyleBackColor = true;
+            B_LoadOld.Click += OpenSAV;
+            // 
+            // TB_NewSAV
+            // 
+            TB_NewSAV.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TB_NewSAV.Location = new System.Drawing.Point(98, 35);
+            TB_NewSAV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_NewSAV.Name = "TB_NewSAV";
+            TB_NewSAV.ReadOnly = true;
+            TB_NewSAV.Size = new System.Drawing.Size(487, 25);
+            TB_NewSAV.TabIndex = 5;
+            // 
+            // B_LoadNew
+            // 
+            B_LoadNew.Location = new System.Drawing.Point(4, 33);
+            B_LoadNew.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_LoadNew.Name = "B_LoadNew";
+            B_LoadNew.Size = new System.Drawing.Size(88, 27);
+            B_LoadNew.TabIndex = 1;
+            B_LoadNew.Text = "Load New";
+            B_LoadNew.UseVisualStyleBackColor = true;
+            B_LoadNew.Click += OpenSAV;
+            // 
+            // TB_OldSAV
+            // 
+            TB_OldSAV.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TB_OldSAV.Location = new System.Drawing.Point(98, 5);
+            TB_OldSAV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_OldSAV.Name = "TB_OldSAV";
+            TB_OldSAV.ReadOnly = true;
+            TB_OldSAV.Size = new System.Drawing.Size(487, 25);
+            TB_OldSAV.TabIndex = 4;
+            // 
+            // RTB_Diff
+            // 
+            RTB_Diff.Dock = System.Windows.Forms.DockStyle.Fill;
+            RTB_Diff.Location = new System.Drawing.Point(0, 0);
+            RTB_Diff.Margin = new System.Windows.Forms.Padding(0);
+            RTB_Diff.Name = "RTB_Diff";
+            RTB_Diff.ReadOnly = true;
+            RTB_Diff.Size = new System.Drawing.Size(590, 281);
+            RTB_Diff.TabIndex = 6;
+            RTB_Diff.Text = "";
+            // 
+            // TC_Features
+            // 
+            TC_Features.AllowDrop = true;
+            TC_Features.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TC_Features.Controls.Add(GB_Research);
+            TC_Features.Location = new System.Drawing.Point(9, 9);
+            TC_Features.Margin = new System.Windows.Forms.Padding(0);
+            TC_Features.Name = "TC_Features";
+            TC_Features.Padding = new System.Drawing.Point(0, 0);
+            TC_Features.SelectedIndex = 0;
+            TC_Features.Size = new System.Drawing.Size(606, 381);
+            TC_Features.TabIndex = 42;
             // 
             // SAV_FlagWork9a
             // 
             AllowDrop = true;
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(543, 437);
+            ClientSize = new System.Drawing.Size(624, 441);
             Controls.Add(TC_Features);
             Controls.Add(L_EventFlagWarn);
             Controls.Add(B_Save);
@@ -196,17 +196,17 @@ namespace PKHeX.WinForms
             MaximizeBox = false;
             MaximumSize = new System.Drawing.Size(779, 917);
             MinimizeBox = false;
-            MinimumSize = new System.Drawing.Size(546, 456);
+            MinimumSize = new System.Drawing.Size(640, 480);
             Name = "SAV_FlagWork9a";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Event Flag Editor";
             GB_Research.ResumeLayout(false);
-            TC_Features.ResumeLayout(false);
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel1.PerformLayout();
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            TC_Features.ResumeLayout(false);
             ResumeLayout(false);
         }
 

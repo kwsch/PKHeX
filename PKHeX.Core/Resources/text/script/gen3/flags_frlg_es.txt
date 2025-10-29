@@ -79,20 +79,20 @@
 0x2CC	*	Usado Tutor de Movimientos en Isla Canela (Metrónomo)
 0x2CD	*	Usado Tutor de Movimientos en Ciudad Azafrán (Mimético)
 0x2CE	*	Usado Tutor de Movimientos en Isla Cuarta (Golpe Cuerpo)
-0x2DE	*	Used Move Tutor at Cape Brink (Frenzy Plant)
-0x2DF	*	Used Move Tutor at Cape Brink (Blast Burn)
-0x2E0	*	Used Move Tutor at Cape Brink (Hydro Cannon)
-0x2E1	*	Cape Brink Move Tutor taught all 3 Moves
+0x2DE	*	Usado Tutor de Movimientos en Cabo Extremo (Planta Feroz)
+0x2DF	*	Usado Tutor de Movimientos en Cabo Extremo (Anillo Ígneo)
+0x2E0	*	Usado Tutor de Movimientos en Cabo Extremo (Hidrocañón)
+0x2E1	*	El Tutor del Cabo Extremo  enseñó todos los 3 Movimientos
 
 0x829	s	PokéDex recibida
 0x82F	s	Deportivas recibidas
 0x834	s	PC de Bill desbloqueado
 0x839	s	Regalo Misterioso habilitado
-0x840	s	Received National Pokedex
+0x840	s	Recibida Pokedex Nacional
 0x2A1	s	Restaurada Conectividad con Kanto
 0x844	s	Restaurada Conectividad con Hoenn
-0x845	s	Received Tri-Pass
-0x846	s	Received Rainbow Pass
+0x845	s	Recibido Tri-Pase
+0x846	s	Recibido Pase Arcoíris
 0x29B	s	Recibido Memorín
 0x241	s	Recibido Bono Bici
 0x2A5	s	Recibida Llave Ascensor
@@ -116,33 +116,33 @@
 0041	s	Bola de Squirtle en el Laboratorio de Oak desaparecida
 0042	s	Bola de Charmander en el Laboratorio de Oak desaparecida
 2121	s	Puzzle de Llave Sete Resuelto/Unown Salvajes en las Cámaras Sete
-0424	s	Found Secret Key
-1190	s	Found Lava Cookie in S.S. Anne port
-0626	s	Chose Dome Fossil (Omanyte in Pokémon Zoo)
-0627	s	Chose Helix Fossil (Kabuto in Pokémon Zoo)
-2192	f	Can Fly to Pallet Town
-2193	f	Can Fly to Viridian City
-2194	f	Can Fly to Pewter City
-2195	f	Can Fly to Cerulean City
-2196	f	Can Fly to Lavender Town
-2197	f	Can Fly to Vermilion City
-2198	f	Can Fly to Celadon City
-2199	f	Can Fly to Fuchsia City
-2200	f	Can Fly to Cinnabar Island
-2201	f	Can Fly to Indigo Plateau
-2202	f	Can Fly to Saffron City
-2203	f	Can Fly to One Island
-2204	f	Can Fly to Two Island
-2205	f	Can Fly to Three Island
-2206	f	Can Fly to Four Island
-2207	f	Can Fly to Five Island
-2209	f	Can Fly to Six Island
-2208	f	Can Fly to Seven Island
-2210	f	Can Fly to Route 4 (Pokémon Center)
-2211	f	Can Fly to Route 10 (Pokémon Center)
-1381	t	Had Youngster Ben 1st Rematch
-1778	t	Had Youngster Ben 2nd Rematch
-1779	t	Had Youngster Ben 3rd Rematch
+0424	s	Encontrada Llave Secreta
+1190	s	Encontrada Galleta Lava en el puerto de S.S. Anne
+0626	s	Elegido el Fósil Domo (Omanyte en Pokémon Zoo)
+0627	s	Elegido el Fósil Hélix (Kabuto en Pokémon Zoo)
+2192	f	Puede volar al Pueblo Paleta
+2193	f	Puede volar a Ciudad Verde
+2194	f	Puede volar a Ciudad Plateada
+2195	f	Puede volar a Ciudad Celeste
+2196	f	Puede volar al Pueblo Lavanda
+2197	f	Puede volar a Ciudad Carmín
+2198	f	Puede volar a Ciudad Azulona
+2199	f	Puede volar a Ciudad Fucsia
+2200	f	Puede volar a Isla Canela
+2201	f	Puede volar a Meseta Añíl
+2202	f	Puede volar a Ciudad Azafrán
+2203	f	Puede volar a Isla Prima
+2204	f	Puede volar a Isla Secunda
+2205	f	Puede volar a Isla Tera
+2206	f	Puede volar a Isla Quarta
+2207	f	Puede volar a Isla Inta
+2209	f	Puede volar a Isla Exta
+2208	f	Puede volar a Isla Sétima
+2210	f	Puede volar a Ruta 4 (Centro Pokémon)
+2211	f	Puede volar a Ruta 10 (Centro Pokémon)
+1381	t	Tuvo 1ra Revancha con Joven Ben
+1778	t	Tuvo 2da Revancha con Joven Ben
+1779	t	Tuvo 3ra Revancha con Joven Ben
 1780	t	Had Youngster Chad 1st Rematch
 1786	t	Had Youngster Chad 2nd Rematch
 1789	t	Had Youngster Chad 3rd Rematch

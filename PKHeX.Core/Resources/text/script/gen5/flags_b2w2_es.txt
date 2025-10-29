@@ -67,5 +67,5 @@
 0932	r	Captura/Derrota al Foongus de la Ruta 7 (1)
 0933	r	Captura/Derrota al Foongus de la Ruta 7 (2)
 0868	r	Crustle en Gruta Marina desaparecido
-1469	s	Encontrada Corona Antigua (Ruinas Submarinas 4F)
-2793	t	Rematched Colress (Today)
+1469	s	Encontrada Corona Antigua (Ruinas Submarinas 4P)
+2793	t	Revanchado Acromo (Hoy)

@@ -28,6 +28,7 @@ public sealed class EncounterGenerator9X : IEncounterGenerator
     {
         ZA => EncounterGenerator9a.Instance.GetEncounters(pk, chain, info),
         SL or VL => EncounterGenerator9.Instance.GetEncounters(pk, chain, info),
+        0 when pk.IsEgg => EncounterGenerator9.Instance.GetEncounters(pk, chain, info), // 0 for eggs
         _ => [],
     };
 }

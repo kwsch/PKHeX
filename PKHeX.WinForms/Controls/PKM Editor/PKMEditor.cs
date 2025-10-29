@@ -80,6 +80,29 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         TB_Friendship.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
     }
 
+    private void ClickManualAbility(object sender, EventArgs e)
+    {
+        if (ModifierKeys != Keys.Control)
+            return;
+        var value = Util.ToInt32(TB_AbilityNumber.Text);
+        if (value is not (1 or 2 or 4))
+            return;
+
+        var pk = Entity;
+        IPersonalAbility pi;
+        if (pk is PA9 pa9)
+        {
+            var la = new LegalityAnalysis(pa9);
+            var enc = la.EncounterMatch;
+            pi = PersonalTable.ZA[enc.Species, enc.Form];
+        }
+        else
+        {
+            pi = Entity.PersonalInfo;
+        }
+        DEV_Ability.SelectedValue = pi.GetAbilityAtIndex(value >> 1);
+    }
+
     private sealed class ValidationRequiredSet(Control[] controls, Func<PKM, bool> shouldCheck, Func<Control, bool> isState)
     {
         public Control? IsNotValid(PKM pk)

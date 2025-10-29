@@ -31,6 +31,7 @@ namespace PKHeX.WinForms
             B_Cancel = new System.Windows.Forms.Button();
             B_Save = new System.Windows.Forms.Button();
             TC_Features = new System.Windows.Forms.TabControl();
+            B_SetAllOwned = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // B_Cancel
@@ -69,11 +70,24 @@ namespace PKHeX.WinForms
             TC_Features.Size = new System.Drawing.Size(525, 377);
             TC_Features.TabIndex = 42;
             // 
+            // B_SetAllOwned
+            // 
+            B_SetAllOwned.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_SetAllOwned.Location = new System.Drawing.Point(13, 398);
+            B_SetAllOwned.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_SetAllOwned.Name = "B_SetAllOwned";
+            B_SetAllOwned.Size = new System.Drawing.Size(183, 27);
+            B_SetAllOwned.TabIndex = 43;
+            B_SetAllOwned.Text = "Set All Owned";
+            B_SetAllOwned.UseVisualStyleBackColor = true;
+            B_SetAllOwned.Click += B_SetAllOwned_Click;
+            // 
             // SAV_Fashion9a
             // 
             AllowDrop = true;
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(543, 437);
+            Controls.Add(B_SetAllOwned);
             Controls.Add(TC_Features);
             Controls.Add(B_Save);
             Controls.Add(B_Cancel);
@@ -93,5 +107,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.TabControl TC_Features;
+        private System.Windows.Forms.Button B_SetAllOwned;
     }
 }
