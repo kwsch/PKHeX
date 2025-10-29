@@ -79,8 +79,11 @@ internal static class EvolutionUtil
             var evo = result[i];
             if (evo.Species == 0)
                 break;
-            if (pt.IsPresentInGame(evo.Species, evo.Form))
+            if (!pt.IsPresentInGame(evo.Species, evo.Form))
+            {
+                indexes |= 1u << i; // mark for removal
                 continue;
+            }
 
             var pi = pt.GetFormEntry(evo.Species, evo.Form);
             var evoAbility = pi.GetAbilityAtIndex(abilityIndex);
