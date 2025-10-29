@@ -34,6 +34,14 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     public EventWorkValueStorage WorkSpawn { get; } = new(sav, Block(sav, KEventWorkSpawn));
     public EventWorkFlagStorage Flags { get; } = new(sav, Block(sav, KEventFlagsOther));
 
+    public EventWorkValueStorageKey128 Report { get; } = new(sav, Block(sav, KEventReport));
+    public EventWorkValueStorageKey128 Obstruction { get; } = new(sav, Block(sav, KObstruction));
+    public EventWorkValueStorageKey192 FieldObjectInteractable { get; } = new(sav, Block(sav, KFieldObjectInteractable));
+
+    public EventWorkValueStorageKey128 Spawner2 { get; } = new(sav, Block(sav, KEventSpawner2)); // (u64-key, u64-bool, u64-struct)
+    public EventWorkValueStorage InfiniteRank { get; } = new(sav, Block(sav, KEventInfiniteRank)); // (u64-key, u64-struct)
+    public EventWorkValueStorageKey128 Spawner4 { get; } = new(sav, Block(sav, KEventSpawner4)); // (u64-key, u64-hash, u64-struct)
+
     public MableStatus9a Mable { get; } = new(sav, Block(sav, KStatusMable));
 
     private const uint KBox = 0x0d66012c; // Box Data
@@ -64,12 +72,15 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
 
     private const uint KEventCountTitle = 0x2C2C6964; // title_count (u64,u64)[64] - Player earned display titles
     private const uint KEventWorkSpawn = 0x53FD0223; // Overworld Spawner 0x46500 small values (u64,u64)[18000]
-                                                 // 7C896A83 0x2000 unused
-                                                 // B25E7EE5 0x400 unused
-                                                 // AF2165F0 0x3000 (u64,u64,value)
+    private const uint KEventSpawner2 = 0x79ABCB0B; // (u64-key, u64-bool, u64-struct)
+    private const uint KEventInfiniteRank = 0x7C896A83; // (u64-key, u64-struct)
+    private const uint KEventSpawner4 = 0xD1A3FF7B; // (u64-key, u64-hash, u64-struct)
+                                                     // B25E7EE5 0x400 unused
+
+    private const uint KEventReport = 0xAF2165F0; // 0x3000 (u64,(s64,u64) value)
+    private const uint KObstruction = 0x4C26C29B; // (u64, u64-state, u64-unused)[2000]
     private const uint KFieldObjectInteractable = 0x7147C953; // (u64,u64,u64,value)[5000] (mega crystal, prize medals)
 
-    private const uint KObstruction = 0x4C26C29B; // (u64, u64-state, u64-unused)[2000]
 
     public const uint KTicketPointsZARoyale = 0x9A730DE1; // u32
     public const uint KTicketPointsZARoyaleInfinite = 0x1D7EE369; // u32
