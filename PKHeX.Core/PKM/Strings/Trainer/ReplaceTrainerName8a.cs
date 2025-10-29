@@ -54,7 +54,7 @@ public static class ReplaceTrainerName8a
     }
 
     /// <summary>
-    /// Gets the replacement name for <see cref="EntityContext.Gen8"/> in the given language.
+    /// Gets the replacement name for <see cref="EntityContext.Gen8a"/> in the given language.
     /// </summary>
     public static string GetName(LanguageID language) => language switch
     {

@@ -148,9 +148,9 @@ public sealed class LegendsZAVerifier : Verifier
             la.AddLine(GetInvalid(PlusMoveCountInvalid));
 
         // Check for all required indexes.
-        var (_, plus) = LearnSource9ZA.GetLearnsetAndPlus(pk.Species, pk.Form);
+        var (learn, plus) = LearnSource9ZA.GetLearnsetAndPlus(pk.Species, pk.Form);
         var currentLevel = pk.CurrentLevel;
-        CheckPlusMoveFlags(la, pk, plus, currentLevel, permit);
+        CheckPlusMoveFlags(la, pk, permit, plus, currentLevel);
 
 
         // Check for indexes set that cannot be set via TM or NPC.
@@ -167,7 +167,7 @@ public sealed class LegendsZAVerifier : Verifier
         la.AddLine(msg);
     }
 
-    private void CheckPlusMoveFlags<T>(LegalityAnalysis la, T pk, Learnset plus, byte currentLevel, IPermitPlus permit) where T : IPlusRecord
+    private void CheckPlusMoveFlags<T>(LegalityAnalysis la, T pk, IPermitPlus permit, Learnset plus, byte currentLevel) where T : IPlusRecord
     {
         var levels = plus.GetAllLevels();
         var moves = plus.GetAllMoves();
@@ -182,9 +182,46 @@ public sealed class LegendsZAVerifier : Verifier
             if (index == -1)
                 throw new IndexOutOfRangeException("Unexpected learn move index, not in Plus moves?");
 
-            if (!pk.GetMovePlusFlag(index))
-                la.AddLine(GetInvalid(PlusMoveSufficientLevelMissing_0, move, level));
+            if (pk.GetMovePlusFlag(index))
+                continue; // All good, flagged.
+
+            // Trade evolutions forget to set the Plus flags, unlike triggered evolutions.
+            // If the move is not present as a previous-evolution learnset move, and the head species is a Trade evo, skip the error.
+            // Assume the best case -- evolved at current level, so none would get set.
+            if (IsTradeEvoSkip(la.Info.EvoChainsAllGens.Gen9a, move))
+                continue;
+
+            la.AddLine(GetInvalid(PlusMoveSufficientLevelMissing_0, move, level));
         }
+    }
+
+    private static bool IsTradeEvoSkip(ReadOnlySpan<EvoCriteria> evos, ushort move)
+    {
+        if (evos.Length <= 1)
+            return false;
+
+        if (!evos[0].Method.IsTrade())
+            return false;
+
+        // Check if the pre-evolution could have learned it before evolving.
+        for (int i = 1; i < evos.Length; i++)
+        {
+            var evo = evos[i];
+            var (_, plus) = LearnSource9ZA.GetLearnsetAndPlus(evo.Species, evo.Form);
+            var moves = plus.GetAllMoves();
+
+            var index = moves.IndexOf(move);
+            if (index == -1)
+                continue; // can't learn
+
+            // if the evo must have traversed this level range (and not the head's level range), then it must have been flagged.
+            var levels = plus.GetAllLevels();
+            var plusLevel = levels[index];
+            var headLevel = evos[0].LevelMin;
+            if (plusLevel <= headLevel)
+                return false;
+        }
+        return true;
     }
 
     private const ushort MultipleInvalidPlusMoves = ushort.MaxValue;
