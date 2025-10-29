@@ -34,6 +34,8 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     public EventWorkValueStorage WorkSpawn { get; } = new(sav, Block(sav, KEventWorkSpawn));
     public EventWorkFlagStorage Flags { get; } = new(sav, Block(sav, KEventFlagsOther));
 
+    public MableStatus9a Mable { get; } = new(sav, Block(sav, KStatusMable));
+
     private const uint KBox = 0x0d66012c; // Box Data
     private const uint KParty = 0x3AA1A9AD; // Party Data
     private const uint KItem = 0x21C9BD44; // Items
@@ -60,7 +62,7 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     private const uint KEventWorkMable = 0x03913534; // momiji_work (u64,u64)[1024] - Mable Tasks Status
     private const uint KEventCountMable = 0x8D80EC0F; // momiji_count (u64,u64)[64] - Mable Tasks Counts
 
-    private const uint KEventCountTitle = 0x2C2C6964; // TITLE_COUNT_XXXX (u64,u64)[64], such as total Money earned/spent (TITLE=TOTAL/placeholder title?)
+    private const uint KEventCountTitle = 0x2C2C6964; // title_count (u64,u64)[64] - Player earned display titles
     private const uint KEventWorkSpawn = 0x53FD0223; // Overworld Spawner 0x46500 small values (u64,u64)[18000]
                                                  // 7C896A83 0x2000 unused
                                                  // B25E7EE5 0x400 unused
@@ -132,4 +134,6 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     private const uint KNightRoyalePostBattleRewards = 0x356087AD; // object
     private const uint KNightRoyaleTrainerStatus = 0x718B8CB1; // object
     private const uint KNightRoyaleBonusCards = 0x2A07F494; // object
+
+    private const uint KStatusMable = 0x85DBDCE9; // Mable Overall Status
 }

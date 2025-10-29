@@ -103,7 +103,7 @@ public static partial class Extensions
         [
             new(sav.GTS.Upload, 0) {Type = StorageSlotType.GTS},
             new(sav.Fused[0], 0) {Type = StorageSlotType.FusedKyurem},
-            new(sav.SUBE.GiveSlot, 0) {Type = StorageSlotType.Misc}, // Old Man
+            new(sav.SUBE.GiveSlot, 0, Mutable: true) {Type = StorageSlotType.Misc}, // Old Man
 
             new(sav.BattleBox[0], 0) {Type = StorageSlotType.BattleBox},
             new(sav.BattleBox[1], 1) {Type = StorageSlotType.BattleBox},
@@ -265,7 +265,7 @@ public static partial class Extensions
             var ofs = (i * size) + 8;
             var entry = giveAway.Raw.Slice(ofs, PokeCrypto.SIZE_9PARTY);
             if (EntityDetection.IsPresent(entry.Span))
-                list.Add(new(entry, i, true) { Type = StorageSlotType.Misc });
+                list.Add(new(entry, i, true, Mutable: true) { Type = StorageSlotType.Misc });
             else
                 break;
         }
