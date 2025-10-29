@@ -11,6 +11,8 @@ public static class FnvHash
     private const ulong kFnvPrime_64 = 0x00000100000001b3;
     private const ulong kOffsetBasis_64 = 0xCBF29CE484222645;
 
+    public const ulong HashEmpty = kOffsetBasis_64;
+
     /// <summary>
     /// Gets the hash code of the input sequence via the alternative Fnv1 method.
     /// </summary>

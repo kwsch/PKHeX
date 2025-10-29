@@ -888,6 +888,7 @@ namespace PKHeX.WinForms
             NUD_R.Size = new System.Drawing.Size(148, 23);
             NUD_R.TabIndex = 55;
             NUD_R.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            NUD_R.ValueChanged += ChangeMapValue;
             // 
             // L_R
             // 

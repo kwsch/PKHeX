@@ -45,7 +45,7 @@ public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte 
     public PK7 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PK7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage789((LanguageID)tr.Language);
         var form = GetWildForm(Form);
         var pi = PersonalTable.USUM[Species, form];
         var geo = tr.GetRegionOrigin(language);

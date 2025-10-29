@@ -24,6 +24,7 @@ public static class EncounterServerDate
         WA8 wa8 => Result(wa8.IsWithinDistributionWindow(obtained)),
         WB8 wb8 => Result(wb8.IsWithinDistributionWindow(obtained)),
         WC9 wc9 => Result(wc9.IsWithinDistributionWindow(obtained)),
+        WA9 wa9 => Result(wa9.IsWithinDistributionWindow(obtained)),
         EncounterSlot7GO g7 => Result(g7.IsWithinDistributionWindow(obtained)),
         EncounterSlot8GO g8 => Result(g8.IsWithinDistributionWindow(obtained)),
         _ => throw new ArgumentOutOfRangeException(nameof(enc)),
@@ -44,11 +45,15 @@ public static class EncounterServerDate
     /// <inheritdoc cref="IsWithinDistributionWindow(IEncounterServerDate,DateOnly)"/>
     public static bool IsWithinDistributionWindow(this WC9 card, DateOnly obtained) => card.GetDistributionWindow(out var window) && window.Contains(obtained);
 
+    /// <inheritdoc cref="IsWithinDistributionWindow(IEncounterServerDate,DateOnly)"/>
+    public static bool IsWithinDistributionWindow(this WA9 card, DateOnly obtained) => card.GetDistributionWindow(out var window) && window.Contains(obtained);
+
     public static bool GetDistributionWindow(this WB7 card, out DistributionWindow window) => WB7Gifts.TryGetValue(card.CardID, out window);
     public static bool GetDistributionWindow(this WC8 card, out DistributionWindow window) => WC8Gifts.TryGetValue(card.CardID, out window) || WC8GiftsChk.TryGetValue(card.Checksum, out window);
     public static bool GetDistributionWindow(this WA8 card, out DistributionWindow window) => WA8Gifts.TryGetValue(card.CardID, out window);
     public static bool GetDistributionWindow(this WB8 card, out DistributionWindow window) => WB8Gifts.TryGetValue(card.CardID, out window);
     public static bool GetDistributionWindow(this WC9 card, out DistributionWindow window) => WC9Gifts.TryGetValue(card.CardID, out window) || WC9GiftsChk.TryGetValue(card.Checksum, out window);
+    public static bool GetDistributionWindow(this WA9 card, out DistributionWindow window) => WA9Gifts.TryGetValue(card.CardID, out window);
 
     /// <summary>
     /// Initial introduction of HOME support for SW/SH; gift availability (generating) was revised in 3.0.0.
@@ -228,12 +233,21 @@ public static class EncounterServerDate
         {1548, new(2025, 09, 18, 2025, 10, 01)}, // Shiny Chi-Yu
         {0524, new(2025, 08, 14, 2025, 08, 31)}, // WCS 2025 Toedscool
         {0525, new(2025, 08, 15, 2025, 08, 23)}, // WCS 2025 Luca Ceribelli's Farigiraf
-        {1540, new(2025, 09, 25, 2025, 10, 24)}, // Shiny Miraidon / Koraidon Gift
+        {1540, new(2025, 09, 25, 2025, 10, 25)}, // Shiny Miraidon / Koraidon Gift
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
         {9023, HOME3_ML}, // Hidden Ability Quaxly
         {9024, new(2024, 10, 16)}, // Shiny Meloetta
         {9025, new(2024, 11, 01)}, // PokéCenter Birthday Tandemaus
+    };
+
+    /// <summary>
+    /// Minimum date the gift can be received.
+    /// </summary>
+    private static readonly Dictionary<int, DistributionWindow> WA9Gifts = new()
+    {
+        {1601, new(2025, 10, 14, 2026, 3, 1, +2)}, // Ralts holding Gardevoirite
+        {0102, new(2025, 10, 23, 2026, 2, 1, +2)}, // Slowpoke Poké Center Gift
     };
 }

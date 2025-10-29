@@ -34,7 +34,7 @@ public partial class SAV_BattlePass : Form
     private readonly string[] TrainerTitles1 = GameLanguage.GetStrings("trainer_title", Main.CurrentLanguage);
     private readonly string[] TrainerTitles2 = GameLanguage.GetStrings("trainer_title_npc", Main.CurrentLanguage);
 
-    private readonly IReadOnlyList<ComboItem> Languages = GameInfo.LanguageDataSource(3);
+    private readonly IReadOnlyList<ComboItem> Languages = GameInfo.LanguageDataSource(3, EntityContext.Gen3);
     private readonly IReadOnlyList<ComboItem> EmptyCBList = [new ComboItem(string.Empty, 0)];
     private const string NPC = "NPC";
     private string None => CharacterStyles[0];

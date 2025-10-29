@@ -439,19 +439,19 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public Memory<byte> GetDaycareSlot(int index)
     {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0, nameof(index));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0);
         return Reserved.Slice(DaycareOffset, SIZE_STORED);
     }
 
     public bool IsDaycareOccupied(int index)
     {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0, nameof(index));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0);
         return Data[Offsets.Daycare] == 0x01;
     }
 
     public void SetDaycareOccupied(int index, bool occupied)
     {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0, nameof(index));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0);
         Data[Offsets.Daycare] = (byte)(occupied ? 0x01 : 0x00);
     }
 

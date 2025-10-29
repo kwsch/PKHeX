@@ -29,6 +29,7 @@ public sealed class GameDataSource
         (byte)LanguageID.Korean,
         (byte)LanguageID.ChineseS,
         (byte)LanguageID.ChineseT,
+        (byte)LanguageID.SpanishL,
     ];
 
     /// <summary>
@@ -36,11 +37,12 @@ public sealed class GameDataSource
     /// </summary>
     /// <param name="generation">Generation to get the language list for.</param>
     /// <returns>List of languages to display.</returns>
-    public IReadOnlyList<ComboItem> LanguageDataSource(byte generation) => generation switch
+    public IReadOnlyList<ComboItem> LanguageDataSource(byte generation, EntityContext context) => generation switch
     {
           3 => LanguageList[..6], // No Korean+
         < 7 => LanguageList[..7], // No Chinese+
-          _ => [.. LanguageList],
+        _ when context is EntityContext.Gen9a => [.. LanguageList],
+        _ => [.. LanguageList.AsSpan(0, LanguageList.Length - 1)],
     };
 
     public GameDataSource(GameStrings s)
@@ -97,6 +99,7 @@ public sealed class GameDataSource
     /// <remarks>Most recent games are at the top, loosely following Generation groups.</remarks>
     private static ReadOnlySpan<byte> OrderedVersionArray =>
     [
+        52,     // 9 Z-A
         50, 51, // 9 S/V
         47,     // 8 PLA
         48, 49, // 8 BD/SP

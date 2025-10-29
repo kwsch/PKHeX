@@ -649,6 +649,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             IEventFlag37 g37 => new SAV_EventFlags(g37, SAV.Version),
             IEventFlagProvider37 p => new SAV_EventFlags(p.EventWork, SAV.Version),
             SAV2 s => new SAV_EventFlags2(s),
+            SAV9ZA za => new SAV_FlagWork9a(za),
             _ => throw new Exception(),
         };
         form.ShowDialog();
@@ -671,6 +672,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         SAV8BS bs => new SAV_Trainer8b(bs),
         SAV8LA la => new SAV_Trainer8a(la),
         SAV9SV sv => new SAV_Trainer9(sv),
+        SAV9ZA za => new SAV_Trainer9a(za),
         SAV4BR br => new SAV_Trainer4BR(br),
         _ => new SAV_SimpleTrainer(sav),
     };
@@ -804,6 +806,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             SAV8BS bs => new SAV_PokedexBDSP(bs),
             SAV8LA la => new SAV_PokedexLA(la),
             SAV9SV sv => sv.SaveRevision == 0 ? new SAV_PokedexSV(sv) : new SAV_PokedexSVKitakami(sv),
+            SAV9ZA za => new SAV_Pokedex9a(za),
             _ => (Form?)null,
         };
         form?.ShowDialog();
@@ -881,6 +884,13 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
         File.WriteAllBytes(sfd.FileName, jpeg);
+    }
+
+    private void B_OpenFashion_Click(object sender, EventArgs e)
+    {
+        var sav = (SAV9ZA)SAV;
+        using var form = new SAV_Fashion9a(sav);
+        form.ShowDialog();
     }
 
     private void B_ConvertKorean_Click(object sender, EventArgs e)
@@ -1253,7 +1263,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenPokedex.Visible = sav.HasPokeDex;
         B_OpenBerryField.Visible = sav is SAV6XY; // OR/AS undocumented
         B_OpenFriendSafari.Visible = sav is SAV6XY;
-        B_OpenEventFlags.Visible = sav is IEventFlag37 or IEventFlagProvider37 or SAV1 or SAV2 or SAV8BS or SAV7b;
+        B_OpenEventFlags.Visible = sav is IEventFlag37 or IEventFlagProvider37 or SAV1 or SAV2 or SAV8BS or SAV7b or SAV9ZA;
         B_DLC.Visible = sav.Generation == 5;
         B_OpenPokeBeans.Visible = B_CellsStickers.Visible = B_FestivalPlaza.Visible = sav is SAV7;
 
@@ -1279,6 +1289,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_RaidsDLC1.Visible = sav is SAV8SWSH { SaveRevision: >= 1 } or SAV9SV { SaveRevision: >= 1 };
         B_RaidsDLC2.Visible = sav is SAV8SWSH { SaveRevision: >= 2 } or SAV9SV { SaveRevision: >= 2 };
         FLP_SAVtools.Visible = B_Blocks.Visible = true;
+
+        B_OpenFashion.Visible = sav is SAV9ZA;
 
         var list = FLP_SAVtools.Controls.OfType<Control>().OrderBy(z => z.Text).ToArray();
         FLP_SAVtools.Controls.Clear();

@@ -6,11 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 6 Mystery Gift Template File
 /// </summary>
-public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4,
+public sealed class WC6(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEvent3, IRibbonSetEvent4,
     ILangNick, IContestStats, INature, IMemoryOT, IRelearn, IRestrictVersion
 {
     public WC6() : this(new byte[Size]) { }
-    public WC6(Memory<byte> raw) : base(raw) { }
     public override WC6 Clone() => new(Data.ToArray());
 
     public const int Size = 0x108;
@@ -147,9 +146,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4,
         // Player owned anti-shiny fixed PID
         if (ID32 == 0)
             return uint.MaxValue;
-
-        var xor = PID ^ ID32;
-        return (xor >> 16) ^ (xor & 0xFFFF);
+        return ShinyUtil.GetShinyXor(PID, ID32);
     }
 
     public override uint ID32 { get => ReadUInt32LittleEndian(Data[0x68..]); set => WriteUInt32LittleEndian(Data[0x68..], value); }
@@ -305,7 +302,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4,
             throw new ArgumentException(nameof(IsEntity));
 
         var version = OriginGame != 0 ? (GameVersion)OriginGame : this.GetCompatibleVersion(tr.Version);
-        int language = (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Core.Language.GetSafeLanguage456((LanguageID)tr.Language);
         var geo = tr.GetRegionOrigin(language);
         var rnd = Util.Rand;
         byte currentLevel = Level > 0 ? Level : (byte)(1 + rnd.Next(100));

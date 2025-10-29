@@ -103,8 +103,8 @@ public static class Encounter9RNG
 
         int ability = enc.Ability switch
         {
-            AbilityPermission.Any12H => (int)rand.NextInt(3) << 1,
-            AbilityPermission.Any12 => (int)rand.NextInt(2) << 1,
+            AbilityPermission.Any12H => 1 << (int)rand.NextInt(3),
+            AbilityPermission.Any12 => 1 << (int)rand.NextInt(2),
             _ => (int)enc.Ability,
         };
         pk.RefreshAbility(ability >> 1);
@@ -189,8 +189,8 @@ public static class Encounter9RNG
         // ReSharper disable once UnusedVariable
         int ability = enc.Ability switch
         {
-            AbilityPermission.Any12H => (int)rand.NextInt(3) << 1,
-            AbilityPermission.Any12 => (int)rand.NextInt(2) << 1,
+            AbilityPermission.Any12H => 1 << (int)rand.NextInt(3),
+            AbilityPermission.Any12 => 1 << (int)rand.NextInt(2),
             _ => (int)enc.Ability,
         };
 

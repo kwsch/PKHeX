@@ -523,7 +523,7 @@ public sealed class ShowdownSet : IBattleTemplate
     {
         if (nickname.Length == 0 || nickname == specForm)
             return specForm;
-        bool isNicknamed = SpeciesName.IsNicknamedAnyLanguage(species, nickname, context.Generation());
+        bool isNicknamed = SpeciesName.IsNicknamedAnyLanguage(species, nickname, context);
         if (!isNicknamed)
             return specForm;
         return $"{nickname} ({specForm})";

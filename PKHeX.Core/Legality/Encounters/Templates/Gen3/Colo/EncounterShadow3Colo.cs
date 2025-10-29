@@ -78,7 +78,7 @@ public sealed record EncounterShadow3Colo(byte Index, ushort Gauge, ReadOnlyMemo
         return pk;
     }
 
-    private int GetTemplateLanguage(ITrainerInfo tr) => IsEReader ? 1 : (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+    private int GetTemplateLanguage(ITrainerInfo tr) => IsEReader ? 1 : (int)Language.GetSafeLanguage3((LanguageID)tr.Language);
 
     private void SetPINGA(CK3 pk, in EncounterCriteria criteria, PersonalInfo3 pi)
     {

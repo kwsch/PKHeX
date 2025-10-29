@@ -165,7 +165,7 @@ public sealed class NicknameVerifier : Verifier
                     return true;
                 }
             }
-            if (SpeciesName.TryGetSpeciesAnyLanguage(nickname, out var species, pk.Format))
+            if (SpeciesName.TryGetSpeciesAnyLanguage(nickname, out var species, pk.Context))
             {
                 var msg = species == pk.Species ? NickMatchLanguageFlag : NickMatchNoOthersFail;
                 data.AddLine(Get(ParseSettings.Settings.Nickname.NicknamedAnotherSpecies, msg));
@@ -211,9 +211,11 @@ public sealed class NicknameVerifier : Verifier
 
     private static bool CanNicknameForeign8Plus(LegalityAnalysis data, PKM pk)
     {
-        if (data.Info.EvoChainsAllGens.HasVisitedSWSH)
+        // I think this method needs to be rewritten and clarified.
+        var hist = data.Info.EvoChainsAllGens;
+        if (hist.HasVisitedSWSH || hist.HasVisitedZA)
             return true;
-        if (pk.Format >= 9)
+        if (pk.Format >= 9) // S/V disallows fateful encounter nicknaming
             return !pk.FatefulEncounter;
         return false;
     }
@@ -242,6 +244,7 @@ public sealed class NicknameVerifier : Verifier
     {
         ushort species = pk.Species;
         byte format = pk.Format;
+        var context = pk.Context;
         int language = pk.Language;
 
         // Farfetch’d and Sirfetch’d have different apostrophes in HOME, only if transferred from 3DS or GO => HOME.
@@ -268,10 +271,10 @@ public sealed class NicknameVerifier : Verifier
         // Also in Generation 8, evolving in a foreign language game will retain the original language as the source for the newly evolved species name.
         // Transferring from Gen7->Gen8 realigns the Nickname string to the Language, if not nicknamed.
         bool canHaveAnyLanguage = format <= 7 && (enc.Species != species || pk.WasTradedEgg || enc is WC7 {IsAshGreninja: true}) && !pk.GG;
-        if (canHaveAnyLanguage && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
+        if (canHaveAnyLanguage && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, context))
             return true;
 
-        if (enc is ILangNick loc && loc.Language != 0 && !loc.IsNicknamed && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
+        if (enc is ILangNick loc && loc.Language != 0 && !loc.IsNicknamed && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, context))
             return true; // fixed language without nickname, nice job event maker!
 
         if (format == 5 && enc.Generation != 5) // transfer
@@ -294,7 +297,7 @@ public sealed class NicknameVerifier : Verifier
                 return false; // must have matched above
         }
         if (canHaveAnyLanguage)
-            return !SpeciesName.IsNicknamedAnyLanguage(species, nickname, 4);
+            return !SpeciesName.IsNicknamedAnyLanguage(species, nickname, EntityContext.Gen4);
         expect = SpeciesName.GetSpeciesNameGeneration(species, language, 4);
         return nickname.SequenceEqual(expect);
     }
@@ -324,7 +327,7 @@ public sealed class NicknameVerifier : Verifier
         int len = pk.LoadString(pk.NicknameTrash, nickname);
         nickname = nickname[..len];
 
-        if (pk.Format == 2 && !SpeciesName.IsNicknamedAnyLanguage(0, nickname, 2))
+        if (pk.Format == 2 && !SpeciesName.IsNicknamedAnyLanguage(0, nickname, EntityContext.Gen2))
             data.AddLine(GetValid(CheckIdentifier.Egg, NickMatchLanguageEgg));
         else if (!nickname.SequenceEqual(SpeciesName.GetEggName(pk.Language, enc.Generation)))
             data.AddLine(GetInvalid(CheckIdentifier.Egg, NickMatchLanguageEggFail));

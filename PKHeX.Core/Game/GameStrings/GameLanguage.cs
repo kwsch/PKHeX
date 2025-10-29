@@ -13,7 +13,10 @@ public static class GameLanguage
     public const string DefaultLanguage = "en"; // English
     public const int DefaultLanguageIndex = 1;
 
-    private static readonly string[] LanguageCodes = ["ja", "en", "fr", "it", "de", "es", "ko", "zh-Hans", "zh-Hant"];
+    /// <summary>
+    /// Language codes supported; mirrors <see cref="ProgramLanguage"/>.
+    /// </summary>
+    private static readonly string[] LanguageCodes = ["ja", "en", "fr", "it", "de", "es", "es-419", "ko", "zh-Hans", "zh-Hant"];
 
     public static string LanguageCode(int localizationIndex) => (uint)localizationIndex >= LanguageCodes.Length ? DefaultLanguage : LanguageCodes[localizationIndex];
     public static int LanguageCount => LanguageCodes.Length;
@@ -37,6 +40,7 @@ public static class GameLanguage
         "it" => LanguageID.Italian,
         "de" => LanguageID.German,
         "es" => LanguageID.Spanish,
+        "es-419" => LanguageID.SpanishL,
         "ko" => LanguageID.Korean,
         "zh-Hans" => LanguageID.ChineseS,
         "zh-Hant" => LanguageID.ChineseT,
@@ -62,6 +66,8 @@ public static class GameLanguage
     public static string[] GetStrings(string ident, string lang, [ConstantExpected] string type = "text")
     {
         string[] data = Util.GetStringList(ident, lang, type);
+        if (lang == "es-419" && data.Length == 0)
+            data = Util.GetStringList(ident, "es", type); // fallback to "es"
         if (data.Length == 0)
             data = Util.GetStringList(ident, DefaultLanguage, type);
 

@@ -148,11 +148,14 @@ public static class ShowdownParsing
             (int)Darmanitan when form is "Galar-Zen"    => "Galar Zen",
             (int)Minior     when form is not MiniorFormName => $"C-{form}",
             (int)Zygarde    when form is "Complete"     => form,
-            (int)Zygarde    when ability == 211         => $"{(string.IsNullOrWhiteSpace(form) ? "50%" : "10%")}-C",
+            (int)Zygarde    when ability == 211         => $"{(form.Contains("10%") ? "10%" : "50%")}-C",
             (int)Greninja   when ability == 210         => "Ash", // Battle Bond
             (int)Rockruff   when ability == 020         => "Dusk", // Rockruff-1
             (int)Maushold   when form is "Four"         => "Family of Four",
             (int)Urshifu or (int)Pikachu or (int)Alcremie => form.Replace('-', ' '), // Strike and Cosplay
+
+            (int)Pumpkaboo or (int)Gourgeist when form is "Average" => "Medium",
+            (int)Pumpkaboo or (int)Gourgeist when form is "Super" => "Jumbo",
 
             _ => FormInfo.HasTotemForm(species) && form.EndsWith("Totem", StringComparison.OrdinalIgnoreCase) ? "Large" : form,
         };

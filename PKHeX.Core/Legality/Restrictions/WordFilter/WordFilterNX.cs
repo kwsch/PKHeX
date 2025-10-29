@@ -59,8 +59,7 @@ public static class WordFilterNX
 
     private static bool IsSpeciesName(ReadOnlySpan<char> message, EntityContext origin)
     {
-        var gen = origin.Generation();
-        if (!SpeciesName.TryGetSpeciesAnyLanguageCaseInsensitive(message, out var species, gen))
+        if (!SpeciesName.TryGetSpeciesAnyLanguageCaseInsensitive(message, out var species, origin))
             return false;
         return species <= origin.GetSingleGameVersion().GetMaxSpeciesID();
     }

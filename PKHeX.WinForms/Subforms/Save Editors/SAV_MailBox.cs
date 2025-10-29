@@ -156,7 +156,7 @@ public partial class SAV_MailBox : Form
 
         CB_AuthorLang.Items.Clear();
         CB_AuthorLang.InitializeBinding();
-        CB_AuthorLang.DataSource = new BindingSource(GameInfo.LanguageDataSource(SAV.Generation), string.Empty);
+        CB_AuthorLang.DataSource = new BindingSource(GameInfo.LanguageDataSource(SAV.Generation, SAV.Context), string.Empty);
 
         var ItemList = source.Strings.GetItemStrings(SAV.Context, SAV.Version);
         CB_MailType.Items.Clear();

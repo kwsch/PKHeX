@@ -44,6 +44,7 @@ public static partial class Extensions
         SAV8BS bs => GetExtraSlots8b(bs),
         SAV8LA la => GetExtraSlots8a(la),
         SAV9SV sv => GetExtraSlots9(sv),
+        SAV9ZA za => GetExtraSlots9a(za),
         _ => None,
     };
 
@@ -102,7 +103,7 @@ public static partial class Extensions
         [
             new(sav.GTS.Upload, 0) {Type = StorageSlotType.GTS},
             new(sav.Fused[0], 0) {Type = StorageSlotType.FusedKyurem},
-            new(sav.SUBE.GiveSlot, 0) {Type = StorageSlotType.Misc}, // Old Man
+            new(sav.SUBE.GiveSlot, 0, Mutable: true) {Type = StorageSlotType.Misc}, // Old Man
 
             new(sav.BattleBox[0], 0) {Type = StorageSlotType.BattleBox},
             new(sav.BattleBox[1], 1) {Type = StorageSlotType.BattleBox},
@@ -238,6 +239,40 @@ public static partial class Extensions
             list.Add(new(surprise.Raw[0x198..], 0) { Type = StorageSlotType.Misc }); // my upload
             list.Add(new(surprise.Raw[0x02C..], 1) { Type = StorageSlotType.Misc }); // received from others
         }
+        return list;
+    }
+
+    private static List<SlotInfoMisc> GetExtraSlots9a(SAV9ZA sav)
+    {
+        var list = new List<SlotInfoMisc>();
+
+        var shinyCache = sav.Blocks.GetBlock(SaveBlockAccessor9ZA.KStoredShinyEntity);
+        for (int i = 0; i < 10; i++)
+        {
+            const int size = 0x1F0;
+            var ofs = (i * size) + 8;
+            var entry = shinyCache.Raw.Slice(ofs, PokeCrypto.SIZE_9PARTY);
+            if (EntityDetection.IsPresent(entry.Span))
+                list.Add(new(entry, i, true) { Type = StorageSlotType.Shiny, HideLegality = true }); // no OT info
+            else
+                break;
+        }
+
+        var giveAway = sav.Blocks.GetBlock(SaveBlockAccessor9ZA.KStoredEventEntity);
+        for (int i = 0; i < 128; i++)
+        {
+            const int size = 0x1A8;
+            var ofs = (i * size) + 8;
+            var entry = giveAway.Raw.Slice(ofs, PokeCrypto.SIZE_9PARTY);
+            if (EntityDetection.IsPresent(entry.Span))
+                list.Add(new(entry, i, true, Mutable: true) { Type = StorageSlotType.Misc });
+            else
+                break;
+        }
+
+        var block = sav.Blocks.GetBlock(SaveBlockAccessor9ZA.KFusedCalyrex);
+        list.Add(new(block.Raw, 0, true) { Type = StorageSlotType.FusedCalyrex });
+
         return list;
     }
 }

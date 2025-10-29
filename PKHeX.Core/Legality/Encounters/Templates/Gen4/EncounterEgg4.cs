@@ -50,7 +50,7 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
 
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
+        int language = (int)Language.GetSafeLanguage456((LanguageID)tr.Language);
         var date = EncounterDate.GetDateNDS();
 
         var pk = new PK4

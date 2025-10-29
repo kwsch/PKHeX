@@ -39,7 +39,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
 
     public PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage3((LanguageID)tr.Language);
         var version = Version switch
         {
             GameVersion.RSE => tr.Version switch

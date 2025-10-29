@@ -23,6 +23,7 @@ public enum BoxManipType
     SortFavorite,
     SortParty,
     SortShiny,
+    SortAlpha,
     SortRandom,
 
     SortUsage,

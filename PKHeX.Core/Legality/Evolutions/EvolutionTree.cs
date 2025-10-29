@@ -25,6 +25,7 @@ public sealed class EvolutionTree : EvolutionNetwork
     public static readonly EvolutionTree Evolves8a = GetViaPersonal(PersonalTable.LA,   Get("la", "la"u8, 0));
     public static readonly EvolutionTree Evolves8b = GetViaPersonal(PersonalTable.BDSP, Get("bs", "bs"u8));
     public static readonly EvolutionTree Evolves9  = GetViaPersonal(PersonalTable.SV,   Get("sv", "sv"u8));
+    public static readonly EvolutionTree Evolves9a = GetViaPersonal(PersonalTable.ZA,   Get("za", "za"u8, 0));
 
     private static EvolutionMethod[][] Get([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> identifier, [ConstantExpected] byte levelUp = 1)
     {
@@ -68,6 +69,7 @@ public sealed class EvolutionTree : EvolutionNetwork
         EntityContext.Gen7b => Evolves7b,
         EntityContext.Gen8a => Evolves8a,
         EntityContext.Gen8b => Evolves8b,
+        EntityContext.Gen9a => Evolves9a,
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 }

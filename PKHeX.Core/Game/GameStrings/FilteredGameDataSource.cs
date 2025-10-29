@@ -31,7 +31,7 @@ public sealed class FilteredGameDataSource
         var gamelist = GameUtil.GetVersionsWithinRange(sav, sav.Generation).ToList();
         Games = Source.VersionDataSource.Where(g => gamelist.Contains((GameVersion)g.Value) || g.Value == 0).ToList();
 
-        Languages = Source.LanguageDataSource(sav.Generation);
+        Languages = Source.LanguageDataSource(sav.Generation, sav.Context);
         Balls = Source.BallDataSource.Where(b => b.Value <= sav.MaxBallID).ToList();
         Abilities = Source.AbilityDataSource.Where(a => a.Value <= sav.MaxAbilityID).ToList();
 
@@ -57,6 +57,7 @@ public sealed class FilteredGameDataSource
             // BD/SP can be handled by <= MaxSpeciesID as it as no gaps in species availability.
             SAV8SWSH g8 => FilterUnavailable(result, g8.Personal),
             SAV9SV g9 => FilterUnavailable(result, g9.Personal),
+            SAV9ZA za => FilterUnavailable(result, za.Personal),
             _ => FilterAbove(result, sav.MaxSpeciesID),
         };
         return result;

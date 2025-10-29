@@ -250,6 +250,7 @@ public sealed partial class SAV_EventWork : Form
 
     private static string GetGameFilePrefix(GameVersion version) => version switch
     {
+        ZA => "za",
         SL or VL or SV => "sv",
         BD or SP or BDSP => "bdsp",
         SW or SH or SWSH => "swsh",

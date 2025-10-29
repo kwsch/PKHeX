@@ -7,13 +7,12 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 9 Mystery Gift Template File
 /// </summary>
-public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbonIndex, IMemoryOT,
+public sealed class WC9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INature, ITeraType, IRibbonIndex, IMemoryOT,
     ILangNicknamedTemplate, IEncounterServerDate, IRelearn, IMetLevel,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetCommon9, IRibbonSetMark9, IEncounterMarkExtra
 {
     public WC9() : this(new byte[Size]) { }
-    public WC9(Memory<byte> raw) : base(raw) { }
     public override WC9 Clone() => new(Data.ToArray());
 
     public const int Size = 0x2C8;
@@ -120,9 +119,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         // Player owned anti-shiny fixed PID
         if (ID32 == 0)
             return uint.MaxValue;
-
-        var xor = PID ^ ID32;
-        return (xor >> 16) ^ (xor & 0xFFFF);
+        return ShinyUtil.GetShinyXor(PID, ID32);
     }
 
     // When applying the TID32, the game sets the DisplayTID7 directly, then sets pk9.DisplaySID7 as (wc9.DisplaySID7 - wc9.CardID)
@@ -507,14 +504,9 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         pk.MetDate = date;
 
         if (OTGender >= 2)
-        {
-            pk.TID16 = tr.TID16;
-            pk.SID16 = tr.SID16;
-        }
+            pk.ID32 = tr.ID32;
         else if (IsBeforePatch200(date))
-        {
             pk.ID32 = ID32Old;
-        }
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
@@ -545,7 +537,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         else
             pk.Scale = (byte)Scale;
 
-        pk.ObedienceLevel = Level;
+        pk.ObedienceLevel = currentLevel;
         pk.ResetPartyStats();
         pk.RefreshChecksum();
         return pk;
@@ -932,7 +924,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
             if (GetRibbon(index))
                 return;
             var openIndex = RibbonSpan.IndexOf(RibbonByteNone);
-            ArgumentOutOfRangeException.ThrowIfNegative(openIndex, nameof(openIndex)); // Full?
+            ArgumentOutOfRangeException.ThrowIfNegative(openIndex); // Full?
             SetRibbonAtIndex(openIndex, (byte)index);
         }
         else

@@ -92,13 +92,13 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
 
     public Memory<byte> GetPokestarMovie([Range(0, PokestarCount)] int index)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(index, PokestarCount, nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(index, PokestarCount);
         return Buffer.Slice(GetPokestarOffset(index), PokestarLength);
     }
 
     public void SetPokestarMovie([Range(0, PokestarCount)] int index, ReadOnlySpan<byte> data, ushort count = 1)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(index, PokestarCount, nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(index, PokestarCount);
         var offset = GetPokestarOffset(index);
         WriteExtSection(data, offset, PokestarLength, count);
         PlayerData.UpdateExtData(ExtDataSectionNote5.Movie1 + index, count);
@@ -111,13 +111,13 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
 
     public Memory<byte> GetPWT([Range(0, PWTCount)] int index)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(index, PWTCount, nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(index, PWTCount);
         return Buffer.Slice(PWTOffset + (index * PWTInterval), PWTLength);
     }
 
     public void SetPWT([Range(0, PWTCount)] int index, ReadOnlySpan<byte> data, ushort count = 1)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(index, PWTCount, nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(index, PWTCount);
         var offset = GetPWTOffset(index);
         WriteExtSection(data, offset, PWTLength, count);
         PlayerData.UpdateExtData(ExtDataSectionNote5.PWT1 + index, count);

@@ -50,7 +50,7 @@ public partial class SAV_Trainer8 : Form
     private void GetComboBoxes()
     {
         CB_Language.InitializeBinding();
-        CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
+        CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation, SAV.Context);
 
         CB_SkinColor.Items.Clear();
         CB_SkinColor.Items.AddRange(WinFormsTranslator.GetEnumTranslation<PlayerSkinColor8>(Main.CurrentLanguage));

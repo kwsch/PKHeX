@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.EntityContext;
 
 namespace PKHeX.Core;
 
@@ -156,8 +157,8 @@ public static partial class Extensions
     /// <inheritdoc cref="GetHyperTrainMinLevel(IHyperTrain,EvolutionHistory, EntityContext)"/>
     public static int GetHyperTrainMinLevel(this EntityContext c) => c switch
     {
-        EntityContext.Gen7 or EntityContext.Gen8 or EntityContext.Gen8b => LevelHyperTrainMin8,
-        EntityContext.Gen9 => LevelHyperTrainMin9,
+        Gen7 or Gen8 or Gen8b => LevelHyperTrainMin8,
+        Gen9 or Gen9a => LevelHyperTrainMin9,
         _ => 101,
     };
 
@@ -172,10 +173,10 @@ public static partial class Extensions
     {
         // HOME 3.0.0+ disallows inbound transfers of Hyper Trained Pokémon below level 100.
         // PokeDupeChecker in BD/SP will DprIllegal if < 100, even if it was legitimately trained in S/V+.
-        if (current == EntityContext.Gen8b)
+        if (current == Gen8b)
             return LevelHyperTrainMin8;
 
-        if (h.HasVisitedGen9)
+        if (h.HasVisitedGen9 || h.HasVisitedZA)
             return LevelHyperTrainMin9;
         return LevelHyperTrainMin8;
     }

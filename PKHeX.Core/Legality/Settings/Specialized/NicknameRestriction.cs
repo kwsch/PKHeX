@@ -41,6 +41,9 @@ public sealed class NicknameSettings
     [LocalizedDescription("Nickname rules for Generation 9.")]
     public NicknameRestriction Nickname9 { get; set; } = new();
 
+    [LocalizedDescription("Nickname rules for Generation 9a.")]
+    public NicknameRestriction Nickname9a { get; set; } = new();
+
     public void Disable()
     {
         var nick = new NicknameRestriction();
@@ -61,6 +64,7 @@ public sealed class NicknameSettings
         Nickname8a.CopyFrom(all);
         Nickname8b.CopyFrom(all);
         Nickname9.CopyFrom(all);
+        Nickname9a.CopyFrom(all);
     }
 
     public Severity NicknamedMysteryGift(EntityContext encContext) => encContext switch
@@ -77,6 +81,7 @@ public sealed class NicknameSettings
         EntityContext.Gen8a => Nickname8a.NicknamedMysteryGift,
         EntityContext.Gen8b => Nickname8b.NicknamedMysteryGift,
         EntityContext.Gen9 => Nickname9.NicknamedMysteryGift,
+        EntityContext.Gen9a => Nickname9a.NicknamedMysteryGift,
         _ => Severity.Valid,
     };
 
@@ -94,6 +99,7 @@ public sealed class NicknameSettings
         EntityContext.Gen8a => Nickname8a.NicknamedTrade,
         EntityContext.Gen8b => Nickname8b.NicknamedTrade,
         EntityContext.Gen9 => Nickname9.NicknamedTrade,
+        EntityContext.Gen9a => Nickname9a.NicknamedTrade,
         _ => Severity.Valid,
     };
 }

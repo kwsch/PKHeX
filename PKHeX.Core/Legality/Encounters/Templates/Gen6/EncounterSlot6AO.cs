@@ -57,7 +57,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
 
     public PK6 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage456((LanguageID)tr.Language);
         var pi = PersonalTable.AO[Species];
         var geo = tr.GetRegionOrigin(language);
         var pk = new PK6

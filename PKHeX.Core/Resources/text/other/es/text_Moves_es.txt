@@ -37,7 +37,7 @@ Constricción
 Derribo
 Saña
 Doble Filo
-Látigo
+Agitacola
 Picotazo Veneno
 Doble Ataque
 Pin Misil
@@ -174,7 +174,7 @@ Rueda Fuego
 Ronquido
 Maldición
 Azote
-Conversión2
+Conversión 2
 Aerochorro
 Esporagodón
 Inversión
@@ -233,7 +233,7 @@ Cola Férrea
 Garra Metal
 Llave Vital
 Sol Matinal
-Síntesis
+Fotosíntesis
 Luz Lunar
 Poder Oculto
 Tajo Cruzado
@@ -428,7 +428,7 @@ Bomba Fango
 Psicocorte
 Cabezazo Zen
 Disparo Espejo
-Foco Resplandor
+Cañón Resplandor
 Treparrocas
 Despejar
 Espacio Raro
@@ -918,3 +918,4 @@ Plancha Voltaica
 Psicorruido
 Palma Rauda
 Cadena Virulenta
+Luz Devastadora

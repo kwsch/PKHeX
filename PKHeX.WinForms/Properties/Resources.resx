@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -352,6 +352,9 @@
   <data name="lang_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\lang_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="lang_es-419" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\lang_es-419.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="lang_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\lang_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -438,5 +441,14 @@
   </data>
   <data name="bag_z" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Bag\bag_z.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bag_mega" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Bag\bag_mega.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gen_za" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Markings\gen_za.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="alpha" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Program\alpha.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

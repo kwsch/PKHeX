@@ -28,7 +28,7 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
     public PB7 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage789((LanguageID)tr.Language);
         var pi = PersonalTable.GG[Species];
         var date = EncounterDate.GetDateSwitch();
         var pk = new PB7

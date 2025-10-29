@@ -22,6 +22,7 @@ public static class MemoryRules
             sources |= MemorySource.Gen8;
         if (history.HasVisitedGen9)
             sources |= MemorySource.Deleted;
+        // TODO HOME ZA
         return sources;
     }
 

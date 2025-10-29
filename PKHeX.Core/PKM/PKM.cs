@@ -294,12 +294,13 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual bool BDSP => Version is BD or SP;
     public virtual bool LA => Version is PLA;
     public virtual bool SV => Version is SL or VL;
+    public bool ZA => Version is GameVersion.ZA;
 
     public bool GO_LGPE => GO && MetLocation == Locations.GO7;
     public bool GO_HOME => GO && MetLocation == Locations.GO8;
     public bool VC => VC1 || VC2;
     public bool GG => LGPE || GO_LGPE;
-    public bool Gen9 => SV;
+    public bool Gen9 => SV || ZA;
     public bool Gen8 => Version.IsGen8() || GO_HOME;
     public bool Gen7 => Version.IsGen7();
     public bool Gen6 => Version.IsGen6();
@@ -632,7 +633,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// <summary>
     /// Reorders moves and fixes PP if necessary.
     /// </summary>
-    public void FixMoves()
+    public virtual void FixMoves()
     {
         ReorderMoves();
 

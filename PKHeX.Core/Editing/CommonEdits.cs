@@ -58,7 +58,8 @@ public static class CommonEdits
         if (abilityID < 0)
             return;
         var index = pk.PersonalInfo.GetIndexOfAbility(abilityID);
-        index = Math.Max(0, index);
+        if (index < 0)
+            return; // leave original value
         pk.SetAbilityIndex(index);
     }
 
@@ -258,6 +259,13 @@ public static class CommonEdits
             t.ClearRecordFlags();
             t.SetRecordFlags(set.Moves, legal.Info.EvoChainsAllGens.Get(pk.Context));
         }
+
+        if (pk is IPlusRecord plus && pk.PersonalInfo is IPermitPlus permit)
+        {
+            plus.ClearPlusFlags(permit.PlusCountTotal);
+            plus.SetPlusFlags(permit, legal, true, true);
+        }
+
         if (legal.Parsed && !MoveResult.AllValid(legal.Info.Relearn))
             pk.SetRelearnMoves(legal);
         pk.ResetPartyStats();

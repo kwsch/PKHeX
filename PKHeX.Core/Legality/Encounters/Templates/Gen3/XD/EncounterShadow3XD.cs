@@ -44,7 +44,7 @@ public sealed record EncounterShadow3XD(byte Index, ushort Gauge, ReadOnlyMemory
 
     public XK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage3((LanguageID)tr.Language);
         var pi = PersonalTable.E[Species];
         var pk = new XK3
         {

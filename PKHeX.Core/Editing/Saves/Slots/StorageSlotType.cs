@@ -16,6 +16,8 @@ public enum StorageSlotType : byte
     Daycare,
     /// <summary> Global Trade Station (GTS) </summary>
     GTS,
+    /// <summary> Shiny Overworld Cache </summary>
+    Shiny,
 
     /// <summary> Fused Legendary Storage </summary>
     FusedKyurem,

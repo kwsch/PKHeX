@@ -8,7 +8,7 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms;
 
-public partial class SAV_Inventory : Form
+public sealed partial class SAV_Inventory : Form
 {
     private readonly SaveFile Origin;
     private readonly SaveFile SAV;
@@ -30,22 +30,38 @@ public partial class SAV_Inventory : Form
         }
 
         Pouches = SAV.Inventory;
+        ItemColumnReadOnly = SAV is SAV9ZA or SAV9SV;
         var item0 = Pouches[0].Items[0];
         HasFreeSpace = item0 is IItemFreeSpace;
         HasFreeSpaceIndex = item0 is IItemFreeSpaceIndex;
         HasFavorite = item0 is IItemFavorite;
         HasNew = item0 is IItemNewFlag;
+        HasNewShop = item0 is IItemNewShopFlag;
+        HasHeld = item0 is IItemHeldFlag;
 
         CreateBagViews();
         LoadAllBags();
         ChangeViewedPouch(0);
+
+        // simple tweak to widen the GUI for optional columns making it wider than the narrow default
+        var widen = 0;
+        if (HasNewShop)
+            widen += ControlGrids.First().Value.Columns[ColumnNEWShop].Width;
+        if (HasHeld)
+            widen += ControlGrids.First().Value.Columns[ColumnHeld].Width;
+        if (widen != 0)
+            Width += widen;
+        MinimumSize = Size;
     }
 
     private readonly IReadOnlyList<InventoryPouch> Pouches;
+    private readonly bool ItemColumnReadOnly;
     private readonly bool HasFreeSpace;
     private readonly bool HasFreeSpaceIndex;
     private readonly bool HasFavorite;
     private readonly bool HasNew;
+    private readonly bool HasNewShop;
+    private readonly bool HasHeld;
 
     // assume that all pouches have the same amount of columns
     private int ColumnItem;
@@ -54,6 +70,8 @@ public partial class SAV_Inventory : Form
     private int ColumnFreeSpaceIndex;
     private int ColumnFavorite;
     private int ColumnNEW;
+    private int ColumnNEWShop;
+    private int ColumnHeld;
 
     private readonly Dictionary<InventoryType, DataGridView> ControlGrids = [];
     private DataGridView GetGrid(InventoryType type) => ControlGrids[type];
@@ -95,7 +113,7 @@ public partial class SAV_Inventory : Form
         dgv.Columns.Add(item);
         dgv.Columns.Add(GetCountColumn(pouch, Main.HaX, ColumnCount = dgv.Columns.Count));
         if (HasFavorite)
-            dgv.Columns.Add(GetCheckColumn(ColumnFavorite = dgv.Columns.Count,"Fav"));
+            dgv.Columns.Add(GetCheckColumn(ColumnFavorite = dgv.Columns.Count, "Fav"));
         if (HasNew)
             dgv.Columns.Add(GetCheckColumn(ColumnNEW = dgv.Columns.Count, "New"));
 
@@ -103,6 +121,10 @@ public partial class SAV_Inventory : Form
             dgv.Columns.Add(GetCheckColumn(ColumnFreeSpace = dgv.Columns.Count, "Free"));
         if (HasFreeSpaceIndex)
             dgv.Columns.Add(GetCountColumn(pouch, true, ColumnFreeSpaceIndex = dgv.Columns.Count, "Free"));
+        if (HasNewShop)
+            dgv.Columns.Add(GetCheckColumn(ColumnNEWShop = dgv.Columns.Count, "Shop"));
+        if (HasHeld)
+            dgv.Columns.Add(GetCheckColumn(ColumnHeld = dgv.Columns.Count, "Held"));
 
         // Populate with rows
         var itemarr = Main.HaX ? itemlist : GetStringsForPouch(pouch.GetAllItems());
@@ -137,13 +159,14 @@ public partial class SAV_Inventory : Form
         CellBorderStyle = DataGridViewCellBorderStyle.None,
     };
 
-    private static DataGridViewComboBoxColumn GetItemColumn(int c, string name = "Item") => new()
+    private DataGridViewComboBoxColumn GetItemColumn(int c, string name = "Item") => new()
     {
         HeaderText = name,
         DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
         DisplayIndex = c,
         Width = 135,
         FlatStyle = FlatStyle.Flat,
+        ReadOnly = ItemColumnReadOnly,
     };
 
     private static DataGridViewCheckBoxColumn GetCheckColumn(int c, string name) => new()
@@ -219,6 +242,16 @@ public partial class SAV_Inventory : Form
                 cells[ColumnFavorite].Value = v.IsFavorite;
             if (item is IItemNewFlag n)
                 cells[ColumnNEW].Value = n.IsNew;
+            if (item is IItemNewShopFlag ns)
+                cells[ColumnNEWShop].Value = ns.IsNewShop;
+            if (item is IItemHeldFlag g)
+                cells[ColumnHeld].Value = g.IsHeld;
+        }
+
+        if (ItemColumnReadOnly) // Sort the column alphabetically.
+        {
+            dgv.Sort(dgv.Columns[ColumnItem], System.ComponentModel.ListSortDirection.Ascending);
+            dgv.ClearSelection();
         }
     }
 
@@ -250,6 +283,10 @@ public partial class SAV_Inventory : Form
                 v.IsFavorite = (bool)cells[ColumnFavorite].Value!;
             if (item is IItemNewFlag n)
                 n.IsNew = (bool)cells[ColumnNEW].Value!;
+            if (item is IItemNewShopFlag ns)
+                ns.IsNewShop = (bool)cells[ColumnNEWShop].Value!;
+            if (item is IItemHeldFlag g)
+                g.IsHeld = (bool)cells[ColumnHeld].Value!;
 
             pouch.Items[ctr] = item;
             ctr++;
@@ -429,6 +466,7 @@ file static class InventoryTypeImageUtil
         InventoryType.Candy => Properties.Resources.bag_candy,
         InventoryType.Treasure => Properties.Resources.bag_treasure,
         InventoryType.Ingredients => Properties.Resources.bag_ingredient,
+        InventoryType.MegaStones => Properties.Resources.bag_mega,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

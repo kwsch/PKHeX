@@ -57,7 +57,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IEncount
     public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         var version = this.GetCompatibleVersion(tr.Version);
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        int language = (int)Language.GetSafeLanguage2((LanguageID)tr.Language);
         var isJapanese = language == (int)LanguageID.Japanese;
         var pi = PersonalTable.C[Species];
         var pk = new PK2(isJapanese)

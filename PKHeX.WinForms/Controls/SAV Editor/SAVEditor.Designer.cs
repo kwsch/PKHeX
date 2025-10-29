@@ -109,6 +109,7 @@ namespace PKHeX.WinForms.Controls
             TB_Secure1 = new System.Windows.Forms.TextBox();
             L_GameSync = new System.Windows.Forms.Label();
             TB_GameSync = new System.Windows.Forms.TextBox();
+            B_OpenFashion = new System.Windows.Forms.Button();
             tabBoxMulti.SuspendLayout();
             Tab_Box.SuspendLayout();
             Tab_PartyBattle.SuspendLayout();
@@ -145,10 +146,10 @@ namespace PKHeX.WinForms.Controls
             // 
             Tab_Box.AllowDrop = true;
             Tab_Box.Controls.Add(Box);
-            Tab_Box.Location = new System.Drawing.Point(4, 24);
+            Tab_Box.Location = new System.Drawing.Point(4, 26);
             Tab_Box.Name = "Tab_Box";
             Tab_Box.Padding = new System.Windows.Forms.Padding(3);
-            Tab_Box.Size = new System.Drawing.Size(441, 335);
+            Tab_Box.Size = new System.Drawing.Size(441, 333);
             Tab_Box.TabIndex = 0;
             Tab_Box.Text = "Box";
             Tab_Box.UseVisualStyleBackColor = true;
@@ -173,10 +174,10 @@ namespace PKHeX.WinForms.Controls
             // 
             Tab_PartyBattle.AllowDrop = true;
             Tab_PartyBattle.Controls.Add(SL_Party);
-            Tab_PartyBattle.Location = new System.Drawing.Point(4, 24);
+            Tab_PartyBattle.Location = new System.Drawing.Point(4, 26);
             Tab_PartyBattle.Name = "Tab_PartyBattle";
             Tab_PartyBattle.Padding = new System.Windows.Forms.Padding(3);
-            Tab_PartyBattle.Size = new System.Drawing.Size(441, 335);
+            Tab_PartyBattle.Size = new System.Drawing.Size(441, 333);
             Tab_PartyBattle.TabIndex = 1;
             Tab_PartyBattle.Text = "Party";
             Tab_PartyBattle.UseVisualStyleBackColor = true;
@@ -196,9 +197,9 @@ namespace PKHeX.WinForms.Controls
             Tab_Other.Controls.Add(SL_Extra);
             Tab_Other.Controls.Add(GB_Daycare);
             Tab_Other.Controls.Add(L_ReadOnlyOther);
-            Tab_Other.Location = new System.Drawing.Point(4, 24);
+            Tab_Other.Location = new System.Drawing.Point(4, 26);
             Tab_Other.Name = "Tab_Other";
-            Tab_Other.Size = new System.Drawing.Size(441, 335);
+            Tab_Other.Size = new System.Drawing.Size(441, 333);
             Tab_Other.TabIndex = 2;
             Tab_Other.Text = "Other";
             Tab_Other.UseVisualStyleBackColor = true;
@@ -210,7 +211,7 @@ namespace PKHeX.WinForms.Controls
             SL_Extra.Location = new System.Drawing.Point(337, 0);
             SL_Extra.Name = "SL_Extra";
             SL_Extra.SAV = null;
-            SL_Extra.Size = new System.Drawing.Size(104, 335);
+            SL_Extra.Size = new System.Drawing.Size(104, 333);
             SL_Extra.TabIndex = 30;
             SL_Extra.ViewIndex = -1;
             // 
@@ -257,7 +258,7 @@ namespace PKHeX.WinForms.Controls
             TB_Daycare2XP.Location = new System.Drawing.Point(120, 104);
             TB_Daycare2XP.Name = "TB_Daycare2XP";
             TB_Daycare2XP.ReadOnly = true;
-            TB_Daycare2XP.Size = new System.Drawing.Size(73, 23);
+            TB_Daycare2XP.Size = new System.Drawing.Size(73, 25);
             TB_Daycare2XP.TabIndex = 15;
             // 
             // TB_Daycare1XP
@@ -265,7 +266,7 @@ namespace PKHeX.WinForms.Controls
             TB_Daycare1XP.Location = new System.Drawing.Point(120, 40);
             TB_Daycare1XP.Name = "TB_Daycare1XP";
             TB_Daycare1XP.ReadOnly = true;
-            TB_Daycare1XP.Size = new System.Drawing.Size(73, 23);
+            TB_Daycare1XP.Size = new System.Drawing.Size(73, 25);
             TB_Daycare1XP.TabIndex = 14;
             // 
             // L_DC2
@@ -273,7 +274,7 @@ namespace PKHeX.WinForms.Controls
             L_DC2.AutoSize = true;
             L_DC2.Location = new System.Drawing.Point(80, 88);
             L_DC2.Name = "L_DC2";
-            L_DC2.Size = new System.Drawing.Size(19, 15);
+            L_DC2.Size = new System.Drawing.Size(22, 17);
             L_DC2.TabIndex = 13;
             L_DC2.Text = "2: ";
             // 
@@ -282,7 +283,7 @@ namespace PKHeX.WinForms.Controls
             L_DC1.AutoSize = true;
             L_DC1.Location = new System.Drawing.Point(80, 24);
             L_DC1.Name = "L_DC1";
-            L_DC1.Size = new System.Drawing.Size(19, 15);
+            L_DC1.Size = new System.Drawing.Size(22, 17);
             L_DC1.TabIndex = 12;
             L_DC1.Text = "1: ";
             // 
@@ -332,7 +333,7 @@ namespace PKHeX.WinForms.Controls
             DayCare_HasEgg.Enabled = false;
             DayCare_HasEgg.Location = new System.Drawing.Point(64, 146);
             DayCare_HasEgg.Name = "DayCare_HasEgg";
-            DayCare_HasEgg.Size = new System.Drawing.Size(97, 19);
+            DayCare_HasEgg.Size = new System.Drawing.Size(106, 21);
             DayCare_HasEgg.TabIndex = 7;
             DayCare_HasEgg.Text = "Egg Available";
             DayCare_HasEgg.UseVisualStyleBackColor = true;
@@ -359,9 +360,9 @@ namespace PKHeX.WinForms.Controls
             Tab_SAV.Controls.Add(TB_Secure1);
             Tab_SAV.Controls.Add(L_GameSync);
             Tab_SAV.Controls.Add(TB_GameSync);
-            Tab_SAV.Location = new System.Drawing.Point(4, 24);
+            Tab_SAV.Location = new System.Drawing.Point(4, 26);
             Tab_SAV.Name = "Tab_SAV";
-            Tab_SAV.Size = new System.Drawing.Size(441, 335);
+            Tab_SAV.Size = new System.Drawing.Size(441, 333);
             Tab_SAV.TabIndex = 3;
             Tab_SAV.Text = "SAV";
             Tab_SAV.UseVisualStyleBackColor = true;
@@ -409,8 +410,9 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_RaidsSevenStar);
             FLP_SAVtools.Controls.Add(B_OpenBattlePass);
             FLP_SAVtools.Controls.Add(B_OpenGear);
+            FLP_SAVtools.Controls.Add(B_OpenFashion);
             FLP_SAVtools.Dock = System.Windows.Forms.DockStyle.Bottom;
-            FLP_SAVtools.Location = new System.Drawing.Point(0, 175);
+            FLP_SAVtools.Location = new System.Drawing.Point(0, 173);
             FLP_SAVtools.Margin = new System.Windows.Forms.Padding(0);
             FLP_SAVtools.Name = "FLP_SAVtools";
             FLP_SAVtools.Size = new System.Drawing.Size(441, 160);
@@ -546,7 +548,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenPokepuffs.Name = "B_OpenPokepuffs";
             B_OpenPokepuffs.Size = new System.Drawing.Size(96, 32);
             B_OpenPokepuffs.TabIndex = 1;
-            B_OpenPokepuffs.Text = "‎Poké Puffs";
+            B_OpenPokepuffs.Text = "Poké Puffs";
             B_OpenPokepuffs.UseVisualStyleBackColor = true;
             B_OpenPokepuffs.Click += B_OpenPokepuffs_Click;
             // 
@@ -602,7 +604,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenPokeBeans.Name = "B_OpenPokeBeans";
             B_OpenPokeBeans.Size = new System.Drawing.Size(96, 32);
             B_OpenPokeBeans.TabIndex = 1;
-            B_OpenPokeBeans.Text = "‎Poké Beans";
+            B_OpenPokeBeans.Text = "Poké Beans";
             B_OpenPokeBeans.UseVisualStyleBackColor = true;
             B_OpenPokeBeans.Click += B_OpenPokeBeans_Click;
             // 
@@ -946,7 +948,7 @@ namespace PKHeX.WinForms.Controls
             CB_SaveSlot.FormattingEnabled = true;
             CB_SaveSlot.Location = new System.Drawing.Point(152, 144);
             CB_SaveSlot.Name = "CB_SaveSlot";
-            CB_SaveSlot.Size = new System.Drawing.Size(121, 23);
+            CB_SaveSlot.Size = new System.Drawing.Size(121, 25);
             CB_SaveSlot.TabIndex = 20;
             CB_SaveSlot.SelectedIndexChanged += UpdateSaveSlot;
             // 
@@ -1024,6 +1026,17 @@ namespace PKHeX.WinForms.Controls
             TB_GameSync.Size = new System.Drawing.Size(120, 24);
             TB_GameSync.TabIndex = 10;
             TB_GameSync.Validated += UpdateStringSeed;
+            // 
+            // B_OpenFashion
+            // 
+            B_OpenFashion.Location = new System.Drawing.Point(4, 404);
+            B_OpenFashion.Margin = new System.Windows.Forms.Padding(4);
+            B_OpenFashion.Name = "B_OpenFashion";
+            B_OpenFashion.Size = new System.Drawing.Size(96, 32);
+            B_OpenFashion.TabIndex = 10;
+            B_OpenFashion.Text = "‎Fashion";
+            B_OpenFashion.UseVisualStyleBackColor = true;
+            B_OpenFashion.Click += B_OpenFashion_Click;
             // 
             // SAVEditor
             // 
@@ -1127,5 +1140,6 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_ConvertKorean;
         private System.Windows.Forms.Button B_OpenBattlePass;
         private System.Windows.Forms.Button B_OpenGear;
+        private System.Windows.Forms.Button B_OpenFashion;
     }
 }

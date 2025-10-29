@@ -207,7 +207,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
     private bool TryMakeDragDropPKM(PictureBox pb, ReadOnlySpan<byte> data, string newfile)
     {
         var img = pb.Image as Bitmap;
-        ArgumentNullException.ThrowIfNull(img, nameof(img));
+        ArgumentNullException.ThrowIfNull(img);
         File.WriteAllBytes(newfile, data);
 
         Drag.SetCursor(pb.FindForm(), new Cursor(img.GetHicon()));

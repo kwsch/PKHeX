@@ -60,6 +60,7 @@ public sealed class BoxMenuStrip : ContextMenuStrip
         [BoxManipType.SortFavorite] = Resources.heart,
         [BoxManipType.SortParty] = Resources.users,
         [BoxManipType.SortShiny] = Resources.showdown,
+        [BoxManipType.SortAlpha] = Resources.alpha,
         [BoxManipType.SortRandom] = Resources.wand,
 
         [BoxManipType.SortUsage] = Resources.heart,

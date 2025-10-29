@@ -104,14 +104,12 @@ public static class Legal
     internal const int MaxMoveID_8a = (int)Move.TakeHeart;
     internal const int MaxItemID_8a = 1828; // Legend Plate
     internal const int MaxBallID_8a = (int)Ball.LAOrigin;
-  //internal const GameVersion MaxGameID_8a = GameVersion.SP;
     internal const int MaxAbilityID_8a = MaxAbilityID_8_R2;
 
     internal const int MaxSpeciesID_8b = MaxSpeciesID_4; // Arceus-493
     internal const int MaxMoveID_8b = MaxMoveID_8_R2;
     internal const int MaxItemID_8b = 1822; // DS Sounds
     internal const int MaxBallID_8b = (int)Ball.LAOrigin;
-  //internal const GameVersion MaxGameID_8b = GameVersion.SP;
     internal const int MaxAbilityID_8b = MaxAbilityID_8_R2;
 
     internal const ushort MaxSpeciesID_9 = MaxSpeciesID_9_T2;
@@ -134,9 +132,15 @@ public static class Legal
     internal const ushort MaxItemID_9_T2 = 2557; // Briar’s Book
     internal const ushort MaxAbilityID_9_T2 = (int)Ability.PoisonPuppeteer;
 
+    internal const int MaxSpeciesID_9a = (int)Species.Falinks;
+    internal const int MaxMoveID_9a = (int)Move.NihilLight;
+    internal const int MaxItemID_9a = 2634; // Blue Canari Plush
+    internal const int MaxAbilityID_9a = (int)Ability.PoisonPuppeteer;
+    internal const int MaxBallID_9a = (int)Ball.LAOrigin;
+
     internal const int MaxBallID_9 = (int)Ball.LAOrigin;
-    internal const GameVersion MaxGameID_9 = GameVersion.VL;
-    internal const GameVersion MaxGameID_HOME = MaxGameID_9;
+    internal const GameVersion MaxGameID_HOME = GameVersion.VL; // TODO HOME ZA - Replace with ZA when HOME; if backwards transfer is allowed. If prevented, rename epoch as HOME1.
+    internal const GameVersion MaxGameID_HOME2 = GameVersion.ZA;
 
     internal static readonly ushort[] HeldItems_GSC = ItemStorage2.GetAllHeld();
     internal static readonly ushort[] HeldItems_RS = ItemStorage3RS.GetAllHeld();
@@ -153,8 +157,9 @@ public static class Legal
     internal static readonly ushort[] HeldItems_BS = ItemStorage8BDSP.GetAllHeld();
     internal static readonly ushort[] HeldItems_LA = [];
     internal static readonly ushort[] HeldItems_SV = ItemStorage9SV.GetAllHeld();
+    internal static readonly ushort[] HeldItems_ZA = ItemStorage9ZA.GetAllHeld();
 
-    internal static int GetMaxLanguageID(byte generation) => generation switch
+    internal static int GetMaxLanguageID(byte generation, EntityContext context) => generation switch
     {
         1 => (int) LanguageID.Spanish, // 1-7 except 6
         3 => (int) LanguageID.Spanish, // 1-7 except 6
@@ -164,7 +169,7 @@ public static class Legal
         6 => (int) LanguageID.Korean,
         7 => (int) LanguageID.ChineseT,
         8 => (int) LanguageID.ChineseT,
-        9 => (int) LanguageID.ChineseT,
+        9 => (int) (context == EntityContext.Gen9a ? LanguageID.SpanishL : LanguageID.ChineseT),
         _ => -1,
     };
 
@@ -179,6 +184,7 @@ public static class Legal
         PB8 pb8 => !pb8.BDSP,
         PK8 pk8 => pk8.IsSideTransfer || pk8.BattleVersion != 0,
         PK9 pk9 => !(pk9.SV || pk9 is { IsEgg: true, Version: 0 }),
+        PA9 pa9 => !pa9.ZA,
         _ => false,
     };
 
@@ -186,10 +192,14 @@ public static class Legal
     /// Indicates if PP Ups are available for use.
     /// </summary>
     /// <param name="pk">Entity to check</param>
-    public static bool IsPPUpAvailable(PKM pk)
-    {
-        return pk is not PA8;
-    }
+    public static bool IsPPUpAvailable(PKM pk) => pk is not (PA8 or PA9);
+
+    /// <summary>
+    /// Indicates if PP is never used in-game and should always be default values.
+    /// </summary>
+    /// <param name="pk">Entity to check</param>
+    /// <returns><see langword="true"/> if PP is never used; otherwise, <see langword="false"/>.</returns>
+    public static bool IsPPUnused(PKM pk) => pk is (PA9);
 
     /// <summary>
     /// Indicate if PP Ups are available for use.

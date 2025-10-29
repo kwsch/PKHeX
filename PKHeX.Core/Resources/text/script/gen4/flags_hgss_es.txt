@@ -25,7 +25,7 @@
 0377	r	Groudon capturado (SS)
 0722	r	Rayquaza desaparecido
 0379	r	Rayquaza capturado
-2404	a	Entrado al Hall de la Fama (Mejora de Tarjeta Entrenador)
+2404	a	Entrado al Salón de la Fama (Mejora de Tarjeta Entrenador)
 0388	a	Obtenida 1 Corona de hojas doradas (Mejora de Tarjeta Entrenador)
 0241	a	Superados Récords de Pokéathlon (Mejora de Tarjeta Entrenador)
 0766	s	Poké Ball de Bulbasaur inicial desaparecida
@@ -74,14 +74,14 @@
 0217	s	Vicki conocido/Flecha venenosa conseguido
 0212	s	Sabino conocida/Arena fina conseguido
 0165	s	Domingo conocido/Imán conseguido
-0119	s	Kurt's Granddaughter Is Worried About Kurt
-0414	s	Kurt at Slowpoke Well
+0119	s	La nieta de Kurt está preocupada por Kurt
+0414	s	Kurt en el Pozo Slowpoke
 0415	s	Rocket Grunt Guarding Slowpoke Well Gone
-0539	*	Puzle de Cuerda huida en la pared de las Ruinas Alfa resuelto
-0541	*	Puzle de Destello en la pared de las Ruinas Alfa resuelto
-0543	*	Puzle de Piedra agua en la pared de las Ruinas Alfa resuelto
-0545	*	Puzle de Ho-Oh en la pared de las Ruinas Alfa resuelto
-0376	s	Lost to Giovanni once (Celebi Event)
+0539	*	Puzzle de Cuerda huida en la pared de las Ruinas Alfa resuelto
+0541	*	Puzzle de Destello en la pared de las Ruinas Alfa resuelto
+0543	*	Puzzle de Piedra agua en la pared de las Ruinas Alfa resuelto
+0545	*	Puzzle de Ho-Oh en la pared de las Ruinas Alfa resuelto
+0376	s	Perdido ante Giovanni una vez (Evento Celebi)
 1366	t	Policía Alejo derrotado (Noche)
 1440	t	Policía Donato derrotado (Noche)
 0693	t	Revancha contra Blanca
@@ -232,4 +232,4 @@
 1663	t	1ra revancha contra Ornitólogo Jose
 1806	t	2da revancha contra Ornitólogo Jose
 1962	t	3ra revancha contra Ornitólogo Jose
-2746	s	Learned trendy phrase (Today)
+2746	s	Frase de moda aprendida (Hoy)

@@ -74,7 +74,7 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IEncoun
 
     public PB8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int language = (int)Language.GetSafeLanguage789((LanguageID)tr.Language);
         var version = this.GetCompatibleVersion(tr.Version);
         var pi = PersonalTable.BDSP[Species, Form];
         var pk = new PB8

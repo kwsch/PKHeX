@@ -24,6 +24,7 @@ public static class BoxManipDefaults
         new BoxManipSort(SortFavorite, list => list.OrderByCustom(pk => pk is not IFavorite {IsFavorite: true}), s => s.BlankPKM is IFavorite),
         new BoxManipSortComplex(SortParty, (list, sav, start) => list.BubbleUp(sav, i => ((SAV7b)sav).Blocks.Storage.IsParty(i), start), s => s is SAV7b),
         new BoxManipSort(SortShiny, list => list.OrderByCustom(pk => !pk.IsShiny)),
+        new BoxManipSort(SortAlpha, list => list.OrderByCustom(pk => pk is not IAlpha {IsAlpha: true}), s => s is SAV8LA or SAV9ZA),
         new BoxManipSort(SortRandom, list => list.OrderByCustom(_ => Util.Rand.Next())),
     ];
 

@@ -28,7 +28,7 @@ public sealed record EncounterEgg9(ushort Species, byte Form, GameVersion Versio
 
     public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
+        int language = (int)Language.GetSafeLanguage789((LanguageID)tr.Language);
         var date = EncounterDate.GetDateSwitch();
         var pi = PersonalTable.SV[Species, Form];
         var rnd = Util.Rand;

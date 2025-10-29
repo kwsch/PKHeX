@@ -30,7 +30,7 @@ public sealed record EncounterEgg7(ushort Species, byte Form, GameVersion Versio
 
     public PK7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int language = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
+        int language = (int)Language.GetSafeLanguage789((LanguageID)tr.Language);
         var date = EncounterDate.GetDate3DS();
         var pi = PersonalTable.USUM[Species, Form];
         var rnd = Util.Rand;

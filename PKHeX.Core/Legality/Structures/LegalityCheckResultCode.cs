@@ -294,6 +294,10 @@ public enum LegalityCheckResultCode : ushort
     PIDTypeMismatch,
     PIDZero,
 
+    // Plus Moves
+    PlusMoveCountInvalid,
+    PlusMoveMultipleInvalid,
+
     // Ribbons
     RibbonAllValid,
     RibbonEgg,
@@ -374,7 +378,12 @@ public enum LegalityCheckResultCode : ushort
     BulkSharingPIDGenerationDifferent,
     BulkSharingPIDGenerationSame,
     BulkSharingPIDEncounterType,
+    BulkDuplicateFusionSlot,
     BulkDuplicateMysteryGiftEggReceived,
+    BulkDuplicateMegaStoneSlot,
+    BulkDuplicateMegaStoneInventory,
+    BulkNotAcquiredMegaStoneInventory,
+    BulkFusionSourceInvalid,
     BulkSharingTrainerIDs,
     BulkSharingTrainerVersion,
 
@@ -413,6 +422,13 @@ public enum LegalityCheckResultCode : ushort
     MoveShopMasterInvalid_0, // move ID
     MoveShopMasterNotLearned_0, // move ID
     MoveShopPurchaseInvalid_0, // move ID
+    PlusMoveInvalid_0, // move ID
+    PlusMoveAlphaMissing_0, // move ID
+    PlusMoveSufficientLevelMissing_0, // move ID
+
+    // Single Argument: Item ID
+    FirstWithItem,
+    BulkAssignedMegaStoneNotFound_0 = FirstWithItem, // item ID
 
     // One Argument: Language
     FirstWithLanguage,

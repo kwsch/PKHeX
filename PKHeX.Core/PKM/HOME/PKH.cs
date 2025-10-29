@@ -14,6 +14,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public GameDataPA8? DataPA8 { get; private set; }
     public GameDataPB8? DataPB8 { get; private set; }
     public GameDataPK9? DataPK9 { get; private set; }
+    public GameDataPA9? DataPA9 { get; private set; }
 
     public override EntityContext Context => EntityContext.None;
 
@@ -59,6 +60,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         HomeGameDataFormat.PA8 => DataPA8 = new GameDataPA8(chunk),
         HomeGameDataFormat.PB8 => DataPB8 = new GameDataPB8(chunk),
         HomeGameDataFormat.PK9 => DataPK9 = new GameDataPK9(chunk),
+        HomeGameDataFormat.PA9 => DataPA9 = new GameDataPA9(chunk),
         _ => throw new ArgumentException($"Unknown {nameof(HomeGameDataFormat)} {format}"),
     };
 
@@ -282,6 +284,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         if (DataPA8 is { } pa8) ctr += pa8.WriteTo(span[ctr..]);
         if (DataPB8 is { } pb8) ctr += pb8.WriteTo(span[ctr..]);
         if (DataPK9 is { } pk9) ctr += pk9.WriteTo(span[ctr..]);
+        if (DataPA9 is { } pa9) ctr += pa9.WriteTo(span[ctr..]);
         WriteUInt16LittleEndian(gameDataLengthSpan, GameDataSize = (ushort)(ctr - gameDataStart));
 
         // Update metadata to ensure we're a valid object.
@@ -303,12 +306,14 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
             if (DataPA8 is {} a8) length += a8.SerializedSize;
             if (DataPB8 is {} b8) length += b8.SerializedSize;
             if (DataPK9 is {} k9) length += k9.SerializedSize;
+            if (DataPA9 is {} a9) length += a9.SerializedSize;
             return length;
         }
     }
 
     public override PKH Clone() => new(Data.ToArray())
     {
+        DataPA9 = DataPA9?.Clone(),
         DataPK9 = DataPK9?.Clone(),
         DataPK8 = DataPK8?.Clone(),
         DataPA8 = DataPA8?.Clone(),
@@ -318,7 +323,8 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     public IGameDataSide LatestGameData => OriginalGameData() ?? GetFallbackGameData();
 
-    private IGameDataSide GetFallbackGameData() => DataPB7
+    private IGameDataSide GetFallbackGameData() => DataPA9 // Backwards transfer threshold.
+                                                ?? DataPB7
                                                 ?? DataPK9
                                                 ?? DataPB8
                                                 ?? DataPA8
@@ -330,6 +336,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         BD or SP => DataPB8 ??= new(),
         PLA      => DataPA8 ??= new(),
         SL or VL => DataPK9 ??= new(),
+        GameVersion.ZA     => DataPA9 ??= new(),
         _                  => DataPK8 ??= new(),
     };
 
@@ -340,6 +347,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         BD or SP => DataPB8,
         PLA      => DataPA8,
         SL or VL => DataPK9,
+        GameVersion.ZA => DataPA9,
 
         // SW/SH can be confused with others if we didn't seed with the original transfer data.
         SW or SH => DataPK8 switch
@@ -358,6 +366,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public PB8? ConvertToPB8() => DataPB8 is { } x ? x.ConvertToPKM(this) : (DataPB8 ??= GameDataPB8.TryCreate(this))?.ConvertToPKM(this);
     public PA8? ConvertToPA8() => DataPA8 is { } x ? x.ConvertToPKM(this) : (DataPA8 ??= GameDataPA8.TryCreate(this))?.ConvertToPKM(this);
     public PK9? ConvertToPK9() => DataPK9 is { } x ? x.ConvertToPKM(this) : (DataPK9 ??= GameDataPK9.TryCreate(this))?.ConvertToPKM(this);
+    public PA9? ConvertToPA9() => DataPA9 is { } x ? x.ConvertToPKM(this) : (DataPA9 ??= GameDataPA9.TryCreate(this))?.ConvertToPKM(this);
 
     public void CopyTo(PKM pk) => Core.CopyTo(pk);
 
@@ -368,6 +377,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         if (type == typeof(PB8)) return HomeGameDataFormat.PB8;
         if (type == typeof(PA8)) return HomeGameDataFormat.PA8;
         if (type == typeof(PK9)) return HomeGameDataFormat.PK9;
+        if (type == typeof(PA9)) return HomeGameDataFormat.PA9;
         return HomeGameDataFormat.None;
     }
 
@@ -378,6 +388,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         HomeGameDataFormat.PB8 => ConvertToPB8(),
         HomeGameDataFormat.PA8 => ConvertToPA8(),
         HomeGameDataFormat.PK9 => ConvertToPK9(),
+        HomeGameDataFormat.PA9 => ConvertToPA9(),
         _ => null,
     };
 
@@ -400,6 +411,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         else if (pk is PB8 pb8) (DataPB8 ??= new GameDataPB8()).CopyFrom(pb8, this);
         else if (pk is PA8 pa8) (DataPA8 ??= new GameDataPA8()).CopyFrom(pa8, this);
         else if (pk is PK9 pk9) (DataPK9 ??= new GameDataPK9()).CopyFrom(pk9, this);
+        else if (pk is PA9 pa9) (DataPA9 ??= new GameDataPA9()).CopyFrom(pa9, this);
     }
 
     private IGameDataSide? FirstScaleData => DataPK9 ?? DataPA8 as IGameDataSide;

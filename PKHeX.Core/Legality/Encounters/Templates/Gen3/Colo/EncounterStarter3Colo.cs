@@ -67,7 +67,7 @@ public sealed record EncounterStarter3Colo(ushort Species, byte Level)
         return pk;
     }
 
-    private int GetTemplateLanguage(ITrainerInfo tr) => (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+    private int GetTemplateLanguage(ITrainerInfo tr) => (int)Language.GetSafeLanguage3((LanguageID)tr.Language);
 
     private void SetPINGA(CK3 pk, EncounterCriteria criteria)
     {

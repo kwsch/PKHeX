@@ -15,6 +15,7 @@ public class StringQualityTests
     [InlineData("de")]
     [InlineData("fr")]
     [InlineData("es")]
+    [InlineData("es-419")]
     [InlineData("ko")]
     [InlineData("zh-Hans")]
     [InlineData("zh-Hant")]
@@ -103,7 +104,7 @@ public class StringQualityTests
                 bool sm0 = bank == 0 && name == nameof(GameStrings.Gen7);
                 for (int index = 0; index < arr.Length; index++)
                 {
-                    var line = arr[index];
+                    var line = arr[index].ToLowerInvariant();
                     if (line.Length == 0)
                         continue;
                     if (sm0 && index % 2 != 0)

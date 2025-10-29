@@ -41,6 +41,9 @@ public static class HomeCrypto
     /// <summary> Latest Version identifier stored in the header. </summary>
     public const int VersionLatest = Version3;
 
+    public const int SIZE_4GAME_PA9 = 0x77; // TODO HOME ZA
+    public const int SIZE_4STORED = 0x2BE; // 702
+
     public static bool IsKnownVersion(ushort version) => version is Version1 or Version2 or Version3;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

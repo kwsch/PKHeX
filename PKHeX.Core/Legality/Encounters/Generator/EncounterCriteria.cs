@@ -553,4 +553,19 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         if (!IsSatisfiedIV(IV_SPD, (int)((iv32 >> 25) & 0x1F))) return false;
         return true;
     }
+
+    /// <summary>
+    /// Gets the IV based on the specified index (visual order).
+    /// </summary>
+    /// <param name="index">Stat index (visual order).</param>
+    public sbyte GetIV(int index) => index switch
+    {
+        0 => IV_HP,
+        1 => IV_ATK,
+        2 => IV_DEF,
+        3 => IV_SPA,
+        4 => IV_SPD,
+        5 => IV_SPE,
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, null),
+    };
 }

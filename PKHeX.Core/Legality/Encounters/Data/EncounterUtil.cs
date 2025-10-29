@@ -29,6 +29,12 @@ public static class EncounterUtil
         => BinLinkerAccessor.Get(Get(resource), ident);
 
     /// <summary>
+    /// Gets an index-able accessor for the specified resource.
+    /// </summary>
+    public static BinLinkerAccessor16 Get16([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident)
+        => BinLinkerAccessor16.Get(Get(resource), ident);
+
+    /// <summary>
     /// Grabs the localized names for individual templates for all languages from the specified <see cref="index"/> of the <see cref="names"/> list.
     /// </summary>
     /// <param name="names">Arrays of strings grouped by language</param>
