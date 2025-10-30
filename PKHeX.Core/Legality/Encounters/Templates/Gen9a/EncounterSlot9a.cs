@@ -123,6 +123,10 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
         if (!IsMatchCorrelation(pk))
             return EncounterMatchRating.DeferredErrors;
 
+        // Prefer encounters where the species matches exactly over evolution line matches
+        if (pk.Species != Species)
+            return EncounterMatchRating.PartialMatch;
+
         return EncounterMatchRating.Match;
     }
 
