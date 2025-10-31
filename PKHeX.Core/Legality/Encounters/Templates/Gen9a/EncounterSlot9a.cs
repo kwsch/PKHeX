@@ -120,7 +120,7 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
-        if (IsAlpha && pk is IPlusRecord pa9 && !pa9.GetMovePlusFlag(PersonalTable.ZA[Species, Form].AlphaMove))
+        if (IsAlpha && pk is IPlusRecord pa9 && pk.PersonalInfo is IPermitPlus p && !pa9.GetMovePlusFlag(p.RecordPermitIndexes.IndexOf(PersonalTable.ZA[Species, Form].AlphaMove)))
             return EncounterMatchRating.DeferredErrors;
 
         var pidiv = TryGetSeed(pk, out _);
