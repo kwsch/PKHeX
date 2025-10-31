@@ -43,6 +43,7 @@ public sealed partial class SAV_FlagWork9a : Form
             EventWorkGrid128.CreateValues(GetTab(nameof(sav.Blocks.Spawner4)), sav.Blocks.Spawner4, Names),
 
             EventWorkGridTuple.CreateValues(GetTab(nameof(sav.Blocks.Obstruction)), sav.Blocks.Obstruction, Names),
+            EventWorkGrid64<bool>.CreateFlags(GetTab(nameof(sav.Blocks.FieldItems)), sav.Blocks.FieldItems, Names),
             EventWorkGrid192.CreateValues(GetTab(nameof(sav.Blocks.FieldObjectInteractable)), sav.Blocks.FieldObjectInteractable, Names),
         ];
 
@@ -121,6 +122,7 @@ public sealed partial class SAV_FlagWork9a : Form
         AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.CountMable, previous.Blocks.CountMable);
         AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.CountTitle, previous.Blocks.CountTitle);
         AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.WorkSpawn, previous.Blocks.WorkSpawn);
+        AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.FieldItems, previous.Blocks.FieldItems);
 
         if (result.Count == 0)
             result.Add("No differences found.");

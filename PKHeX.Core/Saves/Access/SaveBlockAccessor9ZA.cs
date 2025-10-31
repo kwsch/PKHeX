@@ -36,6 +36,7 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
 
     public EventWorkValueStorageKey128 Report { get; } = new(sav, Block(sav, KEventReport));
     public EventWorkValueStorageKey128 Obstruction { get; } = new(sav, Block(sav, KObstruction));
+    public EventWorkFlagStorage FieldItems { get; } = new(sav, Block(sav, KFieldItems));
     public EventWorkValueStorageKey192 FieldObjectInteractable { get; } = new(sav, Block(sav, KFieldObjectInteractable));
 
     public EventWorkValueStorageKey128 Spawner2 { get; } = new(sav, Block(sav, KEventSpawner2)); // (u64-key, u64-bool, u64-struct)
