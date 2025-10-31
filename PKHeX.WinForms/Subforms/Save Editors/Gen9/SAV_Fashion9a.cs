@@ -9,10 +9,14 @@ namespace PKHeX.WinForms;
 public sealed partial class SAV_Fashion9a : Form
 {
     private readonly IFashionBlockEditor[] _grids;
+    private readonly SAV9ZA SAV;
+    private readonly SAV9ZA Origin;
 
     public SAV_Fashion9a(SAV9ZA sav)
     {
         InitializeComponent();
+
+        SAV = (SAV9ZA)(Origin = sav).Clone();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
         // Allow drag/drop on form and main tab control
@@ -25,7 +29,7 @@ public sealed partial class SAV_Fashion9a : Form
         TC_Features.Multiline = true;
 
         // Create grids for each block
-        var accessor = sav.Blocks;
+        var accessor = SAV.Blocks;
         _grids =
         [
             Create(accessor.GetBlock(KFashionTops), nameof(KFashionTops)),
@@ -151,6 +155,7 @@ public sealed partial class SAV_Fashion9a : Form
     {
         foreach (var grid in _grids)
             grid.Save();
+        Origin.CopyChangesFrom(SAV);
         Close();
     }
 
@@ -328,14 +333,12 @@ public sealed class FashionItemEditor : IFashionBlockEditor
 
     public void SetAllOwned(bool state)
     {
-        for (int i = 0; i < Grid.RowCount; i++)
-        {
-            var cells = Grid.Rows[i].Cells;
-            var value = cells[ColValue].Value?.ToString();
-            if (value == (FashionItem9a.None.ToString()))
-                continue;
-            cells[ColIsOwned].Value = state;
-        }
+        Grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        Save();
+        FashionItem9a.ModifyAll(Block.Data, z => z.IsOwned = state);
+        Load();
+        Grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+        System.Media.SystemSounds.Asterisk.Play();
     }
 
     private void LoadItem(int index, FashionItem9a item)
