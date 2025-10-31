@@ -140,6 +140,8 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
             return SeedCorrelationResult.Success;
         if (pk.IsShiny && !LumioseSolver.SearchShiny1)
             return SeedCorrelationResult.Ignore;
+        if (!LumioseSolver.SearchShinyN)
+            return SeedCorrelationResult.Ignore;
         return SeedCorrelationResult.Invalid;
     }
 
