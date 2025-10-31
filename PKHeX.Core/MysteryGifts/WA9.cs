@@ -671,7 +671,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
     protected override bool IsMatchDeferred(PKM pk) => false;
 
-    protected override bool IsMatchPartial(PKM pk) => !TryGetSeed(pk, out _);
+    protected override bool IsMatchPartial(PKM pk) => TryGetSeed(pk, out _) != SeedCorrelationResult.Success;
 
     #region Lazy Ribbon Implementation
 
@@ -825,7 +825,10 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         return false;
     }
 
-    public bool TryGetSeed(PKM pk, out ulong seed) => GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed);
+    public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed) =>
+        GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed)
+            ? SeedCorrelationResult.Success
+            : SeedCorrelationResult.Invalid;
 
     private GenerateParam9a GetParams(PersonalInfo9ZA pi)
     {

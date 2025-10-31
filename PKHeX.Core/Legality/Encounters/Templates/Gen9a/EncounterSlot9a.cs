@@ -120,25 +120,28 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
-        if (!IsMatchCorrelation(pk))
+        if (IsAlpha && pk is IPlusRecord pa9 && !pa9.GetMovePlusFlag(PersonalTable.ZA[Species, Form].AlphaMove))
             return EncounterMatchRating.DeferredErrors;
+
+        var pidiv = TryGetSeed(pk, out _);
+        if (pidiv is SeedCorrelationResult.Invalid)
+            return EncounterMatchRating.DeferredErrors;
+        if (pidiv is SeedCorrelationResult.Ignore)
+            return EncounterMatchRating.Deferred; // might be a better match with another template
 
         return EncounterMatchRating.Match;
     }
 
-    private bool IsMatchCorrelation(PKM pk)
-    {
-        if (TryGetSeed(pk, out _))
-            return true;
-        if (!LumioseSolver.SearchShinyN)
-            return true; // can't check further without brute forcing
-
-        return false;
-    }
-
     #endregion
 
-    public bool TryGetSeed(PKM pk, out ulong seed) => GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed);
+    public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
+    {
+        if (GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed))
+            return SeedCorrelationResult.Success;
+        if (pk.IsShiny && !LumioseSolver.SearchShiny1)
+            return SeedCorrelationResult.Ignore;
+        return SeedCorrelationResult.Invalid;
+    }
 
     public LumioseCorrelation Correlation => IsAlpha ? LumioseCorrelation.PreApplyIVs : LumioseCorrelation.Normal;
 

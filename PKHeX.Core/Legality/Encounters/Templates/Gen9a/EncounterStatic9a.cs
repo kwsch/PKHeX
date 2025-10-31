@@ -161,7 +161,11 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
         if (Shiny != Shiny.Random && !Shiny.IsValid(pk))
             return EncounterMatchRating.DeferredErrors;
 
-        if (!TryGetSeed(pk, out _)) // maybe a Slot?
+        if (IsAlpha && pk is IPlusRecord pa9 && !pa9.GetMovePlusFlag(PersonalTable.ZA[Species, Form].AlphaMove))
+            return EncounterMatchRating.DeferredErrors;
+
+        var pidiv = TryGetSeed(pk, out _);
+        if (pidiv is not SeedCorrelationResult.Success)
             return EncounterMatchRating.DeferredErrors;
 
         return EncounterMatchRating.Match;
@@ -184,13 +188,11 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
 
     #endregion
 
-    public bool TryGetSeed(PKM pk, out ulong seed)
+    public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
     {
         if (GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed))
-            return true;
-        if (pk.IsShiny && !LumioseSolver.SearchShiny1)
-            return true;
-        return false;
+            return SeedCorrelationResult.Success;
+        return SeedCorrelationResult.Invalid;
     }
 
     public LumioseCorrelation Correlation => IsAlpha ? LumioseCorrelation.PreApplyIVs : LumioseCorrelation.Normal;

@@ -172,7 +172,8 @@ public sealed record EncounterTrade9a : IEncounter9a,
         if (pk is IScaledSize3 size3 && size3.Scale != Scale)
             return EncounterMatchRating.PartialMatch;
 
-        if (!TryGetSeed(pk, out _)) // maybe a Slot?
+        var pidiv = TryGetSeed(pk, out _);
+        if (pidiv is not SeedCorrelationResult.Success)
             return EncounterMatchRating.DeferredErrors;
 
         return EncounterMatchRating.Match;
@@ -211,7 +212,12 @@ public sealed record EncounterTrade9a : IEncounter9a,
 
     #endregion
 
-    public bool TryGetSeed(PKM pk, out ulong seed) => GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed);
+    public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
+    {
+        if (GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed))
+            return SeedCorrelationResult.Success;
+        return SeedCorrelationResult.Invalid;
+    }
 
     public LumioseCorrelation Correlation => LumioseCorrelation.ReApplyIVs;
 
