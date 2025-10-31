@@ -536,20 +536,29 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (Entity is IAppliedMarkings<bool> b)
         {
             for (int i = 0; i < b.MarkingCount; i++)
-                pba[i].Image = GetMarkSprite(pba[i], b.GetMarking(i));
+                SetMarkingImage(pba[i], Draw.MarkDefault, b.GetMarking(i));
         }
         else if (Entity is IAppliedMarkings<MarkingColor> c)
         {
             for (int i = 0; i < pba.Length; i++)
             {
-                var pb = pba[i];
                 var state = c.GetMarking(i);
-                var opaque = Draw.GetMarkingColor(state, out var color);
-                var img = GetMarkSprite(pb, opaque);
-                if (opaque)
-                    img = ImageUtil.ChangeAllColorTo(img, color);
-                pb.Image = img;
+                _ = Draw.GetMarkingColor(state, out var color);
+                SetMarkingImage(pba[i], color, state != MarkingColor.None);
             }
+        }
+        return;
+
+        static void SetMarkingImage(PictureBox pb, Color color, bool active)
+        {
+            var img = pb.InitialImage;
+            if (img is not Bitmap bmp)
+                throw new Exception();
+            if (color.ToArgb() != Color.Black.ToArgb())
+                img = ImageUtil.ChangeAllColorTo(bmp, color);
+            if (!active)
+                img = ImageUtil.ChangeOpacity(img, 1/8f);
+            pb.Image = img;
         }
     }
 

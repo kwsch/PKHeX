@@ -17,16 +17,16 @@ public sealed class DrawConfig : IDisposable
     private const string Hovering = "Hovering";
 
     [Category(Hovering), LocalizedDescription("Hovering over a PKM color 1.")]
-    public Color GlowInitial { get; set; } = Color.White;
+    public Color GlowInitial => SystemColors.ActiveCaption;
 
     [Category(Hovering), LocalizedDescription("Hovering over a PKM color 2.")]
-    public Color GlowFinal { get; set; } = Color.LightSkyBlue;
+    public Color GlowFinal => SystemColors.Highlight;
 
     [Category(PKM), LocalizedDescription("Vertical tab selected primary color.")]
-    public Color VerticalSelectPrimary { get; set; } = Color.White;
+    public Color VerticalSelectPrimary => SystemColors.ControlLightLight;
 
     [Category(PKM), LocalizedDescription("Vertical tab selected secondary color.")]
-    public Color VerticalSelectSecondary { get; set; } = Color.LightGray;
+    public Color VerticalSelectSecondary => SystemColors.ScrollBar;
 
     #region PKM
 
@@ -34,7 +34,7 @@ public sealed class DrawConfig : IDisposable
     public Color InvalidSelection { get; set; } = Color.DarkSalmon;
 
     [Category(PKM), LocalizedDescription("Default colored marking.")]
-    public Color MarkDefault { get; set; } = Color.Black;
+    public Color MarkDefault => SystemColors.ControlText;
 
     [Category(PKM), LocalizedDescription("Blue colored marking.")]
     public Color MarkBlue { get; set; } = Color.FromArgb(000, 191, 255);
@@ -62,16 +62,16 @@ public sealed class DrawConfig : IDisposable
     public Color BackLegal { get; set; } = Color.FromArgb(200, 255, 200);
 
     [Category(Moves), LocalizedDescription("Legal move choice text color.")]
-    public Color TextColor { get; set; } = SystemColors.WindowText;
+    public Color TextColor => SystemColors.WindowText;
 
     [Category(Moves), LocalizedDescription("Illegal Legal move choice background color.")]
-    public Color BackColor { get; set; } = SystemColors.Window;
+    public Color BackColor => SystemColors.Window;
 
     [Category(Moves), LocalizedDescription("Highlighted move choice background color.")]
-    public Color BackHighlighted { get; set; } = SystemColors.Highlight;
+    public Color BackHighlighted => SystemColors.Highlight;
 
     [Category(Moves), LocalizedDescription("Highlighted move choice text color.")]
-    public Color TextHighlighted { get; set; } = SystemColors.HighlightText;
+    public Color TextHighlighted => SystemColors.HighlightText;
 
     #endregion
 
