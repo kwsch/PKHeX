@@ -1953,7 +1953,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (ModifierKeys.HasFlag(Keys.Shift))
         {
             m.SetPlusFlags(Entity, p, PlusRecordApplicatorOption.LegalCurrent);
-            if (Entity is PA9 { IsAlpha: true } pa9 && pa9.PersonalInfo is PersonalInfo9ZA pi)
+            if (Entity is PA9 { IsAlpha: true, PersonalInfo: { } pi } pa9)
                 PlusRecordApplicator.SetPlusFlagsSpecific(pa9, pi, pi.AlphaMove);
 
             UpdateLegality();
@@ -2133,13 +2133,18 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)
     {
-        AllowDrop = true;
-        DragDrop += drop;
+        Enable(this);
+        Enable(TC_Editor);
+
         foreach (var tab in Hidden_TC.TabPages.OfType<TabPage>())
+            Enable(tab);
+        return;
+
+        void Enable(Control c)
         {
-            tab.AllowDrop = true;
-            tab.DragEnter += enter;
-            tab.DragDrop += drop;
+            c.AllowDrop = true;
+            c.DragEnter += enter;
+            c.DragDrop += drop;
         }
     }
 

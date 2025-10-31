@@ -65,19 +65,11 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
 
     private void SetPINGA(PA9 pk, EncounterCriteria criteria, PersonalInfo9ZA pi)
     {
-        if (Correlation is LumioseCorrelation.ReApplyIVs)
-            criteria = criteria.WithoutIVs();
-
-        var param = GetParams(pi);
-        if (criteria.Shiny.IsShiny())
-            param = param with { RollCount = 1 + 3 }; // Give the +3 for Shiny Charm so that the generator search is more likely to succeed.
+        var param = GetParams(pi, criteria.Shiny.IsShiny());
         ulong init = Util.Rand.Rand64();
         var success = this.TryApply64(pk, init, param, criteria);
         if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
             this.TryApply64(pk, init, param, EncounterCriteria.Unrestricted);
-
-        if (Correlation is LumioseCorrelation.ReApplyIVs)
-            criteria.SetRandomIVs(pk, FlawlessIVCount);
     }
 
     private void SetMoves(PA9 pk, PersonalInfo9ZA pi, byte level)
@@ -103,7 +95,7 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (Form != evo.Form && !IsRandomUnspecificForm && !IsValidOutOfBoundsForm(pk))
+        if (Form != evo.Form && !IsRandomUnspecificForm && !IsValidOutOfBoundsForm())
             return false;
         if (!this.IsLevelWithinRange(pk.MetLevel))
             return false;
@@ -112,7 +104,7 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
         return true;
     }
 
-    private bool IsValidOutOfBoundsForm(PKM pk) => Species switch
+    private bool IsValidOutOfBoundsForm() => Species switch
     {
         (int)Core.Species.Furfrou => true, // Can change forms in-game.
         _ => false,
@@ -136,20 +128,28 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
 
     public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
     {
-        if (GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed))
+        var param = GetParams(PersonalTable.ZA[Species, Form], false);
+        if (param.TryGetSeed(pk, out seed))
             return SeedCorrelationResult.Success;
-        if (pk.IsShiny && !LumioseSolver.SearchShiny1)
+        if (pk.IsShiny && !LumioseSolver.SearchShiny1 || !LumioseSolver.SearchShinyN)
             return SeedCorrelationResult.Ignore;
-        if (!LumioseSolver.SearchShinyN)
-            return SeedCorrelationResult.Ignore;
+
+        param = param with { RollCount = 1 + ShinyCharm };
+        if (param.TryGetSeed(pk, out seed))
+            return SeedCorrelationResult.Success;
         return SeedCorrelationResult.Invalid;
     }
 
     public LumioseCorrelation Correlation => IsAlpha ? LumioseCorrelation.PreApplyIVs : LumioseCorrelation.Normal;
 
-    public GenerateParam9a GetParams(PersonalInfo9ZA pi)
+    private const byte ShinyCharm = 3;
+
+    public GenerateParam9a GetParams(PersonalInfo9ZA pi) => GetParams(pi, shinyCharm: false);
+
+    public GenerateParam9a GetParams(PersonalInfo9ZA pi, bool shinyCharm)
     {
-        const byte rollCount = 1;
+        // Give the +3 for Shiny Charm so that the generator search is more likely to succeed.
+        var rollCount = (byte)(1 + (shinyCharm ? ShinyCharm : 0));
         var scaleValue = IsAlpha ? (byte)255 : (byte)0;
         var scaleType = IsAlpha ? SizeType9.VALUE : SizeType9.RANDOM;
         var gender = Gender switch

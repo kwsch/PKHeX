@@ -71,7 +71,7 @@ public partial class SAV_Pokedex9a : Form
     private record DexMap
     {
         public ushort Species { get; }
-        public bool IsInAnyDex => Dex != default;
+        public bool IsInAnyDex => Dex != 0;
         public ushort Dex { get; }
         public string Name { get; }
         public int ListIndex { get; set; }

@@ -37,7 +37,7 @@ namespace PKHeX.WinForms
             // 
             dgData.AllowUserToAddRows = false;
             dgData.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ControlLight;
             dgData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgData.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             dgData.Dock = System.Windows.Forms.DockStyle.Fill;

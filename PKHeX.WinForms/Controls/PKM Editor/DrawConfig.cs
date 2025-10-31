@@ -22,12 +22,6 @@ public sealed class DrawConfig : IDisposable
     [Category(Hovering), LocalizedDescription("Hovering over a PKM color 2.")]
     public Color GlowFinal => SystemColors.Highlight;
 
-    [Category(PKM), LocalizedDescription("Vertical tab selected primary color.")]
-    public Color VerticalSelectPrimary => SystemColors.ControlLightLight;
-
-    [Category(PKM), LocalizedDescription("Vertical tab selected secondary color.")]
-    public Color VerticalSelectSecondary => SystemColors.ScrollBar;
-
     #region PKM
 
     [Category(PKM), LocalizedDescription("Background color of a ComboBox when the selected item is not valid.")]

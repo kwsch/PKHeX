@@ -129,7 +129,7 @@ public partial class PlusRecordEditor : Form
         Plus.SetPlusFlags(Entity, Permit, option);
         if (option != PlusRecordApplicatorOption.None)
         {
-            if (Entity is PA9 { IsAlpha: true } pa9 && pa9.PersonalInfo is PersonalInfo9ZA pi)
+            if (Entity is PA9 { IsAlpha: true, PersonalInfo: { } pi } pa9)
                 PlusRecordApplicator.SetPlusFlagsSpecific(pa9, pi, pi.AlphaMove);
         }
         Close();

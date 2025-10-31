@@ -108,13 +108,14 @@ public sealed record EncounterTrade9a : IEncounter9a,
 
     private void SetPINGA(PA9 pk, EncounterCriteria criteria, PersonalInfo9ZA pi)
     {
+        var generate = criteria;
         if (IVs.IsSpecified || Correlation is LumioseCorrelation.ReApplyIVs)
-            criteria = criteria.WithoutIVs();
+            generate = criteria.WithoutIVs();
 
         var param = GetParams(pi);
         ulong init = Util.Rand.Rand64();
-        var success = this.TryApply64(pk, init, param, criteria);
-        if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
+        var success = this.TryApply64(pk, init, param, generate);
+        if (!success && !this.TryApply64(pk, init, param, generate.WithoutIVs()))
             this.TryApply64(pk, init, param, EncounterCriteria.Unrestricted);
 
         if (IVs.IsSpecified)

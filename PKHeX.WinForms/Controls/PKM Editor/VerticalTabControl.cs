@@ -78,8 +78,7 @@ public sealed class VerticalTabControlEntityEditor : VerticalTabControl
         var graphics = e.Graphics;
         if (e.State == DrawItemState.Selected)
         {
-            var settings = Main.Settings.Draw;
-            var (c1, c2) = (settings.VerticalSelectPrimary, settings.VerticalSelectSecondary);
+            var (c1, c2) = (SystemColors.ControlLightLight, SystemColors.ScrollBar);
             using var brush = new LinearGradientBrush(bounds, c1, c2, 90f);
             graphics.FillRectangle(brush, bounds);
 
