@@ -161,7 +161,7 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
         if (Shiny != Shiny.Random && !Shiny.IsValid(pk))
             return EncounterMatchRating.DeferredErrors;
 
-        if (IsAlpha && pk is IPlusRecord pa9 && pk.PersonalInfo is IPermitPlus p && !pa9.GetMovePlusFlag(p.RecordPermitIndexes.IndexOf(PersonalTable.ZA[Species, Form].AlphaMove)))
+        if (IsAlpha && pk is IPlusRecord pa9 && pk.PersonalInfo is IPermitPlus p && !pa9.GetMovePlusFlag(p.PlusMoveIndexes.IndexOf(PersonalTable.ZA[Species, Form].AlphaMove)))
             return EncounterMatchRating.DeferredErrors;
 
         var pidiv = TryGetSeed(pk, out _);
