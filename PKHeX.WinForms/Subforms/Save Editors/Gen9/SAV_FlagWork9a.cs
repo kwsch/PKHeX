@@ -122,7 +122,7 @@ public sealed partial class SAV_FlagWork9a : Form
         AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.CountMable, previous.Blocks.CountMable);
         AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.CountTitle, previous.Blocks.CountTitle);
         AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.WorkSpawn, previous.Blocks.WorkSpawn);
-        AppendDiff<EventWorkValueStorage, ulong>(result, updated.Blocks.FieldItems, previous.Blocks.FieldItems);
+        AppendDiff<EventWorkFlagStorage, bool>(result, updated.Blocks.FieldItems, previous.Blocks.FieldItems);
 
         if (result.Count == 0)
             result.Add("No differences found.");
