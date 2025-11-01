@@ -13,6 +13,7 @@ public partial class SizeCP : UserControl
     private IScaledSizeValue? sv;
     private ICombatPower? pk;
     private bool Loading;
+    private bool IsScaleDetailed;
 
     public SizeCP()
     {
@@ -36,6 +37,7 @@ public partial class SizeCP : UserControl
         ss = entity as IScaledSize;
         sv = entity as IScaledSizeValue;
         scale = entity as IScaledSize3;
+        IsScaleDetailed = entity is PK9; // not PA9
         if (ss is null)
             return;
         TryResetStats();
@@ -156,7 +158,11 @@ public partial class SizeCP : UserControl
 
             var label = L_SizeS;
             var value = scale.Scale;
-            label.Text = SizeClassDetailed[(int)PokeSizeDetailedUtil.GetSizeRating(value)];
+            if (IsScaleDetailed)
+                label.Text = SizeClassDetailed[(int)PokeSizeDetailedUtil.GetSizeRating(value)];
+            else
+                label.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(value)];
+
             if (value is 0 or 255) // Tiny or Jumbo Mark possible.
                 label.ForeColor = Color.Red;
             else
