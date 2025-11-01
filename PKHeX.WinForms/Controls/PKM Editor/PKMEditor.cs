@@ -2202,7 +2202,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         var met = Util.ToInt32(TB_MetLevel.Text);
-        var metLevel = (byte)Math.Clamp(0, 100, met);
+        var metLevel = (byte)Math.Clamp(met, 0, 100);
         var suggest = l.GetSuggestedObedienceLevel(Entity, metLevel);
 
         var current = Util.ToInt32(TB_ObedienceLevel.Text);
