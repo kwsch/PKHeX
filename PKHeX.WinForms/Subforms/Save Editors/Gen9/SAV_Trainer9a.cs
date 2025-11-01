@@ -200,4 +200,25 @@ public sealed partial class SAV_Trainer9a : Form
     private void P_Picture1_Click(object sender, EventArgs e) => SAV_Trainer9.IMG_Save(P_Picture1.Image!, nameof(KPictureSBCData));
     private void P_Picture2_Click(object sender, EventArgs e) => SAV_Trainer9.IMG_Save(P_Picture2.Image!, nameof(KPictureInitialData));
     private void P_Picture3_Click(object sender, EventArgs e) => SAV_Trainer9.IMG_Save(P_Picture3.Image!, nameof(KPictureCurrentData));
+
+    private void B_CollectScrews_Click(object sender, EventArgs e)
+    {
+        var itemName = GameInfo.Strings.Item[ColorfulScrew9a.ColorfulScrewItemIndex];
+
+        // For those who wish to do it manually in-game with the assistance of a Map/list.
+        if (ModifierKeys == Keys.Alt)
+        {
+            var uncollected = ColorfulScrew9a.GetScrewLocations(SAV.Blocks.FieldItems);
+            var msg = string.Join(Environment.NewLine, uncollected.Select(s => $"{s.FieldItem} at ({s.Point.X}, {s.Point.Y}, {s.Point.Z})"));
+            Clipboard.SetText(msg);
+            WinFormsUtil.Alert($"Uncollected {itemName} locations copied to clipboard.");
+            return;
+        }
+
+        var count = ColorfulScrew9a.CollectScrews(SAV);
+        if (count == 0)
+            WinFormsUtil.Alert($"No {itemName} available to collect.");
+        else
+            WinFormsUtil.Alert($"Collected {count} {itemName}!");
+    }
 }
