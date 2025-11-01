@@ -796,8 +796,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
     #endregion
 
     #region Box Binaries
-    public byte[] GetPCBinary() => BoxData.SelectMany(GetDataForBox).ToArray();
-    public byte[] GetBoxBinary(int box) => GetBoxData(box).SelectMany(GetDataForBox).ToArray();
+    public virtual byte[] GetPCBinary() => BoxData.SelectMany(GetDataForBox).ToArray();
+    public virtual byte[] GetBoxBinary(int box) => GetBoxData(box).SelectMany(GetDataForBox).ToArray();
 
     public bool SetPCBinary(ReadOnlySpan<byte> data)
     {
