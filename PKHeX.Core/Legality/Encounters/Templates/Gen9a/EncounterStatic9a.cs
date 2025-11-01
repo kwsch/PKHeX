@@ -196,7 +196,17 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
         return SeedCorrelationResult.Invalid;
     }
 
-    public LumioseCorrelation Correlation => IsAlpha ? LumioseCorrelation.PreApplyIVs : LumioseCorrelation.Normal;
+    public LumioseCorrelation Correlation
+    {
+        get
+        {
+            if (IsAlpha)
+                return LumioseCorrelation.PreApplyIVs;
+            if (FlawlessIVCount != 0)
+                return LumioseCorrelation.ReApplyIVs;
+            return LumioseCorrelation.Normal;
+        }
+    }
 
     public GenerateParam9a GetParams(PersonalInfo9ZA pi)
     {
