@@ -3,7 +3,7 @@ using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
-internal static class BallUseLegality
+public static class BallUseLegality
 {
     /// <summary>
     /// In Sun/Moon, capturing with Heavy Ball is impossible in Sun/Moon for specific hard to catch species.
@@ -85,9 +85,9 @@ internal static class BallUseLegality
     private const ulong WildPokeBalls5 = WildPokeBalls4_DPPt;
 
     public const ulong DreamWorldBalls = WildPokeBalls5 | WildPokeEnhance5;
-    private const ulong WildPokeballs6 = WildPokeBalls5; // Same as Gen5
-    private const ulong WildPokeballs7 = WildPokeBalls4_HGSS | WildPokeEnhance7; // Same as HG/SS + Beast
-    private const ulong WildPokeballs8 = WildPokeballs7 | WildPokeEnhance8;
+    public const ulong WildPokeballs6 = WildPokeBalls5; // Same as Gen5
+    public const ulong WildPokeballs7 = WildPokeBalls4_HGSS | WildPokeEnhance7; // Same as HG/SS + Beast
+    public const ulong WildPokeballs8 = WildPokeballs7 | WildPokeEnhance8;
 
     private const ulong WildPokeballs7b = WildPokeRegular | (1 << (int)Premier);
     public const ulong WildPokeballs8g_WithRaid = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master

@@ -84,7 +84,7 @@ public record struct EncounterEnumerator9SWSH(PKM Entity, EvoCriteria[] Chain, G
                 //    goto case YieldState.Trade;
                 goto case YieldState.StartCaptures;
             case YieldState.Trade:
-                if (TryGetNext(Encounters9.TradeGift_SV))
+                if (TryGetNext(Encounters9.TradeGift_SVArray))
                     return true;
                 if (Yielded)
                     break;
@@ -101,7 +101,7 @@ public record struct EncounterEnumerator9SWSH(PKM Entity, EvoCriteria[] Chain, G
                     goto case YieldState.SlotEnd;
                 State = YieldState.Slot; goto case YieldState.Slot;
             case YieldState.Slot:
-                if (TryGetNext<EncounterArea9, EncounterSlot9>(Encounters9.Slots))
+                if (TryGetNext<EncounterArea9, EncounterSlot9>(Encounters9.SlotsArray))
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
@@ -117,45 +117,45 @@ public record struct EncounterEnumerator9SWSH(PKM Entity, EvoCriteria[] Chain, G
                 goto case YieldState.Fallback; // already checked everything else
 
             case YieldState.StaticVersionSL:
-                if (TryGetNext(Encounters9.StaticSL))
+                if (TryGetNext(Encounters9.StaticSLArray))
                     return true;
                 Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
             case YieldState.StaticVersionVL:
-                if (TryGetNext(Encounters9.StaticVL))
+                if (TryGetNext(Encounters9.StaticVLArray))
                     return true;
                 Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
 
             case YieldState.StaticShared:
-                if (TryGetNext(Encounters9.Encounter_SV))
+                if (TryGetNext(Encounters9.Encounter_SVArray))
                     return true;
                 Index = 0; State = YieldState.StaticFixed; goto case YieldState.StaticFixed;
 
             case YieldState.StaticFixed:
-                if (TryGetNext(Encounters9.Fixed))
+                if (TryGetNext(Encounters9.FixedArray))
                     return true;
                 Index = 0; State = YieldState.StaticTeraBase; goto case YieldState.StaticTeraBase;
             case YieldState.StaticTeraBase:
-                if (TryGetNext(Encounters9.TeraBase))
+                if (TryGetNext(Encounters9.TeraBaseArray))
                     return true;
                 Index = 0; State = YieldState.StaticTeraDLC1; goto case YieldState.StaticTeraDLC1;
             case YieldState.StaticTeraDLC1:
-                if (TryGetNext(Encounters9.TeraDLC1))
+                if (TryGetNext(Encounters9.TeraDLC1Array))
                     return true;
                 Index = 0; State = YieldState.StaticTeraDLC2; goto case YieldState.StaticTeraDLC2;
             case YieldState.StaticTeraDLC2:
-                if (TryGetNext(Encounters9.TeraDLC2))
+                if (TryGetNext(Encounters9.TeraDLC2Array))
                     return true;
                 Index = 0; State = YieldState.StaticDist; goto case YieldState.StaticDist;
             case YieldState.StaticDist:
-                if (TryGetNext(Encounters9.Dist))
+                if (TryGetNext(Encounters9.DistArray))
                     return true;
                 Index = 0; State = YieldState.StaticOutbreak; goto case YieldState.StaticOutbreak;
             case YieldState.StaticOutbreak:
-                if (TryGetNext(Encounters9.Outbreak))
+                if (TryGetNext(Encounters9.OutbreakArray))
                     return true;
                 Index = 0; State = YieldState.StaticMight; goto case YieldState.StaticMight;
             case YieldState.StaticMight:
-                if (TryGetNext(Encounters9.Might))
+                if (TryGetNext(Encounters9.MightArray))
                     return true;
                 if (mustBeSlot)
                     goto case YieldState.Fallback; // already checked everything else

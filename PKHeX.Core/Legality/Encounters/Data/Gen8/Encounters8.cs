@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Shiny;
 using static PKHeX.Core.GameVersion;
@@ -9,14 +10,21 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 Encounters
 /// </summary>
-internal static class Encounters8
+public static class Encounters8
 {
-    public static readonly EncounterArea8[] SlotsSW_Symbol = EncounterArea8.GetAreas(Get("sw_symbol", "sw"u8), SW, true);
-    public static readonly EncounterArea8[] SlotsSH_Symbol = EncounterArea8.GetAreas(Get("sh_symbol", "sh"u8), SH, true);
-    public static readonly EncounterArea8[] SlotsSW_Hidden = EncounterArea8.GetAreas(Get("sw_hidden", "sw"u8), SW);
-    public static readonly EncounterArea8[] SlotsSH_Hidden = EncounterArea8.GetAreas(Get("sh_hidden", "sh"u8), SH);
+    internal static readonly EncounterArea8[] SlotsSW_SymbolArray = EncounterArea8.GetAreas(Get("sw_symbol", "sw"u8), SW, true);
+    public static IReadOnlyList<EncounterArea8> SlotsSW_Symbol => SlotsSW_SymbolArray;
 
-    public static readonly EncounterStatic8[] StaticSWSH =
+    internal static readonly EncounterArea8[] SlotsSH_SymbolArray = EncounterArea8.GetAreas(Get("sh_symbol", "sh"u8), SH, true);
+    public static IReadOnlyList<EncounterArea8> SlotsSH_Symbol => SlotsSH_SymbolArray;
+
+    internal static readonly EncounterArea8[] SlotsSW_HiddenArray = EncounterArea8.GetAreas(Get("sw_hidden", "sw"u8), SW);
+    public static IReadOnlyList<EncounterArea8> SlotsSW_Hidden => SlotsSW_HiddenArray;
+
+    internal static readonly EncounterArea8[] SlotsSH_HiddenArray = EncounterArea8.GetAreas(Get("sh_hidden", "sh"u8), SH);
+    public static IReadOnlyList<EncounterArea8> SlotsSH_Hidden => SlotsSH_HiddenArray;
+
+    internal static readonly EncounterStatic8[] StaticSWSHArray =
     [
         // gifts
         new()     { FixedBall = Ball.Poke, Species = 810, Shiny = Never, Level = 05, Location = 006 }, // Grookey
@@ -697,8 +705,9 @@ internal static class Encounters8
         new()     { Species = 839, Level = 68, Location = 232, Weather = Overcast }, // Coalossal in Lakeside Cave
         new()     { Species = 820, Level = 68, Location = 234, Weather = All_Ballimere }, // Greedent at Dyna Tree Hill
     ];
+    public static IReadOnlyList<EncounterStatic8> StaticSWSH => StaticSWSHArray;
 
-    public static readonly EncounterStatic8[] StaticSW =
+    internal static readonly EncounterStatic8[] StaticSWArray =
     [
         new(SW  ) { Species = 888, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new(533,014,442,242), Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Zacian
 
@@ -727,8 +736,9 @@ internal static class Encounters8
         new(SW  ) { Species = 139, Level = 68, Location = 224, Weather = Overcast }, // Omastar in Roaring-Sea Caves
         new(SW  ) { Species = 876, Level = 65, Location = 230, Weather = Normal | Heavy_Fog }, // Indeedee at Ballimere Lake
     ];
+    public static IReadOnlyList<EncounterStatic8> StaticSW => StaticSWArray;
 
-    public static readonly EncounterStatic8[] StaticSH =
+    internal static readonly EncounterStatic8[] StaticSHArray =
     [
         new(  SH) { Species = 889, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new(163,242,442,334), Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Zamazenta
 
@@ -756,13 +766,14 @@ internal static class Encounters8
         new(  SH) { Species = 875, Level = 65, Location = 226, Weather = No_Sun_Sand }, // Eiscue at the Frigid Sea
         new(  SH) { Species = 876, Level = 65, Location = 230, Form = 01, Weather = Normal | Heavy_Fog }, // Indeedee-1 at Ballimere Lake
     ];
+    public static IReadOnlyList<EncounterStatic8> StaticSH => StaticSHArray;
 
     private const string tradeSWSH = "tradeswsh";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSWSH);
     private static readonly string[] TradeOT_R1 = [string.Empty, "チホコ", "Regina", "Régiona", "Regionalia", "Regine", string.Empty, "Tatiana", "지민", "易蒂", "易蒂"];
     private static readonly IndividualValueSet TradeIVs = new(15, 15, 15, 15, 15, 15);
 
-    public static readonly EncounterTrade8[] TradeSWSH =
+    internal static readonly EncounterTrade8[] TradeSWSHArray =
     [
         new(TradeNames, 00, SWSH, 052,18,08,000,04,5) { Ability = OnlySecond, ID32 = 263455, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Nature = Nature.Timid, Relearn = new(387)   }, // Meowth
         new(TradeNames, 01, SWSH, 819,10,01,044,01,2) { Ability = OnlyFirst,  ID32 = 648753, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 0, Nature = Nature.Mild                              }, // Skwovet
@@ -780,6 +791,7 @@ internal static class Encounters8
         new(TradeOT_R1, SWSH, 103,15,01,038,06,2) { Ability = Any12,      ID32 = 101141, FlawlessIVCount = 3, IVs = default, DynamaxLevel = 5, OTGender = 1, Relearn = new(246), Form = 1     }, // Exeggutor-1
         new(TradeOT_R1, SWSH, 105,15,01,038,06,2) { Ability = Any12,      ID32 = 101141, FlawlessIVCount = 3, IVs = default, DynamaxLevel = 5, OTGender = 1, Relearn = new(174), Form = 1     }, // Marowak-1
     ];
+    public static IReadOnlyList<EncounterTrade8> TradeSWSH => TradeSWSHArray;
 
     internal static readonly EncounterTrade8[] TradeSW =
     [

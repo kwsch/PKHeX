@@ -85,7 +85,7 @@ public record struct EncounterEnumerator8bSWSH(PK8 Entity, EvoCriteria[] Chain, 
             case YieldState.TradeStart:
                 goto case YieldState.Trade;
             case YieldState.Trade:
-                if (TryGetNext(Encounters8b.TradeGift_BDSP))
+                if (TryGetNext(Encounters8b.TradeGift_BDSPArray))
                 { State = YieldState.End; return true; }
                 Index = 0; goto case YieldState.StartCaptures;
 
@@ -104,11 +104,11 @@ public record struct EncounterEnumerator8bSWSH(PK8 Entity, EvoCriteria[] Chain, 
                 { State = YieldState.SlotSP; goto case YieldState.SlotSP; }
                 throw new ArgumentOutOfRangeException(nameof(Version));
             case YieldState.SlotBD:
-                if (TryGetNext<EncounterArea8b, EncounterSlot8b>(Encounters8b.SlotsBD))
+                if (TryGetNext<EncounterArea8b, EncounterSlot8b>(Encounters8b.SlotsBDArray))
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotSP:
-                if (TryGetNext<EncounterArea8b, EncounterSlot8b>(Encounters8b.SlotsSP))
+                if (TryGetNext<EncounterArea8b, EncounterSlot8b>(Encounters8b.SlotsSPArray))
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
@@ -124,16 +124,16 @@ public record struct EncounterEnumerator8bSWSH(PK8 Entity, EvoCriteria[] Chain, 
                 goto case YieldState.Fallback; // already checked everything else
 
             case YieldState.StaticVersionBD:
-                if (TryGetNext(Encounters8b.StaticBD))
+                if (TryGetNext(Encounters8b.StaticBDArray))
                     return true;
                 Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
             case YieldState.StaticVersionSP:
-                if (TryGetNext(Encounters8b.StaticSP))
+                if (TryGetNext(Encounters8b.StaticSPArray))
                     return true;
                 Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
 
             case YieldState.StaticShared:
-                if (TryGetNext(Encounters8b.Encounter_BDSP))
+                if (TryGetNext(Encounters8b.Encounter_BDSPArray))
                     return true;
                 if (mustBeWild)
                     goto case YieldState.Fallback; // already checked everything else
