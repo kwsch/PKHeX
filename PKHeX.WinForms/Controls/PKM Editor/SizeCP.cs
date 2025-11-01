@@ -167,7 +167,7 @@ public partial class SizeCP : UserControl
     private void SetLabelColorHeightWeight(Control label)
     {
         if (scale is not null)
-            label.ForeColor = Color.Gray; // not indicative of actual size
+            label.ForeColor = SystemColors.ControlDark; // not indicative of actual size
         else
             label.ResetForeColor();
     }
