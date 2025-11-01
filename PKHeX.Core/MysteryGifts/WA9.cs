@@ -107,9 +107,17 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         return ShinyUtil.GetShinyXor(PID, ID32);
     }
 
-    // When applying the TID32, the game sets the DisplayTID7 directly, then sets PA9.DisplaySID7 as (wc9.DisplaySID7 - wc9.CardID)
+    // When applying the ID32, the game sets the DisplayTID7 directly, then sets PA9.DisplaySID7 as (wa9.DisplaySID7 - wa9.CardID)
     // Since we expose the 16bit (PA9) component values here, just adjust them accordingly with an inlined calc.
     public override uint ID32 { get => ReadUInt32LittleEndian(Data[0x18..]); set => WriteUInt32LittleEndian(Data[0x18..], value); }
+
+    private bool IsOldIDFormat => true;
+
+    public uint ID32Old
+    {
+        get => ReadUInt32LittleEndian(Data[0x18..]) - (1000000u * (uint)CardID);
+        set => WriteUInt32LittleEndian(Data[0x18..], value + (1000000u * (uint)CardID));
+    }
 
     public int OriginGame { get => ReadInt32LittleEndian(Data[0x1C..]); set => WriteInt32LittleEndian(Data[0x1C..], value); }
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data[0x20..]); set => WriteUInt32LittleEndian(Data[0x20..], value); }
@@ -311,7 +319,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     }
 
     public int GetLanguage(int redeemLanguage) => Data[GetLanguageOffset(GetLanguageIndex(redeemLanguage))];
-    private static int GetLanguageOffset(int index) => 0x28 + (index * 0x1C) + 0x1A;
+    private static int GetLanguageOffset(int index) => 0x140 + (index * 0x1C) + 0x1A;
 
     public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data[GetOTOffset(language)..]) != 0;
 
@@ -378,10 +386,8 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     private static int GetOTOffset(int language)
     {
         int index = GetLanguageIndex(language);
-        return 0x124 + (index * 0x1C);
+        return 0x140 + (index * 0x1C);
     }
-
-    public bool IsHOMEGift => CardID >= 9000;
 
     public bool CanHandleOT(int language) => !GetHasOT(language);
 
@@ -403,7 +409,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         var pk = new PA9
         {
             EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : rnd.Rand32(),
-            ID32 = OTGender >= 2 ? tr.ID32 : ID32,
+            ID32 = OTGender >= 2 ? tr.ID32 : IsOldIDFormat ? ID32Old : ID32,
             Species = Species,
             Form = Form,
             CurrentLevel = currentLevel,
@@ -565,7 +571,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         {
             if (OTGender < 2)
             {
-                var expect = ID32;
+                var expect = IsOldIDFormat ? ID32Old : ID32;
                 if (expect != pk.ID32) return false;
                 if (OTGender != pk.OriginalTrainerGender) return false;
             }
