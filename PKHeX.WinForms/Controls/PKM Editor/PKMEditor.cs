@@ -1953,9 +1953,6 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (ModifierKeys.HasFlag(Keys.Shift))
         {
             m.SetPlusFlags(Entity, p, PlusRecordApplicatorOption.LegalCurrent);
-            if (Entity is PA9 { IsAlpha: true, PersonalInfo: { } pi } pa9)
-                PlusRecordApplicator.SetPlusFlagsSpecific(pa9, pi, pi.AlphaMove);
-
             UpdateLegality();
             return;
         }
