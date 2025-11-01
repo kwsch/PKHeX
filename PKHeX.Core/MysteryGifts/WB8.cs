@@ -467,6 +467,9 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
             pk.EggLocation = Location;
             pk.MetLocation = Locations.Default8bNone;
             pk.IsNicknamed = false;
+            pk.MetYear = 0;
+            pk.MetMonth = 0;
+            pk.MetDay = 0;
         }
         pk.HealPP();
 
@@ -486,7 +489,9 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
         var date = IsDateRestricted && this.GetDistributionWindow(out var dt) ? dt.GetGenerateDate() : EncounterDate.GetDateSwitch();
         if (IsDateLockJapanese && language != (int)LanguageID.Japanese && date < new DateOnly(2022, 5, 20)) // 2022/05/18
             date = new DateOnly(2022, 5, 20); // Pick a better Start date that can be the language we're generating for.
-        pk.MetDate = date;
+        // Don't set MetDate for Manaphy eggs - they must have MetDate = 0/0/0
+        if (!(Species == (int)Core.Species.Manaphy && IsEgg))
+            pk.MetDate = date;
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
@@ -540,7 +545,8 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
     private void SetEggMetData(PB8 pk)
     {
         pk.IsEgg = true;
-        pk.EggMetDate = EncounterDate.GetDateSwitch();
+        // Use distribution window date if available (e.g., Manaphy Egg CardID 1701), otherwise use generic Switch date
+        pk.EggMetDate = this.GetDistributionWindow(out var dt) ? dt.GetGenerateDate() : EncounterDate.GetDateSwitch();
         pk.NicknameTrash.Clear();
         pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = false;
