@@ -217,14 +217,14 @@ public sealed partial class SAV_Trainer9a : Form
             var uncollected = ColorfulScrew9a.GetScrewLocations(SAV.Blocks.FieldItems);
             var msg = string.Join(Environment.NewLine, uncollected.Select(s => $"{s.FieldItem} at ({s.Point.X}, {s.Point.Y}, {s.Point.Z})"));
             Clipboard.SetText(msg);
-            WinFormsUtil.Alert($"Uncollected {itemName} locations copied to clipboard.");
+            WinFormsUtil.Alert($"Remaining {itemName} locations copied to clipboard.");
             return;
         }
 
         var count = ColorfulScrew9a.CollectScrews(SAV);
         if (count == 0)
-            WinFormsUtil.Alert($"No {itemName} available to collect.");
+            WinFormsUtil.Alert($"Every {itemName} has already been collected.");
         else
-            WinFormsUtil.Alert($"Collected {count} {itemName}!");
+            WinFormsUtil.Alert($"Collected {itemName} x{count}!");
     }
 }
