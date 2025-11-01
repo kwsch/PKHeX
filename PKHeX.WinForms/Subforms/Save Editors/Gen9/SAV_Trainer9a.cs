@@ -203,6 +203,12 @@ public sealed partial class SAV_Trainer9a : Form
 
     private void B_CollectScrews_Click(object sender, EventArgs e)
     {
+        if (ModifierKeys == (Keys.Alt | Keys.Control | Keys.Shift))
+        {
+            ColorfulScrew9a.SetAllScrews(SAV);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+
         var itemName = GameInfo.Strings.Item[ColorfulScrew9a.ColorfulScrewItemIndex];
 
         // For those who wish to do it manually in-game with the assistance of a Map/list.
