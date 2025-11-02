@@ -46,7 +46,7 @@ public sealed class LearnSource9ZA : ILearnSource<PersonalInfo9ZA>, IHomeSource,
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             if (learn.TryGetLevelLearnMove(move, out var level) && level <= evo.LevelMax)
-                return new(LevelUp, Game, (byte)level);
+                return new(LevelUp, Game, level);
         }
 
         if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, pk, move, option))

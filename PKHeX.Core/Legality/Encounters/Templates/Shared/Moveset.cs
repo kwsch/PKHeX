@@ -71,7 +71,7 @@ public readonly record struct Moveset(ushort Move1, ushort Move2 = 0, ushort Mov
     }
 
     /// <summary>
-    /// Determines whether the moveset contains all of the specified moves.
+    /// Determines whether the moveset contains all specified moves.
     /// </summary>
     /// <param name="needs">A span of move IDs to check for.</param>
     /// <returns>True if all moves are present; otherwise, false.</returns>

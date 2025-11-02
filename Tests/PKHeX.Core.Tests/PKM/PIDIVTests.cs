@@ -184,16 +184,16 @@ public class PIDIVTest
     {
         PK4[] fakes =
         [
-            new PK4 { Species = 025, PID = 0x34000089, TID16 = 20790, SID16 = 39664, Gender = 0}, // Pikachu
-            new PK4 { Species = 025, PID = 0x7DFFFF60, TID16 = 30859, SID16 = 63760, Gender = 1}, // Pikachu
-            new PK4 { Species = 025, PID = 0x7DFFFF65, TID16 = 30859, SID16 = 63760, Gender = 1}, // Pikachu
-            new PK4 { Species = 025, PID = 0x7E000003, TID16 = 30859, SID16 = 63760, Gender = 1}, // Pikachu
+            new() { Species = 025, PID = 0x34000089, TID16 = 20790, SID16 = 39664, Gender = 0}, // Pikachu
+            new() { Species = 025, PID = 0x7DFFFF60, TID16 = 30859, SID16 = 63760, Gender = 1}, // Pikachu
+            new() { Species = 025, PID = 0x7DFFFF65, TID16 = 30859, SID16 = 63760, Gender = 1}, // Pikachu
+            new() { Species = 025, PID = 0x7E000003, TID16 = 30859, SID16 = 63760, Gender = 1}, // Pikachu
 
-            new PK4 { Species = 025, PID = 0x2100008F, TID16 = 31526, SID16 = 42406, Gender = 0}, // Pikachu
-            new PK4 { Species = 025, PID = 0x71FFFF5A, TID16 = 49017, SID16 = 12807, Gender = 1}, // Pikachu
-            new PK4 { Species = 025, PID = 0xC0000001, TID16 = 17398, SID16 = 31936, Gender = 1}, // Pikachu
-            new PK4 { Species = 025, PID = 0x2FFFFF5E, TID16 = 27008, SID16 = 42726, Gender = 1}, // Pikachu
-            new PK4 { Species = 025, PID = 0x59FFFFFE, TID16 = 51223, SID16 = 28044, Gender = 0}, // Pikachu
+            new() { Species = 025, PID = 0x2100008F, TID16 = 31526, SID16 = 42406, Gender = 0}, // Pikachu
+            new() { Species = 025, PID = 0x71FFFF5A, TID16 = 49017, SID16 = 12807, Gender = 1}, // Pikachu
+            new() { Species = 025, PID = 0xC0000001, TID16 = 17398, SID16 = 31936, Gender = 1}, // Pikachu
+            new() { Species = 025, PID = 0x2FFFFF5E, TID16 = 27008, SID16 = 42726, Gender = 1}, // Pikachu
+            new() { Species = 025, PID = 0x59FFFFFE, TID16 = 51223, SID16 = 28044, Gender = 0}, // Pikachu
         ];
         foreach (var pk in fakes)
             MethodFinder.Analyze(pk).Type.Should().Be(PIDType.Pokewalker);

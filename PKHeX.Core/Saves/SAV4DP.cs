@@ -39,7 +39,7 @@ public sealed class SAV4DP : SAV4Sinnoh
 
     protected override BlockInfo4[] ExtraBlocks =>
     [
-        new BlockInfo4(0, 0x20000, 0x2AC0), // Hall of Fame
+        new(0, 0x20000, 0x2AC0), // Hall of Fame
     ];
 
     private void Initialize()

@@ -353,16 +353,6 @@ public sealed class EventWorkValueStorage(SAV9ZA sav, SCBlock block) : EventWork
     }
 }
 
-
-/// <summary>
-/// Event work storage specialized for 64-bit integer values.
-/// </summary>
-/// <param name="sav">Owning save file.</param>
-/// <param name="block">Underlying block providing the backing bytes.</param>
-public abstract class EventWorkTupleStorage<T1, T2>(SAV9ZA sav, SCBlock block) : EventWorkStorageKey128<(T1, T2)>(sav, block)
-{
-}
-
 /// <summary>
 /// Event work storage specialized for 64-bit integer values with 128-bit keys.
 /// </summary>
