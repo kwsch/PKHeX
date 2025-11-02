@@ -51,6 +51,7 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     private const uint KMyStatus = 0xE3E89BD1; // Trainer Details
     private const uint KBoxLayout = 0x19722c89; // Box Names
     private const uint KPlayTime = 0xEDAFF794; // Time Played
+    public const uint KPlayTimeOverworld = 0x34597EF7;
     private const uint KPokedex = 0x2D87BE5C;
     private const uint KLastSaved = 0x1522C79C; // Epoch 1900 DateTime
     private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
