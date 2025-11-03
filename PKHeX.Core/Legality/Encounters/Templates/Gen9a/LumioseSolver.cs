@@ -202,7 +202,7 @@ public static class LumioseSolver
         var ec = pk.EncryptionConstant;
         var p = param;
 
-        // 32-bit PID space: 0..uint.MaxValue inclusive. Chunk into large ranges for better throughput.
+        // 32-bit PID space: [0,uint.MaxValue] (inclusive due to mutation). Chunk into large ranges for better throughput.
         const ulong total = uint.MaxValue + 1UL;
         // Use a large batch size to reduce scheduling overhead; ~16M PIDs per work item.
         const ulong batch = 1UL << 24; // 16,777,216

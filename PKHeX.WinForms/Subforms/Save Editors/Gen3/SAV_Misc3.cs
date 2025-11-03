@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing.PokeSprite;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms;
@@ -651,14 +652,7 @@ public partial class SAV_Misc3 : Form
 
         PaintingIndex = index;
 
-        NUD_Painting.BackColor = index switch
-        {
-            0 => Color.FromArgb(248, 152, 096),
-            1 => Color.FromArgb(128, 152, 248),
-            2 => Color.FromArgb(248, 168, 208),
-            3 => Color.FromArgb(112, 224, 112),
-            _ => Color.FromArgb(248, 240, 056),
-        };
+        NUD_Painting.BackColor = ContestColor.GetColor(index);
     }
 
     private void SavePainting(int index)

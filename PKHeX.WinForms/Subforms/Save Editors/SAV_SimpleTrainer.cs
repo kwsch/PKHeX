@@ -56,9 +56,9 @@ public partial class SAV_SimpleTrainer : Form
             CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
             GB_Map.Visible = false;
             GB_Options.Visible = true;
-            CB_BattleStyle.Items.AddRange(["Switch", "Set"]);
-            CB_SoundType.Items.AddRange(["Mono", "Stereo", "Left", "Right"]);
-            CB_TextSpeed.Items.AddRange(["0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7"]);
+            CB_BattleStyle.Items.AddRange("Switch", "Set");
+            CB_SoundType.Items.AddRange("Mono", "Stereo", "Left", "Right");
+            CB_TextSpeed.Items.AddRange("0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7");
 
             CHK_BattleEffects.Checked = sav1.BattleEffects;
             CB_BattleStyle.SelectedIndex = sav1.BattleStyleSwitch ? 0 : 1;
@@ -84,9 +84,9 @@ public partial class SAV_SimpleTrainer : Form
             CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
             GB_Map.Visible = false;
             GB_Options.Visible = true;
-            CB_BattleStyle.Items.AddRange(["Switch", "Set"]);
-            CB_SoundType.Items.AddRange(["Mono", "Stereo"]);
-            CB_TextSpeed.Items.AddRange(["0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7"]);
+            CB_BattleStyle.Items.AddRange("Switch", "Set");
+            CB_SoundType.Items.AddRange("Mono", "Stereo");
+            CB_TextSpeed.Items.AddRange("0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7");
 
             CHK_BattleEffects.Checked = sav2.BattleEffects;
             CB_BattleStyle.SelectedIndex = sav2.BattleStyleSwitch ? 0 : 1;

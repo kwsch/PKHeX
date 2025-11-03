@@ -78,8 +78,12 @@ public sealed class MiscVerifier : Verifier
         }
         else if (enc is ISeedCorrelation64<PKM> s64)
         {
-            if (s64.TryGetSeed(pk, out var seed))
+            var pidiv = s64.TryGetSeed(pk, out var seed);
+            if (pidiv == SeedCorrelationResult.Success)
                 data.Info.PIDIV = new PIDIV(PIDType.Xoroshiro, seed);
+            else if (pidiv is SeedCorrelationResult.Invalid)
+                data.AddLine(GetInvalid(PIDTypeMismatch));
+
             if (enc is IMasteryInitialMoveShop8 m && !m.IsForcedMasteryCorrect(pk))
                 data.AddLine(GetInvalid(EncMasteryInitial));
         }

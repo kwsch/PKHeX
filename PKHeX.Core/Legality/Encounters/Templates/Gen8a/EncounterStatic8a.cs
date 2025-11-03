@@ -301,7 +301,7 @@ public sealed record EncounterStatic8a
     }
     #endregion
 
-    public bool TryGetSeed(PKM pk, out ulong seed)
+    public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
     {
         // Check if it matches any single-roll seed.
         var param = GetParams();
@@ -311,9 +311,9 @@ public sealed record EncounterStatic8a
             if (!Overworld8aRNG.Verify(pk, s, param, HasFixedHeight, HasFixedWeight))
                 continue;
             seed = s;
-            return true;
+            return SeedCorrelationResult.Success;
         }
         seed = 0;
-        return false;
+        return SeedCorrelationResult.Ignore;
     }
 }

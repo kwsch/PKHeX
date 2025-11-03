@@ -36,6 +36,7 @@ public sealed class GameDataSource
     /// Gets a list of languages to display based on the generation.
     /// </summary>
     /// <param name="generation">Generation to get the language list for.</param>
+    /// <param name="context">Entity context as a sub-generation specifier.</param>
     /// <returns>List of languages to display.</returns>
     public IReadOnlyList<ComboItem> LanguageDataSource(byte generation, EntityContext context) => generation switch
     {

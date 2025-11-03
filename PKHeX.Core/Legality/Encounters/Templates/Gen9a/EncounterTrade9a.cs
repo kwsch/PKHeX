@@ -108,13 +108,14 @@ public sealed record EncounterTrade9a : IEncounter9a,
 
     private void SetPINGA(PA9 pk, EncounterCriteria criteria, PersonalInfo9ZA pi)
     {
+        var generate = criteria;
         if (IVs.IsSpecified || Correlation is LumioseCorrelation.ReApplyIVs)
-            criteria = criteria.WithoutIVs();
+            generate = criteria.WithoutIVs();
 
         var param = GetParams(pi);
         ulong init = Util.Rand.Rand64();
-        var success = this.TryApply64(pk, init, param, criteria);
-        if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
+        var success = this.TryApply64(pk, init, param, generate);
+        if (!success && !this.TryApply64(pk, init, param, generate.WithoutIVs()))
             this.TryApply64(pk, init, param, EncounterCriteria.Unrestricted);
 
         if (IVs.IsSpecified)
@@ -172,7 +173,8 @@ public sealed record EncounterTrade9a : IEncounter9a,
         if (pk is IScaledSize3 size3 && size3.Scale != Scale)
             return EncounterMatchRating.PartialMatch;
 
-        if (!TryGetSeed(pk, out _)) // maybe a Slot?
+        var pidiv = TryGetSeed(pk, out _);
+        if (pidiv is not SeedCorrelationResult.Success)
             return EncounterMatchRating.DeferredErrors;
 
         return EncounterMatchRating.Match;
@@ -211,7 +213,12 @@ public sealed record EncounterTrade9a : IEncounter9a,
 
     #endregion
 
-    public bool TryGetSeed(PKM pk, out ulong seed) => GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed);
+    public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
+    {
+        if (GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed))
+            return SeedCorrelationResult.Success;
+        return SeedCorrelationResult.Invalid;
+    }
 
     public LumioseCorrelation Correlation => LumioseCorrelation.ReApplyIVs;
 

@@ -130,7 +130,7 @@ public enum CheckIdentifier : byte
 
     /// <summary>
     /// The <see cref="CheckResult"/> pertains to the <see cref="PKM"/>'s <see cref="PKM.Version"/> compatibility.
-    /// <remarks>This is used for parsing checks to ensure the <see cref="PKM"/> didn't debut on a future <see cref="PKM.Generation"/></remarks>
+    /// <remarks>This is used for parsing checks to ensure the <see cref="PKM"/> did not debut on a future <see cref="PKM.Generation"/></remarks>
     /// </summary>
     GameOrigin,
 

@@ -1,6 +1,5 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;

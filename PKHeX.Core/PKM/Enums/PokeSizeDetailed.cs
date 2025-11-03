@@ -11,7 +11,7 @@ public enum PokeSizeDetailed
     XXS,
     XS,
     S,
-    AV,
+    M,
     L,
     XL,
     XXL,
@@ -31,7 +31,7 @@ public static class PokeSizeDetailedUtil
         <   25 => XXS,  // 23:256
         <   60 => XS,   // 35:256
         <  100 => S,    // 40:256
-        <= 155 => AV,   // 56:256
+        <= 155 => M,    // 56:256
         <= 195 => L,    // 40:256
         <= 230 => XL,   // 35:256
         <  255 => XXL,  // 23:256

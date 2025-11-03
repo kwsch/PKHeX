@@ -122,7 +122,7 @@ public sealed class WC9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         return ShinyUtil.GetShinyXor(PID, ID32);
     }
 
-    // When applying the TID32, the game sets the DisplayTID7 directly, then sets pk9.DisplaySID7 as (wc9.DisplaySID7 - wc9.CardID)
+    // When applying the ID32, the game sets the DisplayTID7 directly, then sets pk9.DisplaySID7 as (wc9.DisplaySID7 - wc9.CardID)
     // Since we expose the 16bit (pk9) component values here, just adjust them accordingly with an inlined calc.
     public override uint ID32
     {

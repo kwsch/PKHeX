@@ -888,9 +888,13 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private void B_OpenFashion_Click(object sender, EventArgs e)
     {
-        var sav = (SAV9ZA)SAV;
-        using var form = new SAV_Fashion9a(sav);
-        form.ShowDialog();
+        using var form = SAV switch
+        {
+            SAV9SV s9sv => new SAV_Fashion9(s9sv),
+            SAV9ZA s9za => new SAV_Fashion9(s9za),
+            _ => (Form?)null,
+        };
+        form?.ShowDialog();
     }
 
     private void B_ConvertKorean_Click(object sender, EventArgs e)
@@ -1290,7 +1294,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_RaidsDLC2.Visible = sav is SAV8SWSH { SaveRevision: >= 2 } or SAV9SV { SaveRevision: >= 2 };
         FLP_SAVtools.Visible = B_Blocks.Visible = true;
 
-        B_OpenFashion.Visible = sav is SAV9ZA;
+        B_OpenFashion.Visible = sav is SAV9SV or SAV9ZA;
 
         var list = FLP_SAVtools.Controls.OfType<Control>().OrderBy(z => z.Text).ToArray();
         FLP_SAVtools.Controls.Clear();

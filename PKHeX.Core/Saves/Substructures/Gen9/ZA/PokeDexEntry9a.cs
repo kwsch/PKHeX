@@ -143,6 +143,7 @@ public readonly ref struct PokeDexEntry9a
             return gender == Gender.Male ? DisplayGender9a.Male : DisplayGender9a.Female;
         return DisplayGender9a.GenderedNoDifference;
     }
+
     /// <summary>
     /// Species with gender differences in the dex.
     /// </summary>

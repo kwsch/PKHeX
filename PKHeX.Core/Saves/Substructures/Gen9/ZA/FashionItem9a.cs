@@ -58,4 +58,17 @@ public sealed class FashionItem9a : IItemNewFlag, IItemNewShopFlag
         for (int i = 0; i < items.Length; i++)
             items[i].Write(data.Slice(i * SIZE, SIZE));
     }
+
+    public static void ModifyAll(Span<byte> data, Action<FashionItem9a> action)
+    {
+        int count = data.Length / SIZE;
+        for (int i = 0; i < count; i++)
+        {
+            var slice = data.Slice(i * SIZE, SIZE);
+            var item = Read(slice);
+            if (item.Value is not None)
+                action(item);
+            item.Write(slice);
+        }
+    }
 }

@@ -49,7 +49,7 @@ public class RaidTests
         var enc = la.EncounterMatch;
         if (enc is not ISeedCorrelation64<Core.PKM> s64)
             throw new ArgumentException(nameof(enc));
-        s64.TryGetSeed(pk8, out ulong detected).Should().BeTrue();
+        s64.TryGetSeed(pk8, out var detected).Should().Be(SeedCorrelationResult.Success);
         detected.Should().Be(seed);
     }
 

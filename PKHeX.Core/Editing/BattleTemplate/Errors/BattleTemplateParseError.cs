@@ -1,5 +1,3 @@
-using System;
-
 namespace PKHeX.Core;
 
 public readonly record struct BattleTemplateParseError(BattleTemplateParseErrorType Type, string Value)

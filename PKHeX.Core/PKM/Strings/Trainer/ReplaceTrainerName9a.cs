@@ -1,12 +1,11 @@
 using System;
-using static PKHeX.Core.LanguageID;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// Logic for replacing the name of a Pokémon in <see cref="EntityContext.Gen8a"/>.
+/// Logic for replacing the name of a Pokémon in <see cref="EntityContext.Gen9a"/>.
 /// </summary>
-public static class ReplaceTrainerName8a
+public static class ReplaceTrainerName9a
 {
     /// <summary>
     /// Checks if the original name is a trigger for replacement, and if the current name is a valid replacement.
@@ -54,19 +53,19 @@ public static class ReplaceTrainerName8a
     }
 
     /// <summary>
-    /// Gets the replacement name for <see cref="EntityContext.Gen8a"/> in the given language.
+    /// Gets the replacement name for <see cref="EntityContext.Gen9a"/> in the given language.
     /// </summary>
     public static string GetName(LanguageID language) => language switch
     {
-        Japanese => "アル.",
-        French => "Arc",
-        Italian => "Arc",
-        German => "Arc*",
-        Spanish => "Arc",
-        Korean => "아르.",
-        ChineseS => "阿尔",
-        ChineseT => "阿爾",
+        LanguageID.Japanese => "ゼット.",
+        LanguageID.French => "Zed",
+        LanguageID.Italian => "Zeta",
+        LanguageID.German => "Zett",
+        LanguageID.Spanish => "Zeta",
+        LanguageID.SpanishL => "Zeta",
+        LanguageID.Korean => "제트.",
+        LanguageID.ChineseS or LanguageID.ChineseT => "Z.",
 
-        _ => "Arc",
+        _ => "Z",
     };
 }

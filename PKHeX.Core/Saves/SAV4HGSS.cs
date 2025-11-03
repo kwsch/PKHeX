@@ -39,12 +39,12 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
 
     protected override BlockInfo4[] ExtraBlocks =>
     [
-        new BlockInfo4(0, 0x23000, 0x2AC0), // Hall of Fame
-        new BlockInfo4(1, 0x26000, 0x0BB0), // Battle Hall
-        new BlockInfo4(2, 0x27000, 0x1D60), // Battle Video (My Video)
-        new BlockInfo4(3, 0x29000, 0x1D60), // Battle Video (Other Videos 1)
-        new BlockInfo4(4, 0x2B000, 0x1D60), // Battle Video (Other Videos 2)
-        new BlockInfo4(5, 0x2D000, 0x1D60), // Battle Video (Other Videos 3)
+        new(0, 0x23000, 0x2AC0), // Hall of Fame
+        new(1, 0x26000, 0x0BB0), // Battle Hall
+        new(2, 0x27000, 0x1D60), // Battle Video (My Video)
+        new(3, 0x29000, 0x1D60), // Battle Video (Other Videos 1)
+        new(4, 0x2B000, 0x1D60), // Battle Video (Other Videos 2)
+        new(5, 0x2D000, 0x1D60), // Battle Video (Other Videos 3)
     ];
 
     private void Initialize()

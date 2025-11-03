@@ -85,13 +85,14 @@ public sealed record EncounterGift9a(ushort Species, byte Form, byte Level, byte
 
     private void SetPINGA(PA9 pk, EncounterCriteria criteria, PersonalInfo9ZA pi)
     {
+        var generate = criteria;
         if (IVs.IsSpecified || Correlation is LumioseCorrelation.ReApplyIVs)
-            criteria = criteria.WithoutIVs();
+            generate = criteria.WithoutIVs();
 
         var param = GetParams(pi);
         ulong init = Util.Rand.Rand64();
-        var success = this.TryApply64(pk, init, param, criteria);
-        if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
+        var success = this.TryApply64(pk, init, param, generate);
+        if (!success && !this.TryApply64(pk, init, param, generate.WithoutIVs()))
             this.TryApply64(pk, init, param, EncounterCriteria.Unrestricted);
 
         if (IVs.IsSpecified)
@@ -170,7 +171,8 @@ public sealed record EncounterGift9a(ushort Species, byte Form, byte Level, byte
         if (Shiny != Shiny.Random && !Shiny.IsValid(pk))
             return EncounterMatchRating.DeferredErrors;
 
-        if (!TryGetSeed(pk, out _))
+        var pidiv = TryGetSeed(pk, out _);
+        if (pidiv != SeedCorrelationResult.Success)
             return EncounterMatchRating.DeferredErrors;
 
         return EncounterMatchRating.Match;
@@ -193,13 +195,11 @@ public sealed record EncounterGift9a(ushort Species, byte Form, byte Level, byte
 
     #endregion
 
-    public bool TryGetSeed(PKM pk, out ulong seed)
+    public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
     {
         if (GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed))
-            return true;
-        if (pk.IsShiny && !LumioseSolver.SearchShiny1)
-            return true;
-        return false;
+            return SeedCorrelationResult.Success;
+        return SeedCorrelationResult.Invalid;
     }
 
     public LumioseCorrelation Correlation => IsAlpha ? LumioseCorrelation.PreApplyIVs : LumioseCorrelation.ReApplyIVs;
@@ -218,7 +218,7 @@ public sealed record EncounterGift9a(ushort Species, byte Form, byte Level, byte
         return new GenerateParam9a(gender, FlawlessIVCount, rollCount, Correlation, scaleType, Size, Nature, Ability, Shiny, IVs);
     }
 
-    private bool IsMatchFixedTrainer(PKM pk, TrainerGift9a trainer)
+    private static bool IsMatchFixedTrainer(PKM pk, TrainerGift9a trainer)
     {
         if (pk.ID32 != GetFixedTrainerID32(trainer))
             return false;
