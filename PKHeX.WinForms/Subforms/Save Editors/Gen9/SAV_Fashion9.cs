@@ -45,8 +45,7 @@ public sealed partial class SAV_Fashion9 : Form
             B_SetAllOwned.Visible = false;
         } else if (SAV is SAV9ZA sav9ZA)
         {
-            // Create grids for each block
-            var accessor = ((SAV9ZA)SAV).Blocks;
+            var accessor = sav9ZA.Blocks;
             _grids =
             [
                 Create(accessor, SaveBlockAccessor9ZA.KFashionTops, nameof(SaveBlockAccessor9ZA.KFashionTops)),
@@ -171,16 +170,16 @@ public sealed partial class SAV_Fashion9 : Form
         IFashionBlockEditor editor;
         if (accesor is SaveBlockAccessor9SV)
         {
-            editor = new FasionItem9Editor(block, name, tab);
+            editor = new FashionItem9Editor(block, name, tab);
         }
         else if(accesor is SaveBlockAccessor9ZA)
         {
             editor = hair
-            ? new HairMake9aEditor(block, name, tab)
-            : new FashionItem9aEditor(block, name, tab);
+                ? new HairMake9aEditor(block, name, tab)
+                : new FashionItem9aEditor(block, name, tab);
         } else
         {
-            throw new ArgumentException("Invalid accesor");
+            throw new ArgumentException("Invalid Accessor Type");
         }
 
         // Enable drag/drop on the grid and route to form handlers
@@ -275,7 +274,7 @@ public interface IFashionBlockEditor
     void SetAllOwned(bool state);
 }
 
-public sealed class FasionItem9Editor : IFashionBlockEditor
+public sealed class FashionItem9Editor : IFashionBlockEditor
 {
     public SCBlock Block { get; }
     public string Name { get; }
@@ -284,7 +283,7 @@ public sealed class FasionItem9Editor : IFashionBlockEditor
     private const string ColValue = nameof(FashionItem9.Value);
     private const string ColIsNew = nameof(FashionItem9.IsNew);
 
-    public FasionItem9Editor(SCBlock block, string name, TabPage tab)
+    public FashionItem9Editor(SCBlock block, string name, TabPage tab)
     {
         Block = block;
         Name = name;
