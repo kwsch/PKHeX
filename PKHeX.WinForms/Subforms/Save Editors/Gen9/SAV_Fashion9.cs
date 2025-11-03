@@ -2,21 +2,20 @@ using PKHeX.Core;
 using System;
 using System.IO;
 using System.Windows.Forms;
-using static PKHeX.Core.SaveBlockAccessor9ZA;
 
 namespace PKHeX.WinForms;
 
-public sealed partial class SAV_Fashion9a : Form
+public sealed partial class SAV_Fashion9 : Form
 {
-    private readonly IFashionBlockEditor[] _grids;
-    private readonly SAV9ZA SAV;
-    private readonly SAV9ZA Origin;
+    private readonly IFashionBlockEditor[] _grids = [];
+    private readonly SaveFile SAV;
+    private readonly SaveFile Origin;
 
-    public SAV_Fashion9a(SAV9ZA sav)
+    private SAV_Fashion9(SaveFile sav)
     {
         InitializeComponent();
 
-        SAV = (SAV9ZA)(Origin = sav).Clone();
+        SAV = (Origin = sav).Clone();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
         // Allow drag/drop on form and main tab control
@@ -29,36 +28,60 @@ public sealed partial class SAV_Fashion9a : Form
         TC_Features.Multiline = true;
 
         // Create grids for each block
-        var accessor = SAV.Blocks;
-        _grids =
-        [
-            Create(accessor.GetBlock(KFashionTops), nameof(KFashionTops)),
-            Create(accessor.GetBlock(KFashionBottoms), nameof(KFashionBottoms)),
-            Create(accessor.GetBlock(KFashionAllInOne), nameof(KFashionAllInOne)),
-            Create(accessor.GetBlock(KFashionHeadwear), nameof(KFashionHeadwear)),
-            Create(accessor.GetBlock(KFashionEyewear), nameof(KFashionEyewear)),
-            Create(accessor.GetBlock(KFashionGloves), nameof(KFashionGloves)),
-            Create(accessor.GetBlock(KFashionLegwear), nameof(KFashionLegwear)),
-            Create(accessor.GetBlock(KFashionFootwear), nameof(KFashionFootwear)),
-            Create(accessor.GetBlock(KFashionSatchels), nameof(KFashionSatchels)),
-            Create(accessor.GetBlock(KFashionEarrings), nameof(KFashionEarrings)),
+        if (SAV is SAV9SV sav9sv) {
+            var accessor = sav9sv.Blocks;
+            _grids =
+            [
+                Create(accessor, SaveBlockAccessor9SV.KFashionUnlockedEyewear, nameof(SaveBlockAccessor9SV.KFashionUnlockedEyewear)),
+                Create(accessor, SaveBlockAccessor9SV.KFashionUnlockedGloves, nameof(SaveBlockAccessor9SV.KFashionUnlockedGloves)),
+                Create(accessor, SaveBlockAccessor9SV.KFashionUnlockedBag, nameof(SaveBlockAccessor9SV.KFashionUnlockedBag)),
+                Create(accessor, SaveBlockAccessor9SV.KFashionUnlockedFootwear, nameof(SaveBlockAccessor9SV.KFashionUnlockedFootwear)),
+                Create(accessor, SaveBlockAccessor9SV.KFashionUnlockedHeadwear, nameof(SaveBlockAccessor9SV.KFashionUnlockedHeadwear)),
+                Create(accessor, SaveBlockAccessor9SV.KFashionUnlockedLegwear, nameof(SaveBlockAccessor9SV.KFashionUnlockedLegwear)),
+                Create(accessor, SaveBlockAccessor9SV.KFashionUnlockedClothing, nameof(SaveBlockAccessor9SV.KFashionUnlockedClothing)),
+                Create(accessor, SaveBlockAccessor9SV.KFashionUnlockedPhoneCase, nameof(SaveBlockAccessor9SV.KFashionUnlockedPhoneCase)),
+            ];
 
-            Create(accessor.GetBlock(KHairMake00StyleHair), nameof(KHairMake00StyleHair), hair: true),
-            Create(accessor.GetBlock(KHairMake01StyleBangs), nameof(KHairMake01StyleBangs), hair: true),
-            Create(accessor.GetBlock(KHairMake02ColorHair), nameof(KHairMake02ColorHair), hair: true),
-            Create(accessor.GetBlock(KHairMake03ColorHair), nameof(KHairMake03ColorHair), hair: true),
-            Create(accessor.GetBlock(KHairMake04ColorHair), nameof(KHairMake04ColorHair), hair: true),
-            Create(accessor.GetBlock(KHairMake05StyleEyebrow), nameof(KHairMake05StyleEyebrow), hair: true),
-            Create(accessor.GetBlock(KHairMake06ColorEyebrow), nameof(KHairMake06ColorEyebrow), hair: true),
-            Create(accessor.GetBlock(KHairMake07StyleEyes), nameof(KHairMake07StyleEyes), hair: true),
-            Create(accessor.GetBlock(KHairMake08ColorEyes), nameof(KHairMake08ColorEyes), hair: true),
-            Create(accessor.GetBlock(KHairMake09StyleEyelash), nameof(KHairMake09StyleEyelash), hair: true),
-            Create(accessor.GetBlock(KHairMake10ColorEyelash), nameof(KHairMake10ColorEyelash), hair: true),
-            Create(accessor.GetBlock(KHairMake11Lips), nameof(KHairMake11Lips), hair: true),
-            Create(accessor.GetBlock(KHairMake12BeautyMark), nameof(KHairMake12BeautyMark), hair: true),
-            Create(accessor.GetBlock(KHairMake13Freckles), nameof(KHairMake13Freckles), hair: true),
-            Create(accessor.GetBlock(KHairMake14DarkCircles), nameof(KHairMake14DarkCircles), hair: true),
-        ];
+            B_SetAllOwned.Visible = false;
+        } else if (SAV is SAV9ZA sav9ZA)
+        {
+            // Create grids for each block
+            var accessor = ((SAV9ZA)SAV).Blocks;
+            _grids =
+            [
+                Create(accessor, SaveBlockAccessor9ZA.KFashionTops, nameof(SaveBlockAccessor9ZA.KFashionTops)),
+                Create(accessor, SaveBlockAccessor9ZA.KFashionBottoms, nameof(SaveBlockAccessor9ZA.KFashionBottoms)),
+                Create(accessor, SaveBlockAccessor9ZA.KFashionAllInOne, nameof(SaveBlockAccessor9ZA.KFashionAllInOne)),
+                Create(accessor, SaveBlockAccessor9ZA.KFashionHeadwear, nameof(SaveBlockAccessor9ZA.KFashionHeadwear)),
+                Create(accessor, SaveBlockAccessor9ZA.KFashionEyewear, nameof(SaveBlockAccessor9ZA.KFashionEyewear)),
+                Create(accessor, SaveBlockAccessor9ZA.KFashionGloves, nameof(SaveBlockAccessor9ZA.KFashionGloves)),
+                Create(accessor, SaveBlockAccessor9ZA.KFashionLegwear, nameof(SaveBlockAccessor9ZA.KFashionLegwear)),
+                Create(accessor, SaveBlockAccessor9ZA.KFashionFootwear, nameof(SaveBlockAccessor9ZA.KFashionFootwear)),
+                Create(accessor, SaveBlockAccessor9ZA.KFashionSatchels, nameof(SaveBlockAccessor9ZA.KFashionSatchels)),
+                Create(accessor, SaveBlockAccessor9ZA.KFashionEarrings, nameof(SaveBlockAccessor9ZA.KFashionEarrings)),
+
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake00StyleHair, nameof(SaveBlockAccessor9ZA.KHairMake00StyleHair), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake01StyleBangs, nameof(SaveBlockAccessor9ZA.KHairMake01StyleBangs), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake02ColorHair, nameof(SaveBlockAccessor9ZA.KHairMake02ColorHair), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake03ColorHair, nameof(SaveBlockAccessor9ZA.KHairMake03ColorHair), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake04ColorHair, nameof(SaveBlockAccessor9ZA.KHairMake04ColorHair), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake05StyleEyebrow, nameof(SaveBlockAccessor9ZA.KHairMake05StyleEyebrow), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake06ColorEyebrow, nameof(SaveBlockAccessor9ZA.KHairMake06ColorEyebrow), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake07StyleEyes, nameof(SaveBlockAccessor9ZA.KHairMake07StyleEyes), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake08ColorEyes, nameof(SaveBlockAccessor9ZA.KHairMake08ColorEyes), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake09StyleEyelash, nameof(SaveBlockAccessor9ZA.KHairMake09StyleEyelash), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake10ColorEyelash, nameof(SaveBlockAccessor9ZA.KHairMake10ColorEyelash), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake11Lips, nameof(SaveBlockAccessor9ZA.KHairMake11Lips), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake12BeautyMark, nameof(SaveBlockAccessor9ZA.KHairMake12BeautyMark), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake13Freckles, nameof(SaveBlockAccessor9ZA.KHairMake13Freckles), hair: true),
+                Create(accessor, SaveBlockAccessor9ZA.KHairMake14DarkCircles, nameof(SaveBlockAccessor9ZA.KHairMake14DarkCircles), hair: true),
+            ];
+        }
+        else
+        {
+            throw new ArgumentException("Invalid SaveFile Type");
+        }
+
 
         // Translate headings
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -67,6 +90,10 @@ public sealed partial class SAV_Fashion9a : Form
         foreach (var grid in _grids)
             grid.Load();
     }
+
+    public SAV_Fashion9(SAV9ZA sav): this((SaveFile)sav) { }
+
+    public SAV_Fashion9(SAV9SV sav) : this((SaveFile)sav) { }
 
     private TabPage GetTab(string name)
     {
@@ -81,6 +108,8 @@ public sealed partial class SAV_Fashion9a : Form
     {
         if (name.StartsWith("KHairMake"))
             return name.Replace("KHairMake", "");
+        else if (name.StartsWith("KFashionUnlocked"))
+            return name.Replace("KFashionUnlocked", "");
         return name.Replace("KFashion", "");
     }
 
@@ -132,14 +161,27 @@ public sealed partial class SAV_Fashion9a : Form
         }
     }
 
-    public IFashionBlockEditor Create(SCBlock block, string name, bool hair = false)
+
+    public IFashionBlockEditor Create(SCBlockAccessor accesor, uint blockLoc, string name, bool hair = false)
     {
         var tab = GetTab(name);
         // Tab already inserted at the desired position in GetTab; don't add again.
+        SCBlock block = accesor.GetBlock(blockLoc);
 
-        IFashionBlockEditor editor = hair
-            ? new HairMakeEditor(block, name, tab)
-            : new FashionItemEditor(block, name, tab);
+        IFashionBlockEditor editor;
+        if (accesor is SaveBlockAccessor9SV)
+        {
+            editor = new FasionItem9Editor(block, name, tab);
+        }
+        else if(accesor is SaveBlockAccessor9ZA)
+        {
+            editor = hair
+            ? new HairMake9aEditor(block, name, tab)
+            : new FashionItem9aEditor(block, name, tab);
+        } else
+        {
+            throw new ArgumentException("Invalid accesor");
+        }
 
         // Enable drag/drop on the grid and route to form handlers
         editor.Grid.AllowDrop = true;
@@ -233,7 +275,127 @@ public interface IFashionBlockEditor
     void SetAllOwned(bool state);
 }
 
-public sealed class FashionItemEditor : IFashionBlockEditor
+public sealed class FasionItem9Editor : IFashionBlockEditor
+{
+    public SCBlock Block { get; }
+    public string Name { get; }
+    public DataGridView Grid { get; }
+
+    private const string ColValue = nameof(FashionItem9.Value);
+    private const string ColIsNew = nameof(FashionItem9.IsNew);
+
+    public FasionItem9Editor(SCBlock block, string name, TabPage tab)
+    {
+        Block = block;
+        Name = name;
+        Grid = CreateGrid(tab);
+    }
+
+    private DataGridView CreateGrid(TabPage tab)
+    {
+        var count = Block.Raw.Length / FashionItem9.SIZE;
+        var dgv = new DataGridView
+        {
+            Dock = DockStyle.Fill,
+            AllowUserToAddRows = false,
+            AllowUserToDeleteRows = false,
+            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells,
+            MultiSelect = false,
+            RowHeadersVisible = false,
+            SelectionMode = DataGridViewSelectionMode.CellSelect,
+            EditMode = DataGridViewEditMode.EditOnEnter,
+        };
+
+        // Columns
+        var cValue = new DataGridViewTextBoxColumn
+        {
+            Name = ColValue,
+            HeaderText = nameof(FashionItem9.Value),
+            ValueType = typeof(uint),
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+        };
+        dgv.Columns.Add(cValue);
+        dgv.Columns.Add(new DataGridViewCheckBoxColumn { Name = ColIsNew, HeaderText = nameof(FashionItem9.IsNew) });
+
+        dgv.RowCount = count;
+
+        // Validation for Value column (uint)
+        dgv.CellValidating += (s, e) => {
+            if (e.ColumnIndex < 0 || e.RowIndex < 0)
+                return;
+            if (dgv.Columns[e.ColumnIndex].Name != ColValue)
+                return;
+
+            var txt = e.FormattedValue?.ToString();
+            if (string.IsNullOrWhiteSpace(txt))
+            {
+                WinFormsUtil.Alert("Value must be a number.");
+                dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = FashionItem9.None;
+                e.Cancel = true;
+                return;
+            }
+            if (!uint.TryParse(txt, out _))
+            {
+                WinFormsUtil.Alert("Value must be a number.");
+                dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = FashionItem9.None;
+                e.Cancel = true;
+                return;
+            }
+        };
+        dgv.CellEndEdit += (_, e) => dgv.Rows[e.RowIndex].ErrorText = string.Empty;
+
+        tab.Controls.Add(dgv);
+        return dgv;
+    }
+
+    public void Load()
+    {
+        var array = FashionItem9.GetArray(Block.Data);
+        // Load hair/make items into grid from block
+        for (int i = 0; i < array.Length; i++)
+            LoadItem(i, array[i]);
+    }
+
+    public void Save()
+    {
+        var array = FashionItem9.GetArray(Block.Data);
+        // Write hair/make items from grid back to block
+        for (int i = 0; i < array.Length; i++)
+            SaveItem(i, array[i]);
+        FashionItem9.SetArray(array, Block.Data);
+    }
+
+    public void SetAllOwned(bool state) { }
+
+    private void LoadItem(int index, FashionItem9 item)
+    {
+        var row = Grid.Rows[index];
+        row.Cells[ColValue].Value = item.Value;
+        row.Cells[ColIsNew].Value = item.IsNew;
+    }
+
+    private static bool GetBool(object? o) => o is true;
+
+    private void SaveItem(int index, FashionItem9 item)
+    {
+        var row = Grid.Rows[index];
+
+        // Value
+        var txt = row.Cells[ColValue].Value?.ToString();
+        if (!uint.TryParse(txt, out var value))
+        {
+            WinFormsUtil.Alert($"Invalid Value at row {index}. Resetting to None.");
+            value = FashionItem9.None;
+            row.Cells[ColValue].Value = value;
+        }
+        item.Value = value;
+
+        // Flags via checkbox
+        item.IsNew = GetBool(row.Cells[ColIsNew].Value);
+    }
+}
+
+public sealed class FashionItem9aEditor : IFashionBlockEditor
 {
     public SCBlock Block { get; }
     public string Name { get; }
@@ -246,7 +408,7 @@ public sealed class FashionItemEditor : IFashionBlockEditor
     private const string ColIsEquipped = nameof(FashionItem9a.IsEquipped);
     private const string ColIsOwned = nameof(FashionItem9a.IsOwned);
 
-    public FashionItemEditor(SCBlock block, string name, TabPage tab)
+    public FashionItem9aEditor(SCBlock block, string name, TabPage tab)
     {
         Block = block;
         Name = name;
@@ -306,6 +468,7 @@ public sealed class FashionItemEditor : IFashionBlockEditor
                 WinFormsUtil.Alert("Value must be a number.");
                 dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = FashionItem9a.None;
                 e.Cancel = true;
+                return;
             }
         };
         dgv.CellEndEdit += (_, e) => dgv.Rows[e.RowIndex].ErrorText = string.Empty;
@@ -377,7 +540,7 @@ public sealed class FashionItemEditor : IFashionBlockEditor
     }
 }
 
-public sealed record HairMakeEditor : IFashionBlockEditor
+public sealed record HairMake9aEditor : IFashionBlockEditor
 {
     public SCBlock Block { get; }
     public string Name { get; }
@@ -386,7 +549,7 @@ public sealed record HairMakeEditor : IFashionBlockEditor
     private const string ColValue = nameof(HairMakeItem9a.Value);
     private const string ColIsNew = nameof(HairMakeItem9a.IsNew);
 
-    public HairMakeEditor(SCBlock block, string name, TabPage tab)
+    public HairMake9aEditor(SCBlock block, string name, TabPage tab)
     {
         Block = block;
         Name = name;
@@ -442,6 +605,7 @@ public sealed record HairMakeEditor : IFashionBlockEditor
                 WinFormsUtil.Alert("Value must be a number.");
                 dgv.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = HairMakeItem9a.None;
                 e.Cancel = true;
+                return;
             }
         };
         dgv.CellEndEdit += (_, e) => dgv.Rows[e.RowIndex].ErrorText = string.Empty;
@@ -457,6 +621,7 @@ public sealed record HairMakeEditor : IFashionBlockEditor
         for (int i = 0; i < array.Length; i++)
             LoadHairMake(i, array[i]);
     }
+
     public void Save()
     {
         var array = HairMakeItem9a.GetArray(Block.Data);
