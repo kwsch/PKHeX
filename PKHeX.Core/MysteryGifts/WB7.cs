@@ -43,7 +43,7 @@ public sealed class WB7(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, IAw
         set => WriteUInt16LittleEndian(Card, (ushort)value);
     }
 
-    public override string CardTitle
+    public string CardTitleDummy
     {
         // Max len 36 char, followed by null terminator
         get => StringConverter8.GetString(Card.Slice(2, 0x4A));
@@ -54,6 +54,18 @@ public sealed class WB7(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, IAw
     {
         get => ReadUInt32LittleEndian(Card[0x4C..]);
         set => WriteUInt32LittleEndian(Card[0x4C..], value);
+    }
+
+    public override int CardTitleIndex
+    {
+        get => Data[CardStart + 0x50];
+        set => Data[CardStart + 0x50] = (byte)value;
+    }
+
+    public override string CardTitle
+    {
+        get => this.GetTitleFromIndex();
+        set => throw new Exception();
     }
 
     private uint Year

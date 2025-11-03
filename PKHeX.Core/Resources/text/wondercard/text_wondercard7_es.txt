@@ -1,0 +1,25 @@
+Regalo: {0}
+Regalo: {8}
+Regalo: lote de objetos
+{0} ({1})
+Pokémon singular: {0}
+{0} de {3}
+{0} variocolor
+{0} ({2})
+Regalo: {2}
+{0} con habilidad oculta
+{0} con {4}
+{0} con {5}
+{0} con {6}
+{0} con {7}
+{0} con un/una {9}
+Regalo especial: versión descargable
+Regalo especial por compra: pack especial
+Regalo especial por compra: en tienda
+Regalo especial por compra: guía de estrategia
+Regalo especial por compra
+¡Feliz cumpleaños!
+Regalo especial por compra: consola virtual
+Club de Entrenadores Pokémon
+Pokémon Global Link
+Banco de Pokémon

@@ -1,0 +1,58 @@
+{0} Gift
+Pokémon Egg Gift
+Pokémon Gift
+{8} Gift
+Item Set Gift
+Item Gift
+Dynamax Crystal Gift
+Curry Ingredient Gift
+{1} {0} Gift
+Legendary Pokémon {0} Gift
+Mythical Pokémon {0} Gift
+{3}’s {0} Gift
+Shiny {0} Gift
+{0} ({2}) Gift
+{2} Gift
+Hidden Ability {0} Gift
+{0} with {4} Gift
+{0} with {5} Gift
+{0} with {6} Gift
+{0} with {7} Gift
+{0} and {9} Gift
+Gigantamax {0} Gift
+{11} Gift
+Downloadable Version Purchase Bonus
+Special Pack Purchase Bonus
+Store Purchase Bonus
+Strategy Guide Purchase Bonus
+Purchase Bonus
+Happy Birthday!
+Virtual Console Purchase Bonus
+Pokémon Trainer Club Gift
+Pokémon Global Link Gift
+Pokémon Bank Gift
+Pokémon HOME Gift
+Pocket Money Gift
+${12} Cash Back
+Clothing Gift
+Ranked Battle Reward
+Online Competition Participation Gift
+BP Gift
+Official Competition Item Gift
+Official Competition BP Gift
+Official Competition Pokémon Gift
+Official Competition Egg Gift
+Official Competition Clothing Gift
+Singles Season {10} Item Gift
+Singles Season {10} BP Gift
+Singles Season {10} Pokémon Gift
+Singles Season {10} Egg Gift
+Singles Season {10} Clothing Gift
+Doubles Season {10} Item Gift
+Doubles Season {10} BP Gift
+Doubles Season {10} Pokémon Gift
+Doubles Season {10} Egg Gift
+Doubles Season {10} Clothing Gift
+Pokémon Statue Gift
+{13} Gift
+Manaphy Egg Gift
