@@ -88,6 +88,12 @@ public partial class Main : Form
         GiveFeedback += (_, e) => e.UseDefaultCursors = false;
         PKME_Tabs.EnableDragDrop(Main_DragEnter, Main_DragDrop);
         C_SAV.EnableDragDrop(Main_DragEnter, Main_DragDrop);
+        menuStrip1.AllowDrop = true;
+        menuStrip1.DragEnter += Main_DragEnter;
+        menuStrip1.DragDrop += Main_DragDrop;
+        PB_Legal.AllowDrop = true;
+        PB_Legal.DragEnter += Main_DragEnter;
+        PB_Legal.DragDrop += Main_DragDrop;
 
         // ToolTips for Drag&Drop
         toolTip.SetToolTip(dragout, "Drag to Save");
@@ -515,8 +521,8 @@ public partial class Main : Form
 #if DEBUG
         OpenFile(input, path, ext);
 #else
-            try { OpenFile(input, path, ext); }
-            catch (Exception e) { WinFormsUtil.Error(MsgFileLoadFail + "\nPath: " + path, e); }
+        try { OpenFile(input, path, ext); }
+        catch (Exception e) { WinFormsUtil.Error(MsgFileLoadFail + "\nPath: " + path, e); }
 #endif
     }
 
@@ -591,10 +597,10 @@ public partial class Main : Form
 
     private bool OpenGroup(IPokeGroup b)
     {
-        bool result = C_SAV.OpenGroup(b, out string c);
-        if (!string.IsNullOrWhiteSpace(c))
-            WinFormsUtil.Alert(c);
-        Debug.WriteLine(c);
+        bool result = C_SAV.OpenGroup(b, out var msg);
+        if (!string.IsNullOrWhiteSpace(msg))
+            WinFormsUtil.Alert(msg);
+        Debug.WriteLine(msg);
         return result;
     }
 
@@ -627,13 +633,13 @@ public partial class Main : Form
         if (C_SAV.IsBoxDragActive)
             return true;
         Cursor = Cursors.Default;
-        if (!C_SAV.OpenPCBoxBin(pkms.Data.Span, out string c))
+        if (!C_SAV.OpenPCBoxBin(pkms.Data.Span, out var msg))
         {
-            WinFormsUtil.Alert(MsgFileLoadIncompatible, c);
+            WinFormsUtil.Alert(MsgFileLoadIncompatible, msg);
             return true;
         }
 
-        WinFormsUtil.Alert(c);
+        WinFormsUtil.Alert(msg);
         return true;
     }
 
@@ -885,6 +891,7 @@ public partial class Main : Form
                 var s = s3.ForceLoad(game);
                 if (s is SAV3FRLG frlg)
                 {
+                    // Try to give the correct Deoxys form stats (different in R/S, E, FR and LG)
                     bool result = frlg.ResetPersonal(game);
                     if (!result)
                         return false;
@@ -924,14 +931,15 @@ public partial class Main : Form
         }
     }
 
-    public static void SetCountrySubRegion(ComboBox CB, string type)
+    public static void SetCountrySubRegion(ComboBox cb, string type)
     {
-        int index = CB.SelectedIndex;
+        // Try to retain previous selection index. If triggered by language change, the list will be reloaded.
+        int index = cb.SelectedIndex;
         string cl = GameInfo.CurrentLanguage;
-        CB.DataSource = Util.GetCountryRegionList(type, cl);
+        cb.DataSource = Util.GetCountryRegionList(type, cl);
 
-        if (index > 0 && index < CB.Items.Count)
-            CB.SelectedIndex = index;
+        if (index > 0 && index < cb.Items.Count)
+            cb.SelectedIndex = index;
     }
 
     // Language Translation

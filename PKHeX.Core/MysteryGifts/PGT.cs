@@ -8,10 +8,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 4 Mystery Gift Template File (Inner Gift Data, no card data)
 /// </summary>
-public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, IRandomCorrelation
+public sealed class PGT(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEvent3, IRibbonSetEvent4, IRandomCorrelation
 {
     public PGT() : this(new byte[Size]) { }
-    public PGT(Memory<byte> raw) : base(raw) { }
     public override PGT Clone() => new(Data.ToArray());
 
     public const int Size = 0x104; // 260

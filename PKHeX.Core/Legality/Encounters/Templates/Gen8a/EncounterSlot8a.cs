@@ -245,7 +245,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     }
     #endregion
 
-    public bool TryGetSeed(PKM pk, out ulong seed)
+    public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
     {
         // Check if it matches any single-roll seed.
         var pi = PersonalTable.LA[Species, Form];
@@ -256,9 +256,9 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             if (!Overworld8aRNG.Verify(pk, s, param))
                 continue;
             seed = s;
-            return true;
+            return SeedCorrelationResult.Success;
         }
         seed = 0;
-        return false;
+        return SeedCorrelationResult.Ignore;
     }
 }

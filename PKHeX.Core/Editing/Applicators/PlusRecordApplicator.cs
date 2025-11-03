@@ -40,19 +40,22 @@ public static class PlusRecordApplicator
         var entity = la.Entity;
         var context = entity.Context;
         var evos = la.Info.EvoChainsAllGens.Get(context);
-        switch (la.Entity.Context)
+        switch (la.Entity)
         {
-            case EntityContext.Gen9a:
+            case PA9 pa9:
+            {
+                var learn = LearnSource9ZA.Instance;
+                SetPlusFlagsNatural(record, permit, evos, learn, seedOfMastery);
+                if (pa9 is { IsAlpha: true, PersonalInfo: { } pi })
+                    SetPlusFlagsSpecific(pa9, pi, pi.AlphaMove);
+
+                if (tm)
                 {
-                    var learn = LearnSource9ZA.Instance;
-                    SetPlusFlagsNatural(record, permit, evos, learn, seedOfMastery);
-                    if (tm)
-                    {
-                        var table = PersonalTable.ZA;
-                        SetPlusFlagsTM<PersonalTable9ZA, PersonalInfo9ZA, LearnSource9ZA>(record, permit, evos, learn, seedOfMastery, table);
-                    }
-                    break;
+                    var table = PersonalTable.ZA;
+                    SetPlusFlagsTM<PersonalTable9ZA, PersonalInfo9ZA, LearnSource9ZA>(record, permit, evos, learn, seedOfMastery, table);
                 }
+                break;
+            }
             default:
                 throw new Exception("Format not supported.");
         }

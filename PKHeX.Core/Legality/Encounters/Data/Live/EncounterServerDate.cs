@@ -234,6 +234,7 @@ public static class EncounterServerDate
         {0524, new(2025, 08, 14, 2025, 08, 31)}, // WCS 2025 Toedscool
         {0525, new(2025, 08, 15, 2025, 08, 23)}, // WCS 2025 Luca Ceribelli's Farigiraf
         {1540, new(2025, 09, 25, 2025, 10, 25)}, // Shiny Miraidon / Koraidon Gift
+        {0070, new(2025, 10, 31, 2027, 02, 01)}, // Poké Center Fidough Birthday Gift
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
@@ -249,5 +250,6 @@ public static class EncounterServerDate
     {
         {1601, new(2025, 10, 14, 2026, 3, 1, +2)}, // Ralts holding Gardevoirite
         {0102, new(2025, 10, 23, 2026, 2, 1, +2)}, // Slowpoke Poké Center Gift
+        {0101, new(2025, 10, 31, 2027, 2, 1)}, // Poké Center Audino Birthday Gift
     };
 }

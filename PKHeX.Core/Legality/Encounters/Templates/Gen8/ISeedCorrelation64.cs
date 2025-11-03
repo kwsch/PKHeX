@@ -5,5 +5,12 @@ namespace PKHeX.Core;
 /// </summary>
 public interface ISeedCorrelation64<in T>
 {
-    bool TryGetSeed(T pk, out ulong seed);
+    SeedCorrelationResult TryGetSeed(T pk, out ulong seed);
+}
+
+public enum SeedCorrelationResult
+{
+    Invalid,
+    Ignore,
+    Success,
 }

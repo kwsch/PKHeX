@@ -10,7 +10,7 @@ public enum PokeSize
 {
     XS,
     S,
-    AV,
+    M,
     L,
     XL,
 }
@@ -26,7 +26,7 @@ public static class PokeSizeUtil
     {
         < 0x10 => XS, // 1/16 = XS
         < 0x30 => S,  // 2/16 = S
-        < 0xD0 => AV, // average (10/16)
+        < 0xD0 => M,  // average (10/16)
         < 0xF0 => L,  // 2/16 = L
         _ => XL, // 1/16 = XL
     };
@@ -37,7 +37,7 @@ public static class PokeSizeUtil
     {
         XS => (byte)(rnd.Next(0x10)),
         S  => (byte)(rnd.Next(0x20) + 0x10),
-        AV => (byte)(rnd.Next(0xA0) + 0x30),
+        M  => (byte)(rnd.Next(0xA0) + 0x30),
         L  => (byte)(rnd.Next(0x20) + 0xD0),
         XL => (byte)(rnd.Next(0x10) + 0xF0),
         _ => GetRandomScalar(rnd),

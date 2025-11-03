@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(427, 401);
+            B_Cancel.Location = new System.Drawing.Point(507, 401);
             B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(88, 27);
@@ -62,7 +62,7 @@ namespace PKHeX.WinForms
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(523, 401);
+            B_Save.Location = new System.Drawing.Point(603, 401);
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(88, 27);
@@ -90,7 +90,7 @@ namespace PKHeX.WinForms
             GB_Research.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Research.Name = "GB_Research";
             GB_Research.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Research.Size = new System.Drawing.Size(598, 351);
+            GB_Research.Size = new System.Drawing.Size(678, 351);
             GB_Research.TabIndex = 2;
             GB_Research.Text = "Research";
             GB_Research.UseVisualStyleBackColor = true;
@@ -112,7 +112,7 @@ namespace PKHeX.WinForms
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(RTB_Diff);
-            splitContainer1.Size = new System.Drawing.Size(590, 345);
+            splitContainer1.Size = new System.Drawing.Size(670, 345);
             splitContainer1.SplitterDistance = 60;
             splitContainer1.TabIndex = 7;
             // 
@@ -134,7 +134,7 @@ namespace PKHeX.WinForms
             TB_NewSAV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_NewSAV.Name = "TB_NewSAV";
             TB_NewSAV.ReadOnly = true;
-            TB_NewSAV.Size = new System.Drawing.Size(487, 25);
+            TB_NewSAV.Size = new System.Drawing.Size(567, 25);
             TB_NewSAV.TabIndex = 5;
             // 
             // B_LoadNew
@@ -155,7 +155,7 @@ namespace PKHeX.WinForms
             TB_OldSAV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_OldSAV.Name = "TB_OldSAV";
             TB_OldSAV.ReadOnly = true;
-            TB_OldSAV.Size = new System.Drawing.Size(487, 25);
+            TB_OldSAV.Size = new System.Drawing.Size(567, 25);
             TB_OldSAV.TabIndex = 4;
             // 
             // RTB_Diff
@@ -165,7 +165,7 @@ namespace PKHeX.WinForms
             RTB_Diff.Margin = new System.Windows.Forms.Padding(0);
             RTB_Diff.Name = "RTB_Diff";
             RTB_Diff.ReadOnly = true;
-            RTB_Diff.Size = new System.Drawing.Size(590, 281);
+            RTB_Diff.Size = new System.Drawing.Size(670, 281);
             RTB_Diff.TabIndex = 6;
             RTB_Diff.Text = "";
             // 
@@ -179,14 +179,14 @@ namespace PKHeX.WinForms
             TC_Features.Name = "TC_Features";
             TC_Features.Padding = new System.Drawing.Point(0, 0);
             TC_Features.SelectedIndex = 0;
-            TC_Features.Size = new System.Drawing.Size(606, 381);
+            TC_Features.Size = new System.Drawing.Size(686, 381);
             TC_Features.TabIndex = 42;
             // 
             // SAV_FlagWork9a
             // 
             AllowDrop = true;
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(624, 441);
+            ClientSize = new System.Drawing.Size(704, 441);
             Controls.Add(TC_Features);
             Controls.Add(L_EventFlagWarn);
             Controls.Add(B_Save);
@@ -194,7 +194,6 @@ namespace PKHeX.WinForms
             Icon = Properties.Resources.Icon;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MaximizeBox = false;
-            MaximumSize = new System.Drawing.Size(779, 917);
             MinimizeBox = false;
             MinimumSize = new System.Drawing.Size(640, 480);
             Name = "SAV_FlagWork9a";

@@ -20,8 +20,8 @@ public partial class SAV_Roamer6 : Form
         roamer = SAV.Encount.Roamer;
 
         var species = GameInfo.Strings.specieslist;
-        CB_Species.Items.AddRange([species[(int)Species.Articuno], species[(int)Species.Zapdos], species[(int)Species.Moltres]]);
-        CB_RoamState.Items.AddRange(["Inactive", "Roaming", "Stationary", "Defeated", "Captured"]);
+        CB_Species.Items.AddRange(species[(int)Species.Articuno], species[(int)Species.Zapdos], species[(int)Species.Moltres]);
+        CB_RoamState.Items.AddRange("Inactive", "Roaming", "Stationary", "Defeated", "Captured");
 
         CB_Species.SelectedIndex = GetInitialIndex(sav);
         NUD_TimesEncountered.Value = roamer.TimesEncountered;

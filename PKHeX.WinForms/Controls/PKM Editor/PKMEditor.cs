@@ -536,20 +536,29 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (Entity is IAppliedMarkings<bool> b)
         {
             for (int i = 0; i < b.MarkingCount; i++)
-                pba[i].Image = GetMarkSprite(pba[i], b.GetMarking(i));
+                SetMarkingImage(pba[i], Draw.MarkDefault, b.GetMarking(i));
         }
         else if (Entity is IAppliedMarkings<MarkingColor> c)
         {
             for (int i = 0; i < pba.Length; i++)
             {
-                var pb = pba[i];
                 var state = c.GetMarking(i);
-                var opaque = Draw.GetMarkingColor(state, out var color);
-                var img = GetMarkSprite(pb, opaque);
-                if (opaque)
-                    img = ImageUtil.ChangeAllColorTo(img, color);
-                pb.Image = img;
+                _ = Draw.GetMarkingColor(state, out var color);
+                SetMarkingImage(pba[i], color, state != MarkingColor.None);
             }
+        }
+        return;
+
+        static void SetMarkingImage(PictureBox pb, Color color, bool active)
+        {
+            var img = pb.InitialImage;
+            if (img is not Bitmap bmp)
+                throw new Exception();
+            if (color.ToArgb() != Color.Black.ToArgb())
+                img = ImageUtil.ChangeAllColorTo(bmp, color);
+            if (!active)
+                img = ImageUtil.ChangeOpacity(img, 1/8f);
+            pb.Image = img;
         }
     }
 
@@ -1944,9 +1953,6 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (ModifierKeys.HasFlag(Keys.Shift))
         {
             m.SetPlusFlags(Entity, p, PlusRecordApplicatorOption.LegalCurrent);
-            if (Entity is PA9 { IsAlpha: true } pa9 && pa9.PersonalInfo is PersonalInfo9ZA pi)
-                PlusRecordApplicator.SetPlusFlagsSpecific(pa9, pi, pi.AlphaMove);
-
             UpdateLegality();
             return;
         }
@@ -2124,13 +2130,18 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)
     {
-        AllowDrop = true;
-        DragDrop += drop;
+        Enable(this);
+        Enable(TC_Editor);
+
         foreach (var tab in Hidden_TC.TabPages.OfType<TabPage>())
+            Enable(tab);
+        return;
+
+        void Enable(Control c)
         {
-            tab.AllowDrop = true;
-            tab.DragEnter += enter;
-            tab.DragDrop += drop;
+            c.AllowDrop = true;
+            c.DragEnter += enter;
+            c.DragDrop += drop;
         }
     }
 
@@ -2191,7 +2202,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         var met = Util.ToInt32(TB_MetLevel.Text);
-        var metLevel = (byte)Math.Clamp(0, 100, met);
+        var metLevel = (byte)Math.Clamp(met, 0, 100);
         var suggest = l.GetSuggestedObedienceLevel(Entity, metLevel);
 
         var current = Util.ToInt32(TB_ObedienceLevel.Text);

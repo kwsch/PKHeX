@@ -16,7 +16,7 @@ public static class TrashBytesGB
     }
 
     /// <summary>
-    /// Returns a 8-bit aligned index of the terminator.
+    /// Returns an 8-bit aligned index of the terminator.
     /// </summary>
     /// <param name="buffer">Backing buffer of the string.</param>
     /// <returns>Index of the terminator, or -1 if not found.</returns>

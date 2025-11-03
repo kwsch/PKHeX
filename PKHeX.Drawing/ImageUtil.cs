@@ -144,7 +144,7 @@ public static class ImageUtil
     public static void SetAllTransparencyTo(Span<byte> data, Color c, byte trans, int start, int end)
     {
         var arr = MemoryMarshal.Cast<byte, int>(data);
-        var value = Color.FromArgb(trans, c.R, c.G, c.B).ToArgb();
+        var value = Color.FromArgb(trans, c).ToArgb();
         for (int i = end; i >= start; i -= 4)
         {
             if (data[i + 3] == 0)
@@ -155,7 +155,7 @@ public static class ImageUtil
     public static void BlendAllTransparencyTo(Span<byte> data, Color c, byte trans, int start, int end)
     {
         var arr = MemoryMarshal.Cast<byte, int>(data);
-        var value = Color.FromArgb(trans, c.R, c.G, c.B).ToArgb();
+        var value = Color.FromArgb(trans, c).ToArgb();
         for (int i = end; i >= start; i -= 4)
         {
             var alpha = data[i + 3];

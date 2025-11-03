@@ -104,4 +104,43 @@ public sealed class PlayTime9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>(sa
     }
 
     public static float GetCurrentDaySeconds(float hours, float minutes, float seconds, float fraction) => (hours * 3600) + (minutes * 60) + seconds + fraction;
+
+    /// <summary>
+    /// Elapsed play time in seconds (floating point, double precision).
+    /// </summary>
+    public double OverworldSeconds
+    {
+        get => _sav.Blocks.GetBlockValue<double>(SaveBlockAccessor9ZA.KPlayTimeOverworld);
+        set => _sav.Blocks.SetBlockValue(SaveBlockAccessor9ZA.KPlayTimeOverworld, value);
+    }
+
+    public int PlayedOverworldHours
+    {
+        get => (int)(OverworldSeconds / 3600);
+        set => OverworldSeconds = GetPlayedOverworldSeconds(value, PlayedOverworldMinutes, PlayedOverworldSeconds, PlayedOverworldFractionalSeconds);
+    }
+
+    public int PlayedOverworldMinutes
+    {
+        get => (int)((OverworldSeconds % 3600) / 60);
+        set => OverworldSeconds = GetPlayedOverworldSeconds(PlayedOverworldHours, value, PlayedOverworldSeconds, PlayedOverworldFractionalSeconds);
+    }
+
+    public int PlayedOverworldSeconds
+    {
+        get => (int)(OverworldSeconds % 60);
+        set => OverworldSeconds = GetPlayedOverworldSeconds(PlayedOverworldHours, PlayedOverworldMinutes, value, PlayedOverworldFractionalSeconds);
+    }
+
+    public double PlayedOverworldFractionalSeconds
+    {
+        get => OverworldSeconds - Math.Floor(OverworldSeconds);
+        set
+        {
+            var whole = Math.Floor(OverworldSeconds);
+            OverworldSeconds = whole + value;
+        }
+    }
+
+    public static double GetPlayedOverworldSeconds(double hours, double minutes, double seconds, double fraction) => (hours * 3600) + (minutes * 60) + seconds + fraction;
 }
