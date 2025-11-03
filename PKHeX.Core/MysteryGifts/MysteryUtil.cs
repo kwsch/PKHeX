@@ -53,7 +53,7 @@ public static class MysteryUtil
             9 => GameInfo.Strings.wondercard9,
             _ => throw new ArgumentOutOfRangeException(nameof(gift), gift, null),
         };
-        if (gift.CardTitleIndex is 0 || gift.CardTitleIndex >= titles.Length || titles[gift.CardTitleIndex].Length == 0)
+        if (gift.CardTitleIndex < 0 || gift.CardTitleIndex >= titles.Length || titles[gift.CardTitleIndex].Length == 0)
             return "Mystery Gift";
 
         var args = new string[15];
