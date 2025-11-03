@@ -1136,4 +1136,6 @@ Eccezionale
 Teracristal
 Astrale
 Media
+Piccola
+Grande
 Gigante
