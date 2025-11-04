@@ -74,8 +74,9 @@ public static class ShowdownParsing
         if (form == 0)
             return string.Empty;
 
-        var forms = FormConverter.GetFormList(species, strings.Types, strings.forms, genderForms, context);
-        var result = form >= forms.Length ? string.Empty : forms[form];
+        var result = FormConverter.GetStringFromForm(form, strings, species, genderForms, context);
+        if (result.Length == 0)
+            return string.Empty;
 
         // Showdown uses a non-standard representation for some forms, and uses interstitial dashes instead of spaces.
         if (strings.Language != LanguageID.English)

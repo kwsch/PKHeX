@@ -120,6 +120,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
     public abstract ushort Species { get; set; }
     public abstract AbilityPermission Ability { get; }
     public abstract bool GiftUsed { get; set; }
+    public virtual int CardTitleIndex { get => -1; set { } }
     public abstract string CardTitle { get; set; }
     public abstract int CardID { get; set; }
 

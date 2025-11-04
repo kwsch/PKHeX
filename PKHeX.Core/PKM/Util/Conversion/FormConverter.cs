@@ -1045,4 +1045,19 @@ public static class FormConverter
         }
         return false;
     }
+
+    /// <summary>
+    /// Converts a Form ID to string.
+    /// </summary>
+    /// <param name="form">Form to get the form name of</param>
+    /// <param name="strings">Localized string source to fetch with</param>
+    /// <param name="species">Species ID the form belongs to</param>
+    /// <param name="genders">List of genders names</param>
+    /// <param name="context">Format the form name should appear in</param>
+    public static string GetStringFromForm(byte form, GameStrings strings, ushort species, IReadOnlyList<string> genders, EntityContext context)
+    {
+        var forms = GetFormList(species, strings.Types, strings.forms, genders, context);
+        var result = form >= forms.Length ? string.Empty : forms[form];
+        return result;
+    }
 }

@@ -1,0 +1,25 @@
+Dono: {0}
+Dono: {8}
+Dono: Set di strumenti
+{0} ({1})
+{0} (Pokémon misterioso)
+{0} di {3}
+{0} cromatico
+{0} ({2})
+Dono: {2}
+{0} con un’abilità speciale
+{0} con {4}
+{0} con {5}
+{0} con {6}
+{0} con {7}
+{0} con {9}
+Dono per la versione scaricabile
+Dono per l’acquisto della confezione speciale
+Dono per l’acquisto in negozio
+Dono per l’acquisto della guida strategica
+Dono per l’acquisto
+Buon compleanno!
+Dono speciale Virtual Console
+Club Allenatori di Pokémon
+Pokémon Global Link
+Banca Pokémon

@@ -1,0 +1,58 @@
+Geschenk: {0}
+Geschenk: Pokémon-Ei
+Geschenk: Pokémon
+Geschenk: {8}
+Geschenk: Item-Set
+Geschenk: Item
+Geschenk: Dynakristall
+Geschenk: Curry-Zutaten
+{0} ({1})
+Das Legendäre Pokémon {0}
+Das Mysteriöse Pokémon {0}
+Ein {0} von {3}
+Ein Schillerndes {0}
+{0} ({2})
+Geschenk: {2}
+Ein {0} mit versteckter Fähigkeit
+{0} mit {4}
+{0} mit {5}
+{0} mit {6}
+{0} mit {7}
+{0} mit {9}
+Gigadynamax-{0}
+{11}
+Geschenk für Käufer der Downloadversion
+Geschenk für Käufer des Special Packs
+Geschenk für Käufer der Handelsversion
+Geschenk für Käufer des Lösungsbuchs
+Geschenk für Käufer des Spiels
+Herzlichen Glückwunsch zum Geburtstag!
+Geschenk für Käufer eines Virtual Console-Titels
+Pokémon-Trainer-Club
+Pokémon Global Link
+Pokémon Bank
+Pokémon HOME
+Taschengeld
+{12} $
+Modeartikel-Geschenk
+Belohnung für Rangkämpfe
+Teilnahmegeschenk für Online-Turniere
+GP-Geschenk
+Item-Geschenk von offiziellen Turnieren
+GP-Geschenk von offiziellen Turnieren
+Pokémon-Geschenk von offiziellen Turnieren
+Ei-Geschenk von offiziellen Turnieren
+Modeartikel-Geschenk von offiziellen Turnieren
+Item-Geschenk, Saison {10} (Einzelkampf)
+GP-Geschenk, Saison {10} (Einzelkampf)
+Pokémon-Geschenk, Saison {10} (Einzelkampf)
+Ei-Geschenk, Saison {10} (Einzelkampf)
+Modeartikel-Geschenk, Saison {10} (Einzelkampf)
+Item-Geschenk, Saison {10} (Doppelkampf)
+GP-Geschenk, Saison {10} (Doppelkampf)
+Pokémon-Geschenk, Saison {10} (Doppelkampf)
+Ei-Geschenk, Saison {10} (Doppelkampf)
+Modeartikel-Geschenk, Saison {10} (Doppelkampf)
+Geschenk: Pokémon-Statue
+Geschenk: {13}
+Geschenk: Manaphy-Ei

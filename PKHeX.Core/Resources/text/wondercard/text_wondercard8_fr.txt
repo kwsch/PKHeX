@@ -1,0 +1,58 @@
+{0}
+Œuf de Pokémon
+Pokémon
+{8}
+Lot d’objets
+Objet
+Cristal Géant
+Ingrédients pour currys
+{0} ({1})
+{0} (Pokémon légendaire)
+{0} (Pokémon fabuleux)
+{0} de/d’ {3}
+{0} chromatique
+{0} ({2})
+{2}
+{0} doté d’un talent caché
+{0} avec {4}
+{0} avec {5}
+{0} avec {6}
+{0} avec {7}
+{0} avec un/une {9}
+{0} (Pokémon Gigamax)
+{11}
+Cadeau bonus — version téléchargeable
+Cadeau bonus — achat du Pack Spécial
+Cadeau bonus — achat en magasin
+Cadeau bonus — achat du guide de stratégie
+Cadeau bonus — achat du jeu
+Cadeau d’anniversaire
+Cadeau d’achat sur console virtuelle
+Cadeau du Club des Dresseurs Pokémon
+Cadeau du Pokémon Global Link
+Cadeau de Banque Pokémon
+Cadeau de Pokémon HOME
+Argent de poche
+{12} $
+Vêtement
+Récompense des combats classés
+Compétition Internet : prix de participation
+Points Combat en cadeau
+Prix compétition officielle : objet
+Prix compétition officielle : PCo
+Prix compétition officielle : Pokémon
+Prix compétition officielle : Œuf
+Prix compétition officielle : vêtement
+Combat Solo, saison {10} : objet
+Combat Solo, saison {10} : PCo
+Combat Solo, saison {10} : Pokémon
+Combat Solo, saison {10} : Œuf
+Combat Solo, saison {10} : vêtement
+Combat Duo, saison {10} : objet
+Combat Duo, saison {10} : PCo
+Combat Duo, saison {10} : Pokémon
+Combat Duo, saison {10} : Œuf
+Combat Duo, saison {10} : vêtement
+Statue de Pokémon
+{13}
+Œuf de Manaphy
