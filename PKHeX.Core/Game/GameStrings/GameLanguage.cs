@@ -66,8 +66,6 @@ public static class GameLanguage
     public static string[] GetStrings(string ident, string lang, [ConstantExpected] string type = "text")
     {
         string[] data = Util.GetStringList(ident, lang, type);
-        if (lang == "es-419" && data.Length == 0)
-            data = Util.GetStringList(ident, "es", type); // fallback to "es"
         if (data.Length == 0)
             data = Util.GetStringList(ident, DefaultLanguage, type);
 
