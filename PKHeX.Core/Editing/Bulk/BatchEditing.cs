@@ -30,7 +30,7 @@ public static class BatchEditing
     /// </summary>
     private static readonly string[] CustomProperties =
     [
-        PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS, PROP_CONTESTSTATS, PROP_MOVEMASTERY, PROP_MOVEPLUS,
+        PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS, PROP_EVS, PROP_CONTESTSTATS, PROP_MOVEMASTERY, PROP_MOVEPLUS,
         PROP_TYPE1, PROP_TYPE2, PROP_TYPEEITHER,
         IdentifierContains, nameof(ISlotInfo.Slot), nameof(SlotInfoBox.Box),
     ];
