@@ -1,0 +1,54 @@
+3100	*	Es Campeón de Alola + Evento de Magearna Activo
+3487	g	Magearna de Regalo recibido
+0443	g	Huevo de Eeeve de Regalo recibido
+0493	g	Porygon de Regalo recibido
+0504	g	Aerodactyl de Regalo recibido
+1216	g	Cosmog de Regalo recibido
+0499	g	Código Cero de Regalo recibido
+0160	*	Portal Luna [0] / Sol [1]
+3155	*	Juez de IV desbloqueado
+3113	s	Buscamontura recibida
+3114	s	Carga Tauros desbloqueada
+3115	s	Olfateo Stoutland desbloqueado
+3116	s	Empuje Machamp desbloqueado
+3117	s	Todoterreno Mudsdale desbloqueado
+3118	s	Nado Lapras desbloqueado
+3119	s	Propulsión Sharpedo desbloqueada
+3120	s	Vuelo Charizard desbloqueado
+0168	g	Intercambio por Machop en la Ruta 2
+0169	g	Intercambio por Bounsweet en la Ruta 5
+0170	g	Intercambio por Poliwhirl en Ciudad Konikoni
+0171	g	Intercambio por Happiny en Ciudad Malíe
+0172	g	Intercambio por Graveler en Aldea Tapu
+0173	g	Intercambio por Steene en Aldea Marina
+0174	g	Intercambio por Talonflame en Pendiente de Poni
+0789	s	Lylia desaparecida del Altar
+0790	s	Solgaleo desaparecido del Altar
+0791	s	Lunala desaparecido del Altar
+0185	s	Primera batalla por la Defensa del Título realizada
+0186	t	Hela encontrada (Defensa del Título)
+2435	t	Hela derrotada (Defensa del Título)
+0187	t	Gladio encontrado (Defensa del Título)
+2493	t	Gladio derrotado (Defensa del Título; Rowlet como Pokémon inicial)
+2494	t	Gladio derrotado (Defensa del Título; Litten como Pokémon inicial)
+2495	t	Gladio derrotado (Defensa del Título; Popplio como Pokémon inicial)
+0188	t	Olano encontrado (Defensa del Título)
+2485	t	Olano derrotado (Defensa del Título)
+0189	t	Fabio encontrado (Defensa del Título)
+2436	t	Fabio derrotado (Defensa del Título)
+0190	t	Tilo encontrado (Defensa del Título)
+2432	t	Tilo derrotado (Defensa del Título; Rowlet como Pokémon inicial)
+2433	t	Tilo derrotado (Defensa del Título; Litten como Pokémon inicial)
+2434	t	Tilo derrotado (Defensa del Título; Popplio como Pokémon inicial)
+0191	t	Chris encontrado (Defensa del Título)
+2481	t	Chris derrotado (Defensa del Título)
+0192	t	Lario encontrado (Defensa del Título)
+2557	t	Lario derrotado (Defensa del Título)
+0193	t	Kukui encontrado (Defensa del Título)
+2553	t	Kukui derrotado (Defensa del Título; Rowlet como Pokémon inicial)
+2554	t	Kukui derrotado (Defensa del Título; Litten como Pokémon inicial)
+2555	t	Kukui derrotado (Defensa del Título; Popplio como Pokémon inicial)
+0194	t	Francine encontrada (Defensa del Título)
+2477	t	Francine derrotada (Defensa del Título)
+0195	t	Joven José encontrado (Defensa del Título)
+2556	t	Joven José derrotado (Defensa del Título)

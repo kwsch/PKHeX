@@ -1,0 +1,15 @@
+0000	*	Inicial	0:Chespin,1:Fennekin,2:Froakie
+0059	g	Inicial de Kanto	0:Sin elegir,3:Bulbasaur,4:Charmander,5:Squirtle
+0117	s	Evento de la Ruta 2	0:Pelea contra Pidgey estático,1:Peleado contra Pidgey estático,2:Tutorial completado
+0138	s	Tienda de bicis	0:Bici pendiente,1:Bici recibida
+0204	g	Criapokémon Ruta 12	0:Prohibido el paso,1:Tiene el Lapras de regalo,2:Ha dado el Lapras
+0227	s	Chico malo Hotel Desolación	0:Prohibido el paso (No se han aprendido todos los trucos),1:Paso permitido (Se ha aprendido todos los trucos)
+0174	g	Montañero (Hoteles de Kalos)	0:Sin conocer,1:Primer encuentro,2:Segundo encuentro,3:Pide intercambio,4:Intercambio pendiente,5:Intercambio por Magikarp
+0175	s	Camarero (Hoteles de Kalos)	0:Sin conocer,1:Primer encuentro,2:Segundo encuentro,3:Da Caramelo furia,4:Caramelo furia pendiente,5:Ha dado Caramelo furia
+0176	s	Madame (Hoteles de Kalos)	0:Sin conocer,1:Primer encuentro,2:Segundo encuentro,3:Da Galleta lava,4:Galleta lava pendiente,5:Ha dado Galleta lava
+0177	g	Criada (Hoteles de Kalos)	0:Sin conocer,1:Primer encuentro,2:Segundo encuentro,3:Pide intercambio,4:Intercambio pendiente,5:Intercambio por Eevee
+0178	s	Turista (Hoteles de Kalos)	0:Sin conocer,1:Primer encuentro,2:Segundo encuentro,3:Tercer encuentro,4:Cuarto encuentro
+0179	s	Mochilero (Hoteles de Kalos)	0:Sin conocer,1:Primer encuentro,2:Segundo encuentro,3:Da Estatuilla rara,4:Estatuilla rara pendiente,5:Ha dado Estatuilla rara
+0220	s	Evento Estación de Luminalia	0:Pre-campeón,1:Da la Dex Nacional,2:Dex Nacional recibida,3:Abono del TMV recibido
+0228	s	Fantasma de la bruja (Ciudad Luminalia)	0:Sin ver,1:Visto
+0330	+	Tareas perfectas del Gran Hotel Ricachilton

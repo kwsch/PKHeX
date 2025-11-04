@@ -1,0 +1,151 @@
+0026	s	Inicial Elegido
+0027	*	Cyndaquil es un inicial
+0028	*	Totodile es un inicial
+0029	*	Chikorita es un inicial
+1600	s	La bola de Cyndaquil de Elm ha desaparecido 
+1601	s	La bola de Totodile de Elm ha desaparecido 
+1602	s	La bola de Chikorita de Elm ha desaparecido 
+1784	r	Sudowoodo Desaparecido
+1760	r	Electrode (esquinas superiores) desaparecido (Escondite Team Rocket B2F)
+1761	r	Electrode (esquinas centrales) desaparecido (Escondite Team Rocket B2F)
+1762	r	Electrode (esquinas inferiores) desaparecido (Escondite Team Rocket B2F)
+0079	g	Eevee Recibido
+1867	*	Las bestias legendarias desaparecieron de la torre incendiada
+0672	*	Rompecabezas de Ho-Oh resuelto en Ruinas Alfa
+0673	*	Rompecabezas de Kabuto resuelto en Ruinas Alfa
+0674	*	Rompecabezas de Omanyte resuelto en Ruinas Alfa
+0675	*	Rompecabezas de Aerodactyl resuelto en Ruinas Alfa
+0676	*	Edredón de Plumas
+0677	*	Edredón Rosa
+0678	*	Edredón Lunares
+0679	*	Edredón Pikachu (Ilegal)
+0680	*	Alfombra Roja
+0681	*	Alfombra Azul
+0682	*	Alfombra Amarilla
+0683	*	Alfombra Verde
+0684	*	Megaplanta
+0685	*	Planta Tropical
+0686	*	Planta Colosal
+0687	*	Mapa Pueblo
+0688	*	Póster Pikachu
+0689	*	Póster Clefairy
+0690	*	Póster Jigglypuff
+0691	*	NES
+0692	*	Super NES
+0693	*	Nintendo 64
+0694	*	Virtual Boy
+0695	*	Muñeco Pikachu
+0696	*	Muñeco Pikachu Surf
+0697	*	Muñeco Clefairy
+0698	*	Muñeco Jigglypuff
+0699	*	Muñeco Bulbasaur
+0700	*	Muñeco Charmander
+0701	*	Muñeco Squirtle
+0702	*	Muñeco Poliwag
+0703	*	Muñeco Diglett
+0704	*	Muñeco Staryu
+0705	*	Muñeco Magikarp
+0706	*	Muñeco Oddish
+0707	*	Muñeco Gengar
+0708	*	Muñeco Shellder
+0709	*	Muñeco Grimer
+0710	*	Muñeco Voltorb
+0711	*	Muñeco Weedle
+0712	*	Muñeco Unown (Ilegal)
+0713	*	Muñeco Geodude
+0714	*	Muñeco Machop
+0715	*	Muñeco Tentacool (Ilegal)
+0717	*	Trofeo Oro
+0718	*	Trofeo Plata
+0719	*	Snorlax Grande
+0720	*	Onix Grande
+0721	*	Lapras Grande
+0791	r	Ho-oh Desaparecido
+0792	r	Lugia Desaparecido
+1904	r	Snorlax Desaparecido
+1873	r	Gyarados Rojo Desaparecido
+0068	s	Derrotado el Alto Mando/Elm puede dar el Ticket Barco
+1890	*	Red desapareció en Monte Plateado
+0069	g	Recibido Shuckle de Klaus
+0070	g	Shuckle Regresado/Permitido quedárselo
+0080	g	Recibido Spearow de Randy
+0081	s	El correo puede sern entregado en la Ruta 31
+0082	s	Recibido PS Mas de Randy
+0083	s	Entregado correo de Randy/Recibida MT50
+0084	s	Togepi Eclosionado
+0085	s	Mostrado Togepi a Elm
+0086	s	Recibida Piedra Eterna de Elm
+1193	t	Karateka Kiyo derrotado (Puede recibir a Tyrogue)
+0097	g	Recibido Tyrogue
+0046	s	Unown aparecido en Ruinas Alfa
+0098	s	Conocida Vicky
+0099	s	Recibida Flecha Venenosa de Vicky
+0100	s	Conocida Marta
+0101	s	Recibido Lazo Rosa de Marta
+0102	s	Conocido Josué
+0103	s	Recbida Piedra Dura de Josué
+0104	s	Conocido Domingo
+0105	s	Recibido Imán de Domingo
+0106	s	Conocido Miguel
+0107	s	Recibido Cinturón Negro de Miguel
+0108	s	Conocido Sabino
+0109	s	Recibido Hechizo de Sabino
+0110	s	Conocida Luna
+0111	s	Recibido Pico Afilado de Luna
+0205	s	Restaurada energía a Kanto/Tren Imán usable
+0607	t	Preguntado Escolar Aitor por su Número
+0608	t	Se puede tener revancha con Escolar Aitor
+0609	t	Preguntado Pokéfan Julia por su Número
+0610	t	Se puede tener revancha con Pokéfan Julia
+0611	t	Preguntado Marinero Ken por su Número
+0612	t	Se puede tener revancha con Marinero Ken
+0619	t	Preguntado Entrenador guay Galo por su Número
+0620	t	Se puede tener revancha con Entrenador guay Galo
+0621	t	Preguntado Entrenadora guay Tina por su Número
+0622	t	Se puede tener revancha con Entrenadora guay Tina
+0623	t	Preguntado Ornitólogo José por su Número
+0624	t	Se puede tener revancha con Ornitólogo José
+0625	t	Preguntado Entrenadora guay Tara por su Número
+0626	t	Se puede tener revancha con Entrenadora guay Tara
+0627	t	Preguntado Joven Chano por su Número
+0628	t	Se puede tener revancha con Joven Chano
+0629	t	Preguntado Cazabichos Tomy por su Número
+0630	t	Se puede tener revancha con Cazabichos Tomy
+0631	t	Preguntado Pescador Joserra por su Número
+0632	t	Se puede tener revancha con Pescador Joserra
+0633	t	Preguntado Dominguera Lisi por su Número
+0634	t	Se puede tener revancha con Dominguera Lisi
+0635	t	Preguntado Montañero Luis por su Númer
+0636	t	Se puede tener revancha con Montañero Luis
+0637	t	Preguntado Campista Gorka por su Número
+0638	t	Se puede tener revancha con Campista Gorka
+0639	t	Preguntado Dominguera Gina por su Número
+0640	t	Se puede tener revancha con Dominguera Gina
+0641	t	Preguntado Malabarista Rafi por su Número
+0642	t	Se puede tener revancha con Malabarista Rafi
+0643	t	Preguntado Cazabichos Ángel por su Número
+0644	t	Se puede tener revancha con Cazabichos Ángel
+0645	t	Preguntado Escolar Arturo por su Número
+0646	t	Se puede tener revancha con Escolar Arturo
+0649	t	Preguntado Chica Sara por su Número
+0650	t	Se puede tener revancha con Chica Sara
+0651	t	Preguntado Escolar Javier por su Número
+0652	t	Se puede tener revancha con Escolar Javier
+0653	t	Preguntado Pokéfan Jonay por su Número
+0654	t	Se puede tener revancha con Pokéfan Jonay
+0655	t	Preguntado Pescador Óscar por su Número
+0656	t	Se puede tener revancha con Pescador Óscar
+0657	t	Preguntado Pokémaníaco Toni por su Número
+0658	t	Se puede tener revancha con Pokémaníaco Toni
+0659	t	Preguntado Dominguera Vera por su Número
+0660	t	Se puede tener revancha con Dominguera Vera
+0661	t	Preguntado Ornitólogo Vidal por su Número
+0662	t	Se puede tener revancha con Ornitólogo Vidal
+0663	t	Preguntado Pescador David for por su Número
+0664	t	Se puede tener revancha con Pescador David
+0665	t	Preguntado Karateka Leuco por su Número
+0666	t	Se puede tener revancha con Karateka Leuco
+0667	t	Preguntado Montañero Ángelo por su Número
+0668	t	Se puede tener revancha con Montañero Ángelo
+0669	t	Preguntado Dominguera Elisa por su Número
+0670	t	Se puede tener revancha con Dominguera Elisa

@@ -1,0 +1,128 @@
+(Ninguno)
+Pueblo Primavera
+Ruta 29
+Ciudad Cerezo
+Ruta 30
+Ruta 31
+Ciudad Malva
+Torre Bellsprout
+Ruta 32
+Ruinas Alfa
+Cueva Unión
+Ruta 33
+Pueblo Azalea
+Pozo Slowpoke
+Encinar
+Ruta 34
+Ciudad Trigal
+Torre Radio
+Ruta 35
+Parque Nacional
+Ruta 36
+Ruta 37
+Ciudad Iris
+Torre Hojalata
+Torre Quemada
+Ruta 38
+Ruta 39
+Ciudad Olivo
+Faro
+Torre Batalla
+Ruta 40
+Islas Remolino
+Ruta 41
+Ciudad Orquídea
+Ruta 42
+Mt. Mortero
+Pueblo Caoba
+Ruta 43
+Lago de la Furia
+Ruta 44
+Ruta Helada
+Ciudad Endrino
+Guarida Dragón
+Ruta 45
+Cueva Oscura
+Ruta 46
+Cueva Plateada
+Pueblo Paleta
+Ruta 1
+Ciudad Verde
+Ruta 2
+Ciudad Plateada
+Ruta 3
+Mt. Moon
+Ruta 4
+Ciudad Celeste
+Ruta 24
+Ruta 25
+Ruta 5
+Subterráneo
+Ruta 6
+Ciudad Carmín
+Cueva Diglett
+Ruta 7
+Ruta 8
+Ruta 9
+Túnel Roca
+Ruta 10
+Central Energía
+Pueblo Lavanda
+Torre Lavanda
+Ciudad Azulona
+Ciudad Azafrán
+Ruta 11
+Ruta 12
+Ruta 13
+Ruta 14
+Ruta 15
+Ruta 16
+Ruta 17
+Ruta 18
+Ciudad Fucsia
+Ruta 19
+Ruta 20
+Islas Espuma
+Isla Canela
+Ruta 21
+Ruta 22
+Calle Victoria
+Ruta 23
+Meseta Añil
+Ruta 26
+Ruta 27
+Cataratas Tohjo
+Ruta 28
+Ferry
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(No puedo decir)
+(Evento)

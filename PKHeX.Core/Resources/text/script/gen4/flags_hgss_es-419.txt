@@ -1,0 +1,235 @@
+0107	s	Pokédex obtenida
+0607	*	Rojo desaparecido (Monte Plateado)
+0774	r	Articuno desaparecido
+0364	r	Articuno capturado
+0663	r	Zapdos desaparecido
+0330	r	Zapdos capturado
+0775	r	Moltres desaparecido
+0365	r	Moltres capturado
+0773	r	Mewtwo desaparecido
+0363	r	Mewtwo capturado
+0457	r	Raikou errante
+0458	r	Entei errante
+0459	s	Suicune escapó (Torre Quemada)
+0673	s	Suicune desaparecido (Ruta 25)
+0782	r	Suicune desaparecido (Vuelta a Torre Quemada)
+0373	r	Suicune capturado
+0579	r	Lugia desaparecido
+0279	r	Lugia capturado
+0578	r	Ho-Oh desaparecido
+0278	r	Ho-Oh capturado
+0781	r	Lati@s desaparecid@ (Ciudad Plateada)
+0721	r	Kyogre desaparecido
+0378	r	Kyogre capturado (HG)
+0720	r	Groudon desaparecido
+0377	r	Groudon capturado (SS)
+0722	r	Rayquaza desaparecido
+0379	r	Rayquaza capturado
+2404	a	Entrado al Salón de la Fama (Mejora de Tarjeta Entrenador)
+0388	a	Obtenida 1 Corona de hojas doradas (Mejora de Tarjeta Entrenador)
+0241	a	Superados Récords de Pokéathlon (Mejora de Tarjeta Entrenador)
+0766	s	Poké Ball de Bulbasaur inicial desaparecida
+0767	s	Poké Ball de Squirtle inicial desaparecida
+0768	s	Poké Ball de Charmander inicial desaparecida
+0789	*	Funcionalidad de intercambio deshabilitada (Centro Pokémon)
+0501	r	Electrode (1) en Cuartel del Team Rocket desaparecido
+0502	r	Electrode (2) en Cuartel del Team Rocket desaparecido
+0503	r	Electrode (3) en Cuartel del Team Rocket desaparecido
+0609	r	Snorlax durmiendo desaparecido
+0371	r	Snorlax capturado
+0149	g	Eevee de regalo recibido 
+0450	r	Sudowoodo de la Ruta 36 desaparecido
+0361	r	Sudowoodo capturado
+0483	r	Gyarados variocolor desaparecido
+0362	r	Gyarados variocolor capturado
+0191	g	Shuckle de regalo recibido
+0193	g	Shuckle devuelto o permitido quedártelo
+2744	r	Lapras de los viernes desaparecido
+0219	g	Respuestas incorrectas (Dratini de regalo no tendrá Velocidad extrema)
+0220	g	Dratini de regalo recibido
+0268	g	Tyrogue de regalo recibido
+0269	s	Maestro Dojo en Monte Mortero derrotado
+0113	g	Intercambio en Ciudad Malva
+0141	g	Intercambio en la planta 5 del Centro Comercial de Trigal
+0190	g	Intercambio en Cuidad Olivp
+0208	g	Intercambio en Ciudad Endrino
+0289	g	Intercambio en la Central de Energía
+0307	g	Intercambio en Ciudad Plateada
+0354	g	Intercambio con Lt. Surge
+0357	g	Intercambio con Brock
+0358	g	Intercambio con Jasmine
+0359	g	Intercambio con Máximo
+0375	g	Inicial de Hoenn recibido por parte de Máximo
+0762	s	Máximo desaparecido de Silph S.A.
+0791	s	Máximo desaparecido de Museo de Plateada
+0643	e	Horno microondas desaparecido
+0644	e	Lavadora desaparecida
+0645	e	Frigorífico desaparecido
+0646	e	Ventilador desaparecido
+0647	e	Cortacésped desaparecido
+0215	s	Luna conocida/Pico afilado conseguido
+0216	s	Marta conocida/Cuchara torcida conseguido
+0213	s	Miguel conocido/Cinturón negro conseguido
+0177	s	Josué conocido/Piedra dura conseguido
+0217	s	Vicki conocido/Flecha venenosa conseguido
+0212	s	Sabino conocida/Arena fina conseguido
+0165	s	Domingo conocido/Imán conseguido
+0119	s	La nieta de Kurt está preocupada por Kurt
+0414	s	Kurt en el Pozo Slowpoke
+0415	s	Rocket Grunt Guarding Slowpoke Well Gone
+0539	*	Puzzle de Cuerda huida en la pared de las Ruinas Alfa resuelto
+0541	*	Puzzle de Destello en la pared de las Ruinas Alfa resuelto
+0543	*	Puzzle de Piedra agua en la pared de las Ruinas Alfa resuelto
+0545	*	Puzzle de Ho-Oh en la pared de las Ruinas Alfa resuelto
+0376	s	Perdido ante Giovanni una vez (Evento Celebi)
+1366	t	Policía Alejo derrotado (Noche)
+1440	t	Policía Donato derrotado (Noche)
+0693	t	Revancha contra Blanca
+0694	t	Revancha contra Sachiko
+0695	t	Revancha contra Débora
+0696	t	Revancha contra Erika
+0697	t	Revancha contra Misty
+0698	t	Revancha contra Blaine
+0699	t	Revancha contra Azul
+0700	t	Revancha contra Aníbal
+0701	t	Revancha contra Brock
+0702	t	Revancha contra Antón
+0703	t	Revancha contra Sabrina
+0704	t	Revancha contra Pegaso
+0705	t	Revancha contra Lt. Surge
+0706	t	Revancha contra Morti
+0707	t	Revancha contra Yasmina
+0708	t	Revancha contra Fredo
+1639	t	1ra revancha contra Youngster Joey
+1640	t	2da revancha contra Youngster Joey
+1870	t	3ra revancha contra Youngster Joey
+1820	t	1ra revancha contra Bug Catcher Wade
+1821	t	2da revancha contra Bug Catcher Wade
+1872	t	3ra revancha contra Bug Catcher Wade
+1636	t	1ra revancha contra Picnicker Liz
+1637	t	2da revancha contra Picnicker Liz
+1878	t	3ra revancha contra Picnicker Liz
+1822	t	1ra revancha contra Fisherman Ralph
+1823	t	2da revancha contra Fisherman Ralph
+1875	t	3ra revancha contra Fisherman Ralph
+1460	t	1ra revancha contra Hiker Anthony
+1515	t	2da revancha contra Hiker Anthony
+1883	t	3ra revancha contra Hiker Anthony
+1502	t	1ra revancha contra Picnicker Gina
+1694	t	2da revancha contra Picnicker Gina
+1880	t	3ra revancha contra Picnicker Gina
+1634	t	1ra revancha contra Campista Todd
+1635	t	2da revancha contra Campista Todd
+1885	t	3ra revancha contra Campista Todd
+1976	t	1ra revancha contra Youngster Ian
+1977	t	2da revancha contra Youngster Ian
+1978	t	3ra revancha contra Youngster Ian
+1720	t	1ra revancha contra Bug Catcher Arnie
+1809	t	2da revancha contra Bug Catcher Arnie
+1873	t	3ra revancha contra Bug Catcher Arnie
+1979	t	1ra revancha contra Firebreather Walt
+1980	t	2da revancha contra Firebreather Walt
+1981	t	3ra revancha contra Firebreather Walt
+1973	t	1ra revancha contra Lass Krise
+1974	t	2da revancha contra Lass Krise
+1975	t	3ra revancha contra Lass Krise
+1790	t	1ra revancha contra School Kid Jack
+1791	t	2da revancha contra School Kid Jack
+1863	t	3ra revancha contra School Kid Jack
+1792	t	1ra revancha contra School Kid Alan
+1793	t	2da revancha contra School Kid Alan
+1865	t	3ra revancha contra School Kid Alan
+1824	t	1ra revancha contra Lass Dana
+1825	t	2da revancha contra Lass Dana
+1888	t	3ra revancha contra Lass Dana
+1794	t	1ra revancha contra School Kid Chad
+1795	t	2da revancha contra School Kid Chad
+1867	t	3ra revancha contra School Kid Chad
+2032	t	1ra revancha contra Gentleman Alfred
+2033	t	2da revancha contra Gentleman Alfred
+2034	t	3ra revancha contra Gentleman Alfred
+1800	t	1ra revancha contra Sailor Huey
+1801	t	2da revancha contra Sailor Huey
+1869	t	3ra revancha contra Sailor Huey
+1683	t	1ra revancha contra Fisherman Tully
+1684	t	2da revancha contra Fisherman Tully
+1877	t	3ra revancha contra Fisherman Tully
+1826	t	1ra revancha contra Picnicker Tiffany
+1827	t	2da revancha contra Picnicker Tiffany
+1882	t	3ra revancha contra Picnicker Tiffany
+1532	t	1ra revancha contra PokéManiac Brent
+1533	t	2da revancha contra PokéManiac Brent
+1890	t	3ra revancha contra PokéManiac Brent
+1807	t	1ra revancha contra Ornitólogo Vance
+1808	t	2da revancha contra Ornitólogo Vance
+1972	t	3ra revancha contra Ornitólogo Vance
+1685	t	1ra revancha contra Fisherman Wilton
+1810	t	2da revancha contra Fisherman Wilton
+1968	t	3ra revancha contra Fisherman Wilton
+1610	t	1ra revancha contra Blackbelt Kenji
+1638	t	2da revancha contra Blackbelt Kenji
+1965	t	3ra revancha contra Blackbelt Kenji
+1811	t	1ra revancha contra Hiker Parry
+1812	t	2da revancha contra Hiker Parry
+1966	t	3ra revancha contra Hiker Parry
+1695	t	1ra revancha contra Picnicker Erin
+1813	t	2da revancha contra Picnicker Erin
+1963	t	3ra revancha contra Picnicker Erin
+1982	t	1ra revancha contra Bug Catcher Doug
+1983	t	2da revancha contra Bug Catcher Doug
+1984	t	3ra revancha contra Bug Catcher Doug
+1985	t	1ra revancha contra Bug Catcher Rob
+1986	t	2da revancha contra Bug Catcher Rob
+1987	t	3ra revancha contra Bug Catcher Rob
+2021	t	1ra revancha contra Fisherman Kyle
+2022	t	2da revancha contra Fisherman Kyle
+2023	t	3ra revancha contra Fisherman Kyle
+2024	t	1ra revancha contra Fisherman Kyler
+2025	t	2da revancha contra Fisherman Kyler
+2026	t	3ra revancha contra Fisherman Kyler
+2015	t	1ra revancha contra Hiker Kenny
+2016	t	2da revancha contra Hiker Kenny
+2017	t	3ra revancha contra Hiker Kenny
+2018	t	1ra revancha contra Campista Tanner
+2019	t	2da revancha contra Campista Tanner
+2020	t	3ra revancha contra Campista Tanner
+2012	t	1ra revancha contra Young Couple Tim and Sue
+2013	t	2da revancha contra Young Couple Tim and Sue
+2014	t	3ra revancha contra Young Couple Tim and Sue
+2006	t	1ra revancha contra Ornitólogo Josh
+2007	t	2da revancha contra Ornitólogo Josh
+2008	t	3ra revancha contra Ornitólogo Josh
+2009	t	1ra revancha contra Campista Torin
+2010	t	2da revancha contra Campista Torin
+2011	t	3ra revancha contra Campista Torin
+2000	t	1ra revancha contra School Kid Billy
+2001	t	2da revancha contra School Kid Billy
+2002	t	3ra revancha contra School Kid Billy
+1997	t	1ra revancha contra Teacher Hillary
+1998	t	2da revancha contra Teacher Hillary
+1999	t	3ra revancha contra Teacher Hillary
+2003	t	1ra revancha contra Twins Kay and Tia
+2004	t	2da revancha contra Twins Kay and Tia
+2005	t	3ra revancha contra Twins Kay and Tia
+1991	t	1ra revancha contra Biker Aiden
+1992	t	2da revancha contra Biker Aiden
+1993	t	3ra revancha contra Biker Aiden
+1994	t	1ra revancha contra Biker Ernest
+1995	t	2da revancha contra Biker Ernest
+1996	t	3ra revancha contra Biker Ernest
+1988	t	1ra revancha contra Biker Reese
+1989	t	2da revancha contra Biker Reese
+1990	t	3ra revancha contra Biker Reese
+1818	t	1ra revancha contra Entre. guay Jamie
+1819	t	2da revancha contra Entre. guay Jamie
+1969	t	3ra revancha contra Entre. guay Jamie
+1816	t	1ra revancha contra Entre. guay Gaven
+1817	t	2da revancha contra Entre. guay Gaven
+1964	t	3ra revancha contra Entre. guay Gaven
+1804	t	1ra revancha contra Entre. guay Reena
+1805	t	2da revancha contra Entre. guay Reena
+1967	t	3ra revancha contra Entre. guay Reena
+1663	t	1ra revancha contra Ornitólogo Jose
+1806	t	2da revancha contra Ornitólogo Jose
+1962	t	3ra revancha contra Ornitólogo Jose
+2746	s	Frase de moda aprendida (Hoy)

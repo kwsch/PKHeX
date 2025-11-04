@@ -1,0 +1,256 @@
+Villa Raíz
+Pueblo Escaso
+Pueblo Azuliza
+Pueblo Lavacalda
+Pueblo Pardal
+Pueblo Verdegal
+Pueblo Oromar
+Ciudad Petalia
+Ciudad Portual
+Ciudad Malvalona
+Ciudad Férrica
+Ciudad Arborada
+Ciudad Calagua
+Ciudad Algaria
+Arrecípolis
+Ciudad Colosalia
+Ruta 101
+Ruta 102
+Ruta 103
+Ruta 104
+Ruta 105
+Ruta 106
+Ruta 107
+Ruta 108
+Ruta 109
+Ruta 110
+Ruta 111
+Ruta 112
+Ruta 113
+Ruta 114
+Ruta 115
+Ruta 116
+Ruta 117
+Ruta 118
+Ruta 119
+Ruta 120
+Ruta 121
+Ruta 122
+Ruta 123
+Ruta 124
+Ruta 125
+Ruta 126
+Ruta 127
+Ruta 128
+Ruta 129
+Ruta 130
+Ruta 131
+Ruta 132
+Ruta 133
+Ruta 134
+Bajo el agua (Ruta 124)
+Bajo el agua (Ruta 126)
+Bajo el agua (Ruta 127)
+Bajo el agua (Ruta 128)
+Bajo el agua (Arrecípolis)
+Cueva Granito
+Monte Cenizo
+Zona Safari (RZE)
+Torre Batalla (RZ) / Frente Batalla (E)
+Bosque Petalia
+Túnel Fervergal
+Nao Abandonada
+Malvalanova
+Cascada Meteoro
+Cascada Meteoro (sin usar)
+Monte Pírico
+Guarida
+Cueva Cardumen
+Caverna Abisal
+Bajo el agua (Caverna Abisal)
+Calle Victoria (RZE)
+Isla Espejismo
+Cueva Ancestral
+Isla del Sur
+Senda Ígnea
+Senda Ígnea (sin usar)
+Desfiladero
+Desfiladero (sin usar)
+Cámara Sellada
+Bajo el agua (Ruta 134)
+Gruta Solar
+Cueva Insular
+Ruinas Desierto
+Tumba Antigua
+Interior Camión
+Pilar Celeste
+Base Secreta
+Ferry
+Pueblo Paleta
+Ciudad Verde
+Ciudad Plateada
+Ciudad Celeste
+Pueblo Lavanda
+Ciudad Carmín
+Ciudad Azulona
+Ciudad Fucsia
+Isla Canela
+Meseta Añil
+Ciudad Azafrán
+Ruta 4 (Centro Pokémon)
+Ruta 10 (Centro Pokémon)
+Ruta 1
+Ruta 2
+Ruta 3
+Ruta 4
+Ruta 5
+Ruta 6
+Ruta 7
+Ruta 8
+Ruta 9
+Ruta 10
+Ruta 11
+Ruta 12
+Ruta 13
+Ruta 14
+Ruta 15
+Ruta 16
+Ruta 17
+Ruta 18
+Ruta 19
+Ruta 20
+Ruta 21
+Ruta 22
+Ruta 23
+Ruta 24
+Ruta 25
+Bosque Verde
+Mt. Moon
+S.S. Anne
+Vía Subterránea (Rutas 5-6)
+Vía Subterránea (Rutas 7-8)
+Cueva Diglett
+Calle Victoria (Kanto)
+Guarida Rocket
+Silph S.A.
+Mansión Pokémon
+Zona Safari (Kanto)
+Liga Pokémon
+Túnel Roca
+Islas Espuma
+Torre Pokémon
+Cueva Celeste
+Central Energía
+Isla Prima
+Isla Secunda
+Isla Tera
+Isla Quarta
+Isla Inta
+Isla Sétima
+Isla Exta
+Camino Candente
+Playa Tesoro
+Cabo Extremo
+Puente Unión
+Puerto Isla Tera
+Exta Archi7
+Sétima Archi7
+Uctava Archi7
+Ovena Archi7
+Lugar de Recreo
+Aquarinto
+Prado Isla Inta
+Pilar Recuerdo
+Isla Aislada
+Vía Verde
+Vía Acuática
+Valle Ruinas
+Torre Desafío (exterior)
+Entrada al Cañón
+Cañón Sétano
+Ruinas Sete
+Idos Archi7
+Itres Archi7
+Icuatro Archi7
+Roca Ombligo (RFVH)
+Mt. Ascuas
+Bosque Baya
+Cueva Glaciada
+Almacén Rocket
+Torre Desafío
+Cueva Punteada
+Cueva Perdida
+Bosquejo
+Cueva Cambiante (RFVH)
+Cámaras Sete
+Vía Isla Tera
+Llave Sete
+Isla Origen (RFVH)
+Cámara Anémuna
+Cámara Tulipdos
+Cámara Trisante
+Cámara Quarciso
+Cámara Hibinca
+Cámara Seiris
+Cámara Pasiete
+Balneario Ascuas
+CC Azulona (RFVH)
+Guarida Aqua
+Guarida Magma
+Torre Espejismo
+Isla Origen (E)
+Isla Suprema
+Cueva Taller
+Cueva Marina
+Bajo el agua (Cueva Marina)
+Cueva Terrena
+Bajo el agua (Ruta 105)
+Bajo el agua (Ruta 125)
+Bajo el agua (Ruta 129)
+Gruta Desértica
+Cueva Cambiante (E)
+Roca Ombligo (E)
+Colina Desafío
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(Huevo regalado)
+(intercambio del juego)
+(encuentro fatídico)

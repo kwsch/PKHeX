@@ -1,0 +1,100 @@
+Algodón Blanco
+Algodón Ámbar
+Algodón Rosa
+Algodón Marrón
+Algodón Negro
+Algodón Naranja
+Roca Redonda
+Roca Luciente
+Roca Desigual
+Roca Áspera
+Roca Negra
+Minirroca
+Escama Rosa
+Escama Azul
+Escama Verde
+Escama Morada
+Escama Grande
+Escama Pequeña
+Pluma Azul
+Pluma Roja
+Pluma Amarilla
+Pluma Blanca
+Bigote Negro
+Bigote Blanco
+Barba Negra
+Barba Blanca
+Hoja Pequeña
+Hoja Grande
+Hoja Fina
+Muda Garra
+Muda Cuerno
+Seta Delgada
+Seta Gruesa
+Tocón
+Gota de Rocío
+Cristal Nieve
+Chispas
+Fuego Trémulo
+Fuego Místico
+Determinación
+Cuchara Rara
+Humo Denso
+Extracto Veneno
+Moneda suerte
+Cosa macabra
+Muelle
+Concha Marina
+Nota tarareada
+Brillantina
+Purpurina
+Flor Roja
+Flor Rosa
+Flor Blanca
+Flor Azul
+Flor Naranja
+Flor Amarilla
+Gafas Redondas
+Gafas Negras
+Gafas Elegantes
+Caramelo
+Confeti
+Parasol
+Paraguas Viejo
+Foco
+Capa
+Micrófono
+Tabla de Surf
+Alfombra
+Tubería Retro
+Cama Mullida
+Bola Espejo
+Tablón de Fotos
+Lazo Rosa
+Lazo Rojo
+Lazo Azul
+Lazo Amarillo
+Lazo Verde
+Globo Rosa
+Globos Rojos
+Globos Azules
+Globo Amarillo
+Globos Verdes
+Lazo
+Sombrero
+Velo de Seda
+Cinta Heroica
+Bonete profesor
+Escenario Flor
+Pedestal de Oro
+Escen. Cristal
+Podio
+Escenario Cubo
+Máscara Turtwig
+Másc. Chimchar
+Máscara Piplup
+Árbol Grande
+Bandera
+Corona
+Tiara
+Cometa

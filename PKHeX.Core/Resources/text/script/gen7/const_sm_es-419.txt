@@ -1,0 +1,6 @@
+148	*	Inicial	00:Rowlet,01:Litten,02:Popplio
+432	r	Tapu Koko	03:Luchable,04:Derrotado,05:Capturado
+433	r	Tapu Lele	01:Luchable,02:Derrotado,03:Capturado
+434	r	Tapu Bulu	01:Luchable,02:Derrotado,03:Capturado
+404	r	Tapu Fini	03:Luchable,04:Derrotado,05:Capturado
+418	r	Interacción Solgaleo/Lunala	0:Viaja al Ultraespacio (antes de Encuentro),2:Viaja al Ultraespacio (Entra al Ultraespacio),3:Viaja al Ultraespacio (Guzmán encontrado),4:Initiates Battle (Samina derrotada)

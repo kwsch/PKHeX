@@ -1,0 +1,355 @@
+﻿－
+
+Lugar misterioso
+
+Lugar lejano
+
+Pueblo Boceto
+
+Ruta 1
+Sendero Boceto
+Pueblo Acuarela
+
+Ruta 2
+Vía del Avance
+Bosque de Novarte
+
+Ruta 3
+Senda Despejada
+Ciudad Novarte
+
+Ruta 4
+Senda del Parterre
+Ciudad Luminalia
+
+Torre Prisma
+
+Laboratorios Lysson
+
+Ruta 5
+Vía Repecho
+Pueblo Vánitas
+
+Castillo Caduco
+
+Ruta 6
+Alameda del Palacio
+Palacio Cénit
+
+Ruta 7
+Paseo de la Ribera
+Ciudad Relieve
+
+Ruta 8
+Muralla Costera
+Pueblo Petroglifo
+
+Ruta 9
+Paso de Rhyhorn
+Bastión Batalla
+
+Ruta 10
+Camino Menhires
+Pueblo Crómlech
+
+Ruta 11
+Senda Reflejos
+Cueva Reflejos
+
+Ciudad Yantra
+
+Torre Maestra
+
+Ruta 12
+Vereda del Heno
+Ciudad Témpera
+
+Ruta 13
+Páramo de Luminalia
+Ruta 14
+Arboleda Romantis
+Ciudad Romantis
+
+Fábrica Poké Balls
+
+Ruta 15
+Sendero Hojarasca
+Pueblo Fresco
+
+Ruta 16
+Senda Melancolía
+[~ 80]
+[~ 81]
+Gruta Helada
+
+Ruta 17
+Sendero Mamoswine
+Ciudad Fluxus
+
+Ruta 18
+Senda Valle Angosto
+Pueblo Mosaico
+
+Ruta 19
+Senda del Gran Valle
+Ciudad Fractal
+
+Ruta 20
+Bosque Errantes
+Villa Pokémon
+
+Ruta 21
+Vía Ultimia
+Ruta 22
+Vía Desvío
+Calle Victoria
+
+Liga Pokémon
+
+Ciudad Batik
+
+Mansión Batalla
+
+Bahía Azul
+
+Acceso a Fresco
+
+Acceso a Mosaico
+
+Acceso a Petroglifo
+
+Acceso a Luminalia
+
+Acceso a Yantra
+
+Acceso a Témpera
+
+Acceso a Romantis
+
+Acceso a Fluxus
+
+Acceso a Fractal
+
+Cueva Brillante
+
+Gruta Tierraunida
+Escondrijo Zubat
+Central de Kalos
+
+Guarida Team Flare
+
+Cueva Desenlace
+
+Hotel Desolación
+
+Estancia Vacua
+
+Cueva Talasia
+
+Safari Amistad
+
+Sala de las Llamas
+
+Sala de la Esclusa
+
+Sala del Metal
+
+Sala del Draco
+
+Sala de la Luz
+
+Acceso Liga Pokémon
+
+Estación Luminalia
+
+Estación Batik
+
+Acuario Petroglifo
+
+Mazmorra Rara
+
+Villa Raíz
+
+Pueblo Escaso
+
+Pueblo Azuliza
+
+Pueblo Lavacalda
+
+Pueblo Pardal
+
+Pueblo Verdegal
+
+Pueblo Oromar
+
+Ciudad Petalia
+
+Ciudad Portual
+
+Ciudad Malvalona
+
+Ciudad Férrica
+
+Ciudad Arborada
+
+Ciudad Calagua
+
+Ciudad Algaria
+
+Arrecípolis
+
+Ciudad Colosalia
+
+Liga Pokémon
+
+Ruta 101
+
+Ruta 102
+
+Ruta 103
+
+Ruta 104
+
+Ruta 105
+
+Ruta 106
+
+Ruta 107
+
+Ruta 108
+
+Ruta 109
+
+Ruta 110
+
+Ruta 111
+
+Ruta 112
+
+Ruta 113
+
+Ruta 114
+
+Ruta 115
+
+Ruta 116
+
+Ruta 117
+
+Ruta 118
+
+Ruta 119
+
+Ruta 120
+
+Ruta 121
+
+Ruta 122
+
+Ruta 123
+
+Ruta 124
+
+Ruta 125
+
+Ruta 126
+
+Ruta 127
+
+Ruta 128
+
+Ruta 129
+
+Ruta 130
+
+Ruta 131
+
+Ruta 132
+
+Ruta 133
+
+Ruta 134
+
+Cascada Meteoro
+
+Túnel Fervergal
+
+(?)
+
+Ruinas del Desierto
+
+Cueva Granito
+
+Bosque Petalia
+
+Monte Cenizo
+
+Desfiladero
+
+Senda Ígnea
+
+Monte Pírico
+
+Guarida Aqua
+
+Caverna Abisal
+
+Cueva Ancestral
+
+Calle Victoria
+
+Cueva Cardumen
+
+Malvalanova
+
+Malvamar
+
+Cueva Insular
+
+Tumba Antigua
+
+Cámara Sellada
+
+Gruta Solar
+
+Guarida Magma
+
+Pilar Celeste
+
+Resort Batalla
+
+Isla del Sur
+
+S.S. Marea
+
+Zona Safari
+
+Bosque Espejismo
+
+Cueva Espejismo
+
+Isla Espejismo
+
+Monte Espejismo
+
+Bosque Virgen
+
+Llanura Sinnombre
+
+Cueva Ignota
+
+Cueva Incierta
+
+Boquete Irregular
+
+Isla Creciente
+
+Islote Secreto
+
+Firmamento
+
+Costa Secreta
+
+Prado Secreto
+
+Base Secreta

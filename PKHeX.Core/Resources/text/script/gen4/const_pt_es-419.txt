@@ -1,0 +1,30 @@
+0048	*	Inicial	0:Sin elegir,387:Turtwig,390:Chimchar,393:Piplup
+0122	r	Huevo de Togepi	0:Estatua visitada,1:Recibido MO01,2:Cynthia desaparecida,3:Cynthia da un huevo,4:Huevo pendiente,5:Huevo recibido
+0196	r	Dialga	0:Luchable,1:Desaparecido
+0197	r	Palkia	0:Luchable,1:Desaparecido
+0085	r	Giratina (Mundo Distorsión)	13:Luchable,14:Desaparecido
+0158	r	Heatran	00:Sin activar,01:Luchable,02:Desaparecido
+0054	e	Isla Plenilunio	0:Sin activar,520:En el mapa
+0055	e	Isla Lunanueva	0:Sin activar,553:En el mapa
+0056	e	Vía Manantial	0:Sin aparecer,786:Aparecida
+0057	e	Vía Costera (No lanzado en Coreano)	0:Sin aparecer,4136:Aparecida
+0067	e	Carné Socio	0:Sin activar,4617:Activado
+0068	e	Carta Prof Oak (No lanzado en Coreano)	0:Sin activar,4370:Activado
+0069	e	Flauta Azur (No lanzado)	0:Sin activar,4387:Activado
+0070	e	Ll. Secreta	0:Sin activar,4387:Activado
++0248	e	Evento de Taberna Bahía	0:No completado,2:En espera de capturar Darkrai,3:Marinero fuera de la posada (Darkrai capturado),4:Completado (Darkrai capturado durante pesadilla)
+0280	e	Evento de Sala del Origen (No lanzado)	0:Desactivado,1:Activo
+0086	e	Mochilero del Evento de Arceus	0:Sin activar,1:En Mina Pirita,2:En segundo piso de Biblioteca Canal,3:Evento completado
+0087	e	Evento de Sémola (Ruta 224)	0:Sin activar,1:Puede ser activado,2:Activado
+0133	s	Sémola (Ruta 224)	0:Sin activar,1:Activado,2:Aparecido
+0105	r	Estatua de Ruinas Hierro (Registeel)	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
+0106	r	Estatua de Ruinas Iceberg (Regice)	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
+0107	r	Estatua de Ruinas Pico Roca (Regirock)	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
+0062	r	Current Players Interacted Underground	32:Spiritomb Aparecido
+0138	r	Torre Sagrada	0:Desactivado,1:Activo
+0089	r	Estado Mesprit	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
+0088	r	Estado Cresselia	0:Pendiente,1:Capturada,2:Derrotada/Puede reaparecer
+0096	r	Estado Articuno	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
+0095	r	Estado Zapdos	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
+0094	r	Estado Moltres	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
+0224	+	Mejor puntuación capturas en Parque Compi
