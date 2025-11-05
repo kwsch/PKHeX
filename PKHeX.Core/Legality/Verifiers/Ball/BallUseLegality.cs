@@ -96,5 +96,5 @@ internal static class BallUseLegality
     public const ulong WildPokeballs9 = WildPokeballs8;
     public const ulong WildPokeballs9PreDLC2 = WildPokeballs7 | WildPokeEnhance5; // Same as Gen7 + Dream
 
-    public const ulong WildPokeballs9a = WildPokeBalls4_HGSS; // | (1 << (int)Sport); // no Safari, Dream, Beast
+    public const ulong WildPokeballs9a = WildPokeBalls4_HGSS | (1 << (int)Sport); // no Safari, Dream, Beast
 }
