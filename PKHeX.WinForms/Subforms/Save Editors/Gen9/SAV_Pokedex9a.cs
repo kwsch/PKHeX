@@ -148,8 +148,21 @@ public partial class SAV_Pokedex9a : Form
         CHK_SeenMale.Checked = entry.GetIsGenderSeen(0);
         CHK_SeenFemale.Checked = entry.GetIsGenderSeen(1);
         CHK_SeenGenderless.Checked = entry.GetIsGenderSeen(2);
-        CHK_SeenMega.Checked = entry.GetIsSeenMega();
         CHK_SeenAlpha.Checked = entry.GetIsSeenAlpha();
+
+        if (Zukan9a.IsMegaFormXY(species))
+        {
+            CHK_SeenMegaX.Checked = entry.GetIsSeenMega(0);
+            CHK_SeenMegaY.Checked = entry.GetIsSeenMega(1);
+            CHK_SeenMegaX.Visible = CHK_SeenMegaY.Visible = true;
+            CHK_SeenMega.Visible = false;
+        }
+        else
+        {
+            CHK_SeenMega.Checked = entry.GetIsSeenMega(0);
+            CHK_SeenMegaX.Visible = CHK_SeenMegaY.Visible = false;
+            CHK_SeenMega.Visible = true;
+        }
 
         for (byte i = 0; i < forms.Length; i++)
         {
@@ -161,7 +174,7 @@ public partial class SAV_Pokedex9a : Form
 
         CB_DisplayForm.Items.Clear();
         CB_DisplayForm.Items.AddRange(forms);
-        CB_DisplayForm.SelectedIndex = Math.Clamp(entry.DisplayForm, 0, CB_Gender.Items.Count - 1);
+        CB_DisplayForm.SelectedIndex = Math.Clamp(entry.DisplayForm, 0, CB_DisplayForm.Items.Count - 1);
         CB_Gender.SelectedIndex = Math.Clamp((byte)entry.DisplayGender, 0, CB_Gender.Items.Count - 1);
         CHK_DisplayShiny.Checked = entry.GetDisplayIsShiny();
 
@@ -204,8 +217,18 @@ public partial class SAV_Pokedex9a : Form
         entry.SetIsGenderSeen(0, CHK_SeenMale.Checked);
         entry.SetIsGenderSeen(1, CHK_SeenFemale.Checked);
         entry.SetIsGenderSeen(2, CHK_SeenGenderless.Checked);
-        entry.SetIsSeenMega(CHK_SeenMega.Checked);
         entry.SetIsSeenAlpha(CHK_SeenAlpha.Checked);
+
+        if (Zukan9a.IsMegaFormXY(species))
+        {
+            entry.SetIsSeenMega(0, CHK_SeenMegaX.Checked);
+            entry.SetIsSeenMega(1, CHK_SeenMegaY.Checked);
+        }
+        else
+        {
+            entry.SetIsSeenMega(0, CHK_SeenMega.Checked);
+        }
+
         for (byte i = 0; i < CLB_FormSeen.Items.Count; i++)
         {
             entry.SetIsFormSeen(i, CLB_FormSeen.GetItemChecked(i));
