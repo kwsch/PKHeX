@@ -73,6 +73,10 @@ public readonly ref struct PokeDexEntry9a
             FlagsFormSeen &= ~(1u << form);
     }
 
+    public void SetIsFormsSeen(uint formsOr) => FlagsFormSeen |= formsOr;
+    public void SetIsFormsCaught(uint formsOr) => FlagsFormCaught |= formsOr;
+    public void SetIsShinySeen(uint formsOr) => FlagsShinySeen |= formsOr;
+
     public static int GetDexLangFlag(int lang) => (uint)lang switch
     {
         > (int)MaxLanguageID or 6 or <= 0 => 0, // invalid language
@@ -118,9 +122,17 @@ public readonly ref struct PokeDexEntry9a
             FlagsShinySeen &= ~(1u << form);
     }
 
-    public bool GetIsSeenMega() => FlagIsMega != 0;
+    public bool GetIsSeenMega(byte megaIndex) => ((FlagIsMega >> megaIndex) & 1) != 0;
     public bool GetIsSeenAlpha() => FlagIsAlpha != 0;
-    public void SetIsSeenMega(bool value) => FlagIsMega = value ? (byte)1 : (byte)0;
+
+    public void SetIsSeenMega(byte megaIndex, bool value)
+    {
+        if (value)
+            FlagIsMega |= (byte)(1u << megaIndex);
+        else
+            FlagIsMega &= (byte)~(1u << megaIndex);
+    }
+
     public void SetIsSeenAlpha(bool value) => FlagIsAlpha = value ? (byte)1 : (byte)0;
 
     public DisplayGender9a GetDisplayGender(Gender gender, ushort species, byte form)

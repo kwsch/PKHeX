@@ -28,6 +28,7 @@ public sealed class GameStrings : IBasicStrings
     public readonly string[] uggoods, ugspheres, ugtraps, ugtreasures;
     public readonly string[] seals, accessories, backdrops, poketchapps;
     public readonly string[] console3ds, languageNames;
+    public readonly string[] wondercard7, wondercard8, wondercard9;
     private readonly string LanguageFilePrefix;
 
     public ReadOnlySpan<string> HiddenPowerTypes => types.AsSpan(1, HiddenPower.TypeCount);
@@ -131,6 +132,10 @@ public sealed class GameStrings : IBasicStrings
         poketchapps = Get("poketchapps");
         console3ds = Get("console3ds");
         languageNames = Get("language");
+
+        wondercard7 = Get("wondercard7");
+        wondercard8 = Get("wondercard8");
+        wondercard9 = Get("wondercard9");
 
         EggName = specieslist[0];
         Gen4 = Get4("hgss");

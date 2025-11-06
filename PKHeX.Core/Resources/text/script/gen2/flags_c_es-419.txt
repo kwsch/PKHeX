@@ -1,0 +1,147 @@
+0026	s	Inicial Elegido
+0027	*	Cyndaquil inicial
+0028	*	Totodile inicial
+0029	*	Chikorita inicial
+1600	s	La bola del Cyndaquil de Elm ha desaparecido 
+1601	s	La bola del Totodile de Elm ha desaparecido 
+1602	s	La bola del Chikorita de Elm ha desaparecido 
+1784	r	Sudowoodo Desaparecido
+1760	r	Electrode (esquinas superiores) desaparecido (Escondite Team Rocket B2F)
+1761	r	Electrode (esquinas centrales) desaparecido (Escondite Team Rocket B2F)
+1762	r	Electrode (esquinas inferiores) desaparecido (Escondite Team Rocket B2F)
+0079	g	Eevee Recibido
+1867	*	Las Bestias Legendarias desaparecieron de la Torre Incendiada
+0190	*	Kurt puede ver la GS Ball
+0191	*	Kurt listo para regresar la GS Ball (combinar con la Marca de arriba)
+0192	*	GS Ball puede ser insertada en el Encinar
+0672	*	Rompecabezas de Ho-Oh resuelto en Ruinas Alfa
+0673	*	Rompecabezas de Kabuto resuelto en Ruinas Alfa
+0674	*	Rompecabezas de Omanyte resuelto en Ruinas Alfa
+0675	*	Rompecabezas de Aerodactyl resuelto en Ruinas Alfa
+0676	*	Edredón de Plumas
+0677	*	Edredón Rosa
+0678	*	Edredón Lunares
+0679	*	Edredón Pikachu (Ilegal)
+0680	*	Alfombra Roja
+0681	*	Alfombra Azul
+0682	*	Alfombra Amarilla
+0683	*	Alfombra Verde
+0684	*	Megaplanta
+0685	*	Planta Tropical
+0686	*	Planta Colosal
+0687	*	Mapa Pueblo
+0688	*	Póster Pikachu
+0689	*	Póster Clefairy
+0690	*	Póster Jigglypuff
+0691	*	NES
+0692	*	Super NES
+0693	*	Nintendo 64
+0694	*	Virtual Boy
+0695	*	Muñeco Pikachu
+0696	*	Muñeco Pikachu Surf
+0697	*	Muñeco Clefairy
+0698	*	Muñeco Jigglypuff
+0699	*	Muñeco Bulbasaur
+0700	*	Muñeco Charmander
+0701	*	Muñeco Squirtle
+0702	*	Muñeco Poliwag
+0703	*	Muñeco Diglett
+0704	*	Muñeco Staryu
+0705	*	Muñeco Magikarp
+0706	*	Muñeco Oddish
+0707	*	Muñeco Gengar
+0708	*	Muñeco Shellder
+0709	*	Muñeco Grimer
+0710	*	Muñeco Voltorb
+0711	*	Muñeco Weedle
+0712	*	Muñeco Unown (Ilegal)
+0713	*	Muñeco Geodude
+0714	*	Muñeco Machop
+0715	*	Muñeco Tentacool (Ilegal)
+0717	*	Trofeo Oro
+0718	*	Trofeo Plata
+0719	*	Snorlax Grande
+0720	*	Onix Grande
+0721	*	Lapras Grande
+0791	r	Ho-oh Desaparecido
+0792	r	Lugia Desaparecido
+0830	r	Recibido el Huevo Raro
+0832	r	Recibida la GS Ball
+1904	r	Snorlax Desaparecido
+1873	r	Gyarados Rojo Desaparecido
+0068	s	Derrotado el Alto Mando/Elm puede dar el Ticket Barco
+1890	*	Red desapareció en Monte Plateado
+0069	g	Recibido Shuckle de Klaus
+0070	g	Shuckle Regresado/Permitido quedárselo
+0080	g	Recibido Spearow de Randy
+0081	s	El correo puede sern entregado en la Ruta 31
+0082	s	Recibido PS Mas de Randy
+0083	s	Entregado correo de Randy/Recibida MT50
+0084	s	Togepi Eclosionado
+0085	s	Mostrado Togepi a Elm
+0086	s	Recibida Piedra Eterna de Elm
+1193	t	Karateka Kiyo derrotado (Puede recibir a Tyrogue)
+0097	g	Recibido Tyrogue
+0046	s	Unown aparecido en Ruinas Alfa
+0098	s	Conocida Vicky
+0099	s	Recibida Flecha Venenosa de Vicky
+0100	s	Conocida Marta
+0101	s	Recibido Lazo Rosa de Marta
+0102	s	Conocido Josué
+0103	s	Recbida Piedra Dura de Josué
+0104	s	Conocido Domingo
+0105	s	Recibido Imán de Domingo
+0106	s	Conocido Miguel
+0107	s	Recibido Cinturón Negro de Miguel
+0108	s	Conocido Sabino
+0109	s	Recibido Hechizo de Sabino
+0110	s	Conocida Luna
+0111	s	Recibido Pico Afilado de Luna
+0189	g	Recibido Dratini
+0193	g	Quiz respondido mal (Dratini de regalo no tendrá Velocidad Extrema)
+0205	s	Restaurada energía a Kanto/Tren Imán usable
+0256	s	Gina regaló Piedra Hoja
+0257	s	Arturo regaló Piedra Fuego
+0258	s	Sara regaló Piedra Trueno
+0259	s	Óscar regaló Piedra Agua
+0260	s	Vera regaló Lazo Rosa
+0613	s	Recibida Proteina del Marinero Ken 3ra Batalla
+0614	s	Recibido PP Mas del Joven Chano 4ta Batalla
+0615	s	Recibido Carburante de Ornitólogo Vidal 2da Batalla
+0616	s	Recibido Hierro de Montañero Ángelo 3ra Batalla
+0617	s	Recibido Calcio del Dominguera Elisa 2da Batalla
+0823	s	Proteina de Ken 3ra Batalla Pendiente
+0824	s	PP Mas de Chano 4ta Batalla Pendiente
+0825	s	Carburante de Vidal 2da Batalla Pendiente
+0826	s	Hierro de Ángelo 2da Batalla Pendiente
+0827	s	Calcio de Elisa 2da Batalla Pendiente
+0607	t	Preguntado Escolar Aitor por su Número
+0609	t	Preguntado Pokéfan Julia por su Número
+0611	t	Preguntado Marinero Ken por su Número
+0619	t	Preguntado Entrenador guay Galo por su Número
+0621	t	Preguntado Entrenadora guay Tina por su Número
+0623	t	Preguntado Ornitólogo José por su Número
+0625	t	Preguntado Entrenadora guay Tara por su Número
+0627	t	Preguntado Joven Chano por su Número
+0629	t	Preguntado Cazabichos Tomy por su Número
+0631	t	Preguntado Pescador Joserra por su Número
+0633	t	Preguntado Dominguera Lisi por su Número
+0635	t	Preguntado Montañero Luis por su Número
+0637	t	Preguntado Campista Gorka por su Número
+0639	t	Preguntado Dominguera Gina por su Número
+0641	t	Preguntado Malabarista Rafi por su Número
+0643	t	Preguntado Cazabichos Ángel por su Número
+0645	t	Preguntado Escolar Arturo por su Número
+0649	t	Preguntado Chica Sara por su Número
+0651	t	Preguntado Escolar Javier por su Número
+0653	t	Preguntado Pokéfan Jonay por su Número
+0655	t	Preguntado Pescador Óscar por su Número
+0657	t	Preguntado Pokémaníaco Toni por su Número
+0659	t	Preguntado Dominguera Vera por su Número
+0661	t	Preguntado Ornitólogo Vidal por su Número
+0663	t	Preguntado Pescador David for por su Número
+0665	t	Preguntado Karateka Leuco por su Número
+0667	t	Preguntado Montañero Ángelo por su Número
+0669	t	Preguntado Dominguera Elisa por su Número
+0828	t	Buena ofreció Número Telefónico una vez
+0670	t	Buena ofreció Número Telefónico (2da vez)

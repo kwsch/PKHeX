@@ -1,0 +1,71 @@
+0303	r	Cobalion capturado
+0802	r	Cobalion desaparecido
+0302	r	Cobalion (Revancha, Nivel +20)
+0330	r	Terrakion capturado
+0810	r	Terrakion desaparecido
+0329	r	Terrakion (Revancha, Nivel +20)
+0301	r	Virizion capturado
+0801	r	Virizion desaparecido
+0300	r	Virizion (Revancha, Nivel +20)
+0928	r	Volcarona desaparecido
+0403	r	Volcarona capturado (Nivel 35/65)
+0404	r	Volcarona derrotado (Nivel 35)
+0234	r	Reshiram/Zekrom capturado
+0667	r	Reshiram/Zekrom desaparecido
+0249	r	Kyurem capturado
+1004	r	Kyurem desaparecido
+0399	r	Regirock capturado
+0922	r	Regirock desaparecido
+0400	r	Regice capturado
+0921	r	Regice desaparecido
+0401	r	Registeel capturado
+0923	r	Registeel desaparecido
+0374	r	Latios/Latias capturado
+0396	r	Uxie capturado
+0918	r	Uxie desaparecido
+0397	r	Mesprit capturado
+0919	r	Mesprit desaparecido
+0398	r	Azelf capturado
+0920	r	Azelf desaparecido
+0380	r	Heatran capturado
+0900	r	Heatran desaparecido
+0402	r	Regigigas capturado
+0924	r	Regigigas desaparecido
+0379	r	Cresselia capturado
+0897	r	Cresselia desaparecida
+0106	*	Funcionalidad de intercambio habilitada (Centro Pokémon)
+2403	*	Tiene las Deportivas
+2400	s	Entrado en el Hall de la Fama
+0250	g	Magikarp comprado
+0256	g	Intercambio por Gigalith en Ruta 7
+0259	g	Intercambio por Rotom en Ruta 15
+0289	g	Zorua de N recibido (1/2)
+0714	g	Zorua de N recibido (2/2)
+0394	g	Eevee de regalo recibido
+0405	g	Intercambio por Tangrowth in Humilau City
+0412	g	Intercambio por Petilil/Cottonee on Ruta 4
+0426	g	Deerling de regalo recibido
+0431	g	Intercambio por Ambipom in Pueblo Terracota
+0432	g	Intercambio por Alakazam in Pueblo Terracota
+0433	g	Luchado con Chica Corina por primera vez (Puede intercambiar por Alakazam)
+0434	s	Luchado con Chica Corina por segunda vez
+0437	g	Huevo Happiny de regalo recibido
+0445	g	Elegido el Fósil Tapa/Pluma de Aloe
+0420	r	Haxorus variocolor (Reserva Natural) capturado
+0946	r	Haxorus variocolor (Reserva Natural) desaparecido
+0996	g	Guayo con el Gible/Dratini variocolor de regalo desaparecido de la casa de Mirto
+2464	s	Visited Abyssal Ruins
+0979	s	Zinzolin Disappeared from Undella Town
+2744	s	Embarcado en el Real Teselia (hoy)
+2747	s	Fósil recibido de Operario del Monte Tuerca (hoy)
+2774	r	Mandibuzz/Braviary semanal en Ruta 4 desaparecido
+2775	r	Jellicent semanal en Bahía Arenisca desaparecido
+2442	r	Los Pokémon de N se encuentran salvajes
+0929	r	Captura/Derrota al Foongus de la Ruta 6 (1)
+0930	r	Captura/Derrota al Foongus de la Ruta 6 (2)
+0931	r	Captura/Derrota al Foongus de la Ruta 6 (3)
+0932	r	Captura/Derrota al Foongus de la Ruta 7 (1)
+0933	r	Captura/Derrota al Foongus de la Ruta 7 (2)
+0868	r	Crustle en Gruta Marina desaparecido
+1469	s	Encontrada Corona Antigua (Ruinas Submarinas 4P)
+2793	t	Revanchado Acromo (Hoy)

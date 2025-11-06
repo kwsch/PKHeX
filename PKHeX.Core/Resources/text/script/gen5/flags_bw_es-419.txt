@@ -1,0 +1,51 @@
+0669	r	Guía del Equipo Plasma desaparecido (Centro Pokémon de la Liga Pokémon)
+0661	r	Reshiram/Zekrom desaparecido (Castillo de N)
+0307	r	Reshiram/Zekrom capturado
+0766	r	Reshiram/Zekrom desaparecido (Torre Duodraco)
+0338	r	Kyurem capturado
+0801	r	Kyurem desaparecido
+0348	r	Volcarona capturado
+0810	r	Volcarona desaparecido
+0166	r	Cobalion capturado
+0649	r	Cobalion desaparecido
+0167	r	Terrakion capturado
+0650	r	Terrakion desaparecido
+0168	r	Virizion capturado
+0651	r	Virizion desaparecido
+0313	r	Landorus capturado
+0652	s	Obstáculo pasado (Calle Victoria)
+0653	s	Obstáculo pasado (Bosque Azulejo)
+2403	*	Tiene las Deportivas
+0115	*	Funcionabilidad de intercambio habilitada (Centro Pokémon)
+2400	s	Ghechis derrotado (Primera partida completada)
+0145	s	Recibido el Fósil Tapa/Pluma de Mochilero
+0148	g	Intercambio por Petilil/Cottonee
+0280	g	Intercambio por Basculin
+0315	g	Huevo Larvesta de regalo recibido
+0352	t	Luchado contra Joven Bertín
+0355	t	Puede luchar contra Chica Geles
+1937	t	Luchado Chica Geles
+0339	g	Magikarp comprado
+0347	g	Intercambio por Emolga
+0360	g	Intercambio por Rotom
+0663	g	Darmanitan (centro izquierda) desaparecido de la Zona Desierto
+0664	g	Darmanitan (abajo izquierda) desaparecido de la Zona Desierto
+0665	g	Darmanitan (arriba izquierda) desaparecido de la Zona Desierto
+0666	g	Darmanitan (centro derecha) desaparecido de la Zona Desierto
+0667	g	Darmanitan (arriba derecha) desaparecido de la Zona Desierto
+0729	s	Zorua camuflado de chico (1) desaparecido de primera planta de las Oficinas de GAME FREAK (Evento de Zorua)
+0730	s	Girl desaparecida de primera planta de las Oficinas de GAME FREAK (Evento de Zorua)
+0731	s	Zorua (2) desaparecido de primera planta de las Oficinas de GAME FREAK (Evento de Zorua)
+2754	s	Embarcado en el Real Teselia (hoy)
+2762	s	Fósil recibido de Operario del Monte Tuerca (hoy)
+0683	a	Metro Batalla: no posee un súper trofeo individual
+0684	a	Metro Batalla: no posee un súper trofeo doble
+0685	a	Metro Batalla: no posee un súper trofeo multi
+0767	r	Captura/Derrota al Foongus de la Ruta 6 (1)
+0768	r	Captura/Derrota al Foongus de la Ruta 6 (2)
+0769	r	Captura/Derrota al Amoonguss de la Ruta 10 (1)
+0770	r	Captura/Derrota al Amoonguss de la Ruta 10 (2)
+0771	r	Captura/Derrota al Foongus de la Ruta 10 (1)
+0772	r	Captura/Derrota al Foongus de la Ruta 10 (2)
+2748	r	Solar de los Sueños Musharna desaparecido (Viernes)
+1372	s	Encontrada Corona Antigua (Ruinas Submarinas 4F)

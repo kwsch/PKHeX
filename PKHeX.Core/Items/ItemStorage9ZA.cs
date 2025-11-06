@@ -98,18 +98,16 @@ public sealed class ItemStorage9ZA : IItemStorage
     public static ReadOnlySpan<ushort> Unreleased =>
     [
         0005, // Safari Ball
-        0499, // Sport Ball (first Season end reward)
 
         0662, // Mewtwonite X
         0663, // Mewtwonite Y
         0764, // Diancite
 
-        0576, // Dream Ball
+        0576, // Dream Ball (Season 2 Ranked Reward)
 
         0851, // Beast Ball
 
         2575, // Chesnaughtite
-        2576, // Delphoxite
     ];
 
     public int GetMax(InventoryType type) => type switch

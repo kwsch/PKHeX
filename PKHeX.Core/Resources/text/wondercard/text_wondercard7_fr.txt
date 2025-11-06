@@ -1,0 +1,25 @@
+{0}
+{8}
+Lot d’objets
+{0} ({1})
+{0} (Pokémon fabuleux)
+{0} de/d’ {3}
+{0} chromatique
+{0} ({2})
+{2}
+{0} doté d’un talent caché
+{0} avec {4}
+{0} avec {5}
+{0} avec {6}
+{0} avec {7}
+{0} avec un/une {9}
+Cadeau bonus — version téléchargeable
+Cadeau bonus — achat du Pack Spécial
+Cadeau bonus — achat en magasin
+Cadeau bonus — achat du guide de stratégie
+Cadeau bonus — achat du jeu
+Cadeau d’anniversaire
+Cadeau d’achat sur console virtuelle
+Cadeau du Club des Dresseurs Pokémon
+Cadeau du Pokémon Global Link
+Cadeau de Banque Pokémon

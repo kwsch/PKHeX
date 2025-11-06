@@ -60,7 +60,7 @@ public sealed class WC9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     public bool GiftRepeatable { get => (CardFlags & 1) == 0; set => CardFlags = (byte)((CardFlags & ~1) | (value ? 0 : 1)); }
     public override bool GiftUsed { get => false; set { }  }
 
-    public int CardTitleIndex
+    public override int CardTitleIndex
     {
         get => Data[CardStart + 0x15];
         set => Data[CardStart + 0x15] = (byte) value;
@@ -68,7 +68,7 @@ public sealed class WC9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
     public override string CardTitle
     {
-        get => "Mystery Gift"; // TODO: Use text string from CardTitleIndex
+        get => this.GetTitleFromIndex();
         set => throw new Exception();
     }
 

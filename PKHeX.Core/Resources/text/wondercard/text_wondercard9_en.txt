@@ -1,0 +1,64 @@
+
+{0} Gift
+{8} Gift
+Item Set Gift
+{1} {0} Gift
+Mythical Pokémon {0} Gift
+{3}’s {0} Gift
+Shiny {0} Gift
+{0} ({2}) Gift
+{2} Gift
+Hidden Ability {0} Gift
+{0} with {4} Gift
+{0} with {5} Gift
+{0} with {6} Gift
+{0} with {7} Gift
+{0} and {9} Gift
+Downloadable Version Purchase Bonus
+Special Pack Purchase Bonus
+Store Purchase Bonus
+Strategy Guide Purchase Bonus
+Purchase Bonus
+Happy Birthday!
+Virtual Console Purchase Bonus
+Pokémon Trainer Club Gift
+Pokémon Global Link Gift
+Pokémon Bank Gift
+Legendary Pokémon {0} Gift
+
+{11} Gift
+Pokémon HOME Gift
+Pocket Money Gift
+${12} Cash Back
+Clothing Gift
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pokémon Egg Gift
+Pokémon Gift
+Item Gift
+
+
+
+
+
+{8} and More Gift
+Sandwich Ingredients Gift
+{13} Tera Type {0} Gift
+Jumbo {0} Gift
+Mini {0} Gift
+LP Gift
+Sandwich Ingredient Gift
+{14}

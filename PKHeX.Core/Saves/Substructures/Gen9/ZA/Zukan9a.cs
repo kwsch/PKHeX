@@ -38,13 +38,17 @@ public sealed class Zukan9a(SAV9ZA sav, SCBlock block) : ZukanBase<SAV9ZA>(sav, 
         entry.SetIsFormSeen(form, true);
         entry.SetIsFormCaught(form, true);
         if (FormInfo.IsMegaForm(species, form))
-            entry.SetIsSeenMega(true);
+            entry.SetIsSeenMega(0, true);
+        if (IsMegaFormXY(species))
+            entry.SetIsSeenMega(1, true);
         entry.SetLanguageFlag(pk.Language, true);
 
         var isShiny = pk.IsShiny;
         if (isShiny)
         {
             entry.SetIsShinySeen(form, true);
+            if (GetFormExtraFlagsShinySeen(species, form, out var value))
+                entry.SetIsShinySeen(value);
         }
         if (!isRegistered)
         {
@@ -52,11 +56,78 @@ public sealed class Zukan9a(SAV9ZA sav, SCBlock block) : ZukanBase<SAV9ZA>(sav, 
             entry.SetDisplayGender((Gender)pk.Gender, species, form);
             entry.SetDisplayIsShiny(isShiny);
 
+            if (GetFormExtraFlags(species, out var value))
+            {
+                entry.SetIsFormsSeen(value);
+                entry.SetIsFormsCaught(value);
+            }
+
             entry.SetDisplayIsNew(true);
         }
         if (pk is IAlphaReadOnly { IsAlpha: true })
             entry.SetIsSeenAlpha(true);
     }
+
+    /// <summary>
+    /// Fetches extra alternate form flags for all forms it can shift between, for Shiny entities.
+    /// </summary>
+    public static bool GetFormExtraFlags(ushort species, out uint value)
+    {
+        value = species switch
+        {
+            (int)Species.Furfrou => 1, // base form
+            (int)Species.Aegislash => 3, // both forms
+
+            // Returning in DLC
+            (int)Species.Mimikyu => 3, // both forms
+            (int)Species.Morpeko => 3, // both forms
+
+            // Not present in game, but left in code from prior games.
+            //(int)Species.Minior => 0, // handled separately (sets both core and meteor forms for the color) (((1u << 7) | 1u) << (form % 7))
+            //(int)Species.Cramorant => 7, // all 3 forms
+            //(int)Species.Eiscue => 3, // both forms
+            //(int)Species.Palafin => 3, // both forms
+
+            (int)Species.Zygarde => 0b01_0000, // Complete
+            _ => 0u
+        };
+        return value != 0;
+    }
+
+    /// <summary>
+    /// Fetches extra alternate form flags for all forms it can shift between, for Shiny entities.
+    /// </summary>
+    public static bool GetFormExtraFlagsShinySeen(ushort species, byte form, out uint value)
+    {
+        value = species switch
+        {
+            (int)Species.Furfrou => 1, // base form
+            (int)Species.Aegislash => 3, // both forms
+
+            (int)Species.Spewpa or (int)Species.Scatterbug => 0xF_FFFF, // all 20 forms of Vivillon. Not for Vivillon!
+
+            // Returning in DLC
+            (int)Species.Mimikyu => 3, // both forms
+            (int)Species.Morpeko => 3, // both forms
+
+            // Mega Forms
+            (int)Species.Zygarde => 0b11_1111, // all forms (normally sets 31, but Mega adds another flag)
+            (int)Species.Greninja when form != 2 => 0b1011, // Mega and Ash/Normal forms (normally sets 3, but Mega adds another flag)
+            (int)Species.Floette when form == 5 => 0b10_0000, // Mega (not form 1)
+            // New Megas (Absol, Lucario, Meowstic, Magearna, Tatsugiri) will need handling in DLC updates.
+            _ when IsMegaFormXY(species) => 0b_0011, // Two mega forms
+            _ when FormInfo.HasMegaForm(species) => 0b_0001, // One mega form
+            _ => 0,
+        };
+        return value != 0;
+    }
+
+    public static bool IsMegaFormXY(ushort species) => species switch
+    {
+        (int)Species.Charizard => true,
+        (int)Species.Mewtwo => true,
+        _ => false,
+    };
 
     public override void SeenNone()
     {
@@ -86,6 +157,20 @@ public sealed class Zukan9a(SAV9ZA sav, SCBlock block) : ZukanBase<SAV9ZA>(sav, 
             entry.SetIsFormSeen(form, value);
             if (shinyToo)
                 entry.SetIsShinySeen(form, value);
+
+            entry.SetIsSeenAlpha(value);
+            if (FormInfo.IsMegaForm(species, form))
+                entry.SetIsSeenMega(0, value);
+            if (IsMegaFormXY(species))
+                entry.SetIsSeenMega(1, value);
+
+            if (value)
+            {
+                if (GetFormExtraFlags(species, out var seen))
+                    entry.SetIsFormsSeen(seen);
+                if (shinyToo && GetFormExtraFlagsShinySeen(species, form, out var flags))
+                    entry.SetIsShinySeen(flags);
+            }
         }
 
         // Set other seen flags
@@ -140,6 +225,9 @@ public sealed class Zukan9a(SAV9ZA sav, SCBlock block) : ZukanBase<SAV9ZA>(sav, 
             entry.SetIsFormSeen(form, value);
             if (shinyToo)
                 entry.SetIsShinySeen(form, value);
+
+            if (GetFormExtraFlags(species, out var caught))
+                entry.SetIsFormsCaught(caught);
         }
 
         // Set language

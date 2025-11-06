@@ -1,0 +1,26 @@
+0x4021	m	Contador de Pasos Repelente
+0x4023	*	Pokémon Inicial	00:Treecko,01:Torchic,02:Mudkip
+0x4024	r	Isla Espejismo RND (Alto)
+0x4025	r	Isla Espejismo RND (Bajo)
+0x4026	*	Base Secreta Actual
+
+0x402A	m	Contador de Pasos Amistad
+0x402B	m	Contador de Pasos Envenenamiento
+0x402C	*	Reiniciar RTR	00:Deshabilitado,2336:Habilitado
+
+0x4040	*	Días Pasados
+
+0x4043	m	Piso del Centro Comercial	04:1P,05:2P,06:3P,07:4P,08:5P,15:Techo
+0x4045	s	Objeto de Recompensa del Pokelot
+0x4046	*	Dex Nacional Habilitado    	0:No,770:Sí
+0x4047	+	Récord del Tamaño de Shroomish
+0x4048	*	Ceniza volcánica Recolectada	9999:Máximo
+0x4049	m	Estado del Profesor Abedul
+0x404A	s	Contador de Pasos del S.S. Marea
+0x404B	*	Pokelot RND (Alto)
+0x404C	*	Pokelot RND (Bajo)
+
+0x404F	+	Récord del Tamaño de Barboach
+0068	s	Casa Treta	0:En Puzzle 1,1:En Puzzle 2,2:En Puzzle 3,3:En Puzzle 4,4:En Puzzle 5,5:En Puzzle 6,6:En Puzzle 7,7:En Puzzle 8,8:Todos los Puzzles Completados
+0167	s	Pergamino Casa Treta 0:Normal (Maestro treta Ocultándose),1:Puede Entrar,4:Nota no leída (Maestro Treta se fue),5:Justo termino un Puzzle
+0155	r	Estado del Groudon/Kyogre	0:Luchable,1:Luchado

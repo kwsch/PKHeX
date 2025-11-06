@@ -64,9 +64,11 @@ namespace PKHeX.WinForms
             CHK_LangJPN = new System.Windows.Forms.CheckBox();
             CLB_FormSeen = new System.Windows.Forms.CheckedListBox();
             groupBox1 = new System.Windows.Forms.GroupBox();
+            CHK_SeenMegaY = new System.Windows.Forms.CheckBox();
+            CHK_SeenMegaX = new System.Windows.Forms.CheckBox();
+            CHK_SeenMega = new System.Windows.Forms.CheckBox();
             CHK_SeenAlpha = new System.Windows.Forms.CheckBox();
             CHK_SeenGenderless = new System.Windows.Forms.CheckBox();
-            CHK_SeenMega = new System.Windows.Forms.CheckBox();
             CHK_SeenFemale = new System.Windows.Forms.CheckBox();
             CHK_SeenMale = new System.Windows.Forms.CheckBox();
             CHK_IsNew = new System.Windows.Forms.CheckBox();
@@ -142,7 +144,7 @@ namespace PKHeX.WinForms
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(690, 287);
+            B_Save.Location = new System.Drawing.Point(690, 299);
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(93, 27);
@@ -224,10 +226,10 @@ namespace PKHeX.WinForms
             CB_DisplayForm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_DisplayForm.FormattingEnabled = true;
             CB_DisplayForm.Items.AddRange(new object[] { "♂", "♀", "-" });
-            CB_DisplayForm.Location = new System.Drawing.Point(84, 41);
+            CB_DisplayForm.Location = new System.Drawing.Point(77, 47);
             CB_DisplayForm.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_DisplayForm.Name = "CB_DisplayForm";
-            CB_DisplayForm.Size = new System.Drawing.Size(119, 25);
+            CB_DisplayForm.Size = new System.Drawing.Size(125, 25);
             CB_DisplayForm.TabIndex = 45;
             // 
             // GB_Displayed
@@ -237,29 +239,29 @@ namespace PKHeX.WinForms
             GB_Displayed.Controls.Add(CB_Gender);
             GB_Displayed.Controls.Add(CHK_DisplayShiny);
             GB_Displayed.Controls.Add(CB_DisplayForm);
-            GB_Displayed.Location = new System.Drawing.Point(430, 18);
+            GB_Displayed.Location = new System.Drawing.Point(430, 29);
             GB_Displayed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Displayed.Name = "GB_Displayed";
             GB_Displayed.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Displayed.Size = new System.Drawing.Size(210, 105);
+            GB_Displayed.Size = new System.Drawing.Size(210, 102);
             GB_Displayed.TabIndex = 44;
             GB_Displayed.TabStop = false;
             GB_Displayed.Text = "Displayed";
             // 
             // L_DisplayForm
             // 
-            L_DisplayForm.Location = new System.Drawing.Point(4, 42);
+            L_DisplayForm.Location = new System.Drawing.Point(3, 48);
             L_DisplayForm.Name = "L_DisplayForm";
-            L_DisplayForm.Size = new System.Drawing.Size(76, 20);
+            L_DisplayForm.Size = new System.Drawing.Size(72, 20);
             L_DisplayForm.TabIndex = 54;
             L_DisplayForm.Text = "Form:";
             L_DisplayForm.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_DisplayGender
             // 
-            L_DisplayGender.Location = new System.Drawing.Point(4, 19);
+            L_DisplayGender.Location = new System.Drawing.Point(3, 25);
             L_DisplayGender.Name = "L_DisplayGender";
-            L_DisplayGender.Size = new System.Drawing.Size(76, 20);
+            L_DisplayGender.Size = new System.Drawing.Size(72, 20);
             L_DisplayGender.TabIndex = 53;
             L_DisplayGender.Text = "Gender:";
             L_DisplayGender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -269,17 +271,17 @@ namespace PKHeX.WinForms
             CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Gender.FormattingEnabled = true;
             CB_Gender.Items.AddRange(new object[] { "-", "♂", "♀", "♂/♀" });
-            CB_Gender.Location = new System.Drawing.Point(84, 16);
+            CB_Gender.Location = new System.Drawing.Point(77, 22);
             CB_Gender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Gender.Name = "CB_Gender";
-            CB_Gender.Size = new System.Drawing.Size(56, 25);
+            CB_Gender.Size = new System.Drawing.Size(64, 25);
             CB_Gender.TabIndex = 24;
             // 
             // CHK_DisplayShiny
             // 
             CHK_DisplayShiny.AutoSize = true;
             CHK_DisplayShiny.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            CHK_DisplayShiny.Location = new System.Drawing.Point(38, 68);
+            CHK_DisplayShiny.Location = new System.Drawing.Point(72, 76);
             CHK_DisplayShiny.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_DisplayShiny.Name = "CHK_DisplayShiny";
             CHK_DisplayShiny.Size = new System.Drawing.Size(60, 21);
@@ -303,7 +305,7 @@ namespace PKHeX.WinForms
             GB_Language.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Language.Name = "GB_Language";
             GB_Language.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Language.Size = new System.Drawing.Size(134, 185);
+            GB_Language.Size = new System.Drawing.Size(134, 204);
             GB_Language.TabIndex = 47;
             GB_Language.TabStop = false;
             GB_Language.Text = "Languages";
@@ -311,7 +313,7 @@ namespace PKHeX.WinForms
             // CHK_LangCHT
             // 
             CHK_LangCHT.AutoSize = true;
-            CHK_LangCHT.Location = new System.Drawing.Point(7, 161);
+            CHK_LangCHT.Location = new System.Drawing.Point(7, 179);
             CHK_LangCHT.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_LangCHT.Name = "CHK_LangCHT";
             CHK_LangCHT.Size = new System.Drawing.Size(79, 21);
@@ -322,7 +324,7 @@ namespace PKHeX.WinForms
             // CHK_LangCHS
             // 
             CHK_LangCHS.AutoSize = true;
-            CHK_LangCHS.Location = new System.Drawing.Point(7, 145);
+            CHK_LangCHS.Location = new System.Drawing.Point(7, 161);
             CHK_LangCHS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_LangCHS.Name = "CHK_LangCHS";
             CHK_LangCHS.Size = new System.Drawing.Size(79, 21);
@@ -333,7 +335,7 @@ namespace PKHeX.WinForms
             // CHK_LangKOR
             // 
             CHK_LangKOR.AutoSize = true;
-            CHK_LangKOR.Location = new System.Drawing.Point(7, 129);
+            CHK_LangKOR.Location = new System.Drawing.Point(7, 143);
             CHK_LangKOR.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_LangKOR.Name = "CHK_LangKOR";
             CHK_LangKOR.Size = new System.Drawing.Size(69, 21);
@@ -344,7 +346,7 @@ namespace PKHeX.WinForms
             // CHK_LangLATAM
             // 
             CHK_LangLATAM.AutoSize = true;
-            CHK_LangLATAM.Location = new System.Drawing.Point(7, 113);
+            CHK_LangLATAM.Location = new System.Drawing.Point(7, 125);
             CHK_LangLATAM.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_LangLATAM.Name = "CHK_LangLATAM";
             CHK_LangLATAM.Size = new System.Drawing.Size(98, 21);
@@ -355,7 +357,7 @@ namespace PKHeX.WinForms
             // CHK_LangSPA
             // 
             CHK_LangSPA.AutoSize = true;
-            CHK_LangSPA.Location = new System.Drawing.Point(7, 97);
+            CHK_LangSPA.Location = new System.Drawing.Point(7, 107);
             CHK_LangSPA.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_LangSPA.Name = "CHK_LangSPA";
             CHK_LangSPA.Size = new System.Drawing.Size(100, 21);
@@ -366,7 +368,7 @@ namespace PKHeX.WinForms
             // CHK_LangGER
             // 
             CHK_LangGER.AutoSize = true;
-            CHK_LangGER.Location = new System.Drawing.Point(7, 81);
+            CHK_LangGER.Location = new System.Drawing.Point(7, 89);
             CHK_LangGER.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_LangGER.Name = "CHK_LangGER";
             CHK_LangGER.Size = new System.Drawing.Size(73, 21);
@@ -377,7 +379,7 @@ namespace PKHeX.WinForms
             // CHK_LangITA
             // 
             CHK_LangITA.AutoSize = true;
-            CHK_LangITA.Location = new System.Drawing.Point(7, 65);
+            CHK_LangITA.Location = new System.Drawing.Point(7, 71);
             CHK_LangITA.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_LangITA.Name = "CHK_LangITA";
             CHK_LangITA.Size = new System.Drawing.Size(61, 21);
@@ -388,7 +390,7 @@ namespace PKHeX.WinForms
             // CHK_LangFRE
             // 
             CHK_LangFRE.AutoSize = true;
-            CHK_LangFRE.Location = new System.Drawing.Point(7, 48);
+            CHK_LangFRE.Location = new System.Drawing.Point(7, 52);
             CHK_LangFRE.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_LangFRE.Name = "CHK_LangFRE";
             CHK_LangFRE.Size = new System.Drawing.Size(65, 21);
@@ -399,7 +401,7 @@ namespace PKHeX.WinForms
             // CHK_LangENG
             // 
             CHK_LangENG.AutoSize = true;
-            CHK_LangENG.Location = new System.Drawing.Point(7, 32);
+            CHK_LangENG.Location = new System.Drawing.Point(7, 34);
             CHK_LangENG.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_LangENG.Name = "CHK_LangENG";
             CHK_LangENG.Size = new System.Drawing.Size(68, 21);
@@ -430,24 +432,59 @@ namespace PKHeX.WinForms
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(CHK_SeenAlpha);
+            groupBox1.Controls.Add(CHK_SeenMegaY);
+            groupBox1.Controls.Add(CHK_SeenMegaX);
             groupBox1.Controls.Add(CHK_SeenMega);
+            groupBox1.Controls.Add(CHK_SeenAlpha);
             groupBox1.Controls.Add(CHK_SeenGenderless);
             groupBox1.Controls.Add(CHK_SeenFemale);
             groupBox1.Controls.Add(CHK_SeenMale);
-            groupBox1.Location = new System.Drawing.Point(299, 18);
+            groupBox1.Location = new System.Drawing.Point(210, 45);
             groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            groupBox1.Size = new System.Drawing.Size(124, 105);
+            groupBox1.Size = new System.Drawing.Size(212, 86);
             groupBox1.TabIndex = 49;
             groupBox1.TabStop = false;
             groupBox1.Text = "Seen";
             // 
+            // CHK_SeenMegaY
+            // 
+            CHK_SeenMegaY.AutoSize = true;
+            CHK_SeenMegaY.Location = new System.Drawing.Point(122, 56);
+            CHK_SeenMegaY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_SeenMegaY.Name = "CHK_SeenMegaY";
+            CHK_SeenMegaY.Size = new System.Drawing.Size(72, 21);
+            CHK_SeenMegaY.TabIndex = 58;
+            CHK_SeenMegaY.Text = "Mega Y";
+            CHK_SeenMegaY.UseVisualStyleBackColor = true;
+            // 
+            // CHK_SeenMegaX
+            // 
+            CHK_SeenMegaX.AutoSize = true;
+            CHK_SeenMegaX.Location = new System.Drawing.Point(122, 38);
+            CHK_SeenMegaX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_SeenMegaX.Name = "CHK_SeenMegaX";
+            CHK_SeenMegaX.Size = new System.Drawing.Size(73, 21);
+            CHK_SeenMegaX.TabIndex = 57;
+            CHK_SeenMegaX.Text = "Mega X";
+            CHK_SeenMegaX.UseVisualStyleBackColor = true;
+            // 
+            // CHK_SeenMega
+            // 
+            CHK_SeenMega.AutoSize = true;
+            CHK_SeenMega.Location = new System.Drawing.Point(122, 38);
+            CHK_SeenMega.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_SeenMega.Name = "CHK_SeenMega";
+            CHK_SeenMega.Size = new System.Drawing.Size(61, 21);
+            CHK_SeenMega.TabIndex = 55;
+            CHK_SeenMega.Text = "Mega";
+            CHK_SeenMega.UseVisualStyleBackColor = true;
+            // 
             // CHK_SeenAlpha
             // 
             CHK_SeenAlpha.AutoSize = true;
-            CHK_SeenAlpha.Location = new System.Drawing.Point(6, 81);
+            CHK_SeenAlpha.Location = new System.Drawing.Point(122, 20);
             CHK_SeenAlpha.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_SeenAlpha.Name = "CHK_SeenAlpha";
             CHK_SeenAlpha.Size = new System.Drawing.Size(60, 21);
@@ -458,7 +495,7 @@ namespace PKHeX.WinForms
             // CHK_SeenGenderless
             // 
             CHK_SeenGenderless.AutoSize = true;
-            CHK_SeenGenderless.Location = new System.Drawing.Point(6, 48);
+            CHK_SeenGenderless.Location = new System.Drawing.Point(14, 56);
             CHK_SeenGenderless.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_SeenGenderless.Name = "CHK_SeenGenderless";
             CHK_SeenGenderless.Size = new System.Drawing.Size(92, 21);
@@ -466,21 +503,10 @@ namespace PKHeX.WinForms
             CHK_SeenGenderless.Text = "Genderless";
             CHK_SeenGenderless.UseVisualStyleBackColor = true;
             // 
-            // CHK_SeenMega
-            // 
-            CHK_SeenMega.AutoSize = true;
-            CHK_SeenMega.Location = new System.Drawing.Point(6, 65);
-            CHK_SeenMega.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_SeenMega.Name = "CHK_SeenMega";
-            CHK_SeenMega.Size = new System.Drawing.Size(61, 21);
-            CHK_SeenMega.TabIndex = 55;
-            CHK_SeenMega.Text = "Mega";
-            CHK_SeenMega.UseVisualStyleBackColor = true;
-            // 
             // CHK_SeenFemale
             // 
             CHK_SeenFemale.AutoSize = true;
-            CHK_SeenFemale.Location = new System.Drawing.Point(6, 32);
+            CHK_SeenFemale.Location = new System.Drawing.Point(14, 38);
             CHK_SeenFemale.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_SeenFemale.Name = "CHK_SeenFemale";
             CHK_SeenFemale.Size = new System.Drawing.Size(68, 21);
@@ -491,7 +517,7 @@ namespace PKHeX.WinForms
             // CHK_SeenMale
             // 
             CHK_SeenMale.AutoSize = true;
-            CHK_SeenMale.Location = new System.Drawing.Point(6, 16);
+            CHK_SeenMale.Location = new System.Drawing.Point(14, 20);
             CHK_SeenMale.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_SeenMale.Name = "CHK_SeenMale";
             CHK_SeenMale.Size = new System.Drawing.Size(56, 21);
@@ -502,7 +528,7 @@ namespace PKHeX.WinForms
             // CHK_IsNew
             // 
             CHK_IsNew.AutoSize = true;
-            CHK_IsNew.Location = new System.Drawing.Point(212, 50);
+            CHK_IsNew.Location = new System.Drawing.Point(356, 19);
             CHK_IsNew.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_IsNew.Name = "CHK_IsNew";
             CHK_IsNew.Size = new System.Drawing.Size(53, 21);
@@ -647,5 +673,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_Seen;
         private System.Windows.Forms.Label L_Caught;
         private System.Windows.Forms.Label L_SeenShiny;
+        private System.Windows.Forms.CheckBox CHK_SeenMegaY;
+        private System.Windows.Forms.CheckBox CHK_SeenMegaX;
     }
 }

@@ -1,0 +1,24 @@
+0048	*	Inicial	0:Treecko,1:Torchic,2:Mudkip
+0074	g	Inicial de Johto	0:Sin elegir,28:Chikorita,29:Cyndaquil,30:Totodile
+0075	g	Inicial de Sinnoh	0:Sin elegir,31:Turtwig,32:Chimchar,33:Piplup
+0076	g	Inicial de Unova	0:Sin elegir,34:Snivy,35:Tepig,36:Oshawott
+0247	g	Iniciales Regionales	0:Inicial de Johto pendiente,3:Inicial de Unova pendiente/Inicial de Johto recibido,6:Inicial de Sinnoh pendiente/Inicial de Unova recibido,9:Inicial de Sinnoh recibido (Todos recibido)
+0060	*	Ceniza volcánica recogida	60000:Máximo
+0073	s	Poochyena estático de la Ruta 101	0:Pendiente,1:Acercado,2:Fallo al acercarse
+0118	s	Evento de la Ruta 101	0:Inicio del juego,1:Abedul en peligro (puede elegir inicial),2:Elegir inicial (no puedes salir),3:Abedul rescatado,4:Rival entrega la DexNav,5:Aparece el Poochyena estático,6:Poochyena estático peleado/desaparecido
+0215	+	Progreso en Gran Concurso	0:No conocido a Ariana,1:Conocido a Ariana,2:Ariana en el Auditorio,3:Traje/vestido de gala pendiente (Sala de espera),4:Recepcionista explica las reglas,5:Recepcionista explicó las reglas,6:Evento 1 en la sala de espera pendiente,7:Primer concurso de nivel Normal ganado,8:Evento 2 en la sala de espera pendiente,9:Primer concurso de nivel Alto ganado,10:Evento 3 en la sala de espera pendiente,11:Primer concurso de nivel Avanzado ganado,12:Evento 4 en la sala de espera pendiente,13:Primer concurso de nivel Maestro ganado,14:Evento 5 en la sala de espera pendiente,15:Completados 4 niveles Maestro,16:Evento 6 en la sala de espera pendiente,17:Completados los 5 niveles Maestro,18:Evento 7 en la sala de espera pendiente,19:Ariana derrotada,20:Evento 8 en la sala de espera pendiente,21:Plubio y Ariana derrotados (Todo completado)
+0217	g	Estado del Pikachu coqueta	0:No se ha competido en los concursos,1:Regalo pendiente,2:Recibido/Vestido intercambiable
+0218	s	Progreso del Malvalona Gourmet	0:Sin entrar,1:Menú Sandwich Villa accesible,3:Magnebóndigas accesible,5:Malvaguetis accesible,7:Rey Gourmet Gastro derrotado
+0223	s	Evento del Conservador del Museo (Auditorio)	0:Sin activar,1:Pendiente,2:Activado
+0136	s	Evento de la Ruta 118	0:Encuentro con Máximo,1:Prohibido el paso,2:Paso permitido
+0167	s	Evento de la Isla del Sur	0:Sin acceso,1:Isla del Sur accedida,2:Mensaje escuchado,4:Completado
+0168	s	Lati@s de la Isla del Sur	0:Sin recibir (Batalla contra Matías/Carola pendiente),1:Recibido
+0163	s	Evento de la Ruta 120	0:Steven Appeared,1:Kecleon Battle Pending (Bridge),2:Kecleon Defeated,3:Allowed Further Access
+0196	s	Progreso de la Casa Treta	0:Maestro Treta Hiding (Puzzle 1),1:Puzzle 1 Active,2:Finished Puzzle 1,3:Maestro Treta Hiding (Puzzle 2),4:Puzzle 2 Active,5:Finished Puzzle 2,6:Maestro Treta Hiding (Puzzle 3),7:Puzzle 3 Active,8:Finished Puzzle 3,9:Maestro Treta Hiding (Puzzle 4),10:Puzzle 4 Active,11:Finished Puzzle 4,12:Maestro Treta Hiding (Puzzle 5),13:Puzzle 5 Active,14:Finished Puzzle 5,15:Maestro Treta Hiding (Puzzle 6),16:Puzzle 6 Active,17:Finished Puzzle 6,18:All Puzzles Completed
+0197	s	Recompensas pruebas Casa Treta	0:MT12 Pending,1:Received MT12,2:Hard Stone Pending,3:Received Hard Stone,4:MT92 Pending,5:Received MT92,6:Smoke Ball Pending,7:Received Smoke Ball,8:Magnet Pending,9:Received Magnet,10:Red/Blue Tent Pending,11:Received Red/Blue Tent
+0198	s	Manuscrito Casa Treta Puzzle 1	0:No memorizado,1:Memorizado
+0199	s	Manuscrito Casa Treta Puzzle 2	0:No memorizado,1:Memorizado
+0200	s	Manuscrito Casa Treta Puzzle 3	0:No memorizado,1:Memorizado
+0201	s	Manuscrito Casa Treta Puzzle 4	0:No memorizado,1:Memorizado
+0202	s	Manuscrito Casa Treta Puzzle 5	0:No memorizado,1:Memorizado
+0203	s	Manuscrito Casa Treta Puzzle 6	0:No memorizado,1:Memorizado

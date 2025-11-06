@@ -38,7 +38,7 @@ public static class FormConverter
             <= Legal.MaxSpeciesID_3 => GetFormsGen3(species, types, forms, generation),
             <= Legal.MaxSpeciesID_4 => GetFormsGen4(species, types, forms, generation),
             <= Legal.MaxSpeciesID_5 => GetFormsGen5(species, types, forms, generation),
-            <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders, generation, context),
+            <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders, context),
             <= Legal.MaxSpeciesID_7_USUM => GetFormsGen7(species, types, forms, generation),
             <= Legal.MaxSpeciesID_8a => GetFormsGen8(species, generation, types, forms, genders),
             _ => GetFormsGen9(species, generation, types, forms, genders),
@@ -220,11 +220,12 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsGen6(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, byte generation, EntityContext context)
+    private static string[] GetFormsGen6(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, EntityContext context)
     {
+        var generation = context.Generation();
         return (Species)species switch
         {
-            Greninja => GetFormsGreninja(types, forms, new string[!context.IsMegaContext() ? 2 : context.Generation() >= 9 ? 4 : 3]),
+            Greninja => GetFormsGreninja(types, forms, new string[!context.IsMegaContext() ? 2 : generation >= 9 ? 4 : 3]),
             Scatterbug or Spewpa or Vivillon => [
                 forms[(int)Vivillon], // Icy Snow
                 forms[963], // Polar
@@ -254,7 +255,7 @@ public static class FormConverter
                 forms[988], // Blue
                 forms[989], // White
             ],
-            Floette => GetFormsFloette(forms, new string[!context.IsMegaContext() ? 5 : context.Generation() >= 9 ? 7 : 6]),
+            Floette => GetFormsFloette(forms, new string[!context.IsMegaContext() ? 5 : generation >= 9 ? 7 : 6]),
             Furfrou => [
                 forms[(int)Furfrou], // Natural
                 forms[995], // Heart
@@ -275,11 +276,11 @@ public static class FormConverter
                 forms[(int)Aegislash], // Shield
                 forms[1005], // Blade
             ],
-            Sliggoo or Goodra or Avalugg when context.Generation() >= 8 => GetFormsHisui(species, context.Generation(), types, forms),
+            Sliggoo or Goodra or Avalugg when generation >= 8 => GetFormsHisui(species, generation, types, forms),
             Pumpkaboo or Gourgeist when generation >= 9 => [
                 forms[MediumVariety],
-                forms[1006], // Small
-                forms[1007], // Large
+                forms[SmallVariety],
+                forms[LargeVariety],
                 forms[JumboVariety],
             ],
             Pumpkaboo or Gourgeist => [
@@ -288,11 +289,11 @@ public static class FormConverter
                 forms[1007], // Large
                 forms[1008], // Super
             ],
-            Xerneas => [
+            Xerneas when generation < 9 => [
                 forms[(int)Xerneas], // Neutral
                 forms[1012], // Active
             ],
-            Zygarde => GetFormsZygarde(forms, new string[context.IsMegaContext() && context.Generation() >= 9 ? 6 : 5]),
+            Zygarde => GetFormsZygarde(forms, new string[context.IsMegaContext() && generation >= 9 ? 6 : 5]),
             Hoopa => [
                 forms[(int)Hoopa], // Confined
                 forms[1018], // Unbound
@@ -976,7 +977,9 @@ public static class FormConverter
     private const int Terastal = 1135;
     private const int Stellar = 1136;
     private const int MediumVariety = 1137;
-    private const int JumboVariety = 1138;
+    private const int SmallVariety = 1138;
+    private const int LargeVariety = 1139;
+    private const int JumboVariety = 1140;
 
     public static string GetGigantamaxName(IReadOnlyList<string> forms) => forms[Gigantamax];
 
@@ -1041,5 +1044,20 @@ public static class FormConverter
                 return true;
         }
         return false;
+    }
+
+    /// <summary>
+    /// Converts a Form ID to string.
+    /// </summary>
+    /// <param name="form">Form to get the form name of</param>
+    /// <param name="strings">Localized string source to fetch with</param>
+    /// <param name="species">Species ID the form belongs to</param>
+    /// <param name="genders">List of genders names</param>
+    /// <param name="context">Format the form name should appear in</param>
+    public static string GetStringFromForm(byte form, GameStrings strings, ushort species, IReadOnlyList<string> genders, EntityContext context)
+    {
+        var forms = GetFormList(species, strings.Types, strings.forms, genders, context);
+        var result = form >= forms.Length ? string.Empty : forms[form];
+        return result;
     }
 }

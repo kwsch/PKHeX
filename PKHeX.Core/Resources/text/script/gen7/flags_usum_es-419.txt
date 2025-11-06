@@ -1,0 +1,119 @@
+0646	s	Visto Mimikyu en el Valle de los Pikachu RV
+4060	*	Es Campeón de Alola + Evento de Magearna Activo
+4562	g	Ha ido a Isla Akala/Puede recibir Pikachu con Gorro
+4563	g	Pikachu con Gorro recibido
+0518	g	Pikachu con Surf recibido
+0443	g	Huevo de Eeeve de Regalo recibido
+0493	g	Porygon de Regalo recibido
+0504	g	Aerodactyl de Regalo recibido
+0654	g	Código Cero de Regalo recibido (1)
+1101	g	Código Cero de Regalo recibido (2)
+0503	g	Cosmog de Regalo recibido
+4447	g	Magearna de Regalo recibido
+0269	g	Poipole de Regalo recibido
+4420	r	Articuno Capturado
+4421	r	Zapdos Capturado
+4422	r	Moltres Capturado
+4423	r	Mewtwo Capturado
+4260	r	(US) Raikou Capturado
+4261	r	(UL) Entei Capturado
+4262	r	Suicune Capturado
+4263	r	(UL) Lugia Capturado
+4264	r	(US) Ho-Oh Capturado
+4285	r	Regirock Capturado
+4286	r	Regice Capturado
+4287	r	Registeel Capturado
+4283	r	(UL) Latias Capturada
+4284	r	(US) Latios Capturado
+4289	r	(UL) Kyogre Capturado
+4288	r	(US) Groudon Capturado
+4290	r	Rayquaza Capturado
+4265	r	Uxie Capturado
+4266	r	Mesprit Capturado
+4267	r	Azelf Capturado
+4268	r	(US) Dialga Capturado
+4269	r	(UL) Palkia Capturado
+4270	r	(US) Heatran Capturado
+4271	r	(UL) Regigigas Capturado
+4272	r	Giratina Capturado
+4273	r	Cresselia Capturada
+4274	r	Cobalion Capturado
+4275	r	Terrakion Capturado
+4276	r	Virizion Capturado
+4277	r	(US) Tornadus Capturado
+4278	r	(UL) Thundurus Capturado
+4279	r	(US) Reshiram Capturado
+4280	r	(UL) Zekrom Capturado
+4281	r	Landorus Capturado
+4282	r	Kyurem Capturado
+4424	r	(US) Xerneas Capturado
+4425	r	(UL) Yveltal Capturado
+1627	r	Solgaleo/Lunala Capturado
+1552	r	Necrozma Capturado
+4370	r	(UL) Stakataka en Bosque de Poni
+4371	r	(US) Blacephalon en Bosque de Poni
+4115	*	Juez de IV desbloqueado
+4545	s	Lanturn 360 desbloqueado
+4546	s	Primarina Twist desbloqueado
+4547	s	Starmie 720 desbloqueado
+4548	s	Over-the-Gyarados desbloqueado
+4490	s	Usar Joystick para el Ultraviaje Dimensional
+4440	+	Estilo de lanzamiento aprendido: Grácil 
+4441	+	Estilo de lanzamiento aprendido: Cuco 
+4442	+	Estilo de lanzamiento aprendido: Dual 
+4443	+	Estilo de lanzamiento aprendido: Desafiante 
+4444	+	Estilo de lanzamiento aprendido: Zurdo 
+4445	+	Estilo de lanzamiento aprendido: Impetuoso 
+4446	+	Estilo de lanzamiento aprendido: Tirabuzón 
+4453	+	Estilo de lanzamiento aprendido: Arrogante
+4073	s	Buscamontura recibida
+4074	s	Carga Tauros desbloqueada
+4075	s	Olfateo Stoutland desbloqueado
+4076	s	Empuje Machamp desbloqueado
+4077	s	Todoterreno Mudsdale desbloqueado
+4078	s	Nado Lapras desbloqueado
+4079	s	Propulsión Sharpedo desbloqueada
+4080	s	Vuelo Charizard desbloqueado
+0168	g	Intercambio por Hawlucha en Ruta 2
+0169	g	Intercambio por Noibat en Ruta 5
+0170	g	Intercambio por Barboach en Avenida Royale
+0171	g	Intercambio por Arbok en Ruta 8
+0172	g	Intercambio por Phantump en Aldea Tapu
+0173	g	Intercambio por Shellos en Aldea Marina
+0174	g	Intercambio por Tauros en Pendiente de Poni
+1592	r	(UL) Sandygast de la Ruta 15 derrotado
+0607	r	Frillish de la Ruta 14 derrotado
+0547	r	Bewear de Ciudad Hauoli Zona Comercial derrotado
+4564	s	Escuela de entrenadores encantada (Evento de los siete misterios)
+0211	s	Mansión de Samina NO es el Castillo del Team Rocket
+1730	r	Electrode desaparecido (Ala izquierda del primer piso del Castillo del Team Rocket, sala intermedia 2)
+1731	r	Electrode desaparecido (Ala izquierda del primer piso del Castillo del Team Rocket, sala intermedia 11)
+1732	r	Electrode desaparecido (Ala derecha del primer piso del Castillo del Team Rocket, sala intermedia)
+0185	t	Primera batalla por la Defensa del Título realizada
+0186	t	Hela encontrada (Defensa del Título)
+3395	t	Hela derrotada (Defensa del Título)
+0187	t	Gladio encontrado (Defensa del Título)
+3453	t	Gladio derrotado (Defensa del Título; Rowlet como Pokémon inicial)
+3454	t	Gladio derrotado (Defensa del Título; Litten como Pokémon inicial)
+3455	t	Gladio derrotado (Defensa del Título; Popplio como Pokémon inicial)
+0188	t	Olano encontrado (Defensa del Título)
+3445	t	Olano derrotado (Defensa del Título)
+0189	t	Samina encontrada (Defensa del Título)
+3680	t	Samina derrotada (Defensa del Título)
+0190	t	Tilo encontrado (Defensa del Título)
+3392	t	Tilo derrotado (Defensa del Título; Rowlet como Pokémon inicial)
+3393	t	Tilo derrotado (Defensa del Título; Litten como Pokémon inicial)
+3394	t	Tilo derrotado (Defensa del Título; Popplio como Pokémon inicial)
+0191	t	Chris encontrado (Defensa del Título)
+3441	t	Chris derrotado (Defensa del Título)
+0192	t	Guzmán encontrado (Defensa del Título)
+3683	t	Guzmán derrotado (Defensa del Título)
+0193	t	Kukui encontrado (Defensa del Título)
+3513	t	Kukui derrotado (Defensa del Título; Rowlet como Pokémon inicial)
+3514	t	Kukui derrotado (Defensa del Título; Litten como Pokémon inicial)
+3515	t	Kukui derrotado (Defensa del Título; Popplio como Pokémon inicial)
+0194	t	Francine encontrada (Defensa del Título)
+3437	t	Francine derrotada (Defensa del Título)
+0195	t	José encontrado (Defensa del Título)
+3516	t	José derrotado (Defensa del Título)
+1698	s	Evento de Mohn en el Paraíso AEther inactivo

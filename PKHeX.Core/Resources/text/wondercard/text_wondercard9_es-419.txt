@@ -1,0 +1,64 @@
+
+Regalo: {0}
+Regalo: {8}
+Regalo: paquete de objetos
+{0} ({1})
+El Pokémon Mítico {0}
+{0} de {3}
+{0} brillante
+{0} ({2})
+Regalo: {2}
+{0} con habilidad oculta
+{0} con {4}
+{0} con {5}
+{0} con {6}
+{0} con {7}
+{0} con un/una {9}
+Regalo especial por compra: versión descargable
+Regalo especial por compra: pack especial
+Regalo especial por compra: en tienda
+Regalo especial por compra: guía de estrategia
+Regalo especial por compra
+¡Feliz cumpleaños!
+Regalo especial por compra: consola virtual
+Club de Entrenadores Pokémon
+Pokémon Global Link
+Banco de Pokémon
+El Pokémon Legendario {0}
+
+{11}
+Pokémon HOME
+Regalo: dinero
+${12}
+Regalo: conjunto
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Regalo: Huevo Pokémon
+Regalo: Pokémon
+Regalo: objeto
+
+
+
+
+
+Regalo: {8} y otros
+Regalo: ingredientes para sándwiches
+{0} de teratipo {13}
+{0} el Gigante
+{0} el Diminuto
+Regalo: puntos de liga
+Regalo: ingrediente para sándwiches
+{14}

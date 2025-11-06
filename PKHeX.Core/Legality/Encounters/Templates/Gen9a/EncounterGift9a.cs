@@ -199,6 +199,8 @@ public sealed record EncounterGift9a(ushort Species, byte Form, byte Level, byte
     {
         if (GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed))
             return SeedCorrelationResult.Success;
+        if (pk.IsShiny && !LumioseSolver.SearchShiny1)
+            return SeedCorrelationResult.Ignore;
         return SeedCorrelationResult.Invalid;
     }
 

@@ -1,0 +1,79 @@
+1059	r	Mewtwo derrotado
+0211	r	Mewtwo capturado
+0210	r	Zygarde capturado
+0886	r	Zygarde derrotado
+0631	r	Snorlax desaparecido
+0321	r	Snorlax capturado
+0381	+	Indiv. Statuette (Mansión Batalla)
+0382	+	Dobles Statuette (Mansión Batalla)
+0383	+	Triples Statuette (Mansión Batalla)
+0384	+	Rotación Statuette (Mansión Batalla)
+0385	+	Multi Statuette (Mansión Batalla)
+0386	+	Super Indiv. desbloqueado
+0387	+	Super Dobles desbloqueado
+0388	+	Super Triples desbloqueado
+0389	+	Super Rotación desbloqueado
+0390	+	Super Multi desbloqueado
+0771	+	Racha de 50: Derrota Dama del Combate
+2642	s	PokéDex obtenida
+2640	s	Entrado al Hall de la Fama/Cámara de Zygarde accesible
+2645	*	Patines activos
+0162	s	Escogido el botón azul en el sótano 3 de Laboratorios Lysson
+0185	g	Intercambio por Bisharp en Ciudad Fractal
+0190	g	Intercambio con Xana
+0191	g	Intercambio por Steelix en Ciudad Relieve
+0320	g	Intercambio con Dianta
+0426	g	Intercambio por Farfetch'd en Ciudad Novarte
+0319	g	Inicial de Kanto recibido de Ciprés
+0949	g	Lucario de regalo recibido
+1060	s	Mazmorra rara accesible
+0299	g	Diancie conseguido via Regalo misterioso (Evento del Centro Pokémon completado)
+2666	*	Desbloqueado el PC de Olivier
+2670	+	Puede usar la piruleta: marcha en paralelo
+2671	+	Piruleta aprendida: salto mortal invertido
+2672	+	Puede usar la piruleta: salto mortal invertido
+2673	+	Puede usar la piruleta: giro de 360º
+2674	+	Piruleta aprendida: giro de 360º
+2675	+	Puede usar la piruleta: cosmosalto
+2720	f	Puede volar a Pueblo Boceto
+2721	f	Puede volar a Pueblo Acuarela
+2722	f	Puede volar a Ciudad Novarte
+2724	f	Puede volar a Ciudad Relieve
+2725	f	Puede volar a Ciudad Yantra
+2726	f	Puede volar a Ciudad Témpera
+2727	f	Puede volar a Ciudad Romantis
+2728	f	Puede volar a Ciudad Fluxus
+2729	f	Puede volar a Ciudad Fractal
+2730	f	Puede volar a Pueblo Vánitas
+2731	f	Puede volar a Pueblo Crómlech
+2732	f	Puede volar a Pueblo Fresco
+2733	f	Puede volar a Pueblo Mosaico
+2734	f	Puede volar a Pueblo Petroglifo
+2735	f	Puede volar a Liga Pokémon
+2736	f	Puede volar a Ciudad Batik
+2737	f	Puede volar a Ciudad Luminalia (Bulevar Sud)
+2738	f	Puede volar a Ciudad Luminalia (Bulevar Norte)
+2739	f	Puede volar a Ciudad Luminalia (Centro)
+0487	+	Combates perfectos: Combate doble en Restaurante Le Mindundi 
+0488	+	Combates perfectos: Combate triple en Restaurante Nifú Nifá
+0489	+	Combates perfectos: Combate rotatorio en Restaurante Nifú Nifá
+0490	+	Combates perfectos: Combate doble en Restaurante Le Postín 
+0491	+	Combates perfectos: Combate triple en Restaurante Le Postín
+0492	+	Combates perfectos: Combate rotatorio en Restaurante Le Postín
+0493	+	Combates perfectos: Combate doble en Sushi Tres Delícias 
+0494	+	Combates perfectos: Combate triple en Sushi Tres Delícias
+0495	+	Combates perfectos: Combate rotatorio en Sushi Tres Delícias
+0184	+	Combates perfectos: Hacer las camas en el 5to piso del Gran Hotel Ricachilton
+2984	m	Gran Hotel Ricachilton: Tarea Servicio de habitaciones terminada (hoy)
+2985	m	Gran Hotel Ricachilton: Tarea Hacer las camas terminada (hoy)
+2986	m	Gran Hotel Ricachilton: Tarea Objetos perdidos terminada (hoy)
+3152	m	Daily Pokémon Village Bin Checked (Today)
+3153	m	Thursday Pokémon Village Bin (1) Checked (Today)
+3154	m	Thursday Pokémon Village Bin (2) Checked (Today)
+3155	m	Thursday Pokémon Village Bin (3) Checked (Today)
+3156	m	Thursday Pokémon Village Bin (4) Checked (Today)
+3157	m	Daily Lost Hotel Bin Checked (Today)
+3158	m	Tuesday Lost Hotel Bin (1) Checked (Today)
+3159	m	Tuesday Lost Hotel Bin (2) Checked (Today)
+3160	m	Tuesday Lost Hotel Bin (3) Checked (Today)
+3161	m	Tuesday Lost Hotel Bin (4) Checked (Today)

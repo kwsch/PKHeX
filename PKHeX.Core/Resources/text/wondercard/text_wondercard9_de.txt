@@ -1,0 +1,64 @@
+
+Geschenk: {0}
+Geschenk: {8}
+Geschenk: Item-Set
+{0} ({1})
+Das Mysteriöse Pokémon {0}
+Ein {0} von {3}
+Ein Schillerndes {0}
+{0} ({2})
+Geschenk: {2}
+Ein {0} mit versteckter Fähigkeit
+{0} mit {4}
+{0} mit {5}
+{0} mit {6}
+{0} mit {7}
+{0} mit {9}
+Geschenk für Käufer der Downloadversion
+Geschenk für Käufer des Special Packs
+Geschenk für Käufer der Handelsversion
+Geschenk für Käufer des Lösungsbuchs
+Geschenk für Käufer des Spiels
+Herzlichen Glückwunsch zum Geburtstag!
+Geschenk für Käufer eines Virtual Console-Titels
+Pokémon-Trainer-Club
+Pokémon Global Link
+Pokémon Bank
+Das Legendäre Pokémon {0}
+
+{11}
+Pokémon HOME
+Geschenk: Taschengeld
+{12} $
+Geschenk: Modeartikel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Geschenk: Pokémon-Ei
+Geschenk: Pokémon
+Geschenk: Item
+
+
+
+
+
+Geschenk: {8} etc.
+Geschenk: Sandwichzutaten
+{0} vom Tera-Typ {13}
+Riese {0}
+Winzling {0}
+Geschenk: LP
+Geschenk: Sandwichzutat
+{14}
