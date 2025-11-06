@@ -1,0 +1,80 @@
+S. Corazón A
+S. Corazón B
+S. Corazón C
+S. Corazón D
+S. Corazón E
+S. Corazón F
+S. Astro A
+S. Astro B
+S. Astro C
+S. Astro D
+S. Astro E
+S. Astro F
+S. Línea A
+S. Línea B
+S. Línea C
+S. Línea D
+S. Humo A
+S. Humo B
+S. Humo C
+S. Humo D
+S. Electro A
+S. Electro B
+S. Electro C
+S. Electro D
+S. Espuma A
+S. Espuma B
+S. Espuma C
+S. Espuma D
+S. Fuego A
+S. Fuego B
+S. Fuego C
+S. Fuego D
+S. Fiesta A
+S. Fiesta B
+S. Fiesta C
+S. Fiesta D
+S. Floral A
+S. Floral B
+S. Floral C
+S. Floral D
+S. Floral E
+S. Floral F
+S. Lírico A
+S. Lírico B
+S. Lírico C
+S. Lírico D
+S. Lírico E
+S. Lírico F
+S. Lírico G
+Sello A
+Sello B
+Sello C
+Sello D
+Sello E
+Sello F
+Sello G
+Sello H
+Sello I
+Sello J
+Sello K
+Sello L
+Sello M
+Sello N
+Sello O
+Sello P
+Sello Q
+Sello R
+Sello S
+Sello T
+Sello U
+Sello V
+Sello W
+Sello X
+Sello Y
+Sello Z
+S. Sacudida
+S. Misterio
+S. Líquido
+S. Explosión
+S. Chispa

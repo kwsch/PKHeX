@@ -1,0 +1,58 @@
+Dono: {0}
+Dono: Uovo
+Dono: Pokémon
+Dono: {8}
+Dono: Set di strumenti
+Dono: strumento
+Dono: Dynacristallo
+Dono: ingrediente per il curry
+{0} ({1})
+{0} (Pokémon leggendario)
+{0} (Pokémon misterioso)
+{0} di {3}
+{0} cromatico
+{0} ({2})
+Dono: {2}
+{0} con un’abilità speciale
+{0} con {4}
+{0} con {5}
+{0} con {6}
+{0} con {7}
+{0} con {9}
+{0} (Pokémon Gigamax)
+{11}
+Dono per la versione scaricabile
+Dono per l’acquisto della confezione speciale
+Dono per l’acquisto in negozio
+Dono per l’acquisto della guida strategica
+Dono per l’acquisto
+Buon compleanno!
+Dono speciale Virtual Console
+Club Allenatori di Pokémon
+Pokémon Global Link
+Banca Pokémon
+Pokémon HOME
+Dono: denaro
+{12} $
+Dono: vestiti
+Dono per la Lotta Competitiva
+Dono per la partecipazione alla Gara Online
+Dono: PL
+Dono per la Gara Ufficiale: strumento
+Dono per la Gara Ufficiale: PL
+Dono per la Gara Ufficiale: Pokémon
+Dono per la Gara Ufficiale: Uovo
+Dono per la Gara Ufficiale: vestiti
+Dono Lotta in Singolo stagione {10}: strumento
+Dono Lotta in Singolo stagione {10}: PL
+Dono Lotta in Singolo stagione {10}: Pokémon
+Dono Lotta in Singolo stagione {10}: Uovo
+Dono Lotta in Singolo stagione {10}: vestiti
+Dono Lotta in Doppio stagione {10}: strumento
+Dono Lotta in Doppio stagione {10}: PL
+Dono Lotta in Doppio stagione {10}: Pokémon
+Dono Lotta in Doppio stagione {10}: Uovo
+Dono Lotta in Doppio stagione {10}: vestiti
+Dono: statua di Pokémon
+Dono: {13}
+Dono: Uovo di Manaphy

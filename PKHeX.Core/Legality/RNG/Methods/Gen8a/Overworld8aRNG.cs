@@ -36,8 +36,7 @@ public static class Overworld8aRNG
         // Failed, fall back to Unrestricted and just put whatever.
         if (ctr >= maxAttempts)
         {
-            groupSeed = fakeRand.Next();
-            groupRand = new Xoroshiro128Plus(groupSeed);
+            // both group and slot seed values are still valid from last iteration; don't bother repeating work.
             var slotRand = new Xoroshiro128Plus(slotSeed);
             _ = slotRand.Next();
             var entitySeed = slotRand.Next();

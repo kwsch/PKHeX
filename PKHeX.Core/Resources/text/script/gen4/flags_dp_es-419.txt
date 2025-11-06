@@ -1,0 +1,222 @@
+0318	s	Saturno derrotado en Caverna Valor/Lago Veraz Restaurado
+0350	s	Agua del Lago Valor Restaurada/Se puede obtener entrada de Palkia/Dialga en Pueblo Caelestis
+0351	r	Dialga/Palkia capturado
+0482	s	Dialga/Palkia desaparecido del Columna Lanza
+0511	r	Uxie desaparecido
+0295	r	Uxie capturado
+0509	r	Mesprit desaparecido (Caverna Veraz)
+0510	r	Azelf desaparecido
+0294	r	Azelf capturado
+0621	r	Cresselia desaparecida (Isla Plenilunio)
+0507	r	Heatran desaparecido
+0288	r	Heatran capturado
+0609	r	Regigigas desaparecido
+0283	r	Regigigas capturado
+0622	r	Giratina desaparecido
+0289	r	Giratina capturado
+0606	r	Darkrai desaparecido (No lanzado)
+0344	r	Darkrai capturado/Taberna Bahía inaccesible (Ilegal)
+0623	r	Shaymin desaparecido (Paraiso Floral) (No lanzado)
+0291	r	Shaymin capturado (Ilegal)
+0620	r	Arceus desaparecido (No lanzado)
+0286	r	Arceus capturado (Ilegal)
+0307	r	Ferry a Isla Plenilunio accesible
+0316	r	Ferry a Isla Lunanueva accesible (No lanzado)
+0607	r	Taberna Bahía visitada (No lanzado)
+2532	r	Isla Lunanueva visitada (No lanzado)
+2517	r	Paraíso Floral visitada (No lanzado)
+0301	r	Wrote text on Route 224 white rock (No lanzado)
+0624	r	Professor Oak desaparecido (Ruta 224) (No lanzado)
+0634	r	Shaymin desaparecida (Ruta 224) (No lanzado)
+2404	a	Entrado al Hall de la Fama (Mejora de Tarjeta Entrenador)
+2408	a	Maestro de Concurso Carisma
+2409	a	Maestro de Concurso de Belleza
+2410	a	Maestro de Concurso de Dulzura
+2411	a	Maestro de Concurso de Ingenio
+2412	a	Maestro de Concurso de Dureza
+0329	r	Rotom capturado
+0665	s	Encontrado Mayordomo Fantasma en la Vieja Mansión
+0666	s	Encontrada Niña Fantasma en la Vieja Mansión
+0897	s	Encontrado Antidoto (escondido) en la Vieja Mansión
+1008	s	Encontrada Barrita Plus en la Vieja Mansión
+1023	s	Found Adamant/Lustrous Orb in Spear Pillar
+1233	s	Encontrada Tabla Oscura en la Vieja Mansión
+1234	s	Encontrada MT90 en la Vieja Mansión
+2401	*	Deportivas deshabilitadas
+2433	s	Se desbloqueó la segunda revancha contra los entrenadores
+0251	g	Huevo Happiny de regalo recibido
+0305	g	Eevee recibido
+0226	g	Regalo del huevo de Riolu de Quinoa pendiente (Isla Hierro)
+0229	g	Recibido el regalo del huevo de Riolu de Quinoa (Isla Hierro)
+0515	s	Quinoa desaparecido (Isla Hierro)
+2430	*	PC de Tecla desbloqueado
+2728	r	Drifloon de los viernes desaparecido
+2722	r	Pokémon de hoy en el Jardín Trofeo
+0133	g	Intercambio en Ciudad Pirita
+0134	g	Intercambio en Ciudad Vetusta
+0244	g	Intercambio en Ciudad Puntaneva
+0245	g	Intercambio en Ruta 226
+0787	s	Más PP encontrado en Lago Valor seco
+2507	s	Participado en las capturas del Parque Compi
+1409	t	Corredor Romén derrotado (Mañana)
+1448	t	Policía Iñaki derrotado (Noche)
+1449	t	Policía Alex derrotado (Noche)
+1450	t	Policía Ildefonso derrotado (Noche)
+1462	t	Policía Clemente derrotado (Noche)
+1490	t	Corredor Deandre derrotado (Mañana)
+1666	t	Corredor Wilson derrotado (Mañana)
+1667	t	Corredor Christian derrotado (Mañana)
+1668	t	Corredor Raúl derrotado (Mañana)
+1692	t	Policía Dani derrotado (Noche)
+1693	t	Policía Tomás derrotado (Noche)
+1987	t	1ra revancha contra Srta. Aroma Azuzena
+1988	t	2da revancha contra Srta. Aroma Azuzena
+1989	t	3ra revancha contra Srta. Aroma Azuzena
+1990	t	1ra revancha contra Artista Gil
+1991	t	2da revancha contra Artista Gil
+1992	t	3ra revancha contra Artista Gil
+1993	t	1ra revancha contra Luchadora Elena
+1994	t	2da revancha contra Luchadora Elena
+1995	t	3ra revancha contra Luchadora Elena
+1996	t	1ra revancha contra Ornitóloga Alondra
+1997	t	2da revancha contra Ornitóloga Alondra
+1998	t	Revancha contra Ornitóloga Rocío
+1999	t	1ra revancha contra Criapokémon Álvaro
+2000	t	2da revancha contra Criapokémon Álvaro
+2001	t	3ra revancha contra Criapokémon Álvaro
+2002	t	1ra revancha contra Criapokémon Jimena
+2003	t	2da revancha contra Criapokémon Jimena
+2004	t	3ra revancha contra Criapokémon Jimena
+2005	t	1ra revancha contra Campista Floriñán
+2006	t	2da revancha contra Campista Floriñán
+2007	t	3ra revancha contra Campista Floriñán
+2008	t	Revancha contra Entre. guay Lao
+2009	t	Revancha contra Entre. guay Olivia
+2010	t	Revancha contra Pokécolector Iván
+2013	t	1ra revancha contra Ciclista Joan
+2014	t	2da revancha contra Ciclista Joan
+2015	t	3ra revancha contra Ciclista Joan
+2016	t	1ra revancha contra Ciclista Amelia
+2017	t	2da revancha contra Ciclista Amelia
+2018	t	3ra revancha contra Ciclista Amelia
+2019	t	1ra revancha contra Domadragón Iago
+2020	t	2da revancha contra Domadragón Iago
+2021	t	Revancha contra Domadragón Dero
+2022	t	Revancha contra Domadragón Walia
+2023	t	Revancha contra Entre. guay Camilo
+2024	t	1ra revancha contra Entre. guay Bosco
+2025	t	2da revancha contra Entre. guay Bosco
+2026	t	Revancha contra Entre. guay Rodolfo
+2027	t	Revancha contra Entre. guay Cadel
+2028	t	Revancha contra Entre. guay Marian
+2029	t	1ra revancha contra Entre. guay Iziar
+2030	t	2da revancha contra Entre. guay Iziar
+2031	t	Revancha contra Entre. guay Adela
+2032	t	Revancha contra Entre. guay Ariana
+2033	t	1ra revancha contra Médium Juacu
+2034	t	2da revancha contra Médium Juacu
+2035	t	Revancha contra Médium Maxwell
+2036	t	Revancha contra Médium Adán
+2037	t	1ra revancha contra Médium Abigail
+2038	t	2da revancha contra Médium Abigail
+2039	t	Revancha contra Médium Brittney
+2040	t	Revancha contra Médium Daisy
+2041	t	1ra revancha contra Rancher Marco
+2042	t	2da revancha contra Rancher Marco
+2043	t	1ra revancha contra Fisherman Joseph
+2044	t	2da revancha contra Fisherman Joseph
+2045	t	Revancha contra Fisherman Miguel
+2046	t	Revancha contra Fisherman Alec
+2047	t	1ra revancha contra Twins Teri and Tia
+2048	t	2da revancha contra Twins Teri and Tia
+2049	t	1ra revancha contra PI Carlos
+2050	t	2da revancha contra PI Carlos
+2051	t	1ra revancha contra Gentleman Jeremy
+2052	t	2da revancha contra Gentleman Jeremy
+2053	t	3ra revancha contra Gentleman Jeremy
+2054	t	Revancha contra Guitarist Tony
+2055	t	1ra revancha contra Ruin Maniac Harry
+2056	t	2da revancha contra Ruin Maniac Harry
+2057	t	1ra revancha contra Corredor Christian
+2058	t	2da revancha contra Corredor Christian
+2059	t	Revancha contra Black Belt Philip
+2060	t	Revancha contra Black Belt Davon
+2061	t	1ra revancha contra Socialite Reina
+2062	t	2da revancha contra Socialite Reina
+2063	t	1ra revancha contra Lass Samantha
+2064	t	2da revancha contra Lass Samantha
+2065	t	3ra revancha contra Lass Samantha
+2066	t	1ra revancha contra Lass Madeline
+2067	t	2da revancha contra Lass Madeline
+2068	t	3ra revancha contra Lass Madeline
+2069	t	1ra revancha contra Hiker Theodore
+2070	t	2da revancha contra Hiker Theodore
+2071	t	3ra revancha contra Hiker Theodore
+2072	t	1ra revancha contra Bug Catcher Brandon
+2073	t	2da revancha contra Bug Catcher Brandon
+2074	t	3ra revancha contra Bug Catcher Brandon
+2075	t	1ra revancha contra Parasol Lady Alexa
+2076	t	2da revancha contra Parasol Lady Alexa
+2077	t	3ra revancha contra Parasol Lady Alexa
+2078	t	1ra revancha contra Picnicker Karina
+2079	t	2da revancha contra Picnicker Karina
+2080	t	3ra revancha contra Picnicker Karina
+2081	t	1ra revancha contra Poké Kid Danielle
+2082	t	2da revancha contra Poké Kid Danielle
+2083	t	3ra revancha contra Poké Kid Danielle
+2084	t	1ra revancha contra Policía Danny
+2085	t	2da revancha contra Policía Danny
+2086	t	3ra revancha contra Policía Danny
+2087	t	1ra revancha contra Rich Boy Trey
+2088	t	2da revancha contra Rich Boy Trey
+2089	t	1ra revancha contra Lady Melissa
+2090	t	2da revancha contra Lady Melissa
+2091	t	3ra revancha contra Lady Melissa
+2092	t	1ra revancha contra Pokémon Ranger Taylor
+2093	t	2da revancha contra Pokémon Ranger Taylor
+2094	t	3ra revancha contra Pokémon Ranger Taylor
+2095	t	Revancha contra Pokémon Ranger Kyler
+2096	t	1ra revancha contra Pokémon Ranger Allison
+2097	t	2da revancha contra Pokémon Ranger Allison
+2098	t	3ra revancha contra Pokémon Ranger Allison
+2099	t	Revancha contra Pokémon Ranger Ashlee
+2100	t	1ra revancha contra Sailor Marc
+2101	t	2da revancha contra Sailor Marc
+2102	t	Revancha contra Sailor Zachariah
+2103	t	1ra revancha contra Scientist Shaun
+2104	t	2da revancha contra Scientist Shaun
+2105	t	3ra revancha contra Scientist Shaun
+2106	t	1ra revancha contra Ninja Boy Zach
+2107	t	2da revancha contra Ninja Boy Zach
+2108	t	3ra revancha contra Ninja Boy Zach
+2109	t	1ra revancha contra Beauty Cyndy
+2110	t	2da revancha contra Beauty Cyndy
+2111	t	1ra revancha contra Skier Edward
+2112	t	2da revancha contra Skier Edward
+2113	t	1ra revancha contra Skier Bjorn
+2114	t	2da revancha contra Skier Bjorn
+2115	t	1ra revancha contra Skier Andrea
+2116	t	2da revancha contra Skier Andrea
+2117	t	1ra revancha contra Skier Madison
+2118	t	2da revancha contra Skier Madison
+2119	t	Revancha contra Swimmer Wesley
+2120	t	Revancha contra Swimmer Francisco
+2121	t	Revancha contra Swimmer Glenn
+2122	t	Revancha contra Swimmer Miranda
+2123	t	Revancha contra Swimmer Crystal
+2124	t	Revancha contra Swimmer Joanna
+2125	t	1ra revancha contra Youngster Tristan
+2126	t	2da revancha contra Youngster Tristan
+2127	t	3ra revancha contra Youngster Tristan
+2128	t	1ra revancha contra Youngster Dallas
+2129	t	2da revancha contra Youngster Dallas
+2130	t	3ra revancha contra Youngster Dallas
+2131	t	1ra revancha contra Tuber Jared
+2132	t	2da revancha contra Tuber Jared
+2133	t	1ra revancha contra Tuber Chelsea
+2135	t	2da revancha contra Tuber Chelsea
+2134	t	1ra revancha contra Veteran Brian
+2136	t	2da revancha contra Veteran Brian
+2137	t	Revancha contra Veterano Armando
+2733	s	Frase de moda aprendida (Hoy)
+2738	t	Rival derrotado en Zona Combate (Sábado/Domingo actual)

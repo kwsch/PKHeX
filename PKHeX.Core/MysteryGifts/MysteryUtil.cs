@@ -32,6 +32,58 @@ public static class MysteryUtil
     }
 
     /// <summary>
+    /// Gets the title of the <see cref="MysteryGift"/> using the current default string data.
+    /// </summary>
+    /// <param name="gift">Gift data to parse</param>
+    /// <returns>Title as a string</returns>
+    public static string GetTitleFromIndex(this MysteryGift gift) => gift.GetTitleFromIndex(GameInfo.Strings);
+
+    /// <summary>
+    /// Gets the title of the <see cref="MysteryGift"/> using provided string data.
+    /// </summary>
+    /// <param name="gift">Gift data to parse</param>
+    /// <param name="strings">String data to use</param>
+    /// <returns>List of lines</returns>
+    public static string GetTitleFromIndex(this MysteryGift gift, GameStrings strings)
+    {
+        var titles = gift.Generation switch
+        {
+            7 => GameInfo.Strings.wondercard7,
+            8 => GameInfo.Strings.wondercard8,
+            9 => GameInfo.Strings.wondercard9,
+            _ => throw new ArgumentOutOfRangeException(nameof(gift), gift, null),
+        };
+        if (gift.CardTitleIndex < 0 || gift.CardTitleIndex >= titles.Length || titles[gift.CardTitleIndex].Length == 0)
+            return "Mystery Gift";
+
+        var args = new string[15];
+        if (gift.IsEntity)
+        {
+            args[0] = strings.Species[gift.Species];
+            // 1: category (e.g. "Victory Pokémon" for Victini)
+            args[2] = FormConverter.GetStringFromForm(gift.Form, strings, gift.Species, GameInfo.GenderSymbolASCII, gift.Context);
+            args[3] = gift.OriginalTrainerName;
+            args[4] = strings.Move[gift.Moves.Move1];
+            args[5] = strings.Move[gift.Moves.Move2];
+            args[6] = strings.Move[gift.Moves.Move3];
+            args[7] = strings.Move[gift.Moves.Move4];
+            args[9] = strings.Item[gift.HeldItem];
+            if (gift is WC9 wc9)
+                args[13] = strings.Types[(int)wc9.TeraType];
+        }
+        else if (gift.IsItem)
+        {
+            args[8] = strings.Item[gift.ItemID];
+        }
+        // 10: G8 Ranked Battle season
+        // 11: G8/9 title from affixed Ribbon/mark
+        // 12: G8/9 cash back money amount
+        // 13: BDSP underground item
+        // 14: Z-A extra side mission
+        return string.Format(titles[gift.CardTitleIndex], args);
+    }
+
+    /// <summary>
     /// Gets a description of the <see cref="MysteryGift"/> using the current default string data.
     /// </summary>
     /// <param name="gift">Gift data to parse</param>

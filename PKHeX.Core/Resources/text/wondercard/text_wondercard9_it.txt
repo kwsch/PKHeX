@@ -1,0 +1,64 @@
+
+Dono: {0}
+Dono: {8}
+Dono: set di strumenti
+{0} ({1})
+{0} (Pokémon misterioso)
+{0} di {3}
+{0} cromatico
+{0} ({2})
+Dono: {2}
+{0} con un’abilità speciale
+{0} con {4}
+{0} con {5}
+{0} con {6}
+{0} con {7}
+{0} con {9}
+Dono per l’acquisto della versione scaricabile
+Dono per l’acquisto della confezione speciale
+Dono per l’acquisto in negozio
+Dono per l’acquisto della guida strategica
+Dono per l’acquisto
+Buon compleanno!
+Dono speciale Virtual Console
+Club Allenatori di Pokémon
+Pokémon Global Link
+Banca Pokémon
+{0} (Pokémon leggendario)
+
+{11}
+Pokémon HOME
+Dono: denaro
+{12} $
+Dono: vestiti
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dono: Uovo
+Dono: Pokémon
+Dono: strumento
+
+
+
+
+
+Dono: {8} e altro
+Dono: ingredienti per i panini
+{0} di teratipo {13}
+{0} grande e grosso
+{0} piccoletto
+Dono: CL
+Dono: ingrediente per i panini
+{14}

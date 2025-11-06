@@ -1,0 +1,555 @@
+0744	r	(RO) Groudon derrotado
+2935	r	(RO) Groudon capturado
+0743	r	(ZA) Kyogre derrotado
+2936	r	(ZA) Kyogre capturado
+0304	r	(RO) Ho-Oh derrotado
+2911	r	(RO) Ho-Oh capturado
+0305	r	(ZA) Lugia derrotado
+2910	r	(ZA) Lugia capturado
+2915	r	(ZA) Dialga capturado
+2916	r	(RO) Palkia capturado
+2924	r	(RO) Tornadus capturado
+2925	r	(ZA) Thundurus capturado
+2928	r	Landorus capturado
+0278	r	(RO) Reshiram derrotado
+2926	r	(RO) Reshiram capturado
+0279	r	(ZA) Zekrom derrotado
+2927	r	(ZA) Zekrom capturado
+0515	r	Latias desaparecida
+2930	r	Latias capturada
+0516	r	Latios desaparecido
+2931	r	Latios capturado
+3010	e	Ticket Eón recibido
+3011	e	Evento del Ticket Eón completado
+1041	r	Deoxys desaparecido (Pilar Celeste)
+2938	r	Deoxys capturado (Pilar Celeste)
+0269	r	Raikou derrotado
+2907	r	Raikou capturado
+0270	r	Entei derrotado
+2908	r	Entei capturado
+0271	r	Suicune derrotado
+2909	r	Suicune capturado
+0272	r	Cobalion derrotado
+2921	r	Cobalion capturado
+0273	r	Terrakion derrotado
+2922	r	Terrakion capturado
+0274	r	Virizion derrotado
+2923	r	Virizion capturado
+0280	r	Kyurem derrotado
+2929	r	Kyurem capturado
+0275	r	Uxie derrotado
+2912	r	Uxie capturado
+0276	r	Mesprit derrotado
+2913	r	Mesprit capturado
+0277	r	Azelf derrotado
+2914	r	Azelf capturado
+0268	r	Cresselia derrotada
+2920	r	Cresselia capturada
+2919	r	Giratina capturado
+0356	r	Heatran derrotado
+2917	r	Heatran capturado
+1052	r	Regirock derrotado
+2932	r	Regirock capturado
+1053	r	Regice derrotado
+2933	r	Regice capturado
+1054	r	Registeel derrotado
+2934	r	Registeel capturado
+0348	r	Regigigas derrotado
+2918	r	Regigigas capturado
+0380	a	Indiv. Statuette (Mansión Batalla)
+0381	a	Dobles Statuette (Mansión Batalla)
+0382	a	Triples Statuette (Mansión Batalla)
+0383	a	Rotación Statuette (Mansión Batalla)
+0384	a	Multi Statuette (Mansión Batalla)
+0385	*	Super Indiv. desbloqueado
+0386	*	Super Dobles desbloqueado
+0387	*	Super Triples desbloqueado
+0388	*	Super Rotación desbloqueado
+0389	*	Super Multi desbloqueado
+2722	s	PokéDex obtenida
+2738	*	Encuentros extranjeros de DexNav desbloqueados
+0301	s	Groudon/Kyogre primigenio derrotado (Evento de la historia)
+2720	s	Entrado al Hall de la Fama
+2729	s	Episodio Delta completado
+0361	s	Revancha contra Alto Mando
+3023	s	Puede dar Orbe rojo y Orbe azul
+0148	s	Conocida persona mayor de los baños termales
+0147	g	Huevo de Wynaut de regalo recibido (Pueblo Lavacalda)
+0187	g	Huevo de Togepi de regalo recibido (Pueblo Lavacalda)
+0119	g	Castform de regalo recibido (Instituto Meteorológico)
+0249	g	Beldum de regalo recibido (Ciudad Algaria)
+0264	g	Camerupt de regalo recibido (Resort Batalla)
+0265	g	Sharpedo de regalo recibido (Resort Batalla)
+0298	s	Diancita recibida
+0308	s	Vasija castigo recibida
+0310	g	Inicial de Johto recibido
+0349	g	Inicial de Sinnoh recibido
+0311	g	Inicial de Unova recibido
+0166	g	Intercambio por Makuhita en Ciudad Férrica
+0167	g	Intercambio por Skitty en Ciudad Arborada
+0168	g	Intercambio por Corsola en Pueblo Oromar
+0692	s	Família Estratega derrotada (Ruta 111)
+0806	s	Máximo desaparecido del puente de la Ruta 120
+0808	g	Criapokémon (cambio de Pikachu coqueta) desaparecida
+0699	s	Steven and Lati@s desaparecido from Ruta 118
+0789	s	Fósil raíz desaparecido de la Ruta 111
+0790	s	Fósil garra desaparecido de la Ruta 111
+0927	r	Voltorb (1) desaparecido de Nueva Malvalanova
+0928	r	Voltorb (2) desaparecido de Nueva Malvalanova
+0929	r	Voltorb (3) desaparecido de Nueva Malvalanova
+0930	r	Voltorb (4) desaparecido de Nueva Malvalanova
+1044	r	(RO) Electrode (1) desaparecido de la Guarida Magma
+1045	r	(RO) Electrode (2) desaparecido de la Guarida Magma
+1042	r	(ZA) Electrode (1) desaparecido de la Guarida Aqua
+1043	r	(ZA) Electrode (2) desaparecido de la Guarida Aqua
+0697	r	Keckleon invisible desaparecido (Bloqueando Gimnasio Arborada)
+0702	r	Keckleon invisible desaparecido (Ruta 120, puente)
+0504	r	Keckleon invisible desaparecido (Ruta 119, encima de la cascada)
+0506	r	Keckleon invisible desaparecido (Ruta 120, escaleras)
+0508	r	Keckleon invisible desaparecido (Ruta 120, izquierda de las hierbas)
+0510	r	Keckleon invisible desaparecido (Pueblo Lavacalda)
+0512	r	Keckleon invisible desaparecido (Centro espacial de Algaria)
+0302	r	Spiritomb derrotado
+0303	r	Spiritomb capturado
+0500	s	Texto Braille del puzzle de la Cámara Sellada desaparecido
+3007	s	Puzzle de la Cámara Sellada completado
+3008	r	Cuevas de los Regi desbloqueadas
+0501	s	Texto Braille del puzzle de Ruinas del Desierto desaparecido
+3004	s	Puzzle de Ruinas del Desierto completado
+0502	s	Texto Braille del puzzle de Cueva Insular desaparecido
+3005	s	Puzzle de Cueva Insular completado
+0503	s	Texto Braille del puzzle de Tumba Antigua desaparecido
+3006	s	Puzzle de Tumba Antigua completado
+1034	s	Pasillo del sótano 5 de la Cueva Ancestral limpio
+2746	*	Desbloqueado el PC de Aredia
+3009	*	Organizar Pokémon en primer lugar en el menú del PC
+2758	f	Villa Raíz visitada
+2833	f	Puede volar a Villa Raíz
+2759	f	Pueblo Escaso visitado
+2834	f	Puede volar a Pueblo Escaso
+2760	f	Pueblo Azuliza visitado
+2835	f	Puede volar a Pueblo Azuliza
+2761	f	Pueblo Lavacalda visitado
+2836	f	Puede volar a Pueblo Lavacalda
+2762	f	Pueblo Pardal visitado
+2837	f	Puede volar a Pueblo Pardal
+2763	f	Pueblo Verdegal visitado
+2838	f	Puede volar a Pueblo Verdegal
+2764	f	Pueblo Oromar visitado
+2839	f	Puede volar a Pueblo Oromar
+2765	f	Ciudad Petalia visitada
+2840	f	Puede volar a Ciudad Petalia
+2766	f	Ciudad Portual visitada
+2841	f	Puede volar a Ciudad Portual
+2767	f	Ciudad Malvalona visitada
+2842	f	Puede volar a Ciudad Malvalona
+2768	f	Ciudad Férrica visitada
+2843	f	Puede volar a Ciudad Férrica
+2769	f	Ciudad Arborada visitada
+2844	f	Puede volar a Ciudad Arborada
+2770	f	Ciudad Calagua visitada
+2845	f	Puede volar a Ciudad Calagua
+2771	f	Ciudad Algaria visitada
+2846	f	Puede volar a Ciudad Algaria
+2772	f	Arrecípolis visitada
+2847	f	Puede volar a Arrecípolis
+2773	f	Ciudad Colosalia visitada
+2848	f	Puede volar a Ciudad Colosalia
+2774	f	Ruta 101 visitada
+2849	f	Puede volar a Ruta 101
+2775	f	Ruta 102 visitada
+2850	f	Puede volar a Ruta 102
+2776	f	Ruta 103 visitada
+2851	f	Puede volar a Ruta 103
+2777	f	Ruta 104 visitada
+2852	f	Puede volar a Ruta 104
+2778	f	Ruta 105 visitada
+2853	f	Puede volar a Ruta 105
+2779	f	Ruta 106 visitada
+2854	f	Puede volar a Ruta 106
+2780	f	Ruta 107 visitada
+2855	f	Puede volar a Ruta 107
+2781	f	Ruta 108 visitada
+2856	f	Puede volar a Ruta 108
+2782	f	Ruta 109 visitada
+2857	f	Puede volar a Ruta 109
+2783	f	Ruta 110 visitada
+2858	f	Puede volar a Ruta 110
+2784	f	Ruta 111 visitada
+2859	f	Puede volar a Ruta 111
+2785	f	Ruta 112 visitada
+2860	f	Puede volar a Ruta 112
+2786	f	Ruta 113 visitada
+2861	f	Puede volar a Ruta 113
+2787	f	Ruta 114 visitada
+2862	f	Puede volar a Ruta 114
+2788	f	Ruta 115 visitada
+2863	f	Puede volar a Ruta 115
+2789	f	Ruta 116 visitada
+2864	f	Puede volar a Ruta 116
+2790	f	Ruta 117 visitada
+2865	f	Puede volar a Ruta 117
+2791	f	Ruta 118 visitada
+2866	f	Puede volar a Ruta 118
+2792	f	Ruta 119 visitada
+2867	f	Puede volar a Ruta 119
+2793	f	Ruta 120 visitada
+2868	f	Puede volar a Ruta 120
+2794	f	Ruta 121 visitada
+2869	f	Puede volar a Ruta 121
+2795	f	Ruta 122 visitada
+2870	f	Puede volar a Ruta 122
+2796	f	Ruta 123 visitada
+2871	f	Puede volar a Ruta 123
+2797	f	Ruta 124 visitada
+2872	f	Puede volar a Ruta 124
+2798	f	Ruta 125 visitada
+2873	f	Puede volar a Ruta 125
+2799	f	Ruta 126 visitada
+2874	f	Puede volar a Ruta 126
+2800	f	Ruta 127 visitada
+2875	f	Puede volar a Ruta 127
+2801	f	Ruta 128 visitada
+2876	f	Puede volar a Ruta 128
+2802	f	Ruta 129 visitada
+2877	f	Puede volar a Ruta 129
+2803	f	Ruta 130 visitada
+2878	f	Puede volar a Ruta 130
+2804	f	Ruta 131 visitada
+2879	f	Puede volar a Ruta 131
+2805	f	Ruta 132 visitada
+2880	f	Puede volar a Ruta 132
+2806	f	Ruta 133 visitada
+2881	f	Puede volar a Ruta 133
+2807	f	Ruta 134 visitada
+2882	f	Puede volar a Ruta 134
+2808	f	Cascada Meteoro visitada
+2883	f	Puede volar a Cascada Meteoro
+2809	f	Túnel Fervergal visitado
+2884	f	Puede volar a Túnel Fervergal
+2812	f	Cueva Granito visitada
+2885	f	Puede volar a Cueva Granito
+2813	f	Bosque Petalia visitado
+2886	f	Puede volar a Bosque Petalia
+2814	f	Monte Cenizo visitado
+2887	f	Puede volar a Monte Cenizo
+2815	f	Desfiladero visitado
+2888	f	Puede volar a Desfiladero
+2816	f	Senda Ígnea visitada
+2889	f	Puede volar a Senda Ígnea
+2817	f	Monte Pírico visitado
+2890	f	Puede volar a Monte Pírico
+2819	f	Caverna Abisal visitada
+2820	f	Cueva Ancestral visitada
+2821	f	Calle Victoria visitada
+2891	f	Puede volar a Calle Victoria
+2822	f	Cueva Cardumen visitada
+2892	f	Puede volar a Cueva Cardumen
+2823	f	Malvalanova visitada
+2893	f	Puede volar a Malvalanova
+2824	f	Malvamar visitada
+2894	f	Puede volar a Malvamar
+2831	f	Pilar Celeste visitado
+2895	f	Puede volar a Pilar Celeste
+2984	f	Pilar Celeste en el mapa
+2897	f	Liga Pokémon visitada
+2901	f	Puede volar a Liga Pokémon
+2898	f	Zona Safari visitada
+2902	f	Puede volar a Zona Safari
+2899	f	Isla del Sur visitada
+2903	f	Isla del Sur descubierta (Evento)
+2985	f	Isla del Sur en el mapa
+2900	f	Resort Batalla visitado
+3019	f	Puede volar a Resort Batalla
+2986	f	Resort Batalla en el mapa
+2976	f	Islote Secreto visitado
+2977	f	Costa Secreta visitada
+2978	f	Prado Secreto visitado
+2979	f	Puede volar a Islote Secreto
+2987	f	Islote Secreto descubierto
+2980	f	Puede volar a Costa Secreta
+2988	f	Costa Secreta descubierta
+2981	f	Puede volar a Prado Secreto
+2989	f	Prado Secreto descubierto
+2982	f	(RO) Guarida Magma visitada
+2983	f	(ZA) Guarida Aqua visitada
+2905	*	Sol abrasador en Hoenn oriental
+2906	*	Diluvio en Hoenn oriental
+3063	s	Comido Menú Sandwich Villa (Hoy)
+3064	s	Comido Magnebóndigas (Hoy)
+3065	s	Comido Malvaguetis (Hoy)
+3077	m	BGM actual en el Resort Batalla: Calle Victoria
+3078	m	BGM actual en el Resort Batalla: Superentrenamiento secreto
+3079	m	BGM actual en el Resort Batalla: Sígueme
+3080	m	BGM actual en el Resort Batalla: Contra Blasco
+0443	s	Encontrada Maxipepita en la Sala de premios de la Casa Treta
+1166	s	Encontrada Parte Amarilla bajo el agua (Route 107)
+1167	s	Encontrada Tabla llama bajo el agua (Ruta 107)
+1168	s	Encontrada Escama corazón (1) bajo el agua (Ruta 124)
+1170	s	Encontrada Perla bajo el agua (Ruta 124)
+1169	s	Encontrada Escama corazón (2) bajo el agua (Ruta 124)
+1175	s	Encontrada Tabla cielo bajo el agua (Ruta 124)
+1171	s	Encontrada Perla grande bajo el agua (Ruta 124)
+1172	s	Encontrada Calcio bajo el agua (Ruta 124)
+1173	s	Encontrada Carburante bajo el agua (Ruta 124)
+1174	s	Encontrada Parte Verde bajo el agua (Route 124)
+1177	s	Encontrada Ultra Ball bajo el agua (Ruta 126)
+1176	s	Encontrada Escama corazón bajo el agua (Ruta 126)
+1184	s	Encontrada Tabla mental bajo el agua (Ruta 126)
+1178	s	Encontrada Perla grande bajo el agua (Ruta 126)
+1179	s	Encontrada Parte azul bajo el agua (Ruta 126)
+1180	s	Encontrada Perla bajo el agua (Ruta 126)
+1183	s	Encontrada Parte amarilla bajo el agua (Ruta 126)
+1181	s	Encontrada Polvo estelar bajo el agua (Ruta 126)
+1182	s	Encontrada Hierro bajo el agua (Ruta 126)
+1187	s	Encontrada Parte Roja bajo el agua (Route 126)
+1188	s	Encontrada Escama corazón bajo el agua (Ruta 127)
+1191	s	Encontrada Tabla oscura bajo el agua (Ruta 127)
+1190	s	Encontrada Tabla terror bajo el agua (Ruta 127)
+1185	s	Encontrada Más PS bajo el agua (Ruta 127)
+1186	s	Encontrada Trozo estrella bajo el agua (Ruta 127)
+1189	s	Encontrada Tabla bicho bajo el agua (Ruta 127)
+1194	s	Encontrada Tabla pétrea bajo el agua (Ruta 128)
+1195	s	Encontrada Tabla draco bajo el agua (Ruta 128)
+1196	s	Encontrada Tabla duende bajo el agua (Ruta 128)
+1197	s	Encontrada Diamansfera bajo el agua (Ruta 128)
+1198	s	Encontrada Parte Azul bajo el agua (Route 129)
+1192	s	Encontrada Proteína bajo el agua (Ruta 128)
+1193	s	Encontrada Perla bajo el agua (Ruta 128)
+1202	s	Encontrada Lustresfera bajo el agua (Ruta 129)
+1199	s	Encontrada Tabla linfa bajo el agua (Ruta 129)
+1200	s	Encontrada Tabla trueno bajo el agua (Ruta 129)
+1201	s	Encontrada Tabla tóxica bajo el agua (Ruta 129)
+1203	s	Encontrada Parte Verde bajo el agua (Route 130)
+1206	s	Encontrada Tabla fuerte bajo el agua (Ruta 130)
+1205	s	Encontrada Tabla helada bajo el agua (Ruta 130)
+1207	s	Encontrada Tabla terrax bajo el agua (Ruta 130)
+1204	s	Encontrada Tabla pradal bajo el agua (Ruta 130)
+1208	s	Encontrada Griseosfera bajo el agua (Ruta 130)
+1935	t	1ra revancha contra Joven Calixto (Ruta 102) 
+1936	t	2da revancha contra Joven Calixto (Ruta 102) 
+1937	t	3ra revancha contra Joven Calixto (Ruta 102)
+1938	t	4ta revancha contra Joven Calixto (Ruta 102)
+2391	t	1ra revancha contra Pokéfan Miguel (Ruta 103) 
+2392	t	2da revancha contra Pokéfan Miguel (Ruta 103) 
+2393	t	3ra revancha contra Pokéfan Miguel (Ruta 103)
+2394	t	4ta revancha contra Pokéfan Miguel (Ruta 103)
+1795	t	1ra revancha contra Gemelas Ali y Lía (Ruta 103) 
+2108	t	2da revancha contra Gemelas Ali y Lía (Ruta 103) 
+2336	t	3ra revancha contra Gemelas Ali y Lía (Ruta 103)
+2337	t	4ta revancha contra Gemelas Ali y Lía (Ruta 103)
+1939	t	1ra revancha contra Chica Herminia (Ruta 104) 
+1940	t	2da revancha contra Chica Herminia (Ruta 104) 
+1941	t	3ra revancha contra Chica Herminia (Ruta 104)
+1942	t	4ta revancha contra Chica Herminia (Ruta 104)
+2395	t	1ra revancha contra Damisela Verónica (Ruta 104) 
+2396	t	2da revancha contra Damisela Verónica (Ruta 104) 
+2397	t	3ra revancha contra Damisela Verónica (Ruta 104)
+2299	t	4ta revancha contra Damisela Verónica (Ruta 104)
+2398	t	1ra revancha contra Niño bien Gustavo (Ruta 104) 
+2399	t	2da revancha contra Niño bien Gustavo (Ruta 104) 
+2400	t	3ra revancha contra Niño bien Gustavo (Ruta 104)
+2300	t	4ta revancha contra Niño bien Gustavo (Ruta 104)
+2217	t	1ra revancha contra Cazabichos Jaime (Bosque Petalia) 
+2218	t	2da revancha contra Cazabichos Jaime (Bosque Petalia) 
+2219	t	3ra revancha contra Cazabichos Jaime (Bosque Petalia)
+2220	t	4ta revancha contra Cazabichos Jaime (Bosque Petalia)
+2465	t	1ra revancha contra Mochilero Ralf (Ruta 106) 
+2466	t	2da revancha contra Mochilero Ralf (Ruta 106) 
+2467	t	3ra revancha contra Mochilero Ralf (Ruta 106)
+2468	t	4ta revancha contra Mochilero Ralf (Ruta 106)
+2109	t	1ra revancha contra Pescador Eloy (Ruta 106) 
+2110	t	2da revancha contra Pescador Eloy (Ruta 106) 
+2111	t	3ra revancha contra Pescador Eloy (Ruta 106)
+2112	t	4ta revancha contra Pescador Eloy (Ruta 106)
+2251	t	1ra revancha contra Nadador Toni (Ruta 107) 
+2252	t	2da revancha contra Nadador Toni (Ruta 107) 
+2253	t	3ra revancha contra Nadador Toni (Ruta 107)
+2254	t	4ta revancha contra Nadador Toni (Ruta 107)
+2550	t	1ra revancha contra Entrenador guay Roy (Ruta 108) 
+2551	t	2da revancha contra Entrenador guay Roy (Ruta 108) 
+2552	t	3ra revancha contra Entrenador guay Roy (Ruta 108)
+2553	t	4ta revancha contra Entrenador guay Roy (Ruta 108)
+2522	t	1ra revancha contra Pareja joven Luci y Fito (Malvamar - ilegal)
+2523	t	2da revancha contra Pareja joven Luci y Fito (Malvamar) 
+2524	t	3ra revancha contra Pareja joven Luci y Fito (Malvamar)
+2525	t	4ta revancha contra Pareja joven Luci y Fito (Malvamar)
+2205	t	1ra revancha contra Hermanas misteriosas Lisa y Nerea (Malvamar) 
+2206	t	2da revancha contra Hermanas misteriosas Lisa y Nerea (Malvamar) 
+2207	t	3ra revancha contra Hermanas misteriosas Lisa y Nerea (Malvamar)
+2208	t	4ta revancha contra Hermanas misteriosas Lisa y Nerea (Malvamar)
+2559	t	1ra revancha contra Entrenadora guay Mariana (Ruta 109) 
+2560	t	2da revancha contra Entrenadora guay Mariana (Ruta 109) 
+2561	t	3ra revancha contra Entrenadora guay Mariana (Ruta 109)
+2562	t	4ta revancha contra Entrenadora guay Mariana (Ruta 109)
+2338	t	1ra revancha contra Playero Richi (Ruta 109) 
+2339	t	2da revancha contra Playero Richi (Ruta 109) 
+2340	t	3ra revancha contra Playero Richi (Ruta 109)
+2341	t	4ta revancha contra Playero Richi (Ruta 109)
+2113	t	1ra revancha contra Playera Lola (Ruta 109) 
+2114	t	2da revancha contra Playera Lola (Ruta 109) 
+2115	t	3ra revancha contra Playera Lola (Ruta 109)
+2116	t	4ta revancha contra Playera Lola (Ruta 109)
+2125	t	1ra revancha contra Pokécolector Edgardo (Ruta 110) 
+2126	t	2da revancha contra Pokécolector Edgardo (Ruta 110) 
+2127	t	3ra revancha contra Pokécolector Edgardo (Ruta 110)
+2128	t	4ta revancha contra Pokécolector Edgardo (Ruta 110)
+2401	t	1ra revancha contra Pokéfan Isabel (Ruta 110) 
+2402	t	2da revancha contra Pokéfan Isabel (Ruta 110) 
+2403	t	3ra revancha contra Pokéfan Isabel (Ruta 110)
+2404	t	4ta revancha contra Pokéfan Isabel (Ruta 110)
+2117	t	1ra revancha contra Triatleta ciclista Benjamín (Ruta 110) 
+2118	t	2da revancha contra Triatleta ciclista Benjamín (Ruta 110) 
+2119	t	3ra revancha contra Triatleta ciclista Benjamín (Ruta 110)
+2120	t	4ta revancha contra Triatleta ciclista Benjamín (Ruta 110)
+2342	t	1ra revancha contra Ruinamaníaco Dacio (Ruta 111) 
+2343	t	2da revancha contra Ruinamaníaco Dacio (Ruta 111) 
+2344	t	3ra revancha contra Ruinamaníaco Dacio (Ruta 111)
+2345	t	4ta revancha contra Ruinamaníaco Dacio (Ruta 111)
+2129	t	1ra revancha contra Entrenador guay Valentín (Ruta 111) 
+2130	t	2da revancha contra Entrenador guay Valentín (Ruta 111) 
+2131	t	3ra revancha contra Entrenador guay Valentín (Ruta 111)
+2132	t	4ta revancha contra Entrenador guay Valentín (Ruta 111)
+2133	t	1ra revancha contra Entrenadora guay Berta (Ruta 111) 
+2134	t	2da revancha contra Entrenadora guay Berta (Ruta 111) 
+2135	t	3ra revancha contra Entrenadora guay Berta (Ruta 111)
+2136	t	4ta revancha contra Entrenadora guay Berta (Ruta 111)
+2137	t	1ra revancha contra Montañero Tarsi (Ruta 112) 
+2138	t	2da revancha contra Montañero Tarsi (Ruta 112) 
+2139	t	3ra revancha contra Montañero Tarsi (Ruta 112)
+2140	t	4ta revancha contra Montañero Tarsi (Ruta 112)
+2209	t	1ra revancha contra Campista Ezequiel (Desfiladero) 
+2210	t	2da revancha contra Campista Ezequiel (Desfiladero) 
+2211	t	3ra revancha contra Campista Ezequiel (Desfiladero)
+2212	t	4ta revancha contra Campista Ezequiel (Desfiladero)
+2197	t	1ra revancha contra Pokéabu Serafina (Desfiladero) 
+2198	t	2da revancha contra Pokéabu Serafina (Desfiladero) 
+2199	t	3ra revancha contra Pokéabu Serafina (Desfiladero)
+2200	t	4ta revancha contra Pokéabu Serafina (Desfiladero)
+2213	t	1ra revancha contra Dominguera Diana (Desfiladero) 
+2214	t	2da revancha contra Dominguera Diana (Desfiladero) 
+2215	t	3ra revancha contra Dominguera Diana (Desfiladero)
+2216	t	4ta revancha contra Dominguera Diana (Desfiladero)
+2359	t	1ra revancha contra Dama parasol Miranda (Ruta 113) 
+2360	t	2da revancha contra Dama parasol Miranda (Ruta 113) 
+2361	t	3ra revancha contra Dama parasol Miranda (Ruta 113)
+2362	t	4ta revancha contra Dama parasol Miranda (Ruta 113)
+2654	t	1ra revancha contra Chico ninja Lao (Ruta 113) 
+2655	t	2da revancha contra Chico ninja Lao (Ruta 113) 
+2656	t	3ra revancha contra Chico ninja Lao (Ruta 113)
+2657	t	4ta revancha contra Chico ninja Lao (Ruta 113)
+2145	t	1ra revancha contra Prendefuegos Lope (Ruta 114) 
+2146	t	2da revancha contra Prendefuegos Lope (Ruta 114) 
+2147	t	3ra revancha contra Prendefuegos Lope (Ruta 114)
+2148	t	4ta revancha contra Prendefuegos Lope (Ruta 114)
+2141	t	1ra revancha contra Pokémaníaco Esteban (Ruta 114) 
+2142	t	2da revancha contra Pokémaníaco Esteban (Ruta 114) 
+2143	t	3ra revancha contra Pokémaníaco Esteban (Ruta 114)
+2144	t	4ta revancha contra Pokémaníaco Esteban (Ruta 114)
+2221	t	Revancha contra Domadragón Nicolás (Cascada Meteoro)
+2375	t	Revancha contra Pareja mayor Juli-Nela (Cascada Meteoro)
+2149	t	1ra revancha contra Luchadora Cecilia (Ruta 115) 
+2150	t	2da revancha contra Luchadora Cecilia (Ruta 115) 
+2151	t	3ra revancha contra Luchadora Cecilia (Ruta 115)
+2152	t	4ta revancha contra Luchadora Cecilia (Ruta 115)
+2346	t	1ra revancha contra Pokéabu Timoteo (Ruta 115) 
+2347	t	2da revancha contra Pokéabu Timoteo (Ruta 115) 
+2348	t	3ra revancha contra Pokéabu Timoteo (Ruta 115)
+2349	t	4ta revancha contra Pokéabu Timoteo (Ruta 115)
+1943	t	1ra revancha contra Karateka Noboru (Ruta 115) 
+1944	t	2da revancha contra Karateka Noboru (Ruta 115) 
+1945	t	3ra revancha contra Karateka Noboru (Ruta 115)
+1983	t	4ta revancha contra Karateka Noboru (Ruta 115)
+2153	t	1ra revancha contra Escolar Jerónimo (Ruta 116) 
+2154	t	2da revancha contra Escolar Jerónimo (Ruta 116) 
+2155	t	3ra revancha contra Escolar Jerónimo (Ruta 116)
+2156	t	4ta revancha contra Escolar Jerónimo (Ruta 116)
+2157	t	1ra revancha contra Escolar Corina (Ruta 116) 
+2158	t	2da revancha contra Escolar Corina (Ruta 116) 
+2159	t	3ra revancha contra Escolar Corina (Ruta 116)
+2160	t	4ta revancha contra Escolar Corina (Ruta 116)
+2234	t	1ra revancha contra Triatleta Dan (Ruta 117) 
+2235	t	2da revancha contra Triatleta Dan (Ruta 117) 
+2236	t	3ra revancha contra Triatleta Dan (Ruta 117)
+2237	t	4ta revancha contra Triatleta Dan (Ruta 117)
+2263	t	1ra revancha contra Criapokémon Isaac (Ruta 117) 
+2264	t	2da revancha contra Criapokémon Isaac (Ruta 117) 
+2265	t	3ra revancha contra Criapokémon Isaac (Ruta 117)
+2266	t	4ta revancha contra Criapokémon Isaac (Ruta 117)
+2259	t	1ra revancha contra Criapokémon Lidia (Ruta 117) 
+2260	t	2da revancha contra Criapokémon Lidia (Ruta 117) 
+2261	t	3ra revancha contra Criapokémon Lidia (Ruta 117)
+2262	t	4ta revancha contra Criapokémon Lidia (Ruta 117)
+2363	t	1ra revancha contra Estudiantes Ani y Mati (Ruta 117) 
+2364	t	2da revancha contra Estudiantes Ani y Mati (Ruta 117) 
+2365	t	3ra revancha contra Estudiantes Ani y Mati (Ruta 117)
+2366	t	4ta revancha contra Estudiantes Ani y Mati (Ruta 117)
+2161	t	1ra revancha contra Señorita aroma Rosa (Ruta 118) 
+2162	t	2da revancha contra Señorita aroma Rosa (Ruta 118) 
+2163	t	3ra revancha contra Señorita aroma Rosa (Ruta 118)
+2164	t	4ta revancha contra Señorita aroma Rosa (Ruta 118)
+2165	t	1ra revancha contra Guitarrista Mike (Ruta 118) 
+2166	t	2da revancha contra Guitarrista Mike (Ruta 118) 
+2167	t	3ra revancha contra Guitarrista Mike (Ruta 118)
+2168	t	4ta revancha contra Guitarrista Mike (Ruta 118)
+2473	t	1ra revancha contra Cuerpo y mente Manu y Pío (Ruta 119) 
+2474	t	2da revancha contra Cuerpo y mente Manu y Pío (Ruta 119) 
+2475	t	3ra revancha contra Cuerpo y mente Manu y Pío (Ruta 119)
+2476	t	4ta revancha contra Cuerpo y mente Manu y Pío (Ruta 119)
+2169	t	1ra revancha contra Pokémon Ranger Joaquín (Ruta 119) 
+2170	t	2da revancha contra Pokémon Ranger Joaquín (Ruta 119) 
+2171	t	3ra revancha contra Pokémon Ranger Joaquín (Ruta 119)
+2172	t	4ta revancha contra Pokémon Ranger Joaquín (Ruta 119)
+2173	t	1ra revancha contra Pokémon Ranger Cristina (Ruta 119) 
+2174	t	2da revancha contra Pokémon Ranger Cristina (Ruta 118) 
+2175	t	3ra revancha contra Pokémon Ranger Cristina (Ruta 119)
+2176	t	4ta revancha contra Pokémon Ranger Cristina (Ruta 119)
+2177	t	1ra revancha contra Ornitólogo Roberto (Ruta 120) 
+2178	t	2da revancha contra Ornitólogo Roberto (Ruta 120) 
+2179	t	3ra revancha contra Ornitólogo Roberto (Ruta 120)
+2181	t	1ra revancha contra Bichomaníaco Bartolo (Ruta 120) 
+2182	t	2da revancha contra Bichomaníaco Bartolo (Ruta 120) 
+2183	t	3ra revancha contra Bichomaníaco Bartolo (Ruta 120)
+2534	t	1ra revancha contra Macarra Christian (Ruta 120) 
+2535	t	2da revancha contra Macarra Christian (Ruta 120) 
+2536	t	3ra revancha contra Macarra Christian (Ruta 120)
+2542	t	1ra revancha contra Macarra Lore (Ruta 120) 
+2543	t	2da revancha contra Macarra Lore (Ruta 120) 
+2544	t	3ra revancha contra Macarra Lore (Ruta 120)
+2184	t	1ra revancha contra Aristócrata Federico (Ruta 121) 
+2350	t	2da revancha contra Aristócrata Federico (Ruta 121) 
+2351	t	3ra revancha contra Aristócrata Federico (Ruta 121)
+2367	t	1ra revancha contra Modelo Gloria (Ruta 121) 
+2368	t	2da revancha contra Modelo Gloria (Ruta 121) 
+2369	t	3ra revancha contra Modelo Gloria (Ruta 121)
+2510	t	1ra revancha contra Niña soñadora Alice (Monte Pírico) 
+2511	t	2da revancha contra Niña soñadora Alice (Monte Pírico) 
+2512	t	3ra revancha contra Niña soñadora Alice (Monte Pírico)
+2201	t	1ra revancha contra Bruja Valeria (Monte Pírico) 
+2202	t	2da revancha contra Bruja Valeria (Monte Pírico) 
+2203	t	3ra revancha contra Bruja Valeria (Monte Pírico)
+2185	t	1ra revancha contra Médium Silvio (Ruta 123) 
+2186	t	2da revancha contra Médium Silvio (Ruta 123) 
+2187	t	3ra revancha contra Médium Silvio (Ruta 123)
+2286	t	1ra revancha contra Hermanos Saúl y Rita (Ruta 124) 
+2287	t	2da revancha contra Hermanos Saúl y Rita (Ruta 124) 
+2288	t	3ra revancha contra Hermanos Saúl y Rita (Ruta 124)
+2247	t	1ra revancha contra Nadadora Geno (Ruta 124) 
+2248	t	2da revancha contra Nadadora Geno (Ruta 124) 
+2486	t	1ra revancha contra Buceador Gus (Ruta 124) 
+2487	t	2da revancha contra Buceador Gus (Ruta 124) 
+2499	t	1ra revancha contra Buceadora Elisa (Ruta 124) 
+2500	t	2da revancha contra Buceadora Elisa (Ruta 124) 
+2193	t	1ra revancha contra Marinero Ernesto (Ruta 125) 
+2194	t	2da revancha contra Marinero Ernesto (Ruta 125)
+2224	t	1ra revancha contra Triatleta Isaías (Ruta 128) 
+2225	t	2da revancha contra Triatleta Isaías (Ruta 128) 
+2226	t	3ra revancha contra Triatleta Isaías (Ruta 128)
+2571	t	Revancha contra Dúo guays Tara y Nico (Calle Victoria)
+1914	t	1ra revancha contra Gabi y Teo 
+1915	t	2da revancha contra Gabi y Teo 
+1916	t	3ra revancha contra Gabi y Teo
+1917	t	4ta revancha contra Gabi y Teo
+2322	t	5ta revancha contra Gabi y Teo
+2684	t	1ra revancha contra Blasco (Mansión Batalla)
+2686	t	2da revancha contra Blasco (Mansión Batalla)

@@ -73,6 +73,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     public Coordinates9a Coordinates => Blocks.Coordinates;
     public InfiniteRoyale9a InfiniteRoyale => Blocks.InfiniteRoyale;
     public PlayerFashion9a PlayerFashion => Blocks.PlayerFashion;
+    public ConfigSave9a Config => Blocks.Config;
     #endregion
 
     protected override SAV9ZA CloneInternal()

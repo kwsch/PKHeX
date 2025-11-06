@@ -1,0 +1,25 @@
+{0} Gift
+{8} Gift
+Item Set Gift
+{1} {0} Gift
+Mythical Pokémon {0} Gift
+{3}’s {0} Gift
+Shiny {0} Gift
+{0} ({2}) Gift
+{2} Gift
+Hidden Ability {0} Gift
+{4} {0} Gift
+{0} with {5} Gift
+{0} with {6} Gift
+{0} with {7} Gift
+{0} & {9} Gift
+Downloadable Version Bonus
+Special Pack Purchase Bonus
+Store Purchase Bonus
+Strategy Guide Purchase Bonus
+Purchase Bonus
+Happy Birthday!
+Virtual Console Bonus
+Pokémon Trainer Club Gift
+Pokémon Global Link Gift
+Pokémon Bank Gift

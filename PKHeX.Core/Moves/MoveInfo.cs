@@ -230,6 +230,7 @@ public static class MoveInfo
     {
         Gen1 => GetType(move, MoveInfo1.Type), // Bite, Gust, Karate Chop, Sand Attack
         >= Gen2 and <= Gen5 => GetType(move, MoveInfo5.Type), // Charm, Moonlight, Sweet Kiss
+        Gen9 when move is (ushort)Growth => (byte)MoveType.Normal, // Normal in S/V, Grass in Z-A
         _ => GetType(move, MoveInfo9a.Type),
     };
 

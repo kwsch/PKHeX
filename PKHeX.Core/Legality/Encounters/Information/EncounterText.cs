@@ -86,6 +86,6 @@ public readonly record struct EncounterDisplayContext
     {
         if (enc.LevelMin == enc.LevelMax)
             return string.Format(Localization.Format, Localization.Level, enc.LevelMin);
-        return string.Format(Localization.Format, Localization.LevelRange, enc.LevelMin, enc.LevelMax);
+        return string.Format(Localization.FormatLevelRange, Localization.LevelRange, enc.LevelMin, enc.LevelMax);
     }
 }
