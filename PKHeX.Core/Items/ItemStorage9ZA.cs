@@ -101,7 +101,6 @@ public sealed class ItemStorage9ZA : IItemStorage
 
         0662, // Mewtwonite X
         0663, // Mewtwonite Y
-        0764, // Diancite
 
         0576, // Dream Ball (Season 2 Ranked Reward)
 
