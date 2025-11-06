@@ -24,6 +24,7 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     public Coordinates9a Coordinates { get; } = new(sav, Block(sav, KCoordinates));
     public InfiniteRoyale9a InfiniteRoyale { get; } = new(sav, Block(sav, KInfiniteRoyale));
     public PlayerFashion9a PlayerFashion { get; } = new(sav, Block(sav, KCurrentClothing));
+    public ConfigSave9a Config { get; } = new(sav, Block(sav, KConfig));
 
     public EventWorkFlagStorage Event { get; } = new(sav, Block(sav, KEventFlag));
     public EventWorkValueStorage Work { get; } = new(sav, Block(sav, KEventWork));
@@ -63,6 +64,7 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     public const uint KCurrentBox = 0x017C3CBB; // U32 Box Index
     private const uint KCoordinates = 0x910D381F; // Player Coordinates/Rotation
     private const uint KInfiniteRoyale = 0x8929BFB6; // object
+    private const uint KConfig = 0xAC6DD22F; // u64 object
 
     private const uint KEventFlag = 0x58505C5E; // event_flag (u64,bool)[2048]
     private const uint KEventFlagsOther = 0xED6F46E7; // system_flag (u64,bool)[2048]
