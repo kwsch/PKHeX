@@ -54,7 +54,7 @@ internal static class Encounters9a
 
     internal static readonly EncounterStatic9a[] Static =
     [
-        // Legendary and Mythical Pokémon
+        // Legendary Pokémon
         new(0716,0,75,128) { Location = 00210, FlawlessIVCount = 3, Moves = new(224,585,532,601) }, // Xerneas (m10_x)
         new(0717,0,75,128) { Location = 00075, FlawlessIVCount = 3, Moves = new(542,399,094,613) }, // Yveltal (m10_y)
         new(0718,2,84,128) { Location = 00212, Nature = Nature.Quiet, IVs = new(31,31,15,19,31,28), Moves = new(687,614,615,616) }, // Zygarde-2 (ect_boss_0718_01)
@@ -74,9 +74,9 @@ internal static class Encounters9a
 
         // Side Missions EX
         // new(0150,0,70,128) { Location = 00234, FlawlessIVCount = 3, Moves = new(094,396,427,133) }, // Mewtwo (sub_120_mewtwo)
-        // new(0703,0,66,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(444,430,605,157) }, // Carbink (sub_119_melecie_01)
-        // new(0703,0,66,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(444,446,408,605) }, // Carbink (sub_119_melecie_02)
-        // new(0719,0,70,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(591,585,446,577) }, // Diancie (sub_119_diancie)
+        new(0703,0,66,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(444,430,605,157) }, // Carbink (sub_119_melecie_01)
+        new(0703,0,66,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(444,446,408,605) }, // Carbink (sub_119_melecie_02)
+        new(0719,0,70,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(591,585,446,577) }, // Diancie (sub_119_diancie)
     ];
 
     private const string tradeZA = "tradeza";
