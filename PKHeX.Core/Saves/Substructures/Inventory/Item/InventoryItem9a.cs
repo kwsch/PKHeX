@@ -64,10 +64,6 @@ public sealed record InventoryItem9a : InventoryItem, IItemFavorite, IItemNewFla
 
     public void Write(Span<byte> data)
     {
-        // Ensure the updated flag state is as expected.
-        if (Pouch == PouchNone)
-            Flags = DefaultFlagValue;
-
         // Index is not saved.
         WriteUInt32LittleEndian(data, Pouch);
         WriteUInt32LittleEndian(data[4..], (uint)Count);

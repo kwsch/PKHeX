@@ -117,7 +117,7 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
         return new InventoryPouch9a(type, info, max, GetPouchIndex(type));
     }
 
-    private static uint GetPouchIndex(InventoryType type) => type switch
+    public static uint GetPouchIndex(InventoryType type) => type switch
     {
         InventoryType.Items => InventoryItem9a.PouchOther,
         InventoryType.KeyItems => InventoryItem9a.PouchKey,

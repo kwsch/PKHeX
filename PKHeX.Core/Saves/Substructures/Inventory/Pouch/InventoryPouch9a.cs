@@ -10,7 +10,16 @@ public sealed class InventoryPouch9a(InventoryType type, IItemStorage info, int 
     public bool SetNew { get; set; }
     public uint PouchIndex { get; set; } = pouch;
 
-    public override InventoryItem9a GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = count != 0 };
+    public override InventoryItem9a GetEmpty(int itemID = 0, int count = 0) => new()
+    {
+        Index = itemID,
+        Pouch = MyItem9a.GetPouchIndex(ItemStorage9ZA.GetInventoryPouch((ushort)itemID)),
+        Count = count,
+        IsNewShop = true,
+        IsNewNotify = true,
+        IsNew = true,
+    };
+
     public static int GetItemOffset(ushort index) => InventoryItem9a.SIZE * index;
     public static Span<byte> GetItemSpan(Span<byte> block, ushort index) => block.Slice(GetItemOffset(index), InventoryItem9a.SIZE);
 
@@ -74,12 +83,22 @@ public sealed class InventoryPouch9a(InventoryType type, IItemStorage info, int 
 
     private void EnsureFlagsConsistent(InventoryItem9a item, InventoryItem9a original)
     {
+        if (item.Index == 0x14)
+        {
+
+        }
+        item.Pouch = PouchIndex; // ensure the pouch is set
         if (item.Count != 0)
         {
             // Ensure the flag is set; 0->X and Y->Z
             if (original.IsNewNotify && SetNew)
                 item.IsNew = true;
             item.IsNewNotify = false;
+        }
+        else if (original.Count == 0)
+        {
+            item.Flags = original.Flags;
+            item.Pouch = original.Pouch;
         }
     }
 
