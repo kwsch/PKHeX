@@ -93,8 +93,8 @@ public abstract class InventoryPouch
             {
                 if ((uint)item.Index > maxItemID)
                     continue;
-                if (!HaX && !Info.IsLegal(Type, item.Index, item.Count))
-                    continue;
+                //if (!HaX && !Info.IsLegal(Type, item.Index, item.Count))
+                //    continue;
             }
             arr[ctr++] = arr[i]; // absorb down
         }

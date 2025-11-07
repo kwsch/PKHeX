@@ -165,7 +165,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     public override int GetBoxOffset(int box) => Box + (SIZE_BOXSLOT * box * 30);
     public string GetBoxName(int box) => BoxLayout[box];
     public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
-    public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
+    public override byte[] GetDataForBox(PKM pk) => [..pk.EncryptedPartyData, ..new byte[GapBoxSlot]];
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {
