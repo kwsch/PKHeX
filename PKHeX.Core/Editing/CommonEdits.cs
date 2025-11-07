@@ -213,12 +213,15 @@ public static class CommonEdits
             pk.SetMarkings();
 
         pk.SetNickname(set.Nickname);
-        pk.SetSaneGender(set.Gender);
+
+        if (pk is not PA9)
+            pk.SetSaneGender(set.Gender);
 
         if (pk.Format >= 3)
         {
             pk.SetAbility(set.Ability);
-            pk.SetNature(set.Nature);
+            if (pk is not PA9)
+                pk.SetNature(set.Nature);
         }
 
         pk.SetIsShiny(set.Shiny);
@@ -260,10 +263,15 @@ public static class CommonEdits
             t.SetRecordFlags(set.Moves, legal.Info.EvoChainsAllGens.Get(pk.Context));
         }
 
-        if (pk is IPlusRecord plus && pk.PersonalInfo is IPermitPlus permit)
+        if (pk is PA9 pa9 && pk.PersonalInfo is IPermitPlus permit)
         {
-            plus.ClearPlusFlags(permit.PlusCountTotal);
-            plus.SetPlusFlags(permit, legal, true, true);
+            var (_, plus) = LearnSource9ZA.GetLearnsetAndPlus(pa9.Species, pa9.Form);
+            PlusRecordApplicator.SetPlusFlagsEncounter(pa9, permit, plus, pa9.CurrentLevel);
+        }
+        else if (pk is IPlusRecord plus && pk.PersonalInfo is IPermitPlus permitOther)
+        {
+            plus.ClearPlusFlags(permitOther.PlusCountTotal);
+            plus.SetPlusFlags(permitOther, legal, true, true);
         }
 
         if (legal.Parsed && !MoveResult.AllValid(legal.Info.Relearn))
