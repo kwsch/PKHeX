@@ -83,10 +83,6 @@ public sealed class InventoryPouch9a(InventoryType type, IItemStorage info, int 
 
     private void EnsureFlagsConsistent(InventoryItem9a item, InventoryItem9a original)
     {
-        if (item.Index == 0x14)
-        {
-
-        }
         item.Pouch = PouchIndex; // ensure the pouch is set
         if (item.Count != 0)
         {
