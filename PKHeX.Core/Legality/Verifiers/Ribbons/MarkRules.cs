@@ -169,7 +169,7 @@ public static class MarkRules
     /// </summary>
     public static bool IsMarkValidAlpha(IEncounterTemplate enc, PKM pk)
     {
-        var expect = enc is IAlphaReadOnly { IsAlpha: true };
+        var expect = enc is IAlphaReadOnly { IsAlpha: true } && enc.Context != EntityContext.Gen9a; // TODO ZA HOME
         return IsMarkValidAlpha(pk, expect);
     }
 

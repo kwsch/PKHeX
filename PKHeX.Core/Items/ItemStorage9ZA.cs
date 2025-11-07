@@ -210,7 +210,7 @@ public sealed class ItemStorage9ZA : IItemStorage
         Feraligatr when form == 1 => 2564,
         Skarmory when form == 1 => 2565,
         Froslass when form == 1 => 2566,
-        Emboar when  form == 1 => 2569,
+        Emboar when form == 1 => 2569,
         Excadrill when form == 1 => 2570,
         Scolipede when form == 1 => 2571,
         Scrafty when form == 1 => 2572,
@@ -228,6 +228,24 @@ public sealed class ItemStorage9ZA : IItemStorage
         Zygarde when form == 5 => 2584,
         Drampa when form == 1 => 2585,
         Falinks when form == 1 => 2587,
+
+        // DLC Mega Stones
+        Raichu when form == 1 => 2635, // X
+        Raichu when form == 2 => 2636, // Y
+        Chimecho when form == 1 => 2637,
+        Absol when form == 2 => 2638, // ZA
+        Staraptor when form == 1 => 2639,
+        Garchomp when form == 2 => 2640, // ZA
+        Lucario when form == 2 => 2641, // ZA
+        Golurk when form == 1 => 2642,
+        Meowstic when form == 2 => 2643,
+        Crabominable when form == 1 => 2644,
+        Golisopod when form == 1 => 2645,
+        Magearna when form == 2 => 2646,
+        Scovillain when form == 1 => 2647,
+        Baxcalibur when form == 1 => 2648,
+        Tatsugiri when form >= 3 => 2649,
+        Glimmora when form == 1 => 2650,
         _ => 0,
     };
 }

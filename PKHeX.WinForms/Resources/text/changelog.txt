@@ -1,7 +1,30 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/10/26 - New Update:
+25/11/07 - New Update
+ - Fixed inventory edits.
+
+25/11/06 - New Update:
+ - Added Diancite, Delphoxite, Sport Ball as released items.
+ - Legality:
+ - - Checks for Z-A improved, but wild encounter location ID recognition outside of Wild Areas still needs work.
+ - - Please do not report issues with this release's handling with legality/encounters. We are aware of what still needs work.
+ - Fixed: Gen9a Pokédex edits now retain Charizard-Y mega seen bitflag.
+ - Fixed: Gen9a Pokédex registering now sets applicable alternate form flags the same way the game normally grants.
+ - Fixed: Gen9a Species names for LATAM language now load correctly.
+ - Fixed: Gen9a Inventory editor no longer treats all acquired items as "NEW" when saving.
+ - Fixed: Gen9a Inventory editor no longer modifies Colorful Screw quantity when giving all.
+ - Fixed: Gen9a Scale evaluation now uses the less-detailed size labels to match the appearance in-game.
+ - Fixed: Gen9a Box/PC data file I/O now works as expected.
+ - Fixed: Friendship value now loads correctly when viewing a PKM. Thanks @DiogoOliveiraReis !
+ - Changed: Gen9a Event Flag editor now shows more event block tabs; existing tabs have been renamed to match their block's function.
+ - Added: Gen9a Fashion editor can now give all as owned via a button at the bottom of the form. Hold shift to give all for every tab.
+ - Added: Gen9a Trainer editor now has a button for collecting all Colorful Screws, which updates your inventory count.
+ - Added: Gen9a ConfigSave in Block Data can be used to change the Text speed to 3 (instant).
+ - Added: Gen9 S/V Fashion Editor added, matching the features available in Z-A's new fashion editor. Thanks @foohyfooh !
+ - Added: Encounter Database can now modify the Encounter Criteria directly instead of inferring from main window tabs.
+
+25/10/26 - New Update: (212334) [11239991]
  - Added: Support for Legends: Z-A.
  - Legality:
  - - Initial handling for recognizing and generating encounters from Z-A.
