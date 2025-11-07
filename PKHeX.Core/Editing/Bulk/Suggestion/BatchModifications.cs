@@ -99,8 +99,10 @@ internal static class BatchModifications
     {
         if (IsNone(value))
             RibbonApplicator.RemoveAllValidRibbons(info.Legality);
-        else // All
+        else if (IsAll(value))
             RibbonApplicator.SetAllValidRibbons(info.Legality);
+        else // Only for current context
+            RibbonApplicator.SetAllValidRibbons(info.Entity, info.Legality.EncounterMatch, info.Legality.Info.EvoChainsAllGens.AsSingle(info.Entity.Context));
         return ModifyResult.Modified;
     }
 

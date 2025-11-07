@@ -14,20 +14,22 @@ public static class RibbonApplicator
     public static void SetAllValidRibbons(PKM pk) => SetAllValidRibbons(new LegalityAnalysis(pk));
 
     /// <inheritdoc cref="SetAllValidRibbons(PKM)"/>
-    public static void SetAllValidRibbons(LegalityAnalysis la)
+    public static void SetAllValidRibbons(LegalityAnalysis la) => SetAllValidRibbons(la.Entity, la.EncounterMatch, la.Info.EvoChainsAllGens);
+
+    /// <inheritdoc cref="SetAllValidRibbons(PKM)"/>
+    public static void SetAllValidRibbons(PKM pk, IEncounterTemplate enc, EvolutionHistory history)
     {
-        var pk = la.Entity;
-        var args = new RibbonVerifierArguments(pk, la.EncounterMatch, la.Info.EvoChainsAllGens);
+        var args = new RibbonVerifierArguments(pk, enc, history);
         SetAllRibbonState(args, true);
         FixInvalidRibbons(args);
 
-        if (la.Entity.IsEgg)
+        if (pk.IsEgg)
             return;
 
         if (pk is IRibbonSetCommon6 c6)
         {
             // Medal Deadlock
-            if (pk is ISuperTrain s && la.Info.EvoChainsAllGens.HasVisitedGen6)
+            if (pk is ISuperTrain s && history.HasVisitedGen6)
             {
                 s.SuperTrainBitFlags = RibbonRules.SetSuperTrainSupremelyTrained(s.SuperTrainBitFlags);
                 if (pk.Format == 6) // cleared on 6->7 transfer; only set in Gen6.
@@ -51,7 +53,16 @@ public static class RibbonApplicator
     /// <inheritdoc cref="RemoveAllValidRibbons(PKM)"/>
     public static void RemoveAllValidRibbons(LegalityAnalysis la)
     {
-        var args = new RibbonVerifierArguments(la.Entity, la.EncounterMatch, la.Info.EvoChainsAllGens);
+        var pk = la.Entity;
+        var enc = la.EncounterMatch;
+        var history = la.Info.EvoChainsAllGens;
+        RemoveAllValidRibbons(pk, enc, history);
+    }
+
+    /// <inheritdoc cref="RemoveAllValidRibbons(PKM)"/>
+    public static void RemoveAllValidRibbons(PKM pk, IEncounterTemplate enc, EvolutionHistory history)
+    {
+        var args = new RibbonVerifierArguments(pk, enc, history);
         SetAllRibbonState(args, false);
         FixInvalidRibbons(args);
     }

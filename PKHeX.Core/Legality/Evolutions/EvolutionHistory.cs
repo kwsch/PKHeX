@@ -58,6 +58,31 @@ public sealed class EvolutionHistory
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 
+    public void Set(EntityContext context, EvoCriteria[] evos)
+    {
+        ref var arr = ref GetByRef(context);
+        arr = evos;
+    }
+
+    private ref EvoCriteria[] GetByRef(EntityContext context)
+    {
+        ref EvoCriteria[] arr = ref Gen1;
+             if (context == EntityContext.Gen2) arr = ref Gen2;
+        else if (context == EntityContext.Gen3) arr = ref Gen3;
+        else if (context == EntityContext.Gen4) arr = ref Gen4;
+        else if (context == EntityContext.Gen5) arr = ref Gen5;
+        else if (context == EntityContext.Gen6) arr = ref Gen6;
+        else if (context == EntityContext.Gen7) arr = ref Gen7;
+        else if (context == EntityContext.Gen8) arr = ref Gen8;
+        else if (context == EntityContext.Gen9) arr = ref Gen9;
+        else if (context == EntityContext.Gen7b) arr = ref Gen7b;
+        else if (context == EntityContext.Gen8a) arr = ref Gen8a;
+        else if (context == EntityContext.Gen8b) arr = ref Gen8b;
+        else if (context == EntityContext.Gen9a) arr = ref Gen9a;
+        else throw new ArgumentOutOfRangeException(nameof(context), context, null);
+        return ref arr;
+    }
+
     public static bool HasVisited(in ReadOnlySpan<EvoCriteria> evos, ushort species)
     {
         foreach (ref readonly var evo in evos)
@@ -66,5 +91,12 @@ public sealed class EvolutionHistory
                 return true;
         }
         return false;
+    }
+
+    public EvolutionHistory AsSingle(EntityContext context)
+    {
+        var single = new EvolutionHistory();
+        single.Set(context, Get(context).ToArray());
+        return single;
     }
 }
