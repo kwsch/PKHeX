@@ -41,7 +41,14 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
         var item = InventoryItem9a.Read(itemIndex, span);
         item.Count = quantity;
         item.Pouch = GetPouchIndex(GetType(itemIndex));
-        item.IsUpdated = true;
+
+        if (item.IsNewNotify && quantity != 0)
+        {
+            // Show popup, treat as new.
+            item.IsNewNotify = false;
+            item.IsNew = true;
+        }
+
         item.Write(span);
     }
 

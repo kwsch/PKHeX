@@ -77,22 +77,10 @@ public sealed class InventoryPouch9a(InventoryType type, IItemStorage info, int 
         if (item.Count != 0)
         {
             // Ensure the flag is set; 0->X and Y->Z
-            item.IsUpdated = true;
-            if (!original.IsUpdated && SetNew)
+            if (original.IsNewNotify && SetNew)
                 item.IsNew = true;
+            item.IsNewNotify = false;
         }
-        else
-        {
-            if (!item.IsUpdated)
-            {
-                item.IsNew = item.IsFavorite = false;
-                if (item.Pouch is not (0 or uint.MaxValue))
-                    item.Pouch = 0;
-            }
-        }
-
-        if (item.IsUpdated)
-            item.Pouch = PouchIndex; // ensure the pouch is set
     }
 
     public static void SetQuantityZero(Span<byte> block, ushort index)
@@ -102,7 +90,10 @@ public sealed class InventoryPouch9a(InventoryType type, IItemStorage info, int 
         if (exist.Count == 0)
             return;
         exist.Count = 0;
-        exist.IsUpdated = true;
+        if (exist.IsValidPouch)
+            exist.IsNewNotify = false; // exist was nonzero, must not have the flag.
+        else
+            exist.Clear();
         exist.Write(span);
     }
 }
