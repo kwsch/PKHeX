@@ -226,12 +226,14 @@ public static class MoveInfo
         _ => -1,
     };
 
-    public static byte GetType(ushort move, EntityContext context) => context switch
+    public static byte GetType(ushort move, EntityContext context) => GetType(move, GetTypeTable(context));
+
+    public static ReadOnlySpan<byte> GetTypeTable(EntityContext context) => context switch
     {
-        Gen1 => GetType(move, MoveInfo1.Type), // Bite, Gust, Karate Chop, Sand Attack
-        >= Gen2 and <= Gen5 => GetType(move, MoveInfo5.Type), // Charm, Moonlight, Sweet Kiss
-        Gen9 when move is (ushort)Growth => (byte)MoveType.Normal, // Normal in S/V, Grass in Z-A
-        _ => GetType(move, MoveInfo9a.Type),
+        Gen1 => MoveInfo1.Type, // Bite, Gust, Karate Chop, Sand Attack
+        >= Gen2 and <= Gen5 => MoveInfo5.Type, // Charm, Moonlight, Sweet Kiss
+        Gen9a => MoveInfo9a.Type, // Normal in S/V, Grass in Z-A
+        _ => MoveInfo9.Type,
     };
 
     private static byte GetType(ushort move, ReadOnlySpan<byte> types)
