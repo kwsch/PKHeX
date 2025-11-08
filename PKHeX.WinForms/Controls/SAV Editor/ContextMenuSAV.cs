@@ -136,10 +136,10 @@ public partial class ContextMenuSAV : UserControl
 
     private static SlotViewInfo<PictureBox> GetSenderInfo(object sender)
     {
-        var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-        ArgumentNullException.ThrowIfNull(pb);
-        var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
-        ArgumentNullException.ThrowIfNull(view);
+        if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
+            ArgumentNullException.ThrowIfNull(pb);
+        if (!WinFormsUtil.TryFindFirstControlOfType<ISlotViewer<PictureBox>>(pb, out var view))
+            ArgumentNullException.ThrowIfNull(view);
         var loc = view.GetSlotData(pb);
         return new SlotViewInfo<PictureBox>(loc, view);
     }

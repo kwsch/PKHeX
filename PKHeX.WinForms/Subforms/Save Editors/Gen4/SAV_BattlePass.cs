@@ -241,8 +241,7 @@ public partial class SAV_BattlePass : Form
 
     private void ClickView(object sender, EventArgs e)
     {
-        var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-        if (pb is null)
+        if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
             return;
         int index = Box.Entries.IndexOf(pb);
 
@@ -305,8 +304,8 @@ public partial class SAV_BattlePass : Form
 
     private int GetSenderIndex(object sender)
     {
-        var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-        ArgumentNullException.ThrowIfNull(pb);
+        if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
+            ArgumentNullException.ThrowIfNull(pb);
         var index = Box.Entries.IndexOf(pb);
         return index;
     }
