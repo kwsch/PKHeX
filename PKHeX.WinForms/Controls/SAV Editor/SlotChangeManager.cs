@@ -98,8 +98,8 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
 
     private static SlotViewInfo<T> GetSlotInfo<T>(T pb) where T : Control
     {
-        var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<T>>(pb);
-        ArgumentNullException.ThrowIfNull(view);
+        if (!WinFormsUtil.TryFindFirstControlOfType<ISlotViewer<T>>(pb, out var view))
+            ArgumentNullException.ThrowIfNull(view);
         var src = view.GetSlotData(pb);
         return new SlotViewInfo<T>(src, view);
     }

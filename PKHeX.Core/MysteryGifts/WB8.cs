@@ -462,12 +462,6 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
         if (EggLocation == 0)
             pk.EggLocation = Locations.Default8bNone;
 
-        if (Species == (int)Core.Species.Manaphy && IsEgg)
-        {
-            pk.EggLocation = Location;
-            pk.MetLocation = Locations.Default8bNone;
-            pk.IsNicknamed = false;
-        }
         pk.HealPP();
 
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version, pk))
@@ -486,7 +480,6 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
         var date = IsDateRestricted && this.GetDistributionWindow(out var dt) ? dt.GetGenerateDate() : EncounterDate.GetDateSwitch();
         if (IsDateLockJapanese && language != (int)LanguageID.Japanese && date < new DateOnly(2022, 5, 20)) // 2022/05/18
             date = new DateOnly(2022, 5, 20); // Pick a better Start date that can be the language we're generating for.
-        pk.MetDate = date;
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
@@ -503,7 +496,10 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
         SetPINGA(pk, criteria);
 
         if (IsEgg)
-            SetEggMetData(pk);
+            SetEggMetData(pk, date);
+        else
+            pk.MetDate = date;
+
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
         if (IsScalarFixed)
@@ -537,13 +533,17 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
         _ => throw new ArgumentException(),
     };
 
-    private void SetEggMetData(PB8 pk)
+    private void SetEggMetData(PB8 pk, DateOnly date)
     {
         pk.IsEgg = true;
         pk.EggMetDate = EncounterDate.GetDateSwitch();
         pk.NicknameTrash.Clear();
         pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = false;
+
+        pk.EggLocation = Location;
+        pk.MetLocation = Locations.Default8bNone;
+        pk.EggMetDate = date;
     }
 
     private void SetPINGA(PB8 pk, in EncounterCriteria criteria)

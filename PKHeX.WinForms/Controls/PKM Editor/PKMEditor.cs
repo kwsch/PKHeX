@@ -261,7 +261,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             var cb = type.IsNotValid(Entity);
             if (cb is null)
                 continue;
-            return WinFormsUtil.FindFirstControlOfType<TabPage>(cb);
+            if (!WinFormsUtil.TryFindFirstControlOfType<TabPage>(cb, out var tab))
+                ArgumentNullException.ThrowIfNull(tab); // we expect a Tab to be the parent
+            return tab;
         }
         return null;
     }

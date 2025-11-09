@@ -198,6 +198,7 @@ public static class EncounterEvent
             MGDB_G8A,      EGDB_G8A,
             MGDB_G8B,      EGDB_G8B,
             MGDB_G9,       EGDB_G9,
+            MGDB_G9A,      EGDB_G9A,
         }.SelectMany(z => z);
         var result = regular.Where(mg => mg is { IsItem: false, IsEntity: true, Species: not 0 });
         if (sorted)

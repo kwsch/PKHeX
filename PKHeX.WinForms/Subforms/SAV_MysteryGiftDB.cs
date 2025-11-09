@@ -178,7 +178,8 @@ public partial class SAV_MysteryGiftDB : Form
 
     private int GetSenderIndex(object sender)
     {
-        var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+        if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
+            ArgumentNullException.ThrowIfNull(pb);
         int index = Array.IndexOf(PKXBOXES, pb);
         if (index >= RES_MAX)
         {
