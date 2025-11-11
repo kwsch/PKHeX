@@ -47,10 +47,10 @@ public sealed class PGT(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
 
     public PK4 PK
     {
-        get => _pk ??= new PK4(Data.Slice(8, PokeCrypto.SIZE_4PARTY).ToArray());
+        get => field ??= new PK4(Data.Slice(8, PokeCrypto.SIZE_4PARTY).ToArray());
         set
         {
-            _pk = value;
+            field = value;
             var data = value.Data;
             bool zero = !data.ContainsAnyExcept<byte>(0); // all zero
             if (!zero)
@@ -66,8 +66,6 @@ public sealed class PGT(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
         clone.VerifyPKEncryption();
         return clone.Data;
     }
-
-    private PK4? _pk;
 
     /// <summary>
     /// Double-checks the encryption of the gift data for Pokémon data.

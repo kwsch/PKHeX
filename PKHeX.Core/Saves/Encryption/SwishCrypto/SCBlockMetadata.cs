@@ -155,14 +155,12 @@ public sealed class SCBlockMetadata
 
     private sealed class WrappedValueView<T>(SCBlock Parent, object currentValue) where T : struct
     {
-        private T _value = (T)Convert.ChangeType(currentValue, typeof(T));
-
         [Description("Stored Value for this Block")]
         public T Value
         {
-            get => _value;
-            set => Parent.SetValue(_value = value);
-        }
+            get;
+            set => Parent.SetValue(field = value);
+        } = (T)Convert.ChangeType(currentValue, typeof(T));
 
         // ReSharper disable once UnusedMember.Local
         [Description("Type of Value this Block stores")]

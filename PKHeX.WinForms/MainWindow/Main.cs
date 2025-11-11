@@ -46,14 +46,12 @@ public partial class Main : Form
         private set => GameInfo.CurrentLanguage = value;
     }
 
-    private static bool _unicode;
-
     public static bool Unicode
     {
-        get => _unicode;
+        get;
         private set
         {
-            _unicode = value;
+            field = value;
             GenderSymbols = value ? GameInfo.GenderSymbolUnicode : GameInfo.GenderSymbolASCII;
         }
     }

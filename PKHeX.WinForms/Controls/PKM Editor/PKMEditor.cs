@@ -145,23 +145,27 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     public PKM CurrentPKM { get => PreparePKM(); set => Entity = value; }
     public bool ModifyPKM { private get; set; } = true;
-    private bool _hideSecret;
 
     public bool HideSecretValues
     {
-        private get => _hideSecret;
+        private get;
         set
         {
-            _hideSecret = value;
+            field = value;
             var sav = RequestSaveFile;
-            ToggleSecrets(_hideSecret, sav.Generation);
+            ToggleSecrets(field, sav.Generation);
         }
     }
 
     public DrawConfig Draw { private get; set; } = null!;
     public bool Unicode { get; set; } = true;
-    private bool _hax;
-    public bool HaX { get => _hax; set => _hax = Stats.HaX = value; }
+
+    public bool HaX
+    {
+        get;
+        set => field = Stats.HaX = value;
+    }
+
     private byte[] LastData = [];
 
     public PKM Data => Entity;
