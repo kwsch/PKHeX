@@ -39,28 +39,34 @@ public interface IPersonalAbility12H : IPersonalAbility12
 public static class PersonalAbilityExtensions
 {
     public static bool GetIsAbility12Same(this IPersonalAbility12 pi) => pi.Ability1 == pi.Ability2;
-    public static bool GetIsAbilityHiddenUnique(this IPersonalAbility12H pi) => pi.Ability1 != pi.AbilityH;
-    public static bool GetIsAbilityPatchPossible(this IPersonalAbility12H pi) => pi.Ability1 != pi.AbilityH || pi.Ability2 != pi.AbilityH;
-
-    public static void GetAbilities(this IPersonalAbility pi, Span<int> result)
+    extension(IPersonalAbility12H pi)
     {
-        if (pi is not IPersonalAbility12 a)
-            return;
-        result[0] = a.Ability1;
-        result[1] = a.Ability2;
-        if (a is not IPersonalAbility12H h)
-            return;
-        result[2] = h.AbilityH;
+        public bool GetIsAbilityHiddenUnique() => pi.Ability1 != pi.AbilityH;
+        public bool GetIsAbilityPatchPossible() => pi.Ability1 != pi.AbilityH || pi.Ability2 != pi.AbilityH;
     }
 
-    public static void SetAbilities(this IPersonalAbility pi, Span<int> result)
+    extension(IPersonalAbility pi)
     {
-        if (pi is not IPersonalAbility12 a)
-            return;
-        a.Ability1 = result[0];
-        a.Ability2 = result[1];
-        if (a is not IPersonalAbility12H h)
-            return;
-        h.AbilityH = result[2];
+        public void GetAbilities(Span<int> result)
+        {
+            if (pi is not IPersonalAbility12 a)
+                return;
+            result[0] = a.Ability1;
+            result[1] = a.Ability2;
+            if (a is not IPersonalAbility12H h)
+                return;
+            result[2] = h.AbilityH;
+        }
+
+        public void SetAbilities(Span<int> result)
+        {
+            if (pi is not IPersonalAbility12 a)
+                return;
+            a.Ability1 = result[0];
+            a.Ability2 = result[1];
+            if (a is not IPersonalAbility12H h)
+                return;
+            h.AbilityH = result[2];
+        }
     }
 }

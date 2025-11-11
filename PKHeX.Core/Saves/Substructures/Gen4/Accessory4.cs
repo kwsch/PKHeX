@@ -117,13 +117,16 @@ public static class AccessoryInfo
     public const int MaxLegal = (int)Accessory4.Tiara;
     public const byte AccessoryMaxCount = 9;
 
-    public static bool IsMultiple(this Accessory4 acc) => (uint)acc <= MaxMulti;
-    public static bool IsSingle(this Accessory4 acc) => (uint)acc > MaxMulti;
-
-    public static int GetSingleBitIndex(this Accessory4 acc)
+    extension(Accessory4 acc)
     {
-        var index = (int)acc - MaxMulti - 1;
-        ArgumentOutOfRangeException.ThrowIfLessThan(index, 0, nameof(acc));
-        return index;
+        public bool IsMultiple() => (uint)acc <= MaxMulti;
+        public bool IsSingle() => (uint)acc > MaxMulti;
+
+        public int GetSingleBitIndex()
+        {
+            var index = (int)acc - MaxMulti - 1;
+            ArgumentOutOfRangeException.ThrowIfLessThan(index, 0, nameof(acc));
+            return index;
+        }
     }
 }

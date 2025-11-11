@@ -81,8 +81,11 @@ public static class ReflectUtil
             .Where(p => p.CanReadPublic() || p.CanWritePublic());
     }
 
-    private static bool CanReadPublic(this PropertyInfo p) => p.CanRead && (p.GetMethod?.IsPublic ?? false);
-    private static bool CanWritePublic(this PropertyInfo p) => p.CanWrite && (p.SetMethod?.IsPublic ?? false);
+    extension(PropertyInfo p)
+    {
+        private bool CanReadPublic() => p.CanRead && (p.GetMethod?.IsPublic ?? false);
+        private bool CanWritePublic() => p.CanWrite && (p.SetMethod?.IsPublic ?? false);
+    }
 
     public static IEnumerable<string> GetPropertiesPublic(Type type)
     {
@@ -120,26 +123,29 @@ public static class ReflectUtil
         return Convert.ChangeType(value, type);
     }
 
-    public static IEnumerable<ConstructorInfo> GetAllConstructors(this TypeInfo typeInfo)
-        => GetAll(typeInfo, ti => ti.DeclaredConstructors);
+    extension(TypeInfo typeInfo)
+    {
+        public IEnumerable<ConstructorInfo> GetAllConstructors()
+            => GetAll(typeInfo, ti => ti.DeclaredConstructors);
 
-    public static IEnumerable<EventInfo> GetAllEvents(this TypeInfo typeInfo)
-        => GetAll(typeInfo, ti => ti.DeclaredEvents);
+        public IEnumerable<EventInfo> GetAllEvents()
+            => GetAll(typeInfo, ti => ti.DeclaredEvents);
 
-    public static IEnumerable<FieldInfo> GetAllFields(this TypeInfo typeInfo)
-        => GetAll(typeInfo, ti => ti.DeclaredFields);
+        public IEnumerable<FieldInfo> GetAllFields()
+            => GetAll(typeInfo, ti => ti.DeclaredFields);
 
-    public static IEnumerable<MemberInfo> GetAllMembers(this TypeInfo typeInfo)
-        => GetAll(typeInfo, ti => ti.DeclaredMembers);
+        public IEnumerable<MemberInfo> GetAllMembers()
+            => GetAll(typeInfo, ti => ti.DeclaredMembers);
 
-    public static IEnumerable<MethodInfo> GetAllMethods(this TypeInfo typeInfo)
-        => GetAll(typeInfo, ti => ti.DeclaredMethods);
+        public IEnumerable<MethodInfo> GetAllMethods()
+            => GetAll(typeInfo, ti => ti.DeclaredMethods);
 
-    public static IEnumerable<TypeInfo> GetAllNestedTypes(this TypeInfo typeInfo)
-        => GetAll(typeInfo, ti => ti.DeclaredNestedTypes);
+        public IEnumerable<TypeInfo> GetAllNestedTypes()
+            => GetAll(typeInfo, ti => ti.DeclaredNestedTypes);
 
-    public static IEnumerable<PropertyInfo> GetAllProperties(this TypeInfo typeInfo)
-        => GetAll(typeInfo, ti => ti.DeclaredProperties);
+        public IEnumerable<PropertyInfo> GetAllProperties()
+            => GetAll(typeInfo, ti => ti.DeclaredProperties);
+    }
 
     public static IEnumerable<TypeInfo> GetAllTypeInfo(this TypeInfo? typeInfo)
     {
@@ -163,52 +169,58 @@ public static class ReflectUtil
         return TryGetPropertyInfo(type.GetTypeInfo(), name, out pi);
     }
 
-    public static bool TryGetPropertyInfo(this TypeInfo typeInfo, string name, [NotNullWhen(true)] out PropertyInfo? pi)
+    extension(TypeInfo typeInfo)
     {
-        foreach (var t in typeInfo.GetAllTypeInfo())
+        public bool TryGetPropertyInfo(string name, [NotNullWhen(true)] out PropertyInfo? pi)
         {
-            pi = t.GetDeclaredProperty(name);
-            if (pi is not null)
-                return true;
-            foreach (var i in t.ImplementedInterfaces)
+            foreach (var t in typeInfo.GetAllTypeInfo())
             {
-                pi = i.GetTypeInfo().GetDeclaredProperty(name);
+                pi = t.GetDeclaredProperty(name);
                 if (pi is not null)
                     return true;
+                foreach (var i in t.ImplementedInterfaces)
+                {
+                    pi = i.GetTypeInfo().GetDeclaredProperty(name);
+                    if (pi is not null)
+                        return true;
+                }
             }
+            pi = null;
+            return false;
         }
-        pi = null;
-        return false;
-    }
 
-    private static IEnumerable<T> GetAll<T>(this TypeInfo typeInfo, Func<TypeInfo, IEnumerable<T>> accessor)
-    {
-        return GetAllTypeInfo(typeInfo).SelectMany(_ => accessor(typeInfo));
-    }
-
-    public static Dictionary<T, string> GetAllConstantsOfType<T>(this Type type) where T : struct
-    {
-        var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-        var consts = fields.Where(fi => fi is { IsLiteral: true, IsInitOnly: false } && fi.FieldType == typeof(T));
-        return consts.ToDictionary(z => (T)(z.GetRawConstantValue() ?? throw new NullReferenceException(nameof(z.Name))), z => z.Name);
-    }
-
-    public static Dictionary<string, T> GetAllPropertiesOfType<T>(this Type type, object obj) where T : class
-    {
-        var props = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-        var result = new Dictionary<string, T>(props.Length);
-        var requestType = typeof(T);
-        foreach (var pi in props)
+        private IEnumerable<T> GetAll<T>(Func<TypeInfo, IEnumerable<T>> accessor)
         {
-            if (!requestType.IsAssignableFrom(pi.PropertyType))
-                continue;
-
-            var name = pi.Name;
-            var value = pi.GetValue(obj);
-            if (value is not T t)
-                continue;
-            result.TryAdd(name, t);
+            return GetAllTypeInfo(typeInfo).SelectMany(_ => accessor(typeInfo));
         }
-        return result;
+    }
+
+    extension(Type type)
+    {
+        public Dictionary<T, string> GetAllConstantsOfType<T>() where T : struct
+        {
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            var consts = fields.Where(fi => fi is { IsLiteral: true, IsInitOnly: false } && fi.FieldType == typeof(T));
+            return consts.ToDictionary(z => (T)(z.GetRawConstantValue() ?? throw new NullReferenceException(nameof(z.Name))), z => z.Name);
+        }
+
+        public Dictionary<string, T> GetAllPropertiesOfType<T>(object obj) where T : class
+        {
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            var result = new Dictionary<string, T>(props.Length);
+            var requestType = typeof(T);
+            foreach (var pi in props)
+            {
+                if (!requestType.IsAssignableFrom(pi.PropertyType))
+                    continue;
+
+                var name = pi.Name;
+                var value = pi.GetValue(obj);
+                if (value is not T t)
+                    continue;
+                result.TryAdd(name, t);
+            }
+            return result;
+        }
     }
 }

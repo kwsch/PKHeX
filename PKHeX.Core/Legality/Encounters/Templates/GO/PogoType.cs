@@ -108,105 +108,104 @@ public enum PogoType : byte
 /// </summary>
 public static class PogoTypeExtensions
 {
-    /// <summary>
-    /// Gets the minimum level (relative to GO's 1-<see cref="EncountersGO.MAX_LEVEL"/>) the <see cref="encounterType"/> must have.
-    /// </summary>
     /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
-    public static byte GetMinLevel(this PogoType encounterType) => encounterType switch
+    extension(PogoType encounterType)
     {
-        PogoType.EggS => 8,
-        PogoType.Raid => 20,
-        PogoType.RaidM => 20,
-        PogoType.RaidUB => 20,
-        PogoType.RaidS => 20,
-        PogoType.Research => 15,
-        PogoType.ResearchM => 15,
-        PogoType.ResearchMP => 15,
-        PogoType.ResearchUB => 15,
-        PogoType.ResearchMH => 15,
-        PogoType.ResearchNH => 15,
-        PogoType.Research10 => 10,
-        PogoType.Research20 => 20,
-        PogoType.ResearchM20 => 20,
-        PogoType.ResearchUB20 => 20,
-        PogoType.GBL => 20,
-        PogoType.GBLM => 20,
-        PogoType.GBLD => 20,
-        PogoType.Shadow => 8,
-        PogoType.MaxBattle => 20,
-        PogoType.MaxBattleM => 20,
-        PogoType.Research269 => 15,
-        PogoType.Research269M => 15,
-        _ => 1, // Wild, Egg, Research (range)
-    };
+        /// <summary>
+        /// Gets the minimum level (relative to GO's 1-<see cref="EncountersGO.MAX_LEVEL"/>) the <see cref="encounterType"/> must have.
+        /// </summary>
+        public byte GetMinLevel() => encounterType switch
+        {
+            PogoType.EggS => 8,
+            PogoType.Raid => 20,
+            PogoType.RaidM => 20,
+            PogoType.RaidUB => 20,
+            PogoType.RaidS => 20,
+            PogoType.Research => 15,
+            PogoType.ResearchM => 15,
+            PogoType.ResearchMP => 15,
+            PogoType.ResearchUB => 15,
+            PogoType.ResearchMH => 15,
+            PogoType.ResearchNH => 15,
+            PogoType.Research10 => 10,
+            PogoType.Research20 => 20,
+            PogoType.ResearchM20 => 20,
+            PogoType.ResearchUB20 => 20,
+            PogoType.GBL => 20,
+            PogoType.GBLM => 20,
+            PogoType.GBLD => 20,
+            PogoType.Shadow => 8,
+            PogoType.MaxBattle => 20,
+            PogoType.MaxBattleM => 20,
+            PogoType.Research269 => 15,
+            PogoType.Research269M => 15,
+            _ => 1, // Wild, Egg, Research (range)
+        };
 
-    /// <summary>
-    /// Gets the minimum IVs (relative to GO's 0-15) the <see cref="encounterType"/> must have.
-    /// </summary>
-    /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
-    /// <returns>Required minimum IV (0-15)</returns>
-    public static int GetMinIV(this PogoType encounterType) => encounterType switch
-    {
-        PogoType.Wild => 0,
-        PogoType.RaidM => 10,
-        PogoType.ResearchM => 10,
-        PogoType.ResearchMP => 10,
-        PogoType.ResearchMH => 10,
-        PogoType.ResearchM20 => 10,
-        PogoType.GBLM => 10,
-        PogoType.GBLD => 0,
-        PogoType.MaxBattleM => 10,
-        PogoType.Research269M => 10,
-        _ => 1,
-    };
+        /// <summary>
+        /// Gets the minimum IVs (relative to GO's 0-15) the <see cref="encounterType"/> must have.
+        /// </summary>
+        /// <returns>Required minimum IV (0-15)</returns>
+        public int GetMinIV() => encounterType switch
+        {
+            PogoType.Wild => 0,
+            PogoType.RaidM => 10,
+            PogoType.ResearchM => 10,
+            PogoType.ResearchMP => 10,
+            PogoType.ResearchMH => 10,
+            PogoType.ResearchM20 => 10,
+            PogoType.GBLM => 10,
+            PogoType.GBLD => 0,
+            PogoType.MaxBattleM => 10,
+            PogoType.Research269M => 10,
+            _ => 1,
+        };
 
-    /// <summary>
-    /// Checks if the <see cref="ball"/> is valid for the <see cref="encounterType"/>.
-    /// </summary>
-    /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
-    /// <param name="ball">Current <see cref="Ball"/> the Pokémon is in.</param>
-    /// <returns>True if valid, false if invalid.</returns>
-    public static bool IsBallValid(this PogoType encounterType, Ball ball)
-    {
-        var req = encounterType.GetValidBall();
-        if (req == Ball.None)
-            return (uint)(ball - 2) <= 2; // Poké, Great, Ultra
-        return ball == req;
+        /// <summary>
+        /// Checks if the <see cref="ball"/> is valid for the <see cref="encounterType"/>.
+        /// </summary>
+        /// <param name="ball">Current <see cref="Ball"/> the Pokémon is in.</param>
+        /// <returns>True if valid, false if invalid.</returns>
+        public bool IsBallValid(Ball ball)
+        {
+            var req = encounterType.GetValidBall();
+            if (req == Ball.None)
+                return (uint)(ball - 2) <= 2; // Poké, Great, Ultra
+            return ball == req;
+        }
+
+        /// <summary>
+        /// Checks if <see cref="Ball.Master"/> can be used for the <see cref="encounterType"/>.
+        /// </summary>
+        /// <returns>True if valid, false if invalid.</returns>
+        public bool IsMasterBallUsable() => encounterType switch
+        {
+            PogoType.Egg or PogoType.EggS => false,
+            PogoType.ResearchMP or PogoType.ResearchUB or PogoType.ResearchMH or PogoType.ResearchNH or PogoType.ResearchUB20 => false,
+            _ => true,
+        };
+
+        /// <summary>
+        /// Gets a valid ball that the <see cref="encounterType"/> can have based on the type of capture in Pokémon GO.
+        /// </summary>
+        /// <returns><see cref="Ball.None"/> if no specific ball is required, otherwise returns the required ball.</returns>
+        public Ball GetValidBall() => encounterType switch
+        {
+            PogoType.Egg => Ball.Poke,
+            PogoType.EggS => Ball.Poke,
+            PogoType.Raid => Ball.Premier,
+            PogoType.RaidM => Ball.Premier,
+            PogoType.RaidUB => Ball.Beast,
+            PogoType.RaidS => Ball.Premier,
+            PogoType.ResearchMP => Ball.Poke,
+            PogoType.ResearchUB => Ball.Beast,
+            PogoType.ResearchUB20 => Ball.Beast,
+            PogoType.Shadow => Ball.Premier,
+            PogoType.MaxBattle => Ball.Premier,
+            PogoType.MaxBattleM => Ball.Premier,
+            PogoType.Research269 => Ball.Premier,
+            PogoType.Research269M => Ball.Premier,
+            _ => Ball.None, // Poké, Great, Ultra
+        };
     }
-
-    /// <summary>
-    /// Checks if <see cref="Ball.Master"/> can be used for the <see cref="encounterType"/>.
-    /// </summary>
-    /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
-    /// <returns>True if valid, false if invalid.</returns>
-    public static bool IsMasterBallUsable(this PogoType encounterType) => encounterType switch
-    {
-        PogoType.Egg or PogoType.EggS => false,
-        PogoType.ResearchMP or PogoType.ResearchUB or PogoType.ResearchMH or PogoType.ResearchNH or PogoType.ResearchUB20 => false,
-        _ => true,
-    };
-
-    /// <summary>
-    /// Gets a valid ball that the <see cref="encounterType"/> can have based on the type of capture in Pokémon GO.
-    /// </summary>
-    /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
-    /// <returns><see cref="Ball.None"/> if no specific ball is required, otherwise returns the required ball.</returns>
-    public static Ball GetValidBall(this PogoType encounterType) => encounterType switch
-    {
-        PogoType.Egg => Ball.Poke,
-        PogoType.EggS => Ball.Poke,
-        PogoType.Raid => Ball.Premier,
-        PogoType.RaidM => Ball.Premier,
-        PogoType.RaidUB => Ball.Beast,
-        PogoType.RaidS => Ball.Premier,
-        PogoType.ResearchMP => Ball.Poke,
-        PogoType.ResearchUB => Ball.Beast,
-        PogoType.ResearchUB20 => Ball.Beast,
-        PogoType.Shadow => Ball.Premier,
-        PogoType.MaxBattle => Ball.Premier,
-        PogoType.MaxBattleM => Ball.Premier,
-        PogoType.Research269 => Ball.Premier,
-        PogoType.Research269M => Ball.Premier,
-        _ => Ball.None, // Poké, Great, Ultra
-    };
 }

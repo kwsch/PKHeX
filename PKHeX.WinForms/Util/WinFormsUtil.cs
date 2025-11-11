@@ -19,26 +19,29 @@ public static class WinFormsUtil
 {
     internal static void TranslateInterface(Control form, string lang) => form.TranslateInterface(lang);
 
-    /// <summary>
-    /// Centers the <see cref="child"/> horizontally and vertically so that its center is the same as the <see cref="parent"/>'s center.
-    /// </summary>
-    internal static void CenterToForm(this Control child, Control? parent)
+    extension(Control child)
     {
-        if (parent is null)
-            return;
-        int x = parent.Location.X + ((parent.Width - child.Width) / 2);
-        int y = parent.Location.Y + ((parent.Height - child.Height) / 2);
-        child.Location = new Point(x, y);
-    }
+        /// <summary>
+        /// Centers the <see cref="child"/> horizontally and vertically so that its center is the same as the <see cref="parent"/>'s center.
+        /// </summary>
+        internal void CenterToForm(Control? parent)
+        {
+            if (parent is null)
+                return;
+            int x = parent.Location.X + ((parent.Width - child.Width) / 2);
+            int y = parent.Location.Y + ((parent.Height - child.Height) / 2);
+            child.Location = new Point(x, y);
+        }
 
-    /// <summary>
-    /// Horizontally centers the <see cref="child"/> to the <see cref="parent"/>'s horizontal center.
-    /// </summary>
-    internal static void HorizontallyCenter(this Control child, Control parent)
-    {
-        int midpoint = (parent.Width - child.Width) / 2;
-        if (child.Location.X != midpoint)
-            child.SetBounds(midpoint, 0, 0, 0, BoundsSpecified.X);
+        /// <summary>
+        /// Horizontally centers the <see cref="child"/> to the <see cref="parent"/>'s horizontal center.
+        /// </summary>
+        internal void HorizontallyCenter(Control parent)
+        {
+            int midpoint = (parent.Width - child.Width) / 2;
+            if (child.Location.X != midpoint)
+                child.SetBounds(midpoint, 0, 0, 0, BoundsSpecified.X);
+        }
     }
 
     public static T? FirstFormOfType<T>() where T : Form => Application.OpenForms.OfType<T>().FirstOrDefault();
@@ -213,8 +216,11 @@ public static class WinFormsUtil
         control.ValueMember = nameof(ComboItem.Value);
     }
 
-    public static void SetValueClamped(this NumericUpDown nud, int value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
-    public static void SetValueClamped(this NumericUpDown nud, uint value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
+    extension(NumericUpDown nud)
+    {
+        public void SetValueClamped(int value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
+        public void SetValueClamped(uint value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
+    }
 
     public static void RemoveDropCB(object? sender, KeyEventArgs e)
     {

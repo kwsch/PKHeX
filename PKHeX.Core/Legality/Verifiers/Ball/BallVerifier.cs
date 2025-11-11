@@ -203,24 +203,27 @@ public enum BallVerificationResult
 
 public static class BallVerificationResultExtensions
 {
-    public static bool IsValid(this BallVerificationResult value) => value switch
+    extension(BallVerificationResult value)
     {
-        ValidEncounter => true,
-        ValidInheritedSpecies => true,
-        _ => false,
-    };
+        public bool IsValid() => value switch
+        {
+            ValidEncounter => true,
+            ValidInheritedSpecies => true,
+            _ => false,
+        };
 
-    public static LegalityCheckResultCode GetMessage(this BallVerificationResult value) => value switch
-    {
-        ValidEncounter => BallEnc,
-        ValidInheritedSpecies => BallSpeciesPass,
-        BadEncounter => BallEncMismatch,
-        BadCaptureHeavy => BallHeavy,
-        BadInheritAbility => BallAbility,
-        BadInheritSpecies => BallSpecies,
-        BadInheritCherish => BallEggCherish,
-        BadInheritMaster => BallEggMaster,
-        BadOutOfRange => BallUnavailable,
-        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
-    };
+        public LegalityCheckResultCode GetMessage() => value switch
+        {
+            ValidEncounter => BallEnc,
+            ValidInheritedSpecies => BallSpeciesPass,
+            BadEncounter => BallEncMismatch,
+            BadCaptureHeavy => BallHeavy,
+            BadInheritAbility => BallAbility,
+            BadInheritSpecies => BallSpecies,
+            BadInheritCherish => BallEggCherish,
+            BadInheritMaster => BallEggMaster,
+            BadOutOfRange => BallUnavailable,
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
+        };
+    }
 }

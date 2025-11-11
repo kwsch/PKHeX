@@ -50,29 +50,32 @@ public interface IFormArgument
 /// </summary>
 public static class FormArgumentUtil
 {
-    /// <summary>
-    /// Sets the suggested Form Argument to the <see cref="pk"/>.
-    /// </summary>
-    public static void SetSuggestedFormArgument(this PKM pk, ushort originalSpecies = 0)
+    extension(PKM pk)
     {
-        if (pk is not IFormArgument)
-            return;
-        uint value = IsFormArgumentTypeDatePair(pk.Species, pk.Form)
-            ? GetFormArgumentMax(pk.Species, pk.Form, pk.Context)
-            : GetFormArgumentMinEvolution(pk.Species, originalSpecies);
-        if (pk.Species is (int)Hoopa && pk.Format >= 8)
-            value = 0; // S/V does not set the argument for Hoopa
-        pk.ChangeFormArgument(value);
-    }
+        /// <summary>
+        /// Sets the suggested Form Argument to the <see cref="pk"/>.
+        /// </summary>
+        public void SetSuggestedFormArgument(ushort originalSpecies = 0)
+        {
+            if (pk is not IFormArgument)
+                return;
+            uint value = IsFormArgumentTypeDatePair(pk.Species, pk.Form)
+                ? GetFormArgumentMax(pk.Species, pk.Form, pk.Context)
+                : GetFormArgumentMinEvolution(pk.Species, originalSpecies);
+            if (pk.Species is (int)Hoopa && pk.Format >= 8)
+                value = 0; // S/V does not set the argument for Hoopa
+            pk.ChangeFormArgument(value);
+        }
 
-    /// <summary>
-    /// Modifies the <see cref="IFormArgument"/> values for the provided <see cref="pk"/> to the requested <see cref="value"/>.
-    /// </summary>
-    public static void ChangeFormArgument(this PKM pk, uint value)
-    {
-        if (pk is not IFormArgument f)
-            return;
-        f.ChangeFormArgument(pk.Species, pk.Form, pk.Context, value);
+        /// <summary>
+        /// Modifies the <see cref="IFormArgument"/> values for the provided <see cref="pk"/> to the requested <see cref="value"/>.
+        /// </summary>
+        public void ChangeFormArgument(uint value)
+        {
+            if (pk is not IFormArgument f)
+                return;
+            f.ChangeFormArgument(pk.Species, pk.Form, pk.Context, value);
+        }
     }
 
     /// <summary>

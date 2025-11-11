@@ -20,24 +20,27 @@ public interface IRibbonSetCommon6
 
 public static partial class RibbonExtensions
 {
-    /// <summary>
-    /// Checks if the <see cref="set"/> has all five contest stat ribbons true.
-    /// </summary>
-    public static bool HasAllContestRibbons(this IRibbonSetCommon6 set) => set is { RibbonMasterCoolness: true, RibbonMasterBeauty: true, RibbonMasterCuteness: true, RibbonMasterCleverness: true, RibbonMasterToughness: true };
-
-    public static void CopyRibbonSetCommon6(this IRibbonSetCommon6 set, IRibbonSetCommon6 dest)
+    extension(IRibbonSetCommon6 set)
     {
-        dest.RibbonChampionKalos = set.RibbonChampionKalos;
-        dest.RibbonChampionG6Hoenn = set.RibbonChampionG6Hoenn;
-        dest.RibbonBestFriends = set.RibbonBestFriends;
-        dest.RibbonTraining = set.RibbonTraining;
-        dest.RibbonBattlerSkillful = set.RibbonBattlerSkillful;
-        dest.RibbonBattlerExpert = set.RibbonBattlerExpert;
-        dest.RibbonContestStar = set.RibbonContestStar;
-        dest.RibbonMasterCoolness = set.RibbonMasterCoolness;
-        dest.RibbonMasterBeauty = set.RibbonMasterBeauty;
-        dest.RibbonMasterCuteness = set.RibbonMasterCuteness;
-        dest.RibbonMasterCleverness = set.RibbonMasterCleverness;
-        dest.RibbonMasterToughness = set.RibbonMasterToughness;
+        /// <summary>
+        /// Checks if the <see cref="set"/> has all five contest stat ribbons true.
+        /// </summary>
+        public bool HasAllContestRibbons() => set is { RibbonMasterCoolness: true, RibbonMasterBeauty: true, RibbonMasterCuteness: true, RibbonMasterCleverness: true, RibbonMasterToughness: true };
+
+        public void CopyRibbonSetCommon6(IRibbonSetCommon6 dest)
+        {
+            dest.RibbonChampionKalos = set.RibbonChampionKalos;
+            dest.RibbonChampionG6Hoenn = set.RibbonChampionG6Hoenn;
+            dest.RibbonBestFriends = set.RibbonBestFriends;
+            dest.RibbonTraining = set.RibbonTraining;
+            dest.RibbonBattlerSkillful = set.RibbonBattlerSkillful;
+            dest.RibbonBattlerExpert = set.RibbonBattlerExpert;
+            dest.RibbonContestStar = set.RibbonContestStar;
+            dest.RibbonMasterCoolness = set.RibbonMasterCoolness;
+            dest.RibbonMasterBeauty = set.RibbonMasterBeauty;
+            dest.RibbonMasterCuteness = set.RibbonMasterCuteness;
+            dest.RibbonMasterCleverness = set.RibbonMasterCleverness;
+            dest.RibbonMasterToughness = set.RibbonMasterToughness;
+        }
     }
 }

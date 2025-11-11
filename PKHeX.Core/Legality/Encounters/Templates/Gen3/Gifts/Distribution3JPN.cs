@@ -50,27 +50,30 @@ public static class Gen3PCJP
         }
     }
 
-    public static ushort GetTrainerID(this Distribution3JPN dist) => dist switch
+    extension(Distribution3JPN dist)
     {
-        First  => 51126,
-        Second => 51224,
-        Third  => 60114,
-        Fourth => 60227,
-        Fifth  => 60321,
-        Sixth  => 60505,
-        _ => throw new ArgumentOutOfRangeException(nameof(dist), dist, null),
-    };
+        public ushort GetTrainerID() => dist switch
+        {
+            First  => 51126,
+            Second => 51224,
+            Third  => 60114,
+            Fourth => 60227,
+            Fifth  => 60321,
+            Sixth  => 60505,
+            _ => throw new ArgumentOutOfRangeException(nameof(dist), dist, null),
+        };
 
-    public static bool IsTrainerNameValid(this Distribution3JPN dist, ReadOnlySpan<char> name) => dist switch
-    {
-        Sixth => name is Tokyo or Yokohama or Nagoya or Osaka or Fukuoka,
-        _ => name is Tokyo or Yokohama or Nagoya or Osaka or Fukuoka or Sapporo,
-    };
+        public bool IsTrainerNameValid(ReadOnlySpan<char> name) => dist switch
+        {
+            Sixth => name is Tokyo or Yokohama or Nagoya or Osaka or Fukuoka,
+            _ => name is Tokyo or Yokohama or Nagoya or Osaka or Fukuoka or Sapporo,
+        };
 
-    public static string GetTrainerName(this Distribution3JPN dist, ushort rand)
-    {
-        var choice = dist == Sixth ? 5 : 6; // Ignore Sapporo for Sixth
-        return GetTrainerNameIndex(rand % choice);
+        public string GetTrainerName(ushort rand)
+        {
+            var choice = dist == Sixth ? 5 : 6; // Ignore Sapporo for Sixth
+            return GetTrainerNameIndex(rand % choice);
+        }
     }
 
     private static string GetTrainerNameIndex(int index) => index switch
