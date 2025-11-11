@@ -19,8 +19,7 @@ public sealed class LegalInfo : IGeneration
         get;
         set
         {
-            if (!ReferenceEquals(field, EncounterInvalid.Default) &&
-                (value.LevelMin != field.LevelMin || value.Species != field.Species))
+            if (!ReferenceEquals(field, EncounterInvalid.Default) && (value.LevelMin != field.LevelMin || value.Species != field.Species))
                 _evochains = null; // clear if evo chain has the potential to be different
             field = value;
             Parse.Clear();

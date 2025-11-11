@@ -34,7 +34,6 @@ public static class BoxManipUtil
         "Modify",
     ];
 
-    /// <param name="type">Manipulation type.</param>
     extension(BoxManipType type)
     {
         /// <summary>

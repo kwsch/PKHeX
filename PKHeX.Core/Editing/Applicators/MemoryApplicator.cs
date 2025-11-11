@@ -5,7 +5,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class MemoryApplicator
 {
-    /// <param name="pk">Pokémon to modify.</param>
     extension(PKM pk)
     {
         /// <summary>

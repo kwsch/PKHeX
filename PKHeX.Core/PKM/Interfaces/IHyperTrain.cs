@@ -29,7 +29,6 @@ public static partial class Extensions
     /// </summary>
     public const int LevelHyperTrainMin9 = 50;
 
-    /// <param name="t">Hyper Trainable object</param>
     extension(IHyperTrain t)
     {
         /// <summary>
