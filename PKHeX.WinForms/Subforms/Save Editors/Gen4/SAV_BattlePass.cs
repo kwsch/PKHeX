@@ -214,7 +214,7 @@ public partial class SAV_BattlePass : Form
             pb.MouseEnter += (_, _) => HoverSlot(pb);
             pb.MouseLeave += (_, _) => Preview.Clear();
         }
-        Closing += (_, _) => Preview.Clear();
+        FormClosing += (_, _) => Preview.Clear();
     }
 
     private void HoverSlot(PictureBox pb)

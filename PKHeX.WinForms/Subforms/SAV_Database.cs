@@ -152,7 +152,7 @@ public partial class SAV_Database : Form
         };
         CB_Format.Items[0] = MsgAny;
         CenterToParent();
-        Closing += (_, _) => ShowSet.Clear();
+        FormClosing += (_, _) => ShowSet.Clear();
         CB_Species.Select();
     }
 

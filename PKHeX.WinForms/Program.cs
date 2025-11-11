@@ -39,9 +39,7 @@ internal static class Program
         Settings = PKHeXSettings.GetSettings(PathConfig);
 
         if (Settings.Startup.DarkMode)
-#pragma warning disable WFO5001
             Application.SetColorMode(SystemColorMode.Dark);
-#pragma warning restore WFO5001
     }
 
     [STAThread]
