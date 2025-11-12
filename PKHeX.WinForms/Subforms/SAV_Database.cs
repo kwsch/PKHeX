@@ -154,6 +154,12 @@ public partial class SAV_Database : Form
         CenterToParent();
         FormClosing += (_, _) => ShowSet.Clear();
         CB_Species.Select();
+
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(menuStrip1.Items);
+            WinFormsUtil.InvertToolStripIcons(mnu.Items);
+        }
     }
 
     private void ClickView(object sender, EventArgs e)

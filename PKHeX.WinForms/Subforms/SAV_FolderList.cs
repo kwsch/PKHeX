@@ -64,6 +64,12 @@ public partial class SAV_FolderList : Form
             AddButton(loc.DisplayText, loc.Path);
 
         CenterToParent();
+
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(dgDataBackup.ContextMenuStrip.Items);
+            WinFormsUtil.InvertToolStripIcons(dgDataRecent.ContextMenuStrip.Items);
+        }
     }
 
     private static List<INamedFolderPath> GetPathList(IReadOnlyList<string> drives, string backupPath)

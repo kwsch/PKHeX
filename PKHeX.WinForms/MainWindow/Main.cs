@@ -175,6 +175,9 @@ public partial class Main : Form
 
         // Select Language
         CB_MainLanguage.SelectedIndex = GameLanguage.GetLanguageIndex(settings.Startup.Language);
+
+        if (Application.IsDarkModeEnabled)
+            WinFormsUtil.InvertToolStripIcons(menuStrip1.Items);
     }
 
     public void AttachPlugins()

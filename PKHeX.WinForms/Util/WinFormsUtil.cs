@@ -544,4 +544,17 @@ public static class WinFormsUtil
         var ci = new CultureInfo(lang);
         Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = ci;
     }
+
+    public static void InvertToolStripIcons(ToolStripItemCollection collection)
+    {
+        foreach (var o in collection)
+        {
+            if (o is not ToolStripMenuItem item)
+                continue;
+            InvertToolStripIcons(item.DropDownItems);
+            if (item.Image is not { } x)
+                continue;
+            item.Image = Drawing.ImageUtil.ChangeAllColorTo(x, Color.White);
+        }
+    }
 }

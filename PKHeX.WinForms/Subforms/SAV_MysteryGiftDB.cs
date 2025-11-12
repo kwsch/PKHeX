@@ -108,6 +108,12 @@ public partial class SAV_MysteryGiftDB : Form
         CB_Format.Items[0] = MsgAny;
         CenterToParent();
         CB_Species.Select();
+
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(menuStrip1.Items);
+            WinFormsUtil.InvertToolStripIcons(mnu.Items);
+        }
     }
 
     private readonly PictureBox[] PKXBOXES;

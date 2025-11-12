@@ -111,6 +111,12 @@ public partial class SAV_Encounters : Form
         CenterToParent();
         CB_Species.Select();
         CheckIsSearchDisallowed();
+
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(menuStrip1.Items);
+            WinFormsUtil.InvertToolStripIcons(mnu.Items);
+        }
     }
 
     private void UpdateCriteriaPropertyGrid(EncounterCriteria value)
