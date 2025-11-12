@@ -385,9 +385,12 @@ public partial class StatEditor : UserControl
     private void UpdateEVTotals()
     {
         var evtotal = Entity.EVTotal;
-        TB_EVTotal.ForeColor = Color.Black;
-        TB_EVTotal.BackColor = GetEVTotalColor(evtotal, TB_IVTotal.BackColor);
         TB_EVTotal.Text = evtotal.ToString();
+        TB_EVTotal.BackColor = GetEVTotalColor(evtotal, TB_IVTotal.BackColor);
+        if (TB_EVTotal.BackColor != TB_IVTotal.BackColor)
+            TB_EVTotal.ForeColor = Color.Black;
+        else
+            TB_EVTotal.ResetForeColor();
         EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
     }
 

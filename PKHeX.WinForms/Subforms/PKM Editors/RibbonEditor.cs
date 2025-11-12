@@ -181,6 +181,8 @@ public partial class RibbonEditor : Form
             BackColor = color,
             AutoSize = true,
         };
+        if (color != Color.Transparent)
+            label.ForeColor = Color.Black;
         TLP_Ribbons.Controls.Add(label, 1, row);
 
         if (rib.Type is RibbonValueType.Byte) // numeric count ribbon

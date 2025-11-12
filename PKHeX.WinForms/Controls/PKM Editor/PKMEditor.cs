@@ -1801,7 +1801,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         var current = (e.State & DrawItemState.Selected) != 0;
         var brush = Draw.Brushes.GetBackground(valid, current);
-        var textColor = Draw.GetText(current);
+        var textColor = !current && valid ? Color.Black : Draw.GetText(current);
 
         var type = MoveInfo.GetType((ushort)value, Entity.Context);
         var moveTypeIcon = TypeSpriteUtil.GetTypeSpriteIconSmall(type);
