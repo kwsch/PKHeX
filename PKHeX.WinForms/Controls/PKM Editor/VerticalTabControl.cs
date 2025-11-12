@@ -16,38 +16,42 @@ public class VerticalTabControl : TabControl
         Alignment = TabAlignment.Right;
         DrawMode = TabDrawMode.OwnerDrawFixed;
         SizeMode = TabSizeMode.Fixed;
+        SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
     }
 
-    protected override void OnDrawItem(DrawItemEventArgs e)
+    protected override void OnPaint(PaintEventArgs e)
     {
-        var index = e.Index;
-        if ((uint)index >= TabPages.Count)
-            return;
+        var g = e.Graphics;
+
+        using var bgBrush = new SolidBrush(BackColor);
+        g.FillRectangle(bgBrush, ClientRectangle);
+
+        for (int i = 0; i < TabCount; i++)
+            DrawTab(g, TabPages[i], i);
+    }
+
+    private void DrawTab(Graphics g, TabPage page, int index)
+    {
         var bounds = GetTabRect(index);
 
-        var graphics = e.Graphics;
-        DrawBackground(e, bounds, graphics);
+        // Draw tab background
+        if (index == SelectedIndex)
+        {
+            var (c1, c2) = (DefaultBackColor, ColorUtil.Blend(DefaultBackColor, SystemColors.ScrollBar, 0.4));
+            using var brush = new LinearGradientBrush(bounds, c1, c2, 90f);
+            g.FillRectangle(brush, bounds);
+        }
 
+        // Draw dark grey border around tab
+        using var borderPen = new Pen(SystemColors.ActiveBorder, 1);
+        g.DrawRectangle(borderPen, bounds.X, bounds.Y, bounds.Width - 1, bounds.Height - 1);
+
+        // Draw text
         using var flags = new StringFormat();
         flags.Alignment = StringAlignment.Center;
         flags.LineAlignment = StringAlignment.Center;
         using var text = new SolidBrush(ForeColor);
-        var tab = TabPages[index];
-        graphics.DrawString(tab.Text, Font, text, bounds, flags);
-        base.OnDrawItem(e);
-    }
-
-    protected static void DrawBackground(DrawItemEventArgs e, Rectangle bounds, Graphics graphics)
-    {
-        if (e.State != DrawItemState.Selected)
-        {
-            e.DrawBackground();
-            return;
-        }
-
-        var (c1, c2) = (DefaultBackColor, ColorUtil.Blend(DefaultBackColor, SystemColors.ScrollBar, 0.4));
-        using var brush = new LinearGradientBrush(bounds, c1, c2, 90f);
-        graphics.FillRectangle(brush, bounds);
+        g.DrawString(page.Text, Font, text, bounds, flags);
     }
 
     protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
@@ -75,31 +79,49 @@ public sealed class VerticalTabControlEntityEditor : VerticalTabControl
         Color.RosyBrown, // OT
     ];
 
-    protected override void OnDrawItem(DrawItemEventArgs e)
+    protected override void OnPaint(PaintEventArgs e)
     {
-        var index = e.Index;
-        if ((uint)index >= TabPages.Count)
-            return;
+        var g = e.Graphics;
+
+        // Fill background
+        using (var bgBrush = new SolidBrush(BackColor))
+            g.FillRectangle(bgBrush, ClientRectangle);
+
+        // Draw each tab
+        for (int i = 0; i < TabCount; i++)
+            DrawCustomTab(g, TabPages[i], i);
+    }
+
+    private void DrawCustomTab(Graphics g, TabPage page, int index)
+    {
         var bounds = GetTabRect(index);
 
-        var graphics = e.Graphics;
-        DrawBackground(e, bounds, graphics);
-        if (e.State == DrawItemState.Selected)
+        // Draw tab background
+        if (index == SelectedIndex)
         {
-            // draw colored pip on the left side of the tab
-            using var pipBrush = new SolidBrush(SelectedTags[index]);
-            var pip = GetTabRect(index) with { Width = bounds.Width / 8 };
-            graphics.FillRectangle(pipBrush, pip);
+            var (c1, c2) = (DefaultBackColor, ColorUtil.Blend(DefaultBackColor, SystemColors.ScrollBar, 0.4));
+            using var brush = new LinearGradientBrush(bounds, c1, c2, 90f);
+            g.FillRectangle(brush, bounds);
 
-            // shift text to the right to avoid pip overlap
+            // Draw colored pip on the left side of the tab
+            using var pipBrush = new SolidBrush(SelectedTags[index]);
+            var pip = bounds with { Width = bounds.Width / 8 };
+            g.FillRectangle(pipBrush, pip);
+
+            // Shift text to the right to avoid pip overlap
             bounds = bounds with { Width = bounds.Width - pip.Width, X = bounds.X + pip.Width };
         }
 
+        // Draw dark grey border around tab
+        using var borderPen = new Pen(SystemColors.ActiveBorder, 1);
+        var tabBounds = GetTabRect(index);
+        g.DrawRectangle(borderPen, tabBounds.X, tabBounds.Y, tabBounds.Width - 1, tabBounds.Height - 1);
+
+        // Draw text
         using var flags = new StringFormat();
         flags.Alignment = StringAlignment.Center;
         flags.LineAlignment = StringAlignment.Center;
         using var text = new SolidBrush(ForeColor);
-        var tab = TabPages[index];
-        graphics.DrawString(tab.Text, Font, text, bounds, flags);
+        g.DrawString(page.Text, Font, text, bounds, flags);
     }
 }
