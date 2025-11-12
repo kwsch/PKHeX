@@ -187,7 +187,7 @@ public static class WinFormsTranslator
         }
         else if (z is ComboBox cb)
         {
-            cb.FlatStyle = FlatStyle.Flat;
+            cb.FlatStyle = FlatStyle.Popup;
         }
         else if (z is ListBox lb)
         {
@@ -203,11 +203,15 @@ public static class WinFormsTranslator
         }
         else if (z is GroupBox gb)
         {
-            gb.FlatStyle = FlatStyle.Flat;
+            gb.FlatStyle = FlatStyle.Popup;
         }
         else if (z is RichTextBox rtb)
         {
             rtb.BorderStyle = BorderStyle.None;
+        }
+        else if (z is ButtonBase b)
+        {
+            b.FlatStyle = FlatStyle.Popup;
         }
     }
 

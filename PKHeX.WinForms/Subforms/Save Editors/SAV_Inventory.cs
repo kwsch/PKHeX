@@ -175,7 +175,7 @@ public sealed partial class SAV_Inventory : Form
         HeaderText = name,
         DisplayIndex = c,
         Width = 40,
-        FlatStyle = FlatStyle.Flat,
+        FlatStyle = Application.IsDarkModeEnabled ? FlatStyle.System : FlatStyle.Flat,
     };
 
     private static DataGridViewTextBoxColumn GetCountColumn(InventoryPouch pouch, bool HaX, int c, string name = "Count")
