@@ -1083,6 +1083,10 @@ public partial class Main : Form
         var verboseReport = localizer.Report(true);
 
         var settings = localizer.Settings;
+        var intro = simpleReport + Environment.NewLine;
+        if (la.Valid)
+            intro += "===" + Environment.NewLine + Environment.NewLine;
+        var expandText = verboseReport.Replace(intro, "");
         var page = new TaskDialogPage
         {
             Caption = "Legality Check",
@@ -1094,7 +1098,7 @@ public partial class Main : Form
                 CollapsedButtonText = "Full Report",
                 ExpandedButtonText = "Hide Full Report",
                 Expanded = verbose,
-                Text = verboseReport.Replace(simpleReport + Environment.NewLine, ""),
+                Text = expandText,
             },
             Buttons = [TaskDialogButton.OK],
             DefaultButton = TaskDialogButton.OK,
