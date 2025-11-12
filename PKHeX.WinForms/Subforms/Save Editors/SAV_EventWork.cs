@@ -40,6 +40,11 @@ public sealed partial class SAV_EventWork : Form
         LoadFlags(Editor.Flag);
         LoadWork(Editor.Work);
         editing = false;
+        if (Application.IsDarkModeEnabled)
+        {
+            foreach (TabPage tab in TC_Features.TabPages)
+                tab.UseVisualStyleBackColor = false;
+        }
         ResumeLayout();
 
         if (CB_Stats.Items.Count > 0)
@@ -93,6 +98,10 @@ public sealed partial class SAV_EventWork : Form
                 Name = $"Tab_F{g.Type}",
                 Text = g.Type.ToString(),
             };
+            if (Application.IsDarkModeEnabled)
+            {
+                tab.UseVisualStyleBackColor = false;
+            }
             tab.Controls.Add(tlp);
             TC_Flag.Controls.Add(tab);
             tlp.ResumeLayout();
@@ -178,12 +187,20 @@ public sealed partial class SAV_EventWork : Form
                     }
                 }
                 i++;
+                if (Application.IsDarkModeEnabled)
+                {
+                    cb.FlatStyle = FlatStyle.Flat;
+                }
             }
             var tab = new TabPage
             {
                 Name = $"Tab_W{g.Type}",
                 Text = g.Type.ToString(),
             };
+            if (Application.IsDarkModeEnabled)
+            {
+                tab.UseVisualStyleBackColor = false;
+            }
             tab.Controls.Add(tlp);
             TC_Work.Controls.Add(tab);
             tlp.ResumeLayout();

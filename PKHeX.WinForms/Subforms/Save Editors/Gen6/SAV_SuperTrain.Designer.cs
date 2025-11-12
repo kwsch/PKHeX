@@ -1,4 +1,6 @@
-﻿namespace PKHeX.WinForms
+using PKHeX.WinForms.Controls;
+
+namespace PKHeX.WinForms
 {
     partial class SAV_SuperTrain
     {
@@ -30,7 +32,7 @@
         {
             B_Cancel = new System.Windows.Forms.Button();
             B_Save = new System.Windows.Forms.Button();
-            dataGridView1 = new System.Windows.Forms.DataGridView();
+            dataGridView1 = new DoubleBufferedDataGridView();
             CB_Species2 = new System.Windows.Forms.ComboBox();
             listBox1 = new System.Windows.Forms.ListBox();
             TB_Time1 = new System.Windows.Forms.TextBox();
@@ -261,7 +263,7 @@
 
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private DoubleBufferedDataGridView dataGridView1;
         private System.Windows.Forms.ComboBox CB_Species2;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.TextBox TB_Time1;

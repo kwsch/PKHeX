@@ -28,7 +28,6 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             dgData = new PKHeX.WinForms.Controls.DoubleBufferedDataGridView();
             ((System.ComponentModel.ISupportInitialize)(dgData)).BeginInit();
             SuspendLayout();
@@ -37,8 +36,6 @@ namespace PKHeX.WinForms
             // 
             dgData.AllowUserToAddRows = false;
             dgData.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ControlLight;
-            dgData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgData.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             dgData.Dock = System.Windows.Forms.DockStyle.Fill;
             dgData.Location = new System.Drawing.Point(0, 0);

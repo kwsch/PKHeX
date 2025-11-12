@@ -182,6 +182,7 @@ namespace PKHeX.WinForms.Controls
             FLP_MoveFlags = new System.Windows.Forms.FlowLayoutPanel();
             B_RelearnFlags = new System.Windows.Forms.Button();
             B_MoveShop = new System.Windows.Forms.Button();
+            B_PlusRecord = new System.Windows.Forms.Button();
             FLP_AlphaMove = new System.Windows.Forms.FlowLayoutPanel();
             L_AlphaMastered = new System.Windows.Forms.Label();
             CB_AlphaMastered = new System.Windows.Forms.ComboBox();
@@ -272,7 +273,6 @@ namespace PKHeX.WinForms.Controls
             Tab_Moves = new System.Windows.Forms.TabPage();
             Tab_Cosmetic = new System.Windows.Forms.TabPage();
             Tab_OTMisc = new System.Windows.Forms.TabPage();
-            B_PlusRecord = new System.Windows.Forms.Button();
             Hidden_TC.SuspendLayout();
             Hidden_Main.SuspendLayout();
             FLP_Main.SuspendLayout();
@@ -1028,7 +1028,7 @@ namespace PKHeX.WinForms.Controls
             DEV_Ability.Size = new System.Drawing.Size(126, 25);
             DEV_Ability.TabIndex = 14;
             DEV_Ability.Visible = false;
-            TB_AbilityNumber.Click += ClickManualAbility;
+            DEV_Ability.Click += ClickManualAbility;
             // 
             // TB_AbilityNumber
             // 
@@ -2249,7 +2249,7 @@ namespace PKHeX.WinForms.Controls
             FLP_MoveFlags.Location = new System.Drawing.Point(0, 0);
             FLP_MoveFlags.Margin = new System.Windows.Forms.Padding(0);
             FLP_MoveFlags.Name = "FLP_MoveFlags";
-            FLP_MoveFlags.Size = new System.Drawing.Size(438, 25);
+            FLP_MoveFlags.Size = new System.Drawing.Size(268, 31);
             FLP_MoveFlags.TabIndex = 100;
             FLP_MoveFlags.WrapContents = false;
             // 
@@ -2278,6 +2278,19 @@ namespace PKHeX.WinForms.Controls
             B_MoveShop.Text = "Move Shop";
             B_MoveShop.UseVisualStyleBackColor = true;
             B_MoveShop.Click += B_MoveShop_Click;
+            // 
+            // B_PlusRecord
+            // 
+            B_PlusRecord.AutoSize = true;
+            B_PlusRecord.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            B_PlusRecord.Location = new System.Drawing.Point(191, 2);
+            B_PlusRecord.Margin = new System.Windows.Forms.Padding(2);
+            B_PlusRecord.Name = "B_PlusRecord";
+            B_PlusRecord.Size = new System.Drawing.Size(75, 27);
+            B_PlusRecord.TabIndex = 12;
+            B_PlusRecord.Text = "Plus Flags";
+            B_PlusRecord.UseVisualStyleBackColor = true;
+            B_PlusRecord.Click += B_PlusRecord_Click;
             // 
             // FLP_AlphaMove
             // 
@@ -3319,7 +3332,7 @@ namespace PKHeX.WinForms.Controls
             TC_Editor.Name = "TC_Editor";
             TC_Editor.Padding = new System.Drawing.Point(0, 0);
             TC_Editor.SelectedIndex = 0;
-            TC_Editor.Size = new System.Drawing.Size(96, 320);
+            TC_Editor.Size = new System.Drawing.Size(96, 245);
             TC_Editor.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             TC_Editor.TabIndex = 0;
             TC_Editor.SelectedIndexChanged += ChangeSelectedTabIndex;
@@ -3329,7 +3342,7 @@ namespace PKHeX.WinForms.Controls
             Tab_Main.Location = new System.Drawing.Point(4, 4);
             Tab_Main.Margin = new System.Windows.Forms.Padding(0);
             Tab_Main.Name = "Tab_Main";
-            Tab_Main.Size = new System.Drawing.Size(0, 312);
+            Tab_Main.Size = new System.Drawing.Size(0, 237);
             Tab_Main.TabIndex = 0;
             Tab_Main.Text = "Main";
             Tab_Main.UseVisualStyleBackColor = true;
@@ -3339,7 +3352,7 @@ namespace PKHeX.WinForms.Controls
             Tab_Met.Location = new System.Drawing.Point(4, 4);
             Tab_Met.Margin = new System.Windows.Forms.Padding(0);
             Tab_Met.Name = "Tab_Met";
-            Tab_Met.Size = new System.Drawing.Size(0, 312);
+            Tab_Met.Size = new System.Drawing.Size(0, 237);
             Tab_Met.TabIndex = 1;
             Tab_Met.Text = "Met";
             Tab_Met.UseVisualStyleBackColor = true;
@@ -3349,7 +3362,7 @@ namespace PKHeX.WinForms.Controls
             Tab_Stats.Location = new System.Drawing.Point(4, 4);
             Tab_Stats.Margin = new System.Windows.Forms.Padding(0);
             Tab_Stats.Name = "Tab_Stats";
-            Tab_Stats.Size = new System.Drawing.Size(0, 312);
+            Tab_Stats.Size = new System.Drawing.Size(0, 237);
             Tab_Stats.TabIndex = 2;
             Tab_Stats.Text = "Stats";
             Tab_Stats.UseVisualStyleBackColor = true;
@@ -3359,7 +3372,7 @@ namespace PKHeX.WinForms.Controls
             Tab_Moves.Location = new System.Drawing.Point(4, 4);
             Tab_Moves.Margin = new System.Windows.Forms.Padding(0);
             Tab_Moves.Name = "Tab_Moves";
-            Tab_Moves.Size = new System.Drawing.Size(0, 312);
+            Tab_Moves.Size = new System.Drawing.Size(0, 237);
             Tab_Moves.TabIndex = 3;
             Tab_Moves.Text = "Moves";
             Tab_Moves.UseVisualStyleBackColor = true;
@@ -3368,7 +3381,7 @@ namespace PKHeX.WinForms.Controls
             // 
             Tab_Cosmetic.Location = new System.Drawing.Point(4, 4);
             Tab_Cosmetic.Name = "Tab_Cosmetic";
-            Tab_Cosmetic.Size = new System.Drawing.Size(0, 312);
+            Tab_Cosmetic.Size = new System.Drawing.Size(0, 237);
             Tab_Cosmetic.TabIndex = 5;
             Tab_Cosmetic.Text = "Cosmetic";
             Tab_Cosmetic.UseVisualStyleBackColor = true;
@@ -3378,23 +3391,10 @@ namespace PKHeX.WinForms.Controls
             Tab_OTMisc.Location = new System.Drawing.Point(4, 4);
             Tab_OTMisc.Margin = new System.Windows.Forms.Padding(0);
             Tab_OTMisc.Name = "Tab_OTMisc";
-            Tab_OTMisc.Size = new System.Drawing.Size(0, 312);
+            Tab_OTMisc.Size = new System.Drawing.Size(0, 237);
             Tab_OTMisc.TabIndex = 4;
             Tab_OTMisc.Text = "OT/Misc";
             Tab_OTMisc.UseVisualStyleBackColor = true;
-            // 
-            // B_PlusRecord
-            // 
-            B_PlusRecord.AutoSize = true;
-            B_PlusRecord.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            B_PlusRecord.Location = new System.Drawing.Point(293, 1);
-            B_PlusRecord.Margin = new System.Windows.Forms.Padding(2);
-            B_PlusRecord.Name = "B_PlusRecord";
-            B_PlusRecord.Size = new System.Drawing.Size(96, 27);
-            B_PlusRecord.TabIndex = 12;
-            B_PlusRecord.Text = "Plus Flags";
-            B_PlusRecord.UseVisualStyleBackColor = true;
-            B_PlusRecord.Click += B_PlusRecord_Click;
             // 
             // PKMEditor
             // 

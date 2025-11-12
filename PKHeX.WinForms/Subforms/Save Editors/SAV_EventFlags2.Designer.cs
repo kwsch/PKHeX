@@ -1,3 +1,5 @@
+using PKHeX.WinForms.Controls;
+
 namespace PKHeX.WinForms
 {
     sealed partial class SAV_EventFlags2
@@ -49,7 +51,7 @@ namespace PKHeX.WinForms
             L_EventFlagWarn = new System.Windows.Forms.Label();
             tabControl1 = new System.Windows.Forms.TabControl();
             GB_Flags = new System.Windows.Forms.TabPage();
-            dgv = new System.Windows.Forms.DataGridView();
+            dgv = new DoubleBufferedDataGridView();
             GB_Constants = new System.Windows.Forms.TabPage();
             TLP_Const = new System.Windows.Forms.TableLayoutPanel();
             GB_Research = new System.Windows.Forms.TabPage();
@@ -434,6 +436,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.TabPage GB_Constants;
         private System.Windows.Forms.TabPage GB_Research;
         private System.Windows.Forms.TableLayoutPanel TLP_Const;
-        private System.Windows.Forms.DataGridView dgv;
+        private DoubleBufferedDataGridView dgv;
     }
 }

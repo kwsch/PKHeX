@@ -1,6 +1,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using PKHeX.Drawing;
 using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms.Controls;
@@ -44,7 +45,7 @@ public class VerticalTabControl : TabControl
             return;
         }
 
-        var (c1, c2) = (SystemColors.ControlLightLight, SystemColors.ScrollBar);
+        var (c1, c2) = (DefaultBackColor, ColorUtil.Blend(DefaultBackColor, SystemColors.ScrollBar, 0.4));
         using var brush = new LinearGradientBrush(bounds, c1, c2, 90f);
         graphics.FillRectangle(brush, bounds);
     }

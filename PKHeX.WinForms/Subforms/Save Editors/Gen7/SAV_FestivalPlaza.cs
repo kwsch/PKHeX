@@ -18,6 +18,13 @@ public partial class SAV_FestivalPlaza : Form
     public SAV_FestivalPlaza(SAV7 sav)
     {
         InitializeComponent();
+
+        if (Application.IsDarkModeEnabled)
+        {
+            foreach (TabPage tab in TC_Editor.TabPages)
+                tab.UseVisualStyleBackColor = false;
+        }
+
         SAV = (SAV7)(Origin = sav).Clone();
         editing = true;
         entry = -1;

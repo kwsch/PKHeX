@@ -2,6 +2,7 @@ using PKHeX.Core;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using PKHeX.WinForms.Controls;
 
 namespace PKHeX.WinForms;
 
@@ -293,7 +294,7 @@ public sealed class FashionItem9Editor : IFashionBlockEditor
     private DataGridView CreateGrid(TabPage tab)
     {
         var count = Block.Raw.Length / FashionItem9.SIZE;
-        var dgv = new DataGridView
+        var dgv = new DoubleBufferedDataGridView
         {
             Dock = DockStyle.Fill,
             AllowUserToAddRows = false,
@@ -417,7 +418,7 @@ public sealed class FashionItem9aEditor : IFashionBlockEditor
     private DataGridView CreateGrid(TabPage tab)
     {
         var count = Block.Raw.Length / FashionItem9a.SIZE;
-        var dgv = new DataGridView
+        var dgv = new DoubleBufferedDataGridView
         {
             Dock = DockStyle.Fill,
             AllowUserToAddRows = false,
@@ -558,7 +559,7 @@ public sealed record HairMake9aEditor : IFashionBlockEditor
     private DataGridView CreateGrid(TabPage tab)
     {
         var count = Block.Raw.Length / HairMakeItem9a.SIZE;
-        var dgv = new DataGridView
+        var dgv = new DoubleBufferedDataGridView
         {
             Dock = DockStyle.Fill,
             AllowUserToAddRows = false,

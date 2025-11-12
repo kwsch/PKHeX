@@ -306,9 +306,15 @@ public partial class StatEditor : UserControl
     {
         var tb = MT_IVs[index];
         if (value)
+        {
+            tb.ForeColor = Color.Black;
             tb.BackColor = StatHyperTrained;
+        }
         else
+        {
+            tb.ResetForeColor();
             tb.ResetBackColor();
+        }
     }
 
     private void UpdateHPType(object sender, EventArgs e)
@@ -357,7 +363,10 @@ public partial class StatEditor : UserControl
         if (Entity is not IHyperTrain h)
         {
             foreach (var iv in MT_IVs)
+            {
+                iv.ResetForeColor();
                 iv.ResetBackColor();
+            }
             return;
         }
 
@@ -376,6 +385,7 @@ public partial class StatEditor : UserControl
     private void UpdateEVTotals()
     {
         var evtotal = Entity.EVTotal;
+        TB_EVTotal.ForeColor = Color.Black;
         TB_EVTotal.BackColor = GetEVTotalColor(evtotal, TB_IVTotal.BackColor);
         TB_EVTotal.Text = evtotal.ToString();
         EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
@@ -421,11 +431,13 @@ public partial class StatEditor : UserControl
             var value = pi.GetBaseStatValue(index);
             var s = MT_Base[index];
             s.Text = value.ToString("000");
+            s.ForeColor = Color.Black;
             s.BackColor = ColorUtil.ColorBaseStat(value);
             bst += value;
         }
 
         TB_BST.Text = bst.ToString("000");
+        TB_BST.ForeColor = Color.Black;
         TB_BST.BackColor = ColorUtil.ColorBaseStatTotal(bst);
     }
 
@@ -612,11 +624,20 @@ public partial class StatEditor : UserControl
         var max = ganbaru.GetMax(entity, i);
         var tb = MT_GVs[i];
         if (current > max)
+        {
+            tb.ForeColor = Color.Black;
             tb.BackColor = EVsInvalid;
+        }
         else if (current == max)
+        {
+            tb.ForeColor = Color.Black;
             tb.BackColor = StatHyperTrained;
+        }
         else
+        {
+            tb.ResetForeColor();
             tb.ResetBackColor();
+        }
     }
 
     private void SetStatOrder(StatEditorStatOrder order)

@@ -1,3 +1,5 @@
+using PKHeX.WinForms.Controls;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_Geonet4
@@ -34,11 +36,11 @@ namespace PKHeX.WinForms
             B_SetAllLegalLocations = new System.Windows.Forms.Button();
             B_ClearLocations = new System.Windows.Forms.Button();
             CHK_GlobalFlag = new System.Windows.Forms.CheckBox();
-            DGV_Geonet = new System.Windows.Forms.DataGridView();
             Item_CountryIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             Item_Country = new System.Windows.Forms.DataGridViewTextBoxColumn();
             Item_RegionIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             Item_Region = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DGV_Geonet = new DoubleBufferedDataGridView();
             Item_Point = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)DGV_Geonet).BeginInit();
             SuspendLayout();
@@ -209,7 +211,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_SetAllLegalLocations;
         private System.Windows.Forms.Button B_ClearLocations;
         private System.Windows.Forms.CheckBox CHK_GlobalFlag;
-        private System.Windows.Forms.DataGridView DGV_Geonet;
+        private DoubleBufferedDataGridView DGV_Geonet;
         private System.Windows.Forms.DataGridViewTextBoxColumn Item_Country;
         private System.Windows.Forms.DataGridViewTextBoxColumn Item_Region;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Point;

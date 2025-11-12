@@ -1700,11 +1700,19 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void ValidateComboBox(ComboBox cb)
     {
         if (cb.Text.Length == 0 && cb.Items.Count > 0)
+        {
             cb.SelectedIndex = 0;
+        }
         else if (cb.SelectedValue is null)
+        {
+            cb.ForeColor = Color.Black;
             cb.BackColor = Draw.InvalidSelection;
+        }
         else
+        {
+            cb.ResetForeColor();
             cb.ResetBackColor();
+        }
     }
 
     private void ValidateComboBox(object? sender, CancelEventArgs e)

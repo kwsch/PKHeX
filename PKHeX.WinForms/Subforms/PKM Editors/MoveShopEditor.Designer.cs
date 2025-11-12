@@ -1,3 +1,5 @@
+using PKHeX.WinForms.Controls;
+
 namespace PKHeX.WinForms
 {
     partial class MoveShopEditor
@@ -34,7 +36,7 @@ namespace PKHeX.WinForms
             B_None = new System.Windows.Forms.Button();
             B_All = new System.Windows.Forms.Button();
             tipName = new System.Windows.Forms.ToolTip(components);
-            dgv = new System.Windows.Forms.DataGridView();
+            dgv = new DoubleBufferedDataGridView();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
@@ -134,6 +136,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_None;
         private System.Windows.Forms.Button B_All;
         private System.Windows.Forms.ToolTip tipName;
-        private System.Windows.Forms.DataGridView dgv;
+        private DoubleBufferedDataGridView dgv;
     }
 }

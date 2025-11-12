@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms;
@@ -138,7 +139,7 @@ public sealed partial class SAV_Inventory : Form
         return dgv;
     }
 
-    private static DataGridView GetBaseDataGrid(InventoryPouch pouch) => new()
+    private static DoubleBufferedDataGridView GetBaseDataGrid(InventoryPouch pouch) => new()
     {
         Dock = DockStyle.Fill,
         Text = $"{pouch.Type}",
