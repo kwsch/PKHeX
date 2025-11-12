@@ -706,7 +706,8 @@ public partial class SAV_FestivalPlaza : Form
 
     private void MnuSave_Click(object sender, EventArgs e)
     {
-        var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+        if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
+            return;
         int i = Array.IndexOf(PBs, pb);
         if (i < 0)
             return;

@@ -11,7 +11,7 @@ public sealed class EvolutionRuleTweak
     public static readonly EvolutionRuleTweak Default = new();
 
     /// <summary>
-    /// In Scarlet &amp; Violet, level 100 Pokemon can trigger evolution methods via Rare Candy level up.
+    /// In Sword &amp; Shield (Generation 8+), level 100 Pokemon can trigger evolution methods via Rare Candy level up.
     /// </summary>
     public static readonly EvolutionRuleTweak Level100 = new() { AllowLevelUpEvolution100 = true };
 

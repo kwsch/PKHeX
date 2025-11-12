@@ -68,10 +68,10 @@ public static class EvolutionChain
         while (true)
         {
             group.Evolve(chain, pk, enc, history);
-            var previous = group.GetNext(pk, enc);
-            if (previous is null)
+            var next = group.GetNext(pk, enc);
+            if (next is null)
                 break;
-            group = previous;
+            group = next;
         }
         return history;
     }

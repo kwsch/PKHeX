@@ -158,7 +158,8 @@ public partial class SAV_Database : Form
 
     private void ClickView(object sender, EventArgs e)
     {
-        var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+        if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
+            ArgumentNullException.ThrowIfNull(pb);
         int index = Array.IndexOf(PKXBOXES, pb);
         if (!GetShiftedIndex(ref index))
         {
@@ -189,7 +190,8 @@ public partial class SAV_Database : Form
 
     private void ClickDelete(object sender, EventArgs e)
     {
-        var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+        if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
+            ArgumentNullException.ThrowIfNull(pb);
         int index = Array.IndexOf(PKXBOXES, pb);
         if (!GetShiftedIndex(ref index))
         {

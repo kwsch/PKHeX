@@ -21,13 +21,23 @@ public sealed record InventoryItem9a : InventoryItem, IItemFavorite, IItemNewFla
     public uint Flags { get; set; }
     public uint Padding { get; set; }
 
-    public bool IsNew      { get => (Flags & 0x1) != 0; set => Flags = (Flags & ~0x1u) | (value ? 0x1u : 0x0u); } // red dot
-    public bool IsFavorite { get => (Flags & 0x2) != 0; set => Flags = (Flags & ~0x2u) | (value ? 0x2u : 0x0u); }
-    public bool IsUpdated  { get => (Flags & 0x4) != 0; set => Flags = (Flags & ~0x4u) | (value ? 0x4u : 0x0u); } // always true if pouch is set
-    public bool IsNewShop  { get => (Flags & 0x8) != 0; set => Flags = (Flags & ~0x8u) | (value ? 0x8u : 0x0u); }
-    public bool IsHeld     { get => (Flags & 0x10) != 0; set => Flags = (Flags & ~0x10u) | (value ? 0x10u : 0x0u); } // only for Mega Stones currently held by a Pokémon
+    /// <summary> Indicates the red dot in the inventory pouch list that the item hasn't been looked at yet by the player. </summary>
+    public bool IsNew       { get => (Flags & 0x1) != 0; set => Flags = (Flags & ~0x1u) | (value ? 0x1u : 0x0u); }
 
-    private const byte DefaultFlagValue = 0b0_1101;
+    /// <summary> The player has marked it as a favorite item (for sorting). </summary>
+    public bool IsFavorite  { get => (Flags & 0x2) != 0; set => Flags = (Flags & ~0x2u) | (value ? 0x2u : 0x0u); }
+
+    /// <summary> Flyout notification will show "NEW" when item is picked up. When clearing this flag, the <see cref="IsNew"/> flag is set, however, the initial flag value already has it set. </summary>
+    /// <remarks> Will always <c>false</c> if any quantity of the item has been acquired. </remarks>
+    public bool IsNewNotify { get => (Flags & 0x4) != 0; set => Flags = (Flags & ~0x4u) | (value ? 0x4u : 0x0u); }
+
+    /// <summary> Indicates the item is newly available for purchase in shops. Similar to <see cref="IsNew"/>, but for shop inventory listing. </summary>
+    public bool IsNewShop   { get => (Flags & 0x8) != 0; set => Flags = (Flags & ~0x8u) | (value ? 0x8u : 0x0u); }
+
+    /// <summary> Indicates the item is currently being held by a Pokémon. Only applicable to Mega Stones in this game. </summary>
+    public bool IsHeld      { get => (Flags & 0x10) != 0; set => Flags = (Flags & ~0x10u) | (value ? 0x10u : 0x0u); }
+
+    private const byte DefaultFlagValue = 0b0_1101; // New in Shop, Not Notified yet, Not Favorite, New in Inventory (redundant)
 
     public override string ToString() => $"{Index:000} x{Count}{(IsNew ? "*" : "")}{(IsFavorite ? "F" : "")} - {Flags:X8}";
 
@@ -54,8 +64,6 @@ public sealed record InventoryItem9a : InventoryItem, IItemFavorite, IItemNewFla
 
     public void Write(Span<byte> data)
     {
-        IsUpdated = Pouch != PouchNone;
-
         // Index is not saved.
         WriteUInt32LittleEndian(data, Pouch);
         WriteUInt32LittleEndian(data[4..], (uint)Count);
