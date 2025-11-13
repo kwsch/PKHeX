@@ -644,27 +644,30 @@ public partial class Main : Form
         return true;
     }
 
-    private static SaveFileType SelectMemoryCardSaveGame(SAV3GCMemoryCard memCard)
+    private SaveFileType SelectMemoryCardSaveGame(SAV3GCMemoryCard memCard)
     {
         if (memCard.SaveGameCount == 1)
             return memCard.SelectedGameVersion;
 
-        var games = GetMemoryCardGameSelectionList(memCard);
-        var dialog = new SAV_GameSelect(games, MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame);
-        dialog.ShowDialog();
-        return (SaveFileType)dialog.Result;
+        string[] games =
+        [
+            MsgGameColosseum,
+            MsgGameXD,
+            MsgGameRSBOX,
+        ];
+
+        if (!this.TrySelectIndex(MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame, games, out var index))
+            return SaveFileType.None;
+        return index switch
+        {
+            0 => SaveFileType.Colosseum,
+            1 => SaveFileType.XD,
+            2 => SaveFileType.RSBox,
+            _ => SaveFileType.None,
+        };
     }
 
-    private static List<ComboItem> GetMemoryCardGameSelectionList(SAV3GCMemoryCard memCard)
-    {
-        var games = new List<ComboItem>();
-        if (memCard.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int)SaveFileType.Colosseum));
-        if (memCard.HasXD) games.Add(new ComboItem(MsgGameXD, (int)SaveFileType.XD));
-        if (memCard.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int)SaveFileType.RSBox));
-        return games;
-    }
-
-    private static bool CheckGCMemoryCard(SAV3GCMemoryCard memCard, string path)
+    private bool CheckGCMemoryCard(SAV3GCMemoryCard memCard, string path)
     {
         var state = memCard.GetMemoryCardState();
         switch (state)
@@ -872,7 +875,7 @@ public partial class Main : Form
         return false;
     }
 
-    private static bool SanityCheckSAV(ref SaveFile sav)
+    private bool SanityCheckSAV(ref SaveFile sav)
     {
         if (sav.Generation <= 3)
             SaveLanguage.TryRevise(sav);
@@ -881,14 +884,19 @@ public partial class Main : Form
         {
             if (ModifierKeys == Keys.Control || s3.IsCorruptPokedexFF())
             {
-                var games = GetGameList([GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG]);
+                ReadOnlySpan<GameVersion> choices = [GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG];
+                var options = new string[choices.Length];
+                for (int i = 0; i < options.Length; i++)
+                    options[i] = GameInfo.Strings.gamelist[(int)choices[i]];
+
                 var msg = string.Format(MsgFileLoadVersionDetect, $"3 ({s3.Version})");
-                using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
-                dialog.ShowDialog();
-                if (dialog.Result is 0)
+                var text = MsgFileLoadSaveSelectVersion;
+                if (sav.Metadata.FileName is { } fn)
+                    text += Environment.NewLine + fn;
+                if (!this.TrySelectIndex(msg, text, options, out var index, choices.IndexOf(s3.Version)))
                     return false;
 
-                var game = (GameVersion)dialog.Result;
+                var game = choices[index];
                 var s = s3.ForceLoad(game);
                 if (s is SAV3FRLG frlg)
                 {
@@ -904,14 +912,17 @@ public partial class Main : Form
             }
             else if (s3 is SAV3FRLG frlg && !frlg.Version.IsValidSavedVersion()) // IndeterminateSubVersion
             {
-                string fr = GameInfo.GetVersionName(GameVersion.FR);
-                string lg = GameInfo.GetVersionName(GameVersion.LG);
+                ReadOnlySpan<GameVersion> choices = [GameVersion.FR, GameVersion.LG];
+                var options = new string[choices.Length];
+                for (int i = 0; i < options.Length; i++)
+                    options[i] = GameInfo.Strings.gamelist[(int)choices[i]];
+
                 string dual = "{1}/{2} " + MsgFileLoadVersionDetect;
-                var games = GetGameList([GameVersion.FR, GameVersion.LG]);
-                var msg = string.Format(dual, "3", fr, lg);
-                using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
-                dialog.ShowDialog();
-                var game = (GameVersion)dialog.Result;
+                var msg = string.Format(dual, "3", options[0], options[1]);
+                if (!this.TrySelectIndex(msg, MsgFileLoadSaveSelectVersion, options, out var index))
+                    return false;
+
+                var game = choices[index];
                 bool result = frlg.ResetPersonal(game);
                 if (!result)
                     return false;
@@ -919,17 +930,6 @@ public partial class Main : Form
         }
 
         return true;
-
-        static ComboItem[] GetGameList(ReadOnlySpan<GameVersion> g)
-        {
-            var result = new ComboItem[g.Length];
-            for (int i = 0; i < g.Length; i++)
-            {
-                int id = (int)g[i];
-                result[i] = GameInfo.Sources.VersionDataSource.First(v => v.Value == id);
-            }
-            return result;
-        }
     }
 
     public static void SetCountrySubRegion(ComboBox cb, string type)

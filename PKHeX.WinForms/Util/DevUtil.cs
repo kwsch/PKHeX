@@ -229,7 +229,6 @@ public static class DevUtil
         $"{nameof(Main)}.L_Potential", // ★☆☆☆ IV judge evaluation
         $"{nameof(SAV_HoneyTree)}.L_Tree0", // dynamic, don't bother
         $"{nameof(SAV_Misc3)}.BTN_Symbol", // symbols should stay as their current character
-        $"{nameof(SAV_GameSelect)}.L_Prompt", // prompt text (dynamic)
         $"{nameof(SAV_BlockDump8)}.L_BlockName", // Block name (dynamic)
         $"{nameof(SAV_PokedexResearchEditorLA)}.L_", // Dynamic label
         $"{nameof(SAV_OPower)}.L_", // Dynamic label
