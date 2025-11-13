@@ -109,8 +109,7 @@ public partial class ReportGrid : Form
             if (prop.Length == 0)
                 continue;
             var col = dgData.Columns[prop];
-            if (col is not null)
-                col.Visible = false;
+            col?.Visible = false;
         }
     }
 

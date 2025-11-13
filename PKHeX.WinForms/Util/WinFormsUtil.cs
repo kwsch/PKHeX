@@ -222,13 +222,7 @@ public static class WinFormsUtil
         public void SetValueClamped(uint value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
     }
 
-    public static void RemoveDropCB(object? sender, KeyEventArgs e)
-    {
-        if (sender is null)
-            return;
-        ((ComboBox)sender).DroppedDown = false;
-    }
-
+    public static void RemoveDropCB(object? sender, KeyEventArgs e) => (sender as ComboBox)?.DroppedDown = false;
     public static void MouseWheelIncrement1(object? sender, MouseEventArgs e) => Adjust(sender, e, 1);
     public static void MouseWheelIncrement4(object? sender, MouseEventArgs e) => Adjust(sender, e, 4);
 

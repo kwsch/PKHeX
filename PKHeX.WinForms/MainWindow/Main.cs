@@ -1135,8 +1135,7 @@ public partial class Main : Form
         pk ??= PreparePKM(false); // don't perform control loss click
 
         var menu = dragout.ContextMenuStrip;
-        if (menu is not null)
-            menu.Enabled = pk.Species != 0 || HaX; // Species
+        menu?.Enabled = pk.Species != 0 || HaX; // Species
 
         pb.Image = pk.Sprite(C_SAV.SAV);
         if (pb.BackColor == SlotUtil.BadDataColor)

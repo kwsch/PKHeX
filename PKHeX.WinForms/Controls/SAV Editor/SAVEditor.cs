@@ -1165,8 +1165,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
                 if (height > allowed)
                 {
                     var form = FindForm();
-                    if (form is not null)
-                        form.Height += height - allowed;
+                    form?.Height += height - allowed;
                 }
             }
         }

@@ -258,8 +258,7 @@ public partial class RibbonEditor : Form
     {
         if (!EnableBackgroundChange)
             return;
-        if (LastToggledOn is not null)
-            LastToggledOn.BackColor = Color.Transparent;
+        LastToggledOn?.BackColor = Color.Transparent;
         pb.BackColor = rib.HasRibbon ? Color.LightBlue : Color.Transparent;
         LastToggledOn = pb;
     }
