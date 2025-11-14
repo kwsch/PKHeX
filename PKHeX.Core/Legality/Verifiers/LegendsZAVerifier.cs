@@ -25,9 +25,10 @@ public sealed class LegendsZAVerifier : Verifier
         if (moveCount == 4)
             return;
 
-        // Flag move slots that are empty.
-        if (pa.Tracker != 0 || !ParseSettings.IgnoreTransferIfNoTracker)
-            return; // Can delete moves in PA8 moveset via HOME.
+        // TODO ZA HOME
+        // // Flag move slots that are empty.
+        // if (pa.Tracker != 0 || !ParseSettings.IgnoreTransferIfNoTracker)
+        //     return; // Can delete moves in PA9 moveset via HOME.
 
         // Get the bare minimum moveset.
         Span<ushort> expect = stackalloc ushort[4];
