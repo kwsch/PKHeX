@@ -18,6 +18,7 @@ public static class DialogUtil
             Text = text,
             Icon = TaskDialogIcon.Information,
             RadioButtons = [..choices],
+            DefaultButton = TaskDialogButton.OK,
             Buttons = [TaskDialogButton.OK],
             AllowCancel = true,
         };
@@ -57,6 +58,29 @@ public static class DialogUtil
         if (result == taskButtonOld)
             return DualDiffSelection.Old;
         return DualDiffSelection.None;
+    }
+
+    public static DialogResult RequestOverwrite(this Control c, string exist)
+    {
+        var taskButtonOverwrite = new TaskDialogCommandLinkButton("Overwrite") { AllowCloseDialog = true };
+        var taskButtonSelect = new TaskDialogCommandLinkButton("Save As...") { AllowCloseDialog = true };
+        var page = new TaskDialogPage
+        {
+            Caption = "Overwrite existing file?",
+            Text = exist,
+            Icon = TaskDialogIcon.Information,
+            Buttons = [taskButtonOverwrite, taskButtonSelect],
+            SizeToContent = true,
+            DefaultButton = taskButtonOverwrite,
+            AllowCancel = true,
+        };
+
+        var result = TaskDialog.ShowDialog(c, page);
+        if (result == taskButtonOverwrite)
+            return DialogResult.Yes;
+        if (result == taskButtonSelect)
+            return DialogResult.No;
+        return DialogResult.Cancel;
     }
 }
 

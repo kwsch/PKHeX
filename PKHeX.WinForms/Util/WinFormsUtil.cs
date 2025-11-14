@@ -384,11 +384,26 @@ public static class WinFormsUtil
     /// <summary>
     /// Opens a dialog to save a <see cref="SaveFile"/> file.
     /// </summary>
+    /// <param name="c">Control to anchor dialog to.</param>
     /// <param name="sav"><see cref="SaveFile"/> to be saved.</param>
     /// <param name="currentBox">Box the player will be greeted with when accessing the PC in-game.</param>
     /// <returns>True if the file was saved.</returns>
-    public static bool ExportSAVDialog(SaveFile sav, int currentBox = 0)
+    public static bool ExportSAVDialog(Control c, SaveFile sav, int currentBox = 0)
     {
+        // Try to request an overwrite first; if they defer, do the save file dialog.
+        if (File.Exists(sav.Metadata.FilePath))
+        {
+            var exist = sav.Metadata.FilePath;
+            var task = c.FindForm()!.RequestOverwrite(exist);
+            if (task == DialogResult.Cancel)
+                return false;
+            if (task == DialogResult.Yes)
+            {
+                ExportSAV(sav, exist);
+                return true;
+            }
+        }
+
         using var sfd = new SaveFileDialog();
         sfd.Filter = sav.Metadata.Filter;
         sfd.FileName = sav.Metadata.FileName;
