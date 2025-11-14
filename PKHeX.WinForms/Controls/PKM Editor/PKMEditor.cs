@@ -1791,6 +1791,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         UpdateLegality(args: UpdateLegalityArgs.SkipMoveRepopulation);
     }
 
+    private static readonly Brush BackLegal = new SolidBrush(Color.FromArgb(200, 255, 200));
+    private static readonly Brush DarkLegal = new SolidBrush(Color.FromArgb(020, 055, 020));
+
     private void ValidateMovePaint(object? sender, DrawItemEventArgs e)
     {
         if (sender is not ComboBox cb || e.Index < 0 || cb.Items[e.Index] is not ComboItem item)
@@ -1799,9 +1802,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         var (text, value) = item;
         var valid = LegalMoveSource.Info.CanLearn((ushort)value) && !HaX;
 
-        var current = (e.State & DrawItemState.Selected) != 0;
-        var brush = Draw.Brushes.GetBackground(valid, current);
-        var textColor = !current && valid ? Color.Black : Draw.GetText(current);
+        var highlight = (e.State & DrawItemState.Selected) != 0;
+        var brush = highlight ? SystemBrushes.MenuHighlight : (valid ? Application.IsDarkModeEnabled ? DarkLegal : BackLegal : SystemBrushes.ControlLightLight);
+        var textColor = highlight && !Application.IsDarkModeEnabled ? SystemColors.HighlightText : SystemColors.ControlText;
 
         var type = MoveInfo.GetType((ushort)value, Entity.Context);
         var moveTypeIcon = TypeSpriteUtil.GetTypeSpriteIconSmall(type);

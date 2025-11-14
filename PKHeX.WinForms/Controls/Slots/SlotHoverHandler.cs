@@ -95,7 +95,6 @@ public sealed class SlotHoverHandler : IDisposable
     {
         HoverWorker.Dispose();
         Slot = null;
-        Draw.Dispose();
     }
 
     /// <summary>

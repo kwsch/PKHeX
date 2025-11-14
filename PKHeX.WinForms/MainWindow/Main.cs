@@ -349,7 +349,6 @@ public partial class Main : Form
         if (!skipCore)
             StartupUtil.ReloadSettings(settings);
 
-        Draw.LoadBrushes();
         PKME_Tabs.Unicode = Unicode = settings.Display.Unicode;
         PKME_Tabs.UpdateUnicode(GenderSymbols);
         SpriteName.AllowShinySprite = settings.Sprite.ShinySprites;
