@@ -568,7 +568,15 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
     }
 
-    private static Bitmap? GetOriginSprite(PKM pk) => OriginMarkUtil.GetOriginMark(pk) switch
+    private static Bitmap? GetOriginSprite(PKM pk)
+    {
+        var img = GetOriginSpriteResource(pk);
+        if (img is null || !Application.IsDarkModeEnabled)
+            return img;
+        return ImageUtil.ChangeAllColorTo(img, Color.White);
+    }
+
+    private static Bitmap? GetOriginSpriteResource(PKM pk) => OriginMarkUtil.GetOriginMark(pk) switch
     {
         OriginMark.Gen6Pentagon => Properties.Resources.gen_6,
         OriginMark.Gen7Clover => Properties.Resources.gen_7,
@@ -2178,7 +2186,10 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         var value = (GameVersion)WinFormsUtil.GetIndex(CB_BattleVersion);
         if (FieldsLoaded)
             b.BattleVersion = value;
-        PB_BattleVersion.Image = GetMarkSprite(PB_BattleVersion, value != 0);
+        var sprite = GetMarkSprite(PB_BattleVersion, value != 0);
+        if (Application.IsDarkModeEnabled)
+            sprite = ImageUtil.ChangeAllColorTo(sprite, Color.White);
+        PB_BattleVersion.Image = sprite;
     }
 
     private static Bitmap GetMarkSprite(PictureBox p, bool opaque, double trans = 0.175)
