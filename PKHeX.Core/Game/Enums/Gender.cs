@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core;
+using System.ComponentModel;
+
+namespace PKHeX.Core;
 
 /// <summary>
 /// Gender a <see cref="PKM"/> can have
@@ -9,6 +11,6 @@ public enum Gender : byte
     Male = 0,
     Female = 1,
 
-    Genderless = 2,
+    [Browsable(false)] Genderless = 2,
     Random = Genderless,
 }
