@@ -23,12 +23,35 @@ public sealed class EvolutionGroupHOME2 : IEvolutionGroup
 
     public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {
-        if (pk.ZA)
+        if (pk.ZA) // TODO HOME ZA2: did they force realign everything and fix their bug?
         {
+            var table = PersonalTable.ZA;
             if (enc.Options.HasFlag(OriginOptions.SkipChecks))
-                Discard(result, PersonalTable.ZA);
-            else
-                Discard(result, PersonalTable.ZA, pk.Ability, pk.AbilityNumber >> 1);
+            {
+                Discard(result, table);
+                return;
+            }
+
+            // Check if ability was possibly realigned by form change; if not, discard anything that doesn't have the ability.
+            var index = pk.AbilityNumber >> 1;
+            if (index is 0 or 1)
+            {
+                var didRealignAbility = false;
+                var ability = pk.Ability;
+                var species = enc.Species;
+                if (FormInfo.HasMegaForm(species) || species is (int)Aegislash)
+                {
+                    if (table[species, pk.Form].GetAbilityAtIndex(index) == ability)
+                        didRealignAbility = true;
+                }
+                if (!didRealignAbility)
+                {
+                    Discard(result, table, ability, index);
+                    return;
+                }
+            }
+            Discard(result, table);
+            return;
         }
 
         if (GetPrevious(pk, enc) is { } prev)
