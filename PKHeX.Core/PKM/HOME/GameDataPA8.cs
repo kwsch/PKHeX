@@ -201,7 +201,10 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSize
         var pi = PersonalTable.LA.GetFormEntry(pkh.Species, pkh.Form);
         HeightAbsolute = PA8.GetHeightAbsolute(pi, pkh.HeightScalar);
         WeightAbsolute = PA8.GetWeightAbsolute(pi, pkh.HeightScalar, pkh.WeightScalar);
-        Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
+        var index = AbilityNumber >> 1;
+        if (index >= pi.AbilityCount)
+            index = 0;
+        Ability = (ushort)pi.GetAbilityAtIndex(index);
 
         var level = Experience.GetLevel(pkh.EXP, pi.EXPGrowth);
         this.ResetMoves(pkh.Species, pkh.Form, level, LearnSource8LA.Instance, EntityContext.Gen8a);

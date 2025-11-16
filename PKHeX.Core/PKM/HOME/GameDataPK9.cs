@@ -208,7 +208,10 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
         Obedience_Level = pkh.MetLevel;
 
         var pi = PersonalTable.SV.GetFormEntry(pkh.Species, pkh.Form);
-        Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
+        var index = AbilityNumber >> 1;
+        if (index >= pi.AbilityCount)
+            index = 0;
+        Ability = (ushort)pi.GetAbilityAtIndex(index);
         TeraTypeOriginal = TeraTypeOverride = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
 
         var level = Experience.GetLevel(pkh.EXP, pi.EXPGrowth);
