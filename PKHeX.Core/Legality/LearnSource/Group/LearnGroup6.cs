@@ -26,7 +26,7 @@ public sealed class LearnGroup6 : ILearnGroup
         {
             if (enc is EncounterEgg6 egg)
                 CheckEncounterMoves(result, current, egg);
-            else if (enc is EncounterSlot6AO { CanDexNav: true } dexnav && pk.IsOriginalMovesetDeleted())
+            else if (enc is EncounterSlot6AO { IsMoveBonusPossible: true } dexnav && pk.IsOriginalMovesetDeleted())
                 CheckDexNavMoves(result, current, dexnav);
         }
 
@@ -62,7 +62,7 @@ public sealed class LearnGroup6 : ILearnGroup
             if (result[i].Valid)
                 continue;
             var move = current[i];
-            if (!dexnav.CanBeDexNavMove(move))
+            if (!dexnav.IsMoveBonus(move))
                 continue;
             result[i] = new(new(LearnMethod.Encounter, LearnEnvironment.ORAS), Generation: Generation);
             break;

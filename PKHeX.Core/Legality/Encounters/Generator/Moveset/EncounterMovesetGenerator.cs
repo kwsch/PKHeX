@@ -432,10 +432,8 @@ public static class EncounterMovesetGenerator
     {
         if (slot is IMoveset m)
             return m.Moves.ContainsAll(needs);
-        if (needs.Length == 1 && slot is EncounterSlot6AO dn)
-            return dn.CanDexNav && dn.CanBeDexNavMove(needs[0]);
-        if (needs.Length == 1 && slot is EncounterSlot8b ug)
-            return ug.IsUnderground && ug.CanBeUndergroundMove(needs[0]);
+        if (needs.Length == 1 && slot is ISingleMoveBonus bonus)
+            return bonus is { IsMoveBonusPossible: true, IsMoveBonusRequired: true } && bonus.IsMoveBonus(needs[0]);
         if (slot.Generation <= 2)
             return HasAllNeededMovesEncounter2(needs, slot);
         return false;
