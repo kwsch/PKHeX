@@ -90,7 +90,7 @@ public static class MoveSetApplicator
             if (enc is MysteryGift or IEncounterEgg)
                 return;
 
-            if (enc is EncounterSlot6AO {CanDexNav: true} dn)
+            if (enc is ISingleMoveBonus {IsMoveBonusPossible: true} bonus)
             {
                 var chk = la.Info.Moves;
                 for (int i = 0; i < chk.Length; i++)
@@ -99,34 +99,16 @@ public static class MoveSetApplicator
                         continue;
 
                     var move = la.Entity.GetMove(i);
-                    if (!dn.CanBeDexNavMove(move))
+                    if (!bonus.IsMoveBonus(move))
                         continue;
                     moves.Clear();
                     moves[0] = move;
                     return;
                 }
-            }
-
-            if (enc is EncounterSlot8b { IsUnderground: true } ug)
-            {
-                var chk = la.Info.Moves;
-                for (int i = 0; i < chk.Length; i++)
-                {
-                    if (!chk[i].ShouldBeInRelearnMoves())
-                        continue;
-
-                    var move = la.Entity.GetMove(i);
-                    if (!ug.CanBeUndergroundMove(move))
-                        continue;
-                    moves.Clear();
-                    moves[0] = move;
-                    return;
-                }
-
-                if (ug.GetBaseEggMove(out var any))
+                if (bonus.IsMoveBonusRequired && bonus.TryGetRandomMoveBonus(out var bonusMove))
                 {
                     moves.Clear();
-                    moves[0] = any;
+                    moves[0] = bonusMove;
                     return;
                 }
             }
