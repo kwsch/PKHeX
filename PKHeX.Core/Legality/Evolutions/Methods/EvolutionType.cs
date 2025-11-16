@@ -91,7 +91,6 @@ public enum EvolutionType : byte
 /// </summary>
 public static class EvolutionTypeExtensions
 {
-    /// <param name="t">Evolution Type</param>
     extension(EvolutionType t)
     {
         /// <summary>

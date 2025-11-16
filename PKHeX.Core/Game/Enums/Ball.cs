@@ -58,7 +58,6 @@ public enum Ball : byte
 /// </summary>
 public static class BallExtensions
 {
-    /// <param name="ball">Ball ID</param>
     extension(Ball ball)
     {
         /// <summary>

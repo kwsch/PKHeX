@@ -35,7 +35,6 @@ public enum SizeType9 : byte
 /// </summary>
 public static class SizeType9Extensions
 {
-    /// <param name="type">Size Type</param>
     extension(SizeType9 type)
     {
         /// <summary>

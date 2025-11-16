@@ -11,7 +11,6 @@ public static partial class Util
     /// <remarks>Uses <see cref="Random.Shared"/> to generate the random number.</remarks>
     public static uint Rand32() => Rand32(Rand);
 
-    /// <param name="rnd">The <see cref="Random"/> instance used to generate the random number.</param>
     extension(Random rnd)
     {
         /// <summary>

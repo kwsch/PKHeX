@@ -57,7 +57,6 @@ public interface IGameDataSide
 
 public static class GameDataSideExtensions
 {
-    /// <param name="data">Source side game data</param>
     extension(IGameDataSide data)
     {
         /// <summary>

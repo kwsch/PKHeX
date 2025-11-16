@@ -32,7 +32,6 @@ public enum SCTypeCode : byte
 
 public static class SCTypeCodeExtensions
 {
-    /// <param name="type">Type of the value</param>
     extension(SCTypeCode type)
     {
         public bool IsBoolean() => unchecked((uint)type - 1u) < 3;

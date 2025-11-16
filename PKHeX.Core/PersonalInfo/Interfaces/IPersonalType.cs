@@ -18,7 +18,6 @@ public interface IPersonalType
 
 public static class PersonalTypeExtensions
 {
-    /// <param name="detail">Object reference</param>
     extension(IPersonalType detail)
     {
         /// <summary>

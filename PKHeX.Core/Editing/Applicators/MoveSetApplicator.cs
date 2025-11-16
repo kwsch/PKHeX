@@ -7,7 +7,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class MoveSetApplicator
 {
-    /// <param name="pk">Pokémon to modify.</param>
     extension(PKM pk)
     {
         /// <summary>
@@ -58,7 +57,6 @@ public static class MoveSetApplicator
         }
     }
 
-    /// <param name="la">Precomputed optional</param>
     extension(LegalityAnalysis la)
     {
         /// <summary>

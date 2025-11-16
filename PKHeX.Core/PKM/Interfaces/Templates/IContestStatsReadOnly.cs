@@ -15,7 +15,6 @@ public interface IContestStatsReadOnly
 
 public static partial class Extensions
 {
-    /// <param name="stats">Object containing contest stat data.</param>
     extension(IContestStatsReadOnly stats)
     {
         /// <summary>

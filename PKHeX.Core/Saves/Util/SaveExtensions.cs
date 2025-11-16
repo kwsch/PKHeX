@@ -12,7 +12,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class SaveExtensions
 {
-    /// <param name="sav"><see cref="SaveFile"/> that is being checked.</param>
     extension(SaveFile sav)
     {
         /// <summary>
@@ -22,7 +21,6 @@ public static class SaveExtensions
         /// <param name="language">Language to use for error messages.</param>
         public IReadOnlyList<string> EvaluateCompatibility(PKM pk, string language = GameLanguage.DefaultLanguage)
         {
-            var strings = GameInfo.GetStrings(language);
             var legality = LegalityCheckLocalization.Get(language);
             return sav.GetSaveFileErrata(pk, GameInfo.Strings, legality);
         }

@@ -33,7 +33,6 @@ public enum StorageSlotSource
 
 public static class StorageSlotSourceExtensions
 {
-    /// <param name="value">Flag value</param>
     extension(StorageSlotSource value)
     {
         /// <summary>

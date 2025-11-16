@@ -13,7 +13,6 @@ public interface IVersion
 
 public static partial class Extensions
 {
-    /// <param name="v">Object requesting a saved version.</param>
     extension(IVersion v)
     {
         private bool CanBeReceivedBy(GameVersion version) => v.Version.Contains(version);

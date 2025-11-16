@@ -72,7 +72,6 @@ public enum LearnMethod : byte
 /// </summary>
 public static class LearnMethodExtensions
 {
-    /// <param name="method">Method to check</param>
     extension(LearnMethod method)
     {
         /// <summary>

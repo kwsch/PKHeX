@@ -108,7 +108,6 @@ public enum PogoType : byte
 /// </summary>
 public static class PogoTypeExtensions
 {
-    /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
     extension(PogoType encounterType)
     {
         /// <summary>

@@ -20,7 +20,6 @@ public interface IEncounterMatch
 
 internal static class EncounterMatchExtensions
 {
-    /// <param name="_">Match object</param>
     extension(IEncounterMatch _)
     {
         /// <summary>

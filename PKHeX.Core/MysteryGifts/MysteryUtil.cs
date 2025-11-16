@@ -31,7 +31,6 @@ public static class MysteryUtil
         }
     }
 
-    /// <param name="gift">Gift data to parse</param>
     extension(MysteryGift gift)
     {
         /// <summary>

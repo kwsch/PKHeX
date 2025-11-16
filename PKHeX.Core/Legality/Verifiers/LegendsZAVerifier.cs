@@ -149,7 +149,7 @@ public sealed class LegendsZAVerifier : Verifier
             la.AddLine(GetInvalid(PlusMoveCountInvalid));
 
         // Check for all required indexes.
-        var (learn, plus) = LearnSource9ZA.GetLearnsetAndPlus(pk.Species, pk.Form);
+        var (_, plus) = LearnSource9ZA.GetLearnsetAndPlus(pk.Species, pk.Form);
         var currentLevel = pk.CurrentLevel;
         CheckPlusMoveFlags(la, pk, permit, plus, currentLevel);
 

@@ -296,7 +296,7 @@ public static class MethodPokeSpot
             var preIV = seed;
 
             var origin = XDRNG.Prev6(preIV);
-            if (!IsValidAnimation(origin, out origin, out _))
+            if (!IsValidAnimation(origin, out _, out _))
             {
                 seed = XDRNG.Next(seed); // avoid infinite loop
                 continue;

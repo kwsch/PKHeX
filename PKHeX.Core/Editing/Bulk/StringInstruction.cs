@@ -326,7 +326,6 @@ public enum InstructionComparer : byte
 /// </summary>
 public static class InstructionComparerExtensions
 {
-    /// <param name="comparer">Type of comparison requested</param>
     extension(InstructionComparer comparer)
     {
         /// <summary>

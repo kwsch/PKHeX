@@ -37,7 +37,6 @@ public enum MysteryGiftRestriction
 /// </summary>
 public static class MysteryGiftRestrictionExtensions
 {
-    /// <param name="value">Flag value</param>
     extension(MysteryGiftRestriction value)
     {
         /// <summary>

@@ -20,7 +20,6 @@ public enum AbilityPermission : sbyte
 /// </summary>
 public static class AbilityPermissionExtensions
 {
-    /// <param name="value">Value to fetch the index for</param>
     extension(AbilityPermission value)
     {
         /// <summary>

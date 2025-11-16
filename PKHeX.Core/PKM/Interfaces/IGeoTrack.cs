@@ -19,7 +19,6 @@ public interface IGeoTrack : IRegionOrigin
 
 public static partial class Extensions
 {
-    /// <param name="g">Object tracking the geolocation history</param>
     extension(IGeoTrack g)
     {
         /// <summary>

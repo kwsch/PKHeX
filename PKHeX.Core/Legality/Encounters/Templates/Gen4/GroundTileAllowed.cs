@@ -49,7 +49,6 @@ public enum GroundTileAllowed
 /// </summary>
 public static class GroundTileAllowedExtensions
 {
-    /// <param name="permit">Tile bit-permission value</param>
     extension(GroundTileAllowed permit)
     {
         /// <summary>

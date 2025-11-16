@@ -78,9 +78,9 @@ public readonly record struct EncounterDisplayContext
     public string GetVersionDisplay(IEncounterTemplate enc)
     {
         var version = enc.Version;
-        var versionName = enc.Version.IsValidSavedVersion()
-            ? Strings.gamelist[(int)enc.Version]
-            : enc.Version.ToString();
+        var versionName = version.IsValidSavedVersion()
+            ? Strings.gamelist[(int)version]
+            : version.ToString();
 
         return string.Format(Localization.Format, Localization.Version, versionName);
     }

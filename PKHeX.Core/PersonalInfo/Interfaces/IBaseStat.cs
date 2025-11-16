@@ -40,7 +40,6 @@ public interface IBaseStat
 
 public static class BaseStatExtensions
 {
-    /// <param name="stats">Stat implementation to load from</param>
     extension(IBaseStat stats)
     {
         /// <summary>

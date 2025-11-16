@@ -12,7 +12,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class BoxUtil
 {
-    /// <param name="sav"><see cref="SaveFile"/> that is being dumped from.</param>
     extension(SaveFile sav)
     {
         /// <summary>

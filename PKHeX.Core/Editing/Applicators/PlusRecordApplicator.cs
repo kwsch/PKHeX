@@ -51,7 +51,7 @@ public static class PlusRecordApplicator
                     if (tm)
                     {
                         var table = PersonalTable.ZA;
-                        SetPlusFlagsTM<PersonalTable9ZA, PersonalInfo9ZA, LearnSource9ZA>(record, permit, evos, learn, seedOfMastery, table);
+                        record.SetPlusFlagsTM<PersonalTable9ZA, PersonalInfo9ZA>(permit, evos, table);
                     }
                     break;
                 }
@@ -157,17 +157,14 @@ public static class PlusRecordApplicator
                 record.SetPlusFlags(permit, la, true, true);
         }
 
-        public void SetPlusFlagsTM<TTable, TInfo, TSource>(IPermitPlus permit, ReadOnlySpan<EvoCriteria> evos, TSource source, bool seedOfMastery, TTable table)
+        public void SetPlusFlagsTM<TTable, TInfo>(IPermitPlus permit, ReadOnlySpan<EvoCriteria> evos, TTable table)
             where TTable : IPersonalTable<TInfo>
             where TInfo : IPersonalInfo, IPersonalInfoTM
-            where TSource : ILearnSourceBonus
         {
             var indexes = permit.PlusMoveIndexes;
             foreach (var evo in evos)
             {
                 var pi = table[evo.Species, evo.Form];
-                var (levelUp, plus) = source.GetLearnsetAndOther(evo.Species, evo.Form);
-                var set = seedOfMastery ? levelUp : plus;
                 for (int index = 0; index < indexes.Length; index++)
                 {
                     var move = indexes[index];

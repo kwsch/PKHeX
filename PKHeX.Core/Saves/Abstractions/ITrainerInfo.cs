@@ -21,7 +21,6 @@ public interface ITrainerInfo : ITrainerID32ReadOnly, IVersion, IGeneration
 /// </summary>
 public static class TrainerInfoExtensions
 {
-    /// <param name="info">Trainer Information</param>
     extension(ITrainerInfo info)
     {
         /// <summary>

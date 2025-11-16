@@ -7,7 +7,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class MoveApplicator
 {
-    /// <param name="pk">Pokémon to modify.</param>
     extension(PKM pk)
     {
         /// <summary>

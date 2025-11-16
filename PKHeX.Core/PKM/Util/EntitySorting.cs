@@ -9,7 +9,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class EntitySorting
 {
-    /// <param name="list">Source list to sort</param>
     extension(IEnumerable<PKM> list)
     {
         /// <summary>
@@ -187,7 +186,6 @@ public static class EntitySorting
         }
     }
 
-    /// <param name="result">Output list of <see cref="PKM"/> data.</param>
     extension(IOrderedEnumerable<PKM> result)
     {
         /// <summary>

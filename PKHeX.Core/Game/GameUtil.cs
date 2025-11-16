@@ -104,7 +104,6 @@ public static class GameUtil
         _ => Invalid,
     };
 
-    /// <param name="version">Game to retrieve the generation for</param>
     extension(GameVersion version)
     {
         /// <summary>
