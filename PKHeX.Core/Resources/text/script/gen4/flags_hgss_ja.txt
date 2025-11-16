@@ -74,14 +74,14 @@
 0217	s	カネコに会った/どくバリをもらった
 0212	s	ツチオに会った/やわらかいすなをもらった
 0165	s	ニチオに会った/じしゃくをもらった
-0119	s	Kurt's Granddaughter Is Worried About Kurt
-0414	s	Kurt at Slowpoke Well
-0415	s	Rocket Grunt Guarding Slowpoke Well Gone
+0119	s	ガンテツの孫がガンテツを心配している
+0414	s	ガンテツがヤドンのいどにいる
+0415	s	ヤドンのいどを塞いでいるしたっぱがいなくなった
 0539	*	『ANANUKE』の部屋の壁開通
 0541	*	『HIKARI』の部屋の壁開通
 0543	*	『MIZU』の部屋の壁開通
 0545	*	『HOUOU』の部屋の壁開通
-0376	s	Lost to Giovanni once (Celebi Event)
+0376	s	一度サカキに敗北した(セレビィイベント)
 1366	t	おまわりさんマモル(夜)勝利済み
 1440	t	おまわりさんシンイチ(夜)勝利済み
 0693	t	アカネ再戦済み
@@ -232,4 +232,4 @@
 1663	t	とりつかいのエイジ再戦済み(１回目)
 1806	t	とりつかいのエイジ再戦済み(２回目)
 1962	t	とりつかいのエイジ再戦済み(３回目)
-2746	s	Learned trendy phrase (Today)
+2746	s	なんかいいことばを教えてもらった（デイリー）

@@ -8,7 +8,7 @@ namespace PKHeX.WinForms;
 
 public sealed partial class SAV_Fashion9 : Form
 {
-    private readonly IFashionBlockEditor[] _grids = [];
+    private readonly IFashionBlockEditor[] _grids;
     private readonly SaveFile SAV;
     private readonly SaveFile Origin;
 
@@ -29,7 +29,8 @@ public sealed partial class SAV_Fashion9 : Form
         TC_Features.Multiline = true;
 
         // Create grids for each block
-        if (SAV is SAV9SV sav9sv) {
+        if (SAV is SAV9SV sav9sv)
+        {
             var accessor = sav9sv.Blocks;
             _grids =
             [
@@ -44,7 +45,8 @@ public sealed partial class SAV_Fashion9 : Form
             ];
 
             B_SetAllOwned.Visible = false;
-        } else if (SAV is SAV9ZA sav9ZA)
+        }
+        else if (SAV is SAV9ZA sav9ZA)
         {
             var accessor = sav9ZA.Blocks;
             _grids =
@@ -81,7 +83,6 @@ public sealed partial class SAV_Fashion9 : Form
         {
             throw new ArgumentException("Invalid SaveFile Type");
         }
-
 
         // Translate headings
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

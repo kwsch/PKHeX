@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Generation 9 Mystery Gift Template File
 /// </summary>
 public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INature, IAlpha, IRibbonIndex, IMemoryOT,
-    ILangNicknamedTemplate, IEncounterServerDate, IRelearn, IMetLevel, ISeedCorrelation64<PKM>,
+    ILangNicknamedTemplate, IEncounterServerDate, IRelearn, IMetLevel, IEncounter9a,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetCommon9, IRibbonSetMark9, IEncounterMarkExtra
 {
@@ -836,12 +836,13 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
             ? SeedCorrelationResult.Success
             : SeedCorrelationResult.Invalid;
 
-    private GenerateParam9a GetParams(PersonalInfo9ZA pi)
+    public LumioseCorrelation Correlation => LumioseCorrelation.SkipTrainer;
+    public byte FlawlessIVCount => GetFlawlessIVCount(IV_HP);
+
+    public GenerateParam9a GetParams(PersonalInfo9ZA pi)
     {
-        const LumioseCorrelation correlation = LumioseCorrelation.SkipTrainer;
         const byte rollCount = 1;
         var hp = IV_HP;
-        var flawless = GetFlawlessIVCount(hp);
         var ivs = new IndividualValueSet((sbyte)hp, (sbyte)IV_ATK, (sbyte)IV_DEF, (sbyte)IV_SPE, (sbyte)IV_SPA, (sbyte)IV_SPD);
         var sizeType = Scale == 256 ? SizeType9.RANDOM : SizeType9.VALUE;
         var gender = Gender switch
@@ -851,7 +852,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
             2 => PersonalInfo.RatioMagicGenderless,
             _ => pi.Gender,
         };
-        return new GenerateParam9a(gender, flawless, rollCount, correlation, sizeType, (byte)Scale, Nature, Ability, Shiny, ivs);
+        return new GenerateParam9a(gender, FlawlessIVCount, rollCount, Correlation, sizeType, (byte)Scale, Nature, Ability, Shiny, ivs);
     }
 
     private static byte GetFlawlessIVCount(int hp)

@@ -201,7 +201,10 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
     private void PopulateFromCore(PKH pkh)
     {
         var pi = PersonalTable.SWSH.GetFormEntry(pkh.Species, pkh.Form);
-        Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
+        var index = AbilityNumber >> 1;
+        if (index >= pi.AbilityCount)
+            index = 0;
+        Ability = (ushort)pi.GetAbilityAtIndex(index);
     }
 
     private static void RemapMetEgg(GameVersion version, ref ushort met, ref ushort egg)

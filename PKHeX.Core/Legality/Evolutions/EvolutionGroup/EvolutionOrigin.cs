@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Details about the original encounter.
 /// </summary>
-/// <param name="Species">Species the encounter originated as</param>
+/// <param name="Species">Most-evolved species the encounter originated as</param>
 /// <param name="Context">Context the encounter originated in</param>
 /// <param name="Generation">Generation the encounter originated in</param>
 /// <param name="LevelMin">Minimum level the encounter originated at</param>

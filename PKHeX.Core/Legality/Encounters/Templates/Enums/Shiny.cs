@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -21,7 +23,7 @@ public enum Shiny : byte
     AlwaysSquare,
 
     /// <summary> PID is fixed to a specified value. </summary>
-    FixedValue,
+    [Browsable(false)] FixedValue,
 }
 
 /// <summary>
