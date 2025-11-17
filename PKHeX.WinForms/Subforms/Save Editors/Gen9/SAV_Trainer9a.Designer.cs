@@ -95,6 +95,7 @@ namespace PKHeX.WinForms
             L_LastSaved = new System.Windows.Forms.Label();
             CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             Tab_MiscValues = new System.Windows.Forms.TabPage();
+            B_CollectScrews = new System.Windows.Forms.Button();
             label3 = new System.Windows.Forms.Label();
             L_RoyaleTicketPointsInfinite = new System.Windows.Forms.Label();
             L_RoyaleRegularTicketPoints = new System.Windows.Forms.Label();
@@ -118,7 +119,6 @@ namespace PKHeX.WinForms
             P_Picture1 = new System.Windows.Forms.PictureBox();
             P_Picture2 = new System.Windows.Forms.PictureBox();
             P_Picture3 = new System.Windows.Forms.PictureBox();
-            B_CollectScrews = new System.Windows.Forms.Button();
             TC_Editor.SuspendLayout();
             Tab_Overview.SuspendLayout();
             Tab_MiscValues.SuspendLayout();
@@ -660,7 +660,7 @@ namespace PKHeX.WinForms
             trainerID1.Location = new System.Drawing.Point(130, 40);
             trainerID1.Margin = new System.Windows.Forms.Padding(0);
             trainerID1.Name = "trainerID1";
-            trainerID1.Size = new System.Drawing.Size(246, 23);
+            trainerID1.Size = new System.Drawing.Size(246, 25);
             trainerID1.TabIndex = 74;
             // 
             // CAL_LastSavedDate
@@ -717,6 +717,16 @@ namespace PKHeX.WinForms
             Tab_MiscValues.TabIndex = 4;
             Tab_MiscValues.Text = "Misc";
             Tab_MiscValues.UseVisualStyleBackColor = true;
+            // 
+            // B_CollectScrews
+            // 
+            B_CollectScrews.Location = new System.Drawing.Point(365, 106);
+            B_CollectScrews.Name = "B_CollectScrews";
+            B_CollectScrews.Size = new System.Drawing.Size(120, 64);
+            B_CollectScrews.TabIndex = 85;
+            B_CollectScrews.Text = "Collect All Colorful Screws";
+            B_CollectScrews.UseVisualStyleBackColor = true;
+            B_CollectScrews.Click += B_CollectScrews_Click;
             // 
             // label3
             // 
@@ -983,16 +993,6 @@ namespace PKHeX.WinForms
             P_Picture3.TabIndex = 81;
             P_Picture3.TabStop = false;
             P_Picture3.Click += P_Picture3_Click;
-            // 
-            // B_CollectScrews
-            // 
-            B_CollectScrews.Location = new System.Drawing.Point(365, 106);
-            B_CollectScrews.Name = "B_CollectScrews";
-            B_CollectScrews.Size = new System.Drawing.Size(120, 64);
-            B_CollectScrews.TabIndex = 85;
-            B_CollectScrews.Text = "Collect All Colorful Screws";
-            B_CollectScrews.UseVisualStyleBackColor = true;
-            B_CollectScrews.Click += B_CollectScrews_Click;
             // 
             // SAV_Trainer9a
             // 

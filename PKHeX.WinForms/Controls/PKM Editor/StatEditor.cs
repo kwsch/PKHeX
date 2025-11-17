@@ -524,8 +524,18 @@ public partial class StatEditor : UserControl
 
         var incr = L_Stats[up + 1];
         var decr = L_Stats[dn + 1];
-        incr.ForeColor = StatIncreased;
-        decr.ForeColor = StatDecreased;
+
+        var increase = StatIncreased;
+        var decrease = StatDecreased;
+        if (Application.IsDarkModeEnabled)
+        {
+            // Slightly whiten; regular color is too dark.
+            increase = ColorUtil.Blend(increase, SystemColors.ControlText, 0.60f);
+            decrease = ColorUtil.Blend(decrease, SystemColors.ControlText, 0.45f);
+        }
+
+        incr.ForeColor = increase;
+        decr.ForeColor = decrease;
         return $"+{incr.Text} / -{decr.Text}".Replace(":", string.Empty);
     }
 
