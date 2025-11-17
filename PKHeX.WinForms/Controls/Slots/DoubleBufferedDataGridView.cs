@@ -17,6 +17,7 @@ internal class DoubleBufferedDataGridView : DataGridView
         {
             EnableHeadersVisualStyles = false;
             BorderStyle = BorderStyle.None;
+            RowsDefaultCellStyle = new DataGridViewCellStyle { BackColor = Drawing.ColorUtil.Blend(SystemColors.ControlLight, SystemColors.ControlLightLight, 0.45) };
         }
 
         AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle { BackColor = SystemColors.ControlLight };

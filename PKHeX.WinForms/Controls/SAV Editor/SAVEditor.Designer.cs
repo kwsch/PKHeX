@@ -94,6 +94,7 @@ namespace PKHeX.WinForms.Controls
             B_RaidsSevenStar = new System.Windows.Forms.Button();
             B_OpenBattlePass = new System.Windows.Forms.Button();
             B_OpenGear = new System.Windows.Forms.Button();
+            B_OpenFashion = new System.Windows.Forms.Button();
             FLP_SAVToolsMisc = new System.Windows.Forms.FlowLayoutPanel();
             B_SaveBoxBin = new System.Windows.Forms.Button();
             B_VerifyCHK = new System.Windows.Forms.Button();
@@ -109,7 +110,6 @@ namespace PKHeX.WinForms.Controls
             TB_Secure1 = new System.Windows.Forms.TextBox();
             L_GameSync = new System.Windows.Forms.Label();
             TB_GameSync = new System.Windows.Forms.TextBox();
-            B_OpenFashion = new System.Windows.Forms.Button();
             tabBoxMulti.SuspendLayout();
             Tab_Box.SuspendLayout();
             Tab_PartyBattle.SuspendLayout();
@@ -164,7 +164,7 @@ namespace PKHeX.WinForms.Controls
             Box.CurrentBox = -1;
             Box.Editor = null;
             Box.FlagIllegal = false;
-            Box.Location = new System.Drawing.Point(99, 7);
+            Box.Location = new System.Drawing.Point(107, 7);
             Box.M = null;
             Box.Name = "Box";
             Box.Size = new System.Drawing.Size(251, 185);
@@ -861,6 +861,17 @@ namespace PKHeX.WinForms.Controls
             B_OpenGear.UseVisualStyleBackColor = true;
             B_OpenGear.Click += B_OpenGear_Click;
             // 
+            // B_OpenFashion
+            // 
+            B_OpenFashion.Location = new System.Drawing.Point(4, 404);
+            B_OpenFashion.Margin = new System.Windows.Forms.Padding(4);
+            B_OpenFashion.Name = "B_OpenFashion";
+            B_OpenFashion.Size = new System.Drawing.Size(96, 32);
+            B_OpenFashion.TabIndex = 10;
+            B_OpenFashion.Text = "‎Fashion";
+            B_OpenFashion.UseVisualStyleBackColor = true;
+            B_OpenFashion.Click += B_OpenFashion_Click;
+            // 
             // FLP_SAVToolsMisc
             // 
             FLP_SAVToolsMisc.Controls.Add(B_SaveBoxBin);
@@ -1026,17 +1037,6 @@ namespace PKHeX.WinForms.Controls
             TB_GameSync.Size = new System.Drawing.Size(120, 24);
             TB_GameSync.TabIndex = 10;
             TB_GameSync.Validated += UpdateStringSeed;
-            // 
-            // B_OpenFashion
-            // 
-            B_OpenFashion.Location = new System.Drawing.Point(4, 404);
-            B_OpenFashion.Margin = new System.Windows.Forms.Padding(4);
-            B_OpenFashion.Name = "B_OpenFashion";
-            B_OpenFashion.Size = new System.Drawing.Size(96, 32);
-            B_OpenFashion.TabIndex = 10;
-            B_OpenFashion.Text = "‎Fashion";
-            B_OpenFashion.UseVisualStyleBackColor = true;
-            B_OpenFashion.Click += B_OpenFashion_Click;
             // 
             // SAVEditor
             // 
