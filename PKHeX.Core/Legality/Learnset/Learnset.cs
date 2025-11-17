@@ -82,7 +82,10 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
     {
         for (int i = 0; i < Moves.Length; i++)
         {
-            if (Levels[i] > level)
+            var req = Levels[i];
+            if (req < 1) // Evolution or Relearn-menu-only moves
+                continue;
+            if (req > level)
                 break;
 
             AddMoveShiftLater(moves, ref ctr, Moves[i]);

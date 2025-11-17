@@ -18,6 +18,27 @@ public static class PlusRecordApplicator
         {
             for (int i = 0; i < count; i++)
                 record.SetMovePlusFlag(i, value);
+            case PA9 pa9:
+            {
+                var learn = LearnSource9ZA.Instance;
+                SetPlusFlagsNatural(record, permit, evos, learn, seedOfMastery);
+                if (pa9 is { IsAlpha: true, ZA: true })
+                {
+                    var table = PersonalTable.ZA;
+                    var enc = la.EncounterMatch;
+                    var epi = table[enc.Species, enc.Form];
+                    SetPlusFlagsSpecific(pa9, epi, epi.AlphaMove);
+                }
+
+                if (tm)
+                {
+                    var table = PersonalTable.ZA;
+                    SetPlusFlagsTM<PersonalTable9ZA, PersonalInfo9ZA, LearnSource9ZA>(record, permit, evos, learn, seedOfMastery, table);
+                }
+                break;
+            }
+            default:
+                throw new Exception("Format not supported.");
         }
 
         /// <summary>

@@ -470,8 +470,30 @@ public sealed class AbilityVerifier : Verifier
             return INVALID;
 
         var index = bitNum >> 1;
+        var species = pa9.Species;
+        var ability = pa9.Ability;
+        if (FormInfo.HasMegaForm(species) || species is (int)Species.Aegislash)
+        {
+            var form = pa9.Form;
+            var current = PersonalTable.ZA[species, form];
+            var replaced = current.GetAbilityAtIndex(index);
+            if (ability == replaced)
+                return VALID;
+
+            if (species is (int)Species.Aegislash)
+            {
+                if (form != 0) // Blade
+                    return GetInvalid(AbilityMismatch); // Must have been replaced.
+            }
+            else
+            {
+                if (FormInfo.IsMegaForm(species, form))
+                    return GetInvalid(AbilityMismatch); // Must have been replaced.
+            }
+        }
+
         var expect = pi.GetAbilityAtIndex(index);
-        if (pa9.Ability != expect)
+        if (ability != expect)
             return GetInvalid(AbilityMismatch);
 
         return VALID;
