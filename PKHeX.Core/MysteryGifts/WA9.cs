@@ -495,7 +495,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
             learn.SetEncounterMoves(currentLevel, moves);
             pk.SetMoves(moves);
         }
-        PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, currentLevel);
+        pk.SetPlusFlagsEncounter(pi, plus, currentLevel);
     }
 
     private DateOnly GetSuggestedDate()

@@ -43,15 +43,11 @@ public class VerticalTabControl : TabControl
         }
 
         // Draw dark grey border around tab
-        using var borderPen = new Pen(SystemColors.ActiveBorder, 1);
-        g.DrawRectangle(borderPen, bounds.X, bounds.Y, bounds.Width - 1, bounds.Height - 1);
+        ControlPaint.DrawBorder(g, bounds, SystemColors.ActiveBorder, Application.IsDarkModeEnabled ? ButtonBorderStyle.Outset : ButtonBorderStyle.Solid);
 
         // Draw text
-        using var flags = new StringFormat();
-        flags.Alignment = StringAlignment.Center;
-        flags.LineAlignment = StringAlignment.Center;
-        using var text = new SolidBrush(ForeColor);
-        g.DrawString(page.Text, Font, text, bounds, flags);
+        const TextFormatFlags flags = TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine;
+        TextRenderer.DrawText(g, page.Text, Font, bounds, ForeColor, flags);
     }
 
     protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
@@ -113,15 +109,10 @@ public sealed class VerticalTabControlEntityEditor : VerticalTabControl
         }
 
         // Draw dark grey border around tab
-        using var borderPen = new Pen(SystemColors.ActiveBorder, 1);
-        var tabBounds = GetTabRect(index);
-        g.DrawRectangle(borderPen, tabBounds.X, tabBounds.Y, tabBounds.Width - 1, tabBounds.Height - 1);
+        ControlPaint.DrawBorder(g, GetTabRect(index), SystemColors.ActiveBorder, Application.IsDarkModeEnabled ? ButtonBorderStyle.Outset : ButtonBorderStyle.Solid);
 
         // Draw text
-        using var flags = new StringFormat();
-        flags.Alignment = StringAlignment.Center;
-        flags.LineAlignment = StringAlignment.Center;
-        using var text = new SolidBrush(ForeColor);
-        g.DrawString(page.Text, Font, text, bounds, flags);
+        const TextFormatFlags flags = TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine;
+        TextRenderer.DrawText(g, page.Text, Font, bounds, ForeColor, flags);
     }
 }

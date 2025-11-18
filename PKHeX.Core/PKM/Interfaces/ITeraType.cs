@@ -109,7 +109,6 @@ public static class TeraTypeUtil
         return Fallback; // out of range.
     }
 
-    /// <param name="t">Entity to set the value to.</param>
     extension(ITeraType t)
     {
         /// <summary>

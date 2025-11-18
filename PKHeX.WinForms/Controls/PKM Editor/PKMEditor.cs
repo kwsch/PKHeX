@@ -1602,7 +1602,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             };
             if (changePID)
             {
-                CommonEdits.SetShiny(Entity, type);
+                Entity.SetShiny(type);
                 TB_PID.Text = Entity.PID.ToString("X8");
 
                 var gen = Entity.Generation;

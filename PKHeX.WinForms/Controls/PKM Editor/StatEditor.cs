@@ -518,8 +518,8 @@ public partial class StatEditor : UserControl
             l.ResetForeColor();
 
         // Set Colored StatLabels only if Nature isn't Neutral
-        var (up, dn) = NatureAmp.GetNatureModification(nature);
-        if (NatureAmp.IsNeutralOrInvalid(nature, up, dn))
+        var (up, dn) = nature.GetNatureModification();
+        if (nature.IsNeutralOrInvalid(up, dn))
             return "-/-";
 
         var incr = L_Stats[up + 1];

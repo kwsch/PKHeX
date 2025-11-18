@@ -25,7 +25,6 @@ public static class BattleVersionExtensions
         _ => false,
     };
 
-    /// <param name="v">Reference to the object to set the <see cref="version"/></param>
     extension(IBattleVersion v)
     {
         /// <summary>

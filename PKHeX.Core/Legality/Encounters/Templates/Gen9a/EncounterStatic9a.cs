@@ -102,19 +102,19 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
         {
             pk.SetMoves(Moves);
             pk.GetMoves(moves);
-            PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
+            pk.SetPlusFlagsEncounter(pi, plus, level);
             return;
         }
 
         if (!IsAlpha)
         {
             learn.SetEncounterMoves(level, moves);
-            PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
+            pk.SetPlusFlagsEncounter(pi, plus, level);
         }
         else
         {
             learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
-            PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level, moves[0] = pi.AlphaMove);
+            pk.SetPlusFlagsEncounter(pi, plus, level, [moves[0] = pi.AlphaMove]);
         }
         pk.SetMoves(moves);
     }

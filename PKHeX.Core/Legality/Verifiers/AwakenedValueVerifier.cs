@@ -35,7 +35,7 @@ public sealed class AwakenedValueVerifier : Verifier
         Span<byte> required = stackalloc byte[6];
         AwakeningUtil.SetExpectedMinimumAVs(pb7, required);
         Span<byte> current = stackalloc byte[6];
-        AwakeningUtil.AwakeningGetVisual(pb7, current);
+        pb7.AwakeningGetVisual(current);
 
         // For each stat, ensure the current AV is at least the required minimum
         if (current[0] < required[0])

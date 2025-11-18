@@ -655,7 +655,7 @@ public sealed class ShowdownSet : IBattleTemplate
     /// <remarks>Appends the nature amplification to the stat values, if not a neutral nature.</remarks>
     public static string GetStringStatsNatureAmp<T>(ReadOnlySpan<T> stats, T ignoreValue, StatDisplayConfig statNames, Nature nature) where T : IEquatable<T>
     {
-        var (plus, minus) = NatureAmp.GetNatureModification(nature);
+        var (plus, minus) = nature.GetNatureModification();
         if (plus == minus)
             return GetStringStats(stats, ignoreValue, statNames); // neutral nature won't appear any different
 
