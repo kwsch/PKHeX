@@ -29,6 +29,7 @@ public sealed class EncounterGenerator9X : IEncounterGenerator
         ZA => EncounterGenerator9a.Instance.GetEncounters(pk, chain, info),
         SL or VL => EncounterGenerator9.Instance.GetEncounters(pk, chain, info),
         0 when pk.IsEgg => EncounterGenerator9.Instance.GetEncounters(pk, chain, info), // 0 for eggs
+        SW or SH => EncounterGenerator8X.Instance.GetEncounters(pk, chain, info), // Backwards transfers to SW/SH that are recognized as being from Gen9
         _ => [],
     };
 }

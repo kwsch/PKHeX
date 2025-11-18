@@ -114,6 +114,8 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
     {
         if (IsAlpha && pk is IPlusRecord pa9 && pk.PersonalInfo is IPermitPlus p && !pa9.GetMovePlusFlag(p.PlusMoveIndexes.IndexOf(PersonalTable.ZA[Species, Form].AlphaMove)))
             return EncounterMatchRating.DeferredErrors;
+        if (Shiny is Shiny.Never && pk.IsShiny) // Some encounters are shiny locked until a sub-quest is completed.
+            return EncounterMatchRating.DeferredErrors;
 
         var pidiv = TryGetSeed(pk, out _);
         if (pidiv is SeedCorrelationResult.Invalid)
