@@ -204,7 +204,7 @@ public sealed record EncounterGift9a(ushort Species, byte Form, byte Level, byte
         return SeedCorrelationResult.Invalid;
     }
 
-    public LumioseCorrelation Correlation => IsAlpha ? LumioseCorrelation.PreApplyIVs : LumioseCorrelation.ReApplyIVs;
+    public LumioseCorrelation Correlation => IsAlpha ? LumioseCorrelation.PreApplyIVs : IVs.IsSpecified || FlawlessIVCount != 0 ? LumioseCorrelation.ReApplyIVs : LumioseCorrelation.Normal;
 
     public GenerateParam9a GetParams(PersonalInfo9ZA pi)
     {
