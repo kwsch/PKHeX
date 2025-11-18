@@ -1136,7 +1136,17 @@ public partial class Main : Form
         var menu = dragout.ContextMenuStrip;
         menu?.Enabled = pk.Species != 0 || HaX; // Species
 
-        pb.Image = pk.Sprite(C_SAV.SAV);
+        var img = pk.Sprite(C_SAV.SAV);
+        if (Application.IsDarkModeEnabled)
+        {
+            var data = ImageUtil.GetPixelData(img);
+            var avg = ImageUtil.GetAverageColor(data);
+            var c = Color.FromArgb(avg);
+            SpriteUtil.GetSpriteGlow(img, c.B, c.G, c.R, out var pixels, true);
+            var layer = ImageUtil.GetBitmap(pixels, img.Width, img.Height, img.PixelFormat);
+            img = ImageUtil.LayerImage(img, layer, 0, 0);
+        }
+        pb.Image = img;
         if (pb.BackColor == SlotUtil.BadDataColor)
             pb.BackColor = SlotUtil.GoodDataColor;
     }
