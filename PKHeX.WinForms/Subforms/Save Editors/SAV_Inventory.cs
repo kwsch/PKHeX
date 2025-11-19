@@ -44,6 +44,12 @@ public sealed partial class SAV_Inventory : Form
         LoadAllBags();
         ChangeViewedPouch(0);
 
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(giveMenu.Items);
+            WinFormsUtil.InvertToolStripIcons(sortMenu.Items);
+        }
+
         // simple tweak to widen the GUI for optional columns making it wider than the narrow default
         var widen = 0;
         if (HasNewShop)

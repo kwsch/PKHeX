@@ -34,6 +34,9 @@ public sealed partial class SAV_GroupViewer : Form
         CB_BoxSelect.Items.AddRange(names);
         CB_BoxSelect.SelectedIndex = GetFirstTeamWithContent(groups);
 
+        if (Application.IsDarkModeEnabled)
+            WinFormsUtil.InvertToolStripIcons(mnu.Items);
+
         foreach (PictureBox pb in Box.Entries)
         {
             pb.Click += (_, args) => OmniClick(pb, args);

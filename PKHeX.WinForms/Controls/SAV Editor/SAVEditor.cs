@@ -84,6 +84,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         Box.Setup(M);
         SL_Party.Setup(M);
 
+        if (Application.IsDarkModeEnabled)
+            WinFormsUtil.InvertToolStripIcons(Tab_Box.ContextMenuStrip.Items);
+
         SL_Extra.ViewIndex = -2;
         menu = new ContextMenuSAV { Manager = M };
         InitializeEvents();

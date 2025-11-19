@@ -63,6 +63,9 @@ public partial class SAV_BattlePass : Form
         LoadCurrent(CurrentPass);
 
         loading = false;
+
+        if (Application.IsDarkModeEnabled)
+            WinFormsUtil.InvertToolStripIcons(mnu.Items);
     }
 
     #region Combo Boxes

@@ -92,7 +92,6 @@ namespace PKHeX.WinForms
             // BoxExporter
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            BackColor = System.Drawing.Color.White;
             ClientSize = new System.Drawing.Size(304, 281);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(B_Export);

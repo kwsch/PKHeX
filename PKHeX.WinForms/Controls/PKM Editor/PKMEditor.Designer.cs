@@ -1379,7 +1379,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Purification.Location = new System.Drawing.Point(0, 430);
             FLP_Purification.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             FLP_Purification.Name = "FLP_Purification";
-            FLP_Purification.Size = new System.Drawing.Size(225, 27);
+            FLP_Purification.Size = new System.Drawing.Size(229, 27);
             FLP_Purification.TabIndex = 18;
             // 
             // L_HeartGauge
@@ -1406,8 +1406,8 @@ namespace PKHeX.WinForms.Controls
             // CHK_Shadow
             // 
             CHK_Shadow.AutoSize = true;
-            CHK_Shadow.Location = new System.Drawing.Point(152, 3);
-            CHK_Shadow.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            CHK_Shadow.Location = new System.Drawing.Point(156, 3);
+            CHK_Shadow.Margin = new System.Windows.Forms.Padding(4, 3, 0, 3);
             CHK_Shadow.Name = "CHK_Shadow";
             CHK_Shadow.Size = new System.Drawing.Size(73, 21);
             CHK_Shadow.TabIndex = 16;
@@ -2696,7 +2696,7 @@ namespace PKHeX.WinForms.Controls
             SizeCP.Location = new System.Drawing.Point(48, 260);
             SizeCP.Margin = new System.Windows.Forms.Padding(48, 8, 0, 0);
             SizeCP.Name = "SizeCP";
-            SizeCP.Size = new System.Drawing.Size(228, 96);
+            SizeCP.Size = new System.Drawing.Size(232, 96);
             SizeCP.TabIndex = 3;
             // 
             // ShinyLeaf
@@ -2778,16 +2778,17 @@ namespace PKHeX.WinForms.Controls
             // Contest
             // 
             Contest.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            Contest.AutoSize = true;
             Contest.ContestBeauty = 0;
             Contest.ContestCool = 0;
             Contest.ContestCute = 0;
             Contest.ContestSheen = 0;
             Contest.ContestSmart = 0;
             Contest.ContestTough = 0;
-            Contest.Location = new System.Drawing.Point(0, 471);
-            Contest.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            Contest.Location = new System.Drawing.Point(8, 471);
+            Contest.Margin = new System.Windows.Forms.Padding(8, 8, 0, 0);
             Contest.Name = "Contest";
-            Contest.Size = new System.Drawing.Size(288, 59);
+            Contest.Size = new System.Drawing.Size(288, 58);
             Contest.TabIndex = 50;
             // 
             // Hidden_OTMisc
