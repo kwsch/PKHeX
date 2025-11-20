@@ -115,7 +115,7 @@ namespace PKHeX.WinForms
             L_Z = new System.Windows.Forms.Label();
             L_X = new System.Windows.Forms.Label();
             Tab_Images = new System.Windows.Forms.TabPage();
-            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            FLP_Images = new System.Windows.Forms.FlowLayoutPanel();
             P_Picture1 = new System.Windows.Forms.PictureBox();
             P_Picture2 = new System.Windows.Forms.PictureBox();
             P_Picture3 = new System.Windows.Forms.PictureBox();
@@ -128,7 +128,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_Y).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_X).BeginInit();
             Tab_Images.SuspendLayout();
-            flowLayoutPanel1.SuspendLayout();
+            FLP_Images.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)P_Picture1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)P_Picture2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)P_Picture3).BeginInit();
@@ -937,7 +937,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_Images
             // 
-            Tab_Images.Controls.Add(flowLayoutPanel1);
+            Tab_Images.Controls.Add(FLP_Images);
             Tab_Images.Location = new System.Drawing.Point(4, 26);
             Tab_Images.Name = "Tab_Images";
             Tab_Images.Padding = new System.Windows.Forms.Padding(3);
@@ -946,17 +946,17 @@ namespace PKHeX.WinForms
             Tab_Images.Text = "Images";
             Tab_Images.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel1
+            // FLP_Images
             // 
-            flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.Controls.Add(P_Picture1);
-            flowLayoutPanel1.Controls.Add(P_Picture2);
-            flowLayoutPanel1.Controls.Add(P_Picture3);
-            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new System.Drawing.Size(482, 271);
-            flowLayoutPanel1.TabIndex = 0;
+            FLP_Images.AutoScroll = true;
+            FLP_Images.Controls.Add(P_Picture1);
+            FLP_Images.Controls.Add(P_Picture2);
+            FLP_Images.Controls.Add(P_Picture3);
+            FLP_Images.Dock = System.Windows.Forms.DockStyle.Fill;
+            FLP_Images.Location = new System.Drawing.Point(3, 3);
+            FLP_Images.Name = "FLP_Images";
+            FLP_Images.Size = new System.Drawing.Size(482, 271);
+            FLP_Images.TabIndex = 0;
             // 
             // P_Picture1
             // 
@@ -1020,7 +1020,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_Y).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_X).EndInit();
             Tab_Images.ResumeLayout(false);
-            flowLayoutPanel1.ResumeLayout(false);
+            FLP_Images.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)P_Picture1).EndInit();
             ((System.ComponentModel.ISupportInitialize)P_Picture2).EndInit();
             ((System.ComponentModel.ISupportInitialize)P_Picture3).EndInit();
@@ -1115,7 +1115,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.TextBox TB_Map;
         private System.Windows.Forms.Label L_Map;
         private System.Windows.Forms.TabPage Tab_Images;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel FLP_Images;
         private System.Windows.Forms.PictureBox P_Picture1;
         private System.Windows.Forms.PictureBox P_Picture2;
         private System.Windows.Forms.PictureBox P_Picture3;

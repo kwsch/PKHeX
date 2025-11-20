@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_PokedexLA
     {
@@ -82,16 +82,16 @@
             GB_ResearchTasks = new System.Windows.Forms.GroupBox();
             MTB_UpdateIndex = new System.Windows.Forms.MaskedTextBox();
             L_UpdateIndex = new System.Windows.Forms.Label();
-            PRT_10 = new Controls.PokedexResearchTask8aPanel();
-            PRT_9 = new Controls.PokedexResearchTask8aPanel();
-            PRT_8 = new Controls.PokedexResearchTask8aPanel();
-            PRT_7 = new Controls.PokedexResearchTask8aPanel();
-            PRT_6 = new Controls.PokedexResearchTask8aPanel();
-            PRT_5 = new Controls.PokedexResearchTask8aPanel();
-            PRT_4 = new Controls.PokedexResearchTask8aPanel();
-            PRT_3 = new Controls.PokedexResearchTask8aPanel();
-            PRT_2 = new Controls.PokedexResearchTask8aPanel();
-            PRT_1 = new Controls.PokedexResearchTask8aPanel();
+            PRT_10 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            PRT_9 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            PRT_8 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            PRT_7 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            PRT_6 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            PRT_5 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            PRT_4 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            PRT_3 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            PRT_2 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
+            PRT_1 = new PKHeX.WinForms.Controls.PokedexResearchTask8aPanel();
             CHK_Seen = new System.Windows.Forms.CheckBox();
             B_Report = new System.Windows.Forms.Button();
             CHK_Perfect = new System.Windows.Forms.CheckBox();
@@ -115,7 +115,7 @@
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(824, 510);
+            B_Cancel.Location = new System.Drawing.Point(840, 510);
             B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(108, 27);
@@ -127,10 +127,10 @@
             // L_goto
             // 
             L_goto.AutoSize = true;
-            L_goto.Location = new System.Drawing.Point(14, 12);
+            L_goto.Location = new System.Drawing.Point(13, 12);
             L_goto.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_goto.Name = "L_goto";
-            L_goto.Size = new System.Drawing.Size(35, 15);
+            L_goto.Size = new System.Drawing.Size(39, 17);
             L_goto.TabIndex = 20;
             L_goto.Text = "goto:";
             // 
@@ -144,7 +144,7 @@
             CB_Species.Location = new System.Drawing.Point(49, 8);
             CB_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Species.Name = "CB_Species";
-            CB_Species.Size = new System.Drawing.Size(110, 23);
+            CB_Species.Size = new System.Drawing.Size(110, 25);
             CB_Species.TabIndex = 21;
             CB_Species.SelectedIndexChanged += ChangeCBSpecies;
             CB_Species.SelectedValueChanged += ChangeCBSpecies;
@@ -152,7 +152,7 @@
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(824, 482);
+            B_Save.Location = new System.Drawing.Point(840, 482);
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(108, 27);
@@ -165,10 +165,10 @@
             // 
             L_DisplayedForm.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             L_DisplayedForm.AutoSize = true;
-            L_DisplayedForm.Location = new System.Drawing.Point(821, 348);
+            L_DisplayedForm.Location = new System.Drawing.Point(837, 348);
             L_DisplayedForm.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_DisplayedForm.Name = "L_DisplayedForm";
-            L_DisplayedForm.Size = new System.Drawing.Size(92, 15);
+            L_DisplayedForm.Size = new System.Drawing.Size(102, 17);
             L_DisplayedForm.TabIndex = 32;
             L_DisplayedForm.Text = "Displayed Form:";
             // 
@@ -178,7 +178,7 @@
             GB_Displayed.Controls.Add(CHK_G);
             GB_Displayed.Controls.Add(CHK_S);
             GB_Displayed.Controls.Add(CHK_A);
-            GB_Displayed.Location = new System.Drawing.Point(824, 397);
+            GB_Displayed.Location = new System.Drawing.Point(840, 397);
             GB_Displayed.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Displayed.Name = "GB_Displayed";
             GB_Displayed.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -193,7 +193,7 @@
             CHK_G.Location = new System.Drawing.Point(6, 54);
             CHK_G.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_G.Name = "CHK_G";
-            CHK_G.Size = new System.Drawing.Size(64, 19);
+            CHK_G.Size = new System.Drawing.Size(68, 21);
             CHK_G.TabIndex = 10;
             CHK_G.Text = "Female";
             CHK_G.UseVisualStyleBackColor = true;
@@ -204,7 +204,7 @@
             CHK_S.Location = new System.Drawing.Point(6, 35);
             CHK_S.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_S.Name = "CHK_S";
-            CHK_S.Size = new System.Drawing.Size(55, 19);
+            CHK_S.Size = new System.Drawing.Size(57, 21);
             CHK_S.TabIndex = 9;
             CHK_S.Text = "Shiny";
             CHK_S.UseVisualStyleBackColor = true;
@@ -215,7 +215,7 @@
             CHK_A.Location = new System.Drawing.Point(6, 15);
             CHK_A.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_A.Name = "CHK_A";
-            CHK_A.Size = new System.Drawing.Size(57, 19);
+            CHK_A.Size = new System.Drawing.Size(60, 21);
             CHK_A.TabIndex = 8;
             CHK_A.Text = "Alpha";
             CHK_A.UseVisualStyleBackColor = true;
@@ -223,11 +223,10 @@
             // LB_Forms
             // 
             LB_Forms.FormattingEnabled = true;
-            LB_Forms.ItemHeight = 15;
             LB_Forms.Location = new System.Drawing.Point(14, 366);
             LB_Forms.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LB_Forms.Name = "LB_Forms";
-            LB_Forms.Size = new System.Drawing.Size(145, 169);
+            LB_Forms.Size = new System.Drawing.Size(145, 157);
             LB_Forms.TabIndex = 37;
             LB_Forms.SelectedIndexChanged += ChangeLBForms;
             // 
@@ -245,7 +244,7 @@
             GB_SeenInWild.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_SeenInWild.Name = "GB_SeenInWild";
             GB_SeenInWild.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_SeenInWild.Size = new System.Drawing.Size(150, 190);
+            GB_SeenInWild.Size = new System.Drawing.Size(154, 190);
             GB_SeenInWild.TabIndex = 38;
             GB_SeenInWild.TabStop = false;
             GB_SeenInWild.Text = "Seen in the Wild";
@@ -256,7 +255,7 @@
             CHK_S7.Location = new System.Drawing.Point(7, 160);
             CHK_S7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_S7.Name = "CHK_S7";
-            CHK_S7.Size = new System.Drawing.Size(130, 19);
+            CHK_S7.Size = new System.Drawing.Size(139, 21);
             CHK_S7.TabIndex = 11;
             CHK_S7.Text = "Shiny Alpha Female";
             CHK_S7.UseVisualStyleBackColor = true;
@@ -267,7 +266,7 @@
             CHK_S6.Location = new System.Drawing.Point(7, 141);
             CHK_S6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_S6.Name = "CHK_S6";
-            CHK_S6.Size = new System.Drawing.Size(118, 19);
+            CHK_S6.Size = new System.Drawing.Size(127, 21);
             CHK_S6.TabIndex = 10;
             CHK_S6.Text = "Shiny Alpha Male";
             CHK_S6.UseVisualStyleBackColor = true;
@@ -278,7 +277,7 @@
             CHK_S5.Location = new System.Drawing.Point(7, 120);
             CHK_S5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_S5.Name = "CHK_S5";
-            CHK_S5.Size = new System.Drawing.Size(96, 19);
+            CHK_S5.Size = new System.Drawing.Size(102, 21);
             CHK_S5.TabIndex = 9;
             CHK_S5.Text = "Shiny Female";
             CHK_S5.UseVisualStyleBackColor = true;
@@ -289,7 +288,7 @@
             CHK_S4.Location = new System.Drawing.Point(7, 100);
             CHK_S4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_S4.Name = "CHK_S4";
-            CHK_S4.Size = new System.Drawing.Size(84, 19);
+            CHK_S4.Size = new System.Drawing.Size(90, 21);
             CHK_S4.TabIndex = 8;
             CHK_S4.Text = "Shiny Male";
             CHK_S4.UseVisualStyleBackColor = true;
@@ -300,7 +299,7 @@
             CHK_S3.Location = new System.Drawing.Point(7, 81);
             CHK_S3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_S3.Name = "CHK_S3";
-            CHK_S3.Size = new System.Drawing.Size(98, 19);
+            CHK_S3.Size = new System.Drawing.Size(105, 21);
             CHK_S3.TabIndex = 7;
             CHK_S3.Text = "Alpha Female";
             CHK_S3.UseVisualStyleBackColor = true;
@@ -311,7 +310,7 @@
             CHK_S2.Location = new System.Drawing.Point(7, 61);
             CHK_S2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_S2.Name = "CHK_S2";
-            CHK_S2.Size = new System.Drawing.Size(86, 19);
+            CHK_S2.Size = new System.Drawing.Size(93, 21);
             CHK_S2.TabIndex = 6;
             CHK_S2.Text = "Alpha Male";
             CHK_S2.UseVisualStyleBackColor = true;
@@ -322,7 +321,7 @@
             CHK_S1.Location = new System.Drawing.Point(7, 40);
             CHK_S1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_S1.Name = "CHK_S1";
-            CHK_S1.Size = new System.Drawing.Size(64, 19);
+            CHK_S1.Size = new System.Drawing.Size(68, 21);
             CHK_S1.TabIndex = 5;
             CHK_S1.Text = "Female";
             CHK_S1.UseVisualStyleBackColor = true;
@@ -333,7 +332,7 @@
             CHK_S0.Location = new System.Drawing.Point(7, 21);
             CHK_S0.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_S0.Name = "CHK_S0";
-            CHK_S0.Size = new System.Drawing.Size(52, 19);
+            CHK_S0.Size = new System.Drawing.Size(56, 21);
             CHK_S0.TabIndex = 4;
             CHK_S0.Text = "Male";
             CHK_S0.UseVisualStyleBackColor = true;
@@ -344,7 +343,7 @@
             CHK_Solitude.Location = new System.Drawing.Point(167, 10);
             CHK_Solitude.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Solitude.Name = "CHK_Solitude";
-            CHK_Solitude.Size = new System.Drawing.Size(124, 19);
+            CHK_Solitude.Size = new System.Drawing.Size(134, 21);
             CHK_Solitude.TabIndex = 12;
             CHK_Solitude.Text = "Solitude Complete";
             CHK_Solitude.UseVisualStyleBackColor = true;
@@ -359,11 +358,11 @@
             GB_Obtained.Controls.Add(CHK_O2);
             GB_Obtained.Controls.Add(CHK_O1);
             GB_Obtained.Controls.Add(CHK_O0);
-            GB_Obtained.Location = new System.Drawing.Point(321, 347);
+            GB_Obtained.Location = new System.Drawing.Point(326, 347);
             GB_Obtained.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Obtained.Name = "GB_Obtained";
             GB_Obtained.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Obtained.Size = new System.Drawing.Size(150, 190);
+            GB_Obtained.Size = new System.Drawing.Size(155, 190);
             GB_Obtained.TabIndex = 39;
             GB_Obtained.TabStop = false;
             GB_Obtained.Text = "Obtained";
@@ -374,7 +373,7 @@
             CHK_O7.Location = new System.Drawing.Point(7, 160);
             CHK_O7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_O7.Name = "CHK_O7";
-            CHK_O7.Size = new System.Drawing.Size(130, 19);
+            CHK_O7.Size = new System.Drawing.Size(139, 21);
             CHK_O7.TabIndex = 11;
             CHK_O7.Text = "Shiny Alpha Female";
             CHK_O7.UseVisualStyleBackColor = true;
@@ -386,7 +385,7 @@
             CHK_O6.Location = new System.Drawing.Point(7, 141);
             CHK_O6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_O6.Name = "CHK_O6";
-            CHK_O6.Size = new System.Drawing.Size(118, 19);
+            CHK_O6.Size = new System.Drawing.Size(127, 21);
             CHK_O6.TabIndex = 10;
             CHK_O6.Text = "Shiny Alpha Male";
             CHK_O6.UseVisualStyleBackColor = true;
@@ -398,7 +397,7 @@
             CHK_O5.Location = new System.Drawing.Point(7, 120);
             CHK_O5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_O5.Name = "CHK_O5";
-            CHK_O5.Size = new System.Drawing.Size(96, 19);
+            CHK_O5.Size = new System.Drawing.Size(102, 21);
             CHK_O5.TabIndex = 9;
             CHK_O5.Text = "Shiny Female";
             CHK_O5.UseVisualStyleBackColor = true;
@@ -410,7 +409,7 @@
             CHK_O4.Location = new System.Drawing.Point(7, 100);
             CHK_O4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_O4.Name = "CHK_O4";
-            CHK_O4.Size = new System.Drawing.Size(84, 19);
+            CHK_O4.Size = new System.Drawing.Size(90, 21);
             CHK_O4.TabIndex = 8;
             CHK_O4.Text = "Shiny Male";
             CHK_O4.UseVisualStyleBackColor = true;
@@ -422,7 +421,7 @@
             CHK_O3.Location = new System.Drawing.Point(7, 81);
             CHK_O3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_O3.Name = "CHK_O3";
-            CHK_O3.Size = new System.Drawing.Size(98, 19);
+            CHK_O3.Size = new System.Drawing.Size(105, 21);
             CHK_O3.TabIndex = 7;
             CHK_O3.Text = "Alpha Female";
             CHK_O3.UseVisualStyleBackColor = true;
@@ -434,7 +433,7 @@
             CHK_O2.Location = new System.Drawing.Point(7, 61);
             CHK_O2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_O2.Name = "CHK_O2";
-            CHK_O2.Size = new System.Drawing.Size(86, 19);
+            CHK_O2.Size = new System.Drawing.Size(93, 21);
             CHK_O2.TabIndex = 6;
             CHK_O2.Text = "Alpha Male";
             CHK_O2.UseVisualStyleBackColor = true;
@@ -446,7 +445,7 @@
             CHK_O1.Location = new System.Drawing.Point(7, 40);
             CHK_O1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_O1.Name = "CHK_O1";
-            CHK_O1.Size = new System.Drawing.Size(64, 19);
+            CHK_O1.Size = new System.Drawing.Size(68, 21);
             CHK_O1.TabIndex = 5;
             CHK_O1.Text = "Female";
             CHK_O1.UseVisualStyleBackColor = true;
@@ -458,7 +457,7 @@
             CHK_O0.Location = new System.Drawing.Point(7, 21);
             CHK_O0.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_O0.Name = "CHK_O0";
-            CHK_O0.Size = new System.Drawing.Size(52, 19);
+            CHK_O0.Size = new System.Drawing.Size(56, 21);
             CHK_O0.TabIndex = 4;
             CHK_O0.Text = "Male";
             CHK_O0.UseVisualStyleBackColor = true;
@@ -474,11 +473,11 @@
             GB_CaughtInWild.Controls.Add(CHK_C2);
             GB_CaughtInWild.Controls.Add(CHK_C1);
             GB_CaughtInWild.Controls.Add(CHK_C0);
-            GB_CaughtInWild.Location = new System.Drawing.Point(474, 347);
+            GB_CaughtInWild.Location = new System.Drawing.Point(485, 347);
             GB_CaughtInWild.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_CaughtInWild.Name = "GB_CaughtInWild";
             GB_CaughtInWild.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_CaughtInWild.Size = new System.Drawing.Size(148, 190);
+            GB_CaughtInWild.Size = new System.Drawing.Size(152, 190);
             GB_CaughtInWild.TabIndex = 40;
             GB_CaughtInWild.TabStop = false;
             GB_CaughtInWild.Text = "Caught in the Wild";
@@ -489,7 +488,7 @@
             CHK_C7.Location = new System.Drawing.Point(7, 160);
             CHK_C7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_C7.Name = "CHK_C7";
-            CHK_C7.Size = new System.Drawing.Size(130, 19);
+            CHK_C7.Size = new System.Drawing.Size(139, 21);
             CHK_C7.TabIndex = 11;
             CHK_C7.Text = "Shiny Alpha Female";
             CHK_C7.UseVisualStyleBackColor = true;
@@ -500,7 +499,7 @@
             CHK_C6.Location = new System.Drawing.Point(7, 141);
             CHK_C6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_C6.Name = "CHK_C6";
-            CHK_C6.Size = new System.Drawing.Size(118, 19);
+            CHK_C6.Size = new System.Drawing.Size(127, 21);
             CHK_C6.TabIndex = 10;
             CHK_C6.Text = "Shiny Alpha Male";
             CHK_C6.UseVisualStyleBackColor = true;
@@ -511,7 +510,7 @@
             CHK_C5.Location = new System.Drawing.Point(7, 120);
             CHK_C5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_C5.Name = "CHK_C5";
-            CHK_C5.Size = new System.Drawing.Size(96, 19);
+            CHK_C5.Size = new System.Drawing.Size(102, 21);
             CHK_C5.TabIndex = 9;
             CHK_C5.Text = "Shiny Female";
             CHK_C5.UseVisualStyleBackColor = true;
@@ -522,7 +521,7 @@
             CHK_C4.Location = new System.Drawing.Point(7, 100);
             CHK_C4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_C4.Name = "CHK_C4";
-            CHK_C4.Size = new System.Drawing.Size(84, 19);
+            CHK_C4.Size = new System.Drawing.Size(90, 21);
             CHK_C4.TabIndex = 8;
             CHK_C4.Text = "Shiny Male";
             CHK_C4.UseVisualStyleBackColor = true;
@@ -533,7 +532,7 @@
             CHK_C3.Location = new System.Drawing.Point(7, 81);
             CHK_C3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_C3.Name = "CHK_C3";
-            CHK_C3.Size = new System.Drawing.Size(98, 19);
+            CHK_C3.Size = new System.Drawing.Size(105, 21);
             CHK_C3.TabIndex = 7;
             CHK_C3.Text = "Alpha Female";
             CHK_C3.UseVisualStyleBackColor = true;
@@ -544,7 +543,7 @@
             CHK_C2.Location = new System.Drawing.Point(7, 61);
             CHK_C2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_C2.Name = "CHK_C2";
-            CHK_C2.Size = new System.Drawing.Size(86, 19);
+            CHK_C2.Size = new System.Drawing.Size(93, 21);
             CHK_C2.TabIndex = 6;
             CHK_C2.Text = "Alpha Male";
             CHK_C2.UseVisualStyleBackColor = true;
@@ -555,7 +554,7 @@
             CHK_C1.Location = new System.Drawing.Point(7, 40);
             CHK_C1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_C1.Name = "CHK_C1";
-            CHK_C1.Size = new System.Drawing.Size(64, 19);
+            CHK_C1.Size = new System.Drawing.Size(68, 21);
             CHK_C1.TabIndex = 5;
             CHK_C1.Text = "Female";
             CHK_C1.UseVisualStyleBackColor = true;
@@ -566,7 +565,7 @@
             CHK_C0.Location = new System.Drawing.Point(7, 21);
             CHK_C0.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_C0.Name = "CHK_C0";
-            CHK_C0.Size = new System.Drawing.Size(52, 19);
+            CHK_C0.Size = new System.Drawing.Size(56, 21);
             CHK_C0.TabIndex = 4;
             CHK_C0.Text = "Male";
             CHK_C0.UseVisualStyleBackColor = true;
@@ -576,7 +575,7 @@
             GB_Statistics.Controls.Add(CHK_MinAndMax);
             GB_Statistics.Controls.Add(GB_Weight);
             GB_Statistics.Controls.Add(GB_Height);
-            GB_Statistics.Location = new System.Drawing.Point(625, 347);
+            GB_Statistics.Location = new System.Drawing.Point(641, 347);
             GB_Statistics.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Statistics.Name = "GB_Statistics";
             GB_Statistics.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -591,7 +590,7 @@
             CHK_MinAndMax.Location = new System.Drawing.Point(7, 18);
             CHK_MinAndMax.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_MinAndMax.Name = "CHK_MinAndMax";
-            CHK_MinAndMax.Size = new System.Drawing.Size(137, 19);
+            CHK_MinAndMax.Size = new System.Drawing.Size(148, 21);
             CHK_MinAndMax.TabIndex = 12;
             CHK_MinAndMax.Text = "Has Both Min && Max";
             CHK_MinAndMax.UseVisualStyleBackColor = true;
@@ -626,7 +625,7 @@
             TB_MaxWeight.Location = new System.Drawing.Point(98, 18);
             TB_MaxWeight.Margin = new System.Windows.Forms.Padding(0);
             TB_MaxWeight.Name = "TB_MaxWeight";
-            TB_MaxWeight.Size = new System.Drawing.Size(78, 23);
+            TB_MaxWeight.Size = new System.Drawing.Size(78, 25);
             TB_MaxWeight.TabIndex = 145;
             TB_MaxWeight.Text = "123.456789";
             // 
@@ -635,7 +634,7 @@
             TB_MinWeight.Location = new System.Drawing.Point(5, 18);
             TB_MinWeight.Margin = new System.Windows.Forms.Padding(0);
             TB_MinWeight.Name = "TB_MinWeight";
-            TB_MinWeight.Size = new System.Drawing.Size(78, 23);
+            TB_MinWeight.Size = new System.Drawing.Size(78, 25);
             TB_MinWeight.TabIndex = 143;
             TB_MinWeight.Text = "123.456789";
             // 
@@ -669,7 +668,7 @@
             TB_MaxHeight.Location = new System.Drawing.Point(98, 18);
             TB_MaxHeight.Margin = new System.Windows.Forms.Padding(0);
             TB_MaxHeight.Name = "TB_MaxHeight";
-            TB_MaxHeight.Size = new System.Drawing.Size(78, 23);
+            TB_MaxHeight.Size = new System.Drawing.Size(78, 25);
             TB_MaxHeight.TabIndex = 151;
             TB_MaxHeight.Text = "123.456789";
             // 
@@ -678,7 +677,7 @@
             TB_MinHeight.Location = new System.Drawing.Point(5, 18);
             TB_MinHeight.Margin = new System.Windows.Forms.Padding(0);
             TB_MinHeight.Name = "TB_MinHeight";
-            TB_MinHeight.Size = new System.Drawing.Size(78, 23);
+            TB_MinHeight.Size = new System.Drawing.Size(78, 25);
             TB_MinHeight.TabIndex = 149;
             TB_MinHeight.Text = "123.456789";
             // 
@@ -707,10 +706,10 @@
             CB_DisplayForm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_DisplayForm.FormattingEnabled = true;
             CB_DisplayForm.Items.AddRange(new object[] { "♂", "♀", "-" });
-            CB_DisplayForm.Location = new System.Drawing.Point(824, 366);
+            CB_DisplayForm.Location = new System.Drawing.Point(840, 366);
             CB_DisplayForm.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_DisplayForm.Name = "CB_DisplayForm";
-            CB_DisplayForm.Size = new System.Drawing.Size(108, 23);
+            CB_DisplayForm.Size = new System.Drawing.Size(108, 25);
             CB_DisplayForm.TabIndex = 42;
             // 
             // GB_ResearchTasks
@@ -749,12 +748,12 @@
             // 
             MTB_UpdateIndex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             MTB_UpdateIndex.Enabled = false;
-            MTB_UpdateIndex.Location = new System.Drawing.Point(50, 276);
+            MTB_UpdateIndex.Location = new System.Drawing.Point(52, 276);
             MTB_UpdateIndex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             MTB_UpdateIndex.Mask = "999";
             MTB_UpdateIndex.Name = "MTB_UpdateIndex";
             MTB_UpdateIndex.PromptChar = ' ';
-            MTB_UpdateIndex.Size = new System.Drawing.Size(46, 23);
+            MTB_UpdateIndex.Size = new System.Drawing.Size(46, 25);
             MTB_UpdateIndex.TabIndex = 150;
             MTB_UpdateIndex.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -862,10 +861,10 @@
             // 
             CHK_Seen.AutoSize = true;
             CHK_Seen.Enabled = false;
-            CHK_Seen.Location = new System.Drawing.Point(313, 277);
+            CHK_Seen.Location = new System.Drawing.Point(321, 277);
             CHK_Seen.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Seen.Name = "CHK_Seen";
-            CHK_Seen.Size = new System.Drawing.Size(51, 19);
+            CHK_Seen.Size = new System.Drawing.Size(55, 21);
             CHK_Seen.TabIndex = 138;
             CHK_Seen.Text = "Seen";
             CHK_Seen.UseVisualStyleBackColor = true;
@@ -873,7 +872,7 @@
             // B_Report
             // 
             B_Report.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Report.Location = new System.Drawing.Point(537, 276);
+            B_Report.Location = new System.Drawing.Point(539, 276);
             B_Report.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Report.Name = "B_Report";
             B_Report.Size = new System.Drawing.Size(98, 27);
@@ -886,10 +885,10 @@
             // 
             CHK_Perfect.AutoSize = true;
             CHK_Perfect.Enabled = false;
-            CHK_Perfect.Location = new System.Drawing.Point(462, 277);
+            CHK_Perfect.Location = new System.Drawing.Point(468, 277);
             CHK_Perfect.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Perfect.Name = "CHK_Perfect";
-            CHK_Perfect.Size = new System.Drawing.Size(63, 19);
+            CHK_Perfect.Size = new System.Drawing.Size(67, 21);
             CHK_Perfect.TabIndex = 136;
             CHK_Perfect.Text = "Perfect";
             CHK_Perfect.UseVisualStyleBackColor = true;
@@ -898,10 +897,10 @@
             // 
             CHK_Complete.AutoSize = true;
             CHK_Complete.Enabled = false;
-            CHK_Complete.Location = new System.Drawing.Point(374, 277);
+            CHK_Complete.Location = new System.Drawing.Point(382, 277);
             CHK_Complete.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Complete.Name = "CHK_Complete";
-            CHK_Complete.Size = new System.Drawing.Size(78, 19);
+            CHK_Complete.Size = new System.Drawing.Size(83, 21);
             CHK_Complete.TabIndex = 135;
             CHK_Complete.Text = "Complete";
             CHK_Complete.UseVisualStyleBackColor = true;
@@ -910,21 +909,21 @@
             // 
             MTB_ResearchLevelUnreported.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             MTB_ResearchLevelUnreported.Enabled = false;
-            MTB_ResearchLevelUnreported.Location = new System.Drawing.Point(272, 276);
+            MTB_ResearchLevelUnreported.Location = new System.Drawing.Point(280, 276);
             MTB_ResearchLevelUnreported.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             MTB_ResearchLevelUnreported.Mask = "999";
             MTB_ResearchLevelUnreported.Name = "MTB_ResearchLevelUnreported";
             MTB_ResearchLevelUnreported.PromptChar = ' ';
-            MTB_ResearchLevelUnreported.Size = new System.Drawing.Size(29, 23);
+            MTB_ResearchLevelUnreported.Size = new System.Drawing.Size(29, 25);
             MTB_ResearchLevelUnreported.TabIndex = 134;
             MTB_ResearchLevelUnreported.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // L_ResearchLevelUnreported
             // 
-            L_ResearchLevelUnreported.Location = new System.Drawing.Point(198, 273);
+            L_ResearchLevelUnreported.Location = new System.Drawing.Point(202, 273);
             L_ResearchLevelUnreported.Margin = new System.Windows.Forms.Padding(0);
             L_ResearchLevelUnreported.Name = "L_ResearchLevelUnreported";
-            L_ResearchLevelUnreported.Size = new System.Drawing.Size(74, 24);
+            L_ResearchLevelUnreported.Size = new System.Drawing.Size(79, 24);
             L_ResearchLevelUnreported.TabIndex = 133;
             L_ResearchLevelUnreported.Text = "Unreported:";
             L_ResearchLevelUnreported.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -933,12 +932,12 @@
             // 
             MTB_ResearchLevelReported.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             MTB_ResearchLevelReported.Enabled = false;
-            MTB_ResearchLevelReported.Location = new System.Drawing.Point(167, 276);
+            MTB_ResearchLevelReported.Location = new System.Drawing.Point(169, 276);
             MTB_ResearchLevelReported.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             MTB_ResearchLevelReported.Mask = "999";
             MTB_ResearchLevelReported.Name = "MTB_ResearchLevelReported";
             MTB_ResearchLevelReported.PromptChar = ' ';
-            MTB_ResearchLevelReported.Size = new System.Drawing.Size(29, 23);
+            MTB_ResearchLevelReported.Size = new System.Drawing.Size(29, 25);
             MTB_ResearchLevelReported.TabIndex = 132;
             MTB_ResearchLevelReported.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -947,7 +946,7 @@
             L_ResearchLevelReported.Location = new System.Drawing.Point(100, 273);
             L_ResearchLevelReported.Margin = new System.Windows.Forms.Padding(0);
             L_ResearchLevelReported.Name = "L_ResearchLevelReported";
-            L_ResearchLevelReported.Size = new System.Drawing.Size(64, 24);
+            L_ResearchLevelReported.Size = new System.Drawing.Size(69, 24);
             L_ResearchLevelReported.TabIndex = 131;
             L_ResearchLevelReported.Text = "Reported:";
             L_ResearchLevelReported.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -968,18 +967,17 @@
             // 
             LB_Species.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             LB_Species.FormattingEnabled = true;
-            LB_Species.ItemHeight = 15;
             LB_Species.Location = new System.Drawing.Point(14, 38);
             LB_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LB_Species.Name = "LB_Species";
-            LB_Species.Size = new System.Drawing.Size(145, 319);
+            LB_Species.Size = new System.Drawing.Size(145, 310);
             LB_Species.TabIndex = 2;
             LB_Species.SelectedIndexChanged += ChangeLBSpecies;
             // 
             // SAV_PokedexLA
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(944, 543);
+            ClientSize = new System.Drawing.Size(960, 543);
             Controls.Add(CHK_Solitude);
             Controls.Add(GB_Statistics);
             Controls.Add(GB_ResearchTasks);
@@ -995,12 +993,11 @@
             Controls.Add(L_goto);
             Controls.Add(LB_Species);
             Controls.Add(B_Cancel);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = Properties.Resources.Icon;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MaximizeBox = false;
-            MaximumSize = new System.Drawing.Size(960, 582);
             MinimizeBox = false;
-            MinimumSize = new System.Drawing.Size(960, 582);
             Name = "SAV_PokedexLA";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Pokédex Editor";

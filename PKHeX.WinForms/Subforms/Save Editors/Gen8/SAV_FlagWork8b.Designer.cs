@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     sealed partial class SAV_FlagWork8b
     {
@@ -32,7 +32,7 @@
             GB_FlagStatus = new System.Windows.Forms.GroupBox();
             NUD_WorkIndex = new System.Windows.Forms.NumericUpDown();
             CHK_CustomFlag = new System.Windows.Forms.CheckBox();
-            button1 = new System.Windows.Forms.Button();
+            B_ApplyFlagSystem = new System.Windows.Forms.Button();
             NUD_System = new System.Windows.Forms.NumericUpDown();
             CHK_CustomSystem = new System.Windows.Forms.CheckBox();
             B_ApplyFlag = new System.Windows.Forms.Button();
@@ -85,7 +85,7 @@
             // 
             GB_FlagStatus.Controls.Add(NUD_WorkIndex);
             GB_FlagStatus.Controls.Add(CHK_CustomFlag);
-            GB_FlagStatus.Controls.Add(button1);
+            GB_FlagStatus.Controls.Add(B_ApplyFlagSystem);
             GB_FlagStatus.Controls.Add(NUD_System);
             GB_FlagStatus.Controls.Add(CHK_CustomSystem);
             GB_FlagStatus.Controls.Add(B_ApplyFlag);
@@ -108,7 +108,7 @@
             NUD_WorkIndex.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_WorkIndex.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
             NUD_WorkIndex.Name = "NUD_WorkIndex";
-            NUD_WorkIndex.Size = new System.Drawing.Size(52, 23);
+            NUD_WorkIndex.Size = new System.Drawing.Size(52, 25);
             NUD_WorkIndex.TabIndex = 46;
             NUD_WorkIndex.ValueChanged += ChangeConstantIndex;
             // 
@@ -124,16 +124,16 @@
             CHK_CustomFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CHK_CustomFlag.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // B_ApplyFlagSystem
             // 
-            button1.Location = new System.Drawing.Point(290, 44);
-            button1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(79, 27);
-            button1.TabIndex = 44;
-            button1.Text = "Apply";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += B_ApplySystemFlag_Click;
+            B_ApplyFlagSystem.Location = new System.Drawing.Point(290, 44);
+            B_ApplyFlagSystem.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ApplyFlagSystem.Name = "B_ApplyFlagSystem";
+            B_ApplyFlagSystem.Size = new System.Drawing.Size(79, 27);
+            B_ApplyFlagSystem.TabIndex = 44;
+            B_ApplyFlagSystem.Text = "Apply";
+            B_ApplyFlagSystem.UseVisualStyleBackColor = true;
+            B_ApplyFlagSystem.Click += B_ApplySystemFlag_Click;
             // 
             // NUD_System
             // 
@@ -141,7 +141,7 @@
             NUD_System.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_System.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
             NUD_System.Name = "NUD_System";
-            NUD_System.Size = new System.Drawing.Size(52, 23);
+            NUD_System.Size = new System.Drawing.Size(52, 25);
             NUD_System.TabIndex = 43;
             NUD_System.ValueChanged += ChangeCustomSystem;
             // 
@@ -186,7 +186,7 @@
             NUD_Work.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             NUD_Work.Minimum = new decimal(new int[] { int.MinValue, 0, 0, int.MinValue });
             NUD_Work.Name = "NUD_Work";
-            NUD_Work.Size = new System.Drawing.Size(98, 23);
+            NUD_Work.Size = new System.Drawing.Size(98, 25);
             NUD_Work.TabIndex = 38;
             // 
             // NUD_Flag
@@ -195,7 +195,7 @@
             NUD_Flag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Flag.Maximum = new decimal(new int[] { 3999, 0, 0, 0 });
             NUD_Flag.Name = "NUD_Flag";
-            NUD_Flag.Size = new System.Drawing.Size(52, 23);
+            NUD_Flag.Size = new System.Drawing.Size(52, 25);
             NUD_Flag.TabIndex = 9;
             NUD_Flag.ValueChanged += ChangeCustomFlag;
             // 
@@ -233,7 +233,7 @@
             GB_Researcher.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Researcher.Name = "GB_Researcher";
             GB_Researcher.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Researcher.Size = new System.Drawing.Size(485, 196);
+            GB_Researcher.Size = new System.Drawing.Size(485, 194);
             GB_Researcher.TabIndex = 13;
             GB_Researcher.TabStop = false;
             GB_Researcher.Text = "FlagDiff Researcher";
@@ -245,7 +245,7 @@
             RTB_Diff.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             RTB_Diff.Name = "RTB_Diff";
             RTB_Diff.ReadOnly = true;
-            RTB_Diff.Size = new System.Drawing.Size(481, 111);
+            RTB_Diff.Size = new System.Drawing.Size(481, 109);
             RTB_Diff.TabIndex = 6;
             RTB_Diff.Text = "";
             // 
@@ -256,7 +256,7 @@
             TB_NewSAV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_NewSAV.Name = "TB_NewSAV";
             TB_NewSAV.ReadOnly = true;
-            TB_NewSAV.Size = new System.Drawing.Size(369, 23);
+            TB_NewSAV.Size = new System.Drawing.Size(369, 25);
             TB_NewSAV.TabIndex = 5;
             // 
             // TB_OldSAV
@@ -266,7 +266,7 @@
             TB_OldSAV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_OldSAV.Name = "TB_OldSAV";
             TB_OldSAV.ReadOnly = true;
-            TB_OldSAV.Size = new System.Drawing.Size(369, 23);
+            TB_OldSAV.Size = new System.Drawing.Size(369, 25);
             TB_OldSAV.TabIndex = 4;
             // 
             // B_LoadNew
@@ -321,11 +321,11 @@
             // GB_Flags
             // 
             GB_Flags.Controls.Add(TLP_Flags);
-            GB_Flags.Location = new System.Drawing.Point(4, 24);
+            GB_Flags.Location = new System.Drawing.Point(4, 26);
             GB_Flags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Flags.Name = "GB_Flags";
             GB_Flags.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Flags.Size = new System.Drawing.Size(587, 329);
+            GB_Flags.Size = new System.Drawing.Size(587, 327);
             GB_Flags.TabIndex = 0;
             GB_Flags.Text = "Event Flags";
             GB_Flags.UseVisualStyleBackColor = true;
@@ -343,17 +343,17 @@
             TLP_Flags.RowCount = 2;
             TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Flags.Size = new System.Drawing.Size(579, 323);
+            TLP_Flags.Size = new System.Drawing.Size(579, 321);
             TLP_Flags.TabIndex = 1;
             // 
             // GB_System
             // 
             GB_System.Controls.Add(TLP_System);
-            GB_System.Location = new System.Drawing.Point(4, 24);
+            GB_System.Location = new System.Drawing.Point(4, 26);
             GB_System.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_System.Name = "GB_System";
             GB_System.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_System.Size = new System.Drawing.Size(587, 329);
+            GB_System.Size = new System.Drawing.Size(587, 327);
             GB_System.TabIndex = 3;
             GB_System.Text = "System Flags";
             GB_System.UseVisualStyleBackColor = true;
@@ -371,17 +371,17 @@
             TLP_System.RowCount = 2;
             TLP_System.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_System.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_System.Size = new System.Drawing.Size(579, 323);
+            TLP_System.Size = new System.Drawing.Size(579, 321);
             TLP_System.TabIndex = 1;
             // 
             // GB_Work
             // 
             GB_Work.Controls.Add(TLP_Work);
-            GB_Work.Location = new System.Drawing.Point(4, 24);
+            GB_Work.Location = new System.Drawing.Point(4, 26);
             GB_Work.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Work.Name = "GB_Work";
             GB_Work.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Work.Size = new System.Drawing.Size(587, 329);
+            GB_Work.Size = new System.Drawing.Size(587, 327);
             GB_Work.TabIndex = 1;
             GB_Work.Text = "Work Values";
             GB_Work.UseVisualStyleBackColor = true;
@@ -400,18 +400,18 @@
             TLP_Work.RowCount = 1;
             TLP_Work.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Work.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Work.Size = new System.Drawing.Size(579, 323);
+            TLP_Work.Size = new System.Drawing.Size(579, 321);
             TLP_Work.TabIndex = 2;
             // 
             // GB_Research
             // 
             GB_Research.Controls.Add(GB_FlagStatus);
             GB_Research.Controls.Add(GB_Researcher);
-            GB_Research.Location = new System.Drawing.Point(4, 24);
+            GB_Research.Location = new System.Drawing.Point(4, 26);
             GB_Research.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Research.Name = "GB_Research";
             GB_Research.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Research.Size = new System.Drawing.Size(587, 329);
+            GB_Research.Size = new System.Drawing.Size(587, 327);
             GB_Research.TabIndex = 2;
             GB_Research.Text = "Research";
             GB_Research.UseVisualStyleBackColor = true;
@@ -470,7 +470,7 @@
         private System.Windows.Forms.Button B_ApplyWork;
         private System.Windows.Forms.RichTextBox RTB_Diff;
         private System.Windows.Forms.TabPage GB_System;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button B_ApplyFlagSystem;
         private System.Windows.Forms.NumericUpDown NUD_System;
         private System.Windows.Forms.CheckBox CHK_CustomSystem;
         private System.Windows.Forms.CheckBox CHK_CustomFlag;

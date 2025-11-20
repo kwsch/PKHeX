@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_BoxLayout
     {
@@ -52,13 +52,12 @@
             // 
             LB_BoxSelect.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             LB_BoxSelect.FormattingEnabled = true;
-            LB_BoxSelect.ItemHeight = 15;
             LB_BoxSelect.Items.AddRange(new object[] { "Boxes" });
             LB_BoxSelect.Location = new System.Drawing.Point(14, 16);
             LB_BoxSelect.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LB_BoxSelect.Name = "LB_BoxSelect";
-            LB_BoxSelect.Size = new System.Drawing.Size(129, 334);
-            LB_BoxSelect.TabIndex = 0;
+            LB_BoxSelect.Size = new System.Drawing.Size(129, 327);
+            LB_BoxSelect.TabIndex = 3;
             LB_BoxSelect.SelectedIndexChanged += ChangeBox;
             // 
             // TB_BoxName
@@ -67,8 +66,8 @@
             TB_BoxName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_BoxName.MaxLength = 15;
             TB_BoxName.Name = "TB_BoxName";
-            TB_BoxName.Size = new System.Drawing.Size(158, 23);
-            TB_BoxName.TabIndex = 1;
+            TB_BoxName.Size = new System.Drawing.Size(158, 25);
+            TB_BoxName.TabIndex = 4;
             TB_BoxName.WordWrap = false;
             TB_BoxName.TextChanged += ChangeBoxDetails;
             // 
@@ -78,7 +77,7 @@
             L_BoxName.Location = new System.Drawing.Point(182, 22);
             L_BoxName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_BoxName.Name = "L_BoxName";
-            L_BoxName.Size = new System.Drawing.Size(65, 15);
+            L_BoxName.Size = new System.Drawing.Size(71, 17);
             L_BoxName.TabIndex = 2;
             L_BoxName.Text = "Box Name:";
             // 
@@ -89,7 +88,7 @@
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(78, 27);
-            B_Save.TabIndex = 9;
+            B_Save.TabIndex = 2;
             B_Save.Text = "Save";
             B_Save.UseVisualStyleBackColor = true;
             B_Save.Click += B_Save_Click;
@@ -101,7 +100,7 @@
             B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(78, 27);
-            B_Cancel.TabIndex = 10;
+            B_Cancel.TabIndex = 1;
             B_Cancel.Text = "Cancel";
             B_Cancel.UseVisualStyleBackColor = true;
             B_Cancel.Click += B_Cancel_Click;
@@ -114,8 +113,8 @@
             CB_BG.Location = new System.Drawing.Point(350, 39);
             CB_BG.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_BG.Name = "CB_BG";
-            CB_BG.Size = new System.Drawing.Size(159, 23);
-            CB_BG.TabIndex = 13;
+            CB_BG.Size = new System.Drawing.Size(159, 25);
+            CB_BG.TabIndex = 5;
             CB_BG.SelectedIndexChanged += ChangeBoxBackground;
             // 
             // PAN_BG
@@ -166,8 +165,8 @@
             CB_Unlocked.Location = new System.Drawing.Point(90, 0);
             CB_Unlocked.Margin = new System.Windows.Forms.Padding(0);
             CB_Unlocked.Name = "CB_Unlocked";
-            CB_Unlocked.Size = new System.Drawing.Size(46, 23);
-            CB_Unlocked.TabIndex = 0;
+            CB_Unlocked.Size = new System.Drawing.Size(46, 25);
+            CB_Unlocked.TabIndex = 8;
             // 
             // FLP_Flags
             // 
@@ -194,7 +193,7 @@
             B_Up.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Up.Name = "B_Up";
             B_Up.Size = new System.Drawing.Size(27, 27);
-            B_Up.TabIndex = 16;
+            B_Up.TabIndex = 6;
             B_Up.Text = "^";
             B_Up.UseVisualStyleBackColor = true;
             B_Up.Click += MoveBox;
@@ -205,7 +204,7 @@
             B_Down.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Down.Name = "B_Down";
             B_Down.Size = new System.Drawing.Size(27, 27);
-            B_Down.TabIndex = 17;
+            B_Down.TabIndex = 7;
             B_Down.Text = "v";
             B_Down.UseVisualStyleBackColor = true;
             B_Down.Click += MoveBox;

@@ -503,6 +503,7 @@ public static class WinFormsUtil
         EntityContext.Gen7b => "Beluga Gift Record|*.wr7" + all,
         EntityContext.Gen8b => "BD/SP Gift|*.wb8" + all,
         EntityContext.Gen8a => "Legends: Arceus Gift|*.wa8" + all,
+        EntityContext.Gen9a => "Legends: Z-A Gift|*.wa9" + all,
         _ => string.Empty,
     };
 
@@ -563,7 +564,9 @@ public static class WinFormsUtil
             InvertToolStripIcons(item.DropDownItems);
             if (item.Image is not { } x)
                 continue;
-            item.Image = Drawing.ImageUtil.ChangeAllColorTo(x, Color.White);
+            item.Image = BlackToWhite(x);
         }
     }
+
+    public static Bitmap BlackToWhite(Image img) => Drawing.ImageUtil.ChangeAllColorTo(img, Color.White);
 }

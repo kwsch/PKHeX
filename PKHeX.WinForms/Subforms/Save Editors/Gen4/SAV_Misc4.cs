@@ -247,7 +247,9 @@ public partial class SAV_Misc4 : Form
     {
         if (inp.Length != DotMatrixPixelCount / 4)
             return;
-        PB_DotArtist.Image = GetDotArt(inp);
+        var img = GetDotArt(inp);
+        PB_DotArtist.Image = img;
+        PB_DotArtist.Size = new(img.Width + 2, img.Height + 2); // 1px border
     }
 
     private void SetFlagsFromFileName(string fileName)

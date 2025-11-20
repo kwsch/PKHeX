@@ -324,6 +324,6 @@ public static class PogoTypeExtensions
             _ => Ball.None, // Poké, Great, Ultra
         };
 
-        private bool IsSpecialResearch() => encounterType is >= SpecialMythical and <= TimedLevelRange;
+        private bool IsSpecialResearch() => encounterType is >= SpecialMythical and < TimedMythical;
     }
 }

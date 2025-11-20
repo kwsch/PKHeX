@@ -221,6 +221,7 @@ public static class DevUtil
         "Hidden_", // Hidden controls
         "CAL_", // calendar controls now expose Text, don't care.
         ".Count", // enum count
+        $"{nameof(QR)}.L_", // Box/Slot/Count don't bother
         $"{nameof(Main)}.L_SizeH", // height rating
         $"{nameof(Main)}.L_SizeW", // weight rating
         $"{nameof(Main)}.L_SizeS", // scale rating

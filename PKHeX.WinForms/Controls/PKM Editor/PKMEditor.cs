@@ -573,7 +573,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         var img = GetOriginSpriteResource(pk);
         if (img is null || !Application.IsDarkModeEnabled)
             return img;
-        return ImageUtil.ChangeAllColorTo(img, Color.White);
+        return WinFormsUtil.BlackToWhite(img);
     }
 
     private static Bitmap? GetOriginSpriteResource(PKM pk) => OriginMarkUtil.GetOriginMark(pk) switch
@@ -2188,7 +2188,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             b.BattleVersion = value;
         var sprite = GetMarkSprite(PB_BattleVersion, value != 0);
         if (Application.IsDarkModeEnabled)
-            sprite = ImageUtil.ChangeAllColorTo(sprite, Color.White);
+            sprite = WinFormsUtil.BlackToWhite(sprite);
         PB_BattleVersion.Image = sprite;
     }
 
