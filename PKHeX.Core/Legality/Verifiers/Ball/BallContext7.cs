@@ -107,19 +107,6 @@ public sealed class BallContext7 : IBallContext
 
     private static bool IsBannedHiddenGen4(ushort species) => species switch
     {
-        (int)Chikorita => true,
-        (int)Cyndaquil => true,
-        (int)Totodile => true,
-        (int)Treecko => true,
-        (int)Torchic => true,
-        (int)Mudkip => true,
-        (int)Turtwig => true,
-        (int)Chimchar => true,
-        (int)Piplup => true,
-        (int)Snivy => true,
-        (int)Tepig => true,
-        (int)Oshawott => true,
-
         // Fossil Only obtain
         (int)Archen => true,
         (int)Tyrunt => true,
