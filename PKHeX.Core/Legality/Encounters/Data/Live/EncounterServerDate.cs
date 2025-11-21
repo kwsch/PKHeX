@@ -235,6 +235,7 @@ public static class EncounterServerDate
         {0525, new(2025, 08, 15, 2025, 08, 23)}, // WCS 2025 Luca Ceribelli's Farigiraf
         {1540, new(2025, 09, 25, 2025, 10, 25)}, // Shiny Miraidon / Koraidon Gift
         {0070, new(2025, 10, 31, 2027, 02, 01)}, // Poké Center Fidough Birthday Gift
+        {0526, new(2025, 11, 21, 2025, 12, 01)}, // LAIC 2026 Federico Camporesi’s Whimsicott
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
