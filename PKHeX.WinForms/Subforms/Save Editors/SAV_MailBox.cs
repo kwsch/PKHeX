@@ -52,7 +52,7 @@ public partial class SAV_MailBox : Form
         GB_MessageNUD.Visible = Generation != 2;
         Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Generation is 4 or 5;
         NUD_AuthorSID.Visible = Generation != 2;
-        Label_OTGender.Visible = CB_AuthorVersion.Visible = Generation is 4 or 5;
+        GT_AuthorGender.Visible = CB_AuthorVersion.Visible = Generation is 4 or 5;
         L_AppearPKM.Visible = AppearPKMs[0].Visible = Generation != 5;
         AppearPKMs[1].Visible = AppearPKMs[2].Visible = Generation == 4;
         NUD_MessageEnding.Visible = Generation == 5;
@@ -299,7 +299,7 @@ public partial class SAV_MailBox : Form
         // ReSharper disable once ConstantNullCoalescingCondition
         mail.AuthorVersion = (byte)((int?)CB_AuthorVersion.SelectedValue ?? 0);
 
-        mail.AuthorGender = (byte)((mail.AuthorGender & 0xFE) | (LabelValue_GenderF ? 1 : 0));
+        mail.AuthorGender = (byte)((mail.AuthorGender & 0xFE) | (GT_AuthorGender.Gender));
         switch (mail)
         {
             case Mail4 m4:
@@ -539,7 +539,7 @@ public partial class SAV_MailBox : Form
         }
         CB_AuthorVersion.SelectedValue = (int)mail.AuthorVersion;
         LabelValue_GenderF = (mail.AuthorGender & 1) != 0;
-        LoadOTlabel();
+        GT_AuthorGender.Gender = (byte)(LabelValue_GenderF ? 1 : 0);
         switch (mail)
         {
             case Mail4 m4:
@@ -553,20 +553,6 @@ public partial class SAV_MailBox : Form
                 break;
         }
         editing = false;
-    }
-
-    private readonly string[] gendersymbols = ["♂", "♀"];
-
-    private void LoadOTlabel()
-    {
-        Label_OTGender.Text = gendersymbols[LabelValue_GenderF ? 1 : 0];
-        Label_OTGender.ForeColor = Main.Draw.GetGenderColor((byte)(LabelValue_GenderF ? 1 : 0));
-    }
-
-    private void Label_OTGender_Click(object sender, EventArgs e)
-    {
-        LabelValue_GenderF ^= true;
-        LoadOTlabel();
     }
 
     private void NUD_BoxSize_ValueChanged(object sender, EventArgs e) => MakePCList();
