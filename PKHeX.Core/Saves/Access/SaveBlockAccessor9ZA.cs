@@ -23,6 +23,7 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     public Epoch1900DateTimeValue EnrollmentDate { get; } = new(Block(sav, KEnrollmentDate)); // not actually used
     public Coordinates9a Coordinates { get; } = new(sav, Block(sav, KCoordinates));
     public InfiniteRoyale9a InfiniteRoyale { get; } = new(sav, Block(sav, KInfiniteRoyale));
+    public PlayerAppearance9a PlayerAppearance { get; } = new(sav, Block(sav, KCurrentAppearance));
     public PlayerFashion9a PlayerFashion { get; } = new(sav, Block(sav, KCurrentClothing));
     public ConfigSave9a Config { get; } = new(sav, Block(sav, KConfig));
 
