@@ -14,7 +14,7 @@ public sealed record EncounterGift3JPN(ushort Species, Distribution3JPN Distribu
     public Distribution3JPN Distribution { get; } = Distribution;
     public const byte Level = 10;
 
-    private const PIDType Method = PIDType.BACD_U_AX;
+    private const PIDType Method = PIDType.BACD_R_A;
     public PIDType GetSuggestedCorrelation() => Method;
 
     public byte Form => 0;
@@ -78,7 +78,7 @@ public sealed record EncounterGift3JPN(ushort Species, Distribution3JPN Distribu
         var idXor = pk.TID16; // no SID
         while (true)
         {
-            var pid = CommonEvent3.GetAntishiny(ref seed, idXor);
+            var pid = CommonEvent3.GetRegularAntishiny(ref seed, idXor);
             if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue; // try again
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))
@@ -156,7 +156,7 @@ public sealed record EncounterGift3JPN(ushort Species, Distribution3JPN Distribu
     {
         var prev = value.Mutated; // if previously revised, use that instead.
         var type = prev is 0 ? value.Type : prev;
-        if (type is not PIDType.BACD_AX)
+        if (type is not (PIDType.BACD or PIDType.BACD_R))
             return Mismatch;
 
         var seed = value.OriginSeed;
