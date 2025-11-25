@@ -158,7 +158,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
 
         // Azurill-F can change to M when evolving in Gen4 (but not in Gen5+) due to Gender Ratio differences.
         if (pk.Species != Species && Species == (ushort)Core.Species.Azurill && Gender == 1)
-            return EntityGender.GetFromPIDAndRatio(pk.PID, 0xBF) == Gender;
+            return EntityGender.GetFromPID(pk.PID, EntityGender.MF) == Gender;
 
         return true;
     }

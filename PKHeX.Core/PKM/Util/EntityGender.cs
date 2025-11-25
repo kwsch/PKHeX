@@ -58,8 +58,16 @@ public static class EntityGender
         PersonalInfo.RatioMagicGenderless => Genderless,
         PersonalInfo.RatioMagicFemale => Female,
         PersonalInfo.RatioMagicMale => Male,
-        _ => (pid & 0xFF) < gr ? Female : Male,
+        _ => GetFromPID(pid, gr),
     };
+
+    /// <summary>
+    /// Gets the gender for bi-gender species based on the <see cref="pid"/> and <see cref="gr"/> values.
+    /// </summary>
+    /// <param name="pid">Personality ID.</param>
+    /// <param name="gr">Gender Ratio.</param>
+    /// <remarks>Assumes single-gender species are not relevant when called.</remarks>
+    public static byte GetFromPID(uint pid, byte gr) => (pid & 0xFF) < gr ? Female : Male;
 
     /// <summary>
     /// Checks if the species (base form) can be female.
