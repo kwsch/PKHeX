@@ -170,7 +170,28 @@ public static class PokewalkerRNG
             if (IsSeedFormatStroll(s)) // don't check species; can be disassociated from slots.
                 return new(s, MaxPriorPokes, PokewalkerSeedType.Stroll); // decrement priorPoke back to 0-indexed
         }
-        return default;
+
+        // Reset the seeds; recomputing doesn't take too much time since this is incredibly rare for a passing case.
+        LCRNGReversal.GetSeedsIVs(result, first, second); // could just reverse all seeds n steps with a single *a+b, but this is clearer.
+        return GetMicTest(result);
+    }
+
+    private static PokewalkerSeedResult GetMicTest(Span<uint> result)
+    {
+        // Initiating a mic test can advance the seed from the initial NoStroll seed to any "initial" seed. Reverse to find a possible starting initial seed.
+        uint ctr = 0;
+        while (true)
+        {
+            foreach (ref var seed in result)
+            {
+                if (IsSeedFormatNoStroll(seed))
+                    return new(seed, ctr, PokewalkerSeedType.MicTestNoStroll);
+                if (ctr != 0 && IsSeedFormatStroll(seed))
+                    return new(seed, (ctr - 1), PokewalkerSeedType.MicTestStroll);
+                seed = LCRNG.Prev(seed);
+            }
+            ctr++;
+        }
     }
 
     /// <summary>
@@ -341,10 +362,36 @@ public static class PokewalkerRNG
 /// <summary>
 /// Wrapper for Pokewalker Seed Results
 /// </summary>
-/// <param name="Seed">32-bit seed</param>
-/// <param name="PriorPoke">Count of Pokémon generated prior to the checked Pokémon. Maximum value: <see cref="PokewalkerRNG.MaxPriorPokes"/> (539)</param>
-/// <param name="Type">Type of seed</param>
-public readonly record struct PokewalkerSeedResult(uint Seed, ushort PriorPoke, PokewalkerSeedType Type);
+[StructLayout(LayoutKind.Explicit)]
+public readonly record struct PokewalkerSeedResult
+{
+    /// <summary>
+    /// Wrapper for Pokewalker Seed Results
+    /// </summary>
+    public PokewalkerSeedResult(uint seed, uint value, PokewalkerSeedType type)
+    {
+        Seed = seed;
+        Value = value;
+        Type = type;
+    }
+
+    /// <summary>32-bit seed</summary>
+    [field: FieldOffset(0)] public uint Seed { get; }
+
+    /// <summary>
+    /// Only the lower 24-bits are used.
+    /// </summary>
+    [field: FieldOffset(4)] private uint Value { get; }
+
+    /// <summary>Type of seed</summary>
+    [field: FieldOffset(7)] public PokewalkerSeedType Type { get; }
+
+    /// <remarks>
+    /// Mic Test: frames advanced from initial seed to the checked seed.
+    /// Not Mic Test: Count of Pokémon generated prior to the checked Pokémon. Maximum value: <see cref="PokewalkerRNG.MaxPriorPokes"/> (539)
+    /// </remarks>
+    public uint Count => Value & 0x00_FFFFFF;
+}
 
 /// <summary>
 /// Type of Pokewalker Seed
@@ -357,4 +404,8 @@ public enum PokewalkerSeedType : byte
     Stroll = 1,
     /// <summary> No Stroll Seed </summary>
     NoStroll = 2,
+    /// <summary> Mic Test Stroll Seed </summary>
+    MicTestStroll = 3,
+    /// <summary> Mic Test No Stroll Seed </summary>
+    MicTestNoStroll = 4,
 }

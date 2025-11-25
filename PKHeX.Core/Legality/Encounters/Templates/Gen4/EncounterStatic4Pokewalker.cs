@@ -117,8 +117,10 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         if (criteria.IsSpecifiedIVsAll()) // Don't trust that the requirements are valid
         {
             criteria.GetCombinedIVs(out var iv1, out var iv2);
-            var seed = PokewalkerRNG.GetLeastEffortSeed(iv1, iv2);
-            if (seed.Type != PokewalkerSeedType.None)
+
+            // With Mic Test, any seed can be the seed that immediately generates the IVs.
+            var ctr = LCRNGReversal.GetSeedsIVs(stackalloc uint[LCRNG.MaxCountSeedsIV], iv1, iv2);
+            if (ctr != 0)
                 return criteria.GetCombinedIVs();
         }
         PokewalkerRNG.GetRandomIVs(criteria, out var iv32);
