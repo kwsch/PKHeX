@@ -46,8 +46,13 @@ public static class PlusRecordApplicator
             {
                 var learn = LearnSource9ZA.Instance;
                 SetPlusFlagsNatural(record, permit, evos, learn, seedOfMastery);
-                if (pa9 is { IsAlpha: true, PersonalInfo: { } pi })
-                    SetPlusFlagsSpecific(pa9, pi, pi.AlphaMove);
+                if (pa9 is { IsAlpha: true, ZA: true })
+                {
+                    var table = PersonalTable.ZA;
+                    var enc = la.EncounterMatch;
+                    var epi = table[enc.Species, enc.Form];
+                    SetPlusFlagsSpecific(pa9, epi, epi.AlphaMove);
+                }
 
                 if (tm)
                 {

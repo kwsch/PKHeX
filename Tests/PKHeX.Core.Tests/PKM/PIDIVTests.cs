@@ -175,7 +175,7 @@ public class PIDIVTest
     {
         var result = PokewalkerRNG.GetLeastEffortSeed(hp, atk, def, spA, spD, spE);
         result.Type.Should().Be(type);
-        result.PriorPoke.Should().Be(expect);
+        result.Count.Should().Be(expect);
         result.Seed.Should().Be(seed);
     }
 

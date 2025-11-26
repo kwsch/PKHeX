@@ -117,8 +117,10 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         if (criteria.IsSpecifiedIVsAll()) // Don't trust that the requirements are valid
         {
             criteria.GetCombinedIVs(out var iv1, out var iv2);
-            var seed = PokewalkerRNG.GetLeastEffortSeed(iv1, iv2);
-            if (seed.Type != PokewalkerSeedType.None)
+
+            // With Mic Test, any seed can be the seed that immediately generates the IVs.
+            var ctr = LCRNGReversal.GetSeedsIVs(stackalloc uint[LCRNG.MaxCountSeedsIV], iv1, iv2);
+            if (ctr != 0)
                 return criteria.GetCombinedIVs();
         }
         PokewalkerRNG.GetRandomIVs(criteria, out var iv32);
@@ -158,7 +160,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
 
         // Azurill-F can change to M when evolving in Gen4 (but not in Gen5+) due to Gender Ratio differences.
         if (pk.Species != Species && Species == (ushort)Core.Species.Azurill && Gender == 1)
-            return EntityGender.GetFromPIDAndRatio(pk.PID, 0xBF) == Gender;
+            return EntityGender.GetFromPID(pk.PID, EntityGender.MF) == Gender;
 
         return true;
     }

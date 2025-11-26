@@ -280,7 +280,7 @@ public abstract class InventoryPouch
             return false;
         }
 
-        if (count > 0)
+        if (count > 0 && item is not ColorfulScrew9a.ColorfulScrewItemIndex) // need to rewrite this later
             count = GetSuggestedItemCount(sav, item, count);
         return true;
     }

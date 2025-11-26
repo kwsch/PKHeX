@@ -482,6 +482,7 @@
 .*cunilingus.*
 .*cunni.*
 .*cunt.*
+.*cvlt.*
 .*cvoлoab.*
 .*cvoлoyb.*
 .*cwoлoab.*
@@ -870,6 +871,7 @@
 .*hatejew.*
 .*hatequeer.*
 .*hatetrans.*
+.*hawktuah.*
 .*haцnct.*
 .*haцuct.*
 .*hdolfaitler.*
@@ -4521,6 +4523,7 @@
 ^ダツプン$
 ^チンゲ$
 ^バカ$
+^ヒマンジ$
 ^リスカ$
 ^씨발$
 ^아날$

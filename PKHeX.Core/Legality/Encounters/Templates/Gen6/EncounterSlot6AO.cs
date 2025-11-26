@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.ORAS"/>.
 /// </summary>
 public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IEncounterFormRandom, IEncounterDownlevel
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IEncounterFormRandom, IEncounterDownlevel, ISingleMoveBonus
 {
     public byte Generation => 6;
     public EntityContext Context => EntityContext.Gen6;
@@ -24,18 +24,25 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
     public ushort Location => Parent.Location;
     public SlotType6 Type => Parent.Type;
     public bool CanDexNav => Type != Rock_Smash;
+
+    /// <summary>
+    /// DexNav encounters can provide a move bonus.
+    /// </summary>
+    public bool IsMoveBonusPossible => CanDexNav;
+    public bool IsMoveBonusRequired => false;
+
     public bool IsHorde => Type == Horde;
 
-    private HiddenAbilityPermission IsHiddenAbilitySlot() => CanDexNav || IsHorde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
+    private HiddenAbilityPermission IsHiddenAbilitySlot() => IsMoveBonusPossible || IsHorde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 
-    private ReadOnlySpan<ushort> GetDexNavMoves()
+    public ReadOnlySpan<ushort> GetMoveBonusPossible()
     {
         var et = EvolutionTree.Evolves6;
         var baby = et.GetBaseSpeciesForm(Species, Form);
         return LearnSource6AO.Instance.GetEggMoves(baby.Species, baby.Form);
     }
 
-    public bool CanBeDexNavMove(ushort move) => GetDexNavMoves().Contains(move);
+    public bool IsMoveBonus(ushort move) => GetMoveBonusPossible().Contains(move);
 
     public AbilityPermission Ability => IsHiddenAbilitySlot() switch
     {
@@ -85,9 +92,9 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
 
         SetPINGA(pk, criteria, pi);
         EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
-        if (CanDexNav)
+        if (IsMoveBonusPossible)
         {
-            var eggMoves = GetDexNavMoves();
+            var eggMoves = GetMoveBonusPossible();
             if (eggMoves.Length != 0)
                 pk.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
         }
@@ -113,6 +120,18 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         criteria.SetRandomIVs(pk);
+    }
+
+    public bool TryGetRandomMoveBonus(out ushort move)
+    {
+        var moves = GetMoveBonusPossible();
+        if (moves.Length == 0)
+        {
+            move = 0;
+            return false;
+        }
+        move = moves[Util.Rand.Next(moves.Length)];
+        return true;
     }
     #endregion
 

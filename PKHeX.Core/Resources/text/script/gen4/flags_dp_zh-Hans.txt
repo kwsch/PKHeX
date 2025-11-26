@@ -46,9 +46,9 @@
 2433	s	与训练家第二次重战已解锁
 0251	g	得到小福蛋的蛋
 0305	g	已获得伊布
-0226	g	Riolu Egg Gift from Riley Pending (Iron Island)
-0229	g	Received Riolu Egg Gift from Riley (Iron Island)
-0515	s	Riley Disappeared from Iron Island
+0226	g	来自亚玄的利路欧蛋 待领取(钢铁岛)
+0229	g	来自亚玄的利路欧蛋 已领取(钢铁岛)
+0515	s	亚玄从钢铁岛消失了
 2430	*	已解锁水木的电脑
 2728	r	星期五飘飘球已消失
 2722	r	已知今天豪宅的后院宝可梦

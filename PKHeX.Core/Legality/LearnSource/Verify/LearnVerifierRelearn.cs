@@ -16,10 +16,8 @@ public static class LearnVerifierRelearn
             VerifyRelearnSpecifiedMoveset(pk, x, result);
         else if (enc is IEncounterEgg e)
             VerifyEggMoveset(e, result, pk);
-        else if (enc is EncounterSlot6AO { CanDexNav: true } z && pk.RelearnMove1 != 0)
-            VerifyRelearnDexNav(pk, result, z);
-        else if (enc is EncounterSlot8b { IsUnderground: true } u)
-            VerifyRelearnUnderground(pk, result, u);
+        else if (enc is ISingleMoveBonus { IsMoveBonusPossible: true } z && (z.IsMoveBonusRequired ||  pk.RelearnMove1 != 0))
+            VerifyRelearnBonusMove(pk, result, z);
         else
             VerifyRelearnNone(pk, result);
     }
@@ -44,26 +42,15 @@ public static class LearnVerifierRelearn
         return MoveResult.Relearn;
     }
 
-    private static void VerifyRelearnDexNav(PKM pk, Span<MoveResult> result, EncounterSlot6AO slot)
+    private static void VerifyRelearnBonusMove(PKM pk, Span<MoveResult> result, ISingleMoveBonus slot)
     {
         // Only has one relearn move from the encounter. Every other relearn move must be empty.
         result[3] = ParseExpect(pk.RelearnMove4);
         result[2] = ParseExpect(pk.RelearnMove3);
         result[1] = ParseExpect(pk.RelearnMove2);
 
-        // DexNav Pokémon can have 1 random egg move as a relearn move.
-        result[0] = slot.CanBeDexNavMove(pk.RelearnMove1) ? MoveResult.Relearn : MoveResult.Unobtainable(); // DexNav
-    }
-
-    private static void VerifyRelearnUnderground(PKM pk, Span<MoveResult> result, EncounterSlot8b slot)
-    {
-        // Only has one relearn move from the encounter. Every other relearn move must be empty.
-        result[3] = ParseExpect(pk.RelearnMove4);
-        result[2] = ParseExpect(pk.RelearnMove3);
-        result[1] = ParseExpect(pk.RelearnMove2);
-
-        // Underground Pokémon can have 1 random egg move as a relearn move.
-        result[0] = slot.CanBeUndergroundMove(pk.RelearnMove1) ? MoveResult.Relearn : MoveResult.Unobtainable(); // Underground
+        // 1 random egg move as a relearn move.
+        result[0] = slot.IsMoveBonus(pk.RelearnMove1) ? MoveResult.Relearn : MoveResult.Unobtainable();
     }
 
     private static void VerifyRelearnNone(PKM pk, Span<MoveResult> result)

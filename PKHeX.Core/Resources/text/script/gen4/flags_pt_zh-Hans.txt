@@ -58,9 +58,9 @@
 1339	s	在岩山遗迹找到硬石头
 0151	g	获得多边兽
 0305	g	获得伊布
-0226	g	Riolu Egg Gift from Riley Pending (Iron Island)
-0229	g	Received Riolu Egg Gift from Riley (Iron Island)
-0485	s	Riley Disappeared from Iron Island
+0226	g	来自亚玄的利路欧蛋 待领取(钢铁岛)
+0229	g	来自亚玄的利路欧蛋 已领取(钢铁岛)
+0485	s	亚玄从钢铁岛消失了
 2430	*	解锁水木的电脑
 2433	s	与训练家第二次重战已解锁
 2728	r	星期五飘飘球已消失

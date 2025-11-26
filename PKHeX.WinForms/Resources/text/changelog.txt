@@ -1,7 +1,19 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/11/07 - New Update
+25/11/16 - New Update:
+ - Legality: Improved location ID detection of wild encounters, should work for 99.9%.
+ - - Crossovers are not currently handled for detecting location IDs. Generating from encounter template is 100% legal.
+ - - Fixed: Gen9a Ability change rules for Z-A have been updated to reflect form change behavior and encounter selection.
+ - - Fixed: Gen9a minimum move count rules have been updated to ignore optional relearn moves (still not perfect).
+ - - Fixed: Gen8 Raid shinies no longer flagged illegal, rather unverified like before.
+ - - Fixed: Gen8/8b now allow Rare Candy @ lvl100 triggering evolution. Thanks JeongJeong !
+ - Fixed: Running PKHeX with LATAM language selected no longer crashes for past-gen string fetches.
+ - Fixed: Gen9a Colorful Screw quantity can now be edited again. Previous release had prevented changes so Give All did not set to 995.
+ - Changed: Gen9a Alpha IVs from generated templates are more random than before.
+ - Changed: Entity Editor move edit dropdown now shows egg moves/encounter moves in green if possible for the current entity.
+
+25/11/07 - New Update: (246496) [11486487]
  - Fixed inventory edits.
 
 25/11/06 - New Update:

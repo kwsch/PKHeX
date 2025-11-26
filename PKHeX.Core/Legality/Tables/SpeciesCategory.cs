@@ -71,6 +71,11 @@ public static class SpeciesCategory
         or (int)GougingFire or (int)RagingBolt or (int)IronBoulder or (int)IronCrown;
 
     /// <summary>
+    /// Checks if the <see cref="species"/> belongs to any special species classification.
+    /// </summary>
+    public static bool IsSpecialPokemon(ushort species) => IsLegendary(species) || IsSubLegendary(species) || IsMythical(species) || IsUltraBeast(species) || IsParadox(species);
+
+    /// <summary>
     /// Checks if the <see cref="currentSpecies"/> is a species that evolved from a bi-gendered species into a single-gendered species/form.
     /// </summary>
     public static bool IsFixedGenderFromDual(ushort currentSpecies) => currentSpecies switch
