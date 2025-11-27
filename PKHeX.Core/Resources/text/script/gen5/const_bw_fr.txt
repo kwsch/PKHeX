@@ -1,0 +1,11 @@
+0048	*	Pokémon de Départ	0:Vipélierre,1:Gruikui,2:Moustillon
+0182	r	Château de N	0:Événement,1:Événement,2:Avant Reshiram/Zekrom,3:Avant N,4:Événement,5:Avant Ghetis
+0145	r	Victini	0:Événement,1:Événement,2:Affrontable,3:Vaincu,4:Capturé,5:Événement complété,6:Disparu
+0206	r	Démétéros	0:Événement,1:Événement,2:Événement,3:Affrontable,4:Disparu
+0216	r	Grotte de Kyurem (Grotte Cyclopéenne)	0:Accessible,1:Accès peut être reset,2:Inaccessible (Capturé)
+0056	r	Bois des Illusions	0:Illusion de Zoroark (1),1032:Normal
+0131	g	Fille des Vestiges	0:Pas encore interagit,1:Singe élémentaire en attente,2:A reçu le singe élémentaire
+0199	r	Événement de Zorua	0:Déguisé en petit garçon (1),1:Révélé/Attrapable (2),3:Attrapé
+0201	r	Événement de Zoroark	0:Actif (1),1:Vaincue,2:Attrapée
+0202	r	Événement du Labo P2	0:Pas activé,1:Activé,2:Combat Scientifique Norbert en attente,3:Modules reçus
+0218	g	Bigrond (Vaguelone)	0:Veut faire un échange,1:A échangé son Goinfrex,2:Après l'échange
