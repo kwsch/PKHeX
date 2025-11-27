@@ -543,7 +543,7 @@ public static class MethodFinder
         if (species is not ((int)Species.Marill or (int)Species.Azumarill))
             return false;
 
-        const byte AzurillGenderRatio = 0xBF;
+        const byte AzurillGenderRatio = EntityGender.MF;
         var gender = EntityGender.GetFromPIDAndRatio(actualPID, AzurillGenderRatio);
         if (gender != 1)
             return false;

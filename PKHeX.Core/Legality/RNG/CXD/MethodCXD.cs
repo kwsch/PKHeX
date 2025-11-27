@@ -282,7 +282,7 @@ public static class MethodCXD
             uint pid = GetPID(s);
             if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue;
-            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, 0x1F)))
+            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPID(pid, EntityGender.VM)))
                 continue;
 
             var ivSeed = XDRNG.Next4(seed);
@@ -359,7 +359,7 @@ public static class MethodCXD
             var pid = GetPIDRegular(ref seed);
             if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                 continue;
-            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, GenderRatioMale87_5)))
+            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPID(pid, EntityGender.VM)))
                 continue;
 
             var tid = XDRNG.Next16(ref start);
@@ -515,9 +515,7 @@ public static class MethodCXD
         }
     }
 
-    private const byte GenderRatioMale87_5 = 0x1F; // 87.5%
-
-    private static bool IsMaleEevee(uint pid) => (pid & 0xFF) >= GenderRatioMale87_5;
+    private static bool IsMaleEevee(uint pid) => (pid & 0xFF) >= EntityGender.VM;
 
     private static bool IsValidStarterColo(uint id32, uint pid)
         => IsMaleEevee(pid) && !ShinyUtil.GetIsShiny3(id32, pid);

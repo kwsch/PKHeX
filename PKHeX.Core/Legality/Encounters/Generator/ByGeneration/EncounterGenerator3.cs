@@ -63,7 +63,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         bool emerald = pk.E;
         byte gender = pk.Gender;
         if (pk.Species is (int)Species.Marill or (int)Species.Azumarill)
-            gender = EntityGender.GetFromPIDAndRatio(pk.EncryptionConstant, 0x3F);
+            gender = EntityGender.GetFromPID(pk.EncryptionConstant, EntityGender.MM);
 
         foreach (var enc in iterator)
         {

@@ -15,7 +15,7 @@ public static class Wild8aRNGTests
         {
             FlawlessIVs = 0, IsAlpha = false,
             Shiny = Shiny.Random, RollCount = 30,
-            GenderRatio = 0x7F,
+            GenderRatio = EntityGender.HH,
         };
 
         var result = Overworld8aRNG.TryApplyFromSeed(test, EncounterCriteria.Unrestricted, param, s0);
@@ -46,7 +46,7 @@ public static class Wild8aRNGTests
             IsAlpha = true,
             Shiny = Shiny.Random,
             RollCount = 17,
-            GenderRatio = 0x7F,
+            GenderRatio = EntityGender.HH,
         };
 
         var xoro = new Xoroshiro128Plus(s0);
