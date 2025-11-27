@@ -15,7 +15,7 @@ namespace PKHeX.Core;
 public static class SaveUtil
 {
     private const int SIZE_G9ZA_Min = 0x2F3284;
-    private const int SIZE_G9ZA_Max = 0x2F3284;
+    private const int SIZE_G9ZA_Max = 0x2F3289;
 
     private const int SIZE_G9_0   = 0x31626F; // 1.0.0 fresh
     private const int SIZE_G9_0a  = 0x31627C; // 1.0.0 after multiplayer
