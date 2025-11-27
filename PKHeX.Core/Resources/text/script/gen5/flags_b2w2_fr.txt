@@ -1,0 +1,71 @@
+0303	r	Cobaltium Capturé
+0802	r	Cobaltium Disparu
+0302	r	Cobaltium (Revanche, Niveau +20)
+0330	r	Terrakium Capturé
+0810	r	Terrakium Disparu
+0329	r	Terrakium (Revanche, Niveau +20)
+0301	r	Viridium Capturé
+0801	r	Viridium Disparu
+0300	r	Viridium (Revanche, Niveau +20)
+0928	r	Pyrax Disparu
+0403	r	Pyrax Capturé (Niveau 35/65)
+0404	r	Pyrax Vaincu (Niveau 35)
+0234	r	Reshiram/Zekrom Capturé
+0667	r	Reshiram/Zekrom Disparu
+0249	r	Kyurem Capturé
+1004	r	Kyurem Disparu
+0399	r	Regirock Capturé
+0922	r	Regirock Disparu
+0400	r	Regice Capturé
+0921	r	Regice Disparu
+0401	r	Registeel Capturé
+0923	r	Registeel Disparu
+0374	r	Latios/Latias Capturé
+0396	r	Créhelf Capturé
+0918	r	Créhelf Disparu
+0397	r	Créfollet Capturé
+0919	r	Créfollet Disparu
+0398	r	Créfadet Capturé
+0920	r	Créfadet Disparu
+0380	r	Heatran Capturé
+0900	r	Heatran Disparu
+0402	r	Regigigas Capturé
+0924	r	Regigigas Disparu
+0379	r	Cresselia Capturé
+0897	r	Cresselia Disparu
+0106	*	Fonctionnalité d'Échange Activée (Centre Pokémon)
+2403	*	A les Chaussures de Sport
+2400	s	Est Entré au Panthéon
+0250	g	Magicarpe Acheté (Pont de l'Inconnu)
+0256	g	Échange Interne Emolga Contre Gigalithe (Route 7)
+0259	g	Échange Interne Métamorph Contre Motisma (Route 15)
+0289	g	Zorua de N Reçu (1/2) (Port Yoneuve)
+0714	g	Zorua de N Reçu (2/2) (Port Yoneuve)
+0394	g	Évoli Reçu (Volucité)
+0405	g	Échange Interne Démanta Contre Bouldeneu (Papeloa)
+0412	g	Échange Interne Chlorobule (N2)/Doudouvet (B2) (Route 4)
+0426	g	Vivaldaim Reçu (Route 6)
+0431	g	Échange Interne Minotaupe Contre Capidextre (Arabelle)
+0432	g	Échange Interne Hippodocus Contre Alakazam (Arabelle)
+0433	g	A Vaincu Fillette Nanami Pour la 1ère Fois (Peut Faire Échange Pour Alakazam)
+0434	s	A Vaincu Fillette Nanami une 2ème Fois
+0437	g	Œuf de Ptiravi Reçu (Maillard)
+0445	g	Fossile Plaque/Plume Donné par Aloé
+0420	r	Tranchodon Chromatique Capturé (Réserve Naturelle)
+0946	r	Tranchodon Chromatique Disparu (Réserve Naturelle)
+0996	g	Guajava et le Griknot (N2)/Minidraco (B2) Chromatique disparus de la Maison de Goyah
+2464	s	Ruines des Abysses Visitées
+0979	s	Lilien Parti de Vaguelone
+2744	s	Étoile d'Unys Embarquée à Volucité (Aujourd'hui)
+2747	s	Fossile reçu de l'Ouvrier du Mont Foré (Aujourd'hui)
+2774	r	Vaututrice (N2)/Gueriaigle (B2) Hebdomadaire de la Route 4 Disparu
+2775	r	Moyade Hebdomadaire de la Baie Vaguelone Disparu
+2442	r	Pokémon de N Dans la Nature
+0929	r	Trompignon Route 6 Disparu (1)
+0930	r	Trompignon Route 6 Disparu (2)
+0931	r	Trompignon Route 6 Disparu (3)
+0932	r	Trompignon Route 7 Disparu (1)
+0933	r	Trompignon Route 7 Disparu (2)
+0868	r	Crabaraque Grotte Littorale Disparu
+1469	s	Trouvé Vieux Tortil (Ruines des Abysses Niveau 3)
+2793	t	Nikolaï Vaincu (Aujourd'hui)
