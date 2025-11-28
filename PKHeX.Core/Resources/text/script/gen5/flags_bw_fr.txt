@@ -19,7 +19,7 @@
 0115	*	Fonctionnalité d'Échange Activée (Centre Pokémon)
 2400	s	A Vaincu Ghetis (Première Complétion du Jeu)
 0145	s	Fossile Plaque/Plume Reçu de la Randonneuse (Château Enfoui)
-0148	g	Échange Interne Doudouvet (N)/Chlorobule (B) (Maillard)
+0148	g	Échange Interne Chlorobule (N)/Doudouvet (B) (Maillard)
 0280	g	Échange Interne Chinchidou Contre Bargantua (Port Yoneuve)
 0315	g	Œuf de Pyronille Reçu (Route 18)
 0352	t	A Vaincu Gamin Vince (Port Yoneuve)
