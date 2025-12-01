@@ -234,7 +234,7 @@ public static class EncounterServerDate
         {0524, new(2025, 08, 14, 2025, 08, 31)}, // WCS 2025 Toedscool
         {0525, new(2025, 08, 15, 2025, 08, 23)}, // WCS 2025 Luca Ceribelli's Farigiraf
         {1540, new(2025, 09, 25, 2025, 10, 25)}, // Shiny Miraidon / Koraidon Gift
-        {0070, new(2025, 10, 31, 2027, 02, 01)}, // Poké Center Fidough Birthday Gift
+        {0070, new(2025, 10, 31, 2027, 02, 01)}, // PokéCenter Fidough Birthday Gift
         {0526, new(2025, 11, 21, 2025, 12, 01)}, // LAIC 2026 Federico Camporesi’s Whimsicott
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
@@ -242,6 +242,7 @@ public static class EncounterServerDate
         {9023, HOME3_ML}, // Hidden Ability Quaxly
         {9024, new(2024, 10, 16)}, // Shiny Meloetta
         {9025, new(2024, 11, 01)}, // PokéCenter Birthday Tandemaus
+        {9030, new(2025, 10, 31)}, // PokéCenter Fidough Birthday Gift
     };
 
     /// <summary>
@@ -250,7 +251,7 @@ public static class EncounterServerDate
     private static readonly Dictionary<int, DistributionWindow> WA9Gifts = new()
     {
         {1601, new(2025, 10, 14, 2026, 3, 1, +2)}, // Ralts holding Gardevoirite
-        {0102, new(2025, 10, 23, 2026, 2, 1, +2)}, // Slowpoke Poké Center Gift
-        {0101, new(2025, 10, 31, 2027, 2, 1)}, // Poké Center Audino Birthday Gift
+        {0102, new(2025, 10, 23, 2026, 2, 1, +2)}, // Slowpoke PokéCenter Gift
+        {0101, new(2025, 10, 31, 2027, 2, 1)}, // PokéCenter Audino Birthday Gift
     };
 }
