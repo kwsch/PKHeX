@@ -1,8 +1,4 @@
-using System;
 using System.ComponentModel;
-using System.Drawing;
-using System.IO.Pipelines;
-using System.Reflection.Metadata;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -12,7 +8,9 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class PlayerFashion9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>(sav, block.Raw)
 {
-    private static ReadOnlySpan<ulong> HairStyles => [
+    /*
+    private static ReadOnlySpan<ulong> HairStyles =>
+    [
         0x602243E9930CA16A,   //hi-top fade
         0x687687B775074243,   //undercut pixie
         0x24B41B3ED9600552,   //flyaway short cut
@@ -29,12 +27,14 @@ public sealed class PlayerFashion9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9Z
         0x21767F6261C9F4DD,   //pigtails
     ];
 
-    private static ReadOnlySpan<ulong> EyeCuts => [
+    private static ReadOnlySpan<ulong> EyeCuts =>
+    [
         0xF99D26ADCE42E2BE,     //droopy
         0x22EF6E329FB657D1,     //half-open
         0xC8CA8B6B8EE7CC38,     //rounded
         0x93071833CC739399,     //angled
     ];
+    */
 
     [TypeConverter(typeof(TypeConverterU64))] public ulong Base      { get => ReadUInt64LittleEndian(Data); set => WriteUInt64LittleEndian(Data, value); }
     [TypeConverter(typeof(TypeConverterU64))] public ulong Accessory { get => ReadUInt64LittleEndian(Data[0x08..]); set => WriteUInt64LittleEndian(Data[0x08..], value); }
