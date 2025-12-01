@@ -1,7 +1,18 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/11/16 - New Update:
+25/11/30 - New Update:
+ - Added Chesnaughtite, Dream Ball as released items.
+ - Legality:
+ - - Fixed: Gen9a Gift encounters now enforce IV correlation when the template does not have any fixed/flawless IVs.
+ - - Fixed: Gen9 transfers to SW/SH now recognized again.
+ - - Fixed: Gen7 breeding ball inheritance for Gen2-5 starters now allow Gen4 balls via Island Scan encounter parents. Thanks manolin18 !
+ - - Fixed: Gen4 Pokewalker IVs now recognize seed skipping via Mic Test. Thanks @John-0902 !
+ - - Fixed: Gen3 GCEA PID/IV enforcing now uses BACD_R_A rather than BACD_U_AX (PCNY Antishiny).
+ - Added: Gen9a Player Appearance can now be changed via Block Data editor. Thanks @pasqualenardiello !
+ - Fixed: Gen9a suggesting of Plus Moves for Alphas now recommends the guaranteed Alpha Move as plus (as intended).
+
+25/11/16 - New Update: (125571) [11612058]
  - Legality: Improved location ID detection of wild encounters, should work for 99.9%.
  - - Crossovers are not currently handled for detecting location IDs. Generating from encounter template is 100% legal.
  - - Fixed: Gen9a Ability change rules for Z-A have been updated to reflect form change behavior and encounter selection.

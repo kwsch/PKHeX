@@ -1,0 +1,26 @@
+0048	*	Pokémon de Départ	0:Vipélierre,1:Gruikui,2:Moustillon
+0077	s	Heylink	6:Tutoriel terminé
+0143	r	Événement du Labo P2	0:Pas activé,1:Activé,2:Combat Scientifique Benoît en attente,3:Modules reçus
+0268	r	Latias/Latios	5:Affrontable,6:Disparu
+0283	r	Reshiram/Zekrom (Tour Dragospire)	0:Pas activé,1:Peut être activé,2:Activé
+0291	s	Zoroark de N (Route Victoire)	0:Bloque l'accès (Avant la ligue),1:Veut que vous le suiviez (Après la ligue),2:Sur la falaise à l'extérieur,3:Devant le Château de N,4:Est entré au Château de N
+0294	e	Appel de Brenda/Julien (Méanville)	0:Inactif,1:Actif,2:Activé
+0295	e	Appel de Brenda/Julien (Port Yoneuve)	0:Inactif,1:Actif,2:Activé
+0296	e	Appel de Brenda/Julien (Parsemille)	0:Inactif,1:Actif,2:Activé
+0297	e	Appel de Brenda/Julien (Entrelasque)	0:Inactif,1:Actif,2:Activé
+0298	e	Appel de Brenda/Julien (Vaguelone)	0:Inactif,1:Actif,2:Activé
+0299	e	Appel de Brenda/Julien (Arpentières)	0:Inactif,1:Actif,2:Activé
+0300	e	Appel de Brenda/Julien (Route 5)	0:Inactif,1:Actif,2:Activé
+0301	e	Appel de Brenda/Julien (Route 6)	0:Inactif,1:Actif,2:Activé
+0302	e	Appel de Brenda/Julien (Route 7)	0:Inactif,1:Actif,2:Activé
+0303	e	Appel de Brenda/Julien (Route 9)	0:Inactif,1:Actif,2:Activé
+0304	e	Appel de Brenda/Julien (Route 11)	0:Inactif,1:Actif,2:Activé
+0305	e	Appel de Brenda/Julien (Route 12)	0:Inactif,1:Actif,2:Activé
+0306	e	Appel de Brenda/Julien (Route 13)	0:Inactif,1:Actif,2:Activé
+0307	e	Appel de Brenda/Julien (Route 14)	0:Inactif,1:Actif,2:Activé
+0308	e	Appel de Brenda/Julien (Route 16)	0:Inactif,1:Actif,2:Activé
+0312	e	Événement de l'Île Liberté	0:Pas visité,1:Victini dans l'équipe (Keteleeria apparaîtra),2:Keteleeria rencontrée
+0392	e	Brenda/Julien	0:Pas encore rencontré,1:Appelé(e) depuis l'Objet Trouvé,2:Rencontré(e) à Méanville après 10 appels
+0396	t	Trio des Ombres (Flocombe)	0:Affrontables (saison actuelle),1:Affrontés au printemps,2:Affrontés en été,3:Affrontés en automne,4:Affrontés en hiver
+0399	s	Événement de Lilien aux Ruines des Abysses	0:Pas activé,1:Activé,2:Niveau 0 visité,3:Niveau 1 visité,4:Niveau 2 visité,6:Niveau 3 visité,8:Vieux Tortil trouvé/complété
+0378	g	Fossile pouvant être récupéré	99:Fossile Racine (Lilia),100:Fossile Griffe (Anorith),101:Nautile (Amonita),102:Fossile Dôme (Kabuto),103:Vieil Ambre (Ptéra),104:Fossile Armure (Dinoclier),105:Fossile Crâne (Kranidos),572:Fossile Plaque (Carapagos),573:Fossile Plume (Arkéapti)

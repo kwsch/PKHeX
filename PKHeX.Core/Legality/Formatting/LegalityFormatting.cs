@@ -215,7 +215,7 @@ public static class LegalityFormatting
         var pk = info.Entity;
         var result = PokewalkerRNG.GetLeastEffortSeed((uint)pk.IV_HP, (uint)pk.IV_ATK, (uint)pk.IV_DEF, (uint)pk.IV_SPA, (uint)pk.IV_SPD, (uint)pk.IV_SPE);
         var line = string.Format(strings.Encounter.Format, strings.Encounter.OriginSeed, result.Seed.ToString("X8"));
-        line += $" [{result.Type} @ {result.PriorPoke}]";
+        line += $" [{result.Type} @ {result.Count}]";
         return line;
     }
 

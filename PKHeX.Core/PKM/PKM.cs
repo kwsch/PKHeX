@@ -612,11 +612,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         if (gv == PersonalInfo.RatioMagicMale)
             return gender == 0;
 
-        var gen = Generation;
-        if (gen is not (3 or 4 or 5))
-            return gender == (gender & 1);
+        if (gender >= 2)
+            return false; // genderless would have returned above
+        if (!(Gen3 || Gen4 || Gen5))
+            return true; // not tied to PID
 
-        return gender == EntityGender.GetFromPIDAndRatio(PID, gv);
+        return gender == EntityGender.GetFromPID(PID, gv);
     }
 
     /// <summary>

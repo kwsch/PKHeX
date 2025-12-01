@@ -7,5 +7,5 @@
 0131	g	Dreamyard girl	0:Not interacted,1:Elemental Monkey Pending,2:Received Elemental Monkey
 0199	r	Zorua Event	0:Disguised as little boy (1),1:Revealed/Catchable (2),3:Caught
 0201	r	Zoroark Event	0:Active (1),1:Defeated,2:Caught
-0202	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Dudley Battle Pending,3:Received Drives
+0202	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Nathan Battle Pending,3:Received Drives
 0218	g	Gorge (Undella Town)	0:Wants to trade,1:Traded for Munchlax,2:After trading

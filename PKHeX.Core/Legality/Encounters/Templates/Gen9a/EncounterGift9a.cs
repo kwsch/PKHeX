@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Gift Encounter found in <see cref="GameVersion.ZA"/>.
 /// </summary>
 public sealed record EncounterGift9a(ushort Species, byte Form, byte Level, byte Size = EncounterGift9a.NoScale)
-    : IEncounter9a, IEncounterConvertible<PA9>, IFixedGender, IFixedNature, IFixedIVSet, IMoveset
+    : IEncounter9a, IEncounterConvertible<PA9>, IFixedGender, IFixedNature, IFixedIVSet, IMoveset, IFixedTrainer
 {
     public byte Generation => 9;
     private const GameVersion Version = GameVersion.ZA;
@@ -34,6 +34,13 @@ public sealed record EncounterGift9a(ushort Species, byte Form, byte Level, byte
 
     public string Name => "Gift Encounter";
     public string LongName => Name;
+
+    public bool IsFixedTrainer => Trainer != TrainerGift9a.None;
+    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language)
+    {
+        var expect = GetFixedTrainerName(Trainer, pk.Language);
+        return trainer.SequenceEqual(expect);
+    }
 
     #region Generating
 
