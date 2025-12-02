@@ -30,7 +30,6 @@ public static class ShinyUtil
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool GetIsShiny6(in uint id32, in uint pid) => GetShinyXor(id32, pid) < 16;
 
-
     /// <summary>
     /// Checks if the PID is shiny using criteria from Generation 3-5.
     /// </summary>

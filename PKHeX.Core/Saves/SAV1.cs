@@ -589,7 +589,6 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter1.SetString(destBuffer, value, maxLength, Japanese, option);
 
-
     public static bool IsYellow(ReadOnlySpan<byte> data, bool japanese) => japanese ? IsYellowJPN(data) : IsYellowINT(data);
     public static bool IsYellowINT(ReadOnlySpan<byte> data) => IsYellow(data[0x29C3], data[0x271C]);
     public static bool IsYellowJPN(ReadOnlySpan<byte> data) => IsYellow(data[0x29B9], data[0x2712]);

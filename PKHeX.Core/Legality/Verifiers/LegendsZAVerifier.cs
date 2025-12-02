@@ -139,7 +139,6 @@ public sealed class LegendsZAVerifier : Verifier
         }
     }
 
-
     private void CheckFlagsPlus(LegalityAnalysis la, PA9 pk)
     {
         var permit = (IPermitPlus)la.PersonalInfo;
@@ -152,7 +151,6 @@ public sealed class LegendsZAVerifier : Verifier
         var (learn, plus) = LearnSource9ZA.GetLearnsetAndPlus(pk.Species, pk.Form);
         var currentLevel = pk.CurrentLevel;
         CheckPlusMoveFlags(la, pk, permit, plus, currentLevel);
-
 
         // Check for indexes set that cannot be set via TM or NPC.
         int max = permit.PlusCountUsed;
