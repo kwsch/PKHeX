@@ -98,10 +98,6 @@ public sealed class ItemStorage9ZA : IItemStorage
     public static ReadOnlySpan<ushort> Unreleased =>
     [
         0005, // Safari Ball (Season 3 Ranked Reward)
-
-        0662, // Mewtwonite X
-        0663, // Mewtwonite Y
-
         0851, // Beast Ball
     ];
 
@@ -164,6 +160,7 @@ public sealed class ItemStorage9ZA : IItemStorage
         Blastoise when form == 1 => 0661,
         Mewtwo when form == 1 => 0662, // X
         Mewtwo when form == 2 => 0663, // Y
+        Blaziken when form == 1 => 0664,
         Medicham when form == 1 => 0665,
         Houndoom when form == 1 => 0666,
         Aggron when form == 1 => 0667,
@@ -183,6 +180,10 @@ public sealed class ItemStorage9ZA : IItemStorage
         Mawile when form == 1 => 0681,
         Manectric when form == 1 => 0682,
         Garchomp when form == 1 => 0683,
+        Latias when form == 1 => 0684,
+        Latios when form == 1 => 0685,
+        Swampert when form == 1 => 0752,
+        Sceptile when form == 1 => 0753,
         Sableye when form == 1 => 0754,
         Altaria when form == 1 => 0755,
         Gallade when form == 1 => 0756,
