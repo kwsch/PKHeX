@@ -1,7 +1,12 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/11/30 - New Update:
+25/12/02 - New Update:
+ - Added Mewtwonite X/Y as released items, and Mewtwo encounter data.
+ - Legality:
+ - - Fixed: Gen9a Plus moves from level-up learnset now allow Seed of Mastery to mark as Plus, without the Plus level threshold.
+
+25/11/30 - New Update: (14359) [11626417]
  - Added Chesnaughtite, Dream Ball as released items.
  - Legality:
  - - Fixed: Gen9a Gift encounters now enforce IV correlation when the template does not have any fixed/flawless IVs.
