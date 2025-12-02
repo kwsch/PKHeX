@@ -33,8 +33,8 @@ public static class EncounterSuggestion
         var generator = EncounterGenerator.GetGenerator(version, generation);
         var pw = generator.GetPossible(pk, evos, version, EncounterTypeGroup.Slot);
         var ps = generator.GetPossible(pk, evos, version, EncounterTypeGroup.Static);
-        var w = EncounterSelection.GetMinByLevel<EvoCriteria, IEncounterable>(chain, pw);
-        var s = EncounterSelection.GetMinByLevel<EvoCriteria, IEncounterable>(chain, ps);
+        var w = EncounterSelection.GetMinByLevel(chain, pw);
+        var s = EncounterSelection.GetMinByLevel(chain, ps);
 
         if (w is null)
             return s is null ? null : GetSuggestedEncounter(pk, s, loc);
@@ -42,9 +42,9 @@ public static class EncounterSuggestion
             return GetSuggestedEncounter(pk, w, loc);
 
         // Prefer the wild slot; fall back to wild slot if none are exact match.
-        if (IsSpeciesFormMatch<EvoCriteria, IEncounterable>(chain, w))
+        if (IsSpeciesFormMatch(chain, w))
             return GetSuggestedEncounter(pk, w, loc);
-        if (IsSpeciesFormMatch<EvoCriteria, IEncounterable>(chain, s))
+        if (IsSpeciesFormMatch(chain, s))
             return GetSuggestedEncounter(pk, s, loc);
         return GetSuggestedEncounter(pk, w, loc);
     }

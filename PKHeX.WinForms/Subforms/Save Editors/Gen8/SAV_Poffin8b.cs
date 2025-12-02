@@ -38,7 +38,7 @@ public partial class SAV_Poffin8b : Form
             SortMode = DataGridViewColumnSortMode.Automatic,
         };
 
-        var cType = new System.Windows.Forms.DataGridViewComboBoxColumn
+        var cType = new DataGridViewComboBoxColumn
         {
             HeaderText = "Type",
             DisplayIndex = 1,

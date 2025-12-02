@@ -74,7 +74,7 @@ public partial class PokeGrid : UserControl
     public void SetBackground(Image img)
     {
         if (Application.IsDarkModeEnabled)
-            img = PKHeX.Drawing.ImageUtil.ChangeOpacity(img, 0.5);
+            img = Drawing.ImageUtil.ChangeOpacity(img, 0.5);
         BackgroundImage = img;
     }
 

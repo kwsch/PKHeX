@@ -400,7 +400,7 @@ namespace PKHeX.WinForms
             CB_Gender.Location = new System.Drawing.Point(298, 13);
             CB_Gender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Gender.Name = "CB_Gender";
-            CB_Gender.Size = new System.Drawing.Size(33, 25);
+            CB_Gender.Size = new System.Drawing.Size(46, 25);
             CB_Gender.TabIndex = 22;
             // 
             // TB_MBMS

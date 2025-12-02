@@ -175,14 +175,14 @@ public partial class PokePreview : Form
     {
         Span<byte> stats = stackalloc byte[6];
         g.GetGVs(stats);
-        TryAppend<byte>(stats, ref line, settings, BattleTemplateToken.GVs);
+        TryAppend(stats, ref line, settings, BattleTemplateToken.GVs);
     }
 
     private static void AppendAwakening(IAwakened a, ref string line, in BattleTemplateExportSettings settings)
     {
         Span<byte> stats = stackalloc byte[6];
         a.GetAVs(stats);
-        TryAppend<byte>(stats, ref line, settings, BattleTemplateToken.AVs);
+        TryAppend(stats, ref line, settings, BattleTemplateToken.AVs);
     }
 
     private static void TryAppend<T>(ReadOnlySpan<T> stats, ref string line, BattleTemplateExportSettings settings, BattleTemplateToken token) where T : unmanaged, IEquatable<T>

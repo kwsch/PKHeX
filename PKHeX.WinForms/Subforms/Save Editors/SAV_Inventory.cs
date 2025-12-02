@@ -438,7 +438,6 @@ file static class InventoryTypeImageUtil
     {
         var result = new ImageList
         {
-            TransparentColor = Color.Transparent,
             ImageSize = Properties.Resources.bag_items.Size, // Match the size of the resources.
         };
         var images = result.Images;
