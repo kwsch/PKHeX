@@ -86,7 +86,6 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     private const uint KObstruction = 0x4C26C29B; // (u64, u64-state, u64-unused)[2000]
     private const uint KFieldObjectInteractable = 0x7147C953; // (u64,u64,u64,value)[5000] (mega crystal, prize medals)
 
-
     public const uint KTicketPointsZARoyale = 0x9A730DE1; // u32
     public const uint KTicketPointsZARoyaleInfinite = 0x1D7EE369; // u32
 

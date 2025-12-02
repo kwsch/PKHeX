@@ -163,7 +163,6 @@ public sealed class BulkAnalysis
     public void AddExternal(SlotCache first, SlotCache second, CheckIdentifier id, int index1, int index2, ushort identity, ushort argument = 0, Severity s = Severity.Invalid)
         => AddLine(first, second, id, index1, index2, LegalityCheckResultCode.External, identity, argument, s);
 
-
     private static LegalityAnalysis[] GetIndividualAnalysis(ReadOnlySpan<SlotCache> list)
     {
         var result = new LegalityAnalysis[list.Length];
