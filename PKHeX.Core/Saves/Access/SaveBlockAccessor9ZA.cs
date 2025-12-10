@@ -23,6 +23,7 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     public Epoch1900DateTimeValue EnrollmentDate { get; } = new(Block(sav, KEnrollmentDate)); // not actually used
     public Coordinates9a Coordinates { get; } = new(sav, Block(sav, KCoordinates));
     public InfiniteRoyale9a InfiniteRoyale { get; } = new(sav, Block(sav, KInfiniteRoyale));
+    public PlayerAppearance9a PlayerAppearance { get; } = new(sav, Block(sav, KCurrentAppearance));
     public PlayerFashion9a PlayerFashion { get; } = new(sav, Block(sav, KCurrentClothing));
     public ConfigSave9a Config { get; } = new(sav, Block(sav, KConfig));
 
@@ -84,7 +85,6 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     private const uint KEventReport = 0xAF2165F0; // 0x3000 (u64,(s64,u64) value)
     private const uint KObstruction = 0x4C26C29B; // (u64, u64-state, u64-unused)[2000]
     private const uint KFieldObjectInteractable = 0x7147C953; // (u64,u64,u64,value)[5000] (mega crystal, prize medals)
-
 
     public const uint KTicketPointsZARoyale = 0x9A730DE1; // u32
     public const uint KTicketPointsZARoyaleInfinite = 0x1D7EE369; // u32

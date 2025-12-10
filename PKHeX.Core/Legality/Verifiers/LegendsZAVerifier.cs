@@ -139,7 +139,6 @@ public sealed class LegendsZAVerifier : Verifier
         }
     }
 
-
     private void CheckFlagsPlus(LegalityAnalysis la, PA9 pk)
     {
         var permit = (IPermitPlus)la.PersonalInfo;
@@ -149,10 +148,9 @@ public sealed class LegendsZAVerifier : Verifier
             la.AddLine(GetInvalid(PlusMoveCountInvalid));
 
         // Check for all required indexes.
-        var (learn, plus) = LearnSource9ZA.GetLearnsetAndPlus(pk.Species, pk.Form);
+        var (_, plus) = LearnSource9ZA.GetLearnsetAndPlus(pk.Species, pk.Form);
         var currentLevel = pk.CurrentLevel;
         CheckPlusMoveFlags(la, pk, permit, plus, currentLevel);
-
 
         // Check for indexes set that cannot be set via TM or NPC.
         int max = permit.PlusCountUsed;
@@ -253,16 +251,20 @@ public sealed class LegendsZAVerifier : Verifier
         where TInfo : IPersonalInfo, IPersonalInfoTM
         where TSource : ILearnSourceBonus
     {
+        // Seed of Mastery can be used on any currently-known move to grant the Plus Move flag.
+        // Without using one, moves that are naturally learned on level-up/evolution will be automatically marked as Plus when a higher level threshold is met.
+        // For our purposes, we are only checking legality, so assume that a Seed of Mastery is used in all cases (bypassing the higher level threshold).
+
         foreach (var evo in evos)
         {
-            // If the move can be learned as TM, can be marked as Plus Move regardless of level.
+            // If the move can be learned as TM, can be marked as Plus Move regardless of level via Seed of Mastery.
             var pi = table[evo.Species, evo.Form];
             if (tmIndex != -1 && pi.GetIsLearnTM(tmIndex))
                 return true;
 
-            // If the move can be learned via learnset, check if the level is at or above the Plus required level.
-            var (_, plus) = source.GetLearnsetAndOther(evo.Species, evo.Form);
-            if (plus.TryGetLevelLearnMove(move, out var level) && level <= evo.LevelMax)
+            // If the move can be learned via learnset. Seed of Mastery allows marking as Plus Move regardless of level.
+            var (learn, _) = source.GetLearnsetAndOther(evo.Species, evo.Form);
+            if (learn.TryGetLevelLearnMove(move, out var level) && level <= evo.LevelMax)
                 return true;
         }
         return false;

@@ -72,6 +72,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     public Epoch1900DateTimeValue StartTime => Blocks.EnrollmentDate;
     public Coordinates9a Coordinates => Blocks.Coordinates;
     public InfiniteRoyale9a InfiniteRoyale => Blocks.InfiniteRoyale;
+    public PlayerAppearance9a PlayerAppearance => Blocks.PlayerAppearance;
     public PlayerFashion9a PlayerFashion => Blocks.PlayerFashion;
     public ConfigSave9a Config => Blocks.Config;
     #endregion

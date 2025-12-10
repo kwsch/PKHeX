@@ -73,7 +73,7 @@ internal static class Encounters9a
         new(0707,0,40,128) { Location = 00235, Gender = 0, Nature = Nature.Timid, Moves = new(583,430,577,319) }, // Klefki (m05_cleffy)
 
         // Side Missions EX
-        // new(0150,0,70,128) { Location = 00234, FlawlessIVCount = 3, Moves = new(094,396,427,133) }, // Mewtwo (sub_120_mewtwo)
+        new(0150,0,70,128) { Location = 00234, FlawlessIVCount = 3, Moves = new(094,396,427,133) }, // Mewtwo (sub_120_mewtwo)
         new(0703,0,66,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(444,430,605,157) }, // Carbink (sub_119_melecie_01)
         new(0703,0,66,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(444,446,408,605) }, // Carbink (sub_119_melecie_02)
         new(0719,0,70,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(591,585,446,577) }, // Diancie (sub_119_diancie)
