@@ -12,6 +12,13 @@ This fork adds support for **Pokémon Legends: Z-A version 2.0.0 (Mega Dimension
 
 ## Changelog
 
+### Save Version Detection
+- **`SAV9ZA.cs`**: Added automatic version detection based on block count
+  - `SaveRevision = 0` → Base game (1.x) - 162 blocks
+  - `SaveRevision = 1` → DLC 2.0.0 (Mega Dimensions) - 185 blocks
+  - Added `IsDLC2` property for easy version checking
+  - `SaveRevisionString` shows "-Base" or "-DLC 2.0.0"
+
 ### Save File Compatibility
 - **`SaveUtil.cs`**: Extended `SIZE_G9ZA_Max` from `0x2F3289` (3,093,129 bytes) to `0x30A3A8` (3,186,600 bytes) to support the larger DLC 2.0.0 save files
 
