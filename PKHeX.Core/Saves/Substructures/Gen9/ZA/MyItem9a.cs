@@ -68,6 +68,7 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
             MakePouch(InventoryType.MegaStones),
             MakePouch(InventoryType.Treasure),
             MakePouch(InventoryType.KeyItems),
+            MakePouch(InventoryType.Donuts),
         ];
         return pouches.LoadAll(Data);
     }
@@ -127,6 +128,7 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
         InventoryType.Balls => InventoryItem9a.PouchBalls,
         InventoryType.Treasure => InventoryItem9a.PouchTreasure,
         InventoryType.MegaStones => InventoryItem9a.PouchMegaStones,
+        InventoryType.Donuts => InventoryItem9a.PouchDonuts,
         _ => InventoryItem9a.PouchNone,
     };
 }

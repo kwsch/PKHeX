@@ -134,7 +134,7 @@ public static class Legal
 
     internal const int MaxSpeciesID_9a = (int)Species.Falinks;
     internal const int MaxMoveID_9a = (int)Move.NihilLight;
-    internal const int MaxItemID_9a = 2634; // Blue Canari Plush
+    internal const int MaxItemID_9a = 2656; // DLC 2.0.0 - Donut items
     internal const int MaxAbilityID_9a = (int)Ability.PoisonPuppeteer;
     internal const int MaxBallID_9a = (int)Ball.LAOrigin;
 

@@ -467,6 +467,7 @@ file static class InventoryTypeImageUtil
         InventoryType.Treasure => Properties.Resources.bag_treasure,
         InventoryType.Ingredients => Properties.Resources.bag_ingredient,
         InventoryType.MegaStones => Properties.Resources.bag_mega,
+        InventoryType.Donuts => Properties.Resources.bag_candy, // Placeholder icon for new DLC pouch
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

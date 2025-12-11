@@ -33,6 +33,7 @@ public sealed class ItemStorage9ZA : IItemStorage
         1232, 1233, 1234, 1235, 1236, 1237, 1238, 1239, 1240, 1241,
         1242, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250, 1251,
         1582, 1592, 2401, 2558, 2618, 2619, // Colorful Screw cannot be held.
+        // DLC 2.0.0 new item 2137 omitted until strings are added
     ];
 
     public static ReadOnlySpan<ushort> Treasure => // 3
@@ -54,6 +55,7 @@ public sealed class ItemStorage9ZA : IItemStorage
         0170, 0171, 0172, 0173, 0174, 0184, 0185, 0186, 0187, 0188,
         0189, 0190, 0191, 0192, 0193, 0194, 0195, 0196, 0197, 0198,
         0199, 0200, 0686,
+        // DLC 2.0.0 Donut/Food items (2651-2656) omitted until strings are added
     ];
 
     public static ReadOnlySpan<ushort> TM => // 6
@@ -82,6 +84,11 @@ public sealed class ItemStorage9ZA : IItemStorage
         2579, 2580, 2581, 2582, 2583, 2584, 2585, 2587,
     ];
 
+    public static ReadOnlySpan<ushort> Donuts => // 8 - New in DLC 2.0.0
+    [
+        // Placeholder - actual item IDs to be determined from save file analysis
+    ];
+
     internal static ReadOnlySpan<InventoryType> ValidTypes =>
     [
         // Display Order
@@ -93,6 +100,7 @@ public sealed class ItemStorage9ZA : IItemStorage
         InventoryType.MegaStones,
         InventoryType.Treasure,
         InventoryType.KeyItems,
+        InventoryType.Donuts,
     ];
 
     public static ReadOnlySpan<ushort> Unreleased =>
@@ -111,6 +119,7 @@ public sealed class ItemStorage9ZA : IItemStorage
         InventoryType.MegaStones => 1,
         InventoryType.Treasure => 999,
         InventoryType.KeyItems => 1,
+        InventoryType.Donuts => 999,
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
@@ -128,6 +137,7 @@ public sealed class ItemStorage9ZA : IItemStorage
         InventoryType.MegaStones => MegaStones,
         InventoryType.Treasure => Treasure,
         InventoryType.KeyItems => Key,
+        InventoryType.Donuts => Donuts,
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 

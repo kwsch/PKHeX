@@ -22,4 +22,5 @@ public enum InventoryType
     Treasure,
     Ingredients,
     MegaStones,
+    Donuts,
 }

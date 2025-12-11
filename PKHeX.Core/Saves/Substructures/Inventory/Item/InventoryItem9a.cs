@@ -16,6 +16,7 @@ public sealed record InventoryItem9a : InventoryItem, IItemFavorite, IItemNewFla
     public const uint PouchBerry = 5;
     public const uint PouchTM = 6;
     public const uint PouchMegaStones = 7;
+    public const uint PouchDonuts = 8;
 
     public uint Pouch { get; set; }
     public uint Flags { get; set; }
