@@ -10,19 +10,29 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
 
     public SAV9ZA(Memory<byte> data) : this(SwishCrypto.Decrypt(data.Span)) { }
 
+    // Block count thresholds for version detection
+    private const int BlockCount_Base = 162;  // Version 1.x
+    private const int BlockCount_DLC2 = 185;  // Version 2.0.0 (Mega Dimensions DLC)
+
     private SAV9ZA(IReadOnlyList<SCBlock> blocks) : base(Memory<byte>.Empty)
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor9ZA(this);
-        SaveRevision = 0;
+        SaveRevision = DetectRevision(blocks.Count);
         Initialize();
     }
+
+    private static int DetectRevision(int blockCount) => blockCount switch
+    {
+        >= BlockCount_DLC2 => 1, // DLC 2.0.0
+        _ => 0, // Base game / 1.x
+    };
 
     public SAV9ZA()
     {
         AllBlocks = BlankBlocks9a.GetBlankBlocks();
         Blocks = new SaveBlockAccessor9ZA(this);
-        SaveRevision = 0;
+        SaveRevision = DetectRevision(AllBlocks.Count);
         Initialize();
         ClearBoxes();
     }
@@ -42,9 +52,15 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
 
     public string SaveRevisionString => SaveRevision switch
     {
-        0 => "-Base", // Vanilla
-        _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+        0 => "-Base",      // Version 1.x
+        1 => "-DLC 2.0.0", // Mega Dimensions DLC
+        _ => $"-Rev{SaveRevision}",
     };
+
+    /// <summary>
+    /// Returns true if this save is from DLC 2.0.0 (Mega Dimensions) or later.
+    /// </summary>
+    public bool IsDLC2 => SaveRevision >= 1;
 
     public override bool ChecksumsValid => true;
     public override string ChecksumInfo => string.Empty;
@@ -104,6 +120,14 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
         int rev = SaveRevision;
         if (rev == 0)
         {
+            m_move = Legal.MaxMoveID_9a;
+            m_spec = Legal.MaxSpeciesID_9a;
+            m_item = Legal.MaxItemID_9a;
+            m_abil = Legal.MaxAbilityID_9a;
+        }
+        else if (rev == 1) // DLC 2.0.0 (Mega Dimensions)
+        {
+            // Uses same limits - MaxItemID_9a already updated for DLC items
             m_move = Legal.MaxMoveID_9a;
             m_spec = Legal.MaxSpeciesID_9a;
             m_item = Legal.MaxItemID_9a;
