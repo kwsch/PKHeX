@@ -1,7 +1,22 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/12/02 - New Update:
+25/12/12 - New Update:
+ - Added: Support for Legends: Z-A (Mega Dimension) DLC, 2.0.0
+ - Legality:
+ - - New encounters not yet added to the database. Any currently present in this release may not be accurate.
+ - - Please do not report issues/fixes with this release's handling with legality or encounters. We are aware of what still needs work.
+ - Notes, same reminder as the initial Z-A release:
+ - - All encounters can be traced back to an RNG seed.
+ - - With multiple shiny rolls (wild only) or shinies, this calculation is not instant (>15 seconds), so it is only done for non-shiny 1-rolls.
+ - - Do not be lulled into a false sense of safety that PKHeX does not flag your modified Pokémon's PID/IVs.
+ - - Cheat codes that modify the RNG generation routine is detectable in the resulting Pokémon, as previously mentioned in Discord.
+ - - Ability editing via the GUI has been forced into All-Abilities mode due to GameFreak not updating a Pokémon's ability on evolution.
+ - Added: Gen9a: Pokédex editor updated to handle new species with multiple mega forms.
+ - Added: Gen9a: Trainer editor can now collect all field TMs.
+ - Fixed: Gen9a: Handling/generating/verification for Charizard WA9 event gift now behaves as expected.
+
+25/12/02 - New Update: (96381) [11722798]
  - Added Mewtwonite X/Y as released items, and Mewtwo encounter data.
  - Legality:
  - - Fixed: Gen9a Plus moves from level-up learnset now allow Seed of Mastery to mark as Plus, without the Plus level threshold.
