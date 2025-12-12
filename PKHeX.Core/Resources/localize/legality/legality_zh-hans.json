@@ -178,6 +178,7 @@
     "IVAllEqual_0": "所有个体值都是 {0}。",
     "IVNotCorrect": "个体值与相遇要求不匹配",
     "IVFlawlessCountGEQ_0": "至少有 {0} 项个体值 = 31。",
+    "LevelBoostNotZero": "Level Boost should be zero.",
     "LevelEXPThreshold": "当前经验与等级匹配。",
     "LevelEXPTooHigh": "当前经验值超过此宝可梦100级的经验值上限。",
     "LevelMetBelow": "当前等级低于相遇等级。",

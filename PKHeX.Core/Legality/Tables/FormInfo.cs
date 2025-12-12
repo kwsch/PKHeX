@@ -37,6 +37,13 @@ public static class FormInfo
     }
 
     /// <summary>
+    /// Checks if the form is a Primal form.
+    /// </summary>
+    /// <param name="species">Entity species</param>
+    /// <param name="form">Entity form</param>
+    public static bool IsPrimalForm(ushort species, byte form) => species is (ushort)Kyogre or (ushort)Groudon && form == 1;
+
+    /// <summary>
     /// Checks if the species has a Mega form.
     /// </summary>
     /// <param name="species">Entity species</param>
@@ -57,11 +64,16 @@ public static class FormInfo
 
     private static bool IsBattleMegaForm(ushort species, byte form) => species switch
     {
+        (ushort)Raichu => form is 2 or 3,
         (ushort)Slowbro => form == 1,
         (ushort)Zygarde => form == 5,
         (ushort)Floette => form == 6,
         (ushort)Greninja => form == 3,
-        _ => form != 0
+        (ushort)Meowstic => form == 2,
+        (ushort)Magearna => form == 2,
+        (ushort)Tatsugiri => form is (3 or 4 or 5),
+
+        _ => form != 0,
     };
 
     /// <summary>
@@ -272,9 +284,23 @@ public static class FormInfo
 
         (int)Floette,
 
-        //(int)Heatran,
-        //(int)Darkrai,
-        //(int)Zeraora,
+        (int)Heatran,
+        (int)Darkrai,
+        (int)Zeraora,
+
+        (int)Raichu,
+        (int)Magearna,
+        (int)Tatsugiri,
+        (int)Meowstic,
+
+        (int)Chimecho,
+        (int)Staraptor,
+        (int)Golurk,
+        (int)Crabominable,
+        (int)Golisopod,
+        (int)Scovillain,
+        (int)Baxcalibur,
+        (int)Glimmora,
     ];
 
     /// <summary>

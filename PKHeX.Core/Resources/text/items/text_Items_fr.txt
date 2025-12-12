@@ -2565,8 +2565,8 @@ Méganiumite
 Aligatueurite
 Airmurite
 Momartikite
-
-
+Heatranite
+Darkraïte
 Roitiflamite
 Minotaupite
 Brutapodite
@@ -2584,7 +2584,7 @@ Kravarekite
 Brutalibrite
 Zygardite
 Draïeulite
-
+Zeraorite
 Hexadronite
 Clé de la Chambre 202
 Galette de Choc
@@ -2599,19 +2599,19 @@ Naricâline Dédicacée
 Déchets Alléchants
 Rameau de Vie
 Sacoche de Rudi
-
-
-
-
-
-
-
-
-
-
-
-
-
+Beurre d’Illumis
+Super Beurre
+Hyper Beurre
+Ultra Beurre
+Master Beurre
+Extra Beurre
+Gros Sel de Hoenn
+Épice Noire
+Huile d’Arboliva
+Bonbon Zap-Zap
+Lettre Importante
+Bague Souvenirs
+Mouchoir Sale
 
 
 
@@ -2633,3 +2633,53 @@ Naricâline Verte
 Naricâline Bleue
 Naricâline Bleue
 Naricâline Bleue
+Raichuïte X
+Raichuïte Y
+Éokite
+Absolite Z
+Étouraptorite
+Carchacrokite Z
+Lucarite Z
+Golemastokite
+Mistigrixite
+Crabominablite
+Sarmuraïte
+Magearnite
+Scovilainite
+Glaivodite
+Nigirigonite
+Floréclatite
+Extra Baie Ceriz
+Extra Baie Maron
+Extra Baie Pêcha
+Extra Baie Fraive
+Extra Baie Willia
+Extra Baie Oran
+Extra Baie Kika
+Extra Baie Prine
+Extra Baie Sitrus
+Extra Baie Grena
+Extra Baie Alga
+Extra Baie Qualot
+Extra Baie Lonme
+Extra Baie Résin
+Extra Baie Tamato
+Extra Baie Chocco
+Extra Baie Pocpoc
+Extra Baie Parma
+Extra Baie Ratam
+Extra Baie Nanone
+Extra Baie Pomroz
+Extra Baie Kébia
+Extra Baie Jouca
+Extra Baie Cobaba
+Extra Baie Yapap
+Extra Baie Panga
+Extra Baie Charti
+Extra Baie Sédra
+Extra Baie Fraigo
+Extra Baie Lampou
+Extra Baie Babiri
+Extra Baie Zalis
+Extra Baie Selro
+Pain Narica

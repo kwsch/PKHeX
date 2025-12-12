@@ -119,6 +119,8 @@ namespace PKHeX.WinForms
             P_Picture1 = new System.Windows.Forms.PictureBox();
             P_Picture2 = new System.Windows.Forms.PictureBox();
             P_Picture3 = new System.Windows.Forms.PictureBox();
+            B_CollectTechnicalMachines = new System.Windows.Forms.Button();
+            B_CollectScrews = new System.Windows.Forms.Button();
             TC_Editor.SuspendLayout();
             Tab_Overview.SuspendLayout();
             Tab_MiscValues.SuspendLayout();
@@ -700,6 +702,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_MiscValues
             // 
+            Tab_MiscValues.Controls.Add(B_CollectTechnicalMachines);
             Tab_MiscValues.Controls.Add(B_CollectScrews);
             Tab_MiscValues.Controls.Add(label3);
             Tab_MiscValues.Controls.Add(L_RoyaleTicketPointsInfinite);
@@ -994,6 +997,26 @@ namespace PKHeX.WinForms
             P_Picture3.TabStop = false;
             P_Picture3.Click += P_Picture3_Click;
             // 
+            // B_CollectTechnicalMachines
+            // 
+            B_CollectTechnicalMachines.Location = new System.Drawing.Point(365, 106);
+            B_CollectTechnicalMachines.Name = "B_CollectTechnicalMachines";
+            B_CollectTechnicalMachines.Size = new System.Drawing.Size(120, 64);
+            B_CollectTechnicalMachines.TabIndex = 85;
+            B_CollectTechnicalMachines.Text = "Collect All Technical Machines";
+            B_CollectTechnicalMachines.UseVisualStyleBackColor = true;
+            B_CollectTechnicalMachines.Click += B_CollectTechnicalMachines_Click;
+            // 
+            // B_CollectScrews
+            // 
+            B_CollectScrews.Location = new System.Drawing.Point(365, 106);
+            B_CollectScrews.Name = "B_CollectScrews";
+            B_CollectScrews.Size = new System.Drawing.Size(120, 64);
+            B_CollectScrews.TabIndex = 85;
+            B_CollectScrews.Text = "Collect All Colorful Screws";
+            B_CollectScrews.UseVisualStyleBackColor = true;
+            B_CollectScrews.Click += B_CollectScrews_Click;
+            // 
             // SAV_Trainer9a
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1119,6 +1142,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.PictureBox P_Picture1;
         private System.Windows.Forms.PictureBox P_Picture2;
         private System.Windows.Forms.PictureBox P_Picture3;
+        private System.Windows.Forms.Button B_CollectTechnicalMachines;
         private System.Windows.Forms.Button B_CollectScrews;
     }
 }

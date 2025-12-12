@@ -201,6 +201,15 @@ public sealed partial class SAV_Trainer9a : Form
     private void P_Picture2_Click(object sender, EventArgs e) => SAV_Trainer9.IMG_Save(P_Picture2.Image!, nameof(KPictureInitialData));
     private void P_Picture3_Click(object sender, EventArgs e) => SAV_Trainer9.IMG_Save(P_Picture3.Image!, nameof(KPictureCurrentData));
 
+    private void B_CollectTechnicalMachines_Click(object sender, EventArgs e)
+    {
+        var count = TechnicalMachine9a.SetAllTechnicalMachines(SAV, true);
+        if (count == 0)
+            WinFormsUtil.Alert("All Technical Machines have already been collected.");
+        else
+            WinFormsUtil.Alert($"Collected Technical Machines x{count}!");
+    }
+
     private void B_CollectScrews_Click(object sender, EventArgs e)
     {
         if (ModifierKeys == (Keys.Alt | Keys.Control | Keys.Shift))

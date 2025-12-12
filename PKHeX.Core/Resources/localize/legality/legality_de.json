@@ -178,6 +178,7 @@
     "IVAllEqual_0": "All IVs are {0}.",
     "IVNotCorrect": "IVs do not match encounter requirements.",
     "IVFlawlessCountGEQ_0": "Should have at least {0} IVs = 31.",
+    "LevelBoostNotZero": "Level Boost should be zero.",
     "LevelEXPThreshold": "Current experience matches level threshold.",
     "LevelEXPTooHigh": "Current experience exceeds maximum amount for level 100.",
     "LevelMetBelow": "Current level is below met level.",

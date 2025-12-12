@@ -132,11 +132,22 @@ public static class Legal
     internal const ushort MaxItemID_9_T2 = 2557; // Briar’s Book
     internal const ushort MaxAbilityID_9_T2 = (int)Ability.PoisonPuppeteer;
 
-    internal const int MaxSpeciesID_9a = (int)Species.Falinks;
-    internal const int MaxMoveID_9a = (int)Move.NihilLight;
-    internal const int MaxItemID_9a = 2634; // Blue Canari Plush
-    internal const int MaxAbilityID_9a = (int)Ability.PoisonPuppeteer;
-    internal const int MaxBallID_9a = (int)Ball.LAOrigin;
+    internal const int MaxSpeciesID_9a = MaxSpeciesID_9a_MD;
+    internal const int MaxMoveID_9a = MaxMoveID_9a_IK;
+    internal const int MaxItemID_9a = MaxItemID_9a_MD;
+    internal const int MaxAbilityID_9a = MaxAbilityID_9a_IK;
+    internal const int MaxBallID_9a = MaxBallID_9a_IK;
+
+    internal const int MaxSpeciesID_9a_IK = (int)Species.Falinks;
+    internal const int MaxMoveID_9a_IK = (int)Move.NihilLight;
+    internal const int MaxItemID_9a_IK = 2634; // Blue Canari Plush
+    internal const int MaxAbilityID_9a_IK = (int)Ability.PoisonPuppeteer;
+    internal const int MaxBallID_9a_IK = (int)Ball.LAOrigin;
+
+    internal const int MaxSpeciesID_9a_MD = (int)Species.Gholdengo;
+    internal const int MaxMoveID_9a_MD = MaxMoveID_9a_IK;
+    internal const int MaxItemID_9a_MD = 2684; // Canari Bread
+    internal const int MaxAbilityID_9a_MD = MaxAbilityID_9a_IK;
 
     internal const int MaxBallID_9 = (int)Ball.LAOrigin;
     internal const GameVersion MaxGameID_HOME = GameVersion.VL; // TODO HOME ZA - Replace with ZA when HOME; if backwards transfer is allowed. If prevented, rename epoch as HOME1.

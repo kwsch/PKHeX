@@ -151,7 +151,7 @@ public readonly ref struct PokeDexEntry9a
         }
 
         // Gender differences?
-        if (BiGender.Contains(species))
+        if (BiGender.Contains(species) || BiGenderDLC.Contains(species))
             return gender == Gender.Male ? DisplayGender9a.Male : DisplayGender9a.Female;
         return DisplayGender9a.GenderedNoDifference;
     }
@@ -159,6 +159,7 @@ public readonly ref struct PokeDexEntry9a
     /// <summary>
     /// Species with gender differences in the dex.
     /// </summary>
+    /// <remarks>Unique models to display</remarks>
     private static ReadOnlySpan<ushort> BiGender =>
     [
         003, 025, 026, 064, 065, 123, 129, 130, 133,
@@ -167,6 +168,20 @@ public readonly ref struct PokeDexEntry9a
         407, 443, 444, 445, 449, 450, 459, 460,
         485, // Heatran
         668, // Pyroar
+    ];
+
+    private static ReadOnlySpan<ushort> BiGenderDLC =>
+    [
+        (int)Species.Zubat,
+        (int)Species.Golbat, // no Crobat
+
+        (int)Species.Torchic,
+        (int)Species.Combusken,
+        (int)Species.Blaziken,
+
+        (int)Species.Starly,
+        (int)Species.Staravia,
+        (int)Species.Staraptor,
     ];
 
     public void SetDisplayGender(Gender gender, ushort species, byte form)

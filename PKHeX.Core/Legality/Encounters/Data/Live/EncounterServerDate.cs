@@ -250,8 +250,9 @@ public static class EncounterServerDate
     /// </summary>
     private static readonly Dictionary<int, DistributionWindow> WA9Gifts = new()
     {
-        {1601, new(2025, 10, 14, 2026, 3, 1, +2)}, // Ralts holding Gardevoirite
-        {0102, new(2025, 10, 23, 2026, 2, 1, +2)}, // Slowpoke PokéCenter Gift
-        {0101, new(2025, 10, 31, 2027, 2, 1)}, // PokéCenter Audino Birthday Gift
+        {1601, new(2025, 10, 14, 2026, 03, 01, +2)}, // Ralts holding Gardevoirite
+        {0102, new(2025, 10, 23, 2026, 02, 01, +2)}, // Slowpoke PokéCenter Gift
+        {0101, new(2025, 10, 31, 2027, 02, 01)}, // PokéCenter Audino Birthday Gift
+        {1607, new(2025, 12, 09, 2026, 01, 20)}, // Alpha Charizard
     };
 }

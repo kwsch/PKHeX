@@ -46,6 +46,31 @@ public sealed class SCBlock
     }
 
     /// <summary>
+    /// Changes the block's data type. Use with caution.
+    /// </summary>
+    /// <param name="value">New data type to set.</param>
+    /// <remarks>Will throw if the requested block state changes are incorrect.</remarks>
+    public void ChangeStoredType(SCTypeCode value)
+    {
+        var noData = Data.Length == 0;
+        var isBoolean = value is SCTypeCode.Bool1 or SCTypeCode.Bool2;
+        if (noData != isBoolean)
+            throw new InvalidOperationException($"Cannot change {Type} to {value}.");
+
+        if (value is SCTypeCode.Array)
+        {
+
+        }
+        else if (!isBoolean)
+        {
+            var size = value.GetTypeSize();
+            if (Data.Length != size)
+                throw new InvalidOperationException($"Cannot change {Type} to {value}.");
+        }
+        Type = value;
+    }
+
+    /// <summary>
     /// Replaces the current <see cref="Data"/> with a same-sized array <see cref="value"/>.
     /// </summary>
     /// <param name="value">New array to load (copy from).</param>

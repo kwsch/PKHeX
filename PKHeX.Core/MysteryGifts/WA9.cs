@@ -153,7 +153,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     public override byte Form { get => Data[0x272]; set => Data[0x272] = value; }
     public override byte Gender { get => Data[0x273]; set => Data[0x273] = value; }
     public override byte Level { get => Data[0x274]; set => Data[0x274] = value; }
-    public override bool IsEgg { get => Data[0x275] == 1; set => Data[0x275] = value ? (byte)1 : (byte)0; } // before level; might be a flag for random level?
+    public override bool IsEgg { get => Data[0x275] == 1; set => Data[0x275] = value ? (byte)1 : (byte)0; }
     public Nature Nature
     {
         get
@@ -843,7 +843,8 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     {
         const byte rollCount = 1;
         var hp = IV_HP;
-        var ivs = new IndividualValueSet((sbyte)hp, (sbyte)IV_ATK, (sbyte)IV_DEF, (sbyte)IV_SPE, (sbyte)IV_SPA, (sbyte)IV_SPD);
+        var flawless = FlawlessIVCount;
+        var ivs = flawless != 0 ? default : new IndividualValueSet((sbyte)hp, (sbyte)IV_ATK, (sbyte)IV_DEF, (sbyte)IV_SPE, (sbyte)IV_SPA, (sbyte)IV_SPD);
         var sizeType = Scale == 256 ? SizeType9.RANDOM : SizeType9.VALUE;
         var gender = Gender switch
         {
@@ -852,14 +853,14 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
             2 => PersonalInfo.RatioMagicGenderless,
             _ => pi.Gender,
         };
-        return new GenerateParam9a(gender, FlawlessIVCount, rollCount, Correlation, sizeType, (byte)Scale, Nature, Ability, Shiny, ivs);
+        return new GenerateParam9a(gender, flawless, rollCount, Correlation, sizeType, (byte)Scale, Nature, Ability, Shiny, ivs);
     }
 
     private static byte GetFlawlessIVCount(int hp)
     {
-        var tryFlawless = 0xFF - hp;
-        if ((uint)tryFlawless < 6)
-            return (byte)tryFlawless;
+        var tryFlawless = hp - 0xFC;
+        if ((uint)tryFlawless < 3)
+            return (byte)(tryFlawless + 1);
         return 0;
     }
 }
