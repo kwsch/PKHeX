@@ -295,8 +295,14 @@ public abstract class InventoryPouch
             return 1;
         if (sav is SAV9SV)
             return InventoryPouch9.GetSuggestedCount(Type, item, requestVal);
-        if (sav is SAV9ZA za && item is ColorfulScrew9a.ColorfulScrewItemIndex)
-            return (int)za.Items.GetItemQuantity(ColorfulScrew9a.ColorfulScrewItemIndex); // Don't modify screw count
+        if (sav is SAV9ZA za)
+        {
+            if (item is ColorfulScrew9a.ColorfulScrewItemIndex)
+                return (int)za.Items.GetItemQuantity(ColorfulScrew9a.ColorfulScrewItemIndex); // Don't modify screw count
+            if (item is 2612) // Cherished Ring (quest item, never possessed)
+                return 0;
+        }
+
         return Math.Min(MaxCount, requestVal);
     }
 

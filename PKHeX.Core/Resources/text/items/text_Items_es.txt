@@ -2565,8 +2565,8 @@ Meganiumita
 Feraligatrita
 Skarmorita
 Froslassita
-
-
+Heatranita
+Darkrainita
 Emboarita
 Excadrillita
 Scolipedita
@@ -2584,7 +2584,7 @@ Dragalgita
 Hawluchanita
 Zygardita
 Drampanita
-
+Zeraoranita
 Falinksita
 Llave Habitación 202
 Supergalette Luminalia
@@ -2599,19 +2599,19 @@ Amuleto de Naria Firmado
 Basura Suculenta
 Ramita Revitalizante
 Enseres de Bárbara
-
-
-
-
-
-
-
-
-
-
-
-
-
+Mantequilla de Luminalia
+Supermantequilla
+Hipermantequilla
+Ultramantequilla
+Mantequilla Máxima
+Mantequilla D
+Sal Gruesa de Hoenn
+Especia Negra
+Aceite de Arboliva
+Caramelos Chispeantes
+Carta Importante
+Anillo Preciado
+Pañuelo Mugriento
 
 
 
@@ -2633,3 +2633,53 @@ Amuleto de Naria Verde
 Amuleto de Naria Azul
 Amuleto de Naria Azul
 Amuleto de Naria Azul
+Raichunita X
+Raichunita Y
+Chimechita
+Absolita Z
+Staraptorita
+Garchompita Z
+Lucarita Z
+Golurkita
+Meowsticita
+Crabominablita
+Golisopodita
+Magearnita
+Scovillainita
+Baxcaliburita
+Tatsugirita
+Glimmoranita
+Baya Zreza D
+Baya Atania D
+Baya Meloc D
+Baya Safre D
+Baya Perasi D
+Baya Aranja D
+Baya Caquic D
+Baya Ziuela D
+Baya Zidra D
+Baya Grana D
+Baya Algama D
+Baya Ispero D
+Baya Meluce D
+Baya Uvav D
+Baya Tamate D
+Baya Caoca D
+Baya Pasio D
+Baya Gualot D
+Baya Tamar D
+Baya Rimoya D
+Baya Pomaro D
+Baya Kebia D
+Baya Acardo D
+Baya Kouba D
+Baya Payapa D
+Baya Yecana D
+Baya Alcho D
+Baya Drasi D
+Baya Anjiro D
+Baya Dillo D
+Baya Baribá D
+Baya Chilan D
+Baya Hibis D
+Pan de Naria
