@@ -21,7 +21,11 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     {
         AllBlocks = BlankBlocks9a.GetBlankBlocks();
         Blocks = new SaveBlockAccessor9ZA(this);
-        SaveRevision = BlankBlocks9a.BlankRevision;
+
+        var revision = Blocks.GetBlock(SaveBlockAccessor9ZA.KSaveRevision);
+        revision.ChangeStoredType(SCTypeCode.UInt64);
+        revision.SetValue((ulong)BlankBlocks9a.BlankRevision);
+
         Initialize();
         ClearBoxes();
     }
@@ -38,11 +42,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     }
 
 
-    public int SaveRevision
-    {
-        get => (int)GetValue<ulong>(SaveBlockAccessor9ZA.KSaveRevision);
-        private init => SetValue(SaveBlockAccessor9ZA.KSaveRevision, (ulong)value);
-    }
+    public int SaveRevision => (int)GetValue<ulong>(SaveBlockAccessor9ZA.KSaveRevision);
 
     public string SaveRevisionString => SaveRevision switch
     {
