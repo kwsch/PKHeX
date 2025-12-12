@@ -178,6 +178,7 @@
     "IVAllEqual_0": "Todos los IVs son {0}.",
     "IVNotCorrect": "Los IVs no coinciden con los requerimientos del encuentro.",
     "IVFlawlessCountGEQ_0": "Debería tener al menos {0} IVs = 31.",
+    "LevelBoostNotZero": "Level Boost should be zero.",
     "LevelEXPThreshold": "La experiencia actual coincide con la del umbral de nivel.",
     "LevelEXPTooHigh": "La experiencia actual supera el máximo para el nivel 100.",
     "LevelMetBelow": "El nivel actual está por debajo del nivel de encuentro.",

@@ -178,6 +178,7 @@
     "IVAllEqual_0": "所有個體值均為「 {0} 」。",
     "IVNotCorrect": "個體值與遇見要求不匹配。",
     "IVFlawlessCountGEQ_0": "至少有 {0} 項個體值 = 31。",
+    "LevelBoostNotZero": "Level Boost should be zero.",
     "LevelEXPThreshold": "當前經驗值與等級匹配。",
     "LevelEXPTooHigh": "當前經驗值超過此寶可夢100級時之經驗值上限。",
     "LevelMetBelow": "當前等級低於遇見等級。",

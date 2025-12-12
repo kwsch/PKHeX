@@ -178,6 +178,7 @@
     "IVAllEqual_0": "個体値は全て {0} です。",
     "IVNotCorrect": "個体値がエンカウントタイプと一致しません。",
     "IVFlawlessCountGEQ_0": "少なくとも {0} つの個体値31が必要です。",
+    "LevelBoostNotZero": "Level Boost should be zero.",
     "LevelEXPThreshold": "現在の経験値がレベルのしきい値と一致しています。",
     "LevelEXPTooHigh": "現在の経験値が100レベルの最大値を超えています。",
     "LevelMetBelow": "現在のレベルが出会ったレベルより低いです。",
