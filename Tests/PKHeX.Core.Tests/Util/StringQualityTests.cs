@@ -45,7 +45,7 @@ public class StringQualityTests
             if (!hashset.Add(hash))
                 duplicates.Add(line);
         }
-        duplicates.Count.Should().Be(0, "expected no duplicate strings.");
+        duplicates.Count.Should().Be(0, "expected no duplicate species strings.");
     }
 
     private static void CheckMoveNames(string language)
@@ -53,7 +53,7 @@ public class StringQualityTests
         var strings = GameInfo.GetStrings(language);
         var arr = strings.movelist;
         var duplicates = GetDuplicates(arr);
-        duplicates.Count.Should().Be(0, "expected no duplicate strings.");
+        duplicates.Count.Should().Be(0, "expected no duplicate move strings.");
     }
 
     private static void CheckItemNames(string language)
@@ -63,7 +63,7 @@ public class StringQualityTests
         var duplicates = GetDuplicates(arr);
         var questionmarks = arr[129];
         duplicates.RemoveAll(z => z == questionmarks);
-        duplicates.Count.Should().Be(0, "expected no duplicate strings.");
+        duplicates.Count.Should().Be(0, "expected no duplicate item strings.");
     }
 
     private static List<string> GetDuplicates(string[] arr)

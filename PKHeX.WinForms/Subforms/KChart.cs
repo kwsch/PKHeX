@@ -102,7 +102,7 @@ public partial class KChart : Form
         PersonalInfo8BDSP bs => bs.IsInDex,
         PersonalInfo8LA bs => bs.IsPresentInGame,
         PersonalInfo9SV sv => sv.IsInDex,
-        PersonalInfo9ZA za => za.IsInDex,
+        PersonalInfo9ZA za => za is { IsInDex: true, DexIndex: <= 232 },
         _ => true,
     };
 

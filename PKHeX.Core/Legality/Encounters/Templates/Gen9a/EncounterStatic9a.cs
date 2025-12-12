@@ -28,7 +28,7 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
     public Moveset Moves { get; init; }
     public IndividualValueSet IVs { get; init; }
     public Nature Nature { get; init; } = Nature.Random;
-    public required byte Location { get; init; }
+    public required ushort Location { get; init; }
     public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
     public Shiny Shiny { get; init; } = Shiny.Never;
     public bool IsAlpha { get; init; }

@@ -11,6 +11,7 @@ public sealed class ItemStorage9ZA : IItemStorage
     [
         0017, 0018, 0019, 0020, 0021, 0022, 0023, 0024, 0025, 0026,
         0027, 0028, 0029, 0030, 0031, 0032, 0033, 0708,
+                                                        2684,
     ];
 
     public static ReadOnlySpan<ushort> Balls => // 1
@@ -23,16 +24,19 @@ public sealed class ItemStorage9ZA : IItemStorage
     public static ReadOnlySpan<ushort> Other => // 2 (Items)
     [
         0045, 0046, 0047, 0048, 0049, 0050, 0052, 0080, 0081, 0082,
-        0083, 0084, 0085, 0103, 0107, 0108, 0109, 0214, 0217, 0218,
-        0221, 0222, 0230, 0231, 0232, 0233, 0234, 0236, 0237, 0238,
-        0239, 0240, 0241, 0242, 0243, 0244, 0245, 0246, 0247, 0248,
-        0249, 0250, 0251, 0253, 0266, 0267, 0268, 0270, 0275, 0289,
-        0290, 0291, 0292, 0293, 0294, 0296, 0538, 0540, 0564, 0565,
-        0566, 0567, 0568, 0569, 0570, 0639, 0640, 0646, 0647, 0710,
-        0711, 0795, 0796, 0849, 1124, 1125, 1126, 1127, 1128, 1231,
-        1232, 1233, 1234, 1235, 1236, 1237, 1238, 1239, 1240, 1241,
-        1242, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250, 1251,
-        1582, 1592, 2401, 2558, 2618, 2619, // Colorful Screw cannot be held.
+        0083, 0084, 0085, 0103, 0107, 0108, 0109, 0116, 0117, 0118,
+        0119, 0214, 0217, 0218, 0221, 0222, 0230, 0231, 0232, 0233,
+        0234, 0236, 0237, 0238, 0239, 0240, 0241, 0242, 0243, 0244,
+        0245, 0246, 0247, 0248, 0249, 0250, 0251, 0252, 0253, 0258,
+        0259, 0266, 0267, 0268, 0270, 0275, 0289, 0290, 0291, 0292,
+        0293, 0294, 0296, 0324, 0534, 0535, 0537, 0538, 0540, 0564,
+        0565, 0566, 0567, 0568, 0569, 0570, 0639, 0640, 0646, 0647,
+        0710, 0711, 0795, 0796, 0849, 1124, 1125, 1126, 1127, 1128,
+        1231, 1232, 1233, 1234, 1235, 1236, 1237, 1238, 1239, 1240,
+        1241, 1242, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250,
+        1251, 1582, 1592, 1691, 1861, 2137, 2344, 2401, 2558, 2618,
+
+        2619, // Colorful Screw cannot be held.
     ];
 
     public static ReadOnlySpan<ushort> Treasure => // 3
@@ -42,9 +46,11 @@ public sealed class ItemStorage9ZA : IItemStorage
 
     public static ReadOnlySpan<ushort> Key => // 4
     [
-        0632, 0700, 0765, 0847, 2588, 2589, 2590, 2591, 2592, 2595,
-        2596, 2597, 2598, 2599, 2600, 2620, 2621, 2622, 2623, 2624,
-        2625, 2626, 2627, 2628, 2629, 2630, 2631, 2632, 2633, 2634,
+        0632, 0700, 0765, 0847, 1278, 2588, 2589, 2590, 2591, 2592,
+        2595, 2596, 2597, 2598, 2599, 2600, 2601, 2602, 2603, 2604,
+        2605, 2606, 2607, 2608, 2609, 2610, 2611, 2612, 2613, 2620,
+        2621, 2622, 2623, 2624, 2625, 2626, 2627, 2628, 2629, 2630,
+        2631, 2632, 2633, 2634,
 
     ];
 
@@ -54,6 +60,10 @@ public sealed class ItemStorage9ZA : IItemStorage
         0170, 0171, 0172, 0173, 0174, 0184, 0185, 0186, 0187, 0188,
         0189, 0190, 0191, 0192, 0193, 0194, 0195, 0196, 0197, 0198,
         0199, 0200, 0686,
+                          2651, 2652, 2653, 2654, 2655, 2656, 2657,
+        2658, 2659, 2660, 2661, 2662, 2663, 2664, 2665, 2666, 2667,
+        2668, 2669, 2670, 2671, 2672, 2673, 2674, 2675, 2676, 2677,
+        2678, 2679, 2680, 2681, 2682, 2683,
     ];
 
     public static ReadOnlySpan<ushort> TM => // 6
@@ -69,17 +79,27 @@ public sealed class ItemStorage9ZA : IItemStorage
         0408, 0409, 0410, 0411, 0412, 0413, 0414, 0415, 0416, 0417,
         0418, 0419, 0618, 0619, 0620, 0690, 0691, 0692, 0693, 2160,
         2162, 2163, 2164, 2165, 2166, 2167, 2168,
+                                                  2169, 2170, 2171,
+        2172, 2173, 2174, 2175, 2176, 2177, 2178, 2179, 2180, 2181,
+        2182, 2183, 2184, 2185, 2186, 2187, 2188, 2189, 2190, 2191,
+        2192, 2193, 2194, 2195, 2196, 2197, 2198, 2199, 2200, 2201,
+        2202, 2203, 2204, 2205, 2206, 2207, 2208, 2209, 2210, 2211,
+        2212, 2213, 2214, 2215, 2216, 2217, 2218, 2219, 2220, 2221,
+
     ];
 
     public static ReadOnlySpan<ushort> MegaStones => // 7
     [
-        0656, 0657, 0658, 0659, 0660, 0661, 0662, 0663, 0665, 0666,
-        0667, 0668, 0669, 0670, 0671, 0672, 0673, 0674, 0675, 0676,
-        0677, 0678, 0679, 0680, 0681, 0682, 0683, 0754, 0755, 0756,
-        0757, 0758, 0759, 0760, 0761, 0762, 0763, 0764, 0767, 0768,
-        0769, 0770, 2559, 2560, 2561, 2562, 2563, 2564, 2565, 2566,
-        2569, 2570, 2571, 2572, 2573, 2574, 2575, 2576, 2577, 2578,
-        2579, 2580, 2581, 2582, 2583, 2584, 2585, 2587,
+        0656, 0657, 0658, 0659, 0660, 0661, 0662, 0663, 0664, 0665,
+        0666, 0667, 0668, 0669, 0670, 0671, 0672, 0673, 0674, 0675,
+        0676, 0677, 0678, 0679, 0680, 0681, 0682, 0683, 0684, 0685,
+        0752, 0753, 0754, 0755, 0756, 0757, 0758, 0759, 0760, 0761,
+        0762, 0763, 0764, 0767, 0768, 0769, 0770, 2559, 2560, 2561,
+        2562, 2563, 2564, 2565, 2566, 2567, 2568, 2569, 2570, 2571,
+        2572, 2573, 2574, 2575, 2576, 2577, 2578, 2579, 2580, 2581,
+        2582, 2583, 2584, 2585, 2586, 2587, 2635, 2636, 2637, 2638,
+        2639, 2640, 2641, 2642, 2643, 2644, 2645, 2646, 2647, 2648,
+        2649, 2650,
     ];
 
     internal static ReadOnlySpan<InventoryType> ValidTypes =>
@@ -97,8 +117,12 @@ public sealed class ItemStorage9ZA : IItemStorage
 
     public static ReadOnlySpan<ushort> Unreleased =>
     [
-        0005, // Safari Ball (Season 3 Ranked Reward)
-        0851, // Beast Ball
+        0664, // Blazikenite
+        0752, // Swampertite
+        0753, // Sceptilite
+
+        2640, // Garchompite Z
+        2648, // Baxcalibrite
     ];
 
     public int GetMax(InventoryType type) => type switch
@@ -147,11 +171,16 @@ public sealed class ItemStorage9ZA : IItemStorage
     public static bool IsMegaStone(ushort item) => MegaStones.Contains(item);
 
     /// <summary>
-    /// Retrieves the expected Mega Stone item ID for a given Pokémon species and form.
+    /// Retrieves the expected Mega Stone or Primal Orb item ID for a given Pokémon species and form.
     /// </summary>
-    /// <returns>0 if no item is expected for this species and form combination (in other words, not a mega form).</returns>
-    public static ushort GetExpectedMegaStone(ushort species, byte form) => (Species)species switch
+    /// <returns>0 if no item is expected for this species and form combination (in other words, not a Mega Evolution or Primal Reversion).</returns>
+    public static ushort GetExpectedMegaStoneOrPrimalOrb(ushort species, byte form) => (Species)species switch
     {
+        // Primal Reversions
+        Groudon when form == 1 => 0534,
+        Kyogre when form == 1 => 0535,
+
+        // X/Y Mega Evolutions
         Gengar when form == 1 => 0656,
         Gardevoir when form == 1 => 0657,
         Ampharos when form == 1 => 0658,
@@ -182,6 +211,8 @@ public sealed class ItemStorage9ZA : IItemStorage
         Garchomp when form == 1 => 0683,
         Latias when form == 1 => 0684,
         Latios when form == 1 => 0685,
+
+        // OR/AS Mega Evolutions
         Swampert when form == 1 => 0752,
         Sceptile when form == 1 => 0753,
         Sableye when form == 1 => 0754,
@@ -199,6 +230,8 @@ public sealed class ItemStorage9ZA : IItemStorage
         Lopunny when form == 1 => 0768,
         Salamence when form == 1 => 0769,
         Beedrill when form == 1 => 0770,
+
+        // Z-A Mega Evolutions
         Clefable when form == 1 => 2559,
         Victreebel when form == 1 => 2560,
         Starmie when form == 1 => 2561,
@@ -229,14 +262,14 @@ public sealed class ItemStorage9ZA : IItemStorage
         Zeraora when form == 1 => 2586,
         Falinks when form == 1 => 2587,
 
-        // DLC Mega Stones
+        // Mega Dimension Mega Evolutions
         Raichu when form == 2 => 2635, // X
         Raichu when form == 3 => 2636, // Y
         Chimecho when form == 1 => 2637,
-        Absol when form == 2 => 2638, // ZA
+        Absol when form == 2 => 2638, // Z
         Staraptor when form == 1 => 2639,
-        Garchomp when form == 2 => 2640, // ZA
-        Lucario when form == 2 => 2641, // ZA
+        Garchomp when form == 2 => 2640, // Z
+        Lucario when form == 2 => 2641, // Z
         Golurk when form == 1 => 2642,
         Meowstic when form == 2 => 2643,
         Crabominable when form == 1 => 2644,
