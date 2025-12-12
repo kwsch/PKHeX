@@ -140,6 +140,6 @@ internal static class Encounters9a
         new(TradeNames,1,0447,0,25) { ID32 = 348226, OTGender = 0, Gender = 0, Nature = Nature.Rash,  IVs = new(15,31,15,31,31,15), Moves = new(418,098,249,197) }, // Riolu (sub_tradepoke_riolu)
         new(TradeNames,2,0079,1,30) { ID32 = 934764, OTGender = 0, Gender = 0,                                 FlawlessIVCount = 3, Moves = new(352,133,428,029) }, // Slowpoke-1 (sub_addpoke_gyadon)
         new(TradeNames,3,0026,1,64) { ID32 = 693489, OTGender = 1, Gender = 0, Nature = Nature.Jolly, IVs = new(20,20,20,20,20,20), Moves = new(094,087,057,583) }, // Raichu-1 (sub_addpoke_araichu)
-        new(TradeNames,4,0233,0,50) { ID32 = 000000, OTGender = 0, Gender = 2, Nature = Nature.Modest                                                            }, // Porygon2 (sub_tradepoke_poligon2) -- TODO ZA DLC FIND TID
+        new(TradeNames,4,0233,0,50) { ID32 = 065536, OTGender = 0, Gender = 2, Nature = Nature.Modest                                                            }, // Porygon2 (sub_tradepoke_poligon2) -- TODO ZA DLC FIND TID
     ];
 }
