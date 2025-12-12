@@ -14,7 +14,6 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor9ZA(this);
-        SaveRevision = 0;
         Initialize();
     }
 
@@ -22,7 +21,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     {
         AllBlocks = BlankBlocks9a.GetBlankBlocks();
         Blocks = new SaveBlockAccessor9ZA(this);
-        SaveRevision = 0;
+        SaveRevision = BlankBlocks9a.BlankRevision;
         Initialize();
         ClearBoxes();
     }
@@ -38,11 +37,17 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
         State.Edited = true;
     }
 
-    public int SaveRevision { get; }
+
+    public int SaveRevision
+    {
+        get => (int)GetValue<ulong>(SaveBlockAccessor9ZA.KSaveRevision);
+        private init => SetValue(SaveBlockAccessor9ZA.KSaveRevision, (ulong)value);
+    }
 
     public string SaveRevisionString => SaveRevision switch
     {
         0 => "-Base", // Vanilla
+        1 => "-MD", // Mega Dimension
         _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
     };
 
@@ -104,14 +109,17 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
         int rev = SaveRevision;
         if (rev == 0)
         {
-            m_move = Legal.MaxMoveID_9a;
-            m_spec = Legal.MaxSpeciesID_9a;
-            m_item = Legal.MaxItemID_9a;
-            m_abil = Legal.MaxAbilityID_9a;
+            m_move = Legal.MaxMoveID_9a_IK;
+            m_spec = Legal.MaxSpeciesID_9a_IK;
+            m_item = Legal.MaxItemID_9a_IK;
+            m_abil = Legal.MaxAbilityID_9a_IK;
         }
         else
         {
-            throw new ArgumentOutOfRangeException(nameof(SaveRevision));
+            m_move = Legal.MaxMoveID_9a_MD;
+            m_spec = Legal.MaxSpeciesID_9a_MD;
+            m_item = Legal.MaxItemID_9a_MD;
+            m_abil = Legal.MaxAbilityID_9a_MD;
         }
     }
 

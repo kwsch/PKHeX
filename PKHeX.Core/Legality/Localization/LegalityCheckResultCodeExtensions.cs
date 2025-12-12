@@ -258,6 +258,8 @@ public static class LegalityCheckResultCodeExtensions
         HintEvolvesToRareForm_0 => localization.HintEvolvesToRareForm_0,
         ItemEgg => localization.ItemEgg,
         ItemUnreleased => localization.ItemUnreleased,
+
+        LevelBoostNotZero => localization.LevelBoostNotZero,
         LevelEXPThreshold => localization.LevelEXPThreshold,
         LevelEXPTooHigh => localization.LevelEXPTooHigh,
         LevelMetBelow => localization.LevelMetBelow,

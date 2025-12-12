@@ -238,6 +238,7 @@ public sealed class LegalityCheckLocalization
     public string IVNotCorrect { get; set; } = "IVs do not match encounter requirements.";
     public string IVFlawlessCountGEQ_0 { get; set; } = "Should have at least {0} IVs = 31.";
 
+    public string LevelBoostNotZero { get; set; } = "Level Boost should be zero.";
     public string LevelEXPThreshold { get; set; } = "Current experience matches level threshold.";
     public string LevelEXPTooHigh { get; set; } = "Current experience exceeds maximum amount for level 100.";
     public string LevelMetBelow { get; set; } = "Current level is below met level.";

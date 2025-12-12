@@ -2565,8 +2565,8 @@ Meganiumite
 Feraligite
 Skarmorite
 Froslassite
-
-
+Heatranite
+Darkranite
 Emboarite
 Excadrite
 Scolipite
@@ -2584,7 +2584,7 @@ Dragalgite
 Hawluchanite
 Zygardite
 Drampanite
-
+Zeraorite
 Falinksite
 Key to Room 202
 Super Lumiose Galette
@@ -2599,19 +2599,19 @@ Autographed Plush
 Tasty Trash
 Revitalizing Twig
 Lida’s Things
-
-
-
-
-
-
-
-
-
-
-
-
-
+Lumiosian Butter
+Nice Butter
+Great Butter
+Amazing Butter
+Supreme Butter
+Hyperspace Butter
+Hoennian Salt
+Épice Noire
+Arboliva Oil
+Popping Candy
+Important Letter
+Cherished Ring
+Dirty Scarf
 
 
 
@@ -2633,3 +2633,53 @@ Green Canari Plush
 Blue Canari Plush
 Blue Canari Plush
 Blue Canari Plush
+Raichunite X
+Raichunite Y
+Chimechite
+Absolite Z
+Staraptite
+Garchompite Z
+Lucarionite Z
+Golurkite
+Meowsticite
+Crabominite
+Golisopite
+Magearnite
+Scovillainite
+Baxcalibrite
+Tatsugirinite
+Glimmoranite
+Hyper Cheri Berry
+Hyper Chesto Berry
+Hyper Pecha Berry
+Hyper Rawst Berry
+Hyper Aspear Berry
+Hyper Oran Berry
+Hyper Persim Berry
+Hyper Lum Berry
+Hyper Sitrus Berry
+Hyper Pomeg Berry
+Hyper Kelpsy Berry
+Hyper Qualot Berry
+Hyper Hondew Berry
+Hyper Grepa Berry
+Hyper Tamato Berry
+Hyper Occa Berry
+Hyper Passho Berry
+Hyper Wacan Berry
+Hyper Rindo Berry
+Hyper Yache Berry
+Hyper Chople Berry
+Hyper Kebia Berry
+Hyper Shuca Berry
+Hyper Coba Berry
+Hyper Payapa Berry
+Hyper Tanga Berry
+Hyper Charti Berry
+Hyper Kasib Berry
+Hyper Haban Berry
+Hyper Colbur Berry
+Hyper Babiri Berry
+Hyper Chilan Berry
+Hyper Roseli Berry
+Canari Bread

@@ -63,6 +63,7 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     public const uint KBoxWallpapers = 0x2EB1B190; // Box Wallpapers
     public const uint KMoney = 0x4F35D0DD; // u32
     public const uint KCurrentBox = 0x017C3CBB; // U32 Box Index
+    public const uint KSaveRevision = 0x0926555A; // u64 revision
     private const uint KCoordinates = 0x910D381F; // Player Coordinates/Rotation
     private const uint KInfiniteRoyale = 0x8929BFB6; // object
     private const uint KConfig = 0xAC6DD22F; // u64 object

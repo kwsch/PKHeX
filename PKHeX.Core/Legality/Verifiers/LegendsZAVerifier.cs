@@ -14,6 +14,9 @@ public sealed class LegendsZAVerifier : Verifier
         CheckLearnset(data, pa9);
         CheckFlagsTM(data, pa9);
         CheckFlagsPlus(data, pa9);
+
+        if (pa9.LevelBoost is not 0)
+            data.AddLine(GetInvalid(LevelBoostNotZero));
     }
 
     private void CheckLearnset(LegalityAnalysis data, PA9 pa)
@@ -125,7 +128,7 @@ public sealed class LegendsZAVerifier : Verifier
         var enc = data.EncounterMatch;
         if (enc.Context is not EntityContext.Gen9a)
             return;
-        if (enc is not IAlphaReadOnly { IsAlpha: true })
+        if (enc is WA9 or not IAlphaReadOnly { IsAlpha: true })
             return;
 
         var pi = PersonalTable.ZA[enc.Species, enc.Form];

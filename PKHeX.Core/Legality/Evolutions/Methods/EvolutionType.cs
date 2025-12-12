@@ -74,6 +74,7 @@ public enum EvolutionType : byte
     LevelUpRecoilDamageFemale = 60, // Basculegion-1
 
     Hisui = 61,
+    UseMovePlusStyle = 62,
 
     // These are fake IDs as PLA indexes clashed with mainline.
     UseItemFullMoon = 90, // Ursaluna
@@ -172,6 +173,7 @@ public static class EvolutionTypeExtensions
         UseItemFullMoon => false,
         UseMoveAgileStyle => false,
         UseMoveStrongStyle => false,
+        UseMovePlusStyle => false,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }
