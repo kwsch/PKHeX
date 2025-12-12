@@ -950,7 +950,7 @@ public static class FormConverter
         return result;
     }
 
-    public static MegaFormNames GetMegaFormNames(ReadOnlySpan<string> forms) => new()
+    public static MegaFormNames GetMegaFormNames(ReadOnlySpan<string> forms, IReadOnlyList<string> gender, IReadOnlyList<string> types) => new()
     {
         Regular = forms[Mega],
         X = forms[MegaX],
@@ -960,6 +960,12 @@ public static class FormConverter
         Tatsu0 = $"{forms[Curly]}-{forms[Mega]}",
         Tatsu1 = $"{forms[Droopy]}-{forms[Mega]}",
         Tatsu2 = $"{forms[Stretchy]}-{forms[Mega]}",
+
+        MeowsticM = $"{gender[000]}-{forms[Mega]}",
+        MeowsticF = $"{gender[001]}-{forms[Mega]}",
+
+        Magearna0 = $"{types[000]}-{forms[Mega]}",
+        Magearna1 = $"{forms[1062]}-{forms[Mega]}",
     };
 
     private const int Mega = 804;
@@ -1139,4 +1145,8 @@ public sealed record MegaFormNames
     public required string Tatsu0 { get; init; }
     public required string Tatsu1 { get; init; }
     public required string Tatsu2 { get; init; }
+    public required string MeowsticM { get; init; }
+    public required string MeowsticF { get; init; }
+    public required string Magearna0 { get; init; }
+    public required string Magearna1 { get; init; }
 }
