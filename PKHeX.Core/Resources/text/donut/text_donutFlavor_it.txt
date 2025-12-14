@@ -1,0 +1,281 @@
+Potere alfa L. 1
+Potere alfa L. 2
+Potere alfa L. 3
+Potere cromatico: tipo Normale L. 1
+Potere cromatico: tipo Normale L. 2
+Potere cromatico: tipo Normale L. 3
+Potere cromatico: tipo Fuoco L. 1
+Potere cromatico: tipo Fuoco L. 2
+Potere cromatico: tipo Fuoco L. 3
+Potere cromatico: tipo Acqua L. 1
+Potere cromatico: tipo Acqua L. 2
+Potere cromatico: tipo Acqua L. 3
+Potere cromatico: tipo Elettro L. 1
+Potere cromatico: tipo Elettro L. 2
+Potere cromatico: tipo Elettro L. 3
+Potere cromatico: tipo Erba L. 1
+Potere cromatico: tipo Erba L. 2
+Potere cromatico: tipo Erba L. 3
+Potere cromatico: tipo Ghiaccio L. 1
+Potere cromatico: tipo Ghiaccio L. 2
+Potere cromatico: tipo Ghiaccio L. 3
+Potere cromatico: tipo Lotta L. 1
+Potere cromatico: tipo Lotta L. 2
+Potere cromatico: tipo Lotta L. 3
+Potere cromatico: tipo Veleno L. 1
+Potere cromatico: tipo Veleno L. 2
+Potere cromatico: tipo Veleno L. 3
+Potere cromatico: tipo Terra L. 1
+Potere cromatico: tipo Terra L. 2
+Potere cromatico: tipo Terra L. 3
+Potere cromatico: tipo Volante L. 1
+Potere cromatico: tipo Volante L. 2
+Potere cromatico: tipo Volante L. 3
+Potere cromatico: tipo Psico L. 1
+Potere cromatico: tipo Psico L. 2
+Potere cromatico: tipo Psico L. 3
+Potere cromatico: tipo Coleottero L. 1
+Potere cromatico: tipo Coleottero L. 2
+Potere cromatico: tipo Coleottero L. 3
+Potere cromatico: tipo Roccia L. 1
+Potere cromatico: tipo Roccia L. 2
+Potere cromatico: tipo Roccia L. 3
+Potere cromatico: tipo Spettro L. 1
+Potere cromatico: tipo Spettro L. 2
+Potere cromatico: tipo Spettro L. 3
+Potere cromatico: tipo Drago L. 1
+Potere cromatico: tipo Drago L. 2
+Potere cromatico: tipo Drago L. 3
+Potere cromatico: tipo Buio L. 1
+Potere cromatico: tipo Buio L. 2
+Potere cromatico: tipo Buio L. 3
+Potere cromatico: tipo Acciaio L. 1
+Potere cromatico: tipo Acciaio L. 2
+Potere cromatico: tipo Acciaio L. 3
+Potere cromatico: tipo Folletto L. 1
+Potere cromatico: tipo Folletto L. 2
+Potere cromatico: tipo Folletto L. 3
+Potere cromatico: tutti i tipi L. 1
+Potere cromatico: tutti i tipi L. 2
+Potere cromatico: tutti i tipi L. 3
+Potere Attacco L. 1
+Potere Attacco L. 2
+Potere Attacco L. 3
+Potere Attacco Speciale L. 1
+Potere Attacco Speciale L. 2
+Potere Attacco Speciale L. 3
+Potere mosse: tipo Normale L. 1
+Potere mosse: tipo Normale L. 2
+Potere mosse: tipo Normale L. 3
+Potere mosse: tipo Fuoco L. 1
+Potere mosse: tipo Fuoco L. 2
+Potere mosse: tipo Fuoco L. 3
+Potere mosse: tipo Acqua L. 1
+Potere mosse: tipo Acqua L. 2
+Potere mosse: tipo Acqua L. 3
+Potere mosse: tipo Elettro L. 1
+Potere mosse: tipo Elettro L. 2
+Potere mosse: tipo Elettro L. 3
+Potere mosse: tipo Erba L. 1
+Potere mosse: tipo Erba L. 2
+Potere mosse: tipo Erba L. 3
+Potere mosse: tipo Ghiaccio L. 1
+Potere mosse: tipo Ghiaccio L. 2
+Potere mosse: tipo Ghiaccio L. 3
+Potere mosse: tipo Lotta L. 1
+Potere mosse: tipo Lotta L. 2
+Potere mosse: tipo Lotta L. 3
+Potere mosse: tipo Veleno L. 1
+Potere mosse: tipo Veleno L. 2
+Potere mosse: tipo Veleno L. 3
+Potere mosse: tipo Terra L. 1
+Potere mosse: tipo Terra L. 2
+Potere mosse: tipo Terra L. 3
+Potere mosse: tipo Volante L. 1
+Potere mosse: tipo Volante L. 2
+Potere mosse: tipo Volante L. 3
+Potere mosse: tipo Psico L. 1
+Potere mosse: tipo Psico L. 2
+Potere mosse: tipo Psico L. 3
+Potere mosse: tipo Coleottero L. 1
+Potere mosse: tipo Coleottero L. 2
+Potere mosse: tipo Coleottero L. 3
+Potere mosse: tipo Roccia L. 1
+Potere mosse: tipo Roccia L. 2
+Potere mosse: tipo Roccia L. 3
+Potere mosse: tipo Spettro L. 1
+Potere mosse: tipo Spettro L. 2
+Potere mosse: tipo Spettro L. 3
+Potere mosse: tipo Drago L. 1
+Potere mosse: tipo Drago L. 2
+Potere mosse: tipo Drago L. 3
+Potere mosse: tipo Buio L. 1
+Potere mosse: tipo Buio L. 2
+Potere mosse: tipo Buio L. 3
+Potere mosse: tipo Acciaio L. 1
+Potere mosse: tipo Acciaio L. 2
+Potere mosse: tipo Acciaio L. 3
+Potere mosse: tipo Folletto L. 1
+Potere mosse: tipo Folletto L. 2
+Potere mosse: tipo Folletto L. 3
+Potere Velocità: L. 1
+Potere Velocità: L. 2
+Potere Velocità: L. 3
+Potere bottino: L. 1
+Potere bottino: L. 2
+Potere bottino: L. 3
+Potere strumenti: bacche L. 1
+Potere strumenti: bacche L. 2
+Potere strumenti: bacche L. 3
+Potere strumenti: caramelle L. 1
+Potere strumenti: caramelle L. 2
+Potere strumenti: caramelle L. 3
+Potere strumenti: tesori L. 1
+Potere strumenti: tesori L. 2
+Potere strumenti: tesori L. 3
+Potere strumenti: Poké Ball L. 1
+Potere strumenti: Poké Ball L. 2
+Potere strumenti: Poké Ball L. 3
+Potere strumenti: speciali L. 1
+Potere strumenti: speciali L. 2
+Potere strumenti: speciali L. 3
+Potere strumenti: monete L. 1
+Potere strumenti: monete L. 2
+Potere strumenti: monete L. 3
+Potere energia mega: accumulo L. 1
+Potere energia mega: accumulo L. 2
+Potere energia mega: accumulo L. 3
+Potere energia mega: durata L. 1
+Potere energia mega: durata L. 2
+Potere energia mega: durata L. 3
+Potere Difesa L. 1
+Potere Difesa L. 2
+Potere Difesa L. 3
+Potere Difesa Speciale L. 1
+Potere Difesa Speciale L. 2
+Potere Difesa Speciale L. 3
+Potere immunità: tipo Normale L. 1
+Potere immunità: tipo Normale L. 2
+Potere immunità: tipo Normale L. 3
+Potere immunità: tipo Fuoco L. 1
+Potere immunità: tipo Fuoco L. 2
+Potere immunità: tipo Fuoco L. 3
+Potere immunità: tipo Acqua L. 1
+Potere immunità: tipo Acqua L. 2
+Potere immunità: tipo Acqua L. 3
+Potere immunità: tipo Elettro L. 1
+Potere immunità: tipo Elettro L. 2
+Potere immunità: tipo Elettro L. 3
+Potere immunità: tipo Erba L. 1
+Potere immunità: tipo Erba L. 2
+Potere immunità: tipo Erba L. 3
+Potere immunità: tipo Ghiaccio L. 1
+Potere immunità: tipo Ghiaccio L. 2
+Potere immunità: tipo Ghiaccio L. 3
+Potere immunità: tipo Lotta L. 1
+Potere immunità: tipo Lotta L. 2
+Potere immunità: tipo Lotta L. 3
+Potere immunità: tipo Veleno L. 1
+Potere immunità: tipo Veleno L. 2
+Potere immunità: tipo Veleno L. 3
+Potere immunità: tipo Terra L. 1
+Potere immunità: tipo Terra L. 2
+Potere immunità: tipo Terra L. 3
+Potere immunità: tipo Volante L. 1
+Potere immunità: tipo Volante L. 2
+Potere immunità: tipo Volante L. 3
+Potere immunità: tipo Psico L. 1
+Potere immunità: tipo Psico L. 2
+Potere immunità: tipo Psico L. 3
+Potere immunità: tipo Coleottero L. 1
+Potere immunità: tipo Coleottero L. 2
+Potere immunità: tipo Coleottero L. 3
+Potere immunità: tipo Roccia L. 1
+Potere immunità: tipo Roccia L. 2
+Potere immunità: tipo Roccia L. 3
+Potere immunità: tipo Spettro L. 1
+Potere immunità: tipo Spettro L. 2
+Potere immunità: tipo Spettro L. 3
+Potere immunità: tipo Drago L. 1
+Potere immunità: tipo Drago L. 2
+Potere immunità: tipo Drago L. 3
+Potere immunità: tipo Buio L. 1
+Potere immunità: tipo Buio L. 2
+Potere immunità: tipo Buio L. 3
+Potere immunità: tipo Acciaio L. 1
+Potere immunità: tipo Acciaio L. 2
+Potere immunità: tipo Acciaio L. 3
+Potere immunità: tipo Folletto L. 1
+Potere immunità: tipo Folletto L. 2
+Potere immunità: tipo Folletto L. 3
+Potere gran stazza L. 1
+Potere gran stazza L. 2
+Potere gran stazza L. 3
+Potere piccola stazza L. 1
+Potere piccola stazza L. 2
+Potere piccola stazza L. 3
+Potere incontri L. 1
+Potere incontri L. 2
+Potere incontri L. 3
+Potere cattura: tipo Normale L. 1
+Potere cattura: tipo Normale L. 2
+Potere cattura: tipo Normale L. 3
+Potere cattura: tipo Fuoco L. 1
+Potere cattura: tipo Fuoco L. 2
+Potere cattura: tipo Fuoco L. 3
+Potere cattura: tipo Acqua L. 1
+Potere cattura: tipo Acqua L. 2
+Potere cattura: tipo Acqua L. 3
+Potere cattura: tipo Elettro L. 1
+Potere cattura: tipo Elettro L. 2
+Potere cattura: tipo Elettro L. 3
+Potere cattura: tipo Erba L. 1
+Potere cattura: tipo Erba L. 2
+Potere cattura: tipo Erba L. 3
+Potere cattura: tipo Ghiaccio L. 1
+Potere cattura: tipo Ghiaccio L. 2
+Potere cattura: tipo Ghiaccio L. 3
+Potere cattura: tipo Lotta L. 1
+Potere cattura: tipo Lotta L. 2
+Potere cattura: tipo Lotta L. 3
+Potere cattura: tipo Veleno L. 1
+Potere cattura: tipo Veleno L. 2
+Potere cattura: tipo Veleno L. 3
+Potere cattura: tipo Terra L. 1
+Potere cattura: tipo Terra L. 2
+Potere cattura: tipo Terra L. 3
+Potere cattura: tipo Volante L. 1
+Potere cattura: tipo Volante L. 2
+Potere cattura: tipo Volante L. 3
+Potere cattura: tipo Psico L. 1
+Potere cattura: tipo Psico L. 2
+Potere cattura: tipo Psico L. 3
+Potere cattura: tipo Coleottero L. 1
+Potere cattura: tipo Coleottero L. 2
+Potere cattura: tipo Coleottero L. 3
+Potere cattura: tipo Roccia L. 1
+Potere cattura: tipo Roccia L. 2
+Potere cattura: tipo Roccia L. 3
+Potere cattura: tipo Spettro L. 1
+Potere cattura: tipo Spettro L. 2
+Potere cattura: tipo Spettro L. 3
+Potere cattura: tipo Drago L. 1
+Potere cattura: tipo Drago L. 2
+Potere cattura: tipo Drago L. 3
+Potere cattura: tipo Buio L. 1
+Potere cattura: tipo Buio L. 2
+Potere cattura: tipo Buio L. 3
+Potere cattura: tipo Acciaio L. 1
+Potere cattura: tipo Acciaio L. 2
+Potere cattura: tipo Acciaio L. 3
+Potere cattura: tipo Folletto L. 1
+Potere cattura: tipo Folletto L. 2
+Potere cattura: tipo Folletto L. 3
+Potere cattura: tutti i tipi L. 1
+Potere cattura: tutti i tipi L. 2
+Potere cattura: tutti i tipi L. 3
+Potere Neropesto
+Potere Omega
+Potere Alpha
+Potere Delta
+Potere Fulmirapido

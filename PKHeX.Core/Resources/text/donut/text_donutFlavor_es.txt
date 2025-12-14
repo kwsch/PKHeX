@@ -1,0 +1,281 @@
+Poder Alfa Nv. 1
+Poder Alfa Nv. 2
+Poder Alfa Nv. 3
+Poder Variocolor Normal Nv. 1
+Poder Variocolor Normal Nv. 2
+Poder Variocolor Normal Nv. 3
+Poder Variocolor Fuego Nv. 1
+Poder Variocolor Fuego Nv. 2
+Poder Variocolor Fuego Nv. 3
+Poder Variocolor Agua Nv. 1
+Poder Variocolor Agua Nv. 2
+Poder Variocolor Agua Nv. 3
+Poder Variocolor Eléctrico Nv. 1
+Poder Variocolor Eléctrico Nv. 2
+Poder Variocolor Eléctrico Nv. 3
+Poder Variocolor Planta Nv. 1
+Poder Variocolor Planta Nv. 2
+Poder Variocolor Planta Nv. 3
+Poder Variocolor Hielo Nv. 1
+Poder Variocolor Hielo Nv. 2
+Poder Variocolor Hielo Nv. 3
+Poder Variocolor Lucha Nv. 1
+Poder Variocolor Lucha Nv. 2
+Poder Variocolor Lucha Nv. 3
+Poder Variocolor Veneno Nv. 1
+Poder Variocolor Veneno Nv. 2
+Poder Variocolor Veneno Nv. 3
+Poder Variocolor Tierra Nv. 1
+Poder Variocolor Tierra Nv. 2
+Poder Variocolor Tierra Nv. 3
+Poder Variocolor Volador Nv. 1
+Poder Variocolor Volador Nv. 2
+Poder Variocolor Volador Nv. 3
+Poder Variocolor Psíquico Nv. 1
+Poder Variocolor Psíquico Nv. 2
+Poder Variocolor Psíquico Nv. 3
+Poder Variocolor Bicho Nv. 1
+Poder Variocolor Bicho Nv. 2
+Poder Variocolor Bicho Nv. 3
+Poder Variocolor Roca Nv. 1
+Poder Variocolor Roca Nv. 2
+Poder Variocolor Roca Nv. 3
+Poder Variocolor Fantasma Nv. 1
+Poder Variocolor Fantasma Nv. 2
+Poder Variocolor Fantasma Nv. 3
+Poder Variocolor Dragón Nv. 1
+Poder Variocolor Dragón Nv. 2
+Poder Variocolor Dragón Nv. 3
+Poder Variocolor Siniestro Nv. 1
+Poder Variocolor Siniestro Nv. 2
+Poder Variocolor Siniestro Nv. 3
+Poder Variocolor Acero Nv. 1
+Poder Variocolor Acero Nv. 2
+Poder Variocolor Acero Nv. 3
+Poder Variocolor Hada Nv. 1
+Poder Variocolor Hada Nv. 2
+Poder Variocolor Hada Nv. 3
+Poder Variocolor de todos los tipos Nv. 1
+Poder Variocolor de todos los tipos Nv. 2
+Poder Variocolor de todos los tipos Nv. 3
+Poder Ataque Nv. 1
+Poder Ataque Nv. 2
+Poder Ataque Nv. 3
+Poder Ataque Especial Nv. 1
+Poder Ataque Especial Nv. 2
+Poder Ataque Especial Nv. 3
+Poder Movimiento Normal Nv. 1
+Poder Movimiento Normal Nv. 2
+Poder Movimiento Normal Nv. 3
+Poder Movimiento Fuego Nv. 1
+Poder Movimiento Fuego Nv. 2
+Poder Movimiento Fuego Nv. 3
+Poder Movimiento Agua Nv. 1
+Poder Movimiento Agua Nv. 2
+Poder Movimiento Agua Nv. 3
+Poder Movimiento Eléctrico Nv. 1
+Poder Movimiento Eléctrico Nv. 2
+Poder Movimiento Eléctrico Nv. 3
+Poder Movimiento Planta Nv. 1
+Poder Movimiento Planta Nv. 2
+Poder Movimiento Planta Nv. 3
+Poder Movimiento Hielo Nv. 1
+Poder Movimiento Hielo Nv. 2
+Poder Movimiento Hielo Nv. 3
+Poder Movimiento Lucha Nv. 1
+Poder Movimiento Lucha Nv. 2
+Poder Movimiento Lucha Nv. 3
+Poder Movimiento Veneno Nv. 1
+Poder Movimiento Veneno Nv. 2
+Poder Movimiento Veneno Nv. 3
+Poder Movimiento Tierra Nv. 1
+Poder Movimiento Tierra Nv. 2
+Poder Movimiento Tierra Nv. 3
+Poder Movimiento Volador Nv. 1
+Poder Movimiento Volador Nv. 2
+Poder Movimiento Volador Nv. 3
+Poder Movimiento Psíquico Nv. 1
+Poder Movimiento Psíquico Nv. 2
+Poder Movimiento Psíquico Nv. 3
+Poder Movimiento Bicho Nv. 1
+Poder Movimiento Bicho Nv. 2
+Poder Movimiento Bicho Nv. 3
+Poder Movimiento Roca Nv. 1
+Poder Movimiento Roca Nv. 2
+Poder Movimiento Roca Nv. 3
+Poder Movimiento Fantasma Nv. 1
+Poder Movimiento Fantasma Nv. 2
+Poder Movimiento Fantasma Nv. 3
+Poder Movimiento Dragón Nv. 1
+Poder Movimiento Dragón Nv. 2
+Poder Movimiento Dragón Nv. 3
+Poder Movimiento Siniestro Nv. 1
+Poder Movimiento Siniestro Nv. 2
+Poder Movimiento Siniestro Nv. 3
+Poder Movimiento Acero Nv. 1
+Poder Movimiento Acero Nv. 2
+Poder Movimiento Acero Nv. 3
+Poder Movimiento Hada Nv. 1
+Poder Movimiento Hada Nv. 2
+Poder Movimiento Hada Nv. 3
+Poder Velocidad Nv. 1
+Poder Velocidad Nv. 2
+Poder Velocidad Nv. 3
+Poder Gran Botín Nv. 1
+Poder Gran Botín Nv. 2
+Poder Gran Botín Nv. 3
+Poder Objeto Bayas Nv. 1
+Poder Objeto Bayas Nv. 2
+Poder Objeto Bayas Nv. 3
+Poder Objeto Caramelos Nv. 1
+Poder Objeto Caramelos Nv. 2
+Poder Objeto Caramelos Nv. 3
+Poder Objeto Tesoros Nv. 1
+Poder Objeto Tesoros Nv. 2
+Poder Objeto Tesoros Nv. 3
+Poder Objeto Poké Balls Nv. 1
+Poder Objeto Poké Balls Nv. 2
+Poder Objeto Poké Balls Nv. 3
+Poder Objeto Especiales Nv. 1
+Poder Objeto Especiales Nv. 2
+Poder Objeto Especiales Nv. 3
+Poder Objeto Monedas Nv. 1
+Poder Objeto Monedas Nv. 2
+Poder Objeto Monedas Nv. 3
+Poder Carga Megapoder Nv. 1
+Poder Carga Megapoder Nv. 2
+Poder Carga Megapoder Nv. 3
+Poder Duración Megapoder Nv. 1
+Poder Duración Megapoder Nv. 2
+Poder Duración Megapoder Nv. 3
+Poder Defensa Nv. 1
+Poder Defensa Nv. 2
+Poder Defensa Nv. 3
+Poder Defensa Especial Nv. 1
+Poder Defensa Especial Nv. 2
+Poder Defensa Especial Nv. 3
+Poder Resistencia Normal Nv. 1
+Poder Resistencia Normal Nv. 2
+Poder Resistencia Normal Nv. 3
+Poder Resistencia Fuego Nv. 1
+Poder Resistencia Fuego Nv. 2
+Poder Resistencia Fuego Nv. 3
+Poder Resistencia Agua Nv. 1
+Poder Resistencia Agua Nv. 2
+Poder Resistencia Agua Nv. 3
+Poder Resistencia Eléctrico Nv. 1
+Poder Resistencia Eléctrico Nv. 2
+Poder Resistencia Eléctrico Nv. 3
+Poder Resistencia Planta Nv. 1
+Poder Resistencia Planta Nv. 2
+Poder Resistencia Planta Nv. 3
+Poder Resistencia Hielo Nv. 1
+Poder Resistencia Hielo Nv. 2
+Poder Resistencia Hielo Nv. 3
+Poder Resistencia Lucha Nv. 1
+Poder Resistencia Lucha Nv. 2
+Poder Resistencia Lucha Nv. 3
+Poder Resistencia Veneno Nv. 1
+Poder Resistencia Veneno Nv. 2
+Poder Resistencia Veneno Nv. 3
+Poder Resistencia Tierra Nv. 1
+Poder Resistencia Tierra Nv. 2
+Poder Resistencia Tierra Nv. 3
+Poder Resistencia Volador Nv. 1
+Poder Resistencia Volador Nv. 2
+Poder Resistencia Volador Nv. 3
+Poder Resistencia Psíquico Nv. 1
+Poder Resistencia Psíquico Nv. 2
+Poder Resistencia Psíquico Nv. 3
+Poder Resistencia Bicho Nv. 1
+Poder Resistencia Bicho Nv. 2
+Poder Resistencia Bicho Nv. 3
+Poder Resistencia Roca Nv. 1
+Poder Resistencia Roca Nv. 2
+Poder Resistencia Roca Nv. 3
+Poder Resistencia Fantasma Nv. 1
+Poder Resistencia Fantasma Nv. 2
+Poder Resistencia Fantasma Nv. 3
+Poder Resistencia Dragón Nv. 1
+Poder Resistencia Dragón Nv. 2
+Poder Resistencia Dragón Nv. 3
+Poder Resistencia Siniestro Nv. 1
+Poder Resistencia Siniestro Nv. 2
+Poder Resistencia Siniestro Nv. 3
+Poder Resistencia Acero Nv. 1
+Poder Resistencia Acero Nv. 2
+Poder Resistencia Acero Nv. 3
+Poder Resistencia Hada Nv. 1
+Poder Resistencia Hada Nv. 2
+Poder Resistencia Hada Nv. 3
+Poder Gigante Nv. 1
+Poder Gigante Nv. 2
+Poder Gigante Nv. 3
+Poder Diminuto Nv. 1
+Poder Diminuto Nv. 2
+Poder Diminuto Nv. 3
+Poder Encuentro Nv. 1
+Poder Encuentro Nv. 2
+Poder Encuentro Nv. 3
+Poder Captura Normal Nv. 1
+Poder Captura Normal Nv. 2
+Poder Captura Normal Nv. 3
+Poder Captura Fuego Nv. 1
+Poder Captura Fuego Nv. 2
+Poder Captura Fuego Nv. 3
+Poder Captura Agua Nv. 1
+Poder Captura Agua Nv. 2
+Poder Captura Agua Nv. 3
+Poder Captura Eléctrico Nv. 1
+Poder Captura Eléctrico Nv. 2
+Poder Captura Eléctrico Nv. 3
+Poder Captura Planta Nv. 1
+Poder Captura Planta Nv. 2
+Poder Captura Planta Nv. 3
+Poder Captura Hielo Nv. 1
+Poder Captura Hielo Nv. 2
+Poder Captura Hielo Nv. 3
+Poder Captura Lucha Nv. 1
+Poder Captura Lucha Nv. 2
+Poder Captura Lucha Nv. 3
+Poder Captura Veneno Nv. 1
+Poder Captura Veneno Nv. 2
+Poder Captura Veneno Nv. 3
+Poder Captura Tierra Nv. 1
+Poder Captura Tierra Nv. 2
+Poder Captura Tierra Nv. 3
+Poder Captura Volador Nv. 1
+Poder Captura Volador Nv. 2
+Poder Captura Volador Nv. 3
+Poder Captura Psíquico Nv. 1
+Poder Captura Psíquico Nv. 2
+Poder Captura Psíquico Nv. 3
+Poder Captura Bicho Nv. 1
+Poder Captura Bicho Nv. 2
+Poder Captura Bicho Nv. 3
+Poder Captura Roca Nv. 1
+Poder Captura Roca Nv. 2
+Poder Captura Roca Nv. 3
+Poder Captura Fantasma Nv. 1
+Poder Captura Fantasma Nv. 2
+Poder Captura Fantasma Nv. 3
+Poder Captura Dragón Nv. 1
+Poder Captura Dragón Nv. 2
+Poder Captura Dragón Nv. 3
+Poder Captura Siniestro Nv. 1
+Poder Captura Siniestro Nv. 2
+Poder Captura Siniestro Nv. 3
+Poder Captura Acero Nv. 1
+Poder Captura Acero Nv. 2
+Poder Captura Acero Nv. 3
+Poder Captura Hada Nv. 1
+Poder Captura Hada Nv. 2
+Poder Captura Hada Nv. 3
+Poder Captura de todos los tipos Nv. 1
+Poder Captura de todos los tipos Nv. 2
+Poder Captura de todos los tipos Nv. 3
+Poder Tenebroso
+Poder Rubí
+Poder Zafiro
+Poder Esmeralda
+Poder Fulgor

@@ -80,6 +80,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     public PlayerAppearance9a PlayerAppearance => Blocks.PlayerAppearance;
     public PlayerFashion9a PlayerFashion => Blocks.PlayerFashion;
     public ConfigSave9a Config => Blocks.Config;
+    public DonutPocket9a Donuts => Blocks.Donuts;
     #endregion
 
     protected override SAV9ZA CloneInternal()
