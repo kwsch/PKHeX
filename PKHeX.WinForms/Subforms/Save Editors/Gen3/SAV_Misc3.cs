@@ -337,7 +337,7 @@ public partial class SAV_Misc3 : Form
             if (val > 9999)
                 val = 9999;
             var offset = BFF[Facility][2 + SetValToSav] + (4 * BattleType) + (2 * RBi);
-            WriteUInt32LittleEndian(SAV.Small[offset..], val);
+            WriteUInt16LittleEndian(SAV.Small[offset..], val);
             return;
         }
         if (SetValToSav == -1)
