@@ -27,7 +27,7 @@ public sealed partial class SAV_Trainer9a : Form
         B_MaxCash.Click += (_, _) => MT_Money.Text = SAV.MaxMoney.ToString();
         B_RoyaleRegularMax.Click += (_, _) => MT_RoyaleRegular.Text = 310_000.ToString();
         B_RoyaleInfiniteMax.Click += (_, _) => MT_RoyaleInfinite.Text = 50_000.ToString();
-        B_HyperspaceSurveyPoints.Click += (_, _) => MT_HyperspaceSurveyPoints.Text = 9999_999.ToString(); // not sure on the exact max, I know it allows 6 digits worth.
+        B_HyperspaceSurveyPoints.Click += (_, _) => MT_HyperspaceSurveyPoints.Text = 100_000.ToString();
 
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
