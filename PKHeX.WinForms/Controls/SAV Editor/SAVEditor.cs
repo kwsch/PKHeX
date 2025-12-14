@@ -630,6 +630,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_OpenUnityTowerEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_UnityTower((SAV5)SAV));
     private void B_OpenChatterEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_Chatter(SAV));
     private void B_OpenGear_Click(object sender, EventArgs e) => OpenDialog(new SAV_Gear((SAV4BR)SAV));
+    private void B_Donuts_Click(object sender, EventArgs e) => OpenDialog(new SAV_Donut9a((SAV9ZA)SAV));
 
     private void B_OpenSecretBase_Click(object sender, EventArgs e)
     {

@@ -52,9 +52,9 @@ internal static class Encounters9a
         new(0698,0,35,255) { Location = 30027, Shiny = Random, IsAlpha = true, FlawlessIVCount = 3 }, // Amaura (restoration_amarus)
 
         #region Sankaku
-        new(0801,0,80,128) { Location = 00000, Nature = Nature.Modest, FlawlessIVCount = 3 }, // Magearna (sub_addpoke_magiana)
-        new(0809,0,80,128) { Location = 00000, Nature = Nature.Adamant, FlawlessIVCount = 3 }, // Melmetal (sub_addpoke_merumetal)
-        new(0720,0,80,128) { Location = 00000, Nature = Nature.Lonely, FlawlessIVCount = 3, Moves = new(593,094,417,566) }, // Hoopa (sub_addpoke_huupa)
+        new(0801,0,80,128) { Location = 30035, Nature = Nature.Modest, FlawlessIVCount = 3, Trainer = TrainerGift9a.Magearna }, // Magearna (sub_addpoke_magiana)
+        new(0809,0,80,128) { Location = 30034, Nature = Nature.Adamant, FlawlessIVCount = 3 }, // Melmetal (sub_addpoke_merumetal)
+        new(0720,0,80,128) { Location = 30034, Nature = Nature.Lonely, FlawlessIVCount = 3, Moves = new(593,094,417,566) }, // Hoopa (sub_addpoke_huupa)
         new(0999,0,05,128) { Location = 30033, Nature = Nature.Bold, FlawlessIVCount = 3, Trainer = TrainerGift9a.Gimmighoul }, // Gimmighoul (sub_addpoke_korekure)
         #endregion
     ];
@@ -101,19 +101,19 @@ internal static class Encounters9a
         new(0383,0,80,128) { Location = 00282, Nature = Nature.Impish, IVs = new(31,31,24,25,31,18), Moves = new(619,126,076,815) }, // Groudon (ect_boss_0383_01)
 
         // Legendary Pokémon
-        new(0380,0,60,128) { Location = 00000, Shiny = Random, Gender = 1, IVs = new(12,07,31,16,31,31) }, // Latias (ect_zdm404_sp06_380_sp)
-        new(0381,0,60,128) { Location = 00000, Shiny = Random, Gender = 0, IVs = new(31,31,31,16,16,07) }, // Latios (ect_zdm404_sp07_381_sp)
-        new(0638,0,60,128) { Location = 00000, Shiny = Random, IVs = new(12,31,31,31,16,07) }, // Cobalion (ect_zdm406_sp01_638_sp)
-        new(0639,0,60,128) { Location = 00000, Shiny = Random, IVs = new(31,31,16,31,12,07) }, // Terrakion (ect_zdm406_sp02_639_sp)
-        new(0640,0,60,128) { Location = 00000, Shiny = Random, IVs = new(16,31,12,31,31,07) }, // Virizion (ect_zdm406_sp03_640_sp)
+        new(0380,0,60,128) { Location = 00273, Shiny = Random, Gender = 1, IVs = new(12,07,31,16,31,31) }, // Latias (ect_zdm404_sp06_380_sp)
+        new(0381,0,60,128) { Location = 00273, Shiny = Random, Gender = 0, IVs = new(31,31,31,16,16,07) }, // Latios (ect_zdm404_sp07_381_sp)
+        new(0638,0,60,128) { Location = 00273, Shiny = Random, IVs = new(12,31,31,31,16,07) }, // Cobalion (ect_zdm406_sp01_638_sp)
+        new(0639,0,60,128) { Location = 00273, Shiny = Random, IVs = new(31,31,16,31,12,07) }, // Terrakion (ect_zdm406_sp02_639_sp)
+        new(0640,0,60,128) { Location = 00273, Shiny = Random, IVs = new(16,31,12,31,31,07) }, // Virizion (ect_zdm406_sp03_640_sp)
 
         // Mythical Pokémon
-        new(0647,0,60,128) { Location = 00000, IVs = new(07,31,31,31,16,12) }, // Keldeo (ect_zdm402_sp04_647_sp)
-        new(0648,0,60,128) { Location = 00000, IVs = new(07,31,12,31,31,16) }, // Meloetta (ect_zdm402_sp05_648_sp)
-        new(0649,0,60,128) { Location = 00000, FlawlessIVCount = 3, Moves = new(546,430,679,405) }, // Genesect (Ev_sub_196_030)
-        new(0721,0,80,128) { Location = 00000, FlawlessIVCount = 3, Moves = new(592,056,114,315) }, // Volcanion (Ev_sub_201_011)
-        new(0802,0,80,128) { Location = 00000, FlawlessIVCount = 3, Moves = new(712,370,325,425) }, // Marshadow (Ev_sub_197_010)
-        new(0808,0,70,128) { Location = 00000, FlawlessIVCount = 3, Moves = new(430,151,693,000) }, // Meltan (Ev_sub_200_010)
+        new(0647,0,60,128) { Location = 00273, IVs = new(07,31,31,31,16,12) }, // Keldeo (ect_zdm402_sp04_647_sp)
+        new(0648,0,60,128) { Location = 00273, IVs = new(07,31,12,31,31,16) }, // Meloetta (ect_zdm402_sp05_648_sp)
+        new(0649,0,60,128) { Location = 00273, FlawlessIVCount = 3, Moves = new(546,430,679,405) }, // Genesect (Ev_sub_196_030)
+        new(0721,0,80,128) { Location = 00230, FlawlessIVCount = 3, Moves = new(592,056,114,315) }, // Volcanion (Ev_sub_201_011)
+        new(0802,0,80,128) { Location = 00070, FlawlessIVCount = 3, Moves = new(712,370,325,425) }, // Marshadow (Ev_sub_197_010)
+        new(0808,0,70,128) { Location = 00014, FlawlessIVCount = 3, Moves = new(430,151,693,000) }, // Meltan (Ev_sub_200_010)
 
         // Side Missions
         new(0551,0,38,128) { Location = 00093, Nature = Nature.Adamant, Moves = new(044,043,242,091) }, // Sandile (sub_152_020_1)
@@ -121,14 +121,6 @@ internal static class Encounters9a
         new(0769,0,40,128) { Location = 00211, Nature = Nature.Impish, Moves = new(328,523,334,202) }, // Sandygast (Ev_sub_157_010_1)
         new(0827,0,15,128) { Location = 00045, Gender = 1, Nature = Nature.Naughty, Moves = new(046,555,098,039) }, // Nickit (Ev_sub_160_040)
         new(0932,0,40,128) { Location = 00030, Gender = 1, Nature = Nature.Impish, Moves = new(446,334,088,105) }, // Nacli (sub_153_010_kojio)
-
-        // TODO ZA DLC - VERIFY WHAT IS AND IS NOT CATCHABLE
-        new(0026,0,60,255) { Location = 00000, Gender = 0, Moves = new(087,063,130,000), IsAlpha = true }, // Raichu (ect_subq147_p1)
-        new(0450,0,60,255) { Location = 00000, Gender = 0, Moves = new(089,090,000,000) }, // Hippowdon (ect_subq147_p2)
-        new(0450,0,60,255) { Location = 00000, Gender = 0, Moves = new(091,446,157,000) }, // Hippowdon (ect_subq147_p2b)
-        new(0181,0,60,255) { Location = 00000, Gender = 0, Moves = new(451,087,000,000) }, // Ampharos (ect_subq147_p3)
-        new(0181,0,60,255) { Location = 00000, Gender = 0, Moves = new(192,129,000,000) }, // Ampharos (ect_subq147_p3b)
-        new(0349,0,17,000) { Location = 00000, Shiny = Random }, // Feebas (ect_subq173_349)
         #endregion
     ];
 
@@ -140,6 +132,6 @@ internal static class Encounters9a
         new(TradeNames,1,0447,0,25) { ID32 = 348226, OTGender = 0, Gender = 0, Nature = Nature.Rash,  IVs = new(15,31,15,31,31,15), Moves = new(418,098,249,197) }, // Riolu (sub_tradepoke_riolu)
         new(TradeNames,2,0079,1,30) { ID32 = 934764, OTGender = 0, Gender = 0,                                 FlawlessIVCount = 3, Moves = new(352,133,428,029) }, // Slowpoke-1 (sub_addpoke_gyadon)
         new(TradeNames,3,0026,1,64) { ID32 = 693489, OTGender = 1, Gender = 0, Nature = Nature.Jolly, IVs = new(20,20,20,20,20,20), Moves = new(094,087,057,583) }, // Raichu-1 (sub_addpoke_araichu)
-        new(TradeNames,4,0233,0,50) { ID32 = 000000, OTGender = 0, Gender = 2, Nature = Nature.Modest                                                            }, // Porygon2 (sub_tradepoke_poligon2) -- TODO ZA DLC FIND TID
+        new(TradeNames,4,0233,0,50) { ID32 = 065536, OTGender = 0, Gender = 2, Nature = Nature.Modest                                                            }, // Porygon2 (sub_tradepoke_poligon2)
     ];
 }

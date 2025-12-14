@@ -30,6 +30,7 @@ public sealed class GameStrings : IBasicStrings
     public readonly string[] console3ds, languageNames;
     public readonly string[] wondercard7, wondercard8, wondercard9;
     private readonly string LanguageFilePrefix;
+    public readonly string[] donutFlavor, donutName;
 
     public ReadOnlySpan<string> HiddenPowerTypes => types.AsSpan(1, HiddenPower.TypeCount);
     public readonly RibbonStrings Ribbons;
@@ -118,6 +119,8 @@ public sealed class GameStrings : IBasicStrings
         trainingbags = Get("trainingbag");
         trainingstage = Get("supertraining");
         puffs = Get("puff");
+        donutFlavor = Get("donutFlavor");
+        donutName = Get("donutName");
 
         walkercourses = Get("walkercourses");
 
