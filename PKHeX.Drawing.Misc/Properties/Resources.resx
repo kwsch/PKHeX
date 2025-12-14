@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1695,5 +1695,128 @@
   </data>
   <data name="type_wide_99" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\types\wide\type_wide_99.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_bitter04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_bitter04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_bitter05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_bitter05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_fresh00" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_fresh00.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_fresh01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_fresh01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_fresh02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_fresh02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_fresh03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_fresh03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_fresh04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_fresh04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_fresh05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_fresh05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_mix00" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_mix00.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_mix01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_mix01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_mix02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_mix02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_mix03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_mix03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_mix04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_mix04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_mix05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_mix05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sour00" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sour00.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sour01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sour01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sour02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sour02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sour03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sour03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sour04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sour04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sour05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sour05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_spicy00" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_spicy00.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_spicy01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_spicy01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_spicy02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_spicy02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_spicy03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_spicy03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_spicy04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_spicy04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_spicy05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_spicy05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sweet00" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sweet00.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sweet01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sweet01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sweet02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sweet02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sweet03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sweet03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sweet04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sweet04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_sweet05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_sweet05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_uni382" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_uni382.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_uni383" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_uni383.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_uni384" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_uni384.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_uni491" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_uni491.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_uni807" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_uni807.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_bitter00" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_bitter00.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_bitter01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_bitter01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_bitter02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_bitter02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="donut_bitter03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\donut\donut_bitter03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

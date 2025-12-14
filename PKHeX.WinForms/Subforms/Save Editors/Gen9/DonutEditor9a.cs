@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing.Misc;
 using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms;
@@ -10,8 +11,13 @@ public sealed partial class DonutEditor9a : UserControl
 {
     private Donut9a _donut;
     public event EventHandler? ValueChanged;
+    private readonly bool Initialized;
 
-    public DonutEditor9a() => InitializeComponent();
+    public DonutEditor9a()
+    {
+        InitializeComponent();
+        Initialized = true;
+    }
 
     public void InitializeLists(ReadOnlySpan<string> flavors, ReadOnlySpan<string> items, ReadOnlySpan<string> donutNames)
     {
@@ -152,6 +158,7 @@ public sealed partial class DonutEditor9a : UserControl
         }
 
         TB_Unknown.Text = donut.Unknown.ToString();
+        PB_Donut.Image = DonutSpriteUtil.Sprite(donut);
 
         return;
 
@@ -227,6 +234,16 @@ public sealed partial class DonutEditor9a : UserControl
 
         var hash = DonutInfo.GetFlavorHash(text);
         return hash;
+    }
+
+    // todo please fix this Kurt <3
+    private void CB_Donut_SelectedIndexChanged(object sender, EventArgs e)
+    {
+       if (!Initialized)
+            return;
+
+        _donut.Donut = (ushort)CB_Donut.SelectedIndex;
+        PB_Donut.Image = DonutSpriteUtil.Sprite(_donut);
     }
 
     public void Reset()
