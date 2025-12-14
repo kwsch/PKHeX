@@ -117,9 +117,9 @@ public sealed partial class DonutEditor9a : UserControl
     {
         _donut = donut;
 
-        NUD_Stars.Value = donut.Stars;
-        NUD_Calories.Value = donut.Calories;
-        NUD_LevelBoost.Value = donut.LevelBoost;
+        LoadClamp(NUD_Stars, donut.Stars);
+        LoadClamp(NUD_Calories, donut.Calories);
+        LoadClamp(NUD_LevelBoost, donut.LevelBoost);
 
         CB_Donut.SelectedValue = (int)donut.Donut;
 
@@ -142,9 +142,20 @@ public sealed partial class DonutEditor9a : UserControl
             dt = Epoch;
         else
             dt = donut.DateTime1900.Timestamp;
-        CAL_Date.Value = dt;
+        try
+        {
+            CAL_Date.Value = dt;
+        }
+        catch
+        {
+            CAL_Date.Value = Epoch;
+        }
 
         TB_Unknown.Text = donut.Unknown.ToString();
+
+        return;
+
+        static void LoadClamp(NumericUpDown nud, decimal value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
     }
 
     public void SaveDonut()
@@ -175,10 +186,21 @@ public sealed partial class DonutEditor9a : UserControl
         var dt = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
 
         // if date is sufficiently equal to the Epoch (zero), set to zero. Can't set a date of 1900/00/00 via the controls...
-        if (dt is { Year: 1900, Month: 1, Day: 1 } and { Day: 1, Hour: 0, Minute: 0, Second: 0 })
+        if (dt is { Year: 1900, Month: <= 1, Day: <= 1 } and { Day: 1, Hour: 0, Minute: 0, Second: 0 })
+        {
             donut.ClearDateTime();
+        }
         else
-            donut.DateTime1900.Timestamp = dt;
+        {
+            try
+            {
+                donut.DateTime1900.Timestamp = dt;
+            }
+            catch
+            {
+                donut.ClearDateTime();
+            }
+        }
         donut.Unknown = ulong.TryParse(TB_Unknown.Text, out var unk) ? unk : 0;
     }
 
@@ -195,7 +217,7 @@ public sealed partial class DonutEditor9a : UserControl
 
     private static ulong GetDonutFlavorHash(ComboBox cb)
     {
-        if (cb.SelectedIndex == 0)
+        if (cb.SelectedIndex <= 0)
             return 0; // No flavor
 
         // Grab the internal value (not the localized display value)
