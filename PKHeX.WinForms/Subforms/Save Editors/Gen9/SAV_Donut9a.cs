@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -151,4 +152,88 @@ public partial class SAV_Donut9a : Form
     }
 
     private void B_Reset_Click(object sender, EventArgs e) => donutEditor.Reset();
+
+    private void B_ImportClick(object sender, EventArgs e)
+    {
+        var current = Donuts.GetDonut(lastIndex);
+        var data = current.Data;
+
+        if (!TryLoadDonut(data))
+            return;
+
+        donutEditor.LoadDonut(current);
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private static bool TryLoadDonut(Span<byte> data)
+    {
+        if (ModifierKeys == Keys.Control)
+            return TryLoadDonutClipboard(data);
+        return TryLoadDonutOpenFile(data);
+    }
+
+    private static bool TryLoadDonutClipboard(Span<byte> data)
+    {
+        // Import from clipboard as hex string
+        try
+        {
+            var hex = Clipboard.GetText().Trim();
+            Util.GetBytesFromHexString(hex.Replace(" ", ""), data);
+        }
+        catch (Exception ex)
+        {
+            WinFormsUtil.Error($"Failed to import donut from clipboard:\n{ex.Message}");
+            return false;
+        }
+        return true;
+    }
+
+    private static bool TryLoadDonutOpenFile(Span<byte> data)
+    {
+        using var ofd = new OpenFileDialog();
+        ofd.Title = "Import Donut";
+        ofd.Filter = "Donut File (*.donut)|*.donut|All Files (*.*)|*.*";
+        if (ofd.ShowDialog() != DialogResult.OK)
+            return false;
+
+        try
+        {
+            var fileData = System.IO.File.ReadAllBytes(ofd.FileName);
+            if (fileData.Length != data.Length)
+                throw new Exception($"Invalid donut size: expected {data.Length} bytes, got {fileData.Length} bytes.");
+            fileData.AsSpan().CopyTo(data);
+        }
+        catch (Exception ex)
+        {
+            WinFormsUtil.Error($"Failed to import donut from file:\n{ex.Message}");
+            return false;
+        }
+        return true;
+    }
+
+    private void B_Export_Click(object sender, EventArgs e)
+    {
+        SetEntry(lastIndex);
+        var current = Donuts.GetDonut(lastIndex);
+        var data = current.Data;
+
+        if (ModifierKeys == Keys.Control)
+        {
+            // Copy to clipboard as hex string
+            var sb = new StringBuilder(data.Length * 3);
+            foreach (var b in data)
+                sb.Append($"{b:X2} ");
+            Clipboard.SetText(sb.ToString().TrimEnd());
+            System.Media.SystemSounds.Asterisk.Play();
+            return;
+        }
+
+        using var sfd = new SaveFileDialog();
+        sfd.Title = "Export Donut";
+        sfd.Filter = "Donut File (*.donut)|*.donut|All Files (*.*)|*.*";
+        sfd.FileName = $"donut_{lastIndex + 1:000}.donut";
+        if (sfd.ShowDialog() != DialogResult.OK)
+            return;
+        System.IO.File.WriteAllBytes(sfd.FileName, data);
+    }
 }
