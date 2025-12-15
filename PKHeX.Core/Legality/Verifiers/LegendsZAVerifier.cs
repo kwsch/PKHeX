@@ -316,7 +316,7 @@ public sealed class LegendsZAVerifier : Verifier
         Gallade when move is SacredSword => true,
         Espurr or Meowstic when move is Teleport => true,
         Meowstic when move is Moonblast => true,
-        Honedge when move is SacredSword => true,
+        Honedge or Doublade or Aegislash when move is SacredSword => true,
         Malamar when move is Octolock => true,
         Heliolisk when move is ShedTail => true,
         Aurorus when move is IceHammer => true,
