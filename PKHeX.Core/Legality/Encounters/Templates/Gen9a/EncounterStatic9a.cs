@@ -28,12 +28,14 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
     public Moveset Moves { get; init; }
     public IndividualValueSet IVs { get; init; }
     public Nature Nature { get; init; } = Nature.Random;
-    public required byte Location { get; init; }
+    public required ushort Location { get; init; }
     public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
     public Shiny Shiny { get; init; } = Shiny.Never;
     public bool IsAlpha { get; init; }
 
     ushort ILocation.Location => Location;
+
+    private bool HyperspaceShinyPossible => Shiny != Shiny.Never && Location == EncounterArea9a.LocationHyperspace;
 
     public string Name => "Static Encounter";
     public string LongName => Name;
@@ -166,8 +168,10 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
             return EncounterMatchRating.DeferredErrors;
 
         var pidiv = TryGetSeed(pk, out _);
-        if (pidiv is not SeedCorrelationResult.Success)
+        if (pidiv is SeedCorrelationResult.Invalid)
             return EncounterMatchRating.DeferredErrors;
+        if (pidiv is SeedCorrelationResult.Ignore)
+            return EncounterMatchRating.Deferred; // might be a better match with another template
 
         return EncounterMatchRating.Match;
     }
@@ -191,7 +195,16 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
 
     public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
     {
-        if (GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed))
+        var param = GetParams(PersonalTable.ZA[Species, Form]);
+        if (param.TryGetSeed(pk, out seed))
+            return SeedCorrelationResult.Success;
+        if (!HyperspaceShinyPossible)
+            return SeedCorrelationResult.Invalid;
+        if (pk.IsShiny && !LumioseSolver.SearchShiny1 || !LumioseSolver.SearchShinyN)
+            return SeedCorrelationResult.Ignore;
+
+        param = param with { RollCount = 7 };
+        if (param.TryGetSeed(pk, out seed))
             return SeedCorrelationResult.Success;
         return SeedCorrelationResult.Invalid;
     }
@@ -210,7 +223,7 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
 
     public GenerateParam9a GetParams(PersonalInfo9ZA pi)
     {
-        const byte rollCount = 1;
+        byte rollCount = HyperspaceShinyPossible ? (byte)7 : (byte)1;
         var gender = Gender switch
         {
             0 => PersonalInfo.RatioMagicMale,

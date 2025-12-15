@@ -2565,8 +2565,8 @@ Meganienit
 Impergatornit
 Panzaeronit
 Frosdedjenit
-
-
+Heatranit
+Darkrainit
 Flambirexonit
 Stalobornit
 Cerapendranit
@@ -2584,7 +2584,7 @@ Tandraknit
 Resladeronit
 Zygardenit
 Sen-Longnit
-
+Zeraoranit
 Legiosnit
 Zimmerschlüssel 202
 Illumina-Gigalette
@@ -2599,19 +2599,19 @@ Signierter Anhänger
 Gourmetmüll
 Vitalzweig
 Duros Tasche
-
-
-
-
-
-
-
-
-
-
-
-
-
+Illumina-Butter
+Superbutter
+Hyperbutter
+Ultrabutter
+Meisterbutter
+Dimensionsbutter
+Hoenn-Steinsalz
+Dunkelwürze
+Olithena-Öl
+Knisterbrause
+Wichtiger Brief
+Besonderer Ring
+Dreckiger Schal
 
 
 
@@ -2633,3 +2633,53 @@ Grüner Canary-Anhänger
 Blauer Canary-Anhänger
 Blauer Canary-Anhänger
 Blauer Canary-Anhänger
+Raichunit X
+Raichunit Y
+Palimpalimonit
+Absolnit Z
+Staraptornit
+Knakracknit Z
+Lucarionit Z
+Golgantesnit
+Psiaugonit
+Krawellonit
+Tectassnit
+Magearnanit
+Halupenjonit
+Espinodonit
+Nigiraginit
+Lumifloranit
+Dimensions-Amrenabeere
+Dimensions-Maronbeere
+Dimensions-Pirsifbeere
+Dimensions-Fragiabeere
+Dimensions-Wilbirbeere
+Dimensions-Sinelbeere
+Dimensions-Persimbeere
+Dimensions-Prunusbeere
+Dimensions-Tsitrubeere
+Dimensions-Granabeere
+Dimensions-Setangbeere
+Dimensions-Qualotbeere
+Dimensions-Honmelbeere
+Dimensions-Labrusbeere
+Dimensions-Tamotbeere
+Dimensions-Koakobeere
+Dimensions-Foepasbeere
+Dimensions-Kerzalbeere
+Dimensions-Grindobeere
+Dimensions-Kiroyabeere
+Dimensions-Rospelbeere
+Dimensions-Grarzbeere
+Dimensions-Schukebeere
+Dimensions-Kobabeere
+Dimensions-Pyapabeere
+Dimensions-Tanigabeere
+Dimensions-Chiaribeere
+Dimensions-Zitarzbeere
+Dimensions-Terirobeere
+Dimensions-Burleobeere
+Dimensions-Babiribeere
+Dimensions-Latchibeere
+Dimensions-Hibisbeere
+Canary-Brot

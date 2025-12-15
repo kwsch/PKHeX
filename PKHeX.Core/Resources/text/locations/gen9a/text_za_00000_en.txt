@@ -234,3 +234,51 @@ Lumiose Museum
 Lysandre Café
 Lysandre Labs
 The Sewers
+Room 201
+Room 202
+Room 203
+Room 204
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hyperspace Lumiose
+Hyperspace Entry Point
+Hyperspace Disaster Arena
+Hyperspace Hunting Grounds
+Hyperspace Sushi Paradise
+Hyperspace Second-Sight Arena
+Hyperspace Infernal Arena
+Hyperspace Newmoon Nightmare
+Hyperspace Primordial Sea
+Hyperspace Desolate Land
+Hyperspace Sky Pillar

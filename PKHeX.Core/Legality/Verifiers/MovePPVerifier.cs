@@ -47,7 +47,6 @@ public sealed class MovePPVerifier : Verifier
         ReadOnlySpan<ushort> moves = [pk.Move1, pk.Move2, pk.Move3, pk.Move4];
         ReadOnlySpan<int> pp = [pk.Move1_PP, pk.Move2_PP, pk.Move3_PP, pk.Move4_PP];
 
-
         if (!Legal.IsPPUpAvailable(pk)) // No PP Ups for format
         {
             for (int i = 0; i < ups.Length; i++)

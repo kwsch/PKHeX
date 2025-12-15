@@ -317,8 +317,9 @@ public sealed class PA9 : PKM, ISanityChecksum, ITechRecord, IObedienceLevel, IH
     public byte HeightScalar { get => Data[0x48]; set => Data[0x48] = value; }
     public byte WeightScalar { get => Data[0x49]; set => Data[0x49] = value; }
     public byte Scale        { get => Data[0x4A]; set => Data[0x4A] = value; }
+    public byte LevelBoost   { get => Data[0x4B]; set => Data[0x4B] = value; }
 
-    // 0x4B-0x57 is unused. S/V used them for DLC TM Record Flags.
+    // 0x4C-0x57 is unused. S/V used them for DLC TM Record Flags.
 
     #endregion
     #region Block B
@@ -679,9 +680,17 @@ public sealed class PA9 : PKM, ISanityChecksum, ITechRecord, IObedienceLevel, IH
     }
 
     public bool GetMovePlusFlagAny() => GetMovePlusFlagAny0() || GetMovePlusFlagAny1();
-    public bool GetMovePlusFlagAnyImpossible() => PlusFlags0 is not [.., 0, 0]
-                                             || ((PlusFlags0[^3] & ~0x7F) != 0) // 17 bits unused
-                                             || GetMovePlusFlagAny1(); // All bits unused
+    public bool GetMovePlusFlagAnyImpossible()
+    {
+        // 340 flags used of 360
+        var tail = PlusFlags1;
+        if (tail is not [.., 0, 0])
+            return true;
+        // 20 bits unused -- 2 bytes + 4 bits (high) unused
+        if ((tail[^3] & 0b11110000) != 0)
+            return true;
+        return false;
+    }
 
     private bool GetMovePlusFlagAny0() => PlusFlags0.ContainsAnyExcept<byte>(0);
     private bool GetMovePlusFlagAny1() => PlusFlags1.ContainsAnyExcept<byte>(0);

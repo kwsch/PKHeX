@@ -220,6 +220,7 @@ public enum LegalityCheckResultCode : ushort
     IVNotCorrect,
 
     // Level
+    LevelBoostNotZero,
     LevelEXPThreshold,
     LevelEXPTooHigh,
     LevelMetBelow,

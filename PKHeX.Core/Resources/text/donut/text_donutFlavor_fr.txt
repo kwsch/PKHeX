@@ -1,0 +1,281 @@
+Aura Baron N. 1
+Aura Baron N. 2
+Aura Baron N. 3
+Aura Brillance Normal N. 1
+Aura Brillance Normal N. 2
+Aura Brillance Normal N. 3
+Aura Brillance Feu N. 1
+Aura Brillance Feu N. 2
+Aura Brillance Feu N. 3
+Aura Brillance Eau N. 1
+Aura Brillance Eau N. 2
+Aura Brillance Eau N. 3
+Aura Brillance Électrik N. 1
+Aura Brillance Électrik N. 2
+Aura Brillance Électrik N. 3
+Aura Brillance Plante N. 1
+Aura Brillance Plante N. 2
+Aura Brillance Plante N. 3
+Aura Brillance Glace N. 1
+Aura Brillance Glace N. 2
+Aura Brillance Glace N. 3
+Aura Brillance Combat N. 1
+Aura Brillance Combat N. 2
+Aura Brillance Combat N. 3
+Aura Brillance Poison N. 1
+Aura Brillance Poison N. 2
+Aura Brillance Poison N. 3
+Aura Brillance Sol N. 1
+Aura Brillance Sol N. 2
+Aura Brillance Sol N. 3
+Aura Brillance Vol N. 1
+Aura Brillance Vol N. 2
+Aura Brillance Vol N. 3
+Aura Brillance Psy N. 1
+Aura Brillance Psy N. 2
+Aura Brillance Psy N. 3
+Aura Brillance Insecte N. 1
+Aura Brillance Insecte N. 2
+Aura Brillance Insecte N. 3
+Aura Brillance Roche N. 1
+Aura Brillance Roche N. 2
+Aura Brillance Roche N. 3
+Aura Brillance Spectre N. 1
+Aura Brillance Spectre N. 2
+Aura Brillance Spectre N. 3
+Aura Brillance Dragon N. 1
+Aura Brillance Dragon N. 2
+Aura Brillance Dragon N. 3
+Aura Brillance Ténèbres N. 1
+Aura Brillance Ténèbres N. 2
+Aura Brillance Ténèbres N. 3
+Aura Brillance Acier N. 1
+Aura Brillance Acier N. 2
+Aura Brillance Acier N. 3
+Aura Brillance Fée N. 1
+Aura Brillance Fée N. 2
+Aura Brillance Fée N. 3
+Aura Brillance tous types N. 1
+Aura Brillance tous types N. 2
+Aura Brillance tous types N. 3
+Aura Attaque N. 1
+Aura Attaque N. 2
+Aura Attaque N. 3
+Aura Attaque Spéciale N. 1
+Aura Attaque Spéciale N. 2
+Aura Attaque Spéciale N. 3
+Aura Capacités Normal N. 1
+Aura Capacités Normal N. 2
+Aura Capacités Normal N. 3
+Aura Capacités Feu N. 1
+Aura Capacités Feu N. 2
+Aura Capacités Feu N. 3
+Aura Capacités Eau N. 1
+Aura Capacités Eau N. 2
+Aura Capacités Eau N. 3
+Aura Capacités Électrik N. 1
+Aura Capacités Électrik N. 2
+Aura Capacités Électrik N. 3
+Aura Capacités Plante N. 1
+Aura Capacités Plante N. 2
+Aura Capacités Plante N. 3
+Aura Capacités Glace N. 1
+Aura Capacités Glace N. 2
+Aura Capacités Glace N. 3
+Aura Capacités Combat N. 1
+Aura Capacités Combat N. 2
+Aura Capacités Combat N. 3
+Aura Capacités Poison N. 1
+Aura Capacités Poison N. 2
+Aura Capacités Poison N. 3
+Aura Capacités Sol N. 1
+Aura Capacités Sol N. 2
+Aura Capacités Sol N. 3
+Aura Capacités Vol N. 1
+Aura Capacités Vol N. 2
+Aura Capacités Vol N. 3
+Aura Capacités Psy N. 1
+Aura Capacités Psy N. 2
+Aura Capacités Psy N. 3
+Aura Capacités Insecte N. 1
+Aura Capacités Insecte N. 2
+Aura Capacités Insecte N. 3
+Aura Capacités Roche N. 1
+Aura Capacités Roche N. 2
+Aura Capacités Roche N. 3
+Aura Capacités Spectre N. 1
+Aura Capacités Spectre N. 2
+Aura Capacités Spectre N. 3
+Aura Capacités Dragon N. 1
+Aura Capacités Dragon N. 2
+Aura Capacités Dragon N. 3
+Aura Capacités Ténèbres N. 1
+Aura Capacités Ténèbres N. 2
+Aura Capacités Ténèbres N. 3
+Aura Capacités Acier N. 1
+Aura Capacités Acier N. 2
+Aura Capacités Acier N. 3
+Aura Capacités Fée N. 1
+Aura Capacités Fée N. 2
+Aura Capacités Fée N. 3
+Aura Vitesse N. 1
+Aura Vitesse N. 2
+Aura Vitesse N. 3
+Aura Abondance N. 1
+Aura Abondance N. 2
+Aura Abondance N. 3
+Aura Objets (Baies) N. 1
+Aura Objets (Baies) N. 2
+Aura Objets (Baies) N. 3
+Aura Objets (Bonbons) N. 1
+Aura Objets (Bonbons) N. 2
+Aura Objets (Bonbons) N. 3
+Aura Objets (Trésors) N. 1
+Aura Objets (Trésors) N. 2
+Aura Objets (Trésors) N. 3
+Aura Objets (Poké Balls) N. 1
+Aura Objets (Poké Balls) N. 2
+Aura Objets (Poké Balls) N. 3
+Aura Objets rares N. 1
+Aura Objets rares N. 2
+Aura Objets rares N. 3
+Aura Objets (Pièces) N. 1
+Aura Objets (Pièces) N. 2
+Aura Objets (Pièces) N. 3
+Aura Méga (Recharge) N. 1
+Aura Méga (Recharge) N. 2
+Aura Méga (Recharge) N. 3
+Aura Méga (Durée) N. 1
+Aura Méga (Durée) N. 2
+Aura Méga (Durée) N. 3
+Aura Défense N. 1
+Aura Défense N. 2
+Aura Défense N. 3
+Aura Défense Spéciale N. 1
+Aura Défense Spéciale N. 2
+Aura Défense Spéciale N. 3
+Aura Protectrice Normal N. 1
+Aura Protectrice Normal N. 2
+Aura Protectrice Normal N. 3
+Aura Protectrice Feu N. 1
+Aura Protectrice Feu N. 2
+Aura Protectrice Feu N. 3
+Aura Protectrice Eau N. 1
+Aura Protectrice Eau N. 2
+Aura Protectrice Eau N. 3
+Aura Protectrice Électrik N. 1
+Aura Protectrice Électrik N. 2
+Aura Protectrice Électrik N. 3
+Aura Protectrice Plante N. 1
+Aura Protectrice Plante N. 2
+Aura Protectrice Plante N. 3
+Aura Protectrice Glace N. 1
+Aura Protectrice Glace N. 2
+Aura Protectrice Glace N. 3
+Aura Protectrice Combat N. 1
+Aura Protectrice Combat N. 2
+Aura Protectrice Combat N. 3
+Aura Protectrice Poison N. 1
+Aura Protectrice Poison N. 2
+Aura Protectrice Poison N. 3
+Aura Protectrice Sol N. 1
+Aura Protectrice Sol N. 2
+Aura Protectrice Sol N. 3
+Aura Protectrice Vol N. 1
+Aura Protectrice Vol N. 2
+Aura Protectrice Vol N. 3
+Aura Protectrice Psy N. 1
+Aura Protectrice Psy N. 2
+Aura Protectrice Psy N. 3
+Aura Protectrice Insecte N. 1
+Aura Protectrice Insecte N. 2
+Aura Protectrice Insecte N. 3
+Aura Protectrice Roche N. 1
+Aura Protectrice Roche N. 2
+Aura Protectrice Roche N. 3
+Aura Protectrice Spectre N. 1
+Aura Protectrice Spectre N. 2
+Aura Protectrice Spectre N. 3
+Aura Protectrice Dragon N. 1
+Aura Protectrice Dragon N. 2
+Aura Protectrice Dragon N. 3
+Aura Protectrice Ténèbres N. 1
+Aura Protectrice Ténèbres N. 2
+Aura Protectrice Ténèbres N. 3
+Aura Protectrice Acier N. 1
+Aura Protectrice Acier N. 2
+Aura Protectrice Acier N. 3
+Aura Protectrice Fée N. 1
+Aura Protectrice Fée N. 2
+Aura Protectrice Fée N. 3
+Aura Géante N. 1
+Aura Géante N. 2
+Aura Géante N. 3
+Aura Minuscule N. 1
+Aura Minuscule N. 2
+Aura Minuscule N. 3
+Aura Rencontre N. 1
+Aura Rencontre N. 2
+Aura Rencontre N. 3
+Aura Capture Normal N. 1
+Aura Capture Normal N. 2
+Aura Capture Normal N. 3
+Aura Capture Feu N. 1
+Aura Capture Feu N. 2
+Aura Capture Feu N. 3
+Aura Capture Eau N. 1
+Aura Capture Eau N. 2
+Aura Capture Eau N. 3
+Aura Capture Électrik N. 1
+Aura Capture Électrik N. 2
+Aura Capture Électrik N. 3
+Aura Capture Plante N. 1
+Aura Capture Plante N. 2
+Aura Capture Plante N. 3
+Aura Capture Glace N. 1
+Aura Capture Glace N. 2
+Aura Capture Glace N. 3
+Aura Capture Combat N. 1
+Aura Capture Combat N. 2
+Aura Capture Combat N. 3
+Aura Capture Poison N. 1
+Aura Capture Poison N. 2
+Aura Capture Poison N. 3
+Aura Capture Sol N. 1
+Aura Capture Sol N. 2
+Aura Capture Sol N. 3
+Aura Capture Vol N. 1
+Aura Capture Vol N. 2
+Aura Capture Vol N. 3
+Aura Capture Psy N. 1
+Aura Capture Psy N. 2
+Aura Capture Psy N. 3
+Aura Capture Insecte N. 1
+Aura Capture Insecte N. 2
+Aura Capture Insecte N. 3
+Aura Capture Roche N. 1
+Aura Capture Roche N. 2
+Aura Capture Roche N. 3
+Aura Capture Spectre N. 1
+Aura Capture Spectre N. 2
+Aura Capture Spectre N. 3
+Aura Capture Dragon N. 1
+Aura Capture Dragon N. 2
+Aura Capture Dragon N. 3
+Aura Capture Ténèbres N. 1
+Aura Capture Ténèbres N. 2
+Aura Capture Ténèbres N. 3
+Aura Capture Acier N. 1
+Aura Capture Acier N. 2
+Aura Capture Acier N. 3
+Aura Capture Fée N. 1
+Aura Capture Fée N. 2
+Aura Capture Fée N. 3
+Aura Capture tous types N. 1
+Aura Capture tous types N. 2
+Aura Capture tous types N. 3
+Aura Noirtotal
+Aura Oméga
+Aura Alpha
+Aura Delta
+Aura Vif Éclair

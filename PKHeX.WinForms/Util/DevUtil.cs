@@ -127,7 +127,6 @@ public static class DevUtil
                 text.AppendLine($"- {p.Plugin.Name}");
         }
 
-
         WinFormsUtil.Alert(text.ToString());
     }
 
@@ -233,6 +232,7 @@ public static class DevUtil
         $"{nameof(SAV_BlockDump8)}.L_BlockName", // Block name (dynamic)
         $"{nameof(SAV_PokedexResearchEditorLA)}.L_", // Dynamic label
         $"{nameof(SAV_OPower)}.L_", // Dynamic label
+        $"{nameof(SAV_Pokedex9a)}.CHK_SeenMega", // Dynamic text checkbox
     ];
 
     // paths should match the project structure, so that the files are in the correct place when the logic updates them.

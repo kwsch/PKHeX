@@ -1,7 +1,38 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/11/16 - New Update:
+25/12/12 - New Update:
+ - Added: Support for Legends: Z-A (Mega Dimension) DLC, 2.0.0
+ - Legality:
+ - - New encounters not yet added to the database. Any currently present in this release may not be accurate.
+ - - Please do not report issues/fixes with this release's handling with legality or encounters. We are aware of what still needs work.
+ - Notes, same reminder as the initial Z-A release:
+ - - All encounters can be traced back to an RNG seed.
+ - - With multiple shiny rolls (wild only) or shinies, this calculation is not instant (>15 seconds), so it is only done for non-shiny 1-rolls.
+ - - Do not be lulled into a false sense of safety that PKHeX does not flag your modified Pokémon's PID/IVs.
+ - - Cheat codes that modify the RNG generation routine is detectable in the resulting Pokémon, as previously mentioned in Discord.
+ - - Ability editing via the GUI has been forced into All-Abilities mode due to GameFreak not updating a Pokémon's ability on evolution.
+ - Added: Gen9a: Pokédex editor updated to handle new species with multiple mega forms.
+ - Added: Gen9a: Trainer editor can now collect all field TMs.
+ - Fixed: Gen9a: Handling/generating/verification for Charizard WA9 event gift now behaves as expected.
+
+25/12/02 - New Update: (96381) [11722798]
+ - Added Mewtwonite X/Y as released items, and Mewtwo encounter data.
+ - Legality:
+ - - Fixed: Gen9a Plus moves from level-up learnset now allow Seed of Mastery to mark as Plus, without the Plus level threshold.
+
+25/11/30 - New Update: (14359) [11626417]
+ - Added Chesnaughtite, Dream Ball as released items.
+ - Legality:
+ - - Fixed: Gen9a Gift encounters now enforce IV correlation when the template does not have any fixed/flawless IVs.
+ - - Fixed: Gen9 transfers to SW/SH now recognized again.
+ - - Fixed: Gen7 breeding ball inheritance for Gen2-5 starters now allow Gen4 balls via Island Scan encounter parents. Thanks manolin18 !
+ - - Fixed: Gen4 Pokewalker IVs now recognize seed skipping via Mic Test. Thanks @John-0902 !
+ - - Fixed: Gen3 GCEA PID/IV enforcing now uses BACD_R_A rather than BACD_U_AX (PCNY Antishiny).
+ - Added: Gen9a Player Appearance can now be changed via Block Data editor. Thanks @pasqualenardiello !
+ - Fixed: Gen9a suggesting of Plus Moves for Alphas now recommends the guaranteed Alpha Move as plus (as intended).
+
+25/11/16 - New Update: (125571) [11612058]
  - Legality: Improved location ID detection of wild encounters, should work for 99.9%.
  - - Crossovers are not currently handled for detecting location IDs. Generating from encounter template is 100% legal.
  - - Fixed: Gen9a Ability change rules for Z-A have been updated to reflect form change behavior and encounter selection.

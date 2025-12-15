@@ -30,6 +30,7 @@ public sealed class GameStrings : IBasicStrings
     public readonly string[] console3ds, languageNames;
     public readonly string[] wondercard7, wondercard8, wondercard9;
     private readonly string LanguageFilePrefix;
+    public readonly string[] donutFlavor, donutName;
 
     public ReadOnlySpan<string> HiddenPowerTypes => types.AsSpan(1, HiddenPower.TypeCount);
     public readonly RibbonStrings Ribbons;
@@ -118,6 +119,8 @@ public sealed class GameStrings : IBasicStrings
         trainingbags = Get("trainingbag");
         trainingstage = Get("supertraining");
         puffs = Get("puff");
+        donutFlavor = Get("donutFlavor");
+        donutName = Get("donutName");
 
         walkercourses = Get("walkercourses");
 
@@ -313,6 +316,14 @@ public sealed class GameStrings : IBasicStrings
         // Seed of Mastery
         items[1622] += " (LA)";
         items[2558] += " (ZA)";
+        items[2612] += " (-)"; // Cherished Ring (2596), this one is a quest item you cannot actually possess in save file
+
+        if (Language is French) // Mouchoir Sale
+        {
+            itemlist[0634] += " (G5)"; // Grubby Hanky
+            itemlist[2613] += " (ZA)"; // Dirty Scarf
+        }
+
         // Canari Plushes
         Canari(items[2620..]); // Red
         Canari(items[2623..]); // Gold
@@ -730,6 +741,9 @@ public sealed class GameStrings : IBasicStrings
         set.Met4[65] += " (-)"; // Pokémon GO -- duplicate with 30012
         set.Met4[70] += " (-)"; // Pokémon HOME -- duplicate with 30018
         set.Met6[05] += " (-)"; // Lumiose City (6005) -- duplicate with 30026
+        set.Met3[33] += " (-)"; // Rouge Sector 1 (30033) -- duplicate with 70
+        set.Met3[34] += " (-)"; // Hyperspace Lumiose (30034) -- duplicate with 273
+        set.Met3[35] += " (-)"; // Quasartico Inc. -- duplicate with 62
 
         Deduplicate(set.Met0, 00000);
         Deduplicate(set.Met3, 30000);

@@ -33,6 +33,7 @@ public record struct EncounterPossible9a(EvoCriteria[] Chain, EncounterTypeGroup
 
         SlotStart,
         Slot,
+        Hyperspace,
         SlotEnd,
 
         StaticCapture,
@@ -91,9 +92,15 @@ public record struct EncounterPossible9a(EvoCriteria[] Chain, EncounterTypeGroup
             case YieldState.SlotStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Slot))
                     goto case YieldState.End;
+                State = YieldState.Slot;
                 goto case YieldState.Slot;
             case YieldState.Slot:
                 if (TryGetNext<EncounterArea9a, EncounterSlot9a>(Encounters9a.Slots))
+                    return true;
+                Index = 0; State = YieldState.Hyperspace;
+                goto case YieldState.Hyperspace;
+            case YieldState.Hyperspace:
+                if (TryGetNext<EncounterArea9a, EncounterSlot9a>(Encounters9a.Hyperspace))
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:

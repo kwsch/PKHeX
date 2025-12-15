@@ -64,6 +64,8 @@ public sealed class PersonalInfo9ZA(Memory<byte> Raw) : PersonalInfo, IPersonalA
     /// Checks if the entry shows up in any of the built-in Pokédex.
     /// </summary>
     public bool IsInDex => DexIndex != 0;
+    public bool IsLumioseNative => DexIndex is (not 0) and <= 232;
+    public bool IsHyperspaceNative => DexIndex > 232;
 
     public override int AbilityCount => 3;
     public override int GetIndexOfAbility(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
@@ -131,13 +133,20 @@ public sealed class PersonalInfo9ZA(Memory<byte> Raw) : PersonalInfo, IPersonalA
         404, 369, 417, 430, 164, 528, 231, 191, 390, 399,
         174, 605, 200, 018, 269, 056, 377, 127, 118, 441,
         527, 411, 526, 394, 059, 087, 370,
+        // ZA DLC
+                                           004, 263, 886,
+        047, 491, 490, 488, 885, 006, 318, 325, 466, 246,
+        259, 206, 305, 706, 102, 443, 138, 402, 509, 451,
+        409, 458, 299, 814, 530, 815, 480, 524, 207, 330,
+        252, 660, 799, 813, 013, 130, 161, 503, 333, 410,
+        080, 669, 143, 090, 329, 800, 796, 307, 308, 338,
     ];
 
     public override int BaseEXP { get => ReadUInt16LittleEndian(Data[0x4C..]); set => WriteUInt16LittleEndian(Data[0x4C..], (ushort)value); }
     public ushort AlphaMove { get => ReadUInt16LittleEndian(Data[0x4E..]); set => WriteUInt16LittleEndian(Data[0x4E..], value); }
 
     public int PlusCountTotal => (33 + 12) * 8; // 360
-    public int PlusCountUsed => 247;
+    public int PlusCountUsed => 340; // as of Mega Dimension DLC 2.0.0
 
     // Set by Seed of Mastery or Alpha Move granted
     public static ReadOnlySpan<ushort> PlusMoves =>
@@ -168,6 +177,16 @@ public sealed class PersonalInfo9ZA(Memory<byte> Raw) : PersonalInfo, IPersonalA
         611, 612, 613, 614, 615, 616, 617, 621, 670, 679,
         687, 693, 710, 748, 784, 812, 920,
         097, // lol
+             004, 006, 013, 047, 080, 090, 102, 130, 138,
+        143, 147, 155, 160, 161, 176, 206, 207, 246, 252,
+        259, 263, 295, 296, 299, 305, 307, 308, 318, 325,
+        329, 330, 333, 338, 402, 409, 410, 443, 451, 458,
+        463, 464, 466, 480, 488, 490, 491, 503, 509, 524,
+        530, 533, 546, 547, 548, 618, 619, 620, 659, 660,
+        665, 669, 705, 706, 708, 712, 721, 742, 753, 783,
+        786, 794, 796, 799, 800, 813, 814, 815, 830, 839,
+        854, 856, 858, 862, 864, 866, 874, 880, 885, 886,
+        889, 890, 891, 893,
     ];
 
     public ReadOnlySpan<ushort> PlusMoveIndexes => PlusMoves;

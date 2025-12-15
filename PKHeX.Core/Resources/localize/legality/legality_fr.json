@@ -178,6 +178,7 @@
     "IVAllEqual_0": "Tous les IVs sont {0}.",
     "IVNotCorrect": "Les IVs ne correspondent pas aux exigences de la rencontre.",
     "IVFlawlessCountGEQ_0": "Ce Pokémon doit avoir au moins {0} IVs parfaits.",
+    "LevelBoostNotZero": "Level Boost should be zero.",
     "LevelEXPThreshold": "Le montant d'Expérience actuel équivaut le palier du niveau défini.",
     "LevelEXPTooHigh": "L'expérience actuelle dépasse le montant maximum pour le niveau 100.",
     "LevelMetBelow": "Niveau actuel au-dessous du niveau de rencontre.",

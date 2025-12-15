@@ -196,10 +196,10 @@ public sealed class FormVerifier : Verifier
             return GetInvalid(FormBattle); // Should have reverted to base form when stored.
 
         // Battle forms can exist in Party.
-        if (!FormInfo.IsMegaForm(species, form))
+        if (!FormInfo.IsMegaForm(species, form) && !FormInfo.IsPrimalForm(species, form))
             return VALID;
 
-        var megaStone = ItemStorage9ZA.GetExpectedMegaStone(species, form);
+        var megaStone = ItemStorage9ZA.GetExpectedMegaStoneOrPrimalOrb(species, form);
         if (megaStone == 0 || data.Entity.HeldItem == megaStone)
             return VALID;
 

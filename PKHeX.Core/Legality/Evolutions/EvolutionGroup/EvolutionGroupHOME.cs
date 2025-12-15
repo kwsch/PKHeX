@@ -226,7 +226,15 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
         PA8 => LA,
         PB8 => BDSP,
         PK9 => SV,
-        _ => throw new ArgumentOutOfRangeException(nameof(pk), pk, null),
+        _ => pk.Version switch // transferred to another game (Z-A)
+        {
+            GameVersion.PLA => LA,
+            GameVersion.SW or GameVersion.SH => SWSH,
+            GameVersion.BD or GameVersion.SP => BDSP,
+            GameVersion.SL or GameVersion.VL => SV,
+            _ => throw new ArgumentOutOfRangeException(nameof(pk), pk, null),
+        },
+        
     };
 }
 

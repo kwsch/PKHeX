@@ -14,7 +14,6 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor9ZA(this);
-        SaveRevision = 0;
         Initialize();
     }
 
@@ -22,7 +21,11 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     {
         AllBlocks = BlankBlocks9a.GetBlankBlocks();
         Blocks = new SaveBlockAccessor9ZA(this);
-        SaveRevision = 0;
+
+        var revision = Blocks.GetBlock(SaveBlockAccessor9ZA.KSaveRevision);
+        revision.ChangeStoredType(SCTypeCode.UInt64);
+        revision.SetValue((ulong)BlankBlocks9a.BlankRevision);
+
         Initialize();
         ClearBoxes();
     }
@@ -38,11 +41,13 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
         State.Edited = true;
     }
 
-    public int SaveRevision { get; }
+
+    public int SaveRevision => (int)GetValue<ulong>(SaveBlockAccessor9ZA.KSaveRevision);
 
     public string SaveRevisionString => SaveRevision switch
     {
         0 => "-Base", // Vanilla
+        1 => "-MD", // Mega Dimension
         _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
     };
 
@@ -72,8 +77,10 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     public Epoch1900DateTimeValue StartTime => Blocks.EnrollmentDate;
     public Coordinates9a Coordinates => Blocks.Coordinates;
     public InfiniteRoyale9a InfiniteRoyale => Blocks.InfiniteRoyale;
+    public PlayerAppearance9a PlayerAppearance => Blocks.PlayerAppearance;
     public PlayerFashion9a PlayerFashion => Blocks.PlayerFashion;
     public ConfigSave9a Config => Blocks.Config;
+    public DonutPocket9a Donuts => Blocks.Donuts;
     #endregion
 
     protected override SAV9ZA CloneInternal()
@@ -103,14 +110,17 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
         int rev = SaveRevision;
         if (rev == 0)
         {
-            m_move = Legal.MaxMoveID_9a;
-            m_spec = Legal.MaxSpeciesID_9a;
-            m_item = Legal.MaxItemID_9a;
-            m_abil = Legal.MaxAbilityID_9a;
+            m_move = Legal.MaxMoveID_9a_IK;
+            m_spec = Legal.MaxSpeciesID_9a_IK;
+            m_item = Legal.MaxItemID_9a_IK;
+            m_abil = Legal.MaxAbilityID_9a_IK;
         }
         else
         {
-            throw new ArgumentOutOfRangeException(nameof(SaveRevision));
+            m_move = Legal.MaxMoveID_9a_MD;
+            m_spec = Legal.MaxSpeciesID_9a_MD;
+            m_item = Legal.MaxItemID_9a_MD;
+            m_abil = Legal.MaxAbilityID_9a_MD;
         }
     }
 

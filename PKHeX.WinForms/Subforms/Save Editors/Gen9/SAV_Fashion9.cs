@@ -161,7 +161,6 @@ public sealed partial class SAV_Fashion9 : Form
         }
     }
 
-
     public IFashionBlockEditor Create(SCBlockAccessor accesor, uint blockLoc, string name, bool hair = false)
     {
         var tab = GetTab(name);

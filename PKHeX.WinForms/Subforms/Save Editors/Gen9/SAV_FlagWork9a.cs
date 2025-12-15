@@ -75,7 +75,6 @@ public sealed partial class SAV_FlagWork9a : Form
         Close();
     }
 
-
     private void ChangeSAV()
     {
         if (TB_NewSAV.Text.Length != 0 && TB_OldSAV.Text.Length != 0)

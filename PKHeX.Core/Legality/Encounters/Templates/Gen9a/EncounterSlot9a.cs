@@ -10,6 +10,9 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
 {
     public byte Generation => 9;
     private const GameVersion Version = GameVersion.ZA;
+
+    private bool IsHyperspace => Location == EncounterArea9a.LocationHyperspace;
+
     GameVersion IVersion.Version => GameVersion.ZA;
     public EntityContext Context => EntityContext.Gen9a;
     public bool IsEgg => false;
@@ -65,7 +68,8 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
 
     private void SetPINGA(PA9 pk, EncounterCriteria criteria, PersonalInfo9ZA pi)
     {
-        var param = GetParams(pi, criteria.Shiny.IsShiny());
+        bool shinyPlease = criteria.Shiny.IsShiny();
+        var param = GetParams(pi, shinyPlease, shinyPlease);
         ulong init = Util.Rand.Rand64();
         var success = this.TryApply64(pk, init, param, criteria);
         if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
@@ -117,6 +121,9 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
         if (Shiny is Shiny.Never && pk.IsShiny) // Some encounters are shiny locked until a sub-quest is completed.
             return EncounterMatchRating.DeferredErrors;
 
+        if (IsFormArgMismatch(pk))
+            return EncounterMatchRating.DeferredErrors;
+
         var pidiv = TryGetSeed(pk, out _);
         if (pidiv is SeedCorrelationResult.Invalid)
             return EncounterMatchRating.DeferredErrors;
@@ -126,17 +133,24 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
         return EncounterMatchRating.Match;
     }
 
+    private bool IsFormArgMismatch(PKM pk) => pk.Species switch
+    {
+        (int)Core.Species.Overqwil when Species is not (int)Core.Species.Overqwil && pk is IFormArgument { FormArgument: 0 } and IHomeTrack { HasTracker: false } => true,
+        _ => false,
+    };
+
     #endregion
 
     public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
     {
-        var param = GetParams(PersonalTable.ZA[Species, Form], false);
+        var param = GetParams(PersonalTable.ZA[Species, Form], false, false);
         if (param.TryGetSeed(pk, out seed))
             return SeedCorrelationResult.Success;
         if (pk.IsShiny && !LumioseSolver.SearchShiny1 || !LumioseSolver.SearchShinyN)
             return SeedCorrelationResult.Ignore;
 
-        param = param with { RollCount = 1 + ShinyCharm };
+        var rollCount = (byte)(1 + ShinyCharm + (IsHyperspace ? ShinyHyperspace : 0));
+        param = param with { RollCount = rollCount };
         if (param.TryGetSeed(pk, out seed))
             return SeedCorrelationResult.Success;
         return SeedCorrelationResult.Invalid;
@@ -145,13 +159,14 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
     public LumioseCorrelation Correlation => IsAlpha ? LumioseCorrelation.PreApplyIVs : LumioseCorrelation.Normal;
 
     private const byte ShinyCharm = 3;
+    private const byte ShinyHyperspace = 3;
 
-    public GenerateParam9a GetParams(PersonalInfo9ZA pi) => GetParams(pi, shinyCharm: false);
+    public GenerateParam9a GetParams(PersonalInfo9ZA pi) => GetParams(pi, shinyCharm: false, activeShinyPower: false);
 
-    public GenerateParam9a GetParams(PersonalInfo9ZA pi, bool shinyCharm)
+    public GenerateParam9a GetParams(PersonalInfo9ZA pi, bool shinyCharm, bool activeShinyPower)
     {
         // Give the +3 for Shiny Charm so that the generator search is more likely to succeed.
-        var rollCount = (byte)(1 + (shinyCharm ? ShinyCharm : 0));
+        var rollCount = (byte)(1 + (shinyCharm ? ShinyCharm : 0) + (IsHyperspace && activeShinyPower ? ShinyHyperspace : 0));
         var scaleValue = IsAlpha ? (byte)255 : (byte)0;
         var scaleType = IsAlpha ? SizeType9.VALUE : SizeType9.RANDOM;
         var gender = Gender switch

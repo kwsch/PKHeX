@@ -7,5 +7,5 @@
 0131	g	Chica del Solar de los Sueños	0:Sin interactuar,1:Mono elemental pendiente,2:Mono elemental recibido
 0199	r	Evento de Zorua	0:Camuflado como un niño (1),1:Revelado/Capturable (2),3:Capturado
 0201	r	Evento de Zoroark	0:Activo (1),1:Derrotado,2:Capturado
-0202	r	Evento 2do piso del Laboratorio P+P	0:Sin activar,1:Activado,2:Batalla contra Científico Chema pendiente,3:Cartuchos de Genesect recibidos
+0202	r	Evento 2do piso del Laboratorio P+P	0:Sin activar,1:Activado,2:Batalla contra Científico Froilán pendiente,3:Cartuchos de Genesect recibidos
 0218	g	Munchlax (Pueblo Arenisca)	0:Quiere intercambiar,1:Intercambio por Munchlax,2:Tras intercambio

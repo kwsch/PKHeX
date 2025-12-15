@@ -59,6 +59,7 @@ public static class SpriteUtil
     }
 
     public static Bitmap? GetItemSprite(int item) => Resources.ResourceManager.GetObject($"item_{item}") as Bitmap;
+    public static Bitmap? GetItemSpriteA(int item) => Resources.ResourceManager.GetObject($"aitem_{item}") as Bitmap;
 
     public static Bitmap GetSprite(ushort species, byte form, byte gender, uint formarg, int item, bool isegg, Shiny shiny, EntityContext context = EntityContext.None)
     {
