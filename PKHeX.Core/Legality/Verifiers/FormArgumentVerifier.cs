@@ -91,12 +91,21 @@ public sealed class FormArgumentVerifier : Verifier
             },
             Gimmighoul => arg switch
             {
+                // Z-A evolutions do not set form argument to Gimmighoul.
+                0 when data.Info.EvoChainsAllGens.HasVisitedZA => GetValid(FormArgumentValid),
+
                 // When leveled up, the game copies the save file's current coin count to the arg (clamped to <=999). If >=999, evolution is triggered.
                 // Without being leveled up at least once, it cannot have a form arg value.
                 >= 999 => GetInvalid(FormArgumentLEQ_0, 999),
                 0 => GetValid(FormArgumentValid),
+
+                // S/V sets form argument to match coin count.
+                _ when !data.Info.EvoChainsAllGens.HasVisitedGen9 => GetInvalid(FormArgumentInvalid),
                 _ => pk.CurrentLevel != pk.MetLevel ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
             },
+            Gholdengo when !data.Info.EvoChainsAllGens.HasVisitedGen9 => arg == 0 ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentInvalid),
+            Gholdengo => VerifyFormArgumentRange(enc.Species, Gholdengo, arg, 999, 999),
+
             Runerigus   => VerifyFormArgumentRange(enc.Species, Runerigus,   arg,  49, 9999),
             Alcremie    => VerifyFormArgumentRange(enc.Species, Alcremie,    arg,   0, (ushort)AlcremieDecoration.Ribbon),
             Wyrdeer when enc.Species != (int)Wyrdeer && pk.CurrentLevel < 31 => GetInvalid(EvoInvalid),
@@ -104,7 +113,6 @@ public sealed class FormArgumentVerifier : Verifier
             Basculegion => VerifyFormArgumentRange(enc.Species, Basculegion, arg, 294, 9999),
             Annihilape  => VerifyFormArgumentRange(enc.Species, Annihilape,  arg,  20, 9999),
             Kingambit   => VerifyFormArgumentRange(enc.Species, Kingambit,   arg,   3, 9999),
-            Gholdengo   => VerifyFormArgumentRange(enc.Species, Gholdengo,   arg, 999,  999),
             Koraidon or Miraidon => enc switch
             {
                 // Starter Legend has '1' when present in party, to differentiate.
