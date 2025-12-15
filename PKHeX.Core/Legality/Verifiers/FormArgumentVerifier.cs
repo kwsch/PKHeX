@@ -68,7 +68,7 @@ public sealed class FormArgumentVerifier : Verifier
                 > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 0 when enc.Species == (ushort)Overqwil => GetValid(FormArgumentValid),
                 < 20 when !data.Info.EvoChainsAllGens.HasVisitedGen9 || pk.CurrentLevel < (pk is IHomeTrack { HasTracker: true } ? 15 : 28) => GetInvalid(FormArgumentGEQ_0, 20),
-                >= 20 when !data.Info.EvoChainsAllGens.HasVisitedPLA || pk.CurrentLevel < 25 => GetInvalid(FormArgumentLEQ_0, 0),
+                >= 20 when (!data.Info.EvoChainsAllGens.HasVisitedPLA && !data.Info.EvoChainsAllGens.HasVisitedZA) || pk.CurrentLevel < 25 => GetInvalid(FormArgumentLEQ_0, 0),
                 _ when pk is IHomeTrack { HasTracker: false } and PA8 { CurrentLevel: < 25 } => GetInvalid(EvoInvalid),
                 _ => GetValid(FormArgumentValid),
             },
@@ -82,7 +82,7 @@ public sealed class FormArgumentVerifier : Verifier
             Primeape => arg switch
             {
                 > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
-                _ => arg == 0 || HasVisitedSV(data, Primeape) ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
+                _ => arg == 0 || HasVisitedSV(data, Primeape) || data.Info.EvoChainsAllGens.HasVisitedZA ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
             },
             Bisharp => arg switch
             {
