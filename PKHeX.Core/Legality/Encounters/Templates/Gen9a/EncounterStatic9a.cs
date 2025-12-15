@@ -35,7 +35,8 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
 
     ushort ILocation.Location => Location;
 
-    private bool HyperspaceShinyPossible => Shiny != Shiny.Never && Location == EncounterArea9a.LocationHyperspace;
+    private bool IsHyperspace => Location == EncounterArea9a.LocationHyperspace;
+    private bool IsHyperspaceShinyPossible => Shiny != Shiny.Never && IsHyperspace;
 
     public string Name => "Static Encounter";
     public string LongName => Name;
@@ -84,7 +85,8 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
         if (IVs.IsSpecified || Correlation is LumioseCorrelation.ReApplyIVs)
             generate = criteria.WithoutIVs();
 
-        var param = GetParams(pi);
+        bool shinyPlease = criteria.Shiny.IsShiny();
+        var param = GetParams(pi, shinyPlease, shinyPlease);
         ulong init = Util.Rand.Rand64();
         var success = this.TryApply64(pk, init, param, generate);
         if (!success && !this.TryApply64(pk, init, param, generate.WithoutIVs()))
@@ -110,7 +112,7 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
 
         if (!IsAlpha)
         {
-            learn.SetEncounterMoves(level, moves);
+            learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
             PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
         }
         else
@@ -195,15 +197,17 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
 
     public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
     {
+        // Try with 1 shiny roll, since all encounters besides the hyperspace sublegends are.
         var param = GetParams(PersonalTable.ZA[Species, Form]);
         if (param.TryGetSeed(pk, out seed))
             return SeedCorrelationResult.Success;
-        if (!HyperspaceShinyPossible)
+        if (!IsHyperspaceShinyPossible)
             return SeedCorrelationResult.Invalid;
         if (pk.IsShiny && !LumioseSolver.SearchShiny1 || !LumioseSolver.SearchShinyN)
             return SeedCorrelationResult.Ignore;
 
-        param = param with { RollCount = 7 };
+        // Assume any combination of shiny charm and donut boost is active.
+        param = param with { RollCount = 1 + ShinyCharm + ShinyHyperspace };
         if (param.TryGetSeed(pk, out seed))
             return SeedCorrelationResult.Success;
         return SeedCorrelationResult.Invalid;
@@ -221,9 +225,21 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
         }
     }
 
-    public GenerateParam9a GetParams(PersonalInfo9ZA pi)
+    private const byte ShinyCharm = 3;
+    private const byte ShinyHyperspace = 3;
+
+    public GenerateParam9a GetParams(PersonalInfo9ZA pi) => GetParams(pi, shinyCharm: false, activeShinyPower: false);
+
+    public GenerateParam9a GetParams(PersonalInfo9ZA pi, bool shinyCharm, bool activeShinyPower)
     {
-        byte rollCount = HyperspaceShinyPossible ? (byte)7 : (byte)1;
+        byte rollCount = 1;
+        if (IsHyperspaceShinyPossible)
+        {
+            if (shinyCharm)
+                rollCount += ShinyCharm;
+            if (activeShinyPower)
+                rollCount += ShinyHyperspace;
+        }
         var gender = Gender switch
         {
             0 => PersonalInfo.RatioMagicMale,

@@ -118,7 +118,7 @@ public sealed class LegendsZAVerifier : Verifier
         var learn = LearnSource9ZA.Instance.GetLearnset(enc.Species, enc.Form);
         if (!enc.IsAlpha)
         {
-            learn.SetEncounterMoves(level, moves);
+            learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
             return;
         }
         learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);

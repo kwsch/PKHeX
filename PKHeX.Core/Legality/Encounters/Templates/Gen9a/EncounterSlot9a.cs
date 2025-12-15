@@ -82,7 +82,7 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
         Span<ushort> moves = stackalloc ushort[4];
         if (!IsAlpha)
         {
-            learn.SetEncounterMoves(level, moves);
+            learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
             PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
         }
         else
