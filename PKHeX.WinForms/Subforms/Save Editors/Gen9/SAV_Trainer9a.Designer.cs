@@ -95,6 +95,8 @@ namespace PKHeX.WinForms
             L_LastSaved = new System.Windows.Forms.Label();
             CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             Tab_MiscValues = new System.Windows.Forms.TabPage();
+            B_CollectTechnicalMachines = new System.Windows.Forms.Button();
+            B_CollectScrews = new System.Windows.Forms.Button();
             label3 = new System.Windows.Forms.Label();
             L_RoyaleTicketPointsInfinite = new System.Windows.Forms.Label();
             L_RoyaleRegularTicketPoints = new System.Windows.Forms.Label();
@@ -118,8 +120,10 @@ namespace PKHeX.WinForms
             P_Picture1 = new System.Windows.Forms.PictureBox();
             P_Picture2 = new System.Windows.Forms.PictureBox();
             P_Picture3 = new System.Windows.Forms.PictureBox();
-            B_CollectTechnicalMachines = new System.Windows.Forms.Button();
-            B_CollectScrews = new System.Windows.Forms.Button();
+            Tab_DLC = new System.Windows.Forms.TabPage();
+            L_HyperspaceSurveyPoints = new System.Windows.Forms.Label();
+            MT_HyperspaceSurveyPoints = new System.Windows.Forms.MaskedTextBox();
+            B_HyperspaceSurveyPoints = new System.Windows.Forms.Button();
             TC_Editor.SuspendLayout();
             Tab_Overview.SuspendLayout();
             Tab_MiscValues.SuspendLayout();
@@ -133,6 +137,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)P_Picture1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)P_Picture2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)P_Picture3).BeginInit();
+            Tab_DLC.SuspendLayout();
             SuspendLayout();
             // 
             // B_Cancel
@@ -620,6 +625,7 @@ namespace PKHeX.WinForms
             TC_Editor.Controls.Add(Tab_Overview);
             TC_Editor.Controls.Add(Tab_MiscValues);
             TC_Editor.Controls.Add(Tab_Images);
+            TC_Editor.Controls.Add(Tab_DLC);
             TC_Editor.Location = new System.Drawing.Point(0, 0);
             TC_Editor.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             TC_Editor.Name = "TC_Editor";
@@ -719,6 +725,26 @@ namespace PKHeX.WinForms
             Tab_MiscValues.TabIndex = 4;
             Tab_MiscValues.Text = "Misc";
             Tab_MiscValues.UseVisualStyleBackColor = true;
+            // 
+            // B_CollectTechnicalMachines
+            // 
+            B_CollectTechnicalMachines.Location = new System.Drawing.Point(365, 210);
+            B_CollectTechnicalMachines.Name = "B_CollectTechnicalMachines";
+            B_CollectTechnicalMachines.Size = new System.Drawing.Size(120, 64);
+            B_CollectTechnicalMachines.TabIndex = 85;
+            B_CollectTechnicalMachines.Text = "Collect All Technical Machines";
+            B_CollectTechnicalMachines.UseVisualStyleBackColor = true;
+            B_CollectTechnicalMachines.Click += B_CollectTechnicalMachines_Click;
+            // 
+            // B_CollectScrews
+            // 
+            B_CollectScrews.Location = new System.Drawing.Point(365, 140);
+            B_CollectScrews.Name = "B_CollectScrews";
+            B_CollectScrews.Size = new System.Drawing.Size(120, 64);
+            B_CollectScrews.TabIndex = 85;
+            B_CollectScrews.Text = "Collect All Colorful Screws";
+            B_CollectScrews.UseVisualStyleBackColor = true;
+            B_CollectScrews.Click += B_CollectScrews_Click;
             // 
             // label3
             // 
@@ -986,25 +1012,49 @@ namespace PKHeX.WinForms
             P_Picture3.TabStop = false;
             P_Picture3.Click += P_Picture3_Click;
             // 
-            // B_CollectTechnicalMachines
+            // Tab_DLC
             // 
-            B_CollectTechnicalMachines.Location = new System.Drawing.Point(365, 106);
-            B_CollectTechnicalMachines.Name = "B_CollectTechnicalMachines";
-            B_CollectTechnicalMachines.Size = new System.Drawing.Size(120, 64);
-            B_CollectTechnicalMachines.TabIndex = 85;
-            B_CollectTechnicalMachines.Text = "Collect All Technical Machines";
-            B_CollectTechnicalMachines.UseVisualStyleBackColor = true;
-            B_CollectTechnicalMachines.Click += B_CollectTechnicalMachines_Click;
+            Tab_DLC.Controls.Add(L_HyperspaceSurveyPoints);
+            Tab_DLC.Controls.Add(MT_HyperspaceSurveyPoints);
+            Tab_DLC.Controls.Add(B_HyperspaceSurveyPoints);
+            Tab_DLC.Location = new System.Drawing.Point(4, 26);
+            Tab_DLC.Name = "Tab_DLC";
+            Tab_DLC.Padding = new System.Windows.Forms.Padding(3);
+            Tab_DLC.Size = new System.Drawing.Size(488, 277);
+            Tab_DLC.TabIndex = 6;
+            Tab_DLC.Text = "DLC";
+            Tab_DLC.UseVisualStyleBackColor = true;
             // 
-            // B_CollectScrews
+            // L_HyperspaceSurveyPoints
             // 
-            B_CollectScrews.Location = new System.Drawing.Point(365, 106);
-            B_CollectScrews.Name = "B_CollectScrews";
-            B_CollectScrews.Size = new System.Drawing.Size(120, 64);
-            B_CollectScrews.TabIndex = 85;
-            B_CollectScrews.Text = "Collect All Colorful Screws";
-            B_CollectScrews.UseVisualStyleBackColor = true;
-            B_CollectScrews.Click += B_CollectScrews_Click;
+            L_HyperspaceSurveyPoints.Location = new System.Drawing.Point(5, 3);
+            L_HyperspaceSurveyPoints.Margin = new System.Windows.Forms.Padding(0);
+            L_HyperspaceSurveyPoints.Name = "L_HyperspaceSurveyPoints";
+            L_HyperspaceSurveyPoints.Size = new System.Drawing.Size(245, 24);
+            L_HyperspaceSurveyPoints.TabIndex = 91;
+            L_HyperspaceSurveyPoints.Text = "Hyperspace Survey Points:";
+            L_HyperspaceSurveyPoints.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // MT_HyperspaceSurveyPoints
+            // 
+            MT_HyperspaceSurveyPoints.Location = new System.Drawing.Point(254, 4);
+            MT_HyperspaceSurveyPoints.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_HyperspaceSurveyPoints.Mask = "0000000";
+            MT_HyperspaceSurveyPoints.Name = "MT_HyperspaceSurveyPoints";
+            MT_HyperspaceSurveyPoints.Size = new System.Drawing.Size(67, 25);
+            MT_HyperspaceSurveyPoints.TabIndex = 89;
+            MT_HyperspaceSurveyPoints.Text = "1234567";
+            MT_HyperspaceSurveyPoints.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // B_HyperspaceSurveyPoints
+            // 
+            B_HyperspaceSurveyPoints.Location = new System.Drawing.Point(325, 4);
+            B_HyperspaceSurveyPoints.Margin = new System.Windows.Forms.Padding(0);
+            B_HyperspaceSurveyPoints.Name = "B_HyperspaceSurveyPoints";
+            B_HyperspaceSurveyPoints.Size = new System.Drawing.Size(23, 23);
+            B_HyperspaceSurveyPoints.TabIndex = 90;
+            B_HyperspaceSurveyPoints.Text = "+";
+            B_HyperspaceSurveyPoints.UseVisualStyleBackColor = true;
             // 
             // SAV_Trainer9a
             // 
@@ -1036,6 +1086,8 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)P_Picture1).EndInit();
             ((System.ComponentModel.ISupportInitialize)P_Picture2).EndInit();
             ((System.ComponentModel.ISupportInitialize)P_Picture3).EndInit();
+            Tab_DLC.ResumeLayout(false);
+            Tab_DLC.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -1133,5 +1185,9 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.PictureBox P_Picture3;
         private System.Windows.Forms.Button B_CollectTechnicalMachines;
         private System.Windows.Forms.Button B_CollectScrews;
+        private System.Windows.Forms.TabPage Tab_DLC;
+        private System.Windows.Forms.Label L_HyperspaceSurveyPoints;
+        private System.Windows.Forms.MaskedTextBox MT_HyperspaceSurveyPoints;
+        private System.Windows.Forms.Button B_HyperspaceSurveyPoints;
     }
 }

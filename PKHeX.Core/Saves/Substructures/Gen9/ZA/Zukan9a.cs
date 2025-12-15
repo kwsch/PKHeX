@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 public sealed class Zukan9a(SAV9ZA sav, SCBlock block) : ZukanBase<SAV9ZA>(sav, block.Raw)
@@ -39,8 +41,13 @@ public sealed class Zukan9a(SAV9ZA sav, SCBlock block) : ZukanBase<SAV9ZA>(sav, 
         entry.SetIsFormCaught(form, true);
         if (FormInfo.IsMegaForm(species, form))
             entry.SetIsSeenMega(0, true);
-        if (IsMegaFormXY(species, SAV.SaveRevision))
+
+        if (IsMegaFormXY(species, SAV.SaveRevision) || IsMegaFormZA(species, SAV.SaveRevision))
             entry.SetIsSeenMega(1, true);
+        else if (species is (int)Species.Magearna or (int)Species.Meowstic)
+            entry.SetIsSeenMega(1, true);
+        else if (species == (int)Species.Tatsugiri)
+            entry.SetIsSeenMega(form < 3 ? form : (byte)Math.Clamp(form - 3, 0, 3), true);
         entry.SetLanguageFlag(pk.Language, true);
 
         var isShiny = pk.IsShiny;
@@ -218,10 +225,13 @@ public sealed class Zukan9a(SAV9ZA sav, SCBlock block) : ZukanBase<SAV9ZA>(sav, 
             entry.SetIsSeenAlpha(value);
             if (FormInfo.IsMegaForm(species, form))
                 entry.SetIsSeenMega(0, value);
+
             if (IsMegaFormXY(species, SAV.SaveRevision) || IsMegaFormZA(species, SAV.SaveRevision))
                 entry.SetIsSeenMega(1, value);
-            else if (species is (int)Species.Tatsugiri or (int)Species.Magearna)
-                entry.SetIsSeenMega(form, value);
+            else if (species is (int)Species.Magearna or (int)Species.Meowstic)
+                entry.SetIsSeenMega(1, value);
+            else if (species == (int)Species.Tatsugiri)
+                entry.SetIsSeenMega(form < 3 ? form : (byte)Math.Clamp(form - 3, 0, 3), true);
 
             if (value)
             {

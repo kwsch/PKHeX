@@ -27,6 +27,7 @@ public sealed partial class SAV_Trainer9a : Form
         B_MaxCash.Click += (_, _) => MT_Money.Text = SAV.MaxMoney.ToString();
         B_RoyaleRegularMax.Click += (_, _) => MT_RoyaleRegular.Text = 310_000.ToString();
         B_RoyaleInfiniteMax.Click += (_, _) => MT_RoyaleInfinite.Text = 50_000.ToString();
+        B_HyperspaceSurveyPoints.Click += (_, _) => MT_HyperspaceSurveyPoints.Text = 100_000.ToString();
 
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
@@ -34,6 +35,7 @@ public sealed partial class SAV_Trainer9a : Form
         GetImages();
         GetComboBoxes();
         GetTextBoxes();
+        GetDLC();
         LoadMap();
 
         MinimumSize = Size;
@@ -125,10 +127,29 @@ public sealed partial class SAV_Trainer9a : Form
         MT_RoyaleInfinite.Text = SAV.TicketPointsRoyaleInfinite.ToString();
     }
 
+    private void GetDLC()
+    {
+        if (SAV.SaveRevision == 0)
+        {
+            TC_Editor.TabPages.Remove(Tab_DLC);
+            return;
+        }
+
+        MT_HyperspaceSurveyPoints.Text = SAV.GetValue<uint>(KHyperspaceSurveyPoints).ToString();
+    }
+
     private void Save()
     {
         SaveTrainerInfo();
         SaveMap();
+        SaveDLC();
+    }
+
+    private void SaveDLC()
+    {
+        if (SAV.SaveRevision == 0)
+            return;
+        SAV.SetValue(KHyperspaceSurveyPoints, Util.ToUInt32(MT_HyperspaceSurveyPoints.Text));
     }
 
     private void SaveMap()

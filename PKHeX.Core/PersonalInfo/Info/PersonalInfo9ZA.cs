@@ -64,6 +64,8 @@ public sealed class PersonalInfo9ZA(Memory<byte> Raw) : PersonalInfo, IPersonalA
     /// Checks if the entry shows up in any of the built-in Pokédex.
     /// </summary>
     public bool IsInDex => DexIndex != 0;
+    public bool IsLumioseNative => DexIndex is (not 0) and <= 232;
+    public bool IsHyperspaceNative => DexIndex > 232;
 
     public override int AbilityCount => 3;
     public override int GetIndexOfAbility(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
