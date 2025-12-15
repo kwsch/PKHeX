@@ -11,12 +11,10 @@ public sealed partial class DonutEditor9a : UserControl
 {
     private Donut9a _donut;
     public event EventHandler? ValueChanged;
-    private readonly bool Initialized;
 
     public DonutEditor9a()
     {
         InitializeComponent();
-        Initialized = true;
     }
 
     public void InitializeLists(ReadOnlySpan<string> flavors, ReadOnlySpan<string> items, ReadOnlySpan<string> donutNames)
@@ -55,6 +53,7 @@ public sealed partial class DonutEditor9a : UserControl
         SetDataSource(CB_Donut, donutList);
 
         CB_Donut.SelectedIndexChanged += OnValueChanged;
+        CB_Donut.SelectedIndexChanged += CB_Donut_SelectedIndexChanged;
 
         // Not really necessary to indicate value changes (name wouldn't be different), but for consistency...
         CAL_Date.ValueChanged += OnValueChanged;
@@ -158,7 +157,6 @@ public sealed partial class DonutEditor9a : UserControl
         }
 
         TB_Unknown.Text = donut.Unknown.ToString();
-        PB_Donut.Image = DonutSpriteUtil.Sprite(donut);
 
         return;
 
@@ -236,14 +234,10 @@ public sealed partial class DonutEditor9a : UserControl
         return hash;
     }
 
-    // todo please fix this Kurt <3
-    private void CB_Donut_SelectedIndexChanged(object sender, EventArgs e)
+    private void CB_Donut_SelectedIndexChanged(object? sender, EventArgs e)
     {
-       if (!Initialized)
-            return;
-
         _donut.Donut = (ushort)CB_Donut.SelectedIndex;
-        PB_Donut.Image = DonutSpriteUtil.Sprite(_donut);
+        PB_Donut.Image = _donut.Sprite();
     }
 
     public void Reset()
