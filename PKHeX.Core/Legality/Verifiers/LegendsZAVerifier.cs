@@ -309,7 +309,7 @@ public sealed class LegendsZAVerifier : Verifier
     {
         // Relearn moves added in DLC:
         Pichu or Pikachu or Raichu when move is DrainingKiss => true,
-        Onix when move is RockBlast => true,
+        Onix or Steelix when move is RockBlast => true,
         Absol when move is Snarl or PhantomForce => true,
         Roserade or Whirlipede or Scolipede when move is MortalSpin => true,
         Abomasnow when move is IceHammer => true,
