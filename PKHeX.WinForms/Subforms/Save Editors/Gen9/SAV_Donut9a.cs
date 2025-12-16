@@ -34,9 +34,16 @@ public partial class SAV_Donut9a : Form
         lastIndex = 0;
         GetEntry(0);
 
-        // Not implemented.
-        mnuRandomizeMax.Visible = false;
-        mnuShinyAssortment.Visible = false;
+        AddDrop(this, LB_Donut, donutEditor);
+    }
+
+    private void AddDrop(params ReadOnlySpan<Control> objects)
+    {
+        foreach (var control in objects)
+        {
+            control.DragDrop += DragoutDrop;
+            control.DragEnter += Dragout_DragOver;
+        }
     }
 
     private void LoadDonutNames()
@@ -47,6 +54,12 @@ public partial class SAV_Donut9a : Form
         for (int i = 0; i < count; i++)
             names[i] = GetDonutName(i);
         LB_Donut.Items.AddRange(names);
+    }
+
+    private void ReloadDonutNames()
+    {
+        for (int i = 0; i < DonutPocket9a.MaxCount; i++)
+            LB_Donut.Items[i] = GetDonutName(i);
     }
 
     private string GetDonutName(int i)
@@ -121,34 +134,26 @@ public partial class SAV_Donut9a : Form
 
     private void RandomizeAll(object sender, EventArgs e)
     {
-        for (int i = 0; i < DonutPocket9a.MaxCount; i++)
-        {
-            // todo
-        }
+        Donuts.SetAllRandomLv3();
+        ReloadDonutNames();
+        GetEntry(lastIndex);
+        System.Media.SystemSounds.Asterisk.Play();
     }
 
     private void CloneCurrent(object sender, EventArgs e)
     {
         SetEntry(lastIndex);
-        var current = Donuts.GetDonut(lastIndex);
-        for (int i = 0; i < DonutPocket9a.MaxCount; i++)
-        {
-            if (i == lastIndex)
-                continue;
-            var target = Donuts.GetDonut(i);
-            current.CopyTo(target);
-            LB_Donut.Items[i] = GetDonutName(target, i); // todo: test this to see if it is any bit slow
-        }
+        Donuts.CloneAllFromIndex(lastIndex);
+        ReloadDonutNames();
+        System.Media.SystemSounds.Asterisk.Play();
     }
 
     private void ShinyAssortment(object sender, EventArgs e)
     {
-        for (int i = 0; i < DonutPocket9a.MaxCount; i++)
-        {
-            var donut = Donuts.GetDonut(i);
-            // todo: generate a shiny donut
-            LB_Donut.Items[i] = GetDonutName(donut, i); // todo: test this to see if it is any bit slow
-        }
+        Donuts.SetAllAsShinyTemplate();
+        ReloadDonutNames();
+        GetEntry(lastIndex);
+        System.Media.SystemSounds.Asterisk.Play();
     }
 
     private void B_Reset_Click(object sender, EventArgs e) => donutEditor.Reset();
@@ -196,19 +201,40 @@ public partial class SAV_Donut9a : Form
         if (ofd.ShowDialog() != DialogResult.OK)
             return false;
 
+        return ImportDonutFromPath(data, ofd.FileName);
+    }
+
+    private void Dragout_DragOver(object? sender, DragEventArgs e) => e.Effect = DragDropEffects.Copy;
+    private void DragoutDrop(object? sender, DragEventArgs? e)
+    {
+        if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
+            return;
+
+        var current = Donuts.GetDonut(lastIndex);
+        var data = current.Data;
+        ImportDonutFromPath(data, files[0]);
+        donutEditor.LoadDonut(current);
+        System.Media.SystemSounds.Asterisk.Play();
+        e.Effect = DragDropEffects.Copy;
+
+        Cursor = DefaultCursor;
+    }
+
+    private static bool ImportDonutFromPath(Span<byte> data, string path)
+    {
         try
         {
-            var fileData = System.IO.File.ReadAllBytes(ofd.FileName);
+            var fileData = System.IO.File.ReadAllBytes(path);
             if (fileData.Length != data.Length)
                 throw new Exception($"Invalid donut size: expected {data.Length} bytes, got {fileData.Length} bytes.");
             fileData.AsSpan().CopyTo(data);
+            return true;
         }
         catch (Exception ex)
         {
             WinFormsUtil.Error($"Failed to import donut from file:\n{ex.Message}");
             return false;
         }
-        return true;
     }
 
     private void B_Export_Click(object sender, EventArgs e)
@@ -231,7 +257,7 @@ public partial class SAV_Donut9a : Form
         using var sfd = new SaveFileDialog();
         sfd.Title = "Export Donut";
         sfd.Filter = "Donut File (*.donut)|*.donut|All Files (*.*)|*.*";
-        sfd.FileName = $"donut_{lastIndex + 1:000}.donut";
+        sfd.FileName = $"{lastIndex + 1:000}_{donutEditor.GetDonutName()}.donut";
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
         System.IO.File.WriteAllBytes(sfd.FileName, data);

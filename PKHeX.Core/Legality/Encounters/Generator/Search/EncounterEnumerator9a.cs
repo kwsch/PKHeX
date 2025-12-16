@@ -38,6 +38,7 @@ public record struct EncounterEnumerator9a(PKM Entity, EvoCriteria[] Chain) : IE
 
         SlotStart,
         Slot,
+        Hyperspace,
         SlotEnd,
 
         StaticCapture,
@@ -94,6 +95,10 @@ public record struct EncounterEnumerator9a(PKM Entity, EvoCriteria[] Chain) : IE
                 State = YieldState.Slot; goto case YieldState.Slot;
             case YieldState.Slot:
                 if (TryGetNext<EncounterArea9a, EncounterSlot9a>(Encounters9a.Slots))
+                    return true;
+                Index = 0; State = YieldState.Hyperspace; goto case YieldState.Hyperspace;
+            case YieldState.Hyperspace:
+                if (TryGetNext<EncounterArea9a, EncounterSlot9a>(Encounters9a.Hyperspace))
                     return true;
                 Index = 0; goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:

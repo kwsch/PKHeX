@@ -5,7 +5,8 @@ namespace PKHeX.Core;
 
 internal static class Encounters9a
 {
-    internal static readonly EncounterArea9a[] Slots = EncounterArea9a.GetAreas(Get16("za", "za"u8));
+    internal static readonly EncounterArea9a[] Slots = EncounterArea9a.GetAreas(Get16("za", "za"u8), SlotType9a.Standard);
+    internal static readonly EncounterArea9a[] Hyperspace = EncounterArea9a.GetAreas(Get16("hyperspace_za", "za"u8), SlotType9a.Hyperspace);
 
     internal static readonly EncounterGift9a[] Gifts =
     [

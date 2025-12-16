@@ -8,24 +8,26 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterArea9a : IEncounterArea<EncounterSlot9a>, IAreaLocation
 {
+    public const ushort LocationHyperspace = 273;
+
     public EncounterSlot9a[] Slots { get; }
 
-    public readonly byte Location;
+    public readonly ushort Location;
     public readonly SlotType9a Type;
     public bool IsMatchLocation(ushort location) => Location == location; // no crossovers!
 
-    public static EncounterArea9a[] GetAreas(BinLinkerAccessor16 input)
+    public static EncounterArea9a[] GetAreas(BinLinkerAccessor16 input, SlotType9a type)
     {
         var result = new EncounterArea9a[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea9a(input[i]);
+            result[i] = new EncounterArea9a(input[i], type);
         return result;
     }
 
-    private EncounterArea9a(ReadOnlySpan<byte> areaData)
+    private EncounterArea9a(ReadOnlySpan<byte> areaData, SlotType9a type)
     {
-        Location = areaData[0]; // 235 max, will overflow in DLC, probably.
-        Type = SlotType9a.Standard;
+        Location = ReadUInt16LittleEndian(areaData);
+        Type = type;
         // 2..3 reserved
         Slots = ReadSlots(areaData[4..]);
     }

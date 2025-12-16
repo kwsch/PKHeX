@@ -134,7 +134,7 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
 
             if (sameDescend)
             {
-                while(start != 0 && Levels[start] == Levels[start - 1])
+                while (start != 0 && Levels[start] == Levels[start - 1])
                     start--;
             }
 
@@ -143,6 +143,9 @@ public sealed class Learnset(ushort[] Moves, byte[] Levels)
                 var move = Moves[i];
                 if (moves.Contains(move))
                     continue;
+
+                if (Levels[i] == 0)
+                    break; // not a Level Up move
 
                 moves[ctr++] = move;
                 if (ctr == 4)

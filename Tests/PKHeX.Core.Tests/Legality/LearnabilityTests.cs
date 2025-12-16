@@ -18,7 +18,7 @@ public static class LearnabilityTests
     }
 
     [Theory]
-    [InlineData(nameof(Species.Perrserker), "Swift")]
+    //[InlineData(nameof(Species.Perrserker), "Swift")] // added in Z-A DLC
     [InlineData(nameof(Species.Perrserker), "Shock Wave")]
     [InlineData(nameof(Species.Sirfetchd), "False Swipe")]
     [InlineData(nameof(Species.Bulbasaur), "Fly")]

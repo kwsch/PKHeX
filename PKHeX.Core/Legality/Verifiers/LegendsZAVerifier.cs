@@ -1,4 +1,7 @@
 using System;
+using static PKHeX.Core.Ball;
+using static PKHeX.Core.Move;
+using static PKHeX.Core.Species;
 using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
@@ -53,8 +56,20 @@ public sealed class LegendsZAVerifier : Verifier
         for (int i = 0; i < expect.Length; i++)
         {
             var move = expect[i];
-            if (pa.GetMove(i) != move)
-                moves[i] = MoveResult.Unobtainable(move);
+            if (pa.GetMove(i) == move)
+                continue;
+
+            // Espurr (among others) had new moves added to their learnset at low levels.
+            // Only for Espurr does it actually happen (Absol/Meowstic is never found at a low enough level).
+            // - Espurr @ Level 9 will gain Confusion to be 4 moves total (Pre-DLC).
+            // - Otherwise, the DLC learnset would require 4 at level 6 (lowest encounter is 7-8).
+            if (e9a.Species is (int)Espurr && move is (int)Teleport && pa.CurrentLevel < 9) // DLC
+            {
+                // do the more expensive check after; check species first
+                if (WasPossiblyObtainedBeforeDLC(pa, e9a))
+                    continue;
+            }
+            moves[i] = MoveResult.Unobtainable(move);
         }
     }
 
@@ -113,13 +128,9 @@ public sealed class LegendsZAVerifier : Verifier
         }
         var level = Math.Max((byte)1, pa9.MetLevel);
         var learn = LearnSource9ZA.Instance.GetLearnset(enc.Species, enc.Form);
-        if (!enc.IsAlpha)
-        {
-            learn.SetEncounterMoves(level, moves);
-            return;
-        }
         learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
-        moves[0] = PersonalTable.ZA[enc.Species, enc.Form].AlphaMove;
+        if (enc.IsAlpha)
+            moves[0] = PersonalTable.ZA[enc.Species, enc.Form].AlphaMove;
     }
 
     private void CheckFlagsTM(LegalityAnalysis data, PA9 pa9)
@@ -169,7 +180,7 @@ public sealed class LegendsZAVerifier : Verifier
         la.AddLine(msg);
     }
 
-    private void CheckPlusMoveFlags<T>(LegalityAnalysis la, T pk, IPermitPlus permit, Learnset plus, byte currentLevel) where T : IPlusRecord
+    private void CheckPlusMoveFlags<T>(LegalityAnalysis la, T pk, IPermitPlus permit, Learnset plus, byte currentLevel) where T : PKM, IPlusRecord
     {
         var levels = plus.GetAllLevels();
         var moves = plus.GetAllMoves();
@@ -191,6 +202,9 @@ public sealed class LegendsZAVerifier : Verifier
             // If the move is not present as a previous-evolution learnset move, and the head species is a Trade evo, skip the error.
             // Assume the best case -- evolved at current level, so none would get set.
             if (IsTradeEvoSkip(la.Info.EvoChainsAllGens.Gen9a, move))
+                continue;
+
+            if (WasPossiblyObtainedBeforeDLC(pk, la.EncounterMatch) && IsPermittedUnsetPlusMove((Species)pk.Species, (Move)move))
                 continue;
 
             la.AddLine(GetInvalid(PlusMoveSufficientLevelMissing_0, move, level));
@@ -229,7 +243,7 @@ public sealed class LegendsZAVerifier : Verifier
     private const ushort MultipleInvalidPlusMoves = ushort.MaxValue;
 
     private static ushort GetInvalidPlusMove<T>(T pk, int maxIndex, IPermitPlus permit, ReadOnlySpan<EvoCriteria> evos)
-        where T : IPlusRecord
+        where T : PKM, IPlusRecord
     {
         ushort invalid = 0;
         for (int i = 0; i < maxIndex; i++)
@@ -272,4 +286,52 @@ public sealed class LegendsZAVerifier : Verifier
         }
         return false;
     }
+
+    private static bool WasPossiblyObtainedBeforeDLC(PKM pk, IEncounterTemplate enc)
+    {
+        if (pk.Version is not GameVersion.ZA)
+            return false; // HOME transfer (after DLC).
+
+        if (pk.Ball is (int)Safari or (int)Beast)
+            return false; // Ball not introduced until DLC.
+        if (enc.Location is (>= EncounterArea9a.LocationHyperspace and <= 3000))
+            return false; // Hyperspace encounter location
+
+        var dex = PersonalTable.ZA[enc.Species, enc.Form];
+        if (!dex.IsLumioseNative)
+            return false; // Additional wild encounter in the overworld not originally present in base game.
+        if (enc is EncounterStatic9a { Species: (int)Sandile or (int)Krokorok })
+            return false; // Additional static encounter in the overworld not originally present in base game.
+
+        return true;
+    }
+
+    /// <summary>
+    /// DLC added new moves to learnsets. Pokémon that could not have been obtained before DLC can lack these automatic plus moves.
+    /// </summary>
+    /// <returns><see langword="true"/> if the Plus move flag is not required to be set.</returns>
+    /// <remarks>
+    /// Pokémon can always be awarded the Plus move flag via the Seed of Mastery manually. The game does not retroactively set the Plus move flag for existing Pokémon.
+    /// </remarks>
+    private static bool IsPermittedUnsetPlusMove(Species species, Move move) => species switch
+    {
+        // Relearn moves added in DLC:
+        Pikachu or Raichu when move is DrainingKiss => true,
+        Onix or Steelix when move is RockBlast => true,
+        Absol when move is Snarl or PhantomForce => true,
+        Roserade or Whirlipede or Scolipede when move is MortalSpin => true,
+        Abomasnow when move is IceHammer => true,
+        Gallade when move is SacredSword => true,
+        Meowstic when move is Moonblast => true,
+        Honedge or Doublade or Aegislash when move is SacredSword => true,
+        Malamar when move is Octolock => true,
+        Heliolisk when move is ShedTail => true,
+        Aurorus when move is IceHammer => true,
+
+        // Level-up moves added in DLC:
+        Espurr or Meowstic when move is Teleport => true,
+        Absol when move is ConfuseRay or ShadowSneak => true,
+
+        _ => false,
+    };
 }

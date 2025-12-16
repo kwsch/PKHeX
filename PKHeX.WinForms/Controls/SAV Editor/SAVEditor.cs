@@ -1303,6 +1303,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         FLP_SAVtools.Visible = B_Blocks.Visible = true;
 
         B_OpenFashion.Visible = sav is SAV9SV or SAV9ZA;
+        B_Donuts.Visible = sav is SAV9ZA { SaveRevision: >= 1 };
 
         var list = FLP_SAVtools.Controls.OfType<Control>().OrderBy(z => z.Text).ToArray();
         FLP_SAVtools.Controls.Clear();

@@ -1,7 +1,16 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/12/12 - New Update:
+25/12/15 - New Update:
+ - Legality: Improved location ID detection of wild encounters, should work for 99.9%.
+ - - Crossovers are not currently handled for detecting location IDs. Generating from encounter template is 100% legal.
+ - Added: Gen9a Donut editor. Can randomize, clone, fill, export, import, and manually edit individual donuts. Thanks @Lusamine & @sora10pls !
+ - Added: Gen9a Trainer Editor can now change Hyperspace Survey Points. Refer to the DLC tab in the editor.
+ - Fixed: Gen9a Meowstic/Magearna mega entries now update the Pokédex as expected.
+ - Fixed: Gen9a Event Flag editor no longer sometimes opens with a popup warning.
+ - Fixed: Gen3 Battle Frontier streak edits no longer reset adjacent streak values. Thanks @rjgabel !
+
+25/12/12 - New Update: (178684) [11901482]
  - Added: Support for Legends: Z-A (Mega Dimension) DLC, 2.0.0
  - Legality:
  - - New encounters not yet added to the database. Any currently present in this release may not be accurate.

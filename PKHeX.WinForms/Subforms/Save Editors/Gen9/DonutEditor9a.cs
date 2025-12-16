@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing.Misc;
 using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms;
@@ -11,7 +12,14 @@ public sealed partial class DonutEditor9a : UserControl
     private Donut9a _donut;
     public event EventHandler? ValueChanged;
 
-    public DonutEditor9a() => InitializeComponent();
+    private bool Loading;
+
+    private static readonly DateTime Epoch = new(1900, 1, 1);
+
+    public DonutEditor9a()
+    {
+        InitializeComponent();
+    }
 
     public void InitializeLists(ReadOnlySpan<string> flavors, ReadOnlySpan<string> items, ReadOnlySpan<string> donutNames)
     {
@@ -49,10 +57,13 @@ public sealed partial class DonutEditor9a : UserControl
         SetDataSource(CB_Donut, donutList);
 
         CB_Donut.SelectedIndexChanged += OnValueChanged;
+        CB_Donut.SelectedIndexChanged += CB_Donut_SelectedIndexChanged;
 
         // Not really necessary to indicate value changes (name wouldn't be different), but for consistency...
         CAL_Date.ValueChanged += OnValueChanged;
-        TB_Unknown.TextChanged += OnValueChanged;
+        CAL_Date.ValueChanged += ChangeDateTime;
+        TB_Milliseconds.TextChanged += OnValueChanged;
+        TB_Milliseconds.TextChanged += ChangeMilliseconds;
     }
 
     private static void SetDataSource<T>(ComboBox cb, List<T> list)
@@ -111,15 +122,14 @@ public sealed partial class DonutEditor9a : UserControl
         return result;
     }
 
-    private static readonly DateTime Epoch = new(1900, 1, 1);
-
     public void LoadDonut(Donut9a donut)
     {
+        Loading = true;
         _donut = donut;
 
-        NUD_Stars.Value = donut.Stars;
-        NUD_Calories.Value = donut.Calories;
-        NUD_LevelBoost.Value = donut.LevelBoost;
+        LoadClamp(NUD_Stars, donut.Stars);
+        LoadClamp(NUD_Calories, donut.Calories);
+        LoadClamp(NUD_LevelBoost, donut.LevelBoost);
 
         CB_Donut.SelectedValue = (int)donut.Donut;
 
@@ -142,9 +152,21 @@ public sealed partial class DonutEditor9a : UserControl
             dt = Epoch;
         else
             dt = donut.DateTime1900.Timestamp;
-        CAL_Date.Value = dt;
+        try
+        {
+            CAL_Date.Value = dt;
+        }
+        catch
+        {
+            CAL_Date.Value = Epoch;
+        }
 
-        TB_Unknown.Text = donut.Unknown.ToString();
+        TB_Milliseconds.Text = donut.MillisecondsSince1900.ToString();
+
+        Loading = false;
+        return;
+
+        static void LoadClamp(NumericUpDown nud, decimal value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
     }
 
     public void SaveDonut()
@@ -175,11 +197,22 @@ public sealed partial class DonutEditor9a : UserControl
         var dt = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
 
         // if date is sufficiently equal to the Epoch (zero), set to zero. Can't set a date of 1900/00/00 via the controls...
-        if (dt is { Year: 1900, Month: 1, Day: 1 } and { Day: 1, Hour: 0, Minute: 0, Second: 0 })
+        if (dt is { Year: 1900, Month: <= 1, Day: <= 1 } and { Day: 1, Hour: 0, Minute: 0, Second: 0 })
+        {
             donut.ClearDateTime();
+        }
         else
-            donut.DateTime1900.Timestamp = dt;
-        donut.Unknown = ulong.TryParse(TB_Unknown.Text, out var unk) ? unk : 0;
+        {
+            try
+            {
+                donut.DateTime1900.Timestamp = dt;
+            }
+            catch
+            {
+                donut.ClearDateTime();
+            }
+        }
+        donut.MillisecondsSince1900 = ulong.TryParse(TB_Milliseconds.Text, out var unk) ? unk : 0;
     }
 
     private static void LoadDonutFlavorHash(ComboBox cb, ulong flavorHash)
@@ -195,7 +228,7 @@ public sealed partial class DonutEditor9a : UserControl
 
     private static ulong GetDonutFlavorHash(ComboBox cb)
     {
-        if (cb.SelectedIndex == 0)
+        if (cb.SelectedIndex <= 0)
             return 0; // No flavor
 
         // Grab the internal value (not the localized display value)
@@ -207,11 +240,91 @@ public sealed partial class DonutEditor9a : UserControl
         return hash;
     }
 
+    private void CB_Donut_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        _donut.Donut = (ushort)CB_Donut.SelectedIndex;
+        PB_Donut.Image = _donut.Sprite();
+    }
+
     public void Reset()
     {
         _donut.Clear();
         LoadDonut(_donut);
     }
+
+    private void ChangeMilliseconds(object? sender, EventArgs e)
+    {
+        if (Loading)
+            return;
+
+        if (!ulong.TryParse(TB_Milliseconds.Text, out var ms))
+            return;
+
+        try
+        {
+            var ticks = Epoch.AddMilliseconds(ms);
+
+            // If date is same, don't update the ticks.
+            var date = CAL_Date.Value;
+            if (IsDateEquivalent(date, ticks))
+                return;
+
+            Loading = true;
+            CAL_Date.Value = ticks;
+            Loading = false;
+        }
+        catch
+        {
+            // Why are you putting ugly values??
+            // Reset.
+            Loading = true;
+            CAL_Date.Value = DateTime.Now;
+            TB_Milliseconds.Text = ((ulong)(CAL_Date.Value - Epoch).TotalMilliseconds).ToString();
+            Loading = false;
+        }
+    }
+
+    private void ChangeDateTime(object? sender, EventArgs e)
+    {
+        if (Loading)
+            return;
+
+        if (!ulong.TryParse(TB_Milliseconds.Text, out var ms))
+            return;
+
+        try
+        {
+            var ticks = Epoch.AddMilliseconds(ms);
+
+            // If date is same, don't update the ticks.
+            var date = CAL_Date.Value;
+            if (IsDateEquivalent(date, ticks))
+                return;
+
+            var delta = ((ulong)(date - Epoch).TotalMilliseconds);
+            // retain existing ticks _xxx component, since datetime picker does not configure millis
+            var exist = ms % 1000;
+            delta -= delta % 1000;
+            delta += exist;
+
+            Loading = true;
+            TB_Milliseconds.Text = delta.ToString();
+            Loading = false;
+        }
+        catch
+        {
+            // Why are you putting ugly values??
+            // Reset.
+            Loading = true;
+            CAL_Date.Value = DateTime.Now;
+            TB_Milliseconds.Text = ((ulong)(CAL_Date.Value - Epoch).TotalMilliseconds).ToString();
+            Loading = false;
+        }
+    }
+
+    private static bool IsDateEquivalent(DateTime a, DateTime b) =>
+        a.Year == b.Year && a.Month == b.Month && a.Day == b.Day &&
+        a.Hour == b.Hour && a.Minute == b.Minute && a.Second == b.Second;
 
     // bubble up to the parent control, if subscribed.
     private void OnValueChanged(object? sender, EventArgs e) => ValueChanged?.Invoke(this, EventArgs.Empty);
@@ -219,4 +332,5 @@ public sealed partial class DonutEditor9a : UserControl
     // ReSharper disable NotAccessedPositionalProperty.Local
     private sealed record ComboText(string Text, string Value);
     // ReSharper enable NotAccessedPositionalProperty.Local
+    public string GetDonutName() => CB_Donut.Text;
 }
