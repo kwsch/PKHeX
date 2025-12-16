@@ -489,7 +489,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     private void SetMoves(byte currentLevel, PA9 pk, PersonalInfo9ZA pi)
     {
         var (learn, plus) = LearnSource9ZA.GetLearnsetAndPlus(Species, Form);
-        PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, currentLevel);
+        pk.SetPlusFlagsEncounter(pi, plus, currentLevel);
         if (Move1 != 0) // Just in case they forget to set moves on an event.
             return;
         Span<ushort> moves = stackalloc ushort[4];
