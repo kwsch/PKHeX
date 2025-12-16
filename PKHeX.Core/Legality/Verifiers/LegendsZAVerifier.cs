@@ -304,7 +304,7 @@ public sealed class LegendsZAVerifier : Verifier
     private static bool IsPermittedUnsetPlusMove(Species species, Move move) => species switch
     {
         // Relearn moves added in DLC:
-        Pichu or Pikachu or Raichu when move is DrainingKiss => true,
+        Pikachu or Raichu when move is DrainingKiss => true,
         Onix or Steelix when move is RockBlast => true,
         Absol when move is Snarl or PhantomForce => true,
         Roserade or Whirlipede or Scolipede when move is MortalSpin => true,
