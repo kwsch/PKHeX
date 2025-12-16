@@ -56,8 +56,20 @@ public sealed class LegendsZAVerifier : Verifier
         for (int i = 0; i < expect.Length; i++)
         {
             var move = expect[i];
-            if (pa.GetMove(i) != move)
-                moves[i] = MoveResult.Unobtainable(move);
+            if (pa.GetMove(i) == move)
+                continue;
+
+            // Espurr (among others) had new moves added to their learnset at low levels.
+            // Only for Espurr does it actually happen (Absol/Meowstic is never found at a low enough level).
+            // - Espurr @ Level 9 will gain Confusion to be 4 moves total (Pre-DLC).
+            // - Otherwise, the DLC learnset would require 4 at level 6 (lowest encounter is 7-8).
+            if (e9a.Species is (int)Espurr && move is (int)Teleport && pa.CurrentLevel < 9) // DLC
+            {
+                // do the more expensive check after; check species first
+                if (WasPossiblyObtainedBeforeDLC(pa, e9a))
+                    continue;
+            }
+            moves[i] = MoveResult.Unobtainable(move);
         }
     }
 
@@ -310,7 +322,6 @@ public sealed class LegendsZAVerifier : Verifier
         Roserade or Whirlipede or Scolipede when move is MortalSpin => true,
         Abomasnow when move is IceHammer => true,
         Gallade when move is SacredSword => true,
-        Espurr or Meowstic when move is Teleport => true,
         Meowstic when move is Moonblast => true,
         Honedge or Doublade or Aegislash when move is SacredSword => true,
         Malamar when move is Octolock => true,
@@ -318,6 +329,7 @@ public sealed class LegendsZAVerifier : Verifier
         Aurorus when move is IceHammer => true,
 
         // Level-up moves added in DLC:
+        Espurr or Meowstic when move is Teleport => true,
         Absol when move is ConfuseRay or ShadowSneak => true,
 
         _ => false,
