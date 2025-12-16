@@ -279,6 +279,6 @@ public sealed class GameDataPA9 : HomeOptional1, IGameDataSide<PA9>, IScaledSize
         Ability = (ushort)pi.GetAbilityAtIndex(index);
 
         var level = Experience.GetLevel(pkh.EXP, pi.EXPGrowth);
-        this.ResetMoves(pkh.Species, pkh.Form, level, LearnSource9ZA.Instance, EntityContext.Gen9);
+        this.ResetMoves(pkh.Species, pkh.Form, level, LearnSource9ZA.Instance, EntityContext.Gen9a);
     }
 }

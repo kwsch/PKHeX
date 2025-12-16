@@ -127,25 +127,17 @@ public sealed record EncounterTrade9a : IEncounter9a,
     private void SetMoves(PA9 pk, PersonalInfo9ZA pi, byte level)
     {
         var (learn, plus) = LearnSource9ZA.GetLearnsetAndPlus(Species, Form);
-        Span<ushort> moves = stackalloc ushort[4];
+        PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
         if (Moves.HasMoves)
         {
             pk.SetMoves(Moves);
-            pk.GetMoves(moves);
-            PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
             return;
         }
 
-        if (!IsAlpha)
-        {
-            learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
-            PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
-        }
-        else
-        {
-            learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
-            PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level, moves[0] = pi.AlphaMove);
-        }
+        Span<ushort> moves = stackalloc ushort[4];
+        learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
+        if (pk.IsAlpha)
+            PlusRecordApplicator.SetPlusFlagsSpecific(pk, pi, moves[0] = pi.AlphaMove);
         pk.SetMoves(moves);
     }
 

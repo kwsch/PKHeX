@@ -370,7 +370,9 @@ public sealed record EventWorkGridTuple : EventWorkGridBase
             var row = Grid.Rows[e.RowIndex];
             var cell = row.Cells[e.ColumnIndex];
             var text = cell.Value?.ToString() ?? string.Empty;
-            if (long.TryParse(text, CultureInfo.InvariantCulture, out _))
+            if (e.ColumnIndex is ColumnValue1 && long.TryParse(text, CultureInfo.InvariantCulture, out _))
+                return;
+            if (e.ColumnIndex is ColumnValue2 && ulong.TryParse(text, CultureInfo.InvariantCulture, out _))
                 return;
             WinFormsUtil.Alert("Please enter a valid value.");
             var i = Convert.ToInt32(row.Cells[ColumnIndex].Value);

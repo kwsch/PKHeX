@@ -128,8 +128,8 @@ public static class FormArgumentUtil
             (int)Basculegion => 9999, // 294
             (int)Primeape or (int)Annihilape when gen >= 8 => 9999,
             (int)Bisharp or (int)Kingambit when gen >= 8 => 9999,
-            (int)Gimmighoul => 998,
-            (int)Gholdengo => 999,
+            (int)Gimmighoul when context is EntityContext.Gen9 => 998,
+            (int)Gholdengo when context is EntityContext.Gen9 => 999,
             (int)Koraidon or (int)Miraidon => 1,
             _ => 0,
         };

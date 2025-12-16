@@ -433,7 +433,7 @@ public static class EncounterMovesetGenerator
         if (slot is IMoveset m)
             return m.Moves.ContainsAll(needs);
         if (needs.Length == 1 && slot is ISingleMoveBonus bonus)
-            return bonus is { IsMoveBonusPossible: true, IsMoveBonusRequired: true } && bonus.IsMoveBonus(needs[0]);
+            return bonus is { IsMoveBonusPossible: true } && bonus.IsMoveBonus(needs[0]);
         if (slot.Generation <= 2)
             return HasAllNeededMovesEncounter2(needs, slot);
         return false;

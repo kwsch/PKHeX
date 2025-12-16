@@ -46,7 +46,7 @@ namespace PKHeX.WinForms
             PB_Donut = new System.Windows.Forms.PictureBox();
             flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            TB_Unknown = new System.Windows.Forms.TextBox();
+            TB_Milliseconds = new System.Windows.Forms.TextBox();
             NUD_Stars = new System.Windows.Forms.NumericUpDown();
             L_Donut = new System.Windows.Forms.Label();
             NUD_LevelBoost = new System.Windows.Forms.NumericUpDown();
@@ -62,7 +62,7 @@ namespace PKHeX.WinForms
             NUD_Calories = new System.Windows.Forms.NumericUpDown();
             CB_Donut = new System.Windows.Forms.ComboBox();
             CAL_Date = new System.Windows.Forms.DateTimePicker();
-            L_Unknown = new System.Windows.Forms.Label();
+            L_Milliseconds = new System.Windows.Forms.Label();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PB_Berry0).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PB_Berry1).BeginInit();
@@ -473,7 +473,7 @@ namespace PKHeX.WinForms
             tableLayoutPanel2.ColumnCount = 2;
             tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            tableLayoutPanel2.Controls.Add(TB_Unknown, 1, 8);
+            tableLayoutPanel2.Controls.Add(TB_Milliseconds, 1, 8);
             tableLayoutPanel2.Controls.Add(NUD_Stars, 1, 0);
             tableLayoutPanel2.Controls.Add(L_Donut, 0, 3);
             tableLayoutPanel2.Controls.Add(NUD_LevelBoost, 1, 2);
@@ -489,7 +489,7 @@ namespace PKHeX.WinForms
             tableLayoutPanel2.Controls.Add(NUD_Calories, 1, 1);
             tableLayoutPanel2.Controls.Add(CB_Donut, 1, 3);
             tableLayoutPanel2.Controls.Add(CAL_Date, 1, 7);
-            tableLayoutPanel2.Controls.Add(L_Unknown, 0, 8);
+            tableLayoutPanel2.Controls.Add(L_Milliseconds, 0, 8);
             tableLayoutPanel2.Location = new System.Drawing.Point(296, 0);
             tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -507,13 +507,13 @@ namespace PKHeX.WinForms
             tableLayoutPanel2.Size = new System.Drawing.Size(348, 220);
             tableLayoutPanel2.TabIndex = 2;
             // 
-            // TB_Unknown
+            // TB_Milliseconds
             // 
-            TB_Unknown.Location = new System.Drawing.Point(106, 194);
-            TB_Unknown.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
-            TB_Unknown.Name = "TB_Unknown";
-            TB_Unknown.Size = new System.Drawing.Size(163, 23);
-            TB_Unknown.TabIndex = 60;
+            TB_Milliseconds.Location = new System.Drawing.Point(106, 194);
+            TB_Milliseconds.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            TB_Milliseconds.Name = "TB_Milliseconds";
+            TB_Milliseconds.Size = new System.Drawing.Size(163, 23);
+            TB_Milliseconds.TabIndex = 60;
             // 
             // NUD_Stars
             // 
@@ -675,16 +675,16 @@ namespace PKHeX.WinForms
             CAL_Date.TabIndex = 58;
             CAL_Date.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
-            // L_Unknown
+            // L_Milliseconds
             // 
-            L_Unknown.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            L_Unknown.Location = new System.Drawing.Point(2, 194);
-            L_Unknown.Margin = new System.Windows.Forms.Padding(0);
-            L_Unknown.Name = "L_Unknown";
-            L_Unknown.Size = new System.Drawing.Size(104, 24);
-            L_Unknown.TabIndex = 61;
-            L_Unknown.Text = "Unknown:";
-            L_Unknown.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Milliseconds.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Milliseconds.Location = new System.Drawing.Point(2, 194);
+            L_Milliseconds.Margin = new System.Windows.Forms.Padding(0);
+            L_Milliseconds.Name = "L_Milliseconds";
+            L_Milliseconds.Size = new System.Drawing.Size(104, 24);
+            L_Milliseconds.TabIndex = 61;
+            L_Milliseconds.Text = "Milliseconds:";
+            L_Milliseconds.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // DonutEditor9a
             // 
@@ -747,7 +747,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.PictureBox PB_Donut;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.TextBox TB_Unknown;
+        private System.Windows.Forms.TextBox TB_Milliseconds;
         private System.Windows.Forms.NumericUpDown NUD_Stars;
         private System.Windows.Forms.Label L_Donut;
         private System.Windows.Forms.NumericUpDown NUD_LevelBoost;
@@ -763,6 +763,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_Calories;
         private System.Windows.Forms.ComboBox CB_Donut;
         private System.Windows.Forms.DateTimePicker CAL_Date;
-        private System.Windows.Forms.Label L_Unknown;
+        private System.Windows.Forms.Label L_Milliseconds;
     }
 }
