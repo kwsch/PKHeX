@@ -116,13 +116,9 @@ public sealed class LegendsZAVerifier : Verifier
         }
         var level = Math.Max((byte)1, pa9.MetLevel);
         var learn = LearnSource9ZA.Instance.GetLearnset(enc.Species, enc.Form);
-        if (!enc.IsAlpha)
-        {
-            learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
-            return;
-        }
         learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
-        moves[0] = PersonalTable.ZA[enc.Species, enc.Form].AlphaMove;
+        if (enc.IsAlpha)
+            moves[0] = PersonalTable.ZA[enc.Species, enc.Form].AlphaMove;
     }
 
     private void CheckFlagsTM(LegalityAnalysis data, PA9 pa9)
