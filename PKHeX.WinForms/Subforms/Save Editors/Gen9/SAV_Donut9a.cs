@@ -34,10 +34,6 @@ public partial class SAV_Donut9a : Form
         lastIndex = 0;
         GetEntry(0);
 
-        // Not implemented.
-        mnuRandomizeMax.Visible = false;
-        mnuShinyAssortment.Visible = false;
-
         AddDrop(this, LB_Donut, donutEditor);
     }
 
@@ -58,6 +54,12 @@ public partial class SAV_Donut9a : Form
         for (int i = 0; i < count; i++)
             names[i] = GetDonutName(i);
         LB_Donut.Items.AddRange(names);
+    }
+
+    private void ReloadDonutNames()
+    {
+        for (int i = 0; i < DonutPocket9a.MaxCount; i++)
+            LB_Donut.Items[i] = GetDonutName(i);
     }
 
     private string GetDonutName(int i)
@@ -132,34 +134,26 @@ public partial class SAV_Donut9a : Form
 
     private void RandomizeAll(object sender, EventArgs e)
     {
-        for (int i = 0; i < DonutPocket9a.MaxCount; i++)
-        {
-            // todo
-        }
+        Donuts.SetAllRandomLv3();
+        ReloadDonutNames();
+        GetEntry(lastIndex);
+        System.Media.SystemSounds.Asterisk.Play();
     }
 
     private void CloneCurrent(object sender, EventArgs e)
     {
         SetEntry(lastIndex);
-        var current = Donuts.GetDonut(lastIndex);
-        for (int i = 0; i < DonutPocket9a.MaxCount; i++)
-        {
-            if (i == lastIndex)
-                continue;
-            var target = Donuts.GetDonut(i);
-            current.CopyTo(target);
-            LB_Donut.Items[i] = GetDonutName(target, i); // todo: test this to see if it is any bit slow
-        }
+        Donuts.CloneAllFromIndex(lastIndex);
+        ReloadDonutNames();
+        System.Media.SystemSounds.Asterisk.Play();
     }
 
     private void ShinyAssortment(object sender, EventArgs e)
     {
-        for (int i = 0; i < DonutPocket9a.MaxCount; i++)
-        {
-            var donut = Donuts.GetDonut(i);
-            // todo: generate a shiny donut
-            LB_Donut.Items[i] = GetDonutName(donut, i); // todo: test this to see if it is any bit slow
-        }
+        Donuts.SetAllAsShinyTemplate();
+        ReloadDonutNames();
+        GetEntry(lastIndex);
+        System.Media.SystemSounds.Asterisk.Play();
     }
 
     private void B_Reset_Click(object sender, EventArgs e) => donutEditor.Reset();
