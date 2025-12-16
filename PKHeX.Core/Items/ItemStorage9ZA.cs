@@ -117,6 +117,8 @@ public sealed class ItemStorage9ZA : IItemStorage
 
     public static ReadOnlySpan<ushort> Unreleased =>
     [
+        0016, // Cherish Ball
+
         0664, // Blazikenite
         0752, // Swampertite
         0753, // Sceptilite
