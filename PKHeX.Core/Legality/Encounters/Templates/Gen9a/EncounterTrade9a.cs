@@ -138,7 +138,7 @@ public sealed record EncounterTrade9a : IEncounter9a,
 
         if (!IsAlpha)
         {
-            learn.SetEncounterMoves(level, moves);
+            learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
             PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
         }
         else

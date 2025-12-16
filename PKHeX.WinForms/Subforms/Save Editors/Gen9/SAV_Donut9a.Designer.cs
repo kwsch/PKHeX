@@ -58,6 +58,7 @@ namespace PKHeX.WinForms
             // 
             // LB_Donut
             // 
+            LB_Donut.AllowDrop = true;
             LB_Donut.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             LB_Donut.FormattingEnabled = true;
             LB_Donut.Location = new System.Drawing.Point(14, 15);
@@ -133,12 +134,14 @@ namespace PKHeX.WinForms
             // 
             // donutEditor
             // 
+            donutEditor.AllowDrop = true;
             donutEditor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            donutEditor.AutoSize = true;
             donutEditor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             donutEditor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             donutEditor.Location = new System.Drawing.Point(207, 15);
             donutEditor.Name = "donutEditor";
-            donutEditor.Size = new System.Drawing.Size(672, 283);
+            donutEditor.Size = new System.Drawing.Size(646, 240);
             donutEditor.TabIndex = 27;
             // 
             // B_Import
@@ -167,6 +170,7 @@ namespace PKHeX.WinForms
             // 
             // SAV_Donut9a
             // 
+            AllowDrop = true;
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(894, 388);
             Controls.Add(B_Export);
@@ -187,6 +191,7 @@ namespace PKHeX.WinForms
             Text = "Donut Editor";
             modifyMenu.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

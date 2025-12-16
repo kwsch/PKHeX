@@ -252,4 +252,5 @@ public sealed partial class DonutEditor9a : UserControl
     // ReSharper disable NotAccessedPositionalProperty.Local
     private sealed record ComboText(string Text, string Value);
     // ReSharper enable NotAccessedPositionalProperty.Local
+    public string GetDonutName() => CB_Donut.Text;
 }

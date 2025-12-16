@@ -56,22 +56,8 @@ public sealed class FormArgumentVerifier : Verifier
                 > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 _ => GetValid(FormArgumentValid),
             },
-            Qwilfish when pk.Form is 1 => arg switch
-            {
-                not 0 when pk.IsEgg => GetInvalid(FormArgumentNotAllowed),
-                not 0 when pk.CurrentLevel < 25 => GetInvalid(FormArgumentLEQ_0, 0), // Can't get requisite move
-                > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
-                _ => GetValid(FormArgumentValid),
-            },
-            Overqwil => arg switch
-            {
-                > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
-                0 when enc.Species == (ushort)Overqwil => GetValid(FormArgumentValid),
-                < 20 when !data.Info.EvoChainsAllGens.HasVisitedGen9 || pk.CurrentLevel < (pk is IHomeTrack { HasTracker: true } ? 15 : 28) => GetInvalid(FormArgumentGEQ_0, 20),
-                >= 20 when !data.Info.EvoChainsAllGens.HasVisitedPLA || pk.CurrentLevel < 25 => GetInvalid(FormArgumentLEQ_0, 0),
-                _ when pk is IHomeTrack { HasTracker: false } and PA8 { CurrentLevel: < 25 } => GetInvalid(EvoInvalid),
-                _ => GetValid(FormArgumentValid),
-            },
+            Qwilfish when pk.Form is 1 => CheckQwilfish(data, pk, arg),
+            Overqwil => CheckOverqwil(data, pk, arg, enc),
             Stantler => arg switch
             {
                 not 0 when pk.IsEgg => GetInvalid(FormArgumentNotAllowed),
@@ -82,7 +68,7 @@ public sealed class FormArgumentVerifier : Verifier
             Primeape => arg switch
             {
                 > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
-                _ => arg == 0 || HasVisitedSV(data, Primeape) ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
+                _ => arg == 0 || HasVisitedSV(data, Primeape) || HasVisitedZA(data, Primeape) ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
             },
             Bisharp => arg switch
             {
@@ -134,9 +120,78 @@ public sealed class FormArgumentVerifier : Verifier
         };
     }
 
+    private CheckResult CheckQwilfish(LegalityAnalysis data, PKM pk, uint arg)
+    {
+        if (arg == 0)
+            return GetValid(FormArgumentValid);
+        if (arg > 9_999)
+            return GetInvalid(FormArgumentLEQ_0, 9999);
+        if (pk.IsEgg)
+            return GetInvalid(FormArgumentNotAllowed);
+
+        const int lowestLearnBarbBarrageHOME = 15; // level 15 via PLA learnset
+        var current = pk.CurrentLevel;
+        var history = data.Info.EvoChainsAllGens;
+        if (history.HasVisitedPLA)
+        {
+            const int min = 25; // mastered
+            if (current < min)
+                return GetInvalid(FormArgumentLEQ_0, 0); // Can't get requisite move
+            return GetValid(FormArgumentValid);
+        }
+        if (history.HasVisitedZA)
+        {
+            var min = pk is IHomeTrack { HasTracker: false } ? 28 : lowestLearnBarbBarrageHOME;
+            if (current < min)
+                return GetInvalid(FormArgumentLEQ_0, 0); // Can't get requisite move
+            return GetValid(FormArgumentValid);
+        }
+
+        return GetInvalid(FormArgumentLEQ_0, 0); // Can't get requisite move
+    }
+
+    private CheckResult CheckOverqwil(LegalityAnalysis data, PKM pk, uint arg, IEncounterTemplate enc)
+    {
+        if (arg is 0)
+        {
+            if (enc.Species is (ushort)Overqwil)
+                return GetValid(FormArgumentValid);
+        }
+        else if (arg > 9999)
+        {
+            return GetInvalid(FormArgumentLEQ_0, 9999);
+        }
+
+        const int lowestLearnBarbBarrageHOME = 15; // level 15 via PLA learnset
+        var history = data.Info.EvoChainsAllGens;
+        var current = pk.CurrentLevel;
+        if (history.HasVisitedGen9)
+        {
+            // Evolution requires only knowing the move.
+            if (current >= (history.HasVisitedPLA ? lowestLearnBarbBarrageHOME : 28))
+            {
+                if (arg == 0 || history.HasVisitedPLA || history.HasVisitedZA)
+                    return GetValid(FormArgumentValid);
+            }
+        }
+        if (history.HasVisitedPLA && arg >= 20)
+        {
+            // Evolution requires mastering the move and using it.
+            if (current >= 25)
+                return GetValid(FormArgumentValid);
+        }
+        if (history.HasVisitedZA && arg >= 20)
+        {
+            if (current >= 28)
+                return GetValid(FormArgumentValid);
+        }
+        return GetInvalid(EvoInvalid);
+    }
+
     private static bool HasVisitedAs(ReadOnlySpan<EvoCriteria> evos, Species species) => EvolutionHistory.HasVisited(evos, (ushort)species);
     private static bool HasVisitedPLA(LegalityAnalysis data, Species species) => HasVisitedAs(data.Info.EvoChainsAllGens.Gen8a, species);
     private static bool HasVisitedSV(LegalityAnalysis data, Species species) => HasVisitedAs(data.Info.EvoChainsAllGens.Gen9, species);
+    private static bool HasVisitedZA(LegalityAnalysis data, Species species) => HasVisitedAs(data.Info.EvoChainsAllGens.Gen9a, species);
 
     /// <summary>
     /// Check if the <see cref="value"/> is within the range of the inclusive <see cref="min"/> and inclusive <see cref="max"/>.

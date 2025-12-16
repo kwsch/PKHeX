@@ -135,7 +135,7 @@ public sealed record EncounterGift9a(ushort Species, byte Form, byte Level, byte
 
         if (!IsAlpha)
         {
-            learn.SetEncounterMoves(level, moves);
+            learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
             PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
         }
         else
