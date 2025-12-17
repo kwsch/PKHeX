@@ -105,6 +105,7 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
 
     private bool IsValidOutOfBoundsForm() => Species switch
     {
+        (int)Core.Species.Rotom => true, // Can change forms in-game.
         (int)Core.Species.Furfrou => true, // Can change forms in-game.
         _ => false,
     };
