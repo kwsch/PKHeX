@@ -76,9 +76,9 @@ public static class FormArgumentUtil
         // S/V does not set the argument for Hoopa
         (int)Hoopa => history.HasVisitedGen9 || history.HasVisitedZA,
 
-        // S/V does not set the argument for Farfetch'd (Galar)
-        (int)Farfetchd when form == 1 => history.HasVisitedGen9,
-        (int)Sirfetchd => history.HasVisitedGen9,
+        // Does not set the argument for Farfetch'd (Galar)
+        (int)Farfetchd when form == 1 => history.HasVisitedGen9 || history.HasVisitedSWSH,
+        (int)Sirfetchd => history.HasVisitedGen9 || history.HasVisitedSWSH,
 
         // Z-A does not set the argument for Gimmighoul/Gholdengo
         (int)Gimmighoul or (int)Gholdengo => history.HasVisitedZA,
@@ -171,6 +171,7 @@ public static class FormArgumentUtil
         (int)Basculin when currentSpecies == (int)Basculegion => 294u,
         (int)Mankey or (int)Primeape when currentSpecies == (int)Annihilape => 20u,
         (int)Pawniard or (int)Bisharp when currentSpecies == (int)Kingambit => 3u,
+        (int)Farfetchd when currentSpecies == (int)Sirfetchd => 3u,
         (int)Gimmighoul when currentSpecies == (int)Gholdengo => 999u,
         _ => 0u,
     };
