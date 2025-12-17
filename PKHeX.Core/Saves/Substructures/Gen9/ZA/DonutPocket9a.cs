@@ -232,7 +232,7 @@ public static class DonutInfo
             if (!TryGetBerry(berry, out var detail))
                 continue;
             flavors[0] += detail.Spicy;
-            flavors[1] += detail.Dry;
+            flavors[1] += detail.Fresh;
             flavors[2] += detail.Sweet;
             flavors[3] += detail.Bitter;
             flavors[4] += detail.Sour;
@@ -555,7 +555,7 @@ public static class DonutInfo
     public static ulong GetFlavorHash(string text) => FnvHash.HashFnv1a_64(text);
 }
 
-public readonly record struct DonutBerryDetail(ushort Item, byte Donut, byte Spicy, byte Dry, byte Sweet, byte Bitter, byte Sour, byte Boost, ushort Calories);
+public readonly record struct DonutBerryDetail(ushort Item, byte Donut, byte Spicy, byte Fresh, byte Sweet, byte Bitter, byte Sour, byte Boost, ushort Calories);
 
 public readonly record struct Donut9a(Memory<byte> Raw)
 {

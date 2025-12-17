@@ -18,7 +18,7 @@ public sealed class MovePPVerifier : Verifier
         VerifyEntity(data);
     }
 
-    private void VerifyEgg(LegalityAnalysis data)
+    private static void VerifyEgg(LegalityAnalysis data)
     {
         var pk = data.Entity;
         if (pk.Move1_PPUps != 0 || pk.Move2_PPUps != 0 || pk.Move3_PPUps != 0 || pk.Move4_PPUps != 0)

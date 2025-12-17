@@ -142,7 +142,7 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
         var param = GetParams(PersonalTable.ZA[Species, Form], false, false);
         if (param.TryGetSeed(pk, out seed))
             return SeedCorrelationResult.Success;
-        if (pk.IsShiny && !LumioseSolver.SearchShiny1 || !LumioseSolver.SearchShinyN)
+        if ((pk.IsShiny && !LumioseSolver.SearchShiny1) || !LumioseSolver.SearchShinyN)
             return SeedCorrelationResult.Ignore;
 
         var rollCount = (byte)(1 + ShinyCharm + (IsHyperspace ? ShinyHyperspace : 0));
