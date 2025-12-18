@@ -210,19 +210,30 @@ public static class DonutInfo
         var boost = 1;
         var calories = 0;
         var berries = donut.GetBerries();
+        var flavorScore = 0;
         foreach (var berry in berries)
         {
             if (!TryGetBerry(berry, out var detail))
                 continue;
             calories += detail.Calories;
             boost += detail.Boost;
+            flavorScore += detail.FlavorScore;
         }
 
-        donut.Calories = (ushort)((calories > 9999) ? 9999 : (ushort)calories);
+        donut.Calories = (ushort)Math.Min(calories, 9999);
         donut.LevelBoost = (byte)boost;
-        // Stars??
-        // Flavors??
+        donut.Stars = GetDonutStarCount(flavorScore);
     }
+
+    public static byte GetDonutStarCount(int flavorScore) => flavorScore switch
+    {
+        >= 960 => 5,
+        >= 700 => 4,
+        >= 360 => 3,
+        >= 240 => 2,
+        >= 120 => 1,
+        _ => 0
+    };
 
     public static void RecalculateDonutFlavors(this Donut9a donut, Span<int> flavors)
     {
@@ -555,7 +566,10 @@ public static class DonutInfo
     public static ulong GetFlavorHash(string text) => FnvHash.HashFnv1a_64(text);
 }
 
-public readonly record struct DonutBerryDetail(ushort Item, byte Donut, byte Spicy, byte Fresh, byte Sweet, byte Bitter, byte Sour, byte Boost, ushort Calories);
+public readonly record struct DonutBerryDetail(ushort Item, byte Donut, byte Spicy, byte Fresh, byte Sweet, byte Bitter, byte Sour, byte Boost, ushort Calories)
+{
+    public int FlavorScore => Spicy + Fresh + Sweet + Bitter + Sour;
+}
 
 public readonly record struct Donut9a(Memory<byte> Raw)
 {
