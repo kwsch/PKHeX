@@ -209,6 +209,8 @@ public static class DonutInfo
         // sum up the stats for each berry
         var boost = 1;
         var calories = 0;
+        var flavorScore = 0;
+        var stars = 0;
         var berries = donut.GetBerries();
         foreach (var berry in berries)
         {
@@ -220,8 +222,23 @@ public static class DonutInfo
 
         donut.Calories = (ushort)((calories > 9999) ? 9999 : (ushort)calories);
         donut.LevelBoost = (byte)boost;
-        // Stars??
-        // Flavors??
+
+        // calculate flavor score
+        Span<int> flavors = stackalloc int[5];
+        RecalculateDonutFlavors(donut, flavors);
+        flavorScore = flavors[0] + flavors[1] + flavors[2] + flavors[3] + flavors[4];
+
+        // calculate stars based on flavor score thresholds
+        stars = flavorScore switch
+        {
+            >= 960 => 5,
+            >= 700 => 4,
+            >= 360 => 3,
+            >= 240 => 2,
+            >= 120 => 1,
+            _ => 0
+        };
+        donut.Stars = (byte)stars;
     }
 
     public static void RecalculateDonutFlavors(this Donut9a donut, Span<int> flavors)
