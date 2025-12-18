@@ -63,6 +63,11 @@ namespace PKHeX.WinForms
             CB_Donut = new System.Windows.Forms.ComboBox();
             CAL_Date = new System.Windows.Forms.DateTimePicker();
             L_Milliseconds = new System.Windows.Forms.Label();
+            PB_Star1 = new System.Windows.Forms.PictureBox();
+            PB_Star2 = new System.Windows.Forms.PictureBox();
+            PB_Star3 = new System.Windows.Forms.PictureBox();
+            PB_Star4 = new System.Windows.Forms.PictureBox();
+            PB_Star5 = new System.Windows.Forms.PictureBox();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PB_Berry0).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PB_Berry1).BeginInit();
@@ -79,6 +84,11 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_Stars).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_LevelBoost).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Calories).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Star1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Star2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Star3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Star4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Star5).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -451,7 +461,7 @@ namespace PKHeX.WinForms
             // 
             PB_Donut.Location = new System.Drawing.Point(466, 0);
             PB_Donut.Name = "PB_Donut";
-            PB_Donut.Size = new System.Drawing.Size(80, 80);
+            PB_Donut.Size = new System.Drawing.Size(72, 72);
             PB_Donut.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             PB_Donut.TabIndex = 62;
             PB_Donut.TabStop = false;
@@ -686,10 +696,60 @@ namespace PKHeX.WinForms
             L_Milliseconds.Text = "Milliseconds:";
             L_Milliseconds.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // PB_Star1
+            // 
+            PB_Star1.Location = new System.Drawing.Point(540, 2);
+            PB_Star1.Name = "PB_Star1";
+            PB_Star1.Size = new System.Drawing.Size(20, 20);
+            PB_Star1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            PB_Star1.TabIndex = 64;
+            PB_Star1.TabStop = false;
+            // 
+            // PB_Star2
+            // 
+            PB_Star2.Location = new System.Drawing.Point(560, 2);
+            PB_Star2.Name = "PB_Star2";
+            PB_Star2.Size = new System.Drawing.Size(20, 20);
+            PB_Star2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            PB_Star2.TabIndex = 65;
+            PB_Star2.TabStop = false;
+            // 
+            // PB_Star3
+            // 
+            PB_Star3.Location = new System.Drawing.Point(580, 2);
+            PB_Star3.Name = "PB_Star3";
+            PB_Star3.Size = new System.Drawing.Size(20, 20);
+            PB_Star3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            PB_Star3.TabIndex = 66;
+            PB_Star3.TabStop = false;
+            // 
+            // PB_Star4
+            // 
+            PB_Star4.Location = new System.Drawing.Point(600, 2);
+            PB_Star4.Name = "PB_Star4";
+            PB_Star4.Size = new System.Drawing.Size(20, 20);
+            PB_Star4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            PB_Star4.TabIndex = 67;
+            PB_Star4.TabStop = false;
+            // 
+            // PB_Star5
+            // 
+            PB_Star5.Location = new System.Drawing.Point(620, 2);
+            PB_Star5.Name = "PB_Star5";
+            PB_Star5.Size = new System.Drawing.Size(20, 20);
+            PB_Star5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            PB_Star5.TabIndex = 68;
+            PB_Star5.TabStop = false;
+            // 
             // DonutEditor9a
             // 
             AutoSize = true;
             AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            Controls.Add(PB_Star5);
+            Controls.Add(PB_Star4);
+            Controls.Add(PB_Star3);
+            Controls.Add(PB_Star2);
+            Controls.Add(PB_Star1);
             Controls.Add(PB_Donut);
             Controls.Add(flowLayoutPanel1);
             Name = "DonutEditor9a";
@@ -712,6 +772,11 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_Stars).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_LevelBoost).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Calories).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Star1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Star2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Star3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Star4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Star5).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -764,5 +829,10 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ComboBox CB_Donut;
         private System.Windows.Forms.DateTimePicker CAL_Date;
         private System.Windows.Forms.Label L_Milliseconds;
+        private System.Windows.Forms.PictureBox PB_Star1;
+        private System.Windows.Forms.PictureBox PB_Star2;
+        private System.Windows.Forms.PictureBox PB_Star3;
+        private System.Windows.Forms.PictureBox PB_Star4;
+        private System.Windows.Forms.PictureBox PB_Star5;
     }
 }
