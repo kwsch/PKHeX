@@ -64,6 +64,8 @@ public sealed partial class DonutEditor9a : UserControl
         CAL_Date.ValueChanged += ChangeDateTime;
         TB_Milliseconds.TextChanged += OnValueChanged;
         TB_Milliseconds.TextChanged += ChangeMilliseconds;
+        NUD_Stars.ValueChanged += OnValueChanged;
+        NUD_Stars.ValueChanged += NUD_Stars_ValueChanged;
     }
 
     private static void SetDataSource<T>(ComboBox cb, List<T> list)
@@ -132,6 +134,8 @@ public sealed partial class DonutEditor9a : UserControl
         LoadClamp(NUD_LevelBoost, donut.LevelBoost);
 
         CB_Donut.SelectedValue = (int)donut.Donut;
+
+        LoadDonutStarCount();
 
         CB_Berry0.SelectedValue = (int)donut.BerryName;
         CB_Berry1.SelectedValue = (int)donut.Berry1;
@@ -240,6 +244,23 @@ public sealed partial class DonutEditor9a : UserControl
         return hash;
     }
 
+    private void LoadDonutStarCount(byte count = 0)
+    {
+        PictureBox[] starBoxes = [PB_Star1, PB_Star2, PB_Star3, PB_Star4, PB_Star5];
+        var starCount = count != 0 ? count : _donut.Stars;
+        for (int i = 0; i < starBoxes.Length; i++)
+        {
+            if (i < starCount)
+            {
+                starBoxes[i].Image = DonutSpriteUtil.StarSprite;
+            }
+            else
+            {
+                starBoxes[i].Image = null;
+            }
+        }
+    }
+
     private void CB_Donut_SelectedIndexChanged(object? sender, EventArgs e)
     {
         _donut.Donut = (ushort)CB_Donut.SelectedIndex;
@@ -333,4 +354,6 @@ public sealed partial class DonutEditor9a : UserControl
     private sealed record ComboText(string Text, string Value);
     // ReSharper enable NotAccessedPositionalProperty.Local
     public string GetDonutName() => CB_Donut.Text;
+
+    private void NUD_Stars_ValueChanged(object? sender, EventArgs e) => LoadDonutStarCount((byte)NUD_Stars.Value);
 }
