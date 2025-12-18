@@ -135,7 +135,7 @@ public sealed partial class DonutEditor9a : UserControl
 
         CB_Donut.SelectedValue = (int)donut.Donut;
 
-        LoadDonutStarCount();
+        LoadDonutStarCount(donut.Stars); // acknowledge existing star count
 
         CB_Berry0.SelectedValue = (int)donut.BerryName;
         CB_Berry1.SelectedValue = (int)donut.Berry1;
@@ -244,21 +244,12 @@ public sealed partial class DonutEditor9a : UserControl
         return hash;
     }
 
-    private void LoadDonutStarCount(byte count = 0)
+    private void LoadDonutStarCount(byte count)
     {
+        var star = DonutSpriteUtil.StarSprite;
         PictureBox[] starBoxes = [PB_Star1, PB_Star2, PB_Star3, PB_Star4, PB_Star5];
-        var starCount = count != 0 ? count : _donut.Stars;
         for (int i = 0; i < starBoxes.Length; i++)
-        {
-            if (i < starCount)
-            {
-                starBoxes[i].Image = DonutSpriteUtil.StarSprite;
-            }
-            else
-            {
-                starBoxes[i].Image = null;
-            }
-        }
+            starBoxes[i].Image = i < count ? star : null;
     }
 
     private void CB_Donut_SelectedIndexChanged(object? sender, EventArgs e)
