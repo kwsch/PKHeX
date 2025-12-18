@@ -36,6 +36,14 @@ public sealed class LegendsZAVerifier : Verifier
         // if (pa.Tracker != 0 || !ParseSettings.IgnoreTransferIfNoTracker)
         //     return; // Can delete moves in PA9 moveset via HOME.
 
+        if (e9a.Species is (int)Rotom && moveCount == 3 && pa.Form == 0)
+        {
+            // All encounters come with 4 moves.
+            // Can revert to normal form and lose the form-specific move; 4 => 3.
+            // Doing this eager check instead of a more complicated exclusion later seems best.
+            return;
+        }
+
         // Get the bare minimum moveset.
         Span<ushort> expect = stackalloc ushort[4];
         _ = LoadBareMinimumMoveset(e9a, pa, expect);
@@ -56,8 +64,20 @@ public sealed class LegendsZAVerifier : Verifier
         for (int i = 0; i < expect.Length; i++)
         {
             var move = expect[i];
-            if (pa.GetMove(i) != move)
-                moves[i] = MoveResult.Unobtainable(move);
+            if (pa.GetMove(i) == move)
+                continue;
+
+            // Espurr (among others) had new moves added to their learnset at low levels.
+            // Only for Espurr does it actually happen (Absol/Meowstic is never found at a low enough level).
+            // - Espurr @ Level 9 will gain Confusion to be 4 moves total (Pre-DLC).
+            // - Otherwise, the DLC learnset would require 4 at level 6 (lowest encounter is 7-8).
+            if (e9a.Species is (int)Espurr && move is (int)Teleport && pa.CurrentLevel < 9) // DLC
+            {
+                // do the more expensive check after; check species first
+                if (WasPossiblyObtainedBeforeDLC(pa, e9a))
+                    continue;
+            }
+            moves[i] = MoveResult.Unobtainable(move);
         }
     }
 
@@ -116,13 +136,9 @@ public sealed class LegendsZAVerifier : Verifier
         }
         var level = Math.Max((byte)1, pa9.MetLevel);
         var learn = LearnSource9ZA.Instance.GetLearnset(enc.Species, enc.Form);
-        if (!enc.IsAlpha)
-        {
-            learn.SetEncounterMoves(level, moves);
-            return;
-        }
         learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
-        moves[0] = PersonalTable.ZA[enc.Species, enc.Form].AlphaMove;
+        if (enc.IsAlpha)
+            moves[0] = PersonalTable.ZA[enc.Species, enc.Form].AlphaMove;
     }
 
     private void CheckFlagsTM(LegalityAnalysis data, PA9 pa9)
@@ -246,12 +262,29 @@ public sealed class LegendsZAVerifier : Verifier
             var index = permit.RecordPermitIndexes.IndexOf(move);
             if (CanAnyEvoLearnMovePlus<PersonalTable9ZA, PersonalInfo9ZA, LearnSource9ZA>(evos, index, move, PersonalTable.ZA, LearnSource9ZA.Instance))
                 continue; // OK
+            if (pk.Species is (int)Rotom && CanAnyFormLearnMovePlusRotom(pk, evos, index, move))
+                continue;
 
             if (invalid != 0) // Multiple invalid moves
                 return MultipleInvalidPlusMoves;
             invalid = move;
         }
         return invalid;
+    }
+
+    private static bool CanAnyFormLearnMovePlusRotom<T>(T pk, ReadOnlySpan<EvoCriteria> evos, int index, ushort move)
+        where T : PKM, IPlusRecord
+    {
+        var evo = evos[0];
+        for (byte f = 0; f <= 5; f++)
+        {
+            if (f == pk.Form)
+                continue;
+            evo = evo with { Form = f };
+            if (CanLearnMovePlus<PersonalTable9ZA, PersonalInfo9ZA, LearnSource9ZA>(evo, index, move, PersonalTable.ZA, LearnSource9ZA.Instance))
+                return true; // OK
+        }
+        return false;
     }
 
     private static bool CanAnyEvoLearnMovePlus<TTable, TInfo, TSource>(ReadOnlySpan<EvoCriteria> evos, int tmIndex, ushort move,
@@ -266,16 +299,27 @@ public sealed class LegendsZAVerifier : Verifier
 
         foreach (var evo in evos)
         {
-            // If the move can be learned as TM, can be marked as Plus Move regardless of level via Seed of Mastery.
-            var pi = table[evo.Species, evo.Form];
-            if (tmIndex != -1 && pi.GetIsLearnTM(tmIndex))
-                return true;
-
-            // If the move can be learned via learnset. Seed of Mastery allows marking as Plus Move regardless of level.
-            var (learn, _) = source.GetLearnsetAndOther(evo.Species, evo.Form);
-            if (learn.TryGetLevelLearnMove(move, out var level) && level <= evo.LevelMax)
+            if (CanLearnMovePlus<TTable, TInfo, TSource>(evo, tmIndex, move, table, source))
                 return true;
         }
+
+        return false;
+    }
+
+    private static bool CanLearnMovePlus<TTable, TInfo, TSource>(EvoCriteria evo, int tmIndex, ushort move,
+        TTable table, TSource source) where TTable : IPersonalTable<TInfo>
+        where TInfo : IPersonalInfo, IPersonalInfoTM
+        where TSource : ILearnSourceBonus
+    {
+        // If the move can be learned as TM, can be marked as Plus Move regardless of level via Seed of Mastery.
+        var pi = table[evo.Species, evo.Form];
+        if (tmIndex != -1 && pi.GetIsLearnTM(tmIndex))
+            return true;
+
+        // If the move can be learned via learnset. Seed of Mastery allows marking as Plus Move regardless of level.
+        var (learn, _) = source.GetLearnsetAndOther(evo.Species, evo.Form);
+        if (learn.TryGetLevelLearnMove(move, out var level) && level <= evo.LevelMax)
+            return true;
         return false;
     }
 
@@ -308,13 +352,12 @@ public sealed class LegendsZAVerifier : Verifier
     private static bool IsPermittedUnsetPlusMove(Species species, Move move) => species switch
     {
         // Relearn moves added in DLC:
-        Pichu or Pikachu or Raichu when move is DrainingKiss => true,
+        Pikachu or Raichu when move is DrainingKiss => true,
         Onix or Steelix when move is RockBlast => true,
         Absol when move is Snarl or PhantomForce => true,
         Roserade or Whirlipede or Scolipede when move is MortalSpin => true,
         Abomasnow when move is IceHammer => true,
         Gallade when move is SacredSword => true,
-        Espurr or Meowstic when move is Teleport => true,
         Meowstic when move is Moonblast => true,
         Honedge or Doublade or Aegislash when move is SacredSword => true,
         Malamar when move is Octolock => true,
@@ -322,6 +365,7 @@ public sealed class LegendsZAVerifier : Verifier
         Aurorus when move is IceHammer => true,
 
         // Level-up moves added in DLC:
+        Espurr or Meowstic when move is Teleport => true,
         Absol when move is ConfuseRay or ShadowSneak => true,
 
         _ => false,

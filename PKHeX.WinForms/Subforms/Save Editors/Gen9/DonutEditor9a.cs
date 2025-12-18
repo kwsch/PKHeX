@@ -12,6 +12,10 @@ public sealed partial class DonutEditor9a : UserControl
     private Donut9a _donut;
     public event EventHandler? ValueChanged;
 
+    private bool Loading;
+
+    private static readonly DateTime Epoch = new(1900, 1, 1);
+
     public DonutEditor9a()
     {
         InitializeComponent();
@@ -57,7 +61,9 @@ public sealed partial class DonutEditor9a : UserControl
 
         // Not really necessary to indicate value changes (name wouldn't be different), but for consistency...
         CAL_Date.ValueChanged += OnValueChanged;
-        TB_Unknown.TextChanged += OnValueChanged;
+        CAL_Date.ValueChanged += ChangeDateTime;
+        TB_Milliseconds.TextChanged += OnValueChanged;
+        TB_Milliseconds.TextChanged += ChangeMilliseconds;
     }
 
     private static void SetDataSource<T>(ComboBox cb, List<T> list)
@@ -116,10 +122,9 @@ public sealed partial class DonutEditor9a : UserControl
         return result;
     }
 
-    private static readonly DateTime Epoch = new(1900, 1, 1);
-
     public void LoadDonut(Donut9a donut)
     {
+        Loading = true;
         _donut = donut;
 
         LoadClamp(NUD_Stars, donut.Stars);
@@ -156,8 +161,9 @@ public sealed partial class DonutEditor9a : UserControl
             CAL_Date.Value = Epoch;
         }
 
-        TB_Unknown.Text = donut.Unknown.ToString();
+        TB_Milliseconds.Text = donut.MillisecondsSince1900.ToString();
 
+        Loading = false;
         return;
 
         static void LoadClamp(NumericUpDown nud, decimal value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
@@ -206,7 +212,7 @@ public sealed partial class DonutEditor9a : UserControl
                 donut.ClearDateTime();
             }
         }
-        donut.Unknown = ulong.TryParse(TB_Unknown.Text, out var unk) ? unk : 0;
+        donut.MillisecondsSince1900 = ulong.TryParse(TB_Milliseconds.Text, out var unk) ? unk : 0;
     }
 
     private static void LoadDonutFlavorHash(ComboBox cb, ulong flavorHash)
@@ -245,6 +251,80 @@ public sealed partial class DonutEditor9a : UserControl
         _donut.Clear();
         LoadDonut(_donut);
     }
+
+    private void ChangeMilliseconds(object? sender, EventArgs e)
+    {
+        if (Loading)
+            return;
+
+        if (!ulong.TryParse(TB_Milliseconds.Text, out var ms))
+            return;
+
+        try
+        {
+            var ticks = Epoch.AddMilliseconds(ms);
+
+            // If date is same, don't update the ticks.
+            var date = CAL_Date.Value;
+            if (IsDateEquivalent(date, ticks))
+                return;
+
+            Loading = true;
+            CAL_Date.Value = ticks;
+            Loading = false;
+        }
+        catch
+        {
+            // Why are you putting ugly values??
+            // Reset.
+            Loading = true;
+            CAL_Date.Value = DateTime.Now;
+            TB_Milliseconds.Text = ((ulong)(CAL_Date.Value - Epoch).TotalMilliseconds).ToString();
+            Loading = false;
+        }
+    }
+
+    private void ChangeDateTime(object? sender, EventArgs e)
+    {
+        if (Loading)
+            return;
+
+        if (!ulong.TryParse(TB_Milliseconds.Text, out var ms))
+            return;
+
+        try
+        {
+            var ticks = Epoch.AddMilliseconds(ms);
+
+            // If date is same, don't update the ticks.
+            var date = CAL_Date.Value;
+            if (IsDateEquivalent(date, ticks))
+                return;
+
+            var delta = ((ulong)(date - Epoch).TotalMilliseconds);
+            // retain existing ticks _xxx component, since datetime picker does not configure millis
+            var exist = ms % 1000;
+            delta -= delta % 1000;
+            delta += exist;
+
+            Loading = true;
+            TB_Milliseconds.Text = delta.ToString();
+            Loading = false;
+        }
+        catch
+        {
+            // Why are you putting ugly values??
+            // Reset.
+            Loading = true;
+            CAL_Date.Value = DateTime.Now;
+            TB_Milliseconds.Text = ((ulong)(CAL_Date.Value - Epoch).TotalMilliseconds).ToString();
+            Loading = false;
+        }
+    }
+
+    private static bool IsDateEquivalent(DateTime a, DateTime b) =>
+        a.Year == b.Year && a.Month == b.Month && a.Day == b.Day &&
+        a.Hour == b.Hour && a.Minute == b.Minute && a.Second == b.Second;
 
     // bubble up to the parent control, if subscribed.
     private void OnValueChanged(object? sender, EventArgs e) => ValueChanged?.Invoke(this, EventArgs.Empty);

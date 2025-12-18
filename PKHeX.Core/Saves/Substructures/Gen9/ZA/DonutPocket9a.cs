@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -13,6 +15,116 @@ public sealed class DonutPocket9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>
         ArgumentOutOfRangeException.ThrowIfGreaterThan<uint>((uint)index, MaxCount);
         var slice = Raw.Slice(index * Donut9a.Size, Donut9a.Size);
         return new Donut9a(slice);
+    }
+
+    public void Compress()
+    {
+        // Remove slots where donut is empty, shift entry up.
+        int writePos = 0;
+        for (int readPos = 0; readPos < MaxCount; readPos++)
+        {
+            var read = GetDonut(readPos);
+            if (read.IsEmpty)
+                continue;
+            if (writePos != readPos)
+            {
+                var write = GetDonut(writePos);
+                read.CopyTo(write);
+                read.Clear(); // Clear old slot
+            }
+            writePos++;
+        }
+    }
+
+    private static ReadOnlySpan<byte> Template =>
+    [
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x54, 0x96, 0x00, 0x10, 0x0E, 0x74, 0x0A,
+        0x74, 0x0A, 0x74, 0x0A, 0x74, 0x0A, 0x74, 0x0A, 0x74, 0x0A, 0x74, 0x0A, 0x74, 0x0A, 0x74, 0x0A,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x15, 0xD4, 0xEC, 0xA6, 0x6A, 0x53, 0x37, 0x0D,
+        0x2E, 0xA0, 0x7F, 0xD6, 0xA0, 0x1E, 0xCF, 0xAD, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    ];
+
+    public void SetAllAsShinyTemplate()
+    {
+        var rand = Util.Rand;
+        var flavorDict = DonutInfo.Flavors.ToDictionary(z => z.Name, z => z.Hash);
+
+        for (int i = 0; i < MaxCount; i++)
+        {
+            // Apply template data
+            var entry = GetDonut(i);
+            Template.CopyTo(entry.Data);
+
+            // Update donut with data to match what we want.
+            ApplyShinySizeCatch(entry, rand, flavorDict);
+
+            // Update creation time
+            ApplyTimestampNow(entry, i);
+        }
+    }
+
+    public void SetAllRandomLv3()
+    {
+        var rand = Util.Rand;
+        var flavorDict = DonutInfo.Flavors.Where(z => z.Name.EndsWith("lv3")).ToArray();
+
+        for (int i = 0; i < MaxCount; i++)
+        {
+            // Apply template data
+            var entry = GetDonut(i);
+            Template.CopyTo(entry.Data);
+
+            // Update donut with data to match what we want.
+            rand.Shuffle(flavorDict);
+            entry.Flavor0 = flavorDict[0].Hash;
+            entry.Flavor1 = flavorDict[1].Hash;
+            entry.Flavor2 = flavorDict[2].Hash;
+
+            // Update creation time
+            ApplyTimestampNow(entry, i);
+        }
+    }
+
+    private static void ApplyTimestampNow(Donut9a entry, int bias = 0)
+    {
+        var now = DateTime.Now;
+        if (bias != 0) // some fudge factor to differentiate donuts made on the same millisecond
+            now = now.AddMilliseconds(bias);
+        var ticks = (ulong)(now - new DateTime(1900, 1, 1)).TotalMilliseconds;
+        entry.MillisecondsSince1900 = ticks;
+        entry.DateTime1900.Timestamp = now;
+    }
+
+    private static void ApplyShinySizeCatch(Donut9a entry, Random rand, Dictionary<string, ulong> flavorDict)
+    {
+        // Shiny power is sweet 3-21. Allow "all" rather than just be single type.
+        var type = rand.Next(17 + 1 + 1);
+        var flavor0 = $"sweet_{(type + 3):00}_lv3"; // Sparkling (sweet_03-21)
+
+        var roll2 = rand.Next(3);
+        var flavor1 = roll2 switch
+        {
+            0 or 1 => $"fresh_{(1 + roll2):00}_lv3", // Humungo (fresh_01) or Teensy (fresh_02)
+            _ => "sweet_01_lv3", // Alpha
+        };
+        var flavor2 = $"fresh_{(type + 4):00}_lv3"; // Catching Power (fresh_04-22)
+
+        // Set flavors to donut
+        entry.Flavor0 = flavorDict[flavor0];
+        entry.Flavor1 = flavorDict[flavor1];
+        entry.Flavor2 = flavorDict[flavor2];
+    }
+
+    public void CloneAllFromIndex(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThan<uint>((uint)index, MaxCount - 1);
+        var source = GetDonut(index);
+        for (int i = 0; i < MaxCount; i++)
+        {
+            if (i != index)
+                source.CopyTo(GetDonut(i));
+        }
     }
 }
 
@@ -98,19 +210,30 @@ public static class DonutInfo
         var boost = 1;
         var calories = 0;
         var berries = donut.GetBerries();
+        var flavorScore = 0;
         foreach (var berry in berries)
         {
             if (!TryGetBerry(berry, out var detail))
                 continue;
             calories += detail.Calories;
             boost += detail.Boost;
+            flavorScore += detail.FlavorScore;
         }
 
-        donut.Calories = (ushort)((calories > 9999) ? 9999 : (ushort)calories);
+        donut.Calories = (ushort)Math.Min(calories, 9999);
         donut.LevelBoost = (byte)boost;
-        // Stars??
-        // Flavors??
+        donut.Stars = GetDonutStarCount(flavorScore);
     }
+
+    public static byte GetDonutStarCount(int flavorScore) => flavorScore switch
+    {
+        >= 960 => 5,
+        >= 700 => 4,
+        >= 360 => 3,
+        >= 240 => 2,
+        >= 120 => 1,
+        _ => 0
+    };
 
     public static void RecalculateDonutFlavors(this Donut9a donut, Span<int> flavors)
     {
@@ -120,7 +243,7 @@ public static class DonutInfo
             if (!TryGetBerry(berry, out var detail))
                 continue;
             flavors[0] += detail.Spicy;
-            flavors[1] += detail.Dry;
+            flavors[1] += detail.Fresh;
             flavors[2] += detail.Sweet;
             flavors[3] += detail.Bitter;
             flavors[4] += detail.Sour;
@@ -443,7 +566,10 @@ public static class DonutInfo
     public static ulong GetFlavorHash(string text) => FnvHash.HashFnv1a_64(text);
 }
 
-public readonly record struct DonutBerryDetail(ushort Item, byte Donut, byte Spicy, byte Dry, byte Sweet, byte Bitter, byte Sour, byte Boost, ushort Calories);
+public readonly record struct DonutBerryDetail(ushort Item, byte Donut, byte Spicy, byte Fresh, byte Sweet, byte Bitter, byte Sour, byte Boost, ushort Calories)
+{
+    public int FlavorScore => Spicy + Fresh + Sweet + Bitter + Sour;
+}
 
 public readonly record struct Donut9a(Memory<byte> Raw)
 {
@@ -451,7 +577,7 @@ public readonly record struct Donut9a(Memory<byte> Raw)
     public Span<byte> Data => Raw.Span;
 
     /*
-    0x00    u64 Unknown
+    0x00    u64 MillisecondsSince1900
        
     0x08    u8 Stars
     0x09    u8 LevelBoost
@@ -475,7 +601,7 @@ public readonly record struct Donut9a(Memory<byte> Raw)
     0x40    u64 Reserved
     */
 
-    public ulong Unknown { get => ReadUInt64LittleEndian(Data); set => WriteUInt64LittleEndian(Data, value); }
+    public ulong MillisecondsSince1900 { get => ReadUInt64LittleEndian(Data); set => WriteUInt64LittleEndian(Data, value); }
 
     public byte Stars { get => Data[0x08]; set => Data[0x08] = value; }
     public byte LevelBoost { get => Data[0x09]; set => Data[0x09] = value; }
@@ -505,7 +631,9 @@ public readonly record struct Donut9a(Memory<byte> Raw)
 
     public ulong Reserved { get => ReadUInt64LittleEndian(Data[0x40..]); set => WriteUInt64LittleEndian(Data[0x40..], value); }
 
-    public bool IsEmpty => Unknown != 0;
+    public void UpdateDateTime() => DateTime1900.Timestamp = new DateTime(1900, 1, 1).AddMilliseconds(MillisecondsSince1900);
+
+    public bool IsEmpty => MillisecondsSince1900 != 0;
     public int FlavorCount => Flavor0 == 0 ? 0 : Flavor1 == 0 ? 1 : Flavor2 == 0 ? 2 : 3;
 
     public ushort[] GetBerries() =>

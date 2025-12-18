@@ -83,7 +83,6 @@ public sealed class EvolutionGroupHOME2 : IEvolutionGroup
 
     private static bool IsUnavailableEvoChain(ushort species, byte form) => species switch
     {
-        // TODO DLC ZA: ALT Evolutions
         // Split-evolution Alolans can't be reached in any game Gen8+. Must have been via Gen7.
         (int)Raichu when form == 1 => true,
         (int)Exeggutor when form == 1 => true,
@@ -174,7 +173,7 @@ public sealed class EvolutionGroupHOME2 : IEvolutionGroup
         // Eager check: only reversions are if form is not 0.
         if (form == 0)
             return;
-        // TODO DLC ZA: Is this necessary?
+        // None present in Z-A.
         //if (species is (ushort)Dialga or (ushort)Palkia or (ushort)Arceus or (ushort)Silvally)
         //    evo = evo with { Form = 0 }; // Normal
         if (FormInfo.IsBattleOnlyForm(species, form, Latest.Generation))

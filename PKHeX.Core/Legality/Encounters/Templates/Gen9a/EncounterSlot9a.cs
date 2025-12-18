@@ -79,17 +79,12 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
     private void SetMoves(PA9 pk, PersonalInfo9ZA pi, byte level)
     {
         var (learn, plus) = LearnSource9ZA.GetLearnsetAndPlus(Species, Form);
+        PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
+
         Span<ushort> moves = stackalloc ushort[4];
-        if (!IsAlpha)
-        {
-            learn.SetEncounterMoves(level, moves);
-            PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
-        }
-        else
-        {
-            learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
-            PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level, moves[0] = pi.AlphaMove);
-        }
+        learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
+        if (pk.IsAlpha)
+            PlusRecordApplicator.SetPlusFlagsSpecific(pk, pi, moves[0] = pi.AlphaMove);
         pk.SetMoves(moves);
     }
 
@@ -110,6 +105,7 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
 
     private bool IsValidOutOfBoundsForm() => Species switch
     {
+        (int)Core.Species.Rotom => true, // Can change forms in-game.
         (int)Core.Species.Furfrou => true, // Can change forms in-game.
         _ => false,
     };
@@ -146,7 +142,7 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
         var param = GetParams(PersonalTable.ZA[Species, Form], false, false);
         if (param.TryGetSeed(pk, out seed))
             return SeedCorrelationResult.Success;
-        if (pk.IsShiny && !LumioseSolver.SearchShiny1 || !LumioseSolver.SearchShinyN)
+        if ((pk.IsShiny && !LumioseSolver.SearchShiny1) || !LumioseSolver.SearchShinyN)
             return SeedCorrelationResult.Ignore;
 
         var rollCount = (byte)(1 + ShinyCharm + (IsHyperspace ? ShinyHyperspace : 0));
