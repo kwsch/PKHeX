@@ -35,7 +35,7 @@ internal static class BallUseLegality
         8 when GameVersion.BDSP.Contains(version) => WildPokeBalls4_HGSS,
         8 when version is GameVersion.PLA => WildPokeBalls8a,
         8 => GameVersion.GO == version ? WildPokeballs8g_WithRaid : WildPokeballs8,
-        9 when version is GameVersion.ZA => WildPokeballs9a, // Dream Ball and Beast Ball not available
+        9 when version is GameVersion.ZA => WildPokeballs9a,
         9 => WildPokeballs9,
         _ => 0,
     };
