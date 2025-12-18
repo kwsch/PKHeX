@@ -209,37 +209,31 @@ public static class DonutInfo
         // sum up the stats for each berry
         var boost = 1;
         var calories = 0;
-        var flavorScore = 0;
-        var stars = 0;
         var berries = donut.GetBerries();
+        var flavorScore = 0;
         foreach (var berry in berries)
         {
             if (!TryGetBerry(berry, out var detail))
                 continue;
             calories += detail.Calories;
             boost += detail.Boost;
+            flavorScore += detail.FlavorScore;
         }
 
-        donut.Calories = (ushort)((calories > 9999) ? 9999 : (ushort)calories);
+        donut.Calories = (ushort)Math.Min(calories, 9999);
         donut.LevelBoost = (byte)boost;
-
-        // calculate flavor score
-        Span<int> flavors = stackalloc int[5];
-        RecalculateDonutFlavors(donut, flavors);
-        flavorScore = flavors[0] + flavors[1] + flavors[2] + flavors[3] + flavors[4];
-
-        // calculate stars based on flavor score thresholds
-        stars = flavorScore switch
-        {
-            >= 960 => 5,
-            >= 700 => 4,
-            >= 360 => 3,
-            >= 240 => 2,
-            >= 120 => 1,
-            _ => 0
-        };
-        donut.Stars = (byte)stars;
+        donut.Stars = GetDonutStarCount(flavorScore);
     }
+
+    public static byte GetDonutStarCount(int flavorScore) => flavorScore switch
+    {
+        >= 960 => 5,
+        >= 700 => 4,
+        >= 360 => 3,
+        >= 240 => 2,
+        >= 120 => 1,
+        _ => 0
+    };
 
     public static void RecalculateDonutFlavors(this Donut9a donut, Span<int> flavors)
     {
@@ -572,7 +566,10 @@ public static class DonutInfo
     public static ulong GetFlavorHash(string text) => FnvHash.HashFnv1a_64(text);
 }
 
-public readonly record struct DonutBerryDetail(ushort Item, byte Donut, byte Spicy, byte Fresh, byte Sweet, byte Bitter, byte Sour, byte Boost, ushort Calories);
+public readonly record struct DonutBerryDetail(ushort Item, byte Donut, byte Spicy, byte Fresh, byte Sweet, byte Bitter, byte Sour, byte Boost, ushort Calories)
+{
+    public int FlavorScore => Spicy + Fresh + Sweet + Bitter + Sour;
+}
 
 public readonly record struct Donut9a(Memory<byte> Raw)
 {
