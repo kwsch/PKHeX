@@ -18,6 +18,7 @@ public static class DonutSpriteUtil
     /// <param name="donut">The donut to get the sprite for.</param>
     /// <returns>A <see cref="Bitmap"/> representing the sprite image.</returns>
     public static Bitmap? Sprite(this Donut9a donut) => GetDonutImage(donut);
+    public static Bitmap? StarSprite => (Bitmap?)Resources.ResourceManager.GetObject("star");
 
     private static Bitmap? GetDonutImage(Donut9a donut)
     {

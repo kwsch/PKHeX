@@ -34,8 +34,9 @@ public sealed class ItemStorage9ZA : IItemStorage
         0710, 0711, 0795, 0796, 0849, 1124, 1125, 1126, 1127, 1128,
         1231, 1232, 1233, 1234, 1235, 1236, 1237, 1238, 1239, 1240,
         1241, 1242, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250,
-        1251, 1582, 1592, 1691, 1861, 2137, 2344, 2401, 2558, 2618,
+        1251, 1582, 1592, 1691, 1861,       2344, 2401, 2558, 2618,
 
+        2137, // Gimmighoul Coin cannot be held.
         2619, // Colorful Screw cannot be held.
     ];
 
@@ -117,12 +118,13 @@ public sealed class ItemStorage9ZA : IItemStorage
 
     public static ReadOnlySpan<ushort> Unreleased =>
     [
+        0016, // Cherish Ball
+
         0664, // Blazikenite
         0752, // Swampertite
         0753, // Sceptilite
 
         2640, // Garchompite Z
-        2648, // Baxcalibrite
     ];
 
     public int GetMax(InventoryType type) => type switch
@@ -155,7 +157,7 @@ public sealed class ItemStorage9ZA : IItemStorage
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
-    public static ushort[] GetAllHeld() => [..Medicine, ..Balls, ..Berry, ..MegaStones, ..Treasure, ..Other[..^1]]; // Exclude Colorful Screw
+    public static ushort[] GetAllHeld() => [..Medicine, ..Balls, ..Berry, ..MegaStones, ..Treasure, ..Other[..^2]]; // Exclude Colorful Screw and Gimmighoul Coin
 
     public static InventoryType GetInventoryPouch(ushort itemIndex)
     {

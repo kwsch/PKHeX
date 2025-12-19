@@ -195,7 +195,7 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
             return SeedCorrelationResult.Success;
         if (!IsHyperspaceShinyPossible)
             return SeedCorrelationResult.Invalid;
-        if (pk.IsShiny && !LumioseSolver.SearchShiny1 || !LumioseSolver.SearchShinyN)
+        if ((pk.IsShiny && !LumioseSolver.SearchShiny1) || !LumioseSolver.SearchShinyN)
             return SeedCorrelationResult.Ignore;
 
         // Assume any combination of shiny charm and donut boost is active.

@@ -39,6 +39,7 @@ public sealed class FormArgumentVerifier : Verifier
             Furfrou when pk.Form != 0 => !IsFormArgumentDayCounterValid(f, 5, true) ? GetInvalid(FormArgumentInvalid) : GetValid(FormArgumentValid),
             Hoopa when pk.Form == 1 => data.Info.EvoChainsAllGens switch
             {
+                { HasVisitedZA:   true } when arg == 0 => GetValid(FormArgumentValid), // Value not applied on form change, and reset when reverted.
                 { HasVisitedGen9: true } when arg == 0 => GetValid(FormArgumentValid), // Value not applied on form change, and reset when reverted.
                 { HasVisitedGen6: true } when IsFormArgumentDayCounterValid(f, 3) => GetValid(FormArgumentValid), // 0-3 via OR/AS
                 { HasVisitedGen7: true } when IsFormArgumentDayCounterValid(f, 3) && f.FormArgumentRemain != 0 => GetValid(FormArgumentValid), // 1-3 via Gen7
@@ -56,6 +57,8 @@ public sealed class FormArgumentVerifier : Verifier
                 > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 _ => GetValid(FormArgumentValid),
             },
+            Farfetchd when pk.Form is 1 => CheckFarfetchd(data, pk, arg), // Galar
+            Sirfetchd => CheckSirfetchd(data, arg, enc),
             Qwilfish when pk.Form is 1 => CheckQwilfish(data, pk, arg),
             Overqwil => CheckOverqwil(data, pk, arg, enc),
             Stantler => arg switch
@@ -118,6 +121,41 @@ public sealed class FormArgumentVerifier : Verifier
             },
             _ => VerifyFormArgumentNone(pk, f),
         };
+    }
+
+    private CheckResult CheckFarfetchd(LegalityAnalysis data, PKM pk, uint arg)
+    {
+        if (arg == 0)
+            return GetValid(FormArgumentValid);
+        if (arg > 9_999)
+            return GetInvalid(FormArgumentLEQ_0, 9999);
+        if (pk.IsEgg)
+            return GetInvalid(FormArgumentNotAllowed);
+
+        var history = data.Info.EvoChainsAllGens;
+        if (history.HasVisitedZA) // Can increase.
+            return GetValid(FormArgumentValid);
+        return GetInvalid(FormArgumentLEQ_0, 0); // Can't increase from 0.
+    }
+
+    private CheckResult CheckSirfetchd(LegalityAnalysis data, uint arg, IEncounterTemplate enc)
+    {
+        var history = data.Info.EvoChainsAllGens;
+        if (arg is 0)
+        {
+            if (enc.Species is (ushort)Sirfetchd)
+                return GetValid(FormArgumentValid);
+            if (history.HasVisitedGen9 || history.HasVisitedSWSH)
+                return GetValid(FormArgumentValid);
+        }
+        else if (arg > 9999)
+        {
+            return GetInvalid(FormArgumentLEQ_0, 9999);
+        }
+
+        if (history.HasVisitedZA && arg >= 3) // Can increase.
+            return GetValid(FormArgumentValid);
+        return GetInvalid(FormArgumentLEQ_0, 0); // Can't increase from 0.
     }
 
     private CheckResult CheckQwilfish(LegalityAnalysis data, PKM pk, uint arg)
