@@ -75,7 +75,7 @@ public partial class SAV_Encounters : Form
             };
             slot.Enter += (_, _) =>
             {
-                var index = Array.IndexOf(PKXBOXES, slot);
+                var index = PKXBOXES.IndexOf(slot);
                 if (index < 0)
                     return;
                 index += (SCR_Box.Value * RES_MIN);
@@ -209,7 +209,7 @@ public partial class SAV_Encounters : Form
     {
         if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
             ArgumentNullException.ThrowIfNull(pb);
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (index >= RES_MAX)
         {
             System.Media.SystemSounds.Exclamation.Play();
@@ -562,7 +562,7 @@ public partial class SAV_Encounters : Form
 
     private void ShowHoverTextForSlot(PictureBox pb)
     {
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (!GetShiftedIndex(ref index))
             return;
 

@@ -381,6 +381,6 @@ public partial class SAV_FolderList : Form
             row.Visible = false;
             return;
         }
-        row.Visible = value.AsSpan().Contains(text, StringComparison.CurrentCultureIgnoreCase); // case insensitive contains
+        row.Visible = value.Contains(text, StringComparison.CurrentCultureIgnoreCase); // case insensitive contains
     }
 }

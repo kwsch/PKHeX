@@ -77,13 +77,13 @@ public sealed partial class SAV_BoxList : Form
             box.ClearEvents();
             box.B_BoxLeft.Click += (_, _) =>
             {
-                int index = Array.IndexOf(Boxes, box);
+                int index = Boxes.IndexOf(box);
                 int other = (index + Boxes.Length - 1) % Boxes.Length;
                 m.SwapBoxes(index, other, p.SAV);
             };
             box.B_BoxRight.Click += (_, _) =>
             {
-                int index = Array.IndexOf(Boxes, box);
+                int index = Boxes.IndexOf(box);
                 int other = (index + 1) % Boxes.Length;
                 m.SwapBoxes(index, other, p.SAV);
             };

@@ -288,7 +288,7 @@ public partial class SAV_Misc3 : Form
         }
 
         for (int i = 0; i < StatLabelA.Length; i++)
-            StatLabelA[i].Visible = StatLabelA[i].Enabled = StatNUDA[i].Visible = StatNUDA[i].Enabled = Array.IndexOf(BFV[BFF[facility][0]], i) >= 0;
+            StatLabelA[i].Visible = StatLabelA[i].Enabled = StatNUDA[i].Visible = StatNUDA[i].Enabled = BFV[BFF[facility][0]].Contains(i);
 
         editingcont = false;
         StatRBA[0].Checked = true;
@@ -331,7 +331,7 @@ public partial class SAV_Misc3 : Form
         if (SetValToSav >= 0)
         {
             ushort val = (ushort)StatNUDA[SetValToSav].Value;
-            SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
+            SetValToSav = BFV[BFF[Facility][0]].IndexOf(SetValToSav);
             if (SetValToSav < 0)
                 return;
             if (val > 9999)
@@ -371,7 +371,7 @@ public partial class SAV_Misc3 : Form
     {
         if (editingval || sender is not NumericUpDown nud)
             return;
-        int n = Array.IndexOf(StatNUDA, nud);
+        int n = StatNUDA.IndexOf(nud);
         if (n < 0)
             return;
         StatAddrControl(SetValToSav: n, SetSavToVal: false);

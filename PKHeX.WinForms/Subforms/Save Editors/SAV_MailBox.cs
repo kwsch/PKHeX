@@ -215,7 +215,7 @@ public partial class SAV_MailBox : Form
         {
             if (isInit)
                 PKMLabels[i].Text = GetSpeciesNameFromCB(p[i].Species);
-            int j = Array.IndexOf(MailItemID, p[i].HeldItem);
+            int j = MailItemID.IndexOf(p[i].HeldItem);
             PKMHeldItems[i].Text = j >= 0 ? CB_MailType.Items[j + 1]!.ToString() : "(not Mail)";
             if (Generation != 3)
                 continue;
@@ -416,8 +416,8 @@ public partial class SAV_MailBox : Form
     }
 
     private string GetLBLabel(int index) => m[index].IsEmpty != true ? $"{index}: From {m[index].AuthorName}" : $"{index}:  (empty)";
-    private bool ItemIsMail(int itemID) => Array.IndexOf(MailItemID, itemID) >= 0;
-    private int MailTypeToCBIndex(MailDetail mail) => Generation <= 3 ? 1 + Array.IndexOf(MailItemID, mail.MailType) : (mail.IsEmpty == false ? 1 + mail.MailType : 0);
+    private bool ItemIsMail(int itemID) => MailItemID.Contains(itemID);
+    private int MailTypeToCBIndex(MailDetail mail) => Generation <= 3 ? 1 + MailItemID.IndexOf(mail.MailType) : (mail.IsEmpty == false ? 1 + mail.MailType : 0);
     private int CBIndexToMailType(int cbindex) => Generation <= 3 ? (cbindex > 0 ? MailItemID[cbindex - 1] : 0) : (cbindex > 0 ? cbindex - 1 : 0xFF);
 
     private string GetSpeciesNameFromCB(int index)
@@ -561,7 +561,7 @@ public partial class SAV_MailBox : Form
     {
         if (editing || Generation != 3)
             return;
-        int index = Array.IndexOf(PKMNUDs, (NumericUpDown)sender);
+        int index = PKMNUDs.IndexOf((NumericUpDown)sender);
         if (index < 0 || index >= p.Count)
             return;
         ((PK3)p[index]).HeldMailID = (sbyte)PKMNUDs[index].Value;

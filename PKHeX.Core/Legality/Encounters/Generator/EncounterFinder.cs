@@ -91,7 +91,7 @@ public static class EncounterFinder
     /// <returns>Indication whether the encounter passes secondary checks</returns>
     private static bool VerifySecondaryChecks(PKM pk, LegalInfo info, PeekEnumerator<IEncounterable> iterator)
     {
-        var relearn = info.Relearn.AsSpan();
+        var relearn = info.Relearn;
         if (pk.Format >= 6)
         {
             LearnVerifierRelearn.Verify(relearn, info.EncounterOriginal, pk);
@@ -101,10 +101,10 @@ public static class EncounterFinder
         else
         {
             // Dummy to something valid.
-            relearn.Fill(MoveResult.Relearn);
+            relearn.AsSpan().Fill(MoveResult.Relearn);
         }
 
-        var moves = info.Moves.AsSpan();
+        var moves = info.Moves;
         LearnVerifier.Verify(moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
         if (!MoveResult.AllValid(moves) && iterator.PeekIsNext())
             return false;

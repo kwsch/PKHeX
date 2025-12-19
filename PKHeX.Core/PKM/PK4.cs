@@ -338,7 +338,7 @@ public sealed class PK4 : G4PKM
             pk5.Form = 0;
             pk5.HeldItem = 0;
         }
-        else if (!Legal.HeldItems_BW.AsSpan().Contains((ushort)HeldItem))
+        else if (!Legal.HeldItems_BW.Contains((ushort)HeldItem))
         {
             pk5.HeldItem = 0; // if valid, it's already copied
         }

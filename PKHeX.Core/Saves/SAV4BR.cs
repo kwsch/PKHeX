@@ -498,7 +498,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         for (byte slot = 0; slot < PartyCount; slot++)
         {
             PKM other = party[slot];
-            if (pk.PID == other.PID && pk.DecryptedBoxData.AsSpan().SequenceEqual(other.DecryptedBoxData))
+            if (pk.PID == other.PID && pk.DecryptedBoxData.SequenceEqual(other.DecryptedBoxData))
                 return (0, slot);
         }
 
@@ -508,7 +508,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
             for (byte slot = 0; slot < BoxSlotCount; slot++)
             {
                 PKM other = boxes[(box * BoxSlotCount) + slot];
-                if (pk.PID == other.PID && pk.DecryptedBoxData.AsSpan().SequenceEqual(other.DecryptedBoxData))
+                if (pk.PID == other.PID && pk.DecryptedBoxData.SequenceEqual(other.DecryptedBoxData))
                     return (++box, slot);
             }
         }

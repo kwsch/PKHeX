@@ -48,7 +48,7 @@ public sealed class MemoryStrings
 
     private List<ComboItem> GetMemories()
     {
-        var mems = s.memories.AsSpan(0);
+        var mems = s.memories.AsSpan();
         var list = new List<ComboItem> {new(mems[0], 0)}; // none at top
         Util.AddCBWithOffset(list, mems[1..], 1); // sorted the rest
         return list;

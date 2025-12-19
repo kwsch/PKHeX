@@ -84,14 +84,14 @@ public partial class StatEditor : UserControl
 
             case Keys.Control: // Max
                 {
-                    var index = Array.IndexOf(MT_IVs, t);
+                    var index = MT_IVs.IndexOf(t);
                     t.Text = Entity.GetMaximumIV(index, true).ToString();
                     break;
                 }
 
             case Keys.Shift when Entity is IHyperTrain h: // HT
                 {
-                    var index = Array.IndexOf(MT_IVs, t);
+                    var index = MT_IVs.IndexOf(t);
                     bool flag = h.HyperTrainInvert(index);
                     UpdateHyperTrainingFlag(index, flag);
                     UpdateStats();
@@ -107,7 +107,7 @@ public partial class StatEditor : UserControl
 
         if ((ModifierKeys & Keys.Control) != 0) // Max
         {
-            int index = Array.IndexOf(MT_EVs, t);
+            int index = MT_EVs.IndexOf(t);
             int newEV = Entity.GetMaximumEV(index);
             t.Text = newEV.ToString();
         }
@@ -139,7 +139,7 @@ public partial class StatEditor : UserControl
 
         if ((ModifierKeys & Keys.Control) != 0) // Max
         {
-            int index = Array.IndexOf(MT_GVs, t);
+            int index = MT_GVs.IndexOf(t);
             var max = g.GetMax(Entity, index).ToString();
             t.Text = t.Text == max ? 0.ToString() : max;
         }
@@ -160,7 +160,7 @@ public partial class StatEditor : UserControl
                 return; // recursive on text set
             }
 
-            int index = Array.IndexOf(MT_IVs, m);
+            int index = MT_IVs.IndexOf(m);
             Entity.SetIV(index, value);
             if (Entity is IGanbaru g)
                 RefreshGanbaru(Entity, g, index);
@@ -205,7 +205,7 @@ public partial class StatEditor : UserControl
                 return; // recursive on text set
             }
 
-            int index = Array.IndexOf(MT_EVs, m);
+            int index = MT_EVs.IndexOf(m);
             Entity.SetEV(index, value);
         }
 
@@ -234,7 +234,7 @@ public partial class StatEditor : UserControl
                 return; // recursive on text set
             }
 
-            int index = Array.IndexOf(MT_AVs, m);
+            int index = MT_AVs.IndexOf(m);
             a.SetAV(index, value);
         }
 
@@ -255,7 +255,7 @@ public partial class StatEditor : UserControl
                 return; // recursive on text set
             }
 
-            int index = Array.IndexOf(MT_GVs, m);
+            int index = MT_GVs.IndexOf(m);
             g.SetGV(index, (byte)value);
             RefreshGanbaru(Entity, g, index);
         }
@@ -340,7 +340,7 @@ public partial class StatEditor : UserControl
         if (ModifierKeys == Keys.None)
             return;
 
-        int index = Array.IndexOf(L_Stats, sender as Label) - 1;
+        int index = L_Stats.IndexOf(sender as Label) - 1;
         if (index < 0)
             return;
 

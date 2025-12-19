@@ -130,7 +130,7 @@ public sealed class PokeListHeader : SaveBlock<SAV7b>
     {
         if ((uint) slotIndex >= MAX_SLOTS)
             return MAX_SLOTS;
-        var index = Array.IndexOf(PokeListInfo, slotIndex);
+        var index = PokeListInfo.IndexOf(slotIndex);
         return index >= 0 ? index : MAX_SLOTS;
     }
 

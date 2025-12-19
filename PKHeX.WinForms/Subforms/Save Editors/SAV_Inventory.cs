@@ -269,7 +269,7 @@ public sealed partial class SAV_Inventory : Form
         {
             var cells = dgv.Rows[i].Cells;
             var str = cells[ColumnItem].Value!.ToString();
-            var itemindex = Array.IndexOf(itemlist, str);
+            var itemindex = itemlist.IndexOf(str);
 
             if (itemindex <= 0 && !HasNew) // Compression of Empty Slots
                 continue;
@@ -372,7 +372,7 @@ public sealed partial class SAV_Inventory : Form
         if (truncate)
         {
             if (shuffle)
-                Util.Rand.Shuffle(items.AsSpan());
+                Util.Rand.Shuffle(items);
             Array.Resize(ref items, pouch.Items.Length);
         }
 

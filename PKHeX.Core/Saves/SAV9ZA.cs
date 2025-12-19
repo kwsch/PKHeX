@@ -221,7 +221,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
 
     public override StorageSlotSource GetBoxSlotFlags(int index)
     {
-        int team = Array.IndexOf(TeamIndexes.TeamSlots, index);
+        int team = TeamIndexes.TeamSlots.IndexOf(index);
         if (team < 0)
             return StorageSlotSource.None;
 
