@@ -100,15 +100,15 @@ public sealed class DonutPocket9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>
     {
         // Shiny power is sweet 3-21. Allow "all" rather than just be single type.
         var type = rand.Next(17 + 1 + 1);
-        var flavor0 = $"sweet_{(type + 3):00}_lv3"; // Sparkling (sweet_03-21)
+        var flavor0 = $"sweet_{type + 3:00}_lv3"; // Sparkling (sweet_03-21)
 
         var roll2 = rand.Next(3);
         var flavor1 = roll2 switch
         {
-            0 or 1 => $"fresh_{(1 + roll2):00}_lv3", // Humungo (fresh_01) or Teensy (fresh_02)
+            0 or 1 => $"fresh_{1 + roll2:00}_lv3", // Humungo (fresh_01) or Teensy (fresh_02)
             _ => "sweet_01_lv3", // Alpha
         };
-        var flavor2 = $"fresh_{(type + 4):00}_lv3"; // Catching Power (fresh_04-22)
+        var flavor2 = $"fresh_{type + 4:00}_lv3"; // Catching Power (fresh_04-22)
 
         // Set flavors to donut
         entry.Flavor0 = flavorDict[flavor0];

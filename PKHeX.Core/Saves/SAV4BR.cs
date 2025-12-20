@@ -406,10 +406,8 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     /// </remarks>
     public ulong PlayerID
     {
-        get => (
-            ((ulong)Data[0x128CA] << 56) | ((ulong)Data[0x128CC] << 48) | ((ulong)Data[0x128CE] << 40) | ((ulong)Data[0x128C0] << 32) |
-            ((ulong)Data[0x128D2] << 24) | ((ulong)Data[0x128D4] << 16) | ((ulong)Data[0x128D6] << 8) | Data[0x128C8]
-        );
+        get => ((ulong)Data[0x128CA] << 56) | ((ulong)Data[0x128CC] << 48) | ((ulong)Data[0x128CE] << 40) | ((ulong)Data[0x128C0] << 32) |
+               ((ulong)Data[0x128D2] << 24) | ((ulong)Data[0x128D4] << 16) | ((ulong)Data[0x128D6] << 8) | Data[0x128C8];
         set
         {
             Data[0x128CA] = (byte)((value >> 56) & 0xFF);

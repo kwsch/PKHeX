@@ -2028,7 +2028,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             L_FormArgument.Visible = false;
         StatusView.Visible = Main.Settings.EntityEditor.ShowStatusCondition;
 
-        DEV_Ability.Enabled = DEV_Ability.Visible = DEV_Ability.TabStop = format > 3 && HaX || t is PA9;
+        DEV_Ability.Enabled = DEV_Ability.Visible = DEV_Ability.TabStop = (format > 3 && HaX) || t is PA9;
         ToggleInterface(Entity.Format);
     }
 

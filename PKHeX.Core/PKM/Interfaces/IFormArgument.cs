@@ -55,13 +55,12 @@ public static class FormArgumentUtil
         /// <summary>
         /// Sets the suggested Form Argument to the <see cref="pk"/>.
         /// </summary>
-        public void SetSuggestedFormArgument(ushort originalSpecies = 0)
+        public void SetSuggestedFormArgument(ushort species, byte form, EntityContext current, EvolutionHistory history, ushort originalSpecies = 0)
         {
             if (pk is not IFormArgument)
                 return;
-            var (species, form) = (pk.Species, pk.Form);
             uint value = IsFormArgumentTypeDatePair(species, form)
-                ? GetFormArgumentMax(species, form, pk.Context)
+                ? GetFormArgumentMax(species, form, current)
                 : GetFormArgumentMinEvolution(species, originalSpecies);
             if (IsFormArgumentAbleToStay0(species, form, history))
                 value = 0;
