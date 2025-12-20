@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.Misc;
@@ -12,6 +13,12 @@ public sealed partial class DonutEditor9a : UserControl
     private Donut9a _donut;
     public event EventHandler? ValueChanged;
 
+    private readonly ComboBox[] Berry;
+    private readonly PictureBox[] BerryIcons;
+    private readonly ComboBox[] Flavor;
+    private readonly PictureBox[] FlavorIcons;
+    private readonly PictureBox[] Stars;
+
     private bool Loading;
 
     private static readonly DateTime Epoch = new(1900, 1, 1);
@@ -19,6 +26,12 @@ public sealed partial class DonutEditor9a : UserControl
     public DonutEditor9a()
     {
         InitializeComponent();
+
+        Berry = [CB_Berry0, CB_Berry1, CB_Berry2, CB_Berry3, CB_Berry4, CB_Berry5, CB_Berry6, CB_Berry7, CB_Berry8];
+        BerryIcons = [PB_Berry0, PB_Berry1, PB_Berry2, PB_Berry3, PB_Berry4, PB_Berry5, PB_Berry6, PB_Berry7, PB_Berry8];
+        Flavor = [CB_Flavor0, CB_Flavor1, CB_Flavor2];
+        FlavorIcons = [PB_Flavor0, PB_Flavor1, PB_Flavor2];
+        Stars = [PB_Star1, PB_Star2, PB_Star3, PB_Star4, PB_Star5];
     }
 
     public void InitializeLists(ReadOnlySpan<string> flavors, ReadOnlySpan<string> items, ReadOnlySpan<string> donutNames)
@@ -27,18 +40,14 @@ public sealed partial class DonutEditor9a : UserControl
         var flavorList = GetFlavorText(flavors, items[0]);
         var donutList = GetDonutList(donutNames);
 
-        ComboBox[] berry = [CB_Berry0, CB_Berry1, CB_Berry2, CB_Berry3, CB_Berry4, CB_Berry5, CB_Berry6, CB_Berry7, CB_Berry8];
-        PictureBox[] icons = [PB_Berry0, PB_Berry1, PB_Berry2, PB_Berry3, PB_Berry4, PB_Berry5, PB_Berry6, PB_Berry7, PB_Berry8];
-        ComboBox[] flavor = [CB_Flavor0, CB_Flavor1, CB_Flavor2];
-
         InitializeEvents([NUD_Calories, NUD_LevelBoost, NUD_Stars]);
-        InitializeEvents(berry);
-        InitializeEvents(flavor);
+        InitializeEvents(Berry);
+        InitializeEvents(Flavor);
 
-        for (var i = 0; i < berry.Length; i++)
+        for (var i = 0; i < Berry.Length; i++)
         {
-            var cb = berry[i];
-            var pb = icons[i];
+            var cb = Berry[i];
+            var pb = BerryIcons[i];
             SetDataSource(cb, berryList);
             cb.SelectedValueChanged += (_, _) =>
             {
@@ -52,25 +61,23 @@ public sealed partial class DonutEditor9a : UserControl
             };
         }
 
-        foreach (var cb in flavor)
+        foreach (var cb in Flavor)
             SetDataSource(cb, flavorList);
         SetDataSource(CB_Donut, donutList);
 
         CB_Donut.SelectedIndexChanged += OnValueChanged;
         CB_Donut.SelectedIndexChanged += CB_Donut_SelectedIndexChanged;
 
-        // Not really necessary to indicate value changes (name wouldn't be different), but for consistency...
+        // Not really necessary to indicate value changes (name wouldn't be different), but for consistency and GUI updates...
         CAL_Date.ValueChanged += OnValueChanged;
         CAL_Date.ValueChanged += ChangeDateTime;
         TB_Milliseconds.TextChanged += OnValueChanged;
         TB_Milliseconds.TextChanged += ChangeMilliseconds;
         NUD_Stars.ValueChanged += OnValueChanged;
         NUD_Stars.ValueChanged += NUD_Stars_ValueChanged;
-        CB_Flavor0.SelectedIndexChanged += OnValueChanged;
+        // flavor already set via InitializeEvents
         CB_Flavor0.SelectedIndexChanged += CB_Flavor_SelectedIndexChanged;
-        CB_Flavor1.SelectedIndexChanged += OnValueChanged;
         CB_Flavor1.SelectedIndexChanged += CB_Flavor_SelectedIndexChanged;
-        CB_Flavor2.SelectedIndexChanged += OnValueChanged;
         CB_Flavor2.SelectedIndexChanged += CB_Flavor_SelectedIndexChanged;
     }
 
@@ -252,26 +259,24 @@ public sealed partial class DonutEditor9a : UserControl
         return hash;
     }
 
-    private void LoadDonutFlavorImages(ulong[] flavors)
+    private void LoadDonutFlavorImages(params ReadOnlySpan<ulong> flavors)
     {
-        PictureBox[] flavorBoxes = [PB_Flavor0, PB_Flavor1, PB_Flavor2];
-        for (int i = 0; i < flavorBoxes.Length; i++)
+        for (int i = 0; i < FlavorIcons.Length; i++)
         {
-            if (flavors[i] == 0 || !DonutInfo.TryGetFlavorName(flavors[i], out var name))
-            {
-                flavorBoxes[i].Image = null;
-                continue;
-            }
-            flavorBoxes[i].Image = DonutSpriteUtil.GetDonutFlavorImage(name);
+            Image? img;
+            if (flavors[i] != 0 && DonutInfo.TryGetFlavorName(flavors[i], out var name))
+                img = DonutSpriteUtil.GetDonutFlavorImage(name);
+            else
+                img = null;
+            FlavorIcons[i].Image = img;
         }
     }
 
     private void LoadDonutStarCount(byte count)
     {
         var star = DonutSpriteUtil.StarSprite;
-        PictureBox[] starBoxes = [PB_Star1, PB_Star2, PB_Star3, PB_Star4, PB_Star5];
-        for (int i = 0; i < starBoxes.Length; i++)
-            starBoxes[i].Image = i < count ? star : null;
+        for (int i = 0; i < Stars.Length; i++)
+            Stars[i].Image = i < count ? star : null;
     }
 
     private void CB_Donut_SelectedIndexChanged(object? sender, EventArgs e)
@@ -282,15 +287,13 @@ public sealed partial class DonutEditor9a : UserControl
 
     private void CB_Flavor_SelectedIndexChanged(object? sender, EventArgs e)
     {
-        ComboBox[] flavorCBs = [CB_Flavor0, CB_Flavor1, CB_Flavor2];
-        PictureBox[] flavorPBs = [PB_Flavor0, PB_Flavor1, PB_Flavor2];
-        var index = Array.IndexOf(flavorCBs, sender);
-        if (index >= 0)
-        {
-            var cb = flavorCBs[index];
-            var text = cb.SelectedIndex > 0 ? cb.SelectedValue?.ToString() : null;
-            flavorPBs[index].Image = text is null ? null : DonutSpriteUtil.GetDonutFlavorImage(text);
-        }
+        if (sender is not ComboBox cb)
+            return;
+        var index = Array.IndexOf(Flavor, cb);
+        if (index < 0)
+            return;
+        var text = cb.SelectedIndex > 0 ? cb.SelectedValue?.ToString() : null;
+        FlavorIcons[index].Image = text is null ? null : DonutSpriteUtil.GetDonutFlavorImage(text);
     }
 
     public void Reset()
