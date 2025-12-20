@@ -68,6 +68,7 @@ internal static class EvolutionRestrictions
     [
         (int)Charm,
         (int)BabyDollEyes,
+        (int)DisarmingVoice, // Z-A
     ];
 
     /// <summary>
@@ -90,34 +91,23 @@ internal static class EvolutionRestrictions
         var move = GetSpeciesEvolutionMove(species);
         if (move is NONE)
             return true; // not a move evolution
-        if (move is EEVEE)
-            return IsValidEvolutionWithMoveSylveon(pk, enc, info);
         if (!IsMoveSlotAvailable(info.Moves))
             return false;
-
-        if (pk.HasMove(move))
-            return true;
 
         // Check the entire chain to see if it could have learnt it at any point.
         var head = LearnGroupUtil.GetCurrentGroup(pk);
-        return MemoryPermissions.GetCanKnowMove(enc, move, info.EvoChainsAllGens, pk, head);
+        var pruned = info.EvoChainsAllGens.PruneKeepPreEvolutions(species);
+        if (move is EEVEE)
+            return IsValidEvolutionWithMoveAny(enc, EeveeFairyMoves, pruned, pk, head);
+
+        return MemoryPermissions.GetCanKnowMove(enc, move, pruned, pk, head);
     }
 
-    private static bool IsValidEvolutionWithMoveSylveon(PKM pk, IEncounterTemplate enc, LegalInfo info)
+    private static bool IsValidEvolutionWithMoveAny(IEncounterTemplate enc, ReadOnlySpan<ushort> any, EvolutionHistory history, PKM pk, ILearnGroup head)
     {
-        if (!IsMoveSlotAvailable(info.Moves))
-            return false;
-
-        foreach (var move in EeveeFairyMoves)
+        foreach (var move in any)
         {
-            if (pk.HasMove(move))
-                return true;
-        }
-
-        var head = LearnGroupUtil.GetCurrentGroup(pk);
-        foreach (var move in EeveeFairyMoves)
-        {
-            if (MemoryPermissions.GetCanKnowMove(enc, move, info.EvoChainsAllGens, pk, head))
+            if (MemoryPermissions.GetCanKnowMove(enc, move, history, pk, head))
                 return true;
         }
         return false;
