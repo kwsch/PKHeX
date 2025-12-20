@@ -1819,7 +1819,850 @@
   <data name="donut_bitter03" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\donut\donut_bitter03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="sour_01_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_01_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_01_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_01_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_01_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_01_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_10_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_10_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_10_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_10_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_10_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_10_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_11_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_11_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_11_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_11_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_11_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_11_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sp_02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sp_02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sp_03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sp_03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sp_04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sp_04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sp_05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sp_05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_01_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_01_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_01_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_01_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_01_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_01_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="star" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\misc\star.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_03_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_03_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_03_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_03_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_04_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_04_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_04_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_04_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_04_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_04_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_05_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_05_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_05_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_05_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_05_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_05_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_06_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_06_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_06_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_06_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_06_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_06_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_07_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_07_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_07_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_07_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_07_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_07_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_08_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_08_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_08_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_08_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_08_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_08_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_09_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_09_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_09_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_09_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_09_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_09_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_10_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_10_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_10_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_10_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_10_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_10_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_11_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_11_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_11_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_11_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_11_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_11_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_12_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_12_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_12_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_12_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_12_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_12_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_13_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_13_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_13_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_13_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_13_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_13_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_14_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_14_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_14_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_14_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_14_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_14_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_15_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_15_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_15_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_15_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_15_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_15_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_16_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_16_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_16_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_16_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_16_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_16_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_17_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_17_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_17_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_17_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_17_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_17_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_18_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_18_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_18_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_18_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_18_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_18_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_19_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_19_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_19_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_19_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_19_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_19_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_20_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_20_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_20_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_20_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_20_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_20_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_21_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_21_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_21_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_21_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_21_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_21_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_01_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_01_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_01_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_01_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_01_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_01_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_02_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_02_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_02_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_02_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_02_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_02_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_03_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_03_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_03_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_03_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_03_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_03_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_04_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_04_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_04_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_04_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_04_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_04_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_05_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_05_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_05_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_05_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_05_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_05_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_06_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_06_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_06_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_06_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_06_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_06_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_07_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_07_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_07_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_07_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_07_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_07_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_08_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_08_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_08_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_08_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_08_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_08_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_09_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_09_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_09_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_09_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_09_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_09_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_10_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_10_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_10_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_10_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_10_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_10_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_11_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_11_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_11_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_11_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_11_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_11_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_12_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_12_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_12_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_12_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_12_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_12_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_13_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_13_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_13_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_13_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_13_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_13_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_14_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_14_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_14_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_14_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_14_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_14_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_15_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_15_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_15_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_15_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_15_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_15_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_16_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_16_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_16_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_16_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_16_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_16_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_17_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_17_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_17_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_17_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_17_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_17_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_18_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_18_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_18_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_18_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_18_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_18_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_19_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_19_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_19_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_19_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_19_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_19_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_20_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_20_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_20_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_20_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_20_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_20_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sweet_03_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sweet_03_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_05_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_05_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_05_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_05_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_06_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_06_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_06_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_06_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_06_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_06_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_07_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_07_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_07_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_07_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_07_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_07_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_08_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_08_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_08_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_08_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_08_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_08_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_09_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_09_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_09_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_09_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_09_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_09_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_10_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_10_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_10_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_10_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_10_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_10_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_11_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_11_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_11_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_11_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_11_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_11_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_12_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_12_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_12_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_12_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_12_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_12_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_13_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_13_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_13_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_13_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_13_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_13_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_14_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_14_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_14_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_14_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_14_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_14_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_15_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_15_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_15_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_15_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_15_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_15_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_16_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_16_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_16_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_16_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_16_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_16_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_17_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_17_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_17_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_17_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_17_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_17_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_18_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_18_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_18_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_18_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_18_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_18_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_19_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_19_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_19_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_19_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_19_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_19_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_20_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_20_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_20_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_20_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_20_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_20_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_01_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_01_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_01_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_01_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_01_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_01_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_02_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_02_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_02_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_02_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_02_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_02_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_03_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_03_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_03_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_03_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_03_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_03_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_04_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_04_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_04_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_04_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_04_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_04_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_05_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_05_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_05_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_05_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_05_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_05_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_06_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_06_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_06_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_06_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_06_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_06_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_07_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_07_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_07_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_07_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_07_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_07_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_08_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_08_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_08_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_08_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_08_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_08_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_09_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_09_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_09_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_09_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_09_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_09_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_10_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_10_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_10_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_10_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_10_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_10_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_11_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_11_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_11_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_11_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_11_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_11_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_12_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_12_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_12_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_12_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_12_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_12_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_13_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_13_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_13_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_13_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_13_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_13_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_14_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_14_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_14_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_14_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_14_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_14_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_15_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_15_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_15_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_15_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_15_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_15_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_16_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_16_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_16_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_16_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_16_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_16_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_17_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_17_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_17_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_17_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_17_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_17_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_18_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_18_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_18_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_18_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_18_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_18_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_19_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_19_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_19_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_19_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_19_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_19_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_20_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_20_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_20_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_20_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_20_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_20_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_21_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_21_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_21_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_21_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_21_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_21_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_02_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_02_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_02_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_02_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_02_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_02_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_03_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_03_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_03_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_03_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_03_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_03_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_04_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_04_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_04_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_04_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_04_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_04_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_05_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_05_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_05_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_05_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_05_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_05_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_06_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_06_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_06_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_06_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_06_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_06_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_07_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_07_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_07_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_07_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sour_07_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sour_07_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sp_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\sp_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_21_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_21_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_21_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_21_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spicy_21_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\spicy_21_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_03_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_03_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_03_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_03_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_03_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_03_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_04_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_04_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_04_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_04_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_04_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_04_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_05_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_05_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_22_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_22_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_22_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_22_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fresh_22_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\fresh_22_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_02_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_02_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_02_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_02_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_02_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_02_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_01_lv1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_01_lv1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_01_lv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_01_lv2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bitter_01_lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\flavor power\bitter_01_lv3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -66,6 +66,12 @@ public sealed partial class DonutEditor9a : UserControl
         TB_Milliseconds.TextChanged += ChangeMilliseconds;
         NUD_Stars.ValueChanged += OnValueChanged;
         NUD_Stars.ValueChanged += NUD_Stars_ValueChanged;
+        CB_Flavor0.SelectedIndexChanged += OnValueChanged;
+        CB_Flavor0.SelectedIndexChanged += CB_Flavor_SelectedIndexChanged;
+        CB_Flavor1.SelectedIndexChanged += OnValueChanged;
+        CB_Flavor1.SelectedIndexChanged += CB_Flavor_SelectedIndexChanged;
+        CB_Flavor2.SelectedIndexChanged += OnValueChanged;
+        CB_Flavor2.SelectedIndexChanged += CB_Flavor_SelectedIndexChanged;
     }
 
     private static void SetDataSource<T>(ComboBox cb, List<T> list)
@@ -150,6 +156,8 @@ public sealed partial class DonutEditor9a : UserControl
         LoadDonutFlavorHash(CB_Flavor0, donut.Flavor0);
         LoadDonutFlavorHash(CB_Flavor1, donut.Flavor1);
         LoadDonutFlavorHash(CB_Flavor2, donut.Flavor2);
+
+        LoadDonutFlavorImages(donut.GetFlavors());
 
         DateTime dt;
         if (!donut.HasDateTime())
@@ -244,6 +252,20 @@ public sealed partial class DonutEditor9a : UserControl
         return hash;
     }
 
+    private void LoadDonutFlavorImages(ulong[] flavors)
+    {
+        PictureBox[] flavorBoxes = [PB_Flavor0, PB_Flavor1, PB_Flavor2];
+        for (int i = 0; i < flavorBoxes.Length; i++)
+        {
+            if (flavors[i] == 0 || !DonutInfo.TryGetFlavorName(flavors[i], out var name))
+            {
+                flavorBoxes[i].Image = null;
+                continue;
+            }
+            flavorBoxes[i].Image = DonutSpriteUtil.GetDonutFlavorImage(name);
+        }
+    }
+
     private void LoadDonutStarCount(byte count)
     {
         var star = DonutSpriteUtil.StarSprite;
@@ -256,6 +278,19 @@ public sealed partial class DonutEditor9a : UserControl
     {
         _donut.Donut = (ushort)CB_Donut.SelectedIndex;
         PB_Donut.Image = _donut.Sprite();
+    }
+
+    private void CB_Flavor_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        ComboBox[] flavorCBs = [CB_Flavor0, CB_Flavor1, CB_Flavor2];
+        PictureBox[] flavorPBs = [PB_Flavor0, PB_Flavor1, PB_Flavor2];
+        var index = Array.IndexOf(flavorCBs, sender);
+        if (index >= 0)
+        {
+            var cb = flavorCBs[index];
+            var text = cb.SelectedIndex > 0 ? cb.SelectedValue?.ToString() : null;
+            flavorPBs[index].Image = text is null ? null : DonutSpriteUtil.GetDonutFlavorImage(text);
+        }
     }
 
     public void Reset()
