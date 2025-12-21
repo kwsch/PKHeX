@@ -146,7 +146,6 @@ public enum LegalityCheckResultCode : ushort
     FormPikachuCosplay,
     FormPikachuCosplayInvalid,
     FormPikachuEventInvalid,
-    FormInvalidExpect_0,
     FormValid,
     FormVivillon,
     FormVivillonEventPre,
@@ -398,6 +397,7 @@ public enum LegalityCheckResultCode : ushort
     EvoTradeReqOutsider_0,
     FormArgumentLEQ_0,
     FormArgumentGEQ_0,
+    FormInvalidExpect_0,
     HyperTrainLevelGEQ_0, // level
     IVAllEqual_0,
     IVFlawlessCountGEQ_0, // count

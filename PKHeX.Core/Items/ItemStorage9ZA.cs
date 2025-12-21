@@ -125,7 +125,6 @@ public sealed class ItemStorage9ZA : IItemStorage
         0753, // Sceptilite
 
         2640, // Garchompite Z
-        2648, // Baxcalibrite
     ];
 
     public int GetMax(InventoryType type) => type switch

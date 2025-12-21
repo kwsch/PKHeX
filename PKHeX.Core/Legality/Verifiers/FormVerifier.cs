@@ -143,7 +143,7 @@ public sealed class FormVerifier : Verifier
                 if (enc is not EncounterGift9a)
                     return GetInvalid(FormEternalInvalid);
                 return GetValid(FormEternal);
-            case Meowstic when form != pk.Gender:
+            case Meowstic when (form & 1) != pk.Gender:
                 return GetInvalid(GenderInvalidNone);
 
             case Silvally:
@@ -197,7 +197,14 @@ public sealed class FormVerifier : Verifier
 
         // Battle forms can exist in Party.
         if (!FormInfo.IsMegaForm(species, form) && !FormInfo.IsPrimalForm(species, form))
+        {
+            // Morpeko-1 can exist in party, but only if it's at a level where it can know the move Aura Wheel; only learns starting at Lv. 57.
+            // You can use move menu to forget Aura Wheel while it's in Hangry Mode, but the form doesn't revert, kinda like Mega Rayquaza with Dragon Ascent
+            if (species is (int)Morpeko && !MemoryPermissions.GetCanKnowMove(data.EncounterMatch, (ushort)Move.AuraWheel, data.Info.EvoChainsAllGens, data.Entity, LearnGroupUtil.GetCurrentGroup(data.Entity)))
+                return GetInvalid(FormInvalidExpect_0, 0);
+
             return VALID;
+        }
 
         var megaStone = ItemStorage9ZA.GetExpectedMegaStoneOrPrimalOrb(species, form);
         if (megaStone == 0 || data.Entity.HeldItem == megaStone)

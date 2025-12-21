@@ -39,6 +39,7 @@ public sealed class FormArgumentVerifier : Verifier
             Furfrou when pk.Form != 0 => !IsFormArgumentDayCounterValid(f, 5, true) ? GetInvalid(FormArgumentInvalid) : GetValid(FormArgumentValid),
             Hoopa when pk.Form == 1 => data.Info.EvoChainsAllGens switch
             {
+                { HasVisitedZA:   true } when arg == 0 => GetValid(FormArgumentValid), // Value not applied on form change, and reset when reverted.
                 { HasVisitedGen9: true } when arg == 0 => GetValid(FormArgumentValid), // Value not applied on form change, and reset when reverted.
                 { HasVisitedGen6: true } when IsFormArgumentDayCounterValid(f, 3) => GetValid(FormArgumentValid), // 0-3 via OR/AS
                 { HasVisitedGen7: true } when IsFormArgumentDayCounterValid(f, 3) && f.FormArgumentRemain != 0 => GetValid(FormArgumentValid), // 1-3 via Gen7
@@ -67,11 +68,7 @@ public sealed class FormArgumentVerifier : Verifier
                 > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 _ => arg == 0 || HasVisitedPLA(data, Stantler) ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
             },
-            Primeape => arg switch
-            {
-                > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
-                _ => arg == 0 || HasVisitedSV(data, Primeape) || HasVisitedZA(data, Primeape) ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
-            },
+            Primeape => CheckPrimeape(data, pk, arg, enc),
             Bisharp => arg switch
             {
                 > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
@@ -120,6 +117,27 @@ public sealed class FormArgumentVerifier : Verifier
             },
             _ => VerifyFormArgumentNone(pk, f),
         };
+    }
+
+    private CheckResult CheckPrimeape(LegalityAnalysis data, PKM pk, uint arg, IEncounterable enc)
+    {
+        if (arg == 0)
+            return GetValid(FormArgumentValid);
+        if (arg > 9_999)
+            return GetInvalid(FormArgumentLEQ_0, 9999);
+
+        if (HasVisitedSV(data, Primeape) || HasVisitedZA(data, Primeape))
+        {
+            const ushort move = (ushort)Move.RageFist;
+            // Eager check
+            if (pk.HasMove(move))
+                return GetValid(FormArgumentValid);
+
+            var head = LearnGroupUtil.GetCurrentGroup(pk);
+            if (MemoryPermissions.GetCanKnowMove(enc, move, data.Info.EvoChainsAllGens, pk, head))
+                return GetValid(FormArgumentValid);
+        }
+        return GetInvalid(FormArgumentLEQ_0, 0); // Can't increase from 0.
     }
 
     private CheckResult CheckFarfetchd(LegalityAnalysis data, PKM pk, uint arg)

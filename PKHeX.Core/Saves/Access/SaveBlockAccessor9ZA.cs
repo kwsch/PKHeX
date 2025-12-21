@@ -158,4 +158,5 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     private const uint KDonuts = 0xBE007476; // object: donut[999], sizeof = 0x48
     private const uint KDonutDistortionInUse = 0x25335B2A; // Inside distortion, this is the currently used donut
     public const uint KHyperspaceSurveyPoints = 0x0235471C;
+    public const uint KStreetName = 0xBCCE00D6; // 0x26 string = 18 chars + \0
 }

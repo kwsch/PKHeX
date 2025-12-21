@@ -113,6 +113,11 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
         bool isHidden = pk.AbilityNumber == 4;
         if (isHidden && this.IsPartialMatchHidden(pk.Species, Species))
             return EncounterMatchRating.PartialMatch;
+
+        // B2/W2 Vespiquen (Level 24 both evolutions available at same location)
+        // Bigender->Fixed (non-Genderless) destination species, accounting for PID-Gender relationship
+        if (Species == (int)Core.Species.Combee && pk.Species == (int)Core.Species.Vespiquen && (pk.EncryptionConstant & 0xFF) >= 0x1F) // Combee->Vespiquen Invalid Evolution
+            return EncounterMatchRating.DeferredErrors;
         if (IsDeferredHiddenAbility(isHidden))
             return EncounterMatchRating.Deferred;
         return EncounterMatchRating.Match;

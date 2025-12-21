@@ -1,7 +1,24 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/12/15 - New Update:
+25/12/21 - New Update:
+ - Note: This will be the last release on .NET 9; future releases will be on .NET 10
+ - Legality: Misc fixes for parsing forms/evolutions in Z-A.
+ - Fixed: Gen9a evolutions that require a move are now checked more accurately when evolutions have less learnset restrictions.
+ - Fixed: Gen9a Morpeko-Hangry in-party now flagged if it hasn't been able to learn Aura Wheel yet.
+ - Fixed: Gen9a Tatsugiri/Magearna/Meowstic-Mega are now checked properly when in-party.
+ - Fixed: Gen9a Baxcaliburite now released, can exist in inventory/held. Removed Cherish Ball from Allowed items list.
+ - Fixed: Gen9a Rotom form changing with Plus moves/move count now recognized correctly.
+ - Fixed: Gen9a Raichu-Alola alpha move now recognized correctly.
+ - Fixed: Gen9a Farfetch'd/Sirfetch'd now allow form argument.
+ - Fixed: Gen9a Gimmighoul Coin can no longer be held (matches game restrictions).
+ - Fixed: Gen9a Primal Orbs can no longer be traded (matches game restrictions).
+ - Fixed: Gen9a encounter templates without specified moves will now initialize the moveset in the correct order, rather than reversed.
+ - Added: Donut editor now shows star count, flavor icon, and auto calculates more properties. Thanks @ilmakio & @RandomGuy155 !
+ - Fixed: Gen9a TM collection button now only returns the count of TMs not yet collected, not the total count of collectible.
+ - Fixed: Gen9a TMs added in DLC now indicate the correct item name string in the Inventory Editor.
+
+25/12/15 - New Update: (105489) [12006971]
  - Legality: Improved location ID detection of wild encounters, should work for 99.9%.
  - - Crossovers are not currently handled for detecting location IDs. Generating from encounter template is 100% legal.
  - Added: Gen9a Donut editor. Can randomize, clone, fill, export, import, and manually edit individual donuts. Thanks @Lusamine & @sora10pls !

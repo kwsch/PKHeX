@@ -58,15 +58,24 @@ public static class TechnicalMachine9a
     public static int SetAllTechnicalMachines(SAV9ZA sav, bool collected = false)
     {
         int ctr = 0;
+        var field = sav.Blocks.FieldItems;
+        var inv = sav.Items;
+        var finalQuantity = collected ? 1 : 0;
         foreach (var item in TechnicalMachines)
         {
             var hash = FnvHash.HashFnv1a_64(item.FieldItem);
-            var index = sav.Blocks.FieldItems.GetIndex(hash);
+            var index = field.GetIndex(hash);
             if (index == -1)
                 continue; // Shouldn't happen. All TMs should be populated in a save file, except if it's a DLC TM (not applicable).
-            sav.Blocks.FieldItems.SetValue(index, collected);
-            sav.Items.SetItemQuantity(item.ItemID, collected ? 1 : 0);
+
             ctr++;
+            if (field.GetValue(index) != collected)
+                field.SetValue(index, collected);
+            else
+                ctr--;
+
+            if (inv.GetItemQuantity(item.ItemID) != finalQuantity)
+                inv.SetItemQuantity(item.ItemID, finalQuantity);
         }
         return ctr;
     }
