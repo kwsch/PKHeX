@@ -46,7 +46,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     protected abstract byte[] Encrypt();
     public abstract EntityContext Context { get; }
-    public byte Format => Context.Generation();
+    public byte Format => Context.Generation;
     public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
 
     private Span<byte> Write()

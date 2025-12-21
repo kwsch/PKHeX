@@ -111,7 +111,7 @@ public sealed class LegalityAnalysis
 
             if (!Valid)
             {
-                if (Info.EncounterMatch is EncounterInvalid && pk.IsUntraded && EvolutionTree.GetEvolutionTree(pk.Context).Reverse.GetReverse(pk.Species, pk.Form).First.Method.Method.IsTrade())
+                if (Info.EncounterMatch is EncounterInvalid && pk.IsUntraded && EvolutionTree.GetEvolutionTree(pk.Context).Reverse.GetReverse(pk.Species, pk.Form).First.Method.Method.IsTrade)
                     AddLine(Severity.Invalid, EvoInvalid, CheckIdentifier.Evolution);
                 if (IsPotentiallyMysteryGift(Info, pk))
                     AddLine(Severity.Invalid, FatefulGiftMissing, CheckIdentifier.Fateful);

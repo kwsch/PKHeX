@@ -559,7 +559,7 @@ public sealed class ShowdownSet : IBattleTemplate
                 result.Add(cfg.Push(token, Friendship));
                 break;
             case BattleTemplateToken.IVs:
-                var maxIV = Context.Generation() < 3 ? 15 : 31;
+                var maxIV = Context.Generation < 3 ? 15 : 31;
                 if (!IVs.ContainsAnyExcept(maxIV))
                     break; // skip if all IVs are maxed
                 var nameIVs = cfg.GetStatDisplay(settings.StatsIVs);
@@ -1026,7 +1026,7 @@ public sealed class ShowdownSet : IBattleTemplate
             return hiddenPowerName;
 
         HiddenPowerType = (sbyte)hpVal;
-        var maxIV = Context.Generation() < 3 ? 15 : 31;
+        var maxIV = Context.Generation < 3 ? 15 : 31;
         if (IVs.ContainsAnyExcept(maxIV))
         {
             if (!HiddenPower.SetIVsForType(hpVal, IVs, Context))

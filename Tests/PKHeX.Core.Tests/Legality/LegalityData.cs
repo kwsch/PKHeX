@@ -13,7 +13,7 @@ public class LegalityData
         int count = 0;
         for (var context = EntityContext.None + 1; context < EntityContext.MaxInvalid; context++)
         {
-            if (!context.IsValid())
+            if (!context.IsValid)
                 continue;
 
             var tree = EvolutionTree.GetEvolutionTree(context);
@@ -24,8 +24,8 @@ public class LegalityData
             var t1 = possible[0].Method;
             var t2 = possible[1].Method;
 
-            t1.IsLevelUpRequired().Should().BeFalse();
-            t2.IsLevelUpRequired().Should().BeTrue();
+            t1.IsLevelUpRequired.Should().BeFalse();
+            t2.IsLevelUpRequired.Should().BeTrue();
 
             count++;
         }

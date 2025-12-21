@@ -7,7 +7,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class GenerateMethodK
 {
-    /// <param name="enc">Encounter slot to generate for</param>
     extension<T>(T enc) where T : IEncounterSlot4
     {
         /// <summary>
@@ -24,7 +23,7 @@ public static class GenerateMethodK
             var gr = pi.Gender;
             var (min, max) = SlotMethodK.GetRange(enc.Type, enc.SlotNumber);
             bool randLevel = MethodK.IsLevelRand(enc);
-            var modulo = enc.Type.IsSafari() ? 10u : 100u;
+            var modulo = enc.Type.IsSafari ? 10u : 100u;
             bool checkProc = MethodK.IsEncounterCheckApplicable(enc.Type);
             bool checkLevel = criteria.IsSpecifiedLevelRange() && enc.IsLevelWithinRange(criteria);
             bool filterIVs = criteria.IsSpecifiedIVs(2);
@@ -137,7 +136,7 @@ public static class GenerateMethodK
                 var lead = criteria.IsSpecifiedLevelRange()
                     ? MethodK.GetSeed(enc, seed, criteria)
                     : MethodK.GetSeed(enc, seed);
-                if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
+                if (!lead.IsValid) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                     continue;
 
                 if (enc.Species is (ushort)Species.Unown)

@@ -148,7 +148,7 @@ public partial class SAV_MailBox : Form
             }
 
             var vers = filtered.Source.VersionDataSource
-                .Where(z => ((GameVersion)z.Value).GetGeneration() == Generation);
+                .Where(z => ((GameVersion)z.Value).Generation == Generation);
             CB_AuthorVersion.Items.Clear();
             CB_AuthorVersion.InitializeBinding();
             CB_AuthorVersion.DataSource = new BindingSource(vers, string.Empty);

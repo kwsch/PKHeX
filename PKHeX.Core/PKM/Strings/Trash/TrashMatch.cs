@@ -30,7 +30,7 @@ public static class TrashMatchExtensions
 {
     extension(TrashMatch match)
     {
-        public bool IsPresent() => match >= TrashMatch.Present;
-        public bool IsInvalid() => match < TrashMatch.TooLongToTell;
+        public bool IsPresent => match >= TrashMatch.Present;
+        public bool IsInvalid => match < TrashMatch.TooLongToTell;
     }
 }

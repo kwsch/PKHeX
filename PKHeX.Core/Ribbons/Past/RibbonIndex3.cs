@@ -102,7 +102,7 @@ public static class RibbonIndex3Extensions
             };
         }
 
-        public string GetPropertyName() => r switch
+        public string PropertyName => r switch
         {
             Winning => nameof(IRibbonSetUnique3.RibbonWinning),
             Victory => nameof(IRibbonSetUnique3.RibbonVictory),

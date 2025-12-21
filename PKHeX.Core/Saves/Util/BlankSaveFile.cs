@@ -48,7 +48,7 @@ public static class BlankSaveFile
     /// <inheritdoc cref="Get(SaveFileType,LanguageID,GameVersion)"/>
     public static SaveFile Get(GameVersion version, string trainerName = DefaultTrainer, LanguageID language = DefaultLanguage)
     {
-        var type = version.GetSaveFileType();
+        var type = version.SaveFileType;
         return Get(type, version, trainerName, language);
     }
 
@@ -62,7 +62,7 @@ public static class BlankSaveFile
     public static SaveFile Get(EntityContext context, string trainerName = DefaultTrainer, LanguageID language = DefaultLanguage)
     {
         var version = context.GetSingleGameVersion();
-        var type = version.GetSaveFileType();
+        var type = version.SaveFileType;
         return Get(type, version, trainerName, language);
     }
 

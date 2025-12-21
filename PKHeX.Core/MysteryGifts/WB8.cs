@@ -208,7 +208,7 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
             {
                 if (value == RibbonByteNone)
                     return false; // end
-                if (((RibbonIndex)value).IsEncounterMark8())
+                if (((RibbonIndex)value).IsEncounterMark8)
                     return true;
             }
             return false;

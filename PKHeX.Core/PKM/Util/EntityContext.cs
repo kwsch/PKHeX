@@ -51,7 +51,7 @@ public static class EntityContextExtensions
         /// <summary>
         /// Get the generation number of the context.
         /// </summary>
-        public byte Generation() => value < SplitInvalid ? (byte)value : value switch
+        public byte Generation => value < SplitInvalid ? (byte)value : value switch
         {
             Gen7b => (byte)7,
             Gen8a => (byte)8,
@@ -64,7 +64,7 @@ public static class EntityContextExtensions
         /// Checks if the context is a defined value assigned to a valid context.
         /// </summary>
         /// <returns>True if the context is valid.</returns>
-        public bool IsValid() => value is not (0 or SplitInvalid) and < MaxInvalid;
+        public bool IsValid => value is not (0 or SplitInvalid) and < MaxInvalid;
 
         /// <summary>
         /// Get a pre-defined single game version associated with the context.
@@ -93,7 +93,7 @@ public static class EntityContextExtensions
         /// <summary>
         /// Get the game console associated with the context.
         /// </summary>
-        public GameConsole GetConsole() => value switch
+        public GameConsole Console => value switch
         {
             Gen1 or Gen2 => GameConsole.GB,
             Gen3 => GameConsole.GBA,
@@ -103,22 +103,25 @@ public static class EntityContextExtensions
 
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
         };
+
+        /// <summary>
+        /// Determines whether Mega Pokémon forms exist in the specified <see cref="EntityContext"/>.
+        /// </summary>
+        public bool IsMegaContext => value is Gen6 or Gen7 or Gen7b or Gen9a;
     }
 
-    /// <summary>
-    /// Gets the corresponding <see cref="EntityContext"/> value for the <see cref="GameVersion"/>.
-    /// </summary>
-    public static EntityContext GetContext(this GameVersion version) => version switch
+    extension(GameVersion version)
     {
-        GameVersion.GP or GameVersion.GE or GameVersion.GO or GameVersion.GG or GameVersion.Gen7b => Gen7b,
-        GameVersion.PLA => Gen8a,
-        GameVersion.BD or GameVersion.SP => Gen8b,
-        GameVersion.ZA => Gen9a,
-        _ => (EntityContext)version.GetGeneration(),
-    };
-
-    /// <summary>
-    /// Determines whether Mega Pokémon forms exist in the specified <see cref="EntityContext"/>.
-    /// </summary>
-    public static bool IsMegaContext(this EntityContext context) => context is Gen6 or Gen7 or Gen7b or Gen9a;
+        /// <summary>
+        /// Gets the corresponding <see cref="EntityContext"/> value for the <see cref="GameVersion"/>.
+        /// </summary>
+        public EntityContext Context => version switch
+        {
+            GameVersion.GP or GameVersion.GE or GameVersion.GO or GameVersion.GG or GameVersion.Gen7b => Gen7b,
+            GameVersion.PLA => Gen8a,
+            GameVersion.BD or GameVersion.SP => Gen8b,
+            GameVersion.ZA => Gen9a,
+            _ => (EntityContext)version.Generation,
+        };
+    }
 }

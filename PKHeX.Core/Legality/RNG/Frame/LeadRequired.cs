@@ -64,7 +64,7 @@ public static class LeadRequiredExtensions
 {
     extension(LeadRequired lr)
     {
-        public bool IsFailTuple() => lr
+        public bool IsFailTuple => lr
             is PressureHustleSpiritFail
             or SynchronizeFail
             or CuteCharmFail
@@ -98,7 +98,7 @@ public static class LeadRequiredExtensions
         public (Ability Ability, bool IsFail, EncounterTriggerCondition Condition) GetDisplayAbility()
         {
             var isFail = false;
-            if (lr.IsFailTuple())
+            if (lr.IsFailTuple)
             {
                 isFail = true;
                 lr = lr.GetRegular();

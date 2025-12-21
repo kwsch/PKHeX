@@ -179,7 +179,7 @@ public sealed class BallVerifier : Verifier
 
     private CheckResult Localize(BallVerificationResult value)
     {
-        bool valid = value.IsValid();
+        bool valid = value.IsValid;
         var msg = value.GetMessage();
         return Get(valid ? Severity.Valid : Severity.Invalid, msg);
     }
@@ -205,7 +205,7 @@ public static class BallVerificationResultExtensions
 {
     extension(BallVerificationResult value)
     {
-        public bool IsValid() => value switch
+        public bool IsValid => value switch
         {
             ValidEncounter => true,
             ValidInheritedSpecies => true,

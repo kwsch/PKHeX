@@ -119,7 +119,7 @@ public sealed class EncounterGenerator12 : IEncounterGenerator
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups)
     {
         // Don't call this method.
-        if (version.GetGeneration() == 1)
+        if (version.Generation == 1)
             return EncounterGenerator1.Instance.GetPossible(pk, chain, version, groups);
         return EncounterGenerator2.Instance.GetPossible(pk, chain, version, groups);
     }

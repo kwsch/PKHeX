@@ -169,9 +169,10 @@ public static class RibbonIndexExtensions
 
     extension(RibbonIndex r)
     {
-        public bool IsEncounterMark8() => r is >= MarkLunchtime and <= MarkSlump;
-        public bool IsEncounterMark9() => r is >= MarkAlpha and <= MarkTitan;
-        public bool IsRibbon() => r < MAX_COUNT && !r.IsEncounterMark8() && r.IsEncounterMark9();
+        public bool IsEncounterMark8 => r is >= MarkLunchtime and <= MarkSlump;
+        public bool IsEncounterMark9 => r is >= MarkAlpha and <= MarkTitan;
+        public bool IsRibbon => r < MAX_COUNT && r is { IsEncounterMark8: false, IsEncounterMark9: false };
+        public bool IsMark => r < MAX_COUNT && r is { IsEncounterMark8: true } or { IsEncounterMark9: true };
 
         public AreaWeather8 GetWeather8() => r switch
         {
@@ -188,7 +189,7 @@ public static class RibbonIndexExtensions
 
         private RibbonIndexGroup GetGroup()
         {
-            if (r.IsEncounterMark8())
+            if (r.IsEncounterMark8)
                 return RibbonIndexGroup.EncounterMark;
             return r switch
             {
@@ -449,7 +450,7 @@ public static class RibbonIndexExtensions
             };
         }
 
-        public string GetPropertyName() => r switch
+        public string PropertyName => r switch
         {
             ChampionKalos => nameof(IRibbonSetCommon6.RibbonChampionKalos),
             ChampionG3 => nameof(IRibbonSetCommon3.RibbonChampionG3),

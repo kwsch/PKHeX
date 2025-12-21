@@ -56,7 +56,7 @@ public static class BattleVersionExtensions
                 return 1;
             if (!version.IsValidSavedVersion())
                 return -1;
-            var gen = version.GetGeneration();
+            var gen = version.Generation;
             if (gen >= 8)
                 return gen;
             return -1;

@@ -46,7 +46,10 @@ public enum GroundTileType : byte
 
 public static class GroundTileTypeExtensions
 {
-    public static bool IsObtainable(this GroundTileType type) => ((0b_1_10000000_00010110_10110111 >> (int) type) & 1) == 1;
+    extension(GroundTileType type)
+    {
+        public bool IsObtainable => ((0b_1_10000000_00010110_10110111 >> (int) type) & 1) == 1;
+    }
 
     public static ReadOnlySpan<byte> ValidTileTypes =>
     [

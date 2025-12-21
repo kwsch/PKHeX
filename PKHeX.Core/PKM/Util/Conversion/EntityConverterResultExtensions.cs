@@ -7,15 +7,15 @@ public static class EntityConverterResultExtensions
 {
     extension(EntityConverterResult result)
     {
-        public bool IsSilent() => result is None or Success;
-        public bool IsSuccess() => result is Success or SuccessIncompatibleManual or SuccessIncompatibleReflection;
+        public bool IsSilent => result is None or Success;
+        public bool IsSuccess => result is Success or SuccessIncompatibleManual or SuccessIncompatibleReflection;
 
         public string GetDisplayString(PKM src, Type dest)
         {
             if (result == None)
                 return "No need to convert, current format matches requested format.";
 
-            var msg = result.IsSuccess() ? MessageStrings.MsgPKMConvertSuccess : MessageStrings.MsgPKMConvertFailFormat;
+            var msg = result.IsSuccess ? MessageStrings.MsgPKMConvertSuccess : MessageStrings.MsgPKMConvertFailFormat;
             var srcName = src.GetType().Name;
             var destName = dest.Name;
             var formatted = string.Format(msg, srcName, destName);

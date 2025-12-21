@@ -200,11 +200,11 @@ public static class PIDTypeExtensions
         /// <summary>
         /// Checks if the provided PIDType is one of the in-game Method-X types for Gen3.
         /// </summary>
-        public bool IsClassicMethod() => type
+        public bool IsClassicMethod => type
             is Method_1 or Method_2 or Method_3 or Method_4
             or Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown;
 
-        public bool IsRestricted() => type is >= BACD_R and <= BACD_M;
-        public bool IsUnown() => type is Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown;
+        public bool IsRestricted => type is >= BACD_R and <= BACD_M;
+        public bool IsUnown => type is Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown;
     }
 }

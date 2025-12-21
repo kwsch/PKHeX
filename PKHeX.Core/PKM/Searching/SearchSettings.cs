@@ -217,7 +217,7 @@ public sealed class SearchSettings
             2 when sav is SAV2 {Korean: true} => [GD, SI],
             1 or 2 => [RD, BU, GN, YW, /* */ GD, SI, C],
 
-            _ when fallback.GetGeneration() == Generation => GameUtil.GetVersionsWithinRange(sav, Generation).ToArray(),
+            _ when fallback.Generation == Generation => GameUtil.GetVersionsWithinRange(sav, Generation).ToArray(),
             _ => GameUtil.GameVersions,
         };
     }

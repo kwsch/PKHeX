@@ -419,7 +419,7 @@ public partial class PKMEditor
             return 2;
 
         var abils = (IPersonalAbility12)pi;
-        if (abils.GetIsAbility12Same())
+        if (abils.IsAbility12Same)
             return pk.PIDAbility;
         return abilityIndex;
     }

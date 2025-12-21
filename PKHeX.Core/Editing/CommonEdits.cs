@@ -355,7 +355,7 @@ public static class CommonEdits
             if (loc != EncounterSuggestion.LocationNone)
                 pk.MetLocation = loc;
             if (pk.Format >= 4)
-                pk.MetDate = EncounterDate.GetDate(pk.Context.GetConsole());
+                pk.MetDate = EncounterDate.GetDate(pk.Context.Console);
             if (pk.Gen6)
                 pk.SetHatchMemory6();
         }
@@ -370,7 +370,7 @@ public static class CommonEdits
             if (pk.Format < 4)
                 return;
 
-            var console = pk.Context.GetConsole();
+            var console = pk.Context.Console;
             var date = EncounterDate.GetDate(console);
             var today = pk.MetDate = date;
             bool traded = origin != dest;

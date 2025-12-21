@@ -55,7 +55,7 @@ public sealed class LearnGroup2 : ILearnGroup
             if (!move.IsParsed)
                 continue;
             var method = move.Info.Method;
-            if ((vc1 && move.Generation == 2) || method is LearnMethod.Initial || method.IsEggSource())
+            if ((vc1 && move.Generation == 2) || method is LearnMethod.Initial || method.IsEggSource)
                 result[i] = MoveResult.Unobtainable();
         }
 
@@ -155,7 +155,7 @@ public sealed class LearnGroup2 : ILearnGroup
             if (entry.EvoStage == stage)
                 return entry.Info.Argument < chk.Argument;
         }
-        else if (entry.Info.Method.IsEggSource())
+        else if (entry.Info.Method.IsEggSource)
         {
             return true;
         }

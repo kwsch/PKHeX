@@ -38,11 +38,15 @@ public interface IPersonalAbility12H : IPersonalAbility12
 
 public static class PersonalAbilityExtensions
 {
-    public static bool GetIsAbility12Same(this IPersonalAbility12 pi) => pi.Ability1 == pi.Ability2;
+    extension(IPersonalAbility12 pi)
+    {
+        public bool IsAbility12Same => pi.Ability1 == pi.Ability2;
+    }
+
     extension(IPersonalAbility12H pi)
     {
-        public bool GetIsAbilityHiddenUnique() => pi.Ability1 != pi.AbilityH;
-        public bool GetIsAbilityPatchPossible() => pi.Ability1 != pi.AbilityH || pi.Ability2 != pi.AbilityH;
+        public bool IsAbilityHiddenUnique => pi.Ability1 != pi.AbilityH;
+        public bool IsAbilityPatchPossible => pi.Ability1 != pi.AbilityH || pi.Ability2 != pi.AbilityH;
     }
 
     extension(IPersonalAbility pi)

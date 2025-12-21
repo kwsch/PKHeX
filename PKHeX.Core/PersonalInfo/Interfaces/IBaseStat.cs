@@ -45,6 +45,11 @@ public static class BaseStatExtensions
         /// <summary>
         /// Base Stat Total sum of all stats.
         /// </summary>
+        public int BST => stats.GetBaseStatTotal();
+
+        /// <summary>
+        /// Base Stat Total sum of all stats.
+        /// </summary>
         public int GetBaseStatTotal() => stats.HP + stats.ATK + stats.DEF + stats.SPA + stats.SPD + stats.SPE;
 
         /// <summary>

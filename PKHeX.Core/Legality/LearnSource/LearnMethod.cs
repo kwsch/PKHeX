@@ -78,7 +78,7 @@ public static class LearnMethodExtensions
         /// Checks if the <see cref="LearnMethod"/> is a valid method of learning a move.
         /// </summary>
         /// <returns>True if the method is valid, false otherwise.</returns>
-        public bool IsValid() => method >= Empty;
+        public bool IsValid => method >= Empty;
 
         /// <summary>
         /// Checks if the <see cref="LearnMethod"/> is expecting another move instead.
@@ -90,12 +90,12 @@ public static class LearnMethodExtensions
         /// Checks if the <see cref="LearnMethod"/> is valid because of it being a Relearn move.
         /// </summary>
         /// <returns>True if the method is valid, false otherwise.</returns>
-        public bool IsRelearn() => method is Relearn;
+        public bool IsRelearn => method is Relearn;
 
         /// <summary>
         /// Checks if the <see cref="LearnMethod"/> is valid because of it being an egg move.
         /// </summary>
         /// <returns>True if the method is valid, false otherwise.</returns>
-        public bool IsEggSource() => method is EggMove or InheritLevelUp or SpecialEgg;
+        public bool IsEggSource => method is EggMove or InheritLevelUp or SpecialEgg;
     }
 }

@@ -98,14 +98,14 @@ public static class EvolutionTypeExtensions
         /// Checks if the <see cref="EvolutionType"/> is a <see cref="Trade"/> evolution.
         /// </summary>
         /// <returns>True if the evolution is a trade evolution.</returns>
-        public bool IsTrade() => t is Trade or TradeHeldItem or TradeShelmetKarrablast;
+        public bool IsTrade => t is Trade or TradeHeldItem or TradeShelmetKarrablast;
 
         /// <summary>
         /// Checks if the <see cref="EvolutionType"/> is a <see cref="LevelUp"/> evolution.
         /// </summary>
         /// <returns>True if the evolution is a level up evolution.</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public bool IsLevelUpRequired() => t switch
+        public bool IsLevelUpRequired => t switch
         {
             None => false,
             LevelUpFriendship => true,

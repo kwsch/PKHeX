@@ -83,7 +83,7 @@ public static class RibbonIndex4Extensions
             };
         }
 
-        public string GetPropertyName() => r switch
+        public string PropertyName => r switch
         {
             RibbonIndex4.Ability => nameof(IRibbonSetUnique4.RibbonAbility),
             AbilityGreat => nameof(IRibbonSetUnique4.RibbonAbilityGreat),

@@ -64,8 +64,8 @@ public static class BallExtensions
         /// Checks if the <see cref="ball"/> is an Apricorn Ball (HG/SS)
         /// </summary>
         /// <returns>True if Apricorn, false if not.</returns>
-        public bool IsApricornBall() => ball is >= Ball.Fast and <= Ball.Moon;
+        public bool IsApricornBall => ball is >= Ball.Fast and <= Ball.Moon;
 
-        public bool IsLegendBall() => ball is >= Ball.LAPoke and <= Ball.LAOrigin;
+        public bool IsLegendBall => ball is >= Ball.LAPoke and <= Ball.LAOrigin;
     }
 }

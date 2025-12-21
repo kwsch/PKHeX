@@ -224,7 +224,7 @@ public sealed class LegendsZAVerifier : Verifier
         if (evos.Length <= 1)
             return false;
 
-        if (!evos[0].Method.IsTrade())
+        if (!evos[0].Method.IsTrade)
             return false;
 
         // Check if the pre-evolution could have learned it before evolving.

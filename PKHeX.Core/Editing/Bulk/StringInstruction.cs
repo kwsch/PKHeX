@@ -245,7 +245,7 @@ public sealed record StringInstruction(string PropertyName, string PropertyValue
         if (line.Length is 0)
             return false;
         var comparer = GetComparer(line[0]);
-        if (!comparer.IsSupportedComparer())
+        if (!comparer.IsSupported)
             return false;
         return TryParseSplitTuple(line[1..], ref entry, comparer);
     }
@@ -332,7 +332,7 @@ public static class InstructionComparerExtensions
         /// Indicates if the <see cref="comparer"/> is supported by the logic.
         /// </summary>
         /// <returns>True if supported, false if unsupported.</returns>
-        public bool IsSupportedComparer() => comparer switch
+        public bool IsSupported => comparer switch
         {
             IsEqual => true,
             IsNotEqual => true,

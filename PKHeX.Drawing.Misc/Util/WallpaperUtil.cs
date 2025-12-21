@@ -54,7 +54,7 @@ public static class WallpaperUtil
         return $"box_wp{index:00}{suffix}{variant}";
     }
 
-    private static string GetResourceSuffix(GameVersion version, int index) => version.GetGeneration() switch
+    private static string GetResourceSuffix(GameVersion version, int index) => version.Generation switch
     {
         3 when version == E => "e",
         3 when FRLG.Contains(version) && index > 12 => "frlg",

@@ -198,7 +198,7 @@ public sealed class LearnGroup1 : ILearnGroup
             if (entry.EvoStage == stage)
                 return entry.Info.Argument < chk.Argument;
         }
-        else if (entry.Info.Method.IsEggSource())
+        else if (entry.Info.Method.IsEggSource)
         {
             return true;
         }

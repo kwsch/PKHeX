@@ -320,7 +320,7 @@ public sealed class MetDataSource(GameStrings s)
     private IReadOnlyList<ComboItem> GetLocationListModified(GameVersion version, EntityContext context) => version switch
     {
         <= CXD when context == EntityContext.Gen4 => MetGen4Transfer ??= CreateGen4Transfer(),
-        < X when context.Generation() >= 5 => MetGen5Transfer ??= CreateGen5Transfer(),
+        < X when context.Generation >= 5 => MetGen5Transfer ??= CreateGen5Transfer(),
         _ => [],
     };
 }

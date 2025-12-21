@@ -25,12 +25,6 @@ public static class GameUtil
     }
 
     /// <summary>
-    /// Indicates if the <see cref="GameVersion"/> value is a value used by the games or is an aggregate indicator.
-    /// </summary>
-    /// <param name="version">Game to check</param>
-    public static bool IsValidSavedVersion(this GameVersion version) => version is > 0 and <= HighestGameID;
-
-    /// <summary>
     /// Most recent game ID utilized by official games.
     /// </summary>
     internal const GameVersion HighestGameID = RB - 1;
@@ -110,7 +104,9 @@ public static class GameUtil
         /// Gets the Generation the <see cref="GameVersion"/> belongs to.
         /// </summary>
         /// <returns>Generation ID</returns>
-        public byte GetGeneration()
+        public byte Generation => version.GetGenerationInternal();
+
+        private byte GetGenerationInternal()
         {
             if (version.IsValidSavedVersion())
                 return version.GetGenerationFromSaved();
@@ -127,6 +123,11 @@ public static class GameUtil
             if (Gen9.Contains(version)) return 9;
             return 0;
         }
+
+        /// <summary>
+        /// Indicates if the <see cref="GameVersion"/> value is a value used by the games or is an aggregate indicator.
+        /// </summary>
+        public bool IsValidSavedVersion() => version is > 0 and <= HighestGameID;
 
         public byte GetGenerationFromSaved() => version switch
         {
@@ -259,7 +260,7 @@ public static class GameUtil
     {
         if (Gen7b.Contains(version))
             return [GO, GP, GE];
-        return Array.FindAll(GameVersions, z => z.GetGeneration() == generation);
+        return Array.FindAll(GameVersions, z => z.Generation == generation);
     }
 
     /// <summary>
@@ -284,6 +285,6 @@ public static class GameUtil
         // HOME allows up-reach to Gen9
         if (generation >= 8)
             generation = 9;
-        return versions.Where(version => version.GetGeneration() <= generation);
+        return versions.Where(version => version.Generation <= generation);
     }
 }

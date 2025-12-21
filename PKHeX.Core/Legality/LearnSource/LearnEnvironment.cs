@@ -38,12 +38,12 @@ public static class LearnEnvironmentExtensions
         /// <summary>
         /// Indicates whether the <see cref="LearnEnvironment"/> is specified (not <see cref="None"/>), and thus worth indicating.
         /// </summary>
-        public bool IsSpecified() => value is not None;
+        public bool IsSpecified => value is not None;
 
         /// <summary>
         /// Gets the generation number [1-n] for the given <see cref="LearnEnvironment"/>.
         /// </summary>
-        public byte GetGeneration() => value switch
+        public byte Generation => value switch
         {
             RB or YW => 1,
             GS or C or Stadium2 => 2,

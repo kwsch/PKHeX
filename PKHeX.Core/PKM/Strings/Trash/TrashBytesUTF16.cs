@@ -102,7 +102,7 @@ public static class TrashBytesUTF16
             return TrashMatch.TooLongToTell;
 
         var check = IsUnderlayerPresent(under, span, charsUsed);
-        if (check.IsInvalid())
+        if (check.IsInvalid)
             return TrashMatch.NotPresent;
 
         start = Math.Max(start, under.Length * BytesPerChar);

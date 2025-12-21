@@ -190,7 +190,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         {
             foreach (var value in RibbonSpan)
             {
-                if (((RibbonIndex)value).IsEncounterMark8())
+                if (((RibbonIndex)value).IsEncounterMark8)
                     return true;
             }
             return false;
@@ -203,7 +203,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         {
             foreach (var value in RibbonSpan)
             {
-                if (((RibbonIndex)value).IsEncounterMark9())
+                if (((RibbonIndex)value).IsEncounterMark9)
                     return true;
             }
             return false;
@@ -821,7 +821,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         foreach (var value in RibbonSpan)
         {
             missing = (RibbonIndex)value;
-            if (!missing.IsEncounterMark8())
+            if (!missing.IsEncounterMark8)
                 continue;
             if (pk is IRibbonSetMark8 m8 && !m8.HasMark8(missing))
                 return true;

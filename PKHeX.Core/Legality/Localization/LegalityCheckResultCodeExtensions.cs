@@ -10,11 +10,11 @@ public static class LegalityCheckResultCodeExtensions
 {
     extension(LegalityCheckResultCode code)
     {
-        public bool IsArgument() => code is < FirstWithMove and >= FirstWithArgument;
-        public bool IsMove() => code is < FirstWithItem and >= FirstWithMove;
-        public bool IsItem() => code is < FirstWithLanguage and >= FirstWithItem;
-        public bool IsLanguage() => code is < FirstWithMemory and >= FirstWithLanguage;
-        public bool IsMemory() => code is < FirstComplex and >= FirstWithMemory;
+        public bool IsArgument => code is < FirstWithMove and >= FirstWithArgument;
+        public bool IsMove => code is < FirstWithItem and >= FirstWithMove;
+        public bool IsItem => code is < FirstWithLanguage and >= FirstWithItem;
+        public bool IsLanguage => code is < FirstWithMemory and >= FirstWithLanguage;
+        public bool IsMemory => code is < FirstComplex and >= FirstWithMemory;
 
         /// <summary>
         /// Returns the template string for the given result code.

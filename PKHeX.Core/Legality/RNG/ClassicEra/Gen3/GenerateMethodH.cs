@@ -149,7 +149,7 @@ public static class GenerateMethodH
                 var lead = criteria.IsSpecifiedLevelRange()
                     ? MethodH.GetSeed(enc, seed, emerald, gender, criteria)
                     : MethodH.GetSeed(enc, seed, emerald, gender);
-                if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
+                if (!lead.IsValid) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
                     continue;
 
                 // always level rand
@@ -186,7 +186,7 @@ public static class GenerateMethodH
                 var lead = criteria.IsSpecifiedLevelRange()
                     ? MethodH.GetSeed(enc, seed, pk.E, gender, criteria)
                     : MethodH.GetSeed(enc, seed, pk.E, gender);
-                if (!lead.IsValid()) // Verifies the slot and nature loop; if it passes, apply the details.
+                if (!lead.IsValid) // Verifies the slot and nature loop; if it passes, apply the details.
                     continue;
 
                 // always level rand
@@ -233,7 +233,7 @@ public static class GenerateMethodH
                     seed = LCRNG.Prev(seed);
                 }
                 var lead = MethodH.GetSeed(enc, seed, false, 2);
-                if (!lead.IsValid()) // Verifies the slot and form loop; if it passes, apply the details.
+                if (!lead.IsValid) // Verifies the slot and form loop; if it passes, apply the details.
                     continue;
 
                 // Level is always 25, and no need to consider ability (always slot 0, not dual ability).
@@ -259,7 +259,7 @@ public static class GenerateMethodH
                 if (form != enc.Form)
                     continue;
                 var lead = MethodH.GetSeed(enc, seed, false, 2);
-                if (!lead.IsValid()) // Verifies the slot and form loop; if it passes, apply the details.
+                if (!lead.IsValid) // Verifies the slot and form loop; if it passes, apply the details.
                     continue;
 
                 // Level is always 25, and no need to consider ability (always slot 0, not dual ability).

@@ -63,7 +63,7 @@ public partial class KChart : Form
         var cells = row.Cells;
         int c = 0;
 
-        var bst = p.GetBaseStatTotal();
+        var bst = p.BST;
         cells[c++].Value = species.ToString(SpeciesNumberFormat) + (form > 0 ? $"-{form:00}" : string.Empty);
         cells[c++].Value = SpriteUtil.GetSprite(species, form, 0, 0, 0, false, Shiny.Never, SAV.Context);
         cells[c++].Value = name;

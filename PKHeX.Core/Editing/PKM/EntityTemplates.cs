@@ -16,7 +16,7 @@ public static class EntityTemplates
         pk.HealPP();
         pk.Ball = 4;
         if (pk.Format >= 4)
-            pk.MetDate = EncounterDate.GetDate(pk.Context.GetConsole());
+            pk.MetDate = EncounterDate.GetDate(pk.Context.Console);
 
         pk.Version = GetTemplateVersion(tr);
         pk.Species = GetTemplateSpecies(pk, tr);

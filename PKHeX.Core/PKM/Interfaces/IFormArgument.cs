@@ -114,7 +114,7 @@ public static class FormArgumentUtil
 
         var max = GetFormArgumentMax(species, form, context);
         f.FormArgumentRemain = (byte)value;
-        if (value == max || (value == 0 && species is (int)Hoopa && form == 1 && context.Generation() >= 8))
+        if (value == max || (value == 0 && species is (int)Hoopa && form == 1 && context.Generation >= 8))
         {
             f.FormArgumentElapsed = f.FormArgumentMaximum = 0;
             return;
@@ -134,7 +134,7 @@ public static class FormArgumentUtil
     /// <param name="context">Context to check with.</param>
     public static uint GetFormArgumentMax(ushort species, byte form, EntityContext context)
     {
-        var gen = context.Generation();
+        var gen = context.Generation;
         return species switch
         {
             (int)Furfrou when form != 0 => 5,
