@@ -52,10 +52,6 @@ public static class EvolutionVerifier
         if (!EvolutionHistory.HasVisited(original, encSpecies))
             return false;
 
-        // Bigender->Fixed (non-Genderless) destination species, accounting for PID-Gender relationship
-        if (curSpecies == (int)Species.Vespiquen && enc.Generation < 6 && (pk.EncryptionConstant & 0xFF) >= 0x1F) // Combee->Vespiquen Invalid Evolution
-            return false;
-
         return true;
     }
 }

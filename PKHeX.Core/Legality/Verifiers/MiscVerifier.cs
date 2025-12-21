@@ -131,7 +131,7 @@ public sealed class MiscVerifier : Verifier
             if (pk.MetDate is null)
                 data.AddLine(GetInvalid(Memory, DateCalendarInvalidMet));
         }
-        else
+        else if (data.EncounterMatch is not EncounterInvalid)
         {
             if (pk.MetMonth != 0 || pk.MetDay != 0 || pk.MetYear != 0)
                 data.AddLine(GetInvalid(Memory, DateCalendarInvalidMet));
