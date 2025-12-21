@@ -136,6 +136,7 @@ public sealed partial class SAV_Trainer9a : Form
         }
 
         MT_HyperspaceSurveyPoints.Text = SAV.GetValue<uint>(KHyperspaceSurveyPoints).ToString();
+        TB_StreetName.Text = SAV.GetString(SAV.Blocks.GetBlock(KStreetName).Data);
     }
 
     private void Save()
@@ -150,6 +151,7 @@ public sealed partial class SAV_Trainer9a : Form
         if (SAV.SaveRevision == 0)
             return;
         SAV.SetValue(KHyperspaceSurveyPoints, Util.ToUInt32(MT_HyperspaceSurveyPoints.Text));
+        SAV.SetString(SAV.Blocks.GetBlock(KStreetName).Data, TB_StreetName.Text, 18, StringConverterOption.ClearZero);
     }
 
     private void SaveMap()

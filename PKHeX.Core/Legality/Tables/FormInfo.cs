@@ -92,6 +92,9 @@ public static class FormInfo
         (ushort)Mimikyu => (byte)(form & 2),
         (ushort)Ogerpon => (byte)(form & 3),
         (ushort)Floette => 5,
+        (ushort)Tatsugiri => (byte)(form - 3), // Mega (form specific)
+        (ushort)Magearna => (byte)(form - 2), // Mega (form specific)
+        (ushort)Meowstic => (byte)(form - 2), // Mega (gendered)
         _ => 0,
     };
 

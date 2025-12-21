@@ -124,6 +124,8 @@ namespace PKHeX.WinForms
             L_HyperspaceSurveyPoints = new System.Windows.Forms.Label();
             MT_HyperspaceSurveyPoints = new System.Windows.Forms.MaskedTextBox();
             B_HyperspaceSurveyPoints = new System.Windows.Forms.Button();
+            TB_StreetName = new System.Windows.Forms.TextBox();
+            L_StreetName = new System.Windows.Forms.Label();
             TC_Editor.SuspendLayout();
             Tab_Overview.SuspendLayout();
             Tab_MiscValues.SuspendLayout();
@@ -1014,6 +1016,8 @@ namespace PKHeX.WinForms
             // 
             // Tab_DLC
             // 
+            Tab_DLC.Controls.Add(TB_StreetName);
+            Tab_DLC.Controls.Add(L_StreetName);
             Tab_DLC.Controls.Add(L_HyperspaceSurveyPoints);
             Tab_DLC.Controls.Add(MT_HyperspaceSurveyPoints);
             Tab_DLC.Controls.Add(B_HyperspaceSurveyPoints);
@@ -1055,6 +1059,27 @@ namespace PKHeX.WinForms
             B_HyperspaceSurveyPoints.TabIndex = 90;
             B_HyperspaceSurveyPoints.Text = "+";
             B_HyperspaceSurveyPoints.UseVisualStyleBackColor = true;
+            // 
+            // TB_StreetName
+            // 
+            TB_StreetName.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_StreetName.Location = new System.Drawing.Point(254, 39);
+            TB_StreetName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_StreetName.MaxLength = 18;
+            TB_StreetName.Name = "TB_StreetName";
+            TB_StreetName.Size = new System.Drawing.Size(145, 20);
+            TB_StreetName.TabIndex = 92;
+            TB_StreetName.Text = "WWWWWWWWWWWWWWWWWW";
+            // 
+            // L_StreetName
+            // 
+            L_StreetName.Location = new System.Drawing.Point(9, 35);
+            L_StreetName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_StreetName.Name = "L_StreetName";
+            L_StreetName.Size = new System.Drawing.Size(241, 24);
+            L_StreetName.TabIndex = 93;
+            L_StreetName.Text = "Street Name:";
+            L_StreetName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SAV_Trainer9a
             // 
@@ -1189,5 +1214,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_HyperspaceSurveyPoints;
         private System.Windows.Forms.MaskedTextBox MT_HyperspaceSurveyPoints;
         private System.Windows.Forms.Button B_HyperspaceSurveyPoints;
+        private System.Windows.Forms.TextBox TB_StreetName;
+        private System.Windows.Forms.Label L_StreetName;
     }
 }
