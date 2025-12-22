@@ -282,6 +282,7 @@ public static class FormInfo
         (int)Barbaracle,
         (int)Dragalge,
         (int)Hawlucha,
+        (int)Zygarde,
         (int)Drampa,
         (int)Falinks,
 
