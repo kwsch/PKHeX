@@ -308,4 +308,6 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
         get => HasBattleVideo ? new BattleVideo3(BattleVideoData.ToArray()) : new BattleVideo3();
         set => SetData(BattleVideoData.Span, value.Data);
     }
+
+    public BattleFrontier3 BattleFrontier => new(Small.Slice(0xCDC, BattleFrontier3.SIZE));
 }
