@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing.Misc;
 
 namespace PKHeX.WinForms;
 
@@ -35,6 +36,8 @@ public partial class SAV_Donut9a : Form
         GetEntry(0);
 
         AddDrop(this, LB_Donut, donutEditor);
+
+        DonutFlavorProfile.BackgroundImage = DonutSpriteUtil.GetFlavorProfileImage();
     }
 
     private void AddDrop(params ReadOnlySpan<Control> objects)
@@ -107,6 +110,7 @@ public partial class SAV_Donut9a : Form
 
         var donut = Donuts.GetDonut(index);
         donutEditor.LoadDonut(donut);
+        DonutFlavorProfile.LoadFromDonut(donut);
     }
 
     private void SetEntry(int index)
