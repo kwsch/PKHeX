@@ -118,10 +118,10 @@ public partial class DonutFlavorProfile9a : UserControl
 
     private void UpdateStatLabels(ReadOnlySpan<int> flavorStats)
     {
-        L_SpicyStat.Text  = flavorStats[0].ToString();
-        L_FreshStat.Text  = flavorStats[1].ToString();
-        L_SweetStat.Text  = flavorStats[2].ToString();
-        L_BitterStat.Text = flavorStats[3].ToString();
-        L_SourStat.Text   = flavorStats[4].ToString();
+        L_StatSpicy.Text  = flavorStats[0].ToString();
+        L_StatFresh.Text  = flavorStats[1].ToString();
+        L_StatSweet.Text  = flavorStats[2].ToString();
+        L_StatBitter.Text = flavorStats[3].ToString();
+        L_StatSour.Text   = flavorStats[4].ToString();
     }
 }
