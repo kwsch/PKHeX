@@ -2548,6 +2548,7 @@ SAV_Trainer9a.L_R=Rotacion:
 SAV_Trainer9a.L_RoyaleRegularTicketPoints=Regular:
 SAV_Trainer9a.L_RoyaleTicketPointsInfinite=Infinito:
 SAV_Trainer9a.L_Seconds=Segs.:
+SAV_Trainer9a.L_StreetName=Street Name:
 SAV_Trainer9a.L_TrainerName=Nombre Entrenador:
 SAV_Trainer9a.L_X=Coord. X:
 SAV_Trainer9a.L_Y=Coord. Y:

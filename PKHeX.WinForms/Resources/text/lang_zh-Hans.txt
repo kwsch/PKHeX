@@ -2548,6 +2548,7 @@ SAV_Trainer9a.L_R=旋转角度:
 SAV_Trainer9a.L_RoyaleRegularTicketPoints=常规:
 SAV_Trainer9a.L_RoyaleTicketPointsInfinite=无限:
 SAV_Trainer9a.L_Seconds=秒:
+SAV_Trainer9a.L_StreetName=Street Name:
 SAV_Trainer9a.L_TrainerName=训练家名字:
 SAV_Trainer9a.L_X=X坐标:
 SAV_Trainer9a.L_Y=Y坐标:

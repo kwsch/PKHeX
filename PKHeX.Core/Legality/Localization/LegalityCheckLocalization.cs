@@ -455,11 +455,11 @@ public sealed class LegalityCheckLocalization
     public string BulkSharingTrainerID { get; set; } = "Detected sharing of Trainer ID across multiple trainer names.";
     public string BulkSharingTrainerVersion { get; set; } = "Detected sharing of Trainer ID across multiple versions.";
     public string BulkDuplicateFusionSlot { get; set; } = "Detected multiple fusions of the same fusion stored slot species.";
-    public string BulkDuplicateMegaStoneSlot { get; set; } = "Detected multiple Pokémon holding the same Mega Stone.";
-    public string BulkDuplicateMegaStoneInventory { get; set; } = "Detected Pokémon holding a Mega Stone still stored in player inventory.";
-    public string BulkNotAcquiredMegaStoneInventory { get; set; } = "Mega Stone held by Pokémon has not been acquired in player inventory.";
-    public string BulkAssignedMegaStoneNotFound_0 { get; set; } = "{0} is marked as held by Pokémon but none found in slots checked.";
-    public string BulkFusionSourceInvalid { get; set; } = "The consumed Species-Form stored in the save file does not match the expected Species-Form of the fused slot.";
+    public string BulkHeldItemInventoryAssignedNoneHeld_0 { get; set; } = "{0} is marked as held player inventory, but no Pokémon found in slots checked.";
+    public string BulkHeldItemInventoryMultipleSlots_0 { get; set; } = "{0} is a unique item and cannot be held by multiple Pokémon.";
+    public string BulkHeldItemInventoryNotAcquired_0 { get; set; } = "{0} has not been acquired in player inventory.";
+    public string BulkHeldItemInventoryUnassigned_0 { get; set; } = "{0} is not marked as assigned in player inventory.";
+    public string BulkFusionSourceInvalid { get; set; } = "The subsumed Species-Form stored in the save file does not match the expected Species-Form of the fused slot.";
 }
 
 [JsonSerializable(typeof(LegalityCheckLocalization))]

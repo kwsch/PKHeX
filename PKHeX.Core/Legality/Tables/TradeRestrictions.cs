@@ -24,7 +24,7 @@ public static class TradeRestrictions
     public static bool IsUntradableHeld(EntityContext context, int item) => context switch
     {
         EntityContext.Gen7 => ItemStorage7USUM.ZCrystalHeld.Contains((ushort)item),
-        EntityContext.Gen9a => ItemStorage9ZA.IsMegaStone((ushort)item) || item is (0534 or 0535), // Primal Orbs
+        EntityContext.Gen9a => ItemStorage9ZA.IsUniqueHeldItem((ushort)item),
         _ => false,
     };
 

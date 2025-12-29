@@ -2548,6 +2548,7 @@ SAV_Trainer9a.L_R=Rotation:
 SAV_Trainer9a.L_RoyaleRegularTicketPoints=通常:
 SAV_Trainer9a.L_RoyaleTicketPointsInfinite=∞:
 SAV_Trainer9a.L_Seconds=秒:
+SAV_Trainer9a.L_StreetName=Street Name:
 SAV_Trainer9a.L_TrainerName=トレーナー名:
 SAV_Trainer9a.L_X=X Coordinate:
 SAV_Trainer9a.L_Y=Y Coordinate:
