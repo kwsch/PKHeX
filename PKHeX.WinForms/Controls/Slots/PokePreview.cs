@@ -159,6 +159,8 @@ public partial class PokePreview : Form
 
         if (Main.Settings.Hover.HoverSlotShowEncounter)
             end = SummaryPreviewer.AppendEncounterInfo(la, end);
+        if (Main.Settings.Hover.HoverSlotShowLegalityHint)
+            end = SummaryPreviewer.AppendLegalityHint(la, end);
 
         return (start, end);
     }
