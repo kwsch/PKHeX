@@ -41,13 +41,14 @@ namespace PKHeX.WinForms
             donutEditor = new DonutEditor9a();
             B_Import = new System.Windows.Forms.Button();
             B_Export = new System.Windows.Forms.Button();
+            DonutFlavorProfile = new DonutFlavorProfile9a();
             modifyMenu.SuspendLayout();
             SuspendLayout();
             // 
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(786, 348);
+            B_Cancel.Location = new System.Drawing.Point(786, 442);
             B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(93, 27);
@@ -64,14 +65,14 @@ namespace PKHeX.WinForms
             LB_Donut.Location = new System.Drawing.Point(14, 15);
             LB_Donut.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LB_Donut.Name = "LB_Donut";
-            LB_Donut.Size = new System.Drawing.Size(186, 361);
+            LB_Donut.Size = new System.Drawing.Size(186, 412);
             LB_Donut.TabIndex = 2;
             LB_Donut.SelectedIndexChanged += ChangeIndex;
             // 
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(786, 319);
+            B_Save.Location = new System.Drawing.Point(786, 413);
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(93, 27);
@@ -111,7 +112,7 @@ namespace PKHeX.WinForms
             // B_ModifyAll
             // 
             B_ModifyAll.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            B_ModifyAll.Location = new System.Drawing.Point(208, 349);
+            B_ModifyAll.Location = new System.Drawing.Point(208, 443);
             B_ModifyAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_ModifyAll.Name = "B_ModifyAll";
             B_ModifyAll.Size = new System.Drawing.Size(128, 27);
@@ -123,7 +124,7 @@ namespace PKHeX.WinForms
             // B_Reset
             // 
             B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            B_Reset.Location = new System.Drawing.Point(548, 304);
+            B_Reset.Location = new System.Drawing.Point(344, 443);
             B_Reset.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Reset.Name = "B_Reset";
             B_Reset.Size = new System.Drawing.Size(128, 27);
@@ -141,13 +142,13 @@ namespace PKHeX.WinForms
             donutEditor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             donutEditor.Location = new System.Drawing.Point(207, 15);
             donutEditor.Name = "donutEditor";
-            donutEditor.Size = new System.Drawing.Size(646, 240);
+            donutEditor.Size = new System.Drawing.Size(647, 240);
             donutEditor.TabIndex = 27;
             // 
             // B_Import
             // 
             B_Import.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            B_Import.Location = new System.Drawing.Point(208, 304);
+            B_Import.Location = new System.Drawing.Point(208, 398);
             B_Import.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Import.Name = "B_Import";
             B_Import.Size = new System.Drawing.Size(128, 27);
@@ -159,7 +160,7 @@ namespace PKHeX.WinForms
             // B_Export
             // 
             B_Export.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            B_Export.Location = new System.Drawing.Point(344, 304);
+            B_Export.Location = new System.Drawing.Point(344, 398);
             B_Export.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Export.Name = "B_Export";
             B_Export.Size = new System.Drawing.Size(128, 27);
@@ -168,11 +169,20 @@ namespace PKHeX.WinForms
             B_Export.UseVisualStyleBackColor = true;
             B_Export.Click += B_Export_Click;
             // 
+            // DonutFlavorProfile
+            // 
+            DonutFlavorProfile.BackColor = System.Drawing.Color.Transparent;
+            DonutFlavorProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            DonutFlavorProfile.Location = new System.Drawing.Point(502, 243);
+            DonutFlavorProfile.Name = "DonutFlavorProfile";
+            DonutFlavorProfile.Size = new System.Drawing.Size(277, 237);
+            DonutFlavorProfile.TabIndex = 30;
+            // 
             // SAV_Donut9a
             // 
             AllowDrop = true;
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(894, 388);
+            ClientSize = new System.Drawing.Size(894, 482);
             Controls.Add(B_Export);
             Controls.Add(B_Import);
             Controls.Add(donutEditor);
@@ -181,6 +191,7 @@ namespace PKHeX.WinForms
             Controls.Add(B_Save);
             Controls.Add(LB_Donut);
             Controls.Add(B_Cancel);
+            Controls.Add(DonutFlavorProfile);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = Properties.Resources.Icon;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -208,5 +219,6 @@ namespace PKHeX.WinForms
         private DonutEditor9a donutEditor;
         private System.Windows.Forms.Button B_Import;
         private System.Windows.Forms.Button B_Export;
+        private DonutFlavorProfile9a DonutFlavorProfile;
     }
 }
