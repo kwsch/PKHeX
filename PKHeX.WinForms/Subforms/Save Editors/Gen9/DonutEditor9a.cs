@@ -21,7 +21,7 @@ public sealed partial class DonutEditor9a : UserControl
 
     private bool Loading;
 
-    private static readonly DateTime Epoch = new(1900, 1, 1);
+    private static readonly DateTime Epoch = Donut9a.Epoch;
 
     public DonutEditor9a()
     {
