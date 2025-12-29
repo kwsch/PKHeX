@@ -65,7 +65,7 @@ namespace PKHeX.WinForms
             LB_Donut.Location = new System.Drawing.Point(14, 15);
             LB_Donut.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LB_Donut.Name = "LB_Donut";
-            LB_Donut.Size = new System.Drawing.Size(186, 424);
+            LB_Donut.Size = new System.Drawing.Size(186, 412);
             LB_Donut.TabIndex = 2;
             LB_Donut.SelectedIndexChanged += ChangeIndex;
             // 
@@ -86,26 +86,26 @@ namespace PKHeX.WinForms
             modifyMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             modifyMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuRandomizeMax, mnuCloneCurrent, mnuShinyAssortment });
             modifyMenu.Name = "modifyMenu";
-            modifyMenu.Size = new System.Drawing.Size(190, 70);
+            modifyMenu.Size = new System.Drawing.Size(204, 70);
             // 
             // mnuRandomizeMax
             // 
             mnuRandomizeMax.Name = "mnuRandomizeMax";
-            mnuRandomizeMax.Size = new System.Drawing.Size(189, 22);
+            mnuRandomizeMax.Size = new System.Drawing.Size(203, 22);
             mnuRandomizeMax.Text = "Randomize Max Level";
             mnuRandomizeMax.Click += RandomizeAll;
             // 
             // mnuCloneCurrent
             // 
             mnuCloneCurrent.Name = "mnuCloneCurrent";
-            mnuCloneCurrent.Size = new System.Drawing.Size(189, 22);
+            mnuCloneCurrent.Size = new System.Drawing.Size(203, 22);
             mnuCloneCurrent.Text = "Clone Current to All";
             mnuCloneCurrent.Click += CloneCurrent;
             // 
             // mnuShinyAssortment
             // 
             mnuShinyAssortment.Name = "mnuShinyAssortment";
-            mnuShinyAssortment.Size = new System.Drawing.Size(189, 22);
+            mnuShinyAssortment.Size = new System.Drawing.Size(203, 22);
             mnuShinyAssortment.Text = "Shiny Assortment";
             mnuShinyAssortment.Click += ShinyAssortment;
             // 
@@ -142,7 +142,7 @@ namespace PKHeX.WinForms
             donutEditor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             donutEditor.Location = new System.Drawing.Point(207, 15);
             donutEditor.Name = "donutEditor";
-            donutEditor.Size = new System.Drawing.Size(647, 222);
+            donutEditor.Size = new System.Drawing.Size(647, 240);
             donutEditor.TabIndex = 27;
             // 
             // B_Import
@@ -183,7 +183,6 @@ namespace PKHeX.WinForms
             AllowDrop = true;
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(894, 482);
-            Controls.Add(DonutFlavorProfile);
             Controls.Add(B_Export);
             Controls.Add(B_Import);
             Controls.Add(donutEditor);
@@ -192,6 +191,7 @@ namespace PKHeX.WinForms
             Controls.Add(B_Save);
             Controls.Add(LB_Donut);
             Controls.Add(B_Cancel);
+            Controls.Add(DonutFlavorProfile);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = Properties.Resources.Icon;
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);

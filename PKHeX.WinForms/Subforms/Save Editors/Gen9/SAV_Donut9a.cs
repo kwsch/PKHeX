@@ -84,12 +84,17 @@ public partial class SAV_Donut9a : Form
             return;
 
         Loading = true;
-        // Only refresh the name in the list if it has changed.
         var index = lastIndex;
-        var currentName = GetDonutName(index);
+        var donut = Donuts.GetDonut(index);
+        // Only refresh the name in the list if it has changed.
+        var currentName = GetDonutName(donut, index);
         var existing = LB_Donut.Items[index];
         if (existing.ToString() != currentName)
             LB_Donut.Items[index] = currentName;
+
+        // Update profile if applicable
+        donutEditor.SaveDonut();
+        DonutFlavorProfile.LoadFromDonut(donut);
         Loading = false;
     }
 
@@ -108,9 +113,11 @@ public partial class SAV_Donut9a : Form
         if (Loading || index < 0)
             return;
 
+        Loading = true;
         var donut = Donuts.GetDonut(index);
         donutEditor.LoadDonut(donut);
         DonutFlavorProfile.LoadFromDonut(donut);
+        Loading = false;
     }
 
     private void SetEntry(int index)
