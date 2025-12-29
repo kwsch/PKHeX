@@ -7,7 +7,7 @@ http://projectpokemon.org/pkhex/
  - Fixed: Gen9a evolutions that require a move are now checked more accurately when evolutions have less learnset restrictions.
  - Fixed: Gen9a Morpeko-Hangry in-party now flagged if it hasn't been able to learn Aura Wheel yet.
  - Fixed: Gen9a Tatsugiri/Magearna/Meowstic-Mega are now checked properly when in-party.
- - Fixed: Gen9a Baxcaliburite now released, can exist in inventory/held. Removed Cherish Ball from Allowed items list.
+ - Fixed: Gen9a Baxcalibrite now released, can exist in inventory/held. Removed Cherish Ball from Allowed items list.
  - Fixed: Gen9a Rotom form changing with Plus moves/move count now recognized correctly.
  - Fixed: Gen9a Raichu-Alola alpha move now recognized correctly.
  - Fixed: Gen9a Farfetch'd/Sirfetch'd now allow form argument.

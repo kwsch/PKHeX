@@ -82,6 +82,8 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small[0x210..]); set => WriteUInt16LittleEndian(Small[0x210..], Math.Min((ushort)9999, value)); }
     public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small[0x212..]); set => WriteUInt16LittleEndian(Small[0x212..], Math.Min((ushort)9999, value)); }
 
+    public BattleFrontier3 BattleFrontier => new(Small.Slice(0xCDC, BattleFrontier3.SIZE));
+
     public uint BP
     {
         get => ReadUInt16LittleEndian(Small[0xEB8..]);

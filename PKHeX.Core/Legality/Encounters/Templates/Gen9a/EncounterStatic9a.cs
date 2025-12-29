@@ -144,7 +144,15 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
     }
 
     private bool IsMatchEggLocation(PKM pk) => pk.EggLocation == EggLocation;
-    private bool IsMatchLocation(PKM pk) => pk.MetLocation == Location;
+    private bool IsMatchLocation(PKM pk)
+    {
+        var loc = pk.MetLocation;
+        if (loc == Location)
+            return true;
+        if (Species is (ushort)Core.Species.Meltan && loc == 00070) // Rouge Sector 1
+            return true; // crossover (depends on player location)
+        return false;
+    }
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {

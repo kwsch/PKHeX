@@ -367,9 +367,9 @@
     "BulkSharingTrainerID": "检测到在多个训练家名称之间共享训练家ID。",
     "BulkSharingTrainerVersion": "检测到在多个版本间共享训练家ID。",
     "BulkDuplicateFusionSlot": "检测到同一融合槽位的宝可梦被重复融合。",
-    "BulkDuplicateMegaStoneSlot": "检测到多个宝可梦持有同一枚超级石。",
-    "BulkDuplicateMegaStoneInventory": "检测到宝可梦持有的超级石仍存放于玩家腰包中。",
-    "BulkNotAcquiredMegaStoneInventory": "宝可梦所持的超级石尚未在玩家腰包中获得。",
-    "BulkAssignedMegaStoneNotFound_0": "{0} 标记为由宝可梦持有，但在已检查的槽位中未找到。",
+    "BulkHeldItemInventoryAssignedNoneHeld_0": "{0} is marked as held player inventory, but no Pokémon found in slots checked.",
+    "BulkHeldItemInventoryMultipleSlots_0": "{0} is a unique item and cannot be held by multiple Pokémon.",
+    "BulkHeldItemInventoryNotAcquired_0": "{0} has not been acquired in player inventory.",
+    "BulkHeldItemInventoryUnassigned_0": "{0} is not marked as assigned in player inventory.",
     "BulkFusionSourceInvalid": "存档中记录的被消耗“种族-形态”与该融合槽位应有的“种族-形态”不一致。"
 }

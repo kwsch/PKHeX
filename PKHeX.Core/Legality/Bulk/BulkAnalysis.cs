@@ -100,7 +100,7 @@ public sealed class BulkAnalysis
     private static readonly List<IBulkAnalyzer> SaveAnalyzers =
     [
         new DuplicateFusionChecker(),
-        new DuplicateMegaChecker(),
+        new DuplicateUniqueItemChecker(),
     ];
 
     private void ScanAll()

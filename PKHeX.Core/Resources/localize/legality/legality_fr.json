@@ -367,9 +367,9 @@
     "BulkSharingTrainerID": "ID Dresseur partagé détecté entre plusieurs noms de dresseur.",
     "BulkSharingTrainerVersion": "ID Dresseur partagé détecté entre plusieurs versions.",
     "BulkDuplicateFusionSlot": "Detected multiple fusions of the same fusion stored slot species.",
-    "BulkDuplicateMegaStoneSlot": "Detected multiple Pokémon holding the same Mega Stone.",
-    "BulkDuplicateMegaStoneInventory": "Detected Pokémon holding a Mega Stone still stored in player inventory.",
-    "BulkNotAcquiredMegaStoneInventory": "Mega Stone held by Pokémon has not been acquired in player inventory.",
-    "BulkAssignedMegaStoneNotFound_0": "{0} is marked as held by Pokémon but none found in slots checked.",
-    "BulkFusionSourceInvalid": "The consumed Species-Form stored in the save file does not match the expected Species-Form of the fused slot."
+    "BulkHeldItemInventoryAssignedNoneHeld_0": "{0} is marked as held player inventory, but no Pokémon found in slots checked.",
+    "BulkHeldItemInventoryMultipleSlots_0": "{0} is a unique item and cannot be held by multiple Pokémon.",
+    "BulkHeldItemInventoryNotAcquired_0": "{0} has not been acquired in player inventory.",
+    "BulkHeldItemInventoryUnassigned_0": "{0} is not marked as assigned in player inventory.",
+    "BulkFusionSourceInvalid": "The subsumed Species-Form stored in the save file does not match the expected Species-Form of the fused slot."
 }

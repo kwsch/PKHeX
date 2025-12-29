@@ -4,7 +4,7 @@ using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core.Bulk;
 
-public sealed class DuplicateMegaChecker : IBulkAnalyzer
+public sealed class DuplicateUniqueItemChecker : IBulkAnalyzer
 {
     private const CheckIdentifier Identifier = CheckIdentifier.HeldItem;
 
@@ -20,7 +20,7 @@ public sealed class DuplicateMegaChecker : IBulkAnalyzer
     {
         var items = za.Items;
 
-        // Rule: Only 1 Mega Stone of a given Item ID may be held across all Pokémon, or present in the bag.
+        // Rule: Only 1 of a unique Item ID may be held across all Pokémon, or present in the bag.
         Dictionary<ushort, int> seenStones = []; // ushort item, int index
         for (var i = 0; i < input.AllData.Count; i++)
         {
@@ -28,39 +28,39 @@ public sealed class DuplicateMegaChecker : IBulkAnalyzer
             var pk = slot.Entity;
 
             var stone = (ushort)pk.HeldItem;
-            if (!ItemStorage9ZA.IsMegaStone(stone))
+            if (!ItemStorage9ZA.IsUniqueHeldItem(stone))
                 continue;
 
             var item = items.GetItem(stone);
             if (item.Count == 0) // Not acquired by the save file, thus not able to be held.
-                input.AddLine(slot, Identifier, BulkCheckResult.NoIndex, BulkNotAcquiredMegaStoneInventory, stone);
+                input.AddLine(slot, Identifier, BulkCheckResult.NoIndex, BulkHeldItemInventoryNotAcquired_0, stone);
             else if (!item.IsHeld) // Not marked as held, so it's still "in the bag" (not given).
-                input.AddLine(slot, Identifier, BulkCheckResult.NoIndex, BulkDuplicateMegaStoneInventory, stone);
+                input.AddLine(slot, Identifier, BulkCheckResult.NoIndex, BulkHeldItemInventoryUnassigned_0, stone);
             else if (seenStones.TryGetValue(stone, out var otherIndex)) // Already given to another slot.
-                input.AddLine(slot, input.AllData[otherIndex], Identifier, i, index2: otherIndex, BulkDuplicateMegaStoneSlot, stone);
-            else // First time seeing this Mega Stone, all good.
+                input.AddLine(slot, input.AllData[otherIndex], Identifier, i, index2: otherIndex, BulkHeldItemInventoryMultipleSlots_0, stone);
+            else // First time seeing this item, all good.
                 seenStones[stone] = i;
         }
 
-        CheckOtherUnassigned(input, items, ItemStorage9ZA.MegaStones, seenStones);
+        CheckOtherUnassigned(input, items, ItemStorage9ZA.GetAllUniqueHeldItems(), seenStones);
     }
 
-    private static void CheckOtherUnassigned(BulkAnalysis input, MyItem9a items, ReadOnlySpan<ushort> megaStones, IReadOnlyDictionary<ushort, int> seenStones)
+    private static void CheckOtherUnassigned(BulkAnalysis input, MyItem9a items, ReadOnlySpan<ushort> uniqueItems, IReadOnlyDictionary<ushort, int> seenItems)
     {
         // Check that all other un-assigned stones are not marked as assigned.
-        foreach (var stone in megaStones)
+        foreach (var item in uniqueItems)
         {
-            if (seenStones.ContainsKey(stone))
+            if (seenItems.ContainsKey(item))
                 continue;
-            var item = items.GetItem(stone);
-            if (item.IsHeld)
-                input.AddMessage(string.Empty, CheckResult.Get(Severity.Invalid, CheckIdentifier.HeldItem, BulkAssignedMegaStoneNotFound_0, stone));
+            var entry = items.GetItem(item);
+            if (entry.IsHeld)
+                input.AddMessage(string.Empty, CheckResult.Get(Severity.Invalid, CheckIdentifier.HeldItem, BulkHeldItemInventoryAssignedNoneHeld_0, item));
         }
     }
 
     private static void AnalyzeNoInventory(BulkAnalysis input)
     {
-        // Rule: Only 1 Mega Stone of a given Item ID may be held across all Pokémon, or present in the bag.
+        // Rule: Only 1 of a unique Item ID may be held across all Pokémon, or present in the bag.
         Dictionary<ushort, int> seenStones = []; // ushort item, int index
         for (var i = 0; i < input.AllData.Count; i++)
         {
@@ -68,12 +68,12 @@ public sealed class DuplicateMegaChecker : IBulkAnalyzer
             var pk = slot.Entity;
 
             var stone = (ushort)pk.HeldItem;
-            if (!ItemStorage9ZA.IsMegaStone(stone))
+            if (!ItemStorage9ZA.IsUniqueHeldItem(stone))
                 continue;
 
             if (seenStones.TryGetValue(stone, out var otherIndex)) // Already given to another slot.
-                input.AddLine(slot, input.AllData[otherIndex], Identifier, i, index2: otherIndex, BulkDuplicateMegaStoneSlot, stone);
-            else // First time seeing this Mega Stone, all good.
+                input.AddLine(slot, input.AllData[otherIndex], Identifier, i, index2: otherIndex, BulkHeldItemInventoryMultipleSlots_0, stone);
+            else // First time seeing this item, all good.
                 seenStones[stone] = i;
         }
     }
