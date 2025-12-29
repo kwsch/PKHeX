@@ -31,17 +31,14 @@ public ref struct BattleFrontier3
     /// <summary>
     /// Gets which stat types are valid for a given facility.
     /// </summary>
-    public static BattleFrontierStatType3[] GetValidStats(BattleFrontierFacility3 facility)
+    public static BattleFrontierStatType3[] GetValidStats(BattleFrontierFacility3 facility) => facility switch
     {
-        return facility switch
-        {
-            Tower or Palace or Arena or Pyramid => [CurrentStreak, RecordStreak],
-            Dome => [CurrentStreak, RecordStreak, Championships],
-            Pike => [CurrentStreak, RecordStreak, RecordCleared],
-            Factory => [CurrentStreak, CurrentSwapped, RecordStreak, RecordSwapped],
-            _ => [],
-        };
-    }
+        Tower or Palace or Arena or Pyramid => [CurrentStreak, RecordStreak],
+        Dome => [CurrentStreak, RecordStreak, Championships],
+        Pike => [CurrentStreak, RecordStreak, RecordCleared],
+        Factory => [CurrentStreak, CurrentSwapped, RecordStreak, RecordSwapped],
+        _ => [],
+    };
 
     /// <summary>
     /// Gets a specific statistic value.
@@ -88,16 +85,14 @@ public ref struct BattleFrontier3
     /// <summary>
     /// Gets the available battle modes for a facility.
     /// </summary>
-    public static int GetModeCount(BattleFrontierFacility3 facility)
+    public static int GetModeCount(BattleFrontierFacility3 facility) => facility switch
     {
-        return facility switch
-        {
-            Tower => 4, // Singles, Doubles, Multi, Linked
-            Dome or Palace or Factory => 2, // Singles, Doubles
-            Arena or Pike or Pyramid => 1, // Singles only
-            _ => 1,
-        };
-    }
+        Tower => 4, // Singles, Doubles, Multi, Linked
+        Dome or Palace or Factory => 2, // Singles, Doubles
+        Arena or Pike or Pyramid => 1, // Singles only
+        _ => 1,
+    };
+
     #endregion
 
     #region Offset Calculations

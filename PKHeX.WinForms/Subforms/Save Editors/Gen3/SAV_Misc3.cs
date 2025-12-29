@@ -286,38 +286,42 @@ public partial class SAV_Misc3 : Form
         }
 
         var validStats = BattleFrontier3.GetValidStats(facility);
+        var context = WinFormsTranslator.GetDictionary(Main.CurrentLanguage);
         for (int i = 0; i < StatLabelA.Length; i++)
         {
             bool isValid = i < validStats.Length;
-            StatLabelA[i].Visible = StatLabelA[i].Enabled = isValid;
+
             StatNUDA[i].Visible = StatNUDA[i].Enabled = isValid;
 
-            // Set the label text using translation keys
-            if (isValid)
-            {
-                string translationKey = (facility, validStats[i]) switch
-                {
-                    // Factory has "Rentals Swapped" stat
-                    (BattleFrontierFacility3.Factory, BattleFrontierStatType3.CurrentSwapped) => "SAV_Misc3.L_CurrentSwapped",
-                    (BattleFrontierFacility3.Factory, BattleFrontierStatType3.RecordSwapped) => "SAV_Misc3.L_RecordSwapped",
-                    // Dome has "Championships" stat
-                    (BattleFrontierFacility3.Dome, BattleFrontierStatType3.Championships) => "SAV_Misc3.L_Championships",
-                    // Pike has "Cleared" stat
-                    (BattleFrontierFacility3.Pike, BattleFrontierStatType3.RecordCleared) => "SAV_Misc3.L_RecordCleared",
-                    // Standard labels (Current/Record Streak)
-                    (_, BattleFrontierStatType3.CurrentStreak) => "SAV_Misc3.L_CurrentStreak",
-                    (_, BattleFrontierStatType3.RecordStreak) => "SAV_Misc3.L_RecordStreak",
-                    _ => "",
-                };
+            var label = StatLabelA[i];
+            label.Visible = label.Enabled = isValid;
 
-                var context = WinFormsTranslator.GetDictionary(Main.CurrentLanguage);
-                StatLabelA[i].Text = context.TryGetValue(translationKey, out var translatedText) ? translatedText : translationKey.Split('_')[^1];
-            }
+            // Set the label text using translation keys
+            if (!isValid)
+                continue;
+
+            var key = GetTranslationKey(facility, validStats[i]);
+            label.Text = context.TryGetValue(key, out var text) ? text : key.Split('_')[^1];
         }
 
         editingcont = false;
         StatRBA[0].Checked = true;
     }
+
+    private static string GetTranslationKey(BattleFrontierFacility3 facility, BattleFrontierStatType3 stat) => (facility, stat) switch
+    {
+        // Factory has "Rentals Swapped" stat
+        (BattleFrontierFacility3.Factory, BattleFrontierStatType3.CurrentSwapped) => $"{nameof(SAV_Misc3)}.L_CurrentSwapped",
+        (BattleFrontierFacility3.Factory, BattleFrontierStatType3.RecordSwapped) => $"{nameof(SAV_Misc3)}.L_RecordSwapped",
+        // Dome has "Championships" stat
+        (BattleFrontierFacility3.Dome, BattleFrontierStatType3.Championships) => $"{nameof(SAV_Misc3)}.L_Championships",
+        // Pike has "Cleared" stat
+        (BattleFrontierFacility3.Pike, BattleFrontierStatType3.RecordCleared) => $"{nameof(SAV_Misc3)}.L_RecordCleared",
+        // Standard labels (Current/Record Streak)
+        (_, BattleFrontierStatType3.CurrentStreak) => $"{nameof(SAV_Misc3)}.L_CurrentStreak",
+        (_, BattleFrontierStatType3.RecordStreak) => $"{nameof(SAV_Misc3)}.L_RecordStreak",
+        _ => "",
+    };
 
     private void ChangeStat(object sender, EventArgs e)
     {

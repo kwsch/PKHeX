@@ -1,8 +1,7 @@
-namespace PKHeX.Core
+namespace PKHeX.Core;
+
+public enum BattleFrontierRecordType3
 {
-    public enum BattleFrontierRecordType3
-    {
-        Level50 = 0,
-        OpenLevel = 1,
-    }
+    Level50 = 0,
+    OpenLevel = 1,
 }
