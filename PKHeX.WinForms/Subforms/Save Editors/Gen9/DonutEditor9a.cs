@@ -289,7 +289,7 @@ public sealed partial class DonutEditor9a : UserControl
     {
         if (sender is not ComboBox cb)
             return;
-        var index = Array.IndexOf(Flavor, cb);
+        var index = Flavor.IndexOf(cb);
         if (index < 0)
             return;
         var text = cb.SelectedIndex > 0 ? cb.SelectedValue?.ToString() : null;
