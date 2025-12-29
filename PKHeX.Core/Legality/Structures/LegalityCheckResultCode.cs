@@ -380,9 +380,6 @@ public enum LegalityCheckResultCode : ushort
     BulkSharingPIDEncounterType,
     BulkDuplicateFusionSlot,
     BulkDuplicateMysteryGiftEggReceived,
-    BulkDuplicateMegaStoneSlot,
-    BulkDuplicateMegaStoneInventory,
-    BulkNotAcquiredMegaStoneInventory,
     BulkFusionSourceInvalid,
     BulkSharingTrainerIDs,
     BulkSharingTrainerVersion,
@@ -429,7 +426,10 @@ public enum LegalityCheckResultCode : ushort
 
     // Single Argument: Item ID
     FirstWithItem,
-    BulkAssignedMegaStoneNotFound_0 = FirstWithItem, // item ID
+    BulkHeldItemInventoryAssignedNoneHeld_0 = FirstWithItem, // item ID
+    BulkHeldItemInventoryMultipleSlots_0,
+    BulkHeldItemInventoryNotAcquired_0,
+    BulkHeldItemInventoryUnassigned_0,
 
     // One Argument: Language
     FirstWithLanguage,
