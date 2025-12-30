@@ -5,7 +5,6 @@ using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.WinForms;
 
@@ -140,7 +139,7 @@ public partial class SAV_Misc3 : Form
     #endregion
 
     private const ushort ItemIDOldSeaMap = 0x178;
-    private static ReadOnlySpan<ushort> TicketItemIDs => [ 0x109, 0x113, 0x172, 0x173, ItemIDOldSeaMap ]; // item IDs
+    private static ReadOnlySpan<ushort> TicketItemIDs => [0x109, 0x113, 0x172, 0x173, ItemIDOldSeaMap]; // item IDs
 
     #region Ferry
     private void B_GetTickets_Click(object sender, EventArgs e)
@@ -258,112 +257,116 @@ public partial class SAV_Misc3 : Form
     private NumericUpDown[] StatNUDA = null!;
     private Label[] StatLabelA = null!;
     private bool loading;
-    private int[][] BFF = null!;
-    private string[]?[] BFT = null!;
-    private int[][] BFV = null!;
-    private string[] BFN = null!;
 
     private void ChangeStat1(object sender, EventArgs e)
     {
         if (loading)
             return;
-        int facility = CB_Stats1.SelectedIndex;
-        if ((uint)facility >= BFN.Length)
+        if (CB_Stats1.SelectedValue is not BattleFrontierFacility3 facility)
             return;
+
         editingcont = true;
         CB_Stats2.Items.Clear();
         foreach (RadioButton rb in StatRBA)
             rb.Checked = false;
 
-        var bft = BFT[BFF[facility][1]];
-        if (bft is null)
+        int modeCount = BattleFrontier3.GetModeCount(facility);
+        if (modeCount == 1)
         {
             CB_Stats2.Visible = false;
+            L_Mode.Visible = false;
         }
         else
         {
             CB_Stats2.Visible = true;
-            CB_Stats2.Items.AddRange(bft);
+            L_Mode.Visible = true;
+            for (int i = 0; i < modeCount; i++)
+                CB_Stats2.Items.Add(((BattleFrontierBattleMode3)i).ToString());
             CB_Stats2.SelectedIndex = 0;
         }
 
+        var validStats = BattleFrontier3.GetValidStats(facility);
+        var context = WinFormsTranslator.GetDictionary(Main.CurrentLanguage);
         for (int i = 0; i < StatLabelA.Length; i++)
-            StatLabelA[i].Visible = StatLabelA[i].Enabled = StatNUDA[i].Visible = StatNUDA[i].Enabled = Array.IndexOf(BFV[BFF[facility][0]], i) >= 0;
+        {
+            bool isValid = i < validStats.Length;
+
+            StatNUDA[i].Visible = StatNUDA[i].Enabled = isValid;
+
+            var label = StatLabelA[i];
+            label.Visible = label.Enabled = isValid;
+
+            // Set the label text using translation keys
+            if (!isValid)
+                continue;
+
+            var key = GetTranslationKey(facility, validStats[i]);
+            label.Text = context.TryGetValue(key, out var text) ? text : key.Split('_')[^1];
+        }
 
         editingcont = false;
         StatRBA[0].Checked = true;
     }
 
+    private static string GetTranslationKey(BattleFrontierFacility3 facility, BattleFrontierStatType3 stat) => (facility, stat) switch
+    {
+        // Factory has "Rentals Swapped" stat
+        (BattleFrontierFacility3.Factory, BattleFrontierStatType3.CurrentSwapped) => $"{nameof(SAV_Misc3)}.L_CurrentSwapped",
+        (BattleFrontierFacility3.Factory, BattleFrontierStatType3.RecordSwapped) => $"{nameof(SAV_Misc3)}.L_RecordSwapped",
+        // Dome has "Championships" stat
+        (BattleFrontierFacility3.Dome, BattleFrontierStatType3.Championships) => $"{nameof(SAV_Misc3)}.L_Championships",
+        // Pike has "Cleared" stat
+        (BattleFrontierFacility3.Pike, BattleFrontierStatType3.RecordCleared) => $"{nameof(SAV_Misc3)}.L_RecordCleared",
+        // Standard labels (Current/Record Streak)
+        (_, BattleFrontierStatType3.CurrentStreak) => $"{nameof(SAV_Misc3)}.L_CurrentStreak",
+        (_, BattleFrontierStatType3.RecordStreak) => $"{nameof(SAV_Misc3)}.L_RecordStreak",
+        _ => "",
+    };
+
     private void ChangeStat(object sender, EventArgs e)
     {
         if (editingcont)
             return;
-        StatAddrControl(SetValToSav: -2, SetSavToVal: true);
+        LoadStatsFromSave();
     }
 
-    private void StatAddrControl(int SetValToSav = -2, bool SetSavToVal = false)
+    private void LoadStatsFromSave()
     {
-        int Facility = CB_Stats1.SelectedIndex;
-        if (Facility < 0)
+        if (CB_Stats1.SelectedValue is not BattleFrontierFacility3 facility)
             return;
 
-        int BattleType = CB_Stats2.SelectedIndex;
-        var bft = BFT[BFF[Facility][1]];
-        if (bft is null)
-            BattleType = 0;
-        else if (BattleType < 0)
-            return;
-        else if (BattleType >= bft.Length)
+        int modeIndex = CB_Stats2.Visible ? CB_Stats2.SelectedIndex : 0;
+        if (modeIndex < 0)
             return;
 
-        int RBi = -1;
-        for (int i = 0, j = 0; i < StatRBA.Length; i++)
+        int recordIndex = -1;
+        for (int i = 0; i < StatRBA.Length; i++)
         {
-            if (!StatRBA[i].Checked)
-                continue;
-            if (++j > 1)
-                return;
-            RBi = i;
+            if (StatRBA[i].Checked)
+            {
+                recordIndex = i;
+                break;
+            }
         }
-        if (RBi < 0)
+        if (recordIndex < 0)
             return;
 
-        if (SetValToSav >= 0)
-        {
-            ushort val = (ushort)StatNUDA[SetValToSav].Value;
-            SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
-            if (SetValToSav < 0)
-                return;
-            if (val > 9999)
-                val = 9999;
-            var offset = BFF[Facility][2 + SetValToSav] + (4 * BattleType) + (2 * RBi);
-            WriteUInt16LittleEndian(SAV.Small[offset..], val);
-            return;
-        }
-        if (SetValToSav == -1)
-        {
-            int p = BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi;
-            const int offset = 0xCDC;
-            var current = ReadUInt32LittleEndian(SAV.Small[offset..]);
-            var update = (current & ~(1u << p)) | (CHK_Continue.Checked ? 1u : 0) << p;
-            WriteUInt32LittleEndian(SAV.Small[offset..], update);
-            return;
-        }
-        if (!SetSavToVal)
-            return;
+        var bf = ((SAV3E)SAV).BattleFrontier;
+        var mode = (BattleFrontierBattleMode3)modeIndex;
+        var record = (BattleFrontierRecordType3)recordIndex;
 
         editingval = true;
-        for (int i = 0; i < BFV[BFF[Facility][0]].Length; i++)
+
+        var validStats = BattleFrontier3.GetValidStats(facility);
+        for (int i = 0; i < validStats.Length; i++)
         {
-            var offset = BFF[Facility][2 + i] + (4 * BattleType) + (2 * RBi);
-            int vali = ReadUInt16LittleEndian(SAV.Small[offset..]);
-            if (vali > 9999)
-                vali = 9999;
-            StatNUDA[BFV[BFF[Facility][0]][i]].Value = vali;
+            var stat = validStats[i];
+            ushort value = bf.GetStat(facility, mode, record, stat);
+            StatNUDA[i].Value = Math.Min((ushort)9999, value);
         }
 
-        var shift = (BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi);
-        CHK_Continue.Checked = (ReadUInt32LittleEndian(SAV.Small[0xCDC..]) & (1 << shift)) != 0;
+        CHK_Continue.Checked = bf.GetContinueFlag(facility, mode, record);
+
         editingval = false;
     }
 
@@ -371,68 +374,111 @@ public partial class SAV_Misc3 : Form
     {
         if (editingval || sender is not NumericUpDown nud)
             return;
-        int n = Array.IndexOf(StatNUDA, nud);
-        if (n < 0)
+
+        int statIndex = Array.IndexOf(StatNUDA, nud);
+        if (statIndex < 0)
             return;
-        StatAddrControl(SetValToSav: n, SetSavToVal: false);
+
+        SaveStatToSave(statIndex);
+    }
+
+    private void SaveStatToSave(int statIndex)
+    {
+        if (CB_Stats1.SelectedValue is not BattleFrontierFacility3 facility)
+            return;
+
+        int modeIndex = CB_Stats2.Visible ? CB_Stats2.SelectedIndex : 0;
+        if (modeIndex < 0)
+            return;
+
+        int recordIndex = -1;
+        for (int i = 0; i < StatRBA.Length; i++)
+        {
+            if (StatRBA[i].Checked)
+            {
+                recordIndex = i;
+                break;
+            }
+        }
+        if (recordIndex < 0)
+            return;
+
+        var bf = ((SAV3E)SAV).BattleFrontier;
+        var mode = (BattleFrontierBattleMode3)modeIndex;
+        var record = (BattleFrontierRecordType3)recordIndex;
+
+        var validStats = BattleFrontier3.GetValidStats(facility);
+        if (statIndex >= validStats.Length)
+            return;
+
+        var stat = validStats[statIndex];
+        var value = (ushort)Math.Min(9999, StatNUDA[statIndex].Value);
+        bf.SetStat(facility, mode, record, stat, value);
     }
 
     private void CHK_Continue_CheckedChanged(object sender, EventArgs e)
     {
         if (editingval)
             return;
-        StatAddrControl(SetValToSav: -1, SetSavToVal: false);
+        SaveContinueFlag();
+    }
+
+    private void SaveContinueFlag()
+    {
+        if (CB_Stats1.SelectedValue is not BattleFrontierFacility3 facility)
+            return;
+
+        int modeIndex = CB_Stats2.Visible ? CB_Stats2.SelectedIndex : 0;
+        if (modeIndex < 0)
+            return;
+
+        int recordIndex = -1;
+        for (int i = 0; i < StatRBA.Length; i++)
+        {
+            if (StatRBA[i].Checked)
+            {
+                recordIndex = i;
+                break;
+            }
+        }
+        if (recordIndex < 0)
+            return;
+
+        var bf = ((SAV3E)SAV).BattleFrontier;
+        var mode = (BattleFrontierBattleMode3)modeIndex;
+        var record = (BattleFrontierRecordType3)recordIndex;
+
+        bf.SetContinueFlag(facility, mode, record, CHK_Continue.Checked);
     }
 
     private void ReadBattleFrontier()
     {
         loading = true;
-        BFF = [
-            // { BFV, BFT, addr(BFV.len), checkBitShift(BFT.len)
-            [0, 2, 0xCE0, 0xCF0, 0x00, 0x0E, 0x10, 0x12],
-            [1, 1, 0xD0C, 0xD14, 0xD1C, 0x02, 0x14],
-            [0, 1, 0xDC8, 0xDD0, 0x04, 0x16],
-            [0, 0, 0xDDA, 0xDDE, 0x06],
-            [2, 1, 0xDE2, 0xDF2, 0xDEA, 0xDFA, 0x08, 0x18],
-            [1, 0, 0xE04, 0xE08, 0xE0C, 0x0A],
-            [0, 0, 0xE1A, 0xE1E, 0x0C],
-        ];
-        BFV =
-        [
-            [0, 2], // Current, Max
-            [0, 2, 3], // Current, Max, Total
-            [0, 1, 2, 3], // Current, Trade, Max, Trade
-        ];
-        BFT = [
-            null,
-            ["Singles", "Doubles"],
-            ["Singles", "Doubles", "Multi", "Linked"],
-        ];
-        BFN =
-        [
-            "Tower","Dome","Palace","Arena","Factory","Pike","Pyramid",
-        ];
+
         StatNUDA = [NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3];
         StatLabelA = [L_Stat0, L_Stat1, L_Stat2, L_Stat3];
         StatRBA = [RB_Stats3_01, RB_Stats3_02];
         SymbolButtonA = [BTN_SymbolA, BTN_SymbolT, BTN_SymbolS, BTN_SymbolG, BTN_SymbolK, BTN_SymbolL, BTN_SymbolB];
-        CHK_ActivatePass.Checked = SAV.GetEventFlag(0x860 + 0x72);
+
+        CHK_ActivatePass.Checked = SAV.GetEventFlag(BattleFrontier3.FrontierPassFlagIndex);
         SetFrontierSymbols();
 
         CB_Stats1.Items.Clear();
-        CB_Stats1.Items.AddRange(BFN);
+        CB_Stats1.InitializeBinding();
+        CB_Stats1.DataSource = Enum.GetValues<BattleFrontierFacility3>();
 
         loading = false;
         CB_Stats1.SelectedIndex = 0;
+        ChangeStat1(CB_Stats1, EventArgs.Empty);
     }
 
     private void SetFrontierSymbols()
     {
         for (int i = 0; i < SymbolButtonA.Length; i++)
         {
-            var flagIndex = 0x860 + 0x64 + (i * 2);
-            var silver = SAV.GetEventFlag(flagIndex);
-            var gold = SAV.GetEventFlag(flagIndex + 1);
+            var facility = (BattleFrontierFacility3)i;
+            var silver = SAV.GetEventFlag(BattleFrontier3.GetSymbolSilverFlagIndex(facility));
+            var gold = SAV.GetEventFlag(BattleFrontier3.GetSymbolGoldFlagIndex(facility));
             var value = silver ? gold ? Color.Gold : Color.Silver : Color.Transparent;
             SymbolButtonA[i].BackColor = value;
         }
@@ -442,15 +488,14 @@ public partial class SAV_Misc3 : Form
     {
         for (int i = 0; i < 7; i++)
         {
+            var facility = (BattleFrontierFacility3)i;
             var color = SymbolButtonA[i].BackColor;
-            bool silver = color != Color.Transparent;
-            bool gold = color == Color.Gold;
 
-            var flagIndex = 0x860 + 0x64 + (i * 2);
-            SAV.SetEventFlag(flagIndex, silver);
-            SAV.SetEventFlag(flagIndex + 1, gold);
+            SAV.SetEventFlag(BattleFrontier3.GetSymbolSilverFlagIndex(facility), color != Color.Transparent);
+            SAV.SetEventFlag(BattleFrontier3.GetSymbolGoldFlagIndex(facility), color == Color.Gold);
         }
-        SAV.SetEventFlag(0x860 + 0x72, CHK_ActivatePass.Checked);
+
+        SAV.SetEventFlag(BattleFrontier3.FrontierPassFlagIndex, CHK_ActivatePass.Checked);
     }
 
     private void BTN_Symbol_Click(object sender, EventArgs e)
