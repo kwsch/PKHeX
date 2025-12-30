@@ -154,24 +154,47 @@ public sealed class SummaryPreviewer
         return string.Join(Environment.NewLine, lines);
     }
 
-    public static string AppendLegalityHint(in LegalityLocalizationContext la, string end)
+    public static string AppendLegalityHint(in LegalityLocalizationContext la, string line)
     {
         // Get the first illegal check result, and append the localization of it as the hint.
         // If all legal, return the input string unchanged.
         var analysis = la.Analysis;
         if (analysis.Valid)
-            return end;
+            return line;
 
         foreach (var chk in analysis.Results)
         {
             if (chk.Valid)
                 continue;
             var hint = la.Humanize(chk, verbose: true);
-            if (hint.Length > 67)
-                hint = hint[..67] + "...";
-            return string.IsNullOrEmpty(end) ? hint : $"{end}{Environment.NewLine}{hint}";
+            return Join(line, hint);
         }
 
-        return end;
+        for (var i = 0; i < analysis.Info.Moves.Length; i++)
+        {
+            var chk = analysis.Info.Moves[i];
+            if (chk.Valid)
+                continue;
+            var hint = la.FormatMove(chk, i, la.Analysis.Info.Entity.Format);
+            return Join(line, hint);
+        }
+
+        for (var i = 0; i < analysis.Info.Relearn.Length; i++)
+        {
+            var chk = analysis.Info.Relearn[i];
+            if (chk.Valid)
+                continue;
+            var hint = la.FormatMove(chk, i, la.Analysis.Info.Entity.Format);
+            return Join(line, hint);
+        }
+
+        return line;
+
+        static string Join(string line, string hint)
+        {
+            if (hint.Length > 67)
+                hint = hint[..67] + "...";
+            return string.IsNullOrEmpty(line) ? hint : $"{line}{Environment.NewLine}{hint}";
+        }
     }
 }
