@@ -9,7 +9,7 @@ public static partial class Util
 
     /// <inheritdoc cref="Rand32(Random)"/>
     /// <remarks>Uses <see cref="Random.Shared"/> to generate the random number.</remarks>
-    public static uint Rand32() => Rand32(Rand);
+    public static uint Rand32() => Rand.Rand32();
 
     extension(Random rnd)
     {

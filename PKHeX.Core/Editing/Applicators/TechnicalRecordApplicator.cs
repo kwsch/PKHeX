@@ -33,14 +33,14 @@ public static class TechnicalRecordApplicator
         public void SetRecordFlags(ReadOnlySpan<ushort> moves)
         {
             var permit = record.Permit;
-            SetRecordFlags(record, moves, permit);
+            record.SetRecordFlags(moves, permit);
         }
 
         private void SetRecordFlags<TTable, TInfo>(ReadOnlySpan<ushort> moves, ReadOnlySpan<EvoCriteria> evos, TTable pt)
             where TTable : IPersonalTable<TInfo> where TInfo : IPersonalInfo, IPermitRecord
         {
             foreach (var evo in evos)
-                SetRecordFlags(record, moves, pt[evo.Species, evo.Form]);
+                record.SetRecordFlags(moves, pt[evo.Species, evo.Form]);
         }
 
         /// <inheritdoc cref="SetRecordFlagsAll(ITechRecord)"/>
@@ -48,29 +48,29 @@ public static class TechnicalRecordApplicator
             where TTable : IPersonalTable<TInfo> where TInfo : IPersonalInfo, IPermitRecord
         {
             foreach (var evo in evos)
-                SetRecordFlagsAll(record, pt[evo.Species, evo.Form]);
+                record.SetRecordFlagsAll(pt[evo.Species, evo.Form]);
         }
 
         /// <inheritdoc cref="SetRecordFlags(ITechRecord, ReadOnlySpan{ushort})"/>
         public void SetRecordFlags(ReadOnlySpan<ushort> moves, ReadOnlySpan<EvoCriteria> evos)
         {
             if (record is PK9 pk9)
-                SetRecordFlags<PersonalTable9SV, PersonalInfo9SV>(pk9, moves, evos, PersonalTable.SV);
+                pk9.SetRecordFlags<PersonalTable9SV, PersonalInfo9SV>(moves, evos, PersonalTable.SV);
             else if (record is PA9 pa9)
-                SetRecordFlags<PersonalTable9ZA, PersonalInfo9ZA>(pa9, moves, evos, PersonalTable.ZA);
+                pa9.SetRecordFlags<PersonalTable9ZA, PersonalInfo9ZA>(moves, evos, PersonalTable.ZA);
             else if (record is PK8 pk8)
-                SetRecordFlags<PersonalTable8SWSH, PersonalInfo8SWSH>(pk8, moves, evos, PersonalTable.SWSH);
+                pk8.SetRecordFlags<PersonalTable8SWSH, PersonalInfo8SWSH>(moves, evos, PersonalTable.SWSH);
         }
 
         /// <inheritdoc cref="SetRecordFlagsAll(ITechRecord)"/>
         public void SetRecordFlagsAll(ReadOnlySpan<EvoCriteria> evos)
         {
             if (record is PK9 pk9)
-                SetRecordFlagsAll<PersonalTable9SV, PersonalInfo9SV>(pk9, evos, PersonalTable.SV);
+                pk9.SetRecordFlagsAll<PersonalTable9SV, PersonalInfo9SV>(evos, PersonalTable.SV);
             else if (record is PA9 pa9)
-                SetRecordFlagsAll<PersonalTable9ZA, PersonalInfo9ZA>(pa9, evos, PersonalTable.ZA);
+                pa9.SetRecordFlagsAll<PersonalTable9ZA, PersonalInfo9ZA>(evos, PersonalTable.ZA);
             else if (record is PK8 pk8)
-                SetRecordFlagsAll<PersonalTable8SWSH, PersonalInfo8SWSH>(pk8, evos, PersonalTable.SWSH);
+                pk8.SetRecordFlagsAll<PersonalTable8SWSH, PersonalInfo8SWSH>(evos, PersonalTable.SWSH);
         }
 
         /// <inheritdoc cref="IPermitRecord.IsRecordPermitted"/>
@@ -122,7 +122,7 @@ public static class TechnicalRecordApplicator
         public void SetRecordFlagsAll()
         {
             var permit = record.Permit;
-            SetRecordFlagsAll(record, permit);
+            record.SetRecordFlagsAll(permit);
         }
 
         /// <inheritdoc cref="SetRecordFlagsAll(PKHeX.Core.ITechRecord)"/>"/>
@@ -166,7 +166,7 @@ public static class TechnicalRecordApplicator
     /// <inheritdoc cref="SetRecordFlags(ITechRecord, PKM, TechnicalRecordApplicatorOption, LegalityAnalysis)"/>
     public static void SetRecordFlags<T>(this T pk, TechnicalRecordApplicatorOption option)
         where T : PKM, ITechRecord
-        => SetRecordFlags(pk, pk, option);
+        => pk.SetRecordFlags(pk, option);
 
     private static void SetRecordFlagsInternal(ITechRecord record, PKM pk, TechnicalRecordApplicatorOption option, LegalityAnalysis la)
     {

@@ -126,7 +126,7 @@ public sealed partial class DonutEditor9a : UserControl
         var all = DonutInfo.Flavors;
         List<ComboText> result = [new(none, "")];
 
-        for (int i = 0; i < all.Length; i++)
+        for (int i = 0; i < all.Count; i++)
         {
             var flavor = all[i];
             var text = localized[i];

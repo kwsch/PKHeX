@@ -16,7 +16,7 @@ public static class EncounterText
 
     extension(IEncounterInfo enc)
     {
-        public IReadOnlyList<string> GetTextLines(bool verbose = false, string language = GameLanguage.DefaultLanguage) => GetTextLines(enc, GetContext(language), verbose);
+        public IReadOnlyList<string> GetTextLines(bool verbose = false, string language = GameLanguage.DefaultLanguage) => enc.GetTextLines(GetContext(language), verbose);
 
         public IReadOnlyList<string> GetTextLines(EncounterDisplayContext ctx, bool verbose = false)
         {

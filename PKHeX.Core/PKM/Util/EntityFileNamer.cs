@@ -87,7 +87,6 @@ public interface IFileNamer<in T>
 /// </summary>
 public static class BulkFileRenamer
 {
-    /// <param name="namer">Rename implementation</param>
     extension<T>(IFileNamer<T> namer) where T : PKM
     {
         /// <summary>
@@ -98,7 +97,7 @@ public static class BulkFileRenamer
         public int RenameFiles(string dir)
         {
             var files = Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories);
-            return RenameFiles(namer, files);
+            return namer.RenameFiles(files);
         }
 
         /// <inheritdoc cref="BulkFileRenamer.RenameFiles{T}(PKHeX.Core.IFileNamer{T},string)"/>

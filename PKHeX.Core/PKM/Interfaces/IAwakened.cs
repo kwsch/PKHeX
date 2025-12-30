@@ -56,7 +56,7 @@ public static class AwakeningUtil
 
             Span<byte> result = stackalloc byte[6];
             SetExpectedMinimumAVs(pb7, result);
-            AwakeningSetVisual(pb7, result);
+            pb7.AwakeningSetVisual(result);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ public static class AwakeningUtil
                 var realMax = Math.Max(av, max);
                 av = (byte)rnd.Next(realMin, realMax + 1);
             }
-            AwakeningSetVisual(pb7, result);
+            pb7.AwakeningSetVisual(result);
         }
 
         /// <summary>

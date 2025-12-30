@@ -58,7 +58,7 @@ public static class ITrainerID32Extensions
     /// <returns>True if shiny, false if not.</returns>
     public static bool IsShiny(this ITrainerID32 tr, uint pid, byte generation = 7)
     {
-        var xor = GetShinyXor(tr, pid);
+        var xor = tr.GetShinyXor(pid);
         var threshold = (generation >= 7 ? ShinyXorThreshold7 : ShinyXorThreshold36);
         return xor < threshold;
     }
@@ -82,13 +82,13 @@ public static class ITrainerID32Extensions
 
         public uint GetDisplayTID() => tr.TrainerIDDisplayFormat switch
         {
-            SixDigit => GetTrainerTID7(tr),
+            SixDigit => tr.GetTrainerTID7(),
             _ => tr.TID16,
         };
 
         public uint GetDisplaySID() => tr.TrainerIDDisplayFormat switch
         {
-            SixDigit => GetTrainerSID7(tr),
+            SixDigit => tr.GetTrainerSID7(),
             _ => tr.SID16,
         };
 

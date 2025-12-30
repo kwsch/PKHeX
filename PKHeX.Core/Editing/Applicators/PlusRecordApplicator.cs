@@ -44,13 +44,13 @@ public static class PlusRecordApplicator
                 case PA9 pa9:
                 {
                     var learn = LearnSource9ZA.Instance;
-                    SetPlusFlagsNatural(record, permit, evos, learn, seedOfMastery);
+                    record.SetPlusFlagsNatural(permit, evos, learn, seedOfMastery);
                     if (pa9 is { IsAlpha: true, ZA: true })
                     {
                         var table = PersonalTable.ZA;
                         var enc = la.EncounterMatch;
                         var epi = table[enc.Species, enc.Form];
-                        SetPlusFlagsSpecific(pa9, epi, epi.AlphaMove);
+                        pa9.SetPlusFlagsSpecific(epi, epi.AlphaMove);
                     }
 
                     if (tm)
@@ -77,7 +77,7 @@ public static class PlusRecordApplicator
             }
 
             var la = new LegalityAnalysis(pk);
-            SetPlusFlagsInternal(record, permit, option, la);
+            record.SetPlusFlagsInternal(permit, option, la);
         }
 
         public void SetPlusFlags(IPermitPlus permit, PlusRecordApplicatorOption option, LegalityAnalysis la)
@@ -91,7 +91,7 @@ public static class PlusRecordApplicator
                 return;
             }
 
-            SetPlusFlagsInternal(record, permit, option, la);
+            record.SetPlusFlagsInternal(permit, option, la);
         }
 
         public void SetPlusFlagsNatural<TSource>(IPermitPlus permit, ReadOnlySpan<EvoCriteria> evos, TSource source, bool seedOfMastery) where TSource : ILearnSourceBonus
@@ -139,7 +139,7 @@ public static class PlusRecordApplicator
             }
 
             if (extra.Length != 0)
-                SetPlusFlagsSpecific(record, permit, extra);
+                record.SetPlusFlagsSpecific(permit, extra);
         }
 
 
@@ -191,7 +191,7 @@ public static class PlusRecordApplicator
 
     public static void SetPlusFlags<T>(this T pk, IPermitPlus permit, PlusRecordApplicatorOption option)
         where T : PKM, IPlusRecord
-        => SetPlusFlags(pk, pk, permit, option);
+        => pk.SetPlusFlags(pk, permit, option);
 }
 
 public enum PlusRecordApplicatorOption

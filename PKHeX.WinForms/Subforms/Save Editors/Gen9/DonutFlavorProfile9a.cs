@@ -37,7 +37,7 @@ public partial class DonutFlavorProfile9a : UserControl
         foreach (var stat in FlavorProfileStats)
             if (stat > maxStat) maxStat = stat;
 
-        ScaleValue = maxStat < 100 ? 500 : Math.Min(((maxStat + 99) / 100) * 100 + 100, MaxStatValue);
+        ScaleValue = maxStat < 100 ? 500 : Math.Min((((maxStat + 99) / 100) * 100) + 100, MaxStatValue);
 
         UpdateStatLabels(flavorStats);
         Invalidate();
@@ -101,8 +101,8 @@ public partial class DonutFlavorProfile9a : UserControl
         if (scale == 0f)
             scale = baselineScale;
 
-        double angleStep = 2 * Math.PI / 5;
-        double angle = -Math.PI / 2 + i * angleStep;
+        const double angleStep = 2 * Math.PI / 5;
+        double angle = (-Math.PI / 2) + (i * angleStep);
 
         float scaledRadiusX = radiusX * scale;
         float scaledRadiusY = radiusY * scale;

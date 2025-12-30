@@ -22,7 +22,7 @@ public static class EntityConverterResultExtensions
             if (result is Success)
                 return formatted;
 
-            var comment = GetMessage(result, src, dest);
+            var comment = result.GetMessage(src, dest);
             return string.Concat(formatted, Environment.NewLine, comment);
         }
 
@@ -33,7 +33,7 @@ public static class EntityConverterResultExtensions
             IncompatibleForm  => MessageStrings.MsgPKMConvertFailForm,
             NoTransferRoute => MessageStrings.MsgPKMConvertFailNoMethod,
             IncompatibleSpecies => string.Format(MessageStrings.MsgPKMConvertFailFormat, SpeciesName.GetSpeciesNameGeneration(src.Species, src.Language, src.Format), dest.Name),
-            IncompatibleLanguageGB => GetIncompatibleGBMessage(result, src, !src.Japanese),
+            IncompatibleLanguageGB => result.GetIncompatibleGBMessage(src, !src.Japanese),
             _ => throw new ArgumentOutOfRangeException(nameof(result)),
         };
 

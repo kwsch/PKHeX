@@ -48,12 +48,8 @@ public static class MoveSetApplicator
             var clone = pk.Clone();
             clone.SetMoves(moves);
             var newLa = new LegalityAnalysis(clone);
-
-            if (newLa.Valid)
-                return;
-
-            // ReSharper disable once TailRecursiveCall
-            GetMoveSet(pk, moves, true);
+            if (!newLa.Valid)
+                newLa.GetMoveSet(moves, true);
         }
     }
 

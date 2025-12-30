@@ -130,7 +130,7 @@ public sealed class DonutPocket9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>
 
 public static class DonutInfo
 {
-    public static readonly DonutBerryDetail[] Berries =
+    public static IReadOnlyList<DonutBerryDetail> Berries { get; } =
     [
         new(0149, 0  ,10, 0 , 0 , 0 , 0 , 1 , 60),
         new(0150, 1  ,0 , 10, 0 , 0 , 0 , 1 , 60),
@@ -278,7 +278,7 @@ public static class DonutInfo
 
     // Could compute these during runtime, but I guess it helps discoverability for search.
     // Hash is FnvHash.HashFnv1a_64 of the internal flavor Name.
-    public static (ulong Hash, string Name)[] Flavors =
+    public static IReadOnlyList<(ulong Hash, string Name)> Flavors { get; } =
     [
         (0xCCFCBB9681D321F1, "sweet_01_lv1"),
         (0xCCFCB89681D31CD8, "sweet_01_lv2"),

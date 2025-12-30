@@ -21,9 +21,9 @@ public static class NatureAmp
             if ((uint)currentNature >= NatureCount)
                 return Nature.Random;
 
-            var (up, dn) = GetNatureModification(currentNature);
+            var (up, dn) = currentNature.GetNatureModification();
 
-            return GetNewNature(type, statIndex, up, dn);
+            return type.GetNewNature(statIndex, up, dn);
         }
 
         /// <inheritdoc cref="GetNewNature(NatureAmpRequest,int,Nature)"/>
@@ -64,8 +64,8 @@ public static class NatureAmp
         /// <inheritdoc cref="IsNeutralOrInvalid(Nature, int, int)"/>
         public bool IsNeutralOrInvalid()
         {
-            var (up, dn) = GetNatureModification(nature);
-            return IsNeutralOrInvalid(nature, up, dn);
+            var (up, dn) = nature.GetNatureModification();
+            return nature.IsNeutralOrInvalid(up, dn);
         }
 
         /// <summary>
@@ -85,8 +85,8 @@ public static class NatureAmp
         /// <param name="stats">Current stats to amplify if appropriate</param>
         public void ModifyStatsForNature(Span<ushort> stats)
         {
-            var (up, dn) = GetNatureModification(nature);
-            if (IsNeutralOrInvalid(nature, up, dn))
+            var (up, dn) = nature.GetNatureModification();
+            if (nature.IsNeutralOrInvalid(up, dn))
                 return;
 
             ref var upStat = ref stats[up + 1];

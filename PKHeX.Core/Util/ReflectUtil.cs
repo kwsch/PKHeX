@@ -38,14 +38,14 @@ public static class ReflectUtil
 
     public static object? GetValue(object obj, string name)
     {
-        if (TryGetPropertyInfo(obj.GetType().GetTypeInfo(), name, out var pi))
+        if (obj.GetType().GetTypeInfo().TryGetPropertyInfo(name, out var pi))
             return pi.GetValue(obj, null);
         return null;
     }
 
     public static bool SetValue(object obj, string name, object value)
     {
-        if (!TryGetPropertyInfo(obj.GetType().GetTypeInfo(), name, out var pi))
+        if (!obj.GetType().GetTypeInfo().TryGetPropertyInfo(name, out var pi))
             return false;
         if (!pi.CanWrite)
             return false;
@@ -125,26 +125,13 @@ public static class ReflectUtil
 
     extension(TypeInfo typeInfo)
     {
-        public IEnumerable<ConstructorInfo> GetAllConstructors()
-            => GetAll(typeInfo, ti => ti.DeclaredConstructors);
-
-        public IEnumerable<EventInfo> GetAllEvents()
-            => GetAll(typeInfo, ti => ti.DeclaredEvents);
-
-        public IEnumerable<FieldInfo> GetAllFields()
-            => GetAll(typeInfo, ti => ti.DeclaredFields);
-
-        public IEnumerable<MemberInfo> GetAllMembers()
-            => GetAll(typeInfo, ti => ti.DeclaredMembers);
-
-        public IEnumerable<MethodInfo> GetAllMethods()
-            => GetAll(typeInfo, ti => ti.DeclaredMethods);
-
-        public IEnumerable<TypeInfo> GetAllNestedTypes()
-            => GetAll(typeInfo, ti => ti.DeclaredNestedTypes);
-
-        public IEnumerable<PropertyInfo> GetAllProperties()
-            => GetAll(typeInfo, ti => ti.DeclaredProperties);
+        public IEnumerable<ConstructorInfo> GetAllConstructors() => typeInfo.GetAll(ti => ti.DeclaredConstructors);
+        public IEnumerable<EventInfo> GetAllEvents() => typeInfo.GetAll(ti => ti.DeclaredEvents);
+        public IEnumerable<FieldInfo> GetAllFields() => typeInfo.GetAll(ti => ti.DeclaredFields);
+        public IEnumerable<MemberInfo> GetAllMembers() => typeInfo.GetAll(ti => ti.DeclaredMembers);
+        public IEnumerable<MethodInfo> GetAllMethods() => typeInfo.GetAll(ti => ti.DeclaredMethods);
+        public IEnumerable<TypeInfo> GetAllNestedTypes() => typeInfo.GetAll(ti => ti.DeclaredNestedTypes);
+        public IEnumerable<PropertyInfo> GetAllProperties() => typeInfo.GetAll(ti => ti.DeclaredProperties);
     }
 
     public static IEnumerable<TypeInfo> GetAllTypeInfo(this TypeInfo? typeInfo)
@@ -166,7 +153,7 @@ public static class ReflectUtil
     public static bool HasProperty(object obj, string name, [NotNullWhen(true)] out PropertyInfo? pi)
     {
         var type = obj.GetType();
-        return TryGetPropertyInfo(type.GetTypeInfo(), name, out pi);
+        return type.GetTypeInfo().TryGetPropertyInfo(name, out pi);
     }
 
     extension(TypeInfo typeInfo)
@@ -191,7 +178,7 @@ public static class ReflectUtil
 
         private IEnumerable<T> GetAll<T>(Func<TypeInfo, IEnumerable<T>> accessor)
         {
-            return GetAllTypeInfo(typeInfo).SelectMany(_ => accessor(typeInfo));
+            return typeInfo.GetAllTypeInfo().SelectMany(_ => accessor(typeInfo));
         }
     }
 

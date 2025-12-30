@@ -11,7 +11,6 @@ public static class TiledImageConverter
 {
     private const int bpp = 4; // 32-bit ARGB
 
-    /// <param name="bg">Input to create image pixel data for</param>
     extension<T>(T bg) where T : ITiledImage
     {
         /// <summary>
@@ -20,7 +19,7 @@ public static class TiledImageConverter
         public byte[] GetImageData()
         {
             var result = new byte[T.PixelCount * bpp];
-            GetImageData(bg, result);
+            bg.GetImageData(result);
             return result;
         }
 

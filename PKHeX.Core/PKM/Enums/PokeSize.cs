@@ -33,7 +33,7 @@ public static class PokeSizeUtil
 
     extension(PokeSize size)
     {
-        public byte GetRandomScalar() => GetRandomScalar(size, Util.Rand);
+        public byte GetRandomScalar() => size.GetRandomScalar(Util.Rand);
 
         public byte GetRandomScalar(Random rnd) => size switch
         {

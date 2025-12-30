@@ -36,7 +36,7 @@ public static class MoveTypeExtensions
         public MoveType GetMoveTypeGeneration(byte generation)
         {
             if (generation <= 2)
-                return GetMoveTypeFromG12(type);
+                return type.GetMoveTypeFromG12();
             return type;
         }
 

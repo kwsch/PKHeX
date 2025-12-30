@@ -12,7 +12,7 @@ public static class SpawnerUtil8a
 
     extension(Spawner8a spawner)
     {
-        public ulong ComputeGroupSeed() => ComputeGroupSeed(spawner[0]);
+        public ulong ComputeGroupSeed() => spawner[0].ComputeGroupSeed();
 
         public bool IsOriginalSeed(ulong groupSeed)
         {

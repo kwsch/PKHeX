@@ -167,7 +167,7 @@ public static class MoveListSuggest
             if (LearnVerifierRelearn.ShouldNotHaveRelearnMoves(enc, pk))
                 return;
 
-            GetSuggestedRelearnInternal(enc, pk, moves);
+            enc.GetSuggestedRelearnInternal(pk, moves);
         }
 
         private void GetSuggestedRelearnInternal(PKM pk, Span<ushort> moves)

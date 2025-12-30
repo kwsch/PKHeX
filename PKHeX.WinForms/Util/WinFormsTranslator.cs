@@ -223,7 +223,7 @@ public static class WinFormsTranslator
                 yield return childOfT;
 
             if (!child.HasChildren) continue;
-            foreach (var descendant in GetChildrenOfType<T>(child))
+            foreach (var descendant in child.GetChildrenOfType<T>())
                 yield return descendant;
         }
     }

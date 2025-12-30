@@ -155,7 +155,7 @@ public static partial class Extensions
         /// <inheritdoc cref="IsHyperTrainingAvailable(IHyperTrain)"/>
         public bool IsHyperTrainingAvailable(byte currentLevel)
         {
-            var min = GetHyperTrainMinLevel(c);
+            var min = c.GetHyperTrainMinLevel();
             return currentLevel >= min;
         }
 

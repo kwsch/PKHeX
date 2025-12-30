@@ -134,7 +134,7 @@ public static class PogoTypeExtensions
         /// <summary>
         /// Gets the minimum level (relative to GO's 1-<see cref="EncountersGO.MAX_LEVEL"/>) the <see cref="encounterType"/> must have.
         /// </summary>
-        public byte GetMinLevel() => encounterType switch
+        public byte LevelMin => encounterType switch
         {
             Wild => 1,
             Egg => 1,
@@ -201,7 +201,7 @@ public static class PogoTypeExtensions
         /// Gets the minimum IVs (relative to GO's 0-15) the <see cref="encounterType"/> must have.
         /// </summary>
         /// <returns>Required minimum IV (0-15)</returns>
-        public int GetMinIV() => encounterType switch
+        public int MinimumIV => encounterType switch
         {
             Wild => 0,
             RaidMythical => 10,
@@ -251,7 +251,7 @@ public static class PogoTypeExtensions
         /// Checks if <see cref="Ball.Master"/> can be used for the <see cref="encounterType"/>.
         /// </summary>
         /// <returns>True if valid, false if invalid.</returns>
-        public bool IsMasterBallUsable() => encounterType switch
+        public bool IsMasterBallUsable => encounterType switch
         {
             Egg or Egg12km => false,
             SpecialMythicalPoke or SpecialUltraBeast or SpecialPoke or SpecialLastBall or SpecialNoHUD or SpecialUltraBeastLevel10 or SpecialUltraBeastLevel20 or SpecialUltraBeastLevelRange => false,
@@ -274,7 +274,7 @@ public static class PogoTypeExtensions
             Shadow or ShadowMythical or ShadowUltraBeast => false,
             MaxBattle or MaxBattleMythical or MaxBattleUltraBeast or MaxBattleGigantamax => false,
             PremierBallBug or PremierBallBugMythical => false,
-            _ when IsSpecialResearch(encounterType) && SpeciesCategory.IsSpecialPokemon(species) => false,
+            _ when encounterType.IsSpecialResearch && SpeciesCategory.IsSpecialPokemon(species) => false,
             _ => true,
         };
 
@@ -324,6 +324,6 @@ public static class PogoTypeExtensions
             _ => Ball.None, // Poké, Great, Ultra
         };
 
-        private bool IsSpecialResearch() => encounterType is >= SpecialMythical and < TimedMythical;
+        public bool IsSpecialResearch => encounterType is >= SpecialMythical and < TimedMythical;
     }
 }

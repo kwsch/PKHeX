@@ -192,24 +192,26 @@ public static class SaveExtensions
         public PKM LoadTemplate(string? templatePath = null)
         {
             if (!Directory.Exists(templatePath))
-                return LoadTemplateInternal(sav);
+                return Fallback(sav);
 
             var di = new DirectoryInfo(templatePath);
             string path = Path.Combine(templatePath, $"{di.Name}.{sav.PKMType.Name.ToLowerInvariant()}");
 
             if (!File.Exists(path))
-                return LoadTemplateInternal(sav);
+                return Fallback(sav);
             var fi = new FileInfo(path);
             if (!EntityDetection.IsSizePlausible(fi.Length))
-                return LoadTemplateInternal(sav);
+                return Fallback(sav);
 
             var data = File.ReadAllBytes(path);
             var prefer = EntityFileExtension.GetContextFromExtension(fi.Extension, sav.Context);
             var pk = EntityFormat.GetFromBytes(data, prefer);
             if (pk?.Species is not > 0)
-                return LoadTemplateInternal(sav);
+                return Fallback(sav);
 
-            return EntityConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out _) ?? LoadTemplateInternal(sav);
+            return EntityConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out _) ?? Fallback(sav);
+
+            static PKM Fallback(SaveFile sav) => sav.LoadTemplateInternal();
         }
     }
 }

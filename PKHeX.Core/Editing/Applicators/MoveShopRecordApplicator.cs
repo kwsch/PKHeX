@@ -77,7 +77,7 @@ public static class MoveShopRecordApplicator
                     continue;
 
                 var move = possible[index];
-                SetMasteredFlag(shop, learn, mastery, level, index, move);
+                shop.SetMasteredFlag(learn, mastery, level, index, move);
             }
         }
 
@@ -95,7 +95,7 @@ public static class MoveShopRecordApplicator
                     continue;
                 if (!permit.IsRecordPermitted(index))
                     continue;
-                SetMasteredFlag(shop, learn, mastery, level, index, move);
+                shop.SetMasteredFlag(learn, mastery, level, index, move);
             }
         }
 
