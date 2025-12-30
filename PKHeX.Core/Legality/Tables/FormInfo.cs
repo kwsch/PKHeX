@@ -54,6 +54,7 @@ public static class FormInfo
         // Only continue checking if the species is in the list of Battle Only forms.
         // Some species have battle only forms as well as out-of-battle forms (other than base form).
         (ushort)Darmanitan => (form & 1) == 1, // Zen
+        (ushort)Greninja => form == 2, // Ash
         (ushort)Zygarde => form == 4, // Zygarde Complete
         (ushort)Minior => form < 7, // Minior Shields-Down
         (ushort)Mimikyu => (form & 1) == 1, // Busted
@@ -69,8 +70,8 @@ public static class FormInfo
         (ushort)Zygarde => form == 5,
         (ushort)Floette => form == 6,
         (ushort)Greninja => form == 3,
-        (ushort)Meowstic => form == 2,
-        (ushort)Magearna => form == 2,
+        (ushort)Meowstic => form is (2 or 3),
+        (ushort)Magearna => form is (2 or 3),
         (ushort)Tatsugiri => form is (3 or 4 or 5),
 
         _ => form != 0,
@@ -87,6 +88,7 @@ public static class FormInfo
     public static byte GetOutOfBattleForm(ushort species, byte form, byte format) => species switch
     {
         (ushort)Darmanitan => (byte)(form & 2),
+        (ushort)Greninja when form == 2 => 1, // Ash
         (ushort)Zygarde when format > 6 => 3,
         (ushort)Minior => (byte)(form + 7),
         (ushort)Mimikyu => (byte)(form & 2),
@@ -210,6 +212,7 @@ public static class FormInfo
         (int)Darmanitan,
         (int)Meloetta,
 
+        (int)Greninja,
         (int)Aegislash,
         (int)Xerneas,
         (int)Zygarde,
@@ -277,6 +280,7 @@ public static class FormInfo
         (int)Chandelure,
         (int)Chesnaught,
         (int)Delphox,
+        (int)Greninja,
         (int)Pyroar,
         (int)Malamar,
         (int)Barbaracle,
