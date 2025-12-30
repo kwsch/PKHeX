@@ -17,10 +17,10 @@ public static class FormInfo
     /// <returns>True if it can only exist in a battle, false if it can exist outside of battle.</returns>
     public static bool IsBattleOnlyForm(ushort species, byte form, byte format)
     {
-        if (BattleMegas.Contains(species))
-            return IsBattleMegaForm(species, form);
-        if (BattleForms.Contains(species))
-            return IsBattleForm(species, form);
+        if (BattleMegas.Contains(species) && IsBattleMegaForm(species, form))
+            return true;
+        if (BattleForms.Contains(species) && IsBattleForm(species, form))
+            return true;
         return false;
     }
 
