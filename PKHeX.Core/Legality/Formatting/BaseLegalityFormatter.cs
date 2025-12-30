@@ -54,14 +54,16 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         var l = la.Analysis;
         var lines = new List<string>();
         if (l.Valid)
+        {
             lines.Add(la.Settings.Lines.Legal);
+            lines.Add(string.Empty);
+        }
         else
+        {
             GetLegalityReportLines(la, lines);
+        }
         var info = l.Info;
         var pk = l.Entity;
-        const string separator = "===";
-        lines.Add(separator);
-        lines.Add(string.Empty);
         int initialCount = lines.Count;
 
         var format = pk.Format;
@@ -75,7 +77,6 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
 
         LegalityFormatting.AddSecondaryChecksValid(la, l.Results, lines);
 
-        lines.Add(separator);
         lines.Add(string.Empty);
         LegalityFormatting.AddEncounterInfo(la, lines);
 

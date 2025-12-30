@@ -141,9 +141,12 @@ public sealed class SummaryPreviewer
 
     public static string AppendEncounterInfo(LegalityLocalizationContext la, string text)
     {
-        var result = new List<string>(8) { text };
+        var result = new List<string>(8);
         if (text.Length != 0) // add a blank line between the set and the encounter info if isn't already a blank line
+        {
+            result.Add(text);
             result.Add(string.Empty);
+        }
         LegalityFormatting.AddEncounterInfo(la, result);
         return string.Join(Environment.NewLine, result);
     }

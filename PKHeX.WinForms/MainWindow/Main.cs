@@ -1084,7 +1084,7 @@ public partial class Main : Form
         var settings = localizer.Settings;
         var intro = simpleReport + Environment.NewLine;
         if (la.Valid)
-            intro += "===" + Environment.NewLine + Environment.NewLine;
+            intro += Environment.NewLine;
         var expandText = verboseReport.Replace(intro, "");
         var page = new TaskDialogPage
         {

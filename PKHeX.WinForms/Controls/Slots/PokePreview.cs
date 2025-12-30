@@ -106,7 +106,7 @@ public partial class PokePreview : Form
 
     private void PopulateText(PKM pk, in LegalityLocalizationContext la, in BattleTemplateExportSettings settings, int width)
     {
-        var (before, after) = GetBeforeAndAfter(pk, la, settings);
+        var (before, mid, after) = GetBeforeAndAfter(pk, la, settings);
         var hover = Main.Settings.Hover;
 
         bool hasMoves = pk.MoveCount != 0;
@@ -115,13 +115,14 @@ public partial class PokePreview : Form
         if (hasMoves)
             height += FLP_Moves.Height + FLP_Moves.Margin.Vertical;
         ToggleLabel(L_LinesBeforeMoves, before, hover.PreviewShowPaste, ref width, ref height);
+        ToggleLabel(L_HintIllegal, mid, hover.HoverSlotShowLegalityHint, ref width, ref height);
         ToggleLabel(L_LinesAfterMoves, after, hover.HoverSlotShowEncounter, ref width, ref height);
         Size = new Size(width, height);
     }
 
     private static void ToggleLabel(Control display, string text, bool visible, ref int width, ref int height)
     {
-        if (!visible)
+        if (!visible || text.Length == 0)
         {
             display.Visible = false;
             return;
@@ -140,7 +141,7 @@ public partial class PokePreview : Form
         return TextRenderer.MeasureText(text, font, new Size(), flags);
     }
 
-    private static (string Before, string After) GetBeforeAndAfter(PKM pk, in LegalityLocalizationContext la, in BattleTemplateExportSettings settings)
+    private static (string Before, string Middle, string After) GetBeforeAndAfter(PKM pk, in LegalityLocalizationContext la, in BattleTemplateExportSettings settings)
     {
         var order = settings.Order;
         // Bifurcate the order into two sections; split via Moves.
@@ -157,12 +158,14 @@ public partial class PokePreview : Form
         else if (settings.IsTokenInExport(BattleTemplateToken.IVs, after))
             TryAppendOtherStats(pk, ref end, settings);
 
+        var mid = "";
+        if (Main.Settings.Hover.HoverSlotShowLegalityHint)
+            mid = SummaryPreviewer.AppendLegalityHint(la, mid);
+
         if (Main.Settings.Hover.HoverSlotShowEncounter)
             end = SummaryPreviewer.AppendEncounterInfo(la, end);
-        if (Main.Settings.Hover.HoverSlotShowLegalityHint)
-            end = SummaryPreviewer.AppendLegalityHint(la, end);
 
-        return (start, end);
+        return (start, mid, end);
     }
 
     private static void TryAppendOtherStats(PKM pk, ref string line, in BattleTemplateExportSettings settings)
