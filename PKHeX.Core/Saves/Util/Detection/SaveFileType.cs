@@ -91,23 +91,30 @@ public static class SaveFileTypeExtensions
 
     extension(SaveFileType type)
     {
-        public byte Generation => type switch
+        public EntityContext Context => type switch
         {
-            RBY or Stadium1J or Stadium1 => 1,
-            GSC or Stadium2 => 2,
-            RS or Emerald or FRLG => 3,
-            DP or Pt or HGSS => 4,
-            BW or B2W2 => 5,
-            XY or AO or AODemo => 6,
-            SM or USUM or LGPE => 7,
-            SWSH or BDSP or LA => 8,
-            SV or ZA => 9,
-            Colosseum or XD or RSBox => 3,
-            Ranch or BattleRevolution => 4,
-            Bulk3 => 3,
-            Bulk4 => 4,
-            Bulk7 => 7,
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            RBY or Stadium1J or Stadium1 => EntityContext.Gen1,
+            GSC or Stadium2 => EntityContext.Gen2,
+            RS or Emerald or FRLG => EntityContext.Gen3,
+            DP or Pt or HGSS => EntityContext.Gen4,
+            BW or B2W2 => EntityContext.Gen5,
+            XY or AO or AODemo => EntityContext.Gen6,
+            SM or USUM => EntityContext.Gen7,
+            LGPE => EntityContext.Gen7b,
+            SWSH => EntityContext.Gen8,
+            LA => EntityContext.Gen8a,
+            BDSP => EntityContext.Gen8b,
+            SV => EntityContext.Gen9,
+            ZA => EntityContext.Gen9a,
+
+            Colosseum or XD or RSBox => EntityContext.Gen3,
+            Ranch or BattleRevolution => EntityContext.Gen4,
+            Bulk3 => EntityContext.Gen3,
+            Bulk4 => EntityContext.Gen4,
+            Bulk7 => EntityContext.Gen7,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
+
+        public byte Generation => type.Context.Generation;
     }
 }
