@@ -32,9 +32,9 @@ PKHeX expects save files that are not encrypted with console-specific keys. Use 
 
 ## Building
 
-PKHeX is a Windows Forms application which requires [.NET 9.0](https://dotnet.microsoft.com/download/dotnet/9.0).
+PKHeX is a Windows Forms application which requires [.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0).
 
-The executable can be built with any compiler that supports C# 13.
+The executable can be built with any compiler that supports C# 14.
 
 ### Build Configurations
 
