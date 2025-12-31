@@ -84,14 +84,14 @@ public partial class StatEditor : UserControl
 
             case Keys.Control: // Max
                 {
-                    var index = Array.IndexOf(MT_IVs, t);
+                    var index = MT_IVs.IndexOf(t);
                     t.Text = Entity.GetMaximumIV(index, true).ToString();
                     break;
                 }
 
             case Keys.Shift when Entity is IHyperTrain h: // HT
                 {
-                    var index = Array.IndexOf(MT_IVs, t);
+                    var index = MT_IVs.IndexOf(t);
                     bool flag = h.HyperTrainInvert(index);
                     UpdateHyperTrainingFlag(index, flag);
                     UpdateStats();
@@ -107,7 +107,7 @@ public partial class StatEditor : UserControl
 
         if ((ModifierKeys & Keys.Control) != 0) // Max
         {
-            int index = Array.IndexOf(MT_EVs, t);
+            int index = MT_EVs.IndexOf(t);
             int newEV = Entity.GetMaximumEV(index);
             t.Text = newEV.ToString();
         }
@@ -139,7 +139,7 @@ public partial class StatEditor : UserControl
 
         if ((ModifierKeys & Keys.Control) != 0) // Max
         {
-            int index = Array.IndexOf(MT_GVs, t);
+            int index = MT_GVs.IndexOf(t);
             var max = g.GetMax(Entity, index).ToString();
             t.Text = t.Text == max ? 0.ToString() : max;
         }
@@ -160,7 +160,7 @@ public partial class StatEditor : UserControl
                 return; // recursive on text set
             }
 
-            int index = Array.IndexOf(MT_IVs, m);
+            int index = MT_IVs.IndexOf(m);
             Entity.SetIV(index, value);
             if (Entity is IGanbaru g)
                 RefreshGanbaru(Entity, g, index);
@@ -205,7 +205,7 @@ public partial class StatEditor : UserControl
                 return; // recursive on text set
             }
 
-            int index = Array.IndexOf(MT_EVs, m);
+            int index = MT_EVs.IndexOf(m);
             Entity.SetEV(index, value);
         }
 
@@ -234,7 +234,7 @@ public partial class StatEditor : UserControl
                 return; // recursive on text set
             }
 
-            int index = Array.IndexOf(MT_AVs, m);
+            int index = MT_AVs.IndexOf(m);
             a.SetAV(index, value);
         }
 
@@ -255,7 +255,7 @@ public partial class StatEditor : UserControl
                 return; // recursive on text set
             }
 
-            int index = Array.IndexOf(MT_GVs, m);
+            int index = MT_GVs.IndexOf(m);
             g.SetGV(index, (byte)value);
             RefreshGanbaru(Entity, g, index);
         }
@@ -306,9 +306,15 @@ public partial class StatEditor : UserControl
     {
         var tb = MT_IVs[index];
         if (value)
+        {
+            tb.ForeColor = Color.Black;
             tb.BackColor = StatHyperTrained;
+        }
         else
+        {
+            tb.ResetForeColor();
             tb.ResetBackColor();
+        }
     }
 
     private void UpdateHPType(object sender, EventArgs e)
@@ -334,7 +340,7 @@ public partial class StatEditor : UserControl
         if (ModifierKeys == Keys.None)
             return;
 
-        int index = Array.IndexOf(L_Stats, sender as Label) - 1;
+        int index = L_Stats.IndexOf(sender as Label) - 1;
         if (index < 0)
             return;
 
@@ -357,7 +363,10 @@ public partial class StatEditor : UserControl
         if (Entity is not IHyperTrain h)
         {
             foreach (var iv in MT_IVs)
+            {
+                iv.ResetForeColor();
                 iv.ResetBackColor();
+            }
             return;
         }
 
@@ -376,8 +385,12 @@ public partial class StatEditor : UserControl
     private void UpdateEVTotals()
     {
         var evtotal = Entity.EVTotal;
-        TB_EVTotal.BackColor = GetEVTotalColor(evtotal, TB_IVTotal.BackColor);
         TB_EVTotal.Text = evtotal.ToString();
+        TB_EVTotal.BackColor = GetEVTotalColor(evtotal, TB_IVTotal.BackColor);
+        if (TB_EVTotal.BackColor != TB_IVTotal.BackColor)
+            TB_EVTotal.ForeColor = Color.Black;
+        else
+            TB_EVTotal.ResetForeColor();
         EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
     }
 
@@ -421,11 +434,13 @@ public partial class StatEditor : UserControl
             var value = pi.GetBaseStatValue(index);
             var s = MT_Base[index];
             s.Text = value.ToString("000");
+            s.ForeColor = Color.Black;
             s.BackColor = ColorUtil.ColorBaseStat(value);
             bst += value;
         }
 
         TB_BST.Text = bst.ToString("000");
+        TB_BST.ForeColor = Color.Black;
         TB_BST.BackColor = ColorUtil.ColorBaseStatTotal(bst);
     }
 
@@ -503,14 +518,24 @@ public partial class StatEditor : UserControl
             l.ResetForeColor();
 
         // Set Colored StatLabels only if Nature isn't Neutral
-        var (up, dn) = NatureAmp.GetNatureModification(nature);
-        if (NatureAmp.IsNeutralOrInvalid(nature, up, dn))
+        var (up, dn) = nature.GetNatureModification();
+        if (nature.IsNeutralOrInvalid(up, dn))
             return "-/-";
 
         var incr = L_Stats[up + 1];
         var decr = L_Stats[dn + 1];
-        incr.ForeColor = StatIncreased;
-        decr.ForeColor = StatDecreased;
+
+        var increase = StatIncreased;
+        var decrease = StatDecreased;
+        if (Application.IsDarkModeEnabled)
+        {
+            // Slightly whiten; regular color is too dark.
+            increase = ColorUtil.Blend(increase, SystemColors.ControlText, 0.60f);
+            decrease = ColorUtil.Blend(decrease, SystemColors.ControlText, 0.45f);
+        }
+
+        incr.ForeColor = increase;
+        decr.ForeColor = decrease;
         return $"+{incr.Text} / -{decr.Text}".Replace(":", string.Empty);
     }
 
@@ -612,11 +637,20 @@ public partial class StatEditor : UserControl
         var max = ganbaru.GetMax(entity, i);
         var tb = MT_GVs[i];
         if (current > max)
+        {
+            tb.ForeColor = Color.Black;
             tb.BackColor = EVsInvalid;
+        }
         else if (current == max)
+        {
+            tb.ForeColor = Color.Black;
             tb.BackColor = StatHyperTrained;
+        }
         else
+        {
+            tb.ResetForeColor();
             tb.ResetBackColor();
+        }
     }
 
     private void SetStatOrder(StatEditorStatOrder order)

@@ -64,6 +64,12 @@ public partial class SAV_FolderList : Form
             AddButton(loc.DisplayText, loc.Path);
 
         CenterToParent();
+
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(dgDataBackup.ContextMenuStrip.Items);
+            WinFormsUtil.InvertToolStripIcons(dgDataRecent.ContextMenuStrip.Items);
+        }
     }
 
     private static List<INamedFolderPath> GetPathList(IReadOnlyList<string> drives, string backupPath)
@@ -375,6 +381,6 @@ public partial class SAV_FolderList : Form
             row.Visible = false;
             return;
         }
-        row.Visible = value.AsSpan().Contains(text, StringComparison.CurrentCultureIgnoreCase); // case insensitive contains
+        row.Visible = value.Contains(text, StringComparison.CurrentCultureIgnoreCase); // case insensitive contains
     }
 }

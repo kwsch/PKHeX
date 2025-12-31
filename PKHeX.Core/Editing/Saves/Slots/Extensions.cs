@@ -4,28 +4,31 @@ namespace PKHeX.Core;
 
 public static partial class Extensions
 {
-    public static List<PKM> GetAllPKM(this SaveFile sav)
+    extension(SaveFile sav)
     {
-        var result = new List<PKM>();
-        if (sav.HasBox)
-            result.AddRange(sav.BoxData);
-        if (sav.HasParty)
-            result.AddRange(sav.PartyData);
+        public List<PKM> GetAllPKM()
+        {
+            var result = new List<PKM>();
+            if (sav.HasBox)
+                result.AddRange(sav.BoxData);
+            if (sav.HasParty)
+                result.AddRange(sav.PartyData);
 
-        var extra = sav.GetExtraPKM();
-        result.AddRange(extra);
-        result.RemoveAll(z => z.Species == 0);
-        return result;
-    }
+            var extra = sav.GetExtraPKM();
+            result.AddRange(extra);
+            result.RemoveAll(z => z.Species == 0);
+            return result;
+        }
 
-    public static PKM[] GetExtraPKM(this SaveFile sav) => sav.GetExtraPKM(sav.GetExtraSlots());
+        public PKM[] GetExtraPKM() => sav.GetExtraPKM(sav.GetExtraSlots());
 
-    public static PKM[] GetExtraPKM(this SaveFile sav, IReadOnlyList<SlotInfoMisc> slots)
-    {
-        var arr = new PKM[slots.Count];
-        for (int i = 0; i < slots.Count; i++)
-            arr[i] = slots[i].Read(sav);
-        return arr;
+        public PKM[] GetExtraPKM(IReadOnlyList<SlotInfoMisc> slots)
+        {
+            var arr = new PKM[slots.Count];
+            for (int i = 0; i < slots.Count; i++)
+                arr[i] = slots[i].Read(sav);
+            return arr;
+        }
     }
 
     private static readonly List<SlotInfoMisc> None = [];

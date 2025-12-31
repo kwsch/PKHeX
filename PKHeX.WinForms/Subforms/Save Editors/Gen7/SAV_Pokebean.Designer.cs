@@ -1,3 +1,5 @@
+using PKHeX.WinForms.Controls;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_Pokebean
@@ -28,7 +30,7 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            dgv = new System.Windows.Forms.DataGridView();
+            dgv = new DoubleBufferedDataGridView();
             B_Save = new System.Windows.Forms.Button();
             B_Cancel = new System.Windows.Forms.Button();
             B_All = new System.Windows.Forms.Button();
@@ -129,7 +131,7 @@ namespace PKHeX.WinForms
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgv;
+        private DoubleBufferedDataGridView dgv;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_All;

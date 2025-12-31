@@ -71,7 +71,12 @@ public partial class PokeGrid : UserControl
         ResumeLayout();
     }
 
-    public void SetBackground(Image img) => BackgroundImage = img;
+    public void SetBackground(Image img)
+    {
+        if (Application.IsDarkModeEnabled)
+            img = Drawing.ImageUtil.ChangeOpacity(img, 0.5);
+        BackgroundImage = img;
+    }
 
     public static SelectablePictureBox GetControl(int width, int height, string name) => new()
     {

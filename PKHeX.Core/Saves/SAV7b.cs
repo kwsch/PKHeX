@@ -119,7 +119,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
     {
         var result = StorageSlotSource.None;
         var header = Blocks.Storage.PokeListInfo;
-        int position = Array.IndexOf(header, index, 0, 6);
+        int position = header.AsSpan(0, 6).IndexOf(index);
         if (position >= 0)
             result = (StorageSlotSource)((int)StorageSlotSource.Party1 << position);
         if (header[PokeListHeader.STARTER] == index)

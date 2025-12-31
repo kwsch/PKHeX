@@ -30,8 +30,6 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             FLP_Buttons = new System.Windows.Forms.FlowLayoutPanel();
             TC_Tabs = new System.Windows.Forms.TabControl();
             Tab_Recent = new System.Windows.Forms.TabPage();
@@ -88,8 +86,6 @@ namespace PKHeX.WinForms
             dgDataRecent.AllowUserToOrderColumns = true;
             dgDataRecent.AllowUserToResizeColumns = false;
             dgDataRecent.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = SystemColors.ControlLight;
-            dgDataRecent.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgDataRecent.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             dgDataRecent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgDataRecent.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -118,8 +114,6 @@ namespace PKHeX.WinForms
             dgDataBackup.AllowUserToOrderColumns = true;
             dgDataBackup.AllowUserToResizeColumns = false;
             dgDataBackup.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.BackColor = SystemColors.ControlLight;
-            dgDataBackup.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             dgDataBackup.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             dgDataBackup.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgDataBackup.Dock = System.Windows.Forms.DockStyle.Fill;

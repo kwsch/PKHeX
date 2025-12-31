@@ -238,7 +238,7 @@ public partial class SAV_Donut9a : Form
             var fileData = System.IO.File.ReadAllBytes(path);
             if (fileData.Length != data.Length)
                 throw new Exception($"Invalid donut size: expected {data.Length} bytes, got {fileData.Length} bytes.");
-            fileData.AsSpan().CopyTo(data);
+            fileData.CopyTo(data);
             return true;
         }
         catch (Exception ex)

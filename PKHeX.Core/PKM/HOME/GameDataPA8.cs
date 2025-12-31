@@ -191,7 +191,7 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSize
     {
         if (!wasLA)
             return ball;
-        if (((Ball)ball).IsLegendBall())
+        if (((Ball)ball).IsLegendBall)
             return ball;
         return (byte)Core.Ball.LAPoke;
     }

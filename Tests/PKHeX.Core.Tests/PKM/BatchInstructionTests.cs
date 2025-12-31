@@ -32,6 +32,6 @@ public class BatchInstructionTests
     public void ParseComparer(char c, bool expect = true)
     {
         var comparer = StringInstruction.GetComparer(c);
-        comparer.IsSupportedComparer().Should().Be(expect);
+        comparer.IsSupported.Should().Be(expect);
     }
 }

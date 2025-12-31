@@ -375,7 +375,7 @@ public partial class SAV_Misc3 : Form
         if (editingval || sender is not NumericUpDown nud)
             return;
 
-        int statIndex = Array.IndexOf(StatNUDA, nud);
+        int statIndex = StatNUDA.IndexOf(nud);
         if (statIndex < 0)
             return;
 

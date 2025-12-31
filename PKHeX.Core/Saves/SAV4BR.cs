@@ -406,10 +406,8 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     /// </remarks>
     public ulong PlayerID
     {
-        get => (
-            ((ulong)Data[0x128CA] << 56) | ((ulong)Data[0x128CC] << 48) | ((ulong)Data[0x128CE] << 40) | ((ulong)Data[0x128C0] << 32) |
-            ((ulong)Data[0x128D2] << 24) | ((ulong)Data[0x128D4] << 16) | ((ulong)Data[0x128D6] << 8) | Data[0x128C8]
-        );
+        get => ((ulong)Data[0x128CA] << 56) | ((ulong)Data[0x128CC] << 48) | ((ulong)Data[0x128CE] << 40) | ((ulong)Data[0x128C0] << 32) |
+               ((ulong)Data[0x128D2] << 24) | ((ulong)Data[0x128D4] << 16) | ((ulong)Data[0x128D6] << 8) | Data[0x128C8];
         set
         {
             Data[0x128CA] = (byte)((value >> 56) & 0xFF);
@@ -498,7 +496,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         for (byte slot = 0; slot < PartyCount; slot++)
         {
             PKM other = party[slot];
-            if (pk.PID == other.PID && pk.DecryptedBoxData.AsSpan().SequenceEqual(other.DecryptedBoxData))
+            if (pk.PID == other.PID && pk.DecryptedBoxData.SequenceEqual(other.DecryptedBoxData))
                 return (0, slot);
         }
 
@@ -508,7 +506,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
             for (byte slot = 0; slot < BoxSlotCount; slot++)
             {
                 PKM other = boxes[(box * BoxSlotCount) + slot];
-                if (pk.PID == other.PID && pk.DecryptedBoxData.AsSpan().SequenceEqual(other.DecryptedBoxData))
+                if (pk.PID == other.PID && pk.DecryptedBoxData.SequenceEqual(other.DecryptedBoxData))
                     return (++box, slot);
             }
         }

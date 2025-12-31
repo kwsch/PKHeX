@@ -37,8 +37,13 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     public bool HaX;
     public bool ModifyPKM { private get; set; }
-    private bool _hideSecret;
-    public bool HideSecretDetails { private get => _hideSecret; set => ToggleSecrets(SAV, _hideSecret = value); }
+
+    public bool HideSecretDetails
+    {
+        private get;
+        set => ToggleSecrets(SAV, field = value);
+    }
+
     public ToolStripMenuItem Menu_Redo { get; set; } = null!;
     public ToolStripMenuItem Menu_Undo { get; set; } = null!;
     private bool FieldsLoaded;
@@ -78,6 +83,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         M = new SlotChangeManager(this) { Env = EditEnv };
         Box.Setup(M);
         SL_Party.Setup(M);
+
+        if (Application.IsDarkModeEnabled)
+            WinFormsUtil.InvertToolStripIcons(Tab_Box.ContextMenuStrip.Items);
 
         SL_Extra.ViewIndex = -2;
         menu = new ContextMenuSAV { Manager = M };
@@ -734,7 +742,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             if (form is not null)
                 form.CenterToForm(ParentForm);
             else
-                form = new SAV_BattlePass(sav, M.Env.PKMEditor) { Owner = ParentForm };
+                form = new SAV_BattlePass(sav, M.Env.PKMEditor);
             form.BringToFront();
             form.Show();
         }
@@ -984,7 +992,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         bool reload = SAV is IStorageCleanup b && b.FixStoragePreWrite();
         if (reload)
             ReloadSlots();
-        return WinFormsUtil.ExportSAVDialog(SAV, SAV.CurrentBox);
+        return WinFormsUtil.ExportSAVDialog(this, SAV, SAV.CurrentBox);
     }
 
     public bool ExportBackup()
@@ -1161,8 +1169,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
                 if (height > allowed)
                 {
                     var form = FindForm();
-                    if (form is not null)
-                        form.Height += height - allowed;
+                    form?.Height += height - allowed;
                 }
             }
         }

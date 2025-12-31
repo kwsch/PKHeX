@@ -29,7 +29,7 @@ public static class BinLinkerWriter
     public static byte[] Compress(BinLinkerAccessor arr, Func<byte[], byte[]>? convert = null, int padTo = 0)
     {
         var ident = arr.IdentifierSpan; // use existing identifier
-        var temp = Unpack(arr);
+        var temp = arr.Unpack();
         return Compress(temp, ident, convert ?? (z => z), padTo);
     }
 

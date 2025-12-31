@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_SecretBase
     {
@@ -140,11 +140,10 @@
             // 
             LB_Bases.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             LB_Bases.FormattingEnabled = true;
-            LB_Bases.ItemHeight = 15;
             LB_Bases.Location = new System.Drawing.Point(14, 29);
             LB_Bases.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LB_Bases.Name = "LB_Bases";
-            LB_Bases.Size = new System.Drawing.Size(90, 394);
+            LB_Bases.Size = new System.Drawing.Size(90, 378);
             LB_Bases.TabIndex = 4;
             LB_Bases.SelectedIndexChanged += ChangeIndexBase;
             // 
@@ -154,17 +153,17 @@
             L_Favorite.Location = new System.Drawing.Point(14, 10);
             L_Favorite.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Favorite.Name = "L_Favorite";
-            L_Favorite.Size = new System.Drawing.Size(57, 15);
+            L_Favorite.Size = new System.Drawing.Size(63, 17);
             L_Favorite.TabIndex = 6;
             L_Favorite.Text = "Favorites:";
             // 
             // f_PKM
             // 
             f_PKM.Controls.Add(PAN_PKM);
-            f_PKM.Location = new System.Drawing.Point(4, 24);
+            f_PKM.Location = new System.Drawing.Point(4, 26);
             f_PKM.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             f_PKM.Name = "f_PKM";
-            f_PKM.Size = new System.Drawing.Size(519, 387);
+            f_PKM.Size = new System.Drawing.Size(519, 385);
             f_PKM.TabIndex = 2;
             f_PKM.Text = "Pokemon";
             f_PKM.UseVisualStyleBackColor = true;
@@ -219,7 +218,7 @@
             PAN_PKM.Location = new System.Drawing.Point(0, 0);
             PAN_PKM.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             PAN_PKM.Name = "PAN_PKM";
-            PAN_PKM.Size = new System.Drawing.Size(519, 387);
+            PAN_PKM.Size = new System.Drawing.Size(519, 385);
             PAN_PKM.TabIndex = 98;
             // 
             // NUD_FPKM
@@ -228,18 +227,18 @@
             NUD_FPKM.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FPKM.Maximum = new decimal(new int[] { 2, 0, 0, 0 });
             NUD_FPKM.Name = "NUD_FPKM";
-            NUD_FPKM.Size = new System.Drawing.Size(44, 23);
+            NUD_FPKM.Size = new System.Drawing.Size(44, 25);
             NUD_FPKM.TabIndex = 66;
             NUD_FPKM.ValueChanged += ChangeIndexPKM;
             // 
             // TB_SPEIV
             // 
             TB_SPEIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_SPEIV.Location = new System.Drawing.Point(374, 164);
+            TB_SPEIV.Location = new System.Drawing.Point(374, 167);
             TB_SPEIV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_SPEIV.Mask = "00";
             TB_SPEIV.Name = "TB_SPEIV";
-            TB_SPEIV.Size = new System.Drawing.Size(25, 23);
+            TB_SPEIV.Size = new System.Drawing.Size(25, 25);
             TB_SPEIV.TabIndex = 91;
             TB_SPEIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -248,20 +247,20 @@
             CB_PPu3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_PPu3.FormattingEnabled = true;
             CB_PPu3.Items.AddRange(new object[] { "0", "1", "2", "3" });
-            CB_PPu3.Location = new System.Drawing.Point(161, 262);
+            CB_PPu3.Location = new System.Drawing.Point(161, 267);
             CB_PPu3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_PPu3.Name = "CB_PPu3";
-            CB_PPu3.Size = new System.Drawing.Size(44, 23);
+            CB_PPu3.Size = new System.Drawing.Size(44, 25);
             CB_PPu3.TabIndex = 73;
             // 
             // TB_SPDIV
             // 
             TB_SPDIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_SPDIV.Location = new System.Drawing.Point(374, 138);
+            TB_SPDIV.Location = new System.Drawing.Point(374, 141);
             TB_SPDIV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_SPDIV.Mask = "00";
             TB_SPDIV.Name = "TB_SPDIV";
-            TB_SPDIV.Size = new System.Drawing.Size(25, 23);
+            TB_SPDIV.Size = new System.Drawing.Size(25, 25);
             TB_SPDIV.TabIndex = 90;
             TB_SPDIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -270,10 +269,10 @@
             CB_PPu4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_PPu4.FormattingEnabled = true;
             CB_PPu4.Items.AddRange(new object[] { "0", "1", "2", "3" });
-            CB_PPu4.Location = new System.Drawing.Point(161, 287);
+            CB_PPu4.Location = new System.Drawing.Point(161, 295);
             CB_PPu4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_PPu4.Name = "CB_PPu4";
-            CB_PPu4.Size = new System.Drawing.Size(44, 23);
+            CB_PPu4.Size = new System.Drawing.Size(44, 25);
             CB_PPu4.TabIndex = 76;
             // 
             // L_Participant
@@ -291,20 +290,20 @@
             CB_PPu2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_PPu2.FormattingEnabled = true;
             CB_PPu2.Items.AddRange(new object[] { "0", "1", "2", "3" });
-            CB_PPu2.Location = new System.Drawing.Point(161, 237);
+            CB_PPu2.Location = new System.Drawing.Point(161, 239);
             CB_PPu2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_PPu2.Name = "CB_PPu2";
-            CB_PPu2.Size = new System.Drawing.Size(44, 23);
+            CB_PPu2.Size = new System.Drawing.Size(44, 25);
             CB_PPu2.TabIndex = 71;
             // 
             // TB_SPAIV
             // 
             TB_SPAIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_SPAIV.Location = new System.Drawing.Point(374, 113);
+            TB_SPAIV.Location = new System.Drawing.Point(374, 115);
             TB_SPAIV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_SPAIV.Mask = "00";
             TB_SPAIV.Name = "TB_SPAIV";
-            TB_SPAIV.Size = new System.Drawing.Size(25, 23);
+            TB_SPAIV.Size = new System.Drawing.Size(25, 25);
             TB_SPAIV.TabIndex = 89;
             TB_SPAIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -333,37 +332,37 @@
             CB_Move4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Move4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move4.FormattingEnabled = true;
-            CB_Move4.Location = new System.Drawing.Point(9, 287);
+            CB_Move4.Location = new System.Drawing.Point(9, 295);
             CB_Move4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Move4.Name = "CB_Move4";
-            CB_Move4.Size = new System.Drawing.Size(142, 23);
+            CB_Move4.Size = new System.Drawing.Size(142, 25);
             CB_Move4.TabIndex = 74;
             // 
             // TB_DEFIV
             // 
             TB_DEFIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_DEFIV.Location = new System.Drawing.Point(374, 88);
+            TB_DEFIV.Location = new System.Drawing.Point(374, 89);
             TB_DEFIV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_DEFIV.Mask = "00";
             TB_DEFIV.Name = "TB_DEFIV";
-            TB_DEFIV.Size = new System.Drawing.Size(25, 23);
+            TB_DEFIV.Size = new System.Drawing.Size(25, 25);
             TB_DEFIV.TabIndex = 88;
             TB_DEFIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CHK_Shiny
             // 
             CHK_Shiny.AutoSize = true;
-            CHK_Shiny.Location = new System.Drawing.Point(162, 92);
+            CHK_Shiny.Location = new System.Drawing.Point(162, 94);
             CHK_Shiny.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Shiny.Name = "CHK_Shiny";
-            CHK_Shiny.Size = new System.Drawing.Size(36, 19);
+            CHK_Shiny.Size = new System.Drawing.Size(38, 21);
             CHK_Shiny.TabIndex = 77;
             CHK_Shiny.Text = "☆";
             CHK_Shiny.UseVisualStyleBackColor = true;
             // 
             // L_ATK
             // 
-            L_ATK.Location = new System.Drawing.Point(309, 62);
+            L_ATK.Location = new System.Drawing.Point(309, 63);
             L_ATK.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_ATK.Name = "L_ATK";
             L_ATK.Size = new System.Drawing.Size(58, 24);
@@ -379,17 +378,17 @@
             CB_PPu1.Location = new System.Drawing.Point(161, 211);
             CB_PPu1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_PPu1.Name = "CB_PPu1";
-            CB_PPu1.Size = new System.Drawing.Size(44, 23);
+            CB_PPu1.Size = new System.Drawing.Size(44, 25);
             CB_PPu1.TabIndex = 69;
             // 
             // TB_ATKIV
             // 
             TB_ATKIV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_ATKIV.Location = new System.Drawing.Point(374, 62);
+            TB_ATKIV.Location = new System.Drawing.Point(374, 63);
             TB_ATKIV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_ATKIV.Mask = "00";
             TB_ATKIV.Name = "TB_ATKIV";
-            TB_ATKIV.Size = new System.Drawing.Size(25, 23);
+            TB_ATKIV.Size = new System.Drawing.Size(25, 25);
             TB_ATKIV.TabIndex = 87;
             TB_ATKIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -399,16 +398,16 @@
             CB_Form.DropDownWidth = 85;
             CB_Form.Enabled = false;
             CB_Form.FormattingEnabled = true;
-            CB_Form.Location = new System.Drawing.Point(71, 88);
+            CB_Form.Location = new System.Drawing.Point(71, 90);
             CB_Form.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Form.Name = "CB_Form";
-            CB_Form.Size = new System.Drawing.Size(80, 23);
+            CB_Form.Size = new System.Drawing.Size(80, 25);
             CB_Form.TabIndex = 78;
             CB_Form.SelectedIndexChanged += UpdateForm;
             // 
             // L_DEF
             // 
-            L_DEF.Location = new System.Drawing.Point(309, 88);
+            L_DEF.Location = new System.Drawing.Point(309, 89);
             L_DEF.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_DEF.Name = "L_DEF";
             L_DEF.Size = new System.Drawing.Size(58, 24);
@@ -421,10 +420,10 @@
             CB_Move3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Move3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move3.FormattingEnabled = true;
-            CB_Move3.Location = new System.Drawing.Point(9, 262);
+            CB_Move3.Location = new System.Drawing.Point(9, 267);
             CB_Move3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Move3.Name = "CB_Move3";
-            CB_Move3.Size = new System.Drawing.Size(142, 23);
+            CB_Move3.Size = new System.Drawing.Size(142, 25);
             CB_Move3.TabIndex = 72;
             // 
             // TB_HPIV
@@ -434,7 +433,7 @@
             TB_HPIV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_HPIV.Mask = "00";
             TB_HPIV.Name = "TB_HPIV";
-            TB_HPIV.Size = new System.Drawing.Size(25, 23);
+            TB_HPIV.Size = new System.Drawing.Size(25, 25);
             TB_HPIV.TabIndex = 86;
             TB_HPIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -445,13 +444,13 @@
             TB_Level.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_Level.Mask = "000";
             TB_Level.Name = "TB_Level";
-            TB_Level.Size = new System.Drawing.Size(25, 23);
+            TB_Level.Size = new System.Drawing.Size(25, 25);
             TB_Level.TabIndex = 79;
             TB_Level.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // L_SpA
             // 
-            L_SpA.Location = new System.Drawing.Point(309, 113);
+            L_SpA.Location = new System.Drawing.Point(309, 115);
             L_SpA.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_SpA.Name = "L_SpA";
             L_SpA.Size = new System.Drawing.Size(58, 24);
@@ -464,36 +463,36 @@
             CB_Move2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Move2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move2.FormattingEnabled = true;
-            CB_Move2.Location = new System.Drawing.Point(9, 237);
+            CB_Move2.Location = new System.Drawing.Point(9, 239);
             CB_Move2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Move2.Name = "CB_Move2";
-            CB_Move2.Size = new System.Drawing.Size(142, 23);
+            CB_Move2.Size = new System.Drawing.Size(142, 25);
             CB_Move2.TabIndex = 70;
             // 
             // TB_ATKEV
             // 
             TB_ATKEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_ATKEV.Location = new System.Drawing.Point(407, 62);
+            TB_ATKEV.Location = new System.Drawing.Point(407, 63);
             TB_ATKEV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_ATKEV.Mask = "000";
             TB_ATKEV.Name = "TB_ATKEV";
-            TB_ATKEV.Size = new System.Drawing.Size(36, 23);
+            TB_ATKEV.Size = new System.Drawing.Size(36, 25);
             TB_ATKEV.TabIndex = 93;
             TB_ATKEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // TB_Friendship
             // 
             TB_Friendship.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Friendship.Location = new System.Drawing.Point(418, 226);
+            TB_Friendship.Location = new System.Drawing.Point(418, 239);
             TB_Friendship.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_Friendship.Mask = "000";
             TB_Friendship.Name = "TB_Friendship";
-            TB_Friendship.Size = new System.Drawing.Size(25, 23);
+            TB_Friendship.Size = new System.Drawing.Size(25, 25);
             TB_Friendship.TabIndex = 80;
             // 
             // L_SpD
             // 
-            L_SpD.Location = new System.Drawing.Point(309, 138);
+            L_SpD.Location = new System.Drawing.Point(309, 141);
             L_SpD.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_SpD.Name = "L_SpD";
             L_SpD.Size = new System.Drawing.Size(58, 24);
@@ -509,17 +508,17 @@
             CB_Move1.Location = new System.Drawing.Point(9, 211);
             CB_Move1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Move1.Name = "CB_Move1";
-            CB_Move1.Size = new System.Drawing.Size(142, 23);
+            CB_Move1.Size = new System.Drawing.Size(142, 25);
             CB_Move1.TabIndex = 68;
             // 
             // TB_DEFEV
             // 
             TB_DEFEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_DEFEV.Location = new System.Drawing.Point(407, 88);
+            TB_DEFEV.Location = new System.Drawing.Point(407, 89);
             TB_DEFEV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_DEFEV.Mask = "000";
             TB_DEFEV.Name = "TB_DEFEV";
-            TB_DEFEV.Size = new System.Drawing.Size(36, 23);
+            TB_DEFEV.Size = new System.Drawing.Size(36, 25);
             TB_DEFEV.TabIndex = 94;
             TB_DEFEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -528,15 +527,15 @@
             CB_Ball.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Ball.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Ball.FormattingEnabled = true;
-            CB_Ball.Location = new System.Drawing.Point(301, 287);
+            CB_Ball.Location = new System.Drawing.Point(301, 295);
             CB_Ball.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Ball.Name = "CB_Ball";
-            CB_Ball.Size = new System.Drawing.Size(142, 23);
+            CB_Ball.Size = new System.Drawing.Size(142, 25);
             CB_Ball.TabIndex = 81;
             // 
             // L_SPE
             // 
-            L_SPE.Location = new System.Drawing.Point(309, 164);
+            L_SPE.Location = new System.Drawing.Point(309, 167);
             L_SPE.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_SPE.Name = "L_SPE";
             L_SPE.Size = new System.Drawing.Size(58, 24);
@@ -546,7 +545,7 @@
             // 
             // L_PKFriendship
             // 
-            L_PKFriendship.Location = new System.Drawing.Point(323, 225);
+            L_PKFriendship.Location = new System.Drawing.Point(323, 238);
             L_PKFriendship.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_PKFriendship.Name = "L_PKFriendship";
             L_PKFriendship.Size = new System.Drawing.Size(88, 24);
@@ -557,11 +556,11 @@
             // TB_SPEEV
             // 
             TB_SPEEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_SPEEV.Location = new System.Drawing.Point(407, 164);
+            TB_SPEEV.Location = new System.Drawing.Point(407, 167);
             TB_SPEEV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_SPEEV.Mask = "000";
             TB_SPEEV.Name = "TB_SPEEV";
-            TB_SPEEV.Size = new System.Drawing.Size(36, 23);
+            TB_SPEEV.Size = new System.Drawing.Size(36, 25);
             TB_SPEEV.TabIndex = 97;
             TB_SPEEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -573,7 +572,7 @@
             CB_Species.Location = new System.Drawing.Point(9, 62);
             CB_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Species.Name = "CB_Species";
-            CB_Species.Size = new System.Drawing.Size(142, 23);
+            CB_Species.Size = new System.Drawing.Size(142, 25);
             CB_Species.TabIndex = 65;
             CB_Species.SelectedIndexChanged += UpdateSpecies;
             // 
@@ -583,7 +582,7 @@
             L_IVs.Location = new System.Drawing.Point(374, 18);
             L_IVs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_IVs.Name = "L_IVs";
-            L_IVs.Size = new System.Drawing.Size(22, 15);
+            L_IVs.Size = new System.Drawing.Size(25, 17);
             L_IVs.TabIndex = 16;
             L_IVs.Text = "IVs";
             // 
@@ -592,20 +591,20 @@
             CB_Ability.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Ability.FormattingEnabled = true;
-            CB_Ability.Location = new System.Drawing.Point(9, 113);
+            CB_Ability.Location = new System.Drawing.Point(9, 118);
             CB_Ability.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Ability.Name = "CB_Ability";
-            CB_Ability.Size = new System.Drawing.Size(142, 23);
+            CB_Ability.Size = new System.Drawing.Size(142, 25);
             CB_Ability.TabIndex = 83;
             // 
             // TB_SPDEV
             // 
             TB_SPDEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_SPDEV.Location = new System.Drawing.Point(407, 138);
+            TB_SPDEV.Location = new System.Drawing.Point(407, 141);
             TB_SPDEV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_SPDEV.Mask = "000";
             TB_SPDEV.Name = "TB_SPDEV";
-            TB_SPDEV.Size = new System.Drawing.Size(36, 23);
+            TB_SPDEV.Size = new System.Drawing.Size(36, 25);
             TB_SPDEV.TabIndex = 96;
             TB_SPDEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -614,10 +613,10 @@
             CB_HeldItem.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_HeldItem.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_HeldItem.FormattingEnabled = true;
-            CB_HeldItem.Location = new System.Drawing.Point(9, 138);
+            CB_HeldItem.Location = new System.Drawing.Point(9, 146);
             CB_HeldItem.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_HeldItem.Name = "CB_HeldItem";
-            CB_HeldItem.Size = new System.Drawing.Size(142, 23);
+            CB_HeldItem.Size = new System.Drawing.Size(142, 25);
             CB_HeldItem.TabIndex = 64;
             // 
             // L_EVs
@@ -626,7 +625,7 @@
             L_EVs.Location = new System.Drawing.Point(408, 18);
             L_EVs.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_EVs.Name = "L_EVs";
-            L_EVs.Size = new System.Drawing.Size(25, 15);
+            L_EVs.Size = new System.Drawing.Size(29, 17);
             L_EVs.TabIndex = 23;
             L_EVs.Text = "EVs";
             // 
@@ -635,26 +634,26 @@
             CB_Nature.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Nature.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Nature.FormattingEnabled = true;
-            CB_Nature.Location = new System.Drawing.Point(301, 256);
+            CB_Nature.Location = new System.Drawing.Point(301, 267);
             CB_Nature.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Nature.Name = "CB_Nature";
-            CB_Nature.Size = new System.Drawing.Size(142, 23);
+            CB_Nature.Size = new System.Drawing.Size(142, 25);
             CB_Nature.TabIndex = 63;
             // 
             // TB_SPAEV
             // 
             TB_SPAEV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_SPAEV.Location = new System.Drawing.Point(407, 113);
+            TB_SPAEV.Location = new System.Drawing.Point(407, 115);
             TB_SPAEV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_SPAEV.Mask = "000";
             TB_SPAEV.Name = "TB_SPAEV";
-            TB_SPAEV.Size = new System.Drawing.Size(36, 23);
+            TB_SPAEV.Size = new System.Drawing.Size(36, 25);
             TB_SPAEV.TabIndex = 95;
             TB_SPAEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Label_Gender
             // 
-            Label_Gender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            Label_Gender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             Label_Gender.Location = new System.Drawing.Point(195, 66);
             Label_Gender.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             Label_Gender.Name = "Label_Gender";
@@ -667,7 +666,7 @@
             // TB_EC
             // 
             TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_EC.Location = new System.Drawing.Point(82, 37);
             TB_EC.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_EC.MaxLength = 8;
@@ -678,7 +677,7 @@
             // 
             // L_EncryptionConstant
             // 
-            L_EncryptionConstant.Location = new System.Drawing.Point(9, 37);
+            L_EncryptionConstant.Location = new System.Drawing.Point(9, 34);
             L_EncryptionConstant.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_EncryptionConstant.Name = "L_EncryptionConstant";
             L_EncryptionConstant.Size = new System.Drawing.Size(65, 24);
@@ -693,7 +692,7 @@
             TB_HPEV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_HPEV.Mask = "000";
             TB_HPEV.Name = "TB_HPEV";
-            TB_HPEV.Size = new System.Drawing.Size(36, 23);
+            TB_HPEV.Size = new System.Drawing.Size(36, 25);
             TB_HPEV.TabIndex = 92;
             TB_HPEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -701,11 +700,11 @@
             // 
             f_MAIN.Controls.Add(PG_Base);
             f_MAIN.Controls.Add(GB_Object);
-            f_MAIN.Location = new System.Drawing.Point(4, 24);
+            f_MAIN.Location = new System.Drawing.Point(4, 26);
             f_MAIN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             f_MAIN.Name = "f_MAIN";
             f_MAIN.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            f_MAIN.Size = new System.Drawing.Size(519, 387);
+            f_MAIN.Size = new System.Drawing.Size(519, 385);
             f_MAIN.TabIndex = 0;
             f_MAIN.Text = "Main";
             f_MAIN.UseVisualStyleBackColor = true;
@@ -713,12 +712,13 @@
             // PG_Base
             // 
             PG_Base.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PG_Base.BackColor = System.Drawing.SystemColors.Control;
             PG_Base.HelpVisible = false;
             PG_Base.Location = new System.Drawing.Point(1, 3);
             PG_Base.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             PG_Base.Name = "PG_Base";
             PG_Base.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            PG_Base.Size = new System.Drawing.Size(338, 380);
+            PG_Base.Size = new System.Drawing.Size(338, 378);
             PG_Base.TabIndex = 19;
             PG_Base.ToolbarVisible = false;
             // 
@@ -770,7 +770,7 @@
             NUD_FX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FX.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_FX.Name = "NUD_FX";
-            NUD_FX.Size = new System.Drawing.Size(47, 23);
+            NUD_FX.Size = new System.Drawing.Size(47, 25);
             NUD_FX.TabIndex = 7;
             // 
             // NUD_FY
@@ -779,7 +779,7 @@
             NUD_FY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FY.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_FY.Name = "NUD_FY";
-            NUD_FY.Size = new System.Drawing.Size(47, 23);
+            NUD_FY.Size = new System.Drawing.Size(47, 25);
             NUD_FY.TabIndex = 6;
             // 
             // L_Rotation
@@ -809,7 +809,7 @@
             NUD_FObjType.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_FObjType.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
             NUD_FObjType.Name = "NUD_FObjType";
-            NUD_FObjType.Size = new System.Drawing.Size(47, 23);
+            NUD_FObjType.Size = new System.Drawing.Size(47, 25);
             NUD_FObjType.TabIndex = 2;
             NUD_FObjType.Value = new decimal(new int[] { 1, 0, 0, int.MinValue });
             // 
@@ -829,7 +829,7 @@
             NUD_FRot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FRot.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_FRot.Name = "NUD_FRot";
-            NUD_FRot.Size = new System.Drawing.Size(47, 23);
+            NUD_FRot.Size = new System.Drawing.Size(47, 25);
             NUD_FRot.TabIndex = 3;
             // 
             // NUD_FObject
@@ -838,7 +838,7 @@
             NUD_FObject.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FObject.Maximum = new decimal(new int[] { 27, 0, 0, 0 });
             NUD_FObject.Name = "NUD_FObject";
-            NUD_FObject.Size = new System.Drawing.Size(47, 23);
+            NUD_FObject.Size = new System.Drawing.Size(47, 25);
             NUD_FObject.TabIndex = 0;
             NUD_FObject.ValueChanged += ChangeIndexPlacement;
             // 
@@ -917,7 +917,7 @@
             NUD_CapturedRecord.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_CapturedRecord.Maximum = new decimal(new int[] { -1, 0, 0, 0 });
             NUD_CapturedRecord.Name = "NUD_CapturedRecord";
-            NUD_CapturedRecord.Size = new System.Drawing.Size(115, 23);
+            NUD_CapturedRecord.Size = new System.Drawing.Size(115, 25);
             NUD_CapturedRecord.TabIndex = 26;
             NUD_CapturedRecord.Value = new decimal(new int[] { -1, 0, 0, 0 });
             // 

@@ -152,7 +152,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     public override StorageSlotSource GetBoxSlotFlags(int index)
     {
-        int team = Array.IndexOf(TeamSlots, index);
+        int team = TeamSlots.IndexOf(index);
         if (team < 0)
             return StorageSlotSource.None;
 

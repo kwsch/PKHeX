@@ -109,8 +109,14 @@ public sealed class LegalityAnalysis
                     && MoveResult.AllValid(Info.Moves)
                     && MoveResult.AllValid(Info.Relearn);
 
-            if (!Valid && IsPotentiallyMysteryGift(Info, pk))
-                AddLine(Severity.Invalid, FatefulGiftMissing, CheckIdentifier.Fateful);
+            if (!Valid)
+            {
+                if (Info.EncounterMatch is EncounterInvalid && pk.IsUntraded && EvolutionTree.GetEvolutionTree(pk.Context).Reverse.GetReverse(pk.Species, pk.Form).First.Method.Method.IsTrade)
+                    AddLine(Severity.Invalid, EvoInvalid, CheckIdentifier.Evolution);
+                if (IsPotentiallyMysteryGift(Info, pk))
+                    AddLine(Severity.Invalid, FatefulGiftMissing, CheckIdentifier.Fateful);
+            }
+
             Parsed = true;
         }
 #if SUPPRESS

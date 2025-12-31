@@ -109,8 +109,7 @@ public partial class ReportGrid : Form
             if (prop.Length == 0)
                 continue;
             var col = dgData.Columns[prop];
-            if (col is not null)
-                col.Visible = false;
+            col?.Visible = false;
         }
     }
 
@@ -216,7 +215,7 @@ public partial class ReportGrid : Form
     private static string[] ConvertTabbedToRedditTable(ReadOnlySpan<string> lines)
     {
         string[] newlines = new string[lines.Length + 1];
-        int tabcount = lines[0].AsSpan().Count('\t');
+        int tabcount = lines[0].Count('\t');
 
         newlines[0] = lines[0].Replace('\t', '|');
         newlines[1] = string.Join(":--:", Enumerable.Repeat('|', tabcount + 2)); // 2 pipes for each end

@@ -342,7 +342,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
         BACD_M => MystryMew.GetSeed(seed),
         _ when OriginalTrainerGender is GiftGender3.RandD3_0 => GetRandomRestrictedGenderBit0(seed, 0),
         _ when OriginalTrainerGender is GiftGender3.RandD3_1 => GetRandomRestrictedGenderBit0(seed, 1),
-        _ => Method.IsRestricted() ? seed & 0x0000FFFF : seed,
+        _ => Method.IsRestricted ? seed & 0x0000FFFF : seed,
     };
 
     private LanguageID GetSafeLanguage(LanguageID hatchLang)

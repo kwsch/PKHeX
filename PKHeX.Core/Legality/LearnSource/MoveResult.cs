@@ -13,9 +13,9 @@ namespace PKHeX.Core;
 public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, byte Generation = 0, ushort Expect = 0)
 {
     public bool IsParsed => this != default;
-    public bool Valid => Info.Method.IsValid();
+    public bool Valid => Info.Method.IsValid;
 
-    internal MoveResult(LearnMethod method, LearnEnvironment game) : this(new MoveLearnInfo(method, game), Generation: game.GetGeneration()) { }
+    internal MoveResult(LearnMethod method, LearnEnvironment game) : this(new MoveLearnInfo(method, game), Generation: game.Generation) { }
     private MoveResult(LearnMethod method) : this(new MoveLearnInfo(method, LearnEnvironment.None)) { }
 
     public string Summary(in LegalityLocalizationContext ctx)
@@ -58,7 +58,7 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
     /// <summary> Checks if the Move should be present in a Relearn move pool (assuming Gen6+ origins). </summary>
     /// <remarks>Invalid moves that can't be validated should be here, hence the inclusion.</remarks>
     public bool ShouldBeInRelearnMoves() => IsRelearn || !Valid;
-    public bool IsRelearn => Info.Method.IsRelearn();
+    public bool IsRelearn => Info.Method.IsRelearn;
 
     public Severity Judgement => Valid ? Severity.Valid : Severity.Invalid;
 

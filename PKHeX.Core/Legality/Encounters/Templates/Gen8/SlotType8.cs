@@ -32,7 +32,10 @@ public enum SlotType8 : byte
 /// </summary>
 public static class SlotType8Extensions
 {
-    public static bool CanCrossover(this SlotType8 type) => type is not (HiddenMain or HiddenMain2 or OnlyFishing);
-    public static bool CanEncounterViaFishing(this SlotType8 type, AreaWeather8 weather) => type is OnlyFishing || weather.HasFlag(Fishing);
-    public static bool CanEncounterViaCurry(this SlotType8 type) => type is HiddenMain or HiddenMain2;
+    extension(SlotType8 type)
+    {
+        public bool CanCrossover() => type is not (HiddenMain or HiddenMain2 or OnlyFishing);
+        public bool CanEncounterViaFishing(AreaWeather8 weather) => type is OnlyFishing || weather.HasFlag(Fishing);
+        public bool CanEncounterViaCurry() => type is HiddenMain or HiddenMain2;
+    }
 }

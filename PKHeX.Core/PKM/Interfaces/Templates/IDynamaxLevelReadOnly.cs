@@ -15,17 +15,20 @@ public interface IDynamaxLevelReadOnly
 /// </summary>
 public static class DynamaxLevelExtensions
 {
-    /// <summary>
-    /// Checks if the species is allowed to have a non-zero value for <see cref="IDynamaxLevel.DynamaxLevel"/>.
-    /// </summary>
-    public static bool CanHaveDynamaxLevel(this IDynamaxLevelReadOnly _, PKM pk)
+    extension(IDynamaxLevelReadOnly _)
     {
-        if (pk.IsEgg)
-            return false;
-        return pk is PK8 && CanHaveDynamaxLevel(pk.Species);
-    }
+        /// <summary>
+        /// Checks if the species is allowed to have a non-zero value for <see cref="IDynamaxLevel.DynamaxLevel"/>.
+        /// </summary>
+        public bool CanHaveDynamaxLevel(PKM pk)
+        {
+            if (pk.IsEgg)
+                return false;
+            return pk is PK8 && CanHaveDynamaxLevel(pk.Species);
+        }
 
-    public static byte GetSuggestedDynamaxLevel(this IDynamaxLevelReadOnly _, PKM pk, byte requested = 10) => _.CanHaveDynamaxLevel(pk) ? requested : (byte)0;
+        public byte GetSuggestedDynamaxLevel(PKM pk, byte requested = 10) => _.CanHaveDynamaxLevel(pk) ? requested : (byte)0;
+    }
 
     /// <summary>
     /// Checks if the species is prevented from gaining any <see cref="IDynamaxLevelReadOnly.DynamaxLevel"/> via candy in <see cref="GameVersion.SWSH"/>.

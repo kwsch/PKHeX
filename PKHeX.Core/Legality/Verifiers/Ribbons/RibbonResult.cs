@@ -32,9 +32,9 @@ public readonly record struct RibbonResult
     /// </summary>
     public string PropertyName => Type switch
     {
-        Mainline => ((RibbonIndex)Value).GetPropertyName(),
-        Index3 => ((RibbonIndex3)Value).GetPropertyName(),
-        Index4 => ((RibbonIndex4)Value).GetPropertyName(),
+        Mainline => ((RibbonIndex)Value).PropertyName,
+        Index3 => ((RibbonIndex3)Value).PropertyName,
+        Index4 => ((RibbonIndex4)Value).PropertyName,
         _ => throw new ArgumentException($"Invalid type: {Type}"),
     };
 

@@ -5,61 +5,64 @@ namespace PKHeX.Core;
 
 public static class StorageUtil
 {
-    public static bool CompressStorage(this SaveFile sav, Span<byte> storage, out int storedCount, Span<int> slotPointers)
+    extension(SaveFile sav)
     {
-        // keep track of empty slots, and only write them at the end if slots were shifted (no need otherwise).
-        var empty = new List<byte[]>();
-        bool shiftedSlots = false;
-
-        ushort ctr = 0;
-        int size = sav.SIZE_BOXSLOT;
-        int count = sav.BoxSlotCount * sav.BoxCount;
-        for (int i = 0; i < count; i++)
+        public bool CompressStorage(Span<byte> storage, out int storedCount, Span<int> slotPointers)
         {
-            int offset = sav.GetBoxSlotOffset(i);
-            if (sav.IsPKMPresent(storage[offset..]))
+            // keep track of empty slots, and only write them at the end if slots were shifted (no need otherwise).
+            var empty = new List<byte[]>();
+            bool shiftedSlots = false;
+
+            ushort ctr = 0;
+            int size = sav.SIZE_BOXSLOT;
+            int count = sav.BoxSlotCount * sav.BoxCount;
+            for (int i = 0; i < count; i++)
             {
-                if (ctr != i) // copy required
+                int offset = sav.GetBoxSlotOffset(i);
+                if (sav.IsPKMPresent(storage[offset..]))
                 {
-                    shiftedSlots = true; // appending empty slots afterward is now required since a rewrite was done
-                    int destOfs = sav.GetBoxSlotOffset(ctr);
-                    storage[offset..(offset + size)].CopyTo(storage[destOfs..(destOfs + size)]);
-                    SlotPointerUtil.UpdateRepointFrom(ctr, i, slotPointers);
+                    if (ctr != i) // copy required
+                    {
+                        shiftedSlots = true; // appending empty slots afterward is now required since a rewrite was done
+                        int destOfs = sav.GetBoxSlotOffset(ctr);
+                        storage[offset..(offset + size)].CopyTo(storage[destOfs..(destOfs + size)]);
+                        SlotPointerUtil.UpdateRepointFrom(ctr, i, slotPointers);
+                    }
+
+                    ctr++;
+                    continue;
                 }
 
-                ctr++;
-                continue;
+                // pop out an empty slot; save all unused data & preserve order
+                var data = storage.Slice(offset, size).ToArray();
+                empty.Add(data);
             }
 
-            // pop out an empty slot; save all unused data & preserve order
-            var data = storage.Slice(offset, size).ToArray();
-            empty.Add(data);
+            storedCount = ctr;
+
+            if (!shiftedSlots)
+                return false;
+
+            for (int i = ctr; i < count; i++)
+            {
+                var data = empty[i - ctr];
+                int offset = sav.GetBoxSlotOffset(i);
+                data.CopyTo(storage[offset..]);
+            }
+
+            return true;
         }
 
-        storedCount = ctr;
-
-        if (!shiftedSlots)
-            return false;
-
-        for (int i = ctr; i < count; i++)
+        public int FindSlotIndex(Func<PKM, bool> method, int maxCount)
         {
-            var data = empty[i - ctr];
-            int offset = sav.GetBoxSlotOffset(i);
-            data.CopyTo(storage[offset..]);
+            for (int i = 0; i < maxCount; i++)
+            {
+                var pk = sav.GetBoxSlotAtIndex(i);
+                if (method(pk))
+                    return i;
+            }
+            return -1;
         }
-
-        return true;
-    }
-
-    public static int FindSlotIndex(this SaveFile sav, Func<PKM, bool> method, int maxCount)
-    {
-        for (int i = 0; i < maxCount; i++)
-        {
-            var pk = sav.GetBoxSlotAtIndex(i);
-            if (method(pk))
-                return i;
-        }
-        return -1;
     }
 
     /// <summary>

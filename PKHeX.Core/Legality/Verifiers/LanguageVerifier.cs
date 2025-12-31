@@ -29,7 +29,6 @@ public sealed class LanguageVerifier : Verifier
             && enc is not EncounterTrade4PID { IsLanguageSwap: true } // ger magikarp / eng pikachu
            )
         {
-            bool kor = currentLanguage == Korean;
             data.AddLine(GetInvalid(TransferKoreanGen4));
             return;
         }

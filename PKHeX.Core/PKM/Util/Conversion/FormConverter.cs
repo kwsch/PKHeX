@@ -23,7 +23,7 @@ public static class FormConverter
     public static string[] GetFormList(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, EntityContext context)
     {
         // Mega List
-        if (context.IsMegaContext() && IsFormListSingleMega(species, context))
+        if (context.IsMegaContext && IsFormListSingleMega(species, context))
             return GetMegaSingle(types, forms);
 
         if (context is Gen7 && FormInfo.HasTotemForm(species))
@@ -60,18 +60,18 @@ public static class FormConverter
     {
         return (Species)species switch
         {
-            Charizard or Mewtwo when context.IsMegaContext() => GetMegaXY(types, forms),
+            Charizard or Mewtwo when context.IsMegaContext => GetMegaXY(types, forms),
             Eevee when context is Gen7b =>
             [
                 types[0], // Normal
                 Starter,
             ],
             Pikachu => GetFormsPikachu(context, types, forms),
-            Slowbro when context.Generation() >= 8 => GetFormsGalarSlowbro(types, forms),
+            Slowbro when context.Generation >= 8 => GetFormsGalarSlowbro(types, forms),
 
-            Weezing or Ponyta or Rapidash or Slowpoke or MrMime or Farfetchd or Articuno or Zapdos or Moltres when context.Generation() >= 8 => GetFormsGalar(types, forms),
-            Growlithe or Arcanine or Voltorb or Electrode when context.Generation() >= 8 => GetFormsHisui(species, context, types, forms),
-            Tauros when context.Generation() >= 9 => GetFormsPaldea(species, types, forms),
+            Weezing or Ponyta or Rapidash or Slowpoke or MrMime or Farfetchd or Articuno or Zapdos or Moltres when context.Generation >= 8 => GetFormsGalar(types, forms),
+            Growlithe or Arcanine or Voltorb or Electrode when context.Generation >= 8 => GetFormsHisui(species, context, types, forms),
+            Tauros when context.Generation >= 9 => GetFormsPaldea(species, types, forms),
 
             _ => GetFormsAlolan(context, types, forms, species),
         };
@@ -82,9 +82,9 @@ public static class FormConverter
         return (Species)species switch
         {
             Pichu when context is Gen4 => GetFormsPichu(types, forms),
-            Slowking or Corsola when context.Generation() >= 8 => GetFormsGalar(types, forms),
-            Typhlosion or Qwilfish or Sneasel when context.Generation() >= 8 => GetFormsHisui(species, context, types, forms),
-            Wooper when context.Generation() >= 9 => GetFormsPaldea(species, types, forms),
+            Slowking or Corsola when context.Generation >= 8 => GetFormsGalar(types, forms),
+            Typhlosion or Qwilfish or Sneasel when context.Generation >= 8 => GetFormsHisui(species, context, types, forms),
+            Wooper when context.Generation >= 9 => GetFormsPaldea(species, types, forms),
             Unown => GetFormsUnown(context),
             _ => EMPTY,
         };
@@ -94,15 +94,15 @@ public static class FormConverter
     {
         return (Species)species switch
         {
-            Zigzagoon or Linoone when context.Generation() >= 8 => GetFormsGalar(types, forms),
-            Absol when context.IsMegaContext() => GetMegaZ(types, forms), // Single mega would return earlier
+            Zigzagoon or Linoone when context.Generation >= 8 => GetFormsGalar(types, forms),
+            Absol when context.IsMegaContext => GetMegaZ(types, forms), // Single mega would return earlier
             Castform => [
                 types[0], // Normal
                 forms[889], // Sunny
                 forms[890], // Rainy
                 forms[891], // Snowy
             ],
-            Kyogre or Groudon when context.IsMegaContext() => [
+            Kyogre or Groudon when context.IsMegaContext => [
                 types[0], // Normal
                 forms[899], // Primal
             ],
@@ -133,7 +133,7 @@ public static class FormConverter
                 forms[(int)Shellos], // West
                 forms[911], // East
             ],
-            Garchomp or Lucario when context.IsMegaContext() => GetMegaZ(types, forms), // Single mega would return earlier
+            Garchomp or Lucario when context.IsMegaContext => GetMegaZ(types, forms), // Single mega would return earlier
             Rotom => [
                 types[0], // Normal
                 forms[917], // Heat
@@ -142,7 +142,7 @@ public static class FormConverter
                 forms[920], // Fan
                 forms[921], // Mow
             ],
-            Dialga or Palkia when context.Generation() >= 8 => [
+            Dialga or Palkia when context.Generation >= 8 => [
                 types[0], // Normal
                 forms[922], // Origin
             ],
@@ -163,8 +163,8 @@ public static class FormConverter
     {
         return (Species)species switch
         {
-            Samurott or Lilligant or Zorua or Zoroark or Braviary when context.Generation() >= 8 => GetFormsHisui(species, context, types, forms),
-            Basculin when context.Generation() >= 8 => [
+            Samurott or Lilligant or Zorua or Zoroark or Braviary when context.Generation >= 8 => GetFormsHisui(species, context, types, forms),
+            Basculin when context.Generation >= 8 => [
                 forms[(int)Basculin], // Red
                 forms[942], // Blue
                 forms[989], // White
@@ -173,8 +173,8 @@ public static class FormConverter
                 forms[(int)Basculin], // Red
                 forms[942], // Blue
             ],
-            Darumaka or Stunfisk or Yamask when context.Generation() >= 8 => GetFormsGalar(types, forms),
-            Darmanitan when context.Generation() >= 8 => [
+            Darumaka or Stunfisk or Yamask when context.Generation >= 8 => GetFormsGalar(types, forms),
+            Darmanitan when context.Generation >= 8 => [
                 forms[(int)Darmanitan], // Standard
                 forms[943], // Zen
                 forms[Galarian], // Standard
@@ -222,7 +222,7 @@ public static class FormConverter
     {
         return (Species)species switch
         {
-            Greninja => GetFormsGreninja(types, forms, new string[!context.IsMegaContext() ? 2 : context.Generation() >= 9 ? 4 : 3]),
+            Greninja => GetFormsGreninja(types, forms, new string[!context.IsMegaContext ? 2 : context.Generation >= 9 ? 4 : 3]),
             Scatterbug or Spewpa or Vivillon => [
                 forms[(int)Vivillon], // Icy Snow
                 forms[963], // Polar
@@ -252,7 +252,7 @@ public static class FormConverter
                 forms[988], // Blue
                 forms[989], // White
             ],
-            Floette => GetFormsFloette(forms, new string[!context.IsMegaContext() ? 5 : context.Generation() >= 9 ? 7 : 6]),
+            Floette => GetFormsFloette(forms, new string[!context.IsMegaContext ? 5 : context.Generation >= 9 ? 7 : 6]),
             Furfrou => [
                 forms[(int)Furfrou], // Natural
                 forms[995], // Heart
@@ -265,7 +265,7 @@ public static class FormConverter
                 forms[1002], // Kabuki
                 forms[1003], // Pharaoh
             ],
-            Meowstic when context.IsMegaContext() && context.Generation() >= 9 => [
+            Meowstic when context is { IsMegaContext: true, Generation: >= 9 } => [
                 genders[000], // Male
                 genders[001], // Female
                 $"{genders[000]}-{forms[Mega]}", // Mega (Male)
@@ -279,8 +279,8 @@ public static class FormConverter
                 forms[(int)Aegislash], // Shield
                 forms[1005], // Blade
             ],
-            Sliggoo or Goodra or Avalugg when context.Generation() >= 8 => GetFormsHisui(species, context, types, forms),
-            Pumpkaboo or Gourgeist when context.Generation() >= 9 => [
+            Sliggoo or Goodra or Avalugg when context.Generation >= 8 => GetFormsHisui(species, context, types, forms),
+            Pumpkaboo or Gourgeist when context.Generation >= 9 => [
                 forms[MediumVariety],
                 forms[SmallVariety],
                 forms[LargeVariety],
@@ -292,11 +292,11 @@ public static class FormConverter
                 forms[1007], // Large
                 forms[1008], // Super
             ],
-            Xerneas when context.Generation() < 9 => [
+            Xerneas when context.Generation < 9 => [
                 forms[(int)Xerneas], // Neutral
                 forms[1012], // Active
             ],
-            Zygarde => GetFormsZygarde(forms, new string[context.IsMegaContext() && context.Generation() >= 9 ? 6 : 5]),
+            Zygarde => GetFormsZygarde(forms, new string[context is { IsMegaContext: true, Generation: >= 9 } ? 6 : 5]),
             Hoopa => [
                 forms[(int)Hoopa], // Confined
                 forms[1018], // Unbound
@@ -309,7 +309,7 @@ public static class FormConverter
     {
         return (Species)species switch
         {
-            Decidueye when context.Generation() >= 8 => GetFormsHisui(species, context, types, forms),
+            Decidueye when context.Generation >= 8 => GetFormsHisui(species, context, types, forms),
             Oricorio => [
                 forms[(int)Oricorio], // "RED" - Baile
                 forms[1021], // "YLW" - Pom-Pom
@@ -361,7 +361,7 @@ public static class FormConverter
                 forms[1065], // Dusk Mane
                 forms[1066], // Dawn Wings
             ],
-            Magearna when context.IsMegaContext() && context.Generation() >= 9 => [
+            Magearna when context is { IsMegaContext: true, Generation: >= 9 } => [
                 types[0],
                 forms[1062], // Original Color
                 $"{types[0]}-{forms[Mega]}", // Mega
@@ -419,7 +419,7 @@ public static class FormConverter
                 forms[HeroOfManyBattles],
                 forms[Crowned],
             ],
-            Eternatus when context.Generation() == 8 => [
+            Eternatus when context.Generation == 8 => [
                 types[0], // Normal
                 forms[Eternamax],
             ],
@@ -436,11 +436,11 @@ public static class FormConverter
                 forms[IceRider],
                 forms[ShadowRider],
             ],
-            Kleavor when context.Generation() == 8 => [
+            Kleavor when context.Generation == 8 => [
                 types[0],
                 forms[Lord],
             ],
-            Ursaluna when context.Generation() >= 9 => [
+            Ursaluna when context.Generation >= 9 => [
                 types[0],
                 forms[Bloodmoon],
             ],
@@ -474,7 +474,7 @@ public static class FormConverter
                 forms[Zero],
                 forms[HeroPalafin],
             ],
-            Tatsugiri when context.IsMegaContext() => [
+            Tatsugiri when context.IsMegaContext => [
                 forms[Curly],
                 forms[Droopy],
                 forms[Stretchy],
@@ -538,7 +538,7 @@ public static class FormConverter
 
     private static string[] GetFormsAlolan(EntityContext context, IReadOnlyList<string> types, IReadOnlyList<string> forms, ushort species)
     {
-        byte generation = context.Generation();
+        byte generation = context.Generation;
         if (generation < 7)
             return EMPTY;
 
@@ -550,7 +550,7 @@ public static class FormConverter
                 forms[Galarian], // Galarian
             ],
 
-            Raichu when generation >= 9 && context.IsMegaContext() => [
+            Raichu when generation >= 9 && context.IsMegaContext => [
                 types[0],
                 forms[Alolan], // Alolan
                 forms[MegaX], // Mega X
@@ -770,7 +770,7 @@ public static class FormConverter
 
     private static bool IsFormListSingleMega(ushort species, EntityContext context)
     {
-        if (context.Generation() < 9)
+        if (context.Generation < 9)
             return IsFormListSingleMega6(species);
 
         if (species is (int)Slowbro)

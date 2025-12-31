@@ -21,7 +21,7 @@ public static class LegalityFormatting
     public static string Report(this LegalityAnalysis la, bool verbose = false)
     {
         var localizer = LegalityLocalizationContext.Create(la);
-        return Report(localizer, verbose);
+        return localizer.Report(verbose);
     }
 
     /// <inheritdoc cref="Report(LegalityAnalysis, bool)"/>

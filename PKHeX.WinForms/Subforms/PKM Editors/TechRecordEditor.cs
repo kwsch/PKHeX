@@ -57,7 +57,11 @@ public partial class TechRecordEditor : Form
             else
                 SetStyleColor(cell, Color.LightCoral);
             if (currentMoves.Contains(move))
-                cells[ColumnName].Style.BackColor = Color.LightBlue;
+            {
+                var style = cells[ColumnName].Style;
+                style.BackColor = Color.LightBlue;
+                style.ForeColor = Color.Black;
+            }
 
             cells[ColumnIndex].Value = (i+ baseRecordIndex).ToString("000");
             cells[ColumnTypeIcon].Value = TypeSpriteUtil.GetTypeSpriteIconSmall(type);

@@ -141,9 +141,12 @@ public sealed class SummaryPreviewer
 
     public static string AppendEncounterInfo(LegalityLocalizationContext la, string text)
     {
-        var result = new List<string>(8) { text };
+        var result = new List<string>(8);
         if (text.Length != 0) // add a blank line between the set and the encounter info if isn't already a blank line
+        {
+            result.Add(text);
             result.Add(string.Empty);
+        }
         LegalityFormatting.AddEncounterInfo(la, result);
         return string.Join(Environment.NewLine, result);
     }
@@ -152,5 +155,49 @@ public sealed class SummaryPreviewer
     {
         var lines = enc.GetTextLines(verbose, Main.CurrentLanguage);
         return string.Join(Environment.NewLine, lines);
+    }
+
+    public static string AppendLegalityHint(in LegalityLocalizationContext la, string line)
+    {
+        // Get the first illegal check result, and append the localization of it as the hint.
+        // If all legal, return the input string unchanged.
+        var analysis = la.Analysis;
+        if (analysis.Valid)
+            return line;
+
+        foreach (var chk in analysis.Results)
+        {
+            if (chk.Valid)
+                continue;
+            var hint = la.Humanize(chk, verbose: true);
+            return Join(line, hint);
+        }
+
+        for (var i = 0; i < analysis.Info.Moves.Length; i++)
+        {
+            var chk = analysis.Info.Moves[i];
+            if (chk.Valid)
+                continue;
+            var hint = la.FormatMove(chk, i, la.Analysis.Info.Entity.Format);
+            return Join(line, hint);
+        }
+
+        for (var i = 0; i < analysis.Info.Relearn.Length; i++)
+        {
+            var chk = analysis.Info.Relearn[i];
+            if (chk.Valid)
+                continue;
+            var hint = la.FormatMove(chk, i, la.Analysis.Info.Entity.Format);
+            return Join(line, hint);
+        }
+
+        return line;
+
+        static string Join(string line, string hint)
+        {
+            if (hint.Length > 67)
+                hint = hint[..67] + "...";
+            return string.IsNullOrEmpty(line) ? hint : $"{line}{Environment.NewLine}{hint}";
+        }
     }
 }

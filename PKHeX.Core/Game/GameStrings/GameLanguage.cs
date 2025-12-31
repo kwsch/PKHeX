@@ -28,7 +28,7 @@ public static class GameLanguage
     /// <returns>Index of the language code; if not a valid language code, returns the <see cref="DefaultLanguageIndex"/>.</returns>
     public static int GetLanguageIndex(string lang)
     {
-        int l = Array.IndexOf(LanguageCodes, lang);
+        int l = LanguageCodes.IndexOf(lang);
         return l < 0 ? DefaultLanguageIndex : l;
     }
 
@@ -52,7 +52,7 @@ public static class GameLanguage
     /// </summary>
     /// <param name="lang">Language code</param>
     /// <returns>True if valid, False otherwise</returns>
-    public static bool IsLanguageValid(string lang) => Array.IndexOf(LanguageCodes, lang) != -1;
+    public static bool IsLanguageValid(string lang) => LanguageCodes.Contains(lang);
 
     /// <summary>
     /// Language codes supported for loading string resources

@@ -33,46 +33,49 @@ public enum LearnEnvironment : byte
 /// </summary>
 public static class LearnEnvironmentExtensions
 {
-    /// <summary>
-    /// Indicates whether the <see cref="LearnEnvironment"/> is specified (not <see cref="None"/>), and thus worth indicating.
-    /// </summary>
-    public static bool IsSpecified(this LearnEnvironment value) => value is not None;
-
-    /// <summary>
-    /// Gets the generation number [1-n] for the given <see cref="LearnEnvironment"/>.
-    /// </summary>
-    public static byte GetGeneration(this LearnEnvironment value) => value switch
+    extension(LearnEnvironment value)
     {
-        RB or YW => 1,
-        GS or C or Stadium2 => 2,
-        RS or E or FR or LG => 3,
-        DP or Pt or HGSS => 4,
-        BW or B2W2 => 5,
-        XY or ORAS => 6,
-        SM or USUM or GG => 7,
-        SWSH or BDSP or PLA => 8,
-        SV or ZA => 9,
-        _ => 0,
-    };
+        /// <summary>
+        /// Indicates whether the <see cref="LearnEnvironment"/> is specified (not <see cref="None"/>), and thus worth indicating.
+        /// </summary>
+        public bool IsSpecified => value is not None;
 
-    /// <summary>
-    /// Retrieves the evolution criteria for the given <see cref="LearnEnvironment"/> from the provided <see cref="EvolutionHistory"/>.
-    /// </summary>
-    public static ReadOnlySpan<EvoCriteria> GetEvolutions(this LearnEnvironment value, EvolutionHistory history) => value switch
-    {
-        RB or YW => history.Gen1,
-        GS or C or Stadium2 => history.Gen2,
-        RS or E or FR or LG => history.Gen3,
-        DP or Pt or HGSS => history.Gen4,
-        BW or B2W2 => history.Gen5,
-        XY or ORAS => history.Gen6,
-        SM or USUM => history.Gen7,
-        GG => history.Gen7b,
-        SWSH => history.Gen8,
-        PLA => history.Gen8a,
-        BDSP => history.Gen8b,
-        SV => history.Gen9,
-        ZA => history.Gen9a,
-        _ => [],
-    };
+        /// <summary>
+        /// Gets the generation number [1-n] for the given <see cref="LearnEnvironment"/>.
+        /// </summary>
+        public byte Generation => value switch
+        {
+            RB or YW => 1,
+            GS or C or Stadium2 => 2,
+            RS or E or FR or LG => 3,
+            DP or Pt or HGSS => 4,
+            BW or B2W2 => 5,
+            XY or ORAS => 6,
+            SM or USUM or GG => 7,
+            SWSH or BDSP or PLA => 8,
+            SV or ZA => 9,
+            _ => 0,
+        };
+
+        /// <summary>
+        /// Retrieves the evolution criteria for the given <see cref="LearnEnvironment"/> from the provided <see cref="EvolutionHistory"/>.
+        /// </summary>
+        public ReadOnlySpan<EvoCriteria> GetEvolutions(EvolutionHistory history) => value switch
+        {
+            RB or YW => history.Gen1,
+            GS or C or Stadium2 => history.Gen2,
+            RS or E or FR or LG => history.Gen3,
+            DP or Pt or HGSS => history.Gen4,
+            BW or B2W2 => history.Gen5,
+            XY or ORAS => history.Gen6,
+            SM or USUM => history.Gen7,
+            GG => history.Gen7b,
+            SWSH => history.Gen8,
+            PLA => history.Gen8a,
+            BDSP => history.Gen8b,
+            SV => history.Gen9,
+            ZA => history.Gen9a,
+            _ => [],
+        };
+    }
 }

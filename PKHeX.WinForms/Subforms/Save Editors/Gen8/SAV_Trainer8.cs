@@ -94,9 +94,20 @@ public partial class SAV_Trainer8 : Form
         MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
         if (SAV.Played.LastSavedDate.HasValue)
-            CAL_LastSavedDate.Value = CAL_LastSavedTime.Value = SAV.Played.LastSavedDate.Value;
+        {
+            try
+            {
+                CAL_LastSavedDate.Value = CAL_LastSavedTime.Value = SAV.Played.LastSavedDate.Value;
+            }
+            catch
+            {
+                DisableSaved();
+            }
+        }
         else
-            L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
+        {
+            DisableSaved();
+        }
 
         CAL_AdventureStartTime.Visible = false;
         CAL_AdventureStartDate.Value = new DateTime(SAV.TrainerCard.StartedYear, SAV.TrainerCard.StartedMonth, SAV.TrainerCard.StartedDay);
@@ -105,6 +116,11 @@ public partial class SAV_Trainer8 : Form
         // DateUtil.GetDateTime2000(SAV.SecondsToFame, out date, out time);
         // CAL_HoFDate.Value = date;
         // CAL_HoFTime.Value = time;
+    }
+
+    private void DisableSaved()
+    {
+        L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
     }
 
     private void GetMiscValues()

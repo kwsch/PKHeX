@@ -132,14 +132,14 @@ public sealed class TrashByteVerifier : Verifier
     private void VerifyTrashSingle(LegalityAnalysis data, ReadOnlySpan<byte> span, StringSource s)
     {
         var result = TrashBytesUTF16.IsTrashSingleOrNone(span);
-        if (result.IsInvalid())
+        if (result.IsInvalid)
             data.AddLine(GetInvalid(GetIdentifier(s), TrashBytesShouldBeEmpty));
     }
 
     private void VerifyTrashSpecific(LegalityAnalysis data, ReadOnlySpan<byte> span, ReadOnlySpan<char> under, StringSource s, Severity severity = Severity.Invalid)
     {
         var result = TrashBytesUTF16.IsTrashSpecific(span, under);
-        if (result.IsInvalid())
+        if (result.IsInvalid)
             data.AddLine(Get(GetIdentifier(s), severity, TrashBytesExpected));
     }
 
@@ -147,7 +147,7 @@ public sealed class TrashByteVerifier : Verifier
         Severity severity = Severity.Invalid)
     {
         var result = TrashBytesUTF16.IsTrashNone(span);
-        if (result.IsInvalid())
+        if (result.IsInvalid)
             data.AddLine(Get(GetIdentifier(s), severity, TrashBytesShouldBeEmpty));
     }
 

@@ -10,16 +10,14 @@ namespace PKHeX.Core;
 /// <inheritdoc cref="SAV3" />
 public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
 {
-    private GameVersion _version = GameVersion.RS;
-
     // Configuration
     protected override SAV3RS CloneInternal() => new(GetFinalData()) { Language = Language };
 
     public override GameVersion Version
     {
-        get => _version;
-        set => _version = value is GameVersion.RS or GameVersion.R or GameVersion.S ? value : GameVersion.RS;
-    }
+        get;
+        set => field = value is GameVersion.RS or GameVersion.R or GameVersion.S ? value : GameVersion.RS;
+    } = GameVersion.RS;
 
     public override PersonalTable3 Personal => PersonalTable.RS;
 

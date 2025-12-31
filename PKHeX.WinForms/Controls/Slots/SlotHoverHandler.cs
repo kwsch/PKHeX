@@ -23,7 +23,7 @@ public sealed class SlotHoverHandler : IDisposable
     public bool GlowHover { private get; set; } = true;
 
     private readonly SummaryPreviewer Preview = new();
-    private static Bitmap Hover => SpriteUtil.Spriter.Hover;
+    private static Bitmap Hover => Application.IsDarkModeEnabled ? ImageUtil.ChangeOpacity(SpriteUtil.Spriter.Hover, 0.5) : SpriteUtil.Spriter.Hover;
 
     private readonly BitmapAnimator HoverWorker = new();
 
@@ -95,7 +95,6 @@ public sealed class SlotHoverHandler : IDisposable
     {
         HoverWorker.Dispose();
         Slot = null;
-        Draw.Dispose();
     }
 
     /// <summary>

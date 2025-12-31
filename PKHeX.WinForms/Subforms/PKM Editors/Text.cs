@@ -229,7 +229,7 @@ public partial class TrashEditor : Form
     {
         EntityContext.Gen5 => SpecialCharsGen5,
         EntityContext.Gen6 or EntityContext.Gen7 or EntityContext.Gen7b => SpecialCharsGen67,
-        _ when context.Generation() >= 8 => SpecialCharsGen8,
+        _ when context.Generation >= 8 => SpecialCharsGen8,
         _ => [], // Undocumented
     };
 

@@ -189,7 +189,7 @@ public partial class SAV_Pokedex4 : Form
             Span<byte> arr = stackalloc byte[items.Count];
             string[] formNames = GetFormNames4Dex(species);
             for (int i = 0; i < items.Count; i++)
-                arr[i] = (byte)Array.IndexOf(formNames, (string)items[i]); // shouldn't ever fail
+                arr[i] = (byte)formNames.IndexOf((string)items[i]); // shouldn't ever fail
             SAV.Dex.SetForms(species, arr);
         }
     }

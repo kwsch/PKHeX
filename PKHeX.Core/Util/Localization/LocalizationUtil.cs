@@ -59,7 +59,7 @@ public static class LocalizationUtil
         var result = new string[currentLines.Length];
         for (int i = 0; i < current.Length; i++)
         {
-            int index = Array.IndexOf(existing, current[i]);
+            int index = existing.IndexOf(current[i]);
             result[i] = index < 0 ? currentLines[i] : existingLines[index];
         }
         return result;

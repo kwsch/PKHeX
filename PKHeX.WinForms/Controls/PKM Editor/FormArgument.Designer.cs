@@ -28,25 +28,25 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            FLP_FormArg = new System.Windows.Forms.FlowLayoutPanel();
             NUD_FormArg = new System.Windows.Forms.NumericUpDown();
             CB_FormArg = new System.Windows.Forms.ComboBox();
-            flowLayoutPanel1.SuspendLayout();
+            FLP_FormArg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_FormArg).BeginInit();
             SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // FLP_FormArg
             // 
-            flowLayoutPanel1.AutoSize = true;
-            flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            flowLayoutPanel1.Controls.Add(NUD_FormArg);
-            flowLayoutPanel1.Controls.Add(CB_FormArg);
-            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new System.Drawing.Size(119, 25);
-            flowLayoutPanel1.TabIndex = 1;
+            FLP_FormArg.AutoSize = true;
+            FLP_FormArg.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            FLP_FormArg.Controls.Add(NUD_FormArg);
+            FLP_FormArg.Controls.Add(CB_FormArg);
+            FLP_FormArg.Dock = System.Windows.Forms.DockStyle.Fill;
+            FLP_FormArg.Location = new System.Drawing.Point(0, 0);
+            FLP_FormArg.Margin = new System.Windows.Forms.Padding(0);
+            FLP_FormArg.Name = "FLP_FormArg";
+            FLP_FormArg.Size = new System.Drawing.Size(119, 25);
+            FLP_FormArg.TabIndex = 1;
             // 
             // NUD_FormArg
             // 
@@ -79,17 +79,17 @@ namespace PKHeX.WinForms.Controls
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             AutoSize = true;
             AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(FLP_FormArg);
             Name = "FormArgument";
             Size = new System.Drawing.Size(119, 25);
-            flowLayoutPanel1.ResumeLayout(false);
+            FLP_FormArg.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NUD_FormArg).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel FLP_FormArg;
         private System.Windows.Forms.NumericUpDown NUD_FormArg;
         private System.Windows.Forms.ComboBox CB_FormArg;
     }

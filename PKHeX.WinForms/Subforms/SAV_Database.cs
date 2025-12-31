@@ -104,7 +104,7 @@ public partial class SAV_Database : Form
             }
             slot.Enter += (_, _) =>
             {
-                var index = Array.IndexOf(PKXBOXES, slot);
+                var index = PKXBOXES.IndexOf(slot);
                 if (index < 0)
                     return;
                 index += (SCR_Box.Value * RES_MIN);
@@ -152,15 +152,21 @@ public partial class SAV_Database : Form
         };
         CB_Format.Items[0] = MsgAny;
         CenterToParent();
-        Closing += (_, _) => ShowSet.Clear();
+        FormClosing += (_, _) => ShowSet.Clear();
         CB_Species.Select();
+
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(menuStrip1.Items);
+            WinFormsUtil.InvertToolStripIcons(mnu.Items);
+        }
     }
 
     private void ClickView(object sender, EventArgs e)
     {
         if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
             ArgumentNullException.ThrowIfNull(pb);
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (!GetShiftedIndex(ref index))
         {
             System.Media.SystemSounds.Exclamation.Play();
@@ -192,7 +198,7 @@ public partial class SAV_Database : Form
     {
         if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
             ArgumentNullException.ThrowIfNull(pb);
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (!GetShiftedIndex(ref index))
         {
             System.Media.SystemSounds.Exclamation.Play();
@@ -797,7 +803,7 @@ public partial class SAV_Database : Form
 
     private void ShowHoverTextForSlot(PictureBox pb)
     {
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (!GetShiftedIndex(ref index))
             return;
 
