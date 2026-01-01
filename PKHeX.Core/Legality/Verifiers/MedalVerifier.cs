@@ -144,31 +144,34 @@ public static class SuperTrainBagExtensions
 
     // Min is always 0 -- can immediately deposit before finishing a bag.
 
-    /// <summary>
-    /// Retrieves the maximum value associated with the specified <see cref="SuperTrainBag"/>.
-    /// </summary>
-    /// <returns>The maximum value as a <see cref="byte"/> if the <paramref name="bag"/> is valid; otherwise, 0.</returns>
-    public static byte GetMax(this SuperTrainBag bag)
+    extension(SuperTrainBag bag)
     {
-        if (!bag.IsValid())
-            return 0;
-        return Max[(byte)bag];
-    }
+        /// <summary>
+        /// Retrieves the maximum value associated with the specified <see cref="SuperTrainBag"/>.
+        /// </summary>
+        /// <returns>The maximum value as a <see cref="byte"/> if the <paramref name="bag"/> is valid; otherwise, 0.</returns>
+        public byte GetMax()
+        {
+            if (!bag.IsValid())
+                return 0;
+            return Max[(byte)bag];
+        }
 
-    /// <summary>
-    /// Checks if the bag value is within the valid enum range and if the hits are within the valid range for that bag.
-    /// </summary>
-    public static bool IsValid(this SuperTrainBag bag, byte hits)
-    {
-        if (bag > SuperTrainBag.SoothingBag)
-            return false;
-        return hits <= bag.GetMax();
-    }
+        /// <summary>
+        /// Checks if the bag value is within the valid enum range and if the hits are within the valid range for that bag.
+        /// </summary>
+        public bool IsValid(byte hits)
+        {
+            if (bag > SuperTrainBag.SoothingBag)
+                return false;
+            return hits <= bag.GetMax();
+        }
 
-    /// <summary>
-    /// Checks if the bag value is within the valid enum range.
-    /// </summary>
-    public static bool IsValid(this SuperTrainBag bag) => bag <= SuperTrainBag.SoothingBag;
+        /// <summary>
+        /// Checks if the bag value is within the valid enum range.
+        /// </summary>
+        public bool IsValid() => bag <= SuperTrainBag.SoothingBag;
+    }
 }
 
 public enum SuperTrainBag : byte

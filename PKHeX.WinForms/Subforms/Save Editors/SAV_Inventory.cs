@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms;
@@ -42,6 +43,12 @@ public sealed partial class SAV_Inventory : Form
         CreateBagViews();
         LoadAllBags();
         ChangeViewedPouch(0);
+
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(giveMenu.Items);
+            WinFormsUtil.InvertToolStripIcons(sortMenu.Items);
+        }
 
         // simple tweak to widen the GUI for optional columns making it wider than the narrow default
         var widen = 0;
@@ -138,7 +145,7 @@ public sealed partial class SAV_Inventory : Form
         return dgv;
     }
 
-    private static DataGridView GetBaseDataGrid(InventoryPouch pouch) => new()
+    private static DoubleBufferedDataGridView GetBaseDataGrid(InventoryPouch pouch) => new()
     {
         Dock = DockStyle.Fill,
         Text = $"{pouch.Type}",
@@ -174,7 +181,7 @@ public sealed partial class SAV_Inventory : Form
         HeaderText = name,
         DisplayIndex = c,
         Width = 40,
-        FlatStyle = FlatStyle.Flat,
+        FlatStyle = Application.IsDarkModeEnabled ? FlatStyle.System : FlatStyle.Flat,
     };
 
     private static DataGridViewTextBoxColumn GetCountColumn(InventoryPouch pouch, bool HaX, int c, string name = "Count")
@@ -262,7 +269,7 @@ public sealed partial class SAV_Inventory : Form
         {
             var cells = dgv.Rows[i].Cells;
             var str = cells[ColumnItem].Value!.ToString();
-            var itemindex = Array.IndexOf(itemlist, str);
+            var itemindex = itemlist.IndexOf(str);
 
             if (itemindex <= 0 && !HasNew) // Compression of Empty Slots
                 continue;
@@ -365,7 +372,7 @@ public sealed partial class SAV_Inventory : Form
         if (truncate)
         {
             if (shuffle)
-                Util.Rand.Shuffle(items.AsSpan());
+                Util.Rand.Shuffle(items);
             Array.Resize(ref items, pouch.Items.Length);
         }
 
@@ -431,7 +438,6 @@ file static class InventoryTypeImageUtil
     {
         var result = new ImageList
         {
-            TransparentColor = Color.Transparent,
             ImageSize = Properties.Resources.bag_items.Size, // Match the size of the resources.
         };
         var images = result.Images;

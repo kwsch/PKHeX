@@ -54,13 +54,39 @@ public static class WallpaperUtil
         return $"box_wp{index:00}{suffix}{variant}";
     }
 
-    private static string GetResourceSuffix(GameVersion version, int index) => version.GetGeneration() switch
+    private static string GetResourceSuffix(SaveFileType type, int index) => type switch
+    {
+        SaveFileType.Emerald => "e",
+        SaveFileType.FRLG when index > 12 => "frlg",
+
+        SaveFileType.Pt when index > 16 => "pt",
+        SaveFileType.HGSS when index > 16 => "hgss",
+
+        SaveFileType.B2W2 when index > 16 => "b2w2",
+        SaveFileType.AO when index > 16 => "ao",
+        SaveFileType.BDSP => "bdsp",
+        SaveFileType.SWSH => "swsh",
+        SaveFileType.SV => "sv",
+
+        SaveFileType.LGPE => string.Empty,
+
+        _ => type.Generation switch
+        {
+            3 => "rs",
+            4 => "dp",
+            5 => "bw",
+            6 or 7 => "xy",
+            _ => string.Empty,
+        },
+    };
+
+    private static string GetResourceSuffix(GameVersion version, int index) => version.Generation switch
     {
         3 when version == E => "e",
         3 when FRLG.Contains(version) && index > 12 => "frlg",
         3 => "rs",
 
-        4 when index < 16 => "dp",
+        4 when index <= 16 => "dp",
         4 when version == Pt => "pt",
         4 when HGSS.Contains(version) => "hgss",
 

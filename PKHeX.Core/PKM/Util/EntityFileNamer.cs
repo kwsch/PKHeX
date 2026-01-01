@@ -87,67 +87,69 @@ public interface IFileNamer<in T>
 /// </summary>
 public static class BulkFileRenamer
 {
-    /// <summary>
-    /// Bulk renames files.
-    /// </summary>
-    /// <param name="namer">Rename implementation</param>
-    /// <param name="dir">Folder to rename files</param>
-    /// <returns>Count of files renamed</returns>
-    public static int RenameFiles<T>(this IFileNamer<T> namer, string dir) where T : PKM
+    extension<T>(IFileNamer<T> namer) where T : PKM
     {
-        var files = Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories);
-        return RenameFiles(namer, files);
-    }
-
-    /// <inheritdoc cref="RenameFiles{T}(IFileNamer{T},string)"/>
-    public static int RenameFiles<T>(this IFileNamer<T> namer, IEnumerable<string> files) where T : PKM
-    {
-        var count = 0;
-        foreach (var file in files)
+        /// <summary>
+        /// Bulk renames files.
+        /// </summary>
+        /// <param name="dir">Folder to rename files</param>
+        /// <returns>Count of files renamed</returns>
+        public int RenameFiles(string dir)
         {
-            if (namer.RenameFile(file))
-                count++;
+            var files = Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories);
+            return namer.RenameFiles(files);
         }
-        return count;
-    }
 
-    /// <summary>
-    /// Renames a file using the input <see cref="namer"/>.
-    /// </summary>
-    /// <returns>True if renamed.</returns>
-    public static bool RenameFile<T>(this IFileNamer<T> namer, string file) where T : PKM
-    {
-        var dirName = Path.GetDirectoryName(file);
-        if (dirName is null)
-            return false;
-
-        var fi = new FileInfo(file);
-        if (fi.Attributes.HasFlag(FileAttributes.ReadOnly))
-            return false;
-
-        if (!EntityDetection.IsSizePlausible(fi.Length))
-            return false;
-
-        var data = File.ReadAllBytes(file);
-        var pk = EntityFormat.GetFromBytes(data);
-        if (pk is not T x)
-            return false;
-
-        var name = namer.GetName(x);
-        name += pk.Extension;
-        var newPath = Path.Combine(dirName, name);
-        if (file == newPath)
-            return false;
-
-        try
+        /// <inheritdoc cref="BulkFileRenamer.RenameFiles{T}(PKHeX.Core.IFileNamer{T},string)"/>
+        public int RenameFiles(IEnumerable<string> files)
         {
-            File.Move(file, newPath, true);
-            return true;
+            var count = 0;
+            foreach (var file in files)
+            {
+                if (namer.RenameFile(file))
+                    count++;
+            }
+            return count;
         }
-        catch (Exception ex)
+
+        /// <summary>
+        /// Renames a file using the input <see cref="namer"/>.
+        /// </summary>
+        /// <returns>True if renamed.</returns>
+        public bool RenameFile(string file)
         {
-            System.Diagnostics.Debug.WriteLine(ex.Message);
-            return false;
+            var dirName = Path.GetDirectoryName(file);
+            if (dirName is null)
+                return false;
+
+            var fi = new FileInfo(file);
+            if (fi.Attributes.HasFlag(FileAttributes.ReadOnly))
+                return false;
+
+            if (!EntityDetection.IsSizePlausible(fi.Length))
+                return false;
+
+            var data = File.ReadAllBytes(file);
+            var pk = EntityFormat.GetFromBytes(data);
+            if (pk is not T x)
+                return false;
+
+            var name = namer.GetName(x);
+            name += pk.Extension;
+            var newPath = Path.Combine(dirName, name);
+            if (file == newPath)
+                return false;
+
+            try
+            {
+                File.Move(file, newPath, true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                return false;
+            }
         }
     }
 }

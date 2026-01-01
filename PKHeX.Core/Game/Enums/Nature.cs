@@ -49,27 +49,30 @@ public static class NatureUtil
         _ => value,
     };
 
-    /// <summary>
-    /// Checks if the provided <see cref="value"/> is a valid stored <see cref="Nature"/> value.
-    /// </summary>
-    /// <returns>True if value is an actual nature.</returns>
-    public static bool IsFixed(this Nature value) => value < Nature.Random;
+    extension(Nature value)
+    {
+        /// <summary>
+        /// Checks if the provided <see cref="value"/> is a valid stored <see cref="Nature"/> value.
+        /// </summary>
+        /// <returns>True if value is an actual nature.</returns>
+        public bool IsFixed() => value < Nature.Random;
 
-    /// <summary>
-    /// Checks if the provided <see cref="value"/> is a possible mint nature.
-    /// </summary>
-    /// <remarks>
-    /// The only valid mint natures are those which have a stat amp applied, or neutral nature being Serious.
-    /// </remarks>
-    public static bool IsMint(this Nature value) => (value.IsFixed() && (byte)value % 6 != 0) || value == Nature.Serious;
+        /// <summary>
+        /// Checks if the provided <see cref="value"/> is a possible mint nature.
+        /// </summary>
+        /// <remarks>
+        /// The only valid mint natures are those which have a stat amp applied, or neutral nature being Serious.
+        /// </remarks>
+        public bool IsMint() => (value.IsFixed() && (byte)value % 6 != 0) || value == Nature.Serious;
 
-    /// <summary>
-    /// Checks if the provided <see cref="value"/> is a neutral nature which has no stat amps applied.
-    /// </summary>
-    public static bool IsNeutral(this Nature value) => value.IsFixed() && (byte)value % 6 == 0;
+        /// <summary>
+        /// Checks if the provided <see cref="value"/> is a neutral nature which has no stat amps applied.
+        /// </summary>
+        public bool IsNeutral() => value.IsFixed() && (byte)value % 6 == 0;
 
-    /// <summary>
-    /// Converts the provided <see cref="value"/> to a neutral nature.
-    /// </summary>
-    public static Nature ToNeutral(this Nature value) => (Nature)(value - (Nature)((byte)value % 6));
+        /// <summary>
+        /// Converts the provided <see cref="value"/> to a neutral nature.
+        /// </summary>
+        public Nature ToNeutral() => (Nature)(value - (Nature)((byte)value % 6));
+    }
 }

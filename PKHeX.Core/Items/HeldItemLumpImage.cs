@@ -39,7 +39,7 @@ public static class HeldItemLumpUtil
     /// <param name="item">Held Item index</param>
     /// <param name="context">Generation context</param>
     /// <returns>Evaluation result.</returns>
-    public static HeldItemLumpImage GetIsLump(int item, EntityContext context) => context.Generation() switch
+    public static HeldItemLumpImage GetIsLump(int item, EntityContext context) => context.Generation switch
     {
         <= 4 when item is (>= 0328 and <= 0419) => HeldItemLumpImage.TechnicalMachine, // Gen2/3/4 TM
         8 when item is (>= 0328 and <= 0427) => HeldItemLumpImage.TechnicalMachine, // BD/SP TMs

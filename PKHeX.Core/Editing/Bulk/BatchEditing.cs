@@ -138,7 +138,7 @@ public static class BatchEditing
     /// <returns>True if it has property, false if it does not.</returns>
     public static bool TryGetHasProperty(Type type, ReadOnlySpan<char> name, [NotNullWhen(true)] out PropertyInfo? pi)
     {
-        var index = Array.IndexOf(Types, type);
+        var index = Types.IndexOf(type);
         if (index < 0)
         {
             pi = null;
@@ -254,7 +254,7 @@ public static class BatchEditing
     private static Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> GetProps(PKM pk)
     {
         var type = pk.GetType();
-        var typeIndex = Array.IndexOf(Types, type);
+        var typeIndex = Types.IndexOf(type);
         return Props[typeIndex];
     }
 

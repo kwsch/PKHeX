@@ -91,7 +91,7 @@ public sealed class DonutPocket9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>
         var now = DateTime.Now;
         if (bias != 0) // some fudge factor to differentiate donuts made on the same millisecond
             now = now.AddMilliseconds(bias);
-        var ticks = (ulong)(now - new DateTime(1900, 1, 1)).TotalMilliseconds;
+        var ticks = (ulong)(now - Donut9a.Epoch).TotalMilliseconds;
         entry.MillisecondsSince1900 = ticks;
         entry.DateTime1900.Timestamp = now;
     }
@@ -100,15 +100,15 @@ public sealed class DonutPocket9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>
     {
         // Shiny power is sweet 3-21. Allow "all" rather than just be single type.
         var type = rand.Next(17 + 1 + 1);
-        var flavor0 = $"sweet_{(type + 3):00}_lv3"; // Sparkling (sweet_03-21)
+        var flavor0 = $"sweet_{type + 3:00}_lv3"; // Sparkling (sweet_03-21)
 
         var roll2 = rand.Next(3);
         var flavor1 = roll2 switch
         {
-            0 or 1 => $"fresh_{(1 + roll2):00}_lv3", // Humungo (fresh_01) or Teensy (fresh_02)
+            0 or 1 => $"fresh_{1 + roll2:00}_lv3", // Humungo (fresh_01) or Teensy (fresh_02)
             _ => "sweet_01_lv3", // Alpha
         };
-        var flavor2 = $"fresh_{(type + 4):00}_lv3"; // Catching Power (fresh_04-22)
+        var flavor2 = $"fresh_{type + 4:00}_lv3"; // Catching Power (fresh_04-22)
 
         // Set flavors to donut
         entry.Flavor0 = flavorDict[flavor0];
@@ -130,7 +130,7 @@ public sealed class DonutPocket9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>
 
 public static class DonutInfo
 {
-    public static readonly DonutBerryDetail[] Berries =
+    public static IReadOnlyList<DonutBerryDetail> Berries { get; } =
     [
         new(0149, 0  ,10, 0 , 0 , 0 , 0 , 1 , 60),
         new(0150, 1  ,0 , 10, 0 , 0 , 0 , 1 , 60),
@@ -278,7 +278,7 @@ public static class DonutInfo
 
     // Could compute these during runtime, but I guess it helps discoverability for search.
     // Hash is FnvHash.HashFnv1a_64 of the internal flavor Name.
-    public static (ulong Hash, string Name)[] Flavors =
+    public static IReadOnlyList<(ulong Hash, string Name)> Flavors { get; } =
     [
         (0xCCFCBB9681D321F1, "sweet_01_lv1"),
         (0xCCFCB89681D31CD8, "sweet_01_lv2"),
@@ -576,6 +576,8 @@ public readonly record struct Donut9a(Memory<byte> Raw)
     public const int Size = 0x48;
     public Span<byte> Data => Raw.Span;
 
+    public static DateTime Epoch => new(1900, 1, 1, 0, 0, 0, DateTimeKind.Local);
+
     /*
     0x00    u64 MillisecondsSince1900
        
@@ -601,17 +603,26 @@ public readonly record struct Donut9a(Memory<byte> Raw)
     0x40    u64 Reserved
     */
 
+    /// <summary>
+    /// Timestamp the donut was created, in milliseconds since January 1, 1900.
+    /// </summary>
     public ulong MillisecondsSince1900 { get => ReadUInt64LittleEndian(Data); set => WriteUInt64LittleEndian(Data, value); }
 
     public byte Stars { get => Data[0x08]; set => Data[0x08] = value; }
     public byte LevelBoost { get => Data[0x09]; set => Data[0x09] = value; }
 
+    /// <summary> Indicates which donut sprite to load. </summary>
     public ushort Donut { get => ReadUInt16LittleEndian(Data[0x0A..]); set => WriteUInt16LittleEndian(Data[0x0A..], value); }
     public ushort Calories { get => ReadUInt16LittleEndian(Data[0x0C..]); set => WriteUInt16LittleEndian(Data[0x0C..], value); }
 
     /// <summary>
     /// The berry that is used in the name of the donut.
     /// </summary>
+    /// <remarks>
+    /// Must be one of the 8 berries.
+    /// Only the 8 berries (not this value) are considered when calculating the flavor profile of the donut.
+    /// This is only used for display purposes related to <see cref="Donut"/>.
+    /// </remarks>
     public ushort BerryName { get => ReadUInt16LittleEndian(Data[0x0E..]); set => WriteUInt16LittleEndian(Data[0x0E..], value); }
 
     public ushort Berry1 { get => ReadUInt16LittleEndian(Data[0x10..]); set => WriteUInt16LittleEndian(Data[0x10..], value); }
@@ -623,6 +634,12 @@ public readonly record struct Donut9a(Memory<byte> Raw)
     public ushort Berry7 { get => ReadUInt16LittleEndian(Data[0x1C..]); set => WriteUInt16LittleEndian(Data[0x1C..], value); }
     public ushort Berry8 { get => ReadUInt16LittleEndian(Data[0x1E..]); set => WriteUInt16LittleEndian(Data[0x1E..], value); }
 
+    /// <summary>
+    /// Alternate date storage format for the donut creation time.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="MillisecondsSince1900"/> is the source of truth; this value should be kept in sync via <see cref="UpdateDateTime"/>.
+    /// </remarks>
     public Epoch1900DateTimeValue DateTime1900 => new(Raw[0x20..0x28]);
 
     public ulong Flavor0 { get => ReadUInt64LittleEndian(Data[0x28..]); set => WriteUInt64LittleEndian(Data[0x28..], value); }
@@ -631,33 +648,48 @@ public readonly record struct Donut9a(Memory<byte> Raw)
 
     public ulong Reserved { get => ReadUInt64LittleEndian(Data[0x40..]); set => WriteUInt64LittleEndian(Data[0x40..], value); }
 
-    public void UpdateDateTime() => DateTime1900.Timestamp = new DateTime(1900, 1, 1).AddMilliseconds(MillisecondsSince1900);
+    /// <summary>
+    /// Updates the <see cref="DateTime1900"/> value based on the stored <see cref="MillisecondsSince1900"/>.
+    /// </summary>
+    /// <remarks>
+    /// The values should always mirror each other, but their storage formats differ. Treat <see cref="MillisecondsSince1900"/> as the main source of truth.
+    /// </remarks>
+    public void UpdateDateTime() => DateTime1900.Timestamp = Epoch.AddMilliseconds(MillisecondsSince1900);
 
+    /// <summary>
+    /// A non-zero <see cref="MillisecondsSince1900"/> indicates that this donut slot is occupied. A zero-value with non-zero flavors/berries is invalid (and causes display glitches in-game).
+    /// </summary>
     public bool IsEmpty => MillisecondsSince1900 != 0;
+
+    /// <summary>
+    /// Count of flavor perks granted by this donut.
+    /// </summary>
     public int FlavorCount => Flavor0 == 0 ? 0 : Flavor1 == 0 ? 1 : Flavor2 == 0 ? 2 : 3;
 
-    public ushort[] GetBerries() =>
-    [
-        Berry1,
-        Berry2,
-        Berry3,
-        Berry4,
-        Berry5,
-        Berry6,
-        Berry7,
-        Berry8,
-    ];
+    /// <summary> Berries used in this donut. </summary>
+    public ReadOnlySpan<ushort> GetBerries() => new[] { Berry1, Berry2, Berry3, Berry4, Berry5, Berry6, Berry7, Berry8 };
 
-    public ulong[] GetFlavors() =>
-    [
-        Flavor0,
-        Flavor1,
-        Flavor2,
-    ];
+    /// <summary> Flavor perks granted by this donut. </summary>
+    public ReadOnlySpan<ulong> GetFlavors() => new[] { Flavor0, Flavor1, Flavor2 };
 
+    /// <summary>
+    /// Copies the data from the current instance to the specified <see cref="Donut9a"/> instance.
+    /// </summary>
     public void CopyTo(Donut9a other) => Data.CopyTo(other.Data);
+
+    /// <summary> Wipes all data in this donut slot, marking it as empty. </summary>
     public void Clear() => Data.Clear();
+
+    /// <summary>
+    /// Wipes only the stored <see cref="DateTime1900"/> value.
+    /// </summary>
+    /// <remarks>
+    /// Used along with <see cref="UpdateDateTime"/> to reset the date from milliseconds.
+    /// </remarks>
     public void ClearDateTime() => Data[0x20..0x28].Clear();
 
+    /// <summary>
+    /// Indicates whether a <see cref="DateTime1900"/> is stored. Does not guarantee that the date is possible/valid.
+    /// </summary>
     public bool HasDateTime() => ReadUInt64LittleEndian(Data[0x20..0x28]) != 0;
 }

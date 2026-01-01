@@ -46,9 +46,8 @@ public static class QREncode
     /// <returns>A bitmap containing the QR code.</returns>
     private static Bitmap GenerateQRCode(string msg, int ppm = 4)
     {
-        using var generator = new QRCodeGenerator();
-        using var data = generator.CreateQrCode(msg, QRCodeGenerator.ECCLevel.Q);
+        using var data = QRCodeGenerator.GenerateQrCode(msg, QRCodeGenerator.ECCLevel.Q);
         using var code = new QRCode(data);
-        return code.GetGraphic(ppm);
+        return code.GetGraphic(ppm, darkColor: SystemColors.ControlText, lightColor: SystemColors.ControlLightLight, drawQuietZones: true);
     }
 }

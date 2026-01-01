@@ -67,14 +67,14 @@ namespace PKHeX.WinForms.Controls
             CB_BoxSelect.Margin = new System.Windows.Forms.Padding(0);
             CB_BoxSelect.MinimumSize = new System.Drawing.Size(128, 0);
             CB_BoxSelect.Name = "CB_BoxSelect";
-            CB_BoxSelect.Size = new System.Drawing.Size(128, 23);
+            CB_BoxSelect.Size = new System.Drawing.Size(128, 25);
             CB_BoxSelect.TabIndex = 1;
             CB_BoxSelect.SelectedIndexChanged += GetBox;
             // 
             // BoxPokeGrid
             // 
             BoxPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            BoxPokeGrid.Location = new System.Drawing.Point(0, 25);
+            BoxPokeGrid.Location = new System.Drawing.Point(0, 27);
             BoxPokeGrid.Margin = new System.Windows.Forms.Padding(0);
             BoxPokeGrid.Name = "BoxPokeGrid";
             BoxPokeGrid.Size = new System.Drawing.Size(251, 160);
@@ -89,7 +89,7 @@ namespace PKHeX.WinForms.Controls
             Controls.Add(B_BoxLeft);
             Controls.Add(CB_BoxSelect);
             Name = "BoxEditor";
-            Size = new System.Drawing.Size(251, 185);
+            Size = new System.Drawing.Size(251, 187);
             ResumeLayout(false);
         }
 

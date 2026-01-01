@@ -127,7 +127,7 @@ public class LegalityTest
 
             var data = File.ReadAllBytes(file);
             var prefer = EntityFileExtension.GetContextFromExtension(file);
-            prefer.IsValid().Should().BeTrue("filename is expected to have a valid extension");
+            prefer.IsValid.Should().BeTrue("filename is expected to have a valid extension");
 
             var dn = fi.DirectoryName ?? string.Empty;
             ParseSettings.AllowGBCartEra = dn.Contains("GBCartEra");

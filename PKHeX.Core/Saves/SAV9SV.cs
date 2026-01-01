@@ -244,7 +244,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public override StorageSlotSource GetBoxSlotFlags(int index)
     {
-        int team = Array.IndexOf(TeamIndexes.TeamSlots, index);
+        int team = TeamIndexes.TeamSlots.IndexOf(index);
         if (team < 0)
           return StorageSlotSource.None;
 
@@ -312,9 +312,11 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         set => Blocks.GetBlock(SaveBlockAccessor9SV.KBoxWallpapers).Data[BoxLayout9.BoxCount] = value;
     }
 
-    public ThrowStyle9 ThrowStyle {
-        get {
-            if(Blocks.TryGetBlock(SaveBlockAccessor9SV.KThrowStyle, out var throwStyleBlock))
+    public ThrowStyle9 ThrowStyle
+    {
+        get
+        {
+            if (Blocks.TryGetBlock(SaveBlockAccessor9SV.KThrowStyle, out var throwStyleBlock))
                 return (ThrowStyle9)throwStyleBlock.Data[0];
             return ThrowStyle9.OriginalStyle;
         }

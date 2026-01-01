@@ -205,7 +205,7 @@ public sealed class WC8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
             {
                 if (value == RibbonByteNone)
                     return false; // end
-                if (((RibbonIndex)value).IsEncounterMark8())
+                if (((RibbonIndex)value).IsEncounterMark8)
                     return true;
             }
 

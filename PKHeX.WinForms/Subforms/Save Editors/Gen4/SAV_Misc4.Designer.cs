@@ -1,3 +1,5 @@
+using PKHeX.WinForms.Controls;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_Misc4
@@ -110,7 +112,7 @@ namespace PKHeX.WinForms
             L_Steps = new System.Windows.Forms.Label();
             Tab_Seals = new System.Windows.Forms.TabPage();
             B_ClearSeals = new System.Windows.Forms.Button();
-            DGV_Seals = new System.Windows.Forms.DataGridView();
+            DGV_Seals = new DoubleBufferedDataGridView();
             B_AllSealsIllegal = new System.Windows.Forms.Button();
             B_AllSealsLegal = new System.Windows.Forms.Button();
             Tab_FashionCase = new System.Windows.Forms.TabPage();
@@ -120,8 +122,8 @@ namespace PKHeX.WinForms
             B_AllBackdropsLegal = new System.Windows.Forms.Button();
             B_AllAccessoriesIllegal = new System.Windows.Forms.Button();
             B_AllAccessoriesLegal = new System.Windows.Forms.Button();
-            DGV_Backdrops = new System.Windows.Forms.DataGridView();
-            DGV_Accessories = new System.Windows.Forms.DataGridView();
+            DGV_Backdrops = new DoubleBufferedDataGridView();
+            DGV_Accessories = new DoubleBufferedDataGridView();
             Tab_Poffins = new System.Windows.Forms.TabPage();
             poffinCase4Editor1 = new PoffinCase4Editor();
             Tab_PokeGear = new System.Windows.Forms.TabPage();
@@ -1624,9 +1626,9 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ToolTip tip2;
         private System.Windows.Forms.NumericUpDown NUD_PokeathlonPoints;
         private System.Windows.Forms.Label L_PokeathlonPoints;
-        private System.Windows.Forms.DataGridView DGV_Seals;
-        private System.Windows.Forms.DataGridView DGV_Backdrops;
-        private System.Windows.Forms.DataGridView DGV_Accessories;
+        private DoubleBufferedDataGridView DGV_Seals;
+        private DoubleBufferedDataGridView DGV_Backdrops;
+        private DoubleBufferedDataGridView DGV_Accessories;
         private System.Windows.Forms.Button B_AllBackdropsIllegal;
         private System.Windows.Forms.Button B_AllBackdropsLegal;
         private System.Windows.Forms.Button B_AllAccessoriesIllegal;

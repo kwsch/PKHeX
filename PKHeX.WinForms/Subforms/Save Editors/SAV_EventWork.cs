@@ -24,6 +24,7 @@ public sealed partial class SAV_EventWork : Form
         SAV = sav.Blocks.EventWork;
         Origin = sav;
 
+        AllowDrop = true;
         DragEnter += Main_DragEnter;
         DragDrop += Main_DragDrop;
 
@@ -40,6 +41,11 @@ public sealed partial class SAV_EventWork : Form
         LoadFlags(Editor.Flag);
         LoadWork(Editor.Work);
         editing = false;
+        if (Application.IsDarkModeEnabled)
+        {
+            foreach (TabPage tab in TC_Features.TabPages)
+                tab.UseVisualStyleBackColor = false;
+        }
         ResumeLayout();
 
         if (CB_Stats.Items.Count > 0)
@@ -93,6 +99,10 @@ public sealed partial class SAV_EventWork : Form
                 Name = $"Tab_F{g.Type}",
                 Text = g.Type.ToString(),
             };
+            if (Application.IsDarkModeEnabled)
+            {
+                tab.UseVisualStyleBackColor = false;
+            }
             tab.Controls.Add(tlp);
             TC_Flag.Controls.Add(tab);
             tlp.ResumeLayout();
@@ -178,12 +188,20 @@ public sealed partial class SAV_EventWork : Form
                     }
                 }
                 i++;
+                if (Application.IsDarkModeEnabled)
+                {
+                    cb.FlatStyle = FlatStyle.Flat;
+                }
             }
             var tab = new TabPage
             {
                 Name = $"Tab_W{g.Type}",
                 Text = g.Type.ToString(),
             };
+            if (Application.IsDarkModeEnabled)
+            {
+                tab.UseVisualStyleBackColor = false;
+            }
             tab.Controls.Add(tlp);
             TC_Work.Controls.Add(tab);
             tlp.ResumeLayout();
@@ -295,9 +313,18 @@ public sealed partial class SAV_EventWork : Form
     {
         if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
             return;
-        var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, Name, "Yes: Old Save" + Environment.NewLine + "No: New Save");
-        var button = dr == DialogResult.Yes ? B_LoadOld : B_LoadNew;
-        LoadSAV(button, files[0]);
+
+        foreach (var file in files)
+        {
+            var result = this.SelectNewOld(file, B_LoadNew.Text, B_LoadOld.Text);
+            if (result == DualDiffSelection.New)
+                TB_NewSAV.Text = file;
+            else if (result == DualDiffSelection.Old)
+                TB_OldSAV.Text = file;
+            else if (ModifierKeys == Keys.Escape)
+                return;
+        }
+        ChangeSAV();
     }
 
     private void B_ApplyFlag_Click(object sender, EventArgs e)

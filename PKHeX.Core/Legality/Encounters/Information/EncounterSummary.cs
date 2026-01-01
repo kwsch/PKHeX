@@ -22,7 +22,7 @@ public sealed record EncounterSummary
         var generation = enc.Generation;
         var version = enc.Version;
         if (generation == 0 && version > 0)
-            generation = version.GetGeneration();
+            generation = version.Generation;
 
         if (enc is not ILocation l)
             return $"[Gen{generation}]\t";

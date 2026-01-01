@@ -18,7 +18,7 @@ public static class LeadFinder
         where TEvo : ILevelRange
     {
         var type = pv.Type;
-        if (type.IsClassicMethod())
+        if (type.IsClassicMethod)
             return MethodH.GetSeed(enc, pv.OriginSeed, evo, emerald, gender, format);
         return default;
     }
@@ -111,7 +111,7 @@ public static class LeadFinder
         result = hgss
             ? MethodK.GetSeed(enc, seed, evo, format)
             : MethodJ.GetSeed(enc, seed, evo, format);
-        return result.IsValid();
+        return result.IsValid;
     }
 
     private static bool TryGetMatchCuteCharm4<TEnc, TEvo>(TEnc enc, PKM pk, TEvo evo, byte format, out LeadSeed result)

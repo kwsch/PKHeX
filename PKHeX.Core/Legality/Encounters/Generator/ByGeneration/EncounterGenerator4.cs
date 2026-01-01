@@ -99,7 +99,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
 
             var evo = LeadFinder.GetLevelConstraint(pk, chain, slot, 4);
             var lead = LeadFinder.GetLeadInfo4(pk, slot, info.PIDIV, evo);
-            if (!lead.IsValid())
+            if (!lead.IsValid)
             {
                 defer.Update(DeferralType.SlotNumber, slot);
                 continue;

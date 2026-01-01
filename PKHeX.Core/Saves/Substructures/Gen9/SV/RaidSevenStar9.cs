@@ -34,8 +34,7 @@ public sealed class SevenStarRaidDetail(SevenStarRaidCapturedDetail captured, Se
         set
         {
             captured.Identifier = value;
-            if (defeated is not null)
-                defeated.Identifier = value;
+            defeated?.Identifier = value;
         }
     }
 

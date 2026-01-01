@@ -92,88 +92,89 @@ public enum EvolutionType : byte
 /// </summary>
 public static class EvolutionTypeExtensions
 {
-    /// <summary>
-    /// Checks if the <see cref="EvolutionType"/> is a <see cref="Trade"/> evolution.
-    /// </summary>
-    /// <param name="t">Evolution Type</param>
-    /// <returns>True if the evolution is a trade evolution.</returns>
-    public static bool IsTrade(this EvolutionType t) => t is Trade or TradeHeldItem or TradeShelmetKarrablast;
-
-    /// <summary>
-    /// Checks if the <see cref="EvolutionType"/> is a <see cref="LevelUp"/> evolution.
-    /// </summary>
-    /// <param name="type">Evolution Type</param>
-    /// <returns>True if the evolution is a level up evolution.</returns>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static bool IsLevelUpRequired(this EvolutionType type) => type switch
+    extension(EvolutionType t)
     {
-        None => false,
-        LevelUpFriendship => true,
-        LevelUpFriendshipMorning => true,
-        LevelUpFriendshipNight => true,
-        LevelUp => true,
-        Trade => false,
-        TradeHeldItem => false,
-        TradeShelmetKarrablast => false,
-        UseItem => false,
-        LevelUpATK => true,
-        LevelUpAeqD => true,
-        LevelUpDEF => true,
-        LevelUpECl5 => true,
-        LevelUpECgeq5 => true,
-        LevelUpNinjask => true,
-        LevelUpShedinja => true,
-        LevelUpBeauty => true,
-        UseItemMale => false,
-        UseItemFemale => false,
-        LevelUpHeldItemDay => true,
-        LevelUpHeldItemNight => true,
-        LevelUpKnowMove => true,
-        LevelUpWithTeammate => true,
-        LevelUpMale => true,
-        LevelUpFemale => true,
-        LevelUpElectric => true,
-        LevelUpForest => true,
-        LevelUpCold => true,
-        LevelUpInverted => true,
-        LevelUpAffection50MoveType => true,
-        LevelUpMoveType => true,
-        LevelUpWeather => true,
-        LevelUpMorning => true,
-        LevelUpNight => true,
-        LevelUpFormFemale1 => true,
-        UNUSED => false,
-        LevelUpVersion => true,
-        LevelUpVersionDay => true,
-        LevelUpVersionNight => true,
-        LevelUpSummit => true,
-        LevelUpDusk => true,
-        LevelUpWormhole => true,
-        UseItemWormhole => false,
-        CriticalHitsInBattle => false,
-        HitPointsLostInBattle => false,
-        Spin => false,
-        LevelUpNatureAmped => true,
-        LevelUpNatureLowKey => true,
-        TowerOfDarkness => false,
-        TowerOfWaters => false,
-        LevelUpWalkStepsWith => true,
-        LevelUpUnionCircle => true,
-        LevelUpInBattleEC100 => true,
-        LevelUpInBattleECElse => true,
-        LevelUpCollect999 => true,
-        LevelUpDefeatEquals => true,
-        LevelUpUseMoveSpecial => true,
-        LevelUpKnowMoveECElse => true,
-        LevelUpKnowMoveEC100 => true,
-        LevelUpRecoilDamageMale => true,
-        LevelUpRecoilDamageFemale => true,
-        Hisui => false, // stubbed
+        /// <summary>
+        /// Checks if the <see cref="EvolutionType"/> is a <see cref="Trade"/> evolution.
+        /// </summary>
+        /// <returns>True if the evolution is a trade evolution.</returns>
+        public bool IsTrade => t is Trade or TradeHeldItem or TradeShelmetKarrablast;
 
-        UseItemFullMoon => false,
-        UseMoveAgileStyle => false,
-        UseMoveStrongStyle => false,
-        UseMoveBarbBarrage => false,
-        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
-    };
+        /// <summary>
+        /// Checks if the <see cref="EvolutionType"/> is a <see cref="LevelUp"/> evolution.
+        /// </summary>
+        /// <returns>True if the evolution is a level up evolution.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public bool IsLevelUpRequired => t switch
+        {
+            None => false,
+            LevelUpFriendship => true,
+            LevelUpFriendshipMorning => true,
+            LevelUpFriendshipNight => true,
+            LevelUp => true,
+            Trade => false,
+            TradeHeldItem => false,
+            TradeShelmetKarrablast => false,
+            UseItem => false,
+            LevelUpATK => true,
+            LevelUpAeqD => true,
+            LevelUpDEF => true,
+            LevelUpECl5 => true,
+            LevelUpECgeq5 => true,
+            LevelUpNinjask => true,
+            LevelUpShedinja => true,
+            LevelUpBeauty => true,
+            UseItemMale => false,
+            UseItemFemale => false,
+            LevelUpHeldItemDay => true,
+            LevelUpHeldItemNight => true,
+            LevelUpKnowMove => true,
+            LevelUpWithTeammate => true,
+            LevelUpMale => true,
+            LevelUpFemale => true,
+            LevelUpElectric => true,
+            LevelUpForest => true,
+            LevelUpCold => true,
+            LevelUpInverted => true,
+            LevelUpAffection50MoveType => true,
+            LevelUpMoveType => true,
+            LevelUpWeather => true,
+            LevelUpMorning => true,
+            LevelUpNight => true,
+            LevelUpFormFemale1 => true,
+            UNUSED => false,
+            LevelUpVersion => true,
+            LevelUpVersionDay => true,
+            LevelUpVersionNight => true,
+            LevelUpSummit => true,
+            LevelUpDusk => true,
+            LevelUpWormhole => true,
+            UseItemWormhole => false,
+            CriticalHitsInBattle => false,
+            HitPointsLostInBattle => false,
+            Spin => false,
+            LevelUpNatureAmped => true,
+            LevelUpNatureLowKey => true,
+            TowerOfDarkness => false,
+            TowerOfWaters => false,
+            LevelUpWalkStepsWith => true,
+            LevelUpUnionCircle => true,
+            LevelUpInBattleEC100 => true,
+            LevelUpInBattleECElse => true,
+            LevelUpCollect999 => true,
+            LevelUpDefeatEquals => true,
+            LevelUpUseMoveSpecial => true,
+            LevelUpKnowMoveECElse => true,
+            LevelUpKnowMoveEC100 => true,
+            LevelUpRecoilDamageMale => true,
+            LevelUpRecoilDamageFemale => true,
+            Hisui => false, // stubbed
+
+            UseItemFullMoon => false,
+            UseMoveAgileStyle => false,
+            UseMoveStrongStyle => false,
+            UseMoveBarbBarrage => false,
+            _ => throw new ArgumentOutOfRangeException(nameof(t), t, null),
+        };
+    }
 }

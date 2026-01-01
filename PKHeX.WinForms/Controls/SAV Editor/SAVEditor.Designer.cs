@@ -165,7 +165,7 @@ namespace PKHeX.WinForms.Controls
             Box.CurrentBox = -1;
             Box.Editor = null;
             Box.FlagIllegal = false;
-            Box.Location = new System.Drawing.Point(99, 7);
+            Box.Location = new System.Drawing.Point(107, 7);
             Box.M = null;
             Box.Name = "Box";
             Box.Size = new System.Drawing.Size(251, 185);

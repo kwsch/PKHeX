@@ -239,7 +239,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
 
     public override StorageSlotSource GetBoxSlotFlags(int index)
     {
-        int team = Array.IndexOf(TeamIndexes.TeamSlots, index);
+        int team = TeamIndexes.TeamSlots.IndexOf(index);
         if (team < 0)
             return StorageSlotSource.None;
 

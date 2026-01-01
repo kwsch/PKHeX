@@ -5,45 +5,48 @@ namespace PKHeX.Core;
 
 public static class EntityConverterResultExtensions
 {
-    public static bool IsSilent(this EntityConverterResult result) => result is None or Success;
-    public static bool IsSuccess(this EntityConverterResult result) => result is Success or SuccessIncompatibleManual or SuccessIncompatibleReflection;
-
-    public static string GetDisplayString(this EntityConverterResult result, PKM src, Type dest)
+    extension(EntityConverterResult result)
     {
-        if (result == None)
-            return "No need to convert, current format matches requested format.";
+        public bool IsSilent => result is None or Success;
+        public bool IsSuccess => result is Success or SuccessIncompatibleManual or SuccessIncompatibleReflection;
 
-        var msg = result.IsSuccess() ? MessageStrings.MsgPKMConvertSuccess : MessageStrings.MsgPKMConvertFailFormat;
-        var srcName = src.GetType().Name;
-        var destName = dest.Name;
-        var formatted = string.Format(msg, srcName, destName);
-        if (result is Success)
-            return formatted;
+        public string GetDisplayString(PKM src, Type dest)
+        {
+            if (result == None)
+                return "No need to convert, current format matches requested format.";
 
-        var comment = GetMessage(result, src, dest);
-        return string.Concat(formatted, Environment.NewLine, comment);
-    }
+            var msg = result.IsSuccess ? MessageStrings.MsgPKMConvertSuccess : MessageStrings.MsgPKMConvertFailFormat;
+            var srcName = src.GetType().Name;
+            var destName = dest.Name;
+            var formatted = string.Format(msg, srcName, destName);
+            if (result is Success)
+                return formatted;
 
-    private static string GetMessage(this EntityConverterResult result, PKM src, Type dest) => result switch
-    {
-        SuccessIncompatibleReflection => "Converted via reflection.",
-        SuccessIncompatibleManual => "Converted manually -- similar data.",
-        IncompatibleForm  => MessageStrings.MsgPKMConvertFailForm,
-        NoTransferRoute => MessageStrings.MsgPKMConvertFailNoMethod,
-        IncompatibleSpecies => string.Format(MessageStrings.MsgPKMConvertFailFormat, SpeciesName.GetSpeciesNameGeneration(src.Species, src.Language, src.Format), dest.Name),
-        IncompatibleLanguageGB => GetIncompatibleGBMessage(result, src, !src.Japanese),
-        _ => throw new ArgumentOutOfRangeException(nameof(result)),
-    };
+            var comment = result.GetMessage(src, dest);
+            return string.Concat(formatted, Environment.NewLine, comment);
+        }
 
-    /// <summary>
-    /// Returns an error string to indicate that a <see cref="GBPKM"/> is incompatible.
-    /// </summary>
-    public static string GetIncompatibleGBMessage(this EntityConverterResult result, PKM pk, bool destJapanese)
-    {
-        if (result is not IncompatibleLanguageGB)
-            return string.Empty;
-        var src = destJapanese ? MessageStrings.MsgPKMConvertInternational : MessageStrings.MsgPKMConvertJapanese;
-        var dest = !destJapanese ? MessageStrings.MsgPKMConvertInternational : MessageStrings.MsgPKMConvertJapanese;
-        return string.Format(MessageStrings.MsgPKMConvertIncompatible, src, pk.GetType().Name, dest);
+        private string GetMessage(PKM src, Type dest) => result switch
+        {
+            SuccessIncompatibleReflection => "Converted via reflection.",
+            SuccessIncompatibleManual => "Converted manually -- similar data.",
+            IncompatibleForm  => MessageStrings.MsgPKMConvertFailForm,
+            NoTransferRoute => MessageStrings.MsgPKMConvertFailNoMethod,
+            IncompatibleSpecies => string.Format(MessageStrings.MsgPKMConvertFailFormat, SpeciesName.GetSpeciesNameGeneration(src.Species, src.Language, src.Format), dest.Name),
+            IncompatibleLanguageGB => result.GetIncompatibleGBMessage(src, !src.Japanese),
+            _ => throw new ArgumentOutOfRangeException(nameof(result)),
+        };
+
+        /// <summary>
+        /// Returns an error string to indicate that a <see cref="GBPKM"/> is incompatible.
+        /// </summary>
+        public string GetIncompatibleGBMessage(PKM pk, bool destJapanese)
+        {
+            if (result is not IncompatibleLanguageGB)
+                return string.Empty;
+            var src = destJapanese ? MessageStrings.MsgPKMConvertInternational : MessageStrings.MsgPKMConvertJapanese;
+            var dest = !destJapanese ? MessageStrings.MsgPKMConvertInternational : MessageStrings.MsgPKMConvertJapanese;
+            return string.Format(MessageStrings.MsgPKMConvertIncompatible, src, pk.GetType().Name, dest);
+        }
     }
 }

@@ -31,17 +31,20 @@ public static class PokeSizeUtil
         _ => XL, // 1/16 = XL
     };
 
-    public static byte GetRandomScalar(this PokeSize size) => GetRandomScalar(size, Util.Rand);
-
-    public static byte GetRandomScalar(this PokeSize size, Random rnd) => size switch
+    extension(PokeSize size)
     {
-        XS => (byte)(rnd.Next(0x10)),
-        S  => (byte)(rnd.Next(0x20) + 0x10),
-        M  => (byte)(rnd.Next(0xA0) + 0x30),
-        L  => (byte)(rnd.Next(0x20) + 0xD0),
-        XL => (byte)(rnd.Next(0x10) + 0xF0),
-        _ => GetRandomScalar(rnd),
-    };
+        public byte GetRandomScalar() => size.GetRandomScalar(Util.Rand);
+
+        public byte GetRandomScalar(Random rnd) => size switch
+        {
+            XS => (byte)(rnd.Next(0x10)),
+            S  => (byte)(rnd.Next(0x20) + 0x10),
+            M  => (byte)(rnd.Next(0xA0) + 0x30),
+            L  => (byte)(rnd.Next(0x20) + 0xD0),
+            XL => (byte)(rnd.Next(0x10) + 0xF0),
+            _ => GetRandomScalar(rnd),
+        };
+    }
 
     /// <summary>
     /// Gets a random size scalar with a triangular distribution (copying official implementation).

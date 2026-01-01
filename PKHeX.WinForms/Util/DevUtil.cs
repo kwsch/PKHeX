@@ -227,20 +227,21 @@ public static class DevUtil
         "Hidden_", // Hidden controls
         "CAL_", // calendar controls now expose Text, don't care.
         ".Count", // enum count
+        $"{nameof(QR)}.L_", // Box/Slot/Count don't bother
         $"{nameof(Main)}.L_SizeH", // height rating
         $"{nameof(Main)}.L_SizeW", // weight rating
         $"{nameof(Main)}.L_SizeS", // scale rating
         $"{nameof(Main)}.B_Box", // << and >> arrows
-        $"{nameof(Main)}.L_Characteristic=", // Characterstic (dynamic)
+        $"{nameof(Main)}.L_Characteristic=", // Characteristic (dynamic)
         $"{nameof(Main)}.L_Potential", // ★☆☆☆ IV judge evaluation
         $"{nameof(SAV_HoneyTree)}.L_Tree0", // dynamic, don't bother
         $"{nameof(SAV_Misc3)}.BTN_Symbol", // symbols should stay as their current character
-        $"{nameof(SAV_GameSelect)}.L_Prompt", // prompt text (dynamic)
         $"{nameof(SAV_BlockDump8)}.L_BlockName", // Block name (dynamic)
         $"{nameof(SAV_PokedexResearchEditorLA)}.L_", // Dynamic label
         $"{nameof(SAV_OPower)}.L_", // Dynamic label
         $"{nameof(SAV_Pokedex9a)}.CHK_SeenMega", // Dynamic text checkbox
         $"{nameof(SAV_Misc3)}.L_Stat", // Dynamic labels
+        $"{nameof(SAV_Donut9a)}.L_Stat", // Dynamic labels
     ];
 
     // paths should match the project structure, so that the files are in the correct place when the logic updates them.

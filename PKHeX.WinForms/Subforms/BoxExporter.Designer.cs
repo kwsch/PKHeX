@@ -30,15 +30,16 @@ namespace PKHeX.WinForms
         {
             PG_Settings = new System.Windows.Forms.PropertyGrid();
             B_Export = new System.Windows.Forms.Button();
-            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            FLP_NamerSelect = new System.Windows.Forms.FlowLayoutPanel();
             L_Namer = new System.Windows.Forms.Label();
             CB_Namer = new System.Windows.Forms.ComboBox();
-            flowLayoutPanel1.SuspendLayout();
+            FLP_NamerSelect.SuspendLayout();
             SuspendLayout();
             // 
             // PG_Settings
             // 
             PG_Settings.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PG_Settings.BackColor = System.Drawing.SystemColors.Control;
             PG_Settings.CommandsVisibleIfAvailable = false;
             PG_Settings.HelpVisible = false;
             PG_Settings.Location = new System.Drawing.Point(0, 31);
@@ -59,15 +60,15 @@ namespace PKHeX.WinForms
             B_Export.UseVisualStyleBackColor = true;
             B_Export.Click += B_Export_Click;
             // 
-            // flowLayoutPanel1
+            // FLP_NamerSelect
             // 
-            flowLayoutPanel1.Controls.Add(L_Namer);
-            flowLayoutPanel1.Controls.Add(CB_Namer);
-            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new System.Drawing.Size(304, 27);
-            flowLayoutPanel1.TabIndex = 2;
+            FLP_NamerSelect.Controls.Add(L_Namer);
+            FLP_NamerSelect.Controls.Add(CB_Namer);
+            FLP_NamerSelect.Dock = System.Windows.Forms.DockStyle.Top;
+            FLP_NamerSelect.Location = new System.Drawing.Point(0, 0);
+            FLP_NamerSelect.Name = "FLP_NamerSelect";
+            FLP_NamerSelect.Size = new System.Drawing.Size(304, 27);
+            FLP_NamerSelect.TabIndex = 2;
             // 
             // L_Namer
             // 
@@ -75,7 +76,7 @@ namespace PKHeX.WinForms
             L_Namer.Location = new System.Drawing.Point(8, 8);
             L_Namer.Margin = new System.Windows.Forms.Padding(8, 8, 0, 8);
             L_Namer.Name = "L_Namer";
-            L_Namer.Size = new System.Drawing.Size(46, 15);
+            L_Namer.Size = new System.Drawing.Size(51, 17);
             L_Namer.TabIndex = 0;
             L_Namer.Text = "Namer:";
             // 
@@ -83,18 +84,17 @@ namespace PKHeX.WinForms
             // 
             CB_Namer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Namer.FormattingEnabled = true;
-            CB_Namer.Location = new System.Drawing.Point(54, 4);
+            CB_Namer.Location = new System.Drawing.Point(59, 4);
             CB_Namer.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
             CB_Namer.Name = "CB_Namer";
-            CB_Namer.Size = new System.Drawing.Size(155, 23);
+            CB_Namer.Size = new System.Drawing.Size(155, 25);
             CB_Namer.TabIndex = 1;
             // 
             // BoxExporter
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            BackColor = System.Drawing.Color.White;
             ClientSize = new System.Drawing.Size(304, 281);
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(FLP_NamerSelect);
             Controls.Add(B_Export);
             Controls.Add(PG_Settings);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -104,8 +104,8 @@ namespace PKHeX.WinForms
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Box Export";
             FormClosing += BoxExporter_FormClosing;
-            flowLayoutPanel1.ResumeLayout(false);
-            flowLayoutPanel1.PerformLayout();
+            FLP_NamerSelect.ResumeLayout(false);
+            FLP_NamerSelect.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -113,7 +113,7 @@ namespace PKHeX.WinForms
 
         private System.Windows.Forms.PropertyGrid PG_Settings;
         private System.Windows.Forms.Button B_Export;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel FLP_NamerSelect;
         private System.Windows.Forms.Label L_Namer;
         private System.Windows.Forms.ComboBox CB_Namer;
     }

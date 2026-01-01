@@ -24,15 +24,18 @@ public static class GymTeamInfoExtensions
         return team;
     }
 
-    public static void SetGymTeams(this IGymTeamInfo info, ushort[][] teams)
+    extension(IGymTeamInfo info)
     {
-        for (uint badge = 0; badge < teams.Length; badge++)
-            info.SetGymTeam(badge, teams[badge]);
-    }
+        public void SetGymTeams(ushort[][] teams)
+        {
+            for (uint badge = 0; badge < teams.Length; badge++)
+                info.SetGymTeam(badge, teams[badge]);
+        }
 
-    public static void SetGymTeam(this IGymTeamInfo info, uint badge, ushort[] team)
-    {
-        for (uint slot = 0; slot < team.Length; slot++)
-            info.SetBadgeVictorySpecies(badge, slot, team[slot]);
+        public void SetGymTeam(uint badge, ushort[] team)
+        {
+            for (uint slot = 0; slot < team.Length; slot++)
+                info.SetBadgeVictorySpecies(badge, slot, team[slot]);
+        }
     }
 }

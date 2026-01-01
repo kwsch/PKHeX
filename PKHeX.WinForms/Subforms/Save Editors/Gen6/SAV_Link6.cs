@@ -52,7 +52,7 @@ public partial class SAV_Link6 : Form
         { WinFormsUtil.Alert("Invalid file length"); return; }
 
         byte[] data = File.ReadAllBytes(ofd.FileName);
-        data.AsSpan().CopyTo(Gifts.Data);
+        data.CopyTo(Gifts.Data);
 
         LoadLinkData();
     }

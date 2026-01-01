@@ -93,7 +93,7 @@ public sealed class TrainerDatabase
     /// <returns>Null if no trainer found for this version.</returns>
     public ITrainerInfo? GetTrainerFromGen(byte generation, LanguageID? lang = null)
     {
-        var possible = Database.Where(z => z.Key.GetGeneration() == generation).ToList();
+        var possible = Database.Where(z => z.Key.Generation == generation).ToList();
         if (possible.Count == 0)
             return null;
 

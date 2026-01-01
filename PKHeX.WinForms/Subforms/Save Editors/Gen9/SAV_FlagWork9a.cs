@@ -54,6 +54,7 @@ public sealed partial class SAV_FlagWork9a : Form
         foreach (var grid in Grids)
             grid.Load();
 
+        AllowDrop = true;
         DragEnter += Main_DragEnter;
         DragDrop += Main_DragDrop;
     }
@@ -191,8 +192,17 @@ public sealed partial class SAV_FlagWork9a : Form
     {
         if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
             return;
-        var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, Name, "Yes: Old Save" + Environment.NewLine + "No: New Save");
-        var button = dr == DialogResult.Yes ? B_LoadOld : B_LoadNew;
-        LoadSAV(button, files[0]);
+
+        foreach (var file in files)
+        {
+            var result = this.SelectNewOld(file, B_LoadNew.Text, B_LoadOld.Text);
+            if (result == DualDiffSelection.New)
+                TB_NewSAV.Text = file;
+            else if (result == DualDiffSelection.Old)
+                TB_OldSAV.Text = file;
+            else if (ModifierKeys == Keys.Escape)
+                return;
+        }
+        ChangeSAV();
     }
 }

@@ -120,7 +120,7 @@ internal static class EvolutionRestrictions
         // If any move is not an egg source, then a slot could have been forgotten.
         foreach (var move in moves)
         {
-            if (!move.Info.Method.IsEggSource())
+            if (!move.Info.Method.IsEggSource)
                 return true;
         }
         return false;

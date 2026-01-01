@@ -40,37 +40,40 @@ public static class SlotUtil
     /// <summary>
     /// Refreshes a <see cref="PictureBox"/> with the appropriate display content.
     /// </summary>
-    public static void UpdateSlot(PictureBox pb, ISlotInfo c, PKM p, SaveFile s, bool flagIllegal, SlotTouchType t = SlotTouchType.None)
+    public static void UpdateSlot(PictureBox pb, ISlotInfo info, PKM pk, SaveFile sav, bool flagIllegal, SlotTouchType t = SlotTouchType.None)
     {
         pb.BackgroundImage = GetTouchTypeBackground(t);
-        if (p.Species == 0) // Nothing in slot
+        if (pk.Species == 0) // Nothing in slot
         {
             pb.Image = null;
             pb.BackColor = GoodDataColor;
+            pb.AccessibleDescription = null;
             return;
         }
-        if (!p.Valid) // Invalid
+        if (!pk.Valid) // Invalid
         {
             // Bad Egg present in slot.
             pb.Image = null;
             pb.BackColor = BadDataColor;
+            pb.AccessibleDescription = null;
             return;
         }
 
-        var img = c switch
-        {
-            SlotInfoBox b => p.Sprite(s, b.Box, b.Slot, flagIllegal, b.Type),
-            SlotInfoParty ps => p.Sprite(s, -1, ps.Slot, flagIllegal, ps.Type),
-            _ => p.Sprite(s, -1, -1, flagIllegal, c.Type),
-        };
+        pb.Image = GetImage(info, pk, sav, flagIllegal);
+        pb.BackColor = GoodDataColor;
 
-        pb.BackColor = Color.Transparent;
-        pb.Image = img;
-
+        // Get an accessible description for the slot (for screen readers)
         var x = Main.Settings;
         var programLanguage = Language.GetLanguageValue(x.Startup.Language);
         var cfg = x.BattleTemplate;
-        var settings = cfg.Hover.GetSettings(programLanguage, p.Context);
-        pb.AccessibleDescription = ShowdownParsing.GetLocalizedPreviewText(p, settings);
+        var settings = cfg.Hover.GetSettings(programLanguage, pk.Context);
+        pb.AccessibleDescription = ShowdownParsing.GetLocalizedPreviewText(pk, settings);
     }
+
+    private static Bitmap GetImage(ISlotInfo info, PKM pk, SaveFile sav, bool flagIllegal) => info switch
+    {
+        SlotInfoBox b => pk.Sprite(sav, b.Box, b.Slot, flagIllegal, b.Type),
+        SlotInfoParty ps => pk.Sprite(sav, -1, ps.Slot, flagIllegal, ps.Type),
+        _ => pk.Sprite(sav, -1, -1, flagIllegal, info.Type),
+    };
 }

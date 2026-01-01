@@ -1,3 +1,5 @@
+using PKHeX.WinForms.Controls;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_Misc3
@@ -119,28 +121,28 @@ namespace PKHeX.WinForms
             Tab_Decorations = new System.Windows.Forms.TabPage();
             TC_Decorations = new System.Windows.Forms.TabControl();
             TB_Desk = new System.Windows.Forms.TabPage();
-            DGV_Desk = new System.Windows.Forms.DataGridView();
+            DGV_Desk = new DoubleBufferedDataGridView();
             Item_Desk = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Chair = new System.Windows.Forms.TabPage();
-            DGV_Chair = new System.Windows.Forms.DataGridView();
+            DGV_Chair = new DoubleBufferedDataGridView();
             Item_Chair = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Plant = new System.Windows.Forms.TabPage();
-            DGV_Plant = new System.Windows.Forms.DataGridView();
+            DGV_Plant = new DoubleBufferedDataGridView();
             Item_Plant = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Ornament = new System.Windows.Forms.TabPage();
-            DGV_Ornament = new System.Windows.Forms.DataGridView();
+            DGV_Ornament = new DoubleBufferedDataGridView();
             Item_Ornament = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Mat = new System.Windows.Forms.TabPage();
-            DGV_Mat = new System.Windows.Forms.DataGridView();
+            DGV_Mat = new DoubleBufferedDataGridView();
             Item_Mat = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Poster = new System.Windows.Forms.TabPage();
-            DGV_Poster = new System.Windows.Forms.DataGridView();
+            DGV_Poster = new DoubleBufferedDataGridView();
             Item_Poster = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Doll = new System.Windows.Forms.TabPage();
-            DGV_Doll = new System.Windows.Forms.DataGridView();
+            DGV_Doll = new DoubleBufferedDataGridView();
             Item_Doll = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Cushion = new System.Windows.Forms.TabPage();
-            DGV_Cushion = new System.Windows.Forms.DataGridView();
+            DGV_Cushion = new DoubleBufferedDataGridView();
             Item_Cushion = new System.Windows.Forms.DataGridViewComboBoxColumn();
             Tab_Paintings = new System.Windows.Forms.TabPage();
             GB_Painting = new System.Windows.Forms.GroupBox();
@@ -1948,21 +1950,21 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.TabPage TB_Poster;
         private System.Windows.Forms.TabPage TB_Doll;
         private System.Windows.Forms.TabPage TB_Cushion;
-        private System.Windows.Forms.DataGridView DGV_Desk;
+        private DoubleBufferedDataGridView DGV_Desk;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Desk;
-        private System.Windows.Forms.DataGridView DGV_Chair;
+        private DoubleBufferedDataGridView DGV_Chair;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Chair;
-        private System.Windows.Forms.DataGridView DGV_Plant;
+        private DoubleBufferedDataGridView DGV_Plant;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Plant;
-        private System.Windows.Forms.DataGridView DGV_Ornament;
+        private DoubleBufferedDataGridView DGV_Ornament;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Ornament;
-        private System.Windows.Forms.DataGridView DGV_Mat;
+        private DoubleBufferedDataGridView DGV_Mat;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Mat;
-        private System.Windows.Forms.DataGridView DGV_Poster;
+        private DoubleBufferedDataGridView DGV_Poster;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Poster;
-        private System.Windows.Forms.DataGridView DGV_Doll;
+        private DoubleBufferedDataGridView DGV_Doll;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Doll;
-        private System.Windows.Forms.DataGridView DGV_Cushion;
+        private DoubleBufferedDataGridView DGV_Cushion;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Cushion;
         private System.Windows.Forms.TabPage Tab_Paintings;
         private System.Windows.Forms.Label L_PID;

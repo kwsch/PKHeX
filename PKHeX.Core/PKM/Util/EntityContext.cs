@@ -46,76 +46,82 @@ public enum EntityContext : byte
 
 public static class EntityContextExtensions
 {
-    /// <summary>
-    /// Get the generation number of the context.
-    /// </summary>
-    public static byte Generation(this EntityContext value) => value < SplitInvalid ? (byte)value : value switch
+    extension(EntityContext value)
     {
-        Gen7b => (byte)7,
-        Gen8a => (byte)8,
-        Gen8b => (byte)8,
-        Gen9a => (byte)9,
-        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
-    };
+        /// <summary>
+        /// Get the generation number of the context.
+        /// </summary>
+        public byte Generation => value < SplitInvalid ? (byte)value : value switch
+        {
+            Gen7b => (byte)7,
+            Gen8a => (byte)8,
+            Gen8b => (byte)8,
+            Gen9a => (byte)9,
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
+        };
 
-    /// <summary>
-    /// Checks if the context is a defined value assigned to a valid context.
-    /// </summary>
-    /// <returns>True if the context is valid.</returns>
-    public static bool IsValid(this EntityContext value) => value is not (0 or SplitInvalid) and < MaxInvalid;
+        /// <summary>
+        /// Checks if the context is a defined value assigned to a valid context.
+        /// </summary>
+        /// <returns>True if the context is valid.</returns>
+        public bool IsValid => value is not (0 or SplitInvalid) and < MaxInvalid;
 
-    /// <summary>
-    /// Get a pre-defined single game version associated with the context.
-    /// </summary>
-    /// <remarks>Game ID choice here is the developer's choice; if multiple game sets exist for a context, one from the most recent was chosen.</remarks>
-    public static GameVersion GetSingleGameVersion(this EntityContext value) => value switch
+        /// <summary>
+        /// Get a pre-defined single game version associated with the context.
+        /// </summary>
+        /// <remarks>Game ID choice here is the developer's choice; if multiple game sets exist for a context, one from the most recent was chosen.</remarks>
+        public GameVersion GetSingleGameVersion() => value switch
+        {
+            Gen1 => GameVersion.RD,
+            Gen2 => GameVersion.C,
+            Gen3 => GameVersion.E,
+            Gen4 => GameVersion.SS,
+            Gen5 => GameVersion.W2,
+            Gen6 => GameVersion.AS,
+            Gen7 => GameVersion.UM,
+            Gen8 => GameVersion.SH,
+            Gen9 => GameVersion.VL,
+
+            Gen7b => GameVersion.GP,
+            Gen8a => GameVersion.PLA,
+            Gen8b => GameVersion.BD,
+            Gen9a => GameVersion.ZA,
+
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
+        };
+
+        /// <summary>
+        /// Get the game console associated with the context.
+        /// </summary>
+        public GameConsole Console => value switch
+        {
+            Gen1 or Gen2 => GameConsole.GB,
+            Gen3 => GameConsole.GBA,
+            Gen4 or Gen5 => GameConsole.NDS,
+            Gen6 or Gen7 => GameConsole._3DS,
+            Gen7b or Gen8 or Gen8a or Gen8b or Gen9 or Gen9a => GameConsole.NX,
+
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
+        };
+
+        /// <summary>
+        /// Determines whether Mega Pokémon forms exist in the specified <see cref="EntityContext"/>.
+        /// </summary>
+        public bool IsMegaContext => value is Gen6 or Gen7 or Gen7b or Gen9a;
+    }
+
+    extension(GameVersion version)
     {
-        Gen1 => GameVersion.RD,
-        Gen2 => GameVersion.C,
-        Gen3 => GameVersion.E,
-        Gen4 => GameVersion.SS,
-        Gen5 => GameVersion.W2,
-        Gen6 => GameVersion.AS,
-        Gen7 => GameVersion.UM,
-        Gen8 => GameVersion.SH,
-        Gen9 => GameVersion.VL,
-
-        Gen7b => GameVersion.GP,
-        Gen8a => GameVersion.PLA,
-        Gen8b => GameVersion.BD,
-        Gen9a => GameVersion.ZA,
-
-        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
-    };
-
-    /// <summary>
-    /// Get the game console associated with the context.
-    /// </summary>
-    public static GameConsole GetConsole(this EntityContext value) => value switch
-    {
-        Gen1 or Gen2 => GameConsole.GB,
-        Gen3 => GameConsole.GBA,
-        Gen4 or Gen5 => GameConsole.NDS,
-        Gen6 or Gen7 => GameConsole._3DS,
-        Gen7b or Gen8 or Gen8a or Gen8b or Gen9 or Gen9a => GameConsole.NX,
-
-        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
-    };
-
-    /// <summary>
-    /// Gets the corresponding <see cref="EntityContext"/> value for the <see cref="GameVersion"/>.
-    /// </summary>
-    public static EntityContext GetContext(this GameVersion version) => version switch
-    {
-        GameVersion.GP or GameVersion.GE or GameVersion.GO or GameVersion.GG or GameVersion.Gen7b => Gen7b,
-        GameVersion.PLA => Gen8a,
-        GameVersion.BD or GameVersion.SP => Gen8b,
-        GameVersion.ZA => Gen9a,
-        _ => (EntityContext)version.GetGeneration(),
-    };
-
-    /// <summary>
-    /// Determines whether Mega Pokémon forms exist in the specified <see cref="EntityContext"/>.
-    /// </summary>
-    public static bool IsMegaContext(this EntityContext context) => context is Gen6 or Gen7 or Gen7b or Gen9a;
+        /// <summary>
+        /// Gets the corresponding <see cref="EntityContext"/> value for the <see cref="GameVersion"/>.
+        /// </summary>
+        public EntityContext Context => version switch
+        {
+            GameVersion.GP or GameVersion.GE or GameVersion.GO or GameVersion.GG or GameVersion.Gen7b => Gen7b,
+            GameVersion.PLA => Gen8a,
+            GameVersion.BD or GameVersion.SP => Gen8b,
+            GameVersion.ZA => Gen9a,
+            _ => (EntityContext)version.Generation,
+        };
+    }
 }

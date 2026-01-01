@@ -36,7 +36,7 @@ public partial class BatchEditor : Form
         DragEnter += TabMain_DragEnter;
 
         RTB_Instructions.Text = LastUsedCommands;
-        Closing += (_, _) => LastUsedCommands = RTB_Instructions.Text;
+        FormClosing += (_, _) => LastUsedCommands = RTB_Instructions.Text;
     }
 
     private void B_Open_Click(object sender, EventArgs e)

@@ -31,21 +31,24 @@ public enum MoveType : sbyte
 /// </summary>
 public static class MoveTypeExtensions
 {
-    public static MoveType GetMoveTypeGeneration(this MoveType type, byte generation)
+    extension(MoveType type)
     {
-        if (generation <= 2)
-            return GetMoveTypeFromG12(type);
-        return type;
-    }
+        public MoveType GetMoveTypeGeneration(byte generation)
+        {
+            if (generation <= 2)
+                return type.GetMoveTypeFromG12();
+            return type;
+        }
 
-    private static MoveType GetMoveTypeFromG12(this MoveType type)
-    {
-        if (type <= MoveType.Rock)
+        private MoveType GetMoveTypeFromG12()
+        {
+            if (type <= MoveType.Rock)
+                return type;
+            type--; // Skip unused Bird type
+            if (type <= MoveType.Steel)
+                return type;
+            type -= 10; // 10 Normal duplicates
             return type;
-        type--; // Skip unused Bird type
-        if (type <= MoveType.Steel)
-            return type;
-        type -= 10; // 10 Normal duplicates
-        return type;
+        }
     }
 }

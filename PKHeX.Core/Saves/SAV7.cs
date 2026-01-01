@@ -207,7 +207,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     public override StorageSlotSource GetBoxSlotFlags(int index)
     {
-        int team = Array.IndexOf(TeamSlots, index);
+        int team = TeamSlots.IndexOf(index);
         if (team < 0)
             return StorageSlotSource.None;
 

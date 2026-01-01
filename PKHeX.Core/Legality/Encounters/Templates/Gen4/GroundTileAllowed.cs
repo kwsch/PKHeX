@@ -49,17 +49,18 @@ public enum GroundTileAllowed
 /// </summary>
 public static class GroundTileAllowedExtensions
 {
-    /// <summary>
-    /// Checks if the <see cref="GroundTileAllowed"/> value is a valid tile type.
-    /// </summary>
-    /// <param name="permit">Tile bit-permission value</param>
-    /// <param name="value">Tile type to check.</param>
-    public static bool Contains(this GroundTileAllowed permit, GroundTileType value) => (permit & (GroundTileAllowed)(1 << (int)value)) != 0;
+    extension(GroundTileAllowed permit)
+    {
+        /// <summary>
+        /// Checks if the <see cref="GroundTileAllowed"/> value is a valid tile type.
+        /// </summary>
+        /// <param name="value">Tile type to check.</param>
+        public bool Contains(GroundTileType value) => (permit & (GroundTileAllowed)(1 << (int)value)) != 0;
 
-    /// <summary>
-    /// Grabs the lowest set bit from the tile value.
-    /// </summary>
-    /// <param name="permit">Tile bit-permission value</param>
-    /// <returns>Bit index</returns>
-    public static GroundTileType GetIndex(this GroundTileAllowed permit) => (GroundTileType)System.Numerics.BitOperations.Log2((uint)(permit & ~(permit - 1)));
+        /// <summary>
+        /// Grabs the lowest set bit from the tile value.
+        /// </summary>
+        /// <returns>Bit index</returns>
+        public GroundTileType GetIndex() => (GroundTileType)System.Numerics.BitOperations.Log2((uint)(permit & ~(permit - 1)));
+    }
 }

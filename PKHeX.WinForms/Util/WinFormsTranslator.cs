@@ -151,6 +151,9 @@ public static class WinFormsTranslator
                             yield return obj;
                     }
 
+                    if (Application.IsDarkModeEnabled) // NET10
+                        ReformatDark(z);
+
                     if (z is ListControl or TextBoxBase or LinkLabel or NumericUpDown or ContainerControl)
                         break; // undesirable to modify, ignore
 
@@ -170,6 +173,48 @@ public static class WinFormsTranslator
         }
     }
 
+    private static void ReformatDark(Control z)
+    {
+        if (z is TabControl tc)
+        {
+            foreach (TabPage tab in tc.TabPages)
+                tab.UseVisualStyleBackColor = false;
+        }
+        else if (z is DataGridView dg)
+        {
+            dg.EnableHeadersVisualStyles = false;
+            dg.BorderStyle = BorderStyle.None;
+        }
+        else if (z is ComboBox cb)
+        {
+            cb.FlatStyle = FlatStyle.Popup;
+        }
+        else if (z is ListBox lb)
+        {
+            lb.BorderStyle = BorderStyle.None;
+        }
+        else if (z is TextBoxBase tb)
+        {
+            tb.BorderStyle = BorderStyle.FixedSingle;
+        }
+        else if (z is NumericUpDown nud)
+        {
+            nud.BorderStyle = BorderStyle.FixedSingle;
+        }
+        else if (z is GroupBox gb)
+        {
+            gb.FlatStyle = FlatStyle.Popup;
+        }
+        else if (z is RichTextBox rtb)
+        {
+            rtb.BorderStyle = BorderStyle.None;
+        }
+        else if (z is ButtonBase b)
+        {
+            b.FlatStyle = FlatStyle.Popup;
+        }
+    }
+
     private static IEnumerable<T> GetChildrenOfType<T>(this Control control) where T : class
     {
         foreach (var child in control.Controls.OfType<Control>())
@@ -178,7 +223,7 @@ public static class WinFormsTranslator
                 yield return childOfT;
 
             if (!child.HasChildren) continue;
-            foreach (var descendant in GetChildrenOfType<T>(child))
+            foreach (var descendant in child.GetChildrenOfType<T>())
                 yield return descendant;
         }
     }

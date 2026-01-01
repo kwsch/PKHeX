@@ -21,32 +21,35 @@ public static class BoxDetailNameExtensions
     public static string GetDefaultBoxNameCaps(int box) => $"BOX {box + 1}"; // 0-indexed
     public static string GetDefaultBoxNameJapanese(int box) => $"ボックス{box + 1}";
 
-    public static void MoveBoxName(this IBoxDetailName obj, int box, int insertBeforeBox)
+    extension(IBoxDetailName obj)
     {
-        if (box == insertBeforeBox)
-            return;
-        var value = obj.GetBoxName(box);
-        // Shift all names between the two boxes
-        if (box < insertBeforeBox)
+        public void MoveBoxName(int box, int insertBeforeBox)
         {
-            for (int i = box; i < insertBeforeBox; i++)
-                obj.SetBoxName(i, obj.GetBoxName(i + 1));
+            if (box == insertBeforeBox)
+                return;
+            var value = obj.GetBoxName(box);
+            // Shift all names between the two boxes
+            if (box < insertBeforeBox)
+            {
+                for (int i = box; i < insertBeforeBox; i++)
+                    obj.SetBoxName(i, obj.GetBoxName(i + 1));
+            }
+            else
+            {
+                for (int i = box; i > insertBeforeBox; i--)
+                    obj.SetBoxName(i, obj.GetBoxName(i - 1));
+            }
+            obj.SetBoxName(insertBeforeBox, value);
         }
-        else
-        {
-            for (int i = box; i > insertBeforeBox; i--)
-                obj.SetBoxName(i, obj.GetBoxName(i - 1));
-        }
-        obj.SetBoxName(insertBeforeBox, value);
-    }
 
-    public static void SwapBoxName(this IBoxDetailName obj, int box1, int box2)
-    {
-        if (box1 == box2)
-            return;
-        var value1 = obj.GetBoxName(box1);
-        var value2 = obj.GetBoxName(box2);
-        obj.SetBoxName(box1, value2);
-        obj.SetBoxName(box2, value1);
+        public void SwapBoxName(int box1, int box2)
+        {
+            if (box1 == box2)
+                return;
+            var value1 = obj.GetBoxName(box1);
+            var value2 = obj.GetBoxName(box2);
+            obj.SetBoxName(box1, value2);
+            obj.SetBoxName(box2, value1);
+        }
     }
 }

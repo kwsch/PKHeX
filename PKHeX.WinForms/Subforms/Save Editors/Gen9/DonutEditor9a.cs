@@ -21,7 +21,7 @@ public sealed partial class DonutEditor9a : UserControl
 
     private bool Loading;
 
-    private static readonly DateTime Epoch = new(1900, 1, 1);
+    private static readonly DateTime Epoch = Donut9a.Epoch;
 
     public DonutEditor9a()
     {
@@ -126,7 +126,7 @@ public sealed partial class DonutEditor9a : UserControl
         var all = DonutInfo.Flavors;
         List<ComboText> result = [new(none, "")];
 
-        for (int i = 0; i < all.Length; i++)
+        for (int i = 0; i < all.Count; i++)
         {
             var flavor = all[i];
             var text = localized[i];
@@ -289,7 +289,7 @@ public sealed partial class DonutEditor9a : UserControl
     {
         if (sender is not ComboBox cb)
             return;
-        var index = Array.IndexOf(Flavor, cb);
+        var index = Flavor.IndexOf(cb);
         if (index < 0)
             return;
         var text = cb.SelectedIndex > 0 ? cb.SelectedValue?.ToString() : null;

@@ -9,12 +9,10 @@ namespace PKHeX.Core;
 /// Live view over the Generation 3 (Emerald) Battle Frontier save data block.
 /// Provides access to statistics, streaks, and symbols for all seven Battle Frontier facilities.
 /// </summary>
-public ref struct BattleFrontier3
+public ref struct BattleFrontier3(Span<byte> data)
 {
     public const int SIZE = 0x1DC;
-    private readonly Span<byte> Data;
-
-    public BattleFrontier3(Span<byte> data) => Data = data;
+    private readonly Span<byte> Data = data;
 
     private const int ContinueOffset = 0x000;
 
@@ -43,7 +41,7 @@ public ref struct BattleFrontier3
     /// <summary>
     /// Gets a specific statistic value.
     /// </summary>
-    public ushort GetStat(BattleFrontierFacility3 facility, BattleFrontierBattleMode3 mode, BattleFrontierRecordType3 record, BattleFrontierStatType3 stat)
+    public readonly ushort GetStat(BattleFrontierFacility3 facility, BattleFrontierBattleMode3 mode, BattleFrontierRecordType3 record, BattleFrontierStatType3 stat)
     {
         var offset = GetStatOffset(facility, mode, record, stat);
         return ReadUInt16LittleEndian(Data[offset..]);
@@ -61,7 +59,7 @@ public ref struct BattleFrontier3
     /// <summary>
     /// Gets the continue flag for a facility/mode/record combination.
     /// </summary>
-    public bool GetContinueFlag(BattleFrontierFacility3 facility, BattleFrontierBattleMode3 mode, BattleFrontierRecordType3 record)
+    public readonly bool GetContinueFlag(BattleFrontierFacility3 facility, BattleFrontierBattleMode3 mode, BattleFrontierRecordType3 record)
     {
         int bitPosition = GetContinueBitPosition(facility, mode, record);
         var flags = ReadUInt32LittleEndian(Data[ContinueOffset..]);

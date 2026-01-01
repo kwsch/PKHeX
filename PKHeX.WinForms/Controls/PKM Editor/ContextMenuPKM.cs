@@ -1,11 +1,16 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 
 namespace PKHeX.WinForms.Controls;
 
 public partial class ContextMenuPKM : UserControl
 {
-    public ContextMenuPKM() => InitializeComponent();
+    public ContextMenuPKM()
+    {
+        InitializeComponent();
+        if (Application.IsDarkModeEnabled)
+            WinFormsUtil.InvertToolStripIcons(mnuL.Items);
+    }
 
     public event EventHandler? RequestEditorLegality;
     public event EventHandler? RequestEditorQR;

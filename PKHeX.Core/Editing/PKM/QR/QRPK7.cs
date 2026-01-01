@@ -14,7 +14,7 @@ public sealed class QRPK7(Memory<byte> Raw) : IEncounterInfo
     public bool IsEgg => false;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
-    public byte Generation => Version.GetGeneration();
+    public byte Generation => Version.Generation;
     public EntityContext Context => EntityContext.Gen7;
     public bool IsShiny => false;
     public ushort Location => 0;

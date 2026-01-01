@@ -5,28 +5,31 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierUnique4
 {
-    public static void Parse(this IRibbonSetUnique4 r, in RibbonVerifierArguments args, ref RibbonResultList list)
+    extension(IRibbonSetUnique4 r)
     {
-        var evos = args.History;
-        if (!RibbonRules.IsAllowedBattleFrontier4(evos))
+        public void Parse(in RibbonVerifierArguments args, ref RibbonResultList list)
+        {
+            var evos = args.History;
+            if (!RibbonRules.IsAllowedBattleFrontier4(evos))
+                FlagAnyAbility(r, ref list);
+
+            if (RibbonRules.IsAllowedContest3(evos))
+                AddMissingContest3(r, ref list);
+            else
+                FlagAnyContest3(r, ref list);
+
+            if (RibbonRules.IsAllowedContest4(evos))
+                AddMissingContest4(r, ref list);
+            else
+                FlagAnyContest4(r, ref list);
+        }
+
+        public void ParseEgg(ref RibbonResultList list)
+        {
             FlagAnyAbility(r, ref list);
-
-        if (RibbonRules.IsAllowedContest3(evos))
-            AddMissingContest3(r, ref list);
-        else
             FlagAnyContest3(r, ref list);
-
-        if (RibbonRules.IsAllowedContest4(evos))
-            AddMissingContest4(r, ref list);
-        else
             FlagAnyContest4(r, ref list);
-    }
-
-    public static void ParseEgg(this IRibbonSetUnique4 r, ref RibbonResultList list)
-    {
-        FlagAnyAbility(r, ref list);
-        FlagAnyContest3(r, ref list);
-        FlagAnyContest4(r, ref list);
+        }
     }
 
     private static void AddMissingContest3(IRibbonSetUnique4 r, ref RibbonResultList list)

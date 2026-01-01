@@ -73,7 +73,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         while (true)
         {
             var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, HasAlphaMove);
-            if (this.IsRandomLevel())
+            if (this.IsRandomLevel)
             {
                 // Give a random level according to the RNG correlation.
                 var level = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);

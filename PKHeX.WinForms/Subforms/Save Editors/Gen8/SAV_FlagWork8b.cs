@@ -27,6 +27,7 @@ public sealed partial class SAV_FlagWork8b : Form
         SAV = (SAV8BS)sav.Clone();
         Origin = sav;
 
+        AllowDrop = true;
         DragEnter += Main_DragEnter;
         DragDrop += Main_DragDrop;
 
@@ -280,9 +281,18 @@ public sealed partial class SAV_FlagWork8b : Form
     {
         if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
             return;
-        var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, Name, "Yes: Old Save" + Environment.NewLine + "No: New Save");
-        var button = dr == DialogResult.Yes ? B_LoadOld : B_LoadNew;
-        LoadSAV(button, files[0]);
+
+        foreach (var file in files)
+        {
+            var result = this.SelectNewOld(file, B_LoadNew.Text, B_LoadOld.Text);
+            if (result == DualDiffSelection.New)
+                TB_NewSAV.Text = file;
+            else if (result == DualDiffSelection.Old)
+                TB_OldSAV.Text = file;
+            else if (ModifierKeys == Keys.Escape)
+                return;
+        }
+        ChangeSAV();
     }
 
     private void B_ApplyFlag_Click(object sender, EventArgs e)

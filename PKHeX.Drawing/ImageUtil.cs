@@ -166,6 +166,28 @@ public static class ImageUtil
         }
     }
 
+    public static int GetAverageColor(Span<byte> data)
+    {
+        long r = 0, g = 0, b = 0;
+        int count = 0;
+        for (int i = 0; i < data.Length; i += 4)
+        {
+            var alpha = data[i + 3];
+            if (alpha == 0)
+                continue;
+            r += data[i + 2];
+            g += data[i + 1];
+            b += data[i + 0];
+            count++;
+        }
+        if (count == 0)
+            return 0;
+        byte R = (byte)(r / count);
+        byte G = (byte)(g / count);
+        byte B = (byte)(b / count);
+        return (0xFF << 24) | (R << 16) | (G << 8) | B;
+    }
+
     // heavily favor second (new) color
     private static int BlendColor(int color1, int color2, double amount = 0.2)
     {

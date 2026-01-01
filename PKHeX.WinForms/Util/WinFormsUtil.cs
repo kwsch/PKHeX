@@ -19,26 +19,29 @@ public static class WinFormsUtil
 {
     internal static void TranslateInterface(Control form, string lang) => form.TranslateInterface(lang);
 
-    /// <summary>
-    /// Centers the <see cref="child"/> horizontally and vertically so that its center is the same as the <see cref="parent"/>'s center.
-    /// </summary>
-    internal static void CenterToForm(this Control child, Control? parent)
+    extension(Control child)
     {
-        if (parent is null)
-            return;
-        int x = parent.Location.X + ((parent.Width - child.Width) / 2);
-        int y = parent.Location.Y + ((parent.Height - child.Height) / 2);
-        child.Location = new Point(x, y);
-    }
+        /// <summary>
+        /// Centers the <see cref="child"/> horizontally and vertically so that its center is the same as the <see cref="parent"/>'s center.
+        /// </summary>
+        internal void CenterToForm(Control? parent)
+        {
+            if (parent is null)
+                return;
+            int x = parent.Location.X + ((parent.Width - child.Width) / 2);
+            int y = parent.Location.Y + ((parent.Height - child.Height) / 2);
+            child.Location = new Point(x, y);
+        }
 
-    /// <summary>
-    /// Horizontally centers the <see cref="child"/> to the <see cref="parent"/>'s horizontal center.
-    /// </summary>
-    internal static void HorizontallyCenter(this Control child, Control parent)
-    {
-        int midpoint = (parent.Width - child.Width) / 2;
-        if (child.Location.X != midpoint)
-            child.SetBounds(midpoint, 0, 0, 0, BoundsSpecified.X);
+        /// <summary>
+        /// Horizontally centers the <see cref="child"/> to the <see cref="parent"/>'s horizontal center.
+        /// </summary>
+        internal void HorizontallyCenter(Control parent)
+        {
+            int midpoint = (parent.Width - child.Width) / 2;
+            if (child.Location.X != midpoint)
+                child.SetBounds(midpoint, 0, 0, 0, BoundsSpecified.X);
+        }
     }
 
     public static T? FirstFormOfType<T>() where T : Form => Application.OpenForms.OfType<T>().FirstOrDefault();
@@ -213,16 +216,13 @@ public static class WinFormsUtil
         control.ValueMember = nameof(ComboItem.Value);
     }
 
-    public static void SetValueClamped(this NumericUpDown nud, int value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
-    public static void SetValueClamped(this NumericUpDown nud, uint value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
-
-    public static void RemoveDropCB(object? sender, KeyEventArgs e)
+    extension(NumericUpDown nud)
     {
-        if (sender is null)
-            return;
-        ((ComboBox)sender).DroppedDown = false;
+        public void SetValueClamped(int value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
+        public void SetValueClamped(uint value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
     }
 
+    public static void RemoveDropCB(object? sender, KeyEventArgs e) => (sender as ComboBox)?.DroppedDown = false;
     public static void MouseWheelIncrement1(object? sender, MouseEventArgs e) => Adjust(sender, e, 1);
     public static void MouseWheelIncrement4(object? sender, MouseEventArgs e) => Adjust(sender, e, 4);
 
@@ -384,11 +384,26 @@ public static class WinFormsUtil
     /// <summary>
     /// Opens a dialog to save a <see cref="SaveFile"/> file.
     /// </summary>
+    /// <param name="c">Control to anchor dialog to.</param>
     /// <param name="sav"><see cref="SaveFile"/> to be saved.</param>
     /// <param name="currentBox">Box the player will be greeted with when accessing the PC in-game.</param>
     /// <returns>True if the file was saved.</returns>
-    public static bool ExportSAVDialog(SaveFile sav, int currentBox = 0)
+    public static bool ExportSAVDialog(Control c, SaveFile sav, int currentBox = 0)
     {
+        // Try to request an overwrite first; if they defer, do the save file dialog.
+        if (File.Exists(sav.Metadata.FilePath))
+        {
+            var exist = sav.Metadata.FilePath;
+            var task = c.FindForm()!.RequestOverwrite(exist);
+            if (task == DialogResult.Cancel)
+                return false;
+            if (task == DialogResult.Yes)
+            {
+                ExportSAV(sav, exist);
+                return true;
+            }
+        }
+
         using var sfd = new SaveFileDialog();
         sfd.Filter = sav.Metadata.Filter;
         sfd.FileName = sav.Metadata.FileName;
@@ -488,6 +503,7 @@ public static class WinFormsUtil
         EntityContext.Gen7b => "Beluga Gift Record|*.wr7" + all,
         EntityContext.Gen8b => "BD/SP Gift|*.wb8" + all,
         EntityContext.Gen8a => "Legends: Arceus Gift|*.wa8" + all,
+        EntityContext.Gen9a => "Legends: Z-A Gift|*.wa9" + all,
         _ => string.Empty,
     };
 
@@ -538,4 +554,19 @@ public static class WinFormsUtil
         var ci = new CultureInfo(lang);
         Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = ci;
     }
+
+    public static void InvertToolStripIcons(ToolStripItemCollection collection)
+    {
+        foreach (var o in collection)
+        {
+            if (o is not ToolStripMenuItem item)
+                continue;
+            InvertToolStripIcons(item.DropDownItems);
+            if (item.Image is not { } x)
+                continue;
+            item.Image = BlackToWhite(x);
+        }
+    }
+
+    public static Bitmap BlackToWhite(Image img) => Drawing.ImageUtil.ChangeAllColorTo(img, Color.White);
 }

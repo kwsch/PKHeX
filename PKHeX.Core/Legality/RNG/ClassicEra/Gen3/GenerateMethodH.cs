@@ -116,159 +116,160 @@ public static class GenerateMethodH
         }
     }
 
-    public static bool SetFromIVs<T>(this T enc, PK3 pk, PersonalInfo3 pi, in EncounterCriteria criteria, bool emerald)
-        where T : IEncounterSlot3
+    extension<T>(T enc) where T : IEncounterSlot3
     {
-        var gr = pi.Gender;
-        criteria.GetCombinedIVs(out var iv1, out var iv2);
-        Span<uint> all = stackalloc uint[LCRNG.MaxCountSeedsIV];
-        var count = LCRNGReversal.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
-        var seeds = all[..count];
-        foreach (ref var seed in seeds)
+        public bool SetFromIVs(PK3 pk, PersonalInfo3 pi, in EncounterCriteria criteria, bool emerald)
         {
-            seed = LCRNG.Prev2(seed);
-            var s = seed;
-
-            var a = LCRNG.Next16(ref s);
-            var b = LCRNG.Next16(ref s);
-            var pid = GetPIDRegular(a, b);
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            var gr = pi.Gender;
+            criteria.GetCombinedIVs(out var iv1, out var iv2);
+            Span<uint> all = stackalloc uint[LCRNG.MaxCountSeedsIV];
+            var count = LCRNGReversal.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
+            var seeds = all[..count];
+            foreach (ref var seed in seeds)
             {
-                // Try again as Method 2 (AB-DE)
-                var o = seed >> 16;
-                pid = GetPIDRegular(o, a);
+                seed = LCRNG.Prev2(seed);
+                var s = seed;
+
+                var a = LCRNG.Next16(ref s);
+                var b = LCRNG.Next16(ref s);
+                var pid = GetPIDRegular(a, b);
+                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                {
+                    // Try again as Method 2 (AB-DE)
+                    var o = seed >> 16;
+                    pid = GetPIDRegular(o, a);
+                    if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                        continue;
+                    seed = LCRNG.Prev(seed);
+                }
+
+                var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
+                if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
+                    continue;
+                var lead = criteria.IsSpecifiedLevelRange()
+                    ? MethodH.GetSeed(enc, seed, emerald, gender, criteria)
+                    : MethodH.GetSeed(enc, seed, emerald, gender);
+                if (!lead.IsValid) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
+                    continue;
+
+                // always level rand
+                {
+                    var rand16 = MethodH.SkipToLevelRand(enc, lead.Seed) >> 16;
+                    var level = MethodH.GetRandomLevel(enc, rand16, lead.Lead);
+                    if (pk.MetLevel != level)
+                        pk.MetLevel = pk.CurrentLevel = (byte)level;
+                }
+
+                pk.PID = pid;
+                pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
+                pk.RefreshAbility((int)(pid & 1));
+                return true;
+            }
+
+            // Try again as Method 4 (ABC-E)
+            count = LCRNGReversalSkip.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
+            seeds = all[..count];
+            foreach (ref var seed in seeds)
+            {
+                seed = LCRNG.Prev2(seed);
+                var s = seed;
+
+                var a = LCRNG.Next16(ref s);
+                var b = LCRNG.Next16(ref s);
+                var pid = GetPIDRegular(a, b);
                 if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                     continue;
-                seed = LCRNG.Prev(seed);
+
+                var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
+                if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
+                    continue;
+                var lead = criteria.IsSpecifiedLevelRange()
+                    ? MethodH.GetSeed(enc, seed, pk.E, gender, criteria)
+                    : MethodH.GetSeed(enc, seed, pk.E, gender);
+                if (!lead.IsValid) // Verifies the slot and nature loop; if it passes, apply the details.
+                    continue;
+
+                // always level rand
+                {
+                    var rand16 = MethodH.SkipToLevelRand(enc, lead.Seed) >> 16;
+                    var level = MethodH.GetRandomLevel(enc, rand16, lead.Lead);
+                    if (pk.MetLevel != level)
+                        pk.MetLevel = pk.CurrentLevel = (byte)level;
+                }
+
+                pk.PID = pid;
+                pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
+                pk.RefreshAbility((int)(pid & 1));
+                return true;
             }
 
-            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
-            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
-                continue;
-            var lead = criteria.IsSpecifiedLevelRange()
-                ? MethodH.GetSeed(enc, seed, emerald, gender, criteria)
-                : MethodH.GetSeed(enc, seed, emerald, gender);
-            if (!lead.IsValid()) // Verifies the slot, (min) level, and nature loop; if it passes, apply the details.
-                continue;
-
-            // always level rand
-            {
-                var rand16 = MethodH.SkipToLevelRand(enc, lead.Seed) >> 16;
-                var level = MethodH.GetRandomLevel(enc, rand16, lead.Lead);
-                if (pk.MetLevel != level)
-                    pk.MetLevel = pk.CurrentLevel = (byte)level;
-            }
-
-            pk.PID = pid;
-            pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
-            pk.RefreshAbility((int)(pid & 1));
-            return true;
+            return false;
         }
 
-        // Try again as Method 4 (ABC-E)
-        count = LCRNGReversalSkip.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
-        seeds = all[..count];
-        foreach (ref var seed in seeds)
+        public bool SetFromIVsUnown(PK3 pk, in EncounterCriteria criteria)
         {
-            seed = LCRNG.Prev2(seed);
-            var s = seed;
-
-            var a = LCRNG.Next16(ref s);
-            var b = LCRNG.Next16(ref s);
-            var pid = GetPIDRegular(a, b);
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
-                continue;
-
-            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
-            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
-                continue;
-            var lead = criteria.IsSpecifiedLevelRange()
-                ? MethodH.GetSeed(enc, seed, pk.E, gender, criteria)
-                : MethodH.GetSeed(enc, seed, pk.E, gender);
-            if (!lead.IsValid()) // Verifies the slot and nature loop; if it passes, apply the details.
-                continue;
-
-            // always level rand
+            criteria.GetCombinedIVs(out var iv1, out var iv2);
+            Span<uint> all = stackalloc uint[LCRNG.MaxCountSeedsIV];
+            var count = LCRNGReversal.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
+            var seeds = all[..count];
+            foreach (ref var seed in seeds)
             {
-                var rand16 = MethodH.SkipToLevelRand(enc, lead.Seed) >> 16;
-                var level = MethodH.GetRandomLevel(enc, rand16, lead.Lead);
-                if (pk.MetLevel != level)
-                    pk.MetLevel = pk.CurrentLevel = (byte)level;
+                seed = LCRNG.Prev2(seed);
+                var s = seed;
+
+                var a = LCRNG.Next16(ref s);
+                var b = LCRNG.Next16(ref s);
+                var pid = GetPIDUnown(a, b);
+                if ((criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25))) || EntityPID.GetUnownForm3(pid) != enc.Form)
+                {
+                    // Try again as Method 2 (BA-DE)
+                    var o = seed >> 16;
+                    pid = GetPIDUnown(o, a);
+                    if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                        continue;
+                    var form = EntityPID.GetUnownForm3(pid);
+                    if (form != enc.Form)
+                        continue;
+                    seed = LCRNG.Prev(seed);
+                }
+                var lead = MethodH.GetSeed(enc, seed, false, 2);
+                if (!lead.IsValid) // Verifies the slot and form loop; if it passes, apply the details.
+                    continue;
+
+                // Level is always 25, and no need to consider ability (always slot 0, not dual ability).
+                pk.PID = pid;
+                pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
+                return true;
             }
 
-            pk.PID = pid;
-            pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
-            pk.RefreshAbility((int)(pid & 1));
-            return true;
-        }
-
-        return false;
-    }
-
-    public static bool SetFromIVsUnown<T>(this T enc, PK3 pk, in EncounterCriteria criteria)
-        where T : IEncounterSlot3
-    {
-        criteria.GetCombinedIVs(out var iv1, out var iv2);
-        Span<uint> all = stackalloc uint[LCRNG.MaxCountSeedsIV];
-        var count = LCRNGReversal.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
-        var seeds = all[..count];
-        foreach (ref var seed in seeds)
-        {
-            seed = LCRNG.Prev2(seed);
-            var s = seed;
-
-            var a = LCRNG.Next16(ref s);
-            var b = LCRNG.Next16(ref s);
-            var pid = GetPIDUnown(a, b);
-            if ((criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25))) || EntityPID.GetUnownForm3(pid) != enc.Form)
+            // Try again as Method 4 (BAC-E)
+            count = LCRNGReversalSkip.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
+            seeds = all[..count];
+            foreach (ref var seed in seeds)
             {
-                // Try again as Method 2 (BA-DE)
-                var o = seed >> 16;
-                pid = GetPIDUnown(o, a);
+                seed = LCRNG.Prev2(seed);
+                var s = seed;
+
+                var a = LCRNG.Next16(ref s);
+                var b = LCRNG.Next16(ref s);
+                var pid = GetPIDUnown(a, b);
                 if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
                     continue;
                 var form = EntityPID.GetUnownForm3(pid);
                 if (form != enc.Form)
                     continue;
-                seed = LCRNG.Prev(seed);
+                var lead = MethodH.GetSeed(enc, seed, false, 2);
+                if (!lead.IsValid) // Verifies the slot and form loop; if it passes, apply the details.
+                    continue;
+
+                // Level is always 25, and no need to consider ability (always slot 0, not dual ability).
+                pk.PID = pid;
+                pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
+                return true;
             }
-            var lead = MethodH.GetSeed(enc, seed, false, 2);
-            if (!lead.IsValid()) // Verifies the slot and form loop; if it passes, apply the details.
-                continue;
 
-            // Level is always 25, and no need to consider ability (always slot 0, not dual ability).
-            pk.PID = pid;
-            pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
-            return true;
+            return false;
         }
-
-        // Try again as Method 4 (BAC-E)
-        count = LCRNGReversalSkip.GetSeedsIVs(all, iv1 << 16, iv2 << 16);
-        seeds = all[..count];
-        foreach (ref var seed in seeds)
-        {
-            seed = LCRNG.Prev2(seed);
-            var s = seed;
-
-            var a = LCRNG.Next16(ref s);
-            var b = LCRNG.Next16(ref s);
-            var pid = GetPIDUnown(a, b);
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
-                continue;
-            var form = EntityPID.GetUnownForm3(pid);
-            if (form != enc.Form)
-                continue;
-            var lead = MethodH.GetSeed(enc, seed, false, 2);
-            if (!lead.IsValid()) // Verifies the slot and form loop; if it passes, apply the details.
-                continue;
-
-            // Level is always 25, and no need to consider ability (always slot 0, not dual ability).
-            pk.PID = pid;
-            pk.IV32 = ((iv2 & 0x7FFF) << 15) | (iv1 & 0x7FFF);
-            return true;
-        }
-
-        return false;
     }
 
     /// <summary>

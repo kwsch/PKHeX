@@ -46,14 +46,12 @@ public partial class Main : Form
         private set => GameInfo.CurrentLanguage = value;
     }
 
-    private static bool _unicode;
-
     public static bool Unicode
     {
-        get => _unicode;
+        get;
         private set
         {
-            _unicode = value;
+            field = value;
             GenderSymbols = value ? GameInfo.GenderSymbolUnicode : GameInfo.GenderSymbolASCII;
         }
     }
@@ -177,6 +175,9 @@ public partial class Main : Form
 
         // Select Language
         CB_MainLanguage.SelectedIndex = GameLanguage.GetLanguageIndex(settings.Startup.Language);
+
+        if (Application.IsDarkModeEnabled)
+            WinFormsUtil.InvertToolStripIcons(menuStrip1.Items);
     }
 
     public void AttachPlugins()
@@ -348,7 +349,6 @@ public partial class Main : Form
         if (!skipCore)
             StartupUtil.ReloadSettings(settings);
 
-        Draw.LoadBrushes();
         PKME_Tabs.Unicode = Unicode = settings.Display.Unicode;
         PKME_Tabs.UpdateUnicode(GenderSymbols);
         SpriteName.AllowShinySprite = settings.Sprite.ShinySprites;
@@ -643,27 +643,30 @@ public partial class Main : Form
         return true;
     }
 
-    private static SaveFileType SelectMemoryCardSaveGame(SAV3GCMemoryCard memCard)
+    private SaveFileType SelectMemoryCardSaveGame(SAV3GCMemoryCard memCard)
     {
         if (memCard.SaveGameCount == 1)
             return memCard.SelectedGameVersion;
 
-        var games = GetMemoryCardGameSelectionList(memCard);
-        var dialog = new SAV_GameSelect(games, MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame);
-        dialog.ShowDialog();
-        return (SaveFileType)dialog.Result;
+        string[] games =
+        [
+            MsgGameColosseum,
+            MsgGameXD,
+            MsgGameRSBOX,
+        ];
+
+        if (!this.TrySelectIndex(MsgFileLoadSaveMultiple, MsgFileLoadSaveSelectGame, games, out var index))
+            return SaveFileType.None;
+        return index switch
+        {
+            0 => SaveFileType.Colosseum,
+            1 => SaveFileType.XD,
+            2 => SaveFileType.RSBox,
+            _ => SaveFileType.None,
+        };
     }
 
-    private static List<ComboItem> GetMemoryCardGameSelectionList(SAV3GCMemoryCard memCard)
-    {
-        var games = new List<ComboItem>();
-        if (memCard.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int)SaveFileType.Colosseum));
-        if (memCard.HasXD) games.Add(new ComboItem(MsgGameXD, (int)SaveFileType.XD));
-        if (memCard.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int)SaveFileType.RSBox));
-        return games;
-    }
-
-    private static bool CheckGCMemoryCard(SAV3GCMemoryCard memCard, string path)
+    private bool CheckGCMemoryCard(SAV3GCMemoryCard memCard, string path)
     {
         var state = memCard.GetMemoryCardState();
         switch (state)
@@ -871,7 +874,7 @@ public partial class Main : Form
         return false;
     }
 
-    private static bool SanityCheckSAV(ref SaveFile sav)
+    private bool SanityCheckSAV(ref SaveFile sav)
     {
         if (sav.Generation <= 3)
             SaveLanguage.TryRevise(sav);
@@ -880,14 +883,19 @@ public partial class Main : Form
         {
             if (ModifierKeys == Keys.Control || s3.IsCorruptPokedexFF())
             {
-                var games = GetGameList([GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG]);
+                ReadOnlySpan<GameVersion> choices = [GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG];
+                var options = new string[choices.Length];
+                for (int i = 0; i < options.Length; i++)
+                    options[i] = GameInfo.Strings.gamelist[(int)choices[i]];
+
                 var msg = string.Format(MsgFileLoadVersionDetect, $"3 ({s3.Version})");
-                using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
-                dialog.ShowDialog();
-                if (dialog.Result is 0)
+                var text = MsgFileLoadSaveSelectVersion;
+                if (sav.Metadata.FileName is { } fn)
+                    text += Environment.NewLine + fn;
+                if (!this.TrySelectIndex(msg, text, options, out var index, choices.IndexOf(s3.Version)))
                     return false;
 
-                var game = (GameVersion)dialog.Result;
+                var game = choices[index];
                 var s = s3.ForceLoad(game);
                 if (s is SAV3FRLG frlg)
                 {
@@ -903,14 +911,17 @@ public partial class Main : Form
             }
             else if (s3 is SAV3FRLG frlg && !frlg.Version.IsValidSavedVersion()) // IndeterminateSubVersion
             {
-                string fr = GameInfo.GetVersionName(GameVersion.FR);
-                string lg = GameInfo.GetVersionName(GameVersion.LG);
+                ReadOnlySpan<GameVersion> choices = [GameVersion.FR, GameVersion.LG];
+                var options = new string[choices.Length];
+                for (int i = 0; i < options.Length; i++)
+                    options[i] = GameInfo.Strings.gamelist[(int)choices[i]];
+
                 string dual = "{1}/{2} " + MsgFileLoadVersionDetect;
-                var games = GetGameList([GameVersion.FR, GameVersion.LG]);
-                var msg = string.Format(dual, "3", fr, lg);
-                using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
-                dialog.ShowDialog();
-                var game = (GameVersion)dialog.Result;
+                var msg = string.Format(dual, "3", options[0], options[1]);
+                if (!this.TrySelectIndex(msg, MsgFileLoadSaveSelectVersion, options, out var index))
+                    return false;
+
+                var game = choices[index];
                 bool result = frlg.ResetPersonal(game);
                 if (!result)
                     return false;
@@ -918,17 +929,6 @@ public partial class Main : Form
         }
 
         return true;
-
-        static ComboItem[] GetGameList(ReadOnlySpan<GameVersion> g)
-        {
-            var result = new ComboItem[g.Length];
-            for (int i = 0; i < g.Length; i++)
-            {
-                int id = (int)g[i];
-                result[i] = GameInfo.Sources.VersionDataSource.First(v => v.Value == id);
-            }
-            return result;
-        }
     }
 
     public static void SetCountrySubRegion(ComboBox cb, string type)
@@ -1068,33 +1068,57 @@ public partial class Main : Form
         DisplayLegalityReport(la);
     }
 
-    private static void DisplayLegalityReport(LegalityAnalysis la)
+    private void DisplayLegalityReport(LegalityAnalysis la)
     {
-        bool verbose = ModifierKeys == Keys.Control ^ Settings.Display.ExportLegalityAlwaysVerbose;
-        var report = la.Report(CurrentLanguage, verbose);
-        if (verbose)
+        if (Settings.Sounds.PlaySoundLegalityCheck)
+            SystemSounds.Asterisk.Play();
+
+        if (Settings.Display.IgnoreLegalPopup && la.Valid)
+            return;
+
+        var verbose = ModifierKeys == Keys.Control ^ Settings.Display.ExportLegalityAlwaysVerbose;
+        var localizer = LegalityLocalizationContext.Create(la, CurrentLanguage);
+        var simpleReport = localizer.Report(false);
+        var verboseReport = localizer.Report(true);
+
+        var settings = localizer.Settings;
+        var intro = simpleReport + Environment.NewLine;
+        if (la.Valid)
+            intro += Environment.NewLine;
+        var expandText = verboseReport.Replace(intro, "");
+        var page = new TaskDialogPage
         {
-            if (Settings.Display.ExportLegalityNeverClipboard)
+            Caption = "Legality Check",
+            Heading = la.Valid ? settings.Lines.Legal : settings.Lines.SInvalid,
+            Icon =    la.Valid ? TaskDialogIcon.ShieldSuccessGreenBar : TaskDialogIcon.ShieldErrorRedBar,
+            Text =    la.Valid ? "" : simpleReport,
+            Expander = new TaskDialogExpander
             {
-                WinFormsUtil.Alert(report);
-                return;
-            }
-            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, report, MsgClipboardLegalityExport);
-            if (dr != DialogResult.Yes)
-                return;
-            var enc = la.EncounterOriginal.GetTextLines(Settings.Display.ExportLegalityVerboseProperties);
-            report += Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, enc);
-            WinFormsUtil.SetClipboardText(report);
-        }
-        else if (Settings.Display.IgnoreLegalPopup && la.Valid)
+                CollapsedButtonText = "Full Report",
+                ExpandedButtonText = "Hide Full Report",
+                Expanded = verbose,
+                Text = expandText,
+            },
+            Buttons = [TaskDialogButton.OK],
+            DefaultButton = TaskDialogButton.OK,
+            AllowCancel = true,
+            SizeToContent = true,
+        };
+
+        if (!Settings.Display.ExportLegalityNeverClipboard)
         {
-            if (Settings.Sounds.PlaySoundLegalityCheck)
+            var clipboard = new TaskDialogButton("Copy to Clipboard") { AllowCloseDialog = true };
+            clipboard.Click += (_, _) =>
+            {
+                var enc = la.EncounterOriginal.GetTextLines(Settings.Display.ExportLegalityVerboseProperties);
+                var msg = verboseReport + Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, enc);
+                WinFormsUtil.SetClipboardText(msg);
                 SystemSounds.Asterisk.Play();
+            };
+            page.Buttons.Add(clipboard);
         }
-        else
-        {
-            WinFormsUtil.Alert(Settings.Sounds.PlaySoundLegalityCheck, report);
-        }
+
+        TaskDialog.ShowDialog(this, page);
     }
 
     private void ClickClone(object sender, EventArgs e)
@@ -1110,10 +1134,19 @@ public partial class Main : Form
         pk ??= PreparePKM(false); // don't perform control loss click
 
         var menu = dragout.ContextMenuStrip;
-        if (menu is not null)
-            menu.Enabled = pk.Species != 0 || HaX; // Species
+        menu?.Enabled = pk.Species != 0 || HaX; // Species
 
-        pb.Image = pk.Sprite(C_SAV.SAV);
+        var img = pk.Sprite(C_SAV.SAV);
+        if (Application.IsDarkModeEnabled)
+        {
+            var data = ImageUtil.GetPixelData(img);
+            var avg = ImageUtil.GetAverageColor(data);
+            var c = Color.FromArgb(avg);
+            SpriteUtil.GetSpriteGlow(img, c.B, c.G, c.R, out var pixels, true);
+            var layer = ImageUtil.GetBitmap(pixels, img.Width, img.Height, img.PixelFormat);
+            img = ImageUtil.LayerImage(img, layer, 0, 0);
+        }
+        pb.Image = img;
         if (pb.BackColor == SlotUtil.BadDataColor)
             pb.BackColor = SlotUtil.GoodDataColor;
     }

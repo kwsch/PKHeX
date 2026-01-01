@@ -43,9 +43,9 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
     {
         if (Width < BoxPokeGrid.Width)
             Width = BoxPokeGrid.Width;
-        BoxPokeGrid.HorizontallyCenter(this);
+        BoxPokeGrid.HorizontallyCenter(this.Parent!);
         int p1 = CB_BoxSelect.Location.X;
-        CB_BoxSelect.HorizontallyCenter(this);
+        CB_BoxSelect.HorizontallyCenter(this.Parent!);
         int p2 = CB_BoxSelect.Location.X;
 
         var delta = p2 - p1;

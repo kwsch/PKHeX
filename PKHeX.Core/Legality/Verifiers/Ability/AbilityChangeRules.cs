@@ -169,7 +169,7 @@ public static class AbilityChangeRules
         {
             var evo = evos[i];
             var pi = table[evo.Species, evo.Form];
-            if (!pi.GetIsAbility12Same())
+            if (!pi.IsAbility12Same)
                 return true;
         }
         return false;
@@ -184,7 +184,7 @@ public static class AbilityChangeRules
         {
             var evo = evos[i];
             var pi = table[evo.Species, evo.Form];
-            if (pi.GetIsAbilityHiddenUnique())
+            if (pi.IsAbilityHiddenUnique)
                 return true;
         }
 
@@ -222,11 +222,11 @@ public static class AbilityChangeRules
         {
             var evo = evos[i];
             var pi = table[evo.Species, evo.Form];
-            if (revert && !pi.GetIsAbility12Same())
+            if (revert && !pi.IsAbility12Same)
                 return true;
-            if (!pi.GetIsAbilityHiddenUnique())
+            if (!pi.IsAbilityHiddenUnique)
                 continue;
-            if (abilityIndex == 1 || !pi.GetIsAbility12Same())
+            if (abilityIndex == 1 || !pi.IsAbility12Same)
                 return true;
             revert = true;
         }

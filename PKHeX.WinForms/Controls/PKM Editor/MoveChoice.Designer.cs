@@ -77,6 +77,7 @@ namespace PKHeX.WinForms.Controls
             CB_Move.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             CB_Move.DropDownHeight = 400;
+            CB_Move.DropDownWidth = 156;
             CB_Move.FormattingEnabled = true;
             CB_Move.IntegralHeight = false;
             CB_Move.Location = new System.Drawing.Point(32, 0);
@@ -120,7 +121,7 @@ namespace PKHeX.WinForms.Controls
             Controls.Add(FLP_Move);
             Margin = new System.Windows.Forms.Padding(0);
             Name = "MoveChoice";
-            Size = new System.Drawing.Size(246, 26);
+            Size = new System.Drawing.Size(246, 27);
             ((System.ComponentModel.ISupportInitialize)PB_Triangle).EndInit();
             FLP_Move.ResumeLayout(false);
             FLP_Move.PerformLayout();

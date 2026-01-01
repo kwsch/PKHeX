@@ -157,7 +157,7 @@ public static class SpeciesName
         Span<char> result = stackalloc char[nick.Length];
 
         // All names are uppercase.
-        nick.AsSpan().ToUpperInvariant(result);
+        nick.ToUpperInvariant(result);
         if (language == (int)LanguageID.French)
             StringConverter4Util.StripDiacriticsFR4(result); // strips accents on E and I
 
@@ -249,7 +249,7 @@ public static class SpeciesName
     public static bool IsNicknamedAnyLanguage(ushort species, ReadOnlySpan<char> nickname, EntityContext context = Latest.Context)
     {
         var langs = Language.GetAvailableGameLanguages(context);
-        var generation = context.Generation();
+        var generation = context.Generation;
         foreach (var language in langs)
         {
             if (!IsNicknamed(species, nickname, language, generation))
@@ -283,7 +283,7 @@ public static class SpeciesName
     public static int GetSpeciesNameLanguage(ushort species, int priorityLanguage, ReadOnlySpan<char> nickname, EntityContext context = Latest.Context)
     {
         var langs = Language.GetAvailableGameLanguages(context);
-        var generation = context.Generation();
+        var generation = context.Generation;
         var priorityIndex = langs.IndexOf((byte)priorityLanguage);
         if (priorityIndex != -1)
         {
@@ -305,7 +305,7 @@ public static class SpeciesName
     public static int GetSpeciesNameLanguage(ushort species, ReadOnlySpan<char> nickname, EntityContext context = Latest.Context)
     {
         var langs = Language.GetAvailableGameLanguages(context);
-        var generation = context.Generation();
+        var generation = context.Generation;
         return GetSpeciesNameLanguage(species, nickname, generation, langs);
     }
 

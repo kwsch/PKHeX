@@ -19,6 +19,7 @@ public partial class QR : Form
     public QR(Image qr, Image icon, params string[] lines)
     {
         InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         this.qr = qr;
         this.icon = icon;
         Lines = lines;
@@ -43,7 +44,6 @@ public partial class QR : Form
 
         RefreshImage();
         ResizeWindow();
-        splitContainer1.SplitterDistance = 34;
     }
 
     private void ResizeWindow()
@@ -51,8 +51,10 @@ public partial class QR : Form
         var img = PB_QR.Image;
         if (img is null)
             return;
-        splitContainer1.Height = splitContainer1.Panel1.Height + img.Height;
-        splitContainer1.Width = img.Width;
+
+        var p2 = splitContainer1.Panel2;
+        Height += img.Height - p2.Height;
+        Width += img.Width - p2.Width;
     }
 
     private Bitmap ReloadQRData(PK7 pk7)

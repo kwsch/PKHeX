@@ -9,7 +9,12 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class ContextMenuSAV : UserControl
 {
-    public ContextMenuSAV() => InitializeComponent();
+    public ContextMenuSAV()
+    {
+        InitializeComponent();
+        if (Application.IsDarkModeEnabled)
+            WinFormsUtil.InvertToolStripIcons(mnuVSD.Items);
+    }
 
     public SaveDataEditor<PictureBox> Editor { private get; set; } = null!;
     public required SlotChangeManager Manager { get; init; }

@@ -32,8 +32,7 @@ public sealed class DragManager
     /// <param name="z">The cursor to set.</param>
     public void SetCursor(Form? f, Cursor? z)
     {
-        if (f is not null)
-            f.Cursor = z;
+        f?.Cursor = z;
         Info.Cursor = z;
     }
 

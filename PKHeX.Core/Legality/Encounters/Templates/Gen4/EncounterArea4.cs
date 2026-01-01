@@ -176,18 +176,21 @@ public enum SlotType4 : byte
 
 public static class SlotType4Extensions
 {
-    /// <summary>
-    /// Checks if the <see cref="type"/> is an encounter within the Safari Zone.
-    /// </summary>
-    public static bool IsSafari(this SlotType4 type) => type >= SlotType4.Safari_Grass;
+    extension(SlotType4 type)
+    {
+        /// <summary>
+        /// Checks if the <see cref="type"/> is an encounter within the Safari Zone.
+        /// </summary>
+        public bool IsSafari => type >= SlotType4.Safari_Grass;
 
-    /// <summary>
-    /// Checks if the <see cref="type"/> has a level range that is random. For D/P/Pt; this is all types except Grass.
-    /// </summary>
-    public static bool IsLevelRandDPPt(this SlotType4 type) => type != SlotType4.Grass;
+        /// <summary>
+        /// Checks if the <see cref="type"/> has a level range that is random. For D/P/Pt; this is all types except Grass.
+        /// </summary>
+        public bool IsLevelRandDPPt => type != SlotType4.Grass;
 
-    /// <summary>
-    /// Checks if the <see cref="type"/> has a level range that is random. For HG/SS; this is all types except Grass and Safari.
-    /// </summary>
-    public static bool IsLevelRandHGSS(this SlotType4 type) => type != SlotType4.Grass && !type.IsSafari();
+        /// <summary>
+        /// Checks if the <see cref="type"/> has a level range that is random. For HG/SS; this is all types except Grass and Safari.
+        /// </summary>
+        public bool IsLevelRandHGSS => type != SlotType4.Grass && !type.IsSafari;
+    }
 }

@@ -15,7 +15,7 @@ public static class HiddenPower
     /// <param name="context">Generation format</param>
     public static int GetType(ReadOnlySpan<int> IVs, EntityContext context)
     {
-        if (context.Generation() <= 2)
+        if (context.Generation <= 2)
             return GetTypeGB(IVs);
         return GetType(IVs);
     }
@@ -153,7 +153,7 @@ public static class HiddenPower
     /// <returns>True if the Hidden Power of the <see cref="IVs"/> is obtained, with or without modifications</returns>
     public static bool SetIVsForType(int hiddenPowerType, Span<int> IVs, EntityContext context)
     {
-        if (context.Generation() <= 2)
+        if (context.Generation <= 2)
             return SetTypeGB(hiddenPowerType, IVs);
         return SetIVsForType(hiddenPowerType, IVs);
     }
@@ -238,7 +238,7 @@ public static class HiddenPower
     /// <param name="context">Generation specific format</param>
     public static void SetIVs(int type, Span<int> ivs, EntityContext context = Latest.Context)
     {
-        if (context.Generation() <= 2)
+        if (context.Generation <= 2)
         {
             ivs[1] = (ivs[1] & 0b1100) | (type >> 2);
             ivs[2] = (ivs[2] & 0b1100) | (type & 3);
