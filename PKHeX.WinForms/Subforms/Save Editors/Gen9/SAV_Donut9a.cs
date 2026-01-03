@@ -24,8 +24,8 @@ public partial class SAV_Donut9a : Form
         Donuts = SAV.Donuts;
 
         var strings = GameInfo.Strings;
-        donutEditor.InitializeLists(strings.donutFlavor, strings.itemlist, strings.donutName);
-        donutEditor.ValueChanged += Editor_ValueChanged;
+        DonutEditor.InitializeLists(strings.donutFlavor, strings.itemlist, strings.donutName);
+        DonutEditor.ValueChanged += Editor_ValueChanged;
 
         Loading = true;
         LoadDonutNames();
@@ -35,7 +35,7 @@ public partial class SAV_Donut9a : Form
         lastIndex = 0;
         GetEntry(0);
 
-        AddDrop(this, LB_Donut, donutEditor);
+        AddDrop(this, LB_Donut, DonutEditor);
 
         DonutFlavorProfile.BackgroundImage = DonutSpriteUtil.GetFlavorProfileImage();
     }
@@ -93,7 +93,6 @@ public partial class SAV_Donut9a : Form
             LB_Donut.Items[index] = currentName;
 
         // Update profile if applicable
-        donutEditor.SaveDonut();
         DonutFlavorProfile.LoadFromDonut(donut);
         Loading = false;
     }
@@ -115,7 +114,7 @@ public partial class SAV_Donut9a : Form
 
         Loading = true;
         var donut = Donuts.GetDonut(index);
-        donutEditor.LoadDonut(donut);
+        DonutEditor.LoadDonut(donut);
         DonutFlavorProfile.LoadFromDonut(donut);
         Loading = false;
     }
@@ -125,7 +124,7 @@ public partial class SAV_Donut9a : Form
         if (Loading || index < 0)
             return;
 
-        donutEditor.SaveDonut();
+        DonutEditor.SaveDonut();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
@@ -167,7 +166,7 @@ public partial class SAV_Donut9a : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
-    private void B_Reset_Click(object sender, EventArgs e) => donutEditor.Reset();
+    private void B_Reset_Click(object sender, EventArgs e) => DonutEditor.Reset();
 
     private void B_ImportClick(object sender, EventArgs e)
     {
@@ -177,7 +176,8 @@ public partial class SAV_Donut9a : Form
         if (!TryLoadDonut(data))
             return;
 
-        donutEditor.LoadDonut(current);
+        DonutEditor.LoadDonut(current);
+        DonutFlavorProfile.LoadFromDonut(current);
         System.Media.SystemSounds.Asterisk.Play();
     }
 
@@ -224,7 +224,8 @@ public partial class SAV_Donut9a : Form
         var current = Donuts.GetDonut(lastIndex);
         var data = current.Data;
         ImportDonutFromPath(data, files[0]);
-        donutEditor.LoadDonut(current);
+        DonutEditor.LoadDonut(current);
+        DonutFlavorProfile.LoadFromDonut(current);
         System.Media.SystemSounds.Asterisk.Play();
         e.Effect = DragDropEffects.Copy;
 
@@ -268,7 +269,7 @@ public partial class SAV_Donut9a : Form
         using var sfd = new SaveFileDialog();
         sfd.Title = "Export Donut";
         sfd.Filter = "Donut File (*.donut)|*.donut|All Files (*.*)|*.*";
-        sfd.FileName = $"{lastIndex + 1:000}_{donutEditor.GetDonutName()}.donut";
+        sfd.FileName = $"{lastIndex + 1:000}_{DonutEditor.GetDonutName()}.donut";
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
         System.IO.File.WriteAllBytes(sfd.FileName, data);
