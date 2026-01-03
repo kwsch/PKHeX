@@ -180,7 +180,7 @@ public sealed partial class DonutEditor9a : UserControl
             CAL_Date.Value = Epoch;
         }
 
-        TB_Milliseconds.Text = donut.MillisecondsSince1900.ToString();
+        TB_Milliseconds.Text = donut.MillisecondsSince1970.ToString();
 
         Loading = false;
         return;
@@ -231,7 +231,7 @@ public sealed partial class DonutEditor9a : UserControl
                 donut.ClearDateTime();
             }
         }
-        donut.MillisecondsSince1900 = ulong.TryParse(TB_Milliseconds.Text, out var unk) ? unk : 0;
+        donut.MillisecondsSince1970 = ulong.TryParse(TB_Milliseconds.Text, out var unk) ? unk : 0;
     }
 
     private static void LoadDonutFlavorHash(ComboBox cb, ulong flavorHash)

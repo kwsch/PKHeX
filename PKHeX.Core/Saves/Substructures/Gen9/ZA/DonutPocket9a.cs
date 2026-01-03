@@ -92,7 +92,7 @@ public sealed class DonutPocket9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>
         if (bias != 0) // some fudge factor to differentiate donuts made on the same millisecond
             now = now.AddMilliseconds(bias);
         var ticks = (ulong)(now - Donut9a.Epoch).TotalMilliseconds;
-        entry.MillisecondsSince1900 = ticks;
+        entry.MillisecondsSince1970 = ticks;
         entry.DateTime1900.Timestamp = now;
     }
 
@@ -576,10 +576,10 @@ public readonly record struct Donut9a(Memory<byte> Raw)
     public const int Size = 0x48;
     public Span<byte> Data => Raw.Span;
 
-    public static DateTime Epoch => new(1900, 1, 1, 0, 0, 0, DateTimeKind.Local);
+    public static DateTime Epoch => new(1970, 1, 1, 0, 0, 0, DateTimeKind.Local);
 
     /*
-    0x00    u64 MillisecondsSince1900
+    0x00    u64 MillisecondsSince1970
        
     0x08    u8 Stars
     0x09    u8 LevelBoost
@@ -604,9 +604,9 @@ public readonly record struct Donut9a(Memory<byte> Raw)
     */
 
     /// <summary>
-    /// Timestamp the donut was created, in milliseconds since January 1, 1900.
+    /// Timestamp the donut was created, in milliseconds since January 1, 1970.
     /// </summary>
-    public ulong MillisecondsSince1900 { get => ReadUInt64LittleEndian(Data); set => WriteUInt64LittleEndian(Data, value); }
+    public ulong MillisecondsSince1970 { get => ReadUInt64LittleEndian(Data); set => WriteUInt64LittleEndian(Data, value); }
 
     public byte Stars { get => Data[0x08]; set => Data[0x08] = value; }
     public byte LevelBoost { get => Data[0x09]; set => Data[0x09] = value; }
@@ -638,7 +638,7 @@ public readonly record struct Donut9a(Memory<byte> Raw)
     /// Alternate date storage format for the donut creation time.
     /// </summary>
     /// <remarks>
-    /// <see cref="MillisecondsSince1900"/> is the source of truth; this value should be kept in sync via <see cref="UpdateDateTime"/>.
+    /// <see cref="MillisecondsSince1970"/> is the source of truth; this value should be kept in sync via <see cref="UpdateDateTime"/>.
     /// </remarks>
     public Epoch1900DateTimeValue DateTime1900 => new(Raw[0x20..0x28]);
 
@@ -649,17 +649,17 @@ public readonly record struct Donut9a(Memory<byte> Raw)
     public ulong Reserved { get => ReadUInt64LittleEndian(Data[0x40..]); set => WriteUInt64LittleEndian(Data[0x40..], value); }
 
     /// <summary>
-    /// Updates the <see cref="DateTime1900"/> value based on the stored <see cref="MillisecondsSince1900"/>.
+    /// Updates the <see cref="DateTime1900"/> value based on the stored <see cref="MillisecondsSince1970"/>.
     /// </summary>
     /// <remarks>
-    /// The values should always mirror each other, but their storage formats differ. Treat <see cref="MillisecondsSince1900"/> as the main source of truth.
+    /// The values should always mirror each other, but their storage formats differ. Treat <see cref="MillisecondsSince1970"/> as the main source of truth.
     /// </remarks>
-    public void UpdateDateTime() => DateTime1900.Timestamp = Epoch.AddMilliseconds(MillisecondsSince1900);
+    public void UpdateDateTime() => DateTime1900.Timestamp = Epoch.AddMilliseconds(MillisecondsSince1970);
 
     /// <summary>
-    /// A non-zero <see cref="MillisecondsSince1900"/> indicates that this donut slot is occupied. A zero-value with non-zero flavors/berries is invalid (and causes display glitches in-game).
+    /// A non-zero <see cref="MillisecondsSince1970"/> indicates that this donut slot is occupied. A zero-value with non-zero flavors/berries is invalid (and causes display glitches in-game).
     /// </summary>
-    public bool IsEmpty => MillisecondsSince1900 != 0;
+    public bool IsEmpty => MillisecondsSince1970 != 0;
 
     /// <summary>
     /// Count of flavor perks granted by this donut.
