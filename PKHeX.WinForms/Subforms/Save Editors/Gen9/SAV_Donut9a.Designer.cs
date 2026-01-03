@@ -38,7 +38,7 @@ namespace PKHeX.WinForms
             mnuShinyAssortment = new System.Windows.Forms.ToolStripMenuItem();
             B_ModifyAll = new System.Windows.Forms.Button();
             B_Reset = new System.Windows.Forms.Button();
-            donutEditor = new DonutEditor9a();
+            DonutEditor = new DonutEditor9a();
             B_Import = new System.Windows.Forms.Button();
             B_Export = new System.Windows.Forms.Button();
             DonutFlavorProfile = new DonutFlavorProfile9a();
@@ -135,15 +135,15 @@ namespace PKHeX.WinForms
             // 
             // donutEditor
             // 
-            donutEditor.AllowDrop = true;
-            donutEditor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            donutEditor.AutoSize = true;
-            donutEditor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            donutEditor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            donutEditor.Location = new System.Drawing.Point(207, 15);
-            donutEditor.Name = "donutEditor";
-            donutEditor.Size = new System.Drawing.Size(647, 240);
-            donutEditor.TabIndex = 27;
+            DonutEditor.AllowDrop = true;
+            DonutEditor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            DonutEditor.AutoSize = true;
+            DonutEditor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            DonutEditor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            DonutEditor.Location = new System.Drawing.Point(207, 15);
+            DonutEditor.Name = "donutEditor";
+            DonutEditor.Size = new System.Drawing.Size(647, 240);
+            DonutEditor.TabIndex = 27;
             // 
             // B_Import
             // 
@@ -185,7 +185,7 @@ namespace PKHeX.WinForms
             ClientSize = new System.Drawing.Size(894, 482);
             Controls.Add(B_Export);
             Controls.Add(B_Import);
-            Controls.Add(donutEditor);
+            Controls.Add(DonutEditor);
             Controls.Add(B_Reset);
             Controls.Add(B_ModifyAll);
             Controls.Add(B_Save);
@@ -216,7 +216,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ToolStripMenuItem mnuShinyAssortment;
         private System.Windows.Forms.Button B_ModifyAll;
         private System.Windows.Forms.Button B_Reset;
-        private DonutEditor9a donutEditor;
+        private DonutEditor9a DonutEditor;
         private System.Windows.Forms.Button B_Import;
         private System.Windows.Forms.Button B_Export;
         private DonutFlavorProfile9a DonutFlavorProfile;
