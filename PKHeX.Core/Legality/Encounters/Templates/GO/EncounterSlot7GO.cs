@@ -152,8 +152,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
-        var stamp = PogoDateRangeExtensions.GetTimeStamp(pk.MetYear + 2000, pk.MetMonth, pk.MetDay);
-        if (!this.IsWithinStartEnd(stamp))
+        if (!IsWithinDistributionWindow(pk))
             return EncounterMatchRating.DeferredErrors;
         if (!this.GetIVsValid(pk))
             return EncounterMatchRating.Deferred;

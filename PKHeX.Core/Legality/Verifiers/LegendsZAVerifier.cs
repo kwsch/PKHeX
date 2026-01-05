@@ -170,9 +170,16 @@ public sealed class LegendsZAVerifier : Verifier
             la.AddLine(GetInvalid(PlusMoveCountInvalid));
 
         // Check for all required indexes.
-        var (_, plus) = LearnSource9ZA.GetLearnsetAndPlus(pk.Species, pk.Form);
+        var species = pk.Species;
+        var form = pk.Form;
+        var (_, plus) = LearnSource9ZA.GetLearnsetAndPlus(species, form);
         var currentLevel = pk.CurrentLevel;
         CheckPlusMoveFlags(la, pk, permit, plus, currentLevel);
+        if (form != 0 && species is (int)Rotom or (int)Hoopa)
+        {
+            (_, plus) = LearnSource9ZA.GetLearnsetAndPlus(species, 0);
+            CheckPlusMoveFlags(la, pk, permit, plus, currentLevel);
+        }
 
         // Check for indexes set that cannot be set via TM or NPC.
         int max = permit.PlusCountUsed;
@@ -262,7 +269,9 @@ public sealed class LegendsZAVerifier : Verifier
             var index = permit.RecordPermitIndexes.IndexOf(move);
             if (CanAnyEvoLearnMovePlus<PersonalTable9ZA, PersonalInfo9ZA, LearnSource9ZA>(evos, index, move, PersonalTable.ZA, LearnSource9ZA.Instance))
                 continue; // OK
-            if (pk.Species is (int)Rotom && CanAnyFormLearnMovePlusRotom(pk, evos, index, move))
+
+            // Rotom and Hoopa, when changed forms, gain access to another form-specific move.
+            if (FormChangeUtil.IsFormChangeDifferentMoves(pk.Species, 9) && CanAnyFormLearnMovePlus(pk, evos, index, move))
                 continue;
 
             if (invalid != 0) // Multiple invalid moves
@@ -272,11 +281,12 @@ public sealed class LegendsZAVerifier : Verifier
         return invalid;
     }
 
-    private static bool CanAnyFormLearnMovePlusRotom<T>(T pk, ReadOnlySpan<EvoCriteria> evos, int index, ushort move)
+    private static bool CanAnyFormLearnMovePlus<T>(T pk, ReadOnlySpan<EvoCriteria> evos, int index, ushort move)
         where T : PKM, IPlusRecord
     {
+        var fc = pk.PersonalInfo.FormCount;
         var evo = evos[0];
-        for (byte f = 0; f <= 5; f++)
+        for (byte f = 0; f <= fc; f++)
         {
             if (f == pk.Form)
                 continue;
