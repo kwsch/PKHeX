@@ -122,7 +122,6 @@ public sealed class ItemStorage9ZA : IItemStorage
 
         0664, // Blazikenite
         0752, // Swampertite
-        0753, // Sceptilite
 
         2640, // Garchompite Z
     ];

@@ -1,7 +1,17 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-25/12/21 - New Update:
+26/01/07 - New Update:
+ - Changed: PKHeX now uses .NET 10 for its runtime (updated from .NET 9)! Dark Mode (Options->Settings->Startup->DarkMode) is now better supported.
+ - Legality: Sceptilite now released, can exist in inventory/held.
+ - - Fixed: Gen9a handling for Rotom/Hoopa plus move flags.
+ - - Fixed: Gen4 EV verifier for Level100 gifts now only allows Vitamin increments rather than allowing any 0-100 range. Thanks @andrebastosdias !
+ - - Fixed: BattleForm logic updated to differentiate Zygarde and Greninja better. Thanks @Parnassius !
+ - - Added: Gen9a Bulk checker now verifies Primal Orb unique assignment.
+ - Added: Gen9a Donut editor now displays the flavor profile of a donut in a visual manner. Thanks @RandomGuy155 !
+ - Fixed: Gen9a Donut editor timestamp now correctly updates. Thanks @foohyfooh !
+
+25/12/21 - New Update: (161623) [12168594]
  - Note: This will be the last release on .NET 9; future releases will be on .NET 10
  - Legality: Misc fixes for parsing forms/evolutions in Z-A.
  - Fixed: Gen9a evolutions that require a move are now checked more accurately when evolutions have less learnset restrictions.
