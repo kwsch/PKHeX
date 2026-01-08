@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_BlockDump8
     {
@@ -365,7 +365,7 @@
             // L_BlockName
             // 
             L_BlockName.AutoSize = true;
-            L_BlockName.ForeColor = System.Drawing.Color.Red;
+            L_BlockName.ForeColor = WinFormsUtil.ColorWarn;
             L_BlockName.Location = new System.Drawing.Point(316, 5);
             L_BlockName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_BlockName.Name = "L_BlockName";

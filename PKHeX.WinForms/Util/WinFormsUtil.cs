@@ -569,4 +569,14 @@ public static class WinFormsUtil
     }
 
     public static Bitmap BlackToWhite(Image img) => Drawing.ImageUtil.ChangeAllColorTo(img, Color.White);
+
+    // SystemColor equivalents for dark mode support
+    public static Color ColorWarn => Application.IsDarkModeEnabled ? Color.OrangeRed : Color.Red;
+    public static Color ColorValid => Application.IsDarkModeEnabled ? Color.FromArgb(030, 070, 030) : Color.FromArgb(200, 255, 200);
+    public static Color ColorHint => Application.IsDarkModeEnabled ? Color.DarkKhaki : Color.LightYellow;
+    public static Color ColorSuspect => Application.IsDarkModeEnabled ? Color.LightCoral : Color.LightSalmon;
+    public static Color ColorAccept => Application.IsDarkModeEnabled ? Color.DarkSlateBlue : Color.LightBlue;
+    public static Color ColorPlus => Application.IsDarkModeEnabled ? Color.OrangeRed : Color.Red;
+    public static Color ColorMinus => Application.IsDarkModeEnabled ? Color.MediumBlue : Color.Blue;
+    public static Color ColorAlternate => Application.IsDarkModeEnabled ? Color.SlateGray : Color.SeaShell;
 }

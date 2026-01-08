@@ -385,13 +385,13 @@ public partial class PKMEditor
     {
         if (handler == 0) // OT
         {
-            GB_OT.ForeColor = Color.Red;
+            GB_OT.ForeColor = WinFormsUtil.ColorWarn;
             GB_nOT.ResetForeColor();
             CB_Handler.SelectedIndex = 0;
         }
         else // Handling Trainer
         {
-            GB_nOT.ForeColor = Color.Red;
+            GB_nOT.ForeColor = WinFormsUtil.ColorWarn;
             GB_OT.ResetForeColor();
             CB_Handler.SelectedIndex = 1;
         }

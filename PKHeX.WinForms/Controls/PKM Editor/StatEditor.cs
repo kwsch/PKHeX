@@ -34,12 +34,12 @@ public partial class StatEditor : UserControl
             gv.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
     }
 
-    public Color EVsInvalid { get; set; } = Color.Red;
-    public Color EVsMaxed { get; set; } = Color.Honeydew;
-    public Color EVsFishy { get; set; } = Color.LightYellow;
-    public Color StatIncreased { get; set; } = Color.Red;
-    public Color StatDecreased { get; set; } = Color.Blue;
-    public Color StatHyperTrained { get; set; } = Color.LightGreen;
+    private static Color EVsInvalid => Color.Red;
+    private static Color EVsMaxed => Color.LightGreen;
+    private static Color EVsFishy => Color.Yellow;
+    private static Color StatIncreased => WinFormsUtil.ColorPlus;
+    private static Color StatDecreased => WinFormsUtil.ColorMinus;
+    private static Color StatHyperTrained => Color.LightGreen;
 
     public PKMEditor MainEditor { private get; set; } = null!;
     public bool HaX { get => CHK_HackedStats.Enabled; set => CHK_HackedStats.Enabled = CHK_HackedStats.Visible = value; }

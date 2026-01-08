@@ -51,17 +51,13 @@ public partial class TechRecordEditor : Form
 
             bool isValid = Record.Permit.IsRecordPermitted(i);
             if (isValid)
-                SetStyleColor(cell, Color.LightGreen);
+                SetStyleColor(cell, WinFormsUtil.ColorValid);
             else if (Record.IsRecordPermitted(evos, i))
-                SetStyleColor(cell, Color.Yellow);
+                SetStyleColor(cell, WinFormsUtil.ColorHint);
             else
-                SetStyleColor(cell, Color.LightCoral);
+                SetStyleColor(cell, WinFormsUtil.ColorSuspect);
             if (currentMoves.Contains(move))
-            {
-                var style = cells[ColumnName].Style;
-                style.BackColor = Color.LightBlue;
-                style.ForeColor = Color.Black;
-            }
+                cells[ColumnName].Style.BackColor = WinFormsUtil.ColorAccept;
 
             cells[ColumnIndex].Value = (i+ baseRecordIndex).ToString("000");
             cells[ColumnTypeIcon].Value = TypeSpriteUtil.GetTypeSpriteIconSmall(type);

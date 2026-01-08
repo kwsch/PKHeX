@@ -1921,17 +1921,11 @@ namespace PKHeX.WinForms.Controls
             // Stats
             // 
             Stats.Dock = System.Windows.Forms.DockStyle.Fill;
-            Stats.EVsFishy = System.Drawing.Color.LightYellow;
-            Stats.EVsInvalid = System.Drawing.Color.Red;
-            Stats.EVsMaxed = System.Drawing.Color.Honeydew;
             Stats.HaX = false;
             Stats.Location = new System.Drawing.Point(0, 8);
             Stats.Margin = new System.Windows.Forms.Padding(0);
             Stats.Name = "Stats";
             Stats.Size = new System.Drawing.Size(331, 496);
-            Stats.StatDecreased = System.Drawing.Color.Blue;
-            Stats.StatHyperTrained = System.Drawing.Color.LightGreen;
-            Stats.StatIncreased = System.Drawing.Color.Red;
             Stats.TabIndex = 0;
             // 
             // Hidden_Moves

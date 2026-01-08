@@ -1799,8 +1799,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         UpdateLegality(args: UpdateLegalityArgs.SkipMoveRepopulation);
     }
 
-    private static readonly Brush BackLegal = new SolidBrush(Color.FromArgb(200, 255, 200));
-    private static readonly Brush DarkLegal = new SolidBrush(Color.FromArgb(020, 055, 020));
+    private static readonly Brush BrushLegal = new SolidBrush(WinFormsUtil.ColorValid);
 
     private void ValidateMovePaint(object? sender, DrawItemEventArgs e)
     {
@@ -1811,7 +1810,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         var valid = LegalMoveSource.Info.CanLearn((ushort)value) && !HaX;
 
         var highlight = (e.State & DrawItemState.Selected) != 0;
-        var brush = highlight ? SystemBrushes.MenuHighlight : (valid ? Application.IsDarkModeEnabled ? DarkLegal : BackLegal : SystemBrushes.ControlLightLight);
+        var brush = highlight ? SystemBrushes.MenuHighlight : (valid ? BrushLegal : SystemBrushes.ControlLightLight);
         var textColor = highlight && !Application.IsDarkModeEnabled ? SystemColors.HighlightText : SystemColors.ControlText;
 
         var type = MoveInfo.GetType((ushort)value, Entity.Context);

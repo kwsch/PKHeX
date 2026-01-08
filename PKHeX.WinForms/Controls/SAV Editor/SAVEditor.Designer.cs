@@ -341,7 +341,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // L_ReadOnlyOther
             // 
-            L_ReadOnlyOther.ForeColor = System.Drawing.Color.Red;
+            L_ReadOnlyOther.ForeColor = WinFormsUtil.ColorWarn;
             L_ReadOnlyOther.Location = new System.Drawing.Point(32, 208);
             L_ReadOnlyOther.Name = "L_ReadOnlyOther";
             L_ReadOnlyOther.Size = new System.Drawing.Size(176, 24);

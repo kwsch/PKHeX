@@ -43,7 +43,7 @@ public partial class SAV_DLC5 : Form
         Tab_BattleTest.Controls.Add(new Label
         {
             Text = "Not working. Needs research.",
-            ForeColor = Color.Red, Location = new(20,20),
+            ForeColor = WinFormsUtil.ColorWarn, Location = new(20,20),
             AutoSize = true,
         });
     }

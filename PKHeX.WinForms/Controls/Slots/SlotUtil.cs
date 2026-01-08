@@ -35,7 +35,7 @@ public static class SlotUtil
     };
 
     public static readonly Color GoodDataColor = Color.Transparent;
-    public static readonly Color BadDataColor = Color.Red;
+    public static Color BadDataColor => WinFormsUtil.ColorWarn;
 
     /// <summary>
     /// Refreshes a <see cref="PictureBox"/> with the appropriate display content.

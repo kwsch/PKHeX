@@ -35,7 +35,7 @@ public partial class MoveDisplay : UserControl
         if (valid)
             L_Move.ResetForeColor();
         else
-            L_Move.ForeColor = Color.Red;
+            L_Move.ForeColor = WinFormsUtil.ColorWarn;
         L_Move.Width = size.Width;
         Width = ctrlWidth;
 

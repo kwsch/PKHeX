@@ -75,7 +75,7 @@ public sealed partial class SAV_EventFlags2 : Form
         if (labels.Count == 0)
         {
             dgv.Visible = false;
-            var research = new Label { Text = MsgResearchRequired, Name = "TLP_Flags_Research", ForeColor = Color.Red, AutoSize = true, Location = new Point(20, 20) };
+            var research = new Label { Text = MsgResearchRequired, Name = "TLP_Flags_Research", ForeColor = WinFormsUtil.ColorWarn, AutoSize = true, Location = new Point(20, 20) };
             GB_Flags.Controls.Add(research);
             return;
         }
@@ -154,7 +154,7 @@ public sealed partial class SAV_EventFlags2 : Form
         var labels = list.Work;
         if (labels.Count == 0)
         {
-            TLP_Const.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Const_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
+            TLP_Const.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Const_Research", ForeColor = WinFormsUtil.ColorWarn, AutoSize = true }, 0, 0);
             return;
         }
 
