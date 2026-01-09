@@ -24,7 +24,7 @@
 38	s	Trío de Sabios (Puerta de Torre de Hojalata)	0:No permite pasar a la Torre de Hojalata,1:Permite pasar a la Torre de Hojalata
 39	s	Centro Pokémon de Iris	0:No ha entrado,1:Entró (Conoció a Bill)
 40	s	Gimnasio de Iris	0:El anciano te echa,1:Accesible
-41	s	Hombre del Caramelo Furia	0: Bloquea el acceso a la Ruta 44,1:Desaparecido (Se puede acceder a la Ruta 44)
+41	s	Hombre del Caramelo Furia	0:Bloquea el acceso a la Ruta 44,1:Desaparecido (Se puede acceder a la Ruta 44)
 42	s	Suicune (Ruta 42)	0:Desaparecido,1:Activo
 43	s	Suicune (Ciudad Orquídea)	0:Desaparecido,1:Activo
 44	s	Torre Batalla 1F	0:No accedido,1:Accedido
@@ -48,7 +48,7 @@
 67	s	Rival (Subterráneo)	0:Desaparecido,1:Te retará
 69	s	Rival (Calle Victoria)	0:Desaparecido,1:Te retará
 70	s	Débora (Guarida Dragón)	0:Desaparecido,1:Te dará la MT24 justo fuera del Santuario
-71	s	Santuario de la Guarida Dragón	0:0: No entrado,1:Entrado y realizado el cuestionario
+71	s	Santuario de la Guarida Dragón	0:No entrado,1:Entrado y realizado el cuestionario
 74	s	Evento de S.S. Aqua	0:Normal,2:Un caballero se cruzará contigo (Evento de la historia)
 75	s	Marinero en S.S. Aqua B1F	0:Paso denegado,1:Paso permitido
 128	t	Escolar Aitor	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha,4:Has tenido la cuarta revancha (Final)
