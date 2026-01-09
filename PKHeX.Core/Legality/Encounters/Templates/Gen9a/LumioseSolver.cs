@@ -81,6 +81,12 @@ public static class LumioseSolver
     private static bool TryGetSeedSkip(in GenerateParam9a param, PKM pk, uint ec, uint pid, out ulong seed)
     {
         var solver = new XoroMachineSkip(ec, pid);
+        if (TryGetSeed(param, pk, solver, out seed))
+            return true;
+
+        // Try again assuming the FakeTrainer XORed the resulting PID to be anti-shiny (terrible luck for the player).
+        pid = LumioseRNG.AntiShiny(pid);
+        solver = new XoroMachineSkip(ec, pid);
         return TryGetSeed(param, pk, solver, out seed);
     }
 

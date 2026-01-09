@@ -12,13 +12,14 @@ namespace PKHeX.Core;
 public sealed class LearnGroupHOME : ILearnGroup
 {
     public static readonly LearnGroupHOME Instance = new();
+    private const LearnOption Option = LearnOption.HOME;
     public ushort MaxMoveID => 0;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => pk is IHomeTrack { HasTracker: true } || !ParseSettings.IgnoreTransferIfNoTracker;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,
-        IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.HOME)
+        IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = Option)
     {
         var context = pk.Context;
         if (context == EntityContext.None)
@@ -29,36 +30,36 @@ public sealed class LearnGroupHOME : ILearnGroup
         if (history.HasVisitedGen9 && pk is not PK9)
         {
             var instance = LearnGroup9.Instance;
-            instance.Check(result, current, pk, history, enc, types, option);
-            if (CleanPurge(result, current, pk, types, local, evos))
+            instance.Check(result, current, pk, history, enc, types, Option);
+            if (CleanPurge(result, current, pk, types, local, evos, option))
                 return true;
         }
         if (history.HasVisitedZA && pk is not PA9)
         {
             var instance = LearnGroup9a.Instance;
-            instance.Check(result, current, pk, history, enc, types, option);
-            if (CleanPurge(result, current, pk, types, local, evos))
+            instance.Check(result, current, pk, history, enc, types, Option);
+            if (CleanPurge(result, current, pk, types, local, evos, option))
                 return true;
         }
         if (history.HasVisitedSWSH && pk is not PK8)
         {
             var instance = LearnGroup8.Instance;
-            instance.Check(result, current, pk, history, enc, types, option);
-            if (CleanPurge(result, current, pk, types, local, evos))
+            instance.Check(result, current, pk, history, enc, types, Option);
+            if (CleanPurge(result, current, pk, types, local, evos, option))
                 return true;
         }
         if (history.HasVisitedPLA && pk is not PA8)
         {
             var instance = LearnGroup8a.Instance;
-            instance.Check(result, current, pk, history, enc, types, option);
-            if (CleanPurge(result, current, pk, types, local, evos))
+            instance.Check(result, current, pk, history, enc, types, Option);
+            if (CleanPurge(result, current, pk, types, local, evos, option))
                 return true;
         }
         if (history.HasVisitedBDSP && pk is not PB8)
         {
             var instance = LearnGroup8b.Instance;
-            instance.Check(result, current, pk, history, enc, types, option);
-            if (CleanPurge(result, current, pk, types, local, evos))
+            instance.Check(result, current, pk, history, enc, types, Option);
+            if (CleanPurge(result, current, pk, types, local, evos, option))
                 return true;
         }
 
@@ -67,14 +68,14 @@ public sealed class LearnGroupHOME : ILearnGroup
         // SW/SH is the only game that can ever harbor external moves, and is the only game that uses Battle Version.
         if (TryAddOriginalMoves(result, current, pk, enc))
         {
-            if (CleanPurge(result, current, pk, types, local, evos))
+            if (CleanPurge(result, current, pk, types, local, evos, option))
                 return true;
         }
 
         // HOME is silly and allows form exclusive moves to be transferred without ever knowing the move.
         if (TryAddExclusiveMoves(result, current, pk))
         {
-            if (CleanPurge(result, current, pk, types, local, evos))
+            if (CleanPurge(result, current, pk, types, local, evos, option))
                 return true;
         }
 
@@ -82,8 +83,8 @@ public sealed class LearnGroupHOME : ILearnGroup
         {
             // PK8 w/ Battle Version can be ignored, as LGP/E has separate HOME data.
             var instance = LearnGroup7b.Instance;
-            instance.Check(result, current, pk, history, enc, types, option);
-            if (CleanPurge(result, current, pk, types, local, evos))
+            instance.Check(result, current, pk, history, enc, types, Option);
+            if (CleanPurge(result, current, pk, types, local, evos, option))
                 return true;
         }
         else if (history.HasVisitedGen7)
@@ -93,8 +94,8 @@ public sealed class LearnGroupHOME : ILearnGroup
             ILearnGroup instance = LearnGroup7.Instance;
             while (true)
             {
-                instance.Check(result, current, pk, history, enc, types, option);
-                if (CleanPurge(result, current, pk, types, local, evos))
+                instance.Check(result, current, pk, history, enc, types, Option);
+                if (CleanPurge(result, current, pk, types, local, evos, option))
                     return true;
                 var prev = instance.GetPrevious(pk, history, enc, option);
                 if (prev is null)
@@ -111,8 +112,11 @@ public sealed class LearnGroupHOME : ILearnGroup
     /// Scan the results and remove any that are not valid for the game <see cref="local"/> game.
     /// </summary>
     /// <returns>True if all results are valid.</returns>
-    private static bool CleanPurge(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, MoveSourceType types, IHomeSource local, ReadOnlySpan<EvoCriteria> evos)
+    private static bool CleanPurge(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, MoveSourceType types, IHomeSource local, ReadOnlySpan<EvoCriteria> evos, LearnOption option)
     {
+        if (option == LearnOption.AtAnyTime)
+            return MoveResult.AllParsed(result);
+
         // The logic used to update the results did not check if the move could be learned in the local game.
         // Double-check the results and remove any that are not valid for the local game.
         // SW/SH will continue to iterate downwards to previous groups after HOME is checked, so we can exactly check via Environment.

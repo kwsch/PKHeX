@@ -15,6 +15,9 @@ internal static class EvolutionRestrictions
     /// <summary>
     /// List of species that evolve from a previous species having a move while leveling up
     /// </summary>
+    /// <remarks>
+    /// Using moves with a counter stored in form argument is explicitly checked via other logic. <see cref="IsFormArgEvolution"/>
+    /// </remarks>
     private static ushort GetSpeciesEvolutionMove(ushort species) => species switch
     {
         (int)Sylveon => EEVEE,
@@ -28,15 +31,22 @@ internal static class EvolutionRestrictions
         (int)Tsareena => (int)Stomp,
         (int)Naganadel => (int)DragonPulse,
         (int)Grapploct => (int)Taunt,
+
+        // Form Argument evolutions sometimes with extra conditions; verify here because they aren't checked "completely" elsewhere (yet).
         (int)Wyrdeer => (int)PsyshieldBash,
         (int)Overqwil => (int)BarbBarrage,
         (int)Annihilape => (int)RageFist,
+
         (int)Farigiraf => (int)TwinBeam,
         (int)Dudunsparce => (int)HyperDrill,
         (int)Hydrapple => (int)DragonCheer,
         _ => NONE,
     };
 
+    /// <summary>
+    /// Checks if the evolution is the "rare" variant (less common).
+    /// </summary>
+    /// <param name="encryptionConstant">Random value used to pivot between evolution results.</param>  
     public static bool IsEvolvedSpeciesFormRare(uint encryptionConstant) => encryptionConstant % 100 is 0;
 
     /// <summary>
@@ -50,6 +60,9 @@ internal static class EvolutionRestrictions
         _ => throw new ArgumentOutOfRangeException(nameof(species), species, "Incorrect EC%100 species."),
     };
 
+    /// <summary>
+    /// Checks if the evolution result matches what is expected for <see cref="IsEvolvedSpeciesFormRare"/>
+    /// </summary>
     public static bool GetIsExpectedEvolveFormEC100(ushort species, byte form, bool rare) => species switch
     {
         (ushort)Maushold => form == (byte)(rare ? 0 : 1),
@@ -76,6 +89,9 @@ internal static class EvolutionRestrictions
     /// Checks if the <see cref="pk"/> is correctly evolved, assuming it had a known move requirement evolution in its evolution chain.
     /// </summary>
     /// <returns>True if unnecessary to check or the evolution was valid.</returns>
+    /// <remarks>
+    /// Performs some eager checks to skip doing a full evolution tree move check.
+    /// </remarks>
     public static bool IsValidEvolutionWithMove(PKM pk, LegalInfo info)
     {
         // Known-move evolutions were introduced in Gen4.
@@ -88,12 +104,25 @@ internal static class EvolutionRestrictions
         if (enc.Species == species)
             return true;
 
+        // All move evolutions arrive at a maximally-evolved species chain.
+        // Except for Mr. Rime -- just manually devolve and let the rest of the logic check.
+        if (species is (ushort)MrRime)
+        {
+            species = (ushort)MrMime;
+            if (enc.Species == species)
+                return true;
+        }
+
         // Exclude evolution paths that did not require a move w/level-up evolution
         var move = GetSpeciesEvolutionMove(species);
         if (move is NONE)
             return true; // not a move evolution
         if (!IsMoveSlotAvailable(info.Moves))
             return false;
+
+        // Check if the move is in relearn moves (can know at any time)
+        if (pk.Format >= 6 && IsMoveInRelearnSource(pk, info, move))
+            return true;
 
         // Check the entire chain to see if it could have learnt it at any point.
         var head = LearnGroupUtil.GetCurrentGroup(pk);
@@ -102,6 +131,54 @@ internal static class EvolutionRestrictions
             return IsValidEvolutionWithMoveAny(enc, EeveeFairyMoves, pruned, pk, head);
 
         return MemoryPermissions.GetCanKnowMove(enc, move, pruned, pk, head);
+    }
+
+    private static bool IsMoveInRelearnSource(PKM pk, LegalInfo info, ushort move)
+    {
+        if (move is not EEVEE)
+            return IsMoveInRelearn(pk, info, move);
+        return IsMoveInRelearn(pk, info, EeveeFairyMoves);
+    }
+
+    private static bool IsMoveInRelearn(PKM pk, LegalInfo info, ReadOnlySpan<ushort> arr)
+    {
+        foreach (var move in arr)
+        {
+            if (IsMoveInRelearn(pk, info, move))
+                return true;
+        }
+        return false;
+    }
+
+    private static bool IsMoveInRelearn(PKM pk, LegalInfo info, ushort move)
+    {
+        if (pk.IsOriginalMovesetDeleted())
+            return WasMoveInRelearn(pk, info, move);
+
+        var first = pk.RelearnMove1;
+        if (first is 0) // eager check
+            return false;
+        if (pk.RelearnMove1 == move)
+            return true;
+        if (pk.RelearnMove2 == move)
+            return true;
+        if (pk.RelearnMove3 == move)
+            return true;
+        if (pk.RelearnMove4 == move)
+            return true;
+        return false;
+    }
+
+    private static bool WasMoveInRelearn(PKM pk, LegalInfo info, ushort move)
+    {
+        for (var i = 0; i < info.Moves.Length; i++)
+        {
+            if (pk.GetMove(i) != move)
+                continue;
+            var method = info.Moves[i].Info.Method;
+            return method is { IsEggSource: true } or { IsRelearn: true } or LearnMethod.Encounter;
+        }
+        return false;
     }
 
     private static bool IsValidEvolutionWithMoveAny(IEncounterTemplate enc, ReadOnlySpan<ushort> any, EvolutionHistory history, PKM pk, ILearnGroup head)

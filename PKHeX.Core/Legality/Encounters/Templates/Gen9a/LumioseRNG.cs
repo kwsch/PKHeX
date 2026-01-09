@@ -321,12 +321,14 @@ public static class LumioseRNG
         else // Never
         {
             if (ShinyUtil.GetIsShiny6(fakeTID, pid)) // battled
-                pid ^= 0x1000_0000;
+                pid = AntiShiny(pid);
             if (ShinyUtil.GetIsShiny6(pk.ID32, pid)) // captured
-                pid ^= 0x1000_0000;
+                pid = AntiShiny(pid);
         }
         return pid;
     }
+
+    public static uint AntiShiny(uint pid) => pid ^ 0x1000_0000;
 
     private static bool IsMatchUnknownPreFillIVs(PKM pk, in GenerateParam9a enc, Xoroshiro128Plus rand)
     {

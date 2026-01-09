@@ -13,10 +13,10 @@ public sealed class LearnGroup7 : ILearnGroup
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation switch
     {
-        Generation => null,
-        1 => history.HasVisitedGen1 ? LearnGroup1.Instance : null,
-     <= 2 => history.HasVisitedGen2 ? LearnGroup2.Instance : null,
-        _ => history.HasVisitedGen6 ? LearnGroup6.Instance : null,
+        1 => LearnGroup1.Instance,
+        2 => LearnGroup2.Instance,
+        (3 or 4 or 5 or 6) => LearnGroup6.Instance,
+        _ => null,
     };
 
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen7;
