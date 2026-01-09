@@ -1,5 +1,5 @@
 4	s	Central Energía	0:Normal,1:Guardia recibirá una llamada telefónica (evento de la historia)
-5	s	Gimnasio de Celeste	0:Norma;,1:Aparece un Recluta del Rocket (evento de la historia)
+5	s	Gimnasio de Celeste	0:Normal,1:Aparece un Recluta del Rocket (evento de la historia)
 6	s	Ruta 25	0:Normal,1:Misty está en una cita (evento de la historia)
 8	s	Puerta de Recepción de la Liga	0:No has mostrado las 8 Medallas de Johto,1:Has mostrado las 8 Medallas de Johto
 13	s	Cuarto de Mento	0:Reiniciado,1:Accedido recientemente
@@ -10,7 +10,7 @@
 18	s	Cuarto de Hall de la Fama	0:Lance registrará tu equipo,1:Accedido recientemente
 19	s	Hombre de Ruta 27	0:Dirá que has entrado en Kanto,1:Ya ha dicho que has entrado en Kanto
 20	s	Mujer de Pueblo Primavera	0:Antes del Pokémon inicial (Bloquea el acceso a la Ruta 29),1:Después del Pokémon inicial (Permite el acceso a la Ruta 29)
-21	s	Evento del Lab de Elm	0:Inicio del juego,1:Te han pedido que elijas un inicial (no puedes salir lab),2:Normal,3:Aparece el oficial (pregunta el nombre del rival),,5:El ayudante te dará una Poción,6:El ayudante te dará 5 Poké balls
+21	s	Evento del Lab de Elm	0:Inicio del juego,1:Te han pedido que elijas un inicial (no puedes salir lab),2:Normal,3:Aparece el oficial (pregunta el nombre del rival),5:El ayudante te dará una Poción,6:El ayudante te dará 5 Poké balls
 22	s	Madre	0:Inicio del juego,1:Entregó y explicó el PokéGear
 23	s	Amigo (Ruta 29)	0:Normal,1:Pedirá mostrar el tutorial de captura
 24	s	Rival (Ciudad Cerezo)	0:Desaparecido,1:Te retará
