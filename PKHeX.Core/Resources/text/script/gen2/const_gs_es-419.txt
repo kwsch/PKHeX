@@ -1,5 +1,5 @@
 4	s	Central Energía	0:Normal,1:Guardia recibirá una llamada telefónica (evento de la historia)
-5	s	Gimnasio de Celeste	0:Norma;,1:Aparece un Recluta del Rocket (evento de la historia)
+5	s	Gimnasio de Celeste	0:Normal,1:Aparece un Recluta del Rocket (evento de la historia)
 6	s	Ruta 25	0:Normal,1:Misty está en una cita (evento de la historia)
 8	s	Puerta de Recepción de la Liga	0:No has mostrado las 8 Medallas de Johto,1:Has mostrado las 8 Medallas de Johto
 13	s	Cuarto de Mento	0:Reiniciado,1:Accedido recientemente
@@ -21,7 +21,7 @@
 32	s	Rival (Ciudad Olivo)	0:No encontrado,1:Encontrado
 34	s	Pensador de puerta de Torre de Hojalata	0:Paso denegado,1:Paso permitido (Mostrada la Medalla Niebla)
 35	s	Centro Pokémon de Iris	0:No ha entrado,1:Entró (Conoció a Bill)
-36	s	Hombre del Caramelo Furia	0: Bloquea el acceso a la Ruta 44,1:Desaparecido (Se puede acceder a la Ruta 44)
+36	s	Hombre del Caramelo Furia	0:Bloquea el acceso a la Ruta 44,1:Desaparecido (Se puede acceder a la Ruta 44)
 37	s	Puerta de Ruta 43	0:Aparecen Reclutas del Team Rocket (requiere pago),1:Pagaste a los Reclutas/Reclutas desaparecido
 38	s	Rival (Monte Moon)	0:Te retará,1:Desaparecido
 39	s	Rival (Torre Bellsprout)	0:No encontrado,1:Encontrado
