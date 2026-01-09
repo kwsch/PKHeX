@@ -1,5 +1,5 @@
 4	s	Central Energía	0:Normal,1:Guardia recibirá una llamada telefónica (evento de la historia)
-5	s	Gimnasio de Celeste	0:Norma;,1:Aparece un Recluta del Rocket (evento de la historia)
+5	s	Gimnasio de Celeste	0:Normal,1:Aparece un Recluta del Rocket (evento de la historia)
 6	s	Ruta 25	0:Normal,1:Misty está en una cita (evento de la historia)
 8	s	Puerta de Recepción de la Liga	0:No has mostrado las 8 Medallas de Johto,1:Has mostrado las 8 Medallas de Johto
 13	s	Cuarto de Mento	0:Reiniciado,1:Accedido recientemente
