@@ -26,6 +26,7 @@ internal static class EvolutionRestrictions
         (int)Yanmega => (int)AncientPower,
         (int)Mamoswine => (int)AncientPower,
         (int)Tsareena => (int)Stomp,
+        (int)Naganadel => (int)DragonPulse,
         (int)Grapploct => (int)Taunt,
         (int)Wyrdeer => (int)PsyshieldBash,
         (int)Overqwil => (int)BarbBarrage,
