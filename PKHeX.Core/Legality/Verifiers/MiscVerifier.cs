@@ -225,9 +225,9 @@ public sealed class MiscVerifier : Verifier
         else if (data.EncounterMatch.Context is EntityContext.Gen9a)
         {
             if (s2.HeightScalar != 0)
-                data.AddLine(GetInvalid(Encounter, StatIncorrectHeightValue));
+                data.AddLine(GetInvalid(Encounter, StatIncorrectHeightValue_0, 0));
             if (s2.WeightScalar != 0)
-                data.AddLine(GetInvalid(Encounter, StatIncorrectWeightValue));
+                data.AddLine(GetInvalid(Encounter, StatIncorrectWeightValue_0, 0));
         }
         else if (CheckHeightWeightOdds(data.EncounterMatch))
         {
@@ -239,8 +239,26 @@ public sealed class MiscVerifier : Verifier
         }
 
         // Check for Scale
-        if (pk is IScaledSize3 s3 && IsHeightScaleMatchRequired(pk) && s2.HeightScalar != s3.Scale)
-            data.AddLine(GetInvalid(StatIncorrectHeightValue));
+        if (pk is IScaledSize3 s3)
+        {
+            // PLA static Alphas have potential for 127 scale; this is already checked explicitly in the matching check.
+            // Ensure all Alphas have 255 scale.
+            // Otherwise, ensure scale matches height scalar if required.
+            if (enc is IAlphaReadOnly { IsAlpha: true })
+            {
+                byte expect = enc switch
+                {
+                    EncounterStatic8a { IsAlpha127: true } when s2 is { HeightScalar: 127, WeightScalar: 127 } => 127, // Fixed size Alphas not yet converted by HOME >= 3.0.1
+                    _ => byte.MaxValue,
+                };
+                if (s3.Scale != expect)
+                    data.AddLine(GetInvalid(StatIncorrectScaleValue_0, expect));
+            }
+            else if (IsHeightScaleMatchRequired(pk) && s2.HeightScalar != s3.Scale)
+            {
+                data.AddLine(GetInvalid(StatIncorrectScaleValue_0, s2.HeightScalar));
+            }
+        }
     }
 
     private void VerifyIsMovesetAllowed(LegalityAnalysis data, SK2 sk2)
@@ -302,12 +320,7 @@ public sealed class MiscVerifier : Verifier
         }
     }
 
-    private static bool IsHeightScaleMatchRequired(PKM pk)
-    {
-        if (pk is IHomeTrack { HasTracker: false })
-            return false;
-        return true;
-    }
+    private static bool IsHeightScaleMatchRequired(PKM pk) => pk is IHomeTrack { HasTracker: true };
 
     private void VerifyStats9(LegalityAnalysis data, PK9 pk9)
     {

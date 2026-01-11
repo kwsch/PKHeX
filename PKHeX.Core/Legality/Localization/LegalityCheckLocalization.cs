@@ -358,10 +358,10 @@ public sealed class LegalityCheckLocalization
 
     public string StatDynamaxInvalid { get; set; } = "Dynamax Level is not within the expected range.";
     public string StatIncorrectHeight { get; set; } = "Calculated Height does not match stored value.";
-    public string StatIncorrectHeightCopy { get; set; } = "Copy Height does not match the original value.";
-    public string StatIncorrectHeightValue { get; set; } = "Height does not match the expected value.";
     public string StatIncorrectWeight { get; set; } = "Calculated Weight does not match stored value.";
-    public string StatIncorrectWeightValue { get; set; } = "Weight does not match the expected value.";
+    public string StatIncorrectHeightValue_0 { get; set; } = "Height should be {0}.";
+    public string StatIncorrectWeightValue_0 { get; set; } = "Weight should be {0}.";
+    public string StatIncorrectScaleValue_0 { get; set; } = "Scale should be {0}.";
     public string StatInvalidHeightWeight { get; set; } = "Height / Weight values are statistically improbable.";
     public string StatIncorrectCP { get; set; } = "Calculated CP does not match stored value.";
     public string StatGigantamaxInvalid { get; set; } = "Gigantamax Flag mismatch.";
