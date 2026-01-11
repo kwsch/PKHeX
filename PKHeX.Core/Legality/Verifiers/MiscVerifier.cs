@@ -96,6 +96,16 @@ public sealed class MiscVerifier : Verifier
 
     private void VerifyMisc4(LegalityAnalysis data, G4PKM pk)
     {
+        // Verify misc values that were introduced in HG/SS
+
+        // Version is a true match. If not from HG/SS, should not have HG/SS ball value set.
+        if (pk.BallHGSS != 0 || pk.BallDPPt != pk.Ball)
+        {
+            // Only set the HG/SS value if it originated in HG/SS and was not an event.
+            if (!pk.HGSS || pk.FatefulEncounter)
+                data.AddLine(GetInvalid(CheckIdentifier.Ball, BallEncMismatch));
+        }
+
         // Mood:
         // Range is [-127, 127]. Deduplicated unique adjustments are +8, +10, and -20.
         // Increment adjustments of -2 (-20 +8 +10) and +2 (+8*4 +10 -20) are possible.

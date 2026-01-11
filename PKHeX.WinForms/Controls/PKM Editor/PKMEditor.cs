@@ -709,8 +709,13 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         using var frm = new BallBrowser();
         frm.LoadBalls(Entity);
         frm.ShowDialog();
-        if (frm.WasBallChosen)
-            CB_Ball.SelectedValue = (int)frm.BallChoice;
+        if (!frm.WasBallChosen)
+            return;
+
+        // Set to the entity, then check the updated value.
+        // Gen4 has split fields for HG/SS and D/P/Pt segregation. If the value refused to update, show the refused value.
+        Entity.Ball = frm.BallChoice;
+        CB_Ball.SelectedValue = (int)Entity.Ball;
     }
 
     private void ClickMetLocation(object sender, EventArgs e)
