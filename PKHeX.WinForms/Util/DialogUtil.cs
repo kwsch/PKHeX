@@ -11,16 +11,16 @@ public static class DialogUtil
     {
         public bool TrySelectIndex(string caption, string text, IReadOnlyList<string> options, out int index, int preSelect = -1)
         {
-            List<TaskDialogRadioButton> choices = [];
+            var choices = new TaskDialogRadioButtonCollection();
             for (int i = 0; i < options.Count; i++)
-                choices.Add(new(options[i]) { Tag = i, Checked = (i == preSelect) });
+                choices.Add(new TaskDialogRadioButton(options[i]) { Tag = i, Checked = (i == preSelect) });
 
             var page = new TaskDialogPage
             {
                 Caption = caption,
                 Text = text,
                 Icon = TaskDialogIcon.Information,
-                RadioButtons = [..choices],
+                RadioButtons = choices,
                 DefaultButton = TaskDialogButton.OK,
                 Buttons = [TaskDialogButton.OK],
                 AllowCancel = true,
