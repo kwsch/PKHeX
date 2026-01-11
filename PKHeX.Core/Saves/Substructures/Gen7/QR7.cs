@@ -9,8 +9,9 @@ namespace PKHeX.Core;
 // u32 slot;
 // u32 num_copies;
 // u8  reserved[0x1C];
-// u8  ek7[0x104];
-// u8  dex_data[0x60];
+// u8  ek7[0x104]; -- starts at 0x30
+// u8  alignment[0xC];
+// u8  dex_data[0x60]; -- starts at 0x140
 // u16 crc16
 // sizeof(QR7) == 0x1A2
 
@@ -43,7 +44,7 @@ public static class QR7
         return (table[index] & (1 << (species & 7))) != 0;
     }
 
-    private static void GetRawQR(Span<byte> dest, ushort species, byte form, bool shiny, byte gender)
+    private static void SetDexData(Span<byte> dest, ushort species, byte form, bool shiny, byte gender)
     {
         dest[..6].Fill(0xFF);
         WriteUInt16LittleEndian(dest[0x28..], species);
@@ -86,7 +87,7 @@ public static class QR7
         WriteInt32LittleEndian(span[0x10..], num_copies); // No need to check max num_copies, payload parser handles it on-console.
 
         pk7.EncryptedPartyData.CopyTo(span[0x30..]); // Copy in pokemon data
-        GetRawQR(span[0x140..], pk7.Species, pk7.Form, pk7.IsShiny, pk7.Gender);
+        SetDexData(span[0x140..], pk7.Species, pk7.Form, pk7.IsShiny, pk7.Gender);
 
         var chk = Checksums.CRC16Invert(span[..0x1A0]);
         WriteUInt16LittleEndian(span[0x1A0..], chk);

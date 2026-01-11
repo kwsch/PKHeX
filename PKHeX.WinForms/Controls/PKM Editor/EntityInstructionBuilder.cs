@@ -58,12 +58,12 @@ public partial class EntityInstructionBuilder : UserControl
             if (hasValue)
                 L_PropValue.ResetForeColor();
             else
-                L_PropValue.ForeColor = Color.Red;
+                L_PropValue.ForeColor = WinFormsUtil.ColorWarn;
         }
         else // no property, flag
         {
             L_PropValue.Text = string.Empty;
-            L_PropType.ForeColor = Color.Red;
+            L_PropType.ForeColor = WinFormsUtil.ColorWarn;
         }
     }
 

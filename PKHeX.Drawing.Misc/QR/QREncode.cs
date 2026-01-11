@@ -32,11 +32,7 @@ public static class QREncode
     /// <param name="copies">The number of copies to encode.</param>
     /// <returns>A bitmap containing the QR code.</returns>
     public static Bitmap GenerateQRCode7(PK7 pk7, int box = 0, int slot = 0, int copies = 1)
-    {
-        byte[] data = QR7.GenerateQRData(pk7, box, slot, copies);
-        var msg = QRMessageUtil.GetMessage(data);
-        return GenerateQRCode(msg, ppm: 4);
-    }
+        => GenerateQRCode(QRMessageUtil.GetMessage(pk7, box, slot, copies), ppm: 4);
 
     /// <summary>
     /// Generates a QR code bitmap from a message string.

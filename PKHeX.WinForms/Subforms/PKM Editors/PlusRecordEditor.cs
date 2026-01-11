@@ -60,15 +60,15 @@ public partial class PlusRecordEditor : Form
             Color color;
             if (currentMoves.Contains(move))
             {
-                color = Color.LightBlue;
+                color = WinFormsUtil.ColorAccept;
             }
             else if (span[move])
             {
-                color = Color.LightGreen;
+                color = WinFormsUtil.ColorValid;
             }
             else
             {
-                color = Color.LightCoral;
+                color = WinFormsUtil.ColorSuspect;
                 isValid = false;
             }
             SetStyleColor(cell, color);

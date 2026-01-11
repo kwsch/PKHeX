@@ -107,7 +107,7 @@ public partial class RibbonEditor : Form
         {
             var name = rib.Name;
             Color color = dict.TryGetValue(name, out var r)
-                ? r.IsMissing ? Color.LightYellow : Color.Pink
+                ? r.IsMissing ? WinFormsUtil.ColorHint : WinFormsUtil.ColorSuspect
                 : GetColor(otherList, name);
             AddRibbonChoice(rib, color);
         }
@@ -134,11 +134,13 @@ public partial class RibbonEditor : Form
     private static Color GetColor(List<RibbonInfo> otherList, string ribName)
     {
         if (ribName.StartsWith("RibbonMark"))
-            return Color.SeaShell;
+            return WinFormsUtil.ColorAlternate;
         var other = otherList.Find(z => z.Name == ribName);
         if (other is null)
             return Color.Transparent;
-        return other.HasRibbon ? Color.PaleGreen : Color.Transparent;
+        if (!other.HasRibbon)
+            return Color.Transparent;
+        return WinFormsUtil.ColorValid;
     }
 
     private void AddRibbonSprite(RibbonInfo rib)
@@ -182,7 +184,7 @@ public partial class RibbonEditor : Form
             AutoSize = true,
         };
         if (color != Color.Transparent)
-            label.ForeColor = Color.Black;
+            label.ForeColor = SystemColors.ControlText;
         TLP_Ribbons.Controls.Add(label, 1, row);
 
         if (rib.Type is RibbonValueType.Byte) // numeric count ribbon
@@ -259,7 +261,7 @@ public partial class RibbonEditor : Form
         if (!EnableBackgroundChange)
             return;
         LastToggledOn?.BackColor = Color.Transparent;
-        pb.BackColor = rib.HasRibbon ? Color.LightBlue : Color.Transparent;
+        pb.BackColor = rib.HasRibbon ? WinFormsUtil.ColorAccept : Color.Transparent;
         LastToggledOn = pb;
     }
 

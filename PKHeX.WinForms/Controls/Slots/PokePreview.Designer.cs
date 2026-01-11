@@ -159,7 +159,6 @@ namespace PKHeX.WinForms.Controls
             // L_HintIllegal
             // 
             L_HintIllegal.AutoSize = true;
-            L_HintIllegal.ForeColor = System.Drawing.Color.Red;
             L_HintIllegal.Location = new System.Drawing.Point(2, 133);
             L_HintIllegal.Margin = new System.Windows.Forms.Padding(2, 4, 0, 4);
             L_HintIllegal.Name = "L_HintIllegal";

@@ -37,15 +37,19 @@ public static class QRMessageUtil
     public static string GetMessage(PKM pk)
     {
         if (pk is PK7 pk7)
-        {
-            Span<byte> payload = stackalloc byte[QR7.SIZE];
-            QR7.SetQRData(pk7, payload);
-            return GetMessage(payload);
-        }
+            return GetMessage(pk7);
 
         var server = GetExploitURLPrefixPKM(pk.Format);
         var data = pk.EncryptedBoxData;
         return GetMessageBase64(data, server);
+    }
+
+    /// <inheritdoc cref="GetMessage(PKM)"/>
+    public static string GetMessage(PK7 pk7, int box = 0, int slot = 0, int num_copies = 1)
+    {
+        Span<byte> data = stackalloc byte[QR7.SIZE];
+        QR7.SetQRData(pk7, data, box, slot, num_copies);
+        return GetMessage(data);
     }
 
     /// <summary>

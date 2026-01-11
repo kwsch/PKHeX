@@ -82,7 +82,7 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     private const uint KEventSpawner2 = 0x79ABCB0B; // (u64-key, u64-bool, u64-struct)
     private const uint KEventInfiniteRank = 0x7C896A83; // (u64-key, u64-struct)
     private const uint KEventSpawner4 = 0xD1A3FF7B; // (u64-key, u64-hash, u64-struct)
-                                                     // B25E7EE5 0x400 unused
+    private const uint KRogueSimulatorRecords = 0xB25E7EE5; // Rogue Mega Evolution Simulator Records
 
     private const uint KEventReport = 0xAF2165F0; // 0x3000 (u64,(s64,u64) value)
     private const uint KObstruction = 0x4C26C29B; // (u64, u64-state, u64-unused)[2000]

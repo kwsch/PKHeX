@@ -305,10 +305,7 @@ public enum LegalityCheckResultCode : ushort
     // Stats
     StatDynamaxInvalid,
     StatIncorrectHeight,
-    StatIncorrectHeightCopy,
-    StatIncorrectHeightValue,
     StatIncorrectWeight,
-    StatIncorrectWeightValue,
     StatInvalidHeightWeight,
     StatGigantamaxInvalid,
     StatGigantamaxValid,
@@ -412,6 +409,9 @@ public enum LegalityCheckResultCode : ushort
     MovePPUpsTooHigh_0, // move slot
     MemoryHTGender_0, // gender value
     G6SuperTrainBagInvalid_0,
+    StatIncorrectHeightValue_0,
+    StatIncorrectWeightValue_0,
+    StatIncorrectScaleValue_0,
 
     // Single Argument: Move ID
     FirstWithMove,

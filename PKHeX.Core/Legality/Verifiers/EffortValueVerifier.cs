@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LegalityCheckResultCode;
 
 namespace PKHeX.Core;
@@ -50,8 +51,8 @@ public sealed class EffortValueVerifier : Verifier
 
     private void VerifyGainedEVs34(LegalityAnalysis data, IEncounterTemplate enc, ReadOnlySpan<int> evs, PKM pk)
     {
-        bool anyAbove100 = IsAnyAboveVitaminLimit(evs);
-        if (!anyAbove100)
+        var isVitaminResult = IsWithinVitaminRange34(evs, EffortValues.MaxVitamins34);
+        if (isVitaminResult)
             return;
 
         if (enc.LevelMin == Experience.MaxLevel) // only true for Gen4 and Format=4
@@ -62,8 +63,15 @@ public sealed class EffortValueVerifier : Verifier
         }
         else // Check for gained EVs without gaining EXP -- don't check Gen5+ which have wings to boost above 100.
         {
+            // Be slightly forgiving for past gen transfers where Met Level is overwritten; we might not be able to infer the exact level met (RNG correlations?).
+            // Current code won't be able to flag PokéSpot not-min-level-met. If correlation and pruning (evo chain) improved, we can use that level min instead.
+            // (Wonder if this also impacts wild encounter slots with multiple levels? Hopefully the lowest level is yielded first).
+            var metLevel = enc.Generation == pk.Format ? pk.MetLevel : enc.LevelMin;
+            if (metLevel < enc.LevelMin)
+                metLevel = enc.LevelMin;
+
             var growth = PersonalTable.HGSS[enc.Species].EXPGrowth;
-            var baseEXP = Experience.GetEXP(enc.LevelMin, growth);
+            var baseEXP = Experience.GetEXP(metLevel, growth);
             if (baseEXP == pk.EXP)
                 data.AddLine(GetInvalid(EffortUntrainedCap_0, EffortValues.MaxVitamins34));
         }
@@ -73,7 +81,21 @@ public sealed class EffortValueVerifier : Verifier
     private static bool IsAnyAboveHardLimit6(ReadOnlySpan<int> evs)
         => evs.ContainsAnyExceptInRange(0, EffortValues.Max252);
 
-    // Vitamins can only raise to 100 in Gen3/4
-    private static bool IsAnyAboveVitaminLimit(ReadOnlySpan<int> evs)
-        => evs.ContainsAnyExceptInRange(0, EffortValues.MaxVitamins34);
+    // Vitamins can only raise to 100 in Gen3/4, only in multiples of 10.
+    private static bool IsWithinVitaminRange34(ReadOnlySpan<int> evs, [ConstantExpected] ushort limit)
+    {
+        foreach (var ev in evs)
+        {
+            // The majority of cases will pass here; 0 is default & valid.
+            // Eager check to skip unnecessary less performant checks.
+            if (ev is 0)
+                continue;
+
+            if (ev > limit)
+                return false;
+            if (ev % 10 != 0)
+                return false;
+        }
+        return true;
+    }
 }

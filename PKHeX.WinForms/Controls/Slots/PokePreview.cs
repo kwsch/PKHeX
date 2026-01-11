@@ -19,6 +19,7 @@ public partial class PokePreview : Form
         InitializeComponent();
         InitialWidth = Width;
         InitialNameWidth = L_Name.Width;
+        L_HintIllegal.ForeColor = WinFormsUtil.ColorWarn;
     }
 
     private static readonly Image[] GenderImages =

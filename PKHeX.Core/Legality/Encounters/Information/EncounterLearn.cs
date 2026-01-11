@@ -49,18 +49,18 @@ public static class EncounterLearn
             return [];
 
         const int maxMoves = 4;
-        Span<ushort> span = stackalloc ushort[maxMoves];
+        var temp = new ushort[maxMoves];
         int ctr = 0;
         foreach (var move in moves)
         {
             var index = StringUtil.FindIndexIgnoreCase(str.movelist, move);
             if (index <= 0)
                 return [];
-            span[ctr++] = (ushort)index;
-            if (ctr >= span.Length)
+            temp[ctr++] = (ushort)index;
+            if (ctr >= temp.Length)
                 break;
         }
-        var moveset = span[..ctr].ToArray();
+        var moveset = temp.AsMemory(0, ctr);
 
         return GetLearn((ushort)speciesID, moveset, form);
     }

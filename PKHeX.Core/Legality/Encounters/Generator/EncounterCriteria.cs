@@ -149,10 +149,10 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
                                 || IV_SPE != RandomIV;
 
     /// <summary>
-    /// Determines whether the number of specified IVs is at least the given count.
+    /// Determines whether the number of specified IVs is at most the given count.
     /// </summary>
-    /// <param name="count">The minimum number of specified IVs to check for.</param>
-    /// <returns>><see langword="true"/> if the number of specified IVs is at least <paramref name="count"/>; otherwise, <see langword="false"/>.</returns>
+    /// <param name="count">The maximum number of specified IVs to check for.</param>
+    /// <returns>><see langword="true"/> if the number of specified IVs is at most <paramref name="count"/>; otherwise, <see langword="false"/>.</returns>
     public bool IsSpecifiedIVs(int count) => GetCountSpecifiedIVs() <= count;
 
     /// <summary>

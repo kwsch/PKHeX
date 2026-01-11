@@ -1,5 +1,5 @@
 4	s	Central Energía	0:Normal,1:Guardia recibirá una llamada telefónica (evento de la historia)
-5	s	Gimnasio de Celeste	0:Norma;,1:Aparece un Recluta del Rocket (evento de la historia)
+5	s	Gimnasio de Celeste	0:Normal,1:Aparece un Recluta del Rocket (evento de la historia)
 6	s	Ruta 25	0:Normal,1:Misty está en una cita (evento de la historia)
 8	s	Puerta de Recepción de la Liga	0:No has mostrado las 8 Medallas de Johto,1:Has mostrado las 8 Medallas de Johto
 13	s	Cuarto de Mento	0:Reiniciado,1:Accedido recientemente
@@ -10,7 +10,7 @@
 18	s	Cuarto de Hall de la Fama	0:Lance registrará tu equipo,1:Accedido recientemente
 19	s	Hombre de Ruta 27	0:Dirá que has entrado en Kanto,1:Ya ha dicho que has entrado en Kanto
 20	s	Mujer de Pueblo Primavera	0:Antes del Pokémon inicial (Bloquea el acceso a la Ruta 29),1:Después del Pokémon inicial (Permite el acceso a la Ruta 29)
-21	s	Evento del Lab de Elm	0:Inicio del juego,1:Te han pedido que elijas un inicial (no puedes salir lab),2:Normal,3:Aparece el oficial (pregunta el nombre del rival),,5:El ayudante te dará una Poción,6:El ayudante te dará 5 Poké balls
+21	s	Evento del Lab de Elm	0:Inicio del juego,1:Te han pedido que elijas un inicial (no puedes salir lab),2:Normal,3:Aparece el oficial (pregunta el nombre del rival),5:El ayudante te dará una Poción,6:El ayudante te dará 5 Poké balls
 22	s	Madre	0:Inicio del juego,1:Entregó y explicó el PokéGear
 23	s	Amigo (Ruta 29)	0:Normal,1:Pedirá mostrar el tutorial de captura
 24	s	Rival (Ciudad Cerezo)	0:Desaparecido,1:Te retará
@@ -24,7 +24,7 @@
 38	s	Trío de Sabios (Puerta de Torre de Hojalata)	0:No permite pasar a la Torre de Hojalata,1:Permite pasar a la Torre de Hojalata
 39	s	Centro Pokémon de Iris	0:No ha entrado,1:Entró (Conoció a Bill)
 40	s	Gimnasio de Iris	0:El anciano te echa,1:Accesible
-41	s	Hombre del Caramelo Furia	0: Bloquea el acceso a la Ruta 44,1:Desaparecido (Se puede acceder a la Ruta 44)
+41	s	Hombre del Caramelo Furia	0:Bloquea el acceso a la Ruta 44,1:Desaparecido (Se puede acceder a la Ruta 44)
 42	s	Suicune (Ruta 42)	0:Desaparecido,1:Activo
 43	s	Suicune (Ciudad Orquídea)	0:Desaparecido,1:Activo
 44	s	Torre Batalla 1F	0:No accedido,1:Accedido
@@ -48,7 +48,7 @@
 67	s	Rival (Subterráneo)	0:Desaparecido,1:Te retará
 69	s	Rival (Calle Victoria)	0:Desaparecido,1:Te retará
 70	s	Débora (Guarida Dragón)	0:Desaparecido,1:Te dará la MT24 justo fuera del Santuario
-71	s	Santuario de la Guarida Dragón	0:0: No entrado,1:Entrado y realizado el cuestionario
+71	s	Santuario de la Guarida Dragón	0:No entrado,1:Entrado y realizado el cuestionario
 74	s	Evento de S.S. Aqua	0:Normal,2:Un caballero se cruzará contigo (Evento de la historia)
 75	s	Marinero en S.S. Aqua B1F	0:Paso denegado,1:Paso permitido
 128	t	Escolar Aitor	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha,4:Has tenido la cuarta revancha (Final)

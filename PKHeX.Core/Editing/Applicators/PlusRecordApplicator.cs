@@ -99,19 +99,26 @@ public static class PlusRecordApplicator
             var indexes = permit.PlusMoveIndexes;
             foreach (var evo in evos)
             {
-                var (levelUp, plus) = source.GetLearnsetAndOther(evo.Species, evo.Form);
-                var set = seedOfMastery ? levelUp : plus;
-                var levels = set.GetAllLevels();
-                var moves = set.GetAllMoves();
-                for (int i = 0; i < levels.Length; i++)
-                {
-                    if (evo.LevelMax < levels[i])
-                        break;
+                record.SetPlusFlagsNatural(indexes, evo, source, seedOfMastery);
+                if (evo.Form != 0 && evo.Species is (int)Species.Rotom or (int)Species.Hoopa)
+                    record.SetPlusFlagsNatural(indexes, evo with { Form = 0 }, source, seedOfMastery);
+            }
+        }
 
-                    var move = moves[i];
-                    var index = indexes.IndexOf(move);
-                    record.SetMovePlusFlag(index);
-                }
+        private void SetPlusFlagsNatural<TSource>(ReadOnlySpan<ushort> indexes, EvoCriteria evo, TSource source, bool seedOfMastery) where TSource : ILearnSourceBonus
+        {
+            var (levelUp, plus) = source.GetLearnsetAndOther(evo.Species, evo.Form);
+            var set = seedOfMastery ? levelUp : plus;
+            var levels = set.GetAllLevels();
+            var moves = set.GetAllMoves();
+            for (int i = 0; i < levels.Length; i++)
+            {
+                if (evo.LevelMax < levels[i])
+                    break;
+
+                var move = moves[i];
+                var index = indexes.IndexOf(move);
+                record.SetMovePlusFlag(index);
             }
         }
 

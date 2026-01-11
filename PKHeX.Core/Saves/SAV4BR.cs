@@ -1,6 +1,7 @@
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -584,13 +585,53 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         }
     }
 
-    private static void ComputeChecksums(Span<byte> span, Span<uint> checksums)
+    private static void ComputeChecksums(ReadOnlySpan<byte> span, Span<uint> checksums)
     {
-        for (int i = 0; i < span.Length; i += 2)
+        // Accumulate bit counts for each of the 16 bit positions across all u16 values.
+        // The save format is big-endian, so bit 0 of the u16 is the LSB of the *second* byte in each pair.
+        // We process as native ushort and fix up the mapping at the end based on endianness.
+
+        var u16 = MemoryMarshal.Cast<byte, ushort>(span);
+
+        uint b00 = 0, b01 = 0, b02 = 0, b03 = 0, b04 = 0, b05 = 0, b06 = 0, b07 = 0;
+        uint b08 = 0, b09 = 0, b10 = 0, b11 = 0, b12 = 0, b13 = 0, b14 = 0, b15 = 0;
+
+        foreach (var value in u16)
         {
-            uint value = ReadUInt16BigEndian(span[i..]);
-            for (int c = 0; c < checksums.Length; c++)
-                checksums[c] += ((value >> c) & 1);
+            uint v = value;
+            b00 += (v      ) & 1;
+            b01 += (v >>  1) & 1;
+            b02 += (v >>  2) & 1;
+            b03 += (v >>  3) & 1;
+            b04 += (v >>  4) & 1;
+            b05 += (v >>  5) & 1;
+            b06 += (v >>  6) & 1;
+            b07 += (v >>  7) & 1;
+            b08 += (v >>  8) & 1;
+            b09 += (v >>  9) & 1;
+            b10 += (v >> 10) & 1;
+            b11 += (v >> 11) & 1;
+            b12 += (v >> 12) & 1;
+            b13 += (v >> 13) & 1;
+            b14 += (v >> 14) & 1;
+            b15 += (v >> 15) & 1;
+        }
+
+        // On little-endian, native ushort has bytes swapped vs big-endian source.
+        // Bits 0-7 of native correspond to bits 8-15 of big-endian, and vice versa.
+        if (BitConverter.IsLittleEndian)
+        {
+            checksums[00] = b08; checksums[01] = b09; checksums[02] = b10; checksums[03] = b11;
+            checksums[04] = b12; checksums[05] = b13; checksums[06] = b14; checksums[07] = b15;
+            checksums[08] = b00; checksums[09] = b01; checksums[10] = b02; checksums[11] = b03;
+            checksums[12] = b04; checksums[13] = b05; checksums[14] = b06; checksums[15] = b07;
+        }
+        else
+        {
+            checksums[00] = b00; checksums[01] = b01; checksums[02] = b02; checksums[03] = b03;
+            checksums[04] = b04; checksums[05] = b05; checksums[06] = b06; checksums[07] = b07;
+            checksums[08] = b08; checksums[09] = b09; checksums[10] = b10; checksums[11] = b11;
+            checksums[12] = b12; checksums[13] = b13; checksums[14] = b14; checksums[15] = b15;
         }
     }
     #endregion

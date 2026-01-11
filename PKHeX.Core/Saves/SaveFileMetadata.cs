@@ -32,6 +32,14 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     private Memory<byte> Header = Memory<byte>.Empty; // .gci
     private ISaveHandler? Handler;
 
+    /// <summary>
+    /// Indicates whether the save file is a backup file matching this program's backup naming convention.
+    /// </summary>
+    /// <remarks>
+    /// Only check for ".bak" suffix; do not check for other naming conventions as they may vary between different release versions of PKHeX.
+    /// </remarks>
+    public bool IsBackup => FilePath?.EndsWith(".bak", StringComparison.Ordinal) is true;
+
     private string BAKSuffix => $" [{SAV.ShortSummary}].bak";
 
     /// <summary>

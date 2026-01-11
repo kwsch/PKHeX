@@ -69,25 +69,15 @@ public static class MoveApplicator
         /// <summary>
         /// Updates the individual PP count values for each move slot based on the maximum possible value.
         /// </summary>
-        /// <param name="moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
+        /// <param name="moves"><see cref="PKM.Moves"/> to use (if already known).</param>
         public void SetMaximumPPCurrent(ReadOnlySpan<ushort> moves)
         {
-            pk.Move1_PP = moves.Length == 0 ? 0 : pk.GetMovePP(moves[0], pk.Move1_PPUps);
-            pk.Move2_PP = moves.Length <= 1 ? 0 : pk.GetMovePP(moves[1], pk.Move2_PPUps);
-            pk.Move3_PP = moves.Length <= 2 ? 0 : pk.GetMovePP(moves[2], pk.Move3_PPUps);
-            pk.Move4_PP = moves.Length <= 3 ? 0 : pk.GetMovePP(moves[3], pk.Move4_PPUps);
-        }
-
-        /// <summary>
-        /// Updates the individual PP count values for each move slot based on the maximum possible value.
-        /// </summary>
-        /// <param name="moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-        public void SetMaximumPPCurrent(Moveset moves)
-        {
-            pk.Move1_PP = moves.Move1 == 0 ? 0 : pk.GetMovePP(moves.Move1, pk.Move1_PPUps);
-            pk.Move2_PP = moves.Move2 == 0 ? 0 : pk.GetMovePP(moves.Move2, pk.Move2_PPUps);
-            pk.Move3_PP = moves.Move3 == 0 ? 0 : pk.GetMovePP(moves.Move3, pk.Move3_PPUps);
-            pk.Move4_PP = moves.Move4 == 0 ? 0 : pk.GetMovePP(moves.Move4, pk.Move4_PPUps);
+            // In some games, move[i] == 0` *should* set 0, but the game's configuration has a non-zero PP for `(None)`
+            // (I'm looking at you, S/V and Z-A)
+            pk.Move1_PP = pk.GetMovePP(moves.Length > 0 ? moves[0] : (ushort)0, pk.Move1_PPUps);
+            pk.Move2_PP = pk.GetMovePP(moves.Length > 1 ? moves[1] : (ushort)0, pk.Move2_PPUps);
+            pk.Move3_PP = pk.GetMovePP(moves.Length > 2 ? moves[2] : (ushort)0, pk.Move3_PPUps);
+            pk.Move4_PP = pk.GetMovePP(moves.Length > 3 ? moves[3] : (ushort)0, pk.Move4_PPUps);
         }
     }
 }

@@ -351,4 +351,16 @@ public static class MessageStrings
     public static string MsgPluginFailLoad { get; set; } = "Plugins failed to load. Please refer to the error message to identify the faulty plugin. A plugin may be out of date / incompatible with this build of the program.";
 
     #endregion
+
+    #region Dialog Prompts
+
+    public static string MsgLegalityPopupCaption { get; set; } = "Legality Check";
+    public static string MsgLegalityPopupCollapsed { get; set; } = "Full Report";
+    public static string MsgLegalityPopupExpanded { get; set; } = "Hide Full Report";
+    public static string MsgLegalityPopupCopyClipboard { get; set; } = "Copy to Clipboard";
+    public static string MsgDialogFileOverwrite { get; set; } = "Overwrite";
+    public static string MsgDialogFileSaveAs { get; set; } = "Save As...";
+    public static string MsgDialogFileSaveReplace { get; set; } = "Overwrite existing file?";
+
+    #endregion
 }

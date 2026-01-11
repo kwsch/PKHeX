@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using PKHeX.Core;
 
 namespace PKHeX.WinForms;
 
@@ -10,16 +11,16 @@ public static class DialogUtil
     {
         public bool TrySelectIndex(string caption, string text, IReadOnlyList<string> options, out int index, int preSelect = -1)
         {
-            List<TaskDialogRadioButton> choices = [];
+            var choices = new TaskDialogRadioButtonCollection();
             for (int i = 0; i < options.Count; i++)
-                choices.Add(new(options[i]) { Tag = i, Checked = (i == preSelect) });
+                choices.Add(new TaskDialogRadioButton(options[i]) { Tag = i, Checked = (i == preSelect) });
 
             var page = new TaskDialogPage
             {
                 Caption = caption,
                 Text = text,
                 Icon = TaskDialogIcon.Information,
-                RadioButtons = [..choices],
+                RadioButtons = choices,
                 DefaultButton = TaskDialogButton.OK,
                 Buttons = [TaskDialogButton.OK],
                 AllowCancel = true,
@@ -64,11 +65,11 @@ public static class DialogUtil
 
         public DialogResult RequestOverwrite(string exist)
         {
-            var taskButtonOverwrite = new TaskDialogCommandLinkButton("Overwrite") { AllowCloseDialog = true };
-            var taskButtonSelect = new TaskDialogCommandLinkButton("Save As...") { AllowCloseDialog = true };
+            var taskButtonOverwrite = new TaskDialogCommandLinkButton(MessageStrings.MsgDialogFileOverwrite) { AllowCloseDialog = true };
+            var taskButtonSelect = new TaskDialogCommandLinkButton(MessageStrings.MsgDialogFileSaveAs) { AllowCloseDialog = true };
             var page = new TaskDialogPage
             {
-                Caption = "Overwrite existing file?",
+                Caption = MessageStrings.MsgDialogFileSaveReplace,
                 Text = exist,
                 Icon = TaskDialogIcon.Information,
                 Buttons = [taskButtonOverwrite, taskButtonSelect],

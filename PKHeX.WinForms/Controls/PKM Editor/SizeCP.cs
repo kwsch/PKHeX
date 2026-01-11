@@ -164,7 +164,7 @@ public partial class SizeCP : UserControl
                 label.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(value)];
 
             if (value is 0 or 255) // Tiny or Jumbo Mark possible.
-                label.ForeColor = Color.Red;
+                label.ForeColor = WinFormsUtil.ColorWarn;
             else
                 label.ResetForeColor();
         }

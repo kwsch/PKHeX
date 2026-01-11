@@ -76,14 +76,11 @@ public sealed class LegalMoveInfo
         }
         else if (enc is IMoveset {Moves: {HasMoves: true} set})
         {
-            if (type[set.Move1] == None)
-                type[set.Move1] = Encounter;
-            if (type[set.Move2] == None)
-                type[set.Move2] = Encounter;
-            if (type[set.Move3] == None)
-                type[set.Move3] = Encounter;
-            if (type[set.Move4] == None)
-                type[set.Move4] = Encounter;
+            foreach (var move in set.AsSpan())
+            {
+                if (type[move] == None)
+                    type[move] = Encounter;
+            }
         }
         else if (enc is ISingleMoveBonus single)
         {
@@ -97,14 +94,11 @@ public sealed class LegalMoveInfo
 
         if (enc is IRelearn { Relearn: {HasMoves: true} relearn})
         {
-            if (type[relearn.Move1] == None)
-                type[relearn.Move1] = Relearn;
-            if (type[relearn.Move2] == None)
-                type[relearn.Move2] = Relearn;
-            if (type[relearn.Move3] == None)
-                type[relearn.Move3] = Relearn;
-            if (type[relearn.Move4] == None)
-                type[relearn.Move4] = Relearn;
+            foreach (var move in relearn.AsSpan())
+            {
+                if (type[move] == None)
+                    type[move] = Relearn;
+            }
         }
     }
 }
