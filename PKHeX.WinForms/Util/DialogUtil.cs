@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using PKHeX.Core;
 
 namespace PKHeX.WinForms;
 
@@ -64,11 +65,11 @@ public static class DialogUtil
 
         public DialogResult RequestOverwrite(string exist)
         {
-            var taskButtonOverwrite = new TaskDialogCommandLinkButton("Overwrite") { AllowCloseDialog = true };
-            var taskButtonSelect = new TaskDialogCommandLinkButton("Save As...") { AllowCloseDialog = true };
+            var taskButtonOverwrite = new TaskDialogCommandLinkButton(MessageStrings.MsgDialogFileOverwrite) { AllowCloseDialog = true };
+            var taskButtonSelect = new TaskDialogCommandLinkButton(MessageStrings.MsgDialogFileSaveAs) { AllowCloseDialog = true };
             var page = new TaskDialogPage
             {
-                Caption = "Overwrite existing file?",
+                Caption = MessageStrings.MsgDialogFileSaveReplace,
                 Text = exist,
                 Icon = TaskDialogIcon.Information,
                 Buttons = [taskButtonOverwrite, taskButtonSelect],

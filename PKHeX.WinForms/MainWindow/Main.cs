@@ -1088,14 +1088,14 @@ public partial class Main : Form
         var expandText = verboseReport.Replace(intro, "");
         var page = new TaskDialogPage
         {
-            Caption = "Legality Check",
+            Caption = MsgLegalityPopupCaption,
             Heading = la.Valid ? settings.Lines.Legal : settings.Lines.SInvalid,
             Icon =    la.Valid ? TaskDialogIcon.ShieldSuccessGreenBar : TaskDialogIcon.ShieldErrorRedBar,
             Text =    la.Valid ? "" : simpleReport,
             Expander = new TaskDialogExpander
             {
-                CollapsedButtonText = "Full Report",
-                ExpandedButtonText = "Hide Full Report",
+                CollapsedButtonText = MsgLegalityPopupCollapsed,
+                ExpandedButtonText = MsgLegalityPopupExpanded,
                 Expanded = verbose,
                 Text = expandText,
             },
@@ -1107,7 +1107,7 @@ public partial class Main : Form
 
         if (!Settings.Display.ExportLegalityNeverClipboard)
         {
-            var clipboard = new TaskDialogButton("Copy to Clipboard") { AllowCloseDialog = true };
+            var clipboard = new TaskDialogButton(MsgLegalityPopupCopyClipboard) { AllowCloseDialog = true };
             clipboard.Click += (_, _) =>
             {
                 var enc = la.EncounterOriginal.GetTextLines(Settings.Display.ExportLegalityVerboseProperties);
