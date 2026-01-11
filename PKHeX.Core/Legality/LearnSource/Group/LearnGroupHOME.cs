@@ -200,10 +200,8 @@ public sealed class LearnGroupHOME : ILearnGroup
         {
             if (enc is { Generation: <= 7, Context: not EntityContext.Gen7b } && IsWipedPK8(pk))
                 return false; // Battle Version wiped Gen7 and below moves.
-            Span<ushort> moves = stackalloc ushort[4];
-            x.CopyTo(moves);
             var ls = GameData.GetLearnSource(enc.Version);
-            return AddOriginalMoves(result, current, moves, ls.Environment);
+            return AddOriginalMoves(result, current, x, ls.Environment);
         }
         if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
         {
@@ -220,9 +218,7 @@ public sealed class LearnGroupHOME : ILearnGroup
     {
         if (enc is IMoveset { Moves: { HasMoves: true } x })
         {
-            Span<ushort> moves = stackalloc ushort[4];
-            x.CopyTo(moves);
-            AddOriginalMoves(result, pk, evos, types, local, moves);
+            AddOriginalMoves(result, pk, evos, types, local, x);
         }
         else if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
         {
@@ -337,7 +333,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         }
     }
 
-    private static bool AddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, Span<ushort> moves, LearnEnvironment game)
+    private static bool AddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, ReadOnlySpan<ushort> moves, LearnEnvironment game)
     {
         bool addedAny = false;
         foreach (var move in moves)

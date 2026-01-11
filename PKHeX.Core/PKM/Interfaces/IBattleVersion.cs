@@ -34,11 +34,11 @@ public static class BattleVersionExtensions
         /// <param name="version">Version to apply</param>
         public void AdaptToBattleVersion(PKM pk, GameVersion version)
         {
-            var empty = new Moveset();
-            pk.SetMoves(empty);
-            pk.SetRelearnMoves(empty);
-
+            // Wipe current moves.
             Span<ushort> moves = stackalloc ushort[4];
+            pk.SetMoves(moves);
+            pk.SetRelearnMoves(moves);
+
             var source = GameData.GetLearnSource(version);
             source.SetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, moves);
             pk.SetMoves(moves);

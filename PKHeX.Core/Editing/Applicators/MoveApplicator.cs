@@ -77,17 +77,5 @@ public static class MoveApplicator
             pk.Move3_PP = moves.Length <= 2 ? 0 : pk.GetMovePP(moves[2], pk.Move3_PPUps);
             pk.Move4_PP = moves.Length <= 3 ? 0 : pk.GetMovePP(moves[3], pk.Move4_PPUps);
         }
-
-        /// <summary>
-        /// Updates the individual PP count values for each move slot based on the maximum possible value.
-        /// </summary>
-        /// <param name="moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-        public void SetMaximumPPCurrent(Moveset moves)
-        {
-            pk.Move1_PP = moves.Move1 == 0 ? 0 : pk.GetMovePP(moves.Move1, pk.Move1_PPUps);
-            pk.Move2_PP = moves.Move2 == 0 ? 0 : pk.GetMovePP(moves.Move2, pk.Move2_PPUps);
-            pk.Move3_PP = moves.Move3 == 0 ? 0 : pk.GetMovePP(moves.Move3, pk.Move3_PPUps);
-            pk.Move4_PP = moves.Move4 == 0 ? 0 : pk.GetMovePP(moves.Move4, pk.Move4_PPUps);
-        }
     }
 }
