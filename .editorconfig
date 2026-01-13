@@ -8,17 +8,15 @@ indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# Solution Files
-[*.sln]
-indent_style = space
-indent_size = 4
-insert_final_newline = true
-trim_trailing_whitespace = true
+[*.txt]
+insert_final_newline = false
 
-# XML Project Files
-[*.csproj]
+# Solution Files, XML Project Files
+[*.{sln,csproj}]
 indent_style = space
 indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
 
 # Code Files
 [*.cs]
