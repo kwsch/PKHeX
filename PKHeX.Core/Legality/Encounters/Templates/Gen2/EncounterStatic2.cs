@@ -105,6 +105,12 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             {
                 if (pk.EXP != 125)
                     return false;
+
+                // Check OT Details
+                if (pk.OriginalTrainerGender != 0)
+                    return false;
+                if (!IsOddEggTrainerNameValid(pk))
+                    return false;
             }
             else
             {
@@ -140,6 +146,19 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             return false;
         return true;
     }
+
+    private static int DetectOddEggLanguage(PKM pk) => pk.OriginalTrainerName switch
+    {
+        "なぞナゾ" or "なぞ" => (int)LanguageID.Japanese,
+        "ODD" => (int)LanguageID.English,
+        "BIZAR" => (int)LanguageID.French,
+        "Strano" => (int)LanguageID.Italian,
+        "Kurios" => (int)LanguageID.German,
+        "Raro" => (int)LanguageID.Spanish,
+        _ => -1,
+    };
+
+    private static bool IsOddEggTrainerNameValid(PKM pk) => DetectOddEggLanguage(pk) != -1;
 
     private bool IsMatchEggLocation(PKM pk)
     {
