@@ -66,7 +66,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         // Ignore Battle Version generally; can be transferred back to SW/SH and wiped after the moves have been shared from HOME.
         // Battle Version is only relevant while in PK8 format, as a wiped moveset can no longer harbor external moves for that format.
         // SW/SH is the only game that can ever harbor external moves, and is the only game that uses Battle Version.
-        if (TryAddOriginalMoves(result, current, pk, enc))
+        if (TryAddOriginalMoves(result, current, pk, enc, option))
         {
             if (CleanPurge(result, current, pk, types, local, evos, option))
                 return true;
@@ -157,36 +157,35 @@ public sealed class LearnGroupHOME : ILearnGroup
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.HOME)
     {
-        option = LearnOption.HOME;
         var local = GetCurrent(pk.Context);
         var evos = history.Get(pk.Context);
 
         // Check all adjacent games
         if (history.HasVisitedGen9 && pk is not PK9)
-            RentLoopGetAll(LearnGroup9. Instance, result, pk, history, enc, types, option, evos, local);
+            RentLoopGetAll(LearnGroup9. Instance, result, pk, history, enc, types, Option, evos, local);
         if (history.HasVisitedZA && pk is not PA9)
-            RentLoopGetAll(LearnGroup9a.Instance, result, pk, history, enc, types, option, evos, local);
+            RentLoopGetAll(LearnGroup9a.Instance, result, pk, history, enc, types, Option, evos, local);
         if (history.HasVisitedSWSH && pk is not PK8)
-            RentLoopGetAll(LearnGroup8. Instance, result, pk, history, enc, types, option, evos, local);
+            RentLoopGetAll(LearnGroup8. Instance, result, pk, history, enc, types, Option, evos, local);
         if (history.HasVisitedPLA && pk is not PA8)
-            RentLoopGetAll(LearnGroup8a.Instance, result, pk, history, enc, types, option, evos, local);
+            RentLoopGetAll(LearnGroup8a.Instance, result, pk, history, enc, types, Option, evos, local);
         if (history.HasVisitedBDSP && pk is not PB8)
-            RentLoopGetAll(LearnGroup8b.Instance, result, pk, history, enc, types, option, evos, local);
-        AddOriginalMoves(result, pk, enc, types, local, evos);
+            RentLoopGetAll(LearnGroup8b.Instance, result, pk, history, enc, types, Option, evos, local);
+        AddOriginalMoves(result, pk, enc, types, local, evos, option);
         AddExclusiveMoves(result, pk);
 
         // Looking backwards before HOME
         if (history.HasVisitedLGPE)
         {
-            RentLoopGetAll(LearnGroup7b.Instance, result, pk, history, enc, types, option, evos, local);
+            RentLoopGetAll(LearnGroup7b.Instance, result, pk, history, enc, types, Option, evos, local);
         }
         else if (history.HasVisitedGen7)
         {
             ILearnGroup instance = LearnGroup7.Instance;
             while (true)
             {
-                RentLoopGetAll(instance, result, pk, history, enc, types, option, evos, local);
-                var prev = instance.GetPrevious(pk, history, enc, option);
+                RentLoopGetAll(instance, result, pk, history, enc, types, Option, evos, local);
+                var prev = instance.GetPrevious(pk, history, enc, Option);
                 if (prev is null)
                     break;
                 instance = prev;
@@ -194,37 +193,99 @@ public sealed class LearnGroupHOME : ILearnGroup
         }
     }
 
-    private static bool TryAddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, IEncounterTemplate enc)
+    /// <summary>
+    /// Try to add original moves from the encounter template.
+    /// </summary>
+    /// <returns><see langword="true"/> if any move is validated.</returns>
+    private static bool TryAddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, IEncounterTemplate enc, LearnOption option)
     {
-        if (enc is IMoveset { Moves: { HasMoves: true } x })
-        {
-            if (enc is { Generation: <= 7, Context: not EntityContext.Gen7b } && IsWipedPK8(pk))
-                return false; // Battle Version wiped Gen7 and below moves.
-            var ls = GameData.GetLearnSource(enc.Version);
-            return AddOriginalMoves(result, current, x, ls.Environment);
-        }
         if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
         {
-            if (g8.OriginFormat is PogoImportFormat.PK7 && IsWipedPK8(pk))
+            if (option == LearnOption.Current && IsWipedPK8(pk) && g8 is { OriginFormat: PogoImportFormat.PK7 })
                 return false; // Battle Version wiped Gen7 and below moves.
             Span<ushort> moves = stackalloc ushort[4];
             g8.GetInitialMoves(pk.MetLevel, moves);
             return AddOriginalMoves(result, current, moves, g8.OriginFormat == PogoImportFormat.PK7 ? LearnEnvironment.USUM : LearnEnvironment.GG);
         }
+        if (enc is IEncounterEgg egg)
+        {
+            if (option == LearnOption.Current && IsWipedPK8(pk) && egg is { Generation: <= 7 })
+                return false; // Battle Version wiped Gen7 and below moves.
+            var ls = egg.Learn;
+            if (AddOriginalMoves(result, current, ls.GetInheritMoves(egg.Species, egg.Form), ls.Environment))
+                return true;
+            if (AddOriginalMoves(result, current, ls.GetEggMoves(egg.Species, egg.Form), ls.Environment))
+                return true;
+        }
+        if (enc is IMoveset { Moves: { HasMoves: true } x })
+        {
+            if (option == LearnOption.Current && IsWipedPK8(pk) && enc is { Generation: <= 7, Context: not EntityContext.Gen7b })
+                return false; // Battle Version wiped Gen7 and below moves.
+            var ls = GameData.GetLearnSource(enc.Version);
+            if (AddOriginalMoves(result, current, x, ls.Environment))
+                return true;
+            // fall through
+        }
+        if (enc is IRelearn { Relearn: { HasMoves: true } r })
+        {
+            if (option == LearnOption.Current && IsWipedPK8(pk) && enc is { Generation: <= 7, Context: not EntityContext.Gen7b })
+                return false; // Battle Version wiped Gen7 and below moves.
+            var ls = GameData.GetLearnSource(enc.Version);
+            if (AddOriginalMoves(result, current, r, ls.Environment))
+                return true;
+            // fall through
+        }
+        if (enc is ISingleMoveBonus { IsMoveBonusPossible: true } bonus)
+        {
+            // Can only have one, but we're looking for an "all possible".
+            var ls = bonus.GetMoveBonusPossible();
+            var learnSource = GameData.GetLearnSource(enc.Version);
+            if (AddOriginalMovesSingle(result, current, ls, learnSource.Environment))
+                return true;
+        }
         return false;
     }
 
-    private static void AddOriginalMoves(Span<bool> result, PKM pk, IEncounterTemplate enc, MoveSourceType types, IHomeSource local, ReadOnlySpan<EvoCriteria> evos)
+    /// <summary>
+    /// Adds all possible original moves from the encounter template.
+    /// </summary>
+    private static void AddOriginalMoves(Span<bool> result, PKM pk, IEncounterTemplate enc, MoveSourceType types, IHomeSource local, ReadOnlySpan<EvoCriteria> evos, LearnOption option)
     {
-        if (enc is IMoveset { Moves: { HasMoves: true } x })
-        {
-            AddOriginalMoves(result, pk, evos, types, local, x);
-        }
-        else if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
+        if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
         {
             Span<ushort> moves = stackalloc ushort[4];
             g8.GetInitialMoves(pk.MetLevel, moves);
             AddOriginalMoves(result, pk, evos, types, local, moves);
+            return;
+        }
+        if (enc is IEncounterEgg egg)
+        {
+            if (option == LearnOption.Current && IsWipedPK8(pk) && egg is { Generation: <= 7 })
+                return; // Battle Version wiped Gen7 and below moves.
+            var ls = egg.Learn;
+            AddOriginalMoves(result, pk, evos, types, local, ls.GetInheritMoves(egg.Species, egg.Form));
+            AddOriginalMoves(result, pk, evos, types, local, ls.GetEggMoves(egg.Species, egg.Form));
+            return;
+        }
+        if (enc is IMoveset { Moves: { HasMoves: true } x })
+        {
+            if (option == LearnOption.Current && IsWipedPK8(pk) && enc is { Generation: <= 7, Context: not EntityContext.Gen7b })
+                return; // Battle Version wiped Gen7 and below moves.
+            AddOriginalMoves(result, pk, evos, types, local, x);
+            // fall through
+        }
+        if (enc is IRelearn { Relearn: { HasMoves: true } r })
+        {
+            if (option == LearnOption.Current && IsWipedPK8(pk) && enc is { Generation: <= 7, Context: not EntityContext.Gen7b })
+                return; // Battle Version wiped Gen7 and below moves.
+            AddOriginalMoves(result, pk, evos, types, local, r);
+            // fall through
+        }
+        if (enc is ISingleMoveBonus { IsMoveBonusPossible: true } bonus)
+        {
+            // Can only have one, but we're looking for an "all possible".
+            var ls = bonus.GetMoveBonusPossible();
+            AddOriginalMoves(result, pk, evos, types, local, ls);
         }
     }
 
@@ -350,5 +411,24 @@ public sealed class LearnGroupHOME : ILearnGroup
             addedAny = true;
         }
         return addedAny;
+    }
+
+    private static bool AddOriginalMovesSingle(Span<MoveResult> result, ReadOnlySpan<ushort> current, ReadOnlySpan<ushort> moves, LearnEnvironment game)
+    {
+        // Only one move to add -- I'm sure there will be issues with this naive approach (in the event that multiple moves are needed, provided another environment is "better" providing.)
+        foreach (var move in moves)
+        {
+            if (move == 0)
+                break;
+            var index = current.IndexOf(move);
+            if (index == -1)
+                continue;
+            if (result[index].Valid)
+                continue;
+
+            result[index] = MoveResult.Initial(game);
+            return true;
+        }
+        return false;
     }
 }
