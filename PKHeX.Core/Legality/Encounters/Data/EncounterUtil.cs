@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+#pragma warning disable CA1857
 
 namespace PKHeX.Core;
 
@@ -33,6 +34,26 @@ public static class EncounterUtil
     /// </summary>
     public static BinLinkerAccessor16 Get16([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident)
         => BinLinkerAccessor16.Get(Get(resource), ident);
+
+    /// <summary>
+    /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/>.
+    /// </summary>
+    /// <param name="fileName">Base file name</param>
+    /// <param name="maxLanguage">Max language ID (inclusive)</param>
+    /// <remarks>Ignores Korean Language.</remarks>
+    public static string[][] GetLanguageStrings([ConstantExpected] string fileName, [ConstantExpected(Min = 6)] int maxLanguage)
+    {
+        var result = new string[maxLanguage + 1][];
+        result[0] = result[6] = []; // 0 - None, 6 - None
+        for (int i = 1; i <= 5; i++)
+            result[i] = Text(fileName, i);
+        for (int i = 7; i <= maxLanguage; i++)
+            result[i] = Text(fileName, i);
+        return result;
+
+        static string[] Text([ConstantExpected] string fileName, int language)
+            => Util.GetStringList(fileName, ((LanguageID)language).GetLanguageCode());
+    }
 
     /// <summary>
     /// Grabs the localized names for individual templates for all languages from the specified <see cref="index"/> of the <see cref="names"/> list.

@@ -13,7 +13,7 @@ public static class Encounters5B2W2
     internal static readonly EncounterArea5[] SlotsW2 = EncounterArea5.GetAreas(Get("w2", "52"u8), W2);
 
     private const string tradeB2W2 = "tradeb2w2";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeB2W2);
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeB2W2, 8);
 
     #region DreamWorld Encounter
     public static readonly EncounterStatic5Entree[] DreamWorld_B2W2 = DreamWorldEntry.GetArray(B2W2,

@@ -15,7 +15,7 @@ internal static class Encounters4DPPt
     internal static readonly EncounterArea4[] SlotsPt = EncounterArea4.GetAreas(Get("pt", "pt"u8), Pt);
 
     private const string tradeDPPt = "tradedppt";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeDPPt);
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeDPPt, 8);
 
     #region Static Encounter/Gift Tables
 

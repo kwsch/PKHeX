@@ -13,7 +13,7 @@ internal static class Encounters7USUM
     internal static readonly EncounterArea7[] SlotsUM = EncounterArea7.GetAreas(Get("um", "uu"u8), UM);
 
     private const string tradeUSUM = "tradeusum";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeUSUM, "zh");
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeUSUM, 10);
 
     public static readonly EncounterStatic7[] StaticUSUM =
     [
