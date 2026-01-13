@@ -94,3 +94,6 @@ dotnet_naming_style.pascal_case.capitalization = pascal_case
 
 # IDE0130: Namespace does not match folder structure
 dotnet_diagnostic.IDE0130.severity = none
+
+# WFO1000: Property does not configure the code serialization for its property content.
+dotnet_diagnostic.WFO1000.severity = none
