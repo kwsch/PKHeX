@@ -560,6 +560,16 @@ public partial class SAV_Encounters : Form
             FillPKXBoxes(SCR_Box.Value = newval);
     }
 
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+
+        foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
+        {
+            cb.SelectionLength = 0;
+        }
+    }
+
     private void ShowHoverTextForSlot(PictureBox pb)
     {
         int index = PKXBOXES.IndexOf(pb);
