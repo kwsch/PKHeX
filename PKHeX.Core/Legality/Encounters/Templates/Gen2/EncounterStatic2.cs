@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.Species;
 using static PKHeX.Core.GameVersion;
 
@@ -12,8 +13,8 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     public byte Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
     public byte Form => 0;
-    public byte EggCycles => DizzyPunchEgg ? (byte)20 : (byte)0;
-    public bool DizzyPunchEgg => IsEgg && Moves.HasMoves;
+    public byte EggCycles => IsDizzyPunchEgg ? (byte)20 : (byte)0;
+    public bool IsDizzyPunchEgg => IsEgg && Moves.HasMoves;
 
     public Ball FixedBall => Ball.Poke;
     ushort ILocation.Location => Location;
@@ -34,6 +35,9 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     public byte LevelMin => Level;
     public byte LevelMax => Level;
 
+    private const byte OddEggEXP = 125;
+    private const byte UnhatchedEggOTGender = 0;
+
     #region Generating
 
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
@@ -51,7 +55,6 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             CurrentLevel = LevelMin,
 
             TID16 = tr.TID16,
-            OriginalTrainerName = tr.OT,
 
             OriginalTrainerFriendship = pi.BaseFriendship,
         };
@@ -63,15 +66,38 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
 
         if (IsEgg)
         {
-            if (DizzyPunchEgg) // Fixed EXP value instead of exactly Level 5
-                pk.EXP = 125;
+            // Gender and location not set for regular eggs
+            if (IsDizzyPunchEgg) // Odd Egg: Fixed EXP value instead of exactly Level 5
+            {
+                pk.EXP = OddEggEXP;
+                if (pk.IsEgg)
+                {
+                    pk.OriginalTrainerName = GetOddEggTrainerName((LanguageID)language);
+                    pk.OriginalTrainerFriendship = EggCycles;
+                }
+                else
+                {
+                    pk.OriginalTrainerName = tr.OT;
+                }
+            }
+            else
+            {
+                pk.OriginalTrainerName = tr.OT;
+                if (pk.IsEgg)
+                    pk.OriginalTrainerFriendship = EggCycles;
+            }
         }
         else if (Version == C || (Version == GSC && tr.Version == C))
         {
+            pk.OriginalTrainerName = tr.OT;
             pk.OriginalTrainerGender = tr.Gender;
             pk.MetLevel = LevelMin;
             pk.MetLocation = Location;
             pk.MetTimeOfDay = GetRandomTime();
+        }
+        else
+        {
+            pk.OriginalTrainerName = tr.OT;
         }
 
         if (Moves.HasMoves)
@@ -93,7 +119,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     {
         if (Shiny == Shiny.Always && !pk.IsShiny)
             return false;
-        if (IsEgg && Moves.HasMoves) // Odd Egg
+        if (IsDizzyPunchEgg) // Odd Egg
         {
             if (pk.Format > 2)
                 return false; // Can't be transferred to Gen7+
@@ -103,12 +129,19 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             // EXP is a fixed starting value for eggs
             if (pk.IsEgg)
             {
-                if (pk.EXP != 125)
+                if (pk.EXP != OddEggEXP)
+                    return false;
+
+                // Check OT Details
+                if (pk.OriginalTrainerGender != UnhatchedEggOTGender)
+                    return false;
+                if (!IsOddEggTrainerNameValid(pk))
                     return false;
             }
             else
             {
-                if (pk.EXP < 125)
+                // Once hatched, EXP can vary. Must be at least the starting value.
+                if (pk.EXP < OddEggEXP)
                     return false;
             }
         }
@@ -140,6 +173,55 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             return false;
         return true;
     }
+
+    private static LanguageID DetectOddEggLanguage(PKM pk)
+    {
+        // Only called when in Gen2 format, because they can only be transferred after hatching.
+        var span = pk.OriginalTrainerTrash;
+        Span<char> name = stackalloc char[span.Length];
+        var len = pk.LoadString(span, name);
+        name = name[..len];
+        return DetectOddEggLanguage(name, pk.Japanese);
+    }
+
+    private static string GetOddEggTrainerName(LanguageID language) => language switch
+    {
+        // Japanese language ID can be "なぞナゾ" or "なぞ", but we use the longer form here.
+        LanguageID.Japanese => "なぞナゾ",
+
+        // Specific fixed names for other languages.
+        LanguageID.English => "ODD",
+        LanguageID.French => "BIZAR",
+        LanguageID.Italian => "Strano",
+        LanguageID.German => "Kurios",
+        LanguageID.Spanish => "Raro",
+        _ => throw new ArgumentOutOfRangeException(nameof(language), language, null),
+    };
+
+    private static LanguageID DetectOddEggLanguage(Span<char> name, bool japanese)
+    {
+        // Japanese egg names can only be "なぞナゾ" or "なぞ"
+        // For the Japanese OT, it's initially set to なぞナゾ for the initial "post-trade" automatic save,
+        // but the last two characters are then removed so that any subsequent saves have なぞ instead.
+        // https://github.com/gb-mobile/pokecrystal-mobile-eng/blob/5ab6cd0617c4597400aeb963220747c8c778b1d6/mobile/mobile_45_stadium.asm#L133
+        // Thus, both forms are valid for Japanese.
+        if (japanese)
+            return name is "なぞナゾ" or "なぞ" ? LanguageID.Japanese : LanguageID.None;
+
+        // Other languages have fixed OT names, but can trade with different language games.
+        // Thus, we only check for the known valid names.
+        return name switch
+        {
+            "ODD" => LanguageID.English,
+            "BIZAR" => LanguageID.French,
+            "Strano" => LanguageID.Italian,
+            "Kurios" => LanguageID.German,
+            "Raro" => LanguageID.Spanish,
+            _ => LanguageID.None,
+        };
+    }
+
+    private static bool IsOddEggTrainerNameValid(PKM pk) => DetectOddEggLanguage(pk) != LanguageID.None;
 
     private bool IsMatchEggLocation(PKM pk)
     {
