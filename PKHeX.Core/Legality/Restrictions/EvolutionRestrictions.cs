@@ -46,7 +46,7 @@ internal static class EvolutionRestrictions
     /// <summary>
     /// Checks if the evolution is the "rare" variant (less common).
     /// </summary>
-    /// <param name="encryptionConstant">Random value used to pivot between evolution results.</param>  
+    /// <param name="encryptionConstant">Random value used to pivot between evolution results.</param>
     public static bool IsEvolvedSpeciesFormRare(uint encryptionConstant) => encryptionConstant % 100 is 0;
 
     /// <summary>

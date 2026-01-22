@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
+#pragma warning disable CA1857
 
 namespace PKHeX.Core;
 

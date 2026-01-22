@@ -49,7 +49,7 @@ public static class EncounterVerifier
     }
 
     // Gen2 Wild Encounters
-    private static CheckResult VerifyWildEncounterGen2(ITrainerID16 pk, EncounterSlot2 enc) => enc.Type switch
+    private static CheckResult VerifyWildEncounterGen2<T>(T pk, EncounterSlot2 enc) where T : ITrainerID16 => enc.Type switch
     {
         SlotType2.Headbutt or SlotType2.HeadbuttSpecial => enc.IsTreeAvailable(pk.TID16)
             ? GetValid(G2TreeID)
@@ -351,7 +351,7 @@ public static class EncounterVerifier
             : GetInvalid(EggLocationNone);
     }
 
-    private static CheckResult VerifyEncounterTrade(ISpeciesForm pk, EncounterTrade1 trade)
+    private static CheckResult VerifyEncounterTrade<T>(T pk, EncounterTrade1 trade) where T : ISpeciesForm
     {
         var species = pk.Species;
         if (trade.EvolveOnTrade && trade.Species == species)

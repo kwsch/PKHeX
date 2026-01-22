@@ -46,6 +46,11 @@ public partial class SAV_Database : Form
     {
         InitializeComponent();
         FormClosing += (_, _) => cts.Cancel();
+
+        var settings = new TabPage { Text = "Settings", Name = "Tab_Settings" };
+        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EntityDb });
+        TC_SearchSettings.Controls.Add(settings);
+
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         UC_Builder = new EntityInstructionBuilder(() => f1.PreparePKM())
         {
@@ -125,10 +130,6 @@ public partial class SAV_Database : Form
         L_Viewed.Text = string.Empty; // invisible for now
         PopulateComboBoxes();
 
-        var settings = new TabPage { Text = "Settings" };
-        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EntityDb });
-        TC_SearchSettings.Controls.Add(settings);
-
         // Load Data
         B_Search.Enabled = false;
         L_Count.Text = "Loading...";
@@ -153,13 +154,19 @@ public partial class SAV_Database : Form
         CB_Format.Items[0] = MsgAny;
         CenterToParent();
         FormClosing += (_, _) => ShowSet.Clear();
-        CB_Species.Select();
 
         if (Application.IsDarkModeEnabled)
         {
             WinFormsUtil.InvertToolStripIcons(menuStrip1.Items);
             WinFormsUtil.InvertToolStripIcons(mnu.Items);
         }
+    }
+
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        foreach (var cb in TLP_Filters.Controls.OfType<ComboBox>())
+            cb.SelectedIndex = cb.SelectionLength = 0;
     }
 
     private void ClickView(object sender, EventArgs e)
@@ -335,9 +342,6 @@ public partial class SAV_Database : Form
                 cb.DataSource = new BindingSource(moves, string.Empty);
             }
         }
-
-        // Trigger a Reset
-        ResetFilters(this, EventArgs.Empty);
     }
 
     private void ResetFilters(object sender, EventArgs e)

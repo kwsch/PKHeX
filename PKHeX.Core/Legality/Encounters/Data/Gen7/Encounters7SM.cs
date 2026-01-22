@@ -13,7 +13,7 @@ internal static class Encounters7SM
     internal static readonly EncounterArea7[] SlotsMN = EncounterArea7.GetAreas(Get("mn", "sm"u8), MN);
 
     private const string tradeSM = "tradesm";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSM, "zh");
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeSM, 10);
 
     public static readonly EncounterStatic7[] StaticSM = // @ a\1\5\5
     [

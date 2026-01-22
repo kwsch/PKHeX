@@ -15,14 +15,17 @@ public sealed class SlotChangeInfo<TCursor, TImageSource>
     /// Gets or sets a value indicating whether the left mouse button is down.
     /// </summary>
     public bool IsLeftMouseDown { get; set; }
+
     /// <summary>
     /// Gets or sets a value indicating whether a drag-and-drop operation is in progress.
     /// </summary>
     public bool IsDragDropInProgress { get; set; }
+
     /// <summary>
     /// Gets or sets the current cursor.
     /// </summary>
     public TCursor? Cursor { get; set; }
+
     /// <summary>
     /// Gets or sets the current file path involved in the drag-and-drop operation.
     /// </summary>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Resources;
+#pragma warning disable CA1857
 
 namespace PKHeX.Core;
 
@@ -17,141 +18,6 @@ public static partial class Util
     /// Might enable some tweaks to work like changing species names.
     /// </remarks>
     public static ConcurrentDictionary<string, string[]> CachedStrings { get; } = [];
-
-    #region String Lists
-
-    /// <summary>
-    /// Gets a list of all Pokémon species names.
-    /// </summary>
-    /// <param name="language">Language of the Pokémon species names to select (e.g. "en", "fr", "jp", etc.)</param>
-    /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon species name.</returns>
-    public static string[] GetSpeciesList(string language) => GetStringList("species", language);
-
-    /// <summary>
-    /// Gets a list of all move names.
-    /// </summary>
-    /// <param name="language">Language of the move names to select (e.g. "en", "fr", "jp", etc.)</param>
-    /// <returns>An array of strings whose indexes correspond to the IDs of each move name.</returns>
-    public static string[] GetMovesList(string language) => GetStringList("moves", language);
-
-    /// <summary>
-    /// Gets a list of all Pokémon ability names.
-    /// </summary>
-    /// <param name="language">Language of the Pokémon ability names to select (e.g. "en", "fr", "jp", etc.)</param>
-    /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon ability name.</returns>
-    public static string[] GetAbilitiesList(string language) => GetStringList("abilities", language);
-
-    /// <summary>
-    /// Gets a list of all Pokémon nature names.
-    /// </summary>
-    /// <param name="language">Language of the Pokémon nature names to select (e.g. "en", "fr", "jp", etc.)</param>
-    /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon nature name.</returns>
-    public static string[] GetNaturesList(string language) => GetStringList("natures", language);
-
-    /// <summary>
-    /// Gets a list of all Pokémon form names.
-    /// </summary>
-    /// <param name="language">Language of the Pokémon form names to select (e.g. "en", "fr", "jp", etc.)</param>
-    /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon form name.</returns>
-    public static string[] GetFormsList(string language) => GetStringList("forms", language);
-
-    /// <summary>
-    /// Gets a list of all Pokémon type names.
-    /// </summary>
-    /// <param name="language">Language of the Pokémon type names to select (e.g. "en", "fr", "jp", etc.)</param>
-    /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon type name.</returns>
-    public static string[] GetTypesList(string language) => GetStringList("types", language);
-
-    /// <summary>
-    /// Gets a list of all Pokémon characteristic.
-    /// </summary>
-    /// <param name="language">Language of the Pokémon characteristic to select (e.g. "en", "fr", "jp", etc.)</param>
-    /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon characteristic.</returns>
-    public static string[] GetCharacteristicsList(string language) => GetStringList("character", language);
-
-    /// <summary>
-    /// Gets a list of all items.
-    /// </summary>
-    /// <param name="language">Language of the items to select (e.g. "en", "fr", "jp", etc.)</param>
-    /// <returns>An array of strings whose indexes correspond to the IDs of each item.</returns>
-    public static string[] GetItemsList(string language) => GetStringList("items", language);
-
-    /// <summary>
-    /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Spanish.
-    /// </summary>
-    /// <param name="fileName">Base file name</param>
-    /// <remarks>Ignores Korean Language.</remarks>
-    public static string[][] GetLanguageStrings7([ConstantExpected] string fileName) =>
-    [
-        [], // 0 - None
-        GetStringList(fileName, "ja"), // 1
-        GetStringList(fileName, "en"), // 2
-        GetStringList(fileName, "fr"), // 3
-        GetStringList(fileName, "it"), // 4
-        GetStringList(fileName, "de"), // 5
-        [], // 6 - None
-        GetStringList(fileName, "es"), // 7
-    ];
-
-    /// <summary>
-    /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Korean.
-    /// </summary>
-    /// <param name="fileName">Base file name</param>
-    public static string[][] GetLanguageStrings8([ConstantExpected] string fileName) =>
-    [
-        [], // 0 - None
-        GetStringList(fileName, "ja"), // 1
-        GetStringList(fileName, "en"), // 2
-        GetStringList(fileName, "fr"), // 3
-        GetStringList(fileName, "it"), // 4
-        GetStringList(fileName, "de"), // 5
-        [], // 6 - None
-        GetStringList(fileName, "es"), // 7
-        GetStringList(fileName, "ko"), // 8
-    ];
-
-    /// <summary>
-    /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Chinese.
-    /// </summary>
-    /// <param name="fileName">Base file name</param>
-    /// <param name="zh">Language code to use for both Chinese localizations.</param>
-    public static string[][] GetLanguageStrings10([ConstantExpected] string fileName, string? zh = null) =>
-    [
-        [], // 0 - None
-        GetStringList(fileName, "ja"), // 1
-        GetStringList(fileName, "en"), // 2
-        GetStringList(fileName, "fr"), // 3
-        GetStringList(fileName, "it"), // 4
-        GetStringList(fileName, "de"), // 5
-        [], // 6 - None
-        GetStringList(fileName, "es"), // 7
-        GetStringList(fileName, "ko"), // 8
-        GetStringList(fileName, zh ?? "zh-Hans"), // 9
-        GetStringList(fileName, zh ?? "zh-Hant"), // 10
-    ];
-
-    /// <summary>
-    /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Latin American Spanish.
-    /// </summary>
-    /// <param name="fileName">Base file name</param>
-    /// <param name="zh">Language code to use for both Chinese localizations.</param>
-    public static string[][] GetLanguageStrings11([ConstantExpected] string fileName, string? zh = null) =>
-    [
-        [], // 0 - None
-        GetStringList(fileName, "ja"), // 1
-        GetStringList(fileName, "en"), // 2
-        GetStringList(fileName, "fr"), // 3
-        GetStringList(fileName, "it"), // 4
-        GetStringList(fileName, "de"), // 5
-        [], // 6 - None
-        GetStringList(fileName, "es"), // 7
-        GetStringList(fileName, "ko"), // 8
-        GetStringList(fileName, zh ?? "zh-Hans"), // 9
-        GetStringList(fileName, zh ?? "zh-Hant"), // 10
-        GetStringList(fileName, "es-419"), // 11
-    ];
-
-    #endregion
 
     /// <inheritdoc cref="GetStringList(string, EmbeddedResourceCache)"/>
     public static string[] GetStringList(string fileName)

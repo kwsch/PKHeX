@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
+#pragma warning disable CA1857
 
 namespace PKHeX.Core;
 

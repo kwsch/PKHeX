@@ -1353,6 +1353,15 @@ public partial class Main : Form
 
     public void WarnBehavior()
     {
-        WinFormsUtil.Alert(MsgProgramIllegalModeActive, MsgProgramIllegalModeBehave);
+        var page = new TaskDialogPage
+        {
+            Caption = MsgProgramIllegalModeActive,
+            Text = MsgProgramIllegalModeBehave,
+            Icon = TaskDialogIcon.Shield,
+            DefaultButton = TaskDialogButton.OK,
+            Buttons = [TaskDialogButton.OK],
+            AllowCancel = true,
+        };
+        TaskDialog.ShowDialog(this, page);
     }
 }

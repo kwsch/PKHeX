@@ -19,7 +19,7 @@ internal static class Encounters3FRLG
         => EncounterArea3.GetAreas(Get(resource, ident), version);
 
     private const string tradeFRLG = "tradefrlg";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeFRLG);
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeFRLG, 7);
 
     public static readonly EncounterStatic3[] StaticFRLG =
     [

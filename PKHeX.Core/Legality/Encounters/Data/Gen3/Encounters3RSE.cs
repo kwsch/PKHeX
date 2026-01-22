@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
+#pragma warning disable CA1857
 
 namespace PKHeX.Core;
 
@@ -40,7 +41,7 @@ internal static class Encounters3RSE
     ];
 
     private const string tradeRSE = "traderse";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeRSE);
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeRSE, 7);
 
     public static readonly EncounterStatic3[] StaticRSE =
     [

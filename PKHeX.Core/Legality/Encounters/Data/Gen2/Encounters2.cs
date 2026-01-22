@@ -13,7 +13,7 @@ internal static class Encounters2
     internal static readonly EncounterArea2[] SlotsC = EncounterArea2.GetAreas(Get("crystal", "g2"u8), C);
 
     private const string tradeGSC = "tradegsc";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeGSC);
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeGSC, 8);
 
     public static readonly EncounterStatic2[] StaticGSC =
     [
