@@ -142,6 +142,8 @@ public sealed class ShowdownSet : IBattleTemplate
                     first = false;
                     continue;
                 }
+                if (trim.Length == 0)
+                    break;
                 LogError(LineLength, line);
                 continue;
             }
