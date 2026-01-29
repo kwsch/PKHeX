@@ -21,6 +21,10 @@ public partial class PlusRecordEditor : Form
     private const int ColumnType = 3;
     private const int ColumnName = 4;
 
+    private string searchFilter = string.Empty;
+    private System.Windows.Forms.Timer? searchDebounceTimer;
+    private const int SearchDebounceMs = 150;
+
     public PlusRecordEditor(IPlusRecord plus, IPermitPlus permit, PKM pk)
     {
         InitializeComponent();
@@ -30,6 +34,8 @@ public partial class PlusRecordEditor : Form
         Permit = permit;
         Entity = pk;
         Legality = new LegalityAnalysis(pk);
+
+        InitializeSearchDebounce();
 
         Span<ushort> currentMoves = stackalloc ushort[4];
         pk.GetMoves(currentMoves);
@@ -165,5 +171,53 @@ public partial class PlusRecordEditor : Form
     {
         if (e.ColumnIndex == ColumnTypeIcon)
             dgv.Sort(TypeInt, ListSortDirection.Ascending);
+    }
+
+    private void InitializeSearchDebounce()
+    {
+        searchDebounceTimer = new System.Windows.Forms.Timer { Interval = SearchDebounceMs };
+        searchDebounceTimer.Tick += (s, e) =>
+        {
+            searchDebounceTimer.Stop();
+            PerformSearchFilter();
+        };
+    }
+
+    private void SearchMoves_TextChanged(object? sender, EventArgs e)
+    {
+        searchDebounceTimer?.Stop();
+        searchDebounceTimer?.Start();
+    }
+
+    private void PerformSearchFilter()
+    {
+        searchFilter = TB_SearchMoves.Text.Trim();
+        ApplySearchFilter();
+    }
+
+    private void ApplySearchFilter()
+    {
+        dgv.SuspendLayout();
+        try
+        {
+            bool hasFilter = !string.IsNullOrWhiteSpace(searchFilter);
+            
+            if (!hasFilter)
+            {
+                foreach (DataGridViewRow row in dgv.Rows)
+                    row.Visible = true;
+                return;
+            }
+
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                var moveName = row.Cells[ColumnName].Value?.ToString() ?? string.Empty;
+                row.Visible = moveName.Contains(searchFilter, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+        finally
+        {
+            dgv.ResumeLayout(true);
+        }
     }
 }

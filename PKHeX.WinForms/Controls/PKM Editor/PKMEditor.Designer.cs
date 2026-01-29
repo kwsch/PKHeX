@@ -2116,7 +2116,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Relearn2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_Relearn2.Controls.Add(PB_WarnRelearn2);
             FLP_Relearn2.Controls.Add(CB_RelearnMove2);
-            FLP_Relearn2.Location = new System.Drawing.Point(40, 198);
+            FLP_Relearn2.Location = new System.Drawing.Point(40, 221);
             FLP_Relearn2.Margin = new System.Windows.Forms.Padding(40, 0, 0, 0);
             FLP_Relearn2.Name = "FLP_Relearn2";
             FLP_Relearn2.Size = new System.Drawing.Size(148, 26);
@@ -2153,7 +2153,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Relearn3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_Relearn3.Controls.Add(PB_WarnRelearn3);
             FLP_Relearn3.Controls.Add(CB_RelearnMove3);
-            FLP_Relearn3.Location = new System.Drawing.Point(40, 224);
+            FLP_Relearn3.Location = new System.Drawing.Point(40, 247);
             FLP_Relearn3.Margin = new System.Windows.Forms.Padding(40, 0, 0, 0);
             FLP_Relearn3.Name = "FLP_Relearn3";
             FLP_Relearn3.Size = new System.Drawing.Size(148, 26);
@@ -2190,7 +2190,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Relearn4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_Relearn4.Controls.Add(PB_WarnRelearn4);
             FLP_Relearn4.Controls.Add(CB_RelearnMove4);
-            FLP_Relearn4.Location = new System.Drawing.Point(40, 250);
+            FLP_Relearn4.Location = new System.Drawing.Point(40, 273);
             FLP_Relearn4.Margin = new System.Windows.Forms.Padding(40, 0, 0, 0);
             FLP_Relearn4.Name = "FLP_Relearn4";
             FLP_Relearn4.Size = new System.Drawing.Size(148, 26);

@@ -32,6 +32,9 @@ namespace PKHeX.WinForms.Controls
             B_BoxLeft = new System.Windows.Forms.Button();
             CB_BoxSelect = new System.Windows.Forms.ComboBox();
             BoxPokeGrid = new PokeGrid();
+            TB_SearchBox = new System.Windows.Forms.TextBox();
+            L_SearchBox = new System.Windows.Forms.Label();
+            B_SearchGlobal = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // B_BoxRight
@@ -74,23 +77,57 @@ namespace PKHeX.WinForms.Controls
             // BoxPokeGrid
             // 
             BoxPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            BoxPokeGrid.Location = new System.Drawing.Point(0, 27);
+            BoxPokeGrid.Location = new System.Drawing.Point(0, 52);
             BoxPokeGrid.Margin = new System.Windows.Forms.Padding(0);
             BoxPokeGrid.Name = "BoxPokeGrid";
             BoxPokeGrid.Size = new System.Drawing.Size(251, 160);
             BoxPokeGrid.TabIndex = 3;
             // 
+            // TB_SearchBox
+            // 
+            TB_SearchBox.Location = new System.Drawing.Point(64, 26);
+            TB_SearchBox.Name = "TB_SearchBox";
+            TB_SearchBox.Size = new System.Drawing.Size(130, 23);
+            TB_SearchBox.TabIndex = 4;
+            TB_SearchBox.PlaceholderText = "Search Pokémon...";
+            TB_SearchBox.TextChanged += SearchBox_TextChanged;
+            // 
+            // B_SearchGlobal
+            // 
+            B_SearchGlobal.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            B_SearchGlobal.Location = new System.Drawing.Point(196, 26);
+            B_SearchGlobal.Margin = new System.Windows.Forms.Padding(0);
+            B_SearchGlobal.Name = "B_SearchGlobal";
+            B_SearchGlobal.Size = new System.Drawing.Size(28, 23);
+            B_SearchGlobal.TabIndex = 6;
+            B_SearchGlobal.Text = "🔍";
+            B_SearchGlobal.UseVisualStyleBackColor = true;
+            B_SearchGlobal.Click += SearchGlobal_Click;
+            // 
+            // L_SearchBox
+            // 
+            L_SearchBox.AutoSize = true;
+            L_SearchBox.Location = new System.Drawing.Point(3, 29);
+            L_SearchBox.Name = "L_SearchBox";
+            L_SearchBox.Size = new System.Drawing.Size(45, 15);
+            L_SearchBox.TabIndex = 5;
+            L_SearchBox.Text = "Search:";
+            // 
             // BoxEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             AutoSize = true;
+            Controls.Add(B_SearchGlobal);
+            Controls.Add(L_SearchBox);
+            Controls.Add(TB_SearchBox);
             Controls.Add(BoxPokeGrid);
             Controls.Add(B_BoxRight);
             Controls.Add(B_BoxLeft);
             Controls.Add(CB_BoxSelect);
             Name = "BoxEditor";
-            Size = new System.Drawing.Size(251, 187);
+            Size = new System.Drawing.Size(251, 212);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -98,5 +135,8 @@ namespace PKHeX.WinForms.Controls
         public System.Windows.Forms.Button B_BoxLeft;
         public System.Windows.Forms.ComboBox CB_BoxSelect;
         public PokeGrid BoxPokeGrid;
+        private System.Windows.Forms.TextBox TB_SearchBox;
+        private System.Windows.Forms.Label L_SearchBox;
+        private System.Windows.Forms.Button B_SearchGlobal;
     }
 }

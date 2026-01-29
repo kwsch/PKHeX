@@ -15,9 +15,10 @@ namespace PKHeX.WinForms
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                searchDebounceTimer?.Dispose();
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -40,6 +41,8 @@ namespace PKHeX.WinForms
             TypeInt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             MoveName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             dgv = new DoubleBufferedDataGridView();
+            TB_SearchMoves = new System.Windows.Forms.TextBox();
+            L_SearchMoves = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
@@ -102,13 +105,13 @@ namespace PKHeX.WinForms
             dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { HasFlag, Index, Type, TypeInt, MoveName });
             dgv.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            dgv.Location = new System.Drawing.Point(3, 1);
+            dgv.Location = new System.Drawing.Point(3, 30);
             dgv.MultiSelect = false;
             dgv.Name = "dgv";
             dgv.RowHeadersVisible = false;
             dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             dgv.ShowEditingIcon = false;
-            dgv.Size = new System.Drawing.Size(243, 362);
+            dgv.Size = new System.Drawing.Size(243, 333);
             dgv.TabIndex = 6;
             dgv.CellClick += ClickCell;
             dgv.ColumnHeaderMouseClick += SortColumn;
@@ -158,10 +161,31 @@ namespace PKHeX.WinForms
             MoveName.Name = "MoveName";
             MoveName.ReadOnly = true;
             // 
+            // TB_SearchMoves
+            // 
+            TB_SearchMoves.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TB_SearchMoves.Location = new System.Drawing.Point(48, 3);
+            TB_SearchMoves.Name = "TB_SearchMoves";
+            TB_SearchMoves.PlaceholderText = "Search moves...";
+            TB_SearchMoves.Size = new System.Drawing.Size(198, 23);
+            TB_SearchMoves.TabIndex = 7;
+            TB_SearchMoves.TextChanged += SearchMoves_TextChanged;
+            // 
+            // L_SearchMoves
+            // 
+            L_SearchMoves.AutoSize = true;
+            L_SearchMoves.Location = new System.Drawing.Point(3, 6);
+            L_SearchMoves.Name = "L_SearchMoves";
+            L_SearchMoves.Size = new System.Drawing.Size(45, 15);
+            L_SearchMoves.TabIndex = 8;
+            L_SearchMoves.Text = "Search:";
+            // 
             // TechRecordEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(248, 441);
+            Controls.Add(L_SearchMoves);
+            Controls.Add(TB_SearchMoves);
             Controls.Add(dgv);
             Controls.Add(B_None);
             Controls.Add(B_All);
@@ -172,11 +196,12 @@ namespace PKHeX.WinForms
             MaximizeBox = false;
             MinimizeBox = false;
             MinimumSize = new System.Drawing.Size(264, 480);
-            Name = "TechRecordEditor";
+            Name = "PlusRecordEditor";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            Text = "TR Relearn Editor";
+            Text = "Plus Record Editor";
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -190,5 +215,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.DataGridViewImageColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn TypeInt;
         private System.Windows.Forms.DataGridViewTextBoxColumn MoveName;
+        private System.Windows.Forms.TextBox TB_SearchMoves;
+        private System.Windows.Forms.Label L_SearchMoves;
     }
 }

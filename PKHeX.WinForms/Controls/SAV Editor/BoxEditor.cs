@@ -22,9 +22,33 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
 
     public BoxEdit Editor { get; set; } = null!;
 
+    private string searchFilter = string.Empty;
+    private System.Windows.Forms.Timer? searchDebounceTimer;
+    private const int SearchDebounceMs = 200;
+    private readonly ToolTip searchTooltip = new();
+
     public BoxEditor()
     {
         InitializeComponent();
+        InitializeSearchDebounce();
+        InitializeSearchTooltip();
+    }
+
+    private void InitializeSearchTooltip()
+    {
+        searchTooltip.SetToolTip(B_SearchGlobal, "Search for Pokémon across all boxes and jump to it");
+        searchTooltip.SetToolTip(TB_SearchBox, "Filter: Type to show only matching Pokémon in current box\nGlobal Search: Click 🔍 to find and jump to box containing the Pokémon");
+        B_SearchGlobal.Enabled = false;
+    }
+
+    private void InitializeSearchDebounce()
+    {
+        searchDebounceTimer = new System.Windows.Forms.Timer { Interval = SearchDebounceMs };
+        searchDebounceTimer.Tick += (s, e) =>
+        {
+            searchDebounceTimer.Stop();
+            PerformSearch();
+        };
     }
 
     internal bool InitializeGrid()
@@ -200,20 +224,106 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
         M?.Hover.Stop();
 
         int index = box * SAV.BoxSlotCount;
-        for (int i = 0; i < BoxSlotCount; i++)
+        bool hasFilter = !string.IsNullOrWhiteSpace(searchFilter);
+        var speciesNames = hasFilter ? GameInfo.Strings.Species : null;
+        
+        SuspendLayout();
+        try
         {
-            var pb = SlotPictureBoxes[i];
-            if (i >= SAV.BoxSlotCount || index + i >= SAV.SlotCount)
+            for (int i = 0; i < BoxSlotCount; i++)
             {
-                pb.Visible = false;
-                continue;
+                var pb = SlotPictureBoxes[i];
+                if (i >= SAV.BoxSlotCount || index + i >= SAV.SlotCount)
+                {
+                    pb.Visible = false;
+                    continue;
+                }
+                
+                var pkm = Editor[i];
+                bool matchesSearch = !hasFilter || MatchesSearchFilter(pkm, speciesNames!);
+                
+                pb.Visible = matchesSearch;
+                if (matchesSearch)
+                    SlotUtil.UpdateSlot(pb, (SlotInfoBox)GetSlotData(pb), pkm, SAV, FlagIllegal);
             }
-            pb.Visible = true;
-            SlotUtil.UpdateSlot(pb, (SlotInfoBox)GetSlotData(pb), Editor[i], SAV, FlagIllegal);
+        }
+        finally
+        {
+            ResumeLayout();
         }
 
         if (M?.Env.Slots.Publisher.Previous is SlotInfoBox b && b.Box == CurrentBox)
             SlotPictureBoxes[b.Slot].BackgroundImage = SlotUtil.GetTouchTypeBackground(M.Env.Slots.Publisher.PreviousType);
+    }
+
+    private bool MatchesSearchFilter(PKM pkm, IReadOnlyList<string> speciesNames)
+    {
+        if (pkm.Species == 0)
+            return false;
+        
+        var speciesName = speciesNames[pkm.Species];
+        var nickname = pkm.Nickname;
+        
+        return speciesName.Contains(searchFilter, StringComparison.OrdinalIgnoreCase) ||
+               nickname.Contains(searchFilter, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void SearchBox_TextChanged(object? sender, EventArgs e)
+    {
+        searchDebounceTimer?.Stop();
+        searchDebounceTimer?.Start();
+        
+        // Enable/disable global search button based on text input
+        B_SearchGlobal.Enabled = !string.IsNullOrWhiteSpace(TB_SearchBox.Text);
+    }
+
+    private void PerformSearch()
+    {
+        searchFilter = TB_SearchBox.Text.Trim();
+        ResetSlots();
+    }
+
+    private void SearchGlobal_Click(object? sender, EventArgs e)
+    {
+        var searchText = TB_SearchBox.Text.Trim();
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            System.Media.SystemSounds.Beep.Play();
+            WinFormsUtil.Alert("Please enter a Pokémon name to search.");
+            return;
+        }
+
+        var speciesNames = GameInfo.Strings.Species;
+        int startBox = (CurrentBox + 1) % SAV.BoxCount;
+        
+        // Search from next box, wrapping around
+        for (int boxOffset = 0; boxOffset < SAV.BoxCount; boxOffset++)
+        {
+            int boxIndex = (startBox + boxOffset) % SAV.BoxCount;
+            
+            for (int slot = 0; slot < SAV.BoxSlotCount; slot++)
+            {
+                var pkm = SAV.GetBoxSlotAtIndex(boxIndex * SAV.BoxSlotCount + slot);
+                if (pkm.Species == 0)
+                    continue;
+                    
+                var speciesName = speciesNames[pkm.Species];
+                var nickname = pkm.Nickname;
+                
+                if (speciesName.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                    nickname.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                {
+                    // Found match! Navigate to that box
+                    CurrentBox = boxIndex;
+                    System.Media.SystemSounds.Asterisk.Play();
+                    return;
+                }
+            }
+        }
+        
+        // Not found
+        System.Media.SystemSounds.Exclamation.Play();
+        WinFormsUtil.Alert($"No Pokémon found matching \"{searchText}\" in any box.");
     }
 
     public bool SaveBoxBinary()

@@ -12,6 +12,9 @@ public partial class TechRecordEditor : Form
     private readonly ITechRecord Record;
     private readonly PKM Entity;
     private readonly LegalityAnalysis Legality;
+    private string searchFilter = string.Empty;
+    private System.Windows.Forms.Timer? searchDebounceTimer;
+    private const int SearchDebounceMs = 150;
 
     private const int ColumnHasFlag = 0;
     private const int ColumnIndex = 1;
@@ -23,6 +26,7 @@ public partial class TechRecordEditor : Form
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+        InitializeSearchDebounce();
 
         Record = techRecord;
         Entity = pk;
@@ -96,6 +100,43 @@ public partial class TechRecordEditor : Form
             var index = int.Parse(row.Cells[ColumnIndex].Value?.ToString() ?? "");
             Record.SetMoveRecordFlag(index, (bool)row.Cells[ColumnHasFlag].Value!);
         }
+    }
+
+    private void InitializeSearchDebounce()
+    {
+        searchDebounceTimer = new System.Windows.Forms.Timer { Interval = SearchDebounceMs };
+        searchDebounceTimer.Tick += (s, e) =>
+        {
+            searchDebounceTimer.Stop();
+            ApplySearchFilter();
+        };
+    }
+
+    private void SearchMoves_TextChanged(object? sender, EventArgs e)
+    {
+        searchFilter = TB_SearchMoves.Text;
+        searchDebounceTimer?.Stop();
+        searchDebounceTimer?.Start();
+    }
+
+    private void ApplySearchFilter()
+    {
+        if (string.IsNullOrWhiteSpace(searchFilter))
+        {
+            dgv.SuspendLayout();
+            foreach (DataGridViewRow row in dgv.Rows)
+                row.Visible = true;
+            dgv.ResumeLayout();
+            return;
+        }
+
+        dgv.SuspendLayout();
+        foreach (DataGridViewRow row in dgv.Rows)
+        {
+            var moveName = row.Cells[ColumnName].Value?.ToString() ?? string.Empty;
+            row.Visible = moveName.Contains(searchFilter, StringComparison.OrdinalIgnoreCase);
+        }
+        dgv.ResumeLayout();
     }
 
     private void B_All_Click(object sender, EventArgs e)

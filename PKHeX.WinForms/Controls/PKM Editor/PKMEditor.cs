@@ -13,7 +13,7 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms.Controls;
 
-public sealed partial class PKMEditor : UserControl, IMainEditor
+    public sealed partial class PKMEditor : UserControl, IMainEditor
 {
     public bool IsInitialized { get; private set; }
     private readonly ToolTip SpeciesIDTip = new();
@@ -2347,7 +2347,6 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return true;
         }
     }
-
     private void FontWarn(string name, string message, Control ctrl)
     {
         var langPk = (LanguageID)WinFormsUtil.GetIndex(CB_Language);
