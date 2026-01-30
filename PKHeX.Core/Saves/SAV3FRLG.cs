@@ -23,6 +23,8 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
 
     public SAV3FRLG(bool japanese = false) : base(japanese) => Initialize();
 
+    public override PlayerBag3FRLG Inventory => new(this);
+
     public SAV3FRLG(Memory<byte> data) : base(data)
     {
         Initialize();

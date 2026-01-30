@@ -166,7 +166,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
 
     // Inventory
-    public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
+    public override PlayerBag9a Inventory => new(this);
 
     // Storage
     private const int GapBoxSlot = 0x40;

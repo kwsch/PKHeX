@@ -4,11 +4,24 @@ using System.Diagnostics;
 
 namespace PKHeX.Core;
 
-public sealed class InventoryPouch9a(InventoryType type, IItemStorage info, int maxCount, uint pouch)
+public sealed class InventoryPouch9a(InventoryType type, IItemStorage info, int maxCount)
     : InventoryPouch(type, info, maxCount, 0)
 {
     public bool SetNew { get; set; }
-    public uint PouchIndex { get; set; } = pouch;
+    public uint PouchIndex { get; set; } = GetPouchIndex(type);
+
+    private static uint GetPouchIndex(InventoryType type) => type switch
+    {
+        InventoryType.Items => InventoryItem9a.PouchOther,
+        InventoryType.KeyItems => InventoryItem9a.PouchKey,
+        InventoryType.TMHMs => InventoryItem9a.PouchTM,
+        InventoryType.Medicine => InventoryItem9a.PouchMedicine,
+        InventoryType.Berries => InventoryItem9a.PouchBerry,
+        InventoryType.Balls => InventoryItem9a.PouchBalls,
+        InventoryType.Treasure => InventoryItem9a.PouchTreasure,
+        InventoryType.MegaStones => InventoryItem9a.PouchMegaStones,
+        _ => InventoryItem9a.PouchNone,
+    };
 
     public override InventoryItem9a GetEmpty(int itemID = 0, int count = 0) => new()
     {

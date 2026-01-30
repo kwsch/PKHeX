@@ -4,7 +4,12 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class InventoryPouch3GC(InventoryType type, IItemStorage info, int maxCount, int offset, [ConstantExpected] int size)
+public sealed class InventoryPouch3GC(
+    int offset,
+    [ConstantExpected] int size,
+    int maxCount,
+    IItemStorage info,
+    InventoryType type)
     : InventoryPouch(type, info, maxCount, offset, size)
 {
     public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };

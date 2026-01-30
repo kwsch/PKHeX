@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Inventory Pouch with 4 bytes per item (u16 ID, u16 count)
 /// </summary>
-public sealed class InventoryPouch4(InventoryType type, IItemStorage info, int maxCount, int offset)
+public sealed class InventoryPouch4(int offset, int maxCount, IItemStorage info, InventoryType type)
     : InventoryPouch(type, info, maxCount, offset)
 {
     // size: 32bit

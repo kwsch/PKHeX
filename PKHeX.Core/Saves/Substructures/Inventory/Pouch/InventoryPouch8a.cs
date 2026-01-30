@@ -8,8 +8,8 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Used by <see cref="GameVersion.PLA"/>.
 /// </remarks>
-public sealed class InventoryPouch8a(InventoryType type, IItemStorage info, int maxCount, int size, int offset = 0)
-    : InventoryPouch(type, info, maxCount, offset)
+public sealed class InventoryPouch8a(int size, int maxCount, IItemStorage info, InventoryType type)
+    : InventoryPouch(type, info, maxCount, 0)
 {
     public override InventoryItem8a GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
 
@@ -33,9 +33,5 @@ public sealed class InventoryPouch8a(InventoryType type, IItemStorage info, int 
             int ofs = i * 4;
             items[i].Write(data[ofs..]);
         }
-    }
-
-    public void SanitizeCounts()
-    {
     }
 }

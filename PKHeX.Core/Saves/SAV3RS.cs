@@ -30,6 +30,8 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
     public SAV3RS(Memory<byte> data) : base(data) => Initialize();
     public SAV3RS(bool japanese = false) : base(japanese) => Initialize();
 
+    public override PlayerBag3RS Inventory => new(this);
+
     protected override int EventFlag => 0x1220;
     protected override int EventWork => 0x1340;
 

@@ -132,26 +132,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
     }
     #endregion
 
-    public override IReadOnlyList<InventoryPouch> Inventory
-    {
-        get
-        {
-            var info = ItemStorage4Pt.Instance;
-            InventoryPouch[] pouch =
-            [
-                new InventoryPouch4(InventoryType.Items, info, 999, 0x630),
-                new InventoryPouch4(InventoryType.KeyItems, info, 1, 0x8C4),
-                new InventoryPouch4(InventoryType.TMHMs, info, 99, 0x98C),
-                new InventoryPouch4(InventoryType.MailItems, info, 999, 0xB1C),
-                new InventoryPouch4(InventoryType.Medicine, info, 999, 0xB4C),
-                new InventoryPouch4(InventoryType.Berries, info, 999, 0xBEC),
-                new InventoryPouch4(InventoryType.Balls, info, 999, 0xCEC),
-                new InventoryPouch4(InventoryType.BattleItems, info, 999, 0xD28),
-            ];
-            return pouch.LoadAll(General);
-        }
-        set => value.SaveAll(General);
-    }
+    public override PlayerBag4Pt Inventory => new(this);
 
     public override int M { get => ReadUInt16LittleEndian(General[0x1280..]); set => WriteUInt16LittleEndian(General[0x1280..], (ushort)value); }
     public override int X { get => ReadUInt16LittleEndian(General[0x1288..]); set => WriteUInt16LittleEndian(General[0x1288..], (ushort)(X2 = value)); }

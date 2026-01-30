@@ -24,6 +24,8 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder, IDaycare
     public SAV3E(Memory<byte> data) : base(data) => Initialize();
     public SAV3E(bool japanese = false) : base(japanese) => Initialize();
 
+    public override PlayerBag3E Inventory => new(this);
+
     protected override int EventFlag => 0x1270;
     protected override int EventWork => 0x139C;
     public override int MaxItemID => Legal.MaxItemID_3_E;

@@ -42,23 +42,4 @@ public sealed class InventoryPouch8(InventoryType type, IItemStorage info, int m
             WriteUInt32LittleEndian(item, val);
         }
     }
-
-    /// <summary>
-    /// Checks pouch contents for bad count values.
-    /// </summary>
-    /// <remarks>
-    /// Certain pouches contain a mix of count-limited items and uncapped regular items.
-    /// </remarks>
-    internal void SanitizeCounts()
-    {
-        foreach (var item in Items)
-            item.Count = GetSuggestedCount(Type, item.Index, item.Count);
-    }
-
-    public static int GetSuggestedCount(InventoryType t, int item, int requestVal) => t switch
-    {
-        // TMs are clamped to 1, let TRs be whatever
-        InventoryType.TMHMs => item is >= 1130 and <= 1229 ? requestVal : 1,
-        _ => requestVal,
-    };
 }

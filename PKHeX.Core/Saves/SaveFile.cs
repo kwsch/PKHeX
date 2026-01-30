@@ -119,7 +119,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
         State.Edited = true;
     }
 
-    public virtual IReadOnlyList<InventoryPouch> Inventory { get => []; set { } }
+    public virtual PlayerBag Inventory => new EmptyPlayerBag();
 
     #region Player Info
     public virtual byte Gender { get; set; }

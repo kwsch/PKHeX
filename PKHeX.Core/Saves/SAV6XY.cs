@@ -30,6 +30,8 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetail
     public override int MaxItemID => Legal.MaxItemID_6_XY;
     public override int MaxAbilityID => Legal.MaxAbilityID_6_XY;
 
+    public override PlayerBag6XY Inventory => new(this);
+
     public override bool HasPokeDex => true;
 
     private void Initialize()

@@ -270,24 +270,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
     public uint CouponsTotal { get => ReadUInt32BigEndian(Data[0xB04..]); set => WriteUInt32BigEndian(Data[0xB04..], value); }
     public string RUI_Name { get => GetString(Data.Slice(0xB3A, 20)); set => SetString(Data.Slice(0xB3A, 20), value, 10, StringConverterOption.ClearZero); }
 
-    public override IReadOnlyList<InventoryPouch> Inventory
-    {
-        get
-        {
-            var info = ItemStorage3Colo.Instance;
-            InventoryPouch[] pouch =
-            [
-                new InventoryPouch3GC(InventoryType.Items, info, 99, 0x007F8, 20), // 20 COLO, 30 XD
-                new InventoryPouch3GC(InventoryType.KeyItems, info, 1, 0x00848, 43),
-                new InventoryPouch3GC(InventoryType.Balls, info, 99, 0x008F4, 16),
-                new InventoryPouch3GC(InventoryType.TMHMs, info, 99, 0x00934, 64), // no HMs
-                new InventoryPouch3GC(InventoryType.Berries, info, 999, 0x00A34, 46),
-                new InventoryPouch3GC(InventoryType.Medicine, info, 99, 0x00AEC, 3), // Cologne
-            ];
-            return pouch.LoadAll(Data);
-        }
-        set => value.SaveAll(Data);
-    }
+    public override PlayerBag3Colosseum Inventory => new(this);
 
     // Daycare Structure:
     // 0x00 -- Occupied

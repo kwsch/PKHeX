@@ -144,11 +144,11 @@ public partial class SAV_Misc3 : Form
     #region Ferry
     private void B_GetTickets_Click(object sender, EventArgs e)
     {
-        var Pouches = SAV.Inventory;
+        var bag = SAV.Inventory;
         var itemlist = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version);
 
         var tickets = TicketItemIDs;
-        var p = Pouches.First(z => z.Type == InventoryType.KeyItems);
+        var p = bag.GetPouch(InventoryType.KeyItems);
         bool hasOldSea = Array.Exists(p.Items, static z => z.Index == ItemIDOldSeaMap);
         if (!hasOldSea && !SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[ItemIDOldSeaMap]} (unreleased)?"))
             tickets = tickets[..^1]; // remove old sea map
@@ -215,7 +215,7 @@ public partial class SAV_Misc3 : Form
 
         string alert = $"Inserted the following items to the Key Items Pouch:{Environment.NewLine}{added}";
         WinFormsUtil.Alert(alert);
-        SAV.Inventory = Pouches;
+        bag.CopyTo(SAV);
 
         B_GetTickets.Enabled = false;
     }
