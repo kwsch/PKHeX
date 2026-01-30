@@ -451,7 +451,6 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         }
     }
 
-    protected abstract InventoryPouch3[] GetItems();
     protected abstract int PokeDex { get; }
     public override bool HasPokeDex => true;
 

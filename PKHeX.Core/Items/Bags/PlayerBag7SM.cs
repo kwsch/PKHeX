@@ -1,41 +1,41 @@
 using System;
 using System.Collections.Generic;
+using static PKHeX.Core.InventoryType;
 
 namespace PKHeX.Core;
 
 public sealed class PlayerBag7SM : PlayerBag
 {
-    private const int HeldItem = 0; // 430 (Case 0)
-    private const int KeyItem = HeldItem + (4 * 430); // 184 (Case 4)
-    private const int TMHM = KeyItem + (4 * 184); // 108 (Case 2)
-    private const int Medicine = TMHM + (4 * 108); // 64 (Case 1)
-    private const int Berry = Medicine + (4 * 64); // 72 (Case 3)
-    private const int ZCrystals = Berry + (4 * 72); // 30 (Case 5)
+    // 2x Key Item specifically for the Z-Ring: you're given one, Hala "borrows" it in the story, and then you're given it again.
+    private const int ItemIndexZRing = 797;
+    private const int ItemCountZRing = 2;
 
     public override IReadOnlyList<InventoryPouch7> Pouches { get; } = GetPouches(ItemStorage7SM.Instance);
     public override ItemStorage7SM Info => ItemStorage7SM.Instance;
 
     private static InventoryPouch7[] GetPouches(ItemStorage7SM info) =>
     [
-        new(InventoryType.Medicine, info, 999, Medicine),
-        new(InventoryType.Items, info, 999, HeldItem),
-        new(InventoryType.TMHMs, info, 1, TMHM),
-        new(InventoryType.Berries, info, 999, Berry),
-        new(InventoryType.KeyItems, info, 1, KeyItem),
-        new(InventoryType.ZCrystals, info, 1, ZCrystals),
+        new(0x000, 430, 999, info, Items), // 0
+        new(0xB48, 064, 999, info, Medicine), // 1
+        new(0x998, 108, 001, info, TMHMs), // 2
+        new(0xC48, 072, 999, info, Berries), // 3
+        new(0x6B8, 184, 001, info, KeyItems), // 4
+        new(0xD68, 030, 001, info, ZCrystals), // 5
     ];
 
-    public PlayerBag7SM(SAV7SM sav) : this(sav.Items.Data) { }
+    public PlayerBag7SM(SAV7SM sav) : this(sav.Items) { }
+    public PlayerBag7SM(MyItem7SM block) : this(block.Data) { }
     public PlayerBag7SM(ReadOnlySpan<byte> data) => Pouches.LoadAll(data);
 
-    public override void CopyTo(SaveFile sav) => CopyTo((SAV7USUM)sav);
-    public void CopyTo(SAV7USUM sav) => CopyTo(sav.Items.Data);
+    public override void CopyTo(SaveFile sav) => CopyTo((SAV7SM)sav);
+    public void CopyTo(SAV7SM sav) => CopyTo(sav.Items);
+    public void CopyTo(MyItem7SM block) => CopyTo(block.Data);
     public void CopyTo(Span<byte> data) => Pouches.SaveAll(data);
 
     public override int GetMaxCount(InventoryType type, int itemIndex)
     {
-        if (type is InventoryType.KeyItems && itemIndex == 797)
-            return 2;
+        if (type is KeyItems && itemIndex == ItemIndexZRing)
+            return ItemCountZRing;
         return GetMaxCount(type);
     }
 }

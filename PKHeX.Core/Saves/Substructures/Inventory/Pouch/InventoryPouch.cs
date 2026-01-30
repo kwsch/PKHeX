@@ -24,7 +24,7 @@ public abstract class InventoryPouch
     /// <summary> Checks if the player may run out of bag space when there are too many unique items to fit into the pouch. </summary>
     public bool IsCramped => Info.GetItems(Type).Length > Items.Length;
 
-    public InventoryItem[] Items;
+    public abstract InventoryItem[] Items { get; }
 
     /// <summary> Offset the items were read from. </summary>
     protected readonly int Offset;
@@ -33,7 +33,6 @@ public abstract class InventoryPouch
 
     protected InventoryPouch(InventoryType type, IItemStorage storage, int maxCount, int offset, int size = -1)
     {
-        Items = [];
         Type = type;
         Info = storage;
         MaxCount = maxCount;
@@ -177,8 +176,6 @@ public abstract class InventoryPouch
     /// </summary>
     public void ModifyAllCount(PlayerBag bag, int count = -1)
     {
-        if (count <= 0)
-            count = 1;
         foreach (var item in Items.Where(z => z.Index != 0))
             item.Count = bag.Clamp(Type, item.Index, count);
     }
@@ -213,11 +210,11 @@ public abstract class InventoryPouch
         if (count <= 0)
             count = bag.GetMaxCount(Type, itemID);
 
-        var existIndex = FindFirstMatchingSlot(itemID);
+        var existIndex = FindIndexFirstMatchingSlot(itemID);
         if (existIndex >= 0)
             return AddCountTo(bag, Items[existIndex], count);
 
-        var emptyIndex = FindFirstEmptySlot();
+        var emptyIndex = FindIndexFirstEmptySlot();
         if (emptyIndex < 0)
             return -1;
 
@@ -237,17 +234,9 @@ public abstract class InventoryPouch
         return exist.Count = newCount;
     }
 
-    private int FindFirstEmptySlot()
-    {
-        for (int i = 0; i < Items.Length; i++)
-        {
-            if (Items[i].Index == 0)
-                return i;
-        }
-        return -1;
-    }
+    public int FindIndexFirstEmptySlot() => FindIndexFirstMatchingSlot(0);
 
-    private int FindFirstMatchingSlot(ushort itemID)
+    private int FindIndexFirstMatchingSlot(ushort itemID)
     {
         for (int i = 0; i < Items.Length; i++)
         {
@@ -259,24 +248,17 @@ public abstract class InventoryPouch
 
     public abstract InventoryItem GetEmpty(int itemID = 0, int count = 0);
 
-    public ReadOnlySpan<ushort> GetAllItems()
-    {
-        return Info.GetItems(Type);
-    }
-
-    public bool CanContain(ushort itemIndex)
-    {
-        return Info.GetItems(Type).Contains(itemIndex);
-    }
+    public ReadOnlySpan<ushort> GetAllItems() => Info.GetItems(Type);
+    public bool CanContain(ushort itemID) => Info.GetItems(Type).Contains(itemID);
+    public bool HasItem(ushort itemID) => Items.Any(it => it.Index == itemID && it.Count > 0);
 }
 
 public static class InventoryPouchExtensions
 {
-    public static IReadOnlyList<T> LoadAll<T>(this IReadOnlyList<T> value, ReadOnlySpan<byte> data) where T : InventoryPouch
+    public static void LoadAll<T>(this IReadOnlyList<T> value, ReadOnlySpan<byte> data) where T : InventoryPouch
     {
         foreach (var p in value)
             p.GetPouch(data);
-        return value;
     }
 
     public static void SaveAll(this IReadOnlyList<InventoryPouch> value, Span<byte> data)

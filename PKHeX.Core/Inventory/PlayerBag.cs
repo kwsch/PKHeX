@@ -42,15 +42,15 @@ public abstract class PlayerBag
     /// <summary>
     /// Gets a suggested count for an item after applying pouch-specific rules.
     /// </summary>
-    public int Clamp(InventoryType type, int itemIndex, int requestVal = 1)
+    public int Clamp(InventoryType type, int itemIndex, int requestVal)
         => Math.Clamp(requestVal, 0, GetMaxCount(type, itemIndex));
 
     /// <summary>
     /// Validates and clamps an item count for the specified pouch.
     /// </summary>
-    public bool IsQuantitySane(InventoryType type, int itemIndex, bool hasNew, bool haX, ref int count)
+    public bool IsQuantitySane(InventoryType type, int itemIndex, ref int count, bool hasNew, bool HaX = false)
     {
-        if (haX)
+        if (HaX)
         {
             count = Math.Clamp(count, 0, MaxQuantityHaX);
             return true;

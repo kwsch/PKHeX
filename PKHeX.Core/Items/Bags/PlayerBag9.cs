@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static PKHeX.Core.InventoryType;
 
 namespace PKHeX.Core;
 
@@ -10,20 +11,21 @@ public sealed class PlayerBag9 : PlayerBag
 
     private static InventoryPouch9[] GetPouches() =>
     [
-        MakePouch(InventoryType.Medicine),
-        MakePouch(InventoryType.Balls),
-        MakePouch(InventoryType.BattleItems),
-        MakePouch(InventoryType.Berries),
-        MakePouch(InventoryType.Items),
-        MakePouch(InventoryType.TMHMs),
-        MakePouch(InventoryType.Treasure),
-        MakePouch(InventoryType.Ingredients),
-        MakePouch(InventoryType.KeyItems),
-        MakePouch(InventoryType.Candy),
+        MakePouch(Medicine),
+        MakePouch(Balls),
+        MakePouch(BattleItems),
+        MakePouch(Berries),
+        MakePouch(Items),
+        MakePouch(TMHMs),
+        MakePouch(Treasure),
+        MakePouch(Ingredients),
+        MakePouch(KeyItems),
+        MakePouch(Candy),
     ];
 
-    public PlayerBag9(SAV9SV sav) : this(sav.Items.Data) { }
-    public PlayerBag9(Span<byte> data) => Pouches.LoadAll(data);
+    public PlayerBag9(SAV9SV sav) : this(sav.Items) { }
+    public PlayerBag9(MyItem9 block) : this(block.Data) { }
+    public PlayerBag9(ReadOnlySpan<byte> data) => Pouches.LoadAll(data);
 
     public override void CopyTo(SaveFile sav) => CopyTo((SAV9SV)sav);
     public void CopyTo(SAV9SV sav) => CopyTo(sav.Items);
@@ -37,7 +39,7 @@ public sealed class PlayerBag9 : PlayerBag
 
     public override int GetMaxCount(InventoryType type, int itemIndex)
     {
-        if (type is InventoryType.Ingredients && ItemStorage9SV.IsAccessory(itemIndex))
+        if (type is Ingredients && ItemStorage9SV.IsAccessory(itemIndex))
             return 1;
         return GetMaxCount(type);
     }
@@ -51,16 +53,16 @@ public sealed class PlayerBag9 : PlayerBag
 
     private static uint GetPouchIndex(InventoryType type) => type switch
     {
-        InventoryType.Items => InventoryItem9.PouchOther,
-        InventoryType.KeyItems => InventoryItem9.PouchEvent,
-        InventoryType.TMHMs => InventoryItem9.PouchTMHM,
-        InventoryType.Medicine => InventoryItem9.PouchMedicine,
-        InventoryType.Berries => InventoryItem9.PouchBerries,
-        InventoryType.Balls => InventoryItem9.PouchBall,
-        InventoryType.BattleItems => InventoryItem9.PouchBattle,
-        InventoryType.Treasure => InventoryItem9.PouchTreasure,
-        InventoryType.Ingredients => InventoryItem9.PouchPicnic,
-        InventoryType.Candy => InventoryItem9.PouchMaterial,
+        Items => InventoryItem9.PouchOther,
+        KeyItems => InventoryItem9.PouchEvent,
+        TMHMs => InventoryItem9.PouchTMHM,
+        Medicine => InventoryItem9.PouchMedicine,
+        Berries => InventoryItem9.PouchBerries,
+        Balls => InventoryItem9.PouchBall,
+        BattleItems => InventoryItem9.PouchBattle,
+        Treasure => InventoryItem9.PouchTreasure,
+        Ingredients => InventoryItem9.PouchPicnic,
+        Candy => InventoryItem9.PouchMaterial,
         _ => InventoryItem9.PouchInvalid,
     };
 }

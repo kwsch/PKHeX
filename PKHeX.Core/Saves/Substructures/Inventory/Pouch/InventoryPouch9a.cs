@@ -9,6 +9,8 @@ public sealed class InventoryPouch9a(InventoryType type, IItemStorage info, int 
 {
     public bool SetNew { get; set; }
     public uint PouchIndex { get; set; } = GetPouchIndex(type);
+    private InventoryItem9a[] _items = [];
+    public override InventoryItem9a[] Items => _items;
 
     private static uint GetPouchIndex(InventoryType type) => type switch
     {
@@ -43,12 +45,12 @@ public sealed class InventoryPouch9a(InventoryType type, IItemStorage info, int 
 
         int ctr = 0;
         foreach (var index in LegalItems)
-            items[ctr++] = GetItem(data, index);
+            items[ctr++] = ReadItem(data, index);
 
-        Items = items;
+        _items = items;
     }
 
-    public static InventoryItem9a GetItem(ReadOnlySpan<byte> block, ushort itemID)
+    public static InventoryItem9a ReadItem(ReadOnlySpan<byte> block, ushort itemID)
     {
         var ofs = GetItemOffset(itemID);
         return InventoryItem9a.Read(itemID, block[ofs..]);
@@ -57,7 +59,7 @@ public sealed class InventoryPouch9a(InventoryType type, IItemStorage info, int 
     public override void SetPouch(Span<byte> block)
     {
         // Write all the item slots still present in the pouch. Keep track of the item IDs processed.
-        var items = (InventoryItem9a[])Items;
+        var items = _items;
         var processed = new HashSet<ushort>(items.Length);
 
         var legal = Info.GetItems(Type);

@@ -277,7 +277,7 @@ public sealed partial class SAV_Inventory : Form
             bool result = int.TryParse(cells[ColumnCount].Value?.ToString(), out var count);
             if (!result)
                 continue;
-            if (!Bag.IsQuantitySane(pouch.Type, itemID, HasNew, Main.HaX, ref count))
+            if (!Bag.IsQuantitySane(pouch.Type, itemID, ref count, HasNew, Main.HaX))
                 continue; // ignore item
 
             // create clean item data when saving

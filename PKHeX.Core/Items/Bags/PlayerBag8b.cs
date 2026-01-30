@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static PKHeX.Core.InventoryType;
 
 namespace PKHeX.Core;
 
@@ -10,17 +11,18 @@ public sealed class PlayerBag8b : PlayerBag
 
     private static InventoryPouch8b[] GetPouches() =>
     [
-        MakePouch(InventoryType.Items),
-        MakePouch(InventoryType.KeyItems),
-        MakePouch(InventoryType.TMHMs),
-        MakePouch(InventoryType.Medicine),
-        MakePouch(InventoryType.Berries),
-        MakePouch(InventoryType.Balls),
-        MakePouch(InventoryType.BattleItems),
-        MakePouch(InventoryType.Treasure),
+        MakePouch(Items),
+        MakePouch(KeyItems),
+        MakePouch(TMHMs),
+        MakePouch(Medicine),
+        MakePouch(Berries),
+        MakePouch(Balls),
+        MakePouch(BattleItems),
+        MakePouch(Treasure),
     ];
 
-    public PlayerBag8b(SAV8BS sav) : this(sav.Items.Data) { }
+    public PlayerBag8b(SAV8BS sav) : this(sav.Items) { }
+    public PlayerBag8b(MyItem8b block) : this(block.Data) { }
     public PlayerBag8b(ReadOnlySpan<byte> data) => Pouches.LoadAll(data);
 
 

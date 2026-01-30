@@ -67,7 +67,9 @@ public sealed class MyItem8b(SAV8BS sav, Memory<byte> raw) : MyItem(sav, raw)
         for (ushort itemIndex = 0; itemIndex < max; itemIndex++)
         {
             if (!hashSet.Contains(itemIndex))
-                InventoryItem8b.Clear(Data, InventoryPouch8b.GetItemOffset(itemIndex));
+                DeleteItem(itemIndex);
         }
     }
+
+    private void DeleteItem(ushort itemIndex) => InventoryItem8b.Clear(Data, InventoryPouch8b.GetItemOffset(itemIndex));
 }

@@ -149,7 +149,7 @@ public partial class SAV_Misc3 : Form
 
         var tickets = TicketItemIDs;
         var p = bag.GetPouch(InventoryType.KeyItems);
-        bool hasOldSea = Array.Exists(p.Items, static z => z.Index == ItemIDOldSeaMap);
+        bool hasOldSea = p.HasItem(ItemIDOldSeaMap);
         if (!hasOldSea && !SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[ItemIDOldSeaMap]} (unreleased)?"))
             tickets = tickets[..^1]; // remove old sea map
 
@@ -158,8 +158,7 @@ public partial class SAV_Misc3 : Form
         Span<ushort> missing = stackalloc ushort[tickets.Length]; int m = 0;
         foreach (var item in tickets)
         {
-            bool has = Array.Exists(p.Items, z => z.Index == item);
-            if (has)
+            if (p.HasItem(item))
                 have[h++] = item;
             else
                 missing[m++] = item;
@@ -175,7 +174,7 @@ public partial class SAV_Misc3 : Form
         }
 
         // check for space
-        int end = Array.FindIndex(p.Items, static z => z.Index == 0);
+        int end = p.FindIndexFirstEmptySlot();
         if (end == -1 || end + missing.Length >= p.Items.Length)
         {
             WinFormsUtil.Alert("Not enough space in pouch.", "Please use the InventoryEditor.");

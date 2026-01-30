@@ -90,7 +90,7 @@ public sealed class MyItem9(SAV9SV sav, SCBlock block) : MyItem(sav, block.Raw)
         for (ushort itemIndex = 0; itemIndex < max; itemIndex++)
         {
             if (!hashSet.Contains(itemIndex))
-                sav.Items.DeleteItem(itemIndex);
+                DeleteItem(itemIndex);
         }
     }
 }

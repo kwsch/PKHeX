@@ -21,7 +21,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public override PlayerBag5B2W2 Inventory => new(this);
 
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
-    public override MyItem Items => Blocks.Items;
+    public override MyItem5B2W2 Items => Blocks.Items;
     public override Zukan5 Zukan => Blocks.Zukan;
     public override Misc5 Misc => Blocks.Misc;
     public override MysteryBlock5 Mystery => Blocks.Mystery;

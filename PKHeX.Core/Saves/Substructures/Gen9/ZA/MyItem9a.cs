@@ -97,7 +97,7 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
         for (ushort itemIndex = 0; itemIndex < max; itemIndex++)
         {
             if (!hashSet.Contains(itemIndex))
-                sav.Items.DeleteItem(itemIndex);
+                DeleteItem(itemIndex);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static PKHeX.Core.InventoryType;
 
 namespace PKHeX.Core;
 
@@ -9,23 +10,26 @@ public sealed class PlayerBag9a : PlayerBag
     private const int MegaShardItemIndex = 2618;
     private const int ColorfulScrew = 2619;
 
+    private const int MegaShardCountMaxPatched = 9_999; // In 2.0.1 update, the max count for Mega Shard was increased to 9,999.
+
     private readonly bool IsPatchedMegaShardCountMax;
     public override IReadOnlyList<InventoryPouch9a> Pouches { get; } = GetPouches();
     public override ItemStorage9ZA Info => ItemStorage9ZA.Instance;
 
     private static InventoryPouch9a[] GetPouches() =>
     [
-        MakePouch(InventoryType.Medicine),
-        MakePouch(InventoryType.Balls),
-        MakePouch(InventoryType.Berries),
-        MakePouch(InventoryType.Items),
-        MakePouch(InventoryType.TMHMs),
-        MakePouch(InventoryType.MegaStones),
-        MakePouch(InventoryType.Treasure),
-        MakePouch(InventoryType.KeyItems),
+        MakePouch(Medicine),
+        MakePouch(Balls),
+        MakePouch(Berries),
+        MakePouch(Items),
+        MakePouch(TMHMs),
+        MakePouch(MegaStones),
+        MakePouch(Treasure),
+        MakePouch(KeyItems),
     ];
 
-    public PlayerBag9a(SAV9ZA sav) : this(sav.Items.Data, sav.Accessor.HasBlock(0x0ABC6547)) { }
+    public PlayerBag9a(SAV9ZA sav) : this(sav.Items, sav.Accessor.HasBlock(0x0ABC6547)) { }
+    public PlayerBag9a(MyItem9a block, bool isMegaShardMaxPatched = true) : this(block.Data, isMegaShardMaxPatched) { }
     public PlayerBag9a(Span<byte> data, bool isMegaShardMaxPatched = true)
     {
         IsPatchedMegaShardCountMax = isMegaShardMaxPatched;
@@ -42,16 +46,13 @@ public sealed class PlayerBag9a : PlayerBag
 
     public void CopyTo(Span<byte> data) => Pouches.SaveAll(data);
 
-    public override int GetMaxCount(InventoryType type, int itemIndex)
+    public override int GetMaxCount(InventoryType type, int itemIndex) => itemIndex switch
     {
-        if (itemIndex is MegaShardItemIndex && IsPatchedMegaShardCountMax)
-            return 9_999;
-        if (itemIndex is ColorfulScrew)
-            return GetCurrentItemCount(ColorfulScrew);
-        if (itemIndex is CherishedRing) // (quest item, never possessed)
-            return 0;
-        return GetMaxCount(type);
-    }
+        MegaShardItemIndex when IsPatchedMegaShardCountMax => MegaShardCountMaxPatched,
+        ColorfulScrew => GetCurrentItemCount(ColorfulScrew), // Don't modify.
+        CherishedRing => 0, // Quest item, never possessed.
+        _ => GetMaxCount(type),
+    };
 
     private int GetCurrentItemCount(int itemIndex)
     {

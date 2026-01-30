@@ -47,7 +47,7 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetail
 
     #region Blocks
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
-    public override MyItem Items => Blocks.Items;
+    public override MyItem6XY Items => Blocks.Items;
     public override ItemInfo6 ItemInfo => Blocks.ItemInfo;
     public override GameTime6 GameTime => Blocks.GameTime;
     public override Situation6 Situation => Blocks.Situation;

@@ -1,53 +1,49 @@
 using System;
 using System.Collections.Generic;
+using static PKHeX.Core.InventoryType;
 
 namespace PKHeX.Core;
 
-public sealed class PlayerBag3FRLG : PlayerBag
+public sealed class PlayerBag3FRLG : PlayerBag, IPlayerBag3
 {
-    private const int OFS_PCItem = 0x0298;
-    private const int OFS_PouchHeldItem = 0x0310;
-    private const int OFS_PouchKeyItem = 0x03B8;
-    private const int OFS_PouchBalls = 0x0430;
-    private const int OFS_PouchTMHM = 0x0464;
-    private const int OFS_PouchBerry = 0x054C;
+    private const int BaseOffset = 0x0298;
 
     public override IReadOnlyList<InventoryPouch3> Pouches { get; } = GetPouches(ItemStorage3FRLG.Instance);
     public override ItemStorage3FRLG Info => ItemStorage3FRLG.Instance;
 
     private static InventoryPouch3[] GetPouches(ItemStorage3FRLG info) =>
     [
-        new(InventoryType.Items, info, 999, OFS_PouchHeldItem, (OFS_PouchKeyItem - OFS_PouchHeldItem) / 4),
-        new(InventoryType.KeyItems, info, 001, OFS_PouchKeyItem, (OFS_PouchBalls - OFS_PouchKeyItem) / 4),
-        new(InventoryType.Balls, info, 999, OFS_PouchBalls, (OFS_PouchTMHM - OFS_PouchBalls) / 4),
-        new(InventoryType.TMHMs, info, 999, OFS_PouchTMHM, (OFS_PouchBerry - OFS_PouchTMHM) / 4),
-        new(InventoryType.Berries, info, 999, OFS_PouchBerry, 43),
-        new(InventoryType.PCItems, info, 999, OFS_PCItem, (OFS_PouchHeldItem - OFS_PCItem) / 4),
+        new(0x078, 42, 999, info, Items),
+        new(0x120, 30, 001, info, KeyItems),
+        new(0x198, 13, 999, info, Balls),
+        new(0x1CC, 58, 999, info, TMHMs),
+        new(0x2B4, 43, 999, info, Berries),
+        new(0x000, 30, 999, info, PCItems),
     ];
 
-    public PlayerBag3FRLG(SAV3FRLG sav) : this(sav.Large, sav.SecurityKey) { }
+    public PlayerBag3FRLG(SAV3FRLG sav) : this(sav.Large[BaseOffset..], sav.SecurityKey) { }
     public PlayerBag3FRLG(ReadOnlySpan<byte> data, uint security)
     {
-        ApplySecurityKey(Pouches, security);
+        UpdateSecurityKey(security);
         Pouches.LoadAll(data);
     }
 
     public override void CopyTo(SaveFile sav) => CopyTo((SAV3FRLG)sav);
-    public void CopyTo(SAV3FRLG sav) => CopyTo(sav.Large);
+    public void CopyTo(SAV3FRLG sav) => CopyTo(sav.Large[BaseOffset..]);
     public void CopyTo(Span<byte> data) => Pouches.SaveAll(data);
 
     public override int GetMaxCount(InventoryType type, int itemIndex)
     {
-        if (type is InventoryType.TMHMs && ItemConverter.IsItemHM3((ushort)itemIndex))
+        if (type is TMHMs && ItemConverter.IsItemHM3((ushort)itemIndex))
             return 1;
         return GetMaxCount(type);
     }
 
-    private static void ApplySecurityKey(IEnumerable<InventoryPouch3> pouches, uint securityKey)
+    public void UpdateSecurityKey(uint securityKey)
     {
-        foreach (var pouch in pouches)
+        foreach (var pouch in Pouches)
         {
-            if (pouch.Type != InventoryType.PCItems)
+            if (pouch.Type != PCItems)
                 pouch.SecurityKey = securityKey;
         }
     }
