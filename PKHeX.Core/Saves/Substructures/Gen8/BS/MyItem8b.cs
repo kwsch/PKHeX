@@ -51,31 +51,7 @@ public sealed class MyItem8b(SAV8BS sav, Memory<byte> raw) : MyItem(sav, raw)
         return ++max;
     }
 
-    public override IReadOnlyList<InventoryPouch> Inventory { get => ConvertToPouches(); set => LoadFromPouches(value); }
-
-    private IReadOnlyList<InventoryPouch> ConvertToPouches()
-    {
-        InventoryPouch8b[] pouches =
-        [
-            MakePouch(InventoryType.Items),
-            MakePouch(InventoryType.KeyItems),
-            MakePouch(InventoryType.TMHMs),
-            MakePouch(InventoryType.Medicine),
-            MakePouch(InventoryType.Berries),
-            MakePouch(InventoryType.Balls),
-            MakePouch(InventoryType.BattleItems),
-            MakePouch(InventoryType.Treasure),
-        ];
-        return pouches.LoadAll(Data);
-    }
-
-    private void LoadFromPouches(IReadOnlyList<InventoryPouch> value)
-    {
-        value.SaveAll(Data);
-        CleanIllegalSlots();
-    }
-
-    private void CleanIllegalSlots()
+    public void CleanIllegalSlots()
     {
         var types = ItemStorage8BDSP.ValidTypes;
         var hashSet = new HashSet<ushort>(Legal.MaxItemID_8b);
@@ -86,17 +62,14 @@ public sealed class MyItem8b(SAV8BS sav, Memory<byte> raw) : MyItem(sav, raw)
                 hashSet.Add(item);
         }
 
-        for (ushort i = 0; i < (ushort)SAV.MaxItemID; i++) // even though there are 3000, just overwrite the ones that people will mess up.
+        // even though there are 3000, just overwrite the ones that people will mess up.
+        var max = (ushort)sav.MaxItemID;
+        for (ushort itemIndex = 0; itemIndex < max; itemIndex++)
         {
-            if (!hashSet.Contains(i))
-                InventoryItem8b.Clear(Data, InventoryPouch8b.GetItemOffset(i));
+            if (!hashSet.Contains(itemIndex))
+                DeleteItem(itemIndex);
         }
     }
 
-    private static InventoryPouch8b MakePouch(InventoryType type)
-    {
-        var info = ItemStorage8BDSP.Instance;
-        var max = info.GetMax(type);
-        return new InventoryPouch8b(type, info, max);
-    }
+    private void DeleteItem(ushort itemIndex) => InventoryItem8b.Clear(Data, InventoryPouch8b.GetItemOffset(itemIndex));
 }

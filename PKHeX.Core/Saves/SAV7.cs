@@ -141,9 +141,6 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public int GetRecordMax(int recordID) => Records.GetRecordMax(recordID);
     public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
 
-    // Inventory
-    public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
-
     // Storage
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);

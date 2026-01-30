@@ -66,7 +66,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
     public GoParkStorage Park => Blocks.Park;
     public PlayerGeoLocation7b PlayerGeoLocation => Blocks.PlayerGeoLocation;
 
-    public override IReadOnlyList<InventoryPouch> Inventory { get => Blocks.Items.Inventory; set => Blocks.Items.Inventory = value; }
+    public override PlayerBag7b Inventory => new(this);
 
     // Feature Overrides
     public override byte Generation => 7;

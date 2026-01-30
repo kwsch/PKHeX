@@ -204,19 +204,10 @@ public static class ItemConverter
         };
     }
 
-    /// <summary>
-    /// Checks if an item ID is an HM
-    /// </summary>
-    /// <param name="item">Item ID</param>
-    /// <param name="generation">Generation the <see cref="item"/> exists in</param>
-    /// <returns>True if is an HM</returns>
-    public static bool IsItemHM(ushort item, byte generation) => generation switch
-    {
-        1 => item is (>= 196 and <= 200),
-        2 => item is (>= 243 and <= 249),
-        3 => item is (>= 339 and <= 346),
-        _ => item is (>= 420 and <= 427) or 737,
-    };
+    public static bool IsItemHM1(ushort item) => item is (>= 196 and <= 200);
+    public static bool IsItemHM2(ushort item) => item is (>= 243 and <= 249);
+    public static bool IsItemHM3(ushort item) => item is (>= 339 and <= 346);
+    public static bool IsItemHM4(ushort item) => item is (>= 420 and <= 427) or 737;
 
     /// <summary>
     /// Checks if the catch rate byte is equivalent to a Gen2 held item.

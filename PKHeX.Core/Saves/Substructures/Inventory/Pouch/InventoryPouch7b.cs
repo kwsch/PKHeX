@@ -1,17 +1,19 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// Inventory Pouch used by <see cref="GameVersion.GG"/>
+/// Inventory Pouch used by <see cref="EntityContext.Gen7b"/>
 /// </summary>
-public sealed class InventoryPouch7b(InventoryType type, IItemStorage info, int maxCount, int offset, [ConstantExpected] int size)
+public sealed class InventoryPouch7b(int offset, int size, int maxCount, IItemStorage info, InventoryType type)
     : InventoryPouch(type, info, maxCount, offset, size)
 {
     public bool SetNew { get; set; }
     private int[] OriginalItems = [];
+
+    private InventoryItem7b[] _items = [];
+    public override InventoryItem7b[] Items => _items;
 
     public override InventoryItem7b GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
 
@@ -20,53 +22,30 @@ public sealed class InventoryPouch7b(InventoryType type, IItemStorage info, int 
         var span = data[Offset..];
         var items = new InventoryItem7b[PouchDataSize];
         for (int i = 0; i < items.Length; i++)
-        {
-            var item = span.Slice(i * 4, 4);
-            uint val = ReadUInt32LittleEndian(item);
-            items[i] = InventoryItem7b.GetValue(val);
-        }
-        Items = items;
+            items[i] = ReadItem(span.Slice(i * 4, 4));
+        _items = items;
         OriginalItems = Array.ConvertAll(items, z => z.Index);
+    }
+
+    private static InventoryItem7b ReadItem(ReadOnlySpan<byte> entry)
+    {
+        var value = ReadUInt32LittleEndian(entry);
+        return InventoryItem7b.GetValue(value);
     }
 
     public override void SetPouch(Span<byte> data)
     {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(Items.Length, PouchDataSize);
+        ArgumentOutOfRangeException.ThrowIfNotEqual(_items.Length, PouchDataSize);
 
         var span = data[Offset..];
-        var items = (InventoryItem7b[])Items;
+        var items = _items;
         for (int i = 0; i < items.Length; i++)
-        {
-            var item = span.Slice(i * 4, 4);
-            uint val = items[i].GetValue(SetNew, OriginalItems);
-            WriteUInt32LittleEndian(item, val);
-        }
+            WriteItem(span.Slice(i * 4, 4), items[i]);
     }
 
-    /// <summary>
-    /// Checks pouch contents for bad count values.
-    /// </summary>
-    /// <remarks>
-    /// Certain pouches contain a mix of count-limited items and uncapped regular items.
-    /// </remarks>
-    internal void SanitizeCounts()
+    private void WriteItem(Span<byte> entry, InventoryItem7b item)
     {
-        foreach (var item in Items)
-            item.Count = GetSuggestedCount(Type, item.Index, item.Count);
-    }
-
-    public static int GetSuggestedCount(InventoryType t, int item, int requestVal)
-    {
-        switch (t)
-        {
-            // mixed regular battle items & mega stones
-            case InventoryType.BattleItems when item > 100:
-            // mixed regular items & key items
-            case InventoryType.Items when ItemStorage7GG.Key.Contains((ushort)item):
-                return Math.Min(1, requestVal);
-
-            default:
-                return requestVal;
-        }
+        var value = item.GetValue(SetNew, OriginalItems);
+        WriteUInt32LittleEndian(entry, value);
     }
 }

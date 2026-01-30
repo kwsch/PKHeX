@@ -30,9 +30,9 @@ public sealed partial class SAV_Inventory : Form
                 itemlist[i] = $"(Item #{i:000})";
         }
 
-        Pouches = SAV.Inventory;
+        Bag = SAV.Inventory;
         ItemColumnReadOnly = SAV is SAV9ZA or SAV9SV;
-        var item0 = Pouches[0].Items[0];
+        var item0 = Bag.Pouches[0].Items[0];
         HasFreeSpace = item0 is IItemFreeSpace;
         HasFreeSpaceIndex = item0 is IItemFreeSpaceIndex;
         HasFavorite = item0 is IItemFavorite;
@@ -61,7 +61,7 @@ public sealed partial class SAV_Inventory : Form
         MinimumSize = Size;
     }
 
-    private readonly IReadOnlyList<InventoryPouch> Pouches;
+    private readonly PlayerBag Bag;
     private readonly bool ItemColumnReadOnly;
     private readonly bool HasFreeSpace;
     private readonly bool HasFreeSpaceIndex;
@@ -82,14 +82,14 @@ public sealed partial class SAV_Inventory : Form
 
     private readonly Dictionary<InventoryType, DataGridView> ControlGrids = [];
     private DataGridView GetGrid(InventoryType type) => ControlGrids[type];
-    private DataGridView GetGrid(int pouch) => ControlGrids[Pouches[pouch].Type];
+    private DataGridView GetGrid(int pouch) => ControlGrids[Bag.Pouches[pouch].Type];
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
     private void B_Save_Click(object sender, EventArgs e)
     {
         SetBags();
-        SAV.Inventory = Pouches;
+        Bag.CopyTo(SAV);
         Origin.CopyChangesFrom(SAV);
         Close();
     }
@@ -98,7 +98,7 @@ public sealed partial class SAV_Inventory : Form
     {
         tabControl1.SizeMode = TabSizeMode.Fixed;
         tabControl1.ItemSize = new Size(IL_Pouch.Images[0].Width + 4, IL_Pouch.Images[0].Height + 4);
-        foreach (var pouch in Pouches)
+        foreach (var pouch in Bag.Pouches)
         {
             var tab = new TabPage { ImageIndex = InventoryTypeImageUtil.GetImageIndex(pouch.Type) };
             var dgv = GetDGV(pouch);
@@ -200,7 +200,7 @@ public sealed partial class SAV_Inventory : Form
 
     private void LoadAllBags()
     {
-        foreach (var pouch in Pouches)
+        foreach (var pouch in Bag.Pouches)
         {
             var dgv = GetGrid(pouch.Type);
 
@@ -221,7 +221,7 @@ public sealed partial class SAV_Inventory : Form
 
     private void SetBags()
     {
-        foreach (var pouch in Pouches)
+        foreach (var pouch in Bag.Pouches)
         {
             var dgv = GetGrid(pouch.Type);
             SetBag(dgv, pouch);
@@ -269,19 +269,19 @@ public sealed partial class SAV_Inventory : Form
         {
             var cells = dgv.Rows[i].Cells;
             var str = cells[ColumnItem].Value!.ToString();
-            var itemindex = itemlist.IndexOf(str);
+            var itemID = itemlist.IndexOf(str);
 
-            if (itemindex <= 0 && !HasNew) // Compression of Empty Slots
+            if (itemID <= 0 && !HasNew) // Compression of Empty Slots
                 continue;
 
-            bool result = int.TryParse(cells[ColumnCount].Value?.ToString(), out int itemcnt);
+            bool result = int.TryParse(cells[ColumnCount].Value?.ToString(), out var count);
             if (!result)
                 continue;
-            if (!pouch.IsValidItemAndCount(SAV, itemindex, HasNew, Main.HaX, ref itemcnt))
+            if (!Bag.IsQuantitySane(pouch.Type, itemID, ref count, HasNew, Main.HaX))
                 continue; // ignore item
 
             // create clean item data when saving
-            var item = pouch.GetEmpty(itemindex, itemcnt);
+            var item = pouch.GetEmpty(itemID, count);
             if (item is IItemFreeSpace f)
                 f.IsFreeSpace = (bool)cells[ColumnFreeSpace].Value!;
             if (item is IItemFreeSpaceIndex fi)
@@ -304,7 +304,7 @@ public sealed partial class SAV_Inventory : Form
 
     private void ChangeViewedPouch(int index)
     {
-        var pouch = Pouches[index];
+        var pouch = Bag.Pouches[index];
         NUD_Count.Maximum = GetMax(SAV, pouch, Main.HaX);
 
         bool disable = pouch.Type is InventoryType.PCItems or InventoryType.FreeSpace && SAV is not SAV8LA;
@@ -364,7 +364,7 @@ public sealed partial class SAV_Inventory : Form
 
     private void GiveAllItems(object sender, EventArgs e)
     {
-        var pouch = Pouches[CurrentPouch];
+        var pouch = Bag.Pouches[CurrentPouch];
         if (!GetModifySettings(pouch, out var truncate, out var shuffle))
             return;
 
@@ -376,7 +376,7 @@ public sealed partial class SAV_Inventory : Form
             Array.Resize(ref items, pouch.Items.Length);
         }
 
-        ModifyPouch(CurrentPouch, p => p.GiveAllItems(SAV, items, (int)NUD_Count.Value));
+        ModifyPouch(CurrentPouch, p => p.GiveAllItems(Bag, items, (int)NUD_Count.Value));
         System.Media.SystemSounds.Asterisk.Play();
     }
 
@@ -406,14 +406,14 @@ public sealed partial class SAV_Inventory : Form
 
     private void ModifyAllItems(object sender, EventArgs e)
     {
-        ModifyPouch(CurrentPouch, p => p.ModifyAllCount(SAV, (int)NUD_Count.Value));
+        ModifyPouch(CurrentPouch, p => p.ModifyAllCount(Bag, (int)NUD_Count.Value));
         WinFormsUtil.Alert(MsgItemPouchCountUpdated);
     }
 
     private void ModifyPouch(int pouch, Action<InventoryPouch> func)
     {
         var dgv = GetGrid(pouch);
-        var p = Pouches[pouch];
+        var p = Bag.Pouches[pouch];
         SetBag(dgv, p); // save current
         func(p); // update
         GetBag(dgv, p); // load current

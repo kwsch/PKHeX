@@ -17,6 +17,8 @@ public sealed class SAV5BW : SAV5
     protected override SAV5BW CloneInternal() => new(Data.ToArray());
     public override int MaxItemID => Legal.MaxItemID_5_BW;
 
+    public override PlayerBag5BW Inventory => new(this);
+
     public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
     public override MyItem5BW Items => Blocks.Items;
     public override Zukan5 Zukan => Blocks.Zukan;

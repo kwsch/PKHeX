@@ -23,7 +23,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
     private readonly StrategyMemo StrategyMemo;
     private readonly ShadowInfoTableXD ShadowInfo;
     public int MaxShadowID => ShadowInfo.Count;
-    private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne, OFS_PouchDisc;
+    public int OFS_Pouch;
     private readonly int[] subOffsets = new int[16];
     private readonly Memory<byte> Container;
     private int DaycareOffset;
@@ -90,13 +90,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
 
     private void Initialize()
     {
-        OFS_PouchHeldItem = Trainer1 + 0x4C8;
-        OFS_PouchKeyItem = Trainer1 + 0x540;
-        OFS_PouchBalls = Trainer1 + 0x5EC;
-        OFS_PouchTMHM = Trainer1 + 0x62C;
-        OFS_PouchBerry = Trainer1 + 0x72C;
-        OFS_PouchCologne = Trainer1 + 0x7E4;
-        OFS_PouchDisc = Trainer1 + 0x7F0;
+        OFS_Pouch = Trainer1 + 0x4C8;
 
         // Since PartyCount is not stored in the save file,
         // Count up how many party slots are active.
@@ -344,25 +338,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
         */
     }
 
-    public override IReadOnlyList<InventoryPouch> Inventory
-    {
-        get
-        {
-            var info = ItemStorage3XD.Instance;
-            InventoryPouch[] pouch =
-            [
-                new InventoryPouch3GC(InventoryType.Items, info, 999, OFS_PouchHeldItem, 30), // 20 COLO, 30 XD
-                new InventoryPouch3GC(InventoryType.KeyItems, info, 1, OFS_PouchKeyItem, 43),
-                new InventoryPouch3GC(InventoryType.Balls, info, 999, OFS_PouchBalls, 16),
-                new InventoryPouch3GC(InventoryType.TMHMs, info, 999, OFS_PouchTMHM, 64),
-                new InventoryPouch3GC(InventoryType.Berries, info, 999, OFS_PouchBerry, 46),
-                new InventoryPouch3GC(InventoryType.Medicine, info, 999, OFS_PouchCologne, 3), // Cologne
-                new InventoryPouch3GC(InventoryType.BattleItems, info, 1, OFS_PouchDisc, 60),
-            ];
-            return pouch.LoadAll(Data);
-        }
-        set => value.SaveAll(Data);
-    }
+    public override PlayerBag3XD Inventory => new(this);
 
     // Daycare Structure:
     // 0x00 -- Occupied
