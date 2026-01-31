@@ -1,0 +1,235 @@
+0107	s	Pokédex Obtenu
+0607	*	Red Disparu (Mont Argenté)
+0774	r	Artikodin Disparu
+0364	r	Artikodin Capturé
+0663	r	Électhor Disparu
+0330	r	Électhor Capturé
+0775	r	Sulfura Disparu
+0365	r	Sulfura Capturé
+0773	r	Mewtwo Disparu
+0363	r	Mewtwo Capturé
+0457	r	Raikou Se Promène
+0458	r	Entei Se Promène
+0459	s	Suicune Parti (Tour Cendrée)
+0673	s	Suicune Disparu (Route 25)
+0782	r	Suicune Disparu (Retour à la Tour Cendrée)
+0373	r	Suicune Capturé (Route 25)
+0579	r	Lugia Disparu
+0279	r	Lugia Capturé
+0578	r	Ho-Oh Disparu
+0278	r	Ho-Oh Capturé
+0781	r	Lati@s Disparu (Argenta)
+0721	r	Kyogre Disparu (HG)
+0378	r	Kyogre Capturé (HG)
+0720	r	Groudon Disparu (SS)
+0377	r	Groudon Capturé (SS)
+0722	r	Rayquaza Disparu
+0379	r	Rayquaza Capturé
+2404	a	Entré au Panthéon (Carte Dresseur Améliorée)
+0388	a	Obtenu 1 Couronne de Feuilles (Carte Dresseur Améliorée)
+0241	a	Records du Pokéathlon battus (Carte Dresseur Améliorée)
+0766	s	Ball du Bulbizarre Disparue
+0767	s	Ball du Carapuce Disparue
+0768	s	Ball du Salamèche Disparue
+0789	*	Fonctionnalité d'Échange Activée (Centre Pokémon)
+0501	r	Électrode (1) Disparu (Repaire Rocket)
+0502	r	Électrode (2) Disparu (Repaire Rocket)
+0503	r	Électrode (3) Disparu (Repaire Rocket)
+0609	r	Ronflex Endormi Disparu
+0371	r	Ronflex Capturé
+0149	g	Évoli Cadeau Reçu (Doublonville)
+0450	r	Simularbre Disparu (Route 36)
+0361	r	Simularbre Capturé (Route 36)
+0483	r	Léviator Rouge Disparu
+0362	r	Léviator Rouge Capturé
+0191	g	Caratroc Cadeau Reçu (Irisia)
+0193	g	Caratroc Rendu ou Autorisé d'Être Gardé (Irisia)
+2744	r	Lokhlass du Vendredi Disparu (Caves Jumelles)
+0219	g	Mauvaise Réponse au Quiz (Minidraco Cadeau n'aura pas Vit.Extrême)
+0220	g	Minidraco Cadeau Reçu (Antre du Dragon)
+0268	g	Debugant Cadeau Reçu (Mont Creuset)
+0269	s	Roi du Karaté Vaincu au Mont Creuset
+0113	g	Échange Interne Chétiflor Contre Onix (Mauville)
+0141	g	Échange Interne Soporifik Contre Machoc (5ème Étage du Centre Commercial de Doublonville)
+0190	g	Échange Interne Krabby Contre Voltorbe (Oliville)
+0208	g	Échange Interne Draco Contre Dodrio (Ébènelle)
+0289	g	Échange Interne Triopikeur Contre Magnéton (Centrale)
+0307	g	Échange Interne Spectrum Contre Xatu (Argenta)
+0354	g	Échange Interne de Pikachu avec le Major Bob (Safrania)
+0357	g	Échange Interne avec Pierre, Manzaï Contre Rhinocorne (Cave TAUPIQUEUR)
+0358	g	Échange Interne avec Jasmine pour un Steelix (Oliville)
+0359	g	Échange Interne avec Pierre Rochard, Foretress Contre Terhal (Sylphe SARL)
+0375	g	A reçu un Pokémon de Départ d'Hoenn venant de Pierre Rochard
+0762	s	Pierre Rochard parti de la Sylphe SARL
+0791	s	Pierre Rochard parti du Musée d'Argenta
+0643	e	Appareil Micro-ondes Disparu (Salle MOTISMA)
+0644	e	Appareil Machine à Laver Disparu (Salle MOTISMA)
+0645	e	Appareil Réfrigirateur Disparu (Salle MOTISMA)
+0646	e	Appareil Ventilateur Disparu (Salle MOTISMA)
+0647	e	Appareil Tondeuse à Gazon Disparu (Salle MOTISMA)
+0215	s	Lucie Rencontrée/Bec Pointu Obtenu (Chenal 40)
+0216	s	Marie Rencontrée/Cuillertordu Obtenue (Route 29)
+0213	s	Homer Rencontré/Ceint. Noire Obtenue (Lac Colère)
+0177	s	Jérôme Rencontré/Pierre Dure Obtenue (Route 36)
+0217	s	Vanessa Rencontrée/Pic Venin Obtenu (Route 32)
+0212	s	Samuel Rencontré/Sable Doux Obtenu (Ébènelle)
+0165	s	Dimitri Rencontré/Aimant Obtenu (Route 37)
+0119	s	La Petite Fille de Fargas s'Inquiète pour son Grand-Père
+0414	s	Fargas au Puits RAMOLOSS
+0415	s	Sbire Rocket Gardant le Puits RAMOLOSS Parti
+0539	*	Puzzle Mural de la Corde Sortie des Ruines d'Alpha Résolu
+0541	*	Puzzle Mural de Flash des Ruines d'Alpha Résolu
+0543	*	Puzzle Mural de la Pierre Eau des Ruines d'Alpha Résolu
+0545	*	Puzzle Mural de Ho-Oh des Ruines d'Alpha Résolu
+0376	s	A Perdu Contre Giovanni Une Fois (Événement Celebi)
+1366	t	A Vaincu Agent Nicolas (Nuit - Route 34)
+1440	t	A Vaincu Agent Baptiste (Nuit - Route 35)
+0693	t	A Eu Revanche Contre Blanche
+0694	t	A Eu Revanche Contre Janine
+0695	t	A Eu Revanche Contre Sandra
+0696	t	A Eu Revanche Contre Erika
+0697	t	A Eu Revanche Contre Ondine
+0698	t	A Eu Revanche Contre Auguste
+0699	t	A Eu Revanche Contre Blue
+0700	t	A Eu Revanche Contre Chuck
+0701	t	A Eu Revanche Contre Pierre
+0702	t	A Eu Revanche Contre Hector
+0703	t	A Eu Revanche Contre Morgane
+0704	t	A Eu Revanche Contre Albert
+0705	t	A Eu Revanche Contre Major Bob
+0706	t	A Eu Revanche Contre Mortimer
+0707	t	A Eu Revanche Contre Jasmine
+0708	t	A Eu Revanche Contre Frédo
+1639	t	A Eu 1ère Revanche Contre Gamin Farouk (Route 30)
+1640	t	A Eu 2ème Revanche Contre Gamin Farouk (Route 30)
+1870	t	A Eu 3ème Revanche Contre Gamin Farouk (Route 30)
+1820	t	A Eu 1ère Revanche Contre Scout Francis (Route 31)
+1821	t	A Eu 2ème Revanche Contre Scout Francis (Route 31)
+1872	t	A Eu 3ème Revanche Contre Scout Francis (Route 31)
+1636	t	A Eu 1ère Revanche Contre Pique-Nique Elisabeth (Route 32)
+1637	t	A Eu 2ème Revanche Contre Pique-Nique Elisabeth (Route 32)
+1878	t	A Eu 3ème Revanche Contre Pique-Nique Elisabeth (Route 32)
+1822	t	A Eu 1ère Revanche Contre Pêcheur Auffray (Route 32)
+1823	t	A Eu 2ème Revanche Contre Pêcheur Auffray (Route 32)
+1875	t	A Eu 3ème Revanche Contre Pêcheur Auffray (Route 32)
+1460	t	A Eu 1ère Revanche Contre Montagnard Olwen (Route 33)
+1515	t	A Eu 2ème Revanche Contre Montagnard Olwen (Route 33)
+1883	t	A Eu 3ème Revanche Contre Montagnard Olwen (Route 33)
+1502	t	A Eu 1ère Revanche Contre Pique-Nique Albertine (Route 34)
+1694	t	A Eu 2ème Revanche Contre Pique-Nique Albertine (Route 34)
+1880	t	A Eu 3ème Revanche Contre Pique-Nique Albertine (Route 34)
+1634	t	A Eu 1ère Revanche Contre Campeur Matthias (Route 34)
+1635	t	A Eu 2ème Revanche Contre Campeur Matthias (Route 34)
+1885	t	A Eu 3ème Revanche Contre Campeur Matthias (Route 34)
+1976	t	A Eu 1ère Revanche Contre Gamin Ian (Route 34)
+1977	t	A Eu 2ème Revanche Contre Gamin Ian (Route 34)
+1978	t	A Eu 3ème Revanche Contre Gamin Ian (Route 34)
+1720	t	A Eu 1ère Revanche Contre Scout Henri (Route 35)
+1809	t	A Eu 2ème Revanche Contre Scout Henri (Route 35)
+1873	t	A Eu 3ème Revanche Contre Scout Henri (Route 35)
+1979	t	A Eu 1ère Revanche Contre Crache-Feu Bimbo (Route 35)
+1980	t	A Eu 2ème Revanche Contre Crache-Feu Bimbo (Route 35)
+1981	t	A Eu 3ème Revanche Contre Crache-Feu Bimbo (Route 35)
+1973	t	A Eu 1ère Revanche Contre Fillette Jezebel (Parc Naturel)
+1974	t	A Eu 2ème Revanche Contre Fillette Jezebel (Parc Naturel)
+1975	t	A Eu 3ème Revanche Contre Fillette Jezebel (Parc Naturel)
+1790	t	A Eu 1ère Revanche Contre Élève Timéo (Parc Naturel)
+1791	t	A Eu 2ème Revanche Contre Élève Timéo (Parc Naturel)
+1863	t	A Eu 3ème Revanche Contre Élève Timéo (Parc Naturel)
+1792	t	A Eu 1ère Revanche Contre Élève Aimé (Route 36)
+1793	t	A Eu 2ème Revanche Contre Élève Aimé (Route 36)
+1865	t	A Eu 3ème Revanche Contre Élève Aimé (Route 36)
+1824	t	A Eu 1ère Revanche Contre Fillette Rekka (Route 38)
+1825	t	A Eu 2ème Revanche Contre Fillette Rekka (Route 38)
+1888	t	A Eu 3ème Revanche Contre Fillette Rekka (Route 38)
+1794	t	A Eu 1ère Revanche Contre Élève Matthys (Route 38)
+1795	t	A Eu 2ème Revanche Contre Élève Matthys (Route 38)
+1867	t	A Eu 3ème Revanche Contre Élève Matthys (Route 38)
+2032	t	A Eu 1ère Revanche Contre Gentleman Louis (Phare)
+2033	t	A Eu 2ème Revanche Contre Gentleman Louis (Phare)
+2034	t	A Eu 3ème Revanche Contre Gentleman Louis (Phare)
+1800	t	A Eu 1ère Revanche Contre Marin Logan (Phare)
+1801	t	A Eu 2ème Revanche Contre Marin Logan (Phare)
+1869	t	A Eu 3ème Revanche Contre Marin Logan (Phare)
+1683	t	A Eu 1ère Revanche Contre Pêcheur Conan (Route 42)
+1684	t	A Eu 2ème Revanche Contre Pêcheur Conan (Route 42)
+1877	t	A Eu 3ème Revanche Contre Pêcheur Conan (Route 42)
+1826	t	A Eu 1ère Revanche Contre Pique-Nique Flavie (Route 43)
+1827	t	A Eu 2ème Revanche Contre Pique-Nique Flavie (Route 43)
+1882	t	A Eu 3ème Revanche Contre Pique-Nique Flavie (Route 43)
+1532	t	A Eu 1ère Revanche Contre Pokémaniac Wilfrid (Route 43)
+1533	t	A Eu 2ème Revanche Contre Pokémaniac Wilfrid (Route 43)
+1890	t	A Eu 3ème Revanche Contre Pokémaniac Wilfrid (Route 43)
+1807	t	A Eu 1ère Revanche Contre Ornithologue Alban (Route 44)
+1808	t	A Eu 2ème Revanche Contre Bird Ornithologue Alban (Route 44)
+1972	t	A Eu 3ème Revanche Contre Bird Ornithologue Alban (Route 44)
+1685	t	A Eu 1ère Revanche Contre Pêcheur Renan (Route 44)
+1810	t	A Eu 2ème Revanche Contre Pêcheur Renan (Route 44)
+1968	t	A Eu 3ème Revanche Contre Pêcheur Renan (Route 44)
+1610	t	A Eu 1ère Revanche Contre Karatéka Jacky (Route 45)
+1638	t	A Eu 2ème Revanche Contre Karatéka Jacky (Route 45)
+1965	t	A Eu 3ème Revanche Contre Karatéka Jacky (Route 45)
+1811	t	A Eu 1ère Revanche Contre Montagnard Noa (Route 45)
+1812	t	A Eu 2ème Revanche Contre Montagnard Noa (Route 45)
+1966	t	A Eu 3ème Revanche Contre Montagnard Noa (Route 45)
+1695	t	A Eu 1ère Revanche Contre Pique-Nique Erin (Route 46)
+1813	t	A Eu 2ème Revanche Contre Pique-Nique Erin (Route 46)
+1963	t	A Eu 3ème Revanche Contre Pique-Nique Erin (Route 46)
+1982	t	A Eu 1ère Revanche Contre Scout Constantin (Route 2)
+1983	t	A Eu 2ème Revanche Contre Scout Constantin (Route 2)
+1984	t	A Eu 3ème Revanche Contre Scout Constantin (Route 2)
+1985	t	A Eu 1ère Revanche Contre Scout Aymeric (Route 2)
+1986	t	A Eu 2ème Revanche Contre Scout Aymeric (Route 2)
+1987	t	A Eu 3ème Revanche Contre Scout Aymeric (Route 2)
+2021	t	A Eu 1ère Revanche Contre Pêcheur Olive (Route 12)
+2022	t	A Eu 2ème Revanche Contre Pêcheur Olive (Route 12)
+2023	t	A Eu 3ème Revanche Contre Pêcheur Olive (Route 12)
+2024	t	A Eu 1ère Revanche Contre Pêcheur Zachary (Route 12)
+2025	t	A Eu 2ème Revanche Contre Pêcheur Zachary (Route 12)
+2026	t	A Eu 3ème Revanche Contre Pêcheur Zachary (Route 12)
+2015	t	A Eu 1ère Revanche Contre Montagnard Gilles (Route 13)
+2016	t	A Eu 2ème Revanche Contre Montagnard Gilles (Route 13)
+2017	t	A Eu 3ème Revanche Contre Montagnard Gilles (Route 13)
+2018	t	A Eu 1ère Revanche Contre Campeur Xavier (Route 13)
+2019	t	A Eu 2ème Revanche Contre Campeur Xavier (Route 13)
+2020	t	A Eu 3ème Revanche Contre Campeur Xavier (Route 13)
+2012	t	A Eu 1ère Revanche Contre Jeune Couple André & Tina (Route 13)
+2013	t	A Eu 2ème Revanche Contre Jeune Couple André & Tina (Route 13)
+2014	t	A Eu 3ème Revanche Contre Jeune Couple André & Tina (Route 13)
+2006	t	A Eu 1ère Revanche Contre Ornithologue William (Route 14)
+2007	t	A Eu 2ème Revanche Contre Ornithologue William (Route 14)
+2008	t	A Eu 3ème Revanche Contre Ornithologue William (Route 14)
+2009	t	A Eu 1ère Revanche Contre Élève Justin (Route 14)
+2010	t	A Eu 2ème Revanche Contre Élève Justin (Route 14)
+2011	t	A Eu 3ème Revanche Contre Élève Justin (Route 14)
+2000	t	A Eu 1ère Revanche Contre Élève Bilhal (Route 15)
+2001	t	A Eu 2ème Revanche Contre Élève Bilhal (Route 15)
+2002	t	A Eu 3ème Revanche Contre Élève Bilhal (Route 15)
+1997	t	A Eu 1ère Revanche Contre Prof Josianne (Route 15)
+1998	t	A Eu 2ème Revanche Contre Prof Josianne (Route 15)
+1999	t	A Eu 3ème Revanche Contre Prof Josianne (Route 15)
+2003	t	A Eu 1ère Revanche Contre Jumelles Nini & Nina (Route 15)
+2004	t	A Eu 2ème Revanche Contre Jumelles Nini & Nina (Route 15)
+2005	t	A Eu 3ème Revanche Contre Jumelles Nini & Nina (Route 15)
+1991	t	A Eu 1ère Revanche Contre Motard Nathan (Route 17)
+1992	t	A Eu 2ème Revanche Contre Motard Nathan (Route 17)
+1993	t	A Eu 3ème Revanche Contre Motard Nathan (Route 17)
+1994	t	A Eu 1ère Revanche Contre Motard Samuel (Route 17)
+1995	t	A Eu 2ème Revanche Contre Motard Samuel (Route 17)
+1996	t	A Eu 3ème Revanche Contre Motard Samuel (Route 17)
+1988	t	A Eu 1ère Revanche Contre Motard Bernard (Route 17)
+1989	t	A Eu 2ème Revanche Contre Motard Bernard (Route 17)
+1990	t	A Eu 3ème Revanche Contre Motard Bernard (Route 17)
+1818	t	A Eu 1ère Revanche Contre Topdresseur Carina (Route 26)
+1819	t	A Eu 2ème Revanche Contre Topdresseur Carina (Route 26)
+1969	t	A Eu 3ème Revanche Contre Topdresseur Carina (Route 26)
+1816	t	A Eu 1ère Revanche Contre Topdresseur Sean (Route 26)
+1817	t	A Eu 2ème Revanche Contre Topdresseur Sean (Route 26)
+1964	t	A Eu 3ème Revanche Contre Topdresseur Sean (Route 26)
+1804	t	A Eu 1ère Revanche Contre Topdresseur Audrey (Route 27)
+1805	t	A Eu 2ème Revanche Contre Topdresseur Audrey (Route 27)
+1967	t	A Eu 3ème Revanche Contre Topdresseur Audrey (Route 27)
+1663	t	A Eu 1ère Revanche Contre Ornithologue Brett (Route 27)
+1806	t	A Eu 2ème Revanche Contre Ornithologue Brett (Route 27)
+1962	t	A Eu 3ème Revanche Contre Ornithologue Brett (Route 27)
+2746	s	A Appris Un Mot Savant (Aujourd'hui - Route 16)

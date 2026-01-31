@@ -1,0 +1,22 @@
+0048	*	Pokémon de Départ	0:Pas choisi,152:Germignon,155:Héricendre,158:Kaiminus
+0299	r	Pichu Troizépi (Bois aux Chênes)	0:Pas activé,1:En attente,2:Obtenu
+0161	r	Fauves Légendaires (Tour Cendrée)	0:Apparus,1:Se promènent/Ont fui
+0304	s	Statut de Pierre Rochard	0:Poupée Mélofée en attente,1:À rencontrer à Carmin-sur-mer (Lati@s en attente),2:Rencontré (Lati@s se promène),3:Demande le choix du Pokémon de Départ d'Hoenn,4:A donné un Pokémon de Départ d'Hoenn,5:A discuté au Musée d'Argenta,6:Veut faire un échange à la Sylphe SARL,7:A échangé son Terhal
+0067	e	Mystécristal	0:Pas activé,1778:Activé
+0249	e	Tour Enfouie	0:N'a pas encore reçu le Pokémon de Départ de Kanto,1:A reçu le Pokémon de Départ de Kanto,2:Orbe obtenu,3:Kyogre/Groudon activé,4:Kyogre/Groudon disparu,5:A reçu l'Orbe Vert,6:Rayquaza activé,7:Rayquaza attrapé,8:Événement complété,9:Rayquaza disparu
+0251	e	Ruines Sinjoh	1:Pas visité,4:Téléporté (1ère fois),5:Est allé à l'intérieur,6:Peut interagir avec Cynthia (chalet),7:Peut interagir avec Cynthia (temple),8:Avant le choix du légendaire,10:Premier légendaire obtenu,13:Téléporté (2nde fois),14:Second légendaire obtenu
+0259	r	Légendaire de Sinnoh (1er)	1:Dialga,2:Palkia,3:Giratina
+0258	r	(2nd) Arceus Téléportable	1:Salle Originelle,2:Rencontre Fatidique
+0305	r	Pokémon de Départ de Kanto	0:Pas activé,1:Activé,2:En attente,3:Bulbizarre,4:Carapuce,5:Salamèche,6:Complété
+0116	r	Œuf de Togepi	0:Pas activé,1:Activé,2:En attente,3:Obtenu,4:Complété
+0254	r	Événement de Celebi	0:Pas activé,5:Complété
+0314	a	Points Carte Bleue	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,11:11,12:12,13:13,14:14,15:15,16:16,17:17,18:18,19:19,20:20,21:21,22:22,23:23,24:24,25:25,26:26,27:27,28:28,29:29
+0069	r	Statut de Raikou	0:En attente,1:Capturé,2:Mis K.O./Peut réapparaître
+0070	r	Statut de Entei	0:En attente,1:Capturé,2:Mis K.O./Peut réapparaître
+0071	r	Statut du Latias Fuyard (HG)	0:En attente,1:Capturé,2:Mis K.O./Peut réapparaître
+0072	r	Statut du Latios Fuyard (SS)	0:En attente,1:Capturé,2:Mis K.O./Peut réapparaître
+0148	+	Membres de la Fratrie des Sept Rencontrés	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7
+0151	s	Sœurs Topdresseur (Route 34)	0:Pas affrontées,1:A vaincu Amy et Maria,2:Herbe Pouvoir en attente,3:A vaincu Irène/Herbe Pouvoir obtenue
+0253	r	Red (Mont Argenté)	0:Pas vaincu,1:Vaincu (Pokémon de Départ d'Hoenn activé)
+0276	s	Quête de la Lettre	0:Pas activé,1:Piafabec reçu avec lettre,2:Lettre livrée à la Route 31 (sac plein),3:Lettre livrée à la Route 31,5:PV Plus donné par Vijay (Complété)
+0291	+	Meilleur Score du Show Capture (Parc des Amis)
