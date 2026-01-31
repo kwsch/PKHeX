@@ -1,7 +1,15 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-26/01/07 - New Update:
+26/01/22 - New Update:
+ - Added: Gen9a file size recognition for Z-A patch 2.0.1
+ - Legality:
+ - - Changed: Height/Weight/Scale messages now show the expected value, when applicable.
+ - - Fixed: Alpha Pokémon without the requisite scale value are now flagged.
+ - - Fixed: Forgotten initial moves (via HOME) are now extrapolated for cross-game transfers that expect specific moves.
+ - Changed: Gen4 Battle Revolution saves now load faster (more performant checksum algorithm).
+
+26/01/07 - New Update: (134818) [12303412]
  - Changed: PKHeX now uses .NET 10 for its runtime (updated from .NET 9)! Dark Mode (Options->Settings->Startup->DarkMode) is now better supported.
  - Legality: Sceptilite now released, can exist in inventory/held.
  - - Fixed: Gen9a handling for Rotom/Hoopa plus move flags.

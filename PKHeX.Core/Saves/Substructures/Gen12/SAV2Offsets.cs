@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core;
 
-internal sealed class SAV2Offsets
+public sealed class SAV2Offsets
 {
     public SAV2Offsets(SAV2 sav)
     {

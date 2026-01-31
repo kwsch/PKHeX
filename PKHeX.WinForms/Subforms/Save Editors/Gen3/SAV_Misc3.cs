@@ -144,12 +144,12 @@ public partial class SAV_Misc3 : Form
     #region Ferry
     private void B_GetTickets_Click(object sender, EventArgs e)
     {
-        var Pouches = SAV.Inventory;
+        var bag = SAV.Inventory;
         var itemlist = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version);
 
         var tickets = TicketItemIDs;
-        var p = Pouches.First(z => z.Type == InventoryType.KeyItems);
-        bool hasOldSea = Array.Exists(p.Items, static z => z.Index == ItemIDOldSeaMap);
+        var p = bag.GetPouch(InventoryType.KeyItems);
+        bool hasOldSea = p.HasItem(ItemIDOldSeaMap);
         if (!hasOldSea && !SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[ItemIDOldSeaMap]} (unreleased)?"))
             tickets = tickets[..^1]; // remove old sea map
 
@@ -158,8 +158,7 @@ public partial class SAV_Misc3 : Form
         Span<ushort> missing = stackalloc ushort[tickets.Length]; int m = 0;
         foreach (var item in tickets)
         {
-            bool has = Array.Exists(p.Items, z => z.Index == item);
-            if (has)
+            if (p.HasItem(item))
                 have[h++] = item;
             else
                 missing[m++] = item;
@@ -175,7 +174,7 @@ public partial class SAV_Misc3 : Form
         }
 
         // check for space
-        int end = Array.FindIndex(p.Items, static z => z.Index == 0);
+        int end = p.FindIndexFirstEmptySlot();
         if (end == -1 || end + missing.Length >= p.Items.Length)
         {
             WinFormsUtil.Alert("Not enough space in pouch.", "Please use the InventoryEditor.");
@@ -215,7 +214,7 @@ public partial class SAV_Misc3 : Form
 
         string alert = $"Inserted the following items to the Key Items Pouch:{Environment.NewLine}{added}";
         WinFormsUtil.Alert(alert);
-        SAV.Inventory = Pouches;
+        bag.CopyTo(SAV);
 
         B_GetTickets.Enabled = false;
     }

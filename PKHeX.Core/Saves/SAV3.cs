@@ -451,22 +451,6 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         }
     }
 
-    public sealed override IReadOnlyList<InventoryPouch> Inventory
-    {
-        get
-        {
-            var pouch = GetItems();
-            foreach (var p in pouch)
-            {
-                if (p.Type != InventoryType.PCItems)
-                    p.SecurityKey = SecurityKey;
-            }
-            return pouch.LoadAll(Large);
-        }
-        set => value.SaveAll(Large);
-    }
-
-    protected abstract InventoryPouch3[] GetItems();
     protected abstract int PokeDex { get; }
     public override bool HasPokeDex => true;
 

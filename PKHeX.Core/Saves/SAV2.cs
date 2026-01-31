@@ -539,23 +539,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
     }
 
-    public override IReadOnlyList<InventoryPouch> Inventory
-    {
-        get
-        {
-            var info = Version == GameVersion.C ? ItemStorage2.InstanceC : ItemStorage2.InstanceGS;
-            InventoryPouch[] pouch =
-            [
-                new InventoryPouchGB(InventoryType.TMHMs, info, 99, Offsets.PouchTMHM, 57),
-                new InventoryPouchGB(InventoryType.Items, info, 99, Offsets.PouchItem, 20),
-                new InventoryPouchGB(InventoryType.KeyItems, info, 99, Offsets.PouchKey, 26),
-                new InventoryPouchGB(InventoryType.Balls, info, 99, Offsets.PouchBall, 12),
-                new InventoryPouchGB(InventoryType.PCItems, info, 99, Offsets.PouchPC, 50),
-            ];
-            return pouch.LoadAll(Data);
-        }
-        set => value.SaveAll(Data);
-    }
+    private ItemStorage2 ItemInfo => Version == GameVersion.C ? ItemStorage2.InstanceC : ItemStorage2.InstanceGS;
+    public override PlayerBag2 Inventory => new(this, ItemInfo, Offsets);
 
     public ref byte DaycareFlagByte(int index)
     {

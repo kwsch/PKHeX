@@ -130,7 +130,7 @@ public sealed class FormArgumentVerifier : Verifier
         {
             const ushort move = (ushort)Move.RageFist;
             // Eager check
-            if (pk.HasMove(move))
+            if (pk.HasMove(move) || pk.HasRelearnMove(move))
                 return GetValid(FormArgumentValid);
 
             var head = LearnGroupUtil.GetCurrentGroup(pk);
@@ -223,7 +223,9 @@ public sealed class FormArgumentVerifier : Verifier
         if (history.HasVisitedGen9)
         {
             // Evolution requires only knowing the move.
-            if (current >= (history.HasVisitedPLA ? lowestLearnBarbBarrageHOME : 28))
+            const ushort move = (ushort)Move.BarbBarrage;
+            var hasMove = pk.HasMove(move) || pk.HasRelearnMove(move);
+            if (hasMove || current >= (history.HasVisitedPLA ? lowestLearnBarbBarrageHOME : 28))
             {
                 if (arg == 0 || history.HasVisitedPLA || history.HasVisitedZA)
                     return GetValid(FormArgumentValid);

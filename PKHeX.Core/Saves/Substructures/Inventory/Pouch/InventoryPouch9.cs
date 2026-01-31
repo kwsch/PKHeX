@@ -4,11 +4,13 @@ using System.Diagnostics;
 
 namespace PKHeX.Core;
 
-public sealed class InventoryPouch9(InventoryType type, IItemStorage info, int maxCount, uint pouch)
+public sealed class InventoryPouch9(InventoryType type, IItemStorage info, int maxCount, uint pouchIndex)
     : InventoryPouch(type, info, maxCount, 0)
 {
     public bool SetNew { get; set; }
-    public uint PouchIndex { get; set; } = pouch;
+    public uint PouchIndex { get; set; } = pouchIndex;
+    private InventoryItem9[] _items = [];
+    public override InventoryItem9[] Items => _items;
 
     public override InventoryItem9 GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = count != 0 };
     public static int GetItemOffset(ushort index) => InventoryItem9.SIZE * index;
@@ -21,12 +23,11 @@ public sealed class InventoryPouch9(InventoryType type, IItemStorage info, int m
 
         int ctr = 0;
         foreach (var index in LegalItems)
-            items[ctr++] = GetItem(data, index);
-
-        Items = items;
+            items[ctr++] = ReadItem(data, index);
+        _items = items;
     }
 
-    public static InventoryItem9 GetItem(ReadOnlySpan<byte> block, ushort itemID)
+    public static InventoryItem9 ReadItem(ReadOnlySpan<byte> block, ushort itemID)
     {
         var ofs = GetItemOffset(itemID);
         return InventoryItem9.Read(itemID, block[ofs..]);
@@ -35,7 +36,7 @@ public sealed class InventoryPouch9(InventoryType type, IItemStorage info, int m
     public override void SetPouch(Span<byte> block)
     {
         // Write all the item slots still present in the pouch. Keep track of the item IDs processed.
-        var items = (InventoryItem9[])Items;
+        var items = _items;
         var processed = new HashSet<ushort>(items.Length);
 
         var legal = Info.GetItems(Type);
@@ -101,17 +102,5 @@ public sealed class InventoryPouch9(InventoryType type, IItemStorage info, int m
         exist.Count = 0;
         exist.IsObtained = true;
         exist.Write(span);
-    }
-
-    public static int GetSuggestedCount(InventoryType t, int item, int requestVal)
-    {
-        bool isPick = item is (>= 2334 and <= 2342) or (>= 2385 and <= 2394);
-        bool isAccessory = item is (>= 2311 and <= 2400) or (>= 2417 and <= 2437); // tablecloths, chairs, cups, etc
-        return t switch
-        {
-            // Picnic table accessories are clamped to 1, let actual ingredients and sandwich picks be whatever
-            InventoryType.Ingredients => !isPick && isAccessory ? 1 : requestVal,
-            _ => requestVal,
-        };
     }
 }

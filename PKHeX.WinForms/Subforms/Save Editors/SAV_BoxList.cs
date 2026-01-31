@@ -59,11 +59,12 @@ public sealed partial class SAV_BoxList : Form
                 Name = $"BE_Box{i:00}",
                 Margin = new Padding(1),
                 Editor = new BoxEdit(sav),
+                Parent = this,
             };
             boxEditor.Setup(m);
             boxEditor.InitializeGrid();
             boxEditor.Reset();
-            foreach (PictureBox pb in boxEditor.SlotPictureBoxes)
+            foreach (var pb in boxEditor.SlotPictureBoxes)
                 pb.ContextMenuStrip = p.SlotPictureBoxes[0].ContextMenuStrip;
             boxEditor.CurrentBox = i;
             boxEditor.CB_BoxSelect.Enabled = false;

@@ -10,6 +10,8 @@ public sealed class InventoryPouch8b(InventoryType type, IItemStorage info, int 
     public bool SetNew { get; set; }
 
     public override InventoryItem8b GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = count != 0 };
+    private InventoryItem8b[] _items = [];
+    public override InventoryItem8b[] Items => _items;
 
     public override void GetPouch(ReadOnlySpan<byte> data)
     {
@@ -19,7 +21,7 @@ public sealed class InventoryPouch8b(InventoryType type, IItemStorage info, int 
         int ctr = 0;
         foreach (var index in LegalItems)
         {
-            var item = GetItem(data, index);
+            var item = ReadItem(data, index);
             if (!item.IsValidSaveSortNumberCount)
                 continue;
             items[ctr++] = item;
@@ -27,11 +29,11 @@ public sealed class InventoryPouch8b(InventoryType type, IItemStorage info, int 
         while (ctr != LegalItems.Length)
             items[ctr++] = new InventoryItem8b();
 
-        Items = items;
+        _items = items;
         SortBy<InventoryItem8b, ushort>(z => !z.IsValidSaveSortNumberCount ? (ushort)0xFFFF : z.SortOrder);
     }
 
-    public static InventoryItem8b GetItem(ReadOnlySpan<byte> data, ushort itemID)
+    public static InventoryItem8b ReadItem(ReadOnlySpan<byte> data, ushort itemID)
     {
         var ofs = GetItemOffset(itemID);
         return InventoryItem8b.Read(itemID, data[ofs..]);
@@ -42,7 +44,7 @@ public sealed class InventoryPouch8b(InventoryType type, IItemStorage info, int 
         HashSet<ushort> processed = [];
 
         // Write all the item slots still present in the pouch. Keep track of the item IDs processed.
-        var items = (InventoryItem8b[])Items;
+        var items = _items;
         for (int i = 0; i < items.Length; i++)
             items[i].SortOrder = (ushort)(i + 1);
 
@@ -60,12 +62,13 @@ public sealed class InventoryPouch8b(InventoryType type, IItemStorage info, int 
 
             if (SetNew && item.Index != 0)
             {
-                var original = GetItem(data, (ushort)item.Index);
+                var original = ReadItem(data, (ushort)item.Index);
                 item.IsNew |= !original.IsValidSaveSortNumberCount;
             }
 
             var ofs = GetItemOffset(index);
-            item.Write(data[ofs..]);
+            var dest = data[ofs..];
+            item.Write(dest);
 
             // In the event of duplicates, we just overwrite what was previously written by a prior duplicate.
             // Don't care if we've already processed this item, just write it again.

@@ -30,6 +30,8 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
     public SAV3RS(Memory<byte> data) : base(data) => Initialize();
     public SAV3RS(bool japanese = false) : base(japanese) => Initialize();
 
+    public override PlayerBag3RS Inventory => new(this);
+
     protected override int EventFlag => 0x1220;
     protected override int EventWork => 0x1340;
 
@@ -81,28 +83,6 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn, IDaycareRandomState<ushort>
     {
         get => ReadUInt16LittleEndian(Large[0x0494..]);
         set => WriteUInt16LittleEndian(Large[0x0494..], (ushort)(value));
-    }
-
-    private const int OFS_PCItem = 0x0498;
-    private const int OFS_PouchHeldItem = 0x0560;
-    private const int OFS_PouchKeyItem = 0x05B0;
-    private const int OFS_PouchBalls = 0x0600;
-    private const int OFS_PouchTMHM = 0x0640;
-    private const int OFS_PouchBerry = 0x0740;
-
-    protected override InventoryPouch3[] GetItems()
-    {
-        const int max = 99;
-        var info = ItemStorage3RS.Instance;
-        return
-        [
-            new(InventoryType.Items, info, max, OFS_PouchHeldItem, (OFS_PouchKeyItem - OFS_PouchHeldItem) / 4),
-            new(InventoryType.KeyItems, info, 1, OFS_PouchKeyItem, (OFS_PouchBalls - OFS_PouchKeyItem) / 4),
-            new(InventoryType.Balls, info, max, OFS_PouchBalls, (OFS_PouchTMHM - OFS_PouchBalls) / 4),
-            new(InventoryType.TMHMs, info, max, OFS_PouchTMHM, (OFS_PouchBerry - OFS_PouchTMHM) / 4),
-            new(InventoryType.Berries, info, 999, OFS_PouchBerry, 46),
-            new(InventoryType.PCItems, info, 999, OFS_PCItem, (OFS_PouchHeldItem - OFS_PCItem) / 4),
-        ];
     }
 
     private Span<byte> PokeBlockData => Large.Slice(0x7F8, PokeBlock3Case.SIZE);
