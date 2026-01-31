@@ -121,7 +121,6 @@ public sealed class ItemStorage9ZA : IItemStorage
         0016, // Cherish Ball
 
         0664, // Blazikenite
-        0752, // Swampertite
 
         2640, // Garchompite Z
     ];
