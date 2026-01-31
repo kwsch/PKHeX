@@ -199,9 +199,9 @@
 2006	t	1ra revancha contra Ornitólogo Josh
 2007	t	2da revancha contra Ornitólogo Josh
 2008	t	3ra revancha contra Ornitólogo Josh
-2009	t	1ra revancha contra Campista Torin
-2010	t	2da revancha contra Campista Torin
-2011	t	3ra revancha contra Campista Torin
+2009	t	1ra revancha contra School Kid Torin
+2010	t	2da revancha contra School Kid Torin
+2011	t	3ra revancha contra School Kid Torin
 2000	t	1ra revancha contra School Kid Billy
 2001	t	2da revancha contra School Kid Billy
 2002	t	3ra revancha contra School Kid Billy
