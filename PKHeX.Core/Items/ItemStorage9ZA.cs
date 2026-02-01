@@ -3,6 +3,9 @@ using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen9a"/>
+/// </summary>
 public sealed class ItemStorage9ZA : IItemStorage
 {
     public static readonly ItemStorage9ZA Instance = new();

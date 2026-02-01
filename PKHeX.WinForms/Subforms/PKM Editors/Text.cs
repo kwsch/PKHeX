@@ -221,8 +221,8 @@ public partial class TrashEditor : Form
         Minimum = min,
         Hexadecimal = hex,
         Width = 40,
-        Padding = new Padding(0),
-        Margin = new Padding(0),
+        Padding = Padding.Empty,
+        Margin = Padding.Empty,
     };
 
     private static ReadOnlySpan<ushort> GetChars(EntityContext context) => context switch
