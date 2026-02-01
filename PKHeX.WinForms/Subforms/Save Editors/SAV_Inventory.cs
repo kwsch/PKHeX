@@ -69,6 +69,7 @@ public sealed partial class SAV_Inventory : Form
     private readonly bool HasNew;
     private readonly bool HasNewShop;
     private readonly bool HasHeld;
+    private bool IsCountValidationSuppressed;
 
     // assume that all pouches have the same amount of columns
     private int ColumnItem;
@@ -114,11 +115,12 @@ public sealed partial class SAV_Inventory : Form
     {
         // Add DataGrid
         var dgv = GetBaseDataGrid(pouch);
+        dgv.CellValueChanged += Dgv_CellValueChanged;
 
         // Get Columns
         var item = GetItemColumn(ColumnItem = dgv.Columns.Count);
         dgv.Columns.Add(item);
-        dgv.Columns.Add(GetCountColumn(pouch, Main.HaX, ColumnCount = dgv.Columns.Count));
+        dgv.Columns.Add(GetCountColumn(ColumnCount = dgv.Columns.Count));
         if (HasFavorite)
             dgv.Columns.Add(GetCheckColumn(ColumnFavorite = dgv.Columns.Count, "Fav"));
         if (HasNew)
@@ -127,7 +129,7 @@ public sealed partial class SAV_Inventory : Form
         if (HasFreeSpace)
             dgv.Columns.Add(GetCheckColumn(ColumnFreeSpace = dgv.Columns.Count, "Free"));
         if (HasFreeSpaceIndex)
-            dgv.Columns.Add(GetCountColumn(pouch, true, ColumnFreeSpaceIndex = dgv.Columns.Count, "Free"));
+            dgv.Columns.Add(GetCountColumn(ColumnFreeSpaceIndex = dgv.Columns.Count, "Free"));
         if (HasNewShop)
             dgv.Columns.Add(GetCheckColumn(ColumnNEWShop = dgv.Columns.Count, "Shop"));
         if (HasHeld)
@@ -164,6 +166,8 @@ public sealed partial class SAV_Inventory : Form
         ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
         SelectionMode = DataGridViewSelectionMode.CellSelect,
         CellBorderStyle = DataGridViewCellBorderStyle.None,
+
+        Tag = pouch,
     };
 
     private DataGridViewComboBoxColumn GetItemColumn(int c, string name = "Item") => new()
@@ -184,7 +188,7 @@ public sealed partial class SAV_Inventory : Form
         FlatStyle = Application.IsDarkModeEnabled ? FlatStyle.System : FlatStyle.Flat,
     };
 
-    private static DataGridViewTextBoxColumn GetCountColumn(InventoryPouch pouch, bool HaX, int c, string name = "Count")
+    private static DataGridViewTextBoxColumn GetCountColumn(int c, string name = "Count")
     {
         var dgvIndex = new DataGridViewTextBoxColumn
         {
@@ -193,8 +197,6 @@ public sealed partial class SAV_Inventory : Form
             Width = 45,
             DefaultCellStyle = {Alignment = DataGridViewContentAlignment.MiddleCenter},
         };
-        if (!HaX)
-            dgvIndex.MaxInputLength = (int)(Math.Log10(Math.Max(1, pouch.MaxCount)) + 1);
         return dgvIndex;
     }
 
@@ -230,6 +232,7 @@ public sealed partial class SAV_Inventory : Form
 
     private void GetBag(DataGridView dgv, InventoryPouch pouch)
     {
+        IsCountValidationSuppressed = true;
         var valid = pouch.GetAllItems();
         for (int i = 0; i < dgv.Rows.Count; i++)
         {
@@ -260,6 +263,35 @@ public sealed partial class SAV_Inventory : Form
             dgv.Sort(dgv.Columns[ColumnItem], System.ComponentModel.ListSortDirection.Ascending);
             dgv.ClearSelection();
         }
+        IsCountValidationSuppressed = false;
+    }
+
+    private void Dgv_CellValueChanged(object? sender, DataGridViewCellEventArgs e)
+    {
+        if (IsCountValidationSuppressed)
+            return;
+        if (e.RowIndex < 0 || e.ColumnIndex != ColumnCount)
+            return;
+        if (sender is not DataGridView { Tag: InventoryPouch pouch } dgv)
+            return;
+
+        // Sanity check the item count against its maximum
+        var cells = dgv.Rows[e.RowIndex].Cells;
+        var itemName = cells[ColumnItem].Value?.ToString();
+        if (string.IsNullOrEmpty(itemName))
+            return;
+
+        var itemID = itemlist.IndexOf(itemName);
+        var cell = cells[ColumnCount];
+        var text = cell.Value?.ToString();
+        var count = Util.ToInt32(text);
+        var original = count;
+        if (Bag.IsQuantitySane(pouch.Type, itemID, ref count, HasNew, Main.HaX) && count == original && text == count.ToString())
+            return;
+
+        IsCountValidationSuppressed = true;
+        cell.Value = count;
+        IsCountValidationSuppressed = false;
     }
 
     private void SetBag(DataGridView dgv, InventoryPouch pouch)
@@ -341,13 +373,13 @@ public sealed partial class SAV_Inventory : Form
 
     private string[] GetStringsForPouch(ReadOnlySpan<ushort> items, bool sort = true)
     {
-        string[] res = new string[items.Length + 1];
-        for (int i = 0; i < res.Length - 1; i++)
-            res[i] = itemlist[items[i]];
-        res[items.Length] = itemlist[0];
+        var result = new string[items.Length + 1];
+        for (int i = 0; i < result.Length - 1; i++)
+            result[i] = itemlist[items[i]];
+        result[items.Length] = itemlist[0];
         if (sort)
-            Array.Sort(res);
-        return res;
+            Array.Sort(result);
+        return result;
     }
 
     // User Cheats

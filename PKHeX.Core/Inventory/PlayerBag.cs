@@ -55,8 +55,12 @@ public abstract class PlayerBag
             count = Math.Clamp(count, 0, MaxQuantityHaX);
             return true;
         }
+
         if (count <= 0)
-            return count == 0 && hasNew;
+        {
+            count = 0; // no negative counts
+            return hasNew;
+        }
 
         count = Clamp(type, itemIndex, count);
         return true;
