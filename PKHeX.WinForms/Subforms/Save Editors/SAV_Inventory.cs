@@ -188,17 +188,14 @@ public sealed partial class SAV_Inventory : Form
         FlatStyle = Application.IsDarkModeEnabled ? FlatStyle.System : FlatStyle.Flat,
     };
 
-    private static DataGridViewTextBoxColumn GetCountColumn(int c, string name = "Count")
+    private static DataGridViewTextBoxColumn GetCountColumn(int c, string name = "Count") => new()
     {
-        var dgvIndex = new DataGridViewTextBoxColumn
-        {
-            HeaderText = name,
-            DisplayIndex = c,
-            Width = 45,
-            DefaultCellStyle = {Alignment = DataGridViewContentAlignment.MiddleCenter},
-        };
-        return dgvIndex;
-    }
+        HeaderText = name,
+        DisplayIndex = c,
+        Width = 45,
+        DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter },
+        MaxInputLength = 5 // enough to cover ushort.MaxValue (absolute maximum of any quantity ever allowed)
+    };
 
     private void LoadAllBags()
     {
