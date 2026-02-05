@@ -267,7 +267,7 @@ public sealed partial class SAV_Inventory : Form
     {
         if (IsCountValidationSuppressed)
             return;
-        if (e.RowIndex < 0 || e.ColumnIndex != ColumnCount)
+        if (e.RowIndex < 0 || (e.ColumnIndex != ColumnCount && e.ColumnIndex != ColumnItem))
             return;
         if (sender is not DataGridView { Tag: InventoryPouch pouch } dgv)
             return;
@@ -334,7 +334,7 @@ public sealed partial class SAV_Inventory : Form
     private void ChangeViewedPouch(int index)
     {
         var pouch = Bag.Pouches[index];
-        NUD_Count.Maximum = GetMax(SAV, pouch, Main.HaX);
+        NUD_Count.Maximum = pouch.MaxCount;
 
         bool disable = pouch.Type is InventoryType.PCItems or InventoryType.FreeSpace && SAV is not SAV8LA;
         NUD_Count.Visible = L_Count.Visible = B_GiveAll.Visible = !disable;
@@ -349,20 +349,6 @@ public sealed partial class SAV_Inventory : Form
             giveMenu.Items.Add(giveModify);
         }
         NUD_Count.Value = Math.Max(1, pouch.MaxCount - 4);
-    }
-
-    private static int GetMax(ITrainerInfo sav, InventoryPouch pouch, bool HaX)
-    {
-        if (HaX)
-            return pouch.MaxCount;
-
-        return sav.Generation switch
-        {
-            // Cap at absolute maximum
-            <= 2 => byte.MaxValue,
-            >= 7 => pouch.MaxCount,
-            _ => ushort.MaxValue,
-        };
     }
 
     // Initialize String Tables
