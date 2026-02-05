@@ -10,7 +10,8 @@ public static class LegalityCheckResultCodeExtensions
 {
     extension(LegalityCheckResultCode code)
     {
-        public bool IsArgument => code is < FirstWithMove and >= FirstWithArgument;
+        public bool IsArgument => code is < FirstWithTwoArguments and >= FirstWithArgument;
+        public bool IsArgument2 => code is < FirstWithMove and >= FirstWithTwoArguments;
         public bool IsMove => code is < FirstWithItem and >= FirstWithMove;
         public bool IsItem => code is < FirstWithLanguage and >= FirstWithItem;
         public bool IsLanguage => code is < FirstWithMemory and >= FirstWithLanguage;
@@ -176,9 +177,9 @@ public static class LegalityCheckResultCodeExtensions
 
             // Moves
             MoveEvoFCombination_0 => localization.MoveEvoFCombination_0,
-            MovePPExpectHealed_0 => localization.MovePPExpectHealed_0,
-            MovePPTooHigh_0 => localization.MovePPTooHigh_0,
-            MovePPUpsTooHigh_0 => localization.MovePPUpsTooHigh_0,
+            MovePPExpectHealed_01 => localization.MovePPExpectHealed_01,
+            MovePPTooHigh_01 => localization.MovePPTooHigh_01,
+            MovePPUpsTooHigh_01 => localization.MovePPUpsTooHigh_01,
             MoveShopMasterInvalid_0 => localization.MoveShopMasterInvalid_0,
             MoveShopMasterNotLearned_0 => localization.MoveShopMasterNotLearned_0,
             MoveShopPurchaseInvalid_0 => localization.MoveShopPurchaseInvalid_0,

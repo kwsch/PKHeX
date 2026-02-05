@@ -404,14 +404,17 @@ public enum LegalityCheckResultCode : ushort
     WordFilterTooManyNumbers_0, // count
     PokerusDaysLEQ_0, // days
     PokerusStrainUnobtainable_0, // strain
-    MovePPExpectHealed_0, // move slot
-    MovePPTooHigh_0, // move slot
-    MovePPUpsTooHigh_0, // move slot
     MemoryHTGender_0, // gender value
     G6SuperTrainBagInvalid_0,
     StatIncorrectHeightValue_0,
     StatIncorrectWeightValue_0,
     StatIncorrectScaleValue_0,
+
+    // Two Numbers
+    FirstWithTwoArguments,
+    MovePPTooHigh_01 = FirstWithTwoArguments, // move slot, value
+    MovePPUpsTooHigh_01, // move slot, value
+    MovePPExpectHealed_01, // move slot, value
 
     // Single Argument: Move ID
     FirstWithMove,
