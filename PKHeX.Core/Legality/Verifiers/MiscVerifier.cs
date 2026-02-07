@@ -101,8 +101,8 @@ public sealed class MiscVerifier : Verifier
         // Version is a true match. If not from HG/SS, should not have HG/SS ball value set.
         if (pk.BallHGSS != 0 || pk.BallDPPt != pk.Ball)
         {
-            // Only set the HG/SS value if it originated in HG/SS and was not an event.
-            if (!pk.HGSS || pk.FatefulEncounter)
+            // Only set the HG/SS value if it originated in HG/SS and was not an event (pre-filled data only; not Manaphy egg!).
+            if (!pk.HGSS || data.Info.EncounterOriginal is PCD) // PCD: not Manaphy via PGT
                 data.AddLine(GetInvalid(CheckIdentifier.Ball, BallEncMismatch));
         }
 
