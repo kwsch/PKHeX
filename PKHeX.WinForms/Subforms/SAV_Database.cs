@@ -69,7 +69,9 @@ public partial class SAV_Database : Form
         PKME_Tabs = f1;
 
         // Preset Filters to only show PKM available for loaded save
-        CB_FormatComparator.SelectedIndex = 3; // <=
+        UC_EntitySearch.MaxFormat = MAXFORMAT;
+        UC_EntitySearch.SaveGeneration = SAV.Generation;
+        UC_EntitySearch.FormatComparatorSelectedIndex = 3; // <=
 
         var grid = DatabasePokeGrid;
         var smallWidth = grid.Width;
@@ -128,7 +130,7 @@ public partial class SAV_Database : Form
         Counter = L_Count.Text;
         Viewed = L_Viewed.Text;
         L_Viewed.Text = string.Empty; // invisible for now
-        PopulateComboBoxes();
+        UC_EntitySearch.PopulateComboBoxes();
 
         // Load Data
         B_Search.Enabled = false;
@@ -151,7 +153,7 @@ public partial class SAV_Database : Form
             if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                 e.Cancel = true;
         };
-        CB_Format.Items[0] = MsgAny;
+        UC_EntitySearch.SetFormatAnyText(MsgAny);
         CenterToParent();
         FormClosing += (_, _) => ShowSet.Clear();
 
@@ -165,8 +167,7 @@ public partial class SAV_Database : Form
     protected override void OnShown(EventArgs e)
     {
         base.OnShown(e);
-        foreach (var cb in TLP_Filters.Controls.OfType<ComboBox>())
-            cb.SelectedIndex = cb.SelectionLength = 0;
+        UC_EntitySearch.ResetComboBoxSelections();
     }
 
     private void ClickView(object sender, EventArgs e)
@@ -289,83 +290,9 @@ public partial class SAV_Database : Form
         return index < Results.Count;
     }
 
-    private void PopulateComboBoxes()
-    {
-        // Set the Text
-        CB_HeldItem.InitializeBinding();
-        CB_Species.InitializeBinding();
-        CB_Ability.InitializeBinding();
-        CB_Nature.InitializeBinding();
-        CB_GameOrigin.InitializeBinding();
-        CB_HPType.InitializeBinding();
-
-        var comboAny = new ComboItem(MsgAny, -1);
-
-        var filtered = GameInfo.FilteredSources;
-        var source = filtered.Source;
-        var species = new List<ComboItem>(source.SpeciesDataSource)
-        {
-            [0] = comboAny // Replace (None) with "Any"
-        };
-        CB_Species.DataSource = species;
-
-        var items = new List<ComboItem>(filtered.Items);
-        items.Insert(0, comboAny);
-        CB_HeldItem.DataSource = items;
-
-        var natures = new List<ComboItem>(source.NatureDataSource);
-        natures.Insert(0, comboAny);
-        CB_Nature.DataSource = natures;
-
-        var abilities = new List<ComboItem>(source.AbilityDataSource);
-        abilities.Insert(0, comboAny);
-        CB_Ability.DataSource = abilities;
-
-        var versions = new List<ComboItem>(source.VersionDataSource);
-        versions.Insert(0, comboAny);
-        versions.RemoveAt(versions.Count - 1); // None
-        CB_GameOrigin.DataSource = versions;
-
-        var hptypes = source.Strings.HiddenPowerTypes;
-        var types = Util.GetCBList(hptypes);
-        types.Insert(0, comboAny);
-        CB_HPType.DataSource = types;
-
-        // Set the Move ComboBoxes too.
-        var moves = new List<ComboItem>(filtered.Moves);
-        moves.RemoveAt(0);
-        moves.Insert(0, comboAny);
-        {
-            foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
-            {
-                cb.InitializeBinding();
-                cb.DataSource = new BindingSource(moves, string.Empty);
-            }
-        }
-    }
-
     private void ResetFilters(object sender, EventArgs e)
     {
-        CHK_Shiny.Checked = CHK_IsEgg.Checked = true;
-        CHK_Shiny.CheckState = CHK_IsEgg.CheckState = CheckState.Indeterminate;
-        MT_ESV.Text = string.Empty;
-        CB_HeldItem.SelectedIndex = 0;
-        CB_Species.SelectedIndex = 0;
-        CB_Ability.SelectedIndex = 0;
-        CB_Nature.SelectedIndex = 0;
-        CB_HPType.SelectedIndex = 0;
-
-        CB_Level.SelectedIndex = 0;
-        TB_Level.Text = string.Empty;
-        CB_EVTrain.SelectedIndex = 0;
-        CB_IV.SelectedIndex = 0;
-
-        CB_Move1.SelectedIndex = CB_Move2.SelectedIndex = CB_Move3.SelectedIndex = CB_Move4.SelectedIndex = 0;
-
-        CB_GameOrigin.SelectedIndex = 0;
-        CB_Generation.SelectedIndex = 0;
-
-        MT_ESV.Visible = L_ESV.Visible = false;
+        UC_EntitySearch.ResetFilters();
         RTB_Instructions.Clear();
 
         if (sender != this)
@@ -561,50 +488,7 @@ public partial class SAV_Database : Form
 
     private SearchSettings GetSearchSettings()
     {
-        var settings = new SearchSettings
-        {
-            Format = (byte)(MAXFORMAT - CB_Format.SelectedIndex + 1), // 0->(n-1) => 1->n
-            SearchFormat = (SearchComparison)CB_FormatComparator.SelectedIndex,
-            Generation = (byte)CB_Generation.SelectedIndex,
-
-            Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin),
-            HiddenPowerType = WinFormsUtil.GetIndex(CB_HPType),
-
-            Species = GetU16(CB_Species),
-            Ability = WinFormsUtil.GetIndex(CB_Ability),
-            Nature = (Nature)WinFormsUtil.GetIndex(CB_Nature),
-            Item = WinFormsUtil.GetIndex(CB_HeldItem),
-
-            BatchInstructions = RTB_Instructions.Text,
-
-            Level = byte.TryParse(TB_Level.Text, out var lvl) ? lvl : null,
-            SearchLevel = (SearchComparison)CB_Level.SelectedIndex,
-            EVType = CB_EVTrain.SelectedIndex,
-            IVType = CB_IV.SelectedIndex,
-        };
-
-        static ushort GetU16(ListControl cb)
-        {
-            var val = WinFormsUtil.GetIndex(cb);
-            if (val <= 0)
-                return 0;
-            return (ushort)val;
-        }
-
-        settings.AddMove(GetU16(CB_Move1));
-        settings.AddMove(GetU16(CB_Move2));
-        settings.AddMove(GetU16(CB_Move3));
-        settings.AddMove(GetU16(CB_Move4));
-
-        if (CHK_Shiny.CheckState != CheckState.Indeterminate)
-            settings.SearchShiny = CHK_Shiny.CheckState == CheckState.Checked;
-
-        if (CHK_IsEgg.CheckState != CheckState.Indeterminate)
-        {
-            settings.SearchEgg = CHK_IsEgg.CheckState == CheckState.Checked;
-            if (int.TryParse(MT_ESV.Text, out int esv))
-                settings.ESV = esv;
-        }
+        var settings = UC_EntitySearch.CreateSearchSettings(RTB_Instructions.Text);
 
         if (Menu_SearchLegal.Checked != Menu_SearchIllegal.Checked)
             settings.SearchLegal = Menu_SearchLegal.Checked;
@@ -702,26 +586,6 @@ public partial class SAV_Database : Form
     }
 
     // Misc Update Methods
-    private void ToggleESV(object sender, EventArgs e) => L_ESV.Visible = MT_ESV.Visible = CHK_IsEgg.CheckState == CheckState.Checked;
-
-    private void ChangeLevel(object sender, EventArgs e)
-    {
-        if (CB_Level.SelectedIndex == 0)
-            TB_Level.Text = string.Empty;
-    }
-
-    private void ChangeGame(object sender, EventArgs e)
-    {
-        if (CB_GameOrigin.SelectedIndex != 0)
-            CB_Generation.SelectedIndex = 0;
-    }
-
-    private void ChangeGeneration(object sender, EventArgs e)
-    {
-        if (CB_Generation.SelectedIndex != 0)
-            CB_GameOrigin.SelectedIndex = 0;
-    }
-
     private void Menu_Exit_Click(object sender, EventArgs e) => Close();
 
     protected override void OnMouseWheel(MouseEventArgs e)
@@ -734,21 +598,6 @@ public partial class SAV_Database : Form
             return;
         FillPKXBoxes(SCR_Box.Value = newval);
         ShowSet.Clear();
-    }
-
-    private void ChangeFormatFilter(object sender, EventArgs e)
-    {
-        if (CB_FormatComparator.SelectedIndex == 0)
-        {
-            CB_Format.Visible = false; // !any
-            CB_Format.SelectedIndex = 0;
-        }
-        else
-        {
-            CB_Format.Visible = true;
-            int index = MAXFORMAT - SAV.Generation + 1;
-            CB_Format.SelectedIndex = index < CB_Format.Items.Count ? index : 0; // SAV generation (offset by 1 for "Any")
-        }
     }
 
     private void Menu_DeleteClones_Click(object sender, EventArgs e)

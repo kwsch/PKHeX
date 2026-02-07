@@ -14,6 +14,7 @@ public sealed class SearchSettings
     public byte Format { get; init; }
     public byte Generation { get; init; }
     public required ushort Species { get; init; }
+    public string Nickname { get; init; } = string.Empty;
     public int Ability { get; init; } = -1;
     public Nature Nature { get; init; } = Nature.Random;
     public int Item { get; init; } = -1;
@@ -63,9 +64,11 @@ public sealed class SearchSettings
     /// <returns>Search results that match all criteria</returns>
     public IEnumerable<PKM> Search(IEnumerable<PKM> list)
     {
-        InitializeFilters();
-        var result = SearchInner(list);
+        var predicate = CreateSearchPredicate();
+        var result = SearchInner(list, predicate);
 
+        // Run cross-comparison checks.
+        // This is done after all other filters to minimize the number of comparisons needed.
         if (SearchClones != CloneDetectionMethod.None)
         {
             var method = SearchUtil.GetCloneDetectMethod(SearchClones);
@@ -82,9 +85,11 @@ public sealed class SearchSettings
     /// <returns>Search results that match all criteria</returns>
     public IEnumerable<SlotCache> Search(IEnumerable<SlotCache> list)
     {
-        InitializeFilters();
-        var result = SearchInner(list);
+        var predicate = CreateSearchPredicate();
+        var result = SearchInner(list, predicate);
 
+        // Run cross-comparison checks.
+        // This is done after all other filters to minimize the number of comparisons needed.
         if (SearchClones != CloneDetectionMethod.None)
         {
             var method = SearchUtil.GetCloneDetectMethod(SearchClones);
@@ -105,27 +110,36 @@ public sealed class SearchSettings
         BatchFiltersMeta = meta;
     }
 
-    private IEnumerable<PKM> SearchInner(IEnumerable<PKM> list)
+    private static IEnumerable<PKM> SearchInner(IEnumerable<PKM> list, Func<PKM, bool> predicate)
     {
         foreach (var pk in list)
         {
-            if (!IsSearchMatch(pk))
+            if (!predicate(pk))
                 continue;
             yield return pk;
         }
     }
 
-    private IEnumerable<SlotCache> SearchInner(IEnumerable<SlotCache> list)
+    private IEnumerable<SlotCache> SearchInner(IEnumerable<SlotCache> list, Func<PKM, bool> predicate)
     {
         foreach (var entry in list)
         {
             var pk = entry.Entity;
             if (BatchFiltersMeta.Count != 0 && !BatchEditing.IsFilterMatchMeta(BatchFiltersMeta, entry))
                 continue;
-            if (!IsSearchMatch(pk))
+            if (!predicate(pk))
                 continue;
             yield return entry;
         }
+    }
+
+    /// <summary>
+    /// Creates a <see cref="Func{T, TResult}"/> predicate that evaluates a <see cref="PKM"/> against this search settings instance.
+    /// </summary>
+    public Func<PKM, bool> CreateSearchPredicate()
+    {
+        InitializeFilters();
+        return IsSearchMatch;
     }
 
     private bool IsSearchMatch(PKM pk)
@@ -158,6 +172,8 @@ public sealed class SearchSettings
         if (Item > -1 && pk.HeldItem != Item)
             return false;
         if (Version.IsValidSavedVersion() && pk.Version != Version)
+            return false;
+        if (!string.IsNullOrWhiteSpace(Nickname) && !SearchUtil.SatisfiesFilterNickname(pk, Nickname))
             return false;
         return true;
     }

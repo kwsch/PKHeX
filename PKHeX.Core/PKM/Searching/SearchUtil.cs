@@ -120,4 +120,14 @@ public static class SearchUtil
                 yield return t;
         }
     }
+
+    public static bool SatisfiesFilterNickname(PKM pk, ReadOnlySpan<char> nicknameSubstring)
+    {
+        Span<char> name = stackalloc char[pk.MaxStringLengthNickname];
+        int length = pk.LoadString(pk.NicknameTrash, name);
+        name = name[..length];
+
+        // Compare the nickname filter against the PKM's nickname, ignoring case.
+        return name.Contains(nicknameSubstring, StringComparison.OrdinalIgnoreCase);
+    }
 }
