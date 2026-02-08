@@ -314,9 +314,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             {
                 L_SlotOccupied[i].Text = $"{i + 1}: ✘";
                 var pb = UpdateSlot(i);
-                var current = pb.Image;
-                if (current is not null)
-                    pb.Image = ImageUtil.ChangeOpacity(current, 0.6);
+                if (pb.Image is Bitmap current)
+                    pb.Image = ImageUtil.CopyChangeOpacity(current, 0.6);
             }
         }
 

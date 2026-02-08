@@ -182,7 +182,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
         return ImageUtil.LayerImage(baseImage, Unknown, 0, 0, UnknownFormTransparency);
     }
 
-    private Bitmap LayerOverImageItem(Image baseImage, int item, EntityContext context)
+    private Bitmap LayerOverImageItem(Bitmap baseImage, int item, EntityContext context)
     {
         var lump = HeldItemLumpUtil.GetIsLump(item, context);
         var itemimg = lump switch
@@ -198,7 +198,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
         return ImageUtil.LayerImage(baseImage, itemimg, x, y);
     }
 
-    private static Bitmap LayerOverImageShiny(Image baseImage, Shiny shiny)
+    private static Bitmap LayerOverImageShiny(Bitmap baseImage, Shiny shiny)
     {
         // Add shiny star to top left of image.
         Bitmap rare;
@@ -209,23 +209,23 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
         return ImageUtil.LayerImage(baseImage, rare, 0, 0, ShinyTransparency);
     }
 
-    private Bitmap LayerOverImageEgg(Image baseImage, ushort species, bool hasItem)
+    private Bitmap LayerOverImageEgg(Bitmap baseImage, ushort species, bool hasItem)
     {
         if (ShowEggSpriteAsItem && !hasItem)
             return LayerOverImageEggAsItem(baseImage, species);
         return LayerOverImageEggTransparentSpecies(baseImage, species);
     }
 
-    private Bitmap LayerOverImageEggTransparentSpecies(Image baseImage, ushort species)
+    private Bitmap LayerOverImageEggTransparentSpecies(Bitmap baseImage, ushort species)
     {
         // Partially transparent species.
-        baseImage = ImageUtil.ChangeOpacity(baseImage, EggUnderLayerTransparency);
+        baseImage.ChangeOpacity(EggUnderLayerTransparency);
         // Add the egg layer over-top with full opacity.
         var egg = GetEggSprite(species);
         return ImageUtil.LayerImage(baseImage, egg, 0, 0);
     }
 
-    private Bitmap LayerOverImageEggAsItem(Image baseImage, ushort species)
+    private Bitmap LayerOverImageEggAsItem(Bitmap baseImage, ushort species)
     {
         var egg = GetEggSprite(species);
         return ImageUtil.LayerImage(baseImage, egg, EggItemShiftX, EggItemShiftY); // similar to held item, since they can't have any

@@ -212,8 +212,8 @@ public static class WinFormsTranslator
         else if (z is ButtonBase b)
         {
             b.FlatStyle = FlatStyle.Popup;
-            if (b.Image is { } img)
-                b.Image = WinFormsUtil.BlackToWhite(img);
+            if (b.Image is System.Drawing.Bitmap bmp)
+                b.Image = WinFormsUtil.BlackToWhite(bmp);
         }
     }
 

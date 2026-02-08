@@ -1139,8 +1139,7 @@ public partial class Main : Form
         var img = pk.Sprite(C_SAV.SAV);
         if (Application.IsDarkModeEnabled)
         {
-            var data = ImageUtil.GetPixelData(img);
-            var avg = ImageUtil.GetAverageColor(data);
+            var avg = img.GetAverageColor();
             var c = Color.FromArgb(avg);
             SpriteUtil.GetSpriteGlow(img, c.B, c.G, c.R, out var pixels, true);
             var layer = ImageUtil.GetBitmap(pixels, img.Width, img.Height, img.PixelFormat);

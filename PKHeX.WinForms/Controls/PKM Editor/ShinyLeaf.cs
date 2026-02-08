@@ -41,7 +41,7 @@ public partial class ShinyLeaf : UserControl
         if (sender is not CheckBox c)
             return;
 
-        Image resource;
+        Bitmap resource;
         if (CHK_C == c)
         {
             resource = Resources.crown;
@@ -55,7 +55,7 @@ public partial class ShinyLeaf : UserControl
                 CHK_C.Enabled = true;
         }
         if (!c.Checked)
-            resource = ImageUtil.ChangeOpacity(resource, 0.4);
+            resource = ImageUtil.CopyChangeOpacity(resource, 0.4);
         c.Image = resource;
     }
 

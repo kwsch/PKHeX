@@ -11,12 +11,12 @@ public partial class QR : Form
 {
     private readonly PKM? Entity;
     private readonly Image icon;
-    private Image qr;
+    private Bitmap qr;
 
     private readonly string[] Lines;
     private string extraText = string.Empty;
 
-    public QR(Image qr, Image icon, params string[] lines)
+    public QR(Bitmap qr, Image icon, params string[] lines)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -28,7 +28,7 @@ public partial class QR : Form
         ResizeWindow();
     }
 
-    public QR(Image qr, Image icon, PKM pk, params string[] lines)
+    public QR(Bitmap qr, Image icon, PKM pk, params string[] lines)
     {
         InitializeComponent();
         this.qr = qr;
