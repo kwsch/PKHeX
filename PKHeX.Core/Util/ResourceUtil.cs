@@ -2,7 +2,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Resources;
-#pragma warning disable CA1857
 
 namespace PKHeX.Core;
 

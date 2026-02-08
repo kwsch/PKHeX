@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
-#pragma warning disable CA1857
 
 namespace PKHeX.Core;
 
@@ -45,7 +44,7 @@ public abstract class SAV_BEEF : SaveFile, ISecureValueStorage
     /// </summary>
     public ulong TimeStampPrevious
     {
-        get => ReadUInt64LittleEndian(Data[BlockInfoOffset..]);
-        set => WriteUInt64LittleEndian(Data[BlockInfoOffset..], value);
+        get => ReadUInt64LittleEndian(Data[(BlockInfoOffset + 8)..]);
+        set => WriteUInt64LittleEndian(Data[(BlockInfoOffset + 8)..], value);
     }
 }

@@ -437,7 +437,7 @@ public sealed class WC8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
             OriginalTrainerGender = OTGender < 2 ? OTGender : tr.Gender,
             HandlingTrainerName = hasOT ? tr.OT : string.Empty,
             HandlingTrainerGender = hasOT ? tr.Gender : default,
-            HandlingTrainerLanguage = (byte)(hasOT ? language : default),
+            HandlingTrainerLanguage = (byte)(hasOT ? language : 0),
             CurrentHandler = hasOT ? (byte)1 : (byte)0,
             OriginalTrainerFriendship = pi.BaseFriendship,
 

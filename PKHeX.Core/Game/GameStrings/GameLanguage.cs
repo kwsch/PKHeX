@@ -65,13 +65,11 @@ public static class GameLanguage
     /// </summary>
     public static string[] GetStrings(string ident, string lang, [ConstantExpected] string type = "text")
     {
-#pragma warning disable CA1857
         string[] data = Util.GetStringList(ident, lang, type);
         if (data.Length == 0)
             data = Util.GetStringList(ident, DefaultLanguage, type);
 
         return data;
-#pragma warning restore CA1857
     }
 }
 

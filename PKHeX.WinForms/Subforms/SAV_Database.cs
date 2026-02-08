@@ -517,7 +517,7 @@ public partial class SAV_Database : Form
             bool wordFilter = ParseSettings.Settings.WordFilter.CheckWordFilter;
             if (wordFilter && legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBSearchLegalityWordfilter) == DialogResult.No)
                 ParseSettings.Settings.WordFilter.CheckWordFilter = false;
-            var results = await Task.Run(() => search.ToList()).ConfigureAwait(true);
+            var results = await Task.Run(search.ToList).ConfigureAwait(true);
             ParseSettings.Settings.WordFilter.CheckWordFilter = wordFilter;
 
             if (results.Count == 0)
