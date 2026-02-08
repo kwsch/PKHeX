@@ -8,7 +8,7 @@
 084	s	Pikachu Seen in Pikachu Valley
 078	+	Total Title Defenses
 083	+	Total Important NPC Battles
-750	s	League Fangirls	Event	0:0 Title Defenses,1:After 1 Title Defense (Sweet Heart x2 Pending),2:After 2 Title Defenses (Received Sweet Heart x2)
+750	s	League Fangirls	Event	0:0 Title Defenses,1:After 2 Title Defenses (Sweet Heart x2 Pending),2:After 2 Title Defenses (Received Sweet Heart x2)
 756	s	Hypno Event (Hau'oli Police Station)	0:Not Activated,1:Activated,2:Completed
 769	s	Ditto Five Event	0:Disguised Officer Appeared,1:Defeated Disguised Officer (Reward Pending),2:Disguised Herb Seller Appeared,3:Defeated Disguised Herb Seller (Reward Pending),4:Disguised Chef Appeared,5:Defeated Disguised Chef (Reward Pending),6:Disguised Iomi Iomi Therapist Appeared,7:Defeated Disguised Iomi Iomi Therapist (Reward Pending),8:Disguised Olivia Appeared,9:Defeated Disguised Olivia (Reward Pending),10:Completed
 783	s	Big Wave Beach Youngster	0:Will Activate Seven Mysteries Event,1:Activated Seven Mysteries Event,2:Has Hyper Potion (Seven Mysteries Complete),3:Gave Hyper Potion
