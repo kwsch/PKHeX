@@ -111,6 +111,15 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         GB_Daycare.Click += (_, _) => SwitchDaycare();
         FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
         SortMenu.Opening += (_, x) => x.Cancel = !tabBoxMulti.GetTabRect(tabBoxMulti.SelectedIndex).Contains(PointToClient(MousePosition));
+        Tab_Box.SizeChanged += Tab_Box_SizeChanged;
+    }
+
+    private void Tab_Box_SizeChanged(object? sender, EventArgs e)
+    {
+        if (!SAV.HasBox)
+            return;
+        Box.HorizontallyCenter(Tab_Box);
+        BoxSearchAlignButton();
     }
 
     private void InitializeDragDrop(Control pb)
@@ -1615,10 +1624,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void BoxSearchAlignButton()
     {
         // Move the Search button so that it is vertically aligned to the navigation buttons, and right-edge aligned with the last picturebox in the grid.
-        var lastBox = Box.SlotPictureBoxes[^1];
         var navButton = Box.B_BoxRight;
         B_SearchBox.Top = Box.Top + navButton.Top;
-        B_SearchBox.Left = Box.Left + lastBox.Right - B_SearchBox.Width;
+        B_SearchBox.Left = Box.Left + Box.BoxPokeGrid.Right - B_SearchBox.Width;
     }
 
     private void BoxSearchSeek()
