@@ -144,10 +144,10 @@ namespace PKHeX.WinForms
             // B_Reset
             // 
             B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            B_Reset.Location = new System.Drawing.Point(224, 0);
+            B_Reset.Location = new System.Drawing.Point(214, 0);
             B_Reset.Margin = new System.Windows.Forms.Padding(0);
             B_Reset.Name = "B_Reset";
-            B_Reset.Size = new System.Drawing.Size(88, 27);
+            B_Reset.Size = new System.Drawing.Size(104, 27);
             B_Reset.TabIndex = 0;
             B_Reset.Text = "Reset Filters";
             B_Reset.UseVisualStyleBackColor = true;
