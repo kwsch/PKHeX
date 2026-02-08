@@ -127,21 +127,23 @@ public static class SearchUtil
         int length = pk.LoadString(pk.NicknameTrash, name);
         name = name[..length];
 
-        // Compare the nickname filter against the PKM's nickname, ignoring case.
+        // Compare the nickname filter against the Entity's nickname, ignoring case.
         return name.Contains(nicknameSubstring, StringComparison.OrdinalIgnoreCase);
     }
 
     public static bool TrySeekNext(SaveFile sav, Func<PKM, bool> searchFilter, out (int Box, int Slot) result, int current = -1)
     {
         // Search from next box, wrapping around
-        var startBox = (current + 1) % sav.BoxCount;
-        for (int i = 0; i < sav.BoxCount; i++)
+        var boxCount = sav.BoxCount;
+        var boxSlotCount = sav.BoxSlotCount;
+        var startBox = (current + 1) % boxCount;
+        for (int i = 0; i < boxCount; i++)
         {
-            var box = (startBox + i) % sav.BoxCount;
+            var box = (startBox + i) % boxCount;
 
-            for (int slot = 0; slot < sav.BoxSlotCount; slot++)
+            for (int slot = 0; slot < boxSlotCount; slot++)
             {
-                var pk = sav.GetBoxSlotAtIndex(box * sav.BoxSlotCount + slot);
+                var pk = sav.GetBoxSlotAtIndex(box, slot);
                 if (pk.Species == 0)
                     continue;
 
