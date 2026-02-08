@@ -52,6 +52,13 @@ public partial class EntitySearchSetup : Form
         UC_EntitySearch.ResetComboBoxSelections();
     }
 
+    private void OnKeyDown(object sender, KeyEventArgs e)
+    {
+        // Quick close with Ctrl+W
+        if (e.KeyCode == Keys.W && ModifierKeys == Keys.Control)
+            Hide();
+    }
+
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
         if (e.CloseReason == CloseReason.UserClosing)

@@ -11,12 +11,30 @@ public partial class EntityInstructionBuilder : UserControl
     private readonly Func<PKM> Getter;
     private PKM Entity => Getter();
 
+    private static readonly string[] RequireDisplay = ["Set", "==", "!=", ">", ">=", "<", "<="];
+
     private int currentFormat = -1;
+    private int requirementIndex;
+    private bool readOnlyMode;
+    private readonly ContextMenuStrip requireMenu;
+    private readonly ToolStripMenuItem[] requireMenuItems;
 
     public EntityInstructionBuilder(Func<PKM> pk)
     {
         Getter = pk;
         InitializeComponent();
+
+        requireMenu = new ContextMenuStrip(components!);
+        requireMenuItems = new ToolStripMenuItem[RequireDisplay.Length];
+        for (int i = 0; i < RequireDisplay.Length; i++)
+        {
+            var item = new ToolStripMenuItem(RequireDisplay[i]) { Tag = i };
+            item.Click += RequireItem_Click;
+            requireMenu.Items.Add(item);
+            requireMenuItems[i] = item;
+        }
+
+        B_Require.ContextMenuStrip = requireMenu;
 
         CB_Format.Items.Clear();
         CB_Format.Items.Add(MsgAny);
@@ -24,7 +42,9 @@ public partial class EntityInstructionBuilder : UserControl
             CB_Format.Items.Add(t.Name.ToLowerInvariant());
         CB_Format.Items.Add(MsgAll);
 
-        CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
+        CB_Format.SelectedIndex = 0;
+        SetRequirementIndex(0);
+        UpdateRequireMenuVisibility();
         toolTip1.SetToolTip(CB_Property, MsgBEToolTipPropName);
         toolTip2.SetToolTip(L_PropType, MsgBEToolTipPropType);
         toolTip3.SetToolTip(L_PropValue, MsgBEToolTipPropValue);
@@ -66,6 +86,36 @@ public partial class EntityInstructionBuilder : UserControl
         }
     }
 
+    private void B_Require_Click(object? sender, EventArgs e) => requireMenu.Show(B_Require, 0, B_Require.Height);
+
+    private void RequireItem_Click(object? sender, EventArgs e)
+    {
+        if (sender is not ToolStripMenuItem { Tag: int index })
+            return;
+
+        SetRequirementIndex(index);
+    }
+
+    private void SetRequirementIndex(int index)
+    {
+        if ((uint)index >= RequireDisplay.Length)
+            return;
+
+        requirementIndex = index;
+        B_Require.Text = RequireDisplay[index];
+
+        for (int i = 0; i < requireMenuItems.Length; i++)
+            requireMenuItems[i].Checked = i == index;
+    }
+
+    private void UpdateRequireMenuVisibility()
+    {
+        requireMenuItems[0].Visible = !readOnlyMode;
+
+        if (readOnlyMode && requirementIndex == 0)
+            SetRequirementIndex(1);
+    }
+
     private static bool GetPropertyDisplayText(PropertyInfo pi, PKM pk, out string display)
     {
         var type = pi.PropertyType;
@@ -95,7 +145,7 @@ public partial class EntityInstructionBuilder : UserControl
             return string.Empty;
 
         var prefixes = StringInstruction.Prefixes;
-        var prefix = prefixes[CB_Require.SelectedIndex];
+        var prefix = prefixes[requirementIndex];
         var property = CB_Property.Items[CB_Property.SelectedIndex];
         const char equals = StringInstruction.SplitInstruction;
         return $"{prefix}{property}{equals}";
@@ -105,15 +155,8 @@ public partial class EntityInstructionBuilder : UserControl
     {
         set
         {
-            if (value)
-            {
-                CB_Require.Visible = false;
-                CB_Require.SelectedIndex = 1;
-            }
-            else
-            {
-                CB_Require.Visible = true;
-            }
+            readOnlyMode = value;
+            UpdateRequireMenuVisibility();
         }
     }
 }

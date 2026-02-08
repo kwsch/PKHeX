@@ -102,7 +102,7 @@ namespace PKHeX.WinForms
             Tab_Advanced.Location = new System.Drawing.Point(4, 26);
             Tab_Advanced.Margin = new System.Windows.Forms.Padding(0);
             Tab_Advanced.Name = "Tab_Advanced";
-            Tab_Advanced.Size = new System.Drawing.Size(192, 70);
+            Tab_Advanced.Size = new System.Drawing.Size(312, 480);
             Tab_Advanced.TabIndex = 1;
             Tab_Advanced.Text = "Advanced";
             Tab_Advanced.UseVisualStyleBackColor = true;
@@ -110,7 +110,7 @@ namespace PKHeX.WinForms
             // B_Add
             // 
             B_Add.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            B_Add.Location = new System.Drawing.Point(122, 0);
+            B_Add.Location = new System.Drawing.Point(248, 0);
             B_Add.Margin = new System.Windows.Forms.Padding(0);
             B_Add.Name = "B_Add";
             B_Add.Size = new System.Drawing.Size(66, 27);
@@ -125,7 +125,7 @@ namespace PKHeX.WinForms
             RTB_Instructions.Location = new System.Drawing.Point(0, 48);
             RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
             RTB_Instructions.Name = "RTB_Instructions";
-            RTB_Instructions.Size = new System.Drawing.Size(184, 0);
+            RTB_Instructions.Size = new System.Drawing.Size(304, 410);
             RTB_Instructions.TabIndex = 0;
             RTB_Instructions.Text = "";
             // 
@@ -160,11 +160,13 @@ namespace PKHeX.WinForms
             Controls.Add(B_Reset);
             Controls.Add(TLP_Main);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            KeyPreview = true;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "EntitySearchSetup";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Search";
+            KeyDown += OnKeyDown;
             TLP_Main.ResumeLayout(false);
             TC_SearchSettings.ResumeLayout(false);
             Tab_General.ResumeLayout(false);
