@@ -1,0 +1,119 @@
+0646	s	Mimiqui Vu à la Remorque de la Plaine des Pikachu
+4060	*	Maître d'Alola/Peut Recevoir Magearna Cadeau
+4562	g	Akala Visité/Peut Recevoir Pikachu à Casquette Partenaire
+4563	g	Pikachu à Casquette Partenaire Reçu
+0518	g	Pikachu Surfeur Reçu(e)
+0443	g	Œuf d'Évoli Reçu
+0493	g	Porygon Cadeau Reçu
+0504	g	Ptéra Cadeau Reçu(e)
+0654	g	Type:0 Cadeau Reçu (1)
+1101	g	Type:0 Cadeau Reçu (2)
+0503	g	Cosmog Cadeau Reçu
+4447	g	Magearna Cadeau Reçu
+0269	g	Vémini Cadeau Reçu
+4420	r	Artikodin Capturé
+4421	r	Électhor Capturé
+4422	r	Sulfura Capturé
+4423	r	Mewtwo Capturé
+4260	r	Raikou Capturé (US)
+4261	r	Entei Capturé (UL)
+4262	r	Suicune Capturé
+4263	r	Lugia Capturé (UL)
+4264	r	Ho-Oh Capturé (US)
+4285	r	Regirock Capturé
+4286	r	Regice Capturé
+4287	r	Registeel Capturé
+4283	r	Latias Capturée (UL)
+4284	r	Latios Capturé (US)
+4289	r	Kyogre Capturé (UL)
+4288	r	Groudon Capturé (US)
+4290	r	Rayquaza Capturé
+4265	r	Créhelf Capturé
+4266	r	Créfollet Capturé
+4267	r	Créfadet Capturé
+4268	r	Dialga Capturé (US)
+4269	r	Palkia Capturé (UL)
+4270	r	Heatran Capturé(e) (US)
+4271	r	Regigigas Capturé (UL)
+4272	r	Giratina Capturé
+4273	r	Cresselia Capturée
+4274	r	Cobaltium Capturé
+4275	r	Terrakium Capturé
+4276	r	Viridium Capturé
+4277	r	Boréas Capturé (US)
+4278	r	Fulguris Capturé (UL)
+4279	r	Reshiram Capturé (US)
+4280	r	Zekrom Capturé (UL)
+4281	r	Démétéros Capturé
+4282	r	Kyurem Capturé
+4424	r	Xerneas Capturé (US)
+4425	r	Yveltal Capturé (UL)
+1627	r	Solgaleo/Lunala Capturé
+1552	r	Necrozma Capturé
+4370	r	Ama-Ama à la Forêt de Poni (UL)
+4371	r	Pierroteknik à la Forêt de Poni (US)
+4115	*	Juge des IV Débloqué
+4545	s	Lanturn 360 Débloqué
+4546	s	Flip Oratoria Débloqué
+4547	s	Tornade Staross Débloquée
+4548	s	Léviatorpille Débloquée
+4490	s	Commandes au Pad Circulaire pour l'Ultra-Exploration
+4440	+	Style de Combat Appris : Élégant
+4441	+	Style de Combat Appris : Midinette
+4442	+	Style de Combat Appris : Idéaliste
+4443	+	Style de Combat Appris : Snob
+4444	+	Style de Combat Appris : Gaucher
+4445	+	Style de Combat Appris : Passionné
+4446	+	Style de Combat Appris : Starlette
+4453	+	Style de Combat Appris : Nonchalant
+4073	s	Appel-Monture Reçu
+4074	s	Charge Tauros Débloquée
+4075	s	Mastouf'Flair Débloqué
+4076	s	Poussée Mackogneur Débloquée
+4077	s	Bourrino'Galop Débloqué
+4078	s	Brasse Lokhlass Débloquée
+4079	s	Turbo Sharpedo Débloqué
+4080	s	Air Dracaufeu Débloqué
+0168	g	Échange Interne Piafabec Contre Brutalibré (Route 2)
+0169	g	Échange Interne Ponchiot Contre Sonistrelle (Route 5)
+0170	g	Échange Interne Tentacool Contre Barloche (Rue du Dôme Royal)
+0171	g	Échange Interne Piclairon Contre Arbok (Route 8)
+0172	g	Échange Interne de Brocélôme (Village Toko)
+0173	g	Échange Interne Granbull Contre Sancoki (Village Flottant)
+0174	g	Échange Interne Chelours Contre Tauros (Chemin du Défi)
+1592	r	Bacabouh Vaincu sur la Route 15 (UL)
+0607	r	Viskuse ♀ Vaincue sur la Route 14
+0547	r	Chelours Vaincu au Centre Commercial d'Ekaeka
+4564	s	L'École des Dresseurs est Hantée (Événement des Sept Mystères Actif)
+0211	s	Le Manoir d'Elsa-Mina n'est PAS le Château Rocket
+1730	r	Électrode A Disparu (Aile Sud-Ouest du Château Rocket, salle facultative 2)
+1731	r	Électrode A Disparu (Aile Sud-Ouest du Château Rocket, salle facultative 11)
+1732	r	Électrode A Disparu (Aile Sud-Est du Château Rocket, salle facultative)
+0185	t	Premier Combat de Défense de Titre Réalisé
+0186	t	A Rencontré Paulie (Défense de Titre)
+3395	t	A Vaincu Paulie (Défense de Titre)
+0187	t	A Rencontré Gladio (Défense de Titre)
+3453	t	A Vaincu Gladio (Défense de Titre ; Brindibou en Pokémon de Départ)
+3454	t	A Vaincu Gladio (Défense de Titre ; Flamiaou en Pokémon de Départ)
+3455	t	A Vaincu Gladio (Défense de Titre ; Otaquin en Pokémon de Départ)
+0188	t	A Rencontré Solane (Défense de Titre)
+3445	t	A Vaincu Solane (Défense de Titre)
+0189	t	A Rencontré Elsa-Mina (Défense de Titre)
+3680	t	A Vaincu Elsa-Mina (Défense de Titre)
+0190	t	A Rencontré Tili (Défense de Titre)
+3392	t	A Vaincu Tili (Défense de Titre ; Brindibou en Pokémon de Départ)
+3393	t	A Vaincu Tili (Défense de Titre ; Flamiaou en Pokémon de Départ)
+3394	t	A Vaincu Tili (Défense de Titre ; Otaquin en Pokémon de Départ)
+0191	t	A Rencontré Chrys (Défense de Titre)
+3441	t	A Vaincu Chrys (Défense de Titre)
+0192	t	A Rencontré Guzma (Défense de Titre)
+3683	t	A Vaincu Guzma (Défense de Titre)
+0193	t	A Rencontré Euphorbe (Défense de Titre)
+3513	t	A Vaincu Euphorbe (Défense de Titre ; Brindibou en Pokémon de Départ)
+3514	t	A Vaincu Euphorbe (Défense de Titre ; Flamiaou en Pokémon de Départ)
+3515	t	A Vaincu Euphorbe (Défense de Titre ; Otaquin en Pokémon de Départ)
+0194	t	A Rencontré Apocyne (Défense de Titre)
+3437	t	A Vaincu Apocyne (Défense de Titre)
+0195	t	A Rencontré Gamin Ali (Défense de Titre)
+3516	t	A Vaincu Gamin Ali (Défense de Titre)
+1698	s	Événement de Mohn du Paradis Æther Inactif

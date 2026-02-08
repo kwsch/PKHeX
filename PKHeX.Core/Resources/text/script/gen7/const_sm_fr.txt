@@ -1,0 +1,6 @@
+148	*	Pokémon de Départ	00:Brindibou,01:Flamiaou,02:Otaquin
+432	r	Tokorico	03:Affrontable,04:Vaincu,05:Capturé
+433	r	Tokopiyon	01:Affrontable,02:Vaincu,03:Capturé
+434	r	Tokotoro	01:Affrontable,02:Vaincu,03:Capturé
+404	r	Tokopisco	03:Affrontable,04:Vaincu,05:Capturé
+418	r	Interaction avec Solgaleo/Lunala	0:Voyage vers l'Ultra-Dimension (Avant la rencontre),2:Voyage vers l'Ultra-Dimension (est entré dans l'Ultra-Dimension),3:Voyage vers l'Ultra-Dimension (Guzma trouvé),4:Combat lancé (a vaincu Elsa-Mina)
