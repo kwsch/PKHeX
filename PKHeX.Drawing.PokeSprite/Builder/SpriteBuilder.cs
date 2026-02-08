@@ -18,6 +18,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
     public static byte ShowEncounterOpacityStripe { get; set; }
     public static byte ShowEncounterOpacityBackground { get; set; }
     public static int ShowEncounterThicknessStripe { get; set; }
+    public static float FilterMismatchOpacity { get; set; }
 
     /// <summary> Width of the generated Sprite image. </summary>
     public abstract int Width { get; }
@@ -245,5 +246,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
         ShowTeraThicknessStripe   = sprite.ShowTeraThicknessStripe;
         ShowTeraOpacityBackground = sprite.ShowTeraOpacityBackground;
         ShowTeraOpacityStripe     = sprite.ShowTeraOpacityStripe;
+
+        FilterMismatchOpacity = sprite.FilterMismatchOpacity;
     }
 }

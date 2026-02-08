@@ -297,7 +297,7 @@ public static class SpriteUtil
         if (visibility.HasFlag(SlotVisibilityType.FilterMismatch))
         {
             // Fade out the sprite.
-            result = ImageUtil.FadeTo(result, 0.25f);
+            result = ImageUtil.FadeTo(result, SpriteBuilder.FilterMismatchOpacity);
         }
         return result;
     }

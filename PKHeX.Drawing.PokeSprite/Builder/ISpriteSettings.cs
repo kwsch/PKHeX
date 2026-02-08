@@ -64,4 +64,9 @@ public interface ISpriteSettings
     /// Opacity of the Tera Type stripe overlay.
     /// </summary>
     byte ShowTeraOpacityStripe { get; set; }
+
+    /// <summary>
+    /// Opacity of an entity that does not match a filter.
+    /// </summary>
+    float FilterMismatchOpacity { get; set; }
 }
