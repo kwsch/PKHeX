@@ -76,11 +76,14 @@ public static class ImageUtil
         return bmp;
     }
 
-    public static Bitmap ToGrayscale(Image img)
+    public static Bitmap ToGrayscale(Bitmap img, float intensity)
     {
+        if (intensity is <= 0.01f or > 1f)
+            return img; // don't care
+
         var bmp = (Bitmap)img.Clone();
         GetBitmapData(bmp, out var bmpData, out var data);
-        SetAllColorToGrayScale(data);
+        SetAllColorToGrayScale(data, intensity);
         bmp.UnlockBits(bmpData);
         return bmp;
     }
@@ -231,6 +234,29 @@ public static class ImageUtil
         }
     }
 
+    private static void SetAllColorToGrayScale(Span<byte> data, float intensity)
+    {
+        if (intensity == 0f)
+            return;
+
+        if (intensity >= 0.999f)
+        {
+            SetAllColorToGrayScale(data);
+            return;
+        }
+
+        float inverse = 1f - intensity;
+        for (int i = 0; i < data.Length; i += 4)
+        {
+            if (data[i + 3] == 0)
+                continue;
+            byte greyS = (byte)((0.3 * data[i + 2]) + (0.59 * data[i + 1]) + (0.11 * data[i + 0]));
+            data[i + 0] = (byte)((data[i + 0] * inverse) + (greyS * intensity));
+            data[i + 1] = (byte)((data[i + 1] * inverse) + (greyS * intensity));
+            data[i + 2] = (byte)((data[i + 2] * inverse) + (greyS * intensity));
+        }
+    }
+
     private static void SetAllColorToGrayScale(Span<byte> data)
     {
         for (int i = 0; i < data.Length; i += 4)
@@ -311,6 +337,9 @@ public static class ImageUtil
     /// <param name="opacity">Opacity value between 0.0 (fully transparent) and 1.0 (fully opaque).</param>
     public static Bitmap FadeTo(Bitmap result, float opacity)
     {
+        if (opacity >= 0.999f)
+            return result;
+
         var faded = new Bitmap(result.Width, result.Height);
         using var gr = Graphics.FromImage(faded);
         var matrix = new ColorMatrix { Matrix33 = opacity }; // Alpha channel

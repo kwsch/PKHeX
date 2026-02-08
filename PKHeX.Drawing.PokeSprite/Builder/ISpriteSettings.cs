@@ -69,4 +69,9 @@ public interface ISpriteSettings
     /// Opacity of an entity that does not match a filter.
     /// </summary>
     float FilterMismatchOpacity { get; set; }
+
+    /// <summary>
+    /// Grayscale amount to apply to an entity that does not match a filter (0.0f = no grayscale, 1.0f = fully grayscale).
+    /// </summary>
+    float FilterMismatchGrayscale { get; set; }
 }
