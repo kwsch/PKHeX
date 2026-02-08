@@ -130,4 +130,32 @@ public static class SearchUtil
         // Compare the nickname filter against the PKM's nickname, ignoring case.
         return name.Contains(nicknameSubstring, StringComparison.OrdinalIgnoreCase);
     }
+
+    public static bool TrySeekNext(SaveFile sav, Func<PKM, bool> searchFilter, out (int Box, int Slot) result, int current = -1)
+    {
+        // Search from next box, wrapping around
+        var startBox = (current + 1) % sav.BoxCount;
+        for (int i = 0; i < sav.BoxCount; i++)
+        {
+            var box = (startBox + i) % sav.BoxCount;
+
+            for (int slot = 0; slot < sav.BoxSlotCount; slot++)
+            {
+                var pk = sav.GetBoxSlotAtIndex(box * sav.BoxSlotCount + slot);
+                if (pk.Species == 0)
+                    continue;
+
+                if (!searchFilter(pk))
+                    continue;
+
+                // Match found. Seek to the box, and Focus on the slot.
+                result = (box, slot);
+                return true;
+            }
+        }
+
+        // None found.
+        result = default;
+        return false;
+    }
 }

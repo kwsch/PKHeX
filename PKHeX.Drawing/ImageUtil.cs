@@ -303,4 +303,20 @@ public static class ImageUtil
             data[i + 3] = transparency;
         }
     }
+
+    /// <summary>
+    /// Changes the transparency of an image using ColorMatrix.Matrix33.
+    /// </summary>
+    /// <param name="result">Source image.</param>
+    /// <param name="opacity">Opacity value between 0.0 (fully transparent) and 1.0 (fully opaque).</param>
+    public static Bitmap FadeTo(Bitmap result, float opacity)
+    {
+        var faded = new Bitmap(result.Width, result.Height);
+        using var gr = Graphics.FromImage(faded);
+        var matrix = new ColorMatrix { Matrix33 = opacity }; // Alpha channel
+        var attributes = new ImageAttributes();
+        attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+        gr.DrawImage(result, new Rectangle(0, 0, faded.Width, faded.Height), 0, 0, result.Width, result.Height, GraphicsUnit.Pixel, attributes);
+        return faded;
+    }
 }

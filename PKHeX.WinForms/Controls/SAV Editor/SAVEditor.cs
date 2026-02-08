@@ -204,7 +204,16 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             ResetParty(); // lots of slots change, just update
 
         var pb = SlotPictureBoxes[index];
-        SlotUtil.UpdateSlot(pb, slot, pk, SAV, Box.FlagIllegal, type);
+        var flags = GetFlags(pk);
+        SlotUtil.UpdateSlot(pb, slot, pk, SAV, flags, type);
+    }
+
+    private SlotVisibilityType GetFlags(PKM pk, bool ignoreLegality = false)
+    {
+        var result = SlotVisibilityType.None;
+        if (FlagIllegal && !ignoreLegality)
+            result |= SlotVisibilityType.CheckLegalityIndicate;
+        return result;
     }
 
     public ISlotInfo GetSlotData(PictureBox view)
@@ -242,8 +251,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             var info = SL_Extra.GetSlotData(i);
             var pb = slots[i];
-            var showLegality = info is not SlotInfoMisc { HideLegality: true };
-            SlotUtil.UpdateSlot(pb, info, info.Read(SAV), SAV, Box.FlagIllegal && showLegality);
+            var pk = info.Read(SAV);
+            var hideLegality = info is SlotInfoMisc { HideLegality: true };
+            SlotUtil.UpdateSlot(pb, info, pk, SAV, GetFlags(pk, hideLegality));
         }
     }
 
@@ -370,7 +380,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         var info = GetSlotData(relIndex);
         var pb = SlotPictureBoxes[relIndex];
-        SlotUtil.UpdateSlot(pb, info, info.Read(SAV), SAV, Box.FlagIllegal);
+        var pk = info.Read(SAV);
+        SlotUtil.UpdateSlot(pb, info, pk, SAV, GetFlags(pk));
         return pb;
     }
 
@@ -1141,6 +1152,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         SetPKMBoxes(); // Reload all Entity picture boxes
 
         ToggleViewMisc(SAV);
+        BoxSearchAlignButton();
 
         FieldsLoaded = true;
         return WindowTranslationRequired;
@@ -1172,6 +1184,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
                     form?.Height += height - allowed;
                 }
             }
+            BoxSearchClear();
         }
         if (SAV.HasParty)
         {
@@ -1530,4 +1543,90 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         try { File.Delete(path); }
         catch (Exception ex) { Debug.WriteLine(ex.Message); }
     }
+
+    private EntitySearchSetup? _searchForm;
+    private Func<PKM, bool>? _searchFilter;
+
+    private void B_SearchBox_Click(object sender, EventArgs e)
+    {
+        if (_searchForm is not null)
+        {
+            if (ModifierKeys == Keys.Alt)
+            {
+                _searchForm.ForceReset();
+                _searchForm.Hide();
+                return;
+            }
+            if (ModifierKeys == Keys.Shift)
+            {
+                BoxSearchSeek();
+                return;
+            }
+        }
+        if (_searchForm is null || !_searchForm.IsSameSaveFile(SAV))
+            _searchForm = CreateSearcher(SAV, EditEnv.PKMEditor);
+
+        // Set the searcher Position immediately to the right of this parent form, and vertically aligned tops of forms.
+        var parent = FindForm();
+        if (parent is not null)
+        {
+            var location = parent.Location;
+            location.X += parent.Width;
+            _searchForm.StartPosition = FormStartPosition.Manual;
+            _searchForm.Location = location;
+            _searchForm.TopMost = true;
+        }
+
+        _searchForm.Show();
+        _searchForm.BringToFront();
+    }
+
+    private EntitySearchSetup CreateSearcher(SaveFile sav, IPKMView edit)
+    {
+        BoxSearchClear();
+        var result = new EntitySearchSetup();
+        result.Initialize(sav, edit);
+
+        result.ResetRequested += UpdateSearch;
+        result.SearchRequested += UpdateSearch;
+
+        return result;
+    }
+
+    private void UpdateSearch(object? sender, EventArgs e)
+    {
+        _searchFilter = _searchForm!.SearchFilter;
+        EditEnv.Slots.Publisher.UpdateFilter(_searchFilter);
+    }
+
+    private void BoxSearchClear()
+    {
+        _searchFilter = null;
+        EditEnv.Slots.Publisher.UpdateFilter(_searchFilter);
+        if (_searchForm is { } form)
+        {
+            form.ResetRequested -= UpdateSearch;
+            form.SearchRequested -= UpdateSearch;
+            form.Close(); // get rid of previous searcher if it exists
+        }
+        _searchForm = null;
+    }
+
+    private void BoxSearchAlignButton()
+    {
+        // Move the Search button so that it is vertically aligned to the navigation buttons, and right-edge aligned with the last picturebox in the grid.
+        var lastBox = Box.SlotPictureBoxes[^1];
+        var navButton = Box.B_BoxRight;
+        B_SearchBox.Top = Box.Top + navButton.Top;
+        B_SearchBox.Left = Box.Left + lastBox.Right - B_SearchBox.Width;
+    }
+
+    private void BoxSearchSeek()
+    {
+        if (_searchFilter is null)
+            return;
+        Box.SeekNext(_searchFilter);
+    }
+
+    public void ApplyNewFilter(Func<PKM, bool>? filter, bool reload = true) => Box.ApplySearchFilter(filter, reload);
 }

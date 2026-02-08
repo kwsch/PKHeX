@@ -575,7 +575,11 @@ public partial class SAV_Database : Form
         int begin = start * RES_MIN;
         int end = Math.Min(RES_MAX, Results.Count - begin);
         for (int i = 0; i < end; i++)
-            PKXBOXES[i].Image = Results[i + begin].Entity.Sprite(SAV, flagIllegal: true, storage: Results[i + begin].Source.Type);
+        {
+            var slot = Results[i + begin];
+            var pk = Results[i + begin].Entity;
+            PKXBOXES[i].Image = pk.Sprite(SAV, visibility: GetFlags(pk), storage: slot.Source.Type);
+        }
         for (int i = end; i < RES_MAX; i++)
             PKXBOXES[i].Image = null;
 
@@ -583,6 +587,14 @@ public partial class SAV_Database : Form
             PKXBOXES[i].BackgroundImage = SpriteUtil.Spriter.Transparent;
         if (slotSelected != -1 && slotSelected >= begin && slotSelected < begin + RES_MAX)
             PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
+    }
+
+    private SlotVisibilityType GetFlags(PKM pk, bool ignoreLegality = false)
+    {
+        var result = SlotVisibilityType.None;
+        if (!ignoreLegality)
+            result |= SlotVisibilityType.CheckLegalityIndicate;
+        return result;
     }
 
     // Misc Update Methods

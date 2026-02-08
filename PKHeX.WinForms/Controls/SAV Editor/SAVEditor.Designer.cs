@@ -34,6 +34,7 @@ namespace PKHeX.WinForms.Controls
         {
             tabBoxMulti = new System.Windows.Forms.TabControl();
             Tab_Box = new System.Windows.Forms.TabPage();
+            B_SearchBox = new System.Windows.Forms.Button();
             Box = new BoxEditor();
             Tab_PartyBattle = new System.Windows.Forms.TabPage();
             SL_Party = new PartyEditor();
@@ -70,6 +71,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenHallofFame = new System.Windows.Forms.Button();
             B_OUTPasserby = new System.Windows.Forms.Button();
             B_DLC = new System.Windows.Forms.Button();
+            B_Donuts = new System.Windows.Forms.Button();
             B_OpenPokeBeans = new System.Windows.Forms.Button();
             B_CellsStickers = new System.Windows.Forms.Button();
             B_OpenMiscEditor = new System.Windows.Forms.Button();
@@ -110,7 +112,6 @@ namespace PKHeX.WinForms.Controls
             TB_Secure1 = new System.Windows.Forms.TextBox();
             L_GameSync = new System.Windows.Forms.Label();
             TB_GameSync = new System.Windows.Forms.TextBox();
-            B_Donuts = new System.Windows.Forms.Button();
             tabBoxMulti.SuspendLayout();
             Tab_Box.SuspendLayout();
             Tab_PartyBattle.SuspendLayout();
@@ -146,6 +147,7 @@ namespace PKHeX.WinForms.Controls
             // Tab_Box
             // 
             Tab_Box.AllowDrop = true;
+            Tab_Box.Controls.Add(B_SearchBox);
             Tab_Box.Controls.Add(Box);
             Tab_Box.Location = new System.Drawing.Point(4, 26);
             Tab_Box.Name = "Tab_Box";
@@ -154,6 +156,18 @@ namespace PKHeX.WinForms.Controls
             Tab_Box.TabIndex = 0;
             Tab_Box.Text = "Box";
             Tab_Box.UseVisualStyleBackColor = true;
+            // 
+            // B_SearchBox
+            // 
+            B_SearchBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_SearchBox.Image = Properties.Resources.other;
+            B_SearchBox.Location = new System.Drawing.Point(414, 3);
+            B_SearchBox.Margin = new System.Windows.Forms.Padding(0);
+            B_SearchBox.Name = "B_SearchBox";
+            B_SearchBox.Size = new System.Drawing.Size(24, 24);
+            B_SearchBox.TabIndex = 2;
+            B_SearchBox.UseVisualStyleBackColor = true;
+            B_SearchBox.Click += B_SearchBox_Click;
             // 
             // Box
             // 
@@ -168,7 +182,7 @@ namespace PKHeX.WinForms.Controls
             Box.Location = new System.Drawing.Point(107, 7);
             Box.M = null;
             Box.Name = "Box";
-            Box.Size = new System.Drawing.Size(251, 185);
+            Box.Size = new System.Drawing.Size(251, 187);
             Box.TabIndex = 1;
             // 
             // Tab_PartyBattle
@@ -341,7 +355,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // L_ReadOnlyOther
             // 
-            L_ReadOnlyOther.ForeColor = WinFormsUtil.ColorWarn;
+            L_ReadOnlyOther.ForeColor = System.Drawing.Color.Red;
             L_ReadOnlyOther.Location = new System.Drawing.Point(32, 208);
             L_ReadOnlyOther.Name = "L_ReadOnlyOther";
             L_ReadOnlyOther.Size = new System.Drawing.Size(176, 24);
@@ -598,6 +612,17 @@ namespace PKHeX.WinForms.Controls
             B_DLC.Text = "DLC I/O";
             B_DLC.UseVisualStyleBackColor = true;
             B_DLC.Click += B_DLC_Click;
+            // 
+            // B_Donuts
+            // 
+            B_Donuts.Location = new System.Drawing.Point(4, 164);
+            B_Donuts.Margin = new System.Windows.Forms.Padding(4);
+            B_Donuts.Name = "B_Donuts";
+            B_Donuts.Size = new System.Drawing.Size(96, 32);
+            B_Donuts.TabIndex = 11;
+            B_Donuts.Text = "Donuts";
+            B_Donuts.UseVisualStyleBackColor = true;
+            B_Donuts.Click += B_Donuts_Click;
             // 
             // B_OpenPokeBeans
             // 
@@ -1040,17 +1065,6 @@ namespace PKHeX.WinForms.Controls
             TB_GameSync.TabIndex = 10;
             TB_GameSync.Validated += UpdateStringSeed;
             // 
-            // B_Donuts
-            // 
-            B_Donuts.Location = new System.Drawing.Point(4, 164);
-            B_Donuts.Margin = new System.Windows.Forms.Padding(4);
-            B_Donuts.Name = "B_Donuts";
-            B_Donuts.Size = new System.Drawing.Size(96, 32);
-            B_Donuts.TabIndex = 11;
-            B_Donuts.Text = "Donuts";
-            B_Donuts.UseVisualStyleBackColor = true;
-            B_Donuts.Click += B_Donuts_Click;
-            // 
             // SAVEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1155,5 +1169,6 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_OpenGear;
         private System.Windows.Forms.Button B_OpenFashion;
         private System.Windows.Forms.Button B_Donuts;
+        private System.Windows.Forms.Button B_SearchBox;
     }
 }

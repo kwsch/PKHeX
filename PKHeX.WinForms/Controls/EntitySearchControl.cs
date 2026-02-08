@@ -80,6 +80,8 @@ public partial class EntitySearchControl : UserControl
             cb.InitializeBinding();
             cb.DataSource = new BindingSource(moves, string.Empty);
         }
+
+        ResetFilters();
     }
 
     /// <summary>
