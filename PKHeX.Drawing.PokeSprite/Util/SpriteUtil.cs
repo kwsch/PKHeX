@@ -95,7 +95,7 @@ public static class SpriteUtil
         return img;
     }
 
-    private static Bitmap GetSprite(PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false, StorageSlotType storage = StorageSlotType.None)
+    private static Bitmap GetSprite(PKM pk, SaveFile sav, int box, int slot, SlotVisibilityType visibility = SlotVisibilityType.None, StorageSlotType storage = StorageSlotType.None)
     {
         bool inBox = (uint)slot < MaxSlotCount;
         bool empty = pk.Species == 0;
@@ -109,7 +109,7 @@ public static class SpriteUtil
                 if (TeraTypeUtil.IsOverrideValid((byte)type))
                     sprite = ApplyTeraColor((byte)type, sprite, SpriteBuilder.ShowTeraType);
             }
-            if (flagIllegal)
+            if (visibility.HasFlag(SlotVisibilityType.CheckLegalityIndicate))
             {
                 var la = pk.GetType() == sav.PKMType // quick sanity check
                     ? new LegalityAnalysis(pk, sav.Personal, storage)
@@ -146,7 +146,7 @@ public static class SpriteUtil
                 sprite = ImageUtil.LayerImage(sprite, Resources.starter, 0, 0);
         }
 
-        if (SpriteBuilder.ShowExperiencePercent && !flagIllegal)
+        if (SpriteBuilder.ShowExperiencePercent && !visibility.HasFlag(SlotVisibilityType.CheckLegalityIndicate))
             sprite = ApplyExperience(pk, sprite);
 
         return sprite;
@@ -291,8 +291,16 @@ public static class SpriteUtil
     };
 
     public static Bitmap Sprite(this PKM pk, SaveFile sav, int box = -1, int slot = -1,
-        bool flagIllegal = false, StorageSlotType storage = StorageSlotType.None)
-        => GetSprite(pk, sav, box, slot, flagIllegal, storage);
+        SlotVisibilityType visibility = SlotVisibilityType.None, StorageSlotType storage = StorageSlotType.None)
+    {
+        var result = GetSprite(pk, sav, box, slot, visibility, storage);
+        if (visibility.HasFlag(SlotVisibilityType.FilterMismatch))
+        {
+            // Fade out the sprite.
+            result = ImageUtil.FadeTo(result, 0.25f);
+        }
+        return result;
+    }
 
     public static Bitmap GetMysteryGiftPreviewPoke(MysteryGift gift)
     {

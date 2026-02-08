@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -11,6 +12,7 @@ public sealed class SlotPublisher<T>
     /// All <see cref="ISlotViewer{T}"/> instances that provide a view on individual <see cref="ISlotInfo"/> content.
     /// </summary>
     private List<ISlotViewer<T>> Subscribers { get; } = [];
+    private Func<PKM, bool>? Filter { get; set; }
 
     public ISlotInfo? Previous { get; private set; }
     public SlotTouchType PreviousType { get; private set; } = SlotTouchType.None;
@@ -49,4 +51,11 @@ public sealed class SlotPublisher<T>
 
     public void Subscribe(ISlotViewer<T> sub) => Subscribers.Add(sub);
     public bool Unsubscribe(ISlotViewer<T> sub) => Subscribers.Remove(sub);
+
+    public void UpdateFilter(Func<PKM, bool>? searchFilter, bool reload = true)
+    {
+        Filter = searchFilter;
+        foreach (var sub in Subscribers)
+            sub.ApplyNewFilter(Filter, reload);
+    }
 }
