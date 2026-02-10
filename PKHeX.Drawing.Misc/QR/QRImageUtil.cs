@@ -14,7 +14,7 @@ public static class QRImageUtil
     /// <param name="qr">The base QR code image.</param>
     /// <param name="preview">The preview image to overlay.</param>
     /// <returns>A new bitmap with the preview image centered on the QR code.</returns>
-    public static Bitmap GetQRImage(Image qr, Image preview)
+    public static Bitmap GetQRImage(Bitmap qr, Image preview)
     {
         // create a small area with the pk sprite, with a white background
         var foreground = new Bitmap(preview.Width + 4, preview.Height + 4);
@@ -45,7 +45,7 @@ public static class QRImageUtil
     /// <param name="lines">The lines of text to display.</param>
     /// <param name="extraText">Additional text to display.</param>
     /// <returns>A new bitmap with the preview image and extended text.</returns>
-    public static Bitmap GetQRImageExtended(Font font, Image qr, Image pk, int width, int height, ReadOnlySpan<string> lines, string extraText)
+    public static Bitmap GetQRImageExtended(Font font, Bitmap qr, Image pk, int width, int height, ReadOnlySpan<string> lines, string extraText)
     {
         var pic = GetQRImage(qr, pk);
         return ExtendImage(font, qr, width, height, pic, lines, extraText);

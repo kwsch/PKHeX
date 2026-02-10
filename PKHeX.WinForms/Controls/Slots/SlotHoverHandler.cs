@@ -23,7 +23,7 @@ public sealed class SlotHoverHandler : IDisposable
     public bool GlowHover { private get; set; } = true;
 
     private readonly SummaryPreviewer Preview = new();
-    private static Bitmap Hover => Application.IsDarkModeEnabled ? ImageUtil.ChangeOpacity(SpriteUtil.Spriter.Hover, 0.5) : SpriteUtil.Spriter.Hover;
+    private static Bitmap Hover => Application.IsDarkModeEnabled ? ImageUtil.CopyChangeOpacity(SpriteUtil.Spriter.Hover, 0.5) : SpriteUtil.Spriter.Hover;
 
     private readonly BitmapAnimator HoverWorker = new();
 
@@ -45,7 +45,7 @@ public sealed class SlotHoverHandler : IDisposable
         Slot = pb;
         LastSlot = lastSlot;
 
-        var orig = LastSlot.OriginalBackground = pb.BackgroundImage;
+        var orig = (Bitmap?)(LastSlot.OriginalBackground = pb.BackgroundImage);
 
         Bitmap bg;
         if (GlowHover)
@@ -53,11 +53,11 @@ public sealed class SlotHoverHandler : IDisposable
             HoverWorker.Stop();
             var hover = Hover;
             var glow = Draw.GlowInitial;
-            SpriteUtil.GetSpriteGlow(pk, glow.B, glow.G, glow.R, out var glowdata, out var imgGlowBase);
+            SpriteUtil.GetSpriteGlow(pk, glow.B, glow.G, glow.R, out var glowData, out var imgGlowBase);
             bg = ImageUtil.LayerImage(imgGlowBase, hover, 0, 0);
             HoverWorker.GlowToColor = Draw.GlowFinal;
             HoverWorker.GlowFromColor = Draw.GlowInitial;
-            HoverWorker.Start(pb, imgGlowBase, glowdata, orig, hover);
+            HoverWorker.Start(pb, imgGlowBase, glowData, orig, hover);
         }
         else
         {

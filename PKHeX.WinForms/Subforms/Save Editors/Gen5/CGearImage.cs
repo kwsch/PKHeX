@@ -35,7 +35,7 @@ public static class CGearImage
         ArgumentOutOfRangeException.ThrowIfNotEqual((uint)img.PixelFormat, (uint)PixelFormat.Format32bppArgb);
 
         // get raw bytes of image
-        byte[] data = ImageUtil.GetPixelData(img);
+        byte[] data = img.GetBitmapData();
         const int bpp = 4;
         Debug.Assert(data.Length == Width * Height * bpp);
 

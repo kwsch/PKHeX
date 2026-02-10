@@ -149,7 +149,7 @@ public partial class SAV_MysteryGiftDB : Form
         int index = GetSenderIndex(sender);
         if (index < 0)
             return;
-        var temp = Results[index].ConvertToPKM(SAV);
+        var temp = Results[index].ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
         var pk = EntityConverter.ConvertToType(temp, SAV.PKMType, out var c);
         if (pk is null)
         {

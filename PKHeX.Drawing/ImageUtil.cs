@@ -11,92 +11,180 @@ namespace PKHeX.Drawing;
 /// </summary>
 public static class ImageUtil
 {
-    public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double transparency)
+    extension(Bitmap bmp)
     {
-        overLayer = ChangeOpacity(overLayer, transparency);
+        /// <summary>
+        /// Locks the bitmap and returns a span containing its raw pixel data in the specified pixel format.
+        /// </summary>
+        /// <remarks>
+        /// The returned span provides direct access to the bitmap's memory. Modifying the span will update the bitmap.
+        /// The caller is responsible for unlocking the bitmap using <see cref="Bitmap.UnlockBits"/> after processing. This method is not thread-safe.
+        /// </remarks>
+        /// <param name="bmpData">
+        /// When this method returns, contains a BitmapData object representing the locked bitmap area.
+        /// The caller must unlock the bitmap after processing the data.
+        /// </param>
+        /// <param name="format">
+        /// The pixel format to use when locking the bitmap.
+        /// Defaults to <see cref="PixelFormat.Format32bppArgb"/> to ensure the usages within this utility class process pixels in the expected way.
+        /// </param>
+        /// <returns>A span of bytes representing the bitmap's pixel data. The span covers the entire bitmap in the specified pixel format.</returns>
+        public Span<byte> GetBitmapData(out BitmapData bmpData, PixelFormat format = PixelFormat.Format32bppArgb)
+        {
+            bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, format);
+            var bpp = Image.GetPixelFormatSize(format) / 8;
+            return GetSpan(bmpData.Scan0, bmp.Width * bmp.Height * bpp);
+        }
+
+        public void GetBitmapData(Span<byte> data, PixelFormat format = PixelFormat.Format32bppArgb)
+        {
+            var span = bmp.GetBitmapData(out var bmpData, format);
+            span.CopyTo(data);
+            bmp.UnlockBits(bmpData);
+        }
+
+        public void GetBitmapData(Span<int> data)
+        {
+            var span = bmp.GetBitmapData(out var bmpData);
+            var src = MemoryMarshal.Cast<byte, int>(span);
+            src.CopyTo(data);
+            bmp.UnlockBits(bmpData);
+        }
+
+        public void SetBitmapData(ReadOnlySpan<byte> data, PixelFormat format = PixelFormat.Format32bppArgb)
+        {
+            var span = bmp.GetBitmapData(out var bmpData, format);
+            data.CopyTo(span);
+            bmp.UnlockBits(bmpData);
+        }
+
+        public void SetBitmapData(Span<int> data)
+        {
+            var span = bmp.GetBitmapData(out var bmpData);
+            var dest = MemoryMarshal.Cast<byte, int>(span);
+            data.CopyTo(dest);
+            bmp.UnlockBits(bmpData);
+        }
+
+        public byte[] GetBitmapData()
+        {
+            var format = bmp.PixelFormat;
+            var bpp = Image.GetPixelFormatSize(format) / 8;
+            var result = new byte[bmp.Width * bmp.Height * bpp];
+            bmp.GetBitmapData(result, format);
+            return result;
+        }
+
+        public void ToGrayscale(float intensity)
+        {
+            if (intensity is <= 0.01f or > 1f)
+                return; // don't care
+
+            var data = bmp.GetBitmapData(out var bmpData);
+            SetAllColorToGrayScale(data, intensity);
+            bmp.UnlockBits(bmpData);
+        }
+
+        public void ChangeOpacity(double trans)
+        {
+            if (trans is <= 0.01f or > 1f)
+                return; // don't care
+
+            var data = bmp.GetBitmapData(out var bmpData);
+            SetAllTransparencyTo(data, trans);
+            bmp.UnlockBits(bmpData);
+        }
+
+        public void BlendTransparentTo(Color c, byte trans, int start = 0, int end = -1)
+        {
+            var data = bmp.GetBitmapData(out var bmpData);
+            if (end == -1)
+                end = data.Length;
+            BlendAllTransparencyTo(data[start..end], c, trans);
+            bmp.UnlockBits(bmpData);
+        }
+
+        public void ChangeAllColorTo(Color c)
+        {
+            var data = bmp.GetBitmapData(out var bmpData);
+            ChangeAllColorTo(data, c);
+            bmp.UnlockBits(bmpData);
+        }
+
+        public void ChangeTransparentTo(Color c, byte trans, int start = 0, int end = -1)
+        {
+            var data = bmp.GetBitmapData(out var bmpData);
+            if (end == -1)
+                end = data.Length;
+            SetAllTransparencyTo(data[start..end], c, trans);
+            bmp.UnlockBits(bmpData);
+        }
+
+        public void WritePixels(Color c, int start, int end)
+        {
+            var data = bmp.GetBitmapData(out var bmpData);
+            ChangeAllTo(data, c, start, end);
+            bmp.UnlockBits(bmpData);
+        }
+
+        public int GetAverageColor()
+        {
+            var data = bmp.GetBitmapData(out var bmpData);
+            var avg = GetAverageColor(data);
+            bmp.UnlockBits(bmpData);
+            return avg;
+        }
+    }
+
+    private static Span<byte> GetSpan(IntPtr ptr, int length)
+        => MemoryMarshal.CreateSpan(ref Unsafe.AddByteOffset(ref Unsafe.NullRef<byte>(), ptr), length);
+
+    public static Bitmap LayerImage(Bitmap baseLayer, Bitmap overLayer, int x, int y, double transparency)
+    {
+        overLayer = CopyChangeOpacity(overLayer, transparency);
         return LayerImage(baseLayer, overLayer, x, y);
     }
 
-    public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y)
+    public static Bitmap LayerImage(Bitmap baseLayer, Image overLayer, int x, int y)
     {
-        Bitmap img = new(baseLayer);
-        using Graphics gr = Graphics.FromImage(img);
+        var bmp = new Bitmap(baseLayer);
+        using var gr = Graphics.FromImage(bmp);
         gr.DrawImage(overLayer, x, y, overLayer.Width, overLayer.Height);
-        return img;
-    }
-
-    public static Bitmap ChangeOpacity(Image img, double trans)
-    {
-        var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out var bmpData, out var data);
-        SetAllTransparencyTo(data, trans);
-        bmp.UnlockBits(bmpData);
-
         return bmp;
     }
 
-    public static Bitmap ChangeAllColorTo(Image img, Color c)
+    public static Bitmap CopyChangeOpacity(Bitmap img, double trans)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out var bmpData, out var data);
-        ChangeAllColorTo(data, c);
-        bmp.UnlockBits(bmpData);
-
+        bmp.ChangeOpacity(trans);
         return bmp;
     }
 
-    public static Bitmap ChangeTransparentTo(Image img, Color c, byte trans, int start = 0, int end = -1)
+    public static Bitmap CopyChangeAllColorTo(Bitmap img, Color c)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out var bmpData, out var data);
-        if (end == -1)
-            end = data.Length - 4;
-        SetAllTransparencyTo(data, c, trans, start, end);
-        bmp.UnlockBits(bmpData);
+        bmp.ChangeAllColorTo(c);
         return bmp;
     }
 
-    public static Bitmap BlendTransparentTo(Image img, Color c, byte trans, int start = 0, int end = -1)
+    public static Bitmap CopyChangeTransparentTo(Bitmap img, Color c, byte trans, int start = 0, int end = -1)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out var bmpData, out var data);
-        if (end == -1)
-            end = data.Length - 4;
-        BlendAllTransparencyTo(data, c, trans, start, end);
-        bmp.UnlockBits(bmpData);
+        bmp.ChangeTransparentTo(c, trans, start, end);
         return bmp;
     }
 
-    public static Bitmap WritePixels(Image img, Color c, int start, int end)
+    public static Bitmap CopyWritePixels(Bitmap img, Color c, int start, int end)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out var bmpData, out var data);
-        ChangeAllTo(data, c, start, end);
-        bmp.UnlockBits(bmpData);
+        bmp.WritePixels(c, start, end);
         return bmp;
-    }
-
-    public static Bitmap ToGrayscale(Image img)
-    {
-        var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out var bmpData, out var data);
-        SetAllColorToGrayScale(data);
-        bmp.UnlockBits(bmpData);
-        return bmp;
-    }
-
-    private static void GetBitmapData(Bitmap bmp, out BitmapData bmpData, out Span<byte> data)
-    {
-        bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-        var length = bmp.Width * bmp.Height * 4;
-        data = MemoryMarshal.CreateSpan(ref Unsafe.AddByteOffset(ref Unsafe.NullRef<byte>(), bmpData.Scan0), length);
     }
 
     public static Bitmap GetBitmap(ReadOnlySpan<byte> data, int width, int height, int length, PixelFormat format = PixelFormat.Format32bppArgb)
     {
         var bmp = new Bitmap(width, height, format);
-        var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, format);
-        var span = MemoryMarshal.CreateSpan(ref Unsafe.AddByteOffset(ref Unsafe.NullRef<byte>(), bmpData.Scan0), length);
+        var span = bmp.GetBitmapData(out var bmpData);
         data[..length].CopyTo(span);
         bmp.UnlockBits(bmpData);
         return bmp;
@@ -107,18 +195,9 @@ public static class ImageUtil
         return GetBitmap(data, width, height, data.Length, format);
     }
 
-    public static byte[] GetPixelData(Bitmap bitmap)
-    {
-        var argbData = new byte[bitmap.Width * bitmap.Height * 4];
-        var bd = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
-        Marshal.Copy(bd.Scan0, argbData, 0, bitmap.Width * bitmap.Height * 4);
-        bitmap.UnlockBits(bd);
-        return argbData;
-    }
-
     public static void SetAllUsedPixelsOpaque(Span<byte> data)
     {
-        for (int i = 0; i < data.Length; i += 4)
+        for (int i = data.Length - 4; i >= 0; i -= 4)
         {
             if (data[i + 3] != 0)
                 data[i + 3] = 0xFF;
@@ -137,26 +216,26 @@ public static class ImageUtil
 
     private static void SetAllTransparencyTo(Span<byte> data, double trans)
     {
-        for (int i = 0; i < data.Length; i += 4)
+        for (int i = data.Length - 4; i >= 0; i -= 4)
             data[i + 3] = (byte)(data[i + 3] * trans);
     }
 
-    public static void SetAllTransparencyTo(Span<byte> data, Color c, byte trans, int start, int end)
+    private static void SetAllTransparencyTo(Span<byte> data, Color c, byte trans)
     {
         var arr = MemoryMarshal.Cast<byte, int>(data);
         var value = Color.FromArgb(trans, c).ToArgb();
-        for (int i = end; i >= start; i -= 4)
+        for (int i = data.Length - 4; i >= 0; i -= 4)
         {
             if (data[i + 3] == 0)
                 arr[i >> 2] = value;
         }
     }
 
-    public static void BlendAllTransparencyTo(Span<byte> data, Color c, byte trans, int start, int end)
+    private static void BlendAllTransparencyTo(Span<byte> data, Color c, byte trans)
     {
         var arr = MemoryMarshal.Cast<byte, int>(data);
         var value = Color.FromArgb(trans, c).ToArgb();
-        for (int i = end; i >= start; i -= 4)
+        for (int i = data.Length - 4; i >= 0; i -= 4)
         {
             var alpha = data[i + 3];
             if (alpha == 0)
@@ -166,11 +245,11 @@ public static class ImageUtil
         }
     }
 
-    public static int GetAverageColor(Span<byte> data)
+    private static int GetAverageColor(Span<byte> data)
     {
         long r = 0, g = 0, b = 0;
         int count = 0;
-        for (int i = 0; i < data.Length; i += 4)
+        for (int i = data.Length - 4; i >= 0; i -= 4)
         {
             var alpha = data[i + 3];
             if (alpha == 0)
@@ -209,7 +288,7 @@ public static class ImageUtil
         return (a << 24) | (r << 16) | (g << 8) | b;
     }
 
-    public static void ChangeAllTo(Span<byte> data, Color c, int start, int end)
+    private static void ChangeAllTo(Span<byte> data, Color c, int start, int end)
     {
         var arr = MemoryMarshal.Cast<byte, int>(data[start..end]);
         var value = c.ToArgb();
@@ -221,7 +300,7 @@ public static class ImageUtil
         byte R = c.R;
         byte G = c.G;
         byte B = c.B;
-        for (int i = 0; i < data.Length; i += 4)
+        for (int i = data.Length - 4; i >= 0; i -= 4)
         {
             if (data[i + 3] == 0)
                 continue;
@@ -231,9 +310,32 @@ public static class ImageUtil
         }
     }
 
+    private static void SetAllColorToGrayScale(Span<byte> data, float intensity)
+    {
+        if (intensity <= 0f)
+            return;
+
+        if (intensity >= 0.999f)
+        {
+            SetAllColorToGrayScale(data);
+            return;
+        }
+
+        float inverse = 1f - intensity;
+        for (int i = data.Length - 4; i >= 0; i -= 4)
+        {
+            if (data[i + 3] == 0)
+                continue;
+            byte greyS = (byte)((0.3 * data[i + 2]) + (0.59 * data[i + 1]) + (0.11 * data[i + 0]));
+            data[i + 0] = (byte)((data[i + 0] * inverse) + (greyS * intensity));
+            data[i + 1] = (byte)((data[i + 1] * inverse) + (greyS * intensity));
+            data[i + 2] = (byte)((data[i + 2] * inverse) + (greyS * intensity));
+        }
+    }
+
     private static void SetAllColorToGrayScale(Span<byte> data)
     {
-        for (int i = 0; i < data.Length; i += 4)
+        for (int i = data.Length - 4; i >= 0; i -= 4)
         {
             if (data[i + 3] == 0)
                 continue;
@@ -256,7 +358,7 @@ public static class ImageUtil
     {
         int stride = width * 4;
         int height = data.Length / stride;
-        for (int i = 0; i < data.Length; i += 4)
+        for (int i = data.Length - 4; i >= 0; i -= 4)
         {
             // only pollute outwards if the current pixel is fully opaque
             if (data[i + 3] == 0)
@@ -286,7 +388,7 @@ public static class ImageUtil
 
     private static void CleanPollutedPixels(Span<byte> data, byte blue, byte green, byte red)
     {
-        for (int i = 0; i < data.Length; i += 4)
+        for (int i = data.Length - 4; i >= 0; i -= 4)
         {
             // only clean if the current pixel isn't transparent
             if (data[i + 3] != 0)

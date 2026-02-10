@@ -562,13 +562,13 @@ public static class WinFormsUtil
             if (o is not ToolStripMenuItem item)
                 continue;
             InvertToolStripIcons(item.DropDownItems);
-            if (item.Image is not { } x)
+            if (item.Image is not Bitmap x)
                 continue;
             item.Image = BlackToWhite(x);
         }
     }
 
-    public static Bitmap BlackToWhite(Image img) => Drawing.ImageUtil.ChangeAllColorTo(img, Color.White);
+    public static Bitmap BlackToWhite(Bitmap bmp) => Drawing.ImageUtil.CopyChangeAllColorTo(bmp, Color.White);
 
     // SystemColor equivalents for dark mode support
     public static Color ColorWarn => Application.IsDarkModeEnabled ? Color.OrangeRed : Color.Red;

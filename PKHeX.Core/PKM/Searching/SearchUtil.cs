@@ -27,13 +27,19 @@ public static class SearchUtil
         _ => pk.Generation == generation,
     };
 
-    public static bool SatisfiesFilterLevel(PKM pk, SearchComparison option, byte level) => option switch
+    public static bool SatisfiesFilterLevel(PKM pk, SearchComparison option, byte level)
     {
-        SearchComparison.LessThanEquals =>    pk.Stat_Level <= level,
-        SearchComparison.Equals =>            pk.Stat_Level == level,
-        SearchComparison.GreaterThanEquals => pk.Stat_Level >= level,
-        _ => true,
-    };
+        var current = pk.Stat_Level;
+        if (current == 0)
+            current = pk.CurrentLevel;
+        return option switch
+        {
+            SearchComparison.LessThanEquals => current <= level,
+            SearchComparison.Equals => current == level,
+            SearchComparison.GreaterThanEquals => current >= level,
+            _ => true,
+        };
+    }
 
     public static bool SatisfiesFilterEVs(PKM pk, int option) => option switch
     {
@@ -127,7 +133,37 @@ public static class SearchUtil
         int length = pk.LoadString(pk.NicknameTrash, name);
         name = name[..length];
 
-        // Compare the nickname filter against the PKM's nickname, ignoring case.
+        // Compare the nickname filter against the Entity's nickname, ignoring case.
         return name.Contains(nicknameSubstring, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public static bool TrySeekNext(SaveFile sav, Func<PKM, bool> searchFilter, out (int Box, int Slot) result, int current = -1)
+    {
+        // Search from next box, wrapping around
+        var boxCount = sav.BoxCount;
+        var boxSlotCount = sav.BoxSlotCount;
+        var startBox = (current + 1) % boxCount;
+        for (int i = 0; i < boxCount; i++)
+        {
+            var box = (startBox + i) % boxCount;
+
+            for (int slot = 0; slot < boxSlotCount; slot++)
+            {
+                var pk = sav.GetBoxSlotAtIndex(box, slot);
+                if (pk.Species == 0)
+                    continue;
+
+                if (!searchFilter(pk))
+                    continue;
+
+                // Match found. Seek to the box, and Focus on the slot.
+                result = (box, slot);
+                return true;
+            }
+        }
+
+        // None found.
+        result = default;
+        return false;
     }
 }

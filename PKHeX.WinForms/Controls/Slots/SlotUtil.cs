@@ -40,7 +40,7 @@ public static class SlotUtil
     /// <summary>
     /// Refreshes a <see cref="PictureBox"/> with the appropriate display content.
     /// </summary>
-    public static void UpdateSlot(PictureBox pb, ISlotInfo info, PKM pk, SaveFile sav, bool flagIllegal, SlotTouchType t = SlotTouchType.None)
+    public static void UpdateSlot(PictureBox pb, ISlotInfo info, PKM pk, SaveFile sav, SlotVisibilityType flags, SlotTouchType t = SlotTouchType.None)
     {
         pb.BackgroundImage = GetTouchTypeBackground(t);
         if (pk.Species == 0) // Nothing in slot
@@ -59,7 +59,7 @@ public static class SlotUtil
             return;
         }
 
-        pb.Image = GetImage(info, pk, sav, flagIllegal);
+        pb.Image = GetImage(info, pk, sav, flags);
         pb.BackColor = GoodDataColor;
 
         // Get an accessible description for the slot (for screen readers)
@@ -70,10 +70,10 @@ public static class SlotUtil
         pb.AccessibleDescription = ShowdownParsing.GetLocalizedPreviewText(pk, settings);
     }
 
-    private static Bitmap GetImage(ISlotInfo info, PKM pk, SaveFile sav, bool flagIllegal) => info switch
+    private static Bitmap GetImage(ISlotInfo info, PKM pk, SaveFile sav, SlotVisibilityType flags) => info switch
     {
-        SlotInfoBox b => pk.Sprite(sav, b.Box, b.Slot, flagIllegal, b.Type),
-        SlotInfoParty ps => pk.Sprite(sav, -1, ps.Slot, flagIllegal, ps.Type),
-        _ => pk.Sprite(sav, -1, -1, flagIllegal, info.Type),
+        SlotInfoBox b => pk.Sprite(sav, b.Box, b.Slot, flags, b.Type),
+        SlotInfoParty ps => pk.Sprite(sav, -1, ps.Slot, flags, ps.Type),
+        _ => pk.Sprite(sav, -1, -1, flags, info.Type),
     };
 }

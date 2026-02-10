@@ -120,12 +120,20 @@ public sealed partial class SAV_GroupViewer : Form
 
         var sav = SAV;
         for (int i = 0; i < slots.Length; i++)
-            Box.Entries[i].Image = slots[i].Sprite(sav, flagIllegal: true, storage: type);
+            Box.Entries[i].Image = slots[i].Sprite(sav, visibility: GetFlags(slots[i]), storage: type);
 
         if (slotSelected != -1 && (uint)slotSelected < Box.Entries.Count)
             Box.Entries[slotSelected].BackgroundImage = groupSelected != index ? null : SpriteUtil.Spriter.View;
 
         CurrentGroup = index;
+    }
+
+    private SlotVisibilityType GetFlags(PKM pk, bool ignoreLegality = false)
+    {
+        var result = SlotVisibilityType.None;
+        if (!ignoreLegality)
+            result |= SlotVisibilityType.CheckLegalityIndicate;
+        return result;
     }
 
     public int MoveLeft(bool max = false)

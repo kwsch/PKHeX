@@ -47,8 +47,8 @@ namespace PKHeX.WinForms
             Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             Menu_DeleteClones = new System.Windows.Forms.ToolStripMenuItem();
             P_Results = new System.Windows.Forms.Panel();
-            DatabasePokeGrid = new Controls.PokeGrid();
-            UC_EntitySearch = new Controls.EntitySearchControl();
+            DatabasePokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
+            UC_EntitySearch = new PKHeX.WinForms.Controls.EntitySearchControl();
             B_Search = new System.Windows.Forms.Button();
             B_Reset = new System.Windows.Forms.Button();
             L_Count = new System.Windows.Forms.Label();
@@ -76,7 +76,7 @@ namespace PKHeX.WinForms
             SCR_Box.LargeChange = 1;
             SCR_Box.Location = new System.Drawing.Point(299, 3);
             SCR_Box.Name = "SCR_Box";
-            SCR_Box.Size = new System.Drawing.Size(24, 397);
+            SCR_Box.Size = new System.Drawing.Size(24, 479);
             SCR_Box.TabIndex = 1;
             SCR_Box.Scroll += UpdateScroll;
             // 
@@ -87,7 +87,7 @@ namespace PKHeX.WinForms
             menuStrip1.Location = new System.Drawing.Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            menuStrip1.Size = new System.Drawing.Size(670, 24);
+            menuStrip1.Size = new System.Drawing.Size(692, 25);
             menuStrip1.TabIndex = 65;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -95,7 +95,7 @@ namespace PKHeX.WinForms
             // 
             Menu_Close.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { Menu_Exit });
             Menu_Close.Name = "Menu_Close";
-            Menu_Close.Size = new System.Drawing.Size(37, 20);
+            Menu_Close.Size = new System.Drawing.Size(39, 21);
             Menu_Close.Text = "File";
             // 
             // Menu_Exit
@@ -104,7 +104,7 @@ namespace PKHeX.WinForms
             Menu_Exit.Name = "Menu_Exit";
             Menu_Exit.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E;
             Menu_Exit.ShowShortcutKeys = false;
-            Menu_Exit.Size = new System.Drawing.Size(96, 22);
+            Menu_Exit.Size = new System.Drawing.Size(100, 22);
             Menu_Exit.Text = "&Close";
             Menu_Exit.Click += Menu_Exit_Click;
             // 
@@ -112,7 +112,7 @@ namespace PKHeX.WinForms
             // 
             Menu_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { Menu_SearchSettings, Menu_OpenDB, Menu_Report, Menu_Export, Menu_Import, Menu_DeleteClones });
             Menu_Tools.Name = "Menu_Tools";
-            Menu_Tools.Size = new System.Drawing.Size(46, 20);
+            Menu_Tools.Size = new System.Drawing.Size(51, 21);
             Menu_Tools.Text = "Tools";
             // 
             // Menu_SearchSettings
@@ -120,7 +120,7 @@ namespace PKHeX.WinForms
             Menu_SearchSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { Menu_SearchBoxes, Menu_SearchDatabase, Menu_SearchBackups, Menu_SearchLegal, Menu_SearchIllegal, Menu_SearchClones });
             Menu_SearchSettings.Image = Properties.Resources.settings;
             Menu_SearchSettings.Name = "Menu_SearchSettings";
-            Menu_SearchSettings.Size = new System.Drawing.Size(209, 22);
+            Menu_SearchSettings.Size = new System.Drawing.Size(226, 22);
             Menu_SearchSettings.Text = "Search Settings";
             // 
             // Menu_SearchBoxes
@@ -129,7 +129,7 @@ namespace PKHeX.WinForms
             Menu_SearchBoxes.CheckOnClick = true;
             Menu_SearchBoxes.CheckState = System.Windows.Forms.CheckState.Checked;
             Menu_SearchBoxes.Name = "Menu_SearchBoxes";
-            Menu_SearchBoxes.Size = new System.Drawing.Size(198, 22);
+            Menu_SearchBoxes.Size = new System.Drawing.Size(214, 22);
             Menu_SearchBoxes.Text = "Search Within Boxes";
             // 
             // Menu_SearchDatabase
@@ -138,7 +138,7 @@ namespace PKHeX.WinForms
             Menu_SearchDatabase.CheckOnClick = true;
             Menu_SearchDatabase.CheckState = System.Windows.Forms.CheckState.Checked;
             Menu_SearchDatabase.Name = "Menu_SearchDatabase";
-            Menu_SearchDatabase.Size = new System.Drawing.Size(198, 22);
+            Menu_SearchDatabase.Size = new System.Drawing.Size(214, 22);
             Menu_SearchDatabase.Text = "Search Within Database";
             // 
             // Menu_SearchBackups
@@ -147,7 +147,7 @@ namespace PKHeX.WinForms
             Menu_SearchBackups.CheckOnClick = true;
             Menu_SearchBackups.CheckState = System.Windows.Forms.CheckState.Checked;
             Menu_SearchBackups.Name = "Menu_SearchBackups";
-            Menu_SearchBackups.Size = new System.Drawing.Size(198, 22);
+            Menu_SearchBackups.Size = new System.Drawing.Size(214, 22);
             Menu_SearchBackups.Text = "Search Within Backups";
             // 
             // Menu_SearchLegal
@@ -156,7 +156,7 @@ namespace PKHeX.WinForms
             Menu_SearchLegal.CheckOnClick = true;
             Menu_SearchLegal.CheckState = System.Windows.Forms.CheckState.Checked;
             Menu_SearchLegal.Name = "Menu_SearchLegal";
-            Menu_SearchLegal.Size = new System.Drawing.Size(198, 22);
+            Menu_SearchLegal.Size = new System.Drawing.Size(214, 22);
             Menu_SearchLegal.Text = "Show Legal";
             // 
             // Menu_SearchIllegal
@@ -165,21 +165,21 @@ namespace PKHeX.WinForms
             Menu_SearchIllegal.CheckOnClick = true;
             Menu_SearchIllegal.CheckState = System.Windows.Forms.CheckState.Checked;
             Menu_SearchIllegal.Name = "Menu_SearchIllegal";
-            Menu_SearchIllegal.Size = new System.Drawing.Size(198, 22);
+            Menu_SearchIllegal.Size = new System.Drawing.Size(214, 22);
             Menu_SearchIllegal.Text = "Show Illegal";
             // 
             // Menu_SearchClones
             // 
             Menu_SearchClones.CheckOnClick = true;
             Menu_SearchClones.Name = "Menu_SearchClones";
-            Menu_SearchClones.Size = new System.Drawing.Size(198, 22);
+            Menu_SearchClones.Size = new System.Drawing.Size(214, 22);
             Menu_SearchClones.Text = "Clones Only";
             // 
             // Menu_OpenDB
             // 
             Menu_OpenDB.Image = Properties.Resources.folder;
             Menu_OpenDB.Name = "Menu_OpenDB";
-            Menu_OpenDB.Size = new System.Drawing.Size(209, 22);
+            Menu_OpenDB.Size = new System.Drawing.Size(226, 22);
             Menu_OpenDB.Text = "Open Database Folder";
             Menu_OpenDB.Click += OpenDB;
             // 
@@ -187,7 +187,7 @@ namespace PKHeX.WinForms
             // 
             Menu_Report.Image = Properties.Resources.report;
             Menu_Report.Name = "Menu_Report";
-            Menu_Report.Size = new System.Drawing.Size(209, 22);
+            Menu_Report.Size = new System.Drawing.Size(226, 22);
             Menu_Report.Text = "Create Data Report";
             Menu_Report.Click += GenerateDBReport;
             // 
@@ -195,7 +195,7 @@ namespace PKHeX.WinForms
             // 
             Menu_Export.Image = Properties.Resources.export;
             Menu_Export.Name = "Menu_Export";
-            Menu_Export.Size = new System.Drawing.Size(209, 22);
+            Menu_Export.Size = new System.Drawing.Size(226, 22);
             Menu_Export.Text = "Export Results to Folder";
             Menu_Export.Click += Menu_Export_Click;
             // 
@@ -203,7 +203,7 @@ namespace PKHeX.WinForms
             // 
             Menu_Import.Image = Properties.Resources.savePKM;
             Menu_Import.Name = "Menu_Import";
-            Menu_Import.Size = new System.Drawing.Size(209, 22);
+            Menu_Import.Size = new System.Drawing.Size(226, 22);
             Menu_Import.Text = "Import Results to SaveFile";
             Menu_Import.Click += Menu_Import_Click;
             // 
@@ -211,7 +211,7 @@ namespace PKHeX.WinForms
             // 
             Menu_DeleteClones.Image = Properties.Resources.nocheck;
             Menu_DeleteClones.Name = "Menu_DeleteClones";
-            Menu_DeleteClones.Size = new System.Drawing.Size(209, 22);
+            Menu_DeleteClones.Size = new System.Drawing.Size(226, 22);
             Menu_DeleteClones.Text = "Delete Clones";
             Menu_DeleteClones.Click += Menu_DeleteClones_Click;
             // 
@@ -225,7 +225,7 @@ namespace PKHeX.WinForms
             P_Results.Location = new System.Drawing.Point(14, 37);
             P_Results.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             P_Results.Name = "P_Results";
-            P_Results.Size = new System.Drawing.Size(332, 406);
+            P_Results.Size = new System.Drawing.Size(332, 488);
             P_Results.TabIndex = 66;
             // 
             // DatabasePokeGrid
@@ -234,15 +234,26 @@ namespace PKHeX.WinForms
             DatabasePokeGrid.Location = new System.Drawing.Point(2, 2);
             DatabasePokeGrid.Margin = new System.Windows.Forms.Padding(0);
             DatabasePokeGrid.Name = "DatabasePokeGrid";
-            DatabasePokeGrid.Size = new System.Drawing.Size(293, 399);
+            DatabasePokeGrid.Size = new System.Drawing.Size(293, 484);
             DatabasePokeGrid.TabIndex = 2;
+            // 
+            // UC_EntitySearch
+            // 
+            UC_EntitySearch.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            UC_EntitySearch.Dock = System.Windows.Forms.DockStyle.Fill;
+            UC_EntitySearch.Location = new System.Drawing.Point(4, 3);
+            UC_EntitySearch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            UC_EntitySearch.Name = "UC_EntitySearch";
+            UC_EntitySearch.Size = new System.Drawing.Size(314, 449);
+            UC_EntitySearch.TabIndex = 118;
+            // 
             // B_Search
             // 
             B_Search.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Search.Location = new System.Drawing.Point(384, 412);
+            B_Search.Location = new System.Drawing.Point(355, 495);
             B_Search.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Search.Name = "B_Search";
-            B_Search.Size = new System.Drawing.Size(240, 32);
+            B_Search.Size = new System.Drawing.Size(330, 32);
             B_Search.TabIndex = 102;
             B_Search.Text = "Search!";
             B_Search.UseVisualStyleBackColor = true;
@@ -251,7 +262,7 @@ namespace PKHeX.WinForms
             // B_Reset
             // 
             B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            B_Reset.Location = new System.Drawing.Point(582, 0);
+            B_Reset.Location = new System.Drawing.Point(604, 0);
             B_Reset.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Reset.Name = "B_Reset";
             B_Reset.Size = new System.Drawing.Size(88, 27);
@@ -274,36 +285,26 @@ namespace PKHeX.WinForms
             // 
             L_Viewed.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             L_Viewed.AutoSize = true;
-            L_Viewed.Location = new System.Drawing.Point(10, 446);
+            L_Viewed.Location = new System.Drawing.Point(10, 528);
             L_Viewed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Viewed.Name = "L_Viewed";
-            L_Viewed.Size = new System.Drawing.Size(89, 15);
+            L_Viewed.Size = new System.Drawing.Size(99, 17);
             L_Viewed.TabIndex = 117;
             L_Viewed.Text = "Last Viewed: {0}";
             L_Viewed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             L_Viewed.MouseEnter += L_Viewed_MouseEnter;
             // 
-            // 
-            // UC_EntitySearch
-            // 
-            UC_EntitySearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            UC_EntitySearch.Location = new System.Drawing.Point(4, 3);
-            UC_EntitySearch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            UC_EntitySearch.Name = "UC_EntitySearch";
-            UC_EntitySearch.Size = new System.Drawing.Size(292, 369);
-            UC_EntitySearch.TabIndex = 118;
-            // 
             // mnu
             // 
             mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuView, mnuDelete });
             mnu.Name = "mnu";
-            mnu.Size = new System.Drawing.Size(108, 48);
+            mnu.Size = new System.Drawing.Size(114, 48);
             // 
             // mnuView
             // 
             mnuView.Image = Properties.Resources.other;
             mnuView.Name = "mnuView";
-            mnuView.Size = new System.Drawing.Size(107, 22);
+            mnuView.Size = new System.Drawing.Size(113, 22);
             mnuView.Text = "View";
             mnuView.Click += ClickView;
             // 
@@ -311,7 +312,7 @@ namespace PKHeX.WinForms
             // 
             mnuDelete.Image = Properties.Resources.nocheck;
             mnuDelete.Name = "mnuDelete";
-            mnuDelete.Size = new System.Drawing.Size(107, 22);
+            mnuDelete.Size = new System.Drawing.Size(113, 22);
             mnuDelete.Text = "Delete";
             mnuDelete.Click += ClickDelete;
             // 
@@ -323,18 +324,19 @@ namespace PKHeX.WinForms
             TC_SearchSettings.Location = new System.Drawing.Point(355, 9);
             TC_SearchSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TC_SearchSettings.Name = "TC_SearchSettings";
+            TC_SearchSettings.Padding = new System.Drawing.Point(0, 0);
             TC_SearchSettings.SelectedIndex = 0;
-            TC_SearchSettings.Size = new System.Drawing.Size(308, 403);
+            TC_SearchSettings.Size = new System.Drawing.Size(330, 485);
             TC_SearchSettings.TabIndex = 120;
             // 
             // Tab_General
             // 
             Tab_General.Controls.Add(UC_EntitySearch);
-            Tab_General.Location = new System.Drawing.Point(4, 24);
+            Tab_General.Location = new System.Drawing.Point(4, 26);
             Tab_General.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_General.Name = "Tab_General";
             Tab_General.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_General.Size = new System.Drawing.Size(300, 375);
+            Tab_General.Size = new System.Drawing.Size(322, 455);
             Tab_General.TabIndex = 0;
             Tab_General.Text = "General";
             Tab_General.UseVisualStyleBackColor = true;
@@ -343,10 +345,10 @@ namespace PKHeX.WinForms
             // 
             Tab_Advanced.Controls.Add(B_Add);
             Tab_Advanced.Controls.Add(RTB_Instructions);
-            Tab_Advanced.Location = new System.Drawing.Point(4, 24);
-            Tab_Advanced.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Advanced.Location = new System.Drawing.Point(4, 26);
+            Tab_Advanced.Margin = new System.Windows.Forms.Padding(0);
             Tab_Advanced.Name = "Tab_Advanced";
-            Tab_Advanced.Size = new System.Drawing.Size(300, 380);
+            Tab_Advanced.Size = new System.Drawing.Size(322, 455);
             Tab_Advanced.TabIndex = 1;
             Tab_Advanced.Text = "Advanced";
             Tab_Advanced.UseVisualStyleBackColor = true;
@@ -354,10 +356,10 @@ namespace PKHeX.WinForms
             // B_Add
             // 
             B_Add.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            B_Add.Location = new System.Drawing.Point(229, -1);
+            B_Add.Location = new System.Drawing.Point(252, 0);
             B_Add.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Add.Name = "B_Add";
-            B_Add.Size = new System.Drawing.Size(66, 27);
+            B_Add.Size = new System.Drawing.Size(70, 27);
             B_Add.TabIndex = 122;
             B_Add.Text = "Add";
             B_Add.UseVisualStyleBackColor = true;
@@ -366,17 +368,17 @@ namespace PKHeX.WinForms
             // RTB_Instructions
             // 
             RTB_Instructions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            RTB_Instructions.Location = new System.Drawing.Point(0, 48);
+            RTB_Instructions.Location = new System.Drawing.Point(0, 59);
             RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
             RTB_Instructions.Name = "RTB_Instructions";
-            RTB_Instructions.Size = new System.Drawing.Size(298, 329);
+            RTB_Instructions.Size = new System.Drawing.Size(322, 396);
             RTB_Instructions.TabIndex = 120;
             RTB_Instructions.Text = "";
             // 
             // SAV_Database
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(670, 463);
+            ClientSize = new System.Drawing.Size(692, 545);
             Controls.Add(B_Reset);
             Controls.Add(TC_SearchSettings);
             Controls.Add(B_Search);

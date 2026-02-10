@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Core.Searching;
 using PKHeX.Drawing.Misc;
 using PKHeX.Drawing.PokeSprite;
 using static PKHeX.Core.MessageStrings;
@@ -12,9 +13,9 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
 {
+    private bool _gridInitialized;
     public IList<PictureBox> SlotPictureBoxes { get; private set; } = [];
     public SaveFile SAV => M?.SE.SAV ?? throw new ArgumentNullException(nameof(SAV));
-
     public int BoxSlotCount { get; private set; }
     public SlotChangeManager? M { get; set; }
     public bool FlagIllegal { get; set; }
@@ -25,6 +26,10 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
     public BoxEditor()
     {
         InitializeComponent();
+        SizeChanged += BoxEditor_SizeChanged;
+        ParentChanged += BoxEditor_ParentChanged;
+        DpiChangedAfterParent += BoxEditor_DpiChangedAfterParent;
+        HandleCreated += BoxEditor_HandleCreated;
     }
 
     internal bool InitializeGrid()
@@ -34,26 +39,55 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
         var height = count / width;
         if (!BoxPokeGrid.InitializeGrid(width, height, SpriteUtil.Spriter))
             return false;
+        _gridInitialized = true;
         RecenterControls();
         InitializeSlots();
         return true;
+    }
+
+    private void BoxEditor_SizeChanged(object? sender, EventArgs e)
+    {
+        if (!_gridInitialized)
+            return;
+        RecenterControls();
+    }
+
+    private void BoxEditor_ParentChanged(object? sender, EventArgs e)
+    {
+        if (!_gridInitialized)
+            return;
+        RecenterControls();
+    }
+
+    private void BoxEditor_DpiChangedAfterParent(object? sender, EventArgs e)
+    {
+        if (!_gridInitialized)
+            return;
+        RecenterControls();
+    }
+
+    private void BoxEditor_HandleCreated(object? sender, EventArgs e)
+    {
+        if (!_gridInitialized)
+            return;
+        RecenterControls();
     }
 
     public void RecenterControls()
     {
         if (Width < BoxPokeGrid.Width)
             Width = BoxPokeGrid.Width;
-        BoxPokeGrid.HorizontallyCenter(this.Parent!);
+        BoxPokeGrid.HorizontallyCenter(this);
         int p1 = CB_BoxSelect.Location.X;
-        CB_BoxSelect.HorizontallyCenter(this.Parent!);
+        CB_BoxSelect.HorizontallyCenter(this);
         int p2 = CB_BoxSelect.Location.X;
 
         var delta = p2 - p1;
         if (delta == 0)
             return;
 
-        B_BoxLeft.SetBounds(B_BoxLeft.Location.X + delta, 0, 0, 0, BoundsSpecified.X);
-        B_BoxRight.SetBounds(B_BoxRight.Location.X + delta, 0, 0, 0, BoundsSpecified.X);
+        B_BoxLeft.Left += delta;
+        B_BoxRight.Left += delta;
     }
 
     private void InitializeSlots()
@@ -93,7 +127,25 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
             return;
 
         var pb = SlotPictureBoxes[index];
-        SlotUtil.UpdateSlot(pb, slot, pk, SAV, FlagIllegal, type);
+        var flags = GetFlags(pk);
+        SlotUtil.UpdateSlot(pb, slot, pk, SAV, flags, type);
+    }
+
+    public void ApplyNewFilter(Func<PKM, bool>? filter, bool reload = true)
+    {
+        _searchFilter = filter;
+        if (reload)
+            ResetSlots();
+    }
+
+    private SlotVisibilityType GetFlags(PKM pk)
+    {
+        var result = SlotVisibilityType.None;
+        if (FlagIllegal)
+            result |= SlotVisibilityType.CheckLegalityIndicate;
+        if (_searchFilter != null && !_searchFilter(pk))
+            result |= SlotVisibilityType.FilterMismatch;
+        return result;
     }
 
     public int GetViewIndex(ISlotInfo slot)
@@ -209,7 +261,9 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
                 continue;
             }
             pb.Visible = true;
-            SlotUtil.UpdateSlot(pb, (SlotInfoBox)GetSlotData(pb), Editor[i], SAV, FlagIllegal);
+            var pk = Editor[i];
+            var flags = GetFlags(pk);
+            SlotUtil.UpdateSlot(pb, (SlotInfoBox)GetSlotData(pb), pk, SAV, flags);
         }
 
         if (M?.Env.Slots.Publisher.Previous is SlotInfoBox b && b.Box == CurrentBox)
@@ -295,5 +349,29 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
         ResetBoxNames(box);
         Editor.LoadBox(box);
         return result;
+    }
+
+    private Func<PKM, bool>? _searchFilter;
+
+    public void ApplySearchFilter(Func<PKM, bool>? searchFilter, bool isInit = false)
+    {
+        _searchFilter = searchFilter;
+        if (isInit)
+            return;
+        ResetSlots();
+    }
+
+    public void SeekNext(Func<PKM, bool> searchFilter)
+    {
+        // Search from next box, wrapping around
+        if (!SearchUtil.TrySeekNext(SAV, searchFilter, out var result, CurrentBox))
+        {
+            // Not found
+            System.Media.SystemSounds.Exclamation.Play();
+            return;
+        }
+        CurrentBox = result.Box;
+        BoxPokeGrid.Entries[result.Slot].Focus();
+        System.Media.SystemSounds.Asterisk.Play();
     }
 }
