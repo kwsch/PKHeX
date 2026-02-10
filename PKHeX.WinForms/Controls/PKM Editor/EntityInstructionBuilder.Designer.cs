@@ -31,12 +31,13 @@ namespace PKHeX.WinForms.Controls
             components = new System.ComponentModel.Container();
             L_PropValue = new System.Windows.Forms.Label();
             L_PropType = new System.Windows.Forms.Label();
-            CB_Require = new System.Windows.Forms.ComboBox();
+            B_Require = new System.Windows.Forms.Button();
             CB_Property = new System.Windows.Forms.ComboBox();
             CB_Format = new System.Windows.Forms.ComboBox();
             toolTip1 = new System.Windows.Forms.ToolTip(components);
             toolTip2 = new System.Windows.Forms.ToolTip(components);
             toolTip3 = new System.Windows.Forms.ToolTip(components);
+            requireMenu = new System.Windows.Forms.ContextMenuStrip(components);
             SuspendLayout();
             // 
             // L_PropValue
@@ -60,17 +61,17 @@ namespace PKHeX.WinForms.Controls
             L_PropType.TabIndex = 17;
             L_PropType.Text = "PropertyType";
             // 
-            // CB_Require
+            // B_Require
             // 
-            CB_Require.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            CB_Require.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_Require.FormattingEnabled = true;
-            CB_Require.Items.AddRange(new object[] { "Set", "==", "!=", ">", ">=", "<", "<=" });
-            CB_Require.Location = new System.Drawing.Point(236, 0);
-            CB_Require.Margin = new System.Windows.Forms.Padding(4);
-            CB_Require.Name = "CB_Require";
-            CB_Require.Size = new System.Drawing.Size(100, 25);
-            CB_Require.TabIndex = 2;
+            B_Require.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_Require.Location = new System.Drawing.Point(236, 0);
+            B_Require.Margin = new System.Windows.Forms.Padding(4);
+            B_Require.Name = "B_Require";
+            B_Require.Size = new System.Drawing.Size(40, 25);
+            B_Require.TabIndex = 2;
+            B_Require.Text = "Set";
+            B_Require.UseVisualStyleBackColor = true;
+            B_Require.Click += B_Require_Click;
             // 
             // CB_Property
             // 
@@ -97,17 +98,22 @@ namespace PKHeX.WinForms.Controls
             CB_Format.TabIndex = 0;
             CB_Format.SelectedIndexChanged += CB_Format_SelectedIndexChanged;
             // 
+            // requireMenu
+            // 
+            requireMenu.Name = "requireMenu";
+            requireMenu.Size = new System.Drawing.Size(181, 26);
+            // 
             // EntityInstructionBuilder
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             Controls.Add(L_PropValue);
             Controls.Add(L_PropType);
-            Controls.Add(CB_Require);
+            Controls.Add(B_Require);
             Controls.Add(CB_Property);
             Controls.Add(CB_Format);
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "EntityInstructionBuilder";
-            Size = new System.Drawing.Size(338, 46);
+            Size = new System.Drawing.Size(360, 46);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -116,11 +122,12 @@ namespace PKHeX.WinForms.Controls
 
         private System.Windows.Forms.Label L_PropValue;
         private System.Windows.Forms.Label L_PropType;
-        private System.Windows.Forms.ComboBox CB_Require;
+        private System.Windows.Forms.Button B_Require;
         private System.Windows.Forms.ComboBox CB_Property;
         private System.Windows.Forms.ComboBox CB_Format;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolTip toolTip2;
         private System.Windows.Forms.ToolTip toolTip3;
+        private System.Windows.Forms.ContextMenuStrip requireMenu;
     }
 }

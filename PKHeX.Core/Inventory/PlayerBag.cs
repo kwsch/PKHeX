@@ -48,20 +48,32 @@ public abstract class PlayerBag
     /// <summary>
     /// Validates and clamps an item count for the specified pouch.
     /// </summary>
+    /// <returns><see langword="true"/> if the count is valid after clamping; otherwise, <see langword="false"/>.</returns>
     public bool IsQuantitySane(InventoryType type, int itemIndex, ref int count, bool hasNew, bool HaX = false)
     {
         if (HaX)
         {
+            // Only clamp to max storable quantity.
             count = Math.Clamp(count, 0, MaxQuantityHaX);
             return true;
         }
-
+        if (itemIndex == 0)
+        {
+            // No item, no count.
+            count = 0;
+            return true;
+        }
         if (count <= 0)
         {
-            count = 0; // no negative counts
+            // No count, ensure positive quantity.
+            // Only allow an ItemID if game supports "new" item remembering.
+            // Otherwise, it's safe to ignore the item.
+            // Note: a Zero value might not be legal for certain items based on game progress, but we aren't really validating that.
+            count = 0;
             return hasNew;
         }
 
+        // Clamp non-zero value to pouch/item rules.
         count = Clamp(type, itemIndex, count);
         return true;
     }

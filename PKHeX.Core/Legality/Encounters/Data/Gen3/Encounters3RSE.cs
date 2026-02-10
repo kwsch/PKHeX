@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
-#pragma warning disable CA1857
 
 namespace PKHeX.Core;
 

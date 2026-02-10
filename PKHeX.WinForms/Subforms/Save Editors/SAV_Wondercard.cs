@@ -433,7 +433,7 @@ public partial class SAV_Wondercard : Form
             return;
         }
 
-        Image qr = QREncode.GenerateQRCode(mg);
+        var qr = QREncode.GenerateQRCode(mg);
 
         string desc = $"({mg.Type}) {string.Join(Environment.NewLine, mg.GetDescription())}";
 

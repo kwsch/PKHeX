@@ -84,6 +84,8 @@ public readonly ref struct LegalityLocalizationContext
             return template;
         if (code.IsArgument)
             return string.Format(template, chk.Argument);
+        if (code.IsArgument2)
+            return string.Format(template, chk.Argument, chk.Argument2);
         if (code.IsMove)
             return string.Format(template, GetMoveName(chk.Argument));
         if (code.IsItem)

@@ -326,7 +326,15 @@ public partial class SAV_FestivalPlaza : Form
     private void LoadPictureBox()
     {
         for (int i = 0; i < 3; i++)
-            PBs[i].Image = p[i].Sprite(SAV, flagIllegal: true);
+            PBs[i].Image = p[i].Sprite(SAV, visibility: GetFlags(p[i]));
+    }
+
+    private SlotVisibilityType GetFlags(PKM pk, bool ignoreLegality = false)
+    {
+        var result = SlotVisibilityType.None;
+        if (!ignoreLegality)
+            result |= SlotVisibilityType.CheckLegalityIndicate;
+        return result;
     }
 
     private readonly NumericUpDown[] NUD_Trainers = new NumericUpDown[3];

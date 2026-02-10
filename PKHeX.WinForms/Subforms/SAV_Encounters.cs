@@ -471,7 +471,7 @@ public partial class SAV_Encounters : Form
                 return;
             }
 
-            var results = await Task.Run(() => search.ToList(), token).ConfigureAwait(true);
+            var results = await Task.Run(search.ToList, token).ConfigureAwait(true);
             if (token.IsCancellationRequested)
             {
                 EncounterMovesetGenerator.ResetFilters();

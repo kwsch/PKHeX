@@ -441,12 +441,30 @@ public partial class SAV_BattlePass : Form
         NUD_RecordStargazerColosseumClears.Value = pdata.RecordStargazerColosseumClears;
 
         for (int i = 0; i < BattlePass.Count; i++)
-            Box.Entries[i].Image = pdata.GetPartySlotPresent(i) ? pdata.GetPartySlotAtIndex(i).Sprite(SAV, flagIllegal: true) : SpriteUtil.Spriter.None;
+        {
+            var pb = Box.Entries[i];
+            if (!pdata.GetPartySlotPresent(i))
+            {
+                pb.Image = SpriteUtil.Spriter.None;
+                continue;
+            }
+
+            var pk = pdata.GetPartySlotAtIndex(i);
+            pb.Image = pk.Sprite(SAV, visibility: GetFlags(pk));
+        }
 
         if (slotSelected != -1 && (uint)slotSelected < Box.Entries.Count)
             Box.Entries[slotSelected].BackgroundImage = groupSelected != CurrentPassIndex ? null : SpriteUtil.Spriter.View;
 
         loading = false;
+    }
+
+    private SlotVisibilityType GetFlags(PKM pk, bool ignoreLegality = false)
+    {
+        var result = SlotVisibilityType.None;
+        if (!ignoreLegality)
+            result |= SlotVisibilityType.CheckLegalityIndicate;
+        return result;
     }
 
     private void SaveCurrent(BattlePass pdata)

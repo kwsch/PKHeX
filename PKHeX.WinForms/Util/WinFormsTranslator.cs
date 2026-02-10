@@ -69,6 +69,16 @@ public static class WinFormsTranslator
             context.GetTranslatedText(c.Name, c.Text);
     }
 
+    public static void TranslateControls(string formName, IEnumerable<ToolStripMenuItem> controls, string baseLanguage)
+    {
+        var context = GetContext(baseLanguage);
+        foreach (var c in controls)
+        {
+            if (c.Name is { } name)
+                context.GetTranslatedText($"{formName}.{name}", c.Text);
+        }
+    }
+
     private static string GetSaneFormName(string formName)
     {
         // Strip out generic form names
@@ -212,6 +222,8 @@ public static class WinFormsTranslator
         else if (z is ButtonBase b)
         {
             b.FlatStyle = FlatStyle.Popup;
+            if (b.Image is System.Drawing.Bitmap bmp)
+                b.Image = WinFormsUtil.BlackToWhite(bmp);
         }
     }
 

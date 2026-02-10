@@ -1,0 +1,16 @@
+148	*	Pokémon de Départ	00:Brindibou,01:Flamiaou,02:Otaquin
+432	r	Tokorico	03:Affrontable,04:Vaincu,05:Capturé
+433	r	Tokopiyon	01:Affrontable,02:Vaincu,03:Capturé
+434	r	Tokotoro	01:Affrontable,02:Vaincu,03:Capturé
+404	r	Tokopisco	03:Affrontable,04:Vaincu,05:Capturé
+755	r	Zygarde	01:Affrontable,02:Vaincu,05:Capturé
+867	r	Pokémon Dominants Cadeaux	00:Aucun Reçu,01:Un reçu,02:Deux reçus,03:Trois reçus,04:Quatre reçus,05:Cinq reçus,06:Tous reçus
+084	s	Pikachu Vus à la Plaine des Pikachu
+078	+	Total de Défense de Titres
+083	+	Total de Combats contre des Dresseurs Importants
+750	s	Événement des Fans de la Ligue	0:Aucune défense de titre,1:Après 2 défenses de titre (Chococœur x2 en attente),2:Après 2 défenses de titre (Chococœur x2 reçus)
+756	s	Événement d'Hypnomade (Poste de Police d'Ekaeka)	0:Pas activé,1:Activé,2:Complété
+769	s	Événement de la Clique des 5	0:Faux Policier apparu,1:Faux Policier vaincu (récompense en attente),2:Faux Montagnard apparu,3:Faux Montagnard vaincu (récompense en attente),4:Faux Cuisinier apparu,5:Faux Cuisinier vaincu (récompense en attente),6:Fausse Danseuse apparue,7:Fausse Danseuse vaincue (récompense en attente),8:Fausse Alyxia apparue,9:Fausse Alyxia vaincue (récompense en attente),10:Terminé
+783	s	Gamin de la Plage Big Wave	0:Va activer l'événement des sept mystères,1:A activé l'événement des sept mystères,2:A une Hyper Potion (sept mystères terminé),3:A donné l'Hyper Potion
+784	r	Journal de l'École des Dresseurs Hantée	0:Normal,5:Maudit (Baudrive est apparu)
+790	r	Fantominus de l'École des Dresseurs Hantée	6:Affrontable,7:Combattu

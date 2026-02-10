@@ -1,0 +1,54 @@
+3100	*	Maître d'Alola/Peut Recevoir Magearna Cadeau
+3487	g	Magearna Cadeau Reçu
+0443	g	Œuf d'Évoli Reçu
+0493	g	Porygon Cadeau Reçu
+0504	g	Ptéra Cadeau Reçu(e)
+1216	g	Cosmog Cadeau Reçu
+0499	g	Type:0 Cadeau Reçu
+0160	*	Portail de la Lune [0] / du Soleil [1]
+3155	*	Juge des IV Débloqué
+3113	s	Appel-Monture Reçu
+3114	s	Charge Tauros Débloquée
+3115	s	Mastouf'Flair Débloqué
+3116	s	Poussée Mackogneur Débloquée
+3117	s	Bourrino'Galop Débloqué
+3118	s	Brasse Lokhlass Débloquée
+3119	s	Turbo Sharpedo Débloqué
+3120	s	Air Dracaufeu Débloqué
+0168	g	Échange Interne Piafabec Contre Machoc (Route 2)
+0169	g	Échange Interne Ponchiot Contre Croquine (Route 5)
+0170	g	Échange Interne Nosferapti Contre Têtarte (Konikoni)
+0171	g	Échange Interne Pandespiègle Contre Ptiravi (Malié)
+0172	g	Échange Interne Spectrum Contre Gravalanch d'Alola (Village Toko)
+0173	g	Échange Interne Granbull Contre Candine (Village Flottant)
+0174	g	Échange Interne Chelours Contre Flambusard (Chemin du Défi)
+0789	s	Lilie Partie de l'Autel
+0790	s	Solgaleo Parti de l'Autel
+0791	s	Lunala Parti de l'Autel
+0185	s	Premier Combat de Défense de Titre Réalisé
+0186	t	A Rencontré Paulie (Défense de Titre)
+2435	t	A Vaincu Paulie (Défense de Titre)
+0187	t	A Rencontré Gladio (Défense de Titre)
+2493	t	A Vaincu Gladio (Défense de Titre ; Brindibou en Pokémon de Départ)
+2494	t	A Vaincu Gladio (Défense de Titre ; Flamiaou en Pokémon de Départ)
+2495	t	A Vaincu Gladio (Défense de Titre ; Otaquin en Pokémon de Départ)
+0188	t	A Rencontré Solane (Défense de Titre)
+2485	t	A Vaincu Solane (Défense de Titre)
+0189	t	A Rencontré Saubohne (Défense de Titre)
+2436	t	A Vaincu Saubohne (Défense de Titre)
+0190	t	A Rencontré Tili (Défense de Titre)
+2432	t	A Vaincu Tili (Défense de Titre ; Brindibou en Pokémon de Départ)
+2433	t	A Vaincu Tili (Défense de Titre ; Flamiaou en Pokémon de Départ)
+2434	t	A Vaincu Tili (Défense de Titre ; Otaquin en Pokémon de Départ)
+0191	t	A Rencontré Chrys (Défense de Titre)
+2481	t	A Vaincu Chrys (Défense de Titre)
+0192	t	A Rencontré Molène (Défense de Titre)
+2557	t	A Vaincu Molène (Défense de Titre)
+0193	t	A Rencontré Euphorbe (Défense de Titre)
+2553	t	A Vaincu Euphorbe (Défense de Titre ; Brindibou en Pokémon de Départ)
+2554	t	A Vaincu Euphorbe (Défense de Titre ; Flamiaou en Pokémon de Départ)
+2555	t	A Vaincu Euphorbe (Défense de Titre ; Otaquin en Pokémon de Départ)
+0194	t	A Rencontré Apocyne (Défense de Titre)
+2477	t	A Vaincu Apocyne (Défense de Titre)
+0195	t	A Rencontré Gamin Ali (Défense de Titre)
+2556	t	A Vaincu Gamin Ali (Défense de Titre)

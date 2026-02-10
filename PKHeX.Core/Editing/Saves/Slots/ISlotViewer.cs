@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -48,4 +49,11 @@ public interface ISlotViewer<T>
     /// Save data the <see cref="ISlotViewer{T}"/> is showing data from.
     /// </summary>
     SaveFile SAV { get; }
+
+    /// <summary>
+    /// Instructs the viewer to cache the provided filter and apply it to all slots, showing only those that match the filter.
+    /// </summary>
+    /// <param name="filter">Filter function to apply to the viewer's slots. Only slots for which this function returns true will be shown in the viewer.</param>
+    /// <param name="reload">Trigger a reload of the viewer after applying the new filter. This is required to update the viewer's display after changing the filter.</param>
+    void ApplyNewFilter(Func<PKM, bool>? filter, bool reload = true);
 }
