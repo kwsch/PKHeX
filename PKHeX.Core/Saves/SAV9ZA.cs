@@ -262,4 +262,14 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
         get => Blocks.GetBlockValue<uint>(SaveBlockAccessor9ZA.KTicketPointsZARoyaleInfinite);
         set => Blocks.SetBlockValue(SaveBlockAccessor9ZA.KTicketPointsZARoyaleInfinite, value);
     }
+
+    public string StreetName
+    {
+        get => GetString(Blocks.GetBlock(SaveBlockAccessor9ZA.KStreetName).Data);
+        set
+        {
+            var b = Blocks.GetBlock(SaveBlockAccessor9ZA.KStreetName);
+            SetString(b.Data, value, b.Data.Length, StringConverterOption.None);
+        }
+    }
 }
