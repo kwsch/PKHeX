@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -10,16 +11,30 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class EntitySearchControl : UserControl
 {
-    public int MaxFormat { get; set; } = Latest.Generation;
-    public int SaveGeneration { get; set; } = Latest.Generation;
+    // don't allow in Designer
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Bindable(false)]
+    [Browsable(false)]
+    public int MaxFormat { private get; set; } = Latest.Generation;
 
-    public EntitySearchControl() => InitializeComponent();
-
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Bindable(false)]
+    [Browsable(false)]
+    public int SaveGeneration { private get; set; } = Latest.Generation;
+    
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Bindable(false)]
+    [Browsable(false)]
     public int FormatComparatorSelectedIndex
     {
         get => CB_FormatComparator.SelectedIndex;
         set => CB_FormatComparator.SelectedIndex = value;
     }
+
+    public EntitySearchControl() => InitializeComponent();
 
     /// <summary>
     /// Creates a filter function based on the current search settings, including any batch instructions.

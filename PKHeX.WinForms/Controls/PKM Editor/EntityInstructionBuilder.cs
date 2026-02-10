@@ -11,28 +11,32 @@ public partial class EntityInstructionBuilder : UserControl
     private readonly Func<PKM> Getter;
     private PKM Entity => Getter();
 
-    private static readonly string[] RequireDisplay = ["Set", "==", "!=", ">", ">=", "<", "<="];
+    private static ReadOnlySpan<char> Prefixes => StringInstruction.Prefixes;
 
     private int currentFormat = -1;
     private int requirementIndex;
     private bool readOnlyMode;
-    private readonly ContextMenuStrip requireMenu;
-    private readonly ToolStripMenuItem[] requireMenuItems;
+    private readonly ToolStripMenuItem[] requireMenuItems = new ToolStripMenuItem[Prefixes.Length];
 
     public EntityInstructionBuilder(Func<PKM> pk)
     {
         Getter = pk;
         InitializeComponent();
-
-        requireMenu = new ContextMenuStrip(components!);
-        requireMenuItems = new ToolStripMenuItem[RequireDisplay.Length];
-        for (int i = 0; i < RequireDisplay.Length; i++)
+        for (int i = 0; i < Prefixes.Length; i++)
         {
-            var item = new ToolStripMenuItem(RequireDisplay[i]) { Tag = i };
+            var text = i == 0 ? "Set" : Prefixes[i].ToString();
+            var item = new ToolStripMenuItem(text)
+            {
+                Name = $"mnu_{text}",
+                Tag = i,
+            };
             item.Click += RequireItem_Click;
             requireMenu.Items.Add(item);
             requireMenuItems[i] = item;
         }
+
+        // Allow translation of the menu item.
+        WinFormsTranslator.TranslateControls("BatchEdit", requireMenuItems, Main.CurrentLanguage);
 
         B_Require.ContextMenuStrip = requireMenu;
 
@@ -98,11 +102,11 @@ public partial class EntityInstructionBuilder : UserControl
 
     private void SetRequirementIndex(int index)
     {
-        if ((uint)index >= RequireDisplay.Length)
+        if ((uint)index >= Prefixes.Length)
             return;
 
         requirementIndex = index;
-        B_Require.Text = RequireDisplay[index];
+        B_Require.Text = requireMenuItems[index].Text;
 
         for (int i = 0; i < requireMenuItems.Length; i++)
             requireMenuItems[i].Checked = i == index;
@@ -144,9 +148,8 @@ public partial class EntityInstructionBuilder : UserControl
         if (CB_Property.SelectedIndex < 0)
             return string.Empty;
 
-        var prefixes = StringInstruction.Prefixes;
-        var prefix = prefixes[requirementIndex];
         var property = CB_Property.Items[CB_Property.SelectedIndex];
+        var prefix = Prefixes[requirementIndex];
         const char equals = StringInstruction.SplitInstruction;
         return $"{prefix}{property}{equals}";
     }

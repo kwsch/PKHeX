@@ -83,11 +83,11 @@ namespace PKHeX.WinForms.Controls
             CB_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Ability.FormattingEnabled = true;
             CB_Ability.Items.AddRange(new object[] { "Item" });
-            CB_Ability.Location = new System.Drawing.Point(101, 104);
+            CB_Ability.Location = new System.Drawing.Point(101, 130);
             CB_Ability.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Ability.Name = "CB_Ability";
             CB_Ability.Size = new System.Drawing.Size(142, 25);
-            CB_Ability.TabIndex = 70;
+            CB_Ability.TabIndex = 4;
             // 
             // CB_HeldItem
             // 
@@ -95,11 +95,11 @@ namespace PKHeX.WinForms.Controls
             CB_HeldItem.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_HeldItem.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_HeldItem.FormattingEnabled = true;
-            CB_HeldItem.Location = new System.Drawing.Point(101, 78);
+            CB_HeldItem.Location = new System.Drawing.Point(101, 104);
             CB_HeldItem.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_HeldItem.Name = "CB_HeldItem";
             CB_HeldItem.Size = new System.Drawing.Size(142, 25);
-            CB_HeldItem.TabIndex = 69;
+            CB_HeldItem.TabIndex = 3;
             // 
             // CB_Nature
             // 
@@ -107,11 +107,11 @@ namespace PKHeX.WinForms.Controls
             CB_Nature.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Nature.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Nature.FormattingEnabled = true;
-            CB_Nature.Location = new System.Drawing.Point(101, 52);
+            CB_Nature.Location = new System.Drawing.Point(101, 78);
             CB_Nature.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Nature.Name = "CB_Nature";
             CB_Nature.Size = new System.Drawing.Size(142, 25);
-            CB_Nature.TabIndex = 68;
+            CB_Nature.TabIndex = 2;
             // 
             // CB_Species
             // 
@@ -123,7 +123,7 @@ namespace PKHeX.WinForms.Controls
             CB_Species.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Species.Name = "CB_Species";
             CB_Species.Size = new System.Drawing.Size(142, 25);
-            CB_Species.TabIndex = 67;
+            CB_Species.TabIndex = 0;
             // 
             // TB_Nickname
             // 
@@ -132,7 +132,7 @@ namespace PKHeX.WinForms.Controls
             TB_Nickname.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             TB_Nickname.Name = "TB_Nickname";
             TB_Nickname.Size = new System.Drawing.Size(142, 25);
-            TB_Nickname.TabIndex = 68;
+            TB_Nickname.TabIndex = 1;
             // 
             // CB_Move4
             // 
@@ -140,11 +140,11 @@ namespace PKHeX.WinForms.Controls
             CB_Move4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Move4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move4.FormattingEnabled = true;
-            CB_Move4.Location = new System.Drawing.Point(101, 312);
+            CB_Move4.Location = new System.Drawing.Point(101, 338);
             CB_Move4.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Move4.Name = "CB_Move4";
             CB_Move4.Size = new System.Drawing.Size(142, 25);
-            CB_Move4.TabIndex = 74;
+            CB_Move4.TabIndex = 13;
             // 
             // CB_Move3
             // 
@@ -152,11 +152,11 @@ namespace PKHeX.WinForms.Controls
             CB_Move3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Move3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move3.FormattingEnabled = true;
-            CB_Move3.Location = new System.Drawing.Point(101, 286);
+            CB_Move3.Location = new System.Drawing.Point(101, 312);
             CB_Move3.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Move3.Name = "CB_Move3";
             CB_Move3.Size = new System.Drawing.Size(142, 25);
-            CB_Move3.TabIndex = 73;
+            CB_Move3.TabIndex = 12;
             // 
             // CB_Move2
             // 
@@ -164,11 +164,11 @@ namespace PKHeX.WinForms.Controls
             CB_Move2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Move2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move2.FormattingEnabled = true;
-            CB_Move2.Location = new System.Drawing.Point(101, 260);
+            CB_Move2.Location = new System.Drawing.Point(101, 286);
             CB_Move2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Move2.Name = "CB_Move2";
             CB_Move2.Size = new System.Drawing.Size(142, 25);
-            CB_Move2.TabIndex = 72;
+            CB_Move2.TabIndex = 11;
             // 
             // CB_Move1
             // 
@@ -176,11 +176,11 @@ namespace PKHeX.WinForms.Controls
             CB_Move1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Move1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move1.FormattingEnabled = true;
-            CB_Move1.Location = new System.Drawing.Point(101, 234);
+            CB_Move1.Location = new System.Drawing.Point(101, 260);
             CB_Move1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Move1.Name = "CB_Move1";
             CB_Move1.Size = new System.Drawing.Size(142, 25);
-            CB_Move1.TabIndex = 71;
+            CB_Move1.TabIndex = 10;
             // 
             // TB_Level
             // 
@@ -191,18 +191,18 @@ namespace PKHeX.WinForms.Controls
             TB_Level.Mask = "000";
             TB_Level.Name = "TB_Level";
             TB_Level.Size = new System.Drawing.Size(25, 25);
-            TB_Level.TabIndex = 89;
+            TB_Level.TabIndex = 5;
             TB_Level.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Label_CurLevel
             // 
             Label_CurLevel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_CurLevel.AutoSize = true;
-            Label_CurLevel.Location = new System.Drawing.Point(57, 134);
+            Label_CurLevel.Location = new System.Drawing.Point(57, 160);
             Label_CurLevel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Label_CurLevel.Name = "Label_CurLevel";
             Label_CurLevel.Size = new System.Drawing.Size(40, 17);
-            Label_CurLevel.TabIndex = 88;
+            Label_CurLevel.TabIndex = 95;
             Label_CurLevel.Text = "Level:";
             Label_CurLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -210,7 +210,7 @@ namespace PKHeX.WinForms.Controls
             // 
             Label_HeldItem.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_HeldItem.AutoSize = true;
-            Label_HeldItem.Location = new System.Drawing.Point(30, 82);
+            Label_HeldItem.Location = new System.Drawing.Point(30, 108);
             Label_HeldItem.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Label_HeldItem.Name = "Label_HeldItem";
             Label_HeldItem.Size = new System.Drawing.Size(67, 17);
@@ -222,11 +222,11 @@ namespace PKHeX.WinForms.Controls
             // 
             Label_Ability.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_Ability.AutoSize = true;
-            Label_Ability.Location = new System.Drawing.Point(51, 108);
+            Label_Ability.Location = new System.Drawing.Point(51, 134);
             Label_Ability.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Label_Ability.Name = "Label_Ability";
             Label_Ability.Size = new System.Drawing.Size(46, 17);
-            Label_Ability.TabIndex = 92;
+            Label_Ability.TabIndex = 94;
             Label_Ability.Text = "Ability:";
             Label_Ability.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -234,11 +234,11 @@ namespace PKHeX.WinForms.Controls
             // 
             Label_Nature.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_Nature.AutoSize = true;
-            Label_Nature.Location = new System.Drawing.Point(46, 56);
+            Label_Nature.Location = new System.Drawing.Point(46, 82);
             Label_Nature.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Label_Nature.Name = "Label_Nature";
             Label_Nature.Size = new System.Drawing.Size(51, 17);
-            Label_Nature.TabIndex = 91;
+            Label_Nature.TabIndex = 92;
             Label_Nature.Text = "Nature:";
             Label_Nature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -258,10 +258,10 @@ namespace PKHeX.WinForms.Controls
             // 
             Label_Nickname.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_Nickname.AutoSize = true;
-            Label_Nickname.Location = new System.Drawing.Point(20, 56);
+            Label_Nickname.Location = new System.Drawing.Point(29, 56);
             Label_Nickname.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Label_Nickname.Name = "Label_Nickname";
-            Label_Nickname.Size = new System.Drawing.Size(77, 17);
+            Label_Nickname.Size = new System.Drawing.Size(68, 17);
             Label_Nickname.TabIndex = 91;
             Label_Nickname.Text = "Nickname:";
             Label_Nickname.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -273,11 +273,11 @@ namespace PKHeX.WinForms.Controls
             CB_EVTrain.DropDownWidth = 85;
             CB_EVTrain.FormattingEnabled = true;
             CB_EVTrain.Items.AddRange(new object[] { "Any", "None (0)", "Some (127-1)", "Half (128-507)", "Full (508+)" });
-            CB_EVTrain.Location = new System.Drawing.Point(101, 182);
+            CB_EVTrain.Location = new System.Drawing.Point(101, 208);
             CB_EVTrain.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_EVTrain.Name = "CB_EVTrain";
             CB_EVTrain.Size = new System.Drawing.Size(109, 25);
-            CB_EVTrain.TabIndex = 94;
+            CB_EVTrain.TabIndex = 8;
             // 
             // CB_HPType
             // 
@@ -286,21 +286,21 @@ namespace PKHeX.WinForms.Controls
             CB_HPType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_HPType.DropDownWidth = 80;
             CB_HPType.FormattingEnabled = true;
-            CB_HPType.Location = new System.Drawing.Point(101, 208);
+            CB_HPType.Location = new System.Drawing.Point(101, 234);
             CB_HPType.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_HPType.Name = "CB_HPType";
             CB_HPType.Size = new System.Drawing.Size(142, 25);
-            CB_HPType.TabIndex = 96;
+            CB_HPType.TabIndex = 9;
             // 
             // Label_HiddenPowerPrefix
             // 
             Label_HiddenPowerPrefix.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_HiddenPowerPrefix.AutoSize = true;
-            Label_HiddenPowerPrefix.Location = new System.Drawing.Point(4, 212);
+            Label_HiddenPowerPrefix.Location = new System.Drawing.Point(4, 238);
             Label_HiddenPowerPrefix.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Label_HiddenPowerPrefix.Name = "Label_HiddenPowerPrefix";
             Label_HiddenPowerPrefix.Size = new System.Drawing.Size(93, 17);
-            Label_HiddenPowerPrefix.TabIndex = 95;
+            Label_HiddenPowerPrefix.TabIndex = 98;
             Label_HiddenPowerPrefix.Text = "Hidden Power:";
             Label_HiddenPowerPrefix.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -309,11 +309,11 @@ namespace PKHeX.WinForms.Controls
             CB_GameOrigin.Anchor = System.Windows.Forms.AnchorStyles.Left;
             CB_GameOrigin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_GameOrigin.FormattingEnabled = true;
-            CB_GameOrigin.Location = new System.Drawing.Point(101, 338);
+            CB_GameOrigin.Location = new System.Drawing.Point(101, 364);
             CB_GameOrigin.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_GameOrigin.Name = "CB_GameOrigin";
             CB_GameOrigin.Size = new System.Drawing.Size(142, 25);
-            CB_GameOrigin.TabIndex = 97;
+            CB_GameOrigin.TabIndex = 14;
             CB_GameOrigin.SelectedIndexChanged += ChangeGame;
             // 
             // CB_IV
@@ -323,11 +323,11 @@ namespace PKHeX.WinForms.Controls
             CB_IV.DropDownWidth = 85;
             CB_IV.FormattingEnabled = true;
             CB_IV.Items.AddRange(new object[] { "Any", "<= 90", "91-120", "121-150", "151-179", "180+", "== 186" });
-            CB_IV.Location = new System.Drawing.Point(101, 156);
+            CB_IV.Location = new System.Drawing.Point(101, 182);
             CB_IV.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_IV.Name = "CB_IV";
             CB_IV.Size = new System.Drawing.Size(109, 25);
-            CB_IV.TabIndex = 100;
+            CB_IV.TabIndex = 7;
             // 
             // CB_Level
             // 
@@ -340,18 +340,18 @@ namespace PKHeX.WinForms.Controls
             CB_Level.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Level.Name = "CB_Level";
             CB_Level.Size = new System.Drawing.Size(76, 25);
-            CB_Level.TabIndex = 103;
+            CB_Level.TabIndex = 6;
             CB_Level.SelectedIndexChanged += ChangeLevel;
             // 
             // L_Version
             // 
             L_Version.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Version.AutoSize = true;
-            L_Version.Location = new System.Drawing.Point(23, 342);
+            L_Version.Location = new System.Drawing.Point(23, 368);
             L_Version.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Version.Name = "L_Version";
             L_Version.Size = new System.Drawing.Size(74, 17);
-            L_Version.TabIndex = 104;
+            L_Version.TabIndex = 103;
             L_Version.Text = "OT Version:";
             L_Version.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -359,11 +359,11 @@ namespace PKHeX.WinForms.Controls
             // 
             L_Move1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Move1.AutoSize = true;
-            L_Move1.Location = new System.Drawing.Point(42, 238);
+            L_Move1.Location = new System.Drawing.Point(42, 264);
             L_Move1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Move1.Name = "L_Move1";
             L_Move1.Size = new System.Drawing.Size(55, 17);
-            L_Move1.TabIndex = 105;
+            L_Move1.TabIndex = 99;
             L_Move1.Text = "Move 1:";
             L_Move1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -371,11 +371,11 @@ namespace PKHeX.WinForms.Controls
             // 
             L_Move2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Move2.AutoSize = true;
-            L_Move2.Location = new System.Drawing.Point(42, 264);
+            L_Move2.Location = new System.Drawing.Point(42, 290);
             L_Move2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Move2.Name = "L_Move2";
             L_Move2.Size = new System.Drawing.Size(55, 17);
-            L_Move2.TabIndex = 106;
+            L_Move2.TabIndex = 100;
             L_Move2.Text = "Move 2:";
             L_Move2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -383,11 +383,11 @@ namespace PKHeX.WinForms.Controls
             // 
             L_Move3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Move3.AutoSize = true;
-            L_Move3.Location = new System.Drawing.Point(42, 290);
+            L_Move3.Location = new System.Drawing.Point(42, 316);
             L_Move3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Move3.Name = "L_Move3";
             L_Move3.Size = new System.Drawing.Size(55, 17);
-            L_Move3.TabIndex = 107;
+            L_Move3.TabIndex = 101;
             L_Move3.Text = "Move 3:";
             L_Move3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -395,11 +395,11 @@ namespace PKHeX.WinForms.Controls
             // 
             L_Move4.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Move4.AutoSize = true;
-            L_Move4.Location = new System.Drawing.Point(42, 316);
+            L_Move4.Location = new System.Drawing.Point(42, 342);
             L_Move4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Move4.Name = "L_Move4";
             L_Move4.Size = new System.Drawing.Size(55, 17);
-            L_Move4.TabIndex = 108;
+            L_Move4.TabIndex = 102;
             L_Move4.Text = "Move 4:";
             L_Move4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -407,11 +407,11 @@ namespace PKHeX.WinForms.Controls
             // 
             L_Potential.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Potential.AutoSize = true;
-            L_Potential.Location = new System.Drawing.Point(21, 160);
+            L_Potential.Location = new System.Drawing.Point(21, 186);
             L_Potential.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Potential.Name = "L_Potential";
             L_Potential.Size = new System.Drawing.Size(76, 17);
-            L_Potential.TabIndex = 109;
+            L_Potential.TabIndex = 96;
             L_Potential.Text = "IV Potential:";
             L_Potential.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -419,11 +419,11 @@ namespace PKHeX.WinForms.Controls
             // 
             L_EVTraining.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_EVTraining.AutoSize = true;
-            L_EVTraining.Location = new System.Drawing.Point(21, 186);
+            L_EVTraining.Location = new System.Drawing.Point(21, 212);
             L_EVTraining.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_EVTraining.Name = "L_EVTraining";
             L_EVTraining.Size = new System.Drawing.Size(76, 17);
-            L_EVTraining.TabIndex = 110;
+            L_EVTraining.TabIndex = 97;
             L_EVTraining.Text = "EV Training:";
             L_EVTraining.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -431,11 +431,11 @@ namespace PKHeX.WinForms.Controls
             // 
             L_Generation.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Generation.AutoSize = true;
-            L_Generation.Location = new System.Drawing.Point(22, 368);
+            L_Generation.Location = new System.Drawing.Point(22, 394);
             L_Generation.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Generation.Name = "L_Generation";
             L_Generation.Size = new System.Drawing.Size(75, 17);
-            L_Generation.TabIndex = 116;
+            L_Generation.TabIndex = 114;
             L_Generation.Text = "Generation:";
             L_Generation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -445,11 +445,11 @@ namespace PKHeX.WinForms.Controls
             CB_Generation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Generation.FormattingEnabled = true;
             CB_Generation.Items.AddRange(new object[] { "Any", "Gen 1 (RBY/GSC)", "Gen 2 (RBY/GSC)", "Gen 3 (RSE/FRLG/CXD)", "Gen 4 (DPPt/HGSS)", "Gen 5 (BW/B2W2)", "Gen 6 (XY/ORAS)", "Gen 7 (SM/USUM/LGPE)", "Gen 8 (SWSH/BDSP/LA)", "Gen 9 (SV)" });
-            CB_Generation.Location = new System.Drawing.Point(101, 364);
+            CB_Generation.Location = new System.Drawing.Point(101, 390);
             CB_Generation.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Generation.Name = "CB_Generation";
             CB_Generation.Size = new System.Drawing.Size(142, 25);
-            CB_Generation.TabIndex = 115;
+            CB_Generation.TabIndex = 15;
             CB_Generation.SelectedIndexChanged += ChangeGeneration;
             // 
             // FLP_Egg
@@ -475,7 +475,7 @@ namespace PKHeX.WinForms.Controls
             CHK_IsEgg.Margin = new System.Windows.Forms.Padding(0, 4, 0, 1);
             CHK_IsEgg.Name = "CHK_IsEgg";
             CHK_IsEgg.Size = new System.Drawing.Size(50, 21);
-            CHK_IsEgg.TabIndex = 98;
+            CHK_IsEgg.TabIndex = 51;
             CHK_IsEgg.Text = "Egg";
             CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CHK_IsEgg.ThreeState = true;
@@ -489,7 +489,7 @@ namespace PKHeX.WinForms.Controls
             L_ESV.Margin = new System.Windows.Forms.Padding(0);
             L_ESV.Name = "L_ESV";
             L_ESV.Size = new System.Drawing.Size(50, 20);
-            L_ESV.TabIndex = 113;
+            L_ESV.TabIndex = 53;
             L_ESV.Text = "ESV:";
             L_ESV.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             L_ESV.Visible = false;
@@ -503,7 +503,7 @@ namespace PKHeX.WinForms.Controls
             MT_ESV.Mask = "0000";
             MT_ESV.Name = "MT_ESV";
             MT_ESV.Size = new System.Drawing.Size(36, 25);
-            MT_ESV.TabIndex = 112;
+            MT_ESV.TabIndex = 52;
             MT_ESV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             MT_ESV.Visible = false;
             // 
@@ -517,7 +517,7 @@ namespace PKHeX.WinForms.Controls
             CHK_Shiny.Margin = new System.Windows.Forms.Padding(0, 4, 0, 1);
             CHK_Shiny.Name = "CHK_Shiny";
             CHK_Shiny.Size = new System.Drawing.Size(57, 21);
-            CHK_Shiny.TabIndex = 99;
+            CHK_Shiny.TabIndex = 50;
             CHK_Shiny.Text = "Shiny";
             CHK_Shiny.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CHK_Shiny.ThreeState = true;
@@ -597,7 +597,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Format.AutoSize = true;
             FLP_Format.Controls.Add(CB_FormatComparator);
             FLP_Format.Controls.Add(CB_Format);
-            FLP_Format.Location = new System.Drawing.Point(101, 390);
+            FLP_Format.Location = new System.Drawing.Point(101, 416);
             FLP_Format.Margin = new System.Windows.Forms.Padding(0);
             FLP_Format.Name = "FLP_Format";
             FLP_Format.Size = new System.Drawing.Size(141, 26);
@@ -613,7 +613,7 @@ namespace PKHeX.WinForms.Controls
             CB_FormatComparator.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_FormatComparator.Name = "CB_FormatComparator";
             CB_FormatComparator.Size = new System.Drawing.Size(62, 25);
-            CB_FormatComparator.TabIndex = 122;
+            CB_FormatComparator.TabIndex = 16;
             CB_FormatComparator.SelectedIndexChanged += ChangeFormatFilter;
             // 
             // CB_Format
@@ -626,18 +626,18 @@ namespace PKHeX.WinForms.Controls
             CB_Format.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Format.Name = "CB_Format";
             CB_Format.Size = new System.Drawing.Size(79, 25);
-            CB_Format.TabIndex = 121;
+            CB_Format.TabIndex = 17;
             CB_Format.Visible = false;
             // 
             // L_Format
             // 
             L_Format.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Format.AutoSize = true;
-            L_Format.Location = new System.Drawing.Point(45, 394);
+            L_Format.Location = new System.Drawing.Point(45, 420);
             L_Format.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Format.Name = "L_Format";
             L_Format.Size = new System.Drawing.Size(52, 17);
-            L_Format.TabIndex = 122;
+            L_Format.TabIndex = 125;
             L_Format.Text = "Format:";
             L_Format.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -647,11 +647,11 @@ namespace PKHeX.WinForms.Controls
             FLP_Level.AutoSize = true;
             FLP_Level.Controls.Add(TB_Level);
             FLP_Level.Controls.Add(CB_Level);
-            FLP_Level.Location = new System.Drawing.Point(101, 130);
+            FLP_Level.Location = new System.Drawing.Point(101, 156);
             FLP_Level.Margin = new System.Windows.Forms.Padding(0);
             FLP_Level.Name = "FLP_Level";
             FLP_Level.Size = new System.Drawing.Size(101, 26);
-            FLP_Level.TabIndex = 119;
+            FLP_Level.TabIndex = 5;
             // 
             // EntitySearchControl
             // 

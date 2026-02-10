@@ -37,6 +37,7 @@ namespace PKHeX.WinForms.Controls
             toolTip1 = new System.Windows.Forms.ToolTip(components);
             toolTip2 = new System.Windows.Forms.ToolTip(components);
             toolTip3 = new System.Windows.Forms.ToolTip(components);
+            requireMenu = new System.Windows.Forms.ContextMenuStrip(components);
             SuspendLayout();
             // 
             // L_PropValue
@@ -66,7 +67,7 @@ namespace PKHeX.WinForms.Controls
             B_Require.Location = new System.Drawing.Point(236, 0);
             B_Require.Margin = new System.Windows.Forms.Padding(4);
             B_Require.Name = "B_Require";
-            B_Require.Size = new System.Drawing.Size(40, 24);
+            B_Require.Size = new System.Drawing.Size(40, 25);
             B_Require.TabIndex = 2;
             B_Require.Text = "Set";
             B_Require.UseVisualStyleBackColor = true;
@@ -97,6 +98,11 @@ namespace PKHeX.WinForms.Controls
             CB_Format.TabIndex = 0;
             CB_Format.SelectedIndexChanged += CB_Format_SelectedIndexChanged;
             // 
+            // requireMenu
+            // 
+            requireMenu.Name = "requireMenu";
+            requireMenu.Size = new System.Drawing.Size(181, 26);
+            // 
             // EntityInstructionBuilder
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -107,7 +113,7 @@ namespace PKHeX.WinForms.Controls
             Controls.Add(CB_Format);
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "EntityInstructionBuilder";
-            Size = new System.Drawing.Size(338, 46);
+            Size = new System.Drawing.Size(360, 46);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -122,5 +128,6 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolTip toolTip2;
         private System.Windows.Forms.ToolTip toolTip3;
+        private System.Windows.Forms.ContextMenuStrip requireMenu;
     }
 }

@@ -67,6 +67,7 @@ namespace PKHeX.WinForms
             TC_SearchSettings.Location = new System.Drawing.Point(0, 0);
             TC_SearchSettings.Margin = new System.Windows.Forms.Padding(0);
             TC_SearchSettings.Name = "TC_SearchSettings";
+            TC_SearchSettings.Padding = new System.Drawing.Point(0, 0);
             TC_SearchSettings.SelectedIndex = 0;
             TC_SearchSettings.Size = new System.Drawing.Size(320, 510);
             TC_SearchSettings.TabIndex = 2;
@@ -86,7 +87,6 @@ namespace PKHeX.WinForms
             // 
             UC_EntitySearch.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             UC_EntitySearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            UC_EntitySearch.FormatComparatorSelectedIndex = -1;
             UC_EntitySearch.Location = new System.Drawing.Point(0, 0);
             UC_EntitySearch.Margin = new System.Windows.Forms.Padding(0);
             UC_EntitySearch.MaxFormat = 9;
@@ -122,10 +122,10 @@ namespace PKHeX.WinForms
             // RTB_Instructions
             // 
             RTB_Instructions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            RTB_Instructions.Location = new System.Drawing.Point(0, 48);
+            RTB_Instructions.Location = new System.Drawing.Point(0, 55);
             RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
             RTB_Instructions.Name = "RTB_Instructions";
-            RTB_Instructions.Size = new System.Drawing.Size(304, 410);
+            RTB_Instructions.Size = new System.Drawing.Size(312, 425);
             RTB_Instructions.TabIndex = 0;
             RTB_Instructions.Text = "";
             // 

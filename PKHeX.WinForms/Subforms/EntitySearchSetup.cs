@@ -41,7 +41,7 @@ public partial class EntitySearchSetup : Form
         UC_EntitySearch.SaveGeneration = sav.Generation;
         UC_EntitySearch.PopulateComboBoxes();
         UC_EntitySearch.SetFormatAnyText(MsgAny);
-        UC_EntitySearch.FormatComparatorSelectedIndex = 3;
+        UC_EntitySearch.FormatComparatorSelectedIndex = 3; // <=
         CurrentSave = sav;
         EnsureBuilder(edit);
     }
