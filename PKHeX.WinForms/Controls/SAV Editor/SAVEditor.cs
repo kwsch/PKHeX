@@ -1565,7 +1565,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
                 _searchForm.Hide();
                 return;
             }
-            if (ModifierKeys == Keys.Shift)
+            if (ModifierKeys.HasFlag(Keys.Shift))
             {
                 BoxSearchSeek();
                 return;
@@ -1632,7 +1632,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         if (_searchFilter is null)
             return;
-        Box.SeekNext(_searchFilter);
+        Box.SeekNext(_searchFilter, reverse: ModifierKeys.HasFlag(Keys.Control));
     }
 
     public void ApplyNewFilter(Func<PKM, bool>? filter, bool reload = true) => Box.ApplySearchFilter(filter, reload);

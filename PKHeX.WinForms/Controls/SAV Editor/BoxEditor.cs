@@ -355,18 +355,22 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
 
     private Func<PKM, bool>? _searchFilter;
 
-    public void ApplySearchFilter(Func<PKM, bool>? searchFilter, bool isInit = false)
+    public void ApplySearchFilter(Func<PKM, bool>? searchFilter, bool reload = true)
     {
         _searchFilter = searchFilter;
-        if (isInit)
+        _lastSearchResult = null;    
+        if (!reload)
             return;
         ResetSlots();
     }
 
-    public void SeekNext(Func<PKM, bool> searchFilter)
+    private (int Box, int Slot)? _lastSearchResult;
+
+    public void SeekNext(Func<PKM, bool> searchFilter, bool reverse = false)
     {
         // Search from next box, wrapping around
-        if (!SearchUtil.TrySeekNext(SAV, searchFilter, out var result, CurrentBox))
+        var (box, slot) = _lastSearchResult ?? (CurrentBox, -1);
+        if (!SearchUtil.TrySeekNext(SAV, searchFilter, out var result, box, slot, reverse))
         {
             // Not found
             System.Media.SystemSounds.Exclamation.Play();
@@ -374,6 +378,8 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
         }
         CurrentBox = result.Box;
         BoxPokeGrid.Entries[result.Slot].Focus();
+        _lastSearchResult = result;
+
         System.Media.SystemSounds.Asterisk.Play();
     }
 }
