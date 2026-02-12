@@ -231,7 +231,6 @@ public static class DevUtil
         $"{nameof(Main)}.L_SizeH", // height rating
         $"{nameof(Main)}.L_SizeW", // weight rating
         $"{nameof(Main)}.L_SizeS", // scale rating
-        $"{nameof(Main)}.B_Box", // << and >> arrows
         $"{nameof(Main)}.L_Characteristic=", // Characteristic (dynamic)
         $"{nameof(Main)}.L_Potential", // ★☆☆☆ IV judge evaluation
         $"{nameof(SAV_HoneyTree)}.L_Tree0", // dynamic, don't bother

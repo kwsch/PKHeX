@@ -589,7 +589,7 @@ namespace PKHeX.WinForms.Controls
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.Size = new System.Drawing.Size(292, 471);
+            TLP_Filters.Size = new System.Drawing.Size(243, 442);
             TLP_Filters.TabIndex = 118;
             // 
             // FLP_Format
@@ -656,10 +656,11 @@ namespace PKHeX.WinForms.Controls
             // EntitySearchControl
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            AutoSize = true;
             AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             Controls.Add(TLP_Filters);
             Name = "EntitySearchControl";
-            Size = new System.Drawing.Size(292, 471);
+            Size = new System.Drawing.Size(243, 442);
             FLP_Egg.ResumeLayout(false);
             FLP_Egg.PerformLayout();
             TLP_Filters.ResumeLayout(false);

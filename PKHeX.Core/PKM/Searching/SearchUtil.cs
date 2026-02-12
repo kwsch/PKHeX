@@ -20,6 +20,24 @@ public static class SearchUtil
         _ => true,
     };
 
+    public static bool SatisfiesFilterContext(PKM pk, EntityContext context, SearchComparison contextOperand) => contextOperand switch
+    {
+        SearchComparison.GreaterThanEquals when pk.Context.IsGenerationLessThan(context) => false,
+        SearchComparison.Equals when pk.Context != context => false,
+        SearchComparison.LessThanEquals when pk.Context.IsGenerationGreaterThan(context) => false,
+        _ => contextOperand != SearchComparison.None || CanReachContext(pk, context),
+    };
+
+    private static bool CanReachContext(PKM pk, EntityContext context)
+    {
+        var generation = context.Generation;
+        if (generation <= 2)
+            return pk.Format <= 2; // 1-2 can reach 1-2
+        if (generation <= 6)
+            return pk.Format >= 3; // 3-6 can reach 3-6
+        return true; // 7+ can reach all contexts
+    }
+
     public static bool SatisfiesFilterGeneration(PKM pk, byte generation) => generation switch
     {
         1 => pk.VC || pk.Format < 3,
@@ -137,29 +155,39 @@ public static class SearchUtil
         return name.Contains(nicknameSubstring, StringComparison.OrdinalIgnoreCase);
     }
 
-    public static bool TrySeekNext(SaveFile sav, Func<PKM, bool> searchFilter, out (int Box, int Slot) result, int current = -1)
+    public static bool TrySeekNext(SaveFile sav, Func<PKM, bool> searchFilter, out (int Box, int Slot) result, int currentBox = -1, int currentSlot = -1, bool reverse = false)
     {
-        // Search from next box, wrapping around
-        var boxCount = sav.BoxCount;
-        var boxSlotCount = sav.BoxSlotCount;
-        var startBox = (current + 1) % boxCount;
-        for (int i = 0; i < boxCount; i++)
+        // Search from next slot, wrapping around
+        if (currentBox == -1)
+            currentBox = 0;
+
+        var step = reverse ? -1 : 1;
+        if (currentSlot == -1)
+            currentSlot = 0;
+        else
+            currentSlot += step;
+
+        var totalSlots = sav.SlotCount;
+        var index = currentBox * sav.BoxSlotCount + currentSlot;
+        if (index < 0)
+            index = totalSlots - 1;
+        else if (index >= totalSlots)
+            index = 0;
+
+        for (var i = 0; i < totalSlots; i++)
         {
-            var box = (startBox + i) % boxCount;
+            var actualIndex = (index + i * step + totalSlots) % totalSlots;
+            var pk = sav.GetBoxSlotAtIndex(actualIndex);
+            if (pk.Species == 0)
+                continue;
 
-            for (int slot = 0; slot < boxSlotCount; slot++)
-            {
-                var pk = sav.GetBoxSlotAtIndex(box, slot);
-                if (pk.Species == 0)
-                    continue;
+            if (!searchFilter(pk))
+                continue;
 
-                if (!searchFilter(pk))
-                    continue;
-
-                // Match found. Seek to the box, and Focus on the slot.
-                result = (box, slot);
-                return true;
-            }
+            // Match found. Seek to the box, and Focus on the slot.
+            sav.GetBoxSlotFromIndex(actualIndex, out var box, out var slot);
+            result = (box, slot);
+            return true;
         }
 
         // None found.

@@ -29,6 +29,16 @@ public partial class EntitySearchSetup : Form
     public event EventHandler? ResetRequested;
 
     /// <summary>
+    /// Occurs when the next item in a sequence is sought.
+    /// </summary>
+    public event EventHandler? SeekNext;
+
+    /// <summary>
+    /// Occurs when the Seek Previous action is requested.
+    /// </summary>
+    public event EventHandler? SeekPrevious;
+
+    /// <summary>
     /// Initializes the search setup controls using the provided save file.
     /// </summary>
     /// <param name="sav">Save file used to configure search settings.</param>
@@ -37,11 +47,9 @@ public partial class EntitySearchSetup : Form
     {
         ArgumentNullException.ThrowIfNull(sav);
 
-        UC_EntitySearch.MaxFormat = Latest.Generation;
-        UC_EntitySearch.SaveGeneration = sav.Generation;
-        UC_EntitySearch.PopulateComboBoxes();
+        UC_EntitySearch.PopulateComboBoxes(GameInfo.FilteredSources);
         UC_EntitySearch.SetFormatAnyText(MsgAny);
-        UC_EntitySearch.FormatComparatorSelectedIndex = 3; // <=
+        UC_EntitySearch.InitializeSelections(sav, showContext: false);
         CurrentSave = sav;
         EnsureBuilder(edit);
     }
@@ -54,6 +62,15 @@ public partial class EntitySearchSetup : Form
 
     private void OnKeyDown(object sender, KeyEventArgs e)
     {
+        if (e.KeyCode == Keys.Enter)
+        {
+            if (RTB_Instructions.Focused)
+                return;
+
+            B_Search_Click(this, EventArgs.Empty);
+            e.Handled = true;
+        }
+
         // Quick close with Ctrl+W
         if (e.KeyCode == Keys.W && ModifierKeys == Keys.Control)
             Hide();
@@ -91,6 +108,7 @@ public partial class EntitySearchSetup : Form
     {
         SearchFilter = UC_EntitySearch.GetFilter(RTB_Instructions.Text);
         SearchRequested?.Invoke(this, EventArgs.Empty);
+        B_Next.Visible = B_Previous.Visible = true;
         System.Media.SystemSounds.Asterisk.Play();
     }
 
@@ -129,6 +147,10 @@ public partial class EntitySearchSetup : Form
         SearchFilter = null;
         UC_EntitySearch.ResetFilters();
         RTB_Instructions.Clear();
+        B_Next.Visible = B_Previous.Visible = false;
         ResetRequested?.Invoke(this, EventArgs.Empty);
     }
+
+    private void B_Next_Click(object sender, EventArgs e) => SeekNext?.Invoke(this, EventArgs.Empty);
+    private void B_Previous_Click(object sender, EventArgs e) => SeekPrevious?.Invoke(this, EventArgs.Empty);
 }

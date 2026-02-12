@@ -1565,9 +1565,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
                 _searchForm.Hide();
                 return;
             }
-            if (ModifierKeys == Keys.Shift)
+            if (ModifierKeys.HasFlag(Keys.Shift))
             {
-                BoxSearchSeek();
+                BoxSearchSeek(reverse: ModifierKeys.HasFlag(Keys.Control));
                 return;
             }
         }
@@ -1582,7 +1582,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             location.X += parent.Width;
             _searchForm.StartPosition = FormStartPosition.Manual;
             _searchForm.Location = location;
-            _searchForm.TopMost = true;
+            _searchForm.Owner = parent;
         }
 
         _searchForm.Show();
@@ -1597,9 +1597,14 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
         result.ResetRequested += UpdateSearch;
         result.SearchRequested += UpdateSearch;
+        result.SeekNext += SeekNext;
+        result.SeekPrevious += SeekPrevious;
 
         return result;
     }
+
+    private void SeekNext(object? sender, EventArgs e) => BoxSearchSeek();
+    private void SeekPrevious(object? sender, EventArgs e) => BoxSearchSeek(reverse: true);
 
     private void UpdateSearch(object? sender, EventArgs e)
     {
@@ -1628,11 +1633,11 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_SearchBox.Left = Box.Left + Box.BoxPokeGrid.Right - B_SearchBox.Width;
     }
 
-    private void BoxSearchSeek()
+    private void BoxSearchSeek(bool reverse = false)
     {
         if (_searchFilter is null)
             return;
-        Box.SeekNext(_searchFilter);
+        Box.SeekNext(_searchFilter, reverse);
     }
 
     public void ApplyNewFilter(Func<PKM, bool>? filter, bool reload = true) => Box.ApplySearchFilter(filter, reload);

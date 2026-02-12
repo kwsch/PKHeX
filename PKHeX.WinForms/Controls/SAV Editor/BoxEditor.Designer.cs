@@ -36,25 +36,23 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_BoxRight
             // 
-            B_BoxRight.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            B_BoxRight.Location = new System.Drawing.Point(200, 0);
+            B_BoxRight.Image = Properties.Resources.right;
+            B_BoxRight.Location = new System.Drawing.Point(194, 0);
             B_BoxRight.Margin = new System.Windows.Forms.Padding(0);
             B_BoxRight.Name = "B_BoxRight";
-            B_BoxRight.Size = new System.Drawing.Size(24, 24);
+            B_BoxRight.Size = new System.Drawing.Size(32, 24);
             B_BoxRight.TabIndex = 2;
-            B_BoxRight.Text = ">>";
             B_BoxRight.UseVisualStyleBackColor = true;
             B_BoxRight.Click += ClickBoxRight;
             // 
             // B_BoxLeft
             // 
-            B_BoxLeft.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            B_BoxLeft.Location = new System.Drawing.Point(32, 0);
+            B_BoxLeft.Image = Properties.Resources.left;
+            B_BoxLeft.Location = new System.Drawing.Point(30, 0);
             B_BoxLeft.Margin = new System.Windows.Forms.Padding(0);
             B_BoxLeft.Name = "B_BoxLeft";
-            B_BoxLeft.Size = new System.Drawing.Size(24, 24);
+            B_BoxLeft.Size = new System.Drawing.Size(32, 24);
             B_BoxLeft.TabIndex = 0;
-            B_BoxLeft.Text = "<<";
             B_BoxLeft.UseVisualStyleBackColor = true;
             B_BoxLeft.Click += ClickBoxLeft;
             // 
