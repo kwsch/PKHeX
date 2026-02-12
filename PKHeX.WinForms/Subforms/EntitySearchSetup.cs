@@ -37,11 +37,9 @@ public partial class EntitySearchSetup : Form
     {
         ArgumentNullException.ThrowIfNull(sav);
 
-        UC_EntitySearch.MaxFormat = Latest.Generation;
-        UC_EntitySearch.SaveGeneration = sav.Generation;
-        UC_EntitySearch.PopulateComboBoxes();
+        UC_EntitySearch.PopulateComboBoxes(GameInfo.FilteredSources);
         UC_EntitySearch.SetFormatAnyText(MsgAny);
-        UC_EntitySearch.FormatComparatorSelectedIndex = 3; // <=
+        UC_EntitySearch.InitializeSelections(sav, showContext: false);
         CurrentSave = sav;
         EnsureBuilder(edit);
     }

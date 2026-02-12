@@ -78,6 +78,8 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
 
     public void ApplyNewFilter(Func<PKM, bool>? filter, bool reload = true)
     {
+        if (filter == _searchFilter)
+            return;
         _searchFilter = filter;
         if (reload)
             ResetSlots();

@@ -133,8 +133,10 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
 
     public void ApplyNewFilter(Func<PKM, bool>? filter, bool reload = true)
     {
+        if (filter == _searchFilter)
+            return;
         _searchFilter = filter;
-        if (reload)
+        if (reload && SAV.HasBox)
             ResetSlots();
     }
 

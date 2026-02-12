@@ -11,8 +11,9 @@ namespace PKHeX.Core.Searching;
 /// </summary>
 public sealed class SearchSettings
 {
-    public byte Format { get; init; }
+    public EntityContext Context { get; init; }
     public byte Generation { get; init; }
+
     public required ushort Species { get; init; }
     public string Nickname { get; init; } = string.Empty;
     public int Ability { get; init; } = -1;
@@ -21,7 +22,7 @@ public sealed class SearchSettings
     public GameVersion Version { get; init; }
     public int HiddenPowerType { get; init; } = -1;
 
-    public SearchComparison SearchFormat { get; init; }
+    public SearchComparison SearchContext { get; init; }
     public SearchComparison SearchLevel { get; init; }
 
     public bool? SearchShiny { get; set; }
@@ -161,7 +162,7 @@ public sealed class SearchSettings
 
     private bool SearchSimple(PKM pk)
     {
-        if (Format > 0 && !SearchUtil.SatisfiesFilterFormat(pk, Format, SearchFormat))
+        if (SearchContext != SearchComparison.None && Context.IsValid && !SearchUtil.SatisfiesFilterContext(pk, Context, SearchContext))
             return false;
         if (Species != 0 && pk.Species != Species)
             return false;

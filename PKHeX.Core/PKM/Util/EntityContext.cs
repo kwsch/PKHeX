@@ -108,6 +108,12 @@ public static class EntityContextExtensions
         /// Determines whether Mega Pokémon forms exist in the specified <see cref="EntityContext"/>.
         /// </summary>
         public bool IsMegaContext => value is Gen6 or Gen7 or Gen7b or Gen9a;
+
+        public int CompareGeneration(EntityContext other) => value.Generation.CompareTo(other.Generation);
+        public bool IsGenerationLessThan(EntityContext other) => value.Generation < other.Generation;
+        public bool IsGenerationGreaterThan(EntityContext other) => value.Generation > other.Generation;
+        public bool IsGenerationLessThanOrEqual(EntityContext other) => value.Generation <= other.Generation;
+        public bool IsGenerationGreaterThanOrEqual(EntityContext other) => value.Generation >= other.Generation;
     }
 
     extension(GameVersion version)

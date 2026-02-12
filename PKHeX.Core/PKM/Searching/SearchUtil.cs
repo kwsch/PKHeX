@@ -20,6 +20,24 @@ public static class SearchUtil
         _ => true,
     };
 
+    public static bool SatisfiesFilterContext(PKM pk, EntityContext context, SearchComparison contextOperand) => contextOperand switch
+    {
+        SearchComparison.GreaterThanEquals when pk.Context.IsGenerationLessThan(context) => false,
+        SearchComparison.Equals when pk.Context != context => false,
+        SearchComparison.LessThanEquals when pk.Context.IsGenerationGreaterThan(context) => false,
+        _ => contextOperand != SearchComparison.None || CanReachContext(pk, context),
+    };
+
+    private static bool CanReachContext(PKM pk, EntityContext context)
+    {
+        var generation = context.Generation;
+        if (generation <= 2)
+            return pk.Format <= 2; // 1-2 can reach 1-2
+        if (generation <= 6)
+            return pk.Format >= 3; // 3-6 can reach 3-6
+        return true; // 7+ can reach all contexts
+    }
+
     public static bool SatisfiesFilterGeneration(PKM pk, byte generation) => generation switch
     {
         1 => pk.VC || pk.Format < 3,

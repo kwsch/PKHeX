@@ -69,9 +69,7 @@ public partial class SAV_Database : Form
         PKME_Tabs = f1;
 
         // Preset Filters to only show PKM available for loaded save
-        UC_EntitySearch.MaxFormat = MAXFORMAT;
-        UC_EntitySearch.SaveGeneration = SAV.Generation;
-        UC_EntitySearch.FormatComparatorSelectedIndex = 3; // <=
+        UC_EntitySearch.InitializeSelections(SAV);
 
         var grid = DatabasePokeGrid;
         var smallWidth = grid.Width;
@@ -130,7 +128,7 @@ public partial class SAV_Database : Form
         Counter = L_Count.Text;
         Viewed = L_Viewed.Text;
         L_Viewed.Text = string.Empty; // invisible for now
-        UC_EntitySearch.PopulateComboBoxes();
+        UC_EntitySearch.PopulateComboBoxes(GameInfo.FilteredSources);
 
         // Load Data
         B_Search.Enabled = false;

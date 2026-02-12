@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -11,29 +10,8 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class EntitySearchControl : UserControl
 {
-    // don't allow in Designer
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Bindable(false)]
-    [Browsable(false)]
-    public int MaxFormat { private get; set; } = Latest.Generation;
-
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Bindable(false)]
-    [Browsable(false)]
-    public int SaveGeneration { private get; set; } = Latest.Generation;
+    private EntityContext SaveContext { get; set; } = Latest.Context;
     
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [Bindable(false)]
-    [Browsable(false)]
-    public int FormatComparatorSelectedIndex
-    {
-        get => CB_FormatComparator.SelectedIndex;
-        set => CB_FormatComparator.SelectedIndex = value;
-    }
-
     public EntitySearchControl() => InitializeComponent();
 
     /// <summary>
@@ -46,7 +24,7 @@ public partial class EntitySearchControl : UserControl
     /// <summary>
     /// Populates combo box bindings with game data sources.
     /// </summary>
-    public void PopulateComboBoxes()
+    public void PopulateComboBoxes(FilteredGameDataSource filtered)
     {
         CB_HeldItem.InitializeBinding();
         CB_Species.InitializeBinding();
@@ -54,10 +32,10 @@ public partial class EntitySearchControl : UserControl
         CB_Nature.InitializeBinding();
         CB_GameOrigin.InitializeBinding();
         CB_HPType.InitializeBinding();
+        CB_Format.InitializeBinding();
 
         var comboAny = new ComboItem(MsgAny, -1);
 
-        var filtered = GameInfo.FilteredSources;
         var source = filtered.Source;
         var species = new List<ComboItem>(source.SpeciesDataSource)
         {
@@ -96,14 +74,54 @@ public partial class EntitySearchControl : UserControl
             cb.DataSource = new BindingSource(moves, string.Empty);
         }
 
+        var contexts = new List<ComboItem>
+        {
+            new(MsgAny, (int)EntityContext.None)
+        };
+
+        foreach (var context in Enum.GetValues<EntityContext>())
+        {
+            if (context is EntityContext.None or EntityContext.SplitInvalid or EntityContext.MaxInvalid)
+                continue;
+            if (!context.IsValid || !context.ToString().StartsWith("Gen", StringComparison.Ordinal))
+                continue;
+            contexts.Add(new ComboItem(context.ToString(), (int)context));
+        }
+
+        CB_Format.DataSource = contexts;
+
         ResetFilters();
     }
 
+    public void InitializeSelections(SaveFile sav, bool showContext = true)
+    {
+        SaveContext = sav.Context;
+        if (sav.Generation >= 8)
+        {
+            CB_FormatComparator.SelectedIndex = 1; // ==
+            CB_Format.SelectedValue = (int)sav.Context;
+        }
+        else
+        {
+            CB_FormatComparator.SelectedIndex = 3; // <=
+        }
+        L_Format.Visible = CB_FormatComparator.Visible = CB_Format.Visible = showContext;
+    }
+    
     /// <summary>
     /// Sets the localized text for the format "Any" option.
     /// </summary>
     public void SetFormatAnyText(string text)
     {
+        if (CB_Format.DataSource is List<ComboItem> { Count: > 0 } list)
+        {
+            list[0] = new ComboItem(text, list[0].Value);
+            CB_Format.DataSource = null;
+            CB_Format.DataSource = list;
+            CB_Format.InitializeBinding();
+            return;
+        }
+
         if (CB_Format.Items.Count > 0)
             CB_Format.Items[0] = text;
     }
@@ -152,8 +170,8 @@ public partial class EntitySearchControl : UserControl
     {
         var settings = new SearchSettings
         {
-            Format = (byte)(MaxFormat - CB_Format.SelectedIndex + 1),
-            SearchFormat = (SearchComparison)CB_FormatComparator.SelectedIndex,
+            Context = (EntityContext)WinFormsUtil.GetIndex(CB_Format),
+            SearchContext = (SearchComparison)CB_FormatComparator.SelectedIndex,
             Generation = (byte)CB_Generation.SelectedIndex,
 
             Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin),
@@ -229,8 +247,7 @@ public partial class EntitySearchControl : UserControl
         else
         {
             CB_Format.Visible = true;
-            int index = MaxFormat - SaveGeneration + 1;
-            CB_Format.SelectedIndex = index < CB_Format.Items.Count ? index : 0;
+            CB_Format.SelectedValue = (int)SaveContext;
         }
     }
 }
