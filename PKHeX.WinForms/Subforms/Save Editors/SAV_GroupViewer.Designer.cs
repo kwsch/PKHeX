@@ -40,25 +40,23 @@ namespace PKHeX.WinForms
             // 
             // B_BoxRight
             // 
-            B_BoxRight.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            B_BoxRight.Location = new System.Drawing.Point(243, 3);
+            B_BoxRight.Image = Properties.Resources.right;
+            B_BoxRight.Location = new System.Drawing.Point(239, 4);
             B_BoxRight.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_BoxRight.Name = "B_BoxRight";
-            B_BoxRight.Size = new System.Drawing.Size(40, 24);
+            B_BoxRight.Size = new System.Drawing.Size(32, 24);
             B_BoxRight.TabIndex = 3;
-            B_BoxRight.Text = ">>";
             B_BoxRight.UseVisualStyleBackColor = true;
             B_BoxRight.Click += B_BoxRight_Click;
             // 
             // B_BoxLeft
             // 
-            B_BoxLeft.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            B_BoxLeft.Location = new System.Drawing.Point(10, 3);
+            B_BoxLeft.Image = Properties.Resources.left;
+            B_BoxLeft.Location = new System.Drawing.Point(22, 4);
             B_BoxLeft.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_BoxLeft.Name = "B_BoxLeft";
-            B_BoxLeft.Size = new System.Drawing.Size(40, 24);
+            B_BoxLeft.Size = new System.Drawing.Size(32, 24);
             B_BoxLeft.TabIndex = 2;
-            B_BoxLeft.Text = "<<";
             B_BoxLeft.UseVisualStyleBackColor = true;
             B_BoxLeft.Click += B_BoxLeft_Click;
             // 
@@ -67,7 +65,7 @@ namespace PKHeX.WinForms
             CB_BoxSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_BoxSelect.DropDownWidth = 252;
             CB_BoxSelect.FormattingEnabled = true;
-            CB_BoxSelect.Location = new System.Drawing.Point(58, 5);
+            CB_BoxSelect.Location = new System.Drawing.Point(58, 4);
             CB_BoxSelect.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_BoxSelect.Name = "CB_BoxSelect";
             CB_BoxSelect.Size = new System.Drawing.Size(177, 25);
