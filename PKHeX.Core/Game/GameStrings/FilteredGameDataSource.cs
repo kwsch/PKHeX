@@ -28,7 +28,7 @@ public sealed class FilteredGameDataSource
             Items = [];
         }
 
-        var gamelist = GameUtil.GetVersionsWithinRange(sav, sav.Generation).ToList();
+        var gamelist = GameUtil.GetVersionsWithinRange(sav, sav.Context).ToList();
         Games = Source.VersionDataSource.Where(g => gamelist.Contains((GameVersion)g.Value) || g.Value == 0).ToList();
 
         Languages = Source.LanguageDataSource(sav.Generation, sav.Context);

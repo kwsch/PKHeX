@@ -114,7 +114,5 @@ public static class SaveFileTypeExtensions
             Bulk7 => EntityContext.Gen7,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
-
-        public byte Generation => type.Context.Generation;
     }
 }

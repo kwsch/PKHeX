@@ -225,16 +225,16 @@ public sealed class SearchSettings
 
     public ReadOnlyMemory<GameVersion> GetVersions(SaveFile sav, GameVersion fallback)
     {
-        if (Version > 0)
+        if (Version.IsValidSavedVersion())
             return new[] {Version};
 
-        return Generation switch
+        return Context switch
         {
-            1 when !ParseSettings.AllowGen1Tradeback => [RD, BU, GN, YW],
-            2 when sav is SAV2 {Korean: true} => [GD, SI],
-            1 or 2 => [RD, BU, GN, YW, /* */ GD, SI, C],
+            EntityContext.Gen1 when !ParseSettings.AllowGen1Tradeback => [RD, BU, GN, YW],
+            EntityContext.Gen2 when sav is SAV2 {Korean: true} => [GD, SI],
+            EntityContext.Gen1 or EntityContext.Gen2 => [RD, BU, GN, YW, /* */ GD, SI, C],
 
-            _ when fallback.Generation == Generation => GameUtil.GetVersionsWithinRange(sav, Generation).ToArray(),
+            _ when fallback.Context == Context => GameUtil.GetVersionsWithinRange(sav, Context).ToArray(),
             _ => GameUtil.GameVersions,
         };
     }

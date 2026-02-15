@@ -43,7 +43,7 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         var info = l.Info;
         var pk = l.Entity;
 
-        LegalityFormatting.AddMoves(la, info.Moves, lines, pk.Format, false);
+        LegalityFormatting.AddMoves(la, info.Moves, lines, pk.Context, false);
         if (pk.Format >= 6)
             LegalityFormatting.AddRelearn(la, info.Relearn, lines, false);
         LegalityFormatting.AddSecondaryChecksInvalid(la, l.Results, lines);
@@ -66,10 +66,9 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         var pk = l.Entity;
         int initialCount = lines.Count;
 
-        var format = pk.Format;
-        LegalityFormatting.AddMoves(la, info.Moves, lines, format, true);
+        LegalityFormatting.AddMoves(la, info.Moves, lines, pk.Context, true);
 
-        if (format >= 6)
+        if (pk.Format >= 6)
             LegalityFormatting.AddRelearn(la, info.Relearn, lines, true);
 
         if (lines.Count != initialCount) // move info added, break for next section

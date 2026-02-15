@@ -8,14 +8,14 @@ namespace PKHeX.Core;
 public sealed class LearnGroup2 : ILearnGroup
 {
     public static readonly LearnGroup2 Instance = new();
-    private const byte Generation = 2;
+    private const EntityContext Context = EntityContext.Gen2;
     public ushort MaxMoveID => Legal.MaxMoveID_2;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => pk.Context switch
     {
-        EntityContext.Gen2 when enc.Generation == 1 => LearnGroup1.Instance,
+        EntityContext.Gen2 when enc.Context == EntityContext.Gen1 => LearnGroup1.Instance,
         EntityContext.Gen1 => null,
-        _ =>  enc.Generation != 1 && !pk.Korean && history.HasVisitedGen1 ? LearnGroup1.Instance : null,
+        _ =>  enc.Context != EntityContext.Gen1 && !pk.Korean && history.HasVisitedGen1 ? LearnGroup1.Instance : null,
     };
 
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen2;
@@ -23,7 +23,7 @@ public sealed class LearnGroup2 : ILearnGroup
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (enc.Generation == Generation && types.HasFlag(MoveSourceType.Encounter))
+        if (enc.Context == Context && types.HasFlag(MoveSourceType.Encounter))
             CheckEncounterMoves(pk, result, current, enc);
 
         var evos = history.Gen2;
@@ -55,7 +55,7 @@ public sealed class LearnGroup2 : ILearnGroup
             if (!move.IsParsed)
                 continue;
             var method = move.Info.Method;
-            if ((vc1 && move.Generation == 2) || method is LearnMethod.Initial || method.IsEggSource)
+            if ((vc1 && move.Context == EntityContext.Gen2) || method is LearnMethod.Initial || method.IsEggSource)
                 result[i] = MoveResult.Unobtainable();
         }
 
@@ -116,14 +116,14 @@ public sealed class LearnGroup2 : ILearnGroup
         for (int i = result.Length - 1; i >= 0; i--)
         {
             ref var entry = ref result[i];
-            if (entry is { Valid: true, Generation: > 2 })
+            if (entry is { Valid: true, Context: not (EntityContext.Gen1 or EntityContext.Gen2) })
                 continue;
 
             var move = current[i];
             var chk = gs.GetCanLearn(pk, gp, evo, move, types);
             if (chk != default && GetIsPreferable(entry, chk, stage))
             {
-                entry = new(chk, (byte)stage, Generation);
+                entry = new(chk, (byte)stage, Context);
                 continue;
             }
 
@@ -132,13 +132,13 @@ public sealed class LearnGroup2 : ILearnGroup
 
             chk = c.GetCanLearn(pk, cp, evo, move, types);
             if (chk != default && GetIsPreferable(entry, chk, stage))
-                entry = new(chk, (byte)stage, Generation);
+                entry = new(chk, (byte)stage, Context);
 
             if (stad2)
             {
                 chk = LearnSource2Stadium.Instance.GetCanRelearn(evo, move, types);
                 if (chk != default && GetIsPreferable(entry, chk, stage))
-                    entry = new(chk, (byte)stage, Generation);
+                    entry = new(chk, (byte)stage, Context);
             }
         }
     }
@@ -168,7 +168,7 @@ public sealed class LearnGroup2 : ILearnGroup
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlag(MoveSourceType.Encounter) && enc.Generation == Generation)
+        if (types.HasFlag(MoveSourceType.Encounter) && enc.Context == Context)
             FlagEncounterMoves(pk, enc, result);
 
         foreach (var evo in history.Gen2)

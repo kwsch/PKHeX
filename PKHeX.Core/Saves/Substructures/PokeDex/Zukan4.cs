@@ -65,7 +65,7 @@ public sealed class Zukan4(SAV4 sav, Memory<byte> raw) : ZukanBase<SAV4>(sav, ra
 
     public static string[] GetFormNames4Dex(ushort species)
     {
-        string[] formNames = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, [], EntityContext.Gen4);
+        string[] formNames = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, EntityContext.Gen4);
         if (species == (int)Species.Pichu)
             formNames = [MALE, FEMALE, formNames[1]]; // Spiky
         return formNames;

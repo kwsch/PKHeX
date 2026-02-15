@@ -42,10 +42,10 @@ public static class WordFilterTypeExtensions
     public static WordFilterType GetName(EntityContext type) => type.Console switch
     {
         GameConsole.NX => WordFilterType.NintendoSwitch,
-        _ => type.Generation switch
+        _ => type switch
         {
-            5 => WordFilterType.Gen5,
-            6 or 7 => WordFilterType.Nintendo3DS,
+            EntityContext.Gen5 => WordFilterType.Gen5,
+            EntityContext.Gen6 or EntityContext.Gen7 => WordFilterType.Nintendo3DS,
             _ => WordFilterType.None,
         },
     };

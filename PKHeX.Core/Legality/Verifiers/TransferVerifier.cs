@@ -200,9 +200,9 @@ public sealed class TransferVerifier : Verifier
 
         // Flag Moves that cannot be transferred
         if (original is EncounterStatic2 { IsDizzyPunchEgg: true }) // Dizzy Punch Gifts
-            FlagIncompatibleTransferMove(pk, data.Info.Moves, 146, 2); // can't have Dizzy Punch at all
+            FlagIncompatibleTransferMove(pk, data.Info.Moves, 146, EntityContext.Gen2); // can't have Dizzy Punch at all
 
-        bool checkShiny = pk.VC2 || original.Generation == 2 || MoveInfo.IsAnyFromGeneration(2, data.Info.Moves);
+        bool checkShiny = pk.VC2 || original.Generation == 2 || MoveInfo.IsAnyFromGeneration(EntityContext.Gen2, data.Info.Moves);
         if (!checkShiny)
             return;
 
@@ -220,13 +220,13 @@ public sealed class TransferVerifier : Verifier
         }
     }
 
-    private static void FlagIncompatibleTransferMove(PKM pk, Span<MoveResult> parse, ushort move, byte generation)
+    private static void FlagIncompatibleTransferMove(PKM pk, Span<MoveResult> parse, ushort move, EntityContext context)
     {
         int index = pk.GetMoveIndex(move);
         if (index < 0)
             return; // doesn't have move
 
-        if (parse[index].Generation == generation) // not obtained from a future gen
+        if (parse[index].Context == context) // not obtained from a future gen
             parse[index] = MoveResult.Unobtainable(0);
     }
 }

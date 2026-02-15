@@ -11,6 +11,10 @@ namespace PKHeX.Core;
 /// </summary>
 public static class FormConverter
 {
+    /// <inheritdoc cref="GetFormList(ushort, IReadOnlyList{string}, IReadOnlyList{string}, IReadOnlyList{string}, EntityContext)"/>
+    public static string[] GetFormList(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, EntityContext context)
+        => GetFormList(species, types, forms, GameInfo.GenderSymbolUnicode, context);
+
     /// <summary>
     /// Gets a list of forms that the species can have.
     /// </summary>
@@ -1122,19 +1126,22 @@ public static class FormConverter
     /// <summary>
     /// Converts a Form ID to string.
     /// </summary>
+    /// <param name="species">Species ID the form belongs to</param>
     /// <param name="form">Form to get the form name of</param>
     /// <param name="strings">Localized string source to fetch with</param>
-    /// <param name="species">Species ID the form belongs to</param>
     /// <param name="genders">List of genders names</param>
     /// <param name="context">Format the form name should appear in</param>
-    public static string GetStringFromForm(byte form, GameStrings strings, ushort species, IReadOnlyList<string> genders, EntityContext context)
+    public static string GetStringFromForm(ushort species, byte form, GameStrings strings, IReadOnlyList<string> genders, EntityContext context)
     {
         var forms = GetFormList(species, strings.Types, strings.forms, genders, context);
         var result = form >= forms.Length ? string.Empty : forms[form];
         return result;
     }
-}
 
+    /// <inheritdoc cref="GetStringFromForm(ushort, byte, GameStrings, IReadOnlyList{string}, EntityContext)"/>
+    public static string GetStringFromForm(ushort species, byte form, GameStrings strings, EntityContext context)
+        => GetStringFromForm(species, form, strings, GameInfo.GenderSymbolUnicode, context);
+}
 public sealed record MegaFormNames
 {
     public required string Regular { get; init; }

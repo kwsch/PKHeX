@@ -95,8 +95,6 @@ public static class EntityFileExtension
     {
         if (last is >= '1' and <= '9')
             return last - '0';
-        if (prefer.Generation <= 7 && last == 'x')
-            return 6;
         return (int)prefer;
     }
 

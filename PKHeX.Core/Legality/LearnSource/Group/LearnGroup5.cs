@@ -8,10 +8,10 @@ namespace PKHeX.Core;
 public sealed class LearnGroup5 : ILearnGroup
 {
     public static readonly LearnGroup5 Instance = new();
-    private const byte Generation = 5;
+    private const EntityContext Context = EntityContext.Gen5;
     public ushort MaxMoveID => Legal.MaxMoveID_5;
 
-    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation is Generation ? null : LearnGroup4.Instance;
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Context is EntityContext.Gen5 ? null : LearnGroup4.Instance;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen5;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,
@@ -86,7 +86,7 @@ public sealed class LearnGroup5 : ILearnGroup
             var move = current[i];
             var chk = b2w2.GetCanLearn(pk, b2w2_pi, evo, move, types, option);
             if (chk != default)
-                result[i] = new(chk, (byte)stage, Generation);
+                result[i] = new(chk, (byte)stage, Context);
 
             if (bw_pi is null)
                 continue;
@@ -94,13 +94,13 @@ public sealed class LearnGroup5 : ILearnGroup
             // B2/W2 is the same besides some level up moves.
             chk = LearnSource5BW.Instance.GetCanLearn(pk, bw_pi, evo, move, types & MoveSourceType.LevelUp, option);
             if (chk != default)
-                result[i] = new(chk, (byte)stage, Generation);
+                result[i] = new(chk, (byte)stage, Context);
         }
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlag(MoveSourceType.Encounter) && enc.Generation == Generation)
+        if (types.HasFlag(MoveSourceType.Encounter) && enc.Context == Context)
             FlagEncounterMoves(enc, result);
 
         foreach (var evo in history.Gen5)

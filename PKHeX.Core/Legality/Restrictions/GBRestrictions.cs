@@ -198,7 +198,7 @@ internal static class GBRestrictions
         if (rate == 0)
             return Transferred12;
 
-        if (MoveInfo.IsAnyFromGeneration(2, moves))
+        if (MoveInfo.IsAnyFromGeneration(EntityContext.Gen2, moves))
         {
             if (pk is {CatchRate: not 0} && !ItemConverter.IsCatchRateHeldItem(pk.CatchRate))
                 return BadCatchRate;

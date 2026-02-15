@@ -37,7 +37,7 @@ public static class EncounterMovesetGenerator
             yield break;
 
         OptimizeCriteria(pk, info);
-        var vers = versions.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
+        var vers = versions.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Context);
         foreach (var version in vers)
         {
             var encounters = GenerateVersionEncounters(pk, moves, version);
@@ -63,12 +63,12 @@ public static class EncounterMovesetGenerator
     /// Gets possible encounters that allow all moves requested to be learned.
     /// </summary>
     /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
-    /// <param name="generation">Specific generation to iterate versions for.</param>
+    /// <param name="context">Specific generation to iterate versions for.</param>
     /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    public static IEnumerable<IEncounterable> GenerateEncounter(PKM pk, byte generation, ReadOnlyMemory<ushort> moves)
+    public static IEnumerable<IEncounterable> GenerateEncounter(PKM pk, EntityContext context, ReadOnlyMemory<ushort> moves)
     {
-        var vers = GameUtil.GetVersionsInGeneration(generation, pk.Version);
+        var vers = GameUtil.GetVersionsInGeneration(context, pk.Version);
         return GenerateEncounters(pk, moves, vers);
     }
 
@@ -84,7 +84,7 @@ public static class EncounterMovesetGenerator
         if (!IsSane(pk, moves.Span))
             yield break;
 
-        var vers = versions.Length != 0 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
+        var vers = versions.Length != 0 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Context);
         foreach (var version in vers)
         {
             foreach (var enc in GenerateVersionEncounters(pk, moves, version))
@@ -382,7 +382,7 @@ public static class EncounterMovesetGenerator
                 return true;
             if (enc is IEncounterFormRandom { IsRandomUnspecificForm: true } or { Species: (ushort)Species.Unown })
                 return true;
-            if (enc is EncounterStatic7 {IsTotem: true} && evo.Form == 0 && current.Generation > 7) // totems get form wiped
+            if (enc is EncounterStatic7 {IsTotem: true} && evo.Form == 0 && current != EntityContext.Gen7) // totems get form wiped
                 return true;
             break;
         }

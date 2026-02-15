@@ -8,10 +8,10 @@ namespace PKHeX.Core;
 public sealed class LearnGroup4 : ILearnGroup
 {
     public static readonly LearnGroup4 Instance = new();
-    private const byte Generation = 4;
+    private const EntityContext Context = EntityContext.Gen4;
     public ushort MaxMoveID => Legal.MaxMoveID_4;
 
-    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation is Generation ? null : LearnGroup3.Instance;
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Context is EntityContext.Gen4 ? null : LearnGroup3.Instance;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen4;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,
@@ -53,7 +53,7 @@ public sealed class LearnGroup4 : ILearnGroup
                 continue;
 
             var info = new MoveLearnInfo(LearnMethod.ShedinjaEvo, LearnEnvironment.Pt, level);
-            result[i] = new MoveResult(info, 0, Generation);
+            result[i] = new MoveResult(info, 0, Context);
             break; // Can only have one Ninjask move.
         }
     }
@@ -125,27 +125,27 @@ public sealed class LearnGroup4 : ILearnGroup
             var chk = hgss.GetCanLearn(pk, hgss_pi, evo, move);
             if (chk != default)
             {
-                result[i] = new(chk, (byte)stage, Generation);
+                result[i] = new(chk, (byte)stage, Context);
                 continue;
             }
 
             chk = pt.GetCanLearn(pk, pt_pi, evo, move, MoveSourceType.LevelUp | MoveSourceType.AllMachines);
             if (chk != default)
             {
-                result[i] = new(chk, (byte)stage, Generation);
+                result[i] = new(chk, (byte)stage, Context);
                 continue;
             }
             chk = dp.GetCanLearn(pk, pt_pi, evo, move, MoveSourceType.LevelUp);
             if (chk != default)
             {
-                result[i] = new(chk, (byte)stage, Generation);
+                result[i] = new(chk, (byte)stage, Context);
             }
         }
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlag(MoveSourceType.Encounter) && enc.Generation == Generation)
+        if (types.HasFlag(MoveSourceType.Encounter) && enc.Context == Context)
             FlagEncounterMoves(enc, result);
 
         var evos = history.Gen4;

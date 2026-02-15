@@ -104,6 +104,12 @@ public static class EntityContextExtensions
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
         };
 
+        public bool IsEraGameBoy => value is Gen1 or Gen2;
+        public bool IsEraPre3DS => value.Generation is (>= 1 and <= 5);
+        public bool IsEraPreSwitch => value.Generation is (>= 1 and <= 7);
+        public bool IsEraHOME => value.Generation >= 8;
+        public bool IsSquareShinyDifferentiated => value is Gen8;
+
         /// <summary>
         /// Determines whether Mega Pokémon forms exist in the specified <see cref="EntityContext"/>.
         /// </summary>

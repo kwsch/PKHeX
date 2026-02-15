@@ -61,7 +61,7 @@ public static class MysteryUtil
             {
                 args[0] = strings.Species[gift.Species];
                 // 1: category (e.g. "Victory Pokémon" for Victini)
-                args[2] = FormConverter.GetStringFromForm(gift.Form, strings, gift.Species, GameInfo.GenderSymbolASCII, gift.Context);
+                args[2] = FormConverter.GetStringFromForm(gift.Species, gift.Form, strings, GameInfo.GenderSymbolASCII, gift.Context);
                 args[3] = gift.OriginalTrainerName;
                 args[4] = strings.Move[gift.Moves.Move1];
                 args[5] = strings.Move[gift.Moves.Move2];

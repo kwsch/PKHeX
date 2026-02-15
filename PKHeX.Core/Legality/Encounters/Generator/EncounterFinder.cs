@@ -141,7 +141,7 @@ public static class EncounterFinder
         }
         else if (pk is PK1 pk1)
         {
-            var hasGen2 = MoveInfo.IsAnyFromGeneration(2, info.Moves);
+            var hasGen2 = MoveInfo.IsAnyFromGeneration(EntityContext.Gen2, info.Moves);
             if (hasGen2)
             {
                 if (!ParseSettings.AllowGen1Tradeback)

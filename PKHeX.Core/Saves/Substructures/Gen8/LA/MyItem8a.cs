@@ -1,5 +1,3 @@
-using System;
-
 namespace PKHeX.Core;
 
 /// <summary>
