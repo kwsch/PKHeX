@@ -35,7 +35,12 @@ public sealed partial class SAV_GroupViewer : Form
         CB_BoxSelect.SelectedIndex = GetFirstTeamWithContent(groups);
 
         if (Application.IsDarkModeEnabled)
+        {
             WinFormsUtil.InvertToolStripIcons(mnu.Items);
+            WinFormsTranslator.ReformatDark(B_BoxLeft);
+            WinFormsTranslator.ReformatDark(B_BoxRight);
+            WinFormsTranslator.ReformatDark(CB_BoxSelect);
+        }
 
         foreach (PictureBox pb in Box.Entries)
         {

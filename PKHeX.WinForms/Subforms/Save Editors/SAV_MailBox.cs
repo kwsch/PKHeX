@@ -18,7 +18,7 @@ public partial class SAV_MailBox : Form
     private readonly NumericUpDown[] PKMNUDs, Miscs;
     private readonly Label[] PKMLabels, PKMHeldItems;
     private readonly ComboBox[] AppearPKMs;
-    private readonly byte Generation;
+    private readonly EntityContext Context;
     private readonly byte ResetVer, ResetLang;
     private readonly int PartyBoxCount;
     private string loadedLBItemLabel = null!;
@@ -31,7 +31,7 @@ public partial class SAV_MailBox : Form
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (Origin = sav).Clone();
-        Generation = SAV.Generation;
+        Context = SAV.Context;
         p = SAV.PartyData;
         editing = true;
 
@@ -47,21 +47,21 @@ public partial class SAV_MailBox : Form
         AppearPKMs = [CB_AppearPKM1, CB_AppearPKM2, CB_AppearPKM3];
         Miscs = [NUD_Misc1, NUD_Misc2, NUD_Misc3];
 
-        NUD_BoxSize.Visible = L_BoxSize.Visible = CHK_UserEntered.Visible = Generation == 2;
-        GB_MessageTB.Visible = Generation == 2;
-        GB_MessageNUD.Visible = Generation != 2;
-        Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Generation is 4 or 5;
-        NUD_AuthorSID.Visible = Generation != 2;
-        GT_AuthorGender.Visible = CB_AuthorVersion.Visible = Generation is 4 or 5;
-        L_AppearPKM.Visible = AppearPKMs[0].Visible = Generation != 5;
-        AppearPKMs[1].Visible = AppearPKMs[2].Visible = Generation == 4;
-        NUD_MessageEnding.Visible = Generation == 5;
-        L_MiscValue.Visible = NUD_Misc1.Visible = NUD_Misc2.Visible = NUD_Misc3.Visible = Generation == 5;
+        NUD_BoxSize.Visible = L_BoxSize.Visible = CHK_UserEntered.Visible = Context == EntityContext.Gen2;
+        GB_MessageTB.Visible = Context == EntityContext.Gen2;
+        GB_MessageNUD.Visible = Context != EntityContext.Gen2;
+        Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Context is EntityContext.Gen4 or EntityContext.Gen5;
+        NUD_AuthorSID.Visible = Context != EntityContext.Gen2;
+        GT_AuthorGender.Visible = CB_AuthorVersion.Visible = Context is EntityContext.Gen4 or EntityContext.Gen5;
+        L_AppearPKM.Visible = AppearPKMs[0].Visible = Context != EntityContext.Gen5;
+        AppearPKMs[1].Visible = AppearPKMs[2].Visible = Context == EntityContext.Gen4;
+        NUD_MessageEnding.Visible = Context == EntityContext.Gen5;
+        L_MiscValue.Visible = NUD_Misc1.Visible = NUD_Misc2.Visible = NUD_Misc3.Visible = Context == EntityContext.Gen5;
         GB_PKM.Visible = B_PartyUp.Enabled = B_PartyDown.Enabled = SAV is not SAV2Stadium;
 
         for (int i = p.Count; i < 6; i++)
             PKMNUDs[i].Visible = PKMLabels[i].Visible = PKMHeldItems[i].Visible = false;
-        if (Generation != 3)
+        if (Context != EntityContext.Gen3)
         {
             for (int i = 0; i < PKMNUDs.Length; i++)
             {
@@ -130,14 +130,14 @@ public partial class SAV_MailBox : Form
 
         var filtered = GameInfo.FilteredSources;
         var source = filtered.Source;
-        if (Generation is 2 or 3)
+        if (Context is EntityContext.Gen2 or EntityContext.Gen3)
         {
             CB_AppearPKM1.Items.Clear();
             CB_AppearPKM1.InitializeBinding();
             CB_AppearPKM1.DataSource = new BindingSource(filtered.Species, string.Empty);
             B_PartyUp.Visible = B_PartyDown.Visible = B_BoxUp.Visible = B_BoxDown.Visible = true;
         }
-        else if (Generation is 4 or 5)
+        else if (Context is EntityContext.Gen4 or EntityContext.Gen5)
         {
             var species = filtered.Species;
             foreach (ComboBox a in AppearPKMs)
@@ -148,7 +148,7 @@ public partial class SAV_MailBox : Form
             }
 
             var vers = filtered.Source.VersionDataSource
-                .Where(z => ((GameVersion)z.Value).Generation == Generation);
+                .Where(z => ((GameVersion)z.Value).Context == Context);
             CB_AuthorVersion.Items.Clear();
             CB_AuthorVersion.InitializeBinding();
             CB_AuthorVersion.DataSource = new BindingSource(vers, string.Empty);
@@ -192,7 +192,7 @@ public partial class SAV_MailBox : Form
     {
         LB_PCBOX.BeginUpdate();
         LB_PCBOX.Items.Clear();
-        if (Generation == 2)
+        if (Context == EntityContext.Gen2)
         {
             for (int i = PartyBoxCount, j = 0, boxsize = (int)NUD_BoxSize.Value; i < m.Length; i++, j++)
             {
@@ -217,7 +217,7 @@ public partial class SAV_MailBox : Form
                 PKMLabels[i].Text = GetSpeciesNameFromCB(p[i].Species);
             int j = MailItemID.IndexOf(p[i].HeldItem);
             PKMHeldItems[i].Text = j >= 0 ? CB_MailType.Items[j + 1]!.ToString() : "(not Mail)";
-            if (Generation != 3)
+            if (Context != EntityContext.Gen3)
                 continue;
             int k = ((PK3)p[i]).HeldMailID;
             PKMNUDs[i].Value = k is >= -1 and <= 5 ? k : -1;
@@ -227,9 +227,9 @@ public partial class SAV_MailBox : Form
 
     private void Save()
     {
-        switch (Generation)
+        switch (Context)
         {
-            case 2:
+            case EntityContext.Gen2:
                 foreach (var n in m) n.CopyTo(SAV);
                 if (SAV is SAV2)
                 {
@@ -248,16 +248,16 @@ public partial class SAV_MailBox : Form
                     SAV.Data[ofs] = (byte)NUD_BoxSize.Value;
                 }
                 break;
-            case 3:
+            case EntityContext.Gen3:
                 foreach (var n in m) n.CopyTo(SAV);
                 break;
-            case 4:
+            case EntityContext.Gen4:
                 for (int i = 0; i < p.Count; i++)
                     m[i].CopyTo((PK4)p[i]);
                 for (int i = p.Count; i < m.Length; i++)
                     m[i].CopyTo(SAV);
                 break;
-            case 5:
+            case EntityContext.Gen5:
                 for (int i = 0; i < p.Count; i++)
                     m[i].CopyTo((PK5)p[i]);
                 for (int i = p.Count; i < m.Length; i++)
@@ -278,19 +278,19 @@ public partial class SAV_MailBox : Form
         mail.MailType = CBIndexToMailType(CB_MailType.SelectedIndex);
         // ReSharper disable once ConstantNullCoalescingCondition
         var species = (ushort)WinFormsUtil.GetIndex(CB_AppearPKM1);
-        if (Generation == 2)
+        if (Context == EntityContext.Gen2)
         {
             mail.AppearPKM = species;
             mail.SetMessage(TB_MessageBody21.Text, TB_MessageBody22.Text, CHK_UserEntered.Checked);
             return;
         }
         mail.AuthorSID = (ushort)NUD_AuthorSID.Value;
-        for (int y = 0, xc = Generation == 3 ? 3 : 4; y < 3; y++)
+        for (int y = 0, xc = Context == EntityContext.Gen3 ? 3 : 4; y < 3; y++)
         {
             for (int x = 0; x < xc; x++)
                 mail.SetMessage(y, x, (ushort)Messages[y][x].Value);
         }
-        if (Generation == 3)
+        if (Context == EntityContext.Gen3)
         {
             mail.AppearPKM = SpeciesConverter.GetInternal3(species);
             return;
@@ -331,7 +331,7 @@ public partial class SAV_MailBox : Form
         // C: held item is not mail, but heldMailID is not -1. it should be -1, or held mail and mail not empty.
         // D: other pk have same heldMailID. it should be different.
         // E: mail is not empty, but no pk refer to the mail. it should be empty, or someone refer to the mail.
-        if (Generation == 3)
+        if (Context == EntityContext.Gen3)
         {
             Span<int> heldMailIDs = stackalloc int[p.Count];
             for (int i = 0; i < p.Count; i++)
@@ -362,7 +362,7 @@ public partial class SAV_MailBox : Form
         // Gen2, Gen4
         // P: held item is mail, but mail is empty(invalid mail type. g2:not 181 to 189, g4:12 to 255). it should be not empty or held not mail.
         // Q: held item is not mail, but mail is not empty. it should be empty or held mail.
-        else if (Generation is 2 or 4)
+        else if (Context is EntityContext.Gen2 or EntityContext.Gen4)
         {
             for (int i = 0; i < p.Count; i++)
             {
@@ -380,7 +380,7 @@ public partial class SAV_MailBox : Form
         // Gen5
         // P
         // Gen5, move mail to pc will not erase mail data, still remains, duplicates.
-        else if (Generation == 5)
+        else if (Context == EntityContext.Gen5)
         {
             for (int i = 0; i < p.Count; i++)
             {
@@ -417,8 +417,8 @@ public partial class SAV_MailBox : Form
 
     private string GetLBLabel(int index) => m[index].IsEmpty != true ? $"{index}: From {m[index].AuthorName}" : $"{index}:  (empty)";
     private bool ItemIsMail(int itemID) => MailItemID.Contains(itemID);
-    private int MailTypeToCBIndex(MailDetail mail) => Generation <= 3 ? 1 + MailItemID.IndexOf(mail.MailType) : (mail.IsEmpty == false ? 1 + mail.MailType : 0);
-    private int CBIndexToMailType(int cbindex) => Generation <= 3 ? (cbindex > 0 ? MailItemID[cbindex - 1] : 0) : (cbindex > 0 ? cbindex - 1 : 0xFF);
+    private int MailTypeToCBIndex(MailDetail mail) => Context <= EntityContext.Gen3 ? 1 + MailItemID.IndexOf(mail.MailType) : (mail.IsEmpty == false ? 1 + mail.MailType : 0);
+    private int CBIndexToMailType(int cbindex) => Context <= EntityContext.Gen3 ? (cbindex > 0 ? MailItemID[cbindex - 1] : 0) : (cbindex > 0 ? cbindex - 1 : 0xFF);
 
     private string GetSpeciesNameFromCB(int index)
     {
@@ -443,7 +443,7 @@ public partial class SAV_MailBox : Form
                 continue;
 
             pk.HeldItem = 0;
-            if (Generation == 3)
+            if (Context == EntityContext.Gen3)
                 ((PK3)pk).HeldMailID = -1;
         }
         LoadPKM(false);
@@ -515,7 +515,7 @@ public partial class SAV_MailBox : Form
         CB_AuthorLang.SelectedValue = (int)mail.AuthorLanguage;
         CB_MailType.SelectedIndex = MailTypeToCBIndex(mail);
         var species = mail.AppearPKM;
-        if (Generation == 2)
+        if (Context == EntityContext.Gen2)
         {
             AppearPKMs[0].SelectedValue = (int)species;
             TB_MessageBody21.Text = mail.GetMessage(false);
@@ -526,12 +526,12 @@ public partial class SAV_MailBox : Form
             return;
         }
         NUD_AuthorSID.Value = mail.AuthorSID;
-        for (int y = 0, xc = Generation == 3 ? 3 : 4; y < 3; y++)
+        for (int y = 0, xc = Context == EntityContext.Gen3 ? 3 : 4; y < 3; y++)
         {
             for (int x = 0; x < xc; x++)
                 Messages[y][x].Value = mail.GetMessage(y, x);
         }
-        if (Generation == 3)
+        if (Context == EntityContext.Gen3)
         {
             AppearPKMs[0].SelectedValue = (int)SpeciesConverter.GetNational3(species);
             editing = false;
@@ -559,7 +559,7 @@ public partial class SAV_MailBox : Form
 
     private void NUD_MailIDn_ValueChanged(object sender, EventArgs e)
     {
-        if (editing || Generation != 3)
+        if (editing || Context != EntityContext.Gen3)
             return;
         int index = PKMNUDs.IndexOf((NumericUpDown)sender);
         if (index < 0 || index >= p.Count)

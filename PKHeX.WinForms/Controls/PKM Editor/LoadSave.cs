@@ -372,7 +372,7 @@ public partial class PKMEditor
         ToggleHandlerVisibility(handler.Length != 0);
 
         // Indicate who is currently in possession of the PKM
-        UpadteHandlingTrainerBackground(pk.CurrentHandler);
+        UpdateHandlingTrainerBackground(pk.CurrentHandler);
     }
 
     private void ToggleHandlerVisibility(bool hasValue)
@@ -380,7 +380,7 @@ public partial class PKMEditor
         L_CurrentHandler.Visible = CB_Handler.Visible = UC_HTGender.Visible = hasValue;
     }
 
-    private void UpadteHandlingTrainerBackground(int handler)
+    private void UpdateHandlingTrainerBackground(int handler)
     {
         if (handler == 0) // OT
         {
