@@ -84,7 +84,7 @@
 1592	r	Bacabouh Vaincu sur la Route 15 (UL)
 0607	r	Viskuse ♀ Vaincue sur la Route 14
 0547	r	Chelours Vaincu au Centre Commercial d'Ekaeka
-4564	s	L'École des Dresseurs est Hantée (Événement des Sept Mystères Actif)
+4564	s	L'École des Dresseurs est Hantée (Évènement des Sept Mystères Actif)
 0211	s	Le Manoir d'Elsa-Mina n'est PAS le Château Rocket
 1730	r	Électrode A Disparu (Aile Sud-Ouest du Château Rocket, salle facultative 2)
 1731	r	Électrode A Disparu (Aile Sud-Ouest du Château Rocket, salle facultative 11)
@@ -116,4 +116,4 @@
 3437	t	A Vaincu Apocyne (Défense de Titre)
 0195	t	A Rencontré Gamin Ali (Défense de Titre)
 3516	t	A Vaincu Gamin Ali (Défense de Titre)
-1698	s	Événement de Mohn du Paradis Æther Inactif
+1698	s	Évènement de Mohn du Paradis Æther Inactif

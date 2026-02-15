@@ -64,7 +64,7 @@
 0791	s	Pierre Rochard parti du Musée d'Argenta
 0643	e	Appareil Micro-ondes Disparu (Salle MOTISMA)
 0644	e	Appareil Machine à Laver Disparu (Salle MOTISMA)
-0645	e	Appareil Réfrigirateur Disparu (Salle MOTISMA)
+0645	e	Appareil Réfrigérateur Disparu (Salle MOTISMA)
 0646	e	Appareil Ventilateur Disparu (Salle MOTISMA)
 0647	e	Appareil Tondeuse à Gazon Disparu (Salle MOTISMA)
 0215	s	Lucie Rencontrée/Bec Pointu Obtenu (Chenal 40)
@@ -81,7 +81,7 @@
 0541	*	Puzzle Mural de Flash des Ruines d'Alpha Résolu
 0543	*	Puzzle Mural de la Pierre Eau des Ruines d'Alpha Résolu
 0545	*	Puzzle Mural de Ho-Oh des Ruines d'Alpha Résolu
-0376	s	A Perdu Contre Giovanni Une Fois (Événement Celebi)
+0376	s	A Perdu Contre Giovanni Une Fois (Évènement Celebi)
 1366	t	A Vaincu Agent Nicolas (Nuit - Route 34)
 1440	t	A Vaincu Agent Baptiste (Nuit - Route 35)
 0693	t	A Eu Revanche Contre Blanche
