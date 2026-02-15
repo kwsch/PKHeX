@@ -1,0 +1,30 @@
+0048	*	Pokémon de Départ	0:Pas encore choisi,387:Tortipouss,390:Ouisticram,393:Tiplouf
+0122	r	Œuf de Togepi	0:Statue vue,1:A reçu la CS01,2:Cynthia est partie,3:Cynthia peut donner l'œuf,4:Œuf en attente,5:Œuf reçu
+0196	r	Dialga	0:Affrontable,1:Disparu
+0197	r	Palkia	0:Affrontable,1:Disparu
+0085	r	Giratina (Monde Distorsion)	13:Affrontable,14:Disparu
+0158	r	Heatran	00:Pas activé(e),01:Affrontable,02:Disparu(e)
+0054	e	Île Pleine Lune	0:Pas activée,520:Sur la Carte
+0055	e	Île Nouvellune	0:Pas activée,553:Sur la Carte
+0056	e	Chemin Source	0:Pas apparu,786:Apparu
+0057	e	Passage Marin (Jamais Sorti en Coréen)	0:Pas apparu,4136:Apparu
+0067	e	Carte Membre	0:Pas activée,4617:Activée
+0068	e	Lettre Chen (Jamais Sortie en Coréen)	0:Pas activée,4370:Activée
+0069	e	Flûte Azur (Jamais Sortie)	0:Pas activée,4387:Activée
+0070	e	Clé Secrète	0:Pas activée,4355:Activée
+0248	e	Évènement de l'Auberge du Port	0:Pas encore complété,2:Capture de Darkrai en attente,3:Marin devant l'auberge (Darkrai capturé),4:Terminé (Darkrai capturé pendant le cauchemar)
+0280	e	Évènement de la Salle Originelle (Jamais Sorti)	0:Inactif,1:Actif
+0086	e	Montagnard de l'Évènement d'Arceus	0:Pas activé,1:À la Mine Charbourg,2:Au 1er étage de la Bibliothèque de Joliberges,3:Évènement terminé
+0087	e	Évènement Viviane (Route 224)	0:Pas activé,1:Peut être activé,2:Activé
+0133	s	Viviane (Route 224)	0:Pas activée,1:Activée,2:Apparue
+0105	r	Statue des Ruines de Fer (Registeel)	0:Inactive,270:Activée,280:Vaincu,290:Capturé
+0106	r	Statue des Ruines Iceberg (Regice)	0:Inactive,270:Activée,280:Vaincu,290:Capturé
+0107	r	Statue des Ruines Pic Roche (Regirock)	0:Inactive,270:Activée,280:Vaincu,290:Capturé
+0062	r	Joueurs Rencontrés dans le Souterrain	32:Spiritomb est apparu
+0138	r	Tour Sacrée (Route 209)	0:Inactive,1:Active
+0089	r	Statut de Créfollet	0:En attente,1:Capturé,2:K.0./Peut réapparaître
+0088	r	Statut de Cresselia	0:En attente,1:Capturé,2:K.0./Peut réapparaître
+0096	r	Statut d'Artikodin	0:En attente,1:Capturé,2:K.0./Peut réapparaître
+0095	r	Statut d'Électhor	0:En attente,1:Capturé,2:K.0./Peut réapparaître
+0094	r	Statut de Sulfura	0:En attente,1:Capturé,2:K.0./Peut réapparaître
+0224	+	Meilleur Score du Show Capture (Parc des Amis)
