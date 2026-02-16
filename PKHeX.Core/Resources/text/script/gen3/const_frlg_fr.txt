@@ -1,0 +1,27 @@
+0x4031	*	Pokémon de Départ	00:Bulbizarre,1:Carapuce,2:Salamèche
+0x4055	s	Statut du Labo de Chen	00:Première visite,01:Escorté au labo,02:Pokémon de départ disponible,03:Combat contre le rival prêt,04:Colis Chen pris,05:Colis Chen livré,06:Pokédex reçu,08:Pokédex National reçu,9:Tous les évènements terminés
+0x4057	s	Colis Chen	00:Pas reçu,01:Reçu,02:Livré
+0x4051	s	Vieillard Bloquant la Route 2	01:Oui,02:Non
+0x4054	s	Statut Rival (Route 22)	00:Caché,1:Affrontable,02:Vaincu,03:Affrontable (8 badges),04:Vaincu (8 badges)
+0x4052	s	Rival Vaincu (Azuria)	0:Non,1:Oui
+0x405B	s	Rival Vaincu (L'Océane)	0:Non,1:Oui
+0x405C	s	Rival Vaincu (Sylphe SARL)	0:Non,1:Oui
+0x405D	s	Rival Vaincu (Tour Pokémon)	0:Non,1:Oui
+0x4089	s	Rival Rencontré (Centre Pokémon Île 6)	0:Non,1:Oui
+
+0x4024	r	Pokémon Sauvage à la Grotte Métamo	00:Nosferapti,01:Wattouat (Illégal),02:Pomdepik (Illégal),03:Malosse (Illégal),04:Teddiursa (Illégal),05:Capumain (Illégal),06:Caratroc (Illégal),07:Cerfrousse (Illégal),08:Queulorior (Illégal)
+
+0x4049	a	Sticker Carte Dresseur Panthéon	0:Aucun,1:Niveau 1,2:Niveau 2,3:Niveau 3
+0x404A	a	Sticker Carte Dresseur Œufs Éclos	0:Aucun,1:Niveau 1,2:Niveau 2,3:Niveau 3
+0x404B	a	Sticker Carte Dresseur Combats Link	0:Aucun,1:Niveau 1,2:Niveau 2,3:Niveau 3
+
+0x408B	s	Grand Maniac des Fossiles Vaincu (Mont Sélénite)	0:Non,1:Oui
+0x407E	s	Statut de l'Océane	00:À Carmin-sur-mer,01:Prêt à partir,03:Parti
+0x4059	s	Spectre d'Ossatueur Vaincu	0:Non,1:Oui
+0x4062	s	Thé Donné aux Gardes	0:Non,1:Oui
+0x4060	s	Giovanni Vaincu (Sylphe SARL)	0:Non,1:Oui
+0x4058	*	Améliorations de la Carte	01:Normal,02:Tri-Passe reçu
+0x4076	*	Centre Réseau Pokémon	0:Première visite,02:Météorite livrée,03:Lien établi avec Kanto,04:Demandé d'aller trouver le Rubis,05:Passe Prisme reçu,06:Saphir livré,07:Lien établi avec Hoenn
+0x407F	s	Statut du Mont Braise	00:Première visite,01:La Team Rocket bloque le chemin vers le sommet,02:Chemin vers le sommet libre
+0x4080	s	Statut de la Grotte de Glace	00:Première visite,01:Olga sauvée
+0x4084	s	Statut de Lostelle	00:Au Bois Baies,1:À la Salle de Jeu,2:Retournée chez elle
