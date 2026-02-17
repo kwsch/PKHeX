@@ -32,6 +32,7 @@ public partial class BoxExporter : Form
             if (name == obj.DefaultBoxExportNamer)
                 index = i;
         }
+        CenterToParent();
         CB_Namer.SelectedIndex = index;
     }
 
