@@ -49,14 +49,20 @@ public sealed class SaveHandlerNSO : ISaveHandler
         // Since we're expanding in-place, our current hash is 20 bytes.
         // We can expand backwards; no byte will be overwritten until it is no longer needed.
         for (int i = 19, j = data.Length - 2; i >= 0; i--, j -= 2)
-        {
-            byte b = data[i];
-            data[j + 1] = GetHexCharLower(b & 0x0F);
-            data[j] = GetHexCharLower(b >> 4);
-        }
+            ToBytesBuffer(data[i], data, j);
     }
 
-    private static byte GetHexCharLower(int value) => (byte)(value < 10 ? value + '0' : value - 10 + 'a');
+    // Branchless lowercase hex char inflation
+    // https://github.com/dotnet/runtime/blob/1a4ad9305af92bfb40fe994cf5de1d3514b83b79/src/libraries/Common/src/System/HexConverter.cs#L75
+    // Modified slightly to always produce lowercase output and slightly less IL codegen.
+    private static void ToBytesBuffer(byte value, Span<byte> buffer, int startingIndex = 0)
+    {
+        uint difference = ((((uint)value << 4) | value) & 0x0F0Fu) - 0x8989u;
+        uint packedResult = ((((uint)(-(int)difference) & 0x7070u) >> 4) + difference + 0xB9B9u) | 0x2020u; // *lowercase shift
+
+        buffer[startingIndex + 1] = (byte)(packedResult);
+        buffer[startingIndex] = (byte)(packedResult >> 8);
+    }
 }
 
 public static class HeaderInfoNSO
