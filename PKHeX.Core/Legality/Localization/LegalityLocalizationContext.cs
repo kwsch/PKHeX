@@ -42,6 +42,7 @@ public readonly ref struct LegalityLocalizationContext
     public string GetConsoleRegion3DS(int index) => GetSafe(Strings.console3ds, index);
     public string GetRibbonName(RibbonIndex index) => Strings.Ribbons.GetNameSafe($"Ribbon{index}", out var result) ? result : index.ToString();
     public string GetLanguageName(int index) => GetSafe(Strings.languageNames, index);
+    public string GetFormName(ushort species, byte form, EntityContext context) => FormConverter.GetStringFromForm(species, form, Strings, context);
 
     private static string GetSafe(ReadOnlySpan<string> arr, int index)
     {
@@ -142,12 +143,12 @@ public readonly ref struct LegalityLocalizationContext
         >= MAX => throw new ArgumentOutOfRangeException(nameof(code), code, null),
     };
 
-    public string FormatMove(in MoveResult move, int index, byte currentFormat)
+    public string FormatMove(in MoveResult move, int index, EntityContext current)
     {
         var result = Format(move, index, Settings.Moves.FormatMove);
-        var gen = move.Generation;
-        if (currentFormat != gen && gen != 0)
-            result += $" [Gen{gen}]";
+        var original = move.Context;
+        if (current != original && original != 0)
+            result += $" [{original}]";
         return result;
     }
 

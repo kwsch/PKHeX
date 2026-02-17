@@ -2,6 +2,7 @@ using System;
 
 namespace PKHeX.Core;
 using static LearnEnvironment;
+using static EntityContext;
 
 /// <summary>
 /// Indicates the group of game(s) that the move was learned in.
@@ -36,9 +37,9 @@ public static class LearnEnvironmentExtensions
     extension(LearnEnvironment value)
     {
         /// <summary>
-        /// Indicates whether the <see cref="LearnEnvironment"/> is specified (not <see cref="None"/>), and thus worth indicating.
+        /// Indicates whether the <see cref="LearnEnvironment"/> is specified (not <see cref="LearnEnvironment.None"/>), and thus worth indicating.
         /// </summary>
-        public bool IsSpecified => value is not None;
+        public bool IsSpecified => value is not LearnEnvironment.None;
 
         /// <summary>
         /// Gets the generation number [1-n] for the given <see cref="LearnEnvironment"/>.
@@ -54,6 +55,24 @@ public static class LearnEnvironmentExtensions
             SM or USUM or GG => 7,
             SWSH or BDSP or PLA => 8,
             SV or ZA => 9,
+            _ => 0,
+        };
+
+        public EntityContext Context => value switch
+        {
+            RB or YW => Gen1,
+            GS or C or Stadium2 => Gen2,
+            RS or E or FR or LG => Gen3,
+            DP or Pt or HGSS => Gen4,
+            BW or B2W2 => Gen5,
+            XY or ORAS => Gen6,
+            SM or USUM => Gen7,
+            GG => Gen7b,
+            SWSH => Gen8,
+            PLA => Gen8a,
+            BDSP => Gen8b,
+            SV => Gen9,
+            ZA => Gen9a,
             _ => 0,
         };
 

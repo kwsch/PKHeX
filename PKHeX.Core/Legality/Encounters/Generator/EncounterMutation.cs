@@ -34,10 +34,9 @@ public static class EncounterMutationUtil
     /// <param name="level">Destination level</param>
     public static EncounterMutation GetSuggested(EntityContext targetContext, byte level)
     {
-        var gen = targetContext.Generation;
-        if (gen < 6)
+        if (targetContext.IsEraPre3DS)
             return EncounterMutation.None;
-        if (gen < 8)
+        if (targetContext.IsEraPreSwitch)
         {
             if (targetContext is EntityContext.Gen7b)
                 return level != 100 ? EncounterMutation.None : EncounterMutation.CanMaxIndividualStat;

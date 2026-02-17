@@ -1,0 +1,26 @@
+0x4021	m	Pas Restants pour Repousse
+0x4023	*	Pokémon de Départ	00:Arcko,01:Poussifeu,02:Gobou
+0x4024	r	Aléa Île Mirage (Haut)
+0x4025	r	Aléa Île Mirage (Bas)
+0x4026	*	Base Secrète Actuelle
+
+0x402A	m	Compte de Pas pour le Bonheur
+0x402B	m	Compte de Pas pour le Poison
+0x402C	*	Réinitialisation de l'HTR	00:Désactivée,2336:Activée
+
+0x4040	*	Jours Passés
+
+0x4043	m	Étage du Centre Commercial	00:RDC,01:1er,02:2ème,03:3ème,04:4ème,15:Toit
+0x4045	s	Prix de la Loterie ID
+0x4046	*	Pokédex National Activé	0:Non,770:Oui
+0x4047	+	Record de Taille de Balignon
+0x4048	*	Cendre Volcanique Récupérée	9999:Max
+0x4049	m	État du Professeur Seko
+0x404A	s	Compte de Pas sur Le Marina
+0x404B	*	Aléa Loterie ID (Haut)
+0x404C	*	Aléa Loterie ID (Bas)
+
+0x404F	+	Record de Taille de Barloche
+0068	s	Maison des Pièges	0:Sur le défi 1,1:Sur le défi 2,2:Sur le défi 3,3:Sur le défi 4,4:Sur le défi 5,5:Sur le défi 6,6:Sur le défi 7,7:Sur le défi 8,8:Tous les défis terminés
+0167	s	Parchemin de la Maison des Pièges	0:Normal (le Maître des Pièges est caché),1:Peut entrer,4:A lu la note laissée (le Maître des Pièges est parti),5:Vient de terminer un défi
+0155	r	État de Groudon/Kyogre	0:Affrontable,1:Affronté

@@ -100,6 +100,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // requireMenu
             // 
+            requireMenu.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             requireMenu.Name = "requireMenu";
             requireMenu.Size = new System.Drawing.Size(181, 26);
             // 

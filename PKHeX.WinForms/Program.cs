@@ -72,9 +72,9 @@ internal static class Program
         var main = new Main();
 
         // Close splash when Main is ready to display, then perform startup animation.
-        main.Shown += (_, _) =>
+        main.Shown += async (_, _) =>
         {
-            Task.Run(() => splash?.BeginInvoke(splash.ForceClose));
+            splash?.BeginInvoke(splash.ForceClose);
             main.Activate();
 
             // Follow-up: display popups if needed.
@@ -85,7 +85,7 @@ internal static class Program
             else if (init.BackupPrompt)
                 main.PromptBackup(settings.LocalResources.GetBackupPath());
 
-            Task.Run(main.CheckForUpdates);
+            await main.CheckForUpdates().ConfigureAwait(true);
         };
 
         // Setup complete.

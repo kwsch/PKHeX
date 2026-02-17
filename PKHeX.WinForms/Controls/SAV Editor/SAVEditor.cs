@@ -493,7 +493,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             if (M.Boxes.Count > 1) // subview open
             {
                 // close all subviews
-                for (int i = 1; i < M.Boxes.Count; i++)
+                for (int i = M.Boxes.Count - 1; i >= 1; i--)
                     M.Boxes[i].ParentForm?.Close();
             }
             new SAV_BoxList(this, M).Show();

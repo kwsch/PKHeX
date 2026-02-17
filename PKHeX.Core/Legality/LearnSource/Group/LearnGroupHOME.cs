@@ -123,7 +123,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         for (int i = 0; i < result.Length; i++)
         {
             ref var r = ref result[i];
-            if (!r.Valid || r.Generation == 0)
+            if (!r.Valid || r.Context == 0)
                 continue;
 
             if (r.Info.Environment == local.Environment)
@@ -146,7 +146,7 @@ public sealed class LearnGroupHOME : ILearnGroup
             // Most games do not have a Learn Source for Volt Tackle besides it being specially inserted for Egg Encounters.
             if (!valid && move is not (ushort)Move.VoltTackle)
             {
-                if (r.Generation >= 8 || local is not LearnSource8SWSH)
+                if (r.Context.IsEraHOME || local is not LearnSource8SWSH)
                     r = default;
             }
         }

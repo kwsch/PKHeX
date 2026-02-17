@@ -199,7 +199,7 @@ public sealed class LegalityAnalysis
         Level.Verify(this);
         Level.VerifyG1(this);
         Trainer.VerifyOTGB(this);
-        MiscValues.VerifyMiscG1(this);
+        MiscValues.VerifyMiscG12(this);
         MovePP.Verify(this);
         if (Entity.Format == 2)
             Item.Verify(this);
@@ -332,7 +332,6 @@ public sealed class LegalityAnalysis
             return;
 
         HyperTraining.Verify(this);
-        MiscValues.VerifyVersionEvolution(this);
 
         Trash.Verify(this);
         if (format < 8)

@@ -252,23 +252,23 @@ public static class GameUtil
     }
 
     /// <summary>
-    /// List of possible <see cref="GameVersion"/> values within the provided <see cref="generation"/>.
+    /// List of possible <see cref="GameVersion"/> values within the provided <see cref="context"/>.
     /// </summary>
-    /// <param name="generation">Generation to look within</param>
+    /// <param name="context">Generation to look within</param>
     /// <param name="version">Entity version</param>
-    public static GameVersion[] GetVersionsInGeneration(byte generation, GameVersion version)
+    public static GameVersion[] GetVersionsInGeneration(EntityContext context, GameVersion version)
     {
-        if (Gen7b.Contains(version))
+        if (context is EntityContext.Gen7b)
             return [GO, GP, GE];
-        return Array.FindAll(GameVersions, z => z.Generation == generation);
+        return Array.FindAll(GameVersions, z => z.Context == context);
     }
 
     /// <summary>
     /// List of possible <see cref="GameVersion"/> values within the provided <see cref="IGameValueLimit"/> criteria.
     /// </summary>
     /// <param name="obj">Criteria for retrieving versions</param>
-    /// <param name="generation">Generation format minimum (necessary for the CXD/Gen4 swap etc.)</param>
-    public static IEnumerable<GameVersion> GetVersionsWithinRange(IGameValueLimit obj, byte generation = 0)
+    /// <param name="context">Generation format minimum (necessary for the CXD/Gen4 swap etc.)</param>
+    public static IEnumerable<GameVersion> GetVersionsWithinRange(IGameValueLimit obj, EntityContext context = 0)
     {
         var max = obj.MaxGameID;
         if (max == Legal.MaxGameID_7b) // edge case
@@ -277,14 +277,14 @@ public static class GameUtil
             .Where(version => obj.MinGameID <= version && version <= max);
         if (max != BATREV)
             versions = versions.Where(static version => version != BATREV);
-        if (generation == 0)
+        if (context == 0)
             return versions;
-        if (max == Legal.MaxGameID_7 && generation == 7)
+        if (max == Legal.MaxGameID_7 && context == EntityContext.Gen7)
             versions = versions.Where(static version => version != GO);
 
         // HOME allows up-reach to Gen9
-        if (generation >= 8)
-            generation = 9;
-        return versions.Where(version => version.Generation <= generation);
+        if (context.IsEraHOME)
+            return versions;
+        return versions.Where(version => version.Generation <= context.Generation);
     }
 }

@@ -127,7 +127,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
             baseSprite = LayerOverImageItem(baseSprite, heldItem, context);
         if (shiny.IsShiny())
         {
-            if (shiny == Shiny.AlwaysSquare && context.Generation != 8)
+            if (shiny == Shiny.AlwaysSquare && context.IsSquareShinyDifferentiated)
                 shiny = Shiny.Always;
             baseSprite = LayerOverImageShiny(baseSprite, shiny);
         }

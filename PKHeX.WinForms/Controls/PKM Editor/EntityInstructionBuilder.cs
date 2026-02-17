@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -24,11 +25,14 @@ public partial class EntityInstructionBuilder : UserControl
         InitializeComponent();
         for (int i = 0; i < Prefixes.Length; i++)
         {
-            var text = i == 0 ? "Set" : Prefixes[i].ToString();
+            var prefix = Prefixes[i];
+            var text = i == 0 ? "Set" : (prefix is '&' ? "&&" : prefix.ToString()); // activator key sanitization
+            var color = StringInstruction.IsMutationInstruction(prefix) ? WinFormsUtil.ColorWarn : SystemColors.ControlText;
             var item = new ToolStripMenuItem(text)
             {
                 Name = $"mnu_{text}",
                 Tag = i,
+                ForeColor = color,
             };
             item.Click += RequireItem_Click;
             requireMenu.Items.Add(item);

@@ -8,26 +8,32 @@ namespace PKHeX.Core;
 /// </summary>
 /// <param name="Info">Info about the game it was learned in.</param>
 /// <param name="EvoStage">Evolution stage index within the <see cref="EntityContext"/> evolution list it existed in.</param>
-/// <param name="Generation">Rough indicator of generation the <see cref="MoveLearnInfo.Environment"/> was.</param>
+/// <param name="Context">Rough indicator of generation the <see cref="MoveLearnInfo.Environment"/> was.</param>
 /// <param name="Expect">Optional value used when the move is not legal, to indicate that another move ID should have been in that move slot instead.</param>
-public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, byte Generation = 0, ushort Expect = 0)
+public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, EntityContext Context = 0, ushort Expect = 0)
 {
     public bool IsParsed => this != default;
     public bool Valid => Info.Method.IsValid;
 
-    internal MoveResult(LearnMethod method, LearnEnvironment game) : this(new MoveLearnInfo(method, game), Generation: game.Generation) { }
+    internal MoveResult(LearnMethod method, LearnEnvironment game) : this(new MoveLearnInfo(method, game), Context: game.Context) { }
     private MoveResult(LearnMethod method) : this(new MoveLearnInfo(method, LearnEnvironment.None)) { }
 
     public string Summary(in LegalityLocalizationContext ctx)
     {
         var sb = new StringBuilder(48);
+        Append(ctx, sb);
+        return sb.ToString();
+    }
+
+    public void Append(in LegalityLocalizationContext ctx, StringBuilder sb)
+    {
         Info.Summarize(sb, ctx.Settings.Moves);
         if (Info.Method.HasExpectedMove())
         {
             var name = ctx.GetMoveName(Expect);
             var str = ctx.Settings.Lines.MoveFExpectSingle_0;
             sb.Append(' ').AppendFormat(str, name);
-            return sb.ToString();
+            return;
         }
 
         var la = ctx.Analysis;
@@ -36,14 +42,13 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
 
         var detail = GetDetail(history);
         if (detail.Species == 0)
-            return sb.ToString();
+            return;
         if (detail.Species == current.Species && detail.Form == current.Form)
-            return sb.ToString();
+            return;
 
         sb.Append(' ').Append(ctx.GetSpeciesName(detail.Species));
         if (detail.Form != current.Form)
-            sb.Append('-').Append(detail.Form);
-        return sb.ToString();
+            sb.Append('-').Append(ctx.GetFormName(detail.Species, detail.Form, Info.Environment.Context));
     }
 
     private EvoCriteria GetDetail(EvolutionHistory history)

@@ -1,0 +1,15 @@
+0048	*	Pokémon de Départ	0:Marisson,1:Feunnec,2:Grenousse
+0059	g	Pokémon de Kanto	0:Pas encore choisi,3:Bulbizarre,4:Salamèche,5:Carapuce
+0117	s	Évènement Route 2	0:Va affronter un Roucool sauvage statique,1:A affronté le Roucool sauvage statique,2:Tutoriel terminé
+0138	s	Magasin À Bicyclette	0:Bicyclette en attente,1:A reçu la Bicyclette
+0204	g	Éleveur de la Route 12	0:Bloque le passage,1:A un Lokhlass en cadeau,2:A donné un Lokhlass
+0227	s	Vaurien de l'Hôtel Désolation	0:Bloque l'accès (n'a pas appris toutes les figures),1:Passage libre (a appris toutes les figures)
+0174	g	Montagnard (Hôtels de Kalos)	0:Pas recontré,1:1ère rencontre,2:2ème rencontre,3:Demande à faire un échange,4:Échange en attente,5:A échangé son Magicarpe
+0175	s	Garçon de Café (Hôtels de Kalos)	0:Pas rencontré,1:1ère rencontre,2:2ème rencontre,3:Va donner un Bonbon Rage,4:Bonbon Rage en attente,5:Bonbon Rage reçu
+0176	s	Mondaine (Hôtels de Kalos)	0:Pas rencontrée,1:1ère rencontre,2:2ème rencontre,3:Va donner un Lava Cookie,4:Lava Cookie en attente,5:Lava Cookie reçu
+0177	g	Gouvernante (Hôtels de Kalos)	0:Pas rencontrée,1:1ère rencontre,2:2ème rencontre,3:Demande à faire un échange,4:Échange en attente,5:A échangé son Évoli
+0178	s	Touriste (Hôtels de Kalos)	0:Pas rencontré,1:1ère rencontre,2:2ème rencontre,3:3ème rencontre,4:4ème rencontre
+0179	s	Randonneur (Hôtels de Kalos)	0:Pas rencontré,1:1ère rencontre,2:2ème rencontre,3:Va donner un Bibelot Bizarre,4:Bibelot Bizarre en attente,5:Bibelot Bizarre reçu
+0220	s	Évènement de la Gare d'Illumis	0:Pas encore maître,1:Va recevoir le Pokédex National,2:A reçu le Pokédex National,3:A reçu le Passe TMV
+0228	s	Fantôme de la Mystimaniac (Illumis)	0:Pas rencontrée,1:Rencontrée
+0330	+	Tâches Parfaites de l'Hôtel Le Crésus

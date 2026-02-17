@@ -755,7 +755,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void UpdateHandlerSelected(byte handler)
     {
         Entity.CurrentHandler = handler;
-        UpadteHandlingTrainerBackground(Entity.CurrentHandler);
+        UpdateHandlingTrainerBackground(Entity.CurrentHandler);
         ReloadToFriendshipTextBox(Entity);
     }
 

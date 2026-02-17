@@ -87,7 +87,7 @@ public sealed class LearnGroup8b : ILearnGroup
             var move = current[i];
             var chk = game.GetCanLearn(pk, pi, evo, move, type, option);
             if (chk != default)
-                result[i] = new(chk, (byte)stage, Generation);
+                result[i] = new(chk, (byte)stage, Context);
         }
     }
 

@@ -9,6 +9,7 @@ public sealed class LearnGroup1 : ILearnGroup
 {
     public static readonly LearnGroup1 Instance = new();
     private const byte Generation = 1;
+    private const EntityContext Context = EntityContext.Gen1;
     public ushort MaxMoveID => Legal.MaxMoveID_1;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => pk.Context switch
@@ -45,7 +46,7 @@ public sealed class LearnGroup1 : ILearnGroup
                 continue;
 
             var detail = result[i];
-            if (!detail.Valid || detail.Generation is not (1 or 2))
+            if (!detail.Valid || detail.Context is not (EntityContext.Gen1 or EntityContext.Gen2))
                 continue;
 
             var info = detail.Info;
@@ -53,7 +54,7 @@ public sealed class LearnGroup1 : ILearnGroup
             {
                 var level = info.Argument;
                 var stage = detail.EvoStage;
-                var chain = detail.Generation is 1 ? history.Gen1 : history.Gen2;
+                var chain = detail.Context is EntityContext.Gen1 ? history.Gen1 : history.Gen2;
                 var species = chain[stage].Species;
                 if (IsAnyOtherResultALowerEvolutionStageAndHigherLevel(result, i, history, level, species))
                     result[i] = MoveResult.Unobtainable();
@@ -69,7 +70,7 @@ public sealed class LearnGroup1 : ILearnGroup
             if (i == index)
                 continue;
             var detail = result[i];
-            if (!detail.Valid || detail.Generation is not (1 or 2))
+            if (!detail.Valid || detail.Context is not (EntityContext.Gen1 or EntityContext.Gen2))
                 continue;
 
             (var method, _, byte level2) = detail.Info;
@@ -77,7 +78,7 @@ public sealed class LearnGroup1 : ILearnGroup
                 continue;
 
             var stage = detail.EvoStage;
-            var chain = detail.Generation is 1 ? history.Gen1 : history.Gen2;
+            var chain = detail.Context is EntityContext.Gen1 ? history.Gen1 : history.Gen2;
             var species2 = chain[stage].Species;
             if (level2 > level && species2 < species)
                 return true;
@@ -170,19 +171,19 @@ public sealed class LearnGroup1 : ILearnGroup
         for (int i = result.Length - 1; i >= 0; i--)
         {
             ref var entry = ref result[i];
-            if (entry is { Valid: true, Generation: > 2 })
+            if (entry is { Valid: true, Context: not (EntityContext.Gen1 or EntityContext.Gen2) })
                 continue;
 
             var move = current[i];
             var chk = yw.GetCanLearn(pk, yp, evo, move, types);
             if (chk != default && GetIsPreferable(entry, chk, stage))
             {
-                entry = new(chk, (byte)stage, Generation);
+                entry = new(chk, (byte)stage, Context);
                 continue;
             }
             chk = rb.GetCanLearn(pk, rp, evo, move, types);
             if (chk != default && GetIsPreferable(entry, chk, stage))
-                entry = new(chk, (byte)stage, Generation);
+                entry = new(chk, (byte)stage, Context);
         }
     }
 

@@ -70,32 +70,32 @@ public static class WallpaperUtil
 
         SaveFileType.LGPE => string.Empty,
 
-        _ => type.Generation switch
+        _ => type.Context switch
         {
-            3 => "rs",
-            4 => "dp",
-            5 => "bw",
-            6 or 7 => "xy",
+            EntityContext.Gen3 => "rs",
+            EntityContext.Gen4 => "dp",
+            EntityContext.Gen5 => "bw",
+            EntityContext.Gen6 or EntityContext.Gen7 => "xy", // roughly equivalent, only use X/Y's because they don't force checker-boxes.
             _ => string.Empty,
         },
     };
 
-    private static string GetResourceSuffix(GameVersion version, int index) => version.Generation switch
+    private static string GetResourceSuffix(GameVersion version, int index) => version.Context switch
     {
-        3 when version == E => "e",
-        3 when FRLG.Contains(version) && index > 12 => "frlg",
-        3 => "rs",
+        EntityContext.Gen3 when version == E => "e",
+        EntityContext.Gen3 when FRLG.Contains(version) && index > 12 => "frlg",
+        EntityContext.Gen3 => "rs",
 
-        4 when index <= 16 => "dp",
-        4 when version == Pt => "pt",
-        4 when HGSS.Contains(version) => "hgss",
+        EntityContext.Gen4 when index <= 16 => "dp",
+        EntityContext.Gen4 when version == Pt => "pt",
+        EntityContext.Gen4 when HGSS.Contains(version) => "hgss",
 
-        5 => B2W2.Contains(version) && index > 16 ? "b2w2" : "bw",
-        6 => ORAS.Contains(version) && index > 16 ? "ao" : "xy",
-        7 when !GG.Contains(version) => "xy",
-        8 when !SWSH.Contains(version) => "bdsp",
-        8 => "swsh",
-        9 => "sv",
+        EntityContext.Gen5 => B2W2.Contains(version) && index > 16 ? "b2w2" : "bw",
+        EntityContext.Gen6 => ORAS.Contains(version) && index > 16 ? "ao" : "xy",
+        EntityContext.Gen7 => "xy", // roughly equivalent, only use X/Y's because they don't force checker-boxes.
+        EntityContext.Gen8b => "bdsp",
+        EntityContext.Gen8 => "swsh",
+        EntityContext.Gen9 => "sv",
         _ => string.Empty,
     };
 }

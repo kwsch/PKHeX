@@ -66,7 +66,7 @@ public static class LegalityFormatting
         }
     }
 
-    public static void AddMoves(LegalityLocalizationContext la, ReadOnlySpan<MoveResult> moves, List<string> lines, in byte currentFormat, bool state)
+    public static void AddMoves(LegalityLocalizationContext la, ReadOnlySpan<MoveResult> moves, List<string> lines, in EntityContext currentFormat, bool state)
     {
         for (int i = 0; i < moves.Length; i++)
         {

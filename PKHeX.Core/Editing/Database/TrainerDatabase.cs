@@ -86,14 +86,14 @@ public sealed class TrainerDatabase
     }
 
     /// <summary>
-    /// Fetches an appropriate trainer based on the requested <see cref="generation"/>.
+    /// Fetches an appropriate trainer based on the requested <see cref="context"/>.
     /// </summary>
-    /// <param name="generation">Generation the trainer should inhabit</param>
+    /// <param name="context">Generation the trainer should inhabit</param>
     /// <param name="lang">Language to request for</param>
     /// <returns>Null if no trainer found for this version.</returns>
-    public ITrainerInfo? GetTrainerFromGen(byte generation, LanguageID? lang = null)
+    public ITrainerInfo? GetTrainerFromContext(EntityContext context, LanguageID? lang = null)
     {
-        var possible = Database.Where(z => z.Key.Generation == generation).ToList();
+        var possible = Database.Where(z => z.Key.Context == context).ToList();
         if (possible.Count == 0)
             return null;
 
