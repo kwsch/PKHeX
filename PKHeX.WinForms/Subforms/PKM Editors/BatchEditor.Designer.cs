@@ -37,8 +37,12 @@ namespace PKHeX.WinForms
             B_Go = new System.Windows.Forms.Button();
             PB_Show = new System.Windows.Forms.ProgressBar();
             B_Add = new System.Windows.Forms.Button();
+            CB_ScriptMode = new System.Windows.Forms.CheckBox();
+            RTB_Script = new System.Windows.Forms.RichTextBox();
             b = new System.ComponentModel.BackgroundWorker();
+            TLP_UserInput = new System.Windows.Forms.TableLayoutPanel();
             FLP_RB.SuspendLayout();
+            TLP_UserInput.SuspendLayout();
             SuspendLayout();
             // 
             // RB_Boxes
@@ -110,18 +114,18 @@ namespace PKHeX.WinForms
             // 
             // RTB_Instructions
             // 
-            RTB_Instructions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            RTB_Instructions.Location = new System.Drawing.Point(12, 98);
-            RTB_Instructions.Margin = new System.Windows.Forms.Padding(4);
+            RTB_Instructions.Dock = System.Windows.Forms.DockStyle.Fill;
+            RTB_Instructions.Location = new System.Drawing.Point(0, 0);
+            RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
             RTB_Instructions.Name = "RTB_Instructions";
-            RTB_Instructions.Size = new System.Drawing.Size(459, 177);
+            RTB_Instructions.Size = new System.Drawing.Size(460, 109);
             RTB_Instructions.TabIndex = 5;
             RTB_Instructions.Text = "";
             // 
             // B_Go
             // 
             B_Go.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Go.Location = new System.Drawing.Point(405, 282);
+            B_Go.Location = new System.Drawing.Point(405, 329);
             B_Go.Margin = new System.Windows.Forms.Padding(4);
             B_Go.Name = "B_Go";
             B_Go.Size = new System.Drawing.Size(66, 28);
@@ -133,7 +137,7 @@ namespace PKHeX.WinForms
             // PB_Show
             // 
             PB_Show.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            PB_Show.Location = new System.Drawing.Point(12, 284);
+            PB_Show.Location = new System.Drawing.Point(12, 331);
             PB_Show.Margin = new System.Windows.Forms.Padding(4);
             PB_Show.Name = "PB_Show";
             PB_Show.Size = new System.Drawing.Size(382, 24);
@@ -151,19 +155,60 @@ namespace PKHeX.WinForms
             B_Add.UseVisualStyleBackColor = true;
             B_Add.Click += B_Add_Click;
             // 
+            // CB_ScriptMode
+            // 
+            CB_ScriptMode.AutoSize = true;
+            CB_ScriptMode.Location = new System.Drawing.Point(4, 112);
+            CB_ScriptMode.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_ScriptMode.Name = "CB_ScriptMode";
+            CB_ScriptMode.Size = new System.Drawing.Size(82, 21);
+            CB_ScriptMode.TabIndex = 8;
+            CB_ScriptMode.Text = "C# Mode";
+            CB_ScriptMode.UseVisualStyleBackColor = true;
+            CB_ScriptMode.CheckedChanged += CB_ScriptMode_CheckedChanged;
+            // 
+            // RTB_Script
+            // 
+            RTB_Script.Dock = System.Windows.Forms.DockStyle.Fill;
+            RTB_Script.Location = new System.Drawing.Point(0, 136);
+            RTB_Script.Margin = new System.Windows.Forms.Padding(0);
+            RTB_Script.Name = "RTB_Script";
+            RTB_Script.Size = new System.Drawing.Size(460, 110);
+            RTB_Script.TabIndex = 0;
+            RTB_Script.Text = "";
+            RTB_Script.Visible = false;
+            // 
             // b
             // 
             b.WorkerReportsProgress = true;
+            // 
+            // TLP_UserInput
+            // 
+            TLP_UserInput.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TLP_UserInput.ColumnCount = 1;
+            TLP_UserInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            TLP_UserInput.Controls.Add(RTB_Script, 0, 2);
+            TLP_UserInput.Controls.Add(RTB_Instructions, 0, 0);
+            TLP_UserInput.Controls.Add(CB_ScriptMode, 0, 1);
+            TLP_UserInput.Location = new System.Drawing.Point(12, 76);
+            TLP_UserInput.Margin = new System.Windows.Forms.Padding(0);
+            TLP_UserInput.Name = "TLP_UserInput";
+            TLP_UserInput.RowCount = 3;
+            TLP_UserInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            TLP_UserInput.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_UserInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            TLP_UserInput.Size = new System.Drawing.Size(460, 246);
+            TLP_UserInput.TabIndex = 9;
             // 
             // BatchEditor
             // 
             AllowDrop = true;
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(484, 321);
+            ClientSize = new System.Drawing.Size(484, 368);
+            Controls.Add(TLP_UserInput);
             Controls.Add(B_Add);
             Controls.Add(PB_Show);
             Controls.Add(B_Go);
-            Controls.Add(RTB_Instructions);
             Controls.Add(FLP_RB);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = Properties.Resources.Icon;
@@ -175,6 +220,8 @@ namespace PKHeX.WinForms
             Text = "Batch Editor";
             FLP_RB.ResumeLayout(false);
             FLP_RB.PerformLayout();
+            TLP_UserInput.ResumeLayout(false);
+            TLP_UserInput.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -189,6 +236,9 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ProgressBar PB_Show;
         private System.Windows.Forms.Button B_Add;
         private System.Windows.Forms.RadioButton RB_Party;
+        private System.Windows.Forms.CheckBox CB_ScriptMode;
+        private System.Windows.Forms.RichTextBox RTB_Script;
         private System.ComponentModel.BackgroundWorker b;
+        private System.Windows.Forms.TableLayoutPanel TLP_UserInput;
     }
 }

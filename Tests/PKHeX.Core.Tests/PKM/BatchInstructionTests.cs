@@ -1,4 +1,3 @@
-using System;
 using FluentAssertions;
 using Xunit;
 namespace PKHeX.Core.Tests;
@@ -69,5 +68,84 @@ public class BatchInstructionTests
         };
         pk.RefreshChecksum();
         return pk;
+    }
+
+    [Fact]
+    public void ProcessDelegateReturnsTrueWhenModified()
+    {
+        var pk = CreateTestPK7(100);
+        var editor = new BatchEditor();
+
+        bool modified = editor.Process(pk, [], static p =>
+        {
+            p.EXP = 200;
+            return true;
+        });
+
+        modified.Should().BeTrue();
+    }
+
+    [Fact]
+    public void ProcessDelegateUpdatesExpWhenModified()
+    {
+        var pk = CreateTestPK7(100);
+        var editor = new BatchEditor();
+
+        _ = editor.Process(pk, [], static p =>
+        {
+            p.EXP = 200;
+            return true;
+        });
+
+        pk.EXP.Should().Be(200u);
+    }
+
+    [Fact]
+    public void ProcessInstructionsAndDelegateUpdatesExp()
+    {
+        var pk = CreateTestPK7(100);
+        var editor = new BatchEditor();
+
+        _ = editor.Process(pk, [], [], static p =>
+        {
+            p.EXP = 200;
+            return true;
+        });
+
+        pk.EXP.Should().Be(200u);
+    }
+
+    [Fact]
+    public void SplitScriptBlockExtractsScriptContent()
+    {
+        const string text = ".Species=1\n#script\nreturn true;";
+
+        _ = StringInstructionSet.TrySplitScriptBlock(text, out _, out var script);
+
+        script.ToString().Should().Be("return true;");
+    }
+
+    [Fact]
+    public void ProcessInstructionsAndDelegateSkipsWhenDelegateReturnsFalse()
+    {
+        var pk = CreateTestPK7(100);
+        var editor = new BatchEditor();
+        StringInstruction.TryParseInstruction(".EXP=200", out var instruction).Should().BeTrue();
+
+        bool modified = editor.Process(pk, [], [instruction!], static _ => false);
+
+        modified.Should().BeFalse();
+    }
+
+    [Fact]
+    public void ProcessInstructionsAndDelegatePreservesExpWhenDelegateReturnsFalse()
+    {
+        var pk = CreateTestPK7(100);
+        var editor = new BatchEditor();
+        StringInstruction.TryParseInstruction(".EXP=200", out var instruction).Should().BeTrue();
+
+        _ = editor.Process(pk, [], [instruction!], static _ => false);
+
+        pk.EXP.Should().Be(100u);
     }
 }

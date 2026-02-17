@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class StringInstructionSet
 {
+    private const string ScriptMarker = "#script";
     /// <summary>
     /// Filters to check if the object should be modified.
     /// </summary>
@@ -61,6 +62,40 @@ public sealed class StringInstructionSet
             if (line.IsEmpty || line.IsWhiteSpace())
                 return true;
         }
+        return false;
+    }
+
+    /// <summary>
+    /// Splits the input into instruction and script blocks using the <see cref="ScriptMarker"/> marker line.
+    /// </summary>
+    /// <param name="text">Instruction and script text.</param>
+    /// <param name="instructionText">Instruction text before the marker.</param>
+    /// <param name="scriptText">Script text after the marker.</param>
+    /// <returns>True if a script marker was found; otherwise false.</returns>
+    public static bool TrySplitScriptBlock(ReadOnlySpan<char> text, out ReadOnlySpan<char> instructionText, out ReadOnlySpan<char> scriptText)
+    {
+        instructionText = text;
+        scriptText = ReadOnlySpan<char>.Empty;
+
+        int index = 0;
+        while (index < text.Length)
+        {
+            var remaining = text[index..];
+            var next = remaining.IndexOf('\n');
+            var line = next == -1 ? remaining : remaining[..next];
+            if (line.Trim().SequenceEqual(ScriptMarker))
+            {
+                instructionText = text[..index];
+                int scriptStart = next == -1 ? text.Length : index + next + 1;
+                scriptText = text[scriptStart..];
+                return true;
+            }
+
+            if (next == -1)
+                break;
+            index += next + 1;
+        }
+
         return false;
     }
 

@@ -18,6 +18,7 @@ public partial class BatchEditor : Form
     private readonly EntityInstructionBuilder UC_Builder;
 
     private static string LastUsedCommands = string.Empty;
+    private static readonly StringInstructionSet[] EmptyInstructionSets = [new([], [])];
 
     public BatchEditor(PKM pk, SaveFile sav)
     {
@@ -37,6 +38,7 @@ public partial class BatchEditor : Form
 
         RTB_Instructions.Text = LastUsedCommands;
         FormClosing += (_, _) => LastUsedCommands = RTB_Instructions.Text;
+        CB_ScriptMode_CheckedChanged(CB_ScriptMode, EventArgs.Empty);
     }
 
     private void B_Open_Click(object sender, EventArgs e)
@@ -99,24 +101,62 @@ public partial class BatchEditor : Form
 
     private void RunBackgroundWorker()
     {
-        ReadOnlySpan<char> text = RTB_Instructions.Text;
-        if (StringInstructionSet.HasEmptyLine(text))
-        { WinFormsUtil.Error(MsgBEInstructionInvalid); return; }
+        string instructionText = RTB_Instructions.Text;
+        string scriptInput = RTB_Script.Text;
 
-        var sets = StringInstructionSet.GetBatchSets(text);
-        if (Array.Exists(sets, s => s.Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue))))
-        { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
-
-        if (Array.Exists(sets, z => z.Instructions.Count == 0))
-        { WinFormsUtil.Error(MsgBEInstructionNone); return; }
-
-        var emptyVal = sets.SelectMany(s => s.Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue))).ToArray();
-        if (emptyVal.Length != 0)
+        string combined = instructionText;
+        bool hasMarker = StringInstructionSet.TrySplitScriptBlock(instructionText, out _, out _);
+        if (!hasMarker && !string.IsNullOrWhiteSpace(scriptInput))
         {
-            string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
-            string invalid = MsgBEPropertyEmpty + Environment.NewLine + props;
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, invalid, MsgContinue))
+            combined = string.IsNullOrWhiteSpace(instructionText)
+                ? "#script" + Environment.NewLine + scriptInput
+                : instructionText + Environment.NewLine + "#script" + Environment.NewLine + scriptInput;
+        }
+
+        ReadOnlySpan<char> fullSpan = combined;
+        _ = StringInstructionSet.TrySplitScriptBlock(fullSpan, out var instructionSpan, out var scriptSpan);
+
+        bool scriptEnabled = CB_ScriptMode.Checked;
+        string scriptText = scriptEnabled ? scriptSpan.ToString() : string.Empty;
+        bool hasScript = !string.IsNullOrWhiteSpace(scriptText);
+
+        Func<PKM, bool>? modifier = static _ => true;
+        if (scriptEnabled && hasScript)
+        {
+            if (!BatchScriptCompiler.TryCompile(scriptText, out modifier, out var error))
+            {
+                WinFormsUtil.Error(error ?? MsgBEInstructionInvalid);
                 return;
+            }
+        }
+
+        StringInstructionSet[] sets;
+        if (instructionSpan.IsEmpty || instructionSpan.IsWhiteSpace())
+        {
+            if (!hasScript)
+            { WinFormsUtil.Error(MsgBEInstructionNone); return; }
+            sets = EmptyInstructionSets;
+        }
+        else
+        {
+            if (StringInstructionSet.HasEmptyLine(instructionSpan))
+            { WinFormsUtil.Error(MsgBEInstructionInvalid); return; }
+
+            sets = StringInstructionSet.GetBatchSets(instructionSpan);
+            if (Array.Exists(sets, s => s.Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue))))
+            { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
+
+            if (!hasScript && Array.Exists(sets, z => z.Instructions.Count == 0))
+            { WinFormsUtil.Error(MsgBEInstructionNone); return; }
+
+            var emptyVal = sets.SelectMany(s => s.Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue))).ToArray();
+            if (emptyVal.Length != 0)
+            {
+                string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
+                string invalid = MsgBEPropertyEmpty + Environment.NewLine + props;
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, invalid, MsgContinue))
+                    return;
+            }
         }
 
         string? destPath = null;
@@ -138,10 +178,10 @@ public partial class BatchEditor : Form
             BatchEditing.ScreenStrings(set.Filters);
             BatchEditing.ScreenStrings(set.Instructions);
         }
-        RunBatchEdit(sets, TB_Folder.Text, destPath);
+        RunBatchEdit(sets, modifier, TB_Folder.Text, destPath);
     }
 
-    private void RunBatchEdit(StringInstructionSet[] sets, string source, string? destination)
+    private void RunBatchEdit(StringInstructionSet[] sets, Func<PKM, bool> modifier, string source, string? destination)
     {
         editor = new Core.BatchEditor();
         bool finished = false, displayed = false; // hack cuz DoWork event isn't cleared after completion
@@ -150,11 +190,11 @@ public partial class BatchEditor : Form
             if (finished)
                 return;
             if (RB_Boxes.Checked)
-                RunBatchEditSaveFile(sets, boxes: true);
+                RunBatchEditSaveFile(sets, modifier, boxes: true);
             else if (RB_Party.Checked)
-                RunBatchEditSaveFile(sets, party: true);
+                RunBatchEditSaveFile(sets, modifier, party: true);
             else if (destination is not null)
-                RunBatchEditFolder(sets, source, destination);
+                RunBatchEditFolder(sets, modifier, source, destination);
             finished = true;
         };
         b.ProgressChanged += (_, e) => SetProgressBar(e.ProgressPercentage);
@@ -169,15 +209,15 @@ public partial class BatchEditor : Form
         b.RunWorkerAsync();
     }
 
-    private void RunBatchEditFolder(IReadOnlyCollection<StringInstructionSet> sets, string source, string destination)
+    private void RunBatchEditFolder(IReadOnlyCollection<StringInstructionSet> sets, Func<PKM, bool> modifier, string source, string destination)
     {
         var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
         SetupProgressBar(files.Length * sets.Count);
         foreach (var set in sets)
-            ProcessFolder(files, destination, set.Filters, set.Instructions);
+            ProcessFolder(files, destination, set.Filters, set.Instructions, modifier);
     }
 
-    private void RunBatchEditSaveFile(IReadOnlyCollection<StringInstructionSet> sets, bool boxes = false, bool party = false)
+    private void RunBatchEditSaveFile(IReadOnlyCollection<StringInstructionSet> sets, Func<PKM, bool> modifier, bool boxes = false, bool party = false)
     {
         if (party)
         {
@@ -199,7 +239,7 @@ public partial class BatchEditor : Form
         {
             SetupProgressBar(d.Count * sets.Count);
             foreach (var set in sets)
-                ProcessSAV(d, set.Filters, set.Instructions);
+                ProcessSAV(d, set.Filters, set.Instructions, modifier);
         }
     }
 
@@ -214,7 +254,7 @@ public partial class BatchEditor : Form
 
     private void SetProgressBar(int position) => PB_Show.BeginInvoke(() => PB_Show.Value = position);
 
-    private void ProcessSAV(IList<SlotCache> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
+    private void ProcessSAV(IList<SlotCache> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions, Func<PKM, bool> modifier)
     {
         if (data.Count == 0)
             return;
@@ -244,13 +284,13 @@ public partial class BatchEditor : Form
             else if (!BatchEditing.IsFilterMatchMeta(filterMeta, entry))
                 editor.AddSkipped();
             else
-                editor.Process(pk, Filters, Instructions);
+                editor.Process(pk, Filters, Instructions, modifier);
 
             b.ReportProgress(i);
         }
     }
 
-    private void ProcessFolder(IReadOnlyList<string> files, string destDir, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions)
+    private void ProcessFolder(IReadOnlyList<string> files, string destDir, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions, Func<PKM, bool> modifier)
     {
         var filterMeta = pkFilters.Where(f => BatchFilters.FilterMeta.Any(z => z.IsMatch(f.PropertyName))).ToArray();
         if (filterMeta.Length != 0)
@@ -258,12 +298,12 @@ public partial class BatchEditor : Form
 
         for (int i = 0; i < files.Count; i++)
         {
-            TryProcess(files[i], destDir, filterMeta, pkFilters, instructions);
+            TryProcess(files[i], destDir, filterMeta, pkFilters, instructions, modifier);
             b.ReportProgress(i);
         }
     }
 
-    private void TryProcess(string source, string destDir, IReadOnlyList<StringInstruction> metaFilters, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions)
+    private void TryProcess(string source, string destDir, IReadOnlyList<StringInstruction> metaFilters, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions, Func<PKM, bool> modifier)
     {
         var fi = new FileInfo(source);
         if (!EntityDetection.IsSizePlausible(fi.Length))
@@ -282,7 +322,23 @@ public partial class BatchEditor : Form
             return;
         }
 
-        if (editor.Process(pk, pkFilters, instructions))
+        if (editor.Process(pk, pkFilters, instructions, modifier))
             File.WriteAllBytes(Path.Combine(destDir, Path.GetFileName(source)), pk.DecryptedPartyData);
+    }
+
+    private void CB_ScriptMode_CheckedChanged(object? sender, EventArgs e)
+    {
+        RTB_Script.Visible = RTB_Script.Enabled = CB_ScriptMode.Checked;
+        var tlp = TLP_UserInput.RowStyles;
+        if (!RTB_Script.Enabled)
+        {
+            tlp[2].SizeType = SizeType.Absolute;
+            tlp[2].Height = 0;
+        }
+        else
+        {
+            tlp[2].SizeType = tlp[0].SizeType;
+            tlp[2].Height = tlp[0].Height;
+        }
     }
 }
