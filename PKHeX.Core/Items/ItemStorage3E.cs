@@ -20,6 +20,9 @@ public sealed class ItemStorage3E : IItemStorage
         375, 376,
     ];
 
+    private static readonly ushort[] PCItems = [.. General, .. Berry, .. Balls, .. Machine];
+
+
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
@@ -29,7 +32,7 @@ public sealed class ItemStorage3E : IItemStorage
         InventoryType.Balls => Balls,
         InventoryType.TMHMs => Machine,
         InventoryType.Berries => Berry,
-        InventoryType.PCItems => General,
+        InventoryType.PCItems => PCItems,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }
