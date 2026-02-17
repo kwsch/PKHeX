@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 
 using static PKHeX.Core.MessageStrings;
@@ -412,22 +414,28 @@ public static class BatchEditing
     private static ModifyResult SetPKMProperty(StringInstruction cmd, BatchInfo info, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props)
     {
         var pk = info.Entity;
-        if (cmd.PropertyValue.StartsWith(CONST_BYTES, StringComparison.Ordinal))
-            return SetByteArrayProperty(pk, cmd);
+        if (cmd.Operation == InstructionOperation.Set)
+        {
+            if (cmd.PropertyValue.StartsWith(CONST_BYTES, StringComparison.Ordinal))
+                return SetByteArrayProperty(pk, cmd);
 
-        if (cmd.PropertyValue.StartsWith(CONST_SUGGEST, StringComparison.OrdinalIgnoreCase))
-            return SetSuggestedPKMProperty(cmd.PropertyName, info, cmd.PropertyValue);
-        if (cmd is { PropertyValue: CONST_RAND, PropertyName: nameof(PKM.Moves) })
-            return SetSuggestedMoveset(info, true);
+            if (cmd.PropertyValue.StartsWith(CONST_SUGGEST, StringComparison.OrdinalIgnoreCase))
+                return SetSuggestedPKMProperty(cmd.PropertyName, info, cmd.PropertyValue);
+            if (cmd is { PropertyValue: CONST_RAND, PropertyName: nameof(PKM.Moves) })
+                return SetSuggestedMoveset(info, true);
 
-        if (SetComplexProperty(pk, cmd))
-            return ModifyResult.Modified;
+            if (SetComplexProperty(pk, cmd))
+                return ModifyResult.Modified;
+        }
 
         if (!props.TryGetValue(cmd.PropertyName, out var pi))
             return ModifyResult.Error;
 
         if (!pi.CanWrite)
             return ModifyResult.Error;
+
+        if (cmd.Operation != InstructionOperation.Set)
+            return ApplyNumericOperation(pk, cmd, pi, props);
 
         object val;
         if (cmd.Random)
@@ -439,6 +447,192 @@ public static class BatchEditing
 
         ReflectUtil.SetValue(pi, pk, val);
         return ModifyResult.Modified;
+    }
+
+    private static ModifyResult ApplyNumericOperation(PKM pk, StringInstruction cmd, PropertyInfo pi, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props)
+    {
+        if (!pi.CanRead)
+            return ModifyResult.Error;
+
+        if (!TryGetNumericType(pi.PropertyType, out var numericType, out var isNullable))
+            return ModifyResult.Error;
+
+        var currentValue = pi.GetValue(pk);
+        if (currentValue is null)
+            return ModifyResult.Error;
+
+        if (!TryResolveOperandValue(cmd, pk, props, out var operandValue))
+            return ModifyResult.Error;
+
+        if (!TryApplyNumericOperation(numericType, currentValue, operandValue, cmd.Operation, out var result))
+            return ModifyResult.Error;
+
+        var valueToSet = isNullable ? Activator.CreateInstance(pi.PropertyType, result) ?? result : result;
+        pi.SetValue(pk, valueToSet);
+        return ModifyResult.Modified;
+    }
+
+    private static bool TryResolveOperandValue(StringInstruction cmd, PKM pk, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props, [NotNullWhen(true)] out object? value)
+    {
+        if (cmd.Random)
+        {
+            value = cmd.RandomValue;
+            return true;
+        }
+
+        var propertyValue = cmd.PropertyValue;
+        if (propertyValue.StartsWith(CONST_POINTER) && props.TryGetValue(propertyValue.AsSpan(1), out var opi))
+        {
+            value = opi.GetValue(pk) ?? throw new NullReferenceException();
+            return true;
+        }
+
+        value = propertyValue;
+        return true;
+    }
+
+    private static bool TryGetNumericType(Type type, out Type numericType, out bool isNullable)
+    {
+        numericType = Nullable.GetUnderlyingType(type) ?? type;
+        isNullable = numericType != type;
+        return numericType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(INumber<>));
+    }
+
+    private static bool TryApplyNumericOperation(Type numericType, object currentValue, object operandValue, InstructionOperation operation, [NotNullWhen(true)] out object? result)
+    {
+        var methodName = operation is InstructionOperation.BitwiseAnd or InstructionOperation.BitwiseOr or InstructionOperation.BitwiseXor
+            or InstructionOperation.BitwiseShiftLeft or InstructionOperation.BitwiseShiftRight
+            ? nameof(TryApplyBinaryIntegerOperationCore)
+            : nameof(TryApplyNumericOperationCore);
+
+        if (methodName == nameof(TryApplyBinaryIntegerOperationCore) && !IsBinaryIntegerType(numericType))
+        {
+            result = null;
+            return false;
+        }
+
+        var method = typeof(BatchEditing).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
+        if (method is null)
+        {
+            result = null;
+            return false;
+        }
+        var generic = method.MakeGenericMethod(numericType);
+        var parameters = new[] { currentValue, operandValue, operation, null };
+        var success = (bool)(generic.Invoke(null, parameters) ?? false);
+        result = parameters[3]!;
+        return success;
+    }
+
+    private static bool TryApplyNumericOperationCore<T>(object currentValue, object operandValue, InstructionOperation operation, [NotNullWhen(true)] out T? result) where T : INumber<T>
+    {
+        if (!TryConvertNumeric<T>(currentValue, out var left) || !TryConvertNumeric<T>(operandValue, out var right))
+        {
+            result = default;
+            return false;
+        }
+
+        try
+        {
+            result = operation switch
+            {
+                InstructionOperation.Add => left + right,
+                InstructionOperation.Subtract => left - right,
+                InstructionOperation.Multiply => left * right,
+                InstructionOperation.Divide => left / right,
+                InstructionOperation.Modulo => left % right,
+                _ => right,
+            };
+            return true;
+        }
+        catch (DivideByZeroException)
+        {
+            result = default;
+            return false;
+        }
+    }
+
+    private static bool TryApplyBinaryIntegerOperationCore<T>(object currentValue, object operandValue, InstructionOperation operation, [NotNullWhen(true)] out T? result)
+        where T : IBinaryInteger<T>
+    {
+        if (!TryConvertNumeric<T>(currentValue, out var left) || !TryConvertNumeric<T>(operandValue, out var right))
+        {
+            result = default;
+            return false;
+        }
+
+        try
+        {
+            switch (operation)
+            {
+                case InstructionOperation.BitwiseAnd:
+                    result = left & right;
+                    return true;
+                case InstructionOperation.BitwiseOr:
+                    result = left | right;
+                    return true;
+                case InstructionOperation.BitwiseXor:
+                    result = left ^ right;
+                    return true;
+                case InstructionOperation.BitwiseShiftLeft:
+                    result = left << int.CreateChecked(right);
+                    return true;
+                case InstructionOperation.BitwiseShiftRight:
+                    result = left >> int.CreateChecked(right);
+                    return true;
+                default:
+                    result = default;
+                    return false;
+            }
+        }
+        catch (OverflowException)
+        {
+            result = default;
+            return false;
+        }
+    }
+
+    private static bool IsBinaryIntegerType(Type numericType)
+        => numericType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IBinaryInteger<>));
+
+    private static bool TryConvertNumeric<T>(object value, [NotNullWhen(true)] out T? result) where T : INumber<T>
+    {
+        if (value is T typed)
+        {
+            result = typed;
+            return true;
+        }
+
+        if (value is string text)
+        {
+            if (T.TryParse(text, CultureInfo.InvariantCulture, out var parsed))
+            {
+                result = parsed;
+                return true;
+            }
+            result = default;
+            return false;
+        }
+
+        if (value is IConvertible)
+        {
+            try
+            {
+                var converted = Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture);
+                if (converted is T convertedValue)
+                {
+                    result = convertedValue;
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        result = default;
+        return false;
     }
 
     /// <summary>
