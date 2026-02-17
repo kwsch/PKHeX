@@ -76,7 +76,7 @@ public class BatchInstructionTests
         var pk = CreateTestPK7(100);
         var editor = new BatchEditor();
 
-        bool modified = editor.Process(pk, [], static p =>
+        bool modified = editor.Process(pk, [], [], static p =>
         {
             p.EXP = 200;
             return true;
@@ -91,7 +91,7 @@ public class BatchInstructionTests
         var pk = CreateTestPK7(100);
         var editor = new BatchEditor();
 
-        _ = editor.Process(pk, [], static p =>
+        _ = editor.Process(pk, [], [], static p =>
         {
             p.EXP = 200;
             return true;
