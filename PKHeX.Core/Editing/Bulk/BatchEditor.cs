@@ -15,13 +15,14 @@ public sealed class BatchEditor
     private int Failed { get; set; }
 
     /// <summary>
-    /// Tries to modify the <see cref="PKM"/>.
+    /// Tries to modify the <see cref="PKM"/> using instructions and a custom modifier delegate.
     /// </summary>
     /// <param name="pk">Object to modify.</param>
     /// <param name="filters">Filters which must be satisfied prior to any modifications being made.</param>
     /// <param name="modifications">Modifications to perform on the <see cref="pk"/>.</param>
+    /// <param name="modifier">Custom modifier delegate.</param>
     /// <returns>Result of the attempted modification.</returns>
-    public bool Process(PKM pk, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications)
+    public bool Process(PKM pk, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications, Func<PKM, bool>? modifier = null)
     {
         if (pk.Species == 0)
             return false;
@@ -33,13 +34,12 @@ public sealed class BatchEditor
             return false;
         }
 
-        var result = BatchEditing.TryModifyPKM(pk, filters, modifications);
+        var result = BatchEditing.TryModifyPKM(pk, filters, modifications, modifier);
         if (result != ModifyResult.Skipped)
             Iterated++;
         if (result.HasFlag(ModifyResult.Error))
         {
             Failed++;
-            // Still need to fix checksum if another modification was successful.
             result &= ~ModifyResult.Error;
         }
         if (result != ModifyResult.Modified)
@@ -73,15 +73,16 @@ public sealed class BatchEditor
     /// </summary>
     /// <param name="lines">Batch instruction line(s)</param>
     /// <param name="data">Entities to modify</param>
+    /// <param name="modifier">Custom modifier delegate.</param>
     /// <returns>Editor object if follow-up modifications are desired.</returns>
-    public static BatchEditor Execute(ReadOnlySpan<string> lines, IEnumerable<PKM> data)
+    public static BatchEditor Execute(ReadOnlySpan<string> lines, IEnumerable<PKM> data, Func<PKM, bool>? modifier = null)
     {
         var editor = new BatchEditor();
         var sets = StringInstructionSet.GetBatchSets(lines);
         foreach (var pk in data)
         {
             foreach (var set in sets)
-                editor.Process(pk, set.Filters, set.Instructions);
+                editor.Process(pk, set.Filters, set.Instructions, modifier);
         }
 
         return editor;

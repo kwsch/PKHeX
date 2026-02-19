@@ -469,7 +469,7 @@ public class ShowdownSetTests
         success.Should().BeTrue("Parsing should succeed");
         set.Should().NotBeNull();
 
-        var evs = set!.EVs;
+        var evs = set.EVs;
         evs[0].Should().Be(hp, "HP EV should match");
         evs[1].Should().Be(atk, "Atk EV should match");
         evs[2].Should().Be(def, "Def EV should match");
@@ -488,7 +488,7 @@ public class ShowdownSetTests
         success.Should().BeTrue("Parsing should succeed");
         set.Should().NotBeNull();
 
-        var ivs = set!.IVs;
+        var ivs = set.IVs;
         ivs[0].Should().Be(hp, "HP IV should match");
         ivs[1].Should().Be(atk, "Atk IV should match");
         ivs[2].Should().Be(def, "Def IV should match");

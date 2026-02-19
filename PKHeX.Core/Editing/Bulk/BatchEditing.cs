@@ -176,7 +176,7 @@ public static class BatchEditing
     {
         if (CustomProperties.Contains(propertyName))
         {
-            result ="Custom";
+            result = "Custom";
             return true;
         }
 
@@ -344,27 +344,28 @@ public static class BatchEditing
     /// <param name="pk">Object to modify.</param>
     /// <param name="filters">Filters which must be satisfied prior to any modifications being made.</param>
     /// <param name="modifications">Modifications to perform on the <see cref="pk"/>.</param>
+    /// <param name="modifier">Custom modifier delegate.</param>
     /// <returns>Result of the attempted modification.</returns>
-    public static bool TryModify(PKM pk, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications)
-    {
-        var result = TryModifyPKM(pk, filters, modifications);
-        return result == ModifyResult.Modified;
-    }
+    public static bool TryModify(PKM pk, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications, Func<PKM, bool>? modifier = null)
+        => TryModifyPKM(pk, filters, modifications, modifier) is ModifyResult.Modified;
 
     /// <summary>
-    /// Tries to modify the <see cref="BatchInfo"/>.
+    /// Tries to modify the <see cref="PKM"/> using instructions and a custom modifier delegate.
     /// </summary>
-    /// <param name="pk">Command Filter</param>
+    /// <param name="pk">Object to modify.</param>
     /// <param name="filters">Filters which must be satisfied prior to any modifications being made.</param>
     /// <param name="modifications">Modifications to perform on the <see cref="pk"/>.</param>
+    /// <param name="modifier">Custom modifier delegate.</param>
     /// <returns>Result of the attempted modification.</returns>
-    internal static ModifyResult TryModifyPKM(PKM pk, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications)
+    internal static ModifyResult TryModifyPKM(PKM pk, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications, Func<PKM, bool>? modifier = null)
     {
         if (!pk.ChecksumValid || pk.Species == 0)
             return ModifyResult.Skipped;
 
         var info = new BatchInfo(pk);
         var props = GetProps(pk);
+
+        // Check if any filter requires us to exclude this from modification scope.
         foreach (var cmd in filters)
         {
             try
@@ -372,7 +373,6 @@ public static class BatchEditing
                 if (!IsFilterMatch(cmd, info, props))
                     return ModifyResult.Filtered;
             }
-            // Swallow any error because this can be malformed user input.
             catch (Exception ex)
             {
                 Debug.WriteLine(MsgBEModifyFailCompare + " " + ex.Message, cmd.PropertyName, cmd.PropertyValue);
@@ -380,8 +380,26 @@ public static class BatchEditing
             }
         }
 
+        // Run all modifications, and track if any modifications were made or if any errors occurred.
         var error = false;
         var result = ModifyResult.Skipped;
+
+        // If a compiled modifier is provided, execute it. If it returns false, skip further modifications.
+        if (modifier is { } func)
+        {
+            try
+            {
+                if (!func(pk))
+                    return ModifyResult.Skipped;
+                result = ModifyResult.Modified;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return ModifyResult.Error;
+            }
+        }
+
         foreach (var cmd in modifications)
         {
             try
@@ -392,7 +410,6 @@ public static class BatchEditing
                 else if (tmp != ModifyResult.Skipped)
                     result = tmp;
             }
-            // Swallow any error because this can be malformed user input.
             catch (Exception ex)
             {
                 Debug.WriteLine(MsgBEModifyFail + " " + ex.Message, cmd.PropertyName, cmd.PropertyValue);
@@ -437,24 +454,19 @@ public static class BatchEditing
         if (cmd.Operation != InstructionOperation.Set)
             return ApplyNumericOperation(pk, cmd, pi, props);
 
-        object val;
-        if (cmd.Random)
-            val = cmd.RandomValue;
-        else if (cmd.PropertyValue.StartsWith(CONST_POINTER) && props.TryGetValue(cmd.PropertyValue.AsSpan(1), out var opi))
-            val = opi.GetValue(pk) ?? throw new NullReferenceException();
-        else
-            val = cmd.PropertyValue;
+        if (!TryResolveOperandValue(cmd, pk, props, out var value))
+            return ModifyResult.Error;
 
-        ReflectUtil.SetValue(pi, pk, val);
+        ReflectUtil.SetValue(pi, pk, value);
         return ModifyResult.Modified;
     }
 
-    private static ModifyResult ApplyNumericOperation(PKM pk, StringInstruction cmd, PropertyInfo pi, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props)
+    private static ModifyResult ApplyNumericOperation<T>(T pk, StringInstruction cmd, PropertyInfo pi, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props) where T : notnull
     {
         if (!pi.CanRead)
             return ModifyResult.Error;
 
-        if (!TryGetNumericType(pi.PropertyType, out var numericType, out var isNullable))
+        if (!TryGetNumericType(pi.PropertyType, out var numericType))
             return ModifyResult.Error;
 
         var currentValue = pi.GetValue(pk);
@@ -464,15 +476,14 @@ public static class BatchEditing
         if (!TryResolveOperandValue(cmd, pk, props, out var operandValue))
             return ModifyResult.Error;
 
-        if (!TryApplyNumericOperation(numericType, currentValue, operandValue, cmd.Operation, out var result))
+        if (!TryApplyNumericOperation(numericType, currentValue, operandValue, cmd.Operation, out var value))
             return ModifyResult.Error;
 
-        var valueToSet = isNullable ? Activator.CreateInstance(pi.PropertyType, result) ?? result : result;
-        pi.SetValue(pk, valueToSet);
+        ReflectUtil.SetValue(pi, pk, value);
         return ModifyResult.Modified;
     }
 
-    private static bool TryResolveOperandValue(StringInstruction cmd, PKM pk, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props, [NotNullWhen(true)] out object? value)
+    private static bool TryResolveOperandValue<T>(StringInstruction cmd, T pk, Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>> props, [NotNullWhen(true)] out object? value)
     {
         if (cmd.Random)
         {
@@ -483,44 +494,76 @@ public static class BatchEditing
         var propertyValue = cmd.PropertyValue;
         if (propertyValue.StartsWith(CONST_POINTER) && props.TryGetValue(propertyValue.AsSpan(1), out var opi))
         {
-            value = opi.GetValue(pk) ?? throw new NullReferenceException();
-            return true;
+            value = opi.GetValue(pk);
+            return value is not null;
         }
 
         value = propertyValue;
         return true;
     }
 
-    private static bool TryGetNumericType(Type type, out Type numericType, out bool isNullable)
+    private static bool TryGetNumericType(Type type, out Type numericType)
     {
         numericType = Nullable.GetUnderlyingType(type) ?? type;
-        isNullable = numericType != type;
+        // isNullable = numericType != type;
         return numericType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(INumber<>));
     }
 
     private static bool TryApplyNumericOperation(Type numericType, object currentValue, object operandValue, InstructionOperation operation, [NotNullWhen(true)] out object? result)
     {
-        var methodName = operation is InstructionOperation.BitwiseAnd or InstructionOperation.BitwiseOr or InstructionOperation.BitwiseXor
-            or InstructionOperation.BitwiseShiftLeft or InstructionOperation.BitwiseShiftRight
-            ? nameof(TryApplyBinaryIntegerOperationCore)
-            : nameof(TryApplyNumericOperationCore);
+        result = null;
+        if (numericType == typeof(byte))
+            return ApplyBinaryInteger<byte>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(sbyte))
+            return ApplyBinaryInteger<sbyte>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(short))
+            return ApplyBinaryInteger<short>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(ushort))
+            return ApplyBinaryInteger<ushort>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(int))
+            return ApplyBinaryInteger<int>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(uint))
+            return ApplyBinaryInteger<uint>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(long))
+            return ApplyBinaryInteger<long>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(ulong))
+            return ApplyBinaryInteger<ulong>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(nint))
+            return ApplyBinaryInteger<nint>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(nuint))
+            return ApplyBinaryInteger<nuint>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(BigInteger))
+            return ApplyBinaryInteger<BigInteger>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(float))
+            return ApplyNumeric<float>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(double))
+            return ApplyNumeric<double>(currentValue, operandValue, operation, out result);
+        if (numericType == typeof(decimal))
+            return ApplyNumeric<decimal>(currentValue, operandValue, operation, out result);
+        return false;
+    }
 
-        if (methodName == nameof(TryApplyBinaryIntegerOperationCore) && !IsBinaryIntegerType(numericType))
+    private static bool ApplyNumeric<T>(object currentValue, object operandValue, InstructionOperation operation, [NotNullWhen(true)] out object? result)
+        where T : INumber<T>
+    {
+        if (IsBitwiseOperation(operation))
         {
             result = null;
             return false;
         }
 
-        var method = typeof(BatchEditing).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
-        if (method is null)
-        {
-            result = null;
-            return false;
-        }
-        var generic = method.MakeGenericMethod(numericType);
-        var parameters = new[] { currentValue, operandValue, operation, null };
-        var success = (bool)(generic.Invoke(null, parameters) ?? false);
-        result = parameters[3]!;
+        var success = TryApplyNumericOperationCore<T>(currentValue, operandValue, operation, out var typed);
+        result = typed;
+        return success;
+    }
+
+    private static bool ApplyBinaryInteger<T>(object currentValue, object operandValue, InstructionOperation operation, [NotNullWhen(true)] out object? result)
+        where T : IBinaryInteger<T>
+    {
+        var success = IsBitwiseOperation(operation)
+            ? TryApplyBinaryIntegerOperationCore<T>(currentValue, operandValue, operation, out var typed)
+            : TryApplyNumericOperationCore(currentValue, operandValue, operation, out typed);
+        result = typed;
         return success;
     }
 
@@ -592,8 +635,9 @@ public static class BatchEditing
         }
     }
 
-    private static bool IsBinaryIntegerType(Type numericType)
-        => numericType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IBinaryInteger<>));
+    private static bool IsBitwiseOperation(InstructionOperation operation)
+        => operation is InstructionOperation.BitwiseAnd or InstructionOperation.BitwiseOr or InstructionOperation.BitwiseXor
+            or InstructionOperation.BitwiseShiftLeft or InstructionOperation.BitwiseShiftRight;
 
     private static bool TryConvertNumeric<T>(object value, [NotNullWhen(true)] out T? result) where T : INumber<T>
     {
