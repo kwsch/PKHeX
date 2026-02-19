@@ -123,8 +123,6 @@ public sealed class ItemStorage9ZA : IItemStorage
     [
         0016, // Cherish Ball
 
-        0664, // Blazikenite
-
         2640, // Garchompite Z
     ];
 
