@@ -59,7 +59,7 @@ internal static class BatchModifications
             enc.SetInitialMastery(pk);
         if (IsAll(propValue))
         {
-            t.SetPurchasedFlagsAll();
+            t.SetPurchasedFlagsAll(pk);
             t.SetMoveShopFlagsAll(pk);
         }
         else

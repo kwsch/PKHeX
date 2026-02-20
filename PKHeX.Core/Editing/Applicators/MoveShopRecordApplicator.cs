@@ -145,14 +145,28 @@ public static class MoveShopRecordApplicator
         /// <summary>
         /// Sets the "purchased" move shop flag for all possible moves.
         /// </summary>
-        public void SetPurchasedFlagsAll()
+        public void SetPurchasedFlagsAll(PKM pk)
         {
+            var (learn, _) = LearnSource8LA.GetLearnsetAndMastery(pk.Species, pk.Form);
+            var level = pk.CurrentLevel;
+            var alpha = pk is PA8 pa ? pa.AlphaMove : (ushort)0;
+
             var permit = shop.Permit;
             for (int index = 0; index < permit.RecordCountUsed; index++)
             {
                 var allowed = permit.IsRecordPermitted(index);
                 if (!allowed)
                     continue;
+
+                // If it can learn it naturally, it can't be purchased anymore.
+                var move = permit.RecordPermitIndexes[index];
+                if (learn.TryGetLevelLearnMove(move, out var learnLevel) && learnLevel <= level)
+                    continue;
+
+                // Skip purchasing alpha moves, even though it was possible on early versions of the game.
+                if (move == alpha)
+                    continue;
+
                 shop.SetPurchasedRecordFlag(index, true);
             }
         }
