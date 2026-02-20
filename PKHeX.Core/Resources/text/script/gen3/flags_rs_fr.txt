@@ -75,11 +75,11 @@
 0x84C	s	Évènements Mystère Débloqués
 0x84D	s	A Utilisé la Flûte Blanche
 0x84E	s	A Utilisé la Flûte Noire
-0x84F	s	A Terminé le Puzzle (1) du Sanctuaire
-0x0E4	s	A Terminé le Puzzle (2) du Sanctuaire
-0x850	s	A Terminé le Puzzle de Regirock
-0x851	s	A Terminé le Puzzle de Regice
-0x852	s	A Terminé le Puzzle de Registeel
+0x84F	s	A Terminé l'Énigme (1) du Sanctuaire
+0x0E4	s	A Terminé l'Énigme (2) du Sanctuaire
+0x850	s	A Terminé l'Énigme de Regirock
+0x851	s	A Terminé l'Énigme de Regice
+0x852	s	A Terminé l'Énigme de Registeel
 0x85F	s	Peut Recevoir le Grelot Coque
 0x860	*	A Reçu les Chaussures de Course
 0x862	*	Réinitialisation de l'HTR Activée

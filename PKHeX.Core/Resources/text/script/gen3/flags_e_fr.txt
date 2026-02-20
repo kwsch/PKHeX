@@ -1,0 +1,1571 @@
+0137	s	CS01 Coupe Reçue
+0110	s	CS02 Vol Reçue
+0122	s	CS03 Surf Reçue
+0106	s	CS04 Force Reçue
+0109	s	CS05 Flash Reçue
+0107	s	CS06 Éclate-Roc Reçue
+0312	s	CS07 Cascade Reçue
+0123	s	CS08 Plongée Reçue
+0090	s	Vélo Course/Cross Reçu
+
+2151	*	Badge Roche Reçu
+2152	*	Badge Poing Reçu
+2153	*	Badge Dynamo Reçu
+2154	*	Badge Chaleur Reçu
+2155	*	Badge Balancier Reçu
+2156	*	Badge Plume Reçu
+2157	*	Badge Esprit Reçu
+2158	*	Badge Pluie Reçu
+
+0153	g	Échange Interne Tarsal Contre Grainipiot (Mérouville)
+0154	g	Échange Interne Draby Contre Hypotrempe (Pacifiville)
+0155	g	Échange Interne Muciole Contre Posipi (Cimetronelle)
+0156	g	Échange Interne Skitty Contre Miaouss (Zone de Combat)
+
+0151	g	Morphéo Reçu
+0266	g	Œuf d'Okéoké Reçu
+0298	g	Terhal Reçu
+
+0314	e	Ticketaurora Reçu en Cadeau Mystère (Jamais Sorti pour le Japonais)
+0315	e	Ticketmystik Reçu en Cadeau Mystère
+0316	e	Vieillecarte Reçue en Cadeau Mystère (Jamais Sortie à l'International)
+
+0430	e	Passe Éon Montré
+0431	e	Ticketaurora Montré (Jamais Sorti pour le Japonais)
+0432	e	Vieillecarte Montrée (Jamais Sortie à l'International)
+0475	e	Ticketmystik Montré
+
+2227	e	Peut Se Rendre à l'Île du Sud
+2261	e	Peut Se Rendre à l'Île Aurore (Jamais Sorti pour le Japonais)
+2262	e	Peut Se Rendre à l'Île Lointaine (Jamais Sortie à l'International)
+2272	e	Peut Se Rendre au Roc Nombri
+
+0255	r	Lati@s en Balade
+
+0455	r	Mew Vaincu (Jamais Sorti à l'International)
+0458	r	Mew Capturé (Jamais Sorti à l'International)
+0145	r	Lugia Capturé
+0146	r	Ho-Oh Capturé
+0476	r	Ho-Oh Vaincu
+0477	r	Lugia Vaincu
+0443	r	Regirock Capturé/Vaincu
+0444	r	Regice Capturé/Vaincu
+0445	r	Registeel Capturé/Vaincu
+0456	r	Lati@s de l'Île du Sud Vaincu(e)
+0457	r	Lati@s de l'Île du Sud Capturé(e)
+0446	r	Kyogre Capturé/Vaincu
+0447	r	Groudon Capturé/Vaincu
+0448	r	Rayquaza Capturé/Vaincu
+0428	r	Deoxys Vaincu (Jamais Sorti pour le Japonais)
+0429	r	Deoxys Capturé (Jamais Sorti pour le Japonais)
+
+0433	*	A Utilisé le Donneur de Capacités à Poivressel (Vantardise)
+0434	*	A Utilisé le Donneur de Capacités à Lavandia (Roulade)
+0435	*	A Utilisé le Donneur de Capacités à Vergazon (Taillade)
+0436	*	A Utilisé le Donneur de Capacités à Vermilava (Copie)
+0437	*	A Utilisé le Donneur de Capacités à Autéquia (Métronome)
+0438	*	A Utilisé le Donneur de Capacités à Cimetronelle (Blabla Dodo)
+0439	*	A Utilisé le Donneur de Capacités à Nénucrique (Clonage)
+0440	*	A Utilisé le Donneur de Capacités à Algatia (Dynamopoing)
+0441	*	A Utilisé le Donneur de Capacités à Atalanopolis (Damoclès)
+0442	*	A Utilisé le Donneur de Capacités à Pacifiville (Explosion)
+
+2144	s	A Débloqué l'option POKéMON dans le Menu
+2145	s	A Débloqué l'option POKéDEX dans le Menu
+2146	s	A Débloqué l'option POKéNAV dans le Menu
+2148	s	Entré au Panthéon
+2150	s	A Rencontré le Tonton Branché
+2192	s	A Regardé la TV à la Maison
+2196	s	A Fait un Échange de Données
+2197	s	Horloge Réglée
+2198	s	Pokédex National Reçu
+2202	s	Marée de la Grotte Tréfonds
+2203	s	A Reçu un Ruban
+2219	s	A Débloqué le PC d'Annette
+2221	s	A Utilisé la Flûte Blanche
+2222	s	A Utilisé la Flûte Noire
+2223	s	A Terminé l'Énigme (1) du Sanctuaire
+0228	s	A Terminé l'Énigme (2) du Sanctuaire
+2224	s	A Terminé l'Énigme de Regirock
+2225	s	A Terminé l'Énigme de Regice
+2226	s	A Terminé l'Énigme de Registeel
+2239	s	Peut Recevoir le Grelot Coque
+2240	*	A Reçu les Chaussures de Course
+2242	*	Réinitialisation de l'HTR Activée
+2267	*	Cadeau Mystère Débloqué
+2276	s	Pokédex Reçu
+
+2244	a	A Reçu le Symbole Capacité d'Argent (Tour de Combat)
+2245	a	A Reçu le Symbole Capacité d'Or (Tour de Combat)
+2246	a	A Reçu le Symbole Tactique d'Argent (Dôme de Combat)
+2247	a	A Reçu le Symbole Tactique d'Or (Dôme de Combat)
+2248	a	A Reçu le Symbole Esprit d'Argent (Palace de Combat)
+2249	a	A Reçu le Symbole Esprit d'Or (Palace de Combat)
+2250	a	A Reçu le Symbole Cran d'Argent (Dojo de Combat)
+2251	a	A Reçu le Symbole Cran d'Or (Dojo de Combat)
+2252	a	A Reçu le Symbole Savoir d'Argent (Usine de Combat)
+2253	a	A Reçu le Symbole Savoir d'Or (Usine de Combat)
+2254	a	A Reçu le Symbole Chance d'Argent (Reptile de Combat)
+2255	a	A Reçu le Symbole Chance d'Or (Reptile de Combat)
+2256	a	A Reçu le Symbole Bravoure d'Argent (Pyramide de Combat)
+2257	a	A Reçu le Symbole Bravoure d'Or (Pyramide de Combat)
+2258	*	A Reçu le Passe Zone
+
+0335	s	A Choisi le Fossile Racine à la Tour Mirage (Fossile Griffe à la Voie du Désert)
+0336	s	A Choisi le Fossile Griffe à la Tour Mirage (Fossile Racine à la Voie du Désert)
+
+500	r	Antigel (Caché) Trouvé à Vermilava
+501	r	Pépite (Cachée) Trouvée à la Salle des Récompenses de la Maison des Pièges (Inutilisé)
+502	r	Pouss.Étoile (Cachée) Trouvée à la Route 111
+503	r	Huile (Cachée) Trouvée à la Route 113
+504	r	Carbone (Caché) Trouvé à la Route 114
+505	r	Calcium (Caché) Trouvé à la Route 119
+506	r	Hyper Ball (Cachée) Trouvée à la Route 119
+507	r	Super Repousse (Caché) Trouvé à la Route 123
+508	r	Carbone (Caché) Trouvé au Chenal 124 (Sous l'Eau)
+509	r	Tesson Vert (Caché) Trouvé au Chenal 124 (Sous l'Eau)
+510	r	Perle (Cachée) Trouvée au Chenal 124 (Sous l'Eau)
+511	r	Grande Perle (Cachée) Trouvée au Chenal 124 (Sous l'Eau)
+512	r	Tesson Bleu (Caché) Trouvé au Chenal 126 (Sous l'Eau)
+513	r	Écaillecœur (Cachée ; Point de Plongée Isolé) Trouvée au Chenal 124 (Sous l'Eau)
+514	r	Écaillecœur (Cachée) Trouvé au Chenal 126 (Sous l'Eau)
+515	r	Hyper Ball (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
+516	r	Pouss.Étoile (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
+517	r	Perle (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
+518	r	Tesson Jaune (Caché) Trouvé au Chenal 126 (Sous l'Eau)
+519	r	Fer (Caché) Trouvé au Chenal 126 (Sous l'Eau)
+520	r	Grande Perle (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
+521	r	Morc. Étoile (Caché) Trouvé au Chenal 127 (Sous l'Eau)
+522	r	PV Plus (Caché) Trouvé au Chenal 127 (Sous l'Eau)
+523	r	Écaillecœur (Cachée) Trouvée au Chenal 127 (Sous l'Eau)
+524	r	Tesson Rouge (Caché) Trouvé au Chenal 127 (Sous l'Eau)
+525	r	Protéine (Cachée) Trouvée au Chenal 128 (Sous l'Eau)
+526	r	Perle (Cachée) Trouvée au Chenal 128 (Sous l'Eau)
+527	r	Écaillecœur (Cachée) Trouvée à Nénucrique
+528	r	Pépite (Cachée) Trouvée à Autéquia
+529	r	Hyper Ball (Cachée) Trouvé au Mont Mémoria
+530	r	CT32 (Cachée) Trouvée à la Route 113
+531	r	Clé Salle 1 (Cachée) Trouvée à l'Épave
+532	r	Clé Salle 2 (Cachée) Trouvée à l'Épave
+533	r	Clé Salle 4 (Cachée) Trouvée à l'Épave
+534	r	Clé Salle 6 (Cachée) Trouvée à l'Épave
+535	r	Restes (Cachés) Trouvés sur Le Marina
+536	r	Calcium (Caché) Trouvé au Chenal 124 (Sous l'Eau)
+537	r	Potion (Cachée) Trouvée à la Route 104
+538	r	Écaillecœur (Cachée ; Point de Plongée avec Passage) Trouvée au Chenal 124 (Sous l'Eau)
+539	r	PV Plus (Caché) Trouvé à la Route 121
+540	r	Pépite (Cachée) Trouvée à la Route 121
+541	r	Rappel (Caché) Trouvé à la Route 123
+542	r	Rappel (Caché) Trouvé à la Route 114
+543	r	PP Plus (Caché) Trouvé à Nénucrique
+544	r	Super Potion (Cachée) Trouvée à la Route 104
+545	r	Super Potion (Cachée) Trouvé à la Route 116
+546	r	Pouss.Étoile (Cachée) Trouvée au Chenal 106
+547	r	Écaillecœur (Cachée) Trouvée au Chenal 106
+548	r	Pierre Stase (Cachée ; Vélo Course Nécessaire) Trouvée à la Grotte Granite
+549	r	Pierre Stase (Cachée) Trouvée à la Grotte Granite
+550	r	Rappel (Caché) Trouvé au Chenal 109
+551	r	Super Ball (Cachée) Trouvée au Chenal 109
+552	r	Écaillecœur (Cachée ; à Côté du Vieil Homme) au Chenal 109
+553	r	Super Ball (Cachée) Trouvée à la Route 110
+554	r	Rappel (Caché) Trouvé à la Route 110
+555	r	Total Soin (Caché) Trouvé à la Route 110
+556	r	Protéine (Cachée) Trouvée à la Route 111
+557	r	Super Bonbon (Caché) Trouvé à la Route 111
+558	r	Potion (Cachée) Trouvée au Bois Clémenti
+559	r	Petit Champi (Caché) Trouvé dans la Section Nord du Bois Clémenti
+560	r	Petit Champi (Caché) Trouvé dans la Section Est du Bois Clémenti
+561	r	Poké Ball (Cachée) Trouvée au Bois Clémenti
+562	r	Poké Ball (Cachée) Trouvée à la Route 104
+563	r	Poké Ball (Cachée) Trouvée au Chenal 106
+564	r	Huile (Cachée) Trouvée au Chenal 109
+565	r	Poké Ball (Cachée) Trouvée à la Route 110
+566	r	Écaillecœur (Cachée) Trouvée à la Route 118
+567	r	Fer (Caché) Trouvé à la Route 118
+568	r	Total Soin (Caché) Trouvé à la Route 119
+569	r	Super Bonbon (Caché ; Sud) Trouvé à la Route 120
+570	r	Zinc (Caché) Trouvé à la Route 120
+571	r	Super Bonbon (Caché ; Nord) Trouvé à la Route 120
+572	r	Repousse (Caché) Trouvé à la Route 117
+573	r	Total Soin (Caché) Trouvé à la Route 121
+574	r	Hyper Potion (Cachée) Trouvée à la Route 123
+575	r	Poké Ball (Cachée) Trouvée à Nénucrique
+576	r	Super Ball (Cachée) Trouvée au Sentier Sinuroc
+577	r	Total Soin (Caché) Trouvé au Sentier Sinuroc
+578	r	Huile Max (Cachée) Trouvée au Mont Mémoria
+579	r	Zinc (Caché) Trouvé au Mont Mémoria
+580	r	Super Bonbon (Caché) Trouvé au Mont Mémoria
+581	r	Hyper Ball (Cachée) Trouvée à la Route Victoire
+582	r	Élixir (Caché) Trouvé à la Route Victoire
+583	r	Max Repousse (Caché) Trouvé à la Route Victoire
+584	r	Rappel (Caché) Trouvé à la Route 120
+585	r	Antidote (Caché) Trouvé à la Route 104
+586	r	Super Bonbon (Caché) Trouvé au Chenal 108
+587	r	Huile Max (Cachée) Trouvé à la Route 119
+588	r	Écaillecœur (Cachée) Trouvée à la Route 104
+589	r	Écaillecœur (Cachée) Trouvée au Chenal 105
+590	r	Écaillecœur (Cachée ; Sous le Parasol) Trouvée au Chenal 109
+591	r	Écaillecœur (Cachée ; Proche du Couple) Trouvée au Chenal 109
+592	r	Écaillecœur (Cachée ; Proche du Topdresseur) Trouvée au Chenal 128
+593	r	Écaillecœur (Cachée ; à Côté du Mur Rocheux) Trouvée au Chenal 128
+594	r	Écaillecœur (Cachée ; au Sud-est) Trouvée au Chenal 128
+595	r	Super Bonbon (Caché) Trouvé à Clémenti-Ville
+596	r	Lunettes Noires (Cachées) Trouvées à la Route 116
+597	r	Écaillecœur (Cachée) Trouvé à la Route 115
+598	r	Pépite (Cachée) Trouvée à la Route 113
+599	r	PP Plus (Caché) Trouvé à la Route 123
+600	r	Rappel Max (Caché) Trouvé à la Route 121
+601	r	Calcium (Caché) Trouvé à la Grotte Atelier
+602	r	Zinc (Caché) Trouvé à la Grotte Atelier
+603	r	Protéine (Cachée) Trouvée à la Grotte Atelier
+604	r	Fer (Caché) Trouvé à la Grotte Atelier
+605	r	Guérison (Caché) Trouvé au Parc Safari
+606	r	Super Bonbon (Caché) Trouvé au Parc Safari
+607	r	Zinc (Caché) Trouvé au Parc Safari
+608	r	PP Plus (Caché) Trouvé au Parc Safari
+609	r	Cendresacrée (Cachée) Trouvée au Roc Nombri
+610	r	Super Bonbon (Caché) Trouvé à la Route 123
+611	r	Grande Perle (Cachée) Trouvée au Chenal 105
+
+700	r	Ne pas Faire Apparaître le Sac du Prof Seko à la Route 101
+701	r	Ne pas Faire Apparaître l'Apprenti(e) à la Tour de Combat
+702	r	Ne pas Faire Apparaître le Réceptionniste Cadeau Mystère au 1er Étage des Centres Pokémon
+
+717	r	Ne pas Faire Apparaître Les Gardes au Parc Safari Bloquant les Nouvelles Zones
+718	r	Ne pas Faire Apparaître Mew à l'Île Lointaine
+719	r	Ne pas Faire Apparaître Brice/Flora à la Route 104
+720	r	Ne pas Faire Apparaître le Prof Seko courant à la Route 101
+721	r	Ne pas Faire Apparaître le Prof Seko dans son Laboratoire
+722	r	Ne pas Faire Apparaître Flora au 1er Étage de sa Maison
+723	r	Ne pas Faire Apparaître Brice/Flora à la Route 103
+724	r	Ne pas Faire Apparaître le Scientifique de Devon au Bois Clémenti
+725	r	Ne pas Faire Apparaître le Sbire Aqua au Bois Clémenti
+726	r	Ne pas Faire Apparaître Timmy à Clémenti-Ville
+727	r	Ne pas Faire Apparaître la Lettre dans la Maison de Pierre (Invisible)
+728	r	Ne pas Faire Apparaître la Femme à Clémenti-Ville
+
+730	r	Ne pas Faire Apparaître l'Homme au Fan Club des Dresseurs Pokémon
+731	r	Ne pas Faire Apparaître le Sbire Aqua à Mérouville
+732	r	Ne pas Faire Apparaître le Scientifique de Devon à Mérouville
+733	r	Ne pas Faire Apparaître Kyogre à la Caverne Fondmer
+734	r	Ne pas Faire Apparaître Norman dans la Maison de Brice/Flora
+735	r	Ne pas Faire Apparaître l'Enfant dans la Maison de Brice
+736	r	Ne pas Faire Apparaître l'Enfant dans la Maison de Flora
+737	r	Ne pas Faire Apparaître la Lettre Magma au Centre Spatial d'Algatia (Invisible)
+738	r	Ne pas Faire Apparaître M. Marco à la Route 104
+739	r	Ne pas Faire Apparaître M. Marco dans son Cottage
+740	r	Ne pas Faire Apparaître M. Marco à Myokara
+741	r	Ne pas Faire Apparaître M. Marco au Chenal 109
+742	r	Ne pas Faire Apparaître le Bateau de M. Marco à la Route 104
+743	r	Ne pas Faire Apparaître le Bateau de M. Marco à Myokara
+744	r	Ne pas Faire Apparaître le Bateau de M. Marco au Chenal 109
+745	r	Ne pas Faire Apparaître Brice au 1er Étage de sa Maison
+746	r	Ne pas Faire Apparaître Flora au 1er Étage de sa Maison
+747	r	Ne pas Faire Apparaître le Garde dans la Zone 5 du Parc Safari
+748	r	Ne pas Faire Apparaître M. Marco à l'Embarcadère de Nénucrique
+749	r	Ne pas Faire Apparaître Scott à Poivressel
+750	r	Ne pas Faire Apparaître Zigzaton à la Route 101
+751	r	Ne pas Faire Apparaître Timmy à la Route Victoire (Proche de la Sortie)
+752	r	Ne pas Faire Apparaître la Mère à Bourg-en-Vol
+753	r	Ne pas Faire Apparaître Pierre au RDC du Centre Spatial d'Algatia
+754	r	Ne pas Faire Apparaître Vigoroth en Face de la TV Chez Brice et Flora
+755	r	Ne pas Faire Apparaître les Vigoroth en Mouvement Chez Brice et Flora
+756	r	Ne pas Faire Apparaître les Sbires Magma au RDC du Centre Spatial d'Algatia
+757	r	Ne pas Faire Apparaître la Mère au 1er Étage Chez Brice/Flora
+758	r	Ne pas Faire Apparaître la Mère Chez Brice
+759	r	Ne pas Faire Apparaître la Mère Chez Flora
+760	r	Ne pas Faire Apparaître Brice Chez Lui
+761	r	Ne pas Faire Apparaître le Camion en Face de la Maison de Brice
+762	r	Ne pas Faire Apparaître le Camion en Face de la Maison de Flora
+
+764	r	Ne pas Faire Apparaître le Triangle sur l'Île Aurore (Jamais Sorti pour le Japonais)
+765	r	Ne pas Faire Apparaître Scott à Lavandia
+766	r	Ne pas Faire Apparaître Scott dans la Tente de Combat de Vergazon
+767	r	Ne pas Faire Apparaître Scott dans la Tente de Combat d'Autéquia
+768	r	Ne pas Faire Apparaître Stratège Victor à la Route 111
+769	r	Ne pas Faire Apparaître Stratège Victoria à la Route 111
+770	r	Ne pas Faire Apparaître Stratège Vivi à la Route 111
+771	r	Ne pas Faire Apparaître Stratège Vicky à la Route 111
+772	r	Ne pas Faire Apparaître Norman dans l'Arène de Clémenti-Ville
+773	r	Ne pas Faire Apparaître Rayquaza au Pilier Céleste
+774	r	Ne pas Faire Apparaître l'Artiste au Centre de Concours de Nénucrique (Porte de Gauche)
+775	r	Ne pas Faire Apparaître le Conservateur du Musée de Nénucrique au RDC/Peut Recevoir des Peintures
+776	r	Ne pas Faire Apparaître la Fille au RDC du Musée de Nénucrique
+777	r	Ne pas Faire Apparaître la Fille au 1er Étage du Musée de Nénucrique
+778	r	Ne pas Faire Apparaître le Garçon au RDC du Musée de Nénucrique
+779	r	Ne pas Faire Apparaître l'Artiste au RDC du Musée de Nénucrique
+780	r	Ne pas Faire Apparaître le Gros/Vieil Homme/Garçon au Musée de Nénucrique
+781	r	Ne pas Faire Apparaître Guido à l'Arène de Clémenti-Ville
+782	r	Ne pas Faire Apparaître Kyogre à la Grotte Marine
+783	r	Ne pas Faire Apparaître Groudon à la Grotte Terra
+784	r	Ne pas Faire Apparaître la Mère du Rival Chez Brice
+785	r	Ne pas Faire Apparaître la Mère du Rival Chez Flora
+786	r	Ne pas Faire Apparaître Scott à la Route 119
+787	r	Ne pas Faire Apparaître Scott à l'Hôtel Crique Crack
+788	r	Ne pas Faire Apparaître Scott à Algatia
+789	r	Ne pas Faire Apparaître la Vieille Dame au Fan Club des Dresseurs Pokémon
+790	r	Ne pas Faire Apparaître l'Homme au Fan Club des Dresseurs Pokémon
+791	r	Ne pas Faire Apparaître le Gamin au Fan Club des Dresseurs Pokémon
+792	r	Ne pas Faire Apparaître la Femme au Fan Club des Dresseurs Pokémon
+793	r	Ne pas Faire Apparaître Scott au Centre Pokémon d'Éternara
+794	r	Ne pas Faire Apparaître Brice/Flora à Bourg-en-Vol
+795	r	Ne pas Faire Apparaître le Prof Seko à Bourg-en-Vol
+796	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 111
+797	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 118 (Pour la Revanche 1)
+798	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 120 (Pour la Revanche 2)
+799	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 111 (Pour la Revanche 3)
+800	r	Ne pas Faire Apparaître Lugia au Roc Nombri
+801	r	Ne pas Faire Apparaître Ho-Oh au Roc Nombri
+802	r	Ne pas Faire Apparaître le Journaliste au Centre de Concours de Nénucrique
+
+804	r	Ne pas Faire Apparaître Timmy à Lavandia
+805	r	Ne pas Faire Apparaître l'Oncle de Timmy à Lavandia
+806	r	Ne pas Faire Apparaître Timmy Chez Sylvie
+807	r	Ne pas Faire Apparaître le Karatéka au Tunnel Mérazon
+808	r	Ne pas Faire Apparaître le Karatéka Chez Sylvie
+809	r	Ne pas Faire Apparaître l'Oncle de Timmy Chez Sylvie
+810	r	Ne pas Faire Apparaître Scott sur le Bateau
+811	r	Ne pas Faire Apparaître la Poké Ball Contenant Héricendre au Laboratoire du Prof Seko
+812	r	Ne pas Faire Apparaître la Poké Ball Contenant Kaiminus au Laboratoire du Prof Seko
+813	r	Ne pas Faire Apparaître le Gars aux Cheveux Noirs à la Route 116
+814	r	Ne pas Faire Apparaître Brice/Flora à Mérouville
+815	r	Ne pas Faire Apparaître la Poupée Tylton Chez Brice
+816	r	Ne pas Faire Apparaître Marc à Atalanopolis
+817	r	Ne pas Faire Apparaître la Pokéball Chez Brice
+818	r	Ne pas Faire Apparaître la Pokéball Chez Flora
+819	r	Ne pas Faire Apparaître les Sbires Magma à la Route 112
+820	r	Ne pas Faire Apparaître Marc à la Grotte Origine
+821	r	Ne pas Faire Apparaître le Sbire Aqua Gauche à la Planque Aqua
+822	r	Ne pas Faire Apparaître le Sbire Aqua Droite à la Planque Aqua
+823	r	Ne pas Faire Apparaître les Sbires Magma & Max à Algatia
+824	r	Ne pas Faire Apparaître le Père de Timmy à l'Arène de Clémenti-Ville
+
+826	r	Ne pas Faire Apparaître Arthur à Atalanopolis
+827	r	Ne pas Faire Apparaître Max à Atalanopolis
+
+830	r	Ne pas Faire Apparaître le Père de Timmy à Clémenti-Ville
+
+832	r	Ne pas Faire Apparaître le Maître Mixeur et les Spectateurs au Centre de Concours de Nénucrique
+833	r	Ne pas Faire Apparaître Pierre à la Grotte Granite
+
+835	r	Ne pas Faire Apparaître le Journaliste à Poivressel
+836	r	Ne pas Faire Apparaître Scott à l'Entrée de la Zone de Combat
+837	r	Ne pas Faire Apparaître le Prof Seko à la Route 110
+838	r	Ne pas Faire Apparaître la Poké Ball Contenant Germignon au Laboratoire du Prof Seko
+839	r	Ne pas Faire Apparaître l'Homme au Nord d'Atalanopolis
+840	r	Ne pas Faire Apparaître le Capitaine Poupe à Poivressel
+841	r	Ne pas Faire Apparaître le Capitaine Poupe à l'Embarcadère de Poivressel
+842	r	Ne pas Faire Apparaître Simularbre à la Zone de Combat
+843	r	Ne pas Faire Apparaître le Gros à la Route 111
+844	r	Ne pas Faire Apparaître le Scientifique de Devon (Blouse Blanche) à Mérouville
+845	r	Ne pas Faire Apparaître le Sbire Aqua à l'Embarcadère de Poivressel
+846	r	Ne pas Faire Apparaître Leader Aqua Arthur à l'Embarcadère de Poivressel
+847	r	Ne pas Faire Apparaître le Sbire Magma au Sentier Sinuroc
+848	r	Ne pas Faire Apparaître l'Ombre du Sous-marin à l'Embarcadère de Poivressel
+849	r	Ne pas Faire Apparaître la Poupée Pichu Chez Flora
+850	r	Ne pas Faire Apparaître Groudon (Pétrifié) à la Planque Magma
+851	r	Ne pas Faire Apparaître Brice/Flora à la Route 119
+852	r	Ne pas Faire Apparaître les Sbires Aqua à Nénucrique
+853	r	Ne pas Faire Apparaître Groudon (Éveillé) à la Planque Magma
+854	r	Ne pas Faire Apparaître les Villageois Additionnels à Atalanopolis
+855	r	Ne pas Faire Apparaître Marc en Face du Pilier Céleste
+856	r	Ne pas Faire Apparaître Max au Mont Mémoria
+857	r	Ne pas Faire Apparaître la Team Magma à la Planque Magma
+858	r	Ne pas Faire Apparaître Timmy à la Route Victoire (Près de l'Entrée)
+
+860	r	Ne pas Faire Apparaître Le Marina à l'Embarcadère de Poivressel
+861	r	Ne pas Faire Apparaître Le Marina à l'Embarcadère de Nénucrique
+862	r	Ne pas Faire Apparaître la Team Magma au 1er Étage du Centre Spatial d'Algatia
+863	r	Ne pas Faire Apparaître Pierre au 1er Étage du Centre Spatial d'Algatia
+
+866	r	Ne pas Faire Apparaître Timmy à l'Arène de Clémenti-Ville
+
+868	r	Ne pas Faire Apparaître le Gros à Bourg-en-Vol
+869	r	Ne pas Faire Apparaître M. Marco au Chantier Naval de Poupe
+870	r	Ne pas Faire Apparaître Annette Chez Elle
+871	r	Ne pas Faire Apparaître Annette au Centre Pokémon d'Autéquia
+872	r	Ne pas Faire Apparaître le Maître des Pièges à l'Entrée de la Maison des Pièges
+873	r	Ne pas Faire Apparaître le Vieil Homme au Centre de Concours de Nénucrique
+874	r	Ne pas Faire Apparaître le Fossile à la Voie du Désert
+875	r	Ne pas Faire Apparaître Brice/Flora au Désert de la Route 111 (Inutilisé ?)
+876	r	Ne pas Faire Apparaître le Fossile à la Route 111
+877	r	Ne pas Faire Apparaître les Dresseurs au Mont Chimnée
+878	r	Ne pas Faire Apparaître le Sbire Aqua au Tunnel Mérazon
+879	r	Ne pas Faire Apparaître M. Marco au Tunnel Mérazon
+880	r	Ne pas Faire Apparaître Piko au Tunnel Mérazon
+881	r	Ne pas Faire Apparaître Piko au Cottage de M. Marco
+882	r	Ne pas Faire Apparaître les Sbires Aqua à Poivressel
+883	r	Ne pas Faire Apparaître les Sbires Aqua au Musée Océanographique
+884	r	Ne pas Faire Apparaître le Sbire Aqua au Musée Océanographique
+885	r	Ne pas Faire Apparaître le Sbire Aqua au 1er Étage du Musée Océanographique
+886	r	Ne pas Faire Apparaître Arthur au 1er Étage du Musée Océanographique
+887	r	Ne pas Faire Apparaître le Capitaine Poupe au Musée Océanographique
+
+889	r	Ne pas Faire Apparaître Brice/Flora au Laboratoire du Prof Seko
+890	r	Ne pas Faire Apparaître la Team Aqua au Centre Météo
+891	r	Ne pas Faire Apparaître M. Marco à la Route 116
+892	r	Ne pas Faire Apparaître les Assistants au RDC du Centre Météo
+893	r	Ne pas Faire Apparaître les Assistants au 1er Étage du Centre Météo
+894	r	Ne pas Faire Apparaître le Karatéka à la Route 116
+895	r	Ne pas Faire Apparaître l'Artise au Centre de Concours de Nénucrique (Porte de Droite)
+
+897	r	Ne pas Faire Apparaître le Prof Seko à la Route 101
+898	r	Ne pas Faire Apparaître le Prof Seko à la Route 103
+899	r	Ne pas Faire Apparaître le Maître des Pièges à la Salle des Récompenses de la Maison des Pièges
+900	r	Ne pas Faire Apparaître les Sbires Aqua à la Route 110
+901	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 118 (pour Revanche 4)
+902	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 120 (pour Revanche 5)
+903	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 111 (pour Revanche 5)
+904	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 118 (Revanche 5)
+905	r	Ne pas Faire Apparaître le Marin et le Gros à l'Embarcadère de Poivressel
+906	r	Ne pas Faire Apparaître la Fille à la Route 104
+907	r	Ne pas Faire Apparaître Azurill à Autéquia
+908	r	Ne pas Faire Apparaître la Dame à l'Embarcadère de Nénucrique
+909	r	Ne pas Faire Apparaître le Marin à l'Embarcadère de Nénucrique
+
+912	r	Ne pas Faire Apparaître Voltère à Lavandia
+913	r	Ne pas Faire Apparaître Voltère à l'Arène de Lavandia
+914	r	Ne pas Faire Apparaître les Sbires Aqua à la Route 121
+
+916	r	Ne pas Faire Apparaître Arthur au Mont Mémoria
+917	r	Ne pas Faire Apparaître les Sbires Aqua au Mont Mémoria
+918	r	Ne pas Faire Apparaître le Journaliste à la Tour de Combat
+919	r	Ne pas Faire Apparaître Brice/Flora à la Route 110
+
+922	r	Ne pas Faire Apparaître Brice/Flora (sur Vélo) à la Route 110 (Inutilisé ?)
+923	r	Ne pas Faire Apparaître Brice/Flora (sur Vélo) à la Route 119 (Inutilisé ?)
+924	r	Ne pas Faire Apparaître la Team Aqua à la Planque Aqua
+925	r	Ne pas Faire Apparaître l'Équipe de Game Freak à l'Hôtel Crique Crack
+926	r	Ne pas Faire Apparaître la Team Aqua au Mont Chimnée
+927	r	Ne pas Faire Apparaître la Team Magma au Mont Chimnée
+928	r	Ne pas Faire Apparaître Kosmo Chez Lui
+929	r	Ne pas Faire Apparaître Brice/Flora à Vermilava
+930	r	Ne pas Faire Apparaître Brice/Flora (sur Vélo) à Vermilava (Inutilisé ?)
+931	r	Ne pas Faire Apparaître le Rocher du Bas au Tunnel Mérazon
+932	r	Ne pas Faire Apparaître le Rocher du Haut au Tunnel Mérazon
+933	r	Ne pas Faire Apparaître Goélise à Cimetronelle
+934	r	Ne pas Faire Apparaître Goélise à Algatia
+935	r	Ne pas Faire Apparaître Regirock aux Ruines Désert
+	
+938	r	Ne pas Faire Apparaître les Sbires Aqua et Arthur au Site Météore
+939	r	Ne pas Faire Apparaître les Sbires Magma au Site Météore
+940	r	Ne pas Faire Apparaître l'Homme aux Cheveux Noirs au Centre Culturel de Myokara
+941	r	Ne pas Faire Apparaître le Sbire Aqua à l'Entrée de la Caverne Fondmer
+942	r	Ne pas Faire Apparaître Kosmo au Site Météore
+943	r	Ne pas Faire Apparaître l'Ombre du Sous-marin à la Planque Aqua
+944	r	Ne pas Faire Apparaître Arthur Au-dessus de la Caverne Fondmer
+945	r	Ne pas Faire Apparaître Max Au-dessus de la Caverne Fondmer
+946	r	Ne pas Faire Apparaître la Team Aqua à la Caverne Fondmer
+947	r	Ne pas Faire Apparaître le Scientifique Devon à la Route 116
+948	r	Ne pas Faire Apparaître le Vendeur à Poivressel
+949	r	Ne pas Faire Apparaître le Scientifique de Devon à Devon SARL
+950	r	Ne pas Faire Apparaître M. Marco et Piko sur Le Marina
+
+952	r	Sel Tréfonds (Nord de la Salle Interne) Trouvé à la Grotte Tréfonds
+953	r	Sel Tréfonds (Sud de la Salle Interne) Trouvé à la Grotte Tréfonds
+954	r	Sel Tréfonds (Salle des Escaliers) Trouvé à la Grotte Tréfonds
+955	r	Sel Tréfonds (Salle Plus Bas) Trouvé à la Grotte Tréfonds
+956	r	Co. Tréfonds (Sud-est) Trouvée à la Grotte Tréfonds
+957	r	Co. Tréfonds (Nord-est) Trouvée à la Grotte Tréfonds
+958	r	Co. Tréfonds (Nord-ouest) Trouvée à la Grotte Tréfonds
+959	r	Co. Tréfonds (Proche du Centre) Trouvée à la Grotte Tréfonds
+960	r	Ne pas Faire Apparaître l'Homme qui Donne la CT43 à la Route 111
+961	r	Ne pas Faire Apparaître les Visiteurs du Musée Océanographique
+962	r	Ne pas Faire Apparaître le Vendeur sur le Toit du Centre Commercial
+963	r	Ne pas Faire Apparaître le Fossile Racine à la Tour Mirage
+964	r	Ne pas Faire Apparaître le Fossile Griffe à la Tour Mirage
+965	r	Ne pas Faire Apparaître le Sbire Aqua au RDC du Musée Océanographique
+966	r	Ne pas Faire Apparaître Pierre à la Route 118
+967	r	Ne pas Faire Apparaître Pierre Chez Lui
+968	r	Ne pas Faire Apparaître Terhal (Pokéball) Chez Pierre
+969	r	Ne pas Faire Apparaître le Kecleon à Cimetronelle
+970	r	Ne pas Faire Apparaître le Kecleon à la Route 120 (Pont)
+971	r	Ne pas Faire Apparaître Brice/Flora à Nénucrique
+972	r	Ne pas Faire Apparaître Pierre à la Route 120
+973	r	Ne pas Faire Apparaître Pierre à Atalanopolis
+974	r	Ne pas Faire Apparaître Voltorbe sur l'Interrupteur Vert à New Lavandia
+975	r	Ne pas Faire Apparaître Voltorbe sur l'Interrupteur Bleu à New Lavandia
+976	r	Ne pas Faire Apparaître Voltorbe sur l'Interrupteur Bleu à New Lavandia
+977	r	Ne pas Faire Apparaître l'Électrode du Haut à la Planque Aqua
+978	r	Ne pas Faire Apparaître l'Électrode du Bas à la Planque Aqua
+979	r	Ne pas Faire Apparaître Brice/Flora à Rosyères
+980	r	Ne pas Faire Apparaître le Sous-marin à la Caverne Fondmer (Invisible)
+981	r	Ne pas Faire Apparaître l'Ombre de Kecleon à la Route 120
+982	r	Ne pas Faire Apparaître le Kecleon à la Route 120 (Escaliers)
+983	r	Ne pas Faire Apparaître Sylvie au Tunnel Mérazon
+984	r	Ne pas Faire Apparaître Sylvie Chez Elle
+985	r	Ne pas Faire Apparaître Kecleon à la Route 120 (Derrière la Pancarte)
+986	r	Ne pas Faire Apparaître Kecleon à la Route 120 (Derrière les Arbres à Baies)
+987	r	Ne pas Faire Apparaître Kecleon à la Route 120 (À Gauche du Long Labyrinthe d'Herbes)
+988	r	Ne pas Faire Apparaître Kecleon à la Route 120 (Derrière le Tombeau Antique)
+989	r	Ne pas Faire Apparaître Kecleon à la Route 119 (À Droite du Ninja Fan)
+990	r	Ne pas Faire Apparaître Kecleon à la Route 119 (À Gauche du Ninja Fan)
+991	r	Ne pas Faire Apparaître le Garçon dans les Herbes à la Route 101
+
+993	r	Ne pas Faire Apparaître le Zigzaton Nommé Le Sublime au Centre Pokémon de Nénucrique
+994	r	Ne pas Faire Apparaître la Vieille Dame au Mont Chimnée
+
+996	r	Ne pas Faire Apparaître Rayquaza à Atalanopolis
+997	r	Ne pas Faire Apparaître Kyogre à Atalanopolis
+998	r	Ne pas Faire Apparaître Groudon à Atalanopolis
+999	r	Ne pas Faire Apparaître Scott à l'École de Dresseurs Pokémon
+1000	r	Potion Trouvée à la Route 102
+1001	r	Spécial + Trouvé à la Route 116
+1002	r	PP Plus Trouvé à la Route 104
+1003	r	Fer Trouvé au Chenal 105
+1004	r	Protéine Trouvée au Chenal 106
+1005	r	PP Plus Trouvé au Chenal 109
+1006	r	Super Bonbon Trouvé à la Route 110
+1007	r	Muscle + Trouvé à la Route 110
+1008	r	CT37 Trouvée à la Route 111
+1009	r	Pouss.Étoile Trouvée à la Route 111
+1010	r	PV Plus Trouvé à la Route 111
+1011	r	Pépite Trouvée à la Route 112
+1012	r	Huile Max Trouvée à la Route 113
+1013	r	Super Repousse Trouvé à la Route 113
+1014	r	Super Bonbon Trouvé à la Route 114
+1015	r	Protéine Trouvée à la Route 114
+1016	r	Super Potion Trouvée à la Route 115
+1017	r	CT01 Trouvée à la Route 115
+1018	r	Fer Trouvé à la Route 115
+1019	r	Huile Trouvée à la Route 116
+1020	r	Repousse Trouvé à la Route 116
+1021	r	PV Plus Trouvé à la Route 116
+1022	r	Super Ball Trouvée à la Route 117
+1023	r	Rappel Trouvé à la Route 117
+1024	r	Super Repousse Trouvé à la Route 119
+1025	r	Zinc Trouvé à la Route 119
+1026	r	Élixir (à Côté des Hautes Herbes) Trouvé à la Route 119
+1027	r	Pierreplante Trouvée à la Route 119
+1028	r	Super Bonbon Trouvé à la Route 119
+1029	r	Hyper Potion (Longue Zone d'Herbes) Trouvée à la Route 119
+1030	r	Pépite Trouvée à la Route 120
+1031	r	Total Soin Trouvé à la Route 120
+1032	r	Calcium Trouvé à la Route 123
+
+1034	r	Zinc Trouvé au Chenal 127
+1035	r	Carbone Trouvé au Chenal 127
+1036	r	Super Bonbon Trouvé au Chenal 132
+1037	r	Grande Perle Trouvée au Chenal 133
+1038	r	Morc. Étoile Trouvé au Chenal 133
+1039	r	Rappel Max Trouvé à Clémenti-Ville
+1040	r	Huile Trouvé à Clémenti-Ville
+1041	r	Défense + Trouvé à Mérouville
+1042	r	Max Repousse Trouvé à Nénucrique
+1043	r	Filet Ball Trouvée à Algatia
+1044	r	CT23 Trouvée au Site Météore
+1045	r	Total Soin Trouvé au Site Météore
+1046	r	Pierre Lune Trouvée au Site Météore
+1047	r	PP Plus Trouvé au Site Météore
+1048	r	Poké Ball Trouvée au Tunnel Mérazon
+1049	r	Huile Max Trouvée au Tunnel Mérazon
+1050	r	Corde Sortie Trouvée à la Grotte Granite
+1051	r	Poké Ball Trouvée à la Grotte Granite
+1052	r	Encens Doux Trouvé au Mont Mémoria
+1053	r	Repousse Trouvé à la Grotte Granite
+1054	r	Super Bonbon Trouvé à la Grotte Granite
+1055	r	Attaque + Trouvé au Bois Clémenti
+1056	r	Super Ball Trouvée au Bois Clémenti
+1057	r	Poké Ball Trouvée à la Route 104
+1058	r	Huile Trouvée au Bois Clémenti
+1059	r	Corde Sortie Trouvée à la Planque Magma
+1060	r	Lettre Oranj Trouvée au Défi 1 de la Maison des Pièges
+1061	r	Lettre Port Trouvée au Défi 2 de la Maison des Pièges
+1062	r	Lettre Vague Trouvée au Défi 2 de la Maison des Pièges
+1063	r	Lettre Ombre Trouvée au Défi 3 de la Maison des Pièges
+1064	r	Lettre Bois Trouvée au Défi 3 de la Maison des Pièges
+1065	r	Lettre Méca Trouvée au Défi 4 de la Maison des Pièges
+1066	r	Tesson Jaune Trouvé au Chenal 124
+1067	r	Lettre Brill Trouvée au Défi 6 de la Maison des Pièges
+1068	r	Lettre Tropi Trouvée au Défi 7 de la Maison des Pièges
+1069	r	Lettre Bulle Trouvée au Défi 8 de la Maison des Pièges
+1070	r	Anti-Brûle Trouvé au Sentier Sinuroc
+1071	r	Max Élixir Trouvé à la Planque Aqua
+1072	r	Faiblo Ball Trouvée à la Planque Aqua
+1073	r	Max Potion Trouvée au Mont Mémoria
+1074	r	CT48 Trouvée au Mont Mémoria
+1075	r	Hyper Ball Trouvée à New Lavandia
+1076	r	Corde Sortie Trouvée à New Lavandia
+1077	r	Luxe Ball Trouvée à l'Épave
+1078	r	Scanner Trouvé à l'Épave
+1079	r	CT11 Trouvée à la Grotte Zénith
+1080	r	CT02 Trouvée au Site Météore
+1081	r	Grande Perle Trouvée à la Grotte Tréfonds
+1082	r	Super Bonbon Trouvé à la Grotte Tréfonds
+1083	r	Antigel Trouvé à la Grotte Tréfonds
+1084	r	Max Élixir Trouvé à la Route Victoire
+1085	r	PP Plus Trouvé à la Route Victoire
+1086	r	CT29 Trouvée à la Route Victoire
+1087	r	Guérison Trouvé à la Route Victoire
+1088	r	Total Soin Trouvé à la Route Victoire
+1089	r	CT30 Trouvée au Mont Mémoria
+1090	r	CT26 Trouvée à la Caverne Fondmer
+1091	r	CT06 Trouvée au Chemin Ardent
+1092	r	Tesson Rouge Trouvé au Chenal 124
+1093	r	Tesson Bleu Trouvé au Chenal 124
+1094	r	CT22 Trouvée au Parc Safari
+1095	r	Lettre Port Trouvée à l'Épave
+1096	r	Corde Sortie Trouvée à l'Épave
+1097	r	Scuba Ball Trouvée à l'Épave
+1098	r	CT13 Trouvée à l'Épave
+1099	r	Rappel Trouvé à l'Épave
+1100	r	Clé Stockage Trouvée à l'Épave
+1101	r	Pierre Eau Trouvée à l'Épave
+1102	r	CT18 Trouvée à l'Épave
+1103	r	Carbone Trouvé à la Route 121
+1104	r	Hyper Ball Trouvée à la Route 123
+1105	r	Tesson Vert Trouvé au Chenal 126
+1106	r	Hyper Potion (Proche de la Pente Boueuse) Trouvée à la Route 119
+1107	r	Hyper Potion Trouvée à la Route 120
+1108	r	Faiblo Ball Trouvée à la Route 120
+1109	r	Élixir Trouvé à la Route 123
+1110	r	Pierrefoudre Trouvée à New Lavandia
+1111	r	Pierre Feu Trouvée au Chemin Ardent
+1112	r	CT07 Trouvée à la Grotte Tréfonds
+1113	r	Glacéternel Trouvée à la Grotte Tréfonds
+1114	r	Défense Spéc Trouvé à la Route 103
+1115	r	Précision + Trouvé à la Route 104
+1116	r	Vitesse + Trouvé à Lavandia
+1117	r	Anti-Para Trouvé au Bois Clémenti
+1118	r	Super Ball Trouvée à la Route 115
+1119	r	Calcium Trouvé au Parc Safari
+1120	r	Super Repousse Trouvé au Mont Mémoria
+1121	r	Hyper Potion Trouvée à la Route 118
+1122	r	Total Soin Trouvé à New Lavandia
+1123	r	Anti-Para Trouvé à New Lavandia
+1124	r	Master Ball Trouvée à la Planque Aqua
+
+1129	r	Hyper Ball Trouvée au Mont Mémoria
+1130	r	Encens Mer Trouvé au Mont Mémoria
+1131	r	Rappel Max Trouvé au Parc Safari
+1132	r	Pépite Trouvée à la Planque Aqua
+
+1134	r	Pépite Trouvée à la Route 119
+1135	r	Potion Trouvée à la Route 104
+
+1137	r	PP Plus Trouvé à la Route 103
+
+1139	r	Morc. Étoile Trouvé au Chenal 108
+1140	r	Potion Trouvée au Chenal 109
+1141	r	Élixir Trouvé à la Route 110 
+1142	r	Élixir Trouvé à la Route 111
+1143	r	Hyper Potion Trouvée à la Route 113
+1144	r	Poudre Soin Trouvée à la Route 115
+
+1146	r	Potion Trouvée à la Route 116
+1147	r	Élixir (Proche de l'Eau) Trouvé à la Route 119
+1148	r	Rappel Trouvé à la Route 120
+1149	r	Rappel Trouvé à la Route 121
+1150	r	Zinc Trouvé à la Route 121
+1151	r	Super Bonbon Trouvé à la Planque Magma
+1152	r	PP Plus Trouvé à la Route 123
+1153	r	Herbe Rappel Trouvée à la Route 123
+1154	r	Grande Perle Trouvée au Chenal 125
+1155	r	Super Bonbon Trouvé au Chenal 127
+1156	r	Protéine Trouvée au Chenal 132
+1157	r	Rappel Max Trouvé au Chenal 133
+1158	r	Carbone Trouvé au Chenal 134
+1159	r	Morc. Étoile Trouvé au Chenal 134
+1160	r	Poudrénergie Trouvée à la Route 114
+1161	r	PP Plus Trouvé à la Route 115
+1162	r	PV Plus Trouvé à la Grotte Atelier
+1163	r	Carbone Trouvé à la Grotte Atelier
+1164	r	Max Élixir Trouvé à la Planque Magma
+1165	r	Guérison Trouvé à la Planque Magma
+1166	r	Pépite Trouvée à la Planque Magma
+1167	r	PP Max Trouvé à la Planque Magma
+1168	r	Rappel Max Trouvé à la Planque Magma
+1169	r	Pépite Trouvée au Parc Safari
+1170	r	Grande Perle Trouvée au Parc Safari
+
+1272	s	Changement du Texte du Dresseur Pokémon Pierre au Site Météore (pas Réglé pour la Revanche)
+
+1281	t	Montagnard Émilien au Mont Chimnée Vaincu
+1282	t	Sbire Aqua (Mâle) à l'Entrée de la Planque Aqua Vaincu
+1283	t	Sbire Aqua (Mâle) au 1er Étage de la Planque Aqua Vaincu
+1284	t	Sbire Aqua (Mâle) au 1er Étage de la Planque Aqua Vaincu
+1285	t	Sbire Aqua (Mâle) au 2ème Étage de la Planque Aqua Vaincu
+1286	t	Sbire Aqua (Mâle) dans la Salle 1 de la Caverne Fondmer Vaincu
+1287	t	Sbire Aqua (Mâle) dans la Salle 1 de la Caverne Fondmer Vaincu
+1288	t	Sbire Aqua (Mâle) dans la Salle 3 de la Caverne Fondmer Vaincu
+1289	t	Éleveur Lara au Mont Mémoria Vaincue
+1290	t	Sbire Aqua (Mâle) au Bois Clémenti Vaincu
+1291	t	Topdresseur Marcel à la Route 121 Vaincu
+1292	t	Ornithologue Hubert à la Route 123 Vaincu
+1293	t	Collec Ed à la Route 123 Vaincu
+1294	t	Sbire Aqua (Femelle) dans la Salle 3 de la Caverne Fondmer Vaincue
+1295	t	Nageur Arno au Chenal 124 Vaincu
+1296	t	Sbire Aqua (Mâle) au Tunnel Mérazon Vaincu
+1297	t	Sbire Aqua (Mâle) au RDC du Centre Météo Vaincu
+1298	t	Sbire Aqua (Mâle) au 2ème Étage du Centre Météo Vaincu
+1299	t	Sbire Aqua (Mâle) au 2ème Étage du Centre Météo Vaincu
+1300	t	Sbire Aqua (Mâle) au Musée Océanographique Vaincu
+1301	t	Sbire Aqua (Mâle) au Musée Océanographique Vaincu
+1302	t	Sbire Magma (Mâle) au RDC du Centre Spatial d'Algatia Vaincu
+1303	t	Sbire Aqua (Mâle) au Mont Mémoria Vaincu
+1304	t	Sbire Aqua (Mâle) au Mont Mémoria Vaincu
+1305	t	Sbire Aqua (Mâle) au Mont Mémoria Vaincu
+1306	t	Sbire Aqua (Femelle) au RDC du Centre Météo Vaincue
+1307	t	Sbire Aqua (Femelle) au 1er Étage de la Planque Aqua Vaincue
+1308	t	Sbire Aqua (Femelle) au 2ème Étage de la Planque Aqua Vaincue
+1309	t	Expert Florian à la Route 123 Vaincu
+1310	t	Admin Aqua Matthieu à la Planque Aqua Vaincu
+1311	t	Karatéka Freddy au Mont Mémoria Vaincu
+1312	t	Admin Aqua Sarah au Centre Météo Vaincue
+1313	t	Admin Aqua Sarah à la Caverne Fondmer Vaincue
+1314	t	Leader Aqua Arthur à la Caverne Fondmer Vaincu
+1315	t	Mystimaniac Erin au Mont Mémoria Vaincue
+1316	t	Aroma Marguerite à la Route 103 Vaincue
+1317	t	Aroma Rose à la Route 118 Vaincue
+1318	t	Topdresseur Niels au 2ème Sous-sol de la Route Victoire Vaincu
+1319	t	Aroma Violette à la Route 123 Vaincue
+1320	t	Aroma Rose (Revanche 1) à la Route 118 Vaincue
+1321	t	Aroma Rose (Revanche 2) à la Route 118 Vaincue
+1322	t	Aroma Rose (Revanche 3) à la Route 118 Vaincue
+1323	t	Aroma Rose (Revanche 4) à la Route 118 Vaincue
+1324	t	Ruinemaniac Armand à la Route 111 Vaincu
+1325	t	Ruinemaniac Alphonse à la Route 120 Vaincu
+1326	t	Ruinemaniac Emile au Chenal 105 Vaincu
+1327	t	Ruinemaniac Armand (Revanche 1) à la Route 111 Vaincu
+1328	t	Ruinemaniac Armand (Revanche 2) à la Route 111 Vaincu
+1329	t	Ruinemaniac Armand (Revanche 3) à la Route 111 Vaincu
+1330	t	Ruinemaniac Armand (Revanche 4) à la Route 111 Vaincu
+1331	t	Journalistes Inès & Guy à la Route 111 Vaincus
+1332	t	Journalistes Inès & Guy à la Route 118 Vaincus
+1333	t	Journalistes Inès & Guy à la Route 120 Vaincus
+1334	t	Journalistes Inès & Guy à la Route 111 Vaincus (Revanche 1)
+1335	t	Journalistes Inès & Guy à la Route 118 Vaincus (Revanche 2)
+1336	t	Journalistes Inès & Guy Vaincus (Revanche 3)
+1337	t	Flotteur Lea au Chenal 109 Vaincue
+1338	t	Flotteur Aurélia au Chenal 109 Vaincue
+1339	t	Flotteur Gwenaelle au Chenal 109 Vaincue
+1340	t	Flotteur Lea (Revanche 1) au Chenal 109 Vaincue
+1341	t	Flotteur Lea (Revanche 2) au Chenal 109 Vaincue
+1342	t	Flotteur Lea (Revanche 3) au Chenal 109 Vaincue
+1343	t	Flotteur Lea (Revanche 4) au Chenal 109 Vaincue
+1344	t	Flotteur Rachid au Chenal 109 Vaincu
+1345	t	Flotteur Simon au Chenal 109 Vaincu
+1346	t	Flotteur Charles sur l'Épave Vaincu
+1347	t	Flotteur Rachid (Revanche 1) au Chenal 109 Vaincu
+1348	t	Flotteur Rachid (Revanche 2) au Chenal 109 Vaincu
+1349	t	Flotteur Rachid (Revanche 3) au Chenal 109 Vaincu
+1350	t	Flotteur Rachid (Revanche 4) au Chenal 109 Vaincu
+1351	t	Topdresseur Raphael à l'Arène de Clémenti-Ville Vaincu
+1352	t	Topdresseur Patrick à l'Arène de Clémenti-Ville Vaincu
+1353	t	Topdresseur Georges à l'Arène de Clémenti-Ville Vaincu
+1354	t	Topdresseur Bertrand à l'Arène de Clémenti-Ville Vaincu
+1355	t	Topdresseur Maxence à la Route 123 Vaincu
+1356	t	Topdresseur Vincent au Défi 8 de la Maison des Pièges Vaincu
+1357	t	Topdresseur Léon au Défi 8 de la Maison des Pièges Vaincu
+1358	t	Topdresseur Wilfried à la Route 111 Vaincu
+1359	t	Topdresseur Edgard au RDC de la Route Victoire Vaincu
+1360	t	Topdresseur Albert au RDC de la Route Victoire Vaincu
+1361	t	Topdresseur Samuel au 1er Sous-sol de la Route Victoire Vaincu
+1362	t	Topdresseur Vito au 2ème Sous-sol de la Route Victoire Vaincu
+1363	t	Topdresseur Oliver au 2ème Sous-sol de la Route Victoire Vaincu
+1364	t	Topdresseur Wilfried (Revanche 1) à la Route 111 Vaincu
+1365	t	Topdresseur Wilfried (Revanche 2) à la Route 111 Vaincu
+1366	t	Topdresseur Wilfried (Revanche 3) à la Route 111 Vaincu
+1367	t	Topdresseur Wilfried (Revanche 4) à la Route 111 Vaincu
+1368	t	Topdresseur Wolfgang au Chenal 133 Vaincu
+1369	t	Topdresseur Marie à l'Arène de Clémenti-Ville Vaincue
+1370	t	Topdresseur Magalie à l'Arène de Clémenti-Ville Vaincue
+1371	t	Topdresseur Joelle à l'Arène de Clémenti-Ville Vaincue
+1372	t	Topdresseur Wendy à la Route 123 Vaincue
+1373	t	Topdresseur Chloé au Défi 8 de la Maison des Pièges Vaincue
+1374	t	Topdresseur Blanche à la Route 111 Vaincue
+1375	t	Topdresseur Jennifer à la Route 120 Vaincue
+1376	t	Topdresseur Hortense au RDC de la Route Victoire Vaincue
+1377	t	Topdresseur Samia au 1er Sous-sol de la Route Victoire Vaincue
+1378	t	Topdresseur Michelle au 1er Sous-sol de la Route Victoire Vaincue
+1379	t	Topdresseur Caroline au 2ème Sous-sol de la Route Victoire Vaincue
+1380	t	Topdresseur Julie au 2ème Sous-sol de la Route Victoire Vaincue
+1381	t	Topdresseur Blanche (Revanche 1) à la Route 111 Vaincue
+1382	t	Topdresseur Blanche (Revanche 2) à la Route 111 Vaincue
+1383	t	Topdresseur Blanche (Revanche 3) à la Route 111 Vaincue
+1384	t	Topdresseur Blanche (Revanche 4) à la Route 111 Vaincue
+1385	t	Mystimaniac Patricia au Défi 7 de la Maison des Pièges Vaincue
+1386	t	Mystimaniac Selena à la Route 123 Vaincue
+1387	t	Mystimaniac Ninon à la Route 121 Vaincue
+1388	t	Mystimaniac Valeria au Mont Mémoria Vaincue
+1389	t	Mystimaniac Tatiana au Mont Mémoria Vaincue
+1390	t	Mystimaniac Valeria (Revanche 1) au Mont Mémoria Vaincue
+1391	t	Mystimaniac Valeria (Revanche 2) au Mont Mémoria Vaincue
+1392	t	Mystimaniac Valeria (Revanche 3) au Mont Mémoria Vaincue
+1393	t	Mystimaniac Valeria (Revanche 4) au Mont Mémoria Vaincue
+1394	t	Mademoiselle Sandy à la Route 104 Vaincue
+1395	t	Mademoiselle Suzie à l'Arène d'Atalanopolis Vaincue
+1396	t	Sbire Magma (Mâle) au RDC du Centre Spatial d'Algatia Vaincu
+
+1398	t	Mademoiselle Viviane à l'Arène d'Atalanopolis Vaincue
+1399	t	Mademoiselle Naomi sur Le Marina Vaincue
+1400	t	Mademoiselle Sandy (Revanche 1) à la Route 104 Vaincue
+1401	t	Mademoiselle Sandy (Revanche 2) à la Route 104 Vaincue
+1402	t	Mademoiselle Sandy (Revanche 3) à la Route 104 Vaincue
+1403	t	Mademoiselle Sandy (Revanche 4) à la Route 104 Vaincue
+1404	t	Canon Mélissa au Mont Chimnée Vaincue
+1405	t	Canon Sheila au Mont Chimnée Vaincue
+1406	t	Canon Shirley au Mont Chimnée Vaincue
+1407	t	Canon Jessica à la Route 121 Vaincue
+1408	t	Canon Sarah à l'Arène d'Atalanopolis Vaincue
+1409	t	Canon Gisele à l'Arène d'Atalanopolis Vaincue
+1410	t	Canon Olivia à l'Arène d'Atalanopolis Vaincue
+1411	t	Canon Sabrina à l'Arène d'Atalanopolis Vaincue
+1412	t	Canon Jessica (Revanche 1) à la Route 121 Vaincue
+1413	t	Canon Jessica (Revanche 2) à la Route 121 Vaincue
+1414	t	Canon Jessica (Revanche 3) à la Route 121 Vaincue
+1415	t	Canon Jessica (Revanche 4) à la Route 121 Vaincue
+1416	t	Richard Jean-Marie à la Route 104 Vaincu
+1417	t	Expert Mathilde au Chenal 133 Vaincue
+1418	t	Richard Paul-Alain sur Le Marina Vaincu
+1419	t	Richard Jean-Marie (Revanche 1) à la Route 104 Vaincu
+1420	t	Richard Jean-Marie (Revanche 2) à la Route 104 Vaincu
+1421	t	Richard Jean-Marie (Revanche 3) à la Route 104 Vaincu
+1422	t	Richard Jean-Marie (Revanche 4) à la Route 104 Vaincu
+1423	t	Pokémaniac Stéphane à la Route 114 Vaincu
+1424	t	Canon Thalia sur l'Épave Vaincue
+1425	t	Pokémaniac Achille au Mont Mémoria Vaincu
+1426	t	Sbire Magma (Femelle) au Mont Chimnée Vaincue
+1427	t	Pokémaniac Stéphane (Revanche 1) à la Route 114 Vaincu
+1428	t	Pokémaniac Stéphane (Revanche 2) à la Route 114 Vaincu
+1429	t	Pokémaniac Stéphane (Revanche 3) à la Route 114 Vaincu
+1430	t	Pokémaniac Stéphane (Revanche 4) à la Route 114 Vaincu
+1431	t	Nageur Louis au Chenal 105 Vaincu
+1432	t	Nageur Logan au Chenal 105 Vaincu
+1433	t	Nageur Dominique au Chenal 106 Vaincu
+1434	t	Nageur Daniel au Chenal 107 Vaincu
+1435	t	Nageur Antoine au Chenal 107 Vaincu
+1436	t	Nageur Jérôme au Chenal 108 Vaincu
+1437	t	Nageur Mattéo au Chenal 108 Vaincu
+1438	t	Nageur David au Chenal 109 Vaincu
+1439	t	Nageur Sylvain au Chenal 124 Vaincu
+1440	t	Nageur Pacôme au Chenal 124 Vaincu
+1441	t	Nageur Christian au Chenal 125 Vaincu
+1442	t	Nageur Stanislas au Chenal 125 Vaincu
+1443	t	Nageur Benoit au Chenal 126 Vaincu
+1444	t	Nageur Jean au Chenal 126 Vaincu
+1445	t	Nageur Rodolphe au Chenal 130 Vaincu
+1446	t	Nageur Richard au Chenal 131 Vaincu
+1447	t	Nageur Hervé au Chenal 131 Vaincu
+1448	t	Nageur Amaury au Chenal 130 Vaincu
+1449	t	Nageur Gilbert au Chenal 132 Vaincu
+1450	t	Nageur Mario au Chenal 133 Vaincu
+1451	t	Nageur Kevin au Chenal 131 Vaincu
+1452	t	Nageur Jacques au Chenal 134 Vaincu
+
+1454	t	Nageur Cédric au Chenal 124 Vaincu
+1455	t	Nageur Antoine (Revanche 1) au Chenal 107 Vaincu
+1456	t	Nageur Antoine (Revanche 2) au Chenal 107 Vaincu
+1457	t	Nageur Antoine (Revanche 3) au Chenal 107 Vaincu
+1458	t	Nageur Antoine (Revanche 4) au Chenal 107 Vaincu
+1459	t	Karatéka Baptiste à l'Arène de Myokara Vaincu
+1460	t	Karatéka Hitoshi au Chenal 134 Vaincu
+1461	t	Karatéka Akira au Chenal 132 Vaincu
+1462	t	Karatéka Koichi à la Route 115 Vaincu
+1463	t	Karatéka Hiro à la Route 115 Vaincu
+1464	t	Karatéka Hiro (Revanche 1) à la Route 115 Vaincu
+1465	t	Karatéka Hiro (Revanche 2) à la Route 115 Vaincu
+1466	t	Karatéka Hiro (Revanche 3) à la Route 115 Vaincu
+1467	t	Karatéka Hiro (Revanche 4) à la Route 115 Vaincu
+1468	t	Karatéka Yuji au Défi 4 de la Maison des Pièges Vaincu
+1469	t	Karatéka Daisuke à la Route 111 Vaincu
+1470	t	Karatéka Tetsuo au Mont Mémoria Vaincu
+1471	t	Guitariste Chris à l'Arène de Lavandia Vaincu
+1472	t	Sbire Aqua (Femelle) au 1er Étage de la Planque Aqua Vaincue
+1473	t	Sbire Aqua (Mâle) au 2ème Étage de la Planque Aqua Vaincu
+1474	t	Guitariste Robert à l'Arène de Lavandia Vaincu
+1475	t	Guitariste Fernand à la Route 123 Vaincu
+1476	t	Guitariste Bibou à la Route 118 Vaincu
+1477	t	Guitariste Bibou (Revanche 1) à la Route 118 Vaincu
+1478	t	Guitariste Bibou (Revanche 2) à la Route 118 Vaincu
+1479	t	Guitariste Bibou (Revanche 3) à la Route 118 Vaincu
+1480	t	Guitariste Bibou (Revanche 4) à la Route 118 Vaincu
+1481	t	Saltimbanque Cyril à l'Arène de Vermilava Vaincu
+1482	t	Saltimbanque Antonio à l'Arène de Vermilava Vaincu
+1483	t	Saltimbanque Axel à l'Arène de Vermilava Vaincu
+1484	t	Saltimbanque Flavien à l'Arène de Vermilava Vaincu
+1485	t	Saltimbanque Ivan à l'Arène de Vermilava Vaincu
+1486	t	Saltimbanque Bernard à la Route 114 Vaincu
+1487	t	Saltimbanque Bernard (Revanche 1) à la Route 114 Vaincu
+1488	t	Saltimbanque Bernard (Revanche 2) à la Route 114 Vaincu
+1489	t	Saltimbanque Bernard (Revanche 3) à la Route 114 Vaincu
+1490	t	Saltimbanque Bernard (Revanche 4) à la Route 114 Vaincu
+1491	t	Campeur Tristan à la Route 111 Vaincu
+1492	t	Campeur Yanis à la Route 111 Vaincu
+1493	t	Campeur Laurent à la Route 112 Vaincu
+1494	t	Campeur Djamel à la Route 114 Vaincu
+1495	t	Campeur Justin au Défi 3 de la Maison des Pièges Vaincu
+1496	t	Campeur Diego au Sentier Sinuroc Vaincu
+1497	t	Pique-Nique Nathy au Sentier Sinuroc Vaincue
+1498	t	Campeur Thierry à la Route 111 Vaincu
+1499	t	Campeur Diego (Revanche 1) au Sentier Sinuroc Vaincu
+1500	t	Campeur Diego (Revanche 2) au Sentier Sinuroc Vaincu
+1501	t	Campeur Diego (Revanche 3) au Sentier Sinuroc Vaincu
+1502	t	Campeur Diego (Revanche 4) au Sentier Sinuroc Vaincu
+1503	t	Entomomaniac Brad à la Route 119 Vaincu
+1504	t	Entomomaniac Donald à la Route 119 Vaincu
+1505	t	Entomomaniac Thibault à la Route 119 Vaincu
+1506	t	Entomomaniac Florent à la Route 120 Vaincu
+1507	t	Entomomaniac Didier à la Route 117 Vaincu
+1508	t	Entomomaniac Florent (Revanche 1) à la Route 120 Vaincu
+1509	t	Entomomaniac Florent (Revanche 2) à la Route 120 Vaincu
+1510	t	Entomomaniac Florent (Revanche 3) à la Route 120 Vaincu
+1511	t	Entomomaniac Florent (Revanche 4) à la Route 120 Vaincu
+1512	t	Kinésiste Édouard à la Route 110 Vaincu
+1513	t	Kinésiste Polo à l'Arène d'Algatia Vaincu
+1514	t	Kinésiste Virgile à l'Arène d'Algatia Vaincu
+1515	t	Kinésiste Arthur à l'Arène d'Algatia Vaincu
+1516	t	Kinésiste William au Mont Mémoria Vaincu
+1517	t	Kinésiste Joseph au Défi 7 de la Maison des Pièges Vaincu
+1518	t	Kinésiste Prosper à la Route 123 Vaincu
+1519	t	Kinésiste Prosper (Revanche 1) à la Route 123 Vaincu
+1520	t	Kinésiste Prosper (Revanche 2) à la Route 123 Vaincu
+1521	t	Kinésiste Prosper (Revanche 3) à la Route 123 Vaincu
+1522	t	Kinésiste Prosper (Revanche 4) à la Route 123 Vaincu
+1523	t	Kinésiste Jacqueline à la Route 110 Vaincue
+1524	t	Kinésiste Sabine à l'Arène d'Algatia Vaincue
+1525	t	Kinésiste Samantha à l'Arène d'Algatia Vaincue
+1526	t	Kinésiste Myriam à l'Arène d'Algatia Vaincue
+1527	t	Kinésiste Karine au Mont Mémoria Vaincue
+1528	t	Kinésiste Claudie au Défi 7 de la Maison des Pièges Vaincu
+1529	t	Kinésiste Nora à la Route 123 Vaincue
+1530	t	Kinésiste Nora (Revanche 1) à la Route 123 Vaincue
+1531	t	Kinésiste Nora (Revanche 2) à la Route 123 Vaincue
+1532	t	Kinésiste Nora (Revanche 3) à la Route 123 Vaincue
+1533	t	Kinésiste Nora (Revanche 4) à la Route 123 Vaincue
+1534	t	Gentleman Walter à la Route 121 Vaincu
+1535	t	Gentleman Anatole sur Le Marina Vaincu
+1536	t	Gentleman Tony sur Le Marina Vaincu
+1537	t	Gentleman Walter (Revanche 1) à la Route 121 Vaincu
+1538	t	Gentleman Walter (Revanche 2) à la Route 121 Vaincu
+1539	t	Gentleman Walter (Revanche 3) à la Route 121 Vaincu
+1540	t	Gentleman Walter (Revanche 4) à la Route 121 Vaincu
+1541	t	Conseil 4 Damien Vaincu
+1542	t	Conseil 4 Spectra Vaincue
+1543	t	Conseil 4 Glacia Vaincue
+1544	t	Conseil 4 Aragon Vaincu
+1545	t	Champion d'Arène Roxanne Vaincue
+1546	t	Champion d'Arène Bastien Vaincu
+1547	t	Champion d'Arène Voltère Vaincu
+1548	t	Champion d'Arène Adriane Vaincue
+1549	t	Champion d'Arène Norman Vaincu
+1550	t	Champion d'Arène Alizée Vaincue
+1551	t	Champion d'Arène Lévy & Tatia Vaincus
+1552	t	Champion d'Arène Juan Vaincu
+1553	t	Élève Julien à la Route 116 Vaincu
+1554	t	Élève Théo au Défi 2 de la Maison des Pièges Vaincu
+1555	t	Élève Paul au Défi 2 de la Maison des Pièges Vaincu
+1556	t	Élève Julien (Revanche 1) à la Route 116 Vaincu
+1557	t	Élève Julien (Revanche 2) à la Route 116 Vaincu
+1558	t	Élève Julien (Revanche 3) à la Route 116 Vaincu
+1559	t	Élève Julien (Revanche 4) à la Route 116 Vaincu
+1560	t	Élève Karène à la Route 116 Vaincue
+1561	t	Élève Gwendoline au Défi 2 de la Maison des Pièges Vaincue
+1562	t	Élève Karène (Revanche 1) à la Route 116 Vaincue
+1563	t	Élève Karène (Revanche 2) à la Route 116 Vaincue
+1564	t	Élève Karène (Revanche 3) à la Route 116 Vaincue
+1565	t	Élève Karène (Revanche 4) à la Route 116 Vaincue
+1566	t	Sr. et Jr. Vivi & Bea à la Route 121 Vaincues
+1567	t	Sr. et Jr. Anna & Eva à la Route 117 Vaincues
+1568	t	Sr. et Jr. Anna & Eva (Revanche 1) à la Route 117 Vaincues
+1569	t	Sr. et Jr. Anna & Eva (Revanche 2) à la Route 117 Vaincues
+1570	t	Sr. et Jr. Anna & Eva (Revanche 3) à la Route 117 Vaincues
+1571	t	Sr. et Jr. Anna & Eva (Revanche 4) à la Route 117 Vaincues
+1572	t	Stratège Victor à la Route 111 Vaincu
+1573	t	Pokéfan Michel à la Route 103 Vaincu
+1574	t	Pokéfan Piotr sur Le Marina Vaincu
+1575	t	Pokéfan Michel (Revanche 1) à la Route 103 Vaincu
+1576	t	Pokéfan Michel (Revanche 2) à la Route 103 Vaincu
+1577	t	Pokéfan Michel (Revanche 3) à la Route 103 Vaincu
+1578	t	Pokéfan Michel (Revanche 4) à la Route 103 Vaincu
+1579	t	Stratège Victoria à la Route 111 Vaincue
+1580	t	Pokéfan Vanessa à la Route 121 Vaincue
+1581	t	Pokéfan Veroniqua à l'Arène d'Atalanopolis Vaincue
+1582	t	Pokéfan Isabelle à la Route 110 Vaincue
+1583	t	Pokéfan Isabelle (Revanche 1) à la Route 110 Vaincue
+1584	t	Pokéfan Isabelle (Revanche 2) à la Route 110 Vaincue
+1585	t	Pokéfan Isabelle (Revanche 3) à la Route 110 Vaincue
+1586	t	Pokéfan Isabelle (Revanche 4) à la Route 110 Vaincue
+1587	t	Expert Timothée à la Route 115 Vaincu
+1588	t	Expert Timothée (Revanche 1) à la Route 115 Vaincu
+1589	t	Expert Timothée (Revanche 2) à la Route 115 Vaincu
+1590	t	Expert Timothée (Revanche 3) à la Route 115 Vaincu
+1591	t	Expert Timothée (Revanche 4) à la Route 115 Vaincu
+1592	t	Stratège Vicky à la Route 111 Vaincue
+1593	t	Expert Alix au Mont Chimnée Vaincue
+1594	t	Expert Alix (Revanche 1) au Mont Chimnée Vaincue
+1595	t	Expert Alix (Revanche 2) au Mont Chimnée Vaincue
+1596	t	Expert Alix (Revanche 3) au Mont Chimnée Vaincue
+1597	t	Expert Alix (Revanche 4) au Mont Chimnée Vaincue
+1598	t	Gamin Calvin à la Route 102 Vaincu
+1599	t	Gamin Willy à la Route 104 Vaincu
+1600	t	Gamin John à l'Arène de Mérouville Vaincu
+1601	t	Gamin Tom à l'Arène de Mérouville Vaincu
+1602	t	Gamin Jo à la Route 116 Vaincu
+1603	t	Gamin Ben à l'Arène de Lavandia Vaincu
+1604	t	Topdresseur Quentin au RDC de la Route Victoire Vaincu
+1605	t	Topdresseur Karen au RDC de la Route Victoire Vaincue
+1606	t	Gamin Gilles à la Route 113 Vaincu
+1607	t	Gamin Denden à la Route 113 Vaincu
+1608	t	Gamin Calvin (Revanche 1) à la Route 102 Vaincu
+1609	t	Gamin Calvin (Revanche 2) à la Route 102 Vaincu
+1610	t	Gamin Calvin (Revanche 3) à la Route 102 Vaincu
+1611	t	Gamin Calvin (Revanche 4) à la Route 102 Vaincu
+1612	t	Gamin Eddie au Défi 1 de la Maison des Piège Vaincu
+1613	t	Gamin Alain à la Route 102 Vaincu
+1614	t	Gamin Tim à la Route 110 Vaincu
+1615	t	Maître Marc Vaincu
+1616	t	Pêcheur Ali à la Route 103 Vaincu
+1617	t	Pêcheur Yvan à la Route 104 Vaincu
+1618	t	Pêcheur Claude à la Route 114 Vaincu
+1619	t	Pêcheur Elliot au Chenal 106 Vaincu
+1620	t	Pêcheur Erwan au Chenal 106 Vaincu
+1621	t	Pêcheur Fabio à la Route 110 Vaincu
+1622	t	Pêcheur Noël à la Route 114 Vaincu
+1623	t	Pêcheur Barney à la Route 118 Vaincu
+1624	t	Pêcheur Aristide à la Route 118 Vaincu
+1625	t	Pêcheur Francis au Chenal 109 Vaincu
+1626	t	Pêcheur Elliot (Revanche 1) au Chenal 106 Vaincu
+1627	t	Pêcheur Elliot (Revanche 2) au Chenal 106 Vaincu
+1628	t	Pêcheur Elliot (Revanche 3) au Chenal 106 Vaincu
+1629	t	Pêcheur Elliot (Revanche 4) au Chenal 106 Vaincu
+1630	t	Pêcheur Fabien au Chenal 132 Vaincu
+1631	t	Triathlète Jacob à la Route 110 Vaincu
+1632	t	Triathlète Anthony à la Route 110 Vaincu
+1633	t	Triathlète Benjamin à la Route 110 Vaincu
+1634	t	Triathlète Benjamin (Revanche 1) à la Route 110 Vaincu
+1635	t	Triathlète Benjamin (Revanche 2) à la Route 110 Vaincu
+1636	t	Triathlète Benjamin (Revanche 3) à la Route 110 Vaincu
+1637	t	Triathlète Benjamin (Revanche 4) à la Route 110 Vaincu
+1638	t	Triathlète Gaelle à la Route 110 Vaincue
+1639	t	Triathlete Yasmina à la Route 110 Vaincue
+1640	t	Triathlète Gaelle (Revanche 1) à la Route 110 Vaincue
+1641	t	Triathlète Gaelle (Revanche 2) à la Route 110 Vaincue
+1642	t	Triathlète Gaelle (Revanche 3) à la Route 110 Vaincue
+1643	t	Triathlète Gaelle (Revanche 4) à la Route 110 Vaincue
+1644	t	Triathlète Régis à la Route 117 Vaincu
+1645	t	Triathlète Régis (Revanche 1) à la Route 117 Vaincu
+1646	t	Triathlète Régis (Revanche 2) à la Route 117 Vaincu
+1647	t	Triathlète Régis (Revanche 3) à la Route 117 Vaincu
+1648	t	Triathlète Régis (Revanche 4) à la Route 117 Vaincu
+1649	t	Triathlète Maria à la Route 117 Vaincue
+1650	t	Triathlète Maria (Revanche 1) à la Route 117 Vaincue
+1651	t	Triathlète Maria (Revanche 2) à la Route 117 Vaincue
+1652	t	Triathlète Maria (Revanche 3) à la Route 117 Vaincue
+1653	t	Triathlète Maria (Revanche 4) à la Route 117 Vaincue
+1654	t	Triathlète Jacky au Chenal 127 Vaincu
+1655	t	Gamin Charlie sur l'Épave Vaincu
+1656	t	Triathlète Jeoffrey au Chenal 128 Vaincu
+1657	t	Triathlète Pablo au Chenal 126 Vaincu
+1658	t	Triathlète Fernando au Chenal 129 Vaincu
+1659	t	Triathlète Jeoffrey (Revanche 1) au Chenal 128 Vaincu
+1660	t	Triathlète Jeoffrey (Revanche 2) au Chenal 128 Vaincu
+1661	t	Triathlète Jeoffrey (Revanche 3) au Chenal 128 Vaincu
+1662	t	Triathlète Jeoffrey (Revanche 4) au Chenal 128 Vaincu
+1663	t	Triathlète Isabel au Chenal 126 Vaincue
+1664	t	Triathlète Donny au Chenal 127 Vaincue
+1665	t	Triathlète Talia au Chenal 131 Vaincue
+1666	t	Triathlète Katelyn au Chenal 128 Vaincue
+1667	t	Triathlàte Ally au Chenal 129 Vaincue
+1668	t	Triathlète Katelyn (Revanche 1) au Chenal 128 Vaincue
+1669	t	Triathlète Katelyn (Revanche 2) au Chenal 128 Vaincue
+1670	t	Triathlète Katelyn (Revanche 3) au Chenal 128 Vaincue
+1671	t	Triathlète Katelyn (Revanche 4) au Chenal 128 Vaincue
+1672	t	Dracologue Nicolas au Site Météore Vaincu
+1673	t	Dracologue Nicolas (Revanche 1) au Site Météore Vaincu
+1674	t	Dracologue Nicolas (Revanche 2) au Site Météore Vaincu
+1675	t	Dracologue Nicolas (Revanche 3) au Site Météore Vaincu
+1676	t	Dracologue Nicolas (Revanche 4) au Site Météore Vaincu
+1677	t	Dracologue Igor au Chenal 134 Vaincu
+1678	t	Ornithologue Pedro à la Route 118 Vaincu
+1679	t	Ornithologue Hugues à la Route 119 Vaincu
+1680	t	Ornithologue Phil à la Route 119 Vaincu
+1681	t	Ornithologue Boris à l'Arène de Cimetronelle Vaincu
+1682	t	Ornithologue Humbert à l'Arène de Cimetronelle Vaincu
+1683	t	Ornithologue Elvis au Chenal 125 Vaincu
+1684	t	Ornithologue Joachim à l'Arène de Cimetronelle Vaincu
+1685	t	Ornithologue Gino à la Route 120 Vaincu
+1686	t	Ornithologue Bob à la Route 120 Vaincu
+1687	t	Ornithologue Frédo au Défi 6 de la Maison des Pièges Vaincu
+1688	t	Ornithologue Juste à la Route 118 Vaincu
+1689	t	Ornithologue Bob (Revanche 1) à la Route 120 Vaincu
+1690	t	Ornithologue Bob (Revanche 2) à la Route 120 Vaincu
+1691	t	Ornithologue Bob (Revanche 3) à la Route 120 Vaincu
+1692	t	Ornithologue Bob (Revanche 4) à la Route 120 Vaincu
+1693	t	Ornithologue Alex au Chenal 134 Vaincu
+1694	t	Ornithologue Ladislas au Chenal 133 Vaincu
+1695	t	Ninja Fan Chon à la Route 119 Vaincu
+1696	t	Ninja Fan Takashi à la Route 119 Vaincu
+1697	t	Topdresseur Diane au 2ème Sous-sol de la Route Victoire Vaincue
+1698	t	Flotteur Megan sur l'Épave Vaincu
+1699	t	Ninja Fan Layo à la Route 113 Vaincu
+1700	t	Ninja Fan Vantek à la Route 113 Vaincu
+1701	t	Ninja Fan Layo (Revanche 1) à la Route 113 Vaincu
+1702	t	Ninja Fan Layo (Revanche 2) à la Route 113 Vaincu
+1703	t	Ninja Fan Layo (Revanche 3) à la Route 113 Vaincu
+1704	t	Ninja Fan Layo (Revanche 4) à la Route 113 Vaincu
+1705	t	Combattante Christine à l'Arène de Myokara Vaincue
+1706	t	Combattante Laura à l'Arène de Myokara Vaincue
+1707	t	Combattante Sandrine à la Route 115 Vaincue
+1708	t	Combattante Cora au Défi 4 de la Maison des Pièges Vaincue
+1709	t	Combattante Lucie au Défi 4 de la Maison des Pièges Vaincue
+1710	t	Combattante Sandrine (Revanche 1) à la Route 115 Vaincue
+1711	t	Combattante Sandrine (Revanche 2) à la Route 115 Vaincue
+1712	t	Combattante Sandrine (Revanche 3) à la Route 115 Vaincue
+1713	t	Combattante Sandrine (Revanche 4) à la Route 115 Vaincue
+1714	t	Sœur Parasol Madeleine à la Route 113 Vaincue
+1715	t	Sœur Parasol Clarisse à la Route 120 Vaincue
+1716	t	Sœur Parasol Angélique à la Route 120 Vaincue
+1717	t	Sœur Parasol Madeleine (Revanche 1) à la Route 113 Vaincue
+1718	t	Sœur Parasol Madeleine (Revanche 2) à la Route 113 Vaincue
+1719	t	Sœur Parasol Madeleine (Revanche 3) à la Route 113 Vaincue
+1720	t	Sœur Parasol Madeleine (Revanche 4) à la Route 113 Vaincue
+1721	t	Nageuse Marie-Ange au Chenal 105 Vaincue
+1722	t	Nageuse Sherbatoff au Chenal 105 Vaincue
+1723	t	Nageuse Irina au Chenal 106  Vaincue
+1724	t	Nageuse Denise au Chenal 107 Vaincue
+1725	t	Nageuse Betty au Chenal 107 Vaincue
+1726	t	Nageuse Tara au Chenal 108 Vaincue
+1727	t	Nageuse Clo au Chenal 108 Vaincue
+1728	t	Nageuse Alice au Chenal 109 Vaincue
+1729	t	Nageuse Jenny au Chenal 124 Vaincue
+1730	t	Nageuse Grace au Chenal 124 Vaincue
+1731	t	Nageuse Tanya au Chenal 125 Vaincue
+1732	t	Nageuse Morgane au Chenal 125 Vaincue
+1733	t	Nageuse Mylène au Chenal 126 Vaincue
+1734	t	Mageuse Mélanie au Chenal 126 Vaincue
+1735	t	Nageuse Ségolène au Chenal 130 Vaincue
+1736	t	Nageuse Suzy au Chenal 131 Vaincue
+1737	t	Nageuse Edwige au Chenal 131 Vaincue
+1738	t	Nageuse Christelle au Chenal 132 Vaincue
+1739	t	Nageuse Rosalie au Chenal 126 Vaincue
+1740	t	Nageuse Liliane au Chenal 133 Vaincue
+1741	t	Nageuse Linda au Chenal 133 Vaincue
+
+1743	t	Nageuse Graziella au Chenal 134 Vaincue
+1744	t	Nageuse Carla au Chenal 128 Vaincue
+1745	t	Nageuse Jenny (Revanche 1) au Chenal 124 Vaincue
+1746	t	Nageuse Jenny (Revanche 2) au Chenal 124 Vaincue
+1747	t	Nageuse Jenny (Revanche 3) au Chenal 124 Vaincue
+1748	t	Nageuse Jenny (Revanche 4) au Chenal 124 Vaincue
+1749	t	Pique-Nique Heidi à la Route 111 Vaincue
+1750	t	Pique-Nique Geneviève à la Route 111 Vaincue
+1751	t	Pique-Nique Greta à la Route 112 Vaincue
+1752	t	Pique-Nique Nancy à la Route 114 Vaincue
+1753	t	Pique-Nique Marthe au Défi 3 de la Maison des Pièges Vaincue
+1754	t	Pique-Nique Diane au Sentier Sinuroc Vaincue
+1755	t	Kinésiste Cyril au Mont Mémoria Vaincu
+1756	t	Pique-Nique Irène à la Route 111 Vaincue
+1757	t	Pique-Nique Diane (Revanche 1) au Sentier Sinuroc Vaincue
+1758	t	Pique-Nique Diane (Revanche 2) au Sentier Sinuroc Vaincue
+1759	t	Pique-Nique Diane (Revanche 3) au Sentier Sinuroc Vaincue
+1760	t	Pique-Nique Diane (Revanche 4) au Sentier Sinuroc Vaincue
+1761	t	Jumelles Eve & Awa à la Route 103 Vaincues
+1762	t	Jumelles Eve & Awa (Revanche 1) à la Route 103 Vaincues
+1763	t	Jumelles Gina & Mia à la Route 104 Vaincues
+1764	t	Jumelles Miu & Yuki à la Route 123 Vaincues
+
+1767	t	Jumelles Eve & Awa (Revanche 2) à la Route 103 Vaincues
+1768	t	Jumelles Eve & Awa (Revanche 3) à la Route 103 Vaincues
+1769	t	Jumelles Eve & Awa (Revanche 4) à la Route 103 Vaincues
+1770	t	Marin Henri au Chenal 109 Vaincu
+1771	t	Marin Edmond au Chenal 109 Vaincu
+1772	t	Marin Ernest au Chenal 125 Vaincu
+1773	t	Marin Harold au Chenal 109 Vaincu
+1774	t	Marin Philippe sur Le Marina Vaincu
+1775	t	Marin Léonard sur Le Marina Vaincu
+1776	t	Marin Ludovic sur l'Épave Vaincu
+1777	t	Marin Ernest (Revanche 1) au Chenal 125 Vaincu
+1778	t	Marin Ernest (Revanche 2) au Chenal 125 Vaincu
+1779	t	Marin Ernest (Revanche 3) au Chenal 125 Vaincu
+1780	t	Marin Ernest (Revanche 4) au Chenal 125 Vaincu
+1781	t	Montagnard Élie à l'Arène de Vermilava Vaincu
+1782	t	Pokéfan Nicole à l'Arène d'Atalanopolis Vaincue
+1783	t	Topdresseur Astrid à la Route 123 Vaincue
+1784	t	Ninja Fan Justin à la Route 123 Vaincu
+1785	t	Sœur Parasol Agathe à la Route 123 Vaincue
+1786	t	Expert Gaspard au Chenal 125 Vaincu
+1787	t	Marin Patrice au Chenal 134 Vaincu
+1788	t	Topdresseur Margaux au Chenal 134 Vaincue
+1789	t	Combattante Verena au Chenal 134 Vaincue
+1790	t	Marin Valentin au Chenal 134 Vaincu
+1791	t	Expert Yves au Chenal 133 Vaincu
+1792	t	Collec Martin à la Route 110 Vaincu
+1793	t	Collec Hector à la Route 115 Vaincu
+
+1795	t	Collec Martin (Revanche 1) à la Route 110 Vaincu
+1796	t	Collec Martin (Revanche 2) à la Route 110 Vaincu
+1797	t	Collec Martin (Revanche 3) à la Route 110 Vaincu
+1798	t	Collec Martin (Revanche 4) à la Route 110 Vaincu
+1799	t	Dresseur Pokémon Timmy à la Route Victoire Vaincu
+1800	t	Dresseur Pokémon Brice à la Route 103 Vaincu (Gobou en Partenaire)
+1801	t	Dresseur Pokémon Brice à la Route 110 Vaincu (Gobou en Partenaire)
+1802	t	Dresseur Pokémon Brice à la Route 119 Vaincu (Gobou en Partenaire)
+1803	t	Dresseur Pokémon Brice à la Route 103 Vaincu (Arcko en Partenaire)
+1804	t	Dresseur Pokémon Brice à la Route 110 Vaincu (Arcko en Partenaire)
+1805	t	Dresseur Pokémon Brice à la Route 119 Vaincu (Arcko en Partenaire)
+1806	t	Dresseur Pokémon Brice à la Route 103 Vaincu (Poussifeu en Partenaire)
+1807	t	Dresseur Pokémon Brice à la Route 110 Vaincu (Poussifeu en Partenaire)
+1808	t	Dresseur Pokémon Brice à la Route 119 Vaincu (Poussifeu en Partenaire)
+1809	t	Dresseur Pokémon Flora à la Route 103 Vaincue (Gobou en Partenaire)
+1810	t	Dresseur Pokémon Flora à la Route 110 Vaincue (Gobou en Partenaire)
+1811	t	Dresseur Pokémon Flora à la Route 119 Vaincue (Gobou en Partenaire)
+1812	t	Dresseur Pokémon Flora à la Route 103 Vaincue (Arcko en Partenaire)
+1813	t	Dresseur Pokémon Flora à la Route 110 Vaincue (Arcko en Partenaire)
+1814	t	Dresseur Pokémon Flora à la Route 119 Vaincue (Arcko en Partenaire)
+1815	t	Dresseur Pokémon Flora à la Route 103 Vaincue (Poussifeu en Partenaire)
+1816	t	Dresseur Pokémon Flora à la Route 110 Vaincue (Poussifeu en Partenaire)
+1817	t	Dresseur Pokémon Flora à la Route 119 Vaincue (Poussifeu en Partenaire)
+1818	t	Éleveur Isaac à la Route 117 Vaincu
+1819	t	Scout Karim à la Route 123 Vaincu
+1820	t	Topdresseur Gaultier au 1er Sous-sol de la Route Victoire Vaincu
+1821	t	Éleveur Isaac (Revanche 1) à la Route 117 Vaincu
+1822	t	Éleveur Isaac (Revanche 2) à la Route 117 Vaincu
+1823	t	Éleveur Isaac (Revanche 3) à la Route 117 Vaincu
+1824	t	Éleveur Isaac (Revanche 4) à la Route 117 Vaincu
+1825	t	Éleveur Clotilde à la Route 117 Vaincue
+1826	t	Topdresseur Ophélie au 1er Sous-sol de la Route Victoire Vaincue
+1827	t	Ruinemaniac Renaud sur l'Épave Vaincu
+1828	t	Éleveur Clotilde (Revanche 1) à la Route 117 Vaincue
+1829	t	Éleveur Clotilde (Revanche 2) à la Route 117 Vaincue
+1830	t	Éleveur Clotilde (Revanche 3) à la Route 117 Vaincue
+1831	t	Éleveur Clotilde (Revanche 4) à la Route 117 Vaincue
+1832	t	Pokémon Ranger Michael à la Route 119 Vaincu
+1833	t	Pokémon Ranger Lorenzo à la Route 120 Vaincu
+1834	t	Pokémon Ranger Sébastien au Défi 6 de la Maison des Pièges Vaincu
+1835	t	Pokémon Ranger Michael (Revanche 1) à la Route 119 Vaincu
+1836	t	Pokémon Ranger Michael (Revanche 2) à la Route 119 Vaincu
+1837	t	Pokémon Ranger Michael (Revanche 3) à la Route 119 Vaincu
+1838	t	Pokémon Ranger Michael (Revanche 4) à la Route 119 Vaincu
+1839	t	Pokémon Ranger Catherine à la Route 119 Vaincue
+1840	t	Pokémon Ranger Jenna à la Route 120 Vaincue
+1841	t	Pokémon Ranger Sofia au Défi 6 de la Maison des Pièges Vaincue
+1842	t	Pokémon Ranger Catherine (Revanche 1) à la Route 119 Vaincue
+1843	t	Pokémon Ranger Catherine (Revanche 2) à la Route 119 Vaincue
+1844	t	Pokémon Ranger Catherine (Revanche 3) à la Route 119 Vaincue
+1845	t	Pokémon Ranger Catherine (Revanche 4) à la Route 119 Vaincue
+1846	t	Triathlète Nathan au Sentier Sinuroc Vaincu
+1847	t	Sbire Aqua (Mâle) dans la Salle 7 de la Caverne Fondmer Vaincu
+
+1849	t	Sbire Aqua (Femelle) au Mont Mémoria Vaincu
+1850	t	Sbire Magma au Sentier Sinuroc Vaincu
+1851	t	Montagnard Marcus à l'Arène de Mérouville Vaincu
+1852	t	Marin Yvon à l'Arène de Myokara Vaincu
+1853	t	Combattante Camille à l'Arène de Myokara Vaincue
+1854	t	Karatéka Enrique à l'Arène de Myokara Vaincu
+1855	t	Mystimaniac Sally à l'Arène d'Algatia Vaincue
+1856	t	Nageur Léo au Chenal 126 Vaincu
+1857	t	Topdresseur Adeline au Chenal 127 Vaincue
+1858	t	Nageur Harry au Chenal 128 Vaincu
+1859	t	Sbire Magma (Mâle) au Mont Chimnée Vaincu
+1860	t	Nageur Clarence au Chenal 129 Vaincu
+
+1862	t	Gentleman Charles-Edward à l'Arène d'Algatia Vaincu
+1863	t	Mystimaniac Gertrude à l'Arène d'Algatia Vaincue
+1864	t	Gentleman Blaise à l'Arène d'Algatia Vaincu
+1865	t	Kinésiste Phill à l'Arène d'Algatia Vaincu
+1866	t	Sbire Magma (Femelle) au RDC du Centre Spatial d'Algatia Vaincue
+1867	t	Sbire Magma (Mâle) au RDC du Centre Spatial d'Algatia Vaincu
+1868	t	Sbire Magma (Mâle) au 1er Étage du Centre Spatial d'Algatia Vaincu
+1869	t	Sbire Magma (Mâle) au 1er Étage du Centre Spatial d'Algatia Vaincu
+1870	t	Sbire Magma (Mâle) au 1er Étage du Centre Spatial d'Algatia Vaincu
+1871	t	Kinésiste Alessandra à l'Arène d'Algatia Vaincue
+1872	t	Dresseur Pokémon Brice à Mérouville ou à la Route 104 Vaincu (Arcko en Partenaire)
+1873	t	Dresseur Pokémon Brice à Mérouville ou à la Route 104 Vaincu (Gobou en Partenaire)
+1874	t	Expert Kevin au Chenal 132 Vaincu
+1875	t	Triathlète Isabella au Chenal 124 Vaincue
+1876	t	Sbire Aqua (Femelle) au 1er Étage du Centre Météo Vaincue
+1877	t	Admin Magma Kelvin au Mont Chimnée Vaincu
+1878	t	Topdresseur Jonathan au Chenal 132 Vaincu
+1879	t	Dresseur Pokémon Brice à Mérouville ou à la Route 104 Vaincu (Poussifeu en Partenaire)
+1880	t	Dresseur Pokémon Flora à Mérouville ou à la Route 104 Vaincue (Gobou en Partenaire)
+1881	t	Leader Magma Max à la Planque Magma Vaincu
+1882	t	Leader Magma Max au Mont Chimnée Vaincu
+1883	t	Fillette Marianne à la Route 102 Vaincue
+1884	t	Fillette Aude à la Route 104 Vaincue
+1885	t	Fillette Perrine à la Route 116 Vaincue
+1886	t	Stratège Vivi à la Route 111 Vaincue
+1887	t	Fillette Aude (Revanche 1) à la Route 104 Vaincue
+1888	t	Fillette Aude (Revanche 2) à la Route 104 Vaincue
+1889	t	Fillette Aude (Revanche 3) à la Route 104 Vaincue
+1890	t	Fillette Aude (Revanche 4) à la Route 104 Vaincue
+1891	t	Fillette Sally au Défi 1 de la Maison des Piège Vaincue
+1892	t	Fillette Suzette au Défi 1 de la Maison des Piège Vaincue
+1893	t	Fillette Missi à l'Arène d'Atalanopolis Vaincue
+1894	t	Fillette Rachelle à l'Arène d'Atalanopolis Vaincue
+1895	t	Scout Omar à la Route 102 Vaincu
+1896	t	Scout Félix au Bois Clémenti Vaincu
+1897	t	Scout José à la Route 116 Vaincu
+1898	t	Scout Alfred à la Route 119 Vaincu
+1899	t	Scout Gregory à la Route 119 Vaincu
+1900	t	Scout Ken à la Route 119 Vaincu
+1901	t	Scout James au Bois Clémenti Vaincu
+1902	t	Scout James (Revanche 1) au Bois Clémenti Vaincu
+1903	t	Scout James (Revanche 2) au Bois Clémenti Vaincu
+1904	t	Scout James (Revanche 3) au Bois Clémenti Vaincu
+1905	t	Scout James (Revanche 4) au Bois Clémenti Vaincu
+1906	t	Montagnard Basile à la Route 112 Vaincu
+1907	t	Montagnard Guillaume à la Route 112 Vaincu
+1908	t	Montagnard Jean-Luc à la Route 114 Vaincu
+1909	t	Montagnard Lucas à la Route 114 Vaincu
+1910	t	Montagnard Al au Défi 3 de la Maison des Pièges Vaincu
+1911	t	Montagnard Luigi à la Route 116 Vaincu
+1912	t	Montagnard Eric au Sentier Sinuroc Vaincu
+
+1915	t	Montagnard Maxime au Tunnel Mérazon Vaincu
+1916	t	Montagnard Guillaume (Revanche 1) à la Route 112 Vaincu
+1917	t	Montagnard Guillaume (Revanche 2) à la Route 112 Vaincu
+1918	t	Montagnard Guillaume (Revanche 3) à la Route 112 Vaincu
+1919	t	Montagnard Guillaume (Revanche 4) à la Route 112 Vaincu
+1920	t	Jeune Couple Annie & Karl au Mont Mémoria Vaincus
+1921	t	Jeune Couple Lise & Ali sur Le Marina Vaincus
+1922	t	Jeune Couple Rita & Joe sur l'Épave Vaincus
+1923	t	Jeune Couple Rita & Joe (Revanche 1) sur l'Épave Vaincus
+1924	t	Jeune Couple Rita & Joe (Revanche 2) sur l'Épave Vaincus
+1925	t	Jeune Couple Rita & Joe (Revanche 3) sur l'Épave Vaincus
+1926	t	Jeune Couple Rita & Joe (Revanche 4) sur l'Épave Vaincus
+1927	t	Canon Flavie au Chenal 109 Vaincue
+1928	t	Topdresseur Gérald à l'Arène de Vermilava Vaincu
+1929	t	Combattante Vivianne à l'Arène de Lavandia Vaincue
+1930	t	Combattante Danielle à l'Arène de Vermilava Vaincue
+1931	t	Ninja Fan Hideo à la Route 119 Vaincu
+1932	t	Ninja Fan Keneda à la Route 120 Vaincu
+1933	t	Ninja Fan Marcel à la Route 120 Vaincu
+1934	t	Campeur Frédéric à l'Arène de Cimetronelle Vaincu
+1935	t	Pique-Nique Connie à l'Arène de Cimetronelle Vaincue
+1936	t	Dresseur Pokémon Timmy à Lavandia Vaincu
+1937	t	Dresseur Pokémon Timmy (Revanche 1) à la Route Victoire Vaincu
+1938	t	Dresseur Pokémon Timmy (Revanche 2) à la Route Victoire Vaincu
+1939	t	Dresseur Pokémon Timmy (Revanche 3) à la Route Victoire Vaincu
+1940	t	Dresseur Pokémon Timmy (Revanche 4) à la Route Victoire Vaincu
+1941	t	Brice à Nénucrique Vaincu (Gobou en Partenaire)
+1942	t	Brice à Nénucrique Vaincu (Arcko en Partenaire)
+1943	t	Brice à Nénucrique Vaincu (Poussifeu en Partenaire)
+1944	t	Flora à Nénucrique Vaincue (Gobou en Partenaire)
+1945	t	Flora à Nénucrique Vaincue (Arcko en Partenaire)
+1946	t	Flora à Nénucrique Vaincue (Poussifeu en Partenaire)
+1947	t	Pêcheur Jonas au Chenal 127 Vaincu
+1948	t	Pêcheur Henry au Chenal 127 Vaincu
+1949	t	Pêcheur Roger au Chenal 127 Vaincu
+1950	t	Topdresseur Alexia au Chenal 128 Vaincue
+1951	t	Topdresseur Steven au Chenal 128 Vaincu
+1952	t	Karatéka Koji au Chenal 127 Vaincu
+1953	t	Pêcheur Jérémy au Chenal 128 Vaincu
+1954	t	Ornithologue Luc au Chenal 127 Vaincu
+1955	t	Nageur Albin au Chenal 129 Vaincu
+1956	t	Nageuse Katia au Chenal 129 Vaincue
+1957	t	Jumelles Lila & Nelly à la Route 113 Vaincues
+1958	t	Sr. et Jr. Kim & Iris au Chenal 125 Vaincues
+1959	t	Sr. et Jr. Tyra & Ivy à la Route 114 Vaincues
+1960	t	Jeune Couple Mel & Paul au Chenal 109 Vaincus
+1961	t	Vieux Couple John & Jay au Site Météore Vaincus
+1962	t	Vieux Couple John & Jay (Revanche 1) au Site Météore Vaincus
+1963	t	Vieux Couple John & Jay (Revanche 2) au Site Météore Vaincus
+1964	t	Vieux Couple John & Jay (Revanche 3) au Site Météore Vaincus
+1965	t	Vieux Couple John & Jay (Revanche 4) au Site Météore Vaincus
+1966	t	Frère et Sœur Ian & Lana au Chenal 131 Vaincus
+1967	t	Frère et Sœur Rita & Sam au Chenal 124 Vaincus
+1968	t	Frère et Sœur Rita & Sam (Revanche 1) au Chenal 124 Vaincus
+1969	t	Frère et Sœur Rita & Sam (Revanche 2) au Chenal 124 Vaincus
+1970	t	Frère et Sœur Rita & Sam (Revanche 3) au Chenal 124 Vaincus
+1971	t	Frère et Sœur Rita & Sam (Revanche 4) au Chenal 124 Vaincus
+1972	t	Frère & Sœur Ray & Lisa au Chenal 107 Vaincus
+1973	t	Pêcheur Christophe à la Route 119 Vaincu
+1974	t	Richard Adrien à la Route 116 Vaincu
+1975	t	Mademoiselle Paola à la Route 116 Vaincue
+1976	t	Pêcheur Remy à la Route 104 Vaincu
+1977	t	Flotteur Vero au Chenal 109 Vaincue
+1978	t	Flotteur Jeannot au Chenal 109 Vaincu
+1979	t	Pokéfan Kaleb à la Route 110 Vaincu
+1980	t	Guitariste Joseph à la Route 110 Vaincu
+1981	t	Triathlète Alyssa à la Route 110 Vaincue
+1982	t	Guitariste Yorick à la Route 103 Vaincu
+1983	t	Karatéka Jeremia à la Route 103 Vaincu
+1984	t	Campeur Jim à la Route 111 Vaincu
+1985	t	Aroma Celina à la Route 111 Vaincue
+1986	t	Pique-Nique Bianca à la Route 111 Vaincue
+1987	t	Saltimbanque Jerry à la Route 111 Vaincu
+1988	t	Pique-Nique Sophia à la Route 113 Vaincue
+1989	t	Ornithologue Walter à la Route 113 Vaincu
+1990	t	Campeur Zacharie à la Route 113 Vaincu
+1991	t	Pokémaniac Kerwin à la Route 113 Vaincu
+1992	t	Pique-Nique Angelina à la Route 114 Vaincue
+1993	t	Pêcheur Kai à la Route 114 Vaincu
+1994	t	Pique-Nique Charleen à la Route 114 Vaincue
+1995	t	Gamin Lino à la Route 118 Vaincu
+1996	t	Sbire Magma (Mâle) dans la 1ère Salle de la Planque Magma Vaincu
+1997	t	Sbire Magma (Mâle) dans la 1ère Salle de la Planque Magma Vaincu
+1998	t	Sbire Magma (Mâle) dans la 2ème Salle de la Planque Magma Vaincu
+1999	t	Sbire Magma (Mâle) dans la 2ème Salle de la Planque Magma Vaincu
+2000	t	Sbire Magma (Mâle) dans la 2ème Salle de la Planque Magma Vaincu
+2001	t	Sbire Magma (Mâle) dans la 8ème Salle de la Planque Magma Vaincu
+2002	t	Sbire Magma (Mâle) dans la 8ème Salle de la Planque Magma Vaincu
+2003	t	Sbire Magma (Mâle) dans la 8ème Salle de la Planque Magma Vaincu
+2004	t	Sbire Magma (Mâle) dans la 3ème Salle de la Planque Magma Vaincu
+2005	t	Sbire Magma (Mâle) dans la 7ème Salle de la Planque Magma Vaincu
+2006	t	Sbire Magma (Mâle) dans la 4ème Salle de la Planque Magma Vaincu
+2007	t	Sbire Magma (Mâle) dans la 4ème Salle de la Planque Magma Vaincu
+2008	t	Sbire Magma (Mâle) dans la 4ème Salle de la Planque Magma Vaincu
+2009	t	Sbire Magma (Femelle) dans la 2ème Salle de la Planque Magma Vaincu
+2010	t	Sbire Magma (Femelle) dans la 8ème Salle de la Planque Magma Vaincu
+2011	t	Sbire Magma (Femelle) dans la 3ème Salle de la Planque Magma Vaincu
+2012	t	Admin Magma Kelvin à la Planque Magma Vaincu
+2013	t	Topdresseur Séverine au Chenal 132 Vaincue
+
+2015	t	Nageur Laszlo à la Route 103 Vaincu
+2016	t	Nageuse Isabeau à la Route 103 Vaincue
+2017	t	Ruinemaniac Léni au Chenal 105 Vaincu
+2018	t	Ornithologue Joshua au Chenal 105 Vaincu
+2019	t	Triathlète Yann au Chenal 107 Vaincu
+2020	t	Marin Lambert au Chenal 108 Vaincu
+2021	t	Topdresseur Carolina au Chenal 108 Vaincue
+2022	t	Ornithologue Elliah au Chenal 109 Vaincu
+2023	t	Pique-Nique Célia à la Route 111 Vaincue
+2024	t	Ruinemaniac Kenzo à la Route 111 Vaincu
+2025	t	Campeur Julio à la Route 111 Vaincu
+2026	t	Saltimbanque Raoul à la Route 112 Vaincu
+2027	t	Aroma Léonie à la Route 112 Vaincue
+2028	t	Triathlète Kyra à la Route 115 Vaincue
+2029	t	Ninja Fan Ralph à la Route 115 Vaincu
+2030	t	Kinésiste Faby à la Route 115 Vaincue
+2031	t	Combattante Emilie à la Route 115 Vaincue
+2032	t	Kinésiste Marlène à la Route 115 Vaincue
+2033	t	Montagnard Marcelin à la Route 116 Vaincu
+2034	t	Gamin Bryan à la Route 116 Vaincu
+2035	t	Triathlète Melina à la Route 117 Vaincue
+2036	t	Kinésiste Anais à la Route 117 Vaincue
+2037	t	Combattante Aisha à la Route 117 Vaincue
+2038	t	Expert Angèle au Chenal 132 Vaincue
+2039	t	Guitariste Fabian à la Route 119 Vaincu
+2040	t	Saltimbanque Melvil à la Route 119 Vaincu
+2041	t	Sœur Parasol Arlette à la Route 119 Vaincue
+2042	t	Topdresseur Maxim à la Route 120 Vaincu
+2043	t	Combattante Armelle à la Route 120 Vaincue
+2044	t	Entomomaniac Aymeric à la Route 121 Vaincu
+2045	t	Éleveur Norbert à la Route 121 Vaincu
+2046	t	Éleveur Pathy à la Route 121 Vaincue
+2047	t	Topdresseur Christine à la Route 121 Vaincue
+2048	t	Dresseur Pokémon Flora à Mérouville ou à la Route 104 Vaincue (Arcko en Partenaire)
+2049	t	Dresseur Pokémon Flora à Mérouville ou à la Route 104 Vaincue (Poussifeu en Partenaire)
+2050	t	Champion d'Arène Roxanne (Revanche 1) Vaincue
+2051	t	Champion d'Arène Roxanne (Revanche 2) Vaincue
+2052	t	Champion d'Arène Roxanne (Revanche 3) Vaincue
+2053	t	Champion d'Arène Roxanne (Revanche 4) Vaincue
+2054	t	Champion d'Arène Bastien (Revanche 1) Vaincu
+2055	t	Champion d'Arène Bastien (Revanche 2) Vaincu
+2056	t	Champion d'Arène Bastien (Revanche 3) Vaincu
+2057	t	Champion d'Arène Bastien (Revanche 4) Vaincu
+2058	t	Champion d'Arène Voltère (Revanche 1) Vaincu
+2059	t	Champion d'Arène Voltère (Revanche 2) Vaincu
+2060	t	Champion d'Arène Voltère (Revanche 3) Vaincu
+2061	t	Champion d'Arène Voltère (Revanche 4) Vaincu
+2062	t	Champion d'Arène Adriane (Revanche 1) Vaincue
+2063	t	Champion d'Arène Adriane (Revanche 2) Vaincue
+2064	t	Champion d'Arène Adriane (Revanche 3) Vaincue
+2065	t	Champion d'Arène Adriane (Revanche 4) Vaincue
+2066	t	Champion d'Arène Norman (Revanche 1) Vaincu
+2067	t	Champion d'Arène Norman (Revanche 2) Vaincu
+2068	t	Champion d'Arène Norman (Revanche 3) Vaincu
+2069	t	Champion d'Arène Norman (Revanche 4) Vaincu
+2070	t	Champion d'Arène Alizée (Revanche 1) Vaincue
+2071	t	Champion d'Arène Alizée (Revanche 2) Vaincue
+2072	t	Champion d'Arène Alizée (Revanche 3) Vaincue
+2073	t	Champion d'Arène Alizée (Revanche 4) Vaincue
+2074	t	Champions d'Arène Lévy & Tatia (Revanche 1) Vaincus
+2075	t	Champions d'Arène Lévy & Tatia (Revanche 2) Vaincus
+2076	t	Champions d'Arène Lévy & Tatia (Revanche 3) Vaincus
+2077	t	Champions d'Arène Lévy & Tatia (Revanche 4) Vaincus
+2078	t	Champion d'Arène Juan (Revanche 1) Vaincu
+2079	t	Champion d'Arène Juan (Revanche 2) Vaincu
+2080	t	Champion d'Arène Juan (Revanche 3) Vaincu
+2081	t	Champion d'Arène Juan (Revanche 4) Vaincu
+2082	t	Entomomaniac Oliviero à l'Arène de Lavandia Vaincu
+2083	t	Ornithologue Placide à l'Arène de Cimetronelle Vaincu
+2084	t	Dresseur Pokémon Pierre au Site Météore Vaincu
+
+2092	t	Ruinemaniac Léni (Revanche 1) au Chenal 105 Vaincu
+2093	t	Ruinemaniac Léni (Revanche 2) au Chenal 105 Vaincu
+2094	t	Ruinemaniac Léni (Revanche 3) au Chenal 105 Vaincu
+2095	t	Ruinemaniac Léni (Revanche 4) au Chenal 105 Vaincu
+2096	t	Marin Lambert (Revanche 1) au Chenal 108 Vaincu
+2097	t	Marin Lambert (Revanche 2) au Chenal 108 Vaincu
+2098	t	Marin Lambert (Revanche 3) au Chenal 108 Vaincu
+2099	t	Marin Lambert (Revanche 4) au Chenal 108 Vaincu
+2100	t	Triathlète Pablo (Revanche 1) au Chenal 126 Vaincu
+2101	t	Triathlète Pablo (Revanche 2) au Chenal 126 Vaincu
+2102	t	Triathlète Pablo (Revanche 3) au Chenal 126 Vaincu
+2103	t	Triathlète Pablo (Revanche 4) au Chenal 126 Vaincu
+2104	t	Karatéka Koji (Revanche 1) au Chenal 127 Vaincu
+2105	t	Karatéka Koji (Revanche 2) au Chenal 127 Vaincu
+2106	t	Karatéka Koji (Revanche 3) au Chenal 127 Vaincu
+2107	t	Karatéka Koji (Revanche 4) au Chenal 127 Vaincu
+2108	t	Topdresseur Christine (Revanche 1) à la Route 121 Vaincue
+2109	t	Topdresseur Christine (Revanche 2) à la Route 121 Vaincue
+2110	t	Topdresseur Christine (Revanche 3) à la Route 121 Vaincue
+2111	t	Topdresseur Christine (Revanche 4) à la Route 121 Vaincue
+2112	t	Guitariste Fernand (Revanche 1) à la Route 123 Vaincu
+2113	t	Guitariste Fernand (Revanche 2) à la Route 123 Vaincu
+2114	t	Guitariste Fernand (Revanche 3) à la Route 123 Vaincu
+2115	t	Guitariste Fernand (Revanche 4) à la Route 123 Vaincu
+2116	t	Montagnard Émilien (Revanche 1) au Mont Chimnée Vaincu
+2117	t	Montagnard Émilien (Revanche 2) au Mont Chimnée Vaincu
+2118	t	Montagnard Émilien (Revanche 3) au Mont Chimnée Vaincu
+2119	t	Montagnard Émilien (Revanche 4) au Mont Chimnée Vaincu
+2120	t	Éleveur Lara (Revanche 1) au Mont Mémoria Vaincue
+2121	t	Éleveur Lara (Revanche 2) au Mont Mémoria Vaincue
+2122	t	Éleveur Lara (Revanche 3) au Mont Mémoria Vaincue
+2123	t	Éleveur Lara (Revanche 4) au Mont Mémoria Vaincue
+2124	t	Canon Thalia (Revanche 1) sur l'Épave Vaincu
+2125	t	Canon Thalia (Revanche 2) sur l'Épave Vaincu
+2126	t	Canon Thalia (Revanche 3) sur l'Épave Vaincu
+2127	t	Canon Thalia (Revanche 4) sur l'Épave Vaincu
+2128	t	Kinésiste Antonia au Défi 7 de la Maison des Pièges Vaincue
+2129	t	Kinésiste Alvaro au Défi 7 de la Maison des Pièges Vaincu
+2130	t	Gentleman Lazare au Défi 7 de la Maison des Pièges Vaincu
+
+2186	m	Fort Soleil/Forte Pluie à l'Est d'Hoenn
+2159	f	Peut Voler à Bourg-en-Vol
+2160	f	Peut Voler à Rosyères
+2161	f	Peut Voler à Myokara
+2162	f	Peut Voler à Vermilava
+2163	f	Peut Voler à Autéquia
+2164	f	Peut Voler à Vergazon
+2165	f	Peut Voler à Pacifiville
+2166	f	Peut Voler à Clémenti-Ville
+2167	f	Peut Voler à Poivressel
+2168	f	Peut Voler à Lavandia
+2169	f	Peut Voler à Mérouville
+2170	f	Peut Voler à Cimetronelle
+2171	f	Peut Voler à Nénucrique
+2172	f	Peut Voler à Algatia
+2173	f	Peut Voler à Atalanopolis
+2174	f	Peut Voler à Éternara
+2216	f	Peut Voler à la Zone de Combat
+2204	m	A Visité le Fleuriste Jolie Fleur (Route 104)
+2205	m	A Visité le Cottage de M. Marco
+2206	m	A Visité l'Épave
+2207	m	A Visité la Maison du Bord de Mer (Chenal 109)
+2208	m	A Visité New Lavandia
+2209	m	A Visité le Gîte Vieille Dame (Route 111)
+2210	m	A Visité la Maison des Pièges
+2211	m	A Visité la Maison de la Famille Stratège (Route 111)
+2212	m	A Visité l'Atelier du Verre (Route 113)
+2213	m	A Visité la Maison d'Annette (Route 114)
+2214	m	A Visité la Pension Pokémon
+2215	m	A Visité la Caverne Fondmer
+2218	m	A Visité le Chemin Ardent
+2228	m	A Visité la Ligue Pokémon
+2229	m	A Visité la Grotte Island
+2230	m	A Visité les Ruines Désert
+2231	m	A Visité la Maison du Maniaque des Fossiles (Route 114)
+2232	m	A Visité la Grotte Zénith
+2233	m	A Visité le Tombeau Antique
+2234	m	A Visité le Refuge des Foreurs (Route 116)
+2235	m	A Visité la Maison du Chercheur de Trésors (Chenal 124)
+2236	m	A Visité le Sanctuaire
+2238	m	A Visité le Pilier Céleste
+2243	m	A Visité la Maison du Maître des Baies
+2268	m	A Visité la Tour Mirage
+2269	m	A Visité la Grotte Métamo
+2270	m	A Visité la Voie du Désert
+2274	m	A Visité le Mont Dresseurs
