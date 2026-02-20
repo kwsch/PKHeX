@@ -31,6 +31,8 @@
     "BallSpecies": "不能以该球捕获宝可梦。",
     "BallSpeciesPass": "球对该种类合法。",
     "BallUnavailable": "在原来世代该球不可获得。",
+    "BallG4Sinnoh": "Ball value for D/P/Pt (0x83) is not within range.",
+    "BallG4Johto": "Extended Ball value for HG/SS (0x86) is not within range.",
     "ContestZero": "华丽大赛状态值应为0。",
     "ContestZeroSheen": "华丽大赛光泽度应为0。",
     "ContestSheenGEQ_0": "华丽大赛光泽度应 >= {0}。",

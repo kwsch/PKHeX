@@ -20,7 +20,7 @@ internal sealed class MiscVerifierPK5 : Verifier
         VerifyNSparkle(data, pk, enc);
     }
 
-    private static void VerifyFame(LegalityAnalysis data, PK5 pk, IEncounterable enc)
+    private static void VerifyFame(LegalityAnalysis data, PK5 pk, IEncounterTemplate enc)
     {
         var fame = pk.PokeStarFame;
         if (fame == 0)
@@ -35,7 +35,7 @@ internal sealed class MiscVerifierPK5 : Verifier
             data.AddLine(GetInvalid(Misc, G5PokeStarImpossibleValue));
     }
 
-    private static void VerifyNSparkle(LegalityAnalysis data, PK5 pk, IEncounterable enc)
+    private static void VerifyNSparkle(LegalityAnalysis data, PK5 pk, IEncounterTemplate enc)
     {
         // Ensure NSparkle is only present on N's encounters.
         if (enc is EncounterStatic5N)

@@ -327,12 +327,6 @@ public sealed class RK4 : G4PKM
     #endregion
 
     // Methods
-    public void SetSaveRevision(int ranchSaveRevision)
-    {
-        if (ranchSaveRevision == 0)
-            StripPtHGSSContent(this);
-    }
-
     protected override byte[] Encrypt()
     {
         RefreshChecksum();

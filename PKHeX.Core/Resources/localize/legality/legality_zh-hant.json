@@ -31,6 +31,8 @@
     "BallSpecies": "無法使用此球種捕獲該寶可夢。",
     "BallSpeciesPass": "可使用此球種捕獲該種類寶可夢。",
     "BallUnavailable": "於此寶可夢出身游戲世代中，該球種不可獲得。",
+    "BallG4Sinnoh": "Ball value for D/P/Pt (0x83) is not within range.",
+    "BallG4Johto": "Extended Ball value for HG/SS (0x86) is not within range.",
     "ContestZero": "華麗大賽狀態值應置「0」。",
     "ContestZeroSheen": "華麗大賽光澤度應置「0」。",
     "ContestSheenGEQ_0": "華麗大賽光澤度應大於或等於「 {0} 」。",

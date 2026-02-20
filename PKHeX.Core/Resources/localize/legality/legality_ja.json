@@ -31,6 +31,8 @@
     "BallSpecies": "このボールでは捕獲できません。",
     "BallSpeciesPass": "ポケモンによっては捕獲可能なボール。",
     "BallUnavailable": "元の世代では入手できないボール。",
+    "BallG4Sinnoh": "Ball value for D/P/Pt (0x83) is not within range.",
+    "BallG4Johto": "Extended Ball value for HG/SS (0x86) is not within range.",
     "ContestZero": "コンディションは0でなければなりません。",
     "ContestZeroSheen": "けづやは0でなければなりません。",
     "ContestSheenGEQ_0": "けづやは >= {0} でなければなりません。",

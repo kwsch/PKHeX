@@ -45,6 +45,8 @@ public enum LegalityCheckResultCode : ushort
     BallSpecies,
     BallSpeciesPass,
     BallUnavailable,
+    BallG4Sinnoh,
+    BallG4Johto,
 
     // Contest
     ContestZero,

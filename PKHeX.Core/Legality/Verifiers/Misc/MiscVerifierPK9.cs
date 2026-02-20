@@ -34,7 +34,7 @@ internal sealed class MiscVerifierPK9 : Verifier
             VerifyPreDLC(data, pk, enc);
     }
 
-    private void VerifyPreDLC(LegalityAnalysis data, PK9 pk, IEncounterable enc)
+    private void VerifyPreDLC(LegalityAnalysis data, PK9 pk, IEncounterTemplate enc)
     {
         if (enc is { Species: (int)Species.Larvesta, Form: 0 } and not EncounterEgg9)
             DisallowLevelUpMove(24, (ushort)Move.BugBite, pk, data);
@@ -49,7 +49,7 @@ internal sealed class MiscVerifierPK9 : Verifier
             data.AddLine(GetInvalid(BallUnavailable));
     }
 
-    private void VerifyEncounter(LegalityAnalysis data, PK9 pk, IEncounterable enc)
+    private void VerifyEncounter(LegalityAnalysis data, PK9 pk, IEncounterTemplate enc)
     {
         if (enc is EncounterEgg9 g)
         {

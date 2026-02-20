@@ -31,6 +31,8 @@
     "BallSpecies": "Impossibile ottenere questa specie in questa Ball.",
     "BallSpeciesPass": "Ball possibile per la specie.",
     "BallUnavailable": "Ball inottenibile nella generazione di origine.",
+    "BallG4Sinnoh": "Ball value for D/P/Pt (0x83) is not within range.",
+    "BallG4Johto": "Extended Ball value for HG/SS (0x86) is not within range.",
     "ContestZero": "Le statistiche delle Gare dovrebbero essere 0.",
     "ContestZeroSheen": "Il Lustro dovrebbe essere 0.",
     "ContestSheenGEQ_0": "Il Lustro dovrebbe essere >= {0}.",

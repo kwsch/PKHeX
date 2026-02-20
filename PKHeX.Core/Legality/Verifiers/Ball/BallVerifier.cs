@@ -45,7 +45,7 @@ public sealed class BallVerifier : Verifier
         return VerifyBall(enc, current, pk);
     }
 
-    private static BallVerificationResult VerifyEvolvedShedinja(IEncounterable enc, Ball current, PKM pk, LegalInfo info)
+    private static BallVerificationResult VerifyEvolvedShedinja(IEncounterTemplate enc, Ball current, PKM pk, LegalInfo info)
     {
         // Nincada evolving into Shedinja normally reverts to Poké Ball.
 

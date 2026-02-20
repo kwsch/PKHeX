@@ -55,6 +55,8 @@ public static class LegalityCheckResultCodeExtensions
             BallSpecies => localization.BallSpecies,
             BallSpeciesPass => localization.BallSpeciesPass,
             BallUnavailable => localization.BallUnavailable,
+            BallG4Sinnoh => localization.BallG4Sinnoh,
+            BallG4Johto => localization.BallG4Johto,
 
             // Contest
             ContestZero => localization.ContestZero,

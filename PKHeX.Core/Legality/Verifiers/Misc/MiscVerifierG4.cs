@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.LegalityCheckResultCode;
 using static PKHeX.Core.CheckIdentifier;
 
@@ -16,9 +17,44 @@ internal sealed class MiscVerifierG4 : Verifier
     internal void Verify(LegalityAnalysis data, G4PKM pk)
     {
         // Verify misc values that were introduced in HG/SS
-        VerifySplitBall(data, pk);
         VerifyWalkingMood(data, pk);
         VerifyShinyLeaf(data, pk);
+
+        var palPark = PalParkTransferOrigin.None;
+        var enc = data.EncounterOriginal;
+        if (enc.Generation == 3)
+        {
+            palPark = CheckPalParkTransfer(pk);
+            if (palPark == PalParkTransferOrigin.Invalid)
+                return;
+            VerifyMetLocation3(data, pk, palPark);
+        }
+        VerifySplitBall(data, pk, palPark);
+    }
+
+    private void VerifyMetLocation3(LegalityAnalysis data, G4PKM pk, PalParkTransferOrigin palPark)
+    {
+        var extended = pk.MetLocationExtended;
+        if (extended == 0 && palPark.HasFlag(PalParkTransferOrigin.DP))
+            return; // OK
+        if (extended == pk.MetLocationDP && palPark.HasFlag(PalParkTransferOrigin.PtHGSS))
+            return; // OK
+
+        data.AddLine(GetInvalid(TransferMetLocation, Locations.Transfer3));
+    }
+
+    private static PalParkTransferOrigin CheckPalParkTransfer(G4PKM pk)
+    {
+        // The Pt/HG/SS location value is unset; others will not be true.
+        if (pk.MetLocationExtended == 0)
+            return pk.PossiblyPalParkDP ? PalParkTransferOrigin.DP : PalParkTransferOrigin.Invalid;
+
+        var result = PalParkTransferOrigin.None;
+        if (pk.PossiblyPalParkPt)
+            result |= PalParkTransferOrigin.Pt;
+        if (pk.PossiblyPalParkHGSS)
+            result |= PalParkTransferOrigin.HGSS;
+        return result;
     }
 
     private void VerifyShinyLeaf(LegalityAnalysis data, G4PKM pk)
@@ -30,15 +66,50 @@ internal sealed class MiscVerifierG4 : Verifier
             data.AddLine(GetInvalid(G4ShinyLeafBitsInvalid));
     }
 
-    private static void VerifySplitBall(LegalityAnalysis data, G4PKM pk)
+    private static void VerifySplitBall(LegalityAnalysis data, G4PKM pk, PalParkTransferOrigin palPark)
     {
-        // Version is a true match. If not from HG/SS, should not have HG/SS ball value set.
-        if (pk.BallHGSS == 0 && pk.BallDPPt == pk.Ball)
-            return;
+        // Sanity check the D/P/Pt value.
+        if (!IsValidBallDP(pk.BallDPPt))
+            data.AddLine(GetInvalid(CheckIdentifier.Ball, BallG4Sinnoh));
+        if (!IsValidBallHGSS(data, pk, palPark))
+            data.AddLine(GetInvalid(CheckIdentifier.Ball, BallG4Johto));
+    }
 
+    private static bool IsValidBallHGSS(LegalityAnalysis data, G4PKM pk, PalParkTransferOrigin palPark)
+    {
+        var ball = pk.BallHGSS;
+        var enc = data.EncounterOriginal;
+        // If not from HG/SS, should not have HG/SS ball value set.
+        // Battle Revolution does not copy this byte.
+        if (!IsCreatedInHGSS(pk, enc, palPark) || pk is BK4)
+            return ball == 0;
+
+        // If it could have been D/P/Pt transfer, then allow the not-HG/SS state.
+        if ((palPark & (PalParkTransferOrigin.DPPt)) != 0)
+        {
+            if (ball == 0)
+                return true;
+        }
+
+        var dp = pk.BallDPPt;
+        // Assume D/P/Pt ball is valid (flagged separately).
+        // Ball being equal is OK.
+        // Ball being HG/SS exclusive is OK if D/P/Pt is default (4).
+        return ball == dp || (dp is (byte)Ball.Poke && !IsValidBallDP(ball));
+    }
+
+    // Any other ball value (HG/SS ball) isn't available/displayed correctly.
+    private static bool IsValidBallDP(byte ball) => ball <= (int)Ball.Cherish;
+
+    private static bool IsCreatedInHGSS(G4PKM pk, IEncounterTemplate enc, PalParkTransferOrigin palPark)
+    {
         // Only set the HG/SS value if it originated in HG/SS and was not an event (pre-filled data only; not Manaphy egg!).
-        if (!pk.HGSS || data.Info.EncounterOriginal is PCD) // PCD: not Manaphy via PGT
-            data.AddLine(GetInvalid(CheckIdentifier.Ball, BallEncMismatch));
+        // Pal Park transfers into HG/SS set this value as well.
+        if (pk.HGSS)
+            return enc is not PCD; // PCD: not Manaphy via PGT
+        if (palPark.HasFlag(PalParkTransferOrigin.HGSS))
+            return true;
+        return false;
     }
 
     private static void VerifyWalkingMood(LegalityAnalysis data, G4PKM pk)
@@ -55,9 +126,23 @@ internal sealed class MiscVerifierG4 : Verifier
         if (pk.WalkingMood == 0)
             return;
 
+        const Severity severity = Severity.Fishy;
         if (pk.IsEgg)
-            data.AddLine(GetInvalid(Egg, G4PartnerMoodEgg));
+            data.AddLine(Get(Egg, severity, G4PartnerMoodEgg));
         else if (!data.IsStoredSlot(StorageSlotType.Party) && ParseSettings.ActiveTrainer is SAV4HGSS)
-            data.AddLine(GetInvalid(Egg, G4PartnerMoodZero));
+            data.AddLine(Get(Misc, severity, G4PartnerMoodZero));
     }
+}
+
+[Flags]
+public enum PalParkTransferOrigin
+{
+    None,
+    DP = 1 << 0,
+    Pt = 1 << 1,
+    HGSS = 1 << 2,
+    Invalid = 1 << 3,
+
+    DPPt = DP | Pt,
+    PtHGSS = Pt | HGSS,
 }

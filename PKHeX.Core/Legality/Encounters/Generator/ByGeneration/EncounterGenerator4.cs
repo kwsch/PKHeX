@@ -127,8 +127,8 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
 
     private static bool IsBallCompatible(IFixedBall e, PKM pk) => e.FixedBall switch
     {
-        Ball.Safari when pk.Ball is (byte)Ball.Safari => true,
-        Ball.Sport when pk.Ball is (byte)Ball.Sport => true,
+        Ball.Safari => pk.Ball is (byte)Ball.Safari,
+        Ball.Sport  => pk.Ball is (byte)Ball.Sport && pk is not BK4 || pk is BK4 { BallDPPt: (byte)Ball.Poke }, // side transfer forgetting ball
         _ => pk.Ball is not ((byte)Ball.Safari or (byte)Ball.Sport),
     };
 

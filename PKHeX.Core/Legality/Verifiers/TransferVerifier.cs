@@ -192,7 +192,7 @@ public sealed class TransferVerifier : Verifier
     public void VerifyVCEncounter(PKM pk, IEncounterTemplate original, EncounterTransfer7 transfer, LegalityAnalysis data)
     {
         if (pk.MetLocation != transfer.Location)
-            data.AddLine(GetInvalid(TransferMetLocation));
+            data.AddLine(GetInvalid(TransferMetLocation, transfer.Location));
 
         var expectEgg = pk is PB8 ? Locations.Default8bNone : transfer.EggLocation;
         if (pk.EggLocation != expectEgg)

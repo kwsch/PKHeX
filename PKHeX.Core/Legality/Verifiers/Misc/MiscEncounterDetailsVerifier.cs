@@ -15,7 +15,7 @@ internal sealed class MiscEncounterDetailsVerifier : Verifier
         Verify(data, pk, enc);
     }
 
-    internal void Verify(LegalityAnalysis data, PKM pk, IEncounterable enc)
+    internal void Verify(LegalityAnalysis data, PKM pk, IEncounterTemplate enc)
     {
         if (enc is IEncounterServerDate { IsDateRestricted: true } encounterDate)
             VerifyServerDate2000(data, pk, enc, encounterDate);
@@ -23,7 +23,7 @@ internal sealed class MiscEncounterDetailsVerifier : Verifier
         VerifyRandomCorrelationSwitch(data, pk, enc);
     }
 
-    private void VerifyRandomCorrelationSwitch(LegalityAnalysis data, PKM pk, IEncounterable enc)
+    private void VerifyRandomCorrelationSwitch(LegalityAnalysis data, PKM pk, IEncounterTemplate enc)
     {
         if (enc is IOverworldCorrelation8 z)
         {
@@ -85,7 +85,7 @@ internal sealed class MiscEncounterDetailsVerifier : Verifier
             data.AddLine(GetInvalid(PIDTypeMismatch));
     }
 
-    private void VerifyServerDate2000(LegalityAnalysis data, PKM pk, IEncounterable enc, IEncounterServerDate date)
+    private void VerifyServerDate2000(LegalityAnalysis data, PKM pk, IEncounterTemplate enc, IEncounterServerDate date)
     {
         const int epoch = 2000;
         var actualDay = new DateOnly(pk.MetYear + epoch, pk.MetMonth, pk.MetDay);

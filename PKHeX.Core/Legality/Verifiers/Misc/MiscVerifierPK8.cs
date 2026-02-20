@@ -43,7 +43,7 @@ internal sealed class MiscVerifierPK8 : Verifier
         }
     }
 
-    private void VerifyGigantamax(LegalityAnalysis data, PK8 pk, IEncounterable enc)
+    private void VerifyGigantamax(LegalityAnalysis data, PK8 pk, IEncounterTemplate enc)
     {
         bool originGMax = enc is IGigantamaxReadOnly { CanGigantamax: true };
         if (originGMax != pk.CanGigantamax)

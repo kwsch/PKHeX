@@ -31,6 +31,8 @@
     "BallSpecies": "L'espèce ne peut pas être capturée avec cette Ball.",
     "BallSpeciesPass": "Ball possible pour l'espèce.",
     "BallUnavailable": "Ball impossible à obtenir dans la génération du jeu.",
+    "BallG4Sinnoh": "Ball value for D/P/Pt (0x83) is not within range.",
+    "BallG4Johto": "Extended Ball value for HG/SS (0x86) is not within range.",
     "ContestZero": "Les Stats de Concours doivent être 0.",
     "ContestZeroSheen": "La Stat de Concours Lustre doit être à 0.",
     "ContestSheenGEQ_0": "La Stat de Concours Lustre doit être >= {0}.",

@@ -31,6 +31,8 @@
     "BallSpecies": "La especie no se puede obtener en esta Bola.",
     "BallSpeciesPass": "Bola posible para esta especie.",
     "BallUnavailable": "Bola imposible en la generación de origen.",
+    "BallG4Sinnoh": "Ball value for D/P/Pt (0x83) is not within range.",
+    "BallG4Johto": "Extended Ball value for HG/SS (0x86) is not within range.",
     "ContestZero": "Las estadísticas de concurso deberían ser 0.",
     "ContestZeroSheen": " La estadística de concurso Brillo debería ser 0.",
     "ContestSheenGEQ_0": "La estadística de concurso Brillo debería ser >= {0}.",

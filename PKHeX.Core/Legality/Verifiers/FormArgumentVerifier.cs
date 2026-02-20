@@ -119,7 +119,7 @@ public sealed class FormArgumentVerifier : Verifier
         };
     }
 
-    private CheckResult CheckPrimeape(LegalityAnalysis data, PKM pk, uint arg, IEncounterable enc)
+    private CheckResult CheckPrimeape(LegalityAnalysis data, PKM pk, uint arg, IEncounterTemplate enc)
     {
         if (arg == 0)
             return GetValid(FormArgumentValid);

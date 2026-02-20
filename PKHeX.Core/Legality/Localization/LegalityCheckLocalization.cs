@@ -69,6 +69,8 @@ public sealed class LegalityCheckLocalization
     public string BallSpecies { get; set; } = "Can't obtain species in Ball.";
     public string BallSpeciesPass { get; set; } = "Ball possible for species.";
     public string BallUnavailable { get; set; } = "Ball unobtainable in origin Generation.";
+    public string BallG4Sinnoh { get; set; } = "Ball value for D/P/Pt (0x83) is not within range.";
+    public string BallG4Johto { get; set; } = "Extended Ball value for HG/SS (0x86) is not within range.";
 
     public string ContestZero { get; set; } = "Contest Stats should be 0.";
     public string ContestZeroSheen { get; set; } = "Contest Stat Sheen should be 0.";

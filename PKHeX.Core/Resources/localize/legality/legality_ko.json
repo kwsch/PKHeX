@@ -31,6 +31,8 @@
     "BallSpecies": "이 포켓몬 종류를 잡을 수 없는 볼입니다.",
     "BallSpeciesPass": "이 포켓몬 종류를 잡을 수 있는 볼입니다.",
     "BallUnavailable": "만난 게임에서 얻을 수 없는 볼입니다.",
+    "BallG4Sinnoh": "Ball value for D/P/Pt (0x83) is not within range.",
+    "BallG4Johto": "Extended Ball value for HG/SS (0x86) is not within range.",
     "ContestZero": "컨디션은 0이어야 합니다.",
     "ContestZeroSheen": "Contest Stat Sheen should be 0.",
     "ContestSheenGEQ_0": "Contest Stat Sheen should be >= {0}.",

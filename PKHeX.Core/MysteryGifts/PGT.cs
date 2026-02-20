@@ -298,7 +298,6 @@ public sealed class PGT(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
         pk4.Move3 = 346; pk4.Move3_PP = 15;
         pk4.Ability = (int)Core.Ability.Hydration;
         pk4.FatefulEncounter = true;
-        pk4.Ball = (int)Core.Ball.Poke;
 
         // Manaphy is the only PGT gift egg! (and the only gift that needs a version to be set)
         var version = trainer.Version;
@@ -315,6 +314,7 @@ public sealed class PGT(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
         pk4.Nickname = SpeciesName.GetEggName(lang, 4);
         pk4.EggLocation = Locations.Ranger4;
         pk4.EggMetDate = pk4.MetDate = EncounterDate.GetDateNDS();
+        pk4.Ball = (int)Core.Ball.Poke;
     }
 
     public bool HasPID => PK.PID > 1; // 0=Random, 1=Random (Anti-Shiny). 0 was never used in any Gen4 gift (all non-shiny).
