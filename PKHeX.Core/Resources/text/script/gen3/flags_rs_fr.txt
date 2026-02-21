@@ -1,0 +1,376 @@
+0x089	s	CS01 Coupe Reçue
+0x06E	s	CS02 Vol Reçue
+0x07A	s	CS03 Surf Reçue
+0x06A	s	CS04 Force Reçue
+0x06D	s	CS05 Flash Reçue
+0x06B	s	CS06 Éclate-Roc Reçue
+0x423	s	CS07 Cascade Reçue
+0x07B	s	CS08 Plongée Reçue
+0302	s	CS08 Reçue Avant L'Éveil de Groudon/Kyogre
+0x05A	s	Vélo Course/Cross Reçu
+
+0x807	*	Badge Roche Reçu
+0x808	*	Badge Poing Reçu
+0x809	*	Badge Dynamo Reçu
+0x80A	*	Badge Chaleur Reçu
+0x80B	*	Badge Balancier Reçu
+0x80C	*	Badge Plume Reçu
+0x80D	*	Badge Esprit Reçu (Entrée Planque Magma/Aqua Scellée)
+0x80E	*	Badge Pluie Reçu
+
+0x099	g	Échange Interne Parecool Contre Makuhita (Mérouville)
+0x09A	g	Échange Interne Joliflor Contre Corayon (Pacifiville)
+0x09B	g	Échange Interne Pikachu Contre Skitty (Cimetronelle)
+
+0x097	g	Morphéo Reçu
+0x10A	g	Œuf d'Okéoké Reçu
+0x12A	g	Terhal Reçu
+
+0x853	e	Passe Éon Reçu
+
+0x0FF	r	Lati@s en Balade
+
+0x71	r	Groudon/Kyogre Capturé/Vaincu
+0xCE	r	Lati@s Capturé/Vaincu (Île du Sud)
+
+0x339	r	Caché sur la Carte (Groudon/Kyogre)
+0x305	r	Caché sur la Carte (Rayquaza)
+0x3A7	r	Caché sur la Carte (Regirock)
+0x3A8	r	Caché sur la Carte (Regice)
+0x3A9	r	Caché sur la Carte (Registeel)
+0x3C3	r	Caché sur la Carte (Fossile Racine)
+0x3C4	r	Caché sur la Carte (Fossile Griffe)
+1133	r	Caché sur la Carte (Balle de la CS08 Manquée dans la Maison de Pierre)
+0x3C9	r	Kecleon Révélé (Cimetronelle)
+0x3CA	r	Kecleon Révélé (Route 120, Pont)
+0x3D5	r	Kecleon Révélé (Route 120, Pont)
+0x3D6	r	Kecleon Révélé (Route 120, Escaliers)
+0x3D9	r	Kecleon Révélé (Route 120, Derrière la Pancarte)
+0x3DA	r	Kecleon Révélé (Route 120, Derrière les Arbres à Baies)
+0x3DB	r	Kecleon Révélé (Route 120, À Gauche du Long Labyrinthe d'Herbes)
+0x3DC	r	Kecleon Révélé (Route 120, Derrière le Tombeau Antique)
+0x3DD	r	Kecleon Révélé (Route 119, À Droite du Ninja Fan)
+0x3DE	r	Kecleon Révélé (Route 119, Au-Dessus de la Cascade)
+
+0x3CE	r	Caché sur la Carte (Voltorbe 1 à New Lavandia)
+0x3CF	r	Caché sur la Carte (Voltorbe 2 à New Lavandia)
+0x3D0	r	Caché sur la Carte (Voltorbe 3 à New Lavandia)
+
+0x3D1	r	Caché sur la Carte (Électrode 1 dans la Planque)
+0x3D2	r	Caché sur la Carte (Électrode 2 dans la Planque)
+
+0x800	s	Pokémon de Départ Reçu
+0x801	s	Pokédex Reçu
+0x802	s	PokéNav Reçu
+0x804	s	Entré au Panthéon
+0x805	s	A Utilisé l'Easy Chat
+0x806	s	A Rencontré le Tonton Branché
+0x830	s	A Regardé la TV à la Maison
+0x834	s	A Fait un Échange de Données
+0x835	s	Horloge Réglée
+0x836	s	Pokédex National Reçu
+0x83A	s	Marée de la Grotte Tréfonds
+0x83B	s	A Reçu un Ruban
+0x84B	s	A Débloqué le PC d'Annette
+0x84C	s	Évènements Mystère Débloqués
+0x84D	s	A Utilisé la Flûte Blanche
+0x84E	s	A Utilisé la Flûte Noire
+0x84F	s	A Terminé l'Énigme (1) du Sanctuaire
+0x0E4	s	A Terminé l'Énigme (2) du Sanctuaire
+0x850	s	A Terminé l'Énigme de Regirock
+0x851	s	A Terminé l'Énigme de Regice
+0x852	s	A Terminé l'Énigme de Registeel
+0x85F	s	Peut Recevoir le Grelot Coque
+0x860	*	A Reçu les Chaussures de Course
+0x862	*	Réinitialisation de l'HTR Activée
+2090	*	Fort Soleil/Forte Pluie à l'Est d'Hoenn
+2063	f	Peut Voler à Bourg-en-Vol
+2064	f	Peut Voler à Rosyères
+2065	f	Peut Voler à Myokara
+2066	f	Peut Voler à Vermilava
+2067	f	Peut Voler à Autéquia
+2068	f	Peut Voler à Vergazon
+2069	f	Peut Voler à Pacifiville
+2070	f	Peut Voler à Clémenti-Ville
+2071	f	Peut Voler à Poivressel
+2072	f	Peut Voler à Lavandia
+2073	f	Peut Voler à Mérouville
+2074	f	Peut Voler à Cimetronelle
+2075	f	Peut Voler à Nénucrique
+2076	f	Peut Voler à Algatia
+2077	f	Peut Voler à Atalanopolis
+2078	f	Peut Voler à Éternara
+2120	f	Peut Voler à la Tour de Combat
+2108	m	A Visité le Fleuriste Jolie Fleur (Route 104)
+2109	m	A Visité le Cottage de M. Marco
+2110	m	A Visité l'Épave
+2111	m	A Visité la Maison du Bord de Mer (Chenal 109)
+2112	m	A Visité New Lavandia
+2113	m	A Visité le Gîte Vieille Dame (Route 111)
+2114	m	A Visité la Maison des Pièges
+2115	m	A Visité la Maison de la Famille Stratège (Route 111)
+2116	m	A Visité l'Atelier du Verre (Route 113)
+2117	m	A Visité la Maison d'Annette (Route 114)
+2118	m	A Visité la Pension Pokémon
+2119	m	A Visité la Caverne Fondmer
+2122	m	A Visité le Chemin Ardent
+2132	m	A Visité la Ligue Pokémon
+2133	m	A Visité la Grotte Island
+2134	m	A Visité les Ruines Désert
+2135	m	A Visité la Maison du Maniaque des Fossiles (Route 114)
+2136	m	A Visité la Grotte Zénith
+2137	m	A Visité le Tombeau Antique
+2138	m	A Visité le Refuge des Foreurs (Route 116)
+2139	m	A Visité la Maison du Chercheur de Trésors (Chenal 124)
+2140	m	A Visité le Sanctuaire
+2142	m	A Visité le Pilier Céleste
+2147	m	A Visité la Maison du Maître des Baies
+0768	s	Famille Stratège Vaincue
+1800	t	Dresseur Pokémon Brice à la Route 103 Vaincu (Gobou comme Départ)
+1801	t	Dresseur Pokémon Brice à la Route 110 Vaincu (Gobou comme Départ)
+1802	t	Dresseur Pokémon Brice à la Route 119 Vaincu (Gobou comme Départ)
+1803	t	Dresseur Pokémon Brice à la Route 103 Vaincu (Arcko comme Départ)
+1804	t	Dresseur Pokémon Brice à la Route 110 Vaincu (Arcko comme Départ)
+1805	t	Dresseur Pokémon Brice à la Route 119 Vaincu (Arcko comme Départ)
+1806	t	Dresseur Pokémon Brice à la Route 103 Vaincu (Poussifeu comme Départ)
+1807	t	Dresseur Pokémon Brice à la Route 110 Vaincu (Poussifeu comme Départ)
+1808	t	Dresseur Pokémon Brice à la Route 119 Vaincu (Poussifeu comme Départ)
+1809	t	Dresseur Pokémon Flora à la Route 103 Vaincue (Gobou comme Départ)
+1810	t	Dresseur Pokémon Flora à la Route 110 Vaincue (Gobou comme Départ)
+1811	t	Dresseur Pokémon Flora à la Route 119 Vaincue (Gobou comme Départ)
+1812	t	Dresseur Pokémon Flora à la Route 103 Vaincue (Arcko comme Départ)
+1813	t	Dresseur Pokémon Flora à la Route 110 Vaincue (Arcko comme Départ)
+1814	t	Dresseur Pokémon Flora à la Route 119 Vaincue (Arcko comme Départ)
+1815	t	Dresseur Pokémon Flora à la Route 103 Vaincue (Poussifeu comme Départ)
+1816	t	Dresseur Pokémon Flora à la Route 110 Vaincue (Poussifeu comme Départ)
+1817	t	Dresseur Pokémon Flora à la Route 119 Vaincue (Poussifeu comme Départ)
+1941	t	Dresseur Pokémon Brice à Nénucrique Vaincu (Gobou comme Départ)
+1942	t	Dresseur Pokémon Brice à Nénucrique Vaincu (Arcko comme Départ)
+1943	t	Dresseur Pokémon Brice à Nénucrique Vaincu (Poussifeu comme Départ)
+1944	t	Dresseur Pokémon Flora à Nénucrique Vaincue (Gobou comme Départ)
+1945	t	Dresseur Pokémon Flora à Nénucrique Vaincue (Arcko comme Départ)
+1946	t	Dresseur Pokémon Flora à Nénucrique Vaincue (Poussifeu comme Départ)
+1320	t	A Eu 1ère Revanche Contre Aroma Rose (Route 118)
+1321	t	A Eu 2ème Revanche Contre Aroma Rose (Route 118)
+1322	t	A Eu 3ème Revanche Contre Aroma Rose (Route 118)
+1323	t	A Eu 4ème Revanche Contre Aroma Rose (Route 118)
+1327	t	A Eu 1ère Revanche Contre Ruinemaniac Armand (Route 111)
+1328	t	A Eu 2ème Revanche Contre Ruinemaniac Armand (Route 111)
+1329	t	A Eu 3ème Revanche Contre Ruinemaniac Armand (Route 111)
+1330	t	A Eu 4ème Revanche Contre Ruinemaniac Armand (Route 111)
+1340	t	A Eu 1ère Revanche Contre Flotteur Léa (Chenal 109)
+1341	t	A Eu 2ème Revanche Contre Flotteur Léa (Chenal 109)
+1342	t	A Eu 3ème Revanche Contre Flotteur Léa (Chenal 109)
+1343	t	A Eu 4ème Revanche Contre Flotteur Léa (Chenal 109)
+1347	t	A Eu 1ère Revanche Contre Flotteur Rachid (Chenal 109)
+1348	t	A Eu 2ème Revanche Contre Flotteur Rachid (Chenal 109)
+1349	t	A Eu 3ème Revanche Contre Flotteur Rachid (Chenal 109)
+1350	t	A Eu 4ème Revanche Contre Flotteur Rachid (Chenal 109)
+1364	t	A Eu 1ère Revanche Contre Topdresseur Wilfried (Route 111)
+1365	t	A Eu 2ème Revanche Contre Topdresseur Wilfried (Route 111)
+1366	t	A Eu 3ème Revanche Contre Topdresseur Wilfried (Route 111)
+1367	t	A Eu 4ème Revanche Contre Topdresseur Wilfried (Route 111)
+1381	t	A Eu 1ère Revanche Contre Topdresseur Blanche (Route 111)
+1382	t	A Eu 2ème Revanche Contre Topdresseur Blanche (Route 111)
+1383	t	A Eu 3ème Revanche Contre Topdresseur Blanche (Route 111)
+1384	t	A Eu 4ème Revanche Contre Topdresseur Blanche (Route 111)
+1390	t	A Eu 1ère Revanche Contre Mystimaniac Valeria (Mont Mémoria)
+1391	t	A Eu 2ème Revanche Contre Mystimaniac Valeria (Mont Mémoria)
+1392	t	A Eu 3ème Revanche Contre Mystimaniac Valeria (Mont Mémoria)
+1393	t	A Eu 4ème Revanche Contre Mystimaniac Valeria (Mont Mémoria)
+1400	t	A Eu 1ère Revanche Contre Mademoiselle Cindy (Route 104)
+1401	t	A Eu 2ème Revanche Contre Mademoiselle Cindy (Route 104)
+1402	t	A Eu 3ème Revanche Contre Mademoiselle Cindy (Route 104)
+1403	t	A Eu 4ème Revanche Contre Mademoiselle Cindy (Route 104)
+1412	t	A Eu 1ère Revanche Contre Canon Jessica (Route 121)
+1413	t	A Eu 2ème Revanche Contre Canon Jessica (Route 121)
+1414	t	A Eu 3ème Revanche Contre Canon Jessica (Route 121)
+1415	t	A Eu 4ème Revanche Contre Canon Jessica (Route 121)
+1419	t	A Eu 1ère Revanche Contre Richard Jean-Marie (Route 104)
+1420	t	A Eu 2ème Revanche Contre Richard Jean-Marie (Route 104)
+1421	t	A Eu 3ème Revanche Contre Richard Jean-Marie (Route 104)
+1422	t	A Eu 4ème Revanche Contre Richard Jean-Marie (Route 104)
+1427	t	A Eu 1ère Revanche Contre Pokémaniac Stéphane (Route 114)
+1428	t	A Eu 2ème Revanche Contre Pokémaniac Stéphane (Route 114)
+1429	t	A Eu 3ème Revanche Contre Pokémaniac Stéphane (Route 114)
+1430	t	A Eu 4ème Revanche Contre Pokémaniac Stéphane (Route 114)
+1455	t	A Eu 1ère Revanche Contre Nageur Antoine (Chenal 107)
+1456	t	A Eu 2ème Revanche Contre Nageur Antoine (Chenal 107)
+1457	t	A Eu 3ème Revanche Contre Nageur Antoine (Chenal 107)
+1458	t	A Eu 4ème Revanche Contre Nageur Antoine (Chenal 107)
+1464	t	A Eu 1ère Revanche Contre Karatéka Hiro (Route 115)
+1465	t	A Eu 2ème Revanche Contre Karatéka Hiro (Route 115)
+1466	t	A Eu 3ème Revanche Contre Karatéka Hiro (Route 115)
+1467	t	A Eu 4ème Revanche Contre Karatéka Hiro (Route 115)
+1477	t	A Eu 1ère Revanche Contre Guitariste Mael (Route 118)
+1478	t	A Eu 2ème Revanche Contre Guitariste Mael (Route 118)
+1479	t	A Eu 3ème Revanche Contre Guitariste Mael (Route 118)
+1480	t	A Eu 4ème Revanche Contre Guitariste Mael (Route 118)
+1487	t	A Eu 1ère Revanche Contre Saltimbanque Bernard (Route 114)
+1488	t	A Eu 2ème Revanche Contre Saltimbanque Bernard (Route 114)
+1489	t	A Eu 3ème Revanche Contre Saltimbanque Bernard (Route 114)
+1490	t	A Eu 4ème Revanche Contre Saltimbanque Bernard (Route 114)
+1499	t	A Eu 1ère Revanche Contre Campeur Diego (Sentier Sinuroc)
+1500	t	A Eu 2ème Revanche Contre Campeur Diego (Sentier Sinuroc)
+1501	t	A Eu 3ème Revanche Contre Campeur Diego (Sentier Sinuroc)
+1502	t	A Eu 4ème Revanche Contre Campeur Diego (Sentier Sinuroc)
+1508	t	A Eu 1ère Revanche Contre Entomomaniac Florent (Route 120)
+1509	t	A Eu 2ème Revanche Contre Entomomaniac Florent (Route 120)
+1510	t	A Eu 3ème Revanche Contre Entomomaniac Florent (Route 120)
+1511	t	A Eu 4ème Revanche Contre Entomomaniac Florent (Route 120)
+1519	t	A Eu 1ère Revanche Contre Kinésiste Prosper (Route 123)
+1520	t	A Eu 2ème Revanche Contre Kinésiste Prosper (Route 123)
+1521	t	A Eu 3ème Revanche Contre Kinésiste Prosper (Route 123)
+1522	t	A Eu 4ème Revanche Contre Kinésiste Prosper (Route 123)
+1530	t	A Eu 1ère Revanche Contre Kinésiste Nora (Route 123)
+1531	t	A Eu 2ème Revanche Contre Kinésiste Nora (Route 123)
+1532	t	A Eu 3ème Revanche Contre Kinésiste Nora (Route 123)
+1533	t	A Eu 4ème Revanche Contre Kinésiste Nora (Route 123)
+1537	t	A Eu 1ère Revanche Contre Gentleman Walter (Route 121)
+1538	t	A Eu 2ème Revanche Contre Gentleman Walter (Route 121)
+1539	t	A Eu 3ème Revanche Contre Gentleman Walter (Route 121)
+1540	t	A Eu 4ème Revanche Contre Gentleman Walter (Route 121)
+1556	t	A Eu 1ère Revanche Contre Élève Julien (Route 116)
+1557	t	A Eu 2ème Revanche Contre Élève Julien (Route 116)
+1558	t	A Eu 3ème Revanche Contre Élève Julien (Route 116)
+1559	t	A Eu 4ème Revanche Contre Élève Julien (Route 116)
+1562	t	A Eu 1ère Revanche Contre Élève Karène (Route 116)
+1563	t	A Eu 2ème Revanche Contre Élève Karène (Route 116)
+1564	t	A Eu 3ème Revanche Contre Élève Karène (Route 116)
+1565	t	A Eu 4ème Revanche Contre Élève Karène (Route 116)
+1568	t	A Eu 1ère Revanche Contre Sr. et Jr. Anna & Eva (Route 117)
+1569	t	A Eu 2ème Revanche Contre Sr. et Jr. Anna & Eva (Route 117)
+1570	t	A Eu 3ème Revanche Contre Sr. et Jr. Anna & Eva (Route 117)
+1571	t	A Eu 4ème Revanche Contre Sr. et Jr. Anna & Eva (Route 117)
+1575	t	A Eu 1ère Revanche Contre Pokéfan Miguel (Route 103)
+1576	t	A Eu 2ème Revanche Contre Pokéfan Miguel (Route 103)
+1577	t	A Eu 3ème Revanche Contre Pokéfan Miguel (Route 103)
+1578	t	A Eu 4ème Revanche Contre Pokéfan Miguel (Route 103)
+1583	t	A Eu 1ère Revanche Contre Pokéfan Isabelle (Route 110)
+1584	t	A Eu 2ème Revanche Contre Pokéfan Isabelle (Route 110)
+1585	t	A Eu 3ème Revanche Contre Pokéfan Isabelle (Route 110)
+1586	t	A Eu 4ème Revanche Contre Pokéfan Isabelle (Route 110)
+1588	t	A Eu 1ère Revanche Contre Expert Timothée (Route 115)
+1589	t	A Eu 2ème Revanche Contre Expert Timothée (Route 115)
+1590	t	A Eu 3ème Revanche Contre Expert Timothée (Route 115)
+1591	t	A Eu 4ème Revanche Contre Expert Timothée (Route 115)
+1594	t	A Eu 1ère Revanche Contre Expert Alix (Mont Chimnée)
+1595	t	A Eu 2ème Revanche Contre Expert Alix (Mont Chimnée)
+1596	t	A Eu 3ème Revanche Contre Expert Alix (Mont Chimnée)
+1597	t	A Eu 4ème Revanche Contre Expert Alix (Mont Chimnée)
+1608	t	A Eu 1ère Revanche Contre Gamin Calvin (Route 102)
+1609	t	A Eu 2ème Revanche Contre Gamin Calvin (Route 102)
+1610	t	A Eu 3ème Revanche Contre Gamin Calvin (Route 102)
+1611	t	A Eu 4ème Revanche Contre Gamin Calvin (Route 102)
+1626	t	A Eu 1ère Revanche Contre Pêcheur Elliot (Chenal 106)
+1627	t	A Eu 2ème Revanche Contre Pêcheur Elliot (Chenal 106)
+1628	t	A Eu 3ème Revanche Contre Pêcheur Elliot (Chenal 106)
+1629	t	A Eu 4ème Revanche Contre Pêcheur Elliot (Chenal 106)
+1634	t	A Eu 1ère Revanche Contre Triathlète Benjamin (Route 110)
+1635	t	A Eu 2ème Revanche Contre Triathlète Benjamin (Route 110)
+1636	t	A Eu 3ème Revanche Contre Triathlète Benjamin (Route 110)
+1637	t	A Eu 4ème Revanche Contre Triathlète Benjamin (Route 110)
+1640	t	A Eu 1ère Revanche Contre Triathlète Gaelle (Route 110)
+1641	t	A Eu 2ème Revanche Contre Triathlète Gaelle (Route 110)
+1642	t	A Eu 3ème Revanche Contre Triathlète Gaelle (Route 110)
+1643	t	A Eu 4ème Revanche Contre Triathlète Gaelle (Route 110)
+1650	t	A Eu 1ère Revanche Contre Triathlète Maria (Route 117)
+1651	t	A Eu 2ème Revanche Contre Triathlète Maria (Route 117)
+1652	t	A Eu 3ème Revanche Contre Triathlète Maria (Route 117)
+1653	t	A Eu 4ème Revanche Contre Triathlète Maria (Route 117)
+1645	t	A Eu 1ère Revanche Contre Triathlète Régis (Route 117)
+1646	t	A Eu 2ème Revanche Contre Triathlète Régis (Route 117)
+1647	t	A Eu 3ème Revanche Contre Triathlète Régis (Route 117)
+1648	t	A Eu 4ème Revanche Contre Triathlète Régis (Route 117)
+1659	t	A Eu 1ère Revanche Contre Triathlète Jeoffrey (Chenal 128)
+1660	t	A Eu 2ème Revanche Contre Triathlète Jeoffrey (Chenal 128)
+1661	t	A Eu 3ème Revanche Contre Triathlète Jeoffrey (Chenal 128)
+1662	t	A Eu 4ème Revanche Contre Triathlète Jeoffrey (Chenal 128)
+1668	t	A Eu 1ère Revanche Contre Triathlète Katelyn (Chenal 128)
+1669	t	A Eu 2ème Revanche Contre Triathlète Katelyn (Chenal 128)
+1670	t	A Eu 3ème Revanche Contre Triathlète Katelyn (Chenal 128)
+1671	t	A Eu 4ème Revanche Contre Triathlète Katelyn (Chenal 128)
+1673	t	A Eu 1ère Revanche Contre Dracologue Nicolas (Site Météore)
+1674	t	A Eu 2ème Revanche Contre Dracologue Nicolas (Site Météore)
+1675	t	A Eu 3ème Revanche Contre Dracologue Nicolas (Site Météore)
+1676	t	A Eu 4ème Revanche Contre Dracologue Nicolas (Site Météore)
+1689	t	A Eu 1ère Revanche Contre Ornithologue Bob (Route 120)
+1690	t	A Eu 2ème Revanche Contre Ornithologue Bob (Route 120)
+1691	t	A Eu 3ème Revanche Contre Ornithologue Bob (Route 120)
+1692	t	A Eu 4ème Revanche Contre Ornithologue Bob (Route 120)
+1701	t	A Eu 1ère Revanche Contre Ninja Fan Layo (Route 113)
+1702	t	A Eu 2ème Revanche Contre Ninja Fan Layo (Route 113)
+1703	t	A Eu 3ème Revanche Contre Ninja Fan Layo (Route 113)
+1704	t	A Eu 4ème Revanche Contre Ninja Fan Layo (Route 113)
+1710	t	A Eu 1ère Revanche Contre Combattante Sandrine (Route 115)
+1711	t	A Eu 2ème Revanche Contre Combattante Sandrine (Route 115)
+1712	t	A Eu 3ème Revanche Contre Combattante Sandrine (Route 115)
+1713	t	A Eu 4ème Revanche Contre Combattante Sandrine (Route 115)
+1717	t	A Eu 1ère Revanche Contre Sœur Parasol Madeleine (Route 113)
+1718	t	A Eu 2ème Revanche Contre Sœur Parasol Madeleine (Route 113)
+1719	t	A Eu 3ème Revanche Contre Sœur Parasol Madeleine (Route 113)
+1720	t	A Eu 4ème Revanche Contre Sœur Parasol Madeleine (Route 113)
+1745	t	A Eu 1ère Revanche Contre Nageuse Jenny (Chenal 124)
+1746	t	A Eu 2ème Revanche Contre Nageuse Jenny (Chenal 124)
+1747	t	A Eu 3ème Revanche Contre Nageuse Jenny (Chenal 124)
+1748	t	A Eu 4ème Revanche Contre Nageuse Jenny (Chenal 124)
+1757	t	A Eu 1ère Revanche Contre Pique-Nique Diane (Sentier Sinuroc)
+1758	t	A Eu 2ème Revanche Contre Pique-Nique Diane (Sentier Sinuroc)
+1759	t	A Eu 3ème Revanche Contre Pique-Nique Diane (Sentier Sinuroc)
+1760	t	A Eu 4ème Revanche Contre Pique-Nique Diane (Sentier Sinuroc)
+1762	t	A Eu 1ère Revanche Contre Jumelles Eve & Awa (Route 103)
+1767	t	A Eu 2ème Revanche Contre Jumelles Eve & Awa (Route 103)
+1768	t	A Eu 3ème Revanche Contre Jumelles Eve & Awa (Route 103)
+1769	t	A Eu 4ème Revanche Contre Jumelles Eve & Awa (Route 103)
+1777	t	A Eu 1ère Revanche Contre Marin Ernest (Chenal 125)
+1778	t	A Eu 2ème Revanche Contre Marin Ernest (Chenal 125)
+1779	t	A Eu 3ème Revanche Contre Marin Ernest (Chenal 125)
+1780	t	A Eu 4ème Revanche Contre Marin Ernest (Chenal 125)
+1795	t	A Eu 1ère Revanche Contre Collec Martin (Route 110)
+1796	t	A Eu 2ème Revanche Contre Collec Martin (Route 110)
+1797	t	A Eu 3ème Revanche Contre Collec Martin (Route 110)
+1798	t	A Eu 4ème Revanche Contre Collec Martin (Route 110)
+1821	t	A Eu 1ère Revanche Contre Éleveur Isaac (Route 117)
+1822	t	A Eu 2ème Revanche Contre Éleveur Isaac (Route 117)
+1823	t	A Eu 3ème Revanche Contre Éleveur Isaac (Route 117)
+1824	t	A Eu 4ème Revanche Contre Éleveur Isaac (Route 117)
+1828	t	A Eu 1ère Revanche Contre Éleveur Clotilde (Route 117)
+1829	t	A Eu 2ème Revanche Contre Éleveur Clotilde (Route 117)
+1830	t	A Eu 3ème Revanche Contre Éleveur Clotilde (Route 117)
+1831	t	A Eu 4ème Revanche Contre Éleveur Clotilde (Route 117)
+1835	t	A Eu 1ère Revanche Contre Pokémon Ranger Michael (Route 119)
+1836	t	A Eu 2ème Revanche Contre Pokémon Ranger Michael (Route 119)
+1837	t	A Eu 3ème Revanche Contre Pokémon Ranger Michael (Route 119)
+1838	t	A Eu 4ème Revanche Contre Pokémon Ranger Michael (Route 119)
+1842	t	A Eu 1ère Revanche Contre Pokémon Ranger Catherine (Route 119)
+1843	t	A Eu 2ème Revanche Contre Pokémon Ranger Catherine (Route 119)
+1844	t	A Eu 3ème Revanche Contre Pokémon Ranger Catherine (Route 119)
+1845	t	A Eu 4ème Revanche Contre Pokémon Ranger Catherine (Route 119)
+1887	t	A Eu 1ère Revanche Contre Fillette Aude (Route 104)
+1888	t	A Eu 2ème Revanche Contre Fillette Aude (Route 104)
+1889	t	A Eu 3ème Revanche Contre Fillette Aude (Route 104)
+1890	t	A Eu 4ème Revanche Contre Fillette Aude (Route 104)
+1902	t	A Eu 1ère Revanche Contre Scout James (Bois Clémenti)
+1903	t	A Eu 2ème Revanche Contre Scout James (Bois Clémenti)
+1904	t	A Eu 3ème Revanche Contre Scout James (Bois Clémenti)
+1905	t	A Eu 4ème Revanche Contre Scout James (Bois Clémenti)
+1916	t	A Eu 1ère Revanche Contre Montagnard Guillaume (Route 112)
+1917	t	A Eu 2ème Revanche Contre Montagnard Guillaume (Route 112)
+1918	t	A Eu 3ème Revanche Contre Montagnard Guillaume (Route 112)
+1919	t	A Eu 4ème Revanche Contre Montagnard Guillaume (Route 112)
+1923	t	A Eu 1ère Revanche Contre Jeune Couple Rita & Joe (Épave)
+1924	t	A Eu 2ème Revanche Contre Jeune Couple Rita & Joe (Épave)
+1925	t	A Eu 3ème Revanche Contre Jeune Couple Rita & Joe (Épave)
+1926	t	A Eu 4ème Revanche Contre Jeune Couple Rita & Joe (Épave)
+1937	t	A Eu 1ère Revanche Contre Dresseur Pokémon Timmy (Route Victoire)
+1938	t	A Eu 2ème Revanche Contre Dresseur Pokémon Timmy (Route Victoire)
+1939	t	A Eu 3ème Revanche Contre Dresseur Pokémon Timmy (Route Victoire)
+1940	t	A Eu 4ème Revanche Contre Dresseur Pokémon Timmy (Route Victoire)
+1962	t	A Eu 1ère Revanche Contre Vieux Couple John & Jay (Site Météore)
+1963	t	A Eu 2ème Revanche Contre Vieux Couple John & Jay (Site Météore)
+1964	t	A Eu 3ème Revanche Contre Vieux Couple John & Jay (Site Météore)
+1965	t	A Eu 4ème Revanche Contre Vieux Couple John & Jay (Site Météore)
+1968	t	A Eu 1ère Revanche Contre Frère & Sœur Rita & Sam (Chenal 124)
+1969	t	A Eu 2ème Revanche Contre Frère & Sœur Rita & Sam (Chenal 124)
+1970	t	A Eu 3ème Revanche Contre Frère & Sœur Rita & Sam (Chenal 124)
+1971	t	A Eu 4ème Revanche Contre Frère & Sœur Rita & Sam (Chenal 124)

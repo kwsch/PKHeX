@@ -459,7 +459,7 @@
 947	r	Don't spawn Devon Researcher on Route 116
 948	r	Don't spawn Sells Guy in Slateport City
 949	r	Don't spawn Devon Researcher in Devon Corporation
-950	r	Don't spawn Mr. Briney and Pecko on S.S. Tidal
+950	r	Don't spawn Mr. Briney and Peeko on S.S. Tidal
 
 952	r	Shoal Salt (inner room north) in Shoal Cave found
 953	r	Shoal Salt (inner room south) in Shoal Cave found
@@ -502,7 +502,7 @@
 990	r	Don't spawn Kecleon on Route 119 (Left of Ninja Boy)
 991	r	Don't spawn guy in grass on Route 101
 
-993	r	Don't spawn Guy named Handsome in Lilycove Pokémon Center
+993	r	Don't spawn Zigzagoon named Handsome in Lilycove Pokémon Center
 994	r	Don't spawn old woman on Mt. Chimney
 
 996	r	Don't spawn Rayquaza in Sootopolis City
@@ -719,10 +719,10 @@
 1317	t	Aroma Lady Rose on Route 118 defeated
 1318	t	Cooltrainer Felix in Victory Road B2F defeated
 1319	t	Aroma Lady Violet on Route 123 defeated
-1320	t	Aroma Lady Violet (Rematch 1) on Route 123 defeated
-1321	t	Aroma Lady Violet (Rematch 2) on Route 123 defeated
-1322	t	Aroma Lady Violet (Rematch 3) on Route 123 defeated
-1323	t	Aroma Lady Violet (Rematch 4) on Route 123 defeated
+1320	t	Aroma Lady Rose (Rematch 1) on Route 118 defeated
+1321	t	Aroma Lady Rose (Rematch 2) on Route 118 defeated
+1322	t	Aroma Lady Rose (Rematch 3) on Route 118 defeated
+1323	t	Aroma Lady Rose (Rematch 4) on Route 118 defeated
 1324	t	Ruin Maniac Dusty on Route 111 defeated
 1325	t	Ruin Maniac Chip on Route 120 defeated
 1326	t	Ruin Maniac Foster on Route 105 defeated
@@ -880,7 +880,7 @@
 1478	t	Guitarist Dalton (Rematch 2) on Route 118 defeated
 1479	t	Guitarist Dalton (Rematch 3) on Route 118 defeated
 1480	t	Guitarist Dalton (Rematch 4) on Route 118 defeated
-1481	t	Kindler Coler in Lavaridge Gym defeated
+1481	t	Kindler Cole in Lavaridge Gym defeated
 1482	t	Kindler Jeff in Lavaridge Gym defeated
 1483	t	Kindler Axle in Lavaridge Gym defeated
 1484	t	Kindler Jace in Lavaridge Gym defeated
@@ -1064,7 +1064,7 @@
 1662	t	Triathlete Isaiah (Rematch 4) on Route 128 defeated
 1663	t	Triathlete Isobel on Route 126 defeated
 1664	t	Triathlete Donny on Route 127 defeated
-1665	t	Triathlete Taila on Route 131 defeated
+1665	t	Triathlete Talia on Route 131 defeated
 1666	t	Triathlete Katelyn on Route 128 defeated
 1667	t	Triathlete Allison on Route 129 defeated
 1668	t	Triathlete Katelyn (Rematch 1) on Route 128 defeated
@@ -1248,7 +1248,7 @@
 1847	t	Team Aqua Grunt (Male) in Seafloor Cavern Room 7 defeated
 
 1849	t	Team Aqua Grunt (Female) on Mt. Pyre defeated
-1850	t	Team Magma Grunt on Jagged Pass defeated2
+1850	t	Team Magma Grunt on Jagged Pass defeated
 1851	t	Hiker Marc in Rustboro Gym defeated
 1852	t	Sailor Brenden in Dewford Gym defeated
 1853	t	Battle Girl Lilith in Dewford Gym defeated
@@ -1372,7 +1372,7 @@
 1972	t	Sis and Bro Lisa & Ray on Route 107 defeated
 1973	t	Fisherman Chris on Route 119 defeated
 1974	t	Rich Boy Dawson on Route 116 defeated
-1975	t	Lady Sarah on Route 116 defeted
+1975	t	Lady Sarah on Route 116 defeated
 1976	t	Fisherman Darian on Route 104 defeated
 1977	t	Tuber Hailey on Route 109 defeated
 1978	t	Tuber Chandler on Route 109 defeated
@@ -1519,7 +1519,7 @@
 2125	t	Beauty Thalia (Rematch 2) on Abandoned Ship defeated
 2126	t	Beauty Thalia (Rematch 3) on Abandoned Ship defeated
 2127	t	Beauty Thalia (Rematch 4) on Abandoned Ship defeated
-2128	t	Psychic Mariella in Trick House Puzzle 7 defeated
+2128	t	Psychic Mariela in Trick House Puzzle 7 defeated
 2129	t	Psychic Alvaro in Trick House Puzzle 7 defeated
 2130	t	Gentleman Everett in Trick House Puzzle 7 defeated
 
