@@ -107,15 +107,23 @@ public static class MoveShopRecordApplicator
             if (shop.GetMasteredRecordFlag(index))
                 return;
 
-            if (learn.TryGetLevelLearnMove(move, out var learnLevel) && level < learnLevel) // Can't learn it yet; must purchase.
+            if (learn.TryGetLevelLearnMove(move, out var learnLevel))
             {
-                shop.SetPurchasedRecordFlag(index, true);
-                shop.SetMasteredRecordFlag(index, true);
-                return;
+                if (level < learnLevel) // Can't learn it yet; must purchase.
+                {
+                    shop.SetPurchasedRecordFlag(index, true);
+                    shop.SetMasteredRecordFlag(index, true);
+                    return;
+                }
+                if (mastery.TryGetLevelLearnMove(move, out var masterLevel) && level < masterLevel) // Can't master it yet; must Seed of Mastery
+                    shop.SetMasteredRecordFlag(index, true);
+                // Otherwise, is innately mastered, no need to force the flag.
             }
-
-            if (mastery.TryGetLevelLearnMove(move, out var masterLevel) && level < masterLevel) // Can't master it yet; must Seed of Mastery
-                shop.SetMasteredRecordFlag(index, true);
+            else // Can't learn it without purchasing.
+            {
+                if (shop.GetPurchasedRecordFlag(index))
+                    shop.SetMasteredRecordFlag(index, true);
+            }
         }
 
         /// <summary>
