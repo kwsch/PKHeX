@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using static PKHeX.Core.BatchEditing;
+using static PKHeX.Core.EntityBatchEditor;
 
 namespace PKHeX.Core;
 
@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public static class BatchFilters
 {
     /// <summary>
-    /// Filters to use for <see cref="BatchEditing"/> that are derived from the <see cref="PKM"/> data.
+    /// Filters to use for <see cref="EntityBatchEditor"/> that are derived from the <see cref="PKM"/> data.
     /// </summary>
     public static readonly List<IComplexFilter> FilterMods =
     [
@@ -17,7 +17,7 @@ public static class BatchFilters
             (pk, cmd) => bool.TryParse(cmd.PropertyValue, out var b) && cmd.Comparer.IsCompareEquivalence(b == new LegalityAnalysis(pk).Valid),
             (info, cmd) => bool.TryParse(cmd.PropertyValue, out var b) && cmd.Comparer.IsCompareEquivalence(b == info.Legality.Valid)),
 
-        new ComplexFilter(PROP_TYPENAME,
+        new ComplexFilter(BatchEditingUtil.PROP_TYPENAME,
             (pk, cmd) => cmd.Comparer.IsCompareEquivalence(pk.GetType().Name == cmd.PropertyValue),
             (info, cmd) => cmd.Comparer.IsCompareEquivalence(info.Entity.GetType().Name == cmd.PropertyValue)),
 
@@ -35,7 +35,7 @@ public static class BatchFilters
     ];
 
     /// <summary>
-    /// Filters to use for <see cref="BatchEditing"/> that are derived from the <see cref="PKM"/> source.
+    /// Filters to use for <see cref="EntityBatchEditor"/> that are derived from the <see cref="PKM"/> source.
     /// </summary>
     public static readonly List<IComplexFilterMeta> FilterMeta =
     [

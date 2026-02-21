@@ -46,7 +46,7 @@ public partial class EntityInstructionBuilder : UserControl
 
         CB_Format.Items.Clear();
         CB_Format.Items.Add(MsgAny);
-        foreach (Type t in BatchEditing.Types)
+        foreach (Type t in EntityBatchEditor.Instance.Types)
             CB_Format.Items.Add(t.Name.ToLowerInvariant());
         CB_Format.Items.Add(MsgAll);
 
@@ -65,18 +65,18 @@ public partial class EntityInstructionBuilder : UserControl
 
         byte format = (byte)CB_Format.SelectedIndex;
         CB_Property.Items.Clear();
-        CB_Property.Items.AddRange(BatchEditing.Properties[format]);
+        CB_Property.Items.AddRange(EntityBatchEditor.Instance.Properties[format]);
         CB_Property.SelectedIndex = 0;
         currentFormat = format;
     }
 
     private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (!BatchEditing.TryGetPropertyType(CB_Property.Text, out var type, CB_Format.SelectedIndex))
+        if (!EntityBatchEditor.Instance.TryGetPropertyType(CB_Property.Text, out var type, CB_Format.SelectedIndex))
             type = "Unknown";
         L_PropType.Text = type;
 
-        if (BatchEditing.TryGetHasProperty(Entity, CB_Property.Text, out var pi))
+        if (EntityBatchEditor.Instance.TryGetHasProperty(Entity, CB_Property.Text, out var pi))
         {
             L_PropType.ResetForeColor();
 

@@ -359,8 +359,8 @@ public partial class SAV_MysteryGiftDB : Form
         if (batchText.Length != 0 && !StringInstructionSet.HasEmptyLine(batchText))
         {
             var filters = StringInstruction.GetFilters(batchText);
-            BatchEditing.ScreenStrings(filters);
-            res = res.Where(pk => BatchEditing.IsFilterMatch(filters, pk)); // Compare across all filters
+            EntityBatchEditor.ScreenStrings(filters);
+            res = res.Where(pk => BatchEditingUtil.IsFilterMatch(filters, pk)); // Compare across all filters
         }
 
         var results = res.ToArray();

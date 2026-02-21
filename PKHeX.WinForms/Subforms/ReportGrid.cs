@@ -15,7 +15,9 @@ namespace PKHeX.WinForms;
 
 public partial class ReportGrid : Form
 {
-    public IPropertyProvider PropertyProvider { get; init; } = DefaultPropertyProvider.Instance;
+    public IPropertyProvider<PKM> PropertyProvider { get; init; } =
+        new BatchPropertyProvider<EntityBatchEditor, PKM>(EntityBatchEditor.Instance);
+
     private sealed class PokemonList<T> : SortableBindingList<T> where T : class;
 
     public ReportGrid()

@@ -8,11 +8,13 @@ namespace PKHeX.Core;
 /// <summary>
 /// Carries out a batch edit and contains information summarizing the results.
 /// </summary>
-public sealed class BatchEditor
+public sealed class EntityBatchProcessor
 {
     private int Modified { get; set; }
     private int Iterated { get; set; }
     private int Failed { get; set; }
+
+    private static EntityBatchEditor Editor => EntityBatchEditor.Instance;
 
     /// <summary>
     /// Tries to modify the <see cref="PKM"/> using instructions and a custom modifier delegate.
@@ -34,7 +36,7 @@ public sealed class BatchEditor
             return false;
         }
 
-        var result = BatchEditing.TryModifyPKM(pk, filters, modifications, modifier);
+        var result = Editor.TryModify(pk, filters, modifications, modifier);
         if (result != ModifyResult.Skipped)
             Iterated++;
         if (result.HasFlag(ModifyResult.Error))
@@ -75,9 +77,9 @@ public sealed class BatchEditor
     /// <param name="data">Entities to modify</param>
     /// <param name="modifier">Custom modifier delegate.</param>
     /// <returns>Editor object if follow-up modifications are desired.</returns>
-    public static BatchEditor Execute(ReadOnlySpan<string> lines, IEnumerable<PKM> data, Func<PKM, bool>? modifier = null)
+    public static EntityBatchProcessor Execute(ReadOnlySpan<string> lines, IEnumerable<PKM> data, Func<PKM, bool>? modifier = null)
     {
-        var editor = new BatchEditor();
+        var editor = new EntityBatchProcessor();
         var sets = StringInstructionSet.GetBatchSets(lines);
         foreach (var pk in data)
         {

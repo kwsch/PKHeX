@@ -90,7 +90,7 @@ public static class SearchUtil
 
     public static bool SatisfiesFilterBatchInstruction(PKM pk, IReadOnlyList<StringInstruction> filters)
     {
-        return BatchEditing.IsFilterMatch(filters, pk); // Compare across all filters
+        return EntityBatchEditor.Instance.IsFilterMatch(filters, pk); // Compare across all filters
     }
 
     public static Func<PKM, string> GetCloneDetectMethod(CloneDetectionMethod method) => method switch

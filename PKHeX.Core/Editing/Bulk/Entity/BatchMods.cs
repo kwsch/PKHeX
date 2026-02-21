@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using static PKHeX.Core.BatchEditing;
+using static PKHeX.Core.EntityBatchEditor;
 
 namespace PKHeX.Core;
 

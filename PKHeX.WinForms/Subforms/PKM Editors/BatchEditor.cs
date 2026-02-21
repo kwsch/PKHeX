@@ -14,7 +14,7 @@ public partial class BatchEditor : Form
     private readonly SaveFile SAV;
 
     // Mass Editing
-    private Core.BatchEditor editor = new();
+    private EntityBatchProcessor editor = new();
     private readonly EntityInstructionBuilder UC_Builder;
 
     private static string LastUsedCommands = string.Empty;
@@ -135,15 +135,15 @@ public partial class BatchEditor : Form
 
         foreach (var set in sets)
         {
-            BatchEditing.ScreenStrings(set.Filters);
-            BatchEditing.ScreenStrings(set.Instructions);
+            EntityBatchEditor.ScreenStrings(set.Filters);
+            EntityBatchEditor.ScreenStrings(set.Instructions);
         }
         RunBatchEdit(sets, TB_Folder.Text, destPath);
     }
 
     private void RunBatchEdit(StringInstructionSet[] sets, string source, string? destination)
     {
-        editor = new Core.BatchEditor();
+        editor = new EntityBatchProcessor();
         bool finished = false, displayed = false; // hack cuz DoWork event isn't cleared after completion
         b.DoWork += (_, _) =>
         {
@@ -241,7 +241,7 @@ public partial class BatchEditor : Form
 
             if (entry.Source is SlotInfoBox info && SAV.GetBoxSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
                 editor.AddSkipped();
-            else if (!BatchEditing.IsFilterMatchMeta(filterMeta, entry))
+            else if (!EntityBatchEditor.IsFilterMatchMeta(filterMeta, entry))
                 editor.AddSkipped();
             else
                 editor.Process(pk, Filters, Instructions);
@@ -276,7 +276,7 @@ public partial class BatchEditor : Form
 
         var info = new SlotInfoFileSingle(source);
         var entry = new SlotCache(info, pk);
-        if (!BatchEditing.IsFilterMatchMeta(metaFilters, entry))
+        if (!EntityBatchEditor.IsFilterMatchMeta(metaFilters, entry))
         {
             editor.AddSkipped();
             return;

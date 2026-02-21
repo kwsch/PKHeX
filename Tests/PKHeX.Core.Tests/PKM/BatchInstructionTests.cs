@@ -53,7 +53,7 @@ public class BatchInstructionTests
         entry.Operation.Should().Be(operation);
 
         var pk = CreateTestPK7(initialValue);
-        var modified = BatchEditing.TryModify(pk, [], [entry]);
+        var modified = EntityBatchEditor.Instance.TryModifyIsSuccess(pk, [], [entry]);
 
         modified.Should().BeTrue();
         pk.EXP.Should().Be(expectedValue);
@@ -74,7 +74,7 @@ public class BatchInstructionTests
     public void ProcessDelegateReturnsTrueWhenModified()
     {
         var pk = CreateTestPK7(100);
-        var editor = new BatchEditor();
+        var editor = new EntityBatchProcessor();
 
         bool modified = editor.Process(pk, [], [], static p =>
         {
@@ -89,7 +89,7 @@ public class BatchInstructionTests
     public void ProcessDelegateUpdatesExpWhenModified()
     {
         var pk = CreateTestPK7(100);
-        var editor = new BatchEditor();
+        var editor = new EntityBatchProcessor();
 
         _ = editor.Process(pk, [], [], static p =>
         {
@@ -104,7 +104,7 @@ public class BatchInstructionTests
     public void ProcessInstructionsAndDelegateUpdatesExp()
     {
         var pk = CreateTestPK7(100);
-        var editor = new BatchEditor();
+        var editor = new EntityBatchProcessor();
 
         _ = editor.Process(pk, [], [], static p =>
         {
@@ -119,7 +119,7 @@ public class BatchInstructionTests
     public void ProcessInstructionsAndDelegateSkipsWhenDelegateReturnsFalse()
     {
         var pk = CreateTestPK7(100);
-        var editor = new BatchEditor();
+        var editor = new EntityBatchProcessor();
         StringInstruction.TryParseInstruction(".EXP=200", out var instruction).Should().BeTrue();
         instruction.Should().NotBeNull();
 
@@ -132,7 +132,7 @@ public class BatchInstructionTests
     public void ProcessInstructionsAndDelegatePreservesExpWhenDelegateReturnsFalse()
     {
         var pk = CreateTestPK7(100);
-        var editor = new BatchEditor();
+        var editor = new EntityBatchProcessor();
         StringInstruction.TryParseInstruction(".EXP=200", out var instruction).Should().BeTrue();
         instruction.Should().NotBeNull();
 

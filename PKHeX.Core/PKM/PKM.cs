@@ -1018,16 +1018,16 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         foreach (var property in shared)
         {
             // Setter sanity check: a derived type may not implement a setter if its parent type has one.
-            if (!BatchEditing.TryGetHasProperty(result, property, out var pi))
+            if (!EntityBatchEditor.Instance.TryGetHasProperty(result, property, out var pi))
                 continue;
             if (!pi.CanWrite)
                 continue;
 
             // Fetch the current value.
-            if (!BatchEditing.TryGetHasProperty(this, property, out var src))
+            if (!EntityBatchEditor.Instance.TryGetHasProperty(this, property, out var src))
                 continue;
             var prop = src.GetValue(this);
-            if (prop is byte[] or null)
+            if (prop is byte[] or Memory<byte> or null)
                 continue; // not a valid property transfer
             if (pi.PropertyType != src.PropertyType)
                 continue; // property type mismatch (not really a 1:1 shared property)

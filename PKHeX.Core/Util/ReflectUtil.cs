@@ -19,7 +19,7 @@ public static class ReflectUtil
     /// <param name="obj">Object to fetch property from</param>
     /// <param name="value">Value to compare to</param>
     /// <returns>Comparison result</returns>
-    public static int CompareTo(this PropertyInfo pi, object obj, object value)
+    public static int CompareTo<T>(this PropertyInfo pi, T obj, object value)
     {
         var v = pi.GetValue(obj, null);
         var c = ConvertValue(value, pi.PropertyType);
@@ -30,20 +30,20 @@ public static class ReflectUtil
         return 0;
     }
 
-    public static void SetValue(PropertyInfo pi, object obj, object value)
+    public static void SetValue<T>(PropertyInfo pi, T obj, object value)
     {
         var c = ConvertValue(value, pi.PropertyType);
         pi.SetValue(obj, c, null);
     }
 
-    public static object? GetValue(object obj, string name)
+    public static object? GetValue<T>(T obj, string name) where T : notnull
     {
         if (obj.GetType().GetTypeInfo().TryGetPropertyInfo(name, out var pi))
             return pi.GetValue(obj, null);
         return null;
     }
 
-    public static bool SetValue(object obj, string name, object value)
+    public static bool SetValue<T>(T obj, string name, object value) where T : notnull
     {
         if (!obj.GetType().GetTypeInfo().TryGetPropertyInfo(name, out var pi))
             return false;
@@ -78,13 +78,14 @@ public static class ReflectUtil
     public static IEnumerable<PropertyInfo> GetAllPropertyInfoPublic(Type type)
     {
         return type.GetTypeInfo().GetAllTypeInfo().SelectMany(GetAllProperties)
-            .Where(p => p.CanReadPublic() || p.CanWritePublic());
+            .Where(CanReadOrWritePublic);
     }
 
     extension(PropertyInfo p)
     {
         private bool CanReadPublic() => p.CanRead && (p.GetMethod?.IsPublic ?? false);
         private bool CanWritePublic() => p.CanWrite && (p.SetMethod?.IsPublic ?? false);
+        private bool CanReadOrWritePublic() => p.CanReadPublic() || p.CanWritePublic();
     }
 
     public static IEnumerable<string> GetPropertiesPublic(Type type)
@@ -150,7 +151,7 @@ public static class ReflectUtil
     /// <param name="name">Name of the property.</param>
     /// <param name="pi">Reference to the property info for the object, if it exists.</param>
     /// <returns>True if it has property, and false if it does not have property. <see cref="pi"/> is null when returning false.</returns>
-    public static bool HasProperty(object obj, string name, [NotNullWhen(true)] out PropertyInfo? pi)
+    public static bool HasProperty<T>(T obj, string name, [NotNullWhen(true)] out PropertyInfo? pi) where T : notnull
     {
         var type = obj.GetType();
         return type.GetTypeInfo().TryGetPropertyInfo(name, out pi);
@@ -184,14 +185,14 @@ public static class ReflectUtil
 
     extension(Type type)
     {
-        public Dictionary<T, string> GetAllConstantsOfType<T>() where T : struct
+        public Dictionary<T, string> GetAllConstantsOfType<T>() where T : unmanaged
         {
             var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             var consts = fields.Where(fi => fi is { IsLiteral: true, IsInitOnly: false } && fi.FieldType == typeof(T));
             return consts.ToDictionary(z => (T)(z.GetRawConstantValue() ?? throw new NullReferenceException(nameof(z.Name))), z => z.Name);
         }
 
-        public Dictionary<string, T> GetAllPropertiesOfType<T>(object obj) where T : class
+        public Dictionary<string, T> GetAllPropertiesOfType<T>(object obj)
         {
             var props = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
             var result = new Dictionary<string, T>(props.Length);

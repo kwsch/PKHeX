@@ -351,8 +351,8 @@ public partial class SAV_Encounters : Form
         if (batchText.Length != 0 && !StringInstructionSet.HasEmptyLine(batchText))
         {
             var filters = StringInstruction.GetFilters(batchText);
-            BatchEditing.ScreenStrings(filters);
-            results = results.Where(enc => BatchEditing.IsFilterMatch(filters, enc)); // Compare across all filters
+            EntityBatchEditor.ScreenStrings(filters);
+            results = results.Where(enc => BatchEditingUtil.IsFilterMatch(filters, enc)); // Compare across all filters
         }
 
         return results;

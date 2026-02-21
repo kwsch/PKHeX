@@ -126,7 +126,7 @@ public sealed class SearchSettings
         foreach (var entry in list)
         {
             var pk = entry.Entity;
-            if (BatchFiltersMeta.Count != 0 && !BatchEditing.IsFilterMatchMeta(BatchFiltersMeta, entry))
+            if (BatchFiltersMeta.Count != 0 && !EntityBatchEditor.IsFilterMatchMeta(BatchFiltersMeta, entry))
                 continue;
             if (!predicate(pk))
                 continue;
