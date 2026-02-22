@@ -26,7 +26,7 @@ public sealed partial class SAV_BoxViewer : Form
         {
             WinFormsTranslator.ReformatDark(Box.B_BoxLeft);
             WinFormsTranslator.ReformatDark(Box.B_BoxRight);
-            WinFormsTranslator.ReformatDark(PB_BoxSwap);
+            WinFormsTranslator.ReformatDark(B_BoxSwap);
             WinFormsTranslator.ReformatDark(Box.CB_BoxSelect);
         }
 

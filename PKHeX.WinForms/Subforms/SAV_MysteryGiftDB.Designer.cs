@@ -333,6 +333,8 @@ namespace PKHeX.WinForms
             // B_Reset
             // 
             B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_Reset.AutoSize = true;
+            B_Reset.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             B_Reset.Location = new System.Drawing.Point(604, 0);
             B_Reset.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Reset.Name = "B_Reset";
@@ -443,7 +445,7 @@ namespace PKHeX.WinForms
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Filters.Size = new System.Drawing.Size(322, 373);
+            TLP_Filters.Size = new System.Drawing.Size(322, 372);
             TLP_Filters.TabIndex = 118;
             // 
             // FLP_Format
@@ -541,20 +543,21 @@ namespace PKHeX.WinForms
             TC_SearchSettings.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             TC_SearchSettings.Controls.Add(Tab_General);
             TC_SearchSettings.Controls.Add(Tab_Advanced);
-            TC_SearchSettings.Location = new System.Drawing.Point(355, 9);
+            TC_SearchSettings.ItemSize = new System.Drawing.Size(57, 32);
+            TC_SearchSettings.Location = new System.Drawing.Point(355, 0);
             TC_SearchSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TC_SearchSettings.Name = "TC_SearchSettings";
             TC_SearchSettings.SelectedIndex = 0;
-            TC_SearchSettings.Size = new System.Drawing.Size(330, 403);
+            TC_SearchSettings.Size = new System.Drawing.Size(330, 412);
             TC_SearchSettings.TabIndex = 120;
             // 
             // Tab_General
             // 
             Tab_General.Controls.Add(TLP_Filters);
-            Tab_General.Location = new System.Drawing.Point(4, 26);
+            Tab_General.Location = new System.Drawing.Point(4, 36);
             Tab_General.Margin = new System.Windows.Forms.Padding(0);
             Tab_General.Name = "Tab_General";
-            Tab_General.Size = new System.Drawing.Size(322, 373);
+            Tab_General.Size = new System.Drawing.Size(322, 372);
             Tab_General.TabIndex = 0;
             Tab_General.Text = "General";
             Tab_General.UseVisualStyleBackColor = true;
@@ -563,10 +566,10 @@ namespace PKHeX.WinForms
             // 
             Tab_Advanced.Controls.Add(B_Add);
             Tab_Advanced.Controls.Add(RTB_Instructions);
-            Tab_Advanced.Location = new System.Drawing.Point(4, 26);
+            Tab_Advanced.Location = new System.Drawing.Point(4, 36);
             Tab_Advanced.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_Advanced.Name = "Tab_Advanced";
-            Tab_Advanced.Size = new System.Drawing.Size(322, 373);
+            Tab_Advanced.Size = new System.Drawing.Size(322, 372);
             Tab_Advanced.TabIndex = 1;
             Tab_Advanced.Text = "Advanced";
             Tab_Advanced.UseVisualStyleBackColor = true;
@@ -589,7 +592,7 @@ namespace PKHeX.WinForms
             RTB_Instructions.Location = new System.Drawing.Point(0, 55);
             RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
             RTB_Instructions.Name = "RTB_Instructions";
-            RTB_Instructions.Size = new System.Drawing.Size(322, 318);
+            RTB_Instructions.Size = new System.Drawing.Size(322, 317);
             RTB_Instructions.TabIndex = 120;
             RTB_Instructions.Text = "";
             // 

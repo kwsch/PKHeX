@@ -111,10 +111,7 @@ public partial class EntitySearchSetup : Form
 
     private void B_Reset_Click(object? sender, EventArgs e)
     {
-        UC_EntitySearch.ResetFilters();
-        RTB_Instructions.Clear();
-        SearchFilter = null;
-        ResetRequested?.Invoke(this, EventArgs.Empty);
+        ForceReset();
         System.Media.SystemSounds.Asterisk.Play();
     }
 

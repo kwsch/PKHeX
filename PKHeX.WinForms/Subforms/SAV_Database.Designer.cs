@@ -239,12 +239,13 @@ namespace PKHeX.WinForms
             // 
             // UC_EntitySearch
             // 
+            UC_EntitySearch.AutoSize = true;
             UC_EntitySearch.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             UC_EntitySearch.Dock = System.Windows.Forms.DockStyle.Fill;
             UC_EntitySearch.Location = new System.Drawing.Point(4, 3);
             UC_EntitySearch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             UC_EntitySearch.Name = "UC_EntitySearch";
-            UC_EntitySearch.Size = new System.Drawing.Size(314, 449);
+            UC_EntitySearch.Size = new System.Drawing.Size(314, 448);
             UC_EntitySearch.TabIndex = 118;
             // 
             // B_Search
@@ -262,6 +263,8 @@ namespace PKHeX.WinForms
             // B_Reset
             // 
             B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_Reset.AutoSize = true;
+            B_Reset.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             B_Reset.Location = new System.Drawing.Point(604, 0);
             B_Reset.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Reset.Name = "B_Reset";
@@ -321,22 +324,23 @@ namespace PKHeX.WinForms
             TC_SearchSettings.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             TC_SearchSettings.Controls.Add(Tab_General);
             TC_SearchSettings.Controls.Add(Tab_Advanced);
-            TC_SearchSettings.Location = new System.Drawing.Point(355, 9);
+            TC_SearchSettings.ItemSize = new System.Drawing.Size(57, 32);
+            TC_SearchSettings.Location = new System.Drawing.Point(355, 0);
             TC_SearchSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TC_SearchSettings.Name = "TC_SearchSettings";
             TC_SearchSettings.Padding = new System.Drawing.Point(0, 0);
             TC_SearchSettings.SelectedIndex = 0;
-            TC_SearchSettings.Size = new System.Drawing.Size(330, 485);
+            TC_SearchSettings.Size = new System.Drawing.Size(330, 494);
             TC_SearchSettings.TabIndex = 120;
             // 
             // Tab_General
             // 
             Tab_General.Controls.Add(UC_EntitySearch);
-            Tab_General.Location = new System.Drawing.Point(4, 26);
+            Tab_General.Location = new System.Drawing.Point(4, 36);
             Tab_General.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_General.Name = "Tab_General";
             Tab_General.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_General.Size = new System.Drawing.Size(322, 455);
+            Tab_General.Size = new System.Drawing.Size(322, 454);
             Tab_General.TabIndex = 0;
             Tab_General.Text = "General";
             Tab_General.UseVisualStyleBackColor = true;
@@ -400,6 +404,7 @@ namespace PKHeX.WinForms
             mnu.ResumeLayout(false);
             TC_SearchSettings.ResumeLayout(false);
             Tab_General.ResumeLayout(false);
+            Tab_General.PerformLayout();
             Tab_Advanced.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
