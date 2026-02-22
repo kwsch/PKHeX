@@ -4,6 +4,7 @@ MsgProgramIllegalModeActive = チートモードがアクティブ化してい�
 MsgProgramUpdateAvailable = 新しいバージョンがあります！
 MsgProgramCloseUnsaved = 保存されていない変更は失われます。
 MsgProgramCloseConfirm = PKHeXを閉じてもよろしいですか？
+MsgProgramSaveUnsaved = The Pokémon in the editor has unsaved changes.
 MsgProgramSaveFileConfirm = 新しいセーブファイルをロードしてもよろしいですか？
 MsgProgramError = ERROR
 MsgProgramErrorExpectedHex = 次の文字（0-9,A-F）のみを含むテキストが必要です。

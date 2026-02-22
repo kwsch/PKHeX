@@ -93,7 +93,7 @@ public sealed partial class MemoryContext8 : MemoryContext
             return true;
 
         // OT Memory checks from here on.
-        // Zacian and Zamazenta being in an OT memory need to match the Pokemon's version.
+        // Zacian and Zamazenta being in an OT memory need to match the Pokémon's version.
         if (version == GameVersion.SW && encountered == Zamazenta)
             return false;
         if (version == GameVersion.SH && encountered == Zacian)

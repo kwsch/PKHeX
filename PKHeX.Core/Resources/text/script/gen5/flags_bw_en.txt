@@ -1,4 +1,4 @@
-0669	r	Team Plasma Guide (Pokemon League Pokemon Center) Disappeared
+0669	r	Team Plasma Guide (Pokémon League Pokémon Center) Disappeared
 0661	r	Reshiram/Zekrom (N's Castle) Disappeared
 0307	r	Reshiram/Zekrom Captured
 0766	r	Reshiram/Zekrom (Dragonspiral Tower) Disappeared

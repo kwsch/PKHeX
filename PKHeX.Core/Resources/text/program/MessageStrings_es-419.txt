@@ -4,6 +4,7 @@ MsgProgramIllegalModeActive = Modo Ilegal activado.
 MsgProgramUpdateAvailable = ¡Actualización disponible!
 MsgProgramCloseUnsaved = Cualquier cambio no guardado se perderá.
 MsgProgramCloseConfirm = ¿Estás seguro de que quieres cerrar PKHeX?
+MsgProgramSaveUnsaved = The Pokémon in the editor has unsaved changes.
 MsgProgramSaveFileConfirm = ¿Estás seguro de que quieres cargar un nuevo archivo de guardado?
 MsgProgramError = ERROR
 MsgProgramErrorExpectedHex = Se esperaba texto conteniendo solamente los siguiente caracteres (0-9, A-F).

@@ -89,7 +89,7 @@ public static class RibbonRules
     public static bool IsRibbonValidMasterRank(PKM pk, IEncounterTemplate enc, EvolutionHistory evos)
     {
         // Legends can compete in Ranked starting from Series 10.
-        // Past gen Pokemon can get the ribbon only if they've been reset.
+        // Past gen Pokémon can get the ribbon only if they've been reset.
         if (evos.HasVisitedSWSH && IsRibbonValidMasterRankSWSH(pk, enc))
             return true;
 

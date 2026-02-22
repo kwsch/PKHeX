@@ -1,5 +1,5 @@
 0x4021	m	Repel Step Counter
-0x4023	*	Starter Pokemon	00:Treecko,01:Torchic,02:Mudkip
+0x4023	*	Starter Pokémon	00:Treecko,01:Torchic,02:Mudkip
 0x4024	r	Mirage Island RND (High)
 0x4025	r	Mirage Island RND (Low)
 0x4026	*	Current Secret Base
@@ -9,7 +9,7 @@
 0x402C	*	Reset RTC	00:Disabled,2336:Enabled
 0x402D	*	Enigma Berry Available
 
-0x403E	r	Wild Pokemon in Altering Cave	00:Zubat,01:Mareep (Illegal),02:Pineco (Illegal),03:Houndour (Illegal),04:Teddiursa (Illegal),05:Aipom (Illegal),06:Shuckle (Illegal),07:Stantler (Illegal),08:Smeargle (Illegal)
+0x403E	r	Wild Pokémon in Altering Cave	00:Zubat,01:Mareep (Illegal),02:Pineco (Illegal),03:Houndour (Illegal),04:Teddiursa (Illegal),05:Aipom (Illegal),06:Shuckle (Illegal),07:Stantler (Illegal),08:Smeargle (Illegal)
 
 0x4040	*	Days Passed
 

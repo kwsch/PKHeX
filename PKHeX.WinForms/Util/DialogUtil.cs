@@ -65,8 +65,8 @@ public static class DialogUtil
 
         public DialogResult RequestOverwrite(string exist)
         {
-            var taskButtonOverwrite = new TaskDialogCommandLinkButton(MessageStrings.MsgDialogFileOverwrite) { AllowCloseDialog = true };
-            var taskButtonSelect = new TaskDialogCommandLinkButton(MessageStrings.MsgDialogFileSaveAs) { AllowCloseDialog = true };
+            var taskButtonOverwrite = new TaskDialogButton(MessageStrings.MsgDialogFileOverwrite) { AllowCloseDialog = true };
+            var taskButtonSelect = new TaskDialogButton(MessageStrings.MsgDialogFileSaveAs) { AllowCloseDialog = true };
             var page = new TaskDialogPage
             {
                 Caption = MessageStrings.MsgDialogFileSaveReplace,

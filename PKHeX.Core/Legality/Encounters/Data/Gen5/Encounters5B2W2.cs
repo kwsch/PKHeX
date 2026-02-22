@@ -155,7 +155,7 @@ public static class Encounters5B2W2
 
     public static readonly EncounterStatic5N[] Encounter_B2W2_N =
     [
-        // N's Pokemon
+        // N's Pokémon
         new(0xFF01007F) { Species = 509, Level = 07, Location = 015, Ability = OnlySecond, Nature = Nature.Timid }, // Purloin @ Route 2
         new(0xFF01007F) { Species = 519, Level = 13, Location = 033, Ability = OnlySecond, Nature = Nature.Sassy }, // Pidove @ Pinwheel Forest
         new(0xFF00003F) { Species = 532, Level = 13, Location = 033, Ability = OnlyFirst,  Nature = Nature.Rash }, // Timburr @ Pinwheel Forest

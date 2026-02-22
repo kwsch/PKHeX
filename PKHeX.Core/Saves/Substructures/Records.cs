@@ -137,8 +137,8 @@ public static class RecordLists
         {073, "Used Splash"},
         {074, "Used Struggle"},
         {075, "Noneffective move used on you"},
-        {076, "Own Pokemon Attacked"},
-        {077, "Own Pokemon Fainted"},
+        {076, "Own Pokémon Attacked"},
+        {077, "Own Pokémon Fainted"},
         {078, "Failed to Run"},
         {079, "Pokemon Fled"},
         {080, "Failed Fishing"},
@@ -375,7 +375,7 @@ public static class RecordLists
         {177, "Trainer's Eye Rematches"},
         {178, "FUREAI Interest ???"}, // similar to US/UM idb
 
-        {179, "Shiny Pokemon Encountered"},
+        {179, "Shiny Pokémon Encountered"},
         {180, "Trick House Clears"},
         {181, "Eon Ticket 1 (SpotPass)"},
         {182, "Eon Ticket 2 (Mystery Gift)"},
@@ -487,7 +487,7 @@ public static class RecordLists
         {124, "PP Raised"},
         {125, "Amie Used"},
         {126, "Fishing Chains"},
-        {127, "Shiny Pokemon Encountered"},
+        {127, "Shiny Pokémon Encountered"},
         {128, "Missions Participated In"},
         {129, "Facilities Hosted"},
         {130, "QR Code Scans"},

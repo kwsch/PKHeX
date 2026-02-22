@@ -86,7 +86,7 @@ public static class QR7
         WriteInt32LittleEndian(span[0x0C..], slot);
         WriteInt32LittleEndian(span[0x10..], num_copies); // No need to check max num_copies, payload parser handles it on-console.
 
-        pk7.EncryptedPartyData.CopyTo(span[0x30..]); // Copy in pokemon data
+        pk7.EncryptedPartyData.CopyTo(span[0x30..]); // Copy in Pokémon data
         SetDexData(span[0x140..], pk7.Species, pk7.Form, pk7.IsShiny, pk7.Gender);
 
         var chk = Checksums.CRC16Invert(span[..0x1A0]);

@@ -1029,7 +1029,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         bool reload = SAV is IStorageCleanup b && b.FixStoragePreWrite();
         if (reload)
             ReloadSlots();
-        return WinFormsUtil.ExportSAVDialog(this, SAV, SAV.CurrentBox);
+        bool forceSaveAs = Main.Settings.Advanced.SaveExportForceSaveAs;
+        return WinFormsUtil.ExportSAVDialog(this, SAV, SAV.CurrentBox, forceSaveAs);
     }
 
     public bool ExportBackup()

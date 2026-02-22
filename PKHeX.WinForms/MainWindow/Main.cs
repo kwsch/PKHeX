@@ -1226,6 +1226,7 @@ public partial class Main : Form
 
             // Gather data
             var pk = PreparePKM();
+            var preModify = pk.Clone();
             var encrypt = ModifierKeys == Keys.Control;
             var data = encrypt ? pk.EncryptedPartyData : pk.DecryptedPartyData;
 
@@ -1249,6 +1250,7 @@ public partial class Main : Form
                 C_SAV.M.Drag.ResetCursor(this);
                 await DeleteAsync(newfile, 20_000).ConfigureAwait(false);
             }
+            PKME_Tabs.NotifyWasExported(preModify); // restore pre-modify state, in case the user drags into the same program window
         }
         catch
         {
@@ -1321,6 +1323,13 @@ public partial class Main : Form
     {
         if (!Menu_ExportSAV.Enabled)
             return; // hot-keys can't cheat the system!
+
+        if (Settings.Advanced.SaveExportCheckUnsavedEntity && PKME_Tabs.PKMIsUnsaved)
+        {
+            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgProgramSaveUnsaved, MsgContinue);
+            if (prompt != DialogResult.Yes)
+                return;
+        }
 
         C_SAV.ExportSaveFile();
         Text = GetProgramTitle(C_SAV.SAV);

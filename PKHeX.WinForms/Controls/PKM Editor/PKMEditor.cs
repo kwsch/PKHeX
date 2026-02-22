@@ -166,7 +166,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         set => field = Stats.HaX = value;
     }
 
-    private byte[] LastData = [];
+    private byte[] LastData { get; set; } = [];
+    public void NotifyWasExported(PKM pk) => LastData = pk.Data.ToArray();
 
     public PKM Data => Entity;
     public PKM Entity { get; private set; } = null!;
@@ -233,7 +234,6 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
 
         var pk = GetPKMfromFields();
-        LastData = pk.Data.ToArray();
         return pk.Clone();
     }
 
@@ -355,7 +355,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         SetMarkings();
         UpdateLegality();
         UpdateSprite();
-        LastData = PreparePKM().Data.ToArray();
+        NotifyWasExported(PreparePKM());
         RefreshFontWarningButton();
     }
 

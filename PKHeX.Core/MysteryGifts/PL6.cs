@@ -4,7 +4,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Pokemon Link Data Storage
+/// Pokémon Link Data Storage
 /// </summary>
 /// <remarks>
 /// This Template object is very similar to the <see cref="PCD"/> structure in that it stores more data than just the gift.
@@ -37,7 +37,7 @@ public sealed class PL6(Memory<byte> Raw)
     /// </summary>
     public string Origin { get => StringConverter6.GetString(Source); set => StringConverter6.SetString(Source, value, 54, 0, StringConverterOption.ClearZero); }
 
-    // Pokemon transfer flags?
+    // transfer flags?
     public uint Flags1 { get => ReadUInt32LittleEndian(Data[0x099..]); set => WriteUInt32LittleEndian(Data[0x099..], value); }
     public uint Flags2 { get => ReadUInt32LittleEndian(Data[0x141..]); set => WriteUInt32LittleEndian(Data[0x141..], value); }
     public uint Flags3 { get => ReadUInt32LittleEndian(Data[0x1E9..]); set => WriteUInt32LittleEndian(Data[0x1E9..], value); }

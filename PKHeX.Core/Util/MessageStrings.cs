@@ -18,6 +18,7 @@ public static class MessageStrings
     public static string MsgProgramUpdateAvailable { get; set; } = "New Update Available!";
     public static string MsgProgramCloseUnsaved { get; set; } = "Any unsaved changes will be lost.";
     public static string MsgProgramCloseConfirm { get; set; } = "Are you sure you want to close PKHeX?";
+    public static string MsgProgramSaveUnsaved { get; set; } = "The Pokémon in the editor has unsaved changes.";
     public static string MsgProgramSaveFileConfirm { get; set; } = "Are you sure you want to load a new save file?";
     public static string MsgProgramError { get; set; } = "ERROR";
     public static string MsgProgramErrorExpectedHex { get; set; } = "Expected Text containing only the following characters (0-9, A-F).";
@@ -85,7 +86,7 @@ public static class MessageStrings
     public static string MsgFileWriteProtectedAdvice { get; set; } = "If the file is on a removable disk (SD card), please ensure the write protection switch is not set.";
     public static string MsgFileInUse { get; set; } = "Unable to load file. It could be in use by another program.";
     public static string MsgFileUnsupported { get; set; } = "Attempted to load an unsupported file type/size. This could mean PKHeX doesn't support your save file or your save file is corrupt.";
-    public static string MsgPKMUnsupported { get; set; } = "Attempted to load an unsupported file type/size. This could be caused by loading a different generation Pokemon file on an unsupported generation or your file is corrupt.";
+    public static string MsgPKMUnsupported { get; set; } = "Attempted to load an unsupported file type/size. This could be caused by loading a different generation Pokémon file on an unsupported generation or your file is corrupt.";
 
     public static string MsgPKMConvertSuccess { get; set; } = "Converted from {0} to {1}.";
     public static string MsgPKMConvertFail { get; set; } = "Conversion failed.";
@@ -157,7 +158,7 @@ public static class MessageStrings
     public static string MsgSaveBackupNotFound { get; set; } = "Original file has been moved; unable to copy a backup.";
     public static string MsgSaveCurrentGeneration { get; set; } = "Current SAV Generation: {0}";
 
-    public static string MsgSaveBoxCloneFromTabs { get; set; } = "Clone Pokemon from Editing Tabs to all slots in {0}?";
+    public static string MsgSaveBoxCloneFromTabs { get; set; } = "Clone Pokémon from Editing Tabs to all slots in {0}?";
     public static string MsgSaveBoxSortCurrent { get; set; } = "Sort Current Box?";
     public static string MsgSaveBoxSortCurrentFailBattle { get; set; } = "Battle Box slots prevent the sorting of box.";
     public static string MsgSaveBoxSortCurrentSuccess { get; set; } = "Current Box sorted!";

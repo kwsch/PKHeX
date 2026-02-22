@@ -469,7 +469,7 @@
 759	r	Defeated Deoxys
 760	m   Change text of old woman in Celadon Mansion (after HoF)
 761	s	Spoke to Prof. Oak's Aide in Vermilion City
-762	*	Received Everstone (Oak's Aide, Rock Tunnel Pokemon Center)
+762	*	Received Everstone (Oak's Aide, Rock Tunnel Pokémon Center)
 763	s	Gave Meteorite and received Moon Stone from Lostelle's daddy
 764	*	Full Restore from man for driving off bikers on Three Island received
 765	*	Received Amulet Coin (Oak's Aide, Route 16)

@@ -387,11 +387,12 @@ public static class WinFormsUtil
     /// <param name="c">Control to anchor dialog to.</param>
     /// <param name="sav"><see cref="SaveFile"/> to be saved.</param>
     /// <param name="currentBox">Box the player will be greeted with when accessing the PC in-game.</param>
+    /// <param name="forceSaveAs">Whether to force the Save As dialog even if the file exists.</param>
     /// <returns>True if the file was saved.</returns>
-    public static bool ExportSAVDialog(Control c, SaveFile sav, int currentBox = 0)
+    public static bool ExportSAVDialog(Control c, SaveFile sav, int currentBox = 0, bool forceSaveAs = false)
     {
         // Try to request an overwrite first; if they defer, do the save file dialog.
-        if (!sav.Metadata.IsBackup && File.Exists(sav.Metadata.FilePath))
+        if (!forceSaveAs && !sav.Metadata.IsBackup && File.Exists(sav.Metadata.FilePath))
         {
             var exist = sav.Metadata.FilePath;
             var task = c.FindForm()!.RequestOverwrite(exist);
