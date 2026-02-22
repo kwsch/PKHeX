@@ -1324,6 +1324,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             ValidateChildren(); // hacky validation forcing
         }
+
+        CB_MetLocation.SelectionLength = 0;
+        CB_EggLocation.SelectionLength = 0;
     }
 
     private void UpdateExtraByteValue(object sender, EventArgs e)
