@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -137,7 +136,10 @@ internal static class Program
             if (IsPluginError<IPlugin>(e, out var pluginName))
                 return $"An error occurred in a PKHeX plugin. Please report this error to the plugin author/maintainer.\n{pluginName}";
         }
-        catch { }
+        catch
+        {
+            // If we fail to analyze the stack trace, just return the generic message. Don't risk another exception.
+        }
         return "An error occurred in PKHeX. Please report this error to the PKHeX author.";
     }
 
@@ -194,6 +196,7 @@ internal static class Program
         }
         catch
         {
+            // Do nothing. If we can't log the error, there's not much else we can do, and we don't want to risk another exception.
         }
         if (reportingException is FileNotFoundException x && x.FileName?.StartsWith("PKHeX.Core") == true)
         {

@@ -32,8 +32,13 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tabBoxMulti = new System.Windows.Forms.TabControl();
             Tab_Box = new System.Windows.Forms.TabPage();
+            B_PopoutBox = new System.Windows.Forms.Button();
+            PopoutMenu = new System.Windows.Forms.ContextMenuStrip(components);
+            Menu_PopoutBoxSingle = new System.Windows.Forms.ToolStripMenuItem();
+            Menu_PopoutBoxAll = new System.Windows.Forms.ToolStripMenuItem();
             B_SearchBox = new System.Windows.Forms.Button();
             Box = new BoxEditor();
             Tab_PartyBattle = new System.Windows.Forms.TabPage();
@@ -114,6 +119,7 @@ namespace PKHeX.WinForms.Controls
             TB_GameSync = new System.Windows.Forms.TextBox();
             tabBoxMulti.SuspendLayout();
             Tab_Box.SuspendLayout();
+            PopoutMenu.SuspendLayout();
             Tab_PartyBattle.SuspendLayout();
             Tab_Other.SuspendLayout();
             GB_Daycare.SuspendLayout();
@@ -147,6 +153,7 @@ namespace PKHeX.WinForms.Controls
             // Tab_Box
             // 
             Tab_Box.AllowDrop = true;
+            Tab_Box.Controls.Add(B_PopoutBox);
             Tab_Box.Controls.Add(B_SearchBox);
             Tab_Box.Controls.Add(Box);
             Tab_Box.Location = new System.Drawing.Point(4, 26);
@@ -156,6 +163,40 @@ namespace PKHeX.WinForms.Controls
             Tab_Box.TabIndex = 0;
             Tab_Box.Text = "Box";
             Tab_Box.UseVisualStyleBackColor = true;
+            // 
+            // B_PopoutBox
+            // 
+            B_PopoutBox.ContextMenuStrip = PopoutMenu;
+            B_PopoutBox.Image = Properties.Resources.popout;
+            B_PopoutBox.Location = new System.Drawing.Point(3, 3);
+            B_PopoutBox.Margin = new System.Windows.Forms.Padding(0);
+            B_PopoutBox.Name = "B_PopoutBox";
+            B_PopoutBox.Size = new System.Drawing.Size(24, 24);
+            B_PopoutBox.TabIndex = 3;
+            B_PopoutBox.UseVisualStyleBackColor = true;
+            B_PopoutBox.Click += B_PopoutBox_Click;
+            // 
+            // PopoutMenu
+            // 
+            PopoutMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { Menu_PopoutBoxSingle, Menu_PopoutBoxAll });
+            PopoutMenu.Name = "PopoutMenu";
+            PopoutMenu.Size = new System.Drawing.Size(181, 70);
+            // 
+            // Menu_PopoutBoxSingle
+            // 
+            Menu_PopoutBoxSingle.Image = Properties.Resources.open;
+            Menu_PopoutBoxSingle.Name = "Menu_PopoutBoxSingle";
+            Menu_PopoutBoxSingle.Size = new System.Drawing.Size(180, 22);
+            Menu_PopoutBoxSingle.Text = "Single Box";
+            Menu_PopoutBoxSingle.Click += Menu_PopoutBoxSingle_Click;
+            // 
+            // Menu_PopoutBoxAll
+            // 
+            Menu_PopoutBoxAll.Image = Properties.Resources.database;
+            Menu_PopoutBoxAll.Name = "Menu_PopoutBoxAll";
+            Menu_PopoutBoxAll.Size = new System.Drawing.Size(180, 22);
+            Menu_PopoutBoxAll.Text = "All Boxes";
+            Menu_PopoutBoxAll.Click += Menu_PopoutBoxAll_Click;
             // 
             // B_SearchBox
             // 
@@ -895,7 +936,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenFashion.Name = "B_OpenFashion";
             B_OpenFashion.Size = new System.Drawing.Size(96, 32);
             B_OpenFashion.TabIndex = 10;
-            B_OpenFashion.Text = "‎Fashion";
+            B_OpenFashion.Text = "Fashion";
             B_OpenFashion.UseVisualStyleBackColor = true;
             B_OpenFashion.Click += B_OpenFashion_Click;
             // 
@@ -1074,6 +1115,7 @@ namespace PKHeX.WinForms.Controls
             tabBoxMulti.ResumeLayout(false);
             Tab_Box.ResumeLayout(false);
             Tab_Box.PerformLayout();
+            PopoutMenu.ResumeLayout(false);
             Tab_PartyBattle.ResumeLayout(false);
             Tab_PartyBattle.PerformLayout();
             Tab_Other.ResumeLayout(false);
@@ -1170,5 +1212,9 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_OpenFashion;
         private System.Windows.Forms.Button B_Donuts;
         private System.Windows.Forms.Button B_SearchBox;
+        private System.Windows.Forms.Button B_PopoutBox;
+        private System.Windows.Forms.ContextMenuStrip PopoutMenu;
+        private System.Windows.Forms.ToolStripMenuItem Menu_PopoutBoxSingle;
+        private System.Windows.Forms.ToolStripMenuItem Menu_PopoutBoxAll;
     }
 }

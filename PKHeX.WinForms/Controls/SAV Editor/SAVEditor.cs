@@ -85,7 +85,10 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         SL_Party.Setup(M);
 
         if (Application.IsDarkModeEnabled)
+        {
             WinFormsUtil.InvertToolStripIcons(Tab_Box.ContextMenuStrip.Items);
+            WinFormsUtil.InvertToolStripIcons(B_PopoutBox.ContextMenuStrip!.Items);
+        }
 
         SL_Extra.ViewIndex = -2;
         menu = new ContextMenuSAV { Manager = M };
@@ -120,6 +123,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             return;
         Box.HorizontallyCenter(Tab_Box);
         BoxSearchAlignButton();
+        BoxPopoutAlignButton();
     }
 
     private void InitializeDragDrop(Control pb)
@@ -490,15 +494,14 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             return;
         if (ModifierKeys == Keys.Shift)
         {
-            if (M.Boxes.Count > 1) // subview open
-            {
-                // close all subviews
-                for (int i = M.Boxes.Count - 1; i >= 1; i--)
-                    M.Boxes[i].ParentForm?.Close();
-            }
-            new SAV_BoxList(this, M).Show();
+            OpenBoxList();
             return;
         }
+        OpenBoxViewer();
+    }
+
+    private void OpenBoxViewer()
+    {
         if (M.Boxes.Count > 1) // subview open
         {
             var z = M.Boxes[1].ParentForm;
@@ -508,7 +511,22 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             z.BringToFront();
             return;
         }
-        new SAV_BoxViewer(this, M, Box.CurrentBox).Show();
+        var form = new SAV_BoxViewer(this, M, Box.CurrentBox);
+        form.Owner = FindForm();
+        form.Show();
+    }
+
+    private void OpenBoxList()
+    {
+        if (M.Boxes.Count > 1) // subview open
+        {
+            // close all subviews
+            for (int i = M.Boxes.Count - 1; i >= 1; i--)
+                M.Boxes[i].ParentForm?.Close();
+        }
+
+        var form = new SAV_BoxList(this, M);
+        form.Show();
     }
 
     private void ClickClone(object sender, EventArgs e)
@@ -1161,6 +1179,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
         ToggleViewMisc(SAV);
         BoxSearchAlignButton();
+        BoxPopoutAlignButton();
 
         FieldsLoaded = true;
         return WindowTranslationRequired;
@@ -1552,6 +1571,30 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         catch (Exception ex) { Debug.WriteLine(ex.Message); }
     }
 
+    private void B_PopoutBox_Click(object sender, EventArgs e)
+    {
+        if (ModifierKeys == Keys.Shift)
+        {
+            OpenBoxList();
+            return;
+        }
+        if (ModifierKeys.HasFlag(Keys.Control))
+        {
+            OpenBoxViewer();
+            return;
+        }
+
+        // Otherwise, open the context menu and let the user decide which to open.
+        ShowContextMenuBelow(PopoutMenu, B_PopoutBox);
+    }
+
+    private void Menu_PopoutBoxSingle_Click(object? sender, EventArgs e) => OpenBoxViewer();
+
+    private void Menu_PopoutBoxAll_Click(object? sender, EventArgs e) => OpenBoxList();
+
+    private static void ShowContextMenuBelow(ToolStripDropDown menu, Control control) =>
+        menu.Show(control.PointToScreen(new Point(0, control.Height)));
+
     private EntitySearchSetup? _searchForm;
     private Func<PKM, bool>? _searchFilter;
 
@@ -1631,6 +1674,14 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         var navButton = Box.B_BoxRight;
         B_SearchBox.Top = Box.Top + navButton.Top;
         B_SearchBox.Left = Box.Left + Box.BoxPokeGrid.Right - B_SearchBox.Width;
+    }
+
+    private void BoxPopoutAlignButton()
+    {
+        // Move the Search button so that it is vertically aligned to the navigation buttons, and left-edge aligned with the first picturebox in the grid.
+        var navButton = Box.B_BoxRight;
+        B_PopoutBox.Top = Box.Top + navButton.Top;
+        B_PopoutBox.Left = Box.Left + Box.BoxPokeGrid.Left;
     }
 
     private void BoxSearchSeek(bool reverse = false)
