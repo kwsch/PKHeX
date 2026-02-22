@@ -125,9 +125,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         var (learn, mastery) = GetLevelUpInfo();
         LoadInitialMoveset(pk, moves, learn, level);
         pk.SetMoves(moves);
-        pk.SetEncounterMasteryFlags(moves, mastery, level);
-        if (pk.AlphaMove != 0)
-            pk.SetMasteryFlagMove(pk.AlphaMove);
+        pk.SetEncounterMasteryFlags(moves, mastery, level, pk.AlphaMove);
     }
 
     public void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, byte level)

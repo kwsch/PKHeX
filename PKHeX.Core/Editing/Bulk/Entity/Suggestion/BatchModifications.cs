@@ -54,9 +54,9 @@ internal static class BatchModifications
         if (IsNone(propValue))
             return ModifyResult.Modified;
 
-        var e = info.Legality.EncounterMatch;
-        if (e is IMasteryInitialMoveShop8 enc)
-            enc.SetInitialMastery(pk);
+        var enc = info.Legality.EncounterMatch;
+        if (enc is IMasteryInitialMoveShop8 shop)
+            shop.SetInitialMastery(pk, enc);
         if (IsAll(propValue))
         {
             t.SetPurchasedFlagsAll(pk);

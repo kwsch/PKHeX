@@ -133,9 +133,7 @@ public sealed record EncounterStatic8a
         var (learn, mastery) = GetLevelUpInfo();
         LoadInitialMoveset(pk, moves, learn, level);
         pk.SetMoves(moves);
-        pk.SetEncounterMasteryFlags(moves, mastery, level);
-        if (pk.AlphaMove != 0)
-            pk.SetMasteryFlagMove(pk.AlphaMove);
+        pk.SetEncounterMasteryFlags(moves, mastery, level, pk.AlphaMove);
     }
 
     public (Learnset Learn, Learnset Mastery) GetLevelUpInfo() => LearnSource8LA.GetLearnsetAndMastery(Species, Form);

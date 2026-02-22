@@ -129,7 +129,7 @@ public static class MoveShopRecordApplicator
         /// <summary>
         /// Sets the "mastered" move shop flag for the encounter.
         /// </summary>
-        public void SetEncounterMasteryFlags(ReadOnlySpan<ushort> moves, Learnset mastery, byte level)
+        public void SetEncounterMasteryFlags(ReadOnlySpan<ushort> moves, Learnset mastery, byte metLevel, ushort alphaMove)
         {
             var permit = shop.Permit;
             var possible = permit.RecordPermitIndexes;
@@ -145,7 +145,14 @@ public static class MoveShopRecordApplicator
                 // and it is high enough level to master it, the game will automatically
                 // give it the "Mastered" flag but not the "Purchased" flag
                 // For moves that are not in the learnset, set as mastered.
-                if (!mastery.TryGetLevelLearnMove(move, out var masteryLevel) || level >= masteryLevel)
+                if (!mastery.TryGetLevelLearnMove(move, out var masteryLevel) || metLevel >= masteryLevel)
+                    shop.SetMasteredRecordFlag(index, true);
+            }
+
+            if (alphaMove != 0)
+            {
+                var index = possible.IndexOf(alphaMove);
+                if (index != -1)
                     shop.SetMasteredRecordFlag(index, true);
             }
         }

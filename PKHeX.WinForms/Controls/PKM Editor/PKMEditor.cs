@@ -1965,8 +1965,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (ModifierKeys == Keys.Shift)
         {
             m.ClearMoveShopFlags();
-            if (Legality.EncounterMatch is IMasteryInitialMoveShop8 enc)
-                enc.SetInitialMastery(Entity);
+            var enc = Legality.EncounterMatch;
+            if (enc is IMasteryInitialMoveShop8 shop)
+                shop.SetInitialMastery(Entity, enc);
             m.SetMoveShopFlags(Entity);
             UpdateLegality();
             return;
