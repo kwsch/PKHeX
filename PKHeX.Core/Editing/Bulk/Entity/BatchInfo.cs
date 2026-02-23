@@ -9,7 +9,10 @@ public sealed record BatchInfo(PKM Entity)
     /// <summary>
     /// Legality analysis of the entity.
     /// </summary>
-    public LegalityAnalysis Legality => field ??= new LegalityAnalysis(Entity);
+    /// <remarks>
+    /// Eagerly evaluate on ctor, so that the initial state is remembered before any modifications may disturb matching.
+    /// </remarks>
+    public readonly LegalityAnalysis Legality = new(Entity);
 
     /// <inheritdoc cref="LegalityAnalysis.Valid"/>
     public bool Legal => Legality.Valid;
