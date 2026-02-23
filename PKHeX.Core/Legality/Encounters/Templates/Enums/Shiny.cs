@@ -59,7 +59,7 @@ public static class ShinyExtensions
         if (!shiny)
             return Shiny.Never;
 
-        if (IsSquareShinyExist(pk))
+        if (IsSquareShinyExist(pk) && pk.Context.IsSquareShinyDifferentiated)
             return Shiny.AlwaysSquare;
         return Shiny.AlwaysStar;
     }
