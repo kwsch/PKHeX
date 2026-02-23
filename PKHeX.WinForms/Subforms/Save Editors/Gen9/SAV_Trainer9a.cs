@@ -165,7 +165,11 @@ public sealed partial class SAV_Trainer9a : Form
 
     private void SaveTrainerInfo()
     {
-        SAV.Gender = (byte)CB_Gender.SelectedIndex;
+        if (SAV.Gender != (byte)CB_Gender.SelectedIndex)
+        {
+            SAV.Gender = (byte)CB_Gender.SelectedIndex;
+            SAV.PlayerFashion.Reset();
+        }
 
         SAV.Money = Util.ToUInt32(MT_Money.Text);
         SAV.Language = WinFormsUtil.GetIndex(CB_Language);
