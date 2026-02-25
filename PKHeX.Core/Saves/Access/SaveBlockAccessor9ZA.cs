@@ -47,6 +47,7 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
 
     public MableStatus9a Mable { get; } = new(sav, Block(sav, KStatusMable));
     public DonutPocket9a Donuts { get; } = new(sav, BlockSafe(sav, KDonuts));
+    public HyperspaceZones9a HyperspaceZones { get; } = new(sav, BlockSafe(sav, KHyperspaceZones));
 
     private const uint KBox = 0x0d66012c; // Box Data
     private const uint KParty = 0x3AA1A9AD; // Party Data
@@ -159,4 +160,5 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     private const uint KDonutDistortionInUse = 0x25335B2A; // Inside distortion, this is the currently used donut
     public const uint KHyperspaceSurveyPoints = 0x0235471C;
     public const uint KStreetName = 0xBCCE00D6; // 0x26 string = 18 chars + \0
+    public const uint KHyperspaceZones = 0x9E14BFFB; // u64
 }
