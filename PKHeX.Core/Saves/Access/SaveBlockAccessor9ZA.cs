@@ -160,5 +160,6 @@ public sealed class SaveBlockAccessor9ZA(SAV9ZA sav) : SCBlockAccessor
     private const uint KDonutDistortionInUse = 0x25335B2A; // Inside distortion, this is the currently used donut
     public const uint KHyperspaceSurveyPoints = 0x0235471C;
     public const uint KStreetName = 0xBCCE00D6; // 0x26 string = 18 chars + \0
-    public const uint KHyperspaceZones = 0x9E14BFFB; // u64
+    private const uint KHyperspaceZones = 0x9E14BFFB; // object: hyperspace portals on the map
+    private const uint KTaskWorkCatchSpecies = 0xD035ED5E; // object: used to store the unique species that have been caught for the "catch x species" tasks
 }
