@@ -70,9 +70,9 @@
 0441	*	A Utilisé le Donneur de Capacités à Atalanopolis (Damoclès)
 0442	*	A Utilisé le Donneur de Capacités à Pacifiville (Explosion)
 
-2144	s	A Débloqué l'option POKéMON dans le Menu
-2145	s	A Débloqué l'option POKéDEX dans le Menu
-2146	s	A Débloqué l'option POKéNAV dans le Menu
+2144	s	A Débloqué l'Option POKéMON dans le Menu
+2145	s	A Débloqué l'Option POKéDEX dans le Menu
+2146	s	A Débloqué l'Option POKéNAV dans le Menu
 2148	s	Entré au Panthéon
 2150	s	A Rencontré le Tonton Branché
 2192	s	A Regardé la TV à la Maison
