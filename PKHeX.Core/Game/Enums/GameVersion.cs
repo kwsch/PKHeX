@@ -238,6 +238,11 @@ public enum GameVersion : byte
     /// Pokémon Legends: (Z-A) (NX)
     /// </summary>
     ZA = 52,
+
+    /// <summary>
+    /// Pokémon Champions (NX)
+    /// </summary>
+    CP = 53,
     #endregion
 
     // The following values are not actually stored values in pk data,

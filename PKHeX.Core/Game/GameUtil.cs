@@ -76,6 +76,8 @@ public static class GameUtil
         SL or VL => SV,
         ZA => ZA,
 
+        CP => CP, // TODO: Champions
+
         _ => Invalid,
     };
 
@@ -168,6 +170,7 @@ public static class GameUtil
             SW or SH => Legal.MaxSpeciesID_8,
             SL or VL => Legal.MaxSpeciesID_9,
             ZA       => Legal.MaxSpeciesID_9a,
+            CP       => Legal.MaxSpeciesID_9, // TODO: Champions
             _ => 0
         };
 
