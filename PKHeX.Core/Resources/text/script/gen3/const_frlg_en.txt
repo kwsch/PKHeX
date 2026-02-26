@@ -7,6 +7,7 @@
 0x405B	s	Defeated Rival (S.S. Anne)	0:No,1:Yes
 0x405C	s	Defeated Rival (Silph Co.)	0:No,1:Yes
 0x405D	s	Defeated Rival (Pokemon Tower)	0:No,1:Yes
+0x4086	s	Rival Met (Four Island)	0:No,1:Yes
 0x4089	s	Rival Met (Six Island Pokémon Center)	0:No,1:Yes
 
 0x4024	r	Wild Pokémon in Altering Cave	00:Zubat,01:Mareep (Illegal),02:Pineco (Illegal),03:Houndour (Illegal),04:Teddiursa (Illegal),05:Aipom (Illegal),06:Shuckle (Illegal),07:Stantler (Illegal),08:Smeargle (Illegal)
