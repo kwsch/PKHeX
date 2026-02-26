@@ -7,6 +7,7 @@
 0x405B	s	Rival Vaincu (L'Océane)	0:Non,1:Oui
 0x405C	s	Rival Vaincu (Sylphe SARL)	0:Non,1:Oui
 0x405D	s	Rival Vaincu (Tour Pokémon)	0:Non,1:Oui
+0x4086	s	Rival Rencontré (Île 4)	0:Non,1:Oui
 0x4089	s	Rival Rencontré (Centre Pokémon Île 6)	0:Non,1:Oui
 
 0x4024	r	Pokémon Sauvage à la Grotte Métamo	00:Nosferapti,01:Wattouat (Illégal),02:Pomdepik (Illégal),03:Malosse (Illégal),04:Teddiursa (Illégal),05:Capumain (Illégal),06:Caratroc (Illégal),07:Cerfrousse (Illégal),08:Queulorior (Illégal)
