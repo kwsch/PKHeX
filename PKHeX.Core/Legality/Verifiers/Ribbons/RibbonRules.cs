@@ -325,6 +325,21 @@ public static class RibbonRules
     }
 
     /// <summary>
+    /// Checks if the input can receive the <see cref="IRibbonSetEvent3.RibbonEarth"/> ribbon.
+    /// </summary>
+    /// <remarks>
+    /// If returns true, can have the ribbon. If returns false, must not have the ribbon.
+    /// </remarks>
+    public static bool IsEarthRibbonAllowed(PKM pk, IEncounterTemplate enc)
+    {
+        if (enc.Generation != 3)
+            return false;
+        if (!ParseSettings.AllowGBACrossTransferXD(pk))
+            return false;
+        return true;
+    }
+
+    /// <summary>
     /// Gets the max count values the input can receive for the <see cref="IRibbonSetMemory6.RibbonCountMemoryContest"/> and <see cref="IRibbonSetMemory6.RibbonCountMemoryBattle"/> ribbon counts.
     /// </summary>
     public static (byte Contest, byte Battle) GetMaxMemoryCounts(EvolutionHistory evos, PKM pk, IEncounterTemplate enc)
@@ -360,9 +375,11 @@ public static class RibbonRules
     /// <summary>
     /// Checks if the input evolution history could have participated in Generation 3 contests.
     /// </summary>
-    public static bool IsAllowedContest3(EvolutionHistory evos)
+    public static bool IsAllowedContest3(EvolutionHistory evos, PKM pk)
     {
         // Any species can enter contests in Gen3.
+        if (!ParseSettings.AllowGBACrossTransferRSE(pk))
+            return false;
         return evos.HasVisitedGen3;
     }
 

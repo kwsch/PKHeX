@@ -12,7 +12,7 @@ public static class RibbonVerifierOnly3
         if (r.RibbonWorld)
             list.Add(RibbonIndex.World);
 
-        if (!RibbonRules.IsAllowedContest3(args.History))
+        if (!RibbonRules.IsAllowedContest3(args.History, args.Entity))
             FlagContestAny(r, ref list);
         else
             FlagContest(r, ref list);

@@ -94,6 +94,12 @@ public sealed class LearnGroup3 : ILearnGroup
 
     private static void Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types)
     {
+        if (!ParseSettings.AllowGBACrossTransferRSE(pk))
+        {
+            CheckNX(result, current, pk, evo, stage, types);
+            return;
+        }
+
         var rs = LearnSource3RS.Instance;
         var species = evo.Species;
         if (!rs.TryGetPersonal(species, evo.Form, out var rp))
@@ -137,6 +143,34 @@ public sealed class LearnGroup3 : ILearnGroup
         }
     }
 
+    private static void CheckNX(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types)
+    {
+        var species = evo.Species;
+        var fr = LearnSource3FR.Instance;
+        if (!fr.TryGetPersonal(species, evo.Form, out var fp))
+            return; // should never happen.
+        var lg = LearnSource3LG.Instance;
+        var lp = lg[species];
+
+        for (int i = result.Length - 1; i >= 0; i--)
+        {
+            if (result[i].Valid)
+                continue;
+
+            // Level Up moves are different for each game, but TM/HM is shared (use Emerald).
+            var move = current[i];
+            var chk = fr.GetCanLearn(pk, fp, evo, move, types & (MoveSourceType.LevelUp | MoveSourceType.AllTutors));
+            if (chk != default)
+            {
+                result[i] = new(chk, (byte)stage, Context);
+                continue;
+            }
+            chk = lg.GetCanLearn(pk, lp, evo, move, types & MoveSourceType.LevelUp); // Tutors same as FR
+            if (chk != default)
+                result[i] = new(chk, (byte)stage, Context);
+        }
+    }
+
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlag(MoveSourceType.Encounter) && enc.Context == Context)
@@ -158,6 +192,12 @@ public sealed class LearnGroup3 : ILearnGroup
 
     private static void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types)
     {
+        if (!ParseSettings.AllowGBACrossTransferRSE(pk)) // NX
+        {
+            LearnSource3FR.Instance.GetAllMoves(result, pk, evo, types);
+            LearnSource3LG.Instance.GetAllMoves(result, pk, evo, types & (MoveSourceType.LevelUp));
+            return;
+        }
         LearnSource3E.Instance.GetAllMoves(result, pk, evo, types);
         LearnSource3RS.Instance.GetAllMoves(result, pk, evo, types & (MoveSourceType.LevelUp | MoveSourceType.AllTutors));
         LearnSource3FR.Instance.GetAllMoves(result, pk, evo, types & (MoveSourceType.LevelUp | MoveSourceType.AllTutors));

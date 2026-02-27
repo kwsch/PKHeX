@@ -61,6 +61,7 @@ public static class ContestStatInfo
 
     public static ContestStatGranting GetContestStatRestriction(PKM pk, byte origin, EvolutionHistory h) => origin switch
     {
+        3 when pk.Format == 3 && !ParseSettings.AllowGBACrossTransferRSE(pk) => None,
         3 => pk.Format < 6    ? CorrelateSheen : Mixed,
         4 => pk.Format < 6    ? CorrelateSheen : Mixed,
 

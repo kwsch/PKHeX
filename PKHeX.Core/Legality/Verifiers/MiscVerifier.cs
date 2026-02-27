@@ -19,6 +19,7 @@ public sealed class MiscVerifier : Verifier
     private static readonly MiscG1Verifier Gen1 = new();
     private static readonly MiscEvolutionVerifier Evolution = new();
     private static readonly MiscVerifierSK2 Stadium2 = new();
+    private static readonly MiscVerifierG3 Gen3 = new();
     private static readonly MiscVerifierG4 Gen4 = new();
     private static readonly MiscVerifierPK6 Gen6 = new();
     private static readonly MiscVerifierPK5 Gen5 = new();
@@ -41,6 +42,7 @@ public sealed class MiscVerifier : Verifier
         // Verify gimmick data
         switch (pk)
         {
+            case G3PKM pk3: Gen3.Verify(data, pk3); break;
             case G4PKM pk4: Gen4.Verify(data, pk4); break;
             case PK5 pk5: Gen5.Verify(data, pk5); break;
             case PK6 pk6: Gen6.Verify(data, pk6); break;
