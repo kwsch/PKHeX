@@ -9,7 +9,7 @@ Supporta i seguenti tipi di file:
 * File di Memory Card GameCube (\*.raw, \*.bin) contenenti File di Salvataggio Pokémon.
 * File di Entità Pokémon individuali (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4, \*.rk4)
 * File di Dono Segreto (\*.pgt, \*.pcd, \*.pgf, .wc\*) inclusa conversione in .pk\*
-* Importazione di Entità del Go Park (\*.gp1) inclusa conversione in .pb7
+* Importazione di Entità del GO Park (\*.gp1) inclusa conversione in .pb7
 * Importazione di squadre da Video Lotta del 3DS decriptati
 * Trasferimento da una generazione all'altra, convertendo i formati propriamente.
 
