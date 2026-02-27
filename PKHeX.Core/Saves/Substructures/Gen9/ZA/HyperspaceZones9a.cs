@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -25,6 +26,16 @@ public sealed class HyperspaceZones9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV
             ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)value, MaxCount);
             WriteInt32LittleEndian(Data[FooterStart..], value);
         }
+    }
+
+    /// <summary>
+    /// There can be at most five special scans in a row which do not reveal an unknown 5⭐ distribution.
+    /// </summary>
+    [Range(0, 5)]
+    public uint SpecialScanPityCounter
+    {
+        get => ReadUInt32LittleEndian(Data[0x28AC..]);
+        set => WriteUInt32LittleEndian(Data[0x28AC..], value);
     }
 
     [TypeConverter(typeof(TypeConverterU64))]
@@ -135,6 +146,6 @@ public sealed record HyperspaceZoneEntry9a(Memory<byte> Raw)
         set => SetString(Data[0xA8..], value);
     }
 
-    private string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
-    private void SetString(Span<byte> data, ReadOnlySpan<char> value, int maxLength = 15) => StringConverter8.SetString(data, value, maxLength);
+    private static string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
+    private static void SetString(Span<byte> data, ReadOnlySpan<char> value, int maxLength = 15) => StringConverter8.SetString(data, value, maxLength);
 }
