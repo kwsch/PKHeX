@@ -152,6 +152,8 @@ public static class EncounterVerifier
             return GetValid(EggLocation);
 
         // Version isn't updated when hatching on a different game. Check any game.
+        if (!ParseSettings.AllowGBACrossTransferRSE(pk)) // Must match the origin game (Nintendo Switch VC)
+            return GetInvalid(EggLocationInvalid);
         if (EggHatchLocation3.IsValidMet3Any(met))
             return GetValid(EggLocationTrade);
         return GetInvalid(EggLocationInvalid);
