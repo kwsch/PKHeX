@@ -1,0 +1,1514 @@
+40	m	Ne pas Faire Apparaître la Poké Ball de Bulbizarre au Labo de Chen
+41	m	Ne pas Faire Apparaître la Poké Ball de Carapuce au Labo de Chen
+42	m	Ne pas Faire Apparaître la Poké Ball de Salamèche au Labo de Chen
+43	m	Ne pas Faire Apparaître le Prof. Chen dans son Labo
+44	m	Ne pas Faire Apparaître le Prof. Chen au Bourg Palette
+45	m	Ne pas Faire Apparaître Blue au Labo de Chen
+46	m	Ne pas Faire Apparaître le Garçon à l'Entrée Est d'Argenta
+47	m	Ne pas Faire Apparaître le Fossile Dôme au Mont Sélénite
+48	m	Ne pas Faire Apparaître le Nautile au Mont Sélénite
+49	m	Ne pas Faire Apparaître le Sbire Team Rocket à la Route 24
+50	m	Ne pas Faire Apparaître Léo (Forme de Mélofée) dans sa Maison
+51	m	Ne pas Faire Apparaître Léo dans sa Maison
+52	m	Ne pas Faire Apparaître M. Fuji à la Tour Pokémon
+53	m	Ne pas Faire Apparaître M. Fuji dans sa Maison
+54	m	Ne pas Faire Apparaître la Clé Asc. au Repaire Rocket
+55	m	Ne pas Faire Apparaître le Scope Sylphe au Repaire Rocket
+56	m	Ne pas Faire Apparaître Giovanni au Repaire Rocket
+57	m	Ne pas Faire Apparaître la Carte sur la Table dans la maison de Blue
+58	m	Ne pas Faire Apparaître les Pokédexs sur le Bureau du Labo de Chen
+59	m	Ne pas Faire Apparaître le Sbire Team Rocket à Azuria
+60	m	Ne pas Faire Apparaître Blue à Azuria
+
+62	m	Ne pas Faire Apparaître la Team Rocket à Safrania
+63	m	Ne pas Faire Apparaître les Résidents à Safrania
+64	m	Ne pas Faire Apparaître le Rocher à l'Ouest au RDC des Îles Écume
+65	m	Ne pas Faire Apparaître le Rocher à l'Est au RDC des Îles Écume
+66	m	Ne pas Faire Apparaître le Rocher à l'Ouest au 1er Sous-sol des Îles Écume
+67	m	Ne pas Faire Apparaître le Rocher à l'Est au 1er Sous-sol des Îles Écume
+68	m	Ne pas Faire Apparaître le Rocher à l'Ouest au 2ème Sous-sol des Îles Écume
+69	m	Ne pas Faire Apparaître le Rocher à l'Est au 2ème Sous-sol des Îles Écume
+70	m	Ne pas Faire Apparaître le Rocher sur l'Eau à l'Ouest au 3ème Sous-sol des Îles Écume
+71	m	Ne pas Faire Apparaître le Rocher sur l'Eau à l'Est au 3ème Sous-sol des Îles Écume
+72	m	Ne pas Faire Apparaître le Rocher 1 au 3ème Sous-sol des Îles Écume
+73	m	Ne pas Faire Apparaître le Rocher 2 au 3ème Sous-sol des Îles Écume
+74	m	Ne pas Faire Apparaître le Rocher 3 au 3ème Sous-sol des Îles Écume
+75	m	Ne pas Faire Apparaître le Rocher 4 au 3ème Sous-sol des Îles Écume
+76	m	Ne pas Faire Apparaître le Rocher à l'Ouest au 4ème Sous-sol des Îles Écume
+77	m	Ne pas Faire Apparaître le Rocher à l'Est au 4ème Sous-sol des Îles Écume
+78	m	Ne pas Faire Apparaître Blue à la Sylphe SARL
+79	m	Ne pas Faire Apparaître Blue à la Route 22
+80	m	Ne pas Faire Apparaître l'Homme Menant au Musée des Sciences d'Argenta
+81	m	Ne pas Faire Apparaître Blue à la Tour Pokémon
+82	m	Ne pas Faire Apparaître Sulfura au Mont Braise
+83	m	Ne pas Faire Apparaître la Team Rocket à la Sylphe SARL
+84	m	Ne pas Faire Apparaître Ronflex à la Route 12
+85	m	Ne pas Faire Apparaître Giovanni à l'Arène de Jadielle
+
+87	m	Ne pas Faire Apparaître la Poké Ball d'Évoli au Manoir Céladon
+88	m	Ne pas Faire Apparaître le Rocher au 1er Étage de la Route Victoire
+89	m	Ne pas Faire Apparaître le Rocher au 2ème Étage de la Route Victoire
+
+91	m	Ne pas Faire Apparaître le Sbire Team Rocket au Casino Rocket
+92	m	Ne pas Faire Apparaître l'Homme Bloquant la Caverne Azurée
+93	m	Ne pas Faire Apparaître Électhor à la Centrale
+94	m	Ne pas Faire Apparaître le Sbire Team Rocket (1) à la Tour Pokémon
+95	m	Ne pas Faire Apparaître les Sbires Team Rocket et l'Employé de la Sylphe SARL à Céladopole
+96	m	Ne pas Faire Apparaître la Poké Ball de Kicklee au Dojo de Safrania
+97	m	Ne pas Faire Apparaître la Poké Ball de Tygnon au Dojo de Safrania
+98	m	Ne pas Faire Apparaître Léo à Cramois'Île
+
+107	m	Ne pas Faire Apparaître la Flèche des Mers à Cramois'Île
+108	m	Ne pas Faire Apparaître le Karatéka au Fan Club des Dresseurs Pokémon
+109	m	Ne pas Faire Apparaître l'Ornithologue au Fan Club des Dresseurs Pokémon
+110	m	Ne pas Faire Apparaître la Femme au Fan Club des Dresseurs Pokémon
+111	m	Ne pas Faire Apparaître le Canon au Fan Club des Dresseurs Pokémon
+112	m	Ne pas Faire Apparaître le Réceptionniste des Cadeaux Mystères au 1er Étage du Centre Pokémon
+113	m	Ne pas Faire Apparaître Léo à l'Île 1
+114	m	Ne pas Faire Apparaître Léo au Centre Réseau Pokémon de l'Île 1
+115	m	Ne pas Faire Apparaître Ciléo au Centre Réseau Pokémon de l'Île 1
+116	m	Ne pas Faire Apparaître le Motard à la Salle de Jeu
+117	m	Ne pas Faire Apparaître Lostelle à la Salle de Jeu
+118	m	Ne pas Faire Apparaître Lostelle dans sa Maison
+
+121	m	Ne pas Faire Apparaître les Motards à l'Île 3
+122	m	Ne pas Faire Apparaître Lostelle au Bois Baies
+123	m	Ne pas Faire Apparaître la Fille à Côté de la Boutique à l'Île 2
+124	m	Ne pas Faire Apparaître le Canon à l'Île 2
+125	m	Ne pas Faire Apparaître le Pokémaniac à l'Île 2
+126	m	Ne pas Faire Apparaître l'Homme à l'Île 3
+
+128	m	Ne pas Faire Apparaître Ronflex à la Route 16
+129	m	Ne pas Faire Apparaître Mewtwo à la Caverne Azurée
+130	m	Ne pas Faire Apparaître Artikodin aux Îles Écume
+131	m	Ne pas Faire Apparaître le Sbire Team Rocket (2) à la Tour Pokémon
+132	m	Ne pas Faire Apparaître le Sbire Team Rocket (3) à la Tour Pokémon
+133	m	Ne pas Faire Apparaître l'Électrode (Sud) à la Centrale
+134	m	Ne pas Faire Apparaître l'Électrode (Nord) à la Centrale
+135	m	Ne pas Faire Apparaître L'Océane au Port de L'Océane
+136	m	Ne pas Faire Apparaître la Team Rocket à l'Entrepôt Rocket/Pré de l'Île 5/Île du Lointain
+137	m	Ne pas Faire Apparaître les Sbires Team Rocket au Mont Braise
+138	m	Ne pas Faire Apparaître le Rubis au Mont Braise
+139	m	Ne pas Faire Apparaître Olga à la Grotte de Glace
+140	m	Ne pas Faire Apparaître Olga dans sa Maison
+141	m	Ne pas Faire Apparaître les Sbires Team Rocket à la Grotte de Glace
+142	m	Ne pas Faire Apparaître le Scientifique à la Vallée Ruine
+143	m	Ne pas Faire Apparaître le Saphir au Trou Percé
+144	m	Ne pas Faire Apparaître le Scientifique au Trou Percé
+145	m	Ne pas Faire Apparaître le Chef des Kanto Angels à l'Île 3
+146	m	Ne pas Faire Apparaître l'Assistant de Chen à Côté de l'Entrée Est d'Argenta
+147	m	Ne pas Faire Apparaître Mademoiselle Themis à la Grotte Perdue
+148	m	Ne pas Faire Apparaître Mademoiselle Themis au Camp de Vacances
+149	m	Ne pas Faire Apparaître Mademoiselle Themis dans sa Maison
+150	m	Ne pas Faire Apparaître le Majordome de Themis dans sa Maison
+151	m	Ne pas Faire Apparaître Blue à l'Île 4
+152	m	Ne pas Faire Apparaître Blue au Centre Pokémon de l'Île 6
+
+154	m	Ne pas Faire Apparaître le Triangle à l'Île Aurore
+155	m	Ne pas Faire Apparaître Lugia au Roc Nombri
+156	m	Ne pas Faire Apparaître Ho-Oh au Roc Nombri
+157	m	Ne pas Faire Apparaître Certains PNJs du Memorydex
+158	m	Ne pas Faire Apparaître le Journal Pokémon (Invisible) au Manoir Céladon
+159	m	Ne pas Faire Apparaître le Journal Pokémon (Invisible) à la Maison du Gardien
+160	m	Ne pas Faire Apparaître le Journal Pokémon (Invisible) au Centre Pokémon de Carmin sur Mer
+161	m	Ne pas Faire Apparaître l'Assistant de Chen à Carmin sur Mer
+162	m	Ne pas Faire Apparaître Léo au Centre Pokémon de Cramois'Île
+163	m	Ne pas Faire Apparaître Blue au Plateau Indigo
+164	m	Ne pas Faire Apparaître le Prof. Chen au Plateau Indigo
+165	m	Ne pas Faire Apparaître la Poupée Miaouss à la Maison d'Olga
+166	m	Ne pas Faire Apparaître la Poupée Leveinard à la Maison d'Olga
+167	m	Ne pas Faire Apparaître la Poupée Nidoran♀ à la Maison d'Olga
+168	m	Ne pas Faire Apparaître la Poupée Rondoudou à la Maison d'Olga
+169	m	Ne pas Faire Apparaître la Poupée Nidoran♂ à la Maison d'Olga
+170	m	Ne pas Faire Apparaître la Poupée Piafabec à la Maison d'Olga
+171	m	Ne pas Faire Apparaître la Poupée Roucool à la Maison d'Olga
+172	m	Ne pas Faire Apparaître la Poupée Lokhlass à la Maison d'Olga
+173	m	Ne pas Faire Apparaître la Team Rocket au Mont Sélénite/Repaire Rocket
+174	m	Ne pas Faire Apparaître le Journal Pokémon (invisible) au Centre Pokémon de Safrania
+
+340	i	Huile Trouvée à la Route 2 
+341	i	Anti-Para Trouvé à la Route 2 
+342	i	Poké Ball Trouvée à la Forêt de Jade 
+343	i	Antidote Trouvé à la Forêt de Jade 
+344	i	Potion Trouvée à la Forêt de Jade 
+345	i	Anti-Para Trouvé au Mont Sélénite 
+346	i	CT09 Trouvée au Mont Sélénite 
+347	i	Potion Trouvée au Mont Sélénite 
+348	i	Super Bonbon Trouvé au Mont Sélénite 
+349	i	Corde Sortie Trouvée au Mont Sélénite 
+350	i	Pierre Lune Trouvée au Mont Sélénite 
+351	i	Morc. Etoile Trouvé au Mont Sélénite 
+352	i	CT46 Trouvée au Mont Sélénite 
+353	i	CT05 Trouvée à la Route 4 
+354	i	CT45 Trouvée à la Route 24 
+355	i	CT43 Trouvée à la Route 25 
+356	i	CT31 Trouvée sur L'Océane 
+357	i	Pouss.Etoile Trouvée sur L'Océane 
+358	i	Attaque + Trouvé sur L'Océane 
+359	i	CT44 Trouvée sur L'Océane 
+360	i	Huile Trouvée sur L'Océane 
+361	i	Super Potion Trouvée sur L'Océane 
+362	i	Super Ball Trouvée sur L'Océane 
+363	i	CT40 Trouvée à la Route 9 
+364	i	Corde Sortie Trouvée au Repaire Rocket 
+365	i	Hyper Potion Trouvée au Repaire Rocket 
+366	i	Vitesse + Trouvé au Repaire Rocket 
+367	i	Pierre Lune Trouvée au Repaire Rocket 
+368	i	CT12 Trouvée au Repaire Rocket 
+369	i	Super Potion Trouvée au Repaire Rocket 
+370	i	Super Bonbon Trouvé au Repaire Rocket 
+371	i	CT21 Trouvée au Repaire Rocket 
+372	i	CT49 Trouvée au Repaire Rocket 
+373	i	Huile Max Trouvée au Repaire Rocket 
+374	i	Calcium Trouvé au Repaire Rocket 
+375	i	Corde Sortie Trouvée à la Tour Pokémon 
+376	i	Elixir Trouvé à la Tour Pokémon 
+377	i	Réveil Trouvé à la Tour Pokémon 
+378	i	Super Ball Trouvée à la Tour Pokémon 
+379	i	Pépite Trouvée à la Tour Pokémon 
+380	i	Super Bonbon Trouvé à la Tour Pokémon 
+381	i	Précision + Trouvé à la Tour Pokémon 
+382	i	CT48 Trouvée à la Route 12 
+383	i	Fer Trouvé à la Route 12 
+384	i	CT18 Trouvée à la Route 15 
+385	i	Pépite Trouvée au Parc Safari 
+386	i	Potion Max Trouvée au Parc Safari 
+387	i	Guérison Trouvé au Parc Safari 
+388	i	CT11 Trouvée au Parc Safari 
+389	i	Pierreplante Trouvée au Parc Safari 
+390	i	Protéine Trouvée au Parc Safari 
+391	i	CT47 Trouvée au Parc Safari 
+392	i	CT32 Trouvée au Parc Safari 
+393	i	Dent d'Or Trouvée au Parc Safari
+394	i	Potion Max Trouvée au Parc Safari 
+395	i	Rappel Max Trouvé au Parc Safari 
+396	i	Hyper Potion Trouvée à la Sylphe SARL 
+397	i	Rappel Max Trouvé à la Sylphe SARL 
+398	i	Corde Sortie Trouvée à la Sylphe SARL 
+399	i	Total Soin Trouvé à la Sylphe SARL 
+400	i	Protéine Trouvée à la Sylphe SARL 
+401	i	CT01 Trouvée à la Sylphe SARL 
+402	i	Carte Magn. Trouvée à la Sylphe SARL 
+403	i	PV Plus Trouvé à la Sylphe SARL 
+404	i	Spécial + Trouvé à la Sylphe SARL 
+405	i	Calcium Trouvé à la Sylphe SARL 
+406	i	CT08 Trouvée à la Sylphe SARL 
+407	i	Carbone Trouvé à la Sylphe SARL 
+408	i	Hyper Ball Trouvée à la Sylphe SARL 
+409	i	Super Bonbon Trouvé à la Sylphe SARL 
+410	i	Potion Max Trouvée à la Centrale 
+411	i	CT17 Trouvée à la Centrale 
+412	i	CT25 Trouvée à la Centrale 
+413	i	Pierrefoudre Trouvée à la Centrale 
+414	i	Elixir Trouvé à la Centrale 
+415	i	Carbone Trouvé au Manoir Pokémon 
+416	i	Corde Sortie Trouvée au Manoir Pokémon 
+417	i	Calcium Trouvé au Manoir Pokémon 
+418	i	Potion Max Trouvée au Manoir Pokémon 
+419	i	Fer Trouvé au Manoir Pokémon 
+420	i	CT14 Trouvée au Manoir Pokémon 
+421	i	Guérison Trouvé au Manoir Pokémon 
+
+423	i	CT22 Trouvée au Manoir Pokémon 
+424	i	Clé Secrète Trouvée au Manoir Pokémon 
+425	i	Super Bonbon Trouvé à la Route Victoire 
+426	i	CT02 Trouvée à la Route Victoire 
+427	i	Défense Spéc Trouvé à la Route Victoire 
+428	i	CT07 Trouvée à la Route Victoire 
+429	i	Total Soin Trouvé à la Route Victoire 
+430	i	CT37 Trouvée à la Route Victoire 
+431	i	Rappel Max Trouvé à la Route Victoire 
+432	i	CT50 Trouvée à la Route Victoire 
+433	i	Max Elixir Trouvé à la Caverne Azurée 
+434	i	Pépite Trouvée à la Caverne Azurée 
+435	i	Guérison Trouvé au RDC de la Caverne Azurée 
+436	i	Guérison Trouvé au 1er Étage de la Caverne Azurée 
+437	i	PP Plus Trouvé à la Caverne Azurée 
+438	i	Hyper Ball Trouvée au 1er Étage de la Caverne Azurée 
+439	i	Rappel Max Trouvé à la Caverne Azurée 
+440	i	Hyper Ball Trouvée au 1er Sous-sol de la Caverne Azurée 
+441	i	Super Bonbon Trouvé à Parmanie 
+442	i	Rappel Trouvé à l'Île 2 
+443	i	Zinc Trouvé à l'Île 3 
+
+446	i	Potion (Sud-est) Trouvée à la Forêt de Jade 
+447	i	Rappel Trouvé au Mont Sélénite 
+448	i	Antidote Trouvé au Mont Sélénite 
+449	i	Défense + Trouvé à la Route 11 
+450	i	Anti-Brûle Trouvé à la Route 9 
+451	i	Repousse Trouvé à la Grotte 
+452	i	Perle Trouvée à la Grotte 
+453	i	Corde Sortie Trouvée à la Grotte 
+454	i	Rappel Trouvé à la Grotte 
+455	i	Huile Max Trouvée à la Grotte 
+456	i	Fer Trouvé à la Sylphe SARL 
+457	i	Zinc Trouvé à la Sylphe SARL 
+458	i	Protéine Trouvée au Manoir Pokémon 
+459	i	Zinc Trouvé au Manoir Pokémon 
+460	i	PV Plus Trouvé au Manoir Pokémon 
+461	i	Potion Trouvée à Jadielle 
+462	i	Super Ball Trouvée à la Route 11 
+463	i	Réveil Trouvé à la Route 11 
+464	i	Rune Purif. Trouvée à la Tour Pokémon 
+465	i	Huile Trouvée à Céladopole
+466	i	Lunet.Noires Trouvées au Repaire Rocket 
+467	i	Vive Griffe Trouvée au Parc Safari 
+468	i	Antigel Trouvé aux Îles Écume 
+469	i	Pierre Eau Trouvée aux Îles Écume 
+470	i	Rappel Trouvé aux Îles Écume 
+471	i	Grande Perle Trouvée aux Îles Écume 
+472	i	Hyper Ball Trouvée aux Îles Écume 
+473	i	Morc. Etoile Trouvé à l'Île 4 
+474	i	Pouss.Etoile Trouvée à l'Île 4 
+475	i	Huile Trouvée à la Route Tison 
+476	i	Max Repousse Trouvé à la Route Tison 
+477	i	Carbone Trouvé à la Route Tison 
+478	i	Potion Max Trouvée au Pré de l'Île 5 
+479	i	PP Plus Trouvé au Pré de l'Île 5 
+480	i	Peau Métal Trouvée au Mémorial 
+481	i	PP Plus Trouvé à l'Île du Lointain 
+482	i	Elixir Trouvé à l'Agualcanal 
+483	i	Ecailledraco Trouvée à l'Agualcanal 
+484	i	Guérison Trouvé à la Vallée Ruine 
+485	i	PV Plus Trouvé à la Vallée Ruine 
+486	i	Pierresoleil Trouvée à la Vallée Ruine 
+487	i	Roche Royale Trouvée au Canyon Sesor 
+488	i	Max Elixir Trouvé au Canyon Sesor 
+489	i	Pépite Trouvée au Canyon Sesor 
+490	i	Huile Max Trouvée au Bois Baies 
+491	i	Total Soin Trouvé au Bois Baies 
+492	i	Max Elixir Trouvé au Bois Baies 
+493	i	Hyper Ball Trouvée au Mont Braise 
+494	i	Pierre Feu Trouvée au Mont Braise 
+495	i	Muscle + Trouvé au Mont Braise 
+496	i	Hyper Ball Trouvée à la Grotte de Glace 
+497	i	CS07 Cascade Trouvée à la Grotte de Glace
+498	i	Guérison Trouvé à la Grotte de Glace 
+499	i	Glacéternel Trouvée à la Grotte de Glace 
+500	i	Grande Perle Trouvée à l'Entrepôt Rocket 
+501	i	CT36 Trouvée à l'Entrepôt Rocket 
+502	i	Perle Trouvée à l'Entrepôt Rocket 
+503	i	Améliorator Trouvé à l'Entrepôt Rocket 
+504	i	Mouch. Soie Trouvé à la Grotte Perdue 
+505	i	Encens Doux Trouvé à la Grotte Perdue 
+506	i	Encens Mer Trouvé à la Grotte Perdue 
+507	i	Rappel Max Trouvé à la Grotte Perdue 
+508	i	Super Bonbon Trouvé à la Grotte Perdue 
+509	i	Poing Chance Trouvé au Canyon Sesor 
+510	i	CT41 Trouvée à la Sylphe SARL 
+
+560	m	Potion Reçue de l'Employée de la Boutique Pokémon à la Route 1
+561	m	CT34 Reçue de Major Bob
+562	m	Changement du Texte de l'Intello des Fossiles
+563	m	Changement du Texte de Léo
+564	m	Changement de Position de l'Officier et de la Fille avec le Flagadoss à Azuria ; Peut Embarquer sur L'Océane
+565	m	???
+566	m	CT42 Reçue au Mémorial
+567	m	CS01 Coupe Reçue
+568	m	CS02 Vol Reçue
+569	m	CS03 Surf Reçue
+570	m	CS04 Force Reçue
+571	m	CS05 Flash Reçue
+572	m	Changement du Texte du Garçon à la Maison de M. Fuji
+573	m	Pokéflûte Reçue
+
+575	m	Changement du Texte de l'Homme qui s'Est Fait Volé à Azuria
+576	m	Canne Reçue
+577	m	Bon Commande Reçue
+
+579	m	Boîte Jetons Reçue
+580	m	Super Canne Reçue
+581	m	CT29 Reçue à Safrania
+582	m	Lokhlass Reçu(e)
+583 m   Poké Balls du Prof. Chen Reçues (Après le Combat Contre le Rival à la Route 22, Aucune Poké Ball dans le Sac, Aucun Pokémon Capturé)
+584	m	Échange Interne Abra Contre M. Mime (Route 2)
+585	m	Magicarpe Acheté(e)
+586	m	Échange Interne Têtarte Contre Lippoutou (Azuria)
+587	m	Échange Interne de Nidoran (Souterrain Routes 5-6)
+
+589	m	Échange Interne Piafabec Contre Canarticho (Carmin sur Mer)
+590	m	CT38 Reçue d'Auguste
+591	m	Changement du Texte du Prof. Chen (Après Avoir Reçu les Poké Balls)
+592	m	Master Ball du Président de la Sylphe SARL Reçue
+593	m	Échange Interne de Nidorino/Nidorina (Route 11)
+594	m	Cherch'Objet Reçu (Assistant de Chen, Route 11)
+
+596	m	CT39 Reçue de Pierre
+597	m	Méga Canne Reçue
+598	m	Multi Exp Reçu (Assistant de Chen, Route 15)
+599	m	Échange Interne Akwakwak (RF)/Flagadoss (VF) Contre Excelangue (Route 18)
+600	m	Changement du Texte de la Mère du Joueur (Peut Soigner les Pokémon)
+601	m	CT06 Reçue de Koga
+
+603	m	CT27 Reçue à la Route 12
+
+606	m	Vieil Ambre Reçu ; Peut Ressusciter Ptéra
+
+611	m	Évoli au Manoir Céladon Reçu
+612	m	Barrière Électrique à l'Arène de Carmin sur Mer Désactivée
+613	m	Première Porte à l'Arène de Cramois'Île Ouverte
+614	m	Changement de Position du Vieux de la Pension
+615	m	Deuxième Porte à l'Arène de Cramois'Île Ouverte
+616	m	Troisième Porte à l'Arène de Cramois'Île Ouverte
+617	m	Quatrième Porte à l'Arène de Cramois'Île Ouverte
+618	m	Cinquième Porte à l'Arène de Cramois'Île Ouverte
+619	m	Sixième Porte à l'Arène de Cramois'Île Ouverte
+620	m	Interrupteur au Manoir Pokémon ON
+621	m	Entrée du Repaire Rocket au Casino Rocket Ouverte
+622	m	10 Jetons au Casino Rocket Reçus
+623	m	20 Jetons au Casino Rocket Reçus
+624	m	20 Jetons au Casino Rocket Reçus
+625	m	Bicyclette Reçue
+626	m	Fossile Dôme Choisi ; Peut Ressusciter Kabuto ; Amonita au Zoo Pokémon
+627	m	Nautile Choisi ; Peut Ressusciter Amonita ; Kabuto au Zoo Pokémon
+628	m	Échange Interne Raichu Contre Électrode (Laboratoire de Cramois'Île)
+629	m	Échange Interne Mimitoss Contre Saquedeneu (Laboratoire de Cramois'Île)
+630	m	Échange Interne Ponyta Contre Otaria (Laboratoire de Cramois'Île)
+
+632	m	Kicklee ou Tygnon Pris
+
+634	m	Porte (Nord) au 1er Étage de la Sylphe SARL Ouverte
+635	m	Porte (Sud) au 1er Étage de la Sylphe SARL Ouverte
+636	m	Porte (Ouest) au 2ème Étage de la Sylphe SARL Ouverte
+637	m	Porte (Est) au 2ème Étage de la Sylphe SARL Ouverte
+638	m	Porte (Ouest) au 3ème Étage de la Sylphe SARL Ouverte
+639	m	Porte (Est) au 3ème Étage de la Sylphe SARL Ouverte
+640	m	Porte (Nord-ouest) au 4ème Étage de la Sylphe SARL Ouverte
+641	m	Porte (Sud-ouest) au 4ème Étage de la Sylphe SARL Ouverte
+642	m	Porte (Est) au 4ème Étage de la Sylphe SARL Ouverte
+643	m	Porte au 5ème Étage de la Sylphe SARL Ouverte
+644	m	Porte (Ouest) au 6ème Étage de la Sylphe SARL Ouverte
+645	m	Porte (Nord-est) au 6ème Étage de la Sylphe SARL Ouverte
+646	m	Porte (Sud-est) au 6ème Étage de la Sylphe SARL Ouverte
+647	m	Porte au 7ème Étage de la Sylphe SARL Ouverte
+648	m	Porte (Ouest) au 8ème Étage de la Sylphe SARL Ouverte
+649	m	Porte (Sud) au 8ème Étage de la Sylphe SARL Ouverte
+650	m	Porte (Nord-est) au 8ème Étage de la Sylphe SARL Ouverte
+651	m	Porte (Sud-est) au 8ème Étage de la Sylphe SARL Ouverte
+652	m	Porte au 9ème Étage de la Sylphe SARL Ouverte
+653	m	Porte au 10ème Étage de la Sylphe SARL Ouverte
+
+656	m	Changement du Texte du Vantard à l'Île 4
+657	m	Règle l'État de la Fille de Bourg Palette à 2
+658	m	Cherche VS Reçu
+659	m	CT19 Reçue d'Erika
+660	m	CT33 Reçue sur le Toit du Centre Commercial de Céladopole
+661	m	CT20 Reçue sur le Toit du Centre Commercial de Céladopole
+662	m	CT16 Reçue sur le Toit du Centre Commercial de Céladopole
+663	m	CT03 Reçue d'Ondine
+664	m	CT26 Reçue de Giovanni
+
+666	m	CT04 Reçue de Morgane
+667	s	Mémorydex Reçu
+668	m	Record de Taille de Magicarpe Défini
+669	m	Changement du Texte du Propriétaire de la Boutique à l'Île 2
+
+673	m	Changement du Texte de certains des PNJs Après la Remise en Marche des PCs
+
+675	m	Changement du Texte de la Fille dans la Maison au Nord du Centre Pokémon de l'Île 3
+
+677	s	Clé Asc. Reçue
+678	s	Thé Reçu
+679	e	Ticketaurora Reçu en Cadeau Mystère
+680	e	Ticketmystik Reçu en Cadeau Mystère
+
+699	m	Pot Poudre Reçu
+700	r	Mewtwo Capturé/Vaincu
+701	r	Sulfura Capturé/Vaincu
+702	r	Artikodin Capturé/Vaincu
+703	r	Électhor Capturé/Vaincu
+704	*	Donneur de Capacités Utilisé à la Route Victoire (Damoclès)
+705	*	Donneur de Capacités Utilisé à la Sylphe SARL (Cage-Éclair)
+706	*	Donneur de Capacités Utilisé à la Grotte (Éboulement)
+707	*	Donneur de Capacités Utilisé au Mont Braise (Explosion)
+708	*	Donneur de Capacités Utilisé à la Route 4 (Ultimapoing)
+709	*	Donneur de Capacités Utilisé à la Route 4 (Ultimawashi)
+710	*	Donneur de Capacités Utilisé à Jadielle (Dévorêve)
+711	*	Donneur de Capacités Utilisé à Céladopole (E-Coque)
+712	*	Donneur de Capacités Utilisé à Parmanie (Clonage)
+713	*	Donneur de Capacités Utilisé à l'Île 7 (Danse-Lames)
+714	*	Donneur de Capacités Utilisé à Argenta (Frappe Atlas)
+715	*	Donneur de Capacités Utilisé au Centre Commercial de Céladopole (Riposte)
+716	*	Donneur de Capacités Utilisé à Cramois'Île (Métronome)
+717	*	Donneur de Capacités Utilisé à Safrania (Copie)
+718	*	Donneur de Capacités Utilisé à l'Île 4 (Plaquage)
+719	m	Est au Labo de Chen (pour le Système d'Aide)
+720	r	Électrode (Sud) à la Centrale Vaincu/Fuit/Capturé
+721	r	Électrode (Nord) à la Centrale Vaincu/Fuit/Capturé
+722	m	Énigme du Rocher aux Îles Écume pour la Sortie Sud Résolu
+723	m	Énigme du Rocher pour Artikodin Résolu
+724	m	Changement du Texte d'Olga dans sa Maison
+725	s	Team Rocket Déboutée des Îles Sevii
+726	s	Porte de l'Entrepôt Rocket Ouverte
+727	m	Changement du Texte du Dresseur de Tectonix (pas de Place pour la CT42)
+728	s	Saphir au Trou Percé Volé par le Scientifique/Peut Entrer dans l'Entrepôt Rocket
+729	m	Record de Taille de Scarhino Défini
+730	m	Œuf de Togepi du Gentleman au Labyrinthe d'O Reçu
+731	m	Changement du Texte du Gentleman au Labyrinthe d'O
+732	s	Saphir Reçu du Scientifique
+733	s	Rubis Trouvé au Mont Braise 
+734	*	Donneur de Capacités Utilisé au Cap Falaise (Végé-Attak)
+735	*	Donneur de Capacités Utilisé au Cap Falaise (Rafale Feu)
+736	*	Donneur de Capacités Utilisé au Cap Falaise (Hydroblast)
+737	*	Le Donneur de Capacités du Cap Falaise A Enseigné les 3 Capacités
+738	m	Pépite Reçue au Chemin Île 3
+739	s	Porte du Trou Percé Ouverte
+740	r	Deoxys Capturé
+
+748	*	Kabuto du Fossile Dôme Ressuscité(e)
+749	*	Amonita du Nautile Ressuscité(e)
+750	*	Ptéra de la Vieil Ambre Ressuscité(e)
+751	m	CS06 Éclate-Roc Reçue
+752	m	Ticketmystik Montré
+753	m	Ticketaurora Montré
+754	r	Lugia Capturé
+755	r	Ho-Oh Capturé
+756	s	Pokédex National Complet Montré au Prof. Chen
+757	r	Lugia Vaincu
+758	r	Ho-Oh Vaincu
+759	r	Deoxys Vaincu
+760	m	Changement du Texte de la Vieille Dame au Manoir Céladon (après le Panthéon)
+761	s	A Parlé à l'Assistant de Chen à Carmin sur Mer
+762	*	Pierre Stase Reçue (Assistant de Chen, Centre Pokémon de la Grotte)
+763	s	Météorite Donnée et Pierre Lune Reçue du Père de Lostelle
+764	*	Guérison Offert par l'Homme pour Avoir Débouté les Kanto Angels à l'Île 3
+765	*	Pièce Rune Reçue (Assistant de Chen, Route 16)
+
+767	m	Ne pas Changer la Couleur du Texte lors de l'Évaluation du PC
+
+1000	h	Potion (Cachée) Trouvée à la Forêt de Jade 
+1001	h	Antidote (Caché) Trouvé à la Forêt de Jade 
+1002	h	Pierre Lune (Cachée) Trouvée au Mont Sélénite 
+1003	h	Huile (Cachée) Trouvée au Mont Sélénite 
+1004	h	Elixir (Caché) Trouvé à la Route 25 
+1005	h	Huile (Cachée) Trouvée à la Route 25 
+1006	h	Huile (Cachée) Trouvée à la Route 9 
+
+1008	h	Hyper Potion (Cachée) Trouvée sur L'Océane 
+1009	h	Super Potion (Cachée) Trouvée à la Route 10 
+1010	h	Huile Max (Cachée) Trouvée à la Route 10 
+1011	h	PP Plus (Caché) Trouvé au Repaire Rocket 
+1012	h	Pépite (Cachée) Trouvée au Repaire Rocket 
+1013	h	Faiblo Ball (Cachée) Trouvée au Repaire Rocket 
+1014	h	Gros Champi (Caché) Trouvé à la Tour Pokémon 
+1015	h	PP Plus (Caché) Trouvé à la Route 13 
+
+1017	h	Super Bonbon (Caché) Trouvé à la Route 17 
+1018	h	Guérison (Caché) Trouvé à la Route 17 
+1019	h	PP Plus (Caché) Trouvé à la Route 17 
+1020	h	Rappel Max (Caché) Trouvé à la Route 17 
+1021	h	Max Elixir (Caché) Trouvé à la Route 17 
+1022	h	Pierreplante (Cachée) Trouvée au Parc Safari 
+1023	h	Rappel (Caché) Trouvé au Parc Safari 
+1024	h	Elixir (Caché) Trouvé à la Sylphe SARL 
+1025	h	Potion Max (Cachée) Trouvée à la Sylphe SARL 
+1026	h	Pépite (Cachée) Trouvée à Safrania 
+1027	h	Max Elixir (Caché) Trouvé à la Centrale 
+1028	h	Pierrefoudre (Cachée) Trouvée à la Centrale 
+1029	h	Pépite (Cachée) Trouvée aux Îles Écume 
+1030	h	Pierre Eau (Cachée) Trouvée aux Îles Écume 
+1031	h	Pierre Lune (Cachée) Trouvée au Manoir Pokémon 
+1032	h	Super Bonbon (Caché) Trouvé au Manoir Pokémon 
+1033	h	Elixir (Caché) Trouvé au Manoir Pokémon 
+1034	h	Guérison (Caché) Trouvé à la Route 23 
+1035	h	Hyper Ball (Cachée) Trouvée à la Route 23 
+1036	h	Huile Max (Cachée) Trouvée à la Route 23 
+1037	h	Hyper Ball (Cachée) Trouvée à la Route Victoire 
+1038	h	Guérison (Caché) Trouvé à la Route Victoire 
+1039	h	Hyper Ball (Cachée) Trouvée à la Caverne Azurée 
+
+1041	h	Corde Sortie (Cachée) Trouvée à la Route 11 
+1042	h	Hyper Potion (Cachée) Trouvée à la Route 12 
+
+1047	h	PP Plus (Caché) Trouvé à Céladopole 
+1048	h	Huile Max (Cachée) Trouvée à Carmin sur Mer 
+1049	h	Super Bonbon (Caché) Trouvé à Azuria 
+1050	h	Super Ball (Cachée) Trouvée à la Route 4 
+1051	h	10 Jetons (Cachés) Trouvés au Casino Rocket 
+1052	h	10 Jetons (Cachés) Trouvés au Casino Rocket 
+1053	h	20 Jetons (Cachés) Trouvés au Casino Rocket 
+1054	h	10 Jetons (Cachés) Trouvés au Casino Rocket 
+1055	h	10 Jetons (Cachés) Trouvés au Casino Rocket 
+1056	h	20 Jetons (Cachés) Trouvés au Casino Rocket 
+1057	h	10 Jetons (Cachés) Trouvés au Casino Rocket 
+1058	h	10 Jetons (Cachés) Trouvés au Casino Rocket 
+1059	h	10 Jetons (Cachés) Trouvés au Casino Rocket 
+1060	h	40 Jetons (Cachés) Trouvés au Casino Rocket 
+1061	h	100 Jetons (Cachés) Trouvés au Casino Rocket 
+1062	h	10 Jetons (Cachés) Trouvés au Casino Rocket 
+1063	h	Baie Ceriz (Cachée) Trouvée au Canyon Sesor 
+1064	h	Ecaillecoeur (Cachée, Réapparaît) Trouvée aux Ruines Tanoby 
+1065	h	Ecaillecoeur (Cachée, Réapparaît) Trouvée aux Ruines Tanoby 
+1066	h	Ecaillecoeur (Cachée, Réapparaît) Trouvée aux Ruines Tanoby 
+1067	h	Ecaillecoeur (Cachée, Réapparaît) Trouvée aux Ruines Tanoby 
+1068	h	Faiblo Ball (Cachée) Trouvée à l'Entrepôt Rocket 
+1069	h	Filet Ball (Cachée) Trouvée à l'Entrepôt Rocket 
+1070	h	Potion (Cachée, Réapparaît) Trouvée au Souterrain (Routes 5-6) 
+1071	h	Antidote (Caché, Réapparaît) Trouvé au Souterrain (Routes 5-6) 
+1072	h	Anti-Para (Caché, Réapparaît) Trouvé au Souterrain (Routes 5-6) 
+1073	h	Réveil (Caché, Réapparaît) Trouvé au Souterrain (Routes 5-6) 
+1074	h	Anti-Brûle (Caché, Réapparaît) Trouvé au Souterrain (Routes 5-6) 
+1075	h	Antigel (Caché, Réapparaît) Trouvé au Souterrain (Routes 5-6) 
+1076	h	Huile (Cachée, Réapparaît) Trouvée au Souterrain (Routes 5-6) 
+1077	h	Potion (Cachée, Réapparaît) Trouvée au Souterrain (Routes 7-8) 
+1078	h	Antidote (Caché, Réapparaît) Trouvé au Souterrain (Routes 7-8) 
+1079	h	Anti-Para (Caché, Réapparaît) Trouvé au Souterrain (Routes 7-8) 
+1080	h	Réveil (Caché, Réapparaît) Trouvé au Souterrain (Routes 7-8) 
+1081	h	Anti-Brûle (Caché, Réapparaît) Trouvé au Souterrain (Routes 7-8) 
+1082	h	Antigel (Caché, Réapparaît) Trouvé au Souterrain (Routes 7-8) 
+1083	h	Huile (Cachée, Réapparaît) Trouvée au Souterrain (Routes 7-8) 
+1084	h	Petit Champi (Caché, Réapparaît) Trouvé au Mont Sélénite 
+1085	h	Petit Champi (Caché, Réapparaît) Trouvé au Mont Sélénite 
+1086	h	Petit Champi (Caché, Réapparaît) Trouvé au Mont Sélénite 
+1087	h	Gros Champi (Caché, Réapparaît) Trouvé au Mont Sélénite 
+1088	h	Gros Champi (Caché, Réapparaît) Trouvé au Mont Sélénite 
+1089	h	Gros Champi (Caché, Réapparaît) Trouvé au Mont Sélénite 
+1090	h	Baie Framby (Cachée, Réapparaît) Trouvée au Bois Baies 
+1091	h	Baie Remu (Cachée, Réapparaît) Trouvée au Bois Baies 
+1092	h	Baie Nanab (Cachée, Réapparaît) Trouvée au Bois Baies 
+1093	h	Baie Repoi (Cachée, Réapparaît) Trouvée au Bois Baies 
+1094	h	Baie Oran (Cachée, Réapparaît) Trouvée au Bois Baies 
+1095	h	Baie Ceriz (Cachée, Réapparaît) Trouvée au Bois Baies 
+1096	h	Baie Maron (Cachée, Réapparaît) Trouvée au Bois Baies 
+1097	h	Baie Pêcha (Cachée, Réapparaît) Trouvée au Bois Baies 
+1098	h	Baie Fraive (Cachée, Réapparaît) Trouvée au Bois Baies 
+1099	h	Baie Willia (Cachée, Réapparaît) Trouvée au Bois Baies 
+1100	h	Baie Kika (Cachée, Réapparaît) Trouvée au Bois Baies 
+1101	h	Baie Nanana (Cachée, Réapparaît) Trouvée au Bois Baies 
+1102	h	Baie Prine (Cachée, Réapparaît) Trouvée au Bois Baies 
+1103	h	Pouss.Etoile (Cachée, Réapparaît) Trouvée à la Plage Trésor 
+1104	h	Pouss.Etoile (Cachée, Réapparaît) Trouvée à la Plage Trésor 
+1105	h	Perle (Cachée, Réapparaît) Trouvée à la Plage Trésor 
+1106	h	Perle (Cachée, Réapparaît) Trouvée à la Plage Trésor 
+1107	h	Hyper Ball (Cachée, Réapparaît) Trouvée à la Plage Trésor 
+1108	h	Hyper Ball (Cachée, Réapparaît) Trouvée à la Plage Trésor 
+1109	h	Morc. Etoile (Caché, Réapparaît) Trouvé à la Plage Trésor 
+1110	h	Grande Perle (Cachée, Réapparaît) Trouvée à la Plage Trésor 
+1111	h	Super Bonbon (Caché) Trouvé au Cap Falaise 
+1112	h	Poké Ball (Cachée) Trouvée à Argenta 
+1113	h	Baie Oran (Cachée) Trouvée à la Route 3 
+1114	h	Baie Kika (Cachée) Trouvée à la Route 4 
+1115	h	Baie Pêcha Trouvée à la Route 24 
+1116	h	Baie Oran (Cachée) Trouvée à la Route 25 
+1117	h	Baie Remu (Cachée) Trouvée à la Route 25 
+1118	h	Baie Sitrus (Cachée) Trouvée à la Route 6 
+1119	h	Super Bonbon (Caché) Trouvé à la Route 6 
+1120	h	Baie Pêcha (Cachée) Trouvée sur L'Océane 
+1121	h	Baie Ceriz (Cachée) Trouvée sur L'Océane 
+1122	h	Baie Maron (Cachée) Trouvée sur L'Océane 
+1123	h	Super Bonbon (Caché) Trouvé à la Route 9 
+
+1125	h	Baie Kika (Cachée) Trouvée à la Route 10 
+1126	h	Baie Ceriz (Cachée) Trouvée à la Route 10 
+1127	h	Baie Fraive (Cachée) Trouvée à la Route 8 
+1128	h	Baie Prine (Cachée) Trouvée à la Route 8 
+1129	h	Baie Mepo (Cachée) Trouvée à la Route 8 
+1130	h	Super Bonbon (Caché) Trouvé à la Route 12 
+1131	h	Restes Trouvés à la Route 12 
+1132	h	Restes (Cachés) Trouvés à la Route 16 
+1133	h	Rappel Max (Caché) Trouvé à Parmanie 
+1134	h	Filet Ball (Cachée) Trouvée au Repaire Rocket 
+1135	h	Hyper Ball (Cachée) Trouvée à la Sylphe SARL 
+1136	h	Protéine (Cachée) Trouvée à la Sylphe SARL 
+1137	h	Fer (Caché) Trouvé à la Sylphe SARL 
+1138	h	PP Plus (Caché) Trouvé à la Sylphe SARL 
+1139	h	Carbone (Caché) Trouvé à la Sylphe SARL 
+1140	h	Zinc (Caché) Trouvé à la Sylphe SARL 
+1141	h	Pépite (Cachée) Trouvée à la Sylphe SARL 
+1142	h	Calcium (Caché) Trouvé à la Sylphe SARL 
+1143	h	PV Plus (Caché) Trouvé à la Sylphe SARL 
+1144	h	Rappel (Caché) Trouvé à la Sylphe SARL 
+1145	h	Baie Prine (Cachée) Trouvée à la Route 23 
+1146	h	Baie Sitrus (Cachée) Trouvée à la Route 23 
+1147	h	Baie Willia (Cachée) Trouvée à la Route 23 
+1148	h	Baie Mepo (Cachée) Trouvée à la Route 23 
+1149	h	Zinc (Caché) Trouvé à la Route 14 
+1150	h	Baie Maron (Cachée) Trouvée à la Route 9 
+1151	h	Baie Nanab (Cachée) Trouvée à la Route 10 
+1152	h	Baie Repoi (Cachée) Trouvée à la Route 7 
+1153	h	Pouss.Etoile (Cachée, Réapparaît) Trouvée au Chenal 20 
+1154	h	Perle (Cachée, Réapparaît) Trouvée au Chenal 21 
+1155	h	Max Elixir (Caché) Trouvé à la Route 23 
+1156	h	Baie Framby (Cachée) Trouvée à la Route 4 
+1157	h	Baie Nanana (Cachée) Trouvée à la Route 14 
+1158	h	Pierre Feu (Cachée) Trouvée au Mont Braise 
+1159	h	Grelot Zen (Caché) Trouvé à la Tour Pokémon 
+1160	h	Cendresacrée (Cachée) Trouvée au Roc Nombri 
+1161	h	PP Max (Caché) Trouvé au Cap Falaise 
+1162	h	Hyper Ball (Cachée) Trouvée au Mont Braise 
+1163	h	Pépite (Cachée) Trouvée au Chemin Île 3 
+1164	h	PP Plus (Caché) Trouvé à l'Île 3 
+1165	h	Max Repousse (Caché) Trouvé au Pont du Lien 
+1166	h	Perle (Cachée, Réapparaît) Trouvée au Pont du Lien 
+1167	h	Pouss.Etoile (Cachée, Réapparaît) Trouvée au Pont du Lien 
+1168	h	Perle (Cachée, Réapparaît) Trouvée à l'Île 4 
+1169	h	Hyper Ball (Cachée, Réapparaît) Trouvée à l'Île 4 
+1170	h	Grande Perle (Cachée, Réapparaît) Trouvée au Mémorial 
+1171	h	Baie Framby (Cachée) Trouvée au Mémorial 
+1172	h	Baie Sitrus (Cachée) Trouvée au Mémorial 
+1173	h	Baie Remu (Cachée) Trouvée au Mémorial 
+1174	h	Faiblo Ball (Cachée, Réapparaît) Trouvée au Camp de Vacances 
+1175	h	Pouss.Etoile (Cachée, Réapparaît) Trouvée au Camp de Vacances 
+1176	h	Morc. Etoile (Caché, Réapparaît) Trouvé au Camp de Vacances 
+1177	h	Pouss.Etoile (Cachée, Réapparaît) Trouvée au Camp de Vacances
+1178	h	Morc. Etoile (Caché, Réapparaît) Trouvé à l'Île du Lointain
+1179	h	Filet Ball (Cachée, Réapparaît) Trouvée à l'Île du Lointain
+1180	h	Hyper Ball (Cachée, Réapparaît) Trouvée au Chemin Vert
+1181	h	Baie Willia (Cachée) Trouvée à l'Agualcanal
+1182	h	Baie Oran (Cachée) Trouvée à l'Agualcanal
+1183	h	Baie Nanana (Cachée) Trouvée à l'Agualcanal
+1184	h	Baie Mepo Trouvée à l'Île 6
+1185	h	Grande Perle (Cachée, Réapparaît) Trouvée à l'Extérieur de la Tour Dresseurs
+1186	h	Perle (Cachée, Réapparaît) Trouvée à l'Extérieur de la Tour Dresseurs
+1187	h	Baie Nanab (Cachée) Trouvée à l'Extérieur de la Tour Dresseurs
+1188	h	Baie Fraive (Cachée) Trouvée à l'Entrée Canyon
+1189	h	Brac. Macho (Caché) Trouvé à l'Arène de Jadielle
+1190	h	Lava Cookie (Caché) Trouvé au Port de L'Océane
+
+1200	m	Changement du Texte de Guido à l'Arène d'Argenta
+1201	m	Changement du Texte de Guido à l'Arène d'Azuria
+1202	m	Changement du Texte de Guido à l'Arène de Carmin sur Mer
+1203	m	Changement du Texte de Guido à l'Arène de Céladopole
+1204	m	Changement du Texte de Guido à l'Arène de Parmanie
+1205	m	Changement du Texte de Guido à l'Arène de Safrania
+1206	m	Changement du Texte de Guido à l'Arène de Cramois'Île
+1207	m	Changement du Texte de Guido à l'Arène de Jadielle
+1208	m	Porte de la Salle d'Olga Ouverte/Olga Vaincue
+1209	m	Porte de la Salle d'Aldo Ouverte/Aldo Vaincu
+1210	m	Porte de la Salle d'Agatha Ouverte/Agatha Vaincue
+1211	m	Porte de la Salle de Peter Ouverte/Peter Vaincu
+1212	m	Porte de la Salle de Blue Ouverte/Blue Vaincu
+
+1281	t	(Inutilisé) Leader Aqua Vaincu
+1282	t	(Inutilisé) Sbire Aqua (Mâle) Vaincu
+1283	t	(Inutilisé) Sbire Aqua (Femelle) Vaincue
+1284	t	(Inutilisé) Aroma Vaincue
+1285	t	(Inutilisé) Ruinemaniac Vaincu
+1286	t	(Inutilisé) Journalistes Vaincus
+1287	t	(Inutilisé) Flotteur (Femelle) Vaincue
+1288	t	(Inutilisé) Flotteur (Mâle) Vaincu
+1289	t	(Inutilisé) Topdresseur (Mâle) Vaincu
+1290	t	(Inutilisé) Topdresseur (Femelle) Vaincue
+1291	t	(Inutilisé) Mystimaniac Vaincue
+1292	t	(Inutilisé) Mademoiselle Vaincue
+1293	t	(Inutilisé) Canon Vaincue
+1294	t	(Inutilisé) Richard Vaincu
+1295	t	(Inutilisé) Pokémaniac Vaincu
+1296	t	(Inutilisé) Nageur Vaincu
+1297	t	(Inutilisé) Karatéka Vaincu
+1298	t	(Inutilisé) Guitariste Vaincu
+1299	t	(Inutilisé) Saltimbanque Vaincu
+1300	t	(Inutilisé) Campeur Vaincu
+1301	t	(Inutilisé) Entomomaniac Vaincu
+1302	t	(Inutilisé) Kinésiste (Mâle) Vaincu
+1303	t	(Inutilisé) Kinésiste (Femelle) Vaincue
+1304	t	(Inutilisé) Gentleman Vaincu
+1305	t	(Inutilisé) Conseil 4 Damien Vaincu
+1306	t	(Inutilisé) Conseil 4 Spectra Vaincue
+1307	t	(Inutilisé) Champion Roxanne Vaincue
+1308	t	(Inutilisé) Champion Bastien Vaincu
+1309	t	(Inutilisé) Champion Lévy & Tatia Vaincus
+1310	t	(Inutilisé) Élève (Mâle) Vaincu
+1311	t	(Inutilisé) Élève (Femelle) Vaincue
+1312	t	(Inutilisé) Sr. et Jr. Vaincues
+1313	t	(Inutilisé) Pokéfan (Mâle) Vaincu
+1314	t	(Inutilisé) Pokéfan (Femelle) Vaincue
+1315	t	(Inutilisé) Expert Vaincu
+1316	t	(Inutilisé) Expert Vaincue
+1317	t	(Inutilisé) Gamin Vaincu
+1318	t	(Inutilisé) Maître Vaincu
+1319	t	(Inutilisé) Pêcheur Vaincu
+1320	t	(Inutilisé) Triathlète (Mâle, Vélo) Vaincu
+1321	t	(Inutilisé) Triathlète (Femelle, Vélo) Vaincue
+1322	t	(Inutilisé) Triathlète (Mâle, Marchant) Vaincu
+1323	t	(Inutilisé) Triathlète (Femelle, Marchant) Vaincue
+1324	t	(Inutilisé) Triathlète (Mâle, Nageant) Vaincu
+1325	t	(Inutilisé) Triathlète (Femelle, Nageant) Vaincue
+1326	t	(Inutilisé) Dracologue Vaincu
+1327	t	(Inutilisé) Ornithologue Vaincu
+1328	t	(Inutilisé) Ninja Fan Vaincu
+1329	t	(Inutilisé) Combattante Vaincue
+1330	t	(Inutilisé) Sœur Parasol Vaincue
+1331	t	(Inutilisé) Nageuse Vaincue
+1332	t	(Inutilisé) Pique-Nique Vaincue
+1333	t	(Inutilisé) Jumelles Vaincues
+1334	t	(Inutilisé) Marin Vaincu
+1335	t	(Inutilisé) Surfer Vaincu
+1336	t	(Inutilisé) Surfer Vaincue
+1337	t	(Inutilisé) Collec Vaincu
+1338	t	(Inutilisé) Dresseur Pokémon (Timmy) Vaincu
+1339	t	(Inutilisé) Dresseur Pokémon (Brice) Vaincu
+1340	t	(Inutilisé) Dresseur Pokémon (Brice) Vaincu
+1341	t	(Inutilisé) Dresseur Pokémon (Brice) Vaincu
+1342	t	(Inutilisé) Dresseur Pokémon (Flora) Vaincue
+1343	t	(Inutilisé) Dresseur Pokémon (Flora) Vaincue
+1344	t	(Inutilisé) Dresseur Pokémon (Flora) Vaincue
+1345	t	(Inutilisé) Éleveur (Mâle) Vaincu
+1346	t	(Inutilisé) Éleveur (Femelle) Vaincue
+1347	t	(Inutilisé) Pokémon Ranger (Mâle) Vaincu
+1348	t	(Inutilisé) Pokémon Ranger (Femelle) Vaincue
+1349	t	(Inutilisé) Leader Magma Vaincu
+1350	t	(Inutilisé) Sbire Magma (Mâle) Vaincu
+1351	t	(Inutilisé) Sbire Magma (Femelle) Vaincue
+1352	t	(Inutilisé) Fillette Vaincue
+1353	t	(Inutilisé) Scout Vaincu
+1354	t	(Inutilisé) Montagnard Vaincu
+1355	t	(Inutilisé) Jeune Couple Vaincus
+1356	t	(Inutilisé) Vieux Couple Vaincus
+1357	t	(Inutilisé) Frère & Sœur Vaincus
+1358	t	(Inutilisé) Admin Aqua Matthieu Vaincu
+1359	t	(Inutilisé) Admin Aqua Sarah Vaincue
+1360	t	(Inutilisé) Admin Magma Kelvin Vaincu
+1361	t	(Inutilisé) Admin Magma Courtney Vaincue
+1362	t	(Inutilisé) Champion Voltaire Vaincu
+1363	t	(Inutilisé) Champion Adriane Vaincue
+1364	t	(Inutilisé) Champion Norman Vaincu
+1365	t	(Inutilisé) Champion Alizée Vaincue
+1366	t	(Inutilisé) Champion Marc Vaincu
+1367	t	(Inutilisé) Conseil 4 Glacia Vaincue
+1368	t	(Inutilisé) Conseil 4 Aragon Vaincu
+1369	t	Gamin Ben à la Route 3 Vaincu
+1370	t	Gamin Calvin à la Route 3 Vaincu
+1371	t	Gamin Johnny au Mont Sélénite Vaincu
+1372	t	Gamin Tim à la Route 24 Vaincu
+1373	t	Gamin Jo à la Route 25 Vaincu
+1374	t	Gamin Dan à la Route 25 Vaincu
+1375	t	Gamin Cédric à la Route 25 Vaincu
+1376	t	Gamin Ethan sur L'Océane Vaincu
+1377	t	Gamin Eddie à la Route 11 Vaincu
+1378	t	Gamin Denden à la Route 11 Vaincu
+1379	t	Gamin Chon à la Route 11 Vaincu
+1380	t	Gamin Dave à la Route 11 Vaincu
+1381	t	Gamin Ben (Revanche 1) à la Route 3 Vaincu
+1382	t	Scout Omar à la Forêt de Jade Vaincu
+1383	t	Scout Alfred à la Forêt de Jade Vaincu
+1384	t	Scout Sammy à la Forêt de Jade Vaincu
+1385	t	Scout Piotr à la Route 3 Vaincu
+1386	t	Scout Gregory à la Route 3 Vaincu
+1387	t	Scout James à la Route 3 Vaincu
+1388	t	Scout Ken au Mont Sélénite Vaincu
+1389	t	Scout Robin au Mont Sélénite Vaincu
+1390	t	Scout Aymeric à la Route 24 Vaincu
+1391	t	Scout Keneda à la Route 6 Vaincu
+1392	t	Scout Elijah à la Route 6 Vaincu
+1393	t	(Inutilisé) Scout Vaincu
+1394	t	Scout Brad à la Route 9 Vaincu
+1395	t	Scout Gérard à la Route 9 Vaincu
+1396	t	Fillette Perrine à la Route 3 Vaincue
+1397	t	Fillette Sally à la Route 3 Vaincue
+1398	t	Fillette Suzette à la Route 3 Vaincue
+1399	t	Fillette Rachel à la Route 4 Vaincue
+1400	t	Fillette Miriam au Mont Sélénite Vaincue
+1401	t	Fillette Iris au Mont Sélénite Vaincue
+1402	t	Fillette Lana à la Route 24 Vaincue
+1403	t	Fillette Meg à la Route 24 Vaincue
+1404	t	(Inutilisé) Fillette Vaincue
+1405	t	Fillette Aude à la Route 25 Vaincue
+1406	t	Fillette Lotte sur L'Océane Vaincue
+1407	t	Fillette Maëlle sur L'Océane Vaincue
+1408	t	Fillette Marine à la Route 8 Vaincue
+1409	t	Fillette Valentine à la Route 8 Vaincue
+1410	t	Fillette Megan à la Route 8 Vaincue
+1411	t	Fillette Julia à la Route 8 Vaincue
+1412	t	Fillette Katy à l'Arène de Céladopole Vaincue
+1413	t	Fillette Lisa à l'Arène de Céladopole Vaincue
+1414	t	Marin Edmond sur L'Océane Vaincu
+1415	t	Marin Trevor sur L'Océane Vaincu
+1416	t	Marin Léonard sur L'Océane Vaincu
+1417	t	Marin Ludovic sur L'Océane Vaincu
+1418	t	Marin Henri sur L'Océane Vaincu
+1419	t	Marin Régis sur L'Océane Vaincu
+1420	t	Marin Philippe sur L'Océane Vaincu
+1421	t	Marin Harold à l'Arène de Carmin sur Mer Vaincu
+1422	t	Campeur Elvin à l'Arène d'Argenta Vaincu
+1423	t	Campeur Djamel à la Route 24 Vaincu
+1424	t	Campeur Diego à la Route 24 Vaincu
+1425	t	Campeur Rachid à la Route 6 Vaincu
+1426	t	Campeur Antonio à la Route 6 Vaincu
+1427	t	(Inutilisé) Campeur Vaincu
+1428	t	Campeur Christophe à la Route 9 Vaincu
+1429	t	Campeur Tristan à la Route 9 Vaincu
+1430	t	Pique-Nique Diane à l'Arène d'Azuria Vaincue
+1431	t	Pique-Nique Nancy à la Route 6 Vaincue
+1432	t	Pique-Nique Isabelle à la Route 6 Vaincue
+1433	t	Pique-Nique Zora à la Route 25 Vaincue
+1434	t	Pique-Nique Alicia à la Route 9 Vaincue
+1435	t	Pique-Nique Emma à la Route 9 Vaincue
+1436	t	Pique-Nique Heidi à la Route 10 Vaincue
+1437	t	Pique-Nique Carole à la Route 10 Vaincue
+1438	t	Pique-Nique Sofia à la Grotte Vaincue
+1439	t	Pique-Nique Marthe à la Grotte Vaincue
+1440	t	Pique-Nique Tina à l'Arène de Céladopole Vaincue
+1441	t	(Inutilisé) Pique-Nique Sabine à la Route 13 Vaincue
+1442	t	Pokémaniac Achille à la Route 10 Vaincu
+1443	t	Pokémaniac Hervé à la Route 10 Vaincu
+1444	t	Pokémaniac Arthur à la Grotte Vaincu
+1445	t	Pokémaniac Stéphane à la Grotte Vaincu
+1446	t	Pokémaniac Jean-Marie à la Grotte Vaincu
+1447	t	Pokémaniac Adrien à la Route Victoire Vaincu
+1448	t	Pokémaniac Quentin à la Grotte Vaincu
+1449	t	Intello Rémi au Mont Sélénite Vaincu
+1450	t	Intello Michel au Mont Sélénite Vaincu
+1451	t	Intello Luc à la Route 8 Vaincu
+1452	t	Intello Glenn à la Route 8 Vaincu
+1453	t	Intello Jovan à la Route 8 Vaincu
+1454	t	(Inutilisé) Intello Vaincu
+1455	t	(Inutilisé) Intello Vaincu
+1456	t	(Inutilisé) Intello Vaincu
+1457	t	Intello Erik à l'Arène de Cramois'Île Vaincu
+1458	t	Intello Evan à l'Arène de Cramois'Île Vaincu
+1459	t	Intello Didier à l'Arène de Cramois'Île Vaincu
+1460	t	Intello Zac à l'Arène de Cramois'Île Vaincu
+1461	t	Montagnard Marcos au Mont Sélénite Vaincu
+1462	t	Montagnard François à la Route 25 Vaincu
+1463	t	Montagnard Hiro à la Route 25 Vaincu
+1464	t	Montagnard Jérémy à la Route 25 Vaincu
+1465	t	Montagnard Al à la Route 9 Vaincu
+1466	t	Montagnard Brice à la Route 9 Vaincu
+1467	t	Montagnard Luigi à la Route 10 Vaincu
+1468	t	Montagnard Guillaume à la Route 10 Vaincu
+1469	t	Montagnard Dorian à la Grotte Vaincu
+1470	t	Montagnard Alain à la Grotte Vaincu
+1471	t	Montagnard Éric à la Grotte Vaincu
+1472	t	Montagnard Jean-Luc à la Grotte Vaincu
+1473	t	Montagnard Tanguy à la Grotte Vaincu
+1474	t	Montagnard Lucas à la Grotte Vaincu
+1475	t	Motard Boris à la Route 13 Vaincu
+1476	t	Motard Malik à la Route 14 Vaincu
+1477	t	Motard Ernest à la Route 15 Vaincu
+1478	t	Motard Alex à la Route 15 Vaincu
+1479	t	Motard Layo à la Route 16 Vaincu
+1480	t	(Inutilisé) Motard Vaincu
+1481	t	Motard Hideo à la Route 16 Vaincu
+1482	t	Motard Steven à la Route 16 Vaincu
+1483	t	Motard Willy à la Route 17 Vaincu
+1484	t	Motard Panis à la Route 17 Vaincu
+1485	t	Motard Romain à la Route 17 Vaincu
+1486	t	Motard William à la Route 17 Vaincu
+1487	t	Motard Mathéo à la Route 14 Vaincu
+1488	t	Motard Isaac à la Route 14 Vaincu
+1489	t	Motard Gérald à la Route 14 Vaincu
+1490	t	(Inutilisé) Pillard Vaincu
+1491	t	(Inutilisé) Pillard Vaincu
+1492	t	(Inutilisé) Pillard Vaincu
+1493	t	Pillard Isidor à l'Arène de Cramois'Île Vaincu
+1494	t	Pillard Victor à l'Arène de Cramois'Île Vaincu
+1495	t	Pillard Armand à l'Arène de Cramois'Île Vaincu
+1496	t	Pillard Arnie au Manoir Pokémon Vaincu
+1497	t	(Inutilisé) Pillard Vaincu
+1498	t	Pillard Simon au Manoir Pokémon Vaincu
+1499	t	Pillard Samir au Manoir Pokémon Vaincu
+1500	t	Mécano Killian à l'Arène de Carmin sur Mer Vaincu
+1501	t	Mécano Maxence à la Route 11 Vaincu
+1502	t	Mécano Bernard à la Route 11 Vaincu
+1503	t	Pêcheur Fabio sur L'Océane Vaincu
+1504	t	Pêcheur Barney sur L'Océane Vaincu
+1505	t	Pêcheur Erwan à la Route 12 Vaincu
+1506	t	Pêcheur Alphonse à la Route 12 Vaincu
+1507	t	Pêcheur Serge à la Route 12 Vaincu
+1508	t	Pêcheur Elliot à la Route 12 Vaincu
+1509	t	Pêcheur Fabien au Chenal 21 Vaincu
+1510	t	Pêcheur Claude au Chenal 21 Vaincu
+1511	t	Pêcheur Aristide au Chenal 21 Vaincu
+1512	t	Pêcheur Noël au Chenal 21 Vaincu
+1513	t	Pêcheur Ali à la Route 12 Vaincu
+1514	t	Nageur Louis à l'Arène d'Azuria Vaincu
+1515	t	Nageur Richard au Chenal 19 Vaincu
+1516	t	Nageur Téo au Chenal 19 Vaincu
+1517	t	Nageur Mattéo au Chenal 19 Vaincu
+1518	t	Nageur Dominique au Chenal 19 Vaincu
+1519	t	Nageur David au Chenal 19 Vaincu
+1520	t	Nageur Antoine au Chenal 19 Vaincu
+1521	t	Nageur Axel au Chenal 19 Vaincu
+1522	t	Nageur Benoit au Chenal 20 Vaincu
+1523	t	Nageur Jean au Chenal 20 Vaincu
+1524	t	Nageur Daniel au Chenal 20 Vaincu
+1525	t	Nageur Sylvain au Chenal 21 Vaincu
+1526	t	Nageur Jacques au Chenal 21 Vaincu
+1527	t	Nageur Jérôme au Chenal 21 Vaincu
+1528	t	Nageur Pacôme au Chenal 21 Vaincu
+1529	t	Loubard Koji à la Route 16 Vaincu
+1530	t	Loubard Karl à la Route 16 Vaincu
+1531	t	Loubard Yann à la Route 16 Vaincu
+1532	t	Loubard Jason à la Route 17 Vaincu
+1533	t	Loubard Jeoffrey à la Route 17 Vaincu
+1534	t	Loubard Loris à la Route 17 Vaincu
+1535	t	Loubard Jamal à la Route 17 Vaincu
+1536	t	Loubard Didier à la Route 17 Vaincu
+1537	t	(Inutilisé) Loubard Fernando au Chenal 21 Vaincu
+1538	t	Croupier Ugo à la Route 11 Vaincu
+1539	t	Croupier Dimitri à la Route 11 Vaincu
+1540	t	Croupier Clément à la Route 11 Vaincu
+1541	t	Croupier Esteban à la Route 11 Vaincu
+1542	t	Croupier Stanislas à la Route 8 Vaincu
+1543	t	(Inutilisé) Croupier Vaincu
+1544	t	Croupier Blaise à la Route 8 Vaincu
+1545	t	Canon Elodie à l'Arène de Céladopole Vaincue
+1546	t	Canon Tamia à l'Arène de Céladopole Vaincue
+1547	t	Canon Laurence à l'Arène de Céladopole Vaincue
+1548	t	Canon Léa à la Route 13 Vaincue
+1549	t	Canon Sheila à la Route 13 Vaincue
+1550	t	Nageuse Sabrina au Chenal 20 Vaincue
+1551	t	Nageuse Jade au Chenal 20 Vaincue
+1552	t	Nageuse Melissa au Chenal 20 Vaincue
+1553	t	Canon Grace à la Route 15 Vaincue
+1554	t	Canon Olivia à la Route 15 Vaincue
+1555	t	(Inutilisé) Canon Lauren Vaincue (Utilise le Sprite de la Nageuse)
+1556	t	Nageuse Anya au Chenal 19 Vaincue
+1557	t	Nageuse Alice au Chenal 19 Vaincue
+1558	t	Nageuse Constance au Chenal 19 Vaincue
+1559	t	Nageuse Shirley au Chenal 20 Vaincue
+1560	t	Kinésiste Noé à l'Arène de Safrania Vaincu
+1561	t	Kinésiste Tyron à l'Arène de Safrania Vaincu
+1562	t	Kinésiste Prosper à l'Arène de Safrania Vaincu
+1563	t	Kinésiste Polo à l'Arène de Safrania Vaincu
+1564	t	(Inutilisé) Rocker Bech à l'Arène de Carmin sur Mer Vaincu
+1565	t	Rocker Elton à la Route 12 Vaincu
+1566	t	Jongleur Bibiche au 4ème Étage de la Sylphe SARL Vaincu
+1567	t	Jongleur Nelson à la Route Victoire Vaincu
+1568	t	Jongleur Chris à l'Arène de Parmanie Vaincu
+1569	t	Jongleur Robert à l'Arène de Parmanie Vaincu
+1570	t	Jongleur JB à la Route Victoire Vaincu
+1571	t	Jongleur Edouard à l'Agualcanal Vaincu
+1572	t	Jongleur Melvin à l'Arène de Parmanie Vaincu
+1573	t	Jongleur Vicente à l'Arène de Parmanie Vaincu
+1574	t	Dompteur Phil à l'Arène de Parmanie Vaincu
+1575	t	Dompteur Edgard à l'Arène de Parmanie Vaincu
+1576	t	Dompteur Youri à l'Arène de Jadielle Vaincu
+1577	t	Dompteur Cyril à l'Arène de Jadielle Vaincu
+1578	t	Dompteur Vincent à la Route Victoire Vaincu
+1579	t	(Inutilisé) Dompteur John Vaincu
+1580	t	Ornithologue Sébastien à la Route 13 Vaincu
+1581	t	Ornithologue Pedro à la Route 13 Vaincu
+1582	t	Ornithologue Bob à la Route 13 Vaincu
+1583	t	Ornithologue Donald à la Route 14 Vaincu
+1584	t	Ornithologue Frédo à la Route 14 Vaincu
+1585	t	Ornithologue Martin à la Route 15 Vaincu
+1586	t	Ornithologue Juste à la Route 15 Vaincu
+1587	t	Ornithologue Wilfried à la Route 18 Vaincu
+1588	t	Ornithologue Ramiro à la Route 18 Vaincu
+1589	t	Ornithologue Jacob à la Route 18 Vaincu
+1590	t	Ornithologue Roger au Chenal 20 Vaincu
+1591	t	(Inutilisé) Ornithologue Albin Vaincu
+1592	t	(Inutilisé) Ornithologue Mathieu Vaincu
+1593	t	Ornithologue Francis à la Route 14 Vaincu
+1594	t	Ornithologue Mitch à la Route 14 Vaincu
+1595	t	Ornithologue Ladislas à la Route 14 Vaincu
+1596	t	Ornithologue Erik à la Route 14 Vaincu
+1597	t	Karatéka Koichi au Dojo de Safrania Vaincu
+1598	t	Karatéka Maxime au Dojo de Safrania Vaincu
+1599	t	Karatéka Hideki au Dojo de Safrania Vaincu
+1600	t	Karatéka Igor au Dojo de Safrania Vaincu
+1601	t	Karatéka Hitoshi au Dojo de Safrania Vaincu
+1602	t	Karatéka Tetsuo à l'Arène de Jadielle Vaincu
+1603	t	Karatéka Akira à l'Arène de Jadielle Vaincu
+1604	t	Karatéka Takashi à l'Arène de Jadielle Vaincu
+1605	t	Karatéka Daisuke à la Route Victoire Vaincu
+1606	t	Blue au Labo de Chen Vaincu/Perdu (Salamèche en Partenaire)
+1607	t	Blue au Labo de Chen Vaincu/Perdu (Carapuce en Partenaire)
+1608	t	Blue au Labo de Chen Vaincu/Perdu (Bulbizarre en Partenaire)
+1609	t	Blue (1) à la Route 22 Vaincu (Salamèche en Partenaire)
+1610	t	Blue (1) à la Route 22 Vaincu (Carapuce en Partenaire)
+1611	t	Blue (1) à la Route 22 Vaincu (Bulbizarre en Partenaire)
+1612	t	Blue à Azuria Vaincu (Salamèche en Partenaire)
+1613	t	Blue à Azuria Vaincu (Carapuce en Partenaire)
+1614	t	Blue à Azuria Vaincu (Bulbizarre en Partenaire)
+1615	t	Scientifique Théo au Manoir Pokémon Vaincu
+1616	t	Scientifique Joao au 1er Étage de la Sylphe SARL Vaincu
+1617	t	Scientifique Julien au 1er Étage de la Sylphe SARL Vaincu
+1618	t	Scientifique José au 2ème Étage de la Sylphe SARL Vaincu
+1619	t	Scientifique Rodolphe au 3ème Étage de la Sylphe SARL Vaincu
+1620	t	Scientifique Yanis au 4ème Étage de la Sylphe SARL Vaincu
+1621	t	Scientifique Thibault au 5ème Étage de la Sylphe SARL Vaincu
+1622	t	Scientifique Joseph au 6ème Étage de la Sylphe SARL Vaincu
+1623	t	Scientifique Patrick au 7ème Étage de la Sylphe SARL Vaincu
+1624	t	Scientifique Ed au 8ème Étage de la Sylphe SARL Vaincu
+1625	t	Scientifique Thierry au 9ème Étage de la Sylphe SARL Vaincu
+1626	t	Scientifique Rayan au Manoir Pokémon Vaincu
+1627	t	Scientifique Yvan au Manoir Pokémon Vaincu
+1628	t	Boss Giovanni au Repaire Rocket Vaincu
+1629	t	Boss Giovanni à la Sylphe SARL Vaincu
+1630	t	Champion Giovanni Vaincu
+1631	t	Sbire Team Rocket (4) au Mont Sélénite Vaincu
+1632	t	Sbire Team Rocket (1) au Mont Sélénite Vaincu
+1633	t	Sbire Team Rocket (2) au Mont Sélénite Vaincu
+1634	t	Sbire Team Rocket (3) au Mont Sélénite Vaincu
+1635	t	Sbire Team Rocket à Azuria Vaincu
+1636	t	Sbire Team Rocket à la Route 24 Vaincu
+1637	t	Sbire Team Rocket au Casino Rocket Vaincu
+1638	t	Sbire Team Rocket (1) au 1er Sous-sol du Repaire Rocket Vaincu
+1639	t	Sbire Team Rocket (2) au 1er Sous-sol du Repaire Rocket Vaincu
+1640	t	Sbire Team Rocket (4) au 1er Sous-sol du Repaire Rocket Vaincu
+1641	t	Sbire Team Rocket (3) au 1er Sous-sol du Repaire Rocket Vaincu
+1642	t	Sbire Team Rocket (5) au 1er Sous-sol du Repaire Rocket Vaincu
+1643	t	Sbire Team Rocket au 2ème Sous-sol du Repaire Rocket Vaincu
+1644	t	Sbire Team Rocket (2) au 3ème Sous-sol du Repaire Rocket Vaincu
+1645	t	Sbire Team Rocket (1) au 3ème Sous-sol du Repaire Rocket Vaincu
+1646	t	Sbire Team Rocket (2) au 4ème Sous-sol du Repaire Rocket Vaincu
+1647	t	Sbire Team Rocket (3) au 4ème Sous-sol du Repaire Rocket Vaincu
+1648	t	Sbire Team Rocket (1) au 4ème Sous-sol du Repaire Rocket Vaincu
+1649	t	Sbire Team Rocket (1) à la Tour Pokémon Vaincu
+1650	t	Sbire Team Rocket (2) à la Tour Pokémon Vaincu
+1651	t	Sbire Team Rocket (3) à la Tour Pokémon Vaincu
+1652	t	(Inutilisé) Sbire Team Rocket Vaincu
+1653	t	Sbire Team Rocket (2) au 1er Étage de la Sylphe SARL Vaincu
+1654	t	Sbire Team Rocket (1) au 1er Étage de la Sylphe SARL Vaincu
+1655	t	Sbire Team Rocket au 2ème Étage de la Sylphe SARL Vaincu
+1656	t	Sbire Team Rocket (2) au 3ème Étage de la Sylphe SARL Vaincu
+1657	t	Sbire Team Rocket (1) au 3ème Étage de la Sylphe SARL Vaincu
+1658	t	Sbire Team Rocket (2) au 4ème Étage de la Sylphe SARL Vaincu
+1659	t	Sbire Team Rocket (1) au 4ème Étage de la Sylphe SARL Vaincu
+1660	t	Sbire Team Rocket (1) au 5ème Étage de la Sylphe SARL Vaincu
+1661	t	Sbire Team Rocket (2) au 5ème Étage de la Sylphe SARL Vaincu
+1662	t	Sbire Team Rocket (1) au 7ème Étage de la Sylphe SARL Vaincu
+1663	t	Sbire Team Rocket (1) au 6ème Étage de la Sylphe SARL Vaincu
+1664	t	Sbire Team Rocket (3) au 6ème Étage de la Sylphe SARL Vaincu
+1665	t	Sbire Team Rocket (2) au 6ème Étage de la Sylphe SARL Vaincu
+1666	t	Sbire Team Rocket (2) au 7ème Étage de la Sylphe SARL Vaincu
+1667	t	Sbire Team Rocket (2) au 8ème Étage de la Sylphe SARL Vaincu
+1668	t	Sbire Team Rocket (1) au 8ème Étage de la Sylphe SARL Vaincu
+1669	t	Sbire Team Rocket au 9ème Étage de la Sylphe SARL Vaincu
+1670	t	Sbire Team Rocket (1) au 10ème Étage de la Sylphe SARL Vaincu
+1671	t	Sbire Team Rocket (2) au 10ème Étage de la Sylphe SARL Vaincu
+1672	t	Topdresseur Samuel à l'Arène de Jadielle Vaincu
+1673	t	Topdresseur Georges à la Route Victoire Vaincu
+1674	t	Topdresseur Lorenzo à la Route Victoire Vaincu
+1675	t	(Inutilisé) Topdresseur Paul Vaincu
+1676	t	Topdresseur Enzo à la Route Victoire Vaincue
+1677	t	(Inutilisé) Topdresseur Gilbert Vaincu
+1678	t	(Inutilisé) Topdresseur Oliver Vaincu
+1679	t	(Inutilisé) Topdresseur Julian Vaincu
+1680	t	Topdresseur Yuji à l'Arène de Jadielle Vaincu
+1681	t	Topdresseur Wolfgang à l'Arène de Jadielle Vaincu
+1682	t	Topdresseur Marie à l'Arène de Céladopole Vaincue
+1683	t	Topdresseur Caroline à la Route Victoire Vaincue
+1684	t	Topdresseur Alexia à la Route Victoire Vaincue
+1685	t	(Inutilisé) Topdresseur Samia Vaincue
+1686	t	Topdresseur Naomi à la Route Victoire Vaincue
+1687	t	(Inutilisé) Topdresseur Blanche Vaincue
+1688	t	(Inutilisé) Topdresseur Aurélia Vaincue
+1689	t	(Inutilisé) Topdresseur Julie Vaincue
+1690	t	Conseil 4 Olga Vaincue
+1691	t	Conseil 4 Aldo Vaincu
+1692	t	Conseil 4 Agatha Vaincue
+1693	t	Conseil 4 Peter Vaincu
+1694	t	Champion Pierre Vaincu
+1695	t	Champion Ondine Vaincue
+1696	t	Champion Major Bob Vaincu
+1697	t	Champion Erika Vaincue
+1698	t	Champion Koga Vaincu
+1699	t	Champion Auguste Vaincu
+1700	t	Champion Morgane Vaincue
+1701	t	Gentleman Tony sur L'Océane Vaincu
+1702	t	Gentleman Lilian sur L'Océane Vaincu
+1703	t	Gentleman Anatole à l'Arène de Carmin sur Mer Vaincu
+1704	t	(Inutilisé) Gentleman Pacôme Vaincu
+1705	t	(Inutilisé) Gentleman Walter Vaincu
+1706	t	Blue sur L'Océane Vaincu (Salamèche en Partenaire)
+1707	t	Blue sur L'Océane Vaincu (Carapuce en Partenaire)
+1708	t	Blue sur L'Océane Vaincu (Bulbizarre en Partenaire)
+1709	t	Blue à la Tour Pokémon Vaincu (Salamèche en Partenaire)
+1710	t	Blue à la Tour Pokémon Vaincu (Carapuce en Partenaire)
+1711	t	Blue à la Tour Pokémon Vaincu (Bulbizarre en Partenaire)
+1712	t	Blue à la Sylphe SARL Vaincu (Salamèche en Partenaire)
+1713	t	Blue à la Sylphe SARL Vaincu (Carapuce en Partenaire)
+1714	t	Blue à la Sylphe SARL Vaincu (Bulbizarre en Partenaire)
+1715	t	Blue (2) à la Route 22 Vaincu (Salamèche en Partenaire)
+1716	t	Blue (2) à la Route 22 Vaincu (Carapuce en Partenaire)
+1717	t	Blue (2) à la Route 22 Vaincu (Bulbizarre en Partenaire)
+1718	t	Blue (Maître) Vaincu (Salamèche en Partenaire)
+1719	t	Blue (Maître) Vaincu (Carapuce en Partenaire)
+1720	t	Blue (Maître) Vaincu (Bulbizarre en Partenaire)
+1721	t	Exorciste Patricia à la Tour Pokémon Vaincue
+1722	t	Exorciste Lora à la Tour Pokémon Vaincue
+1723	t	Exorciste Hortense à la Tour Pokémon Vaincue
+1724	t	Exorciste Paula à la Tour Pokémon Vaincue
+1725	t	Exorciste Graziella à la Tour Pokémon Vaincue
+1726	t	Exorciste Joelle à la Tour Pokémon Vaincue
+1727	t	Exorciste Tania à la Tour Pokémon Vaincue
+1728	t	Exorciste Aurore à la Tour Pokémon Vaincue
+1729	t	Exorciste Karina à la Tour Pokémon Vaincue
+1730	t	Exorciste Zia à la Tour Pokémon Vaincue
+1731	t	Exorciste Angelique à la Tour Pokémon Vaincue
+1732	t	Exorciste Sara à la Tour Pokémon Vaincue
+1733	t	Exorciste Jennifer à la Tour Pokémon Vaincue
+1734	t	(Inutilisé) Exorciste Vaincue
+1735	t	(Inutilisé) Exorciste Vaincue
+1736	t	(Inutilisé) Exorciste Vaincue
+1737	t	(Inutilisé) Exorciste Vaincue
+1738	t	(Inutilisé) Exorciste Vaincue
+1739	t	(Inutilisé) Exorciste Vaincue
+1740	t	(Inutilisé) Exorciste Vaincue
+1741	t	(Inutilisé) Exorciste Vaincue
+1742	t	Exorciste Amanda à l'Arène de Safrania Vaincue
+1743	t	Exorciste Aimée à l'Arène de Safrania Vaincue
+1744	t	Exorciste Tatiana à l'Arène de Safrania Vaincue
+1745	t	Montagnard Maurice à la Route 9 Vaincu
+1746	t	Pique-Nique Axelle à la Route 13 Vaincue
+1747	t	Pique-Nique Suzy à la Route 13 Vaincue
+1748	t	Pique-Nique Valéria à la Route 13 Vaincue
+1749	t	Pique-Nique Gwenaëlle à la Route 13 Vaincue
+1750	t	Motard Virgile à la Route 17 Vaincu
+1751	t	Campeur Frédéric à la Route 25 Vaincu
+1752	t	Pique-Nique Clo au Chenal 20 Vaincue
+1753	t	Pique-Nique Irène au Chenal 20 Vaincue
+1754	t	Pique-Nique Christelle à la Grotte Vaincue
+1755	t	Pique-Nique Kim à la Grotte Vaincue
+1756	t	Pique-Nique Erin à la Grotte Vaincue
+1757	t	Campeur Justin à la Route 12 Vaincu
+1758	t	Pique-Nique Jeanne à la Route 15 Vaincue
+1759	t	Pique-Nique Selena à la Route 15 Vaincue
+1760	t	Pique-Nique Geneviève à la Route 15 Vaincue
+1761	t	Pique-Nique Célia à la Route 15 Vaincue
+1762	t	Gentleman Samy sur L'Océane Vaincu
+1763	t	Gentleman Lamar sur L'Océane Vaincu
+1764	t	Jumelles Eli & Anne à la Route 8 Vaincues
+1765	t	Couple Cool Roméo & Tyra à la Route Victoire Vaincus
+1766	t	Jeune Couple Gia & Jes à la Route 12 Vaincus
+1767	t	Jumelles Joy & Kate à la Route 14 Vaincues
+1768	t	Duo Baston Ron & Mya à la Route 15 Vaincus
+1769	t	Jeune Couple Lise & Ali à la Route 16 Vaincus
+1770	t	Frère & Sœur Vivi & Sam au Chenal 19 Vaincus
+1771	t	Frère & Sœur Ly & Ian au Chenal 21 Vaincus
+1772	t	(Inutilisé) Scout Vaincu
+1773	t	(Inutilisé) Scout Vaincu
+1774	t	(Inutilisé) Scout Vaincu
+1775	t	(Inutilisé) Scout Vaincu
+1776	t	(Inutilisé) Scout Vaincu
+1777	t	(Inutilisé) Scout Vaincu
+1778	t	Gamin Ben (Revanche 2) à la Route 3 Vaincu
+1779	t	Gamin Ben (Revanche 3) à la Route 3 Vaincu
+1780	t	Gamin Cédric (Revanche 1) à la Route 25 Vaincu
+1781	t	Fillette Lana (Revanche 1) à la Route 24 Vaincue
+1782	t	Fillette Lana (Revanche 2) à la Route 24 Vaincue
+1783	t	Gamin Tim (Revanche 1) à la Route 24 Vaincu
+1784	t	Gamin Tim (Revanche 2) à la Route 24 Vaincu
+1785	t	Gamin Tim (Revanche 3) à la Route 24 Vaincu
+1786	t	Gamin Cédric (Revanche 2) à la Route 25 Vaincu
+1787	t	Fillette Perrine (Revanche 1) à la Route 3 Vaincue
+1788	t	Fillette Perrine (Revanche 2) à la Route 3 Vaincue
+1789	t	Gamin Cédric (Revanche 3) à la Route 25 Vaincu
+1790	t	Montagnard François (Revanche 1) à la Route 25 Vaincu
+1791	t	(Inutilisé) Professeur Pokémon Chen Vaincu
+1792	t	(Inutilisé) Joueur Brice Vaincu
+1793	t	(Inutilisé) Joueur Flora Vaincue
+1794	t	(Inutilisé) Joueur Red Vaincu
+1795	t	(Inutilisé) Joueur Leaf Vaincue
+1796	t	Sbire Team Rocket (1) à l'Entrepôt Rocket Vaincu
+1797	t	Kinésiste Jaqueline au Chemin Vert Vaincue
+1798	t	Fille Baston Morgane à la Route Tison Vaincue
+1799	t	Flotteur Amira au Pont du Lien Vaincue
+1800	t	Éleveur Solène au Labyrinthe d'O Vaincue
+1801	t	Pokémon Ranger Nicolas à l'Entrée Canyon Vaincu
+1802	t	Pokémon Ranger Madeleine à l'Entrée Canyon Vaincue
+1803	t	Aroma Mylène au Pont du Lien Vaincue
+1804	t	Ruinemaniac Hugo à la Vallée Ruine Vaincu
+1805	t	Mademoiselle Nora au Camp de Vacances Vaincue
+1806	t	Peintre Nina au Camp de Vacances Vaincue
+1807	t	Motard Gabin (1) à l'Île 3 Vaincu
+1808	t	Motard Gabin (2) à l'Île 3 Vaincu
+1809	t	Motard Gabin (3) à l'Île 3 Vaincu
+1810	t	(Inutilisé) Motard Vaincu
+1811	t	Scout Anthony à la Forêt de Jade Vaincu
+1812	t	Scout Charles à la Forêt de Jade Vaincu
+1813	t	Jumelles Eli & Anne (Revanche 1) à la Route 8 Vaincues
+1814	t	Gamin Bryan au Manoir Pokémon Vaincu
+1815	t	Motard Ricardo à la Route 8 Vaincu
+1816	t	Motard Medhi à la Route 8 Vaincu
+1817	t	Sbire Team Rocket (1) au Mont Braise Vaincu
+1818	t	Sbire Team Rocket (2) au Mont Braise Vaincu
+1819	t	Sbire Team Rocket à la Grotte de Glace Vaincu
+1820	t	Sbire Team Rocket à l'Île du Lointain Vaincu
+1821	t	Sbire Team Rocket (2) à l'Entrepôt Rocket Vaincu
+1822	t	Sbire Team Rocket (3) à l'Entrepôt Rocket Vaincu
+1823	t	Admin Team Rocket (1) à l'Entrepôt Rocket Vaincu
+1824	t	Admin Team Rocket (2) à l'Entrepôt Rocket Vaincu
+1825	t	Scientifique Gedeon à l'Entrepôt Rocket Vaincu
+1826	t	Nageuse Amara à la Plage Trésor Vaincue
+1827	t	Nageuse Maria à la Route Tison Vaincue
+1828	t	Nageuse Gaëlle à la Route Tison Vaincue
+1829	t	Nageur Étienne à la Route Tison Vaincu
+1830	t	Nageur Logan à la Route Tison Vaincu
+1831	t	Pêcheur Tom à la Route Tison Vaincu
+1832	t	Fille Baston Tanya à la Route Tison Vaincue
+1833	t	Karatéka Chuk à la Route Tison Vaincu
+1834	t	Karatéka Hughes à la Route Tison Vaincu
+1835	t	Campeur Jean-Loïc à la Route Tison Vaincu
+1836	t	Pique-Nique Eri à la Route Tison Vaincue
+1837	t	Duo Baston Mik & Kia à la Route Tison Vaincus
+1838	t	Aroma Violette au Pont du Lien Vaincue
+1839	t	Flotteur Alexis au Pont du Lien Vaincue
+1840	t	Jumelles Bea & Eva au Pont du Lien Vaincues
+1841	t	Nageuse Katia au Pont du Lien Vaincue
+1842	t	Peintre Celina au Camp de Vacances Vaincue
+1843	t	Peintre Elsa au Camp de Vacances Vaincue
+1844	t	Mademoiselle Reine au Camp de Vacances Vaincue
+1845	t	Gamin Bilal au Camp de Vacances Vaincu
+1846	t	Nageur Manu au Camp de Vacances Vaincu
+1847	t	Sbire Team Rocket (1) au Pré de l'Île 5 Vaincu
+1848	t	Sbire Team Rocket (3) au Pré de l'Île 5 Vaincu
+1849	t	Sbire Team Rocket (2) au Pré de l'Île 5 Vaincu
+1850	t	Ornithologue Marius au Mémorial Vaincu
+1851	t	Ornithologue Sacha au Mémorial Vaincu
+1852	t	Ornithologue Harold au Mémorial Vaincu
+1853	t	Pêcheur Titouan à l'Île du Lointain Vaincu
+1854	t	Nageur Gavin à l'Île du Lointain Vaincu
+1855	t	Nageuse Nicole à l'Île du Lointain Vaincue
+1856	t	Frère & Sœur Ava & Ged à l'Île du Lointain Vaincus
+1857	t	Aroma Rose à l'Agualcanal Vaincue
+1858	t	Nageur Mathys à l'Agualcanal Vaincu
+1859	t	Nageuse Denise à l'Agualcanal Vaincue
+1860	t	Jumelles Miu & Mia à l'Agualcanal Vaincues
+1861	t	Montagnard Charly à l'Agualcanal Vaincu
+1862	t	Ruinemaniac Emile à la Vallée Ruine Vaincu
+1863	t	Ruinemaniac Laurent à la Vallée Ruine Vaincu
+1864	t	Montagnard Daryl à la Vallée Ruine Vaincu
+1865	t	Pokémaniac Hector à la Vallée Ruine Vaincu
+1866	t	Kinésiste Dario à l'Extérieur de la Tour Dresseurs Vaincu
+1867	t	Kinésiste Odile à l'Extérieur de la Tour Dresseurs Vaincue
+1868	t	Aroma Miah à l'Entrée Canyon Vaincue
+1869	t	Jeune Couple Eve & Joe à l'Entrée Canyon Vaincus
+1870	t	Jongleur Bruno à l'Entrée Canyon Vaincu
+1871	t	Fille Baston Sandrine au Canyon Sesor Vaincue
+1872	t	Fille Baston Christine au Mont Braise Vaincue
+1873	t	Dompteur Akim au Canyon Sesor Vaincu
+1874	t	Pokémaniac Achille (Revanche 1) à la Route 10 Vaincu
+1875	t	Pokémon Ranger Bill au Mont Braise Vaincu
+1876	t	Pokémon Ranger Michael au Canyon Sesor Vaincu
+1877	t	Pokémon Ranger Betty au Mont Braise Vaincue
+1878	t	Pokémon Ranger Katelyn au Canyon Sesor Vaincue
+1879	t	Topdresseur Léon au Canyon Sesor Vaincu
+1880	t	Topdresseur Michelle au Canyon Sesor Vaincue
+1881	t	Couple Cool Paul & Nya au Canyon Sesor Vaincus
+1882	t	Ruinemaniac Florent à l'Extérieur des Ruines Tanoby Vaincu
+1883	t	Ruinemaniac Benjamin à l'Extérieur des Ruines Tanoby Vaincu
+1884	t	Peintre Edna à l'Extérieur des Ruines Tanoby Vaincue
+1885	t	Gentleman Xavier à l'Extérieur des Ruines Tanoby Vaincu
+1886	t	Mademoiselle Themis à la Grotte Perdue Vaincue
+1887	t	Ruinemaniac Eliot à la Grotte Perdue Vaincu
+1888	t	Kinésiste Laura à la Grotte Perdue Vaincue
+1889	t	Éleveur Marissa au Forbuissons Vaincue
+1890	t	Éleveur Ally au Forbuissons Vaincue
+1891	t	Scout Paul-Alain au Forbuissons Vaincu
+1892	t	Scout Jonas au Forbuissons Vaincu
+1893	t	Scout Basil au Forbuissons Vaincu
+1894	t	Gamin Luka au Forbuissons Vaincu
+1895	t	Gamin Jimmy au Forbuissons Vaincu
+1896	t	Fillette Dalia au Forbuissons Vaincue
+1897	t	Fillette Joana au Forbuissons Vaincue
+1898	t	Campeur Marcel au Forbuissons Vaincu
+1899	t	Pique-Nique Marcy au Forbuissons Vaincue
+1900	t	Ruinemaniac Sofian au Forbuissons Vaincu
+1901	t	Pique-Nique Zora (Revanche 1) à la Route 25 Vaincue
+1902	t	Pique-Nique Zora (Revanche 2) à la Route 25 Vaincue
+1903	t	Pique-Nique Zora (Revanche 3) à la Route 25 Vaincue
+1904	t	Campeur Rachid (Revanche 1) à la Route 6 Vaincu
+1905	t	Campeur Rachid (Revanche 2) à la Route 6 Vaincu
+1906	t	Campeur Rachid (Revanche 3) à la Route 6 Vaincu
+1907	t	Campeur Antonio (Revanche 1) à la Route 6 Vaincu
+1908	t	Campeur Antonio (Revanche 2) à la Route 6 Vaincu
+1909	t	Campeur Antonio (Revanche 3) à la Route 6 Vaincu
+1910	t	Pique-Nique Isabelle (Revanche 1) à la Route 6 Vaincue
+1911	t	Pique-Nique Isabelle (Revanche 2) à la Route 6 Vaincue
+1912	t	Pique-Nique Isabelle (Revanche 3) à la Route 6 Vaincue
+1913	t	Gamin Chon (Revanche 1) à la Route 11 Vaincu
+1914	t	Gamin Chon (Revanche 2) à la Route 11 Vaincu
+1915	t	Mécano Bernard (Revanche 1) à la Route 11 Vaincu
+1916	t	Croupier Esteban (Revanche 1) à la Route 11 Vaincu
+1917	t	Campeur Christophe (Revanche 1) à la Route 9 Vaincu
+1918	t	Campeur Christophe (Revanche 2) à la Route 9 Vaincu
+1919	t	Campeur Christophe (Revanche 3) à la Route 9 Vaincu
+1920	t	Pique-Nique Alicia (Revanche 1) à la Route 9 Vaincue
+1921	t	Pique-Nique Alicia (Revanche 2) à la Route 9 Vaincue
+1922	t	Pique-Nique Alicia (Revanche 3) à la Route 9 Vaincue
+1923	t	Montagnard Maurice (Revanche 1) à la Route 9 Vaincu
+1924	t	Pokémaniac Achille (Revanche 2) à la Route 10 Vaincu
+1925	t	Pokémaniac Hervé (Revanche 1) à la Route 10 Vaincu
+1926	t	Pokémaniac Hervé (Revanche 2) à la Route 10 Vaincu
+1927	t	Montagnard Guillaume (Revanche 1) à la Route 10 Vaincu
+1928	t	Fillette Megan (Revanche 1) à la Route 8 Vaincue
+1929	t	Fillette Megan (Revanche 2) à la Route 8 Vaincue
+1930	t	Intello Glenn (Revanche 1) à la Route 8 Vaincu
+1931	t	Croupier Blaise (Revanche 1) à la Route 8 Vaincu
+1932	t	Motard Medhi (Revanche 1) à la Route 8 Vaincu
+1933	t	Pêcheur Elliot (Revanche 1) à la Route 12 Vaincu
+1934	t	Rocker Elton (Revanche 1) à la Route 12 Vaincu
+1935	t	Canon Sheila (Revanche 1) à la Route 13 Vaincue
+1936	t	Ornithologue Bob (Revanche 1) à la Route 13 Vaincu
+1937	t	Ornithologue Bob (Revanche 2) à la Route 13 Vaincu
+1938	t	Pique-Nique Suzy (Revanche 1) à la Route 13 Vaincue
+1939	t	Pique-Nique Suzy (Revanche 2) à la Route 13 Vaincue
+1940	t	Pique-Nique Suzy (Revanche 3) à la Route 13 Vaincue
+1941	t	Motard Mathéo (Revanche 1) à la Route 14 Vaincu
+1942	t	Ornithologue Frédo (Revanche 1) à la Route 14 Vaincu
+1943	t	Ornithologue Frédo (Revanche 2) à la Route 14 Vaincu
+1944	t	Ornithologue Erik (Revanche 1) à la Route 14 Vaincu
+1945	t	Ornithologue Erik (Revanche 2) à la Route 14 Vaincu
+1946	t	Canon Grace (Revanche 1) à la Route 15 Vaincue
+1947	t	Ornithologue Juste (Revanche 1) à la Route 15 Vaincu
+1948	t	Ornithologue Juste (Revanche 2) à la Route 15 Vaincu
+1949	t	Pique-Nique Geneviève (Revanche 1) à la Route 15 Vaincue
+1950	t	Pique-Nique Geneviève (Revanche 2) à la Route 15 Vaincue
+1951	t	Pique-Nique Geneviève (Revanche 3) à la Route 15 Vaincue
+1952	t	Duo Baston Ron & Mya (Revanche 1) à la Route 15 Vaincus
+1953	t	Duo Baston Ron & Mya (Revanche 2) à la Route 15 Vaincus
+1954	t	Duo Baston Ron & Mya (Revanche 3) à la Route 15 Vaincus
+1955	t	Motard Steven (Revanche 1) à la Route 16 Vaincu
+1956	t	Loubard Yann (Revanche 1) à la Route 16 Vaincu
+1957	t	Motard Romain (Revanche 1) à la Route 17 Vaincu
+1958	t	Loubard Jeoffrey (Revanche 1) à la Route 17 Vaincu
+1959	t	Loubard Didier (Revanche 1) à la Route 17 Vaincu
+1960	t	Ornithologue Jacob (Revanche 1) à la Route 18 Vaincu
+1961	t	Ornithologue Jacob (Revanche 2) à la Route 18 Vaincu
+1962	t	Nageuse Alice (Revanche 1) au Chenal 19 Vaincue
+1963	t	Nageur Daniel (Revanche 1) au Chenal 20 Vaincu
+1964	t	Pique-Nique Clo (Revanche 1) au Chenal 20 Vaincue
+1965	t	Pique-Nique Clo (Revanche 2) au Chenal 20 Vaincue
+1966	t	Pêcheur Aristide (Revanche 1) au Chenal 21 Vaincu
+1967	t	Nageur Jacques (Revanche 1) au Chenal 21 Vaincu
+1968	t	Frère & Sœur Ly & Ian (Revanche 1) au Chenal 21 Vaincus
+1969	t	Frère & Sœur Ly & Ian (Revanche 2) au Chenal 21 Vaincus
+1970	t	Nageur Étienne (Revanche 1) à la Route Tison Vaincu
+1971	t	Fille Baston Morgane (Revanche 1) à la Route Tison Vaincue
+1972	t	Fille Baston Morgane (Revanche 2) à la Route Tison Vaincue
+1973	t	Fille Baston Tanya (Revanche 1) à la Route Tison Vaincue
+1974	t	Fille Baston Tanya (Revanche 2) à la Route Tison Vaincue
+1975	t	Karatéka Chuk (Revanche 1) à la Route Tison Vaincu
+1976	t	Karatéka Chuk (Revanche 2) à la Route Tison Vaincu
+1977	t	Karatéka Hughes (Revanche 1) à la Route Tison Vaincu
+1978	t	Karatéka Hughes (Revanche 2) à la Route Tison Vaincu
+1979	t	Duo Baston Mik & Kia (Revanche 1) à la Route Tison Vaincus
+1980	t	Duo Baston Mik & Kia (Revanche 2) à la Route Tison Vaincus
+1981	t	Flotteur Amira (Revanche 1) au Pont du Lien Vaincue
+1982	t	Jumelles Bea & Eva (Revanche 1) au Pont du Lien Vaincues
+1983	t	Peintre Elsa (Revanche 1) au Camp de Vacances Vaincue
+1984	t	Gamin Bilal (Revanche 1) au Camp de Vacances Vaincu
+1985	t	Éleveur Solène (Revanche 1) au Labyrinthe d'O Vaincue
+1986	t	Jeune Couple Gia & Jes (Revanche 1) à la Route 12 Vaincus
+1987	t	Jeune Couple Gia & Jes (Revanche 1) à la Route 12 Vaincus
+1988	t	Ornithologue Marius (Revanche 1) au Mémorial Vaincu
+1989	t	Ornithologue Sacha (Revanche 1) au Mémorial Vaincu
+1990	t	Ornithologue Harold (Revanche 1) au Mémorial Vaincu
+1991	t	Nageuse Nicole (Revanche 1) à l'Île du Lointain Vaincue
+1992	t	Kinésiste Jaqueline (Revanche 1) au Chemin Vert Vaincue
+1993	t	Nageur Mathys (Revanche 1) à l'Agualcanal Vaincu
+1994	t	Montagnard Charly (Revanche 1) à l'Agualcanal Vaincu
+1995	t	Ruinemaniac Laurent (Revanche 1) à la Vallée Ruine Vaincu
+1996	t	Pokémaniac Hector (Revanche 1) à la Vallée Ruine Vaincu
+1997	t	Kinésiste Dario (Revanche 1) à l'Extérieur de la Tour Dresseurs Vaincu
+1998	t	Kinésiste Odile (Revanche 1) à l'Extérieur de la Tour Dresseurs Vaincue
+1999	t	Jongleur Bruno (Revanche 1) à l'Entrée Canyon Vaincu
+2000	t	Pokémon Ranger Nicolas (Revanche 1) à l'Entrée Canyon Vaincu
+2001	t	Pokémon Ranger Madeleine (Revanche 1) à l'Entrée Canyon Vaincue
+2002	t	Fille Baston Sandrine (Revanche 1) au Canyon Sesor Vaincue
+2003	t	Dompteur Akim (Revanche 1) au Canyon Sesor Vaincu
+2004	t	Pokémon Ranger Michael (Revanche 1) au Canyon Sesor Vaincu
+2005	t	Pokémon Ranger Katelyn (Revanche 1) au Canyon Sesor Vaincue
+2006	t	Topdresseur Léon (Revanche 1) au Canyon Sesor Vaincu
+2007	t	Topdresseur Michelle (Revanche 1) au Canyon Sesor Vaincue
+2008	t	Couple Cool Paul & Nya (Revanche 1) au Canyon Sesor Vaincus
+2009	t	Scout Piotr (Revanche 1) à la Route 3 Vaincu
+2010	t	Scout Piotr (Revanche 2) à la Route 3 Vaincu
+2011	t	Scout Piotr (Revanche 3) à la Route 3 Vaincu
+2012	t	Nageur Mattéo (Revanche 1) au Chenal 19 Vaincu
+2013	t	Nageur Antoine (Revanche 1) au Chenal 19 Vaincu
+2014	t	Nageuse Melissa (Revanche 1) au Chenal 20 Vaincue
+2015	t	Olga (Revanche 1) Vaincue
+2016	t	Aldo (Revanche 1) Vaincu
+2017	t	Agatha (Revanche 1) Vaincue
+2018	t	Peter (Revanche 1) Vaincu
+2019	t	Maître Blue (Revanche 1) Vaincu (Salamèche en Partenaire)
+2020	t	Maître Blue (Revanche 1) Vaincu (Carapuce en Partenaire)
+2021	t	Maître Blue (Revanche 1) Vaincu (Bulbizarre en Partenaire)
+2022	t	Loubard Kevin à l'Île 3 Vaincu
+
+2048	m	Mode de Capture du Parc Safari Actif
+2049	m	Compte de Pas pour Désactiver les Rencontres Actives du Cherche VS Activé
+
+2053	m	Force Actif
+2054	m	Flash Actif
+2055	m	Est en Rencontre de Combat Statique
+
+2080	s	Badge Roche Reçu
+2081	s	Badge Cascade Reçu
+2082	s	Badge Foudre Reçu
+2083	s	Badge Prisme Reçu
+2084	s	Badge Âme Reçu
+2085	s	Badge Marais Reçu
+2086	s	Badge Volcan Reçu
+2087	s	Badge Terre Reçu
+2088	*	A Débloqué l'Option POKéMON dans le Menu
+2089	*	A Débloqué l'Option POKéDEX dans le Menu
+
+2092	s	Entré au Panthéon/Est Devenu Maître de la Ligue
+2093	m	Changement du Texte de la Fille au Centre Pokémon d'Argenta
+
+2095	*	Chaussures de Course Reçues
+
+2100	s	PC de Léo Débloqué
+
+2105	*	A Activé la Fonctionnalité Cadeau Mystère
+
+2112	*	Amélioration du Pokédex National Reçue
+2113	s	PCs Désactivés (pour la 1ère Quête des Îles Sevii)
+
+2116	*	Connectivité Rétablie avec Hoenn/Peut Réaffronter le Conseil 4
+2117	*	A Débloqué la Vue de la Carte pour les Îles 1/2/3
+2118	*	A Débloqué la Vue de la Carte pour les Îles 4/5 et 6/7
+2119	*	Première Baie Reçue ; Peut Recevoir le Pot Poudre
+2120	r	Énigme de l'Île Aurore Résolue
+2121	*	Énigme de la Clé Tanoby Résolue/Les Zarbi Sont Libérés
+2122	e	Peut Se Rendre au Roc Nombri
+2123	e	Peut Se Rendre à l'Île Aurore
+
+2192	f	A Visité/Peut Voler à Bourg Palette
+2193	f	A Visité/Peut Voler à Jadielle
+2194	f	A Visité/Peut Voler à Argenta
+2195	f	A Visité/Peut Voler à Azuria
+2196	f	A Visité/Peut Voler à Lavanville
+2197	f	A Visité/Peut Voler à Carmin sur Mer
+2198	f	A Visité/Peut Voler à Céladopole
+2199	f	A Visité/Peut Voler à Parmanie
+2200	f	A Visité/Peut Voler à Cramois'Île
+2201	f	A Visité/Peut Voler au Plateau Indigo
+2202	f	A Visité/Peut Voler à Safrania
+2203	f	A Visité/Peut Voler à l'Île 1
+2204	f	A Visité/Peut Voler à l'Île 2
+2205	f	A Visité/Peut Voler à l'Île 3
+2206	f	A Visité/Peut Voler à l'Île 4
+2207	f	A Visité/Peut Voler à l'Île 5
+2208	f	A Visité/Peut Voler à l'Île 7
+2209	f	A Visité/Peut Voler à l'Île 6
+2210	f	A Visité/Peut Voler au Centre Pokémon du Mont Sélénite
+2211	f	A Visité/Peut Voler au Centre Pokémon de la Route 10
+2212	m	A Visité la Forêt de Jade
+2213	m	A Visité le Mont Sélénite
+2214	m	A Visité L'Océane
+2215	m	A Visité le Souterrain (Routes 5-6)
+2216	m	A Visité le Souterrain (Routes 7-8)
+2217	m	A Visité la Cave TAUPIQUEUR
+2218	m	A Visité la Route Victoire
+2219	m	A Visité le Repaire Rocket
+2220	m	A Visité la Sylphe SARL
+2221	m	A Visité le Manoir Pokémon
+2222	m	A Visité le Parc Safari
+2223	m	A Visité le Siège du Conseil 4
+2224	m	A Visité la Grotte
+2225	m	A Visité les Îles Écume
+2226	m	A Visité la Tour Pokémon
+2227	m	A Visité la Caverne Azurée
+2228	m	A Visité la Centrale
+2229	m	A Visité le Roc Nombri
+2230	m	A Visité le Mont Braise
+2231	m	A Visité le Bois Baies
+2232	m	A Visité la Grotte de Glace
+2233	m	A Visité l'Entrepôt Rocket
+2234	m	A Visité la Tour Dresseurs
+2235	m	A Visité le Trou Percé
+2236	m	A Visité la Grotte Perdue
+2237	m	A Visité le Forbuissons
+2238	m	A Visité la Grotte Métamo
+2239	m	A Visité la Chambre Anémune
+2240	m	A Visité le Chemin Île 3
+2241	m	A Visité la Clé Tanoby
+2242	m	A Visité l'Île Aurore
