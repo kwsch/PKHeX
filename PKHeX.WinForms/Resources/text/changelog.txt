@@ -1,7 +1,24 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-26/01/31 - New Update:
+26/02/27 - New Update:
+ - Legality: 
+ - - Added: Garchompite Z & Blazikenite now released, can exist in inventory/held.
+ - - Changed: Invalid PP Up count message now indicates the exact invalid value (relevant for Gen1/2 VC => Gen7).
+ - - Fixed: Gen4 transfers from Gen3 now handle HG/SS's ball value correctly.
+ - Note: Gen3 FR/LG save files from Nintendo Switch are able to be loaded (no additional handling/conversion needed). Undecided on Legality handling.
+ - Added: Box Search button now available; can apply a filter to all slots (faded out) for easier searching your save data. Thanks @RandomGuy155 !
+ - Added: Box Popout button now available; the previous shortcut (double clicking the box tab) still exists. Now more accessible/discoverable.
+ - Added: Batch Editor can now perform math operations (+-/* and bitwise operators); refer to the dropdown menu.
+ - Added: PKM Editor now alerts when exporting a save file with unsaved PKM Editor changes.
+ - Added: Gen9a gender changing via Trainer Editor now resets clothing selection to default to avoid game startup crashes. Thanks @abcboy101 !
+ - Fixed: Gen9a Inventory edits for Mega Shards can now manually enter 4 digits (up from 3).
+ - Fixed: Gen8a Move Mastery/Purchased flags changed via Batch Editor now are set as per legality rules (rather than invalid).
+ - Fixed: Gen3 Emerald PC stored items now allow all item types (except Key items). Thanks @ShadowMario3 !
+ - Changed: Square shiny sprites now only appear when in SW/SH context.
+ - Changed: More translations for event flags in prior games. Thanks @Mimigris & @Ka-n00b !
+
+26/01/31 - New Update: (157483) [12545464]
  - Legality: Swampertite now released, can exist in inventory/held.
  - Added: Gen9a handling for 9,999 Mega Shards.
  - Fixed: Showdown Set parsing now recognizes IVs/EVs entered in non-standard order.
