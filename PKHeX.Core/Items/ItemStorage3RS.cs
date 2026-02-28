@@ -54,7 +54,7 @@ public sealed class ItemStorage3RS : IItemStorage
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
     ];
 
-    internal static ReadOnlySpan<ushort> Unreleased => [005]; // Safari Ball
+    internal static ReadOnlySpan<ushort> Unreleased => [005, 044]; // Safari Ball, Berry Juice
 
     public static ushort[] GetAllHeld() => [..General, ..Balls, ..Berry, ..MachineOnlyTM];
 
