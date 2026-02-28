@@ -27,7 +27,7 @@ public sealed class ItemStorage4HGSS : ItemStorage4, IItemStorage
         492, 493, 494, 495, 496, 497, 498, 499, 500, // Apricorn Balls
     ];
 
-    public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
+    public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => !Unreleased.Contains((ushort)itemIndex);
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {

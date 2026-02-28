@@ -22,8 +22,7 @@ public sealed class ItemStorage3E : IItemStorage
 
     private static readonly ushort[] PCItems = [.. General, .. Berry, .. Balls, .. Machine];
 
-
-    public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
+    public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => !Unreleased.Contains((ushort)itemIndex);
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
