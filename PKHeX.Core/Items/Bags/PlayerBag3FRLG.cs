@@ -4,14 +4,14 @@ using static PKHeX.Core.InventoryType;
 
 namespace PKHeX.Core;
 
-public sealed class PlayerBag3FRLG : PlayerBag, IPlayerBag3
+public sealed class PlayerBag3FRLG(bool VC) : PlayerBag, IPlayerBag3
 {
     private const int BaseOffset = 0x0298;
+    public override IItemStorage Info => GetInfo(VC);
+    private static IItemStorage GetInfo(bool vc) => vc ? ItemStorage3FRLG_VC.Instance : ItemStorage3FRLG.Instance;
+    public override IReadOnlyList<InventoryPouch3> Pouches { get; } = GetPouches(GetInfo(VC));
 
-    public override IReadOnlyList<InventoryPouch3> Pouches { get; } = GetPouches(ItemStorage3FRLG.Instance);
-    public override ItemStorage3FRLG Info => ItemStorage3FRLG.Instance;
-
-    private static InventoryPouch3[] GetPouches(ItemStorage3FRLG info) =>
+    private static InventoryPouch3[] GetPouches(IItemStorage info) =>
     [
         new(0x078, 42, 999, info, Items),
         new(0x120, 30, 001, info, KeyItems),
@@ -21,8 +21,8 @@ public sealed class PlayerBag3FRLG : PlayerBag, IPlayerBag3
         new(0x000, 30, 999, info, PCItems),
     ];
 
-    public PlayerBag3FRLG(SAV3FRLG sav) : this(sav.Large[BaseOffset..], sav.SecurityKey) { }
-    public PlayerBag3FRLG(ReadOnlySpan<byte> data, uint security)
+    public PlayerBag3FRLG(SAV3FRLG sav) : this(sav.Large[BaseOffset..], sav.SecurityKey, sav.IsVirtualConsole) { }
+    public PlayerBag3FRLG(ReadOnlySpan<byte> data, uint security, bool vc) : this(vc)
     {
         UpdateSecurityKey(security);
         Pouches.LoadAll(data);

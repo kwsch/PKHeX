@@ -23,10 +23,11 @@ public partial class SAV_SimplePokedex : Form
 
     private void AddAllSpecies(ReadOnlySpan<string> speciesNames)
     {
-        foreach (var species in speciesNames)
+        for (var i = 0; i < speciesNames.Length; i++)
         {
-            CLB_Seen.Items.Add(species);
-            CLB_Caught.Items.Add(species);
+            var text = $"{i+1:000} {speciesNames[i]}";
+            CLB_Seen.Items.Add(text);
+            CLB_Caught.Items.Add(text);
         }
     }
 
@@ -53,8 +54,25 @@ public partial class SAV_SimplePokedex : Form
     private void B_Save_Click(object sender, EventArgs e)
     {
         SaveAllFlags(SAV, MaxSpeciesID);
+        SanityCheck();
         SAV.State.Edited = true;
         Close();
+    }
+
+    private void SanityCheck()
+    {
+        // Remove any foreign species dex bits.
+        if (SAV is SAV3FRLG { IsVirtualConsole: true })
+        {
+            for (int i = 150; i < MaxSpeciesID; i++)
+            {
+                ushort species = (ushort)(i + 1);
+                if (!Legal.IsForeignFRLG(species))
+                    continue;
+                SAV.SetSeen(species, false);
+                SAV.SetCaught(species, false);
+            }
+        }
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();

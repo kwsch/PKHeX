@@ -118,6 +118,7 @@ namespace PKHeX.WinForms
             // 
             // CLB_Caught
             // 
+            CLB_Caught.CheckOnClick = true;
             CLB_Caught.FormattingEnabled = true;
             CLB_Caught.Location = new System.Drawing.Point(176, 38);
             CLB_Caught.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -137,6 +138,7 @@ namespace PKHeX.WinForms
             // 
             // CLB_Seen
             // 
+            CLB_Seen.CheckOnClick = true;
             CLB_Seen.FormattingEnabled = true;
             CLB_Seen.Location = new System.Drawing.Point(16, 38);
             CLB_Seen.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
