@@ -18,7 +18,7 @@ public sealed class ContestStatVerifier : Verifier
 
         // If no stats have been increased from the initial amount, then we're done here.
         // some encounters have contest stats built in. they're already checked by the initial encounter match.
-        if (!s.HasContestStats())
+        if (!s.HasContestStats() || data.EncounterOriginal is IContestStatsReadOnly ro && ro.IsContestEqual(s))
             return;
 
         // Check the correlation of Stats & Sheen!

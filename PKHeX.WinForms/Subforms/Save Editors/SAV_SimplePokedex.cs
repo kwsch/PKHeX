@@ -25,7 +25,7 @@ public partial class SAV_SimplePokedex : Form
     {
         for (var i = 0; i < speciesNames.Length; i++)
         {
-            var text = $"{i+1:000} {speciesNames[i]}";
+            var text = $"{i+1:000} - {speciesNames[i]}";
             CLB_Seen.Items.Add(text);
             CLB_Caught.Items.Add(text);
         }
