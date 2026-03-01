@@ -23,6 +23,7 @@ public sealed partial class SAV_EventWork : Form
 
         SAV = sav.Blocks.EventWork;
         Origin = sav;
+        TC_Features.SelectedTab = GB_Research;
 
         AllowDrop = true;
         DragEnter += Main_DragEnter;
@@ -43,8 +44,9 @@ public sealed partial class SAV_EventWork : Form
         editing = false;
         if (Application.IsDarkModeEnabled)
         {
-            foreach (TabPage tab in TC_Features.TabPages)
-                tab.UseVisualStyleBackColor = false;
+            WinFormsTranslator.ReformatDark(TC_Flag);
+            WinFormsTranslator.ReformatDark(TC_Work);
+            WinFormsTranslator.ReformatDark(TC_Features);
         }
         ResumeLayout();
 
@@ -62,6 +64,12 @@ public sealed partial class SAV_EventWork : Form
         c_CustomFlag.Checked = SAV.GetFlag(0);
 
         Text = $"{Text} ({sav.Version})";
+    }
+
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        TC_Features.SelectedIndex = 0;
     }
 
     private void LoadFlags(IEnumerable<EventVarGroup> editorFlag)
@@ -97,12 +105,8 @@ public sealed partial class SAV_EventWork : Form
             var tab = new TabPage
             {
                 Name = $"Tab_F{g.Type}",
-                Text = g.Type.ToString(),
+                Text = WinFormsTranslator.TranslateEnum(g.Type, Main.CurrentLanguage),
             };
-            if (Application.IsDarkModeEnabled)
-            {
-                tab.UseVisualStyleBackColor = false;
-            }
             tab.Controls.Add(tlp);
             TC_Flag.Controls.Add(tab);
             tlp.ResumeLayout();
@@ -143,6 +147,8 @@ public sealed partial class SAV_EventWork : Form
                     BindingContext = BindingContext,
                     DropDownWidth = Width + 100,
                 };
+                if (Application.IsDarkModeEnabled)
+                    WinFormsTranslator.ReformatDark(cb);
                 cb.InitializeBinding();
                 cb.DataSource = new BindingSource(f.Options.ConvertAll(z => new ComboItem(z.Text, z.Value)), string.Empty);
                 cb.SelectedValue = f.Value;
@@ -188,20 +194,12 @@ public sealed partial class SAV_EventWork : Form
                     }
                 }
                 i++;
-                if (Application.IsDarkModeEnabled)
-                {
-                    cb.FlatStyle = FlatStyle.Flat;
-                }
             }
             var tab = new TabPage
             {
                 Name = $"Tab_W{g.Type}",
-                Text = g.Type.ToString(),
+                Text = WinFormsTranslator.TranslateEnum(g.Type, Main.CurrentLanguage),
             };
-            if (Application.IsDarkModeEnabled)
-            {
-                tab.UseVisualStyleBackColor = false;
-            }
             tab.Controls.Add(tlp);
             TC_Work.Controls.Add(tab);
             tlp.ResumeLayout();

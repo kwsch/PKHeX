@@ -1,5 +1,3 @@
-using PKHeX.WinForms.Controls;
-
 namespace PKHeX.WinForms
 {
     sealed partial class SAV_EventFlags2
@@ -51,16 +49,15 @@ namespace PKHeX.WinForms
             L_EventFlagWarn = new System.Windows.Forms.Label();
             tabControl1 = new System.Windows.Forms.TabControl();
             GB_Flags = new System.Windows.Forms.TabPage();
-            dgv = new DoubleBufferedDataGridView();
+            TC_Flags = new System.Windows.Forms.TabControl();
             GB_Constants = new System.Windows.Forms.TabPage();
-            TLP_Const = new System.Windows.Forms.TableLayoutPanel();
+            TC_Const = new System.Windows.Forms.TabControl();
             GB_Research = new System.Windows.Forms.TabPage();
             GB_FlagStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Flag).BeginInit();
             GB_Researcher.SuspendLayout();
             tabControl1.SuspendLayout();
             GB_Flags.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             GB_Constants.SuspendLayout();
             GB_Research.SuspendLayout();
             SuspendLayout();
@@ -306,7 +303,7 @@ namespace PKHeX.WinForms
             // 
             // GB_Flags
             // 
-            GB_Flags.Controls.Add(dgv);
+            GB_Flags.Controls.Add(TC_Flags);
             GB_Flags.Location = new System.Drawing.Point(4, 24);
             GB_Flags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Flags.Name = "GB_Flags";
@@ -315,32 +312,20 @@ namespace PKHeX.WinForms
             GB_Flags.Text = "Event Flags";
             GB_Flags.UseVisualStyleBackColor = true;
             // 
-            // dgv
+            // TC_Flags
             // 
-            dgv.AllowUserToAddRows = false;
-            dgv.AllowUserToDeleteRows = false;
-            dgv.AllowUserToResizeColumns = false;
-            dgv.AllowUserToResizeRows = false;
-            dgv.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            dgv.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dgv.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv.ColumnHeadersVisible = false;
-            dgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            dgv.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            dgv.Location = new System.Drawing.Point(0, 0);
-            dgv.Margin = new System.Windows.Forms.Padding(0);
-            dgv.MultiSelect = false;
-            dgv.Name = "dgv";
-            dgv.RowHeadersVisible = false;
-            dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            dgv.ShowEditingIcon = false;
-            dgv.Size = new System.Drawing.Size(494, 329);
-            dgv.TabIndex = 12;
+            TC_Flags.Dock = System.Windows.Forms.DockStyle.Fill;
+            TC_Flags.Location = new System.Drawing.Point(0, 0);
+            TC_Flags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Flags.Multiline = true;
+            TC_Flags.Name = "TC_Flags";
+            TC_Flags.SelectedIndex = 0;
+            TC_Flags.Size = new System.Drawing.Size(494, 329);
+            TC_Flags.TabIndex = 12;
             // 
             // GB_Constants
             // 
-            GB_Constants.Controls.Add(TLP_Const);
+            GB_Constants.Controls.Add(TC_Const);
             GB_Constants.Location = new System.Drawing.Point(4, 24);
             GB_Constants.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Constants.Name = "GB_Constants";
@@ -350,22 +335,16 @@ namespace PKHeX.WinForms
             GB_Constants.Text = "Event Constants";
             GB_Constants.UseVisualStyleBackColor = true;
             // 
-            // TLP_Const
+            // TC_Const
             // 
-            TLP_Const.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            TLP_Const.AutoScroll = true;
-            TLP_Const.ColumnCount = 3;
-            TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 485F));
-            TLP_Const.Location = new System.Drawing.Point(4, 3);
-            TLP_Const.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TLP_Const.Name = "TLP_Const";
-            TLP_Const.RowCount = 1;
-            TLP_Const.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Const.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Const.Size = new System.Drawing.Size(485, 320);
-            TLP_Const.TabIndex = 1;
+            TC_Const.Dock = System.Windows.Forms.DockStyle.Fill;
+            TC_Const.Location = new System.Drawing.Point(4, 3);
+            TC_Const.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Const.Multiline = true;
+            TC_Const.Name = "TC_Const";
+            TC_Const.SelectedIndex = 0;
+            TC_Const.Size = new System.Drawing.Size(486, 323);
+            TC_Const.TabIndex = 1;
             // 
             // GB_Research
             // 
@@ -404,7 +383,6 @@ namespace PKHeX.WinForms
             GB_Researcher.PerformLayout();
             tabControl1.ResumeLayout(false);
             GB_Flags.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             GB_Constants.ResumeLayout(false);
             GB_Research.ResumeLayout(false);
             ResumeLayout(false);
@@ -435,7 +413,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.TabPage GB_Flags;
         private System.Windows.Forms.TabPage GB_Constants;
         private System.Windows.Forms.TabPage GB_Research;
-        private System.Windows.Forms.TableLayoutPanel TLP_Const;
-        private DoubleBufferedDataGridView dgv;
+        private System.Windows.Forms.TabControl TC_Flags;
+        private System.Windows.Forms.TabControl TC_Const;
     }
 }

@@ -190,6 +190,9 @@ public static class DevUtil
         typeof(FestivalPlazaFacilityColor),
         typeof(PlayerSkinColor8),
         typeof(BattlePassType),
+
+        typeof(EventVarType),
+        typeof(NamedEventType),
     ];
 
     /// <summary>

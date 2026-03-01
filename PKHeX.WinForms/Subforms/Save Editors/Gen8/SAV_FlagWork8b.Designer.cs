@@ -50,11 +50,11 @@ namespace PKHeX.WinForms
             L_EventFlagWarn = new System.Windows.Forms.Label();
             TC_Features = new System.Windows.Forms.TabControl();
             GB_Flags = new System.Windows.Forms.TabPage();
-            TLP_Flags = new System.Windows.Forms.TableLayoutPanel();
+            TC_Flags = new System.Windows.Forms.TabControl();
             GB_System = new System.Windows.Forms.TabPage();
-            TLP_System = new System.Windows.Forms.TableLayoutPanel();
+            TC_System = new System.Windows.Forms.TabControl();
             GB_Work = new System.Windows.Forms.TabPage();
-            TLP_Work = new System.Windows.Forms.TableLayoutPanel();
+            TC_Work = new System.Windows.Forms.TabControl();
             GB_Research = new System.Windows.Forms.TabPage();
             GB_FlagStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_WorkIndex).BeginInit();
@@ -320,7 +320,7 @@ namespace PKHeX.WinForms
             // 
             // GB_Flags
             // 
-            GB_Flags.Controls.Add(TLP_Flags);
+            GB_Flags.Controls.Add(TC_Flags);
             GB_Flags.Location = new System.Drawing.Point(4, 26);
             GB_Flags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Flags.Name = "GB_Flags";
@@ -330,25 +330,20 @@ namespace PKHeX.WinForms
             GB_Flags.Text = "Event Flags";
             GB_Flags.UseVisualStyleBackColor = true;
             // 
-            // TLP_Flags
+            // TC_Flags
             // 
-            TLP_Flags.AutoScroll = true;
-            TLP_Flags.ColumnCount = 2;
-            TLP_Flags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            TLP_Flags.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            TLP_Flags.Dock = System.Windows.Forms.DockStyle.Fill;
-            TLP_Flags.Location = new System.Drawing.Point(4, 3);
-            TLP_Flags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TLP_Flags.Name = "TLP_Flags";
-            TLP_Flags.RowCount = 2;
-            TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Flags.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Flags.Size = new System.Drawing.Size(579, 321);
-            TLP_Flags.TabIndex = 1;
+            TC_Flags.Dock = System.Windows.Forms.DockStyle.Fill;
+            TC_Flags.Location = new System.Drawing.Point(4, 3);
+            TC_Flags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Flags.Multiline = true;
+            TC_Flags.Name = "TC_Flags";
+            TC_Flags.SelectedIndex = 0;
+            TC_Flags.Size = new System.Drawing.Size(579, 321);
+            TC_Flags.TabIndex = 1;
             // 
             // GB_System
             // 
-            GB_System.Controls.Add(TLP_System);
+            GB_System.Controls.Add(TC_System);
             GB_System.Location = new System.Drawing.Point(4, 26);
             GB_System.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_System.Name = "GB_System";
@@ -358,25 +353,20 @@ namespace PKHeX.WinForms
             GB_System.Text = "System Flags";
             GB_System.UseVisualStyleBackColor = true;
             // 
-            // TLP_System
+            // TC_System
             // 
-            TLP_System.AutoScroll = true;
-            TLP_System.ColumnCount = 2;
-            TLP_System.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            TLP_System.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            TLP_System.Dock = System.Windows.Forms.DockStyle.Fill;
-            TLP_System.Location = new System.Drawing.Point(4, 3);
-            TLP_System.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TLP_System.Name = "TLP_System";
-            TLP_System.RowCount = 2;
-            TLP_System.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_System.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_System.Size = new System.Drawing.Size(579, 321);
-            TLP_System.TabIndex = 1;
+            TC_System.Dock = System.Windows.Forms.DockStyle.Fill;
+            TC_System.Location = new System.Drawing.Point(4, 3);
+            TC_System.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_System.Multiline = true;
+            TC_System.Name = "TC_System";
+            TC_System.SelectedIndex = 0;
+            TC_System.Size = new System.Drawing.Size(579, 321);
+            TC_System.TabIndex = 1;
             // 
             // GB_Work
             // 
-            GB_Work.Controls.Add(TLP_Work);
+            GB_Work.Controls.Add(TC_Work);
             GB_Work.Location = new System.Drawing.Point(4, 26);
             GB_Work.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Work.Name = "GB_Work";
@@ -386,22 +376,16 @@ namespace PKHeX.WinForms
             GB_Work.Text = "Work Values";
             GB_Work.UseVisualStyleBackColor = true;
             // 
-            // TLP_Work
+            // TC_Work
             // 
-            TLP_Work.AutoScroll = true;
-            TLP_Work.ColumnCount = 3;
-            TLP_Work.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            TLP_Work.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            TLP_Work.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 579F));
-            TLP_Work.Dock = System.Windows.Forms.DockStyle.Fill;
-            TLP_Work.Location = new System.Drawing.Point(4, 3);
-            TLP_Work.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TLP_Work.Name = "TLP_Work";
-            TLP_Work.RowCount = 1;
-            TLP_Work.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Work.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            TLP_Work.Size = new System.Drawing.Size(579, 321);
-            TLP_Work.TabIndex = 2;
+            TC_Work.Dock = System.Windows.Forms.DockStyle.Fill;
+            TC_Work.Location = new System.Drawing.Point(4, 3);
+            TC_Work.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Work.Multiline = true;
+            TC_Work.Name = "TC_Work";
+            TC_Work.SelectedIndex = 0;
+            TC_Work.Size = new System.Drawing.Size(579, 321);
+            TC_Work.TabIndex = 2;
             // 
             // GB_Research
             // 
@@ -474,9 +458,9 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_System;
         private System.Windows.Forms.CheckBox CHK_CustomSystem;
         private System.Windows.Forms.CheckBox CHK_CustomFlag;
-        private System.Windows.Forms.TableLayoutPanel TLP_Flags;
-        private System.Windows.Forms.TableLayoutPanel TLP_System;
-        private System.Windows.Forms.TableLayoutPanel TLP_Work;
+        private System.Windows.Forms.TabControl TC_Flags;
+        private System.Windows.Forms.TabControl TC_System;
+        private System.Windows.Forms.TabControl TC_Work;
         private System.Windows.Forms.NumericUpDown NUD_WorkIndex;
     }
 }

@@ -20,10 +20,7 @@ public partial class SAV_FestivalPlaza : Form
         InitializeComponent();
 
         if (Application.IsDarkModeEnabled)
-        {
-            foreach (TabPage tab in TC_Editor.TabPages)
-                tab.UseVisualStyleBackColor = false;
-        }
+            WinFormsTranslator.ReformatDark(TC_Editor);
 
         SAV = (SAV7)(Origin = sav).Clone();
         editing = true;

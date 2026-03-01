@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms;
@@ -12,7 +13,7 @@ public sealed partial class SAV_EventFlags2 : Form
 {
     private readonly EventWorkspace<SAV2, byte> Editor;
     private readonly Dictionary<int, NumericUpDown> WorkDict = [];
-    private readonly Dictionary<int, int> FlagDict = [];
+    private readonly Dictionary<int, (DataGridView Grid, int RowIndex)> FlagDict = [];
 
     private bool editing;
 
@@ -25,21 +26,26 @@ public sealed partial class SAV_EventFlags2 : Form
         AllowDrop = true;
         DragEnter += Main_DragEnter;
         DragDrop += Main_DragDrop;
+        tabControl1.SelectedTab = GB_Research;
 
         editing = true;
         CB_Stats.Items.Clear();
         for (int i = 0; i < editor.Values.Length; i++)
             CB_Stats.Items.Add(i.ToString());
 
-        dgv.SuspendLayout();
-        TLP_Const.SuspendLayout();
-        TLP_Const.Scroll += WinFormsUtil.PanelScroll;
-        TLP_Const.Controls.Clear();
+        TC_Flags.SuspendLayout();
+        TC_Const.SuspendLayout();
         AddFlagList(editor.Labels, editor.Flags);
         AddConstList(editor.Labels, editor.Values);
 
-        dgv.ResumeLayout();
-        TLP_Const.ResumeLayout();
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsTranslator.ReformatDark(TC_Flags);
+            WinFormsTranslator.ReformatDark(TC_Const);
+        }
+
+        TC_Flags.ResumeLayout();
+        TC_Const.ResumeLayout();
 
         Text = $"{Text} ({sav.Version})";
 
@@ -58,6 +64,12 @@ public sealed partial class SAV_EventFlags2 : Form
         editing = false;
     }
 
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        tabControl1.SelectedIndex = 0;
+    }
+
     private void B_Cancel_Click(object sender, EventArgs e)
     {
         Close();
@@ -71,158 +83,230 @@ public sealed partial class SAV_EventFlags2 : Form
 
     private void AddFlagList(EventLabelCollection list, bool[] values)
     {
+        FlagDict.Clear();
+        TC_Flags.TabPages.Clear();
+
         var labels = list.Flag;
         if (labels.Count == 0)
         {
-            dgv.Visible = false;
+            TC_Flags.Visible = false;
             var research = new Label { Text = MsgResearchRequired, Name = "TLP_Flags_Research", ForeColor = WinFormsUtil.ColorWarn, AutoSize = true, Location = new Point(20, 20) };
             GB_Flags.Controls.Add(research);
             return;
         }
 
-        var cFlag = new DataGridViewCheckBoxColumn
+        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => (int)z.Key))
         {
-            DisplayIndex = 0,
-            Width = 20,
-            SortMode = DataGridViewColumnSortMode.NotSortable,
-        };
-
-        var cLabel = new DataGridViewTextBoxColumn
-        {
-            DisplayIndex = 1,
-            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-            ReadOnly = true,
-            SortMode = DataGridViewColumnSortMode.NotSortable,
-        };
-
-        cFlag.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        cLabel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-
-        dgv.Columns.Add(cFlag);
-        dgv.Columns.Add(cLabel);
-
-        var hideBelow = Main.Settings.Advanced.HideEventTypeBelow;
-        labels = labels.Where(z => z.Type >= hideBelow).OrderByDescending(z => z.Type).ToList();
-        dgv.Rows.Add(labels.Count);
-
-        for (int i = 0; i < labels.Count; i++)
-            FlagDict[labels[i].Index] = i;
-
-        for (int i = 0; i < labels.Count; i++)
-        {
-            var (name, index, _) = labels[i];
-            var cells = dgv.Rows[i].Cells;
-            cells[0].Value = values[index];
-            cells[1].Value = name;
-        }
-        dgv.CellValueChanged += (_, e) =>
-        {
-            if (e.ColumnIndex != 0 || e.RowIndex == -1)
-                return;
-
-            bool chk = (bool)dgv.Rows[e.RowIndex].Cells[0].Value!;
-            var index = labels[e.RowIndex].Index;
-            values[index] = chk;
-            if (NUD_Flag.Value == index)
-                c_CustomFlag.Checked = chk;
-        };
-        dgv.CellMouseUp += (_, e) =>
-        {
-            if (e.RowIndex == -1)
-                return;
-
-            if (e.ColumnIndex == 0)
+            var tab = new TabPage
             {
-                dgv.EndEdit();
-                return;
+                Name = $"Tab_F{group.Key}",
+                Text = group.Key.ToString(),
+            };
+
+            var grid = CreateFlagGrid();
+            tab.Controls.Add(grid);
+            TC_Flags.TabPages.Add(tab);
+
+            var cFlag = new DataGridViewCheckBoxColumn
+            {
+                DisplayIndex = 0,
+                Width = 20,
+                SortMode = DataGridViewColumnSortMode.NotSortable,
+            };
+
+            var cLabel = new DataGridViewTextBoxColumn
+            {
+                DisplayIndex = 1,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+                ReadOnly = true,
+                SortMode = DataGridViewColumnSortMode.NotSortable,
+            };
+
+            cFlag.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            cLabel.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            grid.Columns.Add(cFlag);
+            grid.Columns.Add(cLabel);
+
+            var grouped = group.ToList();
+            grid.Rows.Add(grouped.Count);
+
+            for (var i = 0; i < grouped.Count; i++)
+                FlagDict[grouped[i].Index] = (grid, i);
+
+            for (var i = 0; i < grouped.Count; i++)
+            {
+                var (name, index, _) = grouped[i];
+                var cells = grid.Rows[i].Cells;
+                cells[0].Value = values[index];
+                cells[1].Value = name;
             }
 
-            if (e.ColumnIndex != 1)
-                return;
+            grid.CellValueChanged += (_, e) =>
+            {
+                if (e.ColumnIndex != 0 || e.RowIndex == -1)
+                    return;
 
-            bool chk = (bool)dgv.Rows[e.RowIndex].Cells[0].Value!;
-            dgv.Rows[e.RowIndex].Cells[0].Value = !chk;
-            var index = labels[e.RowIndex].Index;
-            values[index] = !chk;
-            if (NUD_Flag.Value == index)
-                c_CustomFlag.Checked = !chk;
-        };
+                var chk = (bool)grid.Rows[e.RowIndex].Cells[0].Value!;
+                var index = grouped[e.RowIndex].Index;
+                values[index] = chk;
+                if (NUD_Flag.Value == index)
+                    c_CustomFlag.Checked = chk;
+            };
+            grid.CellMouseUp += (_, e) =>
+            {
+                if (e.RowIndex == -1)
+                    return;
+
+                if (e.ColumnIndex == 0)
+                {
+                    grid.EndEdit();
+                    return;
+                }
+
+                if (e.ColumnIndex != 1)
+                    return;
+
+                var chk = (bool)grid.Rows[e.RowIndex].Cells[0].Value!;
+                grid.Rows[e.RowIndex].Cells[0].Value = !chk;
+                var index = grouped[e.RowIndex].Index;
+                values[index] = !chk;
+                if (NUD_Flag.Value == index)
+                    c_CustomFlag.Checked = !chk;
+            };
+        }
     }
+
+    private static DoubleBufferedDataGridView CreateFlagGrid() => new()
+    {
+        AllowUserToAddRows = false,
+        AllowUserToDeleteRows = false,
+        AllowUserToResizeColumns = false,
+        AllowUserToResizeRows = false,
+        BackgroundColor = SystemColors.ControlLightLight,
+        BorderStyle = BorderStyle.None,
+        ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single,
+        ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+        ColumnHeadersVisible = false,
+        Dock = DockStyle.Fill,
+        EditMode = DataGridViewEditMode.EditOnEnter,
+        Margin = Padding.Empty,
+        MultiSelect = false,
+        RowHeadersVisible = false,
+        SelectionMode = DataGridViewSelectionMode.CellSelect,
+        ShowEditingIcon = false,
+    };
 
     private void AddConstList(EventLabelCollection list, ReadOnlySpan<byte> values)
     {
+        WorkDict.Clear();
+        TC_Const.TabPages.Clear();
+
         var labels = list.Work;
         if (labels.Count == 0)
         {
-            TLP_Const.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Const_Research", ForeColor = WinFormsUtil.ColorWarn, AutoSize = true }, 0, 0);
+            TC_Const.Visible = false;
+            GB_Constants.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Const_Research", ForeColor = WinFormsUtil.ColorWarn, AutoSize = true, Location = new Point(20, 20) });
             return;
         }
 
-        var hide = Main.Settings.Advanced.HideEventTypeBelow;
-        labels = labels.OrderByDescending(z => z.Type).ToList();
-        for (var i = 0; i < labels.Count; i++)
+        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => (int)z.Key))
         {
-            var entry = labels[i];
-            if (entry.Type < hide)
-                break;
-            var lbl = new Label { Text = entry.Name, Margin = Padding.Empty, AutoSize = true };
-            var mtb = new NumericUpDown
+            var tab = new TabPage
             {
-                Maximum = ushort.MaxValue,
-                Minimum = ushort.MinValue,
-                Margin = Padding.Empty,
-                Width = 50,
+                Name = $"Tab_W{group.Key}",
+                Text = WinFormsTranslator.TranslateEnum(group.Key, Main.CurrentLanguage),
             };
 
-            var map = entry.PredefinedValues.Select(z => new ComboItem(z.Name, z.Value)).ToList();
-            var cb = new ComboBox
+            var panel = CreateConstPanel();
+            tab.Controls.Add(panel);
+            TC_Const.TabPages.Add(tab);
+
+            var grouped = group.ToList();
+            for (var i = 0; i < grouped.Count; i++)
             {
-                Margin = Padding.Empty,
-                Width = 150,
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                BindingContext = BindingContext,
-                DropDownWidth = Width + 100,
-            };
-            cb.InitializeBinding();
-            cb.DataSource = map;
+                var entry = grouped[i];
+                var lbl = new Label { Text = entry.Name, Margin = Padding.Empty, AutoSize = true };
+                var mtb = new NumericUpDown
+                {
+                    Maximum = byte.MaxValue,
+                    Minimum = byte.MinValue,
+                    Margin = Padding.Empty,
+                    Width = 50,
+                };
 
-            lbl.Click += (_, _) => mtb.Value = 0;
-            bool updating = false;
-            mtb.ValueChanged += ChangeConstValue;
-            void ChangeConstValue(object? sender, EventArgs e)
-            {
-                if (updating)
-                    return;
+                var map = entry.PredefinedValues.Select(z => new ComboItem(z.Name, z.Value)).ToList();
+                var cb = new ComboBox
+                {
+                    Margin = Padding.Empty,
+                    Width = 150,
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    BindingContext = BindingContext,
+                    DropDownWidth = Width + 100,
+                };
+                if (Application.IsDarkModeEnabled)
+                    WinFormsTranslator.ReformatDark(cb);
+                cb.InitializeBinding();
+                cb.DataSource = map;
 
-                updating = true;
-                var value = (byte)mtb.Value;
-                var (_, valueID) = map.Find(z => z.Value == value) ?? map[0];
-                if (WinFormsUtil.GetIndex(cb) != valueID)
-                    cb.SelectedValue = valueID;
+                lbl.Click += (_, _) => mtb.Value = 0;
+                bool updating = false;
+                mtb.ValueChanged += ChangeConstValue;
+                void ChangeConstValue(object? sender, EventArgs e)
+                {
+                    if (updating)
+                        return;
 
-                Editor.Values[entry.Index] = value;
-                if (CB_Stats.SelectedIndex == entry.Index)
-                    MT_Stat.Text = ((int)mtb.Value).ToString();
-                updating = false;
+                    updating = true;
+                    var value = (byte)mtb.Value;
+                    var (_, valueID) = map.Find(z => z.Value == value) ?? map[0];
+                    if (WinFormsUtil.GetIndex(cb) != valueID)
+                        cb.SelectedValue = valueID;
+
+                    Editor.Values[entry.Index] = value;
+                    if (CB_Stats.SelectedIndex == entry.Index)
+                        MT_Stat.Text = ((int)mtb.Value).ToString();
+                    updating = false;
+                }
+                cb.SelectedValueChanged += (_, _) =>
+                {
+                    if (editing || updating)
+                        return;
+                    var value = WinFormsUtil.GetIndex(cb);
+                    mtb.Value = value == NamedEventConst.CustomMagicValue ? 0 : value;
+                };
+
+                mtb.Value = values[entry.Index];
+                if (mtb.Value == 0)
+                    ChangeConstValue(this, EventArgs.Empty);
+
+                panel.Controls.Add(lbl, 0, i);
+                panel.Controls.Add(cb, 1, i);
+                panel.Controls.Add(mtb, 2, i);
+
+                WorkDict.Add(entry.Index, mtb);
             }
-            cb.SelectedValueChanged += (_, _) =>
-            {
-                if (editing || updating)
-                    return;
-                var value = WinFormsUtil.GetIndex(cb);
-                mtb.Value = value == NamedEventConst.CustomMagicValue ? 0 : value;
-            };
-
-            mtb.Value = values[entry.Index];
-            if (mtb.Value == 0)
-                ChangeConstValue(this, EventArgs.Empty);
-
-            TLP_Const.Controls.Add(lbl, 0, i);
-            TLP_Const.Controls.Add(cb, 1, i);
-            TLP_Const.Controls.Add(mtb, 2, i);
-
-            WorkDict.Add(entry.Index, mtb);
         }
+    }
+
+    private static TableLayoutPanel CreateConstPanel()
+    {
+        var panel = new TableLayoutPanel
+        {
+            AutoScroll = true,
+            ColumnCount = 3,
+            Dock = DockStyle.Fill,
+            Margin = new Padding(4, 3, 4, 3),
+            Name = "TLP_Const",
+            RowCount = 1,
+        };
+        panel.ColumnStyles.Add(new ColumnStyle());
+        panel.ColumnStyles.Add(new ColumnStyle());
+        panel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 485F));
+        panel.RowStyles.Add(new RowStyle());
+        panel.RowStyles.Add(new RowStyle());
+        panel.Scroll += WinFormsUtil.PanelScroll;
+        return panel;
     }
 
     private void ChangeCustomBool(object sender, EventArgs e)
@@ -232,8 +316,8 @@ public sealed partial class SAV_EventFlags2 : Form
         editing = true;
         var index = (int)NUD_Flag.Value;
         Editor.Flags[index] = c_CustomFlag.Checked;
-        if (FlagDict.TryGetValue(index, out var rowIndex))
-            dgv.Rows[rowIndex].Cells[0].Value = c_CustomFlag.Checked;
+        if (FlagDict.TryGetValue(index, out var result))
+            result.Grid.Rows[result.RowIndex].Cells[0].Value = c_CustomFlag.Checked;
         editing = false;
     }
 

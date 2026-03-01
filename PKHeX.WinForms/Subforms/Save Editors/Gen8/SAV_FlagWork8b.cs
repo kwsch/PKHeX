@@ -26,6 +26,7 @@ public sealed partial class SAV_FlagWork8b : Form
 
         SAV = (SAV8BS)sav.Clone();
         Origin = sav;
+        TC_Features.SelectedTab = GB_Research;
 
         AllowDrop = true;
         DragEnter += Main_DragEnter;
@@ -42,6 +43,15 @@ public sealed partial class SAV_FlagWork8b : Form
         LoadFlags(editor);
         LoadSystem(editor);
         LoadWork(editor);
+
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsTranslator.ReformatDark(TC_Flags);
+            WinFormsTranslator.ReformatDark(TC_System);
+            WinFormsTranslator.ReformatDark(TC_Work);
+            WinFormsTranslator.ReformatDark(TC_Features);
+        }
+
         editing = false;
         ResumeLayout();
 
@@ -57,160 +67,221 @@ public sealed partial class SAV_FlagWork8b : Form
         Text = $"{Text} ({sav.Version})";
     }
 
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        TC_Features.SelectedIndex = 0;
+    }
+
     private void LoadFlags(EventLabelCollectionSystem editor)
     {
-        TLP_Flags.SuspendLayout();
-        TLP_Flags.Scroll += WinFormsUtil.PanelScroll;
-        TLP_Flags.Controls.Clear();
-        IEnumerable<NamedEventValue> labels = editor.Flag;
-
-        var hide = Main.Settings.Advanced.HideEventTypeBelow;
-        labels = labels.OrderByDescending(z => z.Type);
-        int i = 0;
-        foreach (var (name, index, type) in labels)
+        FlagDict.Clear();
+        TC_Flags.TabPages.Clear();
+        var labels = editor.Flag;
+        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => (int)z.Key))
         {
-            if (type < hide)
-                break;
-
-            var lbl = new Label { Text = name, Margin = Padding.Empty, AutoSize = true };
-            var chk = new CheckBox
+            var tab = new TabPage
             {
-                CheckAlign = ContentAlignment.MiddleLeft,
-                Margin = Padding.Empty,
-                Checked = SAV.FlagWork.GetFlag(index),
-                AutoSize = true,
+                Name = $"Tab_F{group.Key}",
+                Text = group.Key.ToString(),
             };
-            lbl.Click += (_, _) => chk.Checked ^= true;
-            chk.CheckedChanged += (_, _) =>
-            {
-                SAV.FlagWork.SetFlag(index, chk.Checked);
-                if (NUD_Flag.Value == index)
-                    CHK_CustomFlag.Checked = chk.Checked;
-            };
-            TLP_Flags.Controls.Add(chk, 0, i);
-            TLP_Flags.Controls.Add(lbl, 1, i);
 
-            FlagDict.Add(index, chk);
-            i++;
+            var panel = CreateBoolPanel($"TLP_F{group.Key}");
+            tab.Controls.Add(panel);
+            TC_Flags.TabPages.Add(tab);
+
+            int i = 0;
+            foreach (var (name, index, _) in group)
+            {
+                var lbl = new Label { Text = name, Margin = Padding.Empty, AutoSize = true };
+                var chk = new CheckBox
+                {
+                    CheckAlign = ContentAlignment.MiddleLeft,
+                    Margin = Padding.Empty,
+                    Checked = SAV.FlagWork.GetFlag(index),
+                    AutoSize = true,
+                };
+                lbl.Click += (_, _) => chk.Checked ^= true;
+                chk.CheckedChanged += (_, _) =>
+                {
+                    SAV.FlagWork.SetFlag(index, chk.Checked);
+                    if (NUD_Flag.Value == index)
+                        CHK_CustomFlag.Checked = chk.Checked;
+                };
+                panel.Controls.Add(chk, 0, i);
+                panel.Controls.Add(lbl, 1, i);
+
+                FlagDict.Add(index, chk);
+                i++;
+            }
         }
-
-        TLP_Flags.ResumeLayout();
     }
 
     private void LoadSystem(EventLabelCollectionSystem editor)
     {
-        TLP_System.SuspendLayout();
-        TLP_System.Scroll += WinFormsUtil.PanelScroll;
-        TLP_System.Controls.Clear();
-        IEnumerable<NamedEventValue> labels = editor.System;
-
-        var hide = Main.Settings.Advanced.HideEventTypeBelow;
-        labels = labels.OrderByDescending(z => z.Type);
-        int i = 0;
-        foreach (var (name, index, type) in labels)
+        SystemDict.Clear();
+        TC_System.TabPages.Clear();
+        var labels = editor.System;
+        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => (int)z.Key))
         {
-            if (type < hide)
-                break;
-
-            var lbl = new Label { Text = name, Margin = Padding.Empty, AutoSize = true };
-            var chk = new CheckBox
+            var tab = new TabPage
             {
-                CheckAlign = ContentAlignment.MiddleLeft,
-                Margin = Padding.Empty,
-                Checked = SAV.FlagWork.GetSystemFlag(index),
-                AutoSize = true,
+                Name = $"Tab_S{group.Key}",
+                Text = group.Key.ToString(),
             };
-            lbl.Click += (_, _) => chk.Checked ^= true;
-            chk.CheckedChanged += (_, _) =>
-            {
-                SAV.FlagWork.SetSystemFlag(index, chk.Checked);
-                if (NUD_System.Value == index)
-                    CHK_CustomSystem.Checked = chk.Checked;
-            };
-            TLP_System.Controls.Add(chk, 0, i);
-            TLP_System.Controls.Add(lbl, 1, i);
 
-            SystemDict.Add(index, chk);
-            i++;
+            var panel = CreateBoolPanel($"TLP_S{group.Key}");
+            tab.Controls.Add(panel);
+            TC_System.TabPages.Add(tab);
+
+            int i = 0;
+            foreach (var (name, index, _) in group)
+            {
+                var lbl = new Label { Text = name, Margin = Padding.Empty, AutoSize = true };
+                var chk = new CheckBox
+                {
+                    CheckAlign = ContentAlignment.MiddleLeft,
+                    Margin = Padding.Empty,
+                    Checked = SAV.FlagWork.GetSystemFlag(index),
+                    AutoSize = true,
+                };
+                lbl.Click += (_, _) => chk.Checked ^= true;
+                chk.CheckedChanged += (_, _) =>
+                {
+                    SAV.FlagWork.SetSystemFlag(index, chk.Checked);
+                    if (NUD_System.Value == index)
+                        CHK_CustomSystem.Checked = chk.Checked;
+                };
+                panel.Controls.Add(chk, 0, i);
+                panel.Controls.Add(lbl, 1, i);
+
+                SystemDict.Add(index, chk);
+                i++;
+            }
         }
-
-        TLP_System.ResumeLayout();
     }
 
     private void LoadWork(EventLabelCollectionSystem editor)
     {
-        TLP_Work.SuspendLayout();
-        TLP_Work.Scroll += WinFormsUtil.PanelScroll;
-        TLP_Work.Controls.Clear();
-        IEnumerable<NamedEventWork> labels = editor.Work;
-        var hide = Main.Settings.Advanced.HideEventTypeBelow;
-        labels = labels.OrderByDescending(z => z.Type);
-        int i = 0;
-        foreach (var entry in labels)
+        WorkDict.Clear();
+        TC_Work.TabPages.Clear();
+        var labels = editor.Work;
+        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => (int)z.Key))
         {
-            if (entry.Type < hide)
-                break;
-            var lbl = new Label { Text = entry.Name, Margin = Padding.Empty, AutoSize = true };
-            var mtb = new NumericUpDown
+            var tab = new TabPage
             {
-                Maximum = int.MaxValue,
-                Minimum = int.MinValue,
-                Margin = Padding.Empty,
-                Width = 85,
+                Name = $"Tab_W{group.Key}",
+                Text = group.Key.ToString(),
             };
 
-            var map = entry.PredefinedValues.Select(z => new ComboItem(z.Name, z.Value)).ToList();
-            var cb = new ComboBox
+            var panel = CreateWorkPanel($"TLP_W{group.Key}");
+            tab.Controls.Add(panel);
+            TC_Work.TabPages.Add(tab);
+
+            int i = 0;
+            foreach (var entry in group)
             {
-                Margin = Padding.Empty,
-                Width = 165,
-                DropDownStyle = ComboBoxStyle.DropDownList,
-                BindingContext = BindingContext,
-                DropDownWidth = Width + 100,
-            };
-            cb.InitializeBinding();
-            cb.DataSource = map;
+                var lbl = new Label { Text = entry.Name, Margin = Padding.Empty, AutoSize = true };
+                var mtb = new NumericUpDown
+                {
+                    Maximum = int.MaxValue,
+                    Minimum = int.MinValue,
+                    Margin = Padding.Empty,
+                    Width = 85,
+                };
 
-            lbl.Click += (_, _) => mtb.Value = 0;
-            bool updating = false;
-            mtb.ValueChanged += ChangeConstValue;
-            void ChangeConstValue(object? sender, EventArgs e)
-            {
-                if (updating)
-                    return;
+                var map = entry.PredefinedValues.Select(z => new ComboItem(z.Name, z.Value)).ToList();
+                var cb = new ComboBox
+                {
+                    Margin = Padding.Empty,
+                    Width = 165,
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    BindingContext = BindingContext,
+                    DropDownWidth = Width + 100,
+                };
+                if (Application.IsDarkModeEnabled)
+                    WinFormsTranslator.ReformatDark(cb);
+                cb.InitializeBinding();
+                cb.DataSource = map;
 
-                updating = true;
-                var value = (int)mtb.Value;
-                var (_, valueID) = map.Find(z => z.Value == value) ?? map[0];
-                if (WinFormsUtil.GetIndex(cb) != valueID)
-                    cb.SelectedValue = valueID;
+                lbl.Click += (_, _) => mtb.Value = 0;
+                bool updating = false;
+                mtb.ValueChanged += ChangeConstValue;
+                void ChangeConstValue(object? sender, EventArgs e)
+                {
+                    if (updating)
+                        return;
 
-                SAV.FlagWork.SetWork(entry.Index, value);
-                if (NUD_WorkIndex.Value == entry.Index)
-                    mtb.Text = ((int)mtb.Value).ToString();
-                updating = false;
+                    updating = true;
+                    var value = (int)mtb.Value;
+                    var (_, valueID) = map.Find(z => z.Value == value) ?? map[0];
+                    if (WinFormsUtil.GetIndex(cb) != valueID)
+                        cb.SelectedValue = valueID;
+
+                    SAV.FlagWork.SetWork(entry.Index, value);
+                    if (NUD_WorkIndex.Value == entry.Index)
+                        NUD_Work.Value = value;
+                    updating = false;
+                }
+                cb.SelectedValueChanged += (_, _) =>
+                {
+                    if (editing || updating)
+                        return;
+                    var value = WinFormsUtil.GetIndex(cb);
+                    mtb.Value = value == NamedEventConst.CustomMagicValue ? 0 : value;
+                };
+
+                mtb.Value = SAV.FlagWork.GetWork(entry.Index);
+                if (mtb.Value == 0)
+                    ChangeConstValue(this, EventArgs.Empty);
+
+                panel.Controls.Add(lbl, 0, i);
+                panel.Controls.Add(cb, 1, i);
+                panel.Controls.Add(mtb, 2, i);
+
+                WorkDict.Add(entry.Index, mtb);
+                i++;
             }
-            cb.SelectedValueChanged += (_, _) =>
-            {
-                if (editing || updating)
-                    return;
-                var value = WinFormsUtil.GetIndex(cb);
-                mtb.Value = value == NamedEventConst.CustomMagicValue ? 0 : value;
-            };
-
-            mtb.Value = SAV.FlagWork.GetWork(entry.Index);
-            if (mtb.Value == 0)
-                ChangeConstValue(this, EventArgs.Empty);
-
-            TLP_Work.Controls.Add(lbl, 0, i);
-            TLP_Work.Controls.Add(cb, 1, i);
-            TLP_Work.Controls.Add(mtb, 2, i);
-
-            WorkDict.Add(entry.Index, mtb);
-            i++;
         }
+    }
 
-        TLP_Work.ResumeLayout();
+    private static TableLayoutPanel CreateBoolPanel(string name)
+    {
+        var panel = new TableLayoutPanel
+        {
+            AutoScroll = true,
+            ColumnCount = 2,
+            Dock = DockStyle.Fill,
+            Margin = new Padding(4, 3, 4, 3),
+            Name = name,
+            RowCount = 2,
+        };
+        panel.ColumnStyles.Add(new ColumnStyle());
+        panel.ColumnStyles.Add(new ColumnStyle());
+        panel.RowStyles.Add(new RowStyle());
+        panel.RowStyles.Add(new RowStyle());
+        panel.Scroll += WinFormsUtil.PanelScroll;
+        return panel;
+    }
+
+    private static TableLayoutPanel CreateWorkPanel(string name)
+    {
+        var panel = new TableLayoutPanel
+        {
+            AutoScroll = true,
+            ColumnCount = 3,
+            Dock = DockStyle.Fill,
+            Margin = new Padding(4, 3, 4, 3),
+            Name = name,
+            RowCount = 1,
+        };
+        panel.ColumnStyles.Add(new ColumnStyle());
+        panel.ColumnStyles.Add(new ColumnStyle());
+        panel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 579F));
+        panel.RowStyles.Add(new RowStyle());
+        panel.RowStyles.Add(new RowStyle());
+        panel.Scroll += WinFormsUtil.PanelScroll;
+        return panel;
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)
