@@ -1193,7 +1193,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_FestivalPlaza;
         private System.Windows.Forms.Button B_MailBox;
         private System.Windows.Forms.Button B_OpenApricorn;
-        private SlotList SL_Extra;
+        internal SlotList SL_Extra;
         private PartyEditor SL_Party;
         private System.Windows.Forms.Button B_Raids;
         private System.Windows.Forms.Button B_Blocks;

@@ -8,20 +8,6 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class SlotList : UserControl, ISlotViewer<PictureBox>
 {
-    private static readonly string[] names = GetEnumNames();
-
-    public static string[] GetEnumNames()
-    {
-        var list = Enum.GetNames<StorageSlotType>();
-        foreach (ref var item in list.AsSpan())
-        {
-            if (item.StartsWith("Fused"))
-                item = "Fused";
-        }
-        return list;
-    }
-
-    public readonly Label[] Labels = new Label[names.Length];
     private readonly List<PictureBox> slots = [];
     private List<SlotInfoMisc> SlotOffsets = [];
     public int SlotCount { get; private set; }
@@ -29,11 +15,7 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
     public bool FlagIllegal { get; set; }
     private Func<PKM, bool>? _searchFilter;
 
-    public SlotList()
-    {
-        InitializeComponent();
-        AddLabels();
-    }
+    public SlotList() => InitializeComponent();
 
     /// <summary>
     /// Initializes the extra slot viewers with a list of offsets and sets up event handling.
@@ -150,7 +132,8 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
         for (int i = 0; i < countTotal; i++)
         {
             var info = SlotOffsets[i];
-            var label = Labels[(int)info.Type];
+            var safeType = GetSafeType(info.Type);
+            var label = GetLabel(safeType);
             if (label.Text != type)
             {
                 added++;
@@ -194,19 +177,45 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
         AccessibleRole = AccessibleRole.Graphic,
     };
 
-    private void AddLabels()
+    /// <summary>
+    /// Groups the type into a parent type, if applicable. No need to differentiate many slots.
+    /// </summary>
+    private static StorageSlotType GetSafeType(StorageSlotType type) => type switch
     {
-        for (var i = 0; i < names.Length; i++)
+        StorageSlotType.FusedKyurem => StorageSlotType.Fused,
+        StorageSlotType.FusedCalyrex => StorageSlotType.Fused,
+        StorageSlotType.FusedNecrozmaS => StorageSlotType.Fused,
+        StorageSlotType.FusedNecrozmaM => StorageSlotType.Fused,
+        _ => type
+    };
+
+    public const string DynamicLabelPrefix = $"L_{nameof(StorageSlotType)}";
+
+    private static Label GetLabel(StorageSlotType name) => new()
+    {
+        Name = $"{DynamicLabelPrefix}{name}",
+        Text = WinFormsTranslator.TranslateEnum(name, Main.CurrentLanguage),
+        AutoSize = true,
+        Margin = Padding.Empty,
+        Padding = Padding.Empty,
+    };
+
+    public void ForceTranslation(string lang)
+    {
+        foreach (var c in FLP_Slots.Controls)
         {
-            var name = names[i];
-            Labels[i] = new Label
-            {
-                Name = $"L_{name}",
-                Text = name,
-                AutoSize = true,
-                Margin = Padding.Empty,
-                Padding = Padding.Empty,
-            };
+            if (c is not Label l)
+                continue;
+
+            var name = l.Name;
+            if (name.Length <= DynamicLabelPrefix.Length)
+                continue;
+
+            var typeName = name.AsSpan(DynamicLabelPrefix.Length);
+            if (!Enum.TryParse<StorageSlotType>(typeName, out var value))
+                continue;
+
+            l.Text = WinFormsTranslator.TranslateEnum(value, lang);
         }
     }
 }

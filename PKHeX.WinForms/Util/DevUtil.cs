@@ -193,6 +193,7 @@ public static class DevUtil
 
         typeof(EventVarType),
         typeof(NamedEventType),
+        typeof(StorageSlotType),
     ];
 
     /// <summary>
@@ -200,9 +201,6 @@ public static class DevUtil
     /// </summary>
     private static IEnumerable<Control> GetExtraControls()
     {
-        foreach (var name in SlotList.GetEnumNames().Distinct())
-            yield return new Label { Name = $"{nameof(Main)}.L_{name}", Text = name };
-
         yield return new Label { Name = $"{nameof(SAV_Misc3)}.L_CurrentSwapped" };
         yield return new Label { Name = $"{nameof(SAV_Misc3)}.L_RecordSwapped" };
         yield return new Label { Name = $"{nameof(SAV_Misc3)}.L_Championships" };
@@ -244,6 +242,16 @@ public static class DevUtil
         $"{nameof(SAV_Pokedex9a)}.CHK_SeenMega", // Dynamic text checkbox
         $"{nameof(SAV_Misc3)}.L_Stat", // Dynamic labels
         $"{nameof(SAV_Donut9a)}.L_Stat", // Dynamic labels
+
+        SlotList.DynamicLabelPrefix,
+        $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.None)}",
+        $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.Box)}",
+        $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.Party)}",
+        $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.FusedCalyrex)}",
+        $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.FusedKyurem)}",
+        $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.FusedNecrozmaS)}",
+        $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.FusedNecrozmaM)}",
+        $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.FusedCalyrex)}",
     ];
 
     // paths should match the project structure, so that the files are in the correct place when the logic updates them.
