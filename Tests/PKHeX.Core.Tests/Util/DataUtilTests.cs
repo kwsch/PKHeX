@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Xunit;
 
@@ -5,24 +7,36 @@ namespace PKHeX.Core.Tests.Util;
 
 public class DataUtilTests
 {
-    [Fact]
-    public void GetsCorrectNumberOfSpeciesNames()
+    public static TheoryData<string> AllLanguages
     {
-        var names = Core.Util.GetSpeciesList(GameLanguage.DefaultLanguage);
-        names.Length.Should().Be((int)Species.MAX_COUNT);
+        get
+        {
+            var data = new TheoryData<string>();
+            foreach (var lang in GameLanguage.AllSupportedLanguages)
+                data.Add(lang);
+            return data;
+        }
     }
 
-    [Fact]
-    public void GetsCorrectNumberOfAbilityNames()
-    {
-        var names = Core.Util.GetAbilitiesList(GameLanguage.DefaultLanguage);
-        names.Length.Should().Be((int)Ability.MAX_COUNT);
-    }
+    [Theory]
+    [MemberData(nameof(AllLanguages))]
+    public void GetsCorrectNumberOfSpeciesNames(string language)
+        => VerifyArrayLength(language, static s => s.specieslist, (int)Species.MAX_COUNT);
 
-    [Fact]
-    public void GetsCorrectNumberOfMoveNames()
+    [Theory]
+    [MemberData(nameof(AllLanguages))]
+    public void GetsCorrectNumberOfAbilityNames(string language)
+        => VerifyArrayLength(language, static s => s.abilitylist, (int)Ability.MAX_COUNT);
+
+    [Theory]
+    [MemberData(nameof(AllLanguages))]
+    public void GetsCorrectNumberOfMoveNames(string language)
+        => VerifyArrayLength(language, static s => s.movelist, (int)Move.MAX_COUNT);
+
+    private static void VerifyArrayLength(string language, Func<GameStrings, string[]> accessor, [ConstantExpected] int expected)
     {
-        var names = Core.Util.GetMovesList(GameLanguage.DefaultLanguage);
-        names.Length.Should().Be((int)Move.MAX_COUNT);
+        var strings = GameInfo.GetStrings(language);
+        var names = accessor(strings);
+        names.Length.Should().Be(expected);
     }
 }

@@ -105,7 +105,7 @@
 0x2D8	s	Zafiro Robado
 0x2D6	s	Puerta Abierta de la Guarida Rocket
 0x2DC	s	Recibido Zafiro
-0x2FA	s	Recibida Piedra Eterna (Ayudante de Oak, Centro Pokemon del Túnel Roca)
+0x2FA	s	Recibida Piedra Eterna (Ayudante de Oak, Centro Pokémon del Túnel Roca)
 0x252	s	Recibido Buscaobjetos (Ayudante de Oak, Ruta 11)
 0x256	s	Recibido Rep. Exp. (Ayudante de Oak, Ruta 15)
 0x2FD	s	Recibido Amuleto Suerte (Ayudante de Oak, Ruta 16)

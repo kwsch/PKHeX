@@ -18,20 +18,23 @@ public interface ILocation
 
 public static partial class Extensions
 {
-    public static ushort GetLocation(this ILocation enc)
+    extension(ILocation enc)
     {
-        return enc.Location != 0
-            ? enc.Location
-            : enc.EggLocation;
-    }
+        public ushort GetLocation()
+        {
+            return enc.Location != 0
+                ? enc.Location
+                : enc.EggLocation;
+        }
 
-    public static string? GetEncounterLocation(this ILocation enc, byte generation, GameVersion version = 0)
-    {
-        ushort loc = enc.GetLocation();
-        if (loc == 0)
-            return null;
+        public string? GetEncounterLocation(byte generation, GameVersion version = 0)
+        {
+            ushort loc = enc.GetLocation();
+            if (loc == 0)
+                return null;
 
-        bool egg = loc != enc.Location;
-        return GameInfo.GetLocationName(egg, loc, generation, generation, version);
+            bool egg = loc != enc.Location;
+            return GameInfo.GetLocationName(egg, loc, generation, generation, version);
+        }
     }
 }

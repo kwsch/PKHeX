@@ -53,4 +53,6 @@ public sealed class SAV6AODemo : SAV6, ISaveBlock6Core
 
     MyItem ISaveBlock6Core.Items => Items;
     RecordBlock6 ISaveBlock6Core.Records => Records;
+
+    public override PlayerBag6AO Inventory => new(this);
 }

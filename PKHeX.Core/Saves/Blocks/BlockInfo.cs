@@ -83,7 +83,11 @@ public abstract class BlockInfo
 
 public static partial class Extensions
 {
-    public static bool GetChecksumsValid(this IEnumerable<BlockInfo> blocks, Span<byte> data) => BlockInfo.GetChecksumsValid(blocks, data);
-    public static void SetChecksums(this IEnumerable<BlockInfo> blocks, Span<byte> data) => BlockInfo.SetChecksums(blocks, data);
+    extension(IEnumerable<BlockInfo> blocks)
+    {
+        public bool GetChecksumsValid(Span<byte> data) => BlockInfo.GetChecksumsValid(blocks, data);
+        public void SetChecksums(Span<byte> data) => BlockInfo.SetChecksums(blocks, data);
+    }
+
     public static string GetChecksumInfo(this IReadOnlyList<BlockInfo> blocks, Span<byte> data) => BlockInfo.GetChecksumInfo(blocks, data);
 }

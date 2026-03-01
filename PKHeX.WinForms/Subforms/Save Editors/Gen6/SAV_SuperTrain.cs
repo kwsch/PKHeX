@@ -122,12 +122,12 @@ public partial class SAV_SuperTrain : Form
         for (int i = 0; i < 12; i++)
         {
             var bag = dataGridView1.Rows[i].Cells[1].Value!.ToString();
-            if (Array.IndexOf(trba, bag) == 0)
+            if (trba.IndexOf(bag) <= 0)
             {
                 emptyslots++;
                 continue;
             }
-            STB.SetBag(i - emptyslots, (byte)Array.IndexOf(trba, bag));
+            STB.SetBag(i - emptyslots, (byte)trba.IndexOf(bag));
         }
 
         Origin.CopyChangesFrom(SAV);

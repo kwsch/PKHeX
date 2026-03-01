@@ -14,6 +14,9 @@ public sealed class HoverSettings
     [LocalizedDescription("Show all Encounter Info properties on Hover")]
     public bool HoverSlotShowEncounterVerbose { get; set; }
 
+    [LocalizedDescription("Show first Legality Check message if Illegal on Hover")]
+    public bool HoverSlotShowLegalityHint { get; set; } = true;
+
     [LocalizedDescription("Show PKM Slot ToolTip on Hover")]
     public bool HoverSlotShowText { get; set; } = true;
 

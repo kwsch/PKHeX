@@ -615,7 +615,6 @@ public partial class SAV_Misc5 : Form
     {
         var source = (SAV is SAV5BW ? Encounters5BW.DreamWorld_BW : Encounters5B2W2.DreamWorld_B2W2).Concat(Encounters5DR.DreamWorld_Common).ToList();
         var rnd = Util.Rand;
-        Span<ushort> moves = stackalloc ushort[4];
         foreach (var s in AllSlots)
         {
             int index = rnd.Next(source.Count);
@@ -625,7 +624,7 @@ public partial class SAV_Misc5 : Form
             s.Form = slot.Form;
             s.Gender = !((IFixedGender)slot).IsFixedGender ? PersonalTable.B2W2[slot.Species].RandomGender() : slot.Gender;
 
-            slot.Moves.CopyTo(moves);
+            ReadOnlySpan<ushort> moves = slot.Moves;
             var count = moves.Length - moves.Count<ushort>(0);
             s.Move = count == 0 ? (ushort)0 : moves[rnd.Next(count)];
         }

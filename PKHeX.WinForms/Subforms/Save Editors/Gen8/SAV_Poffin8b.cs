@@ -169,7 +169,7 @@ public partial class SAV_Poffin8b : Form
 
     private byte SetPoffinName(string value)
     {
-        var index = Array.IndexOf(ItemNames, value);
+        var index = ItemNames.IndexOf(value);
         if (index != -1)
             return (byte)(index - 1);
         return unchecked((byte)-1);

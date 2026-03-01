@@ -17,6 +17,7 @@ public static class SaveUtil
     private const int SIZE_G9ZA_100 = 0x2F3284;
     private const int SIZE_G9ZA_102 = 0x2F3289; // +5 for Ranked bug fix boolean block
     private const int SIZE_G9ZA_200 = 0x309FA6; // Mega Dimension DLC
+    private const int SIZE_G9ZA_201 = 0x309FB3; // +D for revision
 
     private const int SIZE_G9_0   = 0x31626F; // 1.0.0 fresh
     private const int SIZE_G9_0a  = 0x31627C; // 1.0.0 after multiplayer
@@ -121,7 +122,7 @@ public static class SaveUtil
         new SaveHandlerNSO(),
     ];
 
-    private static bool IsSizeGen9ZA(int length) => length is SIZE_G9ZA_100 or SIZE_G9ZA_102 or SIZE_G9ZA_200;
+    private static bool IsSizeGen9ZA(int length) => length is SIZE_G9ZA_100 or SIZE_G9ZA_102 or SIZE_G9ZA_200 or SIZE_G9ZA_201;
 
     private static bool IsSizeGen9SV(int length) => length is
         SIZE_G9_0 or SIZE_G9_0a or

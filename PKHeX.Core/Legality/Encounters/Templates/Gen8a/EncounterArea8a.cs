@@ -24,7 +24,7 @@ public sealed record EncounterArea8a : IEncounterArea<EncounterSlot8a>, IAreaLoc
 
     public ushort Location => Locations[0];
 
-    public bool IsMatchLocation(ushort location) => Locations.AsSpan().Contains((byte)location);
+    public bool IsMatchLocation(ushort location) => Locations.Contains((byte)location);
 
     public static EncounterArea8a[] GetAreas(BinLinkerAccessor input)
     {

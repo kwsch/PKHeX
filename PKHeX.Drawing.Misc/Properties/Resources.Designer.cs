@@ -3203,6 +3203,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap flavorprofile {
+            get {
+                object obj = ResourceManager.GetObject("flavorprofile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap fresh_01_lv1 {
             get {
                 object obj = ResourceManager.GetObject("fresh_01_lv1", resourceCulture);

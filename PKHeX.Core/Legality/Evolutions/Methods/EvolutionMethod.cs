@@ -43,7 +43,7 @@ public readonly record struct EvolutionMethod(ushort Species, ushort Argument, b
     /// <returns>True if the evolution criteria is valid.</returns>
     public EvolutionCheckResult Check(PKM pk, byte lvl, byte levelMin, bool skipChecks, EvolutionRuleTweak tweak)
     {
-        if (!Method.IsLevelUpRequired())
+        if (!Method.IsLevelUpRequired)
             return ValidNotLevelUp(pk, skipChecks);
 
         var chk = IsLevelUpMethodSecondarySatisfied(pk, skipChecks);

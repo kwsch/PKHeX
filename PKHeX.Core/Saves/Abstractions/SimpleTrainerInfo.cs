@@ -28,8 +28,8 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOriginReadOnly, IT
     public SimpleTrainerInfo(GameVersion version = Latest.Version)
     {
         Version = version;
-        Context = Version.GetContext();
-        Generation = Context.Generation();
+        Context = Version.Context;
+        Generation = Context.Generation;
         if (Context is not (EntityContext.Gen6 or EntityContext.Gen7))
             ConsoleRegion = Region = Country = 0;
     }
@@ -83,8 +83,8 @@ public sealed record MutableTrainerInfo : ITrainerInfo, IRegionOrigin, ITrainerI
     public MutableTrainerInfo(GameVersion version = Latest.Version)
     {
         Version = version;
-        Context = Version.GetContext();
-        Generation = Context.Generation();
+        Context = Version.Context;
+        Generation = Context.Generation;
         if (Context is not (EntityContext.Gen6 or EntityContext.Gen7))
             ConsoleRegion = Region = Country = 0;
     }

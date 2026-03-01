@@ -297,7 +297,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     public int HeldItem { get => ReadUInt16LittleEndian(Data[0xC2..]); set => WriteUInt16LittleEndian(Data[0xC2..], (ushort)value); }
 
-    public TrainerIDFormat TrainerIDDisplayFormat => Version.GetGeneration() >= 7 ? TrainerIDFormat.SixDigit : TrainerIDFormat.SixteenBit;
+    public TrainerIDFormat TrainerIDDisplayFormat => Version.Generation >= 7 ? TrainerIDFormat.SixDigit : TrainerIDFormat.SixteenBit;
 
     public int MarkingCount => 6;
 

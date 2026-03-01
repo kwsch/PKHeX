@@ -75,7 +75,7 @@ public sealed class NicknameVerifier : Verifier
         }
     }
 
-    private static bool IsMysteryGiftNoNickname(IEncounterable enc)
+    private static bool IsMysteryGiftNoNickname(IEncounterTemplate enc)
     {
         if (enc is not MysteryGift { IsEgg: false })
             return false;

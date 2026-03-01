@@ -32,8 +32,14 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tabBoxMulti = new System.Windows.Forms.TabControl();
             Tab_Box = new System.Windows.Forms.TabPage();
+            B_PopoutBox = new System.Windows.Forms.Button();
+            PopoutMenu = new System.Windows.Forms.ContextMenuStrip(components);
+            Menu_PopoutBoxSingle = new System.Windows.Forms.ToolStripMenuItem();
+            Menu_PopoutBoxAll = new System.Windows.Forms.ToolStripMenuItem();
+            B_SearchBox = new System.Windows.Forms.Button();
             Box = new BoxEditor();
             Tab_PartyBattle = new System.Windows.Forms.TabPage();
             SL_Party = new PartyEditor();
@@ -70,6 +76,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenHallofFame = new System.Windows.Forms.Button();
             B_OUTPasserby = new System.Windows.Forms.Button();
             B_DLC = new System.Windows.Forms.Button();
+            B_Donuts = new System.Windows.Forms.Button();
             B_OpenPokeBeans = new System.Windows.Forms.Button();
             B_CellsStickers = new System.Windows.Forms.Button();
             B_OpenMiscEditor = new System.Windows.Forms.Button();
@@ -110,9 +117,9 @@ namespace PKHeX.WinForms.Controls
             TB_Secure1 = new System.Windows.Forms.TextBox();
             L_GameSync = new System.Windows.Forms.Label();
             TB_GameSync = new System.Windows.Forms.TextBox();
-            B_Donuts = new System.Windows.Forms.Button();
             tabBoxMulti.SuspendLayout();
             Tab_Box.SuspendLayout();
+            PopoutMenu.SuspendLayout();
             Tab_PartyBattle.SuspendLayout();
             Tab_Other.SuspendLayout();
             GB_Daycare.SuspendLayout();
@@ -146,6 +153,8 @@ namespace PKHeX.WinForms.Controls
             // Tab_Box
             // 
             Tab_Box.AllowDrop = true;
+            Tab_Box.Controls.Add(B_PopoutBox);
+            Tab_Box.Controls.Add(B_SearchBox);
             Tab_Box.Controls.Add(Box);
             Tab_Box.Location = new System.Drawing.Point(4, 26);
             Tab_Box.Name = "Tab_Box";
@@ -154,6 +163,52 @@ namespace PKHeX.WinForms.Controls
             Tab_Box.TabIndex = 0;
             Tab_Box.Text = "Box";
             Tab_Box.UseVisualStyleBackColor = true;
+            // 
+            // B_PopoutBox
+            // 
+            B_PopoutBox.ContextMenuStrip = PopoutMenu;
+            B_PopoutBox.Image = Properties.Resources.popout;
+            B_PopoutBox.Location = new System.Drawing.Point(3, 3);
+            B_PopoutBox.Margin = new System.Windows.Forms.Padding(0);
+            B_PopoutBox.Name = "B_PopoutBox";
+            B_PopoutBox.Size = new System.Drawing.Size(24, 24);
+            B_PopoutBox.TabIndex = 3;
+            B_PopoutBox.UseVisualStyleBackColor = true;
+            B_PopoutBox.Click += B_PopoutBox_Click;
+            // 
+            // PopoutMenu
+            // 
+            PopoutMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { Menu_PopoutBoxSingle, Menu_PopoutBoxAll });
+            PopoutMenu.Name = "PopoutMenu";
+            PopoutMenu.Size = new System.Drawing.Size(181, 70);
+            // 
+            // Menu_PopoutBoxSingle
+            // 
+            Menu_PopoutBoxSingle.Image = Properties.Resources.open;
+            Menu_PopoutBoxSingle.Name = "Menu_PopoutBoxSingle";
+            Menu_PopoutBoxSingle.Size = new System.Drawing.Size(180, 22);
+            Menu_PopoutBoxSingle.Text = "Single Box";
+            Menu_PopoutBoxSingle.Click += Menu_PopoutBoxSingle_Click;
+            // 
+            // Menu_PopoutBoxAll
+            // 
+            Menu_PopoutBoxAll.Image = Properties.Resources.database;
+            Menu_PopoutBoxAll.Name = "Menu_PopoutBoxAll";
+            Menu_PopoutBoxAll.Size = new System.Drawing.Size(180, 22);
+            Menu_PopoutBoxAll.Text = "All Boxes";
+            Menu_PopoutBoxAll.Click += Menu_PopoutBoxAll_Click;
+            // 
+            // B_SearchBox
+            // 
+            B_SearchBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_SearchBox.Image = Properties.Resources.other;
+            B_SearchBox.Location = new System.Drawing.Point(414, 3);
+            B_SearchBox.Margin = new System.Windows.Forms.Padding(0);
+            B_SearchBox.Name = "B_SearchBox";
+            B_SearchBox.Size = new System.Drawing.Size(24, 24);
+            B_SearchBox.TabIndex = 2;
+            B_SearchBox.UseVisualStyleBackColor = true;
+            B_SearchBox.Click += B_SearchBox_Click;
             // 
             // Box
             // 
@@ -165,10 +220,10 @@ namespace PKHeX.WinForms.Controls
             Box.CurrentBox = -1;
             Box.Editor = null;
             Box.FlagIllegal = false;
-            Box.Location = new System.Drawing.Point(99, 7);
+            Box.Location = new System.Drawing.Point(107, 7);
             Box.M = null;
             Box.Name = "Box";
-            Box.Size = new System.Drawing.Size(251, 185);
+            Box.Size = new System.Drawing.Size(251, 187);
             Box.TabIndex = 1;
             // 
             // Tab_PartyBattle
@@ -599,6 +654,17 @@ namespace PKHeX.WinForms.Controls
             B_DLC.UseVisualStyleBackColor = true;
             B_DLC.Click += B_DLC_Click;
             // 
+            // B_Donuts
+            // 
+            B_Donuts.Location = new System.Drawing.Point(4, 164);
+            B_Donuts.Margin = new System.Windows.Forms.Padding(4);
+            B_Donuts.Name = "B_Donuts";
+            B_Donuts.Size = new System.Drawing.Size(96, 32);
+            B_Donuts.TabIndex = 11;
+            B_Donuts.Text = "Donuts";
+            B_Donuts.UseVisualStyleBackColor = true;
+            B_Donuts.Click += B_Donuts_Click;
+            // 
             // B_OpenPokeBeans
             // 
             B_OpenPokeBeans.Location = new System.Drawing.Point(108, 164);
@@ -870,7 +936,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenFashion.Name = "B_OpenFashion";
             B_OpenFashion.Size = new System.Drawing.Size(96, 32);
             B_OpenFashion.TabIndex = 10;
-            B_OpenFashion.Text = "‎Fashion";
+            B_OpenFashion.Text = "Fashion";
             B_OpenFashion.UseVisualStyleBackColor = true;
             B_OpenFashion.Click += B_OpenFashion_Click;
             // 
@@ -1040,17 +1106,6 @@ namespace PKHeX.WinForms.Controls
             TB_GameSync.TabIndex = 10;
             TB_GameSync.Validated += UpdateStringSeed;
             // 
-            // B_Donuts
-            // 
-            B_Donuts.Location = new System.Drawing.Point(4, 164);
-            B_Donuts.Margin = new System.Windows.Forms.Padding(4);
-            B_Donuts.Name = "B_Donuts";
-            B_Donuts.Size = new System.Drawing.Size(96, 32);
-            B_Donuts.TabIndex = 11;
-            B_Donuts.Text = "Donuts";
-            B_Donuts.UseVisualStyleBackColor = true;
-            B_Donuts.Click += B_Donuts_Click;
-            // 
             // SAVEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1060,6 +1115,7 @@ namespace PKHeX.WinForms.Controls
             tabBoxMulti.ResumeLayout(false);
             Tab_Box.ResumeLayout(false);
             Tab_Box.PerformLayout();
+            PopoutMenu.ResumeLayout(false);
             Tab_PartyBattle.ResumeLayout(false);
             Tab_PartyBattle.PerformLayout();
             Tab_Other.ResumeLayout(false);
@@ -1155,5 +1211,10 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_OpenGear;
         private System.Windows.Forms.Button B_OpenFashion;
         private System.Windows.Forms.Button B_Donuts;
+        private System.Windows.Forms.Button B_SearchBox;
+        private System.Windows.Forms.Button B_PopoutBox;
+        private System.Windows.Forms.ContextMenuStrip PopoutMenu;
+        private System.Windows.Forms.ToolStripMenuItem Menu_PopoutBoxSingle;
+        private System.Windows.Forms.ToolStripMenuItem Menu_PopoutBoxAll;
     }
 }

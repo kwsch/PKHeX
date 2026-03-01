@@ -16,15 +16,15 @@ public sealed class LegalInfo : IGeneration
     /// <summary>The matched Encounter details for the <see cref="Entity"/>. </summary>
     public IEncounterable EncounterMatch
     {
-        get => _match;
+        get;
         set
         {
-            if (!ReferenceEquals(_match, EncounterInvalid.Default) && (value.LevelMin != _match.LevelMin || value.Species != _match.Species))
+            if (!ReferenceEquals(field, EncounterInvalid.Default) && (value.LevelMin != field.LevelMin || value.Species != field.Species))
                 _evochains = null; // clear if evo chain has the potential to be different
-            _match = value;
+            field = value;
             Parse.Clear();
         }
-    }
+    } = EncounterInvalid.Default;
 
     /// <summary>
     /// Original encounter data for the <see cref="Entity"/>.
@@ -36,7 +36,6 @@ public sealed class LegalInfo : IGeneration
     public IEncounterable EncounterOriginal => EncounterOriginalGB ?? EncounterMatch;
 
     internal IEncounterable? EncounterOriginalGB;
-    private IEncounterable _match = EncounterInvalid.Default;
 
     /// <summary>Top level Legality Check result list for the <see cref="EncounterMatch"/>.</summary>
     internal readonly List<CheckResult> Parse;

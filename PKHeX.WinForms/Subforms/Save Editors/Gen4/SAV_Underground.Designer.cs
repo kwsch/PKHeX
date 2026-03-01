@@ -1,3 +1,5 @@
+using PKHeX.WinForms.Controls;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_Underground
@@ -48,18 +50,18 @@ namespace PKHeX.WinForms
             GB_UScores = new System.Windows.Forms.GroupBox();
             TC_UGItems = new System.Windows.Forms.TabControl();
             TB_UGGoods = new System.Windows.Forms.TabPage();
-            DGV_UGGoods = new System.Windows.Forms.DataGridView();
             Item_Goods = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            DGV_UGGoods = new DoubleBufferedDataGridView();
             TB_UGSpheres = new System.Windows.Forms.TabPage();
-            DGV_UGSpheres = new System.Windows.Forms.DataGridView();
             Item_Spheres = new System.Windows.Forms.DataGridViewComboBoxColumn();
             Size_Spheres = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DGV_UGSpheres = new DoubleBufferedDataGridView();
             TB_UGTraps = new System.Windows.Forms.TabPage();
-            DGV_UGTraps = new System.Windows.Forms.DataGridView();
             Item_Traps = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            DGV_UGTraps = new DoubleBufferedDataGridView();
             TB_UGTreasures = new System.Windows.Forms.TabPage();
-            DGV_UGTreasures = new System.Windows.Forms.DataGridView();
             Item_Treasures = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            DGV_UGTreasures = new DoubleBufferedDataGridView();
             NUD_MyFlagRecovered = new System.Windows.Forms.NumericUpDown();
             L_MyFlagRecovered = new System.Windows.Forms.Label();
             NUD_MyBaseMoved = new System.Windows.Forms.NumericUpDown();
@@ -689,11 +691,11 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.TabPage TB_UGSpheres;
         private System.Windows.Forms.TabPage TB_UGTraps;
         private System.Windows.Forms.TabPage TB_UGTreasures;
-        private System.Windows.Forms.DataGridView DGV_UGGoods;
-        private System.Windows.Forms.DataGridView DGV_UGTraps;
-        private System.Windows.Forms.DataGridView DGV_UGTreasures;
-        private System.Windows.Forms.DataGridView DGV_UGSpheres;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Goods;
+        private DoubleBufferedDataGridView DGV_UGGoods;
+        private DoubleBufferedDataGridView DGV_UGTraps;
+        private DoubleBufferedDataGridView DGV_UGTreasures;
+        private DoubleBufferedDataGridView DGV_UGSpheres;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Traps;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Treasures;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Spheres;

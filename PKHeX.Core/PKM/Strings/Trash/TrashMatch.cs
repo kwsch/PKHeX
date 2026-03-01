@@ -28,6 +28,9 @@ public enum TrashMatch
 
 public static class TrashMatchExtensions
 {
-    public static bool IsPresent(this TrashMatch match) => match >= TrashMatch.Present;
-    public static bool IsInvalid(this TrashMatch match) => match < TrashMatch.TooLongToTell;
+    extension(TrashMatch match)
+    {
+        public bool IsPresent => match >= TrashMatch.Present;
+        public bool IsInvalid => match < TrashMatch.TooLongToTell;
+    }
 }

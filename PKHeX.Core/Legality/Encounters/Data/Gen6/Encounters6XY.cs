@@ -14,7 +14,7 @@ internal static class Encounters6XY
     internal static readonly EncounterArea6XY[] SlotsY = EncounterArea6XY.GetAreas(Get("y", "xy"u8), Y, FriendSafari);
 
     private const string tradeXY = "tradexy";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeXY);
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeXY, 8);
 
     #region Static Encounter/Gift Tables
     internal static readonly EncounterStatic6[] Encounter_XY =

@@ -28,9 +28,9 @@ PKHeX는 콘솔 전용 키로 암호화되지 않은 세이브 파일을 요구�
 
 ## 빌드
 
-PKHeX는 [.NET 9.0](https://dotnet.microsoft.com/download/dotnet/9.0)이 필요한 Windows Forms 애플리케이션입니다.
+PKHeX는 [.NET 10.0](https://dotnet.microsoft.com/download/dotnet/10.0)이 필요한 Windows Forms 애플리케이션입니다.
 
-실행 파일은 C# 13을 지원하는 모든 컴파일러로 빌드할 수 있습니다.
+실행 파일은 C# 14을 지원하는 모든 컴파일러로 빌드할 수 있습니다.
 
 ### 빌드 구성
 

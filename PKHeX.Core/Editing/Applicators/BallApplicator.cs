@@ -75,7 +75,7 @@ public static class BallApplicator
         int ctr = 0;
         for (var b = BallMin; b <= BallMax; b++)
         {
-            if (BallVerifier.VerifyBall(enc, b, pk).IsValid())
+            if (BallVerifier.VerifyBall(enc, b, pk).IsValid)
                 result[ctr++] = b;
         }
         return ctr;

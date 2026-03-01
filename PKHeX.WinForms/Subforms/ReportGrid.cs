@@ -15,7 +15,9 @@ namespace PKHeX.WinForms;
 
 public partial class ReportGrid : Form
 {
-    public IPropertyProvider PropertyProvider { get; init; } = DefaultPropertyProvider.Instance;
+    public IPropertyProvider<PKM> PropertyProvider { get; init; } =
+        new BatchPropertyProvider<EntityBatchEditor, PKM>(EntityBatchEditor.Instance);
+
     private sealed class PokemonList<T> : SortableBindingList<T> where T : class;
 
     public ReportGrid()
@@ -109,8 +111,7 @@ public partial class ReportGrid : Form
             if (prop.Length == 0)
                 continue;
             var col = dgData.Columns[prop];
-            if (col is not null)
-                col.Visible = false;
+            col?.Visible = false;
         }
     }
 
@@ -216,7 +217,7 @@ public partial class ReportGrid : Form
     private static string[] ConvertTabbedToRedditTable(ReadOnlySpan<string> lines)
     {
         string[] newlines = new string[lines.Length + 1];
-        int tabcount = lines[0].AsSpan().Count('\t');
+        int tabcount = lines[0].Count('\t');
 
         newlines[0] = lines[0].Replace('\t', '|');
         newlines[1] = string.Join(":--:", Enumerable.Repeat('|', tabcount + 2)); // 2 pipes for each end

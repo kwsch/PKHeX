@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.Misc;
@@ -150,12 +149,12 @@ public partial class MoveShopEditor : Form
             if (isValid)
             {
                 var cell = row.Cells[ColumnPurchased];
-                cell.Style.BackColor = cell.Style.SelectionBackColor = Color.LightGreen;
+                cell.Style.BackColor = cell.Style.SelectionBackColor = WinFormsUtil.ColorValid;
             }
             else
             {
                 var cell = row.Cells[ColumnPurchased];
-                cell.Style.SelectionBackColor = Color.Red;
+                cell.Style.SelectionBackColor = WinFormsUtil.ColorWarn;
             }
             row.Cells[ColumnIndex].Value = $"{i + Bias:00}";
             row.Cells[ColumnType].Value = type.ToString("00") + (isValid ? 0 : 1) + names[move]; // type -> valid -> name sorting

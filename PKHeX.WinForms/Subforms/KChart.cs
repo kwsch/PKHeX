@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
@@ -62,12 +63,13 @@ public partial class KChart : Form
         var cells = row.Cells;
         int c = 0;
 
-        var bst = p.GetBaseStatTotal();
+        var bst = p.BST;
         cells[c++].Value = species.ToString(SpeciesNumberFormat) + (form > 0 ? $"-{form:00}" : string.Empty);
         cells[c++].Value = SpriteUtil.GetSprite(species, form, 0, 0, 0, false, Shiny.Never, SAV.Context);
         cells[c++].Value = name;
         cells[c++].Value = GetIsNative(p, species);
         cells[c].Style.BackColor = ColorUtil.ColorBaseStatTotal(bst);
+        cells[c].Style.ForeColor = Color.Black;
         cells[c++].Value = bst.ToString("000");
         cells[c++].Value = p.CatchRate.ToString("000");
         cells[c++].Value = TypeSpriteUtil.GetTypeSpriteWide(p.Type1, SAV.Generation);
@@ -90,6 +92,7 @@ public partial class KChart : Form
 
         static void Stat(DataGridViewCell cell, int value)
         {
+            cell.Style.ForeColor = Color.Black;
             cell.Style.BackColor = ColorUtil.ColorBaseStat(value);
             cell.Value = value.ToString("000");
         }

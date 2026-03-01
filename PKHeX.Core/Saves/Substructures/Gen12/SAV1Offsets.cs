@@ -1,6 +1,6 @@
 namespace PKHeX.Core;
 
-internal sealed class SAV1Offsets
+public sealed class SAV1Offsets
 {
     public static readonly SAV1Offsets INT = GetINT();
     public static readonly SAV1Offsets JPN = GetJPN();

@@ -3,6 +3,9 @@ using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Item storage for <see cref="EntityContext.Gen9a"/>
+/// </summary>
 public sealed class ItemStorage9ZA : IItemStorage
 {
     public static readonly ItemStorage9ZA Instance = new();
@@ -119,12 +122,6 @@ public sealed class ItemStorage9ZA : IItemStorage
     public static ReadOnlySpan<ushort> Unreleased =>
     [
         0016, // Cherish Ball
-
-        0664, // Blazikenite
-        0752, // Swampertite
-        0753, // Sceptilite
-
-        2640, // Garchompite Z
     ];
 
     public int GetMax(InventoryType type) => type switch
@@ -171,6 +168,8 @@ public sealed class ItemStorage9ZA : IItemStorage
     }
 
     public static bool IsMegaStone(ushort item) => MegaStones.Contains(item);
+    public static bool IsUniqueHeldItem(ushort item) => IsMegaStone(item) || item is (0534 or 0535); // Primal Orbs
+    public static ushort[] GetAllUniqueHeldItems() => [..MegaStones, 0534, 0535];
 
     /// <summary>
     /// Retrieves the expected Mega Stone or Primal Orb item ID for a given Pokémon species and form.

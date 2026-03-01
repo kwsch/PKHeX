@@ -40,7 +40,7 @@ internal static class Encounters3RSE
     ];
 
     private const string tradeRSE = "traderse";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeRSE);
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeRSE, 7);
 
     public static readonly EncounterStatic3[] StaticRSE =
     [

@@ -21,7 +21,7 @@ public sealed partial class DonutEditor9a : UserControl
 
     private bool Loading;
 
-    private static readonly DateTime Epoch = new(1900, 1, 1);
+    private static readonly DateTime Epoch = Donut9a.Epoch;
 
     public DonutEditor9a()
     {
@@ -126,7 +126,7 @@ public sealed partial class DonutEditor9a : UserControl
         var all = DonutInfo.Flavors;
         List<ComboText> result = [new(none, "")];
 
-        for (int i = 0; i < all.Length; i++)
+        for (int i = 0; i < all.Count; i++)
         {
             var flavor = all[i];
             var text = localized[i];
@@ -180,7 +180,7 @@ public sealed partial class DonutEditor9a : UserControl
             CAL_Date.Value = Epoch;
         }
 
-        TB_Milliseconds.Text = donut.MillisecondsSince1900.ToString();
+        TB_Milliseconds.Text = donut.MillisecondsSince1970.ToString();
 
         Loading = false;
         return;
@@ -231,7 +231,7 @@ public sealed partial class DonutEditor9a : UserControl
                 donut.ClearDateTime();
             }
         }
-        donut.MillisecondsSince1900 = ulong.TryParse(TB_Milliseconds.Text, out var unk) ? unk : 0;
+        donut.MillisecondsSince1970 = ulong.TryParse(TB_Milliseconds.Text, out var unk) ? unk : 0;
     }
 
     private static void LoadDonutFlavorHash(ComboBox cb, ulong flavorHash)
@@ -289,7 +289,7 @@ public sealed partial class DonutEditor9a : UserControl
     {
         if (sender is not ComboBox cb)
             return;
-        var index = Array.IndexOf(Flavor, cb);
+        var index = Flavor.IndexOf(cb);
         if (index < 0)
             return;
         var text = cb.SelectedIndex > 0 ? cb.SelectedValue?.ToString() : null;

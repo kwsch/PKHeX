@@ -46,7 +46,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     protected abstract byte[] Encrypt();
     public abstract EntityContext Context { get; }
-    public byte Format => Context.Generation();
+    public byte Format => Context.Generation;
     public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
 
     private Span<byte> Write()
@@ -509,15 +509,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         value[0] = Move1;
     }
 
-    public void SetMoves(Moveset value)
-    {
-        Move1 = value.Move1;
-        Move2 = value.Move2;
-        Move3 = value.Move3;
-        Move4 = value.Move4;
-        this.SetMaximumPPCurrent(value);
-    }
-
     public void SetMoves(ReadOnlySpan<ushort> value)
     {
         Move1 = value.Length > 0 ? value[0] : default;
@@ -531,14 +522,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     {
         get => [RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4];
         set => SetRelearnMoves(value);
-    }
-
-    public void SetRelearnMoves(Moveset value)
-    {
-        RelearnMove1 = value.Move1;
-        RelearnMove2 = value.Move2;
-        RelearnMove3 = value.Move3;
-        RelearnMove4 = value.Move4;
     }
 
     public void SetRelearnMoves(ReadOnlySpan<ushort> value)
@@ -727,7 +710,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
             LoadStats(stats, p, level);
 
         // Amplify stats based on the stat nature.
-        NatureAmp.ModifyStatsForNature(stats, StatNature);
+        StatNature.ModifyStatsForNature(stats);
     }
 
     private void LoadStats(Span<ushort> stats, IBaseStat p, IHyperTrain t, byte level)
@@ -1035,16 +1018,16 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         foreach (var property in shared)
         {
             // Setter sanity check: a derived type may not implement a setter if its parent type has one.
-            if (!BatchEditing.TryGetHasProperty(result, property, out var pi))
+            if (!EntityBatchEditor.Instance.TryGetHasProperty(result, property, out var pi))
                 continue;
             if (!pi.CanWrite)
                 continue;
 
             // Fetch the current value.
-            if (!BatchEditing.TryGetHasProperty(this, property, out var src))
+            if (!EntityBatchEditor.Instance.TryGetHasProperty(this, property, out var src))
                 continue;
             var prop = src.GetValue(this);
-            if (prop is byte[] or null)
+            if (prop is byte[] or Memory<byte> or null)
                 continue; // not a valid property transfer
             if (pi.PropertyType != src.PropertyType)
                 continue; // property type mismatch (not really a 1:1 shared property)

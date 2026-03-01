@@ -13,7 +13,7 @@ public abstract class InventoryPouch
     public readonly InventoryType Type;
 
     /// <summary> Valid item IDs that may be stored in the pouch. </summary>
-    public readonly IItemStorage Info;
+    protected readonly IItemStorage Info;
 
     /// <summary> Max quantity for a given item that can be stored in the pouch. </summary>
     public readonly int MaxCount;
@@ -24,7 +24,7 @@ public abstract class InventoryPouch
     /// <summary> Checks if the player may run out of bag space when there are too many unique items to fit into the pouch. </summary>
     public bool IsCramped => Info.GetItems(Type).Length > Items.Length;
 
-    public InventoryItem[] Items;
+    public abstract InventoryItem[] Items { get; }
 
     /// <summary> Offset the items were read from. </summary>
     protected readonly int Offset;
@@ -33,7 +33,6 @@ public abstract class InventoryPouch
 
     protected InventoryPouch(InventoryType type, IItemStorage storage, int maxCount, int offset, int size = -1)
     {
-        Items = [];
         Type = type;
         Info = storage;
         MaxCount = maxCount;
@@ -172,79 +171,72 @@ public abstract class InventoryPouch
             item.Count = value;
     }
 
-    public void ModifyAllCount(SaveFile sav, int count = -1)
+    /// <summary>
+    /// Changes all the item quantities of present items to the specified <see cref="count"/>, using pouch rules.
+    /// </summary>
+    public void ModifyAllCount(PlayerBag bag, int count = -1)
     {
-        if (count <= 0)
-            count = 1;
         foreach (var item in Items.Where(z => z.Index != 0))
-            item.Count = GetSuggestedItemCount(sav, item.Index, count);
+            item.Count = bag.Clamp(Type, item.Index, count);
     }
 
-    public void GiveAllItems(SaveFile sav, ReadOnlySpan<ushort> newItems, int count = -1)
+    public void GiveAllItems(PlayerBag bag, ReadOnlySpan<ushort> newItems, int count = -1)
     {
         foreach (var item in Items)
             item.Clear();
 
         foreach (var item in newItems)
         {
-            if (Info.IsLegal(Type, item, count))
-                GiveItem(sav, item, count);
+            if (bag.IsLegal(Type, item, count))
+                GiveItem(bag, item, count);
         }
     }
 
-    public void GiveAllItems(SaveFile sav, int count = -1)
+    public void GiveAllItems(PlayerBag bag, int count = -1)
     {
         var items = Info.GetItems(Type);
         foreach (var item in items)
-            GiveItem(sav, item, count);
+            GiveItem(bag, item, count);
 
         foreach (var item in Items)
         {
             if (item.Count != 0)
-                GetSuggestedItemCount(sav, item.Index, count);
+                bag.Clamp(Type, item.Index, count);
         }
     }
 
-    public int GiveItem(SaveFile sav, ushort itemID, int count = -1)
+    public int GiveItem(PlayerBag bag, ushort itemID, int count = -1)
     {
         if (count <= 0)
-            count = MaxCount;
+            count = bag.GetMaxCount(Type, itemID);
 
-        var existIndex = FindFirstMatchingSlot(itemID);
+        var existIndex = FindIndexFirstMatchingSlot(itemID);
         if (existIndex >= 0)
-            return AddCountTo(Items[existIndex], count, sav);
+            return AddCountTo(bag, Items[existIndex], count);
 
-        var emptyIndex = FindFirstEmptySlot();
+        var emptyIndex = FindIndexFirstEmptySlot();
         if (emptyIndex < 0)
             return -1;
 
         var newItem = Items[emptyIndex];
         newItem.Index = itemID;
         newItem.SetNewDetails(0);
-        return AddCountTo(newItem, count, sav);
+        return AddCountTo(bag, newItem, count);
     }
 
-    private int AddCountTo(InventoryItem exist, int count, SaveFile sav)
+    private int AddCountTo(PlayerBag bag, InventoryItem exist, int count)
     {
         var existCount = exist.Count;
         var newCount = existCount + count;
 
         // Sanitize the value
-        newCount = GetSuggestedItemCount(sav, exist.Index, newCount);
+        newCount = bag.Clamp(Type, exist.Index, newCount);
         return exist.Count = newCount;
     }
 
-    private int FindFirstEmptySlot()
-    {
-        for (int i = 0; i < Items.Length; i++)
-        {
-            if (Items[i].Index == 0)
-                return i;
-        }
-        return -1;
-    }
+    public int FindIndexFirstEmptySlot() => FindIndexFirstMatchingSlot(0);
 
-    private int FindFirstMatchingSlot(ushort itemID)
+    private int FindIndexFirstMatchingSlot(ushort itemID)
     {
         for (int i = 0; i < Items.Length; i++)
         {
@@ -254,78 +246,19 @@ public abstract class InventoryPouch
         return -1;
     }
 
-    public bool IsValidItemAndCount(ITrainerInfo sav, int item, bool HasNew, bool HaX, ref int count)
-    {
-        if (HaX && sav.Generation != 7) // Gen7 has true cap at 1023, keep 999 cap.
-        {
-            count = sav.Generation switch
-            {
-                // Cap at absolute maximum
-                <= 2 when count > byte.MaxValue => byte.MaxValue,
-                _ when count > ushort.MaxValue => ushort.MaxValue,
-                _ => count,
-            };
-            return true;
-        }
-
-        if (count > MaxCount)
-        {
-            if (item == 797 && count >= 2) // Edge case when for some reason the item count for Z-Ring was 2 in an unedited save and set 1 after using PKHeX
-                count = 2;
-            else
-                count = MaxCount; // Cap at pouch maximum
-        }
-        else if (count <= 0 && !HasNew)
-        {
-            return false;
-        }
-
-        if (count > 0 && item is not ColorfulScrew9a.ColorfulScrewItemIndex) // need to rewrite this later
-            count = GetSuggestedItemCount(sav, item, count);
-        return true;
-    }
-
-    private int GetSuggestedItemCount(ITrainerInfo sav, int item, int requestVal = 1)
-    {
-        if (sav is SAV7b) // mixed pouch count caps
-            return InventoryPouch7b.GetSuggestedCount(Type, item, requestVal);
-        if (sav is SAV8SWSH)
-            return InventoryPouch8.GetSuggestedCount(Type, item, requestVal);
-        if (sav is not SAV8BS && ItemConverter.IsItemHM((ushort)item, sav.Generation))
-            return 1;
-        if (sav is SAV9SV)
-            return InventoryPouch9.GetSuggestedCount(Type, item, requestVal);
-        if (sav is SAV9ZA za)
-        {
-            if (item is ColorfulScrew9a.ColorfulScrewItemIndex)
-                return (int)za.Items.GetItemQuantity(ColorfulScrew9a.ColorfulScrewItemIndex); // Don't modify screw count
-            if (item is 2612) // Cherished Ring (quest item, never possessed)
-                return 0;
-        }
-
-        return Math.Min(MaxCount, requestVal);
-    }
-
     public abstract InventoryItem GetEmpty(int itemID = 0, int count = 0);
 
-    public ReadOnlySpan<ushort> GetAllItems()
-    {
-        return Info.GetItems(Type);
-    }
-
-    public bool CanContain(ushort itemIndex)
-    {
-        return Info.GetItems(Type).Contains(itemIndex);
-    }
+    public ReadOnlySpan<ushort> GetAllItems() => Info.GetItems(Type);
+    public bool CanContain(ushort itemID) => Info.GetItems(Type).Contains(itemID);
+    public bool HasItem(ushort itemID) => Items.Any(it => it.Index == itemID && it.Count > 0);
 }
 
 public static class InventoryPouchExtensions
 {
-    public static IReadOnlyList<T> LoadAll<T>(this IReadOnlyList<T> value, ReadOnlySpan<byte> data) where T : InventoryPouch
+    public static void LoadAll<T>(this IReadOnlyList<T> value, ReadOnlySpan<byte> data) where T : InventoryPouch
     {
         foreach (var p in value)
             p.GetPouch(data);
-        return value;
     }
 
     public static void SaveAll(this IReadOnlyList<InventoryPouch> value, Span<byte> data)

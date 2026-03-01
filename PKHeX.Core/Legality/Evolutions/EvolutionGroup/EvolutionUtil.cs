@@ -214,7 +214,7 @@ internal static class EvolutionUtil
         for (int i = 0; i < chain.Length - 1; i++)
         {
             ref var evo = ref chain[i];
-            if (evo.Method.IsLevelUpRequired())
+            if (evo.Method.IsLevelUpRequired)
                 evo = evo with { LevelMin = (byte)(chain[i + 1].LevelMin + evo.LevelUpRequired) };
         }
     }

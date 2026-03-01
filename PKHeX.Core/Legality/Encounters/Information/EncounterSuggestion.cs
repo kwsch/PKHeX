@@ -21,7 +21,7 @@ public static class EncounterSuggestion
         var lvl = pk.CurrentLevel;
         var version = pk.Version;
         var generation = pk.Generation;
-        var origin = new EvolutionOrigin(pk.Species, version.GetContext(), generation, lvl, lvl, OriginOptions.SkipChecks);
+        var origin = new EvolutionOrigin(pk.Species, version.Context, generation, lvl, lvl, OriginOptions.SkipChecks);
 
         Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
         var count = EvolutionChain.GetOriginChain(chain, pk, origin);
@@ -33,8 +33,8 @@ public static class EncounterSuggestion
         var generator = EncounterGenerator.GetGenerator(version, generation);
         var pw = generator.GetPossible(pk, evos, version, EncounterTypeGroup.Slot);
         var ps = generator.GetPossible(pk, evos, version, EncounterTypeGroup.Static);
-        var w = EncounterSelection.GetMinByLevel<EvoCriteria, IEncounterable>(chain, pw);
-        var s = EncounterSelection.GetMinByLevel<EvoCriteria, IEncounterable>(chain, ps);
+        var w = EncounterSelection.GetMinByLevel(chain, pw);
+        var s = EncounterSelection.GetMinByLevel(chain, ps);
 
         if (w is null)
             return s is null ? null : GetSuggestedEncounter(pk, s, loc);
@@ -42,9 +42,9 @@ public static class EncounterSuggestion
             return GetSuggestedEncounter(pk, w, loc);
 
         // Prefer the wild slot; fall back to wild slot if none are exact match.
-        if (IsSpeciesFormMatch<EvoCriteria, IEncounterable>(chain, w))
+        if (IsSpeciesFormMatch(chain, w))
             return GetSuggestedEncounter(pk, w, loc);
-        if (IsSpeciesFormMatch<EvoCriteria, IEncounterable>(chain, s))
+        if (IsSpeciesFormMatch(chain, s))
             return GetSuggestedEncounter(pk, s, loc);
         return GetSuggestedEncounter(pk, w, loc);
     }
@@ -136,7 +136,7 @@ public static class EncounterSuggestion
 
         int most = 1;
         Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
-        var origin = new EvolutionOrigin(pk.Species, pk.Version.GetContext(), pk.Generation, startLevel, 100, OriginOptions.SkipChecks);
+        var origin = new EvolutionOrigin(pk.Species, pk.Version.Context, pk.Generation, startLevel, 100, OriginOptions.SkipChecks);
         while (true)
         {
             var count = EvolutionChain.GetOriginChain(chain, pk, origin);

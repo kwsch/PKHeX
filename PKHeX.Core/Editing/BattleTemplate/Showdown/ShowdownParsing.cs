@@ -74,7 +74,7 @@ public static class ShowdownParsing
         if (form == 0)
             return string.Empty;
 
-        var result = FormConverter.GetStringFromForm(form, strings, species, genderForms, context);
+        var result = FormConverter.GetStringFromForm(species, form, strings, genderForms, context);
         if (result.Length == 0)
             return string.Empty;
 

@@ -1,0 +1,34 @@
+0x4021	m	Pas Restants pour Repousse
+0x4023	*	Pokémon de Départ	00:Arcko,01:Poussifeu,02:Gobou
+0x4024	r	Aléa Île Mirage (Haut)
+0x4025	r	Aléa Île Mirage (Bas)
+0x4026	*	Base Secrète Actuelle
+
+0x402A	m	Compte de Pas pour le Bonheur
+0x402B	m	Compte de Pas pour le Poison
+0x402C	*	Réinitialisation de l'HTR	00:Désactivée,2336:Activée
+0x402D	*	Baie Enigma Disponible
+
+0x403E	r	Pokémon Sauvage à la Grotte Métamo	00:Nosferapti,01:Wattouat (Illégal),02:Pomdepik (Illégal),03:Malosse (Illégal),04:Teddiursa (Illégal),05:Capumain (Illégal),06:Caratroc (Illégal),07:Cerfrousse (Illégal),08:Queulorior (Illégal)
+
+0x4040	*	Jours Passés
+
+0x4043	m	Étage du Centre Commercial	04:RDC,05:1er,06:2ème,07:3ème,08:4ème,15:Toit
+0x4045	s	Prix de la Loterie ID
+0x4046	*	Pokédex National Activé	0:Non,770:Oui
+0x4047	+	Record de Taille de Grainipiot
+0x4048	*	Cendre Volcanique Récupérée	9999:Max
+0x4049	m	État du Professeur Seko
+0x404A	s	Compte de Pas sur Le Marina
+0x404B	*	Aléa Loterie ID (Haut)
+0x404C	*	Aléa Loterie ID (Bas)
+
+0x404F	+	Record de Taille de Nénupiot
+
+0068	s	Maison des Pièges	0:Sur le défi 1,1:Sur le défi 2,2:Sur le défi 3,3:Sur le défi 4,4:Sur le défi 5,5:Sur le défi 6,6:Sur le défi 7,7:Sur le défi 8,8:Tous les défis terminés
+0167	s	Parchemin de la Maison des Pièges	0:Normal (le Maître des Pièges est caché),1:Peut entrer,4:A lu la note laissée (le Maître des Pièges est parti),5:Vient de terminer un défi
+0094	s	Évènement de Rayquaza	0:Pas activé,1:Groudon et Kyogre à Atalanopolis,2:A vu la cinématique de Groudon et Kyogre,3:Marc au Pilier Céleste,4:Marc est parti du Pilier Céleste,5:Éveillé,6:Juan vaincu
+0202	s	Cinématique de Rayquaza	0:Pas encore éveillé,1:Apparu à Atalanopolis,3:Cinématique vue
+0203	s	Tour Mirage	0:Peut apparaître,2:S'est effondrée,3:Route 111 visitée après l'effondrement
+0211	s	Quête du Prof Seko	0:Pas encore maître,1:Va donner le Pokédex National à Bourg-en-Vol (maître),2:A reçu le Pokédex National,3:Peut choisir le Pokémon de Départ de Johto (si Pokédex d'Hoenn complété),5:Demande de choisir le Pokémon de Johto,6:A choisi le Pokémon de Johto
+0213	r	Fuyard de la Télé Choisi	0:Latias (Latios à l'Île du Sud),1:Latios (Latias à l'Île du Sud)

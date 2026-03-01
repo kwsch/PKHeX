@@ -33,9 +33,9 @@
 0665	g	Darumacho (en haut à gauche) Disparu du Désert Délassant
 0666	g	Darumacho (milieu à droite) Disparu du Désert Délassant
 0667	g	Darumacho (en haut à droite) Disparu du Désert Délassant
-0729	s	Zorua en Petit Garçon (1) a Disparu du RDC du Bâtiment GAME FREAK (événement Zorua)
-0730	s	La Fille a Disparu du RDC du Bâtiment GAME FREAK (événement Zorua)
-0731	s	Zorua (2) a Disparu du RDC du Bâtiment GAME FREAK (événement Zorua)
+0729	s	Zorua en Petit Garçon (1) a Disparu du RDC du Bâtiment GAME FREAK (évènement Zorua)
+0730	s	La Fille a Disparu du RDC du Bâtiment GAME FREAK (évènement Zorua)
+0731	s	Zorua (2) a Disparu du RDC du Bâtiment GAME FREAK (évènement Zorua)
 2754	s	Étoile d'Unys Embarquée à Volucité (Aujourd'hui)
 2762	s	Fossile reçu de l'Ouvrier du Mont Foré (Aujourd'hui)
 0683	a	Métro de Combat : Trophée Super Solo non Obtenu

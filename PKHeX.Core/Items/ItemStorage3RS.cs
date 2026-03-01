@@ -54,13 +54,13 @@ public sealed class ItemStorage3RS : IItemStorage
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
     ];
 
-    internal static ReadOnlySpan<ushort> Unreleased => [005]; // Safari Ball
+    internal static ReadOnlySpan<ushort> Unreleased => [005, 044]; // Safari Ball, Berry Juice
 
     public static ushort[] GetAllHeld() => [..General, ..Balls, ..Berry, ..MachineOnlyTM];
 
     private static readonly ushort[] PCItems = [..General, ..Key, .. Berry, ..Balls, ..Machine];
 
-    public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
+    public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => !Unreleased.Contains((ushort)itemIndex);
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {

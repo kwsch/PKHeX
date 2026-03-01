@@ -91,26 +91,29 @@ public enum OPower6Index : byte
 
 public static class OPowerTypeExtensions
 {
-    public static OPower6FieldType GetFieldType(this OPower6Index index) => index switch
+    extension(OPower6Index index)
     {
-        0 => OPower6FieldType.Count, // Invalid
-        <= OPower6Index.HatchingMAX    => OPower6FieldType.Hatching,
-        <= OPower6Index.BargainMAX     => OPower6FieldType.Bargain,
-        <= OPower6Index.PrizeMoneyMAX  => OPower6FieldType.PrizeMoney,
-        <= OPower6Index.ExperienceMAX  => OPower6FieldType.Experience,
-        <= OPower6Index.CaptureMAX     => OPower6FieldType.Capture,
-        <= OPower6Index.Encounter3     => OPower6FieldType.Encounter,
-        <= OPower6Index.Stealth3       => OPower6FieldType.Stealth,
-        <= OPower6Index.HPRestoring3   => OPower6FieldType.HPRestoring,
-        <= OPower6Index.PPRestoring3   => OPower6FieldType.PPRestoring,
-           OPower6Index.FullRecovery   => OPower6FieldType.Count, // Invalid
-        <= OPower6Index.BefriendingMAX => OPower6FieldType.Befriending,
-        _ => OPower6FieldType.Count, // Invalid
-    };
+        public OPower6FieldType GetFieldType() => index switch
+        {
+            0 => OPower6FieldType.Count, // Invalid
+            <= OPower6Index.HatchingMAX    => OPower6FieldType.Hatching,
+            <= OPower6Index.BargainMAX     => OPower6FieldType.Bargain,
+            <= OPower6Index.PrizeMoneyMAX  => OPower6FieldType.PrizeMoney,
+            <= OPower6Index.ExperienceMAX  => OPower6FieldType.Experience,
+            <= OPower6Index.CaptureMAX     => OPower6FieldType.Capture,
+            <= OPower6Index.Encounter3     => OPower6FieldType.Encounter,
+            <= OPower6Index.Stealth3       => OPower6FieldType.Stealth,
+            <= OPower6Index.HPRestoring3   => OPower6FieldType.HPRestoring,
+            <= OPower6Index.PPRestoring3   => OPower6FieldType.PPRestoring,
+            OPower6Index.FullRecovery   => OPower6FieldType.Count, // Invalid
+            <= OPower6Index.BefriendingMAX => OPower6FieldType.Befriending,
+            _ => OPower6FieldType.Count, // Invalid
+        };
 
-    public static OPower6BattleType GetBattleType(this OPower6Index index) => index switch
-    {
-        >= OPower6Index.Attack1 and <= OPower6Index.Accuracy3 => (OPower6BattleType)((index - OPower6Index.Attack1) / 3),
-        _ => OPower6BattleType.Count, // Invalid
-    };
+        public OPower6BattleType GetBattleType() => index switch
+        {
+            >= OPower6Index.Attack1 and <= OPower6Index.Accuracy3 => (OPower6BattleType)((index - OPower6Index.Attack1) / 3),
+            _ => OPower6BattleType.Count, // Invalid
+        };
+    }
 }

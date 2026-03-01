@@ -1,3 +1,5 @@
+using PKHeX.WinForms.Controls;
+
 namespace PKHeX.WinForms
 {
     partial class TechRecordEditor
@@ -32,12 +34,12 @@ namespace PKHeX.WinForms
             B_Cancel = new System.Windows.Forms.Button();
             B_None = new System.Windows.Forms.Button();
             B_All = new System.Windows.Forms.Button();
-            dgv = new System.Windows.Forms.DataGridView();
             HasFlag = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             Type = new System.Windows.Forms.DataGridViewImageColumn();
             TypeInt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             MoveName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            dgv = new DoubleBufferedDataGridView();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
@@ -182,8 +184,8 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_None;
         private System.Windows.Forms.Button B_All;
-        private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.DataGridViewCheckBoxColumn HasFlag;
+        private DoubleBufferedDataGridView dgv;
         private System.Windows.Forms.DataGridViewTextBoxColumn Index;
         private System.Windows.Forms.DataGridViewImageColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn TypeInt;

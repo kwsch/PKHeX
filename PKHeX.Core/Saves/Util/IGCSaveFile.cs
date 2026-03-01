@@ -16,18 +16,21 @@ public static class GCSaveExtensions
     private const string gci = ".gci";
     private const string raw = ".raw";
 
-    /// <summary>
-    /// Gets an export filter for a GameCube file.
-    /// </summary>
-    public static string GCFilter(this IGCSaveFile gc)
+    extension(IGCSaveFile gc)
     {
-        const string regular = $"GameCube Save File|*{gci}|All Files|*.*";
-        const string memcard = $"Memory Card Raw File|*{raw}|Memory Card Binary File|*.bin|";
-        return gc.MemoryCard is not null ? memcard + regular : regular;
-    }
+        /// <summary>
+        /// Gets an export filter for a GameCube file.
+        /// </summary>
+        public string GCFilter()
+        {
+            const string regular = $"GameCube Save File|*{gci}|All Files|*.*";
+            const string memcard = $"Memory Card Raw File|*{raw}|Memory Card Binary File|*.bin|";
+            return gc.MemoryCard is not null ? memcard + regular : regular;
+        }
 
-    /// <summary>
-    /// Gets the export extension for a GameCube file.
-    /// </summary>
-    public static string GCExtension(this IGCSaveFile gc) => gc.MemoryCard is not null ? raw : gci;
+        /// <summary>
+        /// Gets the export extension for a GameCube file.
+        /// </summary>
+        public string GCExtension() => gc.MemoryCard is not null ? raw : gci;
+    }
 }

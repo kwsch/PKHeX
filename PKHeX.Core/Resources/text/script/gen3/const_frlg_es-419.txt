@@ -7,6 +7,7 @@
 0x405B	s	Rival Derrotado (S.S. Anne)	0:No,1:Sí
 0x405C	s	Rival Derrotado (Silph S.A.)	0:No,1:Sí
 0x405D	s	Rival Derrotado (Torre Pokémon)	0:No,1:Sí
+0x4086	s	Rival Encontrado (Isla Quarta)	0:No,1:Sí
 0x4089	s	Rival Encontrado (Centro Pokémon de Isla Sexta)	0:No,1:Sí
 
 0x4024	r	Pokémon Salvaje en Cueva Cambiante	00:Zubat,01:Mareep (Ilegal),02:Pineco (Ilegal),03:Houndour (Ilegal),04:Teddiursa (Ilegal),05:Aipom (Ilegal),06:Shuckle (Ilegal),07:Stantler (Ilegal),08:Smeargle (Ilegal)

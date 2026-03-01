@@ -1,3 +1,5 @@
+using PKHeX.WinForms.Controls;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_Gear
@@ -32,7 +34,7 @@ namespace PKHeX.WinForms
             B_Cancel = new System.Windows.Forms.Button();
             B_UnlockAll = new System.Windows.Forms.Button();
             B_Clear = new System.Windows.Forms.Button();
-            DGV_Gear = new System.Windows.Forms.DataGridView();
+            DGV_Gear = new DoubleBufferedDataGridView();
             Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             CharacterStyle = new System.Windows.Forms.DataGridViewTextBoxColumn();
             Category = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -261,7 +263,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_UnlockAll;
         private System.Windows.Forms.Button B_Clear;
-        private System.Windows.Forms.DataGridView DGV_Gear;
+        private DoubleBufferedDataGridView DGV_Gear;
         private System.Windows.Forms.DataGridViewTextBoxColumn Index;
         private System.Windows.Forms.DataGridViewTextBoxColumn CharacterStyle;
         private System.Windows.Forms.DataGridViewTextBoxColumn Category;

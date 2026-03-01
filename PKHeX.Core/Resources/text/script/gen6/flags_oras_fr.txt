@@ -68,7 +68,7 @@
 0389	*	Super Multi Débloqué
 2722	s	Pokédex Obtenu
 2738	*	Entrées Navi-Dex Hors-Dex Débloquées
-0301	s	Primo-Groudon/Kyogre Vaincu (événement scénario)
+0301	s	Primo-Groudon/Kyogre Vaincu (évènement scénario)
 2720	s	Entré au Panthéon
 2729	s	Épisode Delta Complété
 0361	s	Conseil 4 Réaffronté
@@ -80,8 +80,8 @@
 0249	g	Terhal Reçu (Maison de Pierre Rochard à Algatia)
 0264	g	Camérupt Reçu (Atoll de Combat)
 0265	g	Sharpedo Reçu (Atoll de Combat)
-0298	s	Diancite Reçue (événement Diancie)
-0308	s	Vase Scellé Reçu (événement Hoopa)
+0298	s	Diancite Reçue (évènement Diancie)
+0308	s	Vase Scellé Reçu (évènement Hoopa)
 0310	g	Pokémon de Départ de Johto Reçu
 0349	g	Pokémon de Départ de Sinnoh Reçu
 0311	g	Pokémon de Départ d'Unys Reçu
@@ -257,7 +257,7 @@
 2898	f	A Visité Parc Safari
 2902	f	Peut Voler à Parc Safari
 2899	f	A Visité Île du Sud
-2903	f	A Découvert l'Île du Sud (événement scénario)
+2903	f	A Découvert l'Île du Sud (évènement scénario)
 2985	f	Île du Sud sur la Carte
 2900	f	A Visité Atoll de Combat
 3019	f	Peut Voler à Atoll de Combat

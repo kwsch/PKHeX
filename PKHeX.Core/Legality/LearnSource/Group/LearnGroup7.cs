@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.EntityContext;
 
 namespace PKHeX.Core;
 
@@ -8,15 +9,16 @@ namespace PKHeX.Core;
 public sealed class LearnGroup7 : ILearnGroup
 {
     public static readonly LearnGroup7 Instance = new();
+    private const EntityContext Context = Gen7;
     private const byte Generation = 7;
     public ushort MaxMoveID => Legal.MaxMoveID_7_USUM;
 
-    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation switch
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Context switch
     {
-        Generation => null,
-        1 => history.HasVisitedGen1 ? LearnGroup1.Instance : null,
-     <= 2 => history.HasVisitedGen2 ? LearnGroup2.Instance : null,
-        _ => history.HasVisitedGen6 ? LearnGroup6.Instance : null,
+        Gen1 => LearnGroup1.Instance,
+        Gen2 => LearnGroup2.Instance,
+        (Gen3 or Gen4 or Gen5 or Gen6) => LearnGroup6.Instance,
+        _ => null,
     };
 
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen7;
@@ -58,7 +60,7 @@ public sealed class LearnGroup7 : ILearnGroup
     private static CheckMode GetCheckMode(IEncounterTemplate enc, PKM pk)
     {
         // We can check if it has visited specific sources. We won't check the games it hasn't visited.
-        if (enc.Context != EntityContext.Gen7 || !pk.IsUntraded)
+        if (enc.Context != Gen7 || !pk.IsUntraded)
             return CheckMode.Both;
         if (pk.USUM)
             return CheckMode.USUM;
@@ -119,7 +121,7 @@ public sealed class LearnGroup7 : ILearnGroup
             var chk = uu.GetCanLearn(pk, uu_pi, evo, move, types, option);
             if (chk != default)
             {
-                result[i] = new(chk, (byte)stage, Generation);
+                result[i] = new(chk, (byte)stage, Context);
                 continue;
             }
 
@@ -127,7 +129,7 @@ public sealed class LearnGroup7 : ILearnGroup
                 continue;
             chk = sm.GetCanLearn(pk, uu_pi, evo, move, types & MoveSourceType.LevelUp, option);
             if (chk != default)
-                result[i] = new(chk, (byte)stage, Generation);
+                result[i] = new(chk, (byte)stage, Context);
         }
     }
 
@@ -145,13 +147,13 @@ public sealed class LearnGroup7 : ILearnGroup
             var move = current[i];
             var chk = game.GetCanLearn(pk, pi, evo, move, types, option);
             if (chk != default)
-                result[i] = new(chk, (byte)stage, Generation);
+                result[i] = new(chk, (byte)stage, Context);
         }
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlag(MoveSourceType.Encounter) && enc.Generation == Generation)
+        if (types.HasFlag(MoveSourceType.Encounter) && enc.Context == Context)
             FlagEncounterMoves(enc, result);
 
         var mode = GetCheckMode(enc, pk);
@@ -201,18 +203,8 @@ public sealed class LearnGroup7 : ILearnGroup
     private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
     {
         if (enc is IMoveset { Moves: { HasMoves: true } x })
-        {
-            result[x.Move4] = true;
-            result[x.Move3] = true;
-            result[x.Move2] = true;
-            result[x.Move1] = true;
-        }
+            x.FlagMoves(result);
         if (enc is IRelearn { Relearn: { HasMoves: true } r })
-        {
-            result[r.Move4] = true;
-            result[r.Move3] = true;
-            result[r.Move2] = true;
-            result[r.Move1] = true;
-        }
+            r.FlagMoves(result);
     }
 }

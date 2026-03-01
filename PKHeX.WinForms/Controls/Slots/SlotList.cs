@@ -27,6 +27,7 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
     public int SlotCount { get; private set; }
     public SaveFile SAV { get; set; } = null!;
     public bool FlagIllegal { get; set; }
+    private Func<PKM, bool>? _searchFilter;
 
     public SlotList()
     {
@@ -70,8 +71,41 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
         if (index < 0)
             return;
         var pb = slots[index];
-        var showLegality = m is not { HideLegality: true };
-        SlotUtil.UpdateSlot(pb, slot, pk, SAV, FlagIllegal && showLegality, type);
+        var hideLegality = m is { HideLegality: true };
+        var flags = GetFlags(pk, hideLegality);
+        SlotUtil.UpdateSlot(pb, slot, pk, SAV, flags, type);
+    }
+
+    public void ApplyNewFilter(Func<PKM, bool>? filter, bool reload = true)
+    {
+        if (filter == _searchFilter)
+            return;
+        _searchFilter = filter;
+        if (reload)
+            ResetSlots();
+    }
+
+    private void ResetSlots()
+    {
+        for (int i = 0; i < SlotOffsets.Count; i++)
+        {
+            var info = SlotOffsets[i];
+            var pb = slots[i];
+            var hideLegality = info is { HideLegality: true };
+            var flags = GetFlags(info.Read(SAV), hideLegality);
+            var type = SlotTouchType.None;
+            SlotUtil.UpdateSlot(pb, info, info.Read(SAV), SAV, flags, type);
+        }
+    }
+
+    private SlotVisibilityType GetFlags(PKM pk, bool ignoreLegality = false)
+    {
+        var result = SlotVisibilityType.None;
+        if (FlagIllegal && !ignoreLegality)
+            result |= SlotVisibilityType.CheckLegalityIndicate;
+        if (_searchFilter != null && !_searchFilter(pk))
+            result |= SlotVisibilityType.FilterMismatch;
+        return result;
     }
 
     public int GetViewIndex(ISlotInfo info) => SlotOffsets.FindIndex(info.Equals);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -67,6 +68,16 @@ public static class WinFormsTranslator
         var context = GetContext(baseLanguage);
         foreach (var c in controls)
             context.GetTranslatedText(c.Name, c.Text);
+    }
+
+    public static void TranslateControls(string formName, IEnumerable<ToolStripMenuItem> controls, string baseLanguage)
+    {
+        var context = GetContext(baseLanguage);
+        foreach (var c in controls)
+        {
+            if (c.Name is { } name)
+                context.GetTranslatedText($"{formName}.{name}", c.Text);
+        }
     }
 
     private static string GetSaneFormName(string formName)
@@ -151,6 +162,9 @@ public static class WinFormsTranslator
                             yield return obj;
                     }
 
+                    if (Application.IsDarkModeEnabled) // NET10
+                        ReformatDark(z);
+
                     if (z is ListControl or TextBoxBase or LinkLabel or NumericUpDown or ContainerControl)
                         break; // undesirable to modify, ignore
 
@@ -170,6 +184,56 @@ public static class WinFormsTranslator
         }
     }
 
+    public static void ReformatDark(Control z)
+    {
+        if (z is TabControl tc)
+        {
+            foreach (TabPage tab in tc.TabPages)
+                tab.UseVisualStyleBackColor = false;
+        }
+        else if (z is DataGridView dg)
+        {
+            dg.EnableHeadersVisualStyles = false;
+            dg.BorderStyle = BorderStyle.None;
+        }
+        else if (z is ComboBox cb)
+        {
+            cb.FlatStyle = FlatStyle.Popup;
+        }
+        else if (z is ListBox lb)
+        {
+            lb.BorderStyle = BorderStyle.None;
+        }
+        else if (z is RichTextBox rtb)
+        {
+            rtb.BorderStyle = BorderStyle.None;
+        }
+        else if (z is TextBoxBase tb)
+        {
+            tb.BorderStyle = BorderStyle.FixedSingle;
+        }
+        else if (z is NumericUpDown nud)
+        {
+            nud.BorderStyle = BorderStyle.FixedSingle;
+        }
+        else if (z is GroupBox gb)
+        {
+            gb.FlatStyle = FlatStyle.Popup;
+        }
+        else if (z is ButtonBase b)
+        {
+            b.FlatStyle = FlatStyle.Popup;
+            if (b is Button { Image: Bitmap bmp })
+                b.Image = WinFormsUtil.BlackToWhite(bmp);
+        }
+    }
+
+    public static void ReformatDark(PictureBox pb)
+    {
+        if (pb.Image is Bitmap bmp)
+            pb.Image = WinFormsUtil.BlackToWhite(bmp);
+    }
+
     private static IEnumerable<T> GetChildrenOfType<T>(this Control control) where T : class
     {
         foreach (var child in control.Controls.OfType<Control>())
@@ -178,7 +242,7 @@ public static class WinFormsTranslator
                 yield return childOfT;
 
             if (!child.HasChildren) continue;
-            foreach (var descendant in GetChildrenOfType<T>(child))
+            foreach (var descendant in child.GetChildrenOfType<T>())
                 yield return descendant;
         }
     }

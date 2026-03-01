@@ -156,26 +156,78 @@ public static class MoveListSuggest
         GetSuggestedMoves(pk, info.EvoChainsAllGens, types, info.EncounterOriginal, moves);
     }
 
-    /// <summary>
-    /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
-    /// </summary>
-    /// <remarks>Use <see cref="GetSuggestedRelearnMovesFromEncounter"/> instead of calling directly; this method just puts default values in without considering the final moveset.</remarks>
-    public static void GetSuggestedRelearn(this IEncounterTemplate enc, PKM pk, Span<ushort> moves)
+    extension(IEncounterTemplate enc)
     {
-        if (LearnVerifierRelearn.ShouldNotHaveRelearnMoves(enc, pk))
-            return;
+        /// <summary>
+        /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
+        /// </summary>
+        /// <remarks>Use <see cref="GetSuggestedRelearnMovesFromEncounter"/> instead of calling directly; this method just puts default values in without considering the final moveset.</remarks>
+        public void GetSuggestedRelearn(PKM pk, Span<ushort> moves)
+        {
+            if (LearnVerifierRelearn.ShouldNotHaveRelearnMoves(enc, pk))
+                return;
 
-        GetSuggestedRelearnInternal(enc, pk, moves);
+            enc.GetSuggestedRelearnInternal(pk, moves);
+        }
+
+        private void GetSuggestedRelearnInternal(PKM pk, Span<ushort> moves)
+        {
+            if (enc is IRelearn { Relearn: { HasMoves: true } r })
+                r.CopyTo(moves);
+            else if (enc is IEncounterEgg or EncounterInvalid { IsEgg: true })
+                GetSuggestedRelearnEgg(enc, pk, moves);
+        }
+
+        private void GetSuggestedRelearnEgg(ReadOnlySpan<MoveResult> parse, PKM pk, Span<ushort> moves)
+        {
+            enc.GetEggRelearnMoves(parse, pk, moves);
+            byte generation = enc.Generation;
+
+            // Gen2 does not have split breed, Gen5 and below do not store relearn moves in the data structure.
+            if (generation <= 5)
+                return;
+
+            // Split-breed species like Budew & Roselia may be legal for one, and not the other.
+            // If we're not a split-breed or are already legal, return.
+            if (!Breeding.IsSplitBreedNotBabySpecies(enc.Species, generation))
+                return;
+
+            var tmp = pk.Clone();
+            tmp.SetRelearnMoves(moves);
+            var la = new LegalityAnalysis(tmp);
+            var chk = la.Info.Moves;
+            if (MoveResult.AllValid(chk))
+                return;
+
+            // Try again with the other split-breed species if possible.
+            var generator = EncounterGenerator.GetGenerator(enc.Version, enc.Generation);
+
+            Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
+            var origin = new EvolutionOrigin(enc.Species, enc.Context, enc.Generation, 1, 100, OriginOptions.EncounterTemplate);
+            int count = EvolutionChain.GetOriginChain(chain, pk, origin);
+            var evos = chain[..count].ToArray();
+            var other = generator.GetPossible(pk, evos, enc.Version, EncounterTypeGroup.Egg);
+            foreach (var incense in other)
+            {
+                if (incense.Species == enc.Species)
+                    continue;
+                incense.GetEggRelearnMoves(parse, pk, moves);
+                break;
+            }
+        }
+
+        private void GetEggRelearnMoves(ReadOnlySpan<MoveResult> parse, PKM pk, Span<ushort> moves)
+        {
+            // Extract a list of the moves that should end up in the relearn move list.
+            LoadRelearnFlagged(moves, parse, pk);
+
+            Span<ushort> expected = stackalloc ushort[moves.Length];
+            _ = MoveBreed.GetExpectedMoves(moves, enc, expected);
+            expected.CopyTo(moves);
+        }
     }
 
     // Invalid encounters won't be recognized as an EncounterEgg; check if it *should* be a bred egg.
-    private static void GetSuggestedRelearnInternal(this IEncounterTemplate enc, PKM pk, Span<ushort> moves)
-    {
-        if (enc is IRelearn { Relearn: { HasMoves: true } r })
-            r.CopyTo(moves);
-        else if (enc is IEncounterEgg or EncounterInvalid { IsEgg: true })
-            GetSuggestedRelearnEgg(enc, pk, moves);
-    }
 
     private static void GetSuggestedRelearnEgg(IEncounterTemplate enc, PKM pk, Span<ushort> moves)
     {
@@ -198,58 +250,10 @@ public static class MoveListSuggest
         if (LearnVerifierRelearn.ShouldNotHaveRelearnMoves(enc, pk))
             return;
 
-        if (enc is IEncounterEgg or EncounterInvalid {IsEgg: true})
+        if (enc is IEncounterEgg or EncounterInvalid { IsEgg: true })
             enc.GetSuggestedRelearnEgg(info.Moves, pk, moves);
         else
             enc.GetSuggestedRelearnInternal(pk, moves);
-    }
-
-    private static void GetSuggestedRelearnEgg(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk, Span<ushort> moves)
-    {
-        enc.GetEggRelearnMoves(parse, pk, moves);
-        byte generation = enc.Generation;
-
-        // Gen2 does not have split breed, Gen5 and below do not store relearn moves in the data structure.
-        if (generation <= 5)
-            return;
-
-        // Split-breed species like Budew & Roselia may be legal for one, and not the other.
-        // If we're not a split-breed or are already legal, return.
-        if (!Breeding.IsSplitBreedNotBabySpecies(enc.Species, generation))
-            return;
-
-        var tmp = pk.Clone();
-        tmp.SetRelearnMoves(moves);
-        var la = new LegalityAnalysis(tmp);
-        var chk = la.Info.Moves;
-        if (MoveResult.AllValid(chk))
-            return;
-
-        // Try again with the other split-breed species if possible.
-        var generator = EncounterGenerator.GetGenerator(enc.Version, enc.Generation);
-
-        Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
-        var origin = new EvolutionOrigin(enc.Species, enc.Context, enc.Generation, 1, 100, OriginOptions.EncounterTemplate);
-        int count = EvolutionChain.GetOriginChain(chain, pk, origin);
-        var evos = chain[..count].ToArray();
-        var other = generator.GetPossible(pk, evos, enc.Version, EncounterTypeGroup.Egg);
-        foreach (var incense in other)
-        {
-            if (incense.Species == enc.Species)
-                continue;
-            incense.GetEggRelearnMoves(parse, pk, moves);
-            break;
-        }
-    }
-
-    private static void GetEggRelearnMoves(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk, Span<ushort> moves)
-    {
-        // Extract a list of the moves that should end up in the relearn move list.
-        LoadRelearnFlagged(moves, parse, pk);
-
-        Span<ushort> expected = stackalloc ushort[moves.Length];
-        _ = MoveBreed.GetExpectedMoves(moves, enc, expected);
-        expected.CopyTo(moves);
     }
 
     private static void LoadRelearnFlagged(Span<ushort> moves, ReadOnlySpan<MoveResult> parse, PKM pk)

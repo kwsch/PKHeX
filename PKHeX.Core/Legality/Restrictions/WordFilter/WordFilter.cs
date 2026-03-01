@@ -105,7 +105,7 @@ public static class WordFilter
         EntityContext.Gen7 => WordFilter3DS.IsFilteredGen7(message, out regMatch),
 
         // Future: Console word filters
-        _ => current.GetConsole() switch
+        _ => current.Console switch
         {
             GameConsole.NX => WordFilterNX.IsFiltered(message, out regMatch, original),
             _ => NoFilter(out regMatch),
@@ -128,9 +128,9 @@ public static class WordFilter
             return true;
         }
 
-        var generation = original.Generation();
-        if (generation > 7 || original is EntityContext.Gen7b)
+        if (original.IsEraHOME || original is EntityContext.Gen7b)
         {
+            // Already checked above -- done.
             type = WordFilterType.None;
             return false;
         }
@@ -141,7 +141,7 @@ public static class WordFilter
             return true;
         }
 
-        if (generation == 5 && WordFilter5.IsFiltered(message, out regMatch))
+        if (original == EntityContext.Gen5 && WordFilter5.IsFiltered(message, out regMatch))
         {
             type = WordFilterType.Gen5;
             return true;

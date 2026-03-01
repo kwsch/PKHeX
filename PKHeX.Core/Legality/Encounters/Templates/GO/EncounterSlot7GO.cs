@@ -87,7 +87,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
 
-        criteria.SetRandomIVsGO(pk, Type.GetMinIV());
+        criteria.SetRandomIVsGO(pk, Type.MinimumIV);
         pk.Nature = pk.StatNature = nature;
         pk.Gender = gender;
         pk.RefreshAbility(ability);
@@ -152,8 +152,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
-        var stamp = PogoDateRangeExtensions.GetTimeStamp(pk.MetYear + 2000, pk.MetMonth, pk.MetDay);
-        if (!this.IsWithinStartEnd(stamp))
+        if (!IsWithinDistributionWindow(pk))
             return EncounterMatchRating.DeferredErrors;
         if (!this.GetIVsValid(pk))
             return EncounterMatchRating.Deferred;

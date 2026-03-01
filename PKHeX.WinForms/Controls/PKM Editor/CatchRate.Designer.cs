@@ -28,25 +28,25 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            FLP_CatchRate = new System.Windows.Forms.FlowLayoutPanel();
             NUD_CatchRate = new System.Windows.Forms.NumericUpDown();
             B_Clear = new System.Windows.Forms.Button();
             B_Reset = new System.Windows.Forms.Button();
-            flowLayoutPanel1.SuspendLayout();
+            FLP_CatchRate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_CatchRate).BeginInit();
             SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // FLP_CatchRate
             // 
-            flowLayoutPanel1.Controls.Add(NUD_CatchRate);
-            flowLayoutPanel1.Controls.Add(B_Clear);
-            flowLayoutPanel1.Controls.Add(B_Reset);
-            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new System.Drawing.Size(184, 25);
-            flowLayoutPanel1.TabIndex = 1;
+            FLP_CatchRate.Controls.Add(NUD_CatchRate);
+            FLP_CatchRate.Controls.Add(B_Clear);
+            FLP_CatchRate.Controls.Add(B_Reset);
+            FLP_CatchRate.Dock = System.Windows.Forms.DockStyle.Fill;
+            FLP_CatchRate.Location = new System.Drawing.Point(0, 0);
+            FLP_CatchRate.Margin = new System.Windows.Forms.Padding(0);
+            FLP_CatchRate.Name = "FLP_CatchRate";
+            FLP_CatchRate.Size = new System.Drawing.Size(184, 25);
+            FLP_CatchRate.TabIndex = 1;
             // 
             // NUD_CatchRate
             // 
@@ -84,16 +84,16 @@ namespace PKHeX.WinForms.Controls
             // CatchRate
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(FLP_CatchRate);
             Name = "CatchRate";
             Size = new System.Drawing.Size(184, 25);
-            flowLayoutPanel1.ResumeLayout(false);
+            FLP_CatchRate.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NUD_CatchRate).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel FLP_CatchRate;
         private System.Windows.Forms.NumericUpDown NUD_CatchRate;
         private System.Windows.Forms.Button B_Clear;
         private System.Windows.Forms.Button B_Reset;

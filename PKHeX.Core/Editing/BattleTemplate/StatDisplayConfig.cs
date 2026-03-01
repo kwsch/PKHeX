@@ -176,95 +176,160 @@ public sealed class StatDisplayConfig
 
     private StatParseResult TryParseIsLeft(ReadOnlySpan<char> message, Span<int> result, char separator, ReadOnlySpan<char> valueGap)
     {
+        // Parse left-to-right by splitting on separator, then identifying which stat each segment contains.
+        // Format: "StatName Value / StatName Value / ..."
         var rec = new StatParseResult();
 
-        for (int i = 0; i < Names.Length; i++)
+        while (message.Length != 0)
         {
-            if (message.Length == 0)
-                break;
-
-            var statName = Names[i];
-            var index = message.IndexOf(statName, StringComparison.OrdinalIgnoreCase);
-            if (index == -1)
-                continue;
-
-            if (index != 0)
-                rec.MarkDirty(); // We have something before our stat name, so it isn't clean.
-
-            message = message[statName.Length..].TrimStart();
-            if (valueGap.Length > 0 && message.StartsWith(valueGap))
-                message = message[valueGap.Length..].TrimStart();
-
-            var value = message;
-
-            var indexSeparator = value.IndexOf(separator);
+            // Get the next segment
+            ReadOnlySpan<char> segment;
+            var indexSeparator = message.IndexOf(separator);
             if (indexSeparator != -1)
-                value = value[..indexSeparator].Trim();
+            {
+                segment = message[..indexSeparator].Trim();
+                message = message[(indexSeparator + 1)..].TrimStart();
+            }
             else
-                message = default; // everything remaining belongs in the value we are going to parse.
+            {
+                segment = message.Trim();
+                message = default;
+            }
+
+            if (segment.Length == 0)
+            {
+                rec.MarkDirty(); // empty segment
+                continue;
+            }
+
+            // Find which stat name this segment contains (should be at the start for IsLeft)
+            var statIndex = TryFindStatNameAtStart(segment, out var statNameLength);
+            if (statIndex == -1)
+            {
+                rec.MarkDirty(); // unrecognized stat
+                continue;
+            }
+
+            // Extract the value after the stat name
+            var value = segment[statNameLength..].TrimStart();
+            if (valueGap.Length > 0 && value.StartsWith(valueGap))
+                value = value[valueGap.Length..].TrimStart();
 
             if (value.Length != 0)
             {
-                var amped = TryPeekAmp(ref value, ref rec, i);
+                var amped = TryPeekAmp(ref value, ref rec, statIndex);
                 if (amped && value.Length == 0)
-                    rec.MarkParsed(index);
+                    rec.MarkParsed(statIndex);
                 else
-                    TryParse(result, ref rec, value, i);
+                    TryParse(result, ref rec, value, statIndex);
             }
-
-            if (indexSeparator != -1)
-                message = message[(indexSeparator+1)..].TrimStart();
-            else
-                break;
+            else if (rec.WasParsed(statIndex))
+            {
+                rec.MarkDirty(); // duplicate stat
+            }
         }
 
-        if (!message.IsWhiteSpace()) // shouldn't be anything left in the message to parse
-            rec.MarkDirty();
         rec.FinishParse(Names.Length);
         return rec;
     }
 
-    private StatParseResult TryParseRight(ReadOnlySpan<char> message, Span<int> result, char separator, ReadOnlySpan<char> valueGap)
+    /// <summary>
+    /// Tries to find a stat name at the start of the segment.
+    /// </summary>
+    /// <param name="segment">Segment to search</param>
+    /// <param name="length">Length of the matched stat name</param>
+    /// <returns>Stat index if found, -1 otherwise</returns>
+    private int TryFindStatNameAtStart(ReadOnlySpan<char> segment, out int length)
     {
-        var rec = new StatParseResult();
-
         for (int i = 0; i < Names.Length; i++)
         {
-            if (message.Length == 0)
-                break;
+            var name = Names[i];
+            if (segment.StartsWith(name, StringComparison.OrdinalIgnoreCase))
+            {
+                length = name.Length;
+                return i;
+            }
+        }
+        length = 0;
+        return -1;
+    }
 
-            var statName = Names[i];
-            var index = message.IndexOf(statName, StringComparison.OrdinalIgnoreCase);
-            if (index == -1)
-                continue;
+    /// <summary>
+    /// Tries to find a stat name at the end of the segment.
+    /// </summary>
+    /// <param name="segment">Segment to search</param>
+    /// <param name="length">Length of the matched stat name</param>
+    /// <returns>Stat index if found, -1 otherwise</returns>
+    private int TryFindStatNameAtEnd(ReadOnlySpan<char> segment, out int length)
+    {
+        for (int i = 0; i < Names.Length; i++)
+        {
+            var name = Names[i];
+            if (segment.EndsWith(name, StringComparison.OrdinalIgnoreCase))
+            {
+                length = name.Length;
+                return i;
+            }
+        }
+        length = 0;
+        return -1;
+    }
 
-            var value = message[..index].Trim();
-            var indexSeparator = value.LastIndexOf(separator);
+    private StatParseResult TryParseRight(ReadOnlySpan<char> message, Span<int> result, char separator, ReadOnlySpan<char> valueGap)
+    {
+        // Parse left-to-right by splitting on separator, then identifying which stat each segment contains.
+        // Format: "Value StatName / Value StatName / ..."
+        var rec = new StatParseResult();
+
+        while (message.Length != 0)
+        {
+            // Get the next segment
+            ReadOnlySpan<char> segment;
+            var indexSeparator = message.IndexOf(separator);
             if (indexSeparator != -1)
             {
-                rec.MarkDirty(); // We have something before our stat name, so it isn't clean.
-                value = value[(indexSeparator + 1)..].TrimStart();
+                segment = message[..indexSeparator].Trim();
+                message = message[(indexSeparator + 1)..].TrimStart();
+            }
+            else
+            {
+                segment = message.Trim();
+                message = default;
             }
 
+            if (segment.Length == 0)
+            {
+                rec.MarkDirty(); // empty segment
+                continue;
+            }
+
+            // Find which stat name this segment contains (should be at the end for Right/English style)
+            var statIndex = TryFindStatNameAtEnd(segment, out var statNameLength);
+            if (statIndex == -1)
+            {
+                rec.MarkDirty(); // unrecognized stat
+                continue;
+            }
+
+            // Extract the value before the stat name
+            var value = segment[..^statNameLength].TrimEnd();
             if (valueGap.Length > 0 && value.EndsWith(valueGap))
-                value = value[..^valueGap.Length];
+                value = value[..^valueGap.Length].TrimEnd();
 
             if (value.Length != 0)
             {
-                var amped = TryPeekAmp(ref value, ref rec, i);
+                var amped = TryPeekAmp(ref value, ref rec, statIndex);
                 if (amped && value.Length == 0)
-                    rec.MarkParsed(index);
+                    rec.MarkParsed(statIndex);
                 else
-                    TryParse(result, ref rec, value, i);
+                    TryParse(result, ref rec, value, statIndex);
             }
-
-            message = message[(index + statName.Length)..].TrimStart();
-            if (message.StartsWith(separator))
-                message = message[1..].TrimStart();
+            else if (rec.WasParsed(statIndex))
+            {
+                rec.MarkDirty(); // duplicate stat
+            }
         }
 
-        if (!message.IsWhiteSpace()) // shouldn't be anything left in the message to parse
-            rec.MarkDirty();
         rec.FinishParse(Names.Length);
         return rec;
     }

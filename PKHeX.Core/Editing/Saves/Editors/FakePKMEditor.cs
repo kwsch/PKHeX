@@ -13,4 +13,5 @@ public sealed class FakePKMEditor(PKM template) : IPKMView
 
     public PKM PreparePKM(bool click = true) => Data;
     public void PopulateFields(PKM pk, bool focus = true, bool skipConversionCheck = false) => Data = pk;
+    public void NotifyWasExported(PKM pk) { }
 }

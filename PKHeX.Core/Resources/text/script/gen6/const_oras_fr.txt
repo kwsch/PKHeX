@@ -1,0 +1,24 @@
+0048	*	Pokémon de Départ	0:Arcko,1:Poussifeu,2:Gobou
+0074	g	Pokémon de Johto	0:Pas encore choisi,28:Germignon,29:Héricendre,30:Kaiminus
+0075	g	Pokémon de Sinnoh	0:Pas encore choisi,31:Tortipouss,32:Ouisticram,33:Tiplouf
+0076	g	Pokémon d'Unys	0:Pas encore choisi,34:Vipélierre,35:Gruikui,36:Moustillon
+0247	g	Pokémon de Départs Régionaux	0:En attente de celui de Johto,3:En attente de celui d'Unys/Johto reçu,6:En attente de celui de Sinnoh/Unys reçu,9:Sinnoh reçu (tous reçus)
+0060	*	Cendre Volcanique Récupérée	60000:Max
+0073	s	Medhyèna statique de la Route 101	0:En attente,1:S'est approché,2:N'a pas réussi à s'approcher
+0118	s	Évènement de la Route 101	0:Début du jeu,1:Seko se fait attaquer (peut choisir le Pokémon),2:Demandé de choisir le Pokémon (ne peut pas partir),3:A sauvé Seko,4:Le rival va donner le Navi-Dex,5:Medhyèna statique apparu,6:Medhyèna statique affronté/disparu
+0215	+	Progression des Concours	0:N'a pas rencontré Atalante,1:A rencontré Atalante,2:Atalante dans la salle de concours Pokémon,3:Costume de concours en attente (salle verte),4:La réceptionniste des concours explique les règles,5:La réceptionniste des concours a expliqué les règles,6:Évènement 1 de la salle verte en attente,7:A gagné le 1er concours de rang Normal,8:Évènement 2 de la salle verte en attente,9:A gagné le 1er concours de rang Super,10:Évènement 3 de la salle verte en attente,11:A gagné le 1er concours de rang Hyper,12:Évènement 4 de la salle verte en attente,13:A gagné le 1er concours de rang Master,14:Évènement 5 de la salle verte en attente,15:A terminé 4 catégories en rang Master,16:Évènement 6 de la salle verte en attente,17:A terminé les 5 catégories en rang Master,18:Évènement 7 de la salle verte en attente,19:A vaincu Atalante,20:Évènement 8 de la salle verte en attente,21:A vaincu Marc et Atalante (tout terminé)
+0217	g	Statut du Pikachu Cosplayeur	0:Aucune participation en concours,1:Cadeau en attente,2:Reçu/Le costume peut être changé
+0218	s	Progression de la Cantine de Lavandia	0:Pas visitée,1:Sandwich du Hameau disponible,3:Magné-Beignet disponible,5:Nouilles Lavandia disponibles,7:Roi de la Cafét' vaincu
+0223	s	Évènement du Conservateur du Musée (Salle de Concours)	0:Pas activé,1:En attente,2:Activé
+0136	s	Évènement de la Route 118	0:Va rencontrer Pierre,1:Suite de la route bloquée,2:Peut pleinement visiter la route
+0167	s	Évènement Histoire de l'Île du Sud	0:Non visitée,1:Est arrivé à l'Île du Sud,2:A entendu le message,4:Complété
+0168	s	Lati@s de l'Histoire de l'Île du Sud	0:Pas encore reçu (combat contre Courtney/Matthieu en attente),1:Reçu
+0163	s	Évènement de la Route 120	0:Pierre est présent,1:Combat contre Kecleon en attente (pont),2:Kecleon vaincu,3:Peut pleinement visiter la route
+0196	s	Progression de la Maison des Pièges	0:Le Maître des Pièges se cache (défi 1),1:Défi 1 actif,2:Défi 1 terminé,3:Le Maître des Pièges se cache (défi 2),4:Défi 2 actif,5:Défi 2 terminé,6:Le Maître des Pièges se cache (défi 3),7:Défi 3 actif,8:Défi 3 terminé,9:Le Maître des Pièges se cache (défi 4),10:Défi 4 actif,11:Défi 4 terminé,12:Le Maître des Pièges se cache (défi 5),13:Défi 5 actif,14:Défi 5 terminé,15:Le Maître des Pièges se cache (défi 6),16:Défi 6 actif,17:Défi 6 terminé,18:Tous les défis terminés
+0197	s	Salle des Récompenses de la Maison des Pièges	0:CT12 en attente,1:CT12 reçue,2:Pierre Dure en attente,3:Pierre Dure reçue,4:CT92 en attente,5:CT92 reçue,6:Boule Fumée en attente,7:Boule Fumée reçue,8:Aimant en attente,9:Aimant reçu,10:Tente Rouge/Bleue en attente,11:Tente Rouge/Bleue reçue
+0198	s	Parchemin du Défi 1 de la Maison des Pièges	0:Pas mémorisé,1:Mémorisé
+0199	s	Parchemin du Défi 2 de la Maison des Pièges	0:Pas mémorisé,1:Mémorisé
+0200	s	Parchemin du Défi 3 de la Maison des Pièges	0:Pas mémorisé,1:Mémorisé
+0201	s	Parchemin du Défi 4 de la Maison des Pièges	0:Pas mémorisé,1:Mémorisé
+0202	s	Parchemin du Défi 5 de la Maison des Pièges	0:Pas mémorisé,1:Mémorisé
+0203	s	Parchemin du Défi 6 de la Maison des Pièges	0:Pas mémorisé,1:Mémorisé

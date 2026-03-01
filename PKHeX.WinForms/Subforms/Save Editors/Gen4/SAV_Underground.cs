@@ -139,7 +139,7 @@ public partial class SAV_Underground : Form
         for (int i = 0; i < DGV_UGGoods.Rows.Count; i++)
         {
             var str = DGV_UGGoods.Rows[i].Cells[0].Value!.ToString();
-            var itemindex = Array.IndexOf(ugGoods, str);
+            var itemindex = ugGoods.IndexOf(str);
 
             if (itemindex <= 0)
                 continue; // ignore empty slot
@@ -154,7 +154,7 @@ public partial class SAV_Underground : Form
         {
             var row = DGV_UGSpheres.Rows[i];
             var str = row.Cells[0].Value!.ToString();
-            var itemindex = Array.IndexOf(ugSpheres, str);
+            var itemindex = ugSpheres.IndexOf(str);
 
             bool success = int.TryParse(row.Cells[1].Value?.ToString(), out var itemcnt);
             if (!success || itemindex <= 0)
@@ -170,7 +170,7 @@ public partial class SAV_Underground : Form
         for (int i = 0; i < DGV_UGTraps.Rows.Count; i++)
         {
             var str = DGV_UGTraps.Rows[i].Cells[0].Value!.ToString();
-            var itemindex = Array.IndexOf(ugTraps, str);
+            var itemindex = ugTraps.IndexOf(str);
 
             if (itemindex <= 0)
                 continue; // ignore empty slot
@@ -184,7 +184,7 @@ public partial class SAV_Underground : Form
         for (int i = 0; i < DGV_UGTreasures.Rows.Count; i++)
         {
             var str = DGV_UGTreasures.Rows[i].Cells[0].Value!.ToString();
-            var itemindex = Array.IndexOf(ugTreasures, str);
+            var itemindex = ugTreasures.IndexOf(str);
 
             if (itemindex <= 0)
                 continue; // ignore empty slot

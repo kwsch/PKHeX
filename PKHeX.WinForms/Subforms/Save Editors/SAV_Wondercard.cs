@@ -65,6 +65,12 @@ public partial class SAV_Wondercard : Form
         DragEnter += Main_DragEnter;
         DragDrop += Main_DragDrop;
 
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(mnuVSD.Items);
+            WinFormsUtil.InvertToolStripIcons(mnuDel.Items);
+        }
+
         if (g is null)
             ClickView(pba[0], EventArgs.Empty);
         else
@@ -427,7 +433,7 @@ public partial class SAV_Wondercard : Form
             return;
         }
 
-        Image qr = QREncode.GenerateQRCode(mg);
+        var qr = QREncode.GenerateQRCode(mg);
 
         string desc = $"({mg.Type}) {string.Join(Environment.NewLine, mg.GetDescription())}";
 

@@ -330,7 +330,7 @@ public partial class MemoryAmie : Form
     {
         if (sender is not ComboBox cb)
             return;
-        int index = Array.IndexOf(PrevCountries, cb);
+        int index = PrevCountries.IndexOf(cb);
         int val = WinFormsUtil.GetIndex(cb);
         if (val > 0)
         {
@@ -366,7 +366,7 @@ public partial class MemoryAmie : Form
         if (sender is not Label l)
             return;
         Label[] labels = [L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4];
-        int index = Array.IndexOf(labels, l);
+        int index = labels.IndexOf(l);
         if (index < 0)
             return;
         PrevCountries[index].SelectedValue = 0;

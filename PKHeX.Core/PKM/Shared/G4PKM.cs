@@ -198,9 +198,9 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
     {
         get
         {
-            ushort hgssloc = EggLocationExtended;
-            if (hgssloc != 0)
-                return hgssloc;
+            ushort pthgss = EggLocationExtended;
+            if (pthgss != 0)
+                return pthgss;
             return EggLocationDP;
         }
         set
@@ -217,9 +217,9 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
             }
             else
             {
-                int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
+                var pthgss = PtHGSS ? value : default; // only set to PtHGSS loc if encountered in game
                 EggLocationDP = value;
-                EggLocationExtended = (ushort)pthgss;
+                EggLocationExtended = pthgss;
             }
         }
     }
@@ -247,11 +247,27 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
             }
             else
             {
-                int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
+                var shouldSet = ShouldSetMetLocationExtended();
+                var pthgss = shouldSet ? value : default; // only set to PtHGSS loc if encountered in game
                 MetLocationDP = value;
-                MetLocationExtended = (ushort)pthgss;
+                MetLocationExtended = pthgss;
             }
         }
+    }
+
+    private bool ShouldSetMetLocationExtended()
+    {
+        if (!Gen3)
+            return PtHGSS;
+
+        // If transferred from Gen3 into Pt or HG/SS via Pal Park, they set these values.
+        var hasValue = MetLocationExtended != 0 || BallHGSS != 0;
+        var wasDP = PossiblyPalParkDP;
+        if (wasDP && !hasValue)
+            return false; // Keep D/P.
+        if (PossiblyPalParkPt || PossiblyPalParkHGSS)
+            return hasValue || !wasDP;
+        return false; // Assume D/P.
     }
 
     public sealed override byte Ball
@@ -261,6 +277,7 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
         // However, this info is not set in event gift data!
         // Event gift data contains a pre-formatted PK4 template, which is slightly mutated.
         // No HG/SS ball values were used in these event gifts, and no HG/SS ball values are set (0).
+        // Pal Park transfers into HG/SS set this value as well.
 
         // To get the display ball (assume HG/SS +), return the higher of the two values.
         get => Math.Max(BallHGSS, BallDPPt);
@@ -272,12 +289,31 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
             BallDPPt = Clamp(value, Core.Ball.Cherish);
 
             // Only set the HG/SS value if it originated in HG/SS and was not an event.
-            if (!HGSS || FatefulEncounter)
-                BallHGSS = 0;
-            else
+            if (WasCreatedInHGSS)
                 BallHGSS = Clamp(value, Core.Ball.Sport);
+            else
+                BallHGSS = 0;
         }
     }
+
+    private bool WasCreatedInHGSS
+    {
+        get
+        {
+            if (HGSS)
+                return !FatefulEncounter || EggLocation != 0; // Ranger Manaphy was the only egg ever distributed.
+            return Gen3 && PossiblyPalParkHGSS;
+        }
+    }
+
+    // Must only be used for Gen3 origin Pokémon that could have been transferred via Pal Park.
+    public bool PossiblyPalParkDP => MetLocationExtended == 0 && IsTrashPalParkDP();
+    public bool PossiblyPalParkPt => MetLocationExtended != 0 && IsTrashPalParkPt();
+    public bool PossiblyPalParkHGSS => MetLocationExtended != 0 && IsTrashPalParkHGSS();
+
+    private bool IsTrashPalParkDP() => true; // todo
+    private bool IsTrashPalParkPt() => true; // todo
+    private bool IsTrashPalParkHGSS() => true; // todo
 
     // Synthetic Trading Logic
     public bool BelongsTo(ITrainerInfo tr)
@@ -309,12 +345,16 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
     }
 
     // Enforce D/P content only (no Pt or HG/SS)
-    protected void StripPtHGSSContent(PKM pk)
+    protected void StripPtHGSSContent<T>(T pk) where T : G4PKM
     {
         if (Form != 0 && !PersonalTable.DP[Species].HasForms && Species != 201)
             pk.Form = 0;
         if (HeldItem > Legal.MaxItemID_4_DP)
             pk.HeldItem = 0;
+
+        // pk.MetLocationExtended = 0;
+        // pk.EggLocationExtended = 0;
+        pk.BallHGSS = 0;
     }
 
     protected T ConvertTo<T>() where T : G4PKM, new()
@@ -380,12 +420,14 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
             FatefulEncounter = FatefulEncounter,
 
             MetLevel = MetLevel,
-            MetLocation = MetLocation,
+            MetLocationDP = MetLocationDP,
+            MetLocationExtended = MetLocationExtended,
             MetYear = MetYear,
             MetMonth = MetMonth,
             MetDay = MetDay,
 
-            EggLocation = EggLocation,
+            EggLocationDP = EggLocationDP,
+            EggLocationExtended = EggLocationExtended,
             EggYear = EggYear,
             EggMonth = EggMonth,
             EggDay = EggDay,

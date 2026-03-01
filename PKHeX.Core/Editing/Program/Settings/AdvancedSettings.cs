@@ -5,6 +5,12 @@ namespace PKHeX.Core;
 
 public sealed class AdvancedSettings
 {
+    [LocalizedDescription("Skip the Overwrite prompt when exporting a save file, to always Save As...")]
+    public bool SaveExportForceSaveAs { get; set; }
+
+    [LocalizedDescription("Check if the Pokémon in the editor has unsaved changes before exporting the save file.")]
+    public bool SaveExportCheckUnsavedEntity { get; set; } = true;
+
     [LocalizedDescription("Folder path that contains dump(s) of block hash-names. If a specific dump file does not exist, only names defined within the program's code will be loaded.")]
     public string PathBlockKeyList { get; set; } = string.Empty;
 

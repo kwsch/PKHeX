@@ -34,6 +34,11 @@ public partial class SAV_Encounters : Form
     public SAV_Encounters(PKMEditor f1, TrainerDatabase db)
     {
         InitializeComponent();
+
+        var settings = new TabPage { Text = "Settings", Name = "Tab_Settings" };
+        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EncounterDb });
+        TC_SearchOptions.Controls.Add(settings);
+
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         UC_Builder = new EntityInstructionBuilder(() => f1.PreparePKM())
         {
@@ -75,7 +80,7 @@ public partial class SAV_Encounters : Form
             };
             slot.Enter += (_, _) =>
             {
-                var index = Array.IndexOf(PKXBOXES, slot);
+                var index = PKXBOXES.IndexOf(slot);
                 if (index < 0)
                     return;
                 index += (SCR_Box.Value * RES_MIN);
@@ -95,12 +100,7 @@ public partial class SAV_Encounters : Form
         L_Viewed.MouseEnter += (_, _) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
         PopulateComboBoxes();
 
-        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         GetTypeFilters();
-
-        var settings = new TabPage { Text = "Settings" };
-        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EncounterDb });
-        TC_SearchOptions.Controls.Add(settings);
 
         // Initialize criteria PropertyGrid with default value
         UpdateCriteriaPropertyGrid(BuildCriteriaFromTabs());
@@ -109,8 +109,13 @@ public partial class SAV_Encounters : Form
         L_Count.Text = "Ready...";
 
         CenterToParent();
-        CB_Species.Select();
         CheckIsSearchDisallowed();
+
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(menuStrip1.Items);
+            WinFormsUtil.InvertToolStripIcons(mnu.Items);
+        }
     }
 
     private void UpdateCriteriaPropertyGrid(EncounterCriteria value)
@@ -203,7 +208,7 @@ public partial class SAV_Encounters : Form
     {
         if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
             ArgumentNullException.ThrowIfNull(pb);
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (index >= RES_MAX)
         {
             System.Media.SystemSounds.Exclamation.Play();
@@ -286,9 +291,6 @@ public partial class SAV_Encounters : Form
         DS_Version.Insert(0, Any);
         DS_Version.RemoveAt(DS_Version.Count - 1);
         CB_GameOrigin.DataSource = DS_Version;
-
-        // Trigger a Reset
-        ResetFilters(this, EventArgs.Empty);
     }
 
     private void ResetFilters(object sender, EventArgs e)
@@ -298,12 +300,18 @@ public partial class SAV_Encounters : Form
         CB_GameOrigin.SelectedIndex = 0;
 
         RTB_Instructions.Clear();
-        if (sender == this)
-            return; // still starting up
+        CHK_Shiny.CheckState = CHK_IsEgg.CheckState = CheckState.Indeterminate;
         foreach (var chk in TypeFilters.Controls.OfType<CheckBox>())
             chk.Checked = true;
 
         System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        foreach (var cb in TLP_Filters.Controls.OfType<ComboBox>())
+            cb.SelectedIndex = cb.SelectionLength = 0;
     }
 
     // View Updates
@@ -343,8 +351,8 @@ public partial class SAV_Encounters : Form
         if (batchText.Length != 0 && !StringInstructionSet.HasEmptyLine(batchText))
         {
             var filters = StringInstruction.GetFilters(batchText);
-            BatchEditing.ScreenStrings(filters);
-            results = results.Where(enc => BatchEditing.IsFilterMatch(filters, enc)); // Compare across all filters
+            EntityBatchEditor.ScreenStrings(filters);
+            results = results.Where(enc => BatchEditingUtil.IsFilterMatch(filters, enc)); // Compare across all filters
         }
 
         return results;
@@ -416,7 +424,7 @@ public partial class SAV_Encounters : Form
     {
         var settings = new SearchSettings
         {
-            Format = SAV.Generation, // 0->(n-1) => 1->n
+            Context = SAV.Context,
             Generation = SAV.Generation,
 
             Species = GetU16(CB_Species),
@@ -463,7 +471,7 @@ public partial class SAV_Encounters : Form
                 return;
             }
 
-            var results = await Task.Run(() => search.ToList(), token).ConfigureAwait(true);
+            var results = await Task.Run(search.ToList, token).ConfigureAwait(true);
             if (token.IsCancellationRequested)
             {
                 EncounterMovesetGenerator.ResetFilters();
@@ -556,7 +564,7 @@ public partial class SAV_Encounters : Form
 
     private void ShowHoverTextForSlot(PictureBox pb)
     {
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (!GetShiftedIndex(ref index))
             return;
 

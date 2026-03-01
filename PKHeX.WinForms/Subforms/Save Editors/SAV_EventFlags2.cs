@@ -22,6 +22,7 @@ public sealed partial class SAV_EventFlags2 : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
         var editor = Editor = new EventWorkspace<SAV2, byte>(sav, sav.Version);
+        AllowDrop = true;
         DragEnter += Main_DragEnter;
         DragDrop += Main_DragDrop;
 
@@ -74,7 +75,7 @@ public sealed partial class SAV_EventFlags2 : Form
         if (labels.Count == 0)
         {
             dgv.Visible = false;
-            var research = new Label { Text = MsgResearchRequired, Name = "TLP_Flags_Research", ForeColor = Color.Red, AutoSize = true, Location = new Point(20, 20) };
+            var research = new Label { Text = MsgResearchRequired, Name = "TLP_Flags_Research", ForeColor = WinFormsUtil.ColorWarn, AutoSize = true, Location = new Point(20, 20) };
             GB_Flags.Controls.Add(research);
             return;
         }
@@ -153,7 +154,7 @@ public sealed partial class SAV_EventFlags2 : Form
         var labels = list.Work;
         if (labels.Count == 0)
         {
-            TLP_Const.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Const_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
+            TLP_Const.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Const_Research", ForeColor = WinFormsUtil.ColorWarn, AutoSize = true }, 0, 0);
             return;
         }
 
@@ -264,7 +265,9 @@ public sealed partial class SAV_EventFlags2 : Form
         editing = false;
     }
 
-    private void ChangeSAV(object sender, EventArgs e)
+    private void ChangeSAV(object sender, EventArgs e) => ChangeSAV();
+
+    private void ChangeSAV()
     {
         if (TB_NewSAV.Text.Length != 0 && TB_OldSAV.Text.Length != 0)
             DiffSaves();
@@ -319,8 +322,17 @@ public sealed partial class SAV_EventFlags2 : Form
     {
         if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
             return;
-        var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, Name, "Yes: Old Save" + Environment.NewLine + "No: New Save");
-        var button = dr == DialogResult.Yes ? B_LoadOld : B_LoadNew;
-        LoadSAV(button, files[0]);
+
+        foreach (var file in files)
+        {
+            var result = this.SelectNewOld(file, B_LoadNew.Text, B_LoadOld.Text);
+            if (result == DualDiffSelection.New)
+                TB_NewSAV.Text = file;
+            else if (result == DualDiffSelection.Old)
+                TB_OldSAV.Text = file;
+            else if (ModifierKeys == Keys.Escape)
+                return;
+        }
+        ChangeSAV();
     }
 }

@@ -58,7 +58,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         if (currentSpecies == (int)Shedinja && currentSpecies != Species)
             return ball == Ball.Poke;
         if (ball == Ball.Master)
-            return Type.IsMasterBallUsable() && pk.MetDate >= new DateOnly(2023, 5, 21);
+            return Type.IsMasterBallUsable && pk.MetDate >= new DateOnly(2023, 5, 21);
         return Type.IsBallValid(ball);
     }
 
@@ -180,7 +180,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         if ((uint)ability < pi.AbilityCount)
             pk.Ability = pi.GetAbilityAtIndex(ability);
 
-        criteria.SetRandomIVsGO(pk, Type.GetMinIV());
+        criteria.SetRandomIVsGO(pk, Type.MinimumIV);
 
         switch (Shiny)
         {

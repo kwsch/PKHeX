@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -373,7 +372,7 @@ public partial class PKMEditor
         ToggleHandlerVisibility(handler.Length != 0);
 
         // Indicate who is currently in possession of the PKM
-        UpadteHandlingTrainerBackground(pk.CurrentHandler);
+        UpdateHandlingTrainerBackground(pk.CurrentHandler);
     }
 
     private void ToggleHandlerVisibility(bool hasValue)
@@ -381,17 +380,17 @@ public partial class PKMEditor
         L_CurrentHandler.Visible = CB_Handler.Visible = UC_HTGender.Visible = hasValue;
     }
 
-    private void UpadteHandlingTrainerBackground(int handler)
+    private void UpdateHandlingTrainerBackground(int handler)
     {
         if (handler == 0) // OT
         {
-            GB_OT.ForeColor = Color.Red;
+            GB_OT.ForeColor = WinFormsUtil.ColorWarn;
             GB_nOT.ResetForeColor();
             CB_Handler.SelectedIndex = 0;
         }
         else // Handling Trainer
         {
-            GB_nOT.ForeColor = Color.Red;
+            GB_nOT.ForeColor = WinFormsUtil.ColorWarn;
             GB_OT.ResetForeColor();
             CB_Handler.SelectedIndex = 1;
         }
@@ -419,7 +418,7 @@ public partial class PKMEditor
             return 2;
 
         var abils = (IPersonalAbility12)pi;
-        if (abils.GetIsAbility12Same())
+        if (abils.IsAbility12Same)
             return pk.PIDAbility;
         return abilityIndex;
     }

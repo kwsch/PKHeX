@@ -56,7 +56,7 @@ namespace PKHeX.WinForms
             FLP_Buttons.Location = new Point(0, 0);
             FLP_Buttons.Name = "FLP_Buttons";
             FLP_Buttons.Padding = new System.Windows.Forms.Padding(3);
-            FLP_Buttons.Size = new Size(601, 331);
+            FLP_Buttons.Size = new Size(616, 331);
             FLP_Buttons.TabIndex = 0;
             // 
             // TC_Tabs
@@ -106,7 +106,7 @@ namespace PKHeX.WinForms
             Tab_Backup.Controls.Add(dgDataBackup);
             Tab_Backup.Location = new Point(4, 26);
             Tab_Backup.Name = "Tab_Backup";
-            Tab_Backup.Size = new Size(601, 331);
+            Tab_Backup.Size = new Size(616, 331);
             Tab_Backup.TabIndex = 2;
             Tab_Backup.Text = "Backups";
             Tab_Backup.UseVisualStyleBackColor = true;
@@ -126,7 +126,7 @@ namespace PKHeX.WinForms
             dgDataBackup.Location = new Point(0, 0);
             dgDataBackup.Name = "dgDataBackup";
             dgDataBackup.RowHeadersVisible = false;
-            dgDataBackup.Size = new Size(601, 331);
+            dgDataBackup.Size = new Size(616, 331);
             dgDataBackup.TabIndex = 1;
             dgDataBackup.CellMouseDown += DataGridCellMouseDown;
             // 
@@ -135,7 +135,7 @@ namespace PKHeX.WinForms
             Tab_Folders.Controls.Add(FLP_Buttons);
             Tab_Folders.Location = new Point(4, 26);
             Tab_Folders.Name = "Tab_Folders";
-            Tab_Folders.Size = new Size(601, 331);
+            Tab_Folders.Size = new Size(616, 331);
             Tab_Folders.TabIndex = 0;
             Tab_Folders.Text = "Folders";
             Tab_Folders.UseVisualStyleBackColor = true;
@@ -166,12 +166,14 @@ namespace PKHeX.WinForms
             Controls.Add(CB_FilterColumn);
             Controls.Add(TC_Tabs);
             Icon = Properties.Resources.Icon;
+            KeyPreview = true;
             MaximizeBox = false;
             MinimizeBox = false;
             MinimumSize = new Size(640, 400);
             Name = "SAV_FolderList";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Folder List";
+            KeyDown += OnKeyDown;
             TC_Tabs.ResumeLayout(false);
             Tab_Recent.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgDataRecent).EndInit();

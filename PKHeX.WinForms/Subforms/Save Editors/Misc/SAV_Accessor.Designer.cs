@@ -101,11 +101,11 @@ namespace PKHeX.WinForms
             // 
             Raw.Controls.Add(propertyGrid1);
             Raw.Location = new System.Drawing.Point(4, 22);
-            Raw.Name = "Raw";
+            Raw.Name = "Tab_Raw";
             Raw.Padding = new System.Windows.Forms.Padding(3);
             Raw.Size = new System.Drawing.Size(326, 315);
             Raw.TabIndex = 1;
-            Raw.Text = "Tab_Raw";
+            Raw.Text = "Raw";
             Raw.UseVisualStyleBackColor = true;
             // 
             // propertyGrid1

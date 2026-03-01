@@ -234,7 +234,6 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
             GameVersion.SL or GameVersion.VL => SV,
             _ => throw new ArgumentOutOfRangeException(nameof(pk), pk, null),
         },
-        
     };
 }
 

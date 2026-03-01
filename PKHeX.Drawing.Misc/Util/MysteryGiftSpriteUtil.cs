@@ -24,9 +24,9 @@ public static class MysteryGiftSpriteUtil
 
         var img = GetBaseImage(gift);
         if (SpriteBuilder.ShowEncounterColor != SpriteBackgroundType.None)
-            img = SpriteUtil.ApplyEncounterColor(gift, img, SpriteBuilder.ShowEncounterColor);
+            SpriteUtil.ApplyEncounterColor(gift, img, SpriteBuilder.ShowEncounterColor);
         if (gift.GiftUsed)
-            img = ImageUtil.ChangeOpacity(img, 0.3);
+            img.ChangeOpacity(0.3);
         return img;
     }
 

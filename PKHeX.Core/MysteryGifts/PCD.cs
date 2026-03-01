@@ -45,9 +45,7 @@ public sealed class PCD(Memory<byte> raw)
         return clone.Data;
     }
 
-    public PGT Gift => _gift ??= new PGT(_raw[..PGT.Size]);
-
-    private PGT? _gift;
+    public PGT Gift => field ??= new PGT(_raw[..PGT.Size]);
 
     public GiftType4 GiftType => Gift.GiftType;
 

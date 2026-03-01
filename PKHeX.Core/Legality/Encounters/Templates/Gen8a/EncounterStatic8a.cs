@@ -133,9 +133,7 @@ public sealed record EncounterStatic8a
         var (learn, mastery) = GetLevelUpInfo();
         LoadInitialMoveset(pk, moves, learn, level);
         pk.SetMoves(moves);
-        pk.SetEncounterMasteryFlags(moves, mastery, level);
-        if (pk.AlphaMove != 0)
-            pk.SetMasteryFlagMove(pk.AlphaMove);
+        pk.SetEncounterMasteryFlags(moves, mastery, level, pk.AlphaMove);
     }
 
     public (Learnset Learn, Learnset Mastery) GetLevelUpInfo() => LearnSource8LA.GetLearnsetAndMastery(Species, Form);
@@ -178,6 +176,8 @@ public sealed record EncounterStatic8a
     }
     #endregion
 
+    public bool IsAlpha127 => IsAlpha && HeightScalar == 127 && WeightScalar == 127;
+
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
@@ -200,7 +200,8 @@ public sealed record EncounterStatic8a
             return true;
 
         // 3 of the Alpha statics were mistakenly set as 127 scale. If they enter HOME on 3.0.1, they'll get bumped to 255.
-        if (IsAlpha && this is { HeightScalar: 127, WeightScalar: 127 }) // Average Size Alphas
+        // Defer scale match to downstream checks; we are sufficiently confident this is the best-match.
+        if (IsAlpha127) // Average Size Alphas
         {
             // HOME >=3.0.1 ensures 255 scales for the 127's
             // PLA and S/V could have safe-harbored them via <=3.0.0

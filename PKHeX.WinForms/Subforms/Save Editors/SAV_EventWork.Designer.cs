@@ -265,7 +265,7 @@ namespace PKHeX.WinForms
             // L_EventFlagWarn
             // 
             L_EventFlagWarn.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            L_EventFlagWarn.ForeColor = System.Drawing.Color.Red;
+            L_EventFlagWarn.ForeColor = WinFormsUtil.ColorWarn;
             L_EventFlagWarn.Location = new System.Drawing.Point(10, 374);
             L_EventFlagWarn.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_EventFlagWarn.Name = "L_EventFlagWarn";

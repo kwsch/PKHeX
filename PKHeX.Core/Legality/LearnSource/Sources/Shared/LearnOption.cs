@@ -32,7 +32,10 @@ public enum LearnOption
 
 public static class LearnOptionExtensions
 {
-    public static bool IsCurrent(this LearnOption option) => option == LearnOption.Current;
-    public static bool IsPast(this LearnOption option) => option is LearnOption.AtAnyTime or LearnOption.HOME;
-    public static bool IsFlagCheckRequired(this LearnOption option) => option != LearnOption.HOME;
+    extension(LearnOption option)
+    {
+        public bool IsCurrent() => option == LearnOption.Current;
+        public bool IsPast() => option is LearnOption.AtAnyTime or LearnOption.HOME;
+        public bool IsFlagCheckRequired() => option != LearnOption.HOME;
+    }
 }

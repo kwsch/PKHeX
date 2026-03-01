@@ -187,7 +187,7 @@ public static class Encounter9RNG
         // Ability can be changed by Capsule/Patch.
         // Defer this check to later.
         // ReSharper disable once UnusedVariable
-        int ability = enc.Ability switch
+        _ = enc.Ability switch
         {
             AbilityPermission.Any12H => 1 << (int)rand.NextInt(3),
             AbilityPermission.Any12 => 1 << (int)rand.NextInt(2),

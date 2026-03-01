@@ -109,12 +109,11 @@ public static class SwishCrypto
         return ReadBlocks(payload);
     }
 
-    private const int BlockDataRatioEstimate1 = 777; // bytes per block, on average (generous)
-    private const int BlockDataRatioEstimate2 = 555; // bytes per block, on average (stingy)
+    private const int BlockDataRatioEstimateDeserialize = 555; // bytes per block, on average (stingy)
 
     private static List<SCBlock> ReadBlocks(ReadOnlySpan<byte> data)
     {
-        var result = new List<SCBlock>(data.Length / BlockDataRatioEstimate2);
+        var result = new List<SCBlock>(data.Length / BlockDataRatioEstimateDeserialize);
         int offset = 0;
         while (offset < data.Length)
         {
@@ -146,15 +145,20 @@ public static class SwishCrypto
     /// <returns>Raw save data without the final xorpad layer.</returns>
     public static byte[] GetDecryptedRawData(IReadOnlyList<SCBlock> blocks)
     {
-        using var ms = new MemoryStream(blocks.Count * BlockDataRatioEstimate1);
+        var length = SIZE_HASH;
+        foreach (var block in blocks)
+            length += block.GetSerializedLength();
+
+        var result = new byte[length];
+        GetDecryptedRawData(blocks, result);
+        return result;
+    }
+
+    private static void GetDecryptedRawData(IReadOnlyList<SCBlock> blocks, byte[] result)
+    {
+        using var ms = new MemoryStream(result);
         using var bw = new BinaryWriter(ms);
         foreach (var block in blocks)
             block.WriteBlock(bw);
-
-        var result = new byte[ms.Position + SIZE_HASH];
-        var payload = result.AsSpan()[..^SIZE_HASH];
-        ms.Position = 0;
-        ms.ReadExactly(payload);
-        return result;
     }
 }

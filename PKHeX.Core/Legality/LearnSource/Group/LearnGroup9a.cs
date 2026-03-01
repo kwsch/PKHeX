@@ -30,7 +30,7 @@ public sealed class LearnGroup9a : ILearnGroup
 
         var home = LearnGroupHOME.Instance;
         if (option != LearnOption.HOME && home.HasVisited(pk, history))
-            return home.Check(result, current, pk, history, enc, types);
+            return home.Check(result, current, pk, history, enc, types, option);
         return false;
     }
 
@@ -66,7 +66,7 @@ public sealed class LearnGroup9a : ILearnGroup
             var move = current[i];
             var chk = game.GetCanLearn(pk, pi, evo, move, type, option);
             if (chk != default)
-                result[i] = new(chk, (byte)stage, Generation);
+                result[i] = new(chk, (byte)stage, Context);
         }
     }
 
@@ -110,17 +110,13 @@ public sealed class LearnGroup9a : ILearnGroup
     {
         if (enc is IMoveset { Moves: { HasMoves: true } x })
         {
-            result[x.Move4] = true;
-            result[x.Move3] = true;
-            result[x.Move2] = true;
-            result[x.Move1] = true;
+            foreach (var move in x.AsSpan())
+                result[move] = true;
         }
         if (enc is IRelearn { Relearn: { HasMoves: true } r })
         {
-            result[r.Move4] = true;
-            result[r.Move3] = true;
-            result[r.Move2] = true;
-            result[r.Move1] = true;
+            foreach (var move in r.AsSpan())
+                result[move] = true;
         }
     }
 }

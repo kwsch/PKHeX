@@ -56,7 +56,7 @@ public sealed class AbilityVerifier : Verifier
             {
                 // To determine AbilityNumber [PK5->PK6], check if the first ability in Personal matches the ability.
                 // It is not possible to flip it to the other index as capsule requires unique abilities.
-                if (abilities.GetIsAbility12Same() && bitNum != 1)
+                if (abilities.IsAbility12Same && bitNum != 1)
                 {
                     // Check if any pre-evolution could have it flipped.
                     var evos = data.Info.EvoChainsAllGens;
@@ -125,7 +125,7 @@ public sealed class AbilityVerifier : Verifier
         var pk = data.Entity;
         byte format = pk.Format;
         var state = AbilityState.MustMatch;
-        if (format is (3 or 4 or 5) && !abilities.GetIsAbility12Same()) // 3-4/5 and have 2 distinct abilities now
+        if (format is (3 or 4 or 5) && !abilities.IsAbility12Same) // 3-4/5 and have 2 distinct abilities now
             state = VerifyAbilityPreCapsule(data, abilities);
 
         var encounterAbility = enc.Ability;
@@ -392,7 +392,7 @@ public sealed class AbilityVerifier : Verifier
             var abit = g3.AbilityBit;
             // We've sanitized our personal data to replace "None" abilities with the first ability.
             // Granbull, Vibrava, and Flygon have dual abilities being the same.
-            if (abilities.GetIsAbility12Same() && g3.Species is not ((int)Species.Granbull or (int)Species.Vibrava or (int)Species.Flygon)) // Not a dual ability
+            if (abilities.IsAbility12Same && g3.Species is not ((int)Species.Granbull or (int)Species.Vibrava or (int)Species.Flygon)) // Not a dual ability
             {
                 // Must not have the Ability bit flag set.
                 // Shadow encounters set a random ability index; don't bother checking if it's a re-battle for ability bit flipping.
@@ -445,7 +445,7 @@ public sealed class AbilityVerifier : Verifier
     {
         if (format < 6) // Ability Capsule does not exist
             return false;
-        return !abilities.GetIsAbility12Same(); // Cannot alter ability index if it is the same as the other ability.
+        return !abilities.IsAbility12Same; // Cannot alter ability index if it is the same as the other ability.
     }
 
     public static bool CanAbilityPatch(byte format, IPersonalAbility12H abilities, ushort species)
@@ -454,7 +454,7 @@ public sealed class AbilityVerifier : Verifier
             return false;
 
         // Can alter ability index if it is different from the other abilities.
-        if (abilities.GetIsAbilityPatchPossible())
+        if (abilities.IsAbilityPatchPossible)
             return true;
 
         // Some species have a distinct hidden ability only on another form, and can change between that form and its current form.

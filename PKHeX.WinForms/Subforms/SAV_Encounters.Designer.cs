@@ -103,7 +103,7 @@ namespace PKHeX.WinForms
             menuStrip1.Location = new System.Drawing.Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            menuStrip1.Size = new System.Drawing.Size(670, 25);
+            menuStrip1.Size = new System.Drawing.Size(692, 25);
             menuStrip1.TabIndex = 65;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -149,10 +149,10 @@ namespace PKHeX.WinForms
             // B_Search
             // 
             B_Search.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Search.Location = new System.Drawing.Point(355, 408);
+            B_Search.Location = new System.Drawing.Point(355, 411);
             B_Search.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Search.Name = "B_Search";
-            B_Search.Size = new System.Drawing.Size(308, 35);
+            B_Search.Size = new System.Drawing.Size(330, 32);
             B_Search.TabIndex = 102;
             B_Search.Text = "Search!";
             B_Search.UseVisualStyleBackColor = true;
@@ -161,7 +161,9 @@ namespace PKHeX.WinForms
             // B_Reset
             // 
             B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            B_Reset.Location = new System.Drawing.Point(212, 0);
+            B_Reset.AutoSize = true;
+            B_Reset.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            B_Reset.Location = new System.Drawing.Point(604, 0);
             B_Reset.Margin = new System.Windows.Forms.Padding(0);
             B_Reset.Name = "B_Reset";
             B_Reset.Size = new System.Drawing.Size(88, 27);
@@ -195,10 +197,10 @@ namespace PKHeX.WinForms
             // RTB_Instructions
             // 
             RTB_Instructions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            RTB_Instructions.Location = new System.Drawing.Point(0, 48);
+            RTB_Instructions.Location = new System.Drawing.Point(0, 55);
             RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
             RTB_Instructions.Name = "RTB_Instructions";
-            RTB_Instructions.Size = new System.Drawing.Size(300, 318);
+            RTB_Instructions.Size = new System.Drawing.Size(322, 318);
             RTB_Instructions.TabIndex = 119;
             RTB_Instructions.Text = "";
             // 
@@ -222,20 +224,22 @@ namespace PKHeX.WinForms
             TC_SearchOptions.Controls.Add(Tab_General);
             TC_SearchOptions.Controls.Add(Tab_Advanced);
             TC_SearchOptions.Controls.Add(Tab_Criteria);
-            TC_SearchOptions.Location = new System.Drawing.Point(355, 9);
+            TC_SearchOptions.ItemSize = new System.Drawing.Size(57, 32);
+            TC_SearchOptions.Location = new System.Drawing.Point(355, 0);
             TC_SearchOptions.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TC_SearchOptions.Name = "TC_SearchOptions";
+            TC_SearchOptions.Padding = new System.Drawing.Point(0, 0);
             TC_SearchOptions.SelectedIndex = 0;
-            TC_SearchOptions.Size = new System.Drawing.Size(308, 392);
+            TC_SearchOptions.Size = new System.Drawing.Size(330, 412);
             TC_SearchOptions.TabIndex = 120;
             // 
             // Tab_General
             // 
             Tab_General.Controls.Add(TLP_Filters);
-            Tab_General.Location = new System.Drawing.Point(4, 26);
+            Tab_General.Location = new System.Drawing.Point(4, 36);
             Tab_General.Margin = new System.Windows.Forms.Padding(0);
             Tab_General.Name = "Tab_General";
-            Tab_General.Size = new System.Drawing.Size(300, 362);
+            Tab_General.Size = new System.Drawing.Size(322, 372);
             Tab_General.TabIndex = 0;
             Tab_General.Text = "General";
             Tab_General.UseVisualStyleBackColor = true;
@@ -246,10 +250,9 @@ namespace PKHeX.WinForms
             TLP_Filters.AutoScrollMargin = new System.Drawing.Size(3, 3);
             TLP_Filters.AutoSize = true;
             TLP_Filters.ColumnCount = 2;
-            TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 96F));
             TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             TLP_Filters.Controls.Add(Label_Species, 0, 2);
-            TLP_Filters.Controls.Add(B_Reset, 1, 0);
             TLP_Filters.Controls.Add(CB_Species, 1, 2);
             TLP_Filters.Controls.Add(FLP_Level, 1, 6);
             TLP_Filters.Controls.Add(L_Move1, 0, 10);
@@ -290,14 +293,14 @@ namespace PKHeX.WinForms
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            TLP_Filters.Size = new System.Drawing.Size(300, 362);
+            TLP_Filters.Size = new System.Drawing.Size(322, 372);
             TLP_Filters.TabIndex = 120;
             // 
             // Label_Species
             // 
             Label_Species.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_Species.AutoSize = true;
-            Label_Species.Location = new System.Drawing.Point(21, 52);
+            Label_Species.Location = new System.Drawing.Point(37, 30);
             Label_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Label_Species.Name = "Label_Species";
             Label_Species.Size = new System.Drawing.Size(55, 17);
@@ -311,8 +314,8 @@ namespace PKHeX.WinForms
             CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Species.FormattingEnabled = true;
-            CB_Species.Location = new System.Drawing.Point(80, 48);
-            CB_Species.Margin = new System.Windows.Forms.Padding(0);
+            CB_Species.Location = new System.Drawing.Point(96, 26);
+            CB_Species.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Species.Name = "CB_Species";
             CB_Species.Size = new System.Drawing.Size(142, 25);
             CB_Species.TabIndex = 67;
@@ -322,7 +325,7 @@ namespace PKHeX.WinForms
             // 
             FLP_Level.Anchor = System.Windows.Forms.AnchorStyles.Left;
             FLP_Level.AutoSize = true;
-            FLP_Level.Location = new System.Drawing.Point(80, 73);
+            FLP_Level.Location = new System.Drawing.Point(96, 52);
             FLP_Level.Margin = new System.Windows.Forms.Padding(0);
             FLP_Level.Name = "FLP_Level";
             FLP_Level.Size = new System.Drawing.Size(0, 0);
@@ -332,7 +335,7 @@ namespace PKHeX.WinForms
             // 
             L_Move1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Move1.AutoSize = true;
-            L_Move1.Location = new System.Drawing.Point(21, 77);
+            L_Move1.Location = new System.Drawing.Point(37, 56);
             L_Move1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Move1.Name = "L_Move1";
             L_Move1.Size = new System.Drawing.Size(55, 17);
@@ -346,8 +349,8 @@ namespace PKHeX.WinForms
             CB_Move1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Move1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move1.FormattingEnabled = true;
-            CB_Move1.Location = new System.Drawing.Point(80, 73);
-            CB_Move1.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move1.Location = new System.Drawing.Point(96, 52);
+            CB_Move1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Move1.Name = "CB_Move1";
             CB_Move1.Size = new System.Drawing.Size(142, 25);
             CB_Move1.TabIndex = 71;
@@ -356,7 +359,7 @@ namespace PKHeX.WinForms
             // 
             L_Move2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Move2.AutoSize = true;
-            L_Move2.Location = new System.Drawing.Point(21, 102);
+            L_Move2.Location = new System.Drawing.Point(37, 82);
             L_Move2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Move2.Name = "L_Move2";
             L_Move2.Size = new System.Drawing.Size(55, 17);
@@ -370,8 +373,8 @@ namespace PKHeX.WinForms
             CB_Move2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Move2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move2.FormattingEnabled = true;
-            CB_Move2.Location = new System.Drawing.Point(80, 98);
-            CB_Move2.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move2.Location = new System.Drawing.Point(96, 78);
+            CB_Move2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Move2.Name = "CB_Move2";
             CB_Move2.Size = new System.Drawing.Size(142, 25);
             CB_Move2.TabIndex = 72;
@@ -380,7 +383,7 @@ namespace PKHeX.WinForms
             // 
             L_Move3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Move3.AutoSize = true;
-            L_Move3.Location = new System.Drawing.Point(21, 127);
+            L_Move3.Location = new System.Drawing.Point(37, 108);
             L_Move3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Move3.Name = "L_Move3";
             L_Move3.Size = new System.Drawing.Size(55, 17);
@@ -394,8 +397,8 @@ namespace PKHeX.WinForms
             CB_Move3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Move3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move3.FormattingEnabled = true;
-            CB_Move3.Location = new System.Drawing.Point(80, 123);
-            CB_Move3.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move3.Location = new System.Drawing.Point(96, 104);
+            CB_Move3.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Move3.Name = "CB_Move3";
             CB_Move3.Size = new System.Drawing.Size(142, 25);
             CB_Move3.TabIndex = 73;
@@ -404,7 +407,7 @@ namespace PKHeX.WinForms
             // 
             L_Move4.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Move4.AutoSize = true;
-            L_Move4.Location = new System.Drawing.Point(21, 152);
+            L_Move4.Location = new System.Drawing.Point(37, 134);
             L_Move4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Move4.Name = "L_Move4";
             L_Move4.Size = new System.Drawing.Size(55, 17);
@@ -418,8 +421,8 @@ namespace PKHeX.WinForms
             CB_Move4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             CB_Move4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Move4.FormattingEnabled = true;
-            CB_Move4.Location = new System.Drawing.Point(80, 148);
-            CB_Move4.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move4.Location = new System.Drawing.Point(96, 130);
+            CB_Move4.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Move4.Name = "CB_Move4";
             CB_Move4.Size = new System.Drawing.Size(142, 25);
             CB_Move4.TabIndex = 74;
@@ -429,8 +432,8 @@ namespace PKHeX.WinForms
             CB_GameOrigin.Anchor = System.Windows.Forms.AnchorStyles.Left;
             CB_GameOrigin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_GameOrigin.FormattingEnabled = true;
-            CB_GameOrigin.Location = new System.Drawing.Point(80, 180);
-            CB_GameOrigin.Margin = new System.Windows.Forms.Padding(0);
+            CB_GameOrigin.Location = new System.Drawing.Point(96, 156);
+            CB_GameOrigin.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_GameOrigin.Name = "CB_GameOrigin";
             CB_GameOrigin.Size = new System.Drawing.Size(142, 25);
             CB_GameOrigin.TabIndex = 121;
@@ -439,10 +442,10 @@ namespace PKHeX.WinForms
             // 
             L_Version.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Version.AutoSize = true;
-            L_Version.Location = new System.Drawing.Point(22, 176);
+            L_Version.Location = new System.Drawing.Point(18, 160);
             L_Version.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             L_Version.Name = "L_Version";
-            L_Version.Size = new System.Drawing.Size(54, 34);
+            L_Version.Size = new System.Drawing.Size(74, 17);
             L_Version.TabIndex = 122;
             L_Version.Text = "OT Version:";
             L_Version.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -450,10 +453,10 @@ namespace PKHeX.WinForms
             // TypeFilters
             // 
             TypeFilters.Dock = System.Windows.Forms.DockStyle.Fill;
-            TypeFilters.Location = new System.Drawing.Point(80, 213);
+            TypeFilters.Location = new System.Drawing.Point(96, 182);
             TypeFilters.Margin = new System.Windows.Forms.Padding(0);
             TypeFilters.Name = "TypeFilters";
-            TypeFilters.Size = new System.Drawing.Size(220, 149);
+            TypeFilters.Size = new System.Drawing.Size(226, 190);
             TypeFilters.TabIndex = 123;
             // 
             // CHK_IsEgg
@@ -462,8 +465,8 @@ namespace PKHeX.WinForms
             CHK_IsEgg.AutoSize = true;
             CHK_IsEgg.Checked = true;
             CHK_IsEgg.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            CHK_IsEgg.Location = new System.Drawing.Point(80, 27);
-            CHK_IsEgg.Margin = new System.Windows.Forms.Padding(0);
+            CHK_IsEgg.Location = new System.Drawing.Point(96, 4);
+            CHK_IsEgg.Margin = new System.Windows.Forms.Padding(0, 4, 0, 1);
             CHK_IsEgg.Name = "CHK_IsEgg";
             CHK_IsEgg.Size = new System.Drawing.Size(50, 21);
             CHK_IsEgg.TabIndex = 125;
@@ -476,7 +479,7 @@ namespace PKHeX.WinForms
             // 
             FLP_Egg.Anchor = System.Windows.Forms.AnchorStyles.Left;
             FLP_Egg.AutoSize = true;
-            FLP_Egg.Location = new System.Drawing.Point(0, 287);
+            FLP_Egg.Location = new System.Drawing.Point(0, 277);
             FLP_Egg.Margin = new System.Windows.Forms.Padding(0);
             FLP_Egg.Name = "FLP_Egg";
             FLP_Egg.Size = new System.Drawing.Size(0, 0);
@@ -488,8 +491,8 @@ namespace PKHeX.WinForms
             CHK_Shiny.AutoSize = true;
             CHK_Shiny.Checked = true;
             CHK_Shiny.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            CHK_Shiny.Location = new System.Drawing.Point(23, 27);
-            CHK_Shiny.Margin = new System.Windows.Forms.Padding(0);
+            CHK_Shiny.Location = new System.Drawing.Point(39, 4);
+            CHK_Shiny.Margin = new System.Windows.Forms.Padding(0, 4, 0, 1);
             CHK_Shiny.Name = "CHK_Shiny";
             CHK_Shiny.Size = new System.Drawing.Size(57, 21);
             CHK_Shiny.TabIndex = 126;
@@ -503,9 +506,9 @@ namespace PKHeX.WinForms
             Tab_Advanced.Controls.Add(B_Add);
             Tab_Advanced.Controls.Add(RTB_Instructions);
             Tab_Advanced.Location = new System.Drawing.Point(4, 26);
-            Tab_Advanced.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Advanced.Margin = new System.Windows.Forms.Padding(0);
             Tab_Advanced.Name = "Tab_Advanced";
-            Tab_Advanced.Size = new System.Drawing.Size(300, 362);
+            Tab_Advanced.Size = new System.Drawing.Size(322, 373);
             Tab_Advanced.TabIndex = 1;
             Tab_Advanced.Text = "Advanced";
             Tab_Advanced.UseVisualStyleBackColor = true;
@@ -513,8 +516,8 @@ namespace PKHeX.WinForms
             // B_Add
             // 
             B_Add.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            B_Add.Location = new System.Drawing.Point(230, 0);
-            B_Add.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Add.Location = new System.Drawing.Point(252, 0);
+            B_Add.Margin = new System.Windows.Forms.Padding(0);
             B_Add.Name = "B_Add";
             B_Add.Size = new System.Drawing.Size(70, 27);
             B_Add.TabIndex = 122;
@@ -528,7 +531,7 @@ namespace PKHeX.WinForms
             Tab_Criteria.Location = new System.Drawing.Point(4, 26);
             Tab_Criteria.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_Criteria.Name = "Tab_Criteria";
-            Tab_Criteria.Size = new System.Drawing.Size(300, 362);
+            Tab_Criteria.Size = new System.Drawing.Size(322, 373);
             Tab_Criteria.TabIndex = 2;
             Tab_Criteria.Text = "Criteria";
             Tab_Criteria.UseVisualStyleBackColor = true;
@@ -550,7 +553,7 @@ namespace PKHeX.WinForms
             // SC_Criteria.Panel2
             // 
             SC_Criteria.Panel2.Controls.Add(PG_Criteria);
-            SC_Criteria.Size = new System.Drawing.Size(300, 362);
+            SC_Criteria.Size = new System.Drawing.Size(322, 373);
             SC_Criteria.SplitterDistance = 40;
             SC_Criteria.TabIndex = 0;
             // 
@@ -565,7 +568,7 @@ namespace PKHeX.WinForms
             FLP_CriteriaButtons.Margin = new System.Windows.Forms.Padding(0);
             FLP_CriteriaButtons.Name = "FLP_CriteriaButtons";
             FLP_CriteriaButtons.Padding = new System.Windows.Forms.Padding(3);
-            FLP_CriteriaButtons.Size = new System.Drawing.Size(300, 40);
+            FLP_CriteriaButtons.Size = new System.Drawing.Size(322, 40);
             FLP_CriteriaButtons.TabIndex = 0;
             // 
             // B_CriteriaReset
@@ -586,7 +589,7 @@ namespace PKHeX.WinForms
             B_CriteriaFromTabs.Location = new System.Drawing.Point(76, 7);
             B_CriteriaFromTabs.Margin = new System.Windows.Forms.Padding(4);
             B_CriteriaFromTabs.Name = "B_CriteriaFromTabs";
-            B_CriteriaFromTabs.Size = new System.Drawing.Size(86, 27);
+            B_CriteriaFromTabs.Size = new System.Drawing.Size(87, 27);
             B_CriteriaFromTabs.TabIndex = 1;
             B_CriteriaFromTabs.Text = "From Editor";
             B_CriteriaFromTabs.UseVisualStyleBackColor = true;
@@ -598,7 +601,7 @@ namespace PKHeX.WinForms
             PG_Criteria.Dock = System.Windows.Forms.DockStyle.Fill;
             PG_Criteria.Location = new System.Drawing.Point(0, 0);
             PG_Criteria.Name = "PG_Criteria";
-            PG_Criteria.Size = new System.Drawing.Size(300, 318);
+            PG_Criteria.Size = new System.Drawing.Size(322, 329);
             PG_Criteria.TabIndex = 0;
             PG_Criteria.ToolbarVisible = false;
             PG_Criteria.PropertyValueChanged += PG_Criteria_PropertyValueChanged;
@@ -606,7 +609,8 @@ namespace PKHeX.WinForms
             // SAV_Encounters
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(670, 463);
+            ClientSize = new System.Drawing.Size(692, 463);
+            Controls.Add(B_Reset);
             Controls.Add(TC_SearchOptions);
             Controls.Add(B_Search);
             Controls.Add(L_Viewed);

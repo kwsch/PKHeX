@@ -49,4 +49,23 @@ public sealed class PlayerFashion9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9Z
     [TypeConverter(typeof(TypeConverterU64))] public ulong Eyes      { get => ReadUInt64LittleEndian(Data[0x50..]); set => WriteUInt64LittleEndian(Data[0x50..], value); }
     [TypeConverter(typeof(TypeConverterU64))] public ulong LowerBody { get => ReadUInt64LittleEndian(Data[0x58..]); set => WriteUInt64LittleEndian(Data[0x58..], value); }
     [TypeConverter(typeof(TypeConverterU64))] public ulong UpperBody { get => ReadUInt64LittleEndian(Data[0x60..]); set => WriteUInt64LittleEndian(Data[0x60..], value); }
+
+    /// <summary>
+    /// Resets the clothing choices to default values.
+    /// </summary>
+    public void Reset()
+    {
+        if (SAV.Gender == 0) // male
+        {
+            Clothing  = 0x5BD86B952ACADA3A;
+            LowerBody = 0x9CC9B53A365377A8; // Skinny Jeans Set
+            UpperBody = 0xA261E0196A33613B; // V-Neck T-Shirt
+        }
+        else // female
+        {
+            Clothing  = 0x81769EA06D93234B;
+            LowerBody = 0xDE5A305C2753196D; // Wide-Leg Pants Set
+            UpperBody = 0xA61E77465A086A14; // Off-Shoulder Shirt
+        }
+    }
 }

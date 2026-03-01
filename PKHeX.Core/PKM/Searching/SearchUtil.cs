@@ -20,6 +20,23 @@ public static class SearchUtil
         _ => true,
     };
 
+    public static bool SatisfiesFilterContext(PKM pk, EntityContext context, SearchComparison contextOperand) => contextOperand switch
+    {
+        SearchComparison.GreaterThanEquals when pk.Context.IsGenerationLessThan(context) => false,
+        SearchComparison.Equals when pk.Context != context => false,
+        SearchComparison.LessThanEquals when pk.Context.IsGenerationGreaterThan(context) => false,
+        _ => contextOperand != SearchComparison.None || CanReachContext(pk, context),
+    };
+
+    private static bool CanReachContext(PKM pk, EntityContext context)
+    {
+        if (context.IsEraGameBoy)
+            return pk.Format <= 2; // 1-2 can reach 1-2
+        if (context.IsEraPre3DS)
+            return pk.Format >= 3; // 3-6 can reach 3-6
+        return true; // 7+ can reach all contexts
+    }
+
     public static bool SatisfiesFilterGeneration(PKM pk, byte generation) => generation switch
     {
         1 => pk.VC || pk.Format < 3,
@@ -27,13 +44,19 @@ public static class SearchUtil
         _ => pk.Generation == generation,
     };
 
-    public static bool SatisfiesFilterLevel(PKM pk, SearchComparison option, byte level) => option switch
+    public static bool SatisfiesFilterLevel(PKM pk, SearchComparison option, byte level)
     {
-        SearchComparison.LessThanEquals =>    pk.Stat_Level <= level,
-        SearchComparison.Equals =>            pk.Stat_Level == level,
-        SearchComparison.GreaterThanEquals => pk.Stat_Level >= level,
-        _ => true,
-    };
+        var current = pk.Stat_Level;
+        if (current == 0)
+            current = pk.CurrentLevel;
+        return option switch
+        {
+            SearchComparison.LessThanEquals => current <= level,
+            SearchComparison.Equals => current == level,
+            SearchComparison.GreaterThanEquals => current >= level,
+            _ => true,
+        };
+    }
 
     public static bool SatisfiesFilterEVs(PKM pk, int option) => option switch
     {
@@ -67,7 +90,7 @@ public static class SearchUtil
 
     public static bool SatisfiesFilterBatchInstruction(PKM pk, IReadOnlyList<StringInstruction> filters)
     {
-        return BatchEditing.IsFilterMatch(filters, pk); // Compare across all filters
+        return EntityBatchEditor.Instance.IsFilterMatch(filters, pk); // Compare across all filters
     }
 
     public static Func<PKM, string> GetCloneDetectMethod(CloneDetectionMethod method) => method switch
@@ -119,5 +142,55 @@ public static class SearchUtil
             if (!hs.Add(hash))
                 yield return t;
         }
+    }
+
+    public static bool SatisfiesFilterNickname(PKM pk, ReadOnlySpan<char> nicknameSubstring)
+    {
+        Span<char> name = stackalloc char[pk.MaxStringLengthNickname];
+        int length = pk.LoadString(pk.NicknameTrash, name);
+        name = name[..length];
+
+        // Compare the nickname filter against the Entity's nickname, ignoring case.
+        return name.Contains(nicknameSubstring, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public static bool TrySeekNext(SaveFile sav, Func<PKM, bool> searchFilter, out (int Box, int Slot) result, int currentBox = -1, int currentSlot = -1, bool reverse = false)
+    {
+        // Search from next slot, wrapping around
+        if (currentBox == -1)
+            currentBox = 0;
+
+        var step = reverse ? -1 : 1;
+        if (currentSlot == -1)
+            currentSlot = 0;
+        else
+            currentSlot += step;
+
+        var totalSlots = sav.SlotCount;
+        var index = currentBox * sav.BoxSlotCount + currentSlot;
+        if (index < 0)
+            index = totalSlots - 1;
+        else if (index >= totalSlots)
+            index = 0;
+
+        for (var i = 0; i < totalSlots; i++)
+        {
+            var actualIndex = (index + i * step + totalSlots) % totalSlots;
+            var pk = sav.GetBoxSlotAtIndex(actualIndex);
+            if (pk.Species == 0)
+                continue;
+
+            if (!searchFilter(pk))
+                continue;
+
+            // Match found. Seek to the box, and Focus on the slot.
+            sav.GetBoxSlotFromIndex(actualIndex, out var box, out var slot);
+            result = (box, slot);
+            return true;
+        }
+
+        // None found.
+        result = default;
+        return false;
     }
 }

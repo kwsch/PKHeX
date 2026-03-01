@@ -46,4 +46,10 @@ public sealed class SpriteSettings : ISpriteSettings
 
     [LocalizedDescription("Opacity for the Tera Type stripe layer.")]
     public byte ShowTeraOpacityStripe { get; set; } = 0xAF; // 0xFF opaque
+
+    [LocalizedDescription("Opacity of an entity that does not match a filter.")]
+    public float FilterMismatchOpacity { get; set; } = 0.40f; // 1.0f opaque; Mostly transparent
+
+    [LocalizedDescription("Grayscale amount to apply to an entity that does not match a filter (0.0 = no grayscale, 1.0 = fully grayscale).")]
+    public float FilterMismatchGrayscale { get; set; } = 0.70f; // 1.0f fully grayscale; Mostly grayscale
 }

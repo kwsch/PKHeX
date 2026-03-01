@@ -66,7 +66,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
     public GoParkStorage Park => Blocks.Park;
     public PlayerGeoLocation7b PlayerGeoLocation => Blocks.PlayerGeoLocation;
 
-    public override IReadOnlyList<InventoryPouch> Inventory { get => Blocks.Items.Inventory; set => Blocks.Items.Inventory = value; }
+    public override PlayerBag7b Inventory => new(this);
 
     // Feature Overrides
     public override byte Generation => 7;
@@ -119,7 +119,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
     {
         var result = StorageSlotSource.None;
         var header = Blocks.Storage.PokeListInfo;
-        int position = Array.IndexOf(header, index, 0, 6);
+        int position = header.AsSpan(0, 6).IndexOf(index);
         if (position >= 0)
             result = (StorageSlotSource)((int)StorageSlotSource.Party1 << position);
         if (header[PokeListHeader.STARTER] == index)

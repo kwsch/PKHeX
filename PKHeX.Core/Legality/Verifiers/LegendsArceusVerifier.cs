@@ -47,14 +47,14 @@ public sealed class LegendsArceusVerifier : Verifier
         if (pa.IsAlpha && data.EncounterMatch is EncounterSlot8a)
         {
             if (pa.HeightScalar != 255)
-                data.AddLine(GetInvalid(StatIncorrectHeightValue, 255));
+                data.AddLine(GetInvalid(StatIncorrectHeightValue_0, 255));
             if (pa.WeightScalar != 255)
-                data.AddLine(GetInvalid(StatIncorrectWeightValue, 255));
+                data.AddLine(GetInvalid(StatIncorrectWeightValue_0, 255));
         }
 
         // No way to mutate the display height scalar value. Must match!
         if (pa.HeightScalar != pa.Scale)
-            data.AddLine(GetInvalid(CheckIdentifier.Encounter, StatIncorrectHeightCopy));
+            data.AddLine(GetInvalid(CheckIdentifier.Encounter, StatIncorrectScaleValue_0, pa.HeightScalar));
     }
 
     private static void CheckLearnset(LegalityAnalysis data, PA8 pa)

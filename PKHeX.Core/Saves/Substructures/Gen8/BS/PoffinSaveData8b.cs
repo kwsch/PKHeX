@@ -57,11 +57,12 @@ public sealed class Poffin8b
 {
     public const int SIZE = 0x10;
 
-    private readonly byte[] Data = new byte[SIZE];
+    private readonly Memory<byte> Raw = new byte[SIZE];
+    private Span<byte> Data => Raw.Span;
 
     public Poffin8b(Memory<byte> raw) => raw.Span.CopyTo(Data);
 
-    public void Clear() => Data.AsSpan().Clear();
+    public void Clear() => Data.Clear();
     public void CopyTo(Span<byte> dest) => Data.CopyTo(dest);
     public void ToNull() => MstID = 0xFF;
     public bool IsNull => MstID == 0xFF;
@@ -70,7 +71,7 @@ public sealed class Poffin8b
     public byte Level { get => Data[0x01]; set => Data[0x01] = value; }
     public byte Taste { get => Data[0x02]; set => Data[0x02] = value; } // Smoothness/feel of the Poffin => +sheen
 
-    public bool IsNew { get => ReadUInt32LittleEndian(Data.AsSpan(0x04)) == 1; set => WriteUInt32LittleEndian(Data.AsSpan(0x04), value ? 1u : 0u); }
+    public bool IsNew { get => ReadUInt32LittleEndian(Data[0x04..]) == 1; set => WriteUInt32LittleEndian(Data[0x04..], value ? 1u : 0u); }
 
     public byte FlavorSpicy  { get => Data[0x08]; set => Data[0x08] = value; }
     public byte FlavorDry    { get => Data[0x09]; set => Data[0x09] = value; }

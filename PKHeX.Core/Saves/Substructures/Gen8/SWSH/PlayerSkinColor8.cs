@@ -82,11 +82,15 @@ public static class PlayerSkinColor8Extensions
         0x00ECCFE1E75B6EA5, // DarkF
     ];
 
-    public static ulong Skin(this PlayerSkinColor8 skinColor) => SkinValues[(int)skinColor];
-    public static ulong Hair(this PlayerSkinColor8 skinColor) => HairValues[(int)skinColor];
-    public static ulong Brow(this PlayerSkinColor8 skinColor) => BrowValues[(int)skinColor];
-    public static ulong Contacts(this PlayerSkinColor8 skinColor) => ContactsValues[(int)skinColor];
-    public static ulong Lips(this PlayerSkinColor8 skinColor) => LipsValues[(int)skinColor];
-    public static ulong MomSkin(this PlayerSkinColor8 skinColor) => MomSkinValues[(int)skinColor];
+    extension(PlayerSkinColor8 skinColor)
+    {
+        public ulong Skin() => SkinValues[(int)skinColor];
+        public ulong Hair() => HairValues[(int)skinColor];
+        public ulong Brow() => BrowValues[(int)skinColor];
+        public ulong Contacts() => ContactsValues[(int)skinColor];
+        public ulong Lips() => LipsValues[(int)skinColor];
+        public ulong MomSkin() => MomSkinValues[(int)skinColor];
+    }
+
     public static PlayerSkinColor8 GetSkinColorFromSkin(ulong skin) => (PlayerSkinColor8)(SkinValues.IndexOf(skin));
 }

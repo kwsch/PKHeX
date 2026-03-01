@@ -32,32 +32,36 @@ public static class ContestStatInfo
     /// </remarks>
     private const int BestSheenStat8b = 120;
 
-    public static void SetSuggestedContestStats(this PKM pk, IEncounterTemplate enc, EvolutionHistory h)
+    extension(PKM pk)
     {
-        if (pk is not IContestStats s)
-            return;
+        public void SetSuggestedContestStats(IEncounterTemplate enc, EvolutionHistory h)
+        {
+            if (pk is not IContestStats s)
+                return;
 
-        var restrict = GetContestStatRestriction(pk, pk.Generation, h);
-        var baseStat = GetReferenceTemplate(enc);
-        if (restrict == None || pk.Species is not (int)Species.Milotic)
-            baseStat.CopyContestStatsTo(s); // reset
-        else
+            var restrict = GetContestStatRestriction(pk, pk.Generation, h);
+            var baseStat = GetReferenceTemplate(enc);
+            if (restrict == None || pk.Species is not (int)Species.Milotic)
+                baseStat.CopyContestStatsTo(s); // reset
+            else
+                s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? baseStat.ContestSheen : MaxContestStat);
+        }
+
+        public void SetMaxContestStats(IEncounterTemplate enc, EvolutionHistory h)
+        {
+            if (pk is not IContestStats s)
+                return;
+            var restrict = GetContestStatRestriction(pk, enc.Generation, h);
+            var baseStat = GetReferenceTemplate(enc);
+            if (restrict == None)
+                return;
             s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? baseStat.ContestSheen : MaxContestStat);
-    }
-
-    public static void SetMaxContestStats(this PKM pk, IEncounterTemplate enc, EvolutionHistory h)
-    {
-        if (pk is not IContestStats s)
-            return;
-        var restrict = GetContestStatRestriction(pk, enc.Generation, h);
-        var baseStat = GetReferenceTemplate(enc);
-        if (restrict == None)
-            return;
-        s.SetAllContestStatsTo(MaxContestStat, restrict == NoSheen ? baseStat.ContestSheen : MaxContestStat);
+        }
     }
 
     public static ContestStatGranting GetContestStatRestriction(PKM pk, byte origin, EvolutionHistory h) => origin switch
     {
+        3 when pk.Format == 3 && !ParseSettings.AllowGBACrossTransferRSE(pk) => None,
         3 => pk.Format < 6    ? CorrelateSheen : Mixed,
         4 => pk.Format < 6    ? CorrelateSheen : Mixed,
 

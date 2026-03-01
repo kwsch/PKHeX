@@ -83,7 +83,7 @@ public sealed class GameStrings : IBasicStrings
         AppendLocationIndex(CXD.Met0.AsSpan(0, 227));
 
         // Current Generation strings
-        natures = Util.GetNaturesList(langFilePrefix);
+        natures = Get("natures");
         types = Get("types");
         abilitylist = Get("abilities");
 

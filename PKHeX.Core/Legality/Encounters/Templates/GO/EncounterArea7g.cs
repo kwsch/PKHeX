@@ -60,6 +60,6 @@ public sealed record EncounterArea7g : ISpeciesForm
         var shiny = (Shiny)(sg & 0x3F);
         var gender = (Gender)(sg >> 6);
         var type = (PogoType)entry[9];
-        return new EncounterSlot7GO(start, end, species, form, type.GetMinLevel(), EncountersGO.MAX_LEVEL, shiny, gender, type);
+        return new EncounterSlot7GO(start, end, species, form, type.LevelMin, EncountersGO.MAX_LEVEL, shiny, gender, type);
     }
 }

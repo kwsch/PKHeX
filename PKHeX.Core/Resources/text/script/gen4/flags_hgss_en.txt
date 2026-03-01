@@ -18,7 +18,7 @@
 0279	r	Lugia Captured
 0578	r	Ho-Oh Disappeared
 0278	r	Ho-Oh Captured
-0781	r	Latias/Latios (Pewter City) Disappeared
+0781	r	Lati@s (Pewter City) Disappeared
 0721	r	Kyogre Disappeared (HG)
 0378	r	Kyogre Captured (HG)
 0720	r	Groudon Disappeared (SS)
@@ -199,9 +199,9 @@
 2006	t	Had Bird Keeper Josh 1st Rematch
 2007	t	Had Bird Keeper Josh 2nd Rematch
 2008	t	Had Bird Keeper Josh 3rd Rematch
-2009	t	Had Camper Torin 1st Rematch
-2010	t	Had Camper Torin 2nd Rematch
-2011	t	Had Camper Torin 3rd Rematch
+2009	t	Had School Kid Torin 1st Rematch
+2010	t	Had School Kid Torin 2nd Rematch
+2011	t	Had School Kid Torin 3rd Rematch
 2000	t	Had School Kid Billy 1st Rematch
 2001	t	Had School Kid Billy 2nd Rematch
 2002	t	Had School Kid Billy 3rd Rematch

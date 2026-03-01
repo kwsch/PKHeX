@@ -50,41 +50,40 @@ public sealed class StartupSettings : IStartupSettings
     }
 
     // Don't let invalid values slip into the startup version.
-    private GameVersion _defaultSaveVersion = Latest.Version;
-    private string _language = WinFormsUtil.GetCultureLanguage();
 
     [Browsable(false)]
     public string Language
     {
-        get => _language;
+        get;
         set
         {
             if (!GameLanguage.IsLanguageValid(value))
             {
                 // Migrate old language codes set in earlier versions.
-                _language = value switch
+                field = value switch
                 {
                     "zh" => "zh-Hans",
                     "zh2" => "zh-Hant",
-                    _ => _language,
+                    _ => field,
                 };
                 return;
             }
-            _language = value;
+
+            field = value;
         }
-    }
+    } = WinFormsUtil.GetCultureLanguage();
 
     [Browsable(false)]
     public GameVersion DefaultSaveVersion
     {
-        get => _defaultSaveVersion;
+        get;
         set
         {
             if (!value.IsValidSavedVersion())
                 return;
-            _defaultSaveVersion = value;
+            field = value;
         }
-    }
+    } = Latest.Version;
 
     public void LoadSaveFile(string path)
     {

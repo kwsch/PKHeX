@@ -14,13 +14,13 @@ public static class QRImageUtil
     /// <param name="qr">The base QR code image.</param>
     /// <param name="preview">The preview image to overlay.</param>
     /// <returns>A new bitmap with the preview image centered on the QR code.</returns>
-    public static Bitmap GetQRImage(Image qr, Image preview)
+    public static Bitmap GetQRImage(Bitmap qr, Image preview)
     {
         // create a small area with the pk sprite, with a white background
         var foreground = new Bitmap(preview.Width + 4, preview.Height + 4);
         using (Graphics gfx = Graphics.FromImage(foreground))
         {
-            gfx.FillRectangle(Brushes.White, 0, 0, foreground.Width, foreground.Height);
+            gfx.FillRectangle(SystemBrushes.ControlLightLight, 0, 0, foreground.Width, foreground.Height);
             int x = (foreground.Width / 2) - (preview.Width / 2);
             int y = (foreground.Height / 2) - (preview.Height / 2);
             gfx.DrawImage(preview, x, y);
@@ -45,7 +45,7 @@ public static class QRImageUtil
     /// <param name="lines">The lines of text to display.</param>
     /// <param name="extraText">Additional text to display.</param>
     /// <returns>A new bitmap with the preview image and extended text.</returns>
-    public static Bitmap GetQRImageExtended(Font font, Image qr, Image pk, int width, int height, ReadOnlySpan<string> lines, string extraText)
+    public static Bitmap GetQRImageExtended(Font font, Bitmap qr, Image pk, int width, int height, ReadOnlySpan<string> lines, string extraText)
     {
         var pic = GetQRImage(qr, pk);
         return ExtendImage(font, qr, width, height, pic, lines, extraText);
@@ -66,10 +66,10 @@ public static class QRImageUtil
     {
         var newpic = new Bitmap(width, height);
         using Graphics g = Graphics.FromImage(newpic);
-        g.FillRectangle(Brushes.White, 0, 0, newpic.Width, newpic.Height);
+        g.FillRectangle(SystemBrushes.ControlLightLight, 0, 0, newpic.Width, newpic.Height);
         g.DrawImage(pic, 0, 0);
 
-        var black = Brushes.Black;
+        var black = SystemBrushes.ControlText;
         const int indent = 18;
         g.DrawString(GetLine(lines, 0), font, black, indent, qr.Height - 5);
         g.DrawString(GetLine(lines, 1), font, black, indent, qr.Height + 8);

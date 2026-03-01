@@ -30,26 +30,23 @@ public static class EntityConverter
     /// </summary>
     public static IHomeStorage HOME { get; set; } = new HomeStorageFacade();
 
-    private static GameVersion _vc1 = RD;
-    private static GameVersion _vc2 = SI;
-
     /// <summary>
     /// Default source game for trading from PK2 to PK7.
     /// </summary>
     public static GameVersion VirtualConsoleSourceGen1
     {
-        get => _vc1;
-        set => _vc1 = (value is RD or BU or GN or YW) ? value : RD;
-    }
+        get;
+        set => field = (value is RD or BU or GN or YW) ? value : RD;
+    } = RD;
 
     /// <summary>
     /// Default source game for trading from PK2 to PK7.
     /// </summary>
     public static GameVersion VirtualConsoleSourceGen2
     {
-        get => _vc2;
-        set => _vc2 = (value is GD or SI or C) ? value : SI;
-    }
+        get;
+        set => field = (value is GD or SI or C) ? value : SI;
+    } = SI;
 
     /// <summary>
     /// Retain the Met Date when transferring from Gen4 to Gen5.

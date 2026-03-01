@@ -50,22 +50,32 @@ public interface IFormArgument
 /// </summary>
 public static class FormArgumentUtil
 {
-    /// <summary>
-    /// Sets the suggested Form Argument to the <see cref="pk"/>.
-    /// </summary>
-    public static void SetSuggestedFormArgument(this PKM pk, EvolutionHistory history, ushort originalSpecies = 0)
+    extension(PKM pk)
     {
-        if (pk is not IFormArgument)
-            return;
+        /// <summary>
+        /// Sets the suggested Form Argument to the <see cref="pk"/>.
+        /// </summary>
+        public void SetSuggestedFormArgument(ushort species, byte form, EntityContext current, EvolutionHistory history, ushort originalSpecies = 0)
+        {
+            if (pk is not IFormArgument)
+                return;
+            uint value = IsFormArgumentTypeDatePair(species, form)
+                ? GetFormArgumentMax(species, form, current)
+                : GetFormArgumentMinEvolution(species, originalSpecies);
+            if (IsFormArgumentAbleToStay0(species, form, history))
+                value = 0;
+            pk.ChangeFormArgument(value);
+        }
 
-        var (species, form) = (pk.Species, pk.Form);
-
-        uint value = IsFormArgumentTypeDatePair(species, form)
-            ? GetFormArgumentMax(species, form, pk.Context)
-            : GetFormArgumentMinEvolution(species, originalSpecies);
-        if (IsFormArgumentAbleToStay0(species, form, history))
-            value = 0;
-        pk.ChangeFormArgument(value);
+        /// <summary>
+        /// Modifies the <see cref="IFormArgument"/> values for the provided <see cref="pk"/> to the requested <see cref="value"/>.
+        /// </summary>
+        public void ChangeFormArgument(uint value)
+        {
+            if (pk is not IFormArgument f)
+                return;
+            f.ChangeFormArgument(pk.Species, pk.Form, pk.Context, value);
+        }
     }
 
     /// <summary>
@@ -87,16 +97,6 @@ public static class FormArgumentUtil
     };
 
     /// <summary>
-    /// Modifies the <see cref="IFormArgument"/> values for the provided <see cref="pk"/> to the requested <see cref="value"/>.
-    /// </summary>
-    public static void ChangeFormArgument(this PKM pk, uint value)
-    {
-        if (pk is not IFormArgument f)
-            return;
-        f.ChangeFormArgument(pk.Species, pk.Form, pk.Context, value);
-    }
-
-    /// <summary>
     /// Modifies the <see cref="IFormArgument"/> values for the provided inputs to the requested <see cref="value"/>.
     /// </summary>
     /// <param name="f">Form Argument object</param>
@@ -114,7 +114,7 @@ public static class FormArgumentUtil
 
         var max = GetFormArgumentMax(species, form, context);
         f.FormArgumentRemain = (byte)value;
-        if (value == max || (value == 0 && species is (int)Hoopa && form == 1 && context.Generation() >= 8))
+        if (value == max || (value == 0 && species is (int)Hoopa && form == 1 && context.IsEraHOME))
         {
             f.FormArgumentElapsed = f.FormArgumentMaximum = 0;
             return;
@@ -132,31 +132,27 @@ public static class FormArgumentUtil
     /// <param name="species">Entity Species</param>
     /// <param name="form">Entity Form</param>
     /// <param name="context">Context to check with.</param>
-    public static uint GetFormArgumentMax(ushort species, byte form, EntityContext context)
+    public static uint GetFormArgumentMax(ushort species, byte form, EntityContext context) => species switch
     {
-        var gen = context.Generation();
-        return species switch
-        {
-            (int)Furfrou when form != 0 => 5,
-            (int)Hoopa when form == 1 => 3,
-            (int)Yamask when form == 1 => 9999,
-            (int)Runerigus when form == 0 => 9999,
-            (int)Alcremie => (uint)AlcremieDecoration.Ribbon,
-            (int)Qwilfish when form == 1 && gen >= 8 => 9999,
-            (int)Overqwil => 9999, // 20
-            (int)Stantler or (int)Wyrdeer when gen >= 8 => 9999,
-            (int)Basculin when form == 2 => 9999, // 294
-            (int)Basculegion => 9999, // 294
-            (int)Primeape or (int)Annihilape when gen >= 8 => 9999,
-            (int)Bisharp or (int)Kingambit when gen >= 8 => 9999,
-            (int)Gimmighoul => 998,
-            (int)Gholdengo => 999,
-            (int)Koraidon or (int)Miraidon => 1,
-            (int)Farfetchd when form == 1 && gen >= 8 => 9999,
-            (int)Sirfetchd when gen >= 8 => 9999,
-            _ => 0,
-        };
-    }
+        (int)Furfrou when form != 0 => 5,
+        (int)Hoopa when form == 1 => 3,
+        (int)Yamask when form == 1 => 9999,
+        (int)Runerigus when form == 0 => 9999,
+        (int)Alcremie => (uint)AlcremieDecoration.Ribbon,
+        (int)Qwilfish when form == 1 && context.IsEraHOME => 9999,
+        (int)Overqwil => 9999, // 20
+        (int)Stantler or (int)Wyrdeer when context.IsEraHOME => 9999,
+        (int)Basculin when form == 2 => 9999, // 294
+        (int)Basculegion => 9999, // 294
+        (int)Primeape or (int)Annihilape when context.IsEraHOME => 9999,
+        (int)Bisharp or (int)Kingambit when context.IsEraHOME => 9999,
+        (int)Gimmighoul => 998,
+        (int)Gholdengo => 999,
+        (int)Koraidon or (int)Miraidon => 1,
+        (int)Farfetchd when form == 1 && context.IsEraHOME => 9999,
+        (int)Sirfetchd when context.IsEraHOME => 9999,
+        _ => 0,
+    };
 
     /// <summary>
     /// Gets the minimum value the <see cref="IFormArgument.FormArgument"/> value can be to satisfy an evolution requirement.

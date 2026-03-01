@@ -168,6 +168,21 @@ public sealed class SCBlock
             bw.Write((byte)(b ^ xk.Next()));
     }
 
+    /// <summary>
+    /// Determines the exact length of the block when serialized, according to the <see cref="Type"/> and <see cref="SubType"/>. Useful for pre-allocating buffers.
+    /// </summary>
+    /// <returns>The length of the serialized block in bytes.</returns>
+    public int GetSerializedLength()
+    {
+        var length = 1 + 4; // key & type byte
+        if (Type == SCTypeCode.Object)
+            length += 4; // length prefix
+        else if (Type == SCTypeCode.Array)
+            length += 5; // count prefix + subtype byte
+        length += Data.Length; // data bytes
+        return length;
+    }
+
     /// <inheritdoc cref="GetTotalLength(ReadOnlySpan{byte},uint,int)"/>
     public static int GetTotalLength(ReadOnlySpan<byte> data)
     {

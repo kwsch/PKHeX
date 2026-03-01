@@ -109,8 +109,14 @@ public sealed class LegalityAnalysis
                     && MoveResult.AllValid(Info.Moves)
                     && MoveResult.AllValid(Info.Relearn);
 
-            if (!Valid && IsPotentiallyMysteryGift(Info, pk))
-                AddLine(Severity.Invalid, FatefulGiftMissing, CheckIdentifier.Fateful);
+            if (!Valid)
+            {
+                if (Info.EncounterMatch is EncounterInvalid && pk.IsUntraded && EvolutionTree.GetEvolutionTree(pk.Context).Reverse.GetReverse(pk.Species, pk.Form).First.Method.Method.IsTrade)
+                    AddLine(Severity.Invalid, EvoInvalid, CheckIdentifier.Evolution);
+                if (IsPotentiallyMysteryGift(Info, pk))
+                    AddLine(Severity.Invalid, FatefulGiftMissing, CheckIdentifier.Fateful);
+            }
+
             Parsed = true;
         }
 #if SUPPRESS
@@ -193,7 +199,7 @@ public sealed class LegalityAnalysis
         Level.Verify(this);
         Level.VerifyG1(this);
         Trainer.VerifyOTGB(this);
-        MiscValues.VerifyMiscG1(this);
+        MiscValues.VerifyMiscG12(this);
         MovePP.Verify(this);
         if (Entity.Format == 2)
             Item.Verify(this);
@@ -326,7 +332,6 @@ public sealed class LegalityAnalysis
             return;
 
         HyperTraining.Verify(this);
-        MiscValues.VerifyVersionEvolution(this);
 
         Trash.Verify(this);
         if (format < 8)

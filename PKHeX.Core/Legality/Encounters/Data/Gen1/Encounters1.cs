@@ -14,7 +14,7 @@ internal static class Encounters1
     internal static readonly EncounterArea1[] SlotsBU = EncounterArea1.GetAreas(Get("blue_jp", "g1"u8), BU);
 
     private const string tradeRBY = "traderby";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeRBY);
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeRBY, 7);
 
     internal static readonly EncounterStatic1[] StaticRBY =
     [

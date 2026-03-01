@@ -40,7 +40,7 @@ public static class BoxManipDefaults
         new BoxManipSort(SortType, list => list.OrderByCustom(pk => pk.PersonalInfo.Type1, pk => pk.PersonalInfo.Type2)),
         new BoxManipSort(SortTypeTera, list => list.OrderByCustom(pk => ((ITeraType)pk).GetTeraType()), s => s.BlankPKM is ITeraType),
         new BoxManipSort(SortVersion, list => list.OrderByCustom(pk => pk.Generation, pk => pk.Version, pk => pk.MetLocation), s => s.Generation >= 3),
-        new BoxManipSort(SortBST, list => list.OrderByCustom(pk => pk.PersonalInfo.GetBaseStatTotal())),
+        new BoxManipSort(SortBST, list => list.OrderByCustom(pk => pk.PersonalInfo.BST)),
         new BoxManipSort(SortCP, list => list.OrderByCustom(pk => pk is PB7 pb7 ? pb7.Stat_CP : 0), s => s is SAV7b),
         new BoxManipSort(SortScale, list => list.OrderByCustom(pk => pk is IScaledSize3 s3 ? s3.Scale : -1), s => s.BlankPKM is IScaledSize3),
         new BoxManipSort(SortRibbons, list => list.OrderByCustom(pk => pk is IRibbonSetRibbons s ? -s.RibbonCount : 0), s => s.BlankPKM is IRibbonSetRibbons),

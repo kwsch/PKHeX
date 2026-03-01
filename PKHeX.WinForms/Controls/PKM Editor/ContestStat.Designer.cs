@@ -52,7 +52,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Sheen.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Sheen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Sheen.Location = new System.Drawing.Point(248, 16);
+            TB_Sheen.Location = new System.Drawing.Point(248, 17);
             TB_Sheen.Margin = new System.Windows.Forms.Padding(0);
             TB_Sheen.Mask = "000";
             TB_Sheen.MinimumSize = new System.Drawing.Size(32, 23);
@@ -67,7 +67,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Tough.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Tough.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Tough.Location = new System.Drawing.Point(200, 16);
+            TB_Tough.Location = new System.Drawing.Point(200, 17);
             TB_Tough.Margin = new System.Windows.Forms.Padding(0);
             TB_Tough.Mask = "000";
             TB_Tough.MinimumSize = new System.Drawing.Size(32, 23);
@@ -82,7 +82,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Smart.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Smart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Smart.Location = new System.Drawing.Point(152, 16);
+            TB_Smart.Location = new System.Drawing.Point(152, 17);
             TB_Smart.Margin = new System.Windows.Forms.Padding(0);
             TB_Smart.Mask = "000";
             TB_Smart.MinimumSize = new System.Drawing.Size(32, 23);
@@ -97,7 +97,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Cute.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Cute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Cute.Location = new System.Drawing.Point(104, 16);
+            TB_Cute.Location = new System.Drawing.Point(104, 17);
             TB_Cute.Margin = new System.Windows.Forms.Padding(0);
             TB_Cute.Mask = "000";
             TB_Cute.MinimumSize = new System.Drawing.Size(32, 23);
@@ -112,7 +112,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Beauty.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Beauty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Beauty.Location = new System.Drawing.Point(56, 16);
+            TB_Beauty.Location = new System.Drawing.Point(56, 17);
             TB_Beauty.Margin = new System.Windows.Forms.Padding(0);
             TB_Beauty.Mask = "000";
             TB_Beauty.MinimumSize = new System.Drawing.Size(32, 23);
@@ -127,7 +127,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_Cool.Anchor = System.Windows.Forms.AnchorStyles.None;
             TB_Cool.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Cool.Location = new System.Drawing.Point(8, 16);
+            TB_Cool.Location = new System.Drawing.Point(8, 17);
             TB_Cool.Margin = new System.Windows.Forms.Padding(0);
             TB_Cool.Mask = "000";
             TB_Cool.MinimumSize = new System.Drawing.Size(32, 23);
@@ -140,75 +140,83 @@ namespace PKHeX.WinForms.Controls
             // 
             // Label_Sheen
             // 
-            Label_Sheen.Anchor = System.Windows.Forms.AnchorStyles.None;
-            Label_Sheen.Location = new System.Drawing.Point(240, 0);
+            Label_Sheen.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            Label_Sheen.AutoSize = true;
+            Label_Sheen.Location = new System.Drawing.Point(242, 0);
             Label_Sheen.Margin = new System.Windows.Forms.Padding(0);
             Label_Sheen.Name = "Label_Sheen";
-            Label_Sheen.Size = new System.Drawing.Size(48, 16);
+            Label_Sheen.Size = new System.Drawing.Size(43, 17);
             Label_Sheen.TabIndex = 65;
             Label_Sheen.Text = "Sheen";
             Label_Sheen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_Tough
             // 
-            Label_Tough.Anchor = System.Windows.Forms.AnchorStyles.None;
-            Label_Tough.Location = new System.Drawing.Point(192, 0);
+            Label_Tough.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            Label_Tough.AutoSize = true;
+            Label_Tough.Location = new System.Drawing.Point(194, 0);
             Label_Tough.Margin = new System.Windows.Forms.Padding(0);
             Label_Tough.Name = "Label_Tough";
-            Label_Tough.Size = new System.Drawing.Size(48, 16);
+            Label_Tough.Size = new System.Drawing.Size(44, 17);
             Label_Tough.TabIndex = 64;
             Label_Tough.Text = "Tough";
             Label_Tough.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_Cute
             // 
-            Label_Cute.Anchor = System.Windows.Forms.AnchorStyles.None;
-            Label_Cute.Location = new System.Drawing.Point(96, 0);
+            Label_Cute.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            Label_Cute.AutoSize = true;
+            Label_Cute.Location = new System.Drawing.Point(103, 0);
             Label_Cute.Margin = new System.Windows.Forms.Padding(0);
             Label_Cute.Name = "Label_Cute";
-            Label_Cute.Size = new System.Drawing.Size(48, 16);
+            Label_Cute.Size = new System.Drawing.Size(34, 17);
             Label_Cute.TabIndex = 62;
             Label_Cute.Text = "Cute";
             Label_Cute.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_Beauty
             // 
-            Label_Beauty.Anchor = System.Windows.Forms.AnchorStyles.None;
-            Label_Beauty.Location = new System.Drawing.Point(48, 0);
+            Label_Beauty.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            Label_Beauty.AutoSize = true;
+            Label_Beauty.Location = new System.Drawing.Point(49, 0);
             Label_Beauty.Margin = new System.Windows.Forms.Padding(0);
             Label_Beauty.Name = "Label_Beauty";
-            Label_Beauty.Size = new System.Drawing.Size(48, 16);
+            Label_Beauty.Size = new System.Drawing.Size(46, 17);
             Label_Beauty.TabIndex = 61;
             Label_Beauty.Text = "Beauty";
             Label_Beauty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_Cool
             // 
-            Label_Cool.Anchor = System.Windows.Forms.AnchorStyles.None;
-            Label_Cool.Location = new System.Drawing.Point(0, 0);
+            Label_Cool.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            Label_Cool.AutoSize = true;
+            Label_Cool.Location = new System.Drawing.Point(6, 0);
             Label_Cool.Margin = new System.Windows.Forms.Padding(0);
             Label_Cool.Name = "Label_Cool";
-            Label_Cool.Size = new System.Drawing.Size(48, 16);
+            Label_Cool.Size = new System.Drawing.Size(35, 17);
             Label_Cool.TabIndex = 60;
             Label_Cool.Text = "Cool";
             Label_Cool.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_ContestStats
             // 
-            Label_ContestStats.Location = new System.Drawing.Point(72, 0);
+            Label_ContestStats.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            Label_ContestStats.Location = new System.Drawing.Point(0, 0);
+            Label_ContestStats.Margin = new System.Windows.Forms.Padding(0);
             Label_ContestStats.Name = "Label_ContestStats";
-            Label_ContestStats.Size = new System.Drawing.Size(144, 16);
+            Label_ContestStats.Size = new System.Drawing.Size(288, 16);
             Label_ContestStats.TabIndex = 59;
             Label_ContestStats.Text = "Contest Stats";
             Label_ContestStats.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Label_Smart
             // 
-            Label_Smart.Anchor = System.Windows.Forms.AnchorStyles.None;
+            Label_Smart.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            Label_Smart.AutoSize = true;
             Label_Smart.Location = new System.Drawing.Point(0, 0);
             Label_Smart.Margin = new System.Windows.Forms.Padding(0);
             Label_Smart.Name = "Label_Smart";
-            Label_Smart.Size = new System.Drawing.Size(48, 16);
+            Label_Smart.Size = new System.Drawing.Size(42, 17);
             Label_Smart.TabIndex = 66;
             Label_Smart.Text = "Smart";
             Label_Smart.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -240,10 +248,9 @@ namespace PKHeX.WinForms.Controls
             tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(288, 41);
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.Size = new System.Drawing.Size(288, 42);
             tableLayoutPanel1.TabIndex = 67;
             // 
             // FLP_SmartClever
@@ -254,13 +261,13 @@ namespace PKHeX.WinForms.Controls
             FLP_SmartClever.Location = new System.Drawing.Point(144, 0);
             FLP_SmartClever.Margin = new System.Windows.Forms.Padding(0);
             FLP_SmartClever.Name = "FLP_SmartClever";
-            FLP_SmartClever.Size = new System.Drawing.Size(48, 16);
+            FLP_SmartClever.Size = new System.Drawing.Size(48, 17);
             FLP_SmartClever.TabIndex = 66;
             // 
             // Label_Clever
             // 
             Label_Clever.Anchor = System.Windows.Forms.AnchorStyles.None;
-            Label_Clever.Location = new System.Drawing.Point(0, 16);
+            Label_Clever.Location = new System.Drawing.Point(0, 17);
             Label_Clever.Margin = new System.Windows.Forms.Padding(0);
             Label_Clever.Name = "Label_Clever";
             Label_Clever.Size = new System.Drawing.Size(48, 16);
@@ -271,13 +278,16 @@ namespace PKHeX.WinForms.Controls
             // ContestStat
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            AutoSize = true;
             Controls.Add(tableLayoutPanel1);
             Controls.Add(Label_ContestStats);
+            Margin = new System.Windows.Forms.Padding(0);
             Name = "ContestStat";
-            Size = new System.Drawing.Size(288, 60);
+            Size = new System.Drawing.Size(288, 58);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             FLP_SmartClever.ResumeLayout(false);
+            FLP_SmartClever.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }

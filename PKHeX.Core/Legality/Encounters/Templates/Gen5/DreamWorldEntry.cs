@@ -37,9 +37,8 @@ public readonly record struct DreamWorldEntry(ushort Species, byte Level, ushort
         var result = new EncounterStatic5Entree[count];
 
         int ctr = 0;
-        var tmp = result.AsSpan();
         foreach (var s in t)
-            s.AddTo(version, tmp, ref ctr);
+            s.AddTo(version, result, ref ctr);
         return result;
     }
 }

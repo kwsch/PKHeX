@@ -109,29 +109,30 @@ public static class TeraTypeUtil
         return Fallback; // out of range.
     }
 
-    /// <summary>
-    /// Applies a new Tera Type value to the entity.
-    /// </summary>
-    /// <param name="t">Entity to set the value to.</param>
-    /// <param name="type">Value to update with.</param>
-    public static void SetTeraType(this ITeraType t, MoveType type)
+    extension(ITeraType t)
     {
-        if ((byte)type > Stellar)
-            type = Fallback;
+        /// <summary>
+        /// Applies a new Tera Type value to the entity.
+        /// </summary>
+        /// <param name="type">Value to update with.</param>
+        public void SetTeraType(MoveType type)
+        {
+            if ((byte)type > Stellar)
+                type = Fallback;
 
-        var original = t.TeraTypeOriginal;
-        if (original == type)
-            t.TeraTypeOverride = (MoveType)OverrideNone;
-        else
-            t.TeraTypeOverride = type;
+            var original = t.TeraTypeOriginal;
+            if (original == type)
+                t.TeraTypeOverride = (MoveType)OverrideNone;
+            else
+                t.TeraTypeOverride = type;
+        }
+
+        /// <summary>
+        /// Applies a new Tera Type value to the entity.
+        /// </summary>
+        /// <param name="type">Value to update with.</param>
+        public void SetTeraType(byte type) => t.SetTeraType((MoveType)type);
     }
-
-    /// <summary>
-    /// Applies a new Tera Type value to the entity.
-    /// </summary>
-    /// <param name="t">Entity to set the value to.</param>
-    /// <param name="type">Value to update with.</param>
-    public static void SetTeraType(this ITeraType t, byte type) => t.SetTeraType((MoveType)type);
 
     /// <summary>
     /// Gets the preferred Tera Type to set for the given <see cref="IPersonalType"/>.

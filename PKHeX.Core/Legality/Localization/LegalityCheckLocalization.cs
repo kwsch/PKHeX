@@ -69,6 +69,8 @@ public sealed class LegalityCheckLocalization
     public string BallSpecies { get; set; } = "Can't obtain species in Ball.";
     public string BallSpeciesPass { get; set; } = "Ball possible for species.";
     public string BallUnavailable { get; set; } = "Ball unobtainable in origin Generation.";
+    public string BallG4Sinnoh { get; set; } = "Ball value for D/P/Pt (0x83) is not within range.";
+    public string BallG4Johto { get; set; } = "Extended Ball value for HG/SS (0x86) is not within range.";
 
     public string ContestZero { get; set; } = "Contest Stats should be 0.";
     public string ContestZeroSheen { get; set; } = "Contest Stat Sheen should be 0.";
@@ -291,9 +293,9 @@ public sealed class LegalityCheckLocalization
     public string MoveEvoFCombination_0 { get; set; } = "Moves combinations is not compatible with {0} evolution.";
     public string MoveFExpectSingle_0 { get; set; } = "Expected: {0}";
     public string MoveKeldeoMismatch { get; set; } = "Keldeo Move/Form mismatch.";
-    public string MovePPExpectHealed_0 { get; set; } = "Move {0} PP is below the amount expected.";
-    public string MovePPTooHigh_0 { get; set; } = "Move {0} PP is above the amount allowed.";
-    public string MovePPUpsTooHigh_0 { get; set; } = "Move {0} PP Ups is above the amount allowed.";
+    public string MovePPExpectHealed_01 { get; set; } = "Move {0} PP is below the amount expected ({1}).";
+    public string MovePPTooHigh_01 { get; set; } = "Move {0} PP is above the amount allowed ({1}).";
+    public string MovePPUpsTooHigh_01 { get; set; } = "Move {0} PP Ups is above the amount allowed ({1}).";
 
     public string MoveShopAlphaMoveShouldBeMastered_0 { get; set; } = "Alpha Move should be marked as mastered.";
     public string MoveShopAlphaMoveShouldBeOther { get; set; } = "Alpha encounter cannot be found with this Alpha Move.";
@@ -358,10 +360,10 @@ public sealed class LegalityCheckLocalization
 
     public string StatDynamaxInvalid { get; set; } = "Dynamax Level is not within the expected range.";
     public string StatIncorrectHeight { get; set; } = "Calculated Height does not match stored value.";
-    public string StatIncorrectHeightCopy { get; set; } = "Copy Height does not match the original value.";
-    public string StatIncorrectHeightValue { get; set; } = "Height does not match the expected value.";
     public string StatIncorrectWeight { get; set; } = "Calculated Weight does not match stored value.";
-    public string StatIncorrectWeightValue { get; set; } = "Weight does not match the expected value.";
+    public string StatIncorrectHeightValue_0 { get; set; } = "Height should be {0}.";
+    public string StatIncorrectWeightValue_0 { get; set; } = "Weight should be {0}.";
+    public string StatIncorrectScaleValue_0 { get; set; } = "Scale should be {0}.";
     public string StatInvalidHeightWeight { get; set; } = "Height / Weight values are statistically improbable.";
     public string StatIncorrectCP { get; set; } = "Calculated CP does not match stored value.";
     public string StatGigantamaxInvalid { get; set; } = "Gigantamax Flag mismatch.";
@@ -455,11 +457,11 @@ public sealed class LegalityCheckLocalization
     public string BulkSharingTrainerID { get; set; } = "Detected sharing of Trainer ID across multiple trainer names.";
     public string BulkSharingTrainerVersion { get; set; } = "Detected sharing of Trainer ID across multiple versions.";
     public string BulkDuplicateFusionSlot { get; set; } = "Detected multiple fusions of the same fusion stored slot species.";
-    public string BulkDuplicateMegaStoneSlot { get; set; } = "Detected multiple Pokémon holding the same Mega Stone.";
-    public string BulkDuplicateMegaStoneInventory { get; set; } = "Detected Pokémon holding a Mega Stone still stored in player inventory.";
-    public string BulkNotAcquiredMegaStoneInventory { get; set; } = "Mega Stone held by Pokémon has not been acquired in player inventory.";
-    public string BulkAssignedMegaStoneNotFound_0 { get; set; } = "{0} is marked as held by Pokémon but none found in slots checked.";
-    public string BulkFusionSourceInvalid { get; set; } = "The consumed Species-Form stored in the save file does not match the expected Species-Form of the fused slot.";
+    public string BulkHeldItemInventoryAssignedNoneHeld_0 { get; set; } = "{0} is marked as held player inventory, but no Pokémon found in slots checked.";
+    public string BulkHeldItemInventoryMultipleSlots_0 { get; set; } = "{0} is a unique item and cannot be held by multiple Pokémon.";
+    public string BulkHeldItemInventoryNotAcquired_0 { get; set; } = "{0} has not been acquired in player inventory.";
+    public string BulkHeldItemInventoryUnassigned_0 { get; set; } = "{0} is not marked as assigned in player inventory.";
+    public string BulkFusionSourceInvalid { get; set; } = "The subsumed Species-Form stored in the save file does not match the expected Species-Form of the fused slot.";
 }
 
 [JsonSerializable(typeof(LegalityCheckLocalization))]

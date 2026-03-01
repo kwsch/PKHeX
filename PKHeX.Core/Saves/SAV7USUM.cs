@@ -68,6 +68,8 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     public BattleAgency7 BattleAgency => Blocks.BattleAgency;
     #endregion
 
+    public override PlayerBag7USUM Inventory => new(this);
+
     private const ulong MagearnaConst = 0xCBE05F18356504AC;
     private const ulong CapPikachuConst = 0xF44E94EA7D19A8D6;
 

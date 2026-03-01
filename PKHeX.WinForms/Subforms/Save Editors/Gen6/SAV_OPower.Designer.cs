@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_OPower
     {
@@ -709,7 +709,7 @@
             NUD_B0A.TabIndex = 53;
             NUD_B0A.Value = new decimal(new int[] { 255, 0, 0, 0 });
             // 
-            // numericUpDown1
+            // NUD_Points
             // 
             NUD_Points.Location = new System.Drawing.Point(557, 228);
             NUD_Points.Maximum = new decimal(new int[] { 255, 0, 0, 0 });

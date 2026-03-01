@@ -63,7 +63,7 @@ public static class MethodJChecks
     {
         var fake = new MockSlot4(slotIndex);
         var lead = MethodJ.GetSeed(fake, prePID);
-        lead.IsValid().Should().BeFalse();
+        lead.IsValid.Should().BeFalse();
         lead.Seed.Should().BeInRange(0, uint.MaxValue);
     }
 }

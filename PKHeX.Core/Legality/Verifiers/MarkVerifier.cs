@@ -102,7 +102,7 @@ public sealed class MarkVerifier : Verifier
         // Try re-verifying to see if it could have had the Ribbon/Mark.
 
         var enc = data.EncounterOriginal;
-        if (affix.IsEncounterMark8())
+        if (affix.IsEncounterMark8)
         {
             if (!MarkRules.IsEncounterMarkValid(affix, pk, enc))
                 data.AddLine(GetInvalid(RibbonMarkingAffixed_0, (ushort)affix));

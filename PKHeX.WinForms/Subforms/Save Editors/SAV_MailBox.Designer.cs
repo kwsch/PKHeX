@@ -61,7 +61,6 @@ namespace PKHeX.WinForms
             CHK_UserEntered = new System.Windows.Forms.CheckBox();
             CB_AuthorVersion = new System.Windows.Forms.ComboBox();
             CB_AuthorLang = new System.Windows.Forms.ComboBox();
-            Label_OTGender = new System.Windows.Forms.Label();
             L_MailType = new System.Windows.Forms.Label();
             L_AppearPKM = new System.Windows.Forms.Label();
             GB_PKM = new System.Windows.Forms.GroupBox();
@@ -95,6 +94,7 @@ namespace PKHeX.WinForms
             B_PartyDown = new System.Windows.Forms.Button();
             B_BoxDown = new System.Windows.Forms.Button();
             B_BoxUp = new System.Windows.Forms.Button();
+            GT_AuthorGender = new PKHeX.WinForms.Controls.GenderToggle();
             ((System.ComponentModel.ISupportInitialize)NUD_AuthorTID).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_AuthorSID).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_BoxSize).BeginInit();
@@ -154,7 +154,6 @@ namespace PKHeX.WinForms
             // 
             LB_PartyHeld.FormattingEnabled = true;
             LB_PartyHeld.IntegralHeight = false;
-            LB_PartyHeld.ItemHeight = 15;
             LB_PartyHeld.Location = new System.Drawing.Point(18, 45);
             LB_PartyHeld.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LB_PartyHeld.Name = "LB_PartyHeld";
@@ -167,7 +166,6 @@ namespace PKHeX.WinForms
             LB_PCBOX.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             LB_PCBOX.FormattingEnabled = true;
             LB_PCBOX.IntegralHeight = false;
-            LB_PCBOX.ItemHeight = 15;
             LB_PCBOX.Location = new System.Drawing.Point(18, 193);
             LB_PCBOX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LB_PCBOX.Name = "LB_PCBOX";
@@ -203,7 +201,7 @@ namespace PKHeX.WinForms
             TB_MessageBody21.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_MessageBody21.MaxLength = 32;
             TB_MessageBody21.Name = "TB_MessageBody21";
-            TB_MessageBody21.Size = new System.Drawing.Size(216, 23);
+            TB_MessageBody21.Size = new System.Drawing.Size(216, 25);
             TB_MessageBody21.TabIndex = 7;
             TB_MessageBody21.Text = "０１２３４５６７８９ＡＢＣＤＥＦ";
             // 
@@ -213,7 +211,7 @@ namespace PKHeX.WinForms
             TB_MessageBody22.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_MessageBody22.MaxLength = 32;
             TB_MessageBody22.Name = "TB_MessageBody22";
-            TB_MessageBody22.Size = new System.Drawing.Size(216, 23);
+            TB_MessageBody22.Size = new System.Drawing.Size(216, 25);
             TB_MessageBody22.TabIndex = 8;
             TB_MessageBody22.Text = "０１２３４５６７８９ＡＢＣＤＥＦ";
             // 
@@ -223,7 +221,7 @@ namespace PKHeX.WinForms
             TB_AuthorName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_AuthorName.MaxLength = 7;
             TB_AuthorName.Name = "TB_AuthorName";
-            TB_AuthorName.Size = new System.Drawing.Size(96, 23);
+            TB_AuthorName.Size = new System.Drawing.Size(96, 25);
             TB_AuthorName.TabIndex = 9;
             TB_AuthorName.Text = "MMMMMMM";
             // 
@@ -233,7 +231,7 @@ namespace PKHeX.WinForms
             NUD_AuthorTID.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_AuthorTID.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_AuthorTID.Name = "NUD_AuthorTID";
-            NUD_AuthorTID.Size = new System.Drawing.Size(63, 23);
+            NUD_AuthorTID.Size = new System.Drawing.Size(63, 25);
             NUD_AuthorTID.TabIndex = 10;
             NUD_AuthorTID.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -244,7 +242,7 @@ namespace PKHeX.WinForms
             CB_AppearPKM1.Location = new System.Drawing.Point(274, 380);
             CB_AppearPKM1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_AppearPKM1.Name = "CB_AppearPKM1";
-            CB_AppearPKM1.Size = new System.Drawing.Size(124, 23);
+            CB_AppearPKM1.Size = new System.Drawing.Size(124, 25);
             CB_AppearPKM1.TabIndex = 11;
             // 
             // CB_MailType
@@ -254,7 +252,7 @@ namespace PKHeX.WinForms
             CB_MailType.Location = new System.Drawing.Point(274, 344);
             CB_MailType.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_MailType.Name = "CB_MailType";
-            CB_MailType.Size = new System.Drawing.Size(124, 23);
+            CB_MailType.Size = new System.Drawing.Size(124, 25);
             CB_MailType.TabIndex = 12;
             // 
             // NUD_AuthorSID
@@ -263,7 +261,7 @@ namespace PKHeX.WinForms
             NUD_AuthorSID.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_AuthorSID.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_AuthorSID.Name = "NUD_AuthorSID";
-            NUD_AuthorSID.Size = new System.Drawing.Size(63, 23);
+            NUD_AuthorSID.Size = new System.Drawing.Size(63, 25);
             NUD_AuthorSID.TabIndex = 13;
             NUD_AuthorSID.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -274,7 +272,7 @@ namespace PKHeX.WinForms
             NUD_BoxSize.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_BoxSize.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             NUD_BoxSize.Name = "NUD_BoxSize";
-            NUD_BoxSize.Size = new System.Drawing.Size(43, 23);
+            NUD_BoxSize.Size = new System.Drawing.Size(43, 25);
             NUD_BoxSize.TabIndex = 14;
             NUD_BoxSize.Value = new decimal(new int[] { 50, 0, 0, 0 });
             NUD_BoxSize.ValueChanged += NUD_BoxSize_ValueChanged;
@@ -322,7 +320,7 @@ namespace PKHeX.WinForms
             NUD_MessageEnding.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_MessageEnding.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_MessageEnding.Name = "NUD_MessageEnding";
-            NUD_MessageEnding.Size = new System.Drawing.Size(63, 23);
+            NUD_MessageEnding.Size = new System.Drawing.Size(63, 25);
             NUD_MessageEnding.TabIndex = 12;
             NUD_MessageEnding.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -332,7 +330,7 @@ namespace PKHeX.WinForms
             NUD_Message23.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message23.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message23.Name = "NUD_Message23";
-            NUD_Message23.Size = new System.Drawing.Size(63, 23);
+            NUD_Message23.Size = new System.Drawing.Size(63, 25);
             NUD_Message23.TabIndex = 11;
             NUD_Message23.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -342,7 +340,7 @@ namespace PKHeX.WinForms
             NUD_Message13.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message13.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message13.Name = "NUD_Message13";
-            NUD_Message13.Size = new System.Drawing.Size(63, 23);
+            NUD_Message13.Size = new System.Drawing.Size(63, 25);
             NUD_Message13.TabIndex = 7;
             NUD_Message13.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -352,7 +350,7 @@ namespace PKHeX.WinForms
             NUD_Message03.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message03.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message03.Name = "NUD_Message03";
-            NUD_Message03.Size = new System.Drawing.Size(63, 23);
+            NUD_Message03.Size = new System.Drawing.Size(63, 25);
             NUD_Message03.TabIndex = 3;
             NUD_Message03.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -362,7 +360,7 @@ namespace PKHeX.WinForms
             NUD_Message22.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message22.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message22.Name = "NUD_Message22";
-            NUD_Message22.Size = new System.Drawing.Size(63, 23);
+            NUD_Message22.Size = new System.Drawing.Size(63, 25);
             NUD_Message22.TabIndex = 10;
             NUD_Message22.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -372,7 +370,7 @@ namespace PKHeX.WinForms
             NUD_Message21.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message21.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message21.Name = "NUD_Message21";
-            NUD_Message21.Size = new System.Drawing.Size(63, 23);
+            NUD_Message21.Size = new System.Drawing.Size(63, 25);
             NUD_Message21.TabIndex = 9;
             NUD_Message21.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -382,7 +380,7 @@ namespace PKHeX.WinForms
             NUD_Message20.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message20.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message20.Name = "NUD_Message20";
-            NUD_Message20.Size = new System.Drawing.Size(63, 23);
+            NUD_Message20.Size = new System.Drawing.Size(63, 25);
             NUD_Message20.TabIndex = 8;
             NUD_Message20.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -392,7 +390,7 @@ namespace PKHeX.WinForms
             NUD_Message12.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message12.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message12.Name = "NUD_Message12";
-            NUD_Message12.Size = new System.Drawing.Size(63, 23);
+            NUD_Message12.Size = new System.Drawing.Size(63, 25);
             NUD_Message12.TabIndex = 6;
             NUD_Message12.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -402,7 +400,7 @@ namespace PKHeX.WinForms
             NUD_Message11.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message11.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message11.Name = "NUD_Message11";
-            NUD_Message11.Size = new System.Drawing.Size(63, 23);
+            NUD_Message11.Size = new System.Drawing.Size(63, 25);
             NUD_Message11.TabIndex = 5;
             NUD_Message11.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -412,7 +410,7 @@ namespace PKHeX.WinForms
             NUD_Message10.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message10.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message10.Name = "NUD_Message10";
-            NUD_Message10.Size = new System.Drawing.Size(63, 23);
+            NUD_Message10.Size = new System.Drawing.Size(63, 25);
             NUD_Message10.TabIndex = 4;
             NUD_Message10.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -422,7 +420,7 @@ namespace PKHeX.WinForms
             NUD_Message02.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message02.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message02.Name = "NUD_Message02";
-            NUD_Message02.Size = new System.Drawing.Size(63, 23);
+            NUD_Message02.Size = new System.Drawing.Size(63, 25);
             NUD_Message02.TabIndex = 2;
             NUD_Message02.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -432,7 +430,7 @@ namespace PKHeX.WinForms
             NUD_Message01.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message01.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message01.Name = "NUD_Message01";
-            NUD_Message01.Size = new System.Drawing.Size(63, 23);
+            NUD_Message01.Size = new System.Drawing.Size(63, 25);
             NUD_Message01.TabIndex = 1;
             NUD_Message01.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -442,16 +440,16 @@ namespace PKHeX.WinForms
             NUD_Message00.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Message00.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Message00.Name = "NUD_Message00";
-            NUD_Message00.Size = new System.Drawing.Size(63, 23);
+            NUD_Message00.Size = new System.Drawing.Size(63, 25);
             NUD_Message00.TabIndex = 0;
             NUD_Message00.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
             // GB_Author
             // 
+            GB_Author.Controls.Add(GT_AuthorGender);
             GB_Author.Controls.Add(CHK_UserEntered);
             GB_Author.Controls.Add(CB_AuthorVersion);
             GB_Author.Controls.Add(CB_AuthorLang);
-            GB_Author.Controls.Add(Label_OTGender);
             GB_Author.Controls.Add(TB_AuthorName);
             GB_Author.Controls.Add(NUD_AuthorTID);
             GB_Author.Controls.Add(NUD_AuthorSID);
@@ -469,7 +467,7 @@ namespace PKHeX.WinForms
             CHK_UserEntered.AutoSize = true;
             CHK_UserEntered.Location = new System.Drawing.Point(159, 62);
             CHK_UserEntered.Name = "CHK_UserEntered";
-            CHK_UserEntered.Size = new System.Drawing.Size(94, 19);
+            CHK_UserEntered.Size = new System.Drawing.Size(104, 21);
             CHK_UserEntered.TabIndex = 61;
             CHK_UserEntered.Text = "User-Entered";
             CHK_UserEntered.UseVisualStyleBackColor = true;
@@ -481,7 +479,7 @@ namespace PKHeX.WinForms
             CB_AuthorVersion.Location = new System.Drawing.Point(158, 60);
             CB_AuthorVersion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_AuthorVersion.Name = "CB_AuthorVersion";
-            CB_AuthorVersion.Size = new System.Drawing.Size(136, 23);
+            CB_AuthorVersion.Size = new System.Drawing.Size(136, 25);
             CB_AuthorVersion.TabIndex = 60;
             // 
             // CB_AuthorLang
@@ -491,20 +489,8 @@ namespace PKHeX.WinForms
             CB_AuthorLang.Location = new System.Drawing.Point(158, 24);
             CB_AuthorLang.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_AuthorLang.Name = "CB_AuthorLang";
-            CB_AuthorLang.Size = new System.Drawing.Size(136, 23);
+            CB_AuthorLang.Size = new System.Drawing.Size(136, 25);
             CB_AuthorLang.TabIndex = 59;
-            // 
-            // Label_OTGender
-            // 
-            Label_OTGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            Label_OTGender.Location = new System.Drawing.Point(118, 24);
-            Label_OTGender.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            Label_OTGender.Name = "Label_OTGender";
-            Label_OTGender.Size = new System.Drawing.Size(23, 25);
-            Label_OTGender.TabIndex = 58;
-            Label_OTGender.Text = "G";
-            Label_OTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            Label_OTGender.Click += Label_OTGender_Click;
             // 
             // L_MailType
             // 
@@ -573,7 +559,7 @@ namespace PKHeX.WinForms
             NUD_MailID6.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID6.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
             NUD_MailID6.Name = "NUD_MailID6";
-            NUD_MailID6.Size = new System.Drawing.Size(50, 23);
+            NUD_MailID6.Size = new System.Drawing.Size(50, 25);
             NUD_MailID6.TabIndex = 16;
             NUD_MailID6.Value = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID6.ValueChanged += NUD_MailIDn_ValueChanged;
@@ -605,7 +591,7 @@ namespace PKHeX.WinForms
             NUD_MailID5.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID5.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
             NUD_MailID5.Name = "NUD_MailID5";
-            NUD_MailID5.Size = new System.Drawing.Size(50, 23);
+            NUD_MailID5.Size = new System.Drawing.Size(50, 25);
             NUD_MailID5.TabIndex = 13;
             NUD_MailID5.Value = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID5.ValueChanged += NUD_MailIDn_ValueChanged;
@@ -637,7 +623,7 @@ namespace PKHeX.WinForms
             NUD_MailID4.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID4.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
             NUD_MailID4.Name = "NUD_MailID4";
-            NUD_MailID4.Size = new System.Drawing.Size(50, 23);
+            NUD_MailID4.Size = new System.Drawing.Size(50, 25);
             NUD_MailID4.TabIndex = 10;
             NUD_MailID4.Value = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID4.ValueChanged += NUD_MailIDn_ValueChanged;
@@ -669,7 +655,7 @@ namespace PKHeX.WinForms
             NUD_MailID3.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID3.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
             NUD_MailID3.Name = "NUD_MailID3";
-            NUD_MailID3.Size = new System.Drawing.Size(50, 23);
+            NUD_MailID3.Size = new System.Drawing.Size(50, 25);
             NUD_MailID3.TabIndex = 7;
             NUD_MailID3.Value = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID3.ValueChanged += NUD_MailIDn_ValueChanged;
@@ -701,7 +687,7 @@ namespace PKHeX.WinForms
             NUD_MailID2.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID2.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
             NUD_MailID2.Name = "NUD_MailID2";
-            NUD_MailID2.Size = new System.Drawing.Size(50, 23);
+            NUD_MailID2.Size = new System.Drawing.Size(50, 25);
             NUD_MailID2.TabIndex = 4;
             NUD_MailID2.Value = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID2.ValueChanged += NUD_MailIDn_ValueChanged;
@@ -733,7 +719,7 @@ namespace PKHeX.WinForms
             NUD_MailID1.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID1.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
             NUD_MailID1.Name = "NUD_MailID1";
-            NUD_MailID1.Size = new System.Drawing.Size(50, 23);
+            NUD_MailID1.Size = new System.Drawing.Size(50, 25);
             NUD_MailID1.TabIndex = 1;
             NUD_MailID1.Value = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_MailID1.ValueChanged += NUD_MailIDn_ValueChanged;
@@ -775,7 +761,7 @@ namespace PKHeX.WinForms
             CB_AppearPKM2.Location = new System.Drawing.Point(410, 380);
             CB_AppearPKM2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_AppearPKM2.Name = "CB_AppearPKM2";
-            CB_AppearPKM2.Size = new System.Drawing.Size(124, 23);
+            CB_AppearPKM2.Size = new System.Drawing.Size(124, 25);
             CB_AppearPKM2.TabIndex = 23;
             // 
             // CB_AppearPKM3
@@ -785,7 +771,7 @@ namespace PKHeX.WinForms
             CB_AppearPKM3.Location = new System.Drawing.Point(541, 380);
             CB_AppearPKM3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_AppearPKM3.Name = "CB_AppearPKM3";
-            CB_AppearPKM3.Size = new System.Drawing.Size(124, 23);
+            CB_AppearPKM3.Size = new System.Drawing.Size(124, 25);
             CB_AppearPKM3.TabIndex = 24;
             // 
             // L_MiscValue
@@ -804,7 +790,7 @@ namespace PKHeX.WinForms
             NUD_Misc1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Misc1.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Misc1.Name = "NUD_Misc1";
-            NUD_Misc1.Size = new System.Drawing.Size(63, 23);
+            NUD_Misc1.Size = new System.Drawing.Size(63, 25);
             NUD_Misc1.TabIndex = 26;
             NUD_Misc1.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -814,7 +800,7 @@ namespace PKHeX.WinForms
             NUD_Misc2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Misc2.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Misc2.Name = "NUD_Misc2";
-            NUD_Misc2.Size = new System.Drawing.Size(63, 23);
+            NUD_Misc2.Size = new System.Drawing.Size(63, 25);
             NUD_Misc2.TabIndex = 27;
             NUD_Misc2.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -824,7 +810,7 @@ namespace PKHeX.WinForms
             NUD_Misc3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Misc3.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Misc3.Name = "NUD_Misc3";
-            NUD_Misc3.Size = new System.Drawing.Size(63, 23);
+            NUD_Misc3.Size = new System.Drawing.Size(63, 25);
             NUD_Misc3.TabIndex = 28;
             NUD_Misc3.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
@@ -875,6 +861,16 @@ namespace PKHeX.WinForms
             B_BoxUp.UseVisualStyleBackColor = true;
             B_BoxUp.Visible = false;
             B_BoxUp.Click += B_BoxUp_Click;
+            // 
+            // GT_AuthorGender
+            // 
+            GT_AuthorGender.AllowClick = true;
+            GT_AuthorGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            GT_AuthorGender.Gender = 255;
+            GT_AuthorGender.Location = new System.Drawing.Point(113, 24);
+            GT_AuthorGender.Name = "GT_AuthorGender";
+            GT_AuthorGender.Size = new System.Drawing.Size(29, 28);
+            GT_AuthorGender.TabIndex = 62;
             // 
             // SAV_MailBox
             // 
@@ -1004,7 +1000,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_Message23;
         private System.Windows.Forms.ComboBox CB_AuthorVersion;
         private System.Windows.Forms.ComboBox CB_AuthorLang;
-        private System.Windows.Forms.Label Label_OTGender;
         private System.Windows.Forms.NumericUpDown NUD_MessageEnding;
         private System.Windows.Forms.Label L_MiscValue;
         private System.Windows.Forms.NumericUpDown NUD_Misc1;
@@ -1015,5 +1010,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_BoxDown;
         private System.Windows.Forms.Button B_BoxUp;
         private System.Windows.Forms.CheckBox CHK_UserEntered;
+        private Controls.GenderToggle GT_AuthorGender;
     }
 }

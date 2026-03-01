@@ -114,6 +114,6 @@
 3515	t	Kukui derrotado (Defensa del Título; Popplio como Pokémon inicial)
 0194	t	Francine encontrada (Defensa del Título)
 3437	t	Francine derrotada (Defensa del Título)
-0195	t	José encontrado (Defensa del Título)
-3516	t	José derrotado (Defensa del Título)
+0195	t	Joven José encontrado (Defensa del Título)
+3516	t	Joven José derrotado (Defensa del Título)
 1698	s	Evento de Mohn en el Paraíso AEther inactivo

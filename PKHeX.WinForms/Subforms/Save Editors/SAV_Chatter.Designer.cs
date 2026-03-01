@@ -42,7 +42,7 @@ namespace PKHeX.WinForms
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(29, 135);
+            B_Save.Location = new System.Drawing.Point(157, 135);
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(120, 27);
@@ -54,7 +54,7 @@ namespace PKHeX.WinForms
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(157, 135);
+            B_Cancel.Location = new System.Drawing.Point(29, 135);
             B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(120, 27);
@@ -94,7 +94,7 @@ namespace PKHeX.WinForms
             MT_Confusion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MT_Confusion.Mask = "000";
             MT_Confusion.Name = "MT_Confusion";
-            MT_Confusion.Size = new System.Drawing.Size(29, 23);
+            MT_Confusion.Size = new System.Drawing.Size(29, 25);
             MT_Confusion.TabIndex = 65;
             MT_Confusion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -112,10 +112,10 @@ namespace PKHeX.WinForms
             // 
             CHK_Initialized.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             CHK_Initialized.AutoSize = true;
-            CHK_Initialized.Location = new System.Drawing.Point(20, 50);
+            CHK_Initialized.Location = new System.Drawing.Point(15, 50);
             CHK_Initialized.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Initialized.Name = "CHK_Initialized";
-            CHK_Initialized.Size = new System.Drawing.Size(76, 19);
+            CHK_Initialized.Size = new System.Drawing.Size(81, 21);
             CHK_Initialized.TabIndex = 66;
             CHK_Initialized.Text = "Initialized";
             CHK_Initialized.UseVisualStyleBackColor = true;

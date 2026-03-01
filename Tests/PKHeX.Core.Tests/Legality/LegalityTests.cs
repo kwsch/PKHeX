@@ -127,10 +127,11 @@ public class LegalityTest
 
             var data = File.ReadAllBytes(file);
             var prefer = EntityFileExtension.GetContextFromExtension(file);
-            prefer.IsValid().Should().BeTrue("filename is expected to have a valid extension");
+            prefer.IsValid.Should().BeTrue("filename is expected to have a valid extension");
 
             var dn = fi.DirectoryName ?? string.Empty;
-            ParseSettings.AllowGBCartEra = dn.Contains("GBCartEra");
+            ParseSettings.AllowEraCartGB = dn.Contains("GBCartEra");
+            ParseSettings.AllowEraCartGBA = !dn.Contains("GBAVCEra");
             ParseSettings.Settings.Tradeback.AllowGen1Tradeback = dn.Contains("1 Tradeback");
             var pk = EntityFormat.GetFromBytes(data, prefer);
             pk.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");

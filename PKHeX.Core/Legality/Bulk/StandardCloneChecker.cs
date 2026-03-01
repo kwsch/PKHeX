@@ -22,7 +22,6 @@ public sealed class StandardCloneChecker : IBulkAnalyzer
         for (int i = 0; i < input.AllData.Count; i++)
         {
             var cs = input.AllData[i];
-            var ca = input.AllAnalysis[i];
             Debug.Assert(cs.Entity.Format == input.Trainer.Generation);
 
             // Check the upload tracker to see if there's any duplication.

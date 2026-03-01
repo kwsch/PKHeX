@@ -1,0 +1,79 @@
+1059	r	Mewtwo Vaincu
+0211	r	Mewtwo Capturé
+0210	r	Zygarde Capturé
+0886	r	Zygarde Vaincu
+0631	r	Ronflex Parti
+0321	r	Ronflex Capturé
+0381	+	Statuette Solo (Maison de Combat)
+0382	+	Statuette Duo (Maison de Combat)
+0383	+	Statuette Trio (Maison de Combat)
+0384	+	Statuette Rotatif (Maison de Combat)
+0385	+	Statuette Multi (Maison de Combat)
+0386	+	Super Solo Débloqué
+0387	+	Super Duo Débloqué
+0388	+	Super Trio Débloqué
+0389	+	Super Rotatif Débloqué
+0390	+	Super Multi Débloqué
+0771	+	Série de 50 : Châtelaine Vaincue
+2642	s	Pokédex Obtenu
+2640	s	Entré au Panthéon/Salle de Zygarde Accessible
+2645	*	Rollers Activés
+0162	s	A Choisi le Bouton Bleu au Niveau -3 des Labos Lysandre
+0185	g	Échange Interne Rondoudou Contre Scalproie (Auffrac-les-Congères)
+0190	g	A Échangé avec Sannah
+0191	g	Échange Interne Lovdisc Contre Steelix (Relifac-le-Haut)
+0320	g	A Échangé avec Dianthéa
+0426	g	Échange Interne Sapereau Contre Canarticho (Neuvartault)
+0319	g	A Reçu le Pokémon de Kanto de Platane
+0949	g	A Reçu le Lucario Cadeau
+1060	s	Grotte Inconnue Accessible
+0299	g	A Reçu le Diancie Depuis le Cadeau Mystère (Évènement du Centre Pokémon Terminé)
+2666	*	A Débloqué le PC d'Olivier
+2670	+	Peut Utiliser la Figure de Rollers : Godille
+2671	+	A Appris la Figure de Rollers : Backflip
+2672	+	Peut Utiliser la Figure de Rollers : Backflip
+2673	+	Peut Utiliser la Figure de Rollers : 360°
+2674	+	A Appris la Figure de Rollers : 360°
+2675	+	Peut Utiliser la Figure de Rollers : Cosmoflip
+2720	f	Peut Voler à Bourg Croquis
+2721	f	Peut Voler à Quarellis
+2722	f	Peut Voler à Neuvartault
+2724	f	Peut Voler à Relifac-le-Haut
+2725	f	Peut Voler à Yantreizh
+2726	f	Peut Voler à Port Tempères
+2727	f	Peut Voler à Romant-sous-Bois
+2728	f	Peut Voler à Flusselles
+2729	f	Peut Voler à Auffrac-les-Congères
+2730	f	Peut Voler à Fort-Vanitas
+2731	f	Peut Voler à Cromlac’h
+2732	f	Peut Voler à La Frescale
+2733	f	Peut Voler à Mozheim
+2734	f	Peut Voler à Roche-sur-Gliffe
+2735	f	Peut Voler à la Ligue Pokémon
+2736	f	Peut Voler à Batisques
+2737	f	Peut Voler à Illumis (Rue Méridionale)
+2738	f	Peut Voler à Illumis (Rue Septentrionale)
+2739	f	Peut Voler à Illumis (Place Rose)
+0487	+	Série Parfaite : Combats Duo au Restaurant L'Étoilé
+0488	+	Série Parfaite : Combats Trio au Restaurant Les Algolides
+0489	+	Série Parfaite : Combats Rotatif au Restaurant Les Algolides
+0490	+	Série Parfaite : Combats Duo au Restaurant Le Firmament
+0491	+	Série Parfaite : Combats Trio au Restaurant Le Firmament
+0492	+	Série Parfaite : Combats Rotatif au Restaurant Le Firmament
+0493	+	Série Parfaite : Combats Duo à Sushi Sans Chichis
+0494	+	Série Parfaite : Combats Trio à Sushi Sans Chichis
+0495	+	Série Parfaite : Combats Rotatif à Sushi Sans Chichis
+0184	+	Série Parfaite : Petit Boulot Valet/Femme de Chambre au 4ème Étage
+2984	m	A Terminé le Petit Boulot Service en Chambre (Aujourd'hui)
+2985	m	A Terminé le Petit Boulot Valet/Femme de Chambre (Aujourd'hui)
+2986	m	A Terminé le Petit Boulot Objets Trouvés (Aujourd'hui)
+3152	m	Poubelle Quotidienne du Village Pokémon Vérifiée (Aujourd'hui)
+3153	m	Poubelle (1) du Mardi du Village Pokémon Vérifiée (Aujourd'hui)
+3154	m	Poubelle (2) du Mardi du Village Pokémon Vérifiée (Aujourd'hui)
+3155	m	Poubelle (3) du Mardi du Village Pokémon Vérifiée (Aujourd'hui)
+3156	m	Poubelle (4) du Mardi du Village Pokémon Vérifiée (Aujourd'hui)
+3157	m	Poubelle Quotidienne de l'Hôtel Désolation Vérifiée (Aujourd'hui)
+3158	m	Poubelle (1) du Mardi de l'Hôtel Désolation Vérifiée (Aujourd'hui)
+3159	m	Poubelle (2) du Mardi de l'Hôtel Désolation Vérifiée (Aujourd'hui)
+3160	m	Poubelle (3) du Mardi de l'Hôtel Désolation Vérifiée (Aujourd'hui)
+3161	m	Poubelle (4) du Mardi de l'Hôtel Désolation Vérifiée (Aujourd'hui)

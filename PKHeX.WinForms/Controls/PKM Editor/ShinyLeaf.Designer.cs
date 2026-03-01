@@ -28,30 +28,30 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            FLP_ShinyLeaf = new System.Windows.Forms.FlowLayoutPanel();
             CHK_1 = new System.Windows.Forms.CheckBox();
             CHK_2 = new System.Windows.Forms.CheckBox();
             CHK_3 = new System.Windows.Forms.CheckBox();
             CHK_4 = new System.Windows.Forms.CheckBox();
             CHK_5 = new System.Windows.Forms.CheckBox();
             CHK_C = new System.Windows.Forms.CheckBox();
-            flowLayoutPanel1.SuspendLayout();
+            FLP_ShinyLeaf.SuspendLayout();
             SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // FLP_ShinyLeaf
             // 
-            flowLayoutPanel1.Controls.Add(CHK_1);
-            flowLayoutPanel1.Controls.Add(CHK_2);
-            flowLayoutPanel1.Controls.Add(CHK_3);
-            flowLayoutPanel1.Controls.Add(CHK_4);
-            flowLayoutPanel1.Controls.Add(CHK_5);
-            flowLayoutPanel1.Controls.Add(CHK_C);
-            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new System.Drawing.Size(200, 64);
-            flowLayoutPanel1.TabIndex = 0;
+            FLP_ShinyLeaf.Controls.Add(CHK_1);
+            FLP_ShinyLeaf.Controls.Add(CHK_2);
+            FLP_ShinyLeaf.Controls.Add(CHK_3);
+            FLP_ShinyLeaf.Controls.Add(CHK_4);
+            FLP_ShinyLeaf.Controls.Add(CHK_5);
+            FLP_ShinyLeaf.Controls.Add(CHK_C);
+            FLP_ShinyLeaf.Dock = System.Windows.Forms.DockStyle.Fill;
+            FLP_ShinyLeaf.Location = new System.Drawing.Point(0, 0);
+            FLP_ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
+            FLP_ShinyLeaf.Name = "FLP_ShinyLeaf";
+            FLP_ShinyLeaf.Size = new System.Drawing.Size(200, 64);
+            FLP_ShinyLeaf.TabIndex = 0;
             // 
             // CHK_1
             // 
@@ -122,17 +122,17 @@ namespace PKHeX.WinForms.Controls
             // ShinyLeaf
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(FLP_ShinyLeaf);
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Name = "ShinyLeaf";
             Size = new System.Drawing.Size(200, 64);
-            flowLayoutPanel1.ResumeLayout(false);
+            FLP_ShinyLeaf.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel FLP_ShinyLeaf;
         private System.Windows.Forms.CheckBox CHK_1;
         private System.Windows.Forms.CheckBox CHK_2;
         private System.Windows.Forms.CheckBox CHK_3;

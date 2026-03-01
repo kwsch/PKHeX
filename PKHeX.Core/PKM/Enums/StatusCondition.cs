@@ -47,7 +47,7 @@ public static class StatusConditionUtil
     public static StatusType GetStatusType(this PKM pk)
     {
         var value = (StatusCondition)pk.Status_Condition;
-        return GetStatusType(value);
+        return value.GetStatusType();
     }
 
     public static StatusType GetStatusType(this StatusCondition value)

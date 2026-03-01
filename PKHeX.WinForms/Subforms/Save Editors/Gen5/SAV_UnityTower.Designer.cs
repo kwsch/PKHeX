@@ -1,3 +1,5 @@
+using PKHeX.WinForms.Controls;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_UnityTower
@@ -36,12 +38,12 @@ namespace PKHeX.WinForms
             CHK_GlobalFlag = new System.Windows.Forms.CheckBox();
             CHK_UnityTowerFlag = new System.Windows.Forms.CheckBox();
             splitContainer1 = new System.Windows.Forms.SplitContainer();
-            DGV_Geonet = new System.Windows.Forms.DataGridView();
-            DGV_UnityTower = new System.Windows.Forms.DataGridView();
             Item_CountryIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             Item_Country = new System.Windows.Forms.DataGridViewTextBoxColumn();
             Item_RegionIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             Item_Region = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DGV_Geonet = new DoubleBufferedDataGridView();
+            DGV_UnityTower = new DoubleBufferedDataGridView();
             Item_Point = new System.Windows.Forms.DataGridViewComboBoxColumn();
             Item_Floor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             Item_UnityTowerIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -299,10 +301,10 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_ClearLocations;
         private System.Windows.Forms.CheckBox CHK_GlobalFlag;
         private System.Windows.Forms.CheckBox CHK_UnityTowerFlag;
-        private System.Windows.Forms.DataGridView DGV_Geonet;
+        private DoubleBufferedDataGridView DGV_Geonet;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Point;
-        private System.Windows.Forms.DataGridView DGV_UnityTower;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Item_Floor;
+        private DoubleBufferedDataGridView DGV_UnityTower;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Item_CountryIndex;
         private System.Windows.Forms.DataGridViewTextBoxColumn Item_RegionIndex;

@@ -1,7 +1,7 @@
 namespace PKHeX.WinForms.Controls;
 
 /// <summary>
-/// Specifies the modifier for a drag-and-drop operation.
+/// Specifies the modifier for a <see cref="Core.PKM"/> drag-and-drop operation.
 /// </summary>
 public enum DropModifier
 {

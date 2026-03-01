@@ -14,18 +14,25 @@ public static class SpeciesName
     private static readonly string[][] SpeciesLang =
     [
         [], // 0 (unused, invalid)
-        Util.GetSpeciesList("ja"), // 1
-        Util.GetSpeciesList("en"), // 2
-        Util.GetSpeciesList("fr"), // 3
-        Util.GetSpeciesList("it"), // 4
-        Util.GetSpeciesList("de"), // 5
+        GetSpeciesList("ja"), // 1
+        GetSpeciesList("en"), // 2
+        GetSpeciesList("fr"), // 3
+        GetSpeciesList("it"), // 4
+        GetSpeciesList("de"), // 5
         [], // 6 (reserved for Gen3 KO?, unused)
-        Util.GetSpeciesList("es"), // 7
-        Util.GetSpeciesList("ko"), // 8
-        Util.GetSpeciesList("zh-Hans"), // 9 Simplified
-        Util.GetSpeciesList("zh-Hant"), // 10 Traditional
-        Util.GetSpeciesList("es-419"), // 11 Spanish 
+        GetSpeciesList("es"), // 7
+        GetSpeciesList("ko"), // 8
+        GetSpeciesList("zh-Hans"), // 9 Simplified
+        GetSpeciesList("zh-Hant"), // 10 Traditional
+        GetSpeciesList("es-419"), // 11 Spanish 
     ];
+
+    /// <summary>
+    /// Gets a list of all Pokémon species names.
+    /// </summary>
+    /// <param name="language">Language of the Pokémon species names to select (e.g. "en", "fr", "jp", etc.)</param>
+    /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon species name.</returns>
+    private static string[] GetSpeciesList(string language) => Util.GetStringList("species", language);
 
     /// <summary>
     /// Egg name list indexed by the <see cref="LanguageID"/> value.
@@ -157,7 +164,7 @@ public static class SpeciesName
         Span<char> result = stackalloc char[nick.Length];
 
         // All names are uppercase.
-        nick.AsSpan().ToUpperInvariant(result);
+        nick.ToUpperInvariant(result);
         if (language == (int)LanguageID.French)
             StringConverter4Util.StripDiacriticsFR4(result); // strips accents on E and I
 
@@ -249,7 +256,7 @@ public static class SpeciesName
     public static bool IsNicknamedAnyLanguage(ushort species, ReadOnlySpan<char> nickname, EntityContext context = Latest.Context)
     {
         var langs = Language.GetAvailableGameLanguages(context);
-        var generation = context.Generation();
+        var generation = context.Generation;
         foreach (var language in langs)
         {
             if (!IsNicknamed(species, nickname, language, generation))
@@ -283,7 +290,7 @@ public static class SpeciesName
     public static int GetSpeciesNameLanguage(ushort species, int priorityLanguage, ReadOnlySpan<char> nickname, EntityContext context = Latest.Context)
     {
         var langs = Language.GetAvailableGameLanguages(context);
-        var generation = context.Generation();
+        var generation = context.Generation;
         var priorityIndex = langs.IndexOf((byte)priorityLanguage);
         if (priorityIndex != -1)
         {
@@ -305,7 +312,7 @@ public static class SpeciesName
     public static int GetSpeciesNameLanguage(ushort species, ReadOnlySpan<char> nickname, EntityContext context = Latest.Context)
     {
         var langs = Language.GetAvailableGameLanguages(context);
-        var generation = context.Generation();
+        var generation = context.Generation;
         return GetSpeciesNameLanguage(species, nickname, generation, langs);
     }
 

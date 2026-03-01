@@ -66,8 +66,11 @@ public partial class GenderToggle : UserControl, IGenderToggle
         if (Value == value)
             return value;
         BackgroundImage = GenderImages[value];
-        AccessibleName = (InitialAccessible ??= AccessibleName) + $" ({value})";
-        AccessibleDescription = (InitialAccessible ??= AccessibleName) + $" ({value})";
+        if (!IsAncestorSiteInDesignMode && !DesignMode)
+        {
+            AccessibleName = (InitialAccessible ??= AccessibleName) + $" ({value})";
+            AccessibleDescription = (InitialAccessible ??= AccessibleName) + $" ({value})";
+        }
         return value;
     }
 

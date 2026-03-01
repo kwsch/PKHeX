@@ -13,9 +13,7 @@ public partial class CatchRate : UserControl
 
     private void ChangeValue(object sender, EventArgs e)
     {
-        if (Entity is null)
-            return;
-        Entity.CatchRate = (byte)NUD_CatchRate.Value;
+        Entity?.CatchRate = (byte)NUD_CatchRate.Value;
     }
 
     private void Clear(object sender, EventArgs e) => NUD_CatchRate.Value = 0;

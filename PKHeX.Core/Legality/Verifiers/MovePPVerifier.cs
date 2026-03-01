@@ -51,27 +51,32 @@ public sealed class MovePPVerifier : Verifier
         {
             for (int i = 0; i < ups.Length; i++)
             {
-                if (ups[i] != 0)
-                    data.AddLine(GetInvalid(MovePPUpsTooHigh_0, (ushort)(i + 1)));
+                var value = ups[i];
+                if (value != 0)
+                    data.AddLine(GetInvalid(MovePPUpsTooHigh_01, (ushort)(i + 1), (ushort)value));
             }
         }
         else // Check specific move indexes
         {
             for (int i = 0; i < ups.Length; i++)
             {
-                if (!Legal.IsPPUpAvailable(moves[i]) && ups[i] != 0)
-                    data.AddLine(GetInvalid(MovePPUpsTooHigh_0, (ushort)(i + 1)));
+                var value = ups[i];
+                if (!Legal.IsPPUpAvailable(moves[i]) && value != 0)
+                    data.AddLine(GetInvalid(MovePPUpsTooHigh_01, (ushort)(i + 1), (ushort)value));
             }
         }
 
         var expectHeal = Legal.IsPPUnused(pk) || IsPPHealed(data, pk);
         for (int i = 0; i < pp.Length; i++)
         {
+            // Sometimes the PP count will exceed (such as VC=>Bank); just flag it as invalid so the user knows they need to heal them.
+            // Technically that case is legal (game bug) only if they never move it from the box, but we want to inform the user.
             var expect = pk.GetMovePP(moves[i], ups[i]);
-            if (pp[i] > expect)
-                data.AddLine(GetInvalid(MovePPTooHigh_0, (ushort)(i + 1)));
-            else if (expectHeal && pp[i] != expect)
-                data.AddLine(GetInvalid(MovePPExpectHealed_0, (ushort)(i + 1)));
+            var value = pp[i];
+            if (value > expect)
+                data.AddLine(GetInvalid(MovePPTooHigh_01, (ushort)(i + 1), (ushort)value));
+            else if (expectHeal && value != expect)
+                data.AddLine(GetInvalid(MovePPExpectHealed_01, (ushort)(i + 1), (ushort)value));
         }
     }
 

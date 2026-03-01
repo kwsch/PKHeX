@@ -1,5 +1,5 @@
 0x4021	m	Repel Step Counter
-0x4023	*	Starter Pokemon	00:Treecko,01:Torchic,02:Mudkip
+0x4023	*	Starter Pokémon	00:Treecko,01:Torchic,02:Mudkip
 0x4024	r	Mirage Island RND (High)
 0x4025	r	Mirage Island RND (Low)
 0x4026	*	Current Secret Base

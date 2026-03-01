@@ -1,8 +1,6 @@
 using PKHeX.Core;
 using PKHeX.Drawing.Misc.Properties;
-using PKHeX.Drawing.PokeSprite;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 
 namespace PKHeX.Drawing.Misc;
@@ -20,6 +18,7 @@ public static class DonutSpriteUtil
     public static Bitmap? Sprite(this Donut9a donut) => GetDonutImage(donut);
     public static Bitmap? StarSprite => (Bitmap?)Resources.ResourceManager.GetObject("star");
     public static Bitmap? GetDonutFlavorImage(string donut) => (Bitmap?)Resources.ResourceManager.GetObject(donut);
+    public static Bitmap? GetFlavorProfileImage() => (Bitmap?)Resources.ResourceManager.GetObject("flavorprofile");
 
     private static Bitmap? GetDonutImage(Donut9a donut)
     {

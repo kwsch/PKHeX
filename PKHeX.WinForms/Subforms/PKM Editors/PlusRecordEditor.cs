@@ -43,7 +43,6 @@ public partial class PlusRecordEditor : Form
         var indexes = Permit.PlusMoveIndexes;
         // Add the records to the datagrid.
         dgv.Rows.Add(indexes.Length);
-        var evos = Legality.Info.EvoChainsAllGens.Get(context);
 
         var count = Entity.MaxMoveID + 1;
         var rent = ArrayPool<bool>.Shared.Rent(count);
@@ -61,15 +60,15 @@ public partial class PlusRecordEditor : Form
             Color color;
             if (currentMoves.Contains(move))
             {
-                color = Color.LightBlue;
+                color = WinFormsUtil.ColorAccept;
             }
             else if (span[move])
             {
-                color = Color.LightGreen;
+                color = WinFormsUtil.ColorValid;
             }
             else
             {
-                color = Color.LightCoral;
+                color = WinFormsUtil.ColorSuspect;
                 isValid = false;
             }
             SetStyleColor(cell, color);

@@ -114,6 +114,6 @@
 3515	t	Defeated Kukui (Title Defense; Popplio is Player Starter)
 0194	t	Encountered Plumeria (Title Defense)
 3437	t	Defeated Plumeria (Title Defense)
-0195	t	Encountered Tristan (Title Defense)
-3516	t	Defeated Tristan (Title Defense)
+0195	t	Encountered Youngster Tristan (Title Defense)
+3516	t	Defeated Youngster Tristan (Title Defense)
 1698	s	Aether Paradise Mohn Event Inactive

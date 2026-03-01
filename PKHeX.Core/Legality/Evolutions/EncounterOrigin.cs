@@ -32,7 +32,6 @@ public static class EncounterOrigin
     public static EvoCriteria[] GetOriginChain12(PKM pk, byte generation, EntityContext context)
     {
         var (minLevel, maxLevel) = GetMinMaxGB(pk);
-        bool rby = context == EntityContext.Gen1;
         var origin = new EvolutionOrigin(pk.Species, context, generation, minLevel, maxLevel);
         return EvolutionChain.GetOriginChain(pk, origin);
     }

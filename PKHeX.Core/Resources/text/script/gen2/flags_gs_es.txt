@@ -68,10 +68,10 @@
 1890	*	Red desapareció en Monte Plateado
 0069	g	Recibido Shuckle de Klaus
 0070	g	Shuckle Regresado/Permitido quedárselo
-0080	g	Recibido Spearow de Randy
+0080	g	Recibido Spearow de Lucas
 0081	s	El correo puede sern entregado en la Ruta 31
-0082	s	Recibido PS Mas de Randy
-0083	s	Entregado correo de Randy/Recibida MT50
+0082	s	Recibido PS Mas de Lucas
+0083	s	Entregado correo de Lucas/Recibida MT50
 0084	s	Togepi Eclosionado
 0085	s	Mostrado Togepi a Elm
 0086	s	Recibida Piedra Eterna de Elm

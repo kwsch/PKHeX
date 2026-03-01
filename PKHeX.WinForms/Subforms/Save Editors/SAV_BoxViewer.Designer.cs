@@ -28,20 +28,19 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            PB_BoxSwap = new System.Windows.Forms.PictureBox();
+            B_BoxSwap = new System.Windows.Forms.Button();
             Box = new PKHeX.WinForms.Controls.BoxEditor();
-            ((System.ComponentModel.ISupportInitialize)(PB_BoxSwap)).BeginInit();
             SuspendLayout();
             // 
             // PB_BoxSwap
             // 
-            PB_BoxSwap.Image = global::PKHeX.WinForms.Properties.Resources.swapBox;
-            PB_BoxSwap.Location = new System.Drawing.Point(0, 0);
-            PB_BoxSwap.Name = "PB_BoxSwap";
-            PB_BoxSwap.Size = new System.Drawing.Size(24, 24);
-            PB_BoxSwap.TabIndex = 67;
-            PB_BoxSwap.TabStop = false;
-            PB_BoxSwap.Click += new System.EventHandler(PB_BoxSwap_Click);
+            B_BoxSwap.Image = global::PKHeX.WinForms.Properties.Resources.swapBox;
+            B_BoxSwap.Location = new System.Drawing.Point(0, 0);
+            B_BoxSwap.Name = "B_BoxSwap";
+            B_BoxSwap.Size = new System.Drawing.Size(24, 24);
+            B_BoxSwap.TabIndex = 67;
+            B_BoxSwap.TabStop = false;
+            B_BoxSwap.Click += new System.EventHandler(PB_BoxSwap_Click);
             // 
             // Box
             // 
@@ -64,7 +63,7 @@ namespace PKHeX.WinForms
             AllowDrop = true;
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(249, 183);
-            Controls.Add(PB_BoxSwap);
+            Controls.Add(B_BoxSwap);
             Controls.Add(Box);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
@@ -74,13 +73,12 @@ namespace PKHeX.WinForms
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Box Viewer";
             FormClosing += new System.Windows.Forms.FormClosingEventHandler(SAV_BoxViewer_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(PB_BoxSwap)).EndInit();
             ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.PictureBox PB_BoxSwap;
+        private System.Windows.Forms.Button B_BoxSwap;
         public Controls.BoxEditor Box;
     }
 }

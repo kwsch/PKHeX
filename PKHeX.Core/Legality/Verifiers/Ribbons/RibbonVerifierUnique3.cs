@@ -7,31 +7,34 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierUnique3
 {
-    public static void Parse(this IRibbonSetUnique3 r, in RibbonVerifierArguments args, ref RibbonResultList list)
+    extension(IRibbonSetUnique3 r)
     {
-        var evos = args.History;
-        if (evos.HasVisitedGen3)
+        public void Parse(in RibbonVerifierArguments args, ref RibbonResultList list)
         {
-            PKM pk = args.Entity;
-            if (r.RibbonWinning && !RibbonRules.IsRibbonValidWinning(pk, args.Encounter, evos))
-                list.Add(Winning);
-            if (r.RibbonVictory && !RibbonRules.IsRibbonValidVictory(evos))
-                list.Add(Victory);
+            var evos = args.History;
+            if (evos.HasVisitedGen3)
+            {
+                PKM pk = args.Entity;
+                if (r.RibbonWinning && !RibbonRules.IsRibbonValidWinning(pk, args.Encounter, evos))
+                    list.Add(Winning);
+                if (r.RibbonVictory && !RibbonRules.IsRibbonValidVictory(evos))
+                    list.Add(Victory);
+            }
+            else // Gen4/5
+            {
+                if (r.RibbonWinning)
+                    list.Add(Winning);
+                if (r.RibbonVictory)
+                    list.Add(Victory);
+            }
         }
-        else // Gen4/5
+
+        public void ParseEgg(ref RibbonResultList list)
         {
             if (r.RibbonWinning)
                 list.Add(Winning);
             if (r.RibbonVictory)
                 list.Add(Victory);
         }
-    }
-
-    public static void ParseEgg(this IRibbonSetUnique3 r, ref RibbonResultList list)
-    {
-        if (r.RibbonWinning)
-            list.Add(Winning);
-        if (r.RibbonVictory)
-            list.Add(Victory);
     }
 }

@@ -19,7 +19,7 @@ public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment
     public void Summarize(StringBuilder sb, MoveSourceLocalization strings)
     {
         var localizedMethod = strings.Localize(Method);
-        if (Environment.IsSpecified())
+        if (Environment.IsSpecified)
             sb.Append(Environment).Append('-');
         sb.Append(localizedMethod);
         if (Method is LevelUp)

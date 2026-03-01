@@ -46,7 +46,7 @@ public partial class SAV_HoneyTree : Form
         if (loading)
             return;
 
-        if (species == (int)Species.Munchlax && !MunchlaxTrees.AsSpan().Contains((byte)CB_TreeList.SelectedIndex))
+        if (species == (int)Species.Munchlax && !MunchlaxTrees.Contains((byte)CB_TreeList.SelectedIndex))
             WinFormsUtil.Alert("Catching Munchlax in this tree will make it illegal for this savegame's TID16/SID16 combination.");
     }
 

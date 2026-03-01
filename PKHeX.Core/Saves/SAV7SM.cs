@@ -62,6 +62,8 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
     public override GTS7 GTS => Blocks.GTS;
     #endregion
 
+    public override PlayerBag7SM Inventory => new(this);
+
     public override ushort MaxMoveID => Legal.MaxMoveID_7;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_7;
     public override int MaxItemID => Legal.MaxItemID_7;

@@ -1,4 +1,6 @@
-﻿namespace PKHeX.WinForms
+using PKHeX.WinForms.Controls;
+
+namespace PKHeX.WinForms
 {
     partial class SAV_ZygardeCell
     {
@@ -28,9 +30,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dgv = new System.Windows.Forms.DataGridView();
             dgv_ref = new System.Windows.Forms.DataGridViewTextBoxColumn();
             dgv_location = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            dgv = new DoubleBufferedDataGridView();
             dgv_val = new System.Windows.Forms.DataGridViewComboBoxColumn();
             B_Cancel = new System.Windows.Forms.Button();
             B_Save = new System.Windows.Forms.Button();
@@ -192,7 +194,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgv;
+        private DoubleBufferedDataGridView dgv;
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.NumericUpDown NUD_CellsTotal;

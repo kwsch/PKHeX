@@ -124,8 +124,8 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
         ResetRelearn(pa8, la);
 
         pa8.ClearMoveShopFlags();
-        if (enc is IMasteryInitialMoveShop8 e)
-            e.SetInitialMastery(pa8);
+        if (enc is IMasteryInitialMoveShop8 shop)
+            shop.SetInitialMastery(pa8, enc);
         pa8.SetMoveShopFlags(pa8);
     }
 

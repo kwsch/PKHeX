@@ -13,7 +13,7 @@ internal static class Encounters6AO
     internal static readonly EncounterArea6AO[] SlotsO = EncounterArea6AO.GetAreas(Get("or", "ao"u8), OR);
 
     private const string tradeAO = "tradeao";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeAO);
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeAO, 8);
 
     #region Static Encounter/Gift Tables
     private static readonly EncounterStatic6 BaseCosplay = new(ORAS)

@@ -37,7 +37,7 @@ public static class FormChangeUtil
     /// <summary>
     /// Species that can change between their forms and get access to form-specific moves.
     /// </summary>
-    private static bool IsFormChangeDifferentMoves(ushort species, byte generation) => species switch
+    public static bool IsFormChangeDifferentMoves(ushort species, byte generation) => species switch
     {
         (int)Species.Deoxys    => generation >= 6,
         (int)Species.Giratina  => generation >= 6,

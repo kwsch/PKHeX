@@ -21,43 +21,44 @@ public interface ITrainerInfo : ITrainerID32ReadOnly, IVersion, IGeneration
 /// </summary>
 public static class TrainerInfoExtensions
 {
-    /// <summary>
-    /// Copies the <see cref="ITrainerInfo"/> data to the <see cref="PKM"/> object.
-    /// </summary>
-    /// <param name="info">Trainer Information</param>
-    /// <param name="pk">Pokémon to copy to</param>
-    public static void ApplyTo(this ITrainerInfo info, PKM pk)
+    extension(ITrainerInfo info)
     {
-        pk.OriginalTrainerName = info.OT;
-        pk.TID16 = info.TID16;
-        pk.SID16 = pk.Format < 3 || pk.VC ? default : info.SID16;
-        pk.OriginalTrainerGender = info.Gender;
-        pk.Language = info.Language;
-        pk.Version = info.Version;
+        /// <summary>
+        /// Copies the <see cref="ITrainerInfo"/> data to the <see cref="PKM"/> object.
+        /// </summary>
+        /// <param name="pk">Pokémon to copy to</param>
+        public void ApplyTo(PKM pk)
+        {
+            pk.OriginalTrainerName = info.OT;
+            pk.TID16 = info.TID16;
+            pk.SID16 = pk.Format < 3 || pk.VC ? default : info.SID16;
+            pk.OriginalTrainerGender = info.Gender;
+            pk.Language = info.Language;
+            pk.Version = info.Version;
 
-        if (pk is not IRegionOrigin tr)
-            return;
+            if (pk is not IRegionOrigin tr)
+                return;
 
-        if (info is not IRegionOriginReadOnly o)
-            return;
-        o.CopyRegionOrigin(tr);
-    }
+            if (info is not IRegionOriginReadOnly o)
+                return;
+            o.CopyRegionOrigin(tr);
+        }
 
-    /// <summary>
-    /// Checks if the <see cref="ITrainerInfo"/> data matches the <see cref="PKM"/> object's Original Trainer data.
-    /// </summary>
-    /// <param name="tr">Trainer Information</param>
-    /// <param name="pk">Pokémon to compare to</param>
-    /// <returns>True if the data matches.</returns>
-    public static bool IsFromTrainer(this ITrainerInfo tr, PKM pk)
-    {
-        if (pk.IsEgg)
-            return tr.IsFromTrainerEgg(pk);
+        /// <summary>
+        /// Checks if the <see cref="ITrainerInfo"/> data matches the <see cref="PKM"/> object's Original Trainer data.
+        /// </summary>
+        /// <param name="pk">Pokémon to compare to</param>
+        /// <returns>True if the data matches.</returns>
+        public bool IsFromTrainer(PKM pk)
+        {
+            if (pk.IsEgg)
+                return info.IsFromTrainerEgg(pk);
 
-        if (!IsFromTrainerNoVersion(tr, pk))
-            return false;
+            if (!IsFromTrainerNoVersion(info, pk))
+                return false;
 
-        return IsMatchVersion(tr, pk);
+            return IsMatchVersion(info, pk);
+        }
     }
 
     /// <summary>

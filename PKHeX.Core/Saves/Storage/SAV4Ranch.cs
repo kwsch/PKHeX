@@ -63,7 +63,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         // 00: size, ???
         // 01: size, count, Mii data[count]
         // 02: size, count, Mii Link data[count]
-        // 03: size, count, Pokemon (PK4 + metadata)[count]
+        // 03: size, count, Pokémon (PK4 + metadata)[count]
         // 04: size, count, ???
 
         MiiCountOffset = ReadInt32BigEndian(Data[0x24..]) + 4;

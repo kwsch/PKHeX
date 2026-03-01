@@ -23,9 +23,9 @@ public static class MarkingApplicator
             return; // insufficient marking indexes
 
         if (pk is IAppliedMarkings<MarkingColor> c)
-            SetMarkings(c, pk);
+            c.SetMarkings(pk);
         else if (pk is IAppliedMarkings<bool> b)
-            SetMarkings(b, pk);
+            b.SetMarkings(pk);
     }
 
     /// <inheritdoc cref="SetMarkings(PKM)"/>

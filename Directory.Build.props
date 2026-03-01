@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
-    <Version>25.12.15</Version>
-    <LangVersion>13</LangVersion>
+    <Version>26.02.27</Version>
+    <LangVersion>14</LangVersion>
     <Nullable>enable</Nullable>
     <NeutralLanguage>en</NeutralLanguage>
     <Product>PKHeX</Product>

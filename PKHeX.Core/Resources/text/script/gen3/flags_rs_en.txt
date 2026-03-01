@@ -59,7 +59,7 @@
 0x3D1	r	Overworld Hidden (Electrode 1 in Hideout)
 0x3D2	r	Overworld Hidden (Electrode 2 in Hideout)
 
-0x800	s	Received Starter Pokemon
+0x800	s	Received Starter Pokémon
 0x801	s	Received Pokedex
 0x802	s	Received PokeNav
 0x804	s	Entered Hall of Fame

@@ -37,7 +37,7 @@ public static class Language
     /// </summary>
     /// <param name="context">Generation to check.</param>
     /// <returns>Available languages for the given generation.</returns>
-    public static ReadOnlySpan<byte> GetAvailableGameLanguages(EntityContext context = Latest.Context) => context.Generation() switch
+    public static ReadOnlySpan<byte> GetAvailableGameLanguages(EntityContext context = Latest.Context) => context.Generation switch
     {
         1           => Languages_3, // No KOR
         2           => Languages_GB,

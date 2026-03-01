@@ -205,7 +205,7 @@ public sealed class ItemStorage9SV : IItemStorage
         InventoryType.Balls => 999,
         InventoryType.BattleItems => 999,
         InventoryType.Treasure => 999,
-        InventoryType.Ingredients => 999, // 999
+        InventoryType.Ingredients => 999, // 999 (depends on item)
         InventoryType.Candy => 999, // 999
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
@@ -244,4 +244,8 @@ public sealed class ItemStorage9SV : IItemStorage
         }
         return InventoryType.None;
     }
+
+    public static bool IsIngredient(int itemIndex) => itemIndex is (>= 1888 and <= 1946);
+    public static bool IsPick(int itemIndex) => itemIndex is (>= 2334 and <= 2342) or (>= 2385 and <= 2394) or 2548; // Fiery Pick
+    public static bool IsAccessory(int itemIndex) => itemIndex is (>= 2311 and <= 2400) or (>= 2417 and <= 2437) && !IsPick(itemIndex); // Tablecloths, chairs, cups, etc
 }

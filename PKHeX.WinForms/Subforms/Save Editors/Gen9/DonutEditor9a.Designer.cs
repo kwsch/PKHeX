@@ -681,7 +681,7 @@ namespace PKHeX.WinForms
             // 
             // CAL_Date
             // 
-            CAL_Date.CustomFormat = "hh:mm:ss ddd MMMM dd, yyyy";
+            CAL_Date.CustomFormat = "ddd MMMM dd, yyyy hh:mm:ss";
             CAL_Date.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             CAL_Date.Location = new System.Drawing.Point(106, 170);
             CAL_Date.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);

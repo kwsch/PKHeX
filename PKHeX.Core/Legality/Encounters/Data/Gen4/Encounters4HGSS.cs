@@ -16,7 +16,7 @@ internal static class Encounters4HGSS
     internal static readonly EncounterStatic4Pokewalker[] Encounter_PokeWalker = EncounterStatic4Pokewalker.GetAll(Util.GetBinaryResource("encounter_walker4.pkl"));
 
     private const string tradeHGSS = "tradehgss";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeHGSS);
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeHGSS, 8);
 
     #region Static Encounter/Gift Tables
 

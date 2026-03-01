@@ -86,7 +86,7 @@ public static class MethodK
         {
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result, depth))
             {
-                if (result.IsNoRequirement())
+                if (result.IsNoRequirement)
                     return result;
                 if (result.IsBetterThan(prefer))
                     prefer = result;
@@ -257,7 +257,7 @@ public static class MethodK
             // We need to double-check that this skipped PID/IV could have been landed on via the nature/sync check.
             // The innate recursion will return true if the skipped frame could have been landed on, or if an even-more previous skipped was landed.
             result = GetSeed(enc, origin, levelMin, levelMax, format, depth);
-            if (result.IsValid())
+            if (result.IsValid)
                 return true;
 
             // If the forwards window no longer lets us land on the frame we entered this method from, the window is exhausted.
@@ -364,14 +364,14 @@ public static class MethodK
         result = default; return false;
     }
 
-    public static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandHGSS();
+    public static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandHGSS;
 
     private static bool IsSlotValidFrom1Skip<T>(FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4
     {
         if (IsLevelRand(ctx.Encounter))
         {
-            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev2))
+            if (ctx.Encounter.IsFixedLevel || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev2))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev3))
                 { result = ctx.Seed4; return true; }
@@ -390,7 +390,7 @@ public static class MethodK
     {
         if (IsLevelRand(ctx.Encounter))
         {
-            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev2))
                 { result = ctx.Seed3; return true; }
@@ -442,7 +442,7 @@ public static class MethodK
             if (IsStaticMagnetFail(ctx.Prev3)) // should have triggered
             { result = 0; return false; }
 
-            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (ctx.Encounter.IsSlotValidStaticMagnet(ctx.Prev2, out lead))
                 { result = ctx.Seed4; return true; }
@@ -467,7 +467,7 @@ public static class MethodK
             if (IsStaticMagnetPass(ctx.Prev3)) // should have triggered
             { result = 0; return false; }
 
-            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev2))
                 { result = ctx.Seed4; return true; }

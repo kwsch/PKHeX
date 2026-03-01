@@ -37,33 +37,34 @@ public enum MysteryGiftRestriction
 /// </summary>
 public static class MysteryGiftRestrictionExtensions
 {
-    /// <summary>
-    /// Checks the flags to pick out a language that can receive the gift.
-    /// </summary>
-    /// <param name="value">Flag value</param>
-    /// <returns>Language ID; -1 if none</returns>
-    public static int GetSuggestedLanguage(this MysteryGiftRestriction value)
+    extension(MysteryGiftRestriction value)
     {
-        for (int i = (int)LanguageID.Japanese; i <= (int)LanguageID.Korean; i++)
+        /// <summary>
+        /// Checks the flags to pick out a language that can receive the gift.
+        /// </summary>
+        /// <returns>Language ID; -1 if none</returns>
+        public int GetSuggestedLanguage()
         {
-            if (value.HasFlag((MysteryGiftRestriction)(1 << i)))
-                return i;
+            for (int i = (int)LanguageID.Japanese; i <= (int)LanguageID.Korean; i++)
+            {
+                if (value.HasFlag((MysteryGiftRestriction)(1 << i)))
+                    return i;
+            }
+            return -1;
         }
-        return -1;
-    }
 
-    /// <summary>
-    /// Finds the lowest index of a region that can receive the gift.
-    /// </summary>
-    /// <param name="value">Flag value</param>
-    /// <returns>Region ID; -1 if none</returns>
-    public static int GetSuggestedRegion(this MysteryGiftRestriction value)
-    {
-        for (int i = (int)Region3DSIndex.Japan; i <= (int)Region3DSIndex.Taiwan; i++)
+        /// <summary>
+        /// Finds the lowest index of a region that can receive the gift.
+        /// </summary>
+        /// <returns>Region ID; -1 if none</returns>
+        public int GetSuggestedRegion()
         {
-            if (value.HasFlag((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << i)))
-                return i;
+            for (int i = (int)Region3DSIndex.Japan; i <= (int)Region3DSIndex.Taiwan; i++)
+            {
+                if (value.HasFlag((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << i)))
+                    return i;
+            }
+            return -1;
         }
-        return -1;
     }
 }

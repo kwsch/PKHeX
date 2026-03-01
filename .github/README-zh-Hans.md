@@ -28,9 +28,9 @@ PKHeX 所读取存档文件必须是未经主机唯一密钥加密，因此请�
 
 ## 构建
 
-PKHeX 是 Windows 窗口应用程序，依赖于 [.NET 9.0](https://dotnet.microsoft.com/download/dotnet/9.0)。
+PKHeX 是 Windows 窗口应用程序，依赖于 [.NET 10.0](https://dotnet.microsoft.com/download/dotnet/10.0)。
 
-可以使用任何支持 C# 13 的编译器生成可执行文件。
+可以使用任何支持 C# 14 的编译器生成可执行文件。
 
 ### 构建配置
 

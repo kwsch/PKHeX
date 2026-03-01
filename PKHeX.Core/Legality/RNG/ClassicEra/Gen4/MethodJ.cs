@@ -88,7 +88,7 @@ public static class MethodJ
             {
                 if (CheckEncounterActivation(enc, ref result))
                 {
-                    if (result.IsNoRequirement())
+                    if (result.IsNoRequirement)
                         return result;
                     if (result.IsBetterThan(prefer))
                         prefer = result;
@@ -346,14 +346,14 @@ public static class MethodJ
         result = default; return false;
     }
 
-    public static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandDPPt();
+    public static bool IsLevelRand<T>(T enc) where T : IEncounterSlot4 => enc.Type.IsLevelRandDPPt;
 
     private static bool IsSlotValidFrom1Skip<T>(FrameCheckDetails<T> ctx, out uint result)
         where T : IEncounterSlot4
     {
         if (IsLevelRand(ctx.Encounter))
         {
-            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev2))
+            if (ctx.Encounter.IsFixedLevel || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev2))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev3))
                 { result = ctx.Seed4; return true; }
@@ -372,7 +372,7 @@ public static class MethodJ
     {
         if (IsLevelRand(ctx.Encounter))
         {
-            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel|| IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev2))
                 { result = ctx.Seed3; return true; }
@@ -419,7 +419,7 @@ public static class MethodJ
             if (IsStaticMagnetFail(ctx.Prev3)) // should have triggered
             { result = 0; return false; }
 
-            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (ctx.Encounter.IsSlotValidStaticMagnet(ctx.Prev2, out lead))
                 { result = ctx.Seed4; return true; }
@@ -444,7 +444,7 @@ public static class MethodJ
             if (IsStaticMagnetPass(ctx.Prev3)) // should have triggered
             { result = 0; return false; }
 
-            if (ctx.Encounter.IsFixedLevel() || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
                 if (IsSlotValid(ctx.Encounter, ctx.Prev2))
                 { result = ctx.Seed4; return true; }

@@ -38,20 +38,20 @@ public static class EntityFileExtension
         for (int i = min; i <= maxGeneration; i++)
             result.Add($"pk{i}");
         if (min < 3)
-            result.Add(ExtensionSK2); // stadium
+            result.Add(ExtensionSK2); // Stadium
 
         if (maxGeneration >= 3)
         {
-            result.Add(ExtensionCK3); // colosseum
-            result.Add(ExtensionXK3); // xd
+            result.Add(ExtensionCK3); // Colosseum
+            result.Add(ExtensionXK3); // XD
         }
         if (maxGeneration >= 4)
         {
             result.Add(ExtensionBK4); // battle revolution
-            result.Add(ExtensionRK4); // My Pokemon Ranch
+            result.Add(ExtensionRK4); // My Pokémon Ranch
         }
         if (maxGeneration >= 7)
-            result.Add(ExtensionPB7); // let's go
+            result.Add(ExtensionPB7); // Let's Go, Pikachu/Eevee
         if (maxGeneration >= 8)
             result.Add(ExtensionPB8); // Brilliant Diamond & Shining Pearl
         if (maxGeneration >= 8)
@@ -95,8 +95,6 @@ public static class EntityFileExtension
     {
         if (last is >= '1' and <= '9')
             return last - '0';
-        if (prefer.Generation() <= 7 && last == 'x')
-            return 6;
         return (int)prefer;
     }
 

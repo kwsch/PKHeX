@@ -95,7 +95,7 @@ public static class SpriteUtil
         return img;
     }
 
-    private static Bitmap GetSprite(PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false, StorageSlotType storage = StorageSlotType.None)
+    private static Bitmap GetSprite(PKM pk, SaveFile sav, int box, int slot, SlotVisibilityType visibility = SlotVisibilityType.None, StorageSlotType storage = StorageSlotType.None)
     {
         bool inBox = (uint)slot < MaxSlotCount;
         bool empty = pk.Species == 0;
@@ -107,9 +107,9 @@ public static class SpriteUtil
             {
                 var type = t.TeraType;
                 if (TeraTypeUtil.IsOverrideValid((byte)type))
-                    sprite = ApplyTeraColor((byte)type, sprite, SpriteBuilder.ShowTeraType);
+                    ApplyTeraColor((byte)type, sprite, SpriteBuilder.ShowTeraType);
             }
-            if (flagIllegal)
+            if (visibility.HasFlag(SlotVisibilityType.CheckLegalityIndicate))
             {
                 var la = pk.GetType() == sav.PKMType // quick sanity check
                     ? new LegalityAnalysis(pk, sav.Personal, storage)
@@ -121,10 +121,10 @@ public static class SpriteUtil
                     sprite = ImageUtil.LayerImage(sprite, Resources.hint, 0, FlagIllegalShiftY);
 
                 if (SpriteBuilder.ShowEncounterColorPKM != SpriteBackgroundType.None)
-                    sprite = ApplyEncounterColor(la.EncounterOriginal, sprite, SpriteBuilder.ShowEncounterColorPKM);
+                    ApplyEncounterColor(la.EncounterOriginal, sprite, SpriteBuilder.ShowEncounterColorPKM);
 
                 if (SpriteBuilder.ShowExperiencePercent)
-                    sprite = ApplyExperience(pk, sprite, la.EncounterMatch);
+                    ApplyExperience(pk, sprite, la.EncounterMatch);
             }
         }
         if (inBox) // in box
@@ -146,32 +146,32 @@ public static class SpriteUtil
                 sprite = ImageUtil.LayerImage(sprite, Resources.starter, 0, 0);
         }
 
-        if (SpriteBuilder.ShowExperiencePercent && !flagIllegal)
-            sprite = ApplyExperience(pk, sprite);
+        if (SpriteBuilder.ShowExperiencePercent && !visibility.HasFlag(SlotVisibilityType.CheckLegalityIndicate))
+            ApplyExperience(pk, sprite);
 
         return sprite;
     }
 
-    private static Bitmap ApplyTeraColor(byte elementalType, Bitmap img, SpriteBackgroundType type)
+    private static void ApplyTeraColor(byte elementalType, Bitmap img, SpriteBackgroundType type)
     {
         var color = TypeColor.GetTeraSpriteColor(elementalType);
         var thk = SpriteBuilder.ShowTeraThicknessStripe;
         var op  = SpriteBuilder.ShowTeraOpacityStripe;
         var bg  = SpriteBuilder.ShowTeraOpacityBackground;
-        return ApplyColor(img, type, color, thk, op, bg);
+        ApplyColor(img, type, color, thk, op, bg);
     }
 
-    public static Bitmap ApplyEncounterColor(IEncounterTemplate enc, Bitmap img, SpriteBackgroundType type)
+    public static void ApplyEncounterColor(IEncounterTemplate enc, Bitmap img, SpriteBackgroundType type)
     {
         var index = (enc.GetType().Name.GetHashCode() * 0x43FD43FD);
         var color = Color.FromArgb(index);
         var thk = SpriteBuilder.ShowEncounterThicknessStripe;
         var op = SpriteBuilder.ShowEncounterOpacityStripe;
         var bg = SpriteBuilder.ShowEncounterOpacityBackground;
-        return ApplyColor(img, type, color, thk, op, bg);
+        ApplyColor(img, type, color, thk, op, bg);
     }
 
-    private static Bitmap ApplyColor(Bitmap img, SpriteBackgroundType type, Color color, int thick, byte opacStripe, byte opacBack)
+    private static void ApplyColor(Bitmap img, SpriteBackgroundType type, Color color, int thick, byte opacStripe, byte opacBack)
     {
         if (type == SpriteBackgroundType.BottomStripe)
         {
@@ -179,38 +179,43 @@ public static class SpriteUtil
             if ((uint)stripeHeight > img.Height) // clamp negative & too-high values back to height.
                 stripeHeight = img.Height;
 
-            return ImageUtil.BlendTransparentTo(img, color, opacStripe, img.Width * 4 * (img.Height - stripeHeight));
+            img.BlendTransparentTo(color, opacStripe, img.Width * 4 * (img.Height - stripeHeight));
         }
-        if (type == SpriteBackgroundType.TopStripe)
+        else if (type == SpriteBackgroundType.TopStripe)
         {
             int stripeHeight = thick; // from top
             if ((uint)stripeHeight > img.Height) // clamp negative & too-high values back to height.
                 stripeHeight = img.Height;
 
-            return ImageUtil.BlendTransparentTo(img, color, opacStripe, 0, (img.Width * 4 * stripeHeight) - 4);
+            img.BlendTransparentTo(color, opacStripe, 0, img.Width * 4 * stripeHeight);
         }
-        if (type == SpriteBackgroundType.FullBackground) // full background
+        else if (type == SpriteBackgroundType.FullBackground) // full background
         {
-            return ImageUtil.ChangeTransparentTo(img, color, opacBack);
+            img.ChangeTransparentTo(color, opacBack);
         }
-        return img;
     }
 
-    private static Bitmap ApplyExperience(PKM pk, Bitmap img, IEncounterTemplate? enc = null)
+    private static void ApplyExperience(PKM pk, Bitmap img, IEncounterTemplate? enc = null)
     {
         const int bpp = 4;
         int start = bpp * SpriteWidth * (SpriteHeight - 1);
         var level = pk.CurrentLevel;
         if (level == Experience.MaxLevel)
-            return ImageUtil.WritePixels(img, Color.Lime, start, start + (SpriteWidth * bpp));
+        {
+            img.WritePixels(Color.Lime, start, start + (SpriteWidth * bpp));
+            return;
+        }
 
         var pct = Experience.GetEXPToLevelUpPercentage(level, pk.EXP, pk.PersonalInfo.EXPGrowth);
         if (pct is not 0)
-            return ImageUtil.WritePixels(img, Color.DodgerBlue, start, start + (int)(SpriteWidth * pct * bpp));
+        {
+            img.WritePixels(Color.DodgerBlue, start, start + (int)(SpriteWidth * pct * bpp));
+            return;
+        }
 
         var encLevel = enc is { IsEgg: true } ? enc.LevelMin : pk.MetLevel;
         var color = level != encLevel && pk.HasOriginalMetLocation ? Color.DarkOrange : Color.Yellow;
-        return ImageUtil.WritePixels(img, color, start, start + (SpriteWidth * bpp));
+        img.WritePixels(color, start, start + (SpriteWidth * bpp));
     }
 
     private static readonly Bitmap[] PartyMarks =
@@ -218,7 +223,7 @@ public static class SpriteUtil
         Resources.party1, Resources.party2, Resources.party3, Resources.party4, Resources.party5, Resources.party6,
     ];
 
-    public static void GetSpriteGlow(PKM pk, byte blue, byte green, byte red, out byte[] pixels, out Image baseSprite, bool forceHollow = false)
+    public static void GetSpriteGlow(PKM pk, byte blue, byte green, byte red, out byte[] pixels, out Bitmap baseSprite, bool forceHollow = false)
     {
         bool egg = pk.IsEgg;
         var formarg = pk is IFormArgument f ? f.FormArgument : 0;
@@ -227,9 +232,9 @@ public static class SpriteUtil
         GetSpriteGlow(baseSprite, blue, green, red, out pixels, forceHollow || egg);
     }
 
-    public static void GetSpriteGlow(Image baseSprite, byte blue, byte green, byte red, out byte[] pixels, bool forceHollow = false)
+    public static void GetSpriteGlow(Bitmap baseSprite, byte blue, byte green, byte red, out byte[] pixels, bool forceHollow = false)
     {
-        pixels = ImageUtil.GetPixelData((Bitmap)baseSprite);
+        pixels = baseSprite.GetBitmapData();
         if (!forceHollow)
         {
             ImageUtil.GlowEdges(pixels, blue, green, red, baseSprite.Width);
@@ -279,7 +284,7 @@ public static class SpriteUtil
             img = ImageUtil.LayerImage(img, alpha, SlotTeamShiftX, 0);
         }
         if (SpriteBuilder.ShowEncounterColor != SpriteBackgroundType.None)
-            img = ApplyEncounterColor(enc, img, SpriteBuilder.ShowEncounterColor);
+            ApplyEncounterColor(enc, img, SpriteBuilder.ShowEncounterColor);
         return img;
     }
 
@@ -291,8 +296,17 @@ public static class SpriteUtil
     };
 
     public static Bitmap Sprite(this PKM pk, SaveFile sav, int box = -1, int slot = -1,
-        bool flagIllegal = false, StorageSlotType storage = StorageSlotType.None)
-        => GetSprite(pk, sav, box, slot, flagIllegal, storage);
+        SlotVisibilityType visibility = SlotVisibilityType.None, StorageSlotType storage = StorageSlotType.None)
+    {
+        var result = GetSprite(pk, sav, box, slot, visibility, storage);
+        if (visibility.HasFlag(SlotVisibilityType.FilterMismatch))
+        {
+            // Fade out the sprite.
+            result.ToGrayscale(SpriteBuilder.FilterMismatchGrayscale);
+            result.ChangeOpacity(SpriteBuilder.FilterMismatchOpacity);
+        }
+        return result;
+    }
 
     public static Bitmap GetMysteryGiftPreviewPoke(MysteryGift gift)
     {

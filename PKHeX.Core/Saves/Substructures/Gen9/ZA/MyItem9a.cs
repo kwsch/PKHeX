@@ -54,48 +54,6 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
 
     public static InventoryType GetType(ushort itemIndex) => ItemStorage9ZA.GetInventoryPouch(itemIndex);
 
-    public override IReadOnlyList<InventoryPouch> Inventory { get => ConvertToPouches(); set => LoadFromPouches(value); }
-
-    private IReadOnlyList<InventoryPouch> ConvertToPouches()
-    {
-        InventoryPouch9a[] pouches =
-        [
-            MakePouch(InventoryType.Medicine),
-            MakePouch(InventoryType.Balls),
-            MakePouch(InventoryType.Berries),
-            MakePouch(InventoryType.Items), // Other
-            MakePouch(InventoryType.TMHMs),
-            MakePouch(InventoryType.MegaStones),
-            MakePouch(InventoryType.Treasure),
-            MakePouch(InventoryType.KeyItems),
-        ];
-        return pouches.LoadAll(Data);
-    }
-
-    private void LoadFromPouches(IReadOnlyList<InventoryPouch> value)
-    {
-        value.SaveAll(Data);
-        CleanIllegalSlots();
-    }
-
-    private void CleanIllegalSlots()
-    {
-        var types = ItemStorage9ZA.ValidTypes;
-        var hashSet = new HashSet<ushort>(Legal.MaxItemID_9a);
-        foreach (var type in types)
-        {
-            var items = ItemStorage9ZA.GetLegal(type);
-            foreach (var item in items)
-                hashSet.Add(item);
-        }
-        // even though there are 3000, just overwrite the ones that people will mess up.
-        for (ushort itemIndex = 0; itemIndex < (ushort)SAV.MaxItemID; itemIndex++)
-        {
-            if (!hashSet.Contains(itemIndex))
-                DeleteItem(itemIndex);
-        }
-    }
-
     public void ResetToDefault()
     {
         var block = Data;
@@ -110,13 +68,6 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
             WriteUInt32LittleEndian(block[i..], defaultPouch);
     }
 
-    private static InventoryPouch9a MakePouch(InventoryType type)
-    {
-        var info = ItemStorage9ZA.Instance;
-        var max = info.GetMax(type);
-        return new InventoryPouch9a(type, info, max, GetPouchIndex(type));
-    }
-
     public static uint GetPouchIndex(InventoryType type) => type switch
     {
         InventoryType.Items => InventoryItem9a.PouchOther,
@@ -129,4 +80,24 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
         InventoryType.MegaStones => InventoryItem9a.PouchMegaStones,
         _ => InventoryItem9a.PouchNone,
     };
+
+    public void CleanIllegalSlots()
+    {
+        var types = ItemStorage9ZA.ValidTypes;
+        var hashSet = new HashSet<ushort>(Legal.MaxItemID_9a);
+        foreach (var type in types)
+        {
+            var items = ItemStorage9ZA.GetLegal(type);
+            foreach (var item in items)
+                hashSet.Add(item);
+        }
+
+        // even though there are 3000, just overwrite the ones that people will mess up.
+        var max = (ushort)sav.MaxItemID;
+        for (ushort itemIndex = 0; itemIndex < max; itemIndex++)
+        {
+            if (!hashSet.Contains(itemIndex))
+                DeleteItem(itemIndex);
+        }
+    }
 }

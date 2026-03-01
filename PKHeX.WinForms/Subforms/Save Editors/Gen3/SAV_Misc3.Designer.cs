@@ -1,3 +1,5 @@
+using PKHeX.WinForms.Controls;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_Misc3
@@ -81,7 +83,11 @@ namespace PKHeX.WinForms
             CHK_ReachSouthern = new System.Windows.Forms.CheckBox();
             CHK_Catchable = new System.Windows.Forms.CheckBox();
             TAB_BF = new System.Windows.Forms.TabPage();
-            GB_Streaks = new System.Windows.Forms.GroupBox();
+            GB_Stats = new System.Windows.Forms.GroupBox();
+            L_Continue = new System.Windows.Forms.Label();
+            CB_Stats1 = new System.Windows.Forms.ComboBox();
+            L_Mode = new System.Windows.Forms.Label();
+            L_Facility = new System.Windows.Forms.Label();
             NUD_Stat3 = new System.Windows.Forms.NumericUpDown();
             NUD_Stat2 = new System.Windows.Forms.NumericUpDown();
             NUD_Stat1 = new System.Windows.Forms.NumericUpDown();
@@ -94,7 +100,6 @@ namespace PKHeX.WinForms
             RB_Stats3_02 = new System.Windows.Forms.RadioButton();
             RB_Stats3_01 = new System.Windows.Forms.RadioButton();
             CB_Stats2 = new System.Windows.Forms.ComboBox();
-            CB_Stats1 = new System.Windows.Forms.ComboBox();
             GB_FrontierPass = new System.Windows.Forms.GroupBox();
             GB_Icons = new System.Windows.Forms.GroupBox();
             BTN_SymbolB = new System.Windows.Forms.Button();
@@ -116,28 +121,28 @@ namespace PKHeX.WinForms
             Tab_Decorations = new System.Windows.Forms.TabPage();
             TC_Decorations = new System.Windows.Forms.TabControl();
             TB_Desk = new System.Windows.Forms.TabPage();
-            DGV_Desk = new System.Windows.Forms.DataGridView();
+            DGV_Desk = new DoubleBufferedDataGridView();
             Item_Desk = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Chair = new System.Windows.Forms.TabPage();
-            DGV_Chair = new System.Windows.Forms.DataGridView();
+            DGV_Chair = new DoubleBufferedDataGridView();
             Item_Chair = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Plant = new System.Windows.Forms.TabPage();
-            DGV_Plant = new System.Windows.Forms.DataGridView();
+            DGV_Plant = new DoubleBufferedDataGridView();
             Item_Plant = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Ornament = new System.Windows.Forms.TabPage();
-            DGV_Ornament = new System.Windows.Forms.DataGridView();
+            DGV_Ornament = new DoubleBufferedDataGridView();
             Item_Ornament = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Mat = new System.Windows.Forms.TabPage();
-            DGV_Mat = new System.Windows.Forms.DataGridView();
+            DGV_Mat = new DoubleBufferedDataGridView();
             Item_Mat = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Poster = new System.Windows.Forms.TabPage();
-            DGV_Poster = new System.Windows.Forms.DataGridView();
+            DGV_Poster = new DoubleBufferedDataGridView();
             Item_Poster = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Doll = new System.Windows.Forms.TabPage();
-            DGV_Doll = new System.Windows.Forms.DataGridView();
+            DGV_Doll = new DoubleBufferedDataGridView();
             Item_Doll = new System.Windows.Forms.DataGridViewComboBoxColumn();
             TB_Cushion = new System.Windows.Forms.TabPage();
-            DGV_Cushion = new System.Windows.Forms.DataGridView();
+            DGV_Cushion = new DoubleBufferedDataGridView();
             Item_Cushion = new System.Windows.Forms.DataGridViewComboBoxColumn();
             Tab_Paintings = new System.Windows.Forms.TabPage();
             GB_Painting = new System.Windows.Forms.GroupBox();
@@ -169,7 +174,7 @@ namespace PKHeX.WinForms
             GB_InitialEvent.SuspendLayout();
             GB_Reachable.SuspendLayout();
             TAB_BF.SuspendLayout();
-            GB_Streaks.SuspendLayout();
+            GB_Stats.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Stat3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Stat2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Stat1).BeginInit();
@@ -806,7 +811,7 @@ namespace PKHeX.WinForms
             // 
             // TAB_BF
             // 
-            TAB_BF.Controls.Add(GB_Streaks);
+            TAB_BF.Controls.Add(GB_Stats);
             TAB_BF.Controls.Add(GB_FrontierPass);
             TAB_BF.Location = new System.Drawing.Point(4, 44);
             TAB_BF.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -816,33 +821,77 @@ namespace PKHeX.WinForms
             TAB_BF.Text = "Battle Frontier";
             TAB_BF.UseVisualStyleBackColor = true;
             // 
-            // GB_Streaks
+            // GB_Stats
             // 
-            GB_Streaks.Controls.Add(NUD_Stat3);
-            GB_Streaks.Controls.Add(NUD_Stat2);
-            GB_Streaks.Controls.Add(NUD_Stat1);
-            GB_Streaks.Controls.Add(NUD_Stat0);
-            GB_Streaks.Controls.Add(L_Stat3);
-            GB_Streaks.Controls.Add(L_Stat2);
-            GB_Streaks.Controls.Add(L_Stat1);
-            GB_Streaks.Controls.Add(L_Stat0);
-            GB_Streaks.Controls.Add(CHK_Continue);
-            GB_Streaks.Controls.Add(RB_Stats3_02);
-            GB_Streaks.Controls.Add(RB_Stats3_01);
-            GB_Streaks.Controls.Add(CB_Stats2);
-            GB_Streaks.Controls.Add(CB_Stats1);
-            GB_Streaks.Location = new System.Drawing.Point(170, 3);
-            GB_Streaks.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Streaks.Name = "GB_Streaks";
-            GB_Streaks.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Streaks.Size = new System.Drawing.Size(133, 226);
-            GB_Streaks.TabIndex = 1;
-            GB_Streaks.TabStop = false;
-            GB_Streaks.Text = "Streaks";
+            GB_Stats.Controls.Add(L_Continue);
+            GB_Stats.Controls.Add(CB_Stats1);
+            GB_Stats.Controls.Add(L_Mode);
+            GB_Stats.Controls.Add(L_Facility);
+            GB_Stats.Controls.Add(NUD_Stat3);
+            GB_Stats.Controls.Add(NUD_Stat2);
+            GB_Stats.Controls.Add(NUD_Stat1);
+            GB_Stats.Controls.Add(NUD_Stat0);
+            GB_Stats.Controls.Add(L_Stat3);
+            GB_Stats.Controls.Add(L_Stat2);
+            GB_Stats.Controls.Add(L_Stat1);
+            GB_Stats.Controls.Add(L_Stat0);
+            GB_Stats.Controls.Add(CHK_Continue);
+            GB_Stats.Controls.Add(RB_Stats3_02);
+            GB_Stats.Controls.Add(RB_Stats3_01);
+            GB_Stats.Controls.Add(CB_Stats2);
+            GB_Stats.Location = new System.Drawing.Point(170, 3);
+            GB_Stats.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Stats.Name = "GB_Stats";
+            GB_Stats.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Stats.Size = new System.Drawing.Size(183, 226);
+            GB_Stats.TabIndex = 1;
+            GB_Stats.TabStop = false;
+            GB_Stats.Text = "Stats";
+            // 
+            // L_Continue
+            // 
+            L_Continue.AutoSize = true;
+            L_Continue.Location = new System.Drawing.Point(3, 97);
+            L_Continue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Continue.Name = "L_Continue";
+            L_Continue.Size = new System.Drawing.Size(56, 15);
+            L_Continue.TabIndex = 16;
+            L_Continue.Text = "Continue";
+            // 
+            // CB_Stats1
+            // 
+            CB_Stats1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Stats1.FormattingEnabled = true;
+            CB_Stats1.Location = new System.Drawing.Point(96, 20);
+            CB_Stats1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Stats1.Name = "CB_Stats1";
+            CB_Stats1.Size = new System.Drawing.Size(79, 23);
+            CB_Stats1.TabIndex = 0;
+            CB_Stats1.SelectedIndexChanged += ChangeStat1;
+            // 
+            // L_Mode
+            // 
+            L_Mode.AutoSize = true;
+            L_Mode.Location = new System.Drawing.Point(3, 50);
+            L_Mode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Mode.Name = "L_Mode";
+            L_Mode.Size = new System.Drawing.Size(74, 15);
+            L_Mode.TabIndex = 15;
+            L_Mode.Text = "Battle Mode:";
+            // 
+            // L_Facility
+            // 
+            L_Facility.AutoSize = true;
+            L_Facility.Location = new System.Drawing.Point(3, 24);
+            L_Facility.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Facility.Name = "L_Facility";
+            L_Facility.Size = new System.Drawing.Size(80, 15);
+            L_Facility.TabIndex = 14;
+            L_Facility.Text = "Battle Facility:";
             // 
             // NUD_Stat3
             // 
-            NUD_Stat3.Location = new System.Drawing.Point(64, 199);
+            NUD_Stat3.Location = new System.Drawing.Point(120, 199);
             NUD_Stat3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Stat3.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_Stat3.Name = "NUD_Stat3";
@@ -853,7 +902,7 @@ namespace PKHeX.WinForms
             // 
             // NUD_Stat2
             // 
-            NUD_Stat2.Location = new System.Drawing.Point(64, 173);
+            NUD_Stat2.Location = new System.Drawing.Point(120, 173);
             NUD_Stat2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Stat2.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_Stat2.Name = "NUD_Stat2";
@@ -864,7 +913,7 @@ namespace PKHeX.WinForms
             // 
             // NUD_Stat1
             // 
-            NUD_Stat1.Location = new System.Drawing.Point(64, 147);
+            NUD_Stat1.Location = new System.Drawing.Point(120, 147);
             NUD_Stat1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Stat1.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_Stat1.Name = "NUD_Stat1";
@@ -875,7 +924,7 @@ namespace PKHeX.WinForms
             // 
             // NUD_Stat0
             // 
-            NUD_Stat0.Location = new System.Drawing.Point(64, 121);
+            NUD_Stat0.Location = new System.Drawing.Point(120, 121);
             NUD_Stat0.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Stat0.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_Stat0.Name = "NUD_Stat0";
@@ -887,7 +936,7 @@ namespace PKHeX.WinForms
             // L_Stat3
             // 
             L_Stat3.AutoSize = true;
-            L_Stat3.Location = new System.Drawing.Point(7, 201);
+            L_Stat3.Location = new System.Drawing.Point(3, 201);
             L_Stat3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Stat3.Name = "L_Stat3";
             L_Stat3.Size = new System.Drawing.Size(35, 15);
@@ -897,7 +946,7 @@ namespace PKHeX.WinForms
             // L_Stat2
             // 
             L_Stat2.AutoSize = true;
-            L_Stat2.Location = new System.Drawing.Point(7, 175);
+            L_Stat2.Location = new System.Drawing.Point(3, 175);
             L_Stat2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Stat2.Name = "L_Stat2";
             L_Stat2.Size = new System.Drawing.Size(44, 15);
@@ -907,7 +956,7 @@ namespace PKHeX.WinForms
             // L_Stat1
             // 
             L_Stat1.AutoSize = true;
-            L_Stat1.Location = new System.Drawing.Point(7, 149);
+            L_Stat1.Location = new System.Drawing.Point(3, 149);
             L_Stat1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Stat1.Name = "L_Stat1";
             L_Stat1.Size = new System.Drawing.Size(35, 15);
@@ -917,7 +966,7 @@ namespace PKHeX.WinForms
             // L_Stat0
             // 
             L_Stat0.AutoSize = true;
-            L_Stat0.Location = new System.Drawing.Point(7, 123);
+            L_Stat0.Location = new System.Drawing.Point(3, 123);
             L_Stat0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Stat0.Name = "L_Stat0";
             L_Stat0.Size = new System.Drawing.Size(47, 15);
@@ -927,19 +976,18 @@ namespace PKHeX.WinForms
             // CHK_Continue
             // 
             CHK_Continue.AutoSize = true;
-            CHK_Continue.Location = new System.Drawing.Point(7, 98);
+            CHK_Continue.Location = new System.Drawing.Point(160, 97);
             CHK_Continue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Continue.Name = "CHK_Continue";
-            CHK_Continue.Size = new System.Drawing.Size(75, 19);
+            CHK_Continue.Size = new System.Drawing.Size(15, 14);
             CHK_Continue.TabIndex = 5;
-            CHK_Continue.Text = "Continue";
             CHK_Continue.UseVisualStyleBackColor = true;
             CHK_Continue.CheckedChanged += CHK_Continue_CheckedChanged;
             // 
             // RB_Stats3_02
             // 
             RB_Stats3_02.AutoSize = true;
-            RB_Stats3_02.Location = new System.Drawing.Point(74, 75);
+            RB_Stats3_02.Location = new System.Drawing.Point(98, 75);
             RB_Stats3_02.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             RB_Stats3_02.Name = "RB_Stats3_02";
             RB_Stats3_02.Size = new System.Drawing.Size(54, 19);
@@ -952,7 +1000,7 @@ namespace PKHeX.WinForms
             // RB_Stats3_01
             // 
             RB_Stats3_01.AutoSize = true;
-            RB_Stats3_01.Location = new System.Drawing.Point(7, 75);
+            RB_Stats3_01.Location = new System.Drawing.Point(31, 75);
             RB_Stats3_01.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             RB_Stats3_01.Name = "RB_Stats3_01";
             RB_Stats3_01.Size = new System.Drawing.Size(54, 19);
@@ -966,23 +1014,12 @@ namespace PKHeX.WinForms
             // 
             CB_Stats2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Stats2.FormattingEnabled = true;
-            CB_Stats2.Location = new System.Drawing.Point(7, 47);
+            CB_Stats2.Location = new System.Drawing.Point(96, 47);
             CB_Stats2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Stats2.Name = "CB_Stats2";
             CB_Stats2.Size = new System.Drawing.Size(79, 23);
             CB_Stats2.TabIndex = 1;
             CB_Stats2.SelectedIndexChanged += ChangeStat;
-            // 
-            // CB_Stats1
-            // 
-            CB_Stats1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_Stats1.FormattingEnabled = true;
-            CB_Stats1.Location = new System.Drawing.Point(7, 20);
-            CB_Stats1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CB_Stats1.Name = "CB_Stats1";
-            CB_Stats1.Size = new System.Drawing.Size(79, 23);
-            CB_Stats1.TabIndex = 0;
-            CB_Stats1.SelectedIndexChanged += ChangeStat1;
             // 
             // GB_FrontierPass
             // 
@@ -1776,8 +1813,8 @@ namespace PKHeX.WinForms
             GB_Reachable.ResumeLayout(false);
             GB_Reachable.PerformLayout();
             TAB_BF.ResumeLayout(false);
-            GB_Streaks.ResumeLayout(false);
-            GB_Streaks.PerformLayout();
+            GB_Stats.ResumeLayout(false);
+            GB_Stats.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Stat3).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Stat2).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Stat1).EndInit();
@@ -1869,7 +1906,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button BTN_SymbolL;
         private System.Windows.Forms.Button BTN_SymbolK;
         private System.Windows.Forms.Button BTN_SymbolG;
-        private System.Windows.Forms.GroupBox GB_Streaks;
+        private System.Windows.Forms.GroupBox GB_Stats;
         private System.Windows.Forms.ComboBox CB_Stats2;
         private System.Windows.Forms.ComboBox CB_Stats1;
         private System.Windows.Forms.RadioButton RB_Stats3_02;
@@ -1913,21 +1950,21 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.TabPage TB_Poster;
         private System.Windows.Forms.TabPage TB_Doll;
         private System.Windows.Forms.TabPage TB_Cushion;
-        private System.Windows.Forms.DataGridView DGV_Desk;
+        private DoubleBufferedDataGridView DGV_Desk;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Desk;
-        private System.Windows.Forms.DataGridView DGV_Chair;
+        private DoubleBufferedDataGridView DGV_Chair;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Chair;
-        private System.Windows.Forms.DataGridView DGV_Plant;
+        private DoubleBufferedDataGridView DGV_Plant;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Plant;
-        private System.Windows.Forms.DataGridView DGV_Ornament;
+        private DoubleBufferedDataGridView DGV_Ornament;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Ornament;
-        private System.Windows.Forms.DataGridView DGV_Mat;
+        private DoubleBufferedDataGridView DGV_Mat;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Mat;
-        private System.Windows.Forms.DataGridView DGV_Poster;
+        private DoubleBufferedDataGridView DGV_Poster;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Poster;
-        private System.Windows.Forms.DataGridView DGV_Doll;
+        private DoubleBufferedDataGridView DGV_Doll;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Doll;
-        private System.Windows.Forms.DataGridView DGV_Cushion;
+        private DoubleBufferedDataGridView DGV_Cushion;
         private System.Windows.Forms.DataGridViewComboBoxColumn Item_Cushion;
         private System.Windows.Forms.TabPage Tab_Paintings;
         private System.Windows.Forms.Label L_PID;
@@ -1949,5 +1986,8 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_Caption;
         private System.Windows.Forms.GroupBox GB_Painting;
         private Pokeblock3CaseEditor pokeblock3CaseEditor1;
+        private System.Windows.Forms.Label L_Mode;
+        private System.Windows.Forms.Label L_Facility;
+        private System.Windows.Forms.Label L_Continue;
     }
 }

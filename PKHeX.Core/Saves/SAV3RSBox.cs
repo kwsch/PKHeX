@@ -39,7 +39,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
         // Detect active save
         int[] SaveCounts = Array.ConvertAll(Blocks, block => (int)block.SaveCount);
         SaveCount = SaveCounts.Max();
-        int ActiveSAV = Array.IndexOf(SaveCounts, SaveCount) / BLOCK_COUNT;
+        int ActiveSAV = SaveCounts.IndexOf(SaveCount) / BLOCK_COUNT;
         var ordered = Blocks
             .Skip(ActiveSAV * BLOCK_COUNT)
             .Take(BLOCK_COUNT)

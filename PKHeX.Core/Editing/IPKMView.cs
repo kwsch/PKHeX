@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Simple interface representing a <see cref="PKM"/> viewer.
@@ -44,4 +44,10 @@ public interface IPKMView
     /// <param name="focus">Cause the viewer to give focus to itself.</param>
     /// <param name="skipConversionCheck">Cause the viewer to skip converting the data. Faster if it is known that the format is the same as the previous format.</param>
     void PopulateFields(PKM pk, bool focus = true, bool skipConversionCheck = false);
+
+    /// <summary>
+    /// Messages back that the entity has been saved.
+    /// </summary>
+    /// <param name="pk">Pokémon data that was saved.</param>
+    void NotifyWasExported(PKM pk);
 }

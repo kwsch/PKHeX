@@ -190,6 +190,7 @@ namespace PKHeX.WinForms
             // 
             // mnuView
             // 
+            mnuView.Image = Properties.Resources.other;
             mnuView.Name = "mnuView";
             mnuView.Size = new System.Drawing.Size(107, 22);
             mnuView.Text = "View";
@@ -197,6 +198,7 @@ namespace PKHeX.WinForms
             // 
             // mnuSet
             // 
+            mnuSet.Image = Properties.Resources.exit;
             mnuSet.Name = "mnuSet";
             mnuSet.Size = new System.Drawing.Size(107, 22);
             mnuSet.Text = "Set";
@@ -204,6 +206,7 @@ namespace PKHeX.WinForms
             // 
             // mnuDelete
             // 
+            mnuDelete.Image = Properties.Resources.nocheck;
             mnuDelete.Name = "mnuDelete";
             mnuDelete.Size = new System.Drawing.Size(107, 22);
             mnuDelete.Text = "Delete";

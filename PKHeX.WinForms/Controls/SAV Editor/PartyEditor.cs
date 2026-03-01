@@ -15,9 +15,20 @@ public partial class PartyEditor : UserControl, ISlotViewer<PictureBox>
     public SlotChangeManager? M { get; set; }
     public bool FlagIllegal { get; set; }
 
+    private Func<PKM, bool>? _searchFilter;
+
     public PartyEditor()
     {
         InitializeComponent();
+    }
+
+    public void ApplyNewFilter(Func<PKM, bool>? filter, bool reload = true)
+    {
+        if (filter == _searchFilter)
+            return;
+        _searchFilter = filter;
+        if (reload && SAV.HasParty)
+            ResetSlots();
     }
 
     internal bool InitializeGrid()
@@ -75,7 +86,18 @@ public partial class PartyEditor : UserControl, ISlotViewer<PictureBox>
         }
 
         var pb = SlotPictureBoxes[index];
-        SlotUtil.UpdateSlot(pb, slot, pk, SAV, FlagIllegal, type);
+        var flags = GetFlags(pk);
+        SlotUtil.UpdateSlot(pb, slot, pk, SAV, flags, type);
+    }
+
+    private SlotVisibilityType GetFlags(PKM pk)
+    {
+        var result = SlotVisibilityType.None;
+        if (FlagIllegal)
+            result |= SlotVisibilityType.CheckLegalityIndicate;
+        if (_searchFilter != null && !_searchFilter(pk))
+            result |= SlotVisibilityType.FilterMismatch;
+        return result;
     }
 
     public int GetViewIndex(ISlotInfo slot)
@@ -108,7 +130,8 @@ public partial class PartyEditor : UserControl, ISlotViewer<PictureBox>
         foreach (var pb in SlotPictureBoxes)
         {
             var slot = (SlotInfoParty) GetSlotData(pb);
-            SlotUtil.UpdateSlot(pb, slot, slot.Read(SAV), SAV, FlagIllegal);
+            var pk = slot.Read(SAV);
+            SlotUtil.UpdateSlot(pb, slot, pk, SAV, GetFlags(pk));
         }
 
         if (M?.Env.Slots.Publisher.Previous is SlotInfoParty p)

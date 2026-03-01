@@ -22,7 +22,7 @@ public static class PogoSlotExtensions
 {
     public static bool GetIVsAboveMinimum(this IPogoSlot slot, PKM pk)
     {
-        int min = slot.Type.GetMinIV();
+        int min = slot.Type.MinimumIV;
         if (min == 0)
             return true;
         return GetIVsAboveMinimum(pk, min);

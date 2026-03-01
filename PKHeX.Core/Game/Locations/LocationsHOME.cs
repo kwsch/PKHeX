@@ -132,7 +132,7 @@ public static class LocationsHOME
             return LocationRemapState.Original;
         if (current == EntityContext.Gen8)
             return LocationRemapState.Remapped;
-        return original.Generation() switch
+        return original.Generation switch
         {
             < 8 => LocationRemapState.Original,
             8 => LocationRemapState.Either,

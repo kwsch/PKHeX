@@ -62,57 +62,60 @@ public enum EncounterTriggerCondition : byte
 
 public static class LeadRequiredExtensions
 {
-    public static bool IsFailTuple(this LeadRequired lr) => lr
-        is PressureHustleSpiritFail
-        or SynchronizeFail
-        or CuteCharmFail
-        or StaticMagnetFail;
-
-    public static LeadRequired GetRegular(this LeadRequired lr) => lr switch
+    extension(LeadRequired lr)
     {
-        PressureHustleSpiritFail => PressureHustleSpirit,
-        SynchronizeFail          => Synchronize,
-        CuteCharmFail            => CuteCharm,
-        StaticMagnetFail         => Static,
-        _                        => None,
-    };
+        public bool IsFailTuple => lr
+            is PressureHustleSpiritFail
+            or SynchronizeFail
+            or CuteCharmFail
+            or StaticMagnetFail;
 
-    public static Ability GetAbility(this LeadRequired lr) => lr switch
-    {
-        Synchronize           => Ability.Synchronize,
-        CuteCharm             => Ability.CuteCharm,
-        Static                => Ability.Static,
-        MagnetPull            => Ability.MagnetPull,
-        PressureHustleSpirit  => Ability.Pressure,
-        SuctionCups           => Ability.SuctionCups,
-        Illuminate            => Ability.Illuminate,
-        IntimidateKeenEyeFail => Ability.Intimidate,
-
-        SynchronizeRadar      => Ability.Synchronize,
-        CuteCharmRadar        => Ability.CuteCharm,
-        _                     => Ability.None,
-    };
-
-    public static (Ability Ability, bool IsFail, EncounterTriggerCondition Condition) GetDisplayAbility(this LeadRequired lr)
-    {
-        var isFail = false;
-        if (lr.IsFailTuple())
+        public LeadRequired GetRegular() => lr switch
         {
-            isFail = true;
-            lr = lr.GetRegular();
-        }
-        else if (lr is IntimidateKeenEyeFail)
-        {
-            isFail = true;
-        }
-
-        var condition = lr switch
-        {
-            Radar            => EncounterTriggerCondition.Radar,
-            SynchronizeRadar => EncounterTriggerCondition.Radar,
-            CuteCharmRadar   => EncounterTriggerCondition.Radar,
-            _                => EncounterTriggerCondition.None,
+            PressureHustleSpiritFail => PressureHustleSpirit,
+            SynchronizeFail          => Synchronize,
+            CuteCharmFail            => CuteCharm,
+            StaticMagnetFail         => Static,
+            _                        => None,
         };
-        return (lr.GetAbility(), isFail, condition);
+
+        public Ability GetAbility() => lr switch
+        {
+            Synchronize           => Ability.Synchronize,
+            CuteCharm             => Ability.CuteCharm,
+            Static                => Ability.Static,
+            MagnetPull            => Ability.MagnetPull,
+            PressureHustleSpirit  => Ability.Pressure,
+            SuctionCups           => Ability.SuctionCups,
+            Illuminate            => Ability.Illuminate,
+            IntimidateKeenEyeFail => Ability.Intimidate,
+
+            SynchronizeRadar      => Ability.Synchronize,
+            CuteCharmRadar        => Ability.CuteCharm,
+            _                     => Ability.None,
+        };
+
+        public (Ability Ability, bool IsFail, EncounterTriggerCondition Condition) GetDisplayAbility()
+        {
+            var isFail = false;
+            if (lr.IsFailTuple)
+            {
+                isFail = true;
+                lr = lr.GetRegular();
+            }
+            else if (lr is IntimidateKeenEyeFail)
+            {
+                isFail = true;
+            }
+
+            var condition = lr switch
+            {
+                Radar            => EncounterTriggerCondition.Radar,
+                SynchronizeRadar => EncounterTriggerCondition.Radar,
+                CuteCharmRadar   => EncounterTriggerCondition.Radar,
+                _                => EncounterTriggerCondition.None,
+            };
+            return (lr.GetAbility(), isFail, condition);
+        }
     }
 }

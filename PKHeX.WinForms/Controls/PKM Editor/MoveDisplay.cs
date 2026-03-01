@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.Misc;
@@ -35,7 +34,7 @@ public partial class MoveDisplay : UserControl
         if (valid)
             L_Move.ResetForeColor();
         else
-            L_Move.ForeColor = Color.Red;
+            L_Move.ForeColor = WinFormsUtil.ColorWarn;
         L_Move.Width = size.Width;
         Width = ctrlWidth;
 

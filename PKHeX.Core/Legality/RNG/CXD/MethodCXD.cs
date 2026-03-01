@@ -284,6 +284,8 @@ public static class MethodCXD
                 continue;
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPID(pid, EntityGender.VM)))
                 continue;
+            if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(tid | ((uint)sid << 16), pid))
+                continue;
 
             var ivSeed = XDRNG.Next4(seed);
             var iv1 = XDRNG.Next15(ref ivSeed);

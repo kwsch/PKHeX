@@ -46,6 +46,11 @@ public partial class SAV_Database : Form
     {
         InitializeComponent();
         FormClosing += (_, _) => cts.Cancel();
+
+        var settings = new TabPage { Text = "Settings", Name = "Tab_Settings" };
+        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EntityDb });
+        TC_SearchSettings.Controls.Add(settings);
+
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         UC_Builder = new EntityInstructionBuilder(() => f1.PreparePKM())
         {
@@ -64,7 +69,7 @@ public partial class SAV_Database : Form
         PKME_Tabs = f1;
 
         // Preset Filters to only show PKM available for loaded save
-        CB_FormatComparator.SelectedIndex = 3; // <=
+        UC_EntitySearch.InitializeSelections(SAV);
 
         var grid = DatabasePokeGrid;
         var smallWidth = grid.Width;
@@ -104,7 +109,7 @@ public partial class SAV_Database : Form
             }
             slot.Enter += (_, _) =>
             {
-                var index = Array.IndexOf(PKXBOXES, slot);
+                var index = PKXBOXES.IndexOf(slot);
                 if (index < 0)
                     return;
                 index += (SCR_Box.Value * RES_MIN);
@@ -123,11 +128,7 @@ public partial class SAV_Database : Form
         Counter = L_Count.Text;
         Viewed = L_Viewed.Text;
         L_Viewed.Text = string.Empty; // invisible for now
-        PopulateComboBoxes();
-
-        var settings = new TabPage { Text = "Settings" };
-        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EntityDb });
-        TC_SearchSettings.Controls.Add(settings);
+        UC_EntitySearch.PopulateComboBoxes(GameInfo.FilteredSources);
 
         // Load Data
         B_Search.Enabled = false;
@@ -150,17 +151,28 @@ public partial class SAV_Database : Form
             if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                 e.Cancel = true;
         };
-        CB_Format.Items[0] = MsgAny;
+        UC_EntitySearch.SetFormatAnyText(MsgAny);
         CenterToParent();
-        Closing += (_, _) => ShowSet.Clear();
-        CB_Species.Select();
+        FormClosing += (_, _) => ShowSet.Clear();
+
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(menuStrip1.Items);
+            WinFormsUtil.InvertToolStripIcons(mnu.Items);
+        }
+    }
+
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        UC_EntitySearch.ResetComboBoxSelections();
     }
 
     private void ClickView(object sender, EventArgs e)
     {
         if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
             ArgumentNullException.ThrowIfNull(pb);
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (!GetShiftedIndex(ref index))
         {
             System.Media.SystemSounds.Exclamation.Play();
@@ -192,7 +204,7 @@ public partial class SAV_Database : Form
     {
         if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
             ArgumentNullException.ThrowIfNull(pb);
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (!GetShiftedIndex(ref index))
         {
             System.Media.SystemSounds.Exclamation.Play();
@@ -276,86 +288,9 @@ public partial class SAV_Database : Form
         return index < Results.Count;
     }
 
-    private void PopulateComboBoxes()
-    {
-        // Set the Text
-        CB_HeldItem.InitializeBinding();
-        CB_Species.InitializeBinding();
-        CB_Ability.InitializeBinding();
-        CB_Nature.InitializeBinding();
-        CB_GameOrigin.InitializeBinding();
-        CB_HPType.InitializeBinding();
-
-        var comboAny = new ComboItem(MsgAny, -1);
-
-        var filtered = GameInfo.FilteredSources;
-        var source = filtered.Source;
-        var species = new List<ComboItem>(source.SpeciesDataSource)
-        {
-            [0] = comboAny // Replace (None) with "Any"
-        };
-        CB_Species.DataSource = species;
-
-        var items = new List<ComboItem>(filtered.Items);
-        items.Insert(0, comboAny);
-        CB_HeldItem.DataSource = items;
-
-        var natures = new List<ComboItem>(source.NatureDataSource);
-        natures.Insert(0, comboAny);
-        CB_Nature.DataSource = natures;
-
-        var abilities = new List<ComboItem>(source.AbilityDataSource);
-        abilities.Insert(0, comboAny);
-        CB_Ability.DataSource = abilities;
-
-        var versions = new List<ComboItem>(source.VersionDataSource);
-        versions.Insert(0, comboAny);
-        versions.RemoveAt(versions.Count - 1); // None
-        CB_GameOrigin.DataSource = versions;
-
-        var hptypes = source.Strings.HiddenPowerTypes;
-        var types = Util.GetCBList(hptypes);
-        types.Insert(0, comboAny);
-        CB_HPType.DataSource = types;
-
-        // Set the Move ComboBoxes too.
-        var moves = new List<ComboItem>(filtered.Moves);
-        moves.RemoveAt(0);
-        moves.Insert(0, comboAny);
-        {
-            foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 })
-            {
-                cb.InitializeBinding();
-                cb.DataSource = new BindingSource(moves, string.Empty);
-            }
-        }
-
-        // Trigger a Reset
-        ResetFilters(this, EventArgs.Empty);
-    }
-
     private void ResetFilters(object sender, EventArgs e)
     {
-        CHK_Shiny.Checked = CHK_IsEgg.Checked = true;
-        CHK_Shiny.CheckState = CHK_IsEgg.CheckState = CheckState.Indeterminate;
-        MT_ESV.Text = string.Empty;
-        CB_HeldItem.SelectedIndex = 0;
-        CB_Species.SelectedIndex = 0;
-        CB_Ability.SelectedIndex = 0;
-        CB_Nature.SelectedIndex = 0;
-        CB_HPType.SelectedIndex = 0;
-
-        CB_Level.SelectedIndex = 0;
-        TB_Level.Text = string.Empty;
-        CB_EVTrain.SelectedIndex = 0;
-        CB_IV.SelectedIndex = 0;
-
-        CB_Move1.SelectedIndex = CB_Move2.SelectedIndex = CB_Move3.SelectedIndex = CB_Move4.SelectedIndex = 0;
-
-        CB_GameOrigin.SelectedIndex = 0;
-        CB_Generation.SelectedIndex = 0;
-
-        MT_ESV.Visible = L_ESV.Visible = false;
+        UC_EntitySearch.ResetFilters();
         RTB_Instructions.Clear();
 
         if (sender != this)
@@ -551,50 +486,7 @@ public partial class SAV_Database : Form
 
     private SearchSettings GetSearchSettings()
     {
-        var settings = new SearchSettings
-        {
-            Format = (byte)(MAXFORMAT - CB_Format.SelectedIndex + 1), // 0->(n-1) => 1->n
-            SearchFormat = (SearchComparison)CB_FormatComparator.SelectedIndex,
-            Generation = (byte)CB_Generation.SelectedIndex,
-
-            Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin),
-            HiddenPowerType = WinFormsUtil.GetIndex(CB_HPType),
-
-            Species = GetU16(CB_Species),
-            Ability = WinFormsUtil.GetIndex(CB_Ability),
-            Nature = (Nature)WinFormsUtil.GetIndex(CB_Nature),
-            Item = WinFormsUtil.GetIndex(CB_HeldItem),
-
-            BatchInstructions = RTB_Instructions.Text,
-
-            Level = byte.TryParse(TB_Level.Text, out var lvl) ? lvl : null,
-            SearchLevel = (SearchComparison)CB_Level.SelectedIndex,
-            EVType = CB_EVTrain.SelectedIndex,
-            IVType = CB_IV.SelectedIndex,
-        };
-
-        static ushort GetU16(ListControl cb)
-        {
-            var val = WinFormsUtil.GetIndex(cb);
-            if (val <= 0)
-                return 0;
-            return (ushort)val;
-        }
-
-        settings.AddMove(GetU16(CB_Move1));
-        settings.AddMove(GetU16(CB_Move2));
-        settings.AddMove(GetU16(CB_Move3));
-        settings.AddMove(GetU16(CB_Move4));
-
-        if (CHK_Shiny.CheckState != CheckState.Indeterminate)
-            settings.SearchShiny = CHK_Shiny.CheckState == CheckState.Checked;
-
-        if (CHK_IsEgg.CheckState != CheckState.Indeterminate)
-        {
-            settings.SearchEgg = CHK_IsEgg.CheckState == CheckState.Checked;
-            if (int.TryParse(MT_ESV.Text, out int esv))
-                settings.ESV = esv;
-        }
+        var settings = UC_EntitySearch.CreateSearchSettings(RTB_Instructions.Text);
 
         if (Menu_SearchLegal.Checked != Menu_SearchIllegal.Checked)
             settings.SearchLegal = Menu_SearchLegal.Checked;
@@ -623,7 +515,7 @@ public partial class SAV_Database : Form
             bool wordFilter = ParseSettings.Settings.WordFilter.CheckWordFilter;
             if (wordFilter && legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBSearchLegalityWordfilter) == DialogResult.No)
                 ParseSettings.Settings.WordFilter.CheckWordFilter = false;
-            var results = await Task.Run(() => search.ToList()).ConfigureAwait(true);
+            var results = await Task.Run(search.ToList).ConfigureAwait(true);
             ParseSettings.Settings.WordFilter.CheckWordFilter = wordFilter;
 
             if (results.Count == 0)
@@ -681,7 +573,11 @@ public partial class SAV_Database : Form
         int begin = start * RES_MIN;
         int end = Math.Min(RES_MAX, Results.Count - begin);
         for (int i = 0; i < end; i++)
-            PKXBOXES[i].Image = Results[i + begin].Entity.Sprite(SAV, flagIllegal: true, storage: Results[i + begin].Source.Type);
+        {
+            var slot = Results[i + begin];
+            var pk = Results[i + begin].Entity;
+            PKXBOXES[i].Image = pk.Sprite(SAV, visibility: GetFlags(pk), storage: slot.Source.Type);
+        }
         for (int i = end; i < RES_MAX; i++)
             PKXBOXES[i].Image = null;
 
@@ -691,27 +587,15 @@ public partial class SAV_Database : Form
             PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
     }
 
+    private SlotVisibilityType GetFlags(PKM pk, bool ignoreLegality = false)
+    {
+        var result = SlotVisibilityType.None;
+        if (!ignoreLegality)
+            result |= SlotVisibilityType.CheckLegalityIndicate;
+        return result;
+    }
+
     // Misc Update Methods
-    private void ToggleESV(object sender, EventArgs e) => L_ESV.Visible = MT_ESV.Visible = CHK_IsEgg.CheckState == CheckState.Checked;
-
-    private void ChangeLevel(object sender, EventArgs e)
-    {
-        if (CB_Level.SelectedIndex == 0)
-            TB_Level.Text = string.Empty;
-    }
-
-    private void ChangeGame(object sender, EventArgs e)
-    {
-        if (CB_GameOrigin.SelectedIndex != 0)
-            CB_Generation.SelectedIndex = 0;
-    }
-
-    private void ChangeGeneration(object sender, EventArgs e)
-    {
-        if (CB_Generation.SelectedIndex != 0)
-            CB_GameOrigin.SelectedIndex = 0;
-    }
-
     private void Menu_Exit_Click(object sender, EventArgs e) => Close();
 
     protected override void OnMouseWheel(MouseEventArgs e)
@@ -724,21 +608,6 @@ public partial class SAV_Database : Form
             return;
         FillPKXBoxes(SCR_Box.Value = newval);
         ShowSet.Clear();
-    }
-
-    private void ChangeFormatFilter(object sender, EventArgs e)
-    {
-        if (CB_FormatComparator.SelectedIndex == 0)
-        {
-            CB_Format.Visible = false; // !any
-            CB_Format.SelectedIndex = 0;
-        }
-        else
-        {
-            CB_Format.Visible = true;
-            int index = MAXFORMAT - SAV.Generation + 1;
-            CB_Format.SelectedIndex = index < CB_Format.Items.Count ? index : 0; // SAV generation (offset by 1 for "Any")
-        }
     }
 
     private void Menu_DeleteClones_Click(object sender, EventArgs e)
@@ -797,7 +666,7 @@ public partial class SAV_Database : Form
 
     private void ShowHoverTextForSlot(PictureBox pb)
     {
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (!GetShiftedIndex(ref index))
             return;
 

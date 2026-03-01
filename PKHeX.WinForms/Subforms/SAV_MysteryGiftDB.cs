@@ -29,6 +29,11 @@ public partial class SAV_MysteryGiftDB : Form
     public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
     {
         InitializeComponent();
+
+        var settings = new TabPage { Text = "Settings", Name = "Tab_Settings" };
+        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EncounterDb });
+        TC_SearchSettings.Controls.Add(settings);
+
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         UC_Builder = new EntityInstructionBuilder(() => tabs.PreparePKM())
         {
@@ -79,7 +84,7 @@ public partial class SAV_MysteryGiftDB : Form
             slot.MouseEnter += (_, _) => ShowHoverTextForSlot(slot);
             slot.Enter += (_, _) =>
             {
-                var index = Array.IndexOf(PKXBOXES, slot);
+                var index = PKXBOXES.IndexOf(slot);
                 if (index < 0)
                     return;
                 index += (SCR_Box.Value * RES_MIN);
@@ -96,10 +101,6 @@ public partial class SAV_MysteryGiftDB : Form
         L_Viewed.Text = string.Empty; // invis for now
         L_Viewed.MouseEnter += (_, _) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
 
-        var settings = new TabPage { Text = "Settings" };
-        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EncounterDb });
-        TC_SearchSettings.Controls.Add(settings);
-
         // Load Data
         B_Search.Enabled = false;
         L_Count.Text = "Loading...";
@@ -107,7 +108,19 @@ public partial class SAV_MysteryGiftDB : Form
 
         CB_Format.Items[0] = MsgAny;
         CenterToParent();
-        CB_Species.Select();
+
+        if (Application.IsDarkModeEnabled)
+        {
+            WinFormsUtil.InvertToolStripIcons(menuStrip1.Items);
+            WinFormsUtil.InvertToolStripIcons(mnu.Items);
+        }
+    }
+
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        foreach (var cb in TLP_Filters.Controls.OfType<ComboBox>())
+            cb.SelectedIndex = cb.SelectionLength = 0;
     }
 
     private readonly PictureBox[] PKXBOXES;
@@ -136,7 +149,7 @@ public partial class SAV_MysteryGiftDB : Form
         int index = GetSenderIndex(sender);
         if (index < 0)
             return;
-        var temp = Results[index].ConvertToPKM(SAV);
+        var temp = Results[index].ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
         var pk = EntityConverter.ConvertToType(temp, SAV.PKMType, out var c);
         if (pk is null)
         {
@@ -180,7 +193,7 @@ public partial class SAV_MysteryGiftDB : Form
     {
         if (!WinFormsUtil.TryGetUnderlying<PictureBox>(sender, out var pb))
             ArgumentNullException.ThrowIfNull(pb);
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (index >= RES_MAX)
         {
             System.Media.SystemSounds.Exclamation.Play();
@@ -225,7 +238,6 @@ public partial class SAV_MysteryGiftDB : Form
         }
 
         // Trigger a Reset
-        ResetFilters(this, EventArgs.Empty);
         B_Search.Enabled = true;
     }
 
@@ -347,8 +359,8 @@ public partial class SAV_MysteryGiftDB : Form
         if (batchText.Length != 0 && !StringInstructionSet.HasEmptyLine(batchText))
         {
             var filters = StringInstruction.GetFilters(batchText);
-            BatchEditing.ScreenStrings(filters);
-            res = res.Where(pk => BatchEditing.IsFilterMatch(filters, pk)); // Compare across all filters
+            EntityBatchEditor.ScreenStrings(filters);
+            res = res.Where(pk => BatchEditingUtil.IsFilterMatch(filters, pk)); // Compare across all filters
         }
 
         var results = res.ToArray();
@@ -456,7 +468,7 @@ public partial class SAV_MysteryGiftDB : Form
 
     private void ShowHoverTextForSlot(PictureBox pb)
     {
-        int index = Array.IndexOf(PKXBOXES, pb);
+        int index = PKXBOXES.IndexOf(pb);
         if (!GetShiftedIndex(ref index))
             return;
 

@@ -23,6 +23,8 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
 
     public SAV3FRLG(bool japanese = false) : base(japanese) => Initialize();
 
+    public override PlayerBag3FRLG Inventory => new(this);
+
     public SAV3FRLG(Memory<byte> data) : base(data)
     {
         Initialize();
@@ -100,28 +102,6 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
     {
         get => (ushort)(ReadUInt16LittleEndian(Large[0x0294..]) ^ SecurityKey);
         set => WriteUInt16LittleEndian(Large[0x0294..], (ushort)(value ^ SecurityKey));
-    }
-
-    private const int OFS_PCItem = 0x0298;
-    private const int OFS_PouchHeldItem = 0x0310;
-    private const int OFS_PouchKeyItem = 0x03B8;
-    private const int OFS_PouchBalls = 0x0430;
-    private const int OFS_PouchTMHM = 0x0464;
-    private const int OFS_PouchBerry = 0x054C;
-
-    protected override InventoryPouch3[] GetItems()
-    {
-        const int max = 999;
-        var info = ItemStorage3FRLG.Instance;
-        return
-        [
-            new(InventoryType.Items, info, max, OFS_PouchHeldItem, (OFS_PouchKeyItem - OFS_PouchHeldItem) / 4),
-            new(InventoryType.KeyItems, info, 1, OFS_PouchKeyItem, (OFS_PouchBalls - OFS_PouchKeyItem) / 4),
-            new(InventoryType.Balls, info, max, OFS_PouchBalls, (OFS_PouchTMHM - OFS_PouchBalls) / 4),
-            new(InventoryType.TMHMs, info, max, OFS_PouchTMHM, (OFS_PouchBerry - OFS_PouchTMHM) / 4),
-            new(InventoryType.Berries, info, 999, OFS_PouchBerry, 43),
-            new(InventoryType.PCItems, info, 999, OFS_PCItem, (OFS_PouchHeldItem - OFS_PCItem) / 4),
-        ];
     }
 
     protected override int SeenOffset2 => 0x5F8;

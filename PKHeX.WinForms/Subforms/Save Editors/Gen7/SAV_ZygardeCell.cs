@@ -46,7 +46,7 @@ public partial class SAV_ZygardeCell : Form
         for (int i = 0; i < dgv.RowCount; i++)
         {
             string str = (string)dgv.Rows[i].Cells[2].Value!;
-            int val = Array.IndexOf(states, str);
+            int val = states.IndexOf(str);
             if (val < 0)
                 throw new IndexOutOfRangeException("Unable to find cell index.");
 
@@ -73,7 +73,7 @@ public partial class SAV_ZygardeCell : Form
         for (int i = 0; i < dgv.RowCount; i++)
         {
             var state = dgv.Rows[i].Cells[2];
-            if (Array.IndexOf(states, (string)state.Value!) != 2) // Not Collected
+            if (states.IndexOf((string)state.Value!) != 2) // Not Collected
                 added++;
             state.Value = states[2];
         }

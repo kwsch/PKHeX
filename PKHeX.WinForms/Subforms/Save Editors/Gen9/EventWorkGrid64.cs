@@ -42,9 +42,50 @@ public sealed class EventWorkLookup(Dictionary<ulong, string> forward)
 /// <summary>
 /// Base class with shared UI helpers and wiring for EventWork grids.
 /// </summary>
-public abstract record EventWorkGridBase(SplitContainer Container, DataGridView Grid, TextBox Search)
-    : IEventWorkGrid
+public abstract record EventWorkGridBase : IEventWorkGrid
 {
+    private readonly Timer _searchDebounce = new() { Interval = 150 };
+    private Action<string>? _searchAction;
+    private SplitContainer Container { get; }
+    private TextBox Search { get; }
+    protected DataGridView Grid { get; }
+
+    protected EventWorkGridBase(SplitContainer container, DataGridView grid, TextBox search)
+    {
+        Container = container;
+        Grid = grid;
+        Search = search;
+
+        _searchDebounce.Tick += SearchDebounceTick;
+        Search.Disposed += (_, _) => _searchDebounce.Dispose();
+    }
+
+    protected void WireSearch(Action<string> applyFilter)
+    {
+        _searchAction = applyFilter;
+        Search.TextChanged += (_, _) => RestartSearchDebounce();
+    }
+
+    private void RestartSearchDebounce()
+    {
+        if (Search.IsDisposed || Search.Disposing)
+            return;
+
+        _searchDebounce.Stop();
+        _searchDebounce.Start();
+    }
+
+    private void SearchDebounceTick(object? sender, EventArgs e)
+    {
+        _searchDebounce.Stop();
+        if (_searchAction is null)
+            return;
+        if (Search.IsDisposed || Search.Disposing || Grid.IsDisposed || Grid.Disposing || Container.IsDisposed || Container.Disposing)
+            return;
+
+        _searchAction(Search.Text);
+    }
+
     protected static (SplitContainer Container, TextBox Search) CreateContainerCommon()
     {
         var container = new SplitContainer
@@ -53,13 +94,13 @@ public abstract record EventWorkGridBase(SplitContainer Container, DataGridView 
             Orientation = Orientation.Horizontal,
             FixedPanel = FixedPanel.Panel1,
             IsSplitterFixed = true,
-            Margin = new Padding(0),
+            Margin = Padding.Empty,
         };
 
         var search = new TextBox
         {
             Dock = DockStyle.Fill,
-            Margin = new Padding(0),
+            Margin = Padding.Empty,
             PlaceholderText = "Search...",
         };
         container.Panel1.Controls.Add(search);
@@ -140,8 +181,7 @@ public sealed record EventWorkGrid64<T> : EventWorkGridBase where T : struct, IE
         if (typeof(T) == typeof(ulong))
             Grid.CellValidated += ValidateU64;
 
-        Search.TextChanged += (_, _) => ApplyFilter(Search.Text);
-
+        WireSearch(ApplyFilter);
         ToggleAutoSize(true);
     }
 
@@ -186,9 +226,8 @@ public sealed record EventWorkGrid64<T> : EventWorkGridBase where T : struct, IE
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None,
             Dock = DockStyle.Fill,
             RowHeadersVisible = false,
-            Margin = new Padding(0),
+            Margin = Padding.Empty,
             DefaultCellStyle = new DataGridViewCellStyle { Font = font },
-            AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle { BackColor = SystemColors.ControlLight },
         };
         dgv.Columns.AddRange(MakeIndexColumn(font), MakeValueBoolColumn(font, "Value"), MakeKeyColumn(font));
         container.Panel2.Controls.Add(dgv);
@@ -212,9 +251,8 @@ public sealed record EventWorkGrid64<T> : EventWorkGridBase where T : struct, IE
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None,
             Dock = DockStyle.Fill,
             RowHeadersVisible = false,
-            Margin = new Padding(0),
+            Margin = Padding.Empty,
             DefaultCellStyle = new DataGridViewCellStyle { Font = font },
-            AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle { BackColor = SystemColors.ControlLight },
         };
         dgv.Columns.AddRange(MakeIndexColumn(font), MakeValueNumberColumn(font, "Value"), MakeKeyColumn(font));
         container.Panel2.Controls.Add(dgv);
@@ -319,7 +357,7 @@ public sealed record EventWorkGridTuple : EventWorkGridBase
         Names = names;
 
         Grid.CellValueChanged += ValidateCell;
-        Search.TextChanged += (_, _) => ApplyFilter(Search.Text);
+        WireSearch(ApplyFilter);
         ToggleAutoSize(true);
     }
 
@@ -340,9 +378,8 @@ public sealed record EventWorkGridTuple : EventWorkGridBase
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None,
             Dock = DockStyle.Fill,
             RowHeadersVisible = false,
-            Margin = new Padding(0),
+            Margin = Padding.Empty,
             DefaultCellStyle = new DataGridViewCellStyle { Font = font },
-            AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle { BackColor = SystemColors.ControlLight },
         };
         var c1 = MakeIndexColumn(font);
         var c2 = MakeKeyColumn(font, "Key A");
@@ -473,7 +510,7 @@ public sealed record EventWorkGrid128 : EventWorkGridBase
         Names = names;
 
         Grid.CellValidated += ValidateValue;
-        Search.TextChanged += (_, _) => ApplyFilter(Search.Text);
+        WireSearch(ApplyFilter);
         ToggleAutoSize(true);
     }
 
@@ -494,9 +531,8 @@ public sealed record EventWorkGrid128 : EventWorkGridBase
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None,
             Dock = DockStyle.Fill,
             RowHeadersVisible = false,
-            Margin = new Padding(0),
+            Margin = Padding.Empty,
             DefaultCellStyle = new DataGridViewCellStyle { Font = font },
-            AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle { BackColor = SystemColors.ControlLight },
         };
 
         var c1 = MakeIndexColumn(font);
@@ -623,7 +659,7 @@ public sealed record EventWorkGrid192 : EventWorkGridBase
         Names = names;
 
         Grid.CellValidated += ValidateValue;
-        Search.TextChanged += (_, _) => ApplyFilter(Search.Text);
+        WireSearch(ApplyFilter);
         ToggleAutoSize(true);
     }
 
@@ -644,9 +680,8 @@ public sealed record EventWorkGrid192 : EventWorkGridBase
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None,
             Dock = DockStyle.Fill,
             RowHeadersVisible = false,
-            Margin = new Padding(0),
+            Margin = Padding.Empty,
             DefaultCellStyle = new DataGridViewCellStyle { Font = font },
-            AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle { BackColor = SystemColors.ControlLight },
         };
 
         var c1 = MakeIndexColumn(font);

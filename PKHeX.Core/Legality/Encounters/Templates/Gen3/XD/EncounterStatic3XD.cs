@@ -152,6 +152,8 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
             return Match;
         if (type is PIDType.CXDAnti && FatefulEncounter)
             return Match;
+        if (type is PIDType.CXD_ColoStarter && pk.Species is (ushort)Core.Species.Umbreon)
+            return Match; // Can be satisfying the Colosseum correlation too (only disqualified by Fateful Encounter later)
         return Mismatch;
     }
 

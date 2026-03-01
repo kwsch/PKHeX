@@ -79,22 +79,6 @@ internal static class LearnVerifierHistory
         }
     }
 
-    public static void MarkInitialMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, Moveset moves, LearnEnvironment game)
-    {
-        // If the initial move is present in the current moves, mark that current move index as an initial move.
-        if (moves.Move1 == 0) return;
-        var index = current.IndexOf(moves.Move1); if (index != -1) result[index] = MoveResult.Initial(game);
-
-        if (moves.Move2 == 0) return;
-        index = current.IndexOf(moves.Move2); if (index != -1) result[index] = MoveResult.Initial(game);
-
-        if (moves.Move3 == 0) return;
-        index = current.IndexOf(moves.Move3); if (index != -1) result[index] = MoveResult.Initial(game);
-
-        if (moves.Move4 == 0) return;
-        index = current.IndexOf(moves.Move4); if (index != -1) result[index] = MoveResult.Initial(game);
-    }
-
     public static void MarkInitialMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, ReadOnlySpan<ushort> moves, LearnEnvironment game)
     {
         // If the initial move is present in the current moves, mark that current move index as an initial move.

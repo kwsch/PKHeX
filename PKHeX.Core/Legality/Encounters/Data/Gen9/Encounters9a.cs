@@ -85,7 +85,7 @@ internal static class Encounters9a
         new(0703,0,66,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(444,430,605,157) }, // Carbink (sub_119_melecie_01)
         new(0703,0,66,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(444,446,408,605) }, // Carbink (sub_119_melecie_02)
         new(0719,0,70,128) { Location = 00063, FlawlessIVCount = 3, Moves = new(591,585,446,577) }, // Diancie (sub_119_diancie)
-        
+
         #region Sankaku
         // Rogue Mega Evolution
         new(0359,0,75,255) { Location = 00275, Gender = 1, Nature = Nature.Quiet,   IVs = new(31,31,20,28,31,18), Moves = new(282,400,555,425) }, // Absol (btl_ect_boss_0359_z_01)
@@ -126,7 +126,7 @@ internal static class Encounters9a
     ];
 
     private const string tradeZA = "tradeza";
-    private static readonly string[][] TradeNames = Util.GetLanguageStrings11(tradeZA);
+    private static readonly string[][] TradeNames = GetLanguageStrings(tradeZA, 11);
     internal static readonly EncounterTrade9a[] Trades =
     [
         new(TradeNames,0,0214,0,12) { ID32 = 797394, OTGender = 1, Gender = 0, Nature = Nature.Brave, IVs = new(31,31,15,31,15,15), Moves = new(033,043,203,042) }, // Heracross (sub_tradepoke_heracros)

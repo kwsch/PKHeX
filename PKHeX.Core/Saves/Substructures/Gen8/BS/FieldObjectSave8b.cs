@@ -40,7 +40,8 @@ public sealed class FieldObject8b
 {
     public const int SIZE = 4 * 17;
 
-    private readonly byte[] Data = new byte[SIZE];
+    private readonly Memory<byte> Raw = new byte[SIZE];
+    private Span<byte> Data => Raw.Span;
 
     public override string ToString() => $"{NameHash:X8} @ ({GridX:000},{GridY:000}) - {(Active ? "✓" : "✕")}";
 
@@ -52,20 +53,20 @@ public sealed class FieldObject8b
         set => Data[0] = value;
     }
 
-    public int NameHash { get => ReadInt32LittleEndian(Data.AsSpan(0x04)); set => WriteInt32LittleEndian(Data.AsSpan(0x04), value); }
-    public int GridX    { get => ReadInt32LittleEndian(Data.AsSpan(0x08)); set => WriteInt32LittleEndian(Data.AsSpan(0x08), value); }
-    public int GridY    { get => ReadInt32LittleEndian(Data.AsSpan(0x0C)); set => WriteInt32LittleEndian(Data.AsSpan(0x0C), value); }
-    public int Height   { get => ReadInt32LittleEndian(Data.AsSpan(0x10)); set => WriteInt32LittleEndian(Data.AsSpan(0x10), value); }
-    public int Angle    { get => ReadInt32LittleEndian(Data.AsSpan(0x14)); set => WriteInt32LittleEndian(Data.AsSpan(0x14), value); }
-    public bool Active  { get => ReadInt32LittleEndian(Data.AsSpan(0x18)) == 1; set => WriteUInt32LittleEndian(Data.AsSpan(0x18), value ? 1u : 0u); }
-    public int MoveCode { get => ReadInt32LittleEndian(Data.AsSpan(0x1C)); set => WriteInt32LittleEndian(Data.AsSpan(0x1C), value); }
-    public int DirHead  { get => ReadInt32LittleEndian(Data.AsSpan(0x20)); set => WriteInt32LittleEndian(Data.AsSpan(0x20), value); }
-    public int MvParam0 { get => ReadInt32LittleEndian(Data.AsSpan(0x24)); set => WriteInt32LittleEndian(Data.AsSpan(0x24), value); }
-    public int MvParam1 { get => ReadInt32LittleEndian(Data.AsSpan(0x28)); set => WriteInt32LittleEndian(Data.AsSpan(0x28), value); }
-    public int MvParam2 { get => ReadInt32LittleEndian(Data.AsSpan(0x2C)); set => WriteInt32LittleEndian(Data.AsSpan(0x2C), value); }
-    public int LimitX   { get => ReadInt32LittleEndian(Data.AsSpan(0x30)); set => WriteInt32LittleEndian(Data.AsSpan(0x30), value); }
-    public int LimitZ   { get => ReadInt32LittleEndian(Data.AsSpan(0x34)); set => WriteInt32LittleEndian(Data.AsSpan(0x34), value); }
-    public int EvType   { get => ReadInt32LittleEndian(Data.AsSpan(0x38)); set => WriteInt32LittleEndian(Data.AsSpan(0x38), value); }
-    public int MvOldDir { get => ReadInt32LittleEndian(Data.AsSpan(0x3C)); set => WriteInt32LittleEndian(Data.AsSpan(0x3C), value); }
-    public int MvDir    { get => ReadInt32LittleEndian(Data.AsSpan(0x40)); set => WriteInt32LittleEndian(Data.AsSpan(0x40), value); }
+    public int NameHash { get => ReadInt32LittleEndian(Data[0x04..]); set => WriteInt32LittleEndian(Data[0x04..], value); }
+    public int GridX    { get => ReadInt32LittleEndian(Data[0x08..]); set => WriteInt32LittleEndian(Data[0x08..], value); }
+    public int GridY    { get => ReadInt32LittleEndian(Data[0x0C..]); set => WriteInt32LittleEndian(Data[0x0C..], value); }
+    public int Height   { get => ReadInt32LittleEndian(Data[0x10..]); set => WriteInt32LittleEndian(Data[0x10..], value); }
+    public int Angle    { get => ReadInt32LittleEndian(Data[0x14..]); set => WriteInt32LittleEndian(Data[0x14..], value); }
+    public bool Active  { get => ReadInt32LittleEndian(Data[0x18..]) == 1; set => WriteUInt32LittleEndian(Data[0x18..], value ? 1u : 0u); }
+    public int MoveCode { get => ReadInt32LittleEndian(Data[0x1C..]); set => WriteInt32LittleEndian(Data[0x1C..], value); }
+    public int DirHead  { get => ReadInt32LittleEndian(Data[0x20..]); set => WriteInt32LittleEndian(Data[0x20..], value); }
+    public int MvParam0 { get => ReadInt32LittleEndian(Data[0x24..]); set => WriteInt32LittleEndian(Data[0x24..], value); }
+    public int MvParam1 { get => ReadInt32LittleEndian(Data[0x28..]); set => WriteInt32LittleEndian(Data[0x28..], value); }
+    public int MvParam2 { get => ReadInt32LittleEndian(Data[0x2C..]); set => WriteInt32LittleEndian(Data[0x2C..], value); }
+    public int LimitX   { get => ReadInt32LittleEndian(Data[0x30..]); set => WriteInt32LittleEndian(Data[0x30..], value); }
+    public int LimitZ   { get => ReadInt32LittleEndian(Data[0x34..]); set => WriteInt32LittleEndian(Data[0x34..], value); }
+    public int EvType   { get => ReadInt32LittleEndian(Data[0x38..]); set => WriteInt32LittleEndian(Data[0x38..], value); }
+    public int MvOldDir { get => ReadInt32LittleEndian(Data[0x3C..]); set => WriteInt32LittleEndian(Data[0x3C..], value); }
+    public int MvDir    { get => ReadInt32LittleEndian(Data[0x40..]); set => WriteInt32LittleEndian(Data[0x40..], value); }
 }

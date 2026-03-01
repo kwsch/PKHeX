@@ -124,7 +124,7 @@ public sealed record EncounterGift9a(ushort Species, byte Form, byte Level, byte
     private void SetMoves(PA9 pk, PersonalInfo9ZA pi, byte level)
     {
         var (learn, plus) = LearnSource9ZA.GetLearnsetAndPlus(Species, Form);
-        PlusRecordApplicator.SetPlusFlagsEncounter(pk, pi, plus, level);
+        pk.SetPlusFlagsEncounter(pi, plus, level);
         if (Moves.HasMoves)
         {
             pk.SetMoves(Moves);
@@ -134,7 +134,7 @@ public sealed record EncounterGift9a(ushort Species, byte Form, byte Level, byte
         Span<ushort> moves = stackalloc ushort[4];
         learn.SetEncounterMovesBackwards(level, moves, sameDescend: false);
         if (pk.IsAlpha)
-            PlusRecordApplicator.SetPlusFlagsSpecific(pk, pi, moves[0] = pi.AlphaMove);
+            pk.SetPlusFlagsSpecific(pi, moves[0] = pi.AlphaMove);
         pk.SetMoves(moves);
     }
 

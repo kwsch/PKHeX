@@ -44,7 +44,7 @@ public abstract class SAV_BEEF : SaveFile, ISecureValueStorage
     /// </summary>
     public ulong TimeStampPrevious
     {
-        get => ReadUInt64LittleEndian(Data[BlockInfoOffset..]);
-        set => WriteUInt64LittleEndian(Data[BlockInfoOffset..], value);
+        get => ReadUInt64LittleEndian(Data[(BlockInfoOffset + 8)..]);
+        set => WriteUInt64LittleEndian(Data[(BlockInfoOffset + 8)..], value);
     }
 }

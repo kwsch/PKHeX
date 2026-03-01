@@ -33,9 +33,9 @@ public sealed class AwakenedValueVerifier : Verifier
 
         // Gather all AVs. When leveling up, AVs are "randomly" granted, so a mon must be at or above.
         Span<byte> required = stackalloc byte[6];
-        AwakeningUtil.SetExpectedMinimumAVs(required, pb7);
+        AwakeningUtil.SetExpectedMinimumAVs(pb7, required);
         Span<byte> current = stackalloc byte[6];
-        AwakeningUtil.AwakeningGetVisual(pb7, current);
+        pb7.AwakeningGetVisual(current);
 
         // For each stat, ensure the current AV is at least the required minimum
         if (current[0] < required[0])

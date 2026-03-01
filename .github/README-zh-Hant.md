@@ -28,9 +28,9 @@ PKHeX 所讀取檔案須未經主機唯一密鑰加密，因而請使用儲存�
 
 ## 構建
 
-PKHeX 係 Windows 窗體應用程式，其須依賴於 [.NET 9.0](https://dotnet.microsoft.com/download/dotnet/9.0)。
+PKHeX 係 Windows 窗體應用程式，其須依賴於 [.NET 10.0](https://dotnet.microsoft.com/download/dotnet/10.0)。
 
-程式可透過任意支援 C# 13 之編譯器構建。
+程式可透過任意支援 C# 14 之編譯器構建。
 
 ### 構建配置
 

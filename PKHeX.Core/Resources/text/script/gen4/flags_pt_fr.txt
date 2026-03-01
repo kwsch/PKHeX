@@ -1,0 +1,265 @@
+0318	s	Saturne Vaincu à la Caverne Courage/Lac Vérité Restauré
+0350	s	Eau du Lac Vérité Restaurée
+0481	r	Créhelf Disparu
+0295	r	Créhelf Capturé
+0479	r	Créfollet (Caverne Vérité) Disparu
+0480	r	Créfadet Disparu
+0294	r	Créfadet Capturé
+0208	r	Dialga Capturé
+0209	r	Palkia Capturé
+0591	r	Cresselia (Île Pleine Lune) Disparue
+0476	r	Pluton (Mont Abrupt) Disparu
+0293	r	Heatran Affrontable
+0477	r	Heatran Disparu(e)
+0288	r	Heatran Capturé(e)
+0579	r	Regigigas Disparu
+0283	r	Regigigas Capturé
+0306	r	Salle Originelle (Colonnes Lances) Apparue
+0461	r	Cynthia (Colonnes Lances) Disparue
+0672	r	Cynthia (Chemin Source) Disparue
+0592	r	Giratina Disparu
+0289	r	Giratina Capturé
+0576	r	Darkrai Disparu
+0344	r	Darkrai Capturé/Auberge du Port Inaccessible
+0301	r	A Laissé un Message sur le Rocher Blanc de la Route 224 (Jamais Sorti en Coréen)
+0594	r	Professeur Chen (Route 224) Disparu (Jamais Sorti en Coréen)
+0604	r	Shaymin (Route 224) Disparu (Jamais Sorti en Coréen)
+0714	r	Viviane (Route 224) Disparue (Jamais Sortie en Coréen)
+0593	r	Shaymin (Paradis Fleuri) Disparu (Jamais Sorti en Coréen)
+0291	r	Shaymin Capturé (Jamais Sorti en Coréen)
+0590	r	Arceus Disparu (Jamais Sorti)
+0286	r	Arceus Capturé (Jamais Sorti)
+0307	r	Ferry pour l'Île Pleine Lune Accessible
+0316	r	Ferry pour l'Île Nouvellune Accessible
+0577	r	A Visité l'Auberge du Port
+2532	r	A Visité l'Île Nouvellune
+2517	r	A Visité le Paradis Fleuri (Jamais Sorti en Coréen)
+0578	r	Professeur Chen (Vestigion) Disparu
+0281	r	Artikodin/Électhor/Sulfura Fuit (1)
+0153	r	Artikodin/Électhor/Sulfura Fuit (2)
+2404	a	Est Entré au Panthéon (Amélioration de la Carte Dresseur)
+2408	a	Rang Master en Catégorie Sang-Froid
+2409	a	Rang Master en Catégorie Beauté
+2410	a	Rang Master en Catégorie Grâce
+2411	a	Rang Master en Catégorie Intelligence
+2412	a	Rang Master en Catégorie Robustesse
+0329	r	Motisma Capturé
+0635	s	Fantôme du Majordome Rencontré au Vieux Château
+0636	s	Fantôme de la Fillette Rencontré au Vieux Château
+0897	s	Miel (Caché) Trouvé au Vieux Château
+1036	s	Vieux Gâteau Trouvé au Vieux Château
+1261	s	Plaque Ombre Trouvée au Vieux Château
+1262	s	CT90 Trouvée au Vieux Château
+1281	s	Super Bonbon Trouvé au Vieux Château
+1282	s	Grande Perle Trouvée au Vieux Château
+1336	s	Orbe Platiné Trouvé au Monde Distorsion
+1337	s	Peau Métal Trouvée aux Ruines de Fer
+1338	s	Glacéternel Trouvée aux Ruines Iceberg
+1339	s	Pierre Dure Trouvée aux Ruines Pic Roche
+0151	g	A Reçu Porygon
+0305	g	A Reçu Évoli
+0226	g	Œuf de Riolu d'Armand en Attente (Île de Fer)
+0229	g	A Reçu l'Œuf de Riolu de la Part d'Armand (Île de Fer)
+0485	s	Armand Parti de l'Île de Fer
+2430	*	A Débloqué le PC d'Amelle
+2433	s	2ème Revanche Contre les Dresseurs Débloquée
+2728	r	Baudrive du Vendredi Disparu
+2722	r	Pokémon Quotidien du Jardin Trophée Connu
+0710	*	A Débloqué la Salle MOTISMA
+0119	*	A Changé la Forme de Motisma au Moins une Fois
+0699	e	Appareil Micro-ondes Disparu (Salle MOTISMA)
+0700	e	Appareil Machine à Laver Disparu (Salle MOTISMA)
+0701	e	Appareil Réfrigérateur Disparu (Salle MOTISMA)
+0702	e	Appareil Ventilateur Disparu (Salle MOTISMA)
+0703	e	Appareil Tondeuse à Gazon Disparu (Salle MOTISMA)
+0133	g	Échange Interne Machoc Contre Abra (Charbourg)
+0134	g	Échange Interne Mustébouée Contre Pijako (Vestigion)
+0244	g	Échange Interne Charmina Contre Spectrum (Frimapic)
+0245	g	Échange Interne Écayon Contre Magicarpe (Route 226)
+0787	s	PV Plus Trouvé au Lac Vérité Séché
+2507	s	Est Entré au Show Capture du Parc des Amis
+0325	r	Les Failles de Dialga/Palkia Peuvent Apparaître
+1051	s	Orbe Adamant Trouvé au Mont Couronné
+1053	s	Orbe Perlé Trouvé au Mont Couronné
+1409	t	Joggeur Amir Vaincu (Route 209 - Matin)
+1448	t	Agent Jeff Vaincu (Route 212 - Nuit)
+1449	t	Agent Johan Vaincu (Route 212 - Nuit)
+1450	t	Agent Stéphane Vaincu (Route 212 - Nuit)
+1462	t	Agent Davy Vaincu (Route 212 - Nuit)
+1490	t	Joggeur Lino Vaincu (Route 215 - Matin)
+1666	t	Joggeur Isaac Vaincu (Route 210 - Matin)
+1667	t	Joggeur Damian Vaincu (Route 215 - Matin)
+1668	t	Joggeur Olivier Vaincu (Route 209 - Matin)
+1692	t	Agent Melvin Vaincu (Route 212 - Nuit)
+1693	t	Agent Edmond Vaincu (Route 222 - Nuit)
+1987	t	A Eu 1ère Revanche Contre Aroma Lorna (Route 205)
+1988	t	A Eu 2ème Revanche Contre Aroma Lorna (Route 205)
+1989	t	A Eu 3ème Revanche Contre Aroma Lorna (Route 205)
+1990	t	A Eu 1ère Revanche Contre Peintre Achille (Route 208)
+1991	t	A Eu 2ème Revanche Contre Peintre Achille (Route 208)
+1992	t	A Eu 3ème Revanche Contre Peintre Achille (Route 208)
+1993	t	A Eu 1ère Revanche Contre Combattante Jennifer (Route 207)
+1994	t	A Eu 2ème Revanche Contre Combattante Jennifer (Route 207)
+1995	t	A Eu 3ème Revanche Contre Combattante Jennifer (Route 207)
+1996	t	A Eu 1ère Revanche Contre Ornithologue Nadine (Route 210)
+1997	t	A Eu 2ème Revanche Contre Ornithologue Nadine (Route 210)
+1998	t	A Eu Revanche Contre Ornithologue Charlotte (Route 225)
+1999	t	A Eu 1ère Revanche Contre Éleveur Richard (Route 209)
+2000	t	A Eu 2ème Revanche Contre Éleveur Richard (Route 209)
+2001	t	A Eu 3ème Revanche Contre Éleveur Richard (Route 209)
+2002	t	A Eu 1ère Revanche Contre Éleveuse Ludivine (Route 209)
+2003	t	A Eu 2ème Revanche Contre Éleveuse Ludivine (Route 209)
+2004	t	A Eu 3ème Revanche Contre Éleveuse Ludivine (Route 209)
+2005	t	A Eu 1ère Revanche Contre Campeur Corentin (Route 205)
+2006	t	A Eu 2ème Revanche Contre Campeur Corentin (Route 205)
+2007	t	A Eu 3ème Revanche Contre Campeur Corentin (Route 205)
+2008	t	A Eu Revanche Contre Topdresseur Benjamin (Route 217)
+2009	t	A Eu Revanche Contre Topdresseur Zia (Route 217)
+2010	t	A Eu Revanche Contre Collec Polo (Route 221)
+2013	t	A Eu 1ère Revanche Contre Cycliste Carl (Route 206)
+2014	t	A Eu 2ème Revanche Contre Cycliste Carl (Route 206)
+2015	t	A Eu 3ème Revanche Contre Cycliste Carl (Route 206)
+2016	t	A Eu 1ère Revanche Contre Cycliste Babette (Route 206)
+2017	t	A Eu 2ème Revanche Contre Cycliste Babette (Route 206)
+2018	t	A Eu 3ème Revanche Contre Cycliste Babette (Route 206)
+2019	t	A Eu 1ère Revanche Contre Dracologue Joël (Route 210)
+2020	t	A Eu 2ème Revanche Contre Dracologue Joël (Route 210)
+2021	t	A Eu Revanche Contre Dracologue Bruno (Route 224)
+2022	t	A Eu Revanche Contre Dracologue Florian (Route 225)
+2023	t	A Eu Revanche Contre Topdresseur Cyril (Route 221)
+2024	t	A Eu 1ère Revanche Contre Topdresseur Ambroise (Route 215)
+2025	t	A Eu 2ème Revanche Contre Topdresseur Ambroise (Route 215)
+2026	t	A Eu Revanche Contre Topdresseur Paul-Alain (Route 225)
+2027	t	A Eu Revanche Contre Topdresseur Yann (Route 227)
+2028	t	A Eu Revanche Contre Topdresseur Valéria (Route 221)
+2029	t	A Eu 1ère Revanche Contre Topdresseur Martina (Route 215)
+2030	t	A Eu 2ème Revanche Contre Topdresseur Martina (Route 215)
+2031	t	A Eu Revanche Contre Topdresseur Gaëlle (Route 225)
+2032	t	A Eu Revanche Contre Topdresseur Irina (Route 228)
+2033	t	A Eu 1ère Revanche Contre Kinésiste Michael (Route 214)
+2034	t	A Eu 2ème Revanche Contre Kinésiste Michael (Route 214)
+2035	t	A Eu Revanche Contre Kinésiste Olaf (Route 224)
+2036	t	A Eu Revanche Contre Kinésiste Lorenzo (Route 228)
+2037	t	A Eu 1ère Revanche Contre Kinésiste Kim (Route 214)
+2038	t	A Eu 2ème Revanche Contre Kinésiste Kim (Route 214)
+2039	t	A Eu Revanche Contre Kinésiste Samantha (Route 224)
+2040	t	A Eu Revanche Contre Kinésiste Manon (Route 225)
+2041	t	A Eu 1ère Revanche Contre Fermier Anton (Route 210)
+2042	t	A Eu 2ème Revanche Contre Fermier Anton (Route 210)
+2043	t	A Eu 1ère Revanche Contre Pêcheur Patrick (Route 205)
+2044	t	A Eu 2ème Revanche Contre Pêcheur Patrick (Route 205)
+2045	t	A Eu Revanche Contre Pêcheur Renaud (Route 218)
+2046	t	A Eu Revanche Contre Pêcheur Dominique (Route 222)
+2047	t	A Eu 1ère Revanche Contre Jumelles Taïs & Tia (Route 210)
+2048	t	A Eu 2ème Revanche Contre Jumelles Taïs & Tia (Route 210)
+2049	t	A Eu 1ère Revanche Contre Croupier Félix (Route 214)
+2050	t	A Eu 2ème Revanche Contre Croupier Félix (Route 214)
+2051	t	A Eu 1ère Revanche Contre Gentleman Zacharie (Route 212)
+2052	t	A Eu 2ème Revanche Contre Gentleman Zacharie (Route 212)
+2053	t	A Eu 3ème Revanche Contre Gentleman Zacharie (Route 212)
+2054	t	A Eu Revanche Contre Guitariste Edgar (Route 218)
+2055	t	A Eu 1ère Revanche Contre Ruinemaniac Hugo (Route 211)
+2056	t	A Eu 2ème Revanche Contre Ruinemaniac Hugo (Route 211)
+2057	t	A Eu 1ère Revanche Contre Joggeur Damian (Route 215)
+2058	t	A Eu 2ème Revanche Contre Joggeur Damian (Route 215)
+2059	t	A Eu Revanche Contre Karatéka Fuhito (Route 216)
+2060	t	A Eu Revanche Contre Karatéka Toshi (Route 228)
+2061	t	A Eu 1ère Revanche Contre Mondaine Irène (Route 212)
+2062	t	A Eu 2ème Revanche Contre Mondaine Irène (Route 212)
+2063	t	A Eu 1ère Revanche Contre Fillette Rachel (Route 204)
+2064	t	A Eu 2ème Revanche Contre Fillette Rachel (Route 204)
+2065	t	A Eu 3ème Revanche Contre Fillette Rachel (Route 204)
+2066	t	A Eu 1ère Revanche Contre Fillette Marianne (Route 203)
+2067	t	A Eu 2ème Revanche Contre Fillette Marianne (Route 203)
+2068	t	A Eu 3ème Revanche Contre Fillette Marianne (Route 203)
+2069	t	A Eu 1ère Revanche Contre Montagnard Timéo (Route 206)
+2070	t	A Eu 2ème Revanche Contre Montagnard Timéo (Route 206)
+2071	t	A Eu 3ème Revanche Contre Montagnard Timéo (Route 206)
+2072	t	A Eu 1ère Revanche Contre Scout Hervé (Route 204)
+2073	t	A Eu 2ème Revanche Contre Scout Hervé (Route 204)
+2074	t	A Eu 3ème Revanche Contre Scout Hervé (Route 204)
+2075	t	A Eu 1ère Revanche Contre Sœur Parasol Mylène (Route 212)
+2076	t	A Eu 2ème Revanche Contre Sœur Parasol Mylène (Route 212)
+2077	t	A Eu 3ème Revanche Contre Sœur Parasol Mylène (Route 212)
+2078	t	A Eu 1ère Revanche Contre Pique-Nique Meg (Route 205)
+2079	t	A Eu 2ème Revanche Contre Pique-Nique Meg (Route 205)
+2080	t	A Eu 3ème Revanche Contre Pique-Nique Meg (Route 205)
+2081	t	A Eu 1ère Revanche Contre Poké Enfant Tara (Route 209)
+2082	t	A Eu 2ème Revanche Contre Poké Enfant Tara (Route 209)
+2083	t	A Eu 3ème Revanche Contre Poké Enfant Tara (Route 209)
+2084	t	A Eu 1ère Revanche Contre Agent Melvin (Route 212)
+2085	t	A Eu 2ème Revanche Contre Agent Melvin (Route 212)
+2086	t	A Eu 3ème Revanche Contre Agent Melvin (Route 212)
+2087	t	A Eu 1ère Revanche Contre Richard Émilien (Route 222)
+2088	t	A Eu 2ème Revanche Contre Richard Émilien (Route 222)
+2089	t	A Eu 1ère Revanche Contre Mademoiselle Sandrine (Route 212)
+2090	t	A Eu 2ème Revanche Contre Mademoiselle Sandrine (Route 212)
+2091	t	A Eu 3ème Revanche Contre Mademoiselle Sandrine (Route 212)
+2092	t	A Eu 1ère Revanche Contre Pokémon Ranger Jonas (Route 212)
+2093	t	A Eu 2ème Revanche Contre Pokémon Ranger Jonas (Route 212)
+2094	t	A Eu 3ème Revanche Contre Pokémon Ranger Jonas (Route 212)
+2095	t	A Eu Revanche Contre Pokémon Ranger Cyprien (Route 228)
+2096	t	A Eu 1ère Revanche Contre Pokémon Ranger Estelle (Route 212)
+2097	t	A Eu 2ème Revanche Contre Pokémon Ranger Estelle (Route 212)
+2098	t	A Eu 3ème Revanche Contre Pokémon Ranger Estelle (Route 212)
+2099	t	A Eu Revanche Contre Pokémon Ranger Maud (Route 225)
+2100	t	A Eu 1ère Revanche Contre Marin Lorens (Route 222)
+2101	t	A Eu 2ème Revanche Contre Marin Lorens (Route 222)
+2102	t	A Eu Revanche Contre Marin Harold (Chenal 223)
+2103	t	A Eu 1ère Revanche Contre Scientifique Ladislas (Route 212)
+2104	t	A Eu 2ème Revanche Contre Scientifique Ladislas (Route 212)
+2105	t	A Eu 3ème Revanche Contre Scientifique Ladislas (Route 212)
+2106	t	A Eu 1ère Revanche Contre Ninja Fan Jérémie (Route 211)
+2107	t	A Eu 2ème Revanche Contre Ninja Fan Jérémie (Route 211)
+2108	t	A Eu 3ème Revanche Contre Ninja Fan Jérémie (Route 211)
+2109	t	A Eu 1ère Revanche Contre Canon Océane (Route 213)
+2110	t	A Eu 2ème Revanche Contre Canon Océane (Route 213)
+2111	t	A Eu 1ère Revanche Contre Skieur Édouard (Route 216)
+2112	t	A Eu 2ème Revanche Contre Skieur Édouard (Route 216)
+2113	t	A Eu 1ère Revanche Contre Skieur Nathan (Route 217)
+2114	t	A Eu 2ème Revanche Contre Skieur Nathan (Route 217)
+2115	t	A Eu 1ère Revanche Contre Skieuse Geneviève (Route 216)
+2116	t	A Eu 2ème Revanche Contre Skieuse Geneviève (Route 216)
+2117	t	A Eu 1ère Revanche Contre Skieuse Julie (Route 217)
+2118	t	A Eu 2ème Revanche Contre Skieuse Julie (Route 217)
+2119	t	A Eu Revanche Contre Nageur Gilles (Chenal 223)
+2120	t	A Eu Revanche Contre Nageur Pascal (Chenal 223)
+2121	t	A Eu Revanche Contre Nageur Youssef (Chenal 230)
+2122	t	A Eu Revanche Contre Nageuse Jade (Chenal 223)
+2123	t	A Eu Revanche Contre Nageuse Edwige (Chenal 223)
+2124	t	A Eu Revanche Contre Nageuse Heidi (Chenal 230)
+2125	t	A Eu 1ère Revanche Contre Gamin Rachid (Route 202)
+2126	t	A Eu 2ème Revanche Contre Gamin Rachid (Route 202)
+2127	t	A Eu 3ème Revanche Contre Gamin Rachid (Route 202)
+2128	t	A Eu 1ère Revanche Contre Gamin Gavin (Route 203)
+2129	t	A Eu 2ème Revanche Contre Gamin Gavin (Route 203)
+2130	t	A Eu 3ème Revanche Contre Gamin Gavin (Route 203)
+2131	t	A Eu 1ère Revanche Contre Flotteur Ed (Route 213)
+2132	t	A Eu 2ème Revanche Contre Flotteur Ed (Route 213)
+2133	t	A Eu 1ère Revanche Contre Flotteur Angelina (Route 213)
+2135	t	A Eu 2ème Revanche Contre Flotteur Angelina (Route 213)
+2134	t	A Eu 1ère Revanche Contre Vénérable Théobald (Route 210)
+2136	t	A Eu 2ème Revanche Contre Vénérable Théobald (Route 210)
+2137	t	A Eu Revanche Contre Vénérable Clément (Route 224)
+2733	s	A Appris Un Mot Savant (Aujourd'hui - Frimapic)
+2738	t	Rival Vaincu à l'Aire de Survie (Samedi/Dimanche Actuel)
+2744	t	Champion Pierrick Vaincu au Café Combat (Aujourd'hui)
+2745	t	Championne Flo Vaincue au Café Combat (Aujourd'hui)
+2746	t	Champion Lovis Vaincu au Café Combat (Aujourd'hui)
+2747	t	Championne Mélina Vaincue au Café Combat (Aujourd'hui)
+2748	t	Star Romane Vaincue au Centre Pokémon (Aujourd'hui ; Pas Mercredi)
+2749	t	Interviewer Célia Vaincue au Centre Pokémon (Aujourd'hui)
+2750	t	Caméraman Jo Vaincu au Centre Pokémon (Aujourd'hui)
+2751	t	Bouffon Kenzo Vaincu au Centre Pokémon (Aujourd'hui)
+2752	t	Journalistes Jill & Jak Vaincus au Centre Pokémon (Aujourd'hui)
+2753	t	Poké Enfant Catherine Vaincue au Centre Pokémon (Aujourd'hui)
+2754	t	Guitariste Joseph Vaincu au Centre Pokémon (Aujourd'hui)
+2757	t	Championne Kiméra Vaincue au Café Combat (Aujourd'hui)
+2758	t	Championne Gladys Vaincue au Café Combat (Aujourd'hui)
+2759	t	Champion Charles Vaincu au Café Combat (Aujourd'hui)
+2760	t	Champion Tanguy Vaincu au Café Combat (Aujourd'hui)
+2761	t	Dresseuse Pokémon Sara Vaincue au Café Combat (Aujourd'hui)
+2762	t	Dresseur Pokémon Armand Vaincu au Café Combat (Aujourd'hui)
+2763	t	Dresseuse Pokémon Viviane Vaincue au Café Combat (Aujourd'hui)
+2764	t	Dresseur Pokémon Cornil Vaincu au Café Combat (Aujourd'hui)
+2765	t	Dresseuse Pokémon Maïté Vaincue au Café Combat (Aujourd'hui)
