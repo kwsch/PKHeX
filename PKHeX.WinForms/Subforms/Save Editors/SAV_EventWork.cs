@@ -78,7 +78,7 @@ public sealed partial class SAV_EventWork : Form
         {
             var tlp = new TableLayoutPanel { Dock = DockStyle.Fill, Name = $"TLP_F{g.Type}", AutoScroll = true };
             tlp.SuspendLayout();
-            int i = 0;
+            var rows = new List<(string Search, CheckBox Check, Label Label)>();
             foreach (var f in g.Vars.OfType<EventFlag>())
             {
                 var lbl = new Label
@@ -98,16 +98,17 @@ public sealed partial class SAV_EventWork : Form
                 };
                 lbl.Click += (_, _) => chk.Checked ^= true;
                 chk.CheckedChanged += (_, _) => f.Flag = chk.Checked;
-                tlp.Controls.Add(chk, 0, i);
-                tlp.Controls.Add(lbl, 1, i);
-                i++;
+                rows.Add((f.Name, chk, lbl));
             }
+            ApplyBoolFilter(tlp, rows, string.Empty);
             var tab = new TabPage
             {
                 Name = $"Tab_F{g.Type}",
                 Text = WinFormsTranslator.TranslateEnum(g.Type, Main.CurrentLanguage),
             };
-            tab.Controls.Add(tlp);
+            var search = CreateSearchBox(text => ApplyBoolFilter(tlp, rows, text));
+            var host = CreateSearchHost(search, tlp);
+            tab.Controls.Add(host);
             TC_Flag.Controls.Add(tab);
             tlp.ResumeLayout();
         }
@@ -119,7 +120,7 @@ public sealed partial class SAV_EventWork : Form
         {
             var tlp = new TableLayoutPanel { Dock = DockStyle.Fill, Name = $"TLP_W{g.Type}", AutoScroll = true };
             tlp.SuspendLayout();
-            int i = 0;
+            var rows = new List<(string Search, Label Label, ComboBox Combo, NumericUpDown Numeric)>();
             foreach (var f in g.Vars.OfType<EventWork<int>>())
             {
                 var lbl = new Label
@@ -182,9 +183,6 @@ public sealed partial class SAV_EventWork : Form
                         NUD_Stat.Text = value.ToString();
                     editing = false;
                 };
-                tlp.Controls.Add(lbl, 0, i);
-                tlp.Controls.Add(cb, 1, i);
-                tlp.Controls.Add(nud, 2, i);
                 {
                     var match = f.Options.FirstOrDefault(z => z.Value == f.Value);
                     if (match is not null)
@@ -193,17 +191,102 @@ public sealed partial class SAV_EventWork : Form
                         nud.Enabled = false;
                     }
                 }
-                i++;
+                rows.Add((f.Name, lbl, cb, nud));
             }
+            ApplyWorkFilter(tlp, rows, string.Empty);
             var tab = new TabPage
             {
                 Name = $"Tab_W{g.Type}",
                 Text = WinFormsTranslator.TranslateEnum(g.Type, Main.CurrentLanguage),
             };
-            tab.Controls.Add(tlp);
+            var search = CreateSearchBox(text => ApplyWorkFilter(tlp, rows, text));
+            var host = CreateSearchHost(search, tlp);
+            tab.Controls.Add(host);
             TC_Work.Controls.Add(tab);
             tlp.ResumeLayout();
         }
+    }
+
+    private static void ApplyBoolFilter(TableLayoutPanel panel, IReadOnlyList<(string Search, CheckBox Check, Label Label)> rows, string text)
+    {
+        var query = text.Trim();
+        var hasQuery = query.Length != 0;
+
+        panel.SuspendLayout();
+        panel.Controls.Clear();
+        var rowIndex = 0;
+        for (var i = 0; i < rows.Count; i++)
+        {
+            var row = rows[i];
+            if (hasQuery && !row.Search.Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                continue;
+
+            panel.Controls.Add(row.Check, 0, rowIndex);
+            panel.Controls.Add(row.Label, 1, rowIndex);
+            rowIndex++;
+        }
+        panel.ResumeLayout();
+    }
+
+    private static void ApplyWorkFilter(TableLayoutPanel panel, IReadOnlyList<(string Search, Label Label, ComboBox Combo, NumericUpDown Numeric)> rows, string text)
+    {
+        var query = text.Trim();
+        var hasQuery = query.Length != 0;
+
+        panel.SuspendLayout();
+        panel.Controls.Clear();
+        var rowIndex = 0;
+        for (var i = 0; i < rows.Count; i++)
+        {
+            var row = rows[i];
+            if (hasQuery && !row.Search.Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                continue;
+
+            panel.Controls.Add(row.Label, 0, rowIndex);
+            panel.Controls.Add(row.Combo, 1, rowIndex);
+            panel.Controls.Add(row.Numeric, 2, rowIndex);
+            rowIndex++;
+        }
+        panel.ResumeLayout();
+    }
+
+    private TextBox CreateSearchBox(Action<string> applyFilter)
+    {
+        var box = new TextBox
+        {
+            PlaceholderText = "Search...",
+            Dock = DockStyle.Top,
+            Margin = Padding.Empty,
+        };
+        if (Application.IsDarkModeEnabled)
+            WinFormsTranslator.ReformatDark(box);
+
+        var timer = new Timer { Interval = 150 };
+        timer.Tick += (_, _) =>
+        {
+            timer.Stop();
+            applyFilter(box.Text);
+        };
+        box.TextChanged += (_, _) =>
+        {
+            timer.Stop();
+            timer.Start();
+        };
+        box.Disposed += (_, _) => timer.Dispose();
+        return box;
+    }
+
+    private static Panel CreateSearchHost(TextBox search, Control content)
+    {
+        var host = new Panel
+        {
+            Dock = DockStyle.Fill,
+            Margin = Padding.Empty,
+        };
+        content.Dock = DockStyle.Fill;
+        host.Controls.Add(content);
+        host.Controls.Add(search);
+        return host;
     }
 
     private const string flagTag = "bool_";

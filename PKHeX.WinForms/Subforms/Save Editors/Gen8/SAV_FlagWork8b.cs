@@ -87,10 +87,9 @@ public sealed partial class SAV_FlagWork8b : Form
             };
 
             var panel = CreateBoolPanel($"TLP_F{group.Key}");
-            tab.Controls.Add(panel);
+            var rows = new List<(string Search, CheckBox Check, Label Label)>();
             TC_Flags.TabPages.Add(tab);
 
-            int i = 0;
             foreach (var (name, index, _) in group)
             {
                 var lbl = new Label { Text = name, Margin = Padding.Empty, AutoSize = true };
@@ -108,12 +107,14 @@ public sealed partial class SAV_FlagWork8b : Form
                     if (NUD_Flag.Value == index)
                         CHK_CustomFlag.Checked = chk.Checked;
                 };
-                panel.Controls.Add(chk, 0, i);
-                panel.Controls.Add(lbl, 1, i);
-
+                rows.Add((name, chk, lbl));
                 FlagDict.Add(index, chk);
-                i++;
             }
+
+            ApplyBoolFilter(panel, rows, string.Empty);
+            var search = CreateSearchBox(text => ApplyBoolFilter(panel, rows, text));
+            var host = CreateSearchHost(search, panel);
+            tab.Controls.Add(host);
         }
     }
 
@@ -131,10 +132,9 @@ public sealed partial class SAV_FlagWork8b : Form
             };
 
             var panel = CreateBoolPanel($"TLP_S{group.Key}");
-            tab.Controls.Add(panel);
+            var rows = new List<(string Search, CheckBox Check, Label Label)>();
             TC_System.TabPages.Add(tab);
 
-            int i = 0;
             foreach (var (name, index, _) in group)
             {
                 var lbl = new Label { Text = name, Margin = Padding.Empty, AutoSize = true };
@@ -152,12 +152,14 @@ public sealed partial class SAV_FlagWork8b : Form
                     if (NUD_System.Value == index)
                         CHK_CustomSystem.Checked = chk.Checked;
                 };
-                panel.Controls.Add(chk, 0, i);
-                panel.Controls.Add(lbl, 1, i);
-
+                rows.Add((name, chk, lbl));
                 SystemDict.Add(index, chk);
-                i++;
             }
+
+            ApplyBoolFilter(panel, rows, string.Empty);
+            var search = CreateSearchBox(text => ApplyBoolFilter(panel, rows, text));
+            var host = CreateSearchHost(search, panel);
+            tab.Controls.Add(host);
         }
     }
 
@@ -175,10 +177,9 @@ public sealed partial class SAV_FlagWork8b : Form
             };
 
             var panel = CreateWorkPanel($"TLP_W{group.Key}");
-            tab.Controls.Add(panel);
+            var rows = new List<(string Search, Label Label, ComboBox Combo, NumericUpDown Numeric)>();
             TC_Work.TabPages.Add(tab);
 
-            int i = 0;
             foreach (var entry in group)
             {
                 var lbl = new Label { Text = entry.Name, Margin = Padding.Empty, AutoSize = true };
@@ -235,14 +236,97 @@ public sealed partial class SAV_FlagWork8b : Form
                 if (mtb.Value == 0)
                     ChangeConstValue(this, EventArgs.Empty);
 
-                panel.Controls.Add(lbl, 0, i);
-                panel.Controls.Add(cb, 1, i);
-                panel.Controls.Add(mtb, 2, i);
-
+                rows.Add((entry.Name, lbl, cb, mtb));
                 WorkDict.Add(entry.Index, mtb);
-                i++;
             }
+
+            ApplyWorkFilter(panel, rows, string.Empty);
+            var search = CreateSearchBox(text => ApplyWorkFilter(panel, rows, text));
+            var host = CreateSearchHost(search, panel);
+            tab.Controls.Add(host);
         }
+    }
+
+    private static void ApplyBoolFilter(TableLayoutPanel panel, IReadOnlyList<(string Search, CheckBox Check, Label Label)> rows, string text)
+    {
+        var query = text.Trim();
+        var hasQuery = query.Length != 0;
+
+        panel.SuspendLayout();
+        panel.Controls.Clear();
+        var rowIndex = 0;
+        for (var i = 0; i < rows.Count; i++)
+        {
+            var row = rows[i];
+            if (hasQuery && !row.Search.Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                continue;
+
+            panel.Controls.Add(row.Check, 0, rowIndex);
+            panel.Controls.Add(row.Label, 1, rowIndex);
+            rowIndex++;
+        }
+        panel.ResumeLayout();
+    }
+
+    private static void ApplyWorkFilter(TableLayoutPanel panel, IReadOnlyList<(string Search, Label Label, ComboBox Combo, NumericUpDown Numeric)> rows, string text)
+    {
+        var query = text.Trim();
+        var hasQuery = query.Length != 0;
+
+        panel.SuspendLayout();
+        panel.Controls.Clear();
+        var rowIndex = 0;
+        for (var i = 0; i < rows.Count; i++)
+        {
+            var row = rows[i];
+            if (hasQuery && !row.Search.Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                continue;
+
+            panel.Controls.Add(row.Label, 0, rowIndex);
+            panel.Controls.Add(row.Combo, 1, rowIndex);
+            panel.Controls.Add(row.Numeric, 2, rowIndex);
+            rowIndex++;
+        }
+        panel.ResumeLayout();
+    }
+
+    private TextBox CreateSearchBox(Action<string> applyFilter)
+    {
+        var box = new TextBox
+        {
+            PlaceholderText = "Search...",
+            Dock = DockStyle.Top,
+            Margin = Padding.Empty,
+        };
+        if (Application.IsDarkModeEnabled)
+            WinFormsTranslator.ReformatDark(box);
+
+        var timer = new Timer { Interval = 150 };
+        timer.Tick += (_, _) =>
+        {
+            timer.Stop();
+            applyFilter(box.Text);
+        };
+        box.TextChanged += (_, _) =>
+        {
+            timer.Stop();
+            timer.Start();
+        };
+        box.Disposed += (_, _) => timer.Dispose();
+        return box;
+    }
+
+    private static Panel CreateSearchHost(TextBox search, Control content)
+    {
+        var host = new Panel
+        {
+            Dock = DockStyle.Fill,
+            Margin = Padding.Empty,
+        };
+        content.Dock = DockStyle.Fill;
+        host.Controls.Add(content);
+        host.Controls.Add(search);
+        return host;
     }
 
     private static TableLayoutPanel CreateBoolPanel(string name)

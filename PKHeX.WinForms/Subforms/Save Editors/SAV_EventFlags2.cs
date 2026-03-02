@@ -104,7 +104,9 @@ public sealed partial class SAV_EventFlags2 : Form
             };
 
             var grid = CreateFlagGrid();
-            tab.Controls.Add(grid);
+            var search = CreateSearchBox(text => ApplyGridFilter(grid, text));
+            var host = CreateSearchHost(search, grid);
+            tab.Controls.Add(host);
             TC_Flags.TabPages.Add(tab);
 
             var cFlag = new DataGridViewCheckBoxColumn
@@ -177,6 +179,25 @@ public sealed partial class SAV_EventFlags2 : Form
         }
     }
 
+    private static void ApplyGridFilter(DataGridView grid, string text)
+    {
+        var query = text.Trim();
+        var hasQuery = query.Length != 0;
+        foreach (DataGridViewRow row in grid.Rows)
+        {
+            if (row.Cells.Count < 2)
+                continue;
+            if (!hasQuery)
+            {
+                row.Visible = true;
+                continue;
+            }
+
+            var value = row.Cells[1].Value?.ToString() ?? string.Empty;
+            row.Visible = value.Contains(query, StringComparison.CurrentCultureIgnoreCase);
+        }
+    }
+
     private static DoubleBufferedDataGridView CreateFlagGrid() => new()
     {
         AllowUserToAddRows = false,
@@ -219,10 +240,10 @@ public sealed partial class SAV_EventFlags2 : Form
             };
 
             var panel = CreateConstPanel();
-            tab.Controls.Add(panel);
             TC_Const.TabPages.Add(tab);
 
             var grouped = group.ToList();
+            var rows = new List<(string Search, Label Label, ComboBox Combo, NumericUpDown Numeric)>(grouped.Count);
             for (var i = 0; i < grouped.Count; i++)
             {
                 var entry = grouped[i];
@@ -280,13 +301,76 @@ public sealed partial class SAV_EventFlags2 : Form
                 if (mtb.Value == 0)
                     ChangeConstValue(this, EventArgs.Empty);
 
-                panel.Controls.Add(lbl, 0, i);
-                panel.Controls.Add(cb, 1, i);
-                panel.Controls.Add(mtb, 2, i);
-
+                rows.Add((entry.Name, lbl, cb, mtb));
                 WorkDict.Add(entry.Index, mtb);
             }
+
+            ApplyConstFilter(panel, rows, string.Empty);
+            var search = CreateSearchBox(text => ApplyConstFilter(panel, rows, text));
+            var host = CreateSearchHost(search, panel);
+            tab.Controls.Add(host);
         }
+    }
+
+    private static void ApplyConstFilter(TableLayoutPanel panel, IReadOnlyList<(string Search, Label Label, ComboBox Combo, NumericUpDown Numeric)> rows, string text)
+    {
+        var query = text.Trim();
+        var hasQuery = query.Length != 0;
+
+        panel.SuspendLayout();
+        panel.Controls.Clear();
+        var rowIndex = 0;
+        for (var i = 0; i < rows.Count; i++)
+        {
+            var row = rows[i];
+            if (hasQuery && !row.Search.Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                continue;
+
+            panel.Controls.Add(row.Label, 0, rowIndex);
+            panel.Controls.Add(row.Combo, 1, rowIndex);
+            panel.Controls.Add(row.Numeric, 2, rowIndex);
+            rowIndex++;
+        }
+        panel.ResumeLayout();
+    }
+
+    private TextBox CreateSearchBox(Action<string> applyFilter)
+    {
+        var box = new TextBox
+        {
+            PlaceholderText = "Search...",
+            Dock = DockStyle.Top,
+            Margin = Padding.Empty,
+        };
+        if (Application.IsDarkModeEnabled)
+            WinFormsTranslator.ReformatDark(box);
+
+        var timer = new Timer { Interval = 150 };
+        timer.Tick += (_, _) =>
+        {
+            timer.Stop();
+            applyFilter(box.Text);
+        };
+        box.TextChanged += (_, _) =>
+        {
+            timer.Stop();
+            timer.Start();
+        };
+        box.Disposed += (_, _) => timer.Dispose();
+        return box;
+    }
+
+    private static Panel CreateSearchHost(TextBox search, Control content)
+    {
+        var host = new Panel
+        {
+            Dock = DockStyle.Fill,
+            Margin = Padding.Empty,
+        };
+        content.Dock = DockStyle.Fill;
+        host.Controls.Add(content);
+        host.Controls.Add(search);
+        return host;
     }
 
     private static TableLayoutPanel CreateConstPanel()
