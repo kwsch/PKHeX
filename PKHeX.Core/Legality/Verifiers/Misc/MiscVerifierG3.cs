@@ -19,6 +19,10 @@ public sealed class MiscVerifierG3 : Verifier
         if (ParseSettings.AllowGBACrossTransferRSE(pk))
             return;
 
+        // Notes:
+        // Nicknamed by player: all FF'd trash.
+        // In-game trade: clean 00'd with a single FF on each.
+
         // Only FR/LG are released. Only can originate from FR/LG.
         if (pk.Version is not (GameVersion.FR or GameVersion.LG))
             data.AddLine(GetInvalid(TradeNotAvailable));

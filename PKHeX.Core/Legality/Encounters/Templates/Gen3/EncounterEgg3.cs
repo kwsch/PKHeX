@@ -58,12 +58,16 @@ public sealed record EncounterEgg3(ushort Species, GameVersion Version) : IEncou
 
             // Force Hatch
             Language = language,
-            OriginalTrainerName = tr.OT,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
             OriginalTrainerFriendship = 120,
             MetLevel = 0,
             MetLocation = Location,
         };
+        // Copy from SaveFile's OT name. Trash bytes here should be pure, but our OT name might not always source from a PK3/SAV3.
+        // Condition the buffer as if it came from a correct SAV3 named after the OT.
+        var ot = pk.OriginalTrainerTrash;
+        ot[..(language == 1 ? 6 : 7)].Fill(0xFF);
+        pk.OriginalTrainerName = EncounterUtil.GetTrainerName(tr, language);
 
         SetEncounterMoves(pk);
 

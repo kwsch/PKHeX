@@ -64,11 +64,15 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
             Ball = (byte)GetRequiredBall(Ball.Poke),
 
             Language = language,
-            OriginalTrainerName = tr.OT,
             OriginalTrainerGender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
+        // Copy from SaveFile's OT name. Trash bytes here should be pure, but our OT name might not always source from a PK3/SAV3.
+        // Condition the buffer as if it came from a correct SAV3 named after the OT.
+        var ot = pk.OriginalTrainerTrash;
+        ot[..(language == 1 ? 6 : 7)].Fill(0xFF);
+        pk.OriginalTrainerName = EncounterUtil.GetTrainerName(tr, language);
 
         SetPINGA(pk, criteria, pi);
         SetEncounterMoves(pk);
