@@ -37,7 +37,7 @@ public sealed class MiscVerifierG3 : Verifier
         var enc = data.EncounterOriginal;
         if (enc is EncounterTrade3)
             VerifyTrashTrade(data, pk);
-        else if (pk.Japanese && !(pk.IsEgg && pk.OriginalTrainerTrash[^1] == 0x00))
+        else if (pk.Japanese && !(pk.IsEgg && pk.OriginalTrainerTrash[^1] == 0xFF))
             VerifyTrashJPN(data, pk);
         else
             VerifyTrashINT(data, pk);
@@ -64,6 +64,8 @@ public sealed class MiscVerifierG3 : Verifier
             data.AddLine(GetInvalid(TrashBytesMissingTerminator));
 
         int len = TrashBytes8.GetStringLength(trash);
+        if (len >= trash.Length - 2)
+            return; // OK -- invalid lengths will get warned elsewhere
         if (trash[len..^2].ContainsAnyExcept<byte>(0xFF))
             data.AddLine(GetInvalid(TrashBytesMissingTerminator));
     }
