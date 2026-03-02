@@ -407,6 +407,18 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         set => Small[0x12] = (byte)value;
     }
 
+    public ushort X
+    {
+        get => ReadUInt16LittleEndian(Large);
+        set => WriteUInt16LittleEndian(Large, value);
+    }
+
+    public ushort Y
+    {
+        get => ReadUInt16LittleEndian(Large[2..]);
+        set => WriteUInt16LittleEndian(Large[2..], value);
+    }
+
     #region Event Flag/Event Work
     public bool GetEventFlag(int flagNumber)
     {
