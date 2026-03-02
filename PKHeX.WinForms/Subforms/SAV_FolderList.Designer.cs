@@ -95,8 +95,10 @@ namespace PKHeX.WinForms
             dgDataRecent.Dock = System.Windows.Forms.DockStyle.Fill;
             dgDataRecent.Location = new Point(0, 0);
             dgDataRecent.Margin = new System.Windows.Forms.Padding(0);
+            dgDataRecent.MultiSelect = false;
             dgDataRecent.Name = "dgDataRecent";
             dgDataRecent.RowHeadersVisible = false;
+            dgDataRecent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             dgDataRecent.Size = new Size(616, 331);
             dgDataRecent.TabIndex = 2;
             dgDataRecent.CellMouseDown += DataGridCellMouseDown;
@@ -124,8 +126,10 @@ namespace PKHeX.WinForms
             dgDataBackup.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgDataBackup.Dock = System.Windows.Forms.DockStyle.Fill;
             dgDataBackup.Location = new Point(0, 0);
+            dgDataBackup.MultiSelect = false;
             dgDataBackup.Name = "dgDataBackup";
             dgDataBackup.RowHeadersVisible = false;
+            dgDataBackup.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             dgDataBackup.Size = new Size(616, 331);
             dgDataBackup.TabIndex = 1;
             dgDataBackup.CellMouseDown += DataGridCellMouseDown;
