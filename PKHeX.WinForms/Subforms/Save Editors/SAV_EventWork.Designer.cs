@@ -305,6 +305,7 @@ namespace PKHeX.WinForms
             TC_Flag.Dock = System.Windows.Forms.DockStyle.Fill;
             TC_Flag.Location = new System.Drawing.Point(4, 3);
             TC_Flag.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Flag.Multiline = true;
             TC_Flag.Name = "TC_Flag";
             TC_Flag.SelectedIndex = 0;
             TC_Flag.Size = new System.Drawing.Size(486, 323);
@@ -327,6 +328,7 @@ namespace PKHeX.WinForms
             TC_Work.Dock = System.Windows.Forms.DockStyle.Fill;
             TC_Work.Location = new System.Drawing.Point(4, 3);
             TC_Work.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Work.Multiline = true;
             TC_Work.Name = "TC_Work";
             TC_Work.SelectedIndex = 0;
             TC_Work.Size = new System.Drawing.Size(486, 323);

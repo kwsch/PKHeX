@@ -71,24 +71,19 @@ internal static class Encounters3FRLG
         new(147, 18, FR) { FixedBall = Ball.Poke, Location = 94 }, // Dratini
         new(137, 26, FR) { FixedBall = Ball.Poke, Location = 94 }, // Porygon
 
-        new(386, 30, FR  ) { Location = 187, FatefulEncounter = true, Form = 1 }, // Deoxys @ Birth Island
+        new(386, 30, FR) { Location = 187, FatefulEncounter = true, Form = 1 }, // Deoxys @ Birth Island
     ];
 
     public static readonly EncounterStatic3[] StaticLG =
     [
         // Celadon City Game Corner
-        new(063, 09, FR) { FixedBall = Ball.Poke, Location = 94 }, // Abra
-        new(035, 08, FR) { FixedBall = Ball.Poke, Location = 94 }, // Clefairy
-        new(123, 25, FR) { FixedBall = Ball.Poke, Location = 94 }, // Scyther
-        new(147, 18, FR) { FixedBall = Ball.Poke, Location = 94 }, // Dratini
-        new(137, 26, FR) { FixedBall = Ball.Poke, Location = 94 }, // Porygon
-
         new(063, 07, LG) { FixedBall = Ball.Poke, Location = 94 }, // Abra
         new(035, 12, LG) { FixedBall = Ball.Poke, Location = 94 }, // Clefairy
         new(127, 18, LG) { FixedBall = Ball.Poke, Location = 94 }, // Pinsir
         new(147, 24, LG) { FixedBall = Ball.Poke, Location = 94 }, // Dratini
         new(137, 18, LG) { FixedBall = Ball.Poke, Location = 94 }, // Porygon
-        new(386, 30,   LG) { Location = 187, FatefulEncounter = true, Form = 2 }, // Deoxys @ Birth Island
+
+        new(386, 30, LG) { Location = 187, FatefulEncounter = true, Form = 2 }, // Deoxys @ Birth Island
     ];
 
     private static ReadOnlySpan<byte> TradeContest_Cool   => [ 30, 05, 05, 05, 05, 10 ];

@@ -10,7 +10,7 @@ public sealed class EvolutionGroup3 : IEvolutionGroup
     private static PersonalTable3 Personal => PersonalTable.E;
     private static EvolutionRuleTweak Tweak => EvolutionRuleTweak.Default;
 
-    public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => pk.Format > Generation ? EvolutionGroup4.Instance : null;
+    public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => pk.Format > Generation ? EvolutionGroup4.Instance : null; // TODO HOME FR/LG
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc) => null;
     public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc) => EvolutionUtil.Discard(result, Personal);
 

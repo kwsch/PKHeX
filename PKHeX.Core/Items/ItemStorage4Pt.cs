@@ -20,7 +20,7 @@ public sealed class ItemStorage4Pt : ItemStorage4, IItemStorage
 
     public static ushort[] GetAllHeld() => [..GeneralPt, ..Mail, ..Medicine, ..Berry, ..BallsDPPt, ..Battle, ..Machine[..^8]];
 
-    public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
+    public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => !Unreleased.Contains((ushort)itemIndex);
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {

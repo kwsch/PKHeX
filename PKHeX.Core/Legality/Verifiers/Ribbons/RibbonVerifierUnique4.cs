@@ -13,7 +13,7 @@ public static class RibbonVerifierUnique4
             if (!RibbonRules.IsAllowedBattleFrontier4(evos))
                 FlagAnyAbility(r, ref list);
 
-            if (RibbonRules.IsAllowedContest3(evos))
+            if (RibbonRules.IsAllowedContest3(evos, args.Entity))
                 AddMissingContest3(r, ref list);
             else
                 FlagAnyContest3(r, ref list);

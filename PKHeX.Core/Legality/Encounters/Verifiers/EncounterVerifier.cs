@@ -22,8 +22,14 @@ public static class EncounterVerifier
     private static CheckResult VerifyEncounter(PKM pk, IEncounterTemplate enc) => enc switch
     {
         EncounterShadow3Colo { IsEReader: true } when pk.Language != (int)LanguageID.Japanese => GetInvalid(G3EReader),
-        EncounterStatic3 { Species: (int)Species.Mew } when pk.Language != (int)LanguageID.Japanese => GetInvalid(EncUnreleasedEMewJP),
-        EncounterStatic3 { Species: (int)Species.Deoxys, Location: 200 } when pk.Language == (int)LanguageID.Japanese => GetInvalid(EncUnreleased),
+
+        // Mew @ Faraway Island (Emerald)
+        EncounterStatic3 { Species: (int)Species.Mew } when pk.Language != (int)LanguageID.Japanese
+            => GetInvalid(EncUnreleasedEMewJP),
+        // Deoxys @ Birth Island (FireRed/LeafGreen) - Never distributed in Japan during GBA Cart era. NX virtual console added for all.
+        EncounterStatic3 { Species: (int)Species.Deoxys, Location: 200 } when pk.Language == (int)LanguageID.Japanese && !ParseSettings.AllowGen3EventTicketsAll(pk)
+            => GetInvalid(EncUnreleased),
+
         EncounterStatic4 { Species: (int)Species.Shaymin } when pk.Language == (int)LanguageID.Korean => GetInvalid(EncUnreleased),
         EncounterStatic4 { IsRoaming: true } when pk is G4PKM { MetLocation: 193, GroundTile: GroundTileType.Water } => GetInvalid(G4InvalidTileR45Surf),
         MysteryGift g => VerifyEncounterEvent(pk, g),
@@ -146,6 +152,8 @@ public static class EncounterVerifier
             return GetValid(EggLocation);
 
         // Version isn't updated when hatching on a different game. Check any game.
+        if (!ParseSettings.AllowGBACrossTransferRSE(pk)) // Must match the origin game (Nintendo Switch VC)
+            return GetInvalid(EggLocationInvalid);
         if (EggHatchLocation3.IsValidMet3Any(met))
             return GetValid(EggLocationTrade);
         return GetInvalid(EggLocationInvalid);

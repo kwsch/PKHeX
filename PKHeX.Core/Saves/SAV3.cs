@@ -14,9 +14,12 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public sealed override string Extension => ".sav";
 
     public int SaveRevision => Japanese ? 0 : 1;
-    public string SaveRevisionString => Japanese ? "J" : "U";
+    public string SaveRevisionString => (Japanese ? "J" : "U") + (IsVirtualConsole ? "VC" : "GBA");
     public bool Japanese { get; }
     public bool Korean => false;
+
+    public bool IsVirtualConsole => State.Exportable && Metadata.FileName is { } s && s.Contains(".sav")
+                        && (s.StartsWith("FireRed_", StringComparison.Ordinal) || s.StartsWith("LeafGreen_")); // default to Mainline-Era for non-exportable
 
     // Similar to future games, the Generation 3 Mainline save files are comprised of separate objects:
     // Object 1 - Small, containing misc configuration data & the Pokédex.
@@ -402,6 +405,18 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     {
         get => Small[0x12];
         set => Small[0x12] = (byte)value;
+    }
+
+    public ushort X
+    {
+        get => ReadUInt16LittleEndian(Large);
+        set => WriteUInt16LittleEndian(Large, value);
+    }
+
+    public ushort Y
+    {
+        get => ReadUInt16LittleEndian(Large[2..]);
+        set => WriteUInt16LittleEndian(Large[2..], value);
     }
 
     #region Event Flag/Event Work

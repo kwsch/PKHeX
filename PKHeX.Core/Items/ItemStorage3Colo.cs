@@ -28,7 +28,7 @@ public sealed class ItemStorage3Colo : IItemStorage
         540, 541, 542,                546, 547,
     ];
 
-    public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
+    public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => !Unreleased.Contains((ushort)itemIndex);
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {

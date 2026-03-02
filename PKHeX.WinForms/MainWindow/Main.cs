@@ -979,6 +979,7 @@ public partial class Main : Form
 
         SizeCP.ResetSizeLocalizations(lang);
         PKME_Tabs.SizeCP.TryResetStats();
+        C_SAV.SL_Extra.ForceTranslation(lang);
 
         if (sav is not FakeSaveFile)
         {

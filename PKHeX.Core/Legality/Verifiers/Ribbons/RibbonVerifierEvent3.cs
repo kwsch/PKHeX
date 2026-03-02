@@ -21,7 +21,7 @@ public static class RibbonVerifierEvent3
                     if (!r.RibbonEarth)
                         list.Add(Earth, true);
                 }
-                else if (r.RibbonEarth && enc.Generation != 3)
+                else if (r.RibbonEarth && !RibbonRules.IsEarthRibbonAllowed(args.Entity, enc))
                 {
                     list.Add(Earth);
                 }
@@ -41,7 +41,7 @@ public static class RibbonVerifierEvent3
             {
                 // The Earth Ribbon is a ribbon exclusive to Pokémon Colosseum and Pokémon XD: Gale of Darkness
                 // Awarded to all Pokémon on the player's team when they complete the Mt. Battle challenge without switching the team at any point.
-                if (r.RibbonEarth && enc.Generation != 3)
+                if (r.RibbonEarth && !RibbonRules.IsEarthRibbonAllowed(args.Entity, enc))
                     list.Add(Earth);
 
                 var nationalRequired = RibbonRules.GetValidRibbonStateNational(args.Entity, enc);

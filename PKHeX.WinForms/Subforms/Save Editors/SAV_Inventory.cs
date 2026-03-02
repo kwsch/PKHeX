@@ -384,11 +384,13 @@ public sealed partial class SAV_Inventory : Form
             return;
 
         var items = pouch.GetAllItems().ToArray();
-        if (truncate)
+        // No need to trim the list on truncation; we filter by IsLegal.
+        // GiveItem reaching a full pouch will fail silently (no exception thrown).
+        // This is equivalent to filtering and truncating eagerly.
+        // if (truncate)
         {
             if (shuffle)
                 Util.Rand.Shuffle(items);
-            Array.Resize(ref items, pouch.Items.Length);
         }
 
         ModifyPouch(CurrentPouch, p => p.GiveAllItems(Bag, items, (int)NUD_Count.Value));

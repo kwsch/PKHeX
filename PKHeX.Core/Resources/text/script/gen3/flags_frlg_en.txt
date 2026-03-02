@@ -42,7 +42,7 @@
 81	m	Don't spawn Blue in Pokémon Tower
 82	m	Don't spawn Moltres on Mt. Ember
 83	m	Don't spawn Team Rocket in Silph Co.
-84	m	Don't spawn Relaxo on Route 12
+84	m	Don't spawn Snorlax on Route 12
 85	m	Don't spawn Giovanni in Viridian Gym
 
 87	m	Don't spawn Eevee Ball in Celadon Mansion
@@ -78,7 +78,7 @@
 125	m	Don't spawn PokéManiac on Two Island
 126	m	Don't spawn men on Three Island
 
-128	m	Don't spawn Relaxo on Route 16
+128	m	Don't spawn Snorlax on Route 16
 129	m	Don't spawn Mewtwo in Cerulean Cave
 130	m	Don't spawn Articuno in Seafoam Islands
 131	m	Don't spawn Team Rocket Grunt (2) in Pokémon Tower
@@ -93,7 +93,7 @@
 140	m	Don't spawn Lorelei in her house
 141	m	Don't spawn Team Rocket Grunts in Icefall Cave
 142	m	Don't spawn Scientist in Ruin Valley
-143	m	Don't spawn Sapphire in Dotte Hole
+143	m	Don't spawn Sapphire in Dotted Hole
 144	m	Don't spawn Scientist in Dotted Hole
 145	m	Don't spawn Biker Gang Boss on Three Island
 146	m	Don't spawn Prof. Oak's Aide near east entrance of Pewter City
@@ -441,7 +441,7 @@
 725	s	Team Rocket driven off from Sevii Islands
 726	s	Rocket Warehouse Door Opened
 727	m   Change text of Tectonix owner (no room for TM42)
-728	s	Sapphire in Dotte Hole stolen by Scientist/Can enter Rocket Warehouse
+728	s	Sapphire in Dotted Hole stolen by Scientist/Can enter Rocket Warehouse
 729	m	Set Heracross Length Record
 730	m	Togepi Egg from Gentleman in Water Labyrinth received
 731	m	Change text of Gentleman in Water Labyrinth
@@ -537,10 +537,10 @@
 1061	h	100 Coins (hidden) in Rocket Game Corner found
 1062	h	10 Coins (hidden) in Rocket Game Corner found
 1063	h	Cheri Berry (hidden) in Sevault Canyon found
-1064	h	Heart Scale  (hidden, recurring) on Tanoby Ruins found
-1065	h	Heart Scale  (hidden, recurring) on Tanoby Ruins found
-1066	h	Heart Scale  (hidden, recurring) on Tanoby Ruins found
-1067	h	Heart Scale  (hidden, recurring) on Tanoby Ruins found
+1064	h	Heart Scale (hidden, recurring) on Tanoby Ruins found
+1065	h	Heart Scale (hidden, recurring) on Tanoby Ruins found
+1066	h	Heart Scale (hidden, recurring) on Tanoby Ruins found
+1067	h	Heart Scale (hidden, recurring) on Tanoby Ruins found
 1068	h	Nest Ball (hidden) in Rocket Warehouse found
 1069	h	Net Ball (hidden) in Rocket Warehouse found
 1070	h	Potion (hidden, recurring) in Underground Path (vertical) found
@@ -684,7 +684,7 @@
 1283	t	(Unused) Team Aqua (Female) defeated
 1284	t	(Unused) Aroma Lady defeated
 1285	t	(Unused) Ruin Maniac defeated
-1286	t	(Unused) Interviewer defeated
+1286	t	(Unused) Interviewers defeated
 1287	t	(Unused) Tuber (Female) defeated
 1288	t	(Unused) Tuber (Male) defeated
 1289	t	(Unused) Cooltrainer (Male) defeated
@@ -698,7 +698,7 @@
 1297	t	(Unused) Black Belt defeated
 1298	t	(Unused) Guitarist defeated
 1299	t	(Unused) Kindler defeated
-1300	t	(Unused) Camper (Male) defeated
+1300	t	(Unused) Camper defeated
 1301	t	(Unused) Bug Maniac defeated
 1302	t	(Unused) Psychic (Male) defeated
 1303	t	(Unused) Psychic (Female) defeated
@@ -730,7 +730,7 @@
 1329	t	(Unused) Battle Girl defeated
 1330	t	(Unused) Parasol Lady defeated
 1331	t	(Unused) Swimmer♀ defeated
-1332	t	(Unused) Camper (Female) defeated
+1332	t	(Unused) Picnicker defeated
 1333	t	(Unused) Twins defeated
 1334	t	(Unused) Sailor defeated
 1335	t	(Unused) Boarder defeated
@@ -774,7 +774,7 @@
 1373	t	Youngster Joey on Route 25 defeated
 1374	t	Youngster Dan on Route 25 defeated
 1375	t	Youngster Chad on Route 25 defeated
-1376	t	Youngster Tyler  on S.S. Anne defeated
+1376	t	Youngster Tyler on S.S. Anne defeated
 1377	t	Youngster Eddie on Route 11 defeated
 1378	t	Youngster Dillon on Route 11 defeated
 1379	t	Youngster Yasu on Route 11 defeated
@@ -949,7 +949,7 @@
 1548	t	Beauty Lola on Route 13 defeated
 1549	t	Beauty Sheila on Route 13 defeated
 1550	t	Swimmer♀ Tiffany on Route 20 defeated
-1551	t	Simmer♀ Nora on Route 20 defeated
+1551	t	Swimmer♀ Nora on Route 20 defeated
 1552	t	Swimmer♀ Melissa on Route 20 defeated
 1553	t	Beauty Grace on Route 15 defeated
 1554	t	Beauty Olivia on Route 15 defeated
@@ -959,7 +959,7 @@
 1558	t	Swimmer♀ Connie on Route 19 defeated
 1559	t	Swimmer♀ Shirley on Route 20 defeated
 1560	t	Psychic Johan in Saffron Gym defeated
-1561	t	Psychic Tyorn in Saffron Gym defeated
+1561	t	Psychic Tyron in Saffron Gym defeated
 1562	t	Psychic Cameron in Saffron Gym defeated
 1563	t	Psychic Preston in Saffron Gym defeated
 1564	t	(Unused) Rocker Randall in Vermilion Gym defeated
@@ -1085,7 +1085,7 @@
 1684	t	Cooltrainer Alexa in Victory Road defeated
 1685	t	(Unused) Cooltrainer Shannon defeated
 1686	t	Cooltrainer Naomi in Victory Road defeated
-1687	t	(Unused) Cooltrainer Brooker defeated
+1687	t	(Unused) Cooltrainer Brooke defeated
 1688	t	(Unused) Cooltrainer Austina defeated
 1689	t	(Unused) Cooltrainer Julie defeated
 1690	t	Elite Four Lorelei defeated
@@ -1273,9 +1273,9 @@
 1872	t	Crush Girl Jocelyn on Mt. Ember defeated
 1873	t	Tamer Evan in Sevault Canyon defeated
 1874	t	PokéManiac Mark (Rematch 1) on Route 10 defeated
-1875	t	Pkmn Ranger Logan on Mt. Ember defeated
+1875	t	Pokémon Ranger Logan on Mt. Ember defeated
 1876	t	Pokémon Ranger Jackson in Sevault Canyon defeated
-1877	t	Pkmn Ranger Beth on Mt. Ember defeated
+1877	t	Pokémon Ranger Beth on Mt. Ember defeated
 1878	t	Pokémon Ranger Katelyn in Sevault Canyon defeated
 1879	t	Cooltrainer Leroy in Sevault Canyon defeated
 1880	t	Cooltrainer Michelle in Sevault Canyon defeated
