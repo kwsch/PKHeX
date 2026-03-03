@@ -11,62 +11,63 @@
 1762	r	Electrode (esquinas inferiores) desaparecido (Escondite Team Rocket B2F)
 0079	g	Eevee Recibido
 1867	*	Las Bestias Legendarias desaparecieron de la Torre Incendiada
-0190	*	Kurt puede ver la GS Ball
-0191	*	Kurt listo para regresar la GS Ball (combinar con la Marca de arriba)
-0192	*	GS Ball puede ser insertada en el Encinar
+0190	e	Kurt puede ver la GS Ball
+0191	e	Kurt listo para regresar la GS Ball (combinar con la Marca de arriba)
+0192	e	GS Ball puede ser insertada en el Encinar
+1809	*	No Mystery Gift item is waiting in the Pokémon Center
 0672	*	Rompecabezas de Ho-Oh resuelto en Ruinas Alfa
 0673	*	Rompecabezas de Kabuto resuelto en Ruinas Alfa
 0674	*	Rompecabezas de Omanyte resuelto en Ruinas Alfa
 0675	*	Rompecabezas de Aerodactyl resuelto en Ruinas Alfa
-0676	*	Edredón de Plumas
-0677	*	Edredón Rosa
-0678	*	Edredón Lunares
-0679	*	Edredón Pikachu (Ilegal)
-0680	*	Alfombra Roja
-0681	*	Alfombra Azul
-0682	*	Alfombra Amarilla
-0683	*	Alfombra Verde
-0684	*	Megaplanta
-0685	*	Planta Tropical
-0686	*	Planta Colosal
-0687	*	Mapa Pueblo
-0688	*	Póster Pikachu
-0689	*	Póster Clefairy
-0690	*	Póster Jigglypuff
-0691	*	NES
-0692	*	Super NES
-0693	*	Nintendo 64
-0694	*	Virtual Boy
-0695	*	Muñeco Pikachu
-0696	*	Muñeco Pikachu Surf
-0697	*	Muñeco Clefairy
-0698	*	Muñeco Jigglypuff
-0699	*	Muñeco Bulbasaur
-0700	*	Muñeco Charmander
-0701	*	Muñeco Squirtle
-0702	*	Muñeco Poliwag
-0703	*	Muñeco Diglett
-0704	*	Muñeco Staryu
-0705	*	Muñeco Magikarp
-0706	*	Muñeco Oddish
-0707	*	Muñeco Gengar
-0708	*	Muñeco Shellder
-0709	*	Muñeco Grimer
-0710	*	Muñeco Voltorb
-0711	*	Muñeco Weedle
-0712	*	Muñeco Unown (Ilegal)
-0713	*	Muñeco Geodude
-0714	*	Muñeco Machop
-0715	*	Muñeco Tentacool (Ilegal)
-0717	*	Trofeo Oro
-0718	*	Trofeo Plata
-0719	*	Snorlax Grande
-0720	*	Onix Grande
-0721	*	Lapras Grande
+0676	b	Edredón de Plumas
+0677	b	Edredón Rosa
+0678	b	Edredón Lunares
+0679	b	Edredón Pikachu (Ilegal)
+0680	b	Alfombra Roja
+0681	b	Alfombra Azul
+0682	b	Alfombra Amarilla
+0683	b	Alfombra Verde
+0684	b	Megaplanta
+0685	b	Planta Tropical
+0686	b	Planta Colosal
+0687	b	Mapa Pueblo
+0688	b	Póster Pikachu
+0689	b	Póster Clefairy
+0690	b	Póster Jigglypuff
+0691	b	NES
+0692	b	Super NES
+0693	b	Nintendo 64
+0694	b	Virtual Boy
+0695	b	Muñeco Pikachu
+0696	b	Muñeco Pikachu Surf
+0697	b	Muñeco Clefairy
+0698	b	Muñeco Jigglypuff
+0699	b	Muñeco Bulbasaur
+0700	b	Muñeco Charmander
+0701	b	Muñeco Squirtle
+0702	b	Muñeco Poliwag
+0703	b	Muñeco Diglett
+0704	b	Muñeco Staryu
+0705	b	Muñeco Magikarp
+0706	b	Muñeco Oddish
+0707	b	Muñeco Gengar
+0708	b	Muñeco Shellder
+0709	b	Muñeco Grimer
+0710	b	Muñeco Voltorb
+0711	b	Muñeco Weedle
+0712	b	Muñeco Unown (Ilegal)
+0713	b	Muñeco Geodude
+0714	b	Muñeco Machop
+0715	b	Muñeco Tentacool (Ilegal)
+0717	b	Trofeo Oro
+0718	b	Trofeo Plata
+0719	b	Snorlax Grande
+0720	b	Onix Grande
+0721	b	Lapras Grande
 0791	r	Ho-oh Desaparecido
 0792	r	Lugia Desaparecido
-0830	r	Recibido el Huevo Raro
-0832	r	Recibida la GS Ball
+0830	g	Recibido el Huevo Raro
+0832	e	Recibida la GS Ball
 1904	r	Snorlax Desaparecido
 1873	r	Gyarados Rojo Desaparecido
 0068	s	Derrotado el Alto Mando/Elm puede dar el Ticket Barco
@@ -143,5 +144,5 @@
 0665	t	Preguntado Karateka Leuco por su Número
 0667	t	Preguntado Montañero Ángelo por su Número
 0669	t	Preguntado Dominguera Elisa por su Número
-0828	t	Buena ofreció Número Telefónico una vez
-0670	t	Buena ofreció Número Telefónico (2da vez)
+0828	s	Buena ofreció Número Telefónico una vez
+0670	s	Buena ofreció Número Telefónico (2da vez)

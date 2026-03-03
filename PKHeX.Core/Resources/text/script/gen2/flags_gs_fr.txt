@@ -15,51 +15,51 @@
 0673	*	Puzzle de Kabuto résolu aux Ruines d'Alpha
 0674	*	Puzzle d'Amonita résolu aux Ruines d'Alpha
 0675	*	Puzzle de Ptéra résolu aux Ruines d'Alpha
-0676	*	Lit à Plumes
-0677	*	Lit Rose
-0678	*	Lit à Pois
-0679	*	Lit Pikachu (illégal)
-0680	*	Tapis Rouge
-0681	*	Tapis Bleu
-0682	*	Tapis Jaune
-0683	*	Tapis Vert
-0684	*	Grosse Plante
-0685	*	Plante Tropicale
-0686	*	Maxi Plante
-0687	*	Carte
-0688	*	Poster Pikachu
-0689	*	Poster Mélofée
-0690	*	Poster Rondoudou
-0691	*	NES
-0692	*	Super Nintendo
-0693	*	Nintendo 64
-0694	*	Virtual Boy
-0695	*	Poupée Pikachu
-0696	*	Jouet Pikachu Surf
-0697	*	Poupée Mélofée
-0698	*	Poupée Rondoudou
-0699	*	Poupée Bulbizarre
-0700	*	Poupée Salamèche
-0701	*	Poupée Carapuce
-0702	*	Poupée Ptitard
-0703	*	Poupée Taupiqueur
-0704	*	Poupée Stari
-0705	*	Poupée Magicarpe
-0706	*	Poupée Mystherbe
-0707	*	Poupée Ectoplasma
-0708	*	Poupée Kokiyas
-0709	*	Poupée Tadmorv
-0710	*	Poupée Voltorbe
-0711	*	Poupée Aspicot
-0712	*	Poupée Zarbi (illégal)
-0713	*	Poupée Racaillou
-0714	*	Poupée Machoc
-0715	*	Poupée Tentacool (illégal)
-0717	*	Trophée Or
-0718	*	Trophée Argent
-0719	*	Ronflex Super
-0720	*	Onix Super
-0721	*	Lokhlass Super
+0676	b	Lit à Plumes
+0677	b	Lit Rose
+0678	b	Lit à Pois
+0679	b	Lit Pikachu (illégal)
+0680	b	Tapis Rouge
+0681	b	Tapis Bleu
+0682	b	Tapis Jaune
+0683	b	Tapis Vert
+0684	b	Grosse Plante
+0685	b	Plante Tropicale
+0686	b	Maxi Plante
+0687	b	Carte
+0688	b	Poster Pikachu
+0689	b	Poster Mélofée
+0690	b	Poster Rondoudou
+0691	b	NES
+0692	b	Super Nintendo
+0693	b	Nintendo 64
+0694	b	Virtual Boy
+0695	b	Poupée Pikachu
+0696	b	Jouet Pikachu Surf
+0697	b	Poupée Mélofée
+0698	b	Poupée Rondoudou
+0699	b	Poupée Bulbizarre
+0700	b	Poupée Salamèche
+0701	b	Poupée Carapuce
+0702	b	Poupée Ptitard
+0703	b	Poupée Taupiqueur
+0704	b	Poupée Stari
+0705	b	Poupée Magicarpe
+0706	b	Poupée Mystherbe
+0707	b	Poupée Ectoplasma
+0708	b	Poupée Kokiyas
+0709	b	Poupée Tadmorv
+0710	b	Poupée Voltorbe
+0711	b	Poupée Aspicot
+0712	b	Poupée Zarbi (illégal)
+0713	b	Poupée Racaillou
+0714	b	Poupée Machoc
+0715	b	Poupée Tentacool (illégal)
+0717	b	Trophée Or
+0718	b	Trophée Argent
+0719	b	Ronflex Super
+0720	b	Onix Super
+0721	b	Lokhlass Super
 0791	r	Ho-oh disparu
 0792	r	Lugia disparu
 1904	r	Ronflex disparu

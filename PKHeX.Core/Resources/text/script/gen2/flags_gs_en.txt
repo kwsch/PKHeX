@@ -15,51 +15,51 @@
 0673	*	Kabuto puzzle solved in Ruins of Alph
 0674	*	Omanyte puzzle solved in Ruins of Alph
 0675	*	Aerodactyl puzzle solved in Ruins of Alph
-0676	*	Feathery Bed
-0677	*	Pink Bed
-0678	*	Polkadot Bed
-0679	*	Pikachu Bed (Illegal)
-0680	*	Red Carpet
-0681	*	Blue Carpet
-0682	*	Yellow Carpet
-0683	*	Green Carpet
-0684	*	Magnaplant
-0685	*	Tropicplant
-0686	*	Jumboplant
-0687	*	Town Map
-0688	*	Pikachu Poster
-0689	*	Clefairy Poster
-0690	*	Jigglypuff Poster
-0691	*	NES
-0692	*	Super NES
-0693	*	Nintendo 64
-0694	*	Virtual Boy
-0695	*	Pikachu Doll
-0696	*	Surf Pikachu Doll
-0697	*	Clefairy Doll
-0698	*	Jigglypuff Doll
-0699	*	Bulbasaur Doll
-0700	*	Charmander Doll
-0701	*	Squirtle Doll
-0702	*	Poliwag Doll
-0703	*	Diglett Doll
-0704	*	Staryu Doll
-0705	*	Magikarp Doll
-0706	*	Oddish Doll
-0707	*	Gengar Doll
-0708	*	Shellder Doll
-0709	*	Grimer Doll
-0710	*	Voltorb Doll
-0711	*	Weedle Doll
-0712	*	Unown Doll (Illegal)
-0713	*	Geodude Doll
-0714	*	Machop Doll
-0715	*	Tentacool Doll (Illegal)
-0717	*	Gold Trophy
-0718	*	Silver Trophy
-0719	*	Big Snorlax
-0720	*	Big Onix
-0721	*	Big Lapras
+0676	b	Feathery Bed
+0677	b	Pink Bed
+0678	b	Polkadot Bed
+0679	b	Pikachu Bed (Illegal)
+0680	b	Red Carpet
+0681	b	Blue Carpet
+0682	b	Yellow Carpet
+0683	b	Green Carpet
+0684	b	Magnaplant
+0685	b	Tropicplant
+0686	b	Jumboplant
+0687	b	Town Map
+0688	b	Pikachu Poster
+0689	b	Clefairy Poster
+0690	b	Jigglypuff Poster
+0691	b	NES
+0692	b	Super NES
+0693	b	Nintendo 64
+0694	b	Virtual Boy
+0695	b	Pikachu Doll
+0696	b	Surf Pikachu Doll
+0697	b	Clefairy Doll
+0698	b	Jigglypuff Doll
+0699	b	Bulbasaur Doll
+0700	b	Charmander Doll
+0701	b	Squirtle Doll
+0702	b	Poliwag Doll
+0703	b	Diglett Doll
+0704	b	Staryu Doll
+0705	b	Magikarp Doll
+0706	b	Oddish Doll
+0707	b	Gengar Doll
+0708	b	Shellder Doll
+0709	b	Grimer Doll
+0710	b	Voltorb Doll
+0711	b	Weedle Doll
+0712	b	Unown Doll (Illegal)
+0713	b	Geodude Doll
+0714	b	Machop Doll
+0715	b	Tentacool Doll (Illegal)
+0717	b	Gold Trophy
+0718	b	Silver Trophy
+0719	b	Big Snorlax
+0720	b	Big Onix
+0721	b	Big Lapras
 0791	r	Ho-oh Disappeared
 0792	r	Lugia Disappeared
 1904	r	Snorlax Disappeared
