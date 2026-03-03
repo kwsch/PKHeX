@@ -1,5 +1,5 @@
 0048	*	Inicial	0:Sin elegir,387:Turtwig,390:Chimchar,393:Piplup
-0122	r	Huevo de Togepi	0:Estatua visitada,1:Recibido MO01,2:Cynthia desaparecida,3:Cynthia da un huevo,4:Huevo pendiente,5:Huevo recibido
+0122	g	Huevo de Togepi	0:Estatua visitada,1:Recibido MO01,2:Cynthia desaparecida,3:Cynthia da un huevo,4:Huevo pendiente,5:Huevo recibido
 0196	r	Dialga	0:Luchable,1:Desaparecido
 0197	r	Palkia	0:Luchable,1:Desaparecido
 0085	r	Giratina (Mundo Distorsión)	13:Luchable,14:Desaparecido

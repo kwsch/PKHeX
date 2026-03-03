@@ -46,16 +46,16 @@
 0329	r	Motisma Capturé
 0635	s	Fantôme du Majordome Rencontré au Vieux Château
 0636	s	Fantôme de la Fillette Rencontré au Vieux Château
-0897	s	Miel (Caché) Trouvé au Vieux Château
-1036	s	Vieux Gâteau Trouvé au Vieux Château
-1261	s	Plaque Ombre Trouvée au Vieux Château
-1262	s	CT90 Trouvée au Vieux Château
-1281	s	Super Bonbon Trouvé au Vieux Château
-1282	s	Grande Perle Trouvée au Vieux Château
-1336	s	Orbe Platiné Trouvé au Monde Distorsion
-1337	s	Peau Métal Trouvée aux Ruines de Fer
-1338	s	Glacéternel Trouvée aux Ruines Iceberg
-1339	s	Pierre Dure Trouvée aux Ruines Pic Roche
+0897	h	Miel (Caché) Trouvé au Vieux Château
+1036	i	Vieux Gâteau Trouvé au Vieux Château
+1261	i	Plaque Ombre Trouvée au Vieux Château
+1262	i	CT90 Trouvée au Vieux Château
+1281	i	Super Bonbon Trouvé au Vieux Château
+1282	i	Grande Perle Trouvée au Vieux Château
+1336	i	Orbe Platiné Trouvé au Monde Distorsion
+1337	i	Peau Métal Trouvée aux Ruines de Fer
+1338	i	Glacéternel Trouvée aux Ruines Iceberg
+1339	i	Pierre Dure Trouvée aux Ruines Pic Roche
 0151	g	A Reçu Porygon
 0305	g	A Reçu Évoli
 0226	g	Œuf de Riolu d'Armand en Attente (Île de Fer)
@@ -76,11 +76,11 @@
 0134	g	Échange Interne Mustébouée Contre Pijako (Vestigion)
 0244	g	Échange Interne Charmina Contre Spectrum (Frimapic)
 0245	g	Échange Interne Écayon Contre Magicarpe (Route 226)
-0787	s	PV Plus Trouvé au Lac Vérité Séché
+0787	i	PV Plus Trouvé au Lac Vérité Séché
 2507	s	Est Entré au Show Capture du Parc des Amis
 0325	r	Les Failles de Dialga/Palkia Peuvent Apparaître
-1051	s	Orbe Adamant Trouvé au Mont Couronné
-1053	s	Orbe Perlé Trouvé au Mont Couronné
+1051	i	Orbe Adamant Trouvé au Mont Couronné
+1053	i	Orbe Perlé Trouvé au Mont Couronné
 1409	t	Joggeur Amir Vaincu (Route 209 - Matin)
 1448	t	Agent Jeff Vaincu (Route 212 - Nuit)
 1449	t	Agent Johan Vaincu (Route 212 - Nuit)
@@ -241,7 +241,7 @@
 2134	t	A Eu 1ère Revanche Contre Vénérable Théobald (Route 210)
 2136	t	A Eu 2ème Revanche Contre Vénérable Théobald (Route 210)
 2137	t	A Eu Revanche Contre Vénérable Clément (Route 224)
-2733	s	A Appris Un Mot Savant (Aujourd'hui - Frimapic)
+2733	*	A Appris Un Mot Savant (Aujourd'hui - Frimapic)
 2738	t	Rival Vaincu à l'Aire de Survie (Samedi/Dimanche Actuel)
 2744	t	Champion Pierrick Vaincu au Café Combat (Aujourd'hui)
 2745	t	Championne Flo Vaincue au Café Combat (Aujourd'hui)

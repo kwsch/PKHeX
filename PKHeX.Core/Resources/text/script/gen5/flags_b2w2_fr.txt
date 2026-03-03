@@ -56,8 +56,8 @@
 0996	g	Guajava et le Griknot (N2)/Minidraco (B2) Chromatique disparus de la Maison de Goyah
 2464	s	Ruines des Abysses Visitées
 0979	s	Lilien Parti de Vaguelone
-2744	s	Étoile d'Unys Embarquée à Volucité (Aujourd'hui)
-2747	s	Fossile reçu de l'Ouvrier du Mont Foré (Aujourd'hui)
+2744	*	Étoile d'Unys Embarquée à Volucité (Aujourd'hui)
+2747	*	Fossile reçu de l'Ouvrier du Mont Foré (Aujourd'hui)
 2774	r	Vaututrice (N2)/Gueriaigle (B2) Hebdomadaire de la Route 4 Disparu
 2775	r	Moyade Hebdomadaire de la Baie Vaguelone Disparu
 2442	r	Pokémon de N Dans la Nature

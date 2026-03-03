@@ -28,16 +28,16 @@
 0339	g	Magicarpe Acheté (Pont de l'Inconnu)
 0347	g	Échange Interne Géolithe Contre Emolga (Route 7)
 0360	g	Échange Interne Métamorph Contre Motisma (Route 15)
-0663	g	Darumacho (milieu à gauche) Disparu du Désert Délassant
-0664	g	Darumacho (en bas à gauche) Disparu du Désert Délassant
-0665	g	Darumacho (en haut à gauche) Disparu du Désert Délassant
-0666	g	Darumacho (milieu à droite) Disparu du Désert Délassant
-0667	g	Darumacho (en haut à droite) Disparu du Désert Délassant
-0729	s	Zorua en Petit Garçon (1) a Disparu du RDC du Bâtiment GAME FREAK (évènement Zorua)
-0730	s	La Fille a Disparu du RDC du Bâtiment GAME FREAK (évènement Zorua)
-0731	s	Zorua (2) a Disparu du RDC du Bâtiment GAME FREAK (évènement Zorua)
-2754	s	Étoile d'Unys Embarquée à Volucité (Aujourd'hui)
-2762	s	Fossile reçu de l'Ouvrier du Mont Foré (Aujourd'hui)
+0663	r	Darumacho (milieu à gauche) Disparu du Désert Délassant
+0664	r	Darumacho (en bas à gauche) Disparu du Désert Délassant
+0665	r	Darumacho (en haut à gauche) Disparu du Désert Délassant
+0666	r	Darumacho (milieu à droite) Disparu du Désert Délassant
+0667	r	Darumacho (en haut à droite) Disparu du Désert Délassant
+0729	e	Zorua en Petit Garçon (1) a Disparu du RDC du Bâtiment GAME FREAK (évènement Zorua)
+0730	e	La Fille a Disparu du RDC du Bâtiment GAME FREAK (évènement Zorua)
+0731	e	Zorua (2) a Disparu du RDC du Bâtiment GAME FREAK (évènement Zorua)
+2754	*	Étoile d'Unys Embarquée à Volucité (Aujourd'hui)
+2762	*	Fossile reçu de l'Ouvrier du Mont Foré (Aujourd'hui)
 0683	a	Métro de Combat : Trophée Super Solo non Obtenu
 0684	a	Métro de Combat : Trophée Super Duo non Obtenu
 0685	a	Métro de Combat : Trophée Super Multi non Obtenu

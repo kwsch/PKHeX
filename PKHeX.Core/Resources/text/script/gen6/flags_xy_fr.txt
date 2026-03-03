@@ -4,16 +4,16 @@
 0886	r	Zygarde Vaincu
 0631	r	Ronflex Parti
 0321	r	Ronflex Capturé
-0381	+	Statuette Solo (Maison de Combat)
-0382	+	Statuette Duo (Maison de Combat)
-0383	+	Statuette Trio (Maison de Combat)
-0384	+	Statuette Rotatif (Maison de Combat)
-0385	+	Statuette Multi (Maison de Combat)
-0386	+	Super Solo Débloqué
-0387	+	Super Duo Débloqué
-0388	+	Super Trio Débloqué
-0389	+	Super Rotatif Débloqué
-0390	+	Super Multi Débloqué
+0381	a	Statuette Solo (Maison de Combat)
+0382	a	Statuette Duo (Maison de Combat)
+0383	a	Statuette Trio (Maison de Combat)
+0384	a	Statuette Rotatif (Maison de Combat)
+0385	a	Statuette Multi (Maison de Combat)
+0386	*	Super Solo Débloqué
+0387	*	Super Duo Débloqué
+0388	*	Super Trio Débloqué
+0389	*	Super Rotatif Débloqué
+0390	*	Super Multi Débloqué
 0771	+	Série de 50 : Châtelaine Vaincue
 2642	s	Pokédex Obtenu
 2640	s	Entré au Panthéon/Salle de Zygarde Accessible

@@ -56,8 +56,8 @@
 0996	g	Benga with Shiny Gible/Dratini Gift disappeared from Alder's house
 2464	s	Visited Abyssal Ruins
 0979	s	Zinzolin Disappeared from Undella Town
-2744	s	Rode Royal Unova (Today)
-2747	s	Received a Fossil from Twist Mountain Worker (Today)
+2744	*	Rode Royal Unova (Today)
+2747	*	Received a Fossil from Twist Mountain Worker (Today)
 2774	r	Weekly Mandibuzz/Braviary on Route 4 Disappeared
 2775	r	Weekly Jellicent in Undella Bay Disappeared
 2442	r	N's Pokémon in the Wild
