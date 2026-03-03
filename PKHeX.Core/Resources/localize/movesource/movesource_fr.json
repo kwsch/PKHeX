@@ -17,5 +17,5 @@
     "EggInheritedTutor": "Capacité tuteur héritée.",
     "EggInvalid": "Capacité Œuf non attendue.",
     "EggLevelUp": "Capacité héritée apprise par montée de niveau.",
-    "LevelUpSuffix": " @ lv{0}"
+    "LevelUpSuffix": " @ niv {0}"
 }
