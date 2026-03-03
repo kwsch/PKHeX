@@ -228,12 +228,6 @@ public static class WinFormsTranslator
         }
     }
 
-    public static void ReformatDark(PictureBox pb)
-    {
-        if (pb.Image is Bitmap bmp)
-            pb.Image = WinFormsUtil.BlackToWhite(bmp);
-    }
-
     private static IEnumerable<T> GetChildrenOfType<T>(this Control control) where T : class
     {
         foreach (var child in control.Controls.OfType<Control>())

@@ -19,6 +19,10 @@ public sealed class MiscVerifierG3 : Verifier
         if (ParseSettings.AllowGBACrossTransferRSE(pk))
             return;
 
+        // Notes:
+        // Nicknamed by player: all FF'd trash.
+        // In-game trade: clean 00'd with a single FF on each.
+
         // Only FR/LG are released. Only can originate from FR/LG.
         if (pk.Version is not (GameVersion.FR or GameVersion.LG))
             data.AddLine(GetInvalid(TradeNotAvailable));
@@ -27,6 +31,9 @@ public sealed class MiscVerifierG3 : Verifier
 
         if (ItemStorage3FRLG_VC.IsUnreleasedHeld(pk.HeldItem))
             data.AddLine(GetInvalid(ItemUnreleased));
+
+        if ((Ball)pk.Ball is Ball.Dive or Ball.Premier)
+            data.AddLine(GetInvalid(BallUnavailable));
 
         if (pk is PK3 pk3)
             VerifyTrash(data, pk3);
@@ -37,7 +44,7 @@ public sealed class MiscVerifierG3 : Verifier
         var enc = data.EncounterOriginal;
         if (enc is EncounterTrade3)
             VerifyTrashTrade(data, pk);
-        else if (pk.Japanese && !(pk.IsEgg && pk.OriginalTrainerTrash[^1] == 0x00))
+        else if (pk.Japanese && !(pk.IsEgg && pk.OriginalTrainerTrash[^1] == 0xFF))
             VerifyTrashJPN(data, pk);
         else
             VerifyTrashINT(data, pk);
@@ -64,6 +71,8 @@ public sealed class MiscVerifierG3 : Verifier
             data.AddLine(GetInvalid(TrashBytesMissingTerminator));
 
         int len = TrashBytes8.GetStringLength(trash);
+        if (len >= trash.Length - 2)
+            return; // OK -- invalid lengths will get warned elsewhere
         if (trash[len..^2].ContainsAnyExcept<byte>(0xFF))
             data.AddLine(GetInvalid(TrashBytesMissingTerminator));
     }

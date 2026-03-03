@@ -60,10 +60,18 @@ public readonly ref struct PokeDexEntry9Paldea
     public bool IsSeen => GetState() >= 2;
     public bool IsCaught => GetState() >= 3;
 
-    public void SetCaught(bool value) => SetState(value ? 3u : 2u);
+    public void SetCaught(bool value)
+    {
+        if (value)
+            SetState(3u);
+        else if (GetState() == 3u)  // only lower if currently caught
+            SetState(2u);
+        // state 0 or 1 or 2: no change
+    }
+
     public void SetSeen(bool value)
     {
-        var newValue = !value ? 1 : Math.Min(GetState(), 2);
+        var newValue = !value ? 1 : Math.Max(GetState(), 2);
         SetState(newValue);
     }
 

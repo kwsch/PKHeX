@@ -256,7 +256,7 @@ public partial class SAV_Encounters : Form
         }
 
         var criteria = _criteriaValue;
-        if (!isInChain)
+        if (!isInChain || EntityGender.IsSingleGender(enc.Species))
             criteria = criteria with { Gender = Gender.Random }; // Genderless tabs and a gendered enc -> let's play safe.
         return criteria;
     }

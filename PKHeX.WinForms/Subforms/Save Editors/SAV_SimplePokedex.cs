@@ -69,7 +69,7 @@ public partial class SAV_SimplePokedex : Form
                 ushort species = (ushort)(i + 1);
                 if (!Legal.IsForeignFRLG(species))
                     continue;
-                SAV.SetSeen(species, false);
+                //SAV.SetSeen(species, false); // some can be seen via trainers; don't bother
                 SAV.SetCaught(species, false);
             }
         }

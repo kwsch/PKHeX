@@ -211,8 +211,8 @@ public abstract class Zukan<T>(T sav, Memory<byte> raw, int langflag) : ZukanBas
 
     // Bulk Manipulation
     public override void SeenNone() => SetDexEntriesAll(false, shinyToo: true);
-    public override void CaughtNone() => SetAllCaught(false, true);
-    public override void SeenAll(bool shinyToo = false) => SetAllSeen(shinyToo);
+    public override void CaughtNone() => SetAllCaught(false, shinyToo: true);
+    public override void SeenAll(bool shinyToo = false) => SetAllSeen(shinyToo: shinyToo);
     public override void CompleteDex(bool shinyToo = false) => SetDexEntriesAll(shinyToo: shinyToo);
 
     public override void CaughtAll(bool shinyToo = false)

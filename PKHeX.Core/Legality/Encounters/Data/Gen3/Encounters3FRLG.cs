@@ -77,12 +77,6 @@ internal static class Encounters3FRLG
     public static readonly EncounterStatic3[] StaticLG =
     [
         // Celadon City Game Corner
-        new(063, 09, FR) { FixedBall = Ball.Poke, Location = 94 }, // Abra
-        new(035, 08, FR) { FixedBall = Ball.Poke, Location = 94 }, // Clefairy
-        new(123, 25, FR) { FixedBall = Ball.Poke, Location = 94 }, // Scyther
-        new(147, 18, FR) { FixedBall = Ball.Poke, Location = 94 }, // Dratini
-        new(137, 26, FR) { FixedBall = Ball.Poke, Location = 94 }, // Porygon
-
         new(063, 07, LG) { FixedBall = Ball.Poke, Location = 94 }, // Abra
         new(035, 12, LG) { FixedBall = Ball.Poke, Location = 94 }, // Clefairy
         new(127, 18, LG) { FixedBall = Ball.Poke, Location = 94 }, // Pinsir

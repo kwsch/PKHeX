@@ -85,6 +85,15 @@ public static class EntityGender
         return NG;
     }
 
+    /// <summary>
+    /// Checks if the species (base form) is a single gender.
+    /// </summary>
+    public static bool IsSingleGender(ushort species)
+    {
+        var ratio = GetGenderRatio(species);
+        return ratio is OM or OF or NG;
+    }
+
     private static ReadOnlySpan<byte> GenderRatios =>
     [
         NG, VM, VM, VM, VM, VM, VM, VM, VM, VM, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, HH, OF, OF, OF, OM, OM, OM, MF, MF, MF, MF, MF,

@@ -106,7 +106,7 @@ MYSTERY GIFT:
 - Alt-Click QR to import from QR image.
 
 TRAINER INFO (GO PIKACHU/EEVEE):
-- Drop Go Park entity file (gp1) to import to selected slot.
+- Drop GO Park entity file (gp1) to import to selected slot.
 
 TERA RAIDS (SCARLET/VIOLET):
 - Shift-Click the Copy to Other Raids button to copy the Seed as well as the Content.

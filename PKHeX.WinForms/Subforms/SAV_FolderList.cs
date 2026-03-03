@@ -223,11 +223,11 @@ public partial class SAV_FolderList : Form
 
     private SavePreview? GetSaveFile(DataGridView dgData)
     {
-        var c = dgData.SelectedCells;
+        var c = dgData.SelectedRows;
         if (c.Count != 1)
             return null;
 
-        var item = c[0].RowIndex;
+        var item = c[0].Index;
         var parent = dgData == dgDataRecent ? Recent : Backup;
         return parent[item];
     }
