@@ -9,14 +9,14 @@
 0302	s	CS08 Reçue Avant L'Éveil de Groudon/Kyogre
 0x05A	s	Vélo Course/Cross Reçu
 
-0x807	*	Badge Roche Reçu
-0x808	*	Badge Poing Reçu
-0x809	*	Badge Dynamo Reçu
-0x80A	*	Badge Chaleur Reçu
-0x80B	*	Badge Balancier Reçu
-0x80C	*	Badge Plume Reçu
-0x80D	*	Badge Esprit Reçu (Entrée Planque Magma/Aqua Scellée)
-0x80E	*	Badge Pluie Reçu
+0x807	s	Badge Roche Reçu
+0x808	s	Badge Poing Reçu
+0x809	s	Badge Dynamo Reçu
+0x80A	s	Badge Chaleur Reçu
+0x80B	s	Badge Balancier Reçu
+0x80C	s	Badge Plume Reçu
+0x80D	s	Badge Esprit Reçu (Entrée Planque Magma/Aqua Scellée)
+0x80E	s	Badge Pluie Reçu
 
 0x099	g	Échange Interne Parecool Contre Makuhita (Mérouville)
 0x09A	g	Échange Interne Joliflor Contre Corayon (Pacifiville)
@@ -38,9 +38,9 @@
 0x3A7	r	Caché sur la Carte (Regirock)
 0x3A8	r	Caché sur la Carte (Regice)
 0x3A9	r	Caché sur la Carte (Registeel)
-0x3C3	r	Caché sur la Carte (Fossile Racine)
-0x3C4	r	Caché sur la Carte (Fossile Griffe)
-1133	r	Caché sur la Carte (Balle de la CS08 Manquée dans la Maison de Pierre)
+0x3C3	g	Caché sur la Carte (Fossile Racine)
+0x3C4	g	Caché sur la Carte (Fossile Griffe)
+1133	s	Caché sur la Carte (Balle de la CS08 Manquée dans la Maison de Pierre)
 0x3C9	r	Kecleon Révélé (Cimetronelle)
 0x3CA	r	Kecleon Révélé (Route 120, Pont)
 0x3D5	r	Kecleon Révélé (Route 120, Pont)

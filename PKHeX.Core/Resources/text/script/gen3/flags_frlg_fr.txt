@@ -319,32 +319,32 @@
 579	m	Boîte Jetons Reçue
 580	m	Super Canne Reçue
 581	m	CT29 Reçue à Safrania
-582	m	Lokhlass Reçu(e)
+582	g	Lokhlass Reçu(e)
 583 m   Poké Balls du Prof. Chen Reçues (Après le Combat Contre le Rival à la Route 22, Aucune Poké Ball dans le Sac, Aucun Pokémon Capturé)
-584	m	Échange Interne Abra Contre M. Mime (Route 2)
-585	m	Magicarpe Acheté(e)
-586	m	Échange Interne Têtarte Contre Lippoutou (Azuria)
-587	m	Échange Interne de Nidoran (Souterrain Routes 5-6)
+584	g	Échange Interne Abra Contre M. Mime (Route 2)
+585	g	Magicarpe Acheté(e)
+586	g	Échange Interne Têtarte Contre Lippoutou (Azuria)
+587	g	Échange Interne de Nidoran (Souterrain Routes 5-6)
 
-589	m	Échange Interne Piafabec Contre Canarticho (Carmin sur Mer)
+589	g	Échange Interne Piafabec Contre Canarticho (Carmin sur Mer)
 590	m	CT38 Reçue d'Auguste
 591	m	Changement du Texte du Prof. Chen (Après Avoir Reçu les Poké Balls)
 592	m	Master Ball du Président de la Sylphe SARL Reçue
-593	m	Échange Interne de Nidorino/Nidorina (Route 11)
+593	g	Échange Interne de Nidorino/Nidorina (Route 11)
 594	m	Cherch'Objet Reçu (Assistant de Chen, Route 11)
 
 596	m	CT39 Reçue de Pierre
 597	m	Méga Canne Reçue
 598	m	Multi Exp Reçu (Assistant de Chen, Route 15)
-599	m	Échange Interne Akwakwak (RF)/Flagadoss (VF) Contre Excelangue (Route 18)
+599	g	Échange Interne Akwakwak (RF)/Flagadoss (VF) Contre Excelangue (Route 18)
 600	m	Changement du Texte de la Mère du Joueur (Peut Soigner les Pokémon)
 601	m	CT06 Reçue de Koga
 
 603	m	CT27 Reçue à la Route 12
 
-606	m	Vieil Ambre Reçu ; Peut Ressusciter Ptéra
+606	g	Vieil Ambre Reçu ; Peut Ressusciter Ptéra
 
-611	m	Évoli au Manoir Céladon Reçu
+611	g	Évoli au Manoir Céladon Reçu
 612	m	Barrière Électrique à l'Arène de Carmin sur Mer Désactivée
 613	m	Première Porte à l'Arène de Cramois'Île Ouverte
 614	m	Changement de Position du Vieux de la Pension
@@ -359,13 +359,13 @@
 623	m	20 Jetons au Casino Rocket Reçus
 624	m	20 Jetons au Casino Rocket Reçus
 625	m	Bicyclette Reçue
-626	m	Fossile Dôme Choisi ; Peut Ressusciter Kabuto ; Amonita au Zoo Pokémon
-627	m	Nautile Choisi ; Peut Ressusciter Amonita ; Kabuto au Zoo Pokémon
-628	m	Échange Interne Raichu Contre Électrode (Laboratoire de Cramois'Île)
-629	m	Échange Interne Mimitoss Contre Saquedeneu (Laboratoire de Cramois'Île)
-630	m	Échange Interne Ponyta Contre Otaria (Laboratoire de Cramois'Île)
+626	g	Fossile Dôme Choisi ; Peut Ressusciter Kabuto ; Amonita au Zoo Pokémon
+627	g	Nautile Choisi ; Peut Ressusciter Amonita ; Kabuto au Zoo Pokémon
+628	g	Échange Interne Raichu Contre Électrode (Laboratoire de Cramois'Île)
+629	g	Échange Interne Mimitoss Contre Saquedeneu (Laboratoire de Cramois'Île)
+630	g	Échange Interne Ponyta Contre Otaria (Laboratoire de Cramois'Île)
 
-632	m	Kicklee ou Tygnon Pris
+632	g	Kicklee ou Tygnon Pris
 
 634	m	Porte (Nord) au 1er Étage de la Sylphe SARL Ouverte
 635	m	Porte (Sud) au 1er Étage de la Sylphe SARL Ouverte
@@ -459,8 +459,8 @@
 749	*	Amonita du Nautile Ressuscité(e)
 750	*	Ptéra de la Vieil Ambre Ressuscité(e)
 751	m	CS06 Éclate-Roc Reçue
-752	m	Ticketmystik Montré
-753	m	Ticketaurora Montré
+752	e	Ticketmystik Montré
+753	e	Ticketaurora Montré
 754	r	Lugia Capturé
 755	r	Ho-Oh Capturé
 756	s	Pokédex National Complet Montré au Prof. Chen

@@ -9,14 +9,14 @@
 0302	s	Received HM08 Before Groudon/Kyogre Awakening
 0x05A	s	Received Mach Bike/Acro Bike
 
-0x807	*	Received Stone Badge
-0x808	*	Received Knuckle Badge
-0x809	*	Received Dynamo Badge
-0x80A	*	Received Heat Badge
-0x80B	*	Received Balance Badge
-0x80C	*	Received Feather Badge
-0x80D	*	Received Mind Badge (Magma/Aqua Hideout entrance sealed)
-0x80E	*	Received Rain Badge
+0x807	s	Received Stone Badge
+0x808	s	Received Knuckle Badge
+0x809	s	Received Dynamo Badge
+0x80A	s	Received Heat Badge
+0x80B	s	Received Balance Badge
+0x80C	s	Received Feather Badge
+0x80D	s	Received Mind Badge (Magma/Aqua Hideout entrance sealed)
+0x80E	s	Received Rain Badge
 
 0x099	g	Traded in Rustboro City
 0x09A	g	Traded in Pacifidlog Town
@@ -38,9 +38,9 @@
 0x3A7	r	Overworld Hidden (Regirock)
 0x3A8	r	Overworld Hidden (Regice)
 0x3A9	r	Overworld Hidden (Registeel)
-0x3C3	r	Overworld Hidden (Root Fossil)
-0x3C4	r	Overworld Hidden (Claw Fossil)
-1133	r	Overworld Hidden (Missed HM08 ball in Steven's House)
+0x3C3	g	Overworld Hidden (Root Fossil)
+0x3C4	g	Overworld Hidden (Claw Fossil)
+1133	s	Overworld Hidden (Missed HM08 ball in Steven's House)
 0x3C9	r	Uncovered Kecleon (Fortree City)
 0x3CA	r	Uncovered Kecleon (Route 120, Bridge)
 0x3D5	r	Uncovered Kecleon (Route 120, Bridge)
