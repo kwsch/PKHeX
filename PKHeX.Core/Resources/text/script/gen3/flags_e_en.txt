@@ -8,14 +8,14 @@
 0123	s	Received HM08 Dive
 0090	s	Received Mach Bike/Acro Bike
 
-2151	*	Received Stone Badge
-2152	*	Received Knuckle Badge
-2153	*	Received Dynamo Badge
-2154	*	Received Heat Badge
-2155	*	Received Balance Badge
-2156	*	Received Feather Badge
-2157	*	Received Mind Badge
-2158	*	Received Rain Badge
+2151	s	Received Stone Badge
+2152	s	Received Knuckle Badge
+2153	s	Received Dynamo Badge
+2154	s	Received Heat Badge
+2155	s	Received Balance Badge
+2156	s	Received Feather Badge
+2157	s	Received Mind Badge
+2158	s	Received Rain Badge
 
 0153	g	Traded in Rustboro City
 0154	g	Traded in Pacifidlog Town
@@ -109,574 +109,574 @@
 2255	a	Received Gold Luck Symbol (Battle Pike)
 2256	a	Received Silver Brave Symbol (Battle Pyramid)
 2257	a	Received Gold Brave Symbol (Battle Pyramid)
-2258	*	Received Frontier Pass
+2258	s	Received Frontier Pass
 
 0335	s	Chose Root Fossil in Mirage Tower (Claw Fossil in Desert Underpass)
 0336	s	Chose Claw Fossil in Mirage Tower (Root Fossil in Desert Underpass)
 
-500	r	Ice Heal (hidden) in Lavaridge Town found
-501	r	Nugget (hidden) in Trick House Reward Room found (unused)
-502	r	Stardust (hidden) on Route 111 found
-503	r	Ether (hidden) on Route 113 found
-504	r	Carbos (hidden) on Route 114 found
-505	r	Calcium (hidden) on Route 119 found
-506	r	Ultra Ball (hidden) on Route 119 found
-507	r	Super Repel (hidden) on Route 123 found
-508	r	Carbos (hidden) on Route 124 (underwater) found
-509	r	Green Shard (hidden) on Route 124 (underwater) found
-510	r	Pearl (hidden) on Route 124 (underwater) found
-511	r	Big Pearl (hidden) on Route 124 (underwater) found
-512	r	Blue Shard (hidden) on Route 126 (underwater) found
-513	r	Heart Scale (hidden; single Dive Spot) on Route 124 (underwater) found
-514	r	Heart Scale  (hidden) on Route 126 (underwater) found
-515	r	Ultra Ball (hidden) on Route 126 (underwater) found
-516	r	Stardust (hidden) on Route 126 (underwater) found
-517	r	Pearl (hidden) on Route 126 (underwater) found
-518	r	Yellow Shard (hidden) on Route 126 (underwater) found
-519	r	Iron (hidden) on Route 126 (underwater) found
-520	r	Big Pearl (hidden) on Route 126 (underwater) found
-521	r	Star Piece (hidden) on Route 127 (underwater) found
-522	r	HP Up (hidden) on Route 127 (underwater) found
-523	r	Heart Scale (hidden) on Route 127 (underwater) found
-524	r	Red Shard (hidden) on Route 127 (underwater) found
-525	r	Protein (hidden) on Route 128 (underwater) found
-526	r	Pearl (hidden) on Route 128 (underwater) found
-527	r	Heart Scale (hidden) in Lilycove City found
-528	r	Nugget (hidden) in Fallarbor Town found
-529	r	Ultra Ball (hidden) on Mt. Pyre found
-530	r	TM32 (hidden) on Route 113 found
-531	r	Rm. 1 Key (hidden) on Abandoned Ship found
-532	r	Rm. 2 Key (hidden) on Abandoned Ship found
-533	r	Rm. 4 Key (hidden) on Abandoned Ship found
-534	r	Rm. 6 Key (hidden) on Abandoned Ship found
-535	r	Leftovers (hidden) on S.S. Tidal found
-536	r	Calcium (hidden) on Route 124 (underwater) found
-537	r	Potion (hidden) on Route 104 found
-538	r	Heart Scale (hidden; Dive Spot with path) on Route 124 (underwater) found
-539	r	HP Up (hidden) on Route 121 found
-540	r	Nugget (hidden) on Route 121 found
-541	r	Revive (hidden) on Route 123 found
-542	r	Revive (hidden) on Route 114 found
-543	r	PP Up (hidden) in Lilycove City found
-544	r	Super Potion (hidden) on Route 104 found
-545	r	Super Potion (hidden) on Route 116 found
-546	r	Stardust (hidden) on Route 106 found
-547	r	Heart Scale (hidden) on Route 106 found
-548	r	Everstone (hidden; requires Mach Bike) in Granite Cave found
-549	r	Everstone (hidden) in Granite Cave found
-550	r	Revive (hidden) on Route 109 found
-551	r	Great Ball (hidden) on Route 109 found
-552	r	Heart Scale (hidden; near old man) on Route 109 found
-553	r	Great Ball (hidden) on Route 110 found
-554	r	Revive (hidden) on Route 110 found
-555	r	Full Heal (hidden) on Route 110 found
-556	r	Protein (hidden) on Route 111 found
-557	r	Rare Candy (hidden) on Route 111 found
-558	r	Potion (hidden) in Petalburg Woods found
-559	r	Tiny Mushroom (hidden) in nothern section of Petalburg Woods found
-560	r	Tiny Mushroom (hidden) in eastern section of Petalburg Woods found
-561	r	Poké Ball (hidden) in Petalburg Woods found
-562	r	Poké Ball (hidden) on Route 104 found
-563	r	Poké Ball (hidden) on Route 106 found
-564	r	Ether (hidden) on Route 109 found
-565	r	Poké Ball (hidden) on Route 110 found
-566	r	Heart Scale (hidden) on Route 118 found
-567	r	Iron (hidden) on Route 118 found
-568	r	Full Heal (hidden) on Route 119 found
-569	r	Rare Candy (hidden; south) on Route 120 found
-570	r	Zinc (hidden) on Route 120 found
-571	r	Rare Candy (hidden; north) on Route 120 found
-572	r	Repel (hidden) on Route 117 found
-573	r	Full Heal (hidden) on Route 121 found
-574	r	Hyper Potion (hidden) on Route 123 found
-575	r	Poké Ball (hidden) in Lilycove City found
-576	r	Great Ball (hidden) on Jagged Pass found
-577	r	Full Heal (hidden) on Jagged Pass found
-578	r	Max Ether (hidden) on Mt. Pyre found
-579	r	Zinc (hidden) on Mt. Pyre found
-580	r	Rare Candy (hidden) on Mt. Pyre found
-581	r	Ultra Ball (hidden) in Victory Road found
-582	r	Elixir (hidden) in Victory Road found
-583	r	Max Repel (hidden) in Victory Road found
-584	r	Revive (hidden) on Route 120 found
-585	r	Antidote (hidden) on Route 104 found
-586	r	Rare Candy (hidden) on Route 108 found
-587	r	Max Ether (hidden) on Route 119 found
-588	r	Heart Scale (hidden) on Route 104 found
-589	r	Heart Scale (hidden) on Route 105 found
-590	r	Heart Scale (hidden; under umbrella) on Route 109 found
-591	r	Heart Scale (hidden; near couple) on Route 109 found
-592	r	Heart Scale (hidden; near Cooltrainer) on Route 128 found
-593	r	Heart Scale (hidden; near rock wall) on Route 128 found
-594	r	Heart Scale (hidden; southwest) on Route 128 found
-595	r	Rare Candy (hidden) in Petalburg City found
-596	r	Black Glasses (hidden) on Route 116 found
-597	r	Heart Scale (hidden) on Route 115 found
-598	r	Nugget (hidden) on Route 113 found
-599	r	PP Up (hidden) on Route 123 found
-600	r	Max Revive (hidden) on Route 121 found
-601	r	Calcium (hidden) in Artisan Cave found
-602	r	Zinc (hidden) in Artisan Cave found
-603	r	Protein (hidden) in Artisan Cave found
-604	r	Iron (hidden) in Artisan Cave found
-605	r	Full Restore (hidden) in Safari Zone found
-606	r	Rare Candy (hidden) in Safari Zone found
-607	r	Zinc (hidden) in Safari Zone found
-608	r	PP Up (hidden) in Safari Zone found
-609	r	Sacred Ash (hidden) on Navel Rock found
-610	r	Rare Candy (hidden) on Route 123 found
-611	r	Big Pearl (hidden) on Route 105 found
+500	h	Ice Heal (hidden) in Lavaridge Town found
+501	h	Nugget (hidden) in Trick House Reward Room found (unused)
+502	h	Stardust (hidden) on Route 111 found
+503	h	Ether (hidden) on Route 113 found
+504	h	Carbos (hidden) on Route 114 found
+505	h	Calcium (hidden) on Route 119 found
+506	h	Ultra Ball (hidden) on Route 119 found
+507	h	Super Repel (hidden) on Route 123 found
+508	h	Carbos (hidden) on Route 124 (underwater) found
+509	h	Green Shard (hidden) on Route 124 (underwater) found
+510	h	Pearl (hidden) on Route 124 (underwater) found
+511	h	Big Pearl (hidden) on Route 124 (underwater) found
+512	h	Blue Shard (hidden) on Route 126 (underwater) found
+513	h	Heart Scale (hidden; single Dive Spot) on Route 124 (underwater) found
+514	h	Heart Scale  (hidden) on Route 126 (underwater) found
+515	h	Ultra Ball (hidden) on Route 126 (underwater) found
+516	h	Stardust (hidden) on Route 126 (underwater) found
+517	h	Pearl (hidden) on Route 126 (underwater) found
+518	h	Yellow Shard (hidden) on Route 126 (underwater) found
+519	h	Iron (hidden) on Route 126 (underwater) found
+520	h	Big Pearl (hidden) on Route 126 (underwater) found
+521	h	Star Piece (hidden) on Route 127 (underwater) found
+522	h	HP Up (hidden) on Route 127 (underwater) found
+523	h	Heart Scale (hidden) on Route 127 (underwater) found
+524	h	Red Shard (hidden) on Route 127 (underwater) found
+525	h	Protein (hidden) on Route 128 (underwater) found
+526	h	Pearl (hidden) on Route 128 (underwater) found
+527	h	Heart Scale (hidden) in Lilycove City found
+528	h	Nugget (hidden) in Fallarbor Town found
+529	h	Ultra Ball (hidden) on Mt. Pyre found
+530	h	TM32 (hidden) on Route 113 found
+531	h	Rm. 1 Key (hidden) on Abandoned Ship found
+532	h	Rm. 2 Key (hidden) on Abandoned Ship found
+533	h	Rm. 4 Key (hidden) on Abandoned Ship found
+534	h	Rm. 6 Key (hidden) on Abandoned Ship found
+535	h	Leftovers (hidden) on S.S. Tidal found
+536	h	Calcium (hidden) on Route 124 (underwater) found
+537	h	Potion (hidden) on Route 104 found
+538	h	Heart Scale (hidden; Dive Spot with path) on Route 124 (underwater) found
+539	h	HP Up (hidden) on Route 121 found
+540	h	Nugget (hidden) on Route 121 found
+541	h	Revive (hidden) on Route 123 found
+542	h	Revive (hidden) on Route 114 found
+543	h	PP Up (hidden) in Lilycove City found
+544	h	Super Potion (hidden) on Route 104 found
+545	h	Super Potion (hidden) on Route 116 found
+546	h	Stardust (hidden) on Route 106 found
+547	h	Heart Scale (hidden) on Route 106 found
+548	h	Everstone (hidden; requires Mach Bike) in Granite Cave found
+549	h	Everstone (hidden) in Granite Cave found
+550	h	Revive (hidden) on Route 109 found
+551	h	Great Ball (hidden) on Route 109 found
+552	h	Heart Scale (hidden; near old man) on Route 109 found
+553	h	Great Ball (hidden) on Route 110 found
+554	h	Revive (hidden) on Route 110 found
+555	h	Full Heal (hidden) on Route 110 found
+556	h	Protein (hidden) on Route 111 found
+557	h	Rare Candy (hidden) on Route 111 found
+558	h	Potion (hidden) in Petalburg Woods found
+559	h	Tiny Mushroom (hidden) in nothern section of Petalburg Woods found
+560	h	Tiny Mushroom (hidden) in eastern section of Petalburg Woods found
+561	h	Poké Ball (hidden) in Petalburg Woods found
+562	h	Poké Ball (hidden) on Route 104 found
+563	h	Poké Ball (hidden) on Route 106 found
+564	h	Ether (hidden) on Route 109 found
+565	h	Poké Ball (hidden) on Route 110 found
+566	h	Heart Scale (hidden) on Route 118 found
+567	h	Iron (hidden) on Route 118 found
+568	h	Full Heal (hidden) on Route 119 found
+569	h	Rare Candy (hidden; south) on Route 120 found
+570	h	Zinc (hidden) on Route 120 found
+571	h	Rare Candy (hidden; north) on Route 120 found
+572	h	Repel (hidden) on Route 117 found
+573	h	Full Heal (hidden) on Route 121 found
+574	h	Hyper Potion (hidden) on Route 123 found
+575	h	Poké Ball (hidden) in Lilycove City found
+576	h	Great Ball (hidden) on Jagged Pass found
+577	h	Full Heal (hidden) on Jagged Pass found
+578	h	Max Ether (hidden) on Mt. Pyre found
+579	h	Zinc (hidden) on Mt. Pyre found
+580	h	Rare Candy (hidden) on Mt. Pyre found
+581	h	Ultra Ball (hidden) in Victory Road found
+582	h	Elixir (hidden) in Victory Road found
+583	h	Max Repel (hidden) in Victory Road found
+584	h	Revive (hidden) on Route 120 found
+585	h	Antidote (hidden) on Route 104 found
+586	h	Rare Candy (hidden) on Route 108 found
+587	h	Max Ether (hidden) on Route 119 found
+588	h	Heart Scale (hidden) on Route 104 found
+589	h	Heart Scale (hidden) on Route 105 found
+590	h	Heart Scale (hidden; under umbrella) on Route 109 found
+591	h	Heart Scale (hidden; near couple) on Route 109 found
+592	h	Heart Scale (hidden; near Cooltrainer) on Route 128 found
+593	h	Heart Scale (hidden; near rock wall) on Route 128 found
+594	h	Heart Scale (hidden; southwest) on Route 128 found
+595	h	Rare Candy (hidden) in Petalburg City found
+596	h	Black Glasses (hidden) on Route 116 found
+597	h	Heart Scale (hidden) on Route 115 found
+598	h	Nugget (hidden) on Route 113 found
+599	h	PP Up (hidden) on Route 123 found
+600	h	Max Revive (hidden) on Route 121 found
+601	h	Calcium (hidden) in Artisan Cave found
+602	h	Zinc (hidden) in Artisan Cave found
+603	h	Protein (hidden) in Artisan Cave found
+604	h	Iron (hidden) in Artisan Cave found
+605	h	Full Restore (hidden) in Safari Zone found
+606	h	Rare Candy (hidden) in Safari Zone found
+607	h	Zinc (hidden) in Safari Zone found
+608	h	PP Up (hidden) in Safari Zone found
+609	h	Sacred Ash (hidden) on Navel Rock found
+610	h	Rare Candy (hidden) on Route 123 found
+611	h	Big Pearl (hidden) on Route 105 found
 
-700	r	Don't spawn Prof. Birch's bag on Route 101
-701	r	Don't spawn apprentice in Battle Tower
-702	r	Don't spawn Mystery Gift guy in Pokémon Center 2F
+700	m	Don't spawn Prof. Birch's bag on Route 101
+701	m	Don't spawn apprentice in Battle Tower
+702	m	Don't spawn Mystery Gift guy in Pokémon Center 2F
 
-717	r	Don't spawn Guards in Safari Zone blocking Safari Zone expansion
-718	r	Don't spawn Mew on Faraway Island
-719	r	Don't spawn Brendan/May on Route 104
-720	r	Don't spawn running Birch on Route 101
-721	r	Don't spawn Prof. Birch in his laboratory
-722	r	Don't spawn May in her house 2F
-723	r	Don't spawn Brendan/May on Route 103
-724	r	Don't spawn Devon Researcher in Petalburg Woods
-725	r	Don't spawn Team Aqua Grunt in Petalburg Woods
-726	r	Don't spawn Wally in Petalburg City
-727	r	Don't spawn letter in Steven's house (invisible)
-728	r	Don't spawn woman in Petalburg City
+717	m	Don't spawn Guards in Safari Zone blocking Safari Zone expansion
+718	m	Don't spawn Mew on Faraway Island
+719	m	Don't spawn Brendan/May on Route 104
+720	m	Don't spawn running Birch on Route 101
+721	m	Don't spawn Prof. Birch in his laboratory
+722	m	Don't spawn May in her house 2F
+723	m	Don't spawn Brendan/May on Route 103
+724	m	Don't spawn Devon Researcher in Petalburg Woods
+725	m	Don't spawn Team Aqua Grunt in Petalburg Woods
+726	m	Don't spawn Wally in Petalburg City
+727	m	Don't spawn letter in Steven's house (invisible)
+728	m	Don't spawn woman in Petalburg City
 
-730	r	Don't spawn man in Pokémon Trainer Fan Club
-731	r	Don't spawn Team Aqua Grunt in Rustboro City
-732	r	Don't spawn Devon Researcher in Rustboro City
-733	r	Don't spawn Kyogre in Seafloor Cavern
-734	r	Don't spawn Norman in Brendan's/May's house
-735	r	Don't spawn kid in Brendan's house
-736	r	Don't spawn kid in May's house
-737	r	Don't spawn Magma Letter in Mossdeep Space Center (invisible)
-738	r	Don't spawn Mr. Briney on Route 104
-739	r	Don't spawn Mr. Briney in his cottage
-740	r	Don't spawn Mr. Briney in Dewford Town
-741	r	Don't spawn Mr. Briney on Route 109
-742	r	Don't spawn Mr. Briney's ship on Route 104
-743	r	Don't spawn Mr. Briney's ship in Dewford Town
-744	r	Don't spawn Mr. Briney's ship on Route 109
-745	r	Don't spawn Brendan in his house 1F
-746	r	Don't spawn May in her house 1F
-747	r	Don't spawn Guard in Safari Zone Area 5
-748	r	Don't spawn Mr. Briney in Lilycove City Harbor
-749	r	Don't spawn Scott in Slateport City
-750	r	Don't spawn Zigzagoon on Route 101
-751	r	Don't spawn Wally in Victory Road (near exit)
-752	r	Don't spawn mother in Littleroot Town
-753	r	Don't spawn Steven in Mossdeep Space Center 1F
-754	r	Don't spawn Vigoroth in front of TV in Brendan's and May's house
-755	r	Don't spawn moving Vigoroth in Brendan's and May's house
-756	r	Don't spawn Team Magma Grunts in Mossdeep Space Center 1F
-757	r	Don't spawn mother in Brendan's/May's house 2F
-758	r	Don't spawn mother in Brendan's house
-759	r	Don't spawn mother in May's house
-760	r	Don't spawn Brendan in his house
-761	r	Don't spawn truck in front of Brendan's house
-762	r	Don't spawn truck in front of May's house
+730	m	Don't spawn man in Pokémon Trainer Fan Club
+731	m	Don't spawn Team Aqua Grunt in Rustboro City
+732	m	Don't spawn Devon Researcher in Rustboro City
+733	m	Don't spawn Kyogre in Seafloor Cavern
+734	m	Don't spawn Norman in Brendan's/May's house
+735	m	Don't spawn kid in Brendan's house
+736	m	Don't spawn kid in May's house
+737	m	Don't spawn Magma Letter in Mossdeep Space Center (invisible)
+738	m	Don't spawn Mr. Briney on Route 104
+739	m	Don't spawn Mr. Briney in his cottage
+740	m	Don't spawn Mr. Briney in Dewford Town
+741	m	Don't spawn Mr. Briney on Route 109
+742	m	Don't spawn Mr. Briney's ship on Route 104
+743	m	Don't spawn Mr. Briney's ship in Dewford Town
+744	m	Don't spawn Mr. Briney's ship on Route 109
+745	m	Don't spawn Brendan in his house 1F
+746	m	Don't spawn May in her house 1F
+747	m	Don't spawn Guard in Safari Zone Area 5
+748	m	Don't spawn Mr. Briney in Lilycove City Harbor
+749	m	Don't spawn Scott in Slateport City
+750	m	Don't spawn Zigzagoon on Route 101
+751	m	Don't spawn Wally in Victory Road (near exit)
+752	m	Don't spawn mother in Littleroot Town
+753	m	Don't spawn Steven in Mossdeep Space Center 1F
+754	m	Don't spawn Vigoroth in front of TV in Brendan's and May's house
+755	m	Don't spawn moving Vigoroth in Brendan's and May's house
+756	m	Don't spawn Team Magma Grunts in Mossdeep Space Center 1F
+757	m	Don't spawn mother in Brendan's/May's house 2F
+758	m	Don't spawn mother in Brendan's house
+759	m	Don't spawn mother in May's house
+760	m	Don't spawn Brendan in his house
+761	m	Don't spawn truck in front of Brendan's house
+762	m	Don't spawn truck in front of May's house
 
-764	r	Don't spawn triangle on Birth Island (Unreleased for Japanese)
-765	r	Don't spawn Scott in Mauville City
-766	r	Don't spawn Scott in Verdanturf Battle Tent
-767	r	Don't spawn Scott in Fallarbor Battle Tent
-768	r	Don't spawn Winstrate Victor on Route 111
-769	r	Don't spawn Winstrate Victoria on Route 111
-770	r	Don't spawn Winstrate Vivi on Route 111
-771	r	Don't spawn Winstrate Vicky on Route 111
-772	r	Don't spawn Norman in Petalburg Gym
-773	r	Don't spawn Rayquaza on Sky Pillar
-774	r	Don't spawn Artist in Lilycove Contest Hall (Left Door)
-775	r	Don't spawn Curator in Lilycove Museum 1F/Can receive paintings
-776	r	Don't spawn Girl in Lilycove Museum 1F
-777	r	Don't spawn Girl in Lilycove Museum 2F
-778	r	Don't spawn Boy in Lilycove Museum 1F
-779	r	Don't spawn Artist in Lilycove Museum 1F
-780	r	Don't spawn Fat Guy/Old Man/Boy in Lilycove Museum
-781	r	Don't spawn Gym Guide in Petalburg Gym
-782	r	Don't spawn Kyogre in Marine Cave
-783	r	Don't spawn Groudon in Terra Cave
-784	r	Don't spawn rival's mother in Brendan's house
-785	r	Don't spawn rival's mother in May's house
-786	r	Don't spawn Scott on Route 119
-787	r	Don't spawn Scott in Cove Lily Motel
-788	r	Don't spawn Scott in Mossdeep City
-789	r	Don't spawn old woman in Pokémon Trainer Fan Club
-790	r	Don't spawn man in Pokémon Trainer Fan Club
-791	r	Don't spawn kid in Pokémon Trainer Fan Club
-792	r	Don't spawn woman in Pokémon Trainer Fan Club
-793	r	Don't spawn Scott in Ever Grande Pokémon Center
-794	r	Don't spawn Brendan/May in Littleroot Town
-795	r	Don't spawn Birch in Littleroot Town
-796	r	Don't spawn Interviewer Gabby & Ty on Route 111
-797	r	Don't spawn Interviewer Gabby & Ty on Route 118 (for Rematch 1)
-798	r	Don't spawn Interviewer Gabby & Ty on Route 120 (for Rematch 2)
-799	r	Don't spawn Interviewer Gabby & Ty on Route 111 (for Rematch 3)
-800	r	Don't spawn Lugia in Navel Rock
-801	r	Don't spawn Ho-Oh on Navel Rock
-802	r	Don't spawn Interviewer in Lilycove Contest Hall
+764	e	Don't spawn triangle on Birth Island (Unreleased for Japanese)
+765	m	Don't spawn Scott in Mauville City
+766	m	Don't spawn Scott in Verdanturf Battle Tent
+767	m	Don't spawn Scott in Fallarbor Battle Tent
+768	m	Don't spawn Winstrate Victor on Route 111
+769	m	Don't spawn Winstrate Victoria on Route 111
+770	m	Don't spawn Winstrate Vivi on Route 111
+771	m	Don't spawn Winstrate Vicky on Route 111
+772	m	Don't spawn Norman in Petalburg Gym
+773	m	Don't spawn Rayquaza on Sky Pillar
+774	m	Don't spawn Artist in Lilycove Contest Hall (Left Door)
+775	m	Don't spawn Curator in Lilycove Museum 1F/Can receive paintings
+776	m	Don't spawn Girl in Lilycove Museum 1F
+777	m	Don't spawn Girl in Lilycove Museum 2F
+778	m	Don't spawn Boy in Lilycove Museum 1F
+779	m	Don't spawn Artist in Lilycove Museum 1F
+780	m	Don't spawn Fat Guy/Old Man/Boy in Lilycove Museum
+781	m	Don't spawn Gym Guide in Petalburg Gym
+782	m	Don't spawn Kyogre in Marine Cave
+783	m	Don't spawn Groudon in Terra Cave
+784	m	Don't spawn rival's mother in Brendan's house
+785	m	Don't spawn rival's mother in May's house
+786	m	Don't spawn Scott on Route 119
+787	m	Don't spawn Scott in Cove Lily Motel
+788	m	Don't spawn Scott in Mossdeep City
+789	m	Don't spawn old woman in Pokémon Trainer Fan Club
+790	m	Don't spawn man in Pokémon Trainer Fan Club
+791	m	Don't spawn kid in Pokémon Trainer Fan Club
+792	m	Don't spawn woman in Pokémon Trainer Fan Club
+793	m	Don't spawn Scott in Ever Grande Pokémon Center
+794	m	Don't spawn Brendan/May in Littleroot Town
+795	m	Don't spawn Birch in Littleroot Town
+796	m	Don't spawn Interviewer Gabby & Ty on Route 111
+797	m	Don't spawn Interviewer Gabby & Ty on Route 118 (for Rematch 1)
+798	m	Don't spawn Interviewer Gabby & Ty on Route 120 (for Rematch 2)
+799	m	Don't spawn Interviewer Gabby & Ty on Route 111 (for Rematch 3)
+800	e	Don't spawn Lugia in Navel Rock
+801	e	Don't spawn Ho-Oh on Navel Rock
+802	m	Don't spawn Interviewer in Lilycove Contest Hall
 
-804	r	Don't spawn Wally in Mauville City
-805	r	Don't spawn Wally's uncle in Mauville City
-806	r	Don't spawn Wally in Wanda's house
-807	r	Don't spawn Black Belt in Rusturf Tunnel
-808	r	Don't spawn Black Belt in Wanda's house
-809	r	Don't spawn Wally's uncle in Wanda's house
-810	r	Don't spawn Scott on Ship
-811	r	Don't spawn Poké Ball containing Cyndaquil in Birch's Lab
-812	r	Don't spawn Poké Ball containing Totodile in Birch's Lab
-813	r	Don't spawn black haired guy on Route 116
-814	r	Don't spawn Brendan/May in Rustboro City
-815	r	Don't spawn Swablu Doll in Brendan's house
-816	r	Don't spawn Wallace in Sootopolis City
-817	r	Don't spawn Pokéball in Brendan's house
-818	r	Don't spawn Pokéball in May's house
-819	r	Don't spawn Team Magma Grunts on Route 112
-820	r	Don't spawn Wallace in Cave of Origin
-821	r	Don't spawn left Team Aqua Grunt in Aqua Hideout
-822	r	Don't spawn right Team Aqua Grunt in Aqua Hideout
-823	r	Don't spawn Team Magma Grunts & Maxie in Mossdeep City
-824	r	Don't spawn Wally's dad in Petalburg Gym
+804	m	Don't spawn Wally in Mauville City
+805	m	Don't spawn Wally's uncle in Mauville City
+806	m	Don't spawn Wally in Wanda's house
+807	m	Don't spawn Black Belt in Rusturf Tunnel
+808	m	Don't spawn Black Belt in Wanda's house
+809	m	Don't spawn Wally's uncle in Wanda's house
+810	m	Don't spawn Scott on Ship
+811	m	Don't spawn Poké Ball containing Cyndaquil in Birch's Lab
+812	m	Don't spawn Poké Ball containing Totodile in Birch's Lab
+813	m	Don't spawn black haired guy on Route 116
+814	m	Don't spawn Brendan/May in Rustboro City
+815	m	Don't spawn Swablu Doll in Brendan's house
+816	m	Don't spawn Wallace in Sootopolis City
+817	m	Don't spawn Pokéball in Brendan's house
+818	m	Don't spawn Pokéball in May's house
+819	m	Don't spawn Team Magma Grunts on Route 112
+820	m	Don't spawn Wallace in Cave of Origin
+821	m	Don't spawn left Team Aqua Grunt in Aqua Hideout
+822	m	Don't spawn right Team Aqua Grunt in Aqua Hideout
+823	m	Don't spawn Team Magma Grunts & Maxie in Mossdeep City
+824	m	Don't spawn Wally's dad in Petalburg Gym
 
-826	r	Don't spawn Archie in Sootopolis City
-827	r	Don't spawn Maxie in Sootopolis City
+826	m	Don't spawn Archie in Sootopolis City
+827	m	Don't spawn Maxie in Sootopolis City
 
-830	r	Don't spawn Wally's dad in Petalburg City
+830	m	Don't spawn Wally's dad in Petalburg City
 
-832	r	Don't spawn Blend Master and Spectators in Lilycove Contest Hall
-833	r	Don't spawn Steven in Granite Cave
+832	m	Don't spawn Blend Master and Spectators in Lilycove Contest Hall
+833	m	Don't spawn Steven in Granite Cave
 
-835	r	Don't spawn Interviewer in Slateport City
-836	r	Don't spawn Scott in Battle Frontier entrance
-837	r	Don't spawn Birch on Route 110
-838	r	Don't spawn Poké Ball containing Chikorita in Birch's Lab
-839	r	Don't spawn man in northern Sootopolis City
-840	r	Don't spawn Captain Stern in Slateport City
-841	r	Don't spawn Captain Stern in Slateport Harbor
-842	r	Don't spawn Sudowoodo in Battle Frontier
-843	r	Don't spawn fat guy on Route 111
-844	r	Don't spawn Devon Researcher (white coat) in Rustboro City
-845	r	Don't spawn Team Aqua Grunt in Slateport Harbor
-846	r	Don't spawn Team Aqua Leader Archie in Slateport Harbor
-847	r	Don't spawn Team Magma Grunt on Jagged Pass
-848	r	Don't spawn Submarine Shadow in Slateport Harbor
-849	r	Don't spawn Pichu doll in May's house
-850	r	Don't spawn Groudon (petrified) in Magma Hideout
-851	r	Don't spawn Brendan/May on Route 119
-852	r	Don't spawn Team Aqua Grunts in Lilycove City
-853	r	Don't spawn Groudon (awake) in Magma Hideout
-854	r	Don't spawn additional villagers in Sootopolis City
-855	r	Don't spawn Wallace in front of Sky Pillar
-856	r	Don't spawn Maxie on Mt. Pyre
-857	r	Don't spawn Team Magma in Magma Hideout
-858	r	Don't spawn Wally in Victory Road (near entrance)
+835	m	Don't spawn Interviewer in Slateport City
+836	m	Don't spawn Scott in Battle Frontier entrance
+837	m	Don't spawn Birch on Route 110
+838	m	Don't spawn Poké Ball containing Chikorita in Birch's Lab
+839	m	Don't spawn man in northern Sootopolis City
+840	m	Don't spawn Captain Stern in Slateport City
+841	m	Don't spawn Captain Stern in Slateport Harbor
+842	m	Don't spawn Sudowoodo in Battle Frontier
+843	m	Don't spawn fat guy on Route 111
+844	m	Don't spawn Devon Researcher (white coat) in Rustboro City
+845	m	Don't spawn Team Aqua Grunt in Slateport Harbor
+846	m	Don't spawn Team Aqua Leader Archie in Slateport Harbor
+847	m	Don't spawn Team Magma Grunt on Jagged Pass
+848	m	Don't spawn Submarine Shadow in Slateport Harbor
+849	m	Don't spawn Pichu doll in May's house
+850	m	Don't spawn Groudon (petrified) in Magma Hideout
+851	m	Don't spawn Brendan/May on Route 119
+852	m	Don't spawn Team Aqua Grunts in Lilycove City
+853	m	Don't spawn Groudon (awake) in Magma Hideout
+854	m	Don't spawn additional villagers in Sootopolis City
+855	m	Don't spawn Wallace in front of Sky Pillar
+856	m	Don't spawn Maxie on Mt. Pyre
+857	m	Don't spawn Team Magma in Magma Hideout
+858	m	Don't spawn Wally in Victory Road (near entrance)
 
-860	r	Don't spawn S.S. Tidal in Slateport Harbor
-861	r	Don't spawn S.S. Tidal in Lilycove Harbor
-862	r	Don't spawn Team Magma in Mossdeep Space Center 2F
-863	r	Don't spawn Steven in Mossdeep Space Center 2F
+860	m	Don't spawn S.S. Tidal in Slateport Harbor
+861	m	Don't spawn S.S. Tidal in Lilycove Harbor
+862	m	Don't spawn Team Magma in Mossdeep Space Center 2F
+863	m	Don't spawn Steven in Mossdeep Space Center 2F
 
-866	r	Don't spawn Wally in Petalburg Gym
+866	m	Don't spawn Wally in Petalburg Gym
 
-868	r	Don't spawn fat man in Littleroot Town
-869	r	Don't spawn Mr. Briney in Stern's Shipyard
-870	r	Don't spawn Lanette in her house
-871	r	Don't spawn Lanette in Fallarbor Pokémon Center
-872	r	Don't spawn Trick Master in Trick House Entrance
-873	r	Don't spawn Old Man in Lilycove Contest Hall
-874	r	Don't spawn Fossil in Desert Underpass
-875	r	Don't spawn Brendan/May on Route 111 Desert (unused?)
-876	r	Don't spawn Fossil on Route 111
-877	r	Don't spawn Trainers on Mt. Chimney
-878	r	Don't spawn Team Aqua Grunt in Rusturf Tunnel
-879	r	Don't spawn Mr. Briney in Rusturf Tunnel
-880	r	Don't spawn Peeko in Rusturf Tunnel
-881	r	Don't spawn Peeko in Mr. Briney's cottage
-882	r	Don't spawn Team Aqua Grunts in Slateport City
-883	r	Don't spawn Team Aqua Grunts in Oceanic Museum
-884	r	Don't spawn Team Aqua Grunt in Oceanic Museum 2F
-885	r	Don't spawn Team Aqua Grunt in Oceanic Museum 2F
-886	r	Don't spawn Archie in Oceanic Museum 2F
-887	r	Don't spawn Captain Stern in Oceanic Museum
+868	m	Don't spawn fat man in Littleroot Town
+869	m	Don't spawn Mr. Briney in Stern's Shipyard
+870	m	Don't spawn Lanette in her house
+871	m	Don't spawn Lanette in Fallarbor Pokémon Center
+872	m	Don't spawn Trick Master in Trick House Entrance
+873	m	Don't spawn Old Man in Lilycove Contest Hall
+874	m	Don't spawn Fossil in Desert Underpass
+875	m	Don't spawn Brendan/May on Route 111 Desert (unused?)
+876	m	Don't spawn Fossil on Route 111
+877	m	Don't spawn Trainers on Mt. Chimney
+878	m	Don't spawn Team Aqua Grunt in Rusturf Tunnel
+879	m	Don't spawn Mr. Briney in Rusturf Tunnel
+880	m	Don't spawn Peeko in Rusturf Tunnel
+881	m	Don't spawn Peeko in Mr. Briney's cottage
+882	m	Don't spawn Team Aqua Grunts in Slateport City
+883	m	Don't spawn Team Aqua Grunts in Oceanic Museum
+884	m	Don't spawn Team Aqua Grunt in Oceanic Museum 2F
+885	m	Don't spawn Team Aqua Grunt in Oceanic Museum 2F
+886	m	Don't spawn Archie in Oceanic Museum 2F
+887	m	Don't spawn Captain Stern in Oceanic Museum
 
-889	r	Don't spawn Brendan/May in Birch's lab
-890	r	Don't spawn Team Aqua in Weather Institute
-891	r	Don't spawn Mr. Briney on Route 116
-892	r	Don't spawn assistants in Weather Institute 1F
-893	r	Don't spawn assistants in Weather Institute 2F
-894	r	Don't spawn Black Belt on Route 116
-895	r	Don't spawn Artist in Lilycove Contest Hall (Right Door)
+889	m	Don't spawn Brendan/May in Birch's lab
+890	m	Don't spawn Team Aqua in Weather Institute
+891	m	Don't spawn Mr. Briney on Route 116
+892	m	Don't spawn assistants in Weather Institute 1F
+893	m	Don't spawn assistants in Weather Institute 2F
+894	m	Don't spawn Black Belt on Route 116
+895	m	Don't spawn Artist in Lilycove Contest Hall (Right Door)
 
-897	r	Don't spawn Prof. Birch on Route 101
-898	r	Don't spawn Prof. Birch on Route 103
-899	r	Don't spawn Trick Master in Trick House Reward Room
-900	r	Don't spawn Team Aqua Grunts on Route 110
-901	r	Don't spawn Interviewer Gabby & Ty on Route 118 (for Rematch 4)
-902	r	Don't spawn Interviewer Gabby & Ty on Route 120 (for Rematch 5)
-903	r	Don't spawn Interviewer Gabby & Ty on Route 111 (for Rematch 5)
-904	r	Don't spawn Interviewer Gabby & Ty on Route 118 (Rematch 5)
-905	r	Don't spawn sailor and fat guy in Slateport Harbor
-906	r	Don't spawn girl on Route 104
-907	r	Don't spawn Azurill in Fallarbor Town
-908	r	Don't spawn Lady in Lilycove City Harbor
-909	r	Don't spawn Sailor in Lilycove City Harbor
+897	m	Don't spawn Prof. Birch on Route 101
+898	m	Don't spawn Prof. Birch on Route 103
+899	m	Don't spawn Trick Master in Trick House Reward Room
+900	m	Don't spawn Team Aqua Grunts on Route 110
+901	m	Don't spawn Interviewer Gabby & Ty on Route 118 (for Rematch 4)
+902	m	Don't spawn Interviewer Gabby & Ty on Route 120 (for Rematch 5)
+903	m	Don't spawn Interviewer Gabby & Ty on Route 111 (for Rematch 5)
+904	m	Don't spawn Interviewer Gabby & Ty on Route 118 (Rematch 5)
+905	m	Don't spawn sailor and fat guy in Slateport Harbor
+906	m	Don't spawn girl on Route 104
+907	m	Don't spawn Azurill in Fallarbor Town
+908	m	Don't spawn Lady in Lilycove City Harbor
+909	m	Don't spawn Sailor in Lilycove City Harbor
 
-912	r	Don't spawn Wattson in Mauville City
-913	r	Don't spawn Wattson in Mauville Gym
-914	r	Don't spawn Team Aqua Grunts on Route 121
+912	m	Don't spawn Wattson in Mauville City
+913	m	Don't spawn Wattson in Mauville Gym
+914	m	Don't spawn Team Aqua Grunts on Route 121
 
-916	r	Don't spawn Archie on Mt. Pyre
-917	r	Don't spawn Team Aqua Grunts on Mt. Pyre
-918	r	Don't spawn Interviewer in Battle Tower
-919	r	Don't spawn Brendan/May on Route 110
+916	m	Don't spawn Archie on Mt. Pyre
+917	m	Don't spawn Team Aqua Grunts on Mt. Pyre
+918	m	Don't spawn Interviewer in Battle Tower
+919	m	Don't spawn Brendan/May on Route 110
 
-922	r	Don't spawn Brendan/May (on bike) on Route 110 (unused?)
-923	r	Don't spawn Brendan/May (on bike) on Route 119 (unused?)
-924	r	Don't spawn Team Aqua in Aqua Hideout
-925	r	Don't spawn Game Freak Staff in Cove Lily Motel
-926	r	Don't spawn Team Aqua on Mt. Chimney
-927	r	Don't spawn Team Magma on Mt. Chimney
-928	r	Don't spawn Cozmo in his house
-929	r	Don't spawn Brendan/May in Lavaridge Town
-930	r	Don't spawn Brendan/May (on bike) in Lavaridge Town (unused?)
-931	r	Don't spawn bottom boulder in Rusturf Tunnel
-932	r	Don't spawn top boulder in Rusturf Tunnel
-933	r	Don't spawn Wingull in Fortree City
-934	r	Don't spawn Wingull in Mossdeep City
-935	r	Don't spawn Regirock in Desert Ruins
+922	m	Don't spawn Brendan/May (on bike) on Route 110 (unused?)
+923	m	Don't spawn Brendan/May (on bike) on Route 119 (unused?)
+924	m	Don't spawn Team Aqua in Aqua Hideout
+925	m	Don't spawn Game Freak Staff in Cove Lily Motel
+926	m	Don't spawn Team Aqua on Mt. Chimney
+927	m	Don't spawn Team Magma on Mt. Chimney
+928	m	Don't spawn Cozmo in his house
+929	m	Don't spawn Brendan/May in Lavaridge Town
+930	m	Don't spawn Brendan/May (on bike) in Lavaridge Town (unused?)
+931	m	Don't spawn bottom boulder in Rusturf Tunnel
+932	m	Don't spawn top boulder in Rusturf Tunnel
+933	m	Don't spawn Wingull in Fortree City
+934	m	Don't spawn Wingull in Mossdeep City
+935	m	Don't spawn Regirock in Desert Ruins
 	
-938	r	Don't spawn Team Aqua Grunts and Archie in Meteor Falls
-939	r	Don't spawn Team Magma Grunts in Meteor Falls
-940	r	Don't spawn black haired guy in Dewford Hall
-941	r	Don't spawn Team Aqua Grunt in Seafloor Cavern Entrance
-942	r	Don't spawn Cozmo in Meteor Falls
-943	r	Don't spawn submarine shadow in Aqua Hideout
-944	r	Don't spawn Archie above Seafloor Cavern
-945	r	Don't spawn Maxie above Seafloor Cavern
-946	r	Don't spawn Team Aqua in Seafloor Cavern
-947	r	Don't spawn Devon Researcher on Route 116
-948	r	Don't spawn Sells Guy in Slateport City
-949	r	Don't spawn Devon Researcher in Devon Corporation
-950	r	Don't spawn Mr. Briney and Peeko on S.S. Tidal
+938	m	Don't spawn Team Aqua Grunts and Archie in Meteor Falls
+939	m	Don't spawn Team Magma Grunts in Meteor Falls
+940	m	Don't spawn black haired guy in Dewford Hall
+941	m	Don't spawn Team Aqua Grunt in Seafloor Cavern Entrance
+942	m	Don't spawn Cozmo in Meteor Falls
+943	m	Don't spawn submarine shadow in Aqua Hideout
+944	m	Don't spawn Archie above Seafloor Cavern
+945	m	Don't spawn Maxie above Seafloor Cavern
+946	m	Don't spawn Team Aqua in Seafloor Cavern
+947	m	Don't spawn Devon Researcher on Route 116
+948	m	Don't spawn Sells Guy in Slateport City
+949	m	Don't spawn Devon Researcher in Devon Corporation
+950	m	Don't spawn Mr. Briney and Peeko on S.S. Tidal
 
-952	r	Shoal Salt (inner room north) in Shoal Cave found
-953	r	Shoal Salt (inner room south) in Shoal Cave found
-954	r	Shoal Salt (stairs room) in Shoal Cave found
-955	r	Shoal Salt (lower room) in Shoal Cave found
-956	r	Shoal Shell (southeast) in Shoal Cave found
-957	r	Shoal Shell (northeast) in Shoal Cave found
-958	r	Shoal Shell (northwest) in Shoal Cave found
-959	r	Shoal Shell (near center) in Shoal Cave found
-960	r	Don't spawn boy that gives TM43 on Route 111
-961	r	Don't spawn visitors in Oceanic Museum
-962	r	Don't spawn Sales Guy on rooftop of Department Store
-963	r	Don't spawn Root Fossil in Mirage Tower
-964	r	Don't spawn Claw Fossil in Mirage Tower
-965	r	Don't spawn Team Aqua Grunt in Oceanic Museum 1F
-966	r	Don't spawn Steven on Route 118
-967	r	Don't spawn Steven in his own house
-968	r	Don't spawn Beldum (Pokéball) in Steven's house
+952	i	Shoal Salt (inner room north) in Shoal Cave found
+953	i	Shoal Salt (inner room south) in Shoal Cave found
+954	i	Shoal Salt (stairs room) in Shoal Cave found
+955	i	Shoal Salt (lower room) in Shoal Cave found
+956	i	Shoal Shell (southeast) in Shoal Cave found
+957	i	Shoal Shell (northeast) in Shoal Cave found
+958	i	Shoal Shell (northwest) in Shoal Cave found
+959	i	Shoal Shell (near center) in Shoal Cave found
+960	m	Don't spawn boy that gives TM43 on Route 111
+961	m	Don't spawn visitors in Oceanic Museum
+962	m	Don't spawn Sales Guy on rooftop of Department Store
+963	g	Don't spawn Root Fossil in Mirage Tower
+964	g	Don't spawn Claw Fossil in Mirage Tower
+965	m	Don't spawn Team Aqua Grunt in Oceanic Museum 1F
+966	m	Don't spawn Steven on Route 118
+967	m	Don't spawn Steven in his own house
+968	g	Don't spawn Beldum (Pokéball) in Steven's house
 969	r	Don't spawn Kecleon in Fortree City
 970	r	Don't spawn Kecleon on Route 120 (Bridge)
-971	r	Don't spawn Brendan/May in Lilycove City
-972	r	Don't spawn Steven on Route 120
-973	r	Don't spawn Steven in Sootopolis City
+971	m	Don't spawn Brendan/May in Lilycove City
+972	m	Don't spawn Steven on Route 120
+973	m	Don't spawn Steven in Sootopolis City
 974	r	Don't spawn Voltorb on green switch in New Mauville
 975	r	Don't spawn Voltorb on blue switch in New Mauville
 976	r	Don't spawn Voltorb on blue switch in New Mauville
 977	r	Don't spawn top Electrode in Aqua Hideout
 978	r	Don't spawn bottom Electrode in Aqua Hideout
-979	r	Don't spawn Brendan/May in Oldale Town
-980	r	Don't spawn submarine in Seafloor Cavern (invisible)
+979	m	Don't spawn Brendan/May in Oldale Town
+980	m	Don't spawn submarine in Seafloor Cavern (invisible)
 981	r	Don't spawn Kecleon shadow on Route 120
 982	r	Don't spawn Kecleon on Route 120 (Stairs)
-983	r	Don't spawn Wanda in Rusturf Tunnel
-984	r	Don't spawn Wanda in Wanda's house
+983	m	Don't spawn Wanda in Rusturf Tunnel
+984	m	Don't spawn Wanda in Wanda's house
 985	r	Don't spawn Kecleon on Route 120 (Behind Sign)
 986	r	Don't spawn Kecleon on Route 120 (Behind Berry Trees)
 987	r	Don't spawn Kecleon on Route 120 (Left of Long Grass Maze)
 988	r	Don't spawn Kecleon on Route 120 (Behind Ancient Tomb)
 989	r	Don't spawn Kecleon on Route 119 (Right of Ninja Boy)
 990	r	Don't spawn Kecleon on Route 119 (Left of Ninja Boy)
-991	r	Don't spawn guy in grass on Route 101
+991	m	Don't spawn guy in grass on Route 101
 
-993	r	Don't spawn Zigzagoon named Handsome in Lilycove Pokémon Center
-994	r	Don't spawn old woman on Mt. Chimney
+993	m	Don't spawn Zigzagoon named Handsome in Lilycove Pokémon Center
+994	m	Don't spawn old woman on Mt. Chimney
 
-996	r	Don't spawn Rayquaza in Sootopolis City
-997	r	Don't spawn Kyogre in Sootopolis City
-998	r	Don't spawn Groudon in Sootopolis City
-999	r	Don't spawn Scott in Pokémon Trainer's School
-1000	r	Potion on Route 102 found
-1001	r	X Sp. Atk on Route 116 found
-1002	r	PP Up on Route 104 found
-1003	r	Iron on Route 105 found
-1004	r	Protein on Route 106 found
-1005	r	PP Up on Route 109 found
-1006	r	Rare Candy on Route 110 found
-1007	r	Dire Hit on Route 110 found
-1008	r	TM37 on Route 111 found
-1009	r	Stardust on Route 111 found
-1010	r	HP Up on Route 111 found
-1011	r	Nugget on Route 112 found
-1012	r	Max Ether on Route 113 found
-1013	r	Super Repel on Route 113 found
-1014	r	Rare Candy on Route 114 found
-1015	r	Protein on Route 114 found
-1016	r	Super Potion on Route 115 found
-1017	r	TM01 on Route 115 found
-1018	r	Iron on Route 115 found
-1019	r	Ether on Route 116 found
-1020	r	Repel on Route 116 found
-1021	r	HP Up on Route 116 found
-1022	r	Great Ball on Route 117 found
-1023	r	Revive on Route 117 found
-1024	r	Super Repel on Route 119 found
-1025	r	Zinc on Route 119 found
-1026	r	Elixir (near tall grass) on Route 119 found
-1027	r	Leaf Stone on Route 119 found
-1028	r	Rare Candy on Route 119 found
-1029	r	Hyper Potion (large grass patch) on Route 119 found
-1030	r	Nugget on Route 120 found
-1031	r	Full Heal on Route 120 found
-1032	r	Calcium on Route 123 found
+996	m	Don't spawn Rayquaza in Sootopolis City
+997	m	Don't spawn Kyogre in Sootopolis City
+998	m	Don't spawn Groudon in Sootopolis City
+999	m	Don't spawn Scott in Pokémon Trainer's School
+1000	i	Potion on Route 102 found
+1001	i	X Sp. Atk on Route 116 found
+1002	i	PP Up on Route 104 found
+1003	i	Iron on Route 105 found
+1004	i	Protein on Route 106 found
+1005	i	PP Up on Route 109 found
+1006	i	Rare Candy on Route 110 found
+1007	i	Dire Hit on Route 110 found
+1008	i	TM37 on Route 111 found
+1009	i	Stardust on Route 111 found
+1010	i	HP Up on Route 111 found
+1011	i	Nugget on Route 112 found
+1012	i	Max Ether on Route 113 found
+1013	i	Super Repel on Route 113 found
+1014	i	Rare Candy on Route 114 found
+1015	i	Protein on Route 114 found
+1016	i	Super Potion on Route 115 found
+1017	i	TM01 on Route 115 found
+1018	i	Iron on Route 115 found
+1019	i	Ether on Route 116 found
+1020	i	Repel on Route 116 found
+1021	i	HP Up on Route 116 found
+1022	i	Great Ball on Route 117 found
+1023	i	Revive on Route 117 found
+1024	i	Super Repel on Route 119 found
+1025	i	Zinc on Route 119 found
+1026	i	Elixir (near tall grass) on Route 119 found
+1027	i	Leaf Stone on Route 119 found
+1028	i	Rare Candy on Route 119 found
+1029	i	Hyper Potion (large grass patch) on Route 119 found
+1030	i	Nugget on Route 120 found
+1031	i	Full Heal on Route 120 found
+1032	i	Calcium on Route 123 found
 
-1034	r	Zinc on Route 127 found
-1035	r	Carbos on Route 127 found
-1036	r	Rare Candy on Route 132 found
-1037	r	Big Pearl on Route 133 found
-1038	r	Star Piece on Route 133 found
-1039	r	Max Revive in Petalburg City found
-1040	r	Ether in Petalburg City found
-1041	r	X Defend in Rustboro City found
-1042	r	Max Repel in Lilycove City found
-1043	r	Net Ball in Mossdeep City found
-1044	r	TM23 in Meteor Falls found
-1045	r	Full Heal in Meteor Falls found
-1046	r	Moon Stone in Meteor Falls found
-1047	r	PP Up in Meteor Falls found
-1048	r	Poké Ball in Rusturf Tunnel found
-1049	r	Max Ether in Rusturf Tunnel found
-1050	r	Escape Rope in Granite Cave found
-1051	r	Poké Ball in Granite Cave found
-1052	r	Lax Incense in Mt. Pyre found
-1053	r	Repel in Granite Cave found
-1054	r	Rare Candy in Granite Cave found
-1055	r	X Attack in Petalburg Woods found
-1056	r	Great Ball in Petalburg Woods found
-1057	r	Poké Ball on Route 104 found
-1058	r	Ether in Petalburg Woods found
-1059	r	Escape Rope in Magma Hideout found
-1060	r	Orange Mail in Trick House Puzzle 1 found
-1061	r	Harbor Mail in Trick House Puzzle 2 found
-1062	r	Wave Mail in Trick House Puzzle 2 found
-1063	r	Shadow Mail in Trick House Puzzle 3 found
-1064	r	Wood Mail in Trick House Puzzle 3 found
-1065	r	Mech Mail in Trick House Puzzle 4 found
-1066	r	Yellow Shard on Route 124 found
-1067	r	Glitter Mail in Trick House Puzzle 6 found
-1068	r	Tropic Mail in Trick House Puzzle 7 found
-1069	r	Bead Mail in Trick House Puzzle 8 found
-1070	r	Burn Heal on Jagged Pass found
-1071	r	Max Elixir in Aqua Hideout found
-1072	r	Nest Ball in Aqua Hideout found
-1073	r	Max Potion on Mt. Pyre found
-1074	r	TM48 on Mt. Pyre found
-1075	r	Ultra Ball in New Mauville found
-1076	r	Escape Rope in New Mauville found
-1077	r	Luxury Ball on Abandoned Ship found
-1078	r	Scanner on Abandoned Ship found
-1079	r	TM11 in Scorched Slab found
-1080	r	TM02 in Meteor Falls found
-1081	r	Big Pearl in Shoal Cave found
-1082	r	Rare Candy in Shoal Cave found
-1083	r	Ice Heal in Shoal Cave found
-1084	r	Max Elixir in Victory Road found
-1085	r	PP Up in Victory Road found
-1086	r	TM29 in Victory Road found
-1087	r	Full Restore in Victory Road found
-1088	r	Full Heal in Victory Road found
-1089	r	TM30 in Mt. Pyre found
-1090	r	TM26 in Seafloor Cavern found
-1091	r	TM06 in Fiery Path found
-1092	r	Red Shard on Route 124 found
-1093	r	Blue Shard on Route 124 found
-1094	r	TM22 in Safari Zone found
-1095	r	Harbor Mail on Abandoned Ship found
-1096	r	Escape Rope on Abandoned Ship found
-1097	r	Dive Ball on Abandoned Ship found
-1098	r	TM13 on Abandoned Ship found
-1099	r	Revive on Abandoned Ship found
-1100	r	Storage Key on Abandoned Ship found
-1101	r	Water Stone on Abandoned Ship found
-1102	r	TM18 on Abandoned Ship found
-1103	r	Carbos on Route 121 found
-1104	r	Ultra Ball on Route 123 found
-1105	r	Green Shard on Route 126 found
-1106	r	Hyper Potion (near muddy slope) on Route 119 found
-1107	r	Hyper Potion on Route 120 found
-1108	r	Nest Ball on Route 120 found
-1109	r	Elixir on Route 123 found
-1110	r	Thunder Stone on New Mauville found
-1111	r	Fire Stone in Fiery Path found
-1112	r	TM07 in Shoal Cave found
-1113	r	Never-Melt Ice in Shoal Cave found
-1114	r	Guard Spec. on Route 103 found
-1115	r	X Accuracy on Route 104 found
-1116	r	X Speed in Mauville City found
-1117	r	Paralyze Heal in Petalburg Woods found
-1118	r	Great Ball on Route 115 found
-1119	r	Calcium in Safari Zone found
-1120	r	Super Repel in Mt. Pyre found
-1121	r	Hyper Potion on Route 118 found
-1122	r	Full Heal in New Mauville found
-1123	r	Paralyze Heal in New Mauville found
-1124	r	Master Ball in Aqua Hideout found
+1034	i	Zinc on Route 127 found
+1035	i	Carbos on Route 127 found
+1036	i	Rare Candy on Route 132 found
+1037	i	Big Pearl on Route 133 found
+1038	i	Star Piece on Route 133 found
+1039	i	Max Revive in Petalburg City found
+1040	i	Ether in Petalburg City found
+1041	i	X Defend in Rustboro City found
+1042	i	Max Repel in Lilycove City found
+1043	i	Net Ball in Mossdeep City found
+1044	i	TM23 in Meteor Falls found
+1045	i	Full Heal in Meteor Falls found
+1046	i	Moon Stone in Meteor Falls found
+1047	i	PP Up in Meteor Falls found
+1048	i	Poké Ball in Rusturf Tunnel found
+1049	i	Max Ether in Rusturf Tunnel found
+1050	i	Escape Rope in Granite Cave found
+1051	i	Poké Ball in Granite Cave found
+1052	i	Lax Incense in Mt. Pyre found
+1053	i	Repel in Granite Cave found
+1054	i	Rare Candy in Granite Cave found
+1055	i	X Attack in Petalburg Woods found
+1056	i	Great Ball in Petalburg Woods found
+1057	i	Poké Ball on Route 104 found
+1058	i	Ether in Petalburg Woods found
+1059	i	Escape Rope in Magma Hideout found
+1060	i	Orange Mail in Trick House Puzzle 1 found
+1061	i	Harbor Mail in Trick House Puzzle 2 found
+1062	i	Wave Mail in Trick House Puzzle 2 found
+1063	i	Shadow Mail in Trick House Puzzle 3 found
+1064	i	Wood Mail in Trick House Puzzle 3 found
+1065	i	Mech Mail in Trick House Puzzle 4 found
+1066	i	Yellow Shard on Route 124 found
+1067	i	Glitter Mail in Trick House Puzzle 6 found
+1068	i	Tropic Mail in Trick House Puzzle 7 found
+1069	i	Bead Mail in Trick House Puzzle 8 found
+1070	i	Burn Heal on Jagged Pass found
+1071	i	Max Elixir in Aqua Hideout found
+1072	i	Nest Ball in Aqua Hideout found
+1073	i	Max Potion on Mt. Pyre found
+1074	i	TM48 on Mt. Pyre found
+1075	i	Ultra Ball in New Mauville found
+1076	i	Escape Rope in New Mauville found
+1077	i	Luxury Ball on Abandoned Ship found
+1078	i	Scanner on Abandoned Ship found
+1079	i	TM11 in Scorched Slab found
+1080	i	TM02 in Meteor Falls found
+1081	i	Big Pearl in Shoal Cave found
+1082	i	Rare Candy in Shoal Cave found
+1083	i	Ice Heal in Shoal Cave found
+1084	i	Max Elixir in Victory Road found
+1085	i	PP Up in Victory Road found
+1086	i	TM29 in Victory Road found
+1087	i	Full Restore in Victory Road found
+1088	i	Full Heal in Victory Road found
+1089	i	TM30 in Mt. Pyre found
+1090	i	TM26 in Seafloor Cavern found
+1091	i	TM06 in Fiery Path found
+1092	i	Red Shard on Route 124 found
+1093	i	Blue Shard on Route 124 found
+1094	i	TM22 in Safari Zone found
+1095	i	Harbor Mail on Abandoned Ship found
+1096	i	Escape Rope on Abandoned Ship found
+1097	i	Dive Ball on Abandoned Ship found
+1098	i	TM13 on Abandoned Ship found
+1099	i	Revive on Abandoned Ship found
+1100	i	Storage Key on Abandoned Ship found
+1101	i	Water Stone on Abandoned Ship found
+1102	i	TM18 on Abandoned Ship found
+1103	i	Carbos on Route 121 found
+1104	i	Ultra Ball on Route 123 found
+1105	i	Green Shard on Route 126 found
+1106	i	Hyper Potion (near muddy slope) on Route 119 found
+1107	i	Hyper Potion on Route 120 found
+1108	i	Nest Ball on Route 120 found
+1109	i	Elixir on Route 123 found
+1110	i	Thunder Stone on New Mauville found
+1111	i	Fire Stone in Fiery Path found
+1112	i	TM07 in Shoal Cave found
+1113	i	Never-Melt Ice in Shoal Cave found
+1114	i	Guard Spec. on Route 103 found
+1115	i	X Accuracy on Route 104 found
+1116	i	X Speed in Mauville City found
+1117	i	Paralyze Heal in Petalburg Woods found
+1118	i	Great Ball on Route 115 found
+1119	i	Calcium in Safari Zone found
+1120	i	Super Repel in Mt. Pyre found
+1121	i	Hyper Potion on Route 118 found
+1122	i	Full Heal in New Mauville found
+1123	i	Paralyze Heal in New Mauville found
+1124	i	Master Ball in Aqua Hideout found
 
-1129	r	Ultra Ball in Mt. Pyre found
-1130	r	Sea Incense in Mt. Pyre found
-1131	r	Max Revive in Safari Zone found
-1132	r	Nugget in Aqua Hideout found
+1129	i	Ultra Ball in Mt. Pyre found
+1130	i	Sea Incense in Mt. Pyre found
+1131	i	Max Revive in Safari Zone found
+1132	i	Nugget in Aqua Hideout found
 
-1134	r	Nugget on Route 119 found
-1135	r	Potion on Route 104 found
+1134	i	Nugget on Route 119 found
+1135	i	Potion on Route 104 found
 
-1137	r	PP Up on Route 103 found
+1137	i	PP Up on Route 103 found
 
-1139	r	Star Piece on Route 108 found
-1140	r	Potion on Route 109 found
-1141	r	Elixir on Route 110 found
-1142	r	Elixir on Route 111 found
-1143	r	Hyper Potion on Route 113 found
-1144	r	Heal Powder on Route 115 found
+1139	i	Star Piece on Route 108 found
+1140	i	Potion on Route 109 found
+1141	i	Elixir on Route 110 found
+1142	i	Elixir on Route 111 found
+1143	i	Hyper Potion on Route 113 found
+1144	i	Heal Powder on Route 115 found
 
-1146	r	Potion on Route 116 found
-1147	r	Elixir (near water) on Route 119 found
-1148	r	Revive on Route 120 found
-1149	r	Revive on Route 121 found
-1150	r	Zinc on Route 121 found
-1151	r	Rare Candy in Magma Hideout found
-1152	r	PP Up on Route 123 found
-1153	r	Revival Herb on Route 123 found
-1154	r	Big Pearl on Route 125 found
-1155	r	Rare Candy on Route 127 found
-1156	r	Protein on Route 132 found
-1157	r	Max Revive on Route 133 found
-1158	r	Carbos on Route 134 found
-1159	r	Star Piece on Route 134 found
-1160	r	Energy Powder on Route 114 found
-1161	r	PP Up on Route 115 found
-1162	r	HP Up in Artisan Cave found
-1163	r	Carbos in Artisan Cave found
-1164	r	Max Elixir in Magma Hideout found
-1165	r	Full Restore in Magma Hideout found
-1166	r	Nugget in Magma Hideout found
-1167	r	PP Max in Magma Hideout found
-1168	r	Max Revive in Magma Hideout found
-1169	r	Nugget in Safari Zone found
-1170	r	Big Pearl in Safari Zone found
+1146	i	Potion on Route 116 found
+1147	i	Elixir (near water) on Route 119 found
+1148	i	Revive on Route 120 found
+1149	i	Revive on Route 121 found
+1150	i	Zinc on Route 121 found
+1151	i	Rare Candy in Magma Hideout found
+1152	i	PP Up on Route 123 found
+1153	i	Revival Herb on Route 123 found
+1154	i	Big Pearl on Route 125 found
+1155	i	Rare Candy on Route 127 found
+1156	i	Protein on Route 132 found
+1157	i	Max Revive on Route 133 found
+1158	i	Carbos on Route 134 found
+1159	i	Star Piece on Route 134 found
+1160	i	Energy Powder on Route 114 found
+1161	i	PP Up on Route 115 found
+1162	i	HP Up in Artisan Cave found
+1163	i	Carbos in Artisan Cave found
+1164	i	Max Elixir in Magma Hideout found
+1165	i	Full Restore in Magma Hideout found
+1166	i	Nugget in Magma Hideout found
+1167	i	PP Max in Magma Hideout found
+1168	i	Max Revive in Magma Hideout found
+1169	i	Nugget in Safari Zone found
+1170	i	Big Pearl in Safari Zone found
 
 1272	s	Change text of Pokémon Trainer Steven in Meteor Falls (Unset for rebattle)
 
