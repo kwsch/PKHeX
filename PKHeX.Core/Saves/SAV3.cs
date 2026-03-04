@@ -401,10 +401,66 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         set => Small[0x11] = (byte)value;
     }
 
-    public int PlayedFrames
+    public byte PlayedFrames
     {
         get => Small[0x12];
-        set => Small[0x12] = (byte)value;
+        set => Small[0x12] = value;
+    }
+
+    public byte OptionsButtonMode
+    {
+        get => Small[0x13];
+        set => Small[0x13] = value;
+    }
+
+    private uint OptionsConfig
+    {
+        get => ReadUInt32LittleEndian(Small[0x14..]);
+        set => WriteUInt32LittleEndian(Small[0x14..], value);
+    }
+
+    // 2 bits: Text Speed
+    // 5 bits: Window Frame
+    // 1 bit: sound
+    // 1 bit: battle style (shift vs set)
+    // 1 bit: battle scene off toggle (animations enabled/disabled)
+    // 1 bit: regionMapZoom (on/off)
+    // 4 bits unused
+    // 16 bits unused
+    public int TextSpeed
+    {
+        get => (int)(OptionsConfig & 0b11);
+        set => OptionsConfig = (uint)((byte)value & 0b11) | (OptionsConfig & ~0b11u);
+    }
+
+    public byte OptionWindowFrame
+    {
+        get => (byte)((OptionsConfig >> 2) & 0b11111);
+        set => OptionsConfig = (uint)((value & 0b11111) << 2) | (OptionsConfig & ~(0b11111u << 2));
+    }
+
+    public bool OptionSoundStereo
+    {
+        get => (OptionsConfig & 0b100000) != 0;
+        set => OptionsConfig = value ? (OptionsConfig | 0b100000) : (OptionsConfig & ~0b100000u);
+    }
+
+    public bool OptionBattleStyle
+    {
+        get => (OptionsConfig & 0b1000000) != 0;
+        set => OptionsConfig = value ? (OptionsConfig | 0b1000000) : (OptionsConfig & ~0b1000000u);
+    }
+
+    public bool OptionBattleScene
+    {
+        get => (OptionsConfig & 0b10000000) != 0;
+        set => OptionsConfig = value ? (OptionsConfig | 0b10000000) : (OptionsConfig & ~0b10000000u);
+    }
+
+    public bool OptionIsRegionMapZoom
+    {
+        get => (OptionsConfig & 0b100000000) != 0;
+        set => OptionsConfig = value ? (OptionsConfig | 0b100000000) : (OptionsConfig & ~0b100000000u);
     }
 
     public ushort X

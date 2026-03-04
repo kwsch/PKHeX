@@ -104,6 +104,16 @@ public partial class SAV_SimpleTrainer : Form
             L_Started.Visible = L_Fame.Visible = false;
             CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
             CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
+
+            GB_Options.Visible = true;
+            CB_BattleStyle.Items.AddRange("Switch", "Set");
+            CB_SoundType.Items.AddRange("Mono", "Stereo");
+            CB_TextSpeed.Items.AddRange("0 (Slow)", "1 (Mid)", "2 (Fast)", "3 (Instant)");
+
+            CB_TextSpeed.SelectedIndex = sav3.TextSpeed;
+            CB_BattleStyle.SelectedIndex = sav3.OptionBattleStyle ? 1 : 0;
+            CB_SoundType.SelectedIndex = sav3.OptionSoundStereo ? 0 : 1;
+            CHK_BattleEffects.Checked = sav3.OptionBattleScene;
         }
         if (SAV is SAV3Colosseum or SAV3XD)
         {
@@ -238,6 +248,10 @@ public partial class SAV_SimpleTrainer : Form
         if (SAV is SAV3 sav3)
         {
             sav3.Badges = badgeval & 0xFF;
+            sav3.OptionBattleStyle = CB_BattleStyle.SelectedIndex == 1;
+            sav3.OptionSoundStereo = CB_SoundType.SelectedIndex == 0;
+            sav3.TextSpeed = CB_TextSpeed.SelectedIndex;
+            sav3.OptionBattleScene = CHK_BattleEffects.Checked;
         }
 
         if (SAV is SAV4 sav4)
