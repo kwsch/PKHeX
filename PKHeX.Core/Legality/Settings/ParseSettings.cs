@@ -36,7 +36,7 @@ public static class ParseSettings
     /// <summary>
     /// Setting to specify if an analysis should permit data sourced from the physical cartridge era of Game Boy Advance games.
     /// </summary>
-    public static bool AllowEraCartGBA { private get; set; }
+    public static bool AllowEraCartGBA { private get; set; } = true;
 
     /// <summary>
     /// Setting to specify if an analysis should permit data sourced from the Nintendo Switch Virtual Console era of Game Boy Advance games.
