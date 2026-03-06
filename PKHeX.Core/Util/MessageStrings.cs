@@ -50,6 +50,10 @@ public static class MessageStrings
 
     public static string MsgConfirmQuitProgram { get; set; } = "Quit PKHeX?";
 
+    public static string MsgFileDelete { get; set; } = "Delete this file?";
+    public static string MsgFileDeleteFail { get; set; } = "Unable to delete file.";
+    public static string MsgFileDeleteSuccess { get; set; } = "File deleted successfully.";
+
     public static string MsgFileLoad { get; set; } = "File Loaded:";
     public static string MsgFileLoadAllZero { get; set; } = "File is uninitialized (all zero). Please ensure it was properly saved.";
     public static string MsgFileLoadAllFFFF { get; set; } = "File is uninitialized (all 0xFF). Please ensure it was properly saved.";

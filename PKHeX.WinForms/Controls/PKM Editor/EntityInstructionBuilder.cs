@@ -26,11 +26,12 @@ public partial class EntityInstructionBuilder : UserControl
         for (int i = 0; i < Prefixes.Length; i++)
         {
             var prefix = Prefixes[i];
-            var text = i == 0 ? "Set" : (prefix is '&' ? "&&" : prefix.ToString()); // activator key sanitization
+            var name = (i == 0 ? "Set" : prefix.ToString());
+            var text = i == 0 ? "&Set" : (prefix is '&' ? "&&" : prefix.ToString()); // activator key sanitization
             var color = StringInstruction.IsMutationInstruction(prefix) ? WinFormsUtil.ColorWarn : SystemColors.ControlText;
             var item = new ToolStripMenuItem(text)
             {
-                Name = $"mnu_{text}",
+                Name = $"mnu_{name}",
                 Tag = i,
                 ForeColor = color,
             };

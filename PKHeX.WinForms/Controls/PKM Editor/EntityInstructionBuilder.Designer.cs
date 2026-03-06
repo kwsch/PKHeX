@@ -69,7 +69,7 @@ namespace PKHeX.WinForms.Controls
             B_Require.Name = "B_Require";
             B_Require.Size = new System.Drawing.Size(40, 25);
             B_Require.TabIndex = 2;
-            B_Require.Text = "Set";
+            B_Require.Text = "&Set";
             B_Require.UseVisualStyleBackColor = true;
             B_Require.Click += B_Require_Click;
             // 

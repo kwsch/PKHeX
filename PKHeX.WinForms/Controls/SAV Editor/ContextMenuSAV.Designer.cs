@@ -53,7 +53,7 @@ namespace PKHeX.WinForms.Controls
             mnuView.Image = global::PKHeX.WinForms.Properties.Resources.other;
             mnuView.Name = "mnuView";
             mnuView.Size = new System.Drawing.Size(152, 22);
-            mnuView.Text = "View";
+            mnuView.Text = "&View";
             mnuView.Click += new System.EventHandler(ClickView);
             // 
             // mnuSet
@@ -61,7 +61,7 @@ namespace PKHeX.WinForms.Controls
             mnuSet.Image = global::PKHeX.WinForms.Properties.Resources.exit;
             mnuSet.Name = "mnuSet";
             mnuSet.Size = new System.Drawing.Size(152, 22);
-            mnuSet.Text = "Set";
+            mnuSet.Text = "&Set";
             mnuSet.Click += new System.EventHandler(ClickSet);
             // 
             // mnuDelete
@@ -69,7 +69,7 @@ namespace PKHeX.WinForms.Controls
             mnuDelete.Image = global::PKHeX.WinForms.Properties.Resources.nocheck;
             mnuDelete.Name = "mnuDelete";
             mnuDelete.Size = new System.Drawing.Size(152, 22);
-            mnuDelete.Text = "Delete";
+            mnuDelete.Text = "&Delete";
             mnuDelete.Click += new System.EventHandler(ClickDelete);
             // 
             // mnuLegality
@@ -77,7 +77,7 @@ namespace PKHeX.WinForms.Controls
             mnuLegality.Image = global::PKHeX.WinForms.Properties.Resources.export;
             mnuLegality.Name = "mnuLegality";
             mnuLegality.Size = new System.Drawing.Size(152, 22);
-            mnuLegality.Text = "Legality";
+            mnuLegality.Text = "&Legality";
             mnuLegality.Click += new System.EventHandler(ClickShowLegality);
             // 
             // ContextMenuSAV
