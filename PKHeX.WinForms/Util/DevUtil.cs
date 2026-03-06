@@ -273,7 +273,7 @@ public static class DevUtil
         {
             var location = Path.Combine(dir, set.GetFileName(lang));
             var json = JsonSerializer.Serialize(entries, set.Info);
-            File.WriteAllText(location, json);
+            File.WriteAllText(location, json + Environment.NewLine);
         }
     }
 

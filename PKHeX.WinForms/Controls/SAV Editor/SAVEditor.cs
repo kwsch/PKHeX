@@ -1636,8 +1636,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private EntitySearchSetup CreateSearcher(SaveFile sav, IPKMView edit)
     {
         BoxSearchClear();
-        var result = new EntitySearchSetup();
-        result.Initialize(sav, edit);
+        var result = new EntitySearchSetup(edit, sav);
 
         result.ResetRequested += UpdateSearch;
         result.SearchRequested += UpdateSearch;

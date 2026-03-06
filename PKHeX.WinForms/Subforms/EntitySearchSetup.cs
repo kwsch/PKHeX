@@ -9,10 +9,17 @@ namespace PKHeX.WinForms;
 public partial class EntitySearchSetup : Form
 {
     private EntityInstructionBuilder? UC_Builder;
-    private SaveFile? CurrentSave;
+    private SaveFile CurrentSave;
     public Func<PKM, bool>? SearchFilter { get; private set; }
 
-    public EntitySearchSetup() => InitializeComponent();
+    public EntitySearchSetup(IPKMView edit, SaveFile sav)
+    {
+        CurrentSave = sav;
+        InitializeComponent();
+        Initialize(sav);
+        EnsureBuilder(edit);
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+    }
 
     /// <summary>
     /// Occurs when the Search action is requested.
@@ -38,17 +45,13 @@ public partial class EntitySearchSetup : Form
     /// Initializes the search setup controls using the provided save file.
     /// </summary>
     /// <param name="sav">Save file used to configure search settings.</param>
-    /// <param name="edit">Editor to provide the current PKM.</param>
-    public void Initialize(SaveFile sav, IPKMView edit)
+    private void Initialize(SaveFile sav)
     {
-        ArgumentNullException.ThrowIfNull(sav);
-
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         UC_EntitySearch.PopulateComboBoxes(GameInfo.FilteredSources);
         UC_EntitySearch.SetFormatAnyText(MsgAny);
         UC_EntitySearch.InitializeSelections(sav, showContext: false);
         CurrentSave = sav;
-        EnsureBuilder(edit);
-        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
     }
 
     protected override void OnShown(EventArgs e)

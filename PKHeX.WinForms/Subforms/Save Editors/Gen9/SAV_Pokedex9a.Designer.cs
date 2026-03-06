@@ -48,7 +48,7 @@ namespace PKHeX.WinForms
             CB_DisplayForm = new System.Windows.Forms.ComboBox();
             GB_Displayed = new System.Windows.Forms.GroupBox();
             L_DisplayForm = new System.Windows.Forms.Label();
-            L_DisplayGender = new System.Windows.Forms.Label();
+            L_DisplayGendered = new System.Windows.Forms.Label();
             CB_Gender = new System.Windows.Forms.ComboBox();
             CHK_DisplayShiny = new System.Windows.Forms.CheckBox();
             GB_Language = new System.Windows.Forms.GroupBox();
@@ -236,7 +236,7 @@ namespace PKHeX.WinForms
             // GB_Displayed
             // 
             GB_Displayed.Controls.Add(L_DisplayForm);
-            GB_Displayed.Controls.Add(L_DisplayGender);
+            GB_Displayed.Controls.Add(L_DisplayGendered);
             GB_Displayed.Controls.Add(CB_Gender);
             GB_Displayed.Controls.Add(CHK_DisplayShiny);
             GB_Displayed.Controls.Add(CB_DisplayForm);
@@ -258,14 +258,14 @@ namespace PKHeX.WinForms
             L_DisplayForm.Text = "Form:";
             L_DisplayForm.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_DisplayGender
+            // L_DisplayGendered
             // 
-            L_DisplayGender.Location = new System.Drawing.Point(9, 25);
-            L_DisplayGender.Name = "L_DisplayGender";
-            L_DisplayGender.Size = new System.Drawing.Size(72, 20);
-            L_DisplayGender.TabIndex = 53;
-            L_DisplayGender.Text = "Gender:";
-            L_DisplayGender.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_DisplayGendered.Location = new System.Drawing.Point(9, 25);
+            L_DisplayGendered.Name = "L_DisplayGendered";
+            L_DisplayGendered.Size = new System.Drawing.Size(72, 20);
+            L_DisplayGendered.TabIndex = 53;
+            L_DisplayGendered.Text = "Gender:";
+            L_DisplayGendered.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_Gender
             // 
@@ -674,7 +674,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_SeenMale;
         private System.Windows.Forms.CheckBox CHK_IsNew;
         private System.Windows.Forms.Label L_DisplayForm;
-        private System.Windows.Forms.Label L_DisplayGender;
+        private System.Windows.Forms.Label L_DisplayGendered;
         private System.Windows.Forms.CheckedListBox CLB_FormCaught;
         private System.Windows.Forms.CheckedListBox CLB_FormShiny;
         private System.Windows.Forms.CheckBox CHK_SeenAlpha;
