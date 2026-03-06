@@ -11,12 +11,12 @@
 0x4040	*	Days Passed
 
 0x4043	m	Department Store Floor	00:1F,01:2F,02:3F,03:4F,04:5F,15:Rooftop
-0x4045	s	Pokelot Prize Item
+0x4045	m	Pokelot Prize Item
 0x4046	*	National Dex Enabled	0:No,770:Yes
 0x4047	+	Shroomish Size Record
 0x4048	*	Volcanic Ash Gathered	9999:Maximum
-0x4049	m	Professor Birch State
-0x404A	s	S.S. Tidal Step Counter
+0x4049	s	Professor Birch State
+0x404A	m	S.S. Tidal Step Counter
 0x404B	*	Pokelot RND (High)
 0x404C	*	Pokelot RND (Low)
 

@@ -1,5 +1,5 @@
 0048	*	Pokémon de Départ	0:Pas encore choisi,387:Tortipouss,390:Ouisticram,393:Tiplouf
-0122	r	Œuf de Togepi	0:Statue vue,1:A reçu la CS01,2:Cynthia est partie,3:Cynthia peut donner l'œuf,4:Œuf en attente,5:Œuf reçu
+0122	g	Œuf de Togepi	0:Statue vue,1:A reçu la CS01,2:Cynthia est partie,3:Cynthia peut donner l'œuf,4:Œuf en attente,5:Œuf reçu
 0196	r	Dialga	0:Affrontable,1:Disparu
 0197	r	Palkia	0:Affrontable,1:Disparu
 0085	r	Giratina (Monde Distorsion)	13:Affrontable,14:Disparu

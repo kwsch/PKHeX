@@ -28,16 +28,16 @@
 0339	g	Magikarp comprado
 0347	g	Intercambio por Emolga
 0360	g	Intercambio por Rotom
-0663	g	Darmanitan (centro izquierda) desaparecido de la Zona Desierto
-0664	g	Darmanitan (abajo izquierda) desaparecido de la Zona Desierto
-0665	g	Darmanitan (arriba izquierda) desaparecido de la Zona Desierto
-0666	g	Darmanitan (centro derecha) desaparecido de la Zona Desierto
-0667	g	Darmanitan (arriba derecha) desaparecido de la Zona Desierto
-0729	s	Zorua camuflado de chico (1) desaparecido de primera planta de las Oficinas de GAME FREAK (Evento de Zorua)
-0730	s	Girl desaparecida de primera planta de las Oficinas de GAME FREAK (Evento de Zorua)
-0731	s	Zorua (2) desaparecido de primera planta de las Oficinas de GAME FREAK (Evento de Zorua)
-2754	s	Embarcado en el Real Teselia (hoy)
-2762	s	Fósil recibido de Operario del Monte Tuerca (hoy)
+0663	r	Darmanitan (centro izquierda) desaparecido de la Zona Desierto
+0664	r	Darmanitan (abajo izquierda) desaparecido de la Zona Desierto
+0665	r	Darmanitan (arriba izquierda) desaparecido de la Zona Desierto
+0666	r	Darmanitan (centro derecha) desaparecido de la Zona Desierto
+0667	r	Darmanitan (arriba derecha) desaparecido de la Zona Desierto
+0729	e	Zorua camuflado de chico (1) desaparecido de primera planta de las Oficinas de GAME FREAK (Evento de Zorua)
+0730	e	Girl desaparecida de primera planta de las Oficinas de GAME FREAK (Evento de Zorua)
+0731	e	Zorua (2) desaparecido de primera planta de las Oficinas de GAME FREAK (Evento de Zorua)
+2754	*	Embarcado en el Real Teselia (hoy)
+2762	*	Fósil recibido de Operario del Monte Tuerca (hoy)
 0683	a	Metro Batalla: no posee un súper trofeo individual
 0684	a	Metro Batalla: no posee un súper trofeo doble
 0685	a	Metro Batalla: no posee un súper trofeo multi

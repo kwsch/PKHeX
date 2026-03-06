@@ -46,16 +46,16 @@
 0329	r	Rotom capturado
 0635	s	Encontrado Mayordomo Fantasma en la Vieja Mansión
 0636	s	Encontrada Niña Fantasma en la Vieja Mansión
-0897	s	Encontrada Miel (escondida) en la Vieja Mansión
-1036	s	Encontrada Barrita Plus en la Vieja Mansión
-1261	s	Encontrada Tabla Oscura en la Vieja Mansión
-1262	s	Encontrada MT90 en la Vieja Mansión
-1281	s	Encontrado Caramelo Raro en la Vieja Mansión
-1282	s	Encontrada Perla Grande en la Vieja Mansión
-1336	s	Encontrada Griseosfera en Mundo Distorsión
-1337	s	Encontrado Revestimiento Metálico en Ruinas Hierro
-1338	s	Encontrado Antiderretir en Ruinas Iceberg
-1339	s	Encontrada Roca Dura Ruinas Pico Roca
+0897	h	Encontrada Miel (escondida) en la Vieja Mansión
+1036	i	Encontrada Barrita Plus en la Vieja Mansión
+1261	i	Encontrada Tabla Oscura en la Vieja Mansión
+1262	i	Encontrada MT90 en la Vieja Mansión
+1281	i	Encontrado Caramelo Raro en la Vieja Mansión
+1282	i	Encontrada Perla Grande en la Vieja Mansión
+1336	i	Encontrada Griseosfera en Mundo Distorsión
+1337	i	Encontrado Revestimiento Metálico en Ruinas Hierro
+1338	i	Encontrado Antiderretir en Ruinas Iceberg
+1339	i	Encontrada Roca Dura Ruinas Pico Roca
 0151	g	Porygon recibido
 0305	g	Eevee recibido
 0226	g	Regalo del huevo de Riolu de Quinoa pendiente (Isla Hierro)
@@ -76,11 +76,11 @@
 0134	g	Intercambio en Ciudad Vetusta
 0244	g	Intercambio en Ciudad Puntaneva
 0245	g	Intercambio en Ruta 226
-0787	s	Más PP encontrado en Lago Valor seco
+0787	i	Más PP encontrado en Lago Valor seco
 2507	s	Participado en las capturas del Parque Compi
 0325	r	Grieta de Dialga/Palkia visible 
-1051	s	Diamansfera encontrada en Monte Corona
-1053	s	Lustresfera encontrada en Monte Corona
+1051	i	Diamansfera encontrada en Monte Corona
+1053	i	Lustresfera encontrada en Monte Corona
 1409	t	Corredor Romén derrotado (Mañana)
 1448	t	Policía Iñaki derrotado (Noche)
 1449	t	Policía Alex derrotado (Noche)
@@ -241,7 +241,7 @@
 2134	t	1ra revancha contra Veteran Brian
 2136	t	2da revancha contra Veteran Brian
 2137	t	Revancha contra Veteran Armando
-2733	s	Learned trendy phrase (Today)
+2733	*	Learned trendy phrase (Today)
 2738	t	Rival derrotado en Zona Sobrevivir (Sábado/Domingo actual)
 2744	t	Líder de Gimnasio Roco derrotado en Café Revancha (Hoy)
 2745	t	Líder de Gimnasio Gardenia derrotado en Café Revancha (Hoy)

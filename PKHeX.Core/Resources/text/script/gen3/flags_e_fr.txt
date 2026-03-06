@@ -8,14 +8,14 @@
 0123	s	CS08 Plongée Reçue
 0090	s	Vélo Course/Cross Reçu
 
-2151	*	Badge Roche Reçu
-2152	*	Badge Poing Reçu
-2153	*	Badge Dynamo Reçu
-2154	*	Badge Chaleur Reçu
-2155	*	Badge Balancier Reçu
-2156	*	Badge Plume Reçu
-2157	*	Badge Esprit Reçu
-2158	*	Badge Pluie Reçu
+2151	s	Badge Roche Reçu
+2152	s	Badge Poing Reçu
+2153	s	Badge Dynamo Reçu
+2154	s	Badge Chaleur Reçu
+2155	s	Badge Balancier Reçu
+2156	s	Badge Plume Reçu
+2157	s	Badge Esprit Reçu
+2158	s	Badge Pluie Reçu
 
 0153	g	Échange Interne Tarsal Contre Grainipiot (Mérouville)
 0154	g	Échange Interne Draby Contre Hypotrempe (Pacifiville)
@@ -109,366 +109,366 @@
 2255	a	A Reçu le Symbole Chance d'Or (Reptile de Combat)
 2256	a	A Reçu le Symbole Bravoure d'Argent (Pyramide de Combat)
 2257	a	A Reçu le Symbole Bravoure d'Or (Pyramide de Combat)
-2258	*	A Reçu le Passe Zone
+2258	s	A Reçu le Passe Zone
 
 0335	s	A Choisi le Fossile Racine à la Tour Mirage (Fossile Griffe à la Voie du Désert)
 0336	s	A Choisi le Fossile Griffe à la Tour Mirage (Fossile Racine à la Voie du Désert)
 
-500	r	Antigel (Caché) Trouvé à Vermilava
-501	r	Pépite (Cachée) Trouvée à la Salle des Récompenses de la Maison des Pièges (Inutilisé)
-502	r	Pouss.Étoile (Cachée) Trouvée à la Route 111
-503	r	Huile (Cachée) Trouvée à la Route 113
-504	r	Carbone (Caché) Trouvé à la Route 114
-505	r	Calcium (Caché) Trouvé à la Route 119
-506	r	Hyper Ball (Cachée) Trouvée à la Route 119
-507	r	Super Repousse (Caché) Trouvé à la Route 123
-508	r	Carbone (Caché) Trouvé au Chenal 124 (Sous l'Eau)
-509	r	Tesson Vert (Caché) Trouvé au Chenal 124 (Sous l'Eau)
-510	r	Perle (Cachée) Trouvée au Chenal 124 (Sous l'Eau)
-511	r	Grande Perle (Cachée) Trouvée au Chenal 124 (Sous l'Eau)
-512	r	Tesson Bleu (Caché) Trouvé au Chenal 126 (Sous l'Eau)
-513	r	Écaillecœur (Cachée ; Point de Plongée Isolé) Trouvée au Chenal 124 (Sous l'Eau)
-514	r	Écaillecœur (Cachée) Trouvé au Chenal 126 (Sous l'Eau)
-515	r	Hyper Ball (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
-516	r	Pouss.Étoile (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
-517	r	Perle (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
-518	r	Tesson Jaune (Caché) Trouvé au Chenal 126 (Sous l'Eau)
-519	r	Fer (Caché) Trouvé au Chenal 126 (Sous l'Eau)
-520	r	Grande Perle (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
-521	r	Morc. Étoile (Caché) Trouvé au Chenal 127 (Sous l'Eau)
-522	r	PV Plus (Caché) Trouvé au Chenal 127 (Sous l'Eau)
-523	r	Écaillecœur (Cachée) Trouvée au Chenal 127 (Sous l'Eau)
-524	r	Tesson Rouge (Caché) Trouvé au Chenal 127 (Sous l'Eau)
-525	r	Protéine (Cachée) Trouvée au Chenal 128 (Sous l'Eau)
-526	r	Perle (Cachée) Trouvée au Chenal 128 (Sous l'Eau)
-527	r	Écaillecœur (Cachée) Trouvée à Nénucrique
-528	r	Pépite (Cachée) Trouvée à Autéquia
-529	r	Hyper Ball (Cachée) Trouvé au Mont Mémoria
-530	r	CT32 (Cachée) Trouvée à la Route 113
-531	r	Clé Salle 1 (Cachée) Trouvée à l'Épave
-532	r	Clé Salle 2 (Cachée) Trouvée à l'Épave
-533	r	Clé Salle 4 (Cachée) Trouvée à l'Épave
-534	r	Clé Salle 6 (Cachée) Trouvée à l'Épave
-535	r	Restes (Cachés) Trouvés sur Le Marina
-536	r	Calcium (Caché) Trouvé au Chenal 124 (Sous l'Eau)
-537	r	Potion (Cachée) Trouvée à la Route 104
-538	r	Écaillecœur (Cachée ; Point de Plongée avec Passage) Trouvée au Chenal 124 (Sous l'Eau)
-539	r	PV Plus (Caché) Trouvé à la Route 121
-540	r	Pépite (Cachée) Trouvée à la Route 121
-541	r	Rappel (Caché) Trouvé à la Route 123
-542	r	Rappel (Caché) Trouvé à la Route 114
-543	r	PP Plus (Caché) Trouvé à Nénucrique
-544	r	Super Potion (Cachée) Trouvée à la Route 104
-545	r	Super Potion (Cachée) Trouvé à la Route 116
-546	r	Pouss.Étoile (Cachée) Trouvée au Chenal 106
-547	r	Écaillecœur (Cachée) Trouvée au Chenal 106
-548	r	Pierre Stase (Cachée ; Vélo Course Nécessaire) Trouvée à la Grotte Granite
-549	r	Pierre Stase (Cachée) Trouvée à la Grotte Granite
-550	r	Rappel (Caché) Trouvé au Chenal 109
-551	r	Super Ball (Cachée) Trouvée au Chenal 109
-552	r	Écaillecœur (Cachée ; à Côté du Vieil Homme) au Chenal 109
-553	r	Super Ball (Cachée) Trouvée à la Route 110
-554	r	Rappel (Caché) Trouvé à la Route 110
-555	r	Total Soin (Caché) Trouvé à la Route 110
-556	r	Protéine (Cachée) Trouvée à la Route 111
-557	r	Super Bonbon (Caché) Trouvé à la Route 111
-558	r	Potion (Cachée) Trouvée au Bois Clémenti
-559	r	Petit Champi (Caché) Trouvé dans la Section Nord du Bois Clémenti
-560	r	Petit Champi (Caché) Trouvé dans la Section Est du Bois Clémenti
-561	r	Poké Ball (Cachée) Trouvée au Bois Clémenti
-562	r	Poké Ball (Cachée) Trouvée à la Route 104
-563	r	Poké Ball (Cachée) Trouvée au Chenal 106
-564	r	Huile (Cachée) Trouvée au Chenal 109
-565	r	Poké Ball (Cachée) Trouvée à la Route 110
-566	r	Écaillecœur (Cachée) Trouvée à la Route 118
-567	r	Fer (Caché) Trouvé à la Route 118
-568	r	Total Soin (Caché) Trouvé à la Route 119
-569	r	Super Bonbon (Caché ; Sud) Trouvé à la Route 120
-570	r	Zinc (Caché) Trouvé à la Route 120
-571	r	Super Bonbon (Caché ; Nord) Trouvé à la Route 120
-572	r	Repousse (Caché) Trouvé à la Route 117
-573	r	Total Soin (Caché) Trouvé à la Route 121
-574	r	Hyper Potion (Cachée) Trouvée à la Route 123
-575	r	Poké Ball (Cachée) Trouvée à Nénucrique
-576	r	Super Ball (Cachée) Trouvée au Sentier Sinuroc
-577	r	Total Soin (Caché) Trouvé au Sentier Sinuroc
-578	r	Huile Max (Cachée) Trouvée au Mont Mémoria
-579	r	Zinc (Caché) Trouvé au Mont Mémoria
-580	r	Super Bonbon (Caché) Trouvé au Mont Mémoria
-581	r	Hyper Ball (Cachée) Trouvée à la Route Victoire
-582	r	Élixir (Caché) Trouvé à la Route Victoire
-583	r	Max Repousse (Caché) Trouvé à la Route Victoire
-584	r	Rappel (Caché) Trouvé à la Route 120
-585	r	Antidote (Caché) Trouvé à la Route 104
-586	r	Super Bonbon (Caché) Trouvé au Chenal 108
-587	r	Huile Max (Cachée) Trouvé à la Route 119
-588	r	Écaillecœur (Cachée) Trouvée à la Route 104
-589	r	Écaillecœur (Cachée) Trouvée au Chenal 105
-590	r	Écaillecœur (Cachée ; Sous le Parasol) Trouvée au Chenal 109
-591	r	Écaillecœur (Cachée ; Proche du Couple) Trouvée au Chenal 109
-592	r	Écaillecœur (Cachée ; Proche du Topdresseur) Trouvée au Chenal 128
-593	r	Écaillecœur (Cachée ; à Côté du Mur Rocheux) Trouvée au Chenal 128
-594	r	Écaillecœur (Cachée ; au Sud-est) Trouvée au Chenal 128
-595	r	Super Bonbon (Caché) Trouvé à Clémenti-Ville
-596	r	Lunettes Noires (Cachées) Trouvées à la Route 116
-597	r	Écaillecœur (Cachée) Trouvé à la Route 115
-598	r	Pépite (Cachée) Trouvée à la Route 113
-599	r	PP Plus (Caché) Trouvé à la Route 123
-600	r	Rappel Max (Caché) Trouvé à la Route 121
-601	r	Calcium (Caché) Trouvé à la Grotte Atelier
-602	r	Zinc (Caché) Trouvé à la Grotte Atelier
-603	r	Protéine (Cachée) Trouvée à la Grotte Atelier
-604	r	Fer (Caché) Trouvé à la Grotte Atelier
-605	r	Guérison (Caché) Trouvé au Parc Safari
-606	r	Super Bonbon (Caché) Trouvé au Parc Safari
-607	r	Zinc (Caché) Trouvé au Parc Safari
-608	r	PP Plus (Caché) Trouvé au Parc Safari
-609	r	Cendresacrée (Cachée) Trouvée au Roc Nombri
-610	r	Super Bonbon (Caché) Trouvé à la Route 123
-611	r	Grande Perle (Cachée) Trouvée au Chenal 105
+500	h	Antigel (Caché) Trouvé à Vermilava
+501	h	Pépite (Cachée) Trouvée à la Salle des Récompenses de la Maison des Pièges (Inutilisé)
+502	h	Pouss.Étoile (Cachée) Trouvée à la Route 111
+503	h	Huile (Cachée) Trouvée à la Route 113
+504	h	Carbone (Caché) Trouvé à la Route 114
+505	h	Calcium (Caché) Trouvé à la Route 119
+506	h	Hyper Ball (Cachée) Trouvée à la Route 119
+507	h	Super Repousse (Caché) Trouvé à la Route 123
+508	h	Carbone (Caché) Trouvé au Chenal 124 (Sous l'Eau)
+509	h	Tesson Vert (Caché) Trouvé au Chenal 124 (Sous l'Eau)
+510	h	Perle (Cachée) Trouvée au Chenal 124 (Sous l'Eau)
+511	h	Grande Perle (Cachée) Trouvée au Chenal 124 (Sous l'Eau)
+512	h	Tesson Bleu (Caché) Trouvé au Chenal 126 (Sous l'Eau)
+513	h	Écaillecœur (Cachée ; Point de Plongée Isolé) Trouvée au Chenal 124 (Sous l'Eau)
+514	h	Écaillecœur (Cachée) Trouvé au Chenal 126 (Sous l'Eau)
+515	h	Hyper Ball (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
+516	h	Pouss.Étoile (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
+517	h	Perle (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
+518	h	Tesson Jaune (Caché) Trouvé au Chenal 126 (Sous l'Eau)
+519	h	Fer (Caché) Trouvé au Chenal 126 (Sous l'Eau)
+520	h	Grande Perle (Cachée) Trouvée au Chenal 126 (Sous l'Eau)
+521	h	Morc. Étoile (Caché) Trouvé au Chenal 127 (Sous l'Eau)
+522	h	PV Plus (Caché) Trouvé au Chenal 127 (Sous l'Eau)
+523	h	Écaillecœur (Cachée) Trouvée au Chenal 127 (Sous l'Eau)
+524	h	Tesson Rouge (Caché) Trouvé au Chenal 127 (Sous l'Eau)
+525	h	Protéine (Cachée) Trouvée au Chenal 128 (Sous l'Eau)
+526	h	Perle (Cachée) Trouvée au Chenal 128 (Sous l'Eau)
+527	h	Écaillecœur (Cachée) Trouvée à Nénucrique
+528	h	Pépite (Cachée) Trouvée à Autéquia
+529	h	Hyper Ball (Cachée) Trouvé au Mont Mémoria
+530	h	CT32 (Cachée) Trouvée à la Route 113
+531	h	Clé Salle 1 (Cachée) Trouvée à l'Épave
+532	h	Clé Salle 2 (Cachée) Trouvée à l'Épave
+533	h	Clé Salle 4 (Cachée) Trouvée à l'Épave
+534	h	Clé Salle 6 (Cachée) Trouvée à l'Épave
+535	h	Restes (Cachés) Trouvés sur Le Marina
+536	h	Calcium (Caché) Trouvé au Chenal 124 (Sous l'Eau)
+537	h	Potion (Cachée) Trouvée à la Route 104
+538	h	Écaillecœur (Cachée ; Point de Plongée avec Passage) Trouvée au Chenal 124 (Sous l'Eau)
+539	h	PV Plus (Caché) Trouvé à la Route 121
+540	h	Pépite (Cachée) Trouvée à la Route 121
+541	h	Rappel (Caché) Trouvé à la Route 123
+542	h	Rappel (Caché) Trouvé à la Route 114
+543	h	PP Plus (Caché) Trouvé à Nénucrique
+544	h	Super Potion (Cachée) Trouvée à la Route 104
+545	h	Super Potion (Cachée) Trouvé à la Route 116
+546	h	Pouss.Étoile (Cachée) Trouvée au Chenal 106
+547	h	Écaillecœur (Cachée) Trouvée au Chenal 106
+548	h	Pierre Stase (Cachée ; Vélo Course Nécessaire) Trouvée à la Grotte Granite
+549	h	Pierre Stase (Cachée) Trouvée à la Grotte Granite
+550	h	Rappel (Caché) Trouvé au Chenal 109
+551	h	Super Ball (Cachée) Trouvée au Chenal 109
+552	h	Écaillecœur (Cachée ; à Côté du Vieil Homme) au Chenal 109
+553	h	Super Ball (Cachée) Trouvée à la Route 110
+554	h	Rappel (Caché) Trouvé à la Route 110
+555	h	Total Soin (Caché) Trouvé à la Route 110
+556	h	Protéine (Cachée) Trouvée à la Route 111
+557	h	Super Bonbon (Caché) Trouvé à la Route 111
+558	h	Potion (Cachée) Trouvée au Bois Clémenti
+559	h	Petit Champi (Caché) Trouvé dans la Section Nord du Bois Clémenti
+560	h	Petit Champi (Caché) Trouvé dans la Section Est du Bois Clémenti
+561	h	Poké Ball (Cachée) Trouvée au Bois Clémenti
+562	h	Poké Ball (Cachée) Trouvée à la Route 104
+563	h	Poké Ball (Cachée) Trouvée au Chenal 106
+564	h	Huile (Cachée) Trouvée au Chenal 109
+565	h	Poké Ball (Cachée) Trouvée à la Route 110
+566	h	Écaillecœur (Cachée) Trouvée à la Route 118
+567	h	Fer (Caché) Trouvé à la Route 118
+568	h	Total Soin (Caché) Trouvé à la Route 119
+569	h	Super Bonbon (Caché ; Sud) Trouvé à la Route 120
+570	h	Zinc (Caché) Trouvé à la Route 120
+571	h	Super Bonbon (Caché ; Nord) Trouvé à la Route 120
+572	h	Repousse (Caché) Trouvé à la Route 117
+573	h	Total Soin (Caché) Trouvé à la Route 121
+574	h	Hyper Potion (Cachée) Trouvée à la Route 123
+575	h	Poké Ball (Cachée) Trouvée à Nénucrique
+576	h	Super Ball (Cachée) Trouvée au Sentier Sinuroc
+577	h	Total Soin (Caché) Trouvé au Sentier Sinuroc
+578	h	Huile Max (Cachée) Trouvée au Mont Mémoria
+579	h	Zinc (Caché) Trouvé au Mont Mémoria
+580	h	Super Bonbon (Caché) Trouvé au Mont Mémoria
+581	h	Hyper Ball (Cachée) Trouvée à la Route Victoire
+582	h	Élixir (Caché) Trouvé à la Route Victoire
+583	h	Max Repousse (Caché) Trouvé à la Route Victoire
+584	h	Rappel (Caché) Trouvé à la Route 120
+585	h	Antidote (Caché) Trouvé à la Route 104
+586	h	Super Bonbon (Caché) Trouvé au Chenal 108
+587	h	Huile Max (Cachée) Trouvé à la Route 119
+588	h	Écaillecœur (Cachée) Trouvée à la Route 104
+589	h	Écaillecœur (Cachée) Trouvée au Chenal 105
+590	h	Écaillecœur (Cachée ; Sous le Parasol) Trouvée au Chenal 109
+591	h	Écaillecœur (Cachée ; Proche du Couple) Trouvée au Chenal 109
+592	h	Écaillecœur (Cachée ; Proche du Topdresseur) Trouvée au Chenal 128
+593	h	Écaillecœur (Cachée ; à Côté du Mur Rocheux) Trouvée au Chenal 128
+594	h	Écaillecœur (Cachée ; au Sud-est) Trouvée au Chenal 128
+595	h	Super Bonbon (Caché) Trouvé à Clémenti-Ville
+596	h	Lunettes Noires (Cachées) Trouvées à la Route 116
+597	h	Écaillecœur (Cachée) Trouvé à la Route 115
+598	h	Pépite (Cachée) Trouvée à la Route 113
+599	h	PP Plus (Caché) Trouvé à la Route 123
+600	h	Rappel Max (Caché) Trouvé à la Route 121
+601	h	Calcium (Caché) Trouvé à la Grotte Atelier
+602	h	Zinc (Caché) Trouvé à la Grotte Atelier
+603	h	Protéine (Cachée) Trouvée à la Grotte Atelier
+604	h	Fer (Caché) Trouvé à la Grotte Atelier
+605	h	Guérison (Caché) Trouvé au Parc Safari
+606	h	Super Bonbon (Caché) Trouvé au Parc Safari
+607	h	Zinc (Caché) Trouvé au Parc Safari
+608	h	PP Plus (Caché) Trouvé au Parc Safari
+609	h	Cendresacrée (Cachée) Trouvée au Roc Nombri
+610	h	Super Bonbon (Caché) Trouvé à la Route 123
+611	h	Grande Perle (Cachée) Trouvée au Chenal 105
 
-700	r	Ne pas Faire Apparaître le Sac du Prof Seko à la Route 101
-701	r	Ne pas Faire Apparaître l'Apprenti(e) à la Tour de Combat
-702	r	Ne pas Faire Apparaître le Réceptionniste Cadeau Mystère au 1er Étage des Centres Pokémon
+700	m	Ne pas Faire Apparaître le Sac du Prof Seko à la Route 101
+701	m	Ne pas Faire Apparaître l'Apprenti(e) à la Tour de Combat
+702	m	Ne pas Faire Apparaître le Réceptionniste Cadeau Mystère au 1er Étage des Centres Pokémon
 
-717	r	Ne pas Faire Apparaître Les Gardes au Parc Safari Bloquant les Nouvelles Zones
-718	r	Ne pas Faire Apparaître Mew à l'Île Lointaine
-719	r	Ne pas Faire Apparaître Brice/Flora à la Route 104
-720	r	Ne pas Faire Apparaître le Prof Seko courant à la Route 101
-721	r	Ne pas Faire Apparaître le Prof Seko dans son Laboratoire
-722	r	Ne pas Faire Apparaître Flora au 1er Étage de sa Maison
-723	r	Ne pas Faire Apparaître Brice/Flora à la Route 103
-724	r	Ne pas Faire Apparaître le Scientifique de Devon au Bois Clémenti
-725	r	Ne pas Faire Apparaître le Sbire Aqua au Bois Clémenti
-726	r	Ne pas Faire Apparaître Timmy à Clémenti-Ville
-727	r	Ne pas Faire Apparaître la Lettre dans la Maison de Pierre (Invisible)
-728	r	Ne pas Faire Apparaître la Femme à Clémenti-Ville
+717	m	Ne pas Faire Apparaître Les Gardes au Parc Safari Bloquant les Nouvelles Zones
+718	m	Ne pas Faire Apparaître Mew à l'Île Lointaine
+719	m	Ne pas Faire Apparaître Brice/Flora à la Route 104
+720	m	Ne pas Faire Apparaître le Prof Seko courant à la Route 101
+721	m	Ne pas Faire Apparaître le Prof Seko dans son Laboratoire
+722	m	Ne pas Faire Apparaître Flora au 1er Étage de sa Maison
+723	m	Ne pas Faire Apparaître Brice/Flora à la Route 103
+724	m	Ne pas Faire Apparaître le Scientifique de Devon au Bois Clémenti
+725	m	Ne pas Faire Apparaître le Sbire Aqua au Bois Clémenti
+726	m	Ne pas Faire Apparaître Timmy à Clémenti-Ville
+727	m	Ne pas Faire Apparaître la Lettre dans la Maison de Pierre (Invisible)
+728	m	Ne pas Faire Apparaître la Femme à Clémenti-Ville
 
-730	r	Ne pas Faire Apparaître l'Homme au Fan Club des Dresseurs Pokémon
-731	r	Ne pas Faire Apparaître le Sbire Aqua à Mérouville
-732	r	Ne pas Faire Apparaître le Scientifique de Devon à Mérouville
-733	r	Ne pas Faire Apparaître Kyogre à la Caverne Fondmer
-734	r	Ne pas Faire Apparaître Norman dans la Maison de Brice/Flora
-735	r	Ne pas Faire Apparaître l'Enfant dans la Maison de Brice
-736	r	Ne pas Faire Apparaître l'Enfant dans la Maison de Flora
-737	r	Ne pas Faire Apparaître la Lettre Magma au Centre Spatial d'Algatia (Invisible)
-738	r	Ne pas Faire Apparaître M. Marco à la Route 104
-739	r	Ne pas Faire Apparaître M. Marco dans son Cottage
-740	r	Ne pas Faire Apparaître M. Marco à Myokara
-741	r	Ne pas Faire Apparaître M. Marco au Chenal 109
-742	r	Ne pas Faire Apparaître le Bateau de M. Marco à la Route 104
-743	r	Ne pas Faire Apparaître le Bateau de M. Marco à Myokara
-744	r	Ne pas Faire Apparaître le Bateau de M. Marco au Chenal 109
-745	r	Ne pas Faire Apparaître Brice au 1er Étage de sa Maison
-746	r	Ne pas Faire Apparaître Flora au 1er Étage de sa Maison
-747	r	Ne pas Faire Apparaître le Garde dans la Zone 5 du Parc Safari
-748	r	Ne pas Faire Apparaître M. Marco à l'Embarcadère de Nénucrique
-749	r	Ne pas Faire Apparaître Scott à Poivressel
-750	r	Ne pas Faire Apparaître Zigzaton à la Route 101
-751	r	Ne pas Faire Apparaître Timmy à la Route Victoire (Proche de la Sortie)
-752	r	Ne pas Faire Apparaître la Mère à Bourg-en-Vol
-753	r	Ne pas Faire Apparaître Pierre au RDC du Centre Spatial d'Algatia
-754	r	Ne pas Faire Apparaître Vigoroth en Face de la TV Chez Brice et Flora
-755	r	Ne pas Faire Apparaître les Vigoroth en Mouvement Chez Brice et Flora
-756	r	Ne pas Faire Apparaître les Sbires Magma au RDC du Centre Spatial d'Algatia
-757	r	Ne pas Faire Apparaître la Mère au 1er Étage Chez Brice/Flora
-758	r	Ne pas Faire Apparaître la Mère Chez Brice
-759	r	Ne pas Faire Apparaître la Mère Chez Flora
-760	r	Ne pas Faire Apparaître Brice Chez Lui
-761	r	Ne pas Faire Apparaître le Camion en Face de la Maison de Brice
-762	r	Ne pas Faire Apparaître le Camion en Face de la Maison de Flora
+730	m	Ne pas Faire Apparaître l'Homme au Fan Club des Dresseurs Pokémon
+731	m	Ne pas Faire Apparaître le Sbire Aqua à Mérouville
+732	m	Ne pas Faire Apparaître le Scientifique de Devon à Mérouville
+733	m	Ne pas Faire Apparaître Kyogre à la Caverne Fondmer
+734	m	Ne pas Faire Apparaître Norman dans la Maison de Brice/Flora
+735	m	Ne pas Faire Apparaître l'Enfant dans la Maison de Brice
+736	m	Ne pas Faire Apparaître l'Enfant dans la Maison de Flora
+737	m	Ne pas Faire Apparaître la Lettre Magma au Centre Spatial d'Algatia (Invisible)
+738	m	Ne pas Faire Apparaître M. Marco à la Route 104
+739	m	Ne pas Faire Apparaître M. Marco dans son Cottage
+740	m	Ne pas Faire Apparaître M. Marco à Myokara
+741	m	Ne pas Faire Apparaître M. Marco au Chenal 109
+742	m	Ne pas Faire Apparaître le Bateau de M. Marco à la Route 104
+743	m	Ne pas Faire Apparaître le Bateau de M. Marco à Myokara
+744	m	Ne pas Faire Apparaître le Bateau de M. Marco au Chenal 109
+745	m	Ne pas Faire Apparaître Brice au 1er Étage de sa Maison
+746	m	Ne pas Faire Apparaître Flora au 1er Étage de sa Maison
+747	m	Ne pas Faire Apparaître le Garde dans la Zone 5 du Parc Safari
+748	m	Ne pas Faire Apparaître M. Marco à l'Embarcadère de Nénucrique
+749	m	Ne pas Faire Apparaître Scott à Poivressel
+750	m	Ne pas Faire Apparaître Zigzaton à la Route 101
+751	m	Ne pas Faire Apparaître Timmy à la Route Victoire (Proche de la Sortie)
+752	m	Ne pas Faire Apparaître la Mère à Bourg-en-Vol
+753	m	Ne pas Faire Apparaître Pierre au RDC du Centre Spatial d'Algatia
+754	m	Ne pas Faire Apparaître Vigoroth en Face de la TV Chez Brice et Flora
+755	m	Ne pas Faire Apparaître les Vigoroth en Mouvement Chez Brice et Flora
+756	m	Ne pas Faire Apparaître les Sbires Magma au RDC du Centre Spatial d'Algatia
+757	m	Ne pas Faire Apparaître la Mère au 1er Étage Chez Brice/Flora
+758	m	Ne pas Faire Apparaître la Mère Chez Brice
+759	m	Ne pas Faire Apparaître la Mère Chez Flora
+760	m	Ne pas Faire Apparaître Brice Chez Lui
+761	m	Ne pas Faire Apparaître le Camion en Face de la Maison de Brice
+762	m	Ne pas Faire Apparaître le Camion en Face de la Maison de Flora
 
-764	r	Ne pas Faire Apparaître le Triangle sur l'Île Aurore (Jamais Sorti pour le Japonais)
-765	r	Ne pas Faire Apparaître Scott à Lavandia
-766	r	Ne pas Faire Apparaître Scott dans la Tente de Combat de Vergazon
-767	r	Ne pas Faire Apparaître Scott dans la Tente de Combat d'Autéquia
-768	r	Ne pas Faire Apparaître Stratège Victor à la Route 111
-769	r	Ne pas Faire Apparaître Stratège Victoria à la Route 111
-770	r	Ne pas Faire Apparaître Stratège Vivi à la Route 111
-771	r	Ne pas Faire Apparaître Stratège Vicky à la Route 111
-772	r	Ne pas Faire Apparaître Norman dans l'Arène de Clémenti-Ville
-773	r	Ne pas Faire Apparaître Rayquaza au Pilier Céleste
-774	r	Ne pas Faire Apparaître l'Artiste au Centre de Concours de Nénucrique (Porte de Gauche)
-775	r	Ne pas Faire Apparaître le Conservateur du Musée de Nénucrique au RDC/Peut Recevoir des Peintures
-776	r	Ne pas Faire Apparaître la Fille au RDC du Musée de Nénucrique
-777	r	Ne pas Faire Apparaître la Fille au 1er Étage du Musée de Nénucrique
-778	r	Ne pas Faire Apparaître le Garçon au RDC du Musée de Nénucrique
-779	r	Ne pas Faire Apparaître l'Artiste au RDC du Musée de Nénucrique
-780	r	Ne pas Faire Apparaître le Gros/Vieil Homme/Garçon au Musée de Nénucrique
-781	r	Ne pas Faire Apparaître Guido à l'Arène de Clémenti-Ville
-782	r	Ne pas Faire Apparaître Kyogre à la Grotte Marine
-783	r	Ne pas Faire Apparaître Groudon à la Grotte Terra
-784	r	Ne pas Faire Apparaître la Mère du Rival Chez Brice
-785	r	Ne pas Faire Apparaître la Mère du Rival Chez Flora
-786	r	Ne pas Faire Apparaître Scott à la Route 119
-787	r	Ne pas Faire Apparaître Scott à l'Hôtel Crique Crack
-788	r	Ne pas Faire Apparaître Scott à Algatia
-789	r	Ne pas Faire Apparaître la Vieille Dame au Fan Club des Dresseurs Pokémon
-790	r	Ne pas Faire Apparaître l'Homme au Fan Club des Dresseurs Pokémon
-791	r	Ne pas Faire Apparaître le Gamin au Fan Club des Dresseurs Pokémon
-792	r	Ne pas Faire Apparaître la Femme au Fan Club des Dresseurs Pokémon
-793	r	Ne pas Faire Apparaître Scott au Centre Pokémon d'Éternara
-794	r	Ne pas Faire Apparaître Brice/Flora à Bourg-en-Vol
-795	r	Ne pas Faire Apparaître le Prof Seko à Bourg-en-Vol
-796	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 111
-797	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 118 (Pour la Revanche 1)
-798	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 120 (Pour la Revanche 2)
-799	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 111 (Pour la Revanche 3)
-800	r	Ne pas Faire Apparaître Lugia au Roc Nombri
-801	r	Ne pas Faire Apparaître Ho-Oh au Roc Nombri
-802	r	Ne pas Faire Apparaître le Journaliste au Centre de Concours de Nénucrique
+764	e	Ne pas Faire Apparaître le Triangle sur l'Île Aurore (Jamais Sorti pour le Japonais)
+765	m	Ne pas Faire Apparaître Scott à Lavandia
+766	m	Ne pas Faire Apparaître Scott dans la Tente de Combat de Vergazon
+767	m	Ne pas Faire Apparaître Scott dans la Tente de Combat d'Autéquia
+768	m	Ne pas Faire Apparaître Stratège Victor à la Route 111
+769	m	Ne pas Faire Apparaître Stratège Victoria à la Route 111
+770	m	Ne pas Faire Apparaître Stratège Vivi à la Route 111
+771	m	Ne pas Faire Apparaître Stratège Vicky à la Route 111
+772	m	Ne pas Faire Apparaître Norman dans l'Arène de Clémenti-Ville
+773	m	Ne pas Faire Apparaître Rayquaza au Pilier Céleste
+774	m	Ne pas Faire Apparaître l'Artiste au Centre de Concours de Nénucrique (Porte de Gauche)
+775	m	Ne pas Faire Apparaître le Conservateur du Musée de Nénucrique au RDC/Peut Recevoir des Peintures
+776	m	Ne pas Faire Apparaître la Fille au RDC du Musée de Nénucrique
+777	m	Ne pas Faire Apparaître la Fille au 1er Étage du Musée de Nénucrique
+778	m	Ne pas Faire Apparaître le Garçon au RDC du Musée de Nénucrique
+779	m	Ne pas Faire Apparaître l'Artiste au RDC du Musée de Nénucrique
+780	m	Ne pas Faire Apparaître le Gros/Vieil Homme/Garçon au Musée de Nénucrique
+781	m	Ne pas Faire Apparaître Guido à l'Arène de Clémenti-Ville
+782	m	Ne pas Faire Apparaître Kyogre à la Grotte Marine
+783	m	Ne pas Faire Apparaître Groudon à la Grotte Terra
+784	m	Ne pas Faire Apparaître la Mère du Rival Chez Brice
+785	m	Ne pas Faire Apparaître la Mère du Rival Chez Flora
+786	m	Ne pas Faire Apparaître Scott à la Route 119
+787	m	Ne pas Faire Apparaître Scott à l'Hôtel Crique Crack
+788	m	Ne pas Faire Apparaître Scott à Algatia
+789	m	Ne pas Faire Apparaître la Vieille Dame au Fan Club des Dresseurs Pokémon
+790	m	Ne pas Faire Apparaître l'Homme au Fan Club des Dresseurs Pokémon
+791	m	Ne pas Faire Apparaître le Gamin au Fan Club des Dresseurs Pokémon
+792	m	Ne pas Faire Apparaître la Femme au Fan Club des Dresseurs Pokémon
+793	m	Ne pas Faire Apparaître Scott au Centre Pokémon d'Éternara
+794	m	Ne pas Faire Apparaître Brice/Flora à Bourg-en-Vol
+795	m	Ne pas Faire Apparaître le Prof Seko à Bourg-en-Vol
+796	m	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 111
+797	m	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 118 (Pour la Revanche 1)
+798	m	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 120 (Pour la Revanche 2)
+799	m	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 111 (Pour la Revanche 3)
+800	e	Ne pas Faire Apparaître Lugia au Roc Nombri
+801	e	Ne pas Faire Apparaître Ho-Oh au Roc Nombri
+802	m	Ne pas Faire Apparaître le Journaliste au Centre de Concours de Nénucrique
 
-804	r	Ne pas Faire Apparaître Timmy à Lavandia
-805	r	Ne pas Faire Apparaître l'Oncle de Timmy à Lavandia
-806	r	Ne pas Faire Apparaître Timmy Chez Sylvie
-807	r	Ne pas Faire Apparaître le Karatéka au Tunnel Mérazon
-808	r	Ne pas Faire Apparaître le Karatéka Chez Sylvie
-809	r	Ne pas Faire Apparaître l'Oncle de Timmy Chez Sylvie
-810	r	Ne pas Faire Apparaître Scott sur le Bateau
-811	r	Ne pas Faire Apparaître la Poké Ball Contenant Héricendre au Laboratoire du Prof Seko
-812	r	Ne pas Faire Apparaître la Poké Ball Contenant Kaiminus au Laboratoire du Prof Seko
-813	r	Ne pas Faire Apparaître le Gars aux Cheveux Noirs à la Route 116
-814	r	Ne pas Faire Apparaître Brice/Flora à Mérouville
-815	r	Ne pas Faire Apparaître la Poupée Tylton Chez Brice
-816	r	Ne pas Faire Apparaître Marc à Atalanopolis
-817	r	Ne pas Faire Apparaître la Pokéball Chez Brice
-818	r	Ne pas Faire Apparaître la Pokéball Chez Flora
-819	r	Ne pas Faire Apparaître les Sbires Magma à la Route 112
-820	r	Ne pas Faire Apparaître Marc à la Grotte Origine
-821	r	Ne pas Faire Apparaître le Sbire Aqua Gauche à la Planque Aqua
-822	r	Ne pas Faire Apparaître le Sbire Aqua Droite à la Planque Aqua
-823	r	Ne pas Faire Apparaître les Sbires Magma & Max à Algatia
-824	r	Ne pas Faire Apparaître le Père de Timmy à l'Arène de Clémenti-Ville
+804	m	Ne pas Faire Apparaître Timmy à Lavandia
+805	m	Ne pas Faire Apparaître l'Oncle de Timmy à Lavandia
+806	m	Ne pas Faire Apparaître Timmy Chez Sylvie
+807	m	Ne pas Faire Apparaître le Karatéka au Tunnel Mérazon
+808	m	Ne pas Faire Apparaître le Karatéka Chez Sylvie
+809	m	Ne pas Faire Apparaître l'Oncle de Timmy Chez Sylvie
+810	m	Ne pas Faire Apparaître Scott sur le Bateau
+811	m	Ne pas Faire Apparaître la Poké Ball Contenant Héricendre au Laboratoire du Prof Seko
+812	m	Ne pas Faire Apparaître la Poké Ball Contenant Kaiminus au Laboratoire du Prof Seko
+813	m	Ne pas Faire Apparaître le Gars aux Cheveux Noirs à la Route 116
+814	m	Ne pas Faire Apparaître Brice/Flora à Mérouville
+815	m	Ne pas Faire Apparaître la Poupée Tylton Chez Brice
+816	m	Ne pas Faire Apparaître Marc à Atalanopolis
+817	m	Ne pas Faire Apparaître la Pokéball Chez Brice
+818	m	Ne pas Faire Apparaître la Pokéball Chez Flora
+819	m	Ne pas Faire Apparaître les Sbires Magma à la Route 112
+820	m	Ne pas Faire Apparaître Marc à la Grotte Origine
+821	m	Ne pas Faire Apparaître le Sbire Aqua Gauche à la Planque Aqua
+822	m	Ne pas Faire Apparaître le Sbire Aqua Droite à la Planque Aqua
+823	m	Ne pas Faire Apparaître les Sbires Magma & Max à Algatia
+824	m	Ne pas Faire Apparaître le Père de Timmy à l'Arène de Clémenti-Ville
 
-826	r	Ne pas Faire Apparaître Arthur à Atalanopolis
-827	r	Ne pas Faire Apparaître Max à Atalanopolis
+826	m	Ne pas Faire Apparaître Arthur à Atalanopolis
+827	m	Ne pas Faire Apparaître Max à Atalanopolis
 
-830	r	Ne pas Faire Apparaître le Père de Timmy à Clémenti-Ville
+830	m	Ne pas Faire Apparaître le Père de Timmy à Clémenti-Ville
 
-832	r	Ne pas Faire Apparaître le Maître Mixeur et les Spectateurs au Centre de Concours de Nénucrique
-833	r	Ne pas Faire Apparaître Pierre à la Grotte Granite
+832	m	Ne pas Faire Apparaître le Maître Mixeur et les Spectateurs au Centre de Concours de Nénucrique
+833	m	Ne pas Faire Apparaître Pierre à la Grotte Granite
 
-835	r	Ne pas Faire Apparaître le Journaliste à Poivressel
-836	r	Ne pas Faire Apparaître Scott à l'Entrée de la Zone de Combat
-837	r	Ne pas Faire Apparaître le Prof Seko à la Route 110
-838	r	Ne pas Faire Apparaître la Poké Ball Contenant Germignon au Laboratoire du Prof Seko
-839	r	Ne pas Faire Apparaître l'Homme au Nord d'Atalanopolis
-840	r	Ne pas Faire Apparaître le Capitaine Poupe à Poivressel
-841	r	Ne pas Faire Apparaître le Capitaine Poupe à l'Embarcadère de Poivressel
-842	r	Ne pas Faire Apparaître Simularbre à la Zone de Combat
-843	r	Ne pas Faire Apparaître le Gros à la Route 111
-844	r	Ne pas Faire Apparaître le Scientifique de Devon (Blouse Blanche) à Mérouville
-845	r	Ne pas Faire Apparaître le Sbire Aqua à l'Embarcadère de Poivressel
-846	r	Ne pas Faire Apparaître Leader Aqua Arthur à l'Embarcadère de Poivressel
-847	r	Ne pas Faire Apparaître le Sbire Magma au Sentier Sinuroc
-848	r	Ne pas Faire Apparaître l'Ombre du Sous-marin à l'Embarcadère de Poivressel
-849	r	Ne pas Faire Apparaître la Poupée Pichu Chez Flora
-850	r	Ne pas Faire Apparaître Groudon (Pétrifié) à la Planque Magma
-851	r	Ne pas Faire Apparaître Brice/Flora à la Route 119
-852	r	Ne pas Faire Apparaître les Sbires Aqua à Nénucrique
-853	r	Ne pas Faire Apparaître Groudon (Éveillé) à la Planque Magma
-854	r	Ne pas Faire Apparaître les Villageois Additionnels à Atalanopolis
-855	r	Ne pas Faire Apparaître Marc en Face du Pilier Céleste
-856	r	Ne pas Faire Apparaître Max au Mont Mémoria
-857	r	Ne pas Faire Apparaître la Team Magma à la Planque Magma
-858	r	Ne pas Faire Apparaître Timmy à la Route Victoire (Près de l'Entrée)
+835	m	Ne pas Faire Apparaître le Journaliste à Poivressel
+836	m	Ne pas Faire Apparaître Scott à l'Entrée de la Zone de Combat
+837	m	Ne pas Faire Apparaître le Prof Seko à la Route 110
+838	m	Ne pas Faire Apparaître la Poké Ball Contenant Germignon au Laboratoire du Prof Seko
+839	m	Ne pas Faire Apparaître l'Homme au Nord d'Atalanopolis
+840	m	Ne pas Faire Apparaître le Capitaine Poupe à Poivressel
+841	m	Ne pas Faire Apparaître le Capitaine Poupe à l'Embarcadère de Poivressel
+842	m	Ne pas Faire Apparaître Simularbre à la Zone de Combat
+843	m	Ne pas Faire Apparaître le Gros à la Route 111
+844	m	Ne pas Faire Apparaître le Scientifique de Devon (Blouse Blanche) à Mérouville
+845	m	Ne pas Faire Apparaître le Sbire Aqua à l'Embarcadère de Poivressel
+846	m	Ne pas Faire Apparaître Leader Aqua Arthur à l'Embarcadère de Poivressel
+847	m	Ne pas Faire Apparaître le Sbire Magma au Sentier Sinuroc
+848	m	Ne pas Faire Apparaître l'Ombre du Sous-marin à l'Embarcadère de Poivressel
+849	m	Ne pas Faire Apparaître la Poupée Pichu Chez Flora
+850	m	Ne pas Faire Apparaître Groudon (Pétrifié) à la Planque Magma
+851	m	Ne pas Faire Apparaître Brice/Flora à la Route 119
+852	m	Ne pas Faire Apparaître les Sbires Aqua à Nénucrique
+853	m	Ne pas Faire Apparaître Groudon (Éveillé) à la Planque Magma
+854	m	Ne pas Faire Apparaître les Villageois Additionnels à Atalanopolis
+855	m	Ne pas Faire Apparaître Marc en Face du Pilier Céleste
+856	m	Ne pas Faire Apparaître Max au Mont Mémoria
+857	m	Ne pas Faire Apparaître la Team Magma à la Planque Magma
+858	m	Ne pas Faire Apparaître Timmy à la Route Victoire (Près de l'Entrée)
 
-860	r	Ne pas Faire Apparaître Le Marina à l'Embarcadère de Poivressel
-861	r	Ne pas Faire Apparaître Le Marina à l'Embarcadère de Nénucrique
-862	r	Ne pas Faire Apparaître la Team Magma au 1er Étage du Centre Spatial d'Algatia
-863	r	Ne pas Faire Apparaître Pierre au 1er Étage du Centre Spatial d'Algatia
+860	m	Ne pas Faire Apparaître Le Marina à l'Embarcadère de Poivressel
+861	m	Ne pas Faire Apparaître Le Marina à l'Embarcadère de Nénucrique
+862	m	Ne pas Faire Apparaître la Team Magma au 1er Étage du Centre Spatial d'Algatia
+863	m	Ne pas Faire Apparaître Pierre au 1er Étage du Centre Spatial d'Algatia
 
-866	r	Ne pas Faire Apparaître Timmy à l'Arène de Clémenti-Ville
+866	m	Ne pas Faire Apparaître Timmy à l'Arène de Clémenti-Ville
 
-868	r	Ne pas Faire Apparaître le Gros à Bourg-en-Vol
-869	r	Ne pas Faire Apparaître M. Marco au Chantier Naval de Poupe
-870	r	Ne pas Faire Apparaître Annette Chez Elle
-871	r	Ne pas Faire Apparaître Annette au Centre Pokémon d'Autéquia
-872	r	Ne pas Faire Apparaître le Maître des Pièges à l'Entrée de la Maison des Pièges
-873	r	Ne pas Faire Apparaître le Vieil Homme au Centre de Concours de Nénucrique
-874	r	Ne pas Faire Apparaître le Fossile à la Voie du Désert
-875	r	Ne pas Faire Apparaître Brice/Flora au Désert de la Route 111 (Inutilisé ?)
-876	r	Ne pas Faire Apparaître le Fossile à la Route 111
-877	r	Ne pas Faire Apparaître les Dresseurs au Mont Chimnée
-878	r	Ne pas Faire Apparaître le Sbire Aqua au Tunnel Mérazon
-879	r	Ne pas Faire Apparaître M. Marco au Tunnel Mérazon
-880	r	Ne pas Faire Apparaître Piko au Tunnel Mérazon
-881	r	Ne pas Faire Apparaître Piko au Cottage de M. Marco
-882	r	Ne pas Faire Apparaître les Sbires Aqua à Poivressel
-883	r	Ne pas Faire Apparaître les Sbires Aqua au Musée Océanographique
-884	r	Ne pas Faire Apparaître le Sbire Aqua au Musée Océanographique
-885	r	Ne pas Faire Apparaître le Sbire Aqua au 1er Étage du Musée Océanographique
-886	r	Ne pas Faire Apparaître Arthur au 1er Étage du Musée Océanographique
-887	r	Ne pas Faire Apparaître le Capitaine Poupe au Musée Océanographique
+868	m	Ne pas Faire Apparaître le Gros à Bourg-en-Vol
+869	m	Ne pas Faire Apparaître M. Marco au Chantier Naval de Poupe
+870	m	Ne pas Faire Apparaître Annette Chez Elle
+871	m	Ne pas Faire Apparaître Annette au Centre Pokémon d'Autéquia
+872	m	Ne pas Faire Apparaître le Maître des Pièges à l'Entrée de la Maison des Pièges
+873	m	Ne pas Faire Apparaître le Vieil Homme au Centre de Concours de Nénucrique
+874	m	Ne pas Faire Apparaître le Fossile à la Voie du Désert
+875	m	Ne pas Faire Apparaître Brice/Flora au Désert de la Route 111 (Inutilisé ?)
+876	m	Ne pas Faire Apparaître le Fossile à la Route 111
+877	m	Ne pas Faire Apparaître les Dresseurs au Mont Chimnée
+878	m	Ne pas Faire Apparaître le Sbire Aqua au Tunnel Mérazon
+879	m	Ne pas Faire Apparaître M. Marco au Tunnel Mérazon
+880	m	Ne pas Faire Apparaître Piko au Tunnel Mérazon
+881	m	Ne pas Faire Apparaître Piko au Cottage de M. Marco
+882	m	Ne pas Faire Apparaître les Sbires Aqua à Poivressel
+883	m	Ne pas Faire Apparaître les Sbires Aqua au Musée Océanographique
+884	m	Ne pas Faire Apparaître le Sbire Aqua au Musée Océanographique
+885	m	Ne pas Faire Apparaître le Sbire Aqua au 1er Étage du Musée Océanographique
+886	m	Ne pas Faire Apparaître Arthur au 1er Étage du Musée Océanographique
+887	m	Ne pas Faire Apparaître le Capitaine Poupe au Musée Océanographique
 
-889	r	Ne pas Faire Apparaître Brice/Flora au Laboratoire du Prof Seko
-890	r	Ne pas Faire Apparaître la Team Aqua au Centre Météo
-891	r	Ne pas Faire Apparaître M. Marco à la Route 116
-892	r	Ne pas Faire Apparaître les Assistants au RDC du Centre Météo
-893	r	Ne pas Faire Apparaître les Assistants au 1er Étage du Centre Météo
-894	r	Ne pas Faire Apparaître le Karatéka à la Route 116
-895	r	Ne pas Faire Apparaître l'Artise au Centre de Concours de Nénucrique (Porte de Droite)
+889	m	Ne pas Faire Apparaître Brice/Flora au Laboratoire du Prof Seko
+890	m	Ne pas Faire Apparaître la Team Aqua au Centre Météo
+891	m	Ne pas Faire Apparaître M. Marco à la Route 116
+892	m	Ne pas Faire Apparaître les Assistants au RDC du Centre Météo
+893	m	Ne pas Faire Apparaître les Assistants au 1er Étage du Centre Météo
+894	m	Ne pas Faire Apparaître le Karatéka à la Route 116
+895	m	Ne pas Faire Apparaître l'Artise au Centre de Concours de Nénucrique (Porte de Droite)
 
-897	r	Ne pas Faire Apparaître le Prof Seko à la Route 101
-898	r	Ne pas Faire Apparaître le Prof Seko à la Route 103
-899	r	Ne pas Faire Apparaître le Maître des Pièges à la Salle des Récompenses de la Maison des Pièges
-900	r	Ne pas Faire Apparaître les Sbires Aqua à la Route 110
-901	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 118 (pour Revanche 4)
-902	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 120 (pour Revanche 5)
-903	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 111 (pour Revanche 5)
-904	r	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 118 (Revanche 5)
-905	r	Ne pas Faire Apparaître le Marin et le Gros à l'Embarcadère de Poivressel
-906	r	Ne pas Faire Apparaître la Fille à la Route 104
-907	r	Ne pas Faire Apparaître Azurill à Autéquia
-908	r	Ne pas Faire Apparaître la Dame à l'Embarcadère de Nénucrique
-909	r	Ne pas Faire Apparaître le Marin à l'Embarcadère de Nénucrique
+897	m	Ne pas Faire Apparaître le Prof Seko à la Route 101
+898	m	Ne pas Faire Apparaître le Prof Seko à la Route 103
+899	m	Ne pas Faire Apparaître le Maître des Pièges à la Salle des Récompenses de la Maison des Pièges
+900	m	Ne pas Faire Apparaître les Sbires Aqua à la Route 110
+901	m	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 118 (pour Revanche 4)
+902	m	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 120 (pour Revanche 5)
+903	m	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 111 (pour Revanche 5)
+904	m	Ne pas Faire Apparaître les Journalistes Inès & Guy à la Route 118 (Revanche 5)
+905	m	Ne pas Faire Apparaître le Marin et le Gros à l'Embarcadère de Poivressel
+906	m	Ne pas Faire Apparaître la Fille à la Route 104
+907	m	Ne pas Faire Apparaître Azurill à Autéquia
+908	m	Ne pas Faire Apparaître la Dame à l'Embarcadère de Nénucrique
+909	m	Ne pas Faire Apparaître le Marin à l'Embarcadère de Nénucrique
 
-912	r	Ne pas Faire Apparaître Voltère à Lavandia
-913	r	Ne pas Faire Apparaître Voltère à l'Arène de Lavandia
-914	r	Ne pas Faire Apparaître les Sbires Aqua à la Route 121
+912	m	Ne pas Faire Apparaître Voltère à Lavandia
+913	m	Ne pas Faire Apparaître Voltère à l'Arène de Lavandia
+914	m	Ne pas Faire Apparaître les Sbires Aqua à la Route 121
 
-916	r	Ne pas Faire Apparaître Arthur au Mont Mémoria
-917	r	Ne pas Faire Apparaître les Sbires Aqua au Mont Mémoria
-918	r	Ne pas Faire Apparaître le Journaliste à la Tour de Combat
-919	r	Ne pas Faire Apparaître Brice/Flora à la Route 110
+916	m	Ne pas Faire Apparaître Arthur au Mont Mémoria
+917	m	Ne pas Faire Apparaître les Sbires Aqua au Mont Mémoria
+918	m	Ne pas Faire Apparaître le Journaliste à la Tour de Combat
+919	m	Ne pas Faire Apparaître Brice/Flora à la Route 110
 
-922	r	Ne pas Faire Apparaître Brice/Flora (sur Vélo) à la Route 110 (Inutilisé ?)
-923	r	Ne pas Faire Apparaître Brice/Flora (sur Vélo) à la Route 119 (Inutilisé ?)
-924	r	Ne pas Faire Apparaître la Team Aqua à la Planque Aqua
-925	r	Ne pas Faire Apparaître l'Équipe de Game Freak à l'Hôtel Crique Crack
-926	r	Ne pas Faire Apparaître la Team Aqua au Mont Chimnée
-927	r	Ne pas Faire Apparaître la Team Magma au Mont Chimnée
-928	r	Ne pas Faire Apparaître Kosmo Chez Lui
-929	r	Ne pas Faire Apparaître Brice/Flora à Vermilava
-930	r	Ne pas Faire Apparaître Brice/Flora (sur Vélo) à Vermilava (Inutilisé ?)
-931	r	Ne pas Faire Apparaître le Rocher du Bas au Tunnel Mérazon
-932	r	Ne pas Faire Apparaître le Rocher du Haut au Tunnel Mérazon
-933	r	Ne pas Faire Apparaître Goélise à Cimetronelle
-934	r	Ne pas Faire Apparaître Goélise à Algatia
-935	r	Ne pas Faire Apparaître Regirock aux Ruines Désert
+922	m	Ne pas Faire Apparaître Brice/Flora (sur Vélo) à la Route 110 (Inutilisé ?)
+923	m	Ne pas Faire Apparaître Brice/Flora (sur Vélo) à la Route 119 (Inutilisé ?)
+924	m	Ne pas Faire Apparaître la Team Aqua à la Planque Aqua
+925	m	Ne pas Faire Apparaître l'Équipe de Game Freak à l'Hôtel Crique Crack
+926	m	Ne pas Faire Apparaître la Team Aqua au Mont Chimnée
+927	m	Ne pas Faire Apparaître la Team Magma au Mont Chimnée
+928	m	Ne pas Faire Apparaître Kosmo Chez Lui
+929	m	Ne pas Faire Apparaître Brice/Flora à Vermilava
+930	m	Ne pas Faire Apparaître Brice/Flora (sur Vélo) à Vermilava (Inutilisé ?)
+931	m	Ne pas Faire Apparaître le Rocher du Bas au Tunnel Mérazon
+932	m	Ne pas Faire Apparaître le Rocher du Haut au Tunnel Mérazon
+933	m	Ne pas Faire Apparaître Goélise à Cimetronelle
+934	m	Ne pas Faire Apparaître Goélise à Algatia
+935	m	Ne pas Faire Apparaître Regirock aux Ruines Désert
 	
-938	r	Ne pas Faire Apparaître les Sbires Aqua et Arthur au Site Météore
-939	r	Ne pas Faire Apparaître les Sbires Magma au Site Météore
-940	r	Ne pas Faire Apparaître l'Homme aux Cheveux Noirs au Centre Culturel de Myokara
-941	r	Ne pas Faire Apparaître le Sbire Aqua à l'Entrée de la Caverne Fondmer
-942	r	Ne pas Faire Apparaître Kosmo au Site Météore
-943	r	Ne pas Faire Apparaître l'Ombre du Sous-marin à la Planque Aqua
-944	r	Ne pas Faire Apparaître Arthur Au-dessus de la Caverne Fondmer
-945	r	Ne pas Faire Apparaître Max Au-dessus de la Caverne Fondmer
-946	r	Ne pas Faire Apparaître la Team Aqua à la Caverne Fondmer
-947	r	Ne pas Faire Apparaître le Scientifique Devon à la Route 116
-948	r	Ne pas Faire Apparaître le Vendeur à Poivressel
-949	r	Ne pas Faire Apparaître le Scientifique de Devon à Devon SARL
-950	r	Ne pas Faire Apparaître M. Marco et Piko sur Le Marina
+938	m	Ne pas Faire Apparaître les Sbires Aqua et Arthur au Site Météore
+939	m	Ne pas Faire Apparaître les Sbires Magma au Site Météore
+940	m	Ne pas Faire Apparaître l'Homme aux Cheveux Noirs au Centre Culturel de Myokara
+941	m	Ne pas Faire Apparaître le Sbire Aqua à l'Entrée de la Caverne Fondmer
+942	m	Ne pas Faire Apparaître Kosmo au Site Météore
+943	m	Ne pas Faire Apparaître l'Ombre du Sous-marin à la Planque Aqua
+944	m	Ne pas Faire Apparaître Arthur Au-dessus de la Caverne Fondmer
+945	m	Ne pas Faire Apparaître Max Au-dessus de la Caverne Fondmer
+946	m	Ne pas Faire Apparaître la Team Aqua à la Caverne Fondmer
+947	m	Ne pas Faire Apparaître le Scientifique Devon à la Route 116
+948	m	Ne pas Faire Apparaître le Vendeur à Poivressel
+949	m	Ne pas Faire Apparaître le Scientifique de Devon à Devon SARL
+950	m	Ne pas Faire Apparaître M. Marco et Piko sur Le Marina
 
-952	r	Sel Tréfonds (Nord de la Salle Interne) Trouvé à la Grotte Tréfonds
-953	r	Sel Tréfonds (Sud de la Salle Interne) Trouvé à la Grotte Tréfonds
-954	r	Sel Tréfonds (Salle des Escaliers) Trouvé à la Grotte Tréfonds
-955	r	Sel Tréfonds (Salle Plus Bas) Trouvé à la Grotte Tréfonds
-956	r	Co. Tréfonds (Sud-est) Trouvée à la Grotte Tréfonds
-957	r	Co. Tréfonds (Nord-est) Trouvée à la Grotte Tréfonds
-958	r	Co. Tréfonds (Nord-ouest) Trouvée à la Grotte Tréfonds
-959	r	Co. Tréfonds (Proche du Centre) Trouvée à la Grotte Tréfonds
+952	i	Sel Tréfonds (Nord de la Salle Interne) Trouvé à la Grotte Tréfonds
+953	i	Sel Tréfonds (Sud de la Salle Interne) Trouvé à la Grotte Tréfonds
+954	i	Sel Tréfonds (Salle des Escaliers) Trouvé à la Grotte Tréfonds
+955	i	Sel Tréfonds (Salle Plus Bas) Trouvé à la Grotte Tréfonds
+956	i	Co. Tréfonds (Sud-est) Trouvée à la Grotte Tréfonds
+957	i	Co. Tréfonds (Nord-est) Trouvée à la Grotte Tréfonds
+958	i	Co. Tréfonds (Nord-ouest) Trouvée à la Grotte Tréfonds
+959	i	Co. Tréfonds (Proche du Centre) Trouvée à la Grotte Tréfonds
 960	r	Ne pas Faire Apparaître l'Homme qui Donne la CT43 à la Route 111
 961	r	Ne pas Faire Apparaître les Visiteurs du Musée Océanographique
 962	r	Ne pas Faire Apparaître le Vendeur sur le Toit du Centre Commercial
@@ -480,203 +480,203 @@
 968	r	Ne pas Faire Apparaître Terhal (Pokéball) Chez Pierre
 969	r	Ne pas Faire Apparaître le Kecleon à Cimetronelle
 970	r	Ne pas Faire Apparaître le Kecleon à la Route 120 (Pont)
-971	r	Ne pas Faire Apparaître Brice/Flora à Nénucrique
-972	r	Ne pas Faire Apparaître Pierre à la Route 120
-973	r	Ne pas Faire Apparaître Pierre à Atalanopolis
+971	m	Ne pas Faire Apparaître Brice/Flora à Nénucrique
+972	m	Ne pas Faire Apparaître Pierre à la Route 120
+973	m	Ne pas Faire Apparaître Pierre à Atalanopolis
 974	r	Ne pas Faire Apparaître Voltorbe sur l'Interrupteur Vert à New Lavandia
 975	r	Ne pas Faire Apparaître Voltorbe sur l'Interrupteur Bleu à New Lavandia
 976	r	Ne pas Faire Apparaître Voltorbe sur l'Interrupteur Bleu à New Lavandia
 977	r	Ne pas Faire Apparaître l'Électrode du Haut à la Planque Aqua
 978	r	Ne pas Faire Apparaître l'Électrode du Bas à la Planque Aqua
-979	r	Ne pas Faire Apparaître Brice/Flora à Rosyères
-980	r	Ne pas Faire Apparaître le Sous-marin à la Caverne Fondmer (Invisible)
+979	m	Ne pas Faire Apparaître Brice/Flora à Rosyères
+980	m	Ne pas Faire Apparaître le Sous-marin à la Caverne Fondmer (Invisible)
 981	r	Ne pas Faire Apparaître l'Ombre de Kecleon à la Route 120
 982	r	Ne pas Faire Apparaître le Kecleon à la Route 120 (Escaliers)
-983	r	Ne pas Faire Apparaître Sylvie au Tunnel Mérazon
-984	r	Ne pas Faire Apparaître Sylvie Chez Elle
+983	m	Ne pas Faire Apparaître Sylvie au Tunnel Mérazon
+984	m	Ne pas Faire Apparaître Sylvie Chez Elle
 985	r	Ne pas Faire Apparaître Kecleon à la Route 120 (Derrière la Pancarte)
 986	r	Ne pas Faire Apparaître Kecleon à la Route 120 (Derrière les Arbres à Baies)
 987	r	Ne pas Faire Apparaître Kecleon à la Route 120 (À Gauche du Long Labyrinthe d'Herbes)
 988	r	Ne pas Faire Apparaître Kecleon à la Route 120 (Derrière le Tombeau Antique)
 989	r	Ne pas Faire Apparaître Kecleon à la Route 119 (À Droite du Ninja Fan)
 990	r	Ne pas Faire Apparaître Kecleon à la Route 119 (À Gauche du Ninja Fan)
-991	r	Ne pas Faire Apparaître le Garçon dans les Herbes à la Route 101
+991	m	Ne pas Faire Apparaître le Garçon dans les Herbes à la Route 101
 
-993	r	Ne pas Faire Apparaître le Zigzaton Nommé Le Sublime au Centre Pokémon de Nénucrique
-994	r	Ne pas Faire Apparaître la Vieille Dame au Mont Chimnée
+993	m	Ne pas Faire Apparaître le Zigzaton Nommé Le Sublime au Centre Pokémon de Nénucrique
+994	m	Ne pas Faire Apparaître la Vieille Dame au Mont Chimnée
 
-996	r	Ne pas Faire Apparaître Rayquaza à Atalanopolis
-997	r	Ne pas Faire Apparaître Kyogre à Atalanopolis
-998	r	Ne pas Faire Apparaître Groudon à Atalanopolis
-999	r	Ne pas Faire Apparaître Scott à l'École de Dresseurs Pokémon
-1000	r	Potion Trouvée à la Route 102
-1001	r	Spécial + Trouvé à la Route 116
-1002	r	PP Plus Trouvé à la Route 104
-1003	r	Fer Trouvé au Chenal 105
-1004	r	Protéine Trouvée au Chenal 106
-1005	r	PP Plus Trouvé au Chenal 109
-1006	r	Super Bonbon Trouvé à la Route 110
-1007	r	Muscle + Trouvé à la Route 110
-1008	r	CT37 Trouvée à la Route 111
-1009	r	Pouss.Étoile Trouvée à la Route 111
-1010	r	PV Plus Trouvé à la Route 111
-1011	r	Pépite Trouvée à la Route 112
-1012	r	Huile Max Trouvée à la Route 113
-1013	r	Super Repousse Trouvé à la Route 113
-1014	r	Super Bonbon Trouvé à la Route 114
-1015	r	Protéine Trouvée à la Route 114
-1016	r	Super Potion Trouvée à la Route 115
-1017	r	CT01 Trouvée à la Route 115
-1018	r	Fer Trouvé à la Route 115
-1019	r	Huile Trouvée à la Route 116
-1020	r	Repousse Trouvé à la Route 116
-1021	r	PV Plus Trouvé à la Route 116
-1022	r	Super Ball Trouvée à la Route 117
-1023	r	Rappel Trouvé à la Route 117
-1024	r	Super Repousse Trouvé à la Route 119
-1025	r	Zinc Trouvé à la Route 119
-1026	r	Élixir (à Côté des Hautes Herbes) Trouvé à la Route 119
-1027	r	Pierreplante Trouvée à la Route 119
-1028	r	Super Bonbon Trouvé à la Route 119
-1029	r	Hyper Potion (Longue Zone d'Herbes) Trouvée à la Route 119
-1030	r	Pépite Trouvée à la Route 120
-1031	r	Total Soin Trouvé à la Route 120
-1032	r	Calcium Trouvé à la Route 123
+996	m	Ne pas Faire Apparaître Rayquaza à Atalanopolis
+997	m	Ne pas Faire Apparaître Kyogre à Atalanopolis
+998	m	Ne pas Faire Apparaître Groudon à Atalanopolis
+999	m	Ne pas Faire Apparaître Scott à l'École de Dresseurs Pokémon
+1000	i	Potion Trouvée à la Route 102
+1001	i	Spécial + Trouvé à la Route 116
+1002	i	PP Plus Trouvé à la Route 104
+1003	i	Fer Trouvé au Chenal 105
+1004	i	Protéine Trouvée au Chenal 106
+1005	i	PP Plus Trouvé au Chenal 109
+1006	i	Super Bonbon Trouvé à la Route 110
+1007	i	Muscle + Trouvé à la Route 110
+1008	i	CT37 Trouvée à la Route 111
+1009	i	Pouss.Étoile Trouvée à la Route 111
+1010	i	PV Plus Trouvé à la Route 111
+1011	i	Pépite Trouvée à la Route 112
+1012	i	Huile Max Trouvée à la Route 113
+1013	i	Super Repousse Trouvé à la Route 113
+1014	i	Super Bonbon Trouvé à la Route 114
+1015	i	Protéine Trouvée à la Route 114
+1016	i	Super Potion Trouvée à la Route 115
+1017	i	CT01 Trouvée à la Route 115
+1018	i	Fer Trouvé à la Route 115
+1019	i	Huile Trouvée à la Route 116
+1020	i	Repousse Trouvé à la Route 116
+1021	i	PV Plus Trouvé à la Route 116
+1022	i	Super Ball Trouvée à la Route 117
+1023	i	Rappel Trouvé à la Route 117
+1024	i	Super Repousse Trouvé à la Route 119
+1025	i	Zinc Trouvé à la Route 119
+1026	i	Élixir (à Côté des Hautes Herbes) Trouvé à la Route 119
+1027	i	Pierreplante Trouvée à la Route 119
+1028	i	Super Bonbon Trouvé à la Route 119
+1029	i	Hyper Potion (Longue Zone d'Herbes) Trouvée à la Route 119
+1030	i	Pépite Trouvée à la Route 120
+1031	i	Total Soin Trouvé à la Route 120
+1032	i	Calcium Trouvé à la Route 123
 
-1034	r	Zinc Trouvé au Chenal 127
-1035	r	Carbone Trouvé au Chenal 127
-1036	r	Super Bonbon Trouvé au Chenal 132
-1037	r	Grande Perle Trouvée au Chenal 133
-1038	r	Morc. Étoile Trouvé au Chenal 133
-1039	r	Rappel Max Trouvé à Clémenti-Ville
-1040	r	Huile Trouvé à Clémenti-Ville
-1041	r	Défense + Trouvé à Mérouville
-1042	r	Max Repousse Trouvé à Nénucrique
-1043	r	Filet Ball Trouvée à Algatia
-1044	r	CT23 Trouvée au Site Météore
-1045	r	Total Soin Trouvé au Site Météore
-1046	r	Pierre Lune Trouvée au Site Météore
-1047	r	PP Plus Trouvé au Site Météore
-1048	r	Poké Ball Trouvée au Tunnel Mérazon
-1049	r	Huile Max Trouvée au Tunnel Mérazon
-1050	r	Corde Sortie Trouvée à la Grotte Granite
-1051	r	Poké Ball Trouvée à la Grotte Granite
-1052	r	Encens Doux Trouvé au Mont Mémoria
-1053	r	Repousse Trouvé à la Grotte Granite
-1054	r	Super Bonbon Trouvé à la Grotte Granite
-1055	r	Attaque + Trouvé au Bois Clémenti
-1056	r	Super Ball Trouvée au Bois Clémenti
-1057	r	Poké Ball Trouvée à la Route 104
-1058	r	Huile Trouvée au Bois Clémenti
-1059	r	Corde Sortie Trouvée à la Planque Magma
-1060	r	Lettre Oranj Trouvée au Défi 1 de la Maison des Pièges
-1061	r	Lettre Port Trouvée au Défi 2 de la Maison des Pièges
-1062	r	Lettre Vague Trouvée au Défi 2 de la Maison des Pièges
-1063	r	Lettre Ombre Trouvée au Défi 3 de la Maison des Pièges
-1064	r	Lettre Bois Trouvée au Défi 3 de la Maison des Pièges
-1065	r	Lettre Méca Trouvée au Défi 4 de la Maison des Pièges
-1066	r	Tesson Jaune Trouvé au Chenal 124
-1067	r	Lettre Brill Trouvée au Défi 6 de la Maison des Pièges
-1068	r	Lettre Tropi Trouvée au Défi 7 de la Maison des Pièges
-1069	r	Lettre Bulle Trouvée au Défi 8 de la Maison des Pièges
-1070	r	Anti-Brûle Trouvé au Sentier Sinuroc
-1071	r	Max Élixir Trouvé à la Planque Aqua
-1072	r	Faiblo Ball Trouvée à la Planque Aqua
-1073	r	Max Potion Trouvée au Mont Mémoria
-1074	r	CT48 Trouvée au Mont Mémoria
-1075	r	Hyper Ball Trouvée à New Lavandia
-1076	r	Corde Sortie Trouvée à New Lavandia
-1077	r	Luxe Ball Trouvée à l'Épave
-1078	r	Scanner Trouvé à l'Épave
-1079	r	CT11 Trouvée à la Grotte Zénith
-1080	r	CT02 Trouvée au Site Météore
-1081	r	Grande Perle Trouvée à la Grotte Tréfonds
-1082	r	Super Bonbon Trouvé à la Grotte Tréfonds
-1083	r	Antigel Trouvé à la Grotte Tréfonds
-1084	r	Max Élixir Trouvé à la Route Victoire
-1085	r	PP Plus Trouvé à la Route Victoire
-1086	r	CT29 Trouvée à la Route Victoire
-1087	r	Guérison Trouvé à la Route Victoire
-1088	r	Total Soin Trouvé à la Route Victoire
-1089	r	CT30 Trouvée au Mont Mémoria
-1090	r	CT26 Trouvée à la Caverne Fondmer
-1091	r	CT06 Trouvée au Chemin Ardent
-1092	r	Tesson Rouge Trouvé au Chenal 124
-1093	r	Tesson Bleu Trouvé au Chenal 124
-1094	r	CT22 Trouvée au Parc Safari
-1095	r	Lettre Port Trouvée à l'Épave
-1096	r	Corde Sortie Trouvée à l'Épave
-1097	r	Scuba Ball Trouvée à l'Épave
-1098	r	CT13 Trouvée à l'Épave
-1099	r	Rappel Trouvé à l'Épave
-1100	r	Clé Stockage Trouvée à l'Épave
-1101	r	Pierre Eau Trouvée à l'Épave
-1102	r	CT18 Trouvée à l'Épave
-1103	r	Carbone Trouvé à la Route 121
-1104	r	Hyper Ball Trouvée à la Route 123
-1105	r	Tesson Vert Trouvé au Chenal 126
-1106	r	Hyper Potion (Proche de la Pente Boueuse) Trouvée à la Route 119
-1107	r	Hyper Potion Trouvée à la Route 120
-1108	r	Faiblo Ball Trouvée à la Route 120
-1109	r	Élixir Trouvé à la Route 123
-1110	r	Pierrefoudre Trouvée à New Lavandia
-1111	r	Pierre Feu Trouvée au Chemin Ardent
-1112	r	CT07 Trouvée à la Grotte Tréfonds
-1113	r	Glacéternel Trouvée à la Grotte Tréfonds
-1114	r	Défense Spéc Trouvé à la Route 103
-1115	r	Précision + Trouvé à la Route 104
-1116	r	Vitesse + Trouvé à Lavandia
-1117	r	Anti-Para Trouvé au Bois Clémenti
-1118	r	Super Ball Trouvée à la Route 115
-1119	r	Calcium Trouvé au Parc Safari
-1120	r	Super Repousse Trouvé au Mont Mémoria
-1121	r	Hyper Potion Trouvée à la Route 118
-1122	r	Total Soin Trouvé à New Lavandia
-1123	r	Anti-Para Trouvé à New Lavandia
-1124	r	Master Ball Trouvée à la Planque Aqua
+1034	i	Zinc Trouvé au Chenal 127
+1035	i	Carbone Trouvé au Chenal 127
+1036	i	Super Bonbon Trouvé au Chenal 132
+1037	i	Grande Perle Trouvée au Chenal 133
+1038	i	Morc. Étoile Trouvé au Chenal 133
+1039	i	Rappel Max Trouvé à Clémenti-Ville
+1040	i	Huile Trouvé à Clémenti-Ville
+1041	i	Défense + Trouvé à Mérouville
+1042	i	Max Repousse Trouvé à Nénucrique
+1043	i	Filet Ball Trouvée à Algatia
+1044	i	CT23 Trouvée au Site Météore
+1045	i	Total Soin Trouvé au Site Météore
+1046	i	Pierre Lune Trouvée au Site Météore
+1047	i	PP Plus Trouvé au Site Météore
+1048	i	Poké Ball Trouvée au Tunnel Mérazon
+1049	i	Huile Max Trouvée au Tunnel Mérazon
+1050	i	Corde Sortie Trouvée à la Grotte Granite
+1051	i	Poké Ball Trouvée à la Grotte Granite
+1052	i	Encens Doux Trouvé au Mont Mémoria
+1053	i	Repousse Trouvé à la Grotte Granite
+1054	i	Super Bonbon Trouvé à la Grotte Granite
+1055	i	Attaque + Trouvé au Bois Clémenti
+1056	i	Super Ball Trouvée au Bois Clémenti
+1057	i	Poké Ball Trouvée à la Route 104
+1058	i	Huile Trouvée au Bois Clémenti
+1059	i	Corde Sortie Trouvée à la Planque Magma
+1060	i	Lettre Oranj Trouvée au Défi 1 de la Maison des Pièges
+1061	i	Lettre Port Trouvée au Défi 2 de la Maison des Pièges
+1062	i	Lettre Vague Trouvée au Défi 2 de la Maison des Pièges
+1063	i	Lettre Ombre Trouvée au Défi 3 de la Maison des Pièges
+1064	i	Lettre Bois Trouvée au Défi 3 de la Maison des Pièges
+1065	i	Lettre Méca Trouvée au Défi 4 de la Maison des Pièges
+1066	i	Tesson Jaune Trouvé au Chenal 124
+1067	i	Lettre Brill Trouvée au Défi 6 de la Maison des Pièges
+1068	i	Lettre Tropi Trouvée au Défi 7 de la Maison des Pièges
+1069	i	Lettre Bulle Trouvée au Défi 8 de la Maison des Pièges
+1070	i	Anti-Brûle Trouvé au Sentier Sinuroc
+1071	i	Max Élixir Trouvé à la Planque Aqua
+1072	i	Faiblo Ball Trouvée à la Planque Aqua
+1073	i	Max Potion Trouvée au Mont Mémoria
+1074	i	CT48 Trouvée au Mont Mémoria
+1075	i	Hyper Ball Trouvée à New Lavandia
+1076	i	Corde Sortie Trouvée à New Lavandia
+1077	i	Luxe Ball Trouvée à l'Épave
+1078	i	Scanner Trouvé à l'Épave
+1079	i	CT11 Trouvée à la Grotte Zénith
+1080	i	CT02 Trouvée au Site Météore
+1081	i	Grande Perle Trouvée à la Grotte Tréfonds
+1082	i	Super Bonbon Trouvé à la Grotte Tréfonds
+1083	i	Antigel Trouvé à la Grotte Tréfonds
+1084	i	Max Élixir Trouvé à la Route Victoire
+1085	i	PP Plus Trouvé à la Route Victoire
+1086	i	CT29 Trouvée à la Route Victoire
+1087	i	Guérison Trouvé à la Route Victoire
+1088	i	Total Soin Trouvé à la Route Victoire
+1089	i	CT30 Trouvée au Mont Mémoria
+1090	i	CT26 Trouvée à la Caverne Fondmer
+1091	i	CT06 Trouvée au Chemin Ardent
+1092	i	Tesson Rouge Trouvé au Chenal 124
+1093	i	Tesson Bleu Trouvé au Chenal 124
+1094	i	CT22 Trouvée au Parc Safari
+1095	i	Lettre Port Trouvée à l'Épave
+1096	i	Corde Sortie Trouvée à l'Épave
+1097	i	Scuba Ball Trouvée à l'Épave
+1098	i	CT13 Trouvée à l'Épave
+1099	i	Rappel Trouvé à l'Épave
+1100	i	Clé Stockage Trouvée à l'Épave
+1101	i	Pierre Eau Trouvée à l'Épave
+1102	i	CT18 Trouvée à l'Épave
+1103	i	Carbone Trouvé à la Route 121
+1104	i	Hyper Ball Trouvée à la Route 123
+1105	i	Tesson Vert Trouvé au Chenal 126
+1106	i	Hyper Potion (Proche de la Pente Boueuse) Trouvée à la Route 119
+1107	i	Hyper Potion Trouvée à la Route 120
+1108	i	Faiblo Ball Trouvée à la Route 120
+1109	i	Élixir Trouvé à la Route 123
+1110	i	Pierrefoudre Trouvée à New Lavandia
+1111	i	Pierre Feu Trouvée au Chemin Ardent
+1112	i	CT07 Trouvée à la Grotte Tréfonds
+1113	i	Glacéternel Trouvée à la Grotte Tréfonds
+1114	i	Défense Spéc Trouvé à la Route 103
+1115	i	Précision + Trouvé à la Route 104
+1116	i	Vitesse + Trouvé à Lavandia
+1117	i	Anti-Para Trouvé au Bois Clémenti
+1118	i	Super Ball Trouvée à la Route 115
+1119	i	Calcium Trouvé au Parc Safari
+1120	i	Super Repousse Trouvé au Mont Mémoria
+1121	i	Hyper Potion Trouvée à la Route 118
+1122	i	Total Soin Trouvé à New Lavandia
+1123	i	Anti-Para Trouvé à New Lavandia
+1124	i	Master Ball Trouvée à la Planque Aqua
 
-1129	r	Hyper Ball Trouvée au Mont Mémoria
-1130	r	Encens Mer Trouvé au Mont Mémoria
-1131	r	Rappel Max Trouvé au Parc Safari
-1132	r	Pépite Trouvée à la Planque Aqua
+1129	i	Hyper Ball Trouvée au Mont Mémoria
+1130	i	Encens Mer Trouvé au Mont Mémoria
+1131	i	Rappel Max Trouvé au Parc Safari
+1132	i	Pépite Trouvée à la Planque Aqua
 
-1134	r	Pépite Trouvée à la Route 119
-1135	r	Potion Trouvée à la Route 104
+1134	i	Pépite Trouvée à la Route 119
+1135	i	Potion Trouvée à la Route 104
 
-1137	r	PP Plus Trouvé à la Route 103
+1137	i	PP Plus Trouvé à la Route 103
 
-1139	r	Morc. Étoile Trouvé au Chenal 108
-1140	r	Potion Trouvée au Chenal 109
+1139	i	Morc. Étoile Trouvé au Chenal 108
+1140	i	Potion Trouvée au Chenal 109
 1141	r	Élixir Trouvé à la Route 110 
-1142	r	Élixir Trouvé à la Route 111
-1143	r	Hyper Potion Trouvée à la Route 113
-1144	r	Poudre Soin Trouvée à la Route 115
+1142	i	Élixir Trouvé à la Route 111
+1143	i	Hyper Potion Trouvée à la Route 113
+1144	i	Poudre Soin Trouvée à la Route 115
 
-1146	r	Potion Trouvée à la Route 116
-1147	r	Élixir (Proche de l'Eau) Trouvé à la Route 119
-1148	r	Rappel Trouvé à la Route 120
-1149	r	Rappel Trouvé à la Route 121
-1150	r	Zinc Trouvé à la Route 121
-1151	r	Super Bonbon Trouvé à la Planque Magma
-1152	r	PP Plus Trouvé à la Route 123
-1153	r	Herbe Rappel Trouvée à la Route 123
-1154	r	Grande Perle Trouvée au Chenal 125
-1155	r	Super Bonbon Trouvé au Chenal 127
-1156	r	Protéine Trouvée au Chenal 132
-1157	r	Rappel Max Trouvé au Chenal 133
-1158	r	Carbone Trouvé au Chenal 134
-1159	r	Morc. Étoile Trouvé au Chenal 134
-1160	r	Poudrénergie Trouvée à la Route 114
-1161	r	PP Plus Trouvé à la Route 115
-1162	r	PV Plus Trouvé à la Grotte Atelier
-1163	r	Carbone Trouvé à la Grotte Atelier
-1164	r	Max Élixir Trouvé à la Planque Magma
-1165	r	Guérison Trouvé à la Planque Magma
-1166	r	Pépite Trouvée à la Planque Magma
-1167	r	PP Max Trouvé à la Planque Magma
-1168	r	Rappel Max Trouvé à la Planque Magma
-1169	r	Pépite Trouvée au Parc Safari
-1170	r	Grande Perle Trouvée au Parc Safari
+1146	i	Potion Trouvée à la Route 116
+1147	i	Élixir (Proche de l'Eau) Trouvé à la Route 119
+1148	i	Rappel Trouvé à la Route 120
+1149	i	Rappel Trouvé à la Route 121
+1150	i	Zinc Trouvé à la Route 121
+1151	i	Super Bonbon Trouvé à la Planque Magma
+1152	i	PP Plus Trouvé à la Route 123
+1153	i	Herbe Rappel Trouvée à la Route 123
+1154	i	Grande Perle Trouvée au Chenal 125
+1155	i	Super Bonbon Trouvé au Chenal 127
+1156	i	Protéine Trouvée au Chenal 132
+1157	i	Rappel Max Trouvé au Chenal 133
+1158	i	Carbone Trouvé au Chenal 134
+1159	i	Morc. Étoile Trouvé au Chenal 134
+1160	i	Poudrénergie Trouvée à la Route 114
+1161	i	PP Plus Trouvé à la Route 115
+1162	i	PV Plus Trouvé à la Grotte Atelier
+1163	i	Carbone Trouvé à la Grotte Atelier
+1164	i	Max Élixir Trouvé à la Planque Magma
+1165	i	Guérison Trouvé à la Planque Magma
+1166	i	Pépite Trouvée à la Planque Magma
+1167	i	PP Max Trouvé à la Planque Magma
+1168	i	Rappel Max Trouvé à la Planque Magma
+1169	i	Pépite Trouvée au Parc Safari
+1170	i	Grande Perle Trouvée au Parc Safari
 
 1272	s	Changement du Texte du Dresseur Pokémon Pierre au Site Météore (pas Réglé pour la Revanche)
 

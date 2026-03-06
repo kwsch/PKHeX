@@ -1,7 +1,7 @@
 0318	s	在立志湖洞窟擊敗了鎮星/心齊湖恢復了
 0350	s	立志湖水恢復了/可以從神和鎮獲得帝牙盧卡/帕路奇亞圖鑑
 0351	r	帝牙盧卡/帕路奇亞 已捕獲
-0482	s	帝牙盧卡/帕路奇亞離開槍之柱
+0482	r	帝牙盧卡/帕路奇亞離開槍之柱
 0511	r	由克希 已消失
 0295	r	由克希 已捕獲
 0509	r	艾姆利多(心齊湖) 已消失
@@ -37,11 +37,11 @@
 0329	r	洛托姆已捕捉
 0665	s	在森之洋館遇到管家幽靈
 0666	s	在森之洋館遇到小女孩幽靈
-0897	s	在森之洋館找到解毒藥 (隱藏)
-1008	s	在森之洋館找到森之羊羹
-1023	s	Found Adamant/Lustrous Orb in Spear Pillar
-1233	s	在森之洋館找到惡顏石板
-1234	s	在森之洋館找到TM90
+0897	h	在森之洋館找到解毒藥 (隱藏)
+1008	i	在森之洋館找到森之羊羹
+1023	i	Found Adamant/Lustrous Orb in Spear Pillar
+1233	i	在森之洋館找到惡顏石板
+1234	i	在森之洋館找到TM90
 2401	*	跑步鞋已關閉
 2433	s	2nd Rematch Against Trainers Unlocked
 0251	g	得到小福蛋的蛋
@@ -56,7 +56,7 @@
 0134	g	Traded in Eterna City
 0244	g	Traded in Snowpoint City
 0245	g	Traded on Route 226
-0787	s	Found HP Up in dried Lake Valor
+0787	i	Found HP Up in dried Lake Valor
 2507	s	Entered Pal Park Catching Show
 1409	t	Defeated Jogger Richard (Morning)
 1448	t	Defeated Policeman Bobby (Night)
@@ -218,5 +218,5 @@
 2134	t	Had Veteran Brian 1st Rematch
 2136	t	Had Veteran Brian 2nd Rematch
 2137	t	Had Veteran Armando Rematch
-2733	s	Learned trendy phrase (Today)
+2733	*	Learned trendy phrase (Today)
 2738	t	Defeated Rival in Fight Area (Current Saturday/Sunday)

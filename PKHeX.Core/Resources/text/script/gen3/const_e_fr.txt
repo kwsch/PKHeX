@@ -14,12 +14,12 @@
 0x4040	*	Jours Passés
 
 0x4043	m	Étage du Centre Commercial	04:RDC,05:1er,06:2ème,07:3ème,08:4ème,15:Toit
-0x4045	s	Prix de la Loterie ID
+0x4045	m	Prix de la Loterie ID
 0x4046	*	Pokédex National Activé	0:Non,770:Oui
 0x4047	+	Record de Taille de Grainipiot
 0x4048	*	Cendre Volcanique Récupérée	9999:Max
-0x4049	m	État du Professeur Seko
-0x404A	s	Compte de Pas sur Le Marina
+0x4049	s	État du Professeur Seko
+0x404A	m	Compte de Pas sur Le Marina
 0x404B	*	Aléa Loterie ID (Haut)
 0x404C	*	Aléa Loterie ID (Bas)
 

@@ -9,14 +9,14 @@
 0302	s	Recibido HM08 Antes del despertar de Groudon/Kyogre
 0x05A	s	Recibida Bici Carrera/Acrobática
 
-0x807	*	Recibida Medalla Piedra
-0x808	*	Recibida Medalla Puño
-0x809	*	Recibida Medalla Dinamo
-0x80A	*	Recibida Medalla Calor
-0x80B	*	Recibida Medalla Equilibrio
-0x80C	*	Recibida Medalla Pluma 
-0x80D	*	Recibida Medalla Mente (Entrada sellada a la Guarida Magma/Aqua)
-0x80E	*	Recibida Medalla Lluvia 
+0x807	s	Recibida Medalla Piedra
+0x808	s	Recibida Medalla Puño
+0x809	s	Recibida Medalla Dinamo
+0x80A	s	Recibida Medalla Calor
+0x80B	s	Recibida Medalla Equilibrio
+0x80C	s	Recibida Medalla Pluma 
+0x80D	s	Recibida Medalla Mente (Entrada sellada a la Guarida Magma/Aqua)
+0x80E	s	Recibida Medalla Lluvia 
 
 0x099	g	Intercambio en Ciudad Férrica
 0x09A	g	Intercambio en Pueblo Oromar
@@ -38,9 +38,9 @@
 0x3A7	r	Oculto en el mundo (Regirock)
 0x3A8	r	Oculto en el mundo (Regice)
 0x3A9	r	Oculto en el mundo (Registeel)
-0x3C3	r	Oculto en el mundo (Fósil Raíz)
-0x3C4	r	Oculto en el mundo (Fósil Garra)
-1133	r	Overworld Hidden (Missed HM08 ball in Steven's House)
+0x3C3	g	Oculto en el mundo (Fósil Raíz)
+0x3C4	g	Oculto en el mundo (Fósil Garra)
+1133	s	Overworld Hidden (Missed HM08 ball in Steven's House)
 0x3C9	r	Descubierto Kecleon (Ciudad Arborada)
 0x3CA	r	Descubierto Kecleon (Ruta 120, Puente)
 0x3D5	r	Descubierto Kecleon (Ruta 120, Puente)

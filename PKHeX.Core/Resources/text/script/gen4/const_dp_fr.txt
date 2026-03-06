@@ -1,6 +1,5 @@
 0048	*	Pokémon de Départ	0:Pas encore choisi,387:Tortipouss,390:Ouisticram,393:Tiplouf
-0152	r	Dialga/Palkia	00:Pas encore commencé,01:Sbires vaincus,02:Avant les commandants,03:Affrontable (histoire),04:Disparu
-,05:Affrontable
+0152	r	Dialga/Palkia	00:Pas encore commencé,01:Sbires vaincus,02:Avant les commandants,03:Affrontable (histoire),04:Disparu,05:Affrontable
 0158	r	Heatran	00:Pas activé(e),01:Affrontable,02:Disparu(e)
 0054	e	Île Pleine Lune	0:Pas activée,520:Sur la Carte
 0055	e	Île Nouvellune (Jamais Sortie)	0:Pas activée,553:Sur la Carte

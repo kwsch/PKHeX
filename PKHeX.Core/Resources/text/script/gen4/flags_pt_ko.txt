@@ -46,16 +46,16 @@
 0329	r	로토무 잡음
 0635	s	숲의양옥집에서 유령 집사 만남
 0636	s	숲의양옥집에서 유령 소녀 만남
-0897	s	숲의양옥집에서 숨겨진 달콤한꿀 찾음
-1036	s	숲의양옥집에서 숲의양갱 찾음
-1261	s	숲의양옥집에서 공포플레이트 찾음
-1262	s	숲의양옥집에서 TM90 찾음
-1281	s	숲의양옥집에서 이상한사탕 찾음
-1282	s	숲의양옥집에서 큰진주 찾음
-1336	s	깨어진 세계에서 백금옥 찾음
-1337	s	무쇠의 유적에서 금속코트 찾음
-1338	s	빙산의 유적에서 녹지않는얼음 찾음
-1339	s	바위산의 유적에서 딱딱한돌 찾음
+0897	h	숲의양옥집에서 숨겨진 달콤한꿀 찾음
+1036	i	숲의양옥집에서 숲의양갱 찾음
+1261	i	숲의양옥집에서 공포플레이트 찾음
+1262	i	숲의양옥집에서 TM90 찾음
+1281	i	숲의양옥집에서 이상한사탕 찾음
+1282	i	숲의양옥집에서 큰진주 찾음
+1336	i	깨어진 세계에서 백금옥 찾음
+1337	i	무쇠의 유적에서 금속코트 찾음
+1338	i	빙산의 유적에서 녹지않는얼음 찾음
+1339	i	바위산의 유적에서 딱딱한돌 찾음
 0151	g	폴리곤 받음
 0305	g	이브이 받음
 0226	g	리오르 알 현이에게서 받은 선물 대기 중 (강철섬)
@@ -76,11 +76,11 @@
 0134	g	영원시티에서 교환했다
 0244	g	선단시티에서 교환했다
 0245	g	226번도로에서 교환했다
-0787	s	마른 입지호수에서 맥스업 찾음
+0787	i	마른 입지호수에서 맥스업 찾음
 2507	s	팔파크 잡기쇼에 들어갔어
 0325	r	디아루가/펄기아 균열 소환 가능
-1051	s	천관산에서 금강옥 찾음
-1053	s	천관산에서 백옥 찾음
+1051	i	천관산에서 금강옥 찾음
+1053	i	천관산에서 백옥 찾음
 1409	t	Defeated Jogger Richard (Morning)
 1448	t	Defeated Policeman Bobby (Night)
 1449	t	Defeated Policeman Alex (Night)
@@ -241,7 +241,7 @@
 2134	t	Had Veteran Brian 1st Rematch
 2136	t	Had Veteran Brian 2nd Rematch
 2137	t	Had Veteran Armando Rematch
-2733	s	Learned trendy phrase (Today)
+2733	*	Learned trendy phrase (Today)
 2738	t	Defeated Rival in Survival Area (Current Saturday/Sunday)
 2744	t	Defeated Leader Roark in Battleground (Today)
 2745	t	Defeated Leader Gardenia in Battleground (Today)
@@ -263,4 +263,3 @@
 2763	t	Defeated Pokémon Trainer Marley in Battleground (Today)
 2764	t	Defeated Pokémon Trainer Buck in Battleground (Today)
 2765	t	Defeated Pokémon Trainer Mira in Battleground (Today)
-

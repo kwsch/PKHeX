@@ -56,8 +56,8 @@
 0996	g	Guayo con el Gible/Dratini variocolor de regalo desaparecido de la casa de Mirto
 2464	s	Visited Abyssal Ruins
 0979	s	Zinzolin Disappeared from Undella Town
-2744	s	Embarcado en el Real Teselia (hoy)
-2747	s	Fósil recibido de Operario del Monte Tuerca (hoy)
+2744	*	Embarcado en el Real Teselia (hoy)
+2747	*	Fósil recibido de Operario del Monte Tuerca (hoy)
 2774	r	Mandibuzz/Braviary semanal en Ruta 4 desaparecido
 2775	r	Jellicent semanal en Bahía Arenisca desaparecido
 2442	r	Los Pokémon de N se encuentran salvajes

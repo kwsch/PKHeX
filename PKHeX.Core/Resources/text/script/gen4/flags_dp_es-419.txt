@@ -1,7 +1,7 @@
 0318	s	Saturno derrotado en Caverna Valor/Lago Veraz Restaurado
 0350	s	Agua del Lago Valor Restaurada/Se puede obtener entrada de Palkia/Dialga en Pueblo Caelestis
 0351	r	Dialga/Palkia capturado
-0482	s	Dialga/Palkia desaparecido del Columna Lanza
+0482	r	Dialga/Palkia desaparecido del Columna Lanza
 0511	r	Uxie desaparecido
 0295	r	Uxie capturado
 0509	r	Mesprit desaparecido (Caverna Veraz)
@@ -37,11 +37,11 @@
 0329	r	Rotom capturado
 0665	s	Encontrado Mayordomo Fantasma en la Vieja Mansión
 0666	s	Encontrada Niña Fantasma en la Vieja Mansión
-0897	s	Encontrado Antidoto (escondido) en la Vieja Mansión
-1008	s	Encontrada Barrita Plus en la Vieja Mansión
-1023	s	Found Adamant/Lustrous Orb in Spear Pillar
-1233	s	Encontrada Tabla Oscura en la Vieja Mansión
-1234	s	Encontrada MT90 en la Vieja Mansión
+0897	h	Encontrado Antidoto (escondido) en la Vieja Mansión
+1008	i	Encontrada Barrita Plus en la Vieja Mansión
+1023	i	Found Adamant/Lustrous Orb in Spear Pillar
+1233	i	Encontrada Tabla Oscura en la Vieja Mansión
+1234	i	Encontrada MT90 en la Vieja Mansión
 2401	*	Deportivas deshabilitadas
 2433	s	Se desbloqueó la segunda revancha contra los entrenadores
 0251	g	Huevo Happiny de regalo recibido
@@ -56,7 +56,7 @@
 0134	g	Intercambio en Ciudad Vetusta
 0244	g	Intercambio en Ciudad Puntaneva
 0245	g	Intercambio en Ruta 226
-0787	s	Más PP encontrado en Lago Valor seco
+0787	i	Más PP encontrado en Lago Valor seco
 2507	s	Participado en las capturas del Parque Compi
 1409	t	Corredor Romén derrotado (Mañana)
 1448	t	Policía Iñaki derrotado (Noche)
@@ -218,5 +218,5 @@
 2134	t	1ra revancha contra Veteran Brian
 2136	t	2da revancha contra Veteran Brian
 2137	t	Revancha contra Veterano Armando
-2733	s	Frase de moda aprendida (Hoy)
+2733	*	Frase de moda aprendida (Hoy)
 2738	t	Rival derrotado en Zona Combate (Sábado/Domingo actual)

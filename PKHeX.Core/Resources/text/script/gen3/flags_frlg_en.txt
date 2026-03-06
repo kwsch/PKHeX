@@ -319,32 +319,32 @@
 579	m	Coin Case received
 580	m	Good Rod received
 581	m	TM29 in Saffron City received
-582	m	Received Lapras
+582	g	Received Lapras
 583 m   Poké Balls from Prof. Oak received (after Route 22 Rival battle, no Poké Balls in Bag, no Pokémon catched)
-584	m	Traded on Route 2
-585	m	Purchased Magikarp
-586	m	Traded in Cerulean City
-587	m	Traded in Underground Tunnel
+584	g	Traded on Route 2
+585	g	Purchased Magikarp
+586	g	Traded in Cerulean City
+587	g	Traded in Underground Tunnel
 
-589	m	Traded in Vermilion City
+589	g	Traded in Vermilion City
 590	m	TM38 from Blaine received
 591 m	Change text of Prof. Oak (after Poké Balls received)
 592	m	Master Ball from Silph Co. President received
-593	m	Traded on Route 11
+593	g	Traded on Route 11
 594	m	Received Itemfinder (Oak's Aide, Route 11)
 
 596	m	Received TM39 from Brock
 597	m	Super Rod received
 598	m	Received Exp. Share (Oak's Aide, Route 15)
-599	m	Traded on Route 18
+599	g	Traded on Route 18
 600	m	Change Text of Player's Mom (Let you heal Pokémon)
 601	m	TM06 from Koga received
 
 603	m	TM27 on Route 12 received
 
-606	m	Received Old Amber; Can resurrect Aerodactyl
+606	g	Received Old Amber; Can resurrect Aerodactyl
 
-611	m	Eevee in Celadon Mansion collected
+611	g	Eevee in Celadon Mansion collected
 612	m	Electric Barrier in Vermilion Gym disabled
 613	m	First Door in Cinnabar Gym opened
 614	m	Change position of Old Day-Care Man
@@ -359,13 +359,13 @@
 623	m	20 Coins in Rocket Game Corner received
 624	m	20 Coins in Rocket Game Corner received
 625	m	Bicycle received
-626	m	Dome Fossil chosen; Can resurrect Kabuto; Omanyte in Pokémon Zoo
-627	m	Helix Fossil chosen; Can resurrect Omanyte; Kabuto in Pokémon Zoo
-628	m	Traded in Cinnabar Lab (Electrode)
-629	m	Traded in Cinnabar Lab (Tangela)
-630	m	Traded in Cinnabar Lab (Seel)
+626	g	Dome Fossil chosen; Can resurrect Kabuto; Omanyte in Pokémon Zoo
+627	g	Helix Fossil chosen; Can resurrect Omanyte; Kabuto in Pokémon Zoo
+628	g	Traded in Cinnabar Lab (Electrode)
+629	g	Traded in Cinnabar Lab (Tangela)
+630	g	Traded in Cinnabar Lab (Seel)
 
-632	m	Hitmonlee or Hitmonchan taken
+632	g	Hitmonlee or Hitmonchan taken
 
 634	m	Door (north) in Silph Co. 2F opened
 635	m	Door (south) in Silph Co. 2F opened
@@ -459,8 +459,8 @@
 749	*	Omanyte from Helix Fossil resurrected
 750	*	Aerodactyl from Old Amber resurrected
 751	m	Received HM06 Rock Smash
-752	m	Shown Mystic Ticket
-753	m	Shown Aurora Ticket
+752	e	Shown Mystic Ticket
+753	e	Shown Aurora Ticket
 754	r	Captured Lugia
 755	r	Captured Ho-Oh
 756	s	Shown Prof. Oak the complete National Dex
