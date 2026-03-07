@@ -1,7 +1,14 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-26/02/27 - New Update:
+26/03/06 - New Update:
+ - Legality: Added Gen3 FR/LG virtual console legality restrictions and trash byte checks.
+ - Added: Gen3 FR/LG dex editing will clear unavailable captured dex flags.
+ - Added: Gen3 FR/LG item lists for virtual console no longer permit items exclusively from R/S/E/C/XD.
+ - Added: Folder Browser can now delete backup/recent save files via right click context menu.
+ - Changed: Minor improvement to some translatable GUI elements. Thanks @jcx521lj1315, @easyworld, @wubinwww & @Mimigris !
+
+26/02/27 - New Update: (90789) [12636253]
  - Legality: 
  - - Added: Garchompite Z & Blazikenite now released, can exist in inventory/held.
  - - Changed: Invalid PP Up count message now indicates the exact invalid value (relevant for Gen1/2 VC => Gen7).
