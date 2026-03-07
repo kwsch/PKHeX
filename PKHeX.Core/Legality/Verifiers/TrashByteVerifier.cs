@@ -62,11 +62,11 @@ public sealed class TrashByteVerifier : Verifier
     private void VerifyTrashBytesHOME(LegalityAnalysis data, PKM pk)
     {
         if (!TrashBytesUTF16.IsFinalTerminatorPresent(pk.NicknameTrash))
-            data.AddLine(GetInvalid(CheckIdentifier.Nickname, TrashBytesMissingTerminator));
+            data.AddLine(GetInvalid(CheckIdentifier.Nickname, TrashBytesMissingTerminatorFinal));
         if (!TrashBytesUTF16.IsFinalTerminatorPresent(pk.OriginalTrainerTrash))
-            data.AddLine(GetInvalid(CheckIdentifier.Trainer, TrashBytesMissingTerminator));
+            data.AddLine(GetInvalid(CheckIdentifier.Trainer, TrashBytesMissingTerminatorFinal));
         if (!TrashBytesUTF16.IsFinalTerminatorPresent(pk.HandlingTrainerTrash))
-            data.AddLine(GetInvalid(CheckIdentifier.Handler, TrashBytesMissingTerminator));
+            data.AddLine(GetInvalid(CheckIdentifier.Handler, TrashBytesMissingTerminatorFinal));
 
         if (pk.IsEgg)
         {

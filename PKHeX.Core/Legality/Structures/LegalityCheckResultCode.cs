@@ -363,10 +363,13 @@ public enum LegalityCheckResultCode : ushort
     TransferEncryptGen6Xor,
     TransferTrackerMissing,
     TransferTrackerShouldBeZero,
+
+    // Trash Bytes
     TrashBytesExpected,
     TrashBytesMismatchInitial,
-    TrashBytesMissingTerminator,
+    TrashBytesMissingTerminatorFinal,
     TrashBytesShouldBeEmpty,
+    TrashBytesResetViaTransfer,
 
     // Bulk Cross-Comparison
     BulkCloneDetectedDetails,

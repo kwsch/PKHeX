@@ -421,8 +421,9 @@ public sealed class LegalityCheckLocalization
 
     public string TrashBytesExpected { get; set; } = "Expected Trash Bytes.";
     public string TrashBytesMismatchInitial { get; set; } = "Expected initial trash bytes to match the encounter.";
-    public string TrashBytesMissingTerminator { get; set; } = "Final terminator missing.";
+    public string TrashBytesMissingTerminatorFinal { get; set; } = "Final terminator missing.";
     public string TrashBytesShouldBeEmpty { get; set; } = "Trash Bytes should be cleared.";
+    public string TrashBytesResetViaTransfer { get; set; } = "Trash Bytes were reset via transfer.";
 
     #endregion
 
