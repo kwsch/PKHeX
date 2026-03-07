@@ -12,6 +12,7 @@ public enum PogoType : byte
 
     // Pokémon captured in the wild.
     Wild,
+    Wild20,
 
     // Pokémon hatched from Eggs.
     Egg,
@@ -137,6 +138,7 @@ public static class PogoTypeExtensions
         public byte LevelMin => encounterType switch
         {
             Wild => 1,
+            Wild20 => 20,
             Egg => 1,
             Egg12km => 8,
             Raid => 20,
@@ -204,6 +206,7 @@ public static class PogoTypeExtensions
         public int MinimumIV => encounterType switch
         {
             Wild => 0,
+            Wild20 => 0,
             RaidMythical => 10,
             RaidShadowMythical => 8,
             RaidShadowMythicalGOWA => 8,
@@ -324,6 +327,6 @@ public static class PogoTypeExtensions
             _ => Ball.None, // Poké, Great, Ultra
         };
 
-        public bool IsSpecialResearch => encounterType is >= SpecialMythical and < TimedMythical;
+        public bool IsSpecialResearch => encounterType is SpecialResearch or >= SpecialMythical and < TimedMythical;
     }
 }
