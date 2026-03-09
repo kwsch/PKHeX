@@ -10,7 +10,6 @@ namespace PKHeX.WinForms;
 public partial class TrashEditor : Form
 {
     private readonly IStringConverter Converter;
-    private readonly ToolTip Tip = new() { InitialDelay = 200, IsBalloon = false, AutoPopDelay = 32_767 };
     private readonly List<NumericUpDown> Bytes = [];
     public string FinalString { get; private set; }
     public byte[] FinalBytes { get; private set; }
@@ -93,8 +92,7 @@ public partial class TrashEditor : Form
             l.Size = new Size(20, 20);
             l.Click += (_, _) => { if (TB_Text.Text.Length < TB_Text.MaxLength) TB_Text.AppendText(l.Text); };
             FLP_Characters.Controls.Add(l);
-            var tt = new ToolTip();
-            tt.SetToolTip(l, $"Insert {l.Text} (0x{c:X4})");
+            Tip.SetToolTip(l, $"Insert {l.Text} (0x{c:X4})");
         }
     }
 

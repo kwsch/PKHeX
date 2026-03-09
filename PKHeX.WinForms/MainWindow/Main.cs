@@ -106,6 +106,7 @@ public partial class Main : Form
         mnu.RequestEditorSaveAs += MainMenuSave;
         dragout.ContextMenuStrip = mnu.mnuL;
         C_SAV.menu.RequestEditorLegality = DisplayLegalityReport;
+        components.Add(mnu);
     }
 
     public void LoadInitialFiles(StartupArguments args)
@@ -1239,7 +1240,7 @@ public partial class Main : Form
 
                 var pb = (PictureBox)sender;
                 if (pb.Image is Bitmap img)
-                    C_SAV.M.Drag.Info.Cursor = Cursor = new Cursor(img.GetHicon());
+                    C_SAV.M.Drag.SetOwnedCursor(pb, img);
 
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy);
             }

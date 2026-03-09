@@ -31,6 +31,7 @@ public partial class SAV_FolderList : Form
         var drives = Environment.GetLogicalDrives();
         Paths = GetPathList(drives, backups);
 
+        components ??= new System.ComponentModel.Container();
         dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
         dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
         dgDataRecent.Sorted += (_, _) => GetFilterText(dgDataRecent);
@@ -111,7 +112,7 @@ public partial class SAV_FolderList : Form
         };
         FLP_Buttons.Controls.Add(button);
 
-        var hover = new ToolTip {AutoPopDelay = 30_000};
+        var hover = new ToolTip(components) {AutoPopDelay = 30_000};
         button.MouseHover += (_, _) => hover.Show(path, button);
     }
 
@@ -202,6 +203,7 @@ public partial class SAV_FolderList : Form
         mnu.Items.Add(mnuOpen);
         mnu.Items.Add(mnuBrowseAt);
         mnu.Items.Add(mnuDelete);
+        components.Add(mnu);
         return mnu;
     }
 

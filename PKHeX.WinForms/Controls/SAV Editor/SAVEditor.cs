@@ -86,6 +86,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
         SL_Extra.ViewIndex = -2;
         menu = new ContextMenuSAV { Manager = M };
+        components!.Add(menu);
         InitializeEvents();
     }
 
@@ -1497,7 +1498,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             {
                 using var img = new Bitmap(Box.Width, Box.Height);
                 Box.DrawToBitmap(img, new Rectangle(0, 0, Box.Width, Box.Height));
-                using var cursor = Cursor = new Cursor(img.GetHicon());
+                using var dragCursor = new BitmapCursor(img);
+                Cursor = dragCursor.Cursor;
                 await File.WriteAllBytesAsync(newFile, bin).ConfigureAwait(true);
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newFile }), DragDropEffects.Copy);
             }

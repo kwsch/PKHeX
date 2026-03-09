@@ -52,6 +52,8 @@ public partial class ReportGrid : Form
         ContextMenuStrip mnu = new();
         mnu.Items.Add(mnuHide);
         mnu.Items.Add(mnuRestore);
+        components ??= new System.ComponentModel.Container();
+        components.Add(mnu);
 
         dgData.ContextMenuStrip = mnu;
     }
