@@ -111,12 +111,6 @@ namespace PKHeX.WinForms.Controls
             B_ConvertKorean = new System.Windows.Forms.Button();
             CB_SaveSlot = new System.Windows.Forms.ComboBox();
             L_SaveSlot = new System.Windows.Forms.Label();
-            L_Secure2 = new System.Windows.Forms.Label();
-            TB_Secure2 = new System.Windows.Forms.TextBox();
-            L_Secure1 = new System.Windows.Forms.Label();
-            TB_Secure1 = new System.Windows.Forms.TextBox();
-            L_GameSync = new System.Windows.Forms.Label();
-            TB_GameSync = new System.Windows.Forms.TextBox();
             tabBoxMulti.SuspendLayout();
             Tab_Box.SuspendLayout();
             PopoutMenu.SuspendLayout();
@@ -410,12 +404,6 @@ namespace PKHeX.WinForms.Controls
             Tab_SAV.Controls.Add(FLP_SAVToolsMisc);
             Tab_SAV.Controls.Add(CB_SaveSlot);
             Tab_SAV.Controls.Add(L_SaveSlot);
-            Tab_SAV.Controls.Add(L_Secure2);
-            Tab_SAV.Controls.Add(TB_Secure2);
-            Tab_SAV.Controls.Add(L_Secure1);
-            Tab_SAV.Controls.Add(TB_Secure1);
-            Tab_SAV.Controls.Add(L_GameSync);
-            Tab_SAV.Controls.Add(TB_GameSync);
             Tab_SAV.Location = new System.Drawing.Point(4, 26);
             Tab_SAV.Name = "Tab_SAV";
             Tab_SAV.Size = new System.Drawing.Size(441, 333);
@@ -1040,72 +1028,6 @@ namespace PKHeX.WinForms.Controls
             L_SaveSlot.Text = "Save Slot:";
             L_SaveSlot.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_Secure2
-            // 
-            L_Secure2.Location = new System.Drawing.Point(32, 112);
-            L_Secure2.Name = "L_Secure2";
-            L_Secure2.Size = new System.Drawing.Size(120, 24);
-            L_Secure2.TabIndex = 18;
-            L_Secure2.Text = "Secure Value 2:";
-            L_Secure2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // TB_Secure2
-            // 
-            TB_Secure2.Enabled = false;
-            TB_Secure2.Font = new System.Drawing.Font("Courier New", 8.25F);
-            TB_Secure2.Location = new System.Drawing.Point(152, 112);
-            TB_Secure2.MaxLength = 16;
-            TB_Secure2.MinimumSize = new System.Drawing.Size(120, 24);
-            TB_Secure2.Name = "TB_Secure2";
-            TB_Secure2.PlaceholderText = "0000000000000000";
-            TB_Secure2.Size = new System.Drawing.Size(120, 24);
-            TB_Secure2.TabIndex = 17;
-            TB_Secure2.Validated += UpdateStringSeed;
-            // 
-            // L_Secure1
-            // 
-            L_Secure1.Location = new System.Drawing.Point(32, 88);
-            L_Secure1.Name = "L_Secure1";
-            L_Secure1.Size = new System.Drawing.Size(120, 24);
-            L_Secure1.TabIndex = 16;
-            L_Secure1.Text = "Secure Value 1:";
-            L_Secure1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // TB_Secure1
-            // 
-            TB_Secure1.Enabled = false;
-            TB_Secure1.Font = new System.Drawing.Font("Courier New", 8.25F);
-            TB_Secure1.Location = new System.Drawing.Point(152, 88);
-            TB_Secure1.MaxLength = 16;
-            TB_Secure1.MinimumSize = new System.Drawing.Size(120, 24);
-            TB_Secure1.Name = "TB_Secure1";
-            TB_Secure1.PlaceholderText = "0000000000000000";
-            TB_Secure1.Size = new System.Drawing.Size(120, 24);
-            TB_Secure1.TabIndex = 15;
-            TB_Secure1.Validated += UpdateStringSeed;
-            // 
-            // L_GameSync
-            // 
-            L_GameSync.Location = new System.Drawing.Point(32, 64);
-            L_GameSync.Name = "L_GameSync";
-            L_GameSync.Size = new System.Drawing.Size(120, 24);
-            L_GameSync.TabIndex = 11;
-            L_GameSync.Text = "Game Sync ID:";
-            L_GameSync.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // TB_GameSync
-            // 
-            TB_GameSync.Enabled = false;
-            TB_GameSync.Font = new System.Drawing.Font("Courier New", 8.25F);
-            TB_GameSync.Location = new System.Drawing.Point(152, 64);
-            TB_GameSync.MaxLength = 16;
-            TB_GameSync.MinimumSize = new System.Drawing.Size(120, 24);
-            TB_GameSync.Name = "TB_GameSync";
-            TB_GameSync.PlaceholderText = "0000000000000000";
-            TB_GameSync.Size = new System.Drawing.Size(120, 24);
-            TB_GameSync.TabIndex = 10;
-            TB_GameSync.Validated += UpdateStringSeed;
-            // 
             // SAVEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1152,13 +1074,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.TabPage Tab_SAV;
         private System.Windows.Forms.ComboBox CB_SaveSlot;
         private System.Windows.Forms.Label L_SaveSlot;
-        private System.Windows.Forms.Label L_Secure2;
-        private System.Windows.Forms.TextBox TB_Secure2;
-        private System.Windows.Forms.Label L_Secure1;
-        private System.Windows.Forms.TextBox TB_Secure1;
         private System.Windows.Forms.Button B_JPEG;
-        private System.Windows.Forms.Label L_GameSync;
-        private System.Windows.Forms.TextBox TB_GameSync;
         private System.Windows.Forms.Button B_SaveBoxBin;
         private System.Windows.Forms.Button B_VerifyCHK;
         private System.Windows.Forms.FlowLayoutPanel FLP_SAVtools;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -33,6 +34,7 @@ public abstract class SAV_BEEF : SaveFile, ISecureValueStorage
     /// <summary>
     /// Timestamp that the save file was last saved at (Secure Value)
     /// </summary>
+    [TypeConverter(typeof(TypeConverterU64))]
     public ulong TimeStampCurrent
     {
         get => ReadUInt64LittleEndian(Data[BlockInfoOffset..]);
@@ -42,6 +44,7 @@ public abstract class SAV_BEEF : SaveFile, ISecureValueStorage
     /// <summary>
     /// Timestamp that the save file was saved at prior to the <see cref="TimeStampCurrent"/> (Secure Value)
     /// </summary>
+    [TypeConverter(typeof(TypeConverterU64))]
     public ulong TimeStampPrevious
     {
         get => ReadUInt64LittleEndian(Data[(BlockInfoOffset + 8)..]);

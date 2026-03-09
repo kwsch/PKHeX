@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Sorts contents of boxes by using a <see cref="Sorter"/> (referencing a Save File) to determine the order.
 /// </summary>
-public sealed class BoxManipSortComplex : BoxManipBase
+public sealed record BoxManipSortComplex : BoxManipBase
 {
     private readonly Func<IEnumerable<PKM>, SaveFile, int, IEnumerable<PKM>> Sorter;
     public BoxManipSortComplex(BoxManipType type, Func<IEnumerable<PKM>, SaveFile, IEnumerable<PKM>> sorter) : this(type, sorter, _ => true) { }

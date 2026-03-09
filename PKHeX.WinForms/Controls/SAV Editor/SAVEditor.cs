@@ -38,12 +38,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     public bool HaX;
     public bool ModifyPKM { private get; set; }
 
-    public bool HideSecretDetails
-    {
-        private get;
-        set => ToggleSecrets(SAV, field = value);
-    }
-
     public ToolStripMenuItem Menu_Redo { get; set; } = null!;
     public ToolStripMenuItem Menu_Undo { get; set; } = null!;
     private bool FieldsLoaded;
@@ -511,8 +505,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             z.BringToFront();
             return;
         }
-        var form = new SAV_BoxViewer(this, M, Box.CurrentBox);
-        form.Owner = FindForm();
+        var form = new SAV_BoxViewer(this, M, Box.CurrentBox) { Owner = FindForm() };
         form.Show();
     }
 
@@ -578,21 +571,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             if (GetCurrentDaycare() is { } s)
                 SetDaycareSeed(s, filterText);
-        }
-        else if (tb == TB_GameSync && SAV is IGameSync sync)
-        {
-            var value = filterText.PadLeft(sync.GameSyncIDSize, '0');
-            sync.GameSyncID = value;
-            SAV.State.Edited = true;
-        }
-        else if (SAV is ISecureValueStorage s)
-        {
-            var value = Convert.ToUInt64(filterText, 16);
-            if (tb == TB_Secure1)
-                s.TimeStampCurrent = value;
-            else if (tb == TB_Secure2)
-                s.TimeStampPrevious = value;
-            SAV.State.Edited = true;
         }
     }
 
@@ -1357,7 +1335,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void ToggleViewMisc(SaveFile sav)
     {
         // Generational Interface
-        ToggleSecrets(sav, HideSecretDetails);
         B_VerifyCHK.Visible = SAV.State.Exportable;
         Menu_ExportBAK.Visible = SAV.State.Exportable && SAV.Metadata.FilePath is not null;
 
@@ -1374,27 +1351,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             L_SaveSlot.Visible = CB_SaveSlot.Visible = false;
         }
-
-        if (sav is ISecureValueStorage s)
-        {
-            TB_Secure1.Text = s.TimeStampCurrent.ToString("X16");
-            TB_Secure2.Text = s.TimeStampPrevious.ToString("X16");
-        }
-
-        if (sav is IGameSync sync)
-        {
-            var gsid = sync.GameSyncID;
-            TB_GameSync.Enabled = !string.IsNullOrEmpty(gsid);
-            TB_GameSync.MaxLength = sync.GameSyncIDSize;
-            TB_GameSync.Text = (string.IsNullOrEmpty(gsid) ? 0.ToString() : gsid).PadLeft(sync.GameSyncIDSize, '0');
-        }
-    }
-
-    private void ToggleSecrets(SaveFile sav, bool hide)
-    {
-        var shouldShow = sav.State.Exportable && !hide;
-        TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = shouldShow && sav is ISecureValueStorage;
-        TB_GameSync.Visible = L_GameSync.Visible = shouldShow && sav is IGameSync;
     }
 
     // DragDrop
@@ -1615,7 +1571,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
                 return;
             }
         }
-        if (_searchForm is null || !_searchForm.IsSameSaveFile(SAV))
+        if (_searchForm?.IsSameSaveFile(SAV) != true)
             _searchForm = CreateSearcher(SAV, EditEnv.PKMEditor);
 
         // Set the searcher Position immediately to the right of this parent form, and vertically aligned tops of forms.

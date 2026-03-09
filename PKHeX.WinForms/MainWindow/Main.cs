@@ -362,7 +362,7 @@ public partial class Main : Form
         C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SlotWrite.SetUpdatePKM;
         C_SAV.FlagIllegal = settings.Display.FlagIllegal;
         C_SAV.M.Hover.GlowHover = settings.Hover.HoverSlotGlowEdges;
-        PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
+        PKME_Tabs.HideSecretValues = settings.Privacy.HideSecretDetails;
         WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
         SelectablePictureBox.FocusBorderDeflate = GenderToggle.FocusBorderDeflate = settings.Display.FocusBorderDeflate;
 

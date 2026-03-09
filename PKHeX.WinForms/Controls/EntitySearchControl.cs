@@ -11,7 +11,7 @@ namespace PKHeX.WinForms.Controls;
 public partial class EntitySearchControl : UserControl
 {
     private EntityContext SaveContext { get; set; } = Latest.Context;
-    
+
     public EntitySearchControl() => InitializeComponent();
 
     /// <summary>
@@ -107,7 +107,7 @@ public partial class EntitySearchControl : UserControl
         }
         L_Format.Visible = CB_FormatComparator.Visible = CB_Format.Visible = showContext;
     }
-    
+
     /// <summary>
     /// Sets the localized text for the format "Any" option.
     /// </summary>
