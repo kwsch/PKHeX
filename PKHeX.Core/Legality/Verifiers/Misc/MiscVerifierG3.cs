@@ -46,7 +46,7 @@ public sealed class MiscVerifierG3 : Verifier
             VerifyTrashCXD(data, pk);
     }
 
-    private void VerifyTrashCXD(LegalityAnalysis data, G3PKM pk)
+    private static void VerifyTrashCXD(LegalityAnalysis data, G3PKM pk)
     {
         // Buffers should be entirely clean.
         var ot = pk.OriginalTrainerTrash;
@@ -133,6 +133,8 @@ public sealed class MiscVerifierG3 : Verifier
         if (!pk.IsNicknamed || pk.IsEgg)
             return;
         var nick = pk.NicknameTrash;
+        if (pk.Japanese)
+            nick = nick[..5]; // Japanese only wipes the first 5 bytes; everything else is trash.
         if (!TrashByteRules3.IsTerminatedFF(nick))
             data.AddLine(GetInvalid(Trainer, TrashBytesMismatchInitial));
     }
