@@ -38,6 +38,11 @@ public sealed class SummaryPreviewer
         else if (Settings.HoverSlotShowText)
         {
             var text = GetPreviewText(pk, settings);
+            if (!settings.Order.Contains(BattleTemplateToken.FirstLine))
+            {
+                var insert = GetPreviewText(pk, settings with { Order = [BattleTemplateToken.FirstLine] });
+                text = insert + Environment.NewLine + text;
+            }
             if (Settings.HoverSlotShowEncounter)
                 text = AppendEncounterInfo(ctx, text);
             ShowSet.SetToolTip(pb, text);
@@ -52,9 +57,11 @@ public sealed class SummaryPreviewer
         _source.Cancel();
         _source.Dispose(); // Properly dispose the previous CancellationTokenSource
         _source = new();
+        var wasVisible = Previewer.Visible;
         UpdatePreviewPosition(new());
         Previewer.Populate(pk, settings, ctx);
-        ShowInactiveTopmost(Previewer);
+        if (!wasVisible)
+            ShowInactiveTopmost(Previewer);
     }
 
     private const int SW_SHOWNOACTIVATE = 4;
