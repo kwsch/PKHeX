@@ -255,10 +255,13 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     public sealed override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
 
     #region Trainer Info
+
+    public Span<byte> OriginalTrainerTrash => General.Slice(Trainer1, 16);
+
     public override string OT
     {
-        get => GetString(General.Slice(Trainer1, 16));
-        set => SetString(General.Slice(Trainer1, 16), value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
+        get => GetString(OriginalTrainerTrash);
+        set => SetString(OriginalTrainerTrash, value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public override uint ID32

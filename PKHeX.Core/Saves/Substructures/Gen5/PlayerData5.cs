@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract class PlayerData5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
 {
-    private Span<byte> OriginalTrainerTrash => Data.Slice(4, 0x10);
+    public Span<byte> OriginalTrainerTrash => Data.Slice(4, 0x10);
 
     public string OT
     {

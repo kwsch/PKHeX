@@ -147,6 +147,10 @@ public static class TrashByteRules3
     // When transferred to Colosseum/XD, the encoding method switches to u16[length], thus discarding the original buffer along with its "trash".
     // For original encounters from a mainline save file,
     // - OT Name: the game copies the entire buffer from the save file OT as the PK3's OT. Thus, that must match exactly.
+    // - - Japanese OT names are 5 chars, international is 7 chars. Manually entered strings are FF terminated to max length + 1.
+    // - - Default OT (Japanese) names were padded with FF to len=6, so they always match manually entered names (no trash).
+    // - - Default OT (International) names from the character select screen can have trash bytes due to being un-padded (single FF end of string, saves ROM space).
+    // - - verification of Default OTs todo (if OT dirty, check if is default with expected trash pattern)
     // - Nickname: the buffer has garbage RAM data leftover in the nickname field, thus it should be "dirty" usually.
     // - Nicknamed: when nicknamed, the game fills the buffer with FFs then applies the nickname.
     // For event encounters from GameCube:
@@ -175,7 +179,7 @@ public static class TrashByteRules3
     public static bool IsTerminatedZero(ReadOnlySpan<byte> data)
     {
         var first = TrashBytes8.GetTerminatorIndex(data);
-        if (first == -1 || first >= data.Length - 2)
+        if (first == -1 || first >= data.Length - 1)
             return true;
         return !data[(first+1)..].ContainsAnyExcept<byte>(0);
     }
@@ -183,7 +187,7 @@ public static class TrashByteRules3
     public static bool IsTerminatedFF(ReadOnlySpan<byte> data)
     {
         var first = TrashBytes8.GetTerminatorIndex(data);
-        if (first == -1 || first >= data.Length - 2)
+        if (first == -1 || first >= data.Length - 1)
             return true;
         return !data[(first + 1)..].ContainsAnyExcept<byte>(0xFF);
     }
@@ -194,17 +198,20 @@ public static class TrashByteRules3
             return IsTerminatedZero(data);
 
         var first = TrashBytes8.GetTerminatorIndex(data);
-        if (first == -1 || first == data.Length - 2)
+        if (first == -1 || first >= data.Length - 1)
             return true;
+
+        first++;
         if (first < preFill)
         {
             var inner = data[first..preFill];
             if (inner.ContainsAnyExcept(Terminator))
                 return false;
             first = preFill;
-            if (first >= data.Length - 2)
+            first++;
+            if (first >= data.Length - 1)
                 return true;
         }
-        return !data[(first + 1)..].ContainsAnyExcept<byte>(0);
+        return !data[first..].ContainsAnyExcept<byte>(0);
     }
 }
