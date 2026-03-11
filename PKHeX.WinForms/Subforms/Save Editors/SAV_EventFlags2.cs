@@ -334,7 +334,7 @@ public sealed partial class SAV_EventFlags2 : Form
         panel.ResumeLayout();
     }
 
-    private TextBox CreateSearchBox(Action<string> applyFilter)
+    private static TextBox CreateSearchBox(Action<string> applyFilter)
     {
         var box = new TextBox
         {

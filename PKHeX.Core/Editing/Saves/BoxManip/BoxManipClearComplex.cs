@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Clears contents of boxes by deleting all that satisfy a criteria based on a <see cref="SaveFile"/>.
 /// </summary>
-public sealed class BoxManipClearComplex(BoxManipType Type, Func<PKM, SaveFile, bool> criteria, Func<SaveFile, bool> Usable) : BoxManipBase(Type, Usable)
+public sealed record BoxManipClearComplex(BoxManipType Type, Func<PKM, SaveFile, bool> Criteria, Func<SaveFile, bool> Usable) : BoxManipBase(Type, Usable)
 {
     public BoxManipClearComplex(BoxManipType Type, Func<PKM, SaveFile, bool> Criteria) : this(Type, Criteria, _ => true) { }
 
@@ -18,6 +18,6 @@ public sealed class BoxManipClearComplex(BoxManipType Type, Func<PKM, SaveFile, 
         var (start, stop, reverse) = param;
         return sav.ClearBoxes(start, stop, Method);
 
-        bool Method(PKM p) => reverse ^ criteria(p, sav);
+        bool Method(PKM p) => reverse ^ Criteria(p, sav);
     }
 }

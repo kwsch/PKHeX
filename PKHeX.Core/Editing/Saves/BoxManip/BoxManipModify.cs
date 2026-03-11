@@ -5,8 +5,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Modifies contents of boxes by using an <see cref="Action"/> to change data.
 /// </summary>
-public sealed class BoxManipModify(BoxManipType type, Action<PKM> Action, Func<SaveFile, bool> Usable)
-    : BoxManipBase(type, Usable)
+public sealed record BoxManipModify(BoxManipType Type, Action<PKM> Action, Func<SaveFile, bool> Usable)
+    : BoxManipBase(Type, Usable)
 {
     public BoxManipModify(BoxManipType type, Action<PKM> Action) : this(type, Action, _ => true) { }
 

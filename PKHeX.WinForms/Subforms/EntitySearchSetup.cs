@@ -84,7 +84,6 @@ public partial class EntitySearchSetup : Form
             Hide();
             return;
         }
-        CurrentSave = null;
         SearchFilter = null;
         base.OnFormClosing(e);
     }
@@ -137,7 +136,7 @@ public partial class EntitySearchSetup : Form
         tb.AppendText(s);
     }
 
-    public bool IsSameSaveFile(SaveFile sav) => CurrentSave is not null && CurrentSave == sav;
+    public bool IsSameSaveFile(SaveFile sav) => CurrentSave == sav;
 
     public void ForceReset()
     {

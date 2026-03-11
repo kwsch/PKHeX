@@ -12,7 +12,8 @@ public enum PogoType : byte
 
     // Pokémon captured in the wild.
     Wild,
-    Wild20,
+    WildLevel20,
+    WildLevel25,
 
     // Pokémon hatched from Eggs.
     Egg,
@@ -138,7 +139,8 @@ public static class PogoTypeExtensions
         public byte LevelMin => encounterType switch
         {
             Wild => 1,
-            Wild20 => 20,
+            WildLevel20 => 20,
+            WildLevel25 => 25,
             Egg => 1,
             Egg12km => 8,
             Raid => 20,
@@ -206,7 +208,8 @@ public static class PogoTypeExtensions
         public int MinimumIV => encounterType switch
         {
             Wild => 0,
-            Wild20 => 0,
+            WildLevel20 => 0,
+            WildLevel25 => 0,
             RaidMythical => 10,
             RaidShadowMythical => 8,
             RaidShadowMythicalGOWA => 8,

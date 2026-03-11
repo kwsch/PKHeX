@@ -28,6 +28,8 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            Tip = new System.Windows.Forms.ToolTip(components);
             TB_Text = new System.Windows.Forms.TextBox();
             CB_Species = new System.Windows.Forms.ComboBox();
             B_Cancel = new System.Windows.Forms.Button();
@@ -46,6 +48,12 @@ namespace PKHeX.WinForms
             GB_Trash.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Generation).BeginInit();
             SuspendLayout();
+            // 
+            // Tip
+            // 
+            Tip.AutoPopDelay = 32767;
+            Tip.InitialDelay = 200;
+            Tip.IsBalloon = false;
             // 
             // TB_Text
             // 
@@ -262,5 +270,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_Generation;
         private System.Windows.Forms.Button B_ClearTrash;
         private System.Windows.Forms.Label L_String;
+        private System.Windows.Forms.ToolTip Tip;
     }
 }

@@ -234,7 +234,8 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
 
     // Trainer Info
     public override GameVersion Version { get => GameVersion.XD; set { } }
-    public override string OT { get => GetString(Data.Slice(Trainer1 + 0x00, 20)); set => SetString(Data.Slice(Trainer1 + 0x00, 20), value, 10, StringConverterOption.ClearZero); }
+    public Span<byte> OriginalTrainerTrash => Data.Slice(Trainer1 + 0x00, 20);
+    public override string OT { get => GetString(OriginalTrainerTrash); set => SetString(OriginalTrainerTrash, value, 10, StringConverterOption.ClearZero); }
     public override uint ID32 { get => ReadUInt32BigEndian(Data[(Trainer1 + 0x2C)..]); set => WriteUInt32BigEndian(Data[(Trainer1 + 0x2C)..], value); }
     public override ushort SID16 { get => ReadUInt16BigEndian(Data[(Trainer1 + 0x2C)..]); set => WriteUInt16BigEndian(Data[(Trainer1 + 0x2C)..], value); }
     public override ushort TID16 { get => ReadUInt16BigEndian(Data[(Trainer1 + 0x2E)..]); set => WriteUInt16BigEndian(Data[(Trainer1 + 0x2E)..], value); }

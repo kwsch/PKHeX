@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Sorts contents of boxes by using a Sorter to determine the order.
 /// </summary>
-public sealed class BoxManipSort(BoxManipType Type, Func<IEnumerable<PKM>, IEnumerable<PKM>> Sorter, Func<SaveFile, bool> Usable) : BoxManipBase(Type, Usable)
+public sealed record BoxManipSort(BoxManipType Type, Func<IEnumerable<PKM>, IEnumerable<PKM>> Sorter, Func<SaveFile, bool> Usable) : BoxManipBase(Type, Usable)
 {
     public BoxManipSort(BoxManipType Type, Func<IEnumerable<PKM>, IEnumerable<PKM>> Sorter) : this(Type, Sorter, _ => true) { }
 

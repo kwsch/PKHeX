@@ -85,7 +85,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
 
     public void DragEnter(object? sender, DragEventArgs e)
     {
-        if (sender is null)
+        if (sender is not Control c)
             return;
         if ((e.AllowedEffect & DragDropEffects.Copy) != 0) // external file
             e.Effect = DragDropEffects.Copy;
@@ -93,7 +93,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
             e.Effect = DragDropEffects.Move;
 
         if (Drag.Info.IsDragDropInProgress)
-            Drag.SetCursor(((Control)sender).FindForm(), Drag.Info.Cursor);
+            Drag.SetCursor(c, Drag.Info.Cursor);
     }
 
     private static SlotViewInfo<T> GetSlotInfo<T>(T pb) where T : Control
@@ -156,7 +156,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         // drop finished, clean up
         Drag.Info.Source = null;
         Drag.Reset();
-        Drag.ResetCursor(pb.FindForm());
+        Drag.ResetCursor(pb);
 
         // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
         // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
@@ -210,7 +210,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         ArgumentNullException.ThrowIfNull(img);
         File.WriteAllBytes(newfile, data);
 
-        Drag.SetCursor(pb.FindForm(), new Cursor(img.GetHicon()));
+        Drag.SetOwnedCursor(pb, img);
         Hover.Stop();
         pb.Image = null;
         pb.BackgroundImage = SpriteUtil.Spriter.Drag;
@@ -223,7 +223,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         {
             pb.Image = img;
             pb.BackgroundImage = LastSlot.OriginalBackground;
-            Drag.ResetCursor(pb.FindForm());
+            Drag.ResetCursor(pb);
             return external;
         }
 
@@ -347,7 +347,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         // Copy from temp to destination slot.
         var type = info.IsDragSwap ? SlotTouchType.Swap : SlotTouchType.Set;
         Env.Slots.Set(info.Destination!.Slot, pk, type);
-        Drag.ResetCursor(pb.FindForm());
+        Drag.ResetCursor(pb);
         return true;
     }
 
@@ -381,6 +381,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
 
     public void Dispose()
     {
+        Drag.Dispose();
         Hover.Dispose();
         SE.Dispose();
         LastSlot.OriginalBackground?.Dispose();

@@ -256,7 +256,8 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
     }
 
     // Trainer Info (offset 0x78, length 0xB18, end @ 0xB90)
-    public override string OT { get => GetString(Data.Slice(0x78, 20)); set { SetString(Data.Slice(0x78, 20), value, 10, StringConverterOption.ClearZero); OT2 = value; } }
+    public Span<byte> OriginalTrainerTrash => Data.Slice(0x78, 20);
+    public override string OT { get => GetString(OriginalTrainerTrash); set { SetString(OriginalTrainerTrash, value, 10, StringConverterOption.ClearZero); OT2 = value; } }
     public string OT2 { get => GetString(Data.Slice(0x8C, 20)); set => SetString(Data.Slice(0x8C, 20), value, 10, StringConverterOption.ClearZero); }
 
     public override uint ID32 { get => ReadUInt32BigEndian(Data[0xA4..]); set => WriteUInt32BigEndian(Data[0xA4..], value); }
