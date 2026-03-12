@@ -1991,7 +1991,7 @@ namespace PKHeX.WinForms.Controls
             Label_CurPP.Size = new System.Drawing.Size(24, 24);
             Label_CurPP.TabIndex = 2;
             Label_CurPP.Text = "PP";
-            Label_CurPP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            Label_CurPP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             Label_CurPP.Click += ClickPP;
             // 
             // Label_PPups
@@ -2002,7 +2002,7 @@ namespace PKHeX.WinForms.Controls
             Label_PPups.Size = new System.Drawing.Size(40, 24);
             Label_PPups.TabIndex = 12;
             Label_PPups.Text = "Ups";
-            Label_PPups.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            Label_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             Label_PPups.Click += ClickPPUps;
             // 
             // MC_Move1
