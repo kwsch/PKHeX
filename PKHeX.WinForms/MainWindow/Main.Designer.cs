@@ -383,7 +383,7 @@ namespace PKHeX.WinForms
             // 
             splitContainer1.Panel2.Controls.Add(C_SAV);
             splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(0, 0, 1, 3);
-            splitContainer1.Size = new System.Drawing.Size(864, 367);
+            splitContainer1.Size = new System.Drawing.Size(864, 383);
             splitContainer1.SplitterDistance = 400;
             splitContainer1.SplitterWidth = 1;
             splitContainer1.TabIndex = 105;
@@ -426,7 +426,7 @@ namespace PKHeX.WinForms
             PKME_Tabs.Location = new System.Drawing.Point(0, 0);
             PKME_Tabs.Margin = new System.Windows.Forms.Padding(0);
             PKME_Tabs.Name = "PKME_Tabs";
-            PKME_Tabs.Size = new System.Drawing.Size(400, 367);
+            PKME_Tabs.Size = new System.Drawing.Size(400, 383);
             PKME_Tabs.TabIndex = 103;
             PKME_Tabs.Unicode = true;
             PKME_Tabs.LegalityChanged += PKME_Tabs_LegalityChanged;
@@ -446,7 +446,7 @@ namespace PKHeX.WinForms
             C_SAV.Menu_Redo = null;
             C_SAV.Menu_Undo = null;
             C_SAV.Name = "C_SAV";
-            C_SAV.Size = new System.Drawing.Size(462, 364);
+            C_SAV.Size = new System.Drawing.Size(462, 380);
             C_SAV.TabIndex = 104;
             C_SAV.ViewIndex = -1;
             C_SAV.RequestCloneData += ClickClone;
@@ -470,7 +470,7 @@ namespace PKHeX.WinForms
             // splitContainer2.Panel2
             // 
             splitContainer2.Panel2.Controls.Add(splitContainer1);
-            splitContainer2.Size = new System.Drawing.Size(864, 393);
+            splitContainer2.Size = new System.Drawing.Size(864, 409);
             splitContainer2.SplitterDistance = 25;
             splitContainer2.SplitterWidth = 1;
             splitContainer2.TabIndex = 106;
@@ -480,7 +480,7 @@ namespace PKHeX.WinForms
             AllowDrop = true;
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            ClientSize = new System.Drawing.Size(864, 393);
+            ClientSize = new System.Drawing.Size(864, 409);
             Controls.Add(splitContainer2);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = Properties.Resources.Icon;

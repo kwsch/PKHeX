@@ -1991,7 +1991,7 @@ namespace PKHeX.WinForms.Controls
             Label_CurPP.Size = new System.Drawing.Size(24, 24);
             Label_CurPP.TabIndex = 2;
             Label_CurPP.Text = "PP";
-            Label_CurPP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            Label_CurPP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             Label_CurPP.Click += ClickPP;
             // 
             // Label_PPups
@@ -2002,7 +2002,7 @@ namespace PKHeX.WinForms.Controls
             Label_PPups.Size = new System.Drawing.Size(40, 24);
             Label_PPups.TabIndex = 12;
             Label_PPups.Text = "Ups";
-            Label_PPups.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            Label_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             Label_PPups.Click += ClickPPUps;
             // 
             // MC_Move1
@@ -2015,7 +2015,7 @@ namespace PKHeX.WinForms.Controls
             MC_Move1.Name = "MC_Move1";
             MC_Move1.PP = 0;
             MC_Move1.PPUps = 0;
-            MC_Move1.SelectedMove = (ushort)0;
+            MC_Move1.SelectedMove = 0;
             MC_Move1.Size = new System.Drawing.Size(246, 27);
             MC_Move1.TabIndex = 1;
             // 
@@ -2029,7 +2029,7 @@ namespace PKHeX.WinForms.Controls
             MC_Move2.Name = "MC_Move2";
             MC_Move2.PP = 0;
             MC_Move2.PPUps = 0;
-            MC_Move2.SelectedMove = (ushort)0;
+            MC_Move2.SelectedMove = 0;
             MC_Move2.Size = new System.Drawing.Size(246, 27);
             MC_Move2.TabIndex = 2;
             // 
@@ -2043,7 +2043,7 @@ namespace PKHeX.WinForms.Controls
             MC_Move3.Name = "MC_Move3";
             MC_Move3.PP = 0;
             MC_Move3.PPUps = 0;
-            MC_Move3.SelectedMove = (ushort)0;
+            MC_Move3.SelectedMove = 0;
             MC_Move3.Size = new System.Drawing.Size(246, 27);
             MC_Move3.TabIndex = 3;
             // 
@@ -2057,7 +2057,7 @@ namespace PKHeX.WinForms.Controls
             MC_Move4.Name = "MC_Move4";
             MC_Move4.PP = 0;
             MC_Move4.PPUps = 0;
-            MC_Move4.SelectedMove = (ushort)0;
+            MC_Move4.SelectedMove = 0;
             MC_Move4.Size = new System.Drawing.Size(246, 27);
             MC_Move4.TabIndex = 4;
             // 
@@ -3307,7 +3307,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // StatusView
             // 
-            StatusView.Location = new System.Drawing.Point(2, 303);
+            StatusView.Location = new System.Drawing.Point(2, 322);
             StatusView.Margin = new System.Windows.Forms.Padding(0);
             StatusView.Name = "StatusView";
             StatusView.Size = new System.Drawing.Size(64, 64);
