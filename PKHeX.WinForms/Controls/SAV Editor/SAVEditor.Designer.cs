@@ -162,7 +162,7 @@ namespace PKHeX.WinForms.Controls
             // 
             B_PopoutBox.ContextMenuStrip = PopoutMenu;
             B_PopoutBox.Image = Properties.Resources.popout;
-            B_PopoutBox.Location = new System.Drawing.Point(3, 3);
+            B_PopoutBox.Location = new System.Drawing.Point(3, 15);
             B_PopoutBox.Margin = new System.Windows.Forms.Padding(0);
             B_PopoutBox.Name = "B_PopoutBox";
             B_PopoutBox.Size = new System.Drawing.Size(24, 24);
@@ -174,13 +174,13 @@ namespace PKHeX.WinForms.Controls
             // 
             PopoutMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { Menu_PopoutBoxSingle, Menu_PopoutBoxAll });
             PopoutMenu.Name = "PopoutMenu";
-            PopoutMenu.Size = new System.Drawing.Size(181, 70);
+            PopoutMenu.Size = new System.Drawing.Size(137, 48);
             // 
             // Menu_PopoutBoxSingle
             // 
             Menu_PopoutBoxSingle.Image = Properties.Resources.open;
             Menu_PopoutBoxSingle.Name = "Menu_PopoutBoxSingle";
-            Menu_PopoutBoxSingle.Size = new System.Drawing.Size(180, 22);
+            Menu_PopoutBoxSingle.Size = new System.Drawing.Size(136, 22);
             Menu_PopoutBoxSingle.Text = "Single Box";
             Menu_PopoutBoxSingle.Click += Menu_PopoutBoxSingle_Click;
             // 
@@ -188,7 +188,7 @@ namespace PKHeX.WinForms.Controls
             // 
             Menu_PopoutBoxAll.Image = Properties.Resources.database;
             Menu_PopoutBoxAll.Name = "Menu_PopoutBoxAll";
-            Menu_PopoutBoxAll.Size = new System.Drawing.Size(180, 22);
+            Menu_PopoutBoxAll.Size = new System.Drawing.Size(136, 22);
             Menu_PopoutBoxAll.Text = "All Boxes";
             Menu_PopoutBoxAll.Click += Menu_PopoutBoxAll_Click;
             // 
@@ -196,7 +196,7 @@ namespace PKHeX.WinForms.Controls
             // 
             B_SearchBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             B_SearchBox.Image = Properties.Resources.other;
-            B_SearchBox.Location = new System.Drawing.Point(414, 3);
+            B_SearchBox.Location = new System.Drawing.Point(414, 15);
             B_SearchBox.Margin = new System.Windows.Forms.Padding(0);
             B_SearchBox.Name = "B_SearchBox";
             B_SearchBox.Size = new System.Drawing.Size(24, 24);
@@ -214,7 +214,7 @@ namespace PKHeX.WinForms.Controls
             Box.CurrentBox = -1;
             Box.Editor = null;
             Box.FlagIllegal = false;
-            Box.Location = new System.Drawing.Point(107, 7);
+            Box.Location = new System.Drawing.Point(107, 19);
             Box.M = null;
             Box.Name = "Box";
             Box.Size = new System.Drawing.Size(251, 187);
