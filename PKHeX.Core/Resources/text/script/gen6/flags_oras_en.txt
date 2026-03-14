@@ -113,7 +113,7 @@
 0303	r	Spiritomb Captured
 0500	s	Sealed Chamber Puzzle Braille Text Disappeared
 3007	s	Sealed Chamber Puzzle Completed
-3008	r	Regi Caves Unlocked
+3008	s	Regi Caves Unlocked
 0501	s	Desert Ruins Puzzle Braille Text Disappeared
 3004	s	Desert Ruins Puzzle Completed
 0502	s	Island Cave Puzzle Braille Text Disappeared
