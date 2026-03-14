@@ -73,6 +73,8 @@ public partial class SAV_SimplePokedex : Form
                 SAV.SetCaught(species, false);
             }
         }
+        if (SAV is SAV3 s3)
+            s3.MirrorSeenFlags();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();

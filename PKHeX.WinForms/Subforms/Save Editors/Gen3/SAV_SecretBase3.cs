@@ -17,6 +17,8 @@ public partial class SAV_SecretBase3 : Form
         InitializeComponent();
         //WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV3)(Origin = sav).Clone();
+        var large = (ISaveBlock3LargeHoenn)SAV.LargeBlock;
+        Manager = large.SecretBases;
 
         TB_Name.MaxLength = 7;
         TB_SID.MaxLength = 5;
@@ -73,8 +75,6 @@ public partial class SAV_SecretBase3 : Form
             if (!TB_PID.Text.All(c => "0123456789abcdefABCDEF\n".Contains(c)))
                 TB_PID.Text = uint.MaxValue.ToString("X8");
         };
-
-        Manager = ((IGen3Hoenn)SAV).SecretBases;
         LB_Bases.InitializeBinding();
         LB_Bases.DataSource = Manager.Bases;
         LB_Bases.DisplayMember = "OriginalTrainerName";

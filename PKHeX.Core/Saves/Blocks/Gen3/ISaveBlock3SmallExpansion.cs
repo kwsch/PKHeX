@@ -1,6 +1,8 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PKHeX.Core;
 
-public interface IGen3Joyful
+public interface ISaveBlock3SmallExpansion : ISaveBlock3Small
 {
     ushort JoyfulJumpInRow { get; set; }
     ushort JoyfulJump5InRow { get; set; }
@@ -11,6 +13,9 @@ public interface IGen3Joyful
     ushort JoyfulBerriesInRow { get; set; }
     ushort JoyfulBerries5InRow { get; set; }
 
+    ushort GetBerryPressSpeed([Range(0, 3)] int index);
+    void SetBerryPressSpeed([Range(0, 3)] int index, ushort value);
     uint BerryPowder { get; set; }
-    uint SecurityKey { get; set; }
+    new uint SecurityKey { get; set; }
+    uint LinkFlags { get; set; }
 }

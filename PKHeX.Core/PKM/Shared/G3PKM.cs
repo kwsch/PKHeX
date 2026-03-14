@@ -17,7 +17,7 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public sealed override ushort MaxMoveID => Legal.MaxMoveID_3;
     public sealed override ushort MaxSpeciesID => Legal.MaxSpeciesID_3;
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_3;
-    public sealed override int MaxItemID => Legal.MaxItemID_3;
+    public sealed override int MaxItemID => Legal.MaxItemID_3_E;
     public sealed override int MaxBallID => Legal.MaxBallID_3;
     public sealed override GameVersion MaxGameID => Legal.MaxGameID_3;
     public sealed override int MaxIV => 31;

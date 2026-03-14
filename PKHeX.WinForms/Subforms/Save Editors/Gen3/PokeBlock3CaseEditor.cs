@@ -13,7 +13,7 @@ public partial class Pokeblock3CaseEditor : UserControl
 
     private readonly string[] ItemNames = Util.GetStringList("pokeblock3", Main.CurrentLanguage);
 
-    public void Initialize(IGen3Hoenn sav)
+    public void Initialize(ISaveBlock3LargeHoenn sav)
     {
         Case = sav.PokeBlocks;
 
@@ -42,7 +42,7 @@ public partial class Pokeblock3CaseEditor : UserControl
 
     private string GetPokeblockText(int index) => $"{index + 1:00} - {GetPokeblockName(Case.Blocks[index].Color)}";
 
-    public void Save(IGen3Hoenn sav)
+    public void Save(ISaveBlock3LargeHoenn sav)
     {
         SaveIndex(CurrentIndex);
         sav.PokeBlocks = Case;

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Properties common to RS &amp; Emerald save files.
+/// Large-block properties common to RS & Emerald save files.
 /// </summary>
-public interface IGen3Hoenn
+public interface ISaveBlock3LargeHoenn : ISaveBlock3Large
 {
-    RTC3 ClockInitial { get; set; }
-    RTC3 ClockElapsed { get; set; }
     PokeBlock3Case PokeBlocks { get; set; }
+    ushort GetBerryBlenderRPMRecord(int index);
+    void SetBerryBlenderRPMRecord(int index, ushort value);
     DecorationInventory3 Decorations { get; }
     Swarm3 Swarm { get; set; }
 
@@ -19,6 +19,6 @@ public interface IGen3Hoenn
     RecordMixing3Gift RecordMixingGift { get; set; }
     SecretBaseManager3 SecretBases { get; }
 
-    Paintings3 GetPainting(int index);
+    Paintings3 GetPainting(int index, bool japanese);
     void SetPainting(int index, Paintings3 value);
 }

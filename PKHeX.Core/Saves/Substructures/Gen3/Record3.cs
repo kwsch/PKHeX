@@ -1,29 +1,10 @@
 using System;
 using System.Collections.Generic;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Record3(SAV3 SAV)
+public static class Record3
 {
-    public uint GetRecord(int record) => ReadUInt32LittleEndian(SAV.Large[GetRecordOffset(record)..]) ^ SAV.SecurityKey;
-    public void SetRecord(int record, uint value) => WriteUInt32LittleEndian(SAV.Large[GetRecordOffset(record)..], value ^ SAV.SecurityKey);
-
-    private int GetRecordOffset(int record)
-    {
-        var baseOffset = GetOffset(SAV.Version);
-        var offset = baseOffset + (4 * record);
-        return offset;
-    }
-
-    public static int GetOffset(GameVersion version) => version switch
-    {
-        GameVersion.RS or GameVersion.R or GameVersion.S => 0x1540,
-        GameVersion.E => 0x159C,
-        GameVersion.FRLG or GameVersion.FR or GameVersion.LG => 0x1200,
-        _ => throw new ArgumentOutOfRangeException(nameof(version), version, null),
-    };
-
     private static Type GetEnumType(GameVersion version) => version switch
     {
         GameVersion.RS or GameVersion.R or GameVersion.S => typeof(RecID3RuSa),
@@ -41,7 +22,7 @@ public sealed class Record3(SAV3 SAV)
         var names = GetEnumNames(version);
         var values = GetEnumValues(version);
 
-        var result = new ComboItem[values.Length];
+        var result = new ComboItem[values.Length - 1]; // exclude NUM_GAME_STATS
         for (int i = 0; i < result.Length; i++)
         {
             var replaced = names[i].Replace('_', ' ');
@@ -110,7 +91,7 @@ public enum RecID3RuSa
     USED_DAYCARE = 47,
     RODE_CABLE_CAR = 48,
     ENTERED_HOT_SPRINGS = 49,
-    // NUM_GAME_STATS = 50
+    NUM_GAME_STATS = 50,
 }
 
 /// <summary>
@@ -175,7 +156,7 @@ public enum RecID3Emerald
     BERRY_CRUSH_WITH_FRIENDS = 51,
 
     // NUM_USED_GAME_STATS = 52,
-    // NUM_GAME_STATS = 64
+    NUM_GAME_STATS = 64,
 }
 
 /// <summary>
@@ -239,5 +220,5 @@ public enum RecID3FRLG
     UNION_WITH_FRIENDS = 50,
     BERRY_CRUSH_WITH_FRIENDS = 51,
 
-    // NUM_GAME_STATS = 64,
+    NUM_GAME_STATS = 64,
 }

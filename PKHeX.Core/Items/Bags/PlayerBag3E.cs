@@ -6,8 +6,6 @@ namespace PKHeX.Core;
 
 public sealed class PlayerBag3E : PlayerBag, IPlayerBag3
 {
-    private const int BaseOffset = 0x0498;
-
     public override IReadOnlyList<InventoryPouch3> Pouches { get; } = GetPouches(ItemStorage3E.Instance);
     public override ItemStorage3E Info => ItemStorage3E.Instance;
 
@@ -21,7 +19,7 @@ public sealed class PlayerBag3E : PlayerBag, IPlayerBag3
         new(0x000, 50, 999, info, PCItems),
     ];
 
-    public PlayerBag3E(SAV3E sav) : this(sav.Large[BaseOffset..], sav.SecurityKey) { }
+    public PlayerBag3E(SAV3E sav) : this(sav.LargeBlock.Inventory, sav.SmallBlock.SecurityKey) { }
     public PlayerBag3E(ReadOnlySpan<byte> data, uint security)
     {
         UpdateSecurityKey(security);
@@ -29,7 +27,7 @@ public sealed class PlayerBag3E : PlayerBag, IPlayerBag3
     }
 
     public override void CopyTo(SaveFile sav) => CopyTo((SAV3E)sav);
-    public void CopyTo(SAV3E sav) => CopyTo(sav.Large[BaseOffset..]);
+    public void CopyTo(SAV3E sav) => CopyTo(sav.LargeBlock.Inventory);
     public void CopyTo(Span<byte> data) => Pouches.SaveAll(data);
 
     public override int GetMaxCount(InventoryType type, int itemIndex)

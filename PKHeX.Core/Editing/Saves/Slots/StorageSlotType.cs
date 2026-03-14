@@ -51,7 +51,7 @@ public enum StorageSlotType : byte
     /// Shiny Overworld Cache
     /// </summary>
     /// <remarks>
-    /// <see cref="GameVersion.ZA"/> 
+    /// <see cref="GameVersion.ZA"/>
     /// </remarks>
     Shiny,
 
