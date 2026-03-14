@@ -113,7 +113,7 @@
 0303	r	Spiritomb capturado
 0500	s	Texto Braille del puzzle de la Cámara Sellada desaparecido
 3007	s	Puzzle de la Cámara Sellada completado
-3008	r	Cuevas de los Regi desbloqueadas
+3008	s	Cuevas de los Regi desbloqueadas
 0501	s	Texto Braille del puzzle de Ruinas del Desierto desaparecido
 3004	s	Puzzle de Ruinas del Desierto completado
 0502	s	Texto Braille del puzzle de Cueva Insular desaparecido
