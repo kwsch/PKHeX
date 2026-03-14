@@ -113,7 +113,7 @@
 0303	r	Spiritomb Capturé
 0500	s	Puzzle du Texte en Braille du Sanctuaire Disparu
 3007	s	Puzzle du Sanctuaire Complété
-3008	r	Cavernes des Regi Débloquées
+3008	s	Cavernes des Regi Débloquées
 0501	s	Puzzle du Texte en Braille des Ruines Désert Disparu
 3004	s	Puzzle des Ruines Désert Complété
 0502	s	Puzzle du Texte en Braille de la Grotte de l'Îlot Disparu
