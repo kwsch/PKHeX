@@ -1,0 +1,58 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SuperTrainingEditorView"
+                     x:DataType="vm:SuperTrainingEditorViewModel"
+                     Title="Super Training Editor"
+                     Width="450" Height="600"
+                     MinWidth="350" MinHeight="400"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Set All" Command="{Binding SetAllCommand}" Width="70" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" Width="70" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="8">
+                <!-- Secret flags -->
+                <StackPanel Orientation="Horizontal" Spacing="16" Margin="4">
+                    <CheckBox Content="Secret Unlocked" IsChecked="{Binding SecretUnlocked}" />
+                    <CheckBox Content="Supremely Trained" IsChecked="{Binding SecretComplete}" />
+                </StackPanel>
+
+                <!-- Regular regimens -->
+                <TextBlock Text="Regular Regimens" FontWeight="SemiBold" Margin="4,4,0,0" />
+                <ItemsControl ItemsSource="{Binding RegularEntries}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:SuperTrainEntryModel">
+                            <CheckBox IsChecked="{Binding IsCompleted}"
+                                      Content="{Binding Name}"
+                                      Margin="8,2" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Distribution regimens -->
+                <TextBlock Text="Distribution Regimens" FontWeight="SemiBold" Margin="4,8,0,0" />
+                <ItemsControl ItemsSource="{Binding DistributionEntries}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:SuperTrainEntryModel">
+                            <CheckBox IsChecked="{Binding IsCompleted}"
+                                      Content="{Binding Name}"
+                                      Margin="8,2" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

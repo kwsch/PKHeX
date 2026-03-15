@@ -1,0 +1,76 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.FolderListView"
+                     x:DataType="vm:FolderListViewModel"
+                     Title="{Binding WindowTitle}"
+                     Width="700" Height="550"
+                     MinWidth="500" MinHeight="400"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel x:Name="RootPanel" Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Close" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <!-- Search box -->
+        <TextBox DockPanel.Dock="Top" Watermark="Filter files..."
+                 Text="{Binding SearchText}" Margin="0,0,0,8" />
+
+        <Grid ColumnDefinitions="200,*">
+            <!-- Folder list -->
+            <DockPanel Grid.Column="0" Margin="0,0,4,0">
+                <TextBlock DockPanel.Dock="Top" Text="Folders" FontWeight="SemiBold" Margin="0,0,0,4" />
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding Folders}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:FolderEntry">
+                                <Button Content="{Binding DisplayName}"
+                                        Command="{Binding #RootPanel.((vm:FolderListViewModel)DataContext).OpenFolderCommand}"
+                                        CommandParameter="{Binding}"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Left"
+                                        Margin="0,2" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </DockPanel>
+
+            <!-- File tabs -->
+            <TabControl Grid.Column="1" SelectedIndex="{Binding SelectedTabIndex}">
+                <TabItem Header="Recent">
+                    <DataGrid ItemsSource="{Binding FilteredRecentFiles}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              CanUserSortColumns="True"
+                              GridLinesVisibility="Horizontal">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="File Name" Binding="{Binding FileName}" Width="*" />
+                            <DataGridTextColumn Header="Size" Binding="{Binding FileSize}" Width="100" />
+                            <DataGridTextColumn Header="Modified" Binding="{Binding LastModified}" Width="140" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Backups">
+                    <DataGrid ItemsSource="{Binding FilteredBackupFiles}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              CanUserSortColumns="True"
+                              GridLinesVisibility="Horizontal">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="File Name" Binding="{Binding FileName}" Width="*" />
+                            <DataGridTextColumn Header="Size" Binding="{Binding FileSize}" Width="100" />
+                            <DataGridTextColumn Header="Modified" Binding="{Binding LastModified}" Width="140" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>

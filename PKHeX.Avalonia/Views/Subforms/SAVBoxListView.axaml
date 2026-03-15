@@ -1,0 +1,40 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVBoxListView"
+                     x:DataType="vm:SAVBoxListViewModel"
+                     Title="All Boxes"
+                     Width="450" Height="500"
+                     MinWidth="350" MinHeight="300"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Refresh" Command="{Binding RefreshCommand}" Width="80" />
+            <Button Content="Go To Box" Command="{Binding NavigateToBoxCommand}" Width="80" />
+            <Button Content="Close" Click="OnCloseClick" Width="80" />
+        </StackPanel>
+
+        <!-- Box list -->
+        <DataGrid ItemsSource="{Binding Boxes}"
+                  SelectedItem="{Binding SelectedBox}"
+                  IsReadOnly="True"
+                  CanUserSortColumns="True"
+                  CanUserResizeColumns="True"
+                  SelectionMode="Single"
+                  GridLinesVisibility="Horizontal"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="#" Binding="{Binding BoxIndex}" Width="40" />
+                <DataGridTextColumn Header="Box Name" Binding="{Binding BoxName}" Width="*" />
+                <DataGridTextColumn Header="Occupied" Binding="{Binding OccupiedCount}" Width="70" />
+                <DataGridTextColumn Header="Total" Binding="{Binding SlotCount}" Width="60" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+
+</views:SubformWindow>

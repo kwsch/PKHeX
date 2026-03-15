@@ -1,0 +1,38 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVAccessorView"
+                     x:DataType="vm:SAVAccessorViewModel"
+                     Title="Block Accessor"
+                     Width="450" Height="350"
+                     MinWidth="350" MinHeight="250"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="12">
+        <!-- Bottom -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Close" Click="OnCloseClick" Width="80" />
+        </StackPanel>
+
+        <!-- Content -->
+        <StackPanel Spacing="10">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Block:" VerticalAlignment="Center" Width="60" />
+                <ComboBox ItemsSource="{Binding BlockNames}"
+                          SelectedItem="{Binding SelectedBlockName}"
+                          MinWidth="280" MaxDropDownHeight="400" />
+            </StackPanel>
+
+            <TextBlock Text="Block Details:" FontWeight="SemiBold" Margin="0,8,0,0" />
+            <TextBox Text="{Binding BlockSummary, Mode=OneWay}"
+                     IsReadOnly="True"
+                     AcceptsReturn="True"
+                     Height="150"
+                     TextWrapping="Wrap" />
+        </StackPanel>
+    </DockPanel>
+
+</views:SubformWindow>

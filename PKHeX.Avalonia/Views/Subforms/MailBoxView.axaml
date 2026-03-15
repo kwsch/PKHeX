@@ -1,0 +1,58 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.MailBoxView"
+                     x:DataType="vm:MailBoxViewModel"
+                     Title="{Binding WindowTitle}"
+                     Width="550" Height="500"
+                     MinWidth="400" MinHeight="350"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Clear Mail" Command="{Binding ClearMailCommand}" Width="90" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="200,*">
+            <!-- Mail list -->
+            <DockPanel Grid.Column="0" Margin="0,0,4,0">
+                <TextBlock DockPanel.Dock="Top" Text="Mail Entries" FontWeight="SemiBold" Margin="0,0,0,4" />
+                <ListBox ItemsSource="{Binding MailEntries}"
+                         SelectedIndex="{Binding SelectedIndex}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:MailEntryModel">
+                            <TextBlock Text="{Binding Label}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+
+            <!-- Mail details -->
+            <StackPanel Grid.Column="1" Spacing="8" Margin="4,0,0,0">
+                <TextBlock Text="Mail Details" FontWeight="SemiBold" />
+
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Author Name" />
+                    <TextBox Text="{Binding SelectedAuthorName}" />
+                </StackPanel>
+
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Author TID" />
+                    <NumericUpDown Value="{Binding SelectedAuthorTid}" Minimum="0" Maximum="65535" />
+                </StackPanel>
+
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Mail Type" />
+                    <NumericUpDown Value="{Binding SelectedMailType}" Minimum="0" Maximum="255" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>

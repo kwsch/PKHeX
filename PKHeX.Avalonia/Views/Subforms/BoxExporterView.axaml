@@ -1,0 +1,39 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.BoxExporterView"
+                     x:DataType="vm:BoxExporterViewModel"
+                     Title="Box Exporter"
+                     Width="400" Height="250"
+                     MinWidth="350" MinHeight="200"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="False">
+
+    <DockPanel Margin="12">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center" FontSize="12" />
+            <Button Content="Export" Command="{Binding ExportCommand}" Width="80" />
+            <Button Content="Close" Click="OnCloseClick" Width="80" />
+        </StackPanel>
+
+        <!-- Settings -->
+        <StackPanel Spacing="12">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="File Namer:" VerticalAlignment="Center" Width="80" />
+                <ComboBox ItemsSource="{Binding NamerNames}"
+                          SelectedIndex="{Binding SelectedNamerIndex}"
+                          MinWidth="200" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Scope:" VerticalAlignment="Center" Width="80" />
+                <RadioButton Content="All Boxes" IsChecked="{Binding ExportAll}" GroupName="Scope" />
+                <RadioButton Content="Current Box" GroupName="Scope" />
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+
+</views:SubformWindow>
