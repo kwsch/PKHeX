@@ -5,8 +5,9 @@
         x:Class="PKHeX.Avalonia.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="{Binding Title}"
-        Width="864" Height="409"
-        CanResize="False"
+        Width="900" Height="520"
+        MinWidth="864" MinHeight="409"
+        CanResize="True"
         DragDrop.AllowDrop="True">
 
     <DockPanel>
