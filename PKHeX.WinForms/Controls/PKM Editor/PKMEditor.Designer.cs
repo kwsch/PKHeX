@@ -543,6 +543,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_PID.Anchor = System.Windows.Forms.AnchorStyles.Left;
             TB_PID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            TB_PID.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             TB_PID.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_PID.Location = new System.Drawing.Point(0, 3);
             TB_PID.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
@@ -3261,6 +3262,7 @@ namespace PKHeX.WinForms.Controls
             // TB_EC
             // 
             TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            TB_EC.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_EC.Location = new System.Drawing.Point(184, 2);
             TB_EC.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);

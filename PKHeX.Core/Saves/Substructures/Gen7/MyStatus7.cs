@@ -93,7 +93,7 @@ public sealed class MyStatus7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav,
         set => Data[0x35] = (byte)value;
     }
 
-    private Span<byte> OriginalTrainerTrash => Data.Slice(0x38, 0x1A);
+    public Span<byte> OriginalTrainerTrash => Data.Slice(0x38, 0x1A);
 
     public string OT
     {

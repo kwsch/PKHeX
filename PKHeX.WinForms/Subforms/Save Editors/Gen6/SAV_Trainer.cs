@@ -203,7 +203,8 @@ public partial class SAV_Trainer : Form
         SAV.ConsoleRegion = (byte)WinFormsUtil.GetIndex(CB_3DSReg);
         SAV.Language = WinFormsUtil.GetIndex(CB_Language);
 
-        SAV.OT = TB_OTName.Text;
+        if (SAV.OT != TB_OTName.Text) // only modify if changed (preserve trash bytes?)
+            SAV.OT = TB_OTName.Text;
 
         var status = SAV.Status;
         status.Saying1 = TB_Saying1.Text;
@@ -275,14 +276,11 @@ public partial class SAV_Trainer : Form
 
     private void ClickOT(object sender, MouseEventArgs e)
     {
-        TextBox tb = sender as TextBox ?? TB_OTName;
         // Special Character Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        var d = new TrashEditor(tb, SAV, SAV.Generation, SAV.Context);
-        d.ShowDialog();
-        tb.Text = d.FinalString;
+        TrashEditor.Show(TB_OTName, SAV, SAV.Status.OriginalTrainerTrash);
     }
 
     private void ShowTSV(object sender, EventArgs e)

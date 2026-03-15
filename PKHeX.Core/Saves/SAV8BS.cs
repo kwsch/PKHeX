@@ -280,10 +280,12 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = (byte)value; }
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = (byte)value; }
 
-    public string Rival
+    public Span<byte> RivalNameTrash => Data.Slice(0x55F4, 0x1A);
+
+    public string RivalName
     {
-        get => GetString(Data.Slice(0x55F4, 0x1A));
-        set => SetString(Data.Slice(0x55F4, 0x1A), value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
+        get => GetString(RivalNameTrash);
+        set => SetString(RivalNameTrash, value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
     public short ZoneID // map

@@ -399,14 +399,12 @@ public partial class SAV_FestivalPlaza : Form
 
     private void TB_OTName_MouseDown(object sender, MouseEventArgs e)
     {
-        TextBox tb = sender as TextBox ?? TB_OTName;
         // Special Character Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        var d = new TrashEditor(tb, SAV, SAV.Generation, SAV.Context);
-        d.ShowDialog();
-        tb.Text = d.FinalString;
+        var tb = sender as TextBox ?? TB_OTName;
+        TrashEditor.Show(tb, SAV);
     }
 
     private readonly string[] gendersymbols = ["♂", "♀"];

@@ -205,15 +205,12 @@ public partial class SAV_SimpleTrainer : Form
     private readonly bool Loading;
     private bool MapUpdated;
 
-    private void ClickOT(Span<byte> text, TextBox tb)
+    private void ClickOT(Span<byte> trash, TextBox tb)
     {
         // Special Character Form
         if (ModifierKeys != Keys.Control)
             return;
-
-        var d = new TrashEditor(tb, text, SAV, SAV.Generation, SAV.Context);
-        d.ShowDialog();
-        tb.Text = d.FinalString;
+        TrashEditor.Show(tb, SAV, trash);
     }
 
     private void ChangeFFFF(object sender, EventArgs e)

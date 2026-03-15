@@ -56,6 +56,7 @@ public partial class SAV_Misc3 : Form
         if (SAV is SAV3FRLG frlg)
         {
             TB_RivalName.Text = frlg.RivalName;
+            TB_RivalName.Click += (_, _) => TrashEditor.Show(TB_RivalName, frlg, frlg.LargeBlock.RivalNameTrash);
 
             // Trainer Card Species
             ComboBox[] cba = [CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6];
@@ -92,7 +93,8 @@ public partial class SAV_Misc3 : Form
             SaveBattleFrontier();
         if (SAV is SAV3FRLG frlg)
         {
-            frlg.RivalName = TB_RivalName.Text;
+            if (frlg.RivalName != TB_RivalName.Text) // preserve trash
+                frlg.RivalName = TB_RivalName.Text;
             ComboBox[] cba = [CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6];
             for (int i = 0; i < cba.Length; i++)
             {

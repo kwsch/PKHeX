@@ -371,12 +371,7 @@ public partial class SAV_HallOfFame : Form
         var data = Fame.GetEntity(team, member);
         var nicktrash = data.Slice(0x18, 26);
         var text = tb.Text;
-        SAV.SetString(nicktrash, text, 12, StringConverterOption.ClearZero);
-        var d = new TrashEditor(tb, nicktrash, SAV, SAV.Generation, SAV.Context);
-        d.ShowDialog();
-        tb.Text = d.FinalString;
-        d.FinalBytes.CopyTo(nicktrash);
-
-        TB_Nickname.Text = StringConverter6.GetString(nicktrash);
+        SAV.SetString(nicktrash, text, 12, StringConverterOption.None);
+        TrashEditor.Show(tb, SAV, nicktrash);
     }
 }

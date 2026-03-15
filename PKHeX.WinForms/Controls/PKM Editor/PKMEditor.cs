@@ -1439,10 +1439,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (ModifierKeys != Keys.Control)
             return;
 
+        if (sender is not TextBox tb)
+            return;
         // Open Trash/Special Character form
         // Set the string back to the entity in the right spot, so the span fetch has the latest data.
         Span<byte> trash;
-        TextBox tb = sender as TextBox ?? TB_Nickname;
         if (tb == TB_Nickname)
         {
             Entity.Nickname = tb.Text;
@@ -1463,10 +1464,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         }
 
-        using var d = new TrashEditor(tb, trash, Entity, Entity.Format, Entity.Context);
-        d.ShowDialog();
-        tb.Text = d.FinalString;
-        d.FinalBytes.CopyTo(trash);
+        TrashEditor.Show(tb, Entity, trash);
     }
 
     private void UpdateNotOT(object sender, EventArgs e)

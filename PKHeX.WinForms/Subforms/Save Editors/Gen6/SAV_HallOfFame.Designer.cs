@@ -197,6 +197,7 @@ namespace PKHeX.WinForms
             // TB_EC
             // 
             TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            TB_EC.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_EC.Location = new System.Drawing.Point(294, 185);
             TB_EC.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);

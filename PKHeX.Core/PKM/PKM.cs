@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// Object representing a <see cref="PKM"/>'s data and derived properties.
 /// </summary>
 [DynamicallyAccessedMembers(PublicProperties | NonPublicProperties | PublicParameterlessConstructor)]
-public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILangNick, IGameValueLimit, INature, IFatefulEncounter, IStringConverter, ITrashIntrospection
+public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILangNick, IGameValueLimit, INature, IFatefulEncounter, IStringConverter, ITrashIntrospection, IContext
 {
     public abstract int SIZE_PARTY { get; }
     public abstract int SIZE_STORED { get; }

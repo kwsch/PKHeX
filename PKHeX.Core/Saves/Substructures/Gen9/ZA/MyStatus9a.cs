@@ -15,7 +15,7 @@ public sealed class MyStatus9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>(sa
 
     public int Language { get => Data[0x07]; set => Data[0x07] = (byte)value; }
 
-    private Span<byte> OriginalTrainerTrash => Data.Slice(0x10, 0x1A);
+    public Span<byte> OriginalTrainerTrash => Data.Slice(0x10, 0x1A);
 
     public string OT
     {

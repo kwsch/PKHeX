@@ -17,16 +17,34 @@ public partial class TrashEditor : Form
     private readonly byte[] Raw;
     private bool editing;
 
-    public TrashEditor(TextBoxBase TB_NN, IStringConverter sav, byte generation, EntityContext context)
-        : this(TB_NN, [], sav, generation, context) { }
+    private static TrashEditor Get<T>(TextBoxBase tb, T provider, Span<byte> trash = default) where T : IStringConverter, IGeneration, IContext
+        => new(tb, provider, provider.Generation, provider.Context, trash);
 
-    public TrashEditor(TextBoxBase TB_NN, Span<byte> raw, IStringConverter converter, byte generation, EntityContext context)
+    public static void Show<T>(TextBoxBase tb, T provider, Span<byte> trash = default, bool readOnly = false)
+        where T : IStringConverter, IGeneration, IContext
+    {
+        using var form = Get(tb, provider, trash);
+        if (readOnly)
+            form.B_Save.Enabled = false;
+        form.ShowDialog();
+        tb.Text = form.FinalString;
+        form.FinalBytes.CopyTo(trash);
+    }
+
+    // workaround to being unable to translate this via reflection with the DevUtil scraper with ref structs
+#nullable disable
+    // ReSharper disable once NotNullOrRequiredMemberIsNotInitialized
+    private TrashEditor()
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        Converter = converter;
+    }
+#nullable enable
 
-        FinalString = TB_NN.Text;
+    private TrashEditor(TextBoxBase tb, IStringConverter converter, byte generation, EntityContext context, Span<byte> raw = default) : this()
+    {
+        Converter = converter;
+        FinalString = tb.Text;
 
         editing = true;
         if (raw.Length != 0)
@@ -41,8 +59,8 @@ public partial class TrashEditor : Form
 
         var f = FontUtil.GetPKXFont();
         AddCharEditing(f, context);
-        TB_Text.MaxLength = TB_NN.MaxLength;
-        TB_Text.Text = TB_NN.Text;
+        TB_Text.MaxLength = tb.MaxLength;
+        TB_Text.Text = tb.Text;
         TB_Text.Font = f;
 
         if (FLP_Characters.Controls.Count == 0)

@@ -14,7 +14,7 @@ public sealed class MyStatus8b(SAV8BS sav, Memory<byte> raw) : SaveBlock<SAV8BS>
     public const byte MAX_BADGE = 8;
     // public const byte MAX_RANK = 5; // unused?
 
-    private Span<byte> OriginalTrainerTrash => Data[..0x1A];
+    public Span<byte> OriginalTrainerTrash => Data[..0x1A];
 
     public string OT
     {

@@ -101,7 +101,7 @@ public class MyStatus6(SAV6 sav, Memory<byte> raw) : SaveBlock<SAV6>(sav, raw), 
         set => Data[0x2D] = (byte)value;
     }
 
-    private Span<byte> OriginalTrainerTrash => Data.Slice(0x48, 0x1A);
+    public Span<byte> OriginalTrainerTrash => Data.Slice(0x48, 0x1A);
 
     public string OT
     {

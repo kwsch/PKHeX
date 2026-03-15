@@ -35,3 +35,20 @@ public interface IStringConverter
     /// <returns>Count of bytes written to <see cref="data"/>.</returns>
     int SetString(Span<byte> data, ReadOnlySpan<char> text, int length, StringConverterOption option);
 }
+
+public delegate string StringGetter(ReadOnlySpan<byte> data);
+public delegate int StringLoader(ReadOnlySpan<byte> data, Span<char> text);
+public delegate int StringSetter(Span<byte> data, ReadOnlySpan<char> text, int length, StringConverterOption option);
+
+public sealed class CustomStringConverter : IStringConverter, IGeneration, IContext
+{
+    public required StringGetter Get { get; init; }
+    public required StringLoader Load { get; init; }
+    public required StringSetter Set { get; init; }
+    public required byte Generation { get; init; }
+    public required EntityContext Context { get; init; }
+
+    public string GetString(ReadOnlySpan<byte> data) => Get(data);
+    public int LoadString(ReadOnlySpan<byte> data, Span<char> text) => Load(data, text);
+    public int SetString(Span<byte> data, ReadOnlySpan<char> text, int length, StringConverterOption option) => Set(data, text, length, option);
+}

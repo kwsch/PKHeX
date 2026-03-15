@@ -109,7 +109,7 @@ public sealed partial class SAV_Inventory : Form
         }
     }
 
-    private DataGridView GetDGV(InventoryPouch pouch)
+    private DoubleBufferedDataGridView GetDGV(InventoryPouch pouch)
     {
         // Add DataGrid
         var dgv = GetBaseDataGrid(pouch);

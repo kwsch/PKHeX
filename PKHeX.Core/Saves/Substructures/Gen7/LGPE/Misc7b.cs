@@ -11,11 +11,11 @@ public sealed class Misc7b(SAV7b sav, Memory<byte> raw) : SaveBlock<SAV7b>(sav, 
         set => WriteUInt32LittleEndian(Data[4..], value);
     }
 
-    private Span<byte> RivalTrash => Data.Slice(0x200, 0x1A);
+    public Span<byte> RivalNameTrash => Data.Slice(0x200, 0x1A);
 
-    public string Rival
+    public string RivalName
     {
-        get => SAV.GetString(RivalTrash);
-        set => SAV.SetString(RivalTrash, value, SAV.MaxStringLengthTrainer, StringConverterOption.ClearZero);
+        get => SAV.GetString(RivalNameTrash);
+        set => SAV.SetString(RivalNameTrash, value, SAV.MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 }

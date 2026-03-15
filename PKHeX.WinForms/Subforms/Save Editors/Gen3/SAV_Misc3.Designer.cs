@@ -1721,6 +1721,7 @@ namespace PKHeX.WinForms
             // 
             // TB_PID
             // 
+            TB_PID.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             TB_PID.Font = new System.Drawing.Font("Courier New", 8F);
             TB_PID.Location = new System.Drawing.Point(90, 53);
             TB_PID.Name = "TB_PID";

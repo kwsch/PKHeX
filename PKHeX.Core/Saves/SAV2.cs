@@ -325,13 +325,13 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set { if (value.Length == StringLength) value.CopyTo(Data[(Offsets.Trainer1 + 2)..]); }
     }
 
-    public string Rival
+    public string RivalName
     {
         get => GetString(Data.Slice(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthTrainer));
         set => SetString(Data.Slice(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthTrainer), value, 8, StringConverterOption.Clear50);
     }
 
-    public Span<byte> RivalTrash
+    public Span<byte> RivalNameTrash
     {
         get => Data.Slice(Offsets.Rival, StringLength);
         set { if (value.Length == StringLength) value.CopyTo(Data[Offsets.Rival..]); }
