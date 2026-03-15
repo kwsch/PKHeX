@@ -27,72 +27,64 @@
                         <TextBlock Text="Main" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <StackPanel Spacing="2" Margin="4,2,4,2">
-                        <!-- PID -->
-                        <DockPanel>
-                            <TextBlock Text="PID:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                            <TextBox Text="{Binding PidHex}" Width="90" FontFamily="Consolas,Courier New,monospace" />
-                        </DockPanel>
-                        <!-- Species -->
-                        <DockPanel>
-                            <TextBlock Text="Species:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                            <ComboBox ItemsSource="{Binding SpeciesList}" SelectedItem="{Binding SelectedSpecies}"
-                                      DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" />
-                        </DockPanel>
-                        <!-- Nickname -->
-                        <DockPanel>
-                            <TextBlock Text="Nickname:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                            <TextBox Text="{Binding Nickname}" />
-                        </DockPanel>
-                        <!-- EXP + Level -->
-                        <DockPanel>
-                            <TextBlock Text="EXP:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                            <TextBox Text="{Binding Exp}" Width="80" />
-                            <TextBlock Text="Level:" VerticalAlignment="Center" Margin="8,0,4,0" />
-                            <NumericUpDown Value="{Binding Level}" Minimum="1" Maximum="100" Width="70" />
-                        </DockPanel>
-                        <!-- Nature -->
-                        <DockPanel>
-                            <TextBlock Text="Nature:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                            <ComboBox ItemsSource="{Binding NatureList}" SelectedItem="{Binding SelectedNature}"
-                                      DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" />
-                        </DockPanel>
-                        <!-- Form -->
-                        <DockPanel>
-                            <TextBlock Text="Form:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                            <NumericUpDown Value="{Binding Form}" Minimum="0" Width="70" />
-                        </DockPanel>
-                        <!-- Held Item -->
-                        <DockPanel>
-                            <TextBlock Text="Held Item:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                            <ComboBox ItemsSource="{Binding HeldItemList}" SelectedItem="{Binding SelectedHeldItem}"
-                                      DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" />
-                        </DockPanel>
-                        <!-- Ability -->
-                        <DockPanel>
-                            <TextBlock Text="Ability:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                            <ComboBox ItemsSource="{Binding AbilityList}" SelectedItem="{Binding SelectedAbility}"
-                                      DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" />
-                        </DockPanel>
-                        <!-- Friendship -->
-                        <DockPanel>
-                            <TextBlock Text="Friendship:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                            <NumericUpDown Value="{Binding Friendship}" Minimum="0" Maximum="255" Width="70" />
-                        </DockPanel>
-                        <!-- Language -->
-                        <DockPanel>
-                            <TextBlock Text="Language:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                            <ComboBox ItemsSource="{Binding LanguageList}" SelectedItem="{Binding SelectedLanguage}"
-                                      DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" />
-                        </DockPanel>
-                        <!-- IsEgg + Shiny -->
-                        <StackPanel Orientation="Horizontal" Spacing="12" Margin="86,0,0,0">
-                            <CheckBox IsChecked="{Binding IsEgg}" Content="Is Egg" />
-                            <CheckBox IsChecked="{Binding IsShiny}" Content="Shiny" />
-                        </StackPanel>
+                <Grid Margin="4,2,4,2"
+                      RowDefinitions="25,25,25,25,25,25,25,25,25,25,25"
+                      ColumnDefinitions="104,*">
+                    <!-- PID -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="PID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PidHex}" Height="20" Width="90" HorizontalAlignment="Left" FontFamily="Consolas,Courier New,monospace" />
+
+                    <!-- Species -->
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Species:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding SpeciesList}" SelectedItem="{Binding SelectedSpecies}"
+                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="21" />
+
+                    <!-- Nickname -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Nickname:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Nickname}" Height="20" />
+
+                    <!-- EXP + Level -->
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="EXP:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBox Text="{Binding Exp}" Height="20" Width="80" />
+                        <TextBlock Text="Level:" VerticalAlignment="Center" Margin="8,0,4,0" />
+                        <NumericUpDown Value="{Binding Level}" Minimum="1" Maximum="100" Height="23" Width="70" />
                     </StackPanel>
-                </ScrollViewer>
+
+                    <!-- Nature -->
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Nature:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding NatureList}" SelectedItem="{Binding SelectedNature}"
+                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="21" />
+
+                    <!-- Form -->
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Form:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Form}" Minimum="0" Height="23" Width="70" HorizontalAlignment="Left" />
+
+                    <!-- Held Item -->
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Held Item:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding HeldItemList}" SelectedItem="{Binding SelectedHeldItem}"
+                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="21" />
+
+                    <!-- Ability -->
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Ability:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding AbilityList}" SelectedItem="{Binding SelectedAbility}"
+                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="21" />
+
+                    <!-- Friendship -->
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Friendship:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <NumericUpDown Grid.Row="8" Grid.Column="1" Value="{Binding Friendship}" Minimum="0" Maximum="255" Height="23" Width="70" HorizontalAlignment="Left" />
+
+                    <!-- Language -->
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Language:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <ComboBox Grid.Row="9" Grid.Column="1" ItemsSource="{Binding LanguageList}" SelectedItem="{Binding SelectedLanguage}"
+                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="21" />
+
+                    <!-- IsEgg + Shiny -->
+                    <StackPanel Grid.Row="10" Grid.Column="1" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                        <CheckBox IsChecked="{Binding IsEgg}" Content="Is Egg" />
+                        <CheckBox IsChecked="{Binding IsShiny}" Content="Shiny" />
+                    </StackPanel>
+                </Grid>
             </TabItem>
 
             <!-- Met Tab -->
@@ -117,66 +109,50 @@
                         <TextBlock Text="Stats" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                    <StackPanel Spacing="2" Margin="4">
-                        <!-- Header -->
-                        <Grid ColumnDefinitions="40,48,70,70,48">
-                            <TextBlock Grid.Column="0" Text="Stat" FontWeight="Bold" HorizontalAlignment="Center" FontSize="11" />
-                            <TextBlock Grid.Column="1" Text="Base" FontWeight="Bold" HorizontalAlignment="Center" FontSize="11" />
-                            <TextBlock Grid.Column="2" Text="IV" FontWeight="Bold" HorizontalAlignment="Center" FontSize="11" />
-                            <TextBlock Grid.Column="3" Text="EV" FontWeight="Bold" HorizontalAlignment="Center" FontSize="11" />
-                            <TextBlock Grid.Column="4" Text="Total" FontWeight="Bold" HorizontalAlignment="Center" FontSize="11" />
-                        </Grid>
-                        <!-- HP -->
-                        <Grid ColumnDefinitions="40,48,70,70,48">
-                            <TextBlock Grid.Column="0" Text="HP" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="{Binding Base_HP}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <NumericUpDown Grid.Column="2" Value="{Binding Iv_HP}" Minimum="0" Maximum="31" ShowButtonSpinner="False" />
-                            <NumericUpDown Grid.Column="3" Value="{Binding Ev_HP}" Minimum="0" Maximum="252" ShowButtonSpinner="False" />
-                            <TextBlock Grid.Column="4" Text="{Binding Hp}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Grid>
-                        <!-- ATK -->
-                        <Grid ColumnDefinitions="40,48,70,70,48">
-                            <TextBlock Grid.Column="0" Text="Atk" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="{Binding Base_ATK}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <NumericUpDown Grid.Column="2" Value="{Binding Iv_ATK}" Minimum="0" Maximum="31" ShowButtonSpinner="False" />
-                            <NumericUpDown Grid.Column="3" Value="{Binding Ev_ATK}" Minimum="0" Maximum="252" ShowButtonSpinner="False" />
-                            <TextBlock Grid.Column="4" Text="{Binding Atk}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Grid>
-                        <!-- DEF -->
-                        <Grid ColumnDefinitions="40,48,70,70,48">
-                            <TextBlock Grid.Column="0" Text="Def" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="{Binding Base_DEF}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <NumericUpDown Grid.Column="2" Value="{Binding Iv_DEF}" Minimum="0" Maximum="31" ShowButtonSpinner="False" />
-                            <NumericUpDown Grid.Column="3" Value="{Binding Ev_DEF}" Minimum="0" Maximum="252" ShowButtonSpinner="False" />
-                            <TextBlock Grid.Column="4" Text="{Binding Def}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Grid>
-                        <!-- SpA -->
-                        <Grid ColumnDefinitions="40,48,70,70,48">
-                            <TextBlock Grid.Column="0" Text="SpA" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="{Binding Base_SPA}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <NumericUpDown Grid.Column="2" Value="{Binding Iv_SPA}" Minimum="0" Maximum="31" ShowButtonSpinner="False" />
-                            <NumericUpDown Grid.Column="3" Value="{Binding Ev_SPA}" Minimum="0" Maximum="252" ShowButtonSpinner="False" />
-                            <TextBlock Grid.Column="4" Text="{Binding SpA}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Grid>
-                        <!-- SpD -->
-                        <Grid ColumnDefinitions="40,48,70,70,48">
-                            <TextBlock Grid.Column="0" Text="SpD" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="{Binding Base_SPD}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <NumericUpDown Grid.Column="2" Value="{Binding Iv_SPD}" Minimum="0" Maximum="31" ShowButtonSpinner="False" />
-                            <NumericUpDown Grid.Column="3" Value="{Binding Ev_SPD}" Minimum="0" Maximum="252" ShowButtonSpinner="False" />
-                            <TextBlock Grid.Column="4" Text="{Binding SpD}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Grid>
-                        <!-- Spe -->
-                        <Grid ColumnDefinitions="40,48,70,70,48">
-                            <TextBlock Grid.Column="0" Text="Spe" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="{Binding Base_SPE}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <NumericUpDown Grid.Column="2" Value="{Binding Iv_SPE}" Minimum="0" Maximum="31" ShowButtonSpinner="False" />
-                            <NumericUpDown Grid.Column="3" Value="{Binding Ev_SPE}" Minimum="0" Maximum="252" ShowButtonSpinner="False" />
-                            <TextBlock Grid.Column="4" Text="{Binding Spe}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        </Grid>
-                    </StackPanel>
-                </ScrollViewer>
+                <Grid Margin="4" RowDefinitions="25,25,25,25,25,25,25" ColumnDefinitions="40,48,70,70,48">
+                    <!-- Header -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Stat" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Base" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="IV" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11" />
+                    <TextBlock Grid.Row="0" Grid.Column="3" Text="EV" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11" />
+                    <TextBlock Grid.Row="0" Grid.Column="4" Text="Total" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11" />
+                    <!-- HP -->
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="HP" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Base_HP}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="2" Value="{Binding Iv_HP}" Minimum="0" Maximum="31" Height="23" ShowButtonSpinner="False" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="3" Value="{Binding Ev_HP}" Minimum="0" Maximum="252" Height="23" ShowButtonSpinner="False" />
+                    <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding Hp}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <!-- ATK -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Atk" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Base_ATK}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding Iv_ATK}" Minimum="0" Maximum="31" Height="23" ShowButtonSpinner="False" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="3" Value="{Binding Ev_ATK}" Minimum="0" Maximum="252" Height="23" ShowButtonSpinner="False" />
+                    <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding Atk}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <!-- DEF -->
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Def" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Base_DEF}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding Iv_DEF}" Minimum="0" Maximum="31" Height="23" ShowButtonSpinner="False" />
+                    <NumericUpDown Grid.Row="3" Grid.Column="3" Value="{Binding Ev_DEF}" Minimum="0" Maximum="252" Height="23" ShowButtonSpinner="False" />
+                    <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Def}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <!-- SpA -->
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="SpA" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Base_SPA}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <NumericUpDown Grid.Row="4" Grid.Column="2" Value="{Binding Iv_SPA}" Minimum="0" Maximum="31" Height="23" ShowButtonSpinner="False" />
+                    <NumericUpDown Grid.Row="4" Grid.Column="3" Value="{Binding Ev_SPA}" Minimum="0" Maximum="252" Height="23" ShowButtonSpinner="False" />
+                    <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding SpA}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <!-- SpD -->
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="SpD" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Base_SPD}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <NumericUpDown Grid.Row="5" Grid.Column="2" Value="{Binding Iv_SPD}" Minimum="0" Maximum="31" Height="23" ShowButtonSpinner="False" />
+                    <NumericUpDown Grid.Row="5" Grid.Column="3" Value="{Binding Ev_SPD}" Minimum="0" Maximum="252" Height="23" ShowButtonSpinner="False" />
+                    <TextBlock Grid.Row="5" Grid.Column="4" Text="{Binding SpD}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <!-- Spe -->
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Spe" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Base_SPE}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <NumericUpDown Grid.Row="6" Grid.Column="2" Value="{Binding Iv_SPE}" Minimum="0" Maximum="31" Height="23" ShowButtonSpinner="False" />
+                    <NumericUpDown Grid.Row="6" Grid.Column="3" Value="{Binding Ev_SPE}" Minimum="0" Maximum="252" Height="23" ShowButtonSpinner="False" />
+                    <TextBlock Grid.Row="6" Grid.Column="4" Text="{Binding Spe}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
             </TabItem>
 
             <!-- Moves Tab -->
@@ -187,29 +163,21 @@
                         <TextBlock Text="Moves" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <StackPanel Spacing="4" Margin="8">
-                    <TextBlock Text="Current Moves" FontWeight="SemiBold" Margin="0,0,0,4" />
-                    <DockPanel>
-                        <TextBlock Text="Move 1:" Width="52" VerticalAlignment="Center" />
-                        <ComboBox ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove1}"
-                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" />
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Move 2:" Width="52" VerticalAlignment="Center" />
-                        <ComboBox ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove2}"
-                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" />
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Move 3:" Width="52" VerticalAlignment="Center" />
-                        <ComboBox ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove3}"
-                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" />
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="Move 4:" Width="52" VerticalAlignment="Center" />
-                        <ComboBox ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove4}"
-                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" />
-                    </DockPanel>
-                </StackPanel>
+                <Grid Margin="8" RowDefinitions="25,25,25,25,25" ColumnDefinitions="52,*">
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Current Moves" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Move 1:" VerticalAlignment="Center" />
+                    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove1}"
+                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="21" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Move 2:" VerticalAlignment="Center" />
+                    <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove2}"
+                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="21" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Move 3:" VerticalAlignment="Center" />
+                    <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove3}"
+                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="21" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Move 4:" VerticalAlignment="Center" />
+                    <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove4}"
+                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="21" />
+                </Grid>
             </TabItem>
 
             <!-- Cosmetic Tab -->
@@ -234,20 +202,14 @@
                         <TextBlock Text="OT/Misc" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <StackPanel Spacing="4" Margin="8">
-                    <DockPanel>
-                        <TextBlock Text="OT Name:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                        <TextBox Text="{Binding Ot}" />
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="TID:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                        <NumericUpDown Value="{Binding Tid}" Minimum="0" Maximum="65535" Width="100" />
-                    </DockPanel>
-                    <DockPanel>
-                        <TextBlock Text="SID:" Width="80" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                        <NumericUpDown Value="{Binding Sid}" Minimum="0" Maximum="65535" Width="100" />
-                    </DockPanel>
-                </StackPanel>
+                <Grid Margin="8" RowDefinitions="25,25,25" ColumnDefinitions="104,*">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="OT Name:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Ot}" Height="20" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="TID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Tid}" Minimum="0" Maximum="65535" Height="23" Width="100" HorizontalAlignment="Left" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="SID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Sid}" Minimum="0" Maximum="65535" Height="23" Width="100" HorizontalAlignment="Left" />
+                </Grid>
             </TabItem>
         </TabControl>
     </DockPanel>

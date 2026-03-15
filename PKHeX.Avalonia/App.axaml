@@ -3,8 +3,8 @@
              x:Class="PKHeX.Avalonia.App"
              RequestedThemeVariant="Default">
     <Application.Styles>
-        <FluentTheme />
-        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <SimpleTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml" />
 
         <!-- PKMEditor tab styling: compact left-side tabs with colored pip -->
         <Style Selector="TabControl.pkm-tabs TabItem">
