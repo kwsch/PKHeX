@@ -10,9 +10,9 @@
     <UserControl.Styles>
         <!-- Subtle default border -->
         <Style Selector="Border#SlotBorder">
-            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SystemControlForegroundBaseLowBrush}" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="3" />
+            <Setter Property="CornerRadius" Value="0" />
             <Setter Property="Transitions">
                 <Transitions>
                     <BrushTransition Property="BorderBrush" Duration="0:0:0.15" />
@@ -30,6 +30,8 @@
 
     <Border Name="SlotBorder"
             Background="Transparent"
+            BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
+            BorderThickness="1" CornerRadius="0"
             Cursor="Hand"
             DragDrop.AllowDrop="True">
         <Border.ContextMenu>

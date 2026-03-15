@@ -163,7 +163,16 @@ public partial class PKMEditorViewModel : ObservableObject
     public void Initialize(SaveFile sav)
     {
         _sav = sav;
+        // Update FilteredSources with the real save file's limits
+        GameInfo.FilteredSources = new FilteredGameDataSource(sav, GameInfo.Sources);
         IsInitialized = true;
+        // Notify UI that all list properties changed
+        OnPropertyChanged(nameof(SpeciesList));
+        OnPropertyChanged(nameof(NatureList));
+        OnPropertyChanged(nameof(HeldItemList));
+        OnPropertyChanged(nameof(MoveList));
+        OnPropertyChanged(nameof(AbilityList));
+        OnPropertyChanged(nameof(LanguageList));
     }
 
     public void PopulateFields(PKM pk)

@@ -26,14 +26,16 @@
                 </Grid>
 
                 <!-- Box Grid: 6 columns x 5 rows = 30 slots, with wallpaper background -->
-                <Border CornerRadius="4" ClipToBounds="True">
+                <Border CornerRadius="4" ClipToBounds="True"
+                        Width="420" HorizontalAlignment="Center">
                     <Panel>
                         <!-- Wallpaper background layer -->
                         <Image Source="{Binding BoxWallpaper}"
                                Stretch="Fill"
                                IsHitTestVisible="False" />
                         <!-- Slot grid layer -->
-                        <ItemsControl ItemsSource="{Binding BoxSlots}">
+                        <ItemsControl ItemsSource="{Binding BoxSlots}"
+                                      Width="420" HorizontalAlignment="Center">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid Columns="6" Rows="5" />
