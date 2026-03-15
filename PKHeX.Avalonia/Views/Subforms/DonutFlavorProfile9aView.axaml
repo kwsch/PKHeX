@@ -1,0 +1,37 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.DonutFlavorProfile9aView"
+                     x:DataType="vm:DonutFlavorProfile9aViewModel"
+                     Title="Donut Flavor Profile (Z-A)"
+                     Width="350" Height="350"
+                     MinWidth="300" MinHeight="300"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Close" Click="OnCloseClick" Width="80" />
+        </StackPanel>
+
+        <StackPanel Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Flavor Profile" FontWeight="SemiBold" FontSize="14" HorizontalAlignment="Center" />
+
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="20">
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Spicy" FontWeight="SemiBold" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Spicy}" />
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Fresh" FontWeight="SemiBold" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Fresh}" />
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Sweet" FontWeight="SemiBold" />
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Sweet}" />
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="Bitter" FontWeight="SemiBold" />
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Bitter}" />
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="Sour" FontWeight="SemiBold" />
+                <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Sour}" />
+            </Grid>
+        </StackPanel>
+    </DockPanel>
+
+</views:SubformWindow>

@@ -1,0 +1,130 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.Trainer9aView"
+                     x:DataType="vm:Trainer9aViewModel"
+                     Title="Trainer Editor (Z-A)"
+                     Width="620" Height="750"
+                     MinWidth="500" MinHeight="600"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="8">
+                <TextBlock Text="Basic Info" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+                    <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="OT Name" />
+                        <TextBox Text="{Binding OtName}" MaxLength="12" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Gender" />
+                        <ComboBox ItemsSource="{Binding GenderChoices}" SelectedIndex="{Binding Gender}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Money" />
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBox Text="{Binding Money}" MaxLength="7" />
+                            <Button Content="Max" Command="{Binding MaxCashCommand}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Royale Regular" />
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBox Text="{Binding RoyaleRegular}" MaxLength="10" />
+                            <Button Content="Max" Command="{Binding MaxRoyaleRegularCommand}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Royale Infinite" />
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBox Text="{Binding RoyaleInfinite}" MaxLength="10" />
+                            <Button Content="Max" Command="{Binding MaxRoyaleInfiniteCommand}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+
+                <TextBlock Text="Play Time" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*,*">
+                    <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                        <TextBlock Text="Hours" />
+                        <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
+                        <TextBlock Text="Minutes" />
+                        <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,0,0">
+                        <TextBlock Text="Seconds" />
+                        <NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" />
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+
+                <TextBlock Text="Map" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*,*,*" IsEnabled="{Binding MapEnabled}">
+                    <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                        <TextBlock Text="X" />
+                        <NumericUpDown Value="{Binding MapX}" Minimum="-99999" Maximum="99999" FormatString="F2" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
+                        <TextBlock Text="Y" />
+                        <NumericUpDown Value="{Binding MapY}" Minimum="-99999" Maximum="99999" FormatString="F2" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,4,0">
+                        <TextBlock Text="Z" />
+                        <NumericUpDown Value="{Binding MapZ}" Minimum="-99999" Maximum="99999" FormatString="F2" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Spacing="2" Margin="4,0,0,0">
+                        <TextBlock Text="Rotation" />
+                        <NumericUpDown Value="{Binding MapR}" Minimum="-360" Maximum="360" FormatString="F2" />
+                    </StackPanel>
+                </Grid>
+                <StackPanel Spacing="2" IsEnabled="{Binding MapEnabled}" Margin="0,4,0,0">
+                    <TextBlock Text="Map Name" />
+                    <TextBox Text="{Binding MapName}" />
+                </StackPanel>
+
+                <Separator />
+
+                <!-- DLC -->
+                <StackPanel Spacing="8" IsVisible="{Binding ShowDlc}">
+                    <TextBlock Text="DLC" FontWeight="SemiBold" FontSize="14" />
+                    <Grid ColumnDefinitions="*,*">
+                        <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,4">
+                            <TextBlock Text="Hyperspace Survey Points" />
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <TextBox Text="{Binding HyperspaceSurveyPoints}" MaxLength="10" />
+                                <Button Content="Max" Command="{Binding MaxHyperspaceSurveyCommand}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,4">
+                            <TextBlock Text="Street Name" />
+                            <TextBox Text="{Binding StreetName}" MaxLength="18" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <Separator />
+
+                <TextBlock Text="Actions" FontWeight="SemiBold" FontSize="14" />
+                <WrapPanel Orientation="Horizontal">
+                    <Button Content="Collect Technical Machines" Command="{Binding CollectTechnicalMachinesCommand}" Margin="0,0,8,4" />
+                    <Button Content="Collect Screws" Command="{Binding CollectScrewsCommand}" Margin="0,0,8,4" />
+                </WrapPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

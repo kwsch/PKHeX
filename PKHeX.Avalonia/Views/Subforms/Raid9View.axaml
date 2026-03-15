@@ -1,0 +1,58 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.Raid9View"
+                     x:DataType="vm:Raid9ViewModel"
+                     Title="Tera Raid Editor (SV)"
+                     Width="550" Height="500"
+                     MinWidth="400" MinHeight="350"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <StackPanel Spacing="8">
+            <!-- Seeds -->
+            <StackPanel Spacing="4" IsVisible="{Binding HasSeeds}">
+                <TextBlock Text="Seeds" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*">
+                    <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                        <TextBlock Text="Current Seed" />
+                        <TextBox Text="{Binding SeedToday}" MaxLength="16" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
+                        <TextBlock Text="Tomorrow Seed" />
+                        <TextBox Text="{Binding SeedTomorrow}" MaxLength="16" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <Separator />
+
+            <!-- Raid list -->
+            <Grid ColumnDefinitions="180,*" RowDefinitions="*">
+                <ListBox Grid.Column="0" ItemsSource="{Binding Raids}"
+                         SelectedItem="{Binding SelectedRaid}" Margin="0,0,8,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:TeraRaid9Model">
+                            <TextBlock Text="{Binding Label}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <StackPanel Grid.Column="1" Spacing="8"
+                            IsVisible="{Binding SelectedRaid, Converter={x:Static ObjectConverters.IsNotNull}}">
+                    <TextBlock Text="{Binding SelectedRaid.Label}" FontWeight="Bold" FontSize="14" />
+                    <Button Content="Copy to Others" Command="{Binding CopyToOthersCommand}" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </DockPanel>
+
+</views:SubformWindow>

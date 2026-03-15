@@ -1,0 +1,53 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.FlagWork9aView"
+                     x:DataType="vm:FlagWork9aViewModel"
+                     Title="Flag/Work Editor (Z-A)"
+                     Width="750" Height="600"
+                     MinWidth="550" MinHeight="400"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="160,*">
+            <!-- Left: tab list -->
+            <ListBox Grid.Column="0" ItemsSource="{Binding Tabs}"
+                     SelectedItem="{Binding SelectedTab}" Margin="0,0,8,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:FlagWork9aTabModel">
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Right: entries -->
+            <DockPanel Grid.Column="1"
+                       IsVisible="{Binding SelectedTab, Converter={x:Static ObjectConverters.IsNotNull}}">
+                <TextBox DockPanel.Dock="Top" Watermark="Search..."
+                         Text="{Binding SelectedTab.SearchText}" Margin="0,0,0,4" />
+
+                <DataGrid ItemsSource="{Binding SelectedTab.FilteredEntries}"
+                          AutoGenerateColumns="False"
+                          CanUserReorderColumns="False"
+                          CanUserSortColumns="False"
+                          IsReadOnly="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Index" Binding="{Binding Index}" IsReadOnly="True" Width="60" />
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" Width="*" />
+                        <DataGridCheckBoxColumn Header="Flag" Binding="{Binding FlagValue}" Width="60" />
+                        <DataGridTextColumn Header="Value" Binding="{Binding WorkValue}" Width="100" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>

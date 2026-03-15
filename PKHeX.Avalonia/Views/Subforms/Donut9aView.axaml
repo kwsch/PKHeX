@@ -1,0 +1,67 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.Donut9aView"
+                     x:DataType="vm:Donut9aViewModel"
+                     Title="Donut Editor (Z-A)"
+                     Width="650" Height="550"
+                     MinWidth="500" MinHeight="400"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="200,*">
+            <!-- Left: donut list -->
+            <ListBox Grid.Column="0" ItemsSource="{Binding DonutList}"
+                     SelectedItem="{Binding SelectedDonut}" Margin="0,0,8,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:DonutListItemModel">
+                        <TextBlock Text="{Binding DisplayName}" FontFamily="Consolas,Courier New,monospace" FontSize="11" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Right: donut details -->
+            <StackPanel Grid.Column="1" Spacing="8"
+                        IsVisible="{Binding SelectedDonut, Converter={x:Static ObjectConverters.IsNotNull}}">
+
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                    <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Stars" />
+                        <NumericUpDown Value="{Binding Stars}" Minimum="0" Maximum="5" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Calories" />
+                        <NumericUpDown Value="{Binding Calories}" Minimum="0" Maximum="9999" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Level Boost" />
+                        <NumericUpDown Value="{Binding LevelBoost}" Minimum="0" Maximum="255" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Donut Type" />
+                        <NumericUpDown Value="{Binding DonutType}" Minimum="0" Maximum="65535" />
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+
+                <TextBlock Text="Actions" FontWeight="SemiBold" FontSize="14" />
+                <WrapPanel Orientation="Horizontal">
+                    <Button Content="Randomize All" Command="{Binding RandomizeAllCommand}" Margin="0,0,8,4" />
+                    <Button Content="Clone Current" Command="{Binding CloneCurrentCommand}" Margin="0,0,8,4" />
+                    <Button Content="Shiny Assortment" Command="{Binding ShinyAssortmentCommand}" Margin="0,0,8,4" />
+                    <Button Content="Reset" Command="{Binding ResetCurrentCommand}" Margin="0,0,8,4" />
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>

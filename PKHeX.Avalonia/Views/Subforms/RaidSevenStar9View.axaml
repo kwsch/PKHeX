@@ -1,0 +1,38 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.RaidSevenStar9View"
+                     x:DataType="vm:RaidSevenStar9ViewModel"
+                     Title="Seven Star Raid Editor (SV)"
+                     Width="500" Height="450"
+                     MinWidth="400" MinHeight="350"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="180,*">
+            <ListBox Grid.Column="0" ItemsSource="{Binding Raids}"
+                     SelectedItem="{Binding SelectedRaid}" Margin="0,0,8,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:SevenStarRaid9Model">
+                        <TextBlock Text="{Binding Label}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel Grid.Column="1" Spacing="8"
+                        DataContext="{Binding SelectedRaid}"
+                        IsVisible="{Binding $parent[views:SubformWindow].DataContext.SelectedRaid, Converter={x:Static ObjectConverters.IsNotNull}}">
+                <TextBlock Text="{Binding Label}" FontWeight="Bold" FontSize="14" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>
