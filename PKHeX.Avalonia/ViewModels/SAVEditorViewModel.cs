@@ -1,9 +1,13 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PKHeX.Avalonia.Controls;
+using PKHeX.Avalonia.Converters;
 using PKHeX.Core;
+using PKHeX.Drawing.Misc.Avalonia;
 using PKHeX.Drawing.PokeSprite.Avalonia;
 
 namespace PKHeX.Avalonia.ViewModels;
@@ -30,11 +34,22 @@ public partial class SAVEditorViewModel : ObservableObject
     [ObservableProperty]
     private bool _isLoaded;
 
+    [ObservableProperty]
+    private Bitmap? _boxWallpaper;
+
     public ObservableCollection<SlotModel> BoxSlots { get; } = [];
     public ObservableCollection<SlotModel> PartySlots { get; } = [];
+    public ObservableCollection<string> BoxNames { get; } = [];
 
     /// <summary>Manages drag-and-drop operations between slots.</summary>
     public SlotChangeManager SlotManager { get; }
+
+    // SAV tool command delegates — wired from MainWindowViewModel
+    public ICommand? OpenInventoryCommand { get; set; }
+    public ICommand? OpenBoxLayoutCommand { get; set; }
+    public ICommand? OpenWondercardCommand { get; set; }
+    public ICommand? OpenEventFlagsCommand { get; set; }
+    public ICommand? OpenSettingsEditorCommand { get; set; }
 
     public SAVEditorViewModel()
     {
@@ -55,8 +70,29 @@ public partial class SAVEditorViewModel : ObservableObject
         BoxCount = sav.BoxCount;
         CurrentBox = 0;
         IsLoaded = true;
+        RefreshBoxNames();
         RefreshBox();
         RefreshParty();
+    }
+
+    private void RefreshBoxNames()
+    {
+        BoxNames.Clear();
+        if (_sav is null)
+            return;
+
+        for (int i = 0; i < _sav.BoxCount; i++)
+        {
+            var name = _sav is IBoxDetailNameRead n ? n.GetBoxName(i) : $"Box {i + 1}";
+            BoxNames.Add(name);
+        }
+    }
+
+    partial void OnCurrentBoxChanged(int value)
+    {
+        if (_sav is null)
+            return;
+        RefreshBox();
     }
 
     [RelayCommand]
@@ -65,7 +101,6 @@ public partial class SAVEditorViewModel : ObservableObject
         if (_sav is null)
             return;
         CurrentBox = (CurrentBox + 1) % BoxCount;
-        RefreshBox();
     }
 
     [RelayCommand]
@@ -74,7 +109,6 @@ public partial class SAVEditorViewModel : ObservableObject
         if (_sav is null)
             return;
         CurrentBox = (CurrentBox - 1 + BoxCount) % BoxCount;
-        RefreshBox();
     }
 
     private void RefreshBox()
@@ -83,6 +117,17 @@ public partial class SAVEditorViewModel : ObservableObject
             return;
 
         BoxName = _sav is IBoxDetailNameRead n ? n.GetBoxName(CurrentBox) : $"Box {CurrentBox + 1}";
+
+        // Update wallpaper
+        try
+        {
+            var wpBitmap = _sav.WallpaperImage(CurrentBox);
+            BoxWallpaper = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmap(wpBitmap);
+        }
+        catch
+        {
+            BoxWallpaper = null;
+        }
 
         int slotCount = Math.Min(30, _sav.BoxSlotCount);
         for (int i = 0; i < slotCount && i < BoxSlots.Count; i++)

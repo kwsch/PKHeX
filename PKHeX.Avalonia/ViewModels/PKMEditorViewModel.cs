@@ -35,6 +35,12 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private bool _isShiny;
     [ObservableProperty] private bool _isEgg;
 
+    // New fields
+    [ObservableProperty] private string _pidHex = "00000000";
+    [ObservableProperty] private uint _exp;
+    [ObservableProperty] private int _friendship;
+    [ObservableProperty] private int _language;
+
     // Stats
     [ObservableProperty] private int _hp;
     [ObservableProperty] private int _atk;
@@ -42,6 +48,14 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private int _spA;
     [ObservableProperty] private int _spD;
     [ObservableProperty] private int _spe;
+
+    // Base Stats (read-only display)
+    [ObservableProperty] private int _base_HP;
+    [ObservableProperty] private int _base_ATK;
+    [ObservableProperty] private int _base_DEF;
+    [ObservableProperty] private int _base_SPA;
+    [ObservableProperty] private int _base_SPD;
+    [ObservableProperty] private int _base_SPE;
 
     // IVs
     [ObservableProperty] private int _iv_HP;
@@ -78,6 +92,8 @@ public partial class PKMEditorViewModel : ObservableObject
     public IReadOnlyList<ComboItem> NatureList => GameInfo.FilteredSources.Natures;
     public IReadOnlyList<ComboItem> HeldItemList => GameInfo.FilteredSources.Items;
     public IReadOnlyList<ComboItem> MoveList => GameInfo.FilteredSources.Moves;
+    public IReadOnlyList<ComboItem> AbilityList => GameInfo.FilteredSources.Abilities;
+    public IReadOnlyList<ComboItem> LanguageList => GameInfo.FilteredSources.Languages;
 
     // Selected ComboItem bindings
     [ObservableProperty] private ComboItem? _selectedSpecies;
@@ -87,6 +103,8 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private ComboItem? _selectedMove2;
     [ObservableProperty] private ComboItem? _selectedMove3;
     [ObservableProperty] private ComboItem? _selectedMove4;
+    [ObservableProperty] private ComboItem? _selectedAbility;
+    [ObservableProperty] private ComboItem? _selectedLanguage;
 
     partial void OnSelectedSpeciesChanged(ComboItem? value)
     {
@@ -130,6 +148,18 @@ public partial class PKMEditorViewModel : ObservableObject
             Move4 = (ushort)value.Value;
     }
 
+    partial void OnSelectedAbilityChanged(ComboItem? value)
+    {
+        if (value is not null)
+            Ability = value.Value;
+    }
+
+    partial void OnSelectedLanguageChanged(ComboItem? value)
+    {
+        if (value is not null)
+            Language = value.Value;
+    }
+
     public void Initialize(SaveFile sav)
     {
         _sav = sav;
@@ -151,12 +181,27 @@ public partial class PKMEditorViewModel : ObservableObject
         IsShiny = pk.IsShiny;
         IsEgg = pk.IsEgg;
 
+        // New fields
+        PidHex = pk.PID.ToString("X8");
+        Exp = pk.EXP;
+        Friendship = pk.CurrentFriendship;
+        Language = pk.Language;
+
         Hp = pk.Stat_HPCurrent;
         Atk = pk.Stat_ATK;
         Def = pk.Stat_DEF;
         SpA = pk.Stat_SPA;
         SpD = pk.Stat_SPD;
         Spe = pk.Stat_SPE;
+
+        // Base stats
+        var pi = pk.PersonalInfo;
+        Base_HP = pi.HP;
+        Base_ATK = pi.ATK;
+        Base_DEF = pi.DEF;
+        Base_SPA = pi.SPA;
+        Base_SPD = pi.SPD;
+        Base_SPE = pi.SPE;
 
         Iv_HP = pk.IV_HP;
         Iv_ATK = pk.IV_ATK;
@@ -189,6 +234,8 @@ public partial class PKMEditorViewModel : ObservableObject
         SelectedMove2 = MoveList.FirstOrDefault(x => x.Value == pk.Move2);
         SelectedMove3 = MoveList.FirstOrDefault(x => x.Value == pk.Move3);
         SelectedMove4 = MoveList.FirstOrDefault(x => x.Value == pk.Move4);
+        SelectedAbility = AbilityList.FirstOrDefault(x => x.Value == pk.Ability);
+        SelectedLanguage = LanguageList.FirstOrDefault(x => x.Value == pk.Language);
 
         UpdateSprite();
     }
@@ -209,6 +256,13 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.Nature = Nature;
         Entity.Ability = Ability;
         Entity.HeldItem = HeldItem;
+
+        // New fields
+        if (uint.TryParse(PidHex, System.Globalization.NumberStyles.HexNumber, null, out var pid))
+            Entity.PID = pid;
+        Entity.EXP = Exp;
+        Entity.CurrentFriendship = (byte)Math.Clamp(Friendship, 0, 255);
+        Entity.Language = Language;
 
         Entity.IV_HP = Iv_HP;
         Entity.IV_ATK = Iv_ATK;

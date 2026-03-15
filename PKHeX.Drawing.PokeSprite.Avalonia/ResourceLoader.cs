@@ -42,7 +42,9 @@ public static class ResourceLoader
         if (lastDot < 0)
             return null;
 
-        return manifestName[(lastDot + 1)..^4]; // between last dot and .png
+        var key = manifestName[(lastDot + 1)..^4]; // between last dot and .png
+        key = key.Replace('-', '_'); // Normalize hyphens to underscores to match WinForms convention
+        return key;
     }
 
     /// <summary>

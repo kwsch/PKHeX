@@ -67,6 +67,11 @@ public partial class MainWindowViewModel : ObservableObject
         {
             SlotSelected = pk => PkmEditor.PopulateFields(pk),
             GetEditorPKM = () => PkmEditor.PreparePKM(),
+            OpenInventoryCommand = OpenInventoryCommand,
+            OpenBoxLayoutCommand = OpenBoxLayoutCommand,
+            OpenWondercardCommand = OpenWondercardCommand,
+            OpenEventFlagsCommand = OpenEventFlagsCommand,
+            OpenSettingsEditorCommand = OpenSettingsEditorCommand,
         };
         LoadPlugins();
     }

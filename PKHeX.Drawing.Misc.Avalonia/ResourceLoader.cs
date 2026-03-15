@@ -39,7 +39,9 @@ public static class ResourceLoader
         if (lastDot < 0)
             return null;
 
-        return manifestName[(lastDot + 1)..^4];
+        var key = manifestName[(lastDot + 1)..^4];
+        key = key.Replace('-', '_'); // Normalize hyphens to underscores to match WinForms convention
+        return key;
     }
 
     /// <summary>

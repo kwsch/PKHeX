@@ -9,32 +9,44 @@
         <!-- Box Tab -->
         <TabItem Header="Box">
             <DockPanel Margin="2">
-                <!-- Box Navigation: [<] BoxName [>] -->
+                <!-- Box Navigation: [<<] ComboBox [>>] -->
                 <Grid DockPanel.Dock="Top" ColumnDefinitions="30,*,30" Margin="0,2,0,4">
-                    <Button Grid.Column="0" Content="&lt;" Command="{Binding PreviousBoxCommand}"
+                    <Button Grid.Column="0" Content="&lt;&lt;" Command="{Binding PreviousBoxCommand}"
                             Width="30" Height="24" HorizontalContentAlignment="Center"
-                            FontSize="12" Padding="0" />
-                    <TextBlock Grid.Column="1" Text="{Binding BoxName}"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                               FontWeight="SemiBold" FontSize="12" />
-                    <Button Grid.Column="2" Content="&gt;" Command="{Binding NextBoxCommand}"
+                            FontSize="11" Padding="0" />
+                    <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding BoxNames}"
+                              SelectedIndex="{Binding CurrentBox}"
+                              HorizontalAlignment="Stretch"
+                              Height="24" FontSize="12" Padding="4,2"
+                              Margin="2,0" />
+                    <Button Grid.Column="2" Content="&gt;&gt;" Command="{Binding NextBoxCommand}"
                             Width="30" Height="24" HorizontalContentAlignment="Center"
-                            FontSize="12" Padding="0" />
+                            FontSize="11" Padding="0" />
                 </Grid>
 
-                <!-- Box Grid: 6 columns x 5 rows = 30 slots, each 70x58 -->
-                <ItemsControl ItemsSource="{Binding BoxSlots}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="6" Rows="5" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <views:SlotControl />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <!-- Box Grid: 6 columns x 5 rows = 30 slots, with wallpaper background -->
+                <Border CornerRadius="4" ClipToBounds="True">
+                    <Panel>
+                        <!-- Wallpaper background layer -->
+                        <Image Source="{Binding BoxWallpaper}"
+                               Stretch="Fill"
+                               IsHitTestVisible="False" />
+                        <!-- Slot grid layer -->
+                        <ItemsControl ItemsSource="{Binding BoxSlots}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="6" Rows="5" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <views:SlotControl />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Panel>
+                </Border>
             </DockPanel>
         </TabItem>
 
@@ -69,9 +81,24 @@
         <TabItem Header="SAV">
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <WrapPanel Margin="4" Orientation="Horizontal">
-                    <TextBlock Text="SAV tools appear here when a save file is loaded."
-                               FontSize="11" Opacity="0.6" Margin="0,0,0,8"
-                               TextWrapping="Wrap" />
+                    <Button Content="Items" Command="{Binding OpenInventoryCommand}"
+                            Margin="2" Padding="10,4" FontSize="11"
+                            IsVisible="{Binding IsLoaded}" />
+                    <Button Content="Box Layout" Command="{Binding OpenBoxLayoutCommand}"
+                            Margin="2" Padding="10,4" FontSize="11"
+                            IsVisible="{Binding IsLoaded}" />
+                    <Button Content="Wondercards" Command="{Binding OpenWondercardCommand}"
+                            Margin="2" Padding="10,4" FontSize="11"
+                            IsVisible="{Binding IsLoaded}" />
+                    <Button Content="Event Flags" Command="{Binding OpenEventFlagsCommand}"
+                            Margin="2" Padding="10,4" FontSize="11"
+                            IsVisible="{Binding IsLoaded}" />
+                    <Button Content="Settings" Command="{Binding OpenSettingsEditorCommand}"
+                            Margin="2" Padding="10,4" FontSize="11" />
+                    <TextBlock Text="Load a save file to access tools."
+                               FontSize="11" Opacity="0.6" Margin="4,6,0,0"
+                               TextWrapping="Wrap"
+                               IsVisible="{Binding !IsLoaded}" />
                 </WrapPanel>
             </ScrollViewer>
         </TabItem>

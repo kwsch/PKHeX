@@ -5,5 +5,36 @@
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+
+        <!-- PKMEditor tab styling: compact left-side tabs with colored pip -->
+        <Style Selector="TabControl.pkm-tabs TabItem">
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="MaxWidth" Value="72"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Padding" Value="4,8"/>
+        </Style>
     </Application.Styles>
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <!-- Light theme overrides -->
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="PKHeXBoxBackground" Color="#E8E8E8" />
+                    <SolidColorBrush x:Key="PKHeXSlotHoverBorder" Color="#4090FF" />
+                    <SolidColorBrush x:Key="PKHeXSlotHoverBackground" Color="#18000000" />
+                    <SolidColorBrush x:Key="PKHeXToolButtonBackground" Color="#EEEEEE" />
+                    <SolidColorBrush x:Key="PKHeXPanelBackground" Color="#F5F5F5" />
+                </ResourceDictionary>
+                <!-- Dark theme overrides -->
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="PKHeXBoxBackground" Color="#2A2A2A" />
+                    <SolidColorBrush x:Key="PKHeXSlotHoverBorder" Color="#5AA0FF" />
+                    <SolidColorBrush x:Key="PKHeXSlotHoverBackground" Color="#18FFFFFF" />
+                    <SolidColorBrush x:Key="PKHeXToolButtonBackground" Color="#383838" />
+                    <SolidColorBrush x:Key="PKHeXPanelBackground" Color="#1E1E1E" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

@@ -7,10 +7,29 @@
              Width="70" Height="58"
              Margin="0">
 
+    <UserControl.Styles>
+        <!-- Subtle default border -->
+        <Style Selector="Border#SlotBorder">
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="3" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.15" />
+                    <BrushTransition Property="Background" Duration="0:0:0.15" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <!-- Hover: highlight border -->
+        <Style Selector="Border#SlotBorder:pointerover">
+            <Setter Property="BorderBrush" Value="#4090FF" />
+            <Setter Property="Background" Value="#18FFFFFF" />
+        </Style>
+    </UserControl.Styles>
+
     <Border Name="SlotBorder"
             Background="Transparent"
-            BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
-            BorderThickness="1"
             Cursor="Hand"
             DragDrop.AllowDrop="True">
         <Border.ContextMenu>
