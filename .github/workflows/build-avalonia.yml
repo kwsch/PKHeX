@@ -1,0 +1,49 @@
+name: Build PKHeX Avalonia
+
+on:
+  push:
+    branches: [ avalonia-cross-platform ]
+  pull_request:
+    branches: [ avalonia-cross-platform ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            rid: linux-x64
+          - os: macos-latest
+            rid: osx-arm64
+          - os: windows-latest
+            rid: win-x64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+        dotnet-quality: 'preview'
+
+    - name: Restore
+      run: dotnet restore PKHeX.Avalonia/PKHeX.Avalonia.csproj
+
+    - name: Build
+      run: dotnet build PKHeX.Avalonia/PKHeX.Avalonia.csproj --no-restore -c Release
+
+    - name: Test
+      run: dotnet test Tests/PKHeX.Core.Tests/PKHeX.Core.Tests.csproj --no-restore
+
+    - name: Publish
+      run: dotnet publish PKHeX.Avalonia/PKHeX.Avalonia.csproj -c Release -r ${{ matrix.rid }} --self-contained -o publish/${{ matrix.rid }}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: PKHeX-${{ matrix.rid }}
+        path: publish/${{ matrix.rid }}/
