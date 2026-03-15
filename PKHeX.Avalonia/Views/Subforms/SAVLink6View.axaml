@@ -1,0 +1,74 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVLink6View"
+                     x:DataType="vm:SAVLink6ViewModel"
+                     Title="Link Data Editor (Gen 6)"
+                     Width="550" Height="620"
+                     MinWidth="480" MinHeight="520"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="8">
+                <CheckBox Content="Link Available" IsChecked="{Binding LinkAvailable}" />
+
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Link Source" FontWeight="SemiBold" />
+                    <TextBox Text="{Binding LinkSource}" />
+                </StackPanel>
+
+                <Grid ColumnDefinitions="*,*" Margin="0,4">
+                    <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                        <TextBlock Text="Battle Points" FontWeight="SemiBold" />
+                        <NumericUpDown Value="{Binding BattlePoints}" Minimum="0" Maximum="65535" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
+                        <TextBlock Text="Pokemiles" FontWeight="SemiBold" />
+                        <NumericUpDown Value="{Binding Pokemiles}" Minimum="0" Maximum="65535" />
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+                <TextBlock Text="Items" FontWeight="SemiBold" FontSize="14" />
+
+                <Grid ColumnDefinitions="*,80" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+                    <ComboBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding ItemsList}" SelectedValue="{Binding Item1}" SelectedValueBinding="{Binding Value}" DisplayMemberBinding="{Binding Text}" Margin="0,2" />
+                    <NumericUpDown Grid.Column="1" Grid.Row="0" Value="{Binding Quantity1}" Minimum="0" Maximum="255" Margin="4,2,0,2" />
+                    <ComboBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding ItemsList}" SelectedValue="{Binding Item2}" SelectedValueBinding="{Binding Value}" DisplayMemberBinding="{Binding Text}" Margin="0,2" />
+                    <NumericUpDown Grid.Column="1" Grid.Row="1" Value="{Binding Quantity2}" Minimum="0" Maximum="255" Margin="4,2,0,2" />
+                    <ComboBox Grid.Column="0" Grid.Row="2" ItemsSource="{Binding ItemsList}" SelectedValue="{Binding Item3}" SelectedValueBinding="{Binding Value}" DisplayMemberBinding="{Binding Text}" Margin="0,2" />
+                    <NumericUpDown Grid.Column="1" Grid.Row="2" Value="{Binding Quantity3}" Minimum="0" Maximum="255" Margin="4,2,0,2" />
+                    <ComboBox Grid.Column="0" Grid.Row="3" ItemsSource="{Binding ItemsList}" SelectedValue="{Binding Item4}" SelectedValueBinding="{Binding Value}" DisplayMemberBinding="{Binding Text}" Margin="0,2" />
+                    <NumericUpDown Grid.Column="1" Grid.Row="3" Value="{Binding Quantity4}" Minimum="0" Maximum="255" Margin="4,2,0,2" />
+                    <ComboBox Grid.Column="0" Grid.Row="4" ItemsSource="{Binding ItemsList}" SelectedValue="{Binding Item5}" SelectedValueBinding="{Binding Value}" DisplayMemberBinding="{Binding Text}" Margin="0,2" />
+                    <NumericUpDown Grid.Column="1" Grid.Row="4" Value="{Binding Quantity5}" Minimum="0" Maximum="255" Margin="4,2,0,2" />
+                    <ComboBox Grid.Column="0" Grid.Row="5" ItemsSource="{Binding ItemsList}" SelectedValue="{Binding Item6}" SelectedValueBinding="{Binding Value}" DisplayMemberBinding="{Binding Text}" Margin="0,2" />
+                    <NumericUpDown Grid.Column="1" Grid.Row="5" Value="{Binding Quantity6}" Minimum="0" Maximum="255" Margin="4,2,0,2" />
+                </Grid>
+
+                <Separator />
+                <TextBlock Text="Pokemon (Read Only)" FontWeight="SemiBold" FontSize="14" />
+
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+                    <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding Pkm1}" IsReadOnly="True" Margin="0,2,4,2" />
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Pkm2}" IsReadOnly="True" Margin="4,2,0,2" />
+                    <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding Pkm3}" IsReadOnly="True" Margin="0,2,4,2" />
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Pkm4}" IsReadOnly="True" Margin="4,2,0,2" />
+                    <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding Pkm5}" IsReadOnly="True" Margin="0,2,4,2" />
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Pkm6}" IsReadOnly="True" Margin="4,2,0,2" />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

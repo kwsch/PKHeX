@@ -1,0 +1,93 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVPokedexORASView"
+                     x:DataType="vm:SAVPokedexORASViewModel"
+                     Title="Pokedex Editor (ORAS)"
+                     Width="620" Height="680"
+                     MinWidth="520" MinHeight="580"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Seen All" Command="{Binding SeenAllCommand}" />
+            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" />
+            <Button Content="Complete" Command="{Binding CompleteCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="180,*">
+            <!-- Left: Species list -->
+            <ListBox Grid.Column="0" ItemsSource="{Binding SpeciesNames}"
+                     SelectedIndex="{Binding SelectedSpeciesIndex}"
+                     Margin="0,0,8,0" />
+
+            <!-- Right: Details -->
+            <ScrollViewer Grid.Column="1">
+                <StackPanel Spacing="8">
+                    <CheckBox Content="National Dex Unlocked" IsChecked="{Binding NationalDexUnlocked}" />
+                    <CheckBox Content="National Dex Active" IsChecked="{Binding NationalDexActive}" />
+
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Spinda PID" FontWeight="SemiBold" />
+                        <TextBox Text="{Binding SpindaPid}" MaxLength="8" />
+                    </StackPanel>
+
+                    <Separator />
+                    <CheckBox Content="Caught" IsChecked="{Binding Caught}" FontWeight="SemiBold" />
+
+                    <TextBlock Text="Seen" FontWeight="SemiBold" />
+                    <WrapPanel>
+                        <CheckBox Content="Male" IsChecked="{Binding SeenMale}" Margin="0,0,8,0" />
+                        <CheckBox Content="Female" IsChecked="{Binding SeenFemale}" Margin="0,0,8,0" />
+                        <CheckBox Content="Male Shiny" IsChecked="{Binding SeenMaleShiny}" Margin="0,0,8,0" />
+                        <CheckBox Content="Female Shiny" IsChecked="{Binding SeenFemaleShiny}" />
+                    </WrapPanel>
+
+                    <TextBlock Text="Displayed" FontWeight="SemiBold" />
+                    <WrapPanel>
+                        <CheckBox Content="Male" IsChecked="{Binding DisplayedMale}" Margin="0,0,8,0" />
+                        <CheckBox Content="Female" IsChecked="{Binding DisplayedFemale}" Margin="0,0,8,0" />
+                        <CheckBox Content="Male Shiny" IsChecked="{Binding DisplayedMaleShiny}" Margin="0,0,8,0" />
+                        <CheckBox Content="Female Shiny" IsChecked="{Binding DisplayedFemaleShiny}" />
+                    </WrapPanel>
+
+                    <TextBlock Text="Languages" FontWeight="SemiBold" />
+                    <WrapPanel>
+                        <CheckBox Content="JPN" IsChecked="{Binding LangJPN}" Margin="0,0,8,0" />
+                        <CheckBox Content="ENG" IsChecked="{Binding LangENG}" Margin="0,0,8,0" />
+                        <CheckBox Content="FRE" IsChecked="{Binding LangFRE}" Margin="0,0,8,0" />
+                        <CheckBox Content="ITA" IsChecked="{Binding LangITA}" Margin="0,0,8,0" />
+                        <CheckBox Content="GER" IsChecked="{Binding LangGER}" Margin="0,0,8,0" />
+                        <CheckBox Content="SPA" IsChecked="{Binding LangSPA}" Margin="0,0,8,0" />
+                        <CheckBox Content="KOR" IsChecked="{Binding LangKOR}" />
+                    </WrapPanel>
+
+                    <Separator />
+                    <TextBlock Text="DexNav Counts" FontWeight="SemiBold" />
+                    <Grid ColumnDefinitions="*,*">
+                        <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                            <TextBlock Text="Seen Count" />
+                            <NumericUpDown Value="{Binding CountSeen}" Minimum="0" Maximum="65535" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
+                            <TextBlock Text="Obtained Count" />
+                            <NumericUpDown Value="{Binding CountObtained}" Minimum="0" Maximum="65535" />
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Max DexNav" Command="{Binding MaxDexNavCommand}" />
+                        <Button Content="Reset DexNav" Command="{Binding ResetDexNavCommand}" />
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>

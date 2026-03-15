@@ -1,0 +1,181 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.Misc5View"
+                     x:DataType="vm:Misc5ViewModel"
+                     Title="Gen 5 Misc Editor"
+                     Width="700" Height="750"
+                     MinWidth="550" MinHeight="500"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <TabControl>
+            <!-- Fly Destinations -->
+            <TabItem Header="Fly">
+                <StackPanel Spacing="8" Margin="8">
+                    <Button Content="Unlock All" Command="{Binding UnlockAllFlyDestCommand}" HorizontalAlignment="Left" />
+                    <ScrollViewer MaxHeight="500">
+                        <ItemsControl ItemsSource="{Binding FlyDestinations}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:FlyDest5Model">
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding Unlocked}" Margin="4,1" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Roamer (BW only) -->
+            <TabItem Header="Roamer" IsVisible="{Binding ShowRoamer}">
+                <StackPanel Spacing="8" Margin="8">
+                    <Grid ColumnDefinitions="130,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,4">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Tornadus (641):" VerticalAlignment="Center" Margin="0,4" />
+                        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding RoamerStates}" SelectedIndex="{Binding Roamer641State}" Width="180" Margin="8,4" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Thundurus (642):" VerticalAlignment="Center" Margin="0,4" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding RoamerStates}" SelectedIndex="{Binding Roamer642State}" Width="180" Margin="8,4" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Roam Status:" VerticalAlignment="Center" Margin="0,4" />
+                        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding RoamStatusStates}" SelectedIndex="{Binding RoamStatus}" Width="180" Margin="8,4" />
+                    </Grid>
+                    <CheckBox Content="Liberty Pass Activated" IsChecked="{Binding LibertyPass}" Margin="0,8" />
+                </StackPanel>
+            </TabItem>
+
+            <!-- Key System (B2W2 only) -->
+            <TabItem Header="Key System" IsVisible="{Binding ShowKeySystem}">
+                <StackPanel Spacing="8" Margin="8">
+                    <Button Content="Unlock All" Command="{Binding UnlockAllKeysCommand}" HorizontalAlignment="Left" />
+                    <ItemsControl ItemsSource="{Binding KeyEntries}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:KeyEntry5Model">
+                                <CheckBox Content="{Binding Label}" IsChecked="{Binding Enabled}" Margin="4,1" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Musical Props -->
+            <TabItem Header="Musical">
+                <StackPanel Spacing="8" Margin="8">
+                    <Button Content="Unlock All Props" Command="{Binding UnlockAllPropsCommand}" HorizontalAlignment="Left" />
+                    <ScrollViewer MaxHeight="500">
+                        <ItemsControl ItemsSource="{Binding Props}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:PropModel">
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding Obtained}" Margin="4,1" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Battle Subway -->
+            <TabItem Header="Subway">
+                <ScrollViewer>
+                    <StackPanel Spacing="8" Margin="8">
+                        <TextBlock Text="Running Battle" FontWeight="Bold" FontSize="14" />
+                        <Grid ColumnDefinitions="130,*" RowDefinitions="Auto,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Current Type:" VerticalAlignment="Center" Margin="0,4" />
+                            <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding SubwayCurrentType}" Minimum="0" Maximum="15" Width="120" Margin="8,4" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Current Battle:" VerticalAlignment="Center" Margin="0,4" />
+                            <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding SubwayCurrentBattle}" Minimum="0" Maximum="999" Width="120" Margin="8,4" />
+                        </Grid>
+
+                        <TextBlock Text="Normal Flags" FontWeight="Bold" FontSize="14" Margin="0,8,0,0" />
+                        <WrapPanel>
+                            <CheckBox Content="Flag 0" IsChecked="{Binding SubwayFlag0}" Margin="4,2" />
+                            <CheckBox Content="Flag 1" IsChecked="{Binding SubwayFlag1}" Margin="4,2" />
+                            <CheckBox Content="Flag 2" IsChecked="{Binding SubwayFlag2}" Margin="4,2" />
+                            <CheckBox Content="Flag 3" IsChecked="{Binding SubwayFlag3}" Margin="4,2" />
+                        </WrapPanel>
+
+                        <TextBlock Text="Super Flags" FontWeight="Bold" FontSize="14" Margin="0,8,0,0" />
+                        <WrapPanel>
+                            <CheckBox Content="Super Single" IsChecked="{Binding SuperSingle}" Margin="4,2" />
+                            <CheckBox Content="Super Double" IsChecked="{Binding SuperDouble}" Margin="4,2" />
+                            <CheckBox Content="Super Multi" IsChecked="{Binding SuperMulti}" Margin="4,2" />
+                            <CheckBox Content="Flag 7" IsChecked="{Binding SubwayFlag7}" Margin="4,2" />
+                        </WrapPanel>
+                        <CheckBox Content="NPC Met" IsChecked="{Binding NpcMet}" Margin="4,4" />
+
+                        <TextBlock Text="Normal Records" FontWeight="Bold" FontSize="14" Margin="0,8,0,0" />
+                        <Grid ColumnDefinitions="130,100,100,100" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Past" FontWeight="SemiBold" Margin="4" />
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Record" FontWeight="SemiBold" Margin="4" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Single:" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding SinglePast}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+                            <NumericUpDown Grid.Row="1" Grid.Column="2" Value="{Binding SingleRecord}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Double:" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding DoublePast}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+                            <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding DoubleRecord}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Multi NPC:" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding MultiNpcPast}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+                            <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding MultiNpcRecord}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Multi Friends:" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding MultiFriendsPast}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+                            <NumericUpDown Grid.Row="4" Grid.Column="2" Value="{Binding MultiFriendsRecord}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+                        </Grid>
+
+                        <TextBlock Text="Super Records" FontWeight="Bold" FontSize="14" Margin="0,8,0,0" />
+                        <Grid ColumnDefinitions="130,100,100,100" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Past" FontWeight="SemiBold" Margin="4" />
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Record" FontWeight="SemiBold" Margin="4" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Super Single:" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding SuperSinglePast}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+                            <NumericUpDown Grid.Row="1" Grid.Column="2" Value="{Binding SuperSingleRecord}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Super Double:" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding SuperDoublePast}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+                            <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding SuperDoubleRecord}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Super Multi NPC:" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding SuperMultiNpcPast}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+                            <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding SuperMultiNpcRecord}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Super Multi Friends:" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding SuperMultiFriendsPast}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+                            <NumericUpDown Grid.Row="4" Grid.Column="2" Value="{Binding SuperMultiFriendsRecord}" Minimum="0" Maximum="9999" Width="90" Margin="4" />
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Records -->
+            <TabItem Header="Records">
+                <StackPanel Spacing="8" Margin="8">
+                    <TextBlock Text="Records" FontWeight="Bold" FontSize="14" />
+                    <Grid ColumnDefinitions="100,100,100,*" RowDefinitions="Auto,Auto">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Record16:" VerticalAlignment="Center" Margin="0,4" />
+                        <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Record16Index}" Minimum="0" Maximum="99" Width="90" Margin="4" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Value:" VerticalAlignment="Center" Margin="4" />
+                        <NumericUpDown Grid.Row="0" Grid.Column="3" Value="{Binding Record16Value}" Minimum="0" Maximum="65535" Width="120" Margin="4" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Record32:" VerticalAlignment="Center" Margin="0,4" />
+                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Record32Index}" Minimum="0" Maximum="67" Width="90" Margin="4" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="Value:" VerticalAlignment="Center" Margin="4" />
+                        <NumericUpDown Grid.Row="1" Grid.Column="3" Value="{Binding Record32Value}" Minimum="0" Maximum="999999999" Width="120" Margin="4" />
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+
+</views:SubformWindow>

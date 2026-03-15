@@ -1,0 +1,128 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVHallOfFame6View"
+                     x:DataType="vm:SAVHallOfFame6ViewModel"
+                     Title="Hall of Fame (Gen 6)"
+                     Width="650" Height="700"
+                     MinWidth="550" MinHeight="600"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Delete Entry" Command="{Binding DeleteEntryCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="150,*">
+            <!-- Left: Entry list -->
+            <ListBox Grid.Column="0" ItemsSource="{Binding EntryNames}"
+                     SelectedIndex="{Binding SelectedEntryIndex}"
+                     Margin="0,0,8,0" />
+
+            <!-- Right: Details -->
+            <ScrollViewer Grid.Column="1">
+                <StackPanel Spacing="8">
+                    <!-- Entry summary -->
+                    <TextBox Text="{Binding EntryText}" IsReadOnly="True"
+                             AcceptsReturn="True" Height="120"
+                             FontFamily="Courier New" FontSize="12" />
+
+                    <Grid ColumnDefinitions="*,*">
+                        <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                            <TextBlock Text="Clear Index" />
+                            <TextBox Text="{Binding ClearIndex}" MaxLength="5" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
+                            <TextBlock Text="Party Member #" />
+                            <NumericUpDown Value="{Binding MemberIndex}" Minimum="1"
+                                           Maximum="{Binding MaxMembers}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Separator />
+                    <TextBlock Text="Pokemon Details" FontWeight="SemiBold" FontSize="14" />
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                        <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                            <TextBlock Text="Species" />
+                            <ComboBox ItemsSource="{Binding SpeciesList}"
+                                      SelectedValue="{Binding SelectedSpecies}"
+                                      SelectedValueBinding="{Binding Value}"
+                                      DisplayMemberBinding="{Binding Text}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                            <TextBlock Text="Held Item" />
+                            <ComboBox ItemsSource="{Binding ItemsList}"
+                                      SelectedValue="{Binding SelectedItem}"
+                                      SelectedValueBinding="{Binding Value}"
+                                      DisplayMemberBinding="{Binding Text}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
+                            <TextBlock Text="Move 1" />
+                            <ComboBox ItemsSource="{Binding MovesList}"
+                                      SelectedValue="{Binding Move1}"
+                                      SelectedValueBinding="{Binding Value}"
+                                      DisplayMemberBinding="{Binding Text}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
+                            <TextBlock Text="Move 2" />
+                            <ComboBox ItemsSource="{Binding MovesList}"
+                                      SelectedValue="{Binding Move2}"
+                                      SelectedValueBinding="{Binding Value}"
+                                      DisplayMemberBinding="{Binding Text}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
+                            <TextBlock Text="Move 3" />
+                            <ComboBox ItemsSource="{Binding MovesList}"
+                                      SelectedValue="{Binding Move3}"
+                                      SelectedValueBinding="{Binding Value}"
+                                      DisplayMemberBinding="{Binding Text}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4">
+                            <TextBlock Text="Move 4" />
+                            <ComboBox ItemsSource="{Binding MovesList}"
+                                      SelectedValue="{Binding Move4}"
+                                      SelectedValueBinding="{Binding Value}"
+                                      DisplayMemberBinding="{Binding Text}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="3" Spacing="2" Margin="0,0,4,4">
+                            <TextBlock Text="Nickname" />
+                            <TextBox Text="{Binding Nickname}" MaxLength="12" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="3" Spacing="2" Margin="4,0,0,4">
+                            <TextBlock Text="OT Name" />
+                            <TextBox Text="{Binding OtName}" MaxLength="12" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="4" Spacing="2" Margin="0,0,4,4">
+                            <TextBlock Text="TID" />
+                            <TextBox Text="{Binding Tid}" MaxLength="5" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="4" Spacing="2" Margin="4,0,0,4">
+                            <TextBlock Text="SID" />
+                            <TextBox Text="{Binding Sid}" MaxLength="5" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="5" Spacing="2" Margin="0,0,4,4">
+                            <TextBlock Text="Level" />
+                            <NumericUpDown Value="{Binding Level}" Minimum="0" Maximum="100" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="5" Spacing="2" Margin="4,0,0,4">
+                            <TextBlock Text="EC" />
+                            <TextBox Text="{Binding Ec}" MaxLength="8" />
+                        </StackPanel>
+                        <WrapPanel Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Margin="0,4">
+                            <CheckBox Content="Shiny" IsChecked="{Binding IsShiny}" Margin="0,0,12,0" />
+                            <CheckBox Content="Nicknamed" IsChecked="{Binding IsNicknamed}" />
+                        </WrapPanel>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>

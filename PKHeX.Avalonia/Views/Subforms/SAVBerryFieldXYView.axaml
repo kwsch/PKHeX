@@ -1,0 +1,77 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVBerryFieldXYView"
+                     x:DataType="vm:SAVBerryFieldXYViewModel"
+                     Title="Berry Field (XY)"
+                     Width="500" Height="420"
+                     MinWidth="400" MinHeight="350"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="False">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="140,*">
+            <!-- Left: Plot list -->
+            <ListBox Grid.Column="0" ItemsSource="{Binding Plots}"
+                     SelectedIndex="{Binding SelectedPlotIndex}"
+                     Margin="0,0,8,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:BerryPlotModel">
+                        <TextBlock Text="{Binding DisplayName}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Right: Plot details (read-only) -->
+            <ScrollViewer Grid.Column="1">
+                <StackPanel Spacing="8"
+                            DataContext="{Binding SelectedPlot}"
+                            x:DataType="vm:BerryPlotModel"
+                            x:CompileBindings="False">
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                        <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                            <TextBlock Text="Berry" FontWeight="SemiBold" />
+                            <TextBox Text="{Binding Berry}" IsReadOnly="True" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                            <TextBlock Text="U1" />
+                            <TextBox Text="{Binding U1}" IsReadOnly="True" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
+                            <TextBlock Text="U2" />
+                            <TextBox Text="{Binding U2}" IsReadOnly="True" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
+                            <TextBlock Text="U3" />
+                            <TextBox Text="{Binding U3}" IsReadOnly="True" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
+                            <TextBlock Text="U4" />
+                            <TextBox Text="{Binding U4}" IsReadOnly="True" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4">
+                            <TextBlock Text="U5" />
+                            <TextBox Text="{Binding U5}" IsReadOnly="True" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="3" Spacing="2" Margin="0,0,4,4">
+                            <TextBlock Text="U6" />
+                            <TextBox Text="{Binding U6}" IsReadOnly="True" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="3" Spacing="2" Margin="4,0,0,4">
+                            <TextBlock Text="U7" />
+                            <TextBox Text="{Binding U7}" IsReadOnly="True" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>

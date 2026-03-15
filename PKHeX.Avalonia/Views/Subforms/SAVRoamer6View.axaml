@@ -1,0 +1,41 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVRoamer6View"
+                     x:DataType="vm:SAVRoamer6ViewModel"
+                     Title="Roaming Pokemon (Gen 6)"
+                     Width="380" Height="300"
+                     MinWidth="320" MinHeight="260"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="False">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <StackPanel Spacing="8">
+            <StackPanel Spacing="4">
+                <TextBlock Text="Species" FontWeight="SemiBold" />
+                <ComboBox ItemsSource="{Binding SpeciesChoices}"
+                          SelectedIndex="{Binding SelectedSpeciesIndex}" />
+            </StackPanel>
+
+            <StackPanel Spacing="4">
+                <TextBlock Text="Roam State" FontWeight="SemiBold" />
+                <ComboBox ItemsSource="{Binding RoamStateChoices}"
+                          SelectedIndex="{Binding SelectedRoamStateIndex}" />
+            </StackPanel>
+
+            <StackPanel Spacing="4">
+                <TextBlock Text="Times Encountered" FontWeight="SemiBold" />
+                <NumericUpDown Value="{Binding TimesEncountered}" Minimum="0" Maximum="4294967295" />
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+
+</views:SubformWindow>

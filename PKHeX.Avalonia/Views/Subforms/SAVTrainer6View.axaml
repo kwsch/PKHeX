@@ -1,0 +1,123 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVTrainer6View"
+                     x:DataType="vm:SAVTrainer6ViewModel"
+                     Title="Trainer Editor (Gen 6)"
+                     Width="550" Height="700"
+                     MinWidth="480" MinHeight="600"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="8">
+                <!-- Basic Info -->
+                <TextBlock Text="Basic Info" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+                    <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="OT Name" />
+                        <TextBox Text="{Binding OtName}" MaxLength="12" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Gender" />
+                        <ComboBox ItemsSource="{Binding GenderChoices}"
+                                  SelectedIndex="{Binding Gender}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="TID" />
+                        <TextBox Text="{Binding Tid}" MaxLength="5" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="SID" />
+                        <TextBox Text="{Binding Sid}" MaxLength="5" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Money" />
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBox Text="{Binding Money}" MaxLength="7" />
+                            <Button Content="Max" Command="{Binding MaxCashCommand}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4"
+                                IsVisible="{Binding ShowStyle}">
+                        <TextBlock Text="Style" />
+                        <TextBox Text="{Binding Style}" MaxLength="3" />
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+
+                <!-- Play Time -->
+                <TextBlock Text="Play Time" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*,*">
+                    <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                        <TextBlock Text="Hours" />
+                        <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
+                        <TextBlock Text="Minutes" />
+                        <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,0,0">
+                        <TextBlock Text="Seconds" />
+                        <NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- BP / Pokemiles -->
+                <Grid ColumnDefinitions="*,*">
+                    <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                        <TextBlock Text="BP" />
+                        <TextBox Text="{Binding Bp}" MaxLength="5" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
+                        <TextBlock Text="Pokemiles" />
+                        <TextBox Text="{Binding Pokemiles}" MaxLength="7" />
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+
+                <!-- Badges -->
+                <TextBlock Text="Badges" FontWeight="SemiBold" FontSize="14" />
+                <WrapPanel>
+                    <CheckBox Content="Badge 1" IsChecked="{Binding Badge1}" Margin="0,0,8,0" />
+                    <CheckBox Content="Badge 2" IsChecked="{Binding Badge2}" Margin="0,0,8,0" />
+                    <CheckBox Content="Badge 3" IsChecked="{Binding Badge3}" Margin="0,0,8,0" />
+                    <CheckBox Content="Badge 4" IsChecked="{Binding Badge4}" Margin="0,0,8,0" />
+                    <CheckBox Content="Badge 5" IsChecked="{Binding Badge5}" Margin="0,0,8,0" />
+                    <CheckBox Content="Badge 6" IsChecked="{Binding Badge6}" Margin="0,0,8,0" />
+                    <CheckBox Content="Badge 7" IsChecked="{Binding Badge7}" Margin="0,0,8,0" />
+                    <CheckBox Content="Badge 8" IsChecked="{Binding Badge8}" />
+                </WrapPanel>
+
+                <!-- Mega -->
+                <WrapPanel>
+                    <CheckBox Content="Mega Evolution Unlocked" IsChecked="{Binding MegaUnlocked}" Margin="0,0,12,0" />
+                    <CheckBox Content="Mega Rayquaza Unlocked" IsChecked="{Binding MegaRayquazaUnlocked}"
+                              IsVisible="{Binding ShowMegaRayquaza}" />
+                </WrapPanel>
+
+                <Separator />
+
+                <!-- Sayings -->
+                <TextBlock Text="Sayings" FontWeight="SemiBold" FontSize="14" />
+                <TextBox Text="{Binding Saying1}" Watermark="Saying 1" Margin="0,2" />
+                <TextBox Text="{Binding Saying2}" Watermark="Saying 2" Margin="0,2" />
+                <TextBox Text="{Binding Saying3}" Watermark="Saying 3" Margin="0,2" />
+                <TextBox Text="{Binding Saying4}" Watermark="Saying 4" Margin="0,2" />
+                <TextBox Text="{Binding Saying5}" Watermark="Saying 5" Margin="0,2" />
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

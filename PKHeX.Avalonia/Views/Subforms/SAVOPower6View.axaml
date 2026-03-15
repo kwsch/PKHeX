@@ -1,0 +1,79 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVOPower6View"
+                     x:DataType="vm:SAVOPower6ViewModel"
+                     Title="O-Power Editor (Gen 6)"
+                     Width="550" Height="600"
+                     MinWidth="480" MinHeight="500"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Give All" Command="{Binding GiveAllCommand}" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="12">
+                <!-- Points -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Points" FontWeight="SemiBold" />
+                    <NumericUpDown Value="{Binding Points}" Minimum="0" Maximum="255" />
+                </StackPanel>
+
+                <!-- Field Levels -->
+                <TextBlock Text="Field O-Powers" FontWeight="SemiBold" FontSize="14" />
+                <ItemsControl ItemsSource="{Binding FieldLevels}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:OPowerLevelModel">
+                            <Grid ColumnDefinitions="120,*,*" Margin="0,2">
+                                <TextBlock Grid.Column="0" Text="{Binding Name}"
+                                           VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Column="1" Value="{Binding Level1}"
+                                               Minimum="0" Maximum="3" Margin="4,0" />
+                                <NumericUpDown Grid.Column="2" Value="{Binding Level2}"
+                                               Minimum="0" Maximum="3" Margin="4,0" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Battle Levels -->
+                <TextBlock Text="Battle O-Powers" FontWeight="SemiBold" FontSize="14" />
+                <ItemsControl ItemsSource="{Binding BattleLevels}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:OPowerLevelModel">
+                            <Grid ColumnDefinitions="120,*,*" Margin="0,2">
+                                <TextBlock Grid.Column="0" Text="{Binding Name}"
+                                           VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Column="1" Value="{Binding Level1}"
+                                               Minimum="0" Maximum="3" Margin="4,0" />
+                                <NumericUpDown Grid.Column="2" Value="{Binding Level2}"
+                                               Minimum="0" Maximum="3" Margin="4,0" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Unlock Flags -->
+                <TextBlock Text="Unlock Flags" FontWeight="SemiBold" FontSize="14" />
+                <ItemsControl ItemsSource="{Binding UnlockFlags}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:OPowerUnlockModel">
+                            <CheckBox Content="{Binding Name}"
+                                      IsChecked="{Binding IsUnlocked}" Margin="0,1" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>
