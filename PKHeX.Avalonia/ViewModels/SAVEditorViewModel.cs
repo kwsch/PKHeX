@@ -50,6 +50,15 @@ public partial class SAVEditorViewModel : ObservableObject
     public ICommand? OpenWondercardCommand { get; set; }
     public ICommand? OpenEventFlagsCommand { get; set; }
     public ICommand? OpenSettingsEditorCommand { get; set; }
+    public ICommand? OpenDatabaseCommand { get; set; }
+    public ICommand? OpenBatchEditorCommand { get; set; }
+    public ICommand? OpenEncountersCommand { get; set; }
+    public ICommand? OpenReportGridCommand { get; set; }
+    public ICommand? OpenBoxViewerCommand { get; set; }
+    public ICommand? OpenMysteryGiftDBCommand { get; set; }
+    public ICommand? OpenRibbonEditorCommand { get; set; }
+    public ICommand? OpenMemoryAmieCommand { get; set; }
+    public ICommand? OpenTechRecordEditorCommand { get; set; }
 
     public SAVEditorViewModel()
     {

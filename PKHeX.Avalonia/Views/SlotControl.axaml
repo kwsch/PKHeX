@@ -1,7 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:PKHeX.Avalonia.Controls"
-             xmlns:vm="using:PKHeX.Avalonia.ViewModels"
              x:Class="PKHeX.Avalonia.Views.SlotControl"
              x:DataType="controls:SlotModel"
              Width="70" Height="58"
@@ -36,16 +35,10 @@
             DragDrop.AllowDrop="True">
         <Border.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="View"
-                          Command="{Binding $parent[ItemsControl].((vm:SAVEditorViewModel)DataContext).ViewSlotCommand}"
-                          CommandParameter="{Binding}" />
-                <MenuItem Header="Set"
-                          Command="{Binding $parent[ItemsControl].((vm:SAVEditorViewModel)DataContext).SetSlotCommand}"
-                          CommandParameter="{Binding}" />
+                <MenuItem x:Name="MenuView" Header="View" />
+                <MenuItem x:Name="MenuSet" Header="Set" />
                 <Separator />
-                <MenuItem Header="Delete"
-                          Command="{Binding $parent[ItemsControl].((vm:SAVEditorViewModel)DataContext).DeleteSlotCommand}"
-                          CommandParameter="{Binding}" />
+                <MenuItem x:Name="MenuDelete" Header="Delete" />
             </ContextMenu>
         </Border.ContextMenu>
         <Image Source="{Binding Image}"

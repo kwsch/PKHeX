@@ -2,6 +2,7 @@ using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.VisualTree;
 using PKHeX.Avalonia.Controls;
@@ -30,6 +31,34 @@ public partial class SlotControl : UserControl
         AddHandler(DragDrop.DragOverEvent, OnDragOver);
         AddHandler(DragDrop.DragLeaveEvent, OnDragLeave);
         AddHandler(DragDrop.DropEvent, OnDrop);
+
+        // Context menu handlers — wired in code-behind because ContextMenu
+        // opens in a popup overlay disconnected from the visual tree,
+        // so $parent[ItemsControl] XAML bindings cannot resolve.
+        MenuView.Click += OnMenuViewClick;
+        MenuSet.Click += OnMenuSetClick;
+        MenuDelete.Click += OnMenuDeleteClick;
+    }
+
+    private void OnMenuViewClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is not SlotModel slot)
+            return;
+        FindSAVEditorViewModel()?.ViewSlotCommand.Execute(slot);
+    }
+
+    private void OnMenuSetClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is not SlotModel slot)
+            return;
+        FindSAVEditorViewModel()?.SetSlotCommand.Execute(slot);
+    }
+
+    private void OnMenuDeleteClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is not SlotModel slot)
+            return;
+        FindSAVEditorViewModel()?.DeleteSlotCommand.Execute(slot);
     }
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)

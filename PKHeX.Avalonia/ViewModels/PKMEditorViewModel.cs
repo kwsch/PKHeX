@@ -30,6 +30,23 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private byte _form;
     [ObservableProperty] private byte _gender;
     [ObservableProperty] private Nature _nature;
+
+    /// <summary>
+    /// Returns the gender symbol for the current <see cref="Gender"/> value:
+    /// 0 = Male, 1 = Female, 2 = Genderless.
+    /// </summary>
+    public string GenderSymbol => Gender switch
+    {
+        0 => "\u2642",  // ♂
+        1 => "\u2640",  // ♀
+        _ => "\u2014",  // —
+    };
+
+    partial void OnGenderChanged(byte value)
+    {
+        OnPropertyChanged(nameof(GenderSymbol));
+    }
+
     [ObservableProperty] private int _ability;
     [ObservableProperty] private int _heldItem;
     [ObservableProperty] private bool _isShiny;
@@ -79,6 +96,43 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private ushort _move3;
     [ObservableProperty] private ushort _move4;
 
+    // Met
+    [ObservableProperty] private ushort _metLocation;
+    [ObservableProperty] private byte _metLevel;
+    [ObservableProperty] private byte _ball;
+    [ObservableProperty] private ushort _eggLocation;
+    [ObservableProperty] private int _version;
+    [ObservableProperty] private int _metYear;
+    [ObservableProperty] private int _metMonth;
+    [ObservableProperty] private int _metDay;
+    [ObservableProperty] private int _eggYear;
+    [ObservableProperty] private int _eggMonth;
+    [ObservableProperty] private int _eggDay;
+
+    // Cosmetic — Markings
+    [ObservableProperty] private bool _markCircle;
+    [ObservableProperty] private bool _markTriangle;
+    [ObservableProperty] private bool _markSquare;
+    [ObservableProperty] private bool _markHeart;
+    [ObservableProperty] private bool _markStar;
+    [ObservableProperty] private bool _markDiamond;
+
+    // Cosmetic — Contest Stats
+    [ObservableProperty] private int _contestCool;
+    [ObservableProperty] private int _contestBeauty;
+    [ObservableProperty] private int _contestCute;
+    [ObservableProperty] private int _contestSmart;
+    [ObservableProperty] private int _contestTough;
+    [ObservableProperty] private int _contestSheen;
+
+    // Cosmetic — Favorite
+    [ObservableProperty] private bool _isFavorite;
+
+    // Cosmetic — visibility helpers
+    [ObservableProperty] private bool _hasMarkings;
+    [ObservableProperty] private bool _hasContestStats;
+    [ObservableProperty] private bool _hasFavorite;
+
     // OT
     [ObservableProperty] private string _ot = string.Empty;
     [ObservableProperty] private ushort _tid;
@@ -94,6 +148,12 @@ public partial class PKMEditorViewModel : ObservableObject
     public IReadOnlyList<ComboItem> MoveList => GameInfo.FilteredSources.Moves;
     public IReadOnlyList<ComboItem> AbilityList => GameInfo.FilteredSources.Abilities;
     public IReadOnlyList<ComboItem> LanguageList => GameInfo.FilteredSources.Languages;
+    public IReadOnlyList<ComboItem> BallList => GameInfo.FilteredSources.Balls;
+    public IReadOnlyList<ComboItem> VersionList => GameInfo.FilteredSources.Games;
+
+    // Location lists are version/context-dependent and refreshed on populate
+    [ObservableProperty] private IReadOnlyList<ComboItem> _metLocationList = Array.Empty<ComboItem>();
+    [ObservableProperty] private IReadOnlyList<ComboItem> _eggLocationList = Array.Empty<ComboItem>();
 
     // Selected ComboItem bindings
     [ObservableProperty] private ComboItem? _selectedSpecies;
@@ -105,6 +165,10 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private ComboItem? _selectedMove4;
     [ObservableProperty] private ComboItem? _selectedAbility;
     [ObservableProperty] private ComboItem? _selectedLanguage;
+    [ObservableProperty] private ComboItem? _selectedBall;
+    [ObservableProperty] private ComboItem? _selectedVersion;
+    [ObservableProperty] private ComboItem? _selectedMetLocation;
+    [ObservableProperty] private ComboItem? _selectedEggLocation;
 
     partial void OnSelectedSpeciesChanged(ComboItem? value)
     {
@@ -160,6 +224,43 @@ public partial class PKMEditorViewModel : ObservableObject
             Language = value.Value;
     }
 
+    partial void OnSelectedBallChanged(ComboItem? value)
+    {
+        if (value is not null)
+            Ball = (byte)value.Value;
+    }
+
+    partial void OnSelectedVersionChanged(ComboItem? value)
+    {
+        if (value is not null)
+        {
+            Version = value.Value;
+            RefreshLocationLists();
+        }
+    }
+
+    partial void OnSelectedMetLocationChanged(ComboItem? value)
+    {
+        if (value is not null)
+            MetLocation = (ushort)value.Value;
+    }
+
+    partial void OnSelectedEggLocationChanged(ComboItem? value)
+    {
+        if (value is not null)
+            EggLocation = (ushort)value.Value;
+    }
+
+    private void RefreshLocationLists()
+    {
+        if (Entity is null)
+            return;
+        var ver = (GameVersion)Version;
+        var ctx = Entity.Context;
+        MetLocationList = GameInfo.GetLocationList(ver, ctx, egg: false);
+        EggLocationList = GameInfo.GetLocationList(ver, ctx, egg: true);
+    }
+
     public void Initialize(SaveFile sav)
     {
         _sav = sav;
@@ -173,6 +274,8 @@ public partial class PKMEditorViewModel : ObservableObject
         OnPropertyChanged(nameof(MoveList));
         OnPropertyChanged(nameof(AbilityList));
         OnPropertyChanged(nameof(LanguageList));
+        OnPropertyChanged(nameof(BallList));
+        OnPropertyChanged(nameof(VersionList));
     }
 
     public void PopulateFields(PKM pk)
@@ -231,9 +334,91 @@ public partial class PKMEditorViewModel : ObservableObject
         Move3 = pk.Move3;
         Move4 = pk.Move4;
 
+        // Met
+        MetLocation = pk.MetLocation;
+        MetLevel = pk.MetLevel;
+        Ball = pk.Ball;
+        EggLocation = pk.EggLocation;
+        Version = (int)pk.Version;
+        MetYear = pk.MetYear;
+        MetMonth = pk.MetMonth;
+        MetDay = pk.MetDay;
+        EggYear = pk.EggYear;
+        EggMonth = pk.EggMonth;
+        EggDay = pk.EggDay;
+
         Ot = pk.OriginalTrainerName;
         Tid = pk.TID16;
         Sid = pk.SID16;
+
+        // Cosmetic — Markings
+        if (pk is IAppliedMarkings7 m7)
+        {
+            HasMarkings = true;
+            MarkCircle = m7.MarkingCircle != MarkingColor.None;
+            MarkTriangle = m7.MarkingTriangle != MarkingColor.None;
+            MarkSquare = m7.MarkingSquare != MarkingColor.None;
+            MarkHeart = m7.MarkingHeart != MarkingColor.None;
+            MarkStar = m7.MarkingStar != MarkingColor.None;
+            MarkDiamond = m7.MarkingDiamond != MarkingColor.None;
+        }
+        else if (pk is IAppliedMarkings4 m4)
+        {
+            HasMarkings = true;
+            MarkCircle = m4.MarkingCircle;
+            MarkTriangle = m4.MarkingTriangle;
+            MarkSquare = m4.MarkingSquare;
+            MarkHeart = m4.MarkingHeart;
+            MarkStar = m4.MarkingStar;
+            MarkDiamond = m4.MarkingDiamond;
+        }
+        else if (pk is IAppliedMarkings3 m3)
+        {
+            HasMarkings = true;
+            MarkCircle = m3.MarkingCircle;
+            MarkTriangle = m3.MarkingTriangle;
+            MarkSquare = m3.MarkingSquare;
+            MarkHeart = m3.MarkingHeart;
+            MarkStar = false;
+            MarkDiamond = false;
+        }
+        else
+        {
+            HasMarkings = false;
+            MarkCircle = MarkTriangle = MarkSquare = MarkHeart = MarkStar = MarkDiamond = false;
+        }
+
+        // Cosmetic — Contest Stats
+        if (pk is IContestStatsReadOnly cs)
+        {
+            HasContestStats = true;
+            ContestCool = cs.ContestCool;
+            ContestBeauty = cs.ContestBeauty;
+            ContestCute = cs.ContestCute;
+            ContestSmart = cs.ContestSmart;
+            ContestTough = cs.ContestTough;
+            ContestSheen = cs.ContestSheen;
+        }
+        else
+        {
+            HasContestStats = false;
+            ContestCool = ContestBeauty = ContestCute = ContestSmart = ContestTough = ContestSheen = 0;
+        }
+
+        // Cosmetic — Favorite
+        if (pk is IFavorite fav)
+        {
+            HasFavorite = true;
+            IsFavorite = fav.IsFavorite;
+        }
+        else
+        {
+            HasFavorite = false;
+            IsFavorite = false;
+        }
+
+        // Refresh location lists based on version/context before setting selected items
+        RefreshLocationLists();
 
         // Look up ComboItems by matching Value
         SelectedSpecies = SpeciesList.FirstOrDefault(x => x.Value == pk.Species);
@@ -245,6 +430,10 @@ public partial class PKMEditorViewModel : ObservableObject
         SelectedMove4 = MoveList.FirstOrDefault(x => x.Value == pk.Move4);
         SelectedAbility = AbilityList.FirstOrDefault(x => x.Value == pk.Ability);
         SelectedLanguage = LanguageList.FirstOrDefault(x => x.Value == pk.Language);
+        SelectedBall = BallList.FirstOrDefault(x => x.Value == pk.Ball);
+        SelectedVersion = VersionList.FirstOrDefault(x => x.Value == (int)pk.Version);
+        SelectedMetLocation = MetLocationList.FirstOrDefault(x => x.Value == pk.MetLocation);
+        SelectedEggLocation = EggLocationList.FirstOrDefault(x => x.Value == pk.EggLocation);
 
         UpdateSprite();
     }
@@ -297,6 +486,61 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.SID16 = Sid;
 
         Entity.IsEgg = IsEgg;
+
+        // Cosmetic — Markings
+        if (Entity is IAppliedMarkings7 m7)
+        {
+            m7.MarkingCircle = MarkCircle ? MarkingColor.Blue : MarkingColor.None;
+            m7.MarkingTriangle = MarkTriangle ? MarkingColor.Blue : MarkingColor.None;
+            m7.MarkingSquare = MarkSquare ? MarkingColor.Blue : MarkingColor.None;
+            m7.MarkingHeart = MarkHeart ? MarkingColor.Blue : MarkingColor.None;
+            m7.MarkingStar = MarkStar ? MarkingColor.Blue : MarkingColor.None;
+            m7.MarkingDiamond = MarkDiamond ? MarkingColor.Blue : MarkingColor.None;
+        }
+        else if (Entity is IAppliedMarkings4 m4)
+        {
+            m4.MarkingCircle = MarkCircle;
+            m4.MarkingTriangle = MarkTriangle;
+            m4.MarkingSquare = MarkSquare;
+            m4.MarkingHeart = MarkHeart;
+            m4.MarkingStar = MarkStar;
+            m4.MarkingDiamond = MarkDiamond;
+        }
+        else if (Entity is IAppliedMarkings3 m3)
+        {
+            m3.MarkingCircle = MarkCircle;
+            m3.MarkingTriangle = MarkTriangle;
+            m3.MarkingSquare = MarkSquare;
+            m3.MarkingHeart = MarkHeart;
+        }
+
+        // Cosmetic — Contest Stats
+        if (Entity is IContestStats csSave)
+        {
+            csSave.ContestCool = (byte)Math.Clamp(ContestCool, 0, 255);
+            csSave.ContestBeauty = (byte)Math.Clamp(ContestBeauty, 0, 255);
+            csSave.ContestCute = (byte)Math.Clamp(ContestCute, 0, 255);
+            csSave.ContestSmart = (byte)Math.Clamp(ContestSmart, 0, 255);
+            csSave.ContestTough = (byte)Math.Clamp(ContestTough, 0, 255);
+            csSave.ContestSheen = (byte)Math.Clamp(ContestSheen, 0, 255);
+        }
+
+        // Cosmetic — Favorite
+        if (Entity is IFavorite favSave)
+            favSave.IsFavorite = IsFavorite;
+
+        // Met
+        Entity.MetLocation = MetLocation;
+        Entity.MetLevel = MetLevel;
+        Entity.Ball = Ball;
+        Entity.EggLocation = EggLocation;
+        Entity.Version = (GameVersion)Version;
+        Entity.MetYear = (byte)Math.Clamp(MetYear, 0, 255);
+        Entity.MetMonth = (byte)Math.Clamp(MetMonth, 1, 12);
+        Entity.MetDay = (byte)Math.Clamp(MetDay, 1, 31);
+        Entity.EggYear = (byte)Math.Clamp(EggYear, 0, 255);
+        Entity.EggMonth = (byte)Math.Clamp(EggMonth, 0, 12);
+        Entity.EggDay = (byte)Math.Clamp(EggDay, 0, 31);
 
         return Entity;
     }

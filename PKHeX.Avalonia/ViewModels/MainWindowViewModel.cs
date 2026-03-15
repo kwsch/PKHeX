@@ -72,6 +72,15 @@ public partial class MainWindowViewModel : ObservableObject
             OpenWondercardCommand = OpenWondercardCommand,
             OpenEventFlagsCommand = OpenEventFlagsCommand,
             OpenSettingsEditorCommand = OpenSettingsEditorCommand,
+            OpenDatabaseCommand = OpenDatabaseCommand,
+            OpenBatchEditorCommand = OpenBatchEditorCommand,
+            OpenEncountersCommand = OpenEncountersCommand,
+            OpenReportGridCommand = OpenReportGridCommand,
+            OpenBoxViewerCommand = OpenBoxViewerCommand,
+            OpenMysteryGiftDBCommand = OpenMysteryGiftDBCommand,
+            OpenRibbonEditorCommand = OpenRibbonEditorCommand,
+            OpenMemoryAmieCommand = OpenMemoryAmieCommand,
+            OpenTechRecordEditorCommand = OpenTechRecordEditorCommand,
         };
         LoadPlugins();
     }
@@ -232,15 +241,22 @@ public partial class MainWindowViewModel : ObservableObject
         if (SaveFile is null)
             return;
 
-        var vm = new InventoryViewModel(SaveFile);
-        var view = new InventoryView { DataContext = vm };
+        try
+        {
+            var vm = new InventoryViewModel(SaveFile);
+            var view = new InventoryView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
 
-        if (vm.Modified)
-            SavEditor?.ReloadSlots();
+            if (vm.Modified)
+                SavEditor?.ReloadSlots();
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Inventory error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -249,20 +265,27 @@ public partial class MainWindowViewModel : ObservableObject
         if (SaveFile is null)
             return;
 
-        var dbPath = GetDatabasePath();
-        var vm = new DatabaseViewModel(SaveFile, dbPath)
+        try
         {
-            SlotClicked = pk => PkmEditor?.PopulateFields(pk),
-        };
-        var view = new DatabaseView { DataContext = vm };
+            var dbPath = GetDatabasePath();
+            var vm = new DatabaseViewModel(SaveFile, dbPath)
+            {
+                SlotClicked = pk => PkmEditor?.PopulateFields(pk),
+            };
+            var view = new DatabaseView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+            {
+                // Start loading in the background, then show
+                _ = vm.LoadDatabaseAsync();
+                await view.ShowDialog(mainWindow);
+                vm.CancelLoad();
+            }
+        }
+        catch (Exception ex)
         {
-            // Start loading in the background, then show
-            _ = vm.LoadDatabaseAsync();
-            await view.ShowDialog(mainWindow);
-            vm.CancelLoad();
+            StatusMessage = $"Database error: {ex.Message}";
         }
     }
 
@@ -272,18 +295,25 @@ public partial class MainWindowViewModel : ObservableObject
         if (SaveFile is null)
             return;
 
-        var vm = new BatchEditorViewModel(SaveFile)
+        try
         {
-            CurrentBox = SavEditor?.CurrentBox ?? 0,
-        };
-        var view = new BatchEditorView { DataContext = vm };
+            var vm = new BatchEditorViewModel(SaveFile)
+            {
+                CurrentBox = SavEditor?.CurrentBox ?? 0,
+            };
+            var view = new BatchEditorView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
 
-        if (vm.Modified)
-            SavEditor?.ReloadSlots();
+            if (vm.Modified)
+                SavEditor?.ReloadSlots();
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Batch Editor error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -292,17 +322,24 @@ public partial class MainWindowViewModel : ObservableObject
         if (SaveFile is null)
             return;
 
-        var vm = new EncountersViewModel(SaveFile)
+        try
         {
-            SlotClicked = pk => PkmEditor?.PopulateFields(pk),
-        };
-        var view = new EncountersView { DataContext = vm };
+            var vm = new EncountersViewModel(SaveFile)
+            {
+                SlotClicked = pk => PkmEditor?.PopulateFields(pk),
+            };
+            var view = new EncountersView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
 
-        vm.CancelSearch();
+            vm.CancelSearch();
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Encounters error: {ex.Message}";
+        }
     }
 
     private static string GetDatabasePath()
@@ -317,12 +354,19 @@ public partial class MainWindowViewModel : ObservableObject
         if (PkmEditor?.Entity is not { } pk)
             return;
 
-        var vm = new RibbonEditorViewModel(pk);
-        var view = new RibbonEditorView { DataContext = vm };
+        try
+        {
+            var vm = new RibbonEditorViewModel(pk);
+            var view = new RibbonEditorView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Ribbon Editor error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -331,12 +375,19 @@ public partial class MainWindowViewModel : ObservableObject
         if (SaveFile is not IEventFlagProvider37 provider)
             return;
 
-        var vm = new EventFlagsViewModel(SaveFile, provider.EventWork, SaveFile.Version);
-        var view = new EventFlagsView { DataContext = vm };
+        try
+        {
+            var vm = new EventFlagsViewModel(SaveFile, provider.EventWork, SaveFile.Version);
+            var view = new EventFlagsView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Event Flags error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -345,15 +396,22 @@ public partial class MainWindowViewModel : ObservableObject
         if (SaveFile is not IMysteryGiftStorageProvider)
             return;
 
-        var vm = new WondercardViewModel(SaveFile);
-        var view = new WondercardView { DataContext = vm };
+        try
+        {
+            var vm = new WondercardViewModel(SaveFile);
+            var view = new WondercardView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
 
-        if (vm.Modified)
-            SavEditor?.ReloadSlots();
+            if (vm.Modified)
+                SavEditor?.ReloadSlots();
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Wondercard error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -362,15 +420,22 @@ public partial class MainWindowViewModel : ObservableObject
         if (SaveFile is null)
             return;
 
-        var vm = new BoxLayoutViewModel(SaveFile);
-        var view = new BoxLayoutView { DataContext = vm };
+        try
+        {
+            var vm = new BoxLayoutViewModel(SaveFile);
+            var view = new BoxLayoutView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
 
-        if (vm.Modified)
-            SavEditor?.ReloadSlots();
+            if (vm.Modified)
+                SavEditor?.ReloadSlots();
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Box Layout error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -379,19 +444,26 @@ public partial class MainWindowViewModel : ObservableObject
         if (SaveFile is null)
             return;
 
-        var vm = new ReportGridViewModel(SaveFile)
+        try
         {
-            GetExportPath = () => _dialogService.SaveFileAsync("Export CSV", "report.csv"),
-        };
+            var vm = new ReportGridViewModel(SaveFile)
+            {
+                GetExportPath = () => _dialogService.SaveFileAsync("Export CSV", "report.csv"),
+            };
 
-        // Auto-load all boxes
-        vm.LoadDataCommand.Execute(null);
+            // Auto-load all boxes
+            vm.LoadDataCommand.Execute(null);
 
-        var view = new ReportGridView { DataContext = vm };
+            var view = new ReportGridView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Report Grid error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -400,27 +472,41 @@ public partial class MainWindowViewModel : ObservableObject
         if (SaveFile is null)
             return;
 
-        var vm = new BoxViewerViewModel(SaveFile, SavEditor?.CurrentBox ?? 0)
+        try
         {
-            SlotSelected = pk => PkmEditor?.PopulateFields(pk),
-        };
-        var view = new BoxViewerView { DataContext = vm };
+            var vm = new BoxViewerViewModel(SaveFile, SavEditor?.CurrentBox ?? 0)
+            {
+                SlotSelected = pk => PkmEditor?.PopulateFields(pk),
+            };
+            var view = new BoxViewerView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            view.Show(mainWindow); // non-modal
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                view.Show(mainWindow); // non-modal
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Box Viewer error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
     private async Task OpenSettingsEditorAsync()
     {
-        var settings = App.Settings;
-        var vm = new SettingsEditorViewModel(settings);
-        var view = new SettingsEditorView { DataContext = vm };
+        try
+        {
+            var settings = App.Settings;
+            var vm = new SettingsEditorViewModel(settings);
+            var view = new SettingsEditorView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Settings error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -429,27 +515,34 @@ public partial class MainWindowViewModel : ObservableObject
         if (SaveFile is null)
             return;
 
-        // Gen 2: IEventFlagArray + IEventWorkArray<byte>
-        if (SaveFile is IEventFlagArray flagArray and IEventWorkArray<byte> workArray and SAV2)
+        try
         {
-            var vm = new EventFlags2ViewModel(SaveFile, flagArray, workArray, SaveFile.Version);
-            var view = new EventFlags2View { DataContext = vm };
-            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            if (mainWindow is not null)
-                await view.ShowDialog(mainWindow);
-            return;
-        }
+            // Gen 2: IEventFlagArray + IEventWorkArray<byte>
+            if (SaveFile is IEventFlagArray flagArray and IEventWorkArray<byte> workArray and SAV2)
+            {
+                var vm = new EventFlags2ViewModel(SaveFile, flagArray, workArray, SaveFile.Version);
+                var view = new EventFlags2View { DataContext = vm };
+                var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+                if (mainWindow is not null)
+                    await view.ShowDialog(mainWindow);
+                return;
+            }
 
-        // Gen 8 (BDSP): SAV8BS has FlagWork8b implementing IEventFlag + ISystemFlag + IEventWork<int>
-        if (SaveFile is SAV8BS bdsp)
+            // Gen 8 (BDSP): SAV8BS has FlagWork8b implementing IEventFlag + ISystemFlag + IEventWork<int>
+            if (SaveFile is SAV8BS bdsp)
+            {
+                var fw = bdsp.FlagWork;
+                var vm = new EventFlags2ViewModel(SaveFile, fw, fw, fw, SaveFile.Version);
+                var view = new EventFlags2View { DataContext = vm };
+                var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+                if (mainWindow is not null)
+                    await view.ShowDialog(mainWindow);
+                return;
+            }
+        }
+        catch (Exception ex)
         {
-            var fw = bdsp.FlagWork;
-            var vm = new EventFlags2ViewModel(SaveFile, fw, fw, fw, SaveFile.Version);
-            var view = new EventFlags2View { DataContext = vm };
-            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            if (mainWindow is not null)
-                await view.ShowDialog(mainWindow);
-            return;
+            StatusMessage = $"Event Flags error: {ex.Message}";
         }
     }
 
@@ -459,18 +552,25 @@ public partial class MainWindowViewModel : ObservableObject
         if (SaveFile is null)
             return;
 
-        var vm = new MysteryGiftDBViewModel(SaveFile)
+        try
         {
-            SlotClicked = pk => PkmEditor?.PopulateFields(pk),
-        };
-        var view = new MysteryGiftDBView { DataContext = vm };
+            var vm = new MysteryGiftDBViewModel(SaveFile)
+            {
+                SlotClicked = pk => PkmEditor?.PopulateFields(pk),
+            };
+            var view = new MysteryGiftDBView { DataContext = vm };
 
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+            {
+                _ = vm.LoadDatabaseAsync();
+                await view.ShowDialog(mainWindow);
+                vm.CancelLoad();
+            }
+        }
+        catch (Exception ex)
         {
-            _ = vm.LoadDatabaseAsync();
-            await view.ShowDialog(mainWindow);
-            vm.CancelLoad();
+            StatusMessage = $"Mystery Gift DB error: {ex.Message}";
         }
     }
 
@@ -480,18 +580,25 @@ public partial class MainWindowViewModel : ObservableObject
         if (PkmEditor?.Entity is not { } pk)
             return;
 
-        if (pk is not ITrainerMemories && pk is not IAffection && pk is not IFullnessEnjoyment)
+        try
         {
-            await _dialogService.ShowAlertAsync("Not Supported", "This Pokemon does not support memories or affection.");
-            return;
+            if (pk is not ITrainerMemories && pk is not IAffection && pk is not IFullnessEnjoyment)
+            {
+                await _dialogService.ShowAlertAsync("Not Supported", "This Pokemon does not support memories or affection.");
+                return;
+            }
+
+            var vm = new MemoryAmieViewModel(pk);
+            var view = new MemoryAmieView { DataContext = vm };
+
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
         }
-
-        var vm = new MemoryAmieViewModel(pk);
-        var view = new MemoryAmieView { DataContext = vm };
-
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+        catch (Exception ex)
+        {
+            StatusMessage = $"Memory/Amie error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -500,18 +607,25 @@ public partial class MainWindowViewModel : ObservableObject
         if (PkmEditor?.Entity is not { } pk)
             return;
 
-        if (pk is not ITechRecord record)
+        try
         {
-            await _dialogService.ShowAlertAsync("Not Supported", "This Pokemon does not support Tech Records.");
-            return;
+            if (pk is not ITechRecord record)
+            {
+                await _dialogService.ShowAlertAsync("Not Supported", "This Pokemon does not support Tech Records.");
+                return;
+            }
+
+            var vm = new TechRecordEditorViewModel(record, pk);
+            var view = new TechRecordEditorView { DataContext = vm };
+
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
         }
-
-        var vm = new TechRecordEditorViewModel(record, pk);
-        var view = new TechRecordEditorView { DataContext = vm };
-
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+        catch (Exception ex)
+        {
+            StatusMessage = $"Tech Record error: {ex.Message}";
+        }
     }
 
     #region Showdown Import/Export
@@ -528,75 +642,89 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand]
     private async Task ImportShowdownAsync()
     {
-        var clipboard = GetClipboard();
-        if (clipboard is null)
+        try
         {
-            await _dialogService.ShowAlertAsync("Clipboard Error", "Could not access clipboard.");
-            return;
-        }
+            var clipboard = GetClipboard();
+            if (clipboard is null)
+            {
+                await _dialogService.ShowAlertAsync("Clipboard Error", "Could not access clipboard.");
+                return;
+            }
 
-        var text = await clipboard.GetTextAsync();
-        if (string.IsNullOrWhiteSpace(text))
+            var text = await clipboard.GetTextAsync();
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                await _dialogService.ShowAlertAsync("Clipboard Empty", "No text found on the clipboard.");
+                return;
+            }
+
+            var sets = BattleTemplateTeams.TryGetSets(text);
+            var set = sets.FirstOrDefault() ?? new ShowdownSet(string.Empty);
+
+            if (set.Species == 0)
+            {
+                await _dialogService.ShowAlertAsync("Import Failed", "No valid Showdown set found on the clipboard.");
+                return;
+            }
+
+            var reformatted = set.Text;
+            var confirm = await _dialogService.ShowConfirmAsync("Import Showdown Set?", reformatted);
+            if (!confirm)
+                return;
+
+            if (PkmEditor?.Entity is null)
+            {
+                await _dialogService.ShowAlertAsync("No Pokemon", "Load a save file first to import a Showdown set.");
+                return;
+            }
+
+            var pk = PkmEditor.PreparePKM();
+            if (pk is null)
+                return;
+
+            pk.ApplySetDetails(set);
+            PkmEditor.PopulateFields(pk);
+            StatusMessage = "Imported Showdown set from clipboard.";
+        }
+        catch (Exception ex)
         {
-            await _dialogService.ShowAlertAsync("Clipboard Empty", "No text found on the clipboard.");
-            return;
+            StatusMessage = $"Import Showdown error: {ex.Message}";
         }
-
-        var sets = BattleTemplateTeams.TryGetSets(text);
-        var set = sets.FirstOrDefault() ?? new ShowdownSet(string.Empty);
-
-        if (set.Species == 0)
-        {
-            await _dialogService.ShowAlertAsync("Import Failed", "No valid Showdown set found on the clipboard.");
-            return;
-        }
-
-        var reformatted = set.Text;
-        var confirm = await _dialogService.ShowConfirmAsync("Import Showdown Set?", reformatted);
-        if (!confirm)
-            return;
-
-        if (PkmEditor?.Entity is null)
-        {
-            await _dialogService.ShowAlertAsync("No Pokemon", "Load a save file first to import a Showdown set.");
-            return;
-        }
-
-        var pk = PkmEditor.PreparePKM();
-        if (pk is null)
-            return;
-
-        pk.ApplySetDetails(set);
-        PkmEditor.PopulateFields(pk);
-        StatusMessage = "Imported Showdown set from clipboard.";
     }
 
     [RelayCommand]
     private async Task ExportShowdownAsync()
     {
-        if (PkmEditor?.Entity is not { } pk || pk.Species == 0)
+        try
         {
-            await _dialogService.ShowAlertAsync("No Pokemon", "No Pokemon data to export.");
-            return;
-        }
+            if (PkmEditor?.Entity is not { } pk || pk.Species == 0)
+            {
+                await _dialogService.ShowAlertAsync("No Pokemon", "No Pokemon data to export.");
+                return;
+            }
 
-        var text = ShowdownParsing.GetShowdownText(pk);
-        if (string.IsNullOrWhiteSpace(text))
+            var text = ShowdownParsing.GetShowdownText(pk);
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                await _dialogService.ShowAlertAsync("Export Failed", "Could not generate Showdown text.");
+                return;
+            }
+
+            var clipboard = GetClipboard();
+            if (clipboard is null)
+            {
+                await _dialogService.ShowAlertAsync("Clipboard Error", "Could not access clipboard.");
+                return;
+            }
+
+            await clipboard.SetTextAsync(text);
+            StatusMessage = "Exported Showdown set to clipboard.";
+            await _dialogService.ShowAlertAsync("Showdown Export", text);
+        }
+        catch (Exception ex)
         {
-            await _dialogService.ShowAlertAsync("Export Failed", "Could not generate Showdown text.");
-            return;
+            StatusMessage = $"Export Showdown error: {ex.Message}";
         }
-
-        var clipboard = GetClipboard();
-        if (clipboard is null)
-        {
-            await _dialogService.ShowAlertAsync("Clipboard Error", "Could not access clipboard.");
-            return;
-        }
-
-        await clipboard.SetTextAsync(text);
-        StatusMessage = "Exported Showdown set to clipboard.";
-        await _dialogService.ShowAlertAsync("Showdown Export", text);
     }
 
     #endregion
@@ -606,18 +734,25 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand]
     private async Task OpenQRDialogAsync()
     {
-        if (PkmEditor?.Entity is not { } pk || pk.Species == 0)
+        try
         {
-            await _dialogService.ShowAlertAsync("No Pokemon", "No Pokemon data to generate QR code.");
-            return;
+            if (PkmEditor?.Entity is not { } pk || pk.Species == 0)
+            {
+                await _dialogService.ShowAlertAsync("No Pokemon", "No Pokemon data to generate QR code.");
+                return;
+            }
+
+            var vm = new QRDialogViewModel(pk);
+            var view = new QRDialogView { DataContext = vm };
+
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
         }
-
-        var vm = new QRDialogViewModel(pk);
-        var view = new QRDialogView { DataContext = vm };
-
-        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow is not null)
-            await view.ShowDialog(mainWindow);
+        catch (Exception ex)
+        {
+            StatusMessage = $"QR Code error: {ex.Message}";
+        }
     }
 
     #endregion
