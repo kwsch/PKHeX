@@ -1302,6 +1302,7 @@ SAV_HallOfFame1.L_PartyNum=パーティ:
 SAV_HallOfFame1.Label_Species=ポケモン:
 SAV_HallOfFame3.B_Cancel=キャンセル
 SAV_HallOfFame3.B_Clear=クリア
+SAV_HallOfFame3.B_ImportParty=手持ちから全員を取り込む
 SAV_HallOfFame3.B_Save=保存
 SAV_HallOfFame3.CHK_Shiny=色違い
 SAV_HallOfFame3.L_Level=レベル:

@@ -1302,6 +1302,7 @@ SAV_HallOfFame1.L_PartyNum=Party Index:
 SAV_HallOfFame1.Label_Species=Species:
 SAV_HallOfFame3.B_Cancel=Cancel
 SAV_HallOfFame3.B_Clear=Clear
+SAV_HallOfFame3.B_ImportParty=從隊伍匯入全部
 SAV_HallOfFame3.B_Save=Save
 SAV_HallOfFame3.CHK_Shiny=Shiny
 SAV_HallOfFame3.L_Level=Level:

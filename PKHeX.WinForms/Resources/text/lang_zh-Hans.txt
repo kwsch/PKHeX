@@ -1302,6 +1302,7 @@ SAV_HallOfFame1.L_PartyNum=队伍索引:
 SAV_HallOfFame1.Label_Species=种类:
 SAV_HallOfFame3.B_Cancel=取消
 SAV_HallOfFame3.B_Clear=清空
+SAV_HallOfFame3.B_ImportParty=从队伍导入全部
 SAV_HallOfFame3.B_Save=保存
 SAV_HallOfFame3.CHK_Shiny=异色
 SAV_HallOfFame3.L_Level=等级:

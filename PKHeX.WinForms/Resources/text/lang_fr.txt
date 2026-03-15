@@ -1302,6 +1302,7 @@ SAV_HallOfFame1.L_PartyNum=Index équipe :
 SAV_HallOfFame1.Label_Species=Espèce :
 SAV_HallOfFame3.B_Cancel=Annuler
 SAV_HallOfFame3.B_Clear=Effacer
+SAV_HallOfFame3.B_ImportParty=Tout importer depuis l'équipe
 SAV_HallOfFame3.B_Save=Sauvegarder
 SAV_HallOfFame3.CHK_Shiny=Chromatique
 SAV_HallOfFame3.L_Level=Niveau :
