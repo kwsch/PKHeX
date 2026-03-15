@@ -5,60 +5,76 @@
              x:Class="PKHeX.Avalonia.Views.SAVEditorView"
              x:DataType="vm:SAVEditorViewModel">
 
-    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-            BorderThickness="1" CornerRadius="4" Padding="8">
-        <DockPanel>
-            <!-- Header -->
-            <TextBlock DockPanel.Dock="Top" Text="SAV Editor" FontWeight="Bold" FontSize="16" Margin="0,0,0,8" />
+    <TabControl Padding="0" Margin="2">
+        <!-- Box Tab -->
+        <TabItem Header="Box">
+            <DockPanel Margin="2">
+                <!-- Box Navigation: [<] BoxName [>] -->
+                <Grid DockPanel.Dock="Top" ColumnDefinitions="30,*,30" Margin="0,2,0,4">
+                    <Button Grid.Column="0" Content="&lt;" Command="{Binding PreviousBoxCommand}"
+                            Width="30" Height="24" HorizontalContentAlignment="Center"
+                            FontSize="12" Padding="0" />
+                    <TextBlock Grid.Column="1" Text="{Binding BoxName}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontWeight="SemiBold" FontSize="12" />
+                    <Button Grid.Column="2" Content="&gt;" Command="{Binding NextBoxCommand}"
+                            Width="30" Height="24" HorizontalContentAlignment="Center"
+                            FontSize="12" Padding="0" />
+                </Grid>
 
-            <TabControl>
-                <!-- Box Tab -->
-                <TabItem Header="Box">
-                    <DockPanel>
-                        <!-- Box Navigation -->
-                        <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto" Margin="0,0,0,8">
-                            <Button Grid.Column="0" Content="&lt;" Command="{Binding PreviousBoxCommand}"
-                                    Width="30" HorizontalContentAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="{Binding BoxName}"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                                       FontWeight="SemiBold" />
-                            <Button Grid.Column="2" Content="&gt;" Command="{Binding NextBoxCommand}"
-                                    Width="30" HorizontalContentAlignment="Center" />
-                        </Grid>
+                <!-- Box Grid: 6 columns x 5 rows = 30 slots, each 70x58 -->
+                <ItemsControl ItemsSource="{Binding BoxSlots}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="6" Rows="5" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <views:SlotControl />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </DockPanel>
+        </TabItem>
 
-                        <!-- Box Grid (5 columns x 6 rows = 30 slots) -->
-                        <ItemsControl ItemsSource="{Binding BoxSlots}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="6" Rows="5" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <views:SlotControl />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </DockPanel>
-                </TabItem>
+        <!-- Party Tab -->
+        <TabItem Header="Party">
+            <StackPanel Margin="2,4">
+                <TextBlock Text="Party" FontWeight="SemiBold" FontSize="12" Margin="0,0,0,4" />
+                <ItemsControl ItemsSource="{Binding PartySlots}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="6" Rows="1" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <views:SlotControl />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </TabItem>
 
-                <!-- Party Tab -->
-                <TabItem Header="Party">
-                    <ItemsControl ItemsSource="{Binding PartySlots}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="6" Rows="1" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <views:SlotControl />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </TabItem>
-            </TabControl>
-        </DockPanel>
-    </Border>
+        <!-- Other Tab (placeholder for daycare, extra slots) -->
+        <TabItem Header="Other">
+            <StackPanel Margin="4">
+                <TextBlock Text="Other Slots" FontWeight="SemiBold" FontSize="12" />
+                <TextBlock Text="Daycare, extra slots, etc." FontSize="11" Opacity="0.6" Margin="0,4,0,0" />
+            </StackPanel>
+        </TabItem>
+
+        <!-- SAV Tab (tool buttons) -->
+        <TabItem Header="SAV">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <WrapPanel Margin="4" Orientation="Horizontal">
+                    <TextBlock Text="SAV tools appear here when a save file is loaded."
+                               FontSize="11" Opacity="0.6" Margin="0,0,0,8"
+                               TextWrapping="Wrap" />
+                </WrapPanel>
+            </ScrollViewer>
+        </TabItem>
+    </TabControl>
 
 </UserControl>

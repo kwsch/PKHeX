@@ -4,13 +4,13 @@
              xmlns:vm="using:PKHeX.Avalonia.ViewModels"
              x:Class="PKHeX.Avalonia.Views.SlotControl"
              x:DataType="controls:SlotModel"
-             Width="72" Height="60"
-             Margin="1">
+             Width="70" Height="58"
+             Margin="0">
 
     <Border Name="SlotBorder"
             Background="Transparent"
             BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
-            BorderThickness="1" CornerRadius="2"
+            BorderThickness="1"
             Cursor="Hand"
             DragDrop.AllowDrop="True">
         <Border.ContextMenu>

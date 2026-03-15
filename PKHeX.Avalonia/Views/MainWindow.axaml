@@ -5,13 +5,13 @@
         x:Class="PKHeX.Avalonia.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="{Binding Title}"
-        Width="800" Height="600"
-        MinWidth="700" MinHeight="500"
+        Width="864" Height="409"
+        CanResize="False"
         DragDrop.AllowDrop="True">
 
     <DockPanel>
-        <!-- Menu Bar -->
-        <Menu DockPanel.Dock="Top">
+        <!-- Menu Bar (25px) -->
+        <Menu DockPanel.Dock="Top" Height="25">
             <MenuItem Header="_File">
                 <MenuItem Header="_Open..." Command="{Binding OpenFileCommand}" InputGesture="Ctrl+O" />
                 <MenuItem Header="_Save..." Command="{Binding SaveFileCommand}" InputGesture="Ctrl+S" />
@@ -57,21 +57,22 @@
         </Menu>
 
         <!-- Status Bar -->
-        <Border DockPanel.Dock="Bottom" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" Padding="5,2">
-            <TextBlock Text="{Binding StatusMessage}" FontSize="12" />
+        <Border DockPanel.Dock="Bottom"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                Padding="5,2" Height="22">
+            <TextBlock Text="{Binding StatusMessage}" FontSize="11" VerticalAlignment="Center" />
         </Border>
 
-        <!-- Main Content -->
-        <Grid ColumnDefinitions="Auto,*">
+        <!-- Main Content: PKM Editor (400px) | SAV Editor (remaining) -->
+        <Grid ColumnDefinitions="400,1,*">
             <!-- PKM Editor (Left Panel) -->
-            <Border Grid.Column="0" Padding="5" MinWidth="300">
-                <views:PKMEditorView DataContext="{Binding PkmEditor}" />
-            </Border>
+            <views:PKMEditorView Grid.Column="0" DataContext="{Binding PkmEditor}" />
+
+            <!-- Splitter -->
+            <Border Grid.Column="1" Background="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
 
             <!-- SAV Editor (Right Panel) -->
-            <Border Grid.Column="1" Padding="5">
-                <views:SAVEditorView DataContext="{Binding SavEditor}" />
-            </Border>
+            <views:SAVEditorView Grid.Column="2" DataContext="{Binding SavEditor}" />
         </Grid>
     </DockPanel>
 
