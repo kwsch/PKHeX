@@ -1,0 +1,69 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     xmlns:controls="using:PKHeX.Avalonia.Controls"
+                     xmlns:core="using:PKHeX.Core"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.MysteryGiftDBView"
+                     x:DataType="vm:MysteryGiftDBViewModel"
+                     Title="Mystery Gift Database"
+                     Width="560" Height="750"
+                     MinWidth="450" MinHeight="500"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Top: Search/Filter bar -->
+        <StackPanel DockPanel.Dock="Top" Spacing="6" Margin="0,0,0,8">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Species:" VerticalAlignment="Center" />
+                <ComboBox ItemsSource="{Binding SpeciesList}"
+                          SelectedIndex="{Binding FilterSpeciesIndex}"
+                          MinWidth="180">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="core:ComboItem">
+                            <TextBlock Text="{Binding Text}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Content="Search" Command="{Binding SearchCommand}" Width="80"
+                        IsEnabled="{Binding IsSearchEnabled}" />
+                <Button Content="Reset" Command="{Binding ResetFiltersCommand}" Width="70" />
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Bottom: Status bar, details, and paging -->
+        <StackPanel DockPanel.Dock="Bottom" Spacing="4" Margin="0,8,0,0">
+            <!-- Gift detail text -->
+            <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                    BorderThickness="1" Padding="6" CornerRadius="4" MinHeight="60"
+                    MaxHeight="100">
+                <ScrollViewer>
+                    <TextBlock Text="{Binding DetailText}" FontSize="11"
+                               TextWrapping="Wrap" />
+                </ScrollViewer>
+            </Border>
+
+            <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                <Button Content="&lt;" Command="{Binding PreviousPageCommand}" Width="40" />
+                <TextBlock Text="{Binding CurrentPage, StringFormat='Page {0}'}"
+                           VerticalAlignment="Center" />
+                <TextBlock Text="{Binding TotalPages, StringFormat='/ {0}'}"
+                           VerticalAlignment="Center" />
+                <Button Content="&gt;" Command="{Binding NextPageCommand}" Width="40" />
+            </StackPanel>
+            <TextBlock Text="{Binding StatusText}" FontSize="12"
+                       HorizontalAlignment="Center" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                <Button Content="Close" Click="OnCloseClick" Width="80" />
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Center: PokeGrid -->
+        <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                BorderThickness="1" Padding="2" CornerRadius="4">
+            <controls:PokeGrid Slots="{Binding Slots}" />
+        </Border>
+    </DockPanel>
+
+</views:SubformWindow>

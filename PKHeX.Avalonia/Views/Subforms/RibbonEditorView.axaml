@@ -1,0 +1,55 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.RibbonEditorView"
+                     x:DataType="vm:RibbonEditorViewModel"
+                     Title="Ribbon Editor"
+                     Width="450" Height="500"
+                     MinWidth="350" MinHeight="300"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="All" Command="{Binding SelectAllCommand}" Width="60" />
+            <Button Content="None" Command="{Binding SelectNoneCommand}" Width="60" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <!-- Search box -->
+        <TextBox DockPanel.Dock="Top" Watermark="Search ribbons..."
+                 Text="{Binding SearchText}" Margin="0,0,0,8" />
+
+        <!-- Ribbon list -->
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding FilteredRibbons}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:RibbonModel">
+                        <Grid ColumnDefinitions="Auto,*" Margin="4,2">
+                            <!-- Boolean ribbons get a CheckBox -->
+                            <CheckBox Grid.Column="0"
+                                      IsChecked="{Binding IsChecked}"
+                                      IsVisible="{Binding IsBooleanType}"
+                                      VerticalAlignment="Center" />
+                            <!-- Byte ribbons get a NumericUpDown -->
+                            <NumericUpDown Grid.Column="0"
+                                           Value="{Binding Count}"
+                                           Minimum="0"
+                                           Maximum="{Binding MaxCount}"
+                                           IsVisible="{Binding !IsBooleanType}"
+                                           Width="80"
+                                           VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{Binding DisplayName}"
+                                       VerticalAlignment="Center" Margin="8,0,0,0" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

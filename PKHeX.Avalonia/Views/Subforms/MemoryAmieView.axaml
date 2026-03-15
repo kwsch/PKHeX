@@ -1,0 +1,178 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     xmlns:core="using:PKHeX.Core"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.MemoryAmieView"
+                     x:DataType="vm:MemoryAmieViewModel"
+                     Title="Memories / Amie Editor"
+                     Width="520" Height="600"
+                     MinWidth="400" MinHeight="450"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="12">
+
+                <!-- Friendship / Affection / Stats -->
+                <HeaderedContentControl Header="Stats">
+                    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                            BorderThickness="1" Padding="8" CornerRadius="4">
+                        <StackPanel Spacing="6">
+                            <Grid ColumnDefinitions="150,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="0,0,0,0">
+                                <!-- OT Friendship -->
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="OT Friendship:" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding OtFriendship}"
+                                               Minimum="0" Maximum="255" Width="120" HorizontalAlignment="Left" />
+
+                                <!-- HT Friendship -->
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="HT Friendship:" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding HtFriendship}"
+                                               Minimum="0" Maximum="255" Width="120" HorizontalAlignment="Left" />
+
+                                <!-- OT Affection -->
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="OT Affection:"
+                                           VerticalAlignment="Center" IsVisible="{Binding HasAffection}" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding OtAffection}"
+                                               Minimum="0" Maximum="255" Width="120" HorizontalAlignment="Left"
+                                               IsVisible="{Binding HasAffection}" />
+
+                                <!-- HT Affection -->
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="HT Affection:"
+                                           VerticalAlignment="Center" IsVisible="{Binding HasAffection}" />
+                                <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding HtAffection}"
+                                               Minimum="0" Maximum="255" Width="120" HorizontalAlignment="Left"
+                                               IsVisible="{Binding HasAffection}" />
+
+                                <!-- Fullness -->
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Fullness:"
+                                           VerticalAlignment="Center" IsVisible="{Binding HasFullnessEnjoyment}" />
+                                <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Fullness}"
+                                               Minimum="0" Maximum="255" Width="120" HorizontalAlignment="Left"
+                                               IsVisible="{Binding HasFullnessEnjoyment}" />
+
+                                <!-- Enjoyment -->
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Enjoyment:"
+                                           VerticalAlignment="Center" IsVisible="{Binding HasFullnessEnjoyment}" />
+                                <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Enjoyment}"
+                                               Minimum="0" Maximum="255" Width="120" HorizontalAlignment="Left"
+                                               IsVisible="{Binding HasFullnessEnjoyment}" />
+
+                                <!-- Sociability -->
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="Sociability:"
+                                           VerticalAlignment="Center" IsVisible="{Binding HasSociability}" />
+                                <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Sociability}"
+                                               Minimum="0" Maximum="255" Width="120" HorizontalAlignment="Left"
+                                               IsVisible="{Binding HasSociability}" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </HeaderedContentControl>
+
+                <!-- OT Memories -->
+                <HeaderedContentControl Header="{Binding OtLabel}"
+                                        IsVisible="{Binding HasMemories}">
+                    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                            BorderThickness="1" Padding="8" CornerRadius="4">
+                        <StackPanel Spacing="6" IsEnabled="{Binding IsOTEditable}">
+                            <Grid ColumnDefinitions="80,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,0,0,0">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Memory:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="0" Grid.Column="1"
+                                          ItemsSource="{Binding MemoryList}"
+                                          SelectedIndex="{Binding OtMemoryIndex}"
+                                          HorizontalAlignment="Stretch">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate x:DataType="core:ComboItem">
+                                            <TextBlock Text="{Binding Text}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Intensity:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="1" Grid.Column="1"
+                                          ItemsSource="{Binding IntensityList}"
+                                          SelectedIndex="{Binding OtIntensityIndex}"
+                                          HorizontalAlignment="Stretch" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Feeling:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="2" Grid.Column="1"
+                                          ItemsSource="{Binding OTFeelingList}"
+                                          SelectedIndex="{Binding OtFeelingIndex}"
+                                          HorizontalAlignment="Stretch" />
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="TextVar:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="3" Grid.Column="1"
+                                          ItemsSource="{Binding OTVarList}"
+                                          SelectedIndex="{Binding OtVarIndex}"
+                                          HorizontalAlignment="Stretch">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate x:DataType="core:ComboItem">
+                                            <TextBlock Text="{Binding Text}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </HeaderedContentControl>
+
+                <!-- HT Memories -->
+                <HeaderedContentControl Header="{Binding HtLabel}"
+                                        IsVisible="{Binding HasMemories}">
+                    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                            BorderThickness="1" Padding="8" CornerRadius="4">
+                        <StackPanel Spacing="6">
+                            <Grid ColumnDefinitions="80,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,0,0,0">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Memory:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="0" Grid.Column="1"
+                                          ItemsSource="{Binding MemoryList}"
+                                          SelectedIndex="{Binding HtMemoryIndex}"
+                                          HorizontalAlignment="Stretch">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate x:DataType="core:ComboItem">
+                                            <TextBlock Text="{Binding Text}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Intensity:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="1" Grid.Column="1"
+                                          ItemsSource="{Binding IntensityList}"
+                                          SelectedIndex="{Binding HtIntensityIndex}"
+                                          HorizontalAlignment="Stretch" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Feeling:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="2" Grid.Column="1"
+                                          ItemsSource="{Binding HTFeelingList}"
+                                          SelectedIndex="{Binding HtFeelingIndex}"
+                                          HorizontalAlignment="Stretch" />
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="TextVar:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="3" Grid.Column="1"
+                                          ItemsSource="{Binding HTVarList}"
+                                          SelectedIndex="{Binding HtVarIndex}"
+                                          HorizontalAlignment="Stretch">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate x:DataType="core:ComboItem">
+                                            <TextBlock Text="{Binding Text}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </HeaderedContentControl>
+
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

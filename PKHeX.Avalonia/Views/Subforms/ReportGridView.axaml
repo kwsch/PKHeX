@@ -1,0 +1,61 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.ReportGridView"
+                     x:DataType="vm:ReportGridViewModel"
+                     Title="Report Grid"
+                     Width="900" Height="550"
+                     MinWidth="600" MinHeight="350"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Top: Controls -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+            <RadioButton Content="All Boxes" IsChecked="{Binding IsAllBoxes}" GroupName="BoxMode" />
+            <RadioButton Content="Current Box" GroupName="BoxMode" />
+            <Button Content="Load" Command="{Binding LoadDataCommand}" Width="80" />
+            <Button Content="Export CSV" Command="{Binding ExportCsvCommand}" Width="100" />
+        </StackPanel>
+
+        <!-- Bottom: Status -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+            <TextBlock Text="{Binding StatusText}" FontSize="12" VerticalAlignment="Center" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                <Button Content="Close" Click="OnCloseClick" Width="80" />
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Center: DataGrid -->
+        <DataGrid ItemsSource="{Binding Rows}"
+                  IsReadOnly="True"
+                  CanUserSortColumns="True"
+                  CanUserResizeColumns="True"
+                  GridLinesVisibility="All"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Position" Binding="{Binding Position}" Width="140" />
+                <DataGridTextColumn Header="Species" Binding="{Binding Species}" Width="100" />
+                <DataGridTextColumn Header="Lv" Binding="{Binding Level}" Width="40" />
+                <DataGridTextColumn Header="Nature" Binding="{Binding Nature}" Width="80" />
+                <DataGridTextColumn Header="Ability" Binding="{Binding Ability}" Width="100" />
+                <DataGridTextColumn Header="Held Item" Binding="{Binding HeldItem}" Width="100" />
+                <DataGridTextColumn Header="Move 1" Binding="{Binding Move1}" Width="90" />
+                <DataGridTextColumn Header="Move 2" Binding="{Binding Move2}" Width="90" />
+                <DataGridTextColumn Header="Move 3" Binding="{Binding Move3}" Width="90" />
+                <DataGridTextColumn Header="Move 4" Binding="{Binding Move4}" Width="90" />
+                <DataGridTextColumn Header="OT" Binding="{Binding OT}" Width="80" />
+                <DataGridTextColumn Header="HP" Binding="{Binding IV_HP}" Width="35" />
+                <DataGridTextColumn Header="ATK" Binding="{Binding IV_ATK}" Width="35" />
+                <DataGridTextColumn Header="DEF" Binding="{Binding IV_DEF}" Width="35" />
+                <DataGridTextColumn Header="SPA" Binding="{Binding IV_SPA}" Width="35" />
+                <DataGridTextColumn Header="SPD" Binding="{Binding IV_SPD}" Width="35" />
+                <DataGridTextColumn Header="SPE" Binding="{Binding IV_SPE}" Width="35" />
+                <DataGridCheckBoxColumn Header="Shiny" Binding="{Binding IsShiny}" Width="50" />
+                <DataGridTextColumn Header="Ball" Binding="{Binding Ball}" Width="80" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+
+</views:SubformWindow>

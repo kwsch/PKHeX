@@ -1,0 +1,83 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.EventFlags2View"
+                     x:DataType="vm:EventFlags2ViewModel"
+                     Title="{Binding WindowTitle}"
+                     Width="600" Height="550"
+                     MinWidth="400" MinHeight="350"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <!-- Search box -->
+        <TextBox DockPanel.Dock="Top" Watermark="Search flags / works / system..."
+                 Text="{Binding SearchText}" Margin="0,0,0,8" />
+
+        <!-- Tabs: Flags, System, Works -->
+        <TabControl SelectedIndex="{Binding SelectedTabIndex}">
+            <!-- Flags tab -->
+            <TabItem Header="Flags">
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding FilteredFlags}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:EventFlag8Model">
+                                <CheckBox IsChecked="{Binding Value}" Margin="4,1">
+                                    <TextBlock Text="{Binding Label}" />
+                                </CheckBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- System Flags tab -->
+            <TabItem Header="System" IsVisible="{Binding HasSystemFlags}">
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding FilteredSystemFlags}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:EventFlag8Model">
+                                <CheckBox IsChecked="{Binding Value}" Margin="4,1">
+                                    <TextBlock Text="{Binding Label}" />
+                                </CheckBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Works tab -->
+            <TabItem Header="Works" IsVisible="{Binding HasWorks}">
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding FilteredWorks}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:EventWork8Model">
+                                <Grid ColumnDefinitions="Auto,*" Margin="4,2">
+                                    <NumericUpDown Grid.Column="0"
+                                                   Value="{Binding Value}"
+                                                   Minimum="0"
+                                                   Maximum="2147483647"
+                                                   Width="120"
+                                                   VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Label}"
+                                               VerticalAlignment="Center"
+                                               Margin="8,0,0,0" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+
+</views:SubformWindow>
