@@ -1,0 +1,50 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.Gear4View"
+                     x:DataType="vm:Gear4ViewModel"
+                     Title="Gear Editor"
+                     Width="650" Height="600"
+                     MinWidth="500" MinHeight="400"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Unlock All" Command="{Binding UnlockAllCommand}" />
+            <Button Content="Clear" Command="{Binding ClearAllCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <!-- Shiny Outfits -->
+        <WrapPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
+            <TextBlock Text="Shiny Outfits:" VerticalAlignment="Center" Margin="0,0,8,0" FontWeight="SemiBold" />
+            <CheckBox Content="Groudon" IsChecked="{Binding ShinyGroudon}" Margin="4" />
+            <CheckBox Content="Lucario" IsChecked="{Binding ShinyLucario}" Margin="4" />
+            <CheckBox Content="Electivire" IsChecked="{Binding ShinyElectivire}" Margin="4" />
+            <CheckBox Content="Kyogre" IsChecked="{Binding ShinyKyogre}" Margin="4" />
+            <CheckBox Content="Roserade" IsChecked="{Binding ShinyRoserade}" Margin="4" />
+            <CheckBox Content="Pachirisu" IsChecked="{Binding ShinyPachirisu}" Margin="4" />
+        </WrapPanel>
+
+        <!-- Gear list -->
+        <DataGrid ItemsSource="{Binding GearItems}"
+                  AutoGenerateColumns="False"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  IsReadOnly="False"
+                  GridLinesVisibility="Horizontal">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Character" Binding="{Binding CharacterStyle}" IsReadOnly="True" Width="120" />
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" IsReadOnly="True" Width="80" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" Width="180" />
+                <DataGridCheckBoxColumn Header="Unlocked" Binding="{Binding Unlocked}" Width="80" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+
+</views:SubformWindow>

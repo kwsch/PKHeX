@@ -1,0 +1,169 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVMisc3View"
+                     x:DataType="vm:SAVMisc3ViewModel"
+                     Title="Misc Editor (Gen 3)"
+                     Width="550" Height="600"
+                     MinWidth="450" MinHeight="450"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <TabControl>
+            <!-- Records Tab -->
+            <TabItem Header="Records">
+                <ScrollViewer>
+                    <StackPanel Spacing="8" Margin="8">
+                        <!-- Coins -->
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Coins" FontWeight="SemiBold" />
+                            <NumericUpDown Value="{Binding Coins}" Minimum="0" Maximum="9999" />
+                        </StackPanel>
+
+                        <!-- BP (Emerald only) -->
+                        <StackPanel Spacing="4" IsVisible="{Binding ShowBp}">
+                            <TextBlock Text="Battle Points" FontWeight="SemiBold" />
+                            <Grid ColumnDefinitions="*,*" Margin="0,0,0,0">
+                                <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                                    <TextBlock Text="BP" />
+                                    <NumericUpDown Value="{Binding Bp}" Minimum="0" Maximum="9999" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
+                                    <TextBlock Text="BP Earned" />
+                                    <NumericUpDown Value="{Binding BpEarned}" Minimum="0" Maximum="65535" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Record selector -->
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Record" FontWeight="SemiBold" />
+                            <ComboBox ItemsSource="{Binding RecordItems}"
+                                      SelectedIndex="{Binding SelectedRecordIndex}"
+                                      DisplayMemberBinding="{Binding Text}"
+                                      HorizontalAlignment="Stretch" />
+                            <NumericUpDown Value="{Binding RecordValue}" Minimum="0" Maximum="4294967295" />
+                            <Button Content="Apply Record" Command="{Binding UpdateRecordCommand}" />
+                        </StackPanel>
+
+                        <!-- Fame time (visible when record 1 selected) -->
+                        <StackPanel Spacing="4" IsVisible="{Binding ShowFameTime}">
+                            <TextBlock Text="Hall of Fame Time" FontWeight="SemiBold" />
+                            <Grid ColumnDefinitions="*,*,*">
+                                <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                                    <TextBlock Text="Hours" />
+                                    <NumericUpDown Value="{Binding FameHours}" Minimum="0" Maximum="9999" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
+                                    <TextBlock Text="Minutes" />
+                                    <NumericUpDown Value="{Binding FameMinutes}" Minimum="0" Maximum="59" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,0,0">
+                                    <TextBlock Text="Seconds" />
+                                    <NumericUpDown Value="{Binding FameSeconds}" Minimum="0" Maximum="59" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- FRLG Rival -->
+                        <StackPanel Spacing="4" IsVisible="{Binding ShowFrlg}">
+                            <TextBlock Text="Rival Name" FontWeight="SemiBold" />
+                            <TextBox Text="{Binding RivalName}" MaxLength="7" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Joyful Tab -->
+            <TabItem Header="Joyful" IsVisible="{Binding ShowJoyful}">
+                <ScrollViewer>
+                    <StackPanel Spacing="8" Margin="8">
+                        <TextBlock Text="Joyful Game Corner" FontWeight="SemiBold" FontSize="14" />
+
+                        <!-- Jump -->
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Pokemon Jump" FontWeight="SemiBold" />
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                                <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                                    <TextBlock Text="In a Row" />
+                                    <NumericUpDown Value="{Binding JoyfulJumpInRow}" Minimum="0" Maximum="9999" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                                    <TextBlock Text="Score" />
+                                    <NumericUpDown Value="{Binding JoyfulJumpScore}" Minimum="0" Maximum="99990" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,0">
+                                    <TextBlock Text="5 In a Row" />
+                                    <NumericUpDown Value="{Binding JoyfulJump5InRow}" Minimum="0" Maximum="9999" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,0">
+                                    <TextBlock Text="Max Players" />
+                                    <NumericUpDown Value="{Binding JoyfulJumpMaxPlayers}" Minimum="0" Maximum="9999" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Berries -->
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Dodrio Berry Picking" FontWeight="SemiBold" />
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                                <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                                    <TextBlock Text="In a Row" />
+                                    <NumericUpDown Value="{Binding JoyfulBerriesInRow}" Minimum="0" Maximum="9999" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                                    <TextBlock Text="Score" />
+                                    <NumericUpDown Value="{Binding JoyfulBerriesScore}" Minimum="0" Maximum="99990" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,0">
+                                    <TextBlock Text="5 In a Row" />
+                                    <NumericUpDown Value="{Binding JoyfulBerries5InRow}" Minimum="0" Maximum="9999" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Berry Powder -->
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Berry Powder" FontWeight="SemiBold" />
+                            <NumericUpDown Value="{Binding BerryPowder}" Minimum="0" Maximum="99999" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Ferry Tab (Emerald only) -->
+            <TabItem Header="Ferry" IsVisible="{Binding ShowFerry}">
+                <ScrollViewer>
+                    <StackPanel Spacing="8" Margin="8">
+                        <TextBlock Text="Ferry Access Flags" FontWeight="SemiBold" FontSize="14" />
+
+                        <CheckBox Content="Catchable (Mew)" IsChecked="{Binding Catchable}" />
+
+                        <TextBlock Text="Reachable Islands" FontWeight="SemiBold" Margin="0,8,0,0" />
+                        <CheckBox Content="Southern Island" IsChecked="{Binding ReachSouthern}" />
+                        <CheckBox Content="Birth Island" IsChecked="{Binding ReachBirth}" />
+                        <CheckBox Content="Faraway Island" IsChecked="{Binding ReachFaraway}" />
+                        <CheckBox Content="Navel Rock" IsChecked="{Binding ReachNavel}" />
+                        <CheckBox Content="Battle Frontier" IsChecked="{Binding ReachBf}" />
+
+                        <TextBlock Text="Initial Visit Flags" FontWeight="SemiBold" Margin="0,8,0,0" />
+                        <CheckBox Content="Southern Island" IsChecked="{Binding InitialSouthern}" />
+                        <CheckBox Content="Birth Island" IsChecked="{Binding InitialBirth}" />
+                        <CheckBox Content="Faraway Island" IsChecked="{Binding InitialFaraway}" />
+                        <CheckBox Content="Navel Rock" IsChecked="{Binding InitialNavel}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+
+</views:SubformWindow>

@@ -1,0 +1,85 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVHallOfFame3View"
+                     x:DataType="vm:SAVHallOfFame3ViewModel"
+                     Title="Hall of Fame (Gen 3)"
+                     Width="550" Height="500"
+                     MinWidth="450" MinHeight="400"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Clear" Command="{Binding ClearFieldsCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="140,*" Margin="0,0,0,8">
+            <!-- Left: Entry list -->
+            <DockPanel Grid.Column="0" Margin="0,0,8,0">
+                <TextBlock DockPanel.Dock="Top" Text="Entries" FontWeight="SemiBold" Margin="0,0,0,4" />
+                <ListBox ItemsSource="{Binding EntryIndices}"
+                         SelectedIndex="{Binding SelectedEntryIndex}" />
+            </DockPanel>
+
+            <!-- Right: Details -->
+            <ScrollViewer Grid.Column="1">
+                <StackPanel Spacing="8">
+                    <!-- Member selector -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Team Member" FontWeight="SemiBold" />
+                        <NumericUpDown Value="{Binding MemberIndex}" Minimum="0" Maximum="5" />
+                    </StackPanel>
+
+                    <!-- Species -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Species" FontWeight="SemiBold" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding SelectedSpecies}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" />
+                    </StackPanel>
+
+                    <!-- Nickname -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Nickname" FontWeight="SemiBold" />
+                        <TextBox Text="{Binding Nickname}" MaxLength="10" />
+                    </StackPanel>
+
+                    <!-- Level -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Level" FontWeight="SemiBold" />
+                        <NumericUpDown Value="{Binding Level}" Minimum="0" Maximum="100" />
+                    </StackPanel>
+
+                    <!-- IDs -->
+                    <Grid ColumnDefinitions="*,*" Margin="0,0,0,0">
+                        <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                            <TextBlock Text="TID" FontWeight="SemiBold" />
+                            <TextBox Text="{Binding Tid}" MaxLength="5" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
+                            <TextBlock Text="SID" FontWeight="SemiBold" />
+                            <TextBox Text="{Binding Sid}" MaxLength="5" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- PID -->
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="PID" FontWeight="SemiBold" />
+                        <TextBox Text="{Binding Pid}" MaxLength="8" />
+                    </StackPanel>
+
+                    <!-- Shiny indicator -->
+                    <CheckBox Content="Shiny" IsChecked="{Binding IsShiny}" IsEnabled="False" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>

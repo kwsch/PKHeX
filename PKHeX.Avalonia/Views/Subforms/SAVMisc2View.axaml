@@ -1,0 +1,34 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVMisc2View"
+                     x:DataType="vm:SAVMisc2ViewModel"
+                     Title="Misc Editor (Gen 2)"
+                     Width="350" Height="200"
+                     MinWidth="300" MinHeight="150"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="False">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <StackPanel Spacing="12">
+            <Button Content="Enable GS Ball Event (Virtual Console)"
+                    Command="{Binding EnableGsBallCommand}"
+                    IsEnabled="{Binding GsBallEnabled}"
+                    IsVisible="{Binding ShowGsBallButton}"
+                    HorizontalAlignment="Stretch" Height="36" />
+
+            <TextBlock Text="No additional misc options for this save type."
+                       IsVisible="{Binding !ShowGsBallButton}"
+                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+        </StackPanel>
+    </DockPanel>
+
+</views:SubformWindow>

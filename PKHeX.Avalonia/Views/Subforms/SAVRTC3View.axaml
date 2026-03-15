@@ -1,0 +1,72 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVRTC3View"
+                     x:DataType="vm:SAVRTC3ViewModel"
+                     Title="RTC Editor (Gen 3)"
+                     Width="420" Height="400"
+                     MinWidth="350" MinHeight="300"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="False">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Reset" Command="{Binding ResetCommand}" />
+            <Button Content="Berry Fix" Command="{Binding BerryFixCommand}" ToolTip.Tip="Advance elapsed days to fix berry glitch" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <StackPanel Spacing="12">
+            <!-- Initial Clock -->
+            <StackPanel Spacing="4">
+                <TextBlock Text="Initial Clock" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*,*,*">
+                    <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                        <TextBlock Text="Day" />
+                        <NumericUpDown Value="{Binding InitialDay}" Minimum="0" Maximum="65535" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
+                        <TextBlock Text="Hour" />
+                        <NumericUpDown Value="{Binding InitialHour}" Minimum="0" Maximum="23" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,4,0">
+                        <TextBlock Text="Minute" />
+                        <NumericUpDown Value="{Binding InitialMinute}" Minimum="0" Maximum="59" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Spacing="2" Margin="4,0,0,0">
+                        <TextBlock Text="Second" />
+                        <NumericUpDown Value="{Binding InitialSecond}" Minimum="0" Maximum="59" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <!-- Elapsed Clock -->
+            <StackPanel Spacing="4">
+                <TextBlock Text="Elapsed Clock" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*,*,*">
+                    <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                        <TextBlock Text="Day" />
+                        <NumericUpDown Value="{Binding ElapsedDay}" Minimum="0" Maximum="65535" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
+                        <TextBlock Text="Hour" />
+                        <NumericUpDown Value="{Binding ElapsedHour}" Minimum="0" Maximum="23" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,4,0">
+                        <TextBlock Text="Minute" />
+                        <NumericUpDown Value="{Binding ElapsedMinute}" Minimum="0" Maximum="59" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Spacing="2" Margin="4,0,0,0">
+                        <TextBlock Text="Second" />
+                        <NumericUpDown Value="{Binding ElapsedSecond}" Minimum="0" Maximum="59" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+
+</views:SubformWindow>

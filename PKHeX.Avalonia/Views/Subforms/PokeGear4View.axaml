@@ -1,0 +1,43 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.PokeGear4View"
+                     x:DataType="vm:PokeGear4ViewModel"
+                     Title="PokeGear Editor"
+                     Width="400" Height="500"
+                     MinWidth="300" MinHeight="350"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Unlock All" Command="{Binding UnlockAllCommand}" />
+            <Button Content="No Trainers" Command="{Binding UnlockAllNoTrainersCommand}" />
+            <Button Content="Clear" Command="{Binding ClearAllCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <!-- Contact list -->
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Contacts}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:PokeGearEntryModel">
+                        <Grid ColumnDefinitions="Auto,*" Margin="4,2">
+                            <TextBlock Grid.Column="0" Text="{Binding Index, StringFormat='{}{0:00}'}"
+                                       VerticalAlignment="Center" Width="30"
+                                       FontFamily="Consolas,Menlo,monospace"
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                            <TextBlock Grid.Column="1" Text="{Binding Name}"
+                                       VerticalAlignment="Center" Margin="8,0" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

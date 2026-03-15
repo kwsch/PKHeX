@@ -1,0 +1,67 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.PoffinCase4View"
+                     x:DataType="vm:PoffinCase4ViewModel"
+                     Title="Poffin Case Editor"
+                     Width="500" Height="500"
+                     MinWidth="400" MinHeight="400"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Fill All" Command="{Binding FillAllCommand}" />
+            <Button Content="Delete All" Command="{Binding DeleteAllCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="200,*">
+            <!-- Poffin list -->
+            <ListBox Grid.Column="0"
+                     ItemsSource="{Binding Poffins}"
+                     SelectedItem="{Binding SelectedPoffin}"
+                     Margin="0,0,8,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:PoffinEntryModel">
+                        <TextBlock Text="{Binding Label}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Poffin detail -->
+            <ScrollViewer Grid.Column="1">
+                <StackPanel Spacing="8" DataContext="{Binding SelectedPoffin}">
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                          x:DataType="vm:PoffinEntryModel">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Type:" VerticalAlignment="Center" Margin="0,4" />
+                        <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Type}" Minimum="0" Maximum="255" Width="120" Margin="8,4" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Spicy:" VerticalAlignment="Center" Margin="0,4" />
+                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding BoostSpicy}" Minimum="0" Maximum="255" Width="120" Margin="8,4" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Dry:" VerticalAlignment="Center" Margin="0,4" />
+                        <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding BoostDry}" Minimum="0" Maximum="255" Width="120" Margin="8,4" />
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Sweet:" VerticalAlignment="Center" Margin="0,4" />
+                        <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding BoostSweet}" Minimum="0" Maximum="255" Width="120" Margin="8,4" />
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Bitter:" VerticalAlignment="Center" Margin="0,4" />
+                        <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding BoostBitter}" Minimum="0" Maximum="255" Width="120" Margin="8,4" />
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Sour:" VerticalAlignment="Center" Margin="0,4" />
+                        <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding BoostSour}" Minimum="0" Maximum="255" Width="120" Margin="8,4" />
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Smoothness:" VerticalAlignment="Center" Margin="0,4" />
+                        <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Smoothness}" Minimum="0" Maximum="255" Width="120" Margin="8,4" />
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>
