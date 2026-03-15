@@ -1,0 +1,130 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVHallOfFame7View"
+                     x:DataType="vm:SAVHallOfFame7ViewModel"
+                     Title="Hall of Fame (Gen 7)"
+                     Width="500" Height="600"
+                     MinWidth="420" MinHeight="500"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="8">
+                <!-- First Clear -->
+                <TextBlock Text="First Clear Team" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+                    <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Slot 1" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding First1}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Slot 2" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding First2}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Slot 3" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding First3}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Slot 4" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding First4}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Slot 5" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding First5}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Slot 6" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding First6}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+
+                <!-- Current Team -->
+                <TextBlock Text="Current Team" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+                    <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Slot 1" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding Current1}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Slot 2" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding Current2}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Slot 3" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding Current3}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Slot 4" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding Current4}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Slot 5" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding Current5}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Slot 6" />
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedValue="{Binding Current6}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+
+                <!-- Starter EC (USUM only) -->
+                <StackPanel Spacing="2" IsVisible="{Binding ShowStarterEc}">
+                    <TextBlock Text="Starter Encryption Constant" />
+                    <TextBox Text="{Binding StarterEc}" MaxLength="8" Width="120" HorizontalAlignment="Left" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

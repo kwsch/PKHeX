@@ -1,0 +1,67 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.Misc8bView"
+                     x:DataType="vm:Misc8bViewModel"
+                     Title="Misc Editor (BDSP)"
+                     Width="450" Height="500"
+                     MinWidth="350" MinHeight="400"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="8">
+                <TextBlock Text="Event Unlocks" FontWeight="SemiBold" FontSize="14" />
+                <WrapPanel Orientation="Horizontal">
+                    <Button Content="Unlock Spiritomb" Command="{Binding UnlockSpiritombCommand}"
+                            IsEnabled="{Binding SpiritombEnabled}" Margin="0,0,8,4" />
+                    <Button Content="Unlock Darkrai" Command="{Binding UnlockDarkraiCommand}"
+                            IsEnabled="{Binding DarkraiEnabled}" Margin="0,0,8,4" />
+                    <Button Content="Unlock Shaymin" Command="{Binding UnlockShayminCommand}"
+                            IsEnabled="{Binding ShayminEnabled}" Margin="0,0,8,4" />
+                    <Button Content="Unlock Arceus" Command="{Binding UnlockArceusCommand}"
+                            IsEnabled="{Binding ArceusEnabled}" Margin="0,0,8,4" />
+                </WrapPanel>
+
+                <Separator />
+
+                <TextBlock Text="Legendary Actions" FontWeight="SemiBold" FontSize="14" />
+                <WrapPanel Orientation="Horizontal">
+                    <Button Content="Unlock Dialga/Palkia" Command="{Binding UnlockBoxLegendCommand}"
+                            IsEnabled="{Binding BoxLegendEnabled}" Margin="0,0,8,4" />
+                    <Button Content="Respawn Roamer" Command="{Binding RespawnRoamerCommand}"
+                            IsEnabled="{Binding RoamerEnabled}" Margin="0,0,8,4" />
+                </WrapPanel>
+
+                <Separator />
+
+                <TextBlock Text="Other" FontWeight="SemiBold" FontSize="14" />
+                <WrapPanel Orientation="Horizontal">
+                    <Button Content="Unlock All Zones" Command="{Binding UnlockZonesCommand}"
+                            IsEnabled="{Binding ZonesEnabled}" Margin="0,0,8,4" />
+                    <Button Content="Unlock Fashion" Command="{Binding UnlockFashionCommand}"
+                            IsEnabled="{Binding FashionEnabled}" Margin="0,0,8,4" />
+                </WrapPanel>
+
+                <Separator />
+
+                <TextBlock Text="Trainer Battles" FontWeight="SemiBold" FontSize="14" />
+                <WrapPanel Orientation="Horizontal">
+                    <Button Content="Defeat All Trainers" Command="{Binding DefeatEyecatchCommand}"
+                            IsEnabled="{Binding DefeatEyecatchEnabled}" Margin="0,0,8,4" />
+                    <Button Content="Rebattle All Trainers" Command="{Binding RebattleEyecatchCommand}"
+                            IsEnabled="{Binding RebattleEyecatchEnabled}" Margin="0,0,8,4" />
+                </WrapPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

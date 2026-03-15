@@ -1,0 +1,96 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.FlagWork8bView"
+                     x:DataType="vm:FlagWork8bViewModel"
+                     Title="Flag/Work Editor (BDSP)"
+                     Width="750" Height="650"
+                     MinWidth="600" MinHeight="500"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <TabControl>
+            <!-- Flags Tab -->
+            <TabItem Header="Flags">
+                <DockPanel>
+                    <TextBox DockPanel.Dock="Top" Watermark="Search flags..."
+                             Text="{Binding FlagSearchText}" Margin="0,0,0,4" />
+                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+                        <TextBlock Text="Custom Flag:" VerticalAlignment="Center" />
+                        <NumericUpDown Value="{Binding CustomFlagIndex}" Minimum="0" Maximum="{Binding MaxFlagIndex}" Width="100" />
+                        <CheckBox Content="Value" IsChecked="{Binding CustomFlagValue}" />
+                        <Button Content="Apply" Command="{Binding ApplyFlagCommand}" />
+                    </StackPanel>
+                    <ScrollViewer>
+                        <ItemsControl ItemsSource="{Binding FilteredFlags}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:FlagEntry8bModel">
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding Value}" Margin="4,1" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
+
+            <!-- System Flags Tab -->
+            <TabItem Header="System">
+                <DockPanel>
+                    <TextBox DockPanel.Dock="Top" Watermark="Search system flags..."
+                             Text="{Binding SystemSearchText}" Margin="0,0,0,4" />
+                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+                        <TextBlock Text="Custom System:" VerticalAlignment="Center" />
+                        <NumericUpDown Value="{Binding CustomSystemIndex}" Minimum="0" Maximum="{Binding MaxSystemIndex}" Width="100" />
+                        <CheckBox Content="Value" IsChecked="{Binding CustomSystemValue}" />
+                        <Button Content="Apply" Command="{Binding ApplySystemFlagCommand}" />
+                    </StackPanel>
+                    <ScrollViewer>
+                        <ItemsControl ItemsSource="{Binding FilteredSystemFlags}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:FlagEntry8bModel">
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding Value}" Margin="4,1" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
+
+            <!-- Work Tab -->
+            <TabItem Header="Work">
+                <DockPanel>
+                    <TextBox DockPanel.Dock="Top" Watermark="Search work values..."
+                             Text="{Binding WorkSearchText}" Margin="0,0,0,4" />
+                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+                        <TextBlock Text="Custom Work:" VerticalAlignment="Center" />
+                        <NumericUpDown Value="{Binding CustomWorkIndex}" Minimum="0" Maximum="{Binding MaxWorkIndex}" Width="100" />
+                        <NumericUpDown Value="{Binding CustomWorkValue}" Minimum="-2147483648" Maximum="2147483647" Width="120" />
+                        <Button Content="Apply" Command="{Binding ApplyWorkCommand}" />
+                    </StackPanel>
+                    <ScrollViewer>
+                        <ItemsControl ItemsSource="{Binding FilteredWork}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:WorkEntry8bModel">
+                                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="4,2">
+                                        <TextBlock Text="{Binding Name}" Width="250" VerticalAlignment="Center" />
+                                        <NumericUpDown Value="{Binding Value}" Minimum="-2147483648" Maximum="2147483647"
+                                                       Width="120" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+
+</views:SubformWindow>

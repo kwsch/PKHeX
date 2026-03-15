@@ -1,0 +1,104 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.PokedexResearchEditorLAView"
+                     x:DataType="vm:PokedexResearchEditorLAViewModel"
+                     Title="Research Editor (Legends Arceus)"
+                     Width="500" Height="700"
+                     MinWidth="400" MinHeight="500"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+            <TextBlock Text="{Binding SpeciesName}" FontWeight="Bold" FontSize="16" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="4">
+                <!-- Catch tasks -->
+                <TextBlock Text="Catch Tasks" FontWeight="SemiBold" FontSize="13" Margin="0,4,0,2" />
+                <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Catch" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Task0}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Catch Alpha" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Task1}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Catch Large" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Task2}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Catch Small" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Task3}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Catch Heavy" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Task4}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Catch Light" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Task5}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Catch at Time" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Task6}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Catch Sleeping" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="7" Grid.Column="1" Value="{Binding Task7}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Catch in Air" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="8" Grid.Column="1" Value="{Binding Task8}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Catch Not Spotted" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="9" Grid.Column="1" Value="{Binding Task9}" Minimum="0" Maximum="9999" Width="120" />
+                </Grid>
+
+                <!-- Battle tasks -->
+                <TextBlock Text="Battle Tasks" FontWeight="SemiBold" FontSize="13" Margin="0,8,0,2" />
+                <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Use Move 1" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Task10}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Use Move 2" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Task11}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Use Move 3" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Task12}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Use Move 4" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Task13}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Defeat w/ Type 1" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Task14}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Defeat w/ Type 2" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Task15}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Defeat w/ Type 3" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Task16}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Defeat" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="7" Grid.Column="1" Value="{Binding Task17}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Strong Style Move" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="8" Grid.Column="1" Value="{Binding Task18}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Agile Style Move" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="9" Grid.Column="1" Value="{Binding Task19}" Minimum="0" Maximum="9999" Width="120" />
+                </Grid>
+
+                <!-- Misc tasks -->
+                <TextBlock Text="Misc Tasks" FontWeight="SemiBold" FontSize="13" Margin="0,8,0,2" />
+                <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Evolve" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Task20}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Give Food" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Task21}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Stun with Items" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Task22}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Scare w/ Scatter Bang" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Task23}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Lure w/ Pokeshi Doll" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Task24}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Leap from Trees" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Task25}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Leap from Leaves" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Task26}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Leap from Snow" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="7" Grid.Column="1" Value="{Binding Task27}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Leap from Ore" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="8" Grid.Column="1" Value="{Binding Task28}" Minimum="0" Maximum="9999" Width="120" />
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Leap from Tussocks" VerticalAlignment="Center" />
+                    <NumericUpDown Grid.Row="9" Grid.Column="1" Value="{Binding Task29}" Minimum="0" Maximum="9999" Width="120" />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

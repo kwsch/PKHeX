@@ -1,0 +1,139 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.Trainer8View"
+                     x:DataType="vm:Trainer8ViewModel"
+                     Title="Trainer Editor (SwSh)"
+                     Width="600" Height="750"
+                     MinWidth="500" MinHeight="600"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="8">
+                <!-- Basic Info -->
+                <TextBlock Text="Basic Info" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                    <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="OT Name" />
+                        <TextBox Text="{Binding OtName}" MaxLength="12" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Gender" />
+                        <ComboBox ItemsSource="{Binding GenderChoices}" SelectedIndex="{Binding Gender}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Game" />
+                        <ComboBox ItemsSource="{Binding GameChoices}" SelectedIndex="{Binding GameIndex}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Money" />
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBox Text="{Binding Money}" MaxLength="7" />
+                            <Button Content="Max" Command="{Binding MaxCashCommand}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Watts" />
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBox Text="{Binding Watt}" MaxLength="10" />
+                            <Button Content="Max" Command="{Binding MaxWattCommand}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="BP" />
+                        <NumericUpDown Value="{Binding Bp}" Minimum="0" Maximum="9999" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="3" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Trainer Card Name" />
+                        <TextBox Text="{Binding TrainerCardName}" MaxLength="12" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="3" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Trainer Card Number" />
+                        <TextBox Text="{Binding TrainerCardNumber}" MaxLength="12" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto">
+                    <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Trainer Card ID" />
+                        <TextBox Text="{Binding TrainerCardId}" MaxLength="6" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Roto Rally Score" />
+                        <TextBox Text="{Binding RotoRallyScore}" MaxLength="10" />
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+
+                <!-- Play Time -->
+                <TextBlock Text="Play Time" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*,*">
+                    <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
+                        <TextBlock Text="Hours" />
+                        <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
+                        <TextBlock Text="Minutes" />
+                        <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,0,0">
+                        <TextBlock Text="Seconds" />
+                        <NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" />
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+
+                <!-- Battle Tower -->
+                <TextBlock Text="Battle Tower" FontWeight="SemiBold" FontSize="14" />
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                    <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Singles Wins" />
+                        <TextBox Text="{Binding BattleTowerSinglesWin}" MaxLength="7" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Doubles Wins" />
+                        <TextBox Text="{Binding BattleTowerDoublesWin}" MaxLength="7" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Singles Streak" />
+                        <TextBox Text="{Binding BattleTowerSinglesStreak}" MaxLength="3" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Doubles Streak" />
+                        <TextBox Text="{Binding BattleTowerDoublesStreak}" MaxLength="3" />
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+
+                <!-- Actions -->
+                <TextBlock Text="Actions" FontWeight="SemiBold" FontSize="14" />
+                <WrapPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,0,8,4">
+                        <ComboBox ItemsSource="{Binding FashionChoices}" SelectedIndex="{Binding FashionIndex}" Width="130" />
+                        <Button Content="Apply Fashion" Command="{Binding ApplyFashionCommand}" />
+                    </StackPanel>
+                </WrapPanel>
+                <WrapPanel Orientation="Horizontal">
+                    <Button Content="Copy Party to Trainer Card" Command="{Binding CopyPartyToTrainerCardCommand}" Margin="0,0,8,4" />
+                    <Button Content="Copy Party to Title Screen" Command="{Binding CopyPartyToTitleScreenCommand}" Margin="0,0,8,4" />
+                    <Button Content="Collect All Diglett" Command="{Binding CollectAllDiglettCommand}"
+                            IsVisible="{Binding ShowCollectDiglett}" />
+                </WrapPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

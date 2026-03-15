@@ -1,0 +1,67 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVCapture7GGView"
+                     x:DataType="vm:SAVCapture7GGViewModel"
+                     Title="Capture Records (Let's Go)"
+                     Width="500" Height="550"
+                     MinWidth="420" MinHeight="450"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Modify All" Command="{Binding ModifyAllCommand}" />
+            <Button Content="Sum Totals" Command="{Binding SumTotalCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="180,*">
+            <!-- Left: Species list -->
+            <ListBox Grid.Column="0" ItemsSource="{Binding SpeciesEntries}"
+                     SelectedIndex="{Binding SelectedSpeciesIndex}"
+                     Margin="0,0,8,0" />
+
+            <!-- Right: Details -->
+            <ScrollViewer Grid.Column="1">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Species" FontWeight="SemiBold" FontSize="14" />
+                    <ComboBox ItemsSource="{Binding SpeciesList}"
+                              SelectedValue="{Binding SelectedSpeciesCombo}"
+                              SelectedValueBinding="{Binding Value}"
+                              DisplayMemberBinding="{Binding Text}"
+                              HorizontalAlignment="Stretch" />
+
+                    <Separator />
+
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Captured" />
+                        <NumericUpDown Value="{Binding SpeciesCaptured}" Minimum="0" Maximum="9999" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Transferred" />
+                        <NumericUpDown Value="{Binding SpeciesTransferred}" Minimum="0" Maximum="999999999" />
+                    </StackPanel>
+
+                    <Separator />
+
+                    <TextBlock Text="Totals" FontWeight="SemiBold" FontSize="14" />
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Total Captured" />
+                        <NumericUpDown Value="{Binding TotalCaptured}" Minimum="0" Maximum="999999999" />
+                    </StackPanel>
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Total Transferred" />
+                        <NumericUpDown Value="{Binding TotalTransferred}" Minimum="0" Maximum="999999999" />
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>

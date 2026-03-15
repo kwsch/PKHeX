@@ -1,0 +1,41 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SealStickers8bView"
+                     x:DataType="vm:SealStickers8bViewModel"
+                     Title="Seal Sticker Editor (BDSP)"
+                     Width="550" Height="500"
+                     MinWidth="400" MinHeight="350"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Give All" Command="{Binding GiveAllCommand}" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding Stickers}"
+                  AutoGenerateColumns="False"
+                  CanUserReorderColumns="False"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  IsReadOnly="False"
+                  SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Index}" Width="50" IsReadOnly="True" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Count" Binding="{Binding Count}" Width="70" />
+                <DataGridTextColumn Header="Total" Binding="{Binding TotalCount}" Width="70" />
+                <DataGridCheckBoxColumn Header="Obtained" Binding="{Binding IsObtained}" Width="80" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+
+</views:SubformWindow>

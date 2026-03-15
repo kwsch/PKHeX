@@ -1,0 +1,50 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.BlockDump8View"
+                     x:DataType="vm:BlockDump8ViewModel"
+                     Title="Block Data Viewer"
+                     Width="700" Height="600"
+                     MinWidth="550" MinHeight="400"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="250,*" RowDefinitions="*">
+            <!-- Left: block list -->
+            <DockPanel Grid.Column="0" Margin="0,0,8,0">
+                <TextBox DockPanel.Dock="Top" Watermark="Filter blocks..."
+                         Text="{Binding FilterText}" Margin="0,0,0,4" />
+                <ListBox ItemsSource="{Binding BlockKeys}"
+                         SelectedItem="{Binding SelectedBlock}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:BlockKeyModel">
+                            <TextBlock Text="{Binding Text}" FontSize="11" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+
+            <!-- Right: block detail -->
+            <StackPanel Grid.Column="1" Spacing="8">
+                <TextBlock Text="{Binding BlockName}" FontWeight="Bold" FontSize="14"
+                           IsVisible="{Binding HasBlockName}" />
+                <TextBlock Text="{Binding BlockDetail}" FontFamily="Consolas,Courier New,monospace"
+                           TextWrapping="Wrap" />
+                <TextBlock Text="Hex Data:" FontWeight="SemiBold" Margin="0,8,0,0" />
+                <ScrollViewer MaxHeight="300">
+                    <TextBlock Text="{Binding HexDump}" FontFamily="Consolas,Courier New,monospace"
+                               TextWrapping="Wrap" FontSize="11" />
+                </ScrollViewer>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>

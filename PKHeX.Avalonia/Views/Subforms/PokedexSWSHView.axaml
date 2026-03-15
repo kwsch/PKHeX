@@ -1,0 +1,46 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.PokedexSWSHView"
+                     x:DataType="vm:PokedexSWSHViewModel"
+                     Title="Pokedex Editor (SwSh)"
+                     Width="750" Height="650"
+                     MinWidth="600" MinHeight="450"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Complete Dex" Command="{Binding CompleteDexCommand}" />
+            <Button Content="Seen All" Command="{Binding SeenAllCommand}" />
+            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" />
+            <Button Content="Seen None" Command="{Binding SeenNoneCommand}" />
+            <Button Content="Caught None" Command="{Binding CaughtNoneCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <TextBox DockPanel.Dock="Top" Watermark="Search species..."
+                 Text="{Binding SearchText}" Margin="0,0,0,8" />
+
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding FilteredEntries}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:PokedexSWSHEntryModel">
+                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="4,2">
+                            <TextBlock Text="{Binding Label}" Width="180" VerticalAlignment="Center" />
+                            <CheckBox Content="Caught" IsChecked="{Binding Caught}" VerticalAlignment="Center" />
+                            <CheckBox Content="Gmax" IsChecked="{Binding Gigantamaxed}" VerticalAlignment="Center" />
+                            <CheckBox Content="Shiny" IsChecked="{Binding DisplayShiny}" VerticalAlignment="Center" />
+                            <NumericUpDown Value="{Binding BattledCount}" Minimum="0" Maximum="999999"
+                                           Width="100" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

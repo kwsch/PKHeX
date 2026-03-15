@@ -1,0 +1,144 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVPokedexGGView"
+                     x:DataType="vm:SAVPokedexGGViewModel"
+                     Title="Pokedex Editor (Let's Go)"
+                     Width="700" Height="700"
+                     MinWidth="600" MinHeight="600"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Give Current" Command="{Binding GiveAllCurrentCommand}" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="200,*">
+            <!-- Left: Species list -->
+            <ListBox Grid.Column="0" ItemsSource="{Binding SpeciesNames}"
+                     SelectedIndex="{Binding SelectedSpeciesIndex}"
+                     Margin="0,0,8,0" />
+
+            <!-- Right: Details -->
+            <ScrollViewer Grid.Column="1">
+                <StackPanel Spacing="8">
+                    <!-- Caught -->
+                    <CheckBox Content="Caught" IsChecked="{Binding Caught}"
+                              IsEnabled="{Binding CaughtEnabled}" />
+
+                    <Separator />
+
+                    <!-- Seen flags -->
+                    <TextBlock Text="Seen" FontWeight="SemiBold" FontSize="14" />
+                    <WrapPanel>
+                        <CheckBox Content="Male" IsChecked="{Binding SeenMaleNormal}"
+                                  IsEnabled="{Binding MaleEnabled}" Margin="0,0,12,0" />
+                        <CheckBox Content="Female" IsChecked="{Binding SeenFemaleNormal}"
+                                  IsEnabled="{Binding FemaleEnabled}" Margin="0,0,12,0" />
+                        <CheckBox Content="Male Shiny" IsChecked="{Binding SeenMaleShiny}"
+                                  IsEnabled="{Binding MaleEnabled}" Margin="0,0,12,0" />
+                        <CheckBox Content="Female Shiny" IsChecked="{Binding SeenFemaleShiny}"
+                                  IsEnabled="{Binding FemaleEnabled}" />
+                    </WrapPanel>
+
+                    <Separator />
+
+                    <!-- Displayed flags -->
+                    <TextBlock Text="Displayed" FontWeight="SemiBold" FontSize="14" />
+                    <WrapPanel>
+                        <CheckBox Content="Male" IsChecked="{Binding DisplayedMaleNormal}"
+                                  IsEnabled="{Binding MaleEnabled}" Margin="0,0,12,0" />
+                        <CheckBox Content="Female" IsChecked="{Binding DisplayedFemaleNormal}"
+                                  IsEnabled="{Binding FemaleEnabled}" Margin="0,0,12,0" />
+                        <CheckBox Content="Male Shiny" IsChecked="{Binding DisplayedMaleShiny}"
+                                  IsEnabled="{Binding MaleEnabled}" Margin="0,0,12,0" />
+                        <CheckBox Content="Female Shiny" IsChecked="{Binding DisplayedFemaleShiny}"
+                                  IsEnabled="{Binding FemaleEnabled}" />
+                    </WrapPanel>
+
+                    <Separator />
+
+                    <!-- Language flags -->
+                    <TextBlock Text="Languages" FontWeight="SemiBold" FontSize="14" />
+                    <WrapPanel>
+                        <CheckBox Content="JPN" IsChecked="{Binding Lang1}"
+                                  IsEnabled="{Binding LangEnabled}" Margin="0,0,8,4" />
+                        <CheckBox Content="ENG" IsChecked="{Binding Lang2}"
+                                  IsEnabled="{Binding LangEnabled}" Margin="0,0,8,4" />
+                        <CheckBox Content="FRA" IsChecked="{Binding Lang3}"
+                                  IsEnabled="{Binding LangEnabled}" Margin="0,0,8,4" />
+                        <CheckBox Content="ITA" IsChecked="{Binding Lang4}"
+                                  IsEnabled="{Binding LangEnabled}" Margin="0,0,8,4" />
+                        <CheckBox Content="GER" IsChecked="{Binding Lang5}"
+                                  IsEnabled="{Binding LangEnabled}" Margin="0,0,8,4" />
+                        <CheckBox Content="SPA" IsChecked="{Binding Lang6}"
+                                  IsEnabled="{Binding LangEnabled}" Margin="0,0,8,4" />
+                        <CheckBox Content="KOR" IsChecked="{Binding Lang7}"
+                                  IsEnabled="{Binding LangEnabled}" Margin="0,0,8,4" />
+                        <CheckBox Content="CHS" IsChecked="{Binding Lang8}"
+                                  IsEnabled="{Binding LangEnabled}" Margin="0,0,8,4" />
+                        <CheckBox Content="CHT" IsChecked="{Binding Lang9}"
+                                  IsEnabled="{Binding LangEnabled}" />
+                    </WrapPanel>
+
+                    <Separator />
+
+                    <!-- Size Records -->
+                    <StackPanel Spacing="6" IsVisible="{Binding ShowSizeRecords}">
+                        <TextBlock Text="Size Records" FontWeight="SemiBold" FontSize="14" />
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                            <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                                <CheckBox Content="Min Height" IsChecked="{Binding HasMinHeight}" />
+                                <NumericUpDown Value="{Binding MinHeight}" Minimum="0" Maximum="255"
+                                               IsEnabled="{Binding HasMinHeight}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                                <TextBlock Text="Weight (MinH)" />
+                                <NumericUpDown Value="{Binding MinHeightWeight}" Minimum="0" Maximum="255"
+                                               IsEnabled="{Binding HasMinHeight}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
+                                <CheckBox Content="Max Height" IsChecked="{Binding HasMaxHeight}" />
+                                <NumericUpDown Value="{Binding MaxHeight}" Minimum="0" Maximum="255"
+                                               IsEnabled="{Binding HasMaxHeight}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
+                                <TextBlock Text="Weight (MaxH)" />
+                                <NumericUpDown Value="{Binding MaxHeightWeight}" Minimum="0" Maximum="255"
+                                               IsEnabled="{Binding HasMaxHeight}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
+                                <CheckBox Content="Min Weight" IsChecked="{Binding HasMinWeight}" />
+                                <NumericUpDown Value="{Binding MinWeight}" Minimum="0" Maximum="255"
+                                               IsEnabled="{Binding HasMinWeight}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4">
+                                <TextBlock Text="Height (MinW)" />
+                                <NumericUpDown Value="{Binding MinWeightHeight}" Minimum="0" Maximum="255"
+                                               IsEnabled="{Binding HasMinWeight}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="0" Grid.Row="3" Spacing="2" Margin="0,0,4,4">
+                                <CheckBox Content="Max Weight" IsChecked="{Binding HasMaxWeight}" />
+                                <NumericUpDown Value="{Binding MaxWeight}" Minimum="0" Maximum="255"
+                                               IsEnabled="{Binding HasMaxWeight}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Grid.Row="3" Spacing="2" Margin="4,0,0,4">
+                                <TextBlock Text="Height (MaxW)" />
+                                <NumericUpDown Value="{Binding MaxWeightHeight}" Minimum="0" Maximum="255"
+                                               IsEnabled="{Binding HasMaxWeight}" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+
+</views:SubformWindow>

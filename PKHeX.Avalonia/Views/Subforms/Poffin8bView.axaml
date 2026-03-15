@@ -1,0 +1,46 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.Poffin8bView"
+                     x:DataType="vm:Poffin8bViewModel"
+                     Title="Poffin Editor (BDSP)"
+                     Width="700" Height="550"
+                     MinWidth="550" MinHeight="400"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Give All" Command="{Binding GiveAllCommand}" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" />
+            <Button Content="OK" Click="OnOkClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding Poffins}"
+                  AutoGenerateColumns="False"
+                  CanUserReorderColumns="False"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  IsReadOnly="False"
+                  SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Index}" Width="50" IsReadOnly="True" />
+                <DataGridTextColumn Header="Type" Binding="{Binding TypeName}" Width="120" IsReadOnly="True" />
+                <DataGridTextColumn Header="Level" Binding="{Binding Level}" Width="60" />
+                <DataGridTextColumn Header="Smooth" Binding="{Binding Taste}" Width="60" />
+                <DataGridCheckBoxColumn Header="New" Binding="{Binding IsNew}" Width="50" />
+                <DataGridTextColumn Header="Spicy" Binding="{Binding Spicy}" Width="55" />
+                <DataGridTextColumn Header="Dry" Binding="{Binding Dry}" Width="55" />
+                <DataGridTextColumn Header="Sweet" Binding="{Binding Sweet}" Width="55" />
+                <DataGridTextColumn Header="Bitter" Binding="{Binding Bitter}" Width="55" />
+                <DataGridTextColumn Header="Sour" Binding="{Binding Sour}" Width="55" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+
+</views:SubformWindow>
