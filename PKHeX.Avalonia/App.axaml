@@ -1,17 +1,55 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="PKHeX.Avalonia.App"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="Light">
     <Application.Styles>
         <SimpleTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml" />
 
-        <!-- PKMEditor tab styling: compact left-side tabs with colored pip -->
+        <!-- Reduce internal padding on controls to match WinForms compact sizing -->
+        <Style Selector="TextBox">
+            <Setter Property="Padding" Value="2,1"/>
+        </Style>
+        <Style Selector="ComboBox">
+            <Setter Property="Padding" Value="4,1"/>
+        </Style>
+        <Style Selector="NumericUpDown">
+            <Setter Property="Padding" Value="2,1"/>
+        </Style>
+
+        <!-- PKMEditor tab styling: WinForms VerticalTabControl parity (96x40 per tab) -->
+        <Style Selector="TabControl.pkm-tabs">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
         <Style Selector="TabControl.pkm-tabs TabItem">
-            <Setter Property="MinHeight" Value="40"/>
-            <Setter Property="MaxWidth" Value="72"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="96"/>
             <Setter Property="FontSize" Value="11"/>
-            <Setter Property="Padding" Value="4,8"/>
+            <Setter Property="Padding" Value="4,6"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#808080"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+        </Style>
+        <Style Selector="TabControl.pkm-tabs TabItem:selected">
+            <Setter Property="Background" Value="#F0F0F0"/>
+        </Style>
+
+        <!-- SAV editor top tabs: flat WinForms-like appearance -->
+        <Style Selector="TabControl.sav-tabs">
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="TabControl.sav-tabs TabItem">
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+        <Style Selector="TabControl.sav-tabs TabItem:selected">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
     </Application.Styles>
 

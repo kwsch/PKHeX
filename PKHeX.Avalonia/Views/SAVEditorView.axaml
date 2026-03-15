@@ -5,7 +5,7 @@
              x:Class="PKHeX.Avalonia.Views.SAVEditorView"
              x:DataType="vm:SAVEditorViewModel">
 
-    <TabControl Padding="0" Margin="2">
+    <TabControl Classes="sav-tabs" Padding="0" Margin="2">
         <!-- Box Tab -->
         <TabItem Header="Box">
             <DockPanel Margin="2">
