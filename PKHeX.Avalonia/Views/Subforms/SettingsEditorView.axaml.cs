@@ -20,6 +20,18 @@ public partial class SettingsEditorView : SubformWindow
         if (DataContext is not SettingsEditorViewModel vm)
             return;
 
+        try
+        {
+            BuildSettingsTabs(vm);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Settings UI build failed: {ex.Message}");
+        }
+    }
+
+    private void BuildSettingsTabs(SettingsEditorViewModel vm)
+    {
         SettingsTabs.Items.Clear();
         foreach (var category in vm.Categories)
         {
@@ -161,8 +173,25 @@ internal sealed class DecimalObjectConverter : global::Avalonia.Data.Converters.
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
     {
-        if (value is decimal d)
-            return (object)d;
-        return value;
+        if (value is not decimal d)
+            return value;
+        try
+        {
+            if (targetType == typeof(object))
+                return d;
+            if (targetType == typeof(int))
+                return (int)d;
+            if (targetType == typeof(uint))
+                return (uint)d;
+            if (targetType == typeof(byte))
+                return (byte)d;
+            if (targetType == typeof(float))
+                return (float)d;
+            return d;
+        }
+        catch
+        {
+            return value;
+        }
     }
 }

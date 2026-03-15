@@ -18,7 +18,7 @@
                               ItemsSource="{Binding BoxNames}"
                               SelectedIndex="{Binding CurrentBox}"
                               HorizontalAlignment="Stretch"
-                              Height="24" FontSize="12" Padding="4,2"
+                              Height="24" FontSize="11" Padding="4,2"
                               Margin="2,0" />
                     <Button Grid.Column="2" Content="&gt;&gt;" Command="{Binding NextBoxCommand}"
                             Width="30" Height="24" HorizontalContentAlignment="Center"
@@ -55,7 +55,7 @@
         <!-- Party Tab -->
         <TabItem Header="Party">
             <StackPanel Margin="2,4">
-                <TextBlock Text="Party" FontWeight="SemiBold" FontSize="12" Margin="0,0,0,4" />
+                <TextBlock Text="Party" FontWeight="SemiBold" FontSize="11" Margin="0,0,0,4" />
                 <ItemsControl ItemsSource="{Binding PartySlots}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -74,7 +74,7 @@
         <!-- Other Tab (placeholder for daycare, extra slots) -->
         <TabItem Header="Other">
             <StackPanel Margin="4">
-                <TextBlock Text="Other Slots" FontWeight="SemiBold" FontSize="12" />
+                <TextBlock Text="Other Slots" FontWeight="SemiBold" FontSize="11" />
                 <TextBlock Text="Daycare, extra slots, etc." FontSize="11" Opacity="0.6" Margin="0,4,0,0" />
             </StackPanel>
         </TabItem>
