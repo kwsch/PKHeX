@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:PKHeX.Avalonia.ViewModels"
+             xmlns:views="using:PKHeX.Avalonia.Views"
+             x:Class="PKHeX.Avalonia.Views.SAVEditorView"
+             x:DataType="vm:SAVEditorViewModel">
+
+    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+            BorderThickness="1" CornerRadius="4" Padding="8">
+        <DockPanel>
+            <!-- Header -->
+            <TextBlock DockPanel.Dock="Top" Text="SAV Editor" FontWeight="Bold" FontSize="16" Margin="0,0,0,8" />
+
+            <TabControl>
+                <!-- Box Tab -->
+                <TabItem Header="Box">
+                    <DockPanel>
+                        <!-- Box Navigation -->
+                        <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto" Margin="0,0,0,8">
+                            <Button Grid.Column="0" Content="&lt;" Command="{Binding PreviousBoxCommand}"
+                                    Width="30" HorizontalContentAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{Binding BoxName}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       FontWeight="SemiBold" />
+                            <Button Grid.Column="2" Content="&gt;" Command="{Binding NextBoxCommand}"
+                                    Width="30" HorizontalContentAlignment="Center" />
+                        </Grid>
+
+                        <!-- Box Grid (5 columns x 6 rows = 30 slots) -->
+                        <ItemsControl ItemsSource="{Binding BoxSlots}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="6" Rows="5" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <views:SlotControl />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DockPanel>
+                </TabItem>
+
+                <!-- Party Tab -->
+                <TabItem Header="Party">
+                    <ItemsControl ItemsSource="{Binding PartySlots}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="6" Rows="1" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <views:SlotControl />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </Border>
+
+</UserControl>

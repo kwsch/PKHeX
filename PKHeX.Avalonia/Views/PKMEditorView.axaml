@@ -1,0 +1,163 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:PKHeX.Avalonia.ViewModels"
+             xmlns:core="using:PKHeX.Core"
+             x:Class="PKHeX.Avalonia.Views.PKMEditorView"
+             x:DataType="vm:PKMEditorViewModel">
+
+    <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+            BorderThickness="1" CornerRadius="4" Padding="8">
+        <ScrollViewer>
+            <StackPanel Spacing="8">
+                <!-- Header with Sprite -->
+                <Grid ColumnDefinitions="Auto,*">
+                    <Image Grid.Column="0" Source="{Binding SpriteImage}"
+                           Width="68" Height="56" Margin="0,0,10,0"
+                           RenderOptions.BitmapInterpolationMode="None" />
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="PKM Editor" FontWeight="Bold" FontSize="16" />
+                        <TextBlock Text="{Binding Nickname}" FontSize="12" Opacity="0.7" />
+                    </StackPanel>
+                </Grid>
+
+                <Separator />
+
+                <!-- Basic Info Tab -->
+                <TabControl>
+                    <TabItem Header="Main">
+                        <StackPanel Spacing="6" Margin="4">
+                            <Grid ColumnDefinitions="100,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="4">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Species:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="0" Grid.Column="1"
+                                          ItemsSource="{Binding SpeciesList}"
+                                          SelectedItem="{Binding SelectedSpecies}"
+                                          DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}"
+                                          HorizontalAlignment="Stretch" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Nickname:" VerticalAlignment="Center" />
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Nickname}" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Level:" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Level}" Minimum="1" Maximum="100" />
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Form:" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Form}" Minimum="0" />
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Held Item:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="4" Grid.Column="1"
+                                          ItemsSource="{Binding HeldItemList}"
+                                          SelectedItem="{Binding SelectedHeldItem}"
+                                          DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}"
+                                          HorizontalAlignment="Stretch" />
+
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Nature:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="5" Grid.Column="1"
+                                          ItemsSource="{Binding NatureList}"
+                                          SelectedItem="{Binding SelectedNature}"
+                                          DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}"
+                                          HorizontalAlignment="Stretch" />
+
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="Shiny:" VerticalAlignment="Center" />
+                                <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding IsShiny}" />
+
+                                <TextBlock Grid.Row="7" Grid.Column="0" Text="Egg:" VerticalAlignment="Center" />
+                                <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsEgg}" />
+                            </Grid>
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem Header="Stats">
+                        <StackPanel Spacing="6" Margin="4">
+                            <TextBlock Text="IVs / EVs / Stats" FontWeight="SemiBold" />
+                            <Grid ColumnDefinitions="60,80,80,80" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="2">
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="IV" FontWeight="Bold" HorizontalAlignment="Center" />
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="EV" FontWeight="Bold" HorizontalAlignment="Center" />
+                                <TextBlock Grid.Row="0" Grid.Column="3" Text="Stat" FontWeight="Bold" HorizontalAlignment="Center" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="HP" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Iv_HP}" Minimum="0" Maximum="31" />
+                                <NumericUpDown Grid.Row="1" Grid.Column="2" Value="{Binding Ev_HP}" Minimum="0" Maximum="252" />
+                                <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Hp}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="ATK" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Iv_ATK}" Minimum="0" Maximum="31" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding Ev_ATK}" Minimum="0" Maximum="252" />
+                                <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Atk}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="DEF" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Iv_DEF}" Minimum="0" Maximum="31" />
+                                <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding Ev_DEF}" Minimum="0" Maximum="252" />
+                                <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding Def}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="SpA" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Iv_SPA}" Minimum="0" Maximum="31" />
+                                <NumericUpDown Grid.Row="4" Grid.Column="2" Value="{Binding Ev_SPA}" Minimum="0" Maximum="252" />
+                                <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding SpA}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="SpD" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Iv_SPD}" Minimum="0" Maximum="31" />
+                                <NumericUpDown Grid.Row="5" Grid.Column="2" Value="{Binding Ev_SPD}" Minimum="0" Maximum="252" />
+                                <TextBlock Grid.Row="5" Grid.Column="3" Text="{Binding SpD}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="SPE" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Iv_SPE}" Minimum="0" Maximum="31" />
+                                <NumericUpDown Grid.Row="6" Grid.Column="2" Value="{Binding Ev_SPE}" Minimum="0" Maximum="252" />
+                                <TextBlock Grid.Row="6" Grid.Column="3" Text="{Binding Spe}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            </Grid>
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem Header="Moves">
+                        <StackPanel Spacing="6" Margin="4">
+                            <Grid ColumnDefinitions="60,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="4">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Move 1:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="0" Grid.Column="1"
+                                          ItemsSource="{Binding MoveList}"
+                                          SelectedItem="{Binding SelectedMove1}"
+                                          DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}"
+                                          HorizontalAlignment="Stretch" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Move 2:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="1" Grid.Column="1"
+                                          ItemsSource="{Binding MoveList}"
+                                          SelectedItem="{Binding SelectedMove2}"
+                                          DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}"
+                                          HorizontalAlignment="Stretch" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Move 3:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="2" Grid.Column="1"
+                                          ItemsSource="{Binding MoveList}"
+                                          SelectedItem="{Binding SelectedMove3}"
+                                          DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}"
+                                          HorizontalAlignment="Stretch" />
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Move 4:" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="3" Grid.Column="1"
+                                          ItemsSource="{Binding MoveList}"
+                                          SelectedItem="{Binding SelectedMove4}"
+                                          DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}"
+                                          HorizontalAlignment="Stretch" />
+                            </Grid>
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem Header="OT/Misc">
+                        <StackPanel Spacing="6" Margin="4">
+                            <Grid ColumnDefinitions="60,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="OT:" VerticalAlignment="Center" />
+                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Ot}" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="TID:" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Tid}" Minimum="0" Maximum="65535" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="SID:" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Sid}" Minimum="0" Maximum="65535" />
+                            </Grid>
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+
+</UserControl>

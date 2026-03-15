@@ -1,0 +1,20 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:PKHeX.Avalonia.Controls"
+             x:Class="PKHeX.Avalonia.Controls.PokeGrid"
+             x:DataType="controls:PokeGrid">
+    <ItemsControl ItemsSource="{Binding Slots, RelativeSource={RelativeSource AncestorType=controls:PokeGrid}}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Columns="6" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="controls:SlotModel">
+                <Image Source="{Binding Image}" Width="68" Height="56"
+                       RenderOptions.BitmapInterpolationMode="None"
+                       Margin="1" Cursor="Hand" />
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>

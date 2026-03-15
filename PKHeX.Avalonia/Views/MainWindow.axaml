@@ -1,0 +1,78 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:PKHeX.Avalonia.ViewModels"
+        xmlns:views="using:PKHeX.Avalonia.Views"
+        x:Class="PKHeX.Avalonia.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="{Binding Title}"
+        Width="800" Height="600"
+        MinWidth="700" MinHeight="500"
+        DragDrop.AllowDrop="True">
+
+    <DockPanel>
+        <!-- Menu Bar -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." Command="{Binding OpenFileCommand}" InputGesture="Ctrl+O" />
+                <MenuItem Header="_Save..." Command="{Binding SaveFileCommand}" InputGesture="Ctrl+S" />
+                <Separator />
+                <MenuItem Header="_Export PKM..." Command="{Binding ExportPKMCommand}" InputGesture="Ctrl+E" />
+                <Separator />
+                <MenuItem Header="E_xit" Click="OnExitClick" InputGesture="Alt+F4" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Import Showdown Set" Command="{Binding ImportShowdownCommand}" InputGesture="Ctrl+Shift+I" />
+                <MenuItem Header="E_xport Showdown Set" Command="{Binding ExportShowdownCommand}" InputGesture="Ctrl+Shift+E" />
+                <Separator />
+                <MenuItem Header="_QR Code..." Command="{Binding OpenQRDialogCommand}" />
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Inventory" Command="{Binding OpenInventoryCommand}" />
+                <MenuItem Header="_Box Layout" Command="{Binding OpenBoxLayoutCommand}" />
+                <MenuItem Header="Box _Viewer" Command="{Binding OpenBoxViewerCommand}" />
+                <MenuItem Header="Event _Flags" Command="{Binding OpenEventFlagsCommand}" />
+                <MenuItem Header="Event Flags (_Gen 2/8)" Command="{Binding OpenEventFlags2Command}" />
+                <MenuItem Header="_Wondercards" Command="{Binding OpenWondercardCommand}" />
+                <MenuItem Header="_Ribbon Editor" Command="{Binding OpenRibbonEditorCommand}" />
+                <Separator />
+                <MenuItem Header="_Database" Command="{Binding OpenDatabaseCommand}" />
+                <MenuItem Header="_Mystery Gift DB" Command="{Binding OpenMysteryGiftDBCommand}" />
+                <MenuItem Header="_Encounters" Command="{Binding OpenEncountersCommand}" />
+                <MenuItem Header="_Batch Editor" Command="{Binding OpenBatchEditorCommand}" />
+                <MenuItem Header="_Report Grid" Command="{Binding OpenReportGridCommand}" />
+                <Separator />
+                <MenuItem Header="_PKM Editors">
+                    <MenuItem Header="_Memory / Amie" Command="{Binding OpenMemoryAmieCommand}" />
+                    <MenuItem Header="_Tech Records" Command="{Binding OpenTechRecordEditorCommand}" />
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Options">
+                <MenuItem Header="_Settings" Command="{Binding OpenSettingsEditorCommand}" />
+                <Separator />
+                <MenuItem Header="Toggle _Dark Mode" Click="OnToggleThemeClick" />
+            </MenuItem>
+            <MenuItem Header="_About">
+                <MenuItem Header="_About PKHeX" />
+            </MenuItem>
+        </Menu>
+
+        <!-- Status Bar -->
+        <Border DockPanel.Dock="Bottom" Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" Padding="5,2">
+            <TextBlock Text="{Binding StatusMessage}" FontSize="12" />
+        </Border>
+
+        <!-- Main Content -->
+        <Grid ColumnDefinitions="Auto,*">
+            <!-- PKM Editor (Left Panel) -->
+            <Border Grid.Column="0" Padding="5" MinWidth="300">
+                <views:PKMEditorView DataContext="{Binding PkmEditor}" />
+            </Border>
+
+            <!-- SAV Editor (Right Panel) -->
+            <Border Grid.Column="1" Padding="5">
+                <views:SAVEditorView DataContext="{Binding SavEditor}" />
+            </Border>
+        </Grid>
+    </DockPanel>
+
+</Window>
