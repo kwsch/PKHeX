@@ -324,6 +324,16 @@ public static class SAVToolRegistry
                 sav => sav is SAV1,
                 sav => WithView<SAVEventReset1ViewModel, SAVEventReset1View>(
                     new SAVEventReset1ViewModel((SAV1)sav))),
+
+            // --- Friend Safari (Gen 6 XY) ---
+            new("Friend Safari",
+                sav => sav is SAV6XY,
+                sav =>
+                {
+                    ((SAV6XY)sav).UnlockAllFriendSafariSlots();
+                    return WithView<SimpleTrainerViewModel, SimpleTrainerView>(
+                        new SimpleTrainerViewModel(sav));
+                }),
         ];
     }
 

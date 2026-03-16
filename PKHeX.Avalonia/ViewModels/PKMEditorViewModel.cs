@@ -114,11 +114,76 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private ushort _move3;
     [ObservableProperty] private ushort _move4;
 
+    // Move PP and PP Ups
+    [ObservableProperty] private int _move1_PP;
+    [ObservableProperty] private int _move2_PP;
+    [ObservableProperty] private int _move3_PP;
+    [ObservableProperty] private int _move4_PP;
+    [ObservableProperty] private int _move1_PPUps;
+    [ObservableProperty] private int _move2_PPUps;
+    [ObservableProperty] private int _move3_PPUps;
+    [ObservableProperty] private int _move4_PPUps;
+
+    // Relearn Moves
+    [ObservableProperty] private ushort _relearnMove1;
+    [ObservableProperty] private ushort _relearnMove2;
+    [ObservableProperty] private ushort _relearnMove3;
+    [ObservableProperty] private ushort _relearnMove4;
+    [ObservableProperty] private ComboItem? _selectedRelearnMove1;
+    [ObservableProperty] private ComboItem? _selectedRelearnMove2;
+    [ObservableProperty] private ComboItem? _selectedRelearnMove3;
+    [ObservableProperty] private ComboItem? _selectedRelearnMove4;
+    [ObservableProperty] private bool _hasRelearnMoves;
+
+    partial void OnSelectedRelearnMove1Changed(ComboItem? value) { if (value is not null) RelearnMove1 = (ushort)value.Value; if (!_isPopulating) UpdateLegality(); }
+    partial void OnSelectedRelearnMove2Changed(ComboItem? value) { if (value is not null) RelearnMove2 = (ushort)value.Value; if (!_isPopulating) UpdateLegality(); }
+    partial void OnSelectedRelearnMove3Changed(ComboItem? value) { if (value is not null) RelearnMove3 = (ushort)value.Value; if (!_isPopulating) UpdateLegality(); }
+    partial void OnSelectedRelearnMove4Changed(ComboItem? value) { if (value is not null) RelearnMove4 = (ushort)value.Value; if (!_isPopulating) UpdateLegality(); }
+
     // Move legality indicators
     [ObservableProperty] private bool _move1Legal = true;
     [ObservableProperty] private bool _move2Legal = true;
     [ObservableProperty] private bool _move3Legal = true;
     [ObservableProperty] private bool _move4Legal = true;
+
+    // Hyper Training
+    [ObservableProperty] private bool _htHp;
+    [ObservableProperty] private bool _htAtk;
+    [ObservableProperty] private bool _htDef;
+    [ObservableProperty] private bool _htSpA;
+    [ObservableProperty] private bool _htSpD;
+    [ObservableProperty] private bool _htSpe;
+    [ObservableProperty] private bool _hasHyperTraining;
+
+    // Dynamax
+    [ObservableProperty] private int _dynamaxLevel;
+    [ObservableProperty] private bool _hasDynamaxLevel;
+
+    // Gigantamax
+    [ObservableProperty] private bool _canGigantamax;
+    [ObservableProperty] private bool _hasGigantamax;
+
+    // Alpha (Legends Arceus)
+    [ObservableProperty] private bool _isAlpha;
+    [ObservableProperty] private bool _hasAlpha;
+
+    // Tera Type (Gen 9)
+    [ObservableProperty] private int _teraTypeOriginal;
+    [ObservableProperty] private int _teraTypeOverride;
+    [ObservableProperty] private bool _hasTeraType;
+
+    // EV Total display
+    [ObservableProperty] private int _evTotal;
+    [ObservableProperty] private bool _isEvTotalValid;
+
+    // Hidden Power Type display
+    [ObservableProperty] private string _hiddenPowerType = string.Empty;
+
+    // Characteristic display
+    [ObservableProperty] private string _characteristicText = string.Empty;
+
+    // Base Stat Total
+    [ObservableProperty] private int _baseST;
 
     // Met
     [ObservableProperty] private ushort _metLocation;
@@ -218,6 +283,16 @@ public partial class PKMEditorViewModel : ObservableObject
     // Cosmetic — PokeStarFame (Gen 5)
     [ObservableProperty] private int _pokeStarFame;
     [ObservableProperty] private bool _hasPokeStarFame;
+
+    // Cosmetic — Walking Mood (Gen 4 HG/SS)
+    [ObservableProperty] private int _walkingMood;
+    [ObservableProperty] private bool _hasWalkingMood;
+
+    // OT/Misc — Received Date (Let's Go PB7)
+    [ObservableProperty] private int _receivedYear;
+    [ObservableProperty] private int _receivedMonth;
+    [ObservableProperty] private int _receivedDay;
+    [ObservableProperty] private bool _hasReceivedDate;
 
     // OT
     [ObservableProperty] private string _ot = string.Empty;
@@ -651,6 +726,124 @@ public partial class PKMEditorViewModel : ObservableObject
         Move3 = pk.Move3;
         Move4 = pk.Move4;
 
+        // Move PP and PP Ups
+        Move1_PP = pk.Move1_PP;
+        Move2_PP = pk.Move2_PP;
+        Move3_PP = pk.Move3_PP;
+        Move4_PP = pk.Move4_PP;
+        Move1_PPUps = pk.Move1_PPUps;
+        Move2_PPUps = pk.Move2_PPUps;
+        Move3_PPUps = pk.Move3_PPUps;
+        Move4_PPUps = pk.Move4_PPUps;
+
+        // Relearn Moves
+        var hasRelearn = pk.Format >= 6;
+        HasRelearnMoves = hasRelearn;
+        if (hasRelearn)
+        {
+            RelearnMove1 = pk.RelearnMove1;
+            RelearnMove2 = pk.RelearnMove2;
+            RelearnMove3 = pk.RelearnMove3;
+            RelearnMove4 = pk.RelearnMove4;
+        }
+        else
+        {
+            RelearnMove1 = RelearnMove2 = RelearnMove3 = RelearnMove4 = 0;
+        }
+
+        // Hyper Training
+        if (pk is IHyperTrain ht)
+        {
+            HasHyperTraining = true;
+            HtHp = ht.HT_HP;
+            HtAtk = ht.HT_ATK;
+            HtDef = ht.HT_DEF;
+            HtSpA = ht.HT_SPA;
+            HtSpD = ht.HT_SPD;
+            HtSpe = ht.HT_SPE;
+        }
+        else
+        {
+            HasHyperTraining = false;
+            HtHp = HtAtk = HtDef = HtSpA = HtSpD = HtSpe = false;
+        }
+
+        // Dynamax Level
+        if (pk is IDynamaxLevel dl)
+        {
+            HasDynamaxLevel = true;
+            DynamaxLevel = dl.DynamaxLevel;
+        }
+        else
+        {
+            HasDynamaxLevel = false;
+            DynamaxLevel = 0;
+        }
+
+        // Gigantamax
+        if (pk is IGigantamax gm)
+        {
+            HasGigantamax = true;
+            CanGigantamax = gm.CanGigantamax;
+        }
+        else
+        {
+            HasGigantamax = false;
+            CanGigantamax = false;
+        }
+
+        // Alpha (Legends Arceus)
+        if (pk is IAlpha alpha)
+        {
+            HasAlpha = true;
+            IsAlpha = alpha.IsAlpha;
+        }
+        else
+        {
+            HasAlpha = false;
+            IsAlpha = false;
+        }
+
+        // Tera Type (Gen 9)
+        if (pk is ITeraType tt)
+        {
+            HasTeraType = true;
+            TeraTypeOriginal = (int)tt.TeraTypeOriginal;
+            TeraTypeOverride = (int)tt.TeraTypeOverride;
+        }
+        else
+        {
+            HasTeraType = false;
+            TeraTypeOriginal = 0;
+            TeraTypeOverride = 0;
+        }
+
+        // EV Total
+        EvTotal = pk.EV_HP + pk.EV_ATK + pk.EV_DEF + pk.EV_SPA + pk.EV_SPD + pk.EV_SPE;
+        IsEvTotalValid = EvTotal <= 510;
+
+        // Base Stat Total
+        BaseST = pi.HP + pi.ATK + pi.DEF + pi.SPA + pi.SPD + pi.SPE;
+
+        // Hidden Power Type
+        Span<int> ivs = stackalloc int[6];
+        pk.GetIVs(ivs);
+        var hpType = HiddenPower.GetType(ivs, pk.Context);
+        var typeNames = GameInfo.Strings.Types;
+        HiddenPowerType = hpType + 1 < typeNames.Count ? typeNames[hpType + 1] : $"Type {hpType}";
+
+        // Characteristic
+        var charIdx = pk.Characteristic;
+        if (charIdx >= 0)
+        {
+            var charStrings = GameInfo.Strings.characteristics;
+            CharacteristicText = charIdx < charStrings.Length ? charStrings[charIdx] : string.Empty;
+        }
+        else
+        {
+            CharacteristicText = string.Empty;
+        }
+
         // Met
         MetLocation = pk.MetLocation;
         MetLevel = pk.MetLevel;
@@ -707,10 +900,10 @@ public partial class PKMEditorViewModel : ObservableObject
         EncryptionConstantHex = pk.EncryptionConstant.ToString("X8");
 
         // Home Tracker
-        if (pk is IHomeTrack ht)
+        if (pk is IHomeTrack homeTrack)
         {
             HasHomeTracker = true;
-            HomeTrackerHex = ht.Tracker.ToString("X16");
+            HomeTrackerHex = homeTrack.Tracker.ToString("X16");
         }
         else
         {
@@ -965,6 +1158,34 @@ public partial class PKMEditorViewModel : ObservableObject
             PokeStarFame = 0;
         }
 
+        // Cosmetic — Walking Mood (Gen 4 HG/SS)
+        if (pk is G4PKM g4Mood)
+        {
+            HasWalkingMood = true;
+            WalkingMood = g4Mood.WalkingMood;
+        }
+        else
+        {
+            HasWalkingMood = false;
+            WalkingMood = 0;
+        }
+
+        // OT/Misc — Received Date (Let's Go PB7)
+        if (pk is PB7 pb7Recv)
+        {
+            HasReceivedDate = true;
+            ReceivedYear = pb7Recv.ReceivedYear;
+            ReceivedMonth = pb7Recv.ReceivedMonth;
+            ReceivedDay = pb7Recv.ReceivedDay;
+        }
+        else
+        {
+            HasReceivedDate = false;
+            ReceivedYear = 0;
+            ReceivedMonth = 0;
+            ReceivedDay = 0;
+        }
+
         // Form Argument
         if (pk is IFormArgument fa)
         {
@@ -1042,6 +1263,19 @@ public partial class PKMEditorViewModel : ObservableObject
 
         SelectedForm = FormList.FirstOrDefault(x => x.Value == pk.Form);
 
+        // Relearn move ComboItem selections
+        if (hasRelearn)
+        {
+            SelectedRelearnMove1 = MoveList.FirstOrDefault(x => x.Value == pk.RelearnMove1);
+            SelectedRelearnMove2 = MoveList.FirstOrDefault(x => x.Value == pk.RelearnMove2);
+            SelectedRelearnMove3 = MoveList.FirstOrDefault(x => x.Value == pk.RelearnMove3);
+            SelectedRelearnMove4 = MoveList.FirstOrDefault(x => x.Value == pk.RelearnMove4);
+        }
+        else
+        {
+            SelectedRelearnMove1 = SelectedRelearnMove2 = SelectedRelearnMove3 = SelectedRelearnMove4 = null;
+        }
+
         UpdateSprite();
         }
         finally
@@ -1115,6 +1349,52 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.Move2 = Move2;
         Entity.Move3 = Move3;
         Entity.Move4 = Move4;
+
+        // Move PP Ups
+        Entity.Move1_PPUps = Move1_PPUps;
+        Entity.Move2_PPUps = Move2_PPUps;
+        Entity.Move3_PPUps = Move3_PPUps;
+        Entity.Move4_PPUps = Move4_PPUps;
+        Entity.SetMaximumPPCurrent(Entity.Moves);
+
+        // Relearn Moves
+        if (HasRelearnMoves)
+        {
+            Entity.RelearnMove1 = RelearnMove1;
+            Entity.RelearnMove2 = RelearnMove2;
+            Entity.RelearnMove3 = RelearnMove3;
+            Entity.RelearnMove4 = RelearnMove4;
+        }
+
+        // Hyper Training
+        if (Entity is IHyperTrain htSaveHt)
+        {
+            htSaveHt.HT_HP = HtHp;
+            htSaveHt.HT_ATK = HtAtk;
+            htSaveHt.HT_DEF = HtDef;
+            htSaveHt.HT_SPA = HtSpA;
+            htSaveHt.HT_SPD = HtSpD;
+            htSaveHt.HT_SPE = HtSpe;
+        }
+
+        // Dynamax Level
+        if (Entity is IDynamaxLevel dlSave)
+            dlSave.DynamaxLevel = (byte)Math.Clamp(DynamaxLevel, 0, 10);
+
+        // Gigantamax
+        if (Entity is IGigantamax gmSave)
+            gmSave.CanGigantamax = CanGigantamax;
+
+        // Alpha
+        if (Entity is IAlpha alphaSave)
+            alphaSave.IsAlpha = IsAlpha;
+
+        // Tera Type
+        if (Entity is ITeraType ttSave)
+        {
+            ttSave.TeraTypeOriginal = (MoveType)TeraTypeOriginal;
+            ttSave.TeraTypeOverride = (MoveType)TeraTypeOverride;
+        }
 
         Entity.OriginalTrainerName = Ot;
         Entity.TID16 = Tid;
@@ -1279,7 +1559,14 @@ public partial class PKMEditorViewModel : ObservableObject
         {
             pb7Save.Spirit = (byte)Math.Clamp(Spirit7b, 0, 255);
             pb7Save.Mood = (byte)Math.Clamp(Mood7b, 0, 255);
+            pb7Save.ReceivedYear = (byte)Math.Clamp(ReceivedYear, 0, 255);
+            pb7Save.ReceivedMonth = (byte)Math.Clamp(ReceivedMonth, 0, 12);
+            pb7Save.ReceivedDay = (byte)Math.Clamp(ReceivedDay, 0, 31);
         }
+
+        // Cosmetic — Walking Mood (Gen 4 HG/SS)
+        if (Entity is G4PKM g4MoodSave)
+            g4MoodSave.WalkingMood = (sbyte)Math.Clamp(WalkingMood, -127, 127);
 
         // Form Argument
         if (Entity is IFormArgument faSave)
@@ -1324,6 +1611,24 @@ public partial class PKMEditorViewModel : ObservableObject
                 await view.ShowDialog(mainWindow);
         }
         catch (Exception ex) { LegalityReport = $"Tech Record error: {ex.Message}"; }
+    }
+
+    // --- Ribbons / Memories placeholder commands ---
+
+    [RelayCommand]
+    private void OpenRibbons()
+    {
+        LegalityReport = Entity is null
+            ? "No Pokémon loaded."
+            : "Ribbon editor: use Tools > Ribbon Editor from the main menu.";
+    }
+
+    [RelayCommand]
+    private void OpenMemories()
+    {
+        LegalityReport = Entity is null
+            ? "No Pokémon loaded."
+            : "Memory editor: use Tools > PKM Editors > Memory / Amie from the main menu.";
     }
 
     // --- IV/EV quick-set commands ---
@@ -1465,6 +1770,27 @@ public partial class PKMEditorViewModel : ObservableObject
         SpA = Entity.Stat_SPA;
         SpD = Entity.Stat_SPD;
         Spe = Entity.Stat_SPE;
+
+        // Refresh computed display fields
+        EvTotal = Ev_HP + Ev_ATK + Ev_DEF + Ev_SPA + Ev_SPD + Ev_SPE;
+        IsEvTotalValid = EvTotal <= 510;
+
+        Span<int> ivs = stackalloc int[6];
+        Entity.GetIVs(ivs);
+        var hpType = HiddenPower.GetType(ivs, Entity.Context);
+        var typeNames = GameInfo.Strings.Types;
+        HiddenPowerType = hpType + 1 < typeNames.Count ? typeNames[hpType + 1] : $"Type {hpType}";
+
+        var charIdx = Entity.Characteristic;
+        if (charIdx >= 0)
+        {
+            var charStrings = GameInfo.Strings.characteristics;
+            CharacteristicText = charIdx < charStrings.Length ? charStrings[charIdx] : string.Empty;
+        }
+        else
+        {
+            CharacteristicText = string.Empty;
+        }
     }
 
     // --- Nature stat color indicators ---

@@ -16,6 +16,11 @@
         <KeyBinding Gesture="Ctrl+D" Command="{Binding OpenDatabaseCommand}" />
         <KeyBinding Gesture="Ctrl+R" Command="{Binding OpenReportGridCommand}" />
         <KeyBinding Gesture="Ctrl+F" Command="{Binding OpenFolderCommand}" />
+        <KeyBinding Gesture="Ctrl+G" Command="{Binding OpenMysteryGiftDBCommand}" />
+        <KeyBinding Gesture="Ctrl+N" Command="{Binding OpenEncountersCommand}" />
+        <KeyBinding Gesture="Ctrl+M" Command="{Binding OpenBatchEditorCommand}" />
+        <KeyBinding Gesture="Ctrl+Shift+S" Command="{Binding OpenSettingsEditorCommand}" />
+        <KeyBinding Gesture="Ctrl+P" Command="{Binding ShowAboutCommand}" />
     </Window.KeyBindings>
 
     <DockPanel>
@@ -44,9 +49,9 @@
                 <MenuItem Header="_Ribbon Editor" Command="{Binding OpenRibbonEditorCommand}" />
                 <Separator />
                 <MenuItem Header="_Database" Command="{Binding OpenDatabaseCommand}" InputGesture="Ctrl+D" />
-                <MenuItem Header="_Mystery Gift DB" Command="{Binding OpenMysteryGiftDBCommand}" />
-                <MenuItem Header="_Encounters" Command="{Binding OpenEncountersCommand}" />
-                <MenuItem Header="_Batch Editor" Command="{Binding OpenBatchEditorCommand}" />
+                <MenuItem Header="_Mystery Gift DB" Command="{Binding OpenMysteryGiftDBCommand}" InputGesture="Ctrl+G" />
+                <MenuItem Header="_Encounters" Command="{Binding OpenEncountersCommand}" InputGesture="Ctrl+N" />
+                <MenuItem Header="_Batch Editor" Command="{Binding OpenBatchEditorCommand}" InputGesture="Ctrl+M" />
                 <MenuItem Header="_Report Grid" Command="{Binding OpenReportGridCommand}" InputGesture="Ctrl+R" />
                 <Separator />
                 <MenuItem Header="_PKM Editors">
@@ -64,11 +69,11 @@
                 <MenuItem Header="_Undo" Command="{Binding UndoSlotCommand}" InputGesture="Ctrl+U" />
                 <MenuItem Header="_Redo" Command="{Binding RedoSlotCommand}" InputGesture="Ctrl+Y" />
                 <Separator />
-                <MenuItem Header="_Settings" Command="{Binding OpenSettingsEditorCommand}" />
+                <MenuItem Header="_Settings" Command="{Binding OpenSettingsEditorCommand}" InputGesture="Ctrl+Shift+S" />
                 <Separator />
                 <MenuItem Header="Toggle _Dark Mode" Click="OnToggleThemeClick" />
                 <Separator />
-                <MenuItem Header="_About PKHeX" Command="{Binding ShowAboutCommand}" />
+                <MenuItem Header="_About PKHeX" Command="{Binding ShowAboutCommand}" InputGesture="Ctrl+P" />
             </MenuItem>
         </Menu>
 
