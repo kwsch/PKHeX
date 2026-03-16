@@ -287,6 +287,7 @@ public partial class SAVEditorViewModel : ObservableObject
         for (int i = 0; i < slotCount && i < BoxSlots.Count; i++)
         {
             var pk = _sav.GetBoxSlotAtIndex(CurrentBox, i);
+            if (pk is null) continue;
             BoxSlots[i].Entity = pk;
             if (pk.Species == 0)
             {
@@ -310,6 +311,7 @@ public partial class SAVEditorViewModel : ObservableObject
         for (int i = 0; i < _sav.PartyCount && i < PartySlots.Count; i++)
         {
             var pk = _sav.GetPartySlotAtIndex(i);
+            if (pk is null) continue;
             PartySlots[i].Entity = pk;
             if (pk.Species == 0)
             {
@@ -388,7 +390,8 @@ public partial class SAVEditorViewModel : ObservableObject
         if (boxIndex >= 0)
         {
             var existing = _sav.GetBoxSlotAtIndex(CurrentBox, boxIndex);
-            PushUndo(CurrentBox, boxIndex, existing, isParty: false);
+            if (existing is not null)
+                PushUndo(CurrentBox, boxIndex, existing, isParty: false);
             _sav.SetBoxSlotAtIndex(pk, CurrentBox, boxIndex);
             RefreshBox();
             return;
@@ -398,7 +401,8 @@ public partial class SAVEditorViewModel : ObservableObject
         if (partyIndex >= 0)
         {
             var existing = _sav.GetPartySlotAtIndex(partyIndex);
-            PushUndo(0, partyIndex, existing, isParty: true);
+            if (existing is not null)
+                PushUndo(0, partyIndex, existing, isParty: true);
             _sav.SetPartySlotAtIndex(pk, partyIndex);
             RefreshParty();
         }
@@ -426,7 +430,8 @@ public partial class SAVEditorViewModel : ObservableObject
         if (boxIndex >= 0)
         {
             var existing = _sav.GetBoxSlotAtIndex(CurrentBox, boxIndex);
-            PushUndo(CurrentBox, boxIndex, existing, isParty: false);
+            if (existing is not null)
+                PushUndo(CurrentBox, boxIndex, existing, isParty: false);
             _sav.SetBoxSlotAtIndex(_sav.BlankPKM, CurrentBox, boxIndex);
             RefreshBox();
             return;
@@ -436,7 +441,8 @@ public partial class SAVEditorViewModel : ObservableObject
         if (partyIndex >= 0)
         {
             var existing = _sav.GetPartySlotAtIndex(partyIndex);
-            PushUndo(0, partyIndex, existing, isParty: true);
+            if (existing is not null)
+                PushUndo(0, partyIndex, existing, isParty: true);
             _sav.DeletePartySlot(partyIndex);
             RefreshParty();
         }
@@ -524,6 +530,7 @@ public partial class SAVEditorViewModel : ObservableObject
             foreach (var slotInfo in extras)
             {
                 var pk = slotInfo.Read(sav);
+                if (pk is null) continue;
                 var model = new SlotModel
                 {
                     Slot = slotInfo.Slot,
@@ -675,7 +682,7 @@ public partial class SAVEditorViewModel : ObservableObject
                 for (int slot = 0; slot < _sav.BoxSlotCount; slot++)
                 {
                     var pk = _sav.GetBoxSlotAtIndex(box, slot);
-                    if (pk.Species == 0) continue;
+                    if (pk is null || pk.Species == 0) continue;
                     total++;
                     var la = new LegalityAnalysis(pk);
                     if (la.Valid) legal++; else illegal++;

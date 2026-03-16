@@ -811,7 +811,7 @@ public partial class MainWindowViewModel : ObservableObject
         try
         {
             var box = SaveFile.GetBoxData(SavEditor.CurrentBox);
-            var text = string.Join("\n\n", box.Where(p => p.Species > 0).Select(ShowdownParsing.GetShowdownText));
+            var text = string.Join("\n\n", box.Where(p => p is not null && p.Species > 0).Select(ShowdownParsing.GetShowdownText));
             if (string.IsNullOrWhiteSpace(text))
             {
                 StatusMessage = "No Pokemon in box to export.";

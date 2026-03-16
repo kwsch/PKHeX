@@ -523,12 +523,14 @@
                                   DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="200" HorizontalAlignment="Left" />
                     </StackPanel>
 
-                    <!-- Move Shop / Tech Records buttons -->
+                    <!-- Move Shop / Tech Records / Plus Records buttons -->
                     <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,4,0,0">
                         <Button Content="Move Shop" Command="{Binding OpenMoveShopCommand}" Padding="6,2" FontSize="10"
                                 IsVisible="{Binding HasMoveShop}" />
                         <Button Content="Tech Records" Command="{Binding OpenTechRecordsCommand}" Padding="6,2" FontSize="10"
                                 IsVisible="{Binding HasTechRecords}" />
+                        <Button Content="Plus Records" Command="{Binding OpenPlusRecordCommand}" Padding="6,2" FontSize="10"
+                                IsVisible="{Binding HasPlusRecord}" />
                     </StackPanel>
 
                     <!-- Relearn Moves -->
@@ -683,10 +685,12 @@
                             </Grid>
                         </StackPanel>
 
-                        <!-- Ribbons / Memories buttons -->
+                        <!-- Ribbons / Memories / Medals buttons -->
                         <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,8,0,0">
                             <Button Content="Ribbons" Command="{Binding OpenRibbonsCommand}" Padding="6,2" FontSize="10" />
                             <Button Content="Memories" Command="{Binding OpenMemoriesCommand}" Padding="6,2" FontSize="10" />
+                            <Button Content="Medals" Command="{Binding OpenMedalsCommand}" Padding="6,2" FontSize="10"
+                                    IsVisible="{Binding HasSuperTraining}" />
                         </StackPanel>
 
                     </StackPanel>

@@ -338,9 +338,13 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private ComboItem? _selectedAlphaMove;
     [ObservableProperty] private bool _hasAlphaMove;
 
-    // Move Shop / Tech Record visibility
+    // Move Shop / Tech Record / Plus Record visibility
     [ObservableProperty] private bool _hasMoveShop;
     [ObservableProperty] private bool _hasTechRecords;
+    [ObservableProperty] private bool _hasPlusRecord;
+
+    // Super Training (Medals) visibility — Gen 6
+    [ObservableProperty] private bool _hasSuperTraining;
 
     // Gen-specific: Catch Rate (Gen 1)
     [ObservableProperty] private int _catchRate;
@@ -1478,6 +1482,12 @@ public partial class PKMEditorViewModel : ObservableObject
         // Tech Records (Gen 8+)
         HasTechRecords = pk is ITechRecord;
 
+        // Plus Records (Gen 9a - Z:A)
+        HasPlusRecord = pk is IPlusRecord;
+
+        // Super Training / Medals (Gen 6)
+        HasSuperTraining = pk is ISuperTrainRegimen;
+
         // Origin Mark indicator
         var gen = pk.Generation;
         HasOriginMark = gen >= 3;
@@ -1894,6 +1904,39 @@ public partial class PKMEditorViewModel : ObservableObject
                 await view.ShowDialog(mainWindow);
         }
         catch (Exception ex) { LegalityReport = $"Tech Record error: {ex.Message}"; }
+    }
+
+    [RelayCommand]
+    private async Task OpenPlusRecord()
+    {
+        if (Entity is not IPlusRecord plus) return;
+        if (Entity.PersonalInfo is not IPermitPlus permit) return;
+        try
+        {
+            PreparePKM();
+            var vm = new PlusRecordEditorViewModel(plus, permit, Entity);
+            var view = new PlusRecordEditorView { DataContext = vm };
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow != null)
+                await view.ShowDialog(mainWindow);
+        }
+        catch (Exception ex) { LegalityReport = $"Plus Record error: {ex.Message}"; }
+    }
+
+    [RelayCommand]
+    private async Task OpenMedals()
+    {
+        if (Entity is not ISuperTrainRegimen st) return;
+        try
+        {
+            PreparePKM();
+            var vm = new SuperTrainingEditorViewModel(st);
+            var view = new SuperTrainingEditorView { DataContext = vm };
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow != null)
+                await view.ShowDialog(mainWindow);
+        }
+        catch (Exception ex) { LegalityReport = $"Super Training error: {ex.Message}"; }
     }
 
     // --- Ribbons / Memories commands ---
