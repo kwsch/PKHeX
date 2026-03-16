@@ -71,12 +71,18 @@
             </StackPanel>
         </TabItem>
 
-        <!-- Other Tab (placeholder for daycare, extra slots) -->
+        <!-- Other Tab -->
         <TabItem Header="Other">
-            <StackPanel Margin="4">
-                <TextBlock Text="Other Slots" FontWeight="SemiBold" FontSize="11" />
-                <TextBlock Text="Daycare, extra slots, etc." FontSize="11" Opacity="0.6" Margin="0,4,0,0" />
-            </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="4" Spacing="4">
+                    <TextBlock Text="Daycare" FontWeight="SemiBold" FontSize="11" IsVisible="{Binding HasDaycare}" />
+                    <TextBlock Text="{Binding DaycareInfo}" FontSize="11" FontFamily="Consolas,monospace"
+                               IsVisible="{Binding HasDaycare}" />
+                    <TextBlock Text="No additional slots available for this save type."
+                               FontSize="11" Opacity="0.6"
+                               IsVisible="{Binding !HasDaycare}" />
+                </StackPanel>
+            </ScrollViewer>
         </TabItem>
 
         <!-- SAV Tab (tool buttons) -->
@@ -122,6 +128,14 @@
                         <Button Content="Memory / Amie" Command="{Binding OpenMemoryAmieCommand}"
                                 Margin="2" Padding="10,4" FontSize="11" />
                         <Button Content="Tech Records" Command="{Binding OpenTechRecordEditorCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                    </WrapPanel>
+
+                    <!-- Utility buttons -->
+                    <WrapPanel Orientation="Horizontal" IsVisible="{Binding IsLoaded}" Margin="0,4,0,0">
+                        <Button Content="Verify Checksums" Command="{Binding VerifyChecksumsCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Export Backup" Command="{Binding ExportBackupCommand}"
                                 Margin="2" Padding="10,4" FontSize="11" />
                     </WrapPanel>
 

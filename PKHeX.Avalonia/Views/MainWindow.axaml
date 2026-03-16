@@ -48,6 +48,9 @@
                 <MenuItem Header="Open _Folder" Command="{Binding OpenFolderCommand}" />
             </MenuItem>
             <MenuItem Header="_Options">
+                <MenuItem Header="_Undo" Command="{Binding UndoSlotCommand}" InputGesture="Ctrl+U" />
+                <MenuItem Header="_Redo" Command="{Binding RedoSlotCommand}" InputGesture="Ctrl+Y" />
+                <Separator />
                 <MenuItem Header="_Settings" Command="{Binding OpenSettingsEditorCommand}" />
                 <Separator />
                 <MenuItem Header="Toggle _Dark Mode" Click="OnToggleThemeClick" />

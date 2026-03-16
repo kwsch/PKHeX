@@ -38,7 +38,7 @@
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Margin="4,2,4,2"
-                      RowDefinitions="27,27,27,27,27,27,27,27,27,27,27"
+                      RowDefinitions="27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27"
                       ColumnDefinitions="104,*">
                     <!-- PID -->
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="PID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
@@ -99,6 +99,27 @@
                         <CheckBox IsChecked="{Binding IsEgg}" Content="Is Egg" />
                         <CheckBox IsChecked="{Binding IsShiny}" Content="Shiny" />
                     </StackPanel>
+
+                    <!-- Shadow Pokemon (XD/Colosseum) -->
+                    <TextBlock Grid.Row="11" Grid.Column="0" Text="Shadow ID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                               IsVisible="{Binding HasShadow}" />
+                    <NumericUpDown Grid.Row="11" Grid.Column="1" Value="{Binding ShadowId}" Minimum="0" Maximum="65535" Height="25" Width="72" HorizontalAlignment="Left"
+                                   IsVisible="{Binding HasShadow}" />
+
+                    <TextBlock Grid.Row="12" Grid.Column="0" Text="Purification:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                               IsVisible="{Binding HasShadow}" />
+                    <NumericUpDown Grid.Row="12" Grid.Column="1" Value="{Binding Purification}" Minimum="-100" Maximum="20000" Height="25" Width="72" HorizontalAlignment="Left"
+                                   IsVisible="{Binding HasShadow}" />
+
+                    <!-- Catch Rate (Gen 1) -->
+                    <TextBlock Grid.Row="13" Grid.Column="0" Text="Catch Rate:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                               IsVisible="{Binding HasCatchRate}" />
+                    <NumericUpDown Grid.Row="13" Grid.Column="1" Value="{Binding CatchRate}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left"
+                                   IsVisible="{Binding HasCatchRate}" />
+
+                    <!-- N's Sparkle (Gen 5) -->
+                    <CheckBox Grid.Row="14" Grid.Column="1" Content="N's Sparkle" IsChecked="{Binding NSparkle}"
+                              IsVisible="{Binding HasNSparkle}" VerticalAlignment="Center" />
                 </Grid>
             </TabItem>
 

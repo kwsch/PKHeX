@@ -135,6 +135,12 @@ public sealed class SlotChangeManager
         var destPkm = _editor.GetSlotPKM(dest);
         bool destIsEmpty = destPkm is null || destPkm.Species == 0;
 
+        // Push undo for destination (always modified)
+        PushUndoForSlot(dest);
+        // Push undo for source when it will be modified (all modes except Clone)
+        if (mod != DropModifier.Clone)
+            PushUndoForSlot(source);
+
         // Write source PKM to destination
         WriteSlot(dest, sourcePkm);
 
@@ -165,6 +171,31 @@ public sealed class SlotChangeManager
         }
 
         _editor.ReloadSlots();
+    }
+
+    /// <summary>
+    /// Pushes the current state of a slot onto the undo stack.
+    /// </summary>
+    private void PushUndoForSlot(SlotModel slot)
+    {
+        var sav = _editor.SAV;
+        if (sav is null)
+            return;
+
+        int boxIndex = _editor.BoxSlots.IndexOf(slot);
+        if (boxIndex >= 0)
+        {
+            var existing = sav.GetBoxSlotAtIndex(_editor.CurrentBox, boxIndex);
+            _editor.PushUndo(_editor.CurrentBox, boxIndex, existing, isParty: false);
+            return;
+        }
+
+        int partyIndex = _editor.PartySlots.IndexOf(slot);
+        if (partyIndex >= 0)
+        {
+            var existing = sav.GetPartySlotAtIndex(partyIndex);
+            _editor.PushUndo(0, partyIndex, existing, isParty: true);
+        }
     }
 
     /// <summary>

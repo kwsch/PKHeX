@@ -145,6 +145,20 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private bool _hasContestStats;
     [ObservableProperty] private bool _hasFavorite;
 
+    // Gen-specific: Shadow Pokemon (XD/Colosseum)
+    [ObservableProperty] private int _shadowId;
+    [ObservableProperty] private int _purification;
+    [ObservableProperty] private bool _isShadow;
+    [ObservableProperty] private bool _hasShadow;
+
+    // Gen-specific: Catch Rate (Gen 1)
+    [ObservableProperty] private int _catchRate;
+    [ObservableProperty] private bool _hasCatchRate;
+
+    // Gen-specific: N's Sparkle (Gen 5)
+    [ObservableProperty] private bool _nSparkle;
+    [ObservableProperty] private bool _hasNSparkle;
+
     // OT
     [ObservableProperty] private string _ot = string.Empty;
     [ObservableProperty] private ushort _tid;
@@ -663,6 +677,46 @@ public partial class PKMEditorViewModel : ObservableObject
             Scale = 0;
         }
 
+        // Gen-specific: Shadow Pokemon (XD/Colosseum)
+        if (pk is IShadowCapture sc)
+        {
+            HasShadow = true;
+            ShadowId = sc.ShadowID;
+            Purification = sc.Purification;
+            IsShadow = sc.IsShadow;
+        }
+        else
+        {
+            HasShadow = false;
+            ShadowId = 0;
+            Purification = 0;
+            IsShadow = false;
+        }
+
+        // Gen-specific: Catch Rate (Gen 1)
+        if (pk is PK1 pk1)
+        {
+            HasCatchRate = true;
+            CatchRate = pk1.CatchRate;
+        }
+        else
+        {
+            HasCatchRate = false;
+            CatchRate = 0;
+        }
+
+        // Gen-specific: N's Sparkle (Gen 5)
+        if (pk is PK5 pk5)
+        {
+            HasNSparkle = true;
+            NSparkle = pk5.NSparkle;
+        }
+        else
+        {
+            HasNSparkle = false;
+            NSparkle = false;
+        }
+
         // Refresh location lists based on version/context before setting selected items
         RefreshLocationLists();
         RefreshFormList();
@@ -836,6 +890,21 @@ public partial class PKMEditorViewModel : ObservableObject
             if (Entity is IScaledSize3 ss3Save)
                 ss3Save.Scale = (byte)Math.Clamp(Scale, 0, 255);
         }
+
+        // Gen-specific: Shadow Pokemon (XD/Colosseum)
+        if (Entity is IShadowCapture scSave)
+        {
+            scSave.ShadowID = (ushort)ShadowId;
+            scSave.Purification = Purification;
+        }
+
+        // Gen-specific: Catch Rate (Gen 1)
+        if (Entity is PK1 pk1Save)
+            pk1Save.CatchRate = (byte)CatchRate;
+
+        // Gen-specific: N's Sparkle (Gen 5)
+        if (Entity is PK5 pk5Save)
+            pk5Save.NSparkle = NSparkle;
 
         return Entity;
     }

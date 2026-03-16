@@ -495,6 +495,16 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
+    #region Undo/Redo
+
+    [RelayCommand]
+    private void UndoSlot() => SavEditor?.Undo();
+
+    [RelayCommand]
+    private void RedoSlot() => SavEditor?.Redo();
+
+    #endregion
+
     #region Showdown Import/Export
 
     private static IClipboard? GetClipboard()
