@@ -58,6 +58,29 @@ public partial class PKMEditorViewModel : ObservableObject
     partial void OnGenderChanged(byte value)
     {
         OnPropertyChanged(nameof(GenderSymbol));
+        if (!_isPopulating)
+            UpdateSprite();
+    }
+
+    // Stat Nature (Gen 8+)
+    [ObservableProperty] private Nature _statNature;
+    [ObservableProperty] private bool _hasStatNature;
+    [ObservableProperty] private ComboItem? _selectedStatNature;
+
+    partial void OnSelectedStatNatureChanged(ComboItem? value)
+    {
+        if (value is not null)
+            StatNature = (Nature)value.Value;
+        if (!_isPopulating)
+        {
+            OnPropertyChanged(nameof(AtkColor));
+            OnPropertyChanged(nameof(DefColor));
+            OnPropertyChanged(nameof(SpAColor));
+            OnPropertyChanged(nameof(SpDColor));
+            OnPropertyChanged(nameof(SpeColor));
+            RecalcStats();
+            UpdateLegality();
+        }
     }
 
     [ObservableProperty] private int _ability;
@@ -65,6 +88,19 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private bool _isShiny;
     [ObservableProperty] private bool _isEgg;
     [ObservableProperty] private bool _isNicknamed;
+
+    // Pokerus
+    [ObservableProperty] private bool _isInfected;
+    [ObservableProperty] private bool _isCured;
+    [ObservableProperty] private int _pkrsStrain;
+    [ObservableProperty] private int _pkrsDays;
+
+    public bool ShowPkrsDetails => IsInfected;
+
+    partial void OnIsInfectedChanged(bool value)
+    {
+        OnPropertyChanged(nameof(ShowPkrsDetails));
+    }
 
     // Shiny display indicators
     [ObservableProperty] private bool _isShinyDisplay;
@@ -166,6 +202,10 @@ public partial class PKMEditorViewModel : ObservableObject
     // Alpha (Legends Arceus)
     [ObservableProperty] private bool _isAlpha;
     [ObservableProperty] private bool _hasAlpha;
+
+    // Noble (Legends Arceus)
+    [ObservableProperty] private bool _isNoble;
+    [ObservableProperty] private bool _hasNoble;
 
     // Tera Type (Gen 9)
     [ObservableProperty] private int _teraTypeOriginal;
@@ -469,7 +509,10 @@ public partial class PKMEditorViewModel : ObservableObject
         if (value is not null)
             Form = (byte)value.Value;
         if (!_isPopulating)
+        {
+            UpdateSprite();
             UpdateLegality();
+        }
     }
 
     partial void OnSelectedSpeciesChanged(ComboItem? value)
@@ -495,6 +538,7 @@ public partial class PKMEditorViewModel : ObservableObject
                 try { Nickname = speciesName; }
                 finally { _isPopulating = false; }
             }
+            UpdateSprite();
             UpdateLegality();
         }
     }
@@ -659,6 +703,11 @@ public partial class PKMEditorViewModel : ObservableObject
         Form = pk.Form;
         Gender = pk.Gender;
         Nature = pk.Nature;
+
+        // Stat Nature (Gen 8+ have separate stat nature)
+        HasStatNature = pk.Format >= 8;
+        StatNature = pk.StatNature;
+
         Ability = pk.Ability;
         HeldItem = pk.HeldItem;
         IsShiny = pk.IsShiny;
@@ -666,6 +715,12 @@ public partial class PKMEditorViewModel : ObservableObject
         IsSquareShiny = pk.IsShiny && pk.ShinyXor == 0;
         IsEgg = pk.IsEgg;
         IsNicknamed = pk.IsNicknamed;
+
+        // Pokerus
+        IsInfected = pk.IsPokerusInfected;
+        IsCured = pk.IsPokerusCured;
+        PkrsStrain = pk.PokerusStrain;
+        PkrsDays = pk.PokerusDays;
 
         // New fields
         PidHex = pk.PID.ToString("X8");
@@ -810,6 +865,18 @@ public partial class PKMEditorViewModel : ObservableObject
         {
             HasAlpha = false;
             IsAlpha = false;
+        }
+
+        // Noble (Legends Arceus)
+        if (pk is INoble noble)
+        {
+            HasNoble = true;
+            IsNoble = noble.IsNoble;
+        }
+        else
+        {
+            HasNoble = false;
+            IsNoble = false;
         }
 
         // Tera Type (Gen 9)
@@ -1251,6 +1318,8 @@ public partial class PKMEditorViewModel : ObservableObject
         // Look up ComboItems by matching Value
         SelectedSpecies = SpeciesList.FirstOrDefault(x => x.Value == pk.Species);
         SelectedNature = NatureList.FirstOrDefault(x => x.Value == (int)pk.Nature);
+        if (HasStatNature)
+            SelectedStatNature = NatureList.FirstOrDefault(x => x.Value == (int)pk.StatNature);
         SelectedHeldItem = HeldItemList.FirstOrDefault(x => x.Value == pk.HeldItem);
         SelectedMove1 = MoveList.FirstOrDefault(x => x.Value == pk.Move1);
         SelectedMove2 = MoveList.FirstOrDefault(x => x.Value == pk.Move2);
@@ -1307,6 +1376,8 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.Form = Form;
         Entity.Gender = Gender;
         Entity.Nature = Nature;
+        if (HasStatNature)
+            Entity.StatNature = StatNature;
         Entity.Ability = Ability;
         Entity.HeldItem = HeldItem;
 
@@ -1397,6 +1468,10 @@ public partial class PKMEditorViewModel : ObservableObject
         if (Entity is IAlpha alphaSave)
             alphaSave.IsAlpha = IsAlpha;
 
+        // Noble
+        if (Entity is INoble nobleSave)
+            nobleSave.IsNoble = IsNoble;
+
         // Tera Type
         if (Entity is ITeraType ttSave)
         {
@@ -1410,6 +1485,10 @@ public partial class PKMEditorViewModel : ObservableObject
 
         Entity.IsEgg = IsEgg;
         Entity.IsNicknamed = IsNicknamed;
+
+        // Pokerus
+        Entity.PokerusStrain = PkrsStrain;
+        Entity.PokerusDays = PkrsDays;
 
         // OT Gender
         Entity.OriginalTrainerGender = OtGender;
@@ -1669,6 +1748,40 @@ public partial class PKMEditorViewModel : ObservableObject
         Ev_SPA = 0; Ev_SPD = 0; Ev_SPE = 0;
     }
 
+    [RelayCommand]
+    private void RandomizeIvs()
+    {
+        var rng = new Random();
+        Iv_HP = rng.Next(32);
+        Iv_ATK = rng.Next(32);
+        Iv_DEF = rng.Next(32);
+        Iv_SPA = rng.Next(32);
+        Iv_SPD = rng.Next(32);
+        Iv_SPE = rng.Next(32);
+    }
+
+    [RelayCommand]
+    private void RandomizeEvs()
+    {
+        var rng = new Random();
+        int remaining = 510;
+        var stats = new int[6];
+        for (int i = 0; i < 6 && remaining > 0; i++)
+        {
+            int max = Math.Min(252, remaining);
+            stats[i] = rng.Next(max + 1);
+            remaining -= stats[i];
+        }
+        // Shuffle so it's not biased toward HP
+        for (int i = stats.Length - 1; i > 0; i--)
+        {
+            int j = rng.Next(i + 1);
+            (stats[i], stats[j]) = (stats[j], stats[i]);
+        }
+        Ev_HP = stats[0]; Ev_ATK = stats[1]; Ev_DEF = stats[2];
+        Ev_SPA = stats[3]; Ev_SPD = stats[4]; Ev_SPE = stats[5];
+    }
+
     // --- Full legality report (verbose, copies to clipboard) ---
 
     [RelayCommand]
@@ -1725,6 +1838,12 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (!_isPopulating)
             UpdateLegality();
+    }
+
+    partial void OnIsShinyChanged(bool value)
+    {
+        if (!_isPopulating)
+            UpdateSprite();
     }
 
     // --- IV changed handlers → recalc stats + legality ---

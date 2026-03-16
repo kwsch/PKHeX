@@ -52,7 +52,7 @@
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Margin="4,2,4,2"
-                      RowDefinitions="27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27"
+                      RowDefinitions="27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27"
                       ColumnDefinitions="104,*">
                     <!-- PID -->
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="PID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
@@ -89,61 +89,84 @@
                     <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding NatureList}" SelectedItem="{Binding SelectedNature}"
                               DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
 
+                    <!-- Stat Nature (Gen 8+) -->
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Stat Nature:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                               IsVisible="{Binding HasStatNature}" />
+                    <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding NatureList}" SelectedItem="{Binding SelectedStatNature}"
+                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left"
+                              IsVisible="{Binding HasStatNature}" />
+
                     <!-- Form -->
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Form:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding FormList}" SelectedItem="{Binding SelectedForm}"
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Form:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding FormList}" SelectedItem="{Binding SelectedForm}"
                               DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
 
                     <!-- Held Item -->
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Held Item:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding HeldItemList}" SelectedItem="{Binding SelectedHeldItem}"
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Held Item:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding HeldItemList}" SelectedItem="{Binding SelectedHeldItem}"
                               DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
 
                     <!-- Ability -->
-                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Ability:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding AbilityList}" SelectedItem="{Binding SelectedAbility}"
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Ability:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <ComboBox Grid.Row="8" Grid.Column="1" ItemsSource="{Binding AbilityList}" SelectedItem="{Binding SelectedAbility}"
                               DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
 
                     <!-- Friendship -->
-                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Friendship:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <NumericUpDown Grid.Row="8" Grid.Column="1" Value="{Binding Friendship}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left" />
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Friendship:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <NumericUpDown Grid.Row="9" Grid.Column="1" Value="{Binding Friendship}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left" />
 
                     <!-- Language -->
-                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Language:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <ComboBox Grid.Row="9" Grid.Column="1" ItemsSource="{Binding LanguageList}" SelectedItem="{Binding SelectedLanguage}"
+                    <TextBlock Grid.Row="10" Grid.Column="0" Text="Language:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <ComboBox Grid.Row="10" Grid.Column="1" ItemsSource="{Binding LanguageList}" SelectedItem="{Binding SelectedLanguage}"
                               DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
 
                     <!-- IsEgg + Shiny -->
-                    <StackPanel Grid.Row="10" Grid.Column="1" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                    <StackPanel Grid.Row="11" Grid.Column="1" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
                         <CheckBox IsChecked="{Binding IsEgg}" Content="Is Egg" />
                         <CheckBox IsChecked="{Binding IsShiny}" Content="Shiny" />
                     </StackPanel>
 
+                    <!-- PKRS -->
+                    <StackPanel Grid.Row="12" Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <CheckBox IsChecked="{Binding IsInfected}" Content="Infected" />
+                        <CheckBox IsChecked="{Binding IsCured}" Content="Cured" />
+                    </StackPanel>
+                    <!-- PKRS Details (conditional) -->
+                    <TextBlock Grid.Row="13" Grid.Column="0" Text="PKRS:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                               IsVisible="{Binding ShowPkrsDetails}" />
+                    <StackPanel Grid.Row="13" Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center"
+                                IsVisible="{Binding ShowPkrsDetails}">
+                        <TextBlock Text="Strain:" VerticalAlignment="Center" />
+                        <NumericUpDown Value="{Binding PkrsStrain}" Minimum="0" Maximum="15" Height="25" Width="50" />
+                        <TextBlock Text="Days:" VerticalAlignment="Center" Margin="4,0,0,0" />
+                        <NumericUpDown Value="{Binding PkrsDays}" Minimum="0" Maximum="4" Height="25" Width="50" />
+                    </StackPanel>
+
                     <!-- Shadow Pokemon (XD/Colosseum) -->
-                    <TextBlock Grid.Row="11" Grid.Column="0" Text="Shadow ID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                    <TextBlock Grid.Row="14" Grid.Column="0" Text="Shadow ID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
                                IsVisible="{Binding HasShadow}" />
-                    <NumericUpDown Grid.Row="11" Grid.Column="1" Value="{Binding ShadowId}" Minimum="0" Maximum="65535" Height="25" Width="72" HorizontalAlignment="Left"
+                    <NumericUpDown Grid.Row="14" Grid.Column="1" Value="{Binding ShadowId}" Minimum="0" Maximum="65535" Height="25" Width="72" HorizontalAlignment="Left"
                                    IsVisible="{Binding HasShadow}" />
 
-                    <TextBlock Grid.Row="12" Grid.Column="0" Text="Purification:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                    <TextBlock Grid.Row="15" Grid.Column="0" Text="Purification:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
                                IsVisible="{Binding HasShadow}" />
-                    <NumericUpDown Grid.Row="12" Grid.Column="1" Value="{Binding Purification}" Minimum="-100" Maximum="20000" Height="25" Width="72" HorizontalAlignment="Left"
+                    <NumericUpDown Grid.Row="15" Grid.Column="1" Value="{Binding Purification}" Minimum="-100" Maximum="20000" Height="25" Width="72" HorizontalAlignment="Left"
                                    IsVisible="{Binding HasShadow}" />
 
                     <!-- Catch Rate (Gen 1) -->
-                    <TextBlock Grid.Row="13" Grid.Column="0" Text="Catch Rate:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                    <TextBlock Grid.Row="16" Grid.Column="0" Text="Catch Rate:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
                                IsVisible="{Binding HasCatchRate}" />
-                    <NumericUpDown Grid.Row="13" Grid.Column="1" Value="{Binding CatchRate}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left"
+                    <NumericUpDown Grid.Row="16" Grid.Column="1" Value="{Binding CatchRate}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left"
                                    IsVisible="{Binding HasCatchRate}" />
 
                     <!-- N's Sparkle (Gen 5) -->
-                    <CheckBox Grid.Row="14" Grid.Column="1" Content="N's Sparkle" IsChecked="{Binding NSparkle}"
+                    <CheckBox Grid.Row="17" Grid.Column="1" Content="N's Sparkle" IsChecked="{Binding NSparkle}"
                               IsVisible="{Binding HasNSparkle}" VerticalAlignment="Center" />
 
                     <!-- Form Argument -->
-                    <TextBlock Grid.Row="15" Grid.Column="0" Text="Form Arg:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                    <TextBlock Grid.Row="18" Grid.Column="0" Text="Form Arg:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
                                IsVisible="{Binding HasFormArgument}" />
-                    <NumericUpDown Grid.Row="15" Grid.Column="1" Value="{Binding FormArgument}" Minimum="0" Maximum="{Binding FormArgumentMax}" Height="25" Width="80" HorizontalAlignment="Left"
+                    <NumericUpDown Grid.Row="18" Grid.Column="1" Value="{Binding FormArgument}" Minimum="0" Maximum="{Binding FormArgumentMax}" Height="25" Width="80" HorizontalAlignment="Left"
                                    IsVisible="{Binding HasFormArgument}" />
                 </Grid>
             </TabItem>
@@ -305,8 +328,10 @@
                         <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,2,0,0">
                             <Button Content="Max IVs" Command="{Binding MaxIvsCommand}" Padding="6,2" FontSize="10" />
                             <Button Content="Clear IVs" Command="{Binding ClearIvsCommand}" Padding="6,2" FontSize="10" />
+                            <Button Content="Rand IVs" Command="{Binding RandomizeIvsCommand}" Padding="6,2" FontSize="10" />
                             <Button Content="Max EVs" Command="{Binding MaxEvsCommand}" Padding="6,2" FontSize="10" />
                             <Button Content="Clear EVs" Command="{Binding ClearEvsCommand}" Padding="6,2" FontSize="10" />
+                            <Button Content="Rand EVs" Command="{Binding RandomizeEvsCommand}" Padding="6,2" FontSize="10" />
                         </StackPanel>
 
                         <!-- Awakening Values (Let's Go) -->
@@ -375,8 +400,11 @@
                         <!-- Gigantamax -->
                         <CheckBox IsVisible="{Binding HasGigantamax}" IsChecked="{Binding CanGigantamax}" Content="Can Gigantamax" Margin="4,2,0,0" />
 
-                        <!-- Alpha (Legends Arceus) -->
-                        <CheckBox IsVisible="{Binding HasAlpha}" IsChecked="{Binding IsAlpha}" Content="Is Alpha" Margin="4,2,0,0" />
+                        <!-- Alpha (Legends Arceus) + Noble -->
+                        <StackPanel Orientation="Horizontal" Spacing="8" Margin="4,2,0,0">
+                            <CheckBox IsVisible="{Binding HasAlpha}" IsChecked="{Binding IsAlpha}" Content="Is Alpha" />
+                            <CheckBox IsVisible="{Binding HasNoble}" IsChecked="{Binding IsNoble}" Content="Noble" />
+                        </StackPanel>
 
                         <!-- Tera Type (Gen 9) -->
                         <StackPanel IsVisible="{Binding HasTeraType}" Spacing="2">
