@@ -58,8 +58,11 @@ public partial class PKMEditorViewModel : ObservableObject
     partial void OnGenderChanged(byte value)
     {
         OnPropertyChanged(nameof(GenderSymbol));
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Gender = value;
             UpdateSprite();
+        }
     }
 
     /// <summary>Tooltip showing the numeric species ID.</summary>
@@ -126,6 +129,8 @@ public partial class PKMEditorViewModel : ObservableObject
     partial void OnIsInfectedChanged(bool value)
     {
         OnPropertyChanged(nameof(ShowPkrsDetails));
+        if (!_isPopulating && Entity is not null)
+            Entity.IsPokerusInfected = value;
     }
 
     // Shiny display indicators
@@ -708,8 +713,11 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             HeldItem = value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.HeldItem = HeldItem;
             UpdateLegality();
+        }
     }
 
     partial void OnSelectedMove1Changed(ComboItem? value)
@@ -748,8 +756,11 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             Ability = value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Ability = Ability;
             UpdateLegality();
+        }
     }
 
     partial void OnSelectedLanguageChanged(ComboItem? value)
@@ -2057,6 +2068,7 @@ public partial class PKMEditorViewModel : ObservableObject
     partial void OnNicknameChanged(string value)
     {
         if (_isPopulating || Entity is null) return;
+        Entity.Nickname = value;
         var defaultName = SpeciesName.GetSpeciesNameGeneration(Entity.Species, Entity.Language, Entity.Format);
         if (value != defaultName)
             IsNicknamed = true;
@@ -2092,8 +2104,9 @@ public partial class PKMEditorViewModel : ObservableObject
 
     partial void OnIsEggChanged(bool value)
     {
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
         {
+            Entity.IsEgg = value;
             UpdateLegality();
             UpdateSprite();
         }
@@ -2102,8 +2115,12 @@ public partial class PKMEditorViewModel : ObservableObject
 
     partial void OnIsShinyChanged(bool value)
     {
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
+        {
+            if (value && !Entity.IsShiny) Entity.SetShiny();
+            else if (!value && Entity.IsShiny) Entity.SetPIDGender(Entity.Gender);
             UpdateSprite();
+        }
     }
 
     // --- IV changed handlers → recalc stats + legality ---

@@ -23,7 +23,7 @@
         </StackPanel>
 
         <StackPanel Spacing="8" VerticalAlignment="Center">
-            <TextBlock Text="Gen 2 Crystal Real-Time Clock" FontWeight="SemiBold" FontSize="12" />
+            <TextBlock Text="Gen 2 Crystal Real-Time Clock" FontWeight="SemiBold" FontSize="13" />
             <TextBlock Text="{Binding StatusText}" TextWrapping="Wrap" FontSize="11" />
         </StackPanel>
     </DockPanel>
