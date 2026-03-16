@@ -15,7 +15,16 @@
                    Width="72" Height="56"
                    VerticalAlignment="Center"
                    Margin="24,0,0,0"
-                   RenderOptions.BitmapInterpolationMode="None" />
+                   RenderOptions.BitmapInterpolationMode="None">
+                <Image.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Legality Report" Command="{Binding ShowLegalityReportCommand}" />
+                        <MenuItem Header="Export as Showdown" Command="{Binding ExportShowdownCommand}" />
+                        <Separator />
+                        <MenuItem Header="Save as..." Command="{Binding SavePkmFileCommand}" />
+                    </ContextMenu>
+                </Image.ContextMenu>
+            </Image>
         </StackPanel>
 
         <!-- TabControl with LEFT-side tabs -->
@@ -63,7 +72,8 @@
 
                     <!-- Form -->
                     <TextBlock Grid.Row="5" Grid.Column="0" Text="Form:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Form}" Minimum="0" Height="25" Width="60" HorizontalAlignment="Left" />
+                    <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding FormList}" SelectedItem="{Binding SelectedForm}"
+                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
 
                     <!-- Held Item -->
                     <TextBlock Grid.Row="6" Grid.Column="0" Text="Held Item:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />

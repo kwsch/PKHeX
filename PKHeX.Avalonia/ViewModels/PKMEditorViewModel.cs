@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input.Platform;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -57,6 +62,7 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private int _heldItem;
     [ObservableProperty] private bool _isShiny;
     [ObservableProperty] private bool _isEgg;
+    [ObservableProperty] private bool _isNicknamed;
 
     // New fields
     [ObservableProperty] private string _pidHex = "00000000";
@@ -227,6 +233,9 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty]
     private bool _isInitialized;
 
+    // Legality report text (populated by context menu command)
+    [ObservableProperty] private string _legalityReport = string.Empty;
+
     // ComboBox data sources — sourced from GameInfo.FilteredSources
     public IReadOnlyList<ComboItem> SpeciesList => GameInfo.FilteredSources.Species;
     public IReadOnlyList<ComboItem> NatureList => GameInfo.FilteredSources.Natures;
@@ -240,6 +249,9 @@ public partial class PKMEditorViewModel : ObservableObject
     // Location lists are version/context-dependent and refreshed on populate
     [ObservableProperty] private IReadOnlyList<ComboItem> _metLocationList = Array.Empty<ComboItem>();
     [ObservableProperty] private IReadOnlyList<ComboItem> _eggLocationList = Array.Empty<ComboItem>();
+
+    // Form list — species-dependent, refreshed when species changes
+    [ObservableProperty] private IReadOnlyList<ComboItem> _formList = Array.Empty<ComboItem>();
 
     // Selected ComboItem bindings
     [ObservableProperty] private ComboItem? _selectedSpecies;
@@ -255,13 +267,41 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private ComboItem? _selectedVersion;
     [ObservableProperty] private ComboItem? _selectedMetLocation;
     [ObservableProperty] private ComboItem? _selectedEggLocation;
+    [ObservableProperty] private ComboItem? _selectedForm;
+
+    partial void OnSelectedFormChanged(ComboItem? value)
+    {
+        if (value is not null)
+            Form = (byte)value.Value;
+        if (!_isPopulating)
+            UpdateLegality();
+    }
 
     partial void OnSelectedSpeciesChanged(ComboItem? value)
     {
         if (value is not null)
             Species = (ushort)value.Value;
         if (!_isPopulating)
+        {
+            // Write species to Entity so downstream lookups use the new value
+            if (Entity is not null)
+                Entity.Species = Species;
+
+            // Refresh form list for the new species
+            RefreshFormList();
+            if (FormList.Count > 0)
+                SelectedForm = FormList[0];
+
+            // Auto-update nickname when species changes and the pokemon is not nicknamed
+            if (!IsNicknamed && Entity is not null)
+            {
+                var speciesName = SpeciesName.GetSpeciesNameGeneration(Entity.Species, Entity.Language, Entity.Format);
+                _isPopulating = true;
+                try { Nickname = speciesName; }
+                finally { _isPopulating = false; }
+            }
             UpdateLegality();
+        }
     }
 
     partial void OnSelectedNatureChanged(ComboItem? value)
@@ -371,6 +411,21 @@ public partial class PKMEditorViewModel : ObservableObject
         EggLocationList = GameInfo.GetLocationList(ver, ctx, egg: true);
     }
 
+    private void RefreshFormList()
+    {
+        if (Entity is null)
+            return;
+        var strings = GameInfo.Strings;
+        var formNames = FormConverter.GetFormList(Species, strings.Types, strings.forms, Entity.Context);
+        var items = new ComboItem[formNames.Length];
+        for (int i = 0; i < formNames.Length; i++)
+        {
+            var name = string.IsNullOrEmpty(formNames[i]) ? $"Form {i}" : formNames[i];
+            items[i] = new ComboItem(name, i);
+        }
+        FormList = items;
+    }
+
     public void Initialize(SaveFile sav)
     {
         _sav = sav;
@@ -405,6 +460,7 @@ public partial class PKMEditorViewModel : ObservableObject
         HeldItem = pk.HeldItem;
         IsShiny = pk.IsShiny;
         IsEgg = pk.IsEgg;
+        IsNicknamed = pk.IsNicknamed;
 
         // New fields
         PidHex = pk.PID.ToString("X8");
@@ -609,6 +665,7 @@ public partial class PKMEditorViewModel : ObservableObject
 
         // Refresh location lists based on version/context before setting selected items
         RefreshLocationLists();
+        RefreshFormList();
 
         // Look up ComboItems by matching Value
         SelectedSpecies = SpeciesList.FirstOrDefault(x => x.Value == pk.Species);
@@ -627,6 +684,8 @@ public partial class PKMEditorViewModel : ObservableObject
 
         if (pk is IBattleVersion)
             SelectedBattleVersion = VersionList.FirstOrDefault(x => x.Value == BattleVersion);
+
+        SelectedForm = FormList.FirstOrDefault(x => x.Value == pk.Form);
 
         UpdateSprite();
         }
@@ -685,6 +744,7 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.SID16 = Sid;
 
         Entity.IsEgg = IsEgg;
+        Entity.IsNicknamed = IsNicknamed;
 
         // OT Gender
         Entity.OriginalTrainerGender = OtGender;
@@ -778,6 +838,16 @@ public partial class PKMEditorViewModel : ObservableObject
         }
 
         return Entity;
+    }
+
+    // --- Nickname changed → auto-detect IsNicknamed ---
+
+    partial void OnNicknameChanged(string value)
+    {
+        if (_isPopulating || Entity is null) return;
+        var defaultName = SpeciesName.GetSpeciesNameGeneration(Entity.Species, Entity.Language, Entity.Format);
+        if (value != defaultName)
+            IsNicknamed = true;
     }
 
     // --- Level ↔ EXP bidirectional sync ---
@@ -891,6 +961,43 @@ public partial class PKMEditorViewModel : ObservableObject
             -1 => "#FF4444",         // red for -10%
             _ => "#000000",          // default/neutral
         };
+    }
+
+    // --- Sprite context menu commands ---
+
+    [RelayCommand]
+    private void ShowLegalityReport()
+    {
+        if (Entity is null) return;
+        var la = new LegalityAnalysis(Entity);
+        var report = la.Report();
+        LegalityReport = report;
+    }
+
+    [RelayCommand]
+    private async Task ExportShowdown()
+    {
+        if (Entity is null) return;
+        var text = ShowdownParsing.GetShowdownText(Entity);
+        var clipboard = GetClipboard();
+        if (clipboard is not null)
+            await clipboard.SetTextAsync(text);
+    }
+
+    [RelayCommand]
+    private void SavePkmFile()
+    {
+        if (Entity is null) return;
+        PreparePKM();
+    }
+
+    private static IClipboard? GetClipboard()
+    {
+        var lifetime = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+        var mainWindow = lifetime?.MainWindow;
+        if (mainWindow is null)
+            return null;
+        return TopLevel.GetTopLevel(mainWindow)?.Clipboard;
     }
 
     // --- Legality auto-check ---
