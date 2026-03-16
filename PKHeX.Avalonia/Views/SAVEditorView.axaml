@@ -72,29 +72,25 @@
             </DockPanel>
         </TabItem>
 
-        <!-- Party Tab -->
+        <!-- Party Tab (2 columns x 3 rows, matching WinForms PartyEditor) -->
         <TabItem Header="Party">
-            <DockPanel Margin="2,4">
-                <TextBlock DockPanel.Dock="Top" Text="Party" FontWeight="SemiBold" FontSize="11" Margin="0,0,0,4" />
-                <Border CornerRadius="4" ClipToBounds="True"
-                        Background="{DynamicResource PKHeXBoxBackground}"
-                        BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
-                        BorderThickness="1"
-                        HorizontalAlignment="Center" Padding="4">
-                    <ItemsControl ItemsSource="{Binding PartySlots}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="6" Rows="1" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <views:SlotControl />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-            </DockPanel>
+            <Border CornerRadius="0" ClipToBounds="True"
+                    Background="Transparent"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Margin="2,4">
+                <ItemsControl ItemsSource="{Binding PartySlots}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2" Rows="3" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <views:SlotControl />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
         </TabItem>
 
         <!-- Other Tab -->
