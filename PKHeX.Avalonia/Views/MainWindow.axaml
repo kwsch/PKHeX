@@ -13,6 +13,7 @@
         <KeyBinding Gesture="Ctrl+Q" Command="{Binding ExitCommand}" />
         <KeyBinding Gesture="Ctrl+T" Command="{Binding ImportShowdownCommand}" />
         <KeyBinding Gesture="Ctrl+Shift+T" Command="{Binding ExportShowdownCommand}" />
+        <KeyBinding Gesture="Ctrl+E" Command="{Binding ExportSAVCommand}" />
         <KeyBinding Gesture="Ctrl+D" Command="{Binding OpenDatabaseCommand}" />
         <KeyBinding Gesture="Ctrl+R" Command="{Binding OpenReportGridCommand}" />
         <KeyBinding Gesture="Ctrl+F" Command="{Binding OpenFolderCommand}" />
@@ -30,7 +31,8 @@
                 <MenuItem Header="_Open..." Command="{Binding OpenFileCommand}" InputGesture="Ctrl+O" />
                 <MenuItem Header="_Save..." Command="{Binding SaveFileCommand}" InputGesture="Ctrl+S" />
                 <Separator />
-                <MenuItem Header="_Export PKM..." Command="{Binding ExportPKMCommand}" InputGesture="Ctrl+E" />
+                <MenuItem Header="_Export PKM..." Command="{Binding ExportPKMCommand}" />
+                <MenuItem Header="Export _SAV..." Command="{Binding ExportSAVCommand}" InputGesture="Ctrl+E" />
                 <Separator />
                 <MenuItem Header="E_xit" Command="{Binding ExitCommand}" InputGesture="Ctrl+Q" />
             </MenuItem>
@@ -64,6 +66,7 @@
             <MenuItem Header="_Data">
                 <MenuItem Header="_Load Boxes..." Command="{Binding LoadBoxesCommand}" />
                 <MenuItem Header="_Dump Box..." Command="{Binding DumpBoxCommand}" />
+                <MenuItem Header="Dump All Bo_xes..." Command="{Binding DumpAllBoxesCommand}" />
             </MenuItem>
             <MenuItem Header="_Options">
                 <MenuItem Header="_Language">

@@ -271,6 +271,67 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
+    [RelayCommand]
+    private async Task ExportSAVAsync()
+    {
+        if (SaveFile is null)
+            return;
+
+        var path = await _dialogService.SaveFileAsync("Export SAV", SaveFile.Metadata.FileName ?? "save");
+        if (path is null)
+            return;
+
+        try
+        {
+            ExportSAV(SaveFile, path);
+            StatusMessage = $"Exported SAV to {Path.GetFileName(path)}";
+        }
+        catch (Exception ex)
+        {
+            await _dialogService.ShowErrorAsync("Export Error", ex.Message);
+        }
+    }
+
+    [RelayCommand]
+    private async Task DumpAllBoxesAsync()
+    {
+        if (SaveFile is null)
+            return;
+
+        try
+        {
+            var folder = await _dialogService.OpenFolderAsync("Select output folder for all boxes");
+            if (string.IsNullOrEmpty(folder))
+                return;
+
+            int dumped = 0;
+            for (int box = 0; box < SaveFile.BoxCount; box++)
+            {
+                var boxDir = Path.Combine(folder, $"Box {box + 1:00}");
+                Directory.CreateDirectory(boxDir);
+                for (int slot = 0; slot < SaveFile.BoxSlotCount; slot++)
+                {
+                    var pk = SaveFile.GetBoxSlotAtIndex(box, slot);
+                    if (pk.Species == 0)
+                        continue;
+
+                    var fileName = $"{pk.Species:000}_{pk.Nickname}.{pk.Extension}";
+                    foreach (var c in Path.GetInvalidFileNameChars())
+                        fileName = fileName.Replace(c, '_');
+
+                    await File.WriteAllBytesAsync(Path.Combine(boxDir, fileName), pk.DecryptedBoxData);
+                    dumped++;
+                }
+            }
+
+            StatusMessage = $"Dumped {dumped} Pokemon from all boxes.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Dump All Boxes error: {ex.Message}";
+        }
+    }
+
     public async Task LoadFileAsync(string path)
     {
         try

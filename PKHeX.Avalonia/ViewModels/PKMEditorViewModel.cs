@@ -182,6 +182,15 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private bool _move3Legal = true;
     [ObservableProperty] private bool _move4Legal = true;
 
+    // Relearn move legality indicators
+    [ObservableProperty] private bool _relearn1Legal = true;
+    [ObservableProperty] private bool _relearn2Legal = true;
+    [ObservableProperty] private bool _relearn3Legal = true;
+    [ObservableProperty] private bool _relearn4Legal = true;
+
+    // Status Condition display
+    [ObservableProperty] private string _statusConditionText = string.Empty;
+
     // Hyper Training
     [ObservableProperty] private bool _htHp;
     [ObservableProperty] private bool _htAtk;
@@ -211,6 +220,25 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private int _teraTypeOriginal;
     [ObservableProperty] private int _teraTypeOverride;
     [ObservableProperty] private bool _hasTeraType;
+    [ObservableProperty] private IReadOnlyList<ComboItem> _teraTypeList = Array.Empty<ComboItem>();
+    [ObservableProperty] private ComboItem? _selectedTeraOriginal;
+    [ObservableProperty] private ComboItem? _selectedTeraOverride;
+
+    partial void OnSelectedTeraOriginalChanged(ComboItem? value)
+    {
+        if (value is not null)
+            TeraTypeOriginal = value.Value;
+        if (!_isPopulating)
+            UpdateLegality();
+    }
+
+    partial void OnSelectedTeraOverrideChanged(ComboItem? value)
+    {
+        if (value is not null)
+            TeraTypeOverride = value.Value;
+        if (!_isPopulating)
+            UpdateLegality();
+    }
 
     // EV Total display
     [ObservableProperty] private int _evTotal;
@@ -224,6 +252,9 @@ public partial class PKMEditorViewModel : ObservableObject
 
     // Base Stat Total
     [ObservableProperty] private int _baseST;
+
+    // Ball sprite
+    [ObservableProperty] private Bitmap? _ballSprite;
 
     // Met
     [ObservableProperty] private ushort _metLocation;
@@ -377,6 +408,14 @@ public partial class PKMEditorViewModel : ObservableObject
         OnPropertyChanged(nameof(HtGenderSymbol));
     }
 
+    [RelayCommand]
+    private void ToggleHtGender()
+    {
+        if (Entity is null) return;
+        HtGender = (byte)((HtGender + 1) % 3);
+        OnPropertyChanged(nameof(HtGenderSymbol));
+    }
+
     [ObservableProperty] private bool _hasHandler;
 
     // Encryption Constant
@@ -452,6 +491,45 @@ public partial class PKMEditorViewModel : ObservableObject
 
     // Region Origin (Gen 6-7, 3DS)
     [ObservableProperty] private int _country, _subRegion, _consoleRegion;
+    [ObservableProperty] private string _countryName = string.Empty;
+    [ObservableProperty] private string _subRegionName = string.Empty;
+    [ObservableProperty] private string _consoleRegionName = string.Empty;
+
+    partial void OnCountryChanged(int value)
+    {
+        if (!_isPopulating)
+            UpdateRegionNames();
+    }
+
+    partial void OnSubRegionChanged(int value)
+    {
+        if (!_isPopulating)
+            UpdateRegionNames();
+    }
+
+    partial void OnConsoleRegionChanged(int value)
+    {
+        if (!_isPopulating)
+            UpdateRegionNames();
+    }
+
+    private void UpdateRegionNames()
+    {
+        try
+        {
+            var lang = GameInfo.CurrentLanguage;
+            CountryName = GeoLocation.GetCountryName(lang, (byte)Country);
+            SubRegionName = GeoLocation.GetRegionName(lang, (byte)Country, (byte)SubRegion);
+            var consoleRegionNames = new[] { "Japan", "Americas", "Europe", "China", "Korea", "Taiwan" };
+            ConsoleRegionName = ConsoleRegion >= 0 && ConsoleRegion < consoleRegionNames.Length ? consoleRegionNames[ConsoleRegion] : $"{ConsoleRegion}";
+        }
+        catch
+        {
+            CountryName = string.Empty;
+            SubRegionName = string.Empty;
+            ConsoleRegionName = string.Empty;
+        }
+    }
     [ObservableProperty] private bool _hasRegionData;
 
     // Handler Language
@@ -617,6 +695,21 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             Ball = (byte)value.Value;
+        if (!_isPopulating)
+            UpdateBallSprite();
+    }
+
+    private void UpdateBallSprite()
+    {
+        try
+        {
+            var skBitmap = SpriteUtil.GetBallSprite(Ball);
+            BallSprite = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmap(skBitmap);
+        }
+        catch
+        {
+            BallSprite = null;
+        }
     }
 
     partial void OnSelectedVersionChanged(ComboItem? value)
@@ -885,12 +978,24 @@ public partial class PKMEditorViewModel : ObservableObject
             HasTeraType = true;
             TeraTypeOriginal = (int)tt.TeraTypeOriginal;
             TeraTypeOverride = (int)tt.TeraTypeOverride;
+
+            // Build tera type list from type names
+            var teraTypes = GameInfo.Strings.Types;
+            var teraList = new List<ComboItem>();
+            for (int i = 0; i < teraTypes.Count; i++)
+                teraList.Add(new ComboItem(teraTypes[i], i));
+            TeraTypeList = teraList;
+            SelectedTeraOriginal = teraList.FirstOrDefault(x => x.Value == TeraTypeOriginal);
+            SelectedTeraOverride = teraList.FirstOrDefault(x => x.Value == TeraTypeOverride);
         }
         else
         {
             HasTeraType = false;
             TeraTypeOriginal = 0;
             TeraTypeOverride = 0;
+            TeraTypeList = Array.Empty<ComboItem>();
+            SelectedTeraOriginal = null;
+            SelectedTeraOverride = null;
         }
 
         // EV Total
@@ -964,11 +1069,13 @@ public partial class PKMEditorViewModel : ObservableObject
             Country = ro.Country;
             SubRegion = ro.Region;
             ConsoleRegion = ro.ConsoleRegion;
+            UpdateRegionNames();
         }
         else
         {
             HasRegionData = false;
             Country = SubRegion = ConsoleRegion = 0;
+            CountryName = SubRegionName = ConsoleRegionName = string.Empty;
         }
 
         // Encryption Constant
@@ -1189,6 +1296,18 @@ public partial class PKMEditorViewModel : ObservableObject
         // Met — As Egg
         MetAsEgg = pk.EggLocation > 0;
 
+        // Status Condition
+        var statusType = pk.GetStatusType();
+        StatusConditionText = statusType switch
+        {
+            StatusType.Paralysis => "Paralysis",
+            StatusType.Sleep => "Sleep",
+            StatusType.Freeze => "Frozen",
+            StatusType.Burn => "Burn",
+            StatusType.Poison => "Poison",
+            _ => string.Empty,
+        };
+
         // Cosmetic — Shiny Leaf (Gen 4)
         if (pk is G4PKM g4)
         {
@@ -1328,6 +1447,7 @@ public partial class PKMEditorViewModel : ObservableObject
         SelectedAbility = AbilityList.FirstOrDefault(x => x.Value == pk.Ability);
         SelectedLanguage = LanguageList.FirstOrDefault(x => x.Value == pk.Language);
         SelectedBall = BallList.FirstOrDefault(x => x.Value == pk.Ball);
+        UpdateBallSprite();
         SelectedVersion = VersionList.FirstOrDefault(x => x.Value == (int)pk.Version);
         SelectedMetLocation = MetLocationList.FirstOrDefault(x => x.Value == pk.MetLocation);
         SelectedEggLocation = EggLocationList.FirstOrDefault(x => x.Value == pk.EggLocation);
@@ -1429,12 +1549,15 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.Move3 = Move3;
         Entity.Move4 = Move4;
 
-        // Move PP Ups
+        // Move PP and PP Ups
+        Entity.Move1_PP = Move1_PP;
+        Entity.Move2_PP = Move2_PP;
+        Entity.Move3_PP = Move3_PP;
+        Entity.Move4_PP = Move4_PP;
         Entity.Move1_PPUps = Move1_PPUps;
         Entity.Move2_PPUps = Move2_PPUps;
         Entity.Move3_PPUps = Move3_PPUps;
         Entity.Move4_PPUps = Move4_PPUps;
-        Entity.SetMaximumPPCurrent(Entity.Moves);
 
         // Relearn Moves
         if (HasRelearnMoves)
@@ -1987,6 +2110,38 @@ public partial class PKMEditorViewModel : ObservableObject
         }
     }
 
+    // --- OT Name warning ---
+
+    [RelayCommand]
+    private void ShowOtNameWarning()
+    {
+        if (Entity is null) return;
+        var otName = Ot ?? string.Empty;
+
+        bool hasSpecialChars = false;
+        foreach (var c in otName)
+        {
+            if (c > 0x7E || c < 0x20)
+            {
+                hasSpecialChars = true;
+                break;
+            }
+        }
+
+        if (string.IsNullOrEmpty(otName))
+        {
+            LegalityReport = "OT Name is empty.";
+        }
+        else if (hasSpecialChars)
+        {
+            LegalityReport = $"OT Name '{otName}' contains special characters that may not render correctly in-game.";
+        }
+        else
+        {
+            LegalityReport = $"OT Name '{otName}' appears to use standard characters.";
+        }
+    }
+
     // --- Sprite context menu commands ---
 
     [RelayCommand]
@@ -2032,6 +2187,7 @@ public partial class PKMEditorViewModel : ObservableObject
         {
             LegalityImage = null;
             Move1Legal = Move2Legal = Move3Legal = Move4Legal = true;
+            Relearn1Legal = Relearn2Legal = Relearn3Legal = Relearn4Legal = true;
             return;
         }
 
@@ -2065,11 +2221,26 @@ public partial class PKMEditorViewModel : ObservableObject
             {
                 Move1Legal = Move2Legal = Move3Legal = Move4Legal = true;
             }
+
+            // Relearn legality
+            var relearn = la.Info.Relearn;
+            if (relearn is { Length: >= 4 })
+            {
+                Relearn1Legal = relearn[0].Valid;
+                Relearn2Legal = relearn[1].Valid;
+                Relearn3Legal = relearn[2].Valid;
+                Relearn4Legal = relearn[3].Valid;
+            }
+            else
+            {
+                Relearn1Legal = Relearn2Legal = Relearn3Legal = Relearn4Legal = true;
+            }
         }
         catch
         {
             LegalityImage = null;
             Move1Legal = Move2Legal = Move3Legal = Move4Legal = true;
+            Relearn1Legal = Relearn2Legal = Relearn3Legal = Relearn4Legal = true;
         }
     }
 
