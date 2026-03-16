@@ -7,44 +7,50 @@
                      Title="Search Setup"
                      Width="450" Height="400"
                      MinWidth="350" MinHeight="300"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
-    <DockPanel Margin="12">
+    <DockPanel Margin="8">
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center" FontSize="12" />
-            <Button Content="Search" Command="{Binding SearchCommand}" Width="80" />
-            <Button Content="Reset" Command="{Binding ResetCommand}" Width="80" />
-            <Button Content="Close" Click="OnCloseClick" Width="80" />
+            <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center" FontSize="11" />
+            <Button Content="Search" Command="{Binding SearchCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Reset" Command="{Binding ResetCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Close" Click="OnCloseClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Filter fields -->
         <StackPanel Spacing="10">
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="Species:" VerticalAlignment="Center" Width="80" />
+                <TextBlock Text="Species:" VerticalAlignment="Center" Width="80"
+                           FontWeight="SemiBold" FontSize="11" />
                 <ComboBox ItemsSource="{Binding SpeciesList}"
                           SelectedIndex="{Binding SelectedSpecies}"
-                          MinWidth="200" MaxDropDownHeight="300" />
+                          MinWidth="200" Height="25" MaxDropDownHeight="300" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="Move:" VerticalAlignment="Center" Width="80" />
+                <TextBlock Text="Move:" VerticalAlignment="Center" Width="80"
+                           FontWeight="SemiBold" FontSize="11" />
                 <ComboBox ItemsSource="{Binding MoveList}"
                           SelectedIndex="{Binding SelectedMove}"
-                          MinWidth="200" MaxDropDownHeight="300" />
+                          MinWidth="200" Height="25" MaxDropDownHeight="300" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="Ability:" VerticalAlignment="Center" Width="80" />
+                <TextBlock Text="Ability:" VerticalAlignment="Center" Width="80"
+                           FontWeight="SemiBold" FontSize="11" />
                 <ComboBox ItemsSource="{Binding AbilityList}"
                           SelectedIndex="{Binding SelectedAbility}"
-                          MinWidth="200" MaxDropDownHeight="300" />
+                          MinWidth="200" Height="25" MaxDropDownHeight="300" />
             </StackPanel>
 
             <!-- Advanced instructions -->
-            <TextBlock Text="Advanced Filter Instructions:" Margin="0,8,0,0" />
+            <TextBlock Text="Advanced Filter Instructions:" Margin="0,8,0,0"
+                       FontWeight="SemiBold" FontSize="11" />
             <TextBox Text="{Binding InstructionText}"
                      AcceptsReturn="True"
                      Height="100"

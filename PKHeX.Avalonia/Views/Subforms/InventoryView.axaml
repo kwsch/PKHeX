@@ -16,10 +16,10 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Sort by Name" Command="{Binding SortByNameCommand}" MinWidth="90" />
-            <Button Content="Sort by Count" Command="{Binding SortByCountCommand}" MinWidth="90" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Sort by Name" Command="{Binding SortByNameCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Sort by Count" Command="{Binding SortByCountCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Tab control with one tab per pouch -->
@@ -27,7 +27,7 @@
                     SelectedIndex="{Binding SelectedPouchIndex}">
             <TabControl.ItemTemplate>
                 <DataTemplate x:DataType="vm:InventoryPouchModel">
-                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock Text="{Binding Name}" FontSize="11" />
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>

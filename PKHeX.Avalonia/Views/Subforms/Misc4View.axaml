@@ -7,6 +7,8 @@
                      Title="Gen 4 Misc Editor"
                      Width="600" Height="700"
                      MinWidth="500" MinHeight="500"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,25 +16,30 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
             <StackPanel Spacing="12">
                 <!-- General -->
-                <TextBlock Text="General" FontWeight="Bold" FontSize="14" />
+                <TextBlock Text="General" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,Auto">
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Coins:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Coins}" Minimum="0" Maximum="{Binding MaxCoins}" Width="160" Margin="8,4" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Coins:" VerticalAlignment="Center"
+                               FontWeight="SemiBold" FontSize="11" Margin="0,4" />
+                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Coins}" Minimum="0" Maximum="{Binding MaxCoins}"
+                                   Width="160" Height="25" Margin="8,4" />
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="BP:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Bp}" Minimum="0" Maximum="9999" Width="160" Margin="8,4" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="BP:" VerticalAlignment="Center"
+                               FontWeight="SemiBold" FontSize="11" Margin="0,4" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Bp}" Minimum="0" Maximum="9999"
+                                   Width="160" Height="25" Margin="8,4" />
                 </Grid>
 
                 <!-- Fly Destinations -->
-                <TextBlock Text="Fly Destinations" FontWeight="Bold" FontSize="14" Margin="0,8,0,0" />
-                <Button Content="Unlock All" Command="{Binding UnlockAllFlyDestCommand}" HorizontalAlignment="Left" />
+                <TextBlock Text="Fly Destinations" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
+                <Button Content="Unlock All" Command="{Binding UnlockAllFlyDestCommand}"
+                        MinWidth="75" Padding="8,4" HorizontalAlignment="Left" />
                 <ItemsControl ItemsSource="{Binding FlyDestinations}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:FlyDestModel">
@@ -43,11 +50,14 @@
 
                 <!-- Poketch (Sinnoh only) -->
                 <StackPanel Spacing="8" IsVisible="{Binding ShowPoketch}">
-                    <TextBlock Text="Poketch" FontWeight="Bold" FontSize="14" Margin="0,8,0,0" />
+                    <TextBlock Text="Poketch" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBlock Text="Current App:" VerticalAlignment="Center" />
-                        <NumericUpDown Value="{Binding CurrentPoketchApp}" Minimum="0" Maximum="24" Width="100" />
-                        <Button Content="Unlock All Apps" Command="{Binding UnlockAllPoketchAppsCommand}" />
+                        <TextBlock Text="Current App:" VerticalAlignment="Center"
+                                   FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding CurrentPoketchApp}" Minimum="0" Maximum="24"
+                                       Width="100" Height="25" />
+                        <Button Content="Unlock All Apps" Command="{Binding UnlockAllPoketchAppsCommand}"
+                                MinWidth="75" Padding="8,4" />
                     </StackPanel>
                     <ItemsControl ItemsSource="{Binding PoketchApps}">
                         <ItemsControl.ItemTemplate>
@@ -60,21 +70,27 @@
 
                 <!-- UG Flags (Sinnoh only) -->
                 <StackPanel Spacing="4" IsVisible="{Binding ShowUGFlags}">
-                    <TextBlock Text="Underground Flags Captured:" FontWeight="SemiBold" Margin="0,8,0,0" />
-                    <NumericUpDown Value="{Binding UgFlagsCaptured}" Minimum="0" Maximum="999999" Width="160" />
+                    <TextBlock Text="Underground Flags Captured:" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
+                    <NumericUpDown Value="{Binding UgFlagsCaptured}" Minimum="0" Maximum="999999"
+                                   Width="160" Height="25" />
                 </StackPanel>
 
                 <!-- Walker (HGSS only) -->
                 <StackPanel Spacing="8" IsVisible="{Binding ShowWalker}">
-                    <TextBlock Text="Pokewalker" FontWeight="Bold" FontSize="14" Margin="0,8,0,0" />
+                    <TextBlock Text="Pokewalker" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
                     <Grid ColumnDefinitions="100,*" RowDefinitions="Auto,Auto">
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Watts:" VerticalAlignment="Center" Margin="0,4" />
-                        <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding WalkerWatts}" Minimum="0" Maximum="999999" Width="160" Margin="8,4" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Watts:" VerticalAlignment="Center"
+                                   FontWeight="SemiBold" FontSize="11" Margin="0,4" />
+                        <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding WalkerWatts}" Minimum="0" Maximum="999999"
+                                       Width="160" Height="25" Margin="8,4" />
 
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Steps:" VerticalAlignment="Center" Margin="0,4" />
-                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding WalkerSteps}" Minimum="0" Maximum="999999" Width="160" Margin="8,4" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Steps:" VerticalAlignment="Center"
+                                   FontWeight="SemiBold" FontSize="11" Margin="0,4" />
+                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding WalkerSteps}" Minimum="0" Maximum="999999"
+                                       Width="160" Height="25" Margin="8,4" />
                     </Grid>
-                    <Button Content="Unlock All Courses" Command="{Binding UnlockAllWalkerCoursesCommand}" HorizontalAlignment="Left" />
+                    <Button Content="Unlock All Courses" Command="{Binding UnlockAllWalkerCoursesCommand}"
+                            MinWidth="75" Padding="8,4" HorizontalAlignment="Left" />
                     <ItemsControl ItemsSource="{Binding WalkerCourses}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:WalkerCourseModel">
@@ -86,28 +102,38 @@
 
                 <!-- Pokeathlon (HGSS only) -->
                 <StackPanel Spacing="4" IsVisible="{Binding ShowPokeathlon}">
-                    <TextBlock Text="Pokeathlon Points:" FontWeight="SemiBold" Margin="0,8,0,0" />
-                    <NumericUpDown Value="{Binding PokeathlonPoints}" Minimum="0" Maximum="999999" Width="160" />
+                    <TextBlock Text="Pokeathlon Points:" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
+                    <NumericUpDown Value="{Binding PokeathlonPoints}" Minimum="0" Maximum="999999"
+                                   Width="160" Height="25" />
                 </StackPanel>
 
                 <!-- Map (HGSS only) -->
                 <StackPanel Spacing="4" IsVisible="{Binding ShowMap}">
-                    <TextBlock Text="Map Upgrade:" FontWeight="SemiBold" Margin="0,8,0,0" />
-                    <ComboBox ItemsSource="{Binding MapOptions}" SelectedIndex="{Binding MapUpgradeIndex}" Width="200" />
+                    <TextBlock Text="Map Upgrade:" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
+                    <ComboBox ItemsSource="{Binding MapOptions}" SelectedIndex="{Binding MapUpgradeIndex}"
+                              Width="200" Height="25" />
                 </StackPanel>
 
                 <!-- Records -->
-                <TextBlock Text="Records" FontWeight="Bold" FontSize="14" Margin="0,8,0,0" />
+                <TextBlock Text="Records" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
                 <Grid ColumnDefinitions="100,100,100,*" RowDefinitions="Auto,Auto">
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Record16:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Record16Index}" Minimum="0" Maximum="76" Width="90" Margin="4" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Value:" VerticalAlignment="Center" Margin="4" />
-                    <NumericUpDown Grid.Row="0" Grid.Column="3" Value="{Binding Record16Value}" Minimum="0" Maximum="65535" Width="120" Margin="4" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Record16:" VerticalAlignment="Center"
+                               FontWeight="SemiBold" FontSize="11" Margin="0,4" />
+                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Record16Index}" Minimum="0" Maximum="76"
+                                   Width="90" Height="25" Margin="4" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Value:" VerticalAlignment="Center"
+                               FontWeight="SemiBold" FontSize="11" Margin="4" />
+                    <NumericUpDown Grid.Row="0" Grid.Column="3" Value="{Binding Record16Value}" Minimum="0" Maximum="65535"
+                                   Width="120" Height="25" Margin="4" />
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Record32:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Record32Index}" Minimum="0" Maximum="100" Width="90" Margin="4" />
-                    <TextBlock Grid.Row="1" Grid.Column="2" Text="Value:" VerticalAlignment="Center" Margin="4" />
-                    <NumericUpDown Grid.Row="1" Grid.Column="3" Value="{Binding Record32Value}" Minimum="0" Maximum="999999999" Width="120" Margin="4" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Record32:" VerticalAlignment="Center"
+                               FontWeight="SemiBold" FontSize="11" Margin="0,4" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Record32Index}" Minimum="0" Maximum="100"
+                                   Width="90" Height="25" Margin="4" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="Value:" VerticalAlignment="Center"
+                               FontWeight="SemiBold" FontSize="11" Margin="4" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="3" Value="{Binding Record32Value}" Minimum="0" Maximum="999999999"
+                                   Width="120" Height="25" Margin="4" />
                 </Grid>
             </StackPanel>
         </ScrollViewer>

@@ -7,6 +7,8 @@
                      Title="Hall of Fame (Gen 3)"
                      Width="550" Height="500"
                      MinWidth="450" MinHeight="400"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,15 +16,15 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Clear" Command="{Binding ClearFieldsCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Clear" Command="{Binding ClearFieldsCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="140,*" Margin="0,0,0,8">
             <!-- Left: Entry list -->
             <DockPanel Grid.Column="0" Margin="0,0,8,0">
-                <TextBlock DockPanel.Dock="Top" Text="Entries" FontWeight="SemiBold" Margin="0,0,0,4" />
+                <TextBlock DockPanel.Dock="Top" Text="Entries" FontWeight="SemiBold" FontSize="11" Margin="0,0,0,4" />
                 <ListBox ItemsSource="{Binding EntryIndices}"
                          SelectedIndex="{Binding SelectedEntryIndex}" />
             </DockPanel>
@@ -32,47 +34,48 @@
                 <StackPanel Spacing="8">
                     <!-- Member selector -->
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Team Member" FontWeight="SemiBold" />
-                        <NumericUpDown Value="{Binding MemberIndex}" Minimum="0" Maximum="5" />
+                        <TextBlock Text="Team Member" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding MemberIndex}" Minimum="0" Maximum="5" Height="25" />
                     </StackPanel>
 
                     <!-- Species -->
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Species" FontWeight="SemiBold" />
+                        <TextBlock Text="Species" FontWeight="SemiBold" FontSize="11" />
                         <ComboBox ItemsSource="{Binding SpeciesList}"
                                   SelectedValue="{Binding SelectedSpecies}"
                                   SelectedValueBinding="{Binding Value}"
-                                  DisplayMemberBinding="{Binding Text}" />
+                                  DisplayMemberBinding="{Binding Text}"
+                                  Height="25" />
                     </StackPanel>
 
                     <!-- Nickname -->
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Nickname" FontWeight="SemiBold" />
-                        <TextBox Text="{Binding Nickname}" MaxLength="10" />
+                        <TextBlock Text="Nickname" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Nickname}" MaxLength="10" Height="25" />
                     </StackPanel>
 
                     <!-- Level -->
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Level" FontWeight="SemiBold" />
-                        <NumericUpDown Value="{Binding Level}" Minimum="0" Maximum="100" />
+                        <TextBlock Text="Level" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding Level}" Minimum="0" Maximum="100" Height="25" />
                     </StackPanel>
 
                     <!-- IDs -->
-                    <Grid ColumnDefinitions="*,*" Margin="0,0,0,0">
+                    <Grid ColumnDefinitions="*,*">
                         <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                            <TextBlock Text="TID" FontWeight="SemiBold" />
-                            <TextBox Text="{Binding Tid}" MaxLength="5" />
+                            <TextBlock Text="TID" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding Tid}" MaxLength="5" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
-                            <TextBlock Text="SID" FontWeight="SemiBold" />
-                            <TextBox Text="{Binding Sid}" MaxLength="5" />
+                            <TextBlock Text="SID" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding Sid}" MaxLength="5" Height="25" />
                         </StackPanel>
                     </Grid>
 
                     <!-- PID -->
                     <StackPanel Spacing="4">
-                        <TextBlock Text="PID" FontWeight="SemiBold" />
-                        <TextBox Text="{Binding Pid}" MaxLength="8" />
+                        <TextBlock Text="PID" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Pid}" MaxLength="8" Height="25" />
                     </StackPanel>
 
                     <!-- Shiny indicator -->

@@ -8,17 +8,19 @@
                      Width="700" Height="650"
                      MinWidth="550" MinHeight="450"
                      WindowStartupLocation="CenterOwner"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <TextBox DockPanel.Dock="Top" Watermark="Search species..."
-                 Text="{Binding SearchText}" Margin="0,0,0,8" />
+                 Text="{Binding SearchText}" Height="25" Margin="0,0,0,8" />
 
         <ScrollViewer>
             <ItemsControl ItemsSource="{Binding FilteredEntries}">
@@ -29,7 +31,8 @@
                             <CheckBox Content="Seen" IsChecked="{Binding Seen}" VerticalAlignment="Center" />
                             <CheckBox Content="Complete" IsChecked="{Binding Complete}" VerticalAlignment="Center" />
                             <CheckBox Content="Perfect" IsChecked="{Binding Perfect}" VerticalAlignment="Center" />
-                            <TextBlock Text="Research:" VerticalAlignment="Center" Margin="8,0,4,0" />
+                            <TextBlock Text="Research:" VerticalAlignment="Center" Margin="8,0,4,0"
+                                       FontWeight="SemiBold" FontSize="11" />
                             <TextBlock Text="{Binding ResearchLevel}" VerticalAlignment="Center" />
                         </StackPanel>
                     </DataTemplate>

@@ -7,6 +7,8 @@
                      Title="Battle Revolution Trainer Editor"
                      Width="550" Height="700"
                      MinWidth="450" MinHeight="500"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,67 +16,67 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
             <StackPanel Spacing="12">
                 <!-- Trainer Info -->
-                <TextBlock Text="Trainer Info" FontWeight="Bold" FontSize="14" />
+                <TextBlock Text="Trainer Info" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="130,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="OT Name:" VerticalAlignment="Center" Margin="0,4" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding OtName}" Margin="8,4" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="OT Name:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding OtName}" Height="25" Margin="8,4" />
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="TID:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Tid16}" Minimum="0" Maximum="65535" Width="140" Margin="8,4" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="TID:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Tid16}" Minimum="0" Maximum="65535" Height="25" Width="140" Margin="8,4" />
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="SID:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Sid16}" Minimum="0" Maximum="65535" Width="140" Margin="8,4" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="SID:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Sid16}" Minimum="0" Maximum="65535" Height="25" Width="140" Margin="8,4" />
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Money:" VerticalAlignment="Center" Margin="0,4" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Money:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
                     <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Spacing="8" Margin="8,4">
-                        <NumericUpDown Value="{Binding Money}" Minimum="0" Maximum="999999" Width="140" />
-                        <Button Content="Max" Command="{Binding MaxCashCommand}" />
+                        <NumericUpDown Value="{Binding Money}" Minimum="0" Maximum="999999" Height="25" Width="140" />
+                        <Button Content="Max" Command="{Binding MaxCashCommand}" MinWidth="75" Padding="8,4" />
                     </StackPanel>
 
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Player ID:" VerticalAlignment="Center" Margin="0,4" />
-                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding PlayerIdHex}" Margin="8,4" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Player ID:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding PlayerIdHex}" Height="25" Margin="8,4" />
 
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Birth Month:" VerticalAlignment="Center" Margin="0,4" />
-                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding BirthMonth}" Width="140" Margin="8,4" />
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Birth Month:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding BirthMonth}" Height="25" Width="140" Margin="8,4" />
 
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Birth Day:" VerticalAlignment="Center" Margin="0,4" />
-                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding BirthDay}" Width="140" Margin="8,4" />
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Birth Day:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding BirthDay}" Height="25" Width="140" Margin="8,4" />
 
-                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Hours:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="7" Grid.Column="1" Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" Width="140" Margin="8,4" />
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Hours:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <NumericUpDown Grid.Row="7" Grid.Column="1" Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" Height="25" Width="140" Margin="8,4" />
 
-                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Minutes:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="8" Grid.Column="1" Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" Width="140" Margin="8,4" />
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Minutes:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <NumericUpDown Grid.Row="8" Grid.Column="1" Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" Height="25" Width="140" Margin="8,4" />
 
-                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Seconds:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="9" Grid.Column="1" Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" Width="140" Margin="8,4" />
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Seconds:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <NumericUpDown Grid.Row="9" Grid.Column="1" Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" Height="25" Width="140" Margin="8,4" />
                 </Grid>
 
                 <!-- Records -->
-                <TextBlock Text="Records" FontWeight="Bold" FontSize="14" Margin="0,8,0,0" />
+                <TextBlock Text="Records" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
                 <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,Auto,Auto,Auto">
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Total Battles:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding RecordTotalBattles}" Minimum="0" Maximum="999999999" Width="140" Margin="8,4" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Total Battles:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding RecordTotalBattles}" Minimum="0" Maximum="999999999" Height="25" Width="140" Margin="8,4" />
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Colosseum Battles:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding RecordColosseumBattles}" Minimum="0" Maximum="999999999" Width="140" Margin="8,4" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Colosseum Battles:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding RecordColosseumBattles}" Minimum="0" Maximum="999999999" Height="25" Width="140" Margin="8,4" />
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Free Battles:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding RecordFreeBattles}" Minimum="0" Maximum="999999999" Width="140" Margin="8,4" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Free Battles:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding RecordFreeBattles}" Minimum="0" Maximum="999999999" Height="25" Width="140" Margin="8,4" />
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Wi-Fi Battles:" VerticalAlignment="Center" Margin="0,4" />
-                    <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding RecordWiFiBattles}" Minimum="0" Maximum="999999999" Width="140" Margin="8,4" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Wi-Fi Battles:" FontWeight="SemiBold" FontSize="11" VerticalAlignment="Center" Margin="0,4" />
+                    <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding RecordWiFiBattles}" Minimum="0" Maximum="999999999" Height="25" Width="140" Margin="8,4" />
                 </Grid>
 
                 <!-- Colosseum Unlocks -->
-                <TextBlock Text="Colosseum Unlocks" FontWeight="Bold" FontSize="14" Margin="0,8,0,0" />
+                <TextBlock Text="Colosseum Unlocks" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
                 <WrapPanel Orientation="Horizontal">
                     <CheckBox Content="Gateway" IsChecked="{Binding UnlockedGatewayColosseum}" Margin="4" />
                     <CheckBox Content="Main Street" IsChecked="{Binding UnlockedMainStreetColosseum}" Margin="4" />
@@ -90,7 +92,7 @@
                 </WrapPanel>
 
                 <!-- Self Introduction -->
-                <TextBlock Text="Self Introduction" FontWeight="Bold" FontSize="14" Margin="0,8,0,0" />
+                <TextBlock Text="Self Introduction" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
                 <TextBox Text="{Binding SelfIntroduction}" AcceptsReturn="True" Height="80" />
             </StackPanel>
         </ScrollViewer>

@@ -1,26 +1,26 @@
 <views:SubformWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:views="using:PKHeX.Avalonia.Views"
-                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-                     x:Class="PKHeX.Avalonia.Views.Subforms.BatchEditorView"
-                     x:DataType="vm:BatchEditorViewModel"
-                     Title="Batch Editor"
-                     Width="520" Height="480"
-                     MinWidth="400" MinHeight="380"
-                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
-                     FontSize="11"
-                     WindowStartupLocation="CenterOwner"
-                     CanResize="True">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="using:PKHeX.Avalonia.Views"
+                    xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                    x:Class="PKHeX.Avalonia.Views.Subforms.BatchEditorView"
+                    x:DataType="vm:BatchEditorViewModel"
+                    Title="Batch Editor"
+                    Width="520" Height="480"
+                    MinWidth="400" MinHeight="380"
+                    FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                    FontSize="11"
+                    WindowStartupLocation="CenterOwner"
+                    CanResize="True">
 
     <DockPanel Margin="8">
         <!-- Bottom: Buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Sample" Command="{Binding AddSampleInstructionsCommand}" Width="80" />
-            <Button Content="Clear" Command="{Binding ClearInstructionsCommand}" Width="80" />
-            <Button Content="Execute" Command="{Binding ExecuteCommand}" Width="80"
+            <Button Content="Sample" Command="{Binding AddSampleInstructionsCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear" Command="{Binding ClearInstructionsCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Execute" Command="{Binding ExecuteCommand}" MinWidth="75" Padding="8,4"
                     IsEnabled="{Binding !IsExecuting}" />
-            <Button Content="Close" Click="OnCloseClick" Width="80" />
+            <Button Content="Close" Click="OnCloseClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <DockPanel>
@@ -29,7 +29,7 @@
                 <TextBlock Text="Scope:" VerticalAlignment="Center" FontSize="11" />
                 <ComboBox ItemsSource="{Binding ScopeOptions}"
                           SelectedIndex="{Binding SelectedScope}"
-                          MinWidth="140" />
+                          MinWidth="140" Height="25" />
             </StackPanel>
 
             <!-- Instructions label -->
@@ -42,7 +42,7 @@
                     BorderThickness="1" CornerRadius="4" Padding="6" MinHeight="80">
                 <ScrollViewer>
                     <TextBlock Text="{Binding ResultLog}"
-                               TextWrapping="Wrap" FontFamily="Consolas, Menlo, monospace"
+                               TextWrapping="Wrap" FontFamily="Consolas,Menlo,Courier New,monospace"
                                FontSize="11" />
                 </ScrollViewer>
             </Border>
@@ -56,7 +56,7 @@
             <TextBox Text="{Binding Instructions}"
                      AcceptsReturn="True" AcceptsTab="True"
                      TextWrapping="Wrap"
-                     FontFamily="Consolas, Menlo, monospace"
+                     FontFamily="Consolas,Menlo,Courier New,monospace"
                      FontSize="11"
                      Watermark="Enter batch instructions here..."
                      MinHeight="120" />

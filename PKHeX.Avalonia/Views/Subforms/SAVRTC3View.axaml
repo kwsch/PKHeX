@@ -7,6 +7,8 @@
                      Title="RTC Editor (Gen 3)"
                      Width="420" Height="400"
                      MinWidth="350" MinHeight="300"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="False">
 
@@ -14,55 +16,55 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Reset" Command="{Binding ResetCommand}" />
-            <Button Content="Berry Fix" Command="{Binding BerryFixCommand}" ToolTip.Tip="Advance elapsed days to fix berry glitch" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Reset" Command="{Binding ResetCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Berry Fix" Command="{Binding BerryFixCommand}" MinWidth="75" Padding="8,4" ToolTip.Tip="Advance elapsed days to fix berry glitch" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <StackPanel Spacing="12">
             <!-- Initial Clock -->
             <StackPanel Spacing="4">
-                <TextBlock Text="Initial Clock" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Initial Clock" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="Day" />
-                        <NumericUpDown Value="{Binding InitialDay}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Day" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding InitialDay}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
-                        <TextBlock Text="Hour" />
-                        <NumericUpDown Value="{Binding InitialHour}" Minimum="0" Maximum="23" />
+                        <TextBlock Text="Hour" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding InitialHour}" Minimum="0" Maximum="23" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,4,0">
-                        <TextBlock Text="Minute" />
-                        <NumericUpDown Value="{Binding InitialMinute}" Minimum="0" Maximum="59" />
+                        <TextBlock Text="Minute" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding InitialMinute}" Minimum="0" Maximum="59" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="3" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Second" />
-                        <NumericUpDown Value="{Binding InitialSecond}" Minimum="0" Maximum="59" />
+                        <TextBlock Text="Second" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding InitialSecond}" Minimum="0" Maximum="59" Height="25" />
                     </StackPanel>
                 </Grid>
             </StackPanel>
 
             <!-- Elapsed Clock -->
             <StackPanel Spacing="4">
-                <TextBlock Text="Elapsed Clock" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Elapsed Clock" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="Day" />
-                        <NumericUpDown Value="{Binding ElapsedDay}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Day" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding ElapsedDay}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
-                        <TextBlock Text="Hour" />
-                        <NumericUpDown Value="{Binding ElapsedHour}" Minimum="0" Maximum="23" />
+                        <TextBlock Text="Hour" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding ElapsedHour}" Minimum="0" Maximum="23" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,4,0">
-                        <TextBlock Text="Minute" />
-                        <NumericUpDown Value="{Binding ElapsedMinute}" Minimum="0" Maximum="59" />
+                        <TextBlock Text="Minute" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding ElapsedMinute}" Minimum="0" Maximum="59" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="3" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Second" />
-                        <NumericUpDown Value="{Binding ElapsedSecond}" Minimum="0" Maximum="59" />
+                        <TextBlock Text="Second" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding ElapsedSecond}" Minimum="0" Maximum="59" Height="25" />
                     </StackPanel>
                 </Grid>
             </StackPanel>

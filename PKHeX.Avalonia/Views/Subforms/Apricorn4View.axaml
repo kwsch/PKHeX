@@ -1,44 +1,47 @@
 <views:SubformWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:views="using:PKHeX.Avalonia.Views"
-                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-                     x:Class="PKHeX.Avalonia.Views.Subforms.Apricorn4View"
-                     x:DataType="vm:Apricorn4ViewModel"
-                     Title="Apricorn Editor"
-                     Width="350" Height="380"
-                     MinWidth="300" MinHeight="300"
-                     WindowStartupLocation="CenterOwner"
-                     CanResize="False">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="using:PKHeX.Avalonia.Views"
+                    xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                    x:Class="PKHeX.Avalonia.Views.Subforms.Apricorn4View"
+                    x:DataType="vm:Apricorn4ViewModel"
+                    Title="Apricorn Editor"
+                    Width="350" Height="380"
+                    MinWidth="300" MinHeight="300"
+                    FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                    FontSize="11"
+                    WindowStartupLocation="CenterOwner"
+                    CanResize="False">
 
-    <DockPanel Margin="8">
-        <!-- Bottom buttons -->
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
-                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Give All" Command="{Binding GiveAllCommand}" Width="80" />
-            <Button Content="Clear" Command="{Binding ClearAllCommand}" Width="80" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
-        </StackPanel>
+   <DockPanel Margin="8">
+       <!-- Bottom buttons -->
+       <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                   HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+           <Button Content="Give All" Command="{Binding GiveAllCommand}" MinWidth="75" Padding="8,4" />
+           <Button Content="Clear" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+           <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+           <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
+       </StackPanel>
 
-        <!-- Apricorn list -->
-        <ScrollViewer>
-            <ItemsControl ItemsSource="{Binding Apricorns}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="vm:ApricornEntryModel">
-                        <Grid ColumnDefinitions="*,Auto" Margin="4,4">
-                            <TextBlock Grid.Column="0" Text="{Binding Name}"
-                                       VerticalAlignment="Center" />
-                            <NumericUpDown Grid.Column="1"
-                                           Value="{Binding Count}"
-                                           Minimum="0"
-                                           Maximum="255"
-                                           Width="100"
-                                           VerticalAlignment="Center" />
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </DockPanel>
+       <!-- Apricorn list -->
+       <ScrollViewer>
+           <ItemsControl ItemsSource="{Binding Apricorns}">
+               <ItemsControl.ItemTemplate>
+                   <DataTemplate x:DataType="vm:ApricornEntryModel">
+                       <Grid ColumnDefinitions="*,Auto" Margin="4,4">
+                           <TextBlock Grid.Column="0" Text="{Binding Name}"
+                                      VerticalAlignment="Center" />
+                           <NumericUpDown Grid.Column="1"
+                                          Value="{Binding Count}"
+                                          Minimum="0"
+                                          Maximum="255"
+                                          Width="100"
+                                          Height="25"
+                                          VerticalAlignment="Center" />
+                       </Grid>
+                   </DataTemplate>
+               </ItemsControl.ItemTemplate>
+           </ItemsControl>
+       </ScrollViewer>
+   </DockPanel>
 
 </views:SubformWindow>

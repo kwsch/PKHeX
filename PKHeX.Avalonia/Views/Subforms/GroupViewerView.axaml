@@ -7,6 +7,8 @@
                      Title="{Binding WindowTitle}"
                      Width="450" Height="450"
                      MinWidth="350" MinHeight="300"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,16 +16,18 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Close" Click="OnCancelClick" Width="80" />
+            <Button Content="Close" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Group selector -->
         <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto" Margin="0,0,0,8">
-            <Button Grid.Column="0" Content="&lt;" Command="{Binding PreviousGroupCommand}" Width="30" />
+            <Button Grid.Column="0" Content="&lt;" Command="{Binding PreviousGroupCommand}"
+                    MinWidth="75" Padding="8,4" />
             <ComboBox Grid.Column="1" ItemsSource="{Binding GroupNames}"
                       SelectedIndex="{Binding SelectedGroupIndex}"
-                      HorizontalAlignment="Stretch" Margin="4,0" />
-            <Button Grid.Column="2" Content="&gt;" Command="{Binding NextGroupCommand}" Width="30" />
+                      HorizontalAlignment="Stretch" Height="25" Margin="4,0" />
+            <Button Grid.Column="2" Content="&gt;" Command="{Binding NextGroupCommand}"
+                    MinWidth="75" Padding="8,4" />
         </Grid>
 
         <!-- Slot list -->
@@ -34,7 +38,7 @@
                         <Border Padding="8,4" Margin="0,1"
                                 Background="{DynamicResource SystemControlBackgroundAltHighBrush}"
                                 CornerRadius="4">
-                            <TextBlock Text="{Binding DisplayText}" />
+                            <TextBlock Text="{Binding DisplayText}" FontSize="11" />
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

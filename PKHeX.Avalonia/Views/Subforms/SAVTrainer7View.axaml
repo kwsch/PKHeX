@@ -7,6 +7,8 @@
                      Title="Trainer Editor (Gen 7)"
                      Width="600" Height="800"
                      MinWidth="500" MinHeight="650"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,92 +16,92 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
             <StackPanel Spacing="8">
                 <!-- Basic Info -->
-                <TextBlock Text="Basic Info" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Basic Info" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
                     <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="OT Name" />
-                        <TextBox Text="{Binding OtName}" MaxLength="12" />
+                        <TextBlock Text="OT Name" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding OtName}" MaxLength="12" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Gender" />
+                        <TextBlock Text="Gender" FontWeight="SemiBold" FontSize="11" />
                         <ComboBox ItemsSource="{Binding GenderChoices}"
-                                  SelectedIndex="{Binding Gender}" HorizontalAlignment="Stretch" />
+                                  SelectedIndex="{Binding Gender}" Height="25" HorizontalAlignment="Stretch" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Money" />
+                        <TextBlock Text="Money" FontWeight="SemiBold" FontSize="11" />
                         <StackPanel Orientation="Horizontal" Spacing="4">
-                            <TextBox Text="{Binding Money}" MaxLength="7" />
-                            <Button Content="Max" Command="{Binding MaxCashCommand}" />
+                            <TextBox Text="{Binding Money}" MaxLength="7" Height="25" />
+                            <Button Content="Max" Command="{Binding MaxCashCommand}" MinWidth="75" Padding="8,4" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Language" />
+                        <TextBlock Text="Language" FontWeight="SemiBold" FontSize="11" />
                         <ComboBox ItemsSource="{Binding LanguageList}"
                                   SelectedValue="{Binding Language}"
                                   SelectedValueBinding="{Binding Value}"
-                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                                  DisplayMemberBinding="{Binding Text}" Height="25" HorizontalAlignment="Stretch" />
                     </StackPanel>
                 </Grid>
 
                 <Separator />
 
                 <!-- Play Time -->
-                <TextBlock Text="Play Time" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Play Time" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="Hours" />
-                        <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Hours" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
-                        <TextBlock Text="Minutes" />
-                        <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" />
+                        <TextBlock Text="Minutes" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Seconds" />
-                        <NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" />
+                        <TextBlock Text="Seconds" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <!-- BP / FC -->
                 <Grid ColumnDefinitions="*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="BP" />
-                        <NumericUpDown Value="{Binding Bp}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="BP" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding Bp}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Festival Coins" />
-                        <NumericUpDown Value="{Binding Fc}" Minimum="0" Maximum="9999999" />
+                        <TextBlock Text="Festival Coins" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding Fc}" Minimum="0" Maximum="9999999" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <Separator />
 
                 <!-- Poke Finder -->
-                <TextBlock Text="Poke Finder" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Poke Finder" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto">
                     <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Snap Count" />
-                        <NumericUpDown Value="{Binding SnapCount}" Minimum="0" Maximum="9999999" />
+                        <TextBlock Text="Snap Count" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding SnapCount}" Minimum="0" Maximum="9999999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,4,4">
-                        <TextBlock Text="Thumbs Total" />
-                        <NumericUpDown Value="{Binding ThumbsTotal}" Minimum="0" Maximum="9999999" />
+                        <TextBlock Text="Thumbs Total" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding ThumbsTotal}" Minimum="0" Maximum="9999999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Thumbs Record" />
-                        <NumericUpDown Value="{Binding ThumbsRecord}" Minimum="0" Maximum="9999999" />
+                        <TextBlock Text="Thumbs Record" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding ThumbsRecord}" Minimum="0" Maximum="9999999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="Camera Ver." />
+                        <TextBlock Text="Camera Ver." FontWeight="SemiBold" FontSize="11" />
                         <ComboBox ItemsSource="{Binding CameraVersions}"
-                                  SelectedIndex="{Binding CameraVersion}" HorizontalAlignment="Stretch" />
+                                  SelectedIndex="{Binding CameraVersion}" Height="25" HorizontalAlignment="Stretch" />
                     </StackPanel>
                     <CheckBox Grid.Column="1" Grid.Row="1" Content="Gyro"
                               IsChecked="{Binding GyroFlag}" VerticalAlignment="Center" Margin="4,0,0,0" />
@@ -108,66 +110,66 @@
                 <Separator />
 
                 <!-- Battle Tree -->
-                <TextBlock Text="Battle Tree - Regular" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Battle Tree - Regular" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto">
                     <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Singles Current" />
-                        <NumericUpDown Value="{Binding RcStreak0}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Singles Current" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding RcStreak0}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,4,4">
-                        <TextBlock Text="Doubles Current" />
-                        <NumericUpDown Value="{Binding RcStreak1}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Doubles Current" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding RcStreak1}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Multi Current" />
-                        <NumericUpDown Value="{Binding RcStreak2}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Multi Current" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding RcStreak2}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Singles Max" />
-                        <NumericUpDown Value="{Binding RmStreak0}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Singles Max" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding RmStreak0}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,4,4">
-                        <TextBlock Text="Doubles Max" />
-                        <NumericUpDown Value="{Binding RmStreak1}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Doubles Max" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding RmStreak1}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Multi Max" />
-                        <NumericUpDown Value="{Binding RmStreak2}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Multi Max" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding RmStreak2}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                 </Grid>
 
-                <TextBlock Text="Battle Tree - Super" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Battle Tree - Super" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto">
                     <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Singles Current" />
-                        <NumericUpDown Value="{Binding ScStreak0}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Singles Current" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding ScStreak0}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,4,4">
-                        <TextBlock Text="Doubles Current" />
-                        <NumericUpDown Value="{Binding ScStreak1}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Doubles Current" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding ScStreak1}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Multi Current" />
-                        <NumericUpDown Value="{Binding ScStreak2}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Multi Current" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding ScStreak2}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Singles Max" />
-                        <NumericUpDown Value="{Binding SmStreak0}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Singles Max" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding SmStreak0}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,4,4">
-                        <TextBlock Text="Doubles Max" />
-                        <NumericUpDown Value="{Binding SmStreak1}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Doubles Max" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding SmStreak1}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Multi Max" />
-                        <NumericUpDown Value="{Binding SmStreak2}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Multi Max" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding SmStreak2}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <Separator />
 
                 <!-- Unlocks -->
-                <TextBlock Text="Unlocks" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Unlocks" FontWeight="SemiBold" FontSize="11" />
                 <WrapPanel>
                     <CheckBox Content="Mega Evolution" IsChecked="{Binding MegaUnlocked}" Margin="0,0,12,4" />
                     <CheckBox Content="Z-Move" IsChecked="{Binding ZMoveUnlocked}" Margin="0,0,12,4" />
@@ -180,40 +182,40 @@
 
                 <!-- Plaza -->
                 <StackPanel Spacing="2">
-                    <TextBlock Text="Festival Plaza Name" />
-                    <TextBox Text="{Binding PlazaName}" MaxLength="20" />
+                    <TextBlock Text="Festival Plaza Name" FontWeight="SemiBold" FontSize="11" />
+                    <TextBox Text="{Binding PlazaName}" MaxLength="20" Height="25" />
                 </StackPanel>
 
                 <Separator />
 
                 <!-- USUM Data -->
                 <StackPanel Spacing="8" IsVisible="{Binding IsUsum}">
-                    <TextBlock Text="USUM Data" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="USUM Data" FontWeight="SemiBold" FontSize="11" />
                     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
                         <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="Mantine Surf 1" />
-                            <NumericUpDown Value="{Binding Surf0}" Minimum="0" Maximum="999999" />
+                            <TextBlock Text="Mantine Surf 1" FontWeight="SemiBold" FontSize="11" />
+                            <NumericUpDown Value="{Binding Surf0}" Minimum="0" Maximum="999999" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="Mantine Surf 2" />
-                            <NumericUpDown Value="{Binding Surf1}" Minimum="0" Maximum="999999" />
+                            <TextBlock Text="Mantine Surf 2" FontWeight="SemiBold" FontSize="11" />
+                            <NumericUpDown Value="{Binding Surf1}" Minimum="0" Maximum="999999" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="Mantine Surf 3" />
-                            <NumericUpDown Value="{Binding Surf2}" Minimum="0" Maximum="999999" />
+                            <TextBlock Text="Mantine Surf 3" FontWeight="SemiBold" FontSize="11" />
+                            <NumericUpDown Value="{Binding Surf2}" Minimum="0" Maximum="999999" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="Mantine Surf 4" />
-                            <NumericUpDown Value="{Binding Surf3}" Minimum="0" Maximum="999999" />
+                            <TextBlock Text="Mantine Surf 4" FontWeight="SemiBold" FontSize="11" />
+                            <NumericUpDown Value="{Binding Surf3}" Minimum="0" Maximum="999999" Height="25" />
                         </StackPanel>
                     </Grid>
                     <StackPanel Spacing="2">
-                        <TextBlock Text="Rotom OT" />
-                        <TextBox Text="{Binding RotomOt}" MaxLength="12" />
+                        <TextBlock Text="Rotom OT" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding RotomOt}" MaxLength="12" Height="25" />
                     </StackPanel>
                     <StackPanel Spacing="2">
-                        <TextBlock Text="Rotom Affection" />
-                        <NumericUpDown Value="{Binding RotomAffection}" Minimum="0" Maximum="1000" />
+                        <TextBlock Text="Rotom Affection" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding RotomAffection}" Minimum="0" Maximum="1000" Height="25" />
                     </StackPanel>
                     <WrapPanel>
                         <CheckBox Content="Roto Loto 1" IsChecked="{Binding RotoLoto1}" Margin="0,0,12,0" />

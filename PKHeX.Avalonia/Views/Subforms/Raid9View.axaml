@@ -8,27 +8,29 @@
                      Width="550" Height="500"
                      MinWidth="400" MinHeight="350"
                      WindowStartupLocation="CenterOwner"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <StackPanel Spacing="8">
             <!-- Seeds -->
             <StackPanel Spacing="4" IsVisible="{Binding HasSeeds}">
-                <TextBlock Text="Seeds" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Seeds" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="Current Seed" />
-                        <TextBox Text="{Binding SeedToday}" MaxLength="16" />
+                        <TextBlock Text="Current Seed" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding SeedToday}" MaxLength="16" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Tomorrow Seed" />
-                        <TextBox Text="{Binding SeedTomorrow}" MaxLength="16" />
+                        <TextBlock Text="Tomorrow Seed" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding SeedTomorrow}" MaxLength="16" Height="25" />
                     </StackPanel>
                 </Grid>
             </StackPanel>
@@ -48,8 +50,8 @@
 
                 <StackPanel Grid.Column="1" Spacing="8"
                             IsVisible="{Binding SelectedRaid, Converter={x:Static ObjectConverters.IsNotNull}}">
-                    <TextBlock Text="{Binding SelectedRaid.Label}" FontWeight="Bold" FontSize="14" />
-                    <Button Content="Copy to Others" Command="{Binding CopyToOthersCommand}" />
+                    <TextBlock Text="{Binding SelectedRaid.Label}" FontWeight="Bold" FontSize="13" />
+                    <Button Content="Copy to Others" Command="{Binding CopyToOthersCommand}" MinWidth="75" Padding="8,4" />
                 </StackPanel>
             </Grid>
         </StackPanel>

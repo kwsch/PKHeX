@@ -7,6 +7,8 @@
                      Title="Pokepuff Editor (Gen 6)"
                      Width="400" Height="550"
                      MinWidth="350" MinHeight="450"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,12 +16,12 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Give All" Command="{Binding GiveAllCommand}" />
-            <Button Content="Give Best" Command="{Binding GiveBestCommand}" />
-            <Button Content="Clear" Command="{Binding ClearAllCommand}" />
-            <Button Content="Sort" Command="{Binding SortCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Give All" Command="{Binding GiveAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Give Best" Command="{Binding GiveBestCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Sort" Command="{Binding SortCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
@@ -32,6 +34,7 @@
                             <ComboBox Grid.Column="1"
                                       ItemsSource="{Binding $parent[views:SubformWindow].((vm:SAVPokepuff6ViewModel)DataContext).PuffNames}"
                                       SelectedIndex="{Binding SelectedPuffIndex}"
+                                      Height="25"
                                       HorizontalAlignment="Stretch" />
                         </Grid>
                     </DataTemplate>

@@ -7,6 +7,8 @@
                      Title="Honey Tree Editor"
                      Width="420" Height="400"
                      MinWidth="350" MinHeight="350"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="False">
 
@@ -14,45 +16,55 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <StackPanel Spacing="12">
             <!-- Tree selector -->
             <StackPanel Spacing="4">
-                <TextBlock Text="Honey Tree" FontWeight="SemiBold" />
+                <TextBlock Text="Honey Tree" FontWeight="SemiBold" FontSize="11" />
                 <ComboBox ItemsSource="{Binding TreeNames}"
                           SelectedIndex="{Binding SelectedTreeIndex}"
-                          Width="300" />
+                          Width="300" Height="25" />
             </StackPanel>
 
             <!-- Munchlax trees info -->
             <StackPanel Spacing="4">
-                <TextBlock Text="Munchlax Trees:" FontWeight="SemiBold" />
+                <TextBlock Text="Munchlax Trees:" FontWeight="SemiBold" FontSize="11" />
                 <TextBlock Text="{Binding MunchlaxTreesText}" TextWrapping="Wrap"
                            Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
             </StackPanel>
 
             <!-- Tree properties -->
             <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="0,4">
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Time:" VerticalAlignment="Center" Margin="0,4" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Time:" VerticalAlignment="Center"
+                           FontWeight="SemiBold" FontSize="11" Margin="0,4" />
                 <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="8" Margin="8,4">
-                    <NumericUpDown Value="{Binding Time}" Minimum="0" Maximum="65535" Width="120" />
-                    <Button Content="Set Catchable" Command="{Binding SetCatchableCommand}" />
+                    <NumericUpDown Value="{Binding Time}" Minimum="0" Maximum="65535" Width="120" Height="25" />
+                    <Button Content="Set Catchable" Command="{Binding SetCatchableCommand}"
+                            MinWidth="75" Padding="8,4" />
                 </StackPanel>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Shake:" VerticalAlignment="Center" Margin="0,4" />
-                <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Shake}" Minimum="0" Maximum="255" Width="120" Margin="8,4" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Shake:" VerticalAlignment="Center"
+                           FontWeight="SemiBold" FontSize="11" Margin="0,4" />
+                <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Shake}" Minimum="0" Maximum="255"
+                               Width="120" Height="25" Margin="8,4" />
 
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Group:" VerticalAlignment="Center" Margin="0,4" />
-                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Group}" Minimum="0" Maximum="255" Width="120" Margin="8,4" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Group:" VerticalAlignment="Center"
+                           FontWeight="SemiBold" FontSize="11" Margin="0,4" />
+                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Group}" Minimum="0" Maximum="255"
+                               Width="120" Height="25" Margin="8,4" />
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Slot:" VerticalAlignment="Center" Margin="0,4" />
-                <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Slot}" Minimum="0" Maximum="255" Width="120" Margin="8,4" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Slot:" VerticalAlignment="Center"
+                           FontWeight="SemiBold" FontSize="11" Margin="0,4" />
+                <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Slot}" Minimum="0" Maximum="255"
+                               Width="120" Height="25" Margin="8,4" />
 
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Species:" VerticalAlignment="Center" Margin="0,4" />
-                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding SpeciesLabel}" VerticalAlignment="Center" Margin="8,4" FontWeight="SemiBold" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Species:" VerticalAlignment="Center"
+                           FontWeight="SemiBold" FontSize="11" Margin="0,4" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding SpeciesLabel}" VerticalAlignment="Center"
+                           Margin="8,4" FontWeight="SemiBold" FontSize="11" />
             </Grid>
         </StackPanel>
     </DockPanel>

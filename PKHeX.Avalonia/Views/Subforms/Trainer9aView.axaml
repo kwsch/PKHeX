@@ -7,121 +7,123 @@
                      Title="Trainer Editor (Z-A)"
                      Width="620" Height="750"
                      MinWidth="500" MinHeight="600"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
             <StackPanel Spacing="8">
-                <TextBlock Text="Basic Info" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Basic Info" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
                     <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="OT Name" />
-                        <TextBox Text="{Binding OtName}" MaxLength="12" />
+                        <TextBlock Text="OT Name" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding OtName}" MaxLength="12" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Gender" />
-                        <ComboBox ItemsSource="{Binding GenderChoices}" SelectedIndex="{Binding Gender}" />
+                        <TextBlock Text="Gender" FontWeight="SemiBold" FontSize="11" />
+                        <ComboBox ItemsSource="{Binding GenderChoices}" SelectedIndex="{Binding Gender}" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Money" />
+                        <TextBlock Text="Money" FontWeight="SemiBold" FontSize="11" />
                         <StackPanel Orientation="Horizontal" Spacing="4">
-                            <TextBox Text="{Binding Money}" MaxLength="7" />
-                            <Button Content="Max" Command="{Binding MaxCashCommand}" />
+                            <TextBox Text="{Binding Money}" MaxLength="7" Height="25" />
+                            <Button Content="Max" Command="{Binding MaxCashCommand}" MinWidth="75" Padding="8,4" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Royale Regular" />
+                        <TextBlock Text="Royale Regular" FontWeight="SemiBold" FontSize="11" />
                         <StackPanel Orientation="Horizontal" Spacing="4">
-                            <TextBox Text="{Binding RoyaleRegular}" MaxLength="10" />
-                            <Button Content="Max" Command="{Binding MaxRoyaleRegularCommand}" />
+                            <TextBox Text="{Binding RoyaleRegular}" MaxLength="10" Height="25" />
+                            <Button Content="Max" Command="{Binding MaxRoyaleRegularCommand}" MinWidth="75" Padding="8,4" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Royale Infinite" />
+                        <TextBlock Text="Royale Infinite" FontWeight="SemiBold" FontSize="11" />
                         <StackPanel Orientation="Horizontal" Spacing="4">
-                            <TextBox Text="{Binding RoyaleInfinite}" MaxLength="10" />
-                            <Button Content="Max" Command="{Binding MaxRoyaleInfiniteCommand}" />
+                            <TextBox Text="{Binding RoyaleInfinite}" MaxLength="10" Height="25" />
+                            <Button Content="Max" Command="{Binding MaxRoyaleInfiniteCommand}" MinWidth="75" Padding="8,4" />
                         </StackPanel>
                     </StackPanel>
                 </Grid>
 
                 <Separator />
 
-                <TextBlock Text="Play Time" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Play Time" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="Hours" />
-                        <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Hours" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
-                        <TextBlock Text="Minutes" />
-                        <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" />
+                        <TextBlock Text="Minutes" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Seconds" />
-                        <NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" />
+                        <TextBlock Text="Seconds" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <Separator />
 
-                <TextBlock Text="Map" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Map" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*,*" IsEnabled="{Binding MapEnabled}">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="X" />
-                        <NumericUpDown Value="{Binding MapX}" Minimum="-99999" Maximum="99999" FormatString="F2" />
+                        <TextBlock Text="X" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding MapX}" Minimum="-99999" Maximum="99999" FormatString="F2" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
-                        <TextBlock Text="Y" />
-                        <NumericUpDown Value="{Binding MapY}" Minimum="-99999" Maximum="99999" FormatString="F2" />
+                        <TextBlock Text="Y" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding MapY}" Minimum="-99999" Maximum="99999" FormatString="F2" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,4,0">
-                        <TextBlock Text="Z" />
-                        <NumericUpDown Value="{Binding MapZ}" Minimum="-99999" Maximum="99999" FormatString="F2" />
+                        <TextBlock Text="Z" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding MapZ}" Minimum="-99999" Maximum="99999" FormatString="F2" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="3" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Rotation" />
-                        <NumericUpDown Value="{Binding MapR}" Minimum="-360" Maximum="360" FormatString="F2" />
+                        <TextBlock Text="Rotation" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding MapR}" Minimum="-360" Maximum="360" FormatString="F2" Height="25" />
                     </StackPanel>
                 </Grid>
                 <StackPanel Spacing="2" IsEnabled="{Binding MapEnabled}" Margin="0,4,0,0">
-                    <TextBlock Text="Map Name" />
-                    <TextBox Text="{Binding MapName}" />
+                    <TextBlock Text="Map Name" FontWeight="SemiBold" FontSize="11" />
+                    <TextBox Text="{Binding MapName}" Height="25" />
                 </StackPanel>
 
                 <Separator />
 
                 <!-- DLC -->
                 <StackPanel Spacing="8" IsVisible="{Binding ShowDlc}">
-                    <TextBlock Text="DLC" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="DLC" FontWeight="SemiBold" FontSize="11" />
                     <Grid ColumnDefinitions="*,*">
                         <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="Hyperspace Survey Points" />
+                            <TextBlock Text="Hyperspace Survey Points" FontWeight="SemiBold" FontSize="11" />
                             <StackPanel Orientation="Horizontal" Spacing="4">
-                                <TextBox Text="{Binding HyperspaceSurveyPoints}" MaxLength="10" />
-                                <Button Content="Max" Command="{Binding MaxHyperspaceSurveyCommand}" />
+                                <TextBox Text="{Binding HyperspaceSurveyPoints}" MaxLength="10" Height="25" />
+                                <Button Content="Max" Command="{Binding MaxHyperspaceSurveyCommand}" MinWidth="75" Padding="8,4" />
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="Street Name" />
-                            <TextBox Text="{Binding StreetName}" MaxLength="18" />
+                            <TextBlock Text="Street Name" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding StreetName}" MaxLength="18" Height="25" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
 
                 <Separator />
 
-                <TextBlock Text="Actions" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Actions" FontWeight="SemiBold" FontSize="11" />
                 <WrapPanel Orientation="Horizontal">
-                    <Button Content="Collect Technical Machines" Command="{Binding CollectTechnicalMachinesCommand}" Margin="0,0,8,4" />
-                    <Button Content="Collect Screws" Command="{Binding CollectScrewsCommand}" Margin="0,0,8,4" />
+                    <Button Content="Collect Technical Machines" Command="{Binding CollectTechnicalMachinesCommand}" Margin="0,0,8,4" MinWidth="75" Padding="8,4" />
+                    <Button Content="Collect Screws" Command="{Binding CollectScrewsCommand}" Margin="0,0,8,4" MinWidth="75" Padding="8,4" />
                 </WrapPanel>
             </StackPanel>
         </ScrollViewer>

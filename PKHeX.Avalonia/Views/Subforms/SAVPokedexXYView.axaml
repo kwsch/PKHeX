@@ -7,6 +7,8 @@
                      Title="Pokedex Editor (XY)"
                      Width="600" Height="650"
                      MinWidth="500" MinHeight="550"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,11 +16,11 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Seen All" Command="{Binding SeenAllCommand}" />
-            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" />
-            <Button Content="Complete" Command="{Binding CompleteCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Seen All" Command="{Binding SeenAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Complete" Command="{Binding CompleteCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="180,*">
@@ -34,14 +36,14 @@
                     <CheckBox Content="National Dex Active" IsChecked="{Binding NationalDexActive}" />
 
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Spinda PID" FontWeight="SemiBold" />
-                        <TextBox Text="{Binding SpindaPid}" MaxLength="8" />
+                        <TextBlock Text="Spinda PID" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding SpindaPid}" MaxLength="8" Height="25" />
                     </StackPanel>
 
                     <Separator />
                     <CheckBox Content="Caught" IsChecked="{Binding Caught}" FontWeight="SemiBold" />
 
-                    <TextBlock Text="Seen" FontWeight="SemiBold" />
+                    <TextBlock Text="Seen" FontWeight="SemiBold" FontSize="11" />
                     <WrapPanel>
                         <CheckBox Content="Male" IsChecked="{Binding SeenMale}" Margin="0,0,8,0" />
                         <CheckBox Content="Female" IsChecked="{Binding SeenFemale}" Margin="0,0,8,0" />
@@ -49,7 +51,7 @@
                         <CheckBox Content="Female Shiny" IsChecked="{Binding SeenFemaleShiny}" />
                     </WrapPanel>
 
-                    <TextBlock Text="Displayed" FontWeight="SemiBold" />
+                    <TextBlock Text="Displayed" FontWeight="SemiBold" FontSize="11" />
                     <WrapPanel>
                         <CheckBox Content="Male" IsChecked="{Binding DisplayedMale}" Margin="0,0,8,0" />
                         <CheckBox Content="Female" IsChecked="{Binding DisplayedFemale}" Margin="0,0,8,0" />
@@ -57,7 +59,7 @@
                         <CheckBox Content="Female Shiny" IsChecked="{Binding DisplayedFemaleShiny}" />
                     </WrapPanel>
 
-                    <TextBlock Text="Languages" FontWeight="SemiBold" />
+                    <TextBlock Text="Languages" FontWeight="SemiBold" FontSize="11" />
                     <WrapPanel>
                         <CheckBox Content="JPN" IsChecked="{Binding LangJPN}" Margin="0,0,8,0" />
                         <CheckBox Content="ENG" IsChecked="{Binding LangENG}" Margin="0,0,8,0" />

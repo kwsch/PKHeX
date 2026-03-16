@@ -7,6 +7,8 @@
                      Title="Simple Pokédex Editor"
                      Width="550" Height="550"
                      MinWidth="400" MinHeight="350"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,17 +16,17 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Seen All" Command="{Binding SeenAllCommand}" Width="80" />
-            <Button Content="Seen None" Command="{Binding SeenNoneCommand}" Width="80" />
-            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" Width="80" />
-            <Button Content="Caught None" Command="{Binding CaughtNoneCommand}" Width="90" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Seen All" Command="{Binding SeenAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Seen None" Command="{Binding SeenNoneCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Caught None" Command="{Binding CaughtNoneCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Search box -->
         <TextBox DockPanel.Dock="Top" Watermark="Search species..."
-                 Text="{Binding SearchText}" Margin="0,0,0,8" />
+                 Text="{Binding SearchText}" Height="25" Margin="0,0,0,8" />
 
         <!-- Species list -->
         <ScrollViewer>

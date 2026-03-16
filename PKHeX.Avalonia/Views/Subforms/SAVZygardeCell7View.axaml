@@ -7,6 +7,8 @@
                      Title="Zygarde Cell Editor (Gen 7)"
                      Width="600" Height="650"
                      MinWidth="500" MinHeight="500"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,21 +16,21 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Give All" Command="{Binding GiveAllCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Give All" Command="{Binding GiveAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Top: Totals -->
         <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,8">
             <Grid ColumnDefinitions="*,*">
                 <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                    <TextBlock Text="Cells Total" />
-                    <NumericUpDown Value="{Binding CellsTotal}" Minimum="0" Maximum="65535" />
+                    <TextBlock Text="Cells Total" FontWeight="SemiBold" FontSize="11" />
+                    <NumericUpDown Value="{Binding CellsTotal}" Minimum="0" Maximum="65535" Height="25" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
-                    <TextBlock Text="Cells Collected" />
-                    <NumericUpDown Value="{Binding CellsCollected}" Minimum="0" Maximum="65535" />
+                    <TextBlock Text="Cells Collected" FontWeight="SemiBold" FontSize="11" />
+                    <NumericUpDown Value="{Binding CellsCollected}" Minimum="0" Maximum="65535" Height="25" />
                 </StackPanel>
             </Grid>
         </StackPanel>
@@ -46,6 +48,7 @@
                             <ComboBox Grid.Column="2"
                                       ItemsSource="{Binding $parent[views:SubformWindow].((vm:SAVZygardeCell7ViewModel)DataContext).StateNames}"
                                       SelectedIndex="{Binding StateIndex}"
+                                      Height="25"
                                       HorizontalAlignment="Stretch" />
                         </Grid>
                     </DataTemplate>

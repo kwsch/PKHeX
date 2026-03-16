@@ -7,14 +7,16 @@
                      Title="Event Work Grid (Z-A)"
                      Width="800" Height="650"
                      MinWidth="600" MinHeight="400"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="160,*">
@@ -23,7 +25,7 @@
                      SelectedItem="{Binding SelectedTab}" Margin="0,0,8,0">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="vm:EventWork64TabModel">
-                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Text="{Binding Name}" FontSize="11" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -32,7 +34,7 @@
             <DockPanel Grid.Column="1"
                        IsVisible="{Binding SelectedTab, Converter={x:Static ObjectConverters.IsNotNull}}">
                 <TextBox DockPanel.Dock="Top" Watermark="Search..."
-                         Text="{Binding SelectedTab.SearchText}" Margin="0,0,0,4" />
+                         Text="{Binding SelectedTab.SearchText}" Height="25" Margin="0,0,0,4" />
 
                 <DataGrid ItemsSource="{Binding SelectedTab.FilteredRows}"
                           AutoGenerateColumns="False"

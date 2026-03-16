@@ -7,6 +7,8 @@
                      Title="Pokedex Editor (Sun/Moon)"
                      Width="650" Height="650"
                      MinWidth="550" MinHeight="550"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,12 +16,12 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Give Current" Command="{Binding GiveAllCurrentCommand}" />
-            <Button Content="Seen All" Command="{Binding SeenAllCommand}" />
-            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" />
-            <Button Content="Clear All" Command="{Binding ClearAllCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Give Current" Command="{Binding GiveAllCurrentCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Seen All" Command="{Binding SeenAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="200,*">
@@ -38,7 +40,7 @@
                     <Separator />
 
                     <!-- Seen flags -->
-                    <TextBlock Text="Seen" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="Seen" FontWeight="SemiBold" FontSize="11" />
                     <WrapPanel>
                         <CheckBox Content="Male" IsChecked="{Binding SeenMaleNormal}"
                                   IsEnabled="{Binding MaleEnabled}" Margin="0,0,12,0" />
@@ -53,7 +55,7 @@
                     <Separator />
 
                     <!-- Displayed flags -->
-                    <TextBlock Text="Displayed" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="Displayed" FontWeight="SemiBold" FontSize="11" />
                     <WrapPanel>
                         <CheckBox Content="Male" IsChecked="{Binding DisplayedMaleNormal}"
                                   IsEnabled="{Binding MaleEnabled}" Margin="0,0,12,0" />
@@ -68,7 +70,7 @@
                     <Separator />
 
                     <!-- Language flags -->
-                    <TextBlock Text="Languages" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="Languages" FontWeight="SemiBold" FontSize="11" />
                     <WrapPanel>
                         <CheckBox Content="JPN" IsChecked="{Binding Lang1}"
                                   IsEnabled="{Binding LangEnabled}" Margin="0,0,8,4" />

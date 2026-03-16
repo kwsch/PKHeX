@@ -1,32 +1,34 @@
 <views:SubformWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:views="using:PKHeX.Avalonia.Views"
-                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-                     x:Class="PKHeX.Avalonia.Views.Subforms.BattlePass4View"
-                     x:DataType="vm:BattlePass4ViewModel"
-                     Title="Battle Pass Editor"
-                     Width="700" Height="650"
-                     MinWidth="550" MinHeight="450"
-                     WindowStartupLocation="CenterOwner"
-                     CanResize="True">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="using:PKHeX.Avalonia.Views"
+                    xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                    x:Class="PKHeX.Avalonia.Views.Subforms.BattlePass4View"
+                    x:DataType="vm:BattlePass4ViewModel"
+                    Title="Battle Pass Editor"
+                    Width="700" Height="650"
+                    MinWidth="550" MinHeight="450"
+                    FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                    FontSize="11"
+                    WindowStartupLocation="CenterOwner"
+                    CanResize="True">
 
     <DockPanel Margin="8">
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Unlock Custom" Command="{Binding UnlockCustomCommand}" />
-            <Button Content="Unlock Rental" Command="{Binding UnlockRentalCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Unlock Custom" Command="{Binding UnlockCustomCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Unlock Rental" Command="{Binding UnlockRentalCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="220,*">
             <!-- Pass list -->
             <DockPanel Grid.Column="0" Margin="0,0,8,0">
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="4" Margin="0,4,0,0">
-                    <Button Content="Up" Command="{Binding MoveUpCommand}" Width="50" />
-                    <Button Content="Down" Command="{Binding MoveDownCommand}" Width="50" />
-                    <Button Content="Delete" Command="{Binding DeletePassCommand}" Width="60" />
+                    <Button Content="Up" Command="{Binding MoveUpCommand}" Padding="6,2" FontSize="10" />
+                    <Button Content="Down" Command="{Binding MoveDownCommand}" Padding="6,2" FontSize="10" />
+                    <Button Content="Delete" Command="{Binding DeletePassCommand}" Padding="6,2" FontSize="10" />
                 </StackPanel>
                 <ListBox ItemsSource="{Binding PassList}"
                          SelectedIndex="{Binding SelectedPassIndex}">
@@ -42,16 +44,16 @@
             <ScrollViewer Grid.Column="1">
                 <StackPanel Spacing="8">
                     <!-- Trainer Info -->
-                    <TextBlock Text="Trainer Info" FontWeight="Bold" />
+                    <TextBlock Text="Trainer Info" FontWeight="SemiBold" FontSize="11" />
                     <Grid ColumnDefinitions="100,*" RowDefinitions="Auto,Auto,Auto">
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" VerticalAlignment="Center" Margin="0,4" />
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PassName}" Margin="8,4" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PassName}" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="TID:" VerticalAlignment="Center" Margin="0,4" />
-                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Tid}" Width="100" Margin="8,4" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Tid}" Width="100" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="SID:" VerticalAlignment="Center" Margin="0,4" />
-                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Sid}" Width="100" Margin="8,4" />
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Sid}" Width="100" Height="25" Margin="8,4" />
                     </Grid>
 
                     <!-- Flags -->
@@ -63,19 +65,19 @@
                     </WrapPanel>
 
                     <!-- Catchphrases -->
-                    <TextBlock Text="Catchphrases" FontWeight="Bold" Margin="0,8,0,0" />
+                    <TextBlock Text="Catchphrases" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
                     <Grid ColumnDefinitions="80,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Greeting:" VerticalAlignment="Center" Margin="0,4" />
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Greeting}" Margin="8,4" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Greeting}" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Sent Out:" VerticalAlignment="Center" Margin="0,4" />
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SentOut}" AcceptsReturn="True" Height="40" Margin="8,4" />
 
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Shift 1:" VerticalAlignment="Center" Margin="0,4" />
-                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Shift1}" Margin="8,4" />
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Shift1}" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Shift 2:" VerticalAlignment="Center" Margin="0,4" />
-                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Shift2}" Margin="8,4" />
+                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Shift2}" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Win:" VerticalAlignment="Center" Margin="0,4" />
                         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Win}" AcceptsReturn="True" Height="40" Margin="8,4" />
@@ -85,38 +87,38 @@
                     </Grid>
 
                     <!-- Creator Info -->
-                    <TextBlock Text="Creator" FontWeight="Bold" Margin="0,8,0,0" />
+                    <TextBlock Text="Creator" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
                     <Grid ColumnDefinitions="100,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Creator:" VerticalAlignment="Center" Margin="0,4" />
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CreatorName}" Margin="8,4" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding CreatorName}" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Birth Month:" VerticalAlignment="Center" Margin="0,4" />
-                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BirthMonth}" Width="100" Margin="8,4" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BirthMonth}" Width="100" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Birth Day:" VerticalAlignment="Center" Margin="0,4" />
-                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding BirthDay}" Width="100" Margin="8,4" />
+                        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding BirthDay}" Width="100" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Region Code:" VerticalAlignment="Center" Margin="0,4" />
-                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding RegionCode}" Width="100" Margin="8,4" />
+                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding RegionCode}" Width="100" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Player ID:" VerticalAlignment="Center" Margin="0,4" />
-                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding PlayerIdHex}" Margin="8,4" />
+                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding PlayerIdHex}" Height="25" Margin="8,4" />
                     </Grid>
 
                     <!-- Records -->
-                    <TextBlock Text="Records" FontWeight="Bold" Margin="0,8,0,0" />
+                    <TextBlock Text="Records" FontWeight="SemiBold" FontSize="11" Margin="0,8,0,0" />
                     <Grid ColumnDefinitions="130,*" RowDefinitions="Auto,Auto,Auto,Auto">
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Battles:" VerticalAlignment="Center" Margin="0,4" />
-                        <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Battles}" Minimum="0" Maximum="999999" Width="120" Margin="8,4" />
+                        <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Battles}" Minimum="0" Maximum="999999" Width="120" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Colosseum:" VerticalAlignment="Center" Margin="0,4" />
-                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding RecordColosseumBattles}" Minimum="0" Maximum="999999" Width="120" Margin="8,4" />
+                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding RecordColosseumBattles}" Minimum="0" Maximum="999999" Width="120" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Free Battles:" VerticalAlignment="Center" Margin="0,4" />
-                        <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding RecordFreeBattles}" Minimum="0" Maximum="999999" Width="120" Margin="8,4" />
+                        <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding RecordFreeBattles}" Minimum="0" Maximum="999999" Width="120" Height="25" Margin="8,4" />
 
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Wi-Fi Battles:" VerticalAlignment="Center" Margin="0,4" />
-                        <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding RecordWiFiBattles}" Minimum="0" Maximum="999999" Width="120" Margin="8,4" />
+                        <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding RecordWiFiBattles}" Minimum="0" Maximum="999999" Width="120" Height="25" Margin="8,4" />
                     </Grid>
                 </StackPanel>
             </ScrollViewer>

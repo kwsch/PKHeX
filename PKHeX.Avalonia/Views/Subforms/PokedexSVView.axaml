@@ -8,23 +8,25 @@
                      Width="700" Height="650"
                      MinWidth="550" MinHeight="500"
                      WindowStartupLocation="CenterOwner"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,8">
-            <TextBox Watermark="Search species..." Text="{Binding SearchText}" />
+            <TextBox Watermark="Search species..." Text="{Binding SearchText}" Height="25" />
             <WrapPanel Orientation="Horizontal" Margin="0,4,0,0">
-                <Button Content="Seen All" Command="{Binding SeenAllCommand}" Margin="0,0,4,0" />
-                <Button Content="Caught All" Command="{Binding CaughtAllCommand}" Margin="0,0,4,0" />
-                <Button Content="Complete Dex" Command="{Binding CompleteDexCommand}" Margin="0,0,4,0" />
-                <Button Content="Seen None" Command="{Binding SeenNoneCommand}" Margin="0,0,4,0" />
-                <Button Content="Caught None" Command="{Binding CaughtNoneCommand}" Margin="0,0,4,0" />
+                <Button Content="Seen All" Command="{Binding SeenAllCommand}" MinWidth="75" Padding="8,4" Margin="0,0,4,4" />
+                <Button Content="Caught All" Command="{Binding CaughtAllCommand}" MinWidth="75" Padding="8,4" Margin="0,0,4,4" />
+                <Button Content="Complete Dex" Command="{Binding CompleteDexCommand}" MinWidth="75" Padding="8,4" Margin="0,0,4,4" />
+                <Button Content="Seen None" Command="{Binding SeenNoneCommand}" MinWidth="75" Padding="8,4" Margin="0,0,4,4" />
+                <Button Content="Caught None" Command="{Binding CaughtNoneCommand}" MinWidth="75" Padding="8,4" Margin="0,0,4,4" />
             </WrapPanel>
         </StackPanel>
 
@@ -42,32 +44,32 @@
                 <StackPanel Spacing="6"
                             DataContext="{Binding SelectedEntry}"
                             IsVisible="{Binding $parent[views:SubformWindow].DataContext.SelectedEntry, Converter={x:Static ObjectConverters.IsNotNull}}">
-                    <TextBlock Text="{Binding Label}" FontWeight="Bold" FontSize="14" />
+                    <TextBlock Text="{Binding Label}" FontWeight="Bold" FontSize="13" />
 
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBlock Text="State:" VerticalAlignment="Center" />
-                        <NumericUpDown Value="{Binding State}" Minimum="0" Maximum="3" Width="80" />
+                        <TextBlock Text="State:" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding State}" Minimum="0" Maximum="3" Width="80" Height="25" />
                     </StackPanel>
                     <CheckBox Content="Is New" IsChecked="{Binding IsNew}" />
 
-                    <TextBlock Text="Seen" FontWeight="SemiBold" Margin="0,4,0,0" />
+                    <TextBlock Text="Seen" FontWeight="SemiBold" FontSize="11" Margin="0,4,0,0" />
                     <CheckBox Content="Male" IsChecked="{Binding SeenMale}" />
                     <CheckBox Content="Female" IsChecked="{Binding SeenFemale}" />
                     <CheckBox Content="Genderless" IsChecked="{Binding SeenGenderless}" />
                     <CheckBox Content="Shiny" IsChecked="{Binding SeenShiny}" />
 
-                    <TextBlock Text="Display" FontWeight="SemiBold" Margin="0,4,0,0" />
+                    <TextBlock Text="Display" FontWeight="SemiBold" FontSize="11" Margin="0,4,0,0" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBlock Text="Gender:" VerticalAlignment="Center" />
-                        <NumericUpDown Value="{Binding DisplayGender}" Minimum="0" Maximum="2" Width="80" />
+                        <TextBlock Text="Gender:" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding DisplayGender}" Minimum="0" Maximum="2" Width="80" Height="25" />
                     </StackPanel>
                     <CheckBox Content="Display Shiny" IsChecked="{Binding DisplayShiny}" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBlock Text="Display Form:" VerticalAlignment="Center" />
-                        <NumericUpDown Value="{Binding DisplayForm}" Minimum="0" Maximum="255" Width="80" />
+                        <TextBlock Text="Display Form:" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding DisplayForm}" Minimum="0" Maximum="255" Width="80" Height="25" />
                     </StackPanel>
 
-                    <TextBlock Text="Languages" FontWeight="SemiBold" Margin="0,4,0,0" />
+                    <TextBlock Text="Languages" FontWeight="SemiBold" FontSize="11" Margin="0,4,0,0" />
                     <WrapPanel Orientation="Horizontal">
                         <CheckBox Content="JPN" IsChecked="{Binding LangJPN}" Margin="0,0,8,0" />
                         <CheckBox Content="ENG" IsChecked="{Binding LangENG}" Margin="0,0,8,0" />

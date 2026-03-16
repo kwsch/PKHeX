@@ -7,6 +7,8 @@
                      Title="All Boxes"
                      Width="450" Height="500"
                      MinWidth="350" MinHeight="300"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,9 +16,9 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Refresh" Command="{Binding RefreshCommand}" Width="80" />
-            <Button Content="Go To Box" Command="{Binding NavigateToBoxCommand}" Width="80" />
-            <Button Content="Close" Click="OnCloseClick" Width="80" />
+            <Button Content="Refresh" Command="{Binding RefreshCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Go To Box" Command="{Binding NavigateToBoxCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Close" Click="OnCloseClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Box list -->

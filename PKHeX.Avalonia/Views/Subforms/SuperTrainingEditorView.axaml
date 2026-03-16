@@ -7,6 +7,8 @@
                      Title="Super Training Editor"
                      Width="450" Height="600"
                      MinWidth="350" MinHeight="400"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,10 +16,10 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Set All" Command="{Binding SetAllCommand}" Width="70" />
-            <Button Content="Clear All" Command="{Binding ClearAllCommand}" Width="70" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Set All" Command="{Binding SetAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
@@ -29,7 +31,7 @@
                 </StackPanel>
 
                 <!-- Regular regimens -->
-                <TextBlock Text="Regular Regimens" FontWeight="SemiBold" Margin="4,4,0,0" />
+                <TextBlock Text="Regular Regimens" FontWeight="SemiBold" FontSize="11" Margin="4,4,0,0" />
                 <ItemsControl ItemsSource="{Binding RegularEntries}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:SuperTrainEntryModel">
@@ -41,7 +43,7 @@
                 </ItemsControl>
 
                 <!-- Distribution regimens -->
-                <TextBlock Text="Distribution Regimens" FontWeight="SemiBold" Margin="4,8,0,0" />
+                <TextBlock Text="Distribution Regimens" FontWeight="SemiBold" FontSize="11" Margin="4,8,0,0" />
                 <ItemsControl ItemsSource="{Binding DistributionEntries}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:SuperTrainEntryModel">

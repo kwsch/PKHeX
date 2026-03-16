@@ -7,6 +7,8 @@
                      Title="Move Shop Editor"
                      Width="450" Height="550"
                      MinWidth="350" MinHeight="350"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,10 +16,10 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Set All" Command="{Binding SetAllCommand}" Width="70" />
-            <Button Content="Clear All" Command="{Binding ClearAllCommand}" Width="70" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Set All" Command="{Binding SetAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Record list -->
@@ -28,10 +30,12 @@
                         <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto" Margin="4,2">
                             <TextBlock Grid.Column="0" Text="{Binding DisplayIndex}"
                                        VerticalAlignment="Center" Margin="4,0"
-                                       FontFamily="Consolas,Menlo,monospace"
+                                       FontFamily="Consolas,Menlo,Courier New,monospace"
+                                       FontSize="11"
                                        Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
                             <TextBlock Grid.Column="1" Text="{Binding MoveName}"
-                                       VerticalAlignment="Center" Margin="4,0" Width="140" />
+                                       VerticalAlignment="Center" Margin="4,0" Width="140"
+                                       FontSize="11" />
                             <CheckBox Grid.Column="2" Content="Purchased"
                                       IsChecked="{Binding IsPurchased}"
                                       VerticalAlignment="Center" Margin="4,0" />

@@ -8,17 +8,19 @@
                      Width="750" Height="650"
                      MinWidth="600" MinHeight="450"
                      WindowStartupLocation="CenterOwner"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Complete Dex" Command="{Binding CompleteDexCommand}" />
-            <Button Content="Seen All" Command="{Binding SeenAllCommand}" />
-            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" />
-            <Button Content="Caught None" Command="{Binding CaughtNoneCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Complete Dex" Command="{Binding CompleteDexCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Seen All" Command="{Binding SeenAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Caught None" Command="{Binding CaughtNoneCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Top" Spacing="8" Margin="0,0,0,8">
@@ -26,7 +28,7 @@
         </StackPanel>
 
         <TextBox DockPanel.Dock="Top" Watermark="Search species..."
-                 Text="{Binding SearchText}" Margin="0,0,0,8" />
+                 Text="{Binding SearchText}" Height="25" Margin="0,0,0,8" />
 
         <ScrollViewer>
             <ItemsControl ItemsSource="{Binding FilteredEntries}">
@@ -34,7 +36,7 @@
                     <DataTemplate x:DataType="vm:PokedexBDSPEntryModel">
                         <StackPanel Orientation="Horizontal" Spacing="6" Margin="4,2">
                             <TextBlock Text="{Binding Label}" Width="180" VerticalAlignment="Center" />
-                            <ComboBox SelectedIndex="{Binding State}" Width="80" VerticalAlignment="Center">
+                            <ComboBox SelectedIndex="{Binding State}" Width="80" Height="25" VerticalAlignment="Center">
                                 <ComboBoxItem Content="None" />
                                 <ComboBoxItem Content="Heard" />
                                 <ComboBoxItem Content="Seen" />

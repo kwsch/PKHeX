@@ -7,6 +7,8 @@
                      Title="Fashion Editor (Gen 9)"
                      Width="750" Height="600"
                      MinWidth="550" MinHeight="400"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,9 +16,10 @@
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
             <Button Content="Set All Owned" Command="{Binding SetAllOwnedCommand}"
+                    MinWidth="75" Padding="8,4"
                     IsVisible="{Binding ShowSetAllOwned}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="180,*">
@@ -25,7 +28,7 @@
                      SelectedItem="{Binding SelectedTab}" Margin="0,0,8,0">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="vm:FashionBlockModel">
-                        <TextBlock Text="{Binding DisplayName}" />
+                        <TextBlock Text="{Binding DisplayName}" FontSize="11" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

@@ -8,21 +8,23 @@
                      Width="450" Height="500"
                      MinWidth="350" MinHeight="300"
                      WindowStartupLocation="CenterOwner"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="All" Command="{Binding SelectAllCommand}" Width="60" />
-            <Button Content="None" Command="{Binding SelectNoneCommand}" Width="60" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="All" Command="{Binding SelectAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="None" Command="{Binding SelectNoneCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Search box -->
         <TextBox DockPanel.Dock="Top" Watermark="Search ribbons..."
-                 Text="{Binding SearchText}" Margin="0,0,0,8" />
+                 Text="{Binding SearchText}" Height="25" Margin="0,0,0,8" />
 
         <!-- Ribbon list -->
         <ScrollViewer>
@@ -41,7 +43,7 @@
                                            Minimum="0"
                                            Maximum="{Binding MaxCount}"
                                            IsVisible="{Binding !IsBooleanType}"
-                                           Width="80"
+                                           Width="80" Height="25"
                                            VerticalAlignment="Center" />
                             <TextBlock Grid.Column="1" Text="{Binding DisplayName}"
                                        VerticalAlignment="Center" Margin="8,0,0,0" />

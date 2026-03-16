@@ -1,21 +1,23 @@
 <views:SubformWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:views="using:PKHeX.Avalonia.Views"
-                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-                     x:Class="PKHeX.Avalonia.Views.Subforms.ChatterView"
-                     x:DataType="vm:ChatterViewModel"
-                     Title="{Binding WindowTitle}"
-                     Width="380" Height="300"
-                     MinWidth="300" MinHeight="250"
-                     WindowStartupLocation="CenterOwner"
-                     CanResize="False">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="using:PKHeX.Avalonia.Views"
+                    xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                    x:Class="PKHeX.Avalonia.Views.Subforms.ChatterView"
+                    x:DataType="vm:ChatterViewModel"
+                    Title="{Binding WindowTitle}"
+                    Width="380" Height="300"
+                    MinWidth="300" MinHeight="250"
+                    FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                    FontSize="11"
+                    WindowStartupLocation="CenterOwner"
+                    CanResize="False">
 
     <DockPanel Margin="8">
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <StackPanel Spacing="12">
@@ -24,16 +26,16 @@
 
             <!-- Confusion Chance (read-only) -->
             <StackPanel Spacing="4">
-                <TextBlock Text="Confusion Chance" FontWeight="SemiBold" />
-                <NumericUpDown Value="{Binding ConfusionChance}" IsReadOnly="True" IsEnabled="False" />
+                <TextBlock Text="Confusion Chance" FontWeight="SemiBold" FontSize="11" />
+                <NumericUpDown Value="{Binding ConfusionChance}" Height="25" IsReadOnly="True" IsEnabled="False" />
             </StackPanel>
 
             <!-- Import/Export -->
             <StackPanel Spacing="4">
-                <TextBlock Text="PCM Recording" FontWeight="SemiBold" />
+                <TextBlock Text="PCM Recording" FontWeight="SemiBold" FontSize="11" />
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Content="Import PCM..." Click="OnImportPcmClick" Width="110" />
-                    <Button Content="Export PCM..." Click="OnExportPcmClick" Width="110" />
+                    <Button Content="Import PCM..." Click="OnImportPcmClick" MinWidth="75" Padding="8,4" />
+                    <Button Content="Export PCM..." Click="OnExportPcmClick" MinWidth="75" Padding="8,4" />
                 </StackPanel>
             </StackPanel>
 

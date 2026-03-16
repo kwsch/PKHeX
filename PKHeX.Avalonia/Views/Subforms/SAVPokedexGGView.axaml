@@ -7,6 +7,8 @@
                      Title="Pokedex Editor (Let's Go)"
                      Width="700" Height="700"
                      MinWidth="600" MinHeight="600"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,10 +16,10 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Give Current" Command="{Binding GiveAllCurrentCommand}" />
-            <Button Content="Clear All" Command="{Binding ClearAllCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Give Current" Command="{Binding GiveAllCurrentCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="200,*">
@@ -36,7 +38,7 @@
                     <Separator />
 
                     <!-- Seen flags -->
-                    <TextBlock Text="Seen" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="Seen" FontWeight="SemiBold" FontSize="11" />
                     <WrapPanel>
                         <CheckBox Content="Male" IsChecked="{Binding SeenMaleNormal}"
                                   IsEnabled="{Binding MaleEnabled}" Margin="0,0,12,0" />
@@ -51,7 +53,7 @@
                     <Separator />
 
                     <!-- Displayed flags -->
-                    <TextBlock Text="Displayed" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="Displayed" FontWeight="SemiBold" FontSize="11" />
                     <WrapPanel>
                         <CheckBox Content="Male" IsChecked="{Binding DisplayedMaleNormal}"
                                   IsEnabled="{Binding MaleEnabled}" Margin="0,0,12,0" />
@@ -66,7 +68,7 @@
                     <Separator />
 
                     <!-- Language flags -->
-                    <TextBlock Text="Languages" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="Languages" FontWeight="SemiBold" FontSize="11" />
                     <WrapPanel>
                         <CheckBox Content="JPN" IsChecked="{Binding Lang1}"
                                   IsEnabled="{Binding LangEnabled}" Margin="0,0,8,4" />
@@ -92,47 +94,47 @@
 
                     <!-- Size Records -->
                     <StackPanel Spacing="6" IsVisible="{Binding ShowSizeRecords}">
-                        <TextBlock Text="Size Records" FontWeight="SemiBold" FontSize="14" />
+                        <TextBlock Text="Size Records" FontWeight="SemiBold" FontSize="11" />
                         <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto">
                             <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
                                 <CheckBox Content="Min Height" IsChecked="{Binding HasMinHeight}" />
                                 <NumericUpDown Value="{Binding MinHeight}" Minimum="0" Maximum="255"
-                                               IsEnabled="{Binding HasMinHeight}" />
+                                               Height="25" IsEnabled="{Binding HasMinHeight}" />
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                                <TextBlock Text="Weight (MinH)" />
+                                <TextBlock Text="Weight (MinH)" FontWeight="SemiBold" FontSize="11" />
                                 <NumericUpDown Value="{Binding MinHeightWeight}" Minimum="0" Maximum="255"
-                                               IsEnabled="{Binding HasMinHeight}" />
+                                               Height="25" IsEnabled="{Binding HasMinHeight}" />
                             </StackPanel>
                             <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
                                 <CheckBox Content="Max Height" IsChecked="{Binding HasMaxHeight}" />
                                 <NumericUpDown Value="{Binding MaxHeight}" Minimum="0" Maximum="255"
-                                               IsEnabled="{Binding HasMaxHeight}" />
+                                               Height="25" IsEnabled="{Binding HasMaxHeight}" />
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                                <TextBlock Text="Weight (MaxH)" />
+                                <TextBlock Text="Weight (MaxH)" FontWeight="SemiBold" FontSize="11" />
                                 <NumericUpDown Value="{Binding MaxHeightWeight}" Minimum="0" Maximum="255"
-                                               IsEnabled="{Binding HasMaxHeight}" />
+                                               Height="25" IsEnabled="{Binding HasMaxHeight}" />
                             </StackPanel>
                             <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
                                 <CheckBox Content="Min Weight" IsChecked="{Binding HasMinWeight}" />
                                 <NumericUpDown Value="{Binding MinWeight}" Minimum="0" Maximum="255"
-                                               IsEnabled="{Binding HasMinWeight}" />
+                                               Height="25" IsEnabled="{Binding HasMinWeight}" />
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4">
-                                <TextBlock Text="Height (MinW)" />
+                                <TextBlock Text="Height (MinW)" FontWeight="SemiBold" FontSize="11" />
                                 <NumericUpDown Value="{Binding MinWeightHeight}" Minimum="0" Maximum="255"
-                                               IsEnabled="{Binding HasMinWeight}" />
+                                               Height="25" IsEnabled="{Binding HasMinWeight}" />
                             </StackPanel>
                             <StackPanel Grid.Column="0" Grid.Row="3" Spacing="2" Margin="0,0,4,4">
                                 <CheckBox Content="Max Weight" IsChecked="{Binding HasMaxWeight}" />
                                 <NumericUpDown Value="{Binding MaxWeight}" Minimum="0" Maximum="255"
-                                               IsEnabled="{Binding HasMaxWeight}" />
+                                               Height="25" IsEnabled="{Binding HasMaxWeight}" />
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="3" Spacing="2" Margin="4,0,0,4">
-                                <TextBlock Text="Height (MaxW)" />
+                                <TextBlock Text="Height (MaxW)" FontWeight="SemiBold" FontSize="11" />
                                 <NumericUpDown Value="{Binding MaxWeightHeight}" Minimum="0" Maximum="255"
-                                               IsEnabled="{Binding HasMaxWeight}" />
+                                               Height="25" IsEnabled="{Binding HasMaxWeight}" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>

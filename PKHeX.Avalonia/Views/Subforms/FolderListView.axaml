@@ -7,6 +7,8 @@
                      Title="{Binding WindowTitle}"
                      Width="700" Height="550"
                      MinWidth="500" MinHeight="400"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,17 +16,17 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Close" Click="OnCancelClick" Width="80" />
+            <Button Content="Close" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Search box -->
         <TextBox DockPanel.Dock="Top" Watermark="Filter files..."
-                 Text="{Binding SearchText}" Margin="0,0,0,8" />
+                 Text="{Binding SearchText}" Height="25" Margin="0,0,0,8" />
 
         <Grid ColumnDefinitions="200,*">
             <!-- Folder list -->
             <DockPanel Grid.Column="0" Margin="0,0,4,0">
-                <TextBlock DockPanel.Dock="Top" Text="Folders" FontWeight="SemiBold" Margin="0,0,0,4" />
+                <TextBlock DockPanel.Dock="Top" Text="Folders" FontWeight="SemiBold" FontSize="11" Margin="0,0,0,4" />
                 <ScrollViewer>
                     <ItemsControl ItemsSource="{Binding Folders}">
                         <ItemsControl.ItemTemplate>
@@ -34,6 +36,7 @@
                                         CommandParameter="{Binding}"
                                         HorizontalAlignment="Stretch"
                                         HorizontalContentAlignment="Left"
+                                        MinWidth="75" Padding="8,4"
                                         Margin="0,2" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

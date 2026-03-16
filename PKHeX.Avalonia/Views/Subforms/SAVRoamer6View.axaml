@@ -7,6 +7,8 @@
                      Title="Roaming Pokemon (Gen 6)"
                      Width="380" Height="300"
                      MinWidth="320" MinHeight="260"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="False">
 
@@ -14,26 +16,28 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <StackPanel Spacing="8">
             <StackPanel Spacing="4">
-                <TextBlock Text="Species" FontWeight="SemiBold" />
+                <TextBlock Text="Species" FontWeight="SemiBold" FontSize="11" />
                 <ComboBox ItemsSource="{Binding SpeciesChoices}"
-                          SelectedIndex="{Binding SelectedSpeciesIndex}" />
+                          SelectedIndex="{Binding SelectedSpeciesIndex}"
+                          Height="25" />
             </StackPanel>
 
             <StackPanel Spacing="4">
-                <TextBlock Text="Roam State" FontWeight="SemiBold" />
+                <TextBlock Text="Roam State" FontWeight="SemiBold" FontSize="11" />
                 <ComboBox ItemsSource="{Binding RoamStateChoices}"
-                          SelectedIndex="{Binding SelectedRoamStateIndex}" />
+                          SelectedIndex="{Binding SelectedRoamStateIndex}"
+                          Height="25" />
             </StackPanel>
 
             <StackPanel Spacing="4">
-                <TextBlock Text="Times Encountered" FontWeight="SemiBold" />
-                <NumericUpDown Value="{Binding TimesEncountered}" Minimum="0" Maximum="4294967295" />
+                <TextBlock Text="Times Encountered" FontWeight="SemiBold" FontSize="11" />
+                <NumericUpDown Value="{Binding TimesEncountered}" Minimum="0" Maximum="4294967295" Height="25" />
             </StackPanel>
         </StackPanel>
     </DockPanel>

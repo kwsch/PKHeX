@@ -7,6 +7,8 @@
                      Title="Roaming Pokemon (Gen 3)"
                      Width="420" Height="520"
                      MinWidth="350" MinHeight="400"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="False">
 
@@ -14,55 +16,56 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
             <StackPanel Spacing="8">
                 <!-- Species -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Species" FontWeight="SemiBold" />
+                    <TextBlock Text="Species" FontWeight="SemiBold" FontSize="11" />
                     <ComboBox ItemsSource="{Binding SpeciesList}"
                               SelectedValue="{Binding SelectedSpecies}"
                               SelectedValueBinding="{Binding Value}"
-                              DisplayMemberBinding="{Binding Text}" />
+                              DisplayMemberBinding="{Binding Text}"
+                              Height="25" />
                 </StackPanel>
 
                 <!-- PID -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="PID" FontWeight="SemiBold" />
-                    <TextBox Text="{Binding Pid}" MaxLength="8" />
+                    <TextBlock Text="PID" FontWeight="SemiBold" FontSize="11" />
+                    <TextBox Text="{Binding Pid}" MaxLength="8" Height="25" />
                     <CheckBox Content="Shiny" IsChecked="{Binding IsShiny}" IsEnabled="False" />
                 </StackPanel>
 
                 <!-- IVs -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="IVs" FontWeight="SemiBold" />
+                    <TextBlock Text="IVs" FontWeight="SemiBold" FontSize="11" />
                     <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto">
                         <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="HP" />
-                            <NumericUpDown Value="{Binding IvHp}" Minimum="0" Maximum="31" />
+                            <TextBlock Text="HP" FontWeight="SemiBold" FontSize="11" />
+                            <NumericUpDown Value="{Binding IvHp}" Minimum="0" Maximum="31" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,4,4">
-                            <TextBlock Text="ATK" />
-                            <NumericUpDown Value="{Binding IvAtk}" Minimum="0" Maximum="31" />
+                            <TextBlock Text="ATK" FontWeight="SemiBold" FontSize="11" />
+                            <NumericUpDown Value="{Binding IvAtk}" Minimum="0" Maximum="31" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="DEF" />
-                            <NumericUpDown Value="{Binding IvDef}" Minimum="0" Maximum="31" />
+                            <TextBlock Text="DEF" FontWeight="SemiBold" FontSize="11" />
+                            <NumericUpDown Value="{Binding IvDef}" Minimum="0" Maximum="31" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,0">
-                            <TextBlock Text="SPE" />
-                            <NumericUpDown Value="{Binding IvSpe}" Minimum="0" Maximum="31" />
+                            <TextBlock Text="SPE" FontWeight="SemiBold" FontSize="11" />
+                            <NumericUpDown Value="{Binding IvSpe}" Minimum="0" Maximum="31" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,4,0">
-                            <TextBlock Text="SPA" />
-                            <NumericUpDown Value="{Binding IvSpa}" Minimum="0" Maximum="31" />
+                            <TextBlock Text="SPA" FontWeight="SemiBold" FontSize="11" />
+                            <NumericUpDown Value="{Binding IvSpa}" Minimum="0" Maximum="31" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Grid.Row="1" Spacing="2" Margin="4,0,0,0">
-                            <TextBlock Text="SPD" />
-                            <NumericUpDown Value="{Binding IvSpd}" Minimum="0" Maximum="31" />
+                            <TextBlock Text="SPD" FontWeight="SemiBold" FontSize="11" />
+                            <NumericUpDown Value="{Binding IvSpd}" Minimum="0" Maximum="31" Height="25" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>
@@ -72,12 +75,12 @@
 
                 <Grid ColumnDefinitions="*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="Level" FontWeight="SemiBold" />
-                        <NumericUpDown Value="{Binding Level}" Minimum="0" Maximum="100" />
+                        <TextBlock Text="Level" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding Level}" Minimum="0" Maximum="100" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Current HP" FontWeight="SemiBold" />
-                        <NumericUpDown Value="{Binding HpCurrent}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Current HP" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding HpCurrent}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                 </Grid>
             </StackPanel>

@@ -1,22 +1,24 @@
 <views:SubformWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:views="using:PKHeX.Avalonia.Views"
-                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-                     x:Class="PKHeX.Avalonia.Views.Subforms.BoxExporterView"
-                     x:DataType="vm:BoxExporterViewModel"
-                     Title="Box Exporter"
-                     Width="400" Height="250"
-                     MinWidth="350" MinHeight="200"
-                     WindowStartupLocation="CenterOwner"
-                     CanResize="False">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="using:PKHeX.Avalonia.Views"
+                    xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                    x:Class="PKHeX.Avalonia.Views.Subforms.BoxExporterView"
+                    x:DataType="vm:BoxExporterViewModel"
+                    Title="Box Exporter"
+                    Width="400" Height="250"
+                    MinWidth="350" MinHeight="200"
+                    FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                    FontSize="11"
+                    WindowStartupLocation="CenterOwner"
+                    CanResize="False">
 
-    <DockPanel Margin="12">
+    <DockPanel Margin="8">
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center" FontSize="12" />
-            <Button Content="Export" Command="{Binding ExportCommand}" Width="80" />
-            <Button Content="Close" Click="OnCloseClick" Width="80" />
+            <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center" FontSize="11" />
+            <Button Content="Export" Command="{Binding ExportCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Close" Click="OnCloseClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Settings -->
@@ -25,7 +27,7 @@
                 <TextBlock Text="File Namer:" VerticalAlignment="Center" Width="80" />
                 <ComboBox ItemsSource="{Binding NamerNames}"
                           SelectedIndex="{Binding SelectedNamerIndex}"
-                          MinWidth="200" />
+                          MinWidth="200" Height="25" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Spacing="8">

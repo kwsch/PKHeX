@@ -8,19 +8,21 @@
                      Width="400" Height="480"
                      MinWidth="350" MinHeight="400"
                      WindowStartupLocation="CenterOwner"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Save QR..." Click="OnSaveClick" Width="100" />
-            <Button Content="Close" Click="OnCloseClick" Width="80" />
+            <Button Content="Save QR..." Click="OnSaveClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Close" Click="OnCloseClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Summary text -->
         <TextBlock DockPanel.Dock="Bottom" Text="{Binding SummaryText}"
-                   TextWrapping="Wrap" Margin="0,8,0,0" FontSize="12" />
+                   TextWrapping="Wrap" Margin="0,8,0,0" FontSize="11" />
 
         <!-- QR Image -->
         <Border Background="White" Padding="8"

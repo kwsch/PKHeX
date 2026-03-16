@@ -7,6 +7,8 @@
                      Title="Hall of Fame (Gen 6)"
                      Width="650" Height="700"
                      MinWidth="550" MinHeight="600"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,9 +16,9 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Delete Entry" Command="{Binding DeleteEntryCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Delete Entry" Command="{Binding DeleteEntryCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="150,*">
@@ -31,89 +33,96 @@
                     <!-- Entry summary -->
                     <TextBox Text="{Binding EntryText}" IsReadOnly="True"
                              AcceptsReturn="True" Height="120"
-                             FontFamily="Courier New" FontSize="12" />
+                             FontFamily="Consolas,Menlo,Courier New,monospace"
+                             FontSize="11" />
 
                     <Grid ColumnDefinitions="*,*">
                         <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                            <TextBlock Text="Clear Index" />
-                            <TextBox Text="{Binding ClearIndex}" MaxLength="5" />
+                            <TextBlock Text="Clear Index" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding ClearIndex}" MaxLength="5" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
-                            <TextBlock Text="Party Member #" />
+                            <TextBlock Text="Party Member #" FontWeight="SemiBold" FontSize="11" />
                             <NumericUpDown Value="{Binding MemberIndex}" Minimum="1"
-                                           Maximum="{Binding MaxMembers}" />
+                                           Maximum="{Binding MaxMembers}" Height="25" />
                         </StackPanel>
                     </Grid>
 
                     <Separator />
-                    <TextBlock Text="Pokemon Details" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="Pokemon Details" FontWeight="SemiBold" FontSize="11" />
 
                     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
                         <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="Species" />
+                            <TextBlock Text="Species" FontWeight="SemiBold" FontSize="11" />
                             <ComboBox ItemsSource="{Binding SpeciesList}"
                                       SelectedValue="{Binding SelectedSpecies}"
                                       SelectedValueBinding="{Binding Value}"
-                                      DisplayMemberBinding="{Binding Text}" />
+                                      DisplayMemberBinding="{Binding Text}"
+                                      Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="Held Item" />
+                            <TextBlock Text="Held Item" FontWeight="SemiBold" FontSize="11" />
                             <ComboBox ItemsSource="{Binding ItemsList}"
                                       SelectedValue="{Binding SelectedItem}"
                                       SelectedValueBinding="{Binding Value}"
-                                      DisplayMemberBinding="{Binding Text}" />
+                                      DisplayMemberBinding="{Binding Text}"
+                                      Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="Move 1" />
+                            <TextBlock Text="Move 1" FontWeight="SemiBold" FontSize="11" />
                             <ComboBox ItemsSource="{Binding MovesList}"
                                       SelectedValue="{Binding Move1}"
                                       SelectedValueBinding="{Binding Value}"
-                                      DisplayMemberBinding="{Binding Text}" />
+                                      DisplayMemberBinding="{Binding Text}"
+                                      Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="Move 2" />
+                            <TextBlock Text="Move 2" FontWeight="SemiBold" FontSize="11" />
                             <ComboBox ItemsSource="{Binding MovesList}"
                                       SelectedValue="{Binding Move2}"
                                       SelectedValueBinding="{Binding Value}"
-                                      DisplayMemberBinding="{Binding Text}" />
+                                      DisplayMemberBinding="{Binding Text}"
+                                      Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="Move 3" />
+                            <TextBlock Text="Move 3" FontWeight="SemiBold" FontSize="11" />
                             <ComboBox ItemsSource="{Binding MovesList}"
                                       SelectedValue="{Binding Move3}"
                                       SelectedValueBinding="{Binding Value}"
-                                      DisplayMemberBinding="{Binding Text}" />
+                                      DisplayMemberBinding="{Binding Text}"
+                                      Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="Move 4" />
+                            <TextBlock Text="Move 4" FontWeight="SemiBold" FontSize="11" />
                             <ComboBox ItemsSource="{Binding MovesList}"
                                       SelectedValue="{Binding Move4}"
                                       SelectedValueBinding="{Binding Value}"
-                                      DisplayMemberBinding="{Binding Text}" />
+                                      DisplayMemberBinding="{Binding Text}"
+                                      Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="3" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="Nickname" />
-                            <TextBox Text="{Binding Nickname}" MaxLength="12" />
+                            <TextBlock Text="Nickname" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding Nickname}" MaxLength="12" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="3" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="OT Name" />
-                            <TextBox Text="{Binding OtName}" MaxLength="12" />
+                            <TextBlock Text="OT Name" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding OtName}" MaxLength="12" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="4" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="TID" />
-                            <TextBox Text="{Binding Tid}" MaxLength="5" />
+                            <TextBlock Text="TID" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding Tid}" MaxLength="5" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="4" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="SID" />
-                            <TextBox Text="{Binding Sid}" MaxLength="5" />
+                            <TextBlock Text="SID" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding Sid}" MaxLength="5" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="5" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="Level" />
-                            <NumericUpDown Value="{Binding Level}" Minimum="0" Maximum="100" />
+                            <TextBlock Text="Level" FontWeight="SemiBold" FontSize="11" />
+                            <NumericUpDown Value="{Binding Level}" Minimum="0" Maximum="100" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="5" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="EC" />
-                            <TextBox Text="{Binding Ec}" MaxLength="8" />
+                            <TextBlock Text="EC" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding Ec}" MaxLength="8" Height="25" />
                         </StackPanel>
                         <WrapPanel Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Margin="0,4">
                             <CheckBox Content="Shiny" IsChecked="{Binding IsShiny}" Margin="0,0,12,0" />

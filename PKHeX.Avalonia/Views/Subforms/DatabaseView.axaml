@@ -1,18 +1,18 @@
 <views:SubformWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:views="using:PKHeX.Avalonia.Views"
-                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-                     xmlns:controls="using:PKHeX.Avalonia.Controls"
-                     xmlns:core="using:PKHeX.Core"
-                     x:Class="PKHeX.Avalonia.Views.Subforms.DatabaseView"
-                     x:DataType="vm:DatabaseViewModel"
-                     Title="PKM Database"
-                     Width="560" Height="700"
-                     MinWidth="450" MinHeight="500"
-                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
-                     FontSize="11"
-                     WindowStartupLocation="CenterOwner"
-                     CanResize="True">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="using:PKHeX.Avalonia.Views"
+                    xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                    xmlns:controls="using:PKHeX.Avalonia.Controls"
+                    xmlns:core="using:PKHeX.Core"
+                    x:Class="PKHeX.Avalonia.Views.Subforms.DatabaseView"
+                    x:DataType="vm:DatabaseViewModel"
+                    Title="PKM Database"
+                    Width="560" Height="700"
+                    MinWidth="450" MinHeight="500"
+                    FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                    FontSize="11"
+                    WindowStartupLocation="CenterOwner"
+                    CanResize="True">
 
     <DockPanel Margin="8">
         <!-- Top: Search/Filter bar -->
@@ -21,33 +21,33 @@
                 <TextBlock Text="Species:" VerticalAlignment="Center" FontSize="11" />
                 <ComboBox ItemsSource="{Binding SpeciesList}"
                           SelectedIndex="{Binding FilterSpeciesIndex}"
-                          MinWidth="180">
+                          MinWidth="180" Height="25">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="core:ComboItem">
                             <TextBlock Text="{Binding Text}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button Content="Search" Command="{Binding SearchCommand}" Width="80"
+                <Button Content="Search" Command="{Binding SearchCommand}" MinWidth="75" Padding="8,4"
                         IsEnabled="{Binding IsSearchEnabled}" />
-                <Button Content="Reset" Command="{Binding ResetFiltersCommand}" Width="80" />
+                <Button Content="Reset" Command="{Binding ResetFiltersCommand}" MinWidth="75" Padding="8,4" />
             </StackPanel>
         </StackPanel>
 
         <!-- Bottom: Status bar and paging -->
         <StackPanel DockPanel.Dock="Bottom" Spacing="4" Margin="0,8,0,0">
             <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
-                <Button Content="&lt;" Command="{Binding PreviousPageCommand}" Width="40" MinWidth="40" />
+                <Button Content="&lt;" Command="{Binding PreviousPageCommand}" MinWidth="40" Padding="6,2" FontSize="10" />
                 <TextBlock Text="{Binding CurrentPage, StringFormat='Page {0}'}"
                            VerticalAlignment="Center" FontSize="11" />
                 <TextBlock Text="{Binding TotalPages, StringFormat='/ {0}'}"
                            VerticalAlignment="Center" FontSize="11" />
-                <Button Content="&gt;" Command="{Binding NextPageCommand}" Width="40" MinWidth="40" />
+                <Button Content="&gt;" Command="{Binding NextPageCommand}" MinWidth="40" Padding="6,2" FontSize="10" />
             </StackPanel>
             <TextBlock Text="{Binding StatusText}" FontSize="11"
                        HorizontalAlignment="Center" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-                <Button Content="Close" Click="OnCloseClick" Width="80" />
+                <Button Content="Close" Click="OnCloseClick" MinWidth="75" Padding="8,4" />
             </StackPanel>
         </StackPanel>
 

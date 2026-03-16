@@ -9,40 +9,43 @@
                      Title="Encounter Database"
                      Width="560" Height="700"
                      MinWidth="450" MinHeight="500"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <!-- Top: Species filter -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
-            <TextBlock Text="Species:" VerticalAlignment="Center" />
+            <TextBlock Text="Species:" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="11" />
             <ComboBox ItemsSource="{Binding SpeciesList}"
                       SelectedIndex="{Binding FilterSpeciesIndex}"
-                      MinWidth="200">
+                      MinWidth="200" Height="25">
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="core:ComboItem">
                         <TextBlock Text="{Binding Text}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Button Content="Search" Command="{Binding SearchCommand}" Width="80"
+            <Button Content="Search" Command="{Binding SearchCommand}"
+                    MinWidth="75" Padding="8,4"
                     IsEnabled="{Binding IsSearchEnabled}" />
         </StackPanel>
 
         <!-- Bottom: Status bar and paging -->
         <StackPanel DockPanel.Dock="Bottom" Spacing="4" Margin="0,8,0,0">
             <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
-                <Button Content="&lt;" Command="{Binding PreviousPageCommand}" Width="40" />
+                <Button Content="&lt;" Command="{Binding PreviousPageCommand}" MinWidth="75" Padding="8,4" />
                 <TextBlock Text="{Binding CurrentPage, StringFormat='Page {0}'}"
                            VerticalAlignment="Center" />
                 <TextBlock Text="{Binding TotalPages, StringFormat='/ {0}'}"
                            VerticalAlignment="Center" />
-                <Button Content="&gt;" Command="{Binding NextPageCommand}" Width="40" />
+                <Button Content="&gt;" Command="{Binding NextPageCommand}" MinWidth="75" Padding="8,4" />
             </StackPanel>
-            <TextBlock Text="{Binding StatusText}" FontSize="12"
+            <TextBlock Text="{Binding StatusText}" FontSize="11"
                        HorizontalAlignment="Center" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-                <Button Content="Close" Click="OnCloseClick" Width="80" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+                <Button Content="Close" Click="OnCloseClick" MinWidth="75" Padding="8,4" />
             </StackPanel>
         </StackPanel>
 

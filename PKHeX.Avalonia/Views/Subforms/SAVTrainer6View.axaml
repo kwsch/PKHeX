@@ -7,6 +7,8 @@
                      Title="Trainer Editor (Gen 6)"
                      Width="550" Height="700"
                      MinWidth="480" MinHeight="600"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,81 +16,82 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
             <StackPanel Spacing="8">
                 <!-- Basic Info -->
-                <TextBlock Text="Basic Info" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Basic Info" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
                     <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="OT Name" />
-                        <TextBox Text="{Binding OtName}" MaxLength="12" />
+                        <TextBlock Text="OT Name" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding OtName}" MaxLength="12" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Gender" />
+                        <TextBlock Text="Gender" FontWeight="SemiBold" FontSize="11" />
                         <ComboBox ItemsSource="{Binding GenderChoices}"
-                                  SelectedIndex="{Binding Gender}" />
+                                  SelectedIndex="{Binding Gender}"
+                                  Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="TID" />
-                        <TextBox Text="{Binding Tid}" MaxLength="5" />
+                        <TextBlock Text="TID" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Tid}" MaxLength="5" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="SID" />
-                        <TextBox Text="{Binding Sid}" MaxLength="5" />
+                        <TextBlock Text="SID" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Sid}" MaxLength="5" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Money" />
+                        <TextBlock Text="Money" FontWeight="SemiBold" FontSize="11" />
                         <StackPanel Orientation="Horizontal" Spacing="4">
-                            <TextBox Text="{Binding Money}" MaxLength="7" />
-                            <Button Content="Max" Command="{Binding MaxCashCommand}" />
+                            <TextBox Text="{Binding Money}" MaxLength="7" Height="25" />
+                            <Button Content="Max" Command="{Binding MaxCashCommand}" MinWidth="75" Padding="8,4" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4"
                                 IsVisible="{Binding ShowStyle}">
-                        <TextBlock Text="Style" />
-                        <TextBox Text="{Binding Style}" MaxLength="3" />
+                        <TextBlock Text="Style" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Style}" MaxLength="3" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <Separator />
 
                 <!-- Play Time -->
-                <TextBlock Text="Play Time" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Play Time" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="Hours" />
-                        <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Hours" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
-                        <TextBlock Text="Minutes" />
-                        <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" />
+                        <TextBlock Text="Minutes" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Seconds" />
-                        <NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" />
+                        <TextBlock Text="Seconds" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <!-- BP / Pokemiles -->
                 <Grid ColumnDefinitions="*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="BP" />
-                        <TextBox Text="{Binding Bp}" MaxLength="5" />
+                        <TextBlock Text="BP" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Bp}" MaxLength="5" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Pokemiles" />
-                        <TextBox Text="{Binding Pokemiles}" MaxLength="7" />
+                        <TextBlock Text="Pokemiles" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Pokemiles}" MaxLength="7" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <Separator />
 
                 <!-- Badges -->
-                <TextBlock Text="Badges" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Badges" FontWeight="SemiBold" FontSize="11" />
                 <WrapPanel>
                     <CheckBox Content="Badge 1" IsChecked="{Binding Badge1}" Margin="0,0,8,0" />
                     <CheckBox Content="Badge 2" IsChecked="{Binding Badge2}" Margin="0,0,8,0" />
@@ -110,12 +113,12 @@
                 <Separator />
 
                 <!-- Sayings -->
-                <TextBlock Text="Sayings" FontWeight="SemiBold" FontSize="14" />
-                <TextBox Text="{Binding Saying1}" Watermark="Saying 1" Margin="0,2" />
-                <TextBox Text="{Binding Saying2}" Watermark="Saying 2" Margin="0,2" />
-                <TextBox Text="{Binding Saying3}" Watermark="Saying 3" Margin="0,2" />
-                <TextBox Text="{Binding Saying4}" Watermark="Saying 4" Margin="0,2" />
-                <TextBox Text="{Binding Saying5}" Watermark="Saying 5" Margin="0,2" />
+                <TextBlock Text="Sayings" FontWeight="SemiBold" FontSize="11" />
+                <TextBox Text="{Binding Saying1}" Watermark="Saying 1" Height="25" Margin="0,2" />
+                <TextBox Text="{Binding Saying2}" Watermark="Saying 2" Height="25" Margin="0,2" />
+                <TextBox Text="{Binding Saying3}" Watermark="Saying 3" Height="25" Margin="0,2" />
+                <TextBox Text="{Binding Saying4}" Watermark="Saying 4" Height="25" Margin="0,2" />
+                <TextBox Text="{Binding Saying5}" Watermark="Saying 5" Height="25" Margin="0,2" />
             </StackPanel>
         </ScrollViewer>
     </DockPanel>

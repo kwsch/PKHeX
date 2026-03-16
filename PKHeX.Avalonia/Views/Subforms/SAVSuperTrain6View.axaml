@@ -7,6 +7,8 @@
                      Title="Super Training Editor (Gen 6)"
                      Width="600" Height="650"
                      MinWidth="500" MinHeight="500"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,14 +16,14 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
             <StackPanel Spacing="8">
                 <!-- Training Bags -->
-                <TextBlock Text="Training Bags" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Training Bags" FontWeight="SemiBold" FontSize="11" />
                 <ItemsControl ItemsSource="{Binding BagSlots}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:TrainingBagSlotModel">
@@ -31,6 +33,7 @@
                                 <ComboBox Grid.Column="1"
                                           ItemsSource="{Binding $parent[views:SubformWindow].((vm:SAVSuperTrain6ViewModel)DataContext).BagNames}"
                                           SelectedIndex="{Binding SelectedBagIndex}"
+                                          Height="25"
                                           HorizontalAlignment="Stretch" />
                             </Grid>
                         </DataTemplate>
@@ -40,52 +43,55 @@
                 <Separator Margin="0,4" />
 
                 <!-- Stage Records -->
-                <TextBlock Text="Stage Records" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Stage Records" FontWeight="SemiBold" FontSize="11" />
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Stage" />
+                    <TextBlock Text="Stage" FontWeight="SemiBold" FontSize="11" />
                     <ComboBox ItemsSource="{Binding StageNames}"
                               SelectedIndex="{Binding SelectedStageIndex}"
+                              Height="25"
                               HorizontalAlignment="Stretch" />
                 </StackPanel>
 
                 <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto">
                     <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Species 1" />
+                        <TextBlock Text="Species 1" FontWeight="SemiBold" FontSize="11" />
                         <ComboBox ItemsSource="{Binding SpeciesList}"
                                   SelectedValue="{Binding Species1}"
                                   SelectedValueBinding="{Binding Value}"
-                                  DisplayMemberBinding="{Binding Text}" />
+                                  DisplayMemberBinding="{Binding Text}"
+                                  Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Species 2" />
+                        <TextBlock Text="Species 2" FontWeight="SemiBold" FontSize="11" />
                         <ComboBox ItemsSource="{Binding SpeciesList}"
                                   SelectedValue="{Binding Species2}"
                                   SelectedValueBinding="{Binding Value}"
-                                  DisplayMemberBinding="{Binding Text}" />
+                                  DisplayMemberBinding="{Binding Text}"
+                                  Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Gender 1" />
-                        <TextBox Text="{Binding Gender1}" MaxLength="3" />
+                        <TextBlock Text="Gender 1" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Gender1}" MaxLength="3" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Gender 2" />
-                        <TextBox Text="{Binding Gender2}" MaxLength="3" />
+                        <TextBlock Text="Gender 2" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Gender2}" MaxLength="3" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Form 1" />
-                        <TextBox Text="{Binding Form1}" MaxLength="3" />
+                        <TextBlock Text="Form 1" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Form1}" MaxLength="3" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Form 2" />
-                        <TextBox Text="{Binding Form2}" MaxLength="3" />
+                        <TextBlock Text="Form 2" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Form2}" MaxLength="3" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="3" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Time 1" />
-                        <TextBox Text="{Binding Time1}" />
+                        <TextBlock Text="Time 1" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Time1}" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="3" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Time 2" />
-                        <TextBox Text="{Binding Time2}" />
+                        <TextBlock Text="Time 2" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding Time2}" Height="25" />
                     </StackPanel>
                 </Grid>
             </StackPanel>

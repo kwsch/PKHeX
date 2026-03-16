@@ -1,109 +1,111 @@
 <views:SubformWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:views="using:PKHeX.Avalonia.Views"
-                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-                     x:Class="PKHeX.Avalonia.Views.Subforms.DonutEditor9aView"
-                     x:DataType="vm:DonutEditor9aViewModel"
-                     Title="Donut Detail Editor (Z-A)"
-                     Width="550" Height="600"
-                     MinWidth="450" MinHeight="400"
-                     WindowStartupLocation="CenterOwner"
-                     CanResize="True">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="using:PKHeX.Avalonia.Views"
+                    xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                    x:Class="PKHeX.Avalonia.Views.Subforms.DonutEditor9aView"
+                    x:DataType="vm:DonutEditor9aViewModel"
+                    Title="Donut Detail Editor (Z-A)"
+                    Width="550" Height="600"
+                    MinWidth="450" MinHeight="400"
+                    FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                    FontSize="11"
+                    WindowStartupLocation="CenterOwner"
+                    CanResize="True">
 
     <DockPanel Margin="8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
             <StackPanel Spacing="8">
-                <TextBlock Text="Donut Properties" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Donut Properties" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
                     <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Stars" />
-                        <NumericUpDown Value="{Binding Stars}" Minimum="0" Maximum="5" />
+                        <TextBlock Text="Stars" FontSize="11" />
+                        <NumericUpDown Value="{Binding Stars}" Minimum="0" Maximum="5" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Calories" />
-                        <NumericUpDown Value="{Binding Calories}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Calories" FontSize="11" />
+                        <NumericUpDown Value="{Binding Calories}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Level Boost" />
-                        <NumericUpDown Value="{Binding LevelBoost}" Minimum="0" Maximum="255" />
+                        <TextBlock Text="Level Boost" FontSize="11" />
+                        <NumericUpDown Value="{Binding LevelBoost}" Minimum="0" Maximum="255" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Donut Index" />
-                        <NumericUpDown Value="{Binding DonutIndex}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Donut Index" FontSize="11" />
+                        <NumericUpDown Value="{Binding DonutIndex}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <Separator />
 
-                <TextBlock Text="Berries" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Berries" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto,Auto">
                     <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Berry 0" />
-                        <NumericUpDown Value="{Binding Berry0}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Berry 0" FontSize="11" />
+                        <NumericUpDown Value="{Binding Berry0}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,4,4">
-                        <TextBlock Text="Berry 1" />
-                        <NumericUpDown Value="{Binding Berry1}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Berry 1" FontSize="11" />
+                        <NumericUpDown Value="{Binding Berry1}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Berry 2" />
-                        <NumericUpDown Value="{Binding Berry2}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Berry 2" FontSize="11" />
+                        <NumericUpDown Value="{Binding Berry2}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Berry 3" />
-                        <NumericUpDown Value="{Binding Berry3}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Berry 3" FontSize="11" />
+                        <NumericUpDown Value="{Binding Berry3}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,4,4">
-                        <TextBlock Text="Berry 4" />
-                        <NumericUpDown Value="{Binding Berry4}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Berry 4" FontSize="11" />
+                        <NumericUpDown Value="{Binding Berry4}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Berry 5" />
-                        <NumericUpDown Value="{Binding Berry5}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Berry 5" FontSize="11" />
+                        <NumericUpDown Value="{Binding Berry5}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Berry 6" />
-                        <NumericUpDown Value="{Binding Berry6}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Berry 6" FontSize="11" />
+                        <NumericUpDown Value="{Binding Berry6}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,4,4">
-                        <TextBlock Text="Berry 7" />
-                        <NumericUpDown Value="{Binding Berry7}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Berry 7" FontSize="11" />
+                        <NumericUpDown Value="{Binding Berry7}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Grid.Row="2" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Berry 8" />
-                        <NumericUpDown Value="{Binding Berry8}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Berry 8" FontSize="11" />
+                        <NumericUpDown Value="{Binding Berry8}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <Separator />
 
-                <TextBlock Text="Flavors" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Flavors" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="Flavor 0" />
-                        <NumericUpDown Value="{Binding Flavor0}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Flavor 0" FontSize="11" />
+                        <NumericUpDown Value="{Binding Flavor0}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
-                        <TextBlock Text="Flavor 1" />
-                        <NumericUpDown Value="{Binding Flavor1}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Flavor 1" FontSize="11" />
+                        <NumericUpDown Value="{Binding Flavor1}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Flavor 2" />
-                        <NumericUpDown Value="{Binding Flavor2}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Flavor 2" FontSize="11" />
+                        <NumericUpDown Value="{Binding Flavor2}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <Separator />
 
                 <StackPanel Spacing="2">
-                    <TextBlock Text="Milliseconds Since 1970" />
-                    <TextBox Text="{Binding Milliseconds}" />
+                    <TextBlock Text="Milliseconds Since 1970" FontSize="11" />
+                    <TextBox Text="{Binding Milliseconds}" Height="25" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

@@ -8,17 +8,19 @@
                      Width="400" Height="500"
                      MinWidth="300" MinHeight="350"
                      WindowStartupLocation="CenterOwner"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Unlock All" Command="{Binding UnlockAllCommand}" />
-            <Button Content="No Trainers" Command="{Binding UnlockAllNoTrainersCommand}" />
-            <Button Content="Clear" Command="{Binding ClearAllCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Unlock All" Command="{Binding UnlockAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="No Trainers" Command="{Binding UnlockAllNoTrainersCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Contact list -->
@@ -29,7 +31,8 @@
                         <Grid ColumnDefinitions="Auto,*" Margin="4,2">
                             <TextBlock Grid.Column="0" Text="{Binding Index, StringFormat='{}{0:00}'}"
                                        VerticalAlignment="Center" Width="30"
-                                       FontFamily="Consolas,Menlo,monospace"
+                                       FontFamily="Consolas,Menlo,Courier New,monospace"
+                                       FontSize="11"
                                        Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
                             <TextBlock Grid.Column="1" Text="{Binding Name}"
                                        VerticalAlignment="Center" Margin="8,0" />

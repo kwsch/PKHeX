@@ -7,6 +7,8 @@
                      Title="Festival Plaza Editor (Gen 7)"
                      Width="700" Height="750"
                      MinWidth="600" MinHeight="600"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,73 +16,73 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Unlock All Phrases" Command="{Binding UnlockAllPhrasesCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Unlock All Phrases" Command="{Binding UnlockAllPhrasesCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
             <StackPanel Spacing="8">
                 <!-- FC / Rank -->
-                <TextBlock Text="Festival Coins" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Festival Coins" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="Current FC" />
-                        <NumericUpDown Value="{Binding FcCurrent}" Minimum="0" Maximum="9999999" />
+                        <TextBlock Text="Current FC" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding FcCurrent}" Minimum="0" Maximum="9999999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
-                        <TextBlock Text="Used FC" />
-                        <NumericUpDown Value="{Binding FcUsed}" Minimum="0" Maximum="9999999" />
+                        <TextBlock Text="Used FC" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding FcUsed}" Minimum="0" Maximum="9999999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="Collected" />
-                        <TextBox Text="{Binding FcCollected}" IsReadOnly="True" />
+                        <TextBlock Text="Collected" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding FcCollected}" IsReadOnly="True" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <Grid ColumnDefinitions="*,*">
                     <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                        <TextBlock Text="Rank" />
-                        <NumericUpDown Value="{Binding Rank}" Minimum="0" Maximum="999" />
+                        <TextBlock Text="Rank" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding Rank}" Minimum="0" Maximum="999" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,0,0">
-                        <TextBlock Text="FC Range" />
-                        <TextBox Text="{Binding RankFcRange}" IsReadOnly="True" />
+                        <TextBlock Text="FC Range" FontWeight="SemiBold" FontSize="11" />
+                        <TextBox Text="{Binding RankFcRange}" IsReadOnly="True" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <StackPanel Spacing="2">
-                    <TextBlock Text="Plaza Name" />
-                    <TextBox Text="{Binding PlazaName}" MaxLength="20" />
+                    <TextBlock Text="Plaza Name" FontWeight="SemiBold" FontSize="11" />
+                    <TextBox Text="{Binding PlazaName}" MaxLength="20" Height="25" />
                 </StackPanel>
 
                 <Separator />
 
                 <!-- Messages -->
-                <TextBlock Text="My Messages" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="My Messages" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
                     <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Meet" />
-                        <NumericUpDown Value="{Binding MessageMeet}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Meet" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding MessageMeet}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Part" />
-                        <NumericUpDown Value="{Binding MessagePart}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Part" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding MessagePart}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                        <TextBlock Text="Moved" />
-                        <NumericUpDown Value="{Binding MessageMoved}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Moved" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding MessageMoved}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                        <TextBlock Text="Disappointed" />
-                        <NumericUpDown Value="{Binding MessageDisappointed}" Minimum="0" Maximum="65535" />
+                        <TextBlock Text="Disappointed" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding MessageDisappointed}" Minimum="0" Maximum="65535" Height="25" />
                     </StackPanel>
                 </Grid>
 
                 <Separator />
 
                 <!-- Facilities -->
-                <TextBlock Text="Facilities" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Facilities" FontWeight="SemiBold" FontSize="11" />
                 <Grid ColumnDefinitions="120,*">
                     <ListBox Grid.Column="0" ItemsSource="{Binding FacilitySlots}"
                              SelectedIndex="{Binding SelectedFacilityIndex}"
@@ -94,26 +96,26 @@
                     <StackPanel Grid.Column="1" Spacing="4">
                         <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
                             <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                                <TextBlock Text="Type" />
-                                <NumericUpDown Value="{Binding FacilityType}" Minimum="0" Maximum="127" />
+                                <TextBlock Text="Type" FontWeight="SemiBold" FontSize="11" />
+                                <NumericUpDown Value="{Binding FacilityType}" Minimum="0" Maximum="127" Height="25" />
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                                <TextBlock Text="Color" />
-                                <NumericUpDown Value="{Binding FacilityColor}" Minimum="0" Maximum="11" />
+                                <TextBlock Text="Color" FontWeight="SemiBold" FontSize="11" />
+                                <NumericUpDown Value="{Binding FacilityColor}" Minimum="0" Maximum="11" Height="25" />
                             </StackPanel>
                             <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                                <TextBlock Text="NPC" />
-                                <NumericUpDown Value="{Binding FacilityNpc}" Minimum="0" Maximum="11" />
+                                <TextBlock Text="NPC" FontWeight="SemiBold" FontSize="11" />
+                                <NumericUpDown Value="{Binding FacilityNpc}" Minimum="0" Maximum="11" Height="25" />
                             </StackPanel>
                             <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                                <TextBlock Text="OT Name" />
-                                <TextBox Text="{Binding FacilityOtName}" MaxLength="12" />
+                                <TextBlock Text="OT Name" FontWeight="SemiBold" FontSize="11" />
+                                <TextBox Text="{Binding FacilityOtName}" MaxLength="12" Height="25" />
                             </StackPanel>
                             <CheckBox Grid.Column="0" Grid.Row="2" Content="Introduced"
                                       IsChecked="{Binding FacilityIntroduced}" Margin="0,0,4,4" />
                             <Button Grid.Column="1" Grid.Row="2" Content="Apply"
                                     Command="{Binding UpdateFacilityCommand}" Margin="4,0,0,4"
-                                    HorizontalAlignment="Left" />
+                                    HorizontalAlignment="Left" MinWidth="75" Padding="8,4" />
                         </Grid>
                     </StackPanel>
                 </Grid>
@@ -121,7 +123,7 @@
                 <Separator />
 
                 <!-- Phrases -->
-                <TextBlock Text="Phrases" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Phrases" FontWeight="SemiBold" FontSize="11" />
                 <ScrollViewer MaxHeight="200">
                     <ItemsControl ItemsSource="{Binding Phrases}">
                         <ItemsControl.ItemTemplate>

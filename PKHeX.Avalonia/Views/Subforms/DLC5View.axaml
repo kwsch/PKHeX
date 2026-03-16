@@ -1,28 +1,30 @@
 <views:SubformWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:views="using:PKHeX.Avalonia.Views"
-                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-                     x:Class="PKHeX.Avalonia.Views.Subforms.DLC5View"
-                     x:DataType="vm:DLC5ViewModel"
-                     Title="Gen 5 DLC Editor"
-                     Width="600" Height="550"
-                     MinWidth="450" MinHeight="400"
-                     WindowStartupLocation="CenterOwner"
-                     CanResize="True">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="using:PKHeX.Avalonia.Views"
+                    xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                    x:Class="PKHeX.Avalonia.Views.Subforms.DLC5View"
+                    x:DataType="vm:DLC5ViewModel"
+                    Title="Gen 5 DLC Editor"
+                    Width="600" Height="550"
+                    MinWidth="450" MinHeight="400"
+                    FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                    FontSize="11"
+                    WindowStartupLocation="CenterOwner"
+                    CanResize="True">
 
     <DockPanel Margin="8">
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <TabControl>
             <!-- C-Gear -->
             <TabItem Header="C-Gear">
                 <StackPanel Spacing="8" Margin="8">
-                    <TextBlock Text="C-Gear Skin" FontWeight="Bold" FontSize="14" />
+                    <TextBlock Text="C-Gear Skin" FontWeight="SemiBold" FontSize="11" />
                     <TextBlock Text="{Binding CGearStatus}" />
                 </StackPanel>
             </TabItem>
@@ -30,7 +32,7 @@
             <!-- Battle Videos -->
             <TabItem Header="Battle Videos">
                 <StackPanel Spacing="8" Margin="8">
-                    <TextBlock Text="Battle Videos" FontWeight="Bold" FontSize="14" />
+                    <TextBlock Text="Battle Videos" FontWeight="SemiBold" FontSize="11" />
                     <ListBox ItemsSource="{Binding BattleVideos}" SelectedIndex="{Binding SelectedBattleVideoIndex}" MaxHeight="300">
                         <ListBox.ItemTemplate>
                             <DataTemplate x:DataType="vm:BattleVideo5Entry">
@@ -44,7 +46,7 @@
             <!-- PWT (B2W2 only) -->
             <TabItem Header="PWT" IsVisible="{Binding ShowPWT}">
                 <StackPanel Spacing="8" Margin="8">
-                    <TextBlock Text="Pokemon World Tournament" FontWeight="Bold" FontSize="14" />
+                    <TextBlock Text="Pokemon World Tournament" FontWeight="SemiBold" FontSize="11" />
                     <ListBox ItemsSource="{Binding PWTEntries}" SelectedIndex="{Binding SelectedPWTIndex}" MaxHeight="300">
                         <ListBox.ItemTemplate>
                             <DataTemplate x:DataType="vm:PWT5Entry">
@@ -58,7 +60,7 @@
             <!-- Pokestar (B2W2 only) -->
             <TabItem Header="Pokestar" IsVisible="{Binding ShowPokestar}">
                 <StackPanel Spacing="8" Margin="8">
-                    <TextBlock Text="Pokestar Studios" FontWeight="Bold" FontSize="14" />
+                    <TextBlock Text="Pokestar Studios" FontWeight="SemiBold" FontSize="11" />
                     <ListBox ItemsSource="{Binding PokestarMovies}" SelectedIndex="{Binding SelectedPokestarIndex}" MaxHeight="300">
                         <ListBox.ItemTemplate>
                             <DataTemplate x:DataType="vm:Pokestar5Entry">
@@ -72,10 +74,10 @@
             <!-- Musical -->
             <TabItem Header="Musical">
                 <StackPanel Spacing="8" Margin="8">
-                    <TextBlock Text="Musical Show" FontWeight="Bold" FontSize="14" />
+                    <TextBlock Text="Musical Show" FontWeight="SemiBold" FontSize="11" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock Text="Musical Name:" VerticalAlignment="Center" />
-                        <TextBox Text="{Binding MusicalName}" Width="200" />
+                        <TextBox Text="{Binding MusicalName}" Width="200" Height="25" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
@@ -83,7 +85,7 @@
             <!-- Memory Link -->
             <TabItem Header="Memory Link">
                 <StackPanel Spacing="8" Margin="8">
-                    <TextBlock Text="Memory Link Data" FontWeight="Bold" FontSize="14" />
+                    <TextBlock Text="Memory Link Data" FontWeight="SemiBold" FontSize="11" />
                     <TextBlock Text="{Binding Link1Status}" />
                     <TextBlock Text="{Binding Link2Status}" />
                 </StackPanel>

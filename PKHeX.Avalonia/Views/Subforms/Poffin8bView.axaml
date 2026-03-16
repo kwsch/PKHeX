@@ -8,15 +8,17 @@
                      Width="700" Height="550"
                      MinWidth="550" MinHeight="400"
                      WindowStartupLocation="CenterOwner"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Give All" Command="{Binding GiveAllCommand}" />
-            <Button Content="Clear All" Command="{Binding ClearAllCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Give All" Command="{Binding GiveAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <DataGrid ItemsSource="{Binding Poffins}"

@@ -7,6 +7,8 @@
                      Title="Hall of Fame (Gen 1)"
                      Width="600" Height="550"
                      MinWidth="500" MinHeight="400"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,18 +16,18 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Set Party" Command="{Binding SetPartyCommand}" />
-            <Button Content="Clear All" Command="{Binding ClearAllCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Set Party" Command="{Binding SetPartyCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="180,*" Margin="0,0,0,8">
             <!-- Left: Team list -->
             <DockPanel Grid.Column="0" Margin="0,0,8,0">
                 <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,8">
-                    <TextBlock Text="HoF Clears" FontWeight="SemiBold" />
-                    <NumericUpDown Value="{Binding HallOfFameClears}" Minimum="0" Maximum="255" />
+                    <TextBlock Text="HoF Clears" FontWeight="SemiBold" FontSize="11" />
+                    <NumericUpDown Value="{Binding HallOfFameClears}" Minimum="0" Maximum="255" Height="25" />
                 </StackPanel>
                 <ListBox ItemsSource="{Binding TeamEntries}"
                          SelectedIndex="{Binding SelectedTeamIndex}" />
@@ -35,45 +37,47 @@
             <StackPanel Grid.Column="1" Spacing="8">
                 <!-- Party slot selector -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Party Slot" FontWeight="SemiBold" />
-                    <NumericUpDown Value="{Binding PartyIndex}" Minimum="1" Maximum="6" />
+                    <TextBlock Text="Party Slot" FontWeight="SemiBold" FontSize="11" />
+                    <NumericUpDown Value="{Binding PartyIndex}" Minimum="1" Maximum="6" Height="25" />
                 </StackPanel>
 
                 <!-- Species -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Species" FontWeight="SemiBold" />
+                    <TextBlock Text="Species" FontWeight="SemiBold" FontSize="11" />
                     <ComboBox ItemsSource="{Binding SpeciesList}"
                               SelectedValue="{Binding SelectedSpecies}"
                               SelectedValueBinding="{Binding Value}"
-                              DisplayMemberBinding="{Binding Text}" />
+                              DisplayMemberBinding="{Binding Text}"
+                              Height="25" />
                 </StackPanel>
 
                 <!-- Level -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Level" FontWeight="SemiBold" />
-                    <NumericUpDown Value="{Binding Level}" Minimum="0" Maximum="100" />
+                    <TextBlock Text="Level" FontWeight="SemiBold" FontSize="11" />
+                    <NumericUpDown Value="{Binding Level}" Minimum="0" Maximum="100" Height="25" />
                 </StackPanel>
 
                 <!-- Nickname -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Nickname" FontWeight="SemiBold" />
-                    <TextBox Text="{Binding Nickname}" MaxLength="{Binding MaxNicknameLength}" />
+                    <TextBlock Text="Nickname" FontWeight="SemiBold" FontSize="11" />
+                    <TextBox Text="{Binding Nickname}" MaxLength="{Binding MaxNicknameLength}" Height="25" />
                     <CheckBox Content="Nicknamed" IsChecked="{Binding IsNicknamed}" IsEnabled="False" />
                 </StackPanel>
 
                 <!-- Action buttons -->
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Button Content="Delete Team" Command="{Binding DeleteCommand}"
-                            IsEnabled="{Binding CanDelete}" />
+                            IsEnabled="{Binding CanDelete}" MinWidth="75" Padding="8,4" />
                     <Button Content="Clear Slot" Command="{Binding ClearSlotCommand}"
-                            IsEnabled="{Binding CanClearSlot}" />
+                            IsEnabled="{Binding CanClearSlot}" MinWidth="75" Padding="8,4" />
                 </StackPanel>
 
                 <!-- Team summary -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Team Preview" FontWeight="SemiBold" />
+                    <TextBlock Text="Team Preview" FontWeight="SemiBold" FontSize="11" />
                     <TextBlock Text="{Binding TeamSummary}" TextWrapping="Wrap"
-                               FontFamily="Consolas, Courier New, monospace" />
+                               FontFamily="Consolas,Menlo,Courier New,monospace"
+                               FontSize="11" />
                 </StackPanel>
             </StackPanel>
         </Grid>

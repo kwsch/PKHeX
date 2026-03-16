@@ -1,42 +1,44 @@
 <views:SubformWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:views="using:PKHeX.Avalonia.Views"
-                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-                     x:Class="PKHeX.Avalonia.Views.Subforms.Underground8bView"
-                     x:DataType="vm:Underground8bViewModel"
-                     Title="Underground Editor (BDSP)"
-                     Width="600" Height="500"
-                     MinWidth="450" MinHeight="350"
-                     WindowStartupLocation="CenterOwner"
-                     CanResize="True">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="using:PKHeX.Avalonia.Views"
+                    xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                    x:Class="PKHeX.Avalonia.Views.Subforms.Underground8bView"
+                    x:DataType="vm:Underground8bViewModel"
+                    Title="Underground Editor (BDSP)"
+                    Width="600" Height="500"
+                    MinWidth="450" MinHeight="350"
+                    WindowStartupLocation="CenterOwner"
+                    FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                    FontSize="11"
+                    CanResize="True">
 
-    <DockPanel Margin="8">
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
-                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Max All" Command="{Binding GiveAllCommand}" />
-            <Button Content="Clear All" Command="{Binding ClearAllCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
-        </StackPanel>
+   <DockPanel Margin="8">
+       <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                   HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+           <Button Content="Max All" Command="{Binding GiveAllCommand}" MinWidth="75" Padding="8,4" />
+           <Button Content="Clear All" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+           <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+           <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
+       </StackPanel>
 
-        <DataGrid ItemsSource="{Binding Items}"
-                  AutoGenerateColumns="False"
-                  CanUserReorderColumns="False"
-                  CanUserResizeColumns="True"
-                  CanUserSortColumns="True"
-                  HeadersVisibility="Column"
-                  GridLinesVisibility="Horizontal"
-                  IsReadOnly="False"
-                  SelectionMode="Single">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Index}" Width="50" IsReadOnly="True" />
-                <DataGridTextColumn Header="Type" Binding="{Binding TypeName}" Width="70" IsReadOnly="True" />
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" IsReadOnly="True" />
-                <DataGridTextColumn Header="Count" Binding="{Binding Count}" Width="65" />
-                <DataGridCheckBoxColumn Header="New" Binding="{Binding IsNew}" Width="50" />
-                <DataGridCheckBoxColumn Header="Fav" Binding="{Binding IsFavorite}" Width="50" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </DockPanel>
+       <DataGrid ItemsSource="{Binding Items}"
+                 AutoGenerateColumns="False"
+                 CanUserReorderColumns="False"
+                 CanUserResizeColumns="True"
+                 CanUserSortColumns="True"
+                 HeadersVisibility="Column"
+                 GridLinesVisibility="Horizontal"
+                 IsReadOnly="False"
+                 SelectionMode="Single">
+           <DataGrid.Columns>
+               <DataGridTextColumn Header="ID" Binding="{Binding Index}" Width="50" IsReadOnly="True" />
+               <DataGridTextColumn Header="Type" Binding="{Binding TypeName}" Width="70" IsReadOnly="True" />
+               <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" IsReadOnly="True" />
+               <DataGridTextColumn Header="Count" Binding="{Binding Count}" Width="65" />
+               <DataGridCheckBoxColumn Header="New" Binding="{Binding IsNew}" Width="50" />
+               <DataGridCheckBoxColumn Header="Fav" Binding="{Binding IsFavorite}" Width="50" />
+           </DataGrid.Columns>
+       </DataGrid>
+   </DockPanel>
 
 </views:SubformWindow>

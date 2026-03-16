@@ -1,63 +1,65 @@
 <views:SubformWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:views="using:PKHeX.Avalonia.Views"
-                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-                     x:Class="PKHeX.Avalonia.Views.Subforms.WondercardView"
-                     x:DataType="vm:WondercardViewModel"
-                     Title="Mystery Gift Editor"
-                     Width="650" Height="500"
-                     MinWidth="500" MinHeight="400"
-                     WindowStartupLocation="CenterOwner"
-                     CanResize="True">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="using:PKHeX.Avalonia.Views"
+                    xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                    x:Class="PKHeX.Avalonia.Views.Subforms.WondercardView"
+                    x:DataType="vm:WondercardViewModel"
+                    Title="Mystery Gift Editor"
+                    Width="650" Height="500"
+                    MinWidth="500" MinHeight="400"
+                    WindowStartupLocation="CenterOwner"
+                    FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                    FontSize="11"
+                    CanResize="True">
 
-    <DockPanel Margin="8">
-        <!-- Bottom buttons -->
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
-                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Delete Slot" Command="{Binding DeleteSlotCommand}" Width="100" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
-        </StackPanel>
+   <DockPanel Margin="8">
+       <!-- Bottom buttons -->
+       <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                   HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+           <Button Content="Delete Slot" Command="{Binding DeleteSlotCommand}" MinWidth="75" Padding="8,4" />
+           <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+           <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
+       </StackPanel>
 
-        <!-- Main content: slot grid + detail panel -->
-        <Grid ColumnDefinitions="*,*" RowDefinitions="*">
-            <!-- Gift slot grid -->
-            <ScrollViewer Grid.Column="0" Margin="0,0,4,0">
-                <ItemsControl ItemsSource="{Binding Slots}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="vm:GiftSlotModel">
-                            <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                                    BorderThickness="1" Margin="2" Padding="2"
-                                    Background="Transparent"
-                                    PointerPressed="OnSlotClick"
-                                    Tag="{Binding Index}"
-                                    ToolTip.Tip="{Binding Description}">
-                                <Image Source="{Binding Sprite}"
-                                       Width="68" Height="56"
-                                       Stretch="Uniform" />
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+       <!-- Main content: slot grid + detail panel -->
+       <Grid ColumnDefinitions="*,*" RowDefinitions="*">
+           <!-- Gift slot grid -->
+           <ScrollViewer Grid.Column="0" Margin="0,0,4,0">
+               <ItemsControl ItemsSource="{Binding Slots}">
+                   <ItemsControl.ItemsPanel>
+                       <ItemsPanelTemplate>
+                           <WrapPanel />
+                       </ItemsPanelTemplate>
+                   </ItemsControl.ItemsPanel>
+                   <ItemsControl.ItemTemplate>
+                       <DataTemplate x:DataType="vm:GiftSlotModel">
+                           <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   BorderThickness="1" Margin="2" Padding="2"
+                                   Background="Transparent"
+                                   PointerPressed="OnSlotClick"
+                                   Tag="{Binding Index}"
+                                   ToolTip.Tip="{Binding Description}">
+                               <Image Source="{Binding Sprite}"
+                                      Width="68" Height="56"
+                                      Stretch="Uniform" />
+                           </Border>
+                       </DataTemplate>
+                   </ItemsControl.ItemTemplate>
+               </ItemsControl>
+           </ScrollViewer>
 
-            <!-- Detail panel -->
-            <Border Grid.Column="1" Margin="4,0,0,0"
-                    BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                    BorderThickness="1" Padding="8">
-                <ScrollViewer>
-                    <TextBlock Text="{Binding DetailText}"
-                               TextWrapping="Wrap"
-                               FontFamily="Consolas,Courier New,monospace"
-                               FontSize="12" />
-                </ScrollViewer>
-            </Border>
-        </Grid>
-    </DockPanel>
+           <!-- Detail panel -->
+           <Border Grid.Column="1" Margin="4,0,0,0"
+                   BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   BorderThickness="1" Padding="8">
+               <ScrollViewer>
+                   <TextBlock Text="{Binding DetailText}"
+                              TextWrapping="Wrap"
+                              FontFamily="Consolas,Menlo,Courier New,monospace"
+                              FontSize="11" />
+               </ScrollViewer>
+           </Border>
+       </Grid>
+   </DockPanel>
 
 </views:SubformWindow>

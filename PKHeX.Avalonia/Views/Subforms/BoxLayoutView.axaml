@@ -1,21 +1,23 @@
 <views:SubformWindow xmlns="https://github.com/avaloniaui"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:views="using:PKHeX.Avalonia.Views"
-                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-                     x:Class="PKHeX.Avalonia.Views.Subforms.BoxLayoutView"
-                     x:DataType="vm:BoxLayoutViewModel"
-                     Title="Box Layout Editor"
-                     Width="450" Height="450"
-                     MinWidth="350" MinHeight="300"
-                     WindowStartupLocation="CenterOwner"
-                     CanResize="True">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="using:PKHeX.Avalonia.Views"
+                    xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                    x:Class="PKHeX.Avalonia.Views.Subforms.BoxLayoutView"
+                    x:DataType="vm:BoxLayoutViewModel"
+                    Title="Box Layout Editor"
+                    Width="450" Height="450"
+                    MinWidth="350" MinHeight="300"
+                    FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                    FontSize="11"
+                    WindowStartupLocation="CenterOwner"
+                    CanResize="True">
 
     <DockPanel Margin="8">
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Box list -->
@@ -35,6 +37,7 @@
                             <TextBox Grid.Column="1"
                                      Text="{Binding Name}"
                                      Watermark="Box name"
+                                     Height="25"
                                      VerticalAlignment="Center"
                                      Margin="0,0,8,0" />
 
@@ -50,6 +53,7 @@
                                            Minimum="0"
                                            Maximum="255"
                                            Width="80"
+                                           Height="25"
                                            VerticalAlignment="Center" />
                         </Grid>
                     </DataTemplate>

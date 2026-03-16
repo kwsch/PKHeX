@@ -7,6 +7,8 @@
                      Title="O-Power Editor (Gen 6)"
                      Width="550" Height="600"
                      MinWidth="480" MinHeight="500"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,22 +16,22 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Give All" Command="{Binding GiveAllCommand}" />
-            <Button Content="Clear All" Command="{Binding ClearAllCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Give All" Command="{Binding GiveAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear All" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <ScrollViewer>
             <StackPanel Spacing="12">
                 <!-- Points -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Points" FontWeight="SemiBold" />
-                    <NumericUpDown Value="{Binding Points}" Minimum="0" Maximum="255" />
+                    <TextBlock Text="Points" FontWeight="SemiBold" FontSize="11" />
+                    <NumericUpDown Value="{Binding Points}" Minimum="0" Maximum="255" Height="25" />
                 </StackPanel>
 
                 <!-- Field Levels -->
-                <TextBlock Text="Field O-Powers" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Field O-Powers" FontWeight="SemiBold" FontSize="11" />
                 <ItemsControl ItemsSource="{Binding FieldLevels}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:OPowerLevelModel">
@@ -37,16 +39,16 @@
                                 <TextBlock Grid.Column="0" Text="{Binding Name}"
                                            VerticalAlignment="Center" />
                                 <NumericUpDown Grid.Column="1" Value="{Binding Level1}"
-                                               Minimum="0" Maximum="3" Margin="4,0" />
+                                               Minimum="0" Maximum="3" Height="25" Margin="4,0" />
                                 <NumericUpDown Grid.Column="2" Value="{Binding Level2}"
-                                               Minimum="0" Maximum="3" Margin="4,0" />
+                                               Minimum="0" Maximum="3" Height="25" Margin="4,0" />
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
                 <!-- Battle Levels -->
-                <TextBlock Text="Battle O-Powers" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Battle O-Powers" FontWeight="SemiBold" FontSize="11" />
                 <ItemsControl ItemsSource="{Binding BattleLevels}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:OPowerLevelModel">
@@ -54,16 +56,16 @@
                                 <TextBlock Grid.Column="0" Text="{Binding Name}"
                                            VerticalAlignment="Center" />
                                 <NumericUpDown Grid.Column="1" Value="{Binding Level1}"
-                                               Minimum="0" Maximum="3" Margin="4,0" />
+                                               Minimum="0" Maximum="3" Height="25" Margin="4,0" />
                                 <NumericUpDown Grid.Column="2" Value="{Binding Level2}"
-                                               Minimum="0" Maximum="3" Margin="4,0" />
+                                               Minimum="0" Maximum="3" Height="25" Margin="4,0" />
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
                 <!-- Unlock Flags -->
-                <TextBlock Text="Unlock Flags" FontWeight="SemiBold" FontSize="14" />
+                <TextBlock Text="Unlock Flags" FontWeight="SemiBold" FontSize="11" />
                 <ItemsControl ItemsSource="{Binding UnlockFlags}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:OPowerUnlockModel">

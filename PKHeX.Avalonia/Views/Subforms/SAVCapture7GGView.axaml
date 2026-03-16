@@ -7,6 +7,8 @@
                      Title="Capture Records (Let's Go)"
                      Width="500" Height="550"
                      MinWidth="420" MinHeight="450"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,10 +16,10 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Modify All" Command="{Binding ModifyAllCommand}" />
-            <Button Content="Sum Totals" Command="{Binding SumTotalCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Modify All" Command="{Binding ModifyAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Sum Totals" Command="{Binding SumTotalCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="180,*">
@@ -29,35 +31,36 @@
             <!-- Right: Details -->
             <ScrollViewer Grid.Column="1">
                 <StackPanel Spacing="8">
-                    <TextBlock Text="Species" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="Species" FontWeight="SemiBold" FontSize="11" />
                     <ComboBox ItemsSource="{Binding SpeciesList}"
                               SelectedValue="{Binding SelectedSpeciesCombo}"
                               SelectedValueBinding="{Binding Value}"
                               DisplayMemberBinding="{Binding Text}"
+                              Height="25"
                               HorizontalAlignment="Stretch" />
 
                     <Separator />
 
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Captured" />
-                        <NumericUpDown Value="{Binding SpeciesCaptured}" Minimum="0" Maximum="9999" />
+                        <TextBlock Text="Captured" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding SpeciesCaptured}" Minimum="0" Maximum="9999" Height="25" />
                     </StackPanel>
 
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Transferred" />
-                        <NumericUpDown Value="{Binding SpeciesTransferred}" Minimum="0" Maximum="999999999" />
+                        <TextBlock Text="Transferred" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding SpeciesTransferred}" Minimum="0" Maximum="999999999" Height="25" />
                     </StackPanel>
 
                     <Separator />
 
-                    <TextBlock Text="Totals" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="Totals" FontWeight="SemiBold" FontSize="11" />
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Total Captured" />
-                        <NumericUpDown Value="{Binding TotalCaptured}" Minimum="0" Maximum="999999999" />
+                        <TextBlock Text="Total Captured" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding TotalCaptured}" Minimum="0" Maximum="999999999" Height="25" />
                     </StackPanel>
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Total Transferred" />
-                        <NumericUpDown Value="{Binding TotalTransferred}" Minimum="0" Maximum="999999999" />
+                        <TextBlock Text="Total Transferred" FontWeight="SemiBold" FontSize="11" />
+                        <NumericUpDown Value="{Binding TotalTransferred}" Minimum="0" Maximum="999999999" Height="25" />
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>

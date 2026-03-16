@@ -8,13 +8,15 @@
                      Width="550" Height="500"
                      MinWidth="400" MinHeight="350"
                      WindowStartupLocation="CenterOwner"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="200,*" RowDefinitions="*">
@@ -32,17 +34,17 @@
             <StackPanel Grid.Column="1" Spacing="8"
                         DataContext="{Binding SelectedDen}"
                         IsVisible="{Binding $parent[views:SubformWindow].DataContext.SelectedDen, Converter={x:Static ObjectConverters.IsNotNull}}">
-                <TextBlock Text="{Binding Label}" FontWeight="Bold" FontSize="14" />
+                <TextBlock Text="{Binding Label}" FontWeight="Bold" FontSize="13" />
                 <CheckBox Content="Active" IsChecked="{Binding IsActive}" />
                 <CheckBox Content="Event" IsChecked="{Binding IsEvent}" />
                 <CheckBox Content="Rare" IsChecked="{Binding IsRare}" />
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                    <TextBlock Text="Stars:" VerticalAlignment="Center" />
-                    <NumericUpDown Value="{Binding Stars}" Minimum="0" Maximum="4" Width="100" />
+                    <TextBlock Text="Stars:" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="11" />
+                    <NumericUpDown Value="{Binding Stars}" Minimum="0" Maximum="4" Width="100" Height="25" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                    <TextBlock Text="Rand Roll:" VerticalAlignment="Center" />
-                    <NumericUpDown Value="{Binding RandRoll}" Minimum="0" Maximum="255" Width="100" />
+                    <TextBlock Text="Rand Roll:" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="11" />
+                    <NumericUpDown Value="{Binding RandRoll}" Minimum="0" Maximum="255" Width="100" Height="25" />
                 </StackPanel>
             </StackPanel>
         </Grid>

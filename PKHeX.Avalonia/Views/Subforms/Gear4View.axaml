@@ -7,6 +7,8 @@
                      Title="Gear Editor"
                      Width="650" Height="600"
                      MinWidth="500" MinHeight="400"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,15 +16,16 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Unlock All" Command="{Binding UnlockAllCommand}" />
-            <Button Content="Clear" Command="{Binding ClearAllCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Unlock All" Command="{Binding UnlockAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear" Command="{Binding ClearAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Shiny Outfits -->
         <WrapPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
-            <TextBlock Text="Shiny Outfits:" VerticalAlignment="Center" Margin="0,0,8,0" FontWeight="SemiBold" />
+            <TextBlock Text="Shiny Outfits:" VerticalAlignment="Center" Margin="0,0,8,0"
+                       FontWeight="SemiBold" FontSize="11" />
             <CheckBox Content="Groudon" IsChecked="{Binding ShinyGroudon}" Margin="4" />
             <CheckBox Content="Lucario" IsChecked="{Binding ShinyLucario}" Margin="4" />
             <CheckBox Content="Electivire" IsChecked="{Binding ShinyElectivire}" Margin="4" />

@@ -8,22 +8,24 @@
                      Width="750" Height="650"
                      MinWidth="600" MinHeight="450"
                      WindowStartupLocation="CenterOwner"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      CanResize="True">
 
     <DockPanel Margin="8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Complete Dex" Command="{Binding CompleteDexCommand}" />
-            <Button Content="Seen All" Command="{Binding SeenAllCommand}" />
-            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" />
-            <Button Content="Seen None" Command="{Binding SeenNoneCommand}" />
-            <Button Content="Caught None" Command="{Binding CaughtNoneCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Complete Dex" Command="{Binding CompleteDexCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Seen All" Command="{Binding SeenAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Caught All" Command="{Binding CaughtAllCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Seen None" Command="{Binding SeenNoneCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Caught None" Command="{Binding CaughtNoneCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <TextBox DockPanel.Dock="Top" Watermark="Search species..."
-                 Text="{Binding SearchText}" Margin="0,0,0,8" />
+                 Text="{Binding SearchText}" Height="25" Margin="0,0,0,8" />
 
         <ScrollViewer>
             <ItemsControl ItemsSource="{Binding FilteredEntries}">
@@ -35,7 +37,7 @@
                             <CheckBox Content="Gmax" IsChecked="{Binding Gigantamaxed}" VerticalAlignment="Center" />
                             <CheckBox Content="Shiny" IsChecked="{Binding DisplayShiny}" VerticalAlignment="Center" />
                             <NumericUpDown Value="{Binding BattledCount}" Minimum="0" Maximum="999999"
-                                           Width="100" VerticalAlignment="Center" />
+                                           Width="100" Height="25" VerticalAlignment="Center" />
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

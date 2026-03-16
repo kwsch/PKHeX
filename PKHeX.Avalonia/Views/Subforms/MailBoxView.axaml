@@ -7,6 +7,8 @@
                      Title="{Binding WindowTitle}"
                      Width="550" Height="500"
                      MinWidth="400" MinHeight="350"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,20 +16,20 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Clear Mail" Command="{Binding ClearMailCommand}" Width="90" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Clear Mail" Command="{Binding ClearMailCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="200,*">
             <!-- Mail list -->
             <DockPanel Grid.Column="0" Margin="0,0,4,0">
-                <TextBlock DockPanel.Dock="Top" Text="Mail Entries" FontWeight="SemiBold" Margin="0,0,0,4" />
+                <TextBlock DockPanel.Dock="Top" Text="Mail Entries" FontWeight="SemiBold" FontSize="11" Margin="0,0,0,4" />
                 <ListBox ItemsSource="{Binding MailEntries}"
                          SelectedIndex="{Binding SelectedIndex}">
                     <ListBox.ItemTemplate>
                         <DataTemplate x:DataType="vm:MailEntryModel">
-                            <TextBlock Text="{Binding Label}" />
+                            <TextBlock Text="{Binding Label}" FontSize="11" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -35,21 +37,21 @@
 
             <!-- Mail details -->
             <StackPanel Grid.Column="1" Spacing="8" Margin="4,0,0,0">
-                <TextBlock Text="Mail Details" FontWeight="SemiBold" />
+                <TextBlock Text="Mail Details" FontWeight="SemiBold" FontSize="11" />
 
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Author Name" />
-                    <TextBox Text="{Binding SelectedAuthorName}" />
+                    <TextBlock Text="Author Name" FontWeight="SemiBold" FontSize="11" />
+                    <TextBox Text="{Binding SelectedAuthorName}" Height="25" />
                 </StackPanel>
 
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Author TID" />
-                    <NumericUpDown Value="{Binding SelectedAuthorTid}" Minimum="0" Maximum="65535" />
+                    <TextBlock Text="Author TID" FontWeight="SemiBold" FontSize="11" />
+                    <NumericUpDown Value="{Binding SelectedAuthorTid}" Minimum="0" Maximum="65535" Height="25" />
                 </StackPanel>
 
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Mail Type" />
-                    <NumericUpDown Value="{Binding SelectedMailType}" Minimum="0" Maximum="255" />
+                    <TextBlock Text="Mail Type" FontWeight="SemiBold" FontSize="11" />
+                    <NumericUpDown Value="{Binding SelectedMailType}" Minimum="0" Maximum="255" Height="25" />
                 </StackPanel>
             </StackPanel>
         </Grid>

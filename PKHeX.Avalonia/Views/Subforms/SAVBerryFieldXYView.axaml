@@ -7,6 +7,8 @@
                      Title="Berry Field (XY)"
                      Width="500" Height="420"
                      MinWidth="400" MinHeight="350"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="False">
 
@@ -14,7 +16,7 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <Grid ColumnDefinitions="140,*">
@@ -37,36 +39,36 @@
                             x:CompileBindings="False">
                     <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto">
                         <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="Berry" FontWeight="SemiBold" />
-                            <TextBox Text="{Binding Berry}" IsReadOnly="True" />
+                            <TextBlock Text="Berry" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding Berry}" IsReadOnly="True" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="U1" />
-                            <TextBox Text="{Binding U1}" IsReadOnly="True" />
+                            <TextBlock Text="U1" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding U1}" IsReadOnly="True" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="1" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="U2" />
-                            <TextBox Text="{Binding U2}" IsReadOnly="True" />
+                            <TextBlock Text="U2" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding U2}" IsReadOnly="True" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="1" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="U3" />
-                            <TextBox Text="{Binding U3}" IsReadOnly="True" />
+                            <TextBlock Text="U3" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding U3}" IsReadOnly="True" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="2" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="U4" />
-                            <TextBox Text="{Binding U4}" IsReadOnly="True" />
+                            <TextBlock Text="U4" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding U4}" IsReadOnly="True" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="2" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="U5" />
-                            <TextBox Text="{Binding U5}" IsReadOnly="True" />
+                            <TextBlock Text="U5" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding U5}" IsReadOnly="True" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="3" Spacing="2" Margin="0,0,4,4">
-                            <TextBlock Text="U6" />
-                            <TextBox Text="{Binding U6}" IsReadOnly="True" />
+                            <TextBlock Text="U6" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding U6}" IsReadOnly="True" Height="25" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="3" Spacing="2" Margin="4,0,0,4">
-                            <TextBlock Text="U7" />
-                            <TextBox Text="{Binding U7}" IsReadOnly="True" />
+                            <TextBlock Text="U7" FontWeight="SemiBold" FontSize="11" />
+                            <TextBox Text="{Binding U7}" IsReadOnly="True" Height="25" />
                         </StackPanel>
                     </Grid>
                 </StackPanel>

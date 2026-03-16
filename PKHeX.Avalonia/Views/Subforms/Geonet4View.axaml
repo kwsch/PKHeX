@@ -7,6 +7,8 @@
                      Title="Geonet Editor"
                      Width="650" Height="550"
                      MinWidth="500" MinHeight="400"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -14,11 +16,11 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Set All" Command="{Binding SetAllLocationsCommand}" />
-            <Button Content="Set Legal" Command="{Binding SetAllLegalLocationsCommand}" />
-            <Button Content="Clear" Command="{Binding ClearLocationsCommand}" />
-            <Button Content="OK" Click="OnOkClick" Width="80" />
-            <Button Content="Cancel" Click="OnCancelClick" Width="80" />
+            <Button Content="Set All" Command="{Binding SetAllLocationsCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Set Legal" Command="{Binding SetAllLegalLocationsCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="Clear" Command="{Binding ClearLocationsCommand}" MinWidth="75" Padding="8,4" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
 
         <!-- Global flag -->
@@ -38,7 +40,7 @@
                 <DataGridTemplateColumn Header="Point" Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="vm:GeonetEntryModel">
-                            <NumericUpDown Value="{Binding Point}" Minimum="0" Maximum="3" />
+                            <NumericUpDown Value="{Binding Point}" Minimum="0" Maximum="3" Height="25" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

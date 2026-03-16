@@ -1,25 +1,27 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:views="using:PKHeX.Avalonia.Views"
-        xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
-        x:Class="PKHeX.Avalonia.Views.Subforms.BoxViewerView"
-        x:DataType="vm:BoxViewerViewModel"
-        Title="Box Viewer"
-        Width="420" Height="380"
-        MinWidth="350" MinHeight="300"
-        WindowStartupLocation="CenterOwner"
-        CanResize="True">
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.BoxViewerView"
+                     x:DataType="vm:BoxViewerViewModel"
+                     Title="Box Viewer"
+                     Width="420" Height="380"
+                     MinWidth="350" MinHeight="300"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
 
     <DockPanel Margin="8">
         <!-- Box Navigation -->
         <Grid DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto" Margin="0,0,0,8">
             <Button Grid.Column="0" Content="&lt;" Command="{Binding PreviousBoxCommand}"
-                    Width="30" HorizontalContentAlignment="Center" />
+                    MinWidth="30" Padding="6,2" FontSize="10" HorizontalContentAlignment="Center" />
             <TextBlock Grid.Column="1" Text="{Binding BoxName}"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                       FontWeight="SemiBold" />
+                       FontWeight="SemiBold" FontSize="11" />
             <Button Grid.Column="2" Content="&gt;" Command="{Binding NextBoxCommand}"
-                    Width="30" HorizontalContentAlignment="Center" />
+                    MinWidth="30" Padding="6,2" FontSize="10" HorizontalContentAlignment="Center" />
         </Grid>
 
         <!-- Box Grid (6 columns x 5 rows = 30 slots) -->
@@ -37,4 +39,4 @@
         </ItemsControl>
     </DockPanel>
 
-</Window>
+</views:SubformWindow>

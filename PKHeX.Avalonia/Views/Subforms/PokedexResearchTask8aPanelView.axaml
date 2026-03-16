@@ -2,16 +2,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
              x:Class="PKHeX.Avalonia.Views.Subforms.PokedexResearchTask8aPanelView"
-             x:DataType="vm:PokedexResearchTask8aPanelViewModel">
+             x:DataType="vm:PokedexResearchTask8aPanelViewModel"
+             FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+             FontSize="11">
 
     <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="8" Margin="2">
         <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto,Auto" RowDefinitions="Auto">
             <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
-                <TextBlock Text="{Binding TaskLabel}" FontWeight="SemiBold" />
+                <TextBlock Text="{Binding TaskLabel}" FontWeight="SemiBold" FontSize="11" />
                 <TextBlock Text="[Bonus]" IsVisible="{Binding HasBonus}" Foreground="Green" />
             </StackPanel>
             <NumericUpDown Grid.Column="1" Value="{Binding CurrentValue}" Minimum="0" Maximum="9999"
-                           Width="100" IsEnabled="{Binding CanSetCurrentValue}" Margin="4,0" />
+                           Width="100" Height="25" IsEnabled="{Binding CanSetCurrentValue}" Margin="4,0" />
             <TextBlock Grid.Column="2" Text="{Binding Threshold1}" Width="40" TextAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="3" Text="{Binding Threshold2}" Width="40" TextAlignment="Center" VerticalAlignment="Center" />
             <TextBlock Grid.Column="4" Text="{Binding Threshold3}" Width="40" TextAlignment="Center" VerticalAlignment="Center" />
