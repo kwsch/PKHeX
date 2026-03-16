@@ -52,6 +52,12 @@ public partial class MainWindowViewModel : ObservableObject
     private string _statusMessage = "Ready. Open a save file to begin.";
 
     /// <summary>
+    /// Indicates whether the currently loaded save file has been modified since it was last saved or loaded.
+    /// </summary>
+    [ObservableProperty]
+    private bool _hasUnsavedChanges;
+
+    /// <summary>
     /// The currently active UI language code, matching <see cref="GameLanguage"/> codes.
     /// </summary>
     [ObservableProperty]
@@ -216,6 +222,7 @@ public partial class MainWindowViewModel : ObservableObject
             CreateAutoBackup(path);
 
             ExportSAV(SaveFile, path);
+            HasUnsavedChanges = false;
             StatusMessage = $"Saved to {Path.GetFileName(path)}";
         }
         catch (Exception ex)
@@ -365,6 +372,7 @@ public partial class MainWindowViewModel : ObservableObject
     {
         SaveFile = sav;
         HasSaveFile = true;
+        HasUnsavedChanges = true;
         _loadedFilePath = path;
 
         SpriteUtil.Initialize(sav);

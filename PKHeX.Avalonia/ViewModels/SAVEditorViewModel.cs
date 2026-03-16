@@ -64,6 +64,7 @@ public partial class SAVEditorViewModel : ObservableObject
         var current = change.IsParty
             ? _sav.GetPartySlotAtIndex(change.Slot)
             : _sav.GetBoxSlotAtIndex(change.Box, change.Slot);
+        if (current is null) return;
         _redoStack.Push(new SlotChange(change.Box, change.Slot, current.DecryptedBoxData, change.IsParty));
 
         // Restore old state
@@ -92,6 +93,7 @@ public partial class SAVEditorViewModel : ObservableObject
         var current = change.IsParty
             ? _sav.GetPartySlotAtIndex(change.Slot)
             : _sav.GetBoxSlotAtIndex(change.Box, change.Slot);
+        if (current is null) return;
         _undoStack.Push(new SlotChange(change.Box, change.Slot, current.DecryptedBoxData, change.IsParty));
 
         // Restore redo state

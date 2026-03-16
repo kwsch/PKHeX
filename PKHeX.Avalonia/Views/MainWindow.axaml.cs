@@ -3,6 +3,9 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Layout;
+using Avalonia.Media;
 using Avalonia.Styling;
 using PKHeX.Avalonia.ViewModels;
 
@@ -10,12 +13,72 @@ namespace PKHeX.Avalonia.Views;
 
 public partial class MainWindow : Window
 {
+    private bool _forceClose;
+
     public MainWindow()
     {
         InitializeComponent();
 
         AddHandler(DragDrop.DropEvent, OnDrop);
         AddHandler(DragDrop.DragOverEvent, OnDragOver);
+        Closing += OnWindowClosing;
+    }
+
+    private async void OnWindowClosing(object? sender, WindowClosingEventArgs e)
+    {
+        if (_forceClose)
+            return;
+
+        if (DataContext is MainWindowViewModel vm && vm.HasUnsavedChanges)
+        {
+            e.Cancel = true;
+
+            var confirmDialog = new Window
+            {
+                Title = "Unsaved Changes",
+                Width = 360,
+                Height = 140,
+                CanResize = false,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            };
+
+            var result = false;
+
+            var cancelBtn = new Button { Content = "Cancel", Width = 80 };
+            cancelBtn.Click += (_, _) => { result = false; confirmDialog.Close(); };
+
+            var closeBtn = new Button { Content = "Close Anyway", Width = 100 };
+            closeBtn.Click += (_, _) => { result = true; confirmDialog.Close(); };
+
+            confirmDialog.Content = new StackPanel
+            {
+                Margin = new Thickness(20),
+                Spacing = 16,
+                Children =
+                {
+                    new TextBlock
+                    {
+                        Text = "You have unsaved changes. Close without saving?",
+                        TextWrapping = TextWrapping.Wrap,
+                    },
+                    new StackPanel
+                    {
+                        Orientation = Orientation.Horizontal,
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        Spacing = 8,
+                        Children = { cancelBtn, closeBtn },
+                    },
+                },
+            };
+
+            await confirmDialog.ShowDialog(this);
+
+            if (result)
+            {
+                _forceClose = true;
+                Close();
+            }
+        }
     }
 
     private void OnDragOver(object? sender, DragEventArgs e)

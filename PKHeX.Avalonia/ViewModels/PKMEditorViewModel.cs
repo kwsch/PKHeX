@@ -62,6 +62,27 @@ public partial class PKMEditorViewModel : ObservableObject
             UpdateSprite();
     }
 
+    /// <summary>Tooltip showing the numeric species ID.</summary>
+    public string SpeciesTooltip => Entity is null ? "" : $"Species #{Entity.Species:000}";
+
+    /// <summary>
+    /// Tooltip showing which stats are raised/lowered by the current nature.
+    /// </summary>
+    public string NatureTooltip
+    {
+        get
+        {
+            var n = Nature;
+            var idx = (int)n;
+            if ((uint)idx >= 25) return n.ToString();
+            var up = idx / 5;
+            var down = idx % 5;
+            if (up == down) return $"{n} (Neutral)";
+            var statNames = new[] { "Atk", "Def", "Spe", "SpA", "SpD" };
+            return $"{n} (+{statNames[up]} / -{statNames[down]})";
+        }
+    }
+
     // Stat Nature (Gen 8+)
     [ObservableProperty] private Nature _statNature;
     [ObservableProperty] private bool _hasStatNature;
@@ -656,6 +677,7 @@ public partial class PKMEditorViewModel : ObservableObject
                 try { Nickname = speciesName; }
                 finally { _isPopulating = false; }
             }
+            OnPropertyChanged(nameof(SpeciesTooltip));
             UpdateSprite();
             UpdateLegality();
         }
@@ -672,6 +694,7 @@ public partial class PKMEditorViewModel : ObservableObject
             OnPropertyChanged(nameof(SpAColor));
             OnPropertyChanged(nameof(SpDColor));
             OnPropertyChanged(nameof(SpeColor));
+            OnPropertyChanged(nameof(NatureTooltip));
             RecalcStats();
             UpdateLegality();
         }
@@ -1545,6 +1568,7 @@ public partial class PKMEditorViewModel : ObservableObject
         if (uint.TryParse(PidHex, System.Globalization.NumberStyles.HexNumber, null, out var pid))
             Entity.PID = pid;
         Entity.EXP = Exp;
+        Entity.Stat_Level = Level;
         Entity.CurrentFriendship = (byte)Math.Clamp(Friendship, 0, 255);
         Entity.Language = Language;
 
@@ -2268,6 +2292,7 @@ public partial class PKMEditorViewModel : ObservableObject
             var color = valid ? SKColors.Green : SKColors.Red;
 
             using var surface = SKSurface.Create(new SKImageInfo(24, 24));
+            if (surface is null) { LegalityImage = null; return; }
             var canvas = surface.Canvas;
             canvas.Clear(SKColors.Transparent);
             using var paint = new SKPaint { Color = color, IsAntialias = true };
