@@ -27,12 +27,7 @@
                 <MenuItem Header="_QR Code..." Command="{Binding OpenQRDialogCommand}" />
             </MenuItem>
             <MenuItem Header="_Tools">
-                <MenuItem Header="_Inventory" Command="{Binding OpenInventoryCommand}" />
-                <MenuItem Header="_Box Layout" Command="{Binding OpenBoxLayoutCommand}" />
                 <MenuItem Header="Box _Viewer" Command="{Binding OpenBoxViewerCommand}" />
-                <MenuItem Header="Event _Flags" Command="{Binding OpenEventFlagsCommand}" />
-                <MenuItem Header="Event Flags (_Gen 2/8)" Command="{Binding OpenEventFlags2Command}" />
-                <MenuItem Header="_Wondercards" Command="{Binding OpenWondercardCommand}" />
                 <MenuItem Header="_Ribbon Editor" Command="{Binding OpenRibbonEditorCommand}" />
                 <Separator />
                 <MenuItem Header="_Database" Command="{Binding OpenDatabaseCommand}" />

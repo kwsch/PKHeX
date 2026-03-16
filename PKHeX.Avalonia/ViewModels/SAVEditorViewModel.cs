@@ -1,11 +1,15 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PKHeX.Avalonia.Controls;
 using PKHeX.Avalonia.Converters;
+using PKHeX.Avalonia.Services;
 using PKHeX.Core;
 using PKHeX.Drawing.Misc.Avalonia;
 using PKHeX.Drawing.PokeSprite.Avalonia;
@@ -41,14 +45,13 @@ public partial class SAVEditorViewModel : ObservableObject
     public ObservableCollection<SlotModel> PartySlots { get; } = [];
     public ObservableCollection<string> BoxNames { get; } = [];
 
+    /// <summary>Dynamic save-type-specific tools populated from the registry.</summary>
+    public ObservableCollection<SAVToolDescriptor> SavTools { get; } = [];
+
     /// <summary>Manages drag-and-drop operations between slots.</summary>
     public SlotChangeManager SlotManager { get; }
 
-    // SAV tool command delegates — wired from MainWindowViewModel
-    public ICommand? OpenInventoryCommand { get; set; }
-    public ICommand? OpenBoxLayoutCommand { get; set; }
-    public ICommand? OpenWondercardCommand { get; set; }
-    public ICommand? OpenEventFlagsCommand { get; set; }
+    // Global tool command delegates — wired from MainWindowViewModel
     public ICommand? OpenSettingsEditorCommand { get; set; }
     public ICommand? OpenDatabaseCommand { get; set; }
     public ICommand? OpenBatchEditorCommand { get; set; }
@@ -82,6 +85,35 @@ public partial class SAVEditorViewModel : ObservableObject
         RefreshBoxNames();
         RefreshBox();
         RefreshParty();
+        UpdateToolVisibility(sav);
+    }
+
+    private void UpdateToolVisibility(SaveFile sav)
+    {
+        SavTools.Clear();
+        var allTools = SAVToolRegistry.GetAllTools();
+        foreach (var tool in allTools.Where(t => t.IsAvailable(sav)).OrderBy(t => t.Name))
+            SavTools.Add(tool);
+    }
+
+    [RelayCommand]
+    private async Task OpenToolAsync(SAVToolDescriptor? tool)
+    {
+        if (tool is null || _sav is null)
+            return;
+        try
+        {
+            var (vm, view) = tool.CreateEditor(_sav);
+            var mainWindow = (global::Avalonia.Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
+            if (tool.ReloadsSlots)
+                ReloadSlots();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"{tool.Name} error: {ex.Message}");
+        }
     }
 
     private void RefreshBoxNames()

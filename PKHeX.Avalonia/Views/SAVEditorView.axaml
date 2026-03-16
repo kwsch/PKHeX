@@ -82,53 +82,60 @@
         <!-- SAV Tab (tool buttons) -->
         <TabItem Header="SAV">
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <WrapPanel Margin="4" Orientation="Horizontal">
-                    <Button Content="Items" Command="{Binding OpenInventoryCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Box Layout" Command="{Binding OpenBoxLayoutCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Wondercards" Command="{Binding OpenWondercardCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Event Flags" Command="{Binding OpenEventFlagsCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Database" Command="{Binding OpenDatabaseCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Encounters" Command="{Binding OpenEncountersCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Batch Editor" Command="{Binding OpenBatchEditorCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Report Grid" Command="{Binding OpenReportGridCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Box Viewer" Command="{Binding OpenBoxViewerCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Mystery Gift DB" Command="{Binding OpenMysteryGiftDBCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Ribbon Editor" Command="{Binding OpenRibbonEditorCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Memory / Amie" Command="{Binding OpenMemoryAmieCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Tech Records" Command="{Binding OpenTechRecordEditorCommand}"
-                            Margin="2" Padding="10,4" FontSize="11"
-                            IsVisible="{Binding IsLoaded}" />
-                    <Button Content="Settings" Command="{Binding OpenSettingsEditorCommand}"
-                            Margin="2" Padding="10,4" FontSize="11" />
+                <StackPanel Margin="4">
+                    <!-- Dynamic save-type-specific tools -->
+                    <ItemsControl ItemsSource="{Binding SavTools}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding Name}"
+                                        Command="{Binding $parent[ItemsControl].DataContext.OpenToolCommand}"
+                                        CommandParameter="{Binding}"
+                                        Margin="2" Padding="10,4" FontSize="11" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- Separator -->
+                    <Border Height="1" Background="#CCCCCC" Margin="0,4" IsVisible="{Binding IsLoaded}" />
+
+                    <!-- Global tools (always available when save loaded) -->
+                    <WrapPanel Orientation="Horizontal" IsVisible="{Binding IsLoaded}">
+                        <Button Content="Database" Command="{Binding OpenDatabaseCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Encounters" Command="{Binding OpenEncountersCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Batch Editor" Command="{Binding OpenBatchEditorCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Report Grid" Command="{Binding OpenReportGridCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Box Viewer" Command="{Binding OpenBoxViewerCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Mystery Gift DB" Command="{Binding OpenMysteryGiftDBCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Ribbon Editor" Command="{Binding OpenRibbonEditorCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Memory / Amie" Command="{Binding OpenMemoryAmieCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Tech Records" Command="{Binding OpenTechRecordEditorCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                    </WrapPanel>
+
+                    <!-- Settings (always available) -->
+                    <WrapPanel Orientation="Horizontal" Margin="0,4,0,0">
+                        <Button Content="Settings" Command="{Binding OpenSettingsEditorCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                    </WrapPanel>
+
                     <TextBlock Text="Load a save file to access tools."
                                FontSize="11" Opacity="0.6" Margin="4,6,0,0"
                                TextWrapping="Wrap"
                                IsVisible="{Binding !IsLoaded}" />
-                </WrapPanel>
+                </StackPanel>
             </ScrollViewer>
         </TabItem>
     </TabControl>

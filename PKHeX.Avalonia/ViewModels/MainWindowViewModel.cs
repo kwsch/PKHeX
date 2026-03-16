@@ -67,10 +67,6 @@ public partial class MainWindowViewModel : ObservableObject
         {
             SlotSelected = pk => PkmEditor.PopulateFields(pk),
             GetEditorPKM = () => PkmEditor.PreparePKM(),
-            OpenInventoryCommand = OpenInventoryCommand,
-            OpenBoxLayoutCommand = OpenBoxLayoutCommand,
-            OpenWondercardCommand = OpenWondercardCommand,
-            OpenEventFlagsCommand = OpenEventFlagsCommand,
             OpenSettingsEditorCommand = OpenSettingsEditorCommand,
             OpenDatabaseCommand = OpenDatabaseCommand,
             OpenBatchEditorCommand = OpenBatchEditorCommand,
@@ -236,30 +232,6 @@ public partial class MainWindowViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task OpenInventoryAsync()
-    {
-        if (SaveFile is null)
-            return;
-
-        try
-        {
-            var vm = new InventoryViewModel(SaveFile);
-            var view = new InventoryView { DataContext = vm };
-
-            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            if (mainWindow is not null)
-                await view.ShowDialog(mainWindow);
-
-            if (vm.Modified)
-                SavEditor?.ReloadSlots();
-        }
-        catch (Exception ex)
-        {
-            StatusMessage = $"Inventory error: {ex.Message}";
-        }
-    }
-
-    [RelayCommand]
     private async Task OpenDatabaseAsync()
     {
         if (SaveFile is null)
@@ -370,75 +342,6 @@ public partial class MainWindowViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task OpenEventFlagsAsync()
-    {
-        if (SaveFile is not IEventFlagProvider37 provider)
-            return;
-
-        try
-        {
-            var vm = new EventFlagsViewModel(SaveFile, provider.EventWork, SaveFile.Version);
-            var view = new EventFlagsView { DataContext = vm };
-
-            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            if (mainWindow is not null)
-                await view.ShowDialog(mainWindow);
-        }
-        catch (Exception ex)
-        {
-            StatusMessage = $"Event Flags error: {ex.Message}";
-        }
-    }
-
-    [RelayCommand]
-    private async Task OpenWondercardAsync()
-    {
-        if (SaveFile is not IMysteryGiftStorageProvider)
-            return;
-
-        try
-        {
-            var vm = new WondercardViewModel(SaveFile);
-            var view = new WondercardView { DataContext = vm };
-
-            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            if (mainWindow is not null)
-                await view.ShowDialog(mainWindow);
-
-            if (vm.Modified)
-                SavEditor?.ReloadSlots();
-        }
-        catch (Exception ex)
-        {
-            StatusMessage = $"Wondercard error: {ex.Message}";
-        }
-    }
-
-    [RelayCommand]
-    private async Task OpenBoxLayoutAsync()
-    {
-        if (SaveFile is null)
-            return;
-
-        try
-        {
-            var vm = new BoxLayoutViewModel(SaveFile);
-            var view = new BoxLayoutView { DataContext = vm };
-
-            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            if (mainWindow is not null)
-                await view.ShowDialog(mainWindow);
-
-            if (vm.Modified)
-                SavEditor?.ReloadSlots();
-        }
-        catch (Exception ex)
-        {
-            StatusMessage = $"Box Layout error: {ex.Message}";
-        }
-    }
-
-    [RelayCommand]
     private async Task OpenReportGridAsync()
     {
         if (SaveFile is null)
@@ -506,43 +409,6 @@ public partial class MainWindowViewModel : ObservableObject
         catch (Exception ex)
         {
             StatusMessage = $"Settings error: {ex.Message}";
-        }
-    }
-
-    [RelayCommand]
-    private async Task OpenEventFlags2Async()
-    {
-        if (SaveFile is null)
-            return;
-
-        try
-        {
-            // Gen 2: IEventFlagArray + IEventWorkArray<byte>
-            if (SaveFile is IEventFlagArray flagArray and IEventWorkArray<byte> workArray and SAV2)
-            {
-                var vm = new EventFlags2ViewModel(SaveFile, flagArray, workArray, SaveFile.Version);
-                var view = new EventFlags2View { DataContext = vm };
-                var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-                if (mainWindow is not null)
-                    await view.ShowDialog(mainWindow);
-                return;
-            }
-
-            // Gen 8 (BDSP): SAV8BS has FlagWork8b implementing IEventFlag + ISystemFlag + IEventWork<int>
-            if (SaveFile is SAV8BS bdsp)
-            {
-                var fw = bdsp.FlagWork;
-                var vm = new EventFlags2ViewModel(SaveFile, fw, fw, fw, SaveFile.Version);
-                var view = new EventFlags2View { DataContext = vm };
-                var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-                if (mainWindow is not null)
-                    await view.ShowDialog(mainWindow);
-                return;
-            }
-        }
-        catch (Exception ex)
-        {
-            StatusMessage = $"Event Flags error: {ex.Message}";
         }
     }
 
