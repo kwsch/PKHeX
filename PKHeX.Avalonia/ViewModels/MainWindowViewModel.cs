@@ -52,6 +52,61 @@ public partial class MainWindowViewModel : ObservableObject
     private string _statusMessage = "Ready. Open a save file to begin.";
 
     /// <summary>
+    /// The currently active UI language code, matching <see cref="GameLanguage"/> codes.
+    /// </summary>
+    [ObservableProperty]
+    private string _currentLanguage = GameInfo.CurrentLanguage;
+
+    /// <summary>
+    /// All supported UI language codes for the language picker.
+    /// </summary>
+    public IReadOnlyList<LanguageOption> AvailableLanguages { get; } =
+    [
+        new("English",     "en"),
+        new("日本語",       "ja"),
+        new("Français",    "fr"),
+        new("Italiano",    "it"),
+        new("Deutsch",     "de"),
+        new("Español",     "es"),
+        new("Español (LA)","es-419"),
+        new("한국어",       "ko"),
+        new("中文简体",     "zh-Hans"),
+        new("中文繁體",     "zh-Hant"),
+    ];
+
+    partial void OnCurrentLanguageChanged(string value)
+    {
+        // Update GameInfo strings and filtered sources
+        GameInfo.CurrentLanguage = value;
+        LocalizeUtil.InitializeStrings(value, SaveFile);
+
+        // Persist language preference
+        App.Settings.Startup.Language = value;
+
+        // Refresh all combo lists in the PKM editor
+        RefreshGameDataAfterLanguageChange();
+
+        StatusMessage = $"Language changed to {value}.";
+    }
+
+    private void RefreshGameDataAfterLanguageChange()
+    {
+        if (PkmEditor is null)
+            return;
+
+        // If a save is loaded, re-create the filtered sources and re-initialize
+        if (SaveFile is not null)
+        {
+            GameInfo.FilteredSources = new FilteredGameDataSource(SaveFile, GameInfo.Sources);
+            // Notify the editor that list sources changed
+            PkmEditor.NotifyListsChanged();
+            // Re-populate the current PKM so display names refresh
+            if (PkmEditor.Entity is { } pk)
+                PkmEditor.PopulateFields(pk);
+        }
+    }
+
+    /// <summary>
     /// Loaded plugin instances.
     /// </summary>
     public List<IPlugin> Plugins { get; } = [];
@@ -530,6 +585,18 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
+    #region Language
+
+    [RelayCommand]
+    private void ChangeLanguage(string? lang)
+    {
+        if (lang is null || lang == CurrentLanguage)
+            return;
+        CurrentLanguage = lang;
+    }
+
+    #endregion
+
     #region Undo/Redo
 
     [RelayCommand]
@@ -886,4 +953,12 @@ public partial class MainWindowViewModel : ObservableObject
     }
 
     #endregion
+}
+
+/// <summary>
+/// Represents a selectable UI language with a display name and language code.
+/// </summary>
+public sealed record LanguageOption(string DisplayName, string Code)
+{
+    public override string ToString() => DisplayName;
 }

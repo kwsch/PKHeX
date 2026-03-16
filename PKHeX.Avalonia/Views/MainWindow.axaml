@@ -66,6 +66,19 @@
                 <MenuItem Header="_Dump Box..." Command="{Binding DumpBoxCommand}" />
             </MenuItem>
             <MenuItem Header="_Options">
+                <MenuItem Header="_Language">
+                    <MenuItem Header="English" Command="{Binding ChangeLanguageCommand}" CommandParameter="en" />
+                    <MenuItem Header="日本語" Command="{Binding ChangeLanguageCommand}" CommandParameter="ja" />
+                    <MenuItem Header="Français" Command="{Binding ChangeLanguageCommand}" CommandParameter="fr" />
+                    <MenuItem Header="Italiano" Command="{Binding ChangeLanguageCommand}" CommandParameter="it" />
+                    <MenuItem Header="Deutsch" Command="{Binding ChangeLanguageCommand}" CommandParameter="de" />
+                    <MenuItem Header="Español" Command="{Binding ChangeLanguageCommand}" CommandParameter="es" />
+                    <MenuItem Header="Español (LA)" Command="{Binding ChangeLanguageCommand}" CommandParameter="es-419" />
+                    <MenuItem Header="한국어" Command="{Binding ChangeLanguageCommand}" CommandParameter="ko" />
+                    <MenuItem Header="中文简体" Command="{Binding ChangeLanguageCommand}" CommandParameter="zh-Hans" />
+                    <MenuItem Header="中文繁體" Command="{Binding ChangeLanguageCommand}" CommandParameter="zh-Hant" />
+                </MenuItem>
+                <Separator />
                 <MenuItem Header="_Undo" Command="{Binding UndoSlotCommand}" InputGesture="Ctrl+U" />
                 <MenuItem Header="_Redo" Command="{Binding RedoSlotCommand}" InputGesture="Ctrl+Y" />
                 <Separator />

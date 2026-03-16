@@ -627,7 +627,15 @@ public partial class PKMEditorViewModel : ObservableObject
         // Update FilteredSources with the real save file's limits
         GameInfo.FilteredSources = new FilteredGameDataSource(sav, GameInfo.Sources);
         IsInitialized = true;
-        // Notify UI that all list properties changed
+        NotifyListsChanged();
+    }
+
+    /// <summary>
+    /// Raises property-changed for every combo-box list property so the UI rebinds
+    /// after a language change or save-file load.
+    /// </summary>
+    public void NotifyListsChanged()
+    {
         OnPropertyChanged(nameof(SpeciesList));
         OnPropertyChanged(nameof(NatureList));
         OnPropertyChanged(nameof(HeldItemList));
