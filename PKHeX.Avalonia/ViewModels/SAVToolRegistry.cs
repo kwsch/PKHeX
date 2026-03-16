@@ -129,8 +129,10 @@ public static class SAVToolRegistry
 
             // --- RTC ---
             new("RTC Editor",
-                sav => sav is SAV3 { SmallBlock: ISaveBlock3SmallHoenn },
-                sav => WithView<SAVRTC3ViewModel, SAVRTC3View>(new SAVRTC3ViewModel((SAV3)sav))),
+                sav => (sav.Generation == 2 && sav is not SAV2Stadium) || sav is SAV3 { SmallBlock: ISaveBlock3SmallHoenn },
+                sav => sav is SAV3 s3
+                    ? WithView<SAVRTC3ViewModel, SAVRTC3View>(new SAVRTC3ViewModel(s3))
+                    : WithView<SAVRTC2ViewModel, SAVRTC2View>(new SAVRTC2ViewModel((SAV2)sav))),
 
             // --- DLC (Gen 5) ---
             new("DLC Content",

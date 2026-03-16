@@ -1,0 +1,31 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.SAVRTC2View"
+                     x:DataType="vm:SAVRTC2ViewModel"
+                     Title="RTC Editor (Gen 2)"
+                     Width="380" Height="200"
+                     MinWidth="300" MinHeight="160"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="False">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Reset RTC" Command="{Binding ResetRtcCommand}" MinWidth="85" Padding="8,4"
+                    ToolTip.Tip="Set the RTC reset flag so the clock re-initializes on next boot" />
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
+        </StackPanel>
+
+        <StackPanel Spacing="8" VerticalAlignment="Center">
+            <TextBlock Text="Gen 2 Crystal Real-Time Clock" FontWeight="SemiBold" FontSize="12" />
+            <TextBlock Text="{Binding StatusText}" TextWrapping="Wrap" FontSize="11" />
+        </StackPanel>
+    </DockPanel>
+
+</views:SubformWindow>

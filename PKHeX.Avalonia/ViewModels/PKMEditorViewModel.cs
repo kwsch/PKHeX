@@ -89,6 +89,11 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private bool _isEgg;
     [ObservableProperty] private bool _isNicknamed;
 
+    /// <summary>
+    /// Returns "Hatch Counter:" when the PKM is an egg, otherwise "Friendship:".
+    /// </summary>
+    public string FriendshipLabel => IsEgg ? "Hatch Counter:" : "Friendship:";
+
     // Pokerus
     [ObservableProperty] private bool _isInfected;
     [ObservableProperty] private bool _isCured;
@@ -427,6 +432,41 @@ public partial class PKMEditorViewModel : ObservableObject
         var rng = new Random();
         var ec = (uint)rng.Next();
         EncryptionConstantHex = ec.ToString("X8");
+    }
+
+    [RelayCommand]
+    private void Shinytize()
+    {
+        if (Entity is null) return;
+        if (Entity.IsShiny)
+        {
+            Entity.SetPIDGender(Entity.Gender);
+            IsShiny = false;
+        }
+        else
+        {
+            Entity.SetShiny();
+            IsShiny = true;
+        }
+        PidHex = Entity.PID.ToString("X8");
+        IsShinyDisplay = Entity.IsShiny;
+        IsSquareShiny = Entity.IsShiny && Entity.ShinyXor == 0;
+        UpdateSprite();
+        UpdateLegality();
+    }
+
+    [RelayCommand]
+    private void RerollPid()
+    {
+        if (Entity is null) return;
+        var rng = new Random();
+        Entity.PID = (uint)rng.Next();
+        PidHex = Entity.PID.ToString("X8");
+        IsShiny = Entity.IsShiny;
+        IsShinyDisplay = Entity.IsShiny;
+        IsSquareShiny = Entity.IsShiny && Entity.ShinyXor == 0;
+        UpdateSprite();
+        UpdateLegality();
     }
 
     // Home Tracker
@@ -1609,7 +1649,15 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.IsEgg = IsEgg;
         Entity.IsNicknamed = IsNicknamed;
 
+        // Shiny
+        if (IsShiny && !Entity.IsShiny)
+            Entity.SetShiny();
+        else if (!IsShiny && Entity.IsShiny)
+            Entity.SetPIDGender(Entity.Gender);
+
         // Pokerus
+        Entity.IsPokerusInfected = IsInfected;
+        Entity.IsPokerusCured = IsCured;
         Entity.PokerusStrain = PkrsStrain;
         Entity.PokerusDays = PkrsDays;
 
@@ -1721,6 +1769,7 @@ public partial class PKMEditorViewModel : ObservableObject
         {
             scSave.ShadowID = (ushort)ShadowId;
             scSave.Purification = Purification;
+            // IsShadow is derived from ShadowID/Purification, no separate write needed
         }
 
         // Gen-specific: Catch Rate (Gen 1)
@@ -1953,14 +2002,19 @@ public partial class PKMEditorViewModel : ObservableObject
         try { Level = Experience.GetLevel(value, growth); }
         finally { _isPopulating = false; }
         RecalcStats();
+        UpdateLegality();
     }
 
-    // --- IsEgg change triggers legality ---
+    // --- IsEgg change triggers legality + sprite + label ---
 
     partial void OnIsEggChanged(bool value)
     {
         if (!_isPopulating)
+        {
             UpdateLegality();
+            UpdateSprite();
+        }
+        OnPropertyChanged(nameof(FriendshipLabel));
     }
 
     partial void OnIsShinyChanged(bool value)
@@ -1971,21 +2025,21 @@ public partial class PKMEditorViewModel : ObservableObject
 
     // --- IV changed handlers → recalc stats + legality ---
 
-    partial void OnIv_HPChanged(int value) { if (!_isPopulating) RecalcStats(); }
-    partial void OnIv_ATKChanged(int value) { if (!_isPopulating) RecalcStats(); }
-    partial void OnIv_DEFChanged(int value) { if (!_isPopulating) RecalcStats(); }
-    partial void OnIv_SPAChanged(int value) { if (!_isPopulating) RecalcStats(); }
-    partial void OnIv_SPDChanged(int value) { if (!_isPopulating) RecalcStats(); }
-    partial void OnIv_SPEChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnIv_HPChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
+    partial void OnIv_ATKChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
+    partial void OnIv_DEFChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
+    partial void OnIv_SPAChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
+    partial void OnIv_SPDChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
+    partial void OnIv_SPEChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
 
-    // --- EV changed handlers → recalc stats ---
+    // --- EV changed handlers → recalc stats + legality ---
 
-    partial void OnEv_HPChanged(int value) { if (!_isPopulating) RecalcStats(); }
-    partial void OnEv_ATKChanged(int value) { if (!_isPopulating) RecalcStats(); }
-    partial void OnEv_DEFChanged(int value) { if (!_isPopulating) RecalcStats(); }
-    partial void OnEv_SPAChanged(int value) { if (!_isPopulating) RecalcStats(); }
-    partial void OnEv_SPDChanged(int value) { if (!_isPopulating) RecalcStats(); }
-    partial void OnEv_SPEChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnEv_HPChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
+    partial void OnEv_ATKChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
+    partial void OnEv_DEFChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
+    partial void OnEv_SPAChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
+    partial void OnEv_SPDChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
+    partial void OnEv_SPEChanged(int value) { if (!_isPopulating) { RecalcStats(); UpdateLegality(); } }
 
     // --- Stat auto-recalculation ---
 

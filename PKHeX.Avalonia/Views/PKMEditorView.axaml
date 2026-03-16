@@ -60,7 +60,11 @@
                       ColumnDefinitions="104,*">
                     <!-- PID -->
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="PID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding PidHex}" Height="25" Width="72" HorizontalAlignment="Left" FontFamily="Courier New,Consolas,monospace" />
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBox Text="{Binding PidHex}" Height="25" Width="72" FontFamily="Courier New,Consolas,monospace" />
+                        <Button Content="&#x2606;" Command="{Binding ShinytizeCommand}" Width="24" Height="25" Padding="0" FontSize="14" Margin="4,0,0,0" ToolTip.Tip="Toggle Shiny" />
+                        <Button Content="Reroll" Command="{Binding RerollPidCommand}" Height="25" Padding="4,0" FontSize="9" Margin="2,0,0,0" />
+                    </StackPanel>
 
                     <!-- Species + Gender -->
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Species:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
@@ -74,7 +78,8 @@
                     <!-- Nickname -->
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Nickname:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
                     <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBox Text="{Binding Nickname}" Height="25" Width="144" />
+                        <CheckBox IsChecked="{Binding IsNicknamed}" Margin="0,0,4,0" ToolTip.Tip="Is Nicknamed" />
+                        <TextBox Text="{Binding Nickname}" Height="25" Width="130" />
                         <Button Content="?" Command="{Binding ShowNicknameWarningCommand}"
                                 Width="20" Height="20" Padding="0" FontSize="10" Margin="2,0,0,0"
                                 ToolTip.Tip="Check nickname font compatibility" />
@@ -115,8 +120,8 @@
                     <ComboBox Grid.Row="8" Grid.Column="1" ItemsSource="{Binding AbilityList}" SelectedItem="{Binding SelectedAbility}"
                               DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
 
-                    <!-- Friendship -->
-                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Friendship:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                    <!-- Friendship / Hatch Counter -->
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="{Binding FriendshipLabel}" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
                     <NumericUpDown Grid.Row="9" Grid.Column="1" Value="{Binding Friendship}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left" />
 
                     <!-- Language -->
