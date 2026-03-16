@@ -471,16 +471,41 @@ public partial class PKMEditorViewModel : ObservableObject
         if (Entity.IsShiny)
         {
             Entity.SetPIDGender(Entity.Gender);
-            IsShiny = false;
         }
         else
         {
-            Entity.SetShiny();
-            IsShiny = true;
+            Entity.SetShiny(); // Random type
         }
-        PidHex = Entity.PID.ToString("X8");
-        IsShinyDisplay = Entity.IsShiny;
-        IsSquareShiny = Entity.IsShiny && Entity.ShinyXor == 0;
+        RefreshAfterShinyChange();
+    }
+
+    [RelayCommand]
+    private void ShinytizeStar()
+    {
+        if (Entity is null) return;
+        Entity.SetShinySID(Shiny.AlwaysStar);
+        RefreshAfterShinyChange();
+    }
+
+    [RelayCommand]
+    private void ShinytizeSquare()
+    {
+        if (Entity is null) return;
+        Entity.SetShinySID(Shiny.AlwaysSquare);
+        RefreshAfterShinyChange();
+    }
+
+    private void RefreshAfterShinyChange()
+    {
+        _isPopulating = true;
+        try
+        {
+            PidHex = Entity!.PID.ToString("X8");
+            IsShiny = Entity.IsShiny;
+            IsShinyDisplay = Entity.IsShiny;
+            IsSquareShiny = Entity.IsShiny && Entity.ShinyXor == 0;
+        }
+        finally { _isPopulating = false; }
         UpdateSprite();
         UpdateLegality();
     }
@@ -624,7 +649,7 @@ public partial class PKMEditorViewModel : ObservableObject
     public IReadOnlyList<ComboItem> NatureList => GameInfo.FilteredSources.Natures;
     public IReadOnlyList<ComboItem> HeldItemList => GameInfo.FilteredSources.Items;
     public IReadOnlyList<ComboItem> MoveList => GameInfo.FilteredSources.Moves;
-    public IReadOnlyList<ComboItem> AbilityList => GameInfo.FilteredSources.Abilities;
+    [ObservableProperty] private IReadOnlyList<ComboItem> _abilityList = Array.Empty<ComboItem>();
     public IReadOnlyList<ComboItem> LanguageList => GameInfo.FilteredSources.Languages;
     public IReadOnlyList<ComboItem> BallList => GameInfo.FilteredSources.Balls;
     public IReadOnlyList<ComboItem> VersionList => GameInfo.FilteredSources.Games;
@@ -656,8 +681,51 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             Form = (byte)value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
         {
+            Entity.Form = Form;
+
+            // Recalc EXP for potential growth rate change (some forms have different growth)
+            if (Entity.PersonalInfo is { } pi)
+            {
+                var growth = pi.EXPGrowth;
+                Entity.EXP = Experience.GetEXP(Level, growth);
+                _isPopulating = true;
+                try { Exp = Entity.EXP; }
+                finally { _isPopulating = false; }
+
+                // Refresh base stats display
+                Base_HP = pi.HP;
+                Base_ATK = pi.ATK;
+                Base_DEF = pi.DEF;
+                Base_SPA = pi.SPA;
+                Base_SPD = pi.SPD;
+                Base_SPE = pi.SPE;
+                BaseST = pi.HP + pi.ATK + pi.DEF + pi.SPA + pi.SPD + pi.SPE;
+            }
+
+            // Sanitize gender
+            Entity.Gender = Entity.GetSaneGender();
+            _isPopulating = true;
+            try { Gender = Entity.Gender; }
+            finally { _isPopulating = false; }
+
+            // Refresh form arguments
+            if (Entity is IFormArgument fa)
+            {
+                HasFormArgument = true;
+                FormArgument = fa.FormArgument;
+                FormArgumentMax = FormArgumentUtil.GetFormArgumentMax(Entity.Species, Entity.Form, Entity.Context);
+                if (FormArgumentMax == 0)
+                    FormArgumentMax = 255;
+            }
+
+            // Refresh ability list (some forms have different abilities)
+            RefreshAbilityList();
+
+            // Recalculate stats
+            RecalcStats();
+
             UpdateSprite();
             UpdateLegality();
         }
@@ -683,9 +751,36 @@ public partial class PKMEditorViewModel : ObservableObject
             {
                 var speciesName = SpeciesName.GetSpeciesNameGeneration(Entity.Species, Entity.Language, Entity.Format);
                 _isPopulating = true;
-                try { Nickname = speciesName; }
+                try { Nickname = speciesName; Entity.Nickname = speciesName; }
                 finally { _isPopulating = false; }
             }
+
+            // Recalculate EXP for new growth rate
+            if (Entity?.PersonalInfo is { } pi)
+            {
+                var growth = pi.EXPGrowth;
+                var minExp = Experience.GetEXP(Level, growth);
+                if (Entity.EXP != minExp)
+                {
+                    Entity.EXP = minExp;
+                    _isPopulating = true;
+                    try { Exp = minExp; }
+                    finally { _isPopulating = false; }
+                }
+            }
+
+            // Sanitize gender for new species
+            if (Entity is not null)
+            {
+                Entity.Gender = Entity.GetSaneGender();
+                _isPopulating = true;
+                try { Gender = Entity.Gender; }
+                finally { _isPopulating = false; }
+            }
+
+            // Refresh ability list for new species
+            RefreshAbilityList();
+
             OnPropertyChanged(nameof(SpeciesTooltip));
             UpdateSprite();
             UpdateLegality();
@@ -836,6 +931,19 @@ public partial class PKMEditorViewModel : ObservableObject
         FormList = items;
     }
 
+    private void RefreshAbilityList()
+    {
+        if (Entity is null)
+        {
+            AbilityList = GameInfo.FilteredSources.Abilities;
+            return;
+        }
+        var pi = Entity.PersonalInfo;
+        AbilityList = GameInfo.FilteredSources.GetAbilityList(pi);
+        var current = AbilityList.FirstOrDefault(a => a.Value == Entity.Ability);
+        SelectedAbility = current ?? AbilityList.FirstOrDefault();
+    }
+
     public void Initialize(SaveFile sav)
     {
         _sav = sav;
@@ -855,7 +963,7 @@ public partial class PKMEditorViewModel : ObservableObject
         OnPropertyChanged(nameof(NatureList));
         OnPropertyChanged(nameof(HeldItemList));
         OnPropertyChanged(nameof(MoveList));
-        OnPropertyChanged(nameof(AbilityList));
+        RefreshAbilityList();
         OnPropertyChanged(nameof(LanguageList));
         OnPropertyChanged(nameof(BallList));
         OnPropertyChanged(nameof(VersionList));
@@ -1517,6 +1625,7 @@ public partial class PKMEditorViewModel : ObservableObject
         // Refresh location lists based on version/context before setting selected items
         RefreshLocationLists();
         RefreshFormList();
+        RefreshAbilityList();
 
         // Look up ComboItems by matching Value
         SelectedSpecies = SpeciesList.FirstOrDefault(x => x.Value == pk.Species);
@@ -2104,13 +2213,61 @@ public partial class PKMEditorViewModel : ObservableObject
 
     partial void OnIsEggChanged(bool value)
     {
-        if (!_isPopulating && Entity is not null)
+        if (_isPopulating || Entity is null) return;
+        Entity.IsEgg = value;
+
+        if (value) // Becoming an egg
         {
-            Entity.IsEgg = value;
-            UpdateLegality();
-            UpdateSprite();
+            // Set friendship to hatch cycles
+            var pokemon = Entity.PersonalInfo;
+            Friendship = pokemon.HatchCycles;
+            Entity.CurrentFriendship = (byte)Friendship;
+
+            // Set met as egg
+            MetAsEgg = true;
+
+            // Update nickname to egg name
+            var eggName = SpeciesName.GetEggName(Entity.Language, Entity.Format);
+            _isPopulating = true;
+            try
+            {
+                Nickname = eggName;
+                Entity.Nickname = eggName;
+                IsNicknamed = true;
+                Entity.IsNicknamed = true;
+            }
+            finally { _isPopulating = false; }
+
+            // Clear memories for Gen 6+
+            if (Entity is ITrainerMemories mem)
+            {
+                mem.HandlingTrainerMemory = 0;
+                mem.HandlingTrainerMemoryFeeling = 0;
+                mem.HandlingTrainerMemoryIntensity = 0;
+            }
         }
+        else // No longer an egg
+        {
+            // Reset nickname from egg name to species name
+            var speciesName = SpeciesName.GetSpeciesNameGeneration(Entity.Species, Entity.Language, Entity.Format);
+            _isPopulating = true;
+            try
+            {
+                Nickname = speciesName;
+                Entity.Nickname = speciesName;
+                IsNicknamed = false;
+                Entity.IsNicknamed = false;
+            }
+            finally { _isPopulating = false; }
+
+            // Set base friendship
+            Friendship = Entity.PersonalInfo.BaseFriendship;
+            Entity.CurrentFriendship = (byte)Friendship;
+        }
+
         OnPropertyChanged(nameof(FriendshipLabel));
+        UpdateSprite();
+        UpdateLegality();
     }
 
     partial void OnIsShinyChanged(bool value)

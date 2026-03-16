@@ -10,6 +10,10 @@
         DragDrop.AllowDrop="True">
 
     <Window.KeyBindings>
+        <KeyBinding Gesture="Ctrl+O" Command="{Binding OpenFileCommand}" />
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveFileCommand}" />
+        <KeyBinding Gesture="Ctrl+U" Command="{Binding UndoSlotCommand}" />
+        <KeyBinding Gesture="Ctrl+Y" Command="{Binding RedoSlotCommand}" />
         <KeyBinding Gesture="Ctrl+Q" Command="{Binding ExitCommand}" />
         <KeyBinding Gesture="Ctrl+T" Command="{Binding ImportShowdownCommand}" />
         <KeyBinding Gesture="Ctrl+Shift+T" Command="{Binding ExportShowdownCommand}" />
