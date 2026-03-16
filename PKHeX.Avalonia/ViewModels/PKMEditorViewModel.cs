@@ -549,7 +549,7 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (_isPopulating || SelectedExtraByteOffset is null || Entity is null) return;
         if (ushort.TryParse(SelectedExtraByteOffset.Replace("0x", ""), System.Globalization.NumberStyles.HexNumber, null, out var offset) && offset < Entity.Data.Length)
-            Entity.Data[offset] = (byte)value;
+            Entity.Data[offset] = (byte)Math.Clamp(value, 0, 255);
     }
 
     // Met — Fateful Encounter
@@ -926,9 +926,12 @@ public partial class PKMEditorViewModel : ObservableObject
     partial void OnSelectedVersionChanged(ComboItem? value)
     {
         if (value is not null)
-        {
             Version = value.Value;
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Version = (GameVersion)Version;
             RefreshLocationLists();
+            UpdateLegality();
         }
     }
 
@@ -1969,7 +1972,7 @@ public partial class PKMEditorViewModel : ObservableObject
         // Gen-specific: Shadow Pokemon (XD/Colosseum)
         if (Entity is IShadowCapture scSave)
         {
-            scSave.ShadowID = (ushort)ShadowId;
+            scSave.ShadowID = (ushort)Math.Clamp(ShadowId, 0, 65535);
             scSave.Purification = Purification;
             // IsShadow is derived from ShadowID/Purification, no separate write needed
         }
@@ -1991,7 +1994,7 @@ public partial class PKMEditorViewModel : ObservableObject
 
         // Met — Time of Day (Gen 2)
         if (Entity is ICaughtData2 cd2Save)
-            cd2Save.MetTimeOfDay = MetTimeOfDay;
+            cd2Save.MetTimeOfDay = Math.Clamp(MetTimeOfDay, 0, 3);
 
         // Met — As Egg: if unchecked, clear egg location
         if (!MetAsEgg)
@@ -2035,7 +2038,7 @@ public partial class PKMEditorViewModel : ObservableObject
 
         // Alpha Mastered Move (Legends Arceus)
         if (Entity is PA8 pa8Save && SelectedAlphaMove is not null)
-            pa8Save.AlphaMove = (ushort)SelectedAlphaMove.Value;
+            pa8Save.AlphaMove = (ushort)Math.Clamp(SelectedAlphaMove.Value, 0, 65535);
 
         // Post-save cleanup (matching WinForms SaveFields)
         Entity.FixMoves();
@@ -2359,6 +2362,40 @@ public partial class PKMEditorViewModel : ObservableObject
             // Set base friendship (clamped to byte range)
             Friendship = Math.Clamp((int)Entity.PersonalInfo.BaseFriendship, 0, 255);
             Entity.CurrentFriendship = (byte)Friendship;
+
+            // Sync met date from egg date, or set to today
+            if (Entity.EggLocation != 0)
+            {
+                _isPopulating = true;
+                try
+                {
+                    MetYear = EggYear; MetMonth = EggMonth; MetDay = EggDay;
+                    Entity.MetYear = (byte)Math.Clamp(EggYear, 0, 255);
+                    Entity.MetMonth = (byte)Math.Clamp(EggMonth, 1, 12);
+                    Entity.MetDay = (byte)Math.Clamp(EggDay, 1, 31);
+                }
+                finally { _isPopulating = false; }
+            }
+            else
+            {
+                // No egg location: set met date to today
+                var now = DateTime.Now;
+                _isPopulating = true;
+                try
+                {
+                    MetYear = now.Year - 2000; MetMonth = now.Month; MetDay = now.Day;
+                }
+                finally { _isPopulating = false; }
+            }
+
+            // Reset egg dates
+            _isPopulating = true;
+            try
+            {
+                EggYear = 0; EggMonth = 1; EggDay = 1;
+                Entity.EggYear = 0; Entity.EggMonth = 1; Entity.EggDay = 1;
+            }
+            finally { _isPopulating = false; }
 
             // If no egg location, set reasonable defaults for no-longer-egg
             if (EggLocation == 0)
