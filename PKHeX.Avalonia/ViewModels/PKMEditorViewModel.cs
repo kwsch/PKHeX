@@ -95,8 +95,9 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             StatNature = (Nature)value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
         {
+            Entity.StatNature = StatNature;
             OnPropertyChanged(nameof(AtkColor));
             OnPropertyChanged(nameof(DefColor));
             OnPropertyChanged(nameof(SpAColor));
@@ -259,16 +260,22 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             TeraTypeOriginal = value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null && Entity is ITeraType tt)
+        {
+            tt.TeraTypeOriginal = (MoveType)TeraTypeOriginal;
             UpdateLegality();
+        }
     }
 
     partial void OnSelectedTeraOverrideChanged(ComboItem? value)
     {
         if (value is not null)
             TeraTypeOverride = value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null && Entity is ITeraType tt)
+        {
+            tt.TeraTypeOverride = (MoveType)TeraTypeOverride;
             UpdateLegality();
+        }
     }
 
     // EV Total display
@@ -899,15 +906,22 @@ public partial class PKMEditorViewModel : ObservableObject
         if (value is not null)
             Language = value.Value;
         if (!_isPopulating && Entity is not null)
+        {
             Entity.Language = Language;
+            UpdateLegality();
+        }
     }
 
     partial void OnSelectedBallChanged(ComboItem? value)
     {
         if (value is not null)
             Ball = (byte)value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Ball = Ball;
             UpdateBallSprite();
+            UpdateLegality();
+        }
     }
 
     private void UpdateBallSprite()
@@ -2245,6 +2259,7 @@ public partial class PKMEditorViewModel : ObservableObject
         var defaultName = SpeciesName.GetSpeciesNameGeneration(Entity.Species, Entity.Language, Entity.Format);
         if (value != defaultName)
             IsNicknamed = true;
+        UpdateLegality();
     }
 
     // --- Level ↔ EXP bidirectional sync ---

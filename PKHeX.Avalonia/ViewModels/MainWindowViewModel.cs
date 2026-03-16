@@ -322,7 +322,7 @@ public partial class MainWindowViewModel : ObservableObject
                 for (int slot = 0; slot < SaveFile.BoxSlotCount; slot++)
                 {
                     var pk = SaveFile.GetBoxSlotAtIndex(box, slot);
-                    if (pk.Species == 0)
+                    if (pk is null || pk.Species == 0)
                         continue;
 
                     var fileName = $"{pk.Species:000}_{pk.Nickname}.{pk.Extension}";
@@ -787,6 +787,7 @@ public partial class MainWindowViewModel : ObservableObject
         try
         {
             var party = SaveFile.PartyData;
+            if (party is null) return;
             var text = string.Join("\n\n", party.Where(p => p.Species > 0).Select(ShowdownParsing.GetShowdownText));
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -1009,7 +1010,7 @@ public partial class MainWindowViewModel : ObservableObject
             for (int i = 0; i < SaveFile.BoxSlotCount; i++)
             {
                 var pk = SaveFile.GetBoxSlotAtIndex(box, i);
-                if (pk.Species == 0)
+                if (pk is null || pk.Species == 0)
                     continue;
 
                 var fileName = $"{pk.Species:000}_{pk.Nickname}.{pk.Extension}";
