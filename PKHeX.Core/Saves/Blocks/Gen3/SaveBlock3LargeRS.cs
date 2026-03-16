@@ -16,8 +16,7 @@ public sealed record SaveBlock3LargeRS(Memory<byte> Raw) : ISaveBlock3LargeHoenn
     public uint Money { get => ReadUInt32LittleEndian(Data[0x0490..]); set => WriteUInt32LittleEndian(Data[0x0490..], value); }
     public ushort Coin { get => ReadUInt16LittleEndian(Data[0x0494..]); set => WriteUInt16LittleEndian(Data[0x0494..], value); }
     public ushort RegisteredItem { get => ReadUInt16LittleEndian(Data[0x0496..]); set => WriteUInt16LittleEndian(Data[0x0496..], value); }
-    public Span<byte> Inventory => Data.Slice(0x498, 0x3B0);
-
+    public Span<byte> Inventory => Data.Slice(0x498, 0x360);
     private Span<byte> PokeBlockData => Data.Slice(0x7F8, PokeBlock3Case.SIZE);
     public PokeBlock3Case PokeBlocks { get => new(PokeBlockData); set => value.Write(PokeBlockData); }
     public int SeenOffset2 => 0x938;
