@@ -688,7 +688,7 @@
                             <TextBlock Text="Walking" FontWeight="SemiBold" Margin="0,2,0,2" />
                             <Grid RowDefinitions="27" ColumnDefinitions="104,*">
                                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Mood:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                                <NumericUpDown Grid.Column="1" Value="{Binding WalkingMood}" Minimum="-127" Maximum="127" Height="25" Width="60" HorizontalAlignment="Left" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding WalkingMood}" Minimum="-127" Maximum="127" Height="25" Width="60" HorizontalAlignment="Left" />
                             </Grid>
                         </StackPanel>
 

@@ -568,12 +568,24 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             BattleVersion = value.Value;
+        if (!_isPopulating && Entity is not null)
+        {
+            if (Entity is IBattleVersion bv)
+                bv.BattleVersion = (GameVersion)BattleVersion;
+            UpdateLegality();
+        }
     }
 
     partial void OnSelectedEncounterTypeChanged(ComboItem? value)
     {
         if (value is not null)
             EncounterType = value.Value;
+        if (!_isPopulating && Entity is not null)
+        {
+            if (Entity is IGroundTile gt)
+                gt.GroundTile = (GroundTileType)EncounterType;
+            UpdateLegality();
+        }
     }
 
     // Awakening Values (Let's Go PB7)
@@ -823,32 +835,44 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             Move1 = (ushort)value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Move1 = Move1;
             UpdateLegality();
+        }
     }
 
     partial void OnSelectedMove2Changed(ComboItem? value)
     {
         if (value is not null)
             Move2 = (ushort)value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Move2 = Move2;
             UpdateLegality();
+        }
     }
 
     partial void OnSelectedMove3Changed(ComboItem? value)
     {
         if (value is not null)
             Move3 = (ushort)value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Move3 = Move3;
             UpdateLegality();
+        }
     }
 
     partial void OnSelectedMove4Changed(ComboItem? value)
     {
         if (value is not null)
             Move4 = (ushort)value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Move4 = Move4;
             UpdateLegality();
+        }
     }
 
     partial void OnSelectedAbilityChanged(ComboItem? value)
@@ -866,6 +890,8 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             Language = value.Value;
+        if (!_isPopulating && Entity is not null)
+            Entity.Language = Language;
     }
 
     partial void OnSelectedBallChanged(ComboItem? value)
@@ -902,12 +928,22 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             MetLocation = (ushort)value.Value;
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.MetLocation = MetLocation;
+            UpdateLegality();
+        }
     }
 
     partial void OnSelectedEggLocationChanged(ComboItem? value)
     {
         if (value is not null)
             EggLocation = (ushort)value.Value;
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.EggLocation = EggLocation;
+            UpdateLegality();
+        }
     }
 
     private void RefreshLocationLists()
@@ -1992,6 +2028,19 @@ public partial class PKMEditorViewModel : ObservableObject
         // Alpha Mastered Move (Legends Arceus)
         if (Entity is PA8 pa8Save && SelectedAlphaMove is not null)
             pa8Save.AlphaMove = (ushort)SelectedAlphaMove.Value;
+
+        // Post-save cleanup (matching WinForms SaveFields)
+        Entity.FixMoves();
+        switch (Entity)
+        {
+            case G6PKM g6: g6.FixRelearn(); break;
+            case G8PKM g8: g8.FixRelearn(); break;
+            case PK9 pk9: pk9.FixRelearn(); break;
+            case PA8 pa8r: pa8r.FixRelearn(); break;
+            case PA9 pa9r: pa9r.FixRelearn(); break;
+        }
+        Entity.ResetPartyStats();
+        Entity.RefreshChecksum();
 
         return Entity;
     }

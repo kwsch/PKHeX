@@ -22,8 +22,8 @@
 
         <!-- Hover: highlight border -->
         <Style Selector="Border#SlotBorder:pointerover">
-            <Setter Property="BorderBrush" Value="#4090FF" />
-            <Setter Property="Background" Value="#18FFFFFF" />
+            <Setter Property="BorderBrush" Value="{DynamicResource PKHeXSlotHoverBorder}" />
+            <Setter Property="Background" Value="{DynamicResource PKHeXSlotHoverBackground}" />
         </Style>
     </UserControl.Styles>
 

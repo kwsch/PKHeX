@@ -20,7 +20,7 @@
 
         <!-- Global button styling for consistent appearance -->
         <Style Selector="Button">
-            <Setter Property="MinHeight" Value="24"/>
+            <Setter Property="MinHeight" Value="20"/>
             <Setter Property="Padding" Value="8,4"/>
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
