@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -17,12 +18,16 @@ namespace PKHeX.Avalonia.ViewModels;
 public partial class PKMEditorViewModel : ObservableObject
 {
     private SaveFile? _sav;
+    private bool _isPopulating;
 
     [ObservableProperty]
     private PKM? _entity;
 
     [ObservableProperty]
     private Bitmap? _spriteImage;
+
+    [ObservableProperty]
+    private Bitmap? _legalityImage;
 
     // Basic Info
     [ObservableProperty] private ushort _species;
@@ -255,48 +260,72 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             Species = (ushort)value.Value;
+        if (!_isPopulating)
+            UpdateLegality();
     }
 
     partial void OnSelectedNatureChanged(ComboItem? value)
     {
         if (value is not null)
             Nature = (Nature)value.Value;
+        if (!_isPopulating)
+        {
+            OnPropertyChanged(nameof(AtkColor));
+            OnPropertyChanged(nameof(DefColor));
+            OnPropertyChanged(nameof(SpAColor));
+            OnPropertyChanged(nameof(SpDColor));
+            OnPropertyChanged(nameof(SpeColor));
+            RecalcStats();
+            UpdateLegality();
+        }
     }
 
     partial void OnSelectedHeldItemChanged(ComboItem? value)
     {
         if (value is not null)
             HeldItem = value.Value;
+        if (!_isPopulating)
+            UpdateLegality();
     }
 
     partial void OnSelectedMove1Changed(ComboItem? value)
     {
         if (value is not null)
             Move1 = (ushort)value.Value;
+        if (!_isPopulating)
+            UpdateLegality();
     }
 
     partial void OnSelectedMove2Changed(ComboItem? value)
     {
         if (value is not null)
             Move2 = (ushort)value.Value;
+        if (!_isPopulating)
+            UpdateLegality();
     }
 
     partial void OnSelectedMove3Changed(ComboItem? value)
     {
         if (value is not null)
             Move3 = (ushort)value.Value;
+        if (!_isPopulating)
+            UpdateLegality();
     }
 
     partial void OnSelectedMove4Changed(ComboItem? value)
     {
         if (value is not null)
             Move4 = (ushort)value.Value;
+        if (!_isPopulating)
+            UpdateLegality();
     }
 
     partial void OnSelectedAbilityChanged(ComboItem? value)
     {
         if (value is not null)
             Ability = value.Value;
+        if (!_isPopulating)
+            UpdateLegality();
     }
 
     partial void OnSelectedLanguageChanged(ComboItem? value)
@@ -361,6 +390,9 @@ public partial class PKMEditorViewModel : ObservableObject
 
     public void PopulateFields(PKM pk)
     {
+        _isPopulating = true;
+        try
+        {
         Entity = pk;
 
         Species = pk.Species;
@@ -597,6 +629,12 @@ public partial class PKMEditorViewModel : ObservableObject
             SelectedBattleVersion = VersionList.FirstOrDefault(x => x.Value == BattleVersion);
 
         UpdateSprite();
+        }
+        finally
+        {
+            _isPopulating = false;
+        }
+        UpdateLegality();
     }
 
     /// <summary>
@@ -740,6 +778,152 @@ public partial class PKMEditorViewModel : ObservableObject
         }
 
         return Entity;
+    }
+
+    // --- Level ↔ EXP bidirectional sync ---
+
+    partial void OnLevelChanged(byte value)
+    {
+        if (_isPopulating || Entity is null) return;
+        Entity.Stat_Level = value;
+        var growth = Entity.PersonalInfo.EXPGrowth;
+        _isPopulating = true;
+        try { Exp = Experience.GetEXP(value, growth); }
+        finally { _isPopulating = false; }
+        RecalcStats();
+        UpdateLegality();
+    }
+
+    partial void OnExpChanged(uint value)
+    {
+        if (_isPopulating || Entity is null) return;
+        Entity.EXP = value;
+        var growth = Entity.PersonalInfo.EXPGrowth;
+        _isPopulating = true;
+        try { Level = Experience.GetLevel(value, growth); }
+        finally { _isPopulating = false; }
+        RecalcStats();
+    }
+
+    // --- IsEgg change triggers legality ---
+
+    partial void OnIsEggChanged(bool value)
+    {
+        if (!_isPopulating)
+            UpdateLegality();
+    }
+
+    // --- IV changed handlers → recalc stats + legality ---
+
+    partial void OnIv_HPChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnIv_ATKChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnIv_DEFChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnIv_SPAChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnIv_SPDChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnIv_SPEChanged(int value) { if (!_isPopulating) RecalcStats(); }
+
+    // --- EV changed handlers → recalc stats ---
+
+    partial void OnEv_HPChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnEv_ATKChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnEv_DEFChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnEv_SPAChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnEv_SPDChanged(int value) { if (!_isPopulating) RecalcStats(); }
+    partial void OnEv_SPEChanged(int value) { if (!_isPopulating) RecalcStats(); }
+
+    // --- Stat auto-recalculation ---
+
+    private void RecalcStats()
+    {
+        if (_isPopulating || Entity is null) return;
+
+        // Write current values to Entity
+        Entity.IV_HP = Iv_HP;
+        Entity.IV_ATK = Iv_ATK;
+        Entity.IV_DEF = Iv_DEF;
+        Entity.IV_SPA = Iv_SPA;
+        Entity.IV_SPD = Iv_SPD;
+        Entity.IV_SPE = Iv_SPE;
+
+        Entity.EV_HP = Ev_HP;
+        Entity.EV_ATK = Ev_ATK;
+        Entity.EV_DEF = Ev_DEF;
+        Entity.EV_SPA = Ev_SPA;
+        Entity.EV_SPD = Ev_SPD;
+        Entity.EV_SPE = Ev_SPE;
+
+        Entity.Nature = Nature;
+        Entity.Stat_Level = Level;
+
+        Entity.ResetPartyStats();
+
+        // Read back calculated stats
+        Hp = Entity.Stat_HPCurrent;
+        Atk = Entity.Stat_ATK;
+        Def = Entity.Stat_DEF;
+        SpA = Entity.Stat_SPA;
+        SpD = Entity.Stat_SPD;
+        Spe = Entity.Stat_SPE;
+    }
+
+    // --- Nature stat color indicators ---
+
+    /// <summary>ATK stat color based on nature amplification.</summary>
+    public string AtkColor => GetNatureColor(0); // ATK is index 0 in the amp table
+    /// <summary>DEF stat color based on nature amplification.</summary>
+    public string DefColor => GetNatureColor(1);
+    /// <summary>SpA stat color based on nature amplification.</summary>
+    public string SpAColor => GetNatureColor(2);
+    /// <summary>SpD stat color based on nature amplification.</summary>
+    public string SpDColor => GetNatureColor(3);
+    /// <summary>SPE stat color based on nature amplification.</summary>
+    public string SpeColor => GetNatureColor(4);
+
+    private string GetNatureColor(int statIndex)
+    {
+        var nature = Nature;
+        if ((byte)nature >= 25)
+            return "#000000"; // default black for invalid nature
+        var amps = NatureAmp.GetAmps(nature);
+        return amps[statIndex] switch
+        {
+            1 => "#4488FF",  // blue for +10%
+            -1 => "#FF4444",         // red for -10%
+            _ => "#000000",          // default/neutral
+        };
+    }
+
+    // --- Legality auto-check ---
+
+    private void UpdateLegality()
+    {
+        if (Entity is null)
+        {
+            LegalityImage = null;
+            return;
+        }
+
+        try
+        {
+            var la = new LegalityAnalysis(Entity);
+            var valid = la.Valid;
+            var color = valid ? SKColors.Green : SKColors.Red;
+
+            using var surface = SKSurface.Create(new SKImageInfo(24, 24));
+            var canvas = surface.Canvas;
+            canvas.Clear(SKColors.Transparent);
+            using var paint = new SKPaint { Color = color, IsAntialias = true };
+            canvas.DrawCircle(12, 12, 10, paint);
+
+            using var image = surface.Snapshot();
+            using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+            using var ms = new MemoryStream(data.ToArray());
+            LegalityImage = new Bitmap(ms);
+        }
+        catch
+        {
+            LegalityImage = null;
+        }
     }
 
     private void UpdateSprite()
