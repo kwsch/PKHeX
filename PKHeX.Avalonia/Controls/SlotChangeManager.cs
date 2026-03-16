@@ -244,6 +244,7 @@ public sealed class SlotChangeManager
         if (boxIndex >= 0)
         {
             var existing = sav.GetBoxSlotAtIndex(_editor.CurrentBox, boxIndex);
+            if (existing is null) return;
             _editor.PushUndo(_editor.CurrentBox, boxIndex, existing, isParty: false);
             return;
         }
@@ -252,6 +253,7 @@ public sealed class SlotChangeManager
         if (partyIndex >= 0)
         {
             var existing = sav.GetPartySlotAtIndex(partyIndex);
+            if (existing is null) return;
             _editor.PushUndo(0, partyIndex, existing, isParty: true);
         }
     }

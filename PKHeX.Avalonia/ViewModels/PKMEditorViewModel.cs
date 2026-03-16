@@ -1943,7 +1943,7 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.MetMonth = (byte)Math.Clamp(MetMonth, 1, 12);
         Entity.MetDay = (byte)Math.Clamp(MetDay, 1, 31);
         Entity.EggYear = (byte)Math.Clamp(EggYear, 0, 255);
-        Entity.EggMonth = (byte)Math.Clamp(EggMonth, 0, 12);
+        Entity.EggMonth = (byte)Math.Clamp(EggMonth, 1, 12);
         Entity.EggDay = (byte)Math.Clamp(EggDay, 0, 31);
 
         // Met — Fateful Encounter
@@ -1976,7 +1976,7 @@ public partial class PKMEditorViewModel : ObservableObject
 
         // Gen-specific: Catch Rate (Gen 1)
         if (Entity is PK1 pk1Save)
-            pk1Save.CatchRate = (byte)CatchRate;
+            pk1Save.CatchRate = (byte)Math.Clamp(CatchRate, 0, 255);
 
         // Gen-specific: N's Sparkle (Gen 5)
         if (Entity is PK5 pk5Save)
@@ -1998,8 +1998,8 @@ public partial class PKMEditorViewModel : ObservableObject
         {
             Entity.EggLocation = 0;
             Entity.EggYear = 0;
-            Entity.EggMonth = 0;
-            Entity.EggDay = 0;
+            Entity.EggMonth = 1;
+            Entity.EggDay = 1;
         }
 
         // Cosmetic — Shiny Leaf (Gen 4)
@@ -2397,6 +2397,7 @@ public partial class PKMEditorViewModel : ObservableObject
             if (value && !Entity.IsShiny) Entity.SetShiny();
             else if (!value && Entity.IsShiny) Entity.SetPIDGender(Entity.Gender);
             UpdateSprite();
+            UpdateLegality();
         }
     }
 

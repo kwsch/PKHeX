@@ -84,7 +84,10 @@ public partial class MainWindowViewModel : ObservableObject
     {
         // Update GameInfo strings and filtered sources
         GameInfo.CurrentLanguage = value;
-        LocalizeUtil.InitializeStrings(value, SaveFile);
+        if (SaveFile is not null)
+            LocalizeUtil.InitializeStrings(value, SaveFile);
+        else
+            LocalizeUtil.InitializeStrings(value);
 
         // Persist language preference
         App.Settings.Startup.Language = value;
@@ -793,7 +796,10 @@ public partial class MainWindowViewModel : ObservableObject
 
             var clipboard = GetClipboard();
             if (clipboard is not null)
-                await clipboard.SetTextAsync(text);
+            {
+                try { await clipboard.SetTextAsync(text); }
+                catch { /* clipboard unavailable */ }
+            }
             StatusMessage = "Party exported to clipboard.";
         }
         catch (Exception ex)
@@ -820,7 +826,10 @@ public partial class MainWindowViewModel : ObservableObject
 
             var clipboard = GetClipboard();
             if (clipboard is not null)
-                await clipboard.SetTextAsync(text);
+            {
+                try { await clipboard.SetTextAsync(text); }
+                catch { /* clipboard unavailable */ }
+            }
             StatusMessage = $"Box {SavEditor.CurrentBox + 1} exported to clipboard.";
         }
         catch (Exception ex)

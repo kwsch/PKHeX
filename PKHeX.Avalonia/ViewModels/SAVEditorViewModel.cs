@@ -34,6 +34,8 @@ public partial class SAVEditorViewModel : ObservableObject
     /// <summary>Records a single slot change for undo/redo operations.</summary>
     public record SlotChange(int Box, int Slot, byte[] Data, bool IsParty);
 
+    private const int MaxUndoSize = 100;
+
     private readonly Stack<SlotChange> _undoStack = new();
     private readonly Stack<SlotChange> _redoStack = new();
 
@@ -50,6 +52,16 @@ public partial class SAVEditorViewModel : ObservableObject
     {
         _undoStack.Push(new SlotChange(box, slot, pokemon.DecryptedBoxData, isParty));
         _redoStack.Clear();
+
+        // Cap undo stack size to prevent unbounded memory growth
+        if (_undoStack.Count > MaxUndoSize)
+        {
+            var items = _undoStack.Take(MaxUndoSize).Reverse().ToArray();
+            _undoStack.Clear();
+            foreach (var item in items)
+                _undoStack.Push(item);
+        }
+
         OnPropertyChanged(nameof(CanUndo));
         OnPropertyChanged(nameof(CanRedo));
     }
