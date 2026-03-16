@@ -33,12 +33,17 @@
             BorderThickness="1" CornerRadius="0"
             Cursor="Hand"
             DragDrop.AllowDrop="True">
+        <ToolTip.Tip>
+            <TextBlock Text="{Binding ShowdownText}" FontFamily="Consolas,monospace" FontSize="10" />
+        </ToolTip.Tip>
         <Border.ContextMenu>
             <ContextMenu>
                 <MenuItem x:Name="MenuView" Header="View" />
                 <MenuItem x:Name="MenuSet" Header="Set" />
                 <Separator />
                 <MenuItem x:Name="MenuDelete" Header="Delete" />
+                <Separator />
+                <MenuItem x:Name="MenuLegality" Header="Legality" />
             </ContextMenu>
         </Border.ContextMenu>
         <Image Source="{Binding Image}"

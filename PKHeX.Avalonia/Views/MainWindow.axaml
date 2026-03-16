@@ -21,12 +21,16 @@
                 <MenuItem Header="E_xit" Click="OnExitClick" InputGesture="Alt+F4" />
             </MenuItem>
             <MenuItem Header="_Edit">
-                <MenuItem Header="_Import Showdown Set" Command="{Binding ImportShowdownCommand}" InputGesture="Ctrl+Shift+I" />
-                <MenuItem Header="E_xport Showdown Set" Command="{Binding ExportShowdownCommand}" InputGesture="Ctrl+Shift+E" />
-                <Separator />
                 <MenuItem Header="_QR Code..." Command="{Binding OpenQRDialogCommand}" />
             </MenuItem>
             <MenuItem Header="_Tools">
+                <MenuItem Header="_Showdown">
+                    <MenuItem Header="Import _Set" Command="{Binding ImportShowdownCommand}" InputGesture="Ctrl+Shift+I" />
+                    <MenuItem Header="Export _Set" Command="{Binding ExportShowdownCommand}" InputGesture="Ctrl+Shift+E" />
+                    <MenuItem Header="Export _Party" Command="{Binding ExportPartyShowdownCommand}" />
+                    <MenuItem Header="Export _Box" Command="{Binding ExportBoxShowdownCommand}" />
+                </MenuItem>
+                <Separator />
                 <MenuItem Header="Box _Viewer" Command="{Binding OpenBoxViewerCommand}" />
                 <MenuItem Header="_Ribbon Editor" Command="{Binding OpenRibbonEditorCommand}" />
                 <Separator />
@@ -40,14 +44,15 @@
                     <MenuItem Header="_Memory / Amie" Command="{Binding OpenMemoryAmieCommand}" />
                     <MenuItem Header="_Tech Records" Command="{Binding OpenTechRecordEditorCommand}" />
                 </MenuItem>
+                <Separator />
+                <MenuItem Header="Open _Folder" Command="{Binding OpenFolderCommand}" />
             </MenuItem>
             <MenuItem Header="_Options">
                 <MenuItem Header="_Settings" Command="{Binding OpenSettingsEditorCommand}" />
                 <Separator />
                 <MenuItem Header="Toggle _Dark Mode" Click="OnToggleThemeClick" />
-            </MenuItem>
-            <MenuItem Header="_About">
-                <MenuItem Header="_About PKHeX" />
+                <Separator />
+                <MenuItem Header="_About PKHeX" Command="{Binding ShowAboutCommand}" />
             </MenuItem>
         </Menu>
 

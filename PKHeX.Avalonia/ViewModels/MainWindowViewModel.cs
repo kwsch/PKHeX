@@ -67,6 +67,7 @@ public partial class MainWindowViewModel : ObservableObject
         {
             SlotSelected = pk => PkmEditor.PopulateFields(pk),
             GetEditorPKM = () => PkmEditor.PreparePKM(),
+            SetStatusMessage = msg => StatusMessage = msg,
             OpenSettingsEditorCommand = OpenSettingsEditorCommand,
             OpenDatabaseCommand = OpenDatabaseCommand,
             OpenBatchEditorCommand = OpenBatchEditorCommand,
@@ -591,6 +592,81 @@ public partial class MainWindowViewModel : ObservableObject
         {
             StatusMessage = $"Export Showdown error: {ex.Message}";
         }
+    }
+
+    [RelayCommand]
+    private async Task ExportPartyShowdownAsync()
+    {
+        if (SaveFile is null)
+            return;
+
+        try
+        {
+            var party = SaveFile.PartyData;
+            var text = string.Join("\n\n", party.Where(p => p.Species > 0).Select(ShowdownParsing.GetShowdownText));
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                StatusMessage = "No party Pokemon to export.";
+                return;
+            }
+
+            var clipboard = GetClipboard();
+            if (clipboard is not null)
+                await clipboard.SetTextAsync(text);
+            StatusMessage = "Party exported to clipboard.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Export Party error: {ex.Message}";
+        }
+    }
+
+    [RelayCommand]
+    private async Task ExportBoxShowdownAsync()
+    {
+        if (SaveFile is null || SavEditor is null)
+            return;
+
+        try
+        {
+            var box = SaveFile.GetBoxData(SavEditor.CurrentBox);
+            var text = string.Join("\n\n", box.Where(p => p.Species > 0).Select(ShowdownParsing.GetShowdownText));
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                StatusMessage = "No Pokemon in box to export.";
+                return;
+            }
+
+            var clipboard = GetClipboard();
+            if (clipboard is not null)
+                await clipboard.SetTextAsync(text);
+            StatusMessage = $"Box {SavEditor.CurrentBox + 1} exported to clipboard.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Export Box error: {ex.Message}";
+        }
+    }
+
+    #endregion
+
+    #region Folder / About
+
+    [RelayCommand]
+    private void OpenFolder()
+    {
+        var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PKHeX");
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
+        Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
+    }
+
+    [RelayCommand]
+    private async Task ShowAboutAsync()
+    {
+        var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "unknown";
+        await _dialogService.ShowAlertAsync("About PKHeX",
+            $"PKHeX Avalonia\nVersion: {version}\n\nA cross-platform Pokemon save editor.\nhttps://github.com/kwsch/PKHeX");
     }
 
     #endregion

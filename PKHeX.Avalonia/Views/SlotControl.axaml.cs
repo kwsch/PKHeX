@@ -38,6 +38,7 @@ public partial class SlotControl : UserControl
         MenuView.Click += OnMenuViewClick;
         MenuSet.Click += OnMenuSetClick;
         MenuDelete.Click += OnMenuDeleteClick;
+        MenuLegality.Click += OnMenuLegalityClick;
     }
 
     private void OnMenuViewClick(object? sender, RoutedEventArgs e)
@@ -59,6 +60,13 @@ public partial class SlotControl : UserControl
         if (DataContext is not SlotModel slot)
             return;
         FindSAVEditorViewModel()?.DeleteSlotCommand.Execute(slot);
+    }
+
+    private void OnMenuLegalityClick(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is not SlotModel slot)
+            return;
+        FindSAVEditorViewModel()?.CheckLegalitySlotCommand.Execute(slot);
     }
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
@@ -108,7 +116,15 @@ public partial class SlotControl : UserControl
             return;
 
         var vm = FindSAVEditorViewModel();
-        if (vm is not null)
+        if (vm is null)
+            return;
+
+        // Modifier key shortcuts: Shift+click = Set, Alt+click = Delete
+        if (e.KeyModifiers.HasFlag(KeyModifiers.Shift))
+            vm.SetSlotCommand.Execute(slot);
+        else if (e.KeyModifiers.HasFlag(KeyModifiers.Alt))
+            vm.DeleteSlotCommand.Execute(slot);
+        else
             vm.ViewSlotCommand.Execute(slot);
     }
 

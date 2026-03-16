@@ -174,6 +174,7 @@ public partial class SAVEditorViewModel : ObservableObject
         for (int i = 0; i < slotCount && i < BoxSlots.Count; i++)
         {
             var pk = _sav.GetBoxSlotAtIndex(CurrentBox, i);
+            BoxSlots[i].Entity = pk;
             if (pk.Species == 0)
             {
                 BoxSlots[i].SetImage(SpriteUtil.Spriter.None);
@@ -196,6 +197,7 @@ public partial class SAVEditorViewModel : ObservableObject
         for (int i = 0; i < _sav.PartyCount && i < PartySlots.Count; i++)
         {
             var pk = _sav.GetPartySlotAtIndex(i);
+            PartySlots[i].Entity = pk;
             if (pk.Species == 0)
             {
                 PartySlots[i].SetImage(SpriteUtil.Spriter.None);
@@ -213,6 +215,7 @@ public partial class SAVEditorViewModel : ObservableObject
         for (int i = _sav?.PartyCount ?? 0; i < PartySlots.Count; i++)
         {
             PartySlots[i].SetImage(null);
+            PartySlots[i].Entity = null;
             PartySlots[i].IsEmpty = true;
         }
     }
@@ -244,6 +247,9 @@ public partial class SAVEditorViewModel : ObservableObject
 
     /// <summary>Callback to get the PKM currently in the editor (for Set operations).</summary>
     public Func<PKM?>? GetEditorPKM { get; set; }
+
+    /// <summary>Callback to update the status bar message in the main window.</summary>
+    public Action<string>? SetStatusMessage { get; set; }
 
     [RelayCommand]
     private void ViewSlot(SlotModel? slot)
@@ -279,6 +285,18 @@ public partial class SAVEditorViewModel : ObservableObject
             _sav.SetPartySlotAtIndex(pk, partyIndex);
             RefreshParty();
         }
+    }
+
+    [RelayCommand]
+    private void CheckLegalitySlot(SlotModel? slot)
+    {
+        if (slot?.Entity is not { Species: > 0 } pk)
+            return;
+
+        var la = new LegalityAnalysis(pk);
+        var report = la.Report();
+        var status = la.Valid ? "Legal" : "Illegal";
+        SetStatusMessage?.Invoke($"Legality: {status} - {report}");
     }
 
     [RelayCommand]

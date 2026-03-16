@@ -24,6 +24,20 @@ public partial class SlotModel : ObservableObject
     [ObservableProperty]
     private bool _isEmpty = true;
 
+    /// <summary>The PKM entity backing this slot, if any.</summary>
+    [ObservableProperty]
+    private PKM? _entity;
+
+    /// <summary>Showdown format text for tooltip display.</summary>
+    public string ShowdownText => Entity is { Species: > 0 }
+        ? ShowdownParsing.GetShowdownText(Entity)
+        : string.Empty;
+
+    partial void OnEntityChanged(PKM? value)
+    {
+        OnPropertyChanged(nameof(ShowdownText));
+    }
+
     public void SetImage(SKBitmap? skBitmap)
     {
         Image = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmap(skBitmap);
