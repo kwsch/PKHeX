@@ -704,6 +704,10 @@ public partial class PKMEditorViewModel : ObservableObject
                 BaseST = pi.HP + pi.ATK + pi.DEF + pi.SPA + pi.SPD + pi.SPE;
             }
 
+            // Special Unown handling: Gen 3 PID must match form
+            if (Entity.Species == (int)PKHeX.Core.Species.Unown && Entity is G3PKM)
+                Entity.SetPIDUnown3(Entity.Form);
+
             // Sanitize gender
             Entity.Gender = Entity.GetSaneGender();
             _isPopulating = true;
@@ -2226,6 +2230,45 @@ public partial class PKMEditorViewModel : ObservableObject
             // Set met as egg
             MetAsEgg = true;
 
+            // Reset met date to 2000-01-01 (egg has no met date yet)
+            _isPopulating = true;
+            try
+            {
+                MetYear = 0; MetMonth = 1; MetDay = 1;
+                Entity.MetYear = 0; Entity.MetMonth = 1; Entity.MetDay = 1;
+            }
+            finally { _isPopulating = false; }
+
+            // Set met location based on trade status (Gen 4+)
+            if (Entity.Format >= 4 && _sav is not null)
+            {
+                bool isTraded = _sav.OT != Entity.OriginalTrainerName || _sav.TID16 != Entity.TID16 || _sav.SID16 != Entity.SID16;
+                var loc = isTraded
+                    ? Locations.TradedEggLocation(_sav.Generation, _sav.Version)
+                    : LocationEdits.GetNoneLocation(Entity);
+                _isPopulating = true;
+                try
+                {
+                    MetLocation = loc;
+                    Entity.MetLocation = loc;
+                    SelectedMetLocation = MetLocationList.FirstOrDefault(x => x.Value == loc);
+                }
+                finally { _isPopulating = false; }
+            }
+
+            // Gen 9 eggs have Version = 0 until hatched
+            if (Entity is PK9)
+            {
+                _isPopulating = true;
+                try
+                {
+                    Entity.Version = 0;
+                    Version = 0;
+                    SelectedVersion = VersionList.FirstOrDefault(x => x.Value == 0);
+                }
+                finally { _isPopulating = false; }
+            }
+
             // Update nickname to egg name
             var eggName = SpeciesName.GetEggName(Entity.Language, Entity.Format);
             _isPopulating = true;
@@ -2233,18 +2276,14 @@ public partial class PKMEditorViewModel : ObservableObject
             {
                 Nickname = eggName;
                 Entity.Nickname = eggName;
-                IsNicknamed = true;
-                Entity.IsNicknamed = true;
+                IsNicknamed = EggStateLegality.IsNicknameFlagSet(Entity);
+                Entity.IsNicknamed = IsNicknamed;
             }
             finally { _isPopulating = false; }
 
             // Clear memories for Gen 6+
-            if (Entity is ITrainerMemories mem)
-            {
-                mem.HandlingTrainerMemory = 0;
-                mem.HandlingTrainerMemoryFeeling = 0;
-                mem.HandlingTrainerMemoryIntensity = 0;
-            }
+            if (Entity.Format >= 6)
+                Entity.ClearMemories();
         }
         else // No longer an egg
         {
@@ -2263,6 +2302,30 @@ public partial class PKMEditorViewModel : ObservableObject
             // Set base friendship
             Friendship = Entity.PersonalInfo.BaseFriendship;
             Entity.CurrentFriendship = (byte)Friendship;
+
+            // If no egg location, set reasonable defaults for no-longer-egg
+            if (EggLocation == 0)
+            {
+                _isPopulating = true;
+                try
+                {
+                    MetAsEgg = false;
+                }
+                finally { _isPopulating = false; }
+            }
+            else
+            {
+                // Has egg location — set met date/location to match hatching
+                _isPopulating = true;
+                try
+                {
+                    var hatchLoc = EncounterSuggestion.GetSuggestedEggMetLocation(Entity);
+                    MetLocation = hatchLoc;
+                    Entity.MetLocation = hatchLoc;
+                    SelectedMetLocation = MetLocationList.FirstOrDefault(x => x.Value == hatchLoc);
+                }
+                finally { _isPopulating = false; }
+            }
         }
 
         OnPropertyChanged(nameof(FriendshipLabel));
