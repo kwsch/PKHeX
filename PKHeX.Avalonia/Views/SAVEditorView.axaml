@@ -74,21 +74,27 @@
 
         <!-- Party Tab -->
         <TabItem Header="Party">
-            <StackPanel Margin="2,4">
-                <TextBlock Text="Party" FontWeight="SemiBold" FontSize="11" Margin="0,0,0,4" />
-                <ItemsControl ItemsSource="{Binding PartySlots}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="6" Rows="1" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <views:SlotControl />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
+            <DockPanel Margin="2,4">
+                <TextBlock DockPanel.Dock="Top" Text="Party" FontWeight="SemiBold" FontSize="11" Margin="0,0,0,4" />
+                <Border CornerRadius="4" ClipToBounds="True"
+                        Background="{DynamicResource PKHeXBoxBackground}"
+                        BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
+                        BorderThickness="1"
+                        HorizontalAlignment="Center" Padding="4">
+                    <ItemsControl ItemsSource="{Binding PartySlots}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="6" Rows="1" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <views:SlotControl />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+            </DockPanel>
         </TabItem>
 
         <!-- Other Tab -->
