@@ -133,7 +133,7 @@
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid Margin="4,2,4,2"
-                          RowDefinitions="27,27,27,27,27,27,27,27,27,27"
+                          RowDefinitions="27,27,27,27,27,27,27,27,27,27,27,27,27"
                           ColumnDefinitions="104,*">
                         <!-- Origin Game -->
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Origin Game:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
@@ -167,14 +167,36 @@
                             <NumericUpDown Value="{Binding MetDay}" Minimum="0" Maximum="31" Height="25" Width="52" />
                         </StackPanel>
 
-                        <!-- Egg Location -->
-                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Egg Location:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                        <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding EggLocationList}" SelectedItem="{Binding SelectedEggLocation}"
-                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
+                        <!-- Encounter Type / Ground Tile (Gen 4-6) -->
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Encounter:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   IsVisible="{Binding HasEncounterType}" />
+                        <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding EncounterTypeList}" SelectedItem="{Binding SelectedEncounterType}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left"
+                                  IsVisible="{Binding HasEncounterType}" />
+
+                        <!-- Time of Day (Gen 2) -->
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Time of Day:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   IsVisible="{Binding HasMetTimeOfDay}" />
+                        <ComboBox Grid.Row="6" Grid.Column="1" SelectedIndex="{Binding MetTimeOfDay}" Height="25" Width="100" HorizontalAlignment="Left"
+                                  IsVisible="{Binding HasMetTimeOfDay}">
+                            <ComboBoxItem Content="None" />
+                            <ComboBoxItem Content="Morning" />
+                            <ComboBoxItem Content="Day" />
+                            <ComboBoxItem Content="Night" />
+                        </ComboBox>
+
+                        <!-- As Egg checkbox + Egg Location -->
+                        <CheckBox Grid.Row="7" Grid.Column="1" Content="As Egg" IsChecked="{Binding MetAsEgg}" VerticalAlignment="Center" />
+
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="Egg Location:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <ComboBox Grid.Row="8" Grid.Column="1" ItemsSource="{Binding EggLocationList}" SelectedItem="{Binding SelectedEggLocation}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left"
+                                  IsEnabled="{Binding MetAsEgg}" />
 
                         <!-- Egg Met Date -->
-                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Egg Met Date:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                        <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="4">
+                        <TextBlock Grid.Row="9" Grid.Column="0" Text="Egg Met Date:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <StackPanel Grid.Row="9" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="4"
+                                    IsEnabled="{Binding MetAsEgg}">
                             <NumericUpDown Value="{Binding EggYear}" Minimum="0" Maximum="255" Height="25" Width="60" />
                             <TextBlock Text="/" VerticalAlignment="Center" />
                             <NumericUpDown Value="{Binding EggMonth}" Minimum="0" Maximum="12" Height="25" Width="52" />
@@ -183,16 +205,16 @@
                         </StackPanel>
 
                         <!-- Battle Version (visible when HasBattleVersion) -->
-                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Battle Ver:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                        <TextBlock Grid.Row="10" Grid.Column="0" Text="Battle Ver:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
                                    IsVisible="{Binding HasBattleVersion}" />
-                        <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding VersionList}" SelectedItem="{Binding SelectedBattleVersion}"
+                        <ComboBox Grid.Row="10" Grid.Column="1" ItemsSource="{Binding VersionList}" SelectedItem="{Binding SelectedBattleVersion}"
                                   DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left"
                                   IsVisible="{Binding HasBattleVersion}" />
 
                         <!-- Obedience Level (visible when HasObedienceLevel) -->
-                        <TextBlock Grid.Row="8" Grid.Column="0" Text="Obedience Lv:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                        <TextBlock Grid.Row="11" Grid.Column="0" Text="Obedience Lv:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
                                    IsVisible="{Binding HasObedienceLevel}" />
-                        <NumericUpDown Grid.Row="8" Grid.Column="1" Value="{Binding ObedienceLevel}" Minimum="0" Maximum="100" Height="25" Width="60" HorizontalAlignment="Left"
+                        <NumericUpDown Grid.Row="11" Grid.Column="1" Value="{Binding ObedienceLevel}" Minimum="0" Maximum="100" Height="25" Width="60" HorizontalAlignment="Left"
                                        IsVisible="{Binding HasObedienceLevel}" />
                     </Grid>
                 </ScrollViewer>
@@ -345,6 +367,39 @@
                                            IsVisible="{Binding HasScale}" />
                                 <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Scale}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left"
                                                IsVisible="{Binding HasScale}" />
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Shiny Leaf (Gen 4) -->
+                        <StackPanel IsVisible="{Binding HasShinyLeaf}" Spacing="4">
+                            <TextBlock Text="Shiny Leaf" FontWeight="SemiBold" Margin="0,2,0,0" />
+                            <StackPanel Orientation="Horizontal" Spacing="8" Margin="4,0,0,0">
+                                <CheckBox IsChecked="{Binding Leaf1}" Content="Leaf 1" />
+                                <CheckBox IsChecked="{Binding Leaf2}" Content="Leaf 2" />
+                                <CheckBox IsChecked="{Binding Leaf3}" Content="Leaf 3" />
+                                <CheckBox IsChecked="{Binding Leaf4}" Content="Leaf 4" />
+                                <CheckBox IsChecked="{Binding Leaf5}" Content="Leaf 5" />
+                                <CheckBox IsChecked="{Binding LeafCrown}" Content="Crown" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Spirit/Mood (Let's Go) -->
+                        <StackPanel IsVisible="{Binding HasSpirit7b}" Spacing="0">
+                            <TextBlock Text="Let's Go" FontWeight="SemiBold" Margin="0,2,0,2" />
+                            <Grid RowDefinitions="27,27" ColumnDefinitions="104,*">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Spirit:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Spirit7b}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Mood:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Mood7b}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left" />
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- PokeStar Fame (Gen 5) -->
+                        <StackPanel IsVisible="{Binding HasPokeStarFame}" Spacing="0">
+                            <TextBlock Text="Gen 5" FontWeight="SemiBold" Margin="0,2,0,2" />
+                            <Grid RowDefinitions="27" ColumnDefinitions="104,*">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="PokeStar Fame:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding PokeStarFame}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left" />
                             </Grid>
                         </StackPanel>
 

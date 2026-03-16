@@ -159,6 +159,37 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private bool _nSparkle;
     [ObservableProperty] private bool _hasNSparkle;
 
+    // Met — Encounter Type / Ground Tile (Gen 4-6)
+    [ObservableProperty] private int _encounterType;
+    [ObservableProperty] private bool _hasEncounterType;
+    [ObservableProperty] private IReadOnlyList<ComboItem> _encounterTypeList = Array.Empty<ComboItem>();
+    [ObservableProperty] private ComboItem? _selectedEncounterType;
+
+    // Met — Time of Day (Gen 2)
+    [ObservableProperty] private int _metTimeOfDay;
+    [ObservableProperty] private bool _hasMetTimeOfDay;
+
+    // Met — As Egg toggle
+    [ObservableProperty] private bool _metAsEgg;
+
+    // Cosmetic — Shiny Leaf (Gen 4)
+    [ObservableProperty] private bool _leaf1;
+    [ObservableProperty] private bool _leaf2;
+    [ObservableProperty] private bool _leaf3;
+    [ObservableProperty] private bool _leaf4;
+    [ObservableProperty] private bool _leaf5;
+    [ObservableProperty] private bool _leafCrown;
+    [ObservableProperty] private bool _hasShinyLeaf;
+
+    // Cosmetic — Spirit/Mood (Let's Go PB7)
+    [ObservableProperty] private int _spirit7b;
+    [ObservableProperty] private int _mood7b;
+    [ObservableProperty] private bool _hasSpirit7b;
+
+    // Cosmetic — PokeStarFame (Gen 5)
+    [ObservableProperty] private int _pokeStarFame;
+    [ObservableProperty] private bool _hasPokeStarFame;
+
     // OT
     [ObservableProperty] private string _ot = string.Empty;
     [ObservableProperty] private ushort _tid;
@@ -235,6 +266,12 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             BattleVersion = value.Value;
+    }
+
+    partial void OnSelectedEncounterTypeChanged(ComboItem? value)
+    {
+        if (value is not null)
+            EncounterType = value.Value;
     }
 
     // Cosmetic — Size/Scale
@@ -717,6 +754,79 @@ public partial class PKMEditorViewModel : ObservableObject
             NSparkle = false;
         }
 
+        // Met — Encounter Type / Ground Tile (Gen 4-6)
+        if (pk is IGroundTile gt)
+        {
+            HasEncounterType = true;
+            EncounterType = (int)gt.GroundTile;
+            EncounterTypeList = GameInfo.FilteredSources.G4GroundTiles;
+        }
+        else
+        {
+            HasEncounterType = false;
+            EncounterType = 0;
+            EncounterTypeList = Array.Empty<ComboItem>();
+        }
+
+        // Met — Time of Day (Gen 2)
+        if (pk is ICaughtData2 cd2)
+        {
+            HasMetTimeOfDay = true;
+            MetTimeOfDay = cd2.MetTimeOfDay;
+        }
+        else
+        {
+            HasMetTimeOfDay = false;
+            MetTimeOfDay = 0;
+        }
+
+        // Met — As Egg
+        MetAsEgg = pk.EggLocation > 0;
+
+        // Cosmetic — Shiny Leaf (Gen 4)
+        if (pk is G4PKM g4)
+        {
+            HasShinyLeaf = true;
+            var leaf = g4.ShinyLeaf;
+            Leaf1 = (leaf & 1) != 0;
+            Leaf2 = (leaf & 2) != 0;
+            Leaf3 = (leaf & 4) != 0;
+            Leaf4 = (leaf & 8) != 0;
+            Leaf5 = (leaf & 16) != 0;
+            LeafCrown = (leaf & 32) != 0;
+        }
+        else
+        {
+            HasShinyLeaf = false;
+            Leaf1 = Leaf2 = Leaf3 = Leaf4 = Leaf5 = LeafCrown = false;
+        }
+
+        // Cosmetic — Spirit/Mood (Let's Go PB7)
+        if (pk is PB7 pb7)
+        {
+            HasSpirit7b = true;
+            Spirit7b = pb7.Spirit;
+            Mood7b = pb7.Mood;
+        }
+        else
+        {
+            HasSpirit7b = false;
+            Spirit7b = 0;
+            Mood7b = 0;
+        }
+
+        // Cosmetic — PokeStarFame (Gen 5)
+        if (pk is PK5 pk5Star)
+        {
+            HasPokeStarFame = true;
+            PokeStarFame = pk5Star.PokeStarFame;
+        }
+        else
+        {
+            HasPokeStarFame = false;
+            PokeStarFame = 0;
+        }
+
         // Refresh location lists based on version/context before setting selected items
         RefreshLocationLists();
         RefreshFormList();
@@ -738,6 +848,9 @@ public partial class PKMEditorViewModel : ObservableObject
 
         if (pk is IBattleVersion)
             SelectedBattleVersion = VersionList.FirstOrDefault(x => x.Value == BattleVersion);
+
+        if (pk is IGroundTile)
+            SelectedEncounterType = EncounterTypeList.FirstOrDefault(x => x.Value == EncounterType);
 
         SelectedForm = FormList.FirstOrDefault(x => x.Value == pk.Form);
 
@@ -904,7 +1017,47 @@ public partial class PKMEditorViewModel : ObservableObject
 
         // Gen-specific: N's Sparkle (Gen 5)
         if (Entity is PK5 pk5Save)
+        {
             pk5Save.NSparkle = NSparkle;
+            pk5Save.PokeStarFame = (byte)Math.Clamp(PokeStarFame, 0, 255);
+        }
+
+        // Met — Encounter Type / Ground Tile (Gen 4-6)
+        if (Entity is IGroundTile gtSave)
+            gtSave.GroundTile = (GroundTileType)EncounterType;
+
+        // Met — Time of Day (Gen 2)
+        if (Entity is ICaughtData2 cd2Save)
+            cd2Save.MetTimeOfDay = MetTimeOfDay;
+
+        // Met — As Egg: if unchecked, clear egg location
+        if (!MetAsEgg)
+        {
+            Entity.EggLocation = 0;
+            Entity.EggYear = 0;
+            Entity.EggMonth = 0;
+            Entity.EggDay = 0;
+        }
+
+        // Cosmetic — Shiny Leaf (Gen 4)
+        if (Entity is G4PKM g4Save)
+        {
+            int leaf = 0;
+            if (Leaf1) leaf |= 1;
+            if (Leaf2) leaf |= 2;
+            if (Leaf3) leaf |= 4;
+            if (Leaf4) leaf |= 8;
+            if (Leaf5) leaf |= 16;
+            if (LeafCrown) leaf |= 32;
+            g4Save.ShinyLeaf = leaf;
+        }
+
+        // Cosmetic — Spirit/Mood (Let's Go PB7)
+        if (Entity is PB7 pb7Save)
+        {
+            pb7Save.Spirit = (byte)Math.Clamp(Spirit7b, 0, 255);
+            pb7Save.Mood = (byte)Math.Clamp(Mood7b, 0, 255);
+        }
 
         return Entity;
     }

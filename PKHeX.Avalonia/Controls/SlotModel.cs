@@ -33,9 +33,15 @@ public partial class SlotModel : ObservableObject
         ? ShowdownParsing.GetShowdownText(Entity)
         : string.Empty;
 
+    /// <summary>Short summary for accessibility / screen readers (e.g. "Pikachu Lv.25").</summary>
+    public string Summary => Entity is { Species: > 0 }
+        ? $"{SpeciesName.GetSpeciesNameGeneration(Entity.Species, 2, Entity.Format)} Lv.{Entity.CurrentLevel}"
+        : "Empty";
+
     partial void OnEntityChanged(PKM? value)
     {
         OnPropertyChanged(nameof(ShowdownText));
+        OnPropertyChanged(nameof(Summary));
     }
 
     public void SetImage(SKBitmap? skBitmap)

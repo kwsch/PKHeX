@@ -455,6 +455,77 @@ public partial class SAVEditorViewModel : ObservableObject
         }
     }
 
+    #region Box Management (Sort / Clear)
+
+    [RelayCommand]
+    private void SortBoxBySpecies()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var param = new BoxManipParam(CurrentBox, CurrentBox);
+            _sav.SortBoxes(param.Start, param.Stop);
+            RefreshBox();
+            SetStatusMessage?.Invoke("Box sorted by species.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void SortBoxByLevel()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var param = new BoxManipParam(CurrentBox, CurrentBox);
+            _sav.SortBoxes(param.Start, param.Stop, (pkms, _) => pkms.OrderByLevel());
+            RefreshBox();
+            SetStatusMessage?.Invoke("Box sorted by level.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void SortAllBoxes()
+    {
+        if (_sav is null) return;
+        try
+        {
+            _sav.SortBoxes();
+            RefreshBox();
+            SetStatusMessage?.Invoke("All boxes sorted.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void ClearBox()
+    {
+        if (_sav is null) return;
+        try
+        {
+            _sav.ClearBoxes(CurrentBox, CurrentBox);
+            RefreshBox();
+            SetStatusMessage?.Invoke("Box cleared.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Clear error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void ClearAllBoxes()
+    {
+        if (_sav is null) return;
+        try
+        {
+            _sav.ClearBoxes();
+            RefreshBox();
+            SetStatusMessage?.Invoke("All boxes cleared.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Clear error: {ex.Message}"); }
+    }
+
+    #endregion
+
     [RelayCommand]
     private void VerifyChecksums()
     {

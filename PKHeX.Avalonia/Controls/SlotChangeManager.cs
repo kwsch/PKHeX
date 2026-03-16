@@ -1,6 +1,9 @@
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using Avalonia.Input;
+using Avalonia.Platform.Storage;
 using PKHeX.Avalonia.ViewModels;
 using PKHeX.Core;
 
@@ -76,8 +79,8 @@ public sealed class SlotChangeManager
     /// </summary>
     public void HandleDragOver(DragEventArgs e)
     {
-        // Allow drop if payload has our PKM data
-        if (e.Data.Contains(PKMFormat))
+        // Allow drop if payload has our PKM data or is a file drop
+        if (e.Data.Contains(PKMFormat) || e.Data.Contains(DataFormats.Files))
             e.DragEffects = DragDropEffects.Move | DragDropEffects.Copy;
         else
             e.DragEffects = DragDropEffects.None;
@@ -90,19 +93,74 @@ public sealed class SlotChangeManager
     /// <param name="e">The drag event args.</param>
     public void HandleDrop(SlotModel destSlot, DragEventArgs e)
     {
-        if (!e.Data.Contains(PKMFormat))
+        // Handle internal PKM drag-and-drop
+        if (e.Data.Contains(PKMFormat))
+        {
+            var sourceSlot = e.Data.Get(SlotFormat) as SlotModel;
+            if (sourceSlot is null)
+                return;
+
+            // Same slot — nothing to do
+            if (ReferenceEquals(sourceSlot, destSlot))
+                return;
+
+            var mod = GetDropModifier(e.KeyModifiers);
+            PerformSlotOperation(sourceSlot, destSlot, mod);
+            return;
+        }
+
+        // Handle external file drop (.pk* files)
+        if (e.Data.Contains(DataFormats.Files))
+        {
+            HandleFileDrop(destSlot, e);
+        }
+    }
+
+    /// <summary>
+    /// Handles dropping a .pk* file onto a slot from an external source (file manager, PKM editor, etc.).
+    /// </summary>
+    private void HandleFileDrop(SlotModel destSlot, DragEventArgs e)
+    {
+        var sav = _editor.SAV;
+        if (sav is null)
             return;
 
-        var sourceSlot = e.Data.Get(SlotFormat) as SlotModel;
-        if (sourceSlot is null)
-            return;
+        try
+        {
+            var files = e.Data.GetFiles()?.Select(f => f.Path.LocalPath).ToArray();
+            if (files is not { Length: > 0 })
+                return;
 
-        // Same slot — nothing to do
-        if (ReferenceEquals(sourceSlot, destSlot))
-            return;
+            var filePath = files[0];
+            if (!File.Exists(filePath))
+                return;
 
-        var mod = GetDropModifier(e.KeyModifiers);
-        PerformSlotOperation(sourceSlot, destSlot, mod);
+            var data = File.ReadAllBytes(filePath);
+            var pk = EntityFormat.GetFromBytes(data, prefer: sav.Context);
+            if (pk is null)
+            {
+                _editor.SetStatusMessage?.Invoke($"Could not parse PKM from: {Path.GetFileName(filePath)}");
+                return;
+            }
+
+            // Convert to the save file's expected format if needed
+            pk = EntityConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out var result);
+            if (pk is null)
+            {
+                _editor.SetStatusMessage?.Invoke($"Conversion failed: {result}");
+                return;
+            }
+
+            PushUndoForSlot(destSlot);
+            WriteSlot(destSlot, pk);
+            _editor.ReloadSlots();
+            _editor.SetStatusMessage?.Invoke($"Loaded {Path.GetFileName(filePath)} into slot.");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"File drop error: {ex.Message}");
+            _editor.SetStatusMessage?.Invoke($"File drop error: {ex.Message}");
+        }
     }
 
     /// <summary>

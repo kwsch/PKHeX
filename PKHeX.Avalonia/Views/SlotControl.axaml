@@ -32,7 +32,8 @@
             BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
             BorderThickness="1" CornerRadius="0"
             Cursor="Hand"
-            DragDrop.AllowDrop="True">
+            DragDrop.AllowDrop="True"
+            AutomationProperties.Name="{Binding Summary}">
         <ToolTip.Tip>
             <TextBlock Text="{Binding ShowdownText}" FontFamily="Consolas,monospace" FontSize="10" />
         </ToolTip.Tip>
