@@ -99,6 +99,7 @@
                         <TextBox Text="{Binding Exp}" Height="25" Width="56" />
                         <TextBlock Text="Level:" VerticalAlignment="Center" Margin="8,0,4,0" />
                         <NumericUpDown Value="{Binding Level}" Minimum="1" Maximum="100" Height="25" Width="60" />
+                        <Button Content="100" Command="{Binding SetLevel100Command}" Padding="4,0" FontSize="9" Width="30" Height="20" Margin="4,0,0,0" ToolTip.Tip="Set level to 100" />
                     </StackPanel>
 
                     <!-- Nature -->
@@ -131,7 +132,10 @@
 
                     <!-- Friendship / Hatch Counter -->
                     <TextBlock Grid.Row="9" Grid.Column="0" Text="{Binding FriendshipLabel}" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <NumericUpDown Grid.Row="9" Grid.Column="1" Value="{Binding Friendship}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left" />
+                    <StackPanel Grid.Row="9" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <NumericUpDown Value="{Binding Friendship}" Minimum="0" Maximum="255" Height="25" Width="60" />
+                        <Button Content="Max" Command="{Binding MaxFriendshipCommand}" Padding="4,0" FontSize="9" Width="30" Height="20" Margin="4,0,0,0" ToolTip.Tip="Max Friendship (or 1 for eggs)" />
+                    </StackPanel>
 
                     <!-- Language -->
                     <TextBlock Grid.Row="10" Grid.Column="0" Text="Language:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
@@ -208,8 +212,11 @@
 
                         <!-- Met Location -->
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Met Location:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding MetLocationList}" SelectedItem="{Binding SelectedMetLocation}"
-                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
+                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <ComboBox ItemsSource="{Binding MetLocationList}" SelectedItem="{Binding SelectedMetLocation}"
+                                      DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" />
+                            <Button Content="Suggest" Command="{Binding SuggestMetLocationCommand}" Padding="4,0" FontSize="9" Height="20" Margin="4,0,0,0" ToolTip.Tip="Suggest met location from encounter data" />
+                        </StackPanel>
 
                         <!-- Ball -->
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Ball:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
@@ -475,7 +482,11 @@
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="8" Spacing="4">
-                    <TextBlock Text="Current Moves" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="Current Moves" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <Button Content="Heal PP" Command="{Binding HealPPCommand}" Padding="6,2" FontSize="10" ToolTip.Tip="Restore all move PP to maximum" />
+                        <Button Content="Suggest" Command="{Binding SuggestMovesCommand}" Padding="6,2" FontSize="10" ToolTip.Tip="Suggest a legal moveset" />
+                    </StackPanel>
                     <Grid RowDefinitions="27,27,27,27" ColumnDefinitions="52,*,48,48,18">
                         <!-- Move 1 -->
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Move 1:" VerticalAlignment="Center" />
@@ -543,7 +554,10 @@
                     <!-- Relearn Moves -->
                     <StackPanel IsVisible="{Binding HasRelearnMoves}" Spacing="2" Margin="0,4,0,0">
                         <Border BorderBrush="#CCCCCC" BorderThickness="0,0,0,1" Margin="0,2" />
-                        <TextBlock Text="Relearn Moves" FontWeight="SemiBold" />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Relearn Moves" FontWeight="SemiBold" VerticalAlignment="Center" />
+                            <Button Content="Suggest" Command="{Binding SuggestRelearnMovesCommand}" Padding="6,2" FontSize="10" ToolTip.Tip="Suggest legal relearn moves" />
+                        </StackPanel>
                         <Grid RowDefinitions="27,27,27,27" ColumnDefinitions="68,*,18">
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Relearn 1:" VerticalAlignment="Center" />
                             <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedRelearnMove1}"

@@ -838,6 +838,8 @@ public partial class PKMEditorViewModel : ObservableObject
         if (!_isPopulating && Entity is not null)
         {
             Entity.Move1 = Move1;
+            Entity.Move1_PP = Entity.GetMovePP(Move1, Entity.Move1_PPUps);
+            Move1_PP = Entity.Move1_PP;
             UpdateLegality();
         }
     }
@@ -849,6 +851,8 @@ public partial class PKMEditorViewModel : ObservableObject
         if (!_isPopulating && Entity is not null)
         {
             Entity.Move2 = Move2;
+            Entity.Move2_PP = Entity.GetMovePP(Move2, Entity.Move2_PPUps);
+            Move2_PP = Entity.Move2_PP;
             UpdateLegality();
         }
     }
@@ -860,6 +864,8 @@ public partial class PKMEditorViewModel : ObservableObject
         if (!_isPopulating && Entity is not null)
         {
             Entity.Move3 = Move3;
+            Entity.Move3_PP = Entity.GetMovePP(Move3, Entity.Move3_PPUps);
+            Move3_PP = Entity.Move3_PP;
             UpdateLegality();
         }
     }
@@ -871,6 +877,8 @@ public partial class PKMEditorViewModel : ObservableObject
         if (!_isPopulating && Entity is not null)
         {
             Entity.Move4 = Move4;
+            Entity.Move4_PP = Entity.GetMovePP(Move4, Entity.Move4_PPUps);
+            Move4_PP = Entity.Move4_PP;
             UpdateLegality();
         }
     }
@@ -2271,9 +2279,9 @@ public partial class PKMEditorViewModel : ObservableObject
 
         if (value) // Becoming an egg
         {
-            // Set friendship to hatch cycles
+            // Set friendship to hatch cycles (clamped to byte range)
             var pokemon = Entity.PersonalInfo;
-            Friendship = pokemon.HatchCycles;
+            Friendship = Math.Clamp((int)pokemon.HatchCycles, 0, 255);
             Entity.CurrentFriendship = (byte)Friendship;
 
             // Set met as egg
@@ -2348,8 +2356,8 @@ public partial class PKMEditorViewModel : ObservableObject
             }
             finally { _isPopulating = false; }
 
-            // Set base friendship
-            Friendship = Entity.PersonalInfo.BaseFriendship;
+            // Set base friendship (clamped to byte range)
+            Friendship = Math.Clamp((int)Entity.PersonalInfo.BaseFriendship, 0, 255);
             Entity.CurrentFriendship = (byte)Friendship;
 
             // If no egg location, set reasonable defaults for no-longer-egg
@@ -2591,6 +2599,110 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (Entity is null) return;
         PreparePKM();
+    }
+
+    // --- Click-shortcut commands (WinForms parity) ---
+
+    [RelayCommand]
+    private void HealPP()
+    {
+        if (Entity is null) return;
+        Entity.HealPP();
+        _isPopulating = true;
+        try
+        {
+            Move1_PP = Entity.Move1_PP;
+            Move2_PP = Entity.Move2_PP;
+            Move3_PP = Entity.Move3_PP;
+            Move4_PP = Entity.Move4_PP;
+        }
+        finally { _isPopulating = false; }
+    }
+
+    [RelayCommand]
+    private void MaxFriendship()
+    {
+        Friendship = IsEgg ? 1 : 255;
+        if (Entity is not null)
+            Entity.CurrentFriendship = (byte)Friendship;
+    }
+
+    [RelayCommand]
+    private void SetLevel100()
+    {
+        Level = 100;
+        // OnLevelChanged handles EXP sync, stat recalc, and legality update
+    }
+
+    [RelayCommand]
+    private void SuggestMoves()
+    {
+        if (Entity is null) return;
+        PreparePKM();
+        var moveBuf = new ushort[4];
+        Entity.GetMoveSet(moveBuf);
+        _isPopulating = true;
+        try
+        {
+            { var m = MoveList.FirstOrDefault(x => x.Value == moveBuf[0]); if (m is not null) SelectedMove1 = m; Move1 = moveBuf[0]; }
+            { var m = MoveList.FirstOrDefault(x => x.Value == moveBuf[1]); if (m is not null) SelectedMove2 = m; Move2 = moveBuf[1]; }
+            { var m = MoveList.FirstOrDefault(x => x.Value == moveBuf[2]); if (m is not null) SelectedMove3 = m; Move3 = moveBuf[2]; }
+            { var m = MoveList.FirstOrDefault(x => x.Value == moveBuf[3]); if (m is not null) SelectedMove4 = m; Move4 = moveBuf[3]; }
+        }
+        finally { _isPopulating = false; }
+
+        // Write the moves to entity and reset PP
+        Entity.Move1 = Move1; Entity.Move2 = Move2; Entity.Move3 = Move3; Entity.Move4 = Move4;
+        Entity.HealPP();
+        Move1_PP = Entity.Move1_PP; Move2_PP = Entity.Move2_PP;
+        Move3_PP = Entity.Move3_PP; Move4_PP = Entity.Move4_PP;
+        UpdateLegality();
+    }
+
+    [RelayCommand]
+    private void SuggestRelearnMoves()
+    {
+        if (Entity is null || !HasRelearnMoves) return;
+        PreparePKM();
+        var la = new LegalityAnalysis(Entity);
+        var moveBuf = new ushort[4];
+        la.GetSuggestedRelearnMoves(moveBuf);
+
+        _isPopulating = true;
+        try
+        {
+            { var m = MoveList.FirstOrDefault(x => x.Value == moveBuf[0]); if (m is not null) SelectedRelearnMove1 = m; RelearnMove1 = moveBuf[0]; }
+            { var m = MoveList.FirstOrDefault(x => x.Value == moveBuf[1]); if (m is not null) SelectedRelearnMove2 = m; RelearnMove2 = moveBuf[1]; }
+            { var m = MoveList.FirstOrDefault(x => x.Value == moveBuf[2]); if (m is not null) SelectedRelearnMove3 = m; RelearnMove3 = moveBuf[2]; }
+            { var m = MoveList.FirstOrDefault(x => x.Value == moveBuf[3]); if (m is not null) SelectedRelearnMove4 = m; RelearnMove4 = moveBuf[3]; }
+        }
+        finally { _isPopulating = false; }
+
+        Entity.SetRelearnMoves(moveBuf);
+        UpdateLegality();
+    }
+
+    [RelayCommand]
+    private void SuggestMetLocation()
+    {
+        if (Entity is null) return;
+        PreparePKM();
+        var la = new LegalityAnalysis(Entity);
+        var encounter = la.EncounterMatch;
+        var loc = encounter.Location;
+        var match = MetLocationList?.FirstOrDefault(x => x.Value == loc);
+        if (match is not null)
+        {
+            _isPopulating = true;
+            try
+            {
+                SelectedMetLocation = match;
+                MetLocation = (ushort)match.Value;
+            }
+            finally { _isPopulating = false; }
+            Entity.MetLocation = MetLocation;
+            UpdateLegality();
+        }
     }
 
     private static IClipboard? GetClipboard()
