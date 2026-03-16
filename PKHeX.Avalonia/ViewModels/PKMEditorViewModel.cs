@@ -64,6 +64,10 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private bool _isEgg;
     [ObservableProperty] private bool _isNicknamed;
 
+    // Shiny display indicators
+    [ObservableProperty] private bool _isShinyDisplay;
+    [ObservableProperty] private bool _isSquareShiny;
+
     // New fields
     [ObservableProperty] private string _pidHex = "00000000";
     [ObservableProperty] private uint _exp;
@@ -108,6 +112,12 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private ushort _move3;
     [ObservableProperty] private ushort _move4;
 
+    // Move legality indicators
+    [ObservableProperty] private bool _move1Legal = true;
+    [ObservableProperty] private bool _move2Legal = true;
+    [ObservableProperty] private bool _move3Legal = true;
+    [ObservableProperty] private bool _move4Legal = true;
+
     // Met
     [ObservableProperty] private ushort _metLocation;
     [ObservableProperty] private byte _metLevel;
@@ -144,6 +154,10 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private bool _hasMarkings;
     [ObservableProperty] private bool _hasContestStats;
     [ObservableProperty] private bool _hasFavorite;
+
+    // Origin Mark indicator
+    [ObservableProperty] private string _originMarkText = string.Empty;
+    [ObservableProperty] private bool _hasOriginMark;
 
     // Gen-specific: Shadow Pokemon (XD/Colosseum)
     [ObservableProperty] private int _shadowId;
@@ -550,6 +564,8 @@ public partial class PKMEditorViewModel : ObservableObject
         Ability = pk.Ability;
         HeldItem = pk.HeldItem;
         IsShiny = pk.IsShiny;
+        IsShinyDisplay = pk.IsShiny;
+        IsSquareShiny = pk.IsShiny && pk.ShinyXor == 0;
         IsEgg = pk.IsEgg;
         IsNicknamed = pk.IsNicknamed;
 
@@ -934,6 +950,21 @@ public partial class PKMEditorViewModel : ObservableObject
             PokeStarFame = 0;
         }
 
+        // Origin Mark indicator
+        var gen = pk.Generation;
+        HasOriginMark = gen >= 3;
+        OriginMarkText = gen switch
+        {
+            3 => "Gen 3",
+            4 => "Gen 4",
+            5 => "Gen 5",
+            6 => "Gen 6 \u2726",
+            7 => "Gen 7 \u2605",
+            8 => "Gen 8 \u25C6",
+            9 => "Gen 9 \u25C7",
+            _ => gen > 0 ? $"Gen {gen}" : string.Empty,
+        };
+
         // Refresh location lists based on version/context before setting selected items
         RefreshLocationLists();
         RefreshFormList();
@@ -1203,6 +1234,51 @@ public partial class PKMEditorViewModel : ObservableObject
         return Entity;
     }
 
+    // --- IV/EV quick-set commands ---
+
+    [RelayCommand]
+    private void MaxIvs()
+    {
+        Iv_HP = 31; Iv_ATK = 31; Iv_DEF = 31;
+        Iv_SPA = 31; Iv_SPD = 31; Iv_SPE = 31;
+    }
+
+    [RelayCommand]
+    private void ClearIvs()
+    {
+        Iv_HP = 0; Iv_ATK = 0; Iv_DEF = 0;
+        Iv_SPA = 0; Iv_SPD = 0; Iv_SPE = 0;
+    }
+
+    [RelayCommand]
+    private void MaxEvs()
+    {
+        Ev_HP = 252; Ev_ATK = 252; Ev_DEF = 252;
+        Ev_SPA = 252; Ev_SPD = 252; Ev_SPE = 252;
+    }
+
+    [RelayCommand]
+    private void ClearEvs()
+    {
+        Ev_HP = 0; Ev_ATK = 0; Ev_DEF = 0;
+        Ev_SPA = 0; Ev_SPD = 0; Ev_SPE = 0;
+    }
+
+    // --- Full legality report (verbose, copies to clipboard) ---
+
+    [RelayCommand]
+    private async Task ShowFullLegalityReport()
+    {
+        if (Entity is null) return;
+        PreparePKM();
+        var la = new LegalityAnalysis(Entity);
+        var report = la.Report(true);
+        LegalityReport = report;
+        var clipboard = GetClipboard();
+        if (clipboard is not null)
+            await clipboard.SetTextAsync(report);
+    }
+
     // --- Nickname changed → auto-detect IsNicknamed ---
 
     partial void OnNicknameChanged(string value)
@@ -1370,6 +1446,7 @@ public partial class PKMEditorViewModel : ObservableObject
         if (Entity is null)
         {
             LegalityImage = null;
+            Move1Legal = Move2Legal = Move3Legal = Move4Legal = true;
             return;
         }
 
@@ -1389,10 +1466,25 @@ public partial class PKMEditorViewModel : ObservableObject
             using var data = image.Encode(SKEncodedImageFormat.Png, 100);
             using var ms = new MemoryStream(data.ToArray());
             LegalityImage = new Bitmap(ms);
+
+            // Move legality
+            var moves = la.Info.Moves;
+            if (moves is { Length: >= 4 })
+            {
+                Move1Legal = moves[0].Valid;
+                Move2Legal = moves[1].Valid;
+                Move3Legal = moves[2].Valid;
+                Move4Legal = moves[3].Valid;
+            }
+            else
+            {
+                Move1Legal = Move2Legal = Move3Legal = Move4Legal = true;
+            }
         }
         catch
         {
             LegalityImage = null;
+            Move1Legal = Move2Legal = Move3Legal = Move4Legal = true;
         }
     }
 

@@ -1,10 +1,12 @@
 using System;
 using System.IO;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using PKHeX.Avalonia.ViewModels;
+using PKHeX.Core;
 
 namespace PKHeX.Avalonia.Views;
 
@@ -20,6 +22,10 @@ public partial class PKMEditorView : UserControl
         // Tunnel handler so we intercept wheel events before the NumericUpDown handles them
         this.AddHandler(PointerWheelChangedEvent, OnPointerWheelChanged, RoutingStrategies.Tunnel);
 
+        // Drop handlers for loading PKM files by drag-and-drop onto the editor
+        AddHandler(DragDrop.DropEvent, OnEditorDrop);
+        AddHandler(DragDrop.DragOverEvent, OnEditorDragOver);
+
         // Attach drag handlers to the sprite image
         var sprite = this.FindControl<Image>("PB_Sprite");
         if (sprite is not null)
@@ -28,6 +34,41 @@ public partial class PKMEditorView : UserControl
             sprite.PointerMoved += OnSpritePointerMoved;
             sprite.PointerReleased += OnSpritePointerReleased;
         }
+    }
+
+    private void OnEditorDragOver(object? sender, DragEventArgs e)
+    {
+        e.DragEffects = e.Data.Contains(DataFormats.Files) ? DragDropEffects.Copy : DragDropEffects.None;
+    }
+
+    private async void OnEditorDrop(object? sender, DragEventArgs e)
+    {
+        if (!e.Data.Contains(DataFormats.Files))
+            return;
+
+        var files = e.Data.GetFiles();
+        if (files is null)
+            return;
+
+        foreach (var file in files)
+        {
+            var path = file.Path.LocalPath;
+            if (!File.Exists(path))
+                continue;
+
+            var data = await File.ReadAllBytesAsync(path);
+            var pk = EntityFormat.GetFromBytes(data);
+            if (pk is null)
+                continue;
+
+            if (DataContext is PKMEditorViewModel vm)
+            {
+                vm.PopulateFields(pk);
+                break;
+            }
+        }
+
+        e.Handled = true;
     }
 
     private void OnPointerWheelChanged(object? sender, PointerWheelEventArgs e)

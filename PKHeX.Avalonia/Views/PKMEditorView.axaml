@@ -7,7 +7,7 @@
              FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
              FontSize="11">
 
-    <DockPanel>
+    <DockPanel DragDrop.AllowDrop="True">
         <!-- Top row: Dragout sprite -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="60" Margin="4,2,2,0">
             <Image Name="PB_Sprite"
@@ -19,12 +19,26 @@
                 <Image.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Legality Report" Command="{Binding ShowLegalityReportCommand}" />
+                        <MenuItem Header="Full Report (clipboard)" Command="{Binding ShowFullLegalityReportCommand}" />
                         <MenuItem Header="Export as Showdown" Command="{Binding ExportShowdownCommand}" />
                         <Separator />
                         <MenuItem Header="Save as..." Command="{Binding SavePkmFileCommand}" />
                     </ContextMenu>
                 </Image.ContextMenu>
             </Image>
+            <!-- Shiny indicator -->
+            <TextBlock Text="&#x2606;" Foreground="Gold" FontSize="16"
+                       IsVisible="{Binding IsShinyDisplay}"
+                       VerticalAlignment="Center" Margin="2,0,0,0"
+                       ToolTip.Tip="Shiny (Star)" />
+            <TextBlock Text="&#x25A0;" Foreground="Gold" FontSize="10"
+                       IsVisible="{Binding IsSquareShiny}"
+                       VerticalAlignment="Center" Margin="1,0,0,0"
+                       ToolTip.Tip="Square Shiny" />
+            <!-- Legality dot -->
+            <Image Source="{Binding LegalityImage}" Width="16" Height="16"
+                   VerticalAlignment="Center" Margin="4,0,0,0"
+                   ToolTip.Tip="{Binding LegalityReport}" />
         </StackPanel>
 
         <!-- TabControl with LEFT-side tabs -->
@@ -276,6 +290,14 @@
                             <TextBlock Grid.Row="6" Grid.Column="4" Text="{Binding Spe}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </Grid>
 
+                        <!-- IV/EV quick-set buttons -->
+                        <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,2,0,0">
+                            <Button Content="Max IVs" Command="{Binding MaxIvsCommand}" Padding="6,2" FontSize="10" />
+                            <Button Content="Clear IVs" Command="{Binding ClearIvsCommand}" Padding="6,2" FontSize="10" />
+                            <Button Content="Max EVs" Command="{Binding MaxEvsCommand}" Padding="6,2" FontSize="10" />
+                            <Button Content="Clear EVs" Command="{Binding ClearEvsCommand}" Padding="6,2" FontSize="10" />
+                        </StackPanel>
+
                         <!-- Awakening Values (Let's Go) -->
                         <StackPanel IsVisible="{Binding HasAwakeningValues}" Spacing="2">
                             <Border BorderBrush="#CCCCCC" BorderThickness="0,0,0,1" Margin="0,2" />
@@ -327,20 +349,32 @@
                         <TextBlock Text="Moves" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <Grid Margin="8" RowDefinitions="27,27,27,27,27" ColumnDefinitions="52,*">
-                    <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Current Moves" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <Grid Margin="8" RowDefinitions="27,27,27,27,27" ColumnDefinitions="52,*,18">
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="Current Moves" FontWeight="SemiBold" VerticalAlignment="Center" />
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Move 1:" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove1}"
                               DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
+                               IsVisible="{Binding !Move1Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                               ToolTip.Tip="Illegal move" />
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Move 2:" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove2}"
                               DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
+                               IsVisible="{Binding !Move2Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                               ToolTip.Tip="Illegal move" />
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Move 3:" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove3}"
                               DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
+                    <TextBlock Grid.Row="3" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
+                               IsVisible="{Binding !Move3Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                               ToolTip.Tip="Illegal move" />
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Move 4:" VerticalAlignment="Center" />
                     <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove4}"
                               DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
+                    <TextBlock Grid.Row="4" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
+                               IsVisible="{Binding !Move4Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                               ToolTip.Tip="Illegal move" />
                 </Grid>
             </TabItem>
 
@@ -354,6 +388,10 @@
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Spacing="8" Margin="4,2,4,2">
+
+                        <!-- Origin Mark -->
+                        <TextBlock Text="{Binding OriginMarkText}" IsVisible="{Binding HasOriginMark}"
+                                   FontSize="12" FontWeight="SemiBold" Margin="4,2,0,0" />
 
                         <!-- Markings Section -->
                         <StackPanel IsVisible="{Binding HasMarkings}" Spacing="4">

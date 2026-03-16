@@ -27,6 +27,12 @@ public partial class MainWindowViewModel : ObservableObject
 {
     private readonly IDialogService _dialogService;
 
+    /// <summary>
+    /// The file path from which the current save file was loaded.
+    /// Used to create an automatic backup before overwriting.
+    /// </summary>
+    private string? _loadedFilePath;
+
     [ObservableProperty]
     private string _title = "PKHeX - Cross-Platform";
 
@@ -151,12 +157,40 @@ public partial class MainWindowViewModel : ObservableObject
 
         try
         {
+            // Create an automatic backup of the original file before overwriting
+            CreateAutoBackup(path);
+
             ExportSAV(SaveFile, path);
             StatusMessage = $"Saved to {Path.GetFileName(path)}";
         }
         catch (Exception ex)
         {
             await _dialogService.ShowErrorAsync("Save Error", ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Creates an automatic backup of the file at the specified path before it is overwritten.
+    /// If the file does not exist yet, no backup is created.
+    /// </summary>
+    private static void CreateAutoBackup(string originalPath)
+    {
+        try
+        {
+            if (!File.Exists(originalPath))
+                return;
+
+            var backupDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "PKHeX", "backups");
+            Directory.CreateDirectory(backupDir);
+
+            var filename = $"{Path.GetFileNameWithoutExtension(originalPath)}_{DateTime.Now:yyyyMMdd_HHmmss}.bak";
+            File.Copy(originalPath, Path.Combine(backupDir, filename), overwrite: true);
+        }
+        catch
+        {
+            // Silently fail backup — saving should proceed regardless
         }
     }
 
@@ -215,6 +249,7 @@ public partial class MainWindowViewModel : ObservableObject
     {
         SaveFile = sav;
         HasSaveFile = true;
+        _loadedFilePath = path;
 
         SpriteUtil.Initialize(sav);
         SavEditor?.LoadSaveFile(sav);
@@ -674,9 +709,34 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand]
     private async Task ShowAboutAsync()
     {
-        var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "unknown";
-        await _dialogService.ShowAlertAsync("About PKHeX",
-            $"PKHeX Avalonia\nVersion: {version}\n\nA cross-platform Pokemon save editor.\nhttps://github.com/kwsch/PKHeX");
+        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+        if (mainWindow is null)
+            return;
+
+        var coreVersion = typeof(PKM).Assembly.GetName().Version?.ToString() ?? "unknown";
+
+        var dialog = new Window
+        {
+            Title = "About PKHeX",
+            Width = 320,
+            Height = 220,
+            CanResize = false,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            Content = new StackPanel
+            {
+                Margin = new Thickness(24),
+                Spacing = 8,
+                Children =
+                {
+                    new TextBlock { Text = "PKHeX", FontSize = 22, FontWeight = global::Avalonia.Media.FontWeight.Bold },
+                    new TextBlock { Text = "Pokemon Save Editor", FontSize = 14 },
+                    new TextBlock { Text = "Cross-Platform Avalonia Port", FontSize = 12, Opacity = 0.7 },
+                    new TextBlock { Text = $"Core Version: {coreVersion}", FontSize = 11 },
+                    new TextBlock { Text = "https://github.com/kwsch/PKHeX", FontSize = 11, Opacity = 0.6 },
+                }
+            }
+        };
+        await dialog.ShowDialog(mainWindow);
     }
 
     #endregion

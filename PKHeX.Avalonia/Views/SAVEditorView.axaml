@@ -148,6 +148,8 @@
                     <WrapPanel Orientation="Horizontal" IsVisible="{Binding IsLoaded}" Margin="0,4,0,0">
                         <Button Content="Verify Checksums" Command="{Binding VerifyChecksumsCommand}"
                                 Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Verify All PKM" Command="{Binding VerifyAllPkmCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
                         <Button Content="Export Backup" Command="{Binding ExportBackupCommand}"
                                 Margin="2" Padding="10,4" FontSize="11" />
                     </WrapPanel>

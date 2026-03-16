@@ -527,6 +527,29 @@ public partial class SAVEditorViewModel : ObservableObject
     #endregion
 
     [RelayCommand]
+    private void VerifyAllPkm()
+    {
+        if (_sav is null) return;
+        try
+        {
+            int total = 0, legal = 0, illegal = 0;
+            for (int box = 0; box < _sav.BoxCount; box++)
+            {
+                for (int slot = 0; slot < _sav.BoxSlotCount; slot++)
+                {
+                    var pk = _sav.GetBoxSlotAtIndex(box, slot);
+                    if (pk.Species == 0) continue;
+                    total++;
+                    var la = new LegalityAnalysis(pk);
+                    if (la.Valid) legal++; else illegal++;
+                }
+            }
+            SetStatusMessage?.Invoke($"Checked {total} Pokemon: {legal} legal, {illegal} illegal.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Verify error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
     private void VerifyChecksums()
     {
         if (_sav is null) return;
