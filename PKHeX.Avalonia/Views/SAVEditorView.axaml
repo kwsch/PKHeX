@@ -74,11 +74,12 @@
 
         <!-- Party Tab (2 columns x 3 rows, matching WinForms PartyEditor) -->
         <TabItem Header="Party">
-            <Border CornerRadius="0" ClipToBounds="True"
-                    Background="Transparent"
-                    HorizontalAlignment="Center" VerticalAlignment="Top"
-                    Margin="2,4">
-                <ItemsControl ItemsSource="{Binding PartySlots}">
+            <Border Background="{DynamicResource PKHeXPanelBackground}"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Padding="4">
+                <ItemsControl ItemsSource="{Binding PartySlots}"
+                              HorizontalAlignment="Center" VerticalAlignment="Top"
+                              Margin="0,4">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="2" Rows="3" />
