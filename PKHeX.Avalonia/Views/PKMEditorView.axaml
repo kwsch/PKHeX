@@ -69,7 +69,12 @@
 
                     <!-- Nickname -->
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Nickname:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Nickname}" Height="25" Width="144" HorizontalAlignment="Left" />
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBox Text="{Binding Nickname}" Height="25" Width="144" />
+                        <Button Content="?" Command="{Binding ShowNicknameWarningCommand}"
+                                Width="20" Height="20" Padding="0" FontSize="10" Margin="2,0,0,0"
+                                ToolTip.Tip="Check nickname font compatibility" />
+                    </StackPanel>
 
                     <!-- EXP + Level -->
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="EXP:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
@@ -134,6 +139,12 @@
                     <!-- N's Sparkle (Gen 5) -->
                     <CheckBox Grid.Row="14" Grid.Column="1" Content="N's Sparkle" IsChecked="{Binding NSparkle}"
                               IsVisible="{Binding HasNSparkle}" VerticalAlignment="Center" />
+
+                    <!-- Form Argument -->
+                    <TextBlock Grid.Row="15" Grid.Column="0" Text="Form Arg:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                               IsVisible="{Binding HasFormArgument}" />
+                    <NumericUpDown Grid.Row="15" Grid.Column="1" Value="{Binding FormArgument}" Minimum="0" Maximum="{Binding FormArgumentMax}" Height="25" Width="80" HorizontalAlignment="Left"
+                                   IsVisible="{Binding HasFormArgument}" />
                 </Grid>
             </TabItem>
 
@@ -349,33 +360,50 @@
                         <TextBlock Text="Moves" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <Grid Margin="8" RowDefinitions="27,27,27,27,27" ColumnDefinitions="52,*,18">
-                    <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="Current Moves" FontWeight="SemiBold" VerticalAlignment="Center" />
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Move 1:" VerticalAlignment="Center" />
-                    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove1}"
-                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
-                    <TextBlock Grid.Row="1" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
-                               IsVisible="{Binding !Move1Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                               ToolTip.Tip="Illegal move" />
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Move 2:" VerticalAlignment="Center" />
-                    <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove2}"
-                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
-                               IsVisible="{Binding !Move2Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                               ToolTip.Tip="Illegal move" />
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Move 3:" VerticalAlignment="Center" />
-                    <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove3}"
-                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
-                    <TextBlock Grid.Row="3" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
-                               IsVisible="{Binding !Move3Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                               ToolTip.Tip="Illegal move" />
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Move 4:" VerticalAlignment="Center" />
-                    <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove4}"
-                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
-                    <TextBlock Grid.Row="4" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
-                               IsVisible="{Binding !Move4Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
-                               ToolTip.Tip="Illegal move" />
-                </Grid>
+                <StackPanel Margin="8" Spacing="4">
+                    <Grid RowDefinitions="27,27,27,27,27" ColumnDefinitions="52,*,18">
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="Current Moves" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Move 1:" VerticalAlignment="Center" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove1}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
+                                   IsVisible="{Binding !Move1Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   ToolTip.Tip="Illegal move" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Move 2:" VerticalAlignment="Center" />
+                        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove2}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
+                                   IsVisible="{Binding !Move2Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   ToolTip.Tip="Illegal move" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Move 3:" VerticalAlignment="Center" />
+                        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove3}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
+                        <TextBlock Grid.Row="3" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
+                                   IsVisible="{Binding !Move3Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   ToolTip.Tip="Illegal move" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Move 4:" VerticalAlignment="Center" />
+                        <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedMove4}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" />
+                        <TextBlock Grid.Row="4" Grid.Column="2" Text="!" Foreground="Red" FontWeight="Bold"
+                                   IsVisible="{Binding !Move4Legal}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   ToolTip.Tip="Illegal move" />
+                    </Grid>
+
+                    <!-- Alpha Mastered Move (Legends Arceus) -->
+                    <StackPanel IsVisible="{Binding HasAlphaMove}" Spacing="4" Margin="0,4,0,0">
+                        <TextBlock Text="Alpha Mastered Move" FontWeight="SemiBold" />
+                        <ComboBox ItemsSource="{Binding MoveList}" SelectedItem="{Binding SelectedAlphaMove}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="200" HorizontalAlignment="Left" />
+                    </StackPanel>
+
+                    <!-- Move Shop / Tech Records buttons -->
+                    <StackPanel Orientation="Horizontal" Spacing="4" Margin="0,4,0,0">
+                        <Button Content="Move Shop" Command="{Binding OpenMoveShopCommand}" Padding="6,2" FontSize="10"
+                                IsVisible="{Binding HasMoveShop}" />
+                        <Button Content="Tech Records" Command="{Binding OpenTechRecordsCommand}" Padding="6,2" FontSize="10"
+                                IsVisible="{Binding HasTechRecords}" />
+                    </StackPanel>
+                </StackPanel>
             </TabItem>
 
             <!-- Cosmetic Tab -->

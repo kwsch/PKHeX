@@ -127,6 +127,18 @@ public partial class SAVEditorViewModel : ObservableObject
     [ObservableProperty]
     private Bitmap? _boxWallpaper;
 
+    // Box search/filter
+    [ObservableProperty] private string _searchText = string.Empty;
+    [ObservableProperty] private string _searchResultText = string.Empty;
+
+    // Extra slots (Other tab)
+    public ObservableCollection<SlotModel> ExtraSlots { get; } = [];
+    [ObservableProperty] private bool _hasExtraSlots;
+
+    // Save slot info
+    [ObservableProperty] private string _saveSlotInfo = string.Empty;
+    [ObservableProperty] private bool _hasSaveSlotInfo;
+
     public ObservableCollection<SlotModel> BoxSlots { get; } = [];
     public ObservableCollection<SlotModel> PartySlots { get; } = [];
     public ObservableCollection<string> BoxNames { get; } = [];
@@ -181,6 +193,9 @@ public partial class SAVEditorViewModel : ObservableObject
         RefreshParty();
         UpdateToolVisibility(sav);
         RefreshDaycare(sav);
+        RefreshExtraSlots(sav);
+        RefreshSaveSlotInfo(sav);
+        SearchText = string.Empty;
     }
 
     private void UpdateToolVisibility(SaveFile sav)
@@ -454,6 +469,125 @@ public partial class SAVEditorViewModel : ObservableObject
             DaycareInfo = string.Empty;
         }
     }
+
+    #region Box Search
+
+    partial void OnSearchTextChanged(string value)
+    {
+        if (_sav is null) return;
+        var searchLower = value.ToLowerInvariant().Trim();
+        var isActive = !string.IsNullOrEmpty(searchLower);
+        int count = 0;
+
+        foreach (var slot in BoxSlots)
+        {
+            slot.IsSearchActive = isActive;
+            if (slot.Entity is null || slot.Entity.Species == 0)
+            {
+                slot.IsHighlighted = false;
+                continue;
+            }
+            if (!isActive)
+            {
+                slot.IsHighlighted = false;
+                continue;
+            }
+            var name = SpeciesName.GetSpeciesNameGeneration(slot.Entity.Species, 2, slot.Entity.Format).ToLowerInvariant();
+            var matches = name.Contains(searchLower);
+            slot.IsHighlighted = matches;
+            if (matches) count++;
+        }
+
+        SearchResultText = isActive ? $"{count} found" : string.Empty;
+    }
+
+    #endregion
+
+    #region Extra Slots
+
+    private void RefreshExtraSlots(SaveFile sav)
+    {
+        ExtraSlots.Clear();
+        try
+        {
+            var extras = sav.GetExtraSlots(true);
+            if (extras.Count == 0)
+            {
+                HasExtraSlots = false;
+                return;
+            }
+
+            HasExtraSlots = true;
+            foreach (var slotInfo in extras)
+            {
+                var pk = slotInfo.Read(sav);
+                var model = new SlotModel
+                {
+                    Slot = slotInfo.Slot,
+                    SlotLabel = GetSlotTypeLabel(slotInfo.Type, slotInfo.Slot),
+                };
+                model.Entity = pk;
+                if (pk.Species == 0)
+                {
+                    model.SetImage(SpriteUtil.Spriter.None);
+                    model.IsEmpty = true;
+                }
+                else
+                {
+                    var sprite = pk.Sprite();
+                    model.SetImage(sprite);
+                    model.IsEmpty = false;
+                }
+                ExtraSlots.Add(model);
+            }
+        }
+        catch
+        {
+            HasExtraSlots = false;
+        }
+    }
+
+    private static string GetSlotTypeLabel(StorageSlotType type, int slot) => type switch
+    {
+        StorageSlotType.Daycare => $"Daycare #{slot + 1}",
+        StorageSlotType.GTS => "GTS Upload",
+        StorageSlotType.BattleBox => $"Battle Box #{slot + 1}",
+        StorageSlotType.FusedKyurem => "Fused Kyurem",
+        StorageSlotType.FusedNecrozmaS => "Fused Necrozma (Solgaleo)",
+        StorageSlotType.FusedNecrozmaM => "Fused Necrozma (Lunala)",
+        StorageSlotType.FusedCalyrex => "Fused Calyrex",
+        StorageSlotType.Resort => $"Resort #{slot + 1}",
+        StorageSlotType.Ride => "Ride Legend",
+        StorageSlotType.BattleAgency => $"Battle Agency #{slot + 1}",
+        StorageSlotType.SurpriseTrade => $"Surprise Trade #{slot + 1}",
+        StorageSlotType.Underground => $"Underground #{slot + 1}",
+        StorageSlotType.Scripted => $"Scripted #{slot + 1}",
+        StorageSlotType.PGL => "PGL Upload",
+        StorageSlotType.Pokéwalker => "Pokewalker",
+        StorageSlotType.Shiny => $"Shiny Cache #{slot + 1}",
+        _ => $"{type} #{slot + 1}",
+    };
+
+    #endregion
+
+    #region Save Slot Info
+
+    private void RefreshSaveSlotInfo(SaveFile sav)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"Type: {sav.GetType().Name}");
+        sb.AppendLine($"Generation: {sav.Generation}");
+        sb.AppendLine($"Version: {sav.Version}");
+        sb.AppendLine($"Boxes: {sav.BoxCount} ({sav.BoxSlotCount} slots each)");
+        if (sav.HasParty)
+            sb.AppendLine($"Party: {sav.PartyCount} Pokemon");
+        sb.AppendLine($"Checksums: {(sav.ChecksumsValid ? "Valid" : "Invalid")}");
+
+        SaveSlotInfo = sb.ToString().TrimEnd();
+        HasSaveSlotInfo = true;
+    }
+
+    #endregion
 
     #region Box Management (Sort / Clear)
 

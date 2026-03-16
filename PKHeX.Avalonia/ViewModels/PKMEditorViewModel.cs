@@ -11,6 +11,8 @@ using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PKHeX.Avalonia.Converters;
+using PKHeX.Avalonia.ViewModels.Subforms;
+using PKHeX.Avalonia.Views.Subforms;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite.Avalonia;
 using SkiaSharp;
@@ -164,6 +166,19 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private int _purification;
     [ObservableProperty] private bool _isShadow;
     [ObservableProperty] private bool _hasShadow;
+
+    // Form Argument
+    [ObservableProperty] private uint _formArgument;
+    [ObservableProperty] private bool _hasFormArgument;
+    [ObservableProperty] private uint _formArgumentMax;
+
+    // Alpha Mastered Move (Gen 8a - Legends Arceus)
+    [ObservableProperty] private ComboItem? _selectedAlphaMove;
+    [ObservableProperty] private bool _hasAlphaMove;
+
+    // Move Shop / Tech Record visibility
+    [ObservableProperty] private bool _hasMoveShop;
+    [ObservableProperty] private bool _hasTechRecords;
 
     // Gen-specific: Catch Rate (Gen 1)
     [ObservableProperty] private int _catchRate;
@@ -950,6 +965,41 @@ public partial class PKMEditorViewModel : ObservableObject
             PokeStarFame = 0;
         }
 
+        // Form Argument
+        if (pk is IFormArgument fa)
+        {
+            HasFormArgument = true;
+            FormArgument = fa.FormArgument;
+            FormArgumentMax = FormArgumentUtil.GetFormArgumentMax(pk.Species, pk.Form, pk.Context);
+            if (FormArgumentMax == 0)
+                FormArgumentMax = 255;
+        }
+        else
+        {
+            HasFormArgument = false;
+            FormArgument = 0;
+            FormArgumentMax = 255;
+        }
+
+        // Alpha Mastered Move (Legends Arceus)
+        if (pk is PA8 pa8)
+        {
+            HasAlphaMove = true;
+            var alphaMoveId = pa8.AlphaMove;
+            SelectedAlphaMove = MoveList.FirstOrDefault(m => m.Value == alphaMoveId);
+        }
+        else
+        {
+            HasAlphaMove = false;
+            SelectedAlphaMove = null;
+        }
+
+        // Move Shop (Legends Arceus)
+        HasMoveShop = pk is IMoveShop8Mastery;
+
+        // Tech Records (Gen 8+)
+        HasTechRecords = pk is ITechRecord;
+
         // Origin Mark indicator
         var gen = pk.Generation;
         HasOriginMark = gen >= 3;
@@ -1231,7 +1281,49 @@ public partial class PKMEditorViewModel : ObservableObject
             pb7Save.Mood = (byte)Math.Clamp(Mood7b, 0, 255);
         }
 
+        // Form Argument
+        if (Entity is IFormArgument faSave)
+            faSave.FormArgument = FormArgument;
+
+        // Alpha Mastered Move (Legends Arceus)
+        if (Entity is PA8 pa8Save && SelectedAlphaMove is not null)
+            pa8Save.AlphaMove = (ushort)SelectedAlphaMove.Value;
+
         return Entity;
+    }
+
+    // --- Move Shop / Tech Record editor commands ---
+
+    [RelayCommand]
+    private async Task OpenMoveShop()
+    {
+        if (Entity is not IMoveShop8Mastery master || Entity is not IMoveShop8 shop) return;
+        try
+        {
+            PreparePKM();
+            var vm = new MoveShopEditorViewModel(shop, master, Entity);
+            var view = new MoveShopEditorView { DataContext = vm };
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow != null)
+                await view.ShowDialog(mainWindow);
+        }
+        catch (Exception ex) { LegalityReport = $"Move Shop error: {ex.Message}"; }
+    }
+
+    [RelayCommand]
+    private async Task OpenTechRecords()
+    {
+        if (Entity is not ITechRecord tr) return;
+        try
+        {
+            PreparePKM();
+            var vm = new TechRecordEditorViewModel(tr, Entity);
+            var view = new TechRecordEditorView { DataContext = vm };
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow != null)
+                await view.ShowDialog(mainWindow);
+        }
+        catch (Exception ex) { LegalityReport = $"Tech Record error: {ex.Message}"; }
     }
 
     // --- IV/EV quick-set commands ---
@@ -1400,6 +1492,46 @@ public partial class PKMEditorViewModel : ObservableObject
             -1 => "#FF4444",         // red for -10%
             _ => "#000000",          // default/neutral
         };
+    }
+
+    // --- Nickname warning ---
+
+    [RelayCommand]
+    private void ShowNicknameWarning()
+    {
+        if (Entity is null) return;
+        var nickname = Nickname ?? string.Empty;
+        var species = Entity.Species;
+        var lang = Entity.Language;
+        var defaultName = SpeciesName.GetSpeciesNameGeneration(species, lang, Entity.Format);
+
+        // Check for non-ASCII characters that might not render in older games
+        bool hasSpecialChars = false;
+        foreach (var c in nickname)
+        {
+            if (c > 0x7E || c < 0x20)
+            {
+                hasSpecialChars = true;
+                break;
+            }
+        }
+
+        if (string.IsNullOrEmpty(nickname))
+        {
+            LegalityReport = "Nickname is empty.";
+        }
+        else if (nickname == defaultName)
+        {
+            LegalityReport = $"Nickname matches default species name: '{defaultName}'.";
+        }
+        else if (hasSpecialChars)
+        {
+            LegalityReport = $"Nickname '{nickname}' contains special characters that may not render correctly in-game. Default name: '{defaultName}'.";
+        }
+        else
+        {
+            LegalityReport = $"Nickname '{nickname}' appears to use standard characters. Default name: '{defaultName}'.";
+        }
     }
 
     // --- Sprite context menu commands ---

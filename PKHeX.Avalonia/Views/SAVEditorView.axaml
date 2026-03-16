@@ -9,6 +9,13 @@
         <!-- Box Tab -->
         <TabItem Header="Box">
             <DockPanel Margin="2">
+                <!-- Search bar -->
+                <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="0,2,0,2"
+                      IsVisible="{Binding IsLoaded}">
+                    <TextBox Text="{Binding SearchText}" Watermark="Search species..." Height="24" FontSize="11" Margin="0,0,4,0" />
+                    <TextBlock Grid.Column="1" Text="{Binding SearchResultText}" FontSize="10" VerticalAlignment="Center" Opacity="0.7" />
+                </Grid>
+
                 <!-- Box Navigation: [<<] ComboBox [>>] -->
                 <Grid DockPanel.Dock="Top" ColumnDefinitions="30,*,30" Margin="0,2,0,4">
                     <Button Grid.Column="0" Content="&lt;&lt;" Command="{Binding PreviousBoxCommand}"
@@ -88,12 +95,43 @@
         <TabItem Header="Other">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="4" Spacing="4">
+                    <!-- Daycare -->
                     <TextBlock Text="Daycare" FontWeight="SemiBold" FontSize="11" IsVisible="{Binding HasDaycare}" />
                     <TextBlock Text="{Binding DaycareInfo}" FontSize="11" FontFamily="Consolas,monospace"
                                IsVisible="{Binding HasDaycare}" />
+
+                    <!-- Extra Slots (Fused, GTS, Battle Box, etc.) -->
+                    <Border Height="1" Background="#CCCCCC" Margin="0,4" IsVisible="{Binding HasExtraSlots}" />
+                    <TextBlock Text="Extra Slots" FontWeight="SemiBold" FontSize="11" IsVisible="{Binding HasExtraSlots}" />
+                    <ItemsControl ItemsSource="{Binding ExtraSlots}" IsVisible="{Binding HasExtraSlots}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,1" Padding="2" CornerRadius="2"
+                                        Background="#08000000">
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <Image Source="{Binding Image}" Width="40" Height="30"
+                                               RenderOptions.BitmapInterpolationMode="None"
+                                               VerticalAlignment="Center" />
+                                        <StackPanel VerticalAlignment="Center" Spacing="0">
+                                            <TextBlock Text="{Binding SlotLabel}" FontSize="10" FontWeight="SemiBold" />
+                                            <TextBlock Text="{Binding Summary}" FontSize="10" Opacity="0.7" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- Save Slot Info -->
+                    <Border Height="1" Background="#CCCCCC" Margin="0,4" IsVisible="{Binding HasSaveSlotInfo}" />
+                    <TextBlock Text="Save Info" FontWeight="SemiBold" FontSize="11" IsVisible="{Binding HasSaveSlotInfo}" />
+                    <TextBlock Text="{Binding SaveSlotInfo}" FontSize="10" FontFamily="Consolas,monospace"
+                               IsVisible="{Binding HasSaveSlotInfo}" />
+
+                    <!-- Fallback -->
                     <TextBlock Text="No additional slots available for this save type."
                                FontSize="11" Opacity="0.6"
-                               IsVisible="{Binding !HasDaycare}" />
+                               IsVisible="{Binding !IsLoaded}" />
                 </StackPanel>
             </ScrollViewer>
         </TabItem>

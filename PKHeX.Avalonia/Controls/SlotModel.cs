@@ -24,6 +24,20 @@ public partial class SlotModel : ObservableObject
     [ObservableProperty]
     private bool _isEmpty = true;
 
+    /// <summary>Whether the slot matches the current search filter.</summary>
+    [ObservableProperty]
+    private bool _isHighlighted;
+
+    /// <summary>Whether a search filter is currently active.</summary>
+    [ObservableProperty]
+    private bool _isSearchActive;
+
+    /// <summary>Opacity to use when a search is active (1.0 if highlighted or no search, 0.3 if not matching).</summary>
+    public double SearchOpacity => IsHighlighted ? 1.0 : (_isSearchActive ? 0.3 : 1.0);
+
+    partial void OnIsHighlightedChanged(bool value) => OnPropertyChanged(nameof(SearchOpacity));
+    partial void OnIsSearchActiveChanged(bool value) => OnPropertyChanged(nameof(SearchOpacity));
+
     /// <summary>The PKM entity backing this slot, if any.</summary>
     [ObservableProperty]
     private PKM? _entity;
@@ -37,6 +51,10 @@ public partial class SlotModel : ObservableObject
     public string Summary => Entity is { Species: > 0 }
         ? $"{SpeciesName.GetSpeciesNameGeneration(Entity.Species, 2, Entity.Format)} Lv.{Entity.CurrentLevel}"
         : "Empty";
+
+    /// <summary>Label describing the slot type (e.g. "Daycare", "Fused Kyurem").</summary>
+    [ObservableProperty]
+    private string _slotLabel = string.Empty;
 
     partial void OnEntityChanged(PKM? value)
     {

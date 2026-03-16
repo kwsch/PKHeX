@@ -32,6 +32,7 @@
             BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
             BorderThickness="1" CornerRadius="0"
             Cursor="Hand"
+            Opacity="{Binding SearchOpacity}"
             DragDrop.AllowDrop="True"
             AutomationProperties.Name="{Binding Summary}">
         <ToolTip.Tip>
