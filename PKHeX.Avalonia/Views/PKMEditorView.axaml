@@ -100,53 +100,71 @@
                         <TextBlock Text="Met" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <Grid Margin="4,2,4,2"
-                      RowDefinitions="27,27,27,27,27,27,27,27"
-                      ColumnDefinitions="104,*">
-                    <!-- Origin Game -->
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Origin Game:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding VersionList}" SelectedItem="{Binding SelectedVersion}"
-                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="4,2,4,2"
+                          RowDefinitions="27,27,27,27,27,27,27,27,27,27"
+                          ColumnDefinitions="104,*">
+                        <!-- Origin Game -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Origin Game:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding VersionList}" SelectedItem="{Binding SelectedVersion}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
 
-                    <!-- Met Location -->
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Met Location:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding MetLocationList}" SelectedItem="{Binding SelectedMetLocation}"
-                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
+                        <!-- Met Location -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Met Location:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding MetLocationList}" SelectedItem="{Binding SelectedMetLocation}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
 
-                    <!-- Ball -->
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Ball:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding BallList}" SelectedItem="{Binding SelectedBall}"
-                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
+                        <!-- Ball -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Ball:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding BallList}" SelectedItem="{Binding SelectedBall}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
 
-                    <!-- Met Level -->
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Met Level:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding MetLevel}" Minimum="0" Maximum="100" Height="25" Width="60" HorizontalAlignment="Left" />
+                        <!-- Met Level + Fateful Encounter -->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Met Level:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                            <NumericUpDown Value="{Binding MetLevel}" Minimum="0" Maximum="100" Height="25" Width="60" />
+                            <CheckBox IsChecked="{Binding FatefulEncounter}" Content="Fateful" VerticalAlignment="Center" />
+                        </StackPanel>
 
-                    <!-- Met Date -->
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Met Date:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="4">
-                        <NumericUpDown Value="{Binding MetYear}" Minimum="0" Maximum="255" Height="25" Width="60" />
-                        <TextBlock Text="/" VerticalAlignment="Center" />
-                        <NumericUpDown Value="{Binding MetMonth}" Minimum="0" Maximum="12" Height="25" Width="52" />
-                        <TextBlock Text="/" VerticalAlignment="Center" />
-                        <NumericUpDown Value="{Binding MetDay}" Minimum="0" Maximum="31" Height="25" Width="52" />
-                    </StackPanel>
+                        <!-- Met Date -->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Met Date:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="4">
+                            <NumericUpDown Value="{Binding MetYear}" Minimum="0" Maximum="255" Height="25" Width="60" />
+                            <TextBlock Text="/" VerticalAlignment="Center" />
+                            <NumericUpDown Value="{Binding MetMonth}" Minimum="0" Maximum="12" Height="25" Width="52" />
+                            <TextBlock Text="/" VerticalAlignment="Center" />
+                            <NumericUpDown Value="{Binding MetDay}" Minimum="0" Maximum="31" Height="25" Width="52" />
+                        </StackPanel>
 
-                    <!-- Egg Location -->
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Egg Location:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding EggLocationList}" SelectedItem="{Binding SelectedEggLocation}"
-                              DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
+                        <!-- Egg Location -->
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Egg Location:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding EggLocationList}" SelectedItem="{Binding SelectedEggLocation}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left" />
 
-                    <!-- Egg Met Date -->
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Egg Met Date:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="4">
-                        <NumericUpDown Value="{Binding EggYear}" Minimum="0" Maximum="255" Height="25" Width="60" />
-                        <TextBlock Text="/" VerticalAlignment="Center" />
-                        <NumericUpDown Value="{Binding EggMonth}" Minimum="0" Maximum="12" Height="25" Width="52" />
-                        <TextBlock Text="/" VerticalAlignment="Center" />
-                        <NumericUpDown Value="{Binding EggDay}" Minimum="0" Maximum="31" Height="25" Width="52" />
-                    </StackPanel>
-                </Grid>
+                        <!-- Egg Met Date -->
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Egg Met Date:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Spacing="4">
+                            <NumericUpDown Value="{Binding EggYear}" Minimum="0" Maximum="255" Height="25" Width="60" />
+                            <TextBlock Text="/" VerticalAlignment="Center" />
+                            <NumericUpDown Value="{Binding EggMonth}" Minimum="0" Maximum="12" Height="25" Width="52" />
+                            <TextBlock Text="/" VerticalAlignment="Center" />
+                            <NumericUpDown Value="{Binding EggDay}" Minimum="0" Maximum="31" Height="25" Width="52" />
+                        </StackPanel>
+
+                        <!-- Battle Version (visible when HasBattleVersion) -->
+                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Battle Ver:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   IsVisible="{Binding HasBattleVersion}" />
+                        <ComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding VersionList}" SelectedItem="{Binding SelectedBattleVersion}"
+                                  DisplayMemberBinding="{Binding Text, DataType=core:ComboItem}" Height="25" Width="144" HorizontalAlignment="Left"
+                                  IsVisible="{Binding HasBattleVersion}" />
+
+                        <!-- Obedience Level (visible when HasObedienceLevel) -->
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="Obedience Lv:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   IsVisible="{Binding HasObedienceLevel}" />
+                        <NumericUpDown Grid.Row="8" Grid.Column="1" Value="{Binding ObedienceLevel}" Minimum="0" Maximum="100" Height="25" Width="60" HorizontalAlignment="Left"
+                                       IsVisible="{Binding HasObedienceLevel}" />
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
 
             <!-- Stats Tab -->
@@ -282,6 +300,23 @@
                             <CheckBox IsChecked="{Binding IsFavorite}" Content="Favorite" Margin="4,0,0,0" />
                         </StackPanel>
 
+                        <!-- Size/Scale Section -->
+                        <StackPanel IsVisible="{Binding HasSizeData}" Spacing="0">
+                            <TextBlock Text="Size" FontWeight="SemiBold" Margin="0,2,0,2" />
+                            <Grid RowDefinitions="27,27,27" ColumnDefinitions="104,*">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Height:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding HeightScalar}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Weight:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding WeightScalar}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Scale:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                           IsVisible="{Binding HasScale}" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Scale}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left"
+                                               IsVisible="{Binding HasScale}" />
+                            </Grid>
+                        </StackPanel>
+
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -294,14 +329,62 @@
                         <TextBlock Text="OT/Misc" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <Grid Margin="8" RowDefinitions="27,27,27" ColumnDefinitions="104,*">
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="OT Name:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Ot}" Height="25" Width="144" HorizontalAlignment="Left" />
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="TID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Tid}" Minimum="0" Maximum="65535" Height="25" Width="80" HorizontalAlignment="Left" />
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="SID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
-                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Sid}" Minimum="0" Maximum="65535" Height="25" Width="80" HorizontalAlignment="Left" />
-                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="4,2,4,2" RowDefinitions="27,27,27,8,27,27,27,8,27,27" ColumnDefinitions="104,*">
+                        <!-- OT Name + Gender -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="OT Name:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBox Text="{Binding Ot}" Height="25" Width="120" />
+                            <Button Content="{Binding OtGenderSymbol}" Command="{Binding ToggleOtGenderCommand}"
+                                    FontSize="14" FontWeight="Bold" Width="24" Height="25" Padding="0" Margin="4,0,0,0"
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                        </StackPanel>
+
+                        <!-- TID -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="TID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Tid}" Minimum="0" Maximum="65535" Height="25" Width="80" HorizontalAlignment="Left" />
+
+                        <!-- SID -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="SID:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Sid}" Minimum="0" Maximum="65535" Height="25" Width="80" HorizontalAlignment="Left" />
+
+                        <!-- Separator -->
+                        <Border Grid.Row="3" Grid.ColumnSpan="2" BorderBrush="#CCCCCC" BorderThickness="0,0,0,1" Margin="0,2" />
+
+                        <!-- Handler -->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Handler:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <ComboBox Grid.Row="4" Grid.Column="1" SelectedIndex="{Binding CurrentHandler}" Height="25" Width="100" HorizontalAlignment="Left">
+                            <ComboBoxItem Content="OT" />
+                            <ComboBoxItem Content="Not OT" />
+                        </ComboBox>
+
+                        <!-- HT Name + Gender (visible when HasHandler) -->
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="HT Name:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   IsVisible="{Binding HasHandler}" />
+                        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
+                                    IsVisible="{Binding HasHandler}">
+                            <TextBox Text="{Binding HandlingTrainerName}" Height="25" Width="120" />
+                            <TextBlock Text="{Binding HtGenderSymbol}" FontSize="14" FontWeight="Bold"
+                                       VerticalAlignment="Center" Margin="6,0,0,0" Width="16" />
+                        </StackPanel>
+
+                        <!-- Separator -->
+                        <Border Grid.Row="7" Grid.ColumnSpan="2" BorderBrush="#CCCCCC" BorderThickness="0,0,0,1" Margin="0,2" />
+
+                        <!-- Encryption Constant -->
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="EC:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <StackPanel Grid.Row="8" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBox Text="{Binding EncryptionConstantHex}" Height="25" Width="72" FontFamily="Courier New,Consolas,monospace" />
+                            <Button Content="Reroll" Command="{Binding RerollEcCommand}" Height="25" Margin="4,0,0,0" Padding="6,0" />
+                        </StackPanel>
+
+                        <!-- Home Tracker -->
+                        <TextBlock Grid.Row="9" Grid.Column="0" Text="Tracker:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   IsVisible="{Binding HasHomeTracker}" />
+                        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding HomeTrackerHex}" Height="25" Width="130" HorizontalAlignment="Left"
+                                 FontFamily="Courier New,Consolas,monospace" IsVisible="{Binding HasHomeTracker}" />
+                    </Grid>
+                </ScrollViewer>
             </TabItem>
         </TabControl>
     </DockPanel>

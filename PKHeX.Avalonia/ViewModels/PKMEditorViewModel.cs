@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using PKHeX.Avalonia.Converters;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite.Avalonia;
@@ -137,6 +138,86 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private string _ot = string.Empty;
     [ObservableProperty] private ushort _tid;
     [ObservableProperty] private ushort _sid;
+
+    // OT Gender
+    [ObservableProperty] private byte _otGender;
+
+    public string OtGenderSymbol => OtGender switch
+    {
+        0 => "\u2642",  // ♂
+        1 => "\u2640",  // ♀
+        _ => "\u2014",  // —
+    };
+
+    partial void OnOtGenderChanged(byte value)
+    {
+        OnPropertyChanged(nameof(OtGenderSymbol));
+    }
+
+    [RelayCommand]
+    private void ToggleOtGender()
+    {
+        OtGender = (byte)(OtGender == 0 ? 1 : 0);
+    }
+
+    // Handling Trainer
+    [ObservableProperty] private int _currentHandler;
+    [ObservableProperty] private string _handlingTrainerName = string.Empty;
+    [ObservableProperty] private byte _htGender;
+
+    public string HtGenderSymbol => HtGender switch
+    {
+        0 => "\u2642",  // ♂
+        1 => "\u2640",  // ♀
+        _ => "\u2014",  // —
+    };
+
+    partial void OnHtGenderChanged(byte value)
+    {
+        OnPropertyChanged(nameof(HtGenderSymbol));
+    }
+
+    [ObservableProperty] private bool _hasHandler;
+
+    // Encryption Constant
+    [ObservableProperty] private string _encryptionConstantHex = "00000000";
+
+    [RelayCommand]
+    private void RerollEc()
+    {
+        var rng = new Random();
+        var ec = (uint)rng.Next();
+        EncryptionConstantHex = ec.ToString("X8");
+    }
+
+    // Home Tracker
+    [ObservableProperty] private string _homeTrackerHex = "0000000000000000";
+    [ObservableProperty] private bool _hasHomeTracker;
+
+    // Met — Fateful Encounter
+    [ObservableProperty] private bool _fatefulEncounter;
+
+    // Met — Obedience Level (Gen 9)
+    [ObservableProperty] private byte _obedienceLevel;
+    [ObservableProperty] private bool _hasObedienceLevel;
+
+    // Met — Battle Version (Gen 8+)
+    [ObservableProperty] private int _battleVersion;
+    [ObservableProperty] private bool _hasBattleVersion;
+    [ObservableProperty] private ComboItem? _selectedBattleVersion;
+
+    partial void OnSelectedBattleVersionChanged(ComboItem? value)
+    {
+        if (value is not null)
+            BattleVersion = value.Value;
+    }
+
+    // Cosmetic — Size/Scale
+    [ObservableProperty] private int _heightScalar;
+    [ObservableProperty] private int _weightScalar;
+    [ObservableProperty] private int _scale;
+    [ObservableProperty] private bool _hasSizeData;
+    [ObservableProperty] private bool _hasScale;
 
     [ObservableProperty]
     private bool _isInitialized;
@@ -351,6 +432,57 @@ public partial class PKMEditorViewModel : ObservableObject
         Tid = pk.TID16;
         Sid = pk.SID16;
 
+        // OT Gender
+        OtGender = pk.OriginalTrainerGender;
+
+        // Handling Trainer
+        CurrentHandler = pk.CurrentHandler;
+        HandlingTrainerName = pk.HandlingTrainerName;
+        HtGender = pk.HandlingTrainerGender;
+        HasHandler = !string.IsNullOrEmpty(pk.HandlingTrainerName);
+
+        // Encryption Constant
+        EncryptionConstantHex = pk.EncryptionConstant.ToString("X8");
+
+        // Home Tracker
+        if (pk is IHomeTrack ht)
+        {
+            HasHomeTracker = true;
+            HomeTrackerHex = ht.Tracker.ToString("X16");
+        }
+        else
+        {
+            HasHomeTracker = false;
+            HomeTrackerHex = "0000000000000000";
+        }
+
+        // Met — Fateful Encounter
+        FatefulEncounter = pk.FatefulEncounter;
+
+        // Met — Obedience Level
+        if (pk is IObedienceLevel ol)
+        {
+            HasObedienceLevel = true;
+            ObedienceLevel = ol.ObedienceLevel;
+        }
+        else
+        {
+            HasObedienceLevel = false;
+            ObedienceLevel = 0;
+        }
+
+        // Met — Battle Version
+        if (pk is IBattleVersion bv)
+        {
+            HasBattleVersion = true;
+            BattleVersion = (int)bv.BattleVersion;
+        }
+        else
+        {
+            HasBattleVersion = false;
+            BattleVersion = 0;
+        }
+
         // Cosmetic — Markings
         if (pk is IAppliedMarkings7 m7)
         {
@@ -417,6 +549,32 @@ public partial class PKMEditorViewModel : ObservableObject
             IsFavorite = false;
         }
 
+        // Cosmetic — Size/Scale
+        if (pk is IScaledSize ss)
+        {
+            HasSizeData = true;
+            HeightScalar = ss.HeightScalar;
+            WeightScalar = ss.WeightScalar;
+            if (pk is IScaledSize3 ss3)
+            {
+                HasScale = true;
+                Scale = ss3.Scale;
+            }
+            else
+            {
+                HasScale = false;
+                Scale = 0;
+            }
+        }
+        else
+        {
+            HasSizeData = false;
+            HasScale = false;
+            HeightScalar = 0;
+            WeightScalar = 0;
+            Scale = 0;
+        }
+
         // Refresh location lists based on version/context before setting selected items
         RefreshLocationLists();
 
@@ -434,6 +592,9 @@ public partial class PKMEditorViewModel : ObservableObject
         SelectedVersion = VersionList.FirstOrDefault(x => x.Value == (int)pk.Version);
         SelectedMetLocation = MetLocationList.FirstOrDefault(x => x.Value == pk.MetLocation);
         SelectedEggLocation = EggLocationList.FirstOrDefault(x => x.Value == pk.EggLocation);
+
+        if (pk is IBattleVersion)
+            SelectedBattleVersion = VersionList.FirstOrDefault(x => x.Value == BattleVersion);
 
         UpdateSprite();
     }
@@ -486,6 +647,22 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.SID16 = Sid;
 
         Entity.IsEgg = IsEgg;
+
+        // OT Gender
+        Entity.OriginalTrainerGender = OtGender;
+
+        // Handling Trainer
+        Entity.CurrentHandler = (byte)CurrentHandler;
+        Entity.HandlingTrainerName = HandlingTrainerName;
+        Entity.HandlingTrainerGender = HtGender;
+
+        // Encryption Constant
+        if (uint.TryParse(EncryptionConstantHex, System.Globalization.NumberStyles.HexNumber, null, out var ec))
+            Entity.EncryptionConstant = ec;
+
+        // Home Tracker
+        if (Entity is IHomeTrack htSave && ulong.TryParse(HomeTrackerHex, System.Globalization.NumberStyles.HexNumber, null, out var tracker))
+            htSave.Tracker = tracker;
 
         // Cosmetic — Markings
         if (Entity is IAppliedMarkings7 m7)
@@ -541,6 +718,26 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.EggYear = (byte)Math.Clamp(EggYear, 0, 255);
         Entity.EggMonth = (byte)Math.Clamp(EggMonth, 0, 12);
         Entity.EggDay = (byte)Math.Clamp(EggDay, 0, 31);
+
+        // Met — Fateful Encounter
+        Entity.FatefulEncounter = FatefulEncounter;
+
+        // Met — Obedience Level
+        if (Entity is IObedienceLevel olSave)
+            olSave.ObedienceLevel = ObedienceLevel;
+
+        // Met — Battle Version
+        if (Entity is IBattleVersion bvSave)
+            bvSave.BattleVersion = (GameVersion)BattleVersion;
+
+        // Cosmetic — Size/Scale
+        if (Entity is IScaledSize ssSave)
+        {
+            ssSave.HeightScalar = (byte)Math.Clamp(HeightScalar, 0, 255);
+            ssSave.WeightScalar = (byte)Math.Clamp(WeightScalar, 0, 255);
+            if (Entity is IScaledSize3 ss3Save)
+                ss3Save.Scale = (byte)Math.Clamp(Scale, 0, 255);
+        }
 
         return Entity;
     }
