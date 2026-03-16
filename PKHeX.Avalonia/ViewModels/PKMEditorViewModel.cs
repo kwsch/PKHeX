@@ -1872,22 +1872,38 @@ public partial class PKMEditorViewModel : ObservableObject
         catch (Exception ex) { LegalityReport = $"Tech Record error: {ex.Message}"; }
     }
 
-    // --- Ribbons / Memories placeholder commands ---
+    // --- Ribbons / Memories commands ---
 
     [RelayCommand]
-    private void OpenRibbons()
+    private async Task OpenRibbons()
     {
-        LegalityReport = Entity is null
-            ? "No Pokémon loaded."
-            : "Ribbon editor: use Tools > Ribbon Editor from the main menu.";
+        if (Entity is null) return;
+        try
+        {
+            PreparePKM();
+            var vm = new PKHeX.Avalonia.ViewModels.Subforms.RibbonEditorViewModel(Entity);
+            var view = new PKHeX.Avalonia.Views.Subforms.RibbonEditorView { DataContext = vm };
+            var mainWindow = (global::Avalonia.Application.Current?.ApplicationLifetime as global::Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
+        }
+        catch (Exception ex) { LegalityReport = $"Ribbon editor error: {ex.Message}"; }
     }
 
     [RelayCommand]
-    private void OpenMemories()
+    private async Task OpenMemories()
     {
-        LegalityReport = Entity is null
-            ? "No Pokémon loaded."
-            : "Memory editor: use Tools > PKM Editors > Memory / Amie from the main menu.";
+        if (Entity is null) return;
+        try
+        {
+            PreparePKM();
+            var vm = new PKHeX.Avalonia.ViewModels.Subforms.MemoryAmieViewModel(Entity);
+            var view = new PKHeX.Avalonia.Views.Subforms.MemoryAmieView { DataContext = vm };
+            var mainWindow = (global::Avalonia.Application.Current?.ApplicationLifetime as global::Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
+        }
+        catch (Exception ex) { LegalityReport = $"Memory editor error: {ex.Message}"; }
     }
 
     // --- IV/EV quick-set commands ---
