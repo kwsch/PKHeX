@@ -9,6 +9,15 @@
         CanResize="False"
         DragDrop.AllowDrop="True">
 
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Ctrl+Q" Command="{Binding ExitCommand}" />
+        <KeyBinding Gesture="Ctrl+T" Command="{Binding ImportShowdownCommand}" />
+        <KeyBinding Gesture="Ctrl+Shift+T" Command="{Binding ExportShowdownCommand}" />
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding OpenDatabaseCommand}" />
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding OpenReportGridCommand}" />
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding OpenFolderCommand}" />
+    </Window.KeyBindings>
+
     <DockPanel>
         <!-- Menu Bar (25px) -->
         <Menu DockPanel.Dock="Top" Height="25">
@@ -18,15 +27,15 @@
                 <Separator />
                 <MenuItem Header="_Export PKM..." Command="{Binding ExportPKMCommand}" InputGesture="Ctrl+E" />
                 <Separator />
-                <MenuItem Header="E_xit" Click="OnExitClick" InputGesture="Alt+F4" />
+                <MenuItem Header="E_xit" Command="{Binding ExitCommand}" InputGesture="Ctrl+Q" />
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="_QR Code..." Command="{Binding OpenQRDialogCommand}" />
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="_Showdown">
-                    <MenuItem Header="Import _Set" Command="{Binding ImportShowdownCommand}" InputGesture="Ctrl+Shift+I" />
-                    <MenuItem Header="Export _Set" Command="{Binding ExportShowdownCommand}" InputGesture="Ctrl+Shift+E" />
+                    <MenuItem Header="Import _Set" Command="{Binding ImportShowdownCommand}" InputGesture="Ctrl+T" />
+                    <MenuItem Header="Export _Set" Command="{Binding ExportShowdownCommand}" InputGesture="Ctrl+Shift+T" />
                     <MenuItem Header="Export _Party" Command="{Binding ExportPartyShowdownCommand}" />
                     <MenuItem Header="Export _Box" Command="{Binding ExportBoxShowdownCommand}" />
                 </MenuItem>
@@ -34,18 +43,22 @@
                 <MenuItem Header="Box _Viewer" Command="{Binding OpenBoxViewerCommand}" />
                 <MenuItem Header="_Ribbon Editor" Command="{Binding OpenRibbonEditorCommand}" />
                 <Separator />
-                <MenuItem Header="_Database" Command="{Binding OpenDatabaseCommand}" />
+                <MenuItem Header="_Database" Command="{Binding OpenDatabaseCommand}" InputGesture="Ctrl+D" />
                 <MenuItem Header="_Mystery Gift DB" Command="{Binding OpenMysteryGiftDBCommand}" />
                 <MenuItem Header="_Encounters" Command="{Binding OpenEncountersCommand}" />
                 <MenuItem Header="_Batch Editor" Command="{Binding OpenBatchEditorCommand}" />
-                <MenuItem Header="_Report Grid" Command="{Binding OpenReportGridCommand}" />
+                <MenuItem Header="_Report Grid" Command="{Binding OpenReportGridCommand}" InputGesture="Ctrl+R" />
                 <Separator />
                 <MenuItem Header="_PKM Editors">
                     <MenuItem Header="_Memory / Amie" Command="{Binding OpenMemoryAmieCommand}" />
                     <MenuItem Header="_Tech Records" Command="{Binding OpenTechRecordEditorCommand}" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="Open _Folder" Command="{Binding OpenFolderCommand}" />
+                <MenuItem Header="Open _Folder" Command="{Binding OpenFolderCommand}" InputGesture="Ctrl+F" />
+            </MenuItem>
+            <MenuItem Header="_Data">
+                <MenuItem Header="_Load Boxes..." Command="{Binding LoadBoxesCommand}" />
+                <MenuItem Header="_Dump Box..." Command="{Binding DumpBoxCommand}" />
             </MenuItem>
             <MenuItem Header="_Options">
                 <MenuItem Header="_Undo" Command="{Binding UndoSlotCommand}" InputGesture="Ctrl+U" />

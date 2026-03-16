@@ -228,50 +228,95 @@
                         <TextBlock Text="Stats" VerticalAlignment="Center" />
                     </StackPanel>
                 </TabItem.Header>
-                <Grid Margin="4" RowDefinitions="27,27,27,27,27,27,27" ColumnDefinitions="40,48,70,70,48">
-                    <!-- Header -->
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Stat" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Base" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="IV" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
-                    <TextBlock Grid.Row="0" Grid.Column="3" Text="EV" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
-                    <TextBlock Grid.Row="0" Grid.Column="4" Text="Total" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
-                    <!-- HP -->
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="HP" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Base_HP}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <NumericUpDown Grid.Row="1" Grid.Column="2" Value="{Binding Iv_HP}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
-                    <NumericUpDown Grid.Row="1" Grid.Column="3" Value="{Binding Ev_HP}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
-                    <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding Hp}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <!-- ATK -->
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Atk" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Base_ATK}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding Iv_ATK}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
-                    <NumericUpDown Grid.Row="2" Grid.Column="3" Value="{Binding Ev_ATK}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
-                    <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding Atk}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <!-- DEF -->
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Def" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Base_DEF}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding Iv_DEF}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
-                    <NumericUpDown Grid.Row="3" Grid.Column="3" Value="{Binding Ev_DEF}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
-                    <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Def}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <!-- SpA -->
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="SpA" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Base_SPA}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <NumericUpDown Grid.Row="4" Grid.Column="2" Value="{Binding Iv_SPA}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
-                    <NumericUpDown Grid.Row="4" Grid.Column="3" Value="{Binding Ev_SPA}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
-                    <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding SpA}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <!-- SpD -->
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="SpD" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Base_SPD}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <NumericUpDown Grid.Row="5" Grid.Column="2" Value="{Binding Iv_SPD}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
-                    <NumericUpDown Grid.Row="5" Grid.Column="3" Value="{Binding Ev_SPD}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
-                    <TextBlock Grid.Row="5" Grid.Column="4" Text="{Binding SpD}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <!-- Spe -->
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Spe" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Base_SPE}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <NumericUpDown Grid.Row="6" Grid.Column="2" Value="{Binding Iv_SPE}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
-                    <NumericUpDown Grid.Row="6" Grid.Column="3" Value="{Binding Ev_SPE}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
-                    <TextBlock Grid.Row="6" Grid.Column="4" Text="{Binding Spe}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="4" Margin="4">
+                        <!-- Main Stats Grid -->
+                        <Grid RowDefinitions="27,27,27,27,27,27,27" ColumnDefinitions="40,48,70,70,48">
+                            <!-- Header -->
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Stat" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Base" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="IV" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="EV" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                            <TextBlock Grid.Row="0" Grid.Column="4" Text="Total" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" />
+                            <!-- HP -->
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="HP" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Base_HP}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <NumericUpDown Grid.Row="1" Grid.Column="2" Value="{Binding Iv_HP}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
+                            <NumericUpDown Grid.Row="1" Grid.Column="3" Value="{Binding Ev_HP}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
+                            <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding Hp}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <!-- ATK -->
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Atk" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Base_ATK}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding Iv_ATK}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
+                            <NumericUpDown Grid.Row="2" Grid.Column="3" Value="{Binding Ev_ATK}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
+                            <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding Atk}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <!-- DEF -->
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Def" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Base_DEF}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding Iv_DEF}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
+                            <NumericUpDown Grid.Row="3" Grid.Column="3" Value="{Binding Ev_DEF}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
+                            <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Def}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <!-- SpA -->
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="SpA" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Base_SPA}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <NumericUpDown Grid.Row="4" Grid.Column="2" Value="{Binding Iv_SPA}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
+                            <NumericUpDown Grid.Row="4" Grid.Column="3" Value="{Binding Ev_SPA}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
+                            <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding SpA}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <!-- SpD -->
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="SpD" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Base_SPD}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <NumericUpDown Grid.Row="5" Grid.Column="2" Value="{Binding Iv_SPD}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
+                            <NumericUpDown Grid.Row="5" Grid.Column="3" Value="{Binding Ev_SPD}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
+                            <TextBlock Grid.Row="5" Grid.Column="4" Text="{Binding SpD}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <!-- Spe -->
+                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Spe" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Base_SPE}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <NumericUpDown Grid.Row="6" Grid.Column="2" Value="{Binding Iv_SPE}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
+                            <NumericUpDown Grid.Row="6" Grid.Column="3" Value="{Binding Ev_SPE}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
+                            <TextBlock Grid.Row="6" Grid.Column="4" Text="{Binding Spe}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+
+                        <!-- Awakening Values (Let's Go) -->
+                        <StackPanel IsVisible="{Binding HasAwakeningValues}" Spacing="2">
+                            <Border BorderBrush="#CCCCCC" BorderThickness="0,0,0,1" Margin="0,2" />
+                            <TextBlock Text="Awakening Values" FontWeight="SemiBold" />
+                            <Grid RowDefinitions="27,27,27,27,27,27" ColumnDefinitions="40,*">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="HP" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding AvHp}" Minimum="0" Maximum="200" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Atk" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding AvAtk}" Minimum="0" Maximum="200" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Def" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding AvDef}" Minimum="0" Maximum="200" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="SpA" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding AvSpa}" Minimum="0" Maximum="200" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="SpD" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding AvSpd}" Minimum="0" Maximum="200" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Spe" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding AvSpe}" Minimum="0" Maximum="200" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Ganbaru Values (Legends Arceus) -->
+                        <StackPanel IsVisible="{Binding HasGanbaruValues}" Spacing="2">
+                            <Border BorderBrush="#CCCCCC" BorderThickness="0,0,0,1" Margin="0,2" />
+                            <TextBlock Text="Ganbaru Values" FontWeight="SemiBold" />
+                            <Grid RowDefinitions="27,27,27,27,27,27" ColumnDefinitions="40,*">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="HP" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding GvHp}" Minimum="0" Maximum="10" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Atk" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding GvAtk}" Minimum="0" Maximum="10" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Def" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding GvDef}" Minimum="0" Maximum="10" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="SpA" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding GvSpa}" Minimum="0" Maximum="10" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="SpD" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding GvSpd}" Minimum="0" Maximum="10" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Spe" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding GvSpe}" Minimum="0" Maximum="10" Height="25" Width="70" HorizontalAlignment="Left" ShowButtonSpinner="False" />
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
 
             <!-- Moves Tab -->
@@ -416,7 +461,7 @@
                     </StackPanel>
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Grid Margin="4,2,4,2" RowDefinitions="27,27,27,8,27,27,27,8,27,27" ColumnDefinitions="104,*">
+                    <Grid Margin="4,2,4,2" RowDefinitions="27,27,27,8,27,27,27,8,27,27,8,27,27,27,27,8,27" ColumnDefinitions="104,*">
                         <!-- OT Name + Gender -->
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="OT Name:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0" />
                         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
@@ -454,6 +499,12 @@
                                        VerticalAlignment="Center" Margin="6,0,0,0" Width="16" />
                         </StackPanel>
 
+                        <!-- HT Language -->
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="HT Language:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   IsVisible="{Binding HasHtLanguage}" />
+                        <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding HtLanguage}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left"
+                                       IsVisible="{Binding HasHtLanguage}" />
+
                         <!-- Separator -->
                         <Border Grid.Row="7" Grid.ColumnSpan="2" BorderBrush="#CCCCCC" BorderThickness="0,0,0,1" Margin="0,2" />
 
@@ -469,6 +520,45 @@
                                    IsVisible="{Binding HasHomeTracker}" />
                         <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding HomeTrackerHex}" Height="25" Width="130" HorizontalAlignment="Left"
                                  FontFamily="Courier New,Consolas,monospace" IsVisible="{Binding HasHomeTracker}" />
+
+                        <!-- Separator -->
+                        <Border Grid.Row="10" Grid.ColumnSpan="2" BorderBrush="#CCCCCC" BorderThickness="0,0,0,1" Margin="0,2"
+                                IsVisible="{Binding HasRegionData}" />
+
+                        <!-- Country (Gen 6-7) -->
+                        <TextBlock Grid.Row="11" Grid.Column="0" Text="Country:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   IsVisible="{Binding HasRegionData}" />
+                        <NumericUpDown Grid.Row="11" Grid.Column="1" Value="{Binding Country}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left"
+                                       IsVisible="{Binding HasRegionData}" />
+
+                        <!-- Sub Region (Gen 6-7) -->
+                        <TextBlock Grid.Row="12" Grid.Column="0" Text="Sub Region:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   IsVisible="{Binding HasRegionData}" />
+                        <NumericUpDown Grid.Row="12" Grid.Column="1" Value="{Binding SubRegion}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left"
+                                       IsVisible="{Binding HasRegionData}" />
+
+                        <!-- 3DS Region (Gen 6-7) -->
+                        <TextBlock Grid.Row="13" Grid.Column="0" Text="3DS Region:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   IsVisible="{Binding HasRegionData}" />
+                        <NumericUpDown Grid.Row="13" Grid.Column="1" Value="{Binding ConsoleRegion}" Minimum="0" Maximum="255" Height="25" Width="60" HorizontalAlignment="Left"
+                                       IsVisible="{Binding HasRegionData}" />
+
+                        <!-- HT Language in row 6 already handled above -->
+
+                        <!-- Separator -->
+                        <Border Grid.Row="15" Grid.ColumnSpan="2" BorderBrush="#CCCCCC" BorderThickness="0,0,0,1" Margin="0,2"
+                                IsVisible="{Binding HasExtraBytes}" />
+
+                        <!-- Extra Bytes -->
+                        <TextBlock Grid.Row="16" Grid.Column="0" Text="Extra Byte:" TextAlignment="Right" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   IsVisible="{Binding HasExtraBytes}" />
+                        <StackPanel Grid.Row="16" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
+                                    IsVisible="{Binding HasExtraBytes}">
+                            <ComboBox ItemsSource="{Binding ExtraByteOffsets}" SelectedItem="{Binding SelectedExtraByteOffset}"
+                                      Height="25" Width="80" />
+                            <NumericUpDown Value="{Binding ExtraByteValue}" Minimum="0" Maximum="255"
+                                           Height="25" Width="60" Margin="4,0,0,0" />
+                        </StackPanel>
                     </Grid>
                 </ScrollViewer>
             </TabItem>

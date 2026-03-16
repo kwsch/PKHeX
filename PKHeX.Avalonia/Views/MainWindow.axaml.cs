@@ -35,11 +35,6 @@ public partial class MainWindow : Window
             vm.HandleFileDrop(files);
     }
 
-    private void OnExitClick(object? sender, global::Avalonia.Interactivity.RoutedEventArgs e)
-    {
-        Close();
-    }
-
     private void OnToggleThemeClick(object? sender, global::Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (Application.Current is null)

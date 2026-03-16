@@ -49,6 +49,29 @@ public sealed class AvaloniaDialogService : IDialogService
         return result.Count > 0 ? result[0].Path.LocalPath : null;
     }
 
+    public async Task<string[]?> OpenFilesAsync(string title, IReadOnlyList<string>? filters = null)
+    {
+        var storage = GetStorageProvider();
+        if (storage is null)
+            return null;
+
+        var options = new FilePickerOpenOptions
+        {
+            Title = title,
+            AllowMultiple = true,
+        };
+
+        if (filters is { Count: > 0 })
+        {
+            options.FileTypeFilter = filters
+                .Select(f => new FilePickerFileType(f) { Patterns = [$"*.{f}"] })
+                .ToList();
+        }
+
+        var result = await storage.OpenFilePickerAsync(options);
+        return result.Count > 0 ? result.Select(f => f.Path.LocalPath).ToArray() : null;
+    }
+
     public async Task<string?> SaveFileAsync(string title, string defaultFileName, IReadOnlyList<string>? filters = null)
     {
         var storage = GetStorageProvider();

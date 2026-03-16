@@ -10,6 +10,7 @@ namespace PKHeX.Avalonia.Services;
 public interface IDialogService
 {
     Task<string?> OpenFileAsync(string title, IReadOnlyList<string>? filters = null);
+    Task<string[]?> OpenFilesAsync(string title, IReadOnlyList<string>? filters = null);
     Task<string?> SaveFileAsync(string title, string defaultFileName, IReadOnlyList<string>? filters = null);
     Task<string?> OpenFolderAsync(string title);
 

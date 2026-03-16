@@ -716,4 +716,114 @@ public partial class MainWindowViewModel : ObservableObject
 
         _ = LoadFileAsync(files[0]);
     }
+
+    #region Exit
+
+    [RelayCommand]
+    private void Exit()
+    {
+        var lifetime = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+        lifetime?.MainWindow?.Close();
+    }
+
+    #endregion
+
+    #region Load Boxes / Dump Box
+
+    [RelayCommand]
+    private async Task LoadBoxesAsync()
+    {
+        if (SaveFile is null || SavEditor is null)
+            return;
+
+        try
+        {
+            var paths = await _dialogService.OpenFilesAsync("Select PKM files to load into boxes");
+            if (paths is null || paths.Length == 0)
+                return;
+
+            int loaded = 0;
+            int currentBox = SavEditor.CurrentBox;
+            int slot = 0;
+
+            // Find first empty slot in current box
+            for (int i = 0; i < SaveFile.BoxSlotCount; i++)
+            {
+                var existing = SaveFile.GetBoxSlotAtIndex(currentBox, i);
+                if (existing.Species == 0)
+                {
+                    slot = i;
+                    break;
+                }
+                slot = i + 1;
+            }
+
+            foreach (var path in paths)
+            {
+                if (slot >= SaveFile.BoxSlotCount)
+                    break;
+
+                var data = await File.ReadAllBytesAsync(path);
+                var pk = EntityFormat.GetFromBytes(data);
+                if (pk is null)
+                    continue;
+
+                var converted = EntityConverter.ConvertToType(pk, SaveFile.PKMType, out _);
+                if (converted is null)
+                    continue;
+
+                SaveFile.SetBoxSlotAtIndex(converted, currentBox, slot);
+                loaded++;
+                slot++;
+            }
+
+            SavEditor.ReloadSlots();
+            StatusMessage = $"Loaded {loaded} Pokemon into Box {currentBox + 1}.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Load Boxes error: {ex.Message}";
+        }
+    }
+
+    [RelayCommand]
+    private async Task DumpBoxAsync()
+    {
+        if (SaveFile is null || SavEditor is null)
+            return;
+
+        try
+        {
+            var folder = await _dialogService.OpenFolderAsync("Select output folder for box dump");
+            if (string.IsNullOrEmpty(folder))
+                return;
+
+            var box = SavEditor.CurrentBox;
+            int dumped = 0;
+
+            for (int i = 0; i < SaveFile.BoxSlotCount; i++)
+            {
+                var pk = SaveFile.GetBoxSlotAtIndex(box, i);
+                if (pk.Species == 0)
+                    continue;
+
+                var fileName = $"{pk.Species:000}_{pk.Nickname}.{pk.Extension}";
+                // Sanitize filename
+                foreach (var c in Path.GetInvalidFileNameChars())
+                    fileName = fileName.Replace(c, '_');
+
+                var filePath = Path.Combine(folder, fileName);
+                await File.WriteAllBytesAsync(filePath, pk.DecryptedBoxData);
+                dumped++;
+            }
+
+            StatusMessage = $"Dumped {dumped} Pokemon from Box {box + 1}.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Dump Box error: {ex.Message}";
+        }
+    }
+
+    #endregion
 }

@@ -250,6 +250,30 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private string _homeTrackerHex = "0000000000000000";
     [ObservableProperty] private bool _hasHomeTracker;
 
+    // Extra Bytes
+    [ObservableProperty] private IReadOnlyList<string> _extraByteOffsets = Array.Empty<string>();
+    [ObservableProperty] private string? _selectedExtraByteOffset;
+    [ObservableProperty] private int _extraByteValue;
+    [ObservableProperty] private bool _hasExtraBytes;
+
+    partial void OnSelectedExtraByteOffsetChanged(string? value)
+    {
+        if (value is null || Entity is null) return;
+        if (ushort.TryParse(value.Replace("0x", ""), System.Globalization.NumberStyles.HexNumber, null, out var offset) && offset < Entity.Data.Length)
+        {
+            _isPopulating = true;
+            try { ExtraByteValue = Entity.Data[offset]; }
+            finally { _isPopulating = false; }
+        }
+    }
+
+    partial void OnExtraByteValueChanged(int value)
+    {
+        if (_isPopulating || SelectedExtraByteOffset is null || Entity is null) return;
+        if (ushort.TryParse(SelectedExtraByteOffset.Replace("0x", ""), System.Globalization.NumberStyles.HexNumber, null, out var offset) && offset < Entity.Data.Length)
+            Entity.Data[offset] = (byte)value;
+    }
+
     // Met — Fateful Encounter
     [ObservableProperty] private bool _fatefulEncounter;
 
@@ -273,6 +297,22 @@ public partial class PKMEditorViewModel : ObservableObject
         if (value is not null)
             EncounterType = value.Value;
     }
+
+    // Awakening Values (Let's Go PB7)
+    [ObservableProperty] private int _avHp, _avAtk, _avDef, _avSpa, _avSpd, _avSpe;
+    [ObservableProperty] private bool _hasAwakeningValues;
+
+    // Ganbaru Values (Legends Arceus PA8)
+    [ObservableProperty] private int _gvHp, _gvAtk, _gvDef, _gvSpa, _gvSpd, _gvSpe;
+    [ObservableProperty] private bool _hasGanbaruValues;
+
+    // Region Origin (Gen 6-7, 3DS)
+    [ObservableProperty] private int _country, _subRegion, _consoleRegion;
+    [ObservableProperty] private bool _hasRegionData;
+
+    // Handler Language
+    [ObservableProperty] private int _htLanguage;
+    [ObservableProperty] private bool _hasHtLanguage;
 
     // Cosmetic — Size/Scale
     [ObservableProperty] private int _heightScalar;
@@ -549,6 +589,32 @@ public partial class PKMEditorViewModel : ObservableObject
         Ev_SPD = pk.EV_SPD;
         Ev_SPE = pk.EV_SPE;
 
+        // Awakening Values (Let's Go)
+        if (pk is IAwakened aw)
+        {
+            HasAwakeningValues = true;
+            AvHp = aw.AV_HP; AvAtk = aw.AV_ATK; AvDef = aw.AV_DEF;
+            AvSpa = aw.AV_SPA; AvSpd = aw.AV_SPD; AvSpe = aw.AV_SPE;
+        }
+        else
+        {
+            HasAwakeningValues = false;
+            AvHp = AvAtk = AvDef = AvSpa = AvSpd = AvSpe = 0;
+        }
+
+        // Ganbaru Values (Legends Arceus)
+        if (pk is IGanbaru gv)
+        {
+            HasGanbaruValues = true;
+            GvHp = gv.GV_HP; GvAtk = gv.GV_ATK; GvDef = gv.GV_DEF;
+            GvSpa = gv.GV_SPA; GvSpd = gv.GV_SPD; GvSpe = gv.GV_SPE;
+        }
+        else
+        {
+            HasGanbaruValues = false;
+            GvHp = GvAtk = GvDef = GvSpa = GvSpd = GvSpe = 0;
+        }
+
         Move1 = pk.Move1;
         Move2 = pk.Move2;
         Move3 = pk.Move3;
@@ -580,6 +646,32 @@ public partial class PKMEditorViewModel : ObservableObject
         HtGender = pk.HandlingTrainerGender;
         HasHandler = !string.IsNullOrEmpty(pk.HandlingTrainerName);
 
+        // Handler Language
+        if (pk is IHandlerLanguage hl)
+        {
+            HasHtLanguage = true;
+            HtLanguage = hl.HandlingTrainerLanguage;
+        }
+        else
+        {
+            HasHtLanguage = false;
+            HtLanguage = 0;
+        }
+
+        // Region Origin (Gen 6-7)
+        if (pk is IRegionOrigin ro)
+        {
+            HasRegionData = true;
+            Country = ro.Country;
+            SubRegion = ro.Region;
+            ConsoleRegion = ro.ConsoleRegion;
+        }
+        else
+        {
+            HasRegionData = false;
+            Country = SubRegion = ConsoleRegion = 0;
+        }
+
         // Encryption Constant
         EncryptionConstantHex = pk.EncryptionConstant.ToString("X8");
 
@@ -593,6 +685,21 @@ public partial class PKMEditorViewModel : ObservableObject
         {
             HasHomeTracker = false;
             HomeTrackerHex = "0000000000000000";
+        }
+
+        // Extra Bytes
+        var extra = pk.ExtraBytes;
+        if (extra.Length > 0)
+        {
+            HasExtraBytes = true;
+            ExtraByteOffsets = extra.ToArray().Select(b => $"0x{b:X2}").ToArray();
+            SelectedExtraByteOffset = ExtraByteOffsets.FirstOrDefault();
+        }
+        else
+        {
+            HasExtraBytes = false;
+            ExtraByteOffsets = Array.Empty<string>();
+            SelectedExtraByteOffset = null;
         }
 
         // Met — Fateful Encounter
@@ -901,6 +1008,28 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.EV_SPD = Ev_SPD;
         Entity.EV_SPE = Ev_SPE;
 
+        // Awakening Values (Let's Go)
+        if (Entity is IAwakened awSave)
+        {
+            awSave.AV_HP = (byte)Math.Clamp(AvHp, 0, 200);
+            awSave.AV_ATK = (byte)Math.Clamp(AvAtk, 0, 200);
+            awSave.AV_DEF = (byte)Math.Clamp(AvDef, 0, 200);
+            awSave.AV_SPA = (byte)Math.Clamp(AvSpa, 0, 200);
+            awSave.AV_SPD = (byte)Math.Clamp(AvSpd, 0, 200);
+            awSave.AV_SPE = (byte)Math.Clamp(AvSpe, 0, 200);
+        }
+
+        // Ganbaru Values (Legends Arceus)
+        if (Entity is IGanbaru gvSave)
+        {
+            gvSave.GV_HP = (byte)Math.Clamp(GvHp, 0, 10);
+            gvSave.GV_ATK = (byte)Math.Clamp(GvAtk, 0, 10);
+            gvSave.GV_DEF = (byte)Math.Clamp(GvDef, 0, 10);
+            gvSave.GV_SPA = (byte)Math.Clamp(GvSpa, 0, 10);
+            gvSave.GV_SPD = (byte)Math.Clamp(GvSpd, 0, 10);
+            gvSave.GV_SPE = (byte)Math.Clamp(GvSpe, 0, 10);
+        }
+
         Entity.Move1 = Move1;
         Entity.Move2 = Move2;
         Entity.Move3 = Move3;
@@ -920,6 +1049,18 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.CurrentHandler = (byte)CurrentHandler;
         Entity.HandlingTrainerName = HandlingTrainerName;
         Entity.HandlingTrainerGender = HtGender;
+
+        // Handler Language
+        if (Entity is IHandlerLanguage hlSave)
+            hlSave.HandlingTrainerLanguage = (byte)Math.Clamp(HtLanguage, 0, 255);
+
+        // Region Origin (Gen 6-7)
+        if (Entity is IRegionOrigin roSave)
+        {
+            roSave.Country = (byte)Math.Clamp(Country, 0, 255);
+            roSave.Region = (byte)Math.Clamp(SubRegion, 0, 255);
+            roSave.ConsoleRegion = (byte)Math.Clamp(ConsoleRegion, 0, 255);
+        }
 
         // Encryption Constant
         if (uint.TryParse(EncryptionConstantHex, System.Globalization.NumberStyles.HexNumber, null, out var ec))
