@@ -7,6 +7,8 @@
                      Title="Batch Editor"
                      Width="520" Height="480"
                      MinWidth="400" MinHeight="380"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -15,8 +17,8 @@
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
             <Button Content="Sample" Command="{Binding AddSampleInstructionsCommand}" Width="80" />
-            <Button Content="Clear" Command="{Binding ClearInstructionsCommand}" Width="70" />
-            <Button Content="Execute" Command="{Binding ExecuteCommand}" Width="90"
+            <Button Content="Clear" Command="{Binding ClearInstructionsCommand}" Width="80" />
+            <Button Content="Execute" Command="{Binding ExecuteCommand}" Width="80"
                     IsEnabled="{Binding !IsExecuting}" />
             <Button Content="Close" Click="OnCloseClick" Width="80" />
         </StackPanel>
@@ -24,7 +26,7 @@
         <DockPanel>
             <!-- Scope selection -->
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
-                <TextBlock Text="Scope:" VerticalAlignment="Center" />
+                <TextBlock Text="Scope:" VerticalAlignment="Center" FontSize="11" />
                 <ComboBox ItemsSource="{Binding ScopeOptions}"
                           SelectedIndex="{Binding SelectedScope}"
                           MinWidth="140" />
@@ -32,7 +34,7 @@
 
             <!-- Instructions label -->
             <TextBlock DockPanel.Dock="Top" Text="Instructions (one per line, e.g. .Level=100):"
-                       Margin="0,0,0,4" />
+                       FontSize="11" Margin="0,0,0,4" />
 
             <!-- Results log at bottom -->
             <Border DockPanel.Dock="Bottom" Margin="0,8,0,0"
@@ -41,7 +43,7 @@
                 <ScrollViewer>
                     <TextBlock Text="{Binding ResultLog}"
                                TextWrapping="Wrap" FontFamily="Consolas, Menlo, monospace"
-                               FontSize="12" />
+                               FontSize="11" />
                 </ScrollViewer>
             </Border>
 
@@ -55,7 +57,7 @@
                      AcceptsReturn="True" AcceptsTab="True"
                      TextWrapping="Wrap"
                      FontFamily="Consolas, Menlo, monospace"
-                     FontSize="13"
+                     FontSize="11"
                      Watermark="Enter batch instructions here..."
                      MinHeight="120" />
         </DockPanel>

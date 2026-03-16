@@ -1,5 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="using:PKHeX.Avalonia.Views"
              x:Class="PKHeX.Avalonia.App"
              RequestedThemeVariant="Light">
     <Application.Styles>
@@ -15,6 +16,45 @@
         </Style>
         <Style Selector="NumericUpDown">
             <Setter Property="Padding" Value="2,1"/>
+        </Style>
+
+        <!-- Global button styling for consistent appearance -->
+        <Style Selector="Button">
+            <Setter Property="MinHeight" Value="24"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Dialog buttons get a minimum width so OK/Cancel/action buttons are uniform -->
+        <Style Selector="views|SubformWindow Button">
+            <Setter Property="MinWidth" Value="75"/>
+        </Style>
+
+        <!-- Monospace font for code/hex displays -->
+        <Style Selector="TextBox.monospace">
+            <Setter Property="FontFamily" Value="Consolas,Menlo,Courier New,monospace"/>
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+
+        <!-- Dialog window base styling -->
+        <Style Selector="Window">
+            <Setter Property="FontFamily" Value="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"/>
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+
+        <!-- Section headers -->
+        <Style Selector="TextBlock.section-header">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,4,0,4"/>
+        </Style>
+
+        <!-- Standard label in forms -->
+        <Style Selector="TextBlock.field-label">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
 
         <!-- PKMEditor tab styling: WinForms VerticalTabControl parity (96x40 per tab) -->

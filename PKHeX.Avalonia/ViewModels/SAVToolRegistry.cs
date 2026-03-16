@@ -27,7 +27,7 @@ public static class SAVToolRegistry
             // --- Item Pouch ---
             new("Items",
                 sav => (sav.HasParty && sav is not SAV4BR) || sav is SAV7b,
-                sav => WithView<InventoryViewModel, InventoryView>(new InventoryViewModel(sav))),
+                CreateInventoryEditor),
 
             // --- Pokedex ---
             new("Pokédex",
@@ -340,6 +340,19 @@ public static class SAVToolRegistry
     // -------------------------------------------------------------------------
     // Dispatcher methods for gen-specific tools
     // -------------------------------------------------------------------------
+
+    private static (object, Window) CreateInventoryEditor(SaveFile sav)
+    {
+        try
+        {
+            return WithView<InventoryViewModel, InventoryView>(new InventoryViewModel(sav));
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException(
+                $"Failed to load inventory for {sav.GetType().Name} (Gen {sav.Generation}): {ex.Message}", ex);
+        }
+    }
 
     private static (object, Window) CreateTrainerEditor(SaveFile sav)
     {

@@ -222,7 +222,8 @@ public partial class SAVEditorViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"{tool.Name} error: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"{tool.Name} error: {ex}");
+            SetStatusMessage?.Invoke($"{tool.Name}: {ex.Message}");
         }
     }
 

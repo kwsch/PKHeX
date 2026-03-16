@@ -35,21 +35,22 @@ public partial class SettingsEditorView : SubformWindow
         SettingsTabs.Items.Clear();
         foreach (var category in vm.Categories)
         {
-            var tab = new TabItem { Header = category.Name };
+            var tab = new TabItem { Header = category.Name, FontSize = 11 };
             var scrollViewer = new ScrollViewer();
-            var panel = new StackPanel { Spacing = 4, Margin = new global::Avalonia.Thickness(4) };
+            var panel = new StackPanel { Spacing = 6, Margin = new global::Avalonia.Thickness(8) };
 
             foreach (var prop in category.Properties)
             {
                 var row = new Grid
                 {
                     ColumnDefinitions = ColumnDefinitions.Parse("200,*"),
-                    Margin = new global::Avalonia.Thickness(2),
+                    Margin = new global::Avalonia.Thickness(2, 1),
                 };
 
                 var label = new TextBlock
                 {
                     Text = prop.Name,
+                    FontSize = 11,
                     VerticalAlignment = VerticalAlignment.Center,
                 };
                 Grid.SetColumn(label, 0);

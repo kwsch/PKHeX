@@ -7,6 +7,8 @@
                      Title="{Binding WindowTitle}"
                      Width="550" Height="550"
                      MinWidth="400" MinHeight="350"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -30,8 +32,8 @@
                     <ItemsControl ItemsSource="{Binding FilteredFlags}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:EventFlagModel">
-                                <CheckBox IsChecked="{Binding Value}" Margin="4,1">
-                                    <TextBlock Text="{Binding Label}" />
+                                <CheckBox IsChecked="{Binding Value}" Margin="4,2">
+                                    <TextBlock Text="{Binding Label}" FontSize="11" />
                                 </CheckBox>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -51,9 +53,11 @@
                                                    Minimum="0"
                                                    Maximum="65535"
                                                    Width="100"
+                                                   FontSize="11"
                                                    VerticalAlignment="Center" />
                                     <TextBlock Grid.Column="1"
                                                Text="{Binding Label}"
+                                               FontSize="11"
                                                VerticalAlignment="Center"
                                                Margin="8,0,0,0" />
                                 </Grid>

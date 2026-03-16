@@ -7,6 +7,8 @@
                      Title="Settings"
                      Width="550" Height="500"
                      MinWidth="400" MinHeight="350"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -19,7 +21,7 @@
         </StackPanel>
 
         <!-- Settings tabs populated in code-behind -->
-        <TabControl x:Name="SettingsTabs" />
+        <TabControl x:Name="SettingsTabs" Padding="4" />
     </DockPanel>
 
 </views:SubformWindow>

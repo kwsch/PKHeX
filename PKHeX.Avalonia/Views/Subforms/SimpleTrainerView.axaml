@@ -7,6 +7,8 @@
                      Title="Simple Trainer Editor"
                      Width="420" Height="520"
                      MinWidth="350" MinHeight="400"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
@@ -22,55 +24,55 @@
             <StackPanel Spacing="8">
                 <!-- Trainer Name -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="OT Name" FontWeight="SemiBold" />
+                    <TextBlock Text="OT Name" Classes="section-header" />
                     <TextBox Text="{Binding OtName}" MaxLength="{Binding MaxNameLength}" />
                 </StackPanel>
 
                 <!-- IDs -->
                 <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" Margin="0,4">
                     <StackPanel Grid.Column="0" Grid.Row="0" Spacing="4" Margin="0,0,4,0">
-                        <TextBlock Text="TID" FontWeight="SemiBold" />
+                        <TextBlock Text="TID" Classes="section-header" />
                         <NumericUpDown Value="{Binding Tid}" Minimum="0" Maximum="65535" />
                     </StackPanel>
                     <StackPanel Grid.Column="1" Grid.Row="0" Spacing="4" Margin="4,0,0,0"
                                 IsVisible="{Binding HasSid}">
-                        <TextBlock Text="SID" FontWeight="SemiBold" />
+                        <TextBlock Text="SID" Classes="section-header" />
                         <NumericUpDown Value="{Binding Sid}" Minimum="0" Maximum="65535" />
                     </StackPanel>
                 </Grid>
 
                 <!-- Money -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Money" FontWeight="SemiBold" />
+                    <TextBlock Text="Money" Classes="section-header" />
                     <Grid ColumnDefinitions="*,Auto">
                         <NumericUpDown Grid.Column="0" Value="{Binding Money}"
                                        Minimum="0" Maximum="{Binding MaxMoney}" />
                         <Button Grid.Column="1" Content="Max" Command="{Binding MaxCashCommand}"
-                                Margin="4,0,0,0" />
+                                Margin="4,0,0,0" MinWidth="50" />
                     </Grid>
                 </StackPanel>
 
                 <!-- Gender -->
                 <StackPanel Spacing="4" IsVisible="{Binding HasGender}">
-                    <TextBlock Text="Gender" FontWeight="SemiBold" />
+                    <TextBlock Text="Gender" Classes="section-header" />
                     <ComboBox ItemsSource="{Binding GenderSymbols}"
                               SelectedIndex="{Binding Gender}" />
                 </StackPanel>
 
                 <!-- Play Time -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Play Time" FontWeight="SemiBold" />
+                    <TextBlock Text="Play Time" Classes="section-header" />
                     <Grid ColumnDefinitions="*,*,*" Margin="0,0,0,0">
                         <StackPanel Grid.Column="0" Spacing="2" Margin="0,0,4,0">
-                            <TextBlock Text="Hours" />
+                            <TextBlock Text="Hours" Classes="field-label" />
                             <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Spacing="2" Margin="4,0,4,0">
-                            <TextBlock Text="Minutes" />
+                            <TextBlock Text="Minutes" Classes="field-label" />
                             <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Spacing="2" Margin="4,0,0,0">
-                            <TextBlock Text="Seconds" />
+                            <TextBlock Text="Seconds" Classes="field-label" />
                             <NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" />
                         </StackPanel>
                     </Grid>
@@ -78,7 +80,7 @@
 
                 <!-- Badges -->
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Badges" FontWeight="SemiBold" />
+                    <TextBlock Text="Badges" Classes="section-header" />
                     <WrapPanel>
                         <CheckBox Content="Badge 1" IsChecked="{Binding Badge1}" Margin="4,2" />
                         <CheckBox Content="Badge 2" IsChecked="{Binding Badge2}" Margin="4,2" />
