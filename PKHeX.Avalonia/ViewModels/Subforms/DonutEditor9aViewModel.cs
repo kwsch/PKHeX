@@ -64,20 +64,20 @@ public partial class DonutEditor9aViewModel : ObservableObject
         if (_donut is not { } donut)
             return;
 
-        donut.Stars = (byte)Stars;
-        donut.Calories = (ushort)Calories;
-        donut.LevelBoost = (byte)LevelBoost;
-        donut.Donut = (ushort)DonutIndex;
+        donut.Stars = (byte)Math.Clamp(Stars, 0, 255);
+        donut.Calories = (ushort)Math.Clamp(Calories, 0, ushort.MaxValue);
+        donut.LevelBoost = (byte)Math.Clamp(LevelBoost, 0, 255);
+        donut.Donut = (ushort)Math.Clamp(DonutIndex, 0, ushort.MaxValue);
 
-        donut.BerryName = (ushort)Berry0;
-        donut.Berry1 = (ushort)Berry1;
-        donut.Berry2 = (ushort)Berry2;
-        donut.Berry3 = (ushort)Berry3;
-        donut.Berry4 = (ushort)Berry4;
-        donut.Berry5 = (ushort)Berry5;
-        donut.Berry6 = (ushort)Berry6;
-        donut.Berry7 = (ushort)Berry7;
-        donut.Berry8 = (ushort)Berry8;
+        donut.BerryName = (ushort)Math.Clamp(Berry0, 0, ushort.MaxValue);
+        donut.Berry1 = (ushort)Math.Clamp(Berry1, 0, ushort.MaxValue);
+        donut.Berry2 = (ushort)Math.Clamp(Berry2, 0, ushort.MaxValue);
+        donut.Berry3 = (ushort)Math.Clamp(Berry3, 0, ushort.MaxValue);
+        donut.Berry4 = (ushort)Math.Clamp(Berry4, 0, ushort.MaxValue);
+        donut.Berry5 = (ushort)Math.Clamp(Berry5, 0, ushort.MaxValue);
+        donut.Berry6 = (ushort)Math.Clamp(Berry6, 0, ushort.MaxValue);
+        donut.Berry7 = (ushort)Math.Clamp(Berry7, 0, ushort.MaxValue);
+        donut.Berry8 = (ushort)Math.Clamp(Berry8, 0, ushort.MaxValue);
 
         donut.MillisecondsSince1970 = ulong.TryParse(Milliseconds, out var ms) ? ms : 0;
     }

@@ -186,9 +186,46 @@ public sealed class AvaloniaDialogService : IDialogService
         return result;
     }
 
-    public Task<string?> ShowPromptAsync(string title, string message, string defaultValue = "")
+    public async Task<string?> ShowPromptAsync(string title, string message, string defaultValue = "")
     {
-        // Simplified prompt - full implementation would have a TextBox
-        return Task.FromResult<string?>(defaultValue);
+        var mainWindow = GetMainWindow();
+        if (mainWindow is null)
+            return defaultValue;
+
+        var textBox = new TextBox { Text = defaultValue, Watermark = message };
+        var okBtn = new Button { Content = "OK", HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Center };
+        var cancelBtn = new Button { Content = "Cancel", HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Center };
+
+        string? result = null;
+        var dialog = new Window
+        {
+            Title = title,
+            Width = 400,
+            Height = 180,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            Content = new StackPanel
+            {
+                Margin = new global::Avalonia.Thickness(16),
+                Spacing = 12,
+                Children =
+                {
+                    new TextBlock { Text = message, TextWrapping = global::Avalonia.Media.TextWrapping.Wrap },
+                    textBox,
+                    new StackPanel
+                    {
+                        Orientation = global::Avalonia.Layout.Orientation.Horizontal,
+                        HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Center,
+                        Spacing = 12,
+                        Children = { okBtn, cancelBtn },
+                    },
+                },
+            },
+        };
+
+        okBtn.Click += (_, _) => { result = textBox.Text; dialog.Close(); };
+        cancelBtn.Click += (_, _) => { dialog.Close(); };
+
+        await dialog.ShowDialog(mainWindow);
+        return result;
     }
 }

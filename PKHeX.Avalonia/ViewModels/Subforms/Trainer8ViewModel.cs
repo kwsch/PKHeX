@@ -112,7 +112,7 @@ public partial class Trainer8ViewModel : SaveEditorViewModelBase
     private void Save()
     {
         _sav.Version = (GameVersion)(GameIndex + (int)GameVersion.SW);
-        _sav.Gender = (byte)Gender;
+        _sav.Gender = (byte)Math.Clamp(Gender, 0, 255);
         _sav.OT = OtName;
         _sav.Blocks.TrainerCard.OT = TrainerCardName;
         _sav.Blocks.MyStatus.Number = _sav.Blocks.TrainerCard.Number = TrainerCardNumber;
@@ -124,13 +124,13 @@ public partial class Trainer8ViewModel : SaveEditorViewModelBase
         var watt = uint.TryParse(Watt, out var w) ? w : 0u;
         _sav.MyStatus.Watt = watt;
         if (_sav.GetRecord(Record8.WattTotal) < watt)
-            _sav.SetRecord(Record8.WattTotal, (int)watt);
+            _sav.SetRecord(Record8.WattTotal, (int)Math.Min(watt, int.MaxValue));
 
         _sav.Misc.BP = Bp;
 
-        _sav.PlayedHours = (ushort)PlayedHours;
-        _sav.PlayedMinutes = (ushort)(PlayedMinutes % 60);
-        _sav.PlayedSeconds = (ushort)(PlayedSeconds % 60);
+        _sav.PlayedHours = (ushort)Math.Clamp(PlayedHours, 0, ushort.MaxValue);
+        _sav.PlayedMinutes = (ushort)Math.Clamp(PlayedMinutes, 0, 59);
+        _sav.PlayedSeconds = (ushort)Math.Clamp(PlayedSeconds, 0, 59);
 
         // Battle Tower
         var singles = Math.Min(9_999_999u, uint.TryParse(BattleTowerSinglesWin, out var sv) ? sv : 0u);

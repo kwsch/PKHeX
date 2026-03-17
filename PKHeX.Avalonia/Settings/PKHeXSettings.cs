@@ -44,6 +44,12 @@ public sealed class PKHeXSettings : IProgramSettings
     [JsonIgnore]
     public SlotExportSettings SlotExport { get; set; } = new();
 
+    public static JsonSerializerOptions SerializerOptions { get; } = new()
+    {
+        WriteIndented = true,
+        TypeInfoResolver = PKHeXSettingsContext.Default,
+    };
+
     private static PKHeXSettingsContext GetContext() => new(new()
     {
         WriteIndented = true,

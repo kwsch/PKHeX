@@ -41,7 +41,12 @@ public partial class App : Application
 
             desktop.ShutdownRequested += (_, _) =>
             {
-                PKHeXSettings.SaveSettings(GetConfigPath(), Settings).GetAwaiter().GetResult();
+                try
+                {
+                    var json = System.Text.Json.JsonSerializer.Serialize(Settings, PKHeXSettings.SerializerOptions);
+                    File.WriteAllText(GetConfigPath(), json);
+                }
+                catch { }
             };
         }
 

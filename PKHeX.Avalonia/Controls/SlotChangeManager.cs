@@ -151,7 +151,9 @@ public sealed class SlotChangeManager
                 return;
             }
 
-            PushUndoForSlot(destSlot);
+            var undoEntry = CreateUndoEntry(destSlot);
+            if (undoEntry is not null)
+                _editor.PushUndo(undoEntry);
             WriteSlot(destSlot, pk);
             _editor.ReloadSlots();
             _editor.SetStatusMessage?.Invoke($"Loaded {Path.GetFileName(filePath)} into slot.");
@@ -193,11 +195,19 @@ public sealed class SlotChangeManager
         var destPkm = _editor.GetSlotPKM(dest);
         bool destIsEmpty = destPkm is null || destPkm.Species == 0;
 
-        // Push undo for destination (always modified)
-        PushUndoForSlot(dest);
-        // Push undo for source when it will be modified (all modes except Clone)
+        // Collect undo entries and push as a single atomic group
+        var entries = new System.Collections.Generic.List<SAVEditorViewModel.SlotChangeEntry>();
+        var destEntry = CreateUndoEntry(dest);
+        if (destEntry is not null)
+            entries.Add(destEntry);
         if (mod != DropModifier.Clone)
-            PushUndoForSlot(source);
+        {
+            var srcEntry = CreateUndoEntry(source);
+            if (srcEntry is not null)
+                entries.Add(srcEntry);
+        }
+        if (entries.Count > 0)
+            _editor.PushUndo(entries.ToArray());
 
         // Write source PKM to destination
         WriteSlot(dest, sourcePkm);
@@ -238,30 +248,32 @@ public sealed class SlotChangeManager
     }
 
     /// <summary>
-    /// Pushes the current state of a slot onto the undo stack.
+    /// Creates a <see cref="SAVEditorViewModel.SlotChangeEntry"/> capturing the current state of the given slot,
+    /// or <c>null</c> if the slot cannot be resolved.
     /// </summary>
-    private void PushUndoForSlot(SlotModel slot)
+    private SAVEditorViewModel.SlotChangeEntry? CreateUndoEntry(SlotModel slot)
     {
         var sav = _editor.SAV;
         if (sav is null)
-            return;
+            return null;
 
         int boxIndex = _editor.BoxSlots.IndexOf(slot);
         if (boxIndex >= 0)
         {
             var existing = sav.GetBoxSlotAtIndex(_editor.CurrentBox, boxIndex);
-            if (existing is null) return;
-            _editor.PushUndo(_editor.CurrentBox, boxIndex, existing, isParty: false);
-            return;
+            if (existing is null) return null;
+            return new SAVEditorViewModel.SlotChangeEntry(_editor.CurrentBox, boxIndex, existing.DecryptedBoxData, false);
         }
 
         int partyIndex = _editor.PartySlots.IndexOf(slot);
         if (partyIndex >= 0)
         {
             var existing = sav.GetPartySlotAtIndex(partyIndex);
-            if (existing is null) return;
-            _editor.PushUndo(0, partyIndex, existing, isParty: true);
+            if (existing is null) return null;
+            return new SAVEditorViewModel.SlotChangeEntry(0, partyIndex, existing.DecryptedBoxData, true);
         }
+
+        return null;
     }
 
     /// <summary>

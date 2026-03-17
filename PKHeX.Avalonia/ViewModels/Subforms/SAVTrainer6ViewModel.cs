@@ -163,15 +163,15 @@ public partial class SAVTrainer6ViewModel : SaveEditorViewModelBase
     private void Save()
     {
         _sav.OT = OtName;
-        _sav.TID16 = (ushort)(uint.TryParse(Tid, out var tid) ? tid : 0u);
-        _sav.SID16 = (ushort)(uint.TryParse(Sid, out var sid) ? sid : 0u);
+        _sav.TID16 = ushort.TryParse(Tid, out var tid) ? tid : (ushort)0;
+        _sav.SID16 = ushort.TryParse(Sid, out var sid) ? sid : (ushort)0;
         _sav.Money = uint.TryParse(Money, out var money) ? money : 0u;
         _sav.Gender = (byte)Gender;
         _sav.Overworld.ResetPlayerModel();
 
-        _sav.PlayedHours = (ushort)PlayedHours;
-        _sav.PlayedMinutes = (ushort)(PlayedMinutes % 60);
-        _sav.PlayedSeconds = (ushort)(PlayedSeconds % 60);
+        _sav.PlayedHours = (ushort)Math.Clamp(PlayedHours, 0, ushort.MaxValue);
+        _sav.PlayedMinutes = (ushort)Math.Clamp(PlayedMinutes, 0, 59);
+        _sav.PlayedSeconds = (ushort)Math.Clamp(PlayedSeconds, 0, 59);
 
         _sav.BP = ushort.TryParse(Bp, out var bp) ? bp : (ushort)0;
         _sav.SetRecord(63, int.TryParse(Pokemiles, out var pm1) ? pm1 : 0);

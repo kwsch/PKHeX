@@ -115,9 +115,9 @@ public partial class Trainer9aViewModel : SaveEditorViewModelBase
         _sav.OT = OtName;
         _sav.Money = uint.TryParse(Money, out var m) ? m : 0u;
 
-        _sav.PlayedHours = (ushort)PlayedHours;
-        _sav.PlayedMinutes = (ushort)(PlayedMinutes % 60);
-        _sav.PlayedSeconds = (ushort)(PlayedSeconds % 60);
+        _sav.PlayedHours = (ushort)Math.Clamp(PlayedHours, 0, ushort.MaxValue);
+        _sav.PlayedMinutes = (ushort)Math.Clamp(PlayedMinutes, 0, 59);
+        _sav.PlayedSeconds = (ushort)Math.Clamp(PlayedSeconds, 0, 59);
 
         _sav.TicketPointsRoyale = uint.TryParse(RoyaleRegular, out var rr) ? rr : 0u;
         _sav.TicketPointsRoyaleInfinite = uint.TryParse(RoyaleInfinite, out var ri) ? ri : 0u;

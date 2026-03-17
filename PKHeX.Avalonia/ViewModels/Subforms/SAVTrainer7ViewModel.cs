@@ -163,18 +163,18 @@ public partial class SAVTrainer7ViewModel : SaveEditorViewModelBase
         _sav.Money = uint.TryParse(Money, out var m) ? m : 0u;
         _sav.Language = Language;
 
-        _sav.PlayedHours = (ushort)PlayedHours;
-        _sav.PlayedMinutes = (ushort)(PlayedMinutes % 60);
-        _sav.PlayedSeconds = (ushort)(PlayedSeconds % 60);
+        _sav.PlayedHours = (ushort)Math.Clamp(PlayedHours, 0, ushort.MaxValue);
+        _sav.PlayedMinutes = (ushort)Math.Clamp(PlayedMinutes, 0, 59);
+        _sav.PlayedSeconds = (ushort)Math.Clamp(PlayedSeconds, 0, 59);
 
         _sav.Misc.BP = (uint)Math.Max(0, Bp);
         _sav.Festa.FestaCoins = Fc;
 
         // Poke Finder
-        _sav.PokeFinder.SnapCount = (uint)SnapCount;
-        _sav.PokeFinder.ThumbsTotalValue = (uint)ThumbsTotal;
-        _sav.PokeFinder.ThumbsHighValue = (uint)ThumbsRecord;
-        _sav.PokeFinder.CameraVersion = (ushort)CameraVersion;
+        _sav.PokeFinder.SnapCount = (uint)Math.Max(0, SnapCount);
+        _sav.PokeFinder.ThumbsTotalValue = (uint)Math.Max(0, ThumbsTotal);
+        _sav.PokeFinder.ThumbsHighValue = (uint)Math.Max(0, ThumbsRecord);
+        _sav.PokeFinder.CameraVersion = (ushort)Math.Clamp(CameraVersion, 0, ushort.MaxValue);
         _sav.PokeFinder.GyroFlag = GyroFlag;
 
         // Battle Tree
@@ -210,7 +210,7 @@ public partial class SAVTrainer7ViewModel : SaveEditorViewModelBase
             _sav.Misc.SetSurfScore(2, Surf2);
             _sav.Misc.SetSurfScore(3, Surf3);
             _sav.FieldMenu.RotomOT = RotomOt;
-            _sav.FieldMenu.RotomAffection = (ushort)RotomAffection;
+            _sav.FieldMenu.RotomAffection = (ushort)Math.Clamp(RotomAffection, 0, ushort.MaxValue);
             _sav.FieldMenu.RotomLoto1 = RotoLoto1;
             _sav.FieldMenu.RotomLoto2 = RotoLoto2;
         }

@@ -42,9 +42,12 @@ public sealed class KChartEntry
         Type1Name = p.Type1 < types.Length ? types[p.Type1] : p.Type1.ToString();
         Type2Name = p.Type1 == p.Type2 ? string.Empty : (p.Type2 < types.Length ? types[p.Type2] : p.Type2.ToString());
         var abils = p.AbilityCount;
-        Ability1 = abils > 0 ? abilities[p.GetAbilityAtIndex(0)] : string.Empty;
-        Ability2 = abils > 1 ? abilities[p.GetAbilityAtIndex(1)] : string.Empty;
-        AbilityH = abils > 2 ? abilities[p.GetAbilityAtIndex(2)] : string.Empty;
+        var a1 = p.GetAbilityAtIndex(0);
+        var a2 = p.GetAbilityAtIndex(1);
+        var aH = p.GetAbilityAtIndex(2);
+        Ability1 = abils > 0 && a1 < abilities.Length ? abilities[a1] : string.Empty;
+        Ability2 = abils > 1 && a2 < abilities.Length ? abilities[a2] : string.Empty;
+        AbilityH = abils > 2 && aH < abilities.Length ? abilities[aH] : string.Empty;
     }
 }
 

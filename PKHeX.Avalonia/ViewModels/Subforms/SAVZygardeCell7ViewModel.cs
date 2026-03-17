@@ -78,8 +78,8 @@ public partial class SAVZygardeCell7ViewModel : SaveEditorViewModelBase
         for (int i = 0; i < Cells.Count; i++)
             ew.SetZygardeCell(i, (ushort)Cells[i].StateIndex);
 
-        ew.ZygardeCellTotal = (ushort)CellsTotal;
-        ew.ZygardeCellCount = (ushort)CellsCollected;
+        ew.ZygardeCellTotal = (ushort)Math.Clamp(CellsTotal, 0, ushort.MaxValue);
+        ew.ZygardeCellCount = (ushort)Math.Clamp(CellsCollected, 0, ushort.MaxValue);
         if (_sav is SAV7USUM)
             _sav.SetRecord(72, CellsCollected);
 

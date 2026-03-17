@@ -83,7 +83,7 @@ public partial class MemoryAmieViewModel : ObservableObject
 
     // Sociability (Gen8+)
     [ObservableProperty]
-    private byte _sociability;
+    private uint _sociability;
 
     [ObservableProperty]
     private bool _hasSociability;
@@ -163,7 +163,7 @@ public partial class MemoryAmieViewModel : ObservableObject
         if (_entity is ISociability s)
         {
             HasSociability = true;
-            Sociability = (byte)System.Math.Min(byte.MaxValue, s.Sociability);
+            Sociability = s.Sociability;
         }
 
         // Memories
@@ -225,6 +225,8 @@ public partial class MemoryAmieViewModel : ObservableObject
         OTVarList.Clear();
         foreach (var item in args)
             OTVarList.Add(item);
+        if (OtVarIndex >= OTVarList.Count)
+            OtVarIndex = OTVarList.Count > 0 ? 0 : -1;
     }
 
     private void UpdateHTVarList(byte memory)
@@ -235,6 +237,8 @@ public partial class MemoryAmieViewModel : ObservableObject
         HTVarList.Clear();
         foreach (var item in args)
             HTVarList.Add(item);
+        if (HtVarIndex >= HTVarList.Count)
+            HtVarIndex = HTVarList.Count > 0 ? 0 : -1;
     }
 
     private static int FindComboIndex(IList<ComboItem> list, int value)

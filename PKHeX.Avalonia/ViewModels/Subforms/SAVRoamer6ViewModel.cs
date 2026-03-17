@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -41,9 +42,9 @@ public partial class SAVRoamer6ViewModel : SaveEditorViewModelBase
             species[(int)Species.Moltres],
         ];
 
-        SelectedSpeciesIndex = GetInitialIndex();
+        SelectedSpeciesIndex = Math.Clamp(GetInitialIndex(), 0, Math.Max(0, SpeciesChoices.Count - 1));
         TimesEncountered = _roamer.TimesEncountered;
-        SelectedRoamStateIndex = (int)_roamer.RoamStatus;
+        SelectedRoamStateIndex = Math.Clamp((int)_roamer.RoamStatus, 0, Math.Max(0, RoamStateChoices.Count - 1));
     }
 
     private int GetInitialIndex()

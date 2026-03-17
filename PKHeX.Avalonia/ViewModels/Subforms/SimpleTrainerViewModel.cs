@@ -124,11 +124,11 @@ public partial class SimpleTrainerViewModel : SaveEditorViewModelBase
         sav.SID16 = Sid;
         sav.Money = Math.Min(Money, MaxMoney);
         if (HasGender)
-            sav.Gender = (byte)Gender;
+            sav.Gender = (byte)Math.Clamp(Gender, 0, 255);
 
-        sav.PlayedHours = (ushort)PlayedHours;
-        sav.PlayedMinutes = (ushort)(PlayedMinutes % 60);
-        sav.PlayedSeconds = (ushort)(PlayedSeconds % 60);
+        sav.PlayedHours = (ushort)Math.Clamp(PlayedHours, 0, ushort.MaxValue);
+        sav.PlayedMinutes = (ushort)Math.Clamp(PlayedMinutes, 0, 59);
+        sav.PlayedSeconds = (ushort)Math.Clamp(PlayedSeconds, 0, 59);
 
         // Save badges
         int badgeval = 0;

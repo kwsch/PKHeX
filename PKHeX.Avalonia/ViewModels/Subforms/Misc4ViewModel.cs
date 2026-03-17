@@ -237,7 +237,7 @@ public partial class Misc4ViewModel : SaveEditorViewModelBase
     private void Save()
     {
         SAV4.Coin = Coins;
-        SAV4.BP = (ushort)Bp;
+        SAV4.BP = (ushort)Math.Clamp(Bp, 0, ushort.MaxValue);
 
         // Fly destinations
         foreach (var dest in FlyDestinations)
@@ -249,7 +249,7 @@ public partial class Misc4ViewModel : SaveEditorViewModelBase
 
             // Poketch
             int unlockedCount = 0;
-            sinnoh.CurrentPoketchApp = (sbyte)CurrentPoketchApp;
+            sinnoh.CurrentPoketchApp = (sbyte)Math.Clamp(CurrentPoketchApp, sbyte.MinValue, sbyte.MaxValue);
             foreach (var app in PoketchApps)
             {
                 sinnoh.SetPoketchAppUnlocked((PoketchApp)app.Index, app.Unlocked);
@@ -271,7 +271,7 @@ public partial class Misc4ViewModel : SaveEditorViewModelBase
         }
 
         // Records
-        Record.SetRecord16(Record16Index, (ushort)Record16Value);
+        Record.SetRecord16(Record16Index, (ushort)Math.Clamp(Record16Value, 0, ushort.MaxValue));
         Record.SetRecord32(Record32Index, Record32Value);
         Record.EndAccess();
 

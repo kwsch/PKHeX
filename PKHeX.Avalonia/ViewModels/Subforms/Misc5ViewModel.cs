@@ -352,9 +352,9 @@ public partial class Misc5ViewModel : SaveEditorViewModelBase
         if (SAV5 is SAV5BW bw)
         {
             var encount = bw.Encount;
-            encount.SetRoamerState(1, (byte)Roamer641State);
-            encount.SetRoamerState(0, (byte)Roamer642State);
-            bw.EventWork.SetWorkRoamer((ushort)RoamStatus);
+            encount.SetRoamerState(1, (byte)Math.Clamp(Roamer641State, 0, 3));
+            encount.SetRoamerState(0, (byte)Math.Clamp(Roamer642State, 0, 3));
+            bw.EventWork.SetWorkRoamer((ushort)Math.Clamp(RoamStatus, 0, ushort.MaxValue));
 
             if (LibertyPass != bw.Misc.IsLibertyTicketActivated)
                 bw.Misc.IsLibertyTicketActivated = LibertyPass;
@@ -418,7 +418,7 @@ public partial class Misc5ViewModel : SaveEditorViewModelBase
 
     private void SaveRecords()
     {
-        Record.SetRecord16(Record16Index, (ushort)Record16Value);
+        Record.SetRecord16(Record16Index, (ushort)Math.Clamp(Record16Value, 0, ushort.MaxValue));
         Record.SetRecord32(Record32Index, Record32Value);
         Record.EndAccess();
     }

@@ -93,10 +93,10 @@ public partial class Donut9aViewModel : SaveEditorViewModelBase
         if (_loading)
             return;
         var donut = _donuts.GetDonut(_currentIndex);
-        donut.Stars = (byte)Stars;
-        donut.Calories = (ushort)Calories;
-        donut.LevelBoost = (byte)LevelBoost;
-        donut.Donut = (ushort)DonutType;
+        donut.Stars = (byte)Math.Clamp(Stars, 0, 255);
+        donut.Calories = (ushort)Math.Clamp(Calories, 0, ushort.MaxValue);
+        donut.LevelBoost = (byte)Math.Clamp(LevelBoost, 0, 255);
+        donut.Donut = (ushort)Math.Clamp(DonutType, 0, ushort.MaxValue);
     }
 
     private void ReloadDonutNames()

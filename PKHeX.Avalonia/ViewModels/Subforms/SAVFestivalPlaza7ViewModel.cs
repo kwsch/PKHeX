@@ -207,7 +207,7 @@ public partial class SAVFestivalPlaza7ViewModel : SaveEditorViewModelBase
         // FC
         _sav.SetRecord(038, FcUsed);
         festa.FestaCoins = FcCurrent;
-        festa.FestaRank = (ushort)Rank;
+        festa.FestaRank = (ushort)Math.Clamp(Rank, 0, ushort.MaxValue);
         festa.FestivalPlazaName = PlazaName;
 
         // Festa Date
@@ -222,10 +222,10 @@ public partial class SAVFestivalPlaza7ViewModel : SaveEditorViewModelBase
         }
 
         // Messages
-        festa.SetFestaMessage(0, (ushort)MessageMeet);
-        festa.SetFestaMessage(1, (ushort)MessagePart);
-        festa.SetFestaMessage(2, (ushort)MessageMoved);
-        festa.SetFestaMessage(3, (ushort)MessageDisappointed);
+        festa.SetFestaMessage(0, (ushort)Math.Clamp(MessageMeet, 0, ushort.MaxValue));
+        festa.SetFestaMessage(1, (ushort)Math.Clamp(MessagePart, 0, ushort.MaxValue));
+        festa.SetFestaMessage(2, (ushort)Math.Clamp(MessageMoved, 0, ushort.MaxValue));
+        festa.SetFestaMessage(3, (ushort)Math.Clamp(MessageDisappointed, 0, ushort.MaxValue));
 
         // Facilities
         for (int i = 0; i < FacilitySlots.Count && i < _facilities.Length; i++)

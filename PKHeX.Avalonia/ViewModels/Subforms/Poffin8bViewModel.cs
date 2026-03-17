@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -13,6 +14,7 @@ public partial class Poffin8bModel : ObservableObject
 {
     public int Index { get; }
 
+    [ObservableProperty] private int _mstID;
     [ObservableProperty] private string _typeName = string.Empty;
     [ObservableProperty] private int _level;
     [ObservableProperty] private int _taste;
@@ -61,6 +63,7 @@ public partial class Poffin8bViewModel : SaveEditorViewModelBase
             var item = _allItems[i];
             var model = new Poffin8bModel(i)
             {
+                MstID = item.MstID,
                 TypeName = GetPoffinName(item.MstID),
                 Level = item.Level,
                 Taste = item.Taste,
@@ -112,14 +115,15 @@ public partial class Poffin8bViewModel : SaveEditorViewModelBase
         {
             var model = Poffins[i];
             var item = _allItems[model.Index];
-            item.Level = (byte)model.Level;
-            item.Taste = (byte)model.Taste;
+            item.MstID = (byte)Math.Clamp(model.MstID, 0, 255);
+            item.Level = (byte)Math.Clamp(model.Level, 0, 255);
+            item.Taste = (byte)Math.Clamp(model.Taste, 0, 255);
             item.IsNew = model.IsNew;
-            item.FlavorSpicy = (byte)model.Spicy;
-            item.FlavorDry = (byte)model.Dry;
-            item.FlavorSweet = (byte)model.Sweet;
-            item.FlavorBitter = (byte)model.Bitter;
-            item.FlavorSour = (byte)model.Sour;
+            item.FlavorSpicy = (byte)Math.Clamp(model.Spicy, 0, 255);
+            item.FlavorDry = (byte)Math.Clamp(model.Dry, 0, 255);
+            item.FlavorSweet = (byte)Math.Clamp(model.Sweet, 0, 255);
+            item.FlavorBitter = (byte)Math.Clamp(model.Bitter, 0, 255);
+            item.FlavorSour = (byte)Math.Clamp(model.Sour, 0, 255);
         }
         _sav.Poffins.SetPoffins(_allItems);
         Modified = true;

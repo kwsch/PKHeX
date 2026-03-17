@@ -203,7 +203,7 @@ public partial class SAVHallOfFame6ViewModel : SaveEditorViewModelBase
         };
 
         var span = _fame.GetEntry(SelectedEntryIndex);
-        _ = new HallFame6Index(span[^4..])
+        var vnd = new HallFame6Index(span[^4..])
         {
             ClearIndex = ushort.TryParse(ClearIndex, out var ci) ? ci : (ushort)0,
             HasData = true,

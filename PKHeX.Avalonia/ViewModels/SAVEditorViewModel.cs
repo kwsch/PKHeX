@@ -32,8 +32,11 @@ public partial class SAVEditorViewModel : ObservableObject
 
     #region Undo/Redo
 
-    /// <summary>Records a single slot change for undo/redo operations.</summary>
-    public record SlotChange(int Box, int Slot, byte[] Data, bool IsParty);
+    /// <summary>Records a single slot's state for undo/redo operations.</summary>
+    public record SlotChangeEntry(int Box, int Slot, byte[] Data, bool IsParty);
+
+    /// <summary>Groups one or more slot changes into an atomic undo/redo operation.</summary>
+    private record SlotChange(IReadOnlyList<SlotChangeEntry> Entries);
 
     private const int MaxUndoSize = 100;
 
@@ -47,11 +50,12 @@ public partial class SAVEditorViewModel : ObservableObject
     public bool CanRedo => _redoStack.Count > 0;
 
     /// <summary>
-    /// Pushes the current state of a slot onto the undo stack before a modification.
+    /// Pushes one or more slot states onto the undo stack as a single atomic operation.
     /// </summary>
-    public void PushUndo(int box, int slot, PKM pokemon, bool isParty)
+    public void PushUndo(params SlotChangeEntry[] entries)
     {
-        _undoStack.Push(new SlotChange(box, slot, pokemon.DecryptedBoxData, isParty));
+        if (entries.Length == 0) return;
+        _undoStack.Push(new SlotChange(entries));
         _redoStack.Clear();
 
         // Cap undo stack size to prevent unbounded memory growth
@@ -73,25 +77,27 @@ public partial class SAVEditorViewModel : ObservableObject
         if (_undoStack.Count == 0 || _sav is null) return;
         var change = _undoStack.Pop();
 
-        // Save current state for redo
-        var current = change.IsParty
-            ? _sav.GetPartySlotAtIndex(change.Slot)
-            : _sav.GetBoxSlotAtIndex(change.Box, change.Slot);
-        if (current is null) return;
-        _redoStack.Push(new SlotChange(change.Box, change.Slot, current.DecryptedBoxData, change.IsParty));
-
-        // Restore old state
-        var restored = EntityFormat.GetFromBytes(change.Data);
-        if (restored is not null)
+        var redoEntries = new List<SlotChangeEntry>();
+        foreach (var entry in change.Entries)
         {
-            if (change.IsParty)
-                _sav.SetPartySlotAtIndex(restored, change.Slot);
+            // Save current state for redo
+            var current = entry.IsParty
+                ? _sav.GetPartySlotAtIndex(entry.Slot)
+                : _sav.GetBoxSlotAtIndex(entry.Box, entry.Slot);
+            if (current is not null)
+                redoEntries.Add(new SlotChangeEntry(entry.Box, entry.Slot, current.DecryptedBoxData, entry.IsParty));
+
+            // Restore the saved state
+            var restored = EntityFormat.GetFromBytes(entry.Data, prefer: _sav.Context);
+            if (restored is null) continue;
+            if (entry.IsParty)
+                _sav.SetPartySlotAtIndex(restored, entry.Slot);
             else
-                _sav.SetBoxSlotAtIndex(restored, change.Box, change.Slot);
+                _sav.SetBoxSlotAtIndex(restored, entry.Box, entry.Slot);
         }
 
-        RefreshBox();
-        RefreshParty();
+        _redoStack.Push(new SlotChange(redoEntries));
+        ReloadSlots();
         OnPropertyChanged(nameof(CanUndo));
         OnPropertyChanged(nameof(CanRedo));
         OnModified?.Invoke();
@@ -103,25 +109,27 @@ public partial class SAVEditorViewModel : ObservableObject
         if (_redoStack.Count == 0 || _sav is null) return;
         var change = _redoStack.Pop();
 
-        // Save current state for undo
-        var current = change.IsParty
-            ? _sav.GetPartySlotAtIndex(change.Slot)
-            : _sav.GetBoxSlotAtIndex(change.Box, change.Slot);
-        if (current is null) return;
-        _undoStack.Push(new SlotChange(change.Box, change.Slot, current.DecryptedBoxData, change.IsParty));
-
-        // Restore redo state
-        var restored = EntityFormat.GetFromBytes(change.Data);
-        if (restored is not null)
+        var undoEntries = new List<SlotChangeEntry>();
+        foreach (var entry in change.Entries)
         {
-            if (change.IsParty)
-                _sav.SetPartySlotAtIndex(restored, change.Slot);
+            // Save current state for undo
+            var current = entry.IsParty
+                ? _sav.GetPartySlotAtIndex(entry.Slot)
+                : _sav.GetBoxSlotAtIndex(entry.Box, entry.Slot);
+            if (current is not null)
+                undoEntries.Add(new SlotChangeEntry(entry.Box, entry.Slot, current.DecryptedBoxData, entry.IsParty));
+
+            // Restore the redo state
+            var restored = EntityFormat.GetFromBytes(entry.Data, prefer: _sav.Context);
+            if (restored is null) continue;
+            if (entry.IsParty)
+                _sav.SetPartySlotAtIndex(restored, entry.Slot);
             else
-                _sav.SetBoxSlotAtIndex(restored, change.Box, change.Slot);
+                _sav.SetBoxSlotAtIndex(restored, entry.Box, entry.Slot);
         }
 
-        RefreshBox();
-        RefreshParty();
+        _undoStack.Push(new SlotChange(undoEntries));
+        ReloadSlots();
         OnPropertyChanged(nameof(CanUndo));
         OnPropertyChanged(nameof(CanRedo));
         OnModified?.Invoke();
@@ -421,7 +429,7 @@ public partial class SAVEditorViewModel : ObservableObject
         {
             var existing = _sav.GetBoxSlotAtIndex(CurrentBox, boxIndex);
             if (existing is not null)
-                PushUndo(CurrentBox, boxIndex, existing, isParty: false);
+                PushUndo(new SlotChangeEntry(CurrentBox, boxIndex, existing.DecryptedBoxData, false));
             _sav.SetBoxSlotAtIndex(pk, CurrentBox, boxIndex);
             RefreshBox();
             OnModified?.Invoke();
@@ -433,7 +441,7 @@ public partial class SAVEditorViewModel : ObservableObject
         {
             var existing = _sav.GetPartySlotAtIndex(partyIndex);
             if (existing is not null)
-                PushUndo(0, partyIndex, existing, isParty: true);
+                PushUndo(new SlotChangeEntry(0, partyIndex, existing.DecryptedBoxData, true));
             _sav.SetPartySlotAtIndex(pk, partyIndex);
             RefreshParty();
             OnModified?.Invoke();
@@ -463,7 +471,7 @@ public partial class SAVEditorViewModel : ObservableObject
         {
             var existing = _sav.GetBoxSlotAtIndex(CurrentBox, boxIndex);
             if (existing is not null)
-                PushUndo(CurrentBox, boxIndex, existing, isParty: false);
+                PushUndo(new SlotChangeEntry(CurrentBox, boxIndex, existing.DecryptedBoxData, false));
             _sav.SetBoxSlotAtIndex(_sav.BlankPKM, CurrentBox, boxIndex);
             RefreshBox();
             OnModified?.Invoke();
@@ -477,7 +485,7 @@ public partial class SAVEditorViewModel : ObservableObject
                 return; // Cannot delete the last party member
             var existing = _sav.GetPartySlotAtIndex(partyIndex);
             if (existing is not null)
-                PushUndo(0, partyIndex, existing, isParty: true);
+                PushUndo(new SlotChangeEntry(0, partyIndex, existing.DecryptedBoxData, true));
             _sav.DeletePartySlot(partyIndex);
             RefreshParty();
             OnModified?.Invoke();
@@ -637,12 +645,51 @@ public partial class SAVEditorViewModel : ObservableObject
 
     #region Box Management (Sort / Clear)
 
+    /// <summary>
+    /// Saves the current state of all slots in a single box for undo.
+    /// </summary>
+    private List<SlotChangeEntry> SnapshotBox(int box)
+    {
+        var entries = new List<SlotChangeEntry>();
+        if (_sav is null) return entries;
+        for (int i = 0; i < _sav.BoxSlotCount; i++)
+        {
+            var pk = _sav.GetBoxSlotAtIndex(box, i);
+            if (pk is not null)
+                entries.Add(new SlotChangeEntry(box, i, pk.DecryptedBoxData, false));
+        }
+        return entries;
+    }
+
+    /// <summary>
+    /// Saves the current state of all slots in all boxes for undo.
+    /// </summary>
+    private List<SlotChangeEntry> SnapshotAllBoxes()
+    {
+        var entries = new List<SlotChangeEntry>();
+        if (_sav is null) return entries;
+        for (int box = 0; box < _sav.BoxCount; box++)
+        {
+            for (int i = 0; i < _sav.BoxSlotCount; i++)
+            {
+                var pk = _sav.GetBoxSlotAtIndex(box, i);
+                if (pk is not null)
+                    entries.Add(new SlotChangeEntry(box, i, pk.DecryptedBoxData, false));
+            }
+        }
+        return entries;
+    }
+
     [RelayCommand]
     private void SortBoxBySpecies()
     {
         if (_sav is null) return;
         try
         {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
             var param = new BoxManipParam(CurrentBox, CurrentBox);
             _sav.SortBoxes(param.Start, param.Stop);
             RefreshBox();
@@ -658,6 +705,10 @@ public partial class SAVEditorViewModel : ObservableObject
         if (_sav is null) return;
         try
         {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
             var param = new BoxManipParam(CurrentBox, CurrentBox);
             _sav.SortBoxes(param.Start, param.Stop, (pkms, _) => pkms.OrderByLevel());
             RefreshBox();
@@ -673,6 +724,10 @@ public partial class SAVEditorViewModel : ObservableObject
         if (_sav is null) return;
         try
         {
+            var entries = SnapshotAllBoxes();
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
             _sav.SortBoxes();
             RefreshBox();
             OnModified?.Invoke();
@@ -687,6 +742,10 @@ public partial class SAVEditorViewModel : ObservableObject
         if (_sav is null) return;
         try
         {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
             _sav.ClearBoxes(CurrentBox, CurrentBox);
             RefreshBox();
             OnModified?.Invoke();
@@ -701,6 +760,10 @@ public partial class SAVEditorViewModel : ObservableObject
         if (_sav is null) return;
         try
         {
+            var entries = SnapshotAllBoxes();
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
             _sav.ClearBoxes();
             RefreshBox();
             OnModified?.Invoke();

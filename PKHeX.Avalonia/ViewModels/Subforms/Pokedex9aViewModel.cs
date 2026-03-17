@@ -121,8 +121,8 @@ public partial class Pokedex9aViewModel : SaveEditorViewModelBase
         entry.SetIsSeenMega(0, model.SeenMega0);
         entry.SetIsSeenMega(1, model.SeenMega1);
         entry.SetIsSeenMega(2, model.SeenMega2);
-        entry.DisplayForm = (byte)model.DisplayForm;
-        entry.DisplayGender = (DisplayGender9a)model.DisplayGender;
+        entry.DisplayForm = (byte)Math.Clamp(model.DisplayForm, 0, 255);
+        entry.DisplayGender = (DisplayGender9a)Math.Clamp(model.DisplayGender, 0, 2);
         entry.SetDisplayIsShiny(model.DisplayShiny);
 
         entry.SetLanguageFlag((int)LanguageID.Japanese, model.LangJPN);

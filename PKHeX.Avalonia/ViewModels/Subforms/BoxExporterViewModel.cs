@@ -56,20 +56,30 @@ public partial class BoxExporterViewModel : ObservableObject
         if (string.IsNullOrEmpty(folder))
             return;
 
+        if (SelectedNamerIndex < 0 || SelectedNamerIndex >= _namers.Length)
+            return;
+
         var namer = _namers[SelectedNamerIndex];
         var settings = new BoxExportSettings
         {
             Scope = ExportAll ? BoxExportScope.All : BoxExportScope.Current,
         };
 
-        int ctr = BoxExport.Export(_sav, folder, namer, settings);
-        if (ctr < 0)
+        try
         {
-            StatusText = "Export failed: invalid box data.";
-            return;
-        }
+            int ctr = BoxExport.Export(_sav, folder, namer, settings);
+            if (ctr < 0)
+            {
+                StatusText = "Export failed: invalid box data.";
+                return;
+            }
 
-        StatusText = $"Exported {ctr} files to {folder}";
-        Modified = true;
+            StatusText = $"Exported {ctr} files to {folder}";
+            Modified = true;
+        }
+        catch (Exception ex)
+        {
+            StatusText = $"Export failed: {ex.Message}";
+        }
     }
 }
