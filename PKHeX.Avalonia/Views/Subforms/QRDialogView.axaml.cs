@@ -15,31 +15,38 @@ public partial class QRDialogView : SubformWindow
 
     private async void OnSaveClick(object? sender, RoutedEventArgs e)
     {
-        if (DataContext is not QRDialogViewModel vm)
-            return;
-
-        var bytes = vm.GetQRImageBytes();
-        if (bytes is null)
-            return;
-
-        var topLevel = GetTopLevel(this);
-        if (topLevel is null)
-            return;
-
-        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        try
         {
-            Title = "Save QR Code",
-            SuggestedFileName = "qrcode.png",
-            FileTypeChoices =
-            [
-                new FilePickerFileType("PNG Image") { Patterns = ["*.png"] },
-            ],
-        });
+            if (DataContext is not QRDialogViewModel vm)
+                return;
 
-        if (file is not null)
+            var bytes = vm.GetQRImageBytes();
+            if (bytes is null)
+                return;
+
+            var topLevel = GetTopLevel(this);
+            if (topLevel is null)
+                return;
+
+            var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            {
+                Title = "Save QR Code",
+                SuggestedFileName = "qrcode.png",
+                FileTypeChoices =
+                [
+                    new FilePickerFileType("PNG Image") { Patterns = ["*.png"] },
+                ],
+            });
+
+            if (file is not null)
+            {
+                await using var stream = await file.OpenWriteAsync();
+                await stream.WriteAsync(bytes.AsMemory());
+            }
+        }
+        catch
         {
-            await using var stream = await file.OpenWriteAsync();
-            await stream.WriteAsync(bytes.AsMemory());
+            // File save failed silently
         }
     }
 
