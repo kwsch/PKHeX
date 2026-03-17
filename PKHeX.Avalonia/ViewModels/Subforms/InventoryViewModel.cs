@@ -113,10 +113,7 @@ public partial class InventoryViewModel : SaveEditorViewModelBase
 
             foreach (var itemModel in pouchModel.Items)
             {
-                var itemName = itemModel.ItemName;
-                var itemId = Array.IndexOf(_itemNames, itemName);
-                if (itemId < 0)
-                    itemId = 0;
+                var itemId = itemModel.Index;
 
                 var count = itemModel.Count;
 

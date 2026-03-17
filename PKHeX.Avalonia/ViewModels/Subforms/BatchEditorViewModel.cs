@@ -39,8 +39,13 @@ public partial class BatchEditorViewModel : SaveEditorViewModelBase
     /// </summary>
     public int CurrentBox { get; set; }
 
+    private readonly SaveFile _origin;
+    private readonly SaveFile _sav;
+
     public BatchEditorViewModel(SaveFile sav) : base(sav)
     {
+        _origin = sav;
+        _sav = (SaveFile)sav.Clone();
     }
 
     [RelayCommand]
@@ -79,6 +84,7 @@ public partial class BatchEditorViewModel : SaveEditorViewModelBase
         try
         {
             var result = await Task.Run(() => RunBatchEdit(sets));
+            _origin.CopyChangesFrom(_sav);
             ResultLog = result;
             Modified = true;
         }
@@ -107,15 +113,15 @@ public partial class BatchEditorViewModel : SaveEditorViewModelBase
         switch (SelectedScope)
         {
             case 0: // Current Box
-                SlotInfoLoader.AddBoxData(SAV, data);
+                SlotInfoLoader.AddBoxData(_sav, data);
                 // Filter to current box only
                 data = data.Where(s => s.Source is SlotInfoBox b && b.Box == CurrentBox).ToList();
                 break;
             case 1: // All Boxes
-                SlotInfoLoader.AddBoxData(SAV, data);
+                SlotInfoLoader.AddBoxData(_sav, data);
                 break;
             case 2: // Party
-                SlotInfoLoader.AddPartyData(SAV, data);
+                SlotInfoLoader.AddPartyData(_sav, data);
                 break;
         }
 
@@ -133,9 +139,9 @@ public partial class BatchEditorViewModel : SaveEditorViewModelBase
             }
         }
 
-        // Write back modified data
+        // Write back modified data to clone
         foreach (var slot in data)
-            slot.Source.WriteTo(SAV, slot.Entity, EntityImportSettings.None);
+            slot.Source.WriteTo(_sav, slot.Entity, EntityImportSettings.None);
 
         return editor.GetEditorResults(sets);
     }

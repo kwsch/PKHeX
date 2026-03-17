@@ -110,6 +110,15 @@ public partial class PokedexLAViewModel : SaveEditorViewModelBase
     [RelayCommand]
     private void Save()
     {
+        // Write edited entry values back to the dex data before copying.
+        foreach (var entry in AllEntries)
+        {
+            var species = entry.Species;
+            _dex.SetPokeHasBeenUpdatedFlag(species, entry.Seen);
+            _dex.SetPokeResearchRate(species, entry.ResearchLevel);
+            _dex.SetPokePerfect(species, entry.Perfect);
+        }
+
         _origin.CopyChangesFrom(_sav);
         Modified = true;
     }

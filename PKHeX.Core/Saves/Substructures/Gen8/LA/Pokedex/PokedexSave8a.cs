@@ -138,6 +138,27 @@ public sealed class PokedexSave8a(SAV8LA SaveFile, SCBlock block)
 
     public bool IsPerfect(ushort species) => SaveData.IsPerfect(species);
 
+    public void SetPokeHasBeenUpdatedFlag(ushort species, bool value)
+    {
+        if (species >= MAX_SPECIES)
+            return;
+        SaveData.GetResearchEntry(species).HasEverBeenUpdated = value;
+    }
+
+    public void SetPokeResearchRate(ushort species, int value)
+    {
+        if (species >= MAX_SPECIES)
+            return;
+        SaveData.GetResearchEntry(species).ResearchRate = (ushort)Math.Min(Math.Max(value, 0), PokedexConstants8a.MaxPokedexResearchPoints);
+    }
+
+    public void SetPokePerfect(ushort species, bool value)
+    {
+        if (species >= MAX_SPECIES)
+            return;
+        SaveData.GetResearchEntry(species).IsPerfect = value;
+    }
+
     public int GetUpdateIndex(ushort species) => SaveData.GetResearchEntry(species).UpdateCounter;
     public int GetLastReportedIndex(ushort species) => SaveData.GetResearchEntry(species).LastUpdatedReportCounter;
 

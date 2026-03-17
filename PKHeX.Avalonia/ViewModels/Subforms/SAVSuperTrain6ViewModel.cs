@@ -143,7 +143,7 @@ public partial class SAVSuperTrain6ViewModel : SaveEditorViewModelBase
     {
         SaveStageRecord(SelectedStageIndex);
 
-        // Save bags
+        // Save bags (compact non-empty slots to the front)
         int emptySlots = 0;
         for (int i = 0; i < 12; i++)
         {
@@ -155,6 +155,10 @@ public partial class SAVSuperTrain6ViewModel : SaveEditorViewModelBase
             }
             _stb.SetBag(i - emptySlots, (byte)bagIndex);
         }
+
+        // Clear trailing stale slots left after compaction
+        for (int i = 12 - emptySlots; i < 12; i++)
+            _stb.SetBag(i, 0);
 
         _origin.CopyChangesFrom(_sav);
         Modified = true;
