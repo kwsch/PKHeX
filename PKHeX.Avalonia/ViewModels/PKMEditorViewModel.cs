@@ -62,6 +62,7 @@ public partial class PKMEditorViewModel : ObservableObject
         {
             Entity.Gender = value;
             UpdateSprite();
+            UpdateLegality();
         }
     }
 
@@ -131,7 +132,10 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         OnPropertyChanged(nameof(ShowPkrsDetails));
         if (!_isPopulating && Entity is not null)
+        {
             Entity.IsPokerusInfected = value;
+            UpdateLegality();
+        }
     }
 
     // Shiny display indicators
@@ -425,6 +429,8 @@ public partial class PKMEditorViewModel : ObservableObject
     partial void OnOtGenderChanged(byte value)
     {
         OnPropertyChanged(nameof(OtGenderSymbol));
+        if (!_isPopulating && Entity is not null)
+            Entity.OriginalTrainerGender = value;
     }
 
     [RelayCommand]
@@ -448,6 +454,8 @@ public partial class PKMEditorViewModel : ObservableObject
     partial void OnHtGenderChanged(byte value)
     {
         OnPropertyChanged(nameof(HtGenderSymbol));
+        if (!_isPopulating && Entity is not null)
+            Entity.HandlingTrainerGender = value;
     }
 
     [RelayCommand]
@@ -612,19 +620,31 @@ public partial class PKMEditorViewModel : ObservableObject
     partial void OnCountryChanged(int value)
     {
         if (!_isPopulating)
+        {
             UpdateRegionNames();
+            if (Entity is IRegionOrigin ro)
+                ro.Country = (byte)Math.Clamp(value, 0, 255);
+        }
     }
 
     partial void OnSubRegionChanged(int value)
     {
         if (!_isPopulating)
+        {
             UpdateRegionNames();
+            if (Entity is IRegionOrigin ro)
+                ro.Region = (byte)Math.Clamp(value, 0, 255);
+        }
     }
 
     partial void OnConsoleRegionChanged(int value)
     {
         if (!_isPopulating)
+        {
             UpdateRegionNames();
+            if (Entity is IRegionOrigin ro)
+                ro.ConsoleRegion = (byte)Math.Clamp(value, 0, 255);
+        }
     }
 
     private void UpdateRegionNames()
@@ -814,8 +834,9 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (value is not null)
             Nature = (Nature)value.Value;
-        if (!_isPopulating)
+        if (!_isPopulating && Entity is not null)
         {
+            Entity.Nature = Nature;
             OnPropertyChanged(nameof(AtkColor));
             OnPropertyChanged(nameof(DefColor));
             OnPropertyChanged(nameof(SpAColor));
@@ -1764,7 +1785,10 @@ public partial class PKMEditorViewModel : ObservableObject
             Entity.PID = pid;
         Entity.EXP = Exp;
         Entity.Stat_Level = Level;
-        Entity.CurrentFriendship = (byte)Math.Clamp(Friendship, 0, 255);
+        if (IsEgg)
+            Entity.OriginalTrainerFriendship = (byte)Math.Clamp(Friendship, 0, 255);
+        else
+            Entity.CurrentFriendship = (byte)Math.Clamp(Friendship, 0, 255);
         Entity.Language = Language;
 
         Entity.IV_HP = Iv_HP;
@@ -1961,7 +1985,7 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.MetDay = (byte)Math.Clamp(MetDay, 1, 31);
         Entity.EggYear = (byte)Math.Clamp(EggYear, 0, 255);
         Entity.EggMonth = (byte)Math.Clamp(EggMonth, 1, 12);
-        Entity.EggDay = (byte)Math.Clamp(EggDay, 0, 31);
+        Entity.EggDay = (byte)Math.Clamp(EggDay, 1, 31);
 
         // Met — Fateful Encounter
         Entity.FatefulEncounter = FatefulEncounter;
@@ -2038,8 +2062,8 @@ public partial class PKMEditorViewModel : ObservableObject
             pb7Save.Spirit = (byte)Math.Clamp(Spirit7b, 0, 255);
             pb7Save.Mood = (byte)Math.Clamp(Mood7b, 0, 255);
             pb7Save.ReceivedYear = (byte)Math.Clamp(ReceivedYear, 0, 255);
-            pb7Save.ReceivedMonth = (byte)Math.Clamp(ReceivedMonth, 0, 12);
-            pb7Save.ReceivedDay = (byte)Math.Clamp(ReceivedDay, 0, 31);
+            pb7Save.ReceivedMonth = (byte)Math.Clamp(ReceivedMonth, 1, 12);
+            pb7Save.ReceivedDay = (byte)Math.Clamp(ReceivedDay, 1, 31);
         }
 
         // Cosmetic — Walking Mood (Gen 4 HG/SS)
@@ -2268,7 +2292,9 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (_isPopulating || Entity is null) return;
         Entity.Stat_Level = value;
-        var growth = Entity.PersonalInfo.EXPGrowth;
+        var pi = Entity.PersonalInfo;
+        if (pi is null) return;
+        var growth = pi.EXPGrowth;
         _isPopulating = true;
         try { Exp = Experience.GetEXP(value, growth); }
         finally { _isPopulating = false; }
@@ -2280,7 +2306,9 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (_isPopulating || Entity is null) return;
         Entity.EXP = value;
-        var growth = Entity.PersonalInfo.EXPGrowth;
+        var pi = Entity.PersonalInfo;
+        if (pi is null) return;
+        var growth = pi.EXPGrowth;
         _isPopulating = true;
         try { Level = Experience.GetLevel(value, growth); }
         finally { _isPopulating = false; }
@@ -2299,6 +2327,7 @@ public partial class PKMEditorViewModel : ObservableObject
         {
             // Set friendship to hatch cycles (clamped to byte range)
             var pokemon = Entity.PersonalInfo;
+            if (pokemon is null) return;
             Friendship = Math.Clamp((int)pokemon.HatchCycles, 0, 255);
             Entity.CurrentFriendship = (byte)Friendship;
 
@@ -2375,7 +2404,9 @@ public partial class PKMEditorViewModel : ObservableObject
             finally { _isPopulating = false; }
 
             // Set base friendship (clamped to byte range)
-            Friendship = Math.Clamp((int)Entity.PersonalInfo.BaseFriendship, 0, 255);
+            var basePi = Entity.PersonalInfo;
+            if (basePi is null) return;
+            Friendship = Math.Clamp((int)basePi.BaseFriendship, 0, 255);
             Entity.CurrentFriendship = (byte)Friendship;
 
             // Sync met date from egg date, or set to today

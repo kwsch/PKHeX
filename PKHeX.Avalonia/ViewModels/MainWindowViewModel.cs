@@ -956,7 +956,7 @@ public partial class MainWindowViewModel : ObservableObject
             for (int i = 0; i < SaveFile.BoxSlotCount; i++)
             {
                 var existing = SaveFile.GetBoxSlotAtIndex(currentBox, i);
-                if (existing.Species == 0)
+                if (existing is null || existing.Species == 0)
                 {
                     slot = i;
                     break;
