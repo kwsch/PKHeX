@@ -1,0 +1,88 @@
+<views:SubformWindow xmlns="https://github.com/avaloniaui"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:views="using:PKHeX.Avalonia.Views"
+                     xmlns:vm="using:PKHeX.Avalonia.ViewModels.Subforms"
+                     x:Class="PKHeX.Avalonia.Views.Subforms.TrashEditorView"
+                     x:DataType="vm:TrashEditorViewModel"
+                     Title="{Binding Title}"
+                     Width="500" Height="480"
+                     MinWidth="400" MinHeight="350"
+                     FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
+                     FontSize="11"
+                     WindowStartupLocation="CenterOwner"
+                     CanResize="True">
+
+    <DockPanel Margin="8">
+        <!-- Bottom buttons -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="8">
+                <!-- Text field -->
+                <TextBlock Text="Text" FontWeight="SemiBold" />
+                <TextBox Text="{Binding Text}" MaxLength="{Binding MaxLength}"
+                         Height="25" FontFamily="Segoe UI Symbol,Arial Unicode MS,sans-serif" />
+
+                <!-- Hex bytes grid -->
+                <TextBlock Text="Hex Bytes" FontWeight="SemiBold" Margin="0,8,0,0" />
+                <ItemsControl ItemsSource="{Binding Bytes}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="vm:TrashByteEntry">
+                            <StackPanel Orientation="Horizontal" Margin="0,1">
+                                <TextBlock Text="{Binding Label}" Width="30" TextAlignment="Right"
+                                           VerticalAlignment="Center" Margin="0,0,2,0"
+                                           FontFamily="Courier New,Consolas,monospace" FontSize="10" />
+                                <TextBox Text="{Binding HexValue}" Width="32" Height="24"
+                                         FontFamily="Courier New,Consolas,monospace" FontSize="10"
+                                         MaxLength="2" Padding="2,2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Trash layer applier -->
+                <Separator Margin="0,4" />
+                <TextBlock Text="Trash Layer" FontWeight="SemiBold" />
+                <Grid ColumnDefinitions="*,*,Auto" RowDefinitions="Auto,Auto">
+                    <StackPanel Grid.Column="0" Grid.Row="0" Spacing="2" Margin="0,0,4,4">
+                        <TextBlock Text="Species" FontSize="10" />
+                        <ComboBox ItemsSource="{Binding SpeciesSource}"
+                                  SelectedIndex="{Binding SelectedSpeciesIndex}"
+                                  DisplayMemberBinding="{Binding Text}"
+                                  Height="25" MinWidth="140" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="0" Spacing="2" Margin="4,0,4,4">
+                        <TextBlock Text="Language" FontSize="10" />
+                        <ComboBox ItemsSource="{Binding LanguageSource}"
+                                  SelectedIndex="{Binding SelectedLanguageIndex}"
+                                  DisplayMemberBinding="{Binding Text}"
+                                  Height="25" MinWidth="100" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Grid.Row="0" Spacing="2" Margin="4,0,0,4">
+                        <TextBlock Text="Gen" FontSize="10" />
+                        <NumericUpDown Value="{Binding Generation}" Minimum="1" Maximum="9"
+                                       Height="25" Width="60" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" Spacing="8">
+                        <Button Content="Apply Trash" Command="{Binding ApplyTrashCommand}"
+                                MinWidth="75" Padding="8,4"
+                                ToolTip.Tip="Apply species name trash bytes beyond the current text" />
+                        <Button Content="Clear Trash" Command="{Binding ClearTrashCommand}"
+                                MinWidth="75" Padding="8,4"
+                                ToolTip.Tip="Zero out all bytes beyond the current text" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+
+</views:SubformWindow>

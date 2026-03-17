@@ -4,6 +4,7 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PKHeX.Core;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Avalonia.ViewModels.Subforms;
 
@@ -103,6 +104,19 @@ public partial class SAVTrainer6ViewModel : SaveEditorViewModelBase
 
     [ObservableProperty]
     private string _saying5 = string.Empty;
+
+    /// <summary>Whether the save contains JPEG trainer photo data.</summary>
+    public bool HasJpegData => _sav.GetJPEGData().Length > 0;
+
+    /// <summary>Suggested filename for the JPEG export.</summary>
+    public string JpegFileName => $"{_sav.JPEGTitle}'s picture";
+
+    /// <summary>The raw JPEG bytes from the save, or empty.</summary>
+    public byte[] GetJpegBytes() => _sav.GetJPEGData().ToArray();
+
+    /// <summary>Status text shown after JPEG export attempt.</summary>
+    [ObservableProperty]
+    private string _jpegExportStatus = string.Empty;
 
     public SAVTrainer6ViewModel(SAV6 sav) : base(sav)
     {

@@ -16,6 +16,11 @@
         <!-- Bottom buttons -->
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Export JPEG" Click="OnExportJpegClick" MinWidth="75" Padding="8,4"
+                    IsVisible="{Binding HasJpegData}"
+                    ToolTip.Tip="Export the trainer photo from the save file" />
+            <TextBlock Text="{Binding JpegExportStatus}" VerticalAlignment="Center"
+                       FontSize="10" Opacity="0.7" Margin="0,0,8,0" />
             <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
             <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
         </StackPanel>
