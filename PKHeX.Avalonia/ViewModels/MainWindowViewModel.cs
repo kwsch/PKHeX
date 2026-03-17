@@ -944,6 +944,54 @@ public partial class MainWindowViewModel : ObservableObject
     }
 
     [RelayCommand(AllowConcurrentExecutions = false)]
+    private async Task OpenFolderBrowserAsync()
+    {
+        try
+        {
+            var appData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PKHeX");
+            var backupPath = Path.Combine(appData, "backups");
+
+            // Gather save-related folder paths (similar to WinForms SAV_FolderList)
+            var folderPaths = new List<string>();
+            if (Directory.Exists(appData))
+                folderPaths.Add(appData);
+            if (Directory.Exists(backupPath))
+                folderPaths.Add(backupPath);
+
+            // Add the working directory and common save paths
+            var workDir = App.WorkingDirectory;
+            if (!string.IsNullOrEmpty(workDir) && Directory.Exists(workDir))
+                folderPaths.Add(workDir);
+
+            // Add directories of recently loaded files
+            foreach (var recent in App.Settings.Startup.RecentlyLoaded)
+            {
+                var dir = Path.GetDirectoryName(recent);
+                if (!string.IsNullOrEmpty(dir) && Directory.Exists(dir) && !folderPaths.Contains(dir))
+                    folderPaths.Add(dir);
+            }
+
+            var vm = new FolderListViewModel(
+                folderPaths.ToArray(),
+                backupPath,
+                App.Settings.Startup.RecentlyLoaded)
+            {
+                FileOpenRequested = path => _ = LoadFileAsync(path),
+            };
+
+            var view = new FolderListView { DataContext = vm };
+
+            var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is not null)
+                await view.ShowDialog(mainWindow);
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Folder Browser error: {ex.Message}";
+        }
+    }
+
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task ShowAboutAsync()
     {
         var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;

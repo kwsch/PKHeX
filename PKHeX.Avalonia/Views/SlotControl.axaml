@@ -34,10 +34,8 @@
             Cursor="Hand"
             Opacity="{Binding SearchOpacity}"
             DragDrop.AllowDrop="True"
-            AutomationProperties.Name="{Binding Summary}">
-        <ToolTip.Tip>
-            <TextBlock Text="{Binding ShowdownText}" FontFamily="Consolas,monospace" FontSize="10" />
-        </ToolTip.Tip>
+            AutomationProperties.Name="{Binding Summary}"
+            ToolTip.Tip="{Binding ShowdownText}">
         <Border.ContextMenu>
             <ContextMenu>
                 <MenuItem x:Name="MenuView" Header="View" />

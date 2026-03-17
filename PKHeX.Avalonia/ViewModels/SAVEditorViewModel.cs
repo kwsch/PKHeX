@@ -723,6 +723,139 @@ public partial class SAVEditorViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void SortBoxByNature()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
+            var param = new BoxManipParam(CurrentBox, CurrentBox);
+            _sav.SortBoxes(param.Start, param.Stop, (pkms, _) => pkms.OrderByCustom(pk => pk.Nature, pk => pk.Species));
+            RefreshBox();
+            OnModified?.Invoke();
+            SetStatusMessage?.Invoke("Box sorted by nature.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void SortBoxByAbility()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
+            var param = new BoxManipParam(CurrentBox, CurrentBox);
+            _sav.SortBoxes(param.Start, param.Stop, (pkms, _) => pkms.OrderByCustom(pk => pk.Ability, pk => pk.Species));
+            RefreshBox();
+            OnModified?.Invoke();
+            SetStatusMessage?.Invoke("Box sorted by ability.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void SortBoxByIVTotal()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
+            var param = new BoxManipParam(CurrentBox, CurrentBox);
+            _sav.SortBoxes(param.Start, param.Stop, (pkms, _) => pkms.OrderByCustom(pk => -pk.IVTotal));
+            RefreshBox();
+            OnModified?.Invoke();
+            SetStatusMessage?.Invoke("Box sorted by IV total (descending).");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void SortBoxRandom()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
+            var param = new BoxManipParam(CurrentBox, CurrentBox);
+            _sav.SortBoxes(param.Start, param.Stop, (pkms, _) => pkms.OrderByCustom(_ => System.Random.Shared.Next()));
+            RefreshBox();
+            OnModified?.Invoke();
+            SetStatusMessage?.Invoke("Box shuffled randomly.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void SortBoxByShiny()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
+            var param = new BoxManipParam(CurrentBox, CurrentBox);
+            _sav.SortBoxes(param.Start, param.Stop, (pkms, _) => pkms.OrderByCustom(pk => !pk.IsShiny));
+            RefreshBox();
+            OnModified?.Invoke();
+            SetStatusMessage?.Invoke("Box sorted by shiny status.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void SortBoxByType()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
+            var param = new BoxManipParam(CurrentBox, CurrentBox);
+            _sav.SortBoxes(param.Start, param.Stop, (pkms, _) => pkms.OrderByCustom(pk => pk.PersonalInfo.Type1, pk => pk.PersonalInfo.Type2));
+            RefreshBox();
+            OnModified?.Invoke();
+            SetStatusMessage?.Invoke("Box sorted by type.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void SortBoxByOwnerTID()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
+            var param = new BoxManipParam(CurrentBox, CurrentBox);
+            _sav.SortBoxes(param.Start, param.Stop, (pkms, _) => pkms.OrderByCustom(pk => pk.TID16, pk => pk.SID16));
+            RefreshBox();
+            OnModified?.Invoke();
+            SetStatusMessage?.Invoke("Box sorted by owner TID.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
     private void SortAllBoxes()
     {
         if (_sav is null) return;

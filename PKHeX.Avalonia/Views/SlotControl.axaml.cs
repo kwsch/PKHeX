@@ -120,8 +120,10 @@ public partial class SlotControl : UserControl
         if (vm is null)
             return;
 
-        // Modifier key shortcuts: Shift+click = Set, Alt+click = Delete
-        if (e.KeyModifiers.HasFlag(KeyModifiers.Shift))
+        // Modifier key shortcuts: Ctrl+click = View, Shift+click = Set, Alt+click = Delete
+        if (e.KeyModifiers.HasFlag(KeyModifiers.Control))
+            vm.ViewSlotCommand.Execute(slot);
+        else if (e.KeyModifiers.HasFlag(KeyModifiers.Shift))
             vm.SetSlotCommand.Execute(slot);
         else if (e.KeyModifiers.HasFlag(KeyModifiers.Alt))
             vm.DeleteSlotCommand.Execute(slot);

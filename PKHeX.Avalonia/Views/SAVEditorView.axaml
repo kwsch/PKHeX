@@ -38,9 +38,18 @@
                     <Border.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Sort">
-                                <MenuItem Header="Sort Current Box (Species)" Command="{Binding SortBoxBySpeciesCommand}" />
-                                <MenuItem Header="Sort Current Box (Level)" Command="{Binding SortBoxByLevelCommand}" />
-                                <MenuItem Header="Sort All Boxes" Command="{Binding SortAllBoxesCommand}" />
+                                <MenuItem Header="Species" Command="{Binding SortBoxBySpeciesCommand}" />
+                                <MenuItem Header="Level" Command="{Binding SortBoxByLevelCommand}" />
+                                <MenuItem Header="Nature" Command="{Binding SortBoxByNatureCommand}" />
+                                <MenuItem Header="Ability" Command="{Binding SortBoxByAbilityCommand}" />
+                                <MenuItem Header="IV Total" Command="{Binding SortBoxByIVTotalCommand}" />
+                                <MenuItem Header="Type" Command="{Binding SortBoxByTypeCommand}" />
+                                <MenuItem Header="Shiny" Command="{Binding SortBoxByShinyCommand}" />
+                                <MenuItem Header="Owner TID" Command="{Binding SortBoxByOwnerTIDCommand}" />
+                                <Separator />
+                                <MenuItem Header="Random (Shuffle)" Command="{Binding SortBoxRandomCommand}" />
+                                <Separator />
+                                <MenuItem Header="Sort All Boxes (Species)" Command="{Binding SortAllBoxesCommand}" />
                             </MenuItem>
                             <MenuItem Header="Clear">
                                 <MenuItem Header="Clear Current Box" Command="{Binding ClearBoxCommand}" />

@@ -42,10 +42,18 @@ public partial class SlotModel : ObservableObject
     [ObservableProperty]
     private PKM? _entity;
 
-    /// <summary>Showdown format text for tooltip display.</summary>
-    public string ShowdownText => Entity is { Species: > 0 }
-        ? ShowdownParsing.GetShowdownText(Entity)
-        : string.Empty;
+    /// <summary>Showdown format text for tooltip display. Returns null when preview is disabled so the tooltip is suppressed.</summary>
+    public string? ShowdownText
+    {
+        get
+        {
+            if (!App.Settings.Hover.HoverSlotShowPreview)
+                return null;
+            return Entity is { Species: > 0 }
+                ? ShowdownParsing.GetShowdownText(Entity)
+                : null;
+        }
+    }
 
     /// <summary>Short summary for accessibility / screen readers (e.g. "Pikachu Lv.25").</summary>
     public string Summary => Entity is { Species: > 0 }

@@ -20,7 +20,7 @@
         <KeyBinding Gesture="Ctrl+E" Command="{Binding ExportSAVCommand}" />
         <KeyBinding Gesture="Ctrl+D" Command="{Binding OpenDatabaseCommand}" />
         <KeyBinding Gesture="Ctrl+R" Command="{Binding OpenReportGridCommand}" />
-        <KeyBinding Gesture="Ctrl+F" Command="{Binding OpenFolderCommand}" />
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding OpenFolderBrowserCommand}" />
         <KeyBinding Gesture="Ctrl+G" Command="{Binding OpenMysteryGiftDBCommand}" />
         <KeyBinding Gesture="Ctrl+N" Command="{Binding OpenEncountersCommand}" />
         <KeyBinding Gesture="Ctrl+M" Command="{Binding OpenBatchEditorCommand}" />
@@ -65,7 +65,8 @@
                     <MenuItem Header="_Tech Records" Command="{Binding OpenTechRecordEditorCommand}" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="Open _Folder" Command="{Binding OpenFolderCommand}" InputGesture="Ctrl+F" />
+                <MenuItem Header="_Folder Browser" Command="{Binding OpenFolderBrowserCommand}" InputGesture="Ctrl+F" />
+                <MenuItem Header="Open _Folder (OS)" Command="{Binding OpenFolderCommand}" />
             </MenuItem>
             <MenuItem Header="_Data">
                 <MenuItem Header="_Load Boxes..." Command="{Binding LoadBoxesCommand}" />

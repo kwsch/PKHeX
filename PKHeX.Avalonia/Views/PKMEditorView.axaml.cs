@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using PKHeX.Avalonia.ViewModels;
 using PKHeX.Core;
 
@@ -115,13 +116,20 @@ public partial class PKMEditorView : UserControl
 
             vm.PreparePKM();
 
-            var data = vm.Entity.DecryptedBoxData;
+            var pkData = vm.Entity.DecryptedBoxData;
             var ext = vm.Entity.Extension;
             var tempPath = Path.Combine(Path.GetTempPath(), $"pkhex_export.{ext}");
-            await File.WriteAllBytesAsync(tempPath, data);
+            await File.WriteAllBytesAsync(tempPath, pkData);
+
+            // Use IStorageItem so the OS file manager can accept the drop
+            var topLevel = TopLevel.GetTopLevel(this);
+            var storageFile = await topLevel!.StorageProvider.TryGetFileFromPathAsync(tempPath);
 
             var dataObject = new DataObject();
-            dataObject.Set(DataFormats.Files, new[] { tempPath });
+            if (storageFile is not null)
+                dataObject.Set(DataFormats.Files, new[] { storageFile });
+            else
+                dataObject.Set(DataFormats.Files, new[] { tempPath }); // fallback
             await DragDrop.DoDragDrop(e, dataObject, DragDropEffects.Copy);
         }
         catch

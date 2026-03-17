@@ -311,13 +311,63 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private int _eggMonth;
     [ObservableProperty] private int _eggDay;
 
-    // Cosmetic — Markings
-    [ObservableProperty] private bool _markCircle;
-    [ObservableProperty] private bool _markTriangle;
-    [ObservableProperty] private bool _markSquare;
-    [ObservableProperty] private bool _markHeart;
-    [ObservableProperty] private bool _markStar;
-    [ObservableProperty] private bool _markDiamond;
+    // Cosmetic — Markings (int: 0=None, 1=Blue, 2=Pink for Gen7+; 0/1 for older gens)
+    [ObservableProperty] private int _markCircle;
+    [ObservableProperty] private int _markTriangle;
+    [ObservableProperty] private int _markSquare;
+    [ObservableProperty] private int _markHeart;
+    [ObservableProperty] private int _markStar;
+    [ObservableProperty] private int _markDiamond;
+    [ObservableProperty] private bool _hasGen7Markings;
+
+    // Color strings for marking display
+    public string MarkCircleColor => GetMarkingColorString(MarkCircle);
+    public string MarkTriangleColor => GetMarkingColorString(MarkTriangle);
+    public string MarkSquareColor => GetMarkingColorString(MarkSquare);
+    public string MarkHeartColor => GetMarkingColorString(MarkHeart);
+    public string MarkStarColor => GetMarkingColorString(MarkStar);
+    public string MarkDiamondColor => GetMarkingColorString(MarkDiamond);
+
+    // Tooltip strings for marking buttons (show shape + current state)
+    public string MarkCircleTip => GetMarkingTip("Circle", MarkCircle);
+    public string MarkTriangleTip => GetMarkingTip("Triangle", MarkTriangle);
+    public string MarkSquareTip => GetMarkingTip("Square", MarkSquare);
+    public string MarkHeartTip => GetMarkingTip("Heart", MarkHeart);
+    public string MarkStarTip => GetMarkingTip("Star", MarkStar);
+    public string MarkDiamondTip => GetMarkingTip("Diamond", MarkDiamond);
+
+    private static string GetMarkingColorString(int state) => state switch
+    {
+        1 => "#4488FF", // Blue
+        2 => "#FF66AA", // Pink
+        _ => "#888888", // None/Gray
+    };
+
+    private static string GetMarkingStateName(int state) => state switch
+    {
+        1 => "Blue",
+        2 => "Pink",
+        _ => "None",
+    };
+
+    private static string GetMarkingTip(string shape, int state) =>
+        $"{shape}: {GetMarkingStateName(state)} (click to cycle)";
+
+    private void CycleMarking(ref int field, string fieldName, string colorName, string tipName)
+    {
+        int max = HasGen7Markings ? 3 : 2; // 3 states for Gen7+, 2 for older
+        field = (field + 1) % max;
+        OnPropertyChanged(fieldName);
+        OnPropertyChanged(colorName);
+        OnPropertyChanged(tipName);
+    }
+
+    [RelayCommand] private void CycleMarkCircle() => CycleMarking(ref _markCircle, nameof(MarkCircle), nameof(MarkCircleColor), nameof(MarkCircleTip));
+    [RelayCommand] private void CycleMarkTriangle() => CycleMarking(ref _markTriangle, nameof(MarkTriangle), nameof(MarkTriangleColor), nameof(MarkTriangleTip));
+    [RelayCommand] private void CycleMarkSquare() => CycleMarking(ref _markSquare, nameof(MarkSquare), nameof(MarkSquareColor), nameof(MarkSquareTip));
+    [RelayCommand] private void CycleMarkHeart() => CycleMarking(ref _markHeart, nameof(MarkHeart), nameof(MarkHeartColor), nameof(MarkHeartTip));
+    [RelayCommand] private void CycleMarkStar() => CycleMarking(ref _markStar, nameof(MarkStar), nameof(MarkStarColor), nameof(MarkStarTip));
+    [RelayCommand] private void CycleMarkDiamond() => CycleMarking(ref _markDiamond, nameof(MarkDiamond), nameof(MarkDiamondColor), nameof(MarkDiamondTip));
 
     // Cosmetic — Contest Stats
     [ObservableProperty] private int _contestCool;
@@ -1459,38 +1509,55 @@ public partial class PKMEditorViewModel : ObservableObject
         if (pk is IAppliedMarkings7 m7)
         {
             HasMarkings = true;
-            MarkCircle = m7.MarkingCircle != MarkingColor.None;
-            MarkTriangle = m7.MarkingTriangle != MarkingColor.None;
-            MarkSquare = m7.MarkingSquare != MarkingColor.None;
-            MarkHeart = m7.MarkingHeart != MarkingColor.None;
-            MarkStar = m7.MarkingStar != MarkingColor.None;
-            MarkDiamond = m7.MarkingDiamond != MarkingColor.None;
+            HasGen7Markings = true;
+            MarkCircle = (int)m7.MarkingCircle;
+            MarkTriangle = (int)m7.MarkingTriangle;
+            MarkSquare = (int)m7.MarkingSquare;
+            MarkHeart = (int)m7.MarkingHeart;
+            MarkStar = (int)m7.MarkingStar;
+            MarkDiamond = (int)m7.MarkingDiamond;
         }
         else if (pk is IAppliedMarkings4 m4)
         {
             HasMarkings = true;
-            MarkCircle = m4.MarkingCircle;
-            MarkTriangle = m4.MarkingTriangle;
-            MarkSquare = m4.MarkingSquare;
-            MarkHeart = m4.MarkingHeart;
-            MarkStar = m4.MarkingStar;
-            MarkDiamond = m4.MarkingDiamond;
+            HasGen7Markings = false;
+            MarkCircle = m4.MarkingCircle ? 1 : 0;
+            MarkTriangle = m4.MarkingTriangle ? 1 : 0;
+            MarkSquare = m4.MarkingSquare ? 1 : 0;
+            MarkHeart = m4.MarkingHeart ? 1 : 0;
+            MarkStar = m4.MarkingStar ? 1 : 0;
+            MarkDiamond = m4.MarkingDiamond ? 1 : 0;
         }
         else if (pk is IAppliedMarkings3 m3)
         {
             HasMarkings = true;
-            MarkCircle = m3.MarkingCircle;
-            MarkTriangle = m3.MarkingTriangle;
-            MarkSquare = m3.MarkingSquare;
-            MarkHeart = m3.MarkingHeart;
-            MarkStar = false;
-            MarkDiamond = false;
+            HasGen7Markings = false;
+            MarkCircle = m3.MarkingCircle ? 1 : 0;
+            MarkTriangle = m3.MarkingTriangle ? 1 : 0;
+            MarkSquare = m3.MarkingSquare ? 1 : 0;
+            MarkHeart = m3.MarkingHeart ? 1 : 0;
+            MarkStar = 0;
+            MarkDiamond = 0;
         }
         else
         {
             HasMarkings = false;
-            MarkCircle = MarkTriangle = MarkSquare = MarkHeart = MarkStar = MarkDiamond = false;
+            HasGen7Markings = false;
+            MarkCircle = MarkTriangle = MarkSquare = MarkHeart = MarkStar = MarkDiamond = 0;
         }
+        // Notify marking color and tooltip properties
+        OnPropertyChanged(nameof(MarkCircleColor));
+        OnPropertyChanged(nameof(MarkTriangleColor));
+        OnPropertyChanged(nameof(MarkSquareColor));
+        OnPropertyChanged(nameof(MarkHeartColor));
+        OnPropertyChanged(nameof(MarkStarColor));
+        OnPropertyChanged(nameof(MarkDiamondColor));
+        OnPropertyChanged(nameof(MarkCircleTip));
+        OnPropertyChanged(nameof(MarkTriangleTip));
+        OnPropertyChanged(nameof(MarkSquareTip));
+        OnPropertyChanged(nameof(MarkHeartTip));
+        OnPropertyChanged(nameof(MarkStarTip));
+        OnPropertyChanged(nameof(MarkDiamondTip));
 
         // Cosmetic — Contest Stats
         if (pk is IContestStatsReadOnly cs)
@@ -1983,28 +2050,28 @@ public partial class PKMEditorViewModel : ObservableObject
         // Cosmetic — Markings
         if (Entity is IAppliedMarkings7 m7)
         {
-            m7.MarkingCircle = MarkCircle ? MarkingColor.Blue : MarkingColor.None;
-            m7.MarkingTriangle = MarkTriangle ? MarkingColor.Blue : MarkingColor.None;
-            m7.MarkingSquare = MarkSquare ? MarkingColor.Blue : MarkingColor.None;
-            m7.MarkingHeart = MarkHeart ? MarkingColor.Blue : MarkingColor.None;
-            m7.MarkingStar = MarkStar ? MarkingColor.Blue : MarkingColor.None;
-            m7.MarkingDiamond = MarkDiamond ? MarkingColor.Blue : MarkingColor.None;
+            m7.MarkingCircle = (MarkingColor)MarkCircle;
+            m7.MarkingTriangle = (MarkingColor)MarkTriangle;
+            m7.MarkingSquare = (MarkingColor)MarkSquare;
+            m7.MarkingHeart = (MarkingColor)MarkHeart;
+            m7.MarkingStar = (MarkingColor)MarkStar;
+            m7.MarkingDiamond = (MarkingColor)MarkDiamond;
         }
         else if (Entity is IAppliedMarkings4 m4)
         {
-            m4.MarkingCircle = MarkCircle;
-            m4.MarkingTriangle = MarkTriangle;
-            m4.MarkingSquare = MarkSquare;
-            m4.MarkingHeart = MarkHeart;
-            m4.MarkingStar = MarkStar;
-            m4.MarkingDiamond = MarkDiamond;
+            m4.MarkingCircle = MarkCircle != 0;
+            m4.MarkingTriangle = MarkTriangle != 0;
+            m4.MarkingSquare = MarkSquare != 0;
+            m4.MarkingHeart = MarkHeart != 0;
+            m4.MarkingStar = MarkStar != 0;
+            m4.MarkingDiamond = MarkDiamond != 0;
         }
         else if (Entity is IAppliedMarkings3 m3)
         {
-            m3.MarkingCircle = MarkCircle;
-            m3.MarkingTriangle = MarkTriangle;
-            m3.MarkingSquare = MarkSquare;
-            m3.MarkingHeart = MarkHeart;
+            m3.MarkingCircle = MarkCircle != 0;
+            m3.MarkingTriangle = MarkTriangle != 0;
+            m3.MarkingSquare = MarkSquare != 0;
+            m3.MarkingHeart = MarkHeart != 0;
         }
 
         // Cosmetic — Contest Stats
@@ -2628,15 +2695,16 @@ public partial class PKMEditorViewModel : ObservableObject
 
     private string GetNatureColor(int statIndex)
     {
-        var nature = Nature;
+        // For Gen 8+, StatNature controls the actual stat amplification
+        var nature = HasStatNature ? StatNature : Nature;
         if ((byte)nature >= 25)
             return "#000000"; // default black for invalid nature
         var amps = NatureAmp.GetAmps(nature);
         return amps[statIndex] switch
         {
-            1 => "#4488FF",  // blue for +10%
-            -1 => "#FF4444",         // red for -10%
-            _ => "#000000",          // default/neutral
+            1 => "#FF0000",  // red for +10% (boosted)
+            -1 => "#0000FF", // blue for -10% (hindered)
+            _ => "#000000",  // default/neutral
         };
     }
 

@@ -321,31 +321,31 @@
                             <NumericUpDown Grid.Row="1" Grid.Column="3" Value="{Binding Ev_HP}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
                             <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding Hp}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <!-- ATK -->
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Atk" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Atk" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding AtkColor}" />
                             <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Base_ATK}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding Iv_ATK}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
                             <NumericUpDown Grid.Row="2" Grid.Column="3" Value="{Binding Ev_ATK}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
                             <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding Atk}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <!-- DEF -->
-                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Def" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Def" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding DefColor}" />
                             <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Base_DEF}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding Iv_DEF}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
                             <NumericUpDown Grid.Row="3" Grid.Column="3" Value="{Binding Ev_DEF}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
                             <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Def}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <!-- SpA -->
-                            <TextBlock Grid.Row="4" Grid.Column="0" Text="SpA" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="SpA" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding SpAColor}" />
                             <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Base_SPA}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <NumericUpDown Grid.Row="4" Grid.Column="2" Value="{Binding Iv_SPA}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
                             <NumericUpDown Grid.Row="4" Grid.Column="3" Value="{Binding Ev_SPA}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
                             <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding SpA}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <!-- SpD -->
-                            <TextBlock Grid.Row="5" Grid.Column="0" Text="SpD" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="SpD" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding SpDColor}" />
                             <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Base_SPD}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <NumericUpDown Grid.Row="5" Grid.Column="2" Value="{Binding Iv_SPD}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
                             <NumericUpDown Grid.Row="5" Grid.Column="3" Value="{Binding Ev_SPD}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
                             <TextBlock Grid.Row="5" Grid.Column="4" Text="{Binding SpD}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <!-- Spe -->
-                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Spe" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Spe" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding SpeColor}" />
                             <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Base_SPE}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <NumericUpDown Grid.Row="6" Grid.Column="2" Value="{Binding Iv_SPE}" Minimum="0" Maximum="31" Height="25" ShowButtonSpinner="False" />
                             <NumericUpDown Grid.Row="6" Grid.Column="3" Value="{Binding Ev_SPE}" Minimum="0" Maximum="252" Height="25" ShowButtonSpinner="False" />
@@ -607,13 +607,13 @@
                         <!-- Markings Section -->
                         <StackPanel IsVisible="{Binding HasMarkings}" Spacing="4">
                             <TextBlock Text="Markings" FontWeight="SemiBold" Margin="0,2,0,0" />
-                            <StackPanel Orientation="Horizontal" Spacing="8" Margin="4,0,0,0">
-                                <CheckBox IsChecked="{Binding MarkCircle}" Content="&#x25CF;" ToolTip.Tip="Circle" />
-                                <CheckBox IsChecked="{Binding MarkTriangle}" Content="&#x25B2;" ToolTip.Tip="Triangle" />
-                                <CheckBox IsChecked="{Binding MarkSquare}" Content="&#x25A0;" ToolTip.Tip="Square" />
-                                <CheckBox IsChecked="{Binding MarkHeart}" Content="&#x2665;" ToolTip.Tip="Heart" />
-                                <CheckBox IsChecked="{Binding MarkStar}" Content="&#x2605;" ToolTip.Tip="Star" />
-                                <CheckBox IsChecked="{Binding MarkDiamond}" Content="&#x25C6;" ToolTip.Tip="Diamond" />
+                            <StackPanel Orientation="Horizontal" Spacing="4" Margin="4,0,0,0">
+                                <Button Command="{Binding CycleMarkCircleCommand}" Content="&#x25CF;" Foreground="{Binding MarkCircleColor}" ToolTip.Tip="{Binding MarkCircleTip}" Padding="4,2" MinWidth="0" Background="Transparent" FontSize="16" />
+                                <Button Command="{Binding CycleMarkTriangleCommand}" Content="&#x25B2;" Foreground="{Binding MarkTriangleColor}" ToolTip.Tip="{Binding MarkTriangleTip}" Padding="4,2" MinWidth="0" Background="Transparent" FontSize="16" />
+                                <Button Command="{Binding CycleMarkSquareCommand}" Content="&#x25A0;" Foreground="{Binding MarkSquareColor}" ToolTip.Tip="{Binding MarkSquareTip}" Padding="4,2" MinWidth="0" Background="Transparent" FontSize="16" />
+                                <Button Command="{Binding CycleMarkHeartCommand}" Content="&#x2665;" Foreground="{Binding MarkHeartColor}" ToolTip.Tip="{Binding MarkHeartTip}" Padding="4,2" MinWidth="0" Background="Transparent" FontSize="16" />
+                                <Button Command="{Binding CycleMarkStarCommand}" Content="&#x2605;" Foreground="{Binding MarkStarColor}" ToolTip.Tip="{Binding MarkStarTip}" Padding="4,2" MinWidth="0" Background="Transparent" FontSize="16" />
+                                <Button Command="{Binding CycleMarkDiamondCommand}" Content="&#x25C6;" Foreground="{Binding MarkDiamondColor}" ToolTip.Tip="{Binding MarkDiamondTip}" Padding="4,2" MinWidth="0" Background="Transparent" FontSize="16" />
                             </StackPanel>
                         </StackPanel>
 
