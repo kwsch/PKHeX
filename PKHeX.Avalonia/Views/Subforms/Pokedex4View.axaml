@@ -5,8 +5,8 @@
                      x:Class="PKHeX.Avalonia.Views.Subforms.Pokedex4View"
                      x:DataType="vm:Pokedex4ViewModel"
                      Title="Gen 4 Pokedex Editor"
-                     Width="600" Height="600"
-                     MinWidth="450" MinHeight="400"
+                     Width="750" Height="650"
+                     MinWidth="550" MinHeight="450"
                      WindowStartupLocation="CenterOwner"
                      FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
                      FontSize="11"
@@ -32,21 +32,76 @@
         <TextBox DockPanel.Dock="Top" Watermark="Search species..."
                  Text="{Binding SearchText}" Height="25" Margin="0,0,0,8" />
 
+        <!-- Detail panel for selected entry (gender + forms) -->
+        <Border DockPanel.Dock="Bottom" BorderBrush="Gray" BorderThickness="1"
+                CornerRadius="4" Padding="8" Margin="0,8,0,0"
+                IsVisible="{Binding SelectedEntry, Converter={x:Static ObjectConverters.IsNotNull}}"
+                MaxHeight="200">
+            <StackPanel DataContext="{Binding SelectedEntry}" x:DataType="vm:Pokedex4EntryModel" Spacing="6">
+                <TextBlock Text="{Binding Label}" FontWeight="Bold" FontSize="12" />
+
+                <!-- Gender info -->
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <TextBlock Text="Gender:" VerticalAlignment="Center" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding GenderDisplay}" VerticalAlignment="Center" />
+                    <CheckBox Content="Female First" IsChecked="{Binding IsFemaleFirst}"
+                              IsEnabled="{Binding Seen}"
+                              IsVisible="{Binding IsDualGender}"
+                              VerticalAlignment="Center" />
+                    <CheckBox Content="Both Seen" IsChecked="{Binding SeenBothGenders}"
+                              IsEnabled="{Binding Seen}"
+                              IsVisible="{Binding IsDualGender}"
+                              VerticalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Form controls -->
+                <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,*"
+                      IsVisible="{Binding HasForms}" Height="100">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Seen Forms" FontWeight="SemiBold"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Not Seen Forms" FontWeight="SemiBold"
+                               HorizontalAlignment="Center" />
+
+                    <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding SeenForms}"
+                             x:Name="LB_SeenForms" Margin="0,2,0,0" />
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Spacing="4" Margin="4,0">
+                        <Button Content="&lt;" FontSize="10" Padding="6,2"
+                                x:Name="B_AddForm" Click="OnAddFormClick"
+                                ToolTip.Tip="Add form to seen" />
+                        <Button Content="&gt;" FontSize="10" Padding="6,2"
+                                x:Name="B_RemoveForm" Click="OnRemoveFormClick"
+                                ToolTip.Tip="Remove form from seen" />
+                    </StackPanel>
+
+                    <ListBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding NotSeenForms}"
+                             x:Name="LB_NotSeenForms" Margin="0,2,0,0" />
+                </Grid>
+            </StackPanel>
+        </Border>
+
         <!-- Species list -->
         <ScrollViewer>
             <ItemsControl ItemsSource="{Binding FilteredEntries}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="vm:Pokedex4EntryModel">
-                        <Grid ColumnDefinitions="*,Auto,Auto" Margin="4,2">
-                            <TextBlock Grid.Column="0" Text="{Binding Label}"
-                                       VerticalAlignment="Center" />
-                            <CheckBox Grid.Column="1" Content="Seen"
-                                      IsChecked="{Binding Seen}"
-                                      VerticalAlignment="Center" Margin="8,0" />
-                            <CheckBox Grid.Column="2" Content="Caught"
-                                      IsChecked="{Binding Caught}"
-                                      VerticalAlignment="Center" Margin="8,0" />
-                        </Grid>
+                        <Border Padding="4,2" Background="Transparent"
+                                PointerPressed="OnEntryPointerPressed">
+                            <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                                <TextBlock Grid.Column="0" Text="{Binding Label}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="{Binding GenderDisplay}"
+                                           VerticalAlignment="Center" Margin="8,0"
+                                           Width="55" TextAlignment="Center"
+                                           Foreground="Gray" FontSize="10" />
+                                <CheckBox Grid.Column="2" Content="Seen"
+                                          IsChecked="{Binding Seen}"
+                                          VerticalAlignment="Center" Margin="8,0" />
+                                <CheckBox Grid.Column="3" Content="Caught"
+                                          IsChecked="{Binding Caught}"
+                                          VerticalAlignment="Center" Margin="8,0" />
+                            </Grid>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

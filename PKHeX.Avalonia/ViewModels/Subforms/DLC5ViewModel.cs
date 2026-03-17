@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PKHeX.Core;
@@ -12,7 +13,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 public class BattleVideo5Entry
 {
     public int Index { get; }
-    public string Label { get; }
+    public string Label { get; set; }
 
     public BattleVideo5Entry(int index, string label)
     {
@@ -27,7 +28,7 @@ public class BattleVideo5Entry
 public class PWT5Entry
 {
     public int Index { get; }
-    public string Label { get; }
+    public string Label { get; set; }
 
     public PWT5Entry(int index, string label)
     {
@@ -42,7 +43,7 @@ public class PWT5Entry
 public class Pokestar5Entry
 {
     public int Index { get; }
-    public string Label { get; }
+    public string Label { get; set; }
 
     public Pokestar5Entry(int index, string label)
     {
@@ -53,7 +54,7 @@ public class Pokestar5Entry
 
 /// <summary>
 /// ViewModel for the Gen 5 DLC content editor.
-/// Manages C-Gear skins, Battle Videos, PWT, Pokestar Movies, Musical Shows, Memory Links, and Pokedex Skins.
+/// Manages C-Gear skins, Battle Videos, PWT, Pokestar Movies, Musical Shows, Memory Links, Pokedex Skins, and Battle Tests.
 /// </summary>
 public partial class DLC5ViewModel : SaveEditorViewModelBase
 {
@@ -91,6 +92,12 @@ public partial class DLC5ViewModel : SaveEditorViewModelBase
     [ObservableProperty] private string _link1Status = "Link 1";
     [ObservableProperty] private string _link2Status = "Link 2";
 
+    // Status
+    [ObservableProperty] private string _statusText = string.Empty;
+
+    // C-Gear extension info
+    public string CGearExtension => SAV5 is SAV5BW ? CGearBackgroundBW.Extension : CGearBackgroundB2W2.Extension;
+
     public DLC5ViewModel(SAV5 sav) : base(sav)
     {
         _origin = sav;
@@ -109,8 +116,8 @@ public partial class DLC5ViewModel : SaveEditorViewModelBase
     {
         var data = SAV5.CGearSkinData;
         var bg = SAV5 is SAV5BW ? (CGearBackground)new CGearBackgroundBW(data) : new CGearBackgroundB2W2(data);
-        _hasCGear = !bg.IsUninitialized;
-        _cGearStatus = _hasCGear ? "C-Gear skin loaded" : "No C-Gear skin";
+        HasCGear = !bg.IsUninitialized;
+        CGearStatus = HasCGear ? "C-Gear skin loaded" : "No C-Gear skin";
     }
 
     private void LoadBattleVideos()
@@ -153,8 +160,404 @@ public partial class DLC5ViewModel : SaveEditorViewModelBase
 
     private void LoadMusical()
     {
-        _musicalName = SAV5.Musical.MusicalName;
+        MusicalName = SAV5.Musical.MusicalName;
     }
+
+    // ========== C-Gear Import/Export ==========
+
+    [RelayCommand]
+    private void ImportCGear(string? path)
+    {
+        if (string.IsNullOrEmpty(path) || !File.Exists(path))
+        {
+            StatusText = "File not found.";
+            return;
+        }
+
+        var len = new FileInfo(path).Length;
+        if (len != CGearBackground.SIZE)
+        {
+            StatusText = $"Incorrect size, got {len} bytes, expected {CGearBackground.SIZE} bytes.";
+            return;
+        }
+
+        byte[] data = File.ReadAllBytes(path);
+        bool isBW = SAV5 is SAV5BW;
+        CGearBackground temp = isBW ? new CGearBackgroundBW(data) : new CGearBackgroundB2W2(data);
+        bool isPSK = PaletteTileSelection.IsPaletteShiftFormat(temp.Arrange);
+
+        try
+        {
+            if (isBW && !isPSK)
+                PaletteTileSelection.ConvertToShiftFormat<CGearBackgroundBW>(temp.Arrange);
+            else if (!isBW && isPSK)
+                PaletteTileSelection.ConvertFromShiftFormat(temp.Arrange);
+        }
+        catch (Exception ex)
+        {
+            StatusText = $"C-Gear conversion error: {ex.Message}";
+            return;
+        }
+
+        SAV5.SetCGearSkin(temp.Data);
+        HasCGear = true;
+        CGearStatus = "C-Gear skin loaded";
+        StatusText = "C-Gear skin imported.";
+    }
+
+    [RelayCommand]
+    private void ExportCGear(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+            return;
+
+        var data = SAV5.CGearSkinData;
+        var bg = SAV5 is SAV5BW ? (CGearBackground)new CGearBackgroundBW(data) : new CGearBackgroundB2W2(data);
+        File.WriteAllBytes(path, bg.Data);
+        StatusText = "C-Gear skin exported.";
+    }
+
+    // ========== Battle Video Import/Export ==========
+
+    [RelayCommand]
+    private void ImportBattleVideo(string? path)
+    {
+        if (string.IsNullOrEmpty(path) || !File.Exists(path))
+        {
+            StatusText = "File not found.";
+            return;
+        }
+
+        var len = new FileInfo(path).Length;
+        if (len != BattleVideo5.SIZE)
+        {
+            StatusText = $"Incorrect size, got {len} bytes, expected {BattleVideo5.SIZE} bytes.";
+            return;
+        }
+
+        byte[] data = File.ReadAllBytes(path);
+        bool decrypted = BattleVideo5.GetIsDecrypted(data);
+        var bvid = new BattleVideo5(data) { IsDecrypted = decrypted };
+        bvid.Encrypt();
+        if (!bvid.IsUninitialized)
+            bvid.RefreshChecksums();
+
+        var index = SelectedBattleVideoIndex;
+        if (index < 0 || index >= BattleVideos.Count)
+            index = 0;
+        SAV5.SetBattleVideo(index, data);
+        var name = bvid.IsUninitialized ? "Empty" : bvid.GetTrainerNames();
+        BattleVideos[index].Label = $"{index:00} - {name}";
+        // Force refresh
+        var temp = BattleVideos[index];
+        BattleVideos.RemoveAt(index);
+        BattleVideos.Insert(index, temp);
+        SelectedBattleVideoIndex = index;
+        StatusText = "Battle Video imported.";
+    }
+
+    [RelayCommand]
+    private void ExportBattleVideo(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+            return;
+
+        var index = SelectedBattleVideoIndex;
+        if (index < 0 || index >= BattleVideos.Count)
+            index = 0;
+        var data = SAV5.GetBattleVideo(index);
+        File.WriteAllBytes(path, data.Span.ToArray());
+        StatusText = "Battle Video exported.";
+    }
+
+    // ========== PWT Import/Export (B2W2 only) ==========
+
+    [RelayCommand]
+    private void ImportPWT(string? path)
+    {
+        if (SAV5 is not SAV5B2W2 b2w2)
+            return;
+        if (string.IsNullOrEmpty(path) || !File.Exists(path))
+        {
+            StatusText = "File not found.";
+            return;
+        }
+
+        var len = new FileInfo(path).Length;
+        const int pporg = 0x1314;
+        if (len != WorldTournament5.SIZE && len != pporg)
+        {
+            StatusText = $"Incorrect size, got {len} bytes, expected {WorldTournament5.SIZE} bytes.";
+            return;
+        }
+
+        byte[] data = File.ReadAllBytes(path);
+        if (data.Length == pporg)
+            Array.Resize(ref data, WorldTournament5.SIZE);
+
+        var index = SelectedPWTIndex;
+        if (index < 0 || index >= PWTEntries.Count)
+            index = 0;
+        b2w2.SetPWT(index, data);
+
+        var pwt = new WorldTournament5(data);
+        var name = pwt.Name;
+        if (string.IsNullOrWhiteSpace(name))
+            name = "Empty";
+        PWTEntries[index].Label = $"{index + 1:00} - {name}";
+        var temp = PWTEntries[index];
+        PWTEntries.RemoveAt(index);
+        PWTEntries.Insert(index, temp);
+        SelectedPWTIndex = index;
+        StatusText = "PWT data imported.";
+    }
+
+    [RelayCommand]
+    private void ExportPWT(string? path)
+    {
+        if (SAV5 is not SAV5B2W2 b2w2)
+            return;
+        if (string.IsNullOrEmpty(path))
+            return;
+
+        var index = SelectedPWTIndex;
+        if (index < 0 || index >= PWTEntries.Count)
+            index = 0;
+        var data = b2w2.GetPWT(index);
+        File.WriteAllBytes(path, data.Span.ToArray());
+        StatusText = "PWT data exported.";
+    }
+
+    // ========== Pokestar Import/Export (B2W2 only) ==========
+
+    [RelayCommand]
+    private void ImportPokestar(string? path)
+    {
+        if (SAV5 is not SAV5B2W2 b2w2)
+            return;
+        if (string.IsNullOrEmpty(path) || !File.Exists(path))
+        {
+            StatusText = "File not found.";
+            return;
+        }
+
+        var len = new FileInfo(path).Length;
+        if (len != PokestarMovie5.SIZE)
+        {
+            StatusText = $"Incorrect size, got {len} bytes, expected {PokestarMovie5.SIZE} bytes.";
+            return;
+        }
+
+        byte[] data = File.ReadAllBytes(path);
+        var index = SelectedPokestarIndex;
+        if (index < 0 || index >= PokestarMovies.Count)
+            index = 0;
+        b2w2.SetPokestarMovie(index, data);
+
+        var movie = new PokestarMovie5(data);
+        PokestarMovies[index].Label = $"{index + 1:00} - {movie.Name}";
+        var temp = PokestarMovies[index];
+        PokestarMovies.RemoveAt(index);
+        PokestarMovies.Insert(index, temp);
+        SelectedPokestarIndex = index;
+        StatusText = "Pokestar movie imported.";
+    }
+
+    [RelayCommand]
+    private void ExportPokestar(string? path)
+    {
+        if (SAV5 is not SAV5B2W2 b2w2)
+            return;
+        if (string.IsNullOrEmpty(path))
+            return;
+
+        var index = SelectedPokestarIndex;
+        if (index < 0 || index >= PokestarMovies.Count)
+            index = 0;
+        var data = b2w2.GetPokestarMovie(index);
+        File.WriteAllBytes(path, data.Span.ToArray());
+        StatusText = "Pokestar movie exported.";
+    }
+
+    // ========== Musical Import/Export ==========
+
+    [RelayCommand]
+    private void ImportMusical(string? path)
+    {
+        if (string.IsNullOrEmpty(path) || !File.Exists(path))
+        {
+            StatusText = "File not found.";
+            return;
+        }
+
+        var expectedSize = SAV5 is SAV5B2W2 ? MusicalShow5.SIZE_B2W2 : MusicalShow5.SIZE_BW;
+        const int pporg = 0x17D78;
+        var len = new FileInfo(path).Length;
+        if (len != expectedSize && len != pporg)
+        {
+            StatusText = $"Incorrect size, got {len} bytes, expected {expectedSize} bytes.";
+            return;
+        }
+
+        byte[] data = File.ReadAllBytes(path);
+        if (data.Length == pporg)
+            Array.Resize(ref data, expectedSize);
+
+        var musical = new MusicalShow5(data);
+        SAV5.SetMusical(data);
+        SAV5.Musical.MusicalName = musical.IsUninitialized ? "" : Path.GetFileNameWithoutExtension(path).Trim();
+        MusicalName = SAV5.Musical.MusicalName;
+        StatusText = "Musical show imported.";
+    }
+
+    [RelayCommand]
+    private void ExportMusical(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+            return;
+
+        var data = SAV5.MusicalDownloadData;
+        File.WriteAllBytes(path, data.Span.ToArray());
+        StatusText = "Musical show exported.";
+    }
+
+    // ========== Memory Link Import/Export ==========
+
+    [RelayCommand]
+    private void ImportLink1(string? path)
+    {
+        if (string.IsNullOrEmpty(path) || !File.Exists(path))
+        {
+            StatusText = "File not found.";
+            return;
+        }
+
+        var len = new FileInfo(path).Length;
+        if (len != SAV5.Link1Data.Length)
+        {
+            StatusText = $"Incorrect size, got {len} bytes, expected {SAV5.Link1Data.Length} bytes.";
+            return;
+        }
+
+        byte[] data = File.ReadAllBytes(path);
+        SAV5.SetLink1Data(data);
+        StatusText = "Memory Link 1 imported.";
+    }
+
+    [RelayCommand]
+    private void ExportLink1(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+            return;
+        File.WriteAllBytes(path, SAV5.Link1Data.Span.ToArray());
+        StatusText = "Memory Link 1 exported.";
+    }
+
+    [RelayCommand]
+    private void ImportLink2(string? path)
+    {
+        if (string.IsNullOrEmpty(path) || !File.Exists(path))
+        {
+            StatusText = "File not found.";
+            return;
+        }
+
+        var len = new FileInfo(path).Length;
+        if (len != SAV5.Link2Data.Length)
+        {
+            StatusText = $"Incorrect size, got {len} bytes, expected {SAV5.Link2Data.Length} bytes.";
+            return;
+        }
+
+        byte[] data = File.ReadAllBytes(path);
+        SAV5.SetLink2Data(data);
+        StatusText = "Memory Link 2 imported.";
+    }
+
+    [RelayCommand]
+    private void ExportLink2(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+            return;
+        File.WriteAllBytes(path, SAV5.Link2Data.Span.ToArray());
+        StatusText = "Memory Link 2 exported.";
+    }
+
+    // ========== Pokedex Skin Import/Export ==========
+
+    [RelayCommand]
+    private void ImportPokedexSkin(string? path)
+    {
+        if (string.IsNullOrEmpty(path) || !File.Exists(path))
+        {
+            StatusText = "File not found.";
+            return;
+        }
+
+        var len = new FileInfo(path).Length;
+        const int pporg = 0x6200;
+        if (len != PokeDexSkin5.SIZE && len != pporg)
+        {
+            StatusText = $"Incorrect size, got {len} bytes, expected {PokeDexSkin5.SIZE} bytes.";
+            return;
+        }
+
+        byte[] data = File.ReadAllBytes(path);
+        if (data.Length == pporg)
+            Array.Resize(ref data, PokeDexSkin5.SIZE);
+
+        SAV5.SetPokeDexSkin(data);
+        StatusText = "Pokedex Skin imported.";
+    }
+
+    [RelayCommand]
+    private void ExportPokedexSkin(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+            return;
+        File.WriteAllBytes(path, SAV5.PokedexSkinData.Span.ToArray());
+        StatusText = "Pokedex Skin exported.";
+    }
+
+    // ========== Battle Test Import/Export ==========
+
+    [RelayCommand]
+    private void ImportBattleTest(string? path)
+    {
+        if (string.IsNullOrEmpty(path) || !File.Exists(path))
+        {
+            StatusText = "File not found.";
+            return;
+        }
+
+        var len = new FileInfo(path).Length;
+        if (len != BattleTest5.SIZE)
+        {
+            StatusText = $"Incorrect size, got {len} bytes, expected {BattleTest5.SIZE} bytes.";
+            return;
+        }
+
+        byte[] data = File.ReadAllBytes(path);
+        var test = new BattleTest5(data);
+        if (!test.IsUninitialized)
+        {
+            test.Magic = BattleTest5.Sentinel;
+            test.RefreshChecksums();
+        }
+        SAV5.SetBattleTest(data);
+        StatusText = "Battle Test imported.";
+    }
+
+    [RelayCommand]
+    private void ExportBattleTest(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+            return;
+        File.WriteAllBytes(path, SAV5.BattleTest.Span.ToArray());
+        StatusText = "Battle Test exported.";
+    }
+
+    // ========== Save ==========
 
     [RelayCommand]
     private void Save()
