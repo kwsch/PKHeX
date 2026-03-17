@@ -7,6 +7,7 @@ using Avalonia.Media;
 using Avalonia.VisualTree;
 using PKHeX.Avalonia.Controls;
 using PKHeX.Avalonia.ViewModels;
+using PKHeX.Avalonia.ViewModels.Subforms;
 
 namespace PKHeX.Avalonia.Views;
 
@@ -168,18 +169,36 @@ public partial class SlotControl : UserControl
 
     /// <summary>
     /// Walks up the visual tree to find the <see cref="SAVEditorViewModel"/>.
+    /// Falls back to reaching it through <see cref="BoxViewerViewModel.SlotManager"/>
+    /// when the slot lives inside a BoxViewer window.
     /// </summary>
     private SAVEditorViewModel? FindSAVEditorViewModel()
     {
         var itemsControl = this.FindAncestorOfType<ItemsControl>();
-        return itemsControl?.DataContext as SAVEditorViewModel;
+        if (itemsControl?.DataContext is SAVEditorViewModel savVm)
+            return savVm;
+
+        // BoxViewer path: reach the main editor through the shared SlotChangeManager
+        if (itemsControl?.DataContext is BoxViewerViewModel boxVm)
+            return boxVm.SlotManager?.Editor;
+
+        return null;
     }
 
     /// <summary>
-    /// Finds the <see cref="SlotChangeManager"/> from the <see cref="SAVEditorViewModel"/>.
+    /// Finds the <see cref="SlotChangeManager"/> from either the <see cref="SAVEditorViewModel"/>
+    /// or a <see cref="BoxViewerViewModel"/> ancestor.
     /// </summary>
     private SlotChangeManager? FindSlotChangeManager()
     {
-        return FindSAVEditorViewModel()?.SlotManager;
+        var itemsControl = this.FindAncestorOfType<ItemsControl>();
+
+        if (itemsControl?.DataContext is SAVEditorViewModel savVm)
+            return savVm.SlotManager;
+
+        if (itemsControl?.DataContext is BoxViewerViewModel boxVm)
+            return boxVm.SlotManager;
+
+        return null;
     }
 }

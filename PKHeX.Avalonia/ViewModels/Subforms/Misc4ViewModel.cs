@@ -69,6 +69,7 @@ public partial class WalkerCourseModel : ObservableObject
 /// </summary>
 public partial class Misc4ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV4 _origin;
     private readonly SAV4 SAV4;
 
     // General
@@ -130,35 +131,36 @@ public partial class Misc4ViewModel : SaveEditorViewModelBase
 
     public Misc4ViewModel(SAV4 sav) : base(sav)
     {
-        SAV4 = sav;
-        Record = sav.Records;
+        _origin = sav;
+        SAV4 = (SAV4)sav.Clone();
+        Record = SAV4.Records;
 
-        _maxCoins = (uint)sav.MaxCoins;
-        _coins = Math.Clamp(sav.Coin, 0, _maxCoins);
-        _bp = Math.Clamp(sav.BP, 0, 9999);
+        _maxCoins = (uint)SAV4.MaxCoins;
+        _coins = Math.Clamp(SAV4.Coin, 0, _maxCoins);
+        _bp = Math.Clamp(SAV4.BP, 0, 9999);
 
         PoketchAppNames = GameInfo.Strings.poketchapps;
 
         // Fly destinations
-        var locations = sav is SAV4Sinnoh ? LocationIDsSinnoh : LocationIDsHGSS;
-        var flags = sav is SAV4Sinnoh ? FlyWorkFlagSinnoh : FlyWorkFlagHGSS;
+        var locations = SAV4 is SAV4Sinnoh ? LocationIDsSinnoh : LocationIDsHGSS;
+        var flags = SAV4 is SAV4Sinnoh ? FlyWorkFlagSinnoh : FlyWorkFlagHGSS;
         for (int i = 0; i < locations.Length; i++)
         {
             var flagIndex = FlyFlagStart + flags[i];
-            var state = sav.GetEventFlag(flagIndex);
+            var state = SAV4.GetEventFlag(flagIndex);
             var locationID = locations[i];
             var name = GameInfo.Strings.Gen4.Met0[locationID];
             FlyDestinations.Add(new FlyDestModel(flagIndex, name, state));
         }
 
         // Sinnoh-specific
-        ShowPoketch = sav is SAV4Sinnoh;
-        ShowUGFlags = sav is SAV4Sinnoh;
-        ShowWalker = sav is SAV4HGSS;
-        ShowPokeathlon = sav is SAV4HGSS;
-        ShowMap = sav is SAV4HGSS;
+        ShowPoketch = SAV4 is SAV4Sinnoh;
+        ShowUGFlags = SAV4 is SAV4Sinnoh;
+        ShowWalker = SAV4 is SAV4HGSS;
+        ShowPokeathlon = SAV4 is SAV4HGSS;
+        ShowMap = SAV4 is SAV4HGSS;
 
-        if (sav is SAV4Sinnoh sinnoh)
+        if (SAV4 is SAV4Sinnoh sinnoh)
         {
             _ugFlagsCaptured = Math.Clamp(sinnoh.UG_FlagsCaptured, 0, SAV4Sinnoh.UG_MAX);
 
@@ -170,7 +172,7 @@ public partial class Misc4ViewModel : SaveEditorViewModelBase
             }
             _currentPoketchApp = sinnoh.CurrentPoketchApp;
         }
-        else if (sav is SAV4HGSS hgss)
+        else if (SAV4 is SAV4HGSS hgss)
         {
             // Walker
             ReadOnlySpan<string> walkerCourseNames = GameInfo.Sources.Strings.walkercourses;
@@ -275,7 +277,7 @@ public partial class Misc4ViewModel : SaveEditorViewModelBase
         Record.SetRecord32(Record32Index, Record32Value);
         Record.EndAccess();
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV4);
         Modified = true;
     }
 }

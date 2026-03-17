@@ -11,6 +11,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class SimpleTrainerViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
     private readonly SaveFile _clone;
 
     [ObservableProperty]
@@ -69,7 +70,8 @@ public partial class SimpleTrainerViewModel : SaveEditorViewModelBase
 
     public SimpleTrainerViewModel(SaveFile sav) : base(sav)
     {
-        _clone = sav;
+        _origin = sav;
+        _clone = (SaveFile)sav.Clone();
 
         MaxNameLength = sav.MaxStringLengthTrainer;
         MaxMoney = (uint)sav.MaxMoney;
@@ -142,6 +144,7 @@ public partial class SimpleTrainerViewModel : SaveEditorViewModelBase
         if (Badge8) badgeval |= 1 << 7;
 
         SetBadgeValue(sav, badgeval);
+        _origin.CopyChangesFrom(_clone);
         Modified = true;
     }
 

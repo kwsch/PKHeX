@@ -30,6 +30,12 @@ public partial class BoxViewerViewModel : ObservableObject
     /// <summary>Callback invoked when a slot is clicked to view its PKM.</summary>
     public Action<PKM>? SlotSelected { get; set; }
 
+    /// <summary>
+    /// Shared <see cref="SlotChangeManager"/> from the main editor, enabling drag-and-drop
+    /// between the BoxViewer and the main SAV editor.
+    /// </summary>
+    public SlotChangeManager? SlotManager { get; set; }
+
     public BoxViewerViewModel(SaveFile sav, int initialBox = 0)
     {
         _sav = sav;

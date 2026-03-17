@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -34,9 +35,29 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var mainViewModel = new MainWindowViewModel();
-            desktop.MainWindow = new MainWindow
+            var mainWindow = new MainWindow
             {
                 DataContext = mainViewModel,
+            };
+            desktop.MainWindow = mainWindow;
+
+            // Auto-load save file on startup, after the window is shown
+            mainWindow.Opened += (_, _) =>
+            {
+                try
+                {
+                    var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+                    var startup = StartupUtil.GetStartup(args, Settings);
+                    if (startup.SAV is { } sav)
+                    {
+                        var path = sav.Metadata.FilePath ?? string.Empty;
+                        mainViewModel.LoadInitialSave(sav, startup.Entity, path);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Auto-load on startup failed: {ex.Message}");
+                }
             };
 
             desktop.ShutdownRequested += (_, _) =>
@@ -60,6 +81,11 @@ public partial class App : Application
         StartupUtil.ReloadSettings(Settings);
         Settings.LocalResources.SetLocalPath(WorkingDirectory);
         SpriteBuilder.LoadSettings(Settings.Sprite);
+
+        // Handle HaX and version tracking (mirrors WinForms FormLoadInitialActions)
+        var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+        var init = StartupUtil.FormLoadInitialActions(args, Settings, CurrentVersion);
+        HaX = init.HaX;
 
         var language = Settings.Startup.Language;
         LocalizeUtil.InitializeStrings(language);

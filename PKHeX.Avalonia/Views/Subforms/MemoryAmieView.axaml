@@ -79,7 +79,7 @@
                                            VerticalAlignment="Center" IsVisible="{Binding HasSociability}"
                                            FontWeight="SemiBold" FontSize="11" />
                                 <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Sociability}"
-                                               Minimum="0" Maximum="255" Width="120" Height="25" HorizontalAlignment="Left"
+                                               Minimum="0" Maximum="4294967295" Width="120" Height="25" HorizontalAlignment="Left"
                                                IsVisible="{Binding HasSociability}" />
                             </Grid>
                         </StackPanel>

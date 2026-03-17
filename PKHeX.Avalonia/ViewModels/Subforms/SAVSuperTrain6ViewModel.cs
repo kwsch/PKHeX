@@ -99,11 +99,12 @@ public partial class SAVSuperTrain6ViewModel : SaveEditorViewModelBase
         SelectedStageIndex = 0;
     }
 
-    partial void OnSelectedStageIndexChanged(int value)
+    partial void OnSelectedStageIndexChanged(int oldValue, int newValue)
     {
-        if (value < 0)
-            return;
-        LoadStageRecord(value);
+        if (oldValue >= 0)
+            SaveStageRecord(oldValue);
+        if (newValue >= 0)
+            LoadStageRecord(newValue);
     }
 
     private void LoadStageRecord(int index)

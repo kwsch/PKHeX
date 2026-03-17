@@ -72,6 +72,7 @@ public partial class PropModel : ObservableObject
 /// </summary>
 public partial class Misc5ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV5 _origin;
     private readonly SAV5 SAV5;
     private readonly BattleSubway5 Subway;
     private readonly BattleSubwayPlay5 SubwayPlay;
@@ -141,10 +142,11 @@ public partial class Misc5ViewModel : SaveEditorViewModelBase
 
     public Misc5ViewModel(SAV5 sav) : base(sav)
     {
-        SAV5 = sav;
-        Subway = sav.BattleSubway;
-        SubwayPlay = sav.BattleSubwayPlay;
-        Record = sav.Records;
+        _origin = sav;
+        SAV5 = (SAV5)sav.Clone();
+        Subway = SAV5.BattleSubway;
+        SubwayPlay = SAV5.BattleSubwayPlay;
+        Record = SAV5.Records;
 
         ReadFly();
         ReadRoamer();
@@ -153,8 +155,8 @@ public partial class Misc5ViewModel : SaveEditorViewModelBase
         ReadSubway();
         ReadRecords();
 
-        ShowRoamer = sav is SAV5BW;
-        ShowKeySystem = sav is SAV5B2W2;
+        ShowRoamer = SAV5 is SAV5BW;
+        ShowKeySystem = SAV5 is SAV5B2W2;
     }
 
     private void ReadFly()
@@ -321,7 +323,7 @@ public partial class Misc5ViewModel : SaveEditorViewModelBase
         SaveSubway();
         SaveRecords();
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV5);
         Modified = true;
     }
 

@@ -47,11 +47,13 @@
             <!-- File tabs -->
             <TabControl Grid.Column="1" SelectedIndex="{Binding SelectedTabIndex}">
                 <TabItem Header="Recent">
-                    <DataGrid ItemsSource="{Binding FilteredRecentFiles}"
+                    <DataGrid x:Name="RecentGrid"
+                              ItemsSource="{Binding FilteredRecentFiles}"
                               AutoGenerateColumns="False"
                               IsReadOnly="True"
                               CanUserSortColumns="True"
-                              GridLinesVisibility="Horizontal">
+                              GridLinesVisibility="Horizontal"
+                              DoubleTapped="OnDataGridDoubleTapped">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="File Name" Binding="{Binding FileName}" Width="*" />
                             <DataGridTextColumn Header="Size" Binding="{Binding FileSize}" Width="100" />
@@ -60,11 +62,13 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Backups">
-                    <DataGrid ItemsSource="{Binding FilteredBackupFiles}"
+                    <DataGrid x:Name="BackupGrid"
+                              ItemsSource="{Binding FilteredBackupFiles}"
                               AutoGenerateColumns="False"
                               IsReadOnly="True"
                               CanUserSortColumns="True"
-                              GridLinesVisibility="Horizontal">
+                              GridLinesVisibility="Horizontal"
+                              DoubleTapped="OnDataGridDoubleTapped">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="File Name" Binding="{Binding FileName}" Width="*" />
                             <DataGridTextColumn Header="Size" Binding="{Binding FileSize}" Width="100" />

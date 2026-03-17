@@ -135,6 +135,11 @@ public partial class MainWindowViewModel : ObservableObject
     /// </summary>
     private PluginLoadResult? _pluginLoadResult;
 
+    /// <summary>
+    /// Plugin host that provides ISaveFileProvider to plugins.
+    /// </summary>
+    private AvaloniaPluginHost? _pluginHost;
+
     public MainWindowViewModel() : this(new AvaloniaDialogService())
     {
     }
@@ -168,15 +173,27 @@ public partial class MainWindowViewModel : ObservableObject
     /// </summary>
     private void LoadPlugins()
     {
+        if (!App.Settings.Startup.PluginLoadEnable)
+            return;
+
         var pluginPath = Path.Combine(App.WorkingDirectory, "plugins");
         try
         {
-            _pluginLoadResult = PluginLoader.LoadPlugins<IPlugin>(pluginPath, Plugins, false);
+            _pluginLoadResult = PluginLoader.LoadPlugins<IPlugin>(pluginPath, Plugins, App.Settings.Startup.PluginLoadMerged);
+
+            // Create the plugin host that provides ISaveFileProvider to plugins
+            var blankSav = BlankSaveFile.Get(App.Settings.Startup.DefaultSaveVersion, null);
+            _pluginHost = new AvaloniaPluginHost(
+                blankSav,
+                () => SavEditor?.CurrentBox ?? 0,
+                () => SavEditor?.ReloadSlots()
+            );
+
             foreach (var plugin in Plugins.OrderBy(p => p.Priority))
             {
                 try
                 {
-                    plugin.Initialize(this);
+                    plugin.Initialize(_pluginHost, App.CurrentVersion);
                 }
                 catch (Exception ex)
                 {
@@ -353,6 +370,17 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Loads the initial save file and entity from startup arguments.
+    /// Called by App.axaml.cs after the main window is shown.
+    /// </summary>
+    public void LoadInitialSave(SaveFile sav, PKM? entity, string path)
+    {
+        LoadSaveFile(sav, path);
+        if (entity is not null)
+            PkmEditor?.PopulateFields(entity);
+    }
+
     public async Task LoadFileAsync(string path)
     {
         if (_isLoading)
@@ -410,6 +438,9 @@ public partial class MainWindowViewModel : ObservableObject
         SpriteUtil.Initialize(sav);
         SavEditor?.LoadSaveFile(sav);
         PkmEditor?.Initialize(sav);
+
+        // Update the plugin host with the new save file
+        _pluginHost?.UpdateSaveFile(sav);
 
         App.Settings.Startup.LoadSaveFile(path);
 
@@ -574,10 +605,14 @@ public partial class MainWindowViewModel : ObservableObject
 
         try
         {
+            var slotManager = SavEditor?.SlotManager;
             var vm = new BoxViewerViewModel(SaveFile, SavEditor?.CurrentBox ?? 0)
             {
                 SlotSelected = pk => PkmEditor?.PopulateFields(pk),
+                SlotManager = slotManager,
             };
+            slotManager?.RegisterBoxViewer(vm);
+
             var view = new BoxViewerView { DataContext = vm };
 
             var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
@@ -585,7 +620,11 @@ public partial class MainWindowViewModel : ObservableObject
             {
                 view.Show(mainWindow); // non-modal
                 _openSubWindows.Add(view);
-                view.Closed += (_, _) => _openSubWindows.Remove(view);
+                view.Closed += (_, _) =>
+                {
+                    _openSubWindows.Remove(view);
+                    slotManager?.UnregisterBoxViewer(vm);
+                };
             }
         }
         catch (Exception ex)

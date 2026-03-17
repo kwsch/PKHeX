@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -74,9 +75,21 @@ public partial class FolderListViewModel : ObservableObject
     public string WindowTitle => "Save File Folder List";
 
     /// <summary>
+    /// Callback invoked when the user requests to open a file from the Recent or Backup list.
+    /// The caller (MainWindowViewModel) should subscribe to this to load the selected file.
+    /// </summary>
+    public Action<string>? FileOpenRequested { get; set; }
+
+    /// <summary>
+    /// Set to true when a file has been opened (so the dialog can close).
+    /// </summary>
+    [ObservableProperty]
+    private bool _fileOpened;
+
+    /// <summary>
     /// Creates the view model with the given folder paths and backup directory.
     /// </summary>
-    public FolderListViewModel(string[] folderPaths, string backupPath)
+    public FolderListViewModel(string[] folderPaths, string backupPath, IReadOnlyList<string>? recentlyLoaded = null)
     {
         foreach (var path in folderPaths)
         {
@@ -84,18 +97,31 @@ public partial class FolderListViewModel : ObservableObject
                 Folders.Add(new FolderEntry(Path.GetFileName(path), path));
         }
 
-        // Load recent files from common save locations
-        foreach (var folder in Folders)
+        // Load recent files from the settings RecentlyLoaded list (matching WinForms behavior)
+        if (recentlyLoaded is { Count: > 0 })
         {
-            if (!Directory.Exists(folder.FullPath))
-                continue;
-            try
+            foreach (var recentPath in recentlyLoaded)
             {
-                foreach (var file in Directory.EnumerateFiles(folder.FullPath, "*", SearchOption.TopDirectoryOnly).Take(50))
-                    RecentFiles.Add(new SaveFileEntry(file));
+                if (File.Exists(recentPath))
+                    RecentFiles.Add(new SaveFileEntry(recentPath));
             }
-            catch (UnauthorizedAccessException) { }
-            catch (IOException) { }
+        }
+
+        // Also include files from folder paths if no recently loaded entries
+        if (RecentFiles.Count == 0)
+        {
+            foreach (var folder in Folders)
+            {
+                if (!Directory.Exists(folder.FullPath))
+                    continue;
+                try
+                {
+                    foreach (var file in Directory.EnumerateFiles(folder.FullPath, "*", SearchOption.TopDirectoryOnly).Take(50))
+                        RecentFiles.Add(new SaveFileEntry(file));
+                }
+                catch (UnauthorizedAccessException) { }
+                catch (IOException) { }
+            }
         }
 
         // Load backup files
@@ -154,5 +180,19 @@ public partial class FolderListViewModel : ObservableObject
             });
         }
         catch { /* ignore failures to open folder */ }
+    }
+
+    /// <summary>
+    /// Opens the selected save file entry by invoking the <see cref="FileOpenRequested"/> callback.
+    /// Triggered by double-clicking a row in the Recent or Backup DataGrid.
+    /// </summary>
+    [RelayCommand]
+    private void OpenSaveFile(SaveFileEntry? entry)
+    {
+        if (entry is null || !File.Exists(entry.FilePath))
+            return;
+
+        FileOpenRequested?.Invoke(entry.FilePath);
+        FileOpened = true;
     }
 }
