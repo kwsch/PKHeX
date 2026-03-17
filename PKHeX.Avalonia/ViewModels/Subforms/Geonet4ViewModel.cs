@@ -49,7 +49,7 @@ public partial class Geonet4ViewModel : SaveEditorViewModelBase
     {
         _origin = sav;
         SAV4 = (SAV4)sav.Clone();
-        Geonet = new Geonet4(sav);
+        Geonet = new Geonet4(SAV4);
         _globalFlag = Geonet.GlobalFlag;
         LoadEntries();
     }

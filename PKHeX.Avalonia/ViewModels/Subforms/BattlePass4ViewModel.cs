@@ -79,7 +79,7 @@ public partial class BattlePass4ViewModel : SaveEditorViewModelBase
         LoadPassList();
 
         _currentPassIndex = startIndex;
-        _currentPass = sav.BattlePasses[startIndex];
+        _currentPass = SAV4BR.BattlePasses[startIndex];
         _selectedPassIndex = startIndex;
         LoadCurrent(_currentPass);
     }
