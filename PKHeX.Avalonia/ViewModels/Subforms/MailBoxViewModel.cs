@@ -80,12 +80,21 @@ public partial class MailBoxViewModel : SaveEditorViewModelBase
             SelectedIndex = 0;
     }
 
-    partial void OnSelectedIndexChanged(int value)
+    partial void OnSelectedIndexChanged(int oldValue, int newValue)
     {
-        if (value < 0 || value >= _mails.Length)
+        // Flush previous selection back to the mail array
+        if (oldValue >= 0 && oldValue < _mails.Length)
+        {
+            _mails[oldValue].AuthorName = SelectedAuthorName;
+            _mails[oldValue].AuthorTID = SelectedAuthorTid;
+            _mails[oldValue].MailType = SelectedMailType;
+        }
+
+        // Load new selection
+        if (newValue < 0 || newValue >= _mails.Length)
             return;
 
-        var mail = _mails[value];
+        var mail = _mails[newValue];
         SelectedAuthorName = mail.AuthorName;
         SelectedAuthorTid = mail.AuthorTID;
         SelectedMailType = mail.MailType;

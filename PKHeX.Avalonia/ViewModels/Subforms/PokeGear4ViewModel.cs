@@ -77,7 +77,10 @@ public partial class PokeGear4ViewModel : SaveEditorViewModelBase
     [RelayCommand]
     private void Save()
     {
-        SAV4H.SetPokeGearRoloDex(SAV4H.GetPokeGearRoloDex());
+        var rolodex = new PokegearNumber[Contacts.Count];
+        for (int i = 0; i < Contacts.Count; i++)
+            rolodex[i] = (PokegearNumber)Contacts[i].CallerId;
+        SAV4H.SetPokeGearRoloDex(rolodex);
         SAV.State.Edited = true;
         Modified = true;
     }

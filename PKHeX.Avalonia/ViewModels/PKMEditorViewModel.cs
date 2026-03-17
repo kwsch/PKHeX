@@ -866,7 +866,7 @@ public partial class PKMEditorViewModel : ObservableObject
         if (!_isPopulating && Entity is not null)
         {
             Entity.Move1 = Move1;
-            Entity.Move1_PP = Entity.GetMovePP(Move1, Entity.Move1_PPUps);
+            Entity.Move1_PP = Entity.GetMovePP(Move1, Move1_PPUps);
             Move1_PP = Entity.Move1_PP;
             UpdateLegality();
         }
@@ -879,7 +879,7 @@ public partial class PKMEditorViewModel : ObservableObject
         if (!_isPopulating && Entity is not null)
         {
             Entity.Move2 = Move2;
-            Entity.Move2_PP = Entity.GetMovePP(Move2, Entity.Move2_PPUps);
+            Entity.Move2_PP = Entity.GetMovePP(Move2, Move2_PPUps);
             Move2_PP = Entity.Move2_PP;
             UpdateLegality();
         }
@@ -892,7 +892,7 @@ public partial class PKMEditorViewModel : ObservableObject
         if (!_isPopulating && Entity is not null)
         {
             Entity.Move3 = Move3;
-            Entity.Move3_PP = Entity.GetMovePP(Move3, Entity.Move3_PPUps);
+            Entity.Move3_PP = Entity.GetMovePP(Move3, Move3_PPUps);
             Move3_PP = Entity.Move3_PP;
             UpdateLegality();
         }
@@ -905,9 +905,53 @@ public partial class PKMEditorViewModel : ObservableObject
         if (!_isPopulating && Entity is not null)
         {
             Entity.Move4 = Move4;
-            Entity.Move4_PP = Entity.GetMovePP(Move4, Entity.Move4_PPUps);
+            Entity.Move4_PP = Entity.GetMovePP(Move4, Move4_PPUps);
             Move4_PP = Entity.Move4_PP;
             UpdateLegality();
+        }
+    }
+
+    partial void OnMove1_PPUpsChanged(int value)
+    {
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Move1_PPUps = value;
+            var pp = Entity.GetMovePP(Move1, value);
+            Move1_PP = pp;
+            Entity.Move1_PP = pp;
+        }
+    }
+
+    partial void OnMove2_PPUpsChanged(int value)
+    {
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Move2_PPUps = value;
+            var pp = Entity.GetMovePP(Move2, value);
+            Move2_PP = pp;
+            Entity.Move2_PP = pp;
+        }
+    }
+
+    partial void OnMove3_PPUpsChanged(int value)
+    {
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Move3_PPUps = value;
+            var pp = Entity.GetMovePP(Move3, value);
+            Move3_PP = pp;
+            Entity.Move3_PP = pp;
+        }
+    }
+
+    partial void OnMove4_PPUpsChanged(int value)
+    {
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.Move4_PPUps = value;
+            var pp = Entity.GetMovePP(Move4, value);
+            Move4_PP = pp;
+            Entity.Move4_PP = pp;
         }
     }
 
@@ -2214,8 +2258,15 @@ public partial class PKMEditorViewModel : ObservableObject
     [RelayCommand]
     private void MaxEvs()
     {
-        Ev_HP = 252; Ev_ATK = 252; Ev_DEF = 252;
-        Ev_SPA = 252; Ev_SPD = 252; Ev_SPE = 252;
+        const int max = 510;
+        const int perStat = 252;
+        int remaining = max;
+        Ev_HP = Math.Min(perStat, remaining); remaining -= Ev_HP;
+        Ev_ATK = Math.Min(perStat, remaining); remaining -= Ev_ATK;
+        Ev_DEF = Math.Min(perStat, remaining); remaining -= Ev_DEF;
+        Ev_SPA = Math.Min(perStat, remaining); remaining -= Ev_SPA;
+        Ev_SPD = Math.Min(perStat, remaining); remaining -= Ev_SPD;
+        Ev_SPE = Math.Min(perStat, remaining);
     }
 
     [RelayCommand]

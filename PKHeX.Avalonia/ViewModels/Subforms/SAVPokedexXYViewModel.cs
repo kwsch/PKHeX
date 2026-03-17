@@ -204,7 +204,7 @@ public partial class SAVPokedexXYViewModel : SaveEditorViewModelBase
         SaveEntry();
         _zukan.IsNationalDexUnlocked = NationalDexUnlocked;
         _zukan.IsNationalDexMode = NationalDexActive;
-        _zukan.Spinda = Convert.ToUInt32(SpindaPid, 16);
+        _zukan.Spinda = uint.TryParse(SpindaPid, System.Globalization.NumberStyles.HexNumber, null, out var spinda) ? spinda : 0;
         if (_species is not 0)
             _zukan.InitialSpecies = _species;
         _origin.CopyChangesFrom(_sav);

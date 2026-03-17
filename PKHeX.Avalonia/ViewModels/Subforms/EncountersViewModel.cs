@@ -179,15 +179,22 @@ public partial class EncountersViewModel : SaveEditorViewModelBase
         if (resultIndex >= _results.Count)
             return;
 
-        var enc = _results[resultIndex];
-        var criteria = EncounterCriteria.Unrestricted;
-        var temp = enc.ConvertToPKM(SAV, criteria);
-        var pk = EntityConverter.ConvertToType(temp, SAV.PKMType, out _);
-        if (pk is not null)
+        try
         {
-            SAV.AdaptToSaveFile(pk);
-            pk.RefreshChecksum();
-            SlotClicked?.Invoke(pk);
+            var enc = _results[resultIndex];
+            var criteria = EncounterCriteria.Unrestricted;
+            var temp = enc.ConvertToPKM(SAV, criteria);
+            var pk = EntityConverter.ConvertToType(temp, SAV.PKMType, out _);
+            if (pk is not null)
+            {
+                SAV.AdaptToSaveFile(pk);
+                pk.RefreshChecksum();
+                SlotClicked?.Invoke(pk);
+            }
+        }
+        catch
+        {
+            // Conversion may fail for incompatible encounters
         }
     }
 
