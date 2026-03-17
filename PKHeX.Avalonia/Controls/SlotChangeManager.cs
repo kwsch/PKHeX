@@ -210,15 +210,21 @@ public sealed class SlotChangeManager
                 break;
 
             case DropModifier.Overwrite:
-                // Overwrite: clear source
-                ClearSlot(source);
+                // Don't clear source if it's the last party member
+                {
+                    int sourcePartyIdx = _editor.PartySlots.IndexOf(source);
+                    if (sourcePartyIdx < 0 || sav.PartyCount > 1)
+                        ClearSlot(source);
+                }
                 break;
 
             default: // None
                 if (destIsEmpty)
                 {
-                    // Move: clear source since destination was empty
-                    ClearSlot(source);
+                    // Don't clear source if it's the last party member
+                    int sourcePartyIdx = _editor.PartySlots.IndexOf(source);
+                    if (sourcePartyIdx < 0 || sav.PartyCount > 1)
+                        ClearSlot(source);
                 }
                 else
                 {
@@ -300,6 +306,8 @@ public sealed class SlotChangeManager
         int partyIndex = _editor.PartySlots.IndexOf(slot);
         if (partyIndex >= 0)
         {
+            if (sav.PartyCount <= 1)
+                return;
             sav.DeletePartySlot(partyIndex);
         }
     }

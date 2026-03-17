@@ -72,6 +72,22 @@ public partial class Raid8ViewModel : SaveEditorViewModelBase
     [RelayCommand]
     private void Save()
     {
+        // Write model values back to the underlying RaidSpawnDetail objects.
+        foreach (var den in Dens)
+        {
+            if (!den.IsActive)
+            {
+                den.Detail.Deactivate();
+            }
+            else
+            {
+                den.Detail.IsRare = den.IsRare;
+                den.Detail.IsEvent = den.IsEvent;
+                den.Detail.Stars = (byte)den.Stars;
+                den.Detail.RandRoll = (byte)den.RandRoll;
+            }
+        }
+
         _origin.CopyChangesFrom(_sav);
         Modified = true;
     }

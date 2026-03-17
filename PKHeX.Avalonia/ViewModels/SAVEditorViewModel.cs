@@ -13,6 +13,7 @@ using CommunityToolkit.Mvvm.Input;
 using PKHeX.Avalonia.Controls;
 using PKHeX.Avalonia.Converters;
 using PKHeX.Avalonia.Services;
+using PKHeX.Avalonia.Views;
 using PKHeX.Core;
 using PKHeX.Drawing.Misc.Avalonia;
 using PKHeX.Drawing.PokeSprite.Avalonia;
@@ -233,9 +234,10 @@ public partial class SAVEditorViewModel : ObservableObject
             var mainWindow = (global::Avalonia.Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
             if (mainWindow is not null)
                 await view.ShowDialog(mainWindow);
-            if (tool.ReloadsSlots)
+            if (view is SubformWindow { Modified: true })
             {
-                ReloadSlots();
+                if (tool.ReloadsSlots)
+                    ReloadSlots();
                 OnModified?.Invoke();
             }
         }
@@ -471,6 +473,8 @@ public partial class SAVEditorViewModel : ObservableObject
         var partyIndex = PartySlots.IndexOf(slot);
         if (partyIndex >= 0)
         {
+            if (_sav.PartyCount <= 1)
+                return; // Cannot delete the last party member
             var existing = _sav.GetPartySlotAtIndex(partyIndex);
             if (existing is not null)
                 PushUndo(0, partyIndex, existing, isParty: true);

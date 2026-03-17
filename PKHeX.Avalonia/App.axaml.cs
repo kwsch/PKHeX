@@ -3,6 +3,7 @@ using System.IO;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.Styling;
 using PKHeX.Avalonia.Settings;
 using PKHeX.Avalonia.ViewModels;
 using PKHeX.Avalonia.Views;
@@ -26,6 +27,9 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         LoadSettings();
+
+        if (Settings.Startup.DarkMode)
+            Application.Current!.RequestedThemeVariant = ThemeVariant.Dark;
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

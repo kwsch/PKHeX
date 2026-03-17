@@ -143,7 +143,46 @@ public partial class FlagWork9aViewModel : SaveEditorViewModelBase
     [RelayCommand]
     private void Save()
     {
-        // Save is applied directly to the SAV blocks, no clone needed for flag/work editors
+        // Write model values back to the underlying storage objects.
+        // Storage objects write directly to SAV memory, so no clone/CopyChangesFrom is needed.
+        foreach (var tab in Tabs)
+        {
+            if (tab.IsFlag)
+            {
+                var storage = GetFlagStorage(tab.Name);
+                foreach (var entry in tab.AllEntries)
+                    storage.SetValue(entry.Index, entry.FlagValue);
+            }
+            else
+            {
+                var storage = GetValueStorage(tab.Name);
+                foreach (var entry in tab.AllEntries)
+                {
+                    if (ulong.TryParse(entry.WorkValue, out var val))
+                        storage.SetValue(entry.Index, val);
+                }
+            }
+        }
+
         Modified = true;
     }
+
+    private EventWorkFlagStorage GetFlagStorage(string tabName) => tabName switch
+    {
+        nameof(_sav.Blocks.Flags) => _sav.Blocks.Flags,
+        nameof(_sav.Blocks.Event) => _sav.Blocks.Event,
+        nameof(_sav.Blocks.FieldItems) => _sav.Blocks.FieldItems,
+        _ => throw new ArgumentOutOfRangeException(nameof(tabName), tabName, "Unknown flag tab"),
+    };
+
+    private EventWorkValueStorage GetValueStorage(string tabName) => tabName switch
+    {
+        nameof(_sav.Blocks.Work) => _sav.Blocks.Work,
+        nameof(_sav.Blocks.Quest) => _sav.Blocks.Quest,
+        nameof(_sav.Blocks.WorkMable) => _sav.Blocks.WorkMable,
+        nameof(_sav.Blocks.CountMable) => _sav.Blocks.CountMable,
+        nameof(_sav.Blocks.CountTitle) => _sav.Blocks.CountTitle,
+        nameof(_sav.Blocks.WorkSpawn) => _sav.Blocks.WorkSpawn,
+        _ => throw new ArgumentOutOfRangeException(nameof(tabName), tabName, "Unknown value tab"),
+    };
 }

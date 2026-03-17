@@ -14,6 +14,7 @@ namespace PKHeX.Avalonia.Views;
 public partial class MainWindow : Window
 {
     private bool _forceClose;
+    private bool _isClosing;
 
     public MainWindow()
     {
@@ -29,9 +30,16 @@ public partial class MainWindow : Window
         if (_forceClose)
             return;
 
+        if (_isClosing)
+        {
+            e.Cancel = true;
+            return;
+        }
+
         if (DataContext is MainWindowViewModel vm && vm.HasUnsavedChanges)
         {
             e.Cancel = true;
+            _isClosing = true;
 
             var confirmDialog = new Window
             {
@@ -72,6 +80,7 @@ public partial class MainWindow : Window
             };
 
             await confirmDialog.ShowDialog(this);
+            _isClosing = false;
 
             if (result)
             {
@@ -106,5 +115,7 @@ public partial class MainWindow : Window
         var current = Application.Current.RequestedThemeVariant;
         Application.Current.RequestedThemeVariant =
             current == ThemeVariant.Dark ? ThemeVariant.Light : ThemeVariant.Dark;
+
+        App.Settings.Startup.DarkMode = Application.Current.RequestedThemeVariant == ThemeVariant.Dark;
     }
 }
