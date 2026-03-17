@@ -55,6 +55,11 @@
                                 <MenuItem Header="Clear Current Box" Command="{Binding ClearBoxCommand}" />
                                 <MenuItem Header="Clear All Boxes" Command="{Binding ClearAllBoxesCommand}" />
                             </MenuItem>
+                            <MenuItem Header="Delete">
+                                <MenuItem Header="Delete Duplicates" Command="{Binding DeleteDuplicatesCommand}" />
+                                <MenuItem Header="Delete Eggs" Command="{Binding DeleteEggsCommand}" />
+                                <MenuItem Header="Delete Untrained (0 EVs)" Command="{Binding DeleteUntrainedCommand}" />
+                            </MenuItem>
                         </ContextMenu>
                     </Border.ContextMenu>
                     <Panel>
@@ -201,6 +206,18 @@
                         <Button Content="Verify All PKM" Command="{Binding VerifyAllPkmCommand}"
                                 Margin="2" Padding="10,4" FontSize="11" />
                         <Button Content="Export Backup" Command="{Binding ExportBackupCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                    </WrapPanel>
+
+                    <!-- Box delete buttons -->
+                    <TextBlock Text="Delete (Current Box)" FontSize="10" Opacity="0.6" Margin="2,6,0,0"
+                               IsVisible="{Binding IsLoaded}" />
+                    <WrapPanel Orientation="Horizontal" IsVisible="{Binding IsLoaded}" Margin="0,2,0,0">
+                        <Button Content="Delete Duplicates" Command="{Binding DeleteDuplicatesCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Delete Eggs" Command="{Binding DeleteEggsCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                        <Button Content="Delete Untrained (0 EVs)" Command="{Binding DeleteUntrainedCommand}"
                                 Margin="2" Padding="10,4" FontSize="11" />
                     </WrapPanel>
 

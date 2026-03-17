@@ -909,6 +909,95 @@ public partial class SAVEditorViewModel : ObservableObject
         catch (Exception ex) { SetStatusMessage?.Invoke($"Clear error: {ex.Message}"); }
     }
 
+    [RelayCommand]
+    private void DeleteDuplicates()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
+            var seen = new System.Collections.Generic.HashSet<string>();
+            int count = 0;
+            int slotCount = Math.Min(30, _sav.BoxSlotCount);
+            for (int i = 0; i < slotCount; i++)
+            {
+                var pk = _sav.GetBoxSlotAtIndex(CurrentBox, i);
+                if (pk is null || pk.Species == 0) continue;
+                var key = PKHeX.Core.Searching.SearchUtil.HashByDetails(pk);
+                if (!seen.Add(key))
+                {
+                    _sav.SetBoxSlotAtIndex(_sav.BlankPKM, CurrentBox, i);
+                    count++;
+                }
+            }
+            RefreshBox();
+            OnModified?.Invoke();
+            SetStatusMessage?.Invoke($"Removed {count} duplicate(s) from box.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Delete duplicates error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void DeleteEggs()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
+            int count = 0;
+            int slotCount = Math.Min(30, _sav.BoxSlotCount);
+            for (int i = 0; i < slotCount; i++)
+            {
+                var pk = _sav.GetBoxSlotAtIndex(CurrentBox, i);
+                if (pk is null || pk.Species == 0) continue;
+                if (pk.IsEgg)
+                {
+                    _sav.SetBoxSlotAtIndex(_sav.BlankPKM, CurrentBox, i);
+                    count++;
+                }
+            }
+            RefreshBox();
+            OnModified?.Invoke();
+            SetStatusMessage?.Invoke($"Removed {count} egg(s) from box.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Delete eggs error: {ex.Message}"); }
+    }
+
+    [RelayCommand]
+    private void DeleteUntrained()
+    {
+        if (_sav is null) return;
+        try
+        {
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0)
+                PushUndo(entries.ToArray());
+
+            int count = 0;
+            int slotCount = Math.Min(30, _sav.BoxSlotCount);
+            for (int i = 0; i < slotCount; i++)
+            {
+                var pk = _sav.GetBoxSlotAtIndex(CurrentBox, i);
+                if (pk is null || pk.Species == 0) continue;
+                if (pk.EVTotal == 0)
+                {
+                    _sav.SetBoxSlotAtIndex(_sav.BlankPKM, CurrentBox, i);
+                    count++;
+                }
+            }
+            RefreshBox();
+            OnModified?.Invoke();
+            SetStatusMessage?.Invoke($"Removed {count} untrained PKM (zero EVs) from box.");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Delete untrained error: {ex.Message}"); }
+    }
+
     #endregion
 
     [RelayCommand]
