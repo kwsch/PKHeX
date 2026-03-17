@@ -110,7 +110,7 @@ public partial class Trainer4BRViewModel : SaveEditorViewModelBase
         SAV4BR.BirthMonth = BirthMonth;
         SAV4BR.BirthDay = BirthDay;
         SAV4BR.SelfIntroduction = SelfIntroduction.Replace("\n", StringConverter4GC.LineBreak.ToString());
-        SAV4BR.PlayerID = Convert.ToUInt64(PlayerIdHex, 16);
+        SAV4BR.PlayerID = ulong.TryParse(PlayerIdHex, System.Globalization.NumberStyles.HexNumber, null, out var playerId) ? playerId : 0;
         SAV4BR.Money = Money;
         SAV4BR.TID16 = Tid16;
         SAV4BR.SID16 = Sid16;

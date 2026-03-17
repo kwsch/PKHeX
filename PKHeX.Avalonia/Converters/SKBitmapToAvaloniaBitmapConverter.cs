@@ -36,7 +36,11 @@ public class SKBitmapToAvaloniaBitmapConverter : IValueConverter
             return null;
 
         using var image = SKImage.FromBitmap(skBitmap);
+        if (image is null)
+            return null;
         using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+        if (data is null)
+            return null;
         using var stream = new MemoryStream();
         data.SaveTo(stream);
         stream.Position = 0;

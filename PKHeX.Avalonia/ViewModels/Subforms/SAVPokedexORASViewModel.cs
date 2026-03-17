@@ -205,7 +205,7 @@ public partial class SAVPokedexORASViewModel : SaveEditorViewModelBase
     [RelayCommand]
     private void MaxDexNav()
     {
-        for (ushort i = 0; i < _sav.MaxSpeciesID; i++)
+        for (ushort i = 1; i <= _sav.MaxSpeciesID; i++)
             _zukan.SetCountSeen(i, 999);
         LoadEntry();
     }
@@ -213,7 +213,7 @@ public partial class SAVPokedexORASViewModel : SaveEditorViewModelBase
     [RelayCommand]
     private void ResetDexNav()
     {
-        for (ushort i = 0; i < _sav.MaxSpeciesID; i++)
+        for (ushort i = 1; i <= _sav.MaxSpeciesID; i++)
             _zukan.SetCountSeen(i, 0);
         LoadEntry();
     }
@@ -224,7 +224,7 @@ public partial class SAVPokedexORASViewModel : SaveEditorViewModelBase
         SaveEntry();
         _zukan.IsNationalDexUnlocked = NationalDexUnlocked;
         _zukan.IsNationalDexMode = NationalDexActive;
-        _zukan.Spinda = Convert.ToUInt32(SpindaPid, 16);
+        _zukan.Spinda = uint.TryParse(SpindaPid, System.Globalization.NumberStyles.HexNumber, null, out var spinda) ? spinda : 0;
         if (_species is not 0)
             _zukan.InitialSpecies = _species;
         _origin.CopyChangesFrom(_sav);

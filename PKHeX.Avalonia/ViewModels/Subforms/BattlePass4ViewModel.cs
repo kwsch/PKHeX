@@ -159,7 +159,7 @@ public partial class BattlePass4ViewModel : SaveEditorViewModelBase
         pdata.BirthMonth = BirthMonth;
         pdata.BirthDay = BirthDay;
         pdata.RegionCode = RegionCode;
-        pdata.PlayerID = Convert.ToUInt64(PlayerIdHex, 16);
+        pdata.PlayerID = ulong.TryParse(PlayerIdHex, System.Globalization.NumberStyles.HexNumber, null, out var playerId) ? playerId : 0;
 
         pdata.Battles = Battles;
         pdata.RecordColosseumBattles = RecordColosseumBattles;

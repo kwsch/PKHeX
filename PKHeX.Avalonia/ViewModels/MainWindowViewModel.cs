@@ -138,6 +138,7 @@ public partial class MainWindowViewModel : ObservableObject
             SlotSelected = pk => PkmEditor.PopulateFields(pk),
             GetEditorPKM = () => PkmEditor.PreparePKM(),
             SetStatusMessage = msg => StatusMessage = msg,
+            OnModified = () => HasUnsavedChanges = true,
             OpenSettingsEditorCommand = OpenSettingsEditorCommand,
             OpenDatabaseCommand = OpenDatabaseCommand,
             OpenBatchEditorCommand = OpenBatchEditorCommand,
@@ -443,7 +444,10 @@ public partial class MainWindowViewModel : ObservableObject
                 await view.ShowDialog(mainWindow);
 
             if (vm.Modified)
+            {
                 SavEditor?.ReloadSlots();
+                HasUnsavedChanges = true;
+            }
         }
         catch (Exception ex)
         {
@@ -984,6 +988,8 @@ public partial class MainWindowViewModel : ObservableObject
             }
 
             SavEditor.ReloadSlots();
+            if (loaded > 0)
+                HasUnsavedChanges = true;
             StatusMessage = $"Loaded {loaded} Pokemon into Box {currentBox + 1}.";
         }
         catch (Exception ex)

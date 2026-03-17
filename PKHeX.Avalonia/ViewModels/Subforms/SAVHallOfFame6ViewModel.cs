@@ -192,7 +192,7 @@ public partial class SAVHallOfFame6ViewModel : SaveEditorViewModelBase
             Move2 = (ushort)Move2,
             Move3 = (ushort)Move3,
             Move4 = (ushort)Move4,
-            EncryptionConstant = Convert.ToUInt32(Ec, 16),
+            EncryptionConstant = uint.TryParse(Ec, System.Globalization.NumberStyles.HexNumber, null, out var ec) ? ec : 0,
             TID16 = ushort.TryParse(Tid, out var tid) ? tid : (ushort)0,
             SID16 = ushort.TryParse(Sid, out var sid) ? sid : (ushort)0,
             Nickname = Nickname,

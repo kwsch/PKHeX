@@ -93,6 +93,7 @@ public partial class SAVEditorViewModel : ObservableObject
         RefreshParty();
         OnPropertyChanged(nameof(CanUndo));
         OnPropertyChanged(nameof(CanRedo));
+        OnModified?.Invoke();
     }
 
     [RelayCommand]
@@ -122,6 +123,7 @@ public partial class SAVEditorViewModel : ObservableObject
         RefreshParty();
         OnPropertyChanged(nameof(CanUndo));
         OnPropertyChanged(nameof(CanRedo));
+        OnModified?.Invoke();
     }
 
     #endregion
@@ -232,7 +234,10 @@ public partial class SAVEditorViewModel : ObservableObject
             if (mainWindow is not null)
                 await view.ShowDialog(mainWindow);
             if (tool.ReloadsSlots)
+            {
                 ReloadSlots();
+                OnModified?.Invoke();
+            }
         }
         catch (Exception ex)
         {
@@ -378,6 +383,9 @@ public partial class SAVEditorViewModel : ObservableObject
     /// <summary>Callback to update the status bar message in the main window.</summary>
     public Action<string>? SetStatusMessage { get; set; }
 
+    /// <summary>Callback invoked whenever the save file is modified (slot set/delete, undo/redo, sort, clear).</summary>
+    public Action? OnModified { get; set; }
+
     [RelayCommand]
     private void ViewSlot(SlotModel? slot)
     {
@@ -406,6 +414,7 @@ public partial class SAVEditorViewModel : ObservableObject
                 PushUndo(CurrentBox, boxIndex, existing, isParty: false);
             _sav.SetBoxSlotAtIndex(pk, CurrentBox, boxIndex);
             RefreshBox();
+            OnModified?.Invoke();
             return;
         }
 
@@ -417,6 +426,7 @@ public partial class SAVEditorViewModel : ObservableObject
                 PushUndo(0, partyIndex, existing, isParty: true);
             _sav.SetPartySlotAtIndex(pk, partyIndex);
             RefreshParty();
+            OnModified?.Invoke();
         }
     }
 
@@ -446,6 +456,7 @@ public partial class SAVEditorViewModel : ObservableObject
                 PushUndo(CurrentBox, boxIndex, existing, isParty: false);
             _sav.SetBoxSlotAtIndex(_sav.BlankPKM, CurrentBox, boxIndex);
             RefreshBox();
+            OnModified?.Invoke();
             return;
         }
 
@@ -457,6 +468,7 @@ public partial class SAVEditorViewModel : ObservableObject
                 PushUndo(0, partyIndex, existing, isParty: true);
             _sav.DeletePartySlot(partyIndex);
             RefreshParty();
+            OnModified?.Invoke();
         }
     }
 
@@ -622,6 +634,7 @@ public partial class SAVEditorViewModel : ObservableObject
             var param = new BoxManipParam(CurrentBox, CurrentBox);
             _sav.SortBoxes(param.Start, param.Stop);
             RefreshBox();
+            OnModified?.Invoke();
             SetStatusMessage?.Invoke("Box sorted by species.");
         }
         catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
@@ -636,6 +649,7 @@ public partial class SAVEditorViewModel : ObservableObject
             var param = new BoxManipParam(CurrentBox, CurrentBox);
             _sav.SortBoxes(param.Start, param.Stop, (pkms, _) => pkms.OrderByLevel());
             RefreshBox();
+            OnModified?.Invoke();
             SetStatusMessage?.Invoke("Box sorted by level.");
         }
         catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
@@ -649,6 +663,7 @@ public partial class SAVEditorViewModel : ObservableObject
         {
             _sav.SortBoxes();
             RefreshBox();
+            OnModified?.Invoke();
             SetStatusMessage?.Invoke("All boxes sorted.");
         }
         catch (Exception ex) { SetStatusMessage?.Invoke($"Sort error: {ex.Message}"); }
@@ -662,6 +677,7 @@ public partial class SAVEditorViewModel : ObservableObject
         {
             _sav.ClearBoxes(CurrentBox, CurrentBox);
             RefreshBox();
+            OnModified?.Invoke();
             SetStatusMessage?.Invoke("Box cleared.");
         }
         catch (Exception ex) { SetStatusMessage?.Invoke($"Clear error: {ex.Message}"); }
@@ -675,6 +691,7 @@ public partial class SAVEditorViewModel : ObservableObject
         {
             _sav.ClearBoxes();
             RefreshBox();
+            OnModified?.Invoke();
             SetStatusMessage?.Invoke("All boxes cleared.");
         }
         catch (Exception ex) { SetStatusMessage?.Invoke($"Clear error: {ex.Message}"); }

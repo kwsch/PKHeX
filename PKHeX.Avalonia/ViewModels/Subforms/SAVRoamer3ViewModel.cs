@@ -81,14 +81,17 @@ public partial class SAVRoamer3ViewModel : SaveEditorViewModelBase
 
     partial void OnPidChanged(string value)
     {
-        var pid = Convert.ToUInt32(value, 16);
+        if (!uint.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out var pid))
+            return;
         IsShiny = Roamer3.IsShiny(pid, _sav);
     }
 
     [RelayCommand]
     private void Save()
     {
-        _roamer.PID = Convert.ToUInt32(Pid, 16);
+        if (!uint.TryParse(Pid, System.Globalization.NumberStyles.HexNumber, null, out var parsedPid))
+            return;
+        _roamer.PID = parsedPid;
         _roamer.Species = (ushort)SelectedSpecies;
         _roamer.SetIVs([IvHp, IvAtk, IvDef, IvSpe, IvSpa, IvSpd]);
         _roamer.Active = Active;

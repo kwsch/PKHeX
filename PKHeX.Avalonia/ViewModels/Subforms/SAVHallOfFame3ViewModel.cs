@@ -105,7 +105,7 @@ public partial class SAVHallOfFame3ViewModel : SaveEditorViewModelBase
     {
         pk.TID16 = ushort.TryParse(Tid, out var tid) ? tid : (ushort)0;
         pk.SID16 = ushort.TryParse(Sid, out var sid) ? sid : (ushort)0;
-        pk.PID = Convert.ToUInt32(Pid, 16);
+        pk.PID = uint.TryParse(Pid, System.Globalization.NumberStyles.HexNumber, null, out var pid) ? pid : 0;
         if (pk.Nickname != Nickname)
             pk.Nickname = Nickname;
         pk.Level = Level;

@@ -202,7 +202,7 @@ public partial class DatabaseViewModel : SaveEditorViewModelBase
         if (index < 0 || index >= PageSize)
             return;
 
-        int resultIndex = (CurrentPage * GridWidth) + index;
+        int resultIndex = (CurrentPage * PageSize) + index;
         if (resultIndex >= _results.Count)
             return;
 
@@ -221,14 +221,14 @@ public partial class DatabaseViewModel : SaveEditorViewModelBase
     {
         _results = results;
         CurrentPage = 0;
-        TotalPages = Math.Max(1, (int)Math.Ceiling((double)_results.Count / GridWidth));
+        TotalPages = Math.Max(1, (int)Math.Ceiling((double)_results.Count / PageSize));
         StatusText = $"{_results.Count} results";
         FillGrid();
     }
 
     private void FillGrid()
     {
-        int begin = CurrentPage * GridWidth;
+        int begin = CurrentPage * PageSize;
         int end = Math.Min(PageSize, _results.Count - begin);
 
         for (int i = 0; i < end && i < Slots.Count; i++)

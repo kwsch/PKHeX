@@ -176,7 +176,9 @@ public partial class SAVSecretBase3ViewModel : SaveEditorViewModelBase
         var pkm = pkmteam.Team[idx];
 
         pkm.Species = (ushort)SelectedSpecies;
-        pkm.PID = Convert.ToUInt32(Pid, 16);
+        if (!uint.TryParse(Pid, System.Globalization.NumberStyles.HexNumber, null, out var parsedPid))
+            return;
+        pkm.PID = parsedPid;
         pkm.HeldItem = (ushort)SelectedItem;
         pkm.Move1 = (ushort)Move1;
         pkm.Move2 = (ushort)Move2;
