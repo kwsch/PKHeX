@@ -41,6 +41,7 @@ public partial class Pokedex4EntryModel : ObservableObject
 /// </summary>
 public partial class Pokedex4ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV4 _origin;
     private readonly SAV4 SAV4;
     private const int LangCount = 6;
 
@@ -59,7 +60,8 @@ public partial class Pokedex4ViewModel : SaveEditorViewModelBase
 
     public Pokedex4ViewModel(SAV4 sav) : base(sav)
     {
-        SAV4 = sav;
+        _origin = sav;
+        SAV4 = (SAV4)sav.Clone();
         var speciesNames = GameInfo.Strings.specieslist;
 
         for (ushort i = 1; i <= sav.MaxSpeciesID; i++)
@@ -141,7 +143,7 @@ public partial class Pokedex4ViewModel : SaveEditorViewModelBase
         if (DexUpgraded >= 0)
             SAV4.DexUpgraded = DexUpgraded;
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV4);
         Modified = true;
     }
 }

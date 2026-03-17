@@ -10,6 +10,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class SAVRTC2ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV2 _origin;
     private readonly SAV2 _sav;
 
     [ObservableProperty]
@@ -17,7 +18,8 @@ public partial class SAVRTC2ViewModel : SaveEditorViewModelBase
 
     public SAVRTC2ViewModel(SAV2 sav) : base(sav)
     {
-        _sav = sav;
+        _origin = sav;
+        _sav = (SAV2)sav.Clone();
     }
 
     [RelayCommand]
@@ -30,6 +32,7 @@ public partial class SAVRTC2ViewModel : SaveEditorViewModelBase
     [RelayCommand]
     private void Save()
     {
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

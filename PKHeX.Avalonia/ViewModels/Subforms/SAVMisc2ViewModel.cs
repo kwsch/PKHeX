@@ -10,6 +10,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class SAVMisc2ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV2 _origin;
     private readonly SAV2 _sav;
 
     [ObservableProperty]
@@ -20,9 +21,10 @@ public partial class SAVMisc2ViewModel : SaveEditorViewModelBase
 
     public SAVMisc2ViewModel(SAV2 sav) : base(sav)
     {
-        _sav = sav;
-        _showGsBallButton = sav.Version is GameVersion.C;
-        _gsBallEnabled = !sav.IsEnabledGSBallMobileEvent;
+        _origin = sav;
+        _sav = (SAV2)sav.Clone();
+        _showGsBallButton = _sav.Version is GameVersion.C;
+        _gsBallEnabled = !_sav.IsEnabledGSBallMobileEvent;
     }
 
     [RelayCommand]
@@ -35,6 +37,7 @@ public partial class SAVMisc2ViewModel : SaveEditorViewModelBase
     [RelayCommand]
     private void Save()
     {
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

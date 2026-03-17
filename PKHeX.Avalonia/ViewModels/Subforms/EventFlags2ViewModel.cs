@@ -59,6 +59,8 @@ public partial class EventWork8Model : ObservableObject
 /// </summary>
 public partial class EventFlags2ViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
+    private readonly SaveFile _clone;
     private readonly IEventFlag? _eventFlags;
     private readonly ISystemFlag? _systemFlags;
     private readonly IEventWork<int>? _eventWork;
@@ -99,9 +101,11 @@ public partial class EventFlags2ViewModel : SaveEditorViewModelBase
     /// </summary>
     public EventFlags2ViewModel(SaveFile sav, IEventFlag eventFlags, ISystemFlag? systemFlags, IEventWork<int>? eventWork, GameVersion version) : base(sav)
     {
-        _eventFlags = eventFlags;
-        _systemFlags = systemFlags;
-        _eventWork = eventWork;
+        _origin = sav;
+        _clone = sav.Clone();
+        _eventFlags = (IEventFlag)_clone;
+        _systemFlags = _clone as ISystemFlag;
+        _eventWork = _clone as IEventWork<int>;
         _isGen2 = false;
         WindowTitle = $"Event Flags ({version})";
 
@@ -123,8 +127,10 @@ public partial class EventFlags2ViewModel : SaveEditorViewModelBase
     /// </summary>
     public EventFlags2ViewModel(SaveFile sav, IEventFlagArray flagArray, IEventWorkArray<byte> workArray, GameVersion version) : base(sav)
     {
-        _flagArray = flagArray;
-        _workArray = workArray;
+        _origin = sav;
+        _clone = sav.Clone();
+        _flagArray = (IEventFlagArray)_clone;
+        _workArray = (IEventWorkArray<byte>)_clone;
         _isGen2 = true;
         WindowTitle = $"Event Flags ({version})";
 
@@ -253,6 +259,7 @@ public partial class EventFlags2ViewModel : SaveEditorViewModelBase
         {
             SaveGen8();
         }
+        _origin.CopyChangesFrom(_clone);
         Modified = true;
     }
 

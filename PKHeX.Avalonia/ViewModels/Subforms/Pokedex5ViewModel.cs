@@ -50,6 +50,7 @@ public partial class Pokedex5EntryModel : ObservableObject
 /// </summary>
 public partial class Pokedex5ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV5 _origin;
     private readonly SAV5 SAV5;
     private readonly Zukan5 Dex;
     private const int LangCount = 7;
@@ -66,8 +67,9 @@ public partial class Pokedex5ViewModel : SaveEditorViewModelBase
 
     public Pokedex5ViewModel(SAV5 sav) : base(sav)
     {
-        SAV5 = sav;
-        Dex = sav.Zukan;
+        _origin = sav;
+        SAV5 = (SAV5)sav.Clone();
+        Dex = SAV5.Zukan;
 
         _nationalDexUnlocked = Dex.IsNationalDexUnlocked;
         _nationalDexActive = Dex.IsNationalDexMode;
@@ -202,7 +204,7 @@ public partial class Pokedex5ViewModel : SaveEditorViewModelBase
         if (uint.TryParse(SpindaPid, System.Globalization.NumberStyles.HexNumber, null, out var spinda))
             Dex.Spinda = spinda;
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV5);
         Modified = true;
     }
 }

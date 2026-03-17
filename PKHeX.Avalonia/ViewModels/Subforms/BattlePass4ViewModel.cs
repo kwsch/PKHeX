@@ -29,6 +29,7 @@ public partial class BattlePassEntryModel : ObservableObject
 /// </summary>
 public partial class BattlePass4ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV4BR _origin;
     private readonly SAV4BR SAV4BR;
     private BattlePass _currentPass;
     private int _currentPassIndex;
@@ -72,7 +73,8 @@ public partial class BattlePass4ViewModel : SaveEditorViewModelBase
 
     public BattlePass4ViewModel(SAV4BR sav, int startIndex = 0) : base(sav)
     {
-        SAV4BR = sav;
+        _origin = sav;
+        SAV4BR = (SAV4BR)sav.Clone();
 
         LoadPassList();
 
@@ -236,7 +238,7 @@ public partial class BattlePass4ViewModel : SaveEditorViewModelBase
     private void Save()
     {
         SaveCurrent();
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV4BR);
         Modified = true;
     }
 }

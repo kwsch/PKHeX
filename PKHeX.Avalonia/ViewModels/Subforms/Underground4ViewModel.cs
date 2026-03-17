@@ -32,13 +32,15 @@ public partial class UGScoreModel : ObservableObject
 /// </summary>
 public partial class Underground4ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV4Sinnoh _origin;
     private readonly SAV4Sinnoh SAV4S;
 
     public ObservableCollection<UGScoreModel> Scores { get; } = [];
 
     public Underground4ViewModel(SAV4Sinnoh sav) : base(sav)
     {
-        SAV4S = sav;
+        _origin = sav;
+        SAV4S = (SAV4Sinnoh)sav.Clone();
 
         var max = SAV4Sinnoh.UG_MAX;
         Scores.Add(new UGScoreModel("Players Met", sav.UG_PeopleMet, max));
@@ -73,7 +75,7 @@ public partial class Underground4ViewModel : SaveEditorViewModelBase
         SAV4S.UG_FlagsCaptured = Scores[11].Value;
         SAV4S.UG_HelpedOthers = Scores[12].Value;
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV4S);
         Modified = true;
     }
 }

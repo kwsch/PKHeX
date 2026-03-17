@@ -11,6 +11,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class Trainer4BRViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV4BR _origin;
     private readonly SAV4BR SAV4BR;
 
     [ObservableProperty] private string _otName = string.Empty;
@@ -56,7 +57,8 @@ public partial class Trainer4BRViewModel : SaveEditorViewModelBase
 
     public Trainer4BRViewModel(SAV4BR sav) : base(sav)
     {
-        SAV4BR = sav;
+        _origin = sav;
+        SAV4BR = (SAV4BR)sav.Clone();
 
         _otName = sav.CurrentOT;
         _birthMonth = sav.BirthMonth;
@@ -145,7 +147,7 @@ public partial class Trainer4BRViewModel : SaveEditorViewModelBase
         SAV4BR.UnlockedStargazerColosseum = UnlockedStargazerColosseum;
         SAV4BR.UnlockedPostGame = UnlockedPostGame;
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV4BR);
         Modified = true;
     }
 }

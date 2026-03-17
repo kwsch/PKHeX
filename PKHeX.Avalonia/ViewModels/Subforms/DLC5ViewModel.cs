@@ -57,6 +57,7 @@ public class Pokestar5Entry
 /// </summary>
 public partial class DLC5ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV5 _origin;
     private readonly SAV5 SAV5;
 
     // C-Gear
@@ -92,7 +93,8 @@ public partial class DLC5ViewModel : SaveEditorViewModelBase
 
     public DLC5ViewModel(SAV5 sav) : base(sav)
     {
-        SAV5 = sav;
+        _origin = sav;
+        SAV5 = (SAV5)sav.Clone();
         ShowPWT = sav is SAV5B2W2;
         ShowPokestar = sav is SAV5B2W2;
 
@@ -158,7 +160,7 @@ public partial class DLC5ViewModel : SaveEditorViewModelBase
     private void Save()
     {
         SAV5.Musical.MusicalName = MusicalName;
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV5);
         Modified = true;
     }
 }

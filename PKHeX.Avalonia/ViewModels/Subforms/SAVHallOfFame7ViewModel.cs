@@ -14,6 +14,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class SAVHallOfFame7ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV7 _origin;
     private readonly SAV7 _sav;
     private readonly HallOfFame7 _fame;
 
@@ -41,8 +42,9 @@ public partial class SAVHallOfFame7ViewModel : SaveEditorViewModelBase
 
     public SAVHallOfFame7ViewModel(SAV7 sav) : base(sav)
     {
-        _sav = sav;
-        _fame = sav.EventWork.Fame;
+        _origin = sav;
+        _sav = (SAV7)sav.Clone();
+        _fame = _sav.EventWork.Fame;
         SpeciesList = GameInfo.FilteredSources.Species.ToList();
         ShowStarterEc = sav is SAV7USUM;
 
@@ -92,6 +94,7 @@ public partial class SAVHallOfFame7ViewModel : SaveEditorViewModelBase
                 uu.Misc.StarterEncryptionConstant = ec;
         }
 
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

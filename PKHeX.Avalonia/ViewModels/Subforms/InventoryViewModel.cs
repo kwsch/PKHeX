@@ -14,6 +14,8 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class InventoryViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
+    private readonly SaveFile _clone;
     private readonly PlayerBag _bag;
     private readonly string[] _itemNames;
 
@@ -30,8 +32,10 @@ public partial class InventoryViewModel : SaveEditorViewModelBase
 
     public InventoryViewModel(SaveFile sav) : base(sav)
     {
-        _bag = sav.Inventory;
-        _itemNames = [.. GameInfo.Strings.GetItemStrings(sav.Context, sav.Version)];
+        _origin = sav;
+        _clone = sav.Clone();
+        _bag = _clone.Inventory;
+        _itemNames = [.. GameInfo.Strings.GetItemStrings(_clone.Context, _clone.Version)];
 
         // Fill in blanks for unnamed items
         for (int i = 0; i < _itemNames.Length; i++)
@@ -91,7 +95,8 @@ public partial class InventoryViewModel : SaveEditorViewModelBase
     private void Save()
     {
         WriteBackAllPouches();
-        _bag.CopyTo(SAV);
+        _bag.CopyTo(_clone);
+        _origin.CopyChangesFrom(_clone);
         Modified = true;
     }
 

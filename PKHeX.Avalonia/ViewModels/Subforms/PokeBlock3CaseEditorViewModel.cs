@@ -80,6 +80,8 @@ public partial class PokeBlock3Model : ObservableObject
 /// </summary>
 public partial class PokeBlock3CaseEditorViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
+    private readonly SAV3 _sav;
     private readonly ISaveBlock3LargeHoenn _hoenn;
     private readonly PokeBlock3Case _case;
 
@@ -94,8 +96,10 @@ public partial class PokeBlock3CaseEditorViewModel : SaveEditorViewModelBase
 
     public PokeBlock3CaseEditorViewModel(SAV3 sav, ISaveBlock3LargeHoenn hoenn) : base(sav)
     {
-        _hoenn = hoenn;
-        _case = hoenn.PokeBlocks;
+        _origin = sav;
+        _sav = (SAV3)sav.Clone();
+        _hoenn = (ISaveBlock3LargeHoenn)_sav.LargeBlock;
+        _case = _hoenn.PokeBlocks;
 
         for (int i = 0; i < _case.Blocks.Length; i++)
             Blocks.Add(new PokeBlock3Model(_case.Blocks[i], i));
@@ -132,6 +136,7 @@ public partial class PokeBlock3CaseEditorViewModel : SaveEditorViewModelBase
         foreach (var block in Blocks)
             block.SaveToBlock();
         _hoenn.PokeBlocks = _case;
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

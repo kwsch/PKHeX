@@ -31,6 +31,7 @@ public partial class ApricornEntryModel : ObservableObject
 /// </summary>
 public partial class Apricorn4ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV4HGSS _origin;
     private readonly SAV4HGSS SAV4H;
     private const int Count = 7;
     private const int ItemNameBase = 485;
@@ -41,7 +42,8 @@ public partial class Apricorn4ViewModel : SaveEditorViewModelBase
 
     public Apricorn4ViewModel(SAV4HGSS sav) : base(sav)
     {
-        SAV4H = sav;
+        _origin = sav;
+        SAV4H = (SAV4HGSS)sav.Clone();
         var itemNames = GameInfo.Strings.itemlist;
 
         for (int i = 0; i < Count; i++)
@@ -72,7 +74,7 @@ public partial class Apricorn4ViewModel : SaveEditorViewModelBase
         foreach (var a in Apricorns)
             SAV4H.SetApricornCount(a.Index, Math.Min(byte.MaxValue, a.Count));
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV4H);
         Modified = true;
     }
 }

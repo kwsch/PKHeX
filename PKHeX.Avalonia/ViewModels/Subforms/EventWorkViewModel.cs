@@ -51,6 +51,8 @@ public partial class EventWorkConstModel : ObservableObject
 /// </summary>
 public partial class EventWorkViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
+    private readonly SaveFile _clone;
     private readonly EventWork7b _eventWork;
 
     [ObservableProperty]
@@ -74,7 +76,9 @@ public partial class EventWorkViewModel : SaveEditorViewModelBase
 
     public EventWorkViewModel(SaveFile sav, EventWork7b eventWork) : base(sav)
     {
-        _eventWork = eventWork;
+        _origin = sav;
+        _clone = sav.Clone();
+        _eventWork = ((SAV7b)_clone).EventWork;
         WindowTitle = $"Event Work ({sav.Version})";
 
         LoadFlags();
@@ -125,6 +129,7 @@ public partial class EventWorkViewModel : SaveEditorViewModelBase
         foreach (var work in AllWorks)
             _eventWork.SetWork(work.Index, work.Value);
 
+        _origin.CopyChangesFrom(_clone);
         Modified = true;
     }
 }

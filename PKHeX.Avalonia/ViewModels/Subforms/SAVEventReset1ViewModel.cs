@@ -39,13 +39,17 @@ public partial class FlagPairModel : ObservableObject
 /// </summary>
 public partial class SAVEventReset1ViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
+    private readonly SAV1 _sav;
     private readonly G1OverworldSpawner _overworld;
 
     public ObservableCollection<FlagPairModel> FlagPairs { get; } = [];
 
     public SAVEventReset1ViewModel(SAV1 sav) : base(sav)
     {
-        _overworld = new G1OverworldSpawner(sav);
+        _origin = sav;
+        _sav = (SAV1)sav.Clone();
+        _overworld = new G1OverworldSpawner(_sav);
 
         var pairs = _overworld.GetFlagPairs().OrderBy(z => z.Name);
         foreach (var pair in pairs)
@@ -67,6 +71,7 @@ public partial class SAVEventReset1ViewModel : SaveEditorViewModelBase
     private void Save()
     {
         _overworld.Save();
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

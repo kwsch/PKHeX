@@ -34,6 +34,7 @@ public partial class GearEntryModel : ObservableObject
 /// </summary>
 public partial class Gear4ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV4BR _origin;
     private readonly SAV4BR SAV4BR;
 
     public ObservableCollection<GearEntryModel> GearItems { get; } = [];
@@ -47,7 +48,8 @@ public partial class Gear4ViewModel : SaveEditorViewModelBase
 
     public Gear4ViewModel(SAV4BR sav) : base(sav)
     {
-        SAV4BR = sav;
+        _origin = sav;
+        SAV4BR = (SAV4BR)sav.Clone();
 
         _shinyGroudon = sav.GearShinyGroudonOutfit;
         _shinyLucario = sav.GearShinyLucarioOutfit;
@@ -117,7 +119,7 @@ public partial class Gear4ViewModel : SaveEditorViewModelBase
         SAV4BR.GearShinyRoseradeOutfit = ShinyRoserade;
         SAV4BR.GearShinyPachirisuOutfit = ShinyPachirisu;
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV4BR);
         Modified = true;
     }
 }

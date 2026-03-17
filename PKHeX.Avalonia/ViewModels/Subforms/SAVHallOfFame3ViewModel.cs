@@ -13,6 +13,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class SAVHallOfFame3ViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
     private readonly SAV3 _sav;
     private readonly HallFame3Entry[] _fame;
     private int _prevEntry;
@@ -51,8 +52,9 @@ public partial class SAVHallOfFame3ViewModel : SaveEditorViewModelBase
 
     public SAVHallOfFame3ViewModel(SAV3 sav) : base(sav)
     {
-        _sav = sav;
-        _fame = HallFame3Entry.GetEntries(sav);
+        _origin = sav;
+        _sav = (SAV3)sav.Clone();
+        _fame = HallFame3Entry.GetEntries(_sav);
 
         EntryIndices = Enumerable.Range(0, 50).ToList();
         SpeciesList = GameInfo.FilteredSources.Species.ToList();
@@ -132,6 +134,7 @@ public partial class SAVHallOfFame3ViewModel : SaveEditorViewModelBase
         var pkm = _fame[SelectedEntryIndex].Team[MemberIndex];
         SaveEntry(pkm);
         HallFame3Entry.SetEntries(_sav, _fame);
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

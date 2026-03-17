@@ -36,6 +36,9 @@ public partial class PokedexEntryModel : ObservableObject
 /// </summary>
 public partial class SimplePokedexViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
+    private readonly SaveFile _clone;
+
     [ObservableProperty]
     private string _searchText = string.Empty;
 
@@ -46,6 +49,8 @@ public partial class SimplePokedexViewModel : SaveEditorViewModelBase
 
     public SimplePokedexViewModel(SaveFile sav) : base(sav)
     {
+        _origin = sav;
+        _clone = (SaveFile)sav.Clone();
         var count = sav.MaxSpeciesID;
         var speciesNames = GameInfo.Strings.specieslist;
 
@@ -110,15 +115,15 @@ public partial class SimplePokedexViewModel : SaveEditorViewModelBase
     {
         foreach (var entry in AllEntries)
         {
-            SAV.SetSeen(entry.Species, entry.Seen);
-            SAV.SetCaught(entry.Species, entry.Caught);
+            _clone.SetSeen(entry.Species, entry.Seen);
+            _clone.SetCaught(entry.Species, entry.Caught);
         }
 
         // Sanity checks for gen 3
-        if (SAV is SAV3 s3)
+        if (_clone is SAV3 s3)
             s3.MirrorSeenFlags();
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(_clone);
         Modified = true;
     }
 }

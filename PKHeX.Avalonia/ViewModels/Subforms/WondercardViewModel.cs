@@ -54,6 +54,8 @@ public partial class GiftSlotModel : ObservableObject
 /// </summary>
 public partial class WondercardViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
+    private readonly SaveFile _clone;
     private readonly IMysteryGiftStorage _cards;
 
     [ObservableProperty]
@@ -67,7 +69,9 @@ public partial class WondercardViewModel : SaveEditorViewModelBase
 
     public WondercardViewModel(SaveFile sav) : base(sav)
     {
-        _cards = GetMysteryGiftProvider(sav);
+        _origin = sav;
+        _clone = sav.Clone();
+        _cards = GetMysteryGiftProvider(_clone);
         LoadSlots();
 
         if (Slots.Count > 0)
@@ -125,6 +129,7 @@ public partial class WondercardViewModel : SaveEditorViewModelBase
         for (int i = 0; i < Slots.Count && i < _cards.GiftCountMax; i++)
             _cards.SetMysteryGift(i, Slots[i].Gift);
 
+        _origin.CopyChangesFrom(_clone);
         Modified = true;
     }
 

@@ -32,6 +32,7 @@ public partial class PokepuffSlotModel : ObservableObject
 /// </summary>
 public partial class SAVPokepuff6ViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
     private readonly ISaveBlock6Main _sav;
 
     public ObservableCollection<PokepuffSlotModel> Slots { get; } = [];
@@ -39,7 +40,9 @@ public partial class SAVPokepuff6ViewModel : SaveEditorViewModelBase
 
     public SAVPokepuff6ViewModel(ISaveBlock6Main sav) : base((SaveFile)sav)
     {
-        _sav = sav;
+        _origin = (SaveFile)sav;
+        var clone = _origin.Clone();
+        _sav = (ISaveBlock6Main)clone;
         PuffNames = [.. GameInfo.Strings.puffs];
 
         LoadPuffs();
@@ -108,6 +111,7 @@ public partial class SAVPokepuff6ViewModel : SaveEditorViewModelBase
     private void Save()
     {
         SavePuffs();
+        _origin.CopyChangesFrom((SaveFile)_sav);
         Modified = true;
     }
 }

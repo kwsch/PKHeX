@@ -31,6 +31,7 @@ public partial class SealSticker8bModel : ObservableObject
 /// </summary>
 public partial class SealStickers8bViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV8BS _origin;
     private readonly SAV8BS _sav;
     private readonly IReadOnlyList<SealSticker8b> _allItems;
     private readonly string[] _itemNames;
@@ -39,7 +40,7 @@ public partial class SealStickers8bViewModel : SaveEditorViewModelBase
 
     public SealStickers8bViewModel(SAV8BS sav) : base(sav)
     {
-        _sav = sav;
+        _sav = (SAV8BS)(_origin = sav).Clone();
         var names = new string[200];
         for (int i = 0; i < names.Length; i++)
             names[i] = $"Sticker {i}";
@@ -103,6 +104,7 @@ public partial class SealStickers8bViewModel : SaveEditorViewModelBase
             item.IsGet = model.IsObtained;
         }
         _sav.SealList.WriteItems(_allItems);
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

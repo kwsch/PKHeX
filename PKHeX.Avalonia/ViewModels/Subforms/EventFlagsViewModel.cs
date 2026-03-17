@@ -51,6 +51,8 @@ public partial class EventWorkModel : ObservableObject
 /// </summary>
 public partial class EventFlagsViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
+    private readonly SaveFile _clone;
     private readonly IEventFlag37 _eventWork;
     private readonly bool[] _flags;
     private readonly ushort[] _works;
@@ -84,7 +86,9 @@ public partial class EventFlagsViewModel : SaveEditorViewModelBase
 
     public EventFlagsViewModel(SaveFile sav, IEventFlag37 eventWork, GameVersion version) : base(sav)
     {
-        _eventWork = eventWork;
+        _origin = sav;
+        _clone = sav.Clone();
+        _eventWork = _clone is IEventFlagProvider37 provider ? provider.EventWork : (IEventFlag37)_clone;
         _flags = eventWork.GetEventFlags();
         _works = eventWork.GetAllEventWork();
 
@@ -174,6 +178,7 @@ public partial class EventFlagsViewModel : SaveEditorViewModelBase
         _eventWork.SetEventFlags(_flags);
         _eventWork.SetAllEventWork(_works);
 
+        _origin.CopyChangesFrom(_clone);
         Modified = true;
     }
 

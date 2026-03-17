@@ -53,6 +53,7 @@ public partial class UnityTowerFloorModel : ObservableObject
 /// </summary>
 public partial class UnityTower5ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV5 _origin;
     private readonly SAV5 SAV5;
     private readonly UnityTower5 Tower;
 
@@ -66,8 +67,9 @@ public partial class UnityTower5ViewModel : SaveEditorViewModelBase
 
     public UnityTower5ViewModel(SAV5 sav) : base(sav)
     {
-        SAV5 = sav;
-        Tower = sav.UnityTower;
+        _origin = sav;
+        SAV5 = (SAV5)sav.Clone();
+        Tower = SAV5.UnityTower;
 
         _globalFlag = Tower.GlobalFlag;
         _unityTowerFlag = Tower.UnityTowerFlag;
@@ -160,7 +162,7 @@ public partial class UnityTower5ViewModel : SaveEditorViewModelBase
         Tower.GlobalFlag = GlobalFlag;
         Tower.UnityTowerFlag = UnityTowerFlag;
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV5);
         Modified = true;
     }
 }

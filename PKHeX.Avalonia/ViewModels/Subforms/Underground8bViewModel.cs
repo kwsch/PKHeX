@@ -35,6 +35,7 @@ public partial class UndergroundItem8bModel : ObservableObject
 /// </summary>
 public partial class Underground8bViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV8BS _origin;
     private readonly SAV8BS _sav;
     private readonly IReadOnlyList<UndergroundItem8b> _allItems;
     private readonly string[] _itemNames;
@@ -43,7 +44,7 @@ public partial class Underground8bViewModel : SaveEditorViewModelBase
 
     public Underground8bViewModel(SAV8BS sav) : base(sav)
     {
-        _sav = sav;
+        _sav = (SAV8BS)(_origin = sav).Clone();
         var names = new string[300];
         for (int i = 0; i < names.Length; i++)
             names[i] = $"Item {i}";
@@ -101,6 +102,7 @@ public partial class Underground8bViewModel : SaveEditorViewModelBase
             item.IsFavoriteFlag = model.IsFavorite;
         }
         _sav.Underground.WriteItems(_allItems);
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

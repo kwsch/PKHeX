@@ -14,6 +14,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class SAVSecretBase3ViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
     private readonly SAV3 _sav;
     private readonly SecretBaseManager3 _manager;
 
@@ -88,8 +89,9 @@ public partial class SAVSecretBase3ViewModel : SaveEditorViewModelBase
 
     public SAVSecretBase3ViewModel(SAV3 sav) : base(sav)
     {
-        _sav = sav;
-        var large = (ISaveBlock3LargeHoenn)sav.LargeBlock;
+        _origin = sav;
+        _sav = (SAV3)sav.Clone();
+        var large = (ISaveBlock3LargeHoenn)_sav.LargeBlock;
         _manager = large.SecretBases;
 
         var filtered = GameInfo.FilteredSources;
@@ -193,6 +195,7 @@ public partial class SAVSecretBase3ViewModel : SaveEditorViewModelBase
     private void Save()
     {
         _manager.Save();
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

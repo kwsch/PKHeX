@@ -13,6 +13,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class SAVMisc3ViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
     private readonly SAV3 _sav;
 
     // Records
@@ -121,7 +122,8 @@ public partial class SAVMisc3ViewModel : SaveEditorViewModelBase
 
     public SAVMisc3ViewModel(SAV3 sav) : base(sav)
     {
-        _sav = sav;
+        _origin = sav;
+        _sav = (SAV3)sav.Clone();
 
         // Records
         RecordItems = Record3.GetItems(sav);
@@ -266,6 +268,7 @@ public partial class SAVMisc3ViewModel : SaveEditorViewModelBase
         if (_sav is SAV3FRLG frlg)
             frlg.RivalName = RivalName;
 
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

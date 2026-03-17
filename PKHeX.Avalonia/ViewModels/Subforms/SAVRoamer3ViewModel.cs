@@ -13,6 +13,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class SAVRoamer3ViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
     private readonly Roamer3 _roamer;
     private readonly SAV3 _sav;
 
@@ -56,8 +57,9 @@ public partial class SAVRoamer3ViewModel : SaveEditorViewModelBase
 
     public SAVRoamer3ViewModel(SAV3 sav) : base(sav)
     {
-        _sav = sav;
-        _roamer = new Roamer3(sav.LargeBlock);
+        _origin = sav;
+        _sav = (SAV3)sav.Clone();
+        _roamer = new Roamer3(_sav.LargeBlock);
 
         SpeciesList = GameInfo.FilteredSources.Species.ToList();
         LoadData();
@@ -97,6 +99,7 @@ public partial class SAVRoamer3ViewModel : SaveEditorViewModelBase
         _roamer.Active = Active;
         _roamer.CurrentLevel = Level;
         _roamer.HP_Current = HpCurrent;
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

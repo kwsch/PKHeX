@@ -68,6 +68,8 @@ public partial class PoffinEntryModel : ObservableObject
 /// </summary>
 public partial class PoffinCase4ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV4Sinnoh _origin;
+    private readonly SAV4Sinnoh SAV4S;
     private readonly PoffinCase4 Case;
 
     public ObservableCollection<PoffinEntryModel> Poffins { get; } = [];
@@ -77,7 +79,9 @@ public partial class PoffinCase4ViewModel : SaveEditorViewModelBase
 
     public PoffinCase4ViewModel(SAV4Sinnoh sav) : base(sav)
     {
-        Case = new PoffinCase4(sav);
+        _origin = sav;
+        SAV4S = (SAV4Sinnoh)sav.Clone();
+        Case = new PoffinCase4(SAV4S);
         LoadPoffins();
     }
 
@@ -120,7 +124,7 @@ public partial class PoffinCase4ViewModel : SaveEditorViewModelBase
             Poffins[i].ApplyTo(Case.Poffins[i]);
         Case.Save();
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV4S);
         Modified = true;
     }
 }

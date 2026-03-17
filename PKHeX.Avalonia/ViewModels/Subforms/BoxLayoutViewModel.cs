@@ -32,6 +32,7 @@ public partial class BoxDetailModel : ObservableObject
 /// </summary>
 public partial class BoxLayoutViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
     private readonly SaveFile _clone;
     private readonly bool _hasNames;
     private readonly bool _hasWallpapers;
@@ -50,7 +51,8 @@ public partial class BoxLayoutViewModel : SaveEditorViewModelBase
 
     public BoxLayoutViewModel(SaveFile sav) : base(sav)
     {
-        _clone = sav;
+        _origin = sav;
+        _clone = sav.Clone();
         _hasNames = sav is IBoxDetailNameRead;
         _hasWallpapers = sav is IBoxDetailWallpaper;
 
@@ -89,6 +91,7 @@ public partial class BoxLayoutViewModel : SaveEditorViewModelBase
                 wpWriter.SetBoxWallpaper(box.Index, box.Wallpaper);
         }
 
+        _origin.CopyChangesFrom(_clone);
         Modified = true;
     }
 

@@ -46,6 +46,8 @@ public partial class MailEntryModel : ObservableObject
 /// </summary>
 public partial class MailBoxViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
+    private readonly SaveFile _clone;
     private readonly MailDetail[] _mails;
     private readonly int _partyCount;
 
@@ -66,6 +68,8 @@ public partial class MailBoxViewModel : SaveEditorViewModelBase
 
     public MailBoxViewModel(SaveFile sav, MailDetail[] mails, int partyCount) : base(sav)
     {
+        _origin = sav;
+        _clone = sav.Clone();
         _mails = mails;
         _partyCount = partyCount;
         WindowTitle = $"Mail Box ({sav.Version})";
@@ -129,10 +133,11 @@ public partial class MailBoxViewModel : SaveEditorViewModelBase
             _mails[SelectedIndex].MailType = SelectedMailType;
         }
 
-        // Copy all mails back to save
+        // Copy all mails back to clone, then commit
         foreach (var mail in _mails)
-            mail.CopyTo(SAV);
+            mail.CopyTo(_clone);
 
+        _origin.CopyChangesFrom(_clone);
         Modified = true;
     }
 }

@@ -31,13 +31,15 @@ public partial class PokeGearEntryModel : ObservableObject
 /// </summary>
 public partial class PokeGear4ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV4HGSS _origin;
     private readonly SAV4HGSS SAV4H;
 
     public ObservableCollection<PokeGearEntryModel> Contacts { get; } = [];
 
     public PokeGear4ViewModel(SAV4HGSS sav) : base(sav)
     {
-        SAV4H = sav;
+        _origin = sav;
+        SAV4H = (SAV4HGSS)sav.Clone();
         LoadContacts();
     }
 
@@ -81,7 +83,7 @@ public partial class PokeGear4ViewModel : SaveEditorViewModelBase
         for (int i = 0; i < Contacts.Count; i++)
             rolodex[i] = (PokegearNumber)Contacts[i].CallerId;
         SAV4H.SetPokeGearRoloDex(rolodex);
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV4H);
         Modified = true;
     }
 }

@@ -36,6 +36,8 @@ public partial class TrainerStatModel : ObservableObject
 /// </summary>
 public partial class TrainerStatViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
+    private readonly SaveFile _clone;
     private readonly ITrainerStatRecord _record;
 
     [ObservableProperty]
@@ -50,7 +52,9 @@ public partial class TrainerStatViewModel : SaveEditorViewModelBase
 
     public TrainerStatViewModel(SaveFile sav, ITrainerStatRecord record, Dictionary<int, string> recordNames) : base(sav)
     {
-        _record = record;
+        _origin = sav;
+        _clone = sav.Clone();
+        _record = (ITrainerStatRecord)_clone;
         WindowTitle = $"Trainer Stats ({sav.Version})";
 
         for (int i = 0; i < record.RecordCount; i++)
@@ -93,6 +97,7 @@ public partial class TrainerStatViewModel : SaveEditorViewModelBase
             _record.SetRecord(rec.Index, clamped);
         }
 
+        _origin.CopyChangesFrom(_clone);
         Modified = true;
     }
 }

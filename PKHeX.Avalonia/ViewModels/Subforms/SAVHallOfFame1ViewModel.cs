@@ -14,6 +14,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class SAVHallOfFame1ViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
     private readonly SAV1 _sav;
     private readonly HallOfFameReader1 _fame;
     private int _currentTeam = -1;
@@ -58,8 +59,9 @@ public partial class SAVHallOfFame1ViewModel : SaveEditorViewModelBase
 
     public SAVHallOfFame1ViewModel(SAV1 sav) : base(sav)
     {
-        _sav = sav;
-        _fame = sav.HallOfFame;
+        _origin = sav;
+        _sav = (SAV1)sav.Clone();
+        _fame = _sav.HallOfFame;
         MaxNicknameLength = sav.Japanese ? 5 : 10;
 
         SpeciesList = GameInfo.FilteredSources.Species.ToList();
@@ -205,6 +207,7 @@ public partial class SAVHallOfFame1ViewModel : SaveEditorViewModelBase
         _fame.Clear();
         HallOfFameClears = 0;
         _sav.HallOfFameCount = 0;
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 
@@ -213,6 +216,7 @@ public partial class SAVHallOfFame1ViewModel : SaveEditorViewModelBase
     {
         SaveEntity();
         _sav.HallOfFameCount = HallOfFameClears;
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

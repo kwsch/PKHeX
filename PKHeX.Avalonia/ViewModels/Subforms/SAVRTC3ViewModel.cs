@@ -11,6 +11,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class SAVRTC3ViewModel : SaveEditorViewModelBase
 {
+    private readonly SaveFile _origin;
     private readonly SAV3 _sav;
     private readonly ISaveBlock3SmallHoenn _small;
     private readonly RTC3 _clockInitial;
@@ -44,8 +45,9 @@ public partial class SAVRTC3ViewModel : SaveEditorViewModelBase
 
     public SAVRTC3ViewModel(SAV3 sav) : base(sav)
     {
-        _sav = sav;
-        _small = (ISaveBlock3SmallHoenn)sav.SmallBlock;
+        _origin = sav;
+        _sav = (SAV3)sav.Clone();
+        _small = (ISaveBlock3SmallHoenn)_sav.SmallBlock;
         _clockInitial = _small.ClockInitial;
         _clockElapsed = _small.ClockElapsed;
 
@@ -94,6 +96,7 @@ public partial class SAVRTC3ViewModel : SaveEditorViewModelBase
         _small.ClockInitial = _clockInitial;
         _small.ClockElapsed = _clockElapsed;
 
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

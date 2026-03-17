@@ -34,6 +34,7 @@ public partial class GeonetEntryModel : ObservableObject
 /// </summary>
 public partial class Geonet4ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV4 _origin;
     private readonly SAV4 SAV4;
     private readonly Geonet4 Geonet;
 
@@ -46,7 +47,8 @@ public partial class Geonet4ViewModel : SaveEditorViewModelBase
 
     public Geonet4ViewModel(SAV4 sav) : base(sav)
     {
-        SAV4 = sav;
+        _origin = sav;
+        SAV4 = (SAV4)sav.Clone();
         Geonet = new Geonet4(sav);
         _globalFlag = Geonet.GlobalFlag;
         LoadEntries();
@@ -118,7 +120,7 @@ public partial class Geonet4ViewModel : SaveEditorViewModelBase
         Geonet.GlobalFlag = GlobalFlag;
         Geonet.Save();
 
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV4);
         Modified = true;
     }
 }

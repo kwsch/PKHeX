@@ -36,6 +36,7 @@ public partial class Poffin8bModel : ObservableObject
 /// </summary>
 public partial class Poffin8bViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV8BS _origin;
     private readonly SAV8BS _sav;
     private readonly IReadOnlyList<Poffin8b> _allItems;
     private readonly string[] _itemNames;
@@ -44,7 +45,7 @@ public partial class Poffin8bViewModel : SaveEditorViewModelBase
 
     public Poffin8bViewModel(SAV8BS sav) : base(sav)
     {
-        _sav = sav;
+        _sav = (SAV8BS)(_origin = sav).Clone();
         var names = new string[256];
         for (int i = 0; i < names.Length; i++)
             names[i] = $"Poffin {i}";
@@ -126,6 +127,7 @@ public partial class Poffin8bViewModel : SaveEditorViewModelBase
             item.FlavorSour = (byte)Math.Clamp(model.Sour, 0, 255);
         }
         _sav.Poffins.SetPoffins(_allItems);
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

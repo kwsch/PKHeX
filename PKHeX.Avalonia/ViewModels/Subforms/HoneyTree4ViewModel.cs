@@ -11,6 +11,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// </summary>
 public partial class HoneyTree4ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV4Sinnoh _origin;
     private readonly SAV4Sinnoh SAV4S;
     private HoneyTreeValue? _tree;
     private int _treeIndex;
@@ -38,7 +39,8 @@ public partial class HoneyTree4ViewModel : SaveEditorViewModelBase
 
     public HoneyTree4ViewModel(SAV4Sinnoh sav) : base(sav)
     {
-        SAV4S = sav;
+        _origin = sav;
+        SAV4S = (SAV4Sinnoh)sav.Clone();
 
         // Build tree name list
         TreeNames =
@@ -107,7 +109,7 @@ public partial class HoneyTree4ViewModel : SaveEditorViewModelBase
     private void Save()
     {
         SaveTree();
-        SAV.State.Edited = true;
+        _origin.CopyChangesFrom(SAV4S);
         Modified = true;
     }
 }
