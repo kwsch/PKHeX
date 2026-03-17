@@ -5,26 +5,59 @@
                      x:Class="PKHeX.Avalonia.Views.Subforms.InventoryView"
                      x:DataType="vm:InventoryViewModel"
                      Title="Inventory Editor"
-                     Width="500" Height="450"
-                     MinWidth="400" MinHeight="350"
+                     Width="600" Height="500"
+                     MinWidth="500" MinHeight="400"
                      FontFamily="Microsoft Sans Serif,Geneva,Helvetica,Arial,sans-serif"
                      FontSize="11"
                      WindowStartupLocation="CenterOwner"
                      CanResize="True">
 
     <DockPanel Margin="8">
-        <!-- Bottom buttons -->
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
-                    HorizontalAlignment="Right" Spacing="8" Margin="0,8,0,0">
-            <Button Content="Sort by Name" Command="{Binding SortByNameCommand}" MinWidth="75" Padding="8,4" />
-            <Button Content="Sort by Count" Command="{Binding SortByCountCommand}" MinWidth="75" Padding="8,4" />
-            <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
-            <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
-        </StackPanel>
+        <!-- Bottom row: action buttons left, OK/Cancel right -->
+        <Grid DockPanel.Dock="Bottom" Margin="0,8,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Left: Give/Remove/Modify + Sort dropdown -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="4">
+                <Button Content="Give All" Command="{Binding GiveAllItemsCommand}"
+                        MinWidth="60" Padding="6,4" />
+                <Button Content="Remove All" Command="{Binding RemoveAllItemsCommand}"
+                        MinWidth="60" Padding="6,4" />
+                <Button Content="Max Count" Command="{Binding ModifyAllCountCommand}"
+                        MinWidth="60" Padding="6,4" ToolTip.Tip="Set all existing items to max count" />
+
+                <!-- Sort dropdown button -->
+                <Button Content="Sort" MinWidth="50" Padding="6,4">
+                    <Button.Flyout>
+                        <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                            <MenuItem Header="By Name (A-Z)" Command="{Binding SortByNameCommand}" />
+                            <MenuItem Header="By Name (Z-A)" Command="{Binding SortByNameReverseCommand}" />
+                            <Separator />
+                            <MenuItem Header="By Count (Low-High)" Command="{Binding SortByCountCommand}" />
+                            <MenuItem Header="By Count (High-Low)" Command="{Binding SortByCountReverseCommand}" />
+                            <Separator />
+                            <MenuItem Header="By Index (Low-High)" Command="{Binding SortByIndexCommand}" />
+                            <MenuItem Header="By Index (High-Low)" Command="{Binding SortByIndexReverseCommand}" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+
+            <!-- Right: OK / Cancel -->
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                <Button Content="OK" Click="OnOkClick" MinWidth="75" Padding="8,4" />
+                <Button Content="Cancel" Click="OnCancelClick" MinWidth="75" Padding="8,4" />
+            </StackPanel>
+        </Grid>
 
         <!-- Tab control with one tab per pouch -->
         <TabControl ItemsSource="{Binding Pouches}"
-                    SelectedIndex="{Binding SelectedPouchIndex}">
+                    SelectedIndex="{Binding SelectedPouchIndex}"
+                    SelectionChanged="OnTabSelectionChanged">
             <TabControl.ItemTemplate>
                 <DataTemplate x:DataType="vm:InventoryPouchModel">
                     <TextBlock Text="{Binding Name}" FontSize="11" />
@@ -32,7 +65,8 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate x:DataType="vm:InventoryPouchModel">
-                    <DataGrid ItemsSource="{Binding Items}"
+                    <DataGrid x:Name="InventoryGrid"
+                              ItemsSource="{Binding Items}"
                               AutoGenerateColumns="False"
                               CanUserReorderColumns="False"
                               CanUserResizeColumns="True"
@@ -40,11 +74,9 @@
                               HeadersVisibility="Column"
                               GridLinesVisibility="Horizontal"
                               IsReadOnly="False"
-                              SelectionMode="Single">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Item" Binding="{Binding ItemName}" Width="*" />
-                            <DataGridTextColumn Header="Count" Binding="{Binding Count}" Width="80" />
-                        </DataGrid.Columns>
+                              SelectionMode="Single"
+                              Loaded="OnDataGridLoaded">
+                        <!-- Columns are added programmatically in code-behind based on pouch flags -->
                     </DataGrid>
                 </DataTemplate>
             </TabControl.ContentTemplate>

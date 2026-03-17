@@ -112,49 +112,150 @@ public partial class InventoryViewModel : SaveEditorViewModelBase
     private void WriteBackAllPouches()
     {
         foreach (var pouchModel in Pouches)
+            WriteBackPouch(pouchModel);
+    }
+
+    private void WriteBackPouch(InventoryPouchModel pouchModel)
+    {
+        var pouch = pouchModel.Pouch;
+        bool hasNew = pouchModel.HasNew;
+        int ctr = 0;
+
+        foreach (var itemModel in pouchModel.Items)
         {
-            var pouch = pouchModel.Pouch;
-            int ctr = 0;
+            var itemId = itemModel.Index;
+            var count = itemModel.Count;
 
-            foreach (var itemModel in pouchModel.Items)
-            {
-                var itemId = itemModel.Index;
+            if (itemId == 0 && count == 0 && !hasNew)
+                continue;
 
-                var count = itemModel.Count;
+            // Validate count using bag rules
+            _bag.IsQuantitySane(pouch.Type, itemId, ref count, hasNew: hasNew);
 
-                if (itemId == 0 && count == 0)
-                    continue;
+            var item = pouch.GetEmpty(itemId, count);
 
-                // Validate count using bag rules
-                _bag.IsQuantitySane(pouch.Type, itemId, ref count, hasNew: false);
+            // Write back flag data
+            if (item is IItemFavorite fav)
+                fav.IsFavorite = itemModel.IsFavorite;
+            if (item is IItemNewFlag nf)
+                nf.IsNew = itemModel.IsNew;
+            if (item is IItemFreeSpace fs)
+                fs.IsFreeSpace = itemModel.IsFreeSpace;
+            if (item is IItemFreeSpaceIndex fsi)
+                fsi.FreeSpaceIndex = itemModel.FreeSpaceIndex;
+            if (item is IItemNewShopFlag ns)
+                ns.IsNewShop = itemModel.IsNewShop;
+            if (item is IItemHeldFlag hf)
+                hf.IsHeld = itemModel.IsHeld;
 
-                var item = pouch.GetEmpty(itemId, count);
-                pouch.Items[ctr++] = item;
-            }
+            pouch.Items[ctr++] = item;
+        }
 
-            // Clear remaining slots
-            for (int i = ctr; i < pouch.Items.Length; i++)
-                pouch.Items[i] = pouch.GetEmpty();
+        // Clear remaining slots
+        for (int i = ctr; i < pouch.Items.Length; i++)
+            pouch.Items[i] = pouch.GetEmpty();
+    }
+
+    /// <summary>
+    /// Reloads the UI model items from the underlying pouch data.
+    /// Called after modifying the pouch items array directly.
+    /// </summary>
+    private void ReloadPouch(InventoryPouchModel pouchModel)
+    {
+        var pouch = pouchModel.Pouch;
+        var validItemIds = pouch.GetAllItems();
+        var validNames = GetValidItemNames(validItemIds);
+
+        pouchModel.Items.Clear();
+        foreach (var item in pouch.Items)
+        {
+            pouchModel.Items.Add(new InventoryItemModel(item, _itemNames, validNames));
         }
     }
 
     /// <summary>
-    /// Sorts the currently selected pouch by item name.
+    /// Writes back the selected pouch, executes a modification, then reloads the pouch.
+    /// Mirrors the WinForms ModifyPouch pattern.
+    /// </summary>
+    private void ModifyPouch(Action<InventoryPouch> func)
+    {
+        var pouchModel = SelectedPouch;
+        if (pouchModel is null)
+            return;
+
+        WriteBackPouch(pouchModel);
+        func(pouchModel.Pouch);
+        ReloadPouch(pouchModel);
+    }
+
+    // ===== Sort Commands =====
+
+    /// <summary>
+    /// Sorts the currently selected pouch by item name (ascending).
     /// </summary>
     [RelayCommand]
-    private void SortByName()
+    private void SortByName() => ModifyPouch(p => p.SortByName(_itemNames));
+
+    /// <summary>
+    /// Sorts the currently selected pouch by item name (descending).
+    /// </summary>
+    [RelayCommand]
+    private void SortByNameReverse() => ModifyPouch(p => p.SortByName(_itemNames, reverse: true));
+
+    /// <summary>
+    /// Sorts the currently selected pouch by item count (ascending).
+    /// </summary>
+    [RelayCommand]
+    private void SortByCount() => ModifyPouch(p => p.SortByCount());
+
+    /// <summary>
+    /// Sorts the currently selected pouch by item count (descending).
+    /// </summary>
+    [RelayCommand]
+    private void SortByCountReverse() => ModifyPouch(p => p.SortByCount(reverse: true));
+
+    /// <summary>
+    /// Sorts the currently selected pouch by item index (ascending).
+    /// </summary>
+    [RelayCommand]
+    private void SortByIndex() => ModifyPouch(p => p.SortByIndex());
+
+    /// <summary>
+    /// Sorts the currently selected pouch by item index (descending).
+    /// </summary>
+    [RelayCommand]
+    private void SortByIndexReverse() => ModifyPouch(p => p.SortByIndex(reverse: true));
+
+    // ===== Give / Remove / Modify Commands =====
+
+    /// <summary>
+    /// Gives all legal items in the selected pouch at max count.
+    /// </summary>
+    [RelayCommand]
+    private void GiveAllItems()
     {
-        SelectedPouch?.Items.Sort(nameof(InventoryItemModel.ItemName));
+        var pouchModel = SelectedPouch;
+        if (pouchModel is null)
+            return;
+
+        WriteBackPouch(pouchModel);
+        var pouch = pouchModel.Pouch;
+        var items = pouch.GetAllItems().ToArray();
+        pouch.GiveAllItems(_bag, items);
+        ReloadPouch(pouchModel);
     }
 
     /// <summary>
-    /// Sorts the currently selected pouch by item count.
+    /// Removes all items from the selected pouch.
     /// </summary>
     [RelayCommand]
-    private void SortByCount()
-    {
-        SelectedPouch?.Items.Sort(nameof(InventoryItemModel.Count), System.ComponentModel.ListSortDirection.Descending);
-    }
+    private void RemoveAllItems() => ModifyPouch(p => p.RemoveAll());
+
+    /// <summary>
+    /// Sets all non-empty items in the selected pouch to max count.
+    /// </summary>
+    [RelayCommand]
+    private void ModifyAllCount() => ModifyPouch(p => p.ModifyAllCount(_bag));
 
     partial void OnSelectedPouchIndexChanged(int value)
     {

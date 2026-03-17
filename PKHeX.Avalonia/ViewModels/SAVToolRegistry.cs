@@ -336,6 +336,17 @@ public static class SAVToolRegistry
                     return WithView<SimpleTrainerViewModel, SimpleTrainerView>(
                         new SimpleTrainerViewModel(sav));
                 }),
+
+            // --- Block Accessor (Gen 5–7) ---
+            new("Block Accessor",
+                sav => sav is SAV5BW or SAV5B2W2 or SAV6XY or SAV6AO or SAV6AODemo or SAV7SM or SAV7USUM or SAV7b,
+                CreateAccessorEditor),
+
+            // --- Group Viewer (Stadium) ---
+            new("Group Viewer",
+                sav => sav is SAV_STADIUM,
+                sav => WithView<GroupViewerViewModel, GroupViewerView>(
+                    new GroupViewerViewModel(sav, ((SAV_STADIUM)sav).GetRegisteredTeams()))),
         ];
     }
 
@@ -528,6 +539,23 @@ public static class SAVToolRegistry
                 throw new ArgumentException("Unsupported save type for Mail Box.");
         }
         return WithView<MailBoxViewModel, MailBoxView>(new MailBoxViewModel(sav, mails, partyCount));
+    }
+
+    private static (object, Window) CreateAccessorEditor(SaveFile sav)
+    {
+        ISaveBlockAccessor<BlockInfo> accessor = sav switch
+        {
+            SAV5BW s => s.Blocks,
+            SAV5B2W2 s => s.Blocks,
+            SAV6XY s => s.Blocks,
+            SAV6AO s => s.Blocks,
+            SAV6AODemo s => s.Blocks,
+            SAV7SM s => s.Blocks,
+            SAV7USUM s => s.Blocks,
+            SAV7b s => s.Blocks,
+            _ => throw new ArgumentException("Unsupported save type for Block Accessor."),
+        };
+        return WithView<SAVAccessorViewModel, SAVAccessorView>(new SAVAccessorViewModel(sav, accessor));
     }
 
     private static (object, Window) CreateBlockDataEditor(SaveFile sav)
