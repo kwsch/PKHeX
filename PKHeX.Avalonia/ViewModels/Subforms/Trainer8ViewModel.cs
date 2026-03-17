@@ -119,7 +119,7 @@ public partial class Trainer8ViewModel : SaveEditorViewModelBase
         _sav.Blocks.TrainerCard.TrainerID = int.TryParse(TrainerCardId, out var tcid) ? tcid : 0;
         _sav.Blocks.TrainerCard.RotoRallyScore = int.TryParse(RotoRallyScore, out var rr) ? rr : 0;
 
-        _sav.Money = uint.TryParse(Money, out var money) ? money : 0u;
+        _sav.Money = uint.TryParse(Money, out var money) ? (uint)Math.Min(money, (uint)_sav.MaxMoney) : 0u;
 
         var watt = uint.TryParse(Watt, out var w) ? w : 0u;
         _sav.MyStatus.Watt = watt;

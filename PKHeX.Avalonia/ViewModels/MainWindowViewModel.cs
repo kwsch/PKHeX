@@ -28,6 +28,11 @@ public partial class MainWindowViewModel : ObservableObject
     private readonly IDialogService _dialogService;
 
     /// <summary>
+    /// Guards against concurrent invocations of <see cref="LoadFileAsync"/>.
+    /// </summary>
+    private bool _isLoading;
+
+    /// <summary>
     /// The file path from which the current save file was loaded.
     /// Used to create an automatic backup before overwriting.
     /// </summary>
@@ -345,6 +350,9 @@ public partial class MainWindowViewModel : ObservableObject
 
     public async Task LoadFileAsync(string path)
     {
+        if (_isLoading)
+            return;
+        _isLoading = true;
         try
         {
             var data = await File.ReadAllBytesAsync(path);
@@ -369,6 +377,10 @@ public partial class MainWindowViewModel : ObservableObject
         catch (Exception ex)
         {
             await _dialogService.ShowErrorAsync("Load Error", ex.Message);
+        }
+        finally
+        {
+            _isLoading = false;
         }
     }
 
@@ -937,7 +949,7 @@ public partial class MainWindowViewModel : ObservableObject
 
     public void HandleFileDrop(string[] files)
     {
-        if (files.Length == 0)
+        if (files.Length == 0 || _isLoading)
             return;
 
         _ = LoadFileAsync(files[0]);

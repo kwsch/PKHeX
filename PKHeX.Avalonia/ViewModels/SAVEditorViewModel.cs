@@ -303,11 +303,15 @@ public partial class SAVEditorViewModel : ObservableObject
         try
         {
             var wpBitmap = _sav.WallpaperImage(CurrentBox);
-            BoxWallpaper = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmap(wpBitmap);
+            var oldWp = BoxWallpaper;
+            BoxWallpaper = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmapAndDispose(wpBitmap);
+            oldWp?.Dispose();
         }
         catch
         {
+            var oldWp = BoxWallpaper;
             BoxWallpaper = null;
+            oldWp?.Dispose();
         }
 
         int slotCount = Math.Min(30, _sav.BoxSlotCount);

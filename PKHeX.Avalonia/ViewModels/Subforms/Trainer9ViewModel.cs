@@ -182,7 +182,7 @@ public partial class Trainer9ViewModel : SaveEditorViewModelBase
         _sav.Version = (GameVersion)(GameIndex + (byte)GameVersion.SL);
         _sav.Gender = (byte)Gender;
         _sav.OT = OtName;
-        _sav.Money = uint.TryParse(Money, out var m) ? m : 0u;
+        _sav.Money = uint.TryParse(Money, out var m) ? (uint)Math.Min(m, (uint)_sav.MaxMoney) : 0u;
         _sav.LeaguePoints = uint.TryParse(LeaguePoints, out var lp) ? lp : 0u;
 
         _sav.PlayedHours = (ushort)Math.Clamp(PlayedHours, 0, ushort.MaxValue);

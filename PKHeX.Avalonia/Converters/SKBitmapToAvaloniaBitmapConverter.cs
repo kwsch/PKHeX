@@ -46,4 +46,22 @@ public class SKBitmapToAvaloniaBitmapConverter : IValueConverter
         stream.Position = 0;
         return new Bitmap(stream);
     }
+
+    /// <summary>
+    /// Converts an SKBitmap to an Avalonia Bitmap and disposes the input SKBitmap.
+    /// Use this when the caller owns the SKBitmap and will not reuse it after conversion.
+    /// </summary>
+    public static Bitmap? ToAvaloniaBitmapAndDispose(SKBitmap? skBitmap)
+    {
+        if (skBitmap is null)
+            return null;
+        try
+        {
+            return ToAvaloniaBitmap(skBitmap);
+        }
+        finally
+        {
+            skBitmap.Dispose();
+        }
+    }
 }

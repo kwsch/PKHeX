@@ -994,11 +994,15 @@ public partial class PKMEditorViewModel : ObservableObject
         try
         {
             var skBitmap = SpriteUtil.GetBallSprite(Ball);
-            BallSprite = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmap(skBitmap);
+            var old = BallSprite;
+            BallSprite = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmapAndDispose(skBitmap);
+            old?.Dispose();
         }
         catch
         {
+            var old = BallSprite;
             BallSprite = null;
+            old?.Dispose();
         }
     }
 
@@ -2855,7 +2859,9 @@ public partial class PKMEditorViewModel : ObservableObject
     {
         if (Entity is null)
         {
+            var old = LegalityImage;
             LegalityImage = null;
+            old?.Dispose();
             Move1Legal = Move2Legal = Move3Legal = Move4Legal = true;
             Relearn1Legal = Relearn2Legal = Relearn3Legal = Relearn4Legal = true;
             return;
@@ -2868,7 +2874,13 @@ public partial class PKMEditorViewModel : ObservableObject
             var color = valid ? SKColors.Green : SKColors.Red;
 
             using var surface = SKSurface.Create(new SKImageInfo(24, 24));
-            if (surface is null) { LegalityImage = null; return; }
+            if (surface is null)
+            {
+                var old2 = LegalityImage;
+                LegalityImage = null;
+                old2?.Dispose();
+                return;
+            }
             var canvas = surface.Canvas;
             canvas.Clear(SKColors.Transparent);
             using var paint = new SKPaint { Color = color, IsAntialias = true };
@@ -2877,7 +2889,9 @@ public partial class PKMEditorViewModel : ObservableObject
             using var image = surface.Snapshot();
             using var data = image.Encode(SKEncodedImageFormat.Png, 100);
             using var ms = new MemoryStream(data.ToArray());
+            var oldLegality = LegalityImage;
             LegalityImage = new Bitmap(ms);
+            oldLegality?.Dispose();
 
             // Move legality
             var moves = la.Info.Moves;
@@ -2909,7 +2923,9 @@ public partial class PKMEditorViewModel : ObservableObject
         }
         catch
         {
+            var old = LegalityImage;
             LegalityImage = null;
+            old?.Dispose();
             Move1Legal = Move2Legal = Move3Legal = Move4Legal = true;
             Relearn1Legal = Relearn2Legal = Relearn3Legal = Relearn4Legal = true;
         }
@@ -2921,6 +2937,9 @@ public partial class PKMEditorViewModel : ObservableObject
             return;
 
         var sprite = Entity.Sprite();
+        var old = SpriteImage;
         SpriteImage = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmap(sprite);
+        old?.Dispose();
+        sprite.Dispose();
     }
 }

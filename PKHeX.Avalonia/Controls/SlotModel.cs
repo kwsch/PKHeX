@@ -64,7 +64,10 @@ public partial class SlotModel : ObservableObject
 
     public void SetImage(SKBitmap? skBitmap)
     {
+        var old = Image;
         Image = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmap(skBitmap);
+        old?.Dispose();
+        skBitmap?.Dispose();
         IsEmpty = skBitmap is null;
     }
 }

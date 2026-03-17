@@ -34,9 +34,14 @@ public partial class QRDialogViewModel : ObservableObject
         var qr = QREncode.GenerateQRCode(pk);
         var sprite = pk.Sprite();
         var composed = QRImageUtil.GetQRImage(qr, sprite);
+        qr.Dispose();
+        sprite.Dispose();
 
+        _qrBitmap?.Dispose();
         _qrBitmap = composed;
+        var old = QrImage;
         QrImage = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmap(composed);
+        old?.Dispose();
 
         var lines = pk.GetQRLines();
         SummaryText = string.Join("\n", lines);

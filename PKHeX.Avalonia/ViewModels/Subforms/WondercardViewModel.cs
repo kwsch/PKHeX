@@ -37,7 +37,9 @@ public partial class GiftSlotModel : ObservableObject
         IsEmpty = Gift.IsEmpty;
         Description = IsEmpty ? $"Slot {Index + 1}: (empty)" : $"Slot {Index + 1}: {Gift.CardHeader}";
         var skBitmap = Gift.Sprite();
-        Sprite = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmap(skBitmap);
+        var old = Sprite;
+        Sprite = SKBitmapToAvaloniaBitmapConverter.ToAvaloniaBitmapAndDispose(skBitmap);
+        old?.Dispose();
     }
 
     public void SetGift(DataMysteryGift gift)

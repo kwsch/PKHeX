@@ -113,7 +113,7 @@ public partial class Trainer9aViewModel : SaveEditorViewModelBase
         }
 
         _sav.OT = OtName;
-        _sav.Money = uint.TryParse(Money, out var m) ? m : 0u;
+        _sav.Money = uint.TryParse(Money, out var m) ? (uint)Math.Min(m, (uint)_sav.MaxMoney) : 0u;
 
         _sav.PlayedHours = (ushort)Math.Clamp(PlayedHours, 0, ushort.MaxValue);
         _sav.PlayedMinutes = (ushort)Math.Clamp(PlayedMinutes, 0, 59);
