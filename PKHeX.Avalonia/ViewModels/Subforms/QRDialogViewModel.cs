@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using PKHeX.Avalonia.Converters;
@@ -11,7 +12,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// <summary>
 /// ViewModel for the QR Code dialog. Generates and displays a QR code for a PKM entity.
 /// </summary>
-public partial class QRDialogViewModel : ObservableObject
+public partial class QRDialogViewModel : ObservableObject, IDisposable
 {
     [ObservableProperty]
     private Bitmap? _qrImage;
@@ -45,6 +46,12 @@ public partial class QRDialogViewModel : ObservableObject
 
         var lines = pk.GetQRLines();
         SummaryText = string.Join("\n", lines);
+    }
+
+    public void Dispose()
+    {
+        _qrBitmap?.Dispose();
+        QrImage?.Dispose();
     }
 
     /// <summary>

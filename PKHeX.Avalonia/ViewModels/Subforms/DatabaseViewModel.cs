@@ -19,7 +19,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// ViewModel for the PKM Database browser subform.
 /// Loads PKM files from a directory and displays them in a searchable grid.
 /// </summary>
-public partial class DatabaseViewModel : SaveEditorViewModelBase
+public partial class DatabaseViewModel : SaveEditorViewModelBase, IDisposable
 {
     private List<SlotCache> _rawDb = [];
     private List<SlotCache> _results = [];
@@ -253,5 +253,10 @@ public partial class DatabaseViewModel : SaveEditorViewModelBase
         _cts.Cancel();
         _cts.Dispose();
         _cts = new CancellationTokenSource();
+    }
+
+    public void Dispose()
+    {
+        _cts?.Dispose();
     }
 }

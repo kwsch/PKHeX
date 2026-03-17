@@ -28,6 +28,11 @@ public partial class MainWindowViewModel : ObservableObject
     private readonly IDialogService _dialogService;
 
     /// <summary>
+    /// Tracks open non-modal sub-windows (e.g. BoxViewer) so they can be closed on save reload.
+    /// </summary>
+    private readonly List<Window> _openSubWindows = new();
+
+    /// <summary>
     /// Guards against concurrent invocations of <see cref="LoadFileAsync"/>.
     /// </summary>
     private bool _isLoading;
@@ -205,7 +210,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenFileAsync()
     {
         var path = await _dialogService.OpenFileAsync("Open Save File");
@@ -215,7 +220,7 @@ public partial class MainWindowViewModel : ObservableObject
         await LoadFileAsync(path);
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task SaveFileAsync()
     {
         if (SaveFile is null)
@@ -265,7 +270,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task ExportPKMAsync()
     {
         if (PkmEditor?.Entity is not { } pk)
@@ -287,7 +292,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task ExportSAVAsync()
     {
         if (SaveFile is null)
@@ -308,7 +313,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task DumpAllBoxesAsync()
     {
         if (SaveFile is null)
@@ -384,8 +389,19 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Closes all tracked non-modal sub-windows (e.g. BoxViewer) that may hold references to the old save.
+    /// </summary>
+    private void CloseSubWindows()
+    {
+        foreach (var w in _openSubWindows.ToArray())
+            w.Close();
+        _openSubWindows.Clear();
+    }
+
     private void LoadSaveFile(SaveFile sav, string path)
     {
+        CloseSubWindows();
         SaveFile = sav;
         HasSaveFile = true;
         HasUnsavedChanges = false;
@@ -409,7 +425,7 @@ public partial class MainWindowViewModel : ObservableObject
         File.WriteAllBytes(path, data.ToArray());
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenDatabaseAsync()
     {
         if (SaveFile is null)
@@ -439,7 +455,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenBatchEditorAsync()
     {
         if (SaveFile is null)
@@ -469,7 +485,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenEncountersAsync()
     {
         if (SaveFile is null)
@@ -501,7 +517,7 @@ public partial class MainWindowViewModel : ObservableObject
         return Path.Combine(pokemon, "pkmdb");
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenRibbonEditorAsync()
     {
         if (PkmEditor?.Entity is not { } pk)
@@ -522,7 +538,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenReportGridAsync()
     {
         if (SaveFile is null)
@@ -566,7 +582,11 @@ public partial class MainWindowViewModel : ObservableObject
 
             var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
             if (mainWindow is not null)
+            {
                 view.Show(mainWindow); // non-modal
+                _openSubWindows.Add(view);
+                view.Closed += (_, _) => _openSubWindows.Remove(view);
+            }
         }
         catch (Exception ex)
         {
@@ -574,7 +594,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenSettingsEditorAsync()
     {
         try
@@ -593,7 +613,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenMysteryGiftDBAsync()
     {
         if (SaveFile is null)
@@ -621,7 +641,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenMemoryAmieAsync()
     {
         if (PkmEditor?.Entity is not { } pk)
@@ -648,7 +668,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenTechRecordEditorAsync()
     {
         if (PkmEditor?.Entity is not { } pk)
@@ -708,7 +728,7 @@ public partial class MainWindowViewModel : ObservableObject
         return TopLevel.GetTopLevel(mainWindow)?.Clipboard;
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task ImportShowdownAsync()
     {
         try
@@ -761,7 +781,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task ExportShowdownAsync()
     {
         try
@@ -796,7 +816,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task ExportPartyShowdownAsync()
     {
         if (SaveFile is null)
@@ -834,7 +854,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task ExportBoxShowdownAsync()
     {
         if (SaveFile is null || SavEditor is null)
@@ -884,7 +904,7 @@ public partial class MainWindowViewModel : ObservableObject
         Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task ShowAboutAsync()
     {
         var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
@@ -921,7 +941,7 @@ public partial class MainWindowViewModel : ObservableObject
 
     #region QR Code
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenQRDialogAsync()
     {
         try
@@ -968,7 +988,7 @@ public partial class MainWindowViewModel : ObservableObject
 
     #region Load Boxes / Dump Box
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task LoadBoxesAsync()
     {
         if (SaveFile is null || SavEditor is null)
@@ -1026,7 +1046,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task DumpBoxAsync()
     {
         if (SaveFile is null || SavEditor is null)

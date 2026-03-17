@@ -16,7 +16,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// ViewModel for the Encounter Generator subform.
 /// Generates legal encounter templates for creating new PKM.
 /// </summary>
-public partial class EncountersViewModel : SaveEditorViewModelBase
+public partial class EncountersViewModel : SaveEditorViewModelBase, IDisposable
 {
     private List<IEncounterable> _results = [];
     private CancellationTokenSource _cts = new();
@@ -253,5 +253,10 @@ public partial class EncountersViewModel : SaveEditorViewModelBase
         _cts.Cancel();
         _cts.Dispose();
         _cts = new CancellationTokenSource();
+    }
+
+    public void Dispose()
+    {
+        _cts?.Dispose();
     }
 }

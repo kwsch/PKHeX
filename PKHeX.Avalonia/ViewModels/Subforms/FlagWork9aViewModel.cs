@@ -69,6 +69,7 @@ public partial class FlagWork9aTabModel : ObservableObject
 /// </summary>
 public partial class FlagWork9aViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV9ZA _origin;
     private readonly SAV9ZA _sav;
     private readonly Dictionary<ulong, string> _lookup = new() { { FnvHash.HashEmpty, "" } };
 
@@ -78,22 +79,23 @@ public partial class FlagWork9aViewModel : SaveEditorViewModelBase
 
     public FlagWork9aViewModel(SAV9ZA sav) : base(sav)
     {
-        _sav = sav;
+        _origin = sav;
+        _sav = (SAV9ZA)sav.Clone();
 
         // Load any custom name definitions
         var settingsPath = Path.Combine(AppContext.BaseDirectory, $"{sav.GetType().Name}_flagwork.txt");
         if (File.Exists(settingsPath))
             SCBlockMetadata.AddExtraKeyNames64(_lookup, File.ReadLines(settingsPath));
 
-        LoadFlags(nameof(sav.Blocks.Flags), sav.Blocks.Flags);
-        LoadFlags(nameof(sav.Blocks.Event), sav.Blocks.Event);
-        LoadValues(nameof(sav.Blocks.Work), sav.Blocks.Work);
-        LoadValues(nameof(sav.Blocks.Quest), sav.Blocks.Quest);
-        LoadValues(nameof(sav.Blocks.WorkMable), sav.Blocks.WorkMable);
-        LoadValues(nameof(sav.Blocks.CountMable), sav.Blocks.CountMable);
-        LoadValues(nameof(sav.Blocks.CountTitle), sav.Blocks.CountTitle);
-        LoadValues(nameof(sav.Blocks.WorkSpawn), sav.Blocks.WorkSpawn);
-        LoadFlags(nameof(sav.Blocks.FieldItems), sav.Blocks.FieldItems);
+        LoadFlags(nameof(_sav.Blocks.Flags), _sav.Blocks.Flags);
+        LoadFlags(nameof(_sav.Blocks.Event), _sav.Blocks.Event);
+        LoadValues(nameof(_sav.Blocks.Work), _sav.Blocks.Work);
+        LoadValues(nameof(_sav.Blocks.Quest), _sav.Blocks.Quest);
+        LoadValues(nameof(_sav.Blocks.WorkMable), _sav.Blocks.WorkMable);
+        LoadValues(nameof(_sav.Blocks.CountMable), _sav.Blocks.CountMable);
+        LoadValues(nameof(_sav.Blocks.CountTitle), _sav.Blocks.CountTitle);
+        LoadValues(nameof(_sav.Blocks.WorkSpawn), _sav.Blocks.WorkSpawn);
+        LoadFlags(nameof(_sav.Blocks.FieldItems), _sav.Blocks.FieldItems);
 
         if (Tabs.Count > 0)
             SelectedTab = Tabs[0];
@@ -143,8 +145,7 @@ public partial class FlagWork9aViewModel : SaveEditorViewModelBase
     [RelayCommand]
     private void Save()
     {
-        // Write model values back to the underlying storage objects.
-        // Storage objects write directly to SAV memory, so no clone/CopyChangesFrom is needed.
+        // Write model values back to the cloned storage objects.
         foreach (var tab in Tabs)
         {
             if (tab.IsFlag)
@@ -164,6 +165,7 @@ public partial class FlagWork9aViewModel : SaveEditorViewModelBase
             }
         }
 
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 

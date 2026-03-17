@@ -231,7 +231,7 @@ public partial class SAVEditorViewModel : ObservableObject
             SavTools.Add(tool);
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenToolAsync(SAVToolDescriptor? tool)
     {
         if (tool is null || _sav is null)

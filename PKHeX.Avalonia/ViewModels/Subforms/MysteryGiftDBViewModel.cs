@@ -16,7 +16,7 @@ namespace PKHeX.Avalonia.ViewModels.Subforms;
 /// ViewModel for the Mystery Gift Database browser subform.
 /// Loads all event mystery gifts and displays them in a searchable grid.
 /// </summary>
-public partial class MysteryGiftDBViewModel : SaveEditorViewModelBase
+public partial class MysteryGiftDBViewModel : SaveEditorViewModelBase, IDisposable
 {
     private List<MysteryGift> _rawDb = [];
     private List<MysteryGift> _results = [];
@@ -256,5 +256,10 @@ public partial class MysteryGiftDBViewModel : SaveEditorViewModelBase
         _cts.Cancel();
         _cts.Dispose();
         _cts = new CancellationTokenSource();
+    }
+
+    public void Dispose()
+    {
+        _cts?.Dispose();
     }
 }

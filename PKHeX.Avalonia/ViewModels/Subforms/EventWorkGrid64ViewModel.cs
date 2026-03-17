@@ -70,6 +70,7 @@ public partial class EventWork64TabModel : ObservableObject
 /// </summary>
 public partial class EventWorkGrid64ViewModel : SaveEditorViewModelBase
 {
+    private readonly SAV9ZA _origin;
     private readonly SAV9ZA _sav;
     private readonly Dictionary<ulong, string> _lookup = new() { { FnvHash.HashEmpty, "" } };
     private readonly Dictionary<string, ulong> _reverse;
@@ -83,7 +84,8 @@ public partial class EventWorkGrid64ViewModel : SaveEditorViewModelBase
 
     public EventWorkGrid64ViewModel(SAV9ZA sav) : base(sav)
     {
-        _sav = sav;
+        _origin = sav;
+        _sav = (SAV9ZA)sav.Clone();
 
         var path = Path.Combine(AppContext.BaseDirectory, $"{sav.GetType().Name}_flagwork.txt");
         if (File.Exists(path))
@@ -93,15 +95,15 @@ public partial class EventWorkGrid64ViewModel : SaveEditorViewModelBase
         foreach (var kv in _lookup)
             _reverse[kv.Value] = kv.Key;
 
-        AddFlagTab(nameof(sav.Blocks.Flags), sav.Blocks.Flags);
-        AddFlagTab(nameof(sav.Blocks.Event), sav.Blocks.Event);
-        AddValueTab(nameof(sav.Blocks.Work), sav.Blocks.Work);
-        AddValueTab(nameof(sav.Blocks.Quest), sav.Blocks.Quest);
-        AddValueTab(nameof(sav.Blocks.WorkMable), sav.Blocks.WorkMable);
-        AddValueTab(nameof(sav.Blocks.CountMable), sav.Blocks.CountMable);
-        AddValueTab(nameof(sav.Blocks.CountTitle), sav.Blocks.CountTitle);
-        AddValueTab(nameof(sav.Blocks.WorkSpawn), sav.Blocks.WorkSpawn);
-        AddFlagTab(nameof(sav.Blocks.FieldItems), sav.Blocks.FieldItems);
+        AddFlagTab(nameof(_sav.Blocks.Flags), _sav.Blocks.Flags);
+        AddFlagTab(nameof(_sav.Blocks.Event), _sav.Blocks.Event);
+        AddValueTab(nameof(_sav.Blocks.Work), _sav.Blocks.Work);
+        AddValueTab(nameof(_sav.Blocks.Quest), _sav.Blocks.Quest);
+        AddValueTab(nameof(_sav.Blocks.WorkMable), _sav.Blocks.WorkMable);
+        AddValueTab(nameof(_sav.Blocks.CountMable), _sav.Blocks.CountMable);
+        AddValueTab(nameof(_sav.Blocks.CountTitle), _sav.Blocks.CountTitle);
+        AddValueTab(nameof(_sav.Blocks.WorkSpawn), _sav.Blocks.WorkSpawn);
+        AddFlagTab(nameof(_sav.Blocks.FieldItems), _sav.Blocks.FieldItems);
 
         if (Tabs.Count > 0)
             SelectedTab = Tabs[0];
@@ -196,6 +198,7 @@ public partial class EventWorkGrid64ViewModel : SaveEditorViewModelBase
                 values.Compress();
             }
         }
+        _origin.CopyChangesFrom(_sav);
         Modified = true;
     }
 }

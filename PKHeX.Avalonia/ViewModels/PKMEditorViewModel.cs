@@ -2144,7 +2144,7 @@ public partial class PKMEditorViewModel : ObservableObject
 
     // --- Move Shop / Tech Record editor commands ---
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenMoveShop()
     {
         if (Entity is not IMoveShop8Mastery master || Entity is not IMoveShop8 shop) return;
@@ -2160,7 +2160,7 @@ public partial class PKMEditorViewModel : ObservableObject
         catch (Exception ex) { LegalityReport = $"Move Shop error: {ex.Message}"; }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenTechRecords()
     {
         if (Entity is not ITechRecord tr) return;
@@ -2176,7 +2176,7 @@ public partial class PKMEditorViewModel : ObservableObject
         catch (Exception ex) { LegalityReport = $"Tech Record error: {ex.Message}"; }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenPlusRecord()
     {
         if (Entity is not IPlusRecord plus) return;
@@ -2193,7 +2193,7 @@ public partial class PKMEditorViewModel : ObservableObject
         catch (Exception ex) { LegalityReport = $"Plus Record error: {ex.Message}"; }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenMedals()
     {
         if (Entity is not ISuperTrainRegimen st) return;
@@ -2211,7 +2211,7 @@ public partial class PKMEditorViewModel : ObservableObject
 
     // --- Ribbons / Memories commands ---
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenRibbons()
     {
         if (Entity is null) return;
@@ -2227,7 +2227,7 @@ public partial class PKMEditorViewModel : ObservableObject
         catch (Exception ex) { LegalityReport = $"Ribbon editor error: {ex.Message}"; }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task OpenMemories()
     {
         if (Entity is null) return;
@@ -2316,7 +2316,7 @@ public partial class PKMEditorViewModel : ObservableObject
 
     // --- Full legality report (verbose, copies to clipboard) ---
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task ShowFullLegalityReport()
     {
         if (Entity is null) return;
@@ -2723,7 +2723,7 @@ public partial class PKMEditorViewModel : ObservableObject
         LegalityReport = report;
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task ExportShowdown()
     {
         if (Entity is null) return;

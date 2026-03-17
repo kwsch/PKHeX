@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Controls;
 
 namespace PKHeX.Avalonia.Views;
@@ -19,5 +20,11 @@ public class SubformWindow : Window
     {
         Modified = save;
         Close();
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+        (DataContext as IDisposable)?.Dispose();
     }
 }
