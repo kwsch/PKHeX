@@ -389,6 +389,54 @@ public partial class MainWindowViewModel : ObservableObject
         try
         {
             var data = await File.ReadAllBytesAsync(path);
+
+            // Check for GameCube Memory Card (multi-slot save: Colosseum, XD, RSBox).
+            // SaveUtil.GetSaveFile does not handle these — they require explicit slot selection.
+            if (SAV3GCMemoryCard.IsMemoryCardSize(data))
+            {
+                var memCard = new SAV3GCMemoryCard(data);
+                var state = memCard.GetMemoryCardState();
+                switch (state)
+                {
+                    case MemoryCardSaveStatus.NoPkmSaveGame:
+                        await _dialogService.ShowAlertAsync("GameCube Memory Card", "No Pokemon save game found on this memory card.");
+                        return;
+                    case MemoryCardSaveStatus.DuplicateCOLO:
+                    case MemoryCardSaveStatus.DuplicateXD:
+                    case MemoryCardSaveStatus.DuplicateRSBOX:
+                        await _dialogService.ShowAlertAsync("GameCube Memory Card", "Duplicate save game detected on memory card. Cannot load.");
+                        return;
+                    case MemoryCardSaveStatus.MultipleSaveGame:
+                    {
+                        // Ask the user which game to load
+                        string[] gameNames = ["Colosseum", "XD: Gale of Darkness", "Pokemon Box RS"];
+                        var idx = await _dialogService.ShowSelectionAsync(
+                            "Multiple Save Games",
+                            "This memory card contains multiple save games. Select one to load:",
+                            gameNames);
+                        if (idx < 0) return; // cancelled
+                        var gameType = idx switch { 0 => SaveFileType.Colosseum, 1 => SaveFileType.XD, _ => SaveFileType.RSBox };
+                        memCard.SelectSaveGame(gameType);
+                        break;
+                    }
+                    case MemoryCardSaveStatus.SaveGameCOLO: memCard.SelectSaveGame(SaveFileType.Colosseum); break;
+                    case MemoryCardSaveStatus.SaveGameXD:   memCard.SelectSaveGame(SaveFileType.XD); break;
+                    case MemoryCardSaveStatus.SaveGameRSBOX: memCard.SelectSaveGame(SaveFileType.RSBox); break;
+                    default:
+                        await _dialogService.ShowAlertAsync("GameCube Memory Card", $"Unrecognized memory card state: {state}.");
+                        return;
+                }
+
+                if (!SaveUtil.TryGetSaveFile(memCard, out var gcSav))
+                {
+                    await _dialogService.ShowAlertAsync("GameCube Memory Card", "Failed to read save data from memory card.");
+                    return;
+                }
+                gcSav.Metadata.SetExtraInfo(path);
+                LoadSaveFile(gcSav, path);
+                return;
+            }
+
             var sav = SaveUtil.GetSaveFile(data);
             if (sav is not null)
             {
@@ -1000,24 +1048,49 @@ public partial class MainWindowViewModel : ObservableObject
 
         var coreVersion = typeof(PKM).Assembly.GetName().Version?.ToString() ?? "unknown";
 
+        var shortcutLines = new[]
+        {
+            "Ctrl+O       Open save file",
+            "Ctrl+S       Save file",
+            "Ctrl+Z       Undo last slot change",
+            "Ctrl+Y       Redo last slot change",
+            "Ctrl+D       Open PKM database",
+            "Ctrl+E       Open batch editor",
+            "Ctrl+R       Open report grid",
+            "Ctrl+B       Open box viewer",
+            "Delete       Delete selected slot",
+            "Ctrl+C       Copy PKM (drag source)",
+            "Ctrl+V       Paste PKM (drag target)",
+        };
+
+        var shortcutsPanel = new StackPanel { Spacing = 2 };
+        foreach (var line in shortcutLines)
+            shortcutsPanel.Children.Add(new TextBlock { Text = line, FontSize = 10, FontFamily = new global::Avalonia.Media.FontFamily("Consolas,monospace") });
+
         var dialog = new Window
         {
             Title = "About PKHeX",
-            Width = 320,
-            Height = 220,
+            Width = 380,
+            Height = 420,
             CanResize = false,
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            Content = new StackPanel
+            Content = new global::Avalonia.Controls.ScrollViewer
             {
-                Margin = new Thickness(24),
-                Spacing = 8,
-                Children =
+                Content = new StackPanel
                 {
-                    new TextBlock { Text = "PKHeX", FontSize = 22, FontWeight = global::Avalonia.Media.FontWeight.Bold },
-                    new TextBlock { Text = "Pokemon Save Editor", FontSize = 14 },
-                    new TextBlock { Text = "Cross-Platform Avalonia Port", FontSize = 12, Opacity = 0.7 },
-                    new TextBlock { Text = $"Core Version: {coreVersion}", FontSize = 11 },
-                    new TextBlock { Text = "https://github.com/kwsch/PKHeX", FontSize = 11, Opacity = 0.6 },
+                    Margin = new Thickness(24),
+                    Spacing = 8,
+                    Children =
+                    {
+                        new TextBlock { Text = "PKHeX", FontSize = 22, FontWeight = global::Avalonia.Media.FontWeight.Bold },
+                        new TextBlock { Text = "Pokemon Save Editor", FontSize = 14 },
+                        new TextBlock { Text = "Cross-Platform Avalonia Port", FontSize = 12, Opacity = 0.7 },
+                        new TextBlock { Text = $"Core Version: {coreVersion}", FontSize = 11 },
+                        new TextBlock { Text = "https://github.com/kwsch/PKHeX", FontSize = 11, Opacity = 0.6 },
+                        new Border { Height = 1, Background = global::Avalonia.Media.Brushes.Gray, Margin = new Thickness(0, 4) },
+                        new TextBlock { Text = "Keyboard Shortcuts", FontSize = 12, FontWeight = global::Avalonia.Media.FontWeight.SemiBold },
+                        shortcutsPanel,
+                    }
                 }
             }
         };

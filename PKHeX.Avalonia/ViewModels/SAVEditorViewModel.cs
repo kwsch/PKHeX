@@ -998,6 +998,42 @@ public partial class SAVEditorViewModel : ObservableObject
         catch (Exception ex) { SetStatusMessage?.Invoke($"Delete untrained error: {ex.Message}"); }
     }
 
+    [RelayCommand]
+    private void CloneFillBox()
+    {
+        if (_sav is null) return;
+        try
+        {
+            // Find first non-empty slot
+            PKM? template = null;
+            int slotCount = Math.Min(30, _sav.BoxSlotCount);
+            for (int i = 0; i < slotCount; i++)
+            {
+                var pk = _sav.GetBoxSlotAtIndex(CurrentBox, i);
+                if (pk is not null && pk.Species != 0) { template = pk; break; }
+            }
+            if (template is null) return;
+
+            var entries = SnapshotBox(CurrentBox);
+            if (entries.Count > 0) PushUndo(entries.ToArray());
+
+            int count = 0;
+            for (int i = 0; i < slotCount; i++)
+            {
+                var pk = _sav.GetBoxSlotAtIndex(CurrentBox, i);
+                if (pk is null || pk.Species == 0)
+                {
+                    _sav.SetBoxSlotAtIndex(template.Clone(), CurrentBox, i);
+                    count++;
+                }
+            }
+            RefreshBox();
+            OnModified?.Invoke();
+            SetStatusMessage?.Invoke($"Cloned to {count} empty slot(s).");
+        }
+        catch (Exception ex) { SetStatusMessage?.Invoke($"Clone fill error: {ex.Message}"); }
+    }
+
     #endregion
 
     [RelayCommand]

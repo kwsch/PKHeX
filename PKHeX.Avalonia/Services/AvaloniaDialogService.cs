@@ -228,4 +228,51 @@ public sealed class AvaloniaDialogService : IDialogService
         await dialog.ShowDialog(mainWindow);
         return result;
     }
+
+    public async Task<int> ShowSelectionAsync(string title, string message, IReadOnlyList<string> choices)
+    {
+        var mainWindow = GetMainWindow();
+        if (mainWindow is null)
+            return -1;
+
+        int selectedIndex = -1;
+        var buttonPanel = new StackPanel
+        {
+            Orientation = global::Avalonia.Layout.Orientation.Vertical,
+            Spacing = 6,
+        };
+
+        var dialog = new Window
+        {
+            Title = title,
+            Width = 340,
+            Height = 80 + choices.Count * 38,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            Content = new StackPanel
+            {
+                Margin = new global::Avalonia.Thickness(20),
+                Spacing = 10,
+                Children =
+                {
+                    new TextBlock { Text = message, TextWrapping = global::Avalonia.Media.TextWrapping.Wrap },
+                    buttonPanel,
+                },
+            },
+        };
+
+        for (int i = 0; i < choices.Count; i++)
+        {
+            var idx = i;
+            var btn = new Button
+            {
+                Content = choices[i],
+                HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Stretch,
+            };
+            btn.Click += (_, _) => { selectedIndex = idx; dialog.Close(); };
+            buttonPanel.Children.Add(btn);
+        }
+
+        await dialog.ShowDialog(mainWindow);
+        return selectedIndex;
+    }
 }

@@ -18,4 +18,9 @@ public interface IDialogService
     Task ShowErrorAsync(string title, string message);
     Task<bool> ShowConfirmAsync(string title, string message);
     Task<string?> ShowPromptAsync(string title, string message, string defaultValue = "");
+
+    /// <summary>
+    /// Shows a dialog with a list of choices and returns the selected index, or -1 if cancelled.
+    /// </summary>
+    Task<int> ShowSelectionAsync(string title, string message, IReadOnlyList<string> choices);
 }
