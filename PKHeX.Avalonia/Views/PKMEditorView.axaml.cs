@@ -43,32 +43,39 @@ public partial class PKMEditorView : UserControl
 
     private async void OnEditorDrop(object? sender, DragEventArgs e)
     {
-        if (!e.Data.Contains(DataFormats.Files))
-            return;
-
-        var files = e.Data.GetFiles();
-        if (files is null)
-            return;
-
-        foreach (var file in files)
+        try
         {
-            var path = file.Path.LocalPath;
-            if (!File.Exists(path))
-                continue;
+            if (!e.Data.Contains(DataFormats.Files))
+                return;
 
-            var data = await File.ReadAllBytesAsync(path);
-            var pk = EntityFormat.GetFromBytes(data);
-            if (pk is null)
-                continue;
+            var files = e.Data.GetFiles();
+            if (files is null)
+                return;
 
-            if (DataContext is PKMEditorViewModel vm)
+            foreach (var file in files)
             {
-                vm.PopulateFields(pk);
-                break;
-            }
-        }
+                var path = file.Path.LocalPath;
+                if (!File.Exists(path))
+                    continue;
 
-        e.Handled = true;
+                var data = await File.ReadAllBytesAsync(path);
+                var pk = EntityFormat.GetFromBytes(data);
+                if (pk is null)
+                    continue;
+
+                if (DataContext is PKMEditorViewModel vm)
+                {
+                    vm.PopulateFields(pk);
+                    break;
+                }
+            }
+
+            e.Handled = true;
+        }
+        catch
+        {
+            // Drop operation failed silently
+        }
     }
 
     private void OnPointerWheelChanged(object? sender, PointerWheelEventArgs e)
@@ -92,28 +99,35 @@ public partial class PKMEditorView : UserControl
 
     private async void OnSpritePointerMoved(object? sender, PointerEventArgs e)
     {
-        if (!_spritePressed)
-            return;
+        try
+        {
+            if (!_spritePressed)
+                return;
 
-        var pos = e.GetPosition(this);
-        if (Math.Abs(pos.X - _spritePressPos.X) < 5 && Math.Abs(pos.Y - _spritePressPos.Y) < 5)
-            return;
+            var pos = e.GetPosition(this);
+            if (Math.Abs(pos.X - _spritePressPos.X) < 5 && Math.Abs(pos.Y - _spritePressPos.Y) < 5)
+                return;
 
-        _spritePressed = false;
+            _spritePressed = false;
 
-        if (DataContext is not PKMEditorViewModel vm || vm.Entity is null)
-            return;
+            if (DataContext is not PKMEditorViewModel vm || vm.Entity is null)
+                return;
 
-        vm.PreparePKM();
+            vm.PreparePKM();
 
-        var data = vm.Entity.DecryptedBoxData;
-        var ext = vm.Entity.Extension;
-        var tempPath = Path.Combine(Path.GetTempPath(), $"pkhex_export.{ext}");
-        await File.WriteAllBytesAsync(tempPath, data);
+            var data = vm.Entity.DecryptedBoxData;
+            var ext = vm.Entity.Extension;
+            var tempPath = Path.Combine(Path.GetTempPath(), $"pkhex_export.{ext}");
+            await File.WriteAllBytesAsync(tempPath, data);
 
-        var dataObject = new DataObject();
-        dataObject.Set(DataFormats.Files, new[] { tempPath });
-        await DragDrop.DoDragDrop(e, dataObject, DragDropEffects.Copy);
+            var dataObject = new DataObject();
+            dataObject.Set(DataFormats.Files, new[] { tempPath });
+            await DragDrop.DoDragDrop(e, dataObject, DragDropEffects.Copy);
+        }
+        catch
+        {
+            // Drag operation failed silently
+        }
     }
 
     private void OnSpritePointerReleased(object? sender, PointerReleasedEventArgs e)

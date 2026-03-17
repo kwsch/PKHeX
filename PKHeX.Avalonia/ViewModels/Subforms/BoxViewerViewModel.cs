@@ -77,6 +77,14 @@ public partial class BoxViewerViewModel : ObservableObject
                 BoxSlots[i].IsEmpty = false;
             }
         }
+
+        // Clear any remaining slots beyond the save's box slot count
+        for (int i = slotCount; i < BoxSlots.Count; i++)
+        {
+            BoxSlots[i].Entity = null;
+            BoxSlots[i].SetImage(SpriteUtil.Spriter.None);
+            BoxSlots[i].IsEmpty = true;
+        }
     }
 
     [RelayCommand]

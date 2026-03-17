@@ -35,9 +35,9 @@ public partial class App : Application
                 DataContext = mainViewModel,
             };
 
-            desktop.ShutdownRequested += async (_, _) =>
+            desktop.ShutdownRequested += (_, _) =>
             {
-                await PKHeXSettings.SaveSettings(GetConfigPath(), Settings);
+                PKHeXSettings.SaveSettings(GetConfigPath(), Settings).GetAwaiter().GetResult();
             };
         }
 
@@ -49,6 +49,7 @@ public partial class App : Application
         var configPath = GetConfigPath();
         Settings = PKHeXSettings.GetSettings(configPath);
         StartupUtil.ReloadSettings(Settings);
+        Settings.LocalResources.SetLocalPath(WorkingDirectory);
         SpriteBuilder.LoadSettings(Settings.Sprite);
 
         var language = Settings.Startup.Language;

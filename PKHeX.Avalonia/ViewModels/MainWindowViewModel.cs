@@ -376,12 +376,14 @@ public partial class MainWindowViewModel : ObservableObject
     {
         SaveFile = sav;
         HasSaveFile = true;
-        HasUnsavedChanges = true;
+        HasUnsavedChanges = false;
         _loadedFilePath = path;
 
         SpriteUtil.Initialize(sav);
         SavEditor?.LoadSaveFile(sav);
         PkmEditor?.Initialize(sav);
+
+        App.Settings.Startup.LoadSaveFile(path);
 
         Title = $"PKHeX - {sav.GetType().Name} ({Path.GetFileName(path)})";
         StatusMessage = $"Loaded {sav.GetType().Name} - {Path.GetFileName(path)}";
@@ -802,10 +804,17 @@ public partial class MainWindowViewModel : ObservableObject
             var clipboard = GetClipboard();
             if (clipboard is not null)
             {
-                try { await clipboard.SetTextAsync(text); }
-                catch { /* clipboard unavailable */ }
+                try
+                {
+                    await clipboard.SetTextAsync(text);
+                    StatusMessage = "Party exported to clipboard.";
+                }
+                catch { StatusMessage = "Clipboard unavailable."; }
             }
-            StatusMessage = "Party exported to clipboard.";
+            else
+            {
+                StatusMessage = "Clipboard unavailable.";
+            }
         }
         catch (Exception ex)
         {
@@ -832,10 +841,17 @@ public partial class MainWindowViewModel : ObservableObject
             var clipboard = GetClipboard();
             if (clipboard is not null)
             {
-                try { await clipboard.SetTextAsync(text); }
-                catch { /* clipboard unavailable */ }
+                try
+                {
+                    await clipboard.SetTextAsync(text);
+                    StatusMessage = $"Box {SavEditor.CurrentBox + 1} exported to clipboard.";
+                }
+                catch { StatusMessage = "Clipboard unavailable."; }
             }
-            StatusMessage = $"Box {SavEditor.CurrentBox + 1} exported to clipboard.";
+            else
+            {
+                StatusMessage = "Clipboard unavailable.";
+            }
         }
         catch (Exception ex)
         {
