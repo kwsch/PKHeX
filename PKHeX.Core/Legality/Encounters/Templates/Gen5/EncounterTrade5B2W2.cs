@@ -155,7 +155,7 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IEnc
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && Gender != pk.Gender)
             return false;
-        if (Nature != Nature.Random && pk.Nature != Nature)
+        if (Nature.IsFixed && pk.Nature != Nature)
             return false;
         return true;
     }

@@ -55,7 +55,7 @@ public static class NatureUtil
         /// Checks if the provided <see cref="value"/> is a valid stored <see cref="Nature"/> value.
         /// </summary>
         /// <returns>True if value is an actual nature.</returns>
-        public bool IsFixed() => value < Nature.Random;
+        public bool IsFixed => value != Nature.Random;
 
         /// <summary>
         /// Checks if the provided <see cref="value"/> is a possible mint nature.
@@ -63,12 +63,12 @@ public static class NatureUtil
         /// <remarks>
         /// The only valid mint natures are those which have a stat amp applied, or neutral nature being Serious.
         /// </remarks>
-        public bool IsMint() => (value.IsFixed() && (byte)value % 6 != 0) || value == Nature.Serious;
+        public bool IsMint => (value.IsFixed && (byte)value % 6 != 0) || value == Nature.Serious;
 
         /// <summary>
         /// Checks if the provided <see cref="value"/> is a neutral nature which has no stat amps applied.
         /// </summary>
-        public bool IsNeutral() => value.IsFixed() && (byte)value % 6 == 0;
+        public bool IsNeutral => value.IsFixed && (byte)value % 6 == 0;
 
         /// <summary>
         /// Converts the provided <see cref="value"/> to a neutral nature.

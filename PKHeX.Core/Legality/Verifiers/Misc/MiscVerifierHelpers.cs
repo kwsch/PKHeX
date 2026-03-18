@@ -17,7 +17,7 @@ internal static class MiscVerifierHelpers
             return;
 
         // Must be a valid mint nature.
-        if (!statNature.IsMint())
+        if (!statNature.IsMint)
             data.AddLine(Get(Invalid, Misc, StatNatureInvalid));
     }
 

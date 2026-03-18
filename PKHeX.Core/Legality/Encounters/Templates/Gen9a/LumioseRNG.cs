@@ -104,7 +104,7 @@ public static class LumioseRNG
             return false;
         pk.Gender = gender;
 
-        var nature = enc.Nature != Nature.Random ? enc.Nature
+        var nature = enc.Nature.IsFixed ? enc.Nature
             : (Nature)rand.NextInt(25);
 
         // Compromise on Nature -- some are fixed, some are random. If the request wants a specific nature, just mint it.
@@ -264,7 +264,7 @@ public static class LumioseRNG
         if (pk.Gender != gender)
             return false;
 
-        var nature = enc.Nature != Nature.Random ? enc.Nature
+        var nature = enc.Nature.IsFixed ? enc.Nature
             : (Nature)rand.NextInt(25);
         if (pk.Nature != nature)
             return false;

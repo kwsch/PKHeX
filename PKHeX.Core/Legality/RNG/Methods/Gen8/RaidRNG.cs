@@ -114,7 +114,7 @@ public static class RaidRNG
                 break;
         }
 
-        var nature = param.Nature != Nature.Random ? param.Nature
+        var nature = param.Nature.IsFixed ? param.Nature
             : param.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rng, pk.Form)
                 : (Nature)rng.NextInt(25);
@@ -236,7 +236,7 @@ public static class RaidRNG
             return false;
         pk.Gender = gender;
 
-        var nature = param.Nature != Nature.Random ? param.Nature
+        var nature = param.Nature.IsFixed ? param.Nature
             : param.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rng, pk.Form)
                 : (Nature)rng.NextInt(25);

@@ -153,7 +153,7 @@ public sealed record EncounterStatic6(GameVersion Version)
             return false;
         if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
             return false;
-        if (Nature != Nature.Random && pk.Nature != Nature)
+        if (Nature.IsFixed && pk.Nature != Nature)
             return false;
         if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;

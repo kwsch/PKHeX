@@ -168,7 +168,7 @@ public sealed class SearchSettings
             return false;
         if (Ability > -1 && pk.Ability != Ability)
             return false;
-        if (Nature.IsFixed() && pk.StatNature != Nature)
+        if (Nature.IsFixed && pk.StatNature != Nature)
             return false;
         if (Item > -1 && pk.HeldItem != Item)
             return false;

@@ -122,8 +122,6 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         }
 
         FinishCorrelation(pk, seed);
-        if (criteria.IsSpecifiedNature() && criteria.Nature != pk.Nature && criteria.Nature.IsMint())
-            pk.StatNature = criteria.Nature;
     }
 
     protected GenerateParam8 GetParam() => GetParam(Info);

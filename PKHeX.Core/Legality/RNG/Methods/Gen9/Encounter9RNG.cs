@@ -121,7 +121,7 @@ public static class Encounter9RNG
             return false;
         pk.Gender = gender;
 
-        var nature = enc.Nature != Nature.Random ? enc.Nature : enc.Species == (int)Species.Toxtricity
+        var nature = enc.Nature.IsFixed ? enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
                 : (Nature)rand.NextInt(25);
 
@@ -205,7 +205,7 @@ public static class Encounter9RNG
         if (pk.Gender != gender)
             return false;
 
-        var nature = enc.Nature != Nature.Random ? enc.Nature : enc.Species == (int)Species.Toxtricity
+        var nature = enc.Nature.IsFixed ? enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
                 : (Nature)rand.NextInt(25);
         if (pk.Nature != nature)

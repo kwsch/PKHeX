@@ -78,8 +78,6 @@ public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
         }
 
         FinishCorrelation(pk, seed);
-        if (criteria.IsSpecifiedNature() && criteria.Nature != pk.Nature && criteria.Nature.IsMint())
-            pk.StatNature = criteria.Nature;
         if (criteria.Shiny.IsShiny())
             pk.PID = ShinyUtil.GetShinyPID(pk.TID16, pk.SID16, pk.PID, ShinyXor);
     }

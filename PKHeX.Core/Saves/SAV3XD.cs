@@ -7,9 +7,18 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 <see cref="SaveFile"/> object for Pokémon XD saves.
 /// </summary>
-public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStorage, IDaycareExperience, IGCRegion
+public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStorage, IDaycareExperience, IGCRegion, ISaveFileRevision
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) {PlayTimeString}";
+    public int SaveRevision => 0;
+    public string SaveRevisionString => OriginalRegion switch
+    {
+        GCRegion.NTSC_J => "-J",
+        GCRegion.NTSC_U => "-U",
+        GCRegion.PAL => "-PAL",
+        _ => "-?",
+    };
+
     public override string Extension => this.GCExtension();
     public SAV3GCMemoryCard? MemoryCard { get; init; }
 

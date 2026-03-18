@@ -122,7 +122,10 @@ public sealed class MiscVerifierG3 : Verifier
         var trash = pk.OriginalTrainerTrash;
         // OT name from save file is copied byte-for-byte. All 8 bytes are initialized to FF on new game.
         if (!TrashByteRules3.IsTerminatedFFZero(trash, 7))
-            data.AddLine(GetInvalid(Trainer, TrashBytesMissingTerminatorFinal));
+        {
+            if (!TrashByteRules3.IsTrashPatternDefaultTrainer(trash, pk.Version, (LanguageID)pk.Language))
+                data.AddLine(GetInvalid(Trainer, TrashBytesMissingTerminatorFinal));
+        }
         // Nickname can be all FF's (nicknamed) or whatever random garbage is in the buffer before filling. Unsure if we can reliably check this, but it should be "dirty" usually.
         // If it is clean, flag as fishy.
         FlagIsNicknameClean(data, pk);
@@ -214,4 +217,61 @@ public static class TrashByteRules3
         }
         return !data[first..].ContainsAnyExcept<byte>(0);
     }
+
+    // TRASH BYTES: New Game Default OTs
+    // Default OT names in International (not JPN) Gen3 mainline games memcpy 7 chars and FF from the "default OT name" table, regardless of strlen.
+    // Copied strings therefore contain trash from the next string entry that is encoded into the rom's string table.
+    // Below is a list of possible (version, language, trash) default OTs, as initialized by the game. An `*` is used to denote the terminator.
+
+    /// <summary>
+    /// Checks if the specified trash byte pattern matches a default trainer name pattern for the given game <see cref="version"/> and <see cref="language"/>.
+    /// </summary>
+    /// <remarks>Default trainer names in certain Generation 3 Pokémon games may include trailing bytes ("trash") due to how names are stored in the game's ROM.
+    /// This method checks if the provided pattern matches any of these known default patterns for the specified version and language.
+    /// </remarks>
+    public static bool IsTrashPatternDefaultTrainer(ReadOnlySpan<byte> trash, GameVersion version, LanguageID language) => version switch
+    {
+        GameVersion.R or GameVersion.S => IsTrashPatternDefaultTrainerRS(trash, language),
+        GameVersion.E => IsTrashPatternDefaultTrainerE(trash, language),
+        GameVersion.FR => IsTrashPatternDefaultTrainerFR(trash, language),
+        GameVersion.LG => IsTrashPatternDefaultTrainerLG(trash, language),
+        _ => false,
+    };
+
+    /// <inheritdoc cref="IsTrashPatternDefaultTrainer"/>
+    /// <remarks>Default OT names present in <see cref="GameVersion.R"/> and <see cref="GameVersion.S"/> based on the language of the game.</remarks>
+    public static bool IsTrashPatternDefaultTrainerRS(ReadOnlySpan<byte> trash, LanguageID language) => language switch
+    {
+        // TODO
+        LanguageID.English => trash switch
+        {
+            [0xCD, 0xBB, 0xCC, 0xBB, 0xFF, 0xCE, 0xDC] => true, // SARA*Th
+            _ => false,
+        },
+        _ => false,
+    };
+
+    /// <inheritdoc cref="IsTrashPatternDefaultTrainer"/>
+    /// <remarks>Default OT names present in <see cref="GameVersion.E"/> based on the language of the game.</remarks>
+    public static bool IsTrashPatternDefaultTrainerE(ReadOnlySpan<byte> trash, LanguageID language) => language switch
+    {
+        // TODO
+        _ => false,
+    };
+
+    /// <inheritdoc cref="IsTrashPatternDefaultTrainer"/>
+    /// <remarks>Default OT names present in <see cref="GameVersion.FR"/> based on the language of the game.</remarks>
+    public static bool IsTrashPatternDefaultTrainerFR(ReadOnlySpan<byte> trash, LanguageID language) => language switch
+    {
+        // TODO
+        _ => false,
+    };
+
+    /// <inheritdoc cref="IsTrashPatternDefaultTrainer"/>
+    /// <remarks>Default OT names present in <see cref="GameVersion.LG"/> based on the language of the game.</remarks>
+    public static bool IsTrashPatternDefaultTrainerLG(ReadOnlySpan<byte> trash, LanguageID language) => language switch
+    {
+        // TODO
+        _ => false,
+    };
 }

@@ -24,7 +24,7 @@ public sealed class PIDVerifier : Verifier
 
         if (pk.PID == 0)
             data.AddLine(Get(Severity.Fishy, PIDZero));
-        if (!pk.Nature.IsFixed()) // out of range
+        if (!pk.Nature.IsFixed) // out of range
             data.AddLine(GetInvalid(PIDNatureMismatch));
         if (data.Info.EncounterMatch is IEncounterEgg egg)
             VerifyEggPID(data, pk, egg);

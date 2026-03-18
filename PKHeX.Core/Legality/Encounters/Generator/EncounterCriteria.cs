@@ -112,7 +112,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// Determines whether a specific Nature is specified in the criteria or if complex nature mutations are allowed.
     /// </summary>
     /// <returns>><see langword="true"/> if a Nature is specified or complex nature mutations are allowed; otherwise, <see langword="false"/>.</returns>
-    public bool IsSpecifiedNature() => Nature != Nature.Random || Mutations.IsComplexNature();
+    public bool IsSpecifiedNature() => Nature.IsFixed || Mutations.IsComplexNature();
 
     /// <summary>
     /// Determines whether a level range is specified in the criteria.
@@ -191,7 +191,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     public bool IsSatisfiedNature(Nature nature)
     {
         if (Mutations.HasFlag(AllowOnlyNeutralNature))
-            return nature.IsNeutral();
+            return nature.IsNeutral;
         if (Nature == Nature.Random)
             return true;
         return nature == Nature || Mutations.HasFlag(CanMintNature);
@@ -300,7 +300,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// </summary>
     public Nature GetNature()
     {
-        if (Nature != Nature.Random)
+        if (Nature.IsFixed)
             return Nature;
         var result = (Nature)Util.Rand.Next(25);
         if (Mutations.HasFlag(AllowOnlyNeutralNature))

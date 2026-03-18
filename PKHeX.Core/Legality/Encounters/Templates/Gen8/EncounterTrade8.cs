@@ -209,7 +209,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncount
     {
         if (!Shiny.IsValid(pk))
             return false;
-        if (Nature != Nature.Random && pk.Nature != Nature)
+        if (Nature.IsFixed && pk.Nature != Nature)
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;

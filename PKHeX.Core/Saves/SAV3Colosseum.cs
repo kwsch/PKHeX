@@ -6,13 +6,21 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 <see cref="SaveFile"/> object for Pokémon Colosseum saves.
 /// </summary>
-public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStorage, IDaycareExperience, IGCRegion
+public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStorage, IDaycareExperience, IGCRegion, ISaveFileRevision
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public override string Extension => this.GCExtension();
     public override PersonalTable3 Personal => PersonalTable.RS;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_RS;
     public SAV3GCMemoryCard? MemoryCard { get; init; }
+    public int SaveRevision => 0;
+    public string SaveRevisionString => OriginalRegion switch
+    {
+        GCRegion.NTSC_J => "-J",
+        GCRegion.NTSC_U => "-U",
+        GCRegion.PAL => "-PAL",
+        _ => "-?",
+    };
 
     private readonly Memory<byte> Container;
     protected override Span<byte> BoxBuffer => Data;
