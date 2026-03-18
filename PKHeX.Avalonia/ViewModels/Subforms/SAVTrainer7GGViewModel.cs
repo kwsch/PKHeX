@@ -47,7 +47,7 @@ public partial class SAVTrainer7GGViewModel : SaveEditorViewModelBase
     private void LoadData()
     {
         OtName = _sav.OT;
-        RivalName = _sav.Blocks.Misc.Rival;
+        RivalName = _sav.Blocks.Misc.RivalName;
         Gender = _sav.Gender;
         Money = _sav.Blocks.Misc.Money.ToString();
         Language = _sav.Language;
@@ -85,7 +85,7 @@ public partial class SAVTrainer7GGViewModel : SaveEditorViewModelBase
         _sav.Money = uint.TryParse(Money, out var m) ? m : 0u;
         _sav.Language = Language;
         _sav.OT = OtName;
-        _sav.Blocks.Misc.Rival = RivalName;
+        _sav.Blocks.Misc.RivalName = RivalName;
 
         _sav.PlayedHours = (ushort)Math.Clamp(PlayedHours, 0, ushort.MaxValue);
         _sav.PlayedMinutes = (ushort)Math.Clamp(PlayedMinutes, 0, 59);

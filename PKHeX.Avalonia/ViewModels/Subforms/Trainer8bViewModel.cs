@@ -48,7 +48,7 @@ public partial class Trainer8bViewModel : SaveEditorViewModelBase
         GameIndex = Math.Clamp((byte)_sav.Version - (byte)GameVersion.BD, 0, 1);
         Gender = _sav.Gender;
         OtName = _sav.OT;
-        Rival = _sav.Rival;
+        Rival = _sav.RivalName;
         Money = _sav.Money.ToString();
         Bp = (int)_sav.BattleTower.BP;
 
@@ -75,7 +75,7 @@ public partial class Trainer8bViewModel : SaveEditorViewModelBase
         _sav.Version = (GameVersion)(GameIndex + (int)GameVersion.BD);
         _sav.Gender = (byte)Gender;
         _sav.OT = OtName;
-        _sav.Rival = Rival;
+        _sav.RivalName = Rival;
         _sav.Money = uint.TryParse(Money, out var money) ? (uint)Math.Min(money, (uint)_sav.MaxMoney) : 0u;
         _sav.BattleTower.BP = (uint)Math.Max(0, Bp);
 
