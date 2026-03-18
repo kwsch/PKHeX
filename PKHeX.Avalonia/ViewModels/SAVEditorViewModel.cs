@@ -164,6 +164,23 @@ public partial class SAVEditorViewModel : ObservableObject
     [ObservableProperty] private string _saveSlotInfo = string.Empty;
     [ObservableProperty] private bool _hasSaveSlotInfo;
 
+    // Multi-slot save selection (SAV4BR)
+    [ObservableProperty] private bool _hasMultipleSlots;
+    [ObservableProperty] private int _selectedSaveSlot;
+    public ObservableCollection<string> SaveSlotNames { get; } = [];
+
+    partial void OnSelectedSaveSlotChanged(int value)
+    {
+        if (_sav is not SAV4BR br || br.CurrentSlot == value || value < 0)
+            return;
+        br.CurrentSlot = value;
+        // Refresh all box/party data from the new slot
+        RefreshBoxNames();
+        RefreshBox();
+        RefreshParty();
+        OnModified?.Invoke();
+    }
+
     public ObservableCollection<SlotModel> BoxSlots { get; } = [];
     public ObservableCollection<SlotModel> PartySlots { get; } = [];
     public ObservableCollection<string> BoxNames { get; } = [];
@@ -178,6 +195,10 @@ public partial class SAVEditorViewModel : ObservableObject
     [ObservableProperty] private bool _hasDaycare;
     [ObservableProperty] private string _daycareInfo = string.Empty;
 
+    // Save-type visibility flags (updated on each LoadSaveFile)
+    [ObservableProperty] private bool _isGen4Save;
+    [ObservableProperty] private bool _isGen6Save;
+
     // Global tool command delegates — wired from MainWindowViewModel
     public ICommand? OpenSettingsEditorCommand { get; set; }
     public ICommand? OpenDatabaseCommand { get; set; }
@@ -189,6 +210,12 @@ public partial class SAVEditorViewModel : ObservableObject
     public ICommand? OpenRibbonEditorCommand { get; set; }
     public ICommand? OpenMemoryAmieCommand { get; set; }
     public ICommand? OpenTechRecordEditorCommand { get; set; }
+
+    /// <summary>Delegate for the Korean Save Conversion action (implemented in MainWindowViewModel).</summary>
+    public Func<Task>? ConfirmAndConvertKoreanAsync { get; set; }
+
+    /// <summary>Delegate for the PSS Passerby export action (implemented in MainWindowViewModel).</summary>
+    public Func<Task>? ExportPasserbyToClipboardAsync { get; set; }
 
     public SAVEditorViewModel()
     {
@@ -213,6 +240,8 @@ public partial class SAVEditorViewModel : ObservableObject
         _redoStack.Clear();
         OnPropertyChanged(nameof(CanUndo));
         OnPropertyChanged(nameof(CanRedo));
+        IsGen4Save = sav is SAV4;
+        IsGen6Save = sav is SAV6;
         RefreshBoxNames();
         RefreshBox();
         RefreshParty();
@@ -220,7 +249,31 @@ public partial class SAVEditorViewModel : ObservableObject
         RefreshDaycare(sav);
         RefreshExtraSlots(sav);
         RefreshSaveSlotInfo(sav);
+        RefreshSaveSlotSelection(sav);
         SearchText = string.Empty;
+    }
+
+    private void RefreshSaveSlotSelection(SaveFile sav)
+    {
+        SaveSlotNames.Clear();
+        if (sav is SAV4BR br)
+        {
+            HasMultipleSlots = true;
+            var current = br.CurrentSlot;
+            for (int i = 0; i < 4; i++)
+            {
+                // Switch to each slot temporarily to read its OT name
+                br.CurrentSlot = i;
+                var ot = br.CurrentOT;
+                SaveSlotNames.Add(string.IsNullOrWhiteSpace(ot) ? $"Slot {i + 1} (empty)" : $"Slot {i + 1}: {ot}");
+            }
+            br.CurrentSlot = current; // Restore
+            SelectedSaveSlot = current;
+        }
+        else
+        {
+            HasMultipleSlots = false;
+        }
     }
 
     private void UpdateToolVisibility(SaveFile sav)
@@ -1088,5 +1141,25 @@ public partial class SAVEditorViewModel : ObservableObject
         {
             SetStatusMessage?.Invoke($"Backup failed: {ex.Message}");
         }
+    }
+
+    /// <summary>
+    /// Invokes the Korean save conversion delegate (confirmed by user) when a Gen 4 save is loaded.
+    /// </summary>
+    [RelayCommand(AllowConcurrentExecutions = false)]
+    private async Task ConvertKoreanSave()
+    {
+        if (_sav is null || ConfirmAndConvertKoreanAsync is null) return;
+        await ConfirmAndConvertKoreanAsync();
+    }
+
+    /// <summary>
+    /// Invokes the PSS Passerby export delegate when a Gen 6 save is loaded.
+    /// </summary>
+    [RelayCommand(AllowConcurrentExecutions = false)]
+    private async Task ExportPasserby()
+    {
+        if (_sav is null || ExportPasserbyToClipboardAsync is null) return;
+        await ExportPasserbyToClipboardAsync();
     }
 }

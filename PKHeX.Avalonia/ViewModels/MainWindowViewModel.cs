@@ -144,6 +144,10 @@ public partial class MainWindowViewModel : ObservableObject
     {
     }
 
+    // Update notification
+    [ObservableProperty] private string _updateNotificationText = string.Empty;
+    [ObservableProperty] private bool _hasUpdateAvailable;
+
     public MainWindowViewModel(IDialogService dialogService)
     {
         _dialogService = dialogService;
@@ -164,6 +168,8 @@ public partial class MainWindowViewModel : ObservableObject
             OpenRibbonEditorCommand = OpenRibbonEditorCommand,
             OpenMemoryAmieCommand = OpenMemoryAmieCommand,
             OpenTechRecordEditorCommand = OpenTechRecordEditorCommand,
+            ConfirmAndConvertKoreanAsync = ConvertKoreanSaveAsync,
+            ExportPasserbyToClipboardAsync = ExportPasserbyAsync,
         };
         LoadPlugins();
     }
@@ -224,6 +230,44 @@ public partial class MainWindowViewModel : ObservableObject
             {
                 Debug.WriteLine($"Plugin {plugin.Name} failed on NotifySaveLoaded: {ex.Message}");
             }
+        }
+    }
+
+    /// <summary>
+    /// Checks GitHub for a newer PKHeX release and shows a notification if available.
+    /// Called on startup, runs in background.
+    /// </summary>
+    public async Task CheckForUpdatesAsync()
+    {
+        try
+        {
+            var latest = await Task.Run(UpdateUtil.GetLatestPKHeXVersion);
+            if (latest is null)
+                return;
+
+            var current = App.CurrentVersion;
+            if (latest <= current)
+                return;
+
+            UpdateNotificationText = $"Update available: {latest}";
+            HasUpdateAvailable = true;
+        }
+        catch
+        {
+            // Update check failed silently — don't interrupt the user
+        }
+    }
+
+    [RelayCommand]
+    private void OpenUpdatePage()
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo("https://github.com/kwsch/PKHeX/releases/latest") { UseShellExecute = true });
+        }
+        catch
+        {
+            // Failed to open browser
         }
     }
 
@@ -1051,16 +1095,21 @@ public partial class MainWindowViewModel : ObservableObject
         var shortcutLines = new[]
         {
             "Ctrl+O       Open save file",
-            "Ctrl+S       Save file",
-            "Ctrl+Z       Undo last slot change",
+            "Ctrl+S       Save PKM / Save file",
+            "Ctrl+E       Export SAV",
+            "Ctrl+U       Undo last slot change",
             "Ctrl+Y       Redo last slot change",
+            "Ctrl+T       Import Showdown set",
+            "Ctrl+Shift+T Export Showdown set",
             "Ctrl+D       Open PKM database",
-            "Ctrl+E       Open batch editor",
+            "Ctrl+G       Open Mystery Gift DB",
+            "Ctrl+N       Open Encounters",
+            "Ctrl+M       Open batch editor",
             "Ctrl+R       Open report grid",
-            "Ctrl+B       Open box viewer",
-            "Delete       Delete selected slot",
-            "Ctrl+C       Copy PKM (drag source)",
-            "Ctrl+V       Paste PKM (drag target)",
+            "Ctrl+F       Open folder browser",
+            "Ctrl+Shift+S Open settings",
+            "Ctrl+P       About PKHeX",
+            "Ctrl+Q       Quit",
         };
 
         var shortcutsPanel = new StackPanel { Spacing = 2 };
@@ -1243,6 +1292,64 @@ public partial class MainWindowViewModel : ObservableObject
         {
             StatusMessage = $"Dump Box error: {ex.Message}";
         }
+    }
+
+    #endregion
+
+    #region Gen4 Korean Save Conversion
+
+    /// <summary>
+    /// Prompts the user to convert the Gen 4 save between Korean and International format,
+    /// then flips the magic value if confirmed.
+    /// </summary>
+    private async Task ConvertKoreanSaveAsync()
+    {
+        if (SaveFile is not SAV4 s4)
+            return;
+
+        var isKorean = s4.Magic == SAV4.MAGIC_KOREAN;
+        var msg = isKorean
+            ? "Would you like to convert this Korean save file to be playable with Japanese/International games?"
+            : "Would you like to convert this Japanese/International save file to be playable with Korean games?";
+
+        var confirmed = await _dialogService.ShowConfirmAsync("Korean Save Conversion", msg);
+        if (!confirmed)
+            return;
+
+        s4.Magic = isKorean ? SAV4.MAGIC_JAPAN_INTL : SAV4.MAGIC_KOREAN;
+        HasUnsavedChanges = true;
+        StatusMessage = isKorean
+            ? "Save converted to Japanese/International format."
+            : "Save converted to Korean format.";
+    }
+
+    #endregion
+
+    #region Gen6 PSS Passerby Export
+
+    /// <summary>
+    /// Asks for confirmation, then exports PSS Passerby data for the Gen 6 save to the clipboard.
+    /// </summary>
+    private async Task ExportPasserbyAsync()
+    {
+        if (SaveFile is not SAV6 s6)
+            return;
+
+        var confirmed = await _dialogService.ShowConfirmAsync("Export Passerby Info", "Export Passerby Info to Clipboard?");
+        if (!confirmed)
+            return;
+
+        var clipboard = GetClipboard();
+        if (clipboard is null)
+        {
+            await _dialogService.ShowAlertAsync("Clipboard Error", "Could not access clipboard.");
+            return;
+        }
+
+        var result = PSS6.GetPSSParse(s6);
+        var text = string.Join(Environment.NewLine, result);
+        await clipboard.SetTextAsync(text);
+        StatusMessage = "PSS Passerby data exported to clipboard.";
     }
 
     #endregion

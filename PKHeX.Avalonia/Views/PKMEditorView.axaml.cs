@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 using Avalonia.Platform.Storage;
 using PKHeX.Avalonia.ViewModels;
 using PKHeX.Core;
@@ -22,6 +23,9 @@ public partial class PKMEditorView : UserControl
 
         // Tunnel handler so we intercept wheel events before the NumericUpDown handles them
         this.AddHandler(PointerWheelChangedEvent, OnPointerWheelChanged, RoutingStrategies.Tunnel);
+
+        // Tunnel handler for Ctrl+click (max) and right-click (min) on IV fields
+        this.AddHandler(PointerPressedEvent, OnIvPointerPressed, RoutingStrategies.Tunnel);
 
         // Drop handlers for loading PKM files by drag-and-drop onto the editor
         AddHandler(DragDrop.DropEvent, OnEditorDrop);
@@ -79,6 +83,37 @@ public partial class PKMEditorView : UserControl
         }
     }
 
+    /// <summary>
+    /// Handles Ctrl+click (set IV to max) and right-click (set IV to 0) on IV NumericUpDown fields.
+    /// </summary>
+    private void OnIvPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        if (e.Source is not Control source)
+            return;
+
+        // Walk up to find the NumericUpDown ancestor
+        var nud = source as NumericUpDown ?? (source as Visual)?.FindAncestorOfType<NumericUpDown>();
+        if (nud is null || !nud.Classes.Contains("iv"))
+            return;
+
+        var point = e.GetCurrentPoint(nud);
+
+        // Right-click: set to minimum (0)
+        if (point.Properties.IsRightButtonPressed)
+        {
+            nud.Value = nud.Minimum;
+            e.Handled = true;
+            return;
+        }
+
+        // Ctrl+left-click: set to maximum (31)
+        if (point.Properties.IsLeftButtonPressed && e.KeyModifiers.HasFlag(KeyModifiers.Control))
+        {
+            nud.Value = nud.Maximum;
+            e.Handled = true;
+        }
+    }
+
     private void OnPointerWheelChanged(object? sender, PointerWheelEventArgs e)
     {
         if (e.Source is NumericUpDown nud && nud.IsFocused)
@@ -116,7 +151,9 @@ public partial class PKMEditorView : UserControl
 
             vm.PreparePKM();
 
-            var pkData = vm.Entity.DecryptedBoxData;
+            // Ctrl+drag exports encrypted data; normal drag exports decrypted
+            var isEncrypted = e.KeyModifiers.HasFlag(KeyModifiers.Control);
+            var pkData = isEncrypted ? vm.Entity.EncryptedBoxData : vm.Entity.DecryptedBoxData;
             var ext = vm.Entity.Extension;
             var tempPath = Path.Combine(Path.GetTempPath(), $"pkhex_export.{ext}");
             await File.WriteAllBytesAsync(tempPath, pkData);
@@ -141,5 +178,15 @@ public partial class PKMEditorView : UserControl
     private void OnSpritePointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         _spritePressed = false;
+
+        // Alt+click or Shift+click on sprite opens QR dialog
+        if (e.InitialPressMouseButton == MouseButton.Left
+            && (e.KeyModifiers.HasFlag(KeyModifiers.Alt) || e.KeyModifiers.HasFlag(KeyModifiers.Shift)))
+        {
+            // Walk up to find MainWindow's DataContext (MainWindowViewModel) which owns the QR command
+            var mainWindow = TopLevel.GetTopLevel(this);
+            if (mainWindow?.DataContext is ViewModels.MainWindowViewModel mainVm)
+                mainVm.OpenQRDialogCommand.Execute(null);
+        }
     }
 }

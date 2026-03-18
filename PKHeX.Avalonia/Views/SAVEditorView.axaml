@@ -16,8 +16,8 @@
                     <TextBlock Grid.Column="1" Text="{Binding SearchResultText}" FontSize="10" VerticalAlignment="Center" Opacity="0.7" />
                 </Grid>
 
-                <!-- Box Navigation: [<<] ComboBox [>>] -->
-                <Grid DockPanel.Dock="Top" ColumnDefinitions="30,*,30" Margin="0,2,0,4">
+                <!-- Box Navigation: [<<] ComboBox [>>] [Popout] -->
+                <Grid DockPanel.Dock="Top" ColumnDefinitions="30,*,30,Auto" Margin="0,2,0,4">
                     <Button Grid.Column="0" Content="&lt;&lt;" Command="{Binding PreviousBoxCommand}"
                             Width="30" Height="24" HorizontalContentAlignment="Center"
                             FontSize="11" Padding="0" />
@@ -30,6 +30,10 @@
                     <Button Grid.Column="2" Content="&gt;&gt;" Command="{Binding NextBoxCommand}"
                             Width="30" Height="24" HorizontalContentAlignment="Center"
                             FontSize="11" Padding="0" />
+                    <Button Grid.Column="3" Content="&#x2197;" Command="{Binding OpenBoxViewerCommand}"
+                            Width="24" Height="24" HorizontalContentAlignment="Center"
+                            FontSize="11" Padding="0" Margin="2,0,0,0"
+                            ToolTip.Tip="Open Box Viewer" />
                 </Grid>
 
                 <!-- Box Grid: 6 columns x 5 rows = 30 slots, with wallpaper background -->
@@ -212,6 +216,18 @@
                                 Margin="2" Padding="10,4" FontSize="11" />
                     </WrapPanel>
 
+                    <!-- Gen 4: Korean Save Conversion -->
+                    <WrapPanel Orientation="Horizontal" IsVisible="{Binding IsGen4Save}" Margin="0,4,0,0">
+                        <Button Content="Korean Save Conversion" Command="{Binding ConvertKoreanSaveCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                    </WrapPanel>
+
+                    <!-- Gen 6: PSS Passerby Export -->
+                    <WrapPanel Orientation="Horizontal" IsVisible="{Binding IsGen6Save}" Margin="0,4,0,0">
+                        <Button Content="Passerby" Command="{Binding ExportPasserbyCommand}"
+                                Margin="2" Padding="10,4" FontSize="11" />
+                    </WrapPanel>
+
                     <!-- Clone fill button -->
                     <TextBlock Text="Fill (Current Box)" FontSize="10" Opacity="0.6" Margin="2,6,0,0"
                                IsVisible="{Binding IsLoaded}" />
@@ -231,6 +247,13 @@
                         <Button Content="Delete Untrained (0 EVs)" Command="{Binding DeleteUntrainedCommand}"
                                 Margin="2" Padding="10,4" FontSize="11" />
                     </WrapPanel>
+
+                    <!-- Save Slot Selection (SAV4BR multi-slot) -->
+                    <StackPanel IsVisible="{Binding HasMultipleSlots}" Margin="0,4,0,0" Spacing="2">
+                        <TextBlock Text="Save Slot" FontSize="10" Opacity="0.6" Margin="2,0,0,0" />
+                        <ComboBox ItemsSource="{Binding SaveSlotNames}" SelectedIndex="{Binding SelectedSaveSlot}"
+                                  Height="28" FontSize="11" Margin="2,0" HorizontalAlignment="Left" Width="200" />
+                    </StackPanel>
 
                     <!-- Settings (always available) -->
                     <WrapPanel Orientation="Horizontal" Margin="0,4,0,0">

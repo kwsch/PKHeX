@@ -23,6 +23,14 @@ public partial class MainWindow : Window
         AddHandler(DragDrop.DropEvent, OnDrop);
         AddHandler(DragDrop.DragOverEvent, OnDragOver);
         Closing += OnWindowClosing;
+        Opened += OnWindowOpened;
+    }
+
+    private async void OnWindowOpened(object? sender, EventArgs e)
+    {
+        // Fire-and-forget update check on startup
+        if (DataContext is MainWindowViewModel vm)
+            await vm.CheckForUpdatesAsync();
     }
 
     private async void OnWindowClosing(object? sender, WindowClosingEventArgs e)

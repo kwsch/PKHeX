@@ -102,7 +102,17 @@
         <Border DockPanel.Dock="Bottom"
                 Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                 Padding="5,2" Height="22">
-            <TextBlock Text="{Binding StatusMessage}" FontSize="11" VerticalAlignment="Center" />
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Text="{Binding StatusMessage}" FontSize="11" VerticalAlignment="Center" />
+                <!-- Update notification link -->
+                <Button Grid.Column="1" Content="{Binding UpdateNotificationText}"
+                        Command="{Binding OpenUpdatePageCommand}"
+                        IsVisible="{Binding HasUpdateAvailable}"
+                        Classes="hyperlink"
+                        FontSize="10" Padding="4,0" Margin="4,0,0,0"
+                        Background="Transparent" Foreground="#0066CC"
+                        VerticalAlignment="Center" />
+            </Grid>
         </Border>
 
         <!-- Main Content: PKM Editor (400px) | SAV Editor (remaining) -->

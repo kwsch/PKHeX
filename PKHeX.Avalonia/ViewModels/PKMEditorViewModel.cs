@@ -8,6 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input.Platform;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PKHeX.Avalonia.Converters;
@@ -66,6 +67,21 @@ public partial class PKMEditorViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Cycles the PKM gender: Male → Female → Genderless → Male.
+    /// Only applies if the species supports multiple genders.
+    /// </summary>
+    [RelayCommand]
+    private void ToggleGender()
+    {
+        if (Entity is null) return;
+        var pi = Entity.PersonalInfo;
+        // Fixed gender species cannot be toggled
+        if (pi.Genderless || pi.OnlyFemale || pi.OnlyMale)
+            return;
+        Gender = (byte)((Gender + 1) % 2); // Toggle between 0 (M) and 1 (F)
+    }
+
     /// <summary>Tooltip showing the numeric species ID.</summary>
     public string SpeciesTooltip => Entity is null ? "" : $"Species #{Entity.Species:000}";
 
@@ -115,6 +131,21 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private bool _isEgg;
     [ObservableProperty] private bool _isNicknamed;
 
+    partial void OnIsNicknamedChanged(bool value) { if (!_isPopulating && Entity is not null) { Entity.IsNicknamed = value; UpdateLegality(); } }
+
+    // HaX mode: raw ability number (bit field)
+    [ObservableProperty] private int _abilityNumber;
+    public bool IsHaXMode => App.HaX;
+
+    partial void OnAbilityNumberChanged(int value)
+    {
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.AbilityNumber = value;
+            UpdateLegality();
+        }
+    }
+
     /// <summary>
     /// Returns "Hatch Counter:" when the PKM is an egg, otherwise "Friendship:".
     /// </summary>
@@ -127,6 +158,19 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private int _pkrsDays;
 
     public bool ShowPkrsDetails => IsInfected;
+
+    partial void OnPkrsStrainChanged(int value) { if (!_isPopulating && Entity is not null) { Entity.PokerusStrain = value; UpdateLegality(); } }
+    partial void OnPkrsDaysChanged(int value) { if (!_isPopulating && Entity is not null) { Entity.PokerusDays = value; UpdateLegality(); } }
+
+    partial void OnIsCuredChanged(bool value)
+    {
+        ShowCuredMark = value;
+        if (!_isPopulating && Entity is not null)
+        {
+            Entity.IsPokerusCured = value;
+            UpdateLegality();
+        }
+    }
 
     partial void OnIsInfectedChanged(bool value)
     {
@@ -144,9 +188,29 @@ public partial class PKMEditorViewModel : ObservableObject
 
     // New fields
     [ObservableProperty] private string _pidHex = "00000000";
+
+    partial void OnPidHexChanged(string value)
+    {
+        if (!_isPopulating && Entity is not null && uint.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out var pid))
+        {
+            Entity.PID = pid;
+            IsShiny = Entity.IsShiny;
+            IsShinyDisplay = Entity.IsShiny;
+            IsSquareShiny = Entity.IsShiny && Entity.ShinyXor == 0;
+            ShowShinyMark = Entity.IsShiny;
+            // Refresh characteristic (depends on PID % 6 for tiebreaker)
+            var charIdx = Entity.Characteristic;
+            CharacteristicText = charIdx >= 0 && charIdx < GameInfo.Strings.characteristics.Length
+                ? GameInfo.Strings.characteristics[charIdx] : string.Empty;
+            UpdateSprite();
+            UpdateLegality();
+        }
+    }
     [ObservableProperty] private uint _exp;
     [ObservableProperty] private int _friendship;
     [ObservableProperty] private int _language;
+
+    partial void OnFriendshipChanged(int value) { if (!_isPopulating && Entity is not null) { if (IsEgg) Entity.OriginalTrainerFriendship = (byte)Math.Clamp(value, 0, 255); else Entity.CurrentFriendship = (byte)Math.Clamp(value, 0, 255); UpdateLegality(); } }
 
     // Stats
     [ObservableProperty] private int _hp;
@@ -207,10 +271,10 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private ComboItem? _selectedRelearnMove4;
     [ObservableProperty] private bool _hasRelearnMoves;
 
-    partial void OnSelectedRelearnMove1Changed(ComboItem? value) { if (value is not null) RelearnMove1 = (ushort)value.Value; if (!_isPopulating) UpdateLegality(); }
-    partial void OnSelectedRelearnMove2Changed(ComboItem? value) { if (value is not null) RelearnMove2 = (ushort)value.Value; if (!_isPopulating) UpdateLegality(); }
-    partial void OnSelectedRelearnMove3Changed(ComboItem? value) { if (value is not null) RelearnMove3 = (ushort)value.Value; if (!_isPopulating) UpdateLegality(); }
-    partial void OnSelectedRelearnMove4Changed(ComboItem? value) { if (value is not null) RelearnMove4 = (ushort)value.Value; if (!_isPopulating) UpdateLegality(); }
+    partial void OnSelectedRelearnMove1Changed(ComboItem? value) { if (value is not null) RelearnMove1 = (ushort)value.Value; if (!_isPopulating && Entity is not null) { Entity.RelearnMove1 = RelearnMove1; UpdateLegality(); } }
+    partial void OnSelectedRelearnMove2Changed(ComboItem? value) { if (value is not null) RelearnMove2 = (ushort)value.Value; if (!_isPopulating && Entity is not null) { Entity.RelearnMove2 = RelearnMove2; UpdateLegality(); } }
+    partial void OnSelectedRelearnMove3Changed(ComboItem? value) { if (value is not null) RelearnMove3 = (ushort)value.Value; if (!_isPopulating && Entity is not null) { Entity.RelearnMove3 = RelearnMove3; UpdateLegality(); } }
+    partial void OnSelectedRelearnMove4Changed(ComboItem? value) { if (value is not null) RelearnMove4 = (ushort)value.Value; if (!_isPopulating && Entity is not null) { Entity.RelearnMove4 = RelearnMove4; UpdateLegality(); } }
 
     // Move legality indicators
     [ObservableProperty] private bool _move1Legal = true;
@@ -236,21 +300,36 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private bool _htSpe;
     [ObservableProperty] private bool _hasHyperTraining;
 
+    partial void OnHtHpChanged(bool value)  { if (!_isPopulating && Entity is IHyperTrain ht) { ht.HT_HP  = value; RecalcStats(); UpdateLegality(); } }
+    partial void OnHtAtkChanged(bool value) { if (!_isPopulating && Entity is IHyperTrain ht) { ht.HT_ATK = value; RecalcStats(); UpdateLegality(); } }
+    partial void OnHtDefChanged(bool value) { if (!_isPopulating && Entity is IHyperTrain ht) { ht.HT_DEF = value; RecalcStats(); UpdateLegality(); } }
+    partial void OnHtSpAChanged(bool value) { if (!_isPopulating && Entity is IHyperTrain ht) { ht.HT_SPA = value; RecalcStats(); UpdateLegality(); } }
+    partial void OnHtSpDChanged(bool value) { if (!_isPopulating && Entity is IHyperTrain ht) { ht.HT_SPD = value; RecalcStats(); UpdateLegality(); } }
+    partial void OnHtSpeChanged(bool value) { if (!_isPopulating && Entity is IHyperTrain ht) { ht.HT_SPE = value; RecalcStats(); UpdateLegality(); } }
+
     // Dynamax
     [ObservableProperty] private int _dynamaxLevel;
     [ObservableProperty] private bool _hasDynamaxLevel;
+
+    partial void OnDynamaxLevelChanged(int value) { if (!_isPopulating && Entity is IDynamaxLevel dl) { dl.DynamaxLevel = (byte)Math.Clamp(value, 0, 10); UpdateLegality(); } }
 
     // Gigantamax
     [ObservableProperty] private bool _canGigantamax;
     [ObservableProperty] private bool _hasGigantamax;
 
+    partial void OnCanGigantamaxChanged(bool value) { if (!_isPopulating && Entity is IGigantamax gm) { gm.CanGigantamax = value; UpdateLegality(); } }
+
     // Alpha (Legends Arceus)
     [ObservableProperty] private bool _isAlpha;
     [ObservableProperty] private bool _hasAlpha;
 
+    partial void OnIsAlphaChanged(bool value) { if (!_isPopulating && Entity is IAlpha a) { a.IsAlpha = value; UpdateLegality(); } }
+
     // Noble (Legends Arceus)
     [ObservableProperty] private bool _isNoble;
     [ObservableProperty] private bool _hasNoble;
+
+    partial void OnIsNobleChanged(bool value) { if (!_isPopulating && Entity is INoble n) { n.IsNoble = value; UpdateLegality(); } }
 
     // Tera Type (Gen 9)
     [ObservableProperty] private int _teraTypeOriginal;
@@ -304,12 +383,113 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private byte _ball;
     [ObservableProperty] private ushort _eggLocation;
     [ObservableProperty] private int _version;
+
+    partial void OnMetLevelChanged(byte value) { if (!_isPopulating && Entity is not null) { Entity.MetLevel = value; UpdateLegality(); } }
     [ObservableProperty] private int _metYear;
     [ObservableProperty] private int _metMonth;
     [ObservableProperty] private int _metDay;
     [ObservableProperty] private int _eggYear;
     [ObservableProperty] private int _eggMonth;
     [ObservableProperty] private int _eggDay;
+
+    // Met/Egg Y/M/D handlers — only fire for direct NumericUpDown edits (not from CalendarDatePicker setter)
+    partial void OnMetYearChanged(int value) { if (!_isPopulating && Entity is not null) { Entity.MetYear = (byte)Math.Clamp(value, 0, 255); OnPropertyChanged(nameof(MetDate)); UpdateLegality(); } }
+    partial void OnMetMonthChanged(int value) { if (!_isPopulating && Entity is not null) { Entity.MetMonth = (byte)Math.Clamp(value, 0, 12); OnPropertyChanged(nameof(MetDate)); UpdateLegality(); } }
+    partial void OnMetDayChanged(int value) { if (!_isPopulating && Entity is not null) { Entity.MetDay = (byte)Math.Clamp(value, 0, 31); OnPropertyChanged(nameof(MetDate)); UpdateLegality(); } }
+    partial void OnEggYearChanged(int value) { if (!_isPopulating && Entity is not null) { Entity.EggYear = (byte)Math.Clamp(value, 0, 255); OnPropertyChanged(nameof(EggDate)); }  UpdateLegality(); }
+    partial void OnEggMonthChanged(int value) { if (!_isPopulating && Entity is not null) { Entity.EggMonth = (byte)Math.Clamp(value, 0, 12); OnPropertyChanged(nameof(EggDate)); }  UpdateLegality(); }
+    partial void OnEggDayChanged(int value) { if (!_isPopulating && Entity is not null) { Entity.EggDay = (byte)Math.Clamp(value, 0, 31); OnPropertyChanged(nameof(EggDate)); }  UpdateLegality(); }
+
+    /// <summary>Calendar-friendly Met Date property. Syncs with MetYear/MetMonth/MetDay.</summary>
+    public DateTimeOffset? MetDate
+    {
+        get
+        {
+            if (MetYear <= 0 && MetMonth == 0 && MetDay == 0) return null;
+            try
+            {
+                var yr = Math.Max(MetYear, 0);
+                var m = Math.Clamp(MetMonth, 1, 12);
+                var maxDay = DateTime.DaysInMonth(2000 + yr, m);
+                var d = Math.Clamp(MetDay, 1, maxDay);
+                return new DateTimeOffset(2000 + yr, m, d, 0, 0, 0, TimeSpan.Zero);
+            }
+            catch { return null; }
+        }
+        set
+        {
+            _isPopulating = true;
+            try
+            {
+                if (value is { } d)
+                {
+                    int year = d.Year - 2000;
+                    if (year is < 0 or > 255) return;
+                    MetYear = year;
+                    MetMonth = d.Month;
+                    MetDay = d.Day;
+                }
+                else
+                {
+                    MetYear = 0; MetMonth = 0; MetDay = 0;
+                }
+            }
+            finally { _isPopulating = false; }
+            if (Entity is not null)
+            {
+                Entity.MetYear = (byte)Math.Clamp(MetYear, 0, 255);
+                Entity.MetMonth = (byte)Math.Clamp(MetMonth, 0, 12);
+                Entity.MetDay = (byte)Math.Clamp(MetDay, 0, 31);
+                UpdateLegality();
+            }
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>Calendar-friendly Egg Date property. Syncs with EggYear/EggMonth/EggDay.</summary>
+    public DateTimeOffset? EggDate
+    {
+        get
+        {
+            if (EggYear <= 0 && EggMonth == 0 && EggDay == 0) return null;
+            try
+            {
+                var yr = Math.Max(EggYear, 0);
+                var m = Math.Clamp(EggMonth, 1, 12);
+                var maxDay = DateTime.DaysInMonth(2000 + yr, m);
+                var d = Math.Clamp(EggDay, 1, maxDay);
+                return new DateTimeOffset(2000 + yr, m, d, 0, 0, 0, TimeSpan.Zero);
+            }
+            catch { return null; }
+        }
+        set
+        {
+            _isPopulating = true;
+            try
+            {
+                if (value is { } d)
+                {
+                    int year = d.Year - 2000;
+                    if (year is < 0 or > 255) return;
+                    EggYear = year;
+                    EggMonth = d.Month;
+                    EggDay = d.Day;
+                }
+                else
+                {
+                    EggYear = 0; EggMonth = 0; EggDay = 0;
+                }
+            }
+            finally { _isPopulating = false; }
+            if (Entity is not null)
+            {
+                Entity.EggYear = (byte)Math.Clamp(EggYear, 0, 255);
+                Entity.EggMonth = (byte)Math.Clamp(EggMonth, 0, 12);
+                Entity.EggDay = (byte)Math.Clamp(EggDay, 0, 31);
+            }
+            OnPropertyChanged();
+        }
+    }
 
     // Cosmetic — Markings (int: 0=None, 1=Blue, 2=Pink for Gen7+; 0/1 for older gens)
     [ObservableProperty] private int _markCircle;
@@ -360,6 +540,29 @@ public partial class PKMEditorViewModel : ObservableObject
         OnPropertyChanged(fieldName);
         OnPropertyChanged(colorName);
         OnPropertyChanged(tipName);
+        WriteMarkingsToEntity();
+    }
+
+    private void WriteMarkingsToEntity()
+    {
+        if (Entity is null) return;
+        if (Entity is IAppliedMarkings7 m7)
+        {
+            m7.MarkingCircle = (MarkingColor)MarkCircle; m7.MarkingTriangle = (MarkingColor)MarkTriangle;
+            m7.MarkingSquare = (MarkingColor)MarkSquare; m7.MarkingHeart = (MarkingColor)MarkHeart;
+            m7.MarkingStar = (MarkingColor)MarkStar; m7.MarkingDiamond = (MarkingColor)MarkDiamond;
+        }
+        else if (Entity is IAppliedMarkings4 m4)
+        {
+            m4.MarkingCircle = MarkCircle != 0; m4.MarkingTriangle = MarkTriangle != 0;
+            m4.MarkingSquare = MarkSquare != 0; m4.MarkingHeart = MarkHeart != 0;
+            m4.MarkingStar = MarkStar != 0; m4.MarkingDiamond = MarkDiamond != 0;
+        }
+        else if (Entity is IAppliedMarkings3 m3)
+        {
+            m3.MarkingCircle = MarkCircle != 0; m3.MarkingTriangle = MarkTriangle != 0;
+            m3.MarkingSquare = MarkSquare != 0; m3.MarkingHeart = MarkHeart != 0;
+        }
     }
 
     [RelayCommand] private void CycleMarkCircle() => CycleMarking(ref _markCircle, nameof(MarkCircle), nameof(MarkCircleColor), nameof(MarkCircleTip));
@@ -377,8 +580,17 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private int _contestTough;
     [ObservableProperty] private int _contestSheen;
 
+    partial void OnContestCoolChanged(int value) { if (!_isPopulating && Entity is IContestStats cs) cs.ContestCool = (byte)Math.Clamp(value, 0, 255); }
+    partial void OnContestBeautyChanged(int value) { if (!_isPopulating && Entity is IContestStats cs) cs.ContestBeauty = (byte)Math.Clamp(value, 0, 255); }
+    partial void OnContestCuteChanged(int value) { if (!_isPopulating && Entity is IContestStats cs) cs.ContestCute = (byte)Math.Clamp(value, 0, 255); }
+    partial void OnContestSmartChanged(int value) { if (!_isPopulating && Entity is IContestStats cs) cs.ContestSmart = (byte)Math.Clamp(value, 0, 255); }
+    partial void OnContestToughChanged(int value) { if (!_isPopulating && Entity is IContestStats cs) cs.ContestTough = (byte)Math.Clamp(value, 0, 255); }
+    partial void OnContestSheenChanged(int value) { if (!_isPopulating && Entity is IContestStats cs) cs.ContestSheen = (byte)Math.Clamp(value, 0, 255); }
+
     // Cosmetic — Favorite
     [ObservableProperty] private bool _isFavorite;
+
+    partial void OnIsFavoriteChanged(bool value) { if (!_isPopulating && Entity is IFavorite fav) fav.IsFavorite = value; }
 
     // Cosmetic — visibility helpers
     [ObservableProperty] private bool _hasMarkings;
@@ -389,20 +601,39 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private string _originMarkText = string.Empty;
     [ObservableProperty] private bool _hasOriginMark;
 
+    // Shiny/Cured mark indicators (Cosmetic tab)
+    [ObservableProperty] private bool _showShinyMark;
+    [ObservableProperty] private bool _showCuredMark;
+
+    // Affixed ribbon display
+    [ObservableProperty] private string _affixedRibbonText = string.Empty;
+    [ObservableProperty] private bool _hasAffixedRibbon;
+
+    // Battle Version mark
+    [ObservableProperty] private string _battleVersionMarkText = string.Empty;
+    [ObservableProperty] private bool _showBattleVersionMark;
+
     // Gen-specific: Shadow Pokemon (XD/Colosseum)
     [ObservableProperty] private int _shadowId;
     [ObservableProperty] private int _purification;
     [ObservableProperty] private bool _isShadow;
     [ObservableProperty] private bool _hasShadow;
 
+    partial void OnShadowIdChanged(int value) { if (!_isPopulating && Entity is IShadowCapture sc) { sc.ShadowID = (ushort)Math.Clamp(value, 0, 65535); UpdateLegality(); } }
+    partial void OnPurificationChanged(int value) { if (!_isPopulating && Entity is IShadowCapture sc) { sc.Purification = value; UpdateLegality(); } }
+
     // Form Argument
     [ObservableProperty] private uint _formArgument;
     [ObservableProperty] private bool _hasFormArgument;
+
+    partial void OnFormArgumentChanged(uint value) { if (!_isPopulating && Entity is IFormArgument fa) { fa.FormArgument = value; UpdateLegality(); } }
     [ObservableProperty] private uint _formArgumentMax;
 
     // Alpha Mastered Move (Gen 8a - Legends Arceus)
     [ObservableProperty] private ComboItem? _selectedAlphaMove;
     [ObservableProperty] private bool _hasAlphaMove;
+
+    partial void OnSelectedAlphaMoveChanged(ComboItem? value) { if (!_isPopulating && Entity is PA8 pa8 && value is not null) { pa8.AlphaMove = (ushort)value.Value; UpdateLegality(); } }
 
     // Move Shop / Tech Record / Plus Record visibility
     [ObservableProperty] private bool _hasMoveShop;
@@ -416,9 +647,13 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private int _catchRate;
     [ObservableProperty] private bool _hasCatchRate;
 
+    partial void OnCatchRateChanged(int value) { if (!_isPopulating && Entity is PK1 pk1) { pk1.CatchRate = (byte)Math.Clamp(value, 0, 255); UpdateLegality(); } }
+
     // Gen-specific: N's Sparkle (Gen 5)
     [ObservableProperty] private bool _nSparkle;
     [ObservableProperty] private bool _hasNSparkle;
+
+    partial void OnNSparkleChanged(bool value) { if (!_isPopulating && Entity is PK5 pk5) { pk5.NSparkle = value; UpdateLegality(); } }
 
     // Met — Encounter Type / Ground Tile (Gen 4-6)
     [ObservableProperty] private int _encounterType;
@@ -429,6 +664,8 @@ public partial class PKMEditorViewModel : ObservableObject
     // Met — Time of Day (Gen 2)
     [ObservableProperty] private int _metTimeOfDay;
     [ObservableProperty] private bool _hasMetTimeOfDay;
+
+    partial void OnMetTimeOfDayChanged(int value) { if (!_isPopulating && Entity is ICaughtData2 cd2) { cd2.MetTimeOfDay = Math.Clamp(value, 0, 3); UpdateLegality(); } }
 
     // Met — As Egg toggle
     [ObservableProperty] private bool _metAsEgg;
@@ -442,18 +679,42 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private bool _leafCrown;
     [ObservableProperty] private bool _hasShinyLeaf;
 
+    private void WriteShinyLeafToEntity()
+    {
+        if (!_isPopulating && Entity is G4PKM g4)
+        {
+            int leaf = 0;
+            if (Leaf1) leaf |= 1; if (Leaf2) leaf |= 2; if (Leaf3) leaf |= 4;
+            if (Leaf4) leaf |= 8; if (Leaf5) leaf |= 16; if (LeafCrown) leaf |= 32;
+            g4.ShinyLeaf = leaf;
+        }
+    }
+    partial void OnLeaf1Changed(bool value) => WriteShinyLeafToEntity();
+    partial void OnLeaf2Changed(bool value) => WriteShinyLeafToEntity();
+    partial void OnLeaf3Changed(bool value) => WriteShinyLeafToEntity();
+    partial void OnLeaf4Changed(bool value) => WriteShinyLeafToEntity();
+    partial void OnLeaf5Changed(bool value) => WriteShinyLeafToEntity();
+    partial void OnLeafCrownChanged(bool value) => WriteShinyLeafToEntity();
+
     // Cosmetic — Spirit/Mood (Let's Go PB7)
     [ObservableProperty] private int _spirit7b;
     [ObservableProperty] private int _mood7b;
     [ObservableProperty] private bool _hasSpirit7b;
 
+    partial void OnSpirit7bChanged(int value) { if (!_isPopulating && Entity is PB7 pb7) pb7.Spirit = (byte)Math.Clamp(value, 0, 255); }
+    partial void OnMood7bChanged(int value) { if (!_isPopulating && Entity is PB7 pb7) pb7.Mood = (byte)Math.Clamp(value, 0, 255); }
+
     // Cosmetic — PokeStarFame (Gen 5)
     [ObservableProperty] private int _pokeStarFame;
     [ObservableProperty] private bool _hasPokeStarFame;
 
+    partial void OnPokeStarFameChanged(int value) { if (!_isPopulating && Entity is PK5 pk5) pk5.PokeStarFame = (byte)Math.Clamp(value, 0, 255); }
+
     // Cosmetic — Walking Mood (Gen 4 HG/SS)
     [ObservableProperty] private int _walkingMood;
     [ObservableProperty] private bool _hasWalkingMood;
+
+    partial void OnWalkingMoodChanged(int value) { if (!_isPopulating && Entity is G4PKM g4) g4.WalkingMood = (sbyte)Math.Clamp(value, -127, 127); }
 
     // OT/Misc — Received Date (Let's Go PB7)
     [ObservableProperty] private int _receivedYear;
@@ -461,10 +722,18 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private int _receivedDay;
     [ObservableProperty] private bool _hasReceivedDate;
 
+    partial void OnReceivedYearChanged(int value) { if (!_isPopulating && Entity is PB7 pb7) pb7.ReceivedYear = (byte)Math.Clamp(value, 0, 255); }
+    partial void OnReceivedMonthChanged(int value) { if (!_isPopulating && Entity is PB7 pb7) pb7.ReceivedMonth = (byte)Math.Clamp(value, 1, 12); }
+    partial void OnReceivedDayChanged(int value) { if (!_isPopulating && Entity is PB7 pb7) pb7.ReceivedDay = (byte)Math.Clamp(value, 1, 31); }
+
     // OT
     [ObservableProperty] private string _ot = string.Empty;
     [ObservableProperty] private ushort _tid;
     [ObservableProperty] private ushort _sid;
+
+    partial void OnOtChanged(string value) { if (!_isPopulating && Entity is not null) { Entity.OriginalTrainerName = value; UpdateLegality(); } }
+    partial void OnTidChanged(ushort value) { if (!_isPopulating && Entity is not null) { Entity.TID16 = value; UpdateLegality(); } }
+    partial void OnSidChanged(ushort value) { if (!_isPopulating && Entity is not null) { Entity.SID16 = value; UpdateLegality(); } }
 
     // OT Gender
     [ObservableProperty] private byte _otGender;
@@ -481,6 +750,7 @@ public partial class PKMEditorViewModel : ObservableObject
         OnPropertyChanged(nameof(OtGenderSymbol));
         if (!_isPopulating && Entity is not null)
             Entity.OriginalTrainerGender = value;
+        UpdateLegality();
     }
 
     [RelayCommand]
@@ -492,7 +762,17 @@ public partial class PKMEditorViewModel : ObservableObject
     // Handling Trainer
     [ObservableProperty] private int _currentHandler;
     [ObservableProperty] private string _handlingTrainerName = string.Empty;
+
+    partial void OnCurrentHandlerChanged(int value) { if (!_isPopulating && Entity is not null) { Entity.CurrentHandler = (byte)value; UpdateLegality(); } }
     [ObservableProperty] private byte _htGender;
+
+    partial void OnHandlingTrainerNameChanged(string value)
+    {
+        HasHandler = !string.IsNullOrEmpty(value);
+        if (!_isPopulating && Entity is not null)
+            Entity.HandlingTrainerName = value;
+        UpdateLegality();
+    }
 
     public string HtGenderSymbol => HtGender switch
     {
@@ -506,6 +786,7 @@ public partial class PKMEditorViewModel : ObservableObject
         OnPropertyChanged(nameof(HtGenderSymbol));
         if (!_isPopulating && Entity is not null)
             Entity.HandlingTrainerGender = value;
+        UpdateLegality();
     }
 
     [RelayCommand]
@@ -521,11 +802,17 @@ public partial class PKMEditorViewModel : ObservableObject
     // Encryption Constant
     [ObservableProperty] private string _encryptionConstantHex = "00000000";
 
+    partial void OnEncryptionConstantHexChanged(string value)
+    {
+        if (!_isPopulating && Entity is not null && uint.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out var ec))
+            Entity.EncryptionConstant = ec;
+        UpdateLegality();
+    }
+
     [RelayCommand]
     private void RerollEc()
     {
-        var rng = new Random();
-        var ec = (uint)rng.Next();
+        var ec = PKHeX.Core.Util.Rand32();
         EncryptionConstantHex = ec.ToString("X8");
     }
 
@@ -566,9 +853,11 @@ public partial class PKMEditorViewModel : ObservableObject
         try
         {
             PidHex = Entity!.PID.ToString("X8");
+            EncryptionConstantHex = Entity.EncryptionConstant.ToString("X8");
             IsShiny = Entity.IsShiny;
             IsShinyDisplay = Entity.IsShiny;
             IsSquareShiny = Entity.IsShiny && Entity.ShinyXor == 0;
+            ShowShinyMark = Entity.IsShiny;
         }
         finally { _isPopulating = false; }
         UpdateSprite();
@@ -579,12 +868,18 @@ public partial class PKMEditorViewModel : ObservableObject
     private void RerollPid()
     {
         if (Entity is null) return;
-        var rng = new Random();
-        Entity.PID = (uint)rng.Next();
-        PidHex = Entity.PID.ToString("X8");
-        IsShiny = Entity.IsShiny;
-        IsShinyDisplay = Entity.IsShiny;
-        IsSquareShiny = Entity.IsShiny && Entity.ShinyXor == 0;
+        Entity.PID = PKHeX.Core.Util.Rand32();
+        _isPopulating = true;
+        try
+        {
+            PidHex = Entity.PID.ToString("X8");
+            EncryptionConstantHex = Entity.EncryptionConstant.ToString("X8");
+            IsShiny = Entity.IsShiny;
+            IsShinyDisplay = Entity.IsShiny;
+            IsSquareShiny = Entity.IsShiny && Entity.ShinyXor == 0;
+            ShowShinyMark = Entity.IsShiny;
+        }
+        finally { _isPopulating = false; }
         UpdateSprite();
         UpdateLegality();
     }
@@ -592,6 +887,13 @@ public partial class PKMEditorViewModel : ObservableObject
     // Home Tracker
     [ObservableProperty] private string _homeTrackerHex = "0000000000000000";
     [ObservableProperty] private bool _hasHomeTracker;
+
+    partial void OnHomeTrackerHexChanged(string value)
+    {
+        if (!_isPopulating && Entity is IHomeTrack ht && ulong.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out var tracker))
+            ht.Tracker = tracker;
+        UpdateLegality();
+    }
 
     // Extra Bytes
     [ObservableProperty] private IReadOnlyList<string> _extraByteOffsets = Array.Empty<string>();
@@ -615,14 +917,19 @@ public partial class PKMEditorViewModel : ObservableObject
         if (_isPopulating || SelectedExtraByteOffset is null || Entity is null) return;
         if (ushort.TryParse(SelectedExtraByteOffset.Replace("0x", ""), System.Globalization.NumberStyles.HexNumber, null, out var offset) && offset < Entity.Data.Length)
             Entity.Data[offset] = (byte)Math.Clamp(value, 0, 255);
+        UpdateLegality();
     }
 
     // Met — Fateful Encounter
     [ObservableProperty] private bool _fatefulEncounter;
 
+    partial void OnFatefulEncounterChanged(bool value) { if (!_isPopulating && Entity is not null) { Entity.FatefulEncounter = value; UpdateLegality(); } }
+
     // Met — Obedience Level (Gen 9)
     [ObservableProperty] private byte _obedienceLevel;
     [ObservableProperty] private bool _hasObedienceLevel;
+
+    partial void OnObedienceLevelChanged(byte value) { if (!_isPopulating && Entity is IObedienceLevel ol) { ol.ObedienceLevel = value; UpdateLegality(); } }
 
     // Met — Battle Version (Gen 8+)
     [ObservableProperty] private int _battleVersion;
@@ -657,9 +964,23 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private int _avHp, _avAtk, _avDef, _avSpa, _avSpd, _avSpe;
     [ObservableProperty] private bool _hasAwakeningValues;
 
+    partial void OnAvHpChanged(int value)  { if (!_isPopulating && Entity is IAwakened aw) { aw.AV_HP  = (byte)Math.Clamp(value, 0, 200); RecalcStats(); }  UpdateLegality(); }
+    partial void OnAvAtkChanged(int value) { if (!_isPopulating && Entity is IAwakened aw) { aw.AV_ATK = (byte)Math.Clamp(value, 0, 200); RecalcStats(); }  UpdateLegality(); }
+    partial void OnAvDefChanged(int value) { if (!_isPopulating && Entity is IAwakened aw) { aw.AV_DEF = (byte)Math.Clamp(value, 0, 200); RecalcStats(); }  UpdateLegality(); }
+    partial void OnAvSpaChanged(int value) { if (!_isPopulating && Entity is IAwakened aw) { aw.AV_SPA = (byte)Math.Clamp(value, 0, 200); RecalcStats(); }  UpdateLegality(); }
+    partial void OnAvSpdChanged(int value) { if (!_isPopulating && Entity is IAwakened aw) { aw.AV_SPD = (byte)Math.Clamp(value, 0, 200); RecalcStats(); }  UpdateLegality(); }
+    partial void OnAvSpeChanged(int value) { if (!_isPopulating && Entity is IAwakened aw) { aw.AV_SPE = (byte)Math.Clamp(value, 0, 200); RecalcStats(); }  UpdateLegality(); }
+
     // Ganbaru Values (Legends Arceus PA8)
     [ObservableProperty] private int _gvHp, _gvAtk, _gvDef, _gvSpa, _gvSpd, _gvSpe;
     [ObservableProperty] private bool _hasGanbaruValues;
+
+    partial void OnGvHpChanged(int value)  { if (!_isPopulating && Entity is IGanbaru gv) { gv.GV_HP  = (byte)Math.Clamp(value, 0, 10); RecalcStats(); }  UpdateLegality(); }
+    partial void OnGvAtkChanged(int value) { if (!_isPopulating && Entity is IGanbaru gv) { gv.GV_ATK = (byte)Math.Clamp(value, 0, 10); RecalcStats(); }  UpdateLegality(); }
+    partial void OnGvDefChanged(int value) { if (!_isPopulating && Entity is IGanbaru gv) { gv.GV_DEF = (byte)Math.Clamp(value, 0, 10); RecalcStats(); }  UpdateLegality(); }
+    partial void OnGvSpaChanged(int value) { if (!_isPopulating && Entity is IGanbaru gv) { gv.GV_SPA = (byte)Math.Clamp(value, 0, 10); RecalcStats(); }  UpdateLegality(); }
+    partial void OnGvSpdChanged(int value) { if (!_isPopulating && Entity is IGanbaru gv) { gv.GV_SPD = (byte)Math.Clamp(value, 0, 10); RecalcStats(); }  UpdateLegality(); }
+    partial void OnGvSpeChanged(int value) { if (!_isPopulating && Entity is IGanbaru gv) { gv.GV_SPE = (byte)Math.Clamp(value, 0, 10); RecalcStats(); }  UpdateLegality(); }
 
     // Region Origin (Gen 6-7, 3DS)
     [ObservableProperty] private int _country, _subRegion, _consoleRegion;
@@ -674,6 +995,7 @@ public partial class PKMEditorViewModel : ObservableObject
             UpdateRegionNames();
             if (Entity is IRegionOrigin ro)
                 ro.Country = (byte)Math.Clamp(value, 0, 255);
+            UpdateLegality();
         }
     }
 
@@ -684,6 +1006,7 @@ public partial class PKMEditorViewModel : ObservableObject
             UpdateRegionNames();
             if (Entity is IRegionOrigin ro)
                 ro.Region = (byte)Math.Clamp(value, 0, 255);
+            UpdateLegality();
         }
     }
 
@@ -694,6 +1017,7 @@ public partial class PKMEditorViewModel : ObservableObject
             UpdateRegionNames();
             if (Entity is IRegionOrigin ro)
                 ro.ConsoleRegion = (byte)Math.Clamp(value, 0, 255);
+            UpdateLegality();
         }
     }
 
@@ -720,12 +1044,18 @@ public partial class PKMEditorViewModel : ObservableObject
     [ObservableProperty] private int _htLanguage;
     [ObservableProperty] private bool _hasHtLanguage;
 
+    partial void OnHtLanguageChanged(int value) { if (!_isPopulating && Entity is IHandlerLanguage hl) hl.HandlingTrainerLanguage = (byte)Math.Clamp(value, 0, 255);  UpdateLegality(); }
+
     // Cosmetic — Size/Scale
     [ObservableProperty] private int _heightScalar;
     [ObservableProperty] private int _weightScalar;
     [ObservableProperty] private int _scale;
     [ObservableProperty] private bool _hasSizeData;
     [ObservableProperty] private bool _hasScale;
+
+    partial void OnHeightScalarChanged(int value) { if (!_isPopulating && Entity is IScaledSize ss) ss.HeightScalar = (byte)Math.Clamp(value, 0, 255); }
+    partial void OnWeightScalarChanged(int value) { if (!_isPopulating && Entity is IScaledSize ss) ss.WeightScalar = (byte)Math.Clamp(value, 0, 255); }
+    partial void OnScaleChanged(int value) { if (!_isPopulating && Entity is IScaledSize3 ss3) ss3.Scale = (byte)Math.Clamp(value, 0, 255); }
 
     [ObservableProperty]
     private bool _isInitialized;
@@ -969,6 +1299,7 @@ public partial class PKMEditorViewModel : ObservableObject
             var pp = Entity.GetMovePP(Move1, value);
             Move1_PP = pp;
             Entity.Move1_PP = pp;
+            UpdateLegality();
         }
     }
 
@@ -980,6 +1311,7 @@ public partial class PKMEditorViewModel : ObservableObject
             var pp = Entity.GetMovePP(Move2, value);
             Move2_PP = pp;
             Entity.Move2_PP = pp;
+            UpdateLegality();
         }
     }
 
@@ -991,6 +1323,7 @@ public partial class PKMEditorViewModel : ObservableObject
             var pp = Entity.GetMovePP(Move3, value);
             Move3_PP = pp;
             Entity.Move3_PP = pp;
+            UpdateLegality();
         }
     }
 
@@ -1002,6 +1335,7 @@ public partial class PKMEditorViewModel : ObservableObject
             var pp = Entity.GetMovePP(Move4, value);
             Move4_PP = pp;
             Entity.Move4_PP = pp;
+            UpdateLegality();
         }
     }
 
@@ -1172,6 +1506,7 @@ public partial class PKMEditorViewModel : ObservableObject
         StatNature = pk.StatNature;
 
         Ability = pk.Ability;
+        AbilityNumber = pk.AbilityNumber;
         HeldItem = pk.HeldItem;
         IsShiny = pk.IsShiny;
         IsShinyDisplay = pk.IsShiny;
@@ -1403,9 +1738,11 @@ public partial class PKMEditorViewModel : ObservableObject
         MetYear = pk.MetYear;
         MetMonth = pk.MetMonth;
         MetDay = pk.MetDay;
+        OnPropertyChanged(nameof(MetDate));
         EggYear = pk.EggYear;
         EggMonth = pk.EggMonth;
         EggDay = pk.EggDay;
+        OnPropertyChanged(nameof(EggDate));
 
         Ot = pk.OriginalTrainerName;
         Tid = pk.TID16;
@@ -1612,6 +1949,36 @@ public partial class PKMEditorViewModel : ObservableObject
             HeightScalar = 0;
             WeightScalar = 0;
             Scale = 0;
+        }
+
+        // Cosmetic — Shiny/Cured marks
+        ShowShinyMark = pk.IsShiny;
+        ShowCuredMark = pk.IsPokerusCured;
+
+        // Cosmetic — Affixed Ribbon
+        if (pk is IRibbonSetAffixed aff)
+        {
+            var idx = aff.AffixedRibbon;
+            HasAffixedRibbon = idx >= 0;
+            AffixedRibbonText = idx >= 0 ? ((RibbonIndex)idx).ToString() : string.Empty;
+        }
+        else
+        {
+            HasAffixedRibbon = false;
+            AffixedRibbonText = string.Empty;
+        }
+
+        // Cosmetic — Battle Version mark
+        if (pk is IBattleVersion bvMark)
+        {
+            var ver = (int)bvMark.BattleVersion;
+            ShowBattleVersionMark = ver != 0;
+            BattleVersionMarkText = ver != 0 ? $"Battle: v{ver}" : string.Empty;
+        }
+        else
+        {
+            ShowBattleVersionMark = false;
+            BattleVersionMarkText = string.Empty;
         }
 
         // Gen-specific: Shadow Pokemon (XD/Colosseum)
@@ -1893,6 +2260,8 @@ public partial class PKMEditorViewModel : ObservableObject
         if (HasStatNature)
             Entity.StatNature = StatNature;
         Entity.Ability = Ability;
+        if (IsHaXMode)
+            Entity.AbilityNumber = AbilityNumber;
         Entity.HeldItem = HeldItem;
 
         // New fields
@@ -2420,6 +2789,7 @@ public partial class PKMEditorViewModel : ObservableObject
         _isPopulating = true;
         try { Exp = Experience.GetEXP(value, growth); }
         finally { _isPopulating = false; }
+        Entity.EXP = Exp; // Sync EXP to Entity so ResetPartyStats uses correct level
         RecalcStats();
         UpdateLegality();
     }
@@ -2601,6 +2971,19 @@ public partial class PKMEditorViewModel : ObservableObject
         {
             if (value && !Entity.IsShiny) Entity.SetShiny();
             else if (!value && Entity.IsShiny) Entity.SetPIDGender(Entity.Gender);
+
+            // Sync PID + EC hex after PID was modified by SetShiny/SetPIDGender
+            _isPopulating = true;
+            try
+            {
+                PidHex = Entity.PID.ToString("X8");
+                EncryptionConstantHex = Entity.EncryptionConstant.ToString("X8");
+            }
+            finally { _isPopulating = false; }
+
+            IsShinyDisplay = value;
+            IsSquareShiny = value && Entity.ShinyXor == 0;
+            ShowShinyMark = value;
             UpdateSprite();
             UpdateLegality();
         }
@@ -2646,6 +3029,8 @@ public partial class PKMEditorViewModel : ObservableObject
         Entity.EV_SPE = Ev_SPE;
 
         Entity.Nature = Nature;
+        if (HasStatNature)
+            Entity.StatNature = StatNature;
         Entity.Stat_Level = Level;
 
         Entity.ResetPartyStats();
@@ -2801,11 +3186,31 @@ public partial class PKMEditorViewModel : ObservableObject
             await clipboard.SetTextAsync(text);
     }
 
-    [RelayCommand]
-    private void SavePkmFile()
+    [RelayCommand(AllowConcurrentExecutions = false)]
+    private async Task SavePkmFile()
     {
         if (Entity is null) return;
         PreparePKM();
+
+        var mainWindow = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+        if (mainWindow is null) return;
+
+        var topLevel = TopLevel.GetTopLevel(mainWindow);
+        if (topLevel is null) return;
+
+        var ext = Entity.Extension;
+        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "Save PKM File",
+            SuggestedFileName = $"{Entity.Species:000} - {Entity.Nickname}.{ext}",
+            DefaultExtension = ext,
+        });
+        if (file is null) return;
+
+        await using var stream = await file.OpenWriteAsync();
+        var data = Entity.DecryptedBoxData;
+        await stream.WriteAsync(data);
+        LegalityReport = $"Saved {file.Name}";
     }
 
     // --- Click-shortcut commands (WinForms parity) ---
