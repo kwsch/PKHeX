@@ -8,6 +8,8 @@ PKHeX
 
 ## Cross-Platform Support (Avalonia UI)
 
+> This is a fork of [**kwsch/PKHeX**](https://github.com/kwsch/PKHeX) — the original project and all credit belongs there.
+
 This fork adds **macOS and Linux support** via an [Avalonia UI](https://avaloniaui.net/) frontend, alongside the original Windows Forms application. The Avalonia port has full feature parity with the WinForms version (196/196 tracked features).
 
 ### Running on macOS / Linux
