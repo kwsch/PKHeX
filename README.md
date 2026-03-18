@@ -6,6 +6,24 @@ PKHeX
 
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
+## Cross-Platform Support (Avalonia UI)
+
+This fork adds **macOS and Linux support** via an [Avalonia UI](https://avaloniaui.net/) frontend, alongside the original Windows Forms application. The Avalonia port has full feature parity with the WinForms version (196/196 tracked features).
+
+### Running on macOS / Linux
+
+```bash
+dotnet run --project PKHeX.Avalonia/PKHeX.Avalonia.csproj
+```
+
+Requires [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0).
+
+### Disclaimer
+
+This port was AI-assisted with human supervision. It has only been thoroughly tested with **Generation 3 save files**. Other generations have full UI coverage but have not been validated with real save data. Use at your own risk and always keep backups.
+
+---
+
 Pokémon core series save editor, programmed in [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
 
 Supports the following files:
@@ -32,7 +50,7 @@ PKHeX expects save files that are not encrypted with console-specific keys. Use 
 
 ## Building
 
-PKHeX is a Windows Forms application which requires [.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0).
+PKHeX is a Windows Forms application which requires [.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0). The cross-platform Avalonia version can be built and run on macOS, Linux, and Windows.
 
 The executable can be built with any compiler that supports C# 14.
 
