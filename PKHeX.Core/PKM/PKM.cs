@@ -44,6 +44,11 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract Span<byte> OriginalTrainerTrash { get; }
     public virtual Span<byte> HandlingTrainerTrash => [];
 
+    /// <summary>
+    /// Conditions the <see cref="NicknameTrash"/> data to safely terminate the Nickname string from the text entry screen.
+    /// </summary>
+    public virtual void PrepareNickname() { }
+
     protected abstract byte[] Encrypt();
     public abstract EntityContext Context { get; }
     public byte Format => Context.Generation;

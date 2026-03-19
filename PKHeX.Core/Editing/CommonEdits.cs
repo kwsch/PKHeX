@@ -30,8 +30,10 @@ public static class CommonEdits
                 pk.ClearNickname();
                 return;
             }
-            pk.IsNicknamed = true;
+
+            pk.PrepareNickname();
             pk.Nickname = nick;
+            pk.IsNicknamed = true;
         }
 
         /// <summary>

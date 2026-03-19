@@ -135,9 +135,9 @@ public sealed class MiscVerifierG3 : Verifier
     {
         if (!pk.IsNicknamed || pk.IsEgg)
             return;
-        var nick = pk.NicknameTrash;
-        if (pk.Japanese)
-            nick = nick[..5]; // Japanese only wipes the first 5 bytes; everything else is trash.
+        // Japanese only fills the first 5+1 bytes; everything else is trash.
+        // International games are 10 chars (full buffer) max; implicit terminator if full.
+        var nick = pk.GetNicknamePrefillRegion();
         if (!TrashByteRules3.IsTerminatedFF(nick))
             data.AddLine(GetInvalid(Trainer, TrashBytesMismatchInitial));
     }
