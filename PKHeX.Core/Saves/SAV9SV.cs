@@ -50,7 +50,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         0 => "-Base", // Vanilla
         1 => "-TM", // Teal Mask
         2 => "-ID", // Indigo Disk
-        _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+        _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision), SaveRevision, null),
     };
 
     public override bool ChecksumsValid => true;
@@ -118,7 +118,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
             0 => (Legal.MaxMoveID_9_T0, Legal.MaxSpeciesID_9_T0, Legal.MaxItemID_9_T0, Legal.MaxAbilityID_9_T0),
             1 => (Legal.MaxMoveID_9_T1, Legal.MaxSpeciesID_9_T1, Legal.MaxItemID_9_T1, Legal.MaxAbilityID_9_T1),
             2 => (Legal.MaxMoveID_9_T2, Legal.MaxSpeciesID_9_T2, Legal.MaxItemID_9_T2, Legal.MaxAbilityID_9_T2),
-            _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+            _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision), SaveRevision, null),
         };
     }
 
