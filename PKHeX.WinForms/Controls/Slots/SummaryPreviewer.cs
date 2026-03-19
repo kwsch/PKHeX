@@ -103,7 +103,7 @@ public sealed class SummaryPreviewer
         var cLoc = Cursor.Position;
         var shift = Settings.PreviewCursorShift;
         cLoc.Offset(shift);
-        Previewer.Location = cLoc;
+        Previewer.MoveForm(cLoc.X, cLoc.Y);
     }
 
     public void Show(Control pb, IEncounterInfo enc)

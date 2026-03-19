@@ -104,6 +104,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             if (menu.mnuVSD.Visible)
                 return;
             Box.CurrentBox = e.Delta > 1 ? Box.Editor.MoveLeft() : Box.Editor.MoveRight();
+            if (Box.M is { } m)
+                m.MouseRestart(); // should always trigger if properly connected
         };
 
         GB_Daycare.Click += (_, _) => SwitchDaycare();

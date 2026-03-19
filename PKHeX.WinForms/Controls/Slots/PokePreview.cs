@@ -447,4 +447,30 @@ public sealed partial class PokePreview : Form
 
     private readonly record struct RenderMoveLine(string Text, Image? Icon, Color Color);
     private readonly record struct RenderTextLine(string Text, Color Color, int TopPadding, int BottomPadding);
+
+    /// <summary>
+    /// Moves the form to the specified screen coordinates without resizing or changing its z-order.
+    /// </summary>
+    /// <remarks>
+    /// This method updates the form's position using the Win32 SetWindowPos API with flags that minimize redraws and prevent activation or z-order changes.
+    /// Use this method when you need to reposition the form efficiently without affecting its size or focus.
+    /// </remarks>
+    /// <param name="x">The new horizontal position, in pixels, of the form's upper-left corner relative to the screen.</param>
+    /// <param name="y">The new vertical position, in pixels, of the form's upper-left corner relative to the screen.</param>
+    public void MoveForm(int x, int y)
+    {
+        const uint SWP_NOSIZE = 0x0001;
+        const uint SWP_NOZORDER = 0x0004;
+        const uint SWP_NOREDRAW = 0x0008;
+        const uint SWP_NOACTIVATE = 0x0010;
+        const uint SWP_NOSENDCHANGING = 0x0400;
+        const uint SWP_ASYNCWINDOWPOS = 0x4000;
+        const uint flags = SWP_NOZORDER | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOACTIVATE | SWP_NOSENDCHANGING | SWP_ASYNCWINDOWPOS;
+
+        SetWindowPos(Handle, 0, x, y, 0, 0, flags);
+        return;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+    }
 }

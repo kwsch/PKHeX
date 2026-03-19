@@ -14,9 +14,9 @@ public static class SlotUtil
     /// <summary>
     /// Gets the background image for a slot based on the provided <see cref="type"/>.
     /// </summary>
-    public static Bitmap GetTouchTypeBackground(SlotTouchType type) => type switch
+    public static Bitmap? GetTouchTypeBackground(SlotTouchType type) => type switch
     {
-        SlotTouchType.None => SpriteUtil.Spriter.Transparent,
+        SlotTouchType.None => null,
         SlotTouchType.Get => SpriteUtil.Spriter.View,
         SlotTouchType.Set => SpriteUtil.Spriter.Set,
         SlotTouchType.Delete => SpriteUtil.Spriter.Delete,
@@ -42,6 +42,9 @@ public static class SlotUtil
     /// </summary>
     public static void UpdateSlot(PictureBox pb, ISlotInfo info, PKM pk, SaveFile sav, SlotVisibilityType flags, SlotTouchType t = SlotTouchType.None)
     {
+        pb.Image?.Dispose();
+        pb.BackgroundImage?.Dispose();
+
         pb.BackgroundImage = GetTouchTypeBackground(t);
         if (pk.Species == 0) // Nothing in slot
         {

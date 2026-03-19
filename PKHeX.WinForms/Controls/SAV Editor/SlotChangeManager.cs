@@ -18,6 +18,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
 {
     public readonly SAVEditor SE = se;
     public readonly SlotTrackerImage LastSlot = new();
+    public PictureBox? Hovered { get; private set; }
     public readonly DragManager Drag = new();
     public SaveDataEditor<PictureBox> Env { get; set; } = null!;
 
@@ -34,15 +35,28 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
     {
         if (sender is not PictureBox pb)
             return;
+        MouseRestart(pb);
+    }
+
+    public void MouseRestart()
+    {
+        if (Hovered is { } pb)
+            MouseRestart(pb);
+    }
+
+    private void MouseRestart(PictureBox pb)
+    {
         bool dataPresent = pb.Image is not null;
         if (dataPresent)
             Hover.Start(pb, LastSlot);
+        Hovered = pb;
         pb.Cursor = dataPresent ? Cursors.Hand : Cursors.Default;
     }
 
     public void MouseLeave(object? sender, EventArgs e)
     {
         Hover.Stop();
+        Hovered = null;
     }
 
     public void MouseClick(object? sender, MouseEventArgs e)
