@@ -39,15 +39,14 @@ public sealed class StartupSettings : IStartupSettings
     public List<string> RecentlyLoaded { get; set; } = new(DefaultMaxRecent);
 
     private const int DefaultMaxRecent = 10;
-    private uint MaxRecentCount = DefaultMaxRecent;
 
     [LocalizedDescription("Amount of recently loaded save files to remember.")]
     public uint RecentlyLoadedMaxCount
     {
-        get => MaxRecentCount;
+        get;
         // Sanity check to not let the user foot-gun themselves a slow recall time.
-        set => MaxRecentCount = Math.Clamp(value, 1, 1000);
-    }
+        set => field = Math.Clamp(value, 1, 1000);
+    } = DefaultMaxRecent;
 
     // Don't let invalid values slip into the startup version.
 
@@ -89,7 +88,7 @@ public sealed class StartupSettings : IStartupSettings
     {
         var recent = RecentlyLoaded;
         // Remove from list if already present.
-        if (!recent.Remove(path) && recent.Count >= MaxRecentCount)
+        if (!recent.Remove(path) && recent.Count >= RecentlyLoadedMaxCount)
             recent.RemoveAt(recent.Count - 1);
         recent.Insert(0, path);
     }

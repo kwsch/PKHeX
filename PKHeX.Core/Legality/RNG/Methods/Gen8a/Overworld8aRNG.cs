@@ -129,6 +129,8 @@ public static class Overworld8aRNG
             if (para.Shiny == Shiny.AlwaysStar && type != Shiny.AlwaysStar)
                 return false;
         }
+        if (para.Shiny is Shiny.Random && criteria.IsSpecifiedShiny() && !criteria.IsSatisfiedShiny(GetShinyXor(pid, pk.ID32), 16))
+            return false;
         pk.PID = pid;
 
         Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];

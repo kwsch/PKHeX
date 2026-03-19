@@ -127,6 +127,12 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     public bool IsSpecifiedAbility() => Ability != Any12H;
 
     /// <summary>
+    /// Determines whether the shiny value is explicitly specified rather than set to random.
+    /// </summary>
+    /// <returns>><see langword="true"/> if a Shiny is specified; otherwise, <see langword="false"/>.</returns>
+    public bool IsSpecifiedShiny() => Shiny != Shiny.Random;
+
+    /// <summary>
     /// Determines whether all IVs are specified in the criteria.
     /// </summary>
     /// <returns>><see langword="true"/> if all IVs are specified; otherwise, <see langword="false"/>.</returns>
@@ -181,6 +187,20 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         OnlySecond => index == 1 || Mutations.HasFlag(CanAbilityCapsule),
         OnlyHidden => index == 2 || Mutations.HasFlag(CanAbilityPatch),
         _ => throw new ArgumentOutOfRangeException(nameof(ability), ability, null),
+    };
+
+    /// <summary>
+    /// Determines whether the specified shiny properties satisfy the shiny criteria based on the current <see cref="Shiny"/> setting.
+    /// </summary>
+    /// <returns>><see langword="true"/> if the index satisfies the shiny criteria; otherwise, <see langword="false"/>.</returns>
+    public bool IsSatisfiedShiny(uint xor, uint cmp) => Shiny switch
+    {
+        Shiny.Random => true,
+        Shiny.Never => xor > cmp, // not shiny
+        Shiny.AlwaysSquare => xor == 0, // square shiny
+        Shiny.AlwaysStar => xor < cmp && xor != 0, // star shiny
+        Shiny.Always => xor < cmp, // shiny
+        _ => false, // shouldn't be set
     };
 
     /// <summary>

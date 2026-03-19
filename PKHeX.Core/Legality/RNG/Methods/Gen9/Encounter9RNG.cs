@@ -62,10 +62,10 @@ public static class Encounter9RNG
     {
         var rand = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rand.NextInt(uint.MaxValue);
-        pk.PID = GetAdaptedPID(ref rand, pk, enc);
-
-        if (enc.Shiny is Shiny.Random && criteria.Shiny.IsShiny() != pk.IsShiny)
+        var pid = GetAdaptedPID(ref rand, pk, enc);
+        if (enc.Shiny is Shiny.Random && criteria.IsSpecifiedShiny() && !criteria.IsSatisfiedShiny(GetShinyXor(pid, pk.ID32), 16))
             return false;
+        pk.PID = pid;
 
         const int UNSET = -1;
         const int MAX = 31;
