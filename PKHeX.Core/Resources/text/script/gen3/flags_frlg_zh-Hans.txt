@@ -410,7 +410,7 @@
 677	s	获得电梯钥匙
 678	s	获得茶
 679	e	从神秘礼物中获得极光船票
-680	e	从神秘礼物中获得神秘船票
+680	e	从神秘礼物中获得神秘船票(GBA)/登入名人堂(VC)
 
 699	m	Powder Jar received
 700	r	Mewtwo caught/defeated
