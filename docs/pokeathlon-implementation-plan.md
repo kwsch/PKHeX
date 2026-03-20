@@ -14,7 +14,7 @@ PKHeX currently exposes only `PokeathlonPoints` (Athlete Points, offset `0xE548`
 
 The implementation is split across two projects following existing conventions:
 
-- **PKHeX.Core** — data model (`PokeatlonBlock`) exposed from `SAV4HGSS`
+- **PKHeX.Core** — data model (`PokeathlonBlock`) exposed from `SAV4HGSS`
 - **PKHeX.WinForms** — editor form (`SAV_Pokeathlon`) wired into the existing `SAVEditor`
 
 ---
@@ -144,12 +144,12 @@ These populate the in-game Data Card screen.
 
 ### Phase 1 — Core Data Model
 
-**File:** `PKHeX.Core/Saves/Substructures/Gen4/PokeatlonBlock.cs` (new file)
+**File:** `PKHeX.Core/Saves/Substructures/Gen4/PokeathlonBlock.cs` (new file)
 
-Create a `PokeatlonBlock` class that wraps a `Span<byte>` / `Memory<byte>` slice of the General buffer:
+Create a `PokeathlonBlock` class that wraps a `Span<byte>` / `Memory<byte>` slice of the General buffer:
 
 ```
-public sealed class PokeatlonBlock
+public sealed class PokeathlonBlock
 {
     private readonly Memory<byte> Raw;
     private Span<byte> Data => Raw.Span;
@@ -184,10 +184,10 @@ Key members:
 Add:
 
 ```csharp
-private const int OffsetPokeatlonBlock = 0xD980; // start of Pokéathlon region
-private const int SizePokeatlonBlock = 0x5F0;
+private const int OffsetPokeathlonBlock = 0xD980; // start of Pokéathlon region
+private const int SizePokeathlonBlock = 0x5F0;
 
-public PokeatlonBlock Pokeathlon => new(GeneralBuffer.Slice(OffsetPokeatlonBlock, SizePokeatlonBlock));
+public PokeathlonBlock Pokeathlon => new(GeneralBuffer.Slice(OffsetPokeathlonBlock, SizePokeathlonBlock));
 ```
 
 Keep `PokeathlonPoints` as a forwarding property calling `Pokeathlon.AthletePoints` to avoid breaking existing callers.
@@ -280,7 +280,7 @@ These are optional quality-of-life additions for a follow-up, listed here for co
 
 | Path | Action |
 |------|--------|
-| `PKHeX.Core/Saves/Substructures/Gen4/PokeatlonBlock.cs` | **New** |
+| `PKHeX.Core/Saves/Substructures/Gen4/PokeathlonBlock.cs` | **New** |
 | `PKHeX.WinForms/Subforms/Save Editors/Gen4/SAV_Pokeathlon.cs` | **New** |
 | `PKHeX.WinForms/Subforms/Save Editors/Gen4/SAV_Pokeathlon.Designer.cs` | **New** |
 
