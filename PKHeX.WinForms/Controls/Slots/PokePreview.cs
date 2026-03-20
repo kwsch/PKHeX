@@ -467,7 +467,9 @@ public sealed partial class PokePreview : Form
         const uint SWP_ASYNCWINDOWPOS = 0x4000;
         const uint flags = SWP_NOZORDER | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOACTIVATE | SWP_NOSENDCHANGING | SWP_ASYNCWINDOWPOS;
 
-        SetWindowPos(Handle, 0, x, y, 0, 0, flags);
+
+        const int HWND_TOPMOST = -1;
+        SetWindowPos(Handle, HWND_TOPMOST, x, y, 0, 0, flags);
         return;
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
