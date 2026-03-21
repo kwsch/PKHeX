@@ -1,7 +1,17 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-26/03/06 - New Update:
+26/03/20 - New Update:
+ - Added handling for ZA's new patch revision tag.
+ - Legality: Gen3 Updated nickname checks for Japanese language origin.
+ - Changed: Hover preview in boxes now renders much quicker.
+ - Added: Gen8 encounters via the Encounter Database now respect requests for Shiny.
+ - Added: Gen1-5 Trainer editors can now edit OT trash bytes via CTRL-Click, same as the main entity GUI.
+ - Added: Gen3 Hall of Fame can now set current party to the selected entry.
+ - Fixed: Gen4 chatter and Records now read from the correct save block (rather than potentially the backup).
+ - Fixed: Performing many thousand Drag-drop operations will no longer crash the program (handle leak).
+
+26/03/06 - New Update: (114499) [12750752]
  - Legality: Added Gen3 FR/LG virtual console legality restrictions and trash byte checks.
  - Added: Gen3 FR/LG dex editing will clear unavailable captured dex flags.
  - Added: Gen3 FR/LG item lists for virtual console no longer permit items exclusively from R/S/E/C/XD.
