@@ -64,40 +64,16 @@ public static class PokeCrypto
     /// </summary>
     private static ReadOnlySpan<byte> BlockPosition =>
     [
-        0, 1, 2, 3,
-        0, 1, 3, 2,
-        0, 2, 1, 3,
-        0, 3, 1, 2,
-        0, 2, 3, 1,
-        0, 3, 2, 1,
-        1, 0, 2, 3,
-        1, 0, 3, 2,
-        2, 0, 1, 3,
-        3, 0, 1, 2,
-        2, 0, 3, 1,
-        3, 0, 2, 1,
-        1, 2, 0, 3,
-        1, 3, 0, 2,
-        2, 1, 0, 3,
-        3, 1, 0, 2,
-        2, 3, 0, 1,
-        3, 2, 0, 1,
-        1, 2, 3, 0,
-        1, 3, 2, 0,
-        2, 1, 3, 0,
-        3, 1, 2, 0,
-        2, 3, 1, 0,
-        3, 2, 1, 0,
+        0, 1, 2, 3,  0, 1, 3, 2,  0, 2, 1, 3,  0, 3, 1, 2, 
+        0, 2, 3, 1,  0, 3, 2, 1,  1, 0, 2, 3,  1, 0, 3, 2,
+        2, 0, 1, 3,  3, 0, 1, 2,  2, 0, 3, 1,  3, 0, 2, 1,
+        1, 2, 0, 3,  1, 3, 0, 2,  2, 1, 0, 3,  3, 1, 0, 2,
+        2, 3, 0, 1,  3, 2, 0, 1,  1, 2, 3, 0,  1, 3, 2, 0,
+        2, 1, 3, 0,  3, 1, 2, 0,  2, 3, 1, 0,  3, 2, 1, 0,
 
-        // duplicates of 0-7 to eliminate modulus
-        0, 1, 2, 3,
-        0, 1, 3, 2,
-        0, 2, 1, 3,
-        0, 3, 1, 2,
-        0, 2, 3, 1,
-        0, 3, 2, 1,
-        1, 0, 2, 3,
-        1, 0, 3, 2,
+        // duplicates of 0-7 to eliminate modulus (32 => 24)
+        0, 1, 2, 3,  0, 1, 3, 2,  0, 2, 1, 3,  0, 3, 1, 2,
+        0, 2, 3, 1,  0, 3, 2, 1,  1, 0, 2, 3,  1, 0, 3, 2,
     ];
 
     /// <summary>
@@ -105,8 +81,15 @@ public static class PokeCrypto
     /// </summary>
     private static ReadOnlySpan<byte> BlockPositionInvert =>
     [
-        0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23,
-        0, 1, 2, 4, 3, 5, 6, 7, // duplicates of 0-7 to eliminate modulus
+        00, 01, 02, 04,
+        03, 05, 06, 07,
+        12, 18, 13, 19,
+        08, 10, 14, 20,
+        16, 22, 09, 11,
+        15, 21, 17, 23,
+        
+        // duplicates of 0-7 to eliminate modulus (32 => 24)
+        00, 01, 02, 04, 03, 05, 06, 07,
     ];
 
     /// <summary>
@@ -377,8 +360,8 @@ public static class PokeCrypto
     /// <returns>Un-shuffled  data.</returns>
     private static byte[] ShuffleArray3(ReadOnlySpan<byte> data, uint sv)
     {
-        byte[] sdata = new byte[data.Length];
-        ShuffleArray3(data, sdata, sv);
+        byte[] sdata = data.ToArray();
+        Shuffle3(sdata.AsSpan(SIZE_3HEADER, 4 * SIZE_3BLOCK), sv);
         return sdata;
     }
 
@@ -414,15 +397,103 @@ public static class PokeCrypto
         return ekm;
     }
 
+    public static void Shuffle3(Span<byte> data, uint sv) => Shuffle<uint>(data, sv, SIZE_3BLOCK);
+    public static void Shuffle45(Span<byte> data, uint sv) => Shuffle<ulong>(data, sv, SIZE_4BLOCK);
+    public static void Shuffle67(Span<byte> data, uint sv) => Shuffle<ulong>(data, sv, SIZE_6BLOCK);
+    public static void Shuffle8(Span<byte> data, uint sv) => Shuffle<ulong>(data, sv, SIZE_8BLOCK);
+    public static void Shuffle8A(Span<byte> data, uint sv) => Shuffle<ulong>(data, sv, SIZE_8ABLOCK);
+
+    private static void Shuffle<T>(Span<byte> data, uint sv, [ConstantExpected(Min = 0)] int blockSizeBytes) where T : unmanaged
+    {
+        if (sv == 0)
+            return;
+
+        var size = Unsafe.SizeOf<T>(); // JIT constant-folded
+        var count = blockSizeBytes / size; // number of T-elements per block
+
+        Span<byte> perm = stackalloc byte[BlockCount];
+        Span<byte> slotOf = stackalloc byte[BlockCount];
+
+        // build current layout and reverse map (identity)
+        for (byte s = 0; s < BlockCount; s++)
+            perm[s] = slotOf[s] = s;
+
+        var shuffle = BlockPosition.Slice((int)sv * BlockCount, BlockCount);
+
+        // Perform shuffle, let JIT unroll.
+        var u = MemoryMarshal.Cast<byte, T>(data);
+        for (byte i = 0; i < BlockCount - 1; i++)
+        {
+            var desired = shuffle[i];
+            var j = slotOf[desired]; // O(1)
+            if (j == i)
+                continue;
+
+            var blockAtI = perm[i];
+            SwapBlocks(u, i * count, j * count, count);
+
+            // reflect permutation, update reverse map
+            // no need to update processed indexes - they won't be used in future loops.
+            // we don't care to book-keep the full state of the perm, just the location of unprocessed blocks
+            // perm[i] = desired;
+            perm[j] = blockAtI;
+            // slotOf[desired] = i;
+            slotOf[blockAtI] = j;
+        }
+    }
+
+    private static void SwapBlocks<T>(Span<T> u, int a, int b, int count) where T : unmanaged
+    {
+        for (int i = 0; i < count; i++)
+        {
+            ref var ra = ref u[a + i];
+            ref var rb = ref u[b + i];
+            (ra, rb) = (rb, ra);
+        }
+    }
+
+    /// <summary>
+    /// Checks if the Gen3 format entity is encrypted, when the checksum of the data does not match the expected value.
+    /// </summary>
+    public static bool IsEncrypted3(ReadOnlySpan<byte> data)
+    {
+        var calc = Checksums.Add16(data.Slice(0x20, BlockCount * SIZE_3BLOCK));
+        var expect = ReadUInt16LittleEndian(data[0x1C..]);
+        return calc != expect;
+    }
+
+    /// <summary>
+    /// Checks if the Gen4/5 format entity is encrypted, when the unused ribbon bits are not 0.
+    /// </summary>
+    public static bool IsEncrypted45(ReadOnlySpan<byte> data) => ReadUInt32LittleEndian(data[0x64..]) != 0;
+
+    /// <summary>
+    /// Checks if the Gen6/7 format entity is encrypted, when the final terminators of the text strings are not 0.
+    /// </summary>
+    /// <remarks> Checks Nickname and Original Trainer. </remarks>
+    private static bool IsEncrypted67(ReadOnlySpan<byte> data) => ReadUInt16LittleEndian(data[0xC8..]) != 0 || ReadUInt16LittleEndian(data[0x58..]) != 0;
+
+    /// <summary>
+    /// Checks if the Gen8 format entity is encrypted, when the final terminators of the text strings are not 0.
+    /// </summary>
+    /// <remarks> Checks Nickname and Original Trainer. </remarks>
+    public static bool IsEncrypted8(ReadOnlySpan<byte> data) => ReadUInt16LittleEndian(data[0x70..]) != 0 || ReadUInt16LittleEndian(data[0x110..]) != 0;
+
+    /// <summary>
+    /// Checks if the Gen8a format entity is encrypted, when the final terminators of the text strings are not 0.
+    /// </summary>
+    /// <remarks> Checks Nickname and Original Trainer. </remarks>
+    public static bool IsEncrypted8a(Span<byte> data) => ReadUInt16LittleEndian(data[0x78..]) != 0 || ReadUInt16LittleEndian(data[0x128..]) != 0;
+
     /// <summary>
     /// Decrypts the input <see cref="pk"/> data into a new array if it is encrypted, and updates the reference.
     /// </summary>
     /// <remarks>Generation 3 Format encryption check which verifies the checksum</remarks>
     public static void DecryptIfEncrypted3(ref Memory<byte> pk)
     {
-        ushort chk = Checksums.Add16(pk.Span.Slice(0x20, BlockCount * SIZE_3BLOCK));
-        if (chk != ReadUInt16LittleEndian(pk.Span[0x1C..]))
-            pk = DecryptArray3(pk.Span);
+        var span = pk.Span;
+        if (IsEncrypted3(span))
+            pk = DecryptArray3(span);
     }
 
     /// <summary>
@@ -435,9 +506,6 @@ public static class PokeCrypto
         if (IsEncrypted45(span))
             pk = DecryptArray45(span);
     }
-
-    public static bool IsEncrypted45(ReadOnlySpan<byte> data) => ReadUInt32LittleEndian(data[0x64..]) != 0;
-
     /// <summary>
     /// Decrypts the input <see cref="pk"/> data into a new array if it is encrypted, and updates the reference.
     /// </summary>
@@ -445,7 +513,7 @@ public static class PokeCrypto
     public static void DecryptIfEncrypted67(ref Memory<byte> pk)
     {
         var span = pk.Span;
-        if (ReadUInt16LittleEndian(span[0xC8..]) != 0 || ReadUInt16LittleEndian(span[0x58..]) != 0)
+        if (IsEncrypted67(span))
             pk = DecryptArray6(span);
     }
 
@@ -456,7 +524,7 @@ public static class PokeCrypto
     public static void DecryptIfEncrypted8(ref Memory<byte> pk)
     {
         var span = pk.Span;
-        if (ReadUInt16LittleEndian(span[0x70..]) != 0 || ReadUInt16LittleEndian(span[0x110..]) != 0)
+        if (IsEncrypted8(span))
             pk = DecryptArray8(span);
     }
 
@@ -467,7 +535,7 @@ public static class PokeCrypto
     public static void DecryptIfEncrypted8A(ref Memory<byte> pk)
     {
         var span = pk.Span;
-        if (ReadUInt16LittleEndian(span[0x78..]) != 0 || ReadUInt16LittleEndian(span[0x128..]) != 0)
+        if (IsEncrypted8a(span))
             pk = DecryptArray8A(span);
     }
 
@@ -478,7 +546,7 @@ public static class PokeCrypto
     public static void DecryptIfEncrypted9(ref Memory<byte> pk)
     {
         var span = pk.Span;
-        if (ReadUInt16LittleEndian(span[0x70..]) != 0 || ReadUInt16LittleEndian(span[0x110..]) != 0)
+        if ((IsEncrypted8(span))) // same layout as Gen8, so same check applies
             pk = DecryptArray9(span);
     }
 }
