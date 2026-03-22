@@ -113,7 +113,7 @@
 0303	r	Spiritomb Captured
 0500	s	Sealed Chamber Puzzle Braille Text Disappeared
 3007	s	Sealed Chamber Puzzle Completed
-3008	r	Regi Caves Unlocked
+3008	s	Regi Caves Unlocked
 0501	s	Desert Ruins Puzzle Braille Text Disappeared
 3004	s	Desert Ruins Puzzle Completed
 0502	s	Island Cave Puzzle Braille Text Disappeared
@@ -273,8 +273,8 @@
 2989	f	Discovered Secret Meadow
 2982	f	(OR) Visited Team Magma Hideout
 2983	f	(AS) Visited Team Aqua Hideout
-2905	*	Extremely Harsh Sunlight in eastern Hoenn
-2906	*	Heavy Rain in eastern Hoenn
+2905	s	Extremely Harsh Sunlight in eastern Hoenn
+2906	s	Heavy Rain in eastern Hoenn
 3063	s	Had Village Sub Combo (Today)
 3064	s	Had Magnemite Croquette (Today)
 3065	s	Had Mauville Ramen Bowl (Today)

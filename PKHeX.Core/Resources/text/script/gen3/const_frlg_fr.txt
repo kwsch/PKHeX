@@ -17,6 +17,7 @@
 0x404B	a	Sticker Carte Dresseur Combats Link	0:Aucun,1:Niveau 1,2:Niveau 2,3:Niveau 3
 
 0x408B	s	Grand Maniac des Fossiles Vaincu (Mont Sélénite)	0:Non,1:Oui
+0x406B	s	Pépite Reçu (Pont Pépite)	0:Non,1:Oui
 0x407E	s	Statut de l'Océane	00:À Carmin-sur-mer,01:Prêt à partir,03:Parti
 0x4059	s	Spectre d'Ossatueur Vaincu	0:Non,1:Oui
 0x4062	s	Thé Donné aux Gardes	0:Non,1:Oui

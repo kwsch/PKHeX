@@ -113,7 +113,7 @@
 0303	r	Spiritomb capturado
 0500	s	Texto Braille del puzzle de la Cámara Sellada desaparecido
 3007	s	Puzzle de la Cámara Sellada completado
-3008	r	Cuevas de los Regi desbloqueadas
+3008	s	Cuevas de los Regi desbloqueadas
 0501	s	Texto Braille del puzzle de Ruinas del Desierto desaparecido
 3004	s	Puzzle de Ruinas del Desierto completado
 0502	s	Texto Braille del puzzle de Cueva Insular desaparecido
@@ -273,8 +273,8 @@
 2989	f	Prado Secreto descubierto
 2982	f	(RO) Guarida Magma visitada
 2983	f	(ZA) Guarida Aqua visitada
-2905	*	Sol abrasador en Hoenn oriental
-2906	*	Diluvio en Hoenn oriental
+2905	s	Sol abrasador en Hoenn oriental
+2906	s	Diluvio en Hoenn oriental
 3063	s	Comido Menú Sandwich Villa (Hoy)
 3064	s	Comido Magnebóndigas (Hoy)
 3065	s	Comido Malvaguetis (Hoy)

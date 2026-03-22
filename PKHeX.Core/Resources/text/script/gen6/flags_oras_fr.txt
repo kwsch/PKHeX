@@ -113,7 +113,7 @@
 0303	r	Spiritomb Capturé
 0500	s	Puzzle du Texte en Braille du Sanctuaire Disparu
 3007	s	Puzzle du Sanctuaire Complété
-3008	r	Cavernes des Regi Débloquées
+3008	s	Cavernes des Regi Débloquées
 0501	s	Puzzle du Texte en Braille des Ruines Désert Disparu
 3004	s	Puzzle des Ruines Désert Complété
 0502	s	Puzzle du Texte en Braille de la Grotte de l'Îlot Disparu
@@ -273,8 +273,8 @@
 2989	f	A Découvert Champ Fleuri Secret
 2982	f	(RO) A Visité Planque Magma
 2983	f	(SA) A Visité Planque Aqua
-2905	*	Soleil intense en Hoenn de l'est
-2906	*	Pluie battante en Hoenn de l'est
+2905	s	Soleil intense en Hoenn de l'est
+2906	s	Pluie battante en Hoenn de l'est
 3063	s	A Eu un Sandwich du Hameau (Aujourd'hui)
 3064	s	A Eu un Magné-Beignet (Aujourd'hui)
 3065	s	A Eu des Nouilles Lavandia (Aujourd'hui)

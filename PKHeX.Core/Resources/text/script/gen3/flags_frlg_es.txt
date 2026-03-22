@@ -409,8 +409,8 @@
 
 677	s	Recibida Llave Ascensor
 678	s	Recibido Té
-679	e	Ori-Ticket recibido mediante Regalo Misterioso
-680	e	Misti-Ticket recibido mediante Regalo Misterioso
+679	e	Ori-Ticket recibido mediante Regalo Misterioso (GBA)/Hall de la Fama (Switch)
+680	e	Misti-Ticket recibido mediante Regalo Misterioso (GBA)/Hall de la Fama (Switch)
 
 699	m	Powder Jar received
 700	r	Mewtwo caught/defeated
