@@ -61,11 +61,11 @@ public static partial class Extensions
 
     private static List<SlotInfoMisc> GetExtraSlots3(SAV3 sav)
     {
-        if (sav is not SAV3FRLG)
+        if (sav is not SAV3FRLG frlg)
             return None;
         return
         [
-            new(sav.LargeBuffer[0x3C98..], 0) {Type = StorageSlotType.Daycare},
+            new(frlg.LargeBlock.SingleDaycareRoute5, 0) {Type = StorageSlotType.Daycare},
         ];
     }
 

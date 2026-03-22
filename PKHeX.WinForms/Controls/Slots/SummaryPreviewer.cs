@@ -38,6 +38,11 @@ public sealed class SummaryPreviewer
         else if (Settings.HoverSlotShowText)
         {
             var text = GetPreviewText(pk, settings);
+            if (!settings.Order.Contains(BattleTemplateToken.FirstLine))
+            {
+                var insert = GetPreviewText(pk, settings with { Order = [BattleTemplateToken.FirstLine] });
+                text = insert + Environment.NewLine + text;
+            }
             if (Settings.HoverSlotShowEncounter)
                 text = AppendEncounterInfo(ctx, text);
             ShowSet.SetToolTip(pb, text);
@@ -54,36 +59,23 @@ public sealed class SummaryPreviewer
         _source = new();
         UpdatePreviewPosition(new());
         Previewer.Populate(pk, settings, ctx);
-        ShowInactiveTopmost(Previewer);
+
+        SetWindowState(Previewer, true);
+        bool showFirst = !_isFirstShown;
+        if (showFirst)
+            _isFirstShown = true;
     }
 
-    private const int SW_SHOWNOACTIVATE = 4;
-    private const int HWND_TOPMOST = -1;
-    private const uint SWP_NOACTIVATE = 0x0010;
-
-    #pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
-    [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SetWindowPos")]
-    private static extern bool SetWindowPos(
-        int hWnd,             // Window handle
-        int hWndInsertAfter,  // Placement-order handle
-        int X,                // Horizontal position
-        int Y,                // Vertical position
-        int cx,               // Width
-        int cy,               // Height
-        uint uFlags);         // Window positioning flags
-
-    [System.Runtime.InteropServices.DllImport("user32.dll")]
-    private static extern bool ShowWindow(nint hWnd, int nCmdShow);
-    #pragma warning restore SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
-
-    public static void ShowInactiveTopmost(Form frm)
+    private static void SetWindowState(Form frm, bool visible)
     {
         try
         {
-            ShowWindow(frm.Handle, SW_SHOWNOACTIVATE);
-            SetWindowPos(frm.Handle.ToInt32(), HWND_TOPMOST,
-                frm.Left, frm.Top, frm.Width, frm.Height,
-                SWP_NOACTIVATE);
+            const int SW_SHOWNOACTIVATE = 4;
+            var state = visible ? SW_SHOWNOACTIVATE : 0;
+            ShowWindowAsync(frm.Handle, state);
+
+            [System.Runtime.InteropServices.DllImport("user32.dll")]
+            static extern bool ShowWindowAsync(nint hWnd, int nCmdShow);
         }
         catch
         {
@@ -91,12 +83,14 @@ public sealed class SummaryPreviewer
         }
     }
 
+    private bool _isFirstShown;
+
     public void UpdatePreviewPosition(Point location)
     {
         var cLoc = Cursor.Position;
         var shift = Settings.PreviewCursorShift;
         cLoc.Offset(shift);
-        Previewer.Location = cLoc;
+        Previewer.MoveForm(cLoc.X, cLoc.Y);
     }
 
     public void Show(Control pb, IEncounterInfo enc)
@@ -117,17 +111,19 @@ public sealed class SummaryPreviewer
     {
         try
         {
-            var token = _source.Token;
+            var token = _source.Token; // did the user move to another slot in time?
+            var noToken = CancellationToken.None; // don't throw task canceled exceptions
             Task.Run(async () =>
             {
-                if (!Previewer.IsHandleCreated)
+                if (!Previewer.IsHandleCreated || !_isFirstShown)
                     return; // not shown ever
 
-                // Give a little bit of fade-out delay
-                await Task.Delay(50, CancellationToken.None).ConfigureAwait(false);
+                // Give a little bit of delay before hiding, assuming user is moving between slots. If they enter another, we'll cancel.
+
+                await Task.Delay(50, noToken).ConfigureAwait(false);
                 if (!token.IsCancellationRequested)
-                    await Previewer.InvokeAsync(Previewer.Hide, CancellationToken.None).ConfigureAwait(false);
-            }, CancellationToken.None).ConfigureAwait(false);
+                    await Previewer.InvokeAsync(() => SetWindowState(Previewer, false), noToken); // hide
+            }, noToken).ConfigureAwait(false);
         }
         catch
         {

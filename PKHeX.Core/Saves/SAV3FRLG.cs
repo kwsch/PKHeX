@@ -1,5 +1,4 @@
 using System;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -7,41 +6,39 @@ namespace PKHeX.Core;
 /// Generation 5 <see cref="SaveFile"/> object for <see cref="GameVersion.FRLG"/>.
 /// </summary>
 /// <inheritdoc cref="SAV3" />
-public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomState<ushort>
+public sealed class SAV3FRLG : SAV3, IDaycareRandomState<ushort>
 {
     // Configuration
     protected override SAV3FRLG CloneInternal() => new(GetFinalData()) { Language = Language };
-    public override GameVersion Version { get; set; } = GameVersion.FR; // allow mutation
+    public override SaveBlock3SmallFRLG SmallBlock { get; }
+    public override SaveBlock3LargeFRLG LargeBlock { get; }
+    public override GameVersion Version
+    {
+        get;
+        set => field = value is GameVersion.FR or GameVersion.LG ? value : GameVersion.FRLG;
+    } = GameVersion.FR; // allow mutation
     private PersonalTable3 _personal = PersonalTable.FR;
     public override PersonalTable3 Personal => _personal;
+    public override int MaxItemID => Legal.MaxItemID_3_FRLG;
 
-    public override int EventFlagCount => 8 * 288;
-    public override int EventWorkCount => 0x100;
-    protected override int DaycareSlotSize => SIZE_STORED + 0x3C; // 0x38 mail + 4 exp
-    protected override int EggEventFlag => 0x266;
-    protected override int BadgeFlagStart => 0x820;
-
-    public SAV3FRLG(bool japanese = false) : base(japanese) => Initialize();
-
-    public override PlayerBag3FRLG Inventory => new(this);
+    public SAV3FRLG(bool japanese = false) : base(japanese)
+    {
+        SmallBlock = new SaveBlock3SmallFRLG(SmallBuffer[..0xF24]);
+        LargeBlock = new SaveBlock3LargeFRLG(LargeBuffer[..0x3D68]);
+    }
 
     public SAV3FRLG(Memory<byte> data) : base(data)
     {
-        Initialize();
+        SmallBlock = new SaveBlock3SmallFRLG(SmallBuffer[..0xF24]);
+        LargeBlock = new SaveBlock3LargeFRLG(LargeBuffer[..0x3D68]);
 
         // Fix save files that have an overflow corruption with the Pokédex.
         // Future loads of this save file will cause it to be recognized as FR/LG correctly.
         if (IsCorruptPokedexFF())
-            WriteUInt32LittleEndian(Small[0xAC..], 1);
+            SmallBlock.FixDummyFlags();
     }
 
-    protected override int EventFlag => 0xEE0;
-    protected override int EventWork => 0x1000;
-    protected override int PokeDex => 0x18; // small
-    protected override int DaycareOffset => 0x2F80; // large
-
-    // storage
-    private void Initialize() => Box = 0;
+    public override PlayerBag3FRLG Inventory => new(this);
 
     public bool ResetPersonal(GameVersion g)
     {
@@ -55,105 +52,40 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder, IDaycareRandomSta
     #region Small
     public override bool NationalDex
     {
-        get => PokedexNationalMagicFRLG == PokedexNationalUnlockFRLG;
+        get => SmallBlock.PokedexNationalMagicFRLG == PokedexNationalUnlockFRLG;
         set
         {
-            PokedexNationalMagicFRLG = value ? PokedexNationalUnlockFRLG : (byte)0; // magic
+            SmallBlock.PokedexNationalMagicFRLG = value ? PokedexNationalUnlockFRLG : (byte)0;
             SetEventFlag(0x840, value);
             SetWork(0x4E, PokedexNationalUnlockWorkFRLG);
         }
     }
-
-    public uint BerryPowder
-    {
-        get => ReadUInt32LittleEndian(Small[0xAF8..]) ^ SecurityKey;
-        set => WriteUInt32LittleEndian(Small[0xAF8..], value ^ SecurityKey);
-    }
-
-    public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small[0xB00..]); set => WriteUInt16LittleEndian(Small[0xB00..], Math.Min((ushort)9999, value)); }
-    // u16 field2;
-    public ushort JoyfulJump5InRow          { get => ReadUInt16LittleEndian(Small[0xB04..]); set => WriteUInt16LittleEndian(Small[0xB04..], Math.Min((ushort)9999, value)); }
-    public ushort JoyfulJumpGamesMaxPlayers { get => ReadUInt16LittleEndian(Small[0xB06..]); set => WriteUInt16LittleEndian(Small[0xB06..], Math.Min((ushort)9999, value)); }
-    // u32 field8;
-    public uint   JoyfulJumpScore           { get => ReadUInt16LittleEndian(Small[0xB0C..]); set => WriteUInt32LittleEndian(Small[0xB0C..], Math.Min(99990, value)); }
-
-    public uint   JoyfulBerriesScore        { get => ReadUInt16LittleEndian(Small[0xB10..]); set => WriteUInt32LittleEndian(Small[0xB10..], Math.Min(99990, value)); }
-    public ushort JoyfulBerriesInRow        { get => ReadUInt16LittleEndian(Small[0xB14..]); set => WriteUInt16LittleEndian(Small[0xB14..], Math.Min((ushort)9999, value)); }
-    public ushort JoyfulBerries5InRow       { get => ReadUInt16LittleEndian(Small[0xB16..]); set => WriteUInt16LittleEndian(Small[0xB16..], Math.Min((ushort)9999, value)); }
-
-    public override uint SecurityKey
-    {
-        get => ReadUInt32LittleEndian(Small[0xF20..]);
-        set => WriteUInt32LittleEndian(Small[0xF20..], value);
-    }
     #endregion
 
     #region Large
-    public override int PartyCount { get => Large[0x034]; protected set => Large[0x034] = (byte)value; }
-    public override int GetPartyOffset(int slot) => 0x038 + (SIZE_PARTY * slot);
-
     public override uint Money
     {
-        get => ReadUInt32LittleEndian(Large[0x0290..]) ^ SecurityKey;
-        set => WriteUInt32LittleEndian(Large[0x0290..], value ^ SecurityKey);
+        get => LargeBlock.Money ^ SmallBlock.SecurityKey;
+        set => LargeBlock.Money = value ^ SmallBlock.SecurityKey;
     }
 
     public override uint Coin
     {
-        get => (ushort)(ReadUInt16LittleEndian(Large[0x0294..]) ^ SecurityKey);
-        set => WriteUInt16LittleEndian(Large[0x0294..], (ushort)(value ^ SecurityKey));
+        get => (ushort)(LargeBlock.Coin ^ SmallBlock.SecurityKey);
+        set => LargeBlock.Coin = (ushort)(value ^ SmallBlock.SecurityKey);
     }
-
-    protected override int SeenOffset2 => 0x5F8;
-    protected override int MailOffset => 0x2CD0;
 
     protected override int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot + 1) - 4; // @ end of each pk slot
     ushort IDaycareRandomState<ushort>.Seed
     {
-        get => ReadUInt16LittleEndian(Large[GetDaycareEXPOffset(2)..]);
-        set => WriteUInt16LittleEndian(Large[GetDaycareEXPOffset(2)..], value);
+        get => LargeBlock.DaycareSeed;
+        set => LargeBlock.DaycareSeed = value;
     }
-
-    protected override int ExternalEventData => 0x30A7;
-
-    #region eBerry
-    private const int OFFSET_EBERRY = 0x30EC;
-    private const int SIZE_EBERRY = 0x34;
-
-    public override Span<byte> EReaderBerry() => Large.Slice(OFFSET_EBERRY, SIZE_EBERRY);
-    #endregion
-
-    #region eTrainer
-    public override Span<byte> EReaderTrainer() => Small.Slice(0x4A0, 0xBC);
-    #endregion
-
-    public int WonderOffset => WonderNewsOffset;
-    private const int WonderNewsOffset = 0x3120;
-    private int WonderCardOffset => WonderNewsOffset + (Japanese ? WonderNews3.SIZE_JAP : WonderNews3.SIZE);
-    private int WonderCardExtraOffset => WonderCardOffset + (Japanese ? WonderCard3.SIZE_JAP : WonderCard3.SIZE);
-
-    private Span<byte> WonderNewsData => Large.Slice(WonderNewsOffset, Japanese ? WonderNews3.SIZE_JAP : WonderNews3.SIZE);
-    private Span<byte> WonderCardData => Large.Slice(WonderCardOffset, Japanese ? WonderCard3.SIZE_JAP : WonderCard3.SIZE);
-    private Span<byte> WonderCardExtraData => Large.Slice(WonderCardExtraOffset, WonderCard3Extra.SIZE);
-
-    public WonderNews3 WonderNews { get => new(WonderNewsData.ToArray()); set => SetData(WonderNewsData, value.Data); }
-    public WonderCard3 WonderCard { get => new(WonderCardData.ToArray()); set => SetData(WonderCardData, value.Data); }
-    public WonderCard3Extra WonderCardExtra { get => new(WonderCardExtraData.ToArray()); set => SetData(WonderCardExtraData, value.Data); }
-
-    // 0x338: 4 easy chat words
-    // 0x340: news MENewsJisanStruct
-    // 0x344: uint[5], uint[5] tracking?
-
-    private Span<byte> MysterySpan => Large.Slice(0x361C, MysteryEvent3.SIZE);
-    public override Gen3MysteryData MysteryData { get => new MysteryEvent3(MysterySpan.ToArray()); set => SetData(MysterySpan, value.Data); }
-
-    protected override int SeenOffset3 => 0x3A18;
 
     public string RivalName
     {
-        get => GetString(Large.Slice(0x3A4C, 8));
-        set => SetString(Large.Slice(0x3A4C, 8), value, 7, StringConverterOption.ClearZero);
+        get => GetString(LargeBlock.RivalNameTrash);
+        set => SetString(LargeBlock.RivalNameTrash, value, 7, StringConverterOption.ClearZero);
     }
-
     #endregion
 }

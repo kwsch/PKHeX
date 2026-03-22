@@ -51,7 +51,7 @@ public sealed class SecretBase3(Memory<byte> raw)
     public string OriginalTrainerName
     {
         get => StringConverter3.GetString(OriginalTrainerTrash, Language);
-        set => StringConverter3.SetString(OriginalTrainerTrash, value, 7, Language, StringConverterOption.ClearFF);
+        set => StringConverter3.SetString(OriginalTrainerTrash, value, 7, Language, StringConverterOption.None);
     }
 
     public int OriginalTrainerClass => Data[9] % 5;

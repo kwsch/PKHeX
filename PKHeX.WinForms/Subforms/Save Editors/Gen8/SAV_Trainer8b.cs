@@ -56,7 +56,7 @@ public partial class SAV_Trainer8b : Form
         trainerID1.LoadIDValues(SAV, SAV.Generation);
         MT_Money.Text = SAV.Money.ToString();
         CB_Language.SelectedValue = SAV.Language;
-        TB_Rival.Text = SAV.Rival;
+        TB_Rival.Text = SAV.RivalName;
 
         NUD_M.Value = SAV.ZoneID;
         NUD_X.Value = SAV.MyStatus.X;
@@ -108,8 +108,13 @@ public partial class SAV_Trainer8b : Form
 
         SAV.Money = Util.ToUInt32(MT_Money.Text);
         SAV.Language = WinFormsUtil.GetIndex(CB_Language);
-        SAV.OT = TB_OTName.Text;
-        SAV.Rival = TB_Rival.Text;
+
+        // only modify if changed (preserve trash bytes?)
+        if (SAV.OT != TB_OTName.Text)
+            SAV.OT = TB_OTName.Text;
+        if (SAV.RivalName != TB_Rival.Text)
+            SAV.RivalName = TB_Rival.Text;
+
         SAV.BattleTower.BP = (uint)NUD_BP.Value;
 
         // Copy Position
@@ -152,14 +157,15 @@ public partial class SAV_Trainer8b : Form
 
     private void ClickOT(object sender, MouseEventArgs e)
     {
-        TextBox tb = sender as TextBox ?? TB_OTName;
+        if (sender is not TextBox tb)
+            return;
+
         // Special Character Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        var d = new TrashEditor(tb, SAV, SAV.Generation, SAV.Context);
-        d.ShowDialog();
-        tb.Text = d.FinalString;
+        var trash = tb == TB_OTName ? SAV.MyStatus.OriginalTrainerTrash : SAV.RivalNameTrash;
+        TrashEditor.Show(tb, SAV, trash);
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)

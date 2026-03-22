@@ -175,7 +175,7 @@ public sealed class MyStatus8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>
         }
     }
 
-    private Span<byte> OriginalTrainerTrash => Data.Slice(0xB0, 0x1A);
+    public Span<byte> OriginalTrainerTrash => Data.Slice(0xB0, 0x1A);
 
     public string OT
     {

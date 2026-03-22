@@ -303,13 +303,21 @@ public static class WinFormsTranslator
                 continue;
 
             var constructors = t.GetConstructors();
-            if (constructors.Length == 0)
-            { System.Diagnostics.Debug.WriteLine($"No constructors: {t.Name}"); continue; }
-            var argCount = constructors[0].GetParameters().Length;
             try
             {
-                var form = (Form?)Activator.CreateInstance(t, new object[argCount]);
-                form?.Dispose();
+                if (constructors.Length == 0)
+                {
+                    Activator.CreateInstance(t, true);
+                }
+                else
+                {
+                    foreach (var ctor in constructors)
+                    {
+                        var parameters = ctor.GetParameters();
+                        var args = new object[parameters.Length];
+                        ctor.Invoke(args);
+                    }
+                }
             }
             // This is a debug utility method, will always be logging. Shouldn't ever fail.
             catch (TargetInvocationException)

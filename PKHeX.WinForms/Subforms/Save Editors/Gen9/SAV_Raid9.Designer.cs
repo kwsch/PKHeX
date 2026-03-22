@@ -88,6 +88,7 @@ namespace PKHeX.WinForms
             // TB_SeedTomorrow
             // 
             TB_SeedTomorrow.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            TB_SeedTomorrow.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             TB_SeedTomorrow.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_SeedTomorrow.Location = new System.Drawing.Point(120, 336);
             TB_SeedTomorrow.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -100,6 +101,7 @@ namespace PKHeX.WinForms
             // TB_SeedToday
             // 
             TB_SeedToday.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            TB_SeedToday.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             TB_SeedToday.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_SeedToday.Location = new System.Drawing.Point(120, 304);
             TB_SeedToday.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);

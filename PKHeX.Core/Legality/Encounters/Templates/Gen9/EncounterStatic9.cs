@@ -154,7 +154,7 @@ public sealed record EncounterStatic9(GameVersion Version)
 
         if (Gender != FixedGenderUtil.GenderRandom)
             pk.Gender = Gender;
-        if (Nature != Nature.Random)
+        if (Nature.IsFixed)
             pk.Nature = pk.StatNature = Nature;
     }
     #endregion
@@ -178,7 +178,7 @@ public sealed record EncounterStatic9(GameVersion Version)
             return false;
         if (TeraType != GemType.Random && pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))
             return false;
-        if (Nature != Nature.Random && pk.Nature != Nature)
+        if (Nature.IsFixed && pk.Nature != Nature)
             return false;
 
         return true;

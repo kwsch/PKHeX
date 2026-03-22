@@ -62,10 +62,10 @@ public static class Encounter9RNG
     {
         var rand = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rand.NextInt(uint.MaxValue);
-        pk.PID = GetAdaptedPID(ref rand, pk, enc);
-
-        if (enc.Shiny is Shiny.Random && criteria.Shiny.IsShiny() != pk.IsShiny)
+        var pid = GetAdaptedPID(ref rand, pk, enc);
+        if (enc.Shiny is Shiny.Random && criteria.IsSpecifiedShiny() && !criteria.IsSatisfiedShiny(GetShinyXor(pid, pk.ID32), 16))
             return false;
+        pk.PID = pid;
 
         const int UNSET = -1;
         const int MAX = 31;
@@ -121,7 +121,7 @@ public static class Encounter9RNG
             return false;
         pk.Gender = gender;
 
-        var nature = enc.Nature != Nature.Random ? enc.Nature : enc.Species == (int)Species.Toxtricity
+        var nature = enc.Nature.IsFixed ? enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
                 : (Nature)rand.NextInt(25);
 
@@ -205,7 +205,7 @@ public static class Encounter9RNG
         if (pk.Gender != gender)
             return false;
 
-        var nature = enc.Nature != Nature.Random ? enc.Nature : enc.Species == (int)Species.Toxtricity
+        var nature = enc.Nature.IsFixed ? enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
                 : (Nature)rand.NextInt(25);
         if (pk.Nature != nature)

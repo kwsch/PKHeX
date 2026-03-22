@@ -55,7 +55,8 @@ public static class Overworld8RNG
             if (shiny == Shiny.AlwaysStar && type != Shiny.AlwaysStar)
                 return false;
         }
-
+        if (shiny is Shiny.Random && criteria.IsSpecifiedShiny() && !criteria.IsSatisfiedShiny(GetShinyXor(pid, pk.ID32), 16))
+            return false;
         pk.PID = pid;
 
         // IVs

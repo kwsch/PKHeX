@@ -45,7 +45,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
         0 => "-Base", // Vanilla
         1 => "-IoA", // DLC 1: Isle of Armor
         2 => "-CT", // DLC 2: Crown Tundra
-        _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+        _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision), SaveRevision, null),
     };
 
     public override bool ChecksumsValid => true;
@@ -111,7 +111,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
             0 => (Legal.MaxMoveID_8_O0, Legal.MaxSpeciesID_8_O0, Legal.MaxItemID_8_O0, Legal.MaxAbilityID_8_O0),
             1 => (Legal.MaxMoveID_8_R1, Legal.MaxSpeciesID_8_R1, Legal.MaxItemID_8_R1, Legal.MaxAbilityID_8_R1),
             2 => (Legal.MaxMoveID_8_R2, Legal.MaxSpeciesID_8_R2, Legal.MaxItemID_8_R2, Legal.MaxAbilityID_8_R2),
-            _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+            _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision), SaveRevision, null),
         };
     }
 

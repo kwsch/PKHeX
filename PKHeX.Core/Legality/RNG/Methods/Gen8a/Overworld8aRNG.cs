@@ -129,6 +129,8 @@ public static class Overworld8aRNG
             if (para.Shiny == Shiny.AlwaysStar && type != Shiny.AlwaysStar)
                 return false;
         }
+        if (para.Shiny is Shiny.Random && criteria.IsSpecifiedShiny() && !criteria.IsSatisfiedShiny(GetShinyXor(pid, pk.ID32), 16))
+            return false;
         pk.PID = pid;
 
         Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];
@@ -172,6 +174,8 @@ public static class Overworld8aRNG
         pk.Gender = gender;
 
         var nature = (Nature)rand.NextInt(25);
+        if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(nature))
+            return false;
         pk.Nature = pk.StatNature = nature;
 
         var (height, weight) = para.IsAlpha
@@ -179,16 +183,10 @@ public static class Overworld8aRNG
             : ((byte)(rand.NextInt(0x81) + rand.NextInt(0x80)),
                (byte)(rand.NextInt(0x81) + rand.NextInt(0x80)));
 
-        if (pk is IScaledSize s)
-        {
-            s.HeightScalar = height;
-            s.WeightScalar = weight;
-            if (pk is IScaledSizeValue a)
-            {
-                a.ResetHeight();
-                a.ResetWeight();
-            }
-        }
+        pk.HeightScalar = height;
+        pk.WeightScalar = weight;
+        pk.ResetHeight();
+        pk.ResetWeight();
 
         return true;
     }

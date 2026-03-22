@@ -136,7 +136,7 @@ public static class ImageUtil
         }
     }
 
-    private static Span<byte> GetSpan(IntPtr ptr, int length)
+    private static Span<byte> GetSpan(nint ptr, int length)
         => MemoryMarshal.CreateSpan(ref Unsafe.AddByteOffset(ref Unsafe.NullRef<byte>(), ptr), length);
 
     public static Bitmap LayerImage(Bitmap baseLayer, Bitmap overLayer, int x, int y, double transparency)

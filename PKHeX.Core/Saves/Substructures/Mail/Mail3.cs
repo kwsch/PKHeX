@@ -29,6 +29,7 @@ public sealed class Mail3 : MailDetail
     public override ushort GetMessage(int index1, int index2) => ReadUInt16LittleEndian(Data[(((index1 * 3) + index2) * 2)..]);
     public override void SetMessage(int index1, int index2, ushort value) => WriteUInt16LittleEndian(Data[(((index1 * 3) + index2) * 2)..], value);
     public override void CopyTo(SaveFile sav) => sav.SetData(((SAV3)sav).Large[DataOffset..], Data);
+    public void CopyTo(Span<byte> dest) => Data.CopyTo(dest);
 
     public override string AuthorName
     {

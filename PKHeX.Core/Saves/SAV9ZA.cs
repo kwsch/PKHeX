@@ -48,7 +48,8 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     {
         0 => "-Base", // Vanilla
         1 => "-MD", // Mega Dimension
-        _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+        2 => "-EOL", // End of Life
+        _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision), SaveRevision, null),
     };
 
     public override bool ChecksumsValid => true;

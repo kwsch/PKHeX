@@ -31,6 +31,7 @@ public partial class QR : Form
     public QR(Bitmap qr, Image icon, PKM pk, params string[] lines)
     {
         InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         this.qr = qr;
         this.icon = icon;
         Lines = lines;

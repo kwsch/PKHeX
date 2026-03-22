@@ -209,6 +209,7 @@ namespace PKHeX.WinForms
             // TB_PID
             // 
             TB_PID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            TB_PID.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             TB_PID.Font = new System.Drawing.Font("Courier New", 8.25F);
             TB_PID.Location = new System.Drawing.Point(182, 42);
             TB_PID.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);

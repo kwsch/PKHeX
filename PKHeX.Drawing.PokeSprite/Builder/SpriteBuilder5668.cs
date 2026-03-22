@@ -26,14 +26,14 @@ public sealed class SpriteBuilder5668s : SpriteBuilder
     protected override Bitmap Unknown => Resources.b_unknown;
     protected override Bitmap GetEggSprite(ushort species) => species == (int)Species.Manaphy ? Resources.b_490_e : Resources.b_egg;
 
-    public override Bitmap Hover => Resources.slotHover68;
-    public override Bitmap View => Resources.slotView68;
-    public override Bitmap Set => Resources.slotSet68;
-    public override Bitmap Delete => Resources.slotDel68;
-    public override Bitmap Transparent => Resources.slotTrans68;
+    public override Bitmap Hover { get; } = Resources.slotHover68;
+    public override Bitmap View { get; } = Resources.slotView68;
+    public override Bitmap Set { get; } = Resources.slotSet68;
+    public override Bitmap Delete { get; } = Resources.slotDel68;
+    public override Bitmap Transparent { get; } = Resources.slotTrans68;
     public override Bitmap Drag => Resources.slotDrag68;
     public override Bitmap UnknownItem => Resources.bitem_unk;
-    public override Bitmap None => Resources.b_0;
+    public override Bitmap None { get; } = Resources.b_0;
     public override Bitmap ItemTM => Resources.bitem_tm;
     public override Bitmap ItemTR => Resources.bitem_tr;
     public override Bitmap ShadowLugia => Resources.b_249x;

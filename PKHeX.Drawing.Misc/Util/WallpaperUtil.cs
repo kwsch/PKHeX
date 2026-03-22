@@ -28,6 +28,8 @@ public static class WallpaperUtil
         // City box wallpaper for Lumiose City
         if (sav is SAV9ZA)
             return Resources.box_wp02bdsp;
+        if (sav is SAV8LA) // pasture for PLA
+            return Resources.box_wp01bdsp;
 
         int wallpaper = wp.GetBoxWallpaper(box);
         string s = GetWallpaperResourceName(sav.Version, wallpaper);

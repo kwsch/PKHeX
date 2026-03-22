@@ -293,13 +293,13 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override ushort SID16 { get => 0; set { } }
 
-    public string Rival
+    public string RivalName
     {
         get => GetString(Data.Slice(Offsets.Rival, MaxStringLengthTrainer));
         set => SetString(Data.Slice(Offsets.Rival, MaxStringLengthTrainer), value, MaxStringLengthTrainer, StringConverterOption.Clear50);
     }
 
-    public Span<byte> RivalTrash { get => Data.Slice(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data[Offsets.Rival..]); } }
+    public Span<byte> RivalNameTrash { get => Data.Slice(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data[Offsets.Rival..]); } }
 
     public byte RivalStarter { get => Data[Offsets.Starter - 2]; set => Data[Offsets.Starter - 2] = value; }
     public byte Starter { get => Data[Offsets.Starter]; set => Data[Offsets.Starter] = value; }

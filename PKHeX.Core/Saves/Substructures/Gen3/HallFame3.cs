@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -19,13 +20,14 @@ public sealed class HallFame3Entry(Memory<byte> Raw, bool Japanese)
 
     private Memory<byte> GetMemberSlice(int index)
         => Raw.Slice(GetMemberOffset(index), HallFame3PKM.SIZE);
-    private HallFame3PKM GetMember(int index) => new(GetMemberSlice(index), Japanese);
+
+    public HallFame3PKM GetMember(int index) => new(GetMemberSlice(index), Japanese);
 
     public HallFame3PKM[] Team
     {
         get
         {
-            var team = new HallFame3PKM[6];
+            var team = new HallFame3PKM[Count];
             for (int i = 0; i < Count; i++)
                 team[i] = GetMember(i);
             return team;
@@ -49,12 +51,25 @@ public sealed class HallFame3Entry(Memory<byte> Raw, bool Japanese)
 
     public static void SetEntries(SAV3 sav, HallFame3Entry[] entries)
     {
-        byte[] data = sav.GetHallOfFameData();
+        Span<byte> data = sav.GetHallOfFameData();
         Debug.Assert(data.Length >= MaxLength);
 
         for (int i = 0; i < entries.Length; i++)
-            entries[i].Data.CopyTo(data.AsSpan(i * SIZE));
+            entries[i].Data.CopyTo(data[(i * SIZE)..]);
         sav.SetHallOfFameData(data);
+    }
+
+    public void CopyFrom(IReadOnlyList<PKM> party)
+    {
+        var length = Math.Min(Count, party.Count);
+        for (int i = 0; i < length; i++)
+            GetMember(i).CopyFrom(party[i]);
+    }
+
+    public void CopyFrom(HallFame3Entry entry)
+    {
+        for (int i = 0; i < Count; i++)
+            GetMember(i).CopyFrom(entry.GetMember(i));
     }
 }
 
@@ -104,4 +119,22 @@ public sealed class HallFame3PKM(Memory<byte> Raw, bool Japanese) : ISpeciesForm
     };
 
     public bool IsShiny => ShinyUtil.GetIsShiny3(ID32, PID);
+
+    public void CopyFrom(PKM pk)
+    {
+        Species = pk.Species;
+        Level = pk.CurrentLevel;
+        PID = pk.EncryptionConstant;
+        ID32 = pk.ID32;
+        pk.NicknameTrash.CopyTo(NicknameTrash);
+    }
+
+    public void CopyFrom(HallFame3PKM pk)
+    {
+        Species = pk.Species;
+        Level = pk.Level;
+        PID = pk.PID;
+        ID32 = pk.ID32;
+        pk.NicknameTrash.CopyTo(NicknameTrash);
+    }
 }

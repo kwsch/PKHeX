@@ -13,7 +13,7 @@ public partial class SAV_Roamer3 : Form
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        Reader = new Roamer3(sav);
+        Reader = new Roamer3(sav.LargeBlock.RoamerData, sav is not SAV3E);
         SAV = sav;
 
         CB_Species.InitializeBinding();

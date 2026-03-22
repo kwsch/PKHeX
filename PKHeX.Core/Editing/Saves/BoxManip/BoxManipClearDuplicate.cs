@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Clears contents of boxes by deleting all but the first duplicate detected.
 /// </summary>
 /// <typeparam name="T">Base type of the "is duplicate" hash for the duplicate detection.</typeparam>
-public sealed class BoxManipClearDuplicate<T> : BoxManipBase
+public sealed record BoxManipClearDuplicate<T> : BoxManipBase
 {
     private readonly HashSet<T> HashSet = [];
     private readonly Func<PKM, bool> Criteria;

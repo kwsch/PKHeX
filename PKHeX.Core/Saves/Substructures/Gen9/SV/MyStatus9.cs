@@ -56,7 +56,7 @@ public sealed class MyStatus9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav
         set => SAV.SetValue(SaveBlockAccessor9SV.KGameLanguage, (int)value);
     }
 
-    private Span<byte> OriginalTrainerTrash => Data.Slice(0x10, 0x1A);
+    public Span<byte> OriginalTrainerTrash => Data.Slice(0x10, 0x1A);
 
     public string OT
     {

@@ -18,8 +18,14 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public bool Japanese { get; }
     public bool Korean => false;
 
-    public bool IsVirtualConsole => State.Exportable && Metadata.FileName is { } s && s.Contains(".sav")
-                        && (s.StartsWith("FireRed_", StringComparison.Ordinal) || s.StartsWith("LeafGreen_")); // default to Mainline-Era for non-exportable
+    public bool IsVirtualConsole => State.Exportable && Metadata.FileName is { } s && IsVirtualConsoleFileName(s); // default to Mainline-Era for non-exportable
+
+    public static bool IsVirtualConsoleFileName(string s)
+    {
+        if (!s.Contains(".sav"))
+            return false;
+        return s.StartsWith("FireRed_") || s.StartsWith("LeafGreen_");
+    }
 
     // Similar to future games, the Generation 3 Mainline save files are comprised of separate objects:
     // Object 1 - Small, containing misc configuration data & the Pokédex.
@@ -46,6 +52,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public Span<byte> Small => SmallBuffer.Span;
     public Span<byte> Large => LargeBuffer.Span;
     public Span<byte> Storage => StorageBuffer.Span;
+    public abstract ISaveBlock3Small SmallBlock { get; }
+    public abstract ISaveBlock3Large LargeBlock { get; }
 
     private readonly int ActiveSlot;
     public sealed override int Language { get; set; }
@@ -177,14 +185,11 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public sealed override ushort MaxMoveID => Legal.MaxMoveID_3;
     public sealed override ushort MaxSpeciesID => Legal.MaxSpeciesID_3;
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_3;
-    public override int MaxItemID => Legal.MaxItemID_3;
     public sealed override int MaxBallID => Legal.MaxBallID_3;
     public sealed override GameVersion MaxGameID => Legal.MaxGameID_3;
 
-    public abstract int EventFlagCount { get; }
-    public abstract int EventWorkCount { get; }
-    protected abstract int EventFlag { get; }
-    protected abstract int EventWork { get; }
+    public int EventFlagCount => LargeBlock.EventFlagCount;
+    public int EventWorkCount => LargeBlock.EventWorkCount;
 
     /// <summary>
     /// Force loads a new <see cref="SAV3"/> object to the requested <see cref="version"/>.
@@ -210,13 +215,15 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public sealed override int MaxMoney => 999999;
 
     public sealed override bool HasParty => true;
+    public sealed override int PartyCount { get => LargeBlock.PartyCount; protected set => LargeBlock.PartyCount = (byte)value; }
+    public sealed override int GetPartyOffset(int slot) => SIZE_PARTY * slot;
 
     public sealed override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentGBA(data);
     protected sealed override PK3 GetPKM(byte[] data) => new(data);
     protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray3(data);
 
     protected sealed override Span<byte> BoxBuffer => Storage;
-    protected sealed override Span<byte> PartyBuffer => Large;
+    protected sealed override Span<byte> PartyBuffer => LargeBlock.PartyBuffer;
 
     private const int COUNT_BOX = 14;
     private const int COUNT_SLOTSPERBOX = 30;
@@ -328,7 +335,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     public static bool IsMail(int itemID) => (uint)(itemID - 121) <= (132 - 121);
 
-    protected override void SetPartyValues(PKM pk, bool isParty)
+    protected sealed override void SetPartyValues(PKM pk, bool isParty)
     {
         if (pk is not PK3 p3)
             return;
@@ -341,170 +348,82 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         base.SetPartyValues(pk, isParty);
     }
 
-    public abstract uint SecurityKey { get; set; }
-
-    public Span<byte> OriginalTrainerTrash => Small[..8];
-
     public sealed override string OT
     {
         get
         {
             int len = Japanese ? 5 : MaxStringLengthTrainer;
-            return GetString(OriginalTrainerTrash[..len]);
+            return GetString(SmallBlock.OriginalTrainerTrash[..len]);
         }
         set
         {
             int len = Japanese ? 5 : MaxStringLengthTrainer;
-            SetString(OriginalTrainerTrash[..len], value, len, StringConverterOption.ClearFF); // match the game-init FF terminating pattern
+            SetString(SmallBlock.OriginalTrainerTrash[..len], value, len, StringConverterOption.None); // Preserve original pattern
         }
     }
 
     public sealed override byte Gender
     {
-        get => Small[8];
-        set => Small[8] = value;
+        get => SmallBlock.Gender;
+        set => SmallBlock.Gender = value;
     }
 
     public sealed override uint ID32
     {
-        get => ReadUInt32LittleEndian(Small[0x0A..]);
-        set => WriteUInt32LittleEndian(Small[0x0A..], value);
+        get => SmallBlock.ID32;
+        set => SmallBlock.ID32 = value;
     }
 
     public sealed override ushort TID16
     {
-        get => ReadUInt16LittleEndian(Small[0xA..]);
-        set => WriteUInt16LittleEndian(Small[0xA..], value);
+        get => SmallBlock.TID16;
+        set => SmallBlock.TID16 = value;
     }
 
     public sealed override ushort SID16
     {
-        get => ReadUInt16LittleEndian(Small[0xC..]);
-        set => WriteUInt16LittleEndian(Small[0xC..], value);
+        get => SmallBlock.SID16;
+        set => SmallBlock.SID16 = value;
     }
 
     public sealed override int PlayedHours
     {
-        get => ReadUInt16LittleEndian(Small[0xE..]);
-        set => WriteUInt16LittleEndian(Small[0xE..], (ushort)value);
+        get => SmallBlock.PlayedHours;
+        set => SmallBlock.PlayedHours = value;
     }
 
     public sealed override int PlayedMinutes
     {
-        get => Small[0x10];
-        set => Small[0x10] = (byte)value;
+        get => SmallBlock.PlayedMinutes;
+        set => SmallBlock.PlayedMinutes = value;
     }
 
     public sealed override int PlayedSeconds
     {
-        get => Small[0x11];
-        set => Small[0x11] = (byte)value;
-    }
-
-    public byte PlayedFrames
-    {
-        get => Small[0x12];
-        set => Small[0x12] = value;
-    }
-
-    public byte OptionsButtonMode
-    {
-        get => Small[0x13];
-        set => Small[0x13] = value;
-    }
-
-    private uint OptionsConfig
-    {
-        get => ReadUInt32LittleEndian(Small[0x14..]);
-        set => WriteUInt32LittleEndian(Small[0x14..], value);
-    }
-
-    // 2 bits: Text Speed
-    // 5 bits: Window Frame
-    // 1 bit: sound
-    // 1 bit: battle style (shift vs set)
-    // 1 bit: battle scene off toggle (animations enabled/disabled)
-    // 1 bit: regionMapZoom (on/off)
-    // 4 bits unused
-    // 16 bits unused
-    public int TextSpeed
-    {
-        get => (int)(OptionsConfig & 0b11);
-        set => OptionsConfig = (uint)((byte)value & 0b11) | (OptionsConfig & ~0b11u);
-    }
-
-    public byte OptionWindowFrame
-    {
-        get => (byte)((OptionsConfig >> 2) & 0b11111);
-        set => OptionsConfig = (uint)((value & 0b11111) << 2) | (OptionsConfig & ~(0b11111u << 2));
-    }
-
-    public bool OptionSoundStereo
-    {
-        get => (OptionsConfig & 0b100000) != 0;
-        set => OptionsConfig = value ? (OptionsConfig | 0b100000) : (OptionsConfig & ~0b100000u);
-    }
-
-    public bool OptionBattleStyle
-    {
-        get => (OptionsConfig & 0b1000000) != 0;
-        set => OptionsConfig = value ? (OptionsConfig | 0b1000000) : (OptionsConfig & ~0b1000000u);
-    }
-
-    public bool OptionBattleScene
-    {
-        get => (OptionsConfig & 0b10000000) != 0;
-        set => OptionsConfig = value ? (OptionsConfig | 0b10000000) : (OptionsConfig & ~0b10000000u);
-    }
-
-    public bool OptionIsRegionMapZoom
-    {
-        get => (OptionsConfig & 0b100000000) != 0;
-        set => OptionsConfig = value ? (OptionsConfig | 0b100000000) : (OptionsConfig & ~0b100000000u);
-    }
-
-    public ushort X
-    {
-        get => ReadUInt16LittleEndian(Large);
-        set => WriteUInt16LittleEndian(Large, value);
-    }
-
-    public ushort Y
-    {
-        get => ReadUInt16LittleEndian(Large[2..]);
-        set => WriteUInt16LittleEndian(Large[2..], value);
+        get => SmallBlock.PlayedSeconds;
+        set => SmallBlock.PlayedSeconds = value;
     }
 
     #region Event Flag/Event Work
-    public bool GetEventFlag(int flagNumber)
-    {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to get ({flagNumber}) is greater than max ({EventFlagCount}).");
-        return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
-    }
+    public bool GetEventFlag(int flagNumber) => LargeBlock.GetEventFlag(flagNumber);
+    public void SetEventFlag(int flagNumber, bool value) => LargeBlock.SetEventFlag(flagNumber, value);
 
-    public void SetEventFlag(int flagNumber, bool value)
-    {
-        if ((uint)flagNumber >= EventFlagCount)
-            throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
-        SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
-    }
-
-    public ushort GetWork(int index) => ReadUInt16LittleEndian(Large[(EventWork + (index * 2))..]);
-    public void SetWork(int index, ushort value) => WriteUInt16LittleEndian(Large[EventWork..][(index * 2)..], value);
+    public ushort GetWork(int index) => LargeBlock.GetWork(index);
+    public void SetWork(int index, ushort value) => LargeBlock.SetWork(index, value);
     #endregion
 
     public sealed override bool GetFlag(int offset, int bitIndex) => GetFlag(Large, offset, bitIndex);
     public sealed override void SetFlag(int offset, int bitIndex, bool value) => SetFlag(Large, offset, bitIndex, value);
+    public uint GetRecord(int record) => LargeBlock.GetRecord(record) ^ SmallBlock.SecurityKey;
+    public void SetRecord(int record, uint value) => LargeBlock.SetRecord(record, value ^ SmallBlock.SecurityKey);
 
-    protected abstract int BadgeFlagStart { get; }
     public abstract uint Coin { get; set; }
 
     public int Badges
     {
         get
         {
-            int startFlag = BadgeFlagStart;
+            int startFlag = LargeBlock.BadgeFlagStart;
             int val = 0;
             for (int i = 0; i < 8; i++)
             {
@@ -516,36 +435,35 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         }
         set
         {
-            int startFlag = BadgeFlagStart;
+            int startFlag = LargeBlock.BadgeFlagStart;
             for (int i = 0; i < 8; i++)
                 SetEventFlag(startFlag + i, (value & (1 << i)) != 0);
         }
     }
 
-    protected abstract int PokeDex { get; }
-    public override bool HasPokeDex => true;
+    public sealed override bool HasPokeDex => true;
 
     public int DaycareSlotCount => 2;
-    protected abstract int DaycareSlotSize { get; }
-    protected abstract int DaycareOffset { get; }
     protected abstract int GetDaycareEXPOffset(int slot);
-    public Memory<byte> GetDaycareSlot(int slot) => LargeBuffer.Slice(GetDaycareSlotOffset(slot), DaycareSlotSize);
+    public Memory<byte> GetDaycareSlot(int slot) => LargeBuffer.Slice(GetDaycareSlotOffset(slot), LargeBlock.DaycareSlotSize);
     public uint GetDaycareEXP(int index) => ReadUInt32LittleEndian(Large[GetDaycareEXPOffset(index)..]);
     public void SetDaycareEXP(int index, uint value) => WriteUInt32LittleEndian(Large[GetDaycareEXPOffset(index)..], value);
     public bool IsDaycareOccupied(int slot) => IsPKMPresent(Large[GetDaycareSlotOffset(slot)..]);
     public void SetDaycareOccupied(int slot, bool occupied) { /* todo */ }
-    public int GetDaycareSlotOffset(int slot) => DaycareOffset + (slot * DaycareSlotSize);
-    protected abstract int EggEventFlag { get; }
-    public bool IsEggAvailable { get => GetEventFlag(EggEventFlag); set => SetEventFlag(EggEventFlag, value); }
+    public int GetDaycareSlotOffset(int slot) => LargeBlock.DaycareOffset + (slot * LargeBlock.DaycareSlotSize);
+    public bool IsEggAvailable { get => GetEventFlag(LargeBlock.EggEventFlag); set => SetEventFlag(LargeBlock.EggEventFlag, value); }
 
     #region Storage
-    public sealed override int GetBoxOffset(int box) => Box + 4 + (SIZE_STORED * box * COUNT_SLOTSPERBOX);
+
+    public sealed override bool HasBox => true;
 
     public sealed override int CurrentBox
     {
         get => Storage[0];
         set => Storage[0] = (byte)value;
     }
+
+    public sealed override int GetBoxOffset(int box) => 4 + (SIZE_STORED * box * COUNT_SLOTSPERBOX);
 
     public int GetBoxWallpaper(int box)
     {
@@ -598,25 +516,24 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         switch (species)
         {
             case (int)Species.Unown when !GetSeen(species): // Unown
-                DexPIDUnown = pk.PID;
+                SmallBlock.DexPIDUnown = pk.PID;
                 break;
             case (int)Species.Spinda when !GetSeen(species): // Spinda
-                DexPIDSpinda = pk.PID;
+                SmallBlock.DexPIDSpinda = pk.PID;
                 break;
         }
         SetCaught(species, true);
         SetSeen(species, true);
     }
 
-    public uint DexPIDUnown  { get => ReadUInt32LittleEndian(Small[(PokeDex + 0x4)..]); set => WriteUInt32LittleEndian(Small[(PokeDex + 0x4)..], value); }
-    public uint DexPIDSpinda { get => ReadUInt32LittleEndian(Small[(PokeDex + 0x8)..]); set => WriteUInt32LittleEndian(Small[(PokeDex + 0x8)..], value); }
-    public int DexUnownForm => EntityPID.GetUnownForm3(DexPIDUnown);
+
+    private const int PokeDex = 0x18; // small
 
     public sealed override bool GetCaught(ushort species)
     {
         int bit = species - 1;
         int ofs = bit >> 3;
-        int caughtOffset = PokeDex + 0x10;
+        const int caughtOffset = PokeDex + 0x10;
         return FlagUtil.GetFlag(Small, caughtOffset + ofs, bit & 7);
     }
 
@@ -624,7 +541,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     {
         int bit = species - 1;
         int ofs = bit >> 3;
-        int caughtOffset = PokeDex + 0x10;
+        const int caughtOffset = PokeDex + 0x10;
         FlagUtil.SetFlag(Small, caughtOffset + ofs, bit & 7, caught);
     }
 
@@ -632,46 +549,37 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     {
         int bit = species - 1;
         int ofs = bit >> 3;
-        int seenOffset = PokeDex + 0x44;
+        const int seenOffset = PokeDex + 0x44;
         return FlagUtil.GetFlag(Small, seenOffset + ofs, bit & 7);
     }
-
-    protected abstract int SeenOffset2 { get; }
-    protected abstract int SeenOffset3 { get; }
 
     public sealed override void SetSeen(ushort species, bool seen)
     {
         int bit = species - 1;
         int ofs = bit >> 3;
 
-        int seenOffset = PokeDex + 0x44;
+        const int seenOffset = PokeDex + 0x44;
         FlagUtil.SetFlag(Small, seenOffset + ofs, bit & 7, seen);
-        FlagUtil.SetFlag(Large, SeenOffset2 + ofs, bit & 7, seen);
-        FlagUtil.SetFlag(Large, SeenOffset3 + ofs, bit & 7, seen);
+        FlagUtil.SetFlag(Large, LargeBlock.SeenOffset2 + ofs, bit & 7, seen);
+        FlagUtil.SetFlag(Large, LargeBlock.SeenOffset3 + ofs, bit & 7, seen);
     }
 
-    public byte PokedexSort
+    /// <summary>
+    /// In Gen 3, the seen flags are stored in three different places. Mirror them to each other to ensure consistency.
+    /// </summary>
+    /// <remarks>
+    /// Only really use this if you are allowing users to manually edit the seen flags in the first (normal) section; then trigger this on saving all.
+    /// </remarks>
+    public void MirrorSeenFlags()
     {
-        get => Small[PokeDex + 0x01];
-        set => Small[PokeDex + 0x01] = value;
-    }
-
-    public byte PokedexMode
-    {
-        get => Small[PokeDex + 0x01];
-        set => Small[PokeDex + 0x01] = value;
-    }
-
-    public byte PokedexNationalMagicRSE
-    {
-        get => Small[PokeDex + 0x02];
-        set => Small[PokeDex + 0x02] = value;
-    }
-
-    public byte PokedexNationalMagicFRLG
-    {
-        get => Small[PokeDex + 0x03];
-        set => Small[PokeDex + 0x03] = value;
+        for (ushort species = 1; species <= Legal.MaxSpeciesID_3; species++)
+        {
+            int bit = species - 1;
+            int ofs = bit >> 3;
+            bool seen = FlagUtil.GetFlag(Small, PokeDex + 0x44 + ofs, bit & 7);
+            FlagUtil.SetFlag(Large, LargeBlock.SeenOffset2 + ofs, bit & 7, seen);
+            FlagUtil.SetFlag(Large, LargeBlock.SeenOffset3 + ofs, bit & 7, seen);
+        }
     }
 
     protected const byte PokedexNationalUnlockRSE = 0xDA;
@@ -684,32 +592,18 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     public sealed override string GetString(ReadOnlySpan<byte> data)
         => StringConverter3.GetString(data, Japanese);
-    public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
+    public sealed override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)
         => StringConverter3.LoadString(data, destBuffer, Japanese);
     public sealed override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
         => StringConverter3.SetString(destBuffer, value, maxLength, Japanese, option);
 
-    protected abstract int MailOffset { get; }
-    public int GetMailOffset(int index) => (index * Mail3.SIZE) + MailOffset;
+    public string EBerryName => GetString(LargeBlock.EReaderBerry[..7]);
+    public bool IsEBerryEngima => LargeBlock.EReaderBerry[0] is 0 or 0xFF;
 
-    public MailDetail GetMail(int mailIndex)
-    {
-        var ofs = GetMailOffset(mailIndex);
-        var data = Large.Slice(ofs, Mail3.SIZE).ToArray();
-        return new Mail3(data, ofs);
-    }
-
-    #region eBerry
-    public abstract Span<byte> EReaderBerry();
-    public string EBerryName => GetString(EReaderBerry()[..7]);
-    public bool IsEBerryEngima => EReaderBerry()[0] is 0 or 0xFF;
-    #endregion
-
-    #region eTrainer
-    public abstract Span<byte> EReaderTrainer();
-    #endregion
-
-    public abstract Gen3MysteryData MysteryData { get; set; }
+    /// <summary>
+    /// Indicates if the extdata sections of the save file are available for get/set.
+    /// </summary>
+    public bool IsFullSaveFile => Data.Length >= SaveUtil.SIZE_G3RAW;
 
     /// <summary>
     /// Hall of Fame data is split across two sectors.
@@ -741,14 +635,15 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     /// </summary>
     public Memory<byte> GetEReaderData() => Buffer.Slice(0x1E000, SIZE_SECTOR_USED);
 
-    /// <summary> Only used in Emerald. </summary>
+    /// <summary> Only used in Emerald for storing the Battle Video. </summary>
     public Memory<byte> GetFinalExternalData() => Buffer.Slice(0x1F000, SIZE_SECTOR_USED);
 
     public bool IsCorruptPokedexFF() => MemoryMarshal.Read<ulong>(Small[0xAC..]) == ulong.MaxValue;
 
-    public override void CopyChangesFrom(SaveFile sav)
+    public sealed override void CopyChangesFrom(SaveFile sav)
     {
-        SetData(sav.Data, 0);
+        if (Data.Length != 0)
+            SetData(sav.Data, 0);
         var s3 = (SAV3)sav;
         SetData(Small, s3.Small);
         SetData(Large, s3.Large);
@@ -757,7 +652,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     #region External Connections
 
-    public Span<byte> GiftRibbons => Large.Slice(ExternalEventData - 11, 11);
+    public Span<byte> GiftRibbons => LargeBlock.GiftRibbons;
 
     public void GiftRibbonsImport(ReadOnlySpan<byte> trade)
     {
@@ -773,7 +668,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     }
 
     public void GiftRibbonsClear() => GiftRibbons.Clear();
-    protected abstract int ExternalEventData { get; }
+    private int ExternalEventData => LargeBlock.ExternalEventData;
     protected int ExternalEventFlags => ExternalEventData + 0x14;
 
     public uint ColosseumRaw1

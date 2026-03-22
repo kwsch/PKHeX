@@ -12,7 +12,6 @@ namespace PKHeX.WinForms;
 public sealed partial class SAV_Inventory : Form
 {
     private readonly SaveFile Origin;
-    private readonly SaveFile SAV;
 
     private static readonly ImageList IL_Pouch = InventoryTypeImageUtil.GetImageList();
 
@@ -21,8 +20,8 @@ public sealed partial class SAV_Inventory : Form
         InitializeComponent();
         tabControl1.ImageList = IL_Pouch;
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        SAV = (Origin = sav).Clone();
-        itemlist = [.. GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version)]; // copy
+        Origin = sav;
+        itemlist = [.. GameInfo.Strings.GetItemStrings(sav.Context, sav.Version)]; // copy
 
         for (int i = 0; i < itemlist.Length; i++)
         {
@@ -30,8 +29,8 @@ public sealed partial class SAV_Inventory : Form
                 itemlist[i] = $"(Item #{i:000})";
         }
 
-        Bag = SAV.Inventory;
-        ItemColumnReadOnly = SAV is SAV9ZA or SAV9SV;
+        Bag = sav.Inventory;
+        ItemColumnReadOnly = sav is SAV9ZA or SAV9SV;
         var item0 = Bag.Pouches[0].Items[0];
         HasFreeSpace = item0 is IItemFreeSpace;
         HasFreeSpaceIndex = item0 is IItemFreeSpaceIndex;
@@ -90,8 +89,7 @@ public sealed partial class SAV_Inventory : Form
     private void B_Save_Click(object sender, EventArgs e)
     {
         SetBags();
-        Bag.CopyTo(SAV);
-        Origin.CopyChangesFrom(SAV);
+        Bag.CopyTo(Origin);
         Close();
     }
 
@@ -111,7 +109,7 @@ public sealed partial class SAV_Inventory : Form
         }
     }
 
-    private DataGridView GetDGV(InventoryPouch pouch)
+    private DoubleBufferedDataGridView GetDGV(InventoryPouch pouch)
     {
         // Add DataGrid
         var dgv = GetBaseDataGrid(pouch);
@@ -336,7 +334,7 @@ public sealed partial class SAV_Inventory : Form
         var pouch = Bag.Pouches[index];
         NUD_Count.Maximum = pouch.MaxCount;
 
-        bool disable = pouch.Type is InventoryType.PCItems or InventoryType.FreeSpace && SAV is not SAV8LA;
+        bool disable = pouch.Type is InventoryType.PCItems or InventoryType.FreeSpace && Origin is not SAV8LA;
         NUD_Count.Visible = L_Count.Visible = B_GiveAll.Visible = !disable;
         if (disable && !Main.HaX)
         {

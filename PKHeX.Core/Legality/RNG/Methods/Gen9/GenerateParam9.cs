@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Parameters used to generate data for an encounter.
 /// </summary>
 /// <param name="Species">Species to generate.</param>
-/// <param name="GenderRatio">Gender ratio byte.</param>
+/// <param name="GenderRatio">Gender ratio byte from Personal Info.</param>
 /// <param name="FlawlessIVs">Count of IVs that are perfect.</param>
 /// <param name="RollCount">Count of shiny rolls allowed for the PID calculation.</param>
 /// <param name="Height">Height value to generate. If zero, full random.</param>

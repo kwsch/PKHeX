@@ -342,12 +342,12 @@ public sealed class ShowdownSet : IBattleTemplate
             return false;
 
         var nature = (Nature)index;
-        if (!nature.IsFixed())
+        if (!nature.IsFixed)
         {
             LogError(NatureUnrecognized, input);
             return false;
         }
-        if (Nature != Nature.Random && Nature != nature)
+        if (Nature.IsFixed && Nature != nature)
         {
             LogError(NatureAlreadySpecified, input);
             return false;
@@ -627,7 +627,7 @@ public sealed class ShowdownSet : IBattleTemplate
             BattleTemplateToken.EVsAppendNature => GetStringStatsNatureAmp(EVs, 0, nameEVs, Nature),
             _ => GetStringStats(EVs, 0, nameEVs),
         };
-        if (token is BattleTemplateToken.EVsAppendNature && Nature.IsFixed())
+        if (token is BattleTemplateToken.EVsAppendNature && Nature.IsFixed)
             line += $" ({settings.Localization.Strings.natures[(int)Nature]})";
         result.Add(cfg.Push(BattleTemplateToken.EVs, line));
     }
@@ -1081,7 +1081,7 @@ public sealed class ShowdownSet : IBattleTemplate
                 return false; // invalid line
             }
 
-            if (Nature != Nature.Random) // specified in a separate Nature line
+            if (Nature.IsFixed) // specified in a separate Nature line
                 LogError(NatureEffortAmpAlreadySpecified, natureName);
             else
                 Nature = (Nature)natureIndex;
@@ -1100,7 +1100,7 @@ public sealed class ShowdownSet : IBattleTemplate
         result.TreatAmpsAsSpeedNotLast();
         var ampNature = AdjustNature(result.Plus, result.Minus);
         success &= ampNature;
-        if (ampNature && currentNature != Nature.Random && currentNature != Nature)
+        if (ampNature && currentNature.IsFixed && currentNature != Nature)
         {
             LogError(NatureEffortAmpConflictNature);
             Nature = currentNature; // revert to original

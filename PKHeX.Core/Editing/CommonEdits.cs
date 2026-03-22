@@ -30,8 +30,10 @@ public static class CommonEdits
                 pk.ClearNickname();
                 return;
             }
-            pk.IsNicknamed = true;
+
+            pk.PrepareNickname();
             pk.Nickname = nick;
+            pk.IsNicknamed = true;
         }
 
         /// <summary>
@@ -137,7 +139,7 @@ public static class CommonEdits
         /// <param name="nature">Desired <see cref="PKM.Nature"/> value to set.</param>
         public void SetNature(Nature nature)
         {
-            if (!nature.IsFixed())
+            if (!nature.IsFixed)
                 nature = 0; // default valid
 
             var format = pk.Format;

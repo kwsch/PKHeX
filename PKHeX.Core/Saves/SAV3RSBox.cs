@@ -133,7 +133,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
     public override ushort MaxMoveID => Legal.MaxMoveID_3;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_3;
     public override int MaxAbilityID => Legal.MaxAbilityID_3;
-    public override int MaxItemID => Legal.MaxItemID_3;
+    public override int MaxItemID => Legal.MaxItemID_3_RS;
     public override int MaxBallID => Legal.MaxBallID_3;
     public override GameVersion MaxGameID => Legal.MaxGameID_3;
 

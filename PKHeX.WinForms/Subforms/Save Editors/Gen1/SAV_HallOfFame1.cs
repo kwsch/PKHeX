@@ -210,14 +210,7 @@ public partial class SAV_HallOfFame1 : Form
         if (tb.Text != pk.Nickname) // preserve trash
             pk.Nickname = tb.Text;
 
-        var nicktrash = pk.NicknameTrash;
-        var d = new TrashEditor(tb, nicktrash, SAV, SAV.Generation, SAV.Context);
-        d.ShowDialog();
-        tb.Text = d.FinalString;
-        d.FinalBytes.CopyTo(nicktrash);
-
-        if (tb.Text != pk.Nickname) // preserve trash
-            tb.Text = pk.Nickname;
+        TrashEditor.Show(tb, SAV, pk.NicknameTrash);
     }
 
     private void B_Delete_Click(object sender, EventArgs e)

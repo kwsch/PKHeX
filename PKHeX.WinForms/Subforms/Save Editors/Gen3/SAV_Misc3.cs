@@ -21,7 +21,7 @@ public partial class SAV_Misc3 : Form
 
         LoadRecords();
 
-        if (SAV is IGen3Hoenn h)
+        if (SAV.LargeBlock is ISaveBlock3LargeHoenn h)
         {
             pokeblock3CaseEditor1.Initialize(h);
             ReadDecorations(h);
@@ -37,7 +37,7 @@ public partial class SAV_Misc3 : Form
             TC_Misc.Controls.Remove(Tab_Paintings);
         }
 
-        if (SAV is IGen3Joyful j)
+        if (SAV.SmallBlock is ISaveBlock3SmallExpansion j)
             ReadJoyful(j);
         else
             TC_Misc.Controls.Remove(TAB_Joyful);
@@ -56,6 +56,7 @@ public partial class SAV_Misc3 : Form
         if (SAV is SAV3FRLG frlg)
         {
             TB_RivalName.Text = frlg.RivalName;
+            TB_RivalName.Click += (_, _) => TrashEditor.Show(TB_RivalName, frlg, frlg.LargeBlock.RivalNameTrash);
 
             // Trainer Card Species
             ComboBox[] cba = [CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6];
@@ -78,13 +79,13 @@ public partial class SAV_Misc3 : Form
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        if (SAV is IGen3Hoenn h)
+        if (SAV.LargeBlock is ISaveBlock3LargeHoenn h)
         {
             pokeblock3CaseEditor1.Save(h);
             SaveDecorations(h);
             SavePaintings();
         }
-        if (TC_Misc.Controls.Contains(TAB_Joyful) && SAV is IGen3Joyful j)
+        if (TC_Misc.Controls.Contains(TAB_Joyful) && SAV.SmallBlock is ISaveBlock3SmallExpansion j)
             SaveJoyful(j);
         if (TC_Misc.Controls.Contains(TAB_Ferry))
             SaveFerry();
@@ -92,7 +93,8 @@ public partial class SAV_Misc3 : Form
             SaveBattleFrontier();
         if (SAV is SAV3FRLG frlg)
         {
-            frlg.RivalName = TB_RivalName.Text;
+            if (frlg.RivalName != TB_RivalName.Text) // preserve trash
+                frlg.RivalName = TB_RivalName.Text;
             ComboBox[] cba = [CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6];
             for (int i = 0; i < cba.Length; i++)
             {
@@ -103,7 +105,7 @@ public partial class SAV_Misc3 : Form
         }
 
         if (SAV is SAV3E se)
-            se.BP = (ushort)NUD_BP.Value;
+            se.SmallBlock.BP = (ushort)NUD_BP.Value;
         SAV.Coin = (ushort)NUD_Coins.Value;
 
         Origin.CopyChangesFrom(SAV);
@@ -113,7 +115,7 @@ public partial class SAV_Misc3 : Form
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
     #region Joyful
-    private void ReadJoyful(IGen3Joyful j)
+    private void ReadJoyful(ISaveBlock3SmallExpansion j)
     {
         TB_J1.Text = Math.Min((ushort)9999, j.JoyfulJumpInRow).ToString();
         TB_J2.Text = Math.Min(99990, j.JoyfulJumpScore).ToString();
@@ -125,7 +127,7 @@ public partial class SAV_Misc3 : Form
         TB_BerryPowder.Text = Math.Min(99999u, j.BerryPowder).ToString();
     }
 
-    private void SaveJoyful(IGen3Joyful j)
+    private void SaveJoyful(ISaveBlock3SmallExpansion j)
     {
         j.JoyfulJumpInRow = (ushort)Util.ToUInt32(TB_J1.Text);
         j.JoyfulJumpScore = (ushort)Util.ToUInt32(TB_J2.Text);
@@ -350,7 +352,7 @@ public partial class SAV_Misc3 : Form
         if (recordIndex < 0)
             return;
 
-        var bf = ((SAV3E)SAV).BattleFrontier;
+        var bf = ((SAV3E)SAV).SmallBlock.BattleFrontier;
         var mode = (BattleFrontierBattleMode3)modeIndex;
         var record = (BattleFrontierRecordType3)recordIndex;
 
@@ -402,7 +404,7 @@ public partial class SAV_Misc3 : Form
         if (recordIndex < 0)
             return;
 
-        var bf = ((SAV3E)SAV).BattleFrontier;
+        var bf = ((SAV3E)SAV).SmallBlock.BattleFrontier;
         var mode = (BattleFrontierBattleMode3)modeIndex;
         var record = (BattleFrontierRecordType3)recordIndex;
 
@@ -443,7 +445,7 @@ public partial class SAV_Misc3 : Form
         if (recordIndex < 0)
             return;
 
-        var bf = ((SAV3E)SAV).BattleFrontier;
+        var bf = ((SAV3E)SAV).SmallBlock.BattleFrontier;
         var mode = (BattleFrontierBattleMode3)modeIndex;
         var record = (BattleFrontierRecordType3)recordIndex;
 
@@ -511,7 +513,6 @@ public partial class SAV_Misc3 : Form
 
     private void LoadRecords()
     {
-        var records = new Record3(SAV);
         var items = Record3.GetItems(SAV);
         CB_Record.InitializeBinding();
         CB_Record.DataSource = items;
@@ -537,16 +538,17 @@ public partial class SAV_Misc3 : Form
 
             var index = WinFormsUtil.GetIndex(CB_Record);
             var value = (uint)NUD_RecordValue.Value;
-            records.SetRecord(index, value);
+            SAV.SetRecord(index, value);
             if (index == 1)
                 LoadFame(value);
         };
 
         if (SAV is SAV3E em)
         {
-            NUD_BP.Value = Math.Min(NUD_BP.Maximum, em.BP);
-            NUD_BPEarned.Value = em.BPEarned;
-            NUD_BPEarned.ValueChanged += (_, _) => em.BPEarned = (uint)NUD_BPEarned.Value;
+            var small = em.SmallBlock;
+            NUD_BP.Value = Math.Min(NUD_BP.Maximum, small.BP);
+            NUD_BPEarned.Value = small.BPEarned;
+            NUD_BPEarned.ValueChanged += (_, _) => small.BPEarned = (ushort)NUD_BPEarned.Value;
         }
         else
         {
@@ -554,12 +556,13 @@ public partial class SAV_Misc3 : Form
             NUD_BPEarned.Visible = L_BPEarned.Visible = false;
         }
 
-        NUD_FameH.ValueChanged += (_, _) => ChangeFame(records);
-        NUD_FameM.ValueChanged += (_, _) => ChangeFame(records);
-        NUD_FameS.ValueChanged += (_, _) => ChangeFame(records);
+        NUD_FameH.ValueChanged += (_, _) => ChangeFame();
+        NUD_FameM.ValueChanged += (_, _) => ChangeFame();
+        NUD_FameS.ValueChanged += (_, _) => ChangeFame();
+        return;
 
-        void ChangeFame(Record3 r3) => r3.SetRecord(1, (uint)(NUD_RecordValue.Value = GetFameTime()));
-        void LoadRecordID(int index) => NUD_RecordValue.Value = records.GetRecord(index);
+        void ChangeFame() => SAV.SetRecord(1, (uint)(NUD_RecordValue.Value = GetFameTime()));
+        void LoadRecordID(int index) => NUD_RecordValue.Value = SAV.GetRecord(index);
         void LoadFame(uint val) => SetFameTime(val);
     }
 
@@ -580,7 +583,7 @@ public partial class SAV_Misc3 : Form
     }
 
     #region Decorations
-    private void ReadDecorations(IGen3Hoenn h)
+    private void ReadDecorations(ISaveBlock3LargeHoenn h)
     {
         DataGridViewComboBoxColumn[] columns =
         [
@@ -632,7 +635,7 @@ public partial class SAV_Misc3 : Form
             dgv.Rows[i].Cells[0].Value = (int)data[i];
     }
 
-    private void SaveDecorations(IGen3Hoenn h)
+    private void SaveDecorations(ISaveBlock3LargeHoenn h)
     {
         SaveDecorationCategory(h.Decorations.Desk, DGV_Desk);
         SaveDecorationCategory(h.Decorations.Chair, DGV_Chair);
@@ -681,8 +684,9 @@ public partial class SAV_Misc3 : Form
     {
         if ((uint)index >= 5)
             return;
-        var gallery = (IGen3Hoenn)SAV;
-        var painting = gallery.GetPainting(index);
+        if (SAV.LargeBlock is not ISaveBlock3LargeHoenn gallery)
+            return;
+        var painting = gallery.GetPainting(index, SAV.Japanese);
 
         GB_Painting.Visible = CHK_EnablePaint.Checked = SAV.GetEventFlag(Paintings3.GetFlagIndexContestStat(index));
 
@@ -703,8 +707,9 @@ public partial class SAV_Misc3 : Form
     {
         if ((uint)index >= 5)
             return;
-        var gallery = (IGen3Hoenn)SAV;
-        var painting = gallery.GetPainting(index);
+        if (SAV.LargeBlock is not ISaveBlock3LargeHoenn gallery)
+            return;
+        var painting = gallery.GetPainting(index, SAV.Japanese);
 
         var enabled = CHK_EnablePaint.Checked;
         SAV.SetEventFlag(Paintings3.GetFlagIndexContestStat(index), enabled);

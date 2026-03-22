@@ -166,7 +166,7 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IEncount
             return false;
         if (Gender != pk.Gender)
             return false;
-        if (Nature != Nature.Random && pk.Nature != Nature)
+        if (Nature.IsFixed && pk.Nature != Nature)
             return false;
         return true;
     }

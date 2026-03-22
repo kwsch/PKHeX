@@ -159,7 +159,10 @@ public partial class SAV_Trainer9 : Form
         SAV.Money = Util.ToUInt32(MT_Money.Text);
         SAV.LeaguePoints = Util.ToUInt32(MT_LP.Text);
         SAV.Language = WinFormsUtil.GetIndex(CB_Language);
-        SAV.OT = TB_OTName.Text;
+
+        // only modify if changed (preserve trash bytes?)
+        if (SAV.OT != TB_OTName.Text)
+            SAV.OT = TB_OTName.Text;
 
         // Save PlayTime
         SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
@@ -175,14 +178,10 @@ public partial class SAV_Trainer9 : Form
 
     private void ClickOT(object sender, MouseEventArgs e)
     {
-        TextBox tb = sender as TextBox ?? TB_OTName;
         // Special Character Form
         if (ModifierKeys != Keys.Control)
             return;
-
-        var d = new TrashEditor(tb, SAV, SAV.Generation, SAV.Context);
-        d.ShowDialog();
-        tb.Text = d.FinalString;
+        TrashEditor.Show(TB_OTName, SAV, SAV.MyStatus.OriginalTrainerTrash);
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)

@@ -626,7 +626,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         if (MetLevel != 0 && MetLevel != pk.MetLevel) return false;
         if ((Ball == 0 ? 4 : Ball) != pk.Ball) return false;
         if (OTGender < 2 && OTGender != pk.OriginalTrainerGender) return false;
-        if (Nature != Nature.Random && pk.Nature != Nature) return false;
+        if (Nature.IsFixed && pk.Nature != Nature) return false;
         if (Gender != 3 && Gender != pk.Gender) return false;
 
         if (pk is IScaledSize s)

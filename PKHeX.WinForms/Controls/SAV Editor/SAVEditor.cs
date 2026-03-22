@@ -38,12 +38,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     public bool HaX;
     public bool ModifyPKM { private get; set; }
 
-    public bool HideSecretDetails
-    {
-        private get;
-        set => ToggleSecrets(SAV, field = value);
-    }
-
     public ToolStripMenuItem Menu_Redo { get; set; } = null!;
     public ToolStripMenuItem Menu_Undo { get; set; } = null!;
     private bool FieldsLoaded;
@@ -92,6 +86,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
         SL_Extra.ViewIndex = -2;
         menu = new ContextMenuSAV { Manager = M };
+        components!.Add(menu);
         InitializeEvents();
     }
 
@@ -109,6 +104,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             if (menu.mnuVSD.Visible)
                 return;
             Box.CurrentBox = e.Delta > 1 ? Box.Editor.MoveLeft() : Box.Editor.MoveRight();
+            if (Box.M is { } m)
+                m.MouseRestart(); // should always trigger if properly connected
         };
 
         GB_Daycare.Click += (_, _) => SwitchDaycare();
@@ -511,8 +508,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             z.BringToFront();
             return;
         }
-        var form = new SAV_BoxViewer(this, M, Box.CurrentBox);
-        form.Owner = FindForm();
+        var form = new SAV_BoxViewer(this, M, Box.CurrentBox) { Owner = FindForm() };
         form.Show();
     }
 
@@ -578,21 +574,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             if (GetCurrentDaycare() is { } s)
                 SetDaycareSeed(s, filterText);
-        }
-        else if (tb == TB_GameSync && SAV is IGameSync sync)
-        {
-            var value = filterText.PadLeft(sync.GameSyncIDSize, '0');
-            sync.GameSyncID = value;
-            SAV.State.Edited = true;
-        }
-        else if (SAV is ISecureValueStorage s)
-        {
-            var value = Convert.ToUInt64(filterText, 16);
-            if (tb == TB_Secure1)
-                s.TimeStampCurrent = value;
-            else if (tb == TB_Secure2)
-                s.TimeStampPrevious = value;
-            SAV.State.Edited = true;
         }
     }
 
@@ -1306,7 +1287,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         GB_Daycare.Visible = sav is IDaycareStorage or IDaycareMulti;
         B_ConvertKorean.Visible = sav is SAV4;
         B_OpenPokeblocks.Visible = sav is SAV6AO;
-        B_OpenSecretBase.Visible = sav is SAV6AO or IGen3Hoenn;
+        B_OpenSecretBase.Visible = sav is SAV6AO or SAV3 { LargeBlock: ISaveBlock3LargeHoenn };
         B_OpenPokepuffs.Visible = sav is ISaveBlock6Main;
         B_JPEG.Visible = B_OpenLinkInfo.Visible = B_OpenSuperTraining.Visible = B_OUTPasserby.Visible = sav is ISaveBlock6Main;
         B_OpenBoxLayout.Visible = sav is IBoxDetailName;
@@ -1334,7 +1315,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenBattlePass.Visible = B_OpenGear.Visible = sav is SAV4BR;
         B_OpenSealStickers.Visible = B_Poffins.Visible = sav is SAV8BS;
         B_OpenApricorn.Visible = sav is SAV4HGSS;
-        B_OpenRTCEditor.Visible = (sav.Generation == 2 && sav is not SAV2Stadium) || sav is IGen3Hoenn;
+        B_OpenRTCEditor.Visible = (sav.Generation == 2 && sav is not SAV2Stadium) || sav is SAV3 { SmallBlock: ISaveBlock3SmallHoenn };
         B_MailBox.Visible = sav is SAV2 or SAV2Stadium or SAV3 or SAV4 or SAV5;
 
         B_Raids.Visible = sav is SAV8SWSH or SAV9SV;
@@ -1357,7 +1338,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void ToggleViewMisc(SaveFile sav)
     {
         // Generational Interface
-        ToggleSecrets(sav, HideSecretDetails);
         B_VerifyCHK.Visible = SAV.State.Exportable;
         Menu_ExportBAK.Visible = SAV.State.Exportable && SAV.Metadata.FilePath is not null;
 
@@ -1374,27 +1354,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             L_SaveSlot.Visible = CB_SaveSlot.Visible = false;
         }
-
-        if (sav is ISecureValueStorage s)
-        {
-            TB_Secure1.Text = s.TimeStampCurrent.ToString("X16");
-            TB_Secure2.Text = s.TimeStampPrevious.ToString("X16");
-        }
-
-        if (sav is IGameSync sync)
-        {
-            var gsid = sync.GameSyncID;
-            TB_GameSync.Enabled = !string.IsNullOrEmpty(gsid);
-            TB_GameSync.MaxLength = sync.GameSyncIDSize;
-            TB_GameSync.Text = (string.IsNullOrEmpty(gsid) ? 0.ToString() : gsid).PadLeft(sync.GameSyncIDSize, '0');
-        }
-    }
-
-    private void ToggleSecrets(SaveFile sav, bool hide)
-    {
-        var shouldShow = sav.State.Exportable && !hide;
-        TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = shouldShow && sav is ISecureValueStorage;
-        TB_GameSync.Visible = L_GameSync.Visible = shouldShow && sav is IGameSync;
     }
 
     // DragDrop
@@ -1541,7 +1500,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             {
                 using var img = new Bitmap(Box.Width, Box.Height);
                 Box.DrawToBitmap(img, new Rectangle(0, 0, Box.Width, Box.Height));
-                using var cursor = Cursor = new Cursor(img.GetHicon());
+                using var dragCursor = new BitmapCursor(img);
+                Cursor = dragCursor.Cursor;
                 await File.WriteAllBytesAsync(newFile, bin).ConfigureAwait(true);
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newFile }), DragDropEffects.Copy);
             }
@@ -1615,7 +1575,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
                 return;
             }
         }
-        if (_searchForm is null || !_searchForm.IsSameSaveFile(SAV))
+        if (_searchForm?.IsSameSaveFile(SAV) != true)
             _searchForm = CreateSearcher(SAV, EditEnv.PKMEditor);
 
         // Set the searcher Position immediately to the right of this parent form, and vertically aligned tops of forms.

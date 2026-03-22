@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Minimal Trainer Information necessary for generating a <see cref="PKM"/>.
 /// </summary>
-public interface ITrainerInfo : ITrainerID32ReadOnly, IVersion, IGeneration
+public interface ITrainerInfo : ITrainerID32ReadOnly, IVersion, IGeneration, IContext
 {
     string OT { get; }
     byte Gender { get; }
@@ -13,7 +13,6 @@ public interface ITrainerInfo : ITrainerID32ReadOnly, IVersion, IGeneration
     int Language { get; }
 
     new byte Generation { get; }
-    EntityContext Context { get; }
 }
 
 /// <summary>

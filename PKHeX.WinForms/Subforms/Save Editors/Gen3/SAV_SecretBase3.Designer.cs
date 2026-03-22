@@ -255,6 +255,7 @@ namespace PKHeX.WinForms
             // 
             // TB_PID
             // 
+            TB_PID.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             TB_PID.Location = new System.Drawing.Point(384, 132);
             TB_PID.Name = "TB_PID";
             TB_PID.Size = new System.Drawing.Size(100, 23);

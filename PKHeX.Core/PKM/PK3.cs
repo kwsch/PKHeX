@@ -398,4 +398,15 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public override int GetStringLength(ReadOnlySpan<byte> data)
         => TrashBytes8.GetStringLength(data);
     public override int GetBytesPerChar() => 1;
+
+    public override void PrepareNickname() => GetNicknamePrefillRegion().Fill(StringConverter3.TerminatorByte);
+
+    public Span<byte> GetNicknamePrefillRegion()
+    {
+        // Japanese only fills the first 5+1 bytes; everything else is trash.
+        // International games are 10 chars (full buffer) max; implicit terminator if full.
+        if (Japanese)
+            return NicknameTrash[..6];
+        return NicknameTrash;
+    }
 }

@@ -205,10 +205,10 @@ public abstract class BatchEditingBase<TObject, TMeta> : IBatchEditor<TObject> w
         return result;
     }
 
-    private static Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[] GetPropertyDictionaries(IReadOnlyList<Type> types, int expectedMax)
+    private static Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[] GetPropertyDictionaries(ReadOnlySpan<Type> types, int expectedMax)
     {
-        var result = new Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[types.Count];
-        for (int i = 0; i < types.Count; i++)
+        var result = new Dictionary<string, PropertyInfo>.AlternateLookup<ReadOnlySpan<char>>[types.Length];
+        for (int i = 0; i < types.Length; i++)
             result[i] = GetPropertyDictionary(types[i], ReflectUtil.GetAllPropertyInfoPublic, expectedMax).GetAlternateLookup<ReadOnlySpan<char>>();
         return result;
     }

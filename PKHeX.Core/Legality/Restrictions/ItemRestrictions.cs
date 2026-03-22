@@ -51,7 +51,7 @@ public static class ItemRestrictions
 
     // Combined bitflags for released held items across generations.
     private static readonly bool[] ReleasedHeldItems_2 = GetPermitList(MaxItemID_2, HeldItems_GSC);
-    private static readonly bool[] ReleasedHeldItems_3 = GetPermitList(MaxItemID_3, HeldItems_RS, ItemStorage3RS.Unreleased); // Safari Ball
+    private static readonly bool[] ReleasedHeldItems_3 = GetPermitList(MaxItemID_3_RS, HeldItems_RS, ItemStorage3RS.Unreleased); // Safari Ball
     private static readonly bool[] ReleasedHeldItems_4 = GetPermitList(MaxItemID_4_HGSS, HeldItems_HGSS, ItemStorage4.Unreleased);
     private static readonly bool[] ReleasedHeldItems_5 = GetPermitList(MaxItemID_5_B2W2, HeldItems_BW, ItemStorage5.Unreleased);
     private static readonly bool[] ReleasedHeldItems_6 = GetPermitList(MaxItemID_6_AO, HeldItems_AO, ItemStorage6XY.Unreleased);

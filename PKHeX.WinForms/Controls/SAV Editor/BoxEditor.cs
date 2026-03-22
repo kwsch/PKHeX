@@ -358,7 +358,7 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
     public void ApplySearchFilter(Func<PKM, bool>? searchFilter, bool reload = true)
     {
         _searchFilter = searchFilter;
-        _lastSearchResult = null;    
+        _lastSearchResult = null;
         if (!reload)
             return;
         ResetSlots();

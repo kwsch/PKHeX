@@ -51,13 +51,13 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public MedalList5 Medals => Blocks.Medals;
     public KeySystem5 Keys => Blocks.Keys;
 
-    public string Rival
+    public string RivalName
     {
-        get => GetString(RivalTrash);
-        set => SetString(RivalTrash, value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
+        get => GetString(RivalNameTrash);
+        set => SetString(RivalNameTrash, value, MaxStringLengthTrainer, StringConverterOption.ClearZero);
     }
 
-    public Span<byte> RivalTrash
+    public Span<byte> RivalNameTrash
     {
         get => Data.Slice(0x23BA4, MaxStringLengthTrainer * 2);
         set { if (value.Length == MaxStringLengthTrainer * 2) value.CopyTo(Data[0x23BA4..]); }

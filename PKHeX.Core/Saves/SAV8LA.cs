@@ -36,7 +36,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     {
         0 => "-Base", // Vanilla
         1 => "-DB", // DLC 1: Daybreak
-        _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+        _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision), SaveRevision, null),
     };
 
     public override string GetString(ReadOnlySpan<byte> data)

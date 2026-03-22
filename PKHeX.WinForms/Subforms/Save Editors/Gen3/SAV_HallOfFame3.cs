@@ -151,13 +151,36 @@ public partial class SAV_HallOfFame3 : Form
         if (tb.Text != pk.Nickname) // preserve trash
             pk.Nickname = tb.Text;
 
-        var nicktrash = pk.NicknameTrash;
-        var d = new TrashEditor(tb, nicktrash, SAV, SAV.Generation, SAV.Context);
-        d.ShowDialog();
-        tb.Text = d.FinalString;
-        d.FinalBytes.CopyTo(nicktrash);
 
-        if (tb.Text != pk.Nickname) // preserve trash
-            tb.Text = pk.Nickname;
+        TrashEditor.Show(tb, SAV, pk.NicknameTrash);
+    }
+
+    private void B_ImportParty_Click(object sender, EventArgs e)
+    {
+        // assemble party
+        var party = new PK3[6];
+        var partyCount = SAV.PartyCount;
+        for (int i = 0; i < partyCount; i++)
+            party[i] = (PK3)SAV.GetPartySlotAtIndex(i);
+        for (int i = partyCount; i < party.Length; i++)
+            party[i] = new PK3(); // ensure data is clean
+
+        var current = Fame[prevEntry];
+        current.CopyFrom(party);
+        var pkm = current.GetMember(prevMember);
+        LoadEntry(pkm); // reload from updated data
+
+        if (ModifierKeys == Keys.Shift)
+        {
+            // Apply to all other entries
+            for (int i = 0; i < Fame.Length; i++)
+            {
+                if (i != prevEntry)
+                    Fame[i].CopyFrom(party);
+            }
+        }
+
+        UpdateSprite();
+        System.Media.SystemSounds.Asterisk.Play();
     }
 }

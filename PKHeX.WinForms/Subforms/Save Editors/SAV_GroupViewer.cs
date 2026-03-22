@@ -15,6 +15,8 @@ public sealed partial class SAV_GroupViewer : Form
     private readonly IReadOnlyList<SlotGroup> Groups;
     private readonly SummaryPreviewer Preview = new();
 
+    private PictureBox? Hover;
+
     public int CurrentGroup { get; set; } = -1;
 
     public SAV_GroupViewer(SaveFile sav, IPKMView view, IReadOnlyList<SlotGroup> groups)
@@ -28,7 +30,12 @@ public sealed partial class SAV_GroupViewer : Form
         Regenerate(count);
         CenterToParent();
 
-        MouseWheel += (_, e) => CurrentGroup = e.Delta > 1 ? MoveLeft() : MoveRight();
+        MouseWheel += (_, e) =>
+        {
+            CurrentGroup = e.Delta > 1 ? MoveLeft() : MoveRight();
+            if (Hover is { } pb)
+                HoverSlot(pb);
+        };
 
         var names = groups.Select(z => $"{z.GroupName}").ToArray();
         CB_BoxSelect.Items.AddRange(names);
@@ -48,7 +55,11 @@ public sealed partial class SAV_GroupViewer : Form
             pb.ContextMenuStrip = mnu;
             pb.MouseMove += (_, args) => Preview.UpdatePreviewPosition(args.Location);
             pb.MouseEnter += (_, _) => HoverSlot(pb);
-            pb.MouseLeave += (_, _) => Preview.Clear();
+            pb.MouseLeave += (_, _) =>
+            {
+                Preview.Clear();
+                Hover = null;
+            };
         }
         FormClosing += (_, _) => Preview.Clear();
     }
@@ -59,6 +70,7 @@ public sealed partial class SAV_GroupViewer : Form
         var index = Box.Entries.IndexOf(pb);
         var slot = group.Slots[index];
         Preview.Show(pb, slot, group.Type);
+        Hover = pb;
     }
 
     private void OmniClick(object sender, EventArgs e)

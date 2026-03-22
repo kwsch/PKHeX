@@ -57,6 +57,10 @@ public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
     {
         Span<int> iv = stackalloc int[6];
 
+        // Honor a shiny request only at the end; generate as never-shiny to avoid shiny PID rejection in main RNG method.
+        var isShinyRequested = criteria.Shiny.IsShiny();
+        var iterCriteria = criteria with { Shiny = ShinyMethod };
+
         int ctr = 0;
         var rand = new Xoroshiro128Plus(Util.Rand.Rand64());
         var param = GetParam(pi);
@@ -64,23 +68,22 @@ public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
         const int max = 100_000;
         do
         {
-            if (TryApply(pk, seed = rand.Next(), iv, param, criteria))
+            if (TryApply(pk, seed = rand.Next(), iv, param, iterCriteria))
                 break;
         } while (++ctr < max);
 
         if (ctr == max) // fail
         {
-            if (!TryApply(pk, seed = rand.Next(), iv, param, criteria.WithoutIVs()))
+            iterCriteria = iterCriteria.WithoutIVs();
+            if (!TryApply(pk, seed = rand.Next(), iv, param, iterCriteria))
             {
-                var tmp = EncounterCriteria.Unrestricted with { Shiny = ShinyMethod };
-                while (!TryApply(pk, seed = rand.Next(), iv, param, tmp)) { }
+                iterCriteria = EncounterCriteria.Unrestricted with { Shiny = ShinyMethod };
+                while (!TryApply(pk, seed = rand.Next(), iv, param, iterCriteria)) { }
             }
         }
 
         FinishCorrelation(pk, seed);
-        if (criteria.IsSpecifiedNature() && criteria.Nature != pk.Nature && criteria.Nature.IsMint())
-            pk.StatNature = criteria.Nature;
-        if (criteria.Shiny.IsShiny())
+        if (isShinyRequested)
             pk.PID = ShinyUtil.GetShinyPID(pk.TID16, pk.SID16, pk.PID, ShinyXor);
     }
 

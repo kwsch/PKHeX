@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 
 public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Raw)
 {
-    private Span<byte> OriginalTrainerTrash => Data[..0x1A];
+    public Span<byte> OriginalTrainerTrash => Data[..0x1A];
 
     public string OT
     {

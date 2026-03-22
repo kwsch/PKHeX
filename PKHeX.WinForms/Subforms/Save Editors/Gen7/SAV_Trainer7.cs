@@ -334,7 +334,8 @@ public partial class SAV_Trainer7 : Form
         if (CB_AlolaTime.Enabled)
             SAV.GameTime.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);
 
-        SAV.OT = TB_OTName.Text;
+        if (SAV.OT != TB_OTName.Text) // only modify if changed (preserve trash bytes?)
+            SAV.OT = TB_OTName.Text;
 
         // Copy Position
         if (GB_Map.Enabled && MapUpdated)
@@ -479,14 +480,11 @@ public partial class SAV_Trainer7 : Form
 
     private void ClickOT(object sender, MouseEventArgs e)
     {
-        TextBox tb = sender as TextBox ?? TB_OTName;
         // Special Character Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        var d = new TrashEditor(tb, SAV, SAV.Generation, SAV.Context);
-        d.ShowDialog();
-        tb.Text = d.FinalString;
+        TrashEditor.Show(TB_OTName, SAV, SAV.MyStatus.OriginalTrainerTrash);
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)

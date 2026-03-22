@@ -15,9 +15,9 @@ public sealed partial class SAV_Fashion9 : Form
     private SAV_Fashion9(SaveFile sav)
     {
         InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
         SAV = (Origin = sav).Clone();
-        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
         // Allow drag/drop on form and main tab control
         AllowDrop = true;

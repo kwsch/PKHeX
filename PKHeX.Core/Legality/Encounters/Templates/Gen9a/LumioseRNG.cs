@@ -36,10 +36,10 @@ public static class LumioseRNG
     {
         var rand = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rand.NextInt(uint.MaxValue);
-        pk.PID = GetAdaptedPID(ref rand, pk, enc);
-
-        if (enc.Shiny is Shiny.Random && criteria.Shiny.IsShiny() != pk.IsShiny)
+        var pid = GetAdaptedPID(ref rand, pk, enc);
+        if (enc.Shiny is Shiny.Random && criteria.IsSpecifiedShiny() && !criteria.IsSatisfiedShiny(ShinyUtil.GetShinyXor(pid, pk.ID32), 16))
             return false;
+        pk.PID = pid;
 
         Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];
         if (enc.IVs.IsSpecified)
@@ -104,7 +104,7 @@ public static class LumioseRNG
             return false;
         pk.Gender = gender;
 
-        var nature = enc.Nature != Nature.Random ? enc.Nature
+        var nature = enc.Nature.IsFixed ? enc.Nature
             : (Nature)rand.NextInt(25);
 
         // Compromise on Nature -- some are fixed, some are random. If the request wants a specific nature, just mint it.
@@ -264,7 +264,7 @@ public static class LumioseRNG
         if (pk.Gender != gender)
             return false;
 
-        var nature = enc.Nature != Nature.Random ? enc.Nature
+        var nature = enc.Nature.IsFixed ? enc.Nature
             : (Nature)rand.NextInt(25);
         if (pk.Nature != nature)
             return false;

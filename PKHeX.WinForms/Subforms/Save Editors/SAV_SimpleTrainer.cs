@@ -73,6 +73,8 @@ public partial class SAV_SimpleTrainer : Form
                 L_PikaBeach.Visible = MT_PikaBeach.Visible = false;
                 CB_SoundType.Visible = LBL_SoundType.Visible = false;
             }
+
+            TB_OTName.Click += (_, _) => ClickOT(sav1.OriginalTrainerTrash, TB_OTName);
         }
 
         if (SAV is SAV2 sav2)
@@ -94,10 +96,13 @@ public partial class SAV_SimpleTrainer : Form
             CB_TextSpeed.SelectedIndex = sav2.TextSpeed;
             badgeval = sav2.Badges;
             cba = [CHK_1, CHK_2, CHK_3, CHK_4, CHK_6, CHK_5, CHK_7, CHK_8, CHK_H1, CHK_H2, CHK_H3, CHK_H4, CHK_H5, CHK_H6, CHK_H7, CHK_H8];
+
+            TB_OTName.Click += (_, _) => ClickOT(sav2.OriginalTrainerTrash, TB_OTName);
         }
 
         if (SAV is SAV3 sav3)
         {
+            var small = sav3.SmallBlock;
             GB_Map.Visible = false;
             badgeval = sav3.Badges;
 
@@ -108,12 +113,14 @@ public partial class SAV_SimpleTrainer : Form
             GB_Options.Visible = true;
             CB_BattleStyle.Items.AddRange("Switch", "Set");
             CB_SoundType.Items.AddRange("Mono", "Stereo");
-            CB_TextSpeed.Items.AddRange("0 (Slow)", "1 (Mid)", "2 (Fast)", "3 (Instant)");
+            CB_TextSpeed.Items.AddRange("0 (Slow)", "1 (Mid)", "2 (Fast)", "3 (Invalid)");
 
-            CB_TextSpeed.SelectedIndex = sav3.TextSpeed;
-            CB_BattleStyle.SelectedIndex = sav3.OptionBattleStyle ? 1 : 0;
-            CB_SoundType.SelectedIndex = sav3.OptionSoundStereo ? 0 : 1;
-            CHK_BattleEffects.Checked = sav3.OptionBattleScene;
+            CB_TextSpeed.SelectedIndex = small.TextSpeed;
+            CB_BattleStyle.SelectedIndex = small.OptionBattleStyle ? 1 : 0;
+            CB_SoundType.SelectedIndex = small.OptionSoundStereo ? 0 : 1;
+            CHK_BattleEffects.Checked = small.OptionBattleScene;
+
+            TB_OTName.Click += (_, _) => ClickOT(small.OriginalTrainerTrash, TB_OTName);
         }
         if (SAV is SAV3Colosseum or SAV3XD)
         {
@@ -123,6 +130,11 @@ public partial class SAV_SimpleTrainer : Form
             CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
             CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
             GB_Adventure.Visible = false;
+
+            if (SAV is SAV3Colosseum colo)
+                TB_OTName.Click += (_, _) => ClickOT(colo.OriginalTrainerTrash, TB_OTName);
+            else if (SAV is SAV3XD xd)
+                TB_OTName.Click += (_, _) => ClickOT(xd.OriginalTrainerTrash, TB_OTName);
             return;
         }
 
@@ -143,6 +155,8 @@ public partial class SAV_SimpleTrainer : Form
             Main.SetCountrySubRegion(CB_Country, "gen4_countries");
             CB_Country.SelectedValue = sav4.Country;
             CB_Region.SelectedValue = sav4.Region;
+
+            TB_OTName.Click += (_, _) => ClickOT(sav4.OriginalTrainerTrash, TB_OTName);
         }
         else if (SAV is SAV5 s)
         {
@@ -166,6 +180,8 @@ public partial class SAV_SimpleTrainer : Form
             Main.SetCountrySubRegion(CB_Country, "gen5_countries");
             CB_Country.SelectedValue = s.Country;
             CB_Region.SelectedValue = s.Region;
+
+            TB_OTName.Click += (_, _) => ClickOT(s.PlayerData.OriginalTrainerTrash, TB_OTName);
         }
 
         for (int i = 0; i < cba.Length; i++)
@@ -188,6 +204,14 @@ public partial class SAV_SimpleTrainer : Form
     private readonly CheckBox[] cba;
     private readonly bool Loading;
     private bool MapUpdated;
+
+    private void ClickOT(Span<byte> trash, TextBox tb)
+    {
+        // Special Character Form
+        if (ModifierKeys != Keys.Control)
+            return;
+        TrashEditor.Show(tb, SAV, trash);
+    }
 
     private void ChangeFFFF(object sender, EventArgs e)
     {
@@ -247,11 +271,12 @@ public partial class SAV_SimpleTrainer : Form
 
         if (SAV is SAV3 sav3)
         {
+            var small = sav3.SmallBlock;
             sav3.Badges = badgeval & 0xFF;
-            sav3.OptionBattleStyle = CB_BattleStyle.SelectedIndex == 1;
-            sav3.OptionSoundStereo = CB_SoundType.SelectedIndex == 0;
-            sav3.TextSpeed = CB_TextSpeed.SelectedIndex;
-            sav3.OptionBattleScene = CHK_BattleEffects.Checked;
+            small.OptionBattleStyle = CB_BattleStyle.SelectedIndex == 1;
+            small.OptionSoundStereo = CB_SoundType.SelectedIndex == 0;
+            small.TextSpeed = CB_TextSpeed.SelectedIndex;
+            small.OptionBattleScene = CHK_BattleEffects.Checked;
         }
 
         if (SAV is SAV4 sav4)

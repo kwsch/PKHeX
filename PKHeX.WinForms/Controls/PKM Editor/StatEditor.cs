@@ -658,38 +658,106 @@ public partial class StatEditor : UserControl
         if (order == StatOrder)
             return;
 
-        // https://stackoverflow.com/a/30219698
-        // WinForms hack to create the handles and avoid Z-order changing on visibility toggle.
-        // Otherwise, our stat ordering may be incorrect if we change it more than once.
-        foreach (Control ctrl in FLP_Stats.Controls)
-            _ = ctrl.Handle;
-
         // In Generation 1, Special Defense and Special Attack are combined.
         // Additionally, Speed is shown before Special.
-        const int baseIndex = 1;
         if (order == StatEditorStatOrder.Gen1Special)
         {
-            FLP_SpD.Visible = Label_SPA.Visible = false;
+            SetStatGridRow(3, 4); // Speed
+            SetStatGridRow(4, 5); // Special
+            SetStatVisibility(5, false);
+
+            Label_SPA.Visible = false;
             Label_SPC.Visible = true;
-            FLP_Stats.Controls.SetChildIndex(FLP_Spe, baseIndex + 3); // Speed
         }
         else if (order == StatEditorStatOrder.Current)
         {
-            FLP_SpD.Visible = Label_SPA.Visible = true;
+            SetStatGridRow(4, 4); // SpA
+            SetStatGridRow(3, 6); // Speed
+            SetStatVisibility(5, true);
+
+            Label_SPA.Visible = true;
             Label_SPC.Visible = false;
-            FLP_Stats.Controls.SetChildIndex(FLP_Spe, baseIndex + 5); // Speed
         }
         else
         {
             throw new ArgumentOutOfRangeException(nameof(order), order, null);
         }
 
+        UpdateStatGridRowHeights();
+
         StatOrder = order;
+    }
+
+    private float GetStatRowHeight() => TLP_StatGrid.RowStyles.Count > 1 ? TLP_StatGrid.RowStyles[1].Height : 0;
+
+    private void UpdateStatGridRowHeights()
+    {
+        var height = GetStatRowHeight();
+        for (int row = 1; row <= 6; row++) // Iterate over stat rows (1-based index)
+            TLP_StatGrid.RowStyles[row].Height = IsStatRowVisible(row) ? height : 0;
+    }
+
+    private bool IsStatRowVisible(int row)
+    {
+        for (int i = 0; i < L_Stats.Length; i++)
+        {
+            Control label = (i == 4) ? FLP_SPA : L_Stats[i];
+            if (label.Visible && TLP_StatGrid.GetRow(label) == row)
+                return true;
+        }
+
+        return false;
+    }
+
+    private void SetStatVisibility(int statIndex, bool visible)
+    {
+        L_Stats[statIndex].Visible = visible;
+        MT_Base[statIndex].Visible = visible;
+        MT_IVs[statIndex].Visible = visible;
+        MT_EVs[statIndex].Visible = visible;
+        MT_AVs[statIndex].Visible = visible;
+        MT_GVs[statIndex].Visible = visible;
+        MT_Stats[statIndex].Visible = visible;
+    }
+
+    private void SetStatGridRow(int statIndex, int row)
+    {
+        Control stat = (statIndex == 4) ? FLP_SPA : L_Stats[statIndex];
+        TLP_StatGrid.SetRow(stat, row);
+
+        TLP_StatGrid.SetRow(MT_Base[statIndex], row);
+        TLP_StatGrid.SetRow(MT_IVs[statIndex], row);
+        TLP_StatGrid.SetRow(MT_EVs[statIndex], row);
+        TLP_StatGrid.SetRow(MT_AVs[statIndex], row);
+        TLP_StatGrid.SetRow(MT_GVs[statIndex], row);
+        TLP_StatGrid.SetRow(MT_Stats[statIndex], row);
+    }
+
+    private void SetTotalRowVisible(bool visible)
+    {
+        var total = TLP_StatGrid.RowStyles[7];
+        total.SizeType = visible ? SizeType.AutoSize : SizeType.Absolute;
+        total.Height = 0; // AutoSize will ignore the height, but Absolute needs it to be zero to hide properly.
+    }
+
+    private static void SetColumnVisible(TableLayoutPanel panel, int index, bool visible)
+    {
+        if ((uint)index >= panel.ColumnStyles.Count)
+            return;
+
+        var style = panel.ColumnStyles[index];
+        // toggle individual control visibility in column
+        foreach (Control c in panel.Controls)
+        {
+            if (panel.GetColumn(c) == index)
+                c.Visible = visible;
+        }
+        style.SizeType = !visible ? SizeType.AutoSize : SizeType.Absolute;
     }
 
     public void ToggleInterface(PKM pk, byte format)
     {
-        FLP_StatsTotal.Visible = format >= 3;
+        SetTotalRowVisible(format >= 3);
         FLP_Characteristic.Visible = format >= 3;
         FLP_HPType.Visible = format <= 7 || pk is PB8;
         FLP_TeraType.Visible = FLP_TeraInner.Visible = pk is ITeraType;
@@ -698,9 +766,11 @@ public partial class StatEditor : UserControl
         FLP_AlphaNoble.Visible = pk is IAlpha;
         CHK_IsNoble.Visible = pk is PA8;
 
+        // Update stat ordering if necessary. Gen 1 shows Speed before Special, and combines Special Attack and Special Defense into one "Special" stat.
+        // Later gens show Speed after Special, and have separate Special Attack and Special Defense stats.
         SetStatOrder(format == 1 ? StatEditorStatOrder.Gen1Special : StatEditorStatOrder.Current);
 
-        switch (format)
+        switch (format) // EV Mask (Gen1/2 is 16-bit as opposed to 8-bit in later gens)
         {
             case 1 or 2:
                 TB_IVHP.Enabled = false;
@@ -712,27 +782,26 @@ public partial class StatEditor : UserControl
                 break;
         }
 
-        var showAV = pk is IAwakened;
-        Label_AVs.Visible = TB_AVTotal.Visible = BTN_RandomAVs.Visible = showAV;
-        foreach (var mtb in MT_AVs)
-            mtb.Visible = showAV;
-        Label_EVs.Visible = TB_EVTotal.Visible = BTN_RandomEVs.Visible = !showAV;
-        foreach (var mtb in MT_EVs)
-            mtb.Visible = !showAV;
+        // Misc stat properties: toggle columns if present for object.
+        var showAVs = pk is IAwakened;
+        var showGVs = pk is IGanbaru;
+        var showEVs = !showAVs || HaX;
+        SetColumnVisible(TLP_StatGrid, 3, showEVs);
+        SetColumnVisible(TLP_StatGrid, 4, showAVs);
+        SetColumnVisible(TLP_StatGrid, 5, showGVs);
 
+        BTN_RandomEVs.Visible = showEVs;
+        BTN_RandomAVs.Visible = showAVs;
+        // no randomizing GVs; maxing/zeroing is all that is needed.
         FLP_PKMEditors.PerformLayout();
+        return;
 
-        var showGV = pk is IGanbaru;
-        Label_GVs.Visible = showGV;
-        foreach (var mtb in MT_GVs)
-            mtb.Visible = showGV;
-
-        static void SetEVMaskSize(Size s, string Mask, MaskedTextBox[] arr)
+        static void SetEVMaskSize(Size s, string mask, ReadOnlySpan<MaskedTextBox> arr)
         {
             foreach (var ctrl in arr)
             {
                 ctrl.Size = s;
-                ctrl.Mask = Mask;
+                ctrl.Mask = mask;
             }
         }
     }

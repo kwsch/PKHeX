@@ -114,7 +114,7 @@ public static class RaidRNG
                 break;
         }
 
-        var nature = param.Nature != Nature.Random ? param.Nature
+        var nature = param.Nature.IsFixed ? param.Nature
             : param.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rng, pk.Form)
                 : (Nature)rng.NextInt(25);
@@ -160,6 +160,8 @@ public static class RaidRNG
 
         var trID = (uint)rng.NextInt();
         var pid = (uint)rng.NextInt();
+
+        // Battle
         var xor = GetShinyXor(pid, trID);
         bool isShiny = xor < 16;
         if (isShiny && param.Shiny == Shiny.Never)
@@ -167,9 +169,8 @@ public static class RaidRNG
             ForceShinyState(false, ref pid, trID, 0);
             isShiny = false;
         }
-        if (param.Shiny is Shiny.Random && isShiny != criteria.Shiny.IsShiny())
-            return false;
 
+        // Captured
         if (isShiny)
         {
             if (!GetIsShiny6(pk.ID32, pid))
@@ -181,6 +182,8 @@ public static class RaidRNG
                 pid ^= 0x1000_0000;
         }
 
+        if (param.Shiny is Shiny.Random && criteria.IsSpecifiedShiny() && !criteria.IsSatisfiedShiny(GetShinyXor(pid, pk.ID32), 16))
+            return false;
         pk.PID = pid;
 
         const int UNSET = -1;
@@ -236,7 +239,7 @@ public static class RaidRNG
             return false;
         pk.Gender = gender;
 
-        var nature = param.Nature != Nature.Random ? param.Nature
+        var nature = param.Nature.IsFixed ? param.Nature
             : param.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rng, pk.Form)
                 : (Nature)rng.NextInt(25);
