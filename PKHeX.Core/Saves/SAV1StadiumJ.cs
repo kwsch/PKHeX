@@ -80,13 +80,15 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
         // Not implemented
     }
 
-    protected override PK1 GetPKM(byte[] data)
+    protected override PK1 GetPKM(Memory<byte> data)
     {
+        var inner = data[..PokeCrypto.SIZE_1STORED];
+        var extra = data[PokeCrypto.SIZE_1STORED..].Span;
+        var pk1 = new PK1(inner, true);
+
         const int len = StringLength;
-        var nick = data.AsSpan(0x21, len);
-        var ot = data.AsSpan(0x21 + len, len);
-        data = data[..0x21];
-        var pk1 = new PK1(data, true);
+        var nick = extra[..len];
+        var ot = extra.Slice(len, len);
         nick.CopyTo(pk1.NicknameTrash);
         ot.CopyTo(pk1.OriginalTrainerTrash);
         return pk1;

@@ -24,7 +24,7 @@ public sealed class PK4 : G4PKM
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {
-        PokeCrypto.DecryptIfEncrypted45(ref data);
+        PokeCrypto.DecryptIfEncrypted45(data.Span);
         if (data.Length >= PokeCrypto.SIZE_4PARTY)
             return data;
 
@@ -295,7 +295,9 @@ public sealed class PK4 : G4PKM
     protected override byte[] Encrypt()
     {
         RefreshChecksum();
-        return PokeCrypto.EncryptArray45(Data);
+        var result = Data.ToArray();
+        PokeCrypto.Encrypt45(result);
+        return result;
     }
 
     public BK4 ConvertToBK4()

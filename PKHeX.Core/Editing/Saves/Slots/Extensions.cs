@@ -254,7 +254,7 @@ public static partial class Extensions
         {
             const int size = 0x1F0;
             var ofs = (i * size) + 8;
-            var entry = shinyCache.Raw.Slice(ofs, PokeCrypto.SIZE_9PARTY);
+            var entry = shinyCache.Raw.Slice(ofs, PokeCrypto.SIZE_8PARTY);
             if (EntityDetection.IsPresent(entry.Span))
                 list.Add(new(entry, i, true) { Type = StorageSlotType.Shiny, HideLegality = true }); // no OT info
             else
@@ -266,7 +266,7 @@ public static partial class Extensions
         {
             const int size = 0x1A8;
             var ofs = (i * size) + 8;
-            var entry = giveAway.Raw.Slice(ofs, PokeCrypto.SIZE_9PARTY);
+            var entry = giveAway.Raw.Slice(ofs, PokeCrypto.SIZE_8PARTY);
             if (EntityDetection.IsPresent(entry.Span))
                 list.Add(new(entry, i, true, Mutable: true) { Type = StorageSlotType.Scripted });
             else

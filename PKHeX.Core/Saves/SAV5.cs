@@ -10,8 +10,8 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBoxDetailName, IBoxDetailWallpaper, IDaycareRandomState<ulong>, IDaycareStorage, IDaycareExperience, IDaycareEggState, IMysteryGiftStorageProvider
 {
-    protected override PK5 GetPKM(byte[] data) => new(data);
-    protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
+    protected override PK5 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt45(data);
 
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public override string Extension => ".sav";

@@ -133,8 +133,8 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public override EntityContext Context => EntityContext.Gen8;
     public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
-    protected override PK8 GetPKM(byte[] data) => new(data);
-    protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray8(data);
+    protected override PK8 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt8(data);
 
     public override bool IsVersionValid() => Version is GameVersion.SW or GameVersion.SH;
 
@@ -228,7 +228,11 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
 
     protected override Span<byte> BoxBuffer => BoxInfo.Data;
     protected override Span<byte> PartyBuffer => PartyInfo.Data;
-    public override PK8 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
+    public override PK8 GetDecryptedPKM(Memory<byte> data)
+    {
+        DecryptPKM(data.Span);
+        return GetPKM(data);
+    }
     public override PK8 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
 
     public int GetRecord(int recordID) => Records.GetRecord(recordID);

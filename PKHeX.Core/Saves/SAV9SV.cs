@@ -123,9 +123,9 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     }
 
     // Configuration
-    protected override int SIZE_STORED => PokeCrypto.SIZE_9STORED;
-    protected override int SIZE_PARTY  => PokeCrypto.SIZE_9PARTY;
-    public override int SIZE_BOXSLOT   => PokeCrypto.SIZE_9PARTY;
+    protected override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
+    protected override int SIZE_PARTY  => PokeCrypto.SIZE_8PARTY;
+    public override int SIZE_BOXSLOT   => PokeCrypto.SIZE_8PARTY;
     public override PK9 BlankPKM => new();
     public override Type PKMType => typeof(PK9);
 
@@ -135,8 +135,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override EntityContext Context => EntityContext.Gen9;
     public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
-    protected override PK9 GetPKM(byte[] data) => new(data);
-    protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray9(data);
+    protected override PK9 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt8(data);
 
     public override bool IsVersionValid() => Version is GameVersion.SL or GameVersion.VL;
 
@@ -233,7 +233,11 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     protected override Span<byte> BoxBuffer => BoxInfo.Data;
     protected override Span<byte> PartyBuffer => PartyInfo.Data;
-    public override PK9 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
+    public override PK9 GetDecryptedPKM(Memory<byte> data)
+    {
+        DecryptPKM(data.Span);
+        return GetPKM(data);
+    }
     public override PK9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
 
     //public int GetRecord(int recordID) => Records.GetRecord(recordID);

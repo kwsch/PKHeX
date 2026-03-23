@@ -14,7 +14,7 @@ public abstract class G8PKM : PKM, ISanityChecksum,
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {
-        PokeCrypto.DecryptIfEncrypted8(ref data);
+        PokeCrypto.DecryptIfEncrypted8(data.Span);
         if (data.Length >= PokeCrypto.SIZE_8PARTY)
             return data;
 
@@ -65,7 +65,9 @@ public abstract class G8PKM : PKM, ISanityChecksum,
     protected override byte[] Encrypt()
     {
         RefreshChecksum();
-        return PokeCrypto.EncryptArray8(Data);
+        var result = Data.ToArray();
+        PokeCrypto.Encrypt8(result);
+        return result;
     }
 
     public void FixRelearn()

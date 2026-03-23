@@ -472,17 +472,14 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         return BoxDetailNameExtensions.GetDefaultBoxName(box);
     }
 
-    protected override PK1 GetPKM(byte[] data)
+    protected override PK1 GetPKM(Memory<byte> data)
     {
         if (data.Length == SIZE_STORED)
-            return PokeList1.ReadFromList(data, StringLength);
+            return PokeList1.ReadFromList(data.Span, StringLength);
         return new(data);
     }
 
-    protected override byte[] DecryptPKM(byte[] data)
-    {
-        return data;
-    }
+    protected override void DecryptPKM(Span<byte> data) { }
 
     // Pokédex
     protected override void SetDex(PKM pk)

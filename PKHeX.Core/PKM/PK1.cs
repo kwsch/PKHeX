@@ -17,7 +17,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override EntityContext Context => EntityContext.Gen1;
 
     public PK1(bool jp = false) : base(PokeCrypto.SIZE_1PARTY, jp) { }
-    public PK1(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
+    public PK1(Memory<byte> decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
 
     public PK1(ReadOnlySpan<byte> data, ReadOnlySpan<byte> ot, ReadOnlySpan<byte> nick)
         : this(ot.Length == StringLengthJapanese)
@@ -27,11 +27,13 @@ public sealed class PK1 : GBPKML, IPersonalType
         nick.CopyTo(NicknameTrash);
     }
 
-    private static byte[] EnsurePartySize(byte[] data)
+    private static Memory<byte> EnsurePartySize(Memory<byte> data)
     {
-        if (data.Length != PokeCrypto.SIZE_1PARTY)
-            Array.Resize(ref data, PokeCrypto.SIZE_1PARTY);
-        return data;
+        if (data.Length == PokeCrypto.SIZE_1PARTY)
+            return data;
+        var result = new byte[PokeCrypto.SIZE_1PARTY];
+        data.CopyTo(result);
+        return result;
     }
 
     public override PK1 Clone()

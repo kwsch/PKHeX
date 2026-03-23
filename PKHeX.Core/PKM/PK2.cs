@@ -17,7 +17,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
     public override EntityContext Context => EntityContext.Gen2;
 
     public PK2(bool jp = false) : base(PokeCrypto.SIZE_2PARTY, jp) { }
-    public PK2(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
+    public PK2(Memory<byte> decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
 
     public PK2(ReadOnlySpan<byte> data, ReadOnlySpan<byte> ot, ReadOnlySpan<byte> nick)
         : this(ot.Length == StringLengthJapanese)
@@ -27,11 +27,13 @@ public sealed class PK2 : GBPKML, ICaughtData2
         nick.CopyTo(NicknameTrash);
     }
 
-    private static byte[] EnsurePartySize(byte[] data)
+    private static Memory<byte> EnsurePartySize(Memory<byte> data)
     {
-        if (data.Length != PokeCrypto.SIZE_2PARTY)
-            Array.Resize(ref data, PokeCrypto.SIZE_2PARTY);
-        return data;
+        if (data.Length == PokeCrypto.SIZE_2PARTY)
+            return data;
+        var result = new byte[PokeCrypto.SIZE_2PARTY];
+        data.CopyTo(result);
+        return result;
     }
 
     public override PK2 Clone()

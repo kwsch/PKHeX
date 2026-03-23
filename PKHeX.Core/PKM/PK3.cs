@@ -19,7 +19,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {
-        PokeCrypto.DecryptIfEncrypted3(ref data);
+        PokeCrypto.DecryptIfEncrypted3(data.Span);
         if (data.Length >= PokeCrypto.SIZE_3PARTY)
             return data;
 
@@ -202,7 +202,9 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     protected override byte[] Encrypt()
     {
         RefreshChecksum();
-        return PokeCrypto.EncryptArray3(Data);
+        var result = Data.ToArray();
+        PokeCrypto.Encrypt3(result);
+        return result;
     }
 
     private ushort CalculateChecksum() => Checksums.Add16(Data[0x20..PokeCrypto.SIZE_3STORED]);

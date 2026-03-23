@@ -611,17 +611,14 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         SetString(span, deflated[..len], maxLen, StringConverterOption.Clear50);
     }
 
-    protected override PK2 GetPKM(byte[] data)
+    protected override PK2 GetPKM(Memory<byte> data)
     {
         if (data.Length == SIZE_STORED)
-            return PokeList2.ReadFromList(data, StringLength);
+            return PokeList2.ReadFromList(data.Span, StringLength);
         return new(data);
     }
 
-    protected override byte[] DecryptPKM(byte[] data)
-    {
-        return data;
-    }
+    protected override void DecryptPKM(Span<byte> data) { }
 
     // Pokédex
     protected override void SetDex(PKM pk)

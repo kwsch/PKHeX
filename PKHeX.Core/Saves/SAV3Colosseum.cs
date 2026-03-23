@@ -182,14 +182,22 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
         SetString(GetBoxNameSpan(box), value, 8, StringConverterOption.ClearZero);
     }
 
-    protected override CK3 GetPKM(byte[] data)
+    protected override CK3 GetPKM(Memory<byte> data)
     {
-        if (data.Length != SIZE_STORED)
-            Array.Resize(ref data, SIZE_STORED);
+        data = EnsurePartySize(data);
         return new(data);
     }
 
-    protected override byte[] DecryptPKM(byte[] data) => data;
+    private static Memory<byte> EnsurePartySize(Memory<byte> data)
+    {
+        if (data.Length == PokeCrypto.SIZE_3CSTORED)
+            return data;
+        var result = new byte[PokeCrypto.SIZE_3CSTORED];
+        data.CopyTo(result);
+        return result;
+    }
+
+    protected override void DecryptPKM(Span<byte> data) { }
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {

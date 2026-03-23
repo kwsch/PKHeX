@@ -264,14 +264,8 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
         SetString(Data.Slice(GetBoxInfoOffset(box), 20), value, 8, StringConverterOption.ClearZero);
     }
 
-    protected override XK3 GetPKM(byte[] data)
-    {
-        if (data.Length != SIZE_STORED)
-            Array.Resize(ref data, SIZE_STORED);
-        return new(data);
-    }
-
-    protected override byte[] DecryptPKM(byte[] data) => data;
+    protected override XK3 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) { }
     public override XK3 GetPartySlot(ReadOnlySpan<byte> data) => GetStoredSlot(data);
 
     public override XK3 GetStoredSlot(ReadOnlySpan<byte> data)

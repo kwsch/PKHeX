@@ -197,8 +197,8 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     #endregion
 
-    protected override PB8 GetPKM(byte[] data) => new(data);
-    protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray8(data);
+    protected override PB8 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt8(data);
 
     #region Blocks
     // public Box8 BoxInfo { get; }
@@ -333,7 +333,12 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         protected set => PartyInfo.PartyCount = value;
     }
 
-    public override PB8 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
+    public override PB8 GetDecryptedPKM(Memory<byte> data)
+    {
+        DecryptPKM(data.Span);
+        return GetPKM(data);
+    }
+
     public override PB8 GetBoxSlot(int offset) => GetDecryptedPKM(Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
 
     public enum TopMenuItemType

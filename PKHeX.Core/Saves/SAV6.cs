@@ -32,8 +32,8 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public override int MaxBallID => Legal.MaxBallID_6;
     public override GameVersion MaxGameID => Legal.MaxGameID_6; // OR
 
-    protected override PK6 GetPKM(byte[] data) => new(data);
-    protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
+    protected override PK6 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt67(data);
 
     protected int JPEG { get; set; } = int.MinValue;
     public int PSS { get; protected set; } = int.MinValue;

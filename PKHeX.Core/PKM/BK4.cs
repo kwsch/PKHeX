@@ -27,14 +27,6 @@ public sealed class BK4 : G4PKM
 
     public override bool Valid => ChecksumValid || (Sanity == 0 && Species <= MaxSpeciesID);
 
-    public static BK4 ReadUnshuffle(ReadOnlySpan<byte> data)
-    {
-        var unshuffled = PokeCrypto.DecryptArray4BE(data);
-        var result = new BK4(unshuffled);
-        result.RefreshChecksum();
-        return result;
-    }
-
     public BK4(Memory<byte> data) : base(data)
     {
         Sanity = 0x4000;
@@ -305,7 +297,9 @@ public sealed class BK4 : G4PKM
     protected override byte[] Encrypt()
     {
         RefreshChecksum();
-        return PokeCrypto.EncryptArray4BE(Data);
+        var result = Data.ToArray();
+        PokeCrypto.Encrypt4BE(result);
+        return result;
     }
 
     public PK4 ConvertToPK4()

@@ -39,7 +39,9 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     protected internal override string ShortSummary => $"{OT} {PlayTimeString}";
     public override string Extension => ".bin";
 
-    protected override RK4 GetPKM(byte[] data) => new(data);
+    protected override RK4 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt45(data[..PokeCrypto.SIZE_4STORED]);
+
     public override StorageSlotSource GetBoxSlotFlags(int index) => index >= SlotCount ? StorageSlotSource.Locked : StorageSlotSource.None;
     protected override bool IsSlotSwapProtected(int box, int slot) => IsBoxSlotOverwriteProtected(box, slot);
     public override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentSAV4Ranch(data);
@@ -170,17 +172,6 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
                 return i + 1;
         }
         return 0;
-    }
-
-    protected override byte[] DecryptPKM(byte[] data)
-    {
-        var pokeData = PokeCrypto.DecryptArray45(data.AsSpan(0, PokeCrypto.SIZE_4STORED));
-        var ranchData = data.AsSpan(PokeCrypto.SIZE_4STORED, 0x1C);
-        var finalData = new byte[SIZE_STORED];
-
-        pokeData.CopyTo(finalData, 0);
-        ranchData.CopyTo(finalData.AsSpan(PokeCrypto.SIZE_4STORED));
-        return finalData;
     }
 
     public void WriteBoxSlotInternal(PKM pk, Span<byte> data, string htName = "", ushort htTID = 0, ushort htSID = 0, RanchOwnershipType type = RanchOwnershipType.Hayley)

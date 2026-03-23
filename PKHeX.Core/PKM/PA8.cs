@@ -43,7 +43,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {
-        PokeCrypto.DecryptIfEncrypted8A(ref data);
+        PokeCrypto.DecryptIfEncrypted8A(data.Span);
         if (data.Length >= PokeCrypto.SIZE_8APARTY)
             return data;
 
@@ -89,7 +89,9 @@ public sealed class PA8 : PKM, ISanityChecksum,
     protected override byte[] Encrypt()
     {
         RefreshChecksum();
-        return PokeCrypto.EncryptArray8A(Data);
+        var result = Data.ToArray();
+        PokeCrypto.Encrypt8A(result);
+        return result;
     }
 
     public void FixRelearn()

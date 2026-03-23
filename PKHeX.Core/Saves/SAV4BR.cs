@@ -463,14 +463,8 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         SetString(span, value, BoxNameLength / 2, StringConverterOption.ClearZero);
     }
 
-    protected override BK4 GetPKM(byte[] data)
-    {
-        if (data.Length != SIZE_STORED)
-            Array.Resize(ref data, SIZE_STORED);
-        return BK4.ReadUnshuffle(data);
-    }
-
-    protected override byte[] DecryptPKM(byte[] data) => data;
+    protected override BK4 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt4BE(data);
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {

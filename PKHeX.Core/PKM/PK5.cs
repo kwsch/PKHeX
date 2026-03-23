@@ -28,7 +28,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {
-        PokeCrypto.DecryptIfEncrypted45(ref data);
+        PokeCrypto.DecryptIfEncrypted45(data.Span);
         if (data.Length >= PokeCrypto.SIZE_5PARTY)
             return data;
 
@@ -310,7 +310,9 @@ public sealed class PK5 : PKM, ISanityChecksum,
     protected override byte[] Encrypt()
     {
         RefreshChecksum();
-        return PokeCrypto.EncryptArray45(Data);
+        var result = Data.ToArray();
+        PokeCrypto.Encrypt45(result);
+        return result;
     }
 
     // Synthetic Trading Logic

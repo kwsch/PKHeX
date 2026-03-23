@@ -51,7 +51,9 @@ public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
     protected sealed override byte[] Encrypt()
     {
         RefreshChecksum();
-        return PokeCrypto.EncryptArray6(Data);
+        var result = Data.ToArray();
+        PokeCrypto.Encrypt67(result);
+        return result;
     }
 
     // General User-error Fixes

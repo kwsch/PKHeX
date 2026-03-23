@@ -148,7 +148,13 @@ public class BattlePass(Memory<byte> raw)
     // 0x4B8-53F Party Member 6
     private static int GetPartyOffset(int index) => 0x1FC + (PokeSize * index);
     private Span<byte> GetPartySpan(int index) => Data.Slice(GetPartyOffset(index), PokeSize);
-    public BK4 GetPartySlotAtIndex(int index) => BK4.ReadUnshuffle(GetPartySpan(index));
+    public BK4 GetPartySlotAtIndex(int index)
+    {
+        var data = GetPartySpan(index).ToArray();
+        PokeCrypto.Decrypt4BE(data);
+        return new BK4(data);
+    }
+
     public void SetPartySlotAtIndex(PKM pk, int index)
     {
         while (index > 0 && !GetPartySlotPresent(index - 1))

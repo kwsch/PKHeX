@@ -287,8 +287,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
     public static EntityImportSettings SetUpdateSettings => new(SetUpdatePKM, SetUpdateDex, SetUpdateRecords);
 
     public abstract Type PKMType { get; }
-    protected abstract PKM GetPKM(byte[] data);
-    protected abstract byte[] DecryptPKM(byte[] data);
+    protected abstract PKM GetPKM(Memory<byte> data);
+    protected abstract void DecryptPKM(Span<byte> data);
     public abstract PKM BlankPKM { get; }
     protected abstract int SIZE_STORED { get; }
     protected abstract int SIZE_PARTY { get; }
@@ -299,7 +299,12 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
     protected virtual Span<byte> BoxBuffer => Data;
     protected virtual Span<byte> PartyBuffer => Data;
     public virtual bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresent(data);
-    public virtual PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
+    public virtual PKM GetDecryptedPKM(Memory<byte> data)
+    {
+        DecryptPKM(data.Span);
+        return GetPKM(data);
+    }
+
     public virtual PKM GetPartySlot(ReadOnlySpan<byte> data) => GetDecryptedPKM(data[..SIZE_PARTY].ToArray());
     public virtual PKM GetStoredSlot(ReadOnlySpan<byte> data) => GetDecryptedPKM(data[..SIZE_STORED].ToArray());
     public virtual PKM GetBoxSlot(int offset) => GetStoredSlot(BoxBuffer[offset..]);
@@ -832,6 +837,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
                 continue;
             var src = data.Slice(i, entryLength);
             var arr = src.ToArray();
+            DecryptPKM(arr);
             var pk = GetPKM(arr);
             SetBoxSlotAtIndex(pk, ctr++);
         }

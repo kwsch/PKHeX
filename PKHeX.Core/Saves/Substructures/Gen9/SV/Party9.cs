@@ -4,7 +4,7 @@ public sealed class Party9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, b
 {
     public int PartyCount
     {
-        get => Data[6 * PokeCrypto.SIZE_9PARTY];
-        set => Data[6 * PokeCrypto.SIZE_9PARTY] = (byte)value;
+        get => Data[6 * PokeCrypto.SIZE_8PARTY];
+        set => Data[6 * PokeCrypto.SIZE_8PARTY] = (byte)value;
     }
 }
