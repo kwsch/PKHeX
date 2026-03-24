@@ -44,6 +44,8 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
     }
 
     private ushort CalculateChecksum() => Checksums.Add16(Data[8..PokeCrypto.SIZE_8STORED]);
+    public override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt8(stored);
+    public override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
 
     // Simple Generated Attributes
     public override byte CurrentFriendship
@@ -81,13 +83,6 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
     public override int Characteristic => EntityCharacteristic.GetCharacteristicInit0(EncryptionConstant, IV32);
 
     // Methods
-    protected override byte[] Encrypt()
-    {
-        RefreshChecksum();
-        var result = Data.ToArray();
-        PokeCrypto.Encrypt8(result);
-        return result;
-    }
 
     public void FixRelearn()
     {

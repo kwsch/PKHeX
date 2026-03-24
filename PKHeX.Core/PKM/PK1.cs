@@ -10,8 +10,8 @@ public sealed class PK1 : GBPKML, IPersonalType
 
     public override bool Valid => Species <= 151 && (Data[0] == 0 || Species != 0);
 
-    public override int SIZE_PARTY => PokeCrypto.SIZE_1PARTY;
-    public override int SIZE_STORED => PokeCrypto.SIZE_1STORED;
+    public override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
+    public override int SIZE_PARTY => SIZE_STORED;
     public override bool Korean => false;
 
     public override EntityContext Context => EntityContext.Gen1;
@@ -44,7 +44,13 @@ public sealed class PK1 : GBPKML, IPersonalType
         return clone;
     }
 
-    protected override byte[] Encrypt() => PokeList1.WrapSingle(this);
+    // We (PKHeX) internally manage as single-entry lists in temp buffers.
+    public override void WriteDecryptedDataStored(Span<byte> destination) => PokeList1.WrapSingle(this, destination);
+    public override void WriteEncryptedDataStored(Span<byte> destination) => WriteDecryptedDataStored(destination);
+    public override void WriteDecryptedDataParty(Span<byte> destination) => WriteDecryptedDataStored(destination);
+    public override void WriteEncryptedDataParty(Span<byte> destination) => WriteDecryptedDataStored(destination);
+    public override void WriteDecryptedDataParty(Span<byte> stored, Span<byte> party) => WriteDecryptedDataStored(stored);
+    public override void WriteEncryptedDataParty(Span<byte> stored, Span<byte> party) => WriteDecryptedDataStored(stored);
 
     #region Stored Attributes
     public byte SpeciesInternal { get => Data[0]; set => Data[0] = value; } // raw access

@@ -177,8 +177,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         SetSlotChecksums(data, 1);
     }
 
-    protected sealed override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
-    protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
+    public sealed override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
+    public sealed override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
     public sealed override PK3 BlankPKM => new();
     public sealed override Type PKMType => typeof(PK3);
 

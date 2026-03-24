@@ -242,8 +242,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     // Configuration
     protected override SAV2 CloneInternal() => new(GetFinalData(), (LanguageID)Language, Version);
 
-    protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
-    protected override int SIZE_PARTY => SIZE_STORED;
+    public override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
+    public override int SIZE_PARTY => SIZE_STORED;
     public override PK2 BlankPKM => new(jp: Japanese);
     public override Type PKMType => typeof(PK2);
 

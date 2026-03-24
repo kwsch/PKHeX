@@ -11,6 +11,8 @@ public abstract class G8PKM : PKM, ISanityChecksum,
 {
     protected G8PKM() : base(PokeCrypto.SIZE_8PARTY) { }
     protected G8PKM(Memory<byte> data) : base(DecryptParty(data)) { }
+    public override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt8(stored);
+    public override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {
@@ -62,13 +64,6 @@ public abstract class G8PKM : PKM, ISanityChecksum,
     public override int Characteristic => EntityCharacteristic.GetCharacteristicInit0(EncryptionConstant, IV32);
 
     // Methods
-    protected override byte[] Encrypt()
-    {
-        RefreshChecksum();
-        var result = Data.ToArray();
-        PokeCrypto.Encrypt8(result);
-        return result;
-    }
 
     public void FixRelearn()
     {

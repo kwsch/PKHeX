@@ -9,8 +9,8 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 {
-    protected override int SIZE_STORED => PokeCrypto.SIZE_4RSTORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_4RSTORED;
+    public override int SIZE_STORED => PokeCrypto.SIZE_4RSTORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_4RSTORED;
     public int MaxToyID => (int) ((SaveRevision == 0) ? RanchToyType.Poke_Ball : RanchToyType.Water);
     public int SaveRevision => Version == GameVersion.DP ? 0 : 1;
     public string SaveRevisionString => Version == GameVersion.DP ? "-DP" : "-Pt";
@@ -182,10 +182,10 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         rk.HandlingTrainerSID = htSID;
         rk.HandlingTrainerName = htName;
 
-        WriteBoxSlot(rk, data);
+        WriteSlotBox(rk, data);
     }
 
-    public override void WriteBoxSlot(PKM pk, Span<byte> data)
+    protected override void WriteSlotBox(PKM pk, Span<byte> data)
     {
         if (pk is not RK4 rk4)
         {
@@ -197,7 +197,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         if (!isBlank && rk4.OwnershipType == RanchOwnershipType.None)
             rk4.OwnershipType = RanchOwnershipType.Hayley; // Pokémon without an Ownership type get erased when the save is loaded. Hayley is considered 'default'.
 
-        base.WriteBoxSlot(rk4, data);
+        base.WriteSlotBox(rk4, data);
     }
 
     private void UpdateMetadata(int pkEnd)

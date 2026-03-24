@@ -16,8 +16,8 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     protected SAV6([ConstantExpected] int size, [ConstantExpected] int biOffset) : base(size, biOffset) { }
 
     // Configuration
-    protected sealed override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
-    protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
+    public sealed override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
+    public sealed override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
     public sealed override PK6 BlankPKM => new();
     public sealed override Type PKMType => typeof(PK6);
 

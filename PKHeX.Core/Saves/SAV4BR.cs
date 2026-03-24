@@ -153,8 +153,8 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     // Configuration
     protected override SAV4BR CloneInternal() => new(this);
 
-    protected override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_4STORED + 84;
+    public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_4STORED + 84;
     public override BK4 BlankPKM => new();
     public override Type PKMType => typeof(BK4);
 
@@ -487,21 +487,19 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     /// <returns>Where the PKM was found, or (255, 255) otherwise</returns>
     public (byte Box, byte Slot) FindSlot(PKM pk)
     {
-        var party = PartyData;
         for (byte slot = 0; slot < PartyCount; slot++)
         {
-            PKM other = party[slot];
-            if (pk.PID == other.PID && pk.DecryptedBoxData.SequenceEqual(other.DecryptedBoxData))
+            var other = GetPartySlotAtIndex(slot);
+            if (pk.EqualsStored(other))
                 return (0, slot);
         }
 
-        var boxes = BoxData;
         for (byte box = 0; box < BoxCount; box++)
         {
             for (byte slot = 0; slot < BoxSlotCount; slot++)
             {
-                PKM other = boxes[(box * BoxSlotCount) + slot];
-                if (pk.PID == other.PID && pk.DecryptedBoxData.SequenceEqual(other.DecryptedBoxData))
+                var other = GetBoxSlotAtIndex(box, slot);
+                if (pk.EqualsStored(other))
                     return (++box, slot);
             }
         }

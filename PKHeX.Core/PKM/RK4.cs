@@ -327,14 +327,6 @@ public sealed class RK4 : G4PKM
     #endregion
 
     // Methods
-    protected override byte[] Encrypt()
-    {
-        RefreshChecksum();
-        var result = Data.ToArray();
-        PokeCrypto.Encrypt45(result[..PokeCrypto.SIZE_4STORED]);
-        return result;
-    }
-
     public PK4 ConvertToPK4()
     {
         byte[] data = Data[..PokeCrypto.SIZE_4STORED].ToArray();
@@ -355,4 +347,7 @@ public sealed class RK4 : G4PKM
     public override int GetStringLength(ReadOnlySpan<byte> data)
         => TrashBytesUTF16.GetStringLength(data, StringConverter4.Terminator);
     public override int GetBytesPerChar() => 2;
+
+    public override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt45(stored[..SIZE_STORED]);
+    public override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party[..(SIZE_STORED-SIZE_PARTY)], PID);
 }

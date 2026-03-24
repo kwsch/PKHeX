@@ -239,7 +239,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
 
         UpdatePKM(pk, isParty: true, settings);
         SetPartyValues(pk, isParty: true);
-        WritePartySlot(pk, data);
+        WriteSlotParty(pk, data);
     }
 
     public void SetSlotFormatStored(PKM pk, Span<byte> data, EntityImportSettings settings = default)
@@ -249,7 +249,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
 
         UpdatePKM(pk, isParty: false, settings);
         SetPartyValues(pk, isParty: false);
-        WriteSlotFormatStored(pk, data);
+        WriteSlotStored(pk, data);
     }
 
     public void SetPartySlot(PKM pk, Span<byte> data, EntityImportSettings settings = default)
@@ -262,7 +262,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
 
         UpdatePKM(pk, isParty: false, settings);
         SetPartyValues(pk, isParty: false);
-        WriteBoxSlot(pk, data);
+        WriteSlotBox(pk, data);
     }
 
     public void DeletePartySlot(int slot)
@@ -290,8 +290,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
     protected abstract PKM GetPKM(Memory<byte> data);
     protected abstract void DecryptPKM(Span<byte> data);
     public abstract PKM BlankPKM { get; }
-    protected abstract int SIZE_STORED { get; }
-    protected abstract int SIZE_PARTY { get; }
+    public abstract int SIZE_STORED { get; }
+    public abstract int SIZE_PARTY { get; }
     public virtual int SIZE_BOXSLOT => SIZE_STORED;
     public abstract int MaxEV { get; }
     public virtual int MaxIV => 31;
@@ -307,17 +307,11 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
 
     public virtual PKM GetPartySlot(ReadOnlySpan<byte> data) => GetDecryptedPKM(data[..SIZE_PARTY].ToArray());
     public virtual PKM GetStoredSlot(ReadOnlySpan<byte> data) => GetDecryptedPKM(data[..SIZE_STORED].ToArray());
-    public virtual PKM GetBoxSlot(int offset) => GetStoredSlot(BoxBuffer[offset..]);
+    protected virtual PKM GetBoxSlot(int offset) => GetStoredSlot(BoxBuffer[offset..]);
 
-    public virtual byte[] GetDataForFormatStored(PKM pk) => pk.EncryptedBoxData;
-    public virtual byte[] GetDataForFormatParty(PKM pk) => pk.EncryptedPartyData;
-    public virtual byte[] GetDataForParty(PKM pk) => pk.EncryptedPartyData;
-    public virtual byte[] GetDataForBox(PKM pk) => pk.EncryptedBoxData;
-
-    public virtual void WriteSlotFormatStored(PKM pk, Span<byte> data) => SetData(data, GetDataForFormatStored(pk));
-    public virtual void WriteSlotFormatParty(PKM pk, Span<byte> data) => SetData(data, GetDataForFormatParty(pk));
-    public virtual void WritePartySlot(PKM pk, Span<byte> data) => SetData(data, GetDataForParty(pk));
-    public virtual void WriteBoxSlot(PKM pk, Span<byte> data) => SetData(data, GetDataForBox(pk));
+    protected virtual void WriteSlotStored(PKM pk, Span<byte> data) => pk.WriteEncryptedDataStored(data);
+    protected virtual void WriteSlotParty(PKM pk, Span<byte> data) => pk.WriteEncryptedDataParty(data);
+    protected virtual void WriteSlotBox(PKM pk, Span<byte> data) => WriteSlotStored(pk, data);
 
     protected virtual void SetPartyValues(PKM pk, bool isParty)
     {
@@ -740,7 +734,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
         if ((uint)BoxEnd >= BoxCount)
             BoxEnd = BoxCount - 1;
 
-        var blank = GetDataForBox(BlankPKM);
+        var blank = BlankPKM.Data[..SIZE_STORED];
         int deleted = 0;
         for (int i = BoxStart; i <= BoxEnd; i++)
         {
@@ -801,8 +795,31 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
     #endregion
 
     #region Box Binaries
-    public byte[] GetPCBinary() => BoxData.SelectMany(GetDataForBox).ToArray();
-    public byte[] GetBoxBinary(int box) => GetBoxData(box).SelectMany(GetDataForBox).ToArray();
+    public byte[] GetPCBinary()
+    {
+        var size = SIZE_BOXSLOT;
+        var result = new byte[size * SlotCount];
+        for (int i = 0; i < SlotCount; i++)
+        {
+            var data = GetBoxSlotAtIndex(i);
+            var dest = result.AsSpan(i * size, size);
+            WriteSlotBox(data, dest);
+        }
+        return result;
+    }
+
+    public byte[] GetBoxBinary(int box)
+    {
+        var size = SIZE_BOXSLOT;
+        var result = new byte[size * BoxSlotCount];
+        for (int i = 0; i < BoxSlotCount; i++)
+        {
+            var data = GetBoxSlotAtIndex(box, i);
+            var dest = result.AsSpan(i * size, size);
+            WriteSlotBox(data, dest);
+        }
+        return result;
+    }
 
     public bool SetPCBinary(ReadOnlySpan<byte> data)
     {

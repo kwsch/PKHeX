@@ -140,8 +140,8 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
     // Configuration
     protected override SAV3XD CloneInternal() => new((SaveIndex, SaveCount), Container.ToArray(), false) { MemoryCard = MemoryCard };
 
-    protected override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_3XSTORED; // unused
+    public override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_3XSTORED; // unused
     public override XK3 BlankPKM => new();
     public override Type PKMType => typeof(XK3);
 

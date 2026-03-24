@@ -292,13 +292,6 @@ public sealed class PK4 : G4PKM
     #endregion
 
     // Methods
-    protected override byte[] Encrypt()
-    {
-        RefreshChecksum();
-        var result = Data.ToArray();
-        PokeCrypto.Encrypt45(result);
-        return result;
-    }
 
     public BK4 ConvertToBK4()
     {

@@ -29,11 +29,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     protected PKM(Memory<byte> data) => Raw = data;
     protected PKM([ConstantExpected] int size) => Raw = new byte[size];
 
-    public virtual byte[] EncryptedPartyData => Encrypt().AsSpan()[..SIZE_PARTY].ToArray();
-    public virtual byte[] EncryptedBoxData => Encrypt().AsSpan()[..SIZE_STORED].ToArray();
-    public virtual byte[] DecryptedPartyData => Write()[..SIZE_PARTY].ToArray();
-    public virtual byte[] DecryptedBoxData => Write()[..SIZE_STORED].ToArray();
-
     /// <summary>
     /// Rough indication if the data is junk or not.
     /// </summary>
@@ -49,16 +44,58 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// </summary>
     public virtual void PrepareNickname() { }
 
-    protected abstract byte[] Encrypt();
     public abstract EntityContext Context { get; }
     public byte Format => Context.Generation;
     public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
 
-    private Span<byte> Write()
+    public virtual void WriteDecryptedDataStored(Span<byte> destination)
     {
         RefreshChecksum();
-        return Data;
+        Data[..SIZE_STORED].CopyTo(destination);
     }
+
+    public virtual void WriteDecryptedDataParty(Span<byte> destination)
+    {
+        var stored = destination[..SIZE_STORED];
+        var party = destination[SIZE_STORED..SIZE_PARTY];
+        WriteDecryptedDataParty(stored, party);
+    }
+
+    /// <summary>
+    /// Writes the stored body separate from the party data.
+    /// </summary>
+    public virtual void WriteDecryptedDataParty(Span<byte> stored, Span<byte> party)
+    {
+        WriteDecryptedDataStored(stored);
+        Data[SIZE_STORED..SIZE_PARTY].CopyTo(party);
+    }
+
+    public virtual void WriteEncryptedDataStored(Span<byte> destination)
+    {
+        var stored = destination[..SIZE_STORED];
+        WriteDecryptedDataStored(stored);
+        EncryptStored(stored);
+    }
+
+    public virtual void WriteEncryptedDataParty(Span<byte> destination)
+    {
+        var stored = destination[..SIZE_STORED];
+        var party = destination[SIZE_STORED..SIZE_PARTY];
+        WriteEncryptedDataParty(stored, party);
+    }
+
+    /// <summary>
+    /// Writes the stored body separate from the party data.
+    /// </summary>
+    public virtual void WriteEncryptedDataParty(Span<byte> stored, Span<byte> party)
+    {
+        WriteDecryptedDataParty(stored, party);
+        EncryptStored(stored);
+        EncryptParty(party);
+    }
+
+    public abstract void EncryptStored(Span<byte> stored);
+    public abstract void EncryptParty(Span<byte> party);
 
     // Surface Properties
     public abstract ushort Species { get; set; }
@@ -1163,4 +1200,13 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         5 => IV_SPD,
         _ => throw new ArgumentOutOfRangeException(nameof(index), index, "IV index must be between 0 and 5."),
     };
+
+    public bool EqualsStored(PKM pk)
+    {
+        if (pk.PID != PID)
+            return false;
+        var stored = pk.Data[..SIZE_STORED];
+        var self = Data[..SIZE_STORED];
+        return stored.SequenceEqual(self);
+    }
 }

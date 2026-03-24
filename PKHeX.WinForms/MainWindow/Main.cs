@@ -1232,7 +1232,11 @@ public partial class Main : Form
             var pk = PreparePKM();
             var preModify = pk.Clone();
             var encrypt = ModifierKeys == Keys.Control;
-            var data = encrypt ? pk.EncryptedPartyData : pk.DecryptedPartyData;
+            var data = new byte[pk.SIZE_PARTY];
+            if (!encrypt)
+                pk.WriteDecryptedDataParty(data);
+            else
+                pk.WriteEncryptedDataParty(data);
 
             // Create Temp File to Drag
             var newfile = FileUtil.GetPKMTempFileName(pk, encrypt);

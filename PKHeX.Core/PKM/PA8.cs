@@ -35,6 +35,8 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public override EntityContext Context => EntityContext.Gen8a;
     public PA8() : base(PokeCrypto.SIZE_8APARTY) => AffixedRibbon = Core.AffixedRibbon.None;
     public PA8(Memory<byte> data) : base(DecryptParty(data)) { }
+    public override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt8A(stored);
+    public override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_8APARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_8ASTORED;
@@ -86,13 +88,6 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public override int Characteristic => EntityCharacteristic.GetCharacteristicInit0(EncryptionConstant, IV32);
 
     // Methods
-    protected override byte[] Encrypt()
-    {
-        RefreshChecksum();
-        var result = Data.ToArray();
-        PokeCrypto.Encrypt8A(result);
-        return result;
-    }
 
     public void FixRelearn()
     {

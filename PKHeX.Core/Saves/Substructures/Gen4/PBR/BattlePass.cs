@@ -160,7 +160,7 @@ public class BattlePass(Memory<byte> raw)
         while (index > 0 && !GetPartySlotPresent(index - 1))
             index--;
 
-        pk.EncryptedBoxData.CopyTo(GetPartySpan(index));
+        pk.WriteEncryptedDataParty(GetPartySpan(index));
         SetPartySlotPresent(index, pk.Species != 0);
     }
 

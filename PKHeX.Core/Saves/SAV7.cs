@@ -62,8 +62,8 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     #endregion
 
     // Configuration
-    protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
+    public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
     public override PK7 BlankPKM => new();
     public override Type PKMType => typeof(PK7);
 

@@ -85,8 +85,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         SetData(Storage, s4.Storage);
     }
 
-    protected sealed override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
-    protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
+    public sealed override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
+    public sealed override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
     public sealed override PK4 BlankPKM => new();
     public sealed override Type PKMType => typeof(PK4);
 

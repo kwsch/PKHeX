@@ -17,8 +17,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public override string Extension => ".sav";
 
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_BW;
-    protected override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
+    public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
     public override PK5 BlankPKM => new();
     public override Type PKMType => typeof(PK5);
 

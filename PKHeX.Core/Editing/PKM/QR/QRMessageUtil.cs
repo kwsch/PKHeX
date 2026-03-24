@@ -40,7 +40,8 @@ public static class QRMessageUtil
             return GetMessage(pk7);
 
         var server = GetExploitURLPrefixPKM(pk.Format);
-        var data = pk.EncryptedBoxData;
+        Span<byte> data = stackalloc byte[pk.SIZE_STORED];
+        pk.WriteEncryptedDataStored(data);
         return GetMessageBase64(data, server);
     }
 

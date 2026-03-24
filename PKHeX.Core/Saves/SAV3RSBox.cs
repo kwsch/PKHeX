@@ -125,8 +125,8 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
         s.BoxBuffer.CopyTo(BoxBuffer);
     }
 
-    protected override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4; // tid-sid of depositor
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY; // unused
+    public override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4; // tid-sid of depositor
+    public override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY; // unused
     public override PK3 BlankPKM => new();
     public override Type PKMType => typeof(PK3);
 
@@ -237,9 +237,9 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
 
     protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt3(data);
 
-    public override void WriteBoxSlot(PKM pk, Span<byte> data)
+    protected override void WriteSlotBox(PKM pk, Span<byte> data)
     {
-        base.WriteBoxSlot(pk, data);
+        base.WriteSlotBox(pk, data);
         WriteUInt32LittleEndian(data[PokeCrypto.SIZE_3STORED..], pk.ID32); // assume from OT
     }
 

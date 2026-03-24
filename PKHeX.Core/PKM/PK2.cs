@@ -10,8 +10,8 @@ public sealed class PK2 : GBPKML, ICaughtData2
 
     public override bool Valid => Species <= Legal.MaxSpeciesID_2;
 
-    public override int SIZE_PARTY => PokeCrypto.SIZE_2PARTY;
-    public override int SIZE_STORED => PokeCrypto.SIZE_2STORED;
+    public override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
+    public override int SIZE_PARTY => SIZE_STORED;
     public override bool Korean => !Japanese && OriginalTrainerTrash[0] <= 0xB;
 
     public override EntityContext Context => EntityContext.Gen2;
@@ -44,7 +44,14 @@ public sealed class PK2 : GBPKML, ICaughtData2
         return clone;
     }
 
-    protected override byte[] Encrypt() => PokeList2.WrapSingle(this);
+
+    // We (PKHeX) internally manage as single-entry lists in temp buffers.
+    public override void WriteDecryptedDataStored(Span<byte> destination) => PokeList2.WrapSingle(this, destination);
+    public override void WriteEncryptedDataStored(Span<byte> destination) => WriteDecryptedDataStored(destination);
+    public override void WriteDecryptedDataParty(Span<byte> destination) => WriteDecryptedDataStored(destination);
+    public override void WriteEncryptedDataParty(Span<byte> destination) => WriteDecryptedDataStored(destination);
+    public override void WriteDecryptedDataParty(Span<byte> stored, Span<byte> party) => WriteDecryptedDataStored(stored);
+    public override void WriteEncryptedDataParty(Span<byte> stored, Span<byte> party) => WriteDecryptedDataStored(stored);
 
     #region Stored Attributes
     public override ushort Species { get => Data[0]; set => Data[0] = (byte)value; }

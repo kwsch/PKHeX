@@ -121,8 +121,8 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
     // Configuration
     protected override SAV3Colosseum CloneInternal() => new((SaveIndex, SaveCount), Container.ToArray(), false) { MemoryCard = MemoryCard };
 
-    protected override int SIZE_STORED => PokeCrypto.SIZE_3CSTORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_3CSTORED; // unused
+    public override int SIZE_STORED => PokeCrypto.SIZE_3CSTORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_3CSTORED; // unused
     public override CK3 BlankPKM => new();
     public override Type PKMType => typeof(CK3);
 
