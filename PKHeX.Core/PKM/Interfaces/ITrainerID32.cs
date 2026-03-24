@@ -49,25 +49,24 @@ public interface ITrainerID32ReadOnly : ITrainerID16ReadOnly
 
 public static class ITrainerID32Extensions
 {
-    /// <summary>
-    /// Checks if the <see cref="pid"/> is shiny when owned by the <see cref="ITrainerID32"/>.
-    /// </summary>
-    /// <param name="tr">Possessing trainer</param>
-    /// <param name="pid"><see cref="PKM.PID"/></param>
-    /// <param name="generation">Generation of origin.</param>
-    /// <returns>True if shiny, false if not.</returns>
-    public static bool IsShiny(this ITrainerID32 tr, uint pid, byte generation = 7)
-    {
-        var xor = tr.GetShinyXor(pid);
-        var threshold = (generation >= 7 ? ShinyXorThreshold7 : ShinyXorThreshold36);
-        return xor < threshold;
-    }
-
     private const int ShinyXorThreshold36 = 8; // 1:8192
     private const int ShinyXorThreshold7 = 16; // 1:4096
 
     extension(ITrainerID32 tr)
     {
+        /// <summary>
+        /// Checks if the <see cref="pid"/> is shiny when owned by the <see cref="ITrainerID32"/>.
+        /// </summary>
+        /// <param name="pid"><see cref="PKM.PID"/></param>
+        /// <param name="generation">Generation of origin.</param>
+        /// <returns>True if shiny, false if not.</returns>
+        public bool IsShiny(uint pid, byte generation = 7)
+        {
+            var xor = tr.GetShinyXor(pid);
+            var threshold = (generation >= 7 ? ShinyXorThreshold7 : ShinyXorThreshold36);
+            return xor < threshold;
+        }
+
         /// <summary>
         /// Calculates the <see cref="pid"/> and <see cref="ITrainerID32.ID32"/> xor.
         /// </summary>

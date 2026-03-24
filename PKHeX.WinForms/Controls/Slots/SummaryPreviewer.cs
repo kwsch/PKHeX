@@ -174,7 +174,7 @@ public sealed class SummaryPreviewer
             var chk = analysis.Info.Moves[i];
             if (chk.Valid)
                 continue;
-            var hint = la.FormatMove(chk, i, la.Analysis.Info.Entity.Context);
+            var hint = la.FormatMove(chk, i + 1, la.Analysis.Info.Entity.Context);
             return Join(line, hint);
         }
 
@@ -183,7 +183,7 @@ public sealed class SummaryPreviewer
             var chk = analysis.Info.Relearn[i];
             if (chk.Valid)
                 continue;
-            var hint = la.FormatMove(chk, i, la.Analysis.Info.Entity.Context);
+            var hint = la.FormatMove(chk, i + 1, la.Analysis.Info.Entity.Context);
             return Join(line, hint);
         }
 
