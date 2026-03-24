@@ -207,9 +207,9 @@ public sealed class PIDVerifier : Verifier
             return false;
         }
 
+        // get the current shiny xor value, check against the previous 1:8192 scheme
         var pid = pk.PID;
-        var tmp = pid ^ pk.ID32;
-        var XOR = (ushort)(tmp ^ (tmp >> 16));
+        var XOR = ShinyUtil.GetShinyXor(pid, pk.ID32);
 
         // Ensure we don't have a shiny.
         if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)

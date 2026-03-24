@@ -1209,6 +1209,8 @@ public partial class Main : Form
         e.Effect = DragDropEffects.Copy;
     }
 
+    private bool mainDragOutActive;
+
     // ReSharper disable once AsyncVoidMethod
     private async void Dragout_MouseDown(object sender, MouseEventArgs e)
     {
@@ -1238,6 +1240,7 @@ public partial class Main : Form
             {
                 await File.WriteAllBytesAsync(newfile, data).ConfigureAwait(true);
 
+                mainDragOutActive = true;
                 var pb = (PictureBox)sender;
                 if (pb.Image is Bitmap img)
                     C_SAV.M.Drag.SetOwnedCursor(pb, img);
@@ -1249,6 +1252,7 @@ public partial class Main : Form
             { WinFormsUtil.Error("Drag && Drop Error", x); }
             finally
             {
+                mainDragOutActive = false;
                 C_SAV.M.Drag.ResetCursor(this);
                 await DeleteAsync(newfile, 20_000).ConfigureAwait(false);
             }
@@ -1275,13 +1279,14 @@ public partial class Main : Form
     private void DragoutEnter(object sender, EventArgs e)
     {
         dragout.BackgroundImage = PKME_Tabs.Entity.Species > 0 ? SpriteUtil.Spriter.Set : SpriteUtil.Spriter.Delete;
-        Cursor = Cursors.Hand;
+        if (!mainDragOutActive)
+            Cursor = Cursors.Hand;
     }
 
     private void DragoutLeave(object sender, EventArgs e)
     {
         dragout.BackgroundImage = SpriteUtil.Spriter.Transparent;
-        if (Cursor == Cursors.Hand)
+        if (!mainDragOutActive && Cursor == Cursors.Hand)
             Cursor = Cursors.Default;
     }
 

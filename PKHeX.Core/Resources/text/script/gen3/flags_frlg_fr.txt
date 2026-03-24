@@ -409,8 +409,8 @@
 
 677	s	Clé Asc. Reçue
 678	s	Thé Reçu
-679	e	Ticketaurora Reçu en Cadeau Mystère
-680	e	Ticketmystik Reçu en Cadeau Mystère
+679	e	Ticketaurora Reçu en Cadeau Mystère (GBA)/Panthéon (Switch)
+680	e	Ticketmystik Reçu en Cadeau Mystère (GBA)/Panthéon (Switch)
 
 699	m	Pot Poudre Reçu
 700	r	Mewtwo Capturé/Vaincu

@@ -848,6 +848,7 @@ namespace PKHeX.WinForms
             TB_Map.Name = "TB_Map";
             TB_Map.Size = new System.Drawing.Size(151, 25);
             TB_Map.TabIndex = 85;
+            TB_Map.TextChanged += ChangeMapValue;
             // 
             // L_Map
             // 

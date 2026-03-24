@@ -64,9 +64,15 @@ public partial class PKMEditor
 
         try
         {
-            CAL_ReceivedDateTime.Value = new DateTime(
-                pk7.ReceivedYear + 2000, pk7.ReceivedMonth, pk7.ReceivedDay,
-                pk7.ReceivedHour, pk7.ReceivedMinute, pk7.ReceivedSecond);
+            if (pk7 is { ReceivedDate: { } d, ReceivedTime: { } t })
+                CAL_ReceivedDateTime.Value = new DateTime(d, t);
+            else
+                CAL_ReceivedDateTime.Value = DateTime.Now;
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            /* Don't care if garbage, just reset. */
+            CAL_ReceivedDateTime.Value = DateTime.Now;
         }
         catch { /* */ }
 

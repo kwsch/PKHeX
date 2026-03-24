@@ -42,9 +42,6 @@ public static class SlotUtil
     /// </summary>
     public static void UpdateSlot(PictureBox pb, ISlotInfo info, PKM pk, SaveFile sav, SlotVisibilityType flags, SlotTouchType t = SlotTouchType.None)
     {
-        pb.Image?.Dispose();
-        pb.BackgroundImage?.Dispose();
-
         pb.BackgroundImage = GetTouchTypeBackground(t);
         if (pk.Species == 0) // Nothing in slot
         {
