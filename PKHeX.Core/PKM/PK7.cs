@@ -23,7 +23,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {
-        PokeCrypto.DecryptIfEncrypted67(ref data);
+        PokeCrypto.DecryptIfEncrypted67(data.Span);
         if (data.Length >= PokeCrypto.SIZE_6PARTY)
             return data;
 

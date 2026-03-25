@@ -38,8 +38,8 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
     public override PK1 BlankPKM => new(Japanese);
     private const int SIZE_PK1J = PokeCrypto.SIZE_1STORED + (2 * StringLengthJ); // 0x2D
     private const int SIZE_PK1U = PokeCrypto.SIZE_1STORED + (2 * StringLengthU); // 0x37
-    protected override int SIZE_STORED => Japanese ? SIZE_PK1J : SIZE_PK1U;
-    protected override int SIZE_PARTY => Japanese ? SIZE_PK1J : SIZE_PK1U;
+    public override int SIZE_STORED => Japanese ? SIZE_PK1J : SIZE_PK1U;
+    public override int SIZE_PARTY => Japanese ? SIZE_PK1J : SIZE_PK1U;
 
     private int ListHeaderSize => Japanese ? 0x0C : 0x10;
     private const int ListFooterSize = 6; // POKE + 2byte checksum
@@ -134,7 +134,7 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
                 var species = slice[0];
                 if (species == 0) // don't bother converting from internal->national
                     continue; // don't bother wiping already-empty slots.
-                WriteBoxSlot(blank, slice);
+                WriteSlotBox(blank, slice);
             }
         }
     }
@@ -227,33 +227,19 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
         return anyShifted;
     }
 
-    protected override PK1 GetPKM(byte[] data)
+    protected override PK1 GetPKM(Memory<byte> data)
     {
+        var inner = data[..PokeCrypto.SIZE_1STORED];
+        var extra = data[PokeCrypto.SIZE_1STORED..].Span;
+        var pk1 = new PK1(inner, Japanese);
+
         int len = StringLength;
-        var nick = data.AsSpan(PokeCrypto.SIZE_1STORED, len);
-        var ot = data.AsSpan(PokeCrypto.SIZE_1STORED + len, len);
-        var pk1 = new PK1(data[..PokeCrypto.SIZE_1STORED], Japanese);
+        var nick = extra[..len];
+        var ot = extra.Slice(len, len);
         nick.CopyTo(pk1.NicknameTrash);
         ot.CopyTo(pk1.OriginalTrainerTrash);
         return pk1;
     }
-
-    public override byte[] GetDataForFormatStored(PKM pk)
-    {
-        byte[] result = new byte[SIZE_STORED];
-        var gb = (PK1)pk;
-
-        var data = pk.Data;
-        int len = StringLength;
-        data.CopyTo(result);
-        gb.NicknameTrash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED));
-        gb.OriginalTrainerTrash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED + len));
-        return result;
-    }
-
-    public override byte[] GetDataForFormatParty(PKM pk) => GetDataForFormatStored(pk);
-    public override byte[] GetDataForParty(PKM pk) => GetDataForFormatStored(pk);
-    public override byte[] GetDataForBox(PKM pk) => GetDataForFormatStored(pk);
 
     public int GetTeamOffset(int team) => Japanese ? GetTeamOffsetJ(team) : GetTeamOffsetU(team);
 
@@ -372,20 +358,21 @@ public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
         return new SlotGroup(name, members, StorageSlotType.Box);
     }
 
-    public override void WriteSlotFormatStored(PKM pk, Span<byte> data)
-    {
-        // pk that have never been boxed have yet to save the 'current level' for box indication
-        // set this value at this time
-        ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteSlotFormatStored(pk, data);
-    }
+    // Only box data format, no list prefix.
+    protected override void WriteSlotParty(PKM pk, Span<byte> data) => WriteSlotStored(pk, data);
+    protected override void WriteSlotBox(PKM pk, Span<byte> data) => WriteSlotStored(pk, data);
 
-    public override void WriteBoxSlot(PKM pk, Span<byte> data)
+    protected override void WriteSlotStored(PKM pk, Span<byte> data)
     {
         // pk that have never been boxed have yet to save the 'current level' for box indication
         // set this value at this time
-        ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteBoxSlot(pk, data);
+        var gb = (PK1)pk;
+        gb.Stat_LevelBox = pk.CurrentLevel;
+
+        var self = pk.Data;
+        self[..PokeCrypto.SIZE_1STORED].CopyTo(data);
+        gb.NicknameTrash.CopyTo(data[PokeCrypto.SIZE_1STORED..]);
+        gb.OriginalTrainerTrash.CopyTo(data[(PokeCrypto.SIZE_1STORED + StringLength)..]);
     }
 
     public static bool IsStadium(ReadOnlySpan<byte> data)

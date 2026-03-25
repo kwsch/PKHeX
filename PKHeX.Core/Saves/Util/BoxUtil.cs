@@ -25,6 +25,7 @@ public static class BoxUtil
             if (!sav.HasBox)
                 return -1;
 
+            Span<byte> data = stackalloc byte[sav.SIZE_PARTY];
             var boxData = sav.BoxData;
             int boxSlotCount = sav.BoxSlotCount;
             var ctr = 0;
@@ -49,7 +50,9 @@ public static class BoxUtil
                 if (File.Exists(fn))
                     continue;
 
-                File.WriteAllBytes(fn, pk.DecryptedPartyData);
+                pk.ForcePartyData();
+                pk.WriteDecryptedDataParty(data);
+                File.WriteAllBytes(fn, data);
                 ctr++;
             }
             return ctr;
@@ -66,6 +69,7 @@ public static class BoxUtil
             if (!sav.HasBox)
                 return -1;
 
+            Span<byte> data = stackalloc byte[sav.SIZE_PARTY];
             var boxData = sav.BoxData;
             int boxSlotCount = sav.BoxSlotCount;
             var ctr = 0;
@@ -80,7 +84,9 @@ public static class BoxUtil
                 if (File.Exists(fileName))
                     continue;
 
-                File.WriteAllBytes(fileName, pk.DecryptedPartyData);
+                pk.ForcePartyData();
+                pk.WriteDecryptedDataParty(data);
+                File.WriteAllBytes(fileName, data);
                 ctr++;
             }
             return ctr;

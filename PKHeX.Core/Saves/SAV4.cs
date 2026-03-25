@@ -85,8 +85,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         SetData(Storage, s4.Storage);
     }
 
-    protected sealed override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
-    protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
+    public sealed override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
+    public sealed override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
     public sealed override PK4 BlankPKM => new();
     public sealed override Type PKMType => typeof(PK4);
 
@@ -370,8 +370,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     }
     #endregion
 
-    protected sealed override PK4 GetPKM(byte[] data) => new(data);
-    protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
+    protected sealed override PK4 GetPKM(Memory<byte> data) => new(data);
+    protected sealed override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt45(data);
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {
@@ -805,7 +805,7 @@ public abstract class MysteryBlock4(SAV4 sav, Memory<byte> raw) : SaveBlock<SAV4
             throw new ArgumentOutOfRangeException(nameof(index));
         if (pgt.Data.Length != PGT.Size)
             throw new InvalidCastException(nameof(pgt));
-        pgt.VerifyPKEncryption();
+        pgt.VerifyGiftEncryption();
         SAV.SetData(GetCardSpanPGT(index), pgt.Data);
     }
 
@@ -816,7 +816,7 @@ public abstract class MysteryBlock4(SAV4 sav, Memory<byte> raw) : SaveBlock<SAV4
         if (pcd.Data.Length != PCD.Size)
             throw new InvalidCastException(nameof(pcd));
         var gift = pcd.Gift;
-        gift.VerifyPKEncryption();
+        gift.VerifyGiftEncryption();
         SAV.SetData(GetCardSpanPCD(index), pcd.Data);
     }
 

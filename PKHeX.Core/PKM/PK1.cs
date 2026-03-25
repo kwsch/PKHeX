@@ -10,14 +10,14 @@ public sealed class PK1 : GBPKML, IPersonalType
 
     public override bool Valid => Species <= 151 && (Data[0] == 0 || Species != 0);
 
-    public override int SIZE_PARTY => PokeCrypto.SIZE_1PARTY;
-    public override int SIZE_STORED => PokeCrypto.SIZE_1STORED;
+    public override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
+    public override int SIZE_PARTY => SIZE_STORED;
     public override bool Korean => false;
 
     public override EntityContext Context => EntityContext.Gen1;
 
     public PK1(bool jp = false) : base(PokeCrypto.SIZE_1PARTY, jp) { }
-    public PK1(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
+    public PK1(Memory<byte> decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
 
     public PK1(ReadOnlySpan<byte> data, ReadOnlySpan<byte> ot, ReadOnlySpan<byte> nick)
         : this(ot.Length == StringLengthJapanese)
@@ -27,11 +27,13 @@ public sealed class PK1 : GBPKML, IPersonalType
         nick.CopyTo(NicknameTrash);
     }
 
-    private static byte[] EnsurePartySize(byte[] data)
+    private static Memory<byte> EnsurePartySize(Memory<byte> data)
     {
-        if (data.Length != PokeCrypto.SIZE_1PARTY)
-            Array.Resize(ref data, PokeCrypto.SIZE_1PARTY);
-        return data;
+        if (data.Length == PokeCrypto.SIZE_1PARTY)
+            return data;
+        var result = new byte[PokeCrypto.SIZE_1PARTY];
+        data.CopyTo(result);
+        return result;
     }
 
     public override PK1 Clone()
@@ -42,7 +44,13 @@ public sealed class PK1 : GBPKML, IPersonalType
         return clone;
     }
 
-    protected override byte[] Encrypt() => PokeList1.WrapSingle(this);
+    // We (PKHeX) internally manage as single-entry lists in temp buffers.
+    public override int WriteDecryptedDataStored(Span<byte> destination) => PokeList1.WrapSingle(this, destination);
+    public override void WriteEncryptedDataStored(Span<byte> destination) => WriteDecryptedDataStored(destination);
+    public override void WriteDecryptedDataParty(Span<byte> destination) => WriteDecryptedDataStored(destination);
+    public override void WriteEncryptedDataParty(Span<byte> destination) => WriteDecryptedDataStored(destination);
+    public override void WriteDecryptedDataParty(Span<byte> stored, Span<byte> party) => WriteDecryptedDataStored(stored);
+    public override void WriteEncryptedDataParty(Span<byte> stored, Span<byte> party) => WriteDecryptedDataStored(stored);
 
     #region Stored Attributes
     public byte SpeciesInternal { get => Data[0]; set => Data[0] = value; } // raw access

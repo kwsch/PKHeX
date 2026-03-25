@@ -128,9 +128,9 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     public override IReadOnlyList<string> PKMExtensions => EntityFileExtension.GetExtensionsHOME();
 
     // Configuration
-    protected override int SIZE_STORED => PokeCrypto.SIZE_9STORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_9PARTY;
-    public override int SIZE_BOXSLOT => PokeCrypto.SIZE_9PARTY + GapBoxSlot;
+    public override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
+    public override int SIZE_BOXSLOT => PokeCrypto.SIZE_8PARTY + GapBoxSlot;
     public override PA9 BlankPKM => new();
     public override Type PKMType => typeof(PA9);
 
@@ -140,8 +140,8 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     public override EntityContext Context => EntityContext.Gen9a;
     public override int MaxStringLengthTrainer => 12;
     public override int MaxStringLengthNickname => 12;
-    protected override PA9 GetPKM(byte[] data) => new(data);
-    protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray9(data);
+    protected override PA9 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt8(data);
 
     public override bool IsVersionValid() => Version is GameVersion.ZA;
 
@@ -176,7 +176,6 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     public override int GetBoxOffset(int box) => Box + (SIZE_BOXSLOT * box * 30);
     public string GetBoxName(int box) => BoxLayout[box];
     public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
-    public override byte[] GetDataForBox(PKM pk) => [..pk.EncryptedPartyData, ..new byte[GapBoxSlot]];
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {
@@ -217,8 +216,14 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
 
     protected override Span<byte> BoxBuffer => BoxInfo.Data;
     protected override Span<byte> PartyBuffer => PartyInfo.Data;
-    public override PA9 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PA9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    public override PA9 GetDecryptedPKM(Memory<byte> data)
+    {
+        DecryptPKM(data.Span);
+        return GetPKM(data);
+    }
+
+    protected override PA9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    protected override void WriteSlotBox(PKM pk, Span<byte> data) => pk.WriteEncryptedDataParty(data);
 
     public override StorageSlotSource GetBoxSlotFlags(int index)
     {

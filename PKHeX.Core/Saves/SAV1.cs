@@ -216,8 +216,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     // Configuration
     protected override SAV1 CloneInternal() => new(GetFinalData(), (LanguageID)Language, Version);
 
-    protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
-    protected override int SIZE_PARTY => SIZE_STORED;
+    public override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
+    public override int SIZE_PARTY => SIZE_STORED;
     private int SIZE_BOX_AS_SINGLES => BoxSlotCount * SIZE_STORED;
     private int SIZE_BOX_LIST => (((StringLength * 2) + PokeCrypto.SIZE_1STORED + 1) * BoxSlotCount) + 2;
     private int SIZE_PARTY_LIST => (((StringLength * 2) + PokeCrypto.SIZE_1PARTY + 1) * 6) + 2;
@@ -472,17 +472,14 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         return BoxDetailNameExtensions.GetDefaultBoxName(box);
     }
 
-    protected override PK1 GetPKM(byte[] data)
+    protected override PK1 GetPKM(Memory<byte> data)
     {
         if (data.Length == SIZE_STORED)
-            return PokeList1.ReadFromList(data, StringLength);
+            return PokeList1.ReadFromList(data.Span, StringLength);
         return new(data);
     }
 
-    protected override byte[] DecryptPKM(byte[] data)
-    {
-        return data;
-    }
+    protected override void DecryptPKM(Span<byte> data) { }
 
     // Pokédex
     protected override void SetDex(PKM pk)
@@ -525,20 +522,12 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         SetFlag(region + ofs, bit & 7, value);
     }
 
-    public override void WriteSlotFormatStored(PKM pk, Span<byte> data)
+    protected override void WriteSlotStored(PKM pk, Span<byte> data)
     {
         // pk that have never been boxed have yet to save the 'current level' for box indication
         // set this value at this time
         ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteSlotFormatStored(pk, data);
-    }
-
-    public override void WriteBoxSlot(PKM pk, Span<byte> data)
-    {
-        // pk that have never been boxed have yet to save the 'current level' for box indication
-        // set this value at this time
-        ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteBoxSlot(pk, data);
+        base.WriteSlotStored(pk, data);
     }
 
     private const int SpawnFlagCount = 0xF0;

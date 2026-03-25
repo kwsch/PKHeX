@@ -23,6 +23,8 @@ public sealed class CK3(Memory<byte> Raw) : G3PKM(Raw), IShadowCapture, ISeparat
     public override EntityContext Context => EntityContext.Gen3;
     public override PersonalInfo3 PersonalInfo => PersonalTable.RS[Species];
     public override CK3 Clone() => new(Data.ToArray());
+    protected override void EncryptStored(Span<byte> stored) { }
+    protected override void EncryptParty(Span<byte> party) { }
 
     // Trash Bytes
     public override Span<byte> OriginalTrainerTrash => Data.Slice(0x18, 22);
@@ -237,8 +239,6 @@ public sealed class CK3(Memory<byte> Raw) : G3PKM(Raw), IShadowCapture, ISeparat
 
     public const int Purified = -100;
     public bool IsShadow => ShadowID != 0 && Purification != Purified;
-
-    protected override byte[] Encrypt() => Data.ToArray();
 
     public PK3 ConvertToPK3()
     {

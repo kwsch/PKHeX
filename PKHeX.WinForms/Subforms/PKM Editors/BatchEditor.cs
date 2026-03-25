@@ -283,6 +283,11 @@ public partial class BatchEditor : Form
         }
 
         if (editor.Process(pk, pkFilters, instructions))
-            File.WriteAllBytes(Path.Combine(destDir, Path.GetFileName(source)), pk.DecryptedPartyData);
+        {
+            Span<byte> result = stackalloc byte[pk.SIZE_PARTY];
+            pk.ForcePartyData();
+            pk.WriteDecryptedDataParty(result);
+            File.WriteAllBytes(Path.Combine(destDir, Path.GetFileName(source)), result);
+        }
     }
 }

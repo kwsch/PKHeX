@@ -177,8 +177,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         SetSlotChecksums(data, 1);
     }
 
-    protected sealed override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
-    protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
+    public sealed override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
+    public sealed override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
     public sealed override PK3 BlankPKM => new();
     public sealed override Type PKMType => typeof(PK3);
 
@@ -219,8 +219,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public sealed override int GetPartyOffset(int slot) => SIZE_PARTY * slot;
 
     public sealed override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentGBA(data);
-    protected sealed override PK3 GetPKM(byte[] data) => new(data);
-    protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray3(data);
+    protected sealed override PK3 GetPKM(Memory<byte> data) => new(data);
+    protected sealed override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt3(data);
 
     protected sealed override Span<byte> BoxBuffer => Storage;
     protected sealed override Span<byte> PartyBuffer => LargeBlock.PartyBuffer;

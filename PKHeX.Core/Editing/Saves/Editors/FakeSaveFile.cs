@@ -47,10 +47,10 @@ public sealed class FakeSaveFile : SaveFile
     protected override void SetChecksums() { }
     public override GameVersion Version { get => GameVersion.R; set { } }
     public override Type PKMType => typeof(PK3);
-    protected override PK3 GetPKM(byte[] data) => BlankPKM;
-    protected override byte[] DecryptPKM(byte[] data) => data;
+    protected override PK3 GetPKM(Memory<byte> data) => BlankPKM;
+    protected override void DecryptPKM(Span<byte> data) { }
     public override PK3 BlankPKM => new();
     public override EntityContext Context => EntityContext.Gen3;
-    protected override int SIZE_STORED => 0;
-    protected override int SIZE_PARTY => 0;
+    public override int SIZE_STORED => 0;
+    public override int SIZE_PARTY => 0;
 }

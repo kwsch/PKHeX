@@ -21,24 +21,26 @@ public sealed class PA9 : PKM, ISanityChecksum, ITechRecord, IObedienceLevel, IH
     public override PersonalInfo9ZA PersonalInfo => PersonalTable.ZA.GetFormEntry(Species, Form);
     public IPermitRecord Permit => PersonalInfo;
     public override EntityContext Context => EntityContext.Gen9a;
+    protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt8(stored);
+    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
 
-    public PA9() : base(PokeCrypto.SIZE_9PARTY) => AffixedRibbon = PKHeX.Core.AffixedRibbon.None;
+    public PA9() : base(PokeCrypto.SIZE_8PARTY) => AffixedRibbon = PKHeX.Core.AffixedRibbon.None;
 
     public PA9(Memory<byte> data) : base(DecryptParty(data)) { }
     public override PA9 Clone() => new(Data.ToArray());
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {
-        PokeCrypto.DecryptIfEncrypted9(ref data);
-        if (data.Length >= PokeCrypto.SIZE_9PARTY)
+        PokeCrypto.DecryptIfEncrypted8(data.Span);
+        if (data.Length >= PokeCrypto.SIZE_8PARTY)
             return data;
 
-        var result = new byte[PokeCrypto.SIZE_9PARTY];
+        var result = new byte[PokeCrypto.SIZE_8PARTY];
         data.Span.CopyTo(result);
         return result;
     }
 
-    private ushort CalculateChecksum() => Checksums.Add16(Data[8..PokeCrypto.SIZE_9STORED]);
+    private ushort CalculateChecksum() => Checksums.Add16(Data[8..PokeCrypto.SIZE_8STORED]);
 
     // Simple Generated Attributes
     public override byte CurrentFriendship
@@ -47,8 +49,8 @@ public sealed class PA9 : PKM, ISanityChecksum, ITechRecord, IObedienceLevel, IH
         set { if (CurrentHandler == 0) OriginalTrainerFriendship = value; else HandlingTrainerFriendship = value; }
     }
 
-    public override int SIZE_PARTY => PokeCrypto.SIZE_9PARTY;
-    public override int SIZE_STORED => PokeCrypto.SIZE_9STORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
+    public override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
 
     public override bool ChecksumValid => CalculateChecksum() == Checksum;
     public override void RefreshChecksum() => Checksum = CalculateChecksum();
@@ -76,11 +78,6 @@ public sealed class PA9 : PKM, ISanityChecksum, ITechRecord, IObedienceLevel, IH
     public override int Characteristic => EntityCharacteristic.GetCharacteristicInit0(EncryptionConstant, IV32);
 
     // Methods
-    protected override byte[] Encrypt()
-    {
-        RefreshChecksum();
-        return PokeCrypto.EncryptArray9(Data);
-    }
 
     public void FixRelearn()
     {

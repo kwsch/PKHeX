@@ -32,8 +32,8 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
     public override int MaxAbilityID => Legal.MaxAbilityID_1;
     public override int MaxItemID => Legal.MaxItemID_1;
     private const int SIZE_PK1J = PokeCrypto.SIZE_1STORED + (2 * StringLength); // 0x2D
-    protected override int SIZE_STORED => SIZE_PK1J;
-    protected override int SIZE_PARTY => SIZE_PK1J;
+    public override int SIZE_STORED => SIZE_PK1J;
+    public override int SIZE_PARTY => SIZE_PK1J;
 
     public override Type PKMType => typeof(PK1);
     public override PK1 BlankPKM => new(true);
@@ -80,34 +80,19 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
         // Not implemented
     }
 
-    protected override PK1 GetPKM(byte[] data)
+    protected override PK1 GetPKM(Memory<byte> data)
     {
+        var inner = data[..PokeCrypto.SIZE_1STORED];
+        var extra = data[PokeCrypto.SIZE_1STORED..].Span;
+        var pk1 = new PK1(inner, true);
+
         const int len = StringLength;
-        var nick = data.AsSpan(0x21, len);
-        var ot = data.AsSpan(0x21 + len, len);
-        data = data[..0x21];
-        var pk1 = new PK1(data, true);
+        var nick = extra[..len];
+        var ot = extra.Slice(len, len);
         nick.CopyTo(pk1.NicknameTrash);
         ot.CopyTo(pk1.OriginalTrainerTrash);
         return pk1;
     }
-
-    public override byte[] GetDataForFormatStored(PKM pk)
-    {
-        byte[] result = new byte[SIZE_STORED];
-        var gb = (PK1)pk;
-
-        var data = pk.Data;
-        const int len = StringLength;
-        data.CopyTo(result);
-        gb.NicknameTrash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED));
-        gb.OriginalTrainerTrash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED + len));
-        return result;
-    }
-
-    public override byte[] GetDataForFormatParty(PKM pk) => GetDataForFormatStored(pk);
-    public override byte[] GetDataForParty(PKM pk) => GetDataForFormatStored(pk);
-    public override byte[] GetDataForBox(PKM pk) => GetDataForFormatStored(pk);
 
     public override int GetBoxOffset(int box) => Box + ListHeaderSize + (box * BoxSizeJ);
     public static int GetTeamOffset(int team) => 0 + (team * 2 * TeamSizeJ); // backups are after each team
@@ -140,20 +125,12 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
         return new SlotGroup(name, members, StorageSlotType.Box);
     }
 
-    public override void WriteSlotFormatStored(PKM pk, Span<byte> data)
+    protected override void WriteSlotStored(PKM pk, Span<byte> data)
     {
         // pk that have never been boxed have yet to save the 'current level' for box indication
         // set this value at this time
         ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteSlotFormatStored(pk, data);
-    }
-
-    public override void WriteBoxSlot(PKM pk, Span<byte> data)
-    {
-        // pk that have never been boxed have yet to save the 'current level' for box indication
-        // set this value at this time
-        ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteBoxSlot(pk, data);
+        base.WriteSlotStored(pk, data);
     }
 
     public static bool IsStadium(ReadOnlySpan<byte> data)

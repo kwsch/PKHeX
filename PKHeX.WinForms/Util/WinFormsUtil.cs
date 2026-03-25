@@ -366,7 +366,11 @@ public static class WinFormsUtil
     {
         SaveBackup(path);
         var ext = Path.GetExtension(path);
-        var data = ext == $".{pkx}" ? pk.DecryptedPartyData : pk.EncryptedPartyData;
+        Span<byte> data = stackalloc byte[pk.SIZE_PARTY];
+        if (ext == $".{pkx}")
+            pk.WriteDecryptedDataParty(data);
+        else
+            pk.WriteEncryptedDataParty(data);
         File.WriteAllBytes(path, data);
     }
 

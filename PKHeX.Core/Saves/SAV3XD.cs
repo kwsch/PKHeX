@@ -140,8 +140,8 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
     // Configuration
     protected override SAV3XD CloneInternal() => new((SaveIndex, SaveCount), Container.ToArray(), false) { MemoryCard = MemoryCard };
 
-    protected override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_3XSTORED; // unused
+    public override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_3XSTORED; // unused
     public override XK3 BlankPKM => new();
     public override Type PKMType => typeof(XK3);
 
@@ -264,14 +264,8 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
         SetString(Data.Slice(GetBoxInfoOffset(box), 20), value, 8, StringConverterOption.ClearZero);
     }
 
-    protected override XK3 GetPKM(byte[] data)
-    {
-        if (data.Length != SIZE_STORED)
-            Array.Resize(ref data, SIZE_STORED);
-        return new(data);
-    }
-
-    protected override byte[] DecryptPKM(byte[] data) => data;
+    protected override XK3 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) { }
     public override XK3 GetPartySlot(ReadOnlySpan<byte> data) => GetStoredSlot(data);
 
     public override XK3 GetStoredSlot(ReadOnlySpan<byte> data)

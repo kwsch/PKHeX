@@ -14,6 +14,8 @@ public sealed class Bank7 : BulkStorage, IBoxDetailNameRead
     public override GameVersion Version { get => GameVersion.USUM; set { } }
     public override PersonalTable7 Personal => PersonalTable.USUM;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_SM;
+    protected override PK7 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt67(data);
     protected override Bank7 CloneInternal() => new(Data.ToArray(), PKMType, BoxStart, SlotsPerBox);
     public override string PlayTimeString => $"{Year:00}{Month:00}{Day:00}_{Hours:00}ː{Minutes:00}";
     protected internal override string ShortSummary => PlayTimeString;

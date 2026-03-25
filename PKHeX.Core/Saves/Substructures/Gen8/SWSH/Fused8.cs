@@ -19,7 +19,7 @@ public sealed class Fused8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sa
     public Memory<byte> this[int i] => Raw.Slice(GetFusedSlotOffset(i), SizeStored);
     private Span<byte> GetSlotSpan(int index) => Data.Slice(GetFusedSlotOffset(index), SizeStored);
     private PK8 GetStoredSlot(int index) => (PK8)SAV.GetStoredSlot(GetSlotSpan(index));
-    private void SetStoredSlot(PK8 pk, int index) => pk.EncryptedBoxData.CopyTo(GetSlotSpan(index));
+    private void SetStoredSlot(PK8 pk, int index) => pk.WriteEncryptedDataStored(GetSlotSpan(index));
 
     public PK8 Kyurem           { get => GetStoredSlot(0); set => SetStoredSlot(value, 0); }
     public PK8 NecrozmaSolgaleo { get => GetStoredSlot(1); set => SetStoredSlot(value, 1); }

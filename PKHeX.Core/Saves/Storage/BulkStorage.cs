@@ -28,11 +28,8 @@ public abstract class BulkStorage : SaveFile
     public sealed override Type PKMType => blank.GetType();
     public sealed override PKM BlankPKM => blank.Clone();
 
-    protected override PKM GetPKM(byte[] data) => EntityFormat.GetFromBytes(data, prefer: Context) ?? blank;
-    protected override byte[] DecryptPKM(byte[] data) => GetPKM(data).Data.ToArray();
-
-    protected override int SIZE_STORED => blank.SIZE_STORED;
-    protected override int SIZE_PARTY => blank.SIZE_PARTY;
+    public override int SIZE_STORED => blank.SIZE_STORED;
+    public override int SIZE_PARTY => blank.SIZE_PARTY;
     public sealed override int MaxEV => blank.MaxEV;
     public sealed override byte Generation => blank.Format;
     public sealed override EntityContext Context => blank.Context;

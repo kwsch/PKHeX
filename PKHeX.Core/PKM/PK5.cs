@@ -22,13 +22,15 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
     public override EntityContext Context => EntityContext.Gen5;
     public override PersonalInfo5B2W2 PersonalInfo => PersonalTable.B2W2.GetFormEntry(Species, Form);
+    protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt45(stored);
+    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
 
     public PK5() : base(PokeCrypto.SIZE_5PARTY) { }
     public PK5(Memory<byte> data) : base(DecryptParty(data)) { }
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {
-        PokeCrypto.DecryptIfEncrypted45(ref data);
+        PokeCrypto.DecryptIfEncrypted45(data.Span);
         if (data.Length >= PokeCrypto.SIZE_5PARTY)
             return data;
 
@@ -307,11 +309,6 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override int MaxStringLengthNickname => 10;
 
     // Methods
-    protected override byte[] Encrypt()
-    {
-        RefreshChecksum();
-        return PokeCrypto.EncryptArray45(Data);
-    }
 
     // Synthetic Trading Logic
     public bool BelongsTo(ITrainerInfo tr)

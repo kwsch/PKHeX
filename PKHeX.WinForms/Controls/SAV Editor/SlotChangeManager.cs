@@ -205,7 +205,12 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         string newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
         try
         {
-            var data = encrypt ? pk.EncryptedPartyData : pk.DecryptedPartyData;
+            pk.ForcePartyData();
+            Span<byte> data = stackalloc byte[pk.SIZE_PARTY];
+            if (!encrypt)
+                pk.WriteDecryptedDataParty(data);
+            else
+                pk.WriteEncryptedDataParty(data);
             external = TryMakeDragDropPKM(pb, data, newfile);
         }
         // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.

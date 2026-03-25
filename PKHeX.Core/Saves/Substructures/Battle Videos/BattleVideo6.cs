@@ -113,7 +113,7 @@ public sealed class BattleVideo6(Memory<byte> Raw) : IBattleVideo
         {
             int offset = start + (PokeCrypto.SIZE_6PARTY * ((t * 6) + p));
             offset += 8 * (((t * 6) + p) / 6); // 8 bytes padding between teams
-            team[p].EncryptedPartyData.CopyTo(Data[offset..]);
+            team[p].WriteEncryptedDataParty(Data[offset..]);
         }
     }
 

@@ -30,8 +30,6 @@ public sealed class SK2 : GBPKM, ICaughtData2
         IsEgg = IsEgg,
     };
 
-    protected override byte[] Encrypt() => Data.ToArray();
-
     #region Stored Attributes
     public override ushort Species { get => Data[0]; set => Data[0] = (byte)value; }
     public override int SpriteItem => ItemConverter.GetItemFuture2((byte)HeldItem);

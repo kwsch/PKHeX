@@ -29,11 +29,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     protected PKM(Memory<byte> data) => Raw = data;
     protected PKM([ConstantExpected] int size) => Raw = new byte[size];
 
-    public virtual byte[] EncryptedPartyData => Encrypt().AsSpan()[..SIZE_PARTY].ToArray();
-    public virtual byte[] EncryptedBoxData => Encrypt().AsSpan()[..SIZE_STORED].ToArray();
-    public virtual byte[] DecryptedPartyData => Write()[..SIZE_PARTY].ToArray();
-    public virtual byte[] DecryptedBoxData => Write()[..SIZE_STORED].ToArray();
-
     /// <summary>
     /// Rough indication if the data is junk or not.
     /// </summary>
@@ -49,16 +44,60 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// </summary>
     public virtual void PrepareNickname() { }
 
-    protected abstract byte[] Encrypt();
     public abstract EntityContext Context { get; }
     public byte Format => Context.Generation;
     public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
 
-    private Span<byte> Write()
+    /// <summary> Writes the entity data to a sequential (stored only, no party stats) buffer destination. </summary>
+    public virtual int WriteDecryptedDataStored(Span<byte> destination)
     {
         RefreshChecksum();
-        return Data;
+        int length = SIZE_STORED;
+        Data[..length].CopyTo(destination);
+        return length;
     }
+
+    /// <summary> Writes the entity data to a sequential (stored, party) buffer destination. </summary>
+    public virtual void WriteDecryptedDataParty(Span<byte> destination)
+    {
+        var stored = destination[..SIZE_STORED];
+        var party = destination[SIZE_STORED..SIZE_PARTY];
+        WriteDecryptedDataParty(stored, party);
+    }
+
+    /// <summary> Writes the entity data to a separate (stored, party) buffer destination. </summary>
+    public virtual void WriteDecryptedDataParty(Span<byte> stored, Span<byte> party)
+    {
+        WriteDecryptedDataStored(stored);
+        Data[SIZE_STORED..SIZE_PARTY].CopyTo(party);
+    }
+
+    /// <summary> Writes the entity data to a sequential (stored only, no party stats) buffer destination and encrypts to the at-rest state. </summary>
+    public virtual void WriteEncryptedDataStored(Span<byte> destination)
+    {
+        var stored = destination[..SIZE_STORED];
+        WriteDecryptedDataStored(stored);
+        EncryptStored(stored);
+    }
+
+    /// <summary> Writes the entity data to a sequential (stored, party) buffer destination and encrypts to the at-rest state. </summary>
+    public virtual void WriteEncryptedDataParty(Span<byte> destination)
+    {
+        var stored = destination[..SIZE_STORED];
+        var party = destination[SIZE_STORED..SIZE_PARTY];
+        WriteEncryptedDataParty(stored, party);
+    }
+
+    /// <summary> Writes the entity data to a separate (stored, party) buffer destination and encrypts to the at-rest state. </summary>
+    public virtual void WriteEncryptedDataParty(Span<byte> stored, Span<byte> party)
+    {
+        WriteDecryptedDataParty(stored, party);
+        EncryptStored(stored);
+        EncryptParty(party);
+    }
+
+    protected abstract void EncryptStored(Span<byte> stored);
+    protected abstract void EncryptParty(Span<byte> party);
 
     // Surface Properties
     public abstract ushort Species { get; set; }
@@ -1163,4 +1202,23 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         5 => IV_SPD,
         _ => throw new ArgumentOutOfRangeException(nameof(index), index, "IV index must be between 0 and 5."),
     };
+
+    /// <summary>
+    /// Checks if the current <see cref="PKM"/> has the same stored data as another <see cref="PKM"/>. This is used to check if a PKM has been modified from its original imported state.
+    /// </summary>
+    public virtual bool EqualsStored(PKM pk)
+    {
+        // Generally, the objects should be of the same derived type. Don't bother checking that explicitly.
+        if (pk.PID != PID)
+            return false;
+
+        var stored = pk.Data;
+        if (stored.Length >= pk.SIZE_STORED)
+            stored = stored[..SIZE_STORED];
+        var self = Data;
+        if (self.Length >= SIZE_STORED)
+            self = self[..SIZE_STORED];
+
+        return stored.SequenceEqual(self);
+    }
 }

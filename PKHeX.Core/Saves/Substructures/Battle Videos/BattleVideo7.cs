@@ -55,7 +55,7 @@ public sealed class BattleVideo7(Memory<byte> Raw) : IBattleVideo
         for (int p = 0; p < 6; p++)
         {
             int offset = ofs + (PokeCrypto.SIZE_6PARTY * p);
-            team[p].EncryptedPartyData.CopyTo(Data[offset..]);
+            team[p].WriteEncryptedDataParty(Data[offset..]);
         }
     }
 

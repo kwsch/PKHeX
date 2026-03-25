@@ -33,7 +33,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {
-        PokeCrypto.DecryptIfEncrypted67(ref data);
+        PokeCrypto.DecryptIfEncrypted67(data.Span);
         if (data.Length >= SIZE)
             return data;
 

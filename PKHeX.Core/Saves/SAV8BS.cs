@@ -101,8 +101,8 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     }
 
     // Configuration
-    protected override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
+    public override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
     public override int SIZE_BOXSLOT => PokeCrypto.SIZE_8PARTY;
     public override PB8 BlankPKM => new();
     public override Type PKMType => typeof(PB8);
@@ -197,8 +197,8 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     #endregion
 
-    protected override PB8 GetPKM(byte[] data) => new(data);
-    protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray8(data);
+    protected override PB8 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt8(data);
 
     #region Blocks
     // public Box8 BoxInfo { get; }
@@ -276,7 +276,6 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
     public string GetBoxName(int box) => BoxLayout[box];
     public void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
-    public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = (byte)value; }
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = (byte)value; }
 
@@ -333,8 +332,14 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         protected set => PartyInfo.PartyCount = value;
     }
 
-    public override PB8 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PB8 GetBoxSlot(int offset) => GetDecryptedPKM(Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    public override PB8 GetDecryptedPKM(Memory<byte> data)
+    {
+        DecryptPKM(data.Span);
+        return GetPKM(data);
+    }
+
+    protected override PB8 GetBoxSlot(int offset) => GetDecryptedPKM(Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    protected override void WriteSlotBox(PKM pk, Span<byte> data) => pk.WriteEncryptedDataParty(data);
 
     public enum TopMenuItemType
     {

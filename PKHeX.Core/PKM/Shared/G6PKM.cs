@@ -10,6 +10,8 @@ public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
     public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
     protected G6PKM(Memory<byte> data) : base(data) { }
     protected G6PKM([ConstantExpected] int size) : base(size) { }
+    protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt67(stored);
+    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
 
     // Trash Bytes
     public sealed override Span<byte> NicknameTrash => Data.Slice(0x40, 26);
@@ -48,11 +50,6 @@ public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
     public override int Characteristic => EntityCharacteristic.GetCharacteristicInit0(EncryptionConstant, IV32);
 
     // Methods
-    protected sealed override byte[] Encrypt()
-    {
-        RefreshChecksum();
-        return PokeCrypto.EncryptArray6(Data);
-    }
 
     // General User-error Fixes
     public void FixRelearn()

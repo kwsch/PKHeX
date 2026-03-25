@@ -17,6 +17,9 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public GameDataPA9? DataPA9 { get; private set; }
 
     public override EntityContext Context => EntityContext.None;
+    public override int WriteDecryptedDataStored(Span<byte> destination) => Rebuild(destination);
+    protected override void EncryptStored(Span<byte> stored) { }
+    protected override void EncryptParty(Span<byte> party) { }
 
     public PKH(Memory<byte> data) : base(DecryptHome(data))
     {
@@ -255,24 +258,46 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public override void RefreshChecksum() => Checksum = 0;
     public override bool ChecksumValid => true;
 
-    protected override byte[] Encrypt()
-    {
-        var result = Rebuild();
-        return HomeCrypto.Encrypt(result);
-    }
-
     public byte[] Rebuild()
     {
         var length = WriteLength;
-
         // Handle PKCS7 manually
-        var remainder = length & 0xF;
+        var totalSize = GetPaddedSize(length, out var remainder);
+
+        var result = new byte[totalSize];
+        WriteTo(result, length, remainder, totalSize);
+        return result;
+    }
+
+    public int Rebuild(Span<byte> dest)
+    {
+        var length = WriteLength;
+        // Handle PKCS7 manually
+        var totalSize = GetPaddedSize(length, out var remainder);
+
+        var result = dest[..totalSize];
+        WriteTo(result, length, remainder, totalSize);
+        return totalSize;
+    }
+
+    private void WriteTo(Span<byte> data, int innerLength, int remainder, int totalSize)
+    {
+        var payload = data[..innerLength];
+        data[innerLength..].Fill((byte)remainder);
+        WriteTo(payload, totalSize);
+    }
+
+    public static int GetPaddedSize(int innerLength, out int remainder)
+    {
+        remainder = innerLength & 0xF;
         if (remainder != 0) // pad to nearest 0x10, fill remainder bytes with value.
             remainder = 0x10 - remainder;
-        var result = new byte[length + remainder];
-        var span = result.AsSpan(0, length);
-        result.AsSpan(length).Fill((byte)remainder);
+        var totalSize = innerLength + remainder;
+        return totalSize;
+    }
 
+    private void WriteTo(Span<byte> span, int innerLength)
+    {
         // Header and Core are already in the current byte array.
         // Write each part, starting with header and core.
         int ctr = HomeCrypto.SIZE_1HEADER + 2;
@@ -289,11 +314,9 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
         // Update metadata to ensure we're a valid object.
         DataVersion = HomeCrypto.VersionLatest;
-        EncodedDataSize = (ushort)(result.Length - HomeCrypto.SIZE_1HEADER);
+        EncodedDataSize = (ushort)(innerLength - HomeCrypto.SIZE_1HEADER);
         CoreDataSize = (ushort)Core.SerializedSize;
         Data[..(HomeCrypto.SIZE_1HEADER + 2)].CopyTo(span); // Copy updated header & CoreData length.
-
-        return result;
     }
 
     private int WriteLength

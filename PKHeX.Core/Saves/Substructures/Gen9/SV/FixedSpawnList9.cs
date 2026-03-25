@@ -68,8 +68,8 @@ public sealed class FixedSpawnDetail(Memory<byte> raw)
     [Category(General), Description("Encrypted Entity data.")]
     public PK9 Entity
     {
-        get => new(Data.Slice(0x09, PokeCrypto.SIZE_9PARTY).ToArray());
-        set => value.EncryptedPartyData.CopyTo(Data.Slice(0x9, PokeCrypto.SIZE_9PARTY));
+        get => new(Data.Slice(0x09, PokeCrypto.SIZE_8PARTY).ToArray());
+        set => value.WriteEncryptedDataParty(Data.Slice(0x9, PokeCrypto.SIZE_8PARTY));
     }
 
     // 7 bytes of padding, for alignment of next field.

@@ -57,11 +57,11 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
         State.Edited = true;
     }
 
-    protected override int SIZE_STORED => PokeCrypto.SIZE_8ASTORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_8APARTY;
+    public override int SIZE_STORED => PokeCrypto.SIZE_8ASTORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_8APARTY;
     public override int SIZE_BOXSLOT => PokeCrypto.SIZE_8ASTORED;
-    protected override PA8 GetPKM(byte[] data) => new(data);
-    protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray8A(data);
+    protected override PA8 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt8A(data);
 
     public override PA8 BlankPKM => new();
     public override Type PKMType => typeof(PA8);

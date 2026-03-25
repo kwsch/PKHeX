@@ -87,6 +87,7 @@ public static class BoxExport
         int count = GetSlotCountForBox(boxSlotCount, box, total);
         int ctr = 0;
         // Export each slot in the box.
+        Span<byte> data = stackalloc byte[sav.SIZE_STORED];
         for (int slot = 0; slot < count; slot++)
         {
             var pk = sav.GetBoxSlotAtIndex(box, slot);
@@ -98,7 +99,8 @@ public static class BoxExport
 
             var fileName = GetFileName(pk, settings.FileIndexPrefix, namer, box, slot, boxSlotCount);
             var fn = Path.Combine(destPath, fileName);
-            File.WriteAllBytes(fn, pk.DecryptedPartyData);
+            pk.WriteDecryptedDataStored(data);
+            File.WriteAllBytes(fn, data);
             ctr++;
         }
         return ctr;

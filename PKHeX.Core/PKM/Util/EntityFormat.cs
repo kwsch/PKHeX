@@ -25,8 +25,10 @@ public static class EntityFormat
 
     private static EntityFormatDetected GetFormatInternal(ReadOnlySpan<byte> data) => data.Length switch
     {
-        SIZE_1JLIST or SIZE_1ULIST    => FormatPK1,
-        SIZE_2JLIST or SIZE_2ULIST    => FormatPK2,
+        SIZE_1JLIST or SIZE_1ULIST    => FormatPK1List,
+        SIZE_2JLIST or SIZE_2ULIST    => FormatPK2List,
+        SIZE_1PARTY or SIZE_1STORED   => FormatPK1,
+        SIZE_2PARTY or SIZE_2STORED   => FormatPK2,
         SIZE_2STADIUM                 => FormatSK2,
         SIZE_3PARTY or SIZE_3STORED   => FormatPK3,
         SIZE_3CSTORED                 => FormatCK3,
@@ -120,8 +122,10 @@ public static class EntityFormat
 
     private static PKM? GetFromBytes(Memory<byte> data, EntityFormatDetected format, EntityContext prefer) => format switch
     {
-        FormatPK1 => PokeList1.ReadFromSingle(data.Span),
-        FormatPK2 => PokeList2.ReadFromSingle(data.Span),
+        FormatPK1List => PokeList1.ReadFromSingle(data.Span),
+        FormatPK2List => PokeList2.ReadFromSingle(data.Span),
+        FormatPK1 => new PK1(data),
+        FormatPK2 => new PK2(data),
         FormatSK2 => new SK2(data),
         FormatPK3 => new PK3(data),
         FormatCK3 => new CK3(data),
@@ -221,6 +225,8 @@ public static class EntityFormat
 public enum EntityFormatDetected
 {
     None,
+
+    FormatPK1List, FormatPK2List,
 
     FormatPK1,
     FormatPK2, FormatSK2,

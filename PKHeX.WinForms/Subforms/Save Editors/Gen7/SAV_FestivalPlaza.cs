@@ -349,9 +349,9 @@ public partial class SAV_FestivalPlaza : Form
             WriteUInt16LittleEndian(SAV.Data[0x6C3EE..], (ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C3EE) | InvitedValue : 0));
             WriteUInt16LittleEndian(SAV.Data[0x6C526..], (ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C526) | InvitedValue : 0));
         }
-        SAV.SetData(p[0].EncryptedBoxData, 0x6C200);
-        SAV.SetData(p[1].EncryptedPartyData, 0x6C2E8);
-        SAV.SetData(p[2].EncryptedPartyData, 0x6C420);
+        p[0].WriteEncryptedDataStored(SAV.Data[0x6C200..]); // BattleFesSave
+        p[1].WriteEncryptedDataParty(SAV.Data[0x6C2E8..]);
+        p[2].WriteEncryptedDataParty(SAV.Data[0x6C420..]);
 
         var gradeDefeated = ((((int)NUD_Defeated.Value & 0xF) << 12) | (((int)NUD_Grade.Value & 0x3F) << 6) | (SAV.Data[0x6C55C] & 0x3F));
         WriteUInt16LittleEndian(SAV.Data[0x6C558..], (ushort)NUD_DefeatMon.Value);

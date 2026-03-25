@@ -41,7 +41,7 @@ public sealed class PCD(Memory<byte> raw)
     {
         // Ensure PGT content is encrypted
         var clone = new PCD(Data.ToArray());
-        clone.Gift.VerifyPKEncryption();
+        clone.Gift.VerifyGiftEncryption();
         return clone.Data;
     }
 

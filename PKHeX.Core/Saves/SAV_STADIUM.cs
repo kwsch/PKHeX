@@ -47,7 +47,7 @@ public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
         OT = BlankSaveFile.GetSafeTrainerName(this, (LanguageID)Language);
     }
 
-    protected sealed override byte[] DecryptPKM(byte[] data) => data;
+    protected sealed override void DecryptPKM(Span<byte> data) { }
     public sealed override int GetPartyOffset(int slot) => -1;
     public sealed override bool ChecksumsValid => GetBoxChecksumsValid();
     public sealed override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";

@@ -14,12 +14,15 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
 
     public override Type PKMType => typeof(PB7);
     public override PB7 BlankPKM => new();
-    protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
-    protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
+    public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
+    public override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
     public override int SIZE_BOXSLOT => PokeCrypto.SIZE_6PARTY;
-    public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
-    public override PB7 GetBoxSlot(int offset) => GetDecryptedPKM(Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
-    public override PB7 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
+    protected override PB7 GetBoxSlot(int offset) => GetDecryptedPKM(Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    public override PB7 GetDecryptedPKM(Memory<byte> data)
+    {
+        DecryptPKM(data.Span);
+        return GetPKM(data);
+    }
 
     public override PersonalTable7GG Personal => PersonalTable.GG;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_GG;
@@ -106,8 +109,8 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
     public override bool GetCaught(ushort species) => Blocks.Zukan.GetCaught(species);
     public override bool GetSeen(ushort species) => Blocks.Zukan.GetSeen(species);
 
-    protected override PB7 GetPKM(byte[] data) => new(data);
-    protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
+    protected override PB7 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt67(data);
     public override int GetBoxOffset(int box) => Box + (box * BoxSlotCount * SIZE_BOXSLOT);
     protected override IList<int>[] SlotPointers => [ Blocks.Storage.PokeListInfo ];
 

@@ -33,11 +33,11 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
 
     public override Type PKMType => typeof(SK2);
     public override SK2 BlankPKM => new(Japanese);
-    protected override SK2 GetPKM(byte[] data) => new(data, Japanese);
+    protected override SK2 GetPKM(Memory<byte> data) => new(data, Japanese);
 
     private const int SIZE_SK2 = PokeCrypto.SIZE_2STADIUM; // 60
-    protected override int SIZE_STORED => SIZE_SK2;
-    protected override int SIZE_PARTY => SIZE_SK2;
+    public override int SIZE_STORED => SIZE_SK2;
+    public override int SIZE_PARTY => SIZE_SK2;
 
     private const int ListHeaderSizeTeam = 0x10;
     private const int ListHeaderSizeBox = 0x20;

@@ -22,18 +22,10 @@ public sealed class BK4 : G4PKM
     public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
     public override EntityContext Context => EntityContext.Gen4;
     public override PersonalInfo4 PersonalInfo => PersonalTable.HGSS[Species];
-
-    public override byte[] DecryptedBoxData => EncryptedBoxData;
+    protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt4BE(stored);
+    protected override void EncryptParty(Span<byte> party) { }
 
     public override bool Valid => ChecksumValid || (Sanity == 0 && Species <= MaxSpeciesID);
-
-    public static BK4 ReadUnshuffle(ReadOnlySpan<byte> data)
-    {
-        var unshuffled = PokeCrypto.DecryptArray4BE(data);
-        var result = new BK4(unshuffled);
-        result.RefreshChecksum();
-        return result;
-    }
 
     public BK4(Memory<byte> data) : base(data)
     {
@@ -301,12 +293,6 @@ public sealed class BK4 : G4PKM
 
     // Methods
     protected override ushort CalculateChecksum() => Checksums.Add16BigEndian(Data[8..PokeCrypto.SIZE_4STORED]);
-
-    protected override byte[] Encrypt()
-    {
-        RefreshChecksum();
-        return PokeCrypto.EncryptArray4BE(Data);
-    }
 
     public PK4 ConvertToPK4()
     {

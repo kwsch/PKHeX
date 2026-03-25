@@ -11,6 +11,9 @@ public sealed class Bank3 : BulkStorage, IBoxDetailNameRead
 
     public override GameVersion Version { get => GameVersion.RS; set { } }
     public override PersonalTable3 Personal => PersonalTable.RS;
+    protected override PK3 GetPKM(Memory<byte> data) => new(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt3(data);
+
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_RS;
     protected override Bank3 CloneInternal() => new(Data.ToArray());
     public override string PlayTimeString => Checksums.CRC16Invert(Data).ToString("X4");

@@ -46,10 +46,10 @@ public sealed class RentalTeam8(Memory<byte> Raw) : IRentalTeam<PK8>, IPokeGroup
     public void SetSlot(int slot, PK8 pk)
     {
         var ofs = GetSlotOffset(slot);
-        var data1 = pk.EncryptedPartyData;
+        var dest = Data[ofs..];
+        pk.WriteEncryptedDataStored(dest);
         // Wipe Party Stats
-        Array.Clear(data1, LEN_STORED, LEN_PARTYSTAT);
-        data1.CopyTo(Data[ofs..]);
+        dest.Slice(LEN_STORED, LEN_PARTYSTAT).Clear();
     }
 
     public PK8[] GetTeam()
