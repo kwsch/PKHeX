@@ -452,6 +452,7 @@ public partial class SAV_Database : Form
         foreach (var pk in Results.Select(z => z.Entity))
         {
             var fileName = Path.Combine(path, PathUtil.CleanFileName(pk.FileName));
+            pk.ForcePartyData();
             pk.WriteDecryptedDataParty(data);
             File.WriteAllBytes(fileName, data);
         }

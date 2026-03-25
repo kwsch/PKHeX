@@ -223,6 +223,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     }
 
     protected override PA9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    protected override void WriteSlotBox(PKM pk, Span<byte> data) => pk.WriteEncryptedDataParty(data);
 
     public override StorageSlotSource GetBoxSlotFlags(int index)
     {

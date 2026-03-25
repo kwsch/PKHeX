@@ -50,6 +50,7 @@ public static class BoxUtil
                 if (File.Exists(fn))
                     continue;
 
+                pk.ForcePartyData();
                 pk.WriteDecryptedDataParty(data);
                 File.WriteAllBytes(fn, data);
                 ctr++;
@@ -83,6 +84,7 @@ public static class BoxUtil
                 if (File.Exists(fileName))
                     continue;
 
+                pk.ForcePartyData();
                 pk.WriteDecryptedDataParty(data);
                 File.WriteAllBytes(fileName, data);
                 ctr++;

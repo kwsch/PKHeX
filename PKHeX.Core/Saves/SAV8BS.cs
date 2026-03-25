@@ -339,6 +339,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     }
 
     protected override PB8 GetBoxSlot(int offset) => GetDecryptedPKM(Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    protected override void WriteSlotBox(PKM pk, Span<byte> data) => pk.WriteEncryptedDataParty(data);
 
     public enum TopMenuItemType
     {

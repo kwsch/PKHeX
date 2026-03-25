@@ -125,7 +125,7 @@ public static class PokeCrypto
     }
 
     /// <summary>
-    /// Decrypts a 136 byte + party stat byte array.
+    /// Decrypts a 136 byte array from Battle Revolution (Gen4).
     /// </summary>
     /// <param name="data">Encrypted Pokémon data.</param>
     /// <returns>Decrypted Pokémon data.</returns>
@@ -141,7 +141,7 @@ public static class PokeCrypto
     }
 
     /// <summary>
-    /// Encrypts a 136 byte + party stat byte array.
+    /// Encrypts a 136 byte array from Battle Revolution (Gen4).
     /// </summary>
     /// <param name="data">Decrypted Pokémon data.</param>
     /// <returns>Encrypted Pokémon data.</returns>
@@ -429,7 +429,7 @@ public static class PokeCrypto
     /// Checks if the Gen8a format entity is encrypted, when the final terminators of the text strings are not 0.
     /// </summary>
     /// <remarks> Checks Nickname and Original Trainer. </remarks>
-    public static bool IsEncrypted8A(Span<byte> data) => ReadUInt16LittleEndian(data[0x78..]) != 0 || ReadUInt16LittleEndian(data[0x128..]) != 0;
+    public static bool IsEncrypted8A(ReadOnlySpan<byte> data) => ReadUInt16LittleEndian(data[0x78..]) != 0 || ReadUInt16LittleEndian(data[0x128..]) != 0;
 
     /// <summary>
     /// Decrypts the input <see cref="data"/> if it is encrypted.

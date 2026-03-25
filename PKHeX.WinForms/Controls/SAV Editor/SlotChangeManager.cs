@@ -205,6 +205,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         string newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
         try
         {
+            pk.ForcePartyData();
             Span<byte> data = stackalloc byte[pk.SIZE_PARTY];
             if (!encrypt)
                 pk.WriteDecryptedDataParty(data);

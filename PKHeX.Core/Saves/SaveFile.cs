@@ -734,7 +734,11 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
         if ((uint)BoxEnd >= BoxCount)
             BoxEnd = BoxCount - 1;
 
-        var blank = BlankPKM.Data[..SIZE_STORED];
+        // Get the at-rest data for a blank slot in the box. Only need to do this once rather than every slot.
+        var fake = BlankPKM;
+        Span<byte> blank = stackalloc byte[SIZE_BOXSLOT];
+        WriteSlotBox(fake, blank);
+
         int deleted = 0;
         for (int i = BoxStart; i <= BoxEnd; i++)
         {
