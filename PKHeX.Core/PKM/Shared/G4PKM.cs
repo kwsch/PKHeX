@@ -11,8 +11,8 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
 {
     protected G4PKM(Memory<byte> data) : base(data) { }
     protected G4PKM([ConstantExpected] int size) : base(size) { }
-    public override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt45(stored);
-    public override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
+    protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt45(stored);
+    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
 
     // Maximums
     public sealed override ushort MaxMoveID => Legal.MaxMoveID_4;

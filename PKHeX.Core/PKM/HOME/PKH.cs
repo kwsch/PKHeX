@@ -17,8 +17,9 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public GameDataPA9? DataPA9 { get; private set; }
 
     public override EntityContext Context => EntityContext.None;
-    public override void EncryptStored(Span<byte> stored) { }
-    public override void EncryptParty(Span<byte> party) { }
+    public override int WriteDecryptedDataStored(Span<byte> destination) => Rebuild(destination);
+    protected override void EncryptStored(Span<byte> stored) { }
+    protected override void EncryptParty(Span<byte> party) { }
 
     public PKH(Memory<byte> data) : base(DecryptHome(data))
     {

@@ -23,9 +23,9 @@ public abstract class GBPKM : PKM
     protected GBPKM([ConstantExpected] int size) : base(size) { }
     protected GBPKM(Memory<byte> data) : base(data) { }
 
-    public override void EncryptStored(Span<byte> stored) { }
-    public override void EncryptParty(Span<byte> party) { }
-    
+    protected override void EncryptStored(Span<byte> stored) { }
+    protected override void EncryptParty(Span<byte> party) { }
+
     public override bool Valid { get => true; set { } }
     public sealed override void RefreshChecksum() { }
 

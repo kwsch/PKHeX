@@ -21,7 +21,7 @@ public static class HomeTests
     {
         var paths = GetHomeEncrypted();
 
-        var maxSize = HomeCrypto.SIZE_STORED;
+        const int maxSize = HomeCrypto.SIZE_STORED;
         var totalSize = PKH.GetPaddedSize(maxSize, out _);
         Span<byte> write = stackalloc byte[totalSize];
         foreach (var f in paths)

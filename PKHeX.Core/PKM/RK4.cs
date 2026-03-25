@@ -348,6 +348,6 @@ public sealed class RK4 : G4PKM
         => TrashBytesUTF16.GetStringLength(data, StringConverter4.Terminator);
     public override int GetBytesPerChar() => 2;
 
-    public override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt45(stored[..SIZE_STORED]);
-    public override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party[..(SIZE_STORED-SIZE_PARTY)], PID);
+    protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt45(stored[..SIZE_STORED]);
+    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party[..(SIZE_STORED-SIZE_PARTY)], PID);
 }

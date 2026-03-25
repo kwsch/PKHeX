@@ -59,6 +59,8 @@ public static class PokeList1
 
     private static bool IsJapaneseList(int length) => length == PokeCrypto.SIZE_1JLIST;
     private static bool IsJapaneseString(int length) => length == GBPKML.StringLengthJapanese;
+    public static int GetListLength(int capacity, int sizeBody, int stringLength) => 1 + (capacity + 1) + (sizeBody * capacity) + (stringLength * capacity * 2);
+    public static int GetListLength(int capacity, bool jp, bool party) => 1 + (capacity + 1) + (GetBodyLength(party) * capacity) + (GetStringLength(jp) * capacity * 2);
     public static int GetListLengthSingle(bool jp) => jp ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
     private static int GetBodyLength(bool party) => party ? PokeCrypto.SIZE_1PARTY : PokeCrypto.SIZE_1STORED;
     private static int GetStringLength(bool jp) => jp ? GBPKML.StringLengthJapanese : GBPKML.StringLengthNotJapan;
@@ -111,6 +113,9 @@ public static class PokeList1
     /// <param name="index">Entity index to read</param>
     public static PK1 ReadFromList(ReadOnlySpan<byte> input, int stringLength, int capacity = 1, bool isParty = true, int index = 0)
     {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)capacity - 1, IsJapaneseString(stringLength) ? 30u : 20u);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)capacity);
+
         var start = 1 + (capacity + 1);
         int sizeBody = GetBodyLength(isParty);
 
@@ -133,11 +138,14 @@ public static class PokeList1
     /// <param name="capacity">Count of slots allowed in the list</param>
     /// <param name="isParty">List stores party stats for each entity</param>
     /// <param name="index">Entity index to write</param>
-    public static void WriteToList(Span<byte> output, PK1 pk, int capacity = 1, bool isParty = true, int index = 0)
+    public static int WriteToList(Span<byte> output, PK1 pk, int capacity = 1, bool isParty = true, int index = 0)
     {
         var start = 1 + (capacity + 1);
         var sizeBody = GetBodyLength(isParty);
         var stringLength = pk.OriginalTrainerTrash.Length;
+
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)capacity - 1, IsJapaneseString(stringLength) ? 30u : 20u);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)capacity);
 
         var ofsBody = start + (sizeBody * index);
         var ofsStr1 = start + (sizeBody * capacity) + (stringLength * index);
@@ -154,6 +162,9 @@ public static class PokeList1
         output[1 + index] = GetHeaderIdentifierMark(pk);
         output[0] = (byte)CountPresent(output, capacity);
         output[1 + capacity] = SlotEmpty; // cap off the list
+
+        // indicate the byte length of the list for the given parameters
+        return GetListLength(capacity, sizeBody, stringLength);
     }
 
     /// <summary>
@@ -166,6 +177,8 @@ public static class PokeList1
     /// <param name="isParty">List stores party stats for each entity</param>
     public static void Unpack(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, int capacity, bool isParty)
     {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)capacity - 1, IsJapaneseString(stringLength) ? 30u : 20u);
+
         var lengthBody = GetBodyLength(isParty);
         var lengthParty = GetBodyLength(true);
 
@@ -208,6 +221,8 @@ public static class PokeList1
     /// <param name="isDestInitialized">True if the destination list is initialized</param>
     public static bool MergeSingles(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, int capacity, bool isParty, bool isDestInitialized = true)
     {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)capacity - 1, IsJapaneseString(stringLength) ? 30u : 20u);
+
         // Collect the count of set slots
         var jp = IsJapaneseString(stringLength);
         var size = GetListLengthSingle(jp);
@@ -270,7 +285,7 @@ public static class PokeList1
     /// </summary>
     /// <param name="pk">Entity to wrap</param>
     /// <param name="output">Destination to write the single-slot list</param>
-    public static void WrapSingle(PK1 pk, Span<byte> output) => WriteToList(output, pk);
+    public static int WrapSingle(PK1 pk, Span<byte> output) => WriteToList(output, pk);
 
     public static void UnpackNOB(ReadOnlySpan<byte> input, Span<byte> output, int stringLength, bool isParty = false)
     {

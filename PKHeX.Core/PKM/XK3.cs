@@ -24,8 +24,8 @@ public sealed class XK3 : G3PKM, IShadowCapture, ISeparateIVs, IGCRegion
     public override XK3 Clone() => new(Data.ToArray()) { Purification = Purification, IsShadow = IsShadow };
     public override void RefreshChecksum() => Valid = true;
 
-    public override void EncryptStored(Span<byte> stored) { }
-    public override void EncryptParty(Span<byte> party) { }
+    protected override void EncryptStored(Span<byte> stored) { }
+    protected override void EncryptParty(Span<byte> party) { }
 
     // Trash Bytes
     public override Span<byte> OriginalTrainerTrash => Data.Slice(0x38, 22);

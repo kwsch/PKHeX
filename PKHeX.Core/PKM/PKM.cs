@@ -48,12 +48,16 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public byte Format => Context.Generation;
     public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
 
-    public virtual void WriteDecryptedDataStored(Span<byte> destination)
+    /// <summary> Writes the entity data to a sequential (stored only, no party stats) buffer destination. </summary>
+    public virtual int WriteDecryptedDataStored(Span<byte> destination)
     {
         RefreshChecksum();
-        Data[..SIZE_STORED].CopyTo(destination);
+        int length = SIZE_STORED;
+        Data[..length].CopyTo(destination);
+        return length;
     }
 
+    /// <summary> Writes the entity data to a sequential (stored, party) buffer destination. </summary>
     public virtual void WriteDecryptedDataParty(Span<byte> destination)
     {
         var stored = destination[..SIZE_STORED];
@@ -61,15 +65,14 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         WriteDecryptedDataParty(stored, party);
     }
 
-    /// <summary>
-    /// Writes the stored body separate from the party data.
-    /// </summary>
+    /// <summary> Writes the entity data to a separate (stored, party) buffer destination. </summary>
     public virtual void WriteDecryptedDataParty(Span<byte> stored, Span<byte> party)
     {
         WriteDecryptedDataStored(stored);
         Data[SIZE_STORED..SIZE_PARTY].CopyTo(party);
     }
 
+    /// <summary> Writes the entity data to a sequential (stored only, no party stats) buffer destination and encrypts to the at-rest state. </summary>
     public virtual void WriteEncryptedDataStored(Span<byte> destination)
     {
         var stored = destination[..SIZE_STORED];
@@ -77,6 +80,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         EncryptStored(stored);
     }
 
+    /// <summary> Writes the entity data to a sequential (stored, party) buffer destination and encrypts to the at-rest state. </summary>
     public virtual void WriteEncryptedDataParty(Span<byte> destination)
     {
         var stored = destination[..SIZE_STORED];
@@ -84,9 +88,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         WriteEncryptedDataParty(stored, party);
     }
 
-    /// <summary>
-    /// Writes the stored body separate from the party data.
-    /// </summary>
+    /// <summary> Writes the entity data to a separate (stored, party) buffer destination and encrypts to the at-rest state. </summary>
     public virtual void WriteEncryptedDataParty(Span<byte> stored, Span<byte> party)
     {
         WriteDecryptedDataParty(stored, party);
@@ -94,8 +96,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         EncryptParty(party);
     }
 
-    public abstract void EncryptStored(Span<byte> stored);
-    public abstract void EncryptParty(Span<byte> party);
+    protected abstract void EncryptStored(Span<byte> stored);
+    protected abstract void EncryptParty(Span<byte> party);
 
     // Surface Properties
     public abstract ushort Species { get; set; }

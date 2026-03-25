@@ -45,7 +45,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     }
 
     // We (PKHeX) internally manage as single-entry lists in temp buffers.
-    public override void WriteDecryptedDataStored(Span<byte> destination) => PokeList1.WrapSingle(this, destination);
+    public override int WriteDecryptedDataStored(Span<byte> destination) => PokeList1.WrapSingle(this, destination);
     public override void WriteEncryptedDataStored(Span<byte> destination) => WriteDecryptedDataStored(destination);
     public override void WriteDecryptedDataParty(Span<byte> destination) => WriteDecryptedDataStored(destination);
     public override void WriteEncryptedDataParty(Span<byte> destination) => WriteDecryptedDataStored(destination);

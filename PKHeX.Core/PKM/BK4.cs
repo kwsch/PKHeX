@@ -22,8 +22,8 @@ public sealed class BK4 : G4PKM
     public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
     public override EntityContext Context => EntityContext.Gen4;
     public override PersonalInfo4 PersonalInfo => PersonalTable.HGSS[Species];
-    public override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt4BE(stored);
-    public override void EncryptParty(Span<byte> party) { }
+    protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt4BE(stored);
+    protected override void EncryptParty(Span<byte> party) { }
 
     public override bool Valid => ChecksumValid || (Sanity == 0 && Species <= MaxSpeciesID);
 

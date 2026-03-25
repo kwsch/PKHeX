@@ -16,8 +16,8 @@ public sealed class PK3 : G3PKM, ISanityChecksum
 
     public PK3() : base(PokeCrypto.SIZE_3PARTY) { }
     public PK3(Memory<byte> data) : base(DecryptParty(data)) { }
-    public override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt3(stored);
-    public override void EncryptParty(Span<byte> party) { }
+    protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt3(stored);
+    protected override void EncryptParty(Span<byte> party) { }
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {
