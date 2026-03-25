@@ -1203,12 +1203,22 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         _ => throw new ArgumentOutOfRangeException(nameof(index), index, "IV index must be between 0 and 5."),
     };
 
-    public bool EqualsStored(PKM pk)
+    /// <summary>
+    /// Checks if the current <see cref="PKM"/> has the same stored data as another <see cref="PKM"/>. This is used to check if a PKM has been modified from its original imported state.
+    /// </summary>
+    public virtual bool EqualsStored(PKM pk)
     {
+        // Generally, the objects should be of the same derived type. Don't bother checking that explicitly.
         if (pk.PID != PID)
             return false;
-        var stored = pk.Data[..SIZE_STORED];
-        var self = Data[..SIZE_STORED];
+
+        var stored = pk.Data;
+        if (stored.Length >= pk.SIZE_STORED)
+            stored = stored[..SIZE_STORED];
+        var self = Data;
+        if (self.Length >= SIZE_STORED)
+            self = self[..SIZE_STORED];
+
         return stored.SequenceEqual(self);
     }
 }

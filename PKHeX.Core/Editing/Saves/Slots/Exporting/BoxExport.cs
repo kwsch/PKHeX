@@ -87,7 +87,7 @@ public static class BoxExport
         int count = GetSlotCountForBox(boxSlotCount, box, total);
         int ctr = 0;
         // Export each slot in the box.
-        Span<byte> data = stackalloc byte[sav.SIZE_BOXSLOT];
+        Span<byte> data = stackalloc byte[sav.SIZE_STORED];
         for (int slot = 0; slot < count; slot++)
         {
             var pk = sav.GetBoxSlotAtIndex(box, slot);
