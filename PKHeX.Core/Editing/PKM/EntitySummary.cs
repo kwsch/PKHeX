@@ -105,7 +105,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
         ISanityChecksum s => s.Checksum,
         PK1 gb => gb.GetSingleListChecksum(),
         PK2 gb => gb.GetSingleListChecksum(),
-        _ => Checksums.CRC16_CCITT(Entity.Data[Entity.SIZE_STORED..]),
+        _ => Checksums.CRC16_CCITT(Entity.Data[..Entity.SIZE_STORED]),
     };
     public int Friendship => Entity.OriginalTrainerFriendship;
     public int EggYear => Entity.EggMetDate.GetValueOrDefault().Year;

@@ -18,6 +18,8 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IMysteryGiftStora
     public override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
     public override int SIZE_BOXSLOT => PokeCrypto.SIZE_6PARTY;
     protected override PB7 GetBoxSlot(int offset) => GetDecryptedPKM(Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
+    protected override void WriteSlotBox(PKM pk, Span<byte> data) => pk.WriteEncryptedDataParty(data);
+
     public override PB7 GetDecryptedPKM(Memory<byte> data)
     {
         DecryptPKM(data.Span);

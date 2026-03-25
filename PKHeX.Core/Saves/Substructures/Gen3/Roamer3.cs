@@ -42,7 +42,7 @@ public sealed record Roamer3(Memory<byte> Raw, bool IsGlitched) : IContestStats
         set => Data[12] = value;
     }
 
-    public byte Status { get => Data[0x0D]; set => Data[0x0D] = (byte)value; }
+    public byte Status { get => Data[0x0D]; set => Data[0x0D] = value; }
 
     public byte ContestCool   { get => Data[0x0E]; set => Data[0x0E] = value; }
     public byte ContestBeauty { get => Data[0x0F]; set => Data[0x0F] = value; }

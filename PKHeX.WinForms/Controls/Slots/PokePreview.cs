@@ -246,9 +246,9 @@ public sealed partial class PokePreview : Form
         var outer = new Rectangle(0, 0, Width - 1, Height - 1);
         g.DrawRectangle(SystemPens.ControlDark, outer);
 
-        var headerTop = Border;
-        var headerHeight = HeaderTopPadding + IconSize + HeaderBottomPadding;
-        var headerBottom = headerTop + headerHeight;
+        const int headerTop = Border;
+        const int headerHeight = HeaderTopPadding + IconSize + HeaderBottomPadding;
+        const int headerBottom = headerTop + headerHeight;
         g.DrawLine(SystemPens.ControlDark, Border, headerBottom, Width - Border - 1, headerBottom);
 
         DrawHeader(g, headerTop);
@@ -349,7 +349,7 @@ public sealed partial class PokePreview : Form
         return $"{nick} ({expect})";
     }
 
-    private static Image GetBallImage(PKM pk)
+    private static Bitmap GetBallImage(PKM pk)
     {
         var ball = (byte)Ball.Poke;
         if (pk.Format >= 3)

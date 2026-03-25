@@ -28,7 +28,7 @@ public sealed class RK4 : G4PKM
     private static Memory<byte> Decrypt(Memory<byte> data)
     {
         data = data[..PokeCrypto.SIZE_4RSTORED];
-        PokeCrypto.DecryptIfEncrypted45(data.Span);
+        PokeCrypto.DecryptIfEncrypted45(data.Span[..PokeCrypto.SIZE_4STORED]);
         return data;
     }
 
@@ -275,32 +275,28 @@ public sealed class RK4 : G4PKM
 
     #region Battle Stats
     public override int Status_Condition { get => 0; set { } }
+
+    // Battle Stats never stored; compute on the fly (a little wasteful if checking more than 1 at a time).
     public override byte Stat_Level { get => CurrentLevel; set { } }
-    public override int Stat_HPCurrent { get => PersonalInfo.HP; set { } }
-    public override int Stat_HPMax { get => PersonalInfo.HP; set { } }
-    public override int Stat_ATK { get => PersonalInfo.ATK; set { } }
-    public override int Stat_DEF { get => PersonalInfo.DEF; set { } }
-    public override int Stat_SPE { get => PersonalInfo.SPE; set { } }
-    public override int Stat_SPA { get => PersonalInfo.SPA; set { } }
-    public override int Stat_SPD { get => PersonalInfo.SPD; set { } }
+    public override int Stat_HPCurrent { get => GetStats(PersonalInfo)[0]; set { } }
+    public override int Stat_HPMax     { get => GetStats(PersonalInfo)[0]; set { } }
+    public override int Stat_ATK       { get => GetStats(PersonalInfo)[1]; set { } }
+    public override int Stat_DEF       { get => GetStats(PersonalInfo)[2]; set { } }
+    public override int Stat_SPE       { get => GetStats(PersonalInfo)[3]; set { } }
+    public override int Stat_SPA       { get => GetStats(PersonalInfo)[4]; set { } }
+    public override int Stat_SPD       { get => GetStats(PersonalInfo)[5]; set { } }
 
     #endregion
 
-    #region My Pokémon Ranch Data
+    #region My Pokémon Ranch Data (never encrypted)
 
     /* ====Metadata====
      * uint8_t poke_type;// 01 trainer, 04 hayley, 05 traded
      * unused alignment byte
      * uint16_t tradeable;// 02 is tradeable, normal 00
-     * uint16_t tid;
-     * uint16_t sid;
-     * uint32_t name1;
-     * uint32_t name2;
-     * uint32_t name3;
-     * uint32_t name4;
+     * uint32_t trainerId;
+     * char[10] name;
      */
-
-    // 4 bytes extra at the end of the metadata, unused/reserved; or, it's just extra for the Trainer Name.
 
     public RanchOwnershipType OwnershipType
     {
@@ -314,10 +310,11 @@ public sealed class RK4 : G4PKM
         set => WriteUInt16BigEndian(Data[0x8A..], (ushort)value);
     }
 
+    public uint HandlingTrainerID32 { get => ReadUInt32LittleEndian(Data[0x8C..]); set => WriteUInt32LittleEndian(Data[0x8C..], value); }
     public ushort HandlingTrainerTID { get => ReadUInt16LittleEndian(Data[0x8C..]); set => WriteUInt16LittleEndian(Data[0x8C..], value); }
     public ushort HandlingTrainerSID { get => ReadUInt16LittleEndian(Data[0x8E..]); set => WriteUInt16LittleEndian(Data[0x8E..], value); }
 
-    public override Span<byte> HandlingTrainerTrash => Data.Slice(0x90, 0x10);
+    public override Span<byte> HandlingTrainerTrash => Data.Slice(0x90, 0x14);
     public override string HandlingTrainerName
     {
         get => StringConverter4.GetString(HandlingTrainerTrash);
@@ -348,6 +345,6 @@ public sealed class RK4 : G4PKM
         => TrashBytesUTF16.GetStringLength(data, StringConverter4.Terminator);
     public override int GetBytesPerChar() => 2;
 
-    protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt45(stored[..SIZE_STORED]);
-    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party[..(SIZE_STORED-SIZE_PARTY)], PID);
+    protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt45(stored[..PokeCrypto.SIZE_4STORED]);
+    protected override void EncryptParty(Span<byte> party) { }
 }

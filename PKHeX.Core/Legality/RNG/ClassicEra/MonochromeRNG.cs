@@ -68,14 +68,15 @@ public static class MonochromeRNG
             if (type is Shiny.Never)
             {
                 if (ShinyUtil.GetIsShiny3(id32, pid))
-                    pid ^= 0x1000_0000; // force not shiny. the wild xor is never true.
+                    pid ^= 0x1000_0000; // force not shiny. the wild xor never undoes this fixing.
             }
             else if (type is Shiny.Always)
             {
                 // inlined GetShinyPID without ability force (done later)
-                var gval = (byte)pid;
-                var trainerXor = (id32 >> 16) ^ (ushort)id32;
-                pid = ((gval ^ trainerXor) << 16) | gval;
+                // retain the random gender value, then ensure top16 bits yield a shiny.
+                // this results in xor = 0.
+                pid &= 0xFF;
+                pid |= ShinyUtil.GetShinyXor(pid, id32) << 16;
             }
 
             if (isSingleAbility)
@@ -89,8 +90,11 @@ public static class MonochromeRNG
 
             if (wildXor)
             {
-                // great job checking the wrong bits to give 2x shiny chance for wild stuff.
-                var corr = (pid >> 31) ^ (pid & 1) ^ bitXor;
+                // Attempt to nullify the top bit of the shiny xor?
+                // It seems this was an attempt by the game developer to give 2x shiny chance for wild encounters...
+                // Checks and flips bits inconsistently?
+                // Possibly due to ability being moved to bit16 from bit0, thus shifting the anti-shiny to msb?
+                var corr = (pid >> 31) ^ (pid & 1) ^ bitXor; // msb, lsb, lsb of tid^sid
                 if (corr != 0)
                     pid ^= 0x8000_0000;
             }
