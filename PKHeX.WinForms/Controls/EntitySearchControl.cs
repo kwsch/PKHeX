@@ -48,7 +48,7 @@ public partial class EntitySearchControl : UserControl
         CB_HeldItem.DataSource = items;
 
         var natures = new List<ComboItem>(source.NatureDataSource);
-        natures.Insert(0, comboAny);
+        natures.Insert(0, comboAny with { Value = (int)Nature.Random });
         CB_Nature.DataSource = natures;
 
         var abilities = new List<ComboItem>(source.AbilityDataSource);
