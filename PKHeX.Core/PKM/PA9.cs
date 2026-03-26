@@ -22,7 +22,7 @@ public sealed class PA9 : PKM, ISanityChecksum, ITechRecord, IObedienceLevel, IH
     public IPermitRecord Permit => PersonalInfo;
     public override EntityContext Context => EntityContext.Gen9a;
     protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt8(stored);
-    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
+    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, EncryptionConstant);
 
     public PA9() : base(PokeCrypto.SIZE_8PARTY) => AffixedRibbon = PKHeX.Core.AffixedRibbon.None;
 

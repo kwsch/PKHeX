@@ -23,7 +23,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override EntityContext Context => EntityContext.Gen5;
     public override PersonalInfo5B2W2 PersonalInfo => PersonalTable.B2W2.GetFormEntry(Species, Form);
     protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt45(stored);
-    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
+    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, EncryptionConstant);
 
     public PK5() : base(PokeCrypto.SIZE_5PARTY) { }
     public PK5(Memory<byte> data) : base(DecryptParty(data)) { }

@@ -11,7 +11,7 @@ public abstract class G6PKM : PKM, ISanityChecksum, IHandlerUpdate
     protected G6PKM(Memory<byte> data) : base(data) { }
     protected G6PKM([ConstantExpected] int size) : base(size) { }
     protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt67(stored);
-    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
+    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, EncryptionConstant);
 
     // Trash Bytes
     public sealed override Span<byte> NicknameTrash => Data.Slice(0x40, 26);

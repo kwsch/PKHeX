@@ -12,7 +12,7 @@ public abstract class G8PKM : PKM, ISanityChecksum,
     protected G8PKM() : base(PokeCrypto.SIZE_8PARTY) { }
     protected G8PKM(Memory<byte> data) : base(DecryptParty(data)) { }
     protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt8(stored);
-    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
+    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, EncryptionConstant);
 
     private static Memory<byte> DecryptParty(Memory<byte> data)
     {

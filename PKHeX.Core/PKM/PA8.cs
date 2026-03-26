@@ -36,7 +36,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public PA8() : base(PokeCrypto.SIZE_8APARTY) => AffixedRibbon = Core.AffixedRibbon.None;
     public PA8(Memory<byte> data) : base(DecryptParty(data)) { }
     protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt8A(stored);
-    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, PID);
+    protected override void EncryptParty(Span<byte> party) => PokeCrypto.CryptArray(party, EncryptionConstant);
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_8APARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_8ASTORED;
