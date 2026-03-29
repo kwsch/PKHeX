@@ -64,7 +64,8 @@ public static class EncounterGenerator
         9 => version switch
         {
             GameVersion.ZA => EncounterGenerator9a.Instance,
-            _ => EncounterGenerator9.Instance,
+            GameVersion.SL or GameVersion.VL => EncounterGenerator9.Instance,
+            _ => EncounterGeneratorDummy.Instance, // Champions
         },
         _ => EncounterGeneratorDummy.Instance,
     };

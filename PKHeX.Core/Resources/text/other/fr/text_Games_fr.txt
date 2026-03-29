@@ -1,4 +1,4 @@
-﻿
+
 Saphir
 Rubis
 Émeraude
@@ -51,3 +51,4 @@ Perle Scintillante
 Écarlate
 Violet
 Légendes: Z-A
+Champions

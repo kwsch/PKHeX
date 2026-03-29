@@ -1,4 +1,4 @@
-﻿
+
 Sapphire
 Ruby
 Emerald
@@ -51,3 +51,4 @@ Shining Pearl
 Scarlet
 Violet
 Legends: Z-A
+Champions

@@ -1,4 +1,4 @@
-﻿
+
 Zaffiro
 Rubino
 Smeraldo
@@ -51,3 +51,4 @@ Perla Splendente
 Scarlatto
 Violetto
 Leggende: Z-A
+Champions

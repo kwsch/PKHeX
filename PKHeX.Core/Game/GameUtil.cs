@@ -146,7 +146,7 @@ public static class GameUtil
             BD or SP => EntityContext.Gen8b,
             SW or SH => EntityContext.Gen8,
             SL or VL => EntityContext.Gen9,
-            ZA => EntityContext.Gen9a,
+            ZA or CP => EntityContext.Gen9a,
             _ => 0
         };
 
@@ -248,7 +248,7 @@ public static class GameUtil
             Gen8   => version1 is SW or SH or BD or SP or SWSH or BDSP or PLA,
 
             SV     => version1 is SL or VL,
-            Gen9   => version1 is SL or VL or SV or ZA,
+            Gen9   => version1 is SL or VL or SV or ZA or CP,
 
             _      => false,
         };

@@ -1,4 +1,4 @@
-﻿
+
 Zafiro
 Rubí
 Esmeralda
@@ -51,3 +51,4 @@ Perla Reluciente
 Escarlata
 Púrpura
 Leyendas: Z-A
+Champions
