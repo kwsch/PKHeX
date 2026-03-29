@@ -56,7 +56,7 @@ public partial class SAV_SimpleTrainer : Form
             CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
             GB_Map.Visible = false;
             GB_Options.Visible = true;
-            CB_BattleStyle.Items.AddRange("Switch", "Set");
+            CB_BattleStyle.Items.AddRange("Shift", "Set");
             CB_SoundType.Items.AddRange("Mono", "Stereo", "Left", "Right");
             CB_TextSpeed.Items.AddRange("0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7");
 
@@ -86,7 +86,7 @@ public partial class SAV_SimpleTrainer : Form
             CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
             GB_Map.Visible = false;
             GB_Options.Visible = true;
-            CB_BattleStyle.Items.AddRange("Switch", "Set");
+            CB_BattleStyle.Items.AddRange("Shift", "Set");
             CB_SoundType.Items.AddRange("Mono", "Stereo");
             CB_TextSpeed.Items.AddRange("0 (Instant)", "1 (Fast)", "2", "3 (Normal)", "4", "5 (Slow)", "6", "7");
 
@@ -111,14 +111,14 @@ public partial class SAV_SimpleTrainer : Form
             CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
 
             GB_Options.Visible = true;
-            CB_BattleStyle.Items.AddRange("Switch", "Set");
+            CB_BattleStyle.Items.AddRange("Shift", "Set");
             CB_SoundType.Items.AddRange("Mono", "Stereo");
-            CB_TextSpeed.Items.AddRange("0 (Slow)", "1 (Mid)", "2 (Fast)", "3 (Invalid)");
+            CB_TextSpeed.Items.AddRange("0 (Slow)", "1 (Mid)", "2 (Fast)", "3", "4", "5", "6", "7");
 
             CB_TextSpeed.SelectedIndex = small.TextSpeed;
             CB_BattleStyle.SelectedIndex = small.OptionBattleStyle ? 1 : 0;
-            CB_SoundType.SelectedIndex = small.OptionSoundStereo ? 0 : 1;
-            CHK_BattleEffects.Checked = small.OptionBattleScene;
+            CB_SoundType.SelectedIndex = small.OptionSound ? 1 : 0;
+            CHK_BattleEffects.Checked = !small.OptionBattleScene;
 
             TB_OTName.Click += (_, _) => ClickOT(small.OriginalTrainerTrash, TB_OTName);
         }
@@ -274,9 +274,9 @@ public partial class SAV_SimpleTrainer : Form
             var small = sav3.SmallBlock;
             sav3.Badges = badgeval & 0xFF;
             small.OptionBattleStyle = CB_BattleStyle.SelectedIndex == 1;
-            small.OptionSoundStereo = CB_SoundType.SelectedIndex == 0;
+            small.OptionSound = CB_SoundType.SelectedIndex == 1;
             small.TextSpeed = CB_TextSpeed.SelectedIndex;
-            small.OptionBattleScene = CHK_BattleEffects.Checked;
+            small.OptionBattleScene = !CHK_BattleEffects.Checked;
         }
 
         if (SAV is SAV4 sav4)

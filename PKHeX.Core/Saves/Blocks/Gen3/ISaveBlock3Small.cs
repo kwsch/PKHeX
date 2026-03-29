@@ -21,7 +21,7 @@ public interface ISaveBlock3Small
     byte OptionsButtonMode { get; set; }
     int TextSpeed { get; set; }
     byte OptionWindowFrame { get; set; }
-    bool OptionSoundStereo { get; set; }
+    bool OptionSound { get; set; }
     bool OptionBattleStyle { get; set; }
     bool OptionBattleScene { get; set; }
     bool OptionIsRegionMapZoom { get; set; }

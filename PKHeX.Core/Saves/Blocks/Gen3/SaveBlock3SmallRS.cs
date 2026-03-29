@@ -19,12 +19,12 @@ public sealed record SaveBlock3SmallRS(Memory<byte> Raw) : ISaveBlock3SmallHoenn
 
     public byte OptionsButtonMode { get => Data[0x13]; set => Data[0x13] = value; }
     private uint OptionsConfig { get => ReadUInt32LittleEndian(Data[0x14..]); set => WriteUInt32LittleEndian(Data[0x14..], value); }
-    public int TextSpeed { get => (int)(OptionsConfig & 0b11); set => OptionsConfig = (uint)((byte)value & 0b11) | (OptionsConfig & ~0b11u); }
-    public byte OptionWindowFrame { get => (byte)((OptionsConfig >> 2) & 0b11111); set => OptionsConfig = (uint)((value & 0b11111) << 2) | (OptionsConfig & ~(0b11111u << 2)); }
-    public bool OptionSoundStereo { get => (OptionsConfig & 0b100000) != 0; set => OptionsConfig = value ? (OptionsConfig | 0b100000) : (OptionsConfig & ~0b100000u); }
-    public bool OptionBattleStyle { get => (OptionsConfig & 0b1000000) != 0; set => OptionsConfig = value ? (OptionsConfig | 0b1000000) : (OptionsConfig & ~0b1000000u); }
-    public bool OptionBattleScene { get => (OptionsConfig & 0b10000000) != 0; set => OptionsConfig = value ? (OptionsConfig | 0b10000000) : (OptionsConfig & ~0b10000000u); }
-    public bool OptionIsRegionMapZoom { get => (OptionsConfig & 0b100000000) != 0; set => OptionsConfig = value ? (OptionsConfig | 0b100000000) : (OptionsConfig & ~0b100000000u); }
+    public int TextSpeed { get => (int)(OptionsConfig & 0b111); set => OptionsConfig = (uint)((byte)value & 0b11) | (OptionsConfig & ~0b111u); }
+    public byte OptionWindowFrame { get => (byte)((OptionsConfig >> 3) & 0b11111); set => OptionsConfig = (uint)((value & 0b11111) << 3) | (OptionsConfig & ~(0b11111u << 2)); }
+    public bool OptionSound { get => (OptionsConfig & 0b1_00000_000) != 0; set => OptionsConfig = value ? (OptionsConfig | 0b1_00000_000) : (OptionsConfig & ~0b1_00000_000u); }
+    public bool OptionBattleStyle { get => (OptionsConfig & 0b10_00000_000) != 0; set => OptionsConfig = value ? (OptionsConfig | 0b10_00000_000) : (OptionsConfig & ~0b10_00000_000u); }
+    public bool OptionBattleScene { get => (OptionsConfig & 0b100_00000_000) != 0; set => OptionsConfig = value ? (OptionsConfig | 0b100_00000_000) : (OptionsConfig & ~0b100_00000_000u); }
+    public bool OptionIsRegionMapZoom { get => (OptionsConfig & 0b1000_00000_000) != 0; set => OptionsConfig = value ? (OptionsConfig | 0b1000_00000_000) : (OptionsConfig & ~0b1000_00000_000u); }
 
     public byte PokedexSort { get => Data[0x18]; set => Data[0x18] = value; }
     public byte PokedexMode { get => Data[0x19]; set => Data[0x19] = value; }
