@@ -10,7 +10,7 @@ PKHeX(포케헥스)
 * 개별 포켓몬 엔티티 파일 (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4, \*.rk4)
 * 이상한소포 파일(\*.pgt, \*.pcd, \*.pgf, .wc\*)을 .pk로 변환하는 기능 포함
 * GO 파크 엔티티 가져오기 (\*.gp1) .pb7로 변환 포함
-* Decrypted 3DS Battle Videos에서 팀 가져오기
+* 복호화된 3DS 배틀비디오에서 팀 가져오기
 * 한 세대에서 다른 세대로 이동하면서 그 과정에서 형식이 변환됩니다.
 
 데이터는 편집하고 저장할 수 있는 보기로 표시됩니다.
@@ -42,7 +42,7 @@ PKHeX의 QR 코드 생성 코드는 [the MIT license](https://github.com/codebud
 
 PKHeX의 이로치(색이다른) 스프라이트 컬렉션은 [the MIT license](https://github.com/msikma/pokesprite/blob/master/LICENSE)에 따라 라이선스가 부여된 [pokesprite](https://github.com/msikma/pokesprite)에서 가져왔습니다.
 
-PKheX의 Pokémon LEGENDS 아르세우스 스프라이트 컬렉션은 [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) 프로젝트와 수많은 협력자 및 기여자의 도움을 받아 만들어졌습니다.
+PKHeX의 Pokémon LEGENDS 아르세우스 스프라이트 컬렉션은 [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) 프로젝트와 수많은 협력자 및 기여자의 도움을 받아 만들어졌습니다.
 
 ### IDE(통합 개발 환경)
 
