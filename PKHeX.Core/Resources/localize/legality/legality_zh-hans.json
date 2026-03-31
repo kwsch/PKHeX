@@ -160,7 +160,7 @@
     "G5SparkleRequired": "特殊游戏内宝可梦N的闪光标记缺失。",
     "G5PokeStarMustBeZero": "宝可梦好莱坞名气必须为 0（不可参与）。",
     "G5PokeStarImpossibleValue": "宝可梦好莱坞名气数值不可达。",
-    "G7BSocialShouldBe100Spirit": "不在玩家队伍中的宝可梦，其精神值应为100。",
+    "G7BSocialShouldBe100Spirit": "不在玩家队伍中的宝可梦，其干劲值应为100。",
     "G7BSocialShouldBe100Mood": "不在玩家队伍中的宝可梦，其心情值应为 100。",
     "GanbaruStatTooHigh": "一项或多项奋斗等级超过上限 (10 - IV个体值提升等级)。",
     "GenderInvalidNone": "无性别宝可梦不能有性别。",
