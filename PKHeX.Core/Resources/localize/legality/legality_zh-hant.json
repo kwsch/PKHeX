@@ -160,7 +160,7 @@
     "G5SparkleRequired": "特殊遊戲內寶可夢N的異色標記缺失。",
     "G5PokeStarMustBeZero": "寶可夢好萊塢名氣必須為 0（不可參與）。",
     "G5PokeStarImpossibleValue": "寶可夢好萊塢名氣數值不可達。",
-    "G7BSocialShouldBe100Spirit": "不在玩家隊伍中的寶可夢，其精神值應為 100。",
+    "G7BSocialShouldBe100Spirit": "不在玩家隊伍中的寶可夢，其幹勁值應為100。",
     "G7BSocialShouldBe100Mood": "不在玩家隊伍中的寶可夢，其心情值應為 100。",
     "GanbaruStatTooHigh": "一項或多項奮鬥等級超過上限 (10 減 IV 個體值提升奮鬥等級)。",
     "GenderInvalidNone": "無性別寶可夢不能有性別。",
