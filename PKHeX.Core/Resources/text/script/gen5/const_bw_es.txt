@@ -1,5 +1,5 @@
 0048	*	Inicial	0:Snivy,1:Tepig,2:Oshawott
-0182	r	Castillo de N	0:Evento,1:Evento,2:Antes de Reshiram/Zekrom,3:Antes de N,4:Evento,5:Antes de Ghetsis
+0182	r	Palacio de N	0:Evento,1:Evento,2:Antes de Reshiram/Zekrom,3:Antes de N,4:Evento,5:Antes de Ghetsis
 0145	r	Victini	0:Evento,1:Evento,2:Luchable,3:Derrotado,4:Capturado,5:Evento Completado,6:Desaparecido
 0206	r	Landorus	0:Evento,1:Evento,2:Evento,3:Luchable,4:Desaparecido
 0216	r	Cueva de Kyurem (Boquete Gigante)	0:Accesible,1:Acceso restablecible,2:Inaccesible (Capturado)
