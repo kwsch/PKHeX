@@ -1,110 +1,110 @@
-﻿
+
 Lugar encantador
 Lugar lejano
 Película Pokémon
-Película PKMN 10
-Película PKMN 11
-Película PKMN 12
-Película PKMN 13
-Película PKMN 14
-Película PKMN 15
-Película PKMN 16
-Película PKMN 17
-Película PKMN 18
-Película PKMN 19
-Película PKMN 20
-Centro Pokémon
-Animación PKMN
-CP Tokio
-CP Osaka
-CP Fukuoka
-CP Nagoya
-CP Sapporo
-CP Yokohama
-Campeonato Mundial
-Camp. Mundial 2010
-Camp. Mundial 2011
-Camp. Mundial 2012
-Camp. Mundial 2013
-Camp. Mundial 2014
-Camp. Mundial 2015
-Camp. Mundial 2016
-Camp. Mundial 2017
-Camp. Mundial 2018
-Camp. Mundial 2019
-Camp. Mundial 2020
-Campeonato
-Campeonato 2010
-Campeonato 2011
-Campeonato 2012
-Campeonato 2013
-Campeonato 2014
-Campeonato 2015
-Campeonato 2016
-Campeonato 2017
-Campeonato 2018
-Campeonato 2019
-Campeonato 2020
-Evento de VJ
-Evento de VJ 2010
-Evento de VJ 2011
-Evento de VJ 2012
-Evento de VJ 2013
-Evento de VJ 2014
-Evento de VJ 2015
-Evento de VJ 2016
-Evento de VJ 2017
-Evento de VJ 2018
-Evento de VJ 2019
-Evento de VJ 2020
-Evento PKMN
+Película Pokémon 2010
+Película Pokémon 2011
+Película Pokémon 2012
+Película Pokémon 2013
+Película Pokémon 2014
+Película Pokémon 2015
+Película Pokémon 2016
+Película Pokémon 2017
+Película Pokémon 2018
+Película Pokémon 2019
+Película Pokémon 2020
+Pokémon Center
+Dibujos animados Pokémon
+Pokémon Center Tokyo
+Pokémon Center Osaka
+Pokémon Center Fukuoka
+Pokémon Center Nagoya
+Pokémon Center Sapporo
+Pokémon Center Yokohama
+WCS
+WCS 2010
+WCS 2011
+WCS 2012
+WCS 2013
+WCS 2014
+WCS 2015
+WCS 2016
+WCS 2017
+WCS 2018
+WCS 2019
+WCS 2020
+Worlds
+Worlds 2010
+Worlds 2011
+Worlds 2012
+Worlds 2013
+Worlds 2014
+Worlds 2015
+Worlds 2016
+Worlds 2017
+Worlds 2018
+Worlds 2019
+Worlds 2020
+Evento de Videojuegos
+Evento de Videojuegos 2010
+Evento de Videojuegos 2011
+Evento de Videojuegos 2012
+Evento de Videojuegos 2013
+Evento de Videojuegos 2014
+Evento de Videojuegos 2015
+Evento de Videojuegos 2016
+Evento de Videojuegos 2017
+Evento de Videojuegos 2018
+Evento de Videojuegos 2019
+Evento de Videojuegos 2020
+Evento Pokémon
 Torneo
-Evento de Juegos
-Club Fans PKMN
+Evento de Videojuegos
+Pokémon Daisuki Club
 Pokémon Sunday
-Plaza Reto
-Reto Batalla
-Pista Entrenadores
-Tour de Batalla
-Concierto Pokémon
+Plaza Desafío
+Desafío Combate
+Arena de Entrenadores
+Tour de Combate
+Concierto
 Regalo Wi-Fi
 Pokémon Ranger
 Unión Ranger
 PBR
 Pokémon Dream World
-Evento PKMN 10
-Evento PKMN 11
-Evento PKMN 12
-Evento PKMN 13
-Evento PKMN 14
-Evento PKMN 15
-Evento PKMN 16
-Evento PKMN 17
-Evento PKMN 18
-Evento PKMN 19
-Evento PKMN 20
+Evento Pokémon 2010
+Evento Pokémon 2011
+Evento Pokémon 2012
+Evento Pokémon 2013
+Evento Pokémon 2014
+Evento Pokémon 2015
+Evento Pokémon 2016
+Evento Pokémon 2017
+Evento Pokémon 2018
+Evento Pokémon 2019
+Evento Pokémon 2020
 Pokémon Festa
-Pokémon Festa 10
-Pokémon Festa 11
-Pokémon Festa 12
-Pokémon Festa 13
-Pokémon Festa 14
-Pokémon Festa 15
-Pokémon Festa 16
-Pokémon Festa 17
-Pokémon Festa 18
-Pokémon Festa 19
-Pokémon Festa 20
-POKÉPARK
-POKÉPARK 10
-POKÉPARK 11
-POKÉPARK 12
-POKÉPARK 13
-POKÉPARK 14
-POKÉPARK 15
-POKÉPARK 16
-POKÉPARK 17
-POKÉPARK 18
-POKÉPARK 19
-POKÉPARK 20
-Sitio Evento
+Pokémon Festa 2010
+Pokémon Festa 2011
+Pokémon Festa 2012
+Pokémon Festa 2013
+Pokémon Festa 2014
+Pokémon Festa 2015
+Pokémon Festa 2016
+Pokémon Festa 2017
+Pokémon Festa 2018
+Pokémon Festa 2019
+Pokémon Festa 2020
+PokéPark
+PokéPark 2010
+PokéPark 2011
+PokéPark 2012
+PokéPark 2013
+PokéPark 2014
+PokéPark 2015
+PokéPark 2016
+PokéPark 2017
+PokéPark 2018
+PokéPark 2019
+PokéPark 2020
+Evento

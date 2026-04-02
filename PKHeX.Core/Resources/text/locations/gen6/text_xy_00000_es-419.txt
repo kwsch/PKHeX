@@ -1,4 +1,4 @@
-﻿－
+－
 
 Lugar misterioso
 
@@ -12,25 +12,25 @@ Pueblo Acuarela
 
 Ruta 2
 Vía del Avance
-Bosque de Novarte
+Bosque Novarte
 
 Ruta 3
 Senda Despejada
 Ciudad Novarte
 
 Ruta 4
-Senda del Parterre
+Senda del Jardín
 Ciudad Luminalia
 
 Torre Prisma
 
-Laboratorios Lysson
+Laboratorios Lysandre
 
 Ruta 5
-Vía Repecho
+Vía Rampa
 Pueblo Vánitas
 
-Castillo Caduco
+Castillo Shabboneau
 
 Ruta 6
 Alameda del Palacio
@@ -49,38 +49,38 @@ Paso de Rhyhorn
 Bastión Batalla
 
 Ruta 10
-Camino Menhires
+Camino Monolito
 Pueblo Crómlech
 
 Ruta 11
 Senda Reflejos
-Cueva Reflejos
+Cueva de los Reflejos
 
 Ciudad Yantra
 
-Torre Maestra
+Torre de la Destreza
 
 Ruta 12
-Vereda del Heno
+Senda del Heno
 Ciudad Témpera
 
 Ruta 13
-Páramo de Luminalia
+Baldíos de Luminalia
 Ruta 14
 Arboleda Romantis
 Ciudad Romantis
 
-Fábrica Poké Balls
+Fábrica de Pokébolas
 
 Ruta 15
-Sendero Hojarasca
+Sendero Maleza
 Pueblo Fresco
 
 Ruta 16
 Senda Melancolía
 [~ 80]
 [~ 81]
-Gruta Helada
+Caverna Helada
 
 Ruta 17
 Sendero Mamoswine
@@ -95,14 +95,14 @@ Senda del Gran Valle
 Ciudad Fractal
 
 Ruta 20
-Bosque Errantes
-Villa Pokémon
+Bosque Errante
+Aldea Pokémon
 
 Ruta 21
 Vía Ultimia
 Ruta 22
 Vía Desvío
-Calle Victoria
+Ruta de la Victoria
 
 Liga Pokémon
 
@@ -112,45 +112,45 @@ Mansión Batalla
 
 Bahía Azul
 
-Acceso a Fresco
+Acceso Fresco
 
-Acceso a Mosaico
+Acceso Mosaico
 
-Acceso a Petroglifo
+Acceso Petroglifo
 
-Acceso a Luminalia
+Acceso Luminalia
 
-Acceso a Yantra
+Acceso Yantra
 
-Acceso a Témpera
+Acceso Témpera
 
-Acceso a Romantis
+Acceso Romantis
 
-Acceso a Fluxus
+Acceso Fluxus
 
-Acceso a Fractal
+Acceso Fractal
 
 Cueva Brillante
 
-Gruta Tierraunida
-Escondrijo Zubat
-Central de Kalos
+Cueva Tierraunida
+Escondite Zubat
+Central de Energía de Kalos
 
-Guarida Team Flare
+Guarida del Equipo Flare
 
-Cueva Desenlace
+Cueva Terminus
 
 Hotel Desolación
 
-Estancia Vacua
+Cámara Vacua
 
-Cueva Talasia
+Gruta Talasia
 
 Safari Amistad
 
 Sala de las Llamas
 
-Sala de la Esclusa
+Sala de la Inundación
 
 Sala del Metal
 
@@ -164,11 +164,11 @@ Estación Luminalia
 
 Estación Batik
 
-Acuario Petroglifo
+Acuario de Petroglifo
 
-Mazmorra Rara
+Cueva Rara
 
-Villa Raíz
+Pueblo Raíz Chica
 
 Pueblo Escaso
 
@@ -182,11 +182,11 @@ Pueblo Verdegal
 
 Pueblo Oromar
 
-Ciudad Petalia
+Ciudad Petalburgo
 
 Ciudad Portual
 
-Ciudad Malvalona
+Ciudad Malvavilla
 
 Ciudad Férrica
 
@@ -198,7 +198,7 @@ Ciudad Algaria
 
 Arrecípolis
 
-Ciudad Colosalia
+Ciudad Siempregrande
 
 Liga Pokémon
 
@@ -272,7 +272,7 @@ Ruta 134
 
 Cascada Meteoro
 
-Túnel Fervergal
+Túnel Ferregal
 
 (?)
 
@@ -280,13 +280,13 @@ Ruinas del Desierto
 
 Cueva Granito
 
-Bosque Petalia
+Bosque Petalburgo
 
-Monte Cenizo
+Monte Chimenea
 
-Desfiladero
+Paso Escarpado
 
-Senda Ígnea
+Sendero Ígneo
 
 Monte Pírico
 
@@ -296,11 +296,11 @@ Caverna Abisal
 
 Cueva Ancestral
 
-Calle Victoria
+Ruta de la Victoria
 
 Cueva Cardumen
 
-Malvalanova
+Malvanova
 
 Malvamar
 
@@ -316,11 +316,11 @@ Guarida Magma
 
 Pilar Celeste
 
-Resort Batalla
+Resort de Batalla
 
 Isla del Sur
 
-S.S. Marea
+S. S. Marea
 
 Zona Safari
 
@@ -340,7 +340,7 @@ Cueva Ignota
 
 Cueva Incierta
 
-Boquete Irregular
+Cuenca Irregular
 
 Isla Creciente
 

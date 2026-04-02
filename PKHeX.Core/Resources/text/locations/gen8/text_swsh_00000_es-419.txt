@@ -14,15 +14,15 @@ Ruta 1
 
 Pueblo Par
 
-Estación de Par
+Estación Par
 
 Ruta 2
 
 Ciudad Pistón
 
-Estación de Pistón
+Estación Pistón
 
-Estadio de Pistón
+Estadio Pistón
 
 
 
@@ -34,7 +34,7 @@ Ruta 4
 
 Pueblo Hoyuelo
 
-Estadio de Hoyuelo
+Estadio Hoyuelo
 
 
 
@@ -44,9 +44,9 @@ Ruta 5
 
 Pueblo Amura
 
-Estación de Amura
+Estación Amura
 
-Estadio de Amura
+Estadio Amura
 
 
 
@@ -56,9 +56,9 @@ Mina de Galar n.º 2
 
 Ciudad Artejo
 
-Estación de Artejo
+Estación Artejo
 
-Estadio de Artejo
+Estadio Artejo
 
 
 
@@ -70,7 +70,7 @@ Ruta 6
 
 Pueblo Ladera
 
-Estadio de Ladera
+Estadio Ladera
 
 
 
@@ -78,7 +78,7 @@ Bosque Lumirinto
 
 Pueblo Plié
 
-Estadio de Plié
+Estadio Plié
 
 
 
@@ -96,7 +96,7 @@ Ruta 9
 Afueras de Crampón
 Pueblo Auriga
 
-Estadio de Auriga
+Estadio Auriga
 
 
 
@@ -106,17 +106,17 @@ Túnel de la Ruta 9
 
 Ruta 10
 
-Est. Colinablanca
+Estación Colinablanca
 
 Ciudad Puntera
 
-Estación de Puntera
+Estación Puntera
 
-Estadio de Puntera
-Sede de la Liga
-Estadio de Puntera
+Estadio Puntera
+Sede de la Liga Pokémon
+Estadio Puntera
 Antesala
-Estadio de Puntera
+Estadio Puntera
 
 Punto de Encuentro
 Área Silvestre
@@ -148,39 +148,39 @@ Cuenca Polvorienta
 Área Silvestre
 Espejo del Gigante
 Área Silvestre
-Cornisa de Artejo
+Colinas de Artejo
 Área Silvestre
 Gorro del Gigante
 Área Silvestre
-Lago del Enfado
+Lago del Enojo
 Área Silvestre
 Est. Área Silvestre
 
-Torre Batalla
+Torre de Batalla
 
 Torre Rose
 
 Nido Pokémon
 
-Prado Reverencia
+Pradera Reverencia
 Isla de la Armadura
-Humedal Frescor
+Ciénaga Fresca
 Isla de la Armadura
 Bosque Concentración
 Isla de la Armadura
 Playa Desafío
 Isla de la Armadura
-Cueva Contienda
+Cueva Combate
 Isla de la Armadura
 Ruta Desafío
 Isla de la Armadura
-Cueva Tenacidad
+Caverna Tenacidad
 Isla de la Armadura
 Bahía Circular
 Isla de la Armadura
-Llano Entrenamiento
+Llanura Entrenamiento
 Isla de la Armadura
-Gruta Calentamiento
+Túnel Precalentamiento
 Isla de la Armadura
 Cuenca Arenosa
 Isla de la Armadura
@@ -202,7 +202,7 @@ Torre de las Aguas
 
 Estación Armadura
 
-Campo Deslizante
+Piedemonte Deslizante
 Nieves de la Corona
 Villa Helada
 Nieves de la Corona
@@ -212,17 +212,17 @@ Lecho del Gigante
 Nieves de la Corona
 Viejo Cementerio
 Nieves de la Corona
-Desfiladero Nevado
+Ladera Nevada
 Nieves de la Corona
 Túnel Ascensión
 Nieves de la Corona
-Senda Blancacima
+Sendero Blancacima
 Nieves de la Corona
 Templo Corona
 Nieves de la Corona
 Suela del Gigante
 Nieves de la Corona
-Grutas Sonamar
+Cuevas Sonamar
 Nieves de la Corona
 Mar Gélido
 Nieves de la Corona
@@ -230,11 +230,11 @@ Encrucijada Tresvías
 Nieves de la Corona
 Lago Bolaguna
 Nieves de la Corona
-Gruta del Lago
+Cueva del Lago
 Nieves de la Corona
 Colina del Maxiárbol
 Nieves de la Corona
-Ruinas Pico Roca
+Ruinas de Cumbre de Roca
 
 Ruinas Iceberg
 

@@ -4,7 +4,7 @@ Lugar misterioso
 
 Lugar lejano
 
-Villa Jubileo
+Aldea Júbilo
 Pradera Obsidiana
 Pantanal Carmesí
 Costa Cobalto
@@ -12,60 +12,60 @@ Ladera Corona
 Tundra Alba
 Antigua Aldea Oculta
 Colina del Anhelo
-Prado Herradura
-Senda del Venado
+Llanura Herradura
+Sendero del Venado
 Loma del Venado
 Cascada Obsidiana
-Gruta Pirita
+Túnel Pirita
 Alacena del Bosque
 Bosque Recóndito
 Arena del Gran Árbol
-Foresta Funesta
+Arboleda Funesta
 Lago Veraz
 Planicie Arena
-Presa del Estuario
-Campo Aromaflor
+Represa del Estuario
+Campo Floaroma
 Isla Hansa
 base de la pradera
 base de la loma
 Vereda del Viento
-Campo Aromaflor
+Campo Floaroma
 Puente Erosionado
 Roca musgo
 Pradera Áurea
 Ruinas Sosiego
-Ciénaga Bocazas
+Ciénaga Bocona
 Loma Lodosa
-Ciénaga Bermeja
+Ciénaga Carmesí
 Ladera Derrumbe
 Poblado Diamante
 Lago Valor
-Rellano Nebuloso
+Planicie Nebulosa
 Ruinas de la Niebla
 
 Banco del Juicio
-Pradera Aleteo
+Prado Aleteo
 base del pantanal
 base del páramo
-Paso Costanero
+Ladera Costera
 Playa Ginkgo
 Arboleda Tétrica
-Cala Oculta
+Bahía Oculta
 Camino del Tómbolo
 Cabo Rocavelo
-Vergel Marino
+Paraíso Hierbamarina
 Isla Escupefuego
 Casa de Erio
-Vía Manantial
+Sendero del Manantial
 Guarida del Gran Pez
-Costa Ínsola
-Bosque Rompeviento
+Costa Isleña
+Monte Rompeviento
 
 Gruta Pasamar
 Cueva Costera
 base de la playa
 base de la costa
-Cueva Retorno
+Cueva Regreso
 Altar Domo Lava
 base de la ladera
 Loma Sagrada
@@ -77,80 +77,80 @@ Fuente de las Hadas
 Cordillera Derrumbe
 Cañón Lítico
 
-Caverna Inmemorial
+Caverna Primigenia
 Risco Riscoso
 Ruinas Celestiales
 Arena de la Luna
 base de la cima
-Paso Píleo
-Columnas Lanza
+Paso Nimbo
+Pilares Lanza
 Cueva Extravío
 base de las nieves
 Valle Nevasca
 Pasaje de la Grieta
-Páramo Algente
+Páramo Glacial
 
-Témpano Avalugg
-Terraza Glaciar
+Glaciar Avalugg
+Terraza Glacial
 Lago Agudeza
 Templo Puntaneva
-Caverna Hiberna
+Cueva Hibernación
 Cascada Glaliar
 Desfiladero Alud
 Senda de la Arena
 Poblado Perla
-Peñasco Espíritu
+Quebrada Espíritu
 Cámara Carámbano
 base del glaciar
 Caverna Veraz
 Caverna Valor
-Prado Erióforo
+Pradera Algodón
 base de la montaña
 Umbral Pétreo
 Templo de Sinnoh
 Roca helada
 Caverna Agudeza
-Gruta Glacial
+Caverna Glaciar
 Pasaje Oculto
-Sede Galaxia
-Bazar
+Sede del Equipo Galaxia
+Comercio
 Puesto de caramelos
 Taller
 Compañía Ginkgo
-Puesto de trueque
-Redil
+Puesto de intercambios
+Corral
 Sastrería
 Salón de peluquería
 Estudio fotográfico
 Huerta
 Dojo
-Estatuilla sagrada
+Altar sagrado
 Residencia
 Playa del Errante
 Mano de Arena
-Senda del Peregrino
+Sendero del Peregrino
 Ágora de la Plegaria
-Puerta principal
-Puerta costera
+Entrada principal
+Entrada costera
 Vía Canal
-Vía Aromaflor
+Vía Floaroma
 Playa del Albor
 Campo de Práctica
 Lugar desconocido
 Arena del Escenario
 Arena del Magma
 Arena del Glaciar
-Termas Nevavista
+Aguas Termales Nevavista
 Planta baja
 Primera planta
 Segunda planta
 Sótano
 Palestra Ursa
-Llanura Diamante
-Cerro Aipom
-Albuferas Chapuzón
+Estepa Diamante
+Colina Aipom
+Laguna Chapuzón
 Bahía Silente
-Sede Galaxia
-Puerta principal
-Huerta
-Dojo
+Sede del Equipo Galaxia
+entrada principal
+huerta
+dojo

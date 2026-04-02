@@ -32,22 +32,22 @@ Ruinas de la Guerra
 
 Ruinas de la Guerra
 
-Colina Dequilate
+Colina Ten Carat
 
-Colina Dequilate
+Colina Ten Carat
 Caldera Remota
 Cementerio de Hauoli
 
-Jardines de Melemele
+Prado de Melemele
 
-Gruta Unemar
+Cueva Unemar
 
 Huerto de Bayas
 
-Cueva Sotobosque
+Caverna Frondosa
 Sala de la Prueba
-Cueva Sotobosque
-Sala del Dominante
+Caverna Frondosa
+Guarida del Dominante
 Ruta 4
 
 Ruta 5
@@ -64,7 +64,7 @@ Resort Hanohano
 
 Playa de Hanohano
 
-Jardines de Akala
+Prado de Akala
 
 Pueblo Ohana
 
@@ -83,11 +83,11 @@ Rancho Ohana
 Área Volcánica Wela
 
 Área Volcánica Wela
-Sala del Dominante
-Colina Saltagua
+Guarida del Dominante
+Colina Brooklet
 
-Colina Saltagua
-Sala del Dominante
+Colina Brooklet
+Guarida del Dominante
 Jungla Umbría
 
 Ruinas de la Vida
@@ -122,11 +122,11 @@ Ruta 17
 
 Ruta 12
 
-Desierto de Haina
+Desierto Haina
 
 Ruta 14
 
-Jardines de Ula-Ula
+Prado de Ula-Ula
 
 Pueblo Po
 
@@ -134,7 +134,7 @@ Ciudad Malíe
 
 Parque de Malíe
 
-Pico Hokulani
+Monte Hokulani
 
 Monte Rubor
 
@@ -150,27 +150,27 @@ Mansión Misteriosa
 
 Súper Ultraganga
 Local Abandonado
-Observ. de Hokulani
+Observatorio Hokulani
 
 Liga Pokémon
 
-Jardines de Poni
-
 Prado de Poni
 
-Antiguo Paso de Poni
+Campos de Poni
+
+Antiguo Sendero de Poni
 
 Arrecife de Poni
 
-Bosque de Poni
+Arboleda de Poni
 
 Llanura de Poni
 
 Costa de Poni
 
-Pendiente de Poni
+Camino de Poni
 
-Aldea Marina
+Aldea Delmar
 
 Cañón de Poni
 
@@ -178,7 +178,7 @@ Altar del Sol
 
 Altar de la Luna
 
-Ruinas del Tránsito
+Ruinas de la Esperanza
 
 Gruta Desenlace
 
@@ -222,12 +222,12 @@ Ultraurbe
 
 Ultraespacio Cero
 
-Castillo Team Rocket
+Castillo del Equipo Rocket
 
 Gruta de la Llanura
 
 Valle de los Pikachu
 
 Ruta 1
-Escuela Entrenadores
+Escuela de Entrenadores
 Túnel del Volcán

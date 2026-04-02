@@ -1,8 +1,8 @@
 －
 
-lugar misterioso
+Lugar misterioso
 
-lugar lejano
+Lugar lejano
 
 Área 1 (Sur)
 
@@ -62,7 +62,7 @@ Mar Oriental de Paldea
 
 Mar Septentrional de Paldea
 
-Gruta Caleta
+Gruta Bahía
 
 Área 6 (Sur)
 Sima de Alforno
@@ -136,9 +136,9 @@ Villa Versui
 
 Colina Manzanar
 
-Parque de los compatrones
+Parque de los compatronos
 
-Senda Jarana
+Senda Parranda
 
 centro cultural de Noroteo
 
@@ -158,15 +158,15 @@ Pradera Glicina
 
 Ribera Confluencia
 
-Desfiladero del Cuerno
+Cañón del Cuerno
 
-Elíseo Baldío
+Páramo Paraíso
 
 Campos Prístinos de Noroteo
 
-Soto Sempiterno
+Bosque Perpetuo
 Campos Prístinos de Noroteo
-Paso del Averno
+Paso Infernal
 Monte Ogro
 Cueva Aguafría
 
@@ -190,7 +190,7 @@ Plaza Escarpada
 
 Plaza Polar
 
-Gruta Electrorroca
+Caverna Electrorroca
 
 Laberinto Lumbre
 

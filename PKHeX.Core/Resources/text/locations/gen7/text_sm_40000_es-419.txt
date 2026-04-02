@@ -37,12 +37,12 @@ Worlds 2019
 Worlds 2020
 Worlds 2021
 Evento de Videojuegos
-Evento Videojuegos 2016
-Evento Videojuegos 2017
-Evento Videojuegos 2018
-Evento Videojuegos 2019
-Evento Videojuegos 2020
-Evento Videojuegos 2021
+Evento de Videojuegos 2016
+Evento de Videojuegos 2017
+Evento de Videojuegos 2018
+Evento de Videojuegos 2019
+Evento de Videojuegos 2020
+Evento de Videojuegos 2021
 Evento Pokémon
 Torneo
 Evento de Videojuegos
@@ -85,5 +85,5 @@ Consola Virtual
 Pokémon GO
 Banco de Pokémon
 Establecimiento Pokémon
-versión de prueba
+Versión de prueba
 Club de Entrenadores Pokémon

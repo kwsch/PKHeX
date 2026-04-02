@@ -448,6 +448,10 @@ public sealed class GameStrings : IBasicStrings
             Gen6.Met4[35] += " (-)";
             Gen7.Met4[38] += " (-)";
             Gen7b.Met4[27] += " (-)";
+
+            // only a duplicate in LATAM Spanish
+            if (Language is SpanishL)
+                Gen5.Met4[47] += " (-)";
         }
 
         if (Language is Korean)
