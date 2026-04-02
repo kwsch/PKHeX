@@ -40,11 +40,16 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
             RejuvenateSV(result, pk8);
     }
 
+    /// <summary>
+    /// Updates properties then infers legality for original encounter data to restore properties that are not transferred across games.
+    /// </summary>
     private static void ResetSideways(PKM pk)
     {
         if (pk is PA8 pa8)
         {
-            // Won't work well for Alphas
+            SanitizeFutureLanguage(pk);
+
+            // Legality detection won't work well for Alphas unless we infer this first.
             if (pa8.RibbonMarkAlpha)
                 pa8.IsAlpha = true;
             var la = new LegalityAnalysis(pa8);
@@ -53,30 +58,56 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
             if (pa8.LA)
                 ResetBallPLA(pa8, enc);
         }
-        else if (pk is PB8 { BDSP: true })
+        else if (pk is PB8 bdsp)
         {
-            ResetRelearn(pk, new LegalityAnalysis(pk));
+            SanitizeFutureLanguage(pk);
+
+            if (bdsp.BDSP)
+                ResetRelearn(pk, new LegalityAnalysis(pk));
         }
-        else if (pk is PK9 { SV: true } pk9)
+        else if (pk is PK9 pk9)
         {
+            SanitizeFutureLanguage(pk);
+
             var la = new LegalityAnalysis(pk);
-            ResetRelearn(pk, la);
+            if (pk9.SV)
+                ResetRelearn(pk, la);
 
             // Try to restore original Tera type / override instead of HOME's double override to current Type1.
             TeraTypeUtil.ResetTeraType(pk9, la.EncounterMatch);
         }
-        else if (pk is PA9 { ZA: true })
+        else if (pk is PA9 pa9)
         {
-            var la = new LegalityAnalysis(pk);
-            ResetRelearn(pk, la);
+            SanitizeFutureLanguage(pk);
+
+            // Legality detection won't work well for Alphas unless we infer this first.
+            if (pa9.RibbonMarkAlpha)
+                pa9.IsAlpha = true;
+
+            // Game doesn't use relearn moves, but Plus Flags are needed.
+            pa9.SetPlusFlags(pa9.PersonalInfo, PlusRecordApplicatorOption.LegalCurrent);
         }
         else if (pk is PK8 pk8 && !LocationsHOME.IsLocationSWSH(pk8.MetLocation))
         {
+            SanitizeFutureLanguage(pk);
+
             // Gen8 and below (Gen6/7) need their original relearn moves
             // We can always set a Battle Version for non Gen8 origins, but most users won't be making stuff battle ready after.
             // Battle Version is always zero in this case, so be nice and give the original relearn moves.
             ResetRelearn(pk, new LegalityAnalysis(pk));
         }
+    }
+
+    /// <summary>
+    /// Clamps the language ID back to those available in Gen8.
+    /// </summary>
+    /// <param name="pk">Entity to sanitize</param>
+    private static void SanitizeFutureLanguage(PKM pk)
+    {
+        // LATAM Spanish was added in Legends: Z-A.
+        // No functional difference in Species names, so we're safe to simply reassign to Castilian Spanish.
+        if (pk.Language == (int)LanguageID.SpanishL)
+            pk.Language = (int)LanguageID.Spanish;
     }
 
     private static void ResetRelearn(PKM pk, LegalityAnalysis la)
