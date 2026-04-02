@@ -57,7 +57,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         }
     }
 
-    private IGameDataSide ReadGameData1(Memory<byte> chunk, HomeGameDataFormat format) => format switch
+    private object ReadGameData1(Memory<byte> chunk, HomeGameDataFormat format) => format switch
     {
         HomeGameDataFormat.PB7 => DataPB7 = new GameDataPB7(chunk),
         HomeGameDataFormat.PK8 => DataPK8 = new GameDataPK8(chunk),
