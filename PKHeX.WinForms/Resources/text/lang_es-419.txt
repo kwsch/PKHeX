@@ -1890,7 +1890,7 @@ SAV_PokedexLA.CHK_S2=Macho alfa
 SAV_PokedexLA.CHK_S3=Hembra alfa
 SAV_PokedexLA.CHK_S4=Macho brillante
 SAV_PokedexLA.CHK_S5=Hembra brillante
-SAV_PokedexLA.CHK_S6==Macho alfa brillante
+SAV_PokedexLA.CHK_S6=Macho alfa brillante
 SAV_PokedexLA.CHK_S7=Hembra alfa brillante
 SAV_PokedexLA.CHK_Seen=Visto
 SAV_PokedexLA.CHK_Solitude=Via Solitaria compl.
