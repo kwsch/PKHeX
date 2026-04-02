@@ -10,7 +10,7 @@ Soporta los siguientes archivos:
 * Archivos de entidades individuales de Pokémon (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4, \*.rk4)
 * Archivos de Regalos Misteriosos (\*.pgt, \*.pcd, \*.pgf, .wc\*) incluyendo conversión a .pk\*
 * Importar archivos de entidades de GO Park (\*.gp1) incluyendo conversión a .pb7
-* Importar equipos desde archivos Decrypted 3DS Battle Videos
+* Importar equipos desde archivos de Vídeos de Combate de 3DS desencriptados.
 * Pasar de una generación a la siguiente, convirtiendo los archivos en el proceso.
 
 Los datos son visualizados en una forma que permite modificarlos y guardarlos.
@@ -42,7 +42,7 @@ La generación de códigos QR de PKHeX es la de [QRCoder](https://github.com/cod
 
 La colección de sprites de Pokémons Shiny de PKHeX fue tomada de [pokesprite](https://github.com/msikma/pokesprite), licenciado bajo [la licencia MIT](https://github.com/msikma/pokesprite/blob/master/LICENSE).
 
-PKHeX's Pokémon Legends: Arceus sprite collection is taken from the [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) project and its abundance of collaborators and contributors.
+La colección de sprites de Leyendas Pokémon: Arceus de PKHeX proviene del proyecto [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) y su gran cantidad de colaboradores y contribuyentes.
 
 ### IDE
 

@@ -1,5 +1,5 @@
 0669	r	Guía del Equipo Plasma desaparecido (Centro Pokémon de la Liga Pokémon)
-0661	r	Reshiram/Zekrom desaparecido (Castillo de N)
+0661	r	Reshiram/Zekrom desaparecido (Palacio de N)
 0307	r	Reshiram/Zekrom capturado
 0766	r	Reshiram/Zekrom desaparecido (Torre Duodraco)
 0338	r	Kyurem capturado

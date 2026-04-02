@@ -1,10 +1,10 @@
 {
     "Valid": "有効",
-    "Legal": "正規",
+    "Legal": "正規！",
     "Error": "内部エラー",
     "AnalysisUnavailable": "このポケモンは分析できません",
     "F0_1": "{0}: {1}",
-    "SInvalid": "エラー",
+    "SInvalid": "無効",
     "SFishy": "怪しい",
     "SValid": "有効",
     "NotImplemented": "実装されていません",

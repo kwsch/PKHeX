@@ -10,7 +10,7 @@ Die folgenden Dateien werden unterstützt:
 * Einzelne Pokémon (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4, \*.rk4)
 * Wunderkarten (\*.pgt, \*.pcd, \*.pgf, .wc\*), inklusive Konvertierung zu .pk\*
 * Import von GO Park Pokémon (\*.gp1) inklusive Konvertierung zu .pb7
-* Import von Teams aus entschlüsselten 3DS Battle Videos.
+* Import von Teams aus entschlüsselten 3DS Kampfvideos.
 * Transfer von einer Generation zur anderen, mit automatischer Umwandlung des Formats.
 
 Alle Daten werden so angezeigt, dass sie bearbeitet und gespeichert werden können.

@@ -2,7 +2,7 @@
 0077	s	Zona Nexo	6:Tutorial terminado
 0143	r	Evento 2do piso del Laboratorio P+P	0:Sin activar,1:Activado,2:Batalla contra Científico Chema pendiente,3:Cartuchos de Genesect recibidos
 0268	r	Lati@s	5:Luchable,6:Desaparecid@
-0283	r	Reshiram/Zekrom (Torre Duodraco)	0:Sin activar,1:Puede ser activado,2:Activado
+0283	r	Reshiram/Zekrom (Torre Dracoespiral)	0:Sin activar,1:Puede ser activado,2:Activado
 0291	s	Zoroark de N (Calle Victoria)	0:Prohibe el paso (pre-campeón),1:Quiere que le sigas (post-campeón),2:En el acantilado,3:Delante del Castillo de N,4:Dentro del Castillo de N
 0294	e	Llamada con Belinda/Julián (Ciudad Mayólica)	0:Desactivado,1:Activo,2:Activado
 0295	e	Llamada con Belinda/Julián (Ciudad Fayenza)	0:Desactivado,1:Activo,2:Activado
