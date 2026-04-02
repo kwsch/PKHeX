@@ -14,6 +14,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public GameDataPA8? DataPA8 { get; private set; }
     public GameDataPB8? DataPB8 { get; private set; }
     public GameDataPK9? DataPK9 { get; private set; }
+    public GameDataPC9? DataPC9 { get; private set; }
     public GameDataPA9? DataPA9 { get; private set; }
 
     public override EntityContext Context => EntityContext.None;
@@ -63,6 +64,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         HomeGameDataFormat.PA8 => DataPA8 = new GameDataPA8(chunk),
         HomeGameDataFormat.PB8 => DataPB8 = new GameDataPB8(chunk),
         HomeGameDataFormat.PK9 => DataPK9 = new GameDataPK9(chunk),
+        HomeGameDataFormat.PC9 => DataPC9 = new GameDataPC9(chunk),
         HomeGameDataFormat.PA9 => DataPA9 = new GameDataPA9(chunk),
         _ => throw new ArgumentException($"Unknown {nameof(HomeGameDataFormat)} {format}"),
     };
@@ -213,14 +215,14 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public override ushort Move2       { get => LatestGameData.Move2      ; set => LatestGameData.Move2       = value; }
     public override ushort Move3       { get => LatestGameData.Move3      ; set => LatestGameData.Move3       = value; }
     public override ushort Move4       { get => LatestGameData.Move4      ; set => LatestGameData.Move4       = value; }
-    public override int Move1_PP    { get => LatestGameData.Move1_PP   ; set => LatestGameData.Move1_PP    = value; }
-    public override int Move2_PP    { get => LatestGameData.Move2_PP   ; set => LatestGameData.Move2_PP    = value; }
-    public override int Move3_PP    { get => LatestGameData.Move3_PP   ; set => LatestGameData.Move3_PP    = value; }
-    public override int Move4_PP    { get => LatestGameData.Move4_PP   ; set => LatestGameData.Move4_PP    = value; }
-    public override int Move1_PPUps { get => LatestGameData.Move1_PPUps; set => LatestGameData.Move1_PPUps = value; }
-    public override int Move2_PPUps { get => LatestGameData.Move2_PPUps; set => LatestGameData.Move2_PPUps = value; }
-    public override int Move3_PPUps { get => LatestGameData.Move3_PPUps; set => LatestGameData.Move3_PPUps = value; }
-    public override int Move4_PPUps { get => LatestGameData.Move4_PPUps; set => LatestGameData.Move4_PPUps = value; }
+    public override int Move1_PP    { get => (LatestGameData as IGameDataSidePP)?.Move1_PP    ?? 0; set => (LatestGameData as IGameDataSidePP)?.Move1_PP    = (byte)value; }
+    public override int Move2_PP    { get => (LatestGameData as IGameDataSidePP)?.Move2_PP    ?? 0; set => (LatestGameData as IGameDataSidePP)?.Move2_PP    = (byte)value; }
+    public override int Move3_PP    { get => (LatestGameData as IGameDataSidePP)?.Move3_PP    ?? 0; set => (LatestGameData as IGameDataSidePP)?.Move3_PP    = (byte)value; }
+    public override int Move4_PP    { get => (LatestGameData as IGameDataSidePP)?.Move4_PP    ?? 0; set => (LatestGameData as IGameDataSidePP)?.Move4_PP    = (byte)value; }
+    public override int Move1_PPUps { get => (LatestGameData as IGameDataSidePP)?.Move1_PPUps ?? 0; set => (LatestGameData as IGameDataSidePP)?.Move1_PPUps = (byte)value; }
+    public override int Move2_PPUps { get => (LatestGameData as IGameDataSidePP)?.Move2_PPUps ?? 0; set => (LatestGameData as IGameDataSidePP)?.Move2_PPUps = (byte)value; }
+    public override int Move3_PPUps { get => (LatestGameData as IGameDataSidePP)?.Move3_PPUps ?? 0; set => (LatestGameData as IGameDataSidePP)?.Move3_PPUps = (byte)value; }
+    public override int Move4_PPUps { get => (LatestGameData as IGameDataSidePP)?.Move4_PPUps ?? 0; set => (LatestGameData as IGameDataSidePP)?.Move4_PPUps = (byte)value; }
 
     public override byte Ball         { get => LatestGameData.Ball;         set => LatestGameData.Ball = value; }
     public override ushort MetLocation { get => LatestGameData.MetLocation; set => LatestGameData.MetLocation = value; }
@@ -309,6 +311,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         if (DataPA8 is { } pa8) ctr += pa8.WriteTo(span[ctr..]);
         if (DataPB8 is { } pb8) ctr += pb8.WriteTo(span[ctr..]);
         if (DataPK9 is { } pk9) ctr += pk9.WriteTo(span[ctr..]);
+        if (DataPC9 is { } pc9) ctr += pc9.WriteTo(span[ctr..]);
         if (DataPA9 is { } pa9) ctr += pa9.WriteTo(span[ctr..]);
         WriteUInt16LittleEndian(gameDataLengthSpan, GameDataSize = (ushort)(ctr - gameDataStart));
 

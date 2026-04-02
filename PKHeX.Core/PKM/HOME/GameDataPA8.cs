@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Side game data for <see cref="PA8"/> data transferred into HOME.
 /// </summary>
-public sealed class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSizeAbsolute, IScaledSize3, IGameDataSplitAbility, IPokerusStatus, IAlpha
+public sealed class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSizeAbsolute, IScaledSize3, IGameDataSplitAbility, IPokerusStatus, IAlpha, IGameDataSidePP
 {
     private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PA8;
     private const int SIZE = HomeCrypto.SIZE_2GAME_PA8;
@@ -29,10 +29,10 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSize
     public ushort Move3 { get => ReadUInt16LittleEndian(Data[0x09..]); set => WriteUInt16LittleEndian(Data[0x09..], value); }
     public ushort Move4 { get => ReadUInt16LittleEndian(Data[0x0B..]); set => WriteUInt16LittleEndian(Data[0x0B..], value); }
 
-    public int Move1_PP { get => Data[0x0D]; set => Data[0x0D] = (byte)value; }
-    public int Move2_PP { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
-    public int Move3_PP { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
-    public int Move4_PP { get => Data[0x10]; set => Data[0x10] = (byte)value; }
+    public byte Move1_PP { get => Data[0x0D]; set => Data[0x0D] = value; }
+    public byte Move2_PP { get => Data[0x0E]; set => Data[0x0E] = value; }
+    public byte Move3_PP { get => Data[0x0F]; set => Data[0x0F] = value; }
+    public byte Move4_PP { get => Data[0x10]; set => Data[0x10] = value; }
     public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data[0x11..]); set => WriteUInt16LittleEndian(Data[0x11..], value); }
     public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data[0x13..]); set => WriteUInt16LittleEndian(Data[0x13..], value); }
     public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data[0x15..]); set => WriteUInt16LittleEndian(Data[0x15..], value); }
@@ -67,10 +67,10 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSize
 
     // Not stored.
     public PersonalInfo GetPersonalInfo(ushort species, byte form) => PersonalTable.LA.GetFormEntry(species, form);
-    public int Move1_PPUps { get => 0; set { } }
-    public int Move2_PPUps { get => 0; set { } }
-    public int Move3_PPUps { get => 0; set { } }
-    public int Move4_PPUps { get => 0; set { } }
+    public byte Move1_PPUps { get => 0; set { } }
+    public byte Move2_PPUps { get => 0; set { } }
+    public byte Move3_PPUps { get => 0; set { } }
+    public byte Move4_PPUps { get => 0; set { } }
 
     #endregion
 

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Side game data for <see cref="PB7"/> data transferred into HOME.
 /// </summary>
-public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSizeAbsolute, IGameDataSplitAbility
+public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSizeAbsolute, IGameDataSplitAbility, IGameDataSidePP
 {
     private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PB7;
     private const int SIZE = HomeCrypto.SIZE_2GAME_PB7;
@@ -32,14 +32,14 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
     public ushort Move3 { get => ReadUInt16LittleEndian(Data[0x0B..]); set => WriteUInt16LittleEndian(Data[0x0B..], value); }
     public ushort Move4 { get => ReadUInt16LittleEndian(Data[0x0D..]); set => WriteUInt16LittleEndian(Data[0x0D..], value); }
 
-    public int Move1_PP { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
-    public int Move2_PP { get => Data[0x10]; set => Data[0x10] = (byte)value; }
-    public int Move3_PP { get => Data[0x11]; set => Data[0x11] = (byte)value; }
-    public int Move4_PP { get => Data[0x12]; set => Data[0x12] = (byte)value; }
-    public int Move1_PPUps { get => Data[0x13]; set => Data[0x13] = (byte)value; }
-    public int Move2_PPUps { get => Data[0x14]; set => Data[0x14] = (byte)value; }
-    public int Move3_PPUps { get => Data[0x15]; set => Data[0x15] = (byte)value; }
-    public int Move4_PPUps { get => Data[0x16]; set => Data[0x16] = (byte)value; }
+    public byte Move1_PP { get => Data[0x0F]; set => Data[0x0F] = value; }
+    public byte Move2_PP { get => Data[0x10]; set => Data[0x10] = value; }
+    public byte Move3_PP { get => Data[0x11]; set => Data[0x11] = value; }
+    public byte Move4_PP { get => Data[0x12]; set => Data[0x12] = value; }
+    public byte Move1_PPUps { get => Data[0x13]; set => Data[0x13] = value; }
+    public byte Move2_PPUps { get => Data[0x14]; set => Data[0x14] = value; }
+    public byte Move3_PPUps { get => Data[0x15]; set => Data[0x15] = value; }
+    public byte Move4_PPUps { get => Data[0x16]; set => Data[0x16] = value; }
 
     public ushort RelearnMove1  { get => ReadUInt16LittleEndian(Data[0x17..]); set => WriteUInt16LittleEndian(Data[0x17..], value); }
     public ushort RelearnMove2  { get => ReadUInt16LittleEndian(Data[0x19..]); set => WriteUInt16LittleEndian(Data[0x19..], value); }
@@ -209,10 +209,8 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
         Ability = (ushort)pi.GetAbilityAtIndex(index);
     }
 
-    private static IGameDataSide? GetNearestNeighbor(PKH pkh) => pkh.DataPK9 as IGameDataSide
-                                                              ?? pkh.DataPB8 as IGameDataSide
-                                                              ?? pkh.DataPK8 as IGameDataSide
-                                                              ?? pkh.DataPB7;
+    private static IGameDataSide? GetNearestNeighbor(PKH pkh)
+        => pkh.DataPA9 ?? pkh.DataPK9 ?? pkh.DataPB8 ?? pkh.DataPK8 ?? pkh.DataPB7 as IGameDataSide;
 
     public static T Create<T>(GameDataPB7 data) where T : IGameDataSide, new() => new()
     {

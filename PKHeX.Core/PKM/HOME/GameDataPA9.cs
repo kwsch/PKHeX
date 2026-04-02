@@ -3,8 +3,6 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-// TODO HOME ZA -- Simply copied from SV, needs to be updated to ZA when official support is added.
-
 /// <summary>
 /// Side game data for <see cref="PA9"/> data transferred into HOME.
 /// </summary>
@@ -26,145 +24,75 @@ public sealed class GameDataPA9 : HomeOptional1, IGameDataSide<PA9>, IScaledSize
     public ushort Move2 { get => ReadUInt16LittleEndian(Data[0x03..]); set => WriteUInt16LittleEndian(Data[0x03..], value); }
     public ushort Move3 { get => ReadUInt16LittleEndian(Data[0x05..]); set => WriteUInt16LittleEndian(Data[0x05..], value); }
     public ushort Move4 { get => ReadUInt16LittleEndian(Data[0x07..]); set => WriteUInt16LittleEndian(Data[0x07..], value); }
+    public bool IsAlpha { get => Data[0x9] != 0; set => Data[0x9] = value ? (byte)1 : (byte)0; }
 
-    public int Move1_PP    { get => Data[0x09]; set => Data[0x09] = (byte)value; }
-    public int Move2_PP    { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
-    public int Move3_PP    { get => Data[0x0B]; set => Data[0x0B] = (byte)value; }
-    public int Move4_PP    { get => Data[0x0C]; set => Data[0x0C] = (byte)value; }
-    public int Move1_PPUps { get => Data[0x0D]; set => Data[0x0D] = (byte)value; }
-    public int Move2_PPUps { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
-    public int Move3_PPUps { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
-    public int Move4_PPUps { get => Data[0x10]; set => Data[0x10] = (byte)value; }
+    // Second set of flags is stored in the second block of PA9, devs declared it matching block order, not sequential bitflag order.
+    private const int PlusStartB = 0xA;
+    internal const int PlusCountB = PA9.PlusCount1;
+    private const int PlusLengthB = PlusCountB / 8; // 12
+    public Span<byte> PlusFlagsB => Data.Slice(PlusStartB, PlusLengthB);
 
-    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data[0x11..]); set => WriteUInt16LittleEndian(Data[0x11..], value); }
-    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data[0x13..]); set => WriteUInt16LittleEndian(Data[0x13..], value); }
-    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data[0x15..]); set => WriteUInt16LittleEndian(Data[0x15..], value); }
-    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data[0x17..]); set => WriteUInt16LittleEndian(Data[0x17..], value); }
-    public bool IsAlpha { get => Data[0x19] != 0; set => Data[0x19] = value ? (byte)1 : (byte)0; }
-    // 0x1A Padding (???) TODO HOME ZA; this is adapted from SV's structure, replacing the 2 byte properties for Tera Type.
-    public byte Ball { get => Data[0x1B]; set => Data[0x1B] = value; }
-    public ushort EggLocation { get => ReadUInt16LittleEndian(Data[0x1C..]); set => WriteUInt16LittleEndian(Data[0x1C..], value); }
-    public ushort MetLocation { get => ReadUInt16LittleEndian(Data[0x1E..]); set => WriteUInt16LittleEndian(Data[0x1E..], value); }
+    // First set of flags is stored in the third block of PA9, devs declared it matching block order, not sequential bitflag order.
+    private const int PlusStartC = PlusStartB + PlusLengthB;
+    internal const int PlusCountC = PA9.PlusCount0;
+    private const int PlusLengthC = PlusCountC / 8; // 33
+    public Span<byte> PlusFlagsC => Data.Slice(PlusStartC, PlusLengthC);
 
-    private const int RecordStartBase = 0x20;
-    internal const int COUNT_RECORD_BASE = PA9.COUNT_RECORD_BASE; // Up to 200 TM flags, but not all are used.
-    private const int RecordLengthBase = COUNT_RECORD_BASE / 8; // 0x19 bytes, 8 bits
-    public Span<byte> RecordFlagsBase => Data.Slice(RecordStartBase, RecordLengthBase);
+    public byte Ball { get => Data[0x37]; set => Data[0x37] = value; }
+    public ushort EggLocation { get => ReadUInt16LittleEndian(Data[0x38..]); set => WriteUInt16LittleEndian(Data[0x38..], value); }
+    public ushort MetLocation { get => ReadUInt16LittleEndian(Data[0x3A..]); set => WriteUInt16LittleEndian(Data[0x3A..], value); }
+    public byte Obedience_Level { get => Data[0x3C]; set => Data[0x3C] = value; }
+    public ushort Ability { get => ReadUInt16LittleEndian(Data[0x3D..]); set => WriteUInt16LittleEndian(Data[0x3D..], value); }
+    public byte AbilityNumber { get => Data[0x3F]; set => Data[0x3F] = value; }
 
-    // Rev2 Additions
-    public byte Obedience_Level { get => Data[0x39]; set => Data[0x39] = value; }
-    public ushort Ability { get => ReadUInt16LittleEndian(Data[0x3A..]); set => WriteUInt16LittleEndian(Data[0x3A..], value); }
-    public byte AbilityNumber { get => Data[0x3C]; set => Data[0x3C] = value; }
+    // not sure how best to handle the dropping of these
+    public ushort RelearnMove1 { get => 0; set { } }
+    public ushort RelearnMove2 { get => 0; set { } }
+    public ushort RelearnMove3 { get => 0; set { } }
+    public ushort RelearnMove4 { get => 0; set { } }
 
-    // Rev3 Additions
-    private const int RecordStartDLC = 0x3D;
-    internal const int COUNT_RECORD_DLC = PA9.COUNT_RECORD_DLC; // 13 additional bytes allocated for DLC1/2 TM Flags
-    private const int RecordLengthDLC = COUNT_RECORD_DLC / 8;
-    public Span<byte> RecordFlagsDLC => Data.Slice(RecordStartDLC, RecordLengthDLC);
-
-    // Rev4 Additions (ZA)
-    private const int PlusStart0 = 0x4A;
-    internal const int PlusCount0 = PA9.PlusCount0;
-    private const int PlusLength0 = PlusCount0 / 8;
-    public Span<byte> PlusFlags0 => Data.Slice(PlusStart0, PlusLength0);
-
-    private const int PlusStart1 = PlusStart0 + PlusLength0; // 0x6B
-    internal const int PlusCount1 = PA9.PlusCount1;
-    private const int PlusLength1 = PlusCount1 / 8;
-    public Span<byte> PlusFlags1 => Data.Slice(PlusStart1, PlusLength1);
-
-    #endregion
-
-    #region TM Flag Methods
-    public bool GetMoveRecordFlag(int index)
-    {
-        if ((uint)index >= COUNT_RECORD_BASE)
-            return GetMoveRecordFlagDLC(index - COUNT_RECORD_BASE);
-        int ofs = index >> 3;
-        return FlagUtil.GetFlag(Data, RecordStartBase + ofs, index & 7);
-    }
-
-    private bool GetMoveRecordFlagDLC(int index)
-    {
-        if ((uint)index >= COUNT_RECORD_DLC)
-            throw new ArgumentOutOfRangeException(nameof(index));
-        int ofs = index >> 3;
-        return FlagUtil.GetFlag(Data, RecordStartDLC + ofs, index & 7);
-    }
-
-    public void SetMoveRecordFlag(int index, bool value = true)
-    {
-        if ((uint)index >= COUNT_RECORD_BASE)
-        {
-            SetMoveRecordFlagDLC(value, index - COUNT_RECORD_BASE);
-            return;
-        }
-        int ofs = index >> 3;
-        FlagUtil.SetFlag(Data, RecordStartBase + ofs, index & 7, value);
-    }
-
-    private void SetMoveRecordFlagDLC(bool value, int index)
-    {
-        if ((uint)index >= COUNT_RECORD_DLC)
-            throw new ArgumentOutOfRangeException(nameof(index));
-        int ofs = index >> 3;
-        FlagUtil.SetFlag(Data, RecordStartDLC + ofs, index & 7, value);
-    }
-
-    public bool GetMoveRecordFlagAny() => GetMoveRecordFlagAnyBase() || GetMoveRecordFlagAnyDLC();
-    private bool GetMoveRecordFlagAnyBase() => RecordFlagsBase.ContainsAnyExcept<byte>(0);
-    private bool GetMoveRecordFlagAnyDLC() => RecordFlagsDLC.ContainsAnyExcept<byte>(0);
-
-    public void ClearMoveRecordFlags()
-    {
-        ClearMoveRecordFlagsBase();
-        ClearMoveRecordFlagsDLC();
-    }
-
-    private void ClearMoveRecordFlagsBase() => RecordFlagsBase.Clear();
-    private void ClearMoveRecordFlagsDLC() => RecordFlagsDLC.Clear();
     #endregion
 
     #region Plus Moves
 
     public bool GetMovePlusFlag(int index)
     {
-        if ((uint)index >= PlusCount0)
-            return GetMovePlusFlag1(index - PlusCount0);
+        if ((uint)index >= PlusCountC)
+            return GetMovePlusFlag1(index - PlusCountC);
         int ofs = index >> 3;
-        return FlagUtil.GetFlag(Data, PlusStart0 + ofs, index & 7);
+        return FlagUtil.GetFlag(Data, PlusStartC + ofs, index & 7);
     }
 
     private bool GetMovePlusFlag1(int index)
     {
-        if ((uint)index >= PlusCount1)
+        if ((uint)index >= PlusCountB)
             throw new ArgumentOutOfRangeException(nameof(index));
         int ofs = index >> 3;
-        return FlagUtil.GetFlag(Data, PlusStart1 + ofs, index & 7);
+        return FlagUtil.GetFlag(Data, PlusStartB + ofs, index & 7);
     }
 
     public void SetMovePlusFlag(int index, bool value = true)
     {
-        if ((uint)index >= PlusCount0)
+        if ((uint)index >= PlusCountC)
         {
-            SetMovePlusFlag1(value, index - PlusCount0);
+            SetMovePlusFlag1(value, index - PlusCountC);
             return;
         }
         int ofs = index >> 3;
-        FlagUtil.SetFlag(Data, PlusStart0 + ofs, index & 7, value);
+        FlagUtil.SetFlag(Data, PlusStartC + ofs, index & 7, value);
     }
 
     private void SetMovePlusFlag1(bool value, int index)
     {
-        if ((uint)index >= PlusCount1)
+        if ((uint)index >= PlusCountB)
             throw new ArgumentOutOfRangeException(nameof(index));
         int ofs = index >> 3;
-        FlagUtil.SetFlag(Data, PlusStart1 + ofs, index & 7, value);
+        FlagUtil.SetFlag(Data, PlusStartB + ofs, index & 7, value);
     }
 
     public bool GetMovePlusFlagAny() => GetMovePlusFlagAny0() || GetMovePlusFlagAny1();
-    private bool GetMovePlusFlagAny0() => PlusFlags0.ContainsAnyExcept<byte>(0);
-    private bool GetMovePlusFlagAny1() => PlusFlags1.ContainsAnyExcept<byte>(0);
+    private bool GetMovePlusFlagAny0() => PlusFlagsC.ContainsAnyExcept<byte>(0);
+    private bool GetMovePlusFlagAny1() => PlusFlagsB.ContainsAnyExcept<byte>(0);
 
     public void ClearMovePlusFlags()
     {
@@ -172,8 +100,8 @@ public sealed class GameDataPA9 : HomeOptional1, IGameDataSide<PA9>, IScaledSize
         ClearMovePlusFlags1();
     }
 
-    private void ClearMovePlusFlags0() => PlusFlags0.Clear();
-    private void ClearMovePlusFlags1() => PlusFlags1.Clear();
+    private void ClearMovePlusFlags0() => PlusFlagsC.Clear();
+    private void ClearMovePlusFlags1() => PlusFlagsB.Clear();
     #endregion
 
     #region Conversion
@@ -184,10 +112,8 @@ public sealed class GameDataPA9 : HomeOptional1, IGameDataSide<PA9>, IScaledSize
     {
         this.CopyTo(pk);
         pk.Scale = Scale;
-        PlusFlags0.CopyTo(pk.PlusFlags0);
-        PlusFlags1.CopyTo(pk.PlusFlags1);
-        RecordFlagsBase.CopyTo(pk.RecordFlagsBase);
-        RecordFlagsDLC.CopyTo(pk.RecordFlagsDLC);
+        PlusFlagsC.CopyTo(pk.PlusFlags0);
+        PlusFlagsB.CopyTo(pk.PlusFlags1);
         pk.ObedienceLevel = Obedience_Level;
         pk.Ability = Ability;
         pk.AbilityNumber = AbilityNumber;
@@ -197,10 +123,8 @@ public sealed class GameDataPA9 : HomeOptional1, IGameDataSide<PA9>, IScaledSize
     {
         this.CopyFrom(pk);
         pkh.HeightScalar = Scale = pk.Scale; // Overwrite Height
-        pk.PlusFlags0.CopyTo(PlusFlags0);
-        pk.PlusFlags1.CopyTo(PlusFlags1);
-        pk.RecordFlagsBase.CopyTo(RecordFlagsBase);
-        pk.RecordFlagsDLC.CopyTo(RecordFlagsDLC);
+        pk.PlusFlags0.CopyTo(PlusFlagsC);
+        pk.PlusFlags1.CopyTo(PlusFlagsB);
         Obedience_Level = pk.ObedienceLevel;
         Ability = (ushort)pk.Ability;
         AbilityNumber = (byte)pk.AbilityNumber;
@@ -244,11 +168,8 @@ public sealed class GameDataPA9 : HomeOptional1, IGameDataSide<PA9>, IScaledSize
         return result;
     }
 
-    private static IGameDataSide? GetNearestNeighbor(PKH pkh) => pkh.DataPK9 as IGameDataSide
-                                                              ?? pkh.DataPK8 as IGameDataSide
-                                                              ?? pkh.DataPB8 as IGameDataSide
-                                                              ?? pkh.DataPB7 as IGameDataSide
-                                                              ?? pkh.DataPA8;
+    private static IGameDataSide? GetNearestNeighbor(PKH pkh)
+        => pkh.DataPK9 ?? pkh.DataPK8 ?? pkh.DataPB8 ?? pkh.DataPB7 ?? pkh.DataPA8 as IGameDataSide;
 
     public void InitializeFrom(IGameDataSide side, PKH pkh)
     {
