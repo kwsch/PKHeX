@@ -1,7 +1,7 @@
 0026	s	Inicial Elegido
-0027	*	Cyndaquil es inicial
-0028	*	Totodile es inicial
-0029	*	Chikorita es inicial
+0027	*	Inicial es Cyndaquil
+0028	*	Inicial es Totodile
+0029	*	Inicial es Chikorita
 1600	s	La ball de Cyndaquil de Elm ha desaparecido 
 1601	s	La ball de Totodile de Elm ha desaparecido 
 1602	s	La ball de Chikorita de Elm ha desaparecido 
