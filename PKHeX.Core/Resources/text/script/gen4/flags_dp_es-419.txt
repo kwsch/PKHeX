@@ -28,7 +28,7 @@
 0301	r	Wrote text on Route 224 white rock (No lanzado)
 0624	r	Professor Oak desaparecido (Ruta 224) (No lanzado)
 0634	r	Shaymin desaparecida (Ruta 224) (No lanzado)
-2404	a	Entrado al Hall de la Fama (Mejora de Tarjeta Entrenador)
+2404	a	Entrado al Salón de la Fama (Mejora de Tarjeta Entrenador)
 2408	a	Maestro de Concurso Carisma
 2409	a	Maestro de Concurso de Belleza
 2410	a	Maestro de Concurso de Dulzura
