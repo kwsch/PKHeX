@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.EntityConverterResult;
 using static PKHeX.Core.GameVersion;
 
@@ -85,6 +86,15 @@ public static class EntityConverter
             return pk;
         }
 
+        if (pk is PKH pkh)
+        {
+            if (TryConvertFromHOME(pkh, destType, out var x))
+            {
+                result = Success;
+                return x;
+            }
+        }
+
         var entity = ConvertPKM(pk, destType, fromType, out result);
         if (entity is not null)
         {
@@ -168,6 +178,15 @@ public static class EntityConverter
 
         _ => GetFinalResult(pk, destType, ref result),
     };
+
+    private static bool TryConvertFromHOME(PKH pkh, Type destType, [NotNullWhen(true)] out PKM? result)
+    {
+        result = null;
+        var type = PKH.GetType(destType);
+        if (type is not HomeGameDataFormat.None)
+            result = pkh.ConvertToPKM(type);
+        return result != null;
+    }
 
     private static PKM? GetFinalResult(PKM pk, Type destType, ref EntityConverterResult result)
     {

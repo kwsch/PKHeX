@@ -47,6 +47,7 @@ public static class HomeCrypto
     public const int VersionLatest = Version4;
 
     public static bool IsKnownVersion(ushort version) => version is Version1 or Version2 or Version3 or Version4;
+    public static bool IsPlausibleSize(long length) => length is > (SIZE_1HEADER + SIZE_1CORE) and <= SIZE_STORED;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void SetEncryptionKey(Span<byte> key, ulong seed)
@@ -152,6 +153,7 @@ public static class HomeCrypto
         Version1 => IsEncryptedCore1(data),
         Version2 => IsEncryptedCore2(data),
         Version3 => IsEncryptedCore3(data),
+        Version4 => IsEncryptedCore4(data),
         _ => throw new ArgumentException($"Unrecognized format: {format}"),
     };
 
@@ -189,6 +191,7 @@ public static class HomeCrypto
     }
 
     private static bool IsEncryptedCore3(ReadOnlySpan<byte> data) => IsEncryptedCore2(data); // Same struct as Core version 2.
+    private static bool IsEncryptedCore4(ReadOnlySpan<byte> data) => IsEncryptedCore2(data); // Same struct as Core version 2.
 
     /// <summary>
     /// Gets the checksum of a Pokémon's AES-encrypted data.

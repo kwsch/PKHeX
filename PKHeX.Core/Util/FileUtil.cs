@@ -64,6 +64,8 @@ public static class FileUtil
             return gp;
         if (TryGetBundle(data, out var bundle))
             return bundle;
+        if (TryGetPKH(data, out var pkh))
+            return pkh;
         return null;
     }
 
@@ -154,6 +156,27 @@ public static class FileUtil
             return true;
         }
         return false;
+    }
+
+    private static bool TryGetPKH(Memory<byte> data, [NotNullWhen(true)] out PKH? result)
+    {
+        result = null;
+        if (!HomeCrypto.IsPlausibleSize(data.Length))
+            return false;
+        var version = ReadUInt16LittleEndian(data.Span);
+        if (!HomeCrypto.IsKnownVersion(version))
+            return false;
+
+        try
+        {
+            result = new PKH(data);
+            return true;
+        }
+        catch
+        {
+            // If it fails to parse, it's not a valid PKH file.
+            return false;
+        }
     }
 
     /// <summary>
@@ -326,16 +349,31 @@ public static class FileUtil
             return null;
         if (fi.Length == GP1.SIZE && TryGetGP1(File.ReadAllBytes(file), out var gp1))
             return gp1.ConvertToPKM(sav);
-        if (!EntityDetection.IsSizePlausible(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
-            return null;
-        var data = File.ReadAllBytes(file);
-        var ext = fi.Extension;
-        var mg = MysteryGift.GetMysteryGift(data, ext);
-        var gift = mg?.ConvertToPKM(sav);
-        if (gift is not null)
-            return gift;
-        _ = TryGetPKM(data, out var pk, ext, sav);
-        return pk;
+
+        if (EntityDetection.IsSizePlausible(fi.Length))
+        {
+            var data = File.ReadAllBytes(file);
+            var ext = fi.Extension;
+            _ = TryGetPKM(data, out var pk, ext, sav);
+            return pk;
+        }
+        if (MysteryGift.IsMysteryGift(fi.Length))
+        {
+            var data = File.ReadAllBytes(file);
+            var ext = fi.Extension;
+            var mg = MysteryGift.GetMysteryGift(data, ext);
+            var gift = mg?.ConvertToPKM(sav);
+            if (gift is not null)
+                return gift;
+        }
+        if (HomeCrypto.IsPlausibleSize(fi.Length))
+        {
+            var data = File.ReadAllBytes(file);
+            if (TryGetPKH(data, out var pkh))
+                return pkh;
+        }
+
+        return null;
     }
 }
 
