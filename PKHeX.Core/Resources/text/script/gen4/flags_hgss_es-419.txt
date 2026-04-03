@@ -76,7 +76,7 @@
 0165	s	Domingo conocido/Imán conseguido
 0119	s	La nieta de Kurt está preocupada por Kurt
 0414	s	Kurt en el Pozo Slowpoke
-0415	s	Rocket Grunt Guarding Slowpoke Well Gone
+0415	s	Recluta Rocket custodiando el Pozo Slowpoke eliminado
 0539	*	Puzzle de Cuerda huida en la pared de las Ruinas Alfa resuelto
 0541	*	Puzzle de Destello en la pared de las Ruinas Alfa resuelto
 0543	*	Puzzle de Piedra agua en la pared de las Ruinas Alfa resuelto
