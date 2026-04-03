@@ -16,7 +16,7 @@
 0390	*	Super Multi desbloqueado
 0771	+	Racha de 50: Derrota Dama del Combate
 2642	s	PokéDex obtenida
-2640	s	Entrado al Hall de la Fama/Cámara de Zygarde accesible
+2640	s	Entrado al Salón de la Fama/Cámara de Zygarde accesible
 2645	*	Patines activos
 0162	s	Escogido el botón azul en el sótano 3 de Laboratorios Lysson
 0185	g	Intercambio por Bisharp en Ciudad Fractal
