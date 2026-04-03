@@ -22,7 +22,7 @@ public partial class SettingsEditor : Form
 
         if (obj is PKHeXSettings s)
         {
-            static bool IsInvalidSaveFileVersion(GameVersion value) => value is 0 or GameVersion.GO;
+            static bool IsInvalidSaveFileVersion(GameVersion value) => value is 0 or GameVersion.GO or GameVersion.CP;
             CB_Blank.InitializeBinding();
             CB_Blank.DataSource = GameInfo.Sources.VersionDataSource.Where(z => !IsInvalidSaveFileVersion((GameVersion)z.Value)).ToList();
             CB_Blank.SelectedValue = (int)s.Startup.DefaultSaveVersion;

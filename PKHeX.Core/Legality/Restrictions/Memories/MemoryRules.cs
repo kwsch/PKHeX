@@ -20,9 +20,8 @@ public static class MemoryRules
             sources |= MemorySource.Bank; // Trade encounters from Gen7 also come with hardcoded memories.
         if (history.HasVisitedSWSH)
             sources |= MemorySource.Gen8;
-        if (history.HasVisitedGen9)
+        if (history.HasVisitedGen9 || history.HasVisitedZA)
             sources |= MemorySource.Deleted;
-        // TODO HOME ZA
         return sources;
     }
 
