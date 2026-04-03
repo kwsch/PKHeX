@@ -14,7 +14,7 @@
 0190	e	Kurt puede ver la GS Ball
 0191	e	Kurt listo para regresar la GS Ball (combinar con la Marca de arriba)
 0192	e	GS Ball puede ser insertada en el Encinar
-1809	*	No Mystery Gift item is waiting in the Pokémon Center
+1809	*	No hay ningún objeto de Regalo Misterioso esperando en el Centro Pokémon.
 0672	*	Rompecabezas de Ho-Oh resuelto en Ruinas Alfa
 0673	*	Rompecabezas de Kabuto resuelto en Ruinas Alfa
 0674	*	Rompecabezas de Omanyte resuelto en Ruinas Alfa
