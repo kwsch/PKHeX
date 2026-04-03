@@ -11,8 +11,8 @@
 1762	r	Electrode (esquinas inferiores) desaparecido (Escondite Team Rocket B2F)
 0079	g	Eevee Recibido
 1867	*	Las Bestias Legendarias desaparecieron de la Torre Incendiada
-0190	e	Kurt puede ver la GS Ball
-0191	e	Kurt listo para regresar la GS Ball (combinar con la Marca de arriba)
+0190	e	César puede ver la GS Ball
+0191	e	César listo para regresar la GS Ball (combinar con la Marca de arriba)
 0192	e	GS Ball puede ser insertada en el Encinar
 1809	*	No hay ningún objeto de Regalo Misterioso esperando en el Centro Pokémon.
 0672	*	Rompecabezas de Ho-Oh resuelto en Ruinas Alfa
