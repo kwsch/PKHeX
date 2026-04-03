@@ -25,7 +25,7 @@
 0377	r	Groudon capturado (SS)
 0722	r	Rayquaza desaparecido
 0379	r	Rayquaza capturado
-2404	a	Entrado al Salón de la Fama (Mejora de Tarjeta Entrenador)
+2404	a	Entrado al Hall de la Fama (Mejora de Tarjeta Entrenador)
 0388	a	Obtenida 1 Corona de hojas doradas (Mejora de Tarjeta Entrenador)
 0241	a	Superados Récords de Pokéathlon (Mejora de Tarjeta Entrenador)
 0766	s	Poké Ball de Bulbasaur inicial desaparecida
