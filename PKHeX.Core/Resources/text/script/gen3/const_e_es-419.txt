@@ -18,7 +18,7 @@
 0x4046	*	Nacional Dex Habilitado    	0:No,770:Sí
 0x4047	+	Registro del tamaño de Seedot
 0x4048	*	Ceniza volcánica recogida	9999:Máximo
-0x4049	s	Estado del Profesor Abedul
+0x4049	s	Estado del Profesor Birch
 0x404A	m	Contador de pasos de Marea S.S.
 0x404B	*	Pokelot RND (Alto)
 0x404C	*	Pokelot RND (Bajo)
@@ -30,5 +30,5 @@
 0094	s	Evento Rayquaza	0:No Activado,1:Groudon y Kyogre en Arrecípolis,2:Vista escena de Groudon y Kyogre,3:Plubio en el Pilar Celeste,4:Plubio dejó el Pilar Celeste,5:Despierto,6:Galano Derrotado
 0202	s	Escena Rayquaza	0:No Despertado,1:Aparecido en Arrecípolis,3:Occurrido
 0203	s	Torre Espejismo	0:Puede Aparecer,2:Colapsada,3:Accesada Ruta 111 despues Colapsada
-0211	s	Misión Prof. Abedul	0:Pre-Campeón,1:Obtendrá Pokedex Nacional en Villa Raíz (Post-Campeón),2:Obtuvo Pokedex Nacional,3:Puede Elegir Inicial de Johto (Si la Pokedex de Hoenn completada),5:Pegruntado para elegir Inicial de Johto,6:Inicial de Johto Elegido
+0211	s	Misión Prof. Birch	0:Pre-Campeón,1:Obtendrá Pokedex Nacional en Villa Raíz (Post-Campeón),2:Obtuvo Pokedex Nacional,3:Puede Elegir Inicial de Johto (Si la Pokedex de Hoenn completada),5:Pegruntado para elegir Inicial de Johto,6:Inicial de Johto Elegido
 0213	r	Errante del TV Elegido	0:Latias (Latios en Isla del Sur),1:Latios (Latias en Isla del Sur)
