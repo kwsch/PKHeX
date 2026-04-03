@@ -138,4 +138,22 @@ public sealed class EvolutionHistory
         }
         return -1;
     }
+
+    public bool HasVisitedExcept(params ReadOnlySpan<EntityContext> context)
+    {
+        if (HasVisitedZA   && !context.Contains(EntityContext.Gen9a)) return true;
+        if (HasVisitedGen9 && !context.Contains(EntityContext.Gen9))  return true;
+        if (HasVisitedBDSP && !context.Contains(EntityContext.Gen8a)) return true;
+        if (HasVisitedPLA  && !context.Contains(EntityContext.Gen8b)) return true;
+        if (HasVisitedSWSH && !context.Contains(EntityContext.Gen8))  return true;
+        if (HasVisitedLGPE && !context.Contains(EntityContext.Gen7b)) return true;
+        if (HasVisitedGen7 && !context.Contains(EntityContext.Gen7))  return true;
+        if (HasVisitedGen6 && !context.Contains(EntityContext.Gen6))  return true;
+        if (HasVisitedGen5 && !context.Contains(EntityContext.Gen5))  return true;
+        if (HasVisitedGen4 && !context.Contains(EntityContext.Gen4))  return true;
+        if (HasVisitedGen3 && !context.Contains(EntityContext.Gen3))  return true;
+        if (HasVisitedGen2 && !context.Contains(EntityContext.Gen2))  return true;
+        if (HasVisitedGen1 && !context.Contains(EntityContext.Gen1))  return true;
+        return false;
+    }
 }

@@ -36,7 +36,7 @@ public sealed class FormArgumentVerifier : Verifier
                                  ((enc.Generation == 6 && f.FormArgument <= byte.MaxValue) || IsFormArgumentDayCounterValid(f, 5, true))
                 => GetValid(FormArgumentValid),
 
-            Furfrou when pk.Form != 0 => !IsFormArgumentDayCounterValid(f, 5, true) ? GetInvalid(FormArgumentInvalid) : GetValid(FormArgumentValid),
+            Furfrou when pk.Form != 0 => !IsFormArgumentValidFurfrou8HOME(f, enc) ? GetInvalid(FormArgumentInvalid) : GetValid(FormArgumentValid),
             Hoopa when pk.Form == 1 => data.Info.EvoChainsAllGens switch
             {
                 { HasVisitedZA:   true } when arg == 0 => GetValid(FormArgumentValid), // Value not applied on form change, and reset when reverted.
@@ -117,6 +117,13 @@ public sealed class FormArgumentVerifier : Verifier
             },
             _ => VerifyFormArgumentNone(pk, f),
         };
+    }
+
+    private static bool IsFormArgumentValidFurfrou8HOME(IFormArgument f, IEncounterTemplate enc)
+    {
+        if (f.FormArgument == 0 && enc is { Version: GameVersion.GO })
+            return true; // Does not come with a Form Argument.
+        return IsFormArgumentDayCounterValid(f, 5, enc.Generation < 8);
     }
 
     private CheckResult CheckPrimeape(LegalityAnalysis data, PKM pk, uint arg, IEncounterTemplate enc)

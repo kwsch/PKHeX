@@ -15,10 +15,9 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
 
     public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc)
     {
-        return null; // TODO HOME ZA2: Re-enable when we have more info.
-        // if (pk.Format <= 9 && pk.Context is not EntityContext.Gen9a)
-        //     return null;
-        // return EvolutionGroupHOME.Instance;
+        if (pk is { Format: <= 9, Context: not EntityContext.Gen9a })
+            return null;
+        return EvolutionGroupHOME2.Instance;
     }
 
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc)

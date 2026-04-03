@@ -152,7 +152,7 @@ public static class Legal
     internal const int MaxAbilityID_9a_MD = MaxAbilityID_9a_IK;
 
     internal const int MaxBallID_9 = (int)Ball.LAOrigin;
-    internal const GameVersion MaxGameID_HOME = GameVersion.VL; // TODO HOME ZA - Replace with ZA when HOME; if backwards transfer is allowed. If prevented, rename epoch as HOME1.
+    internal const GameVersion MaxGameID_HOME = GameVersion.VL;
     internal const GameVersion MaxGameID_HOME2 = GameVersion.ZA;
 
     internal static readonly ushort[] HeldItems_GSC = ItemStorage2.GetAllHeld();

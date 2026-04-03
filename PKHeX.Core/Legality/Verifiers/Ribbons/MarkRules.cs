@@ -147,20 +147,23 @@ public static class MarkRules
             return true;
         if (!wasAlpha)
             return !m.RibbonMarkAlpha; // Shouldn't have the flag.
-        if (!HasEnteredHOME300(pk))
+        if (!HasEnteredHOME_Alpha(pk))
             return true; // Can be either state -- only HOME sets the flag.
         return m.RibbonMarkAlpha; // Should have the flag.
     }
 
-    private static bool HasEnteredHOME300(PKM pk)
+    private static bool HasEnteredHOME_Alpha(PKM pk)
     {
         // Mark is only set by HOME ingesting the data for the first time.
         // Before HOME 3.0.0, this mark was never set.
-        // Could be okay as Gen8 format -- don't bother checking for "must have visited HOME 3.0.0+".
-        if (pk is IHomeTrack { HasTracker: false })
-            return false; // Hasn't been transferred to HOME yet.
+        // Could be okay as a Gen8* format -- don't bother checking for "must have visited HOME 3.0.0+".
         if (pk.LA && pk is PK8 or PB8 or PA8)
             return false; // Could have been moved prior to the HOME 3.0.0 update.
+
+        // Before HOME 4.0.0, this mark was only set when you moved it in for the first time.
+        // In HOME 4.0.0, the mark is set by HOME opening your save data and saving, modifying properties without you touching them.
+        if (pk.ZA && pk is IScaledSize { HeightScalar: 0 }) // Alphas would update to 255-255-255 scale.
+            return false; // Might not have touched HOME yet.
         return true;
     }
 

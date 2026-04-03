@@ -184,9 +184,6 @@ public sealed class TransferVerifier : Verifier
             // - Transfer a 0-Tracker pk to HOME to get assigned a valid Tracker via the game it originated from.
             // - Don't make one up.
         }
-
-        if (pk.ZA != pk is PA9) // TODO: ZA HOME Compatibility - flag in/out transfers for now.
-            data.AddLine(GetInvalid(TransferBad));
     }
 
     public void VerifyVCEncounter(PKM pk, IEncounterTemplate original, EncounterTransfer7 transfer, LegalityAnalysis data)
