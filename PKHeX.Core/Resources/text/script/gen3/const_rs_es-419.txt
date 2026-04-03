@@ -15,7 +15,7 @@
 0x4046	*	Dex Nacional Habilitado    	0:No,770:Sí
 0x4047	+	Récord del Tamaño de Shroomish
 0x4048	*	Ceniza volcánica Recolectada	9999:Máximo
-0x4049	s	Estado del Profesor Abedul
+0x4049	s	Estado del Profesor Birch
 0x404A	m	Contador de Pasos del S.S. Marea
 0x404B	*	Pokelot RND (Alto)
 0x404C	*	Pokelot RND (Bajo)

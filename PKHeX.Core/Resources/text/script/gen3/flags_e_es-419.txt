@@ -73,7 +73,7 @@
 2144	s	Unlock menu item POKéMON
 2145	s	Unlock menu item POKéDEX
 2146	s	Unlock menu item POKéNAV
-2148	s	Entrada al Hall de la Fama
+2148	s	Entrada al Salón de la Fama
 2150	s	Encontrar al Fardón
 2192	s	Vista TV en Casa
 2196	s	Mixed Records

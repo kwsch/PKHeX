@@ -69,7 +69,7 @@
 2722	s	PokéDex obtenida
 2738	*	Encuentros extranjeros de DexNav desbloqueados
 0301	s	Groudon/Kyogre primigenio derrotado (Evento de la historia)
-2720	s	Entrado al Hall de la Fama
+2720	s	Entrado al Salón de la Fama
 2729	s	Episodio Delta completado
 0361	s	Revancha contra Alto Mando
 3023	s	Puede dar Orbe rojo y Orbe azul

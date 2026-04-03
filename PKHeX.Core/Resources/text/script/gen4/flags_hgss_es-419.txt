@@ -28,9 +28,9 @@
 2404	a	Entrado al Salón de la Fama (Mejora de Tarjeta Entrenador)
 0388	a	Obtenida 1 Corona de hojas doradas (Mejora de Tarjeta Entrenador)
 0241	a	Superados Récords de Pokéathlon (Mejora de Tarjeta Entrenador)
-0766	s	Poké Ball de Bulbasaur inicial desaparecida
-0767	s	Poké Ball de Squirtle inicial desaparecida
-0768	s	Poké Ball de Charmander inicial desaparecida
+0766	s	Pokébola de Bulbasaur inicial desaparecida
+0767	s	Pokébola de Squirtle inicial desaparecida
+0768	s	Pokébola de Charmander inicial desaparecida
 0789	*	Funcionalidad de intercambio deshabilitada (Centro Pokémon)
 0501	r	Electrode (1) en Cuartel del Team Rocket desaparecido
 0502	r	Electrode (2) en Cuartel del Team Rocket desaparecido
@@ -76,7 +76,7 @@
 0165	s	Domingo conocido/Imán conseguido
 0119	s	La nieta de Kurt está preocupada por Kurt
 0414	s	Kurt en el Pozo Slowpoke
-0415	s	Rocket Grunt Guarding Slowpoke Well Gone
+0415	s	Recluta Rocket custodiando el Pozo Slowpoke eliminado
 0539	*	Puzzle de Cuerda huida en la pared de las Ruinas Alfa resuelto
 0541	*	Puzzle de Destello en la pared de las Ruinas Alfa resuelto
 0543	*	Puzzle de Piedra agua en la pared de las Ruinas Alfa resuelto
@@ -220,15 +220,15 @@
 1988	t	1ra revancha contra Biker Reese
 1989	t	2da revancha contra Biker Reese
 1990	t	3ra revancha contra Biker Reese
-1818	t	1ra revancha contra Entre. guay Jamie
-1819	t	2da revancha contra Entre. guay Jamie
-1969	t	3ra revancha contra Entre. guay Jamie
-1816	t	1ra revancha contra Entre. guay Gaven
-1817	t	2da revancha contra Entre. guay Gaven
-1964	t	3ra revancha contra Entre. guay Gaven
-1804	t	1ra revancha contra Entre. guay Reena
-1805	t	2da revancha contra Entre. guay Reena
-1967	t	3ra revancha contra Entre. guay Reena
+1818	t	1ra revancha contra Entre. élite Jamie
+1819	t	2da revancha contra Entre. élite Jamie
+1969	t	3ra revancha contra Entre. élite Jamie
+1816	t	1ra revancha contra Entre. élite Gaven
+1817	t	2da revancha contra Entre. élite Gaven
+1964	t	3ra revancha contra Entre. élite Gaven
+1804	t	1ra revancha contra Entre. élite Reena
+1805	t	2da revancha contra Entre. élite Reena
+1967	t	3ra revancha contra Entre. élite Reena
 1663	t	1ra revancha contra Ornitólogo Jose
 1806	t	2da revancha contra Ornitólogo Jose
 1962	t	3ra revancha contra Ornitólogo Jose

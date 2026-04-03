@@ -62,7 +62,7 @@
 0x800	s	Recibido Pokémon Inicial
 0x801	s	Recibida PokéDex
 0x802	s	Recibido PokeNav
-0x804	s	Entrada al Salón de la Fama
+0x804	s	Entrada al Hall de la Fama
 0x805	s	Usado Easy Chat
 0x806	s	Encontrar al Fardón
 0x830	s	Vista TV en Casa

@@ -23,8 +23,8 @@
 35	s	Centro Pokémon de Iris	0:No ha entrado,1:Entró (Conoció a Bill)
 36	s	Hombre del Caramelo Furia	0:Bloquea el acceso a la Ruta 44,1:Desaparecido (Se puede acceder a la Ruta 44)
 37	s	Puerta de Ruta 43	0:Aparecen Reclutas del Team Rocket (requiere pago),1:Pagaste a los Reclutas/Reclutas desaparecido
-38	s	Rival (Monte Moon)	0:Te retará,1:Desaparecido
-39	s	Rival (Torre Bellsprout)	0:No encontrado,1:Encontrado
+38	s	Rival (Monte Luna)	0:Te retará,1:Desaparecido
+39	s	Rival (Torre Sprout)	0:No encontrado,1:Encontrado
 40	s	Evento de historia en la Torre Quemada	0:No ha entrado/El Rival te retará,1:Rival derrotado,2:Comefuego Darío derrotado
 41	*	Bestias legendarias (Torre Quemada)	0:No se han despertado,1:Despertar/Huida
 42	s	Evento de historia en la 5F de la Torre Radio	0:Batalla contra el Director impostor,1:Recluta del Team Rocket disfrazado derrotado,2:Ejecutivo principal del Team Rocket derrotado en la sala del director

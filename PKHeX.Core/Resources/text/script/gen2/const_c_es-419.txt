@@ -32,8 +32,8 @@
 46	s	Ascensor de la Torre Batalla	0:No accedido,1:Accedido
 47	s	Pasillo de la Torre Batalla	0:No accedido,1:Accedido
 49	s	Puerta de Ruta 43	0:Aparecen Reclutas del Team Rocket (requiere pago),1:Pagaste a los Reclutas/Reclutas desaparecido
-50	s	Rival (Monte Moon)	0:Te retará,1:Desaparecido
-51	s	Rival (Torre Bellsprout)	0:No encontrado,1:Encontrado
+50	s	Rival (Monte Luna)	0:Te retará,1:Desaparecido
+51	s	Rival (Torre Sprout)	0:No encontrado,1:Encontrado
 52	r	Suicune (Torre de Hojalata)	0:Batalla,1:Atrapado/Derrotado
 53	s	Evento de historia en la Torre Quemada	0:No ha entrado,1:Conoció a Eusine,2:Rival derrotado
 54	r	Bestias legendarias (Torre Quemada)	0:No se han despertado,1:Despertar/Huida
@@ -53,10 +53,10 @@
 75	s	Marinero en S.S. Aqua B1F	0:Paso denegado,1:Paso permitido
 128	t	Escolar Aitor	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha,4:Has tenido la cuarta revancha (Final)
 130	t	Marinero Ken	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha (Final)
-131	t	Entrenador guay Galo	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
-132	t	Entrenadora guay Tina	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
+131	t	Entrenador élite Galo	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
+132	t	Entrenadora élite Tina	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
 133	t	Ornitólogo José	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
-134	t	Entrenadora guay Tara	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
+134	t	Entrenadora élite Tara	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
 135	t	Joven Chano	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha,4:Has tenido la cuarta revancha (Final)
 136	t	Cazabichos Tomy	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha,4:Has tenido la cuarta revancha (Final)
 137	t	Pescador Joserra	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha,4:Has tenido la cuarta revancha (Final)

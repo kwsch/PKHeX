@@ -37,7 +37,7 @@
 0578	r	Professor Oak desaparecido (Ciudad Vetusta)
 0281	r	Articuno/Zapdos/Moltres Errante (1)
 0153	r	Articuno/Zapdos/Moltres Errante (2)
-2404	a	Entrado al Hall de la Fama (Mejora de Tarjeta Entrenador)
+2404	a	Entrado al Salón de la Fama (Mejora de Tarjeta Entrenador)
 2408	a	Maestro de Concurso Carisma
 2409	a	Maestro de Concurso de Belleza
 2410	a	Maestro de Concurso de Dulzura

@@ -1,7 +1,7 @@
 0026	s	Inicial Elegido
-0027	*	Cyndaquil es un inicial
-0028	*	Totodile es un inicial
-0029	*	Chikorita es un inicial
+0027	*	Inicial es Cyndaquil
+0028	*	Inicial es Totodile
+0029	*	Inicial es Chikorita
 1600	s	La bola de Cyndaquil de Elm ha desaparecido 
 1601	s	La bola de Totodile de Elm ha desaparecido 
 1602	s	La bola de Chikorita de Elm ha desaparecido 
@@ -99,14 +99,14 @@
 0610	t	Se puede tener revancha con Pokéfan Julia
 0611	t	Preguntado Marinero Ken por su Número
 0612	t	Se puede tener revancha con Marinero Ken
-0619	t	Preguntado Entrenador guay Galo por su Número
-0620	t	Se puede tener revancha con Entrenador guay Galo
-0621	t	Preguntado Entrenadora guay Tina por su Número
-0622	t	Se puede tener revancha con Entrenadora guay Tina
+0619	t	Preguntado Entrenador élite Galo por su Número
+0620	t	Se puede tener revancha con Entrenador élite Galo
+0621	t	Preguntado Entrenadora élite Tina por su Número
+0622	t	Se puede tener revancha con Entrenadora élite Tina
 0623	t	Preguntado Ornitólogo José por su Número
 0624	t	Se puede tener revancha con Ornitólogo José
-0625	t	Preguntado Entrenadora guay Tara por su Número
-0626	t	Se puede tener revancha con Entrenadora guay Tara
+0625	t	Preguntado Entrenadora élite Tara por su Número
+0626	t	Se puede tener revancha con Entrenadora élite Tara
 0627	t	Preguntado Joven Chano por su Número
 0628	t	Se puede tener revancha con Joven Chano
 0629	t	Preguntado Cazabichos Tomy por su Número

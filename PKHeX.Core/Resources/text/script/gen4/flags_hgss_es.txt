@@ -25,7 +25,7 @@
 0377	r	Groudon capturado (SS)
 0722	r	Rayquaza desaparecido
 0379	r	Rayquaza capturado
-2404	a	Entrado al Salón de la Fama (Mejora de Tarjeta Entrenador)
+2404	a	Entrado al Hall de la Fama (Mejora de Tarjeta Entrenador)
 0388	a	Obtenida 1 Corona de hojas doradas (Mejora de Tarjeta Entrenador)
 0241	a	Superados Récords de Pokéathlon (Mejora de Tarjeta Entrenador)
 0766	s	Poké Ball de Bulbasaur inicial desaparecida
@@ -74,9 +74,9 @@
 0217	s	Vicki conocido/Flecha venenosa conseguido
 0212	s	Sabino conocida/Arena fina conseguido
 0165	s	Domingo conocido/Imán conseguido
-0119	s	La nieta de Kurt está preocupada por Kurt
-0414	s	Kurt en el Pozo Slowpoke
-0415	s	Rocket Grunt Guarding Slowpoke Well Gone
+0119	s	La nieta de César está preocupada por César
+0414	s	César en el Pozo Slowpoke
+0415	s	Recluta Rocket custodiando el Pozo Slowpoke eliminado
 0539	*	Puzzle de Cuerda huida en la pared de las Ruinas Alfa resuelto
 0541	*	Puzzle de Destello en la pared de las Ruinas Alfa resuelto
 0543	*	Puzzle de Piedra agua en la pared de las Ruinas Alfa resuelto

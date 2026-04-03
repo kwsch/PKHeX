@@ -35,7 +35,7 @@
 0897	r	Cresselia desaparecida
 0106	*	Funcionalidad de intercambio habilitada (Centro Pokémon)
 2403	*	Tiene las Deportivas
-2400	s	Entrado en el Hall de la Fama
+2400	s	Entrado en el Salón de la Fama
 0250	g	Magikarp comprado
 0256	g	Intercambio por Gigalith en Ruta 7
 0259	g	Intercambio por Rotom en Ruta 15

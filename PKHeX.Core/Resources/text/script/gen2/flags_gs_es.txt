@@ -1,10 +1,10 @@
 0026	s	Inicial Elegido
-0027	*	Cyndaquil es un inicial
-0028	*	Totodile es un inicial
-0029	*	Chikorita es un inicial
-1600	s	La bola de Cyndaquil de Elm ha desaparecido 
-1601	s	La bola de Totodile de Elm ha desaparecido 
-1602	s	La bola de Chikorita de Elm ha desaparecido 
+0027	*	Inicial es Cyndaquil
+0028	*	Inicial es Totodile
+0029	*	Inicial es Chikorita
+1600	s	La ball de Cyndaquil de Elm ha desaparecido 
+1601	s	La ball de Totodile de Elm ha desaparecido 
+1602	s	La ball de Chikorita de Elm ha desaparecido 
 1784	r	Sudowoodo Desaparecido
 1760	r	Electrode (esquinas superiores) desaparecido (Escondite Team Rocket B2F)
 1761	r	Electrode (esquinas centrales) desaparecido (Escondite Team Rocket B2F)

@@ -1,20 +1,20 @@
 0026	s	Inicial Elegido
-0027	*	Cyndaquil inicial
-0028	*	Totodile inicial
-0029	*	Chikorita inicial
-1600	s	La bola del Cyndaquil de Elm ha desaparecido 
-1601	s	La bola del Totodile de Elm ha desaparecido 
-1602	s	La bola del Chikorita de Elm ha desaparecido 
+0027	*	Inicial es Cyndaquil
+0028	*	Inicial es Totodile
+0029	*	Inicial es Chikorita
+1600	s	La ball de Cyndaquil de Elm ha desaparecido 
+1601	s	La ball de Totodile de Elm ha desaparecido 
+1602	s	La ball de Chikorita de Elm ha desaparecido 
 1784	r	Sudowoodo Desaparecido
 1760	r	Electrode (esquinas superiores) desaparecido (Escondite Team Rocket B2F)
 1761	r	Electrode (esquinas centrales) desaparecido (Escondite Team Rocket B2F)
 1762	r	Electrode (esquinas inferiores) desaparecido (Escondite Team Rocket B2F)
 0079	g	Eevee Recibido
 1867	*	Las Bestias Legendarias desaparecieron de la Torre Incendiada
-0190	e	Kurt puede ver la GS Ball
-0191	e	Kurt listo para regresar la GS Ball (combinar con la Marca de arriba)
+0190	e	César puede ver la GS Ball
+0191	e	César listo para regresar la GS Ball (combinar con la Marca de arriba)
 0192	e	GS Ball puede ser insertada en el Encinar
-1809	*	No Mystery Gift item is waiting in the Pokémon Center
+1809	*	No hay ningún objeto de Regalo Misterioso esperando en el Centro Pokémon.
 0672	*	Rompecabezas de Ho-Oh resuelto en Ruinas Alfa
 0673	*	Rompecabezas de Kabuto resuelto en Ruinas Alfa
 0674	*	Rompecabezas de Omanyte resuelto en Ruinas Alfa
