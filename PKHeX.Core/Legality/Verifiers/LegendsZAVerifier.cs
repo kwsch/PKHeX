@@ -218,26 +218,12 @@ public sealed class LegendsZAVerifier : Verifier
             var evos = la.Info.EvoChainsAllGens;
             if (IsTradeEvoSkip(evos.Gen9a, move))
                 continue;
-            if (IsHOMEImportSkip(evos, la.EncounterOriginal))
-                continue;
 
             if (WasPossiblyObtainedBeforeDLC(pk, la.EncounterMatch) && IsPermittedUnsetPlusMove((Species)pk.Species, (Move)move))
                 continue;
 
             la.AddLine(GetInvalid(PlusMoveSufficientLevelMissing_0, move, level));
         }
-    }
-
-    private static bool IsHOMEImportSkip(EvolutionHistory history, IEncounterTemplate original)
-    {
-        // When transferred in from HOME, the game does not retroactively apply Plus Move flags up to the current level.
-        // If leveled externally, we end up missing flags even if relearned.
-        // Currently, ZA mons can't visit other games to gain EXP. External mons are thus only applicable.
-        if (original.Context != EntityContext.Gen9a)
-            return true;
-        if (history.HasVisitedExcept(EntityContext.Gen9a))
-            return false;
-        return true;
     }
 
     private static bool IsTradeEvoSkip(ReadOnlySpan<EvoCriteria> evos, ushort move)
