@@ -53,10 +53,10 @@
 75	s	Marinero en S.S. Aqua B1F	0:Paso denegado,1:Paso permitido
 128	t	Escolar Aitor	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha,4:Has tenido la cuarta revancha (Final)
 130	t	Marinero Ken	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha (Final)
-131	t	Entrenador Élite Galo	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
-132	t	Entrenadora Élite Tina	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
+131	t	Entrenador élite Galo	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
+132	t	Entrenadora élite Tina	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
 133	t	Ornitólogo José	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
-134	t	Entrenadora Élite Tara	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
+134	t	Entrenadora élite Tara	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha (Final)
 135	t	Joven Chano	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha,4:Has tenido la cuarta revancha (Final)
 136	t	Cazabichos Tomy	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha,4:Has tenido la cuarta revancha (Final)
 137	t	Pescador Joserra	0:Sin revancha,1:Has tenido la primera revancha,2:Has tenido la segunda revancha,3:Has tenido la tercera revancha,4:Has tenido la cuarta revancha (Final)
