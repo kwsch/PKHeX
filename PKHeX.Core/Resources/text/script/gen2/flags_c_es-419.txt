@@ -1,10 +1,10 @@
 0026	s	Inicial Elegido
-0027	*	Cyndaquil inicial
-0028	*	Totodile inicial
-0029	*	Chikorita inicial
-1600	s	La bola del Cyndaquil de Elm ha desaparecido 
-1601	s	La bola del Totodile de Elm ha desaparecido 
-1602	s	La bola del Chikorita de Elm ha desaparecido 
+0027	*	Cyndaquil es inicial
+0028	*	Totodile es inicial
+0029	*	Chikorita es inicial
+1600	s	La bola de Cyndaquil de Elm ha desaparecido 
+1601	s	La bola de Totodile de Elm ha desaparecido 
+1602	s	La bola de Chikorita de Elm ha desaparecido 
 1784	r	Sudowoodo Desaparecido
 1760	r	Electrode (esquinas superiores) desaparecido (Escondite Team Rocket B2F)
 1761	r	Electrode (esquinas centrales) desaparecido (Escondite Team Rocket B2F)
@@ -119,10 +119,10 @@
 0607	t	Preguntado Escolar Aitor por su Número
 0609	t	Preguntado Pokéfan Julia por su Número
 0611	t	Preguntado Marinero Ken por su Número
-0619	t	Preguntado Entrenador guay Galo por su Número
-0621	t	Preguntado Entrenadora guay Tina por su Número
+0619	t	Preguntado Entrenador élite Galo por su Número
+0621	t	Preguntado Entrenadora élite Tina por su Número
 0623	t	Preguntado Ornitólogo José por su Número
-0625	t	Preguntado Entrenadora guay Tara por su Número
+0625	t	Preguntado Entrenadora élite Tara por su Número
 0627	t	Preguntado Joven Chano por su Número
 0629	t	Preguntado Cazabichos Tomy por su Número
 0631	t	Preguntado Pescador Joserra por su Número
