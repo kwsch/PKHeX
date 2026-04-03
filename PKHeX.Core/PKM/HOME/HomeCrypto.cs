@@ -152,6 +152,7 @@ public static class HomeCrypto
         Version1 => IsEncryptedCore1(data),
         Version2 => IsEncryptedCore2(data),
         Version3 => IsEncryptedCore3(data),
+        Version4 => IsEncryptedCore4(data),
         _ => throw new ArgumentException($"Unrecognized format: {format}"),
     };
 
@@ -189,6 +190,7 @@ public static class HomeCrypto
     }
 
     private static bool IsEncryptedCore3(ReadOnlySpan<byte> data) => IsEncryptedCore2(data); // Same struct as Core version 2.
+    private static bool IsEncryptedCore4(ReadOnlySpan<byte> data) => IsEncryptedCore2(data); // Same struct as Core version 2 and 3.
 
     /// <summary>
     /// Gets the checksum of a Pokémon's AES-encrypted data.
