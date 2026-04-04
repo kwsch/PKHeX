@@ -102,7 +102,7 @@ public sealed class FormVerifier : Verifier
                 var genesect = FormItem.GetFormGenesect(pk.HeldItem);
                 return genesect != form ? GetInvalid(FormItemInvalid) : GetValid(FormItemMatches);
             case Greninja:
-                if (form > 1) // Ash Battle Bond active
+                if (form > 1 && form != 3) // Ash Battle Bond active
                     return GetInvalid(FormBattle);
                 if (form != 0 && enc is not MysteryGift) // Form can not be bred for, MysteryGift already checked
                     return GetInvalid(FormInvalidRangeLEQ_0F, 0);

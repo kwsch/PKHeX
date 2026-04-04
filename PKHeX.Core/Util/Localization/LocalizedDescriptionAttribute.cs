@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
-[AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Module | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Constructor | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Event | AttributeTargets.Interface | AttributeTargets.Parameter | AttributeTargets.Delegate | AttributeTargets.ReturnValue | AttributeTargets.GenericParameter)]
+[AttributeUsage(AttributeTargets.All)]
 public sealed class LocalizedDescriptionAttribute(string fallback, [CallerMemberName] string? key = null)
     : DescriptionAttribute
 {

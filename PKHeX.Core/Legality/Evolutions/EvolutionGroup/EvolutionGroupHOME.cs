@@ -49,7 +49,16 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
     /// </summary>
     /// <returns>True if we should check all adjacent evolution sources.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool CheckAllAdjacent(PKM pk, EvolutionOrigin enc) => enc.SkipChecks || pk is IHomeTrack { HasTracker: true } || !ParseSettings.IgnoreTransferIfNoTracker;
+    private static bool CheckAllAdjacent(PKM pk, EvolutionOrigin enc)
+    {
+        if (enc.SkipChecks)
+            return true;
+        if (IsOutsideContext(pk.Context))
+            return true; // transferred through HOME already
+        return pk is IHomeTrack { HasTracker: true } || !ParseSettings.IgnoreTransferIfNoTracker;
+    }
+
+    private static bool IsOutsideContext(EntityContext context) => context is not (EntityContext.Gen8 or EntityContext.Gen8a or EntityContext.Gen8b or EntityContext.Gen9);
 
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {

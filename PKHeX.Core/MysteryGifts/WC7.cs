@@ -581,7 +581,13 @@ public sealed class WC7(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
         }
 
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
-            return false;
+        {
+            // Small bypass for Greninja-Ash when mega evolved (normal and Ash map to the same Mega-3, managed by game)
+            if (this is { Species: (ushort)Core.Species.Greninja, Form: 1 } && pk is { Context: EntityContext.Gen9a, Form: 3 })
+            { } // Allow
+            else
+                return false;
+        }
 
         if (IsEgg)
         {

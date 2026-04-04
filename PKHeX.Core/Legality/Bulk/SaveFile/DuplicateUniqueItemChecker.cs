@@ -32,6 +32,20 @@ public sealed class DuplicateUniqueItemChecker : IBulkAnalyzer
                 continue;
 
             var item = items.GetItem(stone);
+            if (ItemStorage9ZA.IsOrb(stone))
+            {
+                // Handled via Other items (give, unique), not Mega Stones (loan).
+                if (item.IsNew) // Not acquired/given by the save file, thus not able to be held.
+                    input.AddLine(slot, Identifier, BulkCheckResult.NoIndex, BulkHeldItemInventoryNotAcquired_0, stone);
+                else if (seenStones.TryGetValue(stone, out var otherIndex)) // Already given to another slot.
+                    input.AddLine(slot, input.AllData[otherIndex], Identifier, i, index2: otherIndex, BulkHeldItemInventoryMultipleSlots_0, stone);
+                else // First time seeing this item, all good.
+                    seenStones[stone] = i;
+
+                continue;
+            }
+
+            // Mega Stone
             if (item.Count == 0) // Not acquired by the save file, thus not able to be held.
                 input.AddLine(slot, Identifier, BulkCheckResult.NoIndex, BulkHeldItemInventoryNotAcquired_0, stone);
             else if (!item.IsHeld) // Not marked as held, so it's still "in the bag" (not given).

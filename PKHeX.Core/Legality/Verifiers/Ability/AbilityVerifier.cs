@@ -514,7 +514,29 @@ public sealed class AbilityVerifier : Verifier
         if (ability != expect)
             return GetInvalid(AbilityMismatch);
 
-        return VALID;
+        return VerifyFinalState(data, enc, index);
+    }
+
+    private CheckResult VerifyFinalState(LegalityAnalysis data, IEncounterTemplate enc, int currentIndex)
+    {
+        if (currentIndex == 2) // Not normally obtainable. Has to visit another game where it can be switched.
+        {
+            if (AbilityChangeRules.IsAbilityPatchPossible(data.Info.EvoChainsAllGens))
+                return GetValid(AbilityPatchUsed);
+            return GetInvalid(AbilityHiddenUnavailable);
+        }
+
+        if (!enc.Ability.IsSingleValue(out var bit) || bit == currentIndex) // Any/Unchanged
+            return VALID;
+
+        var history = data.Info.EvoChainsAllGens;
+        if (bit == 2 && AbilityChangeRules.IsAbilityPatchRevertPossible(history, currentIndex))
+            return GetValid(AbilityPatchRevertUsed);
+        if (bit != 2 && AbilityChangeRules.IsAbilityCapsuleAvailable(history))
+            return GetValid(AbilityCapsuleUsed);
+
+        // Can't change to current state.
+        return GetInvalid(AbilityMismatch);
     }
 
     private static bool IsAnyMoveSourceNotZA_Head(ReadOnlySpan<MoveResult> infoMoves)

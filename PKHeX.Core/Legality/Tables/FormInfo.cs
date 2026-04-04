@@ -137,7 +137,7 @@ public static class FormInfo
             {
                 EntityContext.Gen6 => false,
                 EntityContext.Gen7 => newForm >= 2 || (oldForm == 1 && newForm == 0),
-                EntityContext.Gen9a => newForm >= 2,
+                EntityContext.Gen9a when origin is EntityContext.Gen9a => newForm >= 2,
                 _ => true,
             };
         }

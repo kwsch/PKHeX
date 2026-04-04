@@ -168,7 +168,9 @@ public sealed class ItemStorage9ZA : IItemStorage
     }
 
     public static bool IsMegaStone(ushort item) => MegaStones.Contains(item);
-    public static bool IsUniqueHeldItem(ushort item) => IsMegaStone(item) || item is (0534 or 0535); // Primal Orbs
+    public static bool IsUniqueHeldItem(ushort item) => IsMegaStone(item) || IsOrb(item);
+    public static bool IsOrb(ushort item) => item is (0534 or 0535); // Primal Orbs
+
     public static ushort[] GetAllUniqueHeldItems() => [..MegaStones, 0534, 0535];
 
     /// <summary>

@@ -32,7 +32,7 @@ public sealed class FormArgumentVerifier : Verifier
         return (Species)pk.Species switch
         {
             // Transfer Edge Cases -- Bank wipes the form but keeps old FormArgument value.
-            Furfrou when pk is { Context: EntityContext.Gen7, Form: 0 } &&
+            Furfrou when pk is { Context: not EntityContext.Gen6, Form: 0 } &&
                                  ((enc.Generation == 6 && f.FormArgument <= byte.MaxValue) || IsFormArgumentDayCounterValid(f, 5, true))
                 => GetValid(FormArgumentValid),
 
@@ -74,22 +74,8 @@ public sealed class FormArgumentVerifier : Verifier
                 > 9_999 => GetInvalid(FormArgumentLEQ_0, 9999),
                 _ => arg == 0 || HasVisitedSV(data, Bisharp) ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
             },
-            Gimmighoul => arg switch
-            {
-                // Z-A evolutions do not set form argument to Gimmighoul.
-                0 when data.Info.EvoChainsAllGens.HasVisitedZA => GetValid(FormArgumentValid),
-
-                // When leveled up, the game copies the save file's current coin count to the arg (clamped to <=999). If >=999, evolution is triggered.
-                // Without being leveled up at least once, it cannot have a form arg value.
-                >= 999 => GetInvalid(FormArgumentLEQ_0, 999),
-                0 => GetValid(FormArgumentValid),
-
-                // S/V sets form argument to match coin count.
-                _ when !data.Info.EvoChainsAllGens.HasVisitedGen9 => GetInvalid(FormArgumentInvalid),
-                _ => pk.CurrentLevel != pk.MetLevel ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentNotAllowed),
-            },
-            Gholdengo when !data.Info.EvoChainsAllGens.HasVisitedGen9 => arg == 0 ? GetValid(FormArgumentValid) : GetInvalid(FormArgumentInvalid),
-            Gholdengo => VerifyFormArgumentRange(enc.Species, Gholdengo, arg, 999, 999),
+            Gimmighoul => CheckGimmighoul(data.Info.EvoChainsAllGens, arg, pk),
+            Gholdengo => CheckGholdengo(data.Info.EvoChainsAllGens, arg, enc, pk),
 
             Runerigus   => VerifyFormArgumentRange(enc.Species, Runerigus,   arg,  49, 9999),
             Alcremie    => VerifyFormArgumentRange(enc.Species, Alcremie,    arg,   0, (ushort)AlcremieDecoration.Ribbon),
@@ -117,6 +103,61 @@ public sealed class FormArgumentVerifier : Verifier
             },
             _ => VerifyFormArgumentNone(pk, f),
         };
+    }
+
+    private CheckResult CheckGimmighoul(EvolutionHistory history, uint arg, PKM pk)
+    {
+        if (arg == 0)
+            return GetValid(FormArgumentValid);
+
+        // The only game we can assign a form argument value is in S/V.
+        // Z-A evolutions do not set form argument to Gimmighoul.
+        if (history.HasVisitedGen9)
+        {
+            // When leveled up, the game copies the save file's current coin count to the arg (clamped to <=999). If >=999, evolution is triggered (can cancel).
+            // Without being leveled up at least once, it cannot have a form arg value.
+            if (arg > 999)
+                return GetInvalid(FormArgumentLEQ_0, 999);
+            if (pk.CurrentLevel == pk.MetLevel)
+                return GetInvalid(FormArgumentNotAllowed);
+
+            return GetValid(FormArgumentValid);
+        }
+
+        return GetInvalid(FormArgumentNotAllowed);
+    }
+
+    private CheckResult CheckGholdengo(EvolutionHistory history, uint arg, IEncounterable enc, PKM pk)
+    {
+        if (enc.Species == (ushort)Gholdengo)
+        {
+            if (arg == 0)
+                return GetValid(FormArgumentValid);
+            return GetInvalid(FormArgumentNotAllowed);
+        }
+
+        // Gimmighoul evolved.
+        // The only game we can assign a form argument value is in S/V.
+        // Z-A evolutions do not set form argument to Gimmighoul.
+        var hasVisitedNoArgGame = history.HasVisitedZA;
+        if (hasVisitedNoArgGame && arg == 0)
+            return GetValid(FormArgumentValid);
+
+        if (history.HasVisitedGen9)
+        {
+            // When leveled up, the game copies the save file's current coin count to the arg (clamped to <=999). If >=999, evolution is triggered (can cancel).
+            // Without being leveled up at least once, it cannot have a form arg value.
+            if (arg > 999)
+                return GetInvalid(FormArgumentLEQ_0, 999);
+            if (pk.CurrentLevel == pk.MetLevel)
+                return GetInvalid(FormArgumentNotAllowed);
+
+            if (!hasVisitedNoArgGame && arg != 999) // Evolving without visiting a less-restricted game requires 999.
+                return GetInvalid(FormArgumentGEQ_0, 999);
+            return GetValid(FormArgumentValid);
+        }
+
+        return GetInvalid(FormArgumentNotAllowed);
     }
 
     private static bool IsFormArgumentValidFurfrou8HOME(IFormArgument f, IEncounterTemplate enc)
