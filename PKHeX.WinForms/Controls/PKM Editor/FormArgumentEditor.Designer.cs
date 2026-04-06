@@ -30,19 +30,19 @@ namespace PKHeX.WinForms.Controls
         {
             components = new System.ComponentModel.Container();
             TLP_FormArg = new System.Windows.Forms.TableLayoutPanel();
-            toolTip1 = new System.Windows.Forms.ToolTip(components);
             CB_FormArg = new System.Windows.Forms.ComboBox();
             NUD_FormArg = new System.Windows.Forms.NumericUpDown();
+            FLP_FormArg = new System.Windows.Forms.FlowLayoutPanel();
             NUD_FormArgMax = new System.Windows.Forms.NumericUpDown();
             NUD_FormArgElapsed = new System.Windows.Forms.NumericUpDown();
             NUD_FormArgRemain = new System.Windows.Forms.NumericUpDown();
-            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            toolTip1 = new System.Windows.Forms.ToolTip(components);
             TLP_FormArg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_FormArg).BeginInit();
+            FLP_FormArg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_FormArgMax).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_FormArgElapsed).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_FormArgRemain).BeginInit();
-            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // TLP_FormArg
@@ -52,7 +52,7 @@ namespace PKHeX.WinForms.Controls
             TLP_FormArg.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             TLP_FormArg.Controls.Add(CB_FormArg, 0, 0);
             TLP_FormArg.Controls.Add(NUD_FormArg, 0, 1);
-            TLP_FormArg.Controls.Add(flowLayoutPanel1, 0, 2);
+            TLP_FormArg.Controls.Add(FLP_FormArg, 0, 2);
             TLP_FormArg.Dock = System.Windows.Forms.DockStyle.Fill;
             TLP_FormArg.Location = new System.Drawing.Point(0, 0);
             TLP_FormArg.Name = "TLP_FormArg";
@@ -63,19 +63,18 @@ namespace PKHeX.WinForms.Controls
             TLP_FormArg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             TLP_FormArg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             TLP_FormArg.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            TLP_FormArg.Size = new System.Drawing.Size(129, 75);
+            TLP_FormArg.Size = new System.Drawing.Size(144, 75);
             TLP_FormArg.TabIndex = 3;
             // 
             // CB_FormArg
             // 
-            CB_FormArg.Dock = System.Windows.Forms.DockStyle.Fill;
             CB_FormArg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_FormArg.FormattingEnabled = true;
             CB_FormArg.Items.AddRange(new object[] { "" });
             CB_FormArg.Location = new System.Drawing.Point(0, 0);
             CB_FormArg.Margin = new System.Windows.Forms.Padding(0);
             CB_FormArg.Name = "CB_FormArg";
-            CB_FormArg.Size = new System.Drawing.Size(129, 25);
+            CB_FormArg.Size = new System.Drawing.Size(144, 25);
             CB_FormArg.TabIndex = 3;
             CB_FormArg.Visible = false;
             CB_FormArg.SelectedIndexChanged += SelectionChanged;
@@ -91,6 +90,18 @@ namespace PKHeX.WinForms.Controls
             NUD_FormArg.Value = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_FormArg.Visible = false;
             NUD_FormArg.ValueChanged += SelectionChanged;
+            // 
+            // FLP_FormArg
+            // 
+            FLP_FormArg.AutoSize = true;
+            FLP_FormArg.Controls.Add(NUD_FormArgMax);
+            FLP_FormArg.Controls.Add(NUD_FormArgElapsed);
+            FLP_FormArg.Controls.Add(NUD_FormArgRemain);
+            FLP_FormArg.Location = new System.Drawing.Point(0, 50);
+            FLP_FormArg.Margin = new System.Windows.Forms.Padding(0);
+            FLP_FormArg.Name = "FLP_FormArg";
+            FLP_FormArg.Size = new System.Drawing.Size(123, 25);
+            FLP_FormArg.TabIndex = 11;
             // 
             // NUD_FormArgMax
             // 
@@ -127,18 +138,6 @@ namespace PKHeX.WinForms.Controls
             NUD_FormArgRemain.Visible = false;
             NUD_FormArgRemain.ValueChanged += SelectionChanged;
             // 
-            // flowLayoutPanel1
-            // 
-            flowLayoutPanel1.AutoSize = true;
-            flowLayoutPanel1.Controls.Add(NUD_FormArgMax);
-            flowLayoutPanel1.Controls.Add(NUD_FormArgElapsed);
-            flowLayoutPanel1.Controls.Add(NUD_FormArgRemain);
-            flowLayoutPanel1.Location = new System.Drawing.Point(0, 50);
-            flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new System.Drawing.Size(123, 25);
-            flowLayoutPanel1.TabIndex = 11;
-            // 
             // FormArgumentEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -146,14 +145,14 @@ namespace PKHeX.WinForms.Controls
             AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             Controls.Add(TLP_FormArg);
             Name = "FormArgumentEditor";
-            Size = new System.Drawing.Size(129, 75);
+            Size = new System.Drawing.Size(144, 75);
             TLP_FormArg.ResumeLayout(false);
             TLP_FormArg.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_FormArg).EndInit();
+            FLP_FormArg.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NUD_FormArgMax).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_FormArgElapsed).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_FormArgRemain).EndInit();
-            flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -164,7 +163,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.NumericUpDown NUD_FormArg;
         private System.Windows.Forms.ComboBox CB_FormArg;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel FLP_FormArg;
         private System.Windows.Forms.NumericUpDown NUD_FormArgMax;
         private System.Windows.Forms.NumericUpDown NUD_FormArgElapsed;
         private System.Windows.Forms.NumericUpDown NUD_FormArgRemain;
