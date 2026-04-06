@@ -38,6 +38,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // FLP_CatchRate
             // 
+            FLP_CatchRate.AutoSize = true;
             FLP_CatchRate.Controls.Add(NUD_CatchRate);
             FLP_CatchRate.Controls.Add(B_Clear);
             FLP_CatchRate.Controls.Add(B_Reset);
@@ -45,7 +46,7 @@ namespace PKHeX.WinForms.Controls
             FLP_CatchRate.Location = new System.Drawing.Point(0, 0);
             FLP_CatchRate.Margin = new System.Windows.Forms.Padding(0);
             FLP_CatchRate.Name = "FLP_CatchRate";
-            FLP_CatchRate.Size = new System.Drawing.Size(184, 25);
+            FLP_CatchRate.Size = new System.Drawing.Size(168, 25);
             FLP_CatchRate.TabIndex = 1;
             // 
             // NUD_CatchRate
@@ -54,7 +55,7 @@ namespace PKHeX.WinForms.Controls
             NUD_CatchRate.Margin = new System.Windows.Forms.Padding(0);
             NUD_CatchRate.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_CatchRate.Name = "NUD_CatchRate";
-            NUD_CatchRate.Size = new System.Drawing.Size(40, 23);
+            NUD_CatchRate.Size = new System.Drawing.Size(40, 25);
             NUD_CatchRate.TabIndex = 0;
             NUD_CatchRate.Value = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_CatchRate.ValueChanged += ChangeValue;
@@ -64,7 +65,7 @@ namespace PKHeX.WinForms.Controls
             B_Clear.Location = new System.Drawing.Point(40, 0);
             B_Clear.Margin = new System.Windows.Forms.Padding(0);
             B_Clear.Name = "B_Clear";
-            B_Clear.Size = new System.Drawing.Size(64, 23);
+            B_Clear.Size = new System.Drawing.Size(64, 24);
             B_Clear.TabIndex = 1;
             B_Clear.Text = "Clear";
             B_Clear.UseVisualStyleBackColor = true;
@@ -75,7 +76,7 @@ namespace PKHeX.WinForms.Controls
             B_Reset.Location = new System.Drawing.Point(104, 0);
             B_Reset.Margin = new System.Windows.Forms.Padding(0);
             B_Reset.Name = "B_Reset";
-            B_Reset.Size = new System.Drawing.Size(64, 23);
+            B_Reset.Size = new System.Drawing.Size(64, 24);
             B_Reset.TabIndex = 2;
             B_Reset.Text = "Reset";
             B_Reset.UseVisualStyleBackColor = true;
@@ -84,12 +85,15 @@ namespace PKHeX.WinForms.Controls
             // CatchRate
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            AutoSize = true;
+            AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             Controls.Add(FLP_CatchRate);
             Name = "CatchRate";
-            Size = new System.Drawing.Size(184, 25);
+            Size = new System.Drawing.Size(168, 25);
             FLP_CatchRate.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NUD_CatchRate).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

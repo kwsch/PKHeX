@@ -202,17 +202,10 @@ public partial class PKMEditor
         LoadClamp(CB_Form, pk.Form);
         L_FormArgument.Visible = pk is IFormArgument f && FA_Form.LoadArgument(f, pk.Species, pk.Form, pk.Context);
 
-        ReloadToFriendshipTextBox(pk);
+        TB_Friendship.Text = pk.OriginalTrainerFriendship.ToString();
 
         Label_HatchCounter.Visible = CHK_IsEgg.Checked;
         Label_Friendship.Visible = !CHK_IsEgg.Checked;
-    }
-
-    private void ReloadToFriendshipTextBox(PKM pk)
-    {
-        // Show OT friendship always if it is an egg.
-        var fs = (pk.IsEgg ? pk.OriginalTrainerFriendship : pk.CurrentFriendship);
-        TB_Friendship.Text = fs.ToString();
     }
 
     private void SaveMisc2(PKM pk)
@@ -225,15 +218,7 @@ public partial class PKMEditor
             FA_Form.SaveArgument(f);
 
         var friendship = (byte)Util.ToInt32(TB_Friendship.Text);
-        UpdateFromFriendshipTextBox(pk, friendship);
-    }
-
-    private static void UpdateFromFriendshipTextBox(PKM pk, byte friendship)
-    {
-        if (pk.IsEgg)
-            pk.OriginalTrainerFriendship = friendship;
-        else
-            pk.CurrentFriendship = friendship;
+        pk.OriginalTrainerFriendship = friendship;
     }
 
     private void LoadMisc3(PKM pk)
@@ -369,6 +354,7 @@ public partial class PKMEditor
 
         TB_HT.Text = handler;
         UC_HTGender.Gender = gender;
+        TB_FriendshipHT.Text = pk.HandlingTrainerFriendship.ToString();
         ToggleHandlerVisibility(handler.Length != 0);
 
         // Indicate who is currently in possession of the PKM
@@ -400,6 +386,7 @@ public partial class PKMEditor
     {
         pk.HandlingTrainerName = TB_HT.Text;
         pk.HandlingTrainerGender = UC_HTGender.Gender;
+        pk.HandlingTrainerFriendship = (byte)Util.ToInt32(TB_FriendshipHT.Text);
     }
 
     private void LoadAbility4(PKM pk)
