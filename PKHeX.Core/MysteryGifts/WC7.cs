@@ -584,9 +584,13 @@ public sealed class WC7(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
         {
             // Small bypass for Greninja-Ash when mega evolved (normal and Ash map to the same Mega-3, managed by game)
             if (this is { Species: (ushort)Core.Species.Greninja, Form: 1 } && pk is { Context: EntityContext.Gen9a, Form: 3 })
-            { } // Allow
+            {
+                // Allow
+            }
             else
+            {
                 return false;
+            }
         }
 
         if (IsEgg)
