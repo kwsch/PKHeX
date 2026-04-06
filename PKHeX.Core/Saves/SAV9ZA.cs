@@ -183,7 +183,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
         // Apply to this Save File
         pa9.UpdateHandler(this);
 
-        if (FormArgumentUtil.IsFormArgumentTypeDatePair(pa9.Species, pa9.Form))
+        if (FormArgumentUtil.IsFormArgumentTypeDateTriple(pa9.Species, pa9.Form))
         {
             pa9.FormArgumentElapsed = pa9.FormArgumentMaximum = 0;
             pa9.FormArgumentRemain = (byte)GetFormArgument(pa9);

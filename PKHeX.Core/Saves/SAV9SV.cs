@@ -178,7 +178,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         // Apply to this Save File
         pk9.UpdateHandler(this);
 
-        if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk9.Species, pk9.Form))
+        if (FormArgumentUtil.IsFormArgumentTypeDateTriple(pk9.Species, pk9.Form))
         {
             pk9.FormArgumentElapsed = pk9.FormArgumentMaximum = 0;
             pk9.FormArgumentRemain = (byte)GetFormArgument(pk9);

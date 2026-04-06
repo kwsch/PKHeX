@@ -175,7 +175,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
         // Apply to this Save File
         pk8.UpdateHandler(this);
 
-        if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk8.Species, pk8.Form))
+        if (FormArgumentUtil.IsFormArgumentTypeDateTriple(pk8.Species, pk8.Form))
         {
             pk8.FormArgumentElapsed = pk8.FormArgumentMaximum = 0;
             pk8.FormArgumentRemain = (byte)GetFormArgument(pk8);

@@ -45,6 +45,24 @@ public interface IFormArgument
     byte FormArgumentMaximum { get; set; }
 }
 
+public enum FormArgumentType
+{
+    /// <summary> Doesn't use the form argument value. </summary>
+    None,
+
+    /// <summary> Uses the form argument value as a single value. </summary>
+    Raw,
+
+    /// <summary> Party Stat split; stores (streak) in core and (remain, elapsed) in party. </summary>
+    TripleParty,
+
+    /// <summary> Uses the form argument value as a (max, remain, elapsed) tuple. </summary>
+    Triple,
+
+    /// <summary> Uses the form argument value as a single value, but has special edge case handling for precise names. </summary>
+    Named,
+}
+
 /// <summary>
 /// Logic for mutating <see cref="IFormArgument"/> objects.
 /// </summary>
@@ -59,7 +77,7 @@ public static class FormArgumentUtil
         {
             if (pk is not IFormArgument)
                 return;
-            uint value = IsFormArgumentTypeDatePair(species, form)
+            uint value = IsFormArgumentTypeDateTriple(species, form)
                 ? GetFormArgumentMax(species, form, current)
                 : GetFormArgumentMinEvolution(species, originalSpecies);
             if (IsFormArgumentAbleToStay0(species, form, history))
@@ -106,7 +124,7 @@ public static class FormArgumentUtil
     /// <param name="value">Value to apply</param>
     public static void ChangeFormArgument(this IFormArgument f, ushort species, byte form, EntityContext context, uint value)
     {
-        if (!IsFormArgumentTypeDatePair(species, form))
+        if (!IsFormArgumentTypeDateTriple(species, form))
         {
             f.FormArgument = value;
             return;
@@ -125,6 +143,35 @@ public static class FormArgumentUtil
         if (species == (int)Furfrou)
             f.FormArgumentMaximum = Math.Max(f.FormArgumentMaximum, elapsed);
     }
+
+    /// <summary>
+    /// Gets the maximum value the <see cref="IFormArgument.FormArgument"/> can be for GUI editing purposes, accounting for edge cases that are manually checked by legality.
+    /// </summary>
+    /// <param name="species">Entity Species</param>
+    /// <param name="form">Entity Form</param>
+    /// <param name="context">Context to check with.</param>
+    public static uint GetFormArgumentMaxEdge(ushort species, byte form, EntityContext context)
+    {
+        if (species == (ushort)Furfrou && context != EntityContext.Gen6)
+            return 5; // Gen6=>Gen7 clears form but forgets to clear Form Argument.
+
+        return GetFormArgumentMax(species, form, context);
+    }
+
+    /// <summary>
+    /// Gets the value format that form argument values are saved as.
+    /// </summary>
+    /// <param name="species">Entity Species</param>
+    /// <param name="form">Entity Form</param>
+    /// <param name="context">Context to check with.</param>
+    public static FormArgumentType GetType(ushort species, byte form, EntityContext context) => (Species)species switch
+    {
+        Furfrou => context == EntityContext.Gen6 ? FormArgumentType.TripleParty : FormArgumentType.Triple,
+        Hoopa when form == 1 => context == EntityContext.Gen6 ? FormArgumentType.TripleParty : FormArgumentType.Triple,
+        Alcremie => FormArgumentType.Named,
+
+        _ => GetFormArgumentMax(species, form, context) > 0 ? FormArgumentType.Raw : FormArgumentType.None,
+    };
 
     /// <summary>
     /// Gets the maximum value the <see cref="IFormArgument.FormArgument"/> can be.
@@ -175,9 +222,19 @@ public static class FormArgumentUtil
     /// <summary>
     /// Checks if the <see cref="IFormArgument.FormArgument"/> value is stored as a days-elapsed / days-remaining pair.
     /// </summary>
-    public static bool IsFormArgumentTypeDatePair(ushort species, byte form) => species switch
+    public static bool IsFormArgumentTypeDateTriple(ushort species, byte form) => species switch
     {
         (int)Furfrou when form != 0 => true,
+        (int)Hoopa when form == 1 => true,
+        _ => false,
+    };
+
+    /// <summary>
+    /// Checks if the <see cref="IFormArgument.FormArgument"/> value is stored as a days-elapsed / days-remaining pair.
+    /// </summary>
+    public static bool IsFormArgumentTypeDateTripleVisible(ushort species, byte form) => species switch
+    {
+        (int)Furfrou => true, // Gen6=>Bank can revert form to 0 but not clear the form argument value, carries forward into Gen9+.
         (int)Hoopa when form == 1 => true,
         _ => false,
     };
