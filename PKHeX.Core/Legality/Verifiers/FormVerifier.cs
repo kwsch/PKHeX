@@ -43,15 +43,7 @@ public sealed class FormVerifier : Verifier
         switch ((Species)species)
         {
             case Pikachu when enc.Generation == 6: // Cosplay
-                if (enc is not EncounterStatic6 s6)
-                {
-                    if (form == 0)
-                        break; // Regular Pikachu, OK.
-                    return GetInvalid(FormPikachuCosplay);
-                }
-                if (form != s6.Form)
-                    return GetInvalid(FormPikachuCosplayInvalid);
-                if (pk.Format != 6)
+                if (form != 0 && pk.Format != 6) // Regular Pikachu, OK.
                     return GetInvalid(TransferBad); // Can't transfer.
                 break;
 
@@ -59,16 +51,6 @@ public sealed class FormVerifier : Verifier
             case Pikachu when form is not 0 && ParseSettings.ActiveTrainer is SAV7b {Version:GameVersion.GE}:
             case Eevee when form is not 0 && ParseSettings.ActiveTrainer is SAV7b {Version:GameVersion.GP}:
                 return GetInvalid(FormBattle);
-
-            case Pikachu when enc.Generation >= 7: // Cap
-                var expectForm = enc is EncounterInvalid or IEncounterEgg ? 0 : enc.Form;
-                if (form != expectForm)
-                {
-                    bool gift = enc is MysteryGift g && g.Form != form;
-                    var msg = gift ? FormPikachuEventInvalid : FormInvalidGame;
-                    return GetInvalid(msg);
-                }
-                break;
 
             case Unown when enc.Generation == 2 && form >= 26:
                 return GetInvalid(FormInvalidRangeLEQ_0F, 25);
@@ -101,12 +83,9 @@ public sealed class FormVerifier : Verifier
             case Genesect:
                 var genesect = FormItem.GetFormGenesect(pk.HeldItem);
                 return genesect != form ? GetInvalid(FormItemInvalid) : GetValid(FormItemMatches);
-            case Greninja:
-                if (form > 1 && form != 3) // Ash Battle Bond active
-                    return GetInvalid(FormBattle);
-                if (form != 0 && enc is not MysteryGift) // Form can not be bred for, MysteryGift already checked
-                    return GetInvalid(FormInvalidRangeLEQ_0F, 0);
-                break;
+
+            case Furfrou when pk.Context == EntityContext.Gen6 && form != 0 && !data.IsStoredSlot(StorageSlotType.Party):
+                return GetInvalid(FormParty);
 
             case Scatterbug or Spewpa or Vivillon when enc.Context is EntityContext.Gen9:
                 if (form > 18 && enc.Form != form) // Pokéball
@@ -139,10 +118,6 @@ public sealed class FormVerifier : Verifier
                     data.AddLine(Get(Severity.Fishy, FormVivillonNonNative));
                 break;
 
-            case Floette when form == 5: // Eternal Flower Floette - not released until Pokémon Legends: Z-A
-                if (enc is not EncounterGift9a)
-                    return GetInvalid(FormEternalInvalid);
-                return GetValid(FormEternal);
             case Meowstic when (form & 1) != pk.Gender:
                 return GetInvalid(GenderInvalidNone);
 
