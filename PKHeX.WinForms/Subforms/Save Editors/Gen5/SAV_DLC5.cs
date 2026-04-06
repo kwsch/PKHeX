@@ -180,6 +180,38 @@ public partial class SAV_DLC5 : Form
         File.WriteAllBytes(sfd.FileName, data);
     }
 
+    private static string GetImportedMusicalName(string path)
+    {
+        var name = Path.GetFileNameWithoutExtension(path).Trim();
+
+        var split = name.LastIndexOf(" - ", StringComparison.Ordinal);
+        if (split >= 0 && split + 3 < name.Length)
+            name = name[(split + 3)..].Trim();
+
+        var suffix = name.LastIndexOf(" (", StringComparison.Ordinal);
+        if (suffix > 0 && name[^1] == ')' && IsLikelyLanguageTag(name[(suffix + 2)..^1]))
+            name = name[..suffix].TrimEnd();
+
+        if (name.Length > Musical5.MusicalNameMaxLength)
+            name = name[..Musical5.MusicalNameMaxLength].TrimEnd();
+
+        return name;
+    }
+
+    private static bool IsLikelyLanguageTag(ReadOnlySpan<char> value)
+    {
+        if (value.Length is < 2 or > 5)
+            return false;
+
+        foreach (var c in value)
+        {
+            if ((uint)(c - 'A') > 'Z' - 'A')
+                return false;
+        }
+
+        return true;
+    }
+
     private void B_ImportPNGCGear_Click(object sender, EventArgs e)
     {
         using var ofd = new OpenFileDialog();
@@ -355,7 +387,7 @@ public partial class SAV_DLC5 : Form
         var musical = new MusicalShow5(data);
         SAV.SetMusical(data);
         if (LastImportedFile is { } name)
-            SAV.Musical.MusicalName = musical.IsUninitialized ? "" : Path.GetFileNameWithoutExtension(name).Trim();
+            SAV.Musical.MusicalName = musical.IsUninitialized ? "" : GetImportedMusicalName(name);
     }
 
     private void B_MusicalExport_Click(object sender, EventArgs e)

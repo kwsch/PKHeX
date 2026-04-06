@@ -213,6 +213,13 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
         ArgumentOutOfRangeException.ThrowIfNotEqual(data.Length, size);
         SetData(data, offset);
 
+        return RefreshExtSectionFooter(offset, size, count);
+    }
+
+    private ushort RefreshExtSectionFooter(int offset, int size, ushort count)
+    {
+        var data = Data.Slice(offset, size);
+
         // Update Tail Section
         ushort chk = Checksums.CRC16_CCITT(data);
         var tail = Data[(offset + size)..];
@@ -292,8 +299,9 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
     public void SetPokeDexSkin(ReadOnlySpan<byte> data, ushort count = 1)
     {
         WriteExtSection(data, ExtPokeDexSkinOffset, PokeDexSkin5.SIZE, count);
+        IsAvailablePokedexSkin = true; // checksum might be changed via this, need to refresh footer to be safe
+        RefreshExtSectionFooter(ExtPokeDexSkinOffset, PokeDexSkin5.SIZE, count);
         PlayerData.UpdateExtData(ExtDataSectionNote5.PokedexSkin, count);
-        IsAvailablePokedexSkin = true;
     }
 
     private Span<byte> DexSkinFooter => Data.Slice(ExtPokeDexSkinOffset + PokeDexSkin5.SIZE - 4, 4);

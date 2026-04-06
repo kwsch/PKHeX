@@ -6,12 +6,12 @@ public sealed class Musical5(SAV5 SAV, Memory<byte> raw) : SaveBlock<SAV5>(SAV, 
 {
     public const int MusicalNameMaxLength = 20;
 
-    private Span<byte> MusicalTrash => Data.Slice(0x208, MusicalNameMaxLength * 2);
+    private Span<byte> MusicalTrash => Data.Slice(0x208, MusicalNameMaxLength * 2 + 2); // require terminator, so +2 for 0xFFFF
 
     public string MusicalName
     {
         get => StringConverter5.GetString(MusicalTrash);
-        set => StringConverter5.SetString(MusicalTrash, value, MusicalNameMaxLength, 0, StringConverterOption.ClearZero);
+        set => StringConverter5.SetString(MusicalTrash, value, MusicalNameMaxLength, SAV.Language, StringConverterOption.ClearZero);
     }
 
     private const int PropOffset = 0x258;
