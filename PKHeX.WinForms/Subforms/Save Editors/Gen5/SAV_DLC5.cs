@@ -186,14 +186,14 @@ public partial class SAV_DLC5 : Form
 
         var split = name.LastIndexOf(" - ", StringComparison.Ordinal);
         if (split >= 0 && split + 3 < name.Length)
-            name = name[(split + 3)..].Trim();
+            name = name.AsSpan()[(split + 3)..].Trim().ToString();
 
         var suffix = name.LastIndexOf(" (", StringComparison.Ordinal);
-        if (suffix > 0 && name[^1] == ')' && IsLikelyLanguageTag(name[(suffix + 2)..^1]))
-            name = name[..suffix].TrimEnd();
+        if (suffix > 0 && name[^1] == ')' && IsLikelyLanguageTag(name.AsSpan()[(suffix + 2)..^1]))
+            name = name.AsSpan()[..suffix].TrimEnd().ToString();
 
         if (name.Length > Musical5.MusicalNameMaxLength)
-            name = name[..Musical5.MusicalNameMaxLength].TrimEnd();
+            name = name.AsSpan()[..Musical5.MusicalNameMaxLength].TrimEnd().ToString();
 
         return name;
     }

@@ -36,6 +36,7 @@ namespace PKHeX.WinForms
             mnuRandomizeMax = new System.Windows.Forms.ToolStripMenuItem();
             mnuCloneCurrent = new System.Windows.Forms.ToolStripMenuItem();
             mnuShinyAssortment = new System.Windows.Forms.ToolStripMenuItem();
+            mnuGenerateRandom = new System.Windows.Forms.ToolStripMenuItem();
             B_ModifyAll = new System.Windows.Forms.Button();
             B_Reset = new System.Windows.Forms.Button();
             DonutEditor = new DonutEditor9a();
@@ -84,9 +85,9 @@ namespace PKHeX.WinForms
             // modifyMenu
             // 
             modifyMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
-            modifyMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuRandomizeMax, mnuCloneCurrent, mnuShinyAssortment });
+            modifyMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuRandomizeMax, mnuCloneCurrent, mnuShinyAssortment, mnuGenerateRandom });
             modifyMenu.Name = "modifyMenu";
-            modifyMenu.Size = new System.Drawing.Size(204, 70);
+            modifyMenu.Size = new System.Drawing.Size(204, 92);
             // 
             // mnuRandomizeMax
             // 
@@ -108,6 +109,13 @@ namespace PKHeX.WinForms
             mnuShinyAssortment.Size = new System.Drawing.Size(203, 22);
             mnuShinyAssortment.Text = "Shiny Assortment";
             mnuShinyAssortment.Click += ShinyAssortment;
+            // 
+            // mnuGenerateRandom
+            // 
+            mnuGenerateRandom.Name = "mnuGenerateRandom";
+            mnuGenerateRandom.Size = new System.Drawing.Size(203, 22);
+            mnuGenerateRandom.Text = "Generate Random...";
+            mnuGenerateRandom.Click += GenerateRandom;
             // 
             // B_ModifyAll
             // 
@@ -214,6 +222,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ToolStripMenuItem mnuRandomizeMax;
         private System.Windows.Forms.ToolStripMenuItem mnuCloneCurrent;
         private System.Windows.Forms.ToolStripMenuItem mnuShinyAssortment;
+        private System.Windows.Forms.ToolStripMenuItem mnuGenerateRandom;
         private System.Windows.Forms.Button B_ModifyAll;
         private System.Windows.Forms.Button B_Reset;
         private DonutEditor9a DonutEditor;

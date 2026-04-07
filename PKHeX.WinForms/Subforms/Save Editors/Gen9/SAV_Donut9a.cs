@@ -166,6 +166,21 @@ public partial class SAV_Donut9a : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
+    private void GenerateRandom(object sender, EventArgs e)
+    {
+        using var form = new SAV_DonutGenerator9a(this);
+        form.ShowDialog(this);
+    }
+
+    internal void GenerateRandomDonuts(ReadOnlySpan<ulong> flavorOptions, int start, int end)
+    {
+        SetEntry(lastIndex);
+        Donuts.SetRandomShinyTemplateRange(flavorOptions, start, end);
+        ReloadDonutNames();
+        GetEntry(lastIndex);
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
     private void B_Reset_Click(object sender, EventArgs e) => DonutEditor.Reset();
 
     private void B_ImportClick(object sender, EventArgs e)

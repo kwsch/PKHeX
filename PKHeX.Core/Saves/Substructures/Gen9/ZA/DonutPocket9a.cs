@@ -86,6 +86,36 @@ public sealed class DonutPocket9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>
         }
     }
 
+    public void SetRandomShinyTemplateRange(ReadOnlySpan<ulong> flavorOptions, int start, int end)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(start);
+        ArgumentOutOfRangeException.ThrowIfNegative(end);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(start, MaxCount);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(end, MaxCount);
+        if (start > end)
+            throw new ArgumentOutOfRangeException(nameof(start), "Start must not exceed end.");
+        if (start == end)
+            return;
+        if (flavorOptions.IsEmpty)
+            throw new ArgumentException("At least one flavor must be selected.", nameof(flavorOptions));
+
+        var flavorPool = flavorOptions.ToArray();
+        var rand = Util.Rand;
+        for (int i = start; i < end; i++)
+        {
+            var entry = GetDonut(i);
+            Template.CopyTo(entry.Data);
+
+            // Pick up to 3 unique random flavors from flavorOptions.
+            rand.Shuffle(flavorPool);
+            entry.Flavor0 = flavorPool.Length > 0 ? flavorPool[0] : 0ul;
+            entry.Flavor1 = flavorPool.Length > 1 ? flavorPool[1] : 0ul;
+            entry.Flavor2 = flavorPool.Length > 2 ? flavorPool[2] : 0ul;
+
+            ApplyTimestampNow(entry, i);
+        }
+    }
+
     private static void ApplyTimestampNow(Donut9a entry, int bias = 0)
     {
         var now = DateTime.Now;
