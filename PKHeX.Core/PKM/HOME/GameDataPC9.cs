@@ -19,10 +19,10 @@ public sealed class GameDataPC9 : HomeOptional1
 
     #region Structure
 
-    /// <summary> Indicates if the data is currently living in Champions, and is thus locked out from interaction until returned. </summary>
-    public bool IsTransferred { get => Data[0x00] != 0; set => Data[0x00] = value ? (byte)1 : (byte)0; }
+    /// <summary> Indicates if the data currently resides in Champions. </summary>
+    public ChampionsTransferState State { get => (ChampionsTransferState)Data[0x00]; set => Data[0x00] = (byte)value; }
 
-    /// <summary> Time of last deposit into Champions. time_t (64-bit) in seconds since Unix epoch. </summary>
+    /// <summary> Time of last sync with Champions (deposit/return). time_t (64-bit) in seconds since Unix epoch. </summary>
     public ulong Timestamp { get => ReadUInt64LittleEndian(Data[0x01..]); set => WriteUInt64LittleEndian(Data[0x01..], value); }
 
     /// <summary> Probably a GUID, since Champions uses Unity (C#) and this is 16 bytes long. Probably used by Champions to fetch the Champions' specific data while in that game. </summary>
@@ -30,4 +30,17 @@ public sealed class GameDataPC9 : HomeOptional1
     public Guid Tag => new(TagSpan);
 
     #endregion
+}
+
+/// <summary>
+/// Represents the transfer state of an entity with respect to the Pokémon Champions ecosystem.
+/// </summary>
+public enum ChampionsTransferState : byte
+{
+    /// <summary> Never transferred into Champions. Not really a valid state, as value should be one of the other options once initialized. </summary>
+    None = 0,
+    /// <summary> Indicates that the entity is currently deposited into Champions, and is thus locked out from interaction until returned. </summary>
+    Transferred = 1,
+    /// <summary> Indicates that the entity has been returned from Champions and is no longer locked out from interaction. </summary>
+    Returned = 2,
 }
