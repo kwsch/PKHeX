@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -19,33 +18,16 @@ public sealed class GameDataPC9 : HomeOptional1
     public int WriteTo(Span<byte> result) => WriteWithHeader(result);
 
     #region Structure
+
+    /// <summary> Indicates if the data is currently living in Champions, and is thus locked out from interaction until returned. </summary>
     public bool IsTransferred { get => Data[0x00] != 0; set => Data[0x00] = value ? (byte)1 : (byte)0; }
+
+    /// <summary> Time of last deposit into Champions. time_t (64-bit) in seconds since Unix epoch. </summary>
     public ulong Timestamp { get => ReadUInt64LittleEndian(Data[0x01..]); set => WriteUInt64LittleEndian(Data[0x01..], value); }
-    public Span<byte> TransferID { get => Data.Slice(0x09, 0x10); set => value.CopyTo(Data.Slice(0x09, 0x10)); }
-    public string TransferText { get => Encoding.UTF8.GetString(TransferID); set => Encoding.UTF8.GetBytes(value, TransferID); } // todo, this is just a guess
+
+    /// <summary> Probably a GUID, since Champions uses Unity (C#) and this is 16 bytes long. Probably used by Champions to fetch the Champions' specific data while in that game. </summary>
+    public Span<byte> TagSpan => Data.Slice(0x09, 0x10);
+    public Guid Tag => new(TagSpan);
 
     #endregion
-
-
-    #region Conversion
-
-    public PersonalInfo GetPersonalInfo(ushort species, byte form) => PersonalTable.ZA.GetFormEntry(species, form);
-
-    public PKM ConvertToPKM(PKH pkh) => throw new NotSupportedException("No conversion routine.");
-
-    #endregion
-
-    /// <summary> Reconstructive logic to best apply suggested values. </summary>
-    public static GameDataPC9? TryCreate(PKH pkh) => CreateInternal();
-
-    private static GameDataPC9? CreateInternal()
-    {
-        var result = new GameDataPC9()
-        {
-            IsTransferred = true,
-            Timestamp = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-            // TODO HOME CP -- transfer ID?
-        };
-        return result;
-    }
 }
