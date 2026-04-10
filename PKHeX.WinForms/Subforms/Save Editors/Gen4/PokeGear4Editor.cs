@@ -28,21 +28,21 @@ public partial class PokeGear4Editor : UserControl
     {
         SAV.PokeGearUnlockAllCallers();
         RefreshList();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_GiveAllNoTrainers_Click(object sender, EventArgs e)
     {
         SAV.PokeGearUnlockAllCallersNoTrainers();
         RefreshList();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_DeleteAll_Click(object sender, EventArgs e)
     {
         SAV.PokeGearClearAllCallers();
         RefreshList();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void PG_Rolodex_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)

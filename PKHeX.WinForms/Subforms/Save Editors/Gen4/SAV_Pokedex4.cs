@@ -244,7 +244,7 @@ public partial class SAV_Pokedex4 : Form
             SAV.Dex.ModifyAll(i, args, lang);
 
         GetEntry();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void CHK_Seen_CheckedChanged(object sender, EventArgs e)

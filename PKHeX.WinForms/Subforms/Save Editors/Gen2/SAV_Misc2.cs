@@ -33,6 +33,6 @@ public partial class SAV_Misc2 : Form
         // Can be moved between VC and GB era, and can be a quick way to enable the event on either.
         SAV.EnableGSBallMobileEvent();
         B_VirtualConsoleGSBall.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 }

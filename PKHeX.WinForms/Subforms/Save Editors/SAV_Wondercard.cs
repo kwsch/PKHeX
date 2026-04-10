@@ -761,7 +761,7 @@ public partial class SAV_Wondercard : Form
         foreach (var g in Album)
             g.GiftUsed = sender == B_UsedAll;
         SetGiftBoxes();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void LB_Received_KeyDown(object sender, KeyEventArgs e)

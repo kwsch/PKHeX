@@ -552,7 +552,7 @@ public partial class SAV_Trainer7 : Form
             default:
                 return;
         }
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private string? UpdateTip(int index)

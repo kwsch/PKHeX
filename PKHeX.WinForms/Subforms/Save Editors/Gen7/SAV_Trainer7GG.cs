@@ -191,7 +191,7 @@ public partial class SAV_Trainer7GG : Form
             return;
         }
         WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, summary));
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_ExportGoFiles_Click(object sender, EventArgs e)
@@ -296,7 +296,7 @@ public partial class SAV_Trainer7GG : Form
             ctr++;
         }
         UpdateGoSummary((int)NUD_GoIndex.Value);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void NUD_GoIndex_ValueChanged(object sender, EventArgs e) => UpdateGoSummary((int)NUD_GoIndex.Value);
@@ -321,7 +321,7 @@ public partial class SAV_Trainer7GG : Form
 
         Park.DeleteAll();
         UpdateGoSummary((int)NUD_GoIndex.Value);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_DeleteGo_Click(object sender, EventArgs e)
@@ -331,19 +331,19 @@ public partial class SAV_Trainer7GG : Form
         index = Math.Clamp(index, 0, max);
         Park[index] = new GP1();
         UpdateGoSummary((int)NUD_GoIndex.Value);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_AllTrainerTitles_Click(object sender, EventArgs e)
     {
         SAV.Blocks.EventWork.UnlockAllTitleFlags();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_AllFashionItems_Click(object sender, EventArgs e)
     {
         SAV.Blocks.FashionPlayer.UnlockAllAccessoriesPlayer();
         SAV.Blocks.FashionStarter.UnlockAllAccessoriesStarter();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 }

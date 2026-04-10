@@ -137,7 +137,7 @@ public partial class SAV_SealStickers8b : Form
             cells[3].Value = total.ToString();
             cells[4].Value = true;
         }
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_None_Click(object sender, EventArgs e)
@@ -148,7 +148,7 @@ public partial class SAV_SealStickers8b : Form
             cells[2].Value = cells[3].Value = 0.ToString();
             cells[4].Value = false;
         }
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Save_Click(object sender, EventArgs e)

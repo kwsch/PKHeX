@@ -46,7 +46,7 @@ public sealed partial class SAV_BoxList : Form
         DragDrop += (_, _) =>
         {
             Cursor = DefaultCursor;
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
         };
     }
 

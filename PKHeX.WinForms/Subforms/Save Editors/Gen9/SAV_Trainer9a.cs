@@ -241,7 +241,7 @@ public sealed partial class SAV_Trainer9a : Form
         if (ModifierKeys == (Keys.Alt | Keys.Control | Keys.Shift))
         {
             ColorfulScrew9a.SetAllScrews(SAV);
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
         }
 
         var itemName = GameInfo.Strings.Item[ColorfulScrew9a.ColorfulScrewItemIndex];

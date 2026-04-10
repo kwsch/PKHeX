@@ -163,7 +163,7 @@ public partial class SAV_DLC5 : Form
         if (data.Length == otherSize)
             Array.Resize(ref data, expectSize);
 
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         LastImportedFile = ofd.FileName;
         return true;
     }
@@ -233,7 +233,7 @@ public partial class SAV_DLC5 : Form
             PB_CGearBackground.Image = CGearImage.GetBitmap(bg); // regenerate rather than reuse input
             B_ExportCGB.Enabled = B_ExportPNG.Enabled = true;
             if (CheckResult<CGearBackground>(result, out msg))
-                System.Media.SystemSounds.Asterisk.Play();
+                WinFormsUtil.Asterisk();
             else
                 WinFormsUtil.Alert(msg);
         }

@@ -147,7 +147,7 @@ public partial class SAV_Donut9a : Form
         Donuts.SetAllRandomLv3();
         ReloadDonutNames();
         GetEntry(lastIndex);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void CloneCurrent(object sender, EventArgs e)
@@ -155,7 +155,7 @@ public partial class SAV_Donut9a : Form
         SetEntry(lastIndex);
         Donuts.CloneAllFromIndex(lastIndex);
         ReloadDonutNames();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void ShinyAssortment(object sender, EventArgs e)
@@ -163,7 +163,7 @@ public partial class SAV_Donut9a : Form
         Donuts.SetAllAsShinyTemplate();
         ReloadDonutNames();
         GetEntry(lastIndex);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void GenerateRandom(object sender, EventArgs e)
@@ -178,7 +178,7 @@ public partial class SAV_Donut9a : Form
         Donuts.SetRandomShinyTemplateRange(flavorOptions, start, end);
         ReloadDonutNames();
         GetEntry(lastIndex);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Reset_Click(object sender, EventArgs e) => DonutEditor.Reset();
@@ -193,7 +193,7 @@ public partial class SAV_Donut9a : Form
 
         DonutEditor.LoadDonut(current);
         DonutFlavorProfile.LoadFromDonut(current);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private static bool TryLoadDonut(Span<byte> data)
@@ -241,7 +241,7 @@ public partial class SAV_Donut9a : Form
         ImportDonutFromPath(data, files[0]);
         DonutEditor.LoadDonut(current);
         DonutFlavorProfile.LoadFromDonut(current);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         e.Effect = DragDropEffects.Copy;
 
         Cursor = DefaultCursor;
@@ -277,7 +277,7 @@ public partial class SAV_Donut9a : Form
             foreach (var b in data)
                 sb.Append($"{b:X2} ");
             Clipboard.SetText(sb.ToString().TrimEnd());
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
             return;
         }
 

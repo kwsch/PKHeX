@@ -71,12 +71,12 @@ public partial class SAV_RTC3 : Form
     {
         NUD_IDay.Value = NUD_IHour.Value = NUD_IMinute.Value = NUD_ISecond.Value = 0;
         NUD_EDay.Value = NUD_EHour.Value = NUD_EMinute.Value = NUD_ESecond.Value = 0;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_BerryFix_Click(object sender, EventArgs e)
     {
         NUD_EDay.Value = Math.Max((2 * 366) + 2, NUD_EDay.Value); // advance
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 }

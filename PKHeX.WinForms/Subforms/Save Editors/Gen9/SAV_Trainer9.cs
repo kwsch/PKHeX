@@ -218,7 +218,7 @@ public partial class SAV_Trainer9 : Form
                 block.ChangeBooleanType(SCTypeCode.Bool2);
         }
         B_UnlockFlyLocations.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private static ReadOnlySpan<uint> FlyHashes =>
@@ -343,28 +343,28 @@ public partial class SAV_Trainer9 : Form
     {
         SAV.CollectAllStakes();
         B_CollectAllStakes.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_UnlockTMRecipes_Click(object sender, EventArgs e)
     {
         SAV.UnlockAllTMRecipes();
         B_UnlockTMRecipes.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_ActivateSnacksworthLegendaries_Click(object sender, EventArgs e)
     {
         SAV.ActivateSnacksworthLegendaries();
         B_ActivateSnacksworthLegendaries.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_UnlockCoaches_Click(object sender, EventArgs e)
     {
         SAV.UnlockAllCoaches();
         B_UnlockCoaches.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_UnlockBikeUpgrades_Click(object sender, EventArgs e)
@@ -384,7 +384,7 @@ public partial class SAV_Trainer9 : Form
         if (accessor.TryGetBlock("FSYS_RIDE_FLIGHT_ENABLE", out var fly))
             fly.ChangeBooleanType(SCTypeCode.Bool2); // Base & DLC1 saves do not have this block
         B_UnlockBikeUpgrades.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     public static void IMG_Save(Image image, string name)
@@ -405,7 +405,7 @@ public partial class SAV_Trainer9 : Form
             _ => ImageFormat.Png,
         };
         image.Save(path, format);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void P_CurrPhoto_Click(object sender, EventArgs e) => IMG_Save(P_CurrPhoto.Image!, "current_photo");
@@ -417,13 +417,13 @@ public partial class SAV_Trainer9 : Form
         var accessor = SAV.Accessor;
         PlayerFashionUnlock9.UnlockBase(accessor, SAV.Gender);
         B_UnlockClothing.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_UnlockThrowStyles_Click(object sender, EventArgs e)
     {
         SAV.UnlockAllThrowStyles();
         B_UnlockThrowStyles.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 }

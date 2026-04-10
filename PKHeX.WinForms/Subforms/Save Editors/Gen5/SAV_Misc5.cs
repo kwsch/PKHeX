@@ -631,7 +631,7 @@ public partial class SAV_Misc5 : Form
         ChangeArea(this, EventArgs.Empty); // refresh
         NUD_Unlocked.Value = 8;
         CHK_Area9.Checked = true;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private static List<ComboItem> GetGenderChoices(ushort species)
@@ -922,7 +922,7 @@ public partial class SAV_Misc5 : Form
         {
             var now = EncounterDate.GetDateNDS();
             b2w2.Medals.ObtainAll(now, unread: true);
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
         }
     }
 
@@ -988,6 +988,6 @@ public partial class SAV_Misc5 : Form
     {
         SAV.Musical.UnlockAllMusicalProps();
         B_UnlockAllProps.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 }

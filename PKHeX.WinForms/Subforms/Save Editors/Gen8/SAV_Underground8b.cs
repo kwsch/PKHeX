@@ -140,7 +140,7 @@ public partial class SAV_Underground8b : Form
             var item = AllItems[index];
             cells[3].Value = item.MaxValue.ToString();
         }
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_None_Click(object sender, EventArgs e)
@@ -152,7 +152,7 @@ public partial class SAV_Underground8b : Form
             cells[4].Value = true;
             cells[5].Value = false;
         }
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Save_Click(object sender, EventArgs e)

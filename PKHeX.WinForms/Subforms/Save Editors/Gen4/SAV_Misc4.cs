@@ -281,7 +281,7 @@ public partial class SAV_Misc4 : Form
         // foreach (CheckBox c in Apps) c.Checked = true;
         for (int i = 0; i < CLB_Poketch.Items.Count; i++)
             CLB_Poketch.SetItemChecked(i, true);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void TAB_Poketch_DragEnter(object? sender, DragEventArgs? e)
@@ -800,7 +800,7 @@ public partial class SAV_Misc4 : Form
     {
         bool setUnreleasedIndexes = sender == B_AllSealsIllegal;
         SetAllSeals(setUnreleasedIndexes);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
     #endregion
 
@@ -872,7 +872,7 @@ public partial class SAV_Misc4 : Form
     {
         bool setUnreleasedIndexes = sender == B_AllAccessoriesIllegal;
         SetAllAccessories(setUnreleasedIndexes);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
     #endregion
 
@@ -946,7 +946,7 @@ public partial class SAV_Misc4 : Form
     {
         bool setUnreleasedIndexes = sender == B_AllBackdropsIllegal;
         SetAllBackdrops(setUnreleasedIndexes);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
     #endregion
 

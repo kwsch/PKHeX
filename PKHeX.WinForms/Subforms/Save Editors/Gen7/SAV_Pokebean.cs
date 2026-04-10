@@ -62,14 +62,14 @@ public partial class SAV_Pokebean : Form
     {
         SAV.ResortSave.FillBeans();
         LoadValues();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_None_Click(object sender, EventArgs e)
     {
         SAV.ResortSave.ClearBeans();
         LoadValues();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Save_Click(object sender, EventArgs e)

@@ -327,7 +327,7 @@ public partial class SAV_Trainer : Form
         if (SAV is SAV6XY xy)
         {
             xy.Blocks.Fashion.UnlockAllAccessories();
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
         }
     }
 

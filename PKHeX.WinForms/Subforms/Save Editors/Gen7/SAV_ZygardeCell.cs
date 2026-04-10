@@ -82,7 +82,7 @@ public partial class SAV_ZygardeCell : Form
         if (SAV is not SAV7USUM)
             NUD_CellsTotal.Value += added;
 
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     #region locations -- lazy

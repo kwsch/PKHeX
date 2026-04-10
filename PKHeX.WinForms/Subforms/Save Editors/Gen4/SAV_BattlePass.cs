@@ -264,7 +264,7 @@ public partial class SAV_BattlePass : Form
             return;
         PKM pk = View.PreparePKM();
         if (pk.Species == 0)
-        { System.Media.SystemSounds.Asterisk.Play(); return; }
+        { WinFormsUtil.Asterisk(); return; }
 
         var index = GetSenderIndex(sender);
         var sav = SAV;
@@ -298,7 +298,7 @@ public partial class SAV_BattlePass : Form
         var index = GetSenderIndex(sender);
         var pk = CurrentPass.GetPartySlotAtIndex(index);
         if (pk.Species == 0)
-        { System.Media.SystemSounds.Asterisk.Play(); return; }
+        { WinFormsUtil.Asterisk(); return; }
 
         SaveCurrent(CurrentPass);
         CurrentPass.DeletePartySlot(index);
@@ -576,7 +576,7 @@ public partial class SAV_BattlePass : Form
         data.CopyTo(CurrentPass.Data);
 
         LoadCurrent(CurrentPass);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Export_Click(object sender, EventArgs e)
@@ -611,7 +611,7 @@ public partial class SAV_BattlePass : Form
         var other = index + (down ? 1 : -1);
         if ((uint)other >= LB_Passes.Items.Count)
         {
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
             return;
         }
         SaveCurrent(CurrentPass);

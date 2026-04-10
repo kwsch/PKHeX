@@ -175,7 +175,7 @@ public partial class SAV_Database : Form
         int index = PKXBOXES.IndexOf(pb);
         if (!GetShiftedIndex(ref index))
         {
-            System.Media.SystemSounds.Exclamation.Play();
+            WinFormsUtil.Exclamation();
             return;
         }
 
@@ -207,7 +207,7 @@ public partial class SAV_Database : Form
         int index = PKXBOXES.IndexOf(pb);
         if (!GetShiftedIndex(ref index))
         {
-            System.Media.SystemSounds.Exclamation.Play();
+            WinFormsUtil.Exclamation();
             return;
         }
 
@@ -243,7 +243,7 @@ public partial class SAV_Database : Form
         L_Count.Text = string.Format(Counter, Results.Count);
         slotSelected = -1;
         FillPKXBoxes(SCR_Box.Value);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void ClickSet(object sender, EventArgs e)
@@ -296,7 +296,7 @@ public partial class SAV_Database : Form
         RTB_Instructions.Clear();
 
         if (sender != this)
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
     }
 
     private void GenerateDBReport(object sender, EventArgs e)
@@ -534,7 +534,7 @@ public partial class SAV_Database : Form
                     WinFormsUtil.Alert(MsgDBSearchNone);
             }
             SetResults(results); // updates Count Label as well.
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
             B_Search.Enabled = true;
         }
         catch

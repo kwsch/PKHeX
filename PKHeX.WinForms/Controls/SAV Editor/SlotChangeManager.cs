@@ -142,7 +142,7 @@ public sealed class SlotChangeManager(SAVEditor se) : IDisposable
         var info = GetSlotInfo(pb);
         if (!info.CanWriteTo() || Drag.Info.Source?.CanWriteTo() == false)
         {
-            SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
             e.Effect = DragDropEffects.Copy;
             Drag.Reset();
             return;

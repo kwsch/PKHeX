@@ -40,7 +40,7 @@ public partial class ContextMenuSAV : UserControl
     {
         var info = GetSenderInfo(sender);
         if (info.IsEmpty())
-        { System.Media.SystemSounds.Asterisk.Play(); return; }
+        { WinFormsUtil.Asterisk(); return; }
 
         Manager.Hover.Stop();
         var pk = Editor.Slots.Get(info.Slot);
@@ -80,7 +80,7 @@ public partial class ContextMenuSAV : UserControl
     {
         var info = GetSenderInfo(sender);
         if (info.IsEmpty())
-        { System.Media.SystemSounds.Asterisk.Play(); return; }
+        { WinFormsUtil.Asterisk(); return; }
 
         var sav = info.View.SAV;
         var pk = sav.BlankPKM;

@@ -48,56 +48,56 @@ public partial class SAV_Misc8b : Form
     private void B_Spiritomb_Click(object sender, EventArgs e)
     {
         Unlocker.UnlockSpiritomb();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         B_Spiritomb.Enabled = Unlocker.UnlockReadySpiritomb;
     }
 
     private void B_Shaymin_Click(object sender, EventArgs e)
     {
         Unlocker.UnlockShaymin();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         B_Shaymin.Enabled = Unlocker.UnlockReadyShaymin;
     }
 
     private void B_Darkrai_Click(object sender, EventArgs e)
     {
         Unlocker.UnlockDarkrai();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         B_Darkrai.Enabled = Unlocker.UnlockReadyDarkrai;
     }
 
     private void B_Arceus_Click(object sender, EventArgs e)
     {
         Unlocker.UnlockArceus();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         B_Arceus.Enabled = Unlocker.UnlockReadyArceus;
     }
 
     private void B_DialgaPalkia_Click(object sender, EventArgs e)
     {
         Unlocker.UnlockBoxLegend();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         B_DialgaPalkia.Enabled = Unlocker.UnlockReadyBoxLegend;
     }
 
     private void B_Roamer_Click(object sender, EventArgs e)
     {
         Unlocker.RespawnRoamer();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         B_Roamer.Enabled = Unlocker.ResetReadyRoamerMesprit || Unlocker.ResetReadyRoamerCresselia;
     }
 
     private void B_Zones_Click(object sender, EventArgs e)
     {
         Unlocker.UnlockZones();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         B_Zones.Enabled = false;
     }
 
     private void B_DefeatEyecatch_Click(object sender, EventArgs e)
     {
         SAV.BattleTrainer.DefeatAll();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         B_DefeatEyecatch.Enabled = false;
         B_RebattleEyecatch.Enabled = true;
     }
@@ -105,7 +105,7 @@ public partial class SAV_Misc8b : Form
     private void B_RebattleEyecatch_Click(object sender, EventArgs e)
     {
         SAV.BattleTrainer.RebattleAll();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         B_RebattleEyecatch.Enabled = false;
         B_DefeatEyecatch.Enabled = true;
     }
@@ -113,7 +113,7 @@ public partial class SAV_Misc8b : Form
     private void B_Fashion_Click(object sender, EventArgs e)
     {
         Unlocker.UnlockFashion();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
         B_Fashion.Enabled = false;
     }
 }

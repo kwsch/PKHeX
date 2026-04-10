@@ -44,7 +44,7 @@ public sealed partial class SAV_BoxViewer : Form
         DragDrop += (_, _) =>
         {
             Cursor = DefaultCursor;
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
         };
         Owner = p.ParentForm;
         Load += (_, _) => PositionRelativeToParent();

@@ -196,13 +196,13 @@ public partial class SAV_MysteryGiftDB : Form
         int index = PKXBOXES.IndexOf(pb);
         if (index >= RES_MAX)
         {
-            System.Media.SystemSounds.Exclamation.Play();
+            WinFormsUtil.Exclamation();
             return -1;
         }
         index += SCR_Box.Value * RES_MIN;
         if (index >= Results.Count)
         {
-            System.Media.SystemSounds.Exclamation.Play();
+            WinFormsUtil.Exclamation();
             return -1;
         }
         return index;
@@ -252,7 +252,7 @@ public partial class SAV_MysteryGiftDB : Form
         RTB_Instructions.Clear();
 
         if (sender != this)
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
     }
 
     private void LoadDatabase()
@@ -368,7 +368,7 @@ public partial class SAV_MysteryGiftDB : Form
             WinFormsUtil.Alert(MsgDBSearchNone);
 
         SetResults([..results]); // updates Count Label as well.
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void UpdateScroll(object sender, ScrollEventArgs e)

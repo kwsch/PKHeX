@@ -474,7 +474,7 @@ public partial class SAV_FestivalPlaza : Form
             editing = true;
             ((TextBox)sender).Text = t;
             editing = false;
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
         }
         if (sender == TB_UsedFlags)
         {
@@ -765,6 +765,6 @@ public partial class SAV_FestivalPlaza : Form
             return;
         SAV.Fashion.GiveAgentSunglasses();
         B_AgentGlass.Enabled = false;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 }

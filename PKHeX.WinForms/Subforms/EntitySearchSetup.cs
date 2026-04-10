@@ -108,13 +108,13 @@ public partial class EntitySearchSetup : Form
         SearchFilter = UC_EntitySearch.GetFilter(RTB_Instructions.Text);
         SearchRequested?.Invoke(this, EventArgs.Empty);
         B_Next.Visible = B_Previous.Visible = true;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Reset_Click(object? sender, EventArgs e)
     {
         ForceReset();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Add_Click(object? sender, EventArgs e)

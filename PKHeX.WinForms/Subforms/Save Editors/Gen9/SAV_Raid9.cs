@@ -92,6 +92,6 @@ public partial class SAV_Raid9 : Form
     private void B_CopyToOthers_Click(object sender, EventArgs e)
     {
         Raids.Propagate(CB_Raid.SelectedIndex, seedToo: ModifierKeys == Keys.Shift);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 }

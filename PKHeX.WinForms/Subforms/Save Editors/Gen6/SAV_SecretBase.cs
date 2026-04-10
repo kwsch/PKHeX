@@ -406,7 +406,7 @@ public partial class SAV_SecretBase : Form
         sb.Load(obj);
         ReloadSecretBaseList();
         LoadCurrent(sb);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Export_Click(object sender, EventArgs e)

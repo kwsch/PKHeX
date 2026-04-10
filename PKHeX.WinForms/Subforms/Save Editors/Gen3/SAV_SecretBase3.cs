@@ -208,7 +208,7 @@ public partial class SAV_SecretBase3 : Form
         secret.RegistryStatus = CHK_Registered.Checked ? 1 : 0;
         LB_Bases.DisplayMember = null!;
         LB_Bases.DisplayMember = nameof(SecretBase3.OriginalTrainerName);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_UpdatePKM_Click(object sender, EventArgs e)
@@ -226,7 +226,7 @@ public partial class SAV_SecretBase3 : Form
         pkm.Level = Convert.ToByte(NUD_Level.Value);
         pkm.EVAll = Convert.ToByte(NUD_EVs.Value);
         secret.Team = pkmteam; // save changes
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();

@@ -181,6 +181,6 @@ public partial class SAV_HallOfFame3 : Form
         }
 
         UpdateSprite();
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 }

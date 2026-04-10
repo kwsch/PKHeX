@@ -133,13 +133,13 @@ public partial class SAV_Encounters : Form
     private void CriteriaReset_Click(object? sender, EventArgs e)
     {
         UpdateCriteriaPropertyGrid(EncounterCriteria.Unrestricted);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void CriteriaFromTabs_Click(object? sender, EventArgs e)
     {
         UpdateCriteriaPropertyGrid(BuildCriteriaFromTabs());
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private EncounterCriteria BuildCriteriaFromTabs()
@@ -211,13 +211,13 @@ public partial class SAV_Encounters : Form
         int index = PKXBOXES.IndexOf(pb);
         if (index >= RES_MAX)
         {
-            System.Media.SystemSounds.Exclamation.Play();
+            WinFormsUtil.Exclamation();
             return;
         }
         index += SCR_Box.Value * RES_MIN;
         if (index >= Results.Count)
         {
-            System.Media.SystemSounds.Exclamation.Play();
+            WinFormsUtil.Exclamation();
             return;
         }
 
@@ -304,7 +304,7 @@ public partial class SAV_Encounters : Form
         foreach (var chk in TypeFilters.Controls.OfType<CheckBox>())
             chk.Checked = true;
 
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     protected override void OnShown(EventArgs e)
@@ -482,7 +482,7 @@ public partial class SAV_Encounters : Form
                 WinFormsUtil.Alert(MsgDBSearchNone);
 
             SetResults(results); // updates Count Label as well.
-            System.Media.SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
             B_Search.Enabled = true;
             EncounterMovesetGenerator.ResetFilters();
         }

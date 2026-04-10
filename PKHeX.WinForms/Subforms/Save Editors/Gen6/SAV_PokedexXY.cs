@@ -239,7 +239,7 @@ public partial class SAV_PokedexXY : Form
         var language = (LanguageID)SAV.Language;
         Zukan.GiveAll(species, ModifierKeys != Keys.Alt, ModifierKeys.HasFlag(Keys.Shift), language, ModifierKeys.HasFlag(Keys.Control));
         GetEntry(skipFormRepop: true);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Modify_Click(object sender, EventArgs e)
@@ -261,7 +261,7 @@ public partial class SAV_PokedexXY : Form
         if (sender == mnuCaughtAll || sender == mnuComplete)
             Zukan.CaughtAll(language, allLanguages: ModifierKeys.HasFlag(Keys.Control));
         GetEntry(skipFormRepop: true);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void UpdateDisplayedForm(object sender, ItemCheckEventArgs e)
@@ -298,6 +298,6 @@ public partial class SAV_PokedexXY : Form
         else if (sender == mnuFormAll)
             Zukan.SetFormsSeen(shinyToo: ModifierKeys.HasFlag(Keys.Shift));
         GetEntry(skipFormRepop: true);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 }

@@ -212,7 +212,7 @@ public partial class SAV_Poffin8b : Form
             poffin.FlavorSpicy = poffin.FlavorBitter = poffin.FlavorDry = poffin.FlavorSour = poffin.FlavorSweet = 0xFF;
         }
         LoadItems(AllItems);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_None_Click(object sender, EventArgs e)
@@ -220,7 +220,7 @@ public partial class SAV_Poffin8b : Form
         foreach (var poffin in AllItems)
             poffin.ToNull();
         LoadItems(AllItems);
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Save_Click(object sender, EventArgs e)

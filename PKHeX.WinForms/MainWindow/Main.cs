@@ -373,6 +373,7 @@ public partial class Main : Form
         }
         SpriteBuilder.LoadSettings(settings.Sprite);
         WinFormsUtil.AddSaveFileExtensions(settings.Backup.OtherSaveFileExtensions);
+        WinFormsUtil.Quiet = !settings.Sounds.PlaySoundOther;
     }
 
     private void MainMenuBoxLoad(object sender, EventArgs e)
@@ -503,7 +504,7 @@ public partial class Main : Form
     {
         if (!CanFocus)
         {
-            SystemSounds.Asterisk.Play();
+            WinFormsUtil.Asterisk();
             return;
         }
         OpenFromPath(path);
@@ -1075,12 +1076,12 @@ public partial class Main : Form
     private void ClickLegality(object? sender, EventArgs e)
     {
         if (!PKME_Tabs.EditsComplete)
-        { SystemSounds.Hand.Play(); return; }
+        { WinFormsUtil.Hand();return; }
 
         var pk = PreparePKM();
 
         if (pk.Species == 0 || !pk.ChecksumValid)
-        { SystemSounds.Hand.Play(); return; }
+        { WinFormsUtil.Hand(); return; }
 
         var la = new LegalityAnalysis(pk, C_SAV.SAV.Personal);
         PKME_Tabs.UpdateLegality(la);
@@ -1132,7 +1133,7 @@ public partial class Main : Form
                 var enc = la.EncounterOriginal.GetTextLines(Settings.Display.ExportLegalityVerboseProperties);
                 var msg = verboseReport + Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, enc);
                 WinFormsUtil.SetClipboardText(msg);
-                SystemSounds.Asterisk.Play();
+                WinFormsUtil.Asterisk();
             };
             page.Buttons.Add(clipboard);
         }

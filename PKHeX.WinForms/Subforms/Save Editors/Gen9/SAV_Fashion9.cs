@@ -263,7 +263,7 @@ public sealed partial class SAV_Fashion9 : Form
             var current = GetEditor(TC_Features.SelectedTab!);
             current.SetAllOwned(state);
         }
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 }
 
@@ -502,7 +502,7 @@ public sealed class FashionItem9aEditor : IFashionBlockEditor
         FashionItem9a.ModifyAll(Block.Data, z => z.IsOwned = state);
         Load();
         Grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private void LoadItem(int index, FashionItem9a item)

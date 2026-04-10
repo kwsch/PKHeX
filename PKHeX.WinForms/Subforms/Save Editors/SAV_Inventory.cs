@@ -392,7 +392,7 @@ public sealed partial class SAV_Inventory : Form
         }
 
         ModifyPouch(CurrentPouch, p => p.GiveAllItems(Bag, items, (int)NUD_Count.Value));
-        System.Media.SystemSounds.Asterisk.Play();
+        WinFormsUtil.Asterisk();
     }
 
     private static bool GetModifySettings(InventoryPouch pouch, out bool truncate, out bool shuffle)

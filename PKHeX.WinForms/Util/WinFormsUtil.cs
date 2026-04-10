@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -17,6 +18,19 @@ namespace PKHeX.WinForms;
 
 public static class WinFormsUtil
 {
+    internal static bool Quiet { get; set; }
+
+    private static void Sound(SystemSound sound)
+    {
+        if (!Quiet)
+            sound.Play();
+    }
+
+    internal static void Asterisk() => Sound(SystemSounds.Asterisk);
+    internal static void Hand() => Sound(SystemSounds.Hand);
+    internal static void Exclamation() => Sound(SystemSounds.Exclamation);
+    internal static void Question() => Sound(SystemSounds.Question);
+
     internal static void TranslateInterface(Control form, string lang) => form.TranslateInterface(lang);
 
     extension(Control child)
@@ -117,7 +131,7 @@ public static class WinFormsUtil
     /// <returns>The <see cref="DialogResult"/> associated with the dialog.</returns>
     internal static DialogResult Error(string friendlyMessage, Exception exception)
     {
-        System.Media.SystemSounds.Exclamation.Play();
+        Exclamation();
         return ErrorWindow.ShowErrorDialog(friendlyMessage, exception, true);
     }
 
@@ -128,24 +142,21 @@ public static class WinFormsUtil
     /// <returns>The <see cref="DialogResult"/> associated with the dialog.</returns>
     internal static DialogResult Error(params ReadOnlySpan<string?> lines)
     {
-        System.Media.SystemSounds.Hand.Play();
+        Hand();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
         return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
-    internal static DialogResult Alert(params ReadOnlySpan<string?> lines) => Alert(true, lines);
-
-    internal static DialogResult Alert(bool sound, params ReadOnlySpan<string?> lines)
+    internal static DialogResult Alert(params ReadOnlySpan<string?> lines)
     {
-        if (sound)
-            System.Media.SystemSounds.Asterisk.Play();
+        Asterisk();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
-        return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, sound ? MessageBoxIcon.Information : MessageBoxIcon.None);
+        return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, Quiet ? MessageBoxIcon.None : MessageBoxIcon.Information);
     }
 
     internal static DialogResult Prompt(MessageBoxButtons btn, params ReadOnlySpan<string?> lines)
     {
-        System.Media.SystemSounds.Asterisk.Play();
+        Asterisk();
         string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
         return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Question);
     }
