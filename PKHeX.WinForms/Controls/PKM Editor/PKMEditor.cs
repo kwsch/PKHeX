@@ -1379,7 +1379,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         RefreshFontWarningButton();
-        Entity.Nickname = TB_Nickname.Text;
+        var update = TB_Nickname.Text;
+        Entity.Nickname = update;
         if (CHK_NicknamedFlag.Checked)
             return;
 
@@ -1387,11 +1388,30 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (species is 0 || species > Entity.MaxSpeciesID)
             return;
 
-        if (CHK_IsEgg.Checked)
+        if (!IsPossibleNotNicknamed(Entity, update))
+            CHK_NicknamedFlag.Checked = true;
+    }
+
+    private static bool IsPossibleNotNicknamed(PKM pk, ReadOnlySpan<char> current)
+    {
+        var species = pk.Species;
+        if (pk.IsEgg)
             species = 0; // get the egg name.
 
-        if (SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, Entity.Context))
-            CHK_NicknamedFlag.Checked = true;
+        var context = pk.Context;
+        if (!SpeciesName.IsNicknamedAnyLanguage(species, current, context))
+            return true;
+
+        // Auto-decapitalization did not happen until Gen6.
+        // If transferred from Gen3/4=>Gen5, it can be either ALL-CAPS or decapitalized.
+        if (pk.IsEgg)
+            return false;
+        if (context != EntityContext.Gen5 || species > 493 || pk.Gen5)
+            return false;
+
+        if (!SpeciesName.IsNicknamedAnyLanguage(species, current, EntityContext.Gen4))
+            return true;
+        return false;
     }
 
     private void UpdateNickname(object sender, EventArgs e)
@@ -1418,6 +1438,10 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         }
 
+        var current = TB_Nickname.Text;
+        if (IsPossibleNotNicknamed(Entity, current))
+            return;
+
         string nickname;
         int language = WinFormsUtil.GetIndex(CB_Language);
         if (CHK_IsEgg.Checked)
@@ -1428,7 +1452,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         else
         {
             // If name is that of another language, don't replace the nickname
-            if (sender != CB_Language && !SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, Entity.Context))
+            if (sender != CB_Language && !SpeciesName.IsNicknamedAnyLanguage(species, current, Entity.Context))
                 return;
             nickname = SpeciesName.GetSpeciesNameGeneration(species, language, Entity.Format);
         }
