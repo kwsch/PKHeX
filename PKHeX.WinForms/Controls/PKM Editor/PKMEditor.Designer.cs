@@ -1743,7 +1743,7 @@ namespace PKHeX.WinForms.Controls
             MC_Move1.PP = 0;
             MC_Move1.PPUps = 0;
             MC_Move1.SelectedMove = 0;
-            MC_Move1.Size = new System.Drawing.Size(246, 27);
+            MC_Move1.Size = new System.Drawing.Size(262, 27);
             MC_Move1.TabIndex = 1;
             // 
             // MC_Move2
@@ -1757,7 +1757,7 @@ namespace PKHeX.WinForms.Controls
             MC_Move2.PP = 0;
             MC_Move2.PPUps = 0;
             MC_Move2.SelectedMove = 0;
-            MC_Move2.Size = new System.Drawing.Size(246, 27);
+            MC_Move2.Size = new System.Drawing.Size(262, 27);
             MC_Move2.TabIndex = 2;
             // 
             // MC_Move3
@@ -1771,7 +1771,7 @@ namespace PKHeX.WinForms.Controls
             MC_Move3.PP = 0;
             MC_Move3.PPUps = 0;
             MC_Move3.SelectedMove = 0;
-            MC_Move3.Size = new System.Drawing.Size(246, 27);
+            MC_Move3.Size = new System.Drawing.Size(262, 27);
             MC_Move3.TabIndex = 3;
             // 
             // MC_Move4
@@ -1785,7 +1785,7 @@ namespace PKHeX.WinForms.Controls
             MC_Move4.PP = 0;
             MC_Move4.PPUps = 0;
             MC_Move4.SelectedMove = 0;
-            MC_Move4.Size = new System.Drawing.Size(246, 27);
+            MC_Move4.Size = new System.Drawing.Size(262, 27);
             MC_Move4.TabIndex = 4;
             // 
             // GB_RelearnMoves
@@ -1809,7 +1809,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Relearn1.Location = new System.Drawing.Point(40, 172);
             FLP_Relearn1.Margin = new System.Windows.Forms.Padding(40, 0, 0, 0);
             FLP_Relearn1.Name = "FLP_Relearn1";
-            FLP_Relearn1.Size = new System.Drawing.Size(148, 26);
+            FLP_Relearn1.Size = new System.Drawing.Size(160, 26);
             FLP_Relearn1.TabIndex = 104;
             // 
             // PB_WarnRelearn1
@@ -1831,7 +1831,7 @@ namespace PKHeX.WinForms.Controls
             CB_RelearnMove1.Location = new System.Drawing.Point(24, 0);
             CB_RelearnMove1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_RelearnMove1.Name = "CB_RelearnMove1";
-            CB_RelearnMove1.Size = new System.Drawing.Size(124, 25);
+            CB_RelearnMove1.Size = new System.Drawing.Size(136, 25);
             CB_RelearnMove1.TabIndex = 6;
             CB_RelearnMove1.SelectedIndexChanged += ValidateMove;
             CB_RelearnMove1.Leave += ValidateComboBox2;
@@ -1846,7 +1846,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Relearn2.Location = new System.Drawing.Point(40, 198);
             FLP_Relearn2.Margin = new System.Windows.Forms.Padding(40, 0, 0, 0);
             FLP_Relearn2.Name = "FLP_Relearn2";
-            FLP_Relearn2.Size = new System.Drawing.Size(148, 26);
+            FLP_Relearn2.Size = new System.Drawing.Size(160, 26);
             FLP_Relearn2.TabIndex = 105;
             // 
             // PB_WarnRelearn2
@@ -1868,7 +1868,7 @@ namespace PKHeX.WinForms.Controls
             CB_RelearnMove2.Location = new System.Drawing.Point(24, 0);
             CB_RelearnMove2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_RelearnMove2.Name = "CB_RelearnMove2";
-            CB_RelearnMove2.Size = new System.Drawing.Size(124, 25);
+            CB_RelearnMove2.Size = new System.Drawing.Size(136, 25);
             CB_RelearnMove2.TabIndex = 7;
             CB_RelearnMove2.SelectedIndexChanged += ValidateMove;
             CB_RelearnMove2.Leave += ValidateComboBox2;
@@ -1883,7 +1883,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Relearn3.Location = new System.Drawing.Point(40, 224);
             FLP_Relearn3.Margin = new System.Windows.Forms.Padding(40, 0, 0, 0);
             FLP_Relearn3.Name = "FLP_Relearn3";
-            FLP_Relearn3.Size = new System.Drawing.Size(148, 26);
+            FLP_Relearn3.Size = new System.Drawing.Size(160, 26);
             FLP_Relearn3.TabIndex = 106;
             // 
             // PB_WarnRelearn3
@@ -1905,7 +1905,7 @@ namespace PKHeX.WinForms.Controls
             CB_RelearnMove3.Location = new System.Drawing.Point(24, 0);
             CB_RelearnMove3.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_RelearnMove3.Name = "CB_RelearnMove3";
-            CB_RelearnMove3.Size = new System.Drawing.Size(124, 25);
+            CB_RelearnMove3.Size = new System.Drawing.Size(136, 25);
             CB_RelearnMove3.TabIndex = 8;
             CB_RelearnMove3.SelectedIndexChanged += ValidateMove;
             CB_RelearnMove3.Leave += ValidateComboBox2;
@@ -1920,7 +1920,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Relearn4.Location = new System.Drawing.Point(40, 250);
             FLP_Relearn4.Margin = new System.Windows.Forms.Padding(40, 0, 0, 0);
             FLP_Relearn4.Name = "FLP_Relearn4";
-            FLP_Relearn4.Size = new System.Drawing.Size(148, 26);
+            FLP_Relearn4.Size = new System.Drawing.Size(160, 26);
             FLP_Relearn4.TabIndex = 107;
             // 
             // PB_WarnRelearn4
@@ -1942,7 +1942,7 @@ namespace PKHeX.WinForms.Controls
             CB_RelearnMove4.Location = new System.Drawing.Point(24, 0);
             CB_RelearnMove4.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_RelearnMove4.Name = "CB_RelearnMove4";
-            CB_RelearnMove4.Size = new System.Drawing.Size(124, 25);
+            CB_RelearnMove4.Size = new System.Drawing.Size(136, 25);
             CB_RelearnMove4.TabIndex = 9;
             CB_RelearnMove4.SelectedIndexChanged += ValidateMove;
             CB_RelearnMove4.Leave += ValidateComboBox2;
@@ -2606,7 +2606,7 @@ namespace PKHeX.WinForms.Controls
             TLP_OTMisc.SetColumnSpan(CAL_ReceivedDateTime, 2);
             CAL_ReceivedDateTime.CustomFormat = "yyyy-MM-dd HH:mm:ss tt";
             CAL_ReceivedDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            CAL_ReceivedDateTime.Location = new System.Drawing.Point(24, 473);
+            CAL_ReceivedDateTime.Location = new System.Drawing.Point(24, 477);
             CAL_ReceivedDateTime.Margin = new System.Windows.Forms.Padding(24, 0, 0, 0);
             CAL_ReceivedDateTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             CAL_ReceivedDateTime.Name = "CAL_ReceivedDateTime";
@@ -2618,7 +2618,7 @@ namespace PKHeX.WinForms.Controls
             L_ArrivedDateTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
             L_ArrivedDateTime.AutoSize = true;
             TLP_OTMisc.SetColumnSpan(L_ArrivedDateTime, 2);
-            L_ArrivedDateTime.Location = new System.Drawing.Point(24, 440);
+            L_ArrivedDateTime.Location = new System.Drawing.Point(24, 444);
             L_ArrivedDateTime.Margin = new System.Windows.Forms.Padding(24, 0, 0, 0);
             L_ArrivedDateTime.Name = "L_ArrivedDateTime";
             L_ArrivedDateTime.Padding = new System.Windows.Forms.Padding(0, 16, 0, 0);
@@ -2631,7 +2631,7 @@ namespace PKHeX.WinForms.Controls
             // 
             Label_EncryptionConstant.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_EncryptionConstant.AutoSize = true;
-            Label_EncryptionConstant.Location = new System.Drawing.Point(9, 418);
+            Label_EncryptionConstant.Location = new System.Drawing.Point(9, 422);
             Label_EncryptionConstant.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_EncryptionConstant.Name = "Label_EncryptionConstant";
             Label_EncryptionConstant.Size = new System.Drawing.Size(127, 17);
@@ -2643,7 +2643,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_HomeTracker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TB_HomeTracker.Font = new System.Drawing.Font("Courier New", 8.25F);
-            TB_HomeTracker.Location = new System.Drawing.Point(136, 396);
+            TB_HomeTracker.Location = new System.Drawing.Point(136, 400);
             TB_HomeTracker.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             TB_HomeTracker.MaxLength = 16;
             TB_HomeTracker.Name = "TB_HomeTracker";
@@ -2656,7 +2656,7 @@ namespace PKHeX.WinForms.Controls
             // 
             L_HomeTracker.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_HomeTracker.AutoSize = true;
-            L_HomeTracker.Location = new System.Drawing.Point(41, 395);
+            L_HomeTracker.Location = new System.Drawing.Point(41, 399);
             L_HomeTracker.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_HomeTracker.Name = "L_HomeTracker";
             L_HomeTracker.Size = new System.Drawing.Size(95, 17);
@@ -2671,8 +2671,8 @@ namespace PKHeX.WinForms.Controls
             L_ExtraBytes.Location = new System.Drawing.Point(62, 353);
             L_ExtraBytes.Margin = new System.Windows.Forms.Padding(0);
             L_ExtraBytes.Name = "L_ExtraBytes";
-            L_ExtraBytes.Padding = new System.Windows.Forms.Padding(0, 16, 0, 4);
-            L_ExtraBytes.Size = new System.Drawing.Size(74, 37);
+            L_ExtraBytes.Padding = new System.Windows.Forms.Padding(0, 20, 0, 4);
+            L_ExtraBytes.Size = new System.Drawing.Size(74, 41);
             L_ExtraBytes.TabIndex = 18;
             L_ExtraBytes.Text = "Extra Bytes:";
             L_ExtraBytes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2684,7 +2684,7 @@ namespace PKHeX.WinForms.Controls
             FLP_EncryptionConstant.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_EncryptionConstant.Controls.Add(TB_EC);
             FLP_EncryptionConstant.Controls.Add(BTN_RerollEC);
-            FLP_EncryptionConstant.Location = new System.Drawing.Point(136, 416);
+            FLP_EncryptionConstant.Location = new System.Drawing.Point(136, 420);
             FLP_EncryptionConstant.Margin = new System.Windows.Forms.Padding(0);
             FLP_EncryptionConstant.Name = "FLP_EncryptionConstant";
             FLP_EncryptionConstant.Size = new System.Drawing.Size(195, 24);
@@ -2995,15 +2995,15 @@ namespace PKHeX.WinForms.Controls
             FLP_ExtraBytes.Margin = new System.Windows.Forms.Padding(0);
             FLP_ExtraBytes.Name = "FLP_ExtraBytes";
             FLP_ExtraBytes.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            FLP_ExtraBytes.Size = new System.Drawing.Size(195, 45);
+            FLP_ExtraBytes.Size = new System.Drawing.Size(195, 49);
             FLP_ExtraBytes.TabIndex = 20;
             // 
             // CB_ExtraBytes
             // 
             CB_ExtraBytes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_ExtraBytes.FormattingEnabled = true;
-            CB_ExtraBytes.Location = new System.Drawing.Point(0, 16);
-            CB_ExtraBytes.Margin = new System.Windows.Forms.Padding(0, 16, 0, 0);
+            CB_ExtraBytes.Location = new System.Drawing.Point(0, 20);
+            CB_ExtraBytes.Margin = new System.Windows.Forms.Padding(0, 20, 0, 0);
             CB_ExtraBytes.Name = "CB_ExtraBytes";
             CB_ExtraBytes.Size = new System.Drawing.Size(64, 25);
             CB_ExtraBytes.TabIndex = 1;
@@ -3011,8 +3011,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // TB_ExtraByte
             // 
-            TB_ExtraByte.Location = new System.Drawing.Point(68, 16);
-            TB_ExtraByte.Margin = new System.Windows.Forms.Padding(4, 16, 0, 0);
+            TB_ExtraByte.Location = new System.Drawing.Point(68, 20);
+            TB_ExtraByte.Margin = new System.Windows.Forms.Padding(4, 20, 0, 0);
             TB_ExtraByte.Mask = "000";
             TB_ExtraByte.Name = "TB_ExtraByte";
             TB_ExtraByte.Size = new System.Drawing.Size(32, 25);

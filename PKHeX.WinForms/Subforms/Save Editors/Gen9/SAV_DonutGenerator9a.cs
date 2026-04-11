@@ -43,7 +43,7 @@ public partial class SAV_DonutGenerator9a : Form
     private static bool TryGetTypeIndex(string name, out int typeIndex)
     {
         typeIndex = -1;
-        if (!int.TryParse(name.AsSpan(6, 2), out var value) || value is < 3 or > 21)
+        if (name.Length < 8 || !int.TryParse(name.AsSpan(6, 2), out var value) || value is < 3 or > 21)
             return false;
 
         typeIndex = value - 3;
