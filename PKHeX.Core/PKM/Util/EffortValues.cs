@@ -22,6 +22,13 @@ public static class EffortValues
     /// <summary> Vitamin Max for consideration in Gen3 & Gen4. </summary>
     public const ushort MaxVitamins34 = 100;
 
+    /// <summary> Maximum value for a single stat in Pokémon Champions. </summary>
+    public const byte ChampionsMaxStat = 32; // 252/8
+    /// <summary> Maximum value for the sum of all stats in Pokémon Champions. </summary>
+    public const byte ChampionsMaxTotal = 66;
+    /// <summary> Maximum value for the sum of all stats when transferred into Pokémon Champions from HOME. </summary>
+    public const byte ChampionsMaxTotalTransfer = 64; // 508/8
+
     /// <summary>
     /// Gets randomized EVs for a given generation format
     /// </summary>
@@ -124,6 +131,65 @@ public static class EffortValues
         Max510         => EffortValueGrade.MaxLegal,
         _ => EffortValueGrade.Illegal,
     };
+
+    /// <summary>
+    /// Converts Pokémon Champions EVs (0-32) to mainline EVs (0-252) by multiplying by 8 and applying the appropriate clamps.
+    /// </summary>
+    /// <param name="champion">Champion's EVs (0-32)</param>
+    /// <param name="mainline">Mainline EVs (0-252)</param>
+    public static void ConvertFromChampions(ReadOnlySpan<int> champion, Span<int> mainline)
+    {
+        int total = 0;
+        for (int i = 0; i < champion.Length; i++)
+        {
+            int ev = ConvertFromChampions(champion[i]);
+            mainline[i] = ev;
+            total += ev;
+            // Ensure we don't exceed the natural clamp.
+            if (total <= Max510)
+                continue;
+            mainline[i] -= total - Max510;
+            break;
+        }
+    }
+
+    /// <summary>
+    /// Converts mainline EVs (0-252) to Pokémon Champions EVs (0-32) by dividing by 8.
+    /// </summary>
+    /// <param name="champion">Champion's EVs (0-32)</param>
+    /// <param name="mainline">Mainline EVs (0-252)</param>
+    public static void ConvertToChampions(ReadOnlySpan<int> mainline, Span<int> champion)
+    {
+        for (int i = 0; i < champion.Length; i++)
+            champion[i] = ConvertToChampions(mainline[i]);
+    }
+
+    /// <summary>
+    /// Converts an EV from Pokémon Champions (0-32) to mainline (0-252) by multiplying by 8 and applying the appropriate clamps.
+    /// </summary>
+    public static int ConvertFromChampions(int ev) => Math.Clamp((ev * 8) - 4, 0, Max252);
+    
+    /// <summary>
+    /// Converts an EV from mainline (0-252) to Pokémon Champions (0-32) by dividing by 8.
+    /// </summary>
+    public static int ConvertToChampions(int ev) => (ev + 4) / 8;
+
+    /// <summary>
+    /// Checks if the EVs are within the Pokémon Champions limits (0-32 per stat, 66 total) and also accounts for the transfer limit (64 total).
+    /// </summary>
+    /// <param name="evs">Array of EVs to check.</param>
+    /// <returns>True if the EVs are within the Pokémon Champions "fully-entered" limits, false otherwise.</returns>
+    public static bool IsChampions(ReadOnlySpan<int> evs)
+    {
+        if (evs.ContainsAnyExceptInRange(0, ChampionsMaxStat))
+            return false;
+        var sum = 0;
+        foreach (var bp in evs)
+            sum += bp;
+
+        // Sets allow for an extra +2 stat values compared to mainline. Transferred sets can also be imported, albeit much less commonly seen.
+        return sum is <= ChampionsMaxTotal and >= ChampionsMaxTotalTransfer;
+    }
 }
 
 /// <summary>
