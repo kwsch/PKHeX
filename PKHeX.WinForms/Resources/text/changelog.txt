@@ -1,7 +1,19 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-26/03/20 - New Update:
+26/04/11 - New Update:
+ - Added handling for HOME's update for Z-A transfers.
+ - Added backwards transfer logic for Z-A and LATAM language to previous Gen8/9 games.
+ - Added: Sound setting to disable all other beeping sounds the program makes where appropriate.
+ - Added: Gen9a donut generator.
+ - Added: Champions set imports now upscale EVs for mainline entities the set is applied to.
+ - Fixed: Gen5 imports for Pokédex Skin and Musicals revised.
+ - Changed: Gen5 Nicknames in the PKM editor now better detect all-caps transfer permissions for Gen3/4 origin entities.
+ - Changed: Some internal API methods have been rewritten for performance (exporting/importing/reading/writing slots).
+ - Changed: Form Argument editing in the PKM editor improved, now shows the decomposed values.
+ - Changed: Main and OT tabs of the PKM editor revised, some controls widened/spaced.
+
+26/03/20 - New Update: (166959) [12917711]
  - Added handling for ZA's new patch revision tag.
  - Legality: Gen3 Updated nickname checks for Japanese language origin.
  - Changed: Hover preview in boxes now renders much quicker.
