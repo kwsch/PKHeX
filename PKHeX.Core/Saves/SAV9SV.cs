@@ -177,29 +177,10 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         PK9 pk9 = (PK9)pk;
         // Apply to this Save File
         pk9.UpdateHandler(this);
-
-        if (FormArgumentUtil.IsFormArgumentTypeDateTriple(pk9.Species, pk9.Form))
-        {
-            pk9.FormArgumentElapsed = pk9.FormArgumentMaximum = 0;
-            pk9.FormArgumentRemain = (byte)GetFormArgument(pk9);
-        }
-
         pk9.RefreshChecksum();
     }
 
     protected override void SetRecord(PKM pk) => AddCountAcquired(pk);
-
-    private static uint GetFormArgument(PKM pk)
-    {
-        if (pk.Form == 0)
-            return 0;
-        return pk.Species switch
-        {
-            (int)Species.Furfrou => 5u, // Furfrou
-            // Hoopa no longer sets Form Argument for Unbound form. Let it set 0.
-            _ => 0u,
-        };
-    }
 
     private void AddCountAcquired(PKM pk)
     {

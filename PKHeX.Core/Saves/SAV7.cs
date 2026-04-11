@@ -157,10 +157,6 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         PK7 pk7 = (PK7)pk;
         // Apply to this Save File
         pk7.UpdateHandler(this);
-
-        pk7.FormArgumentElapsed = pk7.FormArgumentMaximum = 0;
-        pk7.FormArgumentRemain = (byte)GetFormArgument(pk);
-
         pk.RefreshChecksum();
     }
 
@@ -176,20 +172,6 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
             Records.AddRecord(004); // wild encounters
             Records.AddRecord(042); // balls used
         }
-    }
-
-    private static uint GetFormArgument(PKM pk)
-    {
-        if (pk.Form == 0)
-            return 0;
-        // Gen7 allows forms to be stored in the box with the current duration & form
-        // Just cap out the form duration anyway
-        return pk.Species switch
-        {
-            (int)Species.Furfrou => 5u, // Furfrou
-            (int)Species.Hoopa => 3u, // Hoopa
-            _ => 0u,
-        };
     }
 
     protected override void SetDex(PKM pk) => Zukan.SetDex(pk);

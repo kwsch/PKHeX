@@ -174,29 +174,10 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
         PK8 pk8 = (PK8)pk;
         // Apply to this Save File
         pk8.UpdateHandler(this);
-
-        if (FormArgumentUtil.IsFormArgumentTypeDateTriple(pk8.Species, pk8.Form))
-        {
-            pk8.FormArgumentElapsed = pk8.FormArgumentMaximum = 0;
-            pk8.FormArgumentRemain = (byte)GetFormArgument(pk8);
-        }
-
         pk8.RefreshChecksum();
     }
 
     protected override void SetRecord(PKM pk) => AddCountAcquired(pk);
-
-    private static uint GetFormArgument(PKM pk)
-    {
-        if (pk.Form == 0)
-            return 0;
-        return pk.Species switch
-        {
-            (int)Species.Furfrou => 5u, // Furfrou
-            (int)Species.Hoopa => 3u, // Hoopa
-            _ => 0u,
-        };
-    }
 
     private void AddCountAcquired(PKM pk)
     {
