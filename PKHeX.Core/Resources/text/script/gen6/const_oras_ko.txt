@@ -2,23 +2,23 @@
 0074	g	성도 스타팅		0:없음,28:치코리타,29:브케인,30:리아코
 0075	g	신오 스타팅		0:없음,31:모부기,32:불꽃숭이,33:팽도리
 0076	g	하나 스타팅		0:없음,34:주리비얀,35:뚜꾸리,36:수댕이
-0247	g	Regional Starters	0:Johto Starter Pending,3:Unova Starter Pending/Johto Starter Received,6:Sinnoh Starter Pending/Unova Starter Received,9:Sinnoh Starter Received (All Received)
+0247	g	지방별 스타팅	0:성도지방 스타팅 수령 대기 중,3:하나지방 스타팅 수령 대기 중 / 성도지방 스타팅 받음,6:신오지방 스타팅 수령 대기 중 / 하나지방 스타팅 받음,9:신오지방 스타팅 받음 (모두 수령함)
 0060	*	수집된 화산재	60000:최고
-0073	s	Route 101 Static Poochyena	0:Pending,1:Approached,2:Failed to Approach
-0118	s	Route 101 Event	0:Start of game,1:Birch under attack (Can Choose Starter),2:Asked to choose Starter (Can't Leave),3:Saved Birch,4:Rival will give DexNav,5:Static Poochyena Appeared,6:Static Poochyena Battled/Disappeared
-0215	+	Contest Spectacular Progress	0:Not Met Lisia,1:Met Lisia,2:Lisia in Contest Hall,3:Contest Costume Pending (Green Room),4:Contest Receptionist Explains Rules,5:Contest Receptionist Explained Rules,6:Green Room Event 1 Pending,7:Won 1st Normal Rank Contest,8:Green Room Event 2 Pending,9:Won 1st Super Rank Contest,10:Green Room Event 3 Pending,11:Won 1st Hyper Rank Contest,12:Green Room Event 4 Pending,13:Won 1st Master Rank Contest,14:Green Room Event 5 Pending,15:Cleared 4 Master Ranks,16:Green Room Event 6 Pending,17:Cleared All 5 Master Ranks,18:Green Room Event 7 Pending,19:Defeated Lisia,20:Green Room Event 8 Pending,21:Defeated Wallace and Lisia (All Completed)
-0217	g	Cosplay Pikachu Status	0:Not Competed in a Contest,1:Gift Pending,2:Received/Costume Changeable
-0218	s	Mauville Food Court Progress	0:Not Entered,1:Village Sub Accessible,3:Magnemite Croquette Accessible,5:Mauville Ramen Bowl Accessible,7:Defeated Fare Prince
-0223	s	Museum Curator Event (Contest Hall)	0:Not Activated,1:Pending,2:Activated
-0136	s	Route 118 Event	0:Will Meet Steven,1:Further Access Blocked,2:Allowed Further Access
-0167	s	Southern Island Story Event	0:Not Accessed,1:Entered Southern Island,2:Heard Message,4:Completed
-0168	s	Southern Island Story Lati@s	0:Not Received (Courtney/Matt Battle Pending),1:Received
-0163	s	Route 120 Event	0:Steven Appeared,1:Kecleon Battle Pending (Bridge),2:Kecleon Defeated,3:Allowed Further Access
-0196	s	Trick House Progress	0:Trick Master Hiding (Puzzle 1),1:Puzzle 1 Active,2:Finished Puzzle 1,3:Trick Master Hiding (Puzzle 2),4:Puzzle 2 Active,5:Finished Puzzle 2,6:Trick Master Hiding (Puzzle 3),7:Puzzle 3 Active,8:Finished Puzzle 3,9:Trick Master Hiding (Puzzle 4),10:Puzzle 4 Active,11:Finished Puzzle 4,12:Trick Master Hiding (Puzzle 5),13:Puzzle 5 Active,14:Finished Puzzle 5,15:Trick Master Hiding (Puzzle 6),16:Puzzle 6 Active,17:Finished Puzzle 6,18:All Puzzles Completed
-0197	s	Trick House Prize Room	0:TM12 Pending,1:Received TM12,2:Hard Stone Pending,3:Received Hard Stone,4:TM92 Pending,5:Received TM92,6:Smoke Ball Pending,7:Received Smoke Ball,8:Magnet Pending,9:Received Magnet,10:Red/Blue Tent Pending,11:Received Red/Blue Tent
-0198	s	Trick House Puzzle 1 Scroll	0:Not Memorized,1:Memorized
-0199	s	Trick House Puzzle 2 Scroll	0:Not Memorized,1:Memorized
-0200	s	Trick House Puzzle 3 Scroll	0:Not Memorized,1:Memorized
-0201	s	Trick House Puzzle 4 Scroll	0:Not Memorized,1:Memorized
-0202	s	Trick House Puzzle 5 Scroll	0:Not Memorized,1:Memorized
-0203	s	Trick House Puzzle 6 Scroll	0:Not Memorized,1:Memorized
+0073	s	101번도로 포차나 심볼	0:대기 중,1:접근함,2:접근 실패
+0118	s	101번도로 이벤트	0:게임 시작,1:털보박사가 공격받음 (스타팅 선택 가능),2:스타팅 선택 요청 (이동 불가),3:털보박사를 구출함,4:라이벌이 도감내비를 줄 예정,5:포차나 심볼 인카운터 출현,6:포차나와 배틀함/사라짐
+0215	+	콘테스트 라이브 진행 상황	0:루티아를 만나지 않음,1:루티아를 만남,2:루티아가 콘테스트 홀에 있음,3:콘테스트 의상 수령 대기 중 (대기실),4:안내원이 규칙을 설명 중,5:안내원의 규칙 설명 완료,6:대기실 이벤트 1 대기 중,7:노말랭크 첫 우승,8:대기실 이벤트 2 대기 중,9:슈퍼랭크 첫 우승,10:대기실 이벤트 3 대기 중,11:하이퍼랭크 첫 우승,12:대기실 이벤트 4 대기 중,13:마스터랭크 첫 우승,14:대기실 이벤트 5 대기 중,15:마스터랭크 4종류 클리어,16:대기실 이벤트 6 대기 중,17:마스터랭크 5종류 모두 클리어,18:대기실 이벤트 7 대기 중,19:루티아에게 승리함,20:대기실 이벤트 8 대기 중,21:윤진과 루티아에게 승리 (모든 이벤트 완료)
+0217	g	옷갈아입기 피카츄 상태	0:콘테스트에 참가하지 않음,1:선물 수령 대기 중,2:수령 완료/의상 갈아입기 가능
+0218	s	보라키친 진행 상황	0:입장하지 않음,1:빌리지샌드 주문 가능,3:코일야키 주문 가능,5:보라짬뽕 주문 가능,7:푸드코트킹에게 승리
+0223	s	미술관 관장 이벤트 (콘테스트 홀)	0:활성화되지 않음,1:대기 중,2:활성화됨
+0136	s	118번도로 이벤트	0:성호를 만날 예정,1:추가 진입 제한됨,2:추가 진입 허용됨
+0167	s	남쪽의 외딴섬 스토리 이벤트	0:진입하지 않음,1:남쪽의 외딴섬에 입장함,2:메시지를 확인람,4:완료됨
+0168	s	남쪽의 외딴섬 스토리 라티	0:수령 전 (구열/해조 배틀 대기 중),1:받음
+0163	s	120번도로 이벤트	0:성호가 나타남,1:켈리몬 배틀 대기 중 (다리 위),2:켈리몬 격파함,3:추가 진입 허용됨
+0196	s	미궁의 대저택 진행 상황	0:미궁대왕가 숨어 있음 (수수께끼 1),1:수수께끼 1 진행 중,2:수수께끼 1 완료,3:미궁대왕가 숨어 있음 (수수께끼 2),4:수수께끼 2 진행 중,5:수수께끼 2 완료,6:미궁대왕가 숨어 있음 (수수께끼 3),7:수수께끼 3 진행 중,8:수수께끼 3 완료,9:미궁대왕가 숨어 있음 (수수께끼 4),10:수수께끼 4 진행 중,11:수수께끼 4 완료,12:미궁대왕가 숨어 있음 (수수께끼 5),13:수수께끼 5 진행 중,14:수수께끼 5 완료,15:미궁대왕가 숨어 있음 (수수께끼 6),16:수수께끼 6 진행 중,17:수수께끼 6 완료,18:모든 수수께끼 완료
+0197	s	미궁의 대저택 미궁대왕의 방	0:기술머신12 수령 대기 중,1:기술머신12 받음,2:딱딱한돌 수령 대기 중,3:딱딱한돌 받음,4:기술머신92 수령 대기 중,5:기술머신92 받음,6:연막탄 수령 대기 중,7:연막탄 받음,8:자석 수령 대기 중,9:자석 받음,10:빨강/파랑텐트 수령 대기 중,11:빨강/파랑텐트 받음
+0198	s	미궁의 대저택 수수께끼1 두루마리	0:암호를 외우지 않음,1:암호를 외움
+0199	s	미궁의 대저택 수수께끼2 두루마리	0:암호를 외우지 않음,1:암호를 외움
+0200	s	미궁의 대저택 수수께끼3 두루마리	0:암호를 외우지 않음,1:암호를 외움
+0201	s	미궁의 대저택 수수께끼4 두루마리	0:암호를 외우지 않음,1:암호를 외움
+0202	s	미궁의 대저택 수수께끼5 두루마리	0:암호를 외우지 않음,1:암호를 외움
+0203	s	미궁의 대저택 수수께끼6 두루마리	0:암호를 외우지 않음,1:암호를 외움
