@@ -90,7 +90,8 @@ public sealed class MemoryVerifier : Verifier
     private static bool GetIsHTLanguageValid(IEncounterTemplate enc, PKM pk, byte language, MemorySource source)
     {
         // Bounds check.
-        if (language > (int)LanguageID.ChineseT)
+        var max = Legal.GetMaxLanguageID(pk.Format, pk.Context);
+        if (language > max)
             return false;
 
         // Gen6 and Bank don't have the HT language flag.
