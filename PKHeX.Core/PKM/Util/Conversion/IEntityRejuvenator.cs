@@ -69,12 +69,24 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
         {
             SanitizeFutureLanguage(pk);
 
-            var la = new LegalityAnalysis(pk);
             if (pk9.SV)
+            {
+                var la = new LegalityAnalysis(pk);
+                // Try to restore original Tera type / override instead of HOME's double override to current Type1.
+                TeraTypeUtil.ResetTeraType(pk9, la.EncounterMatch);
                 ResetRelearn(pk, la);
-
-            // Try to restore original Tera type / override instead of HOME's double override to current Type1.
-            TeraTypeUtil.ResetTeraType(pk9, la.EncounterMatch);
+            }
+            else
+            {
+                // User-friendly sanity check (not official):
+                // Fix original Tera type to current Type1, same as HOME, only if it's an illegal state.
+                // This only comes into play when the HOME data was present, but wasn't valid.
+                var expect = (MoveType)pk.PersonalInfo.Type1;
+                if (pk9.TeraTypeOriginal != expect)
+                    pk9.TeraTypeOriginal = expect;
+                if (pk9.TeraTypeOverride is (MoveType)TeraTypeUtil.OverrideNone)
+                    pk9.TeraTypeOverride = expect;
+            }
         }
         else if (pk is PA9 pa9)
         {

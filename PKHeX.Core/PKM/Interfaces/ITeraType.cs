@@ -153,6 +153,7 @@ public static class TeraTypeUtil
         pk.TeraTypeOverride = enc is not ITeraType x ? (MoveType)OverrideNone : x.TeraTypeOverride; // WC9
         pk.TeraTypeOriginal = enc switch
         {
+            { Context: not EntityContext.Gen9 } => (pk.TeraTypeOverride = (MoveType)pk.PersonalInfo.Type1), // Treat as HOME transferred
             ITeraTypeReadOnly t => t.TeraType,
             ITeraRaid9 t9 => (MoveType)Tera9RNG.GetTeraType(Tera9RNG.GetOriginalSeed(pk), t9.TeraType, enc.Species, enc.Form),
             _ => (MoveType)Tera9RNG.GetTeraTypeFromPersonal(enc.Species, enc.Form, Util.Rand.Rand64()),
