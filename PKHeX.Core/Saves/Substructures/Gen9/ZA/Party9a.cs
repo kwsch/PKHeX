@@ -7,7 +7,11 @@ public sealed class Party9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>(sav, 
     private const int MaxCount = 6;
     public const int SlotSize = PokeCrypto.SIZE_8PARTY + 0x40 + 0x48;
 
-    public Memory<byte> GetSlot(int slot) => block.Raw.Slice(SlotSize * slot, SlotSize);
+    public Memory<byte> GetSlot(int slot)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)slot, MaxCount);
+        return block.Raw.Slice(SlotSize * slot, SlotSize);
+    }
 
     public int PartyCount
     {
@@ -28,7 +32,17 @@ public sealed class Party9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>(sav, 
             if (value >= current)
                 return;
             for (int i = value; i < current; i++)
-                GetSlot(i).Span.Clear(); // probably should fill with Empty pkm data...
+                WriteEmpty(i);
         }
+    }
+
+    public void WriteEmpty(int slot)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)slot, MaxCount);
+        var span = GetSlot(slot).Span;
+        span.Clear();
+        PokeCrypto.Encrypt8(span[..PokeCrypto.SIZE_8STORED]);
+        PokeCrypto.CryptArray(span[PokeCrypto.SIZE_8STORED..PokeCrypto.SIZE_8PARTY], 0);
+        span[PokeCrypto.SIZE_8PARTY] = 1; // mark as present, even if it is empty, to match game behavior for at-rest save data.
     }
 }

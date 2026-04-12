@@ -204,7 +204,22 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     }
 
     protected override PA9 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.Slice(offset, SIZE_PARTY).ToArray()); // party format in boxes!
-    protected override void WriteSlotBox(PKM pk, Span<byte> data) => pk.WriteEncryptedDataParty(data);
+    protected override void WriteSlotBox(PKM pk, Span<byte> data)
+    {
+        pk.WriteEncryptedDataParty(data);
+        // write the present flag, if long enough
+        if (data.Length > SIZE_PARTY)
+            data[PokeCrypto.SIZE_8PARTY] = 1; // mark as present, even if it is empty, to match game behavior for at-rest save data.
+    }
+
+    public override void SetPartySlotAtIndex(PKM pk, int index, EntityImportSettings settings = default)
+    {
+        base.SetPartySlotAtIndex(pk, index, settings);
+        // write the present flag, if long enough
+        var span = PartyInfo.GetSlot(index);
+        if (span.Length > SIZE_PARTY)
+            span.Span[PokeCrypto.SIZE_8PARTY] = 1; // mark as present, even if it is empty, to match game behavior for at-rest save data.
+    }
 
     public override StorageSlotSource GetBoxSlotFlags(int index)
     {

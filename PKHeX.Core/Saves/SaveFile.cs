@@ -212,7 +212,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
     private Span<byte> GetPartySpan(int index) => PartyBuffer[GetPartyOffset(index)..];
     public PKM GetPartySlotAtIndex(int index) => GetPartySlot(GetPartySpan(index));
 
-    public void SetPartySlotAtIndex(PKM pk, int index, EntityImportSettings settings = default)
+    public virtual void SetPartySlotAtIndex(PKM pk, int index, EntityImportSettings settings = default)
     {
         // update party count
         if ((uint)index > 5)
