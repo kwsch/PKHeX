@@ -97,13 +97,20 @@ internal static class Encounters2
 
     public static readonly EncounterStatic2[] StaticOddEggC =
     [
-        new(172, 05, C) { IsEgg = true, Moves = new((int)Move.ThunderShock,(int)Move.Charm, (int)Move.DizzyPunch)}, // Pichu
-        new(173, 05, C) { IsEgg = true, Moves = new((int)Move.Pound,       (int)Move.Charm, (int)Move.DizzyPunch)}, // Cleffa
-        new(174, 05, C) { IsEgg = true, Moves = new((int)Move.Sing,        (int)Move.Charm, (int)Move.DizzyPunch)}, // Igglybuff
-        new(236, 05, C) { IsEgg = true, Moves = new((int)Move.Tackle,                       (int)Move.DizzyPunch)}, // Tyrogue
-        new(238, 05, C) { IsEgg = true, Moves = new((int)Move.Pound,       (int)Move.Lick,  (int)Move.DizzyPunch)}, // Smoochum
-        new(239, 05, C) { IsEgg = true, Moves = new((int)Move.QuickAttack, (int)Move.Leer,  (int)Move.DizzyPunch)}, // Elekid
-        new(240, 05, C) { IsEgg = true, Moves = new((int)Move.Ember,                        (int)Move.DizzyPunch)}, // Magby
+        new(172, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.ThunderShock,(int)Move.Charm, (int)Move.DizzyPunch)}, // Pichu
+        new(172, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.ThunderShock,(int)Move.Charm, (int)Move.DizzyPunch)}, // Shiny Pichu
+        new(173, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.Pound,       (int)Move.Charm, (int)Move.DizzyPunch)}, // Cleffa
+        new(173, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.Pound,       (int)Move.Charm, (int)Move.DizzyPunch)}, // Shiny Cleffa
+        new(174, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.Sing,        (int)Move.Charm, (int)Move.DizzyPunch)}, // Igglybuff
+        new(174, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.Sing,        (int)Move.Charm, (int)Move.DizzyPunch)}, // Shiny Igglybuff
+        new(236, 05, C) { IsEgg = true,             IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.Tackle,                       (int)Move.DizzyPunch)}, // Tyrogue
+        new(236, 05, C) { IsEgg = true,             IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.Tackle,                       (int)Move.DizzyPunch)}, // Shiny Tyrogue
+        new(238, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.Pound,       (int)Move.Lick,  (int)Move.DizzyPunch)}, // Smoochum
+        new(238, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.Pound,       (int)Move.Lick,  (int)Move.DizzyPunch)}, // Shiny Smoochum
+        new(239, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.QuickAttack, (int)Move.Leer,  (int)Move.DizzyPunch)}, // Elekid
+        new(239, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.QuickAttack, (int)Move.Leer,  (int)Move.DizzyPunch)}, // Shiny Elekid
+        new(240, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.Ember,                        (int)Move.DizzyPunch)}, // Magby
+        new(240, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.Ember,                        (int)Move.DizzyPunch)}, // Shiny Magby
     ];
 
     internal static readonly EncounterStatic2 CelebiVC = new(251, 30, C) { Location = 014 }; // Celebi @ Ilex Forest (VC)
