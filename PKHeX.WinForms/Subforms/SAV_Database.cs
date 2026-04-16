@@ -263,8 +263,8 @@ public partial class SAV_Database : Form
             return;
         }
 
-        Span<byte> data = stackalloc byte[pk.SIZE_STORED];
-        pk.WriteDecryptedDataStored(data);
+        Span<byte> data = stackalloc byte[pk.SIZE_PARTY];
+        pk.WriteDecryptedDataParty(data);
         File.WriteAllBytes(path, data);
 
         var info = new SlotInfoFileSingle(path);

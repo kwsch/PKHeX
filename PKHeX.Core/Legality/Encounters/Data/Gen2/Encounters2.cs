@@ -95,22 +95,26 @@ internal static class Encounters2
         new(202, 15, C) { Location = 016 }, // Wobbuffet @ Goldenrod City (Game Corner)
     ];
 
+    private static IndividualValueSet AllZero => new(00, 00, 00, 00, 00, 00);
+    private static IndividualValueSet Shiny2 => new(00, 02, 10, 10, 10, 10);
+
     public static readonly EncounterStatic2[] StaticOddEggC =
     [
-        new(172, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.ThunderShock,(int)Move.Charm, (int)Move.DizzyPunch)}, // Pichu
-        new(172, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.ThunderShock,(int)Move.Charm, (int)Move.DizzyPunch)}, // Shiny Pichu
-        new(173, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.Pound,       (int)Move.Charm, (int)Move.DizzyPunch)}, // Cleffa
-        new(173, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.Pound,       (int)Move.Charm, (int)Move.DizzyPunch)}, // Shiny Cleffa
-        new(174, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.Sing,        (int)Move.Charm, (int)Move.DizzyPunch)}, // Igglybuff
-        new(174, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.Sing,        (int)Move.Charm, (int)Move.DizzyPunch)}, // Shiny Igglybuff
-        new(236, 05, C) { IsEgg = true,             IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.Tackle,                       (int)Move.DizzyPunch)}, // Tyrogue
-        new(236, 05, C) { IsEgg = true,             IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.Tackle,                       (int)Move.DizzyPunch)}, // Shiny Tyrogue
-        new(238, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.Pound,       (int)Move.Lick,  (int)Move.DizzyPunch)}, // Smoochum
-        new(238, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.Pound,       (int)Move.Lick,  (int)Move.DizzyPunch)}, // Shiny Smoochum
-        new(239, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.QuickAttack, (int)Move.Leer,  (int)Move.DizzyPunch)}, // Elekid
-        new(239, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.QuickAttack, (int)Move.Leer,  (int)Move.DizzyPunch)}, // Shiny Elekid
-        new(240, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 00, 00, 00, 00, 00),  Moves = new((int)Move.Ember,                        (int)Move.DizzyPunch)}, // Magby
-        new(240, 05, C) { IsEgg = true, Gender = 1, IVs = new(00, 02, 10, 10, 10, 10),  Moves = new((int)Move.Ember,                        (int)Move.DizzyPunch)}, // Shiny Magby
+        new(172, 05, C) { IsEgg = true, Gender = 1, IVs = AllZero, Shiny = Shiny.Never, Moves = new((int)Move.ThunderShock,(int)Move.Charm, (int)Move.DizzyPunch)}, // Pichu
+        new(173, 05, C) { IsEgg = true, Gender = 1, IVs = AllZero, Shiny = Shiny.Never, Moves = new((int)Move.Pound,       (int)Move.Charm, (int)Move.DizzyPunch)}, // Cleffa
+        new(174, 05, C) { IsEgg = true, Gender = 1, IVs = AllZero, Shiny = Shiny.Never, Moves = new((int)Move.Sing,        (int)Move.Charm, (int)Move.DizzyPunch)}, // Igglybuff
+        new(236, 05, C) { IsEgg = true, Gender = 0, IVs = AllZero, Shiny = Shiny.Never, Moves = new((int)Move.Tackle,                       (int)Move.DizzyPunch)}, // Tyrogue
+        new(238, 05, C) { IsEgg = true, Gender = 1, IVs = AllZero, Shiny = Shiny.Never, Moves = new((int)Move.Pound,       (int)Move.Lick,  (int)Move.DizzyPunch)}, // Smoochum
+        new(239, 05, C) { IsEgg = true, Gender = 1, IVs = AllZero, Shiny = Shiny.Never, Moves = new((int)Move.QuickAttack, (int)Move.Leer,  (int)Move.DizzyPunch)}, // Elekid
+        new(240, 05, C) { IsEgg = true, Gender = 1, IVs = AllZero, Shiny = Shiny.Never, Moves = new((int)Move.Ember,                        (int)Move.DizzyPunch)}, // Magby
+
+        new(172, 05, C) { IsEgg = true, Gender = 1, IVs = Shiny2, Shiny = Shiny.Always, Moves = new((int)Move.ThunderShock,(int)Move.Charm, (int)Move.DizzyPunch)}, // Shiny Pichu
+        new(173, 05, C) { IsEgg = true, Gender = 1, IVs = Shiny2, Shiny = Shiny.Always, Moves = new((int)Move.Pound,       (int)Move.Charm, (int)Move.DizzyPunch)}, // Shiny Cleffa
+        new(174, 05, C) { IsEgg = true, Gender = 1, IVs = Shiny2, Shiny = Shiny.Always, Moves = new((int)Move.Sing,        (int)Move.Charm, (int)Move.DizzyPunch)}, // Shiny Igglybuff
+        new(236, 05, C) { IsEgg = true, Gender = 0, IVs = Shiny2, Shiny = Shiny.Always, Moves = new((int)Move.Tackle,                       (int)Move.DizzyPunch)}, // Shiny Tyrogue
+        new(238, 05, C) { IsEgg = true, Gender = 1, IVs = Shiny2, Shiny = Shiny.Always, Moves = new((int)Move.Pound,       (int)Move.Lick,  (int)Move.DizzyPunch)}, // Shiny Smoochum
+        new(239, 05, C) { IsEgg = true, Gender = 1, IVs = Shiny2, Shiny = Shiny.Always, Moves = new((int)Move.QuickAttack, (int)Move.Leer,  (int)Move.DizzyPunch)}, // Shiny Elekid
+        new(240, 05, C) { IsEgg = true, Gender = 1, IVs = Shiny2, Shiny = Shiny.Always, Moves = new((int)Move.Ember,                        (int)Move.DizzyPunch)}, // Shiny Magby
     ];
 
     internal static readonly EncounterStatic2 CelebiVC = new(251, 30, C) { Location = 014 }; // Celebi @ Ilex Forest (VC)
@@ -128,7 +132,7 @@ internal static class Encounters2
         new(TradeNames, 7, 178, 15, 15616) { Gender = 0, IVs = new(08, 09, 06, 08, 06, 06) }, // Xatu @ Pewter City for Haunter [wild]
         new(TradeNames, 8, 082, 05, 50082) { Gender = 2, IVs = new(08, 09, 06, 06, 06, 06) }, // Magneton @ Power Plant for Dugtrio [traded for Lickitung]
 
-        new(TradeNames,  9, 021, 10, 01001), // Spearow @ Goldenrod City for free
-        new(TradeNames, 10, 213, 15, 00518), // Shuckle @ Cianwood City for free
+        new(TradeNames,  9, 021, 10, 01001) { Shiny = Shiny.Random }, // Spearow @ Goldenrod City for free
+        new(TradeNames, 10, 213, 15, 00518) { Shiny = Shiny.Random }, // Shuckle @ Cianwood City for free
     ];
 }

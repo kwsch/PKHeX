@@ -48,26 +48,24 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
         LevelMinGSC = levelMinGSC;
     }
 
+    /// <summary>
+    /// When transferred to Gen7+ via Bank, the nickname for a Japanese Dugtrio in Hiragana changes from "ぐリお" to "ぐりお".
+    /// </summary>
+    public const string HiraganaDugtrio7 = "ぐりお";
+
     private bool IsNicknameValid(PKM pk, ReadOnlySpan<char> nick)
     {
-        if (pk.Format <= 2)
-            return IsNicknameAnyMatch(nick);
-
-        // Converted string 1/2->7 to language specific value
         // Nicknames can be from any of the languages it can trade between.
-        int lang = pk.Language;
-        if (lang == 1)
-        {
-            // Special consideration for Hiragana strings that are transferred
-            if (Version == GameVersion.YW && Species == (int)Core.Species.Dugtrio)
-                return nick is "ぐりお";
-            return nick.SequenceEqual(Nicknames.Span[(int)LanguageID.Japanese]);
-        }
+        if (!pk.Japanese)
+            return DetectLanguage(nick, Nicknames.Span, 2) >= 2;
 
-        return GetNicknameIndex(nick) >= 2;
+        // Converted Japanese strings 1/2->7 can mutate from an exact match.
+        // Special consideration for Hiragana strings that are transferred: only Dugtrio's nickname changes when transferred to Gen7+.
+        if (pk.Format > 2 && Version == GameVersion.YW && Species == (int)Core.Species.Dugtrio)
+            return nick is HiraganaDugtrio7;
+        // Otherwise, must match the Japanese nickname exactly.
+        return Nicknames.Span[(int)LanguageID.Japanese].SequenceEqual(nick);
     }
-
-    private bool IsNicknameAnyMatch(ReadOnlySpan<char> current) => GetNicknameIndex(current) >= 0;
 
     private static bool IsTrainerNameValid(PKM pk)
     {
@@ -83,12 +81,12 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
         return trainer.SequenceEqual(expect);
     }
 
-    private int GetNicknameIndex(ReadOnlySpan<char> nickname) => GetIndex(nickname, Nicknames.Span);
-
-    private static int GetIndex(ReadOnlySpan<char> name, ReadOnlySpan<string> arr)
+    private static int DetectLanguage(ReadOnlySpan<char> name, ReadOnlySpan<string> arr, int start = 1)
     {
-        for (int i = 0; i < arr.Length; i++)
+        for (int i = start; i < arr.Length; i++)
         {
+            if (i == (int)LanguageID.UNUSED_6)
+                continue;
             if (name.SequenceEqual(arr[i]))
                 return i;
         }

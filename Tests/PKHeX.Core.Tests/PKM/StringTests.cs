@@ -75,7 +75,7 @@ public class StringTests
     }
 
     [Theory]
-    [InlineData("ぐリお", "ぐりお")]
+    [InlineData("ぐリお", EncounterTrade1.HiraganaDugtrio7)]
     public static void ConvertStringVC(string g12, string g7)
     {
         Span<byte> b12 = stackalloc byte[g12.Length];

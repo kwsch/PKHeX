@@ -16,7 +16,6 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IEncount
     public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
-    public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
     public ushort EggLocation => 0;
     public bool IsFixedTrainer => true;
@@ -33,6 +32,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IEncount
     private readonly ReadOnlyMemory<string> TrainerNames;
     private readonly ReadOnlyMemory<string> Nicknames;
 
+    public Shiny Shiny { get; init; } = Shiny.Never;
     public byte Gender { get; init; }
     public byte OTGender { get; init; }
     public IndividualValueSet IVs { get; init; }
@@ -168,8 +168,8 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IEncount
                 return -1;
             return (int)LanguageID.Korean;
         }
-
-        for (int i = 2; i < TrainerNames.Length; i++)
+        // Skip languages that are not-transferable to International games.
+        for (int i = 2; i < (int)LanguageID.Korean; i++)
         {
             if (i == (int)LanguageID.UNUSED_6)
                 continue;
