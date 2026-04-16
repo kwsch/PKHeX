@@ -1,18 +1,16 @@
 Kein
-Zertrümmerer (HGSS)
-Hohes Graß
+Sand
+Hohes Gras
 
-Dialga/Palkia
-Höhle/Halle des Ursprungs
+Felsen
+Höhle
 
-Surfen/Angeln
+Wasser
 
-Gebäude/Mytokristall
-Großmoor/Safari
+Gebäude
+Sumpf
 
-Starter/Fossil/Geschenk (DP)
-
-
+Unspezifisch (DP)
 
 
 
@@ -21,5 +19,7 @@ Starter/Fossil/Geschenk (DP)
 
 
 
-Zerrwelt (Pt)
-Starter/Fossil/Geschenk (Pt/DP Trio)
+
+
+Zerrwelt
+Unspezifisch (Pt/HGSS)

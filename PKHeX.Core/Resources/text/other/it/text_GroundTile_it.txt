@@ -1,18 +1,16 @@
-None
-Sand
-Grass
+Nessuno
+Sabbia
+Erba Alta
 
-Rock
-Cave
+Roccia
+Grotta
 
-Water
+Acqua
 
-Building
-Marsh
+Edificio
+Palude
 
-Unspecific (DP)
-
-
+Non specifico (DP)
 
 
 
@@ -21,5 +19,7 @@ Unspecific (DP)
 
 
 
-Distortion World
-Unspecific (Pt/HGSS)
+
+
+Mondo Distorto
+Non specifico (Pt/HGSS)

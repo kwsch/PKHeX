@@ -1,18 +1,16 @@
 Ninguno
-Golpe roca (HGSS)
+Arena
 Hierba Alta
 
-Dialga/Palkia
-Cueva/Sala del Origen
+Roca
+Cueva
 
-Surfeando/Pescando
+Agua
 
-Edificio/Misticristal 
-Pantano/Safari
+Edificio
+Pantano
 
-Inicial/Fósil/Regalo (DP)
-
-
+Inespecífico (DP)
 
 
 
@@ -21,5 +19,7 @@ Inicial/Fósil/Regalo (DP)
 
 
 
-Mundo Distorsión (Pt)
-Inicial/Fósil/Regalo (Pt/DP Trio)
+
+
+Mundo Distorsión
+Inespecífico (Pt/HGSS)

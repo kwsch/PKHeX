@@ -1,18 +1,16 @@
 Rien
-Éclate-Roc (HGSS)
+Sable
 Hautes Herbes
 
-Dialga/Palkia
-Grotte/Salle Originelle
+Roche
+Grotte
 
-Surf/Pêche
+Eau
 
-Imeuble/Mystécristal
-Marais/Savane
+Bâtiment
+Marais
 
-Départ/Fossile/Cadeau (DP)
-
-
+Indéterminé (DP)
 
 
 
@@ -21,5 +19,7 @@ Départ/Fossile/Cadeau (DP)
 
 
 
-Monde Distorsion (Pt)
-Départ/Fossile/Cadeau (Pt/DP Trio)
+
+
+Monde Distorsion
+Indéterminé (Pt/HGSS)
