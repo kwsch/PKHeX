@@ -31,21 +31,17 @@ namespace PKHeX.WinForms
             components = new System.ComponentModel.Container();
             B_Cancel = new System.Windows.Forms.Button();
             B_Save = new System.Windows.Forms.Button();
-            TB_OTName = new System.Windows.Forms.TextBox();
-            L_TrainerName = new System.Windows.Forms.Label();
-            MT_Money = new System.Windows.Forms.MaskedTextBox();
-            L_Money = new System.Windows.Forms.Label();
-            L_TID = new System.Windows.Forms.Label();
-            L_SID = new System.Windows.Forms.Label();
-            MT_TID = new System.Windows.Forms.MaskedTextBox();
-            MT_SID = new System.Windows.Forms.MaskedTextBox();
-            CHK_Badge1 = new System.Windows.Forms.CheckBox();
-            CHK_Badge2 = new System.Windows.Forms.CheckBox();
-            CHK_Badge3 = new System.Windows.Forms.CheckBox();
-            CHK_Badge4 = new System.Windows.Forms.CheckBox();
-            CHK_Badge5 = new System.Windows.Forms.CheckBox();
-            CHK_Badge7 = new System.Windows.Forms.CheckBox();
-            CHK_Badge8 = new System.Windows.Forms.CheckBox();
+            Tip1 = new System.Windows.Forms.ToolTip(components);
+            Tip2 = new System.Windows.Forms.ToolTip(components);
+            Tab_Appearance = new System.Windows.Forms.TabPage();
+            PG_CurrentAppearance = new System.Windows.Forms.PropertyGrid();
+            L_TRNick = new System.Windows.Forms.Label();
+            TB_TRNick = new System.Windows.Forms.TextBox();
+            B_GiveAccessories = new System.Windows.Forms.Button();
+            Tab_Multiplayer = new System.Windows.Forms.TabPage();
+            CHK_MegaRayquazaUnlocked = new System.Windows.Forms.CheckBox();
+            CHK_MegaUnlocked = new System.Windows.Forms.CheckBox();
+            L_MultiplayerSprite = new System.Windows.Forms.Label();
             GB_Sayings = new System.Windows.Forms.GroupBox();
             L_Saying5 = new System.Windows.Forms.Label();
             L_Saying4 = new System.Windows.Forms.Label();
@@ -57,49 +53,76 @@ namespace PKHeX.WinForms
             TB_Saying3 = new System.Windows.Forms.TextBox();
             TB_Saying2 = new System.Windows.Forms.TextBox();
             TB_Saying1 = new System.Windows.Forms.TextBox();
-            L_LastSaved = new System.Windows.Forms.Label();
-            CAL_LastSavedDate = new System.Windows.Forms.DateTimePicker();
-            L_Seconds = new System.Windows.Forms.Label();
-            L_Minutes = new System.Windows.Forms.Label();
-            MT_Seconds = new System.Windows.Forms.MaskedTextBox();
-            MT_Minutes = new System.Windows.Forms.MaskedTextBox();
-            L_Hours = new System.Windows.Forms.Label();
-            MT_Hours = new System.Windows.Forms.MaskedTextBox();
-            L_Language = new System.Windows.Forms.Label();
-            TB_PM = new System.Windows.Forms.MaskedTextBox();
+            PB_Sprite = new System.Windows.Forms.PictureBox();
+            CB_MultiplayerSprite = new System.Windows.Forms.ComboBox();
+            Tab_BadgeMap = new System.Windows.Forms.TabPage();
+            GB_Map = new System.Windows.Forms.GroupBox();
+            NUD_R = new System.Windows.Forms.NumericUpDown();
+            L_R = new System.Windows.Forms.Label();
+            NUD_Z = new System.Windows.Forms.NumericUpDown();
+            NUD_M = new System.Windows.Forms.NumericUpDown();
+            NUD_Y = new System.Windows.Forms.NumericUpDown();
+            NUD_X = new System.Windows.Forms.NumericUpDown();
+            L_Y = new System.Windows.Forms.Label();
+            L_CurrentMap = new System.Windows.Forms.Label();
+            L_Z = new System.Windows.Forms.Label();
+            L_X = new System.Windows.Forms.Label();
+            CHK_Badge7 = new System.Windows.Forms.CheckBox();
+            CHK_Badge5 = new System.Windows.Forms.CheckBox();
+            CHK_Badge4 = new System.Windows.Forms.CheckBox();
+            CHK_Badge8 = new System.Windows.Forms.CheckBox();
+            CHK_Badge3 = new System.Windows.Forms.CheckBox();
+            CHK_Badge1 = new System.Windows.Forms.CheckBox();
+            CHK_Badge6 = new System.Windows.Forms.CheckBox();
+            CHK_Badge2 = new System.Windows.Forms.CheckBox();
+            Tab_Overview = new System.Windows.Forms.TabPage();
+            GB_Stats = new System.Windows.Forms.GroupBox();
+            TrainerStats = new PKHeX.WinForms.Controls.TrainerStat();
             TB_BP = new System.Windows.Forms.MaskedTextBox();
+            TB_PM = new System.Windows.Forms.MaskedTextBox();
             L_PM = new System.Windows.Forms.Label();
-            L_Region = new System.Windows.Forms.Label();
-            L_BP = new System.Windows.Forms.Label();
-            L_Country = new System.Windows.Forms.Label();
-            CB_Region = new System.Windows.Forms.ComboBox();
-            CB_Country = new System.Windows.Forms.ComboBox();
-            B_MaxCash = new System.Windows.Forms.Button();
-            CB_3DSReg = new System.Windows.Forms.ComboBox();
-            CB_Language = new System.Windows.Forms.ComboBox();
-            L_3DSReg = new System.Windows.Forms.Label();
-            CB_Game = new System.Windows.Forms.ComboBox();
-            CB_Gender = new System.Windows.Forms.ComboBox();
             TB_Style = new System.Windows.Forms.MaskedTextBox();
+            L_BP = new System.Windows.Forms.Label();
             L_Style = new System.Windows.Forms.Label();
-            GB_MaisonBest = new System.Windows.Forms.GroupBox();
-            TB_MBMS = new System.Windows.Forms.MaskedTextBox();
-            TB_MBMN = new System.Windows.Forms.MaskedTextBox();
-            TB_MBRS = new System.Windows.Forms.MaskedTextBox();
-            TB_MBRN = new System.Windows.Forms.MaskedTextBox();
-            TB_MBTS = new System.Windows.Forms.MaskedTextBox();
-            TB_MBTN = new System.Windows.Forms.MaskedTextBox();
-            TB_MBDS = new System.Windows.Forms.MaskedTextBox();
-            TB_MBDN = new System.Windows.Forms.MaskedTextBox();
-            TB_MBSS = new System.Windows.Forms.MaskedTextBox();
-            TB_MBSN = new System.Windows.Forms.MaskedTextBox();
-            L_SuperB = new System.Windows.Forms.Label();
-            L_NormalB = new System.Windows.Forms.Label();
-            L_MultiB = new System.Windows.Forms.Label();
-            L_RotationB = new System.Windows.Forms.Label();
-            L_TriplesB = new System.Windows.Forms.Label();
-            L_DoublesB = new System.Windows.Forms.Label();
-            L_SinglesB = new System.Windows.Forms.Label();
+            GB_Adventure = new System.Windows.Forms.GroupBox();
+            L_Fame = new System.Windows.Forms.Label();
+            CAL_HoFDate = new System.Windows.Forms.DateTimePicker();
+            CAL_HoFTime = new System.Windows.Forms.DateTimePicker();
+            L_Started = new System.Windows.Forms.Label();
+            CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
+            CAL_LastSavedDate = new System.Windows.Forms.DateTimePicker();
+            L_LastSaved = new System.Windows.Forms.Label();
+            MT_Seconds = new System.Windows.Forms.MaskedTextBox();
+            MT_Hours = new System.Windows.Forms.MaskedTextBox();
+            L_Seconds = new System.Windows.Forms.Label();
+            L_Hours = new System.Windows.Forms.Label();
+            MT_Minutes = new System.Windows.Forms.MaskedTextBox();
+            L_Minutes = new System.Windows.Forms.Label();
+            CAL_AdventureStartTime = new System.Windows.Forms.DateTimePicker();
+            CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
+            CB_Vivillon = new System.Windows.Forms.ComboBox();
+            L_Vivillon = new System.Windows.Forms.Label();
+            TB_OTName = new System.Windows.Forms.TextBox();
+            CB_Gender = new System.Windows.Forms.ComboBox();
+            CB_Game = new System.Windows.Forms.ComboBox();
+            L_TrainerName = new System.Windows.Forms.Label();
+            L_TID = new System.Windows.Forms.Label();
+            MT_Money = new System.Windows.Forms.MaskedTextBox();
+            L_SID = new System.Windows.Forms.Label();
+            L_Money = new System.Windows.Forms.Label();
+            L_Language = new System.Windows.Forms.Label();
+            MT_TID = new System.Windows.Forms.MaskedTextBox();
+            MT_SID = new System.Windows.Forms.MaskedTextBox();
+            L_3DSReg = new System.Windows.Forms.Label();
+            CB_Language = new System.Windows.Forms.ComboBox();
+            L_Region = new System.Windows.Forms.Label();
+            CB_3DSReg = new System.Windows.Forms.ComboBox();
+            B_MaxCash = new System.Windows.Forms.Button();
+            L_Country = new System.Windows.Forms.Label();
+            CB_Country = new System.Windows.Forms.ComboBox();
+            CB_Region = new System.Windows.Forms.ComboBox();
+            TC_Editor = new System.Windows.Forms.TabControl();
+            Tab_Maison = new System.Windows.Forms.TabPage();
             GB_MaisonCurrent = new System.Windows.Forms.GroupBox();
             TB_MCMS = new System.Windows.Forms.MaskedTextBox();
             TB_MCMN = new System.Windows.Forms.MaskedTextBox();
@@ -118,6 +141,7 @@ namespace PKHeX.WinForms
             L_TriplesC = new System.Windows.Forms.Label();
             L_DoublesC = new System.Windows.Forms.Label();
             L_SinglesC = new System.Windows.Forms.Label();
+<<<<<<< ours
             B_GiveAccessories = new System.Windows.Forms.Button();
             CB_Vivillon = new System.Windows.Forms.ComboBox();
             L_Vivillon = new System.Windows.Forms.Label();
@@ -159,14 +183,33 @@ namespace PKHeX.WinForms
             TB_TRNick = new System.Windows.Forms.TextBox();
             Tip1 = new System.Windows.Forms.ToolTip(components);
             Tip2 = new System.Windows.Forms.ToolTip(components);
+=======
+            GB_MaisonBest = new System.Windows.Forms.GroupBox();
+            TB_MBMS = new System.Windows.Forms.MaskedTextBox();
+            TB_MBMN = new System.Windows.Forms.MaskedTextBox();
+            TB_MBRS = new System.Windows.Forms.MaskedTextBox();
+            TB_MBRN = new System.Windows.Forms.MaskedTextBox();
+            TB_MBTS = new System.Windows.Forms.MaskedTextBox();
+            TB_MBTN = new System.Windows.Forms.MaskedTextBox();
+            TB_MBDS = new System.Windows.Forms.MaskedTextBox();
+            TB_MBDN = new System.Windows.Forms.MaskedTextBox();
+            TB_MBSS = new System.Windows.Forms.MaskedTextBox();
+            TB_MBSN = new System.Windows.Forms.MaskedTextBox();
+            L_SuperB = new System.Windows.Forms.Label();
+            L_NormalB = new System.Windows.Forms.Label();
+            L_MultiB = new System.Windows.Forms.Label();
+            L_RotationB = new System.Windows.Forms.Label();
+            L_TriplesB = new System.Windows.Forms.Label();
+            L_DoublesB = new System.Windows.Forms.Label();
+            L_SinglesB = new System.Windows.Forms.Label();
+            Tab_BattleChateau = new System.Windows.Forms.TabPage();
+            LB_BattleChateauInfo = new System.Windows.Forms.Label();
+            CB_BattleChateauRank = new System.Windows.Forms.ComboBox();
+            Tab_Appearance.SuspendLayout();
+            Tab_Multiplayer.SuspendLayout();
+>>>>>>> theirs
             GB_Sayings.SuspendLayout();
-            GB_MaisonBest.SuspendLayout();
-            GB_MaisonCurrent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PB_Sprite).BeginInit();
-            TC_Editor.SuspendLayout();
-            Tab_Overview.SuspendLayout();
-            GB_Stats.SuspendLayout();
-            GB_Adventure.SuspendLayout();
             Tab_BadgeMap.SuspendLayout();
             GB_Map.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_R).BeginInit();
@@ -174,9 +217,18 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_M).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Y).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_X).BeginInit();
-            Tab_Multiplayer.SuspendLayout();
+            Tab_Overview.SuspendLayout();
+            GB_Stats.SuspendLayout();
+            GB_Adventure.SuspendLayout();
+            TC_Editor.SuspendLayout();
             Tab_Maison.SuspendLayout();
+<<<<<<< ours
             Tab_Appearance.SuspendLayout();
+=======
+            GB_MaisonCurrent.SuspendLayout();
+            GB_MaisonBest.SuspendLayout();
+            Tab_BattleChateau.SuspendLayout();
+>>>>>>> theirs
             SuspendLayout();
             // 
             // B_Cancel
@@ -201,6 +253,7 @@ namespace PKHeX.WinForms
             B_Save.UseVisualStyleBackColor = true;
             B_Save.Click += B_Save_Click;
             // 
+<<<<<<< ours
             // TB_OTName
             // 
             TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -215,154 +268,117 @@ namespace PKHeX.WinForms
             TB_OTName.MouseDown += ClickOT;
             // 
             // L_TrainerName
+=======
+            // Tab_Appearance
+>>>>>>> theirs
             // 
-            L_TrainerName.Location = new System.Drawing.Point(8, 10);
-            L_TrainerName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_TrainerName.Name = "L_TrainerName";
-            L_TrainerName.Size = new System.Drawing.Size(102, 18);
-            L_TrainerName.TabIndex = 3;
-            L_TrainerName.Text = "Trainer Name:";
+            Tab_Appearance.Controls.Add(PG_CurrentAppearance);
+            Tab_Appearance.Controls.Add(L_TRNick);
+            Tab_Appearance.Controls.Add(TB_TRNick);
+            Tab_Appearance.Controls.Add(B_GiveAccessories);
+            Tab_Appearance.Location = new System.Drawing.Point(4, 24);
+            Tab_Appearance.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Appearance.Name = "Tab_Appearance";
+            Tab_Appearance.Size = new System.Drawing.Size(452, 294);
+            Tab_Appearance.TabIndex = 4;
+            Tab_Appearance.Text = "Appearance";
+            Tab_Appearance.UseVisualStyleBackColor = true;
             // 
-            // MT_Money
+            // PG_CurrentAppearance
             // 
-            MT_Money.Location = new System.Drawing.Point(139, 33);
-            MT_Money.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            MT_Money.Mask = "0000000";
-            MT_Money.Name = "MT_Money";
-            MT_Money.Size = new System.Drawing.Size(60, 23);
-            MT_Money.TabIndex = 4;
-            MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            PG_CurrentAppearance.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PG_CurrentAppearance.BackColor = System.Drawing.SystemColors.Control;
+            PG_CurrentAppearance.HelpVisible = false;
+            PG_CurrentAppearance.Location = new System.Drawing.Point(4, 3);
+            PG_CurrentAppearance.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PG_CurrentAppearance.Name = "PG_CurrentAppearance";
+            PG_CurrentAppearance.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
+            PG_CurrentAppearance.Size = new System.Drawing.Size(328, 285);
+            PG_CurrentAppearance.TabIndex = 75;
+            PG_CurrentAppearance.ToolbarVisible = false;
             // 
-            // L_Money
+            // L_TRNick
             // 
-            L_Money.AutoSize = true;
-            L_Money.Location = new System.Drawing.Point(119, 37);
-            L_Money.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_Money.Name = "L_Money";
-            L_Money.Size = new System.Drawing.Size(16, 15);
-            L_Money.TabIndex = 5;
-            L_Money.Text = "$:";
+            L_TRNick.Location = new System.Drawing.Point(298, 59);
+            L_TRNick.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_TRNick.Name = "L_TRNick";
+            L_TRNick.Size = new System.Drawing.Size(149, 47);
+            L_TRNick.TabIndex = 74;
+            L_TRNick.Text = "Trainer Nickname:";
+            L_TRNick.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
-            // L_TID
+            // TB_TRNick
             // 
-            L_TID.Location = new System.Drawing.Point(10, 36);
-            L_TID.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_TID.Name = "L_TID";
-            L_TID.Size = new System.Drawing.Size(44, 15);
-            L_TID.TabIndex = 6;
-            L_TID.Text = "TID16:";
-            L_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            TB_TRNick.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_TRNick.Location = new System.Drawing.Point(338, 110);
+            TB_TRNick.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_TRNick.MaxLength = 12;
+            TB_TRNick.Name = "TB_TRNick";
+            TB_TRNick.Size = new System.Drawing.Size(108, 20);
+            TB_TRNick.TabIndex = 73;
+            TB_TRNick.Text = "WWWWWWWWWWWW";
+            TB_TRNick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // L_SID
+            // B_GiveAccessories
             // 
-            L_SID.Location = new System.Drawing.Point(10, 62);
-            L_SID.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_SID.Name = "L_SID";
-            L_SID.Size = new System.Drawing.Size(44, 15);
-            L_SID.TabIndex = 7;
-            L_SID.Text = "SID16:";
-            L_SID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            B_GiveAccessories.Location = new System.Drawing.Point(338, 140);
+            B_GiveAccessories.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_GiveAccessories.Name = "B_GiveAccessories";
+            B_GiveAccessories.Size = new System.Drawing.Size(112, 68);
+            B_GiveAccessories.TabIndex = 67;
+            B_GiveAccessories.Text = "Give All Accessories";
+            B_GiveAccessories.UseVisualStyleBackColor = true;
+            B_GiveAccessories.Click += GiveAllAccessories;
             // 
-            // MT_TID
+            // Tab_Multiplayer
             // 
-            MT_TID.Location = new System.Drawing.Point(62, 35);
-            MT_TID.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            MT_TID.Mask = "00000";
-            MT_TID.Name = "MT_TID";
-            MT_TID.Size = new System.Drawing.Size(45, 23);
-            MT_TID.TabIndex = 8;
-            MT_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            MT_TID.TextChanged += ChangeFFFF;
-            MT_TID.MouseHover += ShowTSV;
+            Tab_Multiplayer.Controls.Add(CHK_MegaRayquazaUnlocked);
+            Tab_Multiplayer.Controls.Add(CHK_MegaUnlocked);
+            Tab_Multiplayer.Controls.Add(L_MultiplayerSprite);
+            Tab_Multiplayer.Controls.Add(GB_Sayings);
+            Tab_Multiplayer.Controls.Add(PB_Sprite);
+            Tab_Multiplayer.Controls.Add(CB_MultiplayerSprite);
+            Tab_Multiplayer.Location = new System.Drawing.Point(4, 24);
+            Tab_Multiplayer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Multiplayer.Name = "Tab_Multiplayer";
+            Tab_Multiplayer.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Multiplayer.Size = new System.Drawing.Size(452, 294);
+            Tab_Multiplayer.TabIndex = 1;
+            Tab_Multiplayer.Text = "Multiplayer";
+            Tab_Multiplayer.UseVisualStyleBackColor = true;
             // 
-            // MT_SID
+            // CHK_MegaRayquazaUnlocked
             // 
-            MT_SID.Location = new System.Drawing.Point(62, 59);
-            MT_SID.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            MT_SID.Mask = "00000";
-            MT_SID.Name = "MT_SID";
-            MT_SID.Size = new System.Drawing.Size(45, 23);
-            MT_SID.TabIndex = 9;
-            MT_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            MT_SID.TextChanged += ChangeFFFF;
-            MT_SID.MouseHover += ShowTSV;
+            CHK_MegaRayquazaUnlocked.AutoSize = true;
+            CHK_MegaRayquazaUnlocked.Location = new System.Drawing.Point(144, 265);
+            CHK_MegaRayquazaUnlocked.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_MegaRayquazaUnlocked.Name = "CHK_MegaRayquazaUnlocked";
+            CHK_MegaRayquazaUnlocked.Size = new System.Drawing.Size(162, 19);
+            CHK_MegaRayquazaUnlocked.TabIndex = 77;
+            CHK_MegaRayquazaUnlocked.Text = "Mega Rayquaza Unlocked";
+            CHK_MegaRayquazaUnlocked.UseVisualStyleBackColor = true;
             // 
-            // CHK_Badge1
+            // CHK_MegaUnlocked
             // 
-            CHK_Badge1.AutoSize = true;
-            CHK_Badge1.Location = new System.Drawing.Point(307, 23);
-            CHK_Badge1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_Badge1.Name = "CHK_Badge1";
-            CHK_Badge1.Size = new System.Drawing.Size(32, 19);
-            CHK_Badge1.TabIndex = 10;
-            CHK_Badge1.Text = "1";
-            CHK_Badge1.UseVisualStyleBackColor = true;
+            CHK_MegaUnlocked.AutoSize = true;
+            CHK_MegaUnlocked.Location = new System.Drawing.Point(144, 247);
+            CHK_MegaUnlocked.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_MegaUnlocked.Name = "CHK_MegaUnlocked";
+            CHK_MegaUnlocked.Size = new System.Drawing.Size(162, 19);
+            CHK_MegaUnlocked.TabIndex = 76;
+            CHK_MegaUnlocked.Text = "Mega Evolution Unlocked";
+            CHK_MegaUnlocked.UseVisualStyleBackColor = true;
             // 
-            // CHK_Badge2
+            // L_MultiplayerSprite
             // 
-            CHK_Badge2.AutoSize = true;
-            CHK_Badge2.Location = new System.Drawing.Point(307, 50);
-            CHK_Badge2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_Badge2.Name = "CHK_Badge2";
-            CHK_Badge2.Size = new System.Drawing.Size(32, 19);
-            CHK_Badge2.TabIndex = 11;
-            CHK_Badge2.Text = "2";
-            CHK_Badge2.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Badge3
-            // 
-            CHK_Badge3.AutoSize = true;
-            CHK_Badge3.Location = new System.Drawing.Point(307, 76);
-            CHK_Badge3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_Badge3.Name = "CHK_Badge3";
-            CHK_Badge3.Size = new System.Drawing.Size(32, 19);
-            CHK_Badge3.TabIndex = 12;
-            CHK_Badge3.Text = "3";
-            CHK_Badge3.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Badge4
-            // 
-            CHK_Badge4.AutoSize = true;
-            CHK_Badge4.Location = new System.Drawing.Point(307, 103);
-            CHK_Badge4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_Badge4.Name = "CHK_Badge4";
-            CHK_Badge4.Size = new System.Drawing.Size(32, 19);
-            CHK_Badge4.TabIndex = 13;
-            CHK_Badge4.Text = "4";
-            CHK_Badge4.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Badge5
-            // 
-            CHK_Badge5.AutoSize = true;
-            CHK_Badge5.Location = new System.Drawing.Point(351, 23);
-            CHK_Badge5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_Badge5.Name = "CHK_Badge5";
-            CHK_Badge5.Size = new System.Drawing.Size(32, 19);
-            CHK_Badge5.TabIndex = 14;
-            CHK_Badge5.Text = "5";
-            CHK_Badge5.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Badge7
-            // 
-            CHK_Badge7.AutoSize = true;
-            CHK_Badge7.Location = new System.Drawing.Point(351, 76);
-            CHK_Badge7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_Badge7.Name = "CHK_Badge7";
-            CHK_Badge7.Size = new System.Drawing.Size(32, 19);
-            CHK_Badge7.TabIndex = 16;
-            CHK_Badge7.Text = "7";
-            CHK_Badge7.UseVisualStyleBackColor = true;
-            // 
-            // CHK_Badge8
-            // 
-            CHK_Badge8.AutoSize = true;
-            CHK_Badge8.Location = new System.Drawing.Point(351, 103);
-            CHK_Badge8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_Badge8.Name = "CHK_Badge8";
-            CHK_Badge8.Size = new System.Drawing.Size(32, 19);
-            CHK_Badge8.TabIndex = 17;
-            CHK_Badge8.Text = "8";
-            CHK_Badge8.UseVisualStyleBackColor = true;
+            L_MultiplayerSprite.AutoSize = true;
+            L_MultiplayerSprite.Enabled = false;
+            L_MultiplayerSprite.Location = new System.Drawing.Point(103, 54);
+            L_MultiplayerSprite.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_MultiplayerSprite.Name = "L_MultiplayerSprite";
+            L_MultiplayerSprite.Size = new System.Drawing.Size(103, 15);
+            L_MultiplayerSprite.TabIndex = 27;
+            L_MultiplayerSprite.Text = "Multiplayer Sprite:";
             // 
             // GB_Sayings
             // 
@@ -495,109 +511,320 @@ namespace PKHeX.WinForms
             TB_Saying1.Text = "1234567890123456";
             TB_Saying1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // L_LastSaved
+            // PB_Sprite
             // 
-            L_LastSaved.Location = new System.Drawing.Point(4, 127);
-            L_LastSaved.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_LastSaved.Name = "L_LastSaved";
-            L_LastSaved.Size = new System.Drawing.Size(93, 23);
-            L_LastSaved.TabIndex = 32;
-            L_LastSaved.Text = "Last Saved:";
-            L_LastSaved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            PB_Sprite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            PB_Sprite.Enabled = false;
+            PB_Sprite.Location = new System.Drawing.Point(300, 48);
+            PB_Sprite.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PB_Sprite.Name = "PB_Sprite";
+            PB_Sprite.Size = new System.Drawing.Size(49, 48);
+            PB_Sprite.TabIndex = 26;
+            PB_Sprite.TabStop = false;
             // 
-            // CAL_LastSavedDate
+            // CB_MultiplayerSprite
             // 
-            CAL_LastSavedDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            CAL_LastSavedDate.Location = new System.Drawing.Point(104, 127);
-            CAL_LastSavedDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CAL_LastSavedDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            CAL_LastSavedDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
-            CAL_LastSavedDate.Name = "CAL_LastSavedDate";
-            CAL_LastSavedDate.Size = new System.Drawing.Size(115, 23);
-            CAL_LastSavedDate.TabIndex = 31;
-            CAL_LastSavedDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CB_MultiplayerSprite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_MultiplayerSprite.Enabled = false;
+            CB_MultiplayerSprite.FormattingEnabled = true;
+            CB_MultiplayerSprite.Location = new System.Drawing.Point(104, 73);
+            CB_MultiplayerSprite.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_MultiplayerSprite.Name = "CB_MultiplayerSprite";
+            CB_MultiplayerSprite.Size = new System.Drawing.Size(172, 23);
+            CB_MultiplayerSprite.TabIndex = 25;
+            CB_MultiplayerSprite.SelectedIndexChanged += CB_Multi_SelectedIndexChanged;
             // 
-            // L_Seconds
+            // Tab_BadgeMap
             // 
-            L_Seconds.AutoSize = true;
-            L_Seconds.Location = new System.Drawing.Point(159, 20);
-            L_Seconds.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_Seconds.Name = "L_Seconds";
-            L_Seconds.Size = new System.Drawing.Size(28, 15);
-            L_Seconds.TabIndex = 30;
-            L_Seconds.Text = "Sec:";
+            Tab_BadgeMap.Controls.Add(GB_Map);
+            Tab_BadgeMap.Controls.Add(CHK_Badge7);
+            Tab_BadgeMap.Controls.Add(CHK_Badge5);
+            Tab_BadgeMap.Controls.Add(CHK_Badge4);
+            Tab_BadgeMap.Controls.Add(CHK_Badge8);
+            Tab_BadgeMap.Controls.Add(CHK_Badge3);
+            Tab_BadgeMap.Controls.Add(CHK_Badge1);
+            Tab_BadgeMap.Controls.Add(CHK_Badge6);
+            Tab_BadgeMap.Controls.Add(CHK_Badge2);
+            Tab_BadgeMap.Location = new System.Drawing.Point(4, 24);
+            Tab_BadgeMap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_BadgeMap.Name = "Tab_BadgeMap";
+            Tab_BadgeMap.Size = new System.Drawing.Size(452, 294);
+            Tab_BadgeMap.TabIndex = 3;
+            Tab_BadgeMap.Text = "Badges/Map";
+            Tab_BadgeMap.UseVisualStyleBackColor = true;
             // 
-            // L_Minutes
+            // GB_Map
             // 
-            L_Minutes.AutoSize = true;
-            L_Minutes.Location = new System.Drawing.Point(98, 20);
-            L_Minutes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_Minutes.Name = "L_Minutes";
-            L_Minutes.Size = new System.Drawing.Size(31, 15);
-            L_Minutes.TabIndex = 29;
-            L_Minutes.Text = "Min:";
+            GB_Map.Controls.Add(NUD_R);
+            GB_Map.Controls.Add(L_R);
+            GB_Map.Controls.Add(NUD_Z);
+            GB_Map.Controls.Add(NUD_M);
+            GB_Map.Controls.Add(NUD_Y);
+            GB_Map.Controls.Add(NUD_X);
+            GB_Map.Controls.Add(L_Y);
+            GB_Map.Controls.Add(L_CurrentMap);
+            GB_Map.Controls.Add(L_Z);
+            GB_Map.Controls.Add(L_X);
+            GB_Map.Location = new System.Drawing.Point(7, 7);
+            GB_Map.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Map.Name = "GB_Map";
+            GB_Map.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Map.Size = new System.Drawing.Size(237, 180);
+            GB_Map.TabIndex = 52;
+            GB_Map.TabStop = false;
+            GB_Map.Text = "Map Position";
             // 
-            // MT_Seconds
+            // NUD_R
             // 
-            MT_Seconds.Location = new System.Drawing.Point(194, 16);
-            MT_Seconds.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            MT_Seconds.Mask = "00";
-            MT_Seconds.Name = "MT_Seconds";
-            MT_Seconds.Size = new System.Drawing.Size(25, 23);
-            MT_Seconds.TabIndex = 28;
-            MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            MT_Seconds.TextChanged += Change255;
+            NUD_R.Location = new System.Drawing.Point(108, 138);
+            NUD_R.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_R.Maximum = new decimal(new int[] { 7, 0, 0, 0 });
+            NUD_R.Name = "NUD_R";
+            NUD_R.Size = new System.Drawing.Size(58, 23);
+            NUD_R.TabIndex = 55;
+            NUD_R.ValueChanged += ChangeMapValue;
             // 
-            // MT_Minutes
+            // L_R
             // 
-            MT_Minutes.Location = new System.Drawing.Point(130, 16);
-            MT_Minutes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            MT_Minutes.Mask = "00";
-            MT_Minutes.Name = "MT_Minutes";
-            MT_Minutes.Size = new System.Drawing.Size(25, 23);
-            MT_Minutes.TabIndex = 27;
-            MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            MT_Minutes.TextChanged += Change255;
+            L_R.Location = new System.Drawing.Point(7, 138);
+            L_R.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_R.Name = "L_R";
+            L_R.Size = new System.Drawing.Size(93, 23);
+            L_R.TabIndex = 54;
+            L_R.Text = "Rotation:";
+            L_R.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_Hours
+            // NUD_Z
             // 
-            L_Hours.AutoSize = true;
-            L_Hours.Location = new System.Drawing.Point(14, 20);
-            L_Hours.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_Hours.Name = "L_Hours";
-            L_Hours.Size = new System.Drawing.Size(28, 15);
-            L_Hours.TabIndex = 26;
-            L_Hours.Text = "Hrs:";
+            NUD_Z.DecimalPlaces = 6;
+            NUD_Z.Location = new System.Drawing.Point(108, 78);
+            NUD_Z.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Z.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_Z.Minimum = new decimal(new int[] { 65535, 0, 0, int.MinValue });
+            NUD_Z.Name = "NUD_Z";
+            NUD_Z.Size = new System.Drawing.Size(112, 23);
+            NUD_Z.TabIndex = 53;
+            NUD_Z.ValueChanged += ChangeMapValue;
             // 
-            // MT_Hours
+            // NUD_M
             // 
-            MT_Hours.Location = new System.Drawing.Point(51, 16);
-            MT_Hours.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            MT_Hours.Mask = "00000";
-            MT_Hours.Name = "MT_Hours";
-            MT_Hours.Size = new System.Drawing.Size(44, 23);
-            MT_Hours.TabIndex = 25;
-            MT_Hours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            NUD_M.Location = new System.Drawing.Point(108, 18);
+            NUD_M.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_M.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            NUD_M.Name = "NUD_M";
+            NUD_M.Size = new System.Drawing.Size(58, 23);
+            NUD_M.TabIndex = 52;
+            NUD_M.ValueChanged += ChangeMapValue;
             // 
-            // L_Language
+            // NUD_Y
             // 
-            L_Language.Location = new System.Drawing.Point(16, 89);
-            L_Language.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_Language.Name = "L_Language";
-            L_Language.Size = new System.Drawing.Size(93, 15);
-            L_Language.TabIndex = 21;
-            L_Language.Text = "Language:";
-            L_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            NUD_Y.DecimalPlaces = 6;
+            NUD_Y.Location = new System.Drawing.Point(108, 108);
+            NUD_Y.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Y.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_Y.Name = "NUD_Y";
+            NUD_Y.Size = new System.Drawing.Size(112, 23);
+            NUD_Y.TabIndex = 51;
+            NUD_Y.ValueChanged += ChangeMapValue;
             // 
-            // TB_PM
+            // NUD_X
             // 
-            TB_PM.Location = new System.Drawing.Point(112, 44);
-            TB_PM.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TB_PM.Mask = "0000000";
-            TB_PM.Name = "TB_PM";
-            TB_PM.Size = new System.Drawing.Size(58, 23);
-            TB_PM.TabIndex = 5;
-            TB_PM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            NUD_X.DecimalPlaces = 6;
+            NUD_X.Location = new System.Drawing.Point(108, 48);
+            NUD_X.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_X.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_X.Name = "NUD_X";
+            NUD_X.Size = new System.Drawing.Size(112, 23);
+            NUD_X.TabIndex = 50;
+            NUD_X.ValueChanged += ChangeMapValue;
+            // 
+            // L_Y
+            // 
+            L_Y.Location = new System.Drawing.Point(7, 108);
+            L_Y.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Y.Name = "L_Y";
+            L_Y.Size = new System.Drawing.Size(93, 23);
+            L_Y.TabIndex = 49;
+            L_Y.Text = "Y Coordinate:";
+            L_Y.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_CurrentMap
+            // 
+            L_CurrentMap.Location = new System.Drawing.Point(7, 18);
+            L_CurrentMap.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_CurrentMap.Name = "L_CurrentMap";
+            L_CurrentMap.Size = new System.Drawing.Size(93, 23);
+            L_CurrentMap.TabIndex = 46;
+            L_CurrentMap.Text = "Current Map:";
+            L_CurrentMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Z
+            // 
+            L_Z.Location = new System.Drawing.Point(7, 78);
+            L_Z.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Z.Name = "L_Z";
+            L_Z.Size = new System.Drawing.Size(93, 23);
+            L_Z.TabIndex = 48;
+            L_Z.Text = "Z Coordinate:";
+            L_Z.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_X
+            // 
+            L_X.Location = new System.Drawing.Point(7, 48);
+            L_X.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_X.Name = "L_X";
+            L_X.Size = new System.Drawing.Size(93, 23);
+            L_X.TabIndex = 47;
+            L_X.Text = "X Coordinate:";
+            L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CHK_Badge7
+            // 
+            CHK_Badge7.AutoSize = true;
+            CHK_Badge7.Location = new System.Drawing.Point(351, 76);
+            CHK_Badge7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_Badge7.Name = "CHK_Badge7";
+            CHK_Badge7.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge7.TabIndex = 16;
+            CHK_Badge7.Text = "7";
+            CHK_Badge7.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Badge5
+            // 
+            CHK_Badge5.AutoSize = true;
+            CHK_Badge5.Location = new System.Drawing.Point(351, 23);
+            CHK_Badge5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_Badge5.Name = "CHK_Badge5";
+            CHK_Badge5.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge5.TabIndex = 14;
+            CHK_Badge5.Text = "5";
+            CHK_Badge5.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Badge4
+            // 
+            CHK_Badge4.AutoSize = true;
+            CHK_Badge4.Location = new System.Drawing.Point(307, 103);
+            CHK_Badge4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_Badge4.Name = "CHK_Badge4";
+            CHK_Badge4.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge4.TabIndex = 13;
+            CHK_Badge4.Text = "4";
+            CHK_Badge4.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Badge8
+            // 
+            CHK_Badge8.AutoSize = true;
+            CHK_Badge8.Location = new System.Drawing.Point(351, 103);
+            CHK_Badge8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_Badge8.Name = "CHK_Badge8";
+            CHK_Badge8.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge8.TabIndex = 17;
+            CHK_Badge8.Text = "8";
+            CHK_Badge8.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Badge3
+            // 
+            CHK_Badge3.AutoSize = true;
+            CHK_Badge3.Location = new System.Drawing.Point(307, 76);
+            CHK_Badge3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_Badge3.Name = "CHK_Badge3";
+            CHK_Badge3.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge3.TabIndex = 12;
+            CHK_Badge3.Text = "3";
+            CHK_Badge3.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Badge1
+            // 
+            CHK_Badge1.AutoSize = true;
+            CHK_Badge1.Location = new System.Drawing.Point(307, 23);
+            CHK_Badge1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_Badge1.Name = "CHK_Badge1";
+            CHK_Badge1.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge1.TabIndex = 10;
+            CHK_Badge1.Text = "1";
+            CHK_Badge1.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Badge6
+            // 
+            CHK_Badge6.AutoSize = true;
+            CHK_Badge6.Location = new System.Drawing.Point(351, 50);
+            CHK_Badge6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_Badge6.Name = "CHK_Badge6";
+            CHK_Badge6.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge6.TabIndex = 15;
+            CHK_Badge6.Text = "6";
+            CHK_Badge6.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Badge2
+            // 
+            CHK_Badge2.AutoSize = true;
+            CHK_Badge2.Location = new System.Drawing.Point(307, 50);
+            CHK_Badge2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_Badge2.Name = "CHK_Badge2";
+            CHK_Badge2.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge2.TabIndex = 11;
+            CHK_Badge2.Text = "2";
+            CHK_Badge2.UseVisualStyleBackColor = true;
+            // 
+            // Tab_Overview
+            // 
+            Tab_Overview.Controls.Add(GB_Stats);
+            Tab_Overview.Controls.Add(GB_Adventure);
+            Tab_Overview.Controls.Add(CB_Vivillon);
+            Tab_Overview.Controls.Add(L_Vivillon);
+            Tab_Overview.Controls.Add(TB_OTName);
+            Tab_Overview.Controls.Add(CB_Gender);
+            Tab_Overview.Controls.Add(CB_Game);
+            Tab_Overview.Controls.Add(L_TrainerName);
+            Tab_Overview.Controls.Add(L_TID);
+            Tab_Overview.Controls.Add(MT_Money);
+            Tab_Overview.Controls.Add(L_SID);
+            Tab_Overview.Controls.Add(L_Money);
+            Tab_Overview.Controls.Add(L_Language);
+            Tab_Overview.Controls.Add(MT_TID);
+            Tab_Overview.Controls.Add(MT_SID);
+            Tab_Overview.Controls.Add(L_3DSReg);
+            Tab_Overview.Controls.Add(CB_Language);
+            Tab_Overview.Controls.Add(L_Region);
+            Tab_Overview.Controls.Add(CB_3DSReg);
+            Tab_Overview.Controls.Add(B_MaxCash);
+            Tab_Overview.Controls.Add(L_Country);
+            Tab_Overview.Controls.Add(CB_Country);
+            Tab_Overview.Controls.Add(CB_Region);
+            Tab_Overview.Location = new System.Drawing.Point(4, 24);
+            Tab_Overview.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Overview.Name = "Tab_Overview";
+            Tab_Overview.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Overview.Size = new System.Drawing.Size(452, 294);
+            Tab_Overview.TabIndex = 0;
+            Tab_Overview.Text = "Overview";
+            Tab_Overview.UseVisualStyleBackColor = true;
+            // 
+            // GB_Stats
+            // 
+            GB_Stats.Controls.Add(TrainerStats);
+            GB_Stats.Controls.Add(TB_BP);
+            GB_Stats.Controls.Add(TB_PM);
+            GB_Stats.Controls.Add(L_PM);
+            GB_Stats.Controls.Add(TB_Style);
+            GB_Stats.Controls.Add(L_BP);
+            GB_Stats.Controls.Add(L_Style);
+            GB_Stats.Location = new System.Drawing.Point(244, 114);
+            GB_Stats.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Stats.Name = "GB_Stats";
+            GB_Stats.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Stats.Size = new System.Drawing.Size(200, 174);
+            GB_Stats.TabIndex = 55;
+            GB_Stats.TabStop = false;
+            GB_Stats.Text = "Stats";
+            // 
+            // TrainerStats
+            // 
+            TrainerStats.Location = new System.Drawing.Point(27, 93);
+            TrainerStats.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TrainerStats.Name = "TrainerStats";
+            TrainerStats.Size = new System.Drawing.Size(170, 83);
+            TrainerStats.TabIndex = 9;
             // 
             // TB_BP
             // 
@@ -609,6 +836,16 @@ namespace PKHeX.WinForms
             TB_BP.TabIndex = 6;
             TB_BP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // TB_PM
+            // 
+            TB_PM.Location = new System.Drawing.Point(112, 44);
+            TB_PM.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_PM.Mask = "0000000";
+            TB_PM.Name = "TB_PM";
+            TB_PM.Size = new System.Drawing.Size(58, 23);
+            TB_PM.TabIndex = 5;
+            TB_PM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // L_PM
             // 
             L_PM.Location = new System.Drawing.Point(35, 43);
@@ -618,120 +855,6 @@ namespace PKHeX.WinForms
             L_PM.TabIndex = 0;
             L_PM.Text = "PokeMiles:";
             L_PM.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Region
-            // 
-            L_Region.Location = new System.Drawing.Point(236, 37);
-            L_Region.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_Region.Name = "L_Region";
-            L_Region.Size = new System.Drawing.Size(93, 15);
-            L_Region.TabIndex = 20;
-            L_Region.Text = "Sub Region:";
-            L_Region.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_BP
-            // 
-            L_BP.Location = new System.Drawing.Point(35, 18);
-            L_BP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_BP.Name = "L_BP";
-            L_BP.Size = new System.Drawing.Size(70, 23);
-            L_BP.TabIndex = 1;
-            L_BP.Text = "BP:";
-            L_BP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Country
-            // 
-            L_Country.Location = new System.Drawing.Point(236, 12);
-            L_Country.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_Country.Name = "L_Country";
-            L_Country.Size = new System.Drawing.Size(93, 15);
-            L_Country.TabIndex = 19;
-            L_Country.Text = "Country:";
-            L_Country.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_Region
-            // 
-            CB_Region.DropDownWidth = 180;
-            CB_Region.FormattingEnabled = true;
-            CB_Region.Location = new System.Drawing.Point(335, 33);
-            CB_Region.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CB_Region.Name = "CB_Region";
-            CB_Region.Size = new System.Drawing.Size(108, 23);
-            CB_Region.TabIndex = 18;
-            // 
-            // CB_Country
-            // 
-            CB_Country.DropDownWidth = 180;
-            CB_Country.FormattingEnabled = true;
-            CB_Country.Location = new System.Drawing.Point(335, 8);
-            CB_Country.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CB_Country.Name = "CB_Country";
-            CB_Country.Size = new System.Drawing.Size(108, 23);
-            CB_Country.TabIndex = 17;
-            CB_Country.SelectedIndexChanged += UpdateCountry;
-            // 
-            // B_MaxCash
-            // 
-            B_MaxCash.Location = new System.Drawing.Point(201, 33);
-            B_MaxCash.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            B_MaxCash.Name = "B_MaxCash";
-            B_MaxCash.Size = new System.Drawing.Size(23, 23);
-            B_MaxCash.TabIndex = 16;
-            B_MaxCash.Text = "+";
-            B_MaxCash.UseVisualStyleBackColor = true;
-            // 
-            // CB_3DSReg
-            // 
-            CB_3DSReg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_3DSReg.FormattingEnabled = true;
-            CB_3DSReg.Location = new System.Drawing.Point(335, 59);
-            CB_3DSReg.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CB_3DSReg.Name = "CB_3DSReg";
-            CB_3DSReg.Size = new System.Drawing.Size(108, 23);
-            CB_3DSReg.TabIndex = 14;
-            // 
-            // CB_Language
-            // 
-            CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_Language.FormattingEnabled = true;
-            CB_Language.Location = new System.Drawing.Point(115, 84);
-            CB_Language.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CB_Language.Name = "CB_Language";
-            CB_Language.Size = new System.Drawing.Size(108, 23);
-            CB_Language.TabIndex = 15;
-            // 
-            // L_3DSReg
-            // 
-            L_3DSReg.Location = new System.Drawing.Point(236, 62);
-            L_3DSReg.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_3DSReg.Name = "L_3DSReg";
-            L_3DSReg.Size = new System.Drawing.Size(93, 15);
-            L_3DSReg.TabIndex = 10;
-            L_3DSReg.Text = "3DS Region:";
-            L_3DSReg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_Game
-            // 
-            CB_Game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_Game.Enabled = false;
-            CB_Game.FormattingEnabled = true;
-            CB_Game.Items.AddRange(new object[] { "X", "Y", "AS", "OR" });
-            CB_Game.Location = new System.Drawing.Point(164, 59);
-            CB_Game.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CB_Game.Name = "CB_Game";
-            CB_Game.Size = new System.Drawing.Size(59, 23);
-            CB_Game.TabIndex = 24;
-            // 
-            // CB_Gender
-            // 
-            CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_Gender.FormattingEnabled = true;
-            CB_Gender.Items.AddRange(new object[] { "♂", "♀" });
-            CB_Gender.Location = new System.Drawing.Point(115, 59);
-            CB_Gender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CB_Gender.Name = "CB_Gender";
-            CB_Gender.Size = new System.Drawing.Size(46, 23);
-            CB_Gender.TabIndex = 22;
             // 
             // TB_Style
             // 
@@ -744,6 +867,16 @@ namespace PKHeX.WinForms
             TB_Style.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_Style.TextChanged += Change255;
             // 
+            // L_BP
+            // 
+            L_BP.Location = new System.Drawing.Point(35, 18);
+            L_BP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_BP.Name = "L_BP";
+            L_BP.Size = new System.Drawing.Size(70, 23);
+            L_BP.TabIndex = 1;
+            L_BP.Text = "BP:";
+            L_BP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // L_Style
             // 
             L_Style.Location = new System.Drawing.Point(35, 68);
@@ -754,37 +887,33 @@ namespace PKHeX.WinForms
             L_Style.Text = "Style:";
             L_Style.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // GB_MaisonBest
+            // GB_Adventure
             // 
-            GB_MaisonBest.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            GB_MaisonBest.Controls.Add(TB_MBMS);
-            GB_MaisonBest.Controls.Add(TB_MBMN);
-            GB_MaisonBest.Controls.Add(TB_MBRS);
-            GB_MaisonBest.Controls.Add(TB_MBRN);
-            GB_MaisonBest.Controls.Add(TB_MBTS);
-            GB_MaisonBest.Controls.Add(TB_MBTN);
-            GB_MaisonBest.Controls.Add(TB_MBDS);
-            GB_MaisonBest.Controls.Add(TB_MBDN);
-            GB_MaisonBest.Controls.Add(TB_MBSS);
-            GB_MaisonBest.Controls.Add(TB_MBSN);
-            GB_MaisonBest.Controls.Add(L_SuperB);
-            GB_MaisonBest.Controls.Add(L_NormalB);
-            GB_MaisonBest.Controls.Add(L_MultiB);
-            GB_MaisonBest.Controls.Add(L_RotationB);
-            GB_MaisonBest.Controls.Add(L_TriplesB);
-            GB_MaisonBest.Controls.Add(L_DoublesB);
-            GB_MaisonBest.Controls.Add(L_SinglesB);
-            GB_MaisonBest.Location = new System.Drawing.Point(229, 68);
-            GB_MaisonBest.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_MaisonBest.Name = "GB_MaisonBest";
-            GB_MaisonBest.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_MaisonBest.Size = new System.Drawing.Size(181, 155);
-            GB_MaisonBest.TabIndex = 40;
-            GB_MaisonBest.TabStop = false;
-            GB_MaisonBest.Text = "Maison Streaks (Best)";
+            GB_Adventure.Controls.Add(L_Fame);
+            GB_Adventure.Controls.Add(CAL_HoFDate);
+            GB_Adventure.Controls.Add(CAL_HoFTime);
+            GB_Adventure.Controls.Add(L_Started);
+            GB_Adventure.Controls.Add(CAL_AdventureStartDate);
+            GB_Adventure.Controls.Add(CAL_LastSavedDate);
+            GB_Adventure.Controls.Add(L_LastSaved);
+            GB_Adventure.Controls.Add(MT_Seconds);
+            GB_Adventure.Controls.Add(MT_Hours);
+            GB_Adventure.Controls.Add(L_Seconds);
+            GB_Adventure.Controls.Add(L_Hours);
+            GB_Adventure.Controls.Add(MT_Minutes);
+            GB_Adventure.Controls.Add(L_Minutes);
+            GB_Adventure.Controls.Add(CAL_AdventureStartTime);
+            GB_Adventure.Controls.Add(CAL_LastSavedTime);
+            GB_Adventure.Location = new System.Drawing.Point(4, 114);
+            GB_Adventure.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Adventure.Name = "GB_Adventure";
+            GB_Adventure.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Adventure.Size = new System.Drawing.Size(233, 174);
+            GB_Adventure.TabIndex = 56;
+            GB_Adventure.TabStop = false;
+            GB_Adventure.Text = "Adventure Info";
             // 
-            // TB_MBMS
-            // 
+<<<<<<< ours
             TB_MBMS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_MBMS.Location = new System.Drawing.Point(121, 122);
             TB_MBMS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -793,9 +922,19 @@ namespace PKHeX.WinForms
             TB_MBMS.Size = new System.Drawing.Size(40, 20);
             TB_MBMS.TabIndex = 65;
             TB_MBMS.TextChanged += ChangeFFFF;
+=======
+            // L_Fame
+>>>>>>> theirs
             // 
-            // TB_MBMN
+            L_Fame.Location = new System.Drawing.Point(4, 83);
+            L_Fame.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Fame.Name = "L_Fame";
+            L_Fame.Size = new System.Drawing.Size(93, 23);
+            L_Fame.TabIndex = 40;
+            L_Fame.Text = "HoF Entered:";
+            L_Fame.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+<<<<<<< ours
             TB_MBMN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_MBMN.Location = new System.Drawing.Point(71, 122);
             TB_MBMN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -815,9 +954,23 @@ namespace PKHeX.WinForms
             TB_MBRS.Size = new System.Drawing.Size(40, 20);
             TB_MBRS.TabIndex = 63;
             TB_MBRS.TextChanged += ChangeFFFF;
+=======
+            // CAL_HoFDate
             // 
-            // TB_MBRN
+            CAL_HoFDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            CAL_HoFDate.Location = new System.Drawing.Point(104, 83);
+            CAL_HoFDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_HoFDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            CAL_HoFDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_HoFDate.Name = "CAL_HoFDate";
+            CAL_HoFDate.Size = new System.Drawing.Size(115, 23);
+            CAL_HoFDate.TabIndex = 39;
+            CAL_HoFDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+>>>>>>> theirs
             // 
+            // CAL_HoFTime
+            // 
+<<<<<<< ours
             TB_MBRN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_MBRN.Location = new System.Drawing.Point(71, 100);
             TB_MBRN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -826,9 +979,23 @@ namespace PKHeX.WinForms
             TB_MBRN.Size = new System.Drawing.Size(40, 20);
             TB_MBRN.TabIndex = 62;
             TB_MBRN.TextChanged += ChangeFFFF;
+=======
+            CAL_HoFTime.CustomFormat = "HH:mm:ss";
+            CAL_HoFTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            CAL_HoFTime.Location = new System.Drawing.Point(134, 105);
+            CAL_HoFTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_HoFTime.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            CAL_HoFTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_HoFTime.Name = "CAL_HoFTime";
+            CAL_HoFTime.ShowUpDown = true;
+            CAL_HoFTime.Size = new System.Drawing.Size(84, 23);
+            CAL_HoFTime.TabIndex = 38;
+            CAL_HoFTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+>>>>>>> theirs
             // 
-            // TB_MBTS
+            // L_Started
             // 
+<<<<<<< ours
             TB_MBTS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_MBTS.Location = new System.Drawing.Point(121, 80);
             TB_MBTS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -837,9 +1004,19 @@ namespace PKHeX.WinForms
             TB_MBTS.Size = new System.Drawing.Size(40, 20);
             TB_MBTS.TabIndex = 61;
             TB_MBTS.TextChanged += ChangeFFFF;
+=======
+            L_Started.Location = new System.Drawing.Point(4, 40);
+            L_Started.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Started.Name = "L_Started";
+            L_Started.Size = new System.Drawing.Size(93, 23);
+            L_Started.TabIndex = 36;
+            L_Started.Text = "Game Started:";
+            L_Started.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+>>>>>>> theirs
             // 
-            // TB_MBTN
+            // CAL_AdventureStartDate
             // 
+<<<<<<< ours
             TB_MBTN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_MBTN.Location = new System.Drawing.Point(71, 80);
             TB_MBTN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -848,9 +1025,21 @@ namespace PKHeX.WinForms
             TB_MBTN.Size = new System.Drawing.Size(40, 20);
             TB_MBTN.TabIndex = 60;
             TB_MBTN.TextChanged += ChangeFFFF;
+=======
+            CAL_AdventureStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            CAL_AdventureStartDate.Location = new System.Drawing.Point(104, 40);
+            CAL_AdventureStartDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_AdventureStartDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            CAL_AdventureStartDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_AdventureStartDate.Name = "CAL_AdventureStartDate";
+            CAL_AdventureStartDate.Size = new System.Drawing.Size(115, 23);
+            CAL_AdventureStartDate.TabIndex = 35;
+            CAL_AdventureStartDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+>>>>>>> theirs
             // 
-            // TB_MBDS
+            // CAL_LastSavedDate
             // 
+<<<<<<< ours
             TB_MBDS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_MBDS.Location = new System.Drawing.Point(121, 58);
             TB_MBDS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -859,9 +1048,21 @@ namespace PKHeX.WinForms
             TB_MBDS.Size = new System.Drawing.Size(40, 20);
             TB_MBDS.TabIndex = 59;
             TB_MBDS.TextChanged += ChangeFFFF;
+=======
+            CAL_LastSavedDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            CAL_LastSavedDate.Location = new System.Drawing.Point(104, 127);
+            CAL_LastSavedDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_LastSavedDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            CAL_LastSavedDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_LastSavedDate.Name = "CAL_LastSavedDate";
+            CAL_LastSavedDate.Size = new System.Drawing.Size(115, 23);
+            CAL_LastSavedDate.TabIndex = 31;
+            CAL_LastSavedDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+>>>>>>> theirs
             // 
-            // TB_MBDN
+            // L_LastSaved
             // 
+<<<<<<< ours
             TB_MBDN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_MBDN.Location = new System.Drawing.Point(71, 58);
             TB_MBDN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -870,9 +1071,19 @@ namespace PKHeX.WinForms
             TB_MBDN.Size = new System.Drawing.Size(40, 20);
             TB_MBDN.TabIndex = 58;
             TB_MBDN.TextChanged += ChangeFFFF;
+=======
+            L_LastSaved.Location = new System.Drawing.Point(4, 127);
+            L_LastSaved.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_LastSaved.Name = "L_LastSaved";
+            L_LastSaved.Size = new System.Drawing.Size(93, 23);
+            L_LastSaved.TabIndex = 32;
+            L_LastSaved.Text = "Last Saved:";
+            L_LastSaved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+>>>>>>> theirs
             // 
-            // TB_MBSS
+            // MT_Seconds
             // 
+<<<<<<< ours
             TB_MBSS.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_MBSS.Location = new System.Drawing.Point(121, 36);
             TB_MBSS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -881,9 +1092,20 @@ namespace PKHeX.WinForms
             TB_MBSS.Size = new System.Drawing.Size(40, 20);
             TB_MBSS.TabIndex = 57;
             TB_MBSS.TextChanged += ChangeFFFF;
+=======
+            MT_Seconds.Location = new System.Drawing.Point(194, 16);
+            MT_Seconds.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Seconds.Mask = "00";
+            MT_Seconds.Name = "MT_Seconds";
+            MT_Seconds.Size = new System.Drawing.Size(25, 23);
+            MT_Seconds.TabIndex = 28;
+            MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MT_Seconds.TextChanged += Change255;
+>>>>>>> theirs
             // 
-            // TB_MBSN
+            // MT_Hours
             // 
+<<<<<<< ours
             TB_MBSN.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_MBSN.Location = new System.Drawing.Point(71, 36);
             TB_MBSN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -892,49 +1114,60 @@ namespace PKHeX.WinForms
             TB_MBSN.Size = new System.Drawing.Size(40, 20);
             TB_MBSN.TabIndex = 56;
             TB_MBSN.TextChanged += ChangeFFFF;
+=======
+            MT_Hours.Location = new System.Drawing.Point(51, 16);
+            MT_Hours.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Hours.Mask = "00000";
+            MT_Hours.Name = "MT_Hours";
+            MT_Hours.Size = new System.Drawing.Size(44, 23);
+            MT_Hours.TabIndex = 25;
+            MT_Hours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+>>>>>>> theirs
             // 
-            // L_SuperB
+            // L_Seconds
             // 
-            L_SuperB.AutoSize = true;
-            L_SuperB.Location = new System.Drawing.Point(121, 20);
-            L_SuperB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_SuperB.Name = "L_SuperB";
-            L_SuperB.Size = new System.Drawing.Size(37, 15);
-            L_SuperB.TabIndex = 45;
-            L_SuperB.Text = "Super";
+            L_Seconds.AutoSize = true;
+            L_Seconds.Location = new System.Drawing.Point(159, 20);
+            L_Seconds.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Seconds.Name = "L_Seconds";
+            L_Seconds.Size = new System.Drawing.Size(28, 15);
+            L_Seconds.TabIndex = 30;
+            L_Seconds.Text = "Sec:";
             // 
-            // L_NormalB
+            // L_Hours
             // 
-            L_NormalB.AutoSize = true;
-            L_NormalB.Location = new System.Drawing.Point(68, 20);
-            L_NormalB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_NormalB.Name = "L_NormalB";
-            L_NormalB.Size = new System.Drawing.Size(47, 15);
-            L_NormalB.TabIndex = 44;
-            L_NormalB.Text = "Normal";
+            L_Hours.AutoSize = true;
+            L_Hours.Location = new System.Drawing.Point(14, 20);
+            L_Hours.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Hours.Name = "L_Hours";
+            L_Hours.Size = new System.Drawing.Size(28, 15);
+            L_Hours.TabIndex = 26;
+            L_Hours.Text = "Hrs:";
             // 
-            // L_MultiB
+            // MT_Minutes
             // 
-            L_MultiB.AutoSize = true;
-            L_MultiB.Location = new System.Drawing.Point(9, 126);
-            L_MultiB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_MultiB.Name = "L_MultiB";
-            L_MultiB.Size = new System.Drawing.Size(38, 15);
-            L_MultiB.TabIndex = 43;
-            L_MultiB.Text = "Multi:";
+            MT_Minutes.Location = new System.Drawing.Point(130, 16);
+            MT_Minutes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Minutes.Mask = "00";
+            MT_Minutes.Name = "MT_Minutes";
+            MT_Minutes.Size = new System.Drawing.Size(25, 23);
+            MT_Minutes.TabIndex = 27;
+            MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MT_Minutes.TextChanged += Change255;
             // 
-            // L_RotationB
+            // L_Minutes
             // 
-            L_RotationB.AutoSize = true;
-            L_RotationB.Location = new System.Drawing.Point(9, 105);
-            L_RotationB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_RotationB.Name = "L_RotationB";
-            L_RotationB.Size = new System.Drawing.Size(55, 15);
-            L_RotationB.TabIndex = 42;
-            L_RotationB.Text = "Rotation:";
+            L_Minutes.AutoSize = true;
+            L_Minutes.Location = new System.Drawing.Point(98, 20);
+            L_Minutes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Minutes.Name = "L_Minutes";
+            L_Minutes.Size = new System.Drawing.Size(31, 15);
+            L_Minutes.TabIndex = 29;
+            L_Minutes.Text = "Min:";
             // 
-            // L_TriplesB
+            // CAL_AdventureStartTime
             // 
+<<<<<<< ours
             L_TriplesB.AutoSize = true;
             L_TriplesB.Location = new System.Drawing.Point(9, 83);
             L_TriplesB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -942,26 +1175,282 @@ namespace PKHeX.WinForms
             L_TriplesB.Size = new System.Drawing.Size(43, 15);
             L_TriplesB.TabIndex = 41;
             L_TriplesB.Text = "Triples:";
+=======
+            CAL_AdventureStartTime.CustomFormat = "HH:mm:ss";
+            CAL_AdventureStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            CAL_AdventureStartTime.Location = new System.Drawing.Point(134, 62);
+            CAL_AdventureStartTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_AdventureStartTime.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            CAL_AdventureStartTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_AdventureStartTime.Name = "CAL_AdventureStartTime";
+            CAL_AdventureStartTime.ShowUpDown = true;
+            CAL_AdventureStartTime.Size = new System.Drawing.Size(84, 23);
+            CAL_AdventureStartTime.TabIndex = 34;
+            CAL_AdventureStartTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+>>>>>>> theirs
             // 
-            // L_DoublesB
+            // CAL_LastSavedTime
             // 
-            L_DoublesB.AutoSize = true;
-            L_DoublesB.Location = new System.Drawing.Point(9, 61);
-            L_DoublesB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_DoublesB.Name = "L_DoublesB";
-            L_DoublesB.Size = new System.Drawing.Size(53, 15);
-            L_DoublesB.TabIndex = 40;
-            L_DoublesB.Text = "Doubles:";
+            CAL_LastSavedTime.CustomFormat = "HH:mm:ss";
+            CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            CAL_LastSavedTime.Location = new System.Drawing.Point(134, 149);
+            CAL_LastSavedTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_LastSavedTime.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            CAL_LastSavedTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_LastSavedTime.Name = "CAL_LastSavedTime";
+            CAL_LastSavedTime.ShowUpDown = true;
+            CAL_LastSavedTime.Size = new System.Drawing.Size(84, 23);
+            CAL_LastSavedTime.TabIndex = 37;
+            CAL_LastSavedTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
-            // L_SinglesB
+            // CB_Vivillon
             // 
-            L_SinglesB.AutoSize = true;
-            L_SinglesB.Location = new System.Drawing.Point(9, 39);
-            L_SinglesB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_SinglesB.Name = "L_SinglesB";
-            L_SinglesB.Size = new System.Drawing.Size(47, 15);
-            L_SinglesB.TabIndex = 39;
-            L_SinglesB.Text = "Singles:";
+            CB_Vivillon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Vivillon.FormattingEnabled = true;
+            CB_Vivillon.Location = new System.Drawing.Point(335, 84);
+            CB_Vivillon.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Vivillon.Name = "CB_Vivillon";
+            CB_Vivillon.Size = new System.Drawing.Size(108, 23);
+            CB_Vivillon.TabIndex = 29;
+            // 
+            // L_Vivillon
+            // 
+            L_Vivillon.AutoSize = true;
+            L_Vivillon.Location = new System.Drawing.Point(279, 88);
+            L_Vivillon.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Vivillon.Name = "L_Vivillon";
+            L_Vivillon.Size = new System.Drawing.Size(49, 15);
+            L_Vivillon.TabIndex = 28;
+            L_Vivillon.Text = "Vivillon:";
+            L_Vivillon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // TB_OTName
+            // 
+            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_OTName.Location = new System.Drawing.Point(115, 8);
+            TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_OTName.MaxLength = 12;
+            TB_OTName.Name = "TB_OTName";
+            TB_OTName.Size = new System.Drawing.Size(108, 20);
+            TB_OTName.TabIndex = 2;
+            TB_OTName.Text = "WWWWWWWWWWWW";
+            TB_OTName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            TB_OTName.MouseDown += ClickOT;
+            // 
+            // CB_Gender
+            // 
+            CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Gender.FormattingEnabled = true;
+            CB_Gender.Items.AddRange(new object[] { "♂", "♀" });
+            CB_Gender.Location = new System.Drawing.Point(115, 59);
+            CB_Gender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Gender.Name = "CB_Gender";
+            CB_Gender.Size = new System.Drawing.Size(46, 23);
+            CB_Gender.TabIndex = 22;
+            // 
+            // CB_Game
+            // 
+            CB_Game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Game.Enabled = false;
+            CB_Game.FormattingEnabled = true;
+            CB_Game.Items.AddRange(new object[] { "X", "Y", "AS", "OR" });
+            CB_Game.Location = new System.Drawing.Point(164, 59);
+            CB_Game.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Game.Name = "CB_Game";
+            CB_Game.Size = new System.Drawing.Size(59, 23);
+            CB_Game.TabIndex = 24;
+            // 
+            // L_TrainerName
+            // 
+            L_TrainerName.Location = new System.Drawing.Point(8, 10);
+            L_TrainerName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_TrainerName.Name = "L_TrainerName";
+            L_TrainerName.Size = new System.Drawing.Size(102, 18);
+            L_TrainerName.TabIndex = 3;
+            L_TrainerName.Text = "Trainer Name:";
+            // 
+            // L_TID
+            // 
+            L_TID.Location = new System.Drawing.Point(10, 36);
+            L_TID.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_TID.Name = "L_TID";
+            L_TID.Size = new System.Drawing.Size(44, 15);
+            L_TID.TabIndex = 6;
+            L_TID.Text = "TID16:";
+            L_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // MT_Money
+            // 
+            MT_Money.Location = new System.Drawing.Point(139, 33);
+            MT_Money.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Money.Mask = "0000000";
+            MT_Money.Name = "MT_Money";
+            MT_Money.Size = new System.Drawing.Size(60, 23);
+            MT_Money.TabIndex = 4;
+            MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_SID
+            // 
+            L_SID.Location = new System.Drawing.Point(10, 62);
+            L_SID.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_SID.Name = "L_SID";
+            L_SID.Size = new System.Drawing.Size(44, 15);
+            L_SID.TabIndex = 7;
+            L_SID.Text = "SID16:";
+            L_SID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Money
+            // 
+            L_Money.AutoSize = true;
+            L_Money.Location = new System.Drawing.Point(119, 37);
+            L_Money.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Money.Name = "L_Money";
+            L_Money.Size = new System.Drawing.Size(16, 15);
+            L_Money.TabIndex = 5;
+            L_Money.Text = "$:";
+            // 
+            // L_Language
+            // 
+            L_Language.Location = new System.Drawing.Point(16, 89);
+            L_Language.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Language.Name = "L_Language";
+            L_Language.Size = new System.Drawing.Size(93, 15);
+            L_Language.TabIndex = 21;
+            L_Language.Text = "Language:";
+            L_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // MT_TID
+            // 
+            MT_TID.Location = new System.Drawing.Point(62, 35);
+            MT_TID.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_TID.Mask = "00000";
+            MT_TID.Name = "MT_TID";
+            MT_TID.Size = new System.Drawing.Size(45, 23);
+            MT_TID.TabIndex = 8;
+            MT_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MT_TID.TextChanged += ChangeFFFF;
+            MT_TID.MouseHover += ShowTSV;
+            // 
+            // MT_SID
+            // 
+            MT_SID.Location = new System.Drawing.Point(62, 59);
+            MT_SID.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_SID.Mask = "00000";
+            MT_SID.Name = "MT_SID";
+            MT_SID.Size = new System.Drawing.Size(45, 23);
+            MT_SID.TabIndex = 9;
+            MT_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MT_SID.TextChanged += ChangeFFFF;
+            MT_SID.MouseHover += ShowTSV;
+            // 
+            // L_3DSReg
+            // 
+            L_3DSReg.Location = new System.Drawing.Point(236, 62);
+            L_3DSReg.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_3DSReg.Name = "L_3DSReg";
+            L_3DSReg.Size = new System.Drawing.Size(93, 15);
+            L_3DSReg.TabIndex = 10;
+            L_3DSReg.Text = "3DS Region:";
+            L_3DSReg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Language
+            // 
+            CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Language.FormattingEnabled = true;
+            CB_Language.Location = new System.Drawing.Point(115, 84);
+            CB_Language.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Language.Name = "CB_Language";
+            CB_Language.Size = new System.Drawing.Size(108, 23);
+            CB_Language.TabIndex = 15;
+            // 
+            // L_Region
+            // 
+            L_Region.Location = new System.Drawing.Point(236, 37);
+            L_Region.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Region.Name = "L_Region";
+            L_Region.Size = new System.Drawing.Size(93, 15);
+            L_Region.TabIndex = 20;
+            L_Region.Text = "Sub Region:";
+            L_Region.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_3DSReg
+            // 
+            CB_3DSReg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_3DSReg.FormattingEnabled = true;
+            CB_3DSReg.Location = new System.Drawing.Point(335, 59);
+            CB_3DSReg.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_3DSReg.Name = "CB_3DSReg";
+            CB_3DSReg.Size = new System.Drawing.Size(108, 23);
+            CB_3DSReg.TabIndex = 14;
+            // 
+            // B_MaxCash
+            // 
+            B_MaxCash.Location = new System.Drawing.Point(201, 33);
+            B_MaxCash.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_MaxCash.Name = "B_MaxCash";
+            B_MaxCash.Size = new System.Drawing.Size(23, 23);
+            B_MaxCash.TabIndex = 16;
+            B_MaxCash.Text = "+";
+            B_MaxCash.UseVisualStyleBackColor = true;
+            // 
+            // L_Country
+            // 
+            L_Country.Location = new System.Drawing.Point(236, 12);
+            L_Country.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Country.Name = "L_Country";
+            L_Country.Size = new System.Drawing.Size(93, 15);
+            L_Country.TabIndex = 19;
+            L_Country.Text = "Country:";
+            L_Country.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Country
+            // 
+            CB_Country.DropDownWidth = 180;
+            CB_Country.FormattingEnabled = true;
+            CB_Country.Location = new System.Drawing.Point(335, 8);
+            CB_Country.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Country.Name = "CB_Country";
+            CB_Country.Size = new System.Drawing.Size(108, 23);
+            CB_Country.TabIndex = 17;
+            CB_Country.SelectedIndexChanged += UpdateCountry;
+            // 
+            // CB_Region
+            // 
+            CB_Region.DropDownWidth = 180;
+            CB_Region.FormattingEnabled = true;
+            CB_Region.Location = new System.Drawing.Point(335, 33);
+            CB_Region.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Region.Name = "CB_Region";
+            CB_Region.Size = new System.Drawing.Size(108, 23);
+            CB_Region.TabIndex = 18;
+            // 
+            // TC_Editor
+            // 
+            TC_Editor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TC_Editor.Controls.Add(Tab_Overview);
+            TC_Editor.Controls.Add(Tab_BadgeMap);
+            TC_Editor.Controls.Add(Tab_Multiplayer);
+            TC_Editor.Controls.Add(Tab_Maison);
+            TC_Editor.Controls.Add(Tab_BattleChateau);
+            TC_Editor.Controls.Add(Tab_Appearance);
+            TC_Editor.Location = new System.Drawing.Point(14, 14);
+            TC_Editor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Editor.Name = "TC_Editor";
+            TC_Editor.SelectedIndex = 0;
+            TC_Editor.Size = new System.Drawing.Size(460, 322);
+            TC_Editor.TabIndex = 54;
+            // 
+            // Tab_Maison
+            // 
+            Tab_Maison.Controls.Add(GB_MaisonCurrent);
+            Tab_Maison.Controls.Add(GB_MaisonBest);
+            Tab_Maison.Location = new System.Drawing.Point(4, 24);
+            Tab_Maison.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Maison.Name = "Tab_Maison";
+            Tab_Maison.Size = new System.Drawing.Size(452, 294);
+            Tab_Maison.TabIndex = 2;
+            Tab_Maison.Text = "Maison";
+            Tab_Maison.UseVisualStyleBackColor = true;
             // 
             // GB_MaisonCurrent
             // 
@@ -983,11 +1472,11 @@ namespace PKHeX.WinForms
             GB_MaisonCurrent.Controls.Add(L_TriplesC);
             GB_MaisonCurrent.Controls.Add(L_DoublesC);
             GB_MaisonCurrent.Controls.Add(L_SinglesC);
-            GB_MaisonCurrent.Location = new System.Drawing.Point(41, 68);
+            GB_MaisonCurrent.Location = new System.Drawing.Point(31, 19);
             GB_MaisonCurrent.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_MaisonCurrent.Name = "GB_MaisonCurrent";
             GB_MaisonCurrent.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_MaisonCurrent.Size = new System.Drawing.Size(181, 150);
+            GB_MaisonCurrent.Size = new System.Drawing.Size(181, 148);
             GB_MaisonCurrent.TabIndex = 41;
             GB_MaisonCurrent.TabStop = false;
             GB_MaisonCurrent.Text = "Maison Streaks (Current)";
@@ -1172,8 +1661,9 @@ namespace PKHeX.WinForms
             L_SinglesC.TabIndex = 39;
             L_SinglesC.Text = "Singles:";
             // 
-            // B_GiveAccessories
+            // GB_MaisonBest
             // 
+<<<<<<< ours
             B_GiveAccessories.Location = new System.Drawing.Point(338, 140);
             B_GiveAccessories.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_GiveAccessories.Name = "B_GiveAccessories";
@@ -1484,169 +1974,222 @@ namespace PKHeX.WinForms
             L_R.TabIndex = 54;
             L_R.Text = "Rotation:";
             L_R.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+=======
+            GB_MaisonBest.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            GB_MaisonBest.Controls.Add(TB_MBMS);
+            GB_MaisonBest.Controls.Add(TB_MBMN);
+            GB_MaisonBest.Controls.Add(TB_MBRS);
+            GB_MaisonBest.Controls.Add(TB_MBRN);
+            GB_MaisonBest.Controls.Add(TB_MBTS);
+            GB_MaisonBest.Controls.Add(TB_MBTN);
+            GB_MaisonBest.Controls.Add(TB_MBDS);
+            GB_MaisonBest.Controls.Add(TB_MBDN);
+            GB_MaisonBest.Controls.Add(TB_MBSS);
+            GB_MaisonBest.Controls.Add(TB_MBSN);
+            GB_MaisonBest.Controls.Add(L_SuperB);
+            GB_MaisonBest.Controls.Add(L_NormalB);
+            GB_MaisonBest.Controls.Add(L_MultiB);
+            GB_MaisonBest.Controls.Add(L_RotationB);
+            GB_MaisonBest.Controls.Add(L_TriplesB);
+            GB_MaisonBest.Controls.Add(L_DoublesB);
+            GB_MaisonBest.Controls.Add(L_SinglesB);
+            GB_MaisonBest.Location = new System.Drawing.Point(219, 19);
+            GB_MaisonBest.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_MaisonBest.Name = "GB_MaisonBest";
+            GB_MaisonBest.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_MaisonBest.Size = new System.Drawing.Size(181, 148);
+            GB_MaisonBest.TabIndex = 40;
+            GB_MaisonBest.TabStop = false;
+            GB_MaisonBest.Text = "Maison Streaks (Best)";
+>>>>>>> theirs
             // 
-            // NUD_Z
+            // TB_MBMS
             // 
-            NUD_Z.DecimalPlaces = 6;
-            NUD_Z.Location = new System.Drawing.Point(108, 78);
-            NUD_Z.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_Z.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
-            NUD_Z.Minimum = new decimal(new int[] { 65535, 0, 0, int.MinValue });
-            NUD_Z.Name = "NUD_Z";
-            NUD_Z.Size = new System.Drawing.Size(112, 23);
-            NUD_Z.TabIndex = 53;
-            NUD_Z.ValueChanged += ChangeMapValue;
+            TB_MBMS.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_MBMS.Location = new System.Drawing.Point(121, 122);
+            TB_MBMS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_MBMS.Mask = "0000";
+            TB_MBMS.Name = "TB_MBMS";
+            TB_MBMS.Size = new System.Drawing.Size(40, 20);
+            TB_MBMS.TabIndex = 65;
+            TB_MBMS.TextChanged += ChangeFFFF;
             // 
-            // NUD_M
+            // TB_MBMN
             // 
-            NUD_M.Location = new System.Drawing.Point(108, 18);
-            NUD_M.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_M.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
-            NUD_M.Name = "NUD_M";
-            NUD_M.Size = new System.Drawing.Size(58, 23);
-            NUD_M.TabIndex = 52;
-            NUD_M.ValueChanged += ChangeMapValue;
+            TB_MBMN.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_MBMN.Location = new System.Drawing.Point(71, 122);
+            TB_MBMN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_MBMN.Mask = "0000";
+            TB_MBMN.Name = "TB_MBMN";
+            TB_MBMN.Size = new System.Drawing.Size(40, 20);
+            TB_MBMN.TabIndex = 64;
+            TB_MBMN.TextChanged += ChangeFFFF;
             // 
-            // NUD_Y
+            // TB_MBRS
             // 
-            NUD_Y.DecimalPlaces = 6;
-            NUD_Y.Location = new System.Drawing.Point(108, 108);
-            NUD_Y.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_Y.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
-            NUD_Y.Name = "NUD_Y";
-            NUD_Y.Size = new System.Drawing.Size(112, 23);
-            NUD_Y.TabIndex = 51;
-            NUD_Y.ValueChanged += ChangeMapValue;
+            TB_MBRS.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_MBRS.Location = new System.Drawing.Point(121, 100);
+            TB_MBRS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_MBRS.Mask = "0000";
+            TB_MBRS.Name = "TB_MBRS";
+            TB_MBRS.Size = new System.Drawing.Size(40, 20);
+            TB_MBRS.TabIndex = 63;
+            TB_MBRS.TextChanged += ChangeFFFF;
             // 
-            // NUD_X
+            // TB_MBRN
             // 
-            NUD_X.DecimalPlaces = 6;
-            NUD_X.Location = new System.Drawing.Point(108, 48);
-            NUD_X.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_X.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
-            NUD_X.Name = "NUD_X";
-            NUD_X.Size = new System.Drawing.Size(112, 23);
-            NUD_X.TabIndex = 50;
-            NUD_X.ValueChanged += ChangeMapValue;
+            TB_MBRN.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_MBRN.Location = new System.Drawing.Point(71, 100);
+            TB_MBRN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_MBRN.Mask = "0000";
+            TB_MBRN.Name = "TB_MBRN";
+            TB_MBRN.Size = new System.Drawing.Size(40, 20);
+            TB_MBRN.TabIndex = 62;
+            TB_MBRN.TextChanged += ChangeFFFF;
             // 
-            // L_Y
+            // TB_MBTS
             // 
-            L_Y.Location = new System.Drawing.Point(7, 108);
-            L_Y.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_Y.Name = "L_Y";
-            L_Y.Size = new System.Drawing.Size(93, 23);
-            L_Y.TabIndex = 49;
-            L_Y.Text = "Y Coordinate:";
-            L_Y.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            TB_MBTS.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_MBTS.Location = new System.Drawing.Point(121, 80);
+            TB_MBTS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_MBTS.Mask = "0000";
+            TB_MBTS.Name = "TB_MBTS";
+            TB_MBTS.Size = new System.Drawing.Size(40, 20);
+            TB_MBTS.TabIndex = 61;
+            TB_MBTS.TextChanged += ChangeFFFF;
             // 
-            // L_CurrentMap
+            // TB_MBTN
             // 
-            L_CurrentMap.Location = new System.Drawing.Point(7, 18);
-            L_CurrentMap.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_CurrentMap.Name = "L_CurrentMap";
-            L_CurrentMap.Size = new System.Drawing.Size(93, 23);
-            L_CurrentMap.TabIndex = 46;
-            L_CurrentMap.Text = "Current Map:";
-            L_CurrentMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            TB_MBTN.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_MBTN.Location = new System.Drawing.Point(71, 80);
+            TB_MBTN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_MBTN.Mask = "0000";
+            TB_MBTN.Name = "TB_MBTN";
+            TB_MBTN.Size = new System.Drawing.Size(40, 20);
+            TB_MBTN.TabIndex = 60;
+            TB_MBTN.TextChanged += ChangeFFFF;
             // 
-            // L_Z
+            // TB_MBDS
             // 
-            L_Z.Location = new System.Drawing.Point(7, 78);
-            L_Z.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_Z.Name = "L_Z";
-            L_Z.Size = new System.Drawing.Size(93, 23);
-            L_Z.TabIndex = 48;
-            L_Z.Text = "Z Coordinate:";
-            L_Z.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            TB_MBDS.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_MBDS.Location = new System.Drawing.Point(121, 58);
+            TB_MBDS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_MBDS.Mask = "0000";
+            TB_MBDS.Name = "TB_MBDS";
+            TB_MBDS.Size = new System.Drawing.Size(40, 20);
+            TB_MBDS.TabIndex = 59;
+            TB_MBDS.TextChanged += ChangeFFFF;
             // 
-            // L_X
+            // TB_MBDN
             // 
-            L_X.Location = new System.Drawing.Point(7, 48);
-            L_X.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_X.Name = "L_X";
-            L_X.Size = new System.Drawing.Size(93, 23);
-            L_X.TabIndex = 47;
-            L_X.Text = "X Coordinate:";
-            L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            TB_MBDN.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_MBDN.Location = new System.Drawing.Point(71, 58);
+            TB_MBDN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_MBDN.Mask = "0000";
+            TB_MBDN.Name = "TB_MBDN";
+            TB_MBDN.Size = new System.Drawing.Size(40, 20);
+            TB_MBDN.TabIndex = 58;
+            TB_MBDN.TextChanged += ChangeFFFF;
             // 
-            // CHK_Badge6
+            // TB_MBSS
             // 
-            CHK_Badge6.AutoSize = true;
-            CHK_Badge6.Location = new System.Drawing.Point(351, 50);
-            CHK_Badge6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_Badge6.Name = "CHK_Badge6";
-            CHK_Badge6.Size = new System.Drawing.Size(32, 19);
-            CHK_Badge6.TabIndex = 15;
-            CHK_Badge6.Text = "6";
-            CHK_Badge6.UseVisualStyleBackColor = true;
+            TB_MBSS.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_MBSS.Location = new System.Drawing.Point(121, 36);
+            TB_MBSS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_MBSS.Mask = "0000";
+            TB_MBSS.Name = "TB_MBSS";
+            TB_MBSS.Size = new System.Drawing.Size(40, 20);
+            TB_MBSS.TabIndex = 57;
+            TB_MBSS.TextChanged += ChangeFFFF;
             // 
-            // Tab_Multiplayer
+            // TB_MBSN
             // 
-            Tab_Multiplayer.Controls.Add(CHK_MegaRayquazaUnlocked);
-            Tab_Multiplayer.Controls.Add(CHK_MegaUnlocked);
-            Tab_Multiplayer.Controls.Add(L_MultiplayerSprite);
-            Tab_Multiplayer.Controls.Add(GB_Sayings);
-            Tab_Multiplayer.Controls.Add(PB_Sprite);
-            Tab_Multiplayer.Controls.Add(CB_MultiplayerSprite);
-            Tab_Multiplayer.Location = new System.Drawing.Point(4, 24);
-            Tab_Multiplayer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_Multiplayer.Name = "Tab_Multiplayer";
-            Tab_Multiplayer.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_Multiplayer.Size = new System.Drawing.Size(452, 294);
-            Tab_Multiplayer.TabIndex = 1;
-            Tab_Multiplayer.Text = "Multiplayer";
-            Tab_Multiplayer.UseVisualStyleBackColor = true;
+            TB_MBSN.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_MBSN.Location = new System.Drawing.Point(71, 36);
+            TB_MBSN.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_MBSN.Mask = "0000";
+            TB_MBSN.Name = "TB_MBSN";
+            TB_MBSN.Size = new System.Drawing.Size(40, 20);
+            TB_MBSN.TabIndex = 56;
+            TB_MBSN.TextChanged += ChangeFFFF;
             // 
-            // CHK_MegaRayquazaUnlocked
+            // L_SuperB
             // 
-            CHK_MegaRayquazaUnlocked.AutoSize = true;
-            CHK_MegaRayquazaUnlocked.Location = new System.Drawing.Point(144, 265);
-            CHK_MegaRayquazaUnlocked.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_MegaRayquazaUnlocked.Name = "CHK_MegaRayquazaUnlocked";
-            CHK_MegaRayquazaUnlocked.Size = new System.Drawing.Size(162, 19);
-            CHK_MegaRayquazaUnlocked.TabIndex = 77;
-            CHK_MegaRayquazaUnlocked.Text = "Mega Rayquaza Unlocked";
-            CHK_MegaRayquazaUnlocked.UseVisualStyleBackColor = true;
+            L_SuperB.AutoSize = true;
+            L_SuperB.Location = new System.Drawing.Point(121, 20);
+            L_SuperB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_SuperB.Name = "L_SuperB";
+            L_SuperB.Size = new System.Drawing.Size(37, 15);
+            L_SuperB.TabIndex = 45;
+            L_SuperB.Text = "Super";
             // 
-            // CHK_MegaUnlocked
+            // L_NormalB
             // 
-            CHK_MegaUnlocked.AutoSize = true;
-            CHK_MegaUnlocked.Location = new System.Drawing.Point(144, 247);
-            CHK_MegaUnlocked.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_MegaUnlocked.Name = "CHK_MegaUnlocked";
-            CHK_MegaUnlocked.Size = new System.Drawing.Size(162, 19);
-            CHK_MegaUnlocked.TabIndex = 76;
-            CHK_MegaUnlocked.Text = "Mega Evolution Unlocked";
-            CHK_MegaUnlocked.UseVisualStyleBackColor = true;
+            L_NormalB.AutoSize = true;
+            L_NormalB.Location = new System.Drawing.Point(68, 20);
+            L_NormalB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_NormalB.Name = "L_NormalB";
+            L_NormalB.Size = new System.Drawing.Size(47, 15);
+            L_NormalB.TabIndex = 44;
+            L_NormalB.Text = "Normal";
             // 
-            // Tab_Maison
+            // L_MultiB
             // 
-            Tab_Maison.Controls.Add(GB_MaisonCurrent);
-            Tab_Maison.Controls.Add(GB_MaisonBest);
-            Tab_Maison.Location = new System.Drawing.Point(4, 24);
-            Tab_Maison.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_Maison.Name = "Tab_Maison";
-            Tab_Maison.Size = new System.Drawing.Size(452, 294);
-            Tab_Maison.TabIndex = 2;
-            Tab_Maison.Text = "Maison";
-            Tab_Maison.UseVisualStyleBackColor = true;
+            L_MultiB.AutoSize = true;
+            L_MultiB.Location = new System.Drawing.Point(9, 126);
+            L_MultiB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_MultiB.Name = "L_MultiB";
+            L_MultiB.Size = new System.Drawing.Size(38, 15);
+            L_MultiB.TabIndex = 43;
+            L_MultiB.Text = "Multi:";
             // 
+<<<<<<< ours
             // Tab_Appearance
+=======
+            // L_RotationB
             // 
-            Tab_Appearance.Controls.Add(PG_CurrentAppearance);
-            Tab_Appearance.Controls.Add(L_TRNick);
-            Tab_Appearance.Controls.Add(TB_TRNick);
-            Tab_Appearance.Controls.Add(B_GiveAccessories);
-            Tab_Appearance.Location = new System.Drawing.Point(4, 24);
-            Tab_Appearance.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_Appearance.Name = "Tab_Appearance";
-            Tab_Appearance.Size = new System.Drawing.Size(452, 294);
-            Tab_Appearance.TabIndex = 4;
-            Tab_Appearance.Text = "Appearance";
-            Tab_Appearance.UseVisualStyleBackColor = true;
+            L_RotationB.AutoSize = true;
+            L_RotationB.Location = new System.Drawing.Point(9, 105);
+            L_RotationB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_RotationB.Name = "L_RotationB";
+            L_RotationB.Size = new System.Drawing.Size(55, 15);
+            L_RotationB.TabIndex = 42;
+            L_RotationB.Text = "Rotation:";
             // 
-            // PG_CurrentAppearance
+            // L_TriplesB
             // 
+            L_TriplesB.AutoSize = true;
+            L_TriplesB.Location = new System.Drawing.Point(9, 83);
+            L_TriplesB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_TriplesB.Name = "L_TriplesB";
+            L_TriplesB.Size = new System.Drawing.Size(44, 15);
+            L_TriplesB.TabIndex = 41;
+            L_TriplesB.Text = "Triples:";
+            // 
+            // L_DoublesB
+            // 
+            L_DoublesB.AutoSize = true;
+            L_DoublesB.Location = new System.Drawing.Point(9, 61);
+            L_DoublesB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_DoublesB.Name = "L_DoublesB";
+            L_DoublesB.Size = new System.Drawing.Size(53, 15);
+            L_DoublesB.TabIndex = 40;
+            L_DoublesB.Text = "Doubles:";
+            // 
+            // L_SinglesB
+>>>>>>> theirs
+            // 
+            L_SinglesB.AutoSize = true;
+            L_SinglesB.Location = new System.Drawing.Point(9, 39);
+            L_SinglesB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_SinglesB.Name = "L_SinglesB";
+            L_SinglesB.Size = new System.Drawing.Size(47, 15);
+            L_SinglesB.TabIndex = 39;
+            L_SinglesB.Text = "Singles:";
+            // 
+            // Tab_BattleChateau
+            // 
+<<<<<<< ours
             PG_CurrentAppearance.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             PG_CurrentAppearance.HelpVisible = false;
             PG_CurrentAppearance.Location = new System.Drawing.Point(4, 3);
@@ -1656,19 +2199,30 @@ namespace PKHeX.WinForms
             PG_CurrentAppearance.Size = new System.Drawing.Size(328, 285);
             PG_CurrentAppearance.TabIndex = 75;
             PG_CurrentAppearance.ToolbarVisible = false;
+=======
+            Tab_BattleChateau.Controls.Add(LB_BattleChateauInfo);
+            Tab_BattleChateau.Controls.Add(CB_BattleChateauRank);
+            Tab_BattleChateau.Location = new System.Drawing.Point(4, 24);
+            Tab_BattleChateau.Name = "Tab_BattleChateau";
+            Tab_BattleChateau.Padding = new System.Windows.Forms.Padding(3);
+            Tab_BattleChateau.Size = new System.Drawing.Size(452, 294);
+            Tab_BattleChateau.TabIndex = 5;
+            Tab_BattleChateau.Text = "Chateau";
+            Tab_BattleChateau.UseVisualStyleBackColor = true;
+>>>>>>> theirs
             // 
-            // L_TRNick
+            // LB_BattleChateauInfo
             // 
-            L_TRNick.Location = new System.Drawing.Point(298, 59);
-            L_TRNick.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_TRNick.Name = "L_TRNick";
-            L_TRNick.Size = new System.Drawing.Size(149, 47);
-            L_TRNick.TabIndex = 74;
-            L_TRNick.Text = "Trainer Nickname:";
-            L_TRNick.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            LB_BattleChateauInfo.AutoSize = true;
+            LB_BattleChateauInfo.Location = new System.Drawing.Point(146, 34);
+            LB_BattleChateauInfo.Name = "LB_BattleChateauInfo";
+            LB_BattleChateauInfo.Size = new System.Drawing.Size(135, 15);
+            LB_BattleChateauInfo.TabIndex = 43;
+            LB_BattleChateauInfo.Text = "Select your desired rank:";
             // 
-            // TB_TRNick
+            // CB_BattleChateauRank
             // 
+<<<<<<< ours
             TB_TRNick.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_TRNick.Location = new System.Drawing.Point(338, 110);
             TB_TRNick.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -1678,6 +2232,16 @@ namespace PKHeX.WinForms
             TB_TRNick.TabIndex = 73;
             TB_TRNick.Text = "WWWWWWWWWWWW";
             TB_TRNick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+=======
+            CB_BattleChateauRank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_BattleChateauRank.FormattingEnabled = true;
+            CB_BattleChateauRank.Items.AddRange(new object[] { "Baron", "Viscount", "Ear", "Marquis", "Duke", "Grand Duke" });
+            CB_BattleChateauRank.Location = new System.Drawing.Point(146, 52);
+            CB_BattleChateauRank.Name = "CB_BattleChateauRank";
+            CB_BattleChateauRank.Size = new System.Drawing.Size(150, 23);
+            CB_BattleChateauRank.TabIndex = 42;
+            CB_BattleChateauRank.Tag = "";
+>>>>>>> theirs
             // 
             // SAV_Trainer
             // 
@@ -1694,20 +2258,13 @@ namespace PKHeX.WinForms
             Name = "SAV_Trainer";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Trainer Data Editor";
+            Tab_Appearance.ResumeLayout(false);
+            Tab_Appearance.PerformLayout();
+            Tab_Multiplayer.ResumeLayout(false);
+            Tab_Multiplayer.PerformLayout();
             GB_Sayings.ResumeLayout(false);
             GB_Sayings.PerformLayout();
-            GB_MaisonBest.ResumeLayout(false);
-            GB_MaisonBest.PerformLayout();
-            GB_MaisonCurrent.ResumeLayout(false);
-            GB_MaisonCurrent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PB_Sprite).EndInit();
-            TC_Editor.ResumeLayout(false);
-            Tab_Overview.ResumeLayout(false);
-            Tab_Overview.PerformLayout();
-            GB_Stats.ResumeLayout(false);
-            GB_Stats.PerformLayout();
-            GB_Adventure.ResumeLayout(false);
-            GB_Adventure.PerformLayout();
             Tab_BadgeMap.ResumeLayout(false);
             Tab_BadgeMap.PerformLayout();
             GB_Map.ResumeLayout(false);
@@ -1716,11 +2273,25 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_M).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Y).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_X).EndInit();
-            Tab_Multiplayer.ResumeLayout(false);
-            Tab_Multiplayer.PerformLayout();
+            Tab_Overview.ResumeLayout(false);
+            Tab_Overview.PerformLayout();
+            GB_Stats.ResumeLayout(false);
+            GB_Stats.PerformLayout();
+            GB_Adventure.ResumeLayout(false);
+            GB_Adventure.PerformLayout();
+            TC_Editor.ResumeLayout(false);
             Tab_Maison.ResumeLayout(false);
+<<<<<<< ours
             Tab_Appearance.ResumeLayout(false);
             Tab_Appearance.PerformLayout();
+=======
+            GB_MaisonCurrent.ResumeLayout(false);
+            GB_MaisonCurrent.PerformLayout();
+            GB_MaisonBest.ResumeLayout(false);
+            GB_MaisonBest.PerformLayout();
+            Tab_BattleChateau.ResumeLayout(false);
+            Tab_BattleChateau.PerformLayout();
+>>>>>>> theirs
             ResumeLayout(false);
         }
 
@@ -1728,21 +2299,17 @@ namespace PKHeX.WinForms
 
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
-        private System.Windows.Forms.TextBox TB_OTName;
-        private System.Windows.Forms.Label L_TrainerName;
-        private System.Windows.Forms.MaskedTextBox MT_Money;
-        private System.Windows.Forms.Label L_Money;
-        private System.Windows.Forms.Label L_TID;
-        private System.Windows.Forms.Label L_SID;
-        private System.Windows.Forms.MaskedTextBox MT_TID;
-        private System.Windows.Forms.MaskedTextBox MT_SID;
-        private System.Windows.Forms.CheckBox CHK_Badge1;
-        private System.Windows.Forms.CheckBox CHK_Badge2;
-        private System.Windows.Forms.CheckBox CHK_Badge3;
-        private System.Windows.Forms.CheckBox CHK_Badge4;
-        private System.Windows.Forms.CheckBox CHK_Badge5;
-        private System.Windows.Forms.CheckBox CHK_Badge7;
-        private System.Windows.Forms.CheckBox CHK_Badge8;
+        private System.Windows.Forms.ToolTip Tip1;
+        private System.Windows.Forms.ToolTip Tip2;
+        private System.Windows.Forms.TabPage Tab_Appearance;
+        private System.Windows.Forms.PropertyGrid PG_CurrentAppearance;
+        private System.Windows.Forms.Label L_TRNick;
+        private System.Windows.Forms.TextBox TB_TRNick;
+        private System.Windows.Forms.Button B_GiveAccessories;
+        private System.Windows.Forms.TabPage Tab_Multiplayer;
+        private System.Windows.Forms.CheckBox CHK_MegaRayquazaUnlocked;
+        private System.Windows.Forms.CheckBox CHK_MegaUnlocked;
+        private System.Windows.Forms.Label L_MultiplayerSprite;
         private System.Windows.Forms.GroupBox GB_Sayings;
         private System.Windows.Forms.Label L_Saying5;
         private System.Windows.Forms.Label L_Saying4;
@@ -1754,23 +2321,87 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.TextBox TB_Saying3;
         private System.Windows.Forms.TextBox TB_Saying2;
         private System.Windows.Forms.TextBox TB_Saying1;
-        private System.Windows.Forms.ComboBox CB_Language;
-        private System.Windows.Forms.ComboBox CB_3DSReg;
+        private System.Windows.Forms.PictureBox PB_Sprite;
+        private System.Windows.Forms.ComboBox CB_MultiplayerSprite;
+        private System.Windows.Forms.TabPage Tab_BadgeMap;
+        private System.Windows.Forms.GroupBox GB_Map;
+        private System.Windows.Forms.NumericUpDown NUD_R;
+        private System.Windows.Forms.Label L_R;
+        private System.Windows.Forms.NumericUpDown NUD_Z;
+        private System.Windows.Forms.NumericUpDown NUD_M;
+        private System.Windows.Forms.NumericUpDown NUD_Y;
+        private System.Windows.Forms.NumericUpDown NUD_X;
+        private System.Windows.Forms.Label L_Y;
+        private System.Windows.Forms.Label L_CurrentMap;
+        private System.Windows.Forms.Label L_Z;
+        private System.Windows.Forms.Label L_X;
+        private System.Windows.Forms.CheckBox CHK_Badge7;
+        private System.Windows.Forms.CheckBox CHK_Badge5;
+        private System.Windows.Forms.CheckBox CHK_Badge4;
+        private System.Windows.Forms.CheckBox CHK_Badge8;
+        private System.Windows.Forms.CheckBox CHK_Badge3;
+        private System.Windows.Forms.CheckBox CHK_Badge1;
+        private System.Windows.Forms.CheckBox CHK_Badge6;
+        private System.Windows.Forms.CheckBox CHK_Badge2;
+        private System.Windows.Forms.TabPage Tab_Overview;
+        private System.Windows.Forms.GroupBox GB_Stats;
+        private Controls.TrainerStat TrainerStats;
+        private System.Windows.Forms.MaskedTextBox TB_BP;
+        private System.Windows.Forms.MaskedTextBox TB_PM;
+        private System.Windows.Forms.Label L_PM;
+        private System.Windows.Forms.MaskedTextBox TB_Style;
+        private System.Windows.Forms.Label L_BP;
+        private System.Windows.Forms.Label L_Style;
+        private System.Windows.Forms.GroupBox GB_Adventure;
+        private System.Windows.Forms.Label L_Fame;
+        private System.Windows.Forms.DateTimePicker CAL_HoFDate;
+        private System.Windows.Forms.DateTimePicker CAL_HoFTime;
+        private System.Windows.Forms.Label L_Started;
+        private System.Windows.Forms.DateTimePicker CAL_AdventureStartDate;
+        private System.Windows.Forms.DateTimePicker CAL_LastSavedDate;
+        private System.Windows.Forms.Label L_LastSaved;
+        private System.Windows.Forms.MaskedTextBox MT_Seconds;
+        private System.Windows.Forms.MaskedTextBox MT_Hours;
+        private System.Windows.Forms.Label L_Seconds;
+        private System.Windows.Forms.Label L_Hours;
+        private System.Windows.Forms.MaskedTextBox MT_Minutes;
+        private System.Windows.Forms.Label L_Minutes;
+        private System.Windows.Forms.DateTimePicker CAL_AdventureStartTime;
+        private System.Windows.Forms.DateTimePicker CAL_LastSavedTime;
+        private System.Windows.Forms.ComboBox CB_Vivillon;
+        private System.Windows.Forms.Label L_Vivillon;
+        private System.Windows.Forms.TextBox TB_OTName;
+        private System.Windows.Forms.ComboBox CB_Gender;
+        private System.Windows.Forms.ComboBox CB_Game;
+        private System.Windows.Forms.Label L_TrainerName;
+        private System.Windows.Forms.Label L_TID;
+        private System.Windows.Forms.MaskedTextBox MT_Money;
+        private System.Windows.Forms.Label L_SID;
+        private System.Windows.Forms.Label L_Money;
+        private System.Windows.Forms.Label L_Language;
+        private System.Windows.Forms.MaskedTextBox MT_TID;
+        private System.Windows.Forms.MaskedTextBox MT_SID;
         private System.Windows.Forms.Label L_3DSReg;
-        private System.Windows.Forms.Button B_MaxCash;
-        private System.Windows.Forms.ComboBox CB_Region;
-        private System.Windows.Forms.ComboBox CB_Country;
+        private System.Windows.Forms.ComboBox CB_Language;
         private System.Windows.Forms.Label L_Region;
+        private System.Windows.Forms.ComboBox CB_3DSReg;
+        private System.Windows.Forms.Button B_MaxCash;
         private System.Windows.Forms.Label L_Country;
-        private System.Windows.Forms.GroupBox GB_MaisonBest;
-        private System.Windows.Forms.Label L_SuperB;
-        private System.Windows.Forms.Label L_NormalB;
-        private System.Windows.Forms.Label L_MultiB;
-        private System.Windows.Forms.Label L_RotationB;
-        private System.Windows.Forms.Label L_TriplesB;
-        private System.Windows.Forms.Label L_DoublesB;
-        private System.Windows.Forms.Label L_SinglesB;
+        private System.Windows.Forms.ComboBox CB_Country;
+        private System.Windows.Forms.ComboBox CB_Region;
+        private System.Windows.Forms.TabControl TC_Editor;
+        private System.Windows.Forms.TabPage Tab_Maison;
         private System.Windows.Forms.GroupBox GB_MaisonCurrent;
+        private System.Windows.Forms.MaskedTextBox TB_MCMS;
+        private System.Windows.Forms.MaskedTextBox TB_MCMN;
+        private System.Windows.Forms.MaskedTextBox TB_MCRS;
+        private System.Windows.Forms.MaskedTextBox TB_MCRN;
+        private System.Windows.Forms.MaskedTextBox TB_MCTS;
+        private System.Windows.Forms.MaskedTextBox TB_MCTN;
+        private System.Windows.Forms.MaskedTextBox TB_MCDS;
+        private System.Windows.Forms.MaskedTextBox TB_MCDN;
+        private System.Windows.Forms.MaskedTextBox TB_MCSS;
+        private System.Windows.Forms.MaskedTextBox TB_MCSN;
         private System.Windows.Forms.Label L_SuperC;
         private System.Windows.Forms.Label L_NormalC;
         private System.Windows.Forms.Label L_MultiC;
@@ -1778,15 +2409,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_TriplesC;
         private System.Windows.Forms.Label L_DoublesC;
         private System.Windows.Forms.Label L_SinglesC;
-        private System.Windows.Forms.Label L_Language;
-        private System.Windows.Forms.ComboBox CB_Game;
-        private System.Windows.Forms.ComboBox CB_Gender;
-        private System.Windows.Forms.MaskedTextBox TB_BP;
-        private System.Windows.Forms.MaskedTextBox TB_PM;
-        private System.Windows.Forms.Label L_BP;
-        private System.Windows.Forms.Label L_PM;
-        private System.Windows.Forms.MaskedTextBox TB_Style;
-        private System.Windows.Forms.Label L_Style;
+        private System.Windows.Forms.GroupBox GB_MaisonBest;
         private System.Windows.Forms.MaskedTextBox TB_MBMS;
         private System.Windows.Forms.MaskedTextBox TB_MBMN;
         private System.Windows.Forms.MaskedTextBox TB_MBRS;
@@ -1797,6 +2420,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.MaskedTextBox TB_MBDN;
         private System.Windows.Forms.MaskedTextBox TB_MBSS;
         private System.Windows.Forms.MaskedTextBox TB_MBSN;
+<<<<<<< ours
         private System.Windows.Forms.MaskedTextBox TB_MCMS;
         private System.Windows.Forms.MaskedTextBox TB_MCMN;
         private System.Windows.Forms.MaskedTextBox TB_MCRS;
@@ -1856,5 +2480,18 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ToolTip Tip2;
         private System.Windows.Forms.NumericUpDown NUD_R;
         private System.Windows.Forms.Label L_R;
+=======
+        private System.Windows.Forms.Label L_SuperB;
+        private System.Windows.Forms.Label L_NormalB;
+        private System.Windows.Forms.Label L_MultiB;
+        private System.Windows.Forms.Label L_RotationB;
+        private System.Windows.Forms.Label L_TriplesB;
+        private System.Windows.Forms.Label L_DoublesB;
+        private System.Windows.Forms.Label L_SinglesB;
+        private System.Windows.Forms.TabPage Tab_BattleChateau;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label LB_BattleChateauInfo;
+        private System.Windows.Forms.ComboBox CB_BattleChateauRank;
+>>>>>>> theirs
     }
 }

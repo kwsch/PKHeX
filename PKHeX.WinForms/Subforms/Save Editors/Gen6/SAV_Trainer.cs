@@ -47,7 +47,10 @@ public partial class SAV_Trainer : Form
 
         L_Style.Visible = TB_Style.Visible = SAV is SAV6XY;
         if (SAV is not SAV6XY)
+        {
             TC_Editor.TabPages.Remove(Tab_Appearance);
+            TC_Editor.TabPages.Remove(Tab_BattleChateau);
+        }
 
         if (SAV is SAV6AODemo)
         {
@@ -164,6 +167,16 @@ public partial class SAV_Trainer : Form
 
         if (SAV is SAV6XY xy)
         {
+            // Battle Chateau
+            if (xy.SUBE is SubEventLog6XY sube)
+            {
+                var rank = sube.ChateauRank;
+                if (rank < CB_BattleChateauRank.Items.Count)
+                    CB_BattleChateauRank.SelectedIndex = rank;
+                else
+                    CB_BattleChateauRank.SelectedIndex = -1;
+            }
+            // Appearances and Nickname
             var xystat = (MyStatus6XY)xy.Status;
             PG_CurrentAppearance.SelectedObject = xystat.Fashion;
             TB_TRNick.Text = xystat.Nickname;
@@ -253,9 +266,11 @@ public partial class SAV_Trainer : Form
         if (SAV is IMultiplayerSprite ms)
             ms.MultiplayerSpriteID = (byte)WinFormsUtil.GetIndex(CB_MultiplayerSprite);
 
-        // Appearance
         if (SAV is SAV6XY xy)
         {
+            if (xy.SUBE is SubEventLog6XY sube && CB_BattleChateauRank.SelectedIndex >= 0)
+                sube.SetChateauByRank((ushort)CB_BattleChateauRank.SelectedIndex);
+
             var xystat = (MyStatus6XY)xy.Status;
             xystat.Fashion = (TrainerFashion6)PG_CurrentAppearance.SelectedObject!;
             xystat.Nickname = TB_TRNick.Text;
