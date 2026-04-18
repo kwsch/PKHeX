@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace PKHeX.Core.Tests.Saves.Gen6
@@ -39,7 +37,7 @@ namespace PKHeX.Core.Tests.Saves.Gen6
         public void SetChateauByRank_SetsExpectedRankAndPoints(ushort rank, ushort expectedPoints)
         {
             var sav = new SAV6XY();
-            var sube = Assert.IsType<SubEventLog6XY>(sav.SUBE);
+            var sube = sav.SUBE;
 
             sube.SetChateauByRank(rank);
 
@@ -54,7 +52,7 @@ namespace PKHeX.Core.Tests.Saves.Gen6
         public void SetChateauByRank_InvalidRank_Throws(ushort rank)
         {
             var sav = new SAV6XY();
-            var sube = Assert.IsType<SubEventLog6XY>(sav.SUBE);
+            var sube = sav.SUBE;
 
             Assert.Throws<ArgumentOutOfRangeException>(() => sube.SetChateauByRank(rank));
         }

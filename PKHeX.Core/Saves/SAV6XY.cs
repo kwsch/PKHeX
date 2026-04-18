@@ -53,8 +53,8 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetail
     public override Situation6 Situation => Blocks.Situation;
     public override PlayTime6 Played => Blocks.Played;
     public override FieldMoveModelSave6 Overworld => Blocks.Overworld;
-    public override MyStatus6 Status => Blocks.Status;
-    public override RecordBlock6 Records => Blocks.Records;
+    public override MyStatus6XY Status => Blocks.Status;
+    public override RecordBlock6XY Records => Blocks.Records;
     public override EventWork6 EventWork => Blocks.EventWork;
     public UnionPokemon6 Fused => Blocks.Fused;
     public GTS6 GTS => Blocks.GTS;
@@ -69,12 +69,13 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite, IBoxDetail
     public Zukan6XY Zukan => Blocks.Zukan;
     public Misc6XY Misc => Blocks.Misc;
     public Fashion6XY Fashion => Blocks.Fashion;
-    public SubEventLog6 SUBE => Blocks.SUBE;
+    public SubEventLog6XY SUBE => Blocks.SUBE;
     public ConfigSave6 Config => Blocks.Config;
     public Encount6 Encount => Blocks.Encount;
     public BerryField6XY BerryField => Blocks.BerryField;
     public HallOfFame6 HallOfFame => Blocks.HallOfFame;
 
+    SubEventLog6 ISaveBlock6Main.SUBE => SUBE;
     IMysteryGiftStorage IMysteryGiftStorageProvider.MysteryGiftStorage => MysteryGift;
     #endregion
 

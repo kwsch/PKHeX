@@ -160,8 +160,11 @@ namespace PKHeX.WinForms
             L_DoublesB = new System.Windows.Forms.Label();
             L_SinglesB = new System.Windows.Forms.Label();
             Tab_BattleChateau = new System.Windows.Forms.TabPage();
-            LB_BattleChateauInfo = new System.Windows.Forms.Label();
+            L_BattleChateauRank = new System.Windows.Forms.Label();
             CB_BattleChateauRank = new System.Windows.Forms.ComboBox();
+            TLP_Chateau = new System.Windows.Forms.TableLayoutPanel();
+            L_BattleChateauPoints = new System.Windows.Forms.Label();
+            NUD_BattleChateauPoints = new System.Windows.Forms.NumericUpDown();
             Tab_Appearance.SuspendLayout();
             Tab_Multiplayer.SuspendLayout();
             GB_Sayings.SuspendLayout();
@@ -181,6 +184,8 @@ namespace PKHeX.WinForms
             GB_MaisonCurrent.SuspendLayout();
             GB_MaisonBest.SuspendLayout();
             Tab_BattleChateau.SuspendLayout();
+            TLP_Chateau.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_BattleChateauPoints).BeginInit();
             SuspendLayout();
             // 
             // B_Cancel
@@ -211,10 +216,10 @@ namespace PKHeX.WinForms
             Tab_Appearance.Controls.Add(L_TRNick);
             Tab_Appearance.Controls.Add(TB_TRNick);
             Tab_Appearance.Controls.Add(B_GiveAccessories);
-            Tab_Appearance.Location = new System.Drawing.Point(4, 24);
+            Tab_Appearance.Location = new System.Drawing.Point(4, 26);
             Tab_Appearance.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_Appearance.Name = "Tab_Appearance";
-            Tab_Appearance.Size = new System.Drawing.Size(452, 294);
+            Tab_Appearance.Size = new System.Drawing.Size(452, 292);
             Tab_Appearance.TabIndex = 4;
             Tab_Appearance.Text = "Appearance";
             Tab_Appearance.UseVisualStyleBackColor = true;
@@ -273,11 +278,11 @@ namespace PKHeX.WinForms
             Tab_Multiplayer.Controls.Add(GB_Sayings);
             Tab_Multiplayer.Controls.Add(PB_Sprite);
             Tab_Multiplayer.Controls.Add(CB_MultiplayerSprite);
-            Tab_Multiplayer.Location = new System.Drawing.Point(4, 24);
+            Tab_Multiplayer.Location = new System.Drawing.Point(4, 26);
             Tab_Multiplayer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_Multiplayer.Name = "Tab_Multiplayer";
             Tab_Multiplayer.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_Multiplayer.Size = new System.Drawing.Size(452, 294);
+            Tab_Multiplayer.Size = new System.Drawing.Size(452, 292);
             Tab_Multiplayer.TabIndex = 1;
             Tab_Multiplayer.Text = "Multiplayer";
             Tab_Multiplayer.UseVisualStyleBackColor = true;
@@ -288,7 +293,7 @@ namespace PKHeX.WinForms
             CHK_MegaRayquazaUnlocked.Location = new System.Drawing.Point(144, 265);
             CHK_MegaRayquazaUnlocked.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_MegaRayquazaUnlocked.Name = "CHK_MegaRayquazaUnlocked";
-            CHK_MegaRayquazaUnlocked.Size = new System.Drawing.Size(162, 19);
+            CHK_MegaRayquazaUnlocked.Size = new System.Drawing.Size(179, 21);
             CHK_MegaRayquazaUnlocked.TabIndex = 77;
             CHK_MegaRayquazaUnlocked.Text = "Mega Rayquaza Unlocked";
             CHK_MegaRayquazaUnlocked.UseVisualStyleBackColor = true;
@@ -299,7 +304,7 @@ namespace PKHeX.WinForms
             CHK_MegaUnlocked.Location = new System.Drawing.Point(144, 247);
             CHK_MegaUnlocked.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_MegaUnlocked.Name = "CHK_MegaUnlocked";
-            CHK_MegaUnlocked.Size = new System.Drawing.Size(162, 19);
+            CHK_MegaUnlocked.Size = new System.Drawing.Size(176, 21);
             CHK_MegaUnlocked.TabIndex = 76;
             CHK_MegaUnlocked.Text = "Mega Evolution Unlocked";
             CHK_MegaUnlocked.UseVisualStyleBackColor = true;
@@ -311,7 +316,7 @@ namespace PKHeX.WinForms
             L_MultiplayerSprite.Location = new System.Drawing.Point(103, 54);
             L_MultiplayerSprite.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_MultiplayerSprite.Name = "L_MultiplayerSprite";
-            L_MultiplayerSprite.Size = new System.Drawing.Size(103, 15);
+            L_MultiplayerSprite.Size = new System.Drawing.Size(114, 17);
             L_MultiplayerSprite.TabIndex = 27;
             L_MultiplayerSprite.Text = "Multiplayer Sprite:";
             // 
@@ -342,7 +347,7 @@ namespace PKHeX.WinForms
             L_Saying5.Location = new System.Drawing.Point(36, 114);
             L_Saying5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Saying5.Name = "L_Saying5";
-            L_Saying5.Size = new System.Drawing.Size(16, 15);
+            L_Saying5.Size = new System.Drawing.Size(18, 17);
             L_Saying5.TabIndex = 9;
             L_Saying5.Text = "5:";
             // 
@@ -352,7 +357,7 @@ namespace PKHeX.WinForms
             L_Saying4.Location = new System.Drawing.Point(36, 91);
             L_Saying4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Saying4.Name = "L_Saying4";
-            L_Saying4.Size = new System.Drawing.Size(16, 15);
+            L_Saying4.Size = new System.Drawing.Size(18, 17);
             L_Saying4.TabIndex = 8;
             L_Saying4.Text = "4:";
             // 
@@ -362,7 +367,7 @@ namespace PKHeX.WinForms
             L_Saying3.Location = new System.Drawing.Point(36, 68);
             L_Saying3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Saying3.Name = "L_Saying3";
-            L_Saying3.Size = new System.Drawing.Size(16, 15);
+            L_Saying3.Size = new System.Drawing.Size(18, 17);
             L_Saying3.TabIndex = 7;
             L_Saying3.Text = "3:";
             // 
@@ -372,7 +377,7 @@ namespace PKHeX.WinForms
             L_Saying2.Location = new System.Drawing.Point(36, 45);
             L_Saying2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Saying2.Name = "L_Saying2";
-            L_Saying2.Size = new System.Drawing.Size(16, 15);
+            L_Saying2.Size = new System.Drawing.Size(18, 17);
             L_Saying2.TabIndex = 6;
             L_Saying2.Text = "2:";
             // 
@@ -382,7 +387,7 @@ namespace PKHeX.WinForms
             L_Saying1.Location = new System.Drawing.Point(36, 22);
             L_Saying1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Saying1.Name = "L_Saying1";
-            L_Saying1.Size = new System.Drawing.Size(16, 15);
+            L_Saying1.Size = new System.Drawing.Size(18, 17);
             L_Saying1.TabIndex = 5;
             L_Saying1.Text = "1:";
             // 
@@ -465,7 +470,7 @@ namespace PKHeX.WinForms
             CB_MultiplayerSprite.Location = new System.Drawing.Point(104, 73);
             CB_MultiplayerSprite.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_MultiplayerSprite.Name = "CB_MultiplayerSprite";
-            CB_MultiplayerSprite.Size = new System.Drawing.Size(172, 23);
+            CB_MultiplayerSprite.Size = new System.Drawing.Size(172, 25);
             CB_MultiplayerSprite.TabIndex = 25;
             CB_MultiplayerSprite.SelectedIndexChanged += CB_Multi_SelectedIndexChanged;
             // 
@@ -480,10 +485,10 @@ namespace PKHeX.WinForms
             Tab_BadgeMap.Controls.Add(CHK_Badge1);
             Tab_BadgeMap.Controls.Add(CHK_Badge6);
             Tab_BadgeMap.Controls.Add(CHK_Badge2);
-            Tab_BadgeMap.Location = new System.Drawing.Point(4, 24);
+            Tab_BadgeMap.Location = new System.Drawing.Point(4, 26);
             Tab_BadgeMap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_BadgeMap.Name = "Tab_BadgeMap";
-            Tab_BadgeMap.Size = new System.Drawing.Size(452, 294);
+            Tab_BadgeMap.Size = new System.Drawing.Size(452, 292);
             Tab_BadgeMap.TabIndex = 3;
             Tab_BadgeMap.Text = "Badges/Map";
             Tab_BadgeMap.UseVisualStyleBackColor = true;
@@ -515,7 +520,7 @@ namespace PKHeX.WinForms
             NUD_R.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_R.Maximum = new decimal(new int[] { 7, 0, 0, 0 });
             NUD_R.Name = "NUD_R";
-            NUD_R.Size = new System.Drawing.Size(58, 23);
+            NUD_R.Size = new System.Drawing.Size(58, 25);
             NUD_R.TabIndex = 55;
             NUD_R.ValueChanged += ChangeMapValue;
             // 
@@ -537,7 +542,7 @@ namespace PKHeX.WinForms
             NUD_Z.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Z.Minimum = new decimal(new int[] { 65535, 0, 0, int.MinValue });
             NUD_Z.Name = "NUD_Z";
-            NUD_Z.Size = new System.Drawing.Size(112, 23);
+            NUD_Z.Size = new System.Drawing.Size(112, 25);
             NUD_Z.TabIndex = 53;
             NUD_Z.ValueChanged += ChangeMapValue;
             // 
@@ -547,7 +552,7 @@ namespace PKHeX.WinForms
             NUD_M.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_M.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             NUD_M.Name = "NUD_M";
-            NUD_M.Size = new System.Drawing.Size(58, 23);
+            NUD_M.Size = new System.Drawing.Size(58, 25);
             NUD_M.TabIndex = 52;
             NUD_M.ValueChanged += ChangeMapValue;
             // 
@@ -558,7 +563,7 @@ namespace PKHeX.WinForms
             NUD_Y.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Y.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Y.Name = "NUD_Y";
-            NUD_Y.Size = new System.Drawing.Size(112, 23);
+            NUD_Y.Size = new System.Drawing.Size(112, 25);
             NUD_Y.TabIndex = 51;
             NUD_Y.ValueChanged += ChangeMapValue;
             // 
@@ -569,7 +574,7 @@ namespace PKHeX.WinForms
             NUD_X.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_X.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_X.Name = "NUD_X";
-            NUD_X.Size = new System.Drawing.Size(112, 23);
+            NUD_X.Size = new System.Drawing.Size(112, 25);
             NUD_X.TabIndex = 50;
             NUD_X.ValueChanged += ChangeMapValue;
             // 
@@ -619,7 +624,7 @@ namespace PKHeX.WinForms
             CHK_Badge7.Location = new System.Drawing.Point(351, 76);
             CHK_Badge7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge7.Name = "CHK_Badge7";
-            CHK_Badge7.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge7.Size = new System.Drawing.Size(34, 21);
             CHK_Badge7.TabIndex = 16;
             CHK_Badge7.Text = "7";
             CHK_Badge7.UseVisualStyleBackColor = true;
@@ -630,7 +635,7 @@ namespace PKHeX.WinForms
             CHK_Badge5.Location = new System.Drawing.Point(351, 23);
             CHK_Badge5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge5.Name = "CHK_Badge5";
-            CHK_Badge5.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge5.Size = new System.Drawing.Size(34, 21);
             CHK_Badge5.TabIndex = 14;
             CHK_Badge5.Text = "5";
             CHK_Badge5.UseVisualStyleBackColor = true;
@@ -641,7 +646,7 @@ namespace PKHeX.WinForms
             CHK_Badge4.Location = new System.Drawing.Point(307, 103);
             CHK_Badge4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge4.Name = "CHK_Badge4";
-            CHK_Badge4.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge4.Size = new System.Drawing.Size(34, 21);
             CHK_Badge4.TabIndex = 13;
             CHK_Badge4.Text = "4";
             CHK_Badge4.UseVisualStyleBackColor = true;
@@ -652,7 +657,7 @@ namespace PKHeX.WinForms
             CHK_Badge8.Location = new System.Drawing.Point(351, 103);
             CHK_Badge8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge8.Name = "CHK_Badge8";
-            CHK_Badge8.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge8.Size = new System.Drawing.Size(34, 21);
             CHK_Badge8.TabIndex = 17;
             CHK_Badge8.Text = "8";
             CHK_Badge8.UseVisualStyleBackColor = true;
@@ -663,7 +668,7 @@ namespace PKHeX.WinForms
             CHK_Badge3.Location = new System.Drawing.Point(307, 76);
             CHK_Badge3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge3.Name = "CHK_Badge3";
-            CHK_Badge3.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge3.Size = new System.Drawing.Size(34, 21);
             CHK_Badge3.TabIndex = 12;
             CHK_Badge3.Text = "3";
             CHK_Badge3.UseVisualStyleBackColor = true;
@@ -674,7 +679,7 @@ namespace PKHeX.WinForms
             CHK_Badge1.Location = new System.Drawing.Point(307, 23);
             CHK_Badge1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge1.Name = "CHK_Badge1";
-            CHK_Badge1.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge1.Size = new System.Drawing.Size(34, 21);
             CHK_Badge1.TabIndex = 10;
             CHK_Badge1.Text = "1";
             CHK_Badge1.UseVisualStyleBackColor = true;
@@ -685,7 +690,7 @@ namespace PKHeX.WinForms
             CHK_Badge6.Location = new System.Drawing.Point(351, 50);
             CHK_Badge6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge6.Name = "CHK_Badge6";
-            CHK_Badge6.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge6.Size = new System.Drawing.Size(34, 21);
             CHK_Badge6.TabIndex = 15;
             CHK_Badge6.Text = "6";
             CHK_Badge6.UseVisualStyleBackColor = true;
@@ -696,7 +701,7 @@ namespace PKHeX.WinForms
             CHK_Badge2.Location = new System.Drawing.Point(307, 50);
             CHK_Badge2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge2.Name = "CHK_Badge2";
-            CHK_Badge2.Size = new System.Drawing.Size(32, 19);
+            CHK_Badge2.Size = new System.Drawing.Size(34, 21);
             CHK_Badge2.TabIndex = 11;
             CHK_Badge2.Text = "2";
             CHK_Badge2.UseVisualStyleBackColor = true;
@@ -726,11 +731,11 @@ namespace PKHeX.WinForms
             Tab_Overview.Controls.Add(L_Country);
             Tab_Overview.Controls.Add(CB_Country);
             Tab_Overview.Controls.Add(CB_Region);
-            Tab_Overview.Location = new System.Drawing.Point(4, 24);
+            Tab_Overview.Location = new System.Drawing.Point(4, 26);
             Tab_Overview.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_Overview.Name = "Tab_Overview";
             Tab_Overview.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            Tab_Overview.Size = new System.Drawing.Size(452, 294);
+            Tab_Overview.Size = new System.Drawing.Size(452, 292);
             Tab_Overview.TabIndex = 0;
             Tab_Overview.Text = "Overview";
             Tab_Overview.UseVisualStyleBackColor = true;
@@ -767,7 +772,7 @@ namespace PKHeX.WinForms
             TB_BP.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_BP.Mask = "0000";
             TB_BP.Name = "TB_BP";
-            TB_BP.Size = new System.Drawing.Size(42, 23);
+            TB_BP.Size = new System.Drawing.Size(42, 25);
             TB_BP.TabIndex = 6;
             TB_BP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -777,7 +782,7 @@ namespace PKHeX.WinForms
             TB_PM.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_PM.Mask = "0000000";
             TB_PM.Name = "TB_PM";
-            TB_PM.Size = new System.Drawing.Size(58, 23);
+            TB_PM.Size = new System.Drawing.Size(58, 25);
             TB_PM.TabIndex = 5;
             TB_PM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -797,7 +802,7 @@ namespace PKHeX.WinForms
             TB_Style.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_Style.Mask = "000";
             TB_Style.Name = "TB_Style";
-            TB_Style.Size = new System.Drawing.Size(30, 23);
+            TB_Style.Size = new System.Drawing.Size(30, 25);
             TB_Style.TabIndex = 8;
             TB_Style.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_Style.TextChanged += Change255;
@@ -866,7 +871,7 @@ namespace PKHeX.WinForms
             CAL_HoFDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
             CAL_HoFDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             CAL_HoFDate.Name = "CAL_HoFDate";
-            CAL_HoFDate.Size = new System.Drawing.Size(115, 23);
+            CAL_HoFDate.Size = new System.Drawing.Size(115, 25);
             CAL_HoFDate.TabIndex = 39;
             CAL_HoFDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
@@ -880,7 +885,7 @@ namespace PKHeX.WinForms
             CAL_HoFTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             CAL_HoFTime.Name = "CAL_HoFTime";
             CAL_HoFTime.ShowUpDown = true;
-            CAL_HoFTime.Size = new System.Drawing.Size(84, 23);
+            CAL_HoFTime.Size = new System.Drawing.Size(84, 25);
             CAL_HoFTime.TabIndex = 38;
             CAL_HoFTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
@@ -902,7 +907,7 @@ namespace PKHeX.WinForms
             CAL_AdventureStartDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
             CAL_AdventureStartDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             CAL_AdventureStartDate.Name = "CAL_AdventureStartDate";
-            CAL_AdventureStartDate.Size = new System.Drawing.Size(115, 23);
+            CAL_AdventureStartDate.Size = new System.Drawing.Size(115, 25);
             CAL_AdventureStartDate.TabIndex = 35;
             CAL_AdventureStartDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
@@ -914,7 +919,7 @@ namespace PKHeX.WinForms
             CAL_LastSavedDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
             CAL_LastSavedDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             CAL_LastSavedDate.Name = "CAL_LastSavedDate";
-            CAL_LastSavedDate.Size = new System.Drawing.Size(115, 23);
+            CAL_LastSavedDate.Size = new System.Drawing.Size(115, 25);
             CAL_LastSavedDate.TabIndex = 31;
             CAL_LastSavedDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
@@ -934,7 +939,7 @@ namespace PKHeX.WinForms
             MT_Seconds.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MT_Seconds.Mask = "00";
             MT_Seconds.Name = "MT_Seconds";
-            MT_Seconds.Size = new System.Drawing.Size(25, 23);
+            MT_Seconds.Size = new System.Drawing.Size(25, 25);
             MT_Seconds.TabIndex = 28;
             MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             MT_Seconds.TextChanged += Change255;
@@ -945,7 +950,7 @@ namespace PKHeX.WinForms
             MT_Hours.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MT_Hours.Mask = "00000";
             MT_Hours.Name = "MT_Hours";
-            MT_Hours.Size = new System.Drawing.Size(44, 23);
+            MT_Hours.Size = new System.Drawing.Size(44, 25);
             MT_Hours.TabIndex = 25;
             MT_Hours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -955,7 +960,7 @@ namespace PKHeX.WinForms
             L_Seconds.Location = new System.Drawing.Point(159, 20);
             L_Seconds.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Seconds.Name = "L_Seconds";
-            L_Seconds.Size = new System.Drawing.Size(28, 15);
+            L_Seconds.Size = new System.Drawing.Size(31, 17);
             L_Seconds.TabIndex = 30;
             L_Seconds.Text = "Sec:";
             // 
@@ -965,7 +970,7 @@ namespace PKHeX.WinForms
             L_Hours.Location = new System.Drawing.Point(14, 20);
             L_Hours.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Hours.Name = "L_Hours";
-            L_Hours.Size = new System.Drawing.Size(28, 15);
+            L_Hours.Size = new System.Drawing.Size(31, 17);
             L_Hours.TabIndex = 26;
             L_Hours.Text = "Hrs:";
             // 
@@ -975,7 +980,7 @@ namespace PKHeX.WinForms
             MT_Minutes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MT_Minutes.Mask = "00";
             MT_Minutes.Name = "MT_Minutes";
-            MT_Minutes.Size = new System.Drawing.Size(25, 23);
+            MT_Minutes.Size = new System.Drawing.Size(25, 25);
             MT_Minutes.TabIndex = 27;
             MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             MT_Minutes.TextChanged += Change255;
@@ -986,7 +991,7 @@ namespace PKHeX.WinForms
             L_Minutes.Location = new System.Drawing.Point(98, 20);
             L_Minutes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Minutes.Name = "L_Minutes";
-            L_Minutes.Size = new System.Drawing.Size(31, 15);
+            L_Minutes.Size = new System.Drawing.Size(33, 17);
             L_Minutes.TabIndex = 29;
             L_Minutes.Text = "Min:";
             // 
@@ -1000,7 +1005,7 @@ namespace PKHeX.WinForms
             CAL_AdventureStartTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             CAL_AdventureStartTime.Name = "CAL_AdventureStartTime";
             CAL_AdventureStartTime.ShowUpDown = true;
-            CAL_AdventureStartTime.Size = new System.Drawing.Size(84, 23);
+            CAL_AdventureStartTime.Size = new System.Drawing.Size(84, 25);
             CAL_AdventureStartTime.TabIndex = 34;
             CAL_AdventureStartTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
@@ -1014,7 +1019,7 @@ namespace PKHeX.WinForms
             CAL_LastSavedTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             CAL_LastSavedTime.Name = "CAL_LastSavedTime";
             CAL_LastSavedTime.ShowUpDown = true;
-            CAL_LastSavedTime.Size = new System.Drawing.Size(84, 23);
+            CAL_LastSavedTime.Size = new System.Drawing.Size(84, 25);
             CAL_LastSavedTime.TabIndex = 37;
             CAL_LastSavedTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
@@ -1025,7 +1030,7 @@ namespace PKHeX.WinForms
             CB_Vivillon.Location = new System.Drawing.Point(335, 84);
             CB_Vivillon.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Vivillon.Name = "CB_Vivillon";
-            CB_Vivillon.Size = new System.Drawing.Size(108, 23);
+            CB_Vivillon.Size = new System.Drawing.Size(108, 25);
             CB_Vivillon.TabIndex = 29;
             // 
             // L_Vivillon
@@ -1034,7 +1039,7 @@ namespace PKHeX.WinForms
             L_Vivillon.Location = new System.Drawing.Point(279, 88);
             L_Vivillon.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Vivillon.Name = "L_Vivillon";
-            L_Vivillon.Size = new System.Drawing.Size(49, 15);
+            L_Vivillon.Size = new System.Drawing.Size(52, 17);
             L_Vivillon.TabIndex = 28;
             L_Vivillon.Text = "Vivillon:";
             L_Vivillon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1060,7 +1065,7 @@ namespace PKHeX.WinForms
             CB_Gender.Location = new System.Drawing.Point(115, 59);
             CB_Gender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Gender.Name = "CB_Gender";
-            CB_Gender.Size = new System.Drawing.Size(46, 23);
+            CB_Gender.Size = new System.Drawing.Size(46, 25);
             CB_Gender.TabIndex = 22;
             // 
             // CB_Game
@@ -1072,7 +1077,7 @@ namespace PKHeX.WinForms
             CB_Game.Location = new System.Drawing.Point(164, 59);
             CB_Game.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Game.Name = "CB_Game";
-            CB_Game.Size = new System.Drawing.Size(59, 23);
+            CB_Game.Size = new System.Drawing.Size(59, 25);
             CB_Game.TabIndex = 24;
             // 
             // L_TrainerName
@@ -1100,7 +1105,7 @@ namespace PKHeX.WinForms
             MT_Money.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MT_Money.Mask = "0000000";
             MT_Money.Name = "MT_Money";
-            MT_Money.Size = new System.Drawing.Size(60, 23);
+            MT_Money.Size = new System.Drawing.Size(60, 25);
             MT_Money.TabIndex = 4;
             MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1120,7 +1125,7 @@ namespace PKHeX.WinForms
             L_Money.Location = new System.Drawing.Point(119, 37);
             L_Money.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Money.Name = "L_Money";
-            L_Money.Size = new System.Drawing.Size(16, 15);
+            L_Money.Size = new System.Drawing.Size(18, 17);
             L_Money.TabIndex = 5;
             L_Money.Text = "$:";
             // 
@@ -1140,7 +1145,7 @@ namespace PKHeX.WinForms
             MT_TID.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MT_TID.Mask = "00000";
             MT_TID.Name = "MT_TID";
-            MT_TID.Size = new System.Drawing.Size(45, 23);
+            MT_TID.Size = new System.Drawing.Size(45, 25);
             MT_TID.TabIndex = 8;
             MT_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             MT_TID.TextChanged += ChangeFFFF;
@@ -1152,7 +1157,7 @@ namespace PKHeX.WinForms
             MT_SID.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             MT_SID.Mask = "00000";
             MT_SID.Name = "MT_SID";
-            MT_SID.Size = new System.Drawing.Size(45, 23);
+            MT_SID.Size = new System.Drawing.Size(45, 25);
             MT_SID.TabIndex = 9;
             MT_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             MT_SID.TextChanged += ChangeFFFF;
@@ -1175,7 +1180,7 @@ namespace PKHeX.WinForms
             CB_Language.Location = new System.Drawing.Point(115, 84);
             CB_Language.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Language.Name = "CB_Language";
-            CB_Language.Size = new System.Drawing.Size(108, 23);
+            CB_Language.Size = new System.Drawing.Size(108, 25);
             CB_Language.TabIndex = 15;
             // 
             // L_Region
@@ -1195,7 +1200,7 @@ namespace PKHeX.WinForms
             CB_3DSReg.Location = new System.Drawing.Point(335, 59);
             CB_3DSReg.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_3DSReg.Name = "CB_3DSReg";
-            CB_3DSReg.Size = new System.Drawing.Size(108, 23);
+            CB_3DSReg.Size = new System.Drawing.Size(108, 25);
             CB_3DSReg.TabIndex = 14;
             // 
             // B_MaxCash
@@ -1225,7 +1230,7 @@ namespace PKHeX.WinForms
             CB_Country.Location = new System.Drawing.Point(335, 8);
             CB_Country.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Country.Name = "CB_Country";
-            CB_Country.Size = new System.Drawing.Size(108, 23);
+            CB_Country.Size = new System.Drawing.Size(108, 25);
             CB_Country.TabIndex = 17;
             CB_Country.SelectedIndexChanged += UpdateCountry;
             // 
@@ -1236,7 +1241,7 @@ namespace PKHeX.WinForms
             CB_Region.Location = new System.Drawing.Point(335, 33);
             CB_Region.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Region.Name = "CB_Region";
-            CB_Region.Size = new System.Drawing.Size(108, 23);
+            CB_Region.Size = new System.Drawing.Size(108, 25);
             CB_Region.TabIndex = 18;
             // 
             // TC_Editor
@@ -1259,10 +1264,10 @@ namespace PKHeX.WinForms
             // 
             Tab_Maison.Controls.Add(GB_MaisonCurrent);
             Tab_Maison.Controls.Add(GB_MaisonBest);
-            Tab_Maison.Location = new System.Drawing.Point(4, 24);
+            Tab_Maison.Location = new System.Drawing.Point(4, 26);
             Tab_Maison.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_Maison.Name = "Tab_Maison";
-            Tab_Maison.Size = new System.Drawing.Size(452, 294);
+            Tab_Maison.Size = new System.Drawing.Size(452, 292);
             Tab_Maison.TabIndex = 2;
             Tab_Maison.Text = "Maison";
             Tab_Maison.UseVisualStyleBackColor = true;
@@ -1412,7 +1417,7 @@ namespace PKHeX.WinForms
             L_SuperC.Location = new System.Drawing.Point(121, 18);
             L_SuperC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_SuperC.Name = "L_SuperC";
-            L_SuperC.Size = new System.Drawing.Size(37, 15);
+            L_SuperC.Size = new System.Drawing.Size(42, 17);
             L_SuperC.TabIndex = 45;
             L_SuperC.Text = "Super";
             // 
@@ -1422,7 +1427,7 @@ namespace PKHeX.WinForms
             L_NormalC.Location = new System.Drawing.Point(68, 18);
             L_NormalC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_NormalC.Name = "L_NormalC";
-            L_NormalC.Size = new System.Drawing.Size(47, 15);
+            L_NormalC.Size = new System.Drawing.Size(52, 17);
             L_NormalC.TabIndex = 44;
             L_NormalC.Text = "Normal";
             // 
@@ -1432,7 +1437,7 @@ namespace PKHeX.WinForms
             L_MultiC.Location = new System.Drawing.Point(9, 123);
             L_MultiC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_MultiC.Name = "L_MultiC";
-            L_MultiC.Size = new System.Drawing.Size(38, 15);
+            L_MultiC.Size = new System.Drawing.Size(40, 17);
             L_MultiC.TabIndex = 43;
             L_MultiC.Text = "Multi:";
             // 
@@ -1442,7 +1447,7 @@ namespace PKHeX.WinForms
             L_RotationC.Location = new System.Drawing.Point(9, 103);
             L_RotationC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_RotationC.Name = "L_RotationC";
-            L_RotationC.Size = new System.Drawing.Size(55, 15);
+            L_RotationC.Size = new System.Drawing.Size(60, 17);
             L_RotationC.TabIndex = 42;
             L_RotationC.Text = "Rotation:";
             // 
@@ -1452,7 +1457,7 @@ namespace PKHeX.WinForms
             L_TriplesC.Location = new System.Drawing.Point(9, 81);
             L_TriplesC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_TriplesC.Name = "L_TriplesC";
-            L_TriplesC.Size = new System.Drawing.Size(44, 15);
+            L_TriplesC.Size = new System.Drawing.Size(49, 17);
             L_TriplesC.TabIndex = 41;
             L_TriplesC.Text = "Triples:";
             // 
@@ -1462,7 +1467,7 @@ namespace PKHeX.WinForms
             L_DoublesC.Location = new System.Drawing.Point(9, 59);
             L_DoublesC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_DoublesC.Name = "L_DoublesC";
-            L_DoublesC.Size = new System.Drawing.Size(53, 15);
+            L_DoublesC.Size = new System.Drawing.Size(59, 17);
             L_DoublesC.TabIndex = 40;
             L_DoublesC.Text = "Doubles:";
             // 
@@ -1472,7 +1477,7 @@ namespace PKHeX.WinForms
             L_SinglesC.Location = new System.Drawing.Point(9, 37);
             L_SinglesC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_SinglesC.Name = "L_SinglesC";
-            L_SinglesC.Size = new System.Drawing.Size(47, 15);
+            L_SinglesC.Size = new System.Drawing.Size(52, 17);
             L_SinglesC.TabIndex = 39;
             L_SinglesC.Text = "Singles:";
             // 
@@ -1621,7 +1626,7 @@ namespace PKHeX.WinForms
             L_SuperB.Location = new System.Drawing.Point(121, 20);
             L_SuperB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_SuperB.Name = "L_SuperB";
-            L_SuperB.Size = new System.Drawing.Size(37, 15);
+            L_SuperB.Size = new System.Drawing.Size(42, 17);
             L_SuperB.TabIndex = 45;
             L_SuperB.Text = "Super";
             // 
@@ -1631,7 +1636,7 @@ namespace PKHeX.WinForms
             L_NormalB.Location = new System.Drawing.Point(68, 20);
             L_NormalB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_NormalB.Name = "L_NormalB";
-            L_NormalB.Size = new System.Drawing.Size(47, 15);
+            L_NormalB.Size = new System.Drawing.Size(52, 17);
             L_NormalB.TabIndex = 44;
             L_NormalB.Text = "Normal";
             // 
@@ -1641,7 +1646,7 @@ namespace PKHeX.WinForms
             L_MultiB.Location = new System.Drawing.Point(9, 126);
             L_MultiB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_MultiB.Name = "L_MultiB";
-            L_MultiB.Size = new System.Drawing.Size(38, 15);
+            L_MultiB.Size = new System.Drawing.Size(40, 17);
             L_MultiB.TabIndex = 43;
             L_MultiB.Text = "Multi:";
             // 
@@ -1651,7 +1656,7 @@ namespace PKHeX.WinForms
             L_RotationB.Location = new System.Drawing.Point(9, 105);
             L_RotationB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_RotationB.Name = "L_RotationB";
-            L_RotationB.Size = new System.Drawing.Size(55, 15);
+            L_RotationB.Size = new System.Drawing.Size(60, 17);
             L_RotationB.TabIndex = 42;
             L_RotationB.Text = "Rotation:";
             // 
@@ -1661,7 +1666,7 @@ namespace PKHeX.WinForms
             L_TriplesB.Location = new System.Drawing.Point(9, 83);
             L_TriplesB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_TriplesB.Name = "L_TriplesB";
-            L_TriplesB.Size = new System.Drawing.Size(44, 15);
+            L_TriplesB.Size = new System.Drawing.Size(49, 17);
             L_TriplesB.TabIndex = 41;
             L_TriplesB.Text = "Triples:";
             // 
@@ -1671,7 +1676,7 @@ namespace PKHeX.WinForms
             L_DoublesB.Location = new System.Drawing.Point(9, 61);
             L_DoublesB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_DoublesB.Name = "L_DoublesB";
-            L_DoublesB.Size = new System.Drawing.Size(53, 15);
+            L_DoublesB.Size = new System.Drawing.Size(59, 17);
             L_DoublesB.TabIndex = 40;
             L_DoublesB.Text = "Doubles:";
             // 
@@ -1681,41 +1686,77 @@ namespace PKHeX.WinForms
             L_SinglesB.Location = new System.Drawing.Point(9, 39);
             L_SinglesB.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_SinglesB.Name = "L_SinglesB";
-            L_SinglesB.Size = new System.Drawing.Size(47, 15);
+            L_SinglesB.Size = new System.Drawing.Size(52, 17);
             L_SinglesB.TabIndex = 39;
             L_SinglesB.Text = "Singles:";
             // 
             // Tab_BattleChateau
             // 
-            Tab_BattleChateau.Controls.Add(LB_BattleChateauInfo);
-            Tab_BattleChateau.Controls.Add(CB_BattleChateauRank);
-            Tab_BattleChateau.Location = new System.Drawing.Point(4, 24);
+            Tab_BattleChateau.Controls.Add(TLP_Chateau);
+            Tab_BattleChateau.Location = new System.Drawing.Point(4, 26);
             Tab_BattleChateau.Name = "Tab_BattleChateau";
             Tab_BattleChateau.Padding = new System.Windows.Forms.Padding(3);
-            Tab_BattleChateau.Size = new System.Drawing.Size(452, 294);
+            Tab_BattleChateau.Size = new System.Drawing.Size(452, 292);
             Tab_BattleChateau.TabIndex = 5;
             Tab_BattleChateau.Text = "Chateau";
             Tab_BattleChateau.UseVisualStyleBackColor = true;
             // 
-            // LB_BattleChateauInfo
+            // L_BattleChateauRank
             // 
-            LB_BattleChateauInfo.AutoSize = true;
-            LB_BattleChateauInfo.Location = new System.Drawing.Point(146, 34);
-            LB_BattleChateauInfo.Name = "LB_BattleChateauInfo";
-            LB_BattleChateauInfo.Size = new System.Drawing.Size(135, 15);
-            LB_BattleChateauInfo.TabIndex = 43;
-            LB_BattleChateauInfo.Text = "Select your desired rank:";
+            L_BattleChateauRank.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_BattleChateauRank.AutoSize = true;
+            L_BattleChateauRank.Location = new System.Drawing.Point(57, 17);
+            L_BattleChateauRank.Name = "L_BattleChateauRank";
+            L_BattleChateauRank.Size = new System.Drawing.Size(39, 17);
+            L_BattleChateauRank.TabIndex = 43;
+            L_BattleChateauRank.Text = "Rank:";
             // 
             // CB_BattleChateauRank
             // 
+            CB_BattleChateauRank.Anchor = System.Windows.Forms.AnchorStyles.Left;
             CB_BattleChateauRank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_BattleChateauRank.FormattingEnabled = true;
-            CB_BattleChateauRank.Items.AddRange(new object[] { "Baron", "Viscount", "Ear", "Marquis", "Duke", "Grand Duke" });
-            CB_BattleChateauRank.Location = new System.Drawing.Point(146, 52);
+            CB_BattleChateauRank.Location = new System.Drawing.Point(102, 13);
             CB_BattleChateauRank.Name = "CB_BattleChateauRank";
-            CB_BattleChateauRank.Size = new System.Drawing.Size(150, 23);
+            CB_BattleChateauRank.Size = new System.Drawing.Size(93, 25);
             CB_BattleChateauRank.TabIndex = 42;
             CB_BattleChateauRank.Tag = "";
+            // 
+            // TLP_Chateau
+            // 
+            TLP_Chateau.ColumnCount = 2;
+            TLP_Chateau.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            TLP_Chateau.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            TLP_Chateau.Controls.Add(L_BattleChateauRank, 0, 0);
+            TLP_Chateau.Controls.Add(CB_BattleChateauRank, 1, 0);
+            TLP_Chateau.Controls.Add(L_BattleChateauPoints, 0, 1);
+            TLP_Chateau.Controls.Add(NUD_BattleChateauPoints, 1, 1);
+            TLP_Chateau.Location = new System.Drawing.Point(131, 66);
+            TLP_Chateau.Name = "TLP_Chateau";
+            TLP_Chateau.RowCount = 2;
+            TLP_Chateau.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            TLP_Chateau.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            TLP_Chateau.Size = new System.Drawing.Size(198, 105);
+            TLP_Chateau.TabIndex = 44;
+            // 
+            // L_BattleChateauPoints
+            // 
+            L_BattleChateauPoints.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_BattleChateauPoints.AutoSize = true;
+            L_BattleChateauPoints.Location = new System.Drawing.Point(50, 70);
+            L_BattleChateauPoints.Name = "L_BattleChateauPoints";
+            L_BattleChateauPoints.Size = new System.Drawing.Size(46, 17);
+            L_BattleChateauPoints.TabIndex = 44;
+            L_BattleChateauPoints.Text = "Points:";
+            // 
+            // NUD_BattleChateauPoints
+            // 
+            NUD_BattleChateauPoints.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            NUD_BattleChateauPoints.Location = new System.Drawing.Point(102, 66);
+            NUD_BattleChateauPoints.Maximum = new decimal(new int[] { 4095, 0, 0, 0 });
+            NUD_BattleChateauPoints.Name = "NUD_BattleChateauPoints";
+            NUD_BattleChateauPoints.Size = new System.Drawing.Size(93, 25);
+            NUD_BattleChateauPoints.TabIndex = 45;
             // 
             // SAV_Trainer
             // 
@@ -1760,7 +1801,9 @@ namespace PKHeX.WinForms
             GB_MaisonBest.ResumeLayout(false);
             GB_MaisonBest.PerformLayout();
             Tab_BattleChateau.ResumeLayout(false);
-            Tab_BattleChateau.PerformLayout();
+            TLP_Chateau.ResumeLayout(false);
+            TLP_Chateau.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_BattleChateauPoints).EndInit();
             ResumeLayout(false);
         }
 
@@ -1897,8 +1940,10 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_DoublesB;
         private System.Windows.Forms.Label L_SinglesB;
         private System.Windows.Forms.TabPage Tab_BattleChateau;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label LB_BattleChateauInfo;
+        private System.Windows.Forms.Label L_BattleChateauRank;
         private System.Windows.Forms.ComboBox CB_BattleChateauRank;
+        private System.Windows.Forms.TableLayoutPanel TLP_Chateau;
+        private System.Windows.Forms.Label L_BattleChateauPoints;
+        private System.Windows.Forms.NumericUpDown NUD_BattleChateauPoints;
     }
 }

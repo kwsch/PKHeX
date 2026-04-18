@@ -168,16 +168,15 @@ public partial class SAV_Trainer : Form
         if (SAV is SAV6XY xy)
         {
             // Battle Chateau
-            if (xy.SUBE is SubEventLog6XY sube)
-            {
-                var rank = sube.ChateauRank;
-                if (rank < CB_BattleChateauRank.Items.Count)
-                    CB_BattleChateauRank.SelectedIndex = rank;
-                else
-                    CB_BattleChateauRank.SelectedIndex = -1;
-            }
+            var sube = xy.SUBE;
+            CB_BattleChateauRank.Items.AddRange(WinFormsTranslator.GetEnumTranslation<BattleChateauRank6>(Main.CurrentLanguage));
+            CB_BattleChateauRank.SelectedIndex = Math.Clamp(sube.ChateauRank, 0, CB_BattleChateauRank.Items.Count - 1);
+            NUD_BattleChateauPoints.Value = sube.ChateauPoints;
+            CB_BattleChateauRank.SelectedIndexChanged += (_, _)
+                => NUD_BattleChateauPoints.Value = SubEventLog6XY.GetChateauPointsForRank((ushort)CB_BattleChateauRank.SelectedIndex);
+
             // Appearances and Nickname
-            var xystat = (MyStatus6XY)xy.Status;
+            var xystat = xy.Status;
             PG_CurrentAppearance.SelectedObject = xystat.Fashion;
             TB_TRNick.Text = xystat.Nickname;
         }
@@ -268,10 +267,11 @@ public partial class SAV_Trainer : Form
 
         if (SAV is SAV6XY xy)
         {
-            if (xy.SUBE is SubEventLog6XY sube && CB_BattleChateauRank.SelectedIndex >= 0)
-                sube.SetChateauByRank((ushort)CB_BattleChateauRank.SelectedIndex);
+            var sube = xy.SUBE;
+            sube.ChateauRank = (ushort)CB_BattleChateauRank.SelectedIndex;
+            sube.ChateauPoints = (ushort)NUD_BattleChateauPoints.Value;
 
-            var xystat = (MyStatus6XY)xy.Status;
+            var xystat = xy.Status;
             xystat.Fashion = (TrainerFashion6)PG_CurrentAppearance.SelectedObject!;
             xystat.Nickname = TB_TRNick.Text;
         }
