@@ -827,38 +827,54 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
 
     public bool SetPCBinary(ReadOnlySpan<byte> data)
     {
-        if (IsRegionOverwriteProtected(0, SlotCount))
+        int expectCount = SlotCount;
+
+        // every slot
+        const int start = 0;
+        if (IsRegionOverwriteProtected(start, expectCount))
             return false;
 
-        int expectLength = SlotCount * SIZE_BOXSLOT;
-        return SetConcatenatedBinary(data, expectLength);
+        return SetConcatenatedBinary(data, expectCount);
     }
 
     public bool SetBoxBinary(ReadOnlySpan<byte> data, int box)
     {
-        int start = box * BoxSlotCount;
-        int end = start + BoxSlotCount;
+        int expectCount = BoxSlotCount;
 
+        int start = box * expectCount;
+        int end = start + expectCount;
         if (IsRegionOverwriteProtected(start, end))
             return false;
 
-        int expectLength = BoxSlotCount * SIZE_BOXSLOT;
-        return SetConcatenatedBinary(data, expectLength, start);
+        return SetConcatenatedBinary(data, expectCount, start);
     }
 
-    private bool SetConcatenatedBinary(ReadOnlySpan<byte> data, int expectLength, int start = 0)
+    private bool SetConcatenatedBinary(ReadOnlySpan<byte> data, int expectCount, int start = 0)
     {
+        var entryLength = SIZE_BOXSLOT;
+        var expectLength = expectCount * entryLength;
         if (data.Length != expectLength)
             return false;
 
-        var entryLength = SIZE_BOXSLOT;
+        var partyLength = SIZE_PARTY;
         for (int i = 0, ctr = start; i < data.Length; i += entryLength)
         {
+            // Region overwrite protection should have already been checked, but double check here to avoid overwriting sensitive slots.
+            // If any future update removed the upstream checks/called separately...
+            // Any blocked slot will have the corresponding import slot data skipped.
             if (IsBoxSlotOverwriteProtected(ctr))
                 continue;
+
+            // Rather than directly overwrite bytes, read and set.
+            // This ensures Pokédex and other related data is properly updated, and also ensures checksums are properly set.
             var src = data.Slice(i, entryLength);
-            var arr = src.ToArray();
-            DecryptPKM(arr);
+            var arr = src.ToArray().AsMemory();
+
+            // Prepare each slot to be interpreted as a PKM object; decrypt if needed.
+            if (arr.Length > partyLength)
+                arr = arr[..partyLength];
+            DecryptPKM(arr.Span);
+
             var pk = GetPKM(arr);
             SetBoxSlotAtIndex(pk, ctr++);
         }

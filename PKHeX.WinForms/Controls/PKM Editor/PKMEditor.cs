@@ -828,7 +828,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         return true;
     }
 
-    private static bool IsAllElementsShared(Span<ushort> seq1, Span<ushort> seq2)
+    private static bool IsAllElementsShared(ReadOnlySpan<ushort> seq1, ReadOnlySpan<ushort> seq2)
     {
         foreach (var entry in seq2)
         {

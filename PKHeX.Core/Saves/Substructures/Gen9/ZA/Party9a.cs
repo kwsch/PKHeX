@@ -5,7 +5,8 @@ namespace PKHeX.Core;
 public sealed class Party9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>(sav, block.Raw)
 {
     private const int MaxCount = 6;
-    public const int SlotSize = PokeCrypto.SIZE_8PARTY + 0x40 + 0x48;
+    private const int SlotSizeInner = PokeCrypto.SIZE_8PARTY + 0x48; // 0x1A0
+    public const int SlotSize = SlotSizeInner + 0x40;
 
     public Memory<byte> GetSlot(int slot)
     {
@@ -43,6 +44,19 @@ public sealed class Party9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>(sav, 
         span.Clear();
         PokeCrypto.Encrypt8(span[..PokeCrypto.SIZE_8STORED]);
         PokeCrypto.CryptArray(span[PokeCrypto.SIZE_8STORED..PokeCrypto.SIZE_8PARTY], 0);
-        span[PokeCrypto.SIZE_8PARTY] = 1; // mark as present, even if it is empty, to match game behavior for at-rest save data.
+        WriteSlotFooter(span, SAV.SaveRevision);
+    }
+
+    private static void WriteSlotFooter(Span<byte> span, int revision)
+    {
+        if (revision != 0) // DLC
+            span[PokeCrypto.SIZE_8PARTY] = 1; // mark as present, even if it is empty, to match game behavior for at-rest save data.
+        span[SlotSizeInner] = 1; // another?
+    }
+
+    public void UpdateSlotFooter(int slot)
+    {
+        var span = GetSlot(slot);
+        WriteSlotFooter(span.Span, SAV.SaveRevision);
     }
 }

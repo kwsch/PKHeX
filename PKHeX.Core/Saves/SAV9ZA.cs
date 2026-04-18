@@ -208,7 +208,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     {
         pk.WriteEncryptedDataParty(data);
         // write the present flag, if long enough
-        if (data.Length > SIZE_PARTY)
+        if (data.Length > SIZE_PARTY && SaveRevision != 0) // DLC
             data[PokeCrypto.SIZE_8PARTY] = 1; // mark as present, even if it is empty, to match game behavior for at-rest save data.
     }
 
@@ -216,9 +216,7 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
     {
         base.SetPartySlotAtIndex(pk, index, settings);
         // write the present flag, if long enough
-        var span = PartyInfo.GetSlot(index);
-        if (span.Length > SIZE_PARTY)
-            span.Span[PokeCrypto.SIZE_8PARTY] = 1; // mark as present, even if it is empty, to match game behavior for at-rest save data.
+        PartyInfo.UpdateSlotFooter(index);
     }
 
     public override StorageSlotSource GetBoxSlotFlags(int index)

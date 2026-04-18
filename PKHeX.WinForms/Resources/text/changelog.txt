@@ -8,10 +8,13 @@ http://projectpokemon.org/pkhex/
  - Added: Gen9a donut generator.
  - Added: Champions set imports now upscale EVs for mainline entities the set is applied to.
  - Fixed: Gen5 imports for Pokédex Skin and Musicals revised.
+ - Fixed: Gen3 Options (sound, set/switch, etc) read/write fixed.
  - Changed: Gen5 Nicknames in the PKM editor now better detect all-caps transfer permissions for Gen3/4 origin entities.
  - Changed: Some internal API methods have been rewritten for performance (exporting/importing/reading/writing slots).
  - Changed: Form Argument editing in the PKM editor improved, now shows the decomposed values.
  - Changed: Main and OT tabs of the PKM editor revised, some controls widened/spaced.
+ - Changed: LATAM met locations for past games added, thanks @sora10pls !
+ - Changed: Updated translations for various languages. Thanks @Ka-n00b !
 
 26/03/20 - New Update: (166959) [12917711]
  - Added handling for ZA's new patch revision tag.

@@ -420,7 +420,7 @@ public static class FormInfo
     /// <param name="pi">Game specific personal info</param>
     /// <param name="species"><see cref="Species"/> ID</param>
     /// <param name="format"><see cref="PKM.Form"/> ID</param>
-    /// <returns>True if it has forms that can be provided by <see cref="FormConverter.GetFormList"/>, otherwise false for none.</returns>
+    /// <returns>True if it has forms that can be provided by <see cref="FormConverter"/>, otherwise false for none.</returns>
     public static bool HasFormSelection(IPersonalFormInfo pi, ushort species, byte format)
     {
         if (format <= 3 && species != (int)Unown)
