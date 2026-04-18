@@ -440,7 +440,7 @@ namespace PKHeX.WinForms.Controls
             CR_PK1.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
             CR_PK1.Name = "CR_PK1";
             CR_PK1.Size = new System.Drawing.Size(211, 25);
-            CR_PK1.TabIndex = 10;
+            CR_PK1.TabIndex = 33;
             // 
             // L_CatchRate
             // 
@@ -450,7 +450,7 @@ namespace PKHeX.WinForms.Controls
             L_CatchRate.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_CatchRate.Name = "L_CatchRate";
             L_CatchRate.Size = new System.Drawing.Size(73, 17);
-            L_CatchRate.TabIndex = 9;
+            L_CatchRate.TabIndex = 32;
             L_CatchRate.Text = "Catch Rate:";
             L_CatchRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -462,7 +462,7 @@ namespace PKHeX.WinForms.Controls
             L_HeartGauge.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_HeartGauge.Name = "L_HeartGauge";
             L_HeartGauge.Size = new System.Drawing.Size(85, 17);
-            L_HeartGauge.TabIndex = 9;
+            L_HeartGauge.TabIndex = 30;
             L_HeartGauge.Text = "Heart Gauge:";
             L_HeartGauge.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -474,7 +474,7 @@ namespace PKHeX.WinForms.Controls
             L_ShadowID.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_ShadowID.Name = "L_ShadowID";
             L_ShadowID.Size = new System.Drawing.Size(73, 17);
-            L_ShadowID.TabIndex = 9;
+            L_ShadowID.TabIndex = 28;
             L_ShadowID.Text = "Shadow ID:";
             L_ShadowID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -485,7 +485,7 @@ namespace PKHeX.WinForms.Controls
             CHK_NSparkle.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             CHK_NSparkle.Name = "CHK_NSparkle";
             CHK_NSparkle.Size = new System.Drawing.Size(61, 21);
-            CHK_NSparkle.TabIndex = 18;
+            CHK_NSparkle.TabIndex = 27;
             CHK_NSparkle.Text = "Active";
             CHK_NSparkle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CHK_NSparkle.UseVisualStyleBackColor = true;
@@ -498,7 +498,7 @@ namespace PKHeX.WinForms.Controls
             L_NSparkle.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_NSparkle.Name = "L_NSparkle";
             L_NSparkle.Size = new System.Drawing.Size(77, 17);
-            L_NSparkle.TabIndex = 17;
+            L_NSparkle.TabIndex = 26;
             L_NSparkle.Text = "N's Sparkle:";
             L_NSparkle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -514,7 +514,7 @@ namespace PKHeX.WinForms.Controls
             FLP_PKRSRight.Margin = new System.Windows.Forms.Padding(0);
             FLP_PKRSRight.Name = "FLP_PKRSRight";
             FLP_PKRSRight.Size = new System.Drawing.Size(211, 26);
-            FLP_PKRSRight.TabIndex = 105;
+            FLP_PKRSRight.TabIndex = 25;
             // 
             // CB_PKRSStrain
             // 
@@ -525,7 +525,7 @@ namespace PKHeX.WinForms.Controls
             CB_PKRSStrain.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_PKRSStrain.Name = "CB_PKRSStrain";
             CB_PKRSStrain.Size = new System.Drawing.Size(40, 25);
-            CB_PKRSStrain.TabIndex = 19;
+            CB_PKRSStrain.TabIndex = 0;
             CB_PKRSStrain.Visible = false;
             CB_PKRSStrain.SelectedValueChanged += UpdatePKRSstrain;
             // 
@@ -535,7 +535,7 @@ namespace PKHeX.WinForms.Controls
             Label_PKRSdays.Margin = new System.Windows.Forms.Padding(0);
             Label_PKRSdays.Name = "Label_PKRSdays";
             Label_PKRSdays.Size = new System.Drawing.Size(25, 21);
-            Label_PKRSdays.TabIndex = 15;
+            Label_PKRSdays.TabIndex = 1;
             Label_PKRSdays.Text = "d:";
             Label_PKRSdays.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             Label_PKRSdays.Visible = false;
@@ -548,7 +548,7 @@ namespace PKHeX.WinForms.Controls
             CB_PKRSDays.Margin = new System.Windows.Forms.Padding(0);
             CB_PKRSDays.Name = "CB_PKRSDays";
             CB_PKRSDays.Size = new System.Drawing.Size(32, 25);
-            CB_PKRSDays.TabIndex = 20;
+            CB_PKRSDays.TabIndex = 2;
             CB_PKRSDays.Visible = false;
             CB_PKRSDays.SelectedIndexChanged += UpdatePKRSdays;
             // 
@@ -560,7 +560,7 @@ namespace PKHeX.WinForms.Controls
             Label_PKRS.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_PKRS.Name = "Label_PKRS";
             Label_PKRS.Size = new System.Drawing.Size(38, 17);
-            Label_PKRS.TabIndex = 14;
+            Label_PKRS.TabIndex = 24;
             Label_PKRS.Text = "PkRs:";
             Label_PKRS.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             Label_PKRS.Visible = false;
@@ -573,7 +573,7 @@ namespace PKHeX.WinForms.Controls
             CHK_IsEgg.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             CHK_IsEgg.Name = "CHK_IsEgg";
             CHK_IsEgg.Size = new System.Drawing.Size(63, 21);
-            CHK_IsEgg.TabIndex = 16;
+            CHK_IsEgg.TabIndex = 22;
             CHK_IsEgg.Text = "Is Egg";
             CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CHK_IsEgg.UseVisualStyleBackColor = true;
@@ -588,7 +588,7 @@ namespace PKHeX.WinForms.Controls
             FLP_EggPKRSRight.Margin = new System.Windows.Forms.Padding(0);
             FLP_EggPKRSRight.Name = "FLP_EggPKRSRight";
             FLP_EggPKRSRight.Size = new System.Drawing.Size(211, 23);
-            FLP_EggPKRSRight.TabIndex = 104;
+            FLP_EggPKRSRight.TabIndex = 23;
             // 
             // CHK_Infected
             // 
@@ -597,7 +597,7 @@ namespace PKHeX.WinForms.Controls
             CHK_Infected.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             CHK_Infected.Name = "CHK_Infected";
             CHK_Infected.Size = new System.Drawing.Size(73, 21);
-            CHK_Infected.TabIndex = 17;
+            CHK_Infected.TabIndex = 0;
             CHK_Infected.Text = "Infected";
             CHK_Infected.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CHK_Infected.UseVisualStyleBackColor = true;
@@ -610,7 +610,7 @@ namespace PKHeX.WinForms.Controls
             CHK_Cured.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             CHK_Cured.Name = "CHK_Cured";
             CHK_Cured.Size = new System.Drawing.Size(62, 21);
-            CHK_Cured.TabIndex = 18;
+            CHK_Cured.TabIndex = 1;
             CHK_Cured.Text = "Cured";
             CHK_Cured.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CHK_Cured.UseVisualStyleBackColor = true;
@@ -625,7 +625,7 @@ namespace PKHeX.WinForms.Controls
             CB_Language.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Language.Name = "CB_Language";
             CB_Language.Size = new System.Drawing.Size(144, 25);
-            CB_Language.TabIndex = 15;
+            CB_Language.TabIndex = 21;
             CB_Language.SelectedIndexChanged += UpdateNickname;
             // 
             // Label_Language
@@ -636,7 +636,7 @@ namespace PKHeX.WinForms.Controls
             Label_Language.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_Language.Name = "Label_Language";
             Label_Language.Size = new System.Drawing.Size(68, 17);
-            Label_Language.TabIndex = 12;
+            Label_Language.TabIndex = 20;
             Label_Language.Text = "Language:";
             Label_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -652,7 +652,7 @@ namespace PKHeX.WinForms.Controls
             FLP_AbilityRight.Margin = new System.Windows.Forms.Padding(0);
             FLP_AbilityRight.Name = "FLP_AbilityRight";
             FLP_AbilityRight.Size = new System.Drawing.Size(211, 52);
-            FLP_AbilityRight.TabIndex = 109;
+            FLP_AbilityRight.TabIndex = 19;
             // 
             // CB_Ability
             // 
@@ -664,7 +664,7 @@ namespace PKHeX.WinForms.Controls
             CB_Ability.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Ability.Name = "CB_Ability";
             CB_Ability.Size = new System.Drawing.Size(144, 25);
-            CB_Ability.TabIndex = 13;
+            CB_Ability.TabIndex = 0;
             CB_Ability.SelectedIndexChanged += ValidateComboBox2;
             CB_Ability.Validating += ValidateComboBox;
             // 
@@ -679,7 +679,7 @@ namespace PKHeX.WinForms.Controls
             DEV_Ability.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             DEV_Ability.Name = "DEV_Ability";
             DEV_Ability.Size = new System.Drawing.Size(126, 25);
-            DEV_Ability.TabIndex = 14;
+            DEV_Ability.TabIndex = 1;
             DEV_Ability.Visible = false;
             DEV_Ability.Click += ClickManualAbility;
             // 
@@ -692,7 +692,7 @@ namespace PKHeX.WinForms.Controls
             TB_AbilityNumber.Mask = "0";
             TB_AbilityNumber.Name = "TB_AbilityNumber";
             TB_AbilityNumber.Size = new System.Drawing.Size(19, 25);
-            TB_AbilityNumber.TabIndex = 14;
+            TB_AbilityNumber.TabIndex = 2;
             TB_AbilityNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_AbilityNumber.Visible = false;
             TB_AbilityNumber.Click += ClickManualAbility;
@@ -706,7 +706,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Purification.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             FLP_Purification.Name = "FLP_Purification";
             FLP_Purification.Size = new System.Drawing.Size(211, 27);
-            FLP_Purification.TabIndex = 18;
+            FLP_Purification.TabIndex = 31;
             // 
             // NUD_Purification
             // 
@@ -716,7 +716,7 @@ namespace PKHeX.WinForms.Controls
             NUD_Purification.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
             NUD_Purification.Name = "NUD_Purification";
             NUD_Purification.Size = new System.Drawing.Size(48, 25);
-            NUD_Purification.TabIndex = 103;
+            NUD_Purification.TabIndex = 0;
             NUD_Purification.ValueChanged += UpdatePurification;
             // 
             // CHK_Shadow
@@ -726,7 +726,7 @@ namespace PKHeX.WinForms.Controls
             CHK_Shadow.Margin = new System.Windows.Forms.Padding(4, 3, 0, 3);
             CHK_Shadow.Name = "CHK_Shadow";
             CHK_Shadow.Size = new System.Drawing.Size(73, 21);
-            CHK_Shadow.TabIndex = 16;
+            CHK_Shadow.TabIndex = 1;
             CHK_Shadow.Text = "Shadow";
             CHK_Shadow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CHK_Shadow.UseVisualStyleBackColor = true;
@@ -740,7 +740,7 @@ namespace PKHeX.WinForms.Controls
             Label_Ability.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_Ability.Name = "Label_Ability";
             Label_Ability.Size = new System.Drawing.Size(46, 17);
-            Label_Ability.TabIndex = 10;
+            Label_Ability.TabIndex = 18;
             Label_Ability.Text = "Ability:";
             Label_Ability.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -753,7 +753,7 @@ namespace PKHeX.WinForms.Controls
             CB_HeldItem.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_HeldItem.Name = "CB_HeldItem";
             CB_HeldItem.Size = new System.Drawing.Size(144, 25);
-            CB_HeldItem.TabIndex = 10;
+            CB_HeldItem.TabIndex = 17;
             CB_HeldItem.SelectedIndexChanged += ValidateComboBox2;
             CB_HeldItem.Validating += ValidateComboBox;
             // 
@@ -765,7 +765,7 @@ namespace PKHeX.WinForms.Controls
             Label_HeldItem.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_HeldItem.Name = "Label_HeldItem";
             Label_HeldItem.Size = new System.Drawing.Size(67, 17);
-            Label_HeldItem.TabIndex = 51;
+            Label_HeldItem.TabIndex = 16;
             Label_HeldItem.Text = "Held Item:";
             Label_HeldItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -779,7 +779,7 @@ namespace PKHeX.WinForms.Controls
             FA_Form.Margin = new System.Windows.Forms.Padding(0);
             FA_Form.Name = "FA_Form";
             FA_Form.Size = new System.Drawing.Size(0, 0);
-            FA_Form.TabIndex = 19;
+            FA_Form.TabIndex = 15;
             FA_Form.ValueChanged += UpdateFormArgument;
             // 
             // L_FormArgument
@@ -790,7 +790,7 @@ namespace PKHeX.WinForms.Controls
             L_FormArgument.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_FormArgument.Name = "L_FormArgument";
             L_FormArgument.Size = new System.Drawing.Size(102, 17);
-            L_FormArgument.TabIndex = 12;
+            L_FormArgument.TabIndex = 14;
             L_FormArgument.Text = "Form Argument:";
             L_FormArgument.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -805,7 +805,7 @@ namespace PKHeX.WinForms.Controls
             CB_Form.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Form.Name = "CB_Form";
             CB_Form.Size = new System.Drawing.Size(144, 25);
-            CB_Form.TabIndex = 12;
+            CB_Form.TabIndex = 13;
             CB_Form.SelectedIndexChanged += UpdateForm;
             // 
             // Label_Form
@@ -816,7 +816,7 @@ namespace PKHeX.WinForms.Controls
             Label_Form.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_Form.Name = "Label_Form";
             Label_Form.Size = new System.Drawing.Size(41, 17);
-            Label_Form.TabIndex = 11;
+            Label_Form.TabIndex = 12;
             Label_Form.Text = "Form:";
             Label_Form.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -829,7 +829,7 @@ namespace PKHeX.WinForms.Controls
             CB_StatNature.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_StatNature.Name = "CB_StatNature";
             CB_StatNature.Size = new System.Drawing.Size(144, 25);
-            CB_StatNature.TabIndex = 10;
+            CB_StatNature.TabIndex = 11;
             CB_StatNature.SelectedIndexChanged += ValidateComboBox2;
             CB_StatNature.Validating += ValidateComboBox;
             // 
@@ -841,7 +841,7 @@ namespace PKHeX.WinForms.Controls
             L_StatNature.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_StatNature.Name = "L_StatNature";
             L_StatNature.Size = new System.Drawing.Size(77, 17);
-            L_StatNature.TabIndex = 8;
+            L_StatNature.TabIndex = 10;
             L_StatNature.Text = "Stat Nature:";
             L_StatNature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             L_StatNature.Click += ClickNature;
@@ -882,7 +882,7 @@ namespace PKHeX.WinForms.Controls
             FLP_EXPLevelRight.Margin = new System.Windows.Forms.Padding(0);
             FLP_EXPLevelRight.Name = "FLP_EXPLevelRight";
             FLP_EXPLevelRight.Size = new System.Drawing.Size(211, 25);
-            FLP_EXPLevelRight.TabIndex = 0;
+            FLP_EXPLevelRight.TabIndex = 7;
             // 
             // TB_EXP
             // 
@@ -893,7 +893,7 @@ namespace PKHeX.WinForms.Controls
             TB_EXP.Mask = "0000000";
             TB_EXP.Name = "TB_EXP";
             TB_EXP.Size = new System.Drawing.Size(56, 25);
-            TB_EXP.TabIndex = 7;
+            TB_EXP.TabIndex = 0;
             TB_EXP.TextChanged += UpdateEXPLevel;
             // 
             // Label_CurLevel
@@ -902,7 +902,7 @@ namespace PKHeX.WinForms.Controls
             Label_CurLevel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_CurLevel.Name = "Label_CurLevel";
             Label_CurLevel.Size = new System.Drawing.Size(64, 21);
-            Label_CurLevel.TabIndex = 7;
+            Label_CurLevel.TabIndex = 1;
             Label_CurLevel.Text = "Level:";
             Label_CurLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             Label_CurLevel.Click += ClickMetLocation;
@@ -916,7 +916,7 @@ namespace PKHeX.WinForms.Controls
             TB_Level.Mask = "000";
             TB_Level.Name = "TB_Level";
             TB_Level.Size = new System.Drawing.Size(24, 25);
-            TB_Level.TabIndex = 8;
+            TB_Level.TabIndex = 2;
             TB_Level.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_Level.Click += ClickLevel;
             TB_Level.TextChanged += UpdateEXPLevel;
@@ -929,7 +929,7 @@ namespace PKHeX.WinForms.Controls
             Label_EXP.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_EXP.Name = "Label_EXP";
             Label_EXP.Size = new System.Drawing.Size(33, 17);
-            Label_EXP.TabIndex = 3;
+            Label_EXP.TabIndex = 6;
             Label_EXP.Text = "EXP:";
             Label_EXP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -943,7 +943,7 @@ namespace PKHeX.WinForms.Controls
             FLP_NicknameLeft.Margin = new System.Windows.Forms.Padding(0);
             FLP_NicknameLeft.Name = "FLP_NicknameLeft";
             FLP_NicknameLeft.Size = new System.Drawing.Size(120, 26);
-            FLP_NicknameLeft.TabIndex = 109;
+            FLP_NicknameLeft.TabIndex = 4;
             // 
             // CHK_Nicknamed
             // 
@@ -953,7 +953,7 @@ namespace PKHeX.WinForms.Controls
             CHK_Nicknamed.Margin = new System.Windows.Forms.Padding(0);
             CHK_Nicknamed.Name = "CHK_Nicknamed";
             CHK_Nicknamed.Size = new System.Drawing.Size(68, 17);
-            CHK_Nicknamed.TabIndex = 5;
+            CHK_Nicknamed.TabIndex = 1;
             CHK_Nicknamed.Text = "Nickname:";
             CHK_Nicknamed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CHK_Nicknamed.Click += CHK_Nicknamed_Click;
@@ -966,7 +966,7 @@ namespace PKHeX.WinForms.Controls
             CHK_NicknamedFlag.Margin = new System.Windows.Forms.Padding(0, 4, 0, 2);
             CHK_NicknamedFlag.Name = "CHK_NicknamedFlag";
             CHK_NicknamedFlag.Size = new System.Drawing.Size(15, 14);
-            CHK_NicknamedFlag.TabIndex = 4;
+            CHK_NicknamedFlag.TabIndex = 0;
             CHK_NicknamedFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CHK_NicknamedFlag.UseVisualStyleBackColor = true;
             CHK_NicknamedFlag.CheckedChanged += UpdateNickname;
@@ -994,7 +994,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Nickname.Margin = new System.Windows.Forms.Padding(0);
             FLP_Nickname.Name = "FLP_Nickname";
             FLP_Nickname.Size = new System.Drawing.Size(211, 26);
-            FLP_Nickname.TabIndex = 2;
+            FLP_Nickname.TabIndex = 5;
             // 
             // TB_Nickname
             // 
@@ -1005,7 +1005,7 @@ namespace PKHeX.WinForms.Controls
             TB_Nickname.MaxLength = 12;
             TB_Nickname.Name = "TB_Nickname";
             TB_Nickname.Size = new System.Drawing.Size(144, 25);
-            TB_Nickname.TabIndex = 5;
+            TB_Nickname.TabIndex = 0;
             TB_Nickname.TextChanged += UpdateIsNicknamed;
             TB_Nickname.MouseDown += UpdateNicknameClick;
             // 
@@ -1018,7 +1018,7 @@ namespace PKHeX.WinForms.Controls
             BTN_NicknameWarn.Margin = new System.Windows.Forms.Padding(0);
             BTN_NicknameWarn.Name = "BTN_NicknameWarn";
             BTN_NicknameWarn.Size = new System.Drawing.Size(24, 24);
-            BTN_NicknameWarn.TabIndex = 110;
+            BTN_NicknameWarn.TabIndex = 1;
             BTN_NicknameWarn.Text = "?";
             BTN_NicknameWarn.UseVisualStyleBackColor = true;
             BTN_NicknameWarn.Click += BTN_NicknameWarn_Click;
@@ -1031,7 +1031,7 @@ namespace PKHeX.WinForms.Controls
             Label_Species.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_Species.Name = "Label_Species";
             Label_Species.Size = new System.Drawing.Size(55, 17);
-            Label_Species.TabIndex = 1;
+            Label_Species.TabIndex = 2;
             Label_Species.Text = "Species:";
             Label_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             Label_Species.Click += UpdateNickname;
@@ -1046,7 +1046,7 @@ namespace PKHeX.WinForms.Controls
             FLP_PIDRight.Margin = new System.Windows.Forms.Padding(0);
             FLP_PIDRight.Name = "FLP_PIDRight";
             FLP_PIDRight.Size = new System.Drawing.Size(211, 25);
-            FLP_PIDRight.TabIndex = 104;
+            FLP_PIDRight.TabIndex = 1;
             // 
             // TB_PID
             // 
@@ -1074,7 +1074,7 @@ namespace PKHeX.WinForms.Controls
             UC_Gender.Margin = new System.Windows.Forms.Padding(0);
             UC_Gender.Name = "UC_Gender";
             UC_Gender.Size = new System.Drawing.Size(24, 24);
-            UC_Gender.TabIndex = 56;
+            UC_Gender.TabIndex = 2;
             UC_Gender.Click += ClickGender;
             // 
             // BTN_RerollPID
@@ -1085,7 +1085,7 @@ namespace PKHeX.WinForms.Controls
             BTN_RerollPID.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             BTN_RerollPID.Name = "BTN_RerollPID";
             BTN_RerollPID.Size = new System.Drawing.Size(56, 24);
-            BTN_RerollPID.TabIndex = 1;
+            BTN_RerollPID.TabIndex = 3;
             BTN_RerollPID.Text = "Reroll";
             BTN_RerollPID.UseVisualStyleBackColor = true;
             BTN_RerollPID.Click += UpdateRandomPID;
@@ -1171,7 +1171,7 @@ namespace PKHeX.WinForms.Controls
             NUD_ShadowID.Maximum = new decimal(new int[] { 127, 0, 0, 0 });
             NUD_ShadowID.Name = "NUD_ShadowID";
             NUD_ShadowID.Size = new System.Drawing.Size(48, 25);
-            NUD_ShadowID.TabIndex = 103;
+            NUD_ShadowID.TabIndex = 29;
             NUD_ShadowID.ValueChanged += UpdateShadowID;
             // 
             // Hidden_Met
@@ -2596,7 +2596,7 @@ namespace PKHeX.WinForms.Controls
             TB_FriendshipHT.Mask = "000";
             TB_FriendshipHT.Name = "TB_FriendshipHT";
             TB_FriendshipHT.Size = new System.Drawing.Size(24, 25);
-            TB_FriendshipHT.TabIndex = 54;
+            TB_FriendshipHT.TabIndex = 19;
             TB_FriendshipHT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_FriendshipHT.Validated += Update255_MTB;
             // 
@@ -2611,7 +2611,7 @@ namespace PKHeX.WinForms.Controls
             CAL_ReceivedDateTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             CAL_ReceivedDateTime.Name = "CAL_ReceivedDateTime";
             CAL_ReceivedDateTime.Size = new System.Drawing.Size(229, 25);
-            CAL_ReceivedDateTime.TabIndex = 51;
+            CAL_ReceivedDateTime.TabIndex = 27;
             // 
             // L_ArrivedDateTime
             // 
@@ -2623,7 +2623,7 @@ namespace PKHeX.WinForms.Controls
             L_ArrivedDateTime.Name = "L_ArrivedDateTime";
             L_ArrivedDateTime.Padding = new System.Windows.Forms.Padding(0, 16, 0, 0);
             L_ArrivedDateTime.Size = new System.Drawing.Size(195, 33);
-            L_ArrivedDateTime.TabIndex = 52;
+            L_ArrivedDateTime.TabIndex = 26;
             L_ArrivedDateTime.Text = "Acquired by current handler at...";
             L_ArrivedDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -2635,7 +2635,7 @@ namespace PKHeX.WinForms.Controls
             Label_EncryptionConstant.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_EncryptionConstant.Name = "Label_EncryptionConstant";
             Label_EncryptionConstant.Size = new System.Drawing.Size(127, 17);
-            Label_EncryptionConstant.TabIndex = 32;
+            Label_EncryptionConstant.TabIndex = 24;
             Label_EncryptionConstant.Text = "Encryption Constant:";
             Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -2649,7 +2649,7 @@ namespace PKHeX.WinForms.Controls
             TB_HomeTracker.Name = "TB_HomeTracker";
             TB_HomeTracker.PlaceholderText = "0123456789ABCDEF";
             TB_HomeTracker.Size = new System.Drawing.Size(120, 20);
-            TB_HomeTracker.TabIndex = 31;
+            TB_HomeTracker.TabIndex = 23;
             TB_HomeTracker.Validated += Update_ID64;
             // 
             // L_HomeTracker
@@ -2660,7 +2660,7 @@ namespace PKHeX.WinForms.Controls
             L_HomeTracker.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_HomeTracker.Name = "L_HomeTracker";
             L_HomeTracker.Size = new System.Drawing.Size(95, 17);
-            L_HomeTracker.TabIndex = 30;
+            L_HomeTracker.TabIndex = 22;
             L_HomeTracker.Text = "HOME Tracker:";
             L_HomeTracker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -2673,7 +2673,7 @@ namespace PKHeX.WinForms.Controls
             L_ExtraBytes.Name = "L_ExtraBytes";
             L_ExtraBytes.Padding = new System.Windows.Forms.Padding(0, 20, 0, 4);
             L_ExtraBytes.Size = new System.Drawing.Size(74, 41);
-            L_ExtraBytes.TabIndex = 18;
+            L_ExtraBytes.TabIndex = 20;
             L_ExtraBytes.Text = "Extra Bytes:";
             L_ExtraBytes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -2688,7 +2688,7 @@ namespace PKHeX.WinForms.Controls
             FLP_EncryptionConstant.Margin = new System.Windows.Forms.Padding(0);
             FLP_EncryptionConstant.Name = "FLP_EncryptionConstant";
             FLP_EncryptionConstant.Size = new System.Drawing.Size(195, 24);
-            FLP_EncryptionConstant.TabIndex = 50;
+            FLP_EncryptionConstant.TabIndex = 25;
             // 
             // TB_EC
             // 
@@ -2701,7 +2701,7 @@ namespace PKHeX.WinForms.Controls
             TB_EC.Name = "TB_EC";
             TB_EC.PlaceholderText = "12345678";
             TB_EC.Size = new System.Drawing.Size(64, 20);
-            TB_EC.TabIndex = 33;
+            TB_EC.TabIndex = 0;
             TB_EC.Validated += Update_ID;
             // 
             // BTN_RerollEC
@@ -2711,7 +2711,7 @@ namespace PKHeX.WinForms.Controls
             BTN_RerollEC.Margin = new System.Windows.Forms.Padding(0);
             BTN_RerollEC.Name = "BTN_RerollEC";
             BTN_RerollEC.Size = new System.Drawing.Size(56, 24);
-            BTN_RerollEC.TabIndex = 34;
+            BTN_RerollEC.TabIndex = 1;
             BTN_RerollEC.Text = "Reroll";
             BTN_RerollEC.UseVisualStyleBackColor = true;
             BTN_RerollEC.Click += UpdateRandomEC;
@@ -2724,7 +2724,7 @@ namespace PKHeX.WinForms.Controls
             Label_PrevOT.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_PrevOT.Name = "Label_PrevOT";
             Label_PrevOT.Size = new System.Drawing.Size(27, 17);
-            Label_PrevOT.TabIndex = 1;
+            Label_PrevOT.TabIndex = 14;
             Label_PrevOT.Text = "OT:";
             Label_PrevOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             Label_PrevOT.Click += ClickCT;
@@ -2739,7 +2739,7 @@ namespace PKHeX.WinForms.Controls
             TB_Friendship.Mask = "000";
             TB_Friendship.Name = "TB_Friendship";
             TB_Friendship.Size = new System.Drawing.Size(24, 25);
-            TB_Friendship.TabIndex = 11;
+            TB_Friendship.TabIndex = 5;
             TB_Friendship.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_Friendship.Validated += Update255_MTB;
             // 
@@ -2753,7 +2753,7 @@ namespace PKHeX.WinForms.Controls
             FLP_FriendshipLeft.Margin = new System.Windows.Forms.Padding(0);
             FLP_FriendshipLeft.Name = "FLP_FriendshipLeft";
             FLP_FriendshipLeft.Size = new System.Drawing.Size(136, 26);
-            FLP_FriendshipLeft.TabIndex = 0;
+            FLP_FriendshipLeft.TabIndex = 4;
             // 
             // Label_Friendship
             // 
@@ -2763,7 +2763,7 @@ namespace PKHeX.WinForms.Controls
             Label_Friendship.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_Friendship.Name = "Label_Friendship";
             Label_Friendship.Size = new System.Drawing.Size(71, 17);
-            Label_Friendship.TabIndex = 9;
+            Label_Friendship.TabIndex = 0;
             Label_Friendship.Text = "Friendship:";
             Label_Friendship.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             Label_Friendship.Click += ClickFriendship;
@@ -2776,7 +2776,7 @@ namespace PKHeX.WinForms.Controls
             Label_HatchCounter.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_HatchCounter.Name = "Label_HatchCounter";
             Label_HatchCounter.Size = new System.Drawing.Size(94, 17);
-            Label_HatchCounter.TabIndex = 61;
+            Label_HatchCounter.TabIndex = 1;
             Label_HatchCounter.Text = "Hatch Counter:";
             Label_HatchCounter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             Label_HatchCounter.Click += ClickFriendship;
@@ -2791,7 +2791,7 @@ namespace PKHeX.WinForms.Controls
             FLP_HT.Margin = new System.Windows.Forms.Padding(0);
             FLP_HT.Name = "FLP_HT";
             FLP_HT.Size = new System.Drawing.Size(118, 26);
-            FLP_HT.TabIndex = 10;
+            FLP_HT.TabIndex = 15;
             // 
             // TB_HT
             // 
@@ -2801,7 +2801,7 @@ namespace PKHeX.WinForms.Controls
             TB_HT.MaxLength = 12;
             TB_HT.Name = "TB_HT";
             TB_HT.Size = new System.Drawing.Size(94, 25);
-            TB_HT.TabIndex = 2;
+            TB_HT.TabIndex = 0;
             TB_HT.WordWrap = false;
             TB_HT.TextChanged += UpdateNotOT;
             TB_HT.MouseDown += UpdateNicknameClick;
@@ -2816,7 +2816,7 @@ namespace PKHeX.WinForms.Controls
             UC_HTGender.Margin = new System.Windows.Forms.Padding(0);
             UC_HTGender.Name = "UC_HTGender";
             UC_HTGender.Size = new System.Drawing.Size(24, 24);
-            UC_HTGender.TabIndex = 3;
+            UC_HTGender.TabIndex = 1;
             // 
             // CB_3DSReg
             // 
@@ -2826,7 +2826,7 @@ namespace PKHeX.WinForms.Controls
             CB_3DSReg.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_3DSReg.Name = "CB_3DSReg";
             CB_3DSReg.Size = new System.Drawing.Size(126, 25);
-            CB_3DSReg.TabIndex = 23;
+            CB_3DSReg.TabIndex = 11;
             // 
             // Label_3DSRegion
             // 
@@ -2836,7 +2836,7 @@ namespace PKHeX.WinForms.Controls
             Label_3DSRegion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_3DSRegion.Name = "Label_3DSRegion";
             Label_3DSRegion.Size = new System.Drawing.Size(79, 17);
-            Label_3DSRegion.TabIndex = 18;
+            Label_3DSRegion.TabIndex = 10;
             Label_3DSRegion.Text = "3DS Region:";
             Label_3DSRegion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -2850,7 +2850,7 @@ namespace PKHeX.WinForms.Controls
             CB_SubRegion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_SubRegion.Name = "CB_SubRegion";
             CB_SubRegion.Size = new System.Drawing.Size(126, 25);
-            CB_SubRegion.TabIndex = 22;
+            CB_SubRegion.TabIndex = 9;
             CB_SubRegion.Validating += ValidateComboBox;
             // 
             // Label_SubRegion
@@ -2861,7 +2861,7 @@ namespace PKHeX.WinForms.Controls
             Label_SubRegion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_SubRegion.Name = "Label_SubRegion";
             Label_SubRegion.Size = new System.Drawing.Size(78, 17);
-            Label_SubRegion.TabIndex = 17;
+            Label_SubRegion.TabIndex = 8;
             Label_SubRegion.Text = "Sub Region:";
             Label_SubRegion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -2875,7 +2875,7 @@ namespace PKHeX.WinForms.Controls
             CB_Country.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Country.Name = "CB_Country";
             CB_Country.Size = new System.Drawing.Size(126, 25);
-            CB_Country.TabIndex = 21;
+            CB_Country.TabIndex = 7;
             CB_Country.SelectedIndexChanged += UpdateCountry;
             CB_Country.Validating += ValidateComboBox;
             // 
@@ -2887,7 +2887,7 @@ namespace PKHeX.WinForms.Controls
             Label_Country.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_Country.Name = "Label_Country";
             Label_Country.Size = new System.Drawing.Size(56, 17);
-            Label_Country.TabIndex = 16;
+            Label_Country.TabIndex = 6;
             Label_Country.Text = "Country:";
             Label_Country.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -2903,7 +2903,7 @@ namespace PKHeX.WinForms.Controls
             FLP_OT.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             FLP_OT.Name = "FLP_OT";
             FLP_OT.Size = new System.Drawing.Size(195, 26);
-            FLP_OT.TabIndex = 2;
+            FLP_OT.TabIndex = 3;
             // 
             // TB_OT
             // 
@@ -2913,7 +2913,7 @@ namespace PKHeX.WinForms.Controls
             TB_OT.MaxLength = 12;
             TB_OT.Name = "TB_OT";
             TB_OT.Size = new System.Drawing.Size(94, 25);
-            TB_OT.TabIndex = 3;
+            TB_OT.TabIndex = 0;
             TB_OT.TextChanged += RefreshFontWarningButton;
             TB_OT.MouseDown += UpdateNicknameClick;
             // 
@@ -2927,7 +2927,7 @@ namespace PKHeX.WinForms.Controls
             UC_OTGender.Margin = new System.Windows.Forms.Padding(0);
             UC_OTGender.Name = "UC_OTGender";
             UC_OTGender.Size = new System.Drawing.Size(24, 24);
-            UC_OTGender.TabIndex = 4;
+            UC_OTGender.TabIndex = 1;
             // 
             // BTN_OTNameWarn
             // 
@@ -2938,7 +2938,7 @@ namespace PKHeX.WinForms.Controls
             BTN_OTNameWarn.Margin = new System.Windows.Forms.Padding(0);
             BTN_OTNameWarn.Name = "BTN_OTNameWarn";
             BTN_OTNameWarn.Size = new System.Drawing.Size(24, 24);
-            BTN_OTNameWarn.TabIndex = 111;
+            BTN_OTNameWarn.TabIndex = 2;
             BTN_OTNameWarn.Text = "?";
             BTN_OTNameWarn.UseVisualStyleBackColor = true;
             BTN_OTNameWarn.Click += BTN_OTNameWarn_Click;
@@ -2966,7 +2966,7 @@ namespace PKHeX.WinForms.Controls
             GB_OT.Name = "GB_OT";
             GB_OT.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
             GB_OT.Size = new System.Drawing.Size(275, 21);
-            GB_OT.TabIndex = 47;
+            GB_OT.TabIndex = 0;
             GB_OT.Text = "Trainer Information";
             GB_OT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             GB_OT.Click += ClickGT;
@@ -2996,7 +2996,7 @@ namespace PKHeX.WinForms.Controls
             FLP_ExtraBytes.Name = "FLP_ExtraBytes";
             FLP_ExtraBytes.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
             FLP_ExtraBytes.Size = new System.Drawing.Size(195, 49);
-            FLP_ExtraBytes.TabIndex = 20;
+            FLP_ExtraBytes.TabIndex = 21;
             // 
             // CB_ExtraBytes
             // 
@@ -3006,7 +3006,7 @@ namespace PKHeX.WinForms.Controls
             CB_ExtraBytes.Margin = new System.Windows.Forms.Padding(0, 20, 0, 0);
             CB_ExtraBytes.Name = "CB_ExtraBytes";
             CB_ExtraBytes.Size = new System.Drawing.Size(64, 25);
-            CB_ExtraBytes.TabIndex = 1;
+            CB_ExtraBytes.TabIndex = 0;
             CB_ExtraBytes.SelectedIndexChanged += UpdateExtraByteIndex;
             // 
             // TB_ExtraByte
@@ -3016,7 +3016,7 @@ namespace PKHeX.WinForms.Controls
             TB_ExtraByte.Mask = "000";
             TB_ExtraByte.Name = "TB_ExtraByte";
             TB_ExtraByte.Size = new System.Drawing.Size(32, 25);
-            TB_ExtraByte.TabIndex = 2;
+            TB_ExtraByte.TabIndex = 1;
             TB_ExtraByte.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             TB_ExtraByte.Validated += UpdateExtraByteValue;
             // 
@@ -3030,7 +3030,7 @@ namespace PKHeX.WinForms.Controls
             GB_nOT.Name = "GB_nOT";
             GB_nOT.Padding = new System.Windows.Forms.Padding(0, 16, 0, 4);
             GB_nOT.Size = new System.Drawing.Size(275, 37);
-            GB_nOT.TabIndex = 48;
+            GB_nOT.TabIndex = 13;
             GB_nOT.Text = "Latest (not OT) Handler";
             GB_nOT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             GB_nOT.Click += ClickGT;
@@ -3048,7 +3048,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Handler.Name = "FLP_Handler";
             FLP_Handler.Padding = new System.Windows.Forms.Padding(0, 16, 0, 0);
             FLP_Handler.Size = new System.Drawing.Size(331, 41);
-            FLP_Handler.TabIndex = 6;
+            FLP_Handler.TabIndex = 12;
             // 
             // L_CurrentHandler
             // 
@@ -3059,7 +3059,7 @@ namespace PKHeX.WinForms.Controls
             L_CurrentHandler.Name = "L_CurrentHandler";
             L_CurrentHandler.Padding = new System.Windows.Forms.Padding(56, 0, 0, 0);
             L_CurrentHandler.Size = new System.Drawing.Size(160, 17);
-            L_CurrentHandler.TabIndex = 18;
+            L_CurrentHandler.TabIndex = 0;
             L_CurrentHandler.Text = "Current Handler:";
             L_CurrentHandler.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -3083,7 +3083,7 @@ namespace PKHeX.WinForms.Controls
             CB_HTLanguage.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_HTLanguage.Name = "CB_HTLanguage";
             CB_HTLanguage.Size = new System.Drawing.Size(126, 25);
-            CB_HTLanguage.TabIndex = 4;
+            CB_HTLanguage.TabIndex = 17;
             // 
             // L_FriendshipHT
             // 
@@ -3093,7 +3093,7 @@ namespace PKHeX.WinForms.Controls
             L_FriendshipHT.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_FriendshipHT.Name = "L_FriendshipHT";
             L_FriendshipHT.Size = new System.Drawing.Size(71, 17);
-            L_FriendshipHT.TabIndex = 53;
+            L_FriendshipHT.TabIndex = 18;
             L_FriendshipHT.Text = "Friendship:";
             L_FriendshipHT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -3105,7 +3105,7 @@ namespace PKHeX.WinForms.Controls
             L_LanguageHT.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_LanguageHT.Name = "L_LanguageHT";
             L_LanguageHT.Size = new System.Drawing.Size(68, 17);
-            L_LanguageHT.TabIndex = 18;
+            L_LanguageHT.TabIndex = 16;
             L_LanguageHT.Text = "Language:";
             L_LanguageHT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
