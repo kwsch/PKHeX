@@ -48,6 +48,10 @@ public sealed class SubEventLog6XY(SAV6XY sav, Memory<byte> raw) : SubEventLog6(
 
     // 0x00
     // u8[0x28] chateau data
+
+    public const ushort ChateauRankMax = 0xF;
+    public const ushort ChateauPointsMax = 0x0FFF;
+
     private ushort ChateauValue
     {
         get => ReadUInt16LittleEndian(Data);
@@ -65,6 +69,28 @@ public sealed class SubEventLog6XY(SAV6XY sav, Memory<byte> raw) : SubEventLog6(
         get => (ushort)(ChateauValue >> 4);
         set => ChateauValue = (ushort)((ushort)(value << 4) | (ChateauValue & 0xFu));
     }
+
+    public void SetChateau(ushort rank, ushort points)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(rank, ChateauRankMax);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(points, ChateauPointsMax);
+
+        ChateauPoints = points;
+        ChateauRank = rank;
+    }
+
+    public static ushort GetChateauPointsForRank(ushort rank) => rank switch
+    {
+        0 => 0,
+        1 => 5,
+        2 => 30,
+        3 => 100,
+        4 => 300,
+        5 => 1000,
+        _ => throw new ArgumentOutOfRangeException(nameof(rank)),
+    };
+
+    public void SetChateauByRank(ushort rank) => SetChateau(rank, GetChateauPointsForRank(rank));
     // other château data?
     // u32 SUBE @ 0x28
 
@@ -85,6 +111,16 @@ public sealed class SubEventLog6XY(SAV6XY sav, Memory<byte> raw) : SubEventLog6(
 
     // 0x268
     // u8[0xA0] unused?
+}
+
+public enum BattleChateauRank6 : ushort
+{
+    Baron = 0,
+    Viscount = 1,
+    Earl = 2,
+    Marquis = 3,
+    Duke = 4,
+    GrandDuke = 5,
 }
 
 public sealed class SubEventLog6AO(SAV6AO sav, Memory<byte> raw) : SubEventLog6(sav, raw)

@@ -181,6 +181,7 @@ public static class DevUtil
 
         typeof(PassPower5),
         typeof(Funfest5Mission),
+        typeof(BattleChateauRank6),
         typeof(OPower6Index),
         typeof(OPower6FieldType),
         typeof(OPower6BattleType),
