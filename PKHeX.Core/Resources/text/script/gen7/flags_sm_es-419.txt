@@ -22,7 +22,7 @@
 0172	g	Intercambio por Graveler en Aldea Tapu
 0173	g	Intercambio por Steene en Aldea Marina
 0174	g	Intercambio por Talonflame en Pendiente de Poni
-0789	s	Lylia desaparecida del Altar
+0789	s	Lillie desaparecida del Altar
 0790	s	Solgaleo desaparecido del Altar
 0791	s	Lunala desaparecido del Altar
 0185	s	Primera batalla por la Defensa del Título realizada
