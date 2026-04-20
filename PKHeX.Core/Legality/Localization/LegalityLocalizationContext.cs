@@ -128,6 +128,7 @@ public readonly ref struct LegalityLocalizationContext
         EncTradeShouldHaveEvolvedToSpecies_0 => string.Format(format, GetSpeciesName(chk.Argument)),
         MoveEvoFCombination_0 => string.Format(format, GetSpeciesName(chk.Argument)),
         HintEvolvesToSpecies_0 => string.Format(format, GetSpeciesName(chk.Argument)),
+        EvoTradeReqOutsider_01 => string.Format(format, GetSpeciesName(chk.Argument), GetSpeciesName(chk.Argument2)),
 
         RibbonMarkingInvalid_0 => string.Format(format, GetRibbonName((RibbonIndex)chk.Argument)),
         RibbonMarkingMissing_0 => string.Format(format, GetRibbonName((RibbonIndex)chk.Argument)),

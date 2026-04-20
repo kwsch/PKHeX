@@ -134,7 +134,7 @@ public static class LegalityCheckResultCodeExtensions
 
             // Evolution
             EvoInvalid => localization.EvoInvalid,
-            EvoTradeReqOutsider_0 => localization.EvoTradeReqOutsider,
+            EvoTradeReqOutsider_01 => localization.EvoTradeReqOutsider,
             EvoTradeRequired => localization.EvoTradeRequired,
 
             // Form
