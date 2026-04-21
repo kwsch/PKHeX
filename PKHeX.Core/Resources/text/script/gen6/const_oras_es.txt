@@ -13,12 +13,12 @@
 0136	s	Evento de la Ruta 118	0:Encuentro con Máximo,1:Prohibido el paso,2:Paso permitido
 0167	s	Evento de la Isla del Sur	0:Sin acceso,1:Isla del Sur accedida,2:Mensaje escuchado,4:Completado
 0168	s	Lati@s de la Isla del Sur	0:Sin recibir (Batalla contra Matías/Carola pendiente),1:Recibido
-0163	s	Evento de la Ruta 120	0:Steven Appeared,1:Kecleon Battle Pending (Bridge),2:Kecleon Defeated,3:Allowed Further Access
-0196	s	Progreso de la Casa Treta	0:Maestro Treta Hiding (Puzzle 1),1:Puzzle 1 Active,2:Finished Puzzle 1,3:Maestro Treta Hiding (Puzzle 2),4:Puzzle 2 Active,5:Finished Puzzle 2,6:Maestro Treta Hiding (Puzzle 3),7:Puzzle 3 Active,8:Finished Puzzle 3,9:Maestro Treta Hiding (Puzzle 4),10:Puzzle 4 Active,11:Finished Puzzle 4,12:Maestro Treta Hiding (Puzzle 5),13:Puzzle 5 Active,14:Finished Puzzle 5,15:Maestro Treta Hiding (Puzzle 6),16:Puzzle 6 Active,17:Finished Puzzle 6,18:All Puzzles Completed
-0197	s	Recompensas pruebas Casa Treta	0:MT12 Pending,1:Received MT12,2:Hard Stone Pending,3:Received Hard Stone,4:MT92 Pending,5:Received MT92,6:Smoke Ball Pending,7:Received Smoke Ball,8:Magnet Pending,9:Received Magnet,10:Red/Blue Tent Pending,11:Received Red/Blue Tent
-0198	s	Manuscrito Casa Treta Puzzle 1	0:No memorizado,1:Memorizado
-0199	s	Manuscrito Casa Treta Puzzle 2	0:No memorizado,1:Memorizado
-0200	s	Manuscrito Casa Treta Puzzle 3	0:No memorizado,1:Memorizado
-0201	s	Manuscrito Casa Treta Puzzle 4	0:No memorizado,1:Memorizado
-0202	s	Manuscrito Casa Treta Puzzle 5	0:No memorizado,1:Memorizado
-0203	s	Manuscrito Casa Treta Puzzle 6	0:No memorizado,1:Memorizado
+0163	s	Evento de la Ruta 120	0:Apareció Máximo,1:Combate con Kecleon pendiente (Puente),2:Kecleon derrotado,3:Acceso permitido
+0196	s	Progreso de la Casa Treta	0:Maestro Treta escondido (Prueba 1),1:Prueba 1 Activa,2:Prueba 1 terminada,3:Maestro Treta escondido (Prueba 2),4:Prueba 2 Activa,5:Prueba 2 terminada,6:Maestro Treta escondido (Prueba 3),7:Puzzle 3 Activa,8:Prueba 3 terminada,9:Maestro Treta escondido (Prueba 4),10:Prueba 4 Activa,11:Prueba 4 terminada,12:Maestro Treta escondido (Prueba 5),13:Prueba 5 Activa,14:Prueba 5 terminada,15:Maestro Treta escondido (Prueba 6),16:Prueba 6 Activa,17:Prueba 6 terminada,18:Todas las pruebas completadas
+0197	s	Recompensas pruebas Casa Treta	0:MT12 pendiente,1:MT12 recibida,2:Piedra Dura pendiente,3:Piedra Dura recibida,4:MT92 pendiente,5:MT92 recibida,6:Bola de Humo pendiente,7:Bola de Humo recibida,8:Imán pendiente,9:Imán recibido,10:Tienda Roja/Azul pendiente,11:Tienda Roja/Azul recibida
+0198	s	Pergamino Casa Treta Prueba 1	0:No memorizado,1:Memorizado
+0199	s	Pergamino Casa Treta Prueba 2	0:No memorizado,1:Memorizado
+0200	s	Pergamino Casa Treta Prueba 3	0:No memorizado,1:Memorizado
+0201	s	Pergamino Casa Treta Prueba 4	0:No memorizado,1:Memorizado
+0202	s	Pergamino Casa Treta Prueba 5	0:No memorizado,1:Memorizado
+0203	s	Pergamino Casa Treta Prueba 6	0:No memorizado,1:Memorizado

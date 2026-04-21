@@ -89,9 +89,9 @@
 0167	g	Intercambio por Skitty en Ciudad Arborada
 0168	g	Intercambio por Corsola en Pueblo Oromar
 0692	s	Família Estratega derrotada (Ruta 111)
-0806	s	Máximo desaparecido del puente de la Ruta 120
+0806	s	Steven desaparecido del puente de la Ruta 120
 0808	g	Criapokémon (cambio de Pikachu coqueta) desaparecida
-0699	s	Steven and Lati@s desaparecido from Ruta 118
+0699	s	Steven y Lati@s desaparecido de la Ruta 118
 0789	s	Fósil raíz desaparecido de la Ruta 111
 0790	s	Fósil garra desaparecido de la Ruta 111
 0927	r	Voltorb (1) desaparecido de Nueva Malvalanova

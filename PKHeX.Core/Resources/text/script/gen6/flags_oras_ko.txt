@@ -85,9 +85,9 @@
 0310	g	성도 스타팅 받음
 0349	g	신오 스타팅 받음
 0311	g	하나 스타팅 받음
-0166	g	In-Game Trade Slakoth for Makuhita (Rustboro City)
-0167	g	In-Game Trade Spinda for Skitty (Fortree City)
-0168	g	In-Game Trade Bellosom for Corsola (Pacifidlog Town)
+0166	g	인게임 교환 게을로와 마크탕 (금탄도시)
+0167	g	인게임 교환 얼루기와 에나비 (검방울시티)
+0168	g	인게임 교환 아르코와 코산호 (황금마을)
 0692	s	쓰러뜨림 연승가족
 0806	s	성호 사라짐 (120번도로 다리)
 0808	g	브리더 (옷갈아입기 피카츄 의상 체인저) 사라짐

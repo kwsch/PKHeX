@@ -284,7 +284,7 @@
     "StatIncorrectWeightValue_0": "El peso debería ser {0}.",
     "StatIncorrectScaleValue_0": "La escala debería ser {0}.",
     "StatInvalidHeightWeight": "Los valores de altura/peso son estadísticamente improbables.",
-    "StatIncorrectCP": "Los CP calculados no coinciden con el valor almacenado.",
+    "StatIncorrectCP": "Los PC calculados no coinciden con el valor almacenado.",
     "StatGigantamaxInvalid": "Gigamax incompatible.",
     "StatGigantamaxValid": "La marca de Gigamax fue cambiada por Maxisopa.",
     "StatNatureInvalid": "La estadística de la naturaleza no está dentro del rango esperado.",
