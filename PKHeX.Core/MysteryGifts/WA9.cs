@@ -464,16 +464,6 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         pk.IsNicknamed = GetIsNicknamed(language);
         pk.Nickname = pk.IsNicknamed ? GetNickname(language) : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
 
-        // No ribbons set.
-        // for (var i = 0; i < RibbonBytesCount; i++)
-        // {
-        //     var ribbon = GetRibbonAtIndex(i);
-        //     if (ribbon == RibbonByteNone)
-        //         continue;
-        //     pk.SetRibbon(ribbon);
-        //     pk.AffixedRibbon = (sbyte)ribbon;
-        // }
-
         SetPINGA(pk, criteria, pi);
         SetMoves(currentLevel, pk, pi);
         pk.HealPP();
@@ -481,6 +471,19 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         if (IsEgg)
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
+
+        if (IsHOMEGift)
+        {
+            for (var i = 0; i < RibbonBytesCount; i++)
+            {
+                var ribbon = GetRibbonAtIndex(i);
+                if (ribbon == RibbonByteNone)
+                    continue;
+                pk.SetRibbon(ribbon);
+                pk.AffixedRibbon = (sbyte)ribbon;
+            }
+            pk.Scale = pk.HeightScalar = pk.WeightScalar = Scale == 256 ? (byte)rnd.Next(256) : (byte)Scale;
+        }
 
         pk.ResetPartyStats();
         pk.RefreshChecksum();
@@ -517,15 +520,34 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
     private void SetPINGA(PA9 pk, EncounterCriteria criteria, PersonalInfo9ZA pi)
     {
-        var param = GetParams(pi);
-        ulong init = Util.Rand.Rand64();
-        var success = this.TryApply64(pk, init, param, criteria);
-        if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
-            this.TryApply64(pk, init, param, EncounterCriteria.Unrestricted);
+        if (IsHOMEGift) // Do not use LumioseRNG for HOME gifts
+        {
+            pk.Nature = pk.StatNature = criteria.GetNature((sbyte)Nature == -1 ? Nature.Random : Nature);
+            pk.Gender = criteria.GetGender(Gender, pi);
+            var av = GetAbilityIndex(criteria, AbilityType);
+            pk.RefreshAbility(av);
+            SetPID(pk);
+            SetIVs(pk);
+        }
+        else
+        {
+            var param = GetParams(pi);
+            ulong init = Util.Rand.Rand64();
+            var success = this.TryApply64(pk, init, param, criteria);
+            if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
+                this.TryApply64(pk, init, param, EncounterCriteria.Unrestricted);
 
-        if (PIDType is not (ShinyType8.Never or ShinyType8.Random))
-            pk.PID = GetPID(pk, PIDType);
+            if (PIDType is not (ShinyType8.Never or ShinyType8.Random))
+                pk.PID = GetPID(pk, PIDType);
+        }
     }
+
+    private int GetAbilityIndex(in EncounterCriteria criteria, int type) => type switch
+    {
+        00 or 01 or 02 => type, // Fixed 0/1/2
+        03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H
+        _ => throw new ArgumentOutOfRangeException(nameof(type)),
+    };
 
     public override AbilityPermission Ability => AbilityType switch
     {
@@ -563,6 +585,39 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         if (tr.IsShiny(pid, 9))
             return pid ^ 0x1000_0000;
         return pid;
+    }
+
+    private void SetPID(PA9 pk)
+    {
+        pk.PID = GetPID(pk, PIDType);
+    }
+
+    private void SetIVs(PA9 pk)
+    {
+        Span<int> finalIVs = stackalloc int[6];
+        GetIVs(finalIVs);
+        var ivflag = finalIVs.IndexOfAny(0xFC, 0xFD, 0xFE);
+        var rng = Util.Rand;
+        if (ivflag == -1) // Random IVs
+        {
+            for (int i = 0; i < finalIVs.Length; i++)
+            {
+                if (finalIVs[i] > 31)
+                    finalIVs[i] = rng.Next(32);
+            }
+        }
+        else // 1/2/3 perfect IVs
+        {
+            int IVCount = finalIVs[ivflag] - 0xFB;
+            do { finalIVs[rng.Next(6)] = 31; }
+            while (finalIVs.Count(31) < IVCount);
+            for (int i = 0; i < finalIVs.Length; i++)
+            {
+                if (finalIVs[i] != 31)
+                    finalIVs[i] = IsHOMEGift ? 20 : rng.Next(32); // HOME ZA-starters gifts have 20 in non-perfect IVs
+            }
+        }
+        pk.SetIVs(finalIVs);
     }
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
@@ -681,117 +736,116 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
     #region Lazy Ribbon Implementation
 
-    private static bool HasRibbon(RibbonIndex _) => false; // HasRibbon(index); // ZA is hard-coded to never set ribbons, so we need to return false for validation/setting.
-    public bool RibbonEarth { get => HasRibbon(Earth); set => this.SetRibbonIndex(Earth, value); }
-    public bool RibbonNational { get => HasRibbon(National); set => this.SetRibbonIndex(National, value); }
-    public bool RibbonCountry { get => HasRibbon(Country); set => this.SetRibbonIndex(Country, value); }
-    public bool RibbonChampionBattle { get => HasRibbon(ChampionBattle); set => this.SetRibbonIndex(ChampionBattle, value); }
-    public bool RibbonChampionRegional { get => HasRibbon(ChampionRegional); set => this.SetRibbonIndex(ChampionRegional, value); }
-    public bool RibbonChampionNational { get => HasRibbon(ChampionNational); set => this.SetRibbonIndex(ChampionNational, value); }
-    public bool RibbonClassic { get => HasRibbon(Classic); set => this.SetRibbonIndex(Classic, value); }
-    public bool RibbonWishing { get => HasRibbon(Wishing); set => this.SetRibbonIndex(Wishing, value); }
-    public bool RibbonPremier { get => HasRibbon(Premier); set => this.SetRibbonIndex(Premier, value); }
-    public bool RibbonEvent { get => HasRibbon(Event); set => this.SetRibbonIndex(Event, value); }
-    public bool RibbonBirthday { get => HasRibbon(Birthday); set => this.SetRibbonIndex(Birthday, value); }
-    public bool RibbonSpecial { get => HasRibbon(Special); set => this.SetRibbonIndex(Special, value); }
-    public bool RibbonWorld { get => HasRibbon(World); set => this.SetRibbonIndex(World, value); }
-    public bool RibbonChampionWorld { get => HasRibbon(ChampionWorld); set => this.SetRibbonIndex(ChampionWorld, value); }
-    public bool RibbonSouvenir { get => HasRibbon(Souvenir); set => this.SetRibbonIndex(Souvenir, value); }
-    public bool RibbonChampionG3 { get => HasRibbon(ChampionG3); set => this.SetRibbonIndex(ChampionG3, value); }
-    public bool RibbonArtist { get => HasRibbon(Artist); set => this.SetRibbonIndex(Artist, value); }
-    public bool RibbonEffort { get => HasRibbon(Effort); set => this.SetRibbonIndex(Effort, value); }
-    public bool RibbonChampionSinnoh { get => HasRibbon(ChampionSinnoh); set => this.SetRibbonIndex(ChampionSinnoh, value); }
-    public bool RibbonAlert { get => HasRibbon(Alert); set => this.SetRibbonIndex(Alert, value); }
-    public bool RibbonShock { get => HasRibbon(Shock); set => this.SetRibbonIndex(Shock, value); }
-    public bool RibbonDowncast { get => HasRibbon(Downcast); set => this.SetRibbonIndex(Downcast, value); }
-    public bool RibbonCareless { get => HasRibbon(Careless); set => this.SetRibbonIndex(Careless, value); }
-    public bool RibbonRelax { get => HasRibbon(Relax); set => this.SetRibbonIndex(Relax, value); }
-    public bool RibbonSnooze { get => HasRibbon(Snooze); set => this.SetRibbonIndex(Snooze, value); }
-    public bool RibbonSmile { get => HasRibbon(Smile); set => this.SetRibbonIndex(Smile, value); }
-    public bool RibbonGorgeous { get => HasRibbon(Gorgeous); set => this.SetRibbonIndex(Gorgeous, value); }
-    public bool RibbonRoyal { get => HasRibbon(Royal); set => this.SetRibbonIndex(Royal, value); }
-    public bool RibbonGorgeousRoyal { get => HasRibbon(GorgeousRoyal); set => this.SetRibbonIndex(GorgeousRoyal, value); }
-    public bool RibbonFootprint { get => HasRibbon(Footprint); set => this.SetRibbonIndex(Footprint, value); }
-    public bool RibbonRecord { get => HasRibbon(Record); set => this.SetRibbonIndex(Record, value); }
-    public bool RibbonLegend { get => HasRibbon(Legend); set => this.SetRibbonIndex(Legend, value); }
-    public bool RibbonChampionKalos { get => HasRibbon(ChampionKalos); set => this.SetRibbonIndex(ChampionKalos, value); }
-    public bool RibbonChampionG6Hoenn { get => HasRibbon(ChampionG6Hoenn); set => this.SetRibbonIndex(ChampionG6Hoenn, value); }
-    public bool RibbonBestFriends { get => HasRibbon(BestFriends); set => this.SetRibbonIndex(BestFriends, value); }
-    public bool RibbonTraining { get => HasRibbon(Training); set => this.SetRibbonIndex(Training, value); }
-    public bool RibbonBattlerSkillful { get => HasRibbon(BattlerSkillful); set => this.SetRibbonIndex(BattlerSkillful, value); }
-    public bool RibbonBattlerExpert { get => HasRibbon(BattlerExpert); set => this.SetRibbonIndex(BattlerExpert, value); }
-    public bool RibbonContestStar { get => HasRibbon(ContestStar); set => this.SetRibbonIndex(ContestStar, value); }
-    public bool RibbonMasterCoolness { get => HasRibbon(MasterCoolness); set => this.SetRibbonIndex(MasterCoolness, value); }
-    public bool RibbonMasterBeauty { get => HasRibbon(MasterBeauty); set => this.SetRibbonIndex(MasterBeauty, value); }
-    public bool RibbonMasterCuteness { get => HasRibbon(MasterCuteness); set => this.SetRibbonIndex(MasterCuteness, value); }
-    public bool RibbonMasterCleverness { get => HasRibbon(MasterCleverness); set => this.SetRibbonIndex(MasterCleverness, value); }
-    public bool RibbonMasterToughness { get => HasRibbon(MasterToughness); set => this.SetRibbonIndex(MasterToughness, value); }
+    public bool RibbonEarth { get => this.GetRibbonIndex(Earth); set => this.SetRibbonIndex(Earth, value); }
+    public bool RibbonNational { get => this.GetRibbonIndex(National); set => this.SetRibbonIndex(National, value); }
+    public bool RibbonCountry { get => this.GetRibbonIndex(Country); set => this.SetRibbonIndex(Country, value); }
+    public bool RibbonChampionBattle { get => this.GetRibbonIndex(ChampionBattle); set => this.SetRibbonIndex(ChampionBattle, value); }
+    public bool RibbonChampionRegional { get => this.GetRibbonIndex(ChampionRegional); set => this.SetRibbonIndex(ChampionRegional, value); }
+    public bool RibbonChampionNational { get => this.GetRibbonIndex(ChampionNational); set => this.SetRibbonIndex(ChampionNational, value); }
+    public bool RibbonClassic { get => this.GetRibbonIndex(Classic); set => this.SetRibbonIndex(Classic, value); }
+    public bool RibbonWishing { get => this.GetRibbonIndex(Wishing); set => this.SetRibbonIndex(Wishing, value); }
+    public bool RibbonPremier { get => this.GetRibbonIndex(Premier); set => this.SetRibbonIndex(Premier, value); }
+    public bool RibbonEvent { get => this.GetRibbonIndex(Event); set => this.SetRibbonIndex(Event, value); }
+    public bool RibbonBirthday { get => this.GetRibbonIndex(Birthday); set => this.SetRibbonIndex(Birthday, value); }
+    public bool RibbonSpecial { get => this.GetRibbonIndex(Special); set => this.SetRibbonIndex(Special, value); }
+    public bool RibbonWorld { get => this.GetRibbonIndex(World); set => this.SetRibbonIndex(World, value); }
+    public bool RibbonChampionWorld { get => this.GetRibbonIndex(ChampionWorld); set => this.SetRibbonIndex(ChampionWorld, value); }
+    public bool RibbonSouvenir { get => this.GetRibbonIndex(Souvenir); set => this.SetRibbonIndex(Souvenir, value); }
+    public bool RibbonChampionG3 { get => this.GetRibbonIndex(ChampionG3); set => this.SetRibbonIndex(ChampionG3, value); }
+    public bool RibbonArtist { get => this.GetRibbonIndex(Artist); set => this.SetRibbonIndex(Artist, value); }
+    public bool RibbonEffort { get => this.GetRibbonIndex(Effort); set => this.SetRibbonIndex(Effort, value); }
+    public bool RibbonChampionSinnoh { get => this.GetRibbonIndex(ChampionSinnoh); set => this.SetRibbonIndex(ChampionSinnoh, value); }
+    public bool RibbonAlert { get => this.GetRibbonIndex(Alert); set => this.SetRibbonIndex(Alert, value); }
+    public bool RibbonShock { get => this.GetRibbonIndex(Shock); set => this.SetRibbonIndex(Shock, value); }
+    public bool RibbonDowncast { get => this.GetRibbonIndex(Downcast); set => this.SetRibbonIndex(Downcast, value); }
+    public bool RibbonCareless { get => this.GetRibbonIndex(Careless); set => this.SetRibbonIndex(Careless, value); }
+    public bool RibbonRelax { get => this.GetRibbonIndex(Relax); set => this.SetRibbonIndex(Relax, value); }
+    public bool RibbonSnooze { get => this.GetRibbonIndex(Snooze); set => this.SetRibbonIndex(Snooze, value); }
+    public bool RibbonSmile { get => this.GetRibbonIndex(Smile); set => this.SetRibbonIndex(Smile, value); }
+    public bool RibbonGorgeous { get => this.GetRibbonIndex(Gorgeous); set => this.SetRibbonIndex(Gorgeous, value); }
+    public bool RibbonRoyal { get => this.GetRibbonIndex(Royal); set => this.SetRibbonIndex(Royal, value); }
+    public bool RibbonGorgeousRoyal { get => this.GetRibbonIndex(GorgeousRoyal); set => this.SetRibbonIndex(GorgeousRoyal, value); }
+    public bool RibbonFootprint { get => this.GetRibbonIndex(Footprint); set => this.SetRibbonIndex(Footprint, value); }
+    public bool RibbonRecord { get => this.GetRibbonIndex(Record); set => this.SetRibbonIndex(Record, value); }
+    public bool RibbonLegend { get => this.GetRibbonIndex(Legend); set => this.SetRibbonIndex(Legend, value); }
+    public bool RibbonChampionKalos { get => this.GetRibbonIndex(ChampionKalos); set => this.SetRibbonIndex(ChampionKalos, value); }
+    public bool RibbonChampionG6Hoenn { get => this.GetRibbonIndex(ChampionG6Hoenn); set => this.SetRibbonIndex(ChampionG6Hoenn, value); }
+    public bool RibbonBestFriends { get => this.GetRibbonIndex(BestFriends); set => this.SetRibbonIndex(BestFriends, value); }
+    public bool RibbonTraining { get => this.GetRibbonIndex(Training); set => this.SetRibbonIndex(Training, value); }
+    public bool RibbonBattlerSkillful { get => this.GetRibbonIndex(BattlerSkillful); set => this.SetRibbonIndex(BattlerSkillful, value); }
+    public bool RibbonBattlerExpert { get => this.GetRibbonIndex(BattlerExpert); set => this.SetRibbonIndex(BattlerExpert, value); }
+    public bool RibbonContestStar { get => this.GetRibbonIndex(ContestStar); set => this.SetRibbonIndex(ContestStar, value); }
+    public bool RibbonMasterCoolness { get => this.GetRibbonIndex(MasterCoolness); set => this.SetRibbonIndex(MasterCoolness, value); }
+    public bool RibbonMasterBeauty { get => this.GetRibbonIndex(MasterBeauty); set => this.SetRibbonIndex(MasterBeauty, value); }
+    public bool RibbonMasterCuteness { get => this.GetRibbonIndex(MasterCuteness); set => this.SetRibbonIndex(MasterCuteness, value); }
+    public bool RibbonMasterCleverness { get => this.GetRibbonIndex(MasterCleverness); set => this.SetRibbonIndex(MasterCleverness, value); }
+    public bool RibbonMasterToughness { get => this.GetRibbonIndex(MasterToughness); set => this.SetRibbonIndex(MasterToughness, value); }
 
-    public bool RibbonChampionAlola { get => HasRibbon(ChampionAlola); set => this.SetRibbonIndex(ChampionAlola, value); }
-    public bool RibbonBattleRoyale { get => HasRibbon(BattleRoyale); set => this.SetRibbonIndex(BattleRoyale, value); }
-    public bool RibbonBattleTreeGreat { get => HasRibbon(BattleTreeGreat); set => this.SetRibbonIndex(BattleTreeGreat, value); }
-    public bool RibbonBattleTreeMaster { get => HasRibbon(BattleTreeMaster); set => this.SetRibbonIndex(BattleTreeMaster, value); }
-    public bool RibbonChampionGalar { get => HasRibbon(ChampionGalar); set => this.SetRibbonIndex(ChampionGalar, value); }
-    public bool RibbonTowerMaster { get => HasRibbon(TowerMaster); set => this.SetRibbonIndex(TowerMaster, value); }
-    public bool RibbonMasterRank { get => HasRibbon(MasterRank); set => this.SetRibbonIndex(MasterRank, value); }
-    public bool RibbonMarkLunchtime { get => HasRibbon(MarkLunchtime); set => this.SetRibbonIndex(MarkLunchtime, value); }
-    public bool RibbonMarkSleepyTime { get => HasRibbon(MarkSleepyTime); set => this.SetRibbonIndex(MarkSleepyTime, value); }
-    public bool RibbonMarkDusk { get => HasRibbon(MarkDusk); set => this.SetRibbonIndex(MarkDusk, value); }
-    public bool RibbonMarkDawn { get => HasRibbon(MarkDawn); set => this.SetRibbonIndex(MarkDawn, value); }
-    public bool RibbonMarkCloudy { get => HasRibbon(MarkCloudy); set => this.SetRibbonIndex(MarkCloudy, value); }
-    public bool RibbonMarkRainy { get => HasRibbon(MarkRainy); set => this.SetRibbonIndex(MarkRainy, value); }
-    public bool RibbonMarkStormy { get => HasRibbon(MarkStormy); set => this.SetRibbonIndex(MarkStormy, value); }
-    public bool RibbonMarkSnowy { get => HasRibbon(MarkSnowy); set => this.SetRibbonIndex(MarkSnowy, value); }
-    public bool RibbonMarkBlizzard { get => HasRibbon(MarkBlizzard); set => this.SetRibbonIndex(MarkBlizzard, value); }
-    public bool RibbonMarkDry { get => HasRibbon(MarkDry); set => this.SetRibbonIndex(MarkDry, value); }
-    public bool RibbonMarkSandstorm { get => HasRibbon(MarkSandstorm); set => this.SetRibbonIndex(MarkSandstorm, value); }
-    public bool RibbonMarkMisty { get => HasRibbon(MarkMisty); set => this.SetRibbonIndex(MarkMisty, value); }
-    public bool RibbonMarkDestiny { get => HasRibbon(MarkDestiny); set => this.SetRibbonIndex(MarkDestiny, value); }
-    public bool RibbonMarkFishing { get => HasRibbon(MarkFishing); set => this.SetRibbonIndex(MarkFishing, value); }
-    public bool RibbonMarkCurry { get => HasRibbon(MarkCurry); set => this.SetRibbonIndex(MarkCurry, value); }
-    public bool RibbonMarkUncommon { get => HasRibbon(MarkUncommon); set => this.SetRibbonIndex(MarkUncommon, value); }
-    public bool RibbonMarkRare { get => HasRibbon(MarkRare); set => this.SetRibbonIndex(MarkRare, value); }
-    public bool RibbonMarkRowdy { get => HasRibbon(MarkRowdy); set => this.SetRibbonIndex(MarkRowdy, value); }
-    public bool RibbonMarkAbsentMinded { get => HasRibbon(MarkAbsentMinded); set => this.SetRibbonIndex(MarkAbsentMinded, value); }
-    public bool RibbonMarkJittery { get => HasRibbon(MarkJittery); set => this.SetRibbonIndex(MarkJittery, value); }
-    public bool RibbonMarkExcited { get => HasRibbon(MarkExcited); set => this.SetRibbonIndex(MarkExcited, value); }
-    public bool RibbonMarkCharismatic { get => HasRibbon(MarkCharismatic); set => this.SetRibbonIndex(MarkCharismatic, value); }
-    public bool RibbonMarkCalmness { get => HasRibbon(MarkCalmness); set => this.SetRibbonIndex(MarkCalmness, value); }
-    public bool RibbonMarkIntense { get => HasRibbon(MarkIntense); set => this.SetRibbonIndex(MarkIntense, value); }
-    public bool RibbonMarkZonedOut { get => HasRibbon(MarkZonedOut); set => this.SetRibbonIndex(MarkZonedOut, value); }
-    public bool RibbonMarkJoyful { get => HasRibbon(MarkJoyful); set => this.SetRibbonIndex(MarkJoyful, value); }
-    public bool RibbonMarkAngry { get => HasRibbon(MarkAngry); set => this.SetRibbonIndex(MarkAngry, value); }
-    public bool RibbonMarkSmiley { get => HasRibbon(MarkSmiley); set => this.SetRibbonIndex(MarkSmiley, value); }
-    public bool RibbonMarkTeary { get => HasRibbon(MarkTeary); set => this.SetRibbonIndex(MarkTeary, value); }
-    public bool RibbonMarkUpbeat { get => HasRibbon(MarkUpbeat); set => this.SetRibbonIndex(MarkUpbeat, value); }
-    public bool RibbonMarkPeeved { get => HasRibbon(MarkPeeved); set => this.SetRibbonIndex(MarkPeeved, value); }
-    public bool RibbonMarkIntellectual { get => HasRibbon(MarkIntellectual); set => this.SetRibbonIndex(MarkIntellectual, value); }
-    public bool RibbonMarkFerocious { get => HasRibbon(MarkFerocious); set => this.SetRibbonIndex(MarkFerocious, value); }
-    public bool RibbonMarkCrafty { get => HasRibbon(MarkCrafty); set => this.SetRibbonIndex(MarkCrafty, value); }
-    public bool RibbonMarkScowling { get => HasRibbon(MarkScowling); set => this.SetRibbonIndex(MarkScowling, value); }
-    public bool RibbonMarkKindly { get => HasRibbon(MarkKindly); set => this.SetRibbonIndex(MarkKindly, value); }
-    public bool RibbonMarkFlustered { get => HasRibbon(MarkFlustered); set => this.SetRibbonIndex(MarkFlustered, value); }
-    public bool RibbonMarkPumpedUp { get => HasRibbon(MarkPumpedUp); set => this.SetRibbonIndex(MarkPumpedUp, value); }
-    public bool RibbonMarkZeroEnergy { get => HasRibbon(MarkZeroEnergy); set => this.SetRibbonIndex(MarkZeroEnergy, value); }
-    public bool RibbonMarkPrideful { get => HasRibbon(MarkPrideful); set => this.SetRibbonIndex(MarkPrideful, value); }
-    public bool RibbonMarkUnsure { get => HasRibbon(MarkUnsure); set => this.SetRibbonIndex(MarkUnsure, value); }
-    public bool RibbonMarkHumble { get => HasRibbon(MarkHumble); set => this.SetRibbonIndex(MarkHumble, value); }
-    public bool RibbonMarkThorny { get => HasRibbon(MarkThorny); set => this.SetRibbonIndex(MarkThorny, value); }
-    public bool RibbonMarkVigor { get => HasRibbon(MarkVigor); set => this.SetRibbonIndex(MarkVigor, value); }
-    public bool RibbonMarkSlump { get => HasRibbon(MarkSlump); set => this.SetRibbonIndex(MarkSlump, value); }
-    public bool RibbonTwinklingStar { get => HasRibbon(TwinklingStar); set => this.SetRibbonIndex(TwinklingStar, value); }
-    public bool RibbonHisui { get => HasRibbon(Hisui); set => this.SetRibbonIndex(Hisui, value); }
-    public bool RibbonChampionPaldea { get => HasRibbon(ChampionPaldea); set => this.SetRibbonIndex(ChampionPaldea, value); }
-    public bool RibbonMarkJumbo { get => HasRibbon(MarkJumbo); set => this.SetRibbonIndex(MarkJumbo, value); }
-    public bool RibbonMarkMini { get => HasRibbon(MarkMini); set => this.SetRibbonIndex(MarkMini, value); }
-    public bool RibbonMarkItemfinder { get => HasRibbon(MarkItemfinder); set => this.SetRibbonIndex(MarkItemfinder, value); }
-    public bool RibbonMarkPartner { get => HasRibbon(MarkPartner); set => this.SetRibbonIndex(MarkPartner, value); }
-    public bool RibbonMarkGourmand { get => HasRibbon(MarkGourmand); set => this.SetRibbonIndex(MarkGourmand, value); }
-    public bool RibbonOnceInALifetime { get => HasRibbon(OnceInALifetime); set => this.SetRibbonIndex(OnceInALifetime, value); }
-    public bool RibbonMarkAlpha { get => HasRibbon(MarkAlpha); set => this.SetRibbonIndex(MarkAlpha, value); }
-    public bool RibbonMarkMightiest { get => HasRibbon(MarkMightiest); set => this.SetRibbonIndex(MarkMightiest, value); }
-    public bool RibbonMarkTitan { get => HasRibbon(MarkTitan); set => this.SetRibbonIndex(MarkTitan, value); }
-    public bool RibbonPartner { get => HasRibbon(Partner); set => this.SetRibbonIndex(Partner, value); }
+    public bool RibbonChampionAlola { get => this.GetRibbonIndex(ChampionAlola); set => this.SetRibbonIndex(ChampionAlola, value); }
+    public bool RibbonBattleRoyale { get => this.GetRibbonIndex(BattleRoyale); set => this.SetRibbonIndex(BattleRoyale, value); }
+    public bool RibbonBattleTreeGreat { get => this.GetRibbonIndex(BattleTreeGreat); set => this.SetRibbonIndex(BattleTreeGreat, value); }
+    public bool RibbonBattleTreeMaster { get => this.GetRibbonIndex(BattleTreeMaster); set => this.SetRibbonIndex(BattleTreeMaster, value); }
+    public bool RibbonChampionGalar { get => this.GetRibbonIndex(ChampionGalar); set => this.SetRibbonIndex(ChampionGalar, value); }
+    public bool RibbonTowerMaster { get => this.GetRibbonIndex(TowerMaster); set => this.SetRibbonIndex(TowerMaster, value); }
+    public bool RibbonMasterRank { get => this.GetRibbonIndex(MasterRank); set => this.SetRibbonIndex(MasterRank, value); }
+    public bool RibbonMarkLunchtime { get => this.GetRibbonIndex(MarkLunchtime); set => this.SetRibbonIndex(MarkLunchtime, value); }
+    public bool RibbonMarkSleepyTime { get => this.GetRibbonIndex(MarkSleepyTime); set => this.SetRibbonIndex(MarkSleepyTime, value); }
+    public bool RibbonMarkDusk { get => this.GetRibbonIndex(MarkDusk); set => this.SetRibbonIndex(MarkDusk, value); }
+    public bool RibbonMarkDawn { get => this.GetRibbonIndex(MarkDawn); set => this.SetRibbonIndex(MarkDawn, value); }
+    public bool RibbonMarkCloudy { get => this.GetRibbonIndex(MarkCloudy); set => this.SetRibbonIndex(MarkCloudy, value); }
+    public bool RibbonMarkRainy { get => this.GetRibbonIndex(MarkRainy); set => this.SetRibbonIndex(MarkRainy, value); }
+    public bool RibbonMarkStormy { get => this.GetRibbonIndex(MarkStormy); set => this.SetRibbonIndex(MarkStormy, value); }
+    public bool RibbonMarkSnowy { get => this.GetRibbonIndex(MarkSnowy); set => this.SetRibbonIndex(MarkSnowy, value); }
+    public bool RibbonMarkBlizzard { get => this.GetRibbonIndex(MarkBlizzard); set => this.SetRibbonIndex(MarkBlizzard, value); }
+    public bool RibbonMarkDry { get => this.GetRibbonIndex(MarkDry); set => this.SetRibbonIndex(MarkDry, value); }
+    public bool RibbonMarkSandstorm { get => this.GetRibbonIndex(MarkSandstorm); set => this.SetRibbonIndex(MarkSandstorm, value); }
+    public bool RibbonMarkMisty { get => this.GetRibbonIndex(MarkMisty); set => this.SetRibbonIndex(MarkMisty, value); }
+    public bool RibbonMarkDestiny { get => this.GetRibbonIndex(MarkDestiny); set => this.SetRibbonIndex(MarkDestiny, value); }
+    public bool RibbonMarkFishing { get => this.GetRibbonIndex(MarkFishing); set => this.SetRibbonIndex(MarkFishing, value); }
+    public bool RibbonMarkCurry { get => this.GetRibbonIndex(MarkCurry); set => this.SetRibbonIndex(MarkCurry, value); }
+    public bool RibbonMarkUncommon { get => this.GetRibbonIndex(MarkUncommon); set => this.SetRibbonIndex(MarkUncommon, value); }
+    public bool RibbonMarkRare { get => this.GetRibbonIndex(MarkRare); set => this.SetRibbonIndex(MarkRare, value); }
+    public bool RibbonMarkRowdy { get => this.GetRibbonIndex(MarkRowdy); set => this.SetRibbonIndex(MarkRowdy, value); }
+    public bool RibbonMarkAbsentMinded { get => this.GetRibbonIndex(MarkAbsentMinded); set => this.SetRibbonIndex(MarkAbsentMinded, value); }
+    public bool RibbonMarkJittery { get => this.GetRibbonIndex(MarkJittery); set => this.SetRibbonIndex(MarkJittery, value); }
+    public bool RibbonMarkExcited { get => this.GetRibbonIndex(MarkExcited); set => this.SetRibbonIndex(MarkExcited, value); }
+    public bool RibbonMarkCharismatic { get => this.GetRibbonIndex(MarkCharismatic); set => this.SetRibbonIndex(MarkCharismatic, value); }
+    public bool RibbonMarkCalmness { get => this.GetRibbonIndex(MarkCalmness); set => this.SetRibbonIndex(MarkCalmness, value); }
+    public bool RibbonMarkIntense { get => this.GetRibbonIndex(MarkIntense); set => this.SetRibbonIndex(MarkIntense, value); }
+    public bool RibbonMarkZonedOut { get => this.GetRibbonIndex(MarkZonedOut); set => this.SetRibbonIndex(MarkZonedOut, value); }
+    public bool RibbonMarkJoyful { get => this.GetRibbonIndex(MarkJoyful); set => this.SetRibbonIndex(MarkJoyful, value); }
+    public bool RibbonMarkAngry { get => this.GetRibbonIndex(MarkAngry); set => this.SetRibbonIndex(MarkAngry, value); }
+    public bool RibbonMarkSmiley { get => this.GetRibbonIndex(MarkSmiley); set => this.SetRibbonIndex(MarkSmiley, value); }
+    public bool RibbonMarkTeary { get => this.GetRibbonIndex(MarkTeary); set => this.SetRibbonIndex(MarkTeary, value); }
+    public bool RibbonMarkUpbeat { get => this.GetRibbonIndex(MarkUpbeat); set => this.SetRibbonIndex(MarkUpbeat, value); }
+    public bool RibbonMarkPeeved { get => this.GetRibbonIndex(MarkPeeved); set => this.SetRibbonIndex(MarkPeeved, value); }
+    public bool RibbonMarkIntellectual { get => this.GetRibbonIndex(MarkIntellectual); set => this.SetRibbonIndex(MarkIntellectual, value); }
+    public bool RibbonMarkFerocious { get => this.GetRibbonIndex(MarkFerocious); set => this.SetRibbonIndex(MarkFerocious, value); }
+    public bool RibbonMarkCrafty { get => this.GetRibbonIndex(MarkCrafty); set => this.SetRibbonIndex(MarkCrafty, value); }
+    public bool RibbonMarkScowling { get => this.GetRibbonIndex(MarkScowling); set => this.SetRibbonIndex(MarkScowling, value); }
+    public bool RibbonMarkKindly { get => this.GetRibbonIndex(MarkKindly); set => this.SetRibbonIndex(MarkKindly, value); }
+    public bool RibbonMarkFlustered { get => this.GetRibbonIndex(MarkFlustered); set => this.SetRibbonIndex(MarkFlustered, value); }
+    public bool RibbonMarkPumpedUp { get => this.GetRibbonIndex(MarkPumpedUp); set => this.SetRibbonIndex(MarkPumpedUp, value); }
+    public bool RibbonMarkZeroEnergy { get => this.GetRibbonIndex(MarkZeroEnergy); set => this.SetRibbonIndex(MarkZeroEnergy, value); }
+    public bool RibbonMarkPrideful { get => this.GetRibbonIndex(MarkPrideful); set => this.SetRibbonIndex(MarkPrideful, value); }
+    public bool RibbonMarkUnsure { get => this.GetRibbonIndex(MarkUnsure); set => this.SetRibbonIndex(MarkUnsure, value); }
+    public bool RibbonMarkHumble { get => this.GetRibbonIndex(MarkHumble); set => this.SetRibbonIndex(MarkHumble, value); }
+    public bool RibbonMarkThorny { get => this.GetRibbonIndex(MarkThorny); set => this.SetRibbonIndex(MarkThorny, value); }
+    public bool RibbonMarkVigor { get => this.GetRibbonIndex(MarkVigor); set => this.SetRibbonIndex(MarkVigor, value); }
+    public bool RibbonMarkSlump { get => this.GetRibbonIndex(MarkSlump); set => this.SetRibbonIndex(MarkSlump, value); }
+    public bool RibbonTwinklingStar { get => this.GetRibbonIndex(TwinklingStar); set => this.SetRibbonIndex(TwinklingStar, value); }
+    public bool RibbonHisui { get => this.GetRibbonIndex(Hisui); set => this.SetRibbonIndex(Hisui, value); }
+    public bool RibbonChampionPaldea { get => this.GetRibbonIndex(ChampionPaldea); set => this.SetRibbonIndex(ChampionPaldea, value); }
+    public bool RibbonMarkJumbo { get => this.GetRibbonIndex(MarkJumbo); set => this.SetRibbonIndex(MarkJumbo, value); }
+    public bool RibbonMarkMini { get => this.GetRibbonIndex(MarkMini); set => this.SetRibbonIndex(MarkMini, value); }
+    public bool RibbonMarkItemfinder { get => this.GetRibbonIndex(MarkItemfinder); set => this.SetRibbonIndex(MarkItemfinder, value); }
+    public bool RibbonMarkPartner { get => this.GetRibbonIndex(MarkPartner); set => this.SetRibbonIndex(MarkPartner, value); }
+    public bool RibbonMarkGourmand { get => this.GetRibbonIndex(MarkGourmand); set => this.SetRibbonIndex(MarkGourmand, value); }
+    public bool RibbonOnceInALifetime { get => this.GetRibbonIndex(OnceInALifetime); set => this.SetRibbonIndex(OnceInALifetime, value); }
+    public bool RibbonMarkAlpha { get => this.GetRibbonIndex(MarkAlpha); set => this.SetRibbonIndex(MarkAlpha, value); }
+    public bool RibbonMarkMightiest { get => this.GetRibbonIndex(MarkMightiest); set => this.SetRibbonIndex(MarkMightiest, value); }
+    public bool RibbonMarkTitan { get => this.GetRibbonIndex(MarkTitan); set => this.SetRibbonIndex(MarkTitan, value); }
+    public bool RibbonPartner { get => this.GetRibbonIndex(Partner); set => this.SetRibbonIndex(Partner, value); }
 
     public int GetRibbonByte(int index) => RibbonSpan.IndexOf((byte)index);
     public bool GetRibbon(int index) => RibbonSpan.Contains((byte)index);
