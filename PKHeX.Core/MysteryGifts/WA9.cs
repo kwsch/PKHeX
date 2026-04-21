@@ -39,6 +39,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         set => WriteUInt16LittleEndian(Data[0x8..], (ushort)value);
     }
 
+    public bool IsHOMEGift => CardID >= 9000;
     public byte RestrictVersion { get => Data[0xE]; set => Data[0xE] = value; } // 0x01 = ZA only (only one game in this Context, so always ZA).
     public byte CardFlags { get => Data[0x10]; set => Data[0x10] = value; }
     public GiftType CardType { get => (GiftType)Data[0x11]; set => Data[0x11] = (byte)value; }
