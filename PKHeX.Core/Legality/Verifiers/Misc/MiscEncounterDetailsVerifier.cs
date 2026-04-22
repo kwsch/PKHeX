@@ -33,7 +33,7 @@ internal sealed class MiscEncounterDetailsVerifier : Verifier
         {
             VerifyCorrelation8b(data, s8b, pk);
         }
-        else if (enc is ISeedCorrelation64<PKM> s64)
+        else if (enc is ISeedCorrelation64<PKM> s64 && !(enc is WA9 { IsHOMEGift: true }))
         {
             var pidiv = s64.TryGetSeed(pk, out var seed);
             if (pidiv == SeedCorrelationResult.Success)

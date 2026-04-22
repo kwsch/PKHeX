@@ -38,6 +38,7 @@ public static class HomeTrackerUtil
         WB8 { IsHOMEGift: true } => true,
         WA8 { IsHOMEGift: true } => true,
         WC9 { IsHOMEGift: true } => true,
+        WA9 { IsHOMEGift: true } => true,
         _ => enc.Generation < 8,
     };
 }

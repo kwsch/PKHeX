@@ -112,6 +112,7 @@ public sealed class GameDataPA9 : HomeOptional1, IGameDataSide<PA9>, IScaledSize
     {
         this.CopyTo(pk);
         pk.Scale = Scale;
+        pk.IsAlpha = IsAlpha;
         PlusFlagsC.CopyTo(pk.PlusFlags0);
         PlusFlagsB.CopyTo(pk.PlusFlags1);
         pk.ObedienceLevel = Obedience_Level;
@@ -123,6 +124,7 @@ public sealed class GameDataPA9 : HomeOptional1, IGameDataSide<PA9>, IScaledSize
     {
         this.CopyFrom(pk);
         pkh.HeightScalar = Scale = pk.Scale; // Overwrite Height
+        IsAlpha = pk.IsAlpha;
         pk.PlusFlags0.CopyTo(PlusFlagsC);
         pk.PlusFlags1.CopyTo(PlusFlagsB);
         Obedience_Level = pk.ObedienceLevel;

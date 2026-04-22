@@ -299,8 +299,10 @@ public sealed class HistoryVerifier : Verifier
         WB8 wb8 when wb8.GetHasOT(pk.Language) => false,
         WA8 wa8 when wa8.GetHasOT(pk.Language) => false,
         WC9 wc9 when wc9.GetHasOT(pk.Language) => false,
+        WA9 wa9 when wa9.GetHasOT(pk.Language) => false,
         WC8 {IsHOMEGift: true} => false,
         WC9 {IsHOMEGift: true} => false,
+        WA9 {IsHOMEGift: true} => false,
         _ => true,
     };
 
