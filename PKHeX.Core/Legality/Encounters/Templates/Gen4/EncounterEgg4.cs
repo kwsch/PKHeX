@@ -84,7 +84,7 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
         // Get a random PID that matches gender/nature/ability criteria
         var pi = PersonalTable.HGSS[Species];
         var gr = pi.Gender;
-        var pid = GetRandomPID(criteria, gr, out var gender);
+        var pid = GetRandomPID(criteria, gr, tr.ID32, out var gender);
         pk.PID = pid;
         pk.Gender = gender;
         pk.RefreshAbility((int)(pid & 1));
@@ -92,7 +92,7 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
         return pk;
     }
 
-    private uint GetRandomPID(in EncounterCriteria criteria, byte gr, out byte gender)
+    private uint GetRandomPID(in EncounterCriteria criteria, byte gr, uint id32, out byte gender)
     {
         var seed = Util.Rand32();
         while (true)
@@ -114,6 +114,10 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
             // A 0-value PID is possible via Masuda Method even though a 0-value saved indicates "no egg available".
             // PID is rolled forward upon picking up the egg.
             // Not worth skipping 0-value PIDs. Too rare to be worth trying again, since it can be a valid PID.
+
+            var shiny = ShinyUtil.GetIsShiny3(id32, pid);
+            if (criteria.Shiny.IsShiny() != shiny)
+                continue;
 
             return pid;
         }

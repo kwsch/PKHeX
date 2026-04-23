@@ -139,7 +139,11 @@ public sealed class MiscVerifierG3 : Verifier
         // International games are 10 chars (full buffer) max; implicit terminator if full.
         var nick = pk.GetNicknamePrefillRegion();
         if (!TrashByteRules3.IsTerminatedFF(nick))
-            data.AddLine(GetInvalid(Trainer, TrashBytesMismatchInitial));
+        {
+            // Trade to another language and evolve will treat it like a nickname, without actually filling with FF.
+            if (!TrashByteRules3.IsTerminatedFFZero(nick) || pk.Species == data.EncounterOriginal.Species) // not evolved
+                data.AddLine(GetInvalid(Trainer, TrashBytesMismatchInitial));
+        }
     }
 }
 
@@ -192,9 +196,15 @@ public static class TrashByteRules3
         var first = TrashBytes8.GetTerminatorIndex(data);
         if (first == -1 || first >= data.Length - 1)
             return true;
-        return !data[(first + 1)..].ContainsAnyExcept<byte>(0xFF);
+        return !data[(first + 1)..].ContainsAnyExcept(Terminator);
     }
 
+    /// <summary>
+    /// Checks if the <see cref="data"/> matches the pattern of a pre-filled array with terminators of count <see cref="preFill"/>.
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="preFill"></param>
+    /// <returns></returns>
     public static bool IsTerminatedFFZero(ReadOnlySpan<byte> data, int preFill = 0)
     {
         if (preFill == 0)
@@ -211,8 +221,7 @@ public static class TrashByteRules3
             if (inner.ContainsAnyExcept(Terminator))
                 return false;
             first = preFill;
-            first++;
-            if (first >= data.Length - 1)
+            if (first >= data.Length)
                 return true;
         }
         return !data[first..].ContainsAnyExcept<byte>(0);
