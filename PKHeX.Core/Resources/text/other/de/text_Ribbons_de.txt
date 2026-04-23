@@ -1,8 +1,8 @@
-RibbonChampionKalos	Kalos Champion
-RibbonChampionG3	Champion (Gen3)
-RibbonChampionSinnoh	Sinnoh Champion
+RibbonChampionKalos	Kalos-Champs
+RibbonChampionG3	Champs (Gen3)
+RibbonChampionSinnoh	Sinnoh-Champs
 RibbonBestFriends	Beste Freunde
-RibbonTraining	Training
+RibbonTraining	Trainings
 RibbonBattlerSkillful	Erfahrener Kämpfer
 RibbonBattlerExpert	Experten Kämpfer
 RibbonEffort	Fleiß
@@ -37,7 +37,7 @@ RibbonChampionNational	Nationaler Champion
 RibbonChampionWorld	Weltchampion
 RibbonCountMemoryContest	Verg. Wettbewerbsb.
 RibbonCountMemoryBattle	Verg. Kampfb.
-RibbonChampionG6Hoenn	Hoenn Champion (ORAS)
+RibbonChampionG6Hoenn	Hoenn-Champs (ORAS)
 RibbonContestStar	Wettbewerbs-Star
 RibbonMasterCoolness	Coolness Meister
 RibbonMasterBeauty	Schönheit Meister
@@ -97,10 +97,10 @@ RibbonCountG3Beauty	Schönheit
 RibbonCountG3Cute	Anmut
 RibbonCountG3Smart	Klugheit
 RibbonCountG3Tough	Stärke
-RibbonChampionAlola	Alola Champion
-RibbonBattleRoyale	Battle Royal Champion
-RibbonBattleTreeGreat	Battle Tree Great
-RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionAlola	Alola-Champs
+RibbonBattleRoyale	Battle-Royale-Meister
+RibbonBattleTreeGreat	Profibaum
+RibbonBattleTreeMaster	Meisterbaum
 RibbonChampionGalar	Galar-Champs
 RibbonTowerMaster	Turmmeister
 RibbonMasterRank	Meisterrang
