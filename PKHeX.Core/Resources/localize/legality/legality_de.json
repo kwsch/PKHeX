@@ -324,7 +324,7 @@
     "TransferNotPossible": "Übertragung vom Ursprungsformat in das aktuelle Format nicht möglich.",
     "TransferMetLocation": "Ungültiger Transfer-Fundort.",
     "TransferNature": "Ungültiges Wesen für die Transfer-Erfahrungswerte.",
-    "TransferObedienceLevel": "Ungültiges Gehorsamskeits-Level.",
+    "TransferObedienceLevel": "Ungültiges Gehorsams-Level.",
     "TransferPIDECBitFlip": "PID sollte der EC entsprechen [mit umgekehrtem höchstwertigen Bit]!",
     "TransferPIDECEquals": "PID sollte der EC entsprechen!",
     "TransferPIDECXor": "Verschlüsselungskonstante entspricht der mittels Shiny-XOR modifizierten PID.",
