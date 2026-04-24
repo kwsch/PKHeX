@@ -202,9 +202,9 @@ public static class TrashByteRules3
     /// <summary>
     /// Checks if the <see cref="data"/> matches the pattern of a pre-filled array with terminators of count <see cref="preFill"/>.
     /// </summary>
-    /// <param name="data"></param>
-    /// <param name="preFill"></param>
-    /// <returns></returns>
+    /// <param name="data">Raw text string to check</param>
+    /// <param name="preFill">Count of chars filled with terminator.</param>
+    /// <returns><see langword="true"/> if the text matches the pre-fill pattern.</returns>
     public static bool IsTerminatedFFZero(ReadOnlySpan<byte> data, int preFill = 0)
     {
         if (preFill == 0)

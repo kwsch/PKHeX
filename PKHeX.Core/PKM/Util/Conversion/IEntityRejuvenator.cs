@@ -81,10 +81,11 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
                 // User-friendly sanity check (not official):
                 // Fix original Tera type to current Type1, same as HOME, only if it's an illegal state.
                 // This only comes into play when the HOME data was present, but wasn't valid.
-                var expect = (MoveType)pk.PersonalInfo.Type1;
+                var pi = pk9.PersonalInfo;
+                var expect = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
                 if (pk9.TeraTypeOriginal != expect)
                     pk9.TeraTypeOriginal = expect;
-                if (pk9.TeraTypeOverride is (MoveType)TeraTypeUtil.OverrideNone)
+                if (!TeraTypeUtil.IsOverrideValid((byte)pk9.TeraTypeOverride))
                     pk9.TeraTypeOverride = expect;
             }
         }
