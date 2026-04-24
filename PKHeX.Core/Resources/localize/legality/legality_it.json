@@ -198,7 +198,7 @@
     "MemoryCleared_H": "Ricordo: Non ripulita correttamente.",
     "MemoryValid_H": "Ricordo {0} valida.",
     "MemoryFeelInvalid_H": "Ricordo {0}: Sentimenti invalidi.",
-    "MemoryHTFlagInvalid": "Untraded: L'Allenatore Attuale non dovrebbe essere l'Ultimo Allenatore (non AO).",
+    "MemoryHTFlagInvalid": "Non scambiato: L'Allenatore Attuale non dovrebbe essere l'Ultimo Allenatore (non AO).",
     "MemoryHTGender_0": "Genere dell'Ultimo Allenatore invalido: {0}",
     "MemoryHTLanguage": "Lingua dell'Ultimo Allenatore mancante.",
     "MemoryIndexArgHT": "Dovrebbe avere una Ricordo per l'Ultimo Allenatore TextVar.",
