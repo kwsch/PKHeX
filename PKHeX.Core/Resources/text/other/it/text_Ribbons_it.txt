@@ -37,7 +37,7 @@ RibbonChampionNational	Campione Nazionale
 RibbonChampionWorld	Campione Mondiale
 RibbonCountMemoryContest	Ricordo delle Gare
 RibbonCountMemoryBattle	Ricordo delle Lotte
-RibbonChampionG6Hoenn	Campione Hoenn (ORAS)
+RibbonChampionG6Hoenn	Campione Hoenn (ROSA)
 RibbonContestStar	Stella delle Gare
 RibbonMasterCoolness	Classe Suprema
 RibbonMasterBeauty	Bellezza Suprema
