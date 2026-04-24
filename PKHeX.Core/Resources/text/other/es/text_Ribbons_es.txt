@@ -60,10 +60,10 @@ RibbonG3Smart	Ingenio (G3)
 RibbonG3SmartSuper	Ingenio alto
 RibbonG3SmartHyper	Ingenio avanzado
 RibbonG3SmartMaster	Ingenio experto
-RibbonG3Tough	Solidez (G3)
-RibbonG3ToughSuper	Solidez alto
-RibbonG3ToughHyper	Solidez avanzado
-RibbonG3ToughMaster	Solidez experto
+RibbonG3Tough	Dureza (G3)
+RibbonG3ToughSuper	Dureza alto
+RibbonG3ToughHyper	Dureza avanzado
+RibbonG3ToughMaster	Dureza experto
 RibbonG4Cool	Carisma (G4)
 RibbonG4CoolGreat	Carisma difícil
 RibbonG4CoolUltra	Carisma superior
@@ -80,10 +80,10 @@ RibbonG4Smart	Ingenio (G4)
 RibbonG4SmartGreat	Ingenio difícil
 RibbonG4SmartUltra	Ingenio superior
 RibbonG4SmartMaster	Ingenio experto
-RibbonG4Tough	Solidez (G4)
-RibbonG4ToughGreat	Solidez difícil
-RibbonG4ToughUltra	Solidez superior
-RibbonG4ToughMaster	Solidez experto
+RibbonG4Tough	Dureza (G4)
+RibbonG4ToughGreat	Dureza difícil
+RibbonG4ToughUltra	Dureza superior
+RibbonG4ToughMaster	Dureza experto
 RibbonWinning	Ganador
 RibbonVictory	Victoria
 RibbonAbility	Habilidad
@@ -96,7 +96,7 @@ RibbonCountG3Cool	Carisma
 RibbonCountG3Beauty	Belleza
 RibbonCountG3Cute	Dulzura
 RibbonCountG3Smart	Ingenio
-RibbonCountG3Tough	Solidez
+RibbonCountG3Tough	Dureza
 RibbonChampionAlola	Campeón de Alola
 RibbonBattleRoyale	Maestro Battle Royale
 RibbonBattleTreeGreat	As del Árbol
