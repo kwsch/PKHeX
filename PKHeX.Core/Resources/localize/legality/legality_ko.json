@@ -66,7 +66,7 @@
     "EncGift": "만난 게임의 선물받은 알 인카운터와 일치하지 않습니다.",
     "EncGiftEggEvent": "만난 게임의 이벤트 알 인카운터와 일치하지 않습니다.",
     "EncGiftIVMismatch": "IV가 이상한소포 데이터와 일치하지 않습니다.",
-    "EncGiftNicknamed": "이벤트 배포 포켓몬의 닉네임이 설정되어 있습니다.",
+    "EncGiftNicknamed": "이벤트 선물의 닉네임 플래그가 켜져 있습니다.",
     "EncGiftNotFound": "이상한소포 데이터베이스에 존재하지 않습니다.",
     "EncGiftPIDMismatch": "이상한소포의 고정된 PID가 일치하지 않습니다.",
     "EncGiftShinyMismatch": "이상한소포의 색이 다른 포켓몬 여부가 일치하지 않습니다.",
