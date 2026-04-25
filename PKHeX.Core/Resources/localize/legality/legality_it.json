@@ -317,7 +317,7 @@
     "TransferFlagIllegal": "Segnato come Illegale dal gioco (abuso di glitch o clonazione).",
     "TransferHTFlagRequired": "l'Allenatore Originale non può essere l'Ultimo Allenatore.",
     "TransferHTMismatchName": "Il nome dell'Ultimo Allenatore non corrisponde al valore atteso.",
-    "TransferHTMismatchGender": "Handling trainer does not match the expected trainer gender.",
+    "TransferHTMismatchGender": "L'allenatore attuale non corrisponde al sesso dell'allenatore previsto.",
     "TransferHTMismatchLanguage": "La lingua dell'Ultimo Allenatore non corrisponde al valore atteso.",
     "TransferKoreanGen4": "I giochi di quarta generazione coreani non possono interagire con i giochi di quarta generazione internazionali.",
     "TransferMet": "Luogo di incontro invalido, previsto Pokétrasporto/Zoroark (Bestie Leggendarie), Pokétrasporto/Celebi (Celebi).",
