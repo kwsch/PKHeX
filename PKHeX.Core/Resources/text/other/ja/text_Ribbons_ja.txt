@@ -92,11 +92,11 @@ RibbonAbilityDouble	ダブルアビリティリボン
 RibbonAbilityMulti	マルチアビリティリボン
 RibbonAbilityPair	ペアアビリティリボン
 RibbonAbilityWorld	ワールドアビリティリボン
-RibbonCountG3Cool	かっこよさ
-RibbonCountG3Beauty	うつくしさ
-RibbonCountG3Cute	かわいさ
-RibbonCountG3Smart	かしこさ
-RibbonCountG3Tough	たくましさ
+RibbonCountG3Cool	かっこよさリボン
+RibbonCountG3Beauty	うつくしさリボン
+RibbonCountG3Cute	かわいさリボン
+RibbonCountG3Smart	かしこさリボン
+RibbonCountG3Tough	たくましさリボン
 RibbonChampionAlola	アローラ　チャンプリボン
 RibbonBattleRoyale	ロイヤルマスターリボン
 RibbonBattleTreeGreat	グレートツリーリボン
