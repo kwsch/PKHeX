@@ -64,6 +64,17 @@ public class StringQualityTests
         var questionmarks = arr[129];
         duplicates.RemoveAll(z => z == questionmarks);
         duplicates.Count.Should().Be(0, "expected no duplicate item strings.");
+
+        var duplicates1 = GetDuplicates(strings.GetItemStrings(EntityContext.Gen1));
+        duplicates1.Count.Should().Be(0, "expected no duplicate Gen1 item strings.");
+        var duplicates2 = GetDuplicates(strings.GetItemStrings(EntityContext.Gen2));
+        duplicates2.Count.Should().Be(0, "expected no duplicate Gen2 item strings.");
+
+        var arr3 = strings.GetItemStrings(EntityContext.Gen3);
+        var duplicates3 = GetDuplicates(arr3);
+        questionmarks = arr3[54];
+        duplicates3.RemoveAll(z => z == questionmarks);
+        duplicates3.Count.Should().Be(0, "expected no duplicate Gen3 item strings.");
     }
 
     private static List<string> GetDuplicates(string[] arr)
