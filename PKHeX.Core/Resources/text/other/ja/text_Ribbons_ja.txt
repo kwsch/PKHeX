@@ -16,7 +16,7 @@ RibbonSmile	にっこリボン
 RibbonGorgeous	ゴージャスリボン
 RibbonRoyal	ロイヤルリボン
 RibbonGorgeousRoyal	ゴージャスロイヤルリボン
-RibbonArtist	ブロマイド
+RibbonArtist	ブロマイドリボン
 RibbonFootprint	あしあとリボン
 RibbonRecord	レコードリボン
 RibbonLegend	レジェンドリボン
