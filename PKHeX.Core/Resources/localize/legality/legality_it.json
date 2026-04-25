@@ -72,7 +72,7 @@
     "EncGiftShinyMismatch": "Il Dono Segreto non può essere cromatico.",
     "EncGiftVersionNotDistributed": "Il Dono Segreto non può essere ricevuto in questa versione di gioco.",
     "EncInvalid": "Impossibile trovare una corrispondenza per l'incontro nel gioco di origine.",
-    "EncMasteryInitial": "Initial move mastery flags do not match the encounter's expected state.",
+    "EncMasteryInitial": "I flag iniziali della padronanza mosse non corrispondono allo stato previsto per l'incontro.",
     "EncTradeChangedNickname": "Il soprannome del Pokémon ottenuto con uno scambio in gioco è stato alterato.",
     "EncTradeChangedOT": "Il Nome dell'AO di un Pokémon ottenuto con uno scambio in gioco è stato alterato.",
     "EncTradeIndexBad": "Indice di scambio in gioco invalido?",
