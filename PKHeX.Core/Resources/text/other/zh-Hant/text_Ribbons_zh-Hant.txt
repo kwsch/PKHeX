@@ -92,11 +92,11 @@ RibbonAbilityDouble	雙人才能獎章
 RibbonAbilityMulti	多人才能獎章
 RibbonAbilityPair	組隊雙打才能獎章
 RibbonAbilityWorld	世界才能獎章
-RibbonCountG3Cool	帥氣
-RibbonCountG3Beauty	美麗
-RibbonCountG3Cute	可愛
-RibbonCountG3Smart	聰明
-RibbonCountG3Tough	強壯
+RibbonCountG3Cool	帥氣獎章
+RibbonCountG3Beauty	美麗獎章
+RibbonCountG3Cute	可愛獎章
+RibbonCountG3Smart	聰明獎章
+RibbonCountG3Tough	強壯獎章
 RibbonChampionAlola	阿羅拉冠軍獎章
 RibbonBattleRoyale	皇家大師獎章
 RibbonBattleTreeGreat	高手對戰樹獎章
