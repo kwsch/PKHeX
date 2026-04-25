@@ -30,6 +30,14 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             B_Save = new System.Windows.Forms.Button();
             B_Cancel = new System.Windows.Forms.Button();
             TC_Misc = new System.Windows.Forms.TabControl();
@@ -163,6 +171,8 @@ namespace PKHeX.WinForms
             TB_SID = new System.Windows.Forms.MaskedTextBox();
             NUD_Painting = new System.Windows.Forms.NumericUpDown();
             CHK_EnablePaint = new System.Windows.Forms.CheckBox();
+            TAB_MirageIsland = new System.Windows.Forms.TabPage();
+            B_MirageIsland = new System.Windows.Forms.Button();
             TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_BPEarned).BeginInit();
@@ -209,6 +219,7 @@ namespace PKHeX.WinForms
             GB_Painting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Caption).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Painting).BeginInit();
+            TAB_MirageIsland.SuspendLayout();
             SuspendLayout();
             // 
             // B_Save
@@ -246,6 +257,7 @@ namespace PKHeX.WinForms
             TC_Misc.Controls.Add(Tab_Pokeblocks);
             TC_Misc.Controls.Add(Tab_Decorations);
             TC_Misc.Controls.Add(Tab_Paintings);
+            TC_Misc.Controls.Add(TAB_MirageIsland);
             TC_Misc.Location = new System.Drawing.Point(14, 14);
             TC_Misc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TC_Misc.Multiline = true;
@@ -498,7 +510,7 @@ namespace PKHeX.WinForms
             L_JMaxPlayers.Location = new System.Drawing.Point(10, 113);
             L_JMaxPlayers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_JMaxPlayers.Name = "L_JMaxPlayers";
-            L_JMaxPlayers.Size = new System.Drawing.Size(73, 15);
+            L_JMaxPlayers.Size = new System.Drawing.Size(72, 15);
             L_JMaxPlayers.TabIndex = 7;
             L_JMaxPlayers.Text = "Max Players:";
             // 
@@ -939,7 +951,7 @@ namespace PKHeX.WinForms
             L_Stat3.Location = new System.Drawing.Point(3, 201);
             L_Stat3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Stat3.Name = "L_Stat3";
-            L_Stat3.Size = new System.Drawing.Size(35, 15);
+            L_Stat3.Size = new System.Drawing.Size(36, 15);
             L_Stat3.TabIndex = 13;
             L_Stat3.Text = "Trade";
             // 
@@ -959,7 +971,7 @@ namespace PKHeX.WinForms
             L_Stat1.Location = new System.Drawing.Point(3, 149);
             L_Stat1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_Stat1.Name = "L_Stat1";
-            L_Stat1.Size = new System.Drawing.Size(35, 15);
+            L_Stat1.Size = new System.Drawing.Size(36, 15);
             L_Stat1.TabIndex = 8;
             L_Stat1.Text = "Trade";
             // 
@@ -1283,6 +1295,8 @@ namespace PKHeX.WinForms
             DGV_Desk.AllowUserToDeleteRows = false;
             DGV_Desk.AllowUserToResizeColumns = false;
             DGV_Desk.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ControlLight;
+            DGV_Desk.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             DGV_Desk.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             DGV_Desk.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             DGV_Desk.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1324,6 +1338,8 @@ namespace PKHeX.WinForms
             DGV_Chair.AllowUserToDeleteRows = false;
             DGV_Chair.AllowUserToResizeColumns = false;
             DGV_Chair.AllowUserToResizeRows = false;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ControlLight;
+            DGV_Chair.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             DGV_Chair.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             DGV_Chair.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             DGV_Chair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1365,6 +1381,8 @@ namespace PKHeX.WinForms
             DGV_Plant.AllowUserToDeleteRows = false;
             DGV_Plant.AllowUserToResizeColumns = false;
             DGV_Plant.AllowUserToResizeRows = false;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.ControlLight;
+            DGV_Plant.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             DGV_Plant.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             DGV_Plant.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             DGV_Plant.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1406,6 +1424,8 @@ namespace PKHeX.WinForms
             DGV_Ornament.AllowUserToDeleteRows = false;
             DGV_Ornament.AllowUserToResizeColumns = false;
             DGV_Ornament.AllowUserToResizeRows = false;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ControlLight;
+            DGV_Ornament.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             DGV_Ornament.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             DGV_Ornament.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             DGV_Ornament.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1447,6 +1467,8 @@ namespace PKHeX.WinForms
             DGV_Mat.AllowUserToDeleteRows = false;
             DGV_Mat.AllowUserToResizeColumns = false;
             DGV_Mat.AllowUserToResizeRows = false;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.ControlLight;
+            DGV_Mat.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
             DGV_Mat.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             DGV_Mat.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             DGV_Mat.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1488,6 +1510,8 @@ namespace PKHeX.WinForms
             DGV_Poster.AllowUserToDeleteRows = false;
             DGV_Poster.AllowUserToResizeColumns = false;
             DGV_Poster.AllowUserToResizeRows = false;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.ControlLight;
+            DGV_Poster.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
             DGV_Poster.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             DGV_Poster.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             DGV_Poster.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1529,6 +1553,8 @@ namespace PKHeX.WinForms
             DGV_Doll.AllowUserToDeleteRows = false;
             DGV_Doll.AllowUserToResizeColumns = false;
             DGV_Doll.AllowUserToResizeRows = false;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.ControlLight;
+            DGV_Doll.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             DGV_Doll.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             DGV_Doll.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             DGV_Doll.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1570,6 +1596,8 @@ namespace PKHeX.WinForms
             DGV_Cushion.AllowUserToDeleteRows = false;
             DGV_Cushion.AllowUserToResizeColumns = false;
             DGV_Cushion.AllowUserToResizeRows = false;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.ControlLight;
+            DGV_Cushion.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle8;
             DGV_Cushion.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             DGV_Cushion.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             DGV_Cushion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -1784,6 +1812,27 @@ namespace PKHeX.WinForms
             CHK_EnablePaint.UseVisualStyleBackColor = true;
             CHK_EnablePaint.CheckedChanged += CHK_EnablePaint_CheckedChanged;
             // 
+            // TAB_MirageIsland
+            // 
+            TAB_MirageIsland.Controls.Add(B_MirageIsland);
+            TAB_MirageIsland.Location = new System.Drawing.Point(4, 44);
+            TAB_MirageIsland.Name = "TAB_MirageIsland";
+            TAB_MirageIsland.Padding = new System.Windows.Forms.Padding(3);
+            TAB_MirageIsland.Size = new System.Drawing.Size(357, 234);
+            TAB_MirageIsland.TabIndex = 8;
+            TAB_MirageIsland.Text = "Mirage Island";
+            TAB_MirageIsland.UseVisualStyleBackColor = true;
+            // 
+            // B_MirageIsland
+            // 
+            B_MirageIsland.Location = new System.Drawing.Point(86, 74);
+            B_MirageIsland.Name = "B_MirageIsland";
+            B_MirageIsland.Size = new System.Drawing.Size(140, 47);
+            B_MirageIsland.TabIndex = 0;
+            B_MirageIsland.Text = "Match First Party PID";
+            B_MirageIsland.UseVisualStyleBackColor = true;
+            B_MirageIsland.Click += SetMirageIsland;
+            // 
             // SAV_Misc3
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1853,6 +1902,7 @@ namespace PKHeX.WinForms
             GB_Painting.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Caption).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Painting).EndInit();
+            TAB_MirageIsland.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -1990,5 +2040,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_Mode;
         private System.Windows.Forms.Label L_Facility;
         private System.Windows.Forms.Label L_Continue;
+        private System.Windows.Forms.TabPage TAB_MirageIsland;
+        private System.Windows.Forms.Button B_MirageIsland;
     }
 }

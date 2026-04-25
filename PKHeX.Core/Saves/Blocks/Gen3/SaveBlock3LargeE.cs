@@ -1,10 +1,11 @@
+using PKHeX.Core.Saves.Substructures.Gen3;
 using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed record SaveBlock3LargeE(Memory<byte> Raw) : ISaveBlock3LargeExpansion, ISaveBlock3LargeHoenn, IRecordStatStorage<RecID3Emerald, uint>
+public sealed record SaveBlock3LargeE(Memory<byte> Raw) : ISaveBlock3LargeExpansion, ISaveBlock3LargeHoenn, IRecordStatStorage<RecID3Emerald, uint>, ISaveBlock3MirageIsland
 {
     public Span<byte> Data => Raw.Span;
     public ushort X { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
@@ -201,4 +202,16 @@ public sealed record SaveBlock3LargeE(Memory<byte> Raw) : ISaveBlock3LargeExpans
     public byte WaldaIconID { get => Data[Walda + 0x14]; set => Data[Walda + 0x14] = value; }
     public byte WaldaPatternID { get => Data[Walda + 0x15]; set => Data[Walda + 0x15] = value; }
     public bool WaldaUnlocked { get => Data[Walda + 0x16] != 0; set => Data[Walda + 0x16] = (byte)(value ? 1 : 0); }
+
+    // Mirage Island value
+    private const int OFS_MirageIslandValue = 0x13E4;
+
+    /// <summary>
+    /// Mirage Island match value. The game compares this against the low 16 bits of party Pokémon PIDs.
+    /// </summary>
+    public ushort MirageIslandValue
+    {
+        get => ReadUInt16LittleEndian(Data[OFS_MirageIslandValue..]);
+        set => WriteUInt16LittleEndian(Data[OFS_MirageIslandValue..], value);
+    }
 }

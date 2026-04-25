@@ -53,6 +53,9 @@ public partial class SAV_Misc3 : Form
             TC_Misc.Controls.Remove(TAB_BF);
         }
 
+        if (!SAV.HasMirageIsland)
+            TC_Misc.Controls.Remove(TAB_MirageIsland);
+
         if (SAV is SAV3FRLG frlg)
         {
             TB_RivalName.Text = frlg.RivalName;
@@ -72,7 +75,9 @@ public partial class SAV_Misc3 : Form
             }
         }
         else
-        { TB_RivalName.Visible = L_TrainerName.Visible = GB_TCM.Visible = false; }
+        {
+            TB_RivalName.Visible = L_TrainerName.Visible = GB_TCM.Visible = false;
+        }
 
         NUD_Coins.Value = Math.Min(NUD_Coins.Maximum, SAV.Coin);
     }
@@ -247,6 +252,25 @@ public partial class SAV_Misc3 : Form
         SAV.SetEventFlag(0x1AF, CHK_InitialBirth.Checked);
         SAV.SetEventFlag(0x1B0, CHK_InitialFaraway.Checked);
         SAV.SetEventFlag(0x1DB, CHK_InitialNavel.Checked);
+    }
+    #endregion
+
+    #region Mirage Island
+    private void SetMirageIsland(object sender, EventArgs e)
+    {
+        if (!SAV.HasMirageIsland)
+        {
+            WinFormsUtil.Alert("This save does not support Mirage Island.");
+            return;
+        }
+
+        if (!SAV.TrySetMirageIslandFromFirstPartySlot())
+        {
+            WinFormsUtil.Alert("The first party slot is empty or invalid.");
+            return;
+        }
+
+        WinFormsUtil.Alert($"Mirage Island value set to 0x{SAV.MirageIslandValue:X4}.");
     }
     #endregion
 
@@ -762,4 +786,5 @@ public partial class SAV_Misc3 : Form
             TB_SID.Text = sid.ToString();
     }
     #endregion
+
 }
