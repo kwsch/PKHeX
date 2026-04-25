@@ -92,11 +92,11 @@ RibbonAbilityDouble	더블어빌리티리본
 RibbonAbilityMulti	멀티어빌리티리본
 RibbonAbilityPair	페어어빌리티리본
 RibbonAbilityWorld	월드어빌리티리본
-RibbonCountG3Cool	쿨
-RibbonCountG3Beauty	뷰티
-RibbonCountG3Cute	큐트
-RibbonCountG3Smart	지니어스
-RibbonCountG3Tough	파워풀
+RibbonCountG3Cool	쿨리본
+RibbonCountG3Beauty	뷰티리본
+RibbonCountG3Cute	큐트리본
+RibbonCountG3Smart	지니어스리본
+RibbonCountG3Tough	파워풀리본
 RibbonChampionAlola	알로라챔피언리본
 RibbonBattleRoyale	로열마스터리본
 RibbonBattleTreeGreat	그레이트트리리본
