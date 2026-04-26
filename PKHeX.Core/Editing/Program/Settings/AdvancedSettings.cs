@@ -17,6 +17,9 @@ public sealed class AdvancedSettings
     [LocalizedDescription("Hide event variable names for that contain any of the comma-separated substrings below. Removes event values from the GUI that the user doesn't care to view.")]
     public string HideEvent8Contains { get; set; } = string.Empty;
 
+    [LocalizedDescription("Minimum distance threshold that mouse movement must exceed before a drag operation is started from a slot.")]
+    public int DragStartThreshold { get; set; } = 0;
+
     [Browsable(false)]
     public string[] GetExclusionList8() => Array.ConvertAll(HideEvent8Contains.Split(',', StringSplitOptions.RemoveEmptyEntries), z => z.Trim());
 }
