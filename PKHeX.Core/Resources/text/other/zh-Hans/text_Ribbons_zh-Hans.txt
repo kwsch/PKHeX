@@ -37,7 +37,7 @@ RibbonChampionNational	国家冠军奖章
 RibbonChampionWorld	世界冠军奖章
 RibbonCountMemoryContest	华丽大赛回忆奖章
 RibbonCountMemoryBattle	对战回忆奖章
-RibbonChampionG6Hoenn	丰缘冠军奖章 (6代)
+RibbonChampionG6Hoenn	丰缘冠军奖章 (ORAS)
 RibbonContestStar	华丽大赛之星奖章
 RibbonMasterCoolness	帅气大师奖章 (6代)
 RibbonMasterBeauty	美丽大师奖章 (6代)

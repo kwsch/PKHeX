@@ -1,10 +1,10 @@
 RibbonChampionKalos	Campeón de Kalos
 RibbonChampionG3	Campeón (Gen3)
 RibbonChampionSinnoh	Campeón de Sinnoh
-RibbonBestFriends	Afecto
+RibbonBestFriends	Amistad
 RibbonTraining	Ejercicio
 RibbonBattlerSkillful	Figura del Combate
-RibbonBattlerExpert	Experto del Combate
+RibbonBattlerExpert	As del Combate
 RibbonEffort	Esfuerzo
 RibbonAlert	Alerta
 RibbonShock	Impacto
@@ -15,7 +15,7 @@ RibbonSnooze	Cabezada
 RibbonSmile	Sonrisa
 RibbonGorgeous	Maravilla
 RibbonRoyal	Realeza
-RibbonGorgeousRoyal	Realeza Maravila
+RibbonGorgeousRoyal	Realeza Maravilla
 RibbonArtist	Artista
 RibbonFootprint	Huella
 RibbonRecord	Récord
@@ -35,55 +35,55 @@ RibbonChampionBattle	Campeón de Torneo
 RibbonChampionRegional	Campeón de Área
 RibbonChampionNational	Campeón Nacional
 RibbonChampionWorld	Campeón Mundial
-RibbonCountMemoryContest	Cintas de concursos anteriores
-RibbonCountMemoryBattle	Cintas de batallas anteriores
-RibbonChampionG6Hoenn	Campeón de Hoenn (ORAS)
-RibbonContestStar	Cinta estelar de los concursos
-RibbonMasterCoolness	Cinta estrella del carisma
-RibbonMasterBeauty	Cinta estrella de la belleza
-RibbonMasterCuteness	Cinta estrella de la dulzura
-RibbonMasterCleverness	Cinta estrella del ingenio
-RibbonMasterToughness	Cinta estrella de la dureza
+RibbonCountMemoryContest	Recuerdo de Concurso
+RibbonCountMemoryBattle	Recuerdo de Combate
+RibbonChampionG6Hoenn	Campeón de Hoenn (ROZA)
+RibbonContestStar	Estelar de Concursos
+RibbonMasterCoolness	Carisma experto
+RibbonMasterBeauty	Belleza experto
+RibbonMasterCuteness	Dulzura experto
+RibbonMasterCleverness	Ingenio experto
+RibbonMasterToughness	Dureza experto
 RibbonG3Cool	Carisma (G3)
-RibbonG3CoolSuper	Carisma Alto
-RibbonG3CoolHyper	Carisma Avanzado
-RibbonG3CoolMaster	Carisma Experto
+RibbonG3CoolSuper	Carisma alto
+RibbonG3CoolHyper	Carisma avanzado
+RibbonG3CoolMaster	Carisma experto
 RibbonG3Beauty	Belleza (G3)
-RibbonG3BeautySuper	Belleza Alto
-RibbonG3BeautyHyper	Belleza Avanzado
-RibbonG3BeautyMaster	Belleza Experto
+RibbonG3BeautySuper	Belleza alto
+RibbonG3BeautyHyper	Belleza avanzado
+RibbonG3BeautyMaster	Belleza experto
 RibbonG3Cute	Dulzura (G3)
-RibbonG3CuteSuper	Dulzura Alto
-RibbonG3CuteHyper	Dulzura Avanzado
-RibbonG3CuteMaster	Dulzura Experto
+RibbonG3CuteSuper	Dulzura alto
+RibbonG3CuteHyper	Dulzura avanzado
+RibbonG3CuteMaster	Dulzura experto
 RibbonG3Smart	Ingenio (G3)
-RibbonG3SmartSuper	Ingenio Alto
-RibbonG3SmartHyper	Ingenio Avanzado
-RibbonG3SmartMaster	Ingenio Experto
+RibbonG3SmartSuper	Ingenio alto
+RibbonG3SmartHyper	Ingenio avanzado
+RibbonG3SmartMaster	Ingenio experto
 RibbonG3Tough	Dureza (G3)
-RibbonG3ToughSuper	Dureza Alto
-RibbonG3ToughHyper	Dureza Avanzado
-RibbonG3ToughMaster	Dureza Experto
+RibbonG3ToughSuper	Dureza alto
+RibbonG3ToughHyper	Dureza avanzado
+RibbonG3ToughMaster	Dureza experto
 RibbonG4Cool	Carisma (G4)
-RibbonG4CoolGreat	Carisma Difícil
-RibbonG4CoolUltra	Carisma Superior
-RibbonG4CoolMaster	Carisma Experto
+RibbonG4CoolGreat	Carisma difícil
+RibbonG4CoolUltra	Carisma superior
+RibbonG4CoolMaster	Carisma experto
 RibbonG4Beauty	Belleza (G4)
-RibbonG4BeautyGreat	Belleza Difícil
-RibbonG4BeautyUltra	Belleza Superior
-RibbonG4BeautyMaster	Belleza Experto
+RibbonG4BeautyGreat	Belleza difícil
+RibbonG4BeautyUltra	Belleza superior
+RibbonG4BeautyMaster	Belleza experto
 RibbonG4Cute	Dulzura (G4)
-RibbonG4CuteGreat	Dulzura Difícil
-RibbonG4CuteUltra	Dulzura Superior
-RibbonG4CuteMaster	Dulzura Experto
+RibbonG4CuteGreat	Dulzura difícil
+RibbonG4CuteUltra	Dulzura superior
+RibbonG4CuteMaster	Dulzura experto
 RibbonG4Smart	Ingenio (G4)
-RibbonG4SmartGreat	Ingenio Difícil
-RibbonG4SmartUltra	Ingenio Superior
-RibbonG4SmartMaster	Ingenio Experto
+RibbonG4SmartGreat	Ingenio difícil
+RibbonG4SmartUltra	Ingenio superior
+RibbonG4SmartMaster	Ingenio experto
 RibbonG4Tough	Dureza (G4)
-RibbonG4ToughGreat	Dureza Difícil
-RibbonG4ToughUltra	Dureza Superior
-RibbonG4ToughMaster	Dureza Experto
+RibbonG4ToughGreat	Dureza difícil
+RibbonG4ToughUltra	Dureza superior
+RibbonG4ToughMaster	Dureza experto
 RibbonWinning	Ganador
 RibbonVictory	Victoria
 RibbonAbility	Habilidad

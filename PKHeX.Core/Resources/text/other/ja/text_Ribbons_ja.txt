@@ -1,106 +1,106 @@
-RibbonChampionKalos	カロス チャンプ
-RibbonChampionG3	チャンプ (Gen3)
-RibbonChampionSinnoh	シンオウ チャンプ
-RibbonBestFriends	なかよし
-RibbonTraining	しゅぎょう
-RibbonBattlerSkillful	グレートバトル
-RibbonBattlerExpert	マスターバトル
-RibbonEffort	がんば
-RibbonAlert	しゃっき
-RibbonShock	どっき
-RibbonDowncast	しょんぼ
-RibbonCareless	うっか
-RibbonRelax	すっき
-RibbonSnooze	ぐっす
-RibbonSmile	にっこ
-RibbonGorgeous	ゴージャス
-RibbonRoyal	ロイヤル
-RibbonGorgeousRoyal	ゴージャスロイヤル
-RibbonArtist	ブロマイド
-RibbonFootprint	あしあと
-RibbonRecord	レコード
-RibbonLegend	レジェンド
-RibbonCountry	カントリー
-RibbonNational	ナショナル
-RibbonEarth	アース
-RibbonWorld	ワールド
-RibbonClassic	クラシック
-RibbonPremier	プレミア
-RibbonEvent	イベント
-RibbonBirthday	バースデー
-RibbonSpecial	スペシャル
-RibbonSouvenir	メモリアル
-RibbonWishing	ウィッシュ
-RibbonChampionBattle	バトルチャンプ
-RibbonChampionRegional	エリアチャンプ
-RibbonChampionNational	ナショナルチャンプ
-RibbonChampionWorld	ワールドチャンプ
-RibbonCountMemoryContest	おもいでコンテスト
-RibbonCountMemoryBattle	おもいでバトル
-RibbonChampionG6Hoenn	ホウエン　チャンプ (ORAS)
-RibbonContestStar	コンテストスター
-RibbonMasterCoolness	かっこよさマスター
-RibbonMasterBeauty	うつくしさマスター
-RibbonMasterCuteness	かわいさマスター
-RibbonMasterCleverness	かしこさマスター
-RibbonMasterToughness	たくましさマスター
-RibbonG3Cool	クール (G3)
-RibbonG3CoolSuper	クールリボンスーパー (G3)
-RibbonG3CoolHyper	クールリボンハイパー (G3)
-RibbonG3CoolMaster	クールリボンマスター (G3)
-RibbonG3Beauty	ビューティー (G3)
-RibbonG3BeautySuper	ビューティーリボンスーパー (G3)
-RibbonG3BeautyHyper	ビューティーリボンハイパー (G3)
-RibbonG3BeautyMaster	ビューティーリボンマスター (G3)
-RibbonG3Cute	キュート (G3)
-RibbonG3CuteSuper	キュートリボンスーパー (G3)
-RibbonG3CuteHyper	キュートリボンハイパー (G3)
-RibbonG3CuteMaster	キュートリボンマスター (G3)
-RibbonG3Smart	ジーニアス (G3)
-RibbonG3SmartSuper	ジーニアスリボンスーパー (G3)
-RibbonG3SmartHyper	ジーニアスリボンハイパー (G3)
-RibbonG3SmartMaster	ジーニアスリボンマスター (G3)
-RibbonG3Tough	パワフル (G3)
-RibbonG3ToughSuper	パワフルリボンスーパー (G3)
-RibbonG3ToughHyper	パワフルリボンハイパー (G3)
-RibbonG3ToughMaster	パワフルリボンマスター (G3)
-RibbonG4Cool	クール (G4)
-RibbonG4CoolGreat	クールリボングレート (G4)
-RibbonG4CoolUltra	クールリボンウルトラ (G4)
-RibbonG4CoolMaster	クールリボンマスター (G4)
-RibbonG4Beauty	ビューティー (G4)
-RibbonG4BeautyGreat	ビューティーリボングレート (G4)
-RibbonG4BeautyUltra	ビューティーリボンウルトラ (G4)
-RibbonG4BeautyMaster	ビューティーリボンマスター (G4)
-RibbonG4Cute	キュート (G4)
-RibbonG4CuteGreat	キュートリボングレート (G4)
-RibbonG4CuteUltra	キュートリボンウルトラ (G4)
-RibbonG4CuteMaster	キュートリボンマスター (G4)
-RibbonG4Smart	ジーニアス (G4)
-RibbonG4SmartGreat	ジーニアスリボングレート (G4)
-RibbonG4SmartUltra	ジーニアスリボンウルトラ (G4)
-RibbonG4SmartMaster	ジーニアスリボンマスター (G4)
-RibbonG4Tough	パワフル (G4)
-RibbonG4ToughGreat	パワフルリボングレート (G4)
-RibbonG4ToughUltra	パワフルリボンウルトラ (G4)
-RibbonG4ToughMaster	パワフルリボンマスター (G4)
-RibbonWinning	ウイニング
-RibbonVictory	ビクトリー
-RibbonAbility	アビリティ
-RibbonAbilityGreat	グレートアビリティ
-RibbonAbilityDouble	ダブルアビリティ
-RibbonAbilityMulti	マルチアビリティ
-RibbonAbilityPair	ペアアビリティ
-RibbonAbilityWorld	ワールドアビリティ
-RibbonCountG3Cool	かっこよさ
-RibbonCountG3Beauty	うつくしさ
-RibbonCountG3Cute	かわいさ
-RibbonCountG3Smart	かしこさ
-RibbonCountG3Tough	たくましさ
-RibbonChampionAlola	アローラ　チャンプ
-RibbonBattleRoyale	ロイヤルマスター
-RibbonBattleTreeGreat	グレートツリー
-RibbonBattleTreeMaster	マスターツリー
+RibbonChampionKalos	カロス　チャンプリボン
+RibbonChampionG3	チャンプリボン (3世代)
+RibbonChampionSinnoh	シンオウ　チャンプリボン
+RibbonBestFriends	なかよしリボン
+RibbonTraining	しゅぎょうリボン
+RibbonBattlerSkillful	グレートバトルリボン
+RibbonBattlerExpert	マスターバトルリボン
+RibbonEffort	がんばリボン
+RibbonAlert	しゃっきリボン
+RibbonShock	どっきリボン
+RibbonDowncast	しょんぼリボン
+RibbonCareless	うっかリボン
+RibbonRelax	すっきリボン
+RibbonSnooze	ぐっすリボン
+RibbonSmile	にっこリボン
+RibbonGorgeous	ゴージャスリボン
+RibbonRoyal	ロイヤルリボン
+RibbonGorgeousRoyal	ゴージャスロイヤルリボン
+RibbonArtist	ブロマイドリボン
+RibbonFootprint	あしあとリボン
+RibbonRecord	レコードリボン
+RibbonLegend	レジェンドリボン
+RibbonCountry	カントリーリボン
+RibbonNational	ナショナルリボン
+RibbonEarth	アースリボン
+RibbonWorld	ワールドリボン
+RibbonClassic	クラシックリボン
+RibbonPremier	プレミアリボン
+RibbonEvent	イベントリボン
+RibbonBirthday	バースデーリボン
+RibbonSpecial	スペシャルリボン
+RibbonSouvenir	メモリアルリボン
+RibbonWishing	ウィッシュリボン
+RibbonChampionBattle	バトルチャンプリボン
+RibbonChampionRegional	エリアチャンプリボン
+RibbonChampionNational	ナショナルチャンプリボン
+RibbonChampionWorld	ワールドチャンプリボン
+RibbonCountMemoryContest	おもいでコンテストリボン
+RibbonCountMemoryBattle	おもいでバトルリボン
+RibbonChampionG6Hoenn	ホウエン　チャンプリボン (ORAS)
+RibbonContestStar	コンテストスターリボン
+RibbonMasterCoolness	かっこよさマスターリボン
+RibbonMasterBeauty	うつくしさマスターリボン
+RibbonMasterCuteness	かわいさマスターリボン
+RibbonMasterCleverness	かしこさマスターリボン
+RibbonMasterToughness	たくましさマスターリボン
+RibbonG3Cool	クールリボン (3世代)
+RibbonG3CoolSuper	クールリボンスーパー (3世代)
+RibbonG3CoolHyper	クールリボンハイパー (3世代)
+RibbonG3CoolMaster	クールリボンマスター (3世代)
+RibbonG3Beauty	ビューティリボン (3世代)
+RibbonG3BeautySuper	ビューティリボンスーパー (3世代)
+RibbonG3BeautyHyper	ビューティリボンハイパー (3世代)
+RibbonG3BeautyMaster	ビューティリボンマスター (3世代)
+RibbonG3Cute	キュートリボン (3世代)
+RibbonG3CuteSuper	キュートリボンスーパー (3世代)
+RibbonG3CuteHyper	キュートリボンハイパー (3世代)
+RibbonG3CuteMaster	キュートリボンマスター (3世代)
+RibbonG3Smart	ジーニアスリボン (3世代)
+RibbonG3SmartSuper	ジーニアスリボンスーパー (3世代)
+RibbonG3SmartHyper	ジーニアスリボンハイパー (3世代)
+RibbonG3SmartMaster	ジーニアスリボンマスター (3世代)
+RibbonG3Tough	パワフルリボン (3世代)
+RibbonG3ToughSuper	パワフルリボンスーパー (3世代)
+RibbonG3ToughHyper	パワフルリボンハイパー (3世代)
+RibbonG3ToughMaster	パワフルリボンマスター (3世代)
+RibbonG4Cool	クールリボン (4世代)
+RibbonG4CoolGreat	クールリボングレート (4世代)
+RibbonG4CoolUltra	クールリボンウルトラ (4世代)
+RibbonG4CoolMaster	クールリボンマスター (4世代)
+RibbonG4Beauty	ビューティリボン (4世代)
+RibbonG4BeautyGreat	ビューティーリボングレート (4世代)
+RibbonG4BeautyUltra	ビューティーリボンウルトラ (4世代)
+RibbonG4BeautyMaster	ビューティーリボンマスター (4世代)
+RibbonG4Cute	キュートリボン (4世代)
+RibbonG4CuteGreat	キュートリボングレート (4世代)
+RibbonG4CuteUltra	キュートリボンウルトラ (4世代)
+RibbonG4CuteMaster	キュートリボンマスター (4世代)
+RibbonG4Smart	ジーニアスリボン (4世代)
+RibbonG4SmartGreat	ジーニアスリボングレート (4世代)
+RibbonG4SmartUltra	ジーニアスリボンウルトラ (4世代)
+RibbonG4SmartMaster	ジーニアスリボンマスター (4世代)
+RibbonG4Tough	パワフルリボン (4世代)
+RibbonG4ToughGreat	パワフルリボングレート (4世代)
+RibbonG4ToughUltra	パワフルリボンウルトラ (4世代)
+RibbonG4ToughMaster	パワフルリボンマスター (4世代)
+RibbonWinning	ウイニングリボン
+RibbonVictory	ビクトリーリボン
+RibbonAbility	アビリティリボン
+RibbonAbilityGreat	グレートアビリティリボン
+RibbonAbilityDouble	ダブルアビリティリボン
+RibbonAbilityMulti	マルチアビリティリボン
+RibbonAbilityPair	ペアアビリティリボン
+RibbonAbilityWorld	ワールドアビリティリボン
+RibbonCountG3Cool	かっこよさリボン
+RibbonCountG3Beauty	うつくしさリボン
+RibbonCountG3Cute	かわいさリボン
+RibbonCountG3Smart	かしこさリボン
+RibbonCountG3Tough	たくましさリボン
+RibbonChampionAlola	アローラ　チャンプリボン
+RibbonBattleRoyale	ロイヤルマスターリボン
+RibbonBattleTreeGreat	グレートツリーリボン
+RibbonBattleTreeMaster	マスターツリーリボン
 RibbonChampionGalar	ガラル チャンプリボン
 RibbonTowerMaster	マスタータワーリボン
 RibbonMasterRank	マスターランクリボン
