@@ -270,6 +270,7 @@ LocalizedDescription.DatabasePath=PKM 数据库文件夹的路径。
 LocalizedDescription.DefaultBoxExportNamer=如果有多个可用的文件名，则选择文件名用于GUI的框导出。
 LocalizedDescription.DisableScalingDpi=在程序启动时禁用基于 Dpi 的 GUI 缩放，回退到字体缩放。
 LocalizedDescription.DisableWordFilterPastGen=禁用3DS时代之前格式的文字过滤检查。
+LocalizedDescription.DragStartThreshold=从槽位开始拖放操作前，鼠标移动必须超过的最小距离阈值。
 LocalizedDescription.EggRandomAnyType3=允许三代孵化蛋拥有任意PID/个体值类型，假设其通过乱数方式制造碰撞获得，而非通过修改手段获得。
 LocalizedDescription.EggRandomAnyType4=允许四代孵化蛋拥有任意PID/个体值类型，假设其通过乱数方式制造碰撞获得，而非通过修改手段获得。
 LocalizedDescription.Export=导出单个宝可梦时显示详细信息的相关设置。
