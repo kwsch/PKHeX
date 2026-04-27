@@ -270,6 +270,7 @@ LocalizedDescription.DatabasePath=Pfad zum Ordner der PKM-Datenbank.
 LocalizedDescription.DefaultBoxExportNamer=Ausgewähltes Dateibenennungsschema für Box-Exporte über die Benutzeroberfläche, falls mehrere verfügbar sind.
 LocalizedDescription.DisableScalingDpi=Deaktiviert beim Programmstart die auf DPI basierende Skalierung der Benutzeroberfläche und nutzt stattdessen die Schriftart-Skalierung.
 LocalizedDescription.DisableWordFilterPastGen=Deaktiviert nachträgliche Wortfilter-Prüfungen für ältere Formate.
+LocalizedDescription.DragStartThreshold=Mindestdistanz, die die Mausbewegung überschreiten muss, bevor ein Drag-Vorgang aus einem Slot gestartet wird.
 LocalizedDescription.EggRandomAnyType3=Erlaubt gezüchteten Eiern aus Generation 3 beliebige PID/DV-Kombinationen, unter der Annahme, dass diese durch RNG-Manipulation statt durch Cheats entstanden sind.
 LocalizedDescription.EggRandomAnyType4=Erlaubt gezüchteten Eiern aus Generation 4 beliebige PID/DV-Kombinationen, unter der Annahme, dass diese durch RNG-Manipulation statt durch Cheats entstanden sind.
 LocalizedDescription.Export=Einstellungen zur Anzeige von Details beim Exportieren eines Slots.
