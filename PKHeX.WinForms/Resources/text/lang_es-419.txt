@@ -270,6 +270,7 @@ LocalizedDescription.DatabasePath=Ruta a la carpeta de la base de datos PKM.
 LocalizedDescription.DefaultBoxExportNamer=Nombre seleccionado para los archivos referentes a las exportaciones de cajas, si hubiese varios.
 LocalizedDescription.DisableScalingDpi=Desactiva el escalado de la GUI basado en los DPI al arrancar el programa, se usa el escalado de la fuente.
 LocalizedDescription.DisableWordFilterPastGen=Desactiva el filtro de palabras en formatos anteriors a la era 3DS.
+LocalizedDescription.DragStartThreshold=Umbral de distancia mínima que el movimiento del mouse debe superar antes de que se inicie una operación de arrastre desde una casilla.
 LocalizedDescription.EggRandomAnyType3=Permitir que los huevos criados de Generación 3 tengan cualquier tipo de PID/IV asumiendo que fueron abusados ​​​​por RNG para ser colisiones en lugar de pirateados.
 LocalizedDescription.EggRandomAnyType4=Permitir que los huevos criados por la Generación 4 tengan cualquier tipo de PID/IV asumiendo que fueron abusados ​​​​por RNG para ser colisiones en lugar de pirateados.
 LocalizedDescription.Export=Configuración para mostrar detalles al exportar una ranura.
