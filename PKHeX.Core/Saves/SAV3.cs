@@ -1,3 +1,4 @@
+using PKHeX.Core.Saves.Substructures.Gen3;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -754,6 +755,47 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     {
         get => GetFlag(ExternalEventFlags + 2, 0);
         set => SetFlag(ExternalEventFlags + 2, 0, value);
+    }
+    #endregion
+
+    #region MirageIsland
+    public bool HasMirageIsland => LargeBlock is ISaveBlock3MirageIsland;
+
+    public ushort MirageIslandValue
+    {
+        get
+        {
+            if (LargeBlock is not ISaveBlock3MirageIsland m)
+                throw new InvalidOperationException("This save does not support Mirage Island.");
+            return m.MirageIslandValue;
+        }
+        set
+        {
+            if (LargeBlock is not ISaveBlock3MirageIsland m)
+                throw new InvalidOperationException("This save does not support Mirage Island.");
+            m.MirageIslandValue = value;
+        }
+    }
+
+    /// <summary>
+    /// Sets the Mirage Island match value from the PID of the first party slot.
+    /// Returns false if the save does not support Mirage Island, or if the first party slot is empty or invalid.
+    /// </summary>
+    public bool TrySetMirageIslandFromFirstPartySlot()
+    {
+        if (LargeBlock is not ISaveBlock3MirageIsland m)
+            return false;
+
+        if (LargeBlock.PartyCount == 0)
+            return false;
+
+        var slot = LargeBlock.PartyBuffer[..PokeCrypto.SIZE_3PARTY];
+        if (!IsPKMPresent(slot))
+            return false;
+
+        var pk = new PK3(slot.ToArray());
+        m.MirageIslandValue = (ushort)(pk.PID & 0xFFFF);
+        return true;
     }
     #endregion
 }

@@ -1,10 +1,11 @@
+using PKHeX.Core.Saves.Substructures.Gen3;
 using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed record SaveBlock3LargeRS(Memory<byte> Raw) : ISaveBlock3LargeHoenn, IRecordStatStorage<RecID3RuSa, uint>
+public sealed record SaveBlock3LargeRS(Memory<byte> Raw) : ISaveBlock3LargeHoenn, IRecordStatStorage<RecID3RuSa, uint>, ISaveBlock3MirageIsland
 {
     public Span<byte> Data => Raw.Span;
     public ushort X { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
@@ -169,4 +170,16 @@ public sealed record SaveBlock3LargeRS(Memory<byte> Raw) : ISaveBlock3LargeHoenn
     }
 
     public int SeenOffset3 => 0x3A8C;
+
+    // Mirage Island value
+    private const int OFS_MirageIslandValue = 0x1388;
+
+    /// <summary>
+    /// Mirage Island match value. The game compares this against the low 16 bits of party Pokemon PIDs.
+    /// </summary>
+    public ushort MirageIslandValue
+    {
+        get => ReadUInt16LittleEndian(Data[OFS_MirageIslandValue..]);
+        set => WriteUInt16LittleEndian(Data[OFS_MirageIslandValue..], value);
+    }
 }
