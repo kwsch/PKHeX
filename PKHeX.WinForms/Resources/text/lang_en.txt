@@ -270,6 +270,7 @@ LocalizedDescription.DatabasePath=Path to the PKM Database folder.
 LocalizedDescription.DefaultBoxExportNamer=Selected File namer to use for box exports for the GUI, if multiple are available.
 LocalizedDescription.DisableScalingDpi=Disables the GUI scaling based on Dpi on program startup, falling back to font scaling.
 LocalizedDescription.DisableWordFilterPastGen=Disables retroactive Word Filter checks for earlier formats.
+LocalizedDescription.DragStartThreshold=Minimum distance threshold that mouse movement must exceed before a drag operation is started from a slot.
 LocalizedDescription.EggRandomAnyType3=Allow Generation 3 bred eggs to have any PID/IV type by assuming they were RNG abused to be collisions instead of hacked.
 LocalizedDescription.EggRandomAnyType4=Allow Generation 4 bred eggs to have any PID/IV type by assuming they were RNG abused to be collisions instead of hacked.
 LocalizedDescription.Export=Settings for showing details when exporting a slot.
