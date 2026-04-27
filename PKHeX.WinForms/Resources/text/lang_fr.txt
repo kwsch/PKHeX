@@ -270,6 +270,7 @@ LocalizedDescription.DatabasePath=Chemin vers le dossier de la Base de Données 
 LocalizedDescription.DefaultBoxExportNamer=Sélectionne le nom de fichier à utiliser pour les exports de boîtes pour l'interface, si plusieurs options sont disponibles.
 LocalizedDescription.DisableScalingDpi=Désactive l'agrandissement de l'interface basé sur les points par pouce au démarrage du programme, utilisant à la place l'agrandissement de police.
 LocalizedDescription.DisableWordFilterPastGen=Désactive la vérification rétroactive du filtre de mots pour les formats plus anciens.
+LocalizedDescription.DragStartThreshold=Distance minimale que le mouvement de la souris doit dépasser avant qu'une opération de glisser ne commence à partir d'un emplacement.
 LocalizedDescription.EggRandomAnyType3=Permet aux Œufs pondus de 3ème génération d'avoir n'importe quel type de PID/IV en assumant qu'ils ont été obtenus par abus de RNG pour être des collisions au lieu d'être hackés.
 LocalizedDescription.EggRandomAnyType4=Permet aux Œufs pondus de 4ème génération d'avoir n'importe quel type de PID/IV en assumant qu'ils ont été obtenus par abus de RNG pour être des collisions au lieu d'être hackés.
 LocalizedDescription.Export=Paramètres pour montrer les détails lors de l'exportation d'un emplacement.
