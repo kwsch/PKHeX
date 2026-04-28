@@ -99,22 +99,11 @@ public sealed class MovePPVerifier : Verifier
         }
     }
 
-    private static bool IsFreshZATransferFromHOME_400(PA9 pk, EntityContext context)
-    {
-        if (context != EntityContext.Gen9a)
-            return true;
-
-        var scale = pk.Scale;
-        if (pk.HeightScalar == scale && pk.WeightScalar == scale)
-            return true;
-        return false;
-    }
-
     private static MoveHealState GetPermittedStatePP(LegalityAnalysis data, PKM pk)
     {
         if (Legal.IsPPUnused(pk))
         {
-            if (pk is PA9 pa9 && IsFreshZATransferFromHOME_400(pa9, data.EncounterOriginal.Context))
+            if (pk is PA9 pa9 && HomeQuirks.HasEnteredReachingZA(pa9, data.EncounterOriginal.Context))
                 return AllowHealedOr0; // HOME sets 0 PP for all moves. Healing / reassigning moves in ZA will heal individual indexes.
 
             return OnlyHealed;

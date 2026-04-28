@@ -199,7 +199,9 @@ public sealed record EncounterStatic8a
         if (pk is not IScaledSize s)
             return true;
 
-        // 3 of the Alpha statics were mistakenly set as 127 scale. If they enter HOME on 3.0.1, they'll get bumped to 255.
+        // 3 of the Alpha statics were mistakenly set as 127 height/weight/scale.
+        // Depositing them from any game into HOME 3.0.1 or later bumps all 3 values to 255.
+        // The handling is server-sided and checks specifically for origin game, species, form, and Alpha Mark.
         // Defer scale match to downstream checks; we are sufficiently confident this is the best-match.
         if (IsAlpha127) // Average Size Alphas
         {

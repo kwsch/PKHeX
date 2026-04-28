@@ -195,21 +195,21 @@ public static class ImageUtil
         return GetBitmap(data, width, height, data.Length, format);
     }
 
-    public static void SetAllUsedPixelsOpaque(Span<byte> data)
+    public static void SetAllUsedPixelsOpaque(Span<byte> data, byte threshold = TransparencyThresholdHalf)
     {
         for (int i = data.Length - 4; i >= 0; i -= 4)
         {
-            if (data[i + 3] != 0)
+            if (data[i + 3] >= threshold)
                 data[i + 3] = 0xFF;
         }
     }
 
-    public static void RemovePixels(Span<byte> pixels, ReadOnlySpan<byte> original)
+    public static void RemovePixels(Span<byte> pixels, ReadOnlySpan<byte> original, byte threshold = TransparencyThresholdHalf)
     {
         var arr = MemoryMarshal.Cast<byte, int>(pixels);
         for (int i = original.Length - 4; i >= 0; i -= 4)
         {
-            if (original[i + 3] != 0)
+            if (original[i + 3] >= threshold)
                 arr[i >> 2] = 0;
         }
     }
@@ -220,39 +220,39 @@ public static class ImageUtil
             data[i + 3] = (byte)(data[i + 3] * trans);
     }
 
-    private static void SetAllTransparencyTo(Span<byte> data, Color c, byte trans)
+    private static void SetAllTransparencyTo(Span<byte> data, Color c, byte trans, byte threshold = TransparencyThresholdHalf)
     {
         var arr = MemoryMarshal.Cast<byte, int>(data);
         var value = Color.FromArgb(trans, c).ToArgb();
         for (int i = data.Length - 4; i >= 0; i -= 4)
         {
-            if (data[i + 3] == 0)
+            if (data[i + 3] < threshold)
                 arr[i >> 2] = value;
         }
     }
 
-    private static void BlendAllTransparencyTo(Span<byte> data, Color c, byte trans)
+    private static void BlendAllTransparencyTo(Span<byte> data, Color c, byte trans, byte threshold = TransparencyThresholdHalf)
     {
         var arr = MemoryMarshal.Cast<byte, int>(data);
         var value = Color.FromArgb(trans, c).ToArgb();
         for (int i = data.Length - 4; i >= 0; i -= 4)
         {
             var alpha = data[i + 3];
-            if (alpha == 0)
+            if (alpha < threshold)
                 arr[i >> 2] = value;
             else if (alpha != 0xFF)
                 arr[i >> 2] = BlendColor(arr[i >> 2], value);
         }
     }
 
-    private static int GetAverageColor(Span<byte> data)
+    private static int GetAverageColor(Span<byte> data, byte threshold = TransparencyThreshold16)
     {
         long r = 0, g = 0, b = 0;
         int count = 0;
         for (int i = data.Length - 4; i >= 0; i -= 4)
         {
             var alpha = data[i + 3];
-            if (alpha == 0)
+            if (alpha < threshold)
                 continue;
             r += data[i + 2];
             g += data[i + 1];
@@ -348,20 +348,25 @@ public static class ImageUtil
 
     public static void GlowEdges(Span<byte> data, byte blue, byte green, byte red, int width, int reach = 3, double amount = 0.0777)
     {
+        // Ensure the pixel data is in a clean state.
+        for (int i = data.Length - 4; i >= 0; i -= 4)
+            data[i + PollutePixelColorIndex] = 0;
         PollutePixels(data, width, reach, amount);
         CleanPollutedPixels(data, blue, green, red);
     }
 
-    private const int PollutePixelColorIndex = 0;
+    private const int PollutePixelColorIndex = 0; // Blue
+    private const byte TransparencyThresholdHalf = 0x80;
+    private const byte TransparencyThreshold16 = 0x10;
 
-    private static void PollutePixels(Span<byte> data, int width, int reach, double amount)
+    private static void PollutePixels(Span<byte> data, int width, int reach, double amount, byte threshold = TransparencyThresholdHalf)
     {
         int stride = width * 4;
         int height = data.Length / stride;
         for (int i = data.Length - 4; i >= 0; i -= 4)
         {
-            // only pollute outwards if the current pixel is fully opaque
-            if (data[i + 3] == 0)
+            // only pollute outwards if the current pixel is sufficiently opaque
+            if (data[i + 3] < threshold)
                 continue;
 
             int x = (i % stride) / 4;
@@ -390,9 +395,12 @@ public static class ImageUtil
     {
         for (int i = data.Length - 4; i >= 0; i -= 4)
         {
-            // only clean if the current pixel isn't transparent
-            if (data[i + 3] != 0)
-                continue;
+            // edit: handle semi-transparent values by processing every pixel
+            // recent downscaled artwork sprites are partially transparent at their outline's edge
+
+            // // only clean if the current pixel isn't transparent
+            // if (data[i + 3] != 0)
+            //     continue;
 
             // grab the transparency from the donor byte
             var transparency = data[i + PollutePixelColorIndex];

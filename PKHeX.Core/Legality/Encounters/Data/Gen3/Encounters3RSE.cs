@@ -61,6 +61,7 @@ internal static class Encounters3RSE
         // Stationary
         new(352, 30, RSE) { Location = 034 }, // Kecleon @ Route 119
         new(352, 30, RSE) { Location = 035 }, // Kecleon @ Route 120
+        new(100, 25, RSE) { Location = 062 }, // Voltorb @ New Mauville
 
         // Stationary Lengendary
         new(377, 40, RSE) { Location = 082 }, // Regirock @ Desert Ruins

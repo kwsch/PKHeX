@@ -291,7 +291,12 @@ public static class Overworld8aRNG
             if (!isFixedH && s.HeightScalar != height)
                 return false;
             if (!isFixedW && s.WeightScalar != weight)
-                return false;
+            {
+                if (height == 0 && s.WeightScalar == 0 && HomeQuirks.HasEnteredSetZeroScale(pk))
+                { } // OK
+                else
+                    return false;
+            }
         }
 
         return true;

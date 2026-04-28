@@ -193,7 +193,12 @@ public static class Overworld8RNG
                 continue;
             var weight = copy.NextInt(0x81) + copy.NextInt(0x80);
             if (s.WeightScalar != weight)
-                continue;
+            {
+                if (height == 0 && s.WeightScalar == 0 && HomeQuirks.HasEnteredSetZeroScale(pk))
+                { } // OK
+                else
+                    continue;
+            }
 
             return iv_count;
         }

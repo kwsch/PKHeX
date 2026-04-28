@@ -92,5 +92,5 @@ public sealed class DragManager : IDisposable
     /// <summary>
     /// Gets a value indicating whether a drag operation can be started.
     /// </summary>
-    public bool CanStartDrag => Info.IsLeftMouseDown && !Cursor.Position.Equals(MouseDownPosition);
+    public bool CanStartDrag => Info.IsLeftMouseDown && ((Math.Abs(Cursor.Position.X - MouseDownPosition.X) + Math.Abs(Cursor.Position.Y - MouseDownPosition.Y)) > Main.Settings.Advanced.DragStartThreshold);
 }

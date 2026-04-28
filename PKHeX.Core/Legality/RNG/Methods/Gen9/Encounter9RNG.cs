@@ -220,8 +220,16 @@ public static class Encounter9RNG
         if (enc.Weight == 0)
         {
             var value = (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));
-            if (pk is IScaledSize s && s.WeightScalar != value)
-                return false;
+            if (pk is IScaledSize s)
+            {
+                var actual = s.WeightScalar;
+                if (actual != value)
+                {
+                    var isHomeZeroed = actual != 0 && s.HeightScalar == 0 && HomeQuirks.HasEnteredSetZeroScale(pk);
+                    if (!isHomeZeroed)
+                        return false;
+                }
+            }
         }
         // Scale
         {
@@ -242,18 +250,11 @@ public static class Encounter9RNG
 
     public static bool IsHeightMatchSV(PKM pk, byte value)
     {
-        // HOME copies Scale to Height. Untouched by HOME must match the value.
-        // Viewing the save file in HOME will alter it too. Tracker definitely indicates it was viewed.
         if (pk is not (IScaledSize s2 and IScaledSize3 s3))
             return true;
 
         // Viewed in HOME.
-        if (s2.HeightScalar == s3.Scale)
-            return true;
-        if (pk is IHomeTrack { HasTracker: true })
-            return false;
-
-        return s2.HeightScalar == value;
+        return HomeQuirks.IsTouchedScaleCopiedOrUntouched(pk, value, s2, s3);
     }
 
     private static uint GetAdaptedPID(ref Xoroshiro128Plus rand, PKM pk, in GenerateParam9 enc)

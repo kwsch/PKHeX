@@ -266,13 +266,6 @@ public sealed class FormArgumentVerifier : Verifier
         return GetInvalid(FormArgumentNotAllowed);
     }
 
-    private static bool IsFormArgumentValidFurfrou8HOME(IFormArgument f, IEncounterTemplate enc)
-    {
-        if (f.FormArgument == 0 && enc is { Version: GameVersion.GO })
-            return true; // Does not come with a Form Argument.
-        return IsFormArgumentDayCounterValid(f, 5, enc.Generation < 8);
-    }
-
     private CheckResult CheckPrimeape(LegalityAnalysis data, PKM pk, uint arg, IEncounterTemplate enc)
     {
         if (arg == 0)

@@ -77,7 +77,7 @@ public class StringQualityTests
         duplicates3.Count.Should().Be(0, "expected no duplicate Gen3 item strings.");
     }
 
-    private static List<string> GetDuplicates(string[] arr)
+    private static List<string> GetDuplicates(ReadOnlySpan<string> arr)
     {
         var hs = new HashSet<string>();
         var duplicates = new List<string>();

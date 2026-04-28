@@ -52,7 +52,7 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IEnc
     }
 
     [SetsRequiredMembers]
-    public EncounterTrade5B2W2(string[] names, GameVersion version)
+    public EncounterTrade5B2W2(ReadOnlyMemory<string> names, GameVersion version)
     {
         Version = version;
         Gender = FixedGenderUtil.GenderRandom;
