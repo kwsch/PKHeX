@@ -157,7 +157,7 @@
     "G5PokeStarImpossibleValue": "Il valore della fama del Pokéwood non è raggiungibile.",
     "G7BSocialShouldBe100Spirit": "L'Entusiasmo deve essere 100 per i Pokémon non presenti in squadra.",
     "G7BSocialShouldBe100Mood": "L'Umore deve essere 100 per i Pokémon non presenti in squadra.",
-    "GanbaruStatTooHigh": "Uno o più valori Ganbaru è oltre il limite naturale di (10 - IV bonus).",
+    "GanbaruStatTooHigh": "Uno o più livelli di impegno sono superiori al limite naturale di (10 - bonus IV).",
     "GenderInvalidNone": "I Pokémon senza sesso non dovrebbero avere un Sesso.",
     "GeoBadOrder": "Ricordo geolocalizzazione: presenza di lacune o spazi vuoti.",
     "GeoHardwareInvalid": "Geolocalizzazione: La nazione non è disponibile nel 3DS.",
