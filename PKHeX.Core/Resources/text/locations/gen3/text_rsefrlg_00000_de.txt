@@ -55,8 +55,8 @@ Unterwasser (Route 128)
 Unterwasser (Prachtpolis City)
 Granithöhle
 Schlotberg
-Safari-Zone (RSE)
-Duellturm (RS) / Kampfzone (E)
+Safari-Zone (RSS)
+Duellturm (RS) / Kampfzone (Sm)
 Blütenburgwald
 Metaflurtunnel
 Schiffswrack
@@ -68,7 +68,7 @@ Versteck
 Küstenhöhle
 Tiefseehöhle
 Unterwasser (Tiefseehöhle)
-Siegesstraße (RSE)
+Siegesstraße (RSS)
 Wundereiland
 Urzeithöhle
 Insel im Süden
@@ -97,8 +97,8 @@ Fuchsania City
 Zinnoberinsel
 Indigo Plateau
 Saffronia City
-Route 4 (Pokémon Center)
-Route 10 (Pokémon Center)
+Route 4 (Pokémon-Center)
+Route 10 (Pokémon-Center)
 Route 1
 Route 2
 Route 3
@@ -172,7 +172,7 @@ Tanibo-Ruinen
 Sevii Eiland 22
 Sevii Eiland 23
 Sevii Eiland 24
-Nabelfels (FRLG)
+Nabelfels (FRBG)
 Glutberg
 Beerenforst
 Eiskaskadenhöhle
@@ -181,11 +181,11 @@ Trainerturm
 Punktloch
 Verlorene Höhle
 Musterbuschwald
-Wandelhöhle (FRLG)
+Wandelhöhle (FRBG)
 Tanibo-Kammer
 Tri-Eiland-Pfad
 Tanibo-Schlüssel
-Entstehungsinsel (FRLG)
+Entstehungsinsel (FRBG)
 Einamon-Kammer
 Pezwulp-Kammer
 Dreicke-Kammer
@@ -194,22 +194,22 @@ Fünibisku-Kammer
 Lilechs-Kammer
 Sieborbia-Kammer
 Gluttherme
-Prismania Eink. (FRLG)
+Prismania Eink. (FRBG)
 Aquas Versteck
 Magmas Versteck
 Wunderturm
-Entstehungsinsel (E)
+Entstehungsinsel (Sm)
 Ferneiland
 Höhlenatelier
 Ozeanhöhle
-Unterwasser (Marine Cave)
+Unterwasser (Ozeanhöhle)
 Terrahöhle
 Unterwasser (Route 105)
 Unterwasser (Route 125)
 Unterwasser (Route 129)
 Wüstentunnel
-Wandelhöhle (E)
-Nabelfels (E)
+Wandelhöhle (Sm)
+Nabelfels (Sm)
 Trainerberg
 
 
