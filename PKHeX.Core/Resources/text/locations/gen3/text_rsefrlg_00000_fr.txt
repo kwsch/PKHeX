@@ -202,7 +202,7 @@ Tour Mirage
 Île Lointaine
 Grotte Atelier
 Grotte Marine
-Fond marin (Marine Cave)
+Fond marin (Grotte Marine)
 Grotte Terra
 Fond marin (Chenal 105)
 Fond marin (Chenal 125)
