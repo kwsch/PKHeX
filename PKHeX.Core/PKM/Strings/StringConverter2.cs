@@ -43,6 +43,9 @@ public static class StringConverter2
     /// <returns>Decoded string.</returns>
     public static string GetString(ReadOnlySpan<byte> data, int language)
     {
+        if (language == (int)LanguageID.Korean || (language != (int)LanguageID.Japanese && StringConverter2KOR.IsHangul(data)))
+            return StringConverter2KOR.GetString(data);
+
         Span<char> result = stackalloc char[data.Length];
         int length = LoadString(data, result, language);
         return new string(result[..length]);
@@ -55,6 +58,9 @@ public static class StringConverter2
     /// <returns>Character count loaded.</returns>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, int language)
     {
+        if (language == (int)LanguageID.Korean || (language != (int)LanguageID.Japanese && StringConverter2KOR.IsHangul(data)))
+            return StringConverter2KOR.LoadString(data, result);
+
         if (data.Length == 0)
             return 0;
         if (data[0] == TradeOTCode) // In-game Trade
@@ -96,6 +102,9 @@ public static class StringConverter2
     public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, int language,
         StringConverterOption option = StringConverterOption.Clear50)
     {
+        if (language == (int)LanguageID.Korean || (language != (int)LanguageID.Japanese && StringConverter2KOR.IsHangul(value)))
+            return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);
+
         ConditionBuffer(destBuffer, option);
         if (value.Length == 0)
             return 0;

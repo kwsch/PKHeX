@@ -778,25 +778,11 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     }
 
     public override string GetString(ReadOnlySpan<byte> data)
-    {
-        if (Korean)
-            return StringConverter2KOR.GetString(data);
-        return StringConverter2.GetString(data, Language);
-    }
-
+        => StringConverter2.GetString(data, Language);
     public override int LoadString(ReadOnlySpan<byte> data, Span<char> text)
-    {
-        if (Korean)
-            return StringConverter2KOR.LoadString(data, text);
-        return StringConverter2.LoadString(data, text, Language);
-    }
-
+        => StringConverter2.LoadString(data, text, Language);
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option)
-    {
-        if (Korean)
-            return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);
-        return StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
-    }
+        => StringConverter2.SetString(destBuffer, value, maxLength, Language, option);
 
     public bool IsGBMobileAvailable => Japanese && Version == GameVersion.C;
     public bool IsGBMobileEnabled => Japanese && Enum.IsDefined(GBMobileCable);
