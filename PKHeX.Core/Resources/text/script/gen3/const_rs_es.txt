@@ -22,5 +22,5 @@
 
 0x404F	+	Récord del Tamaño de Barboach
 0068	s	Casa Treta	0:En Puzzle 1,1:En Puzzle 2,2:En Puzzle 3,3:En Puzzle 4,4:En Puzzle 5,5:En Puzzle 6,6:En Puzzle 7,7:En Puzzle 8,8:Todos los Puzzles Completados
-0167	s	Pergamino Casa Treta 0:Normal (Maestro treta Ocultándose),1:Puede Entrar,4:Nota no leída (Maestro Treta se fue),5:Justo termino un Puzzle
+0167	s	Pergamino Casa Treta	0:Normal (Maestro treta Ocultándose),1:Puede Entrar,4:Nota no leída (Maestro Treta se fue),5:Justo termino un Puzzle
 0155	r	Estado del Groudon/Kyogre	0:Luchable,1:Luchado
