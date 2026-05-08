@@ -25,7 +25,7 @@
 
 0x404F	+	Récord de tamaño de Lotad
 
-0068	s	Casa Treta	0:En Puzzle 1,1:En Desafío 2,2:En Desafío 3,3:En Desafío 4,4:En Desafío 5,5:En Desafío 6,6:En Desafío 7,7:En Desafío 8,8:Todos los Desafíos Completados
+0068	s	Casa Treta	0:En Desafío 1,1:En Desafío 2,2:En Desafío 3,3:En Desafío 4,4:En Desafío 5,5:En Desafío 6,6:En Desafío 7,7:En Desafío 8,8:Todos los Desafíos Completados
 0167	s	Cortina de la Casa Treta	0:Normal (Maestro Treta Ocultándose),1:Puede Entrar,4:Nota no leída (Maestro Treta se fue),5:Justo termino un Desafío
 0094	s	Evento Rayquaza	0:No Activado,1:Groudon y Kyogre en Arrecípolis,2:Vista escena de Groudon y Kyogre,3:Plubio en el Pilar Celeste,4:Plubio dejó el Pilar Celeste,5:Despierto,6:Galano Derrotado
 0202	s	Escena Rayquaza	0:No Despertado,1:Aparecido en Arrecípolis,3:Occurrido
