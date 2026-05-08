@@ -72,7 +72,7 @@
 2720	s	Entrado al Salón de la Fama
 2729	s	Episodio Delta completado
 0361	s	Revancha contra Alto Mando
-3023	s	Puede dar Orbe rojo y Orbe azul
+3023	s	Puede dar Prisma Rojo y Prisma Azul
 0148	s	Conocida persona mayor de los baños termales
 0147	g	Huevo de Wynaut de regalo recibido (Pueblo Lavacalda)
 0187	g	Huevo de Togepi de regalo recibido (Pueblo Lavacalda)
