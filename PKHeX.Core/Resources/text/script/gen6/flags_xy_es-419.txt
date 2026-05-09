@@ -26,7 +26,7 @@
 0426	g	Intercambio por Farfetch'd en Ciudad Novarte
 0319	g	Inicial de Kanto recibido de Ciprés
 0949	g	Lucario de regalo recibido
-1060	s	Mazmorra rara accesible
+1060	s	Cueva Rara accesible
 0299	g	Diancie conseguido via Regalo misterioso (Evento del Centro Pokémon completado)
 2666	*	Desbloqueado el PC de Olivier
 2670	+	Puede usar la piruleta: marcha en paralelo
