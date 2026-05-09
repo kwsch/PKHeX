@@ -1,7 +1,12 @@
+using System;
+
 namespace PKHeX.Core;
 
 public sealed class EncounterDatabaseSettings
 {
+    private const int ResultsGridRowCountMin = 5;
+    private const int ResultsGridRowCountMax = 20;
+
     [LocalizedDescription("Skips searching if the user forgot to enter Species / Move(s) into the search criteria.")]
     public bool ReturnNoneIfEmptySearch { get; set; } = true;
 
@@ -13,4 +18,11 @@ public sealed class EncounterDatabaseSettings
 
     [LocalizedDescription("Use properties from the PKM Editor tabs even if the new encounter isn't the same evolution chain.")]
     public bool UseTabsAsCriteriaAnySpecies { get; set; } = true;
+
+    [LocalizedDescription("Visible row count for the Encounter Database sprite grid. Clamped from 5 to 20.")]
+    public int ResultsGridRowCount
+    {
+        get;
+        set => field = Math.Clamp(value, ResultsGridRowCountMin, ResultsGridRowCountMax);
+    } = 11;
 }

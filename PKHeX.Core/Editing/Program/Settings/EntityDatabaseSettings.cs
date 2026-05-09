@@ -1,7 +1,12 @@
+using System;
+
 namespace PKHeX.Core;
 
 public sealed class EntityDatabaseSettings
 {
+    private const int ResultsGridRowCountMin = 5;
+    private const int ResultsGridRowCountMax = 20;
+
     [LocalizedDescription("When loading content for the PKM Database, search within backup save files.")]
     public bool SearchBackups { get; set; } = true;
 
@@ -16,6 +21,13 @@ public sealed class EntityDatabaseSettings
 
     [LocalizedDescription("Hides unavailable Species if the currently loaded save file cannot import them.")]
     public bool FilterUnavailableSpecies { get; set; } = true;
+
+    [LocalizedDescription("Visible row count for the PKM Database sprite grid. Clamped from 5 to 20.")]
+    public int ResultsGridRowCount
+    {
+        get;
+        set => field = Math.Clamp(value, ResultsGridRowCountMin, ResultsGridRowCountMax);
+    } = 9;
 }
 
 public enum DatabaseSortMode

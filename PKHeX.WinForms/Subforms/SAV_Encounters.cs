@@ -18,6 +18,8 @@ namespace PKHeX.WinForms;
 
 public partial class SAV_Encounters : Form
 {
+    private const int GridHeightMin = 5;
+    private const int GridHeightMax = 20;
     private readonly PKMEditor PKME_Tabs;
     private SaveFile SAV => PKME_Tabs.RequestSaveFile;
     private readonly SummaryPreviewer ShowSet = new();
@@ -26,7 +28,7 @@ public partial class SAV_Encounters : Form
     private readonly EntityInstructionBuilder UC_Builder;
 
     private const int GridWidth = 6;
-    private const int GridHeight = 11;
+    private readonly int GridHeight;
 
     // Criteria backing value (edited via PropertyGrid)
     private EncounterCriteria _criteriaValue = EncounterCriteria.Unrestricted;
@@ -52,20 +54,13 @@ public partial class SAV_Encounters : Form
 
         PKME_Tabs = f1;
         Trainers = db;
+        GridHeight = GetGridHeight(Main.Settings.EncounterDb.ResultsGridRowCount, EncounterPokeGrid);
 
         var grid = EncounterPokeGrid;
-        var smallWidth = grid.Width;
-        var smallHeight = grid.Height;
+        var originalGridSize = grid.Size;
         grid.InitializeGrid(GridWidth, GridHeight, SpriteUtil.Spriter);
         grid.SetBackground(Resources.box_wp_clean);
-        var newWidth = grid.Width;
-        var newHeight = grid.Height;
-        var wdelta = newWidth - smallWidth;
-        if (wdelta != 0)
-            Width += wdelta;
-        var hdelta = newHeight - smallHeight;
-        if (hdelta != 0)
-            Height += hdelta;
+        ResizeForGrid(grid, originalGridSize);
 
         PKXBOXES = [..grid.Entries];
 
@@ -192,8 +187,29 @@ public partial class SAV_Encounters : Form
     private int slotSelected = -1; // = null;
     private Image? slotColor;
     private const int RES_MIN = GridWidth * 1;
-    private const int RES_MAX = GridWidth * GridHeight;
+    private int RES_MAX => PKXBOXES.Length;
     private readonly string Counter;
+
+    private int GetGridHeight(int requestedRows, PokeGrid grid)
+    {
+        requestedRows = Math.Clamp(requestedRows, GridHeightMin, GridHeightMax);
+        var workingAreaHeight = Screen.FromControl(this).WorkingArea.Height;
+        var otherHeight = Height - grid.Height;
+        var maxGridHeight = Math.Max(grid.Height, workingAreaHeight - otherHeight);
+        var maxRows = PokeGrid.GetMaxRowCount(maxGridHeight, SpriteUtil.Spriter.Height);
+        return Math.Max(1, Math.Min(requestedRows, maxRows));
+    }
+
+    private void ResizeForGrid(PokeGrid grid, Size originalGridSize)
+    {
+        var widthDelta = grid.Width - originalGridSize.Width;
+        if (widthDelta != 0)
+            Width += widthDelta;
+
+        var heightDelta = grid.Height - originalGridSize.Height;
+        if (heightDelta != 0)
+            Height += heightDelta;
+    }
 
     private bool GetShiftedIndex(ref int index)
     {

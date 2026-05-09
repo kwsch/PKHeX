@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -39,6 +40,22 @@ public partial class PokeGrid : UserControl
     private const int padEdge = 1; // edges
     private const int border = 1; // between
 
+    public static Size GetGridSize(int width, int height, int spriteWidth, int spriteHeight)
+    {
+        int w = (2 * padEdge) + border + (width * (spriteWidth + border));
+        int h = (2 * padEdge) + border + (height * (spriteHeight + border));
+        return new Size(w, h);
+    }
+
+    public static int GetMaxRowCount(int availableHeight, int spriteHeight)
+    {
+        var heightOffset = (2 * padEdge) + border;
+        var rowHeight = spriteHeight + border;
+        if (rowHeight <= 0)
+            return 1;
+        return Math.Max(1, (availableHeight - heightOffset) / rowHeight);
+    }
+
     private void Generate(int width, int height)
     {
         SuspendLayout();
@@ -64,9 +81,7 @@ public partial class PokeGrid : UserControl
             }
         }
 
-        int w = (2 * padEdge) + border + (width * (colWidth + border));
-        int h = (2 * padEdge) + border + (height * (rowHeight + border));
-        Size = new Size(w, h);
+        Size = GetGridSize(width, height, colWidth, rowHeight);
         Controls.AddRange(Entries.Cast<Control>().ToArray());
         ResumeLayout();
     }
