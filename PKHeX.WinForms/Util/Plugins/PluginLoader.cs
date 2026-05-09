@@ -40,7 +40,7 @@ public static class PluginLoader
             }
         }
         if (loadMerged)
-            result.LoadFromAssembly(Assembly.GetExecutingAssembly());
+            result.LoadFromAssembly(typeof(PluginLoader).Assembly);
         return result;
     }
 
@@ -108,30 +108,49 @@ public static class PluginLoader
     [RequiresUnreferencedCode("Plugin discovery depends on runtime-discovered types and members.")]
     private static IEnumerable<Type> GetPluginTypes(Assembly z, Type plugin)
     {
+        TryAttachMergedAssemblyLoader(z);
+
+        IEnumerable<Type> types;
         try
         {
-            // Handle Costura merged plugin dll's; need to Attach for them to correctly retrieve their dependencies.
-            var assemblyLoaderType = z.GetType("Costura.AssemblyLoader", false);
-            var attachMethod = assemblyLoaderType?.GetMethod("Attach", BindingFlags.Static | BindingFlags.Public);
-            attachMethod?.Invoke(null, []);
-
-            var types = z.GetExportedTypes();
-            return types.Where(type => IsTypePlugin(type, plugin));
+            types = z.GetExportedTypes();
         }
         // User plugins can be out of date, with mismatching API surfaces.
-        catch (Exception ex)
+        catch (ReflectionTypeLoadException ex)
         {
             Debug.WriteLine($"Unable to load plugin [{plugin.FullName}]: {z.FullName}");
             Debug.WriteLine(ex.Message);
-            if (ex is not ReflectionTypeLoadException rtle)
-                return [];
-
-            foreach (var le in rtle.LoaderExceptions)
+            foreach (var le in ex.LoaderExceptions)
             {
                 if (le is not null)
                     Debug.WriteLine(le.Message);
             }
+
+            types = ex.Types.OfType<Type>();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Unable to load plugin [{plugin.FullName}]: {z.FullName}");
+            Debug.WriteLine(ex.Message);
             return [];
+        }
+
+        return types.Where(type => IsTypePlugin(type, plugin));
+    }
+
+    private static void TryAttachMergedAssemblyLoader(Assembly assembly)
+    {
+        try
+        {
+            // Handle Costura merged plugin dll's; need to Attach for them to correctly retrieve their dependencies.
+            var assemblyLoaderType = assembly.GetType("Costura.AssemblyLoader", false);
+            var attachMethod = assemblyLoaderType?.GetMethod("Attach", BindingFlags.Static | BindingFlags.Public);
+            attachMethod?.Invoke(null, []);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Unable to attach merged assembly loader: {assembly.FullName}");
+            Debug.WriteLine(ex.Message);
         }
     }
 
@@ -145,6 +164,8 @@ public static class PluginLoader
     {
         if (type.IsInterface || type.IsAbstract)
             return false;
-        return plugin.IsAssignableFrom(type);
+        if (!plugin.IsAssignableFrom(type))
+            return false;
+        return type.GetConstructor(Type.EmptyTypes) is not null;
     }
 }
