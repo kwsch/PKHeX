@@ -41,7 +41,7 @@ public static class MethodK
     /// </remarks>
     /// <inheritdoc cref="GetSeed{TEnc,TEvo}(TEnc, uint, TEvo, byte)"/>
     // ReSharper disable InvalidXmlDocComment
-    private static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, byte levelMin, byte levelMax, byte format = Format, int depth = 0, Nature forceSyncLead = UnsetLead)
+    private static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, byte levelMin, byte levelMax, byte format = Format, int depth = 0, Nature forceSyncLead = LeadSyncAllowed)
         // ReSharper restore InvalidXmlDocComment
         where TEnc : IEncounterSlot4
     {
@@ -49,7 +49,7 @@ public static class MethodK
         return GetSeedCore(ctx, seed, depth, forceSyncLead);
     }
 
-    private static LeadSeed GetSeedCore<TEnc>(in SearchContext<TEnc> ctx, uint seed, int depth = 0, Nature forceSyncLead = UnsetLead)
+    private static LeadSeed GetSeedCore<TEnc>(in SearchContext<TEnc> ctx, uint seed, int depth = 0, Nature forceSyncLead = LeadSyncAllowed)
         where TEnc : IEncounterSlot4
     {
         var pid = ClassicEraRNG.GetSequentialPID(seed);
@@ -102,14 +102,14 @@ public static class MethodK
     /// <summary>
     /// Gets the first possible origin seed and lead for the input encounter &amp; constraints.
     /// </summary>
-    public static LeadSeed GetOriginSeed<T>(T enc, uint seed, byte nature, int reverseCount, byte levelMin, byte levelMax, byte format = Format, int depth = 0, Nature forceSyncLead = UnsetLead)
+    public static LeadSeed GetOriginSeed<T>(T enc, uint seed, byte nature, int reverseCount, byte levelMin, byte levelMax, byte format = Format, int depth = 0, Nature forceSyncLead = LeadSyncAllowed)
         where T : IEncounterSlot4
     {
         var ctx = GetSearchContext(enc, seed, levelMin, levelMax, format);
         return GetOriginSeed(ctx, seed, nature, reverseCount, depth, forceSyncLead);
     }
 
-    private static LeadSeed GetOriginSeed<T>(in SearchContext<T> ctx, uint seed, byte nature, int reverseCount, int depth = 0, Nature forceSyncLead = UnsetLead)
+    private static LeadSeed GetOriginSeed<T>(in SearchContext<T> ctx, uint seed, byte nature, int reverseCount, int depth = 0, Nature forceSyncLead = LeadSyncAllowed)
         where T : IEncounterSlot4
     {
         LeadSeed prefer = default;
@@ -211,7 +211,7 @@ public static class MethodK
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool TryGetMatch<T>(in SearchContext<T> ctx, uint seed, byte nature, out LeadSeed result, int depth = 0, Nature forceSyncLead = UnsetLead)
+    private static bool TryGetMatch<T>(in SearchContext<T> ctx, uint seed, byte nature, out LeadSeed result, int depth = 0, Nature forceSyncLead = LeadSyncAllowed)
         where T : IEncounterSlot4
     {
         var p0 = seed >> 16; // 0
@@ -220,7 +220,7 @@ public static class MethodK
         {
             var frame = ctx.GetFrameRef(seed);
             // Ideally, we don't need to check the recursion. Eagerly check the non-recursive paths.
-            if (forceSyncLead == UnsetLead)
+            if (forceSyncLead is (LeadSyncAllowed or LeadSyncDisallowed))
             {
                 if (TryGetMatchNoSync(frame, out result) && ctx.CanAcceptDirectMatch(depth))
                     return true;
@@ -229,19 +229,25 @@ public static class MethodK
             {
                 if (TryGetMatchOnlyFailSync(frame, out result) && ctx.CanAcceptDirectMatch(depth))
                 {
-                    if (forceSyncLead is not FailSyncLead) // If we locked in a specific synchronization nature yet, prefer to indicate the end result.
+                    if (forceSyncLead is not LeadSyncRequiredFailUnspecific) // If we locked in a specific synchronization nature yet, prefer to indicate the end result.
                         result.Lead = Synchronize; // Override back to the end-result synchronize.
                     return true;
                 }
             }
 
-            // If rerolls can reach here from a failed synchronize check (unknown nature), then check that path as well.
             if (ctx.ShouldRecurse(depth))
             {
-                var prev = frame.Seed1;
-                if (!IsSyncPass(prev >> 16) && ctx.LevelMin <= ctx.Encounter.LevelMax) // can't boost level if already using Synchronize
+                // If we haven't locked in to a synchronize lead based on recursion, try earlier frames.
+                if (forceSyncLead is (LeadSyncAllowed or LeadSyncDisallowed))
                 {
-                    var lead = forceSyncLead == UnsetLead ? FailSyncLead : forceSyncLead;
+                    if (RecurseReject(ctx, seed, out result, depth + 1, LeadSyncDisallowed))
+                        return true;
+                }
+                var prev = frame.Seed1;
+                // If rerolls can reach here from a failed synchronize check (unknown nature), then check that path as well.
+                if (forceSyncLead is not LeadSyncDisallowed && !IsSyncPass(prev >> 16) && ctx.LevelMin <= ctx.Encounter.LevelMax) // can't boost level if already using Synchronize
+                {
+                    var lead = forceSyncLead == LeadSyncAllowed ? LeadSyncRequiredFailUnspecific : forceSyncLead;
                     if (RecurseReject(ctx, prev, out result, depth + 1, lead))
                         return true;
                 }
@@ -250,8 +256,9 @@ public static class MethodK
 
         // Check for a successful sync activation.
         // If recursion demands us to be a specific synchronization nature, ensure it matches. If not, can't be a sync activation.
-        if (forceSyncLead is not (UnsetLead or FailSyncLead))
+        if (forceSyncLead is not (LeadSyncAllowed or LeadSyncRequiredFailUnspecific))
         {
+            // LeadSyncDisallowed innately passes this check, no need to explicitly check that case.
             if (forceSyncLead != (Nature)nature)
             {
                 result = default;
@@ -276,8 +283,24 @@ public static class MethodK
         return false;
     }
 
-    private const Nature UnsetLead = Nature.Random; // lock in if the generation target requires a sync lead
-    private const Nature FailSyncLead = unchecked((Nature)(-1));
+    /// <summary>
+    /// Represents the magic number that that allows any lead to be used, enabling the generation target to require or not require a synchronize lead.
+    /// </summary>
+    private const Nature LeadSyncAllowed = Nature.Random;
+
+    /// <summary>
+    /// Represents a special value indicating that synchronize is disallowed for the lead.
+    /// </summary>
+    /// <remarks>When the generation pattern is traversing upwards under the assumption that it was a regular nature check, this value is used to prevent traversing up synchronize origins.</remarks>
+    private const Nature LeadSyncDisallowed = unchecked(LeadSyncAllowed + 1);
+
+    /// <summary>
+    /// Represents a special value indicating that synchronize is required, but no specific nature has been required yet.
+    /// </summary>
+    /// <remarks>
+    /// Any other value [0,24] is a specific nature being required as a synchronize lead.
+    /// </remarks>
+    private const Nature LeadSyncRequiredFailUnspecific = unchecked(LeadSyncAllowed + 2);
 
     /// <summary>
     /// Recursive method to check if the input seed could have been generated after 1-4 failed attempts at re-rolling for 31-IVs.
