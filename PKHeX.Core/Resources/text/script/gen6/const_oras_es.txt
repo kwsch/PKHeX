@@ -14,11 +14,11 @@
 0167	s	Evento de la Isla del Sur	0:Sin acceso,1:Isla del Sur accedida,2:Mensaje escuchado,4:Completado
 0168	s	Lati@s de la Isla del Sur	0:Sin recibir (Batalla contra Matías/Carola pendiente),1:Recibido
 0163	s	Evento de la Ruta 120	0:Apareció Máximo,1:Combate con Kecleon pendiente (Puente),2:Kecleon derrotado,3:Acceso permitido
-0196	s	Progreso de la Casa Treta	0:Maestro Treta escondido (Prueba 1),1:Prueba 1 Activa,2:Prueba 1 terminada,3:Maestro Treta escondido (Prueba 2),4:Prueba 2 Activa,5:Prueba 2 terminada,6:Maestro Treta escondido (Prueba 3),7:Puzzle 3 Activa,8:Prueba 3 terminada,9:Maestro Treta escondido (Prueba 4),10:Prueba 4 Activa,11:Prueba 4 terminada,12:Maestro Treta escondido (Prueba 5),13:Prueba 5 Activa,14:Prueba 5 terminada,15:Maestro Treta escondido (Prueba 6),16:Prueba 6 Activa,17:Prueba 6 terminada,18:Todas las pruebas completadas
-0197	s	Recompensas pruebas Casa Treta	0:MT12 pendiente,1:MT12 recibida,2:Piedra Dura pendiente,3:Piedra Dura recibida,4:MT92 pendiente,5:MT92 recibida,6:Bola de Humo pendiente,7:Bola de Humo recibida,8:Imán pendiente,9:Imán recibido,10:Tienda Roja/Azul pendiente,11:Tienda Roja/Azul recibida
-0198	s	Pergamino Casa Treta Prueba 1	0:No memorizado,1:Memorizado
-0199	s	Pergamino Casa Treta Prueba 2	0:No memorizado,1:Memorizado
-0200	s	Pergamino Casa Treta Prueba 3	0:No memorizado,1:Memorizado
-0201	s	Pergamino Casa Treta Prueba 4	0:No memorizado,1:Memorizado
-0202	s	Pergamino Casa Treta Prueba 5	0:No memorizado,1:Memorizado
-0203	s	Pergamino Casa Treta Prueba 6	0:No memorizado,1:Memorizado
+0196	s	Progreso de la Casa Treta	0:Maestro Treta escondido (Desafío 1),1:Desafío 1 Activo,2:Desafío 1 terminado,3:Maestro Treta escondido (Desafío 2),4:Desafío 2 Activo,5:Desafío 2 terminado,6:Maestro Treta escondido (Desafío 3),7:Puzzle 3 Activo,8:Desafío 3 terminado,9:Maestro Treta escondido (Desafío 4),10:Desafío 4 Activo,11:Desafío 4 terminado,12:Maestro Treta escondido (Desafío 5),13:Desafío 5 Activo,14:Desafío 5 terminado,15:Maestro Treta escondido (Desafío 6),16:Desafío 6 Activo,17:Desafío 6 terminado,18:Todos los Desafíos completados
+0197	s	Sala de recompensas Casa Treta	0:MT12 pendiente,1:MT12 recibida,2:Piedra Dura pendiente,3:Piedra Dura recibida,4:MT92 pendiente,5:MT92 recibida,6:Bola de Humo pendiente,7:Bola de Humo recibida,8:Imán pendiente,9:Imán recibido,10:Tienda Roja/Azul pendiente,11:Tienda Roja/Azul recibida
+0198	s	Pergamino Casa Treta Desafío 1	0:No memorizado,1:Memorizado
+0199	s	Pergamino Casa Treta Desafío 2	0:No memorizado,1:Memorizado
+0200	s	Pergamino Casa Treta Desafío 3	0:No memorizado,1:Memorizado
+0201	s	Pergamino Casa Treta Desafío 4	0:No memorizado,1:Memorizado
+0202	s	Pergamino Casa Treta Desafío 5	0:No memorizado,1:Memorizado
+0203	s	Pergamino Casa Treta Desafío 6	0:No memorizado,1:Memorizado
