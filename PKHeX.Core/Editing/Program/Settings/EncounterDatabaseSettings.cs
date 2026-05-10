@@ -24,5 +24,5 @@ public sealed class EncounterDatabaseSettings
     {
         get;
         set => field = Math.Clamp(value, ResultsGridRowCountMin, ResultsGridRowCountMax);
-    } = 11;
+    } = 9;
 }
