@@ -195,6 +195,16 @@ public sealed class ItemStorage9SV : IItemStorage
         1785, // Strange Ball
     ];
 
+    private static ReadOnlySpan<ushort> UnreleasedIngredients =>
+    [
+        2395, // Blue Dish
+      //2396, // Green Dish (Mesagoza Treasure Hunt)
+        2397, // Orange Dish
+        2398, // Red Dish
+        2399, // White Dish
+        2400, // Yellow Dish
+    ];
+
     public int GetMax(InventoryType type) => type switch
     {
         InventoryType.Items => 999,
@@ -212,7 +222,10 @@ public sealed class ItemStorage9SV : IItemStorage
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount)
     {
-        return itemCount != 0 && Unreleased.BinarySearch((ushort)itemIndex) < 0;
+        if (itemCount == 0) return false;
+        if (type is InventoryType.Ingredients)
+            return !UnreleasedIngredients.Contains((ushort)itemIndex);
+        return Unreleased.BinarySearch((ushort)itemIndex) < 0;
     }
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => GetLegal(type);
