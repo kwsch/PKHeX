@@ -554,7 +554,7 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
         var av = GetAbilityIndex(criteria);
         pk.RefreshAbility(av);
         SetPID(pk);
-        SetIVs(pk);
+        SetIVs(pk, criteria);
     }
 
     private int GetAbilityIndex(in EncounterCriteria criteria) => AbilityType switch
@@ -611,31 +611,12 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
         pk.PID = GetPID(pk, PIDType);
     }
 
-    private void SetIVs(PB8 pk)
+    private void SetIVs(PB8 pk, in EncounterCriteria criteria)
     {
         Span<int> finalIVs = stackalloc int[6];
         GetIVs(finalIVs);
-        var ivflag = finalIVs.IndexOfAny(0xFC, 0xFD, 0xFE);
         var rng = Util.Rand;
-        if (ivflag == -1) // Random IVs
-        {
-            for (int i = 0; i < finalIVs.Length; i++)
-            {
-                if (finalIVs[i] > 31)
-                    finalIVs[i] = rng.Next(32);
-            }
-        }
-        else // 1/2/3 perfect IVs
-        {
-            int IVCount = finalIVs[ivflag] - 0xFB;
-            do { finalIVs[rng.Next(6)] = 31; }
-            while (finalIVs.Count(31) < IVCount);
-            for (int i = 0; i < finalIVs.Length; i++)
-            {
-                if (finalIVs[i] != 31)
-                    finalIVs[i] = rng.Next(32);
-            }
-        }
+        ApplyTemplateIVs(finalIVs, criteria, rng, _ => rng.Next(32));
         pk.SetIVs(finalIVs);
     }
 

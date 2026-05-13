@@ -533,7 +533,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
             var av = GetAbilityIndex(criteria, AbilityType);
             pk.RefreshAbility(av);
             SetPID(pk);
-            SetIVs(pk);
+            SetIVs(pk, criteria);
         }
         else
         {
@@ -598,31 +598,12 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         pk.PID = GetPID(pk, PIDType);
     }
 
-    private void SetIVs(PA9 pk)
+    private void SetIVs(PA9 pk, in EncounterCriteria criteria)
     {
         Span<int> finalIVs = stackalloc int[6];
         GetIVs(finalIVs);
-        var ivflag = finalIVs.IndexOfAny(0xFC, 0xFD, 0xFE);
         var rng = Util.Rand;
-        if (ivflag == -1) // Random IVs
-        {
-            for (int i = 0; i < finalIVs.Length; i++)
-            {
-                if (finalIVs[i] > 31)
-                    finalIVs[i] = rng.Next(32);
-            }
-        }
-        else // 1/2/3 perfect IVs
-        {
-            int IVCount = finalIVs[ivflag] - 0xFB;
-            do { finalIVs[rng.Next(6)] = 31; }
-            while (finalIVs.Count(31) < IVCount);
-            for (int i = 0; i < finalIVs.Length; i++)
-            {
-                if (finalIVs[i] != 31)
-                    finalIVs[i] = IsHOMEGift ? HomeBaseIV : rng.Next(32); // HOME ZA-starters gifts have 20 in non-perfect IVs
-            }
-        }
+        ApplyTemplateIVs(finalIVs, criteria, rng, _ => IsHOMEGift ? HomeBaseIV : rng.Next(32)); // HOME ZA-starters gifts have 20 in non-perfect IVs
         pk.SetIVs(finalIVs);
     }
 

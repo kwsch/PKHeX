@@ -115,11 +115,11 @@ public record struct StatParseResult()
     }
 
     /// <summary>
-    /// Adjusts stat indexes from visual to stored, and ignoring HP's index.
+    /// Adjusts stat indexes from visual to amp index, ignoring HP's index.
     /// </summary>
-    /// <param name="amp">Visual index of the stat to get the adjusted value for.</param>
-    /// <returns>Stored index of the stat.</returns>
-    private static sbyte GetSpeedMiddleIndex(sbyte amp) => amp switch
+    /// <param name="visualStatIndex">Visual index of the stat to get the adjusted value for.</param>
+    /// <returns>Amp index of the stat, ignoring HP's index.</returns>
+    private static sbyte GetSpeedMiddleIndex(sbyte visualStatIndex) => visualStatIndex switch
     {
         // 0 => NoStatAmp -- handle via default case
         1 => 0, // Atk

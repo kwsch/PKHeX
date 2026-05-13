@@ -575,6 +575,29 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     }
 
     /// <summary>
+    /// Checks whether the IV at the specified index should be generated randomly.
+    /// </summary>
+    /// <param name="index">Stat index (internal order).</param>
+    /// <param name="value">Requested fixed IV value, if specified.</param>
+    /// <returns><see langword="true"/> if the IV should be random; otherwise, <see langword="false"/>.</returns>
+    public bool IsRandomIV(int index, out sbyte value) => (value = GetIVInternal(index)) == RandomIV;
+
+    /// <summary>
+    /// Gets the IV based on the specified index (internal order).
+    /// </summary>
+    /// <param name="index">Stat index (internal order).</param>
+    public sbyte GetIVInternal(int index) => index switch
+    {
+        0 => IV_HP,
+        1 => IV_ATK,
+        2 => IV_DEF,
+        3 => IV_SPE,
+        4 => IV_SPA,
+        5 => IV_SPD,
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, null),
+    };
+
+    /// <summary>
     /// Gets the IV based on the specified index (visual order).
     /// </summary>
     /// <param name="index">Stat index (visual order).</param>

@@ -330,7 +330,7 @@ public sealed class PGF(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
         var av = GetAbilityIndex(criteria);
         SetPID(pk, av);
         pk.RefreshAbility(av);
-        SetIVs(pk);
+        SetIVs(pk, criteria);
     }
 
     private int GetAbilityIndex(in EncounterCriteria criteria) => AbilityType switch
@@ -387,13 +387,12 @@ public sealed class PGF(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
         _ => Shiny.Random, // 1
     };
 
-    private void SetIVs(PK5 pk)
+    private void SetIVs(PK5 pk, in EncounterCriteria criteria)
     {
         Span<int> finalIVs = stackalloc int[6];
         GetIVs(finalIVs);
         var rnd = Util.Rand;
-        for (int i = 0; i < finalIVs.Length; i++)
-            finalIVs[i] = finalIVs[i] == 0xFF ? rnd.Next(32) : finalIVs[i];
+        ApplyTemplateIVs(finalIVs, criteria, rnd, static _ => Util.Rand.Next(32));
         pk.SetIVs(finalIVs);
     }
 
