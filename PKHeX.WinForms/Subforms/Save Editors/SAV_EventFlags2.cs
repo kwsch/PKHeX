@@ -112,7 +112,7 @@ public sealed partial class SAV_EventFlags2 : Form
             var cFlag = new DataGridViewCheckBoxColumn
             {
                 DisplayIndex = 0,
-                Width = 20,
+                AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
                 SortMode = DataGridViewColumnSortMode.NotSortable,
             };
 
