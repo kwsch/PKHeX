@@ -124,6 +124,25 @@ public static class Experience
     public static Nature GetNatureVC(uint experience) => (Nature)(experience % 25);
 
     /// <summary>
+    /// Checks if the given nature is valid for the given growth rate and experience when the met level is 2.
+    /// </summary>
+    /// <remarks>
+    /// Used for Generation 1/2 virtual console transfers to Gen7, where level [2,3) doesn't have enough EXP states to yield all 25 natures.
+    /// There are no valid level 1 encounters. Refer to <see cref="GetNatureVC"/>.
+    /// </remarks>
+    /// <param name="growth">Growth rate</param>
+    /// <param name="nature">Nature to check</param>
+    /// <returns><see langword="true"/> if the nature is obtainable.</returns>
+    public static bool IsValidNatureMetLevel2(byte growth, Nature nature) => growth switch
+    {
+        // bitflags of valid natures, [exp_min,exp_max]%25 for level 2
+        0 => (0x01FFFF03u & (1u << (byte)nature)) != 0, // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
+        4 => (0x001FFFC0u & (1u << (byte)nature)) != 0, // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
+        5 => (0x01FFFCFFu & (1u << (byte)nature)) != 0, // Slow -- Can't be Impish or Lax
+        _ => true,
+    };
+
+    /// <summary>
     /// Gets the amount of EXP to be earned until the next level-up occurs.
     /// </summary>
     /// <param name="level">Current Level</param>

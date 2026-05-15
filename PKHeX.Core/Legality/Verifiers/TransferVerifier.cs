@@ -47,20 +47,11 @@ public sealed class TransferVerifier : Verifier
             var pi = data.PersonalInfo;
             var growth = pi.EXPGrowth;
             var nature = pk.Nature;
-            bool valid = VerifyVCNature(growth, nature);
+            bool valid = Experience.IsValidNatureMetLevel2(growth, nature);
             if (!valid)
                 data.AddLine(GetInvalid(TransferNature));
         }
     }
-
-    private static bool VerifyVCNature(byte growth, Nature nature) => growth switch
-    {
-        // exp % 25 with a limited amount of EXP does not allow for every nature
-        0 => (0x01FFFF03u & (1u << (byte)nature)) != 0, // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
-        4 => (0x001FFFC0u & (1u << (byte)nature)) != 0, // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
-        5 => (0x01FFFCFFu & (1u << (byte)nature)) != 0, // Slow -- Can't be Impish or Lax
-        _ => true,
-    };
 
     private static void VerifyVCShinyXorIfShiny(LegalityAnalysis data)
     {

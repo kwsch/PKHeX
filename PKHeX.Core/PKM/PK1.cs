@@ -191,16 +191,16 @@ public sealed class PK1 : GBPKML, IPersonalType
             version = GameVersion.RD;
 
         var pi = PersonalTable.SM[Species];
+        var currentLevel = Experience.GetLevel(EXP, pi.EXPGrowth);
         int ability = TransporterLogic.IsHiddenDisallowedVC1(Species) ? 0 : 2; // Hidden
         var pk7 = new PK7
         {
             EncryptionConstant = rnd.Rand32(),
             Species = Species,
             TID16 = TID16,
-            CurrentLevel = CurrentLevel,
-            EXP = EXP,
-            MetLevel = CurrentLevel,
+            MetLevel = currentLevel,
             Nature = Experience.GetNatureVC(EXP),
+            EXP = Experience.GetEXP(currentLevel, pi.EXPGrowth), // EXP is reset to the minimum amount for the transfer level.
             PID = rnd.Rand32(),
             Ball = 4,
             MetDate = EncounterDate.GetDate3DS(),
