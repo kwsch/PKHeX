@@ -138,12 +138,11 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
                 if (!IsOddEggTrainerNameValid(pk))
                     return false;
             }
-            else
-            {
-                // Once hatched, EXP can vary. Must be at least the starting value.
-                if (pk.EXP < OddEggEXP)
-                    return false;
-            }
+            //else
+            //{
+            //    // Once hatched, EXP can vary.
+            //    // Daycare can reset EXP gained back to 0, below the initial EXP had by the egg.
+            //}
         }
 
         if (!IsMatchEggLocation(pk))

@@ -21,20 +21,21 @@ public sealed class EffortValueVerifier : Verifier
             return;
         }
 
-        // In Generation 1 & 2, when a Pokémon is taken out of the Day Care, its experience will lower to the minimum value for its current level.
-        // When transferred to Gen7+, EVs are reset to 0, so checks will be relevant then.
         byte format = pk.Format;
-        if (format < 3) // Can abuse daycare for EV training without EXP gain
+        if (format < 3)
+        {
+            VerifyEVsGB(data, pk);
             return;
+        }
 
         int sum = pk.EVTotal;
         if (sum > EffortValues.Max510) // format >= 3
             data.AddLine(GetInvalid(EffortAbove510));
 
-        var enc = data.EncounterMatch;
         Span<int> evs = stackalloc int[6];
         pk.GetEVs(evs);
 
+        var enc = data.EncounterMatch;
         if (format >= 6 && IsAnyAboveHardLimit6(evs))
             data.AddLine(GetInvalid(EffortAbove252));
         else if (format < 5) // 3/4
@@ -47,6 +48,48 @@ public sealed class EffortValueVerifier : Verifier
             data.AddLine(Get(Severity.Fishy, Effort2Remaining));
         else if (evs[0] != 0 && !evs.ContainsAnyExcept(evs[0]))
             data.AddLine(Get(Severity.Fishy, EffortAllEqual));
+    }
+
+    private void VerifyEVsGB(LegalityAnalysis data, PKM pk)
+    {
+        ReadOnlySpan<int> evs = [pk.EV_HP, pk.EV_ATK, pk.EV_DEF, pk.EV_SPA, pk.EV_SPE];
+        var hasGainedEVsFromEnemy = IsAnyEVNotVitaminOr0(evs);
+        if (!hasGainedEVsFromEnemy)
+            return;
+
+        // Generation 1/2 have special considerations to verify non-zero EVs, but it really isn't worth verifying.
+        // If an EV stat is not maxed out, then there must be a valid encounter chain (considering teammates diluting the EV gain) that yields the exact EVs (and EXP minimum for Genera1).
+        // In Generation 2, when a Pokémon is taken out of the Daycare, its experience will lower to the minimum value for its current level.
+        // When transferred to Gen7+, EVs are reset to 0, so checks will be relevant then.
+        // For Generation 1 entities that have never visited Generation 2 for the EXP reset:
+        // * We COULD check the EVs but a heuristic for this would be extra annoying for minimal gain.
+        // * Encounter matching deferrals would be required so that there is enough gap in MinLevel=>CurrentLevel to obtain the exact EVs with EXP gain.
+        // * Vitamins in Gen1/2 add 2560 each, to a max of 25600 (10 vitamins used). Would need to subtract off vitamins to check for EVs needed, and species/EXP gain to get them.
+        // * Gen1 EV gain is split same as EXP for participants against the defeated Pokémon; EV gains are the Base Stats of the defeated Pokémon.
+        // * Unexplored: A {species, +EV[6], +EXP} permutation budget. Using Wild Encounters AND trainers, no-Switch AI must disallow the final mon from being used repeatedly.
+        // * Are all EV gains for a specific stat consistent enough to prune to minimum EXP gains for +EV?
+        // * Gen1 daycare can make up the remaining EXP difference.
+        // Same for Generation 2, just with different available enemies and the ability to disregard EXP gain via daycare abuse.
+
+        // Simple sanity check instead of nothing:
+        // Since EV gains absorb base stats of the defeated, you can't have EVs in a stat if any other stat is 0.
+        // Sometimes people may miss entering in a stat accidentally, so this is a simple check to catch that.
+
+        if (evs.Contains(0))
+            data.AddLine(GetInvalid(EffortShouldBeZero));
+    }
+
+    private static bool IsAnyEVNotVitaminOr0(ReadOnlySpan<int> evs)
+    {
+        foreach (var ev in evs)
+        {
+            if (!IsNot0VitaminGB(ev))
+                continue;
+            return true;
+        }
+        return false;
+
+        static bool IsNot0VitaminGB(int ev) => ev > EffortValues.MaxVitamins12 || (ev % EffortValues.VitaminBoost12) != 0;
     }
 
     private void VerifyGainedEVs34(LegalityAnalysis data, IEncounterTemplate enc, ReadOnlySpan<int> evs, PKM pk)

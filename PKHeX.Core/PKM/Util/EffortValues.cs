@@ -22,6 +22,11 @@ public static class EffortValues
     /// <summary> Vitamin Max for consideration in Gen3 & Gen4. </summary>
     public const ushort MaxVitamins34 = 100;
 
+    /// <summary> Single vitamin in Gen1/2 adds 2560 EVs to a stat. </summary>
+    public const ushort VitaminBoost12 = 2560;
+    /// <summary> Maximum EVs from vitamins in Gen1/2. </summary>
+    public const ushort MaxVitamins12 = 2560 * 10;
+
     /// <summary> Maximum value for a single stat in Pokémon Champions. </summary>
     public const byte ChampionsMaxStat = 32; // 252/8
     /// <summary> Maximum value for the sum of all stats in Pokémon Champions. </summary>

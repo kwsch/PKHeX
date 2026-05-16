@@ -201,6 +201,7 @@ public sealed class LegalityAnalysis
         Trainer.VerifyOTGB(this);
         MiscValues.VerifyMiscG12(this);
         MovePP.Verify(this);
+        EVs.Verify(this);
         if (Entity.Format == 2)
             Item.Verify(this);
     }
