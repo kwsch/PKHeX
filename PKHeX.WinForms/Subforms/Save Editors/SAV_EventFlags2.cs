@@ -95,7 +95,7 @@ public sealed partial class SAV_EventFlags2 : Form
             return;
         }
 
-        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => (int)z.Key))
+        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => z.Key))
         {
             var tab = new TabPage
             {
@@ -231,7 +231,7 @@ public sealed partial class SAV_EventFlags2 : Form
             return;
         }
 
-        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => (int)z.Key))
+        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => z.Key))
         {
             var tab = new TabPage
             {

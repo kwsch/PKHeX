@@ -78,7 +78,7 @@ public sealed partial class SAV_FlagWork8b : Form
         FlagDict.Clear();
         TC_Flags.TabPages.Clear();
         var labels = editor.Flag;
-        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => (int)z.Key))
+        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => z.Key))
         {
             var tab = new TabPage
             {
@@ -123,7 +123,7 @@ public sealed partial class SAV_FlagWork8b : Form
         SystemDict.Clear();
         TC_System.TabPages.Clear();
         var labels = editor.System;
-        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => (int)z.Key))
+        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => z.Key))
         {
             var tab = new TabPage
             {
@@ -168,7 +168,7 @@ public sealed partial class SAV_FlagWork8b : Form
         WorkDict.Clear();
         TC_Work.TabPages.Clear();
         var labels = editor.Work;
-        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => (int)z.Key))
+        foreach (var group in labels.GroupBy(z => z.Type).OrderBy(z => z.Key))
         {
             var tab = new TabPage
             {
