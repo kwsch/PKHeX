@@ -13,7 +13,7 @@ Perl
 Platin
 
 
-Kolosseum/XD
+Colosseum/XD
 Battle Revolution
 
 
