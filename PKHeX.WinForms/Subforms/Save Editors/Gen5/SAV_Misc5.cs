@@ -328,7 +328,16 @@ public partial class SAV_Misc5 : Form
             LB_FunfestMissions.Items.AddRange(FMTitles);
 
             CB_FMLevel.Items.Clear();
-            CB_FMLevel.Items.AddRange("Lv.1", "Lv.2 +", "Lv.3 ++", "Lv.3 +++");
+            var levels = new ComboItem[]
+            {
+                new("Lv.1", 0),
+                new("Lv.2 +", 1),
+                new("Lv.3 ++", 2),
+                new("Lv.3 +++", 3),
+                new(GameInfo.Strings.specieslist[0], 7), // -1
+            };
+            CB_FMLevel.InitializeBinding();
+            CB_FMLevel.DataSource = new BindingSource(levels, string.Empty);
             SetNudMax();
             SetEntreeExpTooltip();
             LB_FunfestMissions.SelectedIndex = 0;
@@ -435,7 +444,7 @@ public partial class SAV_Misc5 : Form
 
         var record = block.GetMissionRecord(mission);
         CHK_FMNew.Checked = record.IsNew;
-        CB_FMLevel.SelectedIndex = record.Level;
+        CB_FMLevel.SelectedValue = record.Level;
         NUD_FMBestScore.SetValueClamped(record.Score);
         NUD_FMBestTotal.SetValueClamped(record.Total);
     }
@@ -450,7 +459,7 @@ public partial class SAV_Misc5 : Form
         if ((uint)mission > FestaBlock5.MaxMissionIndex)
             return;
 
-        var score = new Funfest5Score((int)NUD_FMBestTotal.Value, (int)NUD_FMBestScore.Value, CB_FMLevel.SelectedIndex & 3, CHK_FMNew.Checked);
+        var score = new Funfest5Score((int)NUD_FMBestTotal.Value, (int)NUD_FMBestScore.Value, WinFormsUtil.GetIndex(CB_FMLevel), CHK_FMNew.Checked);
         block.SetMissionRecord(mission, score);
     }
 
