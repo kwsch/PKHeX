@@ -131,7 +131,8 @@ public sealed record EncounterSlot9a(EncounterArea9a Parent, ushort Species, byt
 
     private bool IsFormArgMismatch(PKM pk) => pk.Species switch
     {
-        (int)Core.Species.Overqwil when Species is not (int)Core.Species.Overqwil && pk is IFormArgument { FormArgument: 0 } and IHomeTrack { HasTracker: false } => true,
+        // Don't check for HOME tracker cross-evolution unlocks. This stays simple so that the iterator tries to find a no-evolve template match if possible.
+        (int)Core.Species.Overqwil when Species is not (int)Core.Species.Overqwil && pk is IFormArgument { FormArgument: 0 } => true,
         _ => false,
     };
 
