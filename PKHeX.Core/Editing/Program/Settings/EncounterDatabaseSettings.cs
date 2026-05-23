@@ -19,7 +19,7 @@ public sealed class EncounterDatabaseSettings
     [LocalizedDescription("Use properties from the PKM Editor tabs even if the new encounter isn't the same evolution chain.")]
     public bool UseTabsAsCriteriaAnySpecies { get; set; } = true;
 
-    [LocalizedDescription("Visible row count for the Encounter Database sprite grid. Clamped from 5 to 20.")]
+    [LocalizedDescription("Visible row count for the sprite grid. Clamped from 5 to 20.")]
     public int ResultsGridRowCount
     {
         get;

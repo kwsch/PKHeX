@@ -215,7 +215,6 @@ public sealed class LegalityCheckLocalization
     public string GanbaruStatTooHigh { get; init; } = "One or more Ganbaru Value is above the natural limit of (10 - IV bonus).";
 
     public string GenderInvalidNone { get; init; } = "Genderless Pokémon should not have a gender.";
-    public string GeoBadOrder { get; init; } = "GeoLocation Memory: Gap/Blank present.";
     public string GeoHardwareInvalid { get; init; } = "Geolocation: Country is not in 3DS region.";
     public string GeoHardwareRange { get; init; } = "Invalid Console Region.";
     public string GeoHardwareValid { get; init; } = "Geolocation: Country is in 3DS region.";
