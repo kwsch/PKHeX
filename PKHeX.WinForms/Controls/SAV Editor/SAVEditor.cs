@@ -645,6 +645,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_OpenHoneyTreeEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_HoneyTree((SAV4Sinnoh)SAV));
     private void B_OpenGeonetEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_Geonet4((SAV4)SAV));
     private void B_OpenUnityTowerEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_UnityTower((SAV5)SAV));
+    private void B_OpenJoinAvenueEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_JoinAvenue((SAV5B2W2)SAV));
     private void B_OpenChatterEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_Chatter(SAV));
     private void B_OpenGear_Click(object sender, EventArgs e) => OpenDialog(new SAV_Gear((SAV4BR)SAV));
     private void B_Donuts_Click(object sender, EventArgs e) => OpenDialog(new SAV_Donut9a((SAV9ZA)SAV));
@@ -1310,6 +1311,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenUGSEditor.Visible = sav is SAV4Sinnoh or SAV8BS;
         B_OpenGeonetEditor.Visible = sav is SAV4;
         B_OpenUnityTowerEditor.Visible = sav is SAV5;
+        B_OpenJoinAvenueEditor.Visible = sav is SAV5B2W2;
         B_OpenChatterEditor.Visible = sav is SAV4 or SAV5;
         B_OpenBattlePass.Visible = B_OpenGear.Visible = sav is SAV4BR;
         B_OpenSealStickers.Visible = B_Poffins.Visible = sav is SAV8BS;
