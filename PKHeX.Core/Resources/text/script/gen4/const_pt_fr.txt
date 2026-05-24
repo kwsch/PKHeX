@@ -20,7 +20,7 @@
 0105	r	Statue des Ruines de Fer (Registeel)	0:Inactive,270:Activée,280:Vaincu,290:Capturé
 0106	r	Statue des Ruines Iceberg (Regice)	0:Inactive,270:Activée,280:Vaincu,290:Capturé
 0107	r	Statue des Ruines Pic Roche (Regirock)	0:Inactive,270:Activée,280:Vaincu,290:Capturé
-0062	r	Joueurs Rencontrés dans le Souterrain	32:Spiritomb est apparu
+0062	r	Joueurs Rencontrés dans le Souterrain (Spiritomb)	32:Spiritomb est apparu
 0138	r	Tour Sacrée (Route 209)	0:Inactive,1:Active
 0089	r	Statut de Créfollet	0:En attente,1:Capturé,2:K.0./Peut réapparaître
 0088	r	Statut de Cresselia	0:En attente,1:Capturé,2:K.0./Peut réapparaître
@@ -28,3 +28,7 @@
 0095	r	Statut d'Électhor	0:En attente,1:Capturé,2:K.0./Peut réapparaître
 0094	r	Statut de Sulfura	0:En attente,1:Capturé,2:K.0./Peut réapparaître
 0224	+	Meilleur Score du Show Capture (Parc des Amis)
+0071	+	Fossiles Obtenus en Souterrain (Rico Lexion)
+0072	+	Joueurs piégés en Souterrain (Rico Lexion)
+0073	+	Joueurs rencontrés en Souterrain (Rico Lexion)
+0084	+	Cadeaux donnés en Souterrain (Rico Lexion)
