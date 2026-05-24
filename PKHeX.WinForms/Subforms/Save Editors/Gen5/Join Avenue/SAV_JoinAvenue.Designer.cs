@@ -120,7 +120,7 @@ namespace PKHeX.WinForms
             CHK_ScriptFlag.AutoSize = true;
             CHK_ScriptFlag.Location = new System.Drawing.Point(97, 11);
             CHK_ScriptFlag.Name = "CHK_ScriptFlag";
-            CHK_ScriptFlag.Size = new System.Drawing.Size(74, 21);
+            CHK_ScriptFlag.Size = new System.Drawing.Size(88, 21);
             CHK_ScriptFlag.TabIndex = 1;
             CHK_ScriptFlag.Text = "Script Flag";
             CHK_ScriptFlag.UseVisualStyleBackColor = true;
@@ -331,6 +331,7 @@ namespace PKHeX.WinForms
             Controls.Add(B_Cancel);
             Controls.Add(TC_JoinAvenue);
             Icon = Properties.Resources.Icon;
+            MaximizeBox = false;
             MinimumSize = new System.Drawing.Size(980, 764);
             Name = "SAV_JoinAvenue";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

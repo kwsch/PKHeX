@@ -87,6 +87,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenGeonetEditor = new System.Windows.Forms.Button();
             B_OpenUnityTowerEditor = new System.Windows.Forms.Button();
             B_OpenJoinAvenueEditor = new System.Windows.Forms.Button();
+            B_OpenMedalsEditor = new System.Windows.Forms.Button();
             B_OpenChatterEditor = new System.Windows.Forms.Button();
             B_Roamer = new System.Windows.Forms.Button();
             B_FestivalPlaza = new System.Windows.Forms.Button();
@@ -442,6 +443,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_OpenGeonetEditor);
             FLP_SAVtools.Controls.Add(B_OpenUnityTowerEditor);
             FLP_SAVtools.Controls.Add(B_OpenJoinAvenueEditor);
+            FLP_SAVtools.Controls.Add(B_OpenMedalsEditor);
             FLP_SAVtools.Controls.Add(B_OpenChatterEditor);
             FLP_SAVtools.Controls.Add(B_Roamer);
             FLP_SAVtools.Controls.Add(B_FestivalPlaza);
@@ -775,6 +777,17 @@ namespace PKHeX.WinForms.Controls
             B_OpenChatterEditor.Text = "Chatter";
             B_OpenChatterEditor.UseVisualStyleBackColor = true;
             B_OpenChatterEditor.Click += B_OpenChatterEditor_Click;
+            // 
+            // B_OpenMedalsEditor
+            // 
+            B_OpenMedalsEditor.Location = new System.Drawing.Point(316, 364);
+            B_OpenMedalsEditor.Margin = new System.Windows.Forms.Padding(4);
+            B_OpenMedalsEditor.Name = "B_OpenMedalsEditor";
+            B_OpenMedalsEditor.Size = new System.Drawing.Size(96, 32);
+            B_OpenMedalsEditor.TabIndex = 1;
+            B_OpenMedalsEditor.Text = "Medals";
+            B_OpenMedalsEditor.UseVisualStyleBackColor = true;
+            B_OpenMedalsEditor.Click += B_OpenMedalsEditor_Click;
             // 
             // B_Roamer
             // 
@@ -1118,6 +1131,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_OpenGeonetEditor;
         private System.Windows.Forms.Button B_OpenUnityTowerEditor;
         private System.Windows.Forms.Button B_OpenJoinAvenueEditor;
+        private System.Windows.Forms.Button B_OpenMedalsEditor;
         private System.Windows.Forms.Button B_OpenChatterEditor;
         private System.Windows.Forms.Button B_Roamer;
         private System.Windows.Forms.Button B_FestivalPlaza;
