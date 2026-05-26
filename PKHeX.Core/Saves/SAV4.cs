@@ -224,7 +224,6 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         return active == -1 ? null : new Hall4(Buffer.Slice((active == 0 ? 0 : PartitionSize) + block.Offset, Hall4.SIZE_USED));
     }
 
-    protected int WondercardFlags = int.MinValue;
     protected int AdventureInfo = int.MinValue;
     protected int Seal = int.MinValue;
     public int Geonet { get; protected set; } = int.MinValue;
