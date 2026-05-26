@@ -179,6 +179,8 @@ public static class DevUtil
         typeof(PokeSize),
         typeof(PokeSizeDetailed),
 
+        typeof(PokeathlonStat4),
+        typeof(PokeathlonEvent4),
         typeof(PassPower5),
         typeof(Funfest5Mission),
         typeof(JoinAvenueCeilingColor5),

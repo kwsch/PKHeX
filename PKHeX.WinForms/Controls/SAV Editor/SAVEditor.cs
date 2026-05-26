@@ -639,6 +639,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_CellsStickers_Click(object sender, EventArgs e) => OpenDialog(new SAV_ZygardeCell((SAV7)SAV));
     private void B_LinkInfo_Click(object sender, EventArgs e) => OpenDialog(new SAV_Link6(SAV));
     private void B_OpenApricorn_Click(object sender, EventArgs e) => OpenDialog(new SAV_Apricorn((SAV4HGSS)SAV));
+    private void B_OpenPokeathlon_Click(object sender, EventArgs e) => OpenDialog(new SAV_Pokeathlon4((SAV4HGSS)SAV));
     private void B_DLC_Click(object sender, EventArgs e) => OpenDialog(new SAV_DLC5((SAV5)SAV));
     private void B_OpenTrainerInfo_Click(object sender, EventArgs e) => OpenDialog(GetTrainerEditor(SAV));
     private void B_OpenOPowers_Click(object sender, EventArgs e) => OpenDialog(new SAV_OPower((ISaveBlock6Main)SAV));
@@ -1318,6 +1319,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenBattlePass.Visible = B_OpenGear.Visible = sav is SAV4BR;
         B_OpenSealStickers.Visible = B_Poffins.Visible = sav is SAV8BS;
         B_OpenApricorn.Visible = sav is SAV4HGSS;
+        B_OpenPokeathlon.Visible = sav is SAV4HGSS;
         B_OpenRTCEditor.Visible = (sav.Generation == 2 && sav is not SAV2Stadium) || sav is SAV3 { SmallBlock: ISaveBlock3SmallHoenn };
         B_MailBox.Visible = sav is SAV2 or SAV2Stadium or SAV3 or SAV4 or SAV5;
 

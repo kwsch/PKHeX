@@ -16,7 +16,7 @@ public class Pokeathlon4(Memory<byte> Raw) // 0xD9D4 within SAV4HGSS
     // 5 courses to store record data
     public PokeathlonCourseRecord4 GetCourseRecord(PokeathlonStat4 index)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonStat4.MAX_COUNT);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonStat4.Count);
         return new(Raw.Slice((int)index * PokeathlonCourseRecord4.SIZE, PokeathlonCourseRecord4.SIZE));
     }
 
@@ -27,14 +27,14 @@ public class Pokeathlon4(Memory<byte> Raw) // 0xD9D4 within SAV4HGSS
     // 0x2CC, 0xDCA0 within SAV
     public PokeathlonEventData4 GetEventSelf(PokeathlonEvent4 index)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.MAX_COUNT);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.Count);
         return new(Raw.Slice(0x2CC + ((int)index * PokeathlonEventData4.SIZE), PokeathlonEventData4.SIZE));
     }
 
     // 0x484, 0xDE58 within SAV
     public PokeathlonConnection4 GetEventConnection(PokeathlonEvent4 index)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.MAX_COUNT);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.Count);
         return new(Raw.Slice(0x484 + ((int)index * PokeathlonConnection4.SIZE), PokeathlonConnection4.SIZE));
     }
 
@@ -45,13 +45,13 @@ public class Pokeathlon4(Memory<byte> Raw) // 0xD9D4 within SAV4HGSS
     /// </summary>
     public ushort GetBestScore(PokeathlonEvent4 index)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.MAX_COUNT);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.Count);
         return ReadUInt16LittleEndian(Data[(0xAEC + ((int)index * 2))..]);
     }
 
     public void SetBestScore(PokeathlonEvent4 index, ushort score)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.MAX_COUNT);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.Count);
         WriteUInt16LittleEndian(Data[(0xAEC + ((int)index * 2))..], score);
     }
 
@@ -93,10 +93,10 @@ public class Pokeathlon4(Memory<byte> Raw) // 0xD9D4 within SAV4HGSS
     public uint CalculateGlobalScore()
     {
         uint result = 0;
-        for (PokeathlonStat4 i = 0; i < PokeathlonStat4.MAX_COUNT; i++)
+        for (PokeathlonStat4 i = 0; i < PokeathlonStat4.Count; i++)
             result += GetCourseRecord(i).ScoreMax;
         result += Medals.GetTotalCount();
-        for (PokeathlonEvent4 i = 0; i < PokeathlonEvent4.MAX_COUNT; i++)
+        for (PokeathlonEvent4 i = 0; i < PokeathlonEvent4.Count; i++)
             result += GetBestScore(i);
         return result;
     }
@@ -250,6 +250,9 @@ public struct PokeathlonConnection4(Memory<byte> Raw)
 
     public PokeathlonEventData4 Inner => new(Raw.Slice(0 * PokeathlonEventData4.SIZE, PokeathlonEventData4.SIZE));
 
+    /// <summary>
+    /// Correlated to the <see cref="Inner"/> indexed records.
+    /// </summary>
     public PokeathlonEventTrainer4 GetTrainer(int index)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, MaxTrainer);
@@ -363,12 +366,12 @@ public struct PokeathlonGlobalCounters4(Memory<byte> Raw)
     {
         get
         {
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.MAX_COUNT);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.Count);
             return ReadUInt32LittleEndian(Data[(0x44 + ((int)index * 4))..]);
         }
         set
         {
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.MAX_COUNT);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)PokeathlonEvent4.Count);
             WriteUInt32LittleEndian(Data[(0x44 + ((int)index * 4))..], Math.Min(MaxStat, value));
         }
     }
@@ -379,7 +382,7 @@ public struct PokeathlonGlobalCounters4(Memory<byte> Raw)
         get
         {
             uint total = 0;
-            for (PokeathlonEvent4 i = 0; i < PokeathlonEvent4.MAX_COUNT; i++)
+            for (PokeathlonEvent4 i = 0; i < PokeathlonEvent4.Count; i++)
                 total += this[i];
             return total;
         }
@@ -548,7 +551,7 @@ public enum PokeathlonStat4 : byte
     Stamina = 3,
     Jump = 4,
 
-    MAX_COUNT = 5,
+    Count = 5,
 }
 
 public enum PokeathlonEvent4 : byte
@@ -564,7 +567,7 @@ public enum PokeathlonEvent4 : byte
     SnowThrow = 8,
     GoalRoll = 9,
 
-    MAX_COUNT = 10,
+    Count = 10,
 }
 
 /// <summary>
@@ -608,5 +611,5 @@ public enum DataCard4 : byte
     Instructions    = 25, // Pokémon Instructions
     TimeSpent       = 26, // Time Spent in Pokéathlon
 
-    MAX_COUNT = 27,
+    Count = 27,
 };
