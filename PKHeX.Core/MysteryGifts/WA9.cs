@@ -684,15 +684,33 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         if (pk is IAlphaReadOnly a && a.IsAlpha != IsAlpha)
             return true;
 
-        if (IsHOMEGift && FlawlessIVCount > 0)
+        if (IsHOMEGift)
         {
-            if (pk.FlawlessIVCount != FlawlessIVCount)
-                return false; // HOME ZA-starters have non-perfect IVs to 20, so IVs at 31 can't exceed the flawless count.
-
-            for (var i = 0; i < 6; i++)
+            if (FlawlessIVCount > 0)
             {
-                var iv = pk.GetIV(i);
-                if (iv != 31 && iv != HomeBaseIV)
+                if (pk.FlawlessIVCount != FlawlessIVCount)
+                    return false; // HOME ZA-starters have non-perfect IVs to 20, so IVs at 31 can't exceed the flawless count.
+
+                for (var i = 0; i < 6; i++)
+                {
+                    var iv = pk.GetIV(i);
+                    if (iv != 31 && iv != HomeBaseIV)
+                        return false;
+                }
+            }
+            else // All Specified
+            {
+                if (pk.IV_HP != IV_HP)
+                    return false;
+                if (pk.IV_ATK != IV_ATK)
+                    return false;
+                if (pk.IV_DEF != IV_DEF)
+                    return false;
+                if (pk.IV_SPA != IV_SPA)
+                    return false;
+                if (pk.IV_SPD != IV_SPD)
+                    return false;
+                if (pk.IV_SPE != IV_SPE)
                     return false;
             }
         }
