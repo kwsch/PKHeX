@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// String Translation Utility
 /// </summary>
-public class RibbonStrings
+public sealed class RibbonStrings
 {
     private readonly Dictionary<string, string> RibbonNames = [];
 

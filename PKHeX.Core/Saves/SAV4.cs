@@ -237,7 +237,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     private int OFS_Backdrop => FashionCase + 0x28;
 
     protected int OFS_Chatter = int.MinValue;
-    public Chatter4 Chatter => new(this, GeneralBuffer[OFS_Chatter..]);
+    public Chatter4 Chatter => new(GeneralBuffer.Slice(OFS_Chatter, Chatter4.SIZE));
 
     protected int OFS_Record = int.MinValue;
     public Record4 Records => new(this, GeneralBuffer.Slice(OFS_Record, Record4.GetSize(this)));

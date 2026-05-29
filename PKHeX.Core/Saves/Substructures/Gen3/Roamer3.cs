@@ -50,7 +50,7 @@ public sealed record Roamer3(Memory<byte> Raw, bool IsGlitched) : IContestStats
     public byte ContestSmart  { get => Data[0x11]; set => Data[0x11] = value; }
     public byte ContestTough  { get => Data[0x12]; set => Data[0x12] = value; }
     public byte ContestSheen  { get => 0; set { } }
-    public bool Active    { get => Data[0x13] == 1; set => Data[0x13] = value ? (byte)1 : (byte)0; }
+    public bool IsActive      { get => Data[0x13] == 1; set => Data[0x13] = value ? (byte)1 : (byte)0; }
 
     // Derived Properties
     public int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | (uint)((value > 31 ? 31 : value) << 00); }

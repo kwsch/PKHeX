@@ -36,7 +36,7 @@ public partial class SAV_Roamer3 : Form
         TB_SPAIV.Text = Reader.IV_SPA.ToString();
         TB_SPDIV.Text = Reader.IV_SPD.ToString();
 
-        CHK_Active.Checked = Reader.Active;
+        CHK_Active.Checked = Reader.IsActive;
         NUD_Level.Value = Math.Min(Reader.CurrentLevel, NUD_Level.Maximum);
         NUD_HP.Value = Math.Min(Reader.HP_Current, NUD_HP.Maximum);
     }
@@ -54,7 +54,7 @@ public partial class SAV_Roamer3 : Form
             Util.ToInt32(TB_SPAIV.Text),
             Util.ToInt32(TB_SPDIV.Text),
         ]);
-        Reader.Active = CHK_Active.Checked;
+        Reader.IsActive = CHK_Active.Checked;
         Reader.CurrentLevel = (byte)NUD_Level.Value;
         Reader.HP_Current = (ushort)NUD_HP.Value;
     }

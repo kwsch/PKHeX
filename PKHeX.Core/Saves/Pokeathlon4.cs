@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Manages the Pokeathlon Data for <see cref="SAV4HGSS"/>
 /// </summary>
-public class Pokeathlon4(Memory<byte> Raw) // 0xD9D4 within SAV4HGSS
+public sealed class Pokeathlon4(Memory<byte> Raw) // 0xD9D4 within SAV4HGSS
 {
     public const int SIZE = 0xB80;
 

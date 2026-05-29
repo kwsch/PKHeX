@@ -298,7 +298,8 @@ public sealed partial class SAV_Inventory : Form
         if (dgv.CurrentCell?.OwningColumn is not DataGridViewComboBoxColumn)
             return;
 
-        cb.DroppedDown = true;
+        // let the row reference update, invoke via DataGrid rather than directly call
+        dgv.BeginInvoke((MethodInvoker)(() => cb.DroppedDown = true));
     }
 
     private void SetBag(DataGridView dgv, InventoryPouch pouch)
