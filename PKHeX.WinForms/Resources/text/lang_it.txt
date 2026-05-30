@@ -305,6 +305,7 @@ LocalizedDescription.HiddenProperties=Proprietà da nascondere dalla griglia del
 LocalizedDescription.HideEvent8Contains=Nascondi le variabili evento contenenti le sottostringhe indicate (separate da virgola). Rimuove dall'interfaccia i valori non d'interesse.
 LocalizedDescription.HideSAVDetails=Nascondi i dettagli del File di Salvataggio dal Titolo del Programma.
 LocalizedDescription.HideSecretDetails=Nascondi i Dettagli Segreti dagli Editor.
+LocalizedDescription.HighDpiText=Attiva all'avvio dell'applicazione una modalità di rendering a DPI più elevato.
 LocalizedDescription.HOMETransferTrackerNotPresent=Forza una segnalazione di legalità se il codice di Tracciamento di Pokémon Home è assente.
 LocalizedDescription.Hover=Impostazioni per la visualizzazione dei dettagli al passaggio del mouse su uno slot.
 LocalizedDescription.HoverSlotGlowEdges=Mostra l'evidenziatura del Pokémon al passaggio del mouse.

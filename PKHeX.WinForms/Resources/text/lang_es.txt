@@ -305,6 +305,7 @@ LocalizedDescription.HiddenProperties=Propiedades a esconder en la cuadrícula.
 LocalizedDescription.HideEvent8Contains=Oculta eventos con las siguientes palabras (separadas por comas). Filtra entradas irrelevantes de la interfaz.
 LocalizedDescription.HideSAVDetails=Ocultar detalles de partidas guardadas en el título del programa
 LocalizedDescription.HideSecretDetails=Ocultar detalles secretos en los editores
+LocalizedDescription.HighDpiText=Activa un modo de renderizado de DPI más alto para la aplicación al iniciar.
 LocalizedDescription.HOMETransferTrackerNotPresent=En la comprobación de legalidad, marcar Severidad para detectar una comprobación de legalidad si falta el rastreador HOME
 LocalizedDescription.Hover=Ajustes para mostrar detalles al pasar el cursor sobre una ranura.
 LocalizedDescription.HoverSlotGlowEdges=Mostrar brillo PKM al pasar el ratón

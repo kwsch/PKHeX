@@ -305,6 +305,7 @@ LocalizedDescription.HiddenProperties=报告网格中要隐藏的属性。
 LocalizedDescription.HideEvent8Contains=隐藏不需要展示的活动名称，输入格式以逗号分隔。
 LocalizedDescription.HideSAVDetails=隐藏程序标题中的保存文件详细信息。
 LocalizedDescription.HideSecretDetails=在编辑器中隐藏秘密细节。
+LocalizedDescription.HighDpiText=在程序启动时切换是否为应用程序启用更高的 DPI 渲染模式。
 LocalizedDescription.HOMETransferTrackerNotPresent=如果HOME追踪丢失，则标记合法性检查的严重性。
 LocalizedDescription.Hover=悬停至栏位时显示详细信息的相关设置。
 LocalizedDescription.HoverSlotGlowEdges=在悬停时显示PKM闪烁。

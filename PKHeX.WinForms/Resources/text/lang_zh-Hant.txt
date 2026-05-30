@@ -305,6 +305,7 @@ LocalizedDescription.HiddenProperties=報告網格中要隱藏的屬性。
 LocalizedDescription.HideEvent8Contains=隱藏包含逗號分隔子串之活動名稱，並從GUI中移除不關心之活動名稱值。
 LocalizedDescription.HideSAVDetails=隱藏程式標題中的儲存資料檔詳細資訊
 LocalizedDescription.HideSecretDetails=在編輯器中隱藏秘密細節
+LocalizedDescription.HighDpiText=在程式啟動時切換是否為應用程式啟用更高的 DPI 渲染模式。
 LocalizedDescription.HOMETransferTrackerNotPresent=HOME追蹤碼丟失合法性檢查等級。
 LocalizedDescription.Hover=滑鼠懸停至欄位時顯示詳細資訊的相關設定。
 LocalizedDescription.HoverSlotGlowEdges=在懸停時顯示PKM Glow

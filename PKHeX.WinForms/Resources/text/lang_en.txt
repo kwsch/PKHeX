@@ -305,6 +305,7 @@ LocalizedDescription.HiddenProperties=Properties to hide from the report grid.
 LocalizedDescription.HideEvent8Contains=Hide event variable names for that contain any of the comma-separated substrings below. Removes event values from the GUI that the user doesn't care to view.
 LocalizedDescription.HideSAVDetails=Hide Save File Details in Program Title
 LocalizedDescription.HideSecretDetails=Hide Secret Details in Editors
+LocalizedDescription.HighDpiText=Toggles a higher Dpi rendering mode for the application on startup.
 LocalizedDescription.HOMETransferTrackerNotPresent=Severity to flag a Legality Check if the HOME Tracker is Missing
 LocalizedDescription.Hover=Settings for showing details when hovering a slot.
 LocalizedDescription.HoverSlotGlowEdges=Show PKM Glow on Hover

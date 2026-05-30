@@ -305,6 +305,7 @@ LocalizedDescription.HiddenProperties=Eigenschaften, die im Berichts-Gitter ausg
 LocalizedDescription.HideEvent8Contains=Versteckt Event-Variablen, die unten stehende (kommagetrennte) Zeichenfolgen enthalten. Filtert irrelevante Einträge aus der Benutzeroberfläche.
 LocalizedDescription.HideSAVDetails=Verstecke Spielstand Details in Programmtitel
 LocalizedDescription.HideSecretDetails=Verstecke persönliche Details im Editor
+LocalizedDescription.HighDpiText=Schaltet beim Programmstart einen Modus mit höherer DPI-Darstellung für die Anwendung um.
 LocalizedDescription.HOMETransferTrackerNotPresent=Kennzeichnet in der Legalitäts Analyse, wenn der HOME Tracker fehlt.
 LocalizedDescription.Hover=Einstellungen für die Detailanzeige beim Hovern über einen slot.
 LocalizedDescription.HoverSlotGlowEdges=Zeige Glanz bei Berührung

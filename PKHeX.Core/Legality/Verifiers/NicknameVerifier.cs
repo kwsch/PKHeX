@@ -203,7 +203,7 @@ public sealed class NicknameVerifier : Verifier
         else
         {
             var enc = data.EncounterOriginal;
-            bool valid = IsNicknameValid(pk, enc, nickname);
+            bool valid = IsNotNicknameValid(data, pk, enc, nickname);
             var result = valid ? GetValid(NickMatchLanguage) : GetInvalid(NickMatchLanguageFail);
             data.AddLine(result);
         }
@@ -240,7 +240,7 @@ public sealed class NicknameVerifier : Verifier
         return Math.Max(length, future);
     }
 
-    private static bool IsNicknameValid(PKM pk, IEncounterTemplate enc, ReadOnlySpan<char> nickname)
+    private static bool IsNotNicknameValid(LegalityAnalysis data, PKM pk, IEncounterTemplate enc, ReadOnlySpan<char> nickname)
     {
         ushort species = pk.Species;
         byte format = pk.Format;
@@ -258,6 +258,16 @@ public sealed class NicknameVerifier : Verifier
                     return nickname is "Farfetch'd";
                 if (enc is EncounterSlot8GO) // GO -> HOME
                     return species is (int)Species.Farfetchd ? nickname is "Farfetch'd" : nickname is "Sirfetch'd";
+            }
+        }
+
+        if (format == 4 && data.HasResult(GTSTrainerSanitized))
+        {
+            // Korean GTS => International sanitizes to English. GTS back would revert back to Korean nickname.
+            if (ParseSettings.ActiveTrainer is not { Generation: 4, Language: (int)Korean })
+            {
+                var english = SpeciesName.GetSpeciesNameGeneration(species, (int)English, format);
+                return nickname.SequenceEqual(english);
             }
         }
 
@@ -473,7 +483,11 @@ public sealed class NicknameVerifier : Verifier
         int len = pk.LoadString(pk.OriginalTrainerTrash, trainer);
         trainer = trainer[..len];
 
-        if (!ft.IsTrainerMatch(pk, trainer, language))
-            data.AddLine(GetInvalid(CheckIdentifier.Trainer, EncTradeChangedOT));
+        if (ft.IsTrainerMatch(pk, trainer, language))
+            return; // OK
+        if (data.HasResult(GTSTrainerSanitized))
+            return; // OK
+
+        data.AddLine(GetInvalid(CheckIdentifier.Trainer, EncTradeChangedOT));
     }
 }
