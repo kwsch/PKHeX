@@ -34,7 +34,6 @@ public partial class SAV_Misc5 : Form
         LoadForest();
         ReadSubway();
         ReadEntralink();
-        ReadMedals();
         ReadMusical();
         ReadRecord();
     }
@@ -126,7 +125,6 @@ public partial class SAV_Misc5 : Form
 
         if (SAV is SAV5BW bw)
         {
-            TC_Misc.TabPages.Remove(TAB_Medals);
             GB_KeySystem.Visible = false;
             // Roamer
             cbr = [CB_Roamer642, CB_Roamer641];
@@ -328,7 +326,16 @@ public partial class SAV_Misc5 : Form
             LB_FunfestMissions.Items.AddRange(FMTitles);
 
             CB_FMLevel.Items.Clear();
-            CB_FMLevel.Items.AddRange("Lv.1", "Lv.2 +", "Lv.3 ++", "Lv.3 +++");
+            var levels = new ComboItem[]
+            {
+                new("Lv.1", 0),
+                new("Lv.2 +", 1),
+                new("Lv.3 ++", 2),
+                new("Lv.3 +++", 3),
+                new(GameInfo.Strings.specieslist[0], 7), // -1
+            };
+            CB_FMLevel.InitializeBinding();
+            CB_FMLevel.DataSource = new BindingSource(levels, string.Empty);
             SetNudMax();
             SetEntreeExpTooltip();
             LB_FunfestMissions.SelectedIndex = 0;
@@ -435,7 +442,7 @@ public partial class SAV_Misc5 : Form
 
         var record = block.GetMissionRecord(mission);
         CHK_FMNew.Checked = record.IsNew;
-        CB_FMLevel.SelectedIndex = record.Level;
+        CB_FMLevel.SelectedValue = record.Level;
         NUD_FMBestScore.SetValueClamped(record.Score);
         NUD_FMBestTotal.SetValueClamped(record.Total);
     }
@@ -450,7 +457,7 @@ public partial class SAV_Misc5 : Form
         if ((uint)mission > FestaBlock5.MaxMissionIndex)
             return;
 
-        var score = new Funfest5Score((int)NUD_FMBestTotal.Value, (int)NUD_FMBestScore.Value, CB_FMLevel.SelectedIndex & 3, CHK_FMNew.Checked);
+        var score = new Funfest5Score((int)NUD_FMBestTotal.Value, (int)NUD_FMBestScore.Value, WinFormsUtil.GetIndex(CB_FMLevel), CHK_FMNew.Checked);
         block.SetMissionRecord(mission, score);
     }
 
@@ -839,91 +846,6 @@ public partial class SAV_Misc5 : Form
 
         var data = File.ReadAllBytes(ofd.FileName);
         bw.SetData(bw.Forest.ForestCity.Span, data);
-    }
-
-    private readonly string[] MedalNames = Util.GetStringList("medals", Main.CurrentLanguage);
-    private readonly string[] MedalTypeNames = Util.GetStringList("medal_types", Main.CurrentLanguage);
-
-    private void ReadMedals()
-    {
-        if (SAV is SAV5B2W2)
-        {
-            CB_CurrentMedal.Items.AddRange(MedalNames);
-            CB_MedalState.Items.AddRange("Unobtained", "Can Obtain Hint Medal", "Hint Medal Obtained", "Can Obtain Medal", "Medal Obtained");
-            CB_CurrentMedal.SelectedIndex = 0;
-        }
-    }
-
-    private void CB_CurrentMedal_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (SAV is SAV5B2W2 b2w2)
-        {
-            var index = CB_CurrentMedal.SelectedIndex;
-            var medal = b2w2.Medals[index];
-            var type = MedalList5.GetMedalType(index);
-            TB_MedalType.Text = MedalTypeNames[(int)type];
-            CB_MedalState.SelectedIndex = (int)medal.State;
-            if (medal.CanHaveDate)
-            {
-                CAL_MedalDate.Value = medal.Date.ToDateTime(new TimeOnly());
-                CAL_MedalDate.Enabled = true;
-            }
-            else
-            {
-                CAL_MedalDate.Enabled = false;
-                CAL_MedalDate.ValueChanged -= CAL_MedalDate_ValueChanged;
-                CAL_MedalDate.Value = EncounterDate.GetDateNDS().ToDateTime(new TimeOnly());
-                CAL_MedalDate.ValueChanged += CAL_MedalDate_ValueChanged;
-            }
-            CHK_MedalUnread.Checked = medal.IsUnread;
-        }
-    }
-
-    private void CB_MedalState_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (SAV is SAV5B2W2 b2w2)
-        {
-            var medal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
-            medal.State = (Medal5State)CB_MedalState.SelectedIndex;
-            if (medal.CanHaveDate)
-            {
-                if (!medal.HasDate)
-                    medal.Date = EncounterDate.GetDateNDS();
-                CAL_MedalDate.Enabled = true;
-            }
-            else
-            {
-                CAL_MedalDate.Enabled = false;
-            }
-        }
-    }
-
-    private void CAL_MedalDate_ValueChanged(object? sender, EventArgs e)
-    {
-        if (SAV is SAV5B2W2 b2w2)
-        {
-            var medal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
-            medal.Date = DateOnly.FromDateTime(CAL_MedalDate.Value);
-        }
-    }
-
-    private void CHK_MedalUnread_CheckedChanged(object sender, EventArgs e)
-    {
-        if (SAV is SAV5B2W2 b2w2)
-        {
-            var medal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
-            medal.IsUnread = CHK_MedalUnread.Checked;
-        }
-    }
-
-    private void B_ObtainAllMedals_Click(object sender, EventArgs e)
-    {
-        if (SAV is SAV5B2W2 b2w2)
-        {
-            var now = EncounterDate.GetDateNDS();
-            b2w2.Medals.ObtainAll(now, unread: true);
-            WinFormsUtil.Asterisk();
-        }
     }
 
     private readonly string[] PropNames = Util.GetStringList("props", Main.CurrentLanguage);

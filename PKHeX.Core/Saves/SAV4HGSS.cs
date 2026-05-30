@@ -78,7 +78,6 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         OFS_Chatter = 0x4E74;
         OFS_Groups = 0x440C;
         Geonet = 0x8D44;
-        WondercardFlags = 0x9D3C;
         Seal = 0x4E20;
 
         Box = 0;
@@ -263,6 +262,8 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         PokeGearClearAllCallers(NotTrainers.Length);
     }
 
+    public Pokeathlon4 Pokeathlon => new(GeneralBuffer.Slice(0xD9D4, Pokeathlon4.SIZE)); // 0xB80
+
     // Apricorn Pouch
     public int GetApricornCount(int index) => General[0xE558 + index];
     public void SetApricornCount(int index, int count) => General[0xE558 + index] = (byte)count;
@@ -332,9 +333,6 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         var mem = GeneralBuffer.Slice(ofs, size);
         return new Roamer4(mem);
     }
-
-    // Pokeathlon
-    public uint PokeathlonPoints { get => ReadUInt32LittleEndian(General[0xE548..]); set => WriteUInt32LittleEndian(General[0xE548..], value); }
 }
 
 public enum MapUnlockState4 : byte

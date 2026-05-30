@@ -34,6 +34,7 @@
 2410	a	Cute Contest Master
 2411	a	Smart Contest Master
 2412	a	Tough Contest Master
+2444	a	Connected to Nintendo Wi-Fi Connection
 0329	r	Rotom Captured
 0665	s	Encountered Ghost Butler in Old Chateau
 0666	s	Encountered Ghost Girl in Old Chateau
@@ -56,6 +57,18 @@
 0134	g	Traded in Eterna City
 0244	g	Traded in Snowpoint City
 0245	g	Traded on Route 226
+0330	g	Received Globe (Mr. Goods)
+0331	g	Received Gym Statue (Mr. Goods)
+0332	g	Received Cute Cup (Mr. Goods)
+0333	g	Received Cool Cup (Mr. Goods)
+0334	g	Received Beauty Cup (Mr. Goods)
+0335	g	Received Tough Cup (Mr. Goods)
+0336	g	Received Clever Cup (Mr. Goods)
+0337	g	Received Blue Crystal (Mr. Goods)
+0338	g	Received Pink Crystal (Mr. Goods)
+0339	g	Received Red Crystal (Mr. Goods)
+0340	g	Received Yellow Crystal (Mr. Goods)
+0347	g	Received All Goods (Mr. Goods)
 0787	i	Found HP Up in dried Lake Valor
 2507	s	Entered Pal Park Catching Show
 1409	t	Defeated Jogger Richard (Morning)

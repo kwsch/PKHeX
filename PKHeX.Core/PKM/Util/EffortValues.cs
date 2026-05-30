@@ -22,6 +22,11 @@ public static class EffortValues
     /// <summary> Vitamin Max for consideration in Gen3 & Gen4. </summary>
     public const ushort MaxVitamins34 = 100;
 
+    /// <summary> Single vitamin in Gen1/2 adds 2560 EVs to a stat. </summary>
+    public const ushort VitaminBoost12 = 2560;
+    /// <summary> Maximum EVs from vitamins in Gen1/2. </summary>
+    public const ushort MaxVitamins12 = 2560 * 10;
+
     /// <summary> Maximum value for a single stat in Pokémon Champions. </summary>
     public const byte ChampionsMaxStat = 32; // 252/8
     /// <summary> Maximum value for the sum of all stats in Pokémon Champions. </summary>
@@ -156,8 +161,8 @@ public static class EffortValues
     /// <summary>
     /// Converts mainline EVs (0-252) to Pokémon Champions EVs (0-32) by dividing by 8.
     /// </summary>
-    /// <param name="champion">Champion's EVs (0-32)</param>
     /// <param name="mainline">Mainline EVs (0-252)</param>
+    /// <param name="champion">Champion's EVs (0-32)</param>
     public static void ConvertToChampions(ReadOnlySpan<int> mainline, Span<int> champion)
     {
         for (int i = 0; i < champion.Length; i++)
@@ -168,7 +173,7 @@ public static class EffortValues
     /// Converts an EV from Pokémon Champions (0-32) to mainline (0-252) by multiplying by 8 and applying the appropriate clamps.
     /// </summary>
     public static int ConvertFromChampions(int ev) => Math.Clamp((ev * 8) - 4, 0, Max252);
-    
+
     /// <summary>
     /// Converts an EV from mainline (0-252) to Pokémon Champions (0-32) by dividing by 8.
     /// </summary>

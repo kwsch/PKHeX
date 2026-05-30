@@ -23,7 +23,7 @@ public sealed class Roamer4(Memory<byte> Raw)
     public ushort Stat_HPCurrent { get => ReadUInt16LittleEndian(Data[0xE..]); set => WriteUInt16LittleEndian(Data[0xE..], value); }
     public byte Level  { get => Data[0x10]; set => Data[0x10] = value; }
     public byte Status { get => Data[0x11]; set => Data[0x11] = value; }
-    public bool Active { get => Data[0x12] != 0; set => Data[0x12] = (byte)(value ? 1 : 0); }
+    public bool IsActive { get => Data[0x12] != 0; set => Data[0x12] = (byte)(value ? 1 : 0); }
     // 0x13 alignment, unused
 
     // Derived Properties

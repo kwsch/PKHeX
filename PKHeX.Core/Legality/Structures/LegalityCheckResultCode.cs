@@ -199,6 +199,13 @@ public enum LegalityCheckResultCode : ushort
     GeoMemoryMissing,
     GeoNoCountryHT,
 
+    // GTS
+    GTSTrainerSanitized, // valid, tag
+    GTSTradedKoreanInternational, // valid
+    GTSTrainerSanitizedExpected,
+    GTSDisallowedClassicRibbon,
+    GTSDisallowedTradedEgg,
+
     // Hints
 
     // Hyper Training
@@ -350,7 +357,6 @@ public enum LegalityCheckResultCode : ushort
     TransferMetLocation,
     TransferNature,
     TransferObedienceLevel,
-    TransferKoreanGen4,
     TransferEncryptGen6BitFlip,
     TransferEncryptGen6Equals,
     TransferEncryptGen6Xor,

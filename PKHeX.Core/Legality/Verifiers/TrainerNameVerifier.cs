@@ -48,7 +48,7 @@ public sealed class TrainerNameVerifier : Verifier
         }
         else if (trainer.Length > Legal.GetMaxLengthOT(enc.Generation, (LanguageID)pk.Language))
         {
-            if (!IsEdgeCaseLength(pk, enc, trainer))
+            if (!IsEdgeCaseLength(pk, enc, trainer) && !data.HasResult(GTSTrainerSanitized))
                 data.AddLine(Get(Severity.Invalid, OTLong));
         }
 

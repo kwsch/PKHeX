@@ -61,7 +61,6 @@ public sealed class SAV4DP : SAV4Sinnoh
         OFS_Record = 0x5F08;
         OFS_Chatter = 0x61CC;
         Geonet = 0x96D8;
-        WondercardFlags = 0xA6D0;
         OFS_HONEY = 0x72E4;
         OFS_UG_Stats = 0x3A2C;
         OFS_UG_Items = 0x42B0;

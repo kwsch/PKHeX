@@ -34,6 +34,7 @@
 2410	a	Maestro de Concurso de Dulzura
 2411	a	Maestro de Concurso de Ingenio
 2412	a	Maestro de Concurso de Dureza
+2444	a	Conectó a la Conexión Wi-Fi de Nintendo
 0329	r	Rotom capturado
 0665	s	Encontrado Mayordomo Fantasma en la Vieja Mansión
 0666	s	Encontrada Niña Fantasma en la Vieja Mansión
@@ -56,6 +57,18 @@
 0134	g	Intercambio en Ciudad Vetusta
 0244	g	Intercambio en Ciudad Puntaneva
 0245	g	Intercambio en Ruta 226
+0330	g	Globo terráqueo recibido (Sr. Curiosidades)
+0331	g	Estatua Gimnasio recibida (Sr. Curiosidades)
+0332	g	Copa Dulzura recibida (Sr. Curiosidades)
+0333	g	Copa Carisma recibida (Sr. Curiosidades)
+0334	g	Copa Belleza recibida (Sr. Curiosidades)
+0335	g	Copa Dureza recibida (Sr. Curiosidades)
+0336	g	Copa Ingenio recibida (Sr. Curiosidades)
+0337	g	Cristal Azul recibido (Sr. Curiosidades)
+0338	g	Cristal Rosa recibido (Sr. Curiosidades)
+0339	g	Cristal Rojo recibido (Sr. Curiosidades)
+0340	g	Cristal Amarillo recibido (Sr. Curiosidades)
+0347	g	Todos los objetos recibidos (Sr. Curiosidades)
 0787	i	Más PP encontrado en Lago Valor seco
 2507	s	Participado en las capturas del Parque Compi
 1409	t	Corredor Romén derrotado (Mañana)

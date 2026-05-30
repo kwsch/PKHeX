@@ -34,6 +34,7 @@
 2410	a	可愛華麗大賽大師
 2411	a	聰明華麗大賽大師
 2412	a	強壯華麗大賽大師
+2444	a	已連線上网天堂Wi-Fi連接
 0329	r	洛托姆已捕捉
 0665	s	在森之洋館遇到管家幽靈
 0666	s	在森之洋館遇到小女孩幽靈
@@ -56,6 +57,18 @@
 0134	g	Traded in Eterna City
 0244	g	Traded in Snowpoint City
 0245	g	Traded on Route 226
+0330	g	已获得地球儀(商品大叔)
+0331	g	已获得道館雕塑(商品大叔)
+0332	g	已获得可愛獎盃(商品大叔)
+0333	g	已获得帥氣獎盃(商品大叔)
+0334	g	已获得美麗獎盃(商品大叔)
+0335	g	已获得強壯獎盃(商品大叔)
+0336	g	已获得聰明獎盃(商品大叔)
+0337	g	已获得藍色水晶(商品大叔)
+0338	g	已获得粉紅色水晶(商品大叔)
+0339	g	已获得紅色水晶(商品大叔)
+0340	g	已获得黃色水晶(商品大叔)
+0347	g	已獲得全部物品(商品大叔)
 0787	i	Found HP Up in dried Lake Valor
 2507	s	Entered Pal Park Catching Show
 1409	t	Defeated Jogger Richard (Morning)

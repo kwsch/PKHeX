@@ -6,8 +6,12 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 4 Chatter Recording
 /// </summary>
-public sealed class Chatter4(SAV4 SAV, Memory<byte> raw) : SaveBlock<SAV4>(SAV, raw), IChatter
+public sealed class Chatter4(Memory<byte> Raw) : IChatter
 {
+    public const int SIZE = sizeof(uint) + IChatter.SIZE_PCM;
+
+    private Span<byte> Data => Raw.Span;
+
     public bool Initialized
     {
         get => ReadUInt32LittleEndian(Data) == 1u;

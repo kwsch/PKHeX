@@ -3,10 +3,10 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Medal5(Memory<byte> Data)
+public struct Medal5(Memory<byte> Data)
 {
     public const int SIZE = 4;
-    private Span<byte> Span => Data.Span;
+    private readonly Span<byte> Span => Data.Span;
 
     // Structure:
     // ushort Date:7
@@ -23,53 +23,53 @@ public sealed class Medal5(Memory<byte> Data)
 
     public ushort RawDate
     {
-        get => ReadUInt16LittleEndian(Span);
+        readonly get => ReadUInt16LittleEndian(Span);
         set => WriteUInt16LittleEndian(Span, value);
     }
 
     public int Year
     {
-        get => (RawDate & 0x007F) + EpochYear;
+        readonly get => (RawDate & 0x007F) + EpochYear;
         set => RawDate = (ushort)((RawDate & 0xFF80) | ((value - EpochYear) & 0x007F));
     }
 
     public int Month
     {
-        get => (RawDate & 0x0780) >> 7;
+        readonly get => (RawDate & 0x0780) >> 7;
         set => RawDate = (ushort)((RawDate & 0xF87F) | ((value & 0x0F) << 7));
     }
 
     public int Day
     {
-        get => RawDate >> 11;
+        readonly get => RawDate >> 11;
         set => RawDate = (ushort)((RawDate & 0x07FF) | ((value & 0x1F) << 11));
     }
 
-    public Medal5State State
+    public MedalState5 State
     {
-        get => (Medal5State)(Span[2] & 0b0111);
+        readonly get => (MedalState5)(Span[2] & 0b0111);
         set => Span[2] = (byte)((Span[2] & 0b1000) | ((int)value & 0b0111));
     }
 
     public bool IsUnread
     {
-        get => FlagUtil.GetFlag(Span, 2, 3);
+        readonly get => FlagUtil.GetFlag(Span, 2, 3);
         set => FlagUtil.SetFlag(Span, 2, 3, value);
     }
 
     public bool CanHaveDate => State switch
     {
-        Medal5State.HintObtained => true,
-        Medal5State.Obtained => true,
-        Medal5State.ObtainReady => HasDate,
+        MedalState5.HintObtained => true,
+        MedalState5.Obtained => true,
+        MedalState5.ObtainReady => HasDate,
         _ => false,
     };
 
-    public bool HasDate => RawDate != 0;
-    public bool IsObtained => State == Medal5State.Obtained;
+    public readonly bool HasDate => RawDate != 0;
+    public readonly bool IsObtained => State == MedalState5.Obtained;
     public void Clear() => Span.Clear();
 
-    public DateOnly Date { get => GetDate(RawDate); set => RawDate = GetDate(value); }
+    public DateOnly Date { readonly get => GetDate(RawDate); set => RawDate = GetDate(value); }
 
     private static ushort GetDate(DateOnly date)
     {
@@ -90,12 +90,12 @@ public sealed class Medal5(Memory<byte> Data)
     public void Obtain(DateOnly time, bool unread = true)
     {
         RawDate = GetDate(time);
-        State = Medal5State.Obtained;
+        State = MedalState5.Obtained;
         IsUnread = unread;
     }
 }
 
-public enum Medal5State
+public enum MedalState5
 {
     Unobtained = 0,
     HintReady = 1,

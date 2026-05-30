@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Forms;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms;
@@ -12,10 +13,13 @@ public sealed class StartupSettings : IStartupSettings
     public string Version { get; set; } = string.Empty;
 
     [LocalizedDescription("Use the Dark color mode for the application on startup.")]
-    public bool DarkMode { get; set; }
+    public bool DarkMode { get; set; } = Application.SystemColorMode == SystemColorMode.Dark; // auto-detect for new settings, json load preserves any choice.
 
     [LocalizedDescription("Force HaX mode on Program Launch")]
     public bool ForceHaXOnLaunch { get; set; }
+
+    [LocalizedDescription("Toggles a higher Dpi rendering mode for the application on startup.")]
+    public bool HighDpiText { get; set; } // opt-in
 
     [LocalizedDescription("Skips displaying the splash screen on Program Launch.")]
     public bool SkipSplashScreen { get; set; }

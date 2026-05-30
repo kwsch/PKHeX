@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace PKHeX.Core;
 
@@ -14,12 +15,59 @@ public static class StringConverter4Util
     /// <returns>Decoded value (unicode).</returns>
     public static ushort ConvertValue2CharG4(ushort val)
     {
-        if (val <= TableINTEnd)
+        if (val < TableINT.Length)
             return TableINT[val];
-        if (val is <= TableKOREnd and >= TableKORStart)
-            return TableKOR[val - TableKORStart];
+
+        // If not International, it is quite likely Korean.
+        // Fold the check into a single comparison instead of two (min/max).
+        var index = val - TableKORStart;
+        if ((uint)index < TableKOR.Length)
+            return TableKOR[index];
+
         return NUL;
     }
+
+    /// <summary>
+    /// Checks if an encoded sequence of Generation 4 glyph values contain a valid Korean character outside the International character table.
+    /// </summary>
+    /// <param name="values">Encoded values.</param>
+    /// <returns>True if a Korean character is found, false otherwise.</returns>
+    public static bool IsKorean(ReadOnlySpan<ushort> values)
+    {
+        foreach (var value in values)
+        {
+            if (value is StringConverter4.Terminator)
+                break;
+            if (IsKorean(value))
+                return true;
+        }
+        return false;
+    }
+
+    /// <inheritdoc cref="IsKorean(ReadOnlySpan{ushort})"/>
+    public static bool IsKorean(ReadOnlySpan<byte> trash)
+    {
+        var cast = MemoryMarshal.Cast<byte, ushort>(trash);
+        foreach (var value in cast)
+        {
+            var tmp = value;
+            if (tmp is StringConverter4.Terminator)
+                break;
+            if (!BitConverter.IsLittleEndian)
+                tmp = System.Buffers.Binary.BinaryPrimitives.ReverseEndianness(tmp);
+            if (IsKorean(tmp))
+                return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if a character is a valid Korean char outside the International character table.
+    /// </summary>
+    /// <remarks>
+    /// Ensure the <see cref="val"/> is within the string's rendered span before calling this method.
+    /// </remarks>
+    public static bool IsKorean(ushort val) => val is >= TableKORStart and <= TableKOREnd;
 
     /// <summary>
     /// Converts a Unicode character to Generation 4 value.
@@ -64,8 +112,6 @@ public static class StringConverter4Util
     }
 
     #region Conversion Data
-
-    private const int TableINTEnd = 0x01EC;
 
     private const int TableKORStart = 0x400;
     private const int TableKOREnd = 0xD65;

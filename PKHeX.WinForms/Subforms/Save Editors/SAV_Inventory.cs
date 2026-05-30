@@ -114,6 +114,7 @@ public sealed partial class SAV_Inventory : Form
         // Add DataGrid
         var dgv = GetBaseDataGrid(pouch);
         dgv.CellValueChanged += Dgv_CellValueChanged;
+        dgv.EditingControlShowing += Dgv_EditingControlShowing;
 
         // Get Columns
         var item = GetItemColumn(ColumnItem = dgv.Columns.Count);
@@ -287,6 +288,18 @@ public sealed partial class SAV_Inventory : Form
         IsCountValidationSuppressed = true;
         cell.Value = count;
         IsCountValidationSuppressed = false;
+    }
+
+    private static void Dgv_EditingControlShowing(object? sender, DataGridViewEditingControlShowingEventArgs e)
+    {
+        if (sender is not DataGridView dgv || e.Control is not ComboBox cb)
+            return;
+
+        if (dgv.CurrentCell?.OwningColumn is not DataGridViewComboBoxColumn)
+            return;
+
+        // let the row reference update, invoke via DataGrid rather than directly call
+        dgv.BeginInvoke((MethodInvoker)(() => cb.DroppedDown = true));
     }
 
     private void SetBag(DataGridView dgv, InventoryPouch pouch)

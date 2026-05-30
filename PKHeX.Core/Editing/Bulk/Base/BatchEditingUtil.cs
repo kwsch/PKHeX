@@ -20,7 +20,7 @@ public static class BatchEditingUtil
     /// <param name="obj">Object to check.</param>
     /// <returns>True if <see cref="obj"/> matches all filters.</returns>
     [RequiresUnreferencedCode("Uses reflection to evaluate property-based batch filters.")]
-    public static bool IsFilterMatch<T>(IEnumerable<StringInstruction> filters, T obj) where T : notnull
+    public static bool IsFilterMatch<T>(IEnumerable<StringInstruction> filters, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T obj) where T : notnull
     {
         foreach (var cmd in filters)
         {

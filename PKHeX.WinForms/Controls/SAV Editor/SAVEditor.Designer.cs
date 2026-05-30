@@ -86,11 +86,14 @@ namespace PKHeX.WinForms.Controls
             B_OpenUGSEditor = new System.Windows.Forms.Button();
             B_OpenGeonetEditor = new System.Windows.Forms.Button();
             B_OpenUnityTowerEditor = new System.Windows.Forms.Button();
+            B_OpenJoinAvenueEditor = new System.Windows.Forms.Button();
+            B_OpenMedalsEditor = new System.Windows.Forms.Button();
             B_OpenChatterEditor = new System.Windows.Forms.Button();
             B_Roamer = new System.Windows.Forms.Button();
             B_FestivalPlaza = new System.Windows.Forms.Button();
             B_MailBox = new System.Windows.Forms.Button();
             B_OpenApricorn = new System.Windows.Forms.Button();
+            B_OpenPokeathlon = new System.Windows.Forms.Button();
             B_Raids = new System.Windows.Forms.Button();
             B_RaidsDLC1 = new System.Windows.Forms.Button();
             B_RaidsDLC2 = new System.Windows.Forms.Button();
@@ -440,6 +443,9 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_OpenUGSEditor);
             FLP_SAVtools.Controls.Add(B_OpenGeonetEditor);
             FLP_SAVtools.Controls.Add(B_OpenUnityTowerEditor);
+            FLP_SAVtools.Controls.Add(B_OpenJoinAvenueEditor);
+            FLP_SAVtools.Controls.Add(B_OpenPokeathlon);
+            FLP_SAVtools.Controls.Add(B_OpenMedalsEditor);
             FLP_SAVtools.Controls.Add(B_OpenChatterEditor);
             FLP_SAVtools.Controls.Add(B_Roamer);
             FLP_SAVtools.Controls.Add(B_FestivalPlaza);
@@ -752,9 +758,20 @@ namespace PKHeX.WinForms.Controls
             B_OpenUnityTowerEditor.UseVisualStyleBackColor = true;
             B_OpenUnityTowerEditor.Click += B_OpenUnityTowerEditor_Click;
             // 
+            // B_OpenJoinAvenueEditor
+            // 
+            B_OpenJoinAvenueEditor.Location = new System.Drawing.Point(212, 244);
+            B_OpenJoinAvenueEditor.Margin = new System.Windows.Forms.Padding(4);
+            B_OpenJoinAvenueEditor.Name = "B_OpenJoinAvenueEditor";
+            B_OpenJoinAvenueEditor.Size = new System.Drawing.Size(96, 32);
+            B_OpenJoinAvenueEditor.TabIndex = 1;
+            B_OpenJoinAvenueEditor.Text = "Join Avenue";
+            B_OpenJoinAvenueEditor.UseVisualStyleBackColor = true;
+            B_OpenJoinAvenueEditor.Click += B_OpenJoinAvenueEditor_Click;
+            // 
             // B_OpenChatterEditor
             // 
-            B_OpenChatterEditor.Location = new System.Drawing.Point(212, 244);
+            B_OpenChatterEditor.Location = new System.Drawing.Point(316, 244);
             B_OpenChatterEditor.Margin = new System.Windows.Forms.Padding(4);
             B_OpenChatterEditor.Name = "B_OpenChatterEditor";
             B_OpenChatterEditor.Size = new System.Drawing.Size(96, 32);
@@ -763,9 +780,20 @@ namespace PKHeX.WinForms.Controls
             B_OpenChatterEditor.UseVisualStyleBackColor = true;
             B_OpenChatterEditor.Click += B_OpenChatterEditor_Click;
             // 
+            // B_OpenMedalsEditor
+            // 
+            B_OpenMedalsEditor.Location = new System.Drawing.Point(316, 364);
+            B_OpenMedalsEditor.Margin = new System.Windows.Forms.Padding(4);
+            B_OpenMedalsEditor.Name = "B_OpenMedalsEditor";
+            B_OpenMedalsEditor.Size = new System.Drawing.Size(96, 32);
+            B_OpenMedalsEditor.TabIndex = 1;
+            B_OpenMedalsEditor.Text = "Medals";
+            B_OpenMedalsEditor.UseVisualStyleBackColor = true;
+            B_OpenMedalsEditor.Click += B_OpenMedalsEditor_Click;
+            // 
             // B_Roamer
             // 
-            B_Roamer.Location = new System.Drawing.Point(316, 244);
+            B_Roamer.Location = new System.Drawing.Point(4, 284);
             B_Roamer.Margin = new System.Windows.Forms.Padding(4);
             B_Roamer.Name = "B_Roamer";
             B_Roamer.Size = new System.Drawing.Size(96, 32);
@@ -776,7 +804,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_FestivalPlaza
             // 
-            B_FestivalPlaza.Location = new System.Drawing.Point(4, 284);
+            B_FestivalPlaza.Location = new System.Drawing.Point(108, 284);
             B_FestivalPlaza.Margin = new System.Windows.Forms.Padding(4);
             B_FestivalPlaza.Name = "B_FestivalPlaza";
             B_FestivalPlaza.Size = new System.Drawing.Size(96, 32);
@@ -787,7 +815,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_MailBox
             // 
-            B_MailBox.Location = new System.Drawing.Point(108, 284);
+            B_MailBox.Location = new System.Drawing.Point(212, 284);
             B_MailBox.Margin = new System.Windows.Forms.Padding(4);
             B_MailBox.Name = "B_MailBox";
             B_MailBox.Size = new System.Drawing.Size(96, 32);
@@ -798,7 +826,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_OpenApricorn
             // 
-            B_OpenApricorn.Location = new System.Drawing.Point(212, 284);
+            B_OpenApricorn.Location = new System.Drawing.Point(316, 284);
             B_OpenApricorn.Margin = new System.Windows.Forms.Padding(4);
             B_OpenApricorn.Name = "B_OpenApricorn";
             B_OpenApricorn.Size = new System.Drawing.Size(96, 32);
@@ -809,7 +837,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_Raids
             // 
-            B_Raids.Location = new System.Drawing.Point(316, 284);
+            B_Raids.Location = new System.Drawing.Point(108, 324);
             B_Raids.Margin = new System.Windows.Forms.Padding(4);
             B_Raids.Name = "B_Raids";
             B_Raids.Size = new System.Drawing.Size(96, 32);
@@ -818,9 +846,20 @@ namespace PKHeX.WinForms.Controls
             B_Raids.UseVisualStyleBackColor = true;
             B_Raids.Click += B_OpenRaids_Click;
             // 
+            // B_OpenPokeathlon
+            // 
+            B_OpenPokeathlon.Location = new System.Drawing.Point(4, 324);
+            B_OpenPokeathlon.Margin = new System.Windows.Forms.Padding(4);
+            B_OpenPokeathlon.Name = "B_OpenPokeathlon";
+            B_OpenPokeathlon.Size = new System.Drawing.Size(96, 32);
+            B_OpenPokeathlon.TabIndex = 1;
+            B_OpenPokeathlon.Text = "Pokéathlon";
+            B_OpenPokeathlon.UseVisualStyleBackColor = true;
+            B_OpenPokeathlon.Click += B_OpenPokeathlon_Click;
+            // 
             // B_RaidsDLC1
             // 
-            B_RaidsDLC1.Location = new System.Drawing.Point(4, 324);
+            B_RaidsDLC1.Location = new System.Drawing.Point(212, 324);
             B_RaidsDLC1.Margin = new System.Windows.Forms.Padding(4);
             B_RaidsDLC1.Name = "B_RaidsDLC1";
             B_RaidsDLC1.Size = new System.Drawing.Size(96, 32);
@@ -831,7 +870,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_RaidsDLC2
             // 
-            B_RaidsDLC2.Location = new System.Drawing.Point(108, 324);
+            B_RaidsDLC2.Location = new System.Drawing.Point(316, 324);
             B_RaidsDLC2.Margin = new System.Windows.Forms.Padding(4);
             B_RaidsDLC2.Name = "B_RaidsDLC2";
             B_RaidsDLC2.Size = new System.Drawing.Size(96, 32);
@@ -842,7 +881,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_Blocks
             // 
-            B_Blocks.Location = new System.Drawing.Point(212, 324);
+            B_Blocks.Location = new System.Drawing.Point(4, 364);
             B_Blocks.Margin = new System.Windows.Forms.Padding(4);
             B_Blocks.Name = "B_Blocks";
             B_Blocks.Size = new System.Drawing.Size(96, 32);
@@ -853,7 +892,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_OtherSlots
             // 
-            B_OtherSlots.Location = new System.Drawing.Point(316, 324);
+            B_OtherSlots.Location = new System.Drawing.Point(108, 364);
             B_OtherSlots.Margin = new System.Windows.Forms.Padding(4);
             B_OtherSlots.Name = "B_OtherSlots";
             B_OtherSlots.Size = new System.Drawing.Size(96, 32);
@@ -864,7 +903,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_OpenSealStickers
             // 
-            B_OpenSealStickers.Location = new System.Drawing.Point(4, 364);
+            B_OpenSealStickers.Location = new System.Drawing.Point(212, 364);
             B_OpenSealStickers.Margin = new System.Windows.Forms.Padding(4);
             B_OpenSealStickers.Name = "B_OpenSealStickers";
             B_OpenSealStickers.Size = new System.Drawing.Size(96, 32);
@@ -875,7 +914,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_Poffins
             // 
-            B_Poffins.Location = new System.Drawing.Point(108, 364);
+            B_Poffins.Location = new System.Drawing.Point(316, 364);
             B_Poffins.Margin = new System.Windows.Forms.Padding(4);
             B_Poffins.Name = "B_Poffins";
             B_Poffins.Size = new System.Drawing.Size(96, 32);
@@ -886,7 +925,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_RaidsSevenStar
             // 
-            B_RaidsSevenStar.Location = new System.Drawing.Point(212, 364);
+            B_RaidsSevenStar.Location = new System.Drawing.Point(4, 404);
             B_RaidsSevenStar.Margin = new System.Windows.Forms.Padding(4);
             B_RaidsSevenStar.Name = "B_RaidsSevenStar";
             B_RaidsSevenStar.Size = new System.Drawing.Size(96, 32);
@@ -897,7 +936,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_OpenBattlePass
             // 
-            B_OpenBattlePass.Location = new System.Drawing.Point(316, 364);
+            B_OpenBattlePass.Location = new System.Drawing.Point(108, 404);
             B_OpenBattlePass.Margin = new System.Windows.Forms.Padding(4);
             B_OpenBattlePass.Name = "B_OpenBattlePass";
             B_OpenBattlePass.Size = new System.Drawing.Size(96, 32);
@@ -908,7 +947,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_OpenGear
             // 
-            B_OpenGear.Location = new System.Drawing.Point(4, 404);
+            B_OpenGear.Location = new System.Drawing.Point(212, 404);
             B_OpenGear.Margin = new System.Windows.Forms.Padding(4);
             B_OpenGear.Name = "B_OpenGear";
             B_OpenGear.Size = new System.Drawing.Size(96, 32);
@@ -919,7 +958,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_OpenFashion
             // 
-            B_OpenFashion.Location = new System.Drawing.Point(108, 404);
+            B_OpenFashion.Location = new System.Drawing.Point(316, 404);
             B_OpenFashion.Margin = new System.Windows.Forms.Padding(4);
             B_OpenFashion.Name = "B_OpenFashion";
             B_OpenFashion.Size = new System.Drawing.Size(96, 32);
@@ -1104,11 +1143,14 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_OpenUGSEditor;
         private System.Windows.Forms.Button B_OpenGeonetEditor;
         private System.Windows.Forms.Button B_OpenUnityTowerEditor;
+        private System.Windows.Forms.Button B_OpenJoinAvenueEditor;
+        private System.Windows.Forms.Button B_OpenMedalsEditor;
         private System.Windows.Forms.Button B_OpenChatterEditor;
         private System.Windows.Forms.Button B_Roamer;
         private System.Windows.Forms.Button B_FestivalPlaza;
         private System.Windows.Forms.Button B_MailBox;
         private System.Windows.Forms.Button B_OpenApricorn;
+        private System.Windows.Forms.Button B_OpenPokeathlon;
         internal SlotList SL_Extra;
         private PartyEditor SL_Party;
         private System.Windows.Forms.Button B_Raids;

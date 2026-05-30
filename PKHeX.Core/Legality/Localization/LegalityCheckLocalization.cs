@@ -203,6 +203,12 @@ public sealed class LegalityCheckLocalization
     public string G4PartnerMoodZero { get; init; } = "Mood stat value should be zero when not in the player's party.";
     public string G4ShinyLeafBitsInvalid { get; init; } = "Shiny Leaf/Crown bits are not valid.";
     public string G4ShinyLeafBitsEgg { get; init; } = "Eggs cannot have Shiny Leaf/Crown.";
+    public string GTSTrainerSanitizedExpected { get; init; } = "Expected a GTS sanitized trainer name.";
+    public string GTSTrainerSanitized { get; init; } = "Trainer name matches a GTS sanitized trainer name.";
+    public string GTSTradedKoreanInternational { get; init; } = "Traded between Korean and International games via GTS.";
+    public string GTSDisallowedClassicRibbon { get; init; } = "Cannot trade Classic Ribbon in the Gen 4 GTS between Korean and International games.";
+    public string GTSDisallowedTradedEgg { get; init; } = "Cannot trade eggs in the Gen 4 GTS between Korean and International games.";
+
     public string G5IVAll30 { get; init; } = "All IVs of N's Pokémon should be 30.";
     public string G5PIDShinyGrotto { get; init; } = "Hidden Grotto captures cannot be shiny.";
     public string G5SparkleInvalid { get; init; } = "Special In-game N's Sparkle flag should not be checked.";
@@ -215,7 +221,6 @@ public sealed class LegalityCheckLocalization
     public string GanbaruStatTooHigh { get; init; } = "One or more Ganbaru Value is above the natural limit of (10 - IV bonus).";
 
     public string GenderInvalidNone { get; init; } = "Genderless Pokémon should not have a gender.";
-    public string GeoBadOrder { get; init; } = "GeoLocation Memory: Gap/Blank present.";
     public string GeoHardwareInvalid { get; init; } = "Geolocation: Country is not in 3DS region.";
     public string GeoHardwareRange { get; init; } = "Invalid Console Region.";
     public string GeoHardwareValid { get; init; } = "Geolocation: Country is in 3DS region.";
@@ -404,7 +409,6 @@ public sealed class LegalityCheckLocalization
     public string TransferHTMismatchName { get; init; } = "Handling trainer does not match the expected trainer name.";
     public string TransferHTMismatchGender { get; init; } = "Handling trainer does not match the expected trainer gender.";
     public string TransferHTMismatchLanguage { get; init; } = "Handling trainer does not match the expected trainer language.";
-    public string TransferKoreanGen4 { get; init; } = "Korean Generation 4 games cannot interact with International Generation 4 games.";
     public string TransferMet { get; init; } = "Invalid Met Location, expected Poké Transfer or Crown.";
     public string TransferNotPossible { get; init; } = "Unable to transfer into current format from origin format.";
     public string TransferMetLocation { get; init; } = "Invalid Transfer Met Location.";

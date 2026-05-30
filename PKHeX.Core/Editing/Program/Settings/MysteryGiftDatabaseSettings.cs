@@ -10,7 +10,7 @@ public sealed class MysteryGiftDatabaseSettings
     [LocalizedDescription("Hides gifts if the currently loaded save file cannot (indirectly) receive them.")]
     public bool FilterUnavailableSpecies { get; set; } = true;
 
-    [LocalizedDescription("Visible row count for the Mystery Gift Database sprite grid. Clamped from 5 to 20.")]
+    [LocalizedDescription("Visible row count for the sprite grid. Clamped from 5 to 20.")]
     public int ResultsGridRowCount
     {
         get;

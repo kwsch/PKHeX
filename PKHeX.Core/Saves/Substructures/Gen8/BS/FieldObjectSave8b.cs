@@ -43,7 +43,7 @@ public sealed class FieldObject8b
     private readonly Memory<byte> Raw = new byte[SIZE];
     private Span<byte> Data => Raw.Span;
 
-    public override string ToString() => $"{NameHash:X8} @ ({GridX:000},{GridY:000}) - {(Active ? "✓" : "✕")}";
+    public override string ToString() => $"{NameHash:X8} @ ({GridX:000},{GridY:000}) - {(IsActive ? "✓" : "✕")}";
 
     public FieldObject8b(ReadOnlySpan<byte> data) => data[..SIZE].CopyTo(Data);
 
@@ -58,7 +58,7 @@ public sealed class FieldObject8b
     public int GridY    { get => ReadInt32LittleEndian(Data[0x0C..]); set => WriteInt32LittleEndian(Data[0x0C..], value); }
     public int Height   { get => ReadInt32LittleEndian(Data[0x10..]); set => WriteInt32LittleEndian(Data[0x10..], value); }
     public int Angle    { get => ReadInt32LittleEndian(Data[0x14..]); set => WriteInt32LittleEndian(Data[0x14..], value); }
-    public bool Active  { get => ReadInt32LittleEndian(Data[0x18..]) == 1; set => WriteUInt32LittleEndian(Data[0x18..], value ? 1u : 0u); }
+    public bool IsActive{ get => ReadInt32LittleEndian(Data[0x18..]) == 1; set => WriteUInt32LittleEndian(Data[0x18..], value ? 1u : 0u); }
     public int MoveCode { get => ReadInt32LittleEndian(Data[0x1C..]); set => WriteInt32LittleEndian(Data[0x1C..], value); }
     public int DirHead  { get => ReadInt32LittleEndian(Data[0x20..]); set => WriteInt32LittleEndian(Data[0x20..], value); }
     public int MvParam0 { get => ReadInt32LittleEndian(Data[0x24..]); set => WriteInt32LittleEndian(Data[0x24..], value); }
