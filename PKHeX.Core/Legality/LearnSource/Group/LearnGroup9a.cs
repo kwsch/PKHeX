@@ -109,14 +109,8 @@ public sealed class LearnGroup9a : ILearnGroup
     private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
     {
         if (enc is IMoveset { Moves: { HasMoves: true } x })
-        {
-            foreach (var move in x.AsSpan())
-                result[move] = true;
-        }
+            x.FlagMoves(result);
         if (enc is IRelearn { Relearn: { HasMoves: true } r })
-        {
-            foreach (var move in r.AsSpan())
-                result[move] = true;
-        }
+            r.FlagMoves(result);
     }
 }

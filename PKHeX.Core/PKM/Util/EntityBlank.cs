@@ -12,7 +12,10 @@ public static class EntityBlank
     /// </summary>
     /// <param name="type">Type of <see cref="PKM"/> instance desired.</param>
     /// <returns>New instance of a blank <see cref="PKM"/> object.</returns>
-    public static PKM GetBlank(Type type) => type.Name switch
+    public static PKM GetBlank(Type type) => GetBlank(type.Name);
+
+    /// <inheritdoc cref="GetBlank(Type)"/>
+    public static PKM GetBlank(ReadOnlySpan<char> type) => type switch
     {
         nameof(PK1) => new PK1(),
         nameof(PK2) => new PK2(),
@@ -33,7 +36,7 @@ public static class EntityBlank
         nameof(PK9) => new PK9(),
         nameof(PA9) => new PA9(),
         nameof(PKH) => new PKH(),
-        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type.ToString(), null),
     };
 
     /// <summary>

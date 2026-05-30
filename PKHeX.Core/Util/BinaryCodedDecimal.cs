@@ -20,6 +20,9 @@ public static class BinaryCodedDecimal
     /// Returns a 32-bit signed integer converted from bytes in a Binary Coded Decimal format byte array.
     /// </summary>
     /// <param name="input">Input byte array to read from.</param>
+    /// <remarks>
+    /// Correctly defined Span length is required to read the appropriate amount of digits.
+    /// </remarks>
     public static uint ReadUInt32BigEndian(ReadOnlySpan<byte> input)
     {
         uint result = 0;
@@ -31,6 +34,9 @@ public static class BinaryCodedDecimal
     /// <summary>
     /// Writes the <see cref="value"/> to the <see cref="data"/> buffer.
     /// </summary>
+    /// <remarks>
+    /// Correctly defined Span length is required to start writing at the highest digit.
+    /// </remarks>
     public static void WriteUInt32BigEndian(Span<byte> data, uint value)
     {
         for (int i = data.Length - 1; i >= 0; i--, value /= 100)
@@ -46,9 +52,7 @@ public static class BinaryCodedDecimal
         return result;
     }
 
-    /// <summary>
-    /// Writes the <see cref="value"/> to the <see cref="data"/> buffer.
-    /// </summary>
+    /// <inheritdoc cref="WriteUInt32BigEndian"/>
     public static void WriteUInt32LittleEndian(Span<byte> data, uint value)
     {
         for (int i = 0; i < data.Length; i++, value /= 100)

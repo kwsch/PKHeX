@@ -337,14 +337,17 @@ public static class EntityConverter
     /// <summary>
     /// Checks if a <see cref="GBPKM"/> is incompatible with the Generation 1/2 destination environment.
     /// </summary>
+    /// <param name="pk">Target type PKM with misc properties accessible for checking.</param>
+    /// <param name="destJapanese">Whether the destination environment is Japanese</param>
+    /// <param name="srcJapanese">Whether the source PKM is Japanese</param>
     public static bool IsCompatibleGB(PKM pk, bool destJapanese, bool srcJapanese)
     {
         if (pk.Format > 2)
-            return true;
+            return true; // Upwards transfers are unaffected by language, and Gen3+ can represent all languages.
         if (destJapanese == srcJapanese)
-            return true;
+            return true; // Can trade between same language sets.
         if (pk is SK2 sk2 && sk2.IsPossible(srcJapanese))
-            return true;
+            return true; // Language differentiation
         return false;
     }
 }

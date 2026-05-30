@@ -314,6 +314,9 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         set => StringConverter4GC.SetStringUnicodeBR(value, BirthDayTrash);
     }
 
+    /// <summary>
+    /// <see cref="LocaleNDS4.LegalCountries"/>
+    /// </summary>
     public int Country { get => ReadUInt16BigEndian(Data[0x3C0..]); set => WriteUInt16BigEndian(Data[0x578..], (ushort)value); }
     public int Region { get => ReadUInt16BigEndian(Data[0x3C2..]); set => WriteUInt16BigEndian(Data[0x57A..], (ushort)value); }
 

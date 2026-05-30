@@ -18,7 +18,14 @@ public sealed class LegalMoveInfo
     /// </summary>
     /// <param name="move">Move to check if it can be learned</param>
     /// <returns>True if it can learn the move</returns>
-    public bool CanLearn(ushort move) => AllowedMoves[move] != None;
+    public bool CanLearn(ushort move) => GetMoveSources(move) != None;
+
+    /// <summary>
+    /// Returns the sources that allow the provided move to be learned, or <see cref="None"/> if it cannot be learned.
+    /// </summary>
+    /// <param name="move">Move to check the sources for</param>
+    /// <returns>Sources that allow the move to be learned</returns>
+    public IndicatedSourceType GetMoveSources(ushort move) => AllowedMoves[move];
 
     /// <summary>
     /// Reloads the legality sources to permit the provided legal info.
@@ -57,58 +64,54 @@ public sealed class LegalMoveInfo
 
     private static void ComputeEval(Span<IndicatedSourceType> type, ReadOnlySpan<bool> learn, LegalityAnalysis la)
     {
-        for (int i = 0; i < type.Length; i++)
+        // Wipe or set as learnable based on learnability; encounter moves will be added later.
+        for (int i = 1; i < type.Length; i++)
             type[i] = learn[i] ? Learn : None;
 
+        // If the original moveset is deleted, then encounter moves are not relevant to legality and should not be added.
         if (!la.Entity.IsOriginalMovesetDeleted())
             AddEncounterMoves(type, la.EncounterOriginal);
 
         type[0] = None; // Move ID 0 is always None
     }
 
-    private static void AddEncounterMoves(Span<IndicatedSourceType> type, IEncounterTemplate enc)
+    private static void AddEncounterMoves(Span<IndicatedSourceType> result, IEncounterTemplate enc)
     {
-        if (enc is IEncounterEgg egg)
-        {
-            var moves = egg.Learn.GetEggMoves(enc.Species, enc.Form);
-            foreach (var move in moves)
-                type[move] = Egg;
-        }
-        else if (enc is IMoveset {Moves: {HasMoves: true} set})
-        {
-            foreach (var move in set.AsSpan())
-            {
-                if (type[move] == None)
-                    type[move] = Encounter;
-            }
-        }
-        else if (enc is ISingleMoveBonus single)
-        {
-            var moves = single.GetMoveBonusPossible();
-            foreach (var move in moves)
-            {
-                if (type[move] == None)
-                    type[move] = EncounterSingle;
-            }
-        }
+        if (enc is IRelearn { Relearn: { HasMoves: true } relearn })
+            relearn.FlagMoves(result, Relearn);
 
-        if (enc is IRelearn { Relearn: {HasMoves: true} relearn})
+        if (enc is IEncounterEgg egg)
+            FlagMoves(result, Egg, egg.Learn.GetEggMoves(enc.Species, enc.Form));
+        else if (enc is IMoveset { Moves: { HasMoves: true } set})
+            set.FlagMoves(result, Encounter);
+        else if (enc is ISingleMoveBonus { IsMoveBonusPossible: true } single)
+            FlagIfNone(result, EncounterSingle, single.GetMoveBonusPossible());
+
+        return;
+
+        static void FlagMoves(Span<IndicatedSourceType> result, IndicatedSourceType flag, ReadOnlySpan<ushort> moves)
         {
-            foreach (var move in relearn.AsSpan())
+            foreach (var move in moves)
+                result[move] |= flag;
+        }
+        static void FlagIfNone(Span<IndicatedSourceType> result, IndicatedSourceType flag, ReadOnlySpan<ushort> moves)
+        {
+            foreach (var move in moves)
             {
-                if (type[move] == None)
-                    type[move] = Relearn;
+                if (result[move] == None)
+                    result[move] |= flag;
             }
         }
     }
 }
 
+[Flags]
 public enum IndicatedSourceType : byte
 {
     None = 0,
-    Learn,
-    Egg,
-    Encounter,
-    EncounterSingle,
-    Relearn,
+    Learn           = 1 << 0,
+    Egg             = 1 << 1,
+    Encounter       = 1 << 2,
+    EncounterSingle = 1 << 3,
+    Relearn         = 1 << 4,
 }

@@ -38,11 +38,11 @@ public partial class SAV_Geonet4 : Form
         Item_Point.InitializeBinding();
         Item_Point.DataSource = pointList;
 
-        for (int i = 1; i <= Geonet4.CountryCount; i++)
+        for (int i = 1; i <= LocaleNDS4.CountryCount; i++)
         {
             var country = countryList[i].Value;
             var countryName = countryList[i].Text;
-            var subregionCount = Geonet4.GetSubregionCount((byte)country);
+            var subregionCount = LocaleNDS4.GetSubregionCount((byte)country);
             var subregionList = (subregionCount == 0) ? subregionListDefault : Util.GetCountryRegionList($"gen4_sr_{country:000}", Main.CurrentLanguage);
             if (subregionCount == 0)
             {
