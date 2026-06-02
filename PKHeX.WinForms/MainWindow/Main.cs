@@ -170,6 +170,7 @@ public partial class Main : Form
         PB_Legal.Visible = !HaX;
         C_SAV.HaX = PKME_Tabs.HaX = HaX;
 
+        Troubleshooting.AddTroubleshootingControls(Menu_Tools, Plugins);
 #if DEBUG
         DevUtil.AddDeveloperControls(Menu_Tools, Plugins);
 #endif
@@ -724,7 +725,7 @@ public partial class Main : Form
             EReaderBerrySettings.LoadFrom(sav3);
     }
 
-    private bool OpenSAV(SaveFile sav, string path)
+    internal bool OpenSAV(SaveFile sav, string path, bool forceOpen = false)
     {
         if (ModifierKeys == Keys.Alt)
         {
@@ -732,7 +733,7 @@ public partial class Main : Form
             if (SaveUtil.TryOverride(sav, other, out var replace))
                 sav = replace;
         }
-        if (!sav.IsVersionValid())
+        if (!sav.IsVersionValid() && !forceOpen)
         {
             WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path);
             return true;
