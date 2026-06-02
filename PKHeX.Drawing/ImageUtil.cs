@@ -32,8 +32,7 @@ public static class ImageUtil
         public Span<byte> GetBitmapData(out BitmapData bmpData, PixelFormat format = PixelFormat.Format32bppArgb)
         {
             bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, format);
-            var bpp = Image.GetPixelFormatSize(format) / 8;
-            return GetSpan(bmpData.Scan0, bmp.Width * bmp.Height * bpp);
+            return GetSpan(bmpData.Scan0, Math.Abs(bmpData.Stride) * bmpData.Height);
         }
 
         public void GetBitmapData(Span<byte> data, PixelFormat format = PixelFormat.Format32bppArgb)
@@ -69,10 +68,9 @@ public static class ImageUtil
         public byte[] GetBitmapData()
         {
             var format = bmp.PixelFormat;
-            var bpp = Image.GetPixelFormatSize(format) / 8;
-            var result = new byte[bmp.Width * bmp.Height * bpp];
-            bmp.GetBitmapData(result, format);
-            return result;
+            var span = bmp.GetBitmapData(out var bmpData, format);
+            try { return [..span]; }
+            finally { bmp.UnlockBits(bmpData); }
         }
 
         public void ToGrayscale(float intensity)
@@ -81,8 +79,8 @@ public static class ImageUtil
                 return; // don't care
 
             var data = bmp.GetBitmapData(out var bmpData);
-            SetAllColorToGrayScale(data, intensity);
-            bmp.UnlockBits(bmpData);
+            try { SetAllColorToGrayScale(data, intensity); }
+            finally { bmp.UnlockBits(bmpData); }
         }
 
         public void ChangeOpacity(double trans)
@@ -91,8 +89,8 @@ public static class ImageUtil
                 return; // don't care
 
             var data = bmp.GetBitmapData(out var bmpData);
-            SetAllTransparencyTo(data, trans);
-            bmp.UnlockBits(bmpData);
+            try { SetAllTransparencyTo(data, trans); }
+            finally { bmp.UnlockBits(bmpData); }
         }
 
         public void BlendTransparentTo(Color c, byte trans, int start = 0, int end = -1)
@@ -100,15 +98,15 @@ public static class ImageUtil
             var data = bmp.GetBitmapData(out var bmpData);
             if (end == -1)
                 end = data.Length;
-            BlendAllTransparencyTo(data[start..end], c, trans);
-            bmp.UnlockBits(bmpData);
+            try { BlendAllTransparencyTo(data[start..end], c, trans); }
+            finally { bmp.UnlockBits(bmpData); }
         }
 
         public void ChangeAllColorTo(Color c)
         {
             var data = bmp.GetBitmapData(out var bmpData);
-            ChangeAllColorTo(data, c);
-            bmp.UnlockBits(bmpData);
+            try { ChangeAllColorTo(data, c); }
+            finally { bmp.UnlockBits(bmpData); }
         }
 
         public void ChangeTransparentTo(Color c, byte trans, int start = 0, int end = -1)
@@ -116,23 +114,22 @@ public static class ImageUtil
             var data = bmp.GetBitmapData(out var bmpData);
             if (end == -1)
                 end = data.Length;
-            SetAllTransparencyTo(data[start..end], c, trans);
-            bmp.UnlockBits(bmpData);
+            try { SetAllTransparencyTo(data[start..end], c, trans); }
+            finally { bmp.UnlockBits(bmpData); }
         }
 
         public void WritePixels(Color c, int start, int end)
         {
             var data = bmp.GetBitmapData(out var bmpData);
-            ChangeAllTo(data, c, start, end);
-            bmp.UnlockBits(bmpData);
+            try { ChangeAllTo(data, c, start, end); }
+            finally { bmp.UnlockBits(bmpData); }    
         }
 
         public int GetAverageColor()
         {
             var data = bmp.GetBitmapData(out var bmpData);
-            var avg = GetAverageColor(data);
-            bmp.UnlockBits(bmpData);
-            return avg;
+            try { return GetAverageColor(data); }
+            finally { bmp.UnlockBits(bmpData); }
         }
     }
 
