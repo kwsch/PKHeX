@@ -12,7 +12,7 @@ public struct PokeathlonEventTrainer4(Memory<byte> Raw) : ITrainerID32
     public ushort SID16 { get => ReadUInt16LittleEndian(Data[2..]); set => WriteUInt16LittleEndian(Data[2..], value); }
     public TrainerIDFormat TrainerIDDisplayFormat => TrainerIDFormat.SixteenBit;
 
-    public Span<byte> OriginalTrainerTrash => Data.Slice(8, 8 * sizeof(ushort));
+    public Span<byte> OriginalTrainerTrash => Data.Slice(4, 8 * sizeof(ushort));
 
     public byte Language { get => Data[0x14]; set => Data[0x14] = value; }
     // remaining 3 bytes unused
