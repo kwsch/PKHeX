@@ -2561,7 +2561,7 @@ namespace PKHeX.WinForms.Controls
             TLP_OTMisc.Location = new System.Drawing.Point(0, 0);
             TLP_OTMisc.Margin = new System.Windows.Forms.Padding(0);
             TLP_OTMisc.Name = "TLP_OTMisc";
-            TLP_OTMisc.Padding = new System.Windows.Forms.Padding(0, 16, 0, 0);
+            TLP_OTMisc.Padding = new System.Windows.Forms.Padding(0, 12, 0, 0);
             TLP_OTMisc.RowCount = 20;
             TLP_OTMisc.RowStyles.Add(new System.Windows.Forms.RowStyle());
             TLP_OTMisc.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -2591,7 +2591,7 @@ namespace PKHeX.WinForms.Controls
             TB_FriendshipHT.AccessibleDescription = "Handling Trainer Friendship";
             TB_FriendshipHT.AccessibleName = "Handling Trainer Friendship";
             TB_FriendshipHT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_FriendshipHT.Location = new System.Drawing.Point(136, 323);
+            TB_FriendshipHT.Location = new System.Drawing.Point(136, 311);
             TB_FriendshipHT.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             TB_FriendshipHT.Mask = "000";
             TB_FriendshipHT.Name = "TB_FriendshipHT";
@@ -2606,7 +2606,7 @@ namespace PKHeX.WinForms.Controls
             TLP_OTMisc.SetColumnSpan(CAL_ReceivedDateTime, 2);
             CAL_ReceivedDateTime.CustomFormat = "yyyy-MM-dd HH:mm:ss tt";
             CAL_ReceivedDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            CAL_ReceivedDateTime.Location = new System.Drawing.Point(24, 477);
+            CAL_ReceivedDateTime.Location = new System.Drawing.Point(24, 457);
             CAL_ReceivedDateTime.Margin = new System.Windows.Forms.Padding(24, 0, 0, 0);
             CAL_ReceivedDateTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             CAL_ReceivedDateTime.Name = "CAL_ReceivedDateTime";
@@ -2618,7 +2618,7 @@ namespace PKHeX.WinForms.Controls
             L_ArrivedDateTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
             L_ArrivedDateTime.AutoSize = true;
             TLP_OTMisc.SetColumnSpan(L_ArrivedDateTime, 2);
-            L_ArrivedDateTime.Location = new System.Drawing.Point(24, 444);
+            L_ArrivedDateTime.Location = new System.Drawing.Point(24, 424);
             L_ArrivedDateTime.Margin = new System.Windows.Forms.Padding(24, 0, 0, 0);
             L_ArrivedDateTime.Name = "L_ArrivedDateTime";
             L_ArrivedDateTime.Padding = new System.Windows.Forms.Padding(0, 16, 0, 0);
@@ -2631,7 +2631,7 @@ namespace PKHeX.WinForms.Controls
             // 
             Label_EncryptionConstant.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_EncryptionConstant.AutoSize = true;
-            Label_EncryptionConstant.Location = new System.Drawing.Point(9, 422);
+            Label_EncryptionConstant.Location = new System.Drawing.Point(9, 402);
             Label_EncryptionConstant.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_EncryptionConstant.Name = "Label_EncryptionConstant";
             Label_EncryptionConstant.Size = new System.Drawing.Size(127, 17);
@@ -2643,7 +2643,7 @@ namespace PKHeX.WinForms.Controls
             // 
             TB_HomeTracker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TB_HomeTracker.Font = new System.Drawing.Font("Courier New", 8.25F);
-            TB_HomeTracker.Location = new System.Drawing.Point(136, 400);
+            TB_HomeTracker.Location = new System.Drawing.Point(136, 380);
             TB_HomeTracker.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             TB_HomeTracker.MaxLength = 16;
             TB_HomeTracker.Name = "TB_HomeTracker";
@@ -2656,7 +2656,7 @@ namespace PKHeX.WinForms.Controls
             // 
             L_HomeTracker.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_HomeTracker.AutoSize = true;
-            L_HomeTracker.Location = new System.Drawing.Point(41, 399);
+            L_HomeTracker.Location = new System.Drawing.Point(41, 379);
             L_HomeTracker.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_HomeTracker.Name = "L_HomeTracker";
             L_HomeTracker.Size = new System.Drawing.Size(95, 17);
@@ -2668,11 +2668,11 @@ namespace PKHeX.WinForms.Controls
             // 
             L_ExtraBytes.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_ExtraBytes.AutoSize = true;
-            L_ExtraBytes.Location = new System.Drawing.Point(62, 353);
+            L_ExtraBytes.Location = new System.Drawing.Point(62, 341);
             L_ExtraBytes.Margin = new System.Windows.Forms.Padding(0);
             L_ExtraBytes.Name = "L_ExtraBytes";
-            L_ExtraBytes.Padding = new System.Windows.Forms.Padding(0, 20, 0, 4);
-            L_ExtraBytes.Size = new System.Drawing.Size(74, 41);
+            L_ExtraBytes.Padding = new System.Windows.Forms.Padding(0, 12, 0, 4);
+            L_ExtraBytes.Size = new System.Drawing.Size(74, 33);
             L_ExtraBytes.TabIndex = 20;
             L_ExtraBytes.Text = "Extra Bytes:";
             L_ExtraBytes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2684,7 +2684,7 @@ namespace PKHeX.WinForms.Controls
             FLP_EncryptionConstant.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_EncryptionConstant.Controls.Add(TB_EC);
             FLP_EncryptionConstant.Controls.Add(BTN_RerollEC);
-            FLP_EncryptionConstant.Location = new System.Drawing.Point(136, 420);
+            FLP_EncryptionConstant.Location = new System.Drawing.Point(136, 400);
             FLP_EncryptionConstant.Margin = new System.Windows.Forms.Padding(0);
             FLP_EncryptionConstant.Name = "FLP_EncryptionConstant";
             FLP_EncryptionConstant.Size = new System.Drawing.Size(195, 24);
@@ -2720,7 +2720,7 @@ namespace PKHeX.WinForms.Controls
             // 
             Label_PrevOT.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_PrevOT.AutoSize = true;
-            Label_PrevOT.Location = new System.Drawing.Point(109, 274);
+            Label_PrevOT.Location = new System.Drawing.Point(109, 262);
             Label_PrevOT.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_PrevOT.Name = "Label_PrevOT";
             Label_PrevOT.Size = new System.Drawing.Size(27, 17);
@@ -2734,7 +2734,7 @@ namespace PKHeX.WinForms.Controls
             TB_Friendship.AccessibleDescription = "Friendship and Hatch Counter";
             TB_Friendship.AccessibleName = "Friendship and Hatch Counter";
             TB_Friendship.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Friendship.Location = new System.Drawing.Point(136, 89);
+            TB_Friendship.Location = new System.Drawing.Point(136, 85);
             TB_Friendship.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             TB_Friendship.Mask = "000";
             TB_Friendship.Name = "TB_Friendship";
@@ -2749,7 +2749,7 @@ namespace PKHeX.WinForms.Controls
             FLP_FriendshipLeft.Controls.Add(Label_HatchCounter);
             FLP_FriendshipLeft.Dock = System.Windows.Forms.DockStyle.Fill;
             FLP_FriendshipLeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            FLP_FriendshipLeft.Location = new System.Drawing.Point(0, 89);
+            FLP_FriendshipLeft.Location = new System.Drawing.Point(0, 85);
             FLP_FriendshipLeft.Margin = new System.Windows.Forms.Padding(0);
             FLP_FriendshipLeft.Name = "FLP_FriendshipLeft";
             FLP_FriendshipLeft.Size = new System.Drawing.Size(136, 26);
@@ -2787,7 +2787,7 @@ namespace PKHeX.WinForms.Controls
             FLP_HT.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_HT.Controls.Add(TB_HT);
             FLP_HT.Controls.Add(UC_HTGender);
-            FLP_HT.Location = new System.Drawing.Point(136, 271);
+            FLP_HT.Location = new System.Drawing.Point(136, 259);
             FLP_HT.Margin = new System.Windows.Forms.Padding(0);
             FLP_HT.Name = "FLP_HT";
             FLP_HT.Size = new System.Drawing.Size(118, 26);
@@ -2822,7 +2822,7 @@ namespace PKHeX.WinForms.Controls
             // 
             CB_3DSReg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_3DSReg.FormattingEnabled = true;
-            CB_3DSReg.Location = new System.Drawing.Point(136, 167);
+            CB_3DSReg.Location = new System.Drawing.Point(136, 163);
             CB_3DSReg.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_3DSReg.Name = "CB_3DSReg";
             CB_3DSReg.Size = new System.Drawing.Size(126, 25);
@@ -2832,7 +2832,7 @@ namespace PKHeX.WinForms.Controls
             // 
             Label_3DSRegion.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_3DSRegion.AutoSize = true;
-            Label_3DSRegion.Location = new System.Drawing.Point(57, 170);
+            Label_3DSRegion.Location = new System.Drawing.Point(57, 166);
             Label_3DSRegion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_3DSRegion.Name = "Label_3DSRegion";
             Label_3DSRegion.Size = new System.Drawing.Size(79, 17);
@@ -2846,7 +2846,7 @@ namespace PKHeX.WinForms.Controls
             CB_SubRegion.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_SubRegion.DropDownWidth = 180;
             CB_SubRegion.FormattingEnabled = true;
-            CB_SubRegion.Location = new System.Drawing.Point(136, 141);
+            CB_SubRegion.Location = new System.Drawing.Point(136, 137);
             CB_SubRegion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_SubRegion.Name = "CB_SubRegion";
             CB_SubRegion.Size = new System.Drawing.Size(126, 25);
@@ -2857,7 +2857,7 @@ namespace PKHeX.WinForms.Controls
             // 
             Label_SubRegion.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_SubRegion.AutoSize = true;
-            Label_SubRegion.Location = new System.Drawing.Point(58, 144);
+            Label_SubRegion.Location = new System.Drawing.Point(58, 140);
             Label_SubRegion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_SubRegion.Name = "Label_SubRegion";
             Label_SubRegion.Size = new System.Drawing.Size(78, 17);
@@ -2871,7 +2871,7 @@ namespace PKHeX.WinForms.Controls
             CB_Country.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             CB_Country.DropDownWidth = 180;
             CB_Country.FormattingEnabled = true;
-            CB_Country.Location = new System.Drawing.Point(136, 115);
+            CB_Country.Location = new System.Drawing.Point(136, 111);
             CB_Country.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_Country.Name = "CB_Country";
             CB_Country.Size = new System.Drawing.Size(126, 25);
@@ -2883,7 +2883,7 @@ namespace PKHeX.WinForms.Controls
             // 
             Label_Country.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_Country.AutoSize = true;
-            Label_Country.Location = new System.Drawing.Point(80, 118);
+            Label_Country.Location = new System.Drawing.Point(80, 114);
             Label_Country.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_Country.Name = "Label_Country";
             Label_Country.Size = new System.Drawing.Size(56, 17);
@@ -2899,7 +2899,7 @@ namespace PKHeX.WinForms.Controls
             FLP_OT.Controls.Add(UC_OTGender);
             FLP_OT.Controls.Add(BTN_OTNameWarn);
             FLP_OT.Dock = System.Windows.Forms.DockStyle.Fill;
-            FLP_OT.Location = new System.Drawing.Point(136, 63);
+            FLP_OT.Location = new System.Drawing.Point(136, 59);
             FLP_OT.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             FLP_OT.Name = "FLP_OT";
             FLP_OT.Size = new System.Drawing.Size(195, 26);
@@ -2947,7 +2947,7 @@ namespace PKHeX.WinForms.Controls
             // 
             Label_OT.Anchor = System.Windows.Forms.AnchorStyles.Right;
             Label_OT.AutoSize = true;
-            Label_OT.Location = new System.Drawing.Point(109, 66);
+            Label_OT.Location = new System.Drawing.Point(109, 62);
             Label_OT.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             Label_OT.Name = "Label_OT";
             Label_OT.Size = new System.Drawing.Size(27, 17);
@@ -2961,7 +2961,7 @@ namespace PKHeX.WinForms.Controls
             GB_OT.AutoSize = true;
             TLP_OTMisc.SetColumnSpan(GB_OT, 2);
             GB_OT.Dock = System.Windows.Forms.DockStyle.Fill;
-            GB_OT.Location = new System.Drawing.Point(56, 16);
+            GB_OT.Location = new System.Drawing.Point(56, 12);
             GB_OT.Margin = new System.Windows.Forms.Padding(56, 0, 0, 0);
             GB_OT.Name = "GB_OT";
             GB_OT.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
@@ -2977,7 +2977,7 @@ namespace PKHeX.WinForms.Controls
             TID_Trainer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             TLP_OTMisc.SetColumnSpan(TID_Trainer, 2);
             TID_Trainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            TID_Trainer.Location = new System.Drawing.Point(64, 37);
+            TID_Trainer.Location = new System.Drawing.Point(64, 33);
             TID_Trainer.Margin = new System.Windows.Forms.Padding(64, 0, 0, 0);
             TID_Trainer.MinimumSize = new System.Drawing.Size(208, 24);
             TID_Trainer.Name = "TID_Trainer";
@@ -2991,19 +2991,19 @@ namespace PKHeX.WinForms.Controls
             FLP_ExtraBytes.Controls.Add(CB_ExtraBytes);
             FLP_ExtraBytes.Controls.Add(TB_ExtraByte);
             FLP_ExtraBytes.Dock = System.Windows.Forms.DockStyle.Fill;
-            FLP_ExtraBytes.Location = new System.Drawing.Point(136, 349);
+            FLP_ExtraBytes.Location = new System.Drawing.Point(136, 337);
             FLP_ExtraBytes.Margin = new System.Windows.Forms.Padding(0);
             FLP_ExtraBytes.Name = "FLP_ExtraBytes";
             FLP_ExtraBytes.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            FLP_ExtraBytes.Size = new System.Drawing.Size(195, 49);
+            FLP_ExtraBytes.Size = new System.Drawing.Size(195, 41);
             FLP_ExtraBytes.TabIndex = 21;
             // 
             // CB_ExtraBytes
             // 
             CB_ExtraBytes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_ExtraBytes.FormattingEnabled = true;
-            CB_ExtraBytes.Location = new System.Drawing.Point(0, 20);
-            CB_ExtraBytes.Margin = new System.Windows.Forms.Padding(0, 20, 0, 0);
+            CB_ExtraBytes.Location = new System.Drawing.Point(0, 12);
+            CB_ExtraBytes.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
             CB_ExtraBytes.Name = "CB_ExtraBytes";
             CB_ExtraBytes.Size = new System.Drawing.Size(64, 25);
             CB_ExtraBytes.TabIndex = 0;
@@ -3011,8 +3011,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // TB_ExtraByte
             // 
-            TB_ExtraByte.Location = new System.Drawing.Point(68, 20);
-            TB_ExtraByte.Margin = new System.Windows.Forms.Padding(4, 20, 0, 0);
+            TB_ExtraByte.Location = new System.Drawing.Point(68, 12);
+            TB_ExtraByte.Margin = new System.Windows.Forms.Padding(4, 12, 0, 0);
             TB_ExtraByte.Mask = "000";
             TB_ExtraByte.Name = "TB_ExtraByte";
             TB_ExtraByte.Size = new System.Drawing.Size(32, 25);
@@ -3025,11 +3025,11 @@ namespace PKHeX.WinForms.Controls
             GB_nOT.AutoSize = true;
             TLP_OTMisc.SetColumnSpan(GB_nOT, 2);
             GB_nOT.Dock = System.Windows.Forms.DockStyle.Fill;
-            GB_nOT.Location = new System.Drawing.Point(56, 234);
+            GB_nOT.Location = new System.Drawing.Point(56, 226);
             GB_nOT.Margin = new System.Windows.Forms.Padding(56, 0, 0, 0);
             GB_nOT.Name = "GB_nOT";
-            GB_nOT.Padding = new System.Windows.Forms.Padding(0, 16, 0, 4);
-            GB_nOT.Size = new System.Drawing.Size(275, 37);
+            GB_nOT.Padding = new System.Windows.Forms.Padding(0, 12, 0, 4);
+            GB_nOT.Size = new System.Drawing.Size(275, 33);
             GB_nOT.TabIndex = 13;
             GB_nOT.Text = "Latest (not OT) Handler";
             GB_nOT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3043,18 +3043,18 @@ namespace PKHeX.WinForms.Controls
             FLP_Handler.Controls.Add(L_CurrentHandler);
             FLP_Handler.Controls.Add(CB_Handler);
             FLP_Handler.Dock = System.Windows.Forms.DockStyle.Fill;
-            FLP_Handler.Location = new System.Drawing.Point(0, 193);
+            FLP_Handler.Location = new System.Drawing.Point(0, 189);
             FLP_Handler.Margin = new System.Windows.Forms.Padding(0);
             FLP_Handler.Name = "FLP_Handler";
-            FLP_Handler.Padding = new System.Windows.Forms.Padding(0, 16, 0, 0);
-            FLP_Handler.Size = new System.Drawing.Size(331, 41);
+            FLP_Handler.Padding = new System.Windows.Forms.Padding(0, 12, 0, 0);
+            FLP_Handler.Size = new System.Drawing.Size(331, 37);
             FLP_Handler.TabIndex = 12;
             // 
             // L_CurrentHandler
             // 
             L_CurrentHandler.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_CurrentHandler.AutoSize = true;
-            L_CurrentHandler.Location = new System.Drawing.Point(0, 20);
+            L_CurrentHandler.Location = new System.Drawing.Point(0, 16);
             L_CurrentHandler.Margin = new System.Windows.Forms.Padding(0);
             L_CurrentHandler.Name = "L_CurrentHandler";
             L_CurrentHandler.Padding = new System.Windows.Forms.Padding(56, 0, 0, 0);
@@ -3068,7 +3068,7 @@ namespace PKHeX.WinForms.Controls
             CB_Handler.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Handler.FormattingEnabled = true;
             CB_Handler.Items.AddRange(new object[] { "OT", "HT" });
-            CB_Handler.Location = new System.Drawing.Point(160, 16);
+            CB_Handler.Location = new System.Drawing.Point(160, 12);
             CB_Handler.Margin = new System.Windows.Forms.Padding(0);
             CB_Handler.Name = "CB_Handler";
             CB_Handler.Size = new System.Drawing.Size(48, 25);
@@ -3079,7 +3079,7 @@ namespace PKHeX.WinForms.Controls
             // 
             CB_HTLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_HTLanguage.FormattingEnabled = true;
-            CB_HTLanguage.Location = new System.Drawing.Point(136, 297);
+            CB_HTLanguage.Location = new System.Drawing.Point(136, 285);
             CB_HTLanguage.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
             CB_HTLanguage.Name = "CB_HTLanguage";
             CB_HTLanguage.Size = new System.Drawing.Size(126, 25);
@@ -3089,7 +3089,7 @@ namespace PKHeX.WinForms.Controls
             // 
             L_FriendshipHT.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_FriendshipHT.AutoSize = true;
-            L_FriendshipHT.Location = new System.Drawing.Point(65, 326);
+            L_FriendshipHT.Location = new System.Drawing.Point(65, 314);
             L_FriendshipHT.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_FriendshipHT.Name = "L_FriendshipHT";
             L_FriendshipHT.Size = new System.Drawing.Size(71, 17);
@@ -3101,7 +3101,7 @@ namespace PKHeX.WinForms.Controls
             // 
             L_LanguageHT.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_LanguageHT.AutoSize = true;
-            L_LanguageHT.Location = new System.Drawing.Point(68, 300);
+            L_LanguageHT.Location = new System.Drawing.Point(68, 288);
             L_LanguageHT.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             L_LanguageHT.Name = "L_LanguageHT";
             L_LanguageHT.Size = new System.Drawing.Size(68, 17);
