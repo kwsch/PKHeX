@@ -1744,7 +1744,6 @@ SAV_Misc5.B_UnlockAllProps=Sblocca tutti i gadget
 SAV_Misc5.CHK_Area9=Area 9 Sbloccata:
 SAV_Misc5.CHK_DoubleSet=Doppie
 SAV_Misc5.CHK_FMNew=Nuovo
-SAV_Misc5.CHK_Invisible=Invisibile
 SAV_Misc5.CHK_LibertyPass=Attiva LiberTicket
 SAV_Misc5.CHK_MultiFriendsSet=Amici
 SAV_Misc5.CHK_MultiNPCSet=NPC

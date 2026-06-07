@@ -1744,7 +1744,6 @@ SAV_Misc5.B_UnlockAllProps=Alle Accessoires freischalten
 SAV_Misc5.CHK_Area9=Areal 9 erreichbar:
 SAV_Misc5.CHK_DoubleSet=Doppel
 SAV_Misc5.CHK_FMNew=NEU
-SAV_Misc5.CHK_Invisible=Unsichtbar
 SAV_Misc5.CHK_LibertyPass=Aktiviere Gartenpass
 SAV_Misc5.CHK_MultiFriendsSet=Freunde
 SAV_Misc5.CHK_MultiNPCSet=NPC

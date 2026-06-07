@@ -1744,7 +1744,6 @@ SAV_Misc5.B_UnlockAllProps=Tout donner
 SAV_Misc5.CHK_Area9=Zone 9 déverrouillée :
 SAV_Misc5.CHK_DoubleSet=Duo
 SAV_Misc5.CHK_FMNew=NOUV.
-SAV_Misc5.CHK_Invisible=Invisible
 SAV_Misc5.CHK_LibertyPass=Activer le Pass Liberté
 SAV_Misc5.CHK_MultiFriendsSet=Ami
 SAV_Misc5.CHK_MultiNPCSet=PNJ

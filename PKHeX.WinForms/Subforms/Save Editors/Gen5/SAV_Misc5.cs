@@ -559,7 +559,7 @@ public partial class SAV_Misc5 : Form
         CB_Move.SelectedValue = (int)current.Move;
         CB_Gender.SelectedValue = (int)current.Gender;
         CB_Form.SelectedIndex = CB_Form.Items.Count <= current.Form ? 0 : current.Form;
-        NUD_Animation.SetValueClamped(current.Animation);
+        NUD_Animation.SetValueClamped((int)current.Animation);
         CurrentSlot = current;
         SetSprite(current);
     }
@@ -598,13 +598,9 @@ public partial class SAV_Misc5 : Form
         {
             CurrentSlot.Form = (byte)CB_Form.SelectedIndex;
         }
-        else if (sender == CHK_Invisible)
-        {
-            CurrentSlot.Invisible = CHK_Invisible.Checked;
-        }
         else if (sender == NUD_Animation)
         {
-            CurrentSlot.Animation = (int)NUD_Animation.Value;
+            CurrentSlot.Animation = (EntreeForestAnimation)NUD_Animation.Value;
         }
 
         SetSprite(CurrentSlot);

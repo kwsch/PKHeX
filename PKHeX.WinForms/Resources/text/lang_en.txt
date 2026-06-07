@@ -1744,7 +1744,6 @@ SAV_Misc5.B_UnlockAllProps=Unlock All Props
 SAV_Misc5.CHK_Area9=Area 9 Unlocked:
 SAV_Misc5.CHK_DoubleSet=Double
 SAV_Misc5.CHK_FMNew=NEW
-SAV_Misc5.CHK_Invisible=Invisible
 SAV_Misc5.CHK_LibertyPass=Activate LibertyPass
 SAV_Misc5.CHK_MultiFriendsSet=Friends
 SAV_Misc5.CHK_MultiNPCSet=NPC

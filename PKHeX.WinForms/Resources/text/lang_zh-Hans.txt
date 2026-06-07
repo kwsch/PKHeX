@@ -1744,7 +1744,6 @@ SAV_Misc5.B_UnlockAllProps=解锁所有道具
 SAV_Misc5.CHK_Area9=区域 9 解锁:
 SAV_Misc5.CHK_DoubleSet=双打
 SAV_Misc5.CHK_FMNew=新纪录
-SAV_Misc5.CHK_Invisible=隐性
 SAV_Misc5.CHK_LibertyPass=激活自由船票
 SAV_Misc5.CHK_MultiFriendsSet=朋友
 SAV_Misc5.CHK_MultiNPCSet=NPC

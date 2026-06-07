@@ -1744,7 +1744,6 @@ SAV_Misc5.B_UnlockAllProps=全てのグッズ解放
 SAV_Misc5.CHK_Area9=９番目のエリア解放済み:
 SAV_Misc5.CHK_DoubleSet=ダブル
 SAV_Misc5.CHK_FMNew=NEW
-SAV_Misc5.CHK_Invisible=不可視
 SAV_Misc5.CHK_LibertyPass=リバティチケット 有効化
 SAV_Misc5.CHK_MultiFriendsSet=フレンド
 SAV_Misc5.CHK_MultiNPCSet=NPC

@@ -1744,7 +1744,6 @@ SAV_Misc5.B_UnlockAllProps=解鎖全部音樂物品
 SAV_Misc5.CHK_Area9=區域 9 解鎖:
 SAV_Misc5.CHK_DoubleSet=雙打
 SAV_Misc5.CHK_FMNew=新紀錄
-SAV_Misc5.CHK_Invisible=隱性
 SAV_Misc5.CHK_LibertyPass=啟動自由船票
 SAV_Misc5.CHK_MultiFriendsSet=朋友
 SAV_Misc5.CHK_MultiNPCSet=NPC

@@ -95,7 +95,6 @@ namespace PKHeX.WinForms
             L_Area18 = new System.Windows.Forms.Label();
             CHK_Area9 = new System.Windows.Forms.CheckBox();
             PB_SlotPreview = new System.Windows.Forms.PictureBox();
-            CHK_Invisible = new System.Windows.Forms.CheckBox();
             L_Animation = new System.Windows.Forms.Label();
             NUD_Animation = new System.Windows.Forms.NumericUpDown();
             L_Gender = new System.Windows.Forms.Label();
@@ -950,7 +949,6 @@ namespace PKHeX.WinForms
             TAB_Forest.Controls.Add(L_Area18);
             TAB_Forest.Controls.Add(CHK_Area9);
             TAB_Forest.Controls.Add(PB_SlotPreview);
-            TAB_Forest.Controls.Add(CHK_Invisible);
             TAB_Forest.Controls.Add(L_Animation);
             TAB_Forest.Controls.Add(NUD_Animation);
             TAB_Forest.Controls.Add(L_Gender);
@@ -1030,19 +1028,6 @@ namespace PKHeX.WinForms
             PB_SlotPreview.Size = new System.Drawing.Size(81, 67);
             PB_SlotPreview.TabIndex = 13;
             PB_SlotPreview.TabStop = false;
-            // 
-            // CHK_Invisible
-            // 
-            CHK_Invisible.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            CHK_Invisible.AutoSize = true;
-            CHK_Invisible.Location = new System.Drawing.Point(293, 313);
-            CHK_Invisible.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_Invisible.Name = "CHK_Invisible";
-            CHK_Invisible.Size = new System.Drawing.Size(73, 21);
-            CHK_Invisible.TabIndex = 16;
-            CHK_Invisible.Text = "Invisible";
-            CHK_Invisible.UseVisualStyleBackColor = true;
-            CHK_Invisible.CheckedChanged += UpdateSlotValue;
             // 
             // L_Animation
             // 
@@ -2222,7 +2207,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Label L_Gender;
         private System.Windows.Forms.ComboBox CB_Gender;
-        private System.Windows.Forms.CheckBox CHK_Invisible;
         private System.Windows.Forms.Label L_Animation;
         private System.Windows.Forms.NumericUpDown NUD_Animation;
         private System.Windows.Forms.PictureBox PB_SlotPreview;

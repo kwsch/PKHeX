@@ -1744,7 +1744,6 @@ SAV_Misc5.B_UnlockAllProps=Desbloq. complementos
 SAV_Misc5.CHK_Area9=Área 9 desbloqueada:
 SAV_Misc5.CHK_DoubleSet=Doblr
 SAV_Misc5.CHK_FMNew=NUEVO
-SAV_Misc5.CHK_Invisible=Invisible
 SAV_Misc5.CHK_LibertyPass=Activar Ticket Libertad
 SAV_Misc5.CHK_MultiFriendsSet=Amigos
 SAV_Misc5.CHK_MultiNPCSet=PNJ
