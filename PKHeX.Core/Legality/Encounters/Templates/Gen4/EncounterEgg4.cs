@@ -102,7 +102,7 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
             gender = EntityGender.GetFromPIDAndRatio(pid, gr);
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
                 continue;
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue;
             if (criteria.IsSpecifiedAbility() && !criteria.IsSatisfiedAbility((byte)(pid % 2)))
                 continue;

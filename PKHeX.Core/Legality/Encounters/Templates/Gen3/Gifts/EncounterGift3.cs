@@ -202,7 +202,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
                 _ when Method is Method_2 => GetMethod2(ref seed),
                 _ => GetRegular(ref seed),
             };
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue; // try again
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))
                 continue;
@@ -255,7 +255,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
         {
             uint seed = s;
             var pid = GetRegular(ref seed);
-            if (filterNature && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (filterNature && !criteria.IsSatisfiedNature(pid))
                 continue; // try again
 
             var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
@@ -301,7 +301,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
                     continue;
                 SetValuesFromSeedChannel(pk, seed);
                 var pid = pk.EncryptionConstant;
-                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                     continue; // try again
                 if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(pk.ID32, pid))
                     continue; // try again
@@ -317,7 +317,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
             SetValuesFromSeedChannel(pk, seed);
 
             var pid = pk.EncryptionConstant;
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue; // try again
             if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(pk.ID32, pid))
                 continue; // try again

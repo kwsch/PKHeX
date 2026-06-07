@@ -98,7 +98,7 @@ public static class GenerateMethodH
                     continue;
 
                 // Check the nature is what the user requested.
-                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                     break;
 
                 var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
@@ -132,12 +132,12 @@ public static class GenerateMethodH
                 var a = LCRNG.Next16(ref s);
                 var b = LCRNG.Next16(ref s);
                 var pid = GetPIDRegular(a, b);
-                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 {
                     // Try again as Method 2 (AB-DE)
                     var o = seed >> 16;
                     pid = GetPIDRegular(o, a);
-                    if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                    if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                         continue;
                     seed = LCRNG.Prev(seed);
                 }
@@ -176,7 +176,7 @@ public static class GenerateMethodH
                 var a = LCRNG.Next16(ref s);
                 var b = LCRNG.Next16(ref s);
                 var pid = GetPIDRegular(a, b);
-                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                     continue;
 
                 var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
@@ -219,12 +219,12 @@ public static class GenerateMethodH
                 var a = LCRNG.Next16(ref s);
                 var b = LCRNG.Next16(ref s);
                 var pid = GetPIDUnown(a, b);
-                if ((criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25))) || EntityPID.GetUnownForm3(pid) != enc.Form)
+                if ((criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid)) || EntityPID.GetUnownForm3(pid) != enc.Form)
                 {
                     // Try again as Method 2 (BA-DE)
                     var o = seed >> 16;
                     pid = GetPIDUnown(o, a);
-                    if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                    if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                         continue;
                     var form = EntityPID.GetUnownForm3(pid);
                     if (form != enc.Form)
@@ -252,7 +252,7 @@ public static class GenerateMethodH
                 var a = LCRNG.Next16(ref s);
                 var b = LCRNG.Next16(ref s);
                 var pid = GetPIDUnown(a, b);
-                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                     continue;
                 var form = EntityPID.GetUnownForm3(pid);
                 if (form != enc.Form)

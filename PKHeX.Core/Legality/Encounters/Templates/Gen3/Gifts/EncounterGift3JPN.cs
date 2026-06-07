@@ -79,7 +79,7 @@ public sealed record EncounterGift3JPN(ushort Species, Distribution3JPN Distribu
         while (true)
         {
             var pid = CommonEvent3.GetRegularAntishiny(ref seed, idXor);
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue; // try again
             if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))
                 continue;

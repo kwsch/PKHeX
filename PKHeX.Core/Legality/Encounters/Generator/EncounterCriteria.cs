@@ -218,6 +218,20 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     }
 
     /// <summary>
+    /// Determines whether the Generation 3/4 PID satisfies the Nature criteria.
+    /// </summary>
+    /// <param name="pid">The original PID to check.</param>
+    /// <returns><see langword="true"/> if the Nature satisfies the criteria; otherwise, <see langword="false"/>.</returns>
+    public bool IsSatisfiedNature(uint pid)
+    {
+        if (Mutations.HasFlag(AllowOnlyNeutralNature))
+            return ((Nature)(pid % 25)).IsNeutral;
+        if (Nature == Nature.Random)
+            return true;
+        return Mutations.HasFlag(CanMintNature) || ((Nature)(pid % 25)) == Nature;
+    }
+
+    /// <summary>
     /// Determines whether the specified level satisfies the level range criteria.
     /// </summary>
     /// <param name="level">The level to check.</param>

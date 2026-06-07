@@ -135,7 +135,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         {
             var seed = LCRNG.Prev2(s); // Unwind the RNG to get the real origin seed for the PID/IV
             var pid = ClassicEraRNG.GetSequentialPID(seed);
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue;
 
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
@@ -167,7 +167,7 @@ public sealed record EncounterStatic4(GameVersion Version)
             if (criteria.Shiny.IsShiny() != shiny)
                 continue;
 
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue;
 
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
@@ -206,7 +206,7 @@ public sealed record EncounterStatic4(GameVersion Version)
             var shiny = ShinyUtil.GetIsShiny3(id32, pid);
             if (criteria.Shiny.IsShiny() != shiny)
                 continue;
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue;
 
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
@@ -234,7 +234,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         while (true)
         {
             var pid = ClassicEraRNG.GetChainShinyPID(ref seed, id32);
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue;
 
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
