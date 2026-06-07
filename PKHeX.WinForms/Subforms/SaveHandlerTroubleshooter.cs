@@ -8,13 +8,12 @@ using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms;
 
-internal sealed partial class SaveHandlerTroubleshooter : Form
+public sealed partial class SaveHandlerTroubleshooter : Form
 {
     private readonly Main _main;
 
-    internal SaveHandlerTroubleshooter(Main main)
+    public SaveHandlerTroubleshooter(Main main)
     {
-        ArgumentNullException.ThrowIfNull(main);
         _main = main;
 
         InitializeComponent();

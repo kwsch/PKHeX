@@ -58,7 +58,7 @@ public static class SpriteUtil
         return (Bitmap?)Resources.ResourceManager.GetObject(resource) ?? Resources._ball4; // Poké Ball (default)
     }
 
-    public static Bitmap? GetItemSprite(int item) => Resources.ResourceManager.GetObject($"item_{item}") as Bitmap;
+    public static Bitmap? GetItemSprite(int item) => Resources.ResourceManager.GetObject($"bitem_{item}") as Bitmap;
     public static Bitmap? GetItemSpriteA(int item) => Resources.ResourceManager.GetObject($"aitem_{item}") as Bitmap;
 
     public static Bitmap GetSprite(ushort species, byte form, byte gender, uint formarg, int item, bool isegg, Shiny shiny, EntityContext context = EntityContext.None)
