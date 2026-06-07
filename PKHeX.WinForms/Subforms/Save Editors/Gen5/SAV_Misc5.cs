@@ -28,6 +28,7 @@ public partial class SAV_Misc5 : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV5)(Origin = sav).Clone();
 
+        CLB_MusicalProps.Items.AddRange(PropNames);
         swp = SAV.BattleSubwayPlay;
         sw = SAV.BattleSubway;
         ReadMain();
@@ -46,6 +47,7 @@ public partial class SAV_Misc5 : Form
         SaveForest();
         SaveSubway();
         SaveEntralink();
+        SaveMusical();
         SaveRecord();
 
         Forest.EnsureDecrypted(false);
@@ -852,18 +854,15 @@ public partial class SAV_Misc5 : Form
 
     private void ReadMusical()
     {
-        CB_Prop.Items.AddRange(PropNames);
-        CB_Prop.SelectedIndex = 0;
+        CLB_MusicalProps.SelectedIndex = 0;
+        for (int i = 0; i < PropNames.Length; i++)
+            CLB_MusicalProps.SetItemChecked(i, SAV.Musical.GetHasProp(i));
     }
 
-    private void CB_Prop_SelectedIndexChanged(object sender, EventArgs e)
+    private void SaveMusical()
     {
-        CHK_PropObtained.Checked = SAV.Musical.GetHasProp(CB_Prop.SelectedIndex);
-    }
-
-    private void CHK_PropObtained_CheckedChanged(object sender, EventArgs e)
-    {
-        SAV.Musical.SetHasProp(CB_Prop.SelectedIndex, CHK_PropObtained.Checked);
+        for (int i = 0; i < PropNames.Length; i++)
+            SAV.Musical.SetHasProp(i, CLB_MusicalProps.GetItemChecked(i));
     }
 
     private void CHK_SingleSet_CheckedChanged(object sender, EventArgs e)
@@ -910,6 +909,7 @@ public partial class SAV_Misc5 : Form
     {
         SAV.Musical.UnlockAllMusicalProps();
         B_UnlockAllProps.Enabled = false;
+        ReadMusical();
         WinFormsUtil.Asterisk();
     }
 }

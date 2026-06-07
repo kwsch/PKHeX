@@ -1748,7 +1748,6 @@ SAV_Misc5.CHK_Invisible=Unsichtbar
 SAV_Misc5.CHK_LibertyPass=Aktiviere Gartenpass
 SAV_Misc5.CHK_MultiFriendsSet=Freunde
 SAV_Misc5.CHK_MultiNPCSet=NPC
-SAV_Misc5.CHK_PropObtained=Erhalten
 SAV_Misc5.CHK_SingleSet=Einzel
 SAV_Misc5.CHK_Subway0=Flag0
 SAV_Misc5.CHK_Subway1=Flag1

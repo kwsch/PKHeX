@@ -1748,7 +1748,6 @@ SAV_Misc5.CHK_Invisible=Invisible
 SAV_Misc5.CHK_LibertyPass=Activer le Pass Liberté
 SAV_Misc5.CHK_MultiFriendsSet=Ami
 SAV_Misc5.CHK_MultiNPCSet=PNJ
-SAV_Misc5.CHK_PropObtained=Obtenu
 SAV_Misc5.CHK_SingleSet=Solo
 SAV_Misc5.CHK_Subway0=Drp.0
 SAV_Misc5.CHK_Subway1=Drp.1

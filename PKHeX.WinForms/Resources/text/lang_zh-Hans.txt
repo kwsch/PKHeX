@@ -1748,7 +1748,6 @@ SAV_Misc5.CHK_Invisible=隐性
 SAV_Misc5.CHK_LibertyPass=激活自由船票
 SAV_Misc5.CHK_MultiFriendsSet=朋友
 SAV_Misc5.CHK_MultiNPCSet=NPC
-SAV_Misc5.CHK_PropObtained=获得
 SAV_Misc5.CHK_SingleSet=单打
 SAV_Misc5.CHK_Subway0=旗帜0
 SAV_Misc5.CHK_Subway1=旗帜1

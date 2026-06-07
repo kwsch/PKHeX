@@ -1748,7 +1748,6 @@ SAV_Misc5.CHK_Invisible=Invisibile
 SAV_Misc5.CHK_LibertyPass=Attiva LiberTicket
 SAV_Misc5.CHK_MultiFriendsSet=Amici
 SAV_Misc5.CHK_MultiNPCSet=NPC
-SAV_Misc5.CHK_PropObtained=Ottenuto
 SAV_Misc5.CHK_SingleSet=Singole
 SAV_Misc5.CHK_Subway0=Flag0
 SAV_Misc5.CHK_Subway1=Flag1

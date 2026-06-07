@@ -1748,7 +1748,6 @@ SAV_Misc5.CHK_Invisible=不可視
 SAV_Misc5.CHK_LibertyPass=リバティチケット 有効化
 SAV_Misc5.CHK_MultiFriendsSet=フレンド
 SAV_Misc5.CHK_MultiNPCSet=NPC
-SAV_Misc5.CHK_PropObtained=獲得
 SAV_Misc5.CHK_SingleSet=シングル
 SAV_Misc5.CHK_Subway0=Flag0
 SAV_Misc5.CHK_Subway1=Flag1

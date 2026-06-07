@@ -1748,7 +1748,6 @@ SAV_Misc5.CHK_Invisible=투명
 SAV_Misc5.CHK_LibertyPass=리버티티켓 활성화
 SAV_Misc5.CHK_MultiFriendsSet=친구
 SAV_Misc5.CHK_MultiNPCSet=NPC
-SAV_Misc5.CHK_PropObtained=획득함
 SAV_Misc5.CHK_SingleSet=싱글
 SAV_Misc5.CHK_Subway0=플래그0
 SAV_Misc5.CHK_Subway1=플래그1
