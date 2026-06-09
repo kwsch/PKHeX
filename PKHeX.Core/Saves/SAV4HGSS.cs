@@ -208,27 +208,22 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     }
 
     private const int OFS_GearRolodex = 0xC0EC;
-    private const byte GearMaxCallers = (byte)(PokegearNumber.Ernest + 1);
+    private const byte GearCallerCount = (byte)(PokegearNumber.Ernest + 1);
 
     public PokegearNumber GetCallerAtIndex(int index) => (PokegearNumber)General[OFS_GearRolodex + index];
     public void SetCallerAtIndex(int index, PokegearNumber caller) => General[OFS_GearRolodex + index] = (byte)caller;
 
     public Span<PokegearNumber> GetPokeGearRoloDex()
     {
-        var arr = General.Slice(OFS_GearRolodex, GearMaxCallers);
+        var arr = General.Slice(OFS_GearRolodex, GearCallerCount);
         return MemoryMarshal.Cast<byte, PokegearNumber>(arr);
     }
 
-    public void SetPokeGearRoloDex(ReadOnlySpan<PokegearNumber> value)
-    {
-        if (value.Length > GearMaxCallers)
-            throw new ArgumentOutOfRangeException(nameof(value));
-        MemoryMarshal.AsBytes(value).CopyTo(General.Slice(OFS_GearRolodex, GearMaxCallers));
-    }
+    public void SetPokeGearRoloDex(ReadOnlySpan<PokegearNumber> value) => value.CopyTo(GetPokeGearRoloDex());
 
     public void PokeGearUnlockAllCallers()
     {
-        for (int i = 0; i < GearMaxCallers; i++)
+        for (int i = 0; i < GearCallerCount; i++)
             SetCallerAtIndex(i, (PokegearNumber)i);
     }
 

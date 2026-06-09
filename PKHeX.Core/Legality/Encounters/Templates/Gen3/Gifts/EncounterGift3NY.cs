@@ -80,10 +80,9 @@ public sealed record EncounterGift3NY(ushort Species, Distribution3NY Distributi
         while (true)
         {
             var pid = CommonEvent3.GetAntishiny(ref seed, idXor);
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue; // try again
-            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
-            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
+            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))
                 continue;
             var iv32 = ClassicEraRNG.GetSequentialIVs(ref seed);
             if (criteria.IsSpecifiedHiddenPower() && !criteria.IsSatisfiedHiddenPower(iv32))

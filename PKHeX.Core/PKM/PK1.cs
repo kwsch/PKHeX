@@ -12,7 +12,7 @@ public sealed class PK1 : GBPKML, IPersonalType
 
     public override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
     public override int SIZE_PARTY => SIZE_STORED;
-    public override bool Korean => false;
+    public override bool Korean => !Japanese && StringConverter2KOR.IsHangul(OriginalTrainerTrash);
 
     public override EntityContext Context => EntityContext.Gen1;
 

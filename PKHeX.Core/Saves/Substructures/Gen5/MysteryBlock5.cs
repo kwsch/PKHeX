@@ -82,25 +82,3 @@ public sealed class MysteryBlock5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(
     DataMysteryGift IMysteryGiftStorage.GetMysteryGift(int index) => GetMysteryGift(index);
     void IMysteryGiftStorage.SetMysteryGift(int index, DataMysteryGift gift) => SetMysteryGift(index, (PGF)gift);
 }
-
-public sealed class GTS5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
-{
-    // 0x08: Stored Upload
-    private const int SizeStored = PokeCrypto.SIZE_5STORED;
-
-    public Memory<byte> Upload => Raw[..SizeStored];
-}
-
-public sealed class GlobalLink5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
-{
-    // 0x08: Stored Upload
-    private const int SizeStored = PokeCrypto.SIZE_5STORED;
-
-    public Memory<byte> Upload => Raw.Slice(8, SizeStored);
-}
-
-public sealed class AdventureInfo5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sav, raw)
-{
-    public uint SecondsToStart { get => ReadUInt32LittleEndian(Data[0x34..]); set => WriteUInt32LittleEndian(Data[0x34..], value); }
-    public uint SecondsToFame { get => ReadUInt32LittleEndian(Data[0x3C..]); set => WriteUInt32LittleEndian(Data[0x3C..], value); }
-}

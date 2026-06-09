@@ -93,6 +93,9 @@ public static class StringConverter1
     /// <returns>Decoded string.</returns>
     public static string GetString(ReadOnlySpan<byte> data, bool jp)
     {
+        if (!jp && StringConverter2KOR.IsHangul(data))
+            return StringConverter2KOR.GetString(data);
+
         Span<char> result = stackalloc char[data.Length];
         int length = LoadString(data, result, jp);
         return new string(result[..length]);
@@ -105,6 +108,9 @@ public static class StringConverter1
     /// <returns>Character count loaded.</returns>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, bool jp)
     {
+        if (!jp && StringConverter2KOR.IsHangul(data))
+            return StringConverter2KOR.LoadString(data, result);
+
         if (data.Length == 0)
             return 0;
         if (data[0] == TradeOTCode) // In-game Trade
@@ -138,6 +144,9 @@ public static class StringConverter1
     public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, bool jp,
         StringConverterOption option = StringConverterOption.Clear50)
     {
+        if (!jp && StringConverter2KOR.IsHangul(value))
+            return StringConverter2KOR.SetString(destBuffer, value, maxLength, option);
+
         if (option is StringConverterOption.ClearZero)
             destBuffer.Clear();
         else if (option is StringConverterOption.Clear50)

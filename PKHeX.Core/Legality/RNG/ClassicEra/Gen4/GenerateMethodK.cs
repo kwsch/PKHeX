@@ -126,7 +126,7 @@ public static class GenerateMethodK
                 var a = LCRNG.Next16(ref s);
                 var b = LCRNG.Next16(ref s);
                 var pid = GetPIDRegular(a, b);
-                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                     continue;
 
                 var gender = EntityGender.GetFromPIDAndRatio(pid, gr);

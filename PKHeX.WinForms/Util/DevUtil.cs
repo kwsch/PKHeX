@@ -17,8 +17,7 @@ public static class DevUtil
     {
         t.DropDownItems.Add(GetTranslationUpdater(Keys.D));
         t.DropDownItems.Add(GetPogoPickleReload(Keys.P));
-        t.DropDownItems.Add(GetHexImporter(Keys.I));
-        t.DropDownItems.Add(GetPluginInfo(Keys.L, plugins));
+        t.DropDownItems.Add(GetPluginInfo(Keys.U, plugins));
     }
 
     private static string DefaultLanguage => Main.CurrentLanguage;
@@ -37,13 +36,6 @@ public static class DevUtil
         DumpStringsMessage();
         UpdateTranslations();
         IsUpdatingTranslations = false;
-    }
-
-    private static ToolStripMenuItem GetHexImporter(Keys key)
-    {
-        var ti = GetHiddenMenu(key);
-        ti.Click += (_, _) => OpenFileFromClipboardHex();
-        return ti;
     }
 
     private static ToolStripMenuItem GetTranslationUpdater(Keys key)
@@ -72,25 +64,6 @@ public static class DevUtil
         ShortcutKeys = Keys.Control | Keys.Alt | key,
         Visible = false,
     };
-
-    private static void OpenFileFromClipboardHex()
-    {
-        var hex = Clipboard.GetText().Trim();
-        if (string.IsNullOrEmpty(hex))
-        {
-            WinFormsUtil.Alert("Clipboard is empty.");
-            return;
-        }
-        try
-        {
-            var data = Convert.FromHexString(hex.Replace(" ", ""));
-            Application.OpenForms.OfType<Main>().First().OpenFile(data, "", "");
-        }
-        catch (FormatException)
-        {
-            WinFormsUtil.Alert("Clipboard does not contain valid hex data.");
-        }
-    }
 
     private static void DisplayPluginList(List<IPlugin> plugins)
     {

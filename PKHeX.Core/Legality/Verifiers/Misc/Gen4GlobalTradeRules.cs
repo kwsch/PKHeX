@@ -12,8 +12,10 @@ public static class Gen4GlobalTradeRules
         if (tr.Generation != 4)
             return false; // only applies to Gen4
 
-        // Cannot trade only if the trainer is Korean and the game language is not Korean.
-        return (LanguageID)tr.Language == LanguageID.Korean && currentLanguage != LanguageID.Korean;
+        // Korean and International can only exchange Pokémon via GTS.
+        var isKoreanTrainer = (LanguageID)tr.Language == LanguageID.Korean;
+        var isKoreanEntity = currentLanguage == LanguageID.Korean;
+        return isKoreanTrainer != isKoreanEntity;
     }
 
     /// <inheritdoc cref="IsRomanizedKoreanTrainerName(ReadOnlySpan{char})"/>

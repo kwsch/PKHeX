@@ -272,8 +272,12 @@ public partial class SAV_Encounters : Form
         }
 
         var criteria = _criteriaValue;
+        // Sanity check gender.
         if (!isInChain || EntityGender.IsSingleGender(enc.Species))
             criteria = criteria with { Gender = Gender.Random }; // Genderless tabs and a gendered enc -> let's play safe.
+        // Sanity check ability.
+        if (!criteria.Mutations.CanGetAbility(enc.Ability, criteria.Ability))
+            criteria = criteria with { Ability = AbilityPermission.Any12H }; // ignore the Ability requested by user, it's impossible.
         return criteria;
     }
 

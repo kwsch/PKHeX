@@ -198,7 +198,7 @@ public static class EffortValues
 }
 
 /// <summary>
-/// Assessment of the total EVs, compared to the maximum allowed.
+/// Assessment of the total EVs (Gen3+), compared to the maximum allowed.
 /// </summary>
 public enum EffortValueGrade
 {

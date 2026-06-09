@@ -267,7 +267,11 @@ public sealed class NicknameVerifier : Verifier
             if (ParseSettings.ActiveTrainer is not { Generation: 4, Language: (int)Korean })
             {
                 var english = SpeciesName.GetSpeciesNameGeneration(species, (int)English, format);
-                return nickname.SequenceEqual(english);
+                if (nickname.SequenceEqual(english))
+                    return true; // matches, un-evolved.
+                // could mismatch via un-evolved, fall through. further refinements pending.
+                if (data.Info.EvoChainsAllGens.Gen4.Length == 1)
+                    return false;
             }
         }
 

@@ -61,4 +61,18 @@ public static class Wishmkr
         seed = Seeds[(int)nature];
         return seed != 0;
     }
+
+    /// <summary>
+    /// Gets the held item for a generated WISHMKR Jirachi.
+    /// </summary>
+    /// <param name="rand16">rand() 16-bits immediately after IVs are determined</param>
+    /// <returns>The item is either 170 (Salac) or 169 (Ganlon)</returns>
+    public static byte GetHeldItem(uint rand16) => (byte)(170 - ((rand16 / 3) & 1));
+
+    /// <summary>
+    /// Gets the held item for a generated WISHMKR Jirachi from the 16-bit seed.
+    /// </summary>
+    /// <param name="seed">The 16-bit seed used to generate the Jirachi.</param>
+    /// <returns>The item is either 170 (Salac) or 169 (Ganlon)</returns>
+    public static byte GetHeldItemFromSeed(ushort seed) => GetHeldItem(LCRNG.Next5(seed) >> 16);
 }

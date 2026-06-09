@@ -336,7 +336,7 @@ public static class SpeciesName
     /// <returns>True if the species was found, False if not</returns>
     public static bool TryGetSpecies(ReadOnlySpan<char> speciesName, int language, out ushort species)
     {
-        if (SpeciesDict.Length < language)
+        if (language < SpeciesDict.Length)
             return SpeciesDict[language].TryGetValue(speciesName, out species);
         species = 0;
         return false;

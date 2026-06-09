@@ -125,7 +125,7 @@ public static class GenerateMethodJ
                 var pid = GetPIDRegular(a, b);
                 if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                     continue;
-                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                     continue;
 
                 var gender = EntityGender.GetFromPIDAndRatio(pid, gr);

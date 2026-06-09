@@ -171,7 +171,7 @@ public sealed class PGT(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
             var a = LCRNG.Next16(ref seed);
             var b = LCRNG.Next16(ref seed);
             var pid = (b << 16) | a;
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue;
             var c = LCRNG.Next15(ref seed);
             var d = LCRNG.Next15(ref seed);
@@ -209,7 +209,7 @@ public sealed class PGT(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
             // Check for anti-shiny.
             var xor = (a ^ b) >> 3;
             bool arng = false;
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
             {
                 while (true)
                 {
@@ -221,7 +221,7 @@ public sealed class PGT(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
                     arng = true;
                     break;
                 }
-                if (!criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                if (!criteria.IsSatisfiedNature(pid))
                     continue;
             }
 
@@ -371,7 +371,7 @@ public sealed class PGT(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
                     break;
                 pid = ARNG.Next(pid);
             }
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue;
             if (EntityGender.GetFromPIDAndRatio(pid, gr) != gender)
                 continue;

@@ -28,7 +28,7 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     // Generated Attributes
     public sealed override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 3;
     public sealed override uint TSV => (uint)(TID16 ^ SID16) >> 3;
-    public sealed override bool Japanese => Language == (int)LanguageID.Japanese;
+    public sealed override bool Korean => false;
 
     public sealed override int Ability { get => PersonalInfo.GetAbility(AbilityBit); set { } }
     public sealed override uint EncryptionConstant { get => PID; set { } }

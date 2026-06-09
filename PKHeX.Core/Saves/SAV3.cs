@@ -638,7 +638,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     /// <summary> Only used in Emerald for storing the Battle Video. </summary>
     public Memory<byte> GetFinalExternalData() => Buffer.Slice(0x1F000, SIZE_SECTOR_USED);
 
-    public bool IsCorruptPokedexFF() => MemoryMarshal.Read<ulong>(Small[0xAC..]) == ulong.MaxValue;
+    public bool IsCorruptPokedexFF() => BitConverter.ToUInt64(Small[0xAC..]) == ulong.MaxValue;
 
     public sealed override void CopyChangesFrom(SaveFile sav)
     {

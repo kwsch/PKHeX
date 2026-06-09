@@ -31,6 +31,12 @@ public static class ReflectUtil
         return 0;
     }
 
+    /// <summary>
+    /// Attempts to set the requested property on <see cref="obj"/> to <see cref="value"/> after converting it to the correct type.
+    /// </summary>
+    /// <param name="pi">Property to set</param>
+    /// <param name="obj">Object to set property on</param>
+    /// <param name="value">Value to set property to</param>
     public static void SetValue<T>(PropertyInfo pi, T obj, object value)
     {
         var c = ConvertValue(value, pi.PropertyType);
