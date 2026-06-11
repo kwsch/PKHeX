@@ -513,6 +513,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         bool tmp = FieldsLoaded;
         FieldsLoaded = false;
         var items = GameInfo.FilteredSources.GetAbilityList(Entity.PersonalInfo);
+        if (Entity is { Context: EntityContext.Gen5, Species: (ushort)Species.Basculin, Form: 1 })
+            items = [..items, FilteredGameDataSource.GetAbilityItem(GameInfo.Strings.abilitylist, (int)Ability.Reckless, '*')];
         CB_Ability.DataSource = items;
         CB_Ability.SelectedIndex = Math.Clamp(ability, 0, items.Count - 1); // restore original index if available
         FieldsLoaded = tmp;

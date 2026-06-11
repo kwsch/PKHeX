@@ -30,6 +30,8 @@ public sealed class AbilityVerifier : Verifier
         var pk = data.Entity;
         if (pk is PA9 pa9)
             return VerifyBirthAbility(data, pa9);
+        if (pk is PK5 pk5 && IsEdgeCaseBasculin(data, pk5, out var basc))
+            return basc;
 
         var abilities = (IPersonalAbility12)data.PersonalInfo;
 
@@ -93,6 +95,42 @@ public sealed class AbilityVerifier : Verifier
             return VerifyAbility345(data, enc, abilities, abilIndex);
 
         return VerifyAbility(data, abilities, abilIndex);
+    }
+
+    private bool IsEdgeCaseBasculin(LegalityAnalysis data, PK5 pk5, out CheckResult result)
+    {
+        result = default;
+        // Gen5 Only Edge Case issue:
+        // - Basculin-Blue (form 1) *should* have Rock Head.
+        // In B/W, Blue-Striped Basculin have Reckless as its Ability (incorrect) due to referencing the wrong Personal Info.
+        // - However, the in-game trade Blue-Striped Basculin in White that has Rock Head (correct).
+        // In B2/W2, wild Blue-Striped Basculin have Rock Head (correct), but bred Blue-Striped Basculin have Reckless (incorrect).
+        // - When transferred to Pokémon Bank, any Blue-Striped Basculin with Reckless have their Ability changed to Rock Head (fixed).
+        // Impacted encounter types: Egg|Wild (B/W), Egg (B2/W2)
+
+        if (pk5 is not { Species: (int)Species.Basculin, Form: 1, HiddenAbility: false, Ability: not (int)Ability.Adaptability })
+            return false; // check abilities as usual.
+
+        var expect = (int)Ability.RockHead; // correct.
+        if (pk5.Version is GameVersion.B2 or GameVersion.W2)
+        {
+            var enc = data.EncounterMatch;
+            if (enc is EncounterEgg5)
+                expect = (int)Ability.Reckless; // incorrect
+        }
+        else if (pk5.Version is GameVersion.B or GameVersion.W)
+        {
+            var enc = data.EncounterMatch;
+            if (enc is not EncounterTrade5BW)
+                expect = (int)Ability.Reckless; // incorrect
+        }
+
+        var current = pk5.Ability;
+        if (current == expect)
+            result = VALID;
+        else
+            result = GetInvalid(AbilityUnexpected);
+        return true; // tell the analyzer to use this result
     }
 
     public static bool IsValidAbilityBits(int bitNum) => bitNum is 1 or 2 or 4;

@@ -83,6 +83,6 @@ public static class EncounterMutationUtil
             _ => false,
         },
         OnlyHidden => end.CanBeHidden() || mutation.HasFlag(CanAbilityPatch),
-        _ => false,
+        _ => true,
     };
 }

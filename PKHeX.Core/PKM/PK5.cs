@@ -508,6 +508,13 @@ public sealed class PK5 : PKM, ISanityChecksum,
         StringConverter345.TransferGlyphs56(pk6.NicknameTrash);
         StringConverter345.TransferString56(OriginalTrainerTrash, pk6.OriginalTrainerTrash);
 
+        // Fix Basculin-Blue
+        if (Species is (ushort)Core.Species.Basculin && Form == 1 && Ability == (int)Core.Ability.Reckless)
+        {
+            pk6.Ability = (int)Core.Ability.RockHead;
+            pk6.AbilityNumber = 1;
+        }
+
         // Fix Checksum
         pk6.RefreshChecksum();
 

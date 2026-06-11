@@ -77,6 +77,8 @@ public sealed record EncounterEgg5(ushort Species, byte Form, GameVersion Versio
         pk.PID = pid;
         pk.Gender = gender;
         pk.RefreshAbility(ability);
+        if (ability == 0 && this is { Species: (int)Core.Species.Basculin, Form: 1 })
+            pk.Ability = (int)Core.Ability.Reckless;
 
         return pk;
     }

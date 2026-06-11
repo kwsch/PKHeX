@@ -90,6 +90,8 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
         var abilityIndex = Ability == AbilityPermission.OnlyHidden ? 2 : (int)((pk.PID >> 16) & 1);
         pk.RefreshAbility(abilityIndex);
         criteria.SetRandomIVs(pk);
+        if (abilityIndex == 0 && this is { Species: (int)Core.Species.Basculin, Form: 1, Version: GameVersion.B or GameVersion.W })
+            pk.Ability = (int)Core.Ability.Reckless;
     }
     #endregion
 

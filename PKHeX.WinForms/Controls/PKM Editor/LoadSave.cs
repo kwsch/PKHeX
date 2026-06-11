@@ -398,11 +398,16 @@ public partial class PKMEditor
     private static int GetAbilityIndex4(PKM pk)
     {
         var pi = pk.PersonalInfo;
-        int abilityIndex = pi.GetIndexOfAbility(pk.Ability);
-        if (abilityIndex < 0)
-            return 0;
+        var ability = pk.Ability;
+        int abilityIndex = pi.GetIndexOfAbility(ability);
         if (abilityIndex >= 2)
             return 2;
+        if (abilityIndex < 0)
+        {
+            if (ability == (int)Ability.Reckless && pk is { Context: EntityContext.Gen5, Species: (ushort)Species.Basculin, Form: 1 })
+                return 3; // manually appended "extra" bug case for Gen5 Basculin-Blue.
+            return 0; // fall back to first ability.
+        }
 
         var abils = (IPersonalAbility12)pi;
         if (abils.IsAbility12Same)
