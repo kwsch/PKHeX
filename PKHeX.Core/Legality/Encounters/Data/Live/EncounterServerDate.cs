@@ -244,6 +244,7 @@ public static class EncounterServerDate
         {9024, new(2024, 10, 16)}, // Shiny Meloetta
         {9025, new(2024, 11, 01)}, // PokéCenter Birthday Tandemaus
         {9030, new(2025, 10, 31)}, // PokéCenter Fidough Birthday Gift
+        {9035, new(2026, 06, 05, +1)} // PJCS26 Garchomp
     };
 
     /// <summary>
