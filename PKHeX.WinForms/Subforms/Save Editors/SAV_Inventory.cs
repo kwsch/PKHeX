@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing.PokeSprite;
 using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
@@ -14,6 +15,8 @@ public sealed partial class SAV_Inventory : Form
     private readonly SaveFile Origin;
 
     private static readonly ImageList IL_Pouch = InventoryTypeImageUtil.GetImageList();
+
+    private readonly Bitmap _none = new(1, 1);
 
     public SAV_Inventory(SaveFile sav)
     {
@@ -69,6 +72,9 @@ public sealed partial class SAV_Inventory : Form
     private readonly bool HasNewShop;
     private readonly bool HasHeld;
     private bool IsCountValidationSuppressed;
+    private bool DropDownNextComboEdit;
+
+    private const int ColumnSprite = 0;
 
     // assume that all pouches have the same amount of columns
     private int ColumnItem;
@@ -113,10 +119,13 @@ public sealed partial class SAV_Inventory : Form
     {
         // Add DataGrid
         var dgv = GetBaseDataGrid(pouch);
+        dgv.CellMouseDown += Dgv_CellMouseDown;
         dgv.CellValueChanged += Dgv_CellValueChanged;
         dgv.EditingControlShowing += Dgv_EditingControlShowing;
+        dgv.CurrentCellDirtyStateChanged += Dgv_CurrentCellDirtyStateChanged;
 
         // Get Columns
+        dgv.Columns.Add(GetSpriteColumn());
         var item = GetItemColumn(ColumnItem = dgv.Columns.Count);
         dgv.Columns.Add(item);
         dgv.Columns.Add(GetCountColumn(ColumnCount = dgv.Columns.Count));
@@ -166,7 +175,18 @@ public sealed partial class SAV_Inventory : Form
         SelectionMode = DataGridViewSelectionMode.CellSelect,
         CellBorderStyle = DataGridViewCellBorderStyle.None,
 
+        RowTemplate = { Height = 24 },
         Tag = pouch,
+    };
+
+    private static DataGridViewImageColumn GetSpriteColumn() => new()
+    {
+        HeaderText = string.Empty,
+        DisplayIndex = ColumnSprite,
+        ReadOnly = true,
+        ImageLayout = DataGridViewImageCellLayout.Zoom,
+        AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader,
+        DividerWidth = 2,
     };
 
     private DataGridViewComboBoxColumn GetItemColumn(int c, string name = "Item") => new()
@@ -193,8 +213,15 @@ public sealed partial class SAV_Inventory : Form
         DisplayIndex = c,
         Width = 45,
         DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter },
+        DividerWidth = 2,
         MaxInputLength = 5 // enough to cover ushort.MaxValue (absolute maximum of any quantity ever allowed)
     };
+
+    private static void Dgv_CurrentCellDirtyStateChanged(object? sender, EventArgs e)
+    {
+        if (sender is DataGridView { IsCurrentCellDirty: true } dgv)
+            dgv.CommitEdit(DataGridViewDataErrorContexts.Commit);
+    }
 
     private void LoadAllBags()
     {
@@ -237,6 +264,7 @@ public sealed partial class SAV_Inventory : Form
                 item = pouch.Items[i] = pouch.GetEmpty();
 
             var cells = dgv.Rows[i].Cells;
+            UpdateSprite(cells, item.Index);
             cells[ColumnItem].Value = itemlist[item.Index];
             cells[ColumnCount].Value = item.Count;
 
@@ -271,13 +299,15 @@ public sealed partial class SAV_Inventory : Form
         if (sender is not DataGridView { Tag: InventoryPouch pouch } dgv)
             return;
 
-        // Sanity check the item count against its maximum
         var cells = dgv.Rows[e.RowIndex].Cells;
         var itemName = cells[ColumnItem].Value?.ToString();
         if (string.IsNullOrEmpty(itemName))
             return;
 
         var itemID = itemlist.IndexOf(itemName);
+        UpdateSprite(cells, itemID);
+
+        // Sanity check the item count against its maximum
         var cell = cells[ColumnCount];
         var text = cell.Value?.ToString();
         var count = Util.ToInt32(text);
@@ -290,10 +320,27 @@ public sealed partial class SAV_Inventory : Form
         IsCountValidationSuppressed = false;
     }
 
-    private static void Dgv_EditingControlShowing(object? sender, DataGridViewEditingControlShowingEventArgs e)
+    private void Dgv_CellMouseDown(object? sender, DataGridViewCellMouseEventArgs e)
     {
-        if (sender is not DataGridView dgv || e.Control is not ComboBox cb)
+        DropDownNextComboEdit = sender is DataGridView dgv &&
+                                e is { Button: MouseButtons.Left, RowIndex: >= 0, ColumnIndex: >= 0 } &&
+                                dgv.Columns[e.ColumnIndex] is DataGridViewComboBoxColumn;
+    }
+
+    private void UpdateSprite(DataGridViewCellCollection cells, int itemID)
+    {
+        var context = Origin.Context;
+        itemID = ItemConverter.GetItemDisplay(itemID, context);
+        cells[ColumnSprite].Value = itemID == 0 ? _none : SpriteUtil.Spriter.GetItemSprite(itemID, context);
+    }
+
+
+    private void Dgv_EditingControlShowing(object? sender, DataGridViewEditingControlShowingEventArgs e)
+    {
+        if (sender is not DataGridView dgv || e.Control is not ComboBox cb || !DropDownNextComboEdit)
             return;
+
+        DropDownNextComboEdit = false;
 
         if (dgv.CurrentCell?.OwningColumn is not DataGridViewComboBoxColumn)
             return;
