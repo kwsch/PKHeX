@@ -172,11 +172,12 @@ public sealed partial class SAV_Inventory : Form
         EditMode = DataGridViewEditMode.EditOnEnter,
         ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single,
         ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-        SelectionMode = DataGridViewSelectionMode.CellSelect,
-        CellBorderStyle = DataGridViewCellBorderStyle.None,
+        SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+        CellBorderStyle = DataGridViewCellBorderStyle.Single,
 
         RowTemplate = { Height = 24 },
         Tag = pouch,
+        RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single,
     };
 
     private static DataGridViewImageColumn GetSpriteColumn() => new()
@@ -185,8 +186,7 @@ public sealed partial class SAV_Inventory : Form
         DisplayIndex = ColumnSprite,
         ReadOnly = true,
         ImageLayout = DataGridViewImageCellLayout.Zoom,
-        AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCellsExceptHeader,
-        DividerWidth = 2,
+        Width = 30,
     };
 
     private DataGridViewComboBoxColumn GetItemColumn(int c, string name = "Item") => new()
@@ -211,9 +211,8 @@ public sealed partial class SAV_Inventory : Form
     {
         HeaderText = name,
         DisplayIndex = c,
-        Width = 45,
+        Width = 48,
         DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter },
-        DividerWidth = 2,
         MaxInputLength = 5 // enough to cover ushort.MaxValue (absolute maximum of any quantity ever allowed)
     };
 

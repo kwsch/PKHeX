@@ -69,8 +69,10 @@ public sealed partial class SaveHandlerTroubleshooter : Form
         if (!string.IsNullOrWhiteSpace(TB_Path.Text))
             ofd.FileName = TB_Path.Text;
 
-        if (ofd.ShowDialog(this) == DialogResult.OK)
-            TB_Path.Text = ofd.FileName;
+        if (ofd.ShowDialog(this) != DialogResult.OK)
+            return;
+        TB_Path.Text = ofd.FileName;
+        L_FileName.Text = Path.GetFileName(ofd.FileName);
     }
 
     private void B_Continue_Click(object? sender, EventArgs e)
@@ -136,7 +138,7 @@ public sealed partial class SaveHandlerTroubleshooter : Form
         }
     }
 
-    private static void SaveHandlerTroubleshooter_DragEnter(object? sender, DragEventArgs e)
+    private void SaveHandlerTroubleshooter_DragEnter(object? sender, DragEventArgs e)
     {
         e.Effect = e.Data?.GetDataPresent(DataFormats.FileDrop) == true
             ? DragDropEffects.Copy

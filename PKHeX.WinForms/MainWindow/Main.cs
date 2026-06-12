@@ -107,6 +107,10 @@ public partial class Main : Form
         dragout.ContextMenuStrip = mnu.mnuL;
         C_SAV.menu.RequestEditorLegality = DisplayLegalityReport;
         components.Add(mnu);
+
+        // Add translatable extra menu controls.
+        Menu_Tools.DropDownItems.Add(new ToolStripSeparator());
+        Troubleshooting.AddTroubleshootingControls(Menu_Tools, Plugins, true);
     }
 
     public void LoadInitialFiles(StartupArguments args)
@@ -169,8 +173,6 @@ public partial class Main : Form
         CB_MainLanguage.Items.AddRange(Enum.GetNames<ProgramLanguage>());
         PB_Legal.Visible = !HaX;
         C_SAV.HaX = PKME_Tabs.HaX = HaX;
-
-        Troubleshooting.AddTroubleshootingControls(Menu_Tools, Plugins);
 #if DEBUG
         DevUtil.AddDeveloperControls(Menu_Tools, Plugins);
 #endif
