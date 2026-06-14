@@ -18,7 +18,7 @@ internal sealed class MiscVerifierPA8 : Verifier
     internal void Verify(LegalityAnalysis data, PA8 pk)
     {
         Arceus.Verify(data);
-        MiscVerifierHelpers.VerifyStatNature(data, pk);
+        MiscVerifierHelpers.VerifyStatAlignment(data, pk);
         MiscVerifierHelpers.VerifyAbsoluteSizes(data, pk);
         MiscVerifierPK8.VerifyTechRecordFlags(data, pk); // copied from SW/SH via HOME
         FullnessRules.Verify(data, pk);

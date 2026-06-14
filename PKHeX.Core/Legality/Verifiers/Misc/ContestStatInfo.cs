@@ -177,12 +177,12 @@ public static class ContestStatInfo
         return (int)Math.Ceiling(sum / 5f);
     }
 
-    // Indexes into the NatureAmpTable
-    private const int AmpIndexCool   = 0; // Spicy
-    private const int AmpIndexTough  = 1; // Sour
-    private const int AmpIndexBeauty = 2; // Dry
-    private const int AmpIndexSmart  = 3; // Bitter
-    private const int AmpIndexCute   = 4; // Sweet
+    // Indexes into the NatureAmpTable (visual index)
+    private const int AmpIndexCool   = 0; // Spicy (Attack)
+    private const int AmpIndexTough  = 1; // Sour (Defense)
+    private const int AmpIndexBeauty = 2; // Dry (Sp. Attack)
+    private const int AmpIndexSmart  = 3; // Bitter (Sp. Defense)
+    private const int AmpIndexCute   = 4; // Sweet (Speed)
 
     private static int GetGainedSum(IContestStatsReadOnly s, Nature nature, IContestStatsReadOnly initial)
     {

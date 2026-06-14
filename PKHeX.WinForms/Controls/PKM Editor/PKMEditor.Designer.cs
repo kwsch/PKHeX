@@ -65,8 +65,8 @@ namespace PKHeX.WinForms.Controls
             L_FormArgument = new System.Windows.Forms.Label();
             CB_Form = new System.Windows.Forms.ComboBox();
             Label_Form = new System.Windows.Forms.Label();
-            CB_StatNature = new System.Windows.Forms.ComboBox();
-            L_StatNature = new System.Windows.Forms.Label();
+            CB_StatAlignment = new System.Windows.Forms.ComboBox();
+            L_StatAlignment = new System.Windows.Forms.Label();
             CB_Nature = new System.Windows.Forms.ComboBox();
             Label_Nature = new System.Windows.Forms.Label();
             FLP_EXPLevelRight = new System.Windows.Forms.FlowLayoutPanel();
@@ -92,6 +92,7 @@ namespace PKHeX.WinForms.Controls
             PB_ShinyStar = new SelectablePictureBox();
             PB_ShinySquare = new SelectablePictureBox();
             NUD_ShadowID = new System.Windows.Forms.NumericUpDown();
+            ExperienceBar = new ExperienceBar();
             Hidden_Met = new System.Windows.Forms.TabPage();
             FLP_Met = new System.Windows.Forms.FlowLayoutPanel();
             FLP_OriginGame = new System.Windows.Forms.FlowLayoutPanel();
@@ -250,7 +251,6 @@ namespace PKHeX.WinForms.Controls
             Tab_Moves = new System.Windows.Forms.TabPage();
             Tab_Cosmetic = new System.Windows.Forms.TabPage();
             Tab_OTMisc = new System.Windows.Forms.TabPage();
-            ExperienceBar = new ExperienceBar();
             Hidden_TC.SuspendLayout();
             Hidden_Main.SuspendLayout();
             TLP_Main.SuspendLayout();
@@ -391,8 +391,8 @@ namespace PKHeX.WinForms.Controls
             TLP_Main.Controls.Add(L_FormArgument, 0, 8);
             TLP_Main.Controls.Add(CB_Form, 1, 7);
             TLP_Main.Controls.Add(Label_Form, 0, 7);
-            TLP_Main.Controls.Add(CB_StatNature, 1, 6);
-            TLP_Main.Controls.Add(L_StatNature, 0, 6);
+            TLP_Main.Controls.Add(CB_StatAlignment, 1, 6);
+            TLP_Main.Controls.Add(L_StatAlignment, 0, 6);
             TLP_Main.Controls.Add(CB_Nature, 1, 5);
             TLP_Main.Controls.Add(Label_Nature, 0, 5);
             TLP_Main.Controls.Add(FLP_EXPLevelRight, 1, 3);
@@ -823,31 +823,31 @@ namespace PKHeX.WinForms.Controls
             Label_Form.Text = "Form:";
             Label_Form.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // CB_StatNature
+            // CB_StatAlignment
             // 
-            CB_StatNature.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            CB_StatNature.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            CB_StatNature.FormattingEnabled = true;
-            CB_StatNature.Location = new System.Drawing.Point(120, 158);
-            CB_StatNature.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
-            CB_StatNature.Name = "CB_StatNature";
-            CB_StatNature.Size = new System.Drawing.Size(144, 25);
-            CB_StatNature.TabIndex = 11;
-            CB_StatNature.SelectedIndexChanged += ValidateComboBox2;
-            CB_StatNature.Validating += ValidateComboBox;
+            CB_StatAlignment.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_StatAlignment.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_StatAlignment.FormattingEnabled = true;
+            CB_StatAlignment.Location = new System.Drawing.Point(120, 158);
+            CB_StatAlignment.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            CB_StatAlignment.Name = "CB_StatAlignment";
+            CB_StatAlignment.Size = new System.Drawing.Size(144, 25);
+            CB_StatAlignment.TabIndex = 11;
+            CB_StatAlignment.SelectedIndexChanged += ValidateComboBox2;
+            CB_StatAlignment.Validating += ValidateComboBox;
             // 
-            // L_StatNature
+            // L_StatAlignment
             // 
-            L_StatNature.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            L_StatNature.AutoSize = true;
-            L_StatNature.Location = new System.Drawing.Point(43, 161);
-            L_StatNature.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            L_StatNature.Name = "L_StatNature";
-            L_StatNature.Size = new System.Drawing.Size(77, 17);
-            L_StatNature.TabIndex = 10;
-            L_StatNature.Text = "Stat Nature:";
-            L_StatNature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            L_StatNature.Click += ClickNature;
+            L_StatAlignment.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_StatAlignment.AutoSize = true;
+            L_StatAlignment.Location = new System.Drawing.Point(25, 161);
+            L_StatAlignment.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            L_StatAlignment.Name = "L_StatAlignment";
+            L_StatAlignment.Size = new System.Drawing.Size(95, 17);
+            L_StatAlignment.TabIndex = 10;
+            L_StatAlignment.Text = "Stat Alignment:";
+            L_StatAlignment.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_StatAlignment.Click += ClickNature;
             // 
             // CB_Nature
             // 
@@ -1176,6 +1176,15 @@ namespace PKHeX.WinForms.Controls
             NUD_ShadowID.Size = new System.Drawing.Size(48, 25);
             NUD_ShadowID.TabIndex = 29;
             NUD_ShadowID.ValueChanged += UpdateShadowID;
+            // 
+            // ExperienceBar
+            // 
+            ExperienceBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            ExperienceBar.Location = new System.Drawing.Point(120, 118);
+            ExperienceBar.Margin = new System.Windows.Forms.Padding(0, 0, 0, 4);
+            ExperienceBar.Name = "ExperienceBar";
+            ExperienceBar.Size = new System.Drawing.Size(144, 10);
+            ExperienceBar.TabIndex = 34;
             // 
             // Hidden_Met
             // 
@@ -1692,10 +1701,10 @@ namespace PKHeX.WinForms.Controls
             // 
             // GB_CurrentMoves
             // 
-            GB_CurrentMoves.Location = new System.Drawing.Point(56, 8);
-            GB_CurrentMoves.Margin = new System.Windows.Forms.Padding(56, 8, 0, 0);
+            GB_CurrentMoves.Location = new System.Drawing.Point(48, 8);
+            GB_CurrentMoves.Margin = new System.Windows.Forms.Padding(48, 8, 0, 0);
             GB_CurrentMoves.Name = "GB_CurrentMoves";
-            GB_CurrentMoves.Size = new System.Drawing.Size(136, 24);
+            GB_CurrentMoves.Size = new System.Drawing.Size(158, 24);
             GB_CurrentMoves.TabIndex = 48;
             GB_CurrentMoves.Text = "Current Moves";
             GB_CurrentMoves.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1707,7 +1716,7 @@ namespace PKHeX.WinForms.Controls
             FLP_PP.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_PP.Controls.Add(Label_CurPP);
             FLP_PP.Controls.Add(Label_PPups);
-            FLP_PP.Location = new System.Drawing.Point(192, 8);
+            FLP_PP.Location = new System.Drawing.Point(206, 8);
             FLP_PP.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
             FLP_PP.Name = "FLP_PP";
             FLP_PP.Size = new System.Drawing.Size(64, 24);
@@ -1721,7 +1730,7 @@ namespace PKHeX.WinForms.Controls
             Label_CurPP.Size = new System.Drawing.Size(24, 24);
             Label_CurPP.TabIndex = 2;
             Label_CurPP.Text = "PP";
-            Label_CurPP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            Label_CurPP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             Label_CurPP.Click += ClickPP;
             // 
             // Label_PPups
@@ -1732,7 +1741,7 @@ namespace PKHeX.WinForms.Controls
             Label_PPups.Size = new System.Drawing.Size(40, 24);
             Label_PPups.TabIndex = 12;
             Label_PPups.Text = "Ups";
-            Label_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            Label_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             Label_PPups.Click += ClickPPUps;
             // 
             // MC_Move1
@@ -1794,10 +1803,10 @@ namespace PKHeX.WinForms.Controls
             // GB_RelearnMoves
             // 
             FLP_Moves.SetFlowBreak(GB_RelearnMoves, true);
-            GB_RelearnMoves.Location = new System.Drawing.Point(56, 148);
-            GB_RelearnMoves.Margin = new System.Windows.Forms.Padding(56, 8, 0, 0);
+            GB_RelearnMoves.Location = new System.Drawing.Point(48, 148);
+            GB_RelearnMoves.Margin = new System.Windows.Forms.Padding(48, 8, 0, 0);
             GB_RelearnMoves.Name = "GB_RelearnMoves";
-            GB_RelearnMoves.Size = new System.Drawing.Size(216, 24);
+            GB_RelearnMoves.Size = new System.Drawing.Size(224, 24);
             GB_RelearnMoves.TabIndex = 50;
             GB_RelearnMoves.Text = "Relearn Moves";
             GB_RelearnMoves.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -3201,15 +3210,6 @@ namespace PKHeX.WinForms.Controls
             Tab_OTMisc.Text = "OT/Misc";
             Tab_OTMisc.UseVisualStyleBackColor = true;
             // 
-            // ExperienceBar
-            // 
-            ExperienceBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            ExperienceBar.Location = new System.Drawing.Point(120, 118);
-            ExperienceBar.Margin = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            ExperienceBar.Name = "ExperienceBar";
-            ExperienceBar.Size = new System.Drawing.Size(144, 10);
-            ExperienceBar.TabIndex = 34;
-            // 
             // PKMEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -3460,8 +3460,8 @@ namespace PKHeX.WinForms.Controls
         private CatchRate CR_PK1;
         public SizeCP SizeCP;
         private System.Windows.Forms.PictureBox PB_Favorite;
-        private System.Windows.Forms.Label L_StatNature;
-        private System.Windows.Forms.ComboBox CB_StatNature;
+        private System.Windows.Forms.Label L_StatAlignment;
+        private System.Windows.Forms.ComboBox CB_StatAlignment;
         private System.Windows.Forms.PictureBox PB_Origin;
         private System.Windows.Forms.ComboBox CB_HTLanguage;
         private System.Windows.Forms.Button B_RelearnFlags;

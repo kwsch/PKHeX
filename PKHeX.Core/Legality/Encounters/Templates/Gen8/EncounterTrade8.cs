@@ -154,7 +154,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncount
         var gender = criteria.GetGender(Gender, pi);
         var nature = criteria.GetNature(Nature);
         int ability = criteria.GetAbilityFromNumber(Ability);
-        pk.Nature = pk.StatNature = nature;
+        pk.Nature = pk.StatAlignment = nature;
         pk.Gender = gender;
         pk.RefreshAbility(ability);
         if (IVs.IsSpecified)

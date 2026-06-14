@@ -94,7 +94,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
     {
         bool symbol = Parent.PermitCrossover;
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
-        pk.Nature = pk.StatNature = criteria.GetNature();
+        pk.Nature = pk.StatAlignment = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
 
         var req = GetRequirement(pk);

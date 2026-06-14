@@ -570,7 +570,7 @@ public sealed class WC9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     private void SetPINGA(PK9 pk, in EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
-        pk.Nature = pk.StatNature = criteria.GetNature((sbyte)Nature == -1 ? Nature.Random : Nature);
+        pk.Nature = pk.StatAlignment = criteria.GetNature((sbyte)Nature == -1 ? Nature.Random : Nature);
         pk.Gender = criteria.GetGender(Gender, pi);
         var av = GetAbilityIndex(criteria);
         pk.RefreshAbility(av);

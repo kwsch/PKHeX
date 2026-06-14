@@ -423,7 +423,7 @@ public partial class PKMEditor
 
     private void LoadMisc8(PK8 pk8)
     {
-        CB_StatNature.SelectedValue = (int)pk8.StatNature;
+        CB_StatAlignment.SelectedValue = (int)pk8.StatAlignment;
         LoadClamp(Stats.CB_DynamaxLevel, pk8.DynamaxLevel);
         Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
         CB_HTLanguage.SelectedValue = (int)pk8.HandlingTrainerLanguage;
@@ -433,7 +433,7 @@ public partial class PKMEditor
 
     private void SaveMisc8(PK8 pk8)
     {
-        pk8.StatNature = (Nature)WinFormsUtil.GetIndex(CB_StatNature);
+        pk8.StatAlignment = (Nature)WinFormsUtil.GetIndex(CB_StatAlignment);
         pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
         pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
         pk8.HandlingTrainerLanguage = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
@@ -442,7 +442,7 @@ public partial class PKMEditor
 
     private void LoadMisc8(PB8 pk8)
     {
-        CB_StatNature.SelectedValue = (int)pk8.StatNature;
+        CB_StatAlignment.SelectedValue = (int)pk8.StatAlignment;
         LoadClamp(Stats.CB_DynamaxLevel, pk8.DynamaxLevel);
         Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
         CB_HTLanguage.SelectedValue = (int)pk8.HandlingTrainerLanguage;
@@ -452,7 +452,7 @@ public partial class PKMEditor
 
     private void SaveMisc8(PB8 pk8)
     {
-        pk8.StatNature = (Nature)WinFormsUtil.GetIndex(CB_StatNature);
+        pk8.StatAlignment = (Nature)WinFormsUtil.GetIndex(CB_StatAlignment);
         pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
         pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
         pk8.HandlingTrainerLanguage = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
@@ -461,7 +461,7 @@ public partial class PKMEditor
 
     private void LoadMisc8(PA8 pk8)
     {
-        CB_StatNature.SelectedValue = (int)pk8.StatNature;
+        CB_StatAlignment.SelectedValue = (int)pk8.StatAlignment;
         LoadClamp(Stats.CB_DynamaxLevel, pk8.DynamaxLevel);
         Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
         CB_HTLanguage.SelectedValue = (int)pk8.HandlingTrainerLanguage;
@@ -474,7 +474,7 @@ public partial class PKMEditor
 
     private void SaveMisc8(PA8 pk8)
     {
-        pk8.StatNature = (Nature)WinFormsUtil.GetIndex(CB_StatNature);
+        pk8.StatAlignment = (Nature)WinFormsUtil.GetIndex(CB_StatAlignment);
         pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
         pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
         pk8.HandlingTrainerLanguage = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
@@ -486,7 +486,7 @@ public partial class PKMEditor
 
     private void LoadMisc9(PK9 pk9)
     {
-        CB_StatNature.SelectedValue = (int)pk9.StatNature;
+        CB_StatAlignment.SelectedValue = (int)pk9.StatAlignment;
         CB_HTLanguage.SelectedValue = (int)pk9.HandlingTrainerLanguage;
         TB_HomeTracker.Text = pk9.Tracker.ToString("X16");
         CB_BattleVersion.SelectedValue = (int)pk9.BattleVersion;
@@ -497,7 +497,7 @@ public partial class PKMEditor
 
     private void SaveMisc9(PK9 pk9)
     {
-        pk9.StatNature = (Nature)WinFormsUtil.GetIndex(CB_StatNature);
+        pk9.StatAlignment = (Nature)WinFormsUtil.GetIndex(CB_StatAlignment);
         pk9.HandlingTrainerLanguage = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
         pk9.BattleVersion = (GameVersion)WinFormsUtil.GetIndex(CB_BattleVersion);
         pk9.TeraTypeOriginal = (MoveType)WinFormsUtil.GetIndex(Stats.CB_TeraTypeOriginal);
@@ -507,7 +507,7 @@ public partial class PKMEditor
 
     private void LoadMisc9(PA9 pk9)
     {
-        CB_StatNature.SelectedValue = (int)pk9.StatNature;
+        CB_StatAlignment.SelectedValue = (int)pk9.StatAlignment;
         CB_HTLanguage.SelectedValue = (int)pk9.HandlingTrainerLanguage;
         TB_HomeTracker.Text = pk9.Tracker.ToString("X16");
         CB_BattleVersion.SelectedValue = (int)pk9.BattleVersion;
@@ -517,7 +517,7 @@ public partial class PKMEditor
 
     private void SaveMisc9(PA9 pk9)
     {
-        pk9.StatNature = (Nature)WinFormsUtil.GetIndex(CB_StatNature);
+        pk9.StatAlignment = (Nature)WinFormsUtil.GetIndex(CB_StatAlignment);
         pk9.HandlingTrainerLanguage = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
         pk9.BattleVersion = (GameVersion)WinFormsUtil.GetIndex(CB_BattleVersion);
         pk9.ObedienceLevel = (byte)Util.ToInt32(TB_ObedienceLevel.Text);

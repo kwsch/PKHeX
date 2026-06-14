@@ -367,7 +367,7 @@ public static class LegalityCheckResultCodeExtensions
             StatIncorrectCP_0 => localization.StatIncorrectCP,
             StatGigantamaxInvalid => localization.StatGigantamaxInvalid,
             StatGigantamaxValid => localization.StatGigantamaxValid,
-            StatNatureInvalid => localization.StatNatureInvalid,
+            StatAlignmentInvalid => localization.StatAlignmentInvalid,
             StatBattleVersionInvalid => localization.StatBattleVersionInvalid,
             StatNobleInvalid => localization.StatNobleInvalid,
             StatAlphaInvalid => localization.StatAlphaInvalid,

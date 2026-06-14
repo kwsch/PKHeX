@@ -311,7 +311,7 @@ public enum LegalityCheckResultCode : ushort
     StatInvalidHeightWeight,
     StatGigantamaxInvalid,
     StatGigantamaxValid,
-    StatNatureInvalid,
+    StatAlignmentInvalid,
     StatBattleVersionInvalid,
     StatNobleInvalid,
     StatAlphaInvalid,

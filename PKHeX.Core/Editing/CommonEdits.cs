@@ -13,7 +13,7 @@ public static class CommonEdits
     public static bool ShowdownSetIVMarkings { get; set; } = true;
 
     /// <summary>
-    /// Setting which causes the <see cref="PKM.StatNature"/> to the <see cref="PKM.Nature"/> in Gen8+ formats.
+    /// Setting which causes the <see cref="PKM.StatAlignment"/> to the <see cref="PKM.Nature"/> in Gen8+ formats.
     /// </summary>
     public static bool ShowdownSetBehaviorNature { get; set; }
 
@@ -144,7 +144,7 @@ public static class CommonEdits
 
             var format = pk.Format;
             if (format >= 8)
-                pk.StatNature = nature;
+                pk.StatAlignment = nature;
             else if (format is 3 or 4)
                 pk.SetPIDNature(nature);
             else
@@ -250,7 +250,7 @@ public static class CommonEdits
                 s.SetMoveShopFlags(set.Moves, pk);
 
             if (ShowdownSetBehaviorNature && pk.Format >= 8)
-                pk.Nature = pk.StatNature;
+                pk.Nature = pk.StatAlignment;
 
             var legal = new LegalityAnalysis(pk);
             if (pk is ITechRecord t)

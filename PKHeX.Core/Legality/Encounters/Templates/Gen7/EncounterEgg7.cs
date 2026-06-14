@@ -66,7 +66,7 @@ public sealed record EncounterEgg7(ushort Species, byte Form, GameVersion Versio
             Country = geo.Country,
             Region = geo.Region,
         };
-        pk.StatNature = pk.Nature;
+        pk.StatAlignment = pk.Nature;
 
         if (Species is (int)Core.Species.Scatterbug)
             pk.Form = Vivillon3DS.GetPattern(pk.Country, pk.Region);

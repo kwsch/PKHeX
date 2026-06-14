@@ -112,7 +112,7 @@ public abstract class G8PKM : PKM, ISanityChecksum,
     // 0x1B alignment unused
     public override uint PID { get => ReadUInt32LittleEndian(Data[0x1C..]); set => WriteUInt32LittleEndian(Data[0x1C..], value); }
     public override Nature Nature { get => (Nature)Data[0x20]; set => Data[0x20] = (byte)value; }
-    public override Nature StatNature { get => (Nature)Data[0x21]; set => Data[0x21] = (byte)value; }
+    public override Nature StatAlignment { get => (Nature)Data[0x21]; set => Data[0x21] = (byte)value; }
     public override bool FatefulEncounter { get => (Data[0x22] & 1) == 1; set => Data[0x22] = (byte)((Data[0x22] & ~0x01) | (value ? 1 : 0)); }
     public bool Flag2 { get => (Data[0x22] & 2) == 2; set => Data[0x22] = (byte)((Data[0x22] & ~0x02) | (value ? 2 : 0)); }
     public override byte Gender { get => (byte)((Data[0x22] >> 2) & 0x3); set => Data[0x22] = (byte)((Data[0x22] & 0xF3) | (value << 2)); }

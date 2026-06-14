@@ -155,7 +155,7 @@ public sealed record EncounterStatic9(GameVersion Version)
         if (Gender != FixedGenderUtil.GenderRandom)
             pk.Gender = Gender;
         if (Nature.IsFixed)
-            pk.Nature = pk.StatNature = Nature;
+            pk.Nature = pk.StatAlignment = Nature;
     }
     #endregion
 

@@ -528,7 +528,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     {
         if (IsHOMEGift) // Do not use LumioseRNG for HOME gifts
         {
-            pk.Nature = pk.StatNature = criteria.GetNature((sbyte)Nature == -1 ? Nature.Random : Nature);
+            pk.Nature = pk.StatAlignment = criteria.GetNature((sbyte)Nature == -1 ? Nature.Random : Nature);
             pk.Gender = criteria.GetGender(Gender, pi);
             var av = GetAbilityIndex(criteria, AbilityType);
             pk.RefreshAbility(av);

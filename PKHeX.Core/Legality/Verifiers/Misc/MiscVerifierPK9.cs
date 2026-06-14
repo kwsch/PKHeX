@@ -16,7 +16,7 @@ internal sealed class MiscVerifierPK9 : Verifier
 
     internal void Verify(LegalityAnalysis data, PK9 pk)
     {
-        MiscVerifierHelpers.VerifyStatNature(data, pk);
+        MiscVerifierHelpers.VerifyStatAlignment(data, pk);
         VerifyTechRecordFlags(data, pk);
 
         if (!pk.IsBattleVersionValid(data.Info.EvoChainsAllGens))

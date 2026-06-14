@@ -115,7 +115,7 @@ public sealed record EncounterFixed9
         var rnd = Util.Rand;
         pk.PID = EncounterUtil.GetRandomPID(pk, rnd, criteria.Shiny);
         pk.EncryptionConstant = rnd.Rand32();
-        pk.Nature = pk.StatNature = criteria.GetNature();
+        pk.Nature = pk.StatAlignment = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 

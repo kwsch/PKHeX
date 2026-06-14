@@ -28,8 +28,8 @@ public static class BatchMods
         new TypeSuggestion<PKM>(nameof(PKM.EggMetDate), p => p.EggMetDate = p.MetDate),
         new TypeSuggestion<PKM>(nameof(PKM.MetDate), p => p.MetDate = p.EggMetDate),
 
-        new TypeSuggestion<PKM>(nameof(PKM.Nature), p => p.Format >= 8, p => p.Nature = p.StatNature),
-        new TypeSuggestion<PKM>(nameof(PKM.StatNature), p => p.Format >= 8, p => p.StatNature = p.Nature),
+        new TypeSuggestion<PKM>(nameof(PKM.Nature), p => p.Format >= 8, p => p.Nature = p.StatAlignment),
+        new TypeSuggestion<PKM>(nameof(PKM.StatAlignment), p => p.Format >= 8, p => p.StatAlignment = p.Nature),
         new TypeSuggestion<PKM>(nameof(PKM.Stats), p => p.ResetPartyStats()),
         new TypeSuggestion<PKM>(nameof(PKM.Ball), p => BallApplicator.ApplyBallLegalByColor(p)),
         new TypeSuggestion<PKM>(nameof(PKM.Heal), p => p.Heal()),

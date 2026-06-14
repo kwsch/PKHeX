@@ -15,7 +15,7 @@ public partial class ExperienceBar : UserControl
 
     private double CurrentPercent => Experience.GetEXPToLevelUpPercentage(Level, EXP, Growth);
     private void NotifyUpdate() => ValueChanged?.Invoke(this, EventArgs.Empty);
-    private int RealWidth => BorderStyle == BorderStyle.None ? Width : Width - SystemInformation.BorderSize.Width * 2;
+    private int RealWidth => BorderStyle == BorderStyle.None ? Width : Width - (SystemInformation.BorderSize.Width * 2);
     private int Border => BorderStyle == BorderStyle.None ? 0 : SystemInformation.BorderSize.Width;
 
     private uint GetEXPEdgeHigh()
@@ -100,13 +100,21 @@ public partial class ExperienceBar : UserControl
         var maxWidth = RealWidth;
         // Recalculate EXP, trigger the event, which will trigger another Update.
         if (newWidth < 0)
+        {
             Underflow();
+        }
         else if (newWidth >= maxWidth)
+        {
             Overflow();
+        }
         else if (newWidth >= maxWidth + 1)
+        {
             EdgeHigh();
+        }
         else if (newWidth == 0)
+        {
             EdgeLow();
+        }
         else // somewhere in between
         {
             var range = Experience.GetEXPToLevelUp(Level, Growth);

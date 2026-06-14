@@ -94,7 +94,7 @@ public sealed class LegalityCheckLocalization
     public string EggLocationTrade { get; init; } = "Able to hatch a traded Egg at Met Location.";
     public string EggLocationTradeFail { get; init; } = "Invalid Egg Location, shouldn't be 'traded' while an Egg.";
     public string EggMetLocationFail { get; init; } = "Can't obtain Egg from Egg Location.";
-    public string EggNature { get; init; } = "Eggs cannot have their Stat Nature changed.";
+    public string EggNature { get; init; } = "Eggs cannot have their Stat Alignment changed.";
     public string EggPP { get; init; } = "Eggs cannot have modified move PP counts.";
     public string EggPPUp { get; init; } = "Cannot apply PP Ups to an Egg.";
     public string EggRelearnFlags { get; init; } = "Expected no Relearn Move Flags.";
@@ -370,7 +370,7 @@ public sealed class LegalityCheckLocalization
     public string StatIncorrectCP { get; init; } = "Calculated CP does not match stored value.";
     public string StatGigantamaxInvalid { get; init; } = "Gigantamax Flag mismatch.";
     public string StatGigantamaxValid { get; init; } = "Gigantamax Flag was changed via Max Soup.";
-    public string StatNatureInvalid { get; init; } = "Stat Nature is not within the expected range.";
+    public string StatAlignmentInvalid { get; init; } = "Stat Alignment is not within the expected range.";
     public string StatBattleVersionInvalid { get; init; } = "Battle Version is not within the expected range.";
     public string StatNobleInvalid { get; init; } = "Noble Flag mismatch.";
     public string StatAlphaInvalid { get; init; } = "Alpha Flag mismatch.";

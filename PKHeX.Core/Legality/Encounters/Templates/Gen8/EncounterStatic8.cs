@@ -119,7 +119,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
 
         var pi = PersonalTable.SWSH[Species, Form];
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
-        pk.Nature = pk.StatNature = criteria.GetNature();
+        pk.Nature = pk.StatAlignment = criteria.GetNature();
         pk.Gender = criteria.GetGender(Gender, pi);
 
         var req = GetRequirement(pk);
