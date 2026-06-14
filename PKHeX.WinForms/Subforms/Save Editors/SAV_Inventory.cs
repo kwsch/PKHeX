@@ -175,9 +175,7 @@ public sealed partial class SAV_Inventory : Form
         SelectionMode = DataGridViewSelectionMode.FullRowSelect,
         CellBorderStyle = DataGridViewCellBorderStyle.Single,
 
-        RowTemplate = { Height = 24 },
         Tag = pouch,
-        RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single,
     };
 
     private static DataGridViewImageColumn GetSpriteColumn() => new()

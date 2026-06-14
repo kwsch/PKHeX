@@ -13,4 +13,7 @@ public sealed class EntityEditorSettings
 
     [LocalizedDescription("When showing an entity, show any stored Status Condition (Sleep/Burn/etc) it may have.")]
     public bool ShowStatusCondition { get; set; } = true;
+
+    [LocalizedDescription("When showing an entity, show the Experience Bar to allow editing of EXP and Level.")]
+    public bool ShowExperienceBar { get; set; } = true;
 }

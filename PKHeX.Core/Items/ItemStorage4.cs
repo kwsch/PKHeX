@@ -109,6 +109,7 @@ public abstract class ItemStorage4
 
     public static ReadOnlySpan<ushort> BallsDPPt =>
     [
+        // Safari Ball is only available in Great Marsh - cannot save, cannot give, does not show in pouch.
         1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
     ];
 

@@ -78,6 +78,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         TB_EXP.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
         TB_Level.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
         TB_Friendship.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
+        ExperienceBar.ValueChanged += (_, _) => TB_EXP.Text = ExperienceBar.EXP.ToString();
     }
 
     private void ClickManualAbility(object sender, EventArgs e)
@@ -419,7 +420,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     }
 
     // General Use Functions //
-    private void SetDetailsOT<T>(T tr) where T : ITrainerInfo
+    private void SetDetailsOT<T>(T tr) where T : ITrainerInfo, ITrainerID32
     {
         if (string.IsNullOrWhiteSpace(tr.OT))
             return;
@@ -427,7 +428,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         // Get Save Information
         TB_OT.Text = tr.OT;
         UC_OTGender.Gender = (byte)(tr.Gender & 1);
-        TID_Trainer.LoadInfo(tr);
+        TID_Trainer.LoadTrainer(tr, tr.Generation);
 
         if (tr.Version.IsValidSavedVersion())
             CB_GameOrigin.SelectedValue = (int)tr.Version;
@@ -514,7 +515,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         FieldsLoaded = false;
         var items = GameInfo.FilteredSources.GetAbilityList(Entity.PersonalInfo);
         if (Entity is { Context: EntityContext.Gen5, Species: (ushort)Species.Basculin, Form: 1 })
-            items = [..items, FilteredGameDataSource.GetAbilityItem(GameInfo.Strings.abilitylist, (int)Ability.Reckless, '*')];
+            items = [.. items, FilteredGameDataSource.GetAbilityItem(GameInfo.Strings.abilitylist, (int)Ability.Reckless, '*')];
         CB_Ability.DataSource = items;
         CB_Ability.SelectedIndex = Math.Clamp(ability, 0, items.Count - 1); // restore original index if available
         FieldsLoaded = tmp;
@@ -565,7 +566,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             if (color.ToArgb() != Color.Black.ToArgb())
                 bmp = ImageUtil.CopyChangeAllColorTo(bmp, color);
             if (!active)
-                bmp = ImageUtil.CopyChangeOpacity(bmp, 1/8f);
+                bmp = ImageUtil.CopyChangeOpacity(bmp, 1 / 8f);
             pb.Image = bmp;
         }
     }
@@ -979,6 +980,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
                 TB_Level.Text = lvlExp.ToString();
             if (expInput != expCalc && !HaX)
                 TB_EXP.Text = expCalc.ToString();
+
+            ExperienceBar.Update(expCalc, gr, lvlExp);
         }
         else
         {
@@ -987,7 +990,10 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             var level = (byte)Math.Clamp(input, Experience.MinLevel, Experience.MaxLevel);
             if (input != level && !string.IsNullOrWhiteSpace(TB_Level.Text))
                 TB_Level.Text = level.ToString();
-            TB_EXP.Text = Experience.GetEXP(level, gr).ToString();
+
+            var expCalc = Experience.GetEXP(level, gr);
+            TB_EXP.Text = expCalc.ToString();
+            ExperienceBar.Update(expCalc, gr, level);
         }
         ChangingFields = false;
         if (FieldsLoaded) // store values back
@@ -1278,7 +1284,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         PB_Origin.Image = GetOriginSprite(Entity);
-        TID_Trainer.LoadIDValues(Entity, Entity.Format);
+        TID_Trainer.LoadTrainer(Entity, Entity.Format);
         UpdateLegality();
     }
 
@@ -1648,7 +1654,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             else
             {
                 Entity.SetShinySID(type);
-                TID_Trainer.UpdateSID();
+                TID_Trainer.LoadTrainer();
             }
         }
         else
@@ -1668,7 +1674,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (Entity.Format <= 2)
             return;
 
-        TID_Trainer.UpdateTSV();
+        TID_Trainer.SetToolTip();
 
         Entity.PID = Util.GetHexValue(TB_PID.Text);
         var tip = $"PSV: {Entity.PSV:d4}";
@@ -2065,6 +2071,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (t is not IFormArgument)
             L_FormArgument.Visible = false;
         StatusView.Visible = Main.Settings.EntityEditor.ShowStatusCondition;
+        ExperienceBar.Visible = Main.Settings.EntityEditor.ShowExperienceBar;
 
         DEV_Ability.Enabled = DEV_Ability.Visible = DEV_Ability.TabStop = (format > 3 && HaX) || t is PA9;
         ToggleInterface(Entity.Format);

@@ -42,7 +42,7 @@ public partial class SAV_Trainer8a : Form
 
         // Display Data
         TB_OTName.Text = SAV.OT;
-        trainerID1.LoadIDValues(SAV, SAV.Generation);
+        trainerID1.LoadTrainer(SAV);
         MT_Money.Text = SAV.Money.ToString();
         CB_Language.SelectedValue = SAV.Language;
 

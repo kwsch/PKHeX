@@ -29,8 +29,14 @@ public partial class PKMEditor
         }
 
         CB_Species.SelectedValue = (int)pk.Species;
-        TB_Level.Text = pk.Stat_Level.ToString();
-        TB_EXP.Text = pk.EXP.ToString();
+        var level = pk.Stat_Level;
+        var exp = pk.EXP;
+        TB_Level.Text = level.ToString();
+        TB_EXP.Text = exp.ToString();
+
+        var pi = pk.PersonalInfo;
+        var growth = pi.EXPGrowth;
+        ExperienceBar.Update(exp, growth); // don't trust level
     }
 
     private void SaveSpeciesLevelEXP(PKM pk)
@@ -236,7 +242,7 @@ public partial class PKMEditor
         if (pk is IContestStatsReadOnly s)
             s.CopyContestStatsTo(Contest);
 
-        TID_Trainer.LoadIDValues(pk, pk.Format);
+        TID_Trainer.LoadTrainer(pk, pk.Format);
 
         // Load Extrabyte Value
         var offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);
