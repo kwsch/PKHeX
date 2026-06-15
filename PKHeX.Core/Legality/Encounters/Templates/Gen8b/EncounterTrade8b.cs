@@ -88,7 +88,7 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IEncoun
             MetDate = EncounterDate.GetDateSwitch(),
             Gender = Gender,
             Nature = Nature,
-            StatNature = Nature,
+            StatAlignment = Nature,
             Ball = (byte)FixedBall,
 
             ID32 = ID32,

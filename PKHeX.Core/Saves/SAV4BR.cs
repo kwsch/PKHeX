@@ -314,6 +314,9 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
         set => StringConverter4GC.SetStringUnicodeBR(value, BirthDayTrash);
     }
 
+    /// <summary>
+    /// <see cref="LocaleNDS4.LegalCountries"/>
+    /// </summary>
     public int Country { get => ReadUInt16BigEndian(Data[0x3C0..]); set => WriteUInt16BigEndian(Data[0x578..], (ushort)value); }
     public int Region { get => ReadUInt16BigEndian(Data[0x3C2..]); set => WriteUInt16BigEndian(Data[0x57A..], (ushort)value); }
 
@@ -464,7 +467,7 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
     }
 
     protected override BK4 GetPKM(Memory<byte> data) => new(data);
-    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt4BE(data);
+    protected override void DecryptPKM(Span<byte> data) => PokeCrypto.Decrypt4BE(data[..SIZE_STORED]);
 
     protected override void SetPKM(PKM pk, bool isParty = false)
     {
@@ -476,8 +479,12 @@ public sealed class SAV4BR : SaveFile, IBoxDetailName
 
     protected override void SetPartyValues(PKM pk, bool isParty)
     {
-        if (pk is G4PKM g4)
-            g4.Sanity = isParty ? (ushort)0xC000 : (ushort)0x4000;
+        if (pk is not BK4 bk4)
+            return;
+
+        // Update sanity flags to the correct state
+        bk4.IsDecryptedStateBox = true;
+        bk4.IsDecryptedStateParty = isParty;
     }
 
     /// <summary>

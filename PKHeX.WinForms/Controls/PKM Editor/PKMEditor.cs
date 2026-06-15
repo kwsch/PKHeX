@@ -48,7 +48,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             new([CB_EggLocation], pk => pk.Format >= 4, Criteria),
             new([CB_Country, CB_SubRegion], pk => pk is PK6 or PK7, Criteria),
             new(Relearn, pk => pk.Format >= 6, Criteria),
-            new([CB_StatNature], pk => pk.Format >= 8, Criteria),
+            new([CB_StatAlignment], pk => pk.Format >= 8, Criteria),
             new([CB_AlphaMastered], pk => pk is PA8, Criteria),
         ];
 
@@ -78,6 +78,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         TB_EXP.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
         TB_Level.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
         TB_Friendship.MouseWheel += WinFormsUtil.MouseWheelIncrement1;
+        ExperienceBar.ValueChanged += (_, _) => TB_EXP.Text = ExperienceBar.EXP.ToString();
     }
 
     private void ClickManualAbility(object sender, EventArgs e)
@@ -117,7 +118,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         ComboBox[] cbs =
         [
-            CB_Nature, CB_StatNature,
+            CB_Nature, CB_StatAlignment,
             CB_Country, CB_SubRegion, CB_3DSReg, CB_Language, CB_Ball, CB_HeldItem, CB_Species, DEV_Ability,
             CB_GroundTile, CB_GameOrigin, CB_BattleVersion, CB_Ability, CB_MetLocation, CB_EggLocation, CB_Language, CB_HTLanguage,
             CB_AlphaMastered,
@@ -342,7 +343,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         Stats.UpdateIVs(this, EventArgs.Empty);
         UpdatePKRSInfected(this, EventArgs.Empty);
         UpdatePKRSCured(this, EventArgs.Empty);
-        UpdateNatureModification(CB_StatNature, Entity.StatNature);
+        UpdateNatureModification(CB_StatAlignment, Entity.StatAlignment);
 
         if (HaX)
         {
@@ -419,7 +420,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     }
 
     // General Use Functions //
-    private void SetDetailsOT<T>(T tr) where T : ITrainerInfo
+    private void SetDetailsOT<T>(T tr) where T : ITrainerInfo, ITrainerID32
     {
         if (string.IsNullOrWhiteSpace(tr.OT))
             return;
@@ -427,7 +428,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         // Get Save Information
         TB_OT.Text = tr.OT;
         UC_OTGender.Gender = (byte)(tr.Gender & 1);
-        TID_Trainer.LoadInfo(tr);
+        TID_Trainer.LoadTrainer(tr, tr.Generation);
 
         if (tr.Version.IsValidSavedVersion())
             CB_GameOrigin.SelectedValue = (int)tr.Version;
@@ -513,6 +514,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         bool tmp = FieldsLoaded;
         FieldsLoaded = false;
         var items = GameInfo.FilteredSources.GetAbilityList(Entity.PersonalInfo);
+        if (Entity is { Context: EntityContext.Gen5, Species: (ushort)Species.Basculin, Form: 1 })
+            items = [.. items, FilteredGameDataSource.GetAbilityItem(GameInfo.Strings.abilitylist, (int)Ability.Reckless, '*')];
         CB_Ability.DataSource = items;
         CB_Ability.SelectedIndex = Math.Clamp(ability, 0, items.Count - 1); // restore original index if available
         FieldsLoaded = tmp;
@@ -563,7 +566,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             if (color.ToArgb() != Color.Black.ToArgb())
                 bmp = ImageUtil.CopyChangeAllColorTo(bmp, color);
             if (!active)
-                bmp = ImageUtil.CopyChangeOpacity(bmp, 1/8f);
+                bmp = ImageUtil.CopyChangeOpacity(bmp, 1 / 8f);
             pb.Image = bmp;
         }
     }
@@ -763,9 +766,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (Entity.Format < 8)
             return;
         if (sender == Label_Nature)
-            CB_Nature.SelectedIndex = CB_StatNature.SelectedIndex;
+            CB_Nature.SelectedIndex = CB_StatAlignment.SelectedIndex;
         else
-            CB_StatNature.SelectedIndex = CB_Nature.SelectedIndex;
+            CB_StatAlignment.SelectedIndex = CB_Nature.SelectedIndex;
     }
 
     private void ClickMoves(object? sender, EventArgs e)
@@ -977,6 +980,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
                 TB_Level.Text = lvlExp.ToString();
             if (expInput != expCalc && !HaX)
                 TB_EXP.Text = expCalc.ToString();
+
+            ExperienceBar.Update(expCalc, gr, lvlExp);
         }
         else
         {
@@ -985,7 +990,10 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             var level = (byte)Math.Clamp(input, Experience.MinLevel, Experience.MaxLevel);
             if (input != level && !string.IsNullOrWhiteSpace(TB_Level.Text))
                 TB_Level.Text = level.ToString();
-            TB_EXP.Text = Experience.GetEXP(level, gr).ToString();
+
+            var expCalc = Experience.GetEXP(level, gr);
+            TB_EXP.Text = expCalc.ToString();
+            ExperienceBar.Update(expCalc, gr, level);
         }
         ChangingFields = false;
         if (FieldsLoaded) // store values back
@@ -1276,7 +1284,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         PB_Origin.Image = GetOriginSprite(Entity);
-        TID_Trainer.LoadIDValues(Entity, Entity.Format);
+        TID_Trainer.LoadTrainer(Entity, Entity.Format);
         UpdateLegality();
     }
 
@@ -1363,7 +1371,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (Entity.Format < 3)
             return;
 
-        var cb = Entity.Format >= 8 ? CB_StatNature : CB_Nature;
+        var cb = Entity.Format >= 8 ? CB_StatAlignment : CB_Nature;
         cb.SelectedValue = (int)newNature;
     }
 
@@ -1646,7 +1654,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             else
             {
                 Entity.SetShinySID(type);
-                TID_Trainer.UpdateSID();
+                TID_Trainer.LoadTrainer();
             }
         }
         else
@@ -1666,7 +1674,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (Entity.Format <= 2)
             return;
 
-        TID_Trainer.UpdateTSV();
+        TID_Trainer.SetToolTip();
 
         Entity.PID = Util.GetHexValue(TB_PID.Text);
         var tip = $"PSV: {Entity.PSV:d4}";
@@ -1788,10 +1796,10 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             Stats.UpdateIVs(sender, EventArgs.Empty); // updating Nature will trigger stats to update as well
             UpdateLegality();
         }
-        else if (sender == CB_StatNature)
+        else if (sender == CB_StatAlignment)
         {
-            Entity.StatNature = (Nature)WinFormsUtil.GetIndex(CB_StatNature);
-            UpdateNatureModification(CB_StatNature, Entity.StatNature);
+            Entity.StatAlignment = (Nature)WinFormsUtil.GetIndex(CB_StatAlignment);
+            UpdateNatureModification(CB_StatAlignment, Entity.StatAlignment);
             Stats.UpdateIVs(sender, EventArgs.Empty); // updating Nature will trigger stats to update as well
             UpdateLegality();
         }
@@ -2063,6 +2071,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (t is not IFormArgument)
             L_FormArgument.Visible = false;
         StatusView.Visible = Main.Settings.EntityEditor.ShowStatusCondition;
+        ExperienceBar.Visible = Main.Settings.EntityEditor.ShowExperienceBar;
 
         DEV_Ability.Enabled = DEV_Ability.Visible = DEV_Ability.TabStop = (format > 3 && HaX) || t is PA9;
         ToggleInterface(Entity.Format);
@@ -2094,7 +2103,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         CB_Ability.Visible = CB_Ability.TabStop = !DEV_Ability.Enabled && format >= 3;
         Label_Nature.Visible = CB_Nature.Visible = format >= 3;
-        L_StatNature.Visible = CB_StatNature.Visible = format >= 8;
+        L_StatAlignment.Visible = CB_StatAlignment.Visible = format >= 8;
         Label_Ability.Visible = FLP_AbilityRight.Visible = format >= 3;
         FLP_ExtraBytes.Visible = format >= 3;
         GB_Markings.Visible = GB_Markings.TabStop = format >= 3;
@@ -2287,7 +2296,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         CB_GroundTile.DataSource = new BindingSource(source.G4GroundTiles, string.Empty);
         CB_Nature.DataSource = new BindingSource(source.Natures, string.Empty);
-        CB_StatNature.DataSource = new BindingSource(source.Natures, string.Empty);
+        CB_StatAlignment.DataSource = new BindingSource(source.Natures, string.Empty);
 
         // Sub-editors
         Stats.InitializeDataSources();

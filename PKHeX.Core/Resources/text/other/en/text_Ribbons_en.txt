@@ -98,7 +98,7 @@ RibbonCountG3Cute	Cute
 RibbonCountG3Smart	Smart
 RibbonCountG3Tough	Tough
 RibbonChampionAlola	Alola Champion
-RibbonBattleRoyale	Battle Royal Champion
+RibbonBattleRoyale	Battle Royal Master
 RibbonBattleTreeGreat	Battle Tree Great
 RibbonBattleTreeMaster	Battle Tree Master
 RibbonChampionGalar	Galar Champion
@@ -161,4 +161,4 @@ RibbonOnceInALifetime	Once-in-a-Lifetime
 RibbonMarkAlpha	Alpha Mark
 RibbonMarkMightiest	Mightiest Mark
 RibbonMarkTitan	Titan Mark
-RibbonPartner	Partner Ribbon
+RibbonPartner	Partner

@@ -127,12 +127,12 @@ public static class GameDataSideExtensions
             data.MetLocation = pk.MetLocation;
             data.EggLocation = pk.EggLocation;
 
-            if (pk is IGameDataSidePP ppk && data is IGameDataSidePP pps)
+            if (data is IGameDataSidePP pps)
             {
-                pps.Move1_PP = ppk.Move1_PP; pps.Move1_PPUps = ppk.Move1_PPUps;
-                pps.Move2_PP = ppk.Move2_PP; pps.Move2_PPUps = ppk.Move2_PPUps;
-                pps.Move3_PP = ppk.Move3_PP; pps.Move3_PPUps = ppk.Move3_PPUps;
-                pps.Move4_PP = ppk.Move4_PP; pps.Move4_PPUps = ppk.Move4_PPUps;
+                pps.Move1_PP = (byte)pk.Move1_PP; pps.Move1_PPUps = (byte)pk.Move1_PPUps;
+                pps.Move2_PP = (byte)pk.Move2_PP; pps.Move2_PPUps = (byte)pk.Move2_PPUps;
+                pps.Move3_PP = (byte)pk.Move3_PP; pps.Move3_PPUps = (byte)pk.Move3_PPUps;
+                pps.Move4_PP = (byte)pk.Move4_PP; pps.Move4_PPUps = (byte)pk.Move4_PPUps;
             }
         }
 

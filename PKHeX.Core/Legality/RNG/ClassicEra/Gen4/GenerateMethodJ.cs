@@ -7,7 +7,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class GenerateMethodJ
 {
-    /// <param name="enc">Encounter slot to generate for</param>
     extension<T>(T enc) where T : IEncounterSlot4
     {
         /// <summary>
@@ -33,8 +32,7 @@ public static class GenerateMethodJ
             {
                 if (checkProc)
                 {
-                    var check = new LeadSeed(seed, LeadRequired.None);
-                    if (!MethodJ.CheckEncounterActivation(enc, ref check))
+                    if (!MethodJ.CheckEncounterActivation(enc, seed, LeadRequired.None, out _))
                     {
                         seed = LCRNG.Next(seed);
                         continue;
@@ -127,7 +125,7 @@ public static class GenerateMethodJ
                 var pid = GetPIDRegular(a, b);
                 if (criteria.Shiny.IsShiny() != ShinyUtil.GetIsShiny3(id32, pid))
                     continue;
-                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                     continue;
 
                 var gender = EntityGender.GetFromPIDAndRatio(pid, gr);

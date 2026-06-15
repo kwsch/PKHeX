@@ -727,12 +727,12 @@ public partial class SAV_Misc4 : Form
 
     private void ReadPokeathlon(SAV4HGSS s)
     {
-        NUD_PokeathlonPoints.Value = s.PokeathlonPoints;
+        NUD_PokeathlonPoints.Value = s.Pokeathlon.Points;
     }
 
     private void SavePokeathlon(SAV4HGSS s)
     {
-        s.PokeathlonPoints = (uint)NUD_PokeathlonPoints.Value;
+        s.Pokeathlon.Points = (uint)NUD_PokeathlonPoints.Value;
     }
 
     #region Seals

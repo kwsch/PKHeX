@@ -261,11 +261,14 @@ public sealed class HistoryVerifier : Verifier
 
     private void VerifyGeoLocationData(LegalityAnalysis data, IGeoTrack t, PKM pk)
     {
-        var valid = t.GetValidity();
+        var (valid, index) = t.GetValidity();
         if (valid == GeoValid.CountryAfterPreviousEmpty)
-            data.AddLine(GetInvalid(GeoBadOrder));
+            data.AddLine(GetInvalid(GeoBadOrder_0, index));
         else if (valid == GeoValid.RegionWithoutCountry)
-            data.AddLine(GetInvalid(GeoNoRegion));
+            data.AddLine(GetInvalid(GeoNoCountry_0, index));
+        else if (valid == GeoValid.CountryDoesNotHaveRegion)
+            data.AddLine(GetInvalid(GeoNoRegion_0, index));
+
         if (t.Geo1_Country != 0 && pk.IsUntraded) // traded
             data.AddLine(GetInvalid(GeoNoCountryHT));
     }

@@ -29,9 +29,6 @@ public sealed partial class SAV_Trainer9a : Form
         B_RoyaleInfiniteMax.Click += (_, _) => MT_RoyaleInfinite.Text = 50_000.ToString();
         B_HyperspaceSurveyPoints.Click += (_, _) => MT_HyperspaceSurveyPoints.Text = 100_000.ToString();
 
-        CB_Gender.Items.Clear();
-        CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
-
         GetImages();
         GetComboBoxes();
         GetTextBoxes();
@@ -107,11 +104,11 @@ public sealed partial class SAV_Trainer9a : Form
     private void GetTextBoxes()
     {
         // Get Data
-        CB_Gender.SelectedIndex = SAV.Gender;
+        CB_Gender.Gender = SAV.Gender;
 
         // Display Data
         TB_OTName.Text = SAV.OT;
-        trainerID1.LoadIDValues(SAV, SAV.Generation);
+        trainerID1.LoadTrainer(SAV);
         MT_Money.Text = SAV.Money.ToString();
         CB_Language.SelectedValue = SAV.Language;
 
@@ -165,9 +162,9 @@ public sealed partial class SAV_Trainer9a : Form
 
     private void SaveTrainerInfo()
     {
-        if (SAV.Gender != (byte)CB_Gender.SelectedIndex)
+        if (SAV.Gender != CB_Gender.Gender)
         {
-            SAV.Gender = (byte)CB_Gender.SelectedIndex;
+            SAV.Gender = CB_Gender.Gender;
             SAV.PlayerFashion.Reset();
         }
 

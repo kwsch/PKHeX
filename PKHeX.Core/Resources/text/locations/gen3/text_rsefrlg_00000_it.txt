@@ -55,8 +55,8 @@ Sott'acqua (Percorso 128)
 Sott'acqua (Ceneride)
 Grotta Pietrosa
 Monte Camino
-Zona Safari (RZE)
-Torre Lotta (RZ) / Parco Lotta (E)
+Zona Safari (RZS)
+Torre Lotta (RZ) / Parco Lotta (S)
 Bosco Petalo
 Tunnel Menferro
 Vecchia Nave
@@ -68,7 +68,7 @@ Rifugio
 Grotta Ondosa
 Antro Abissale
 Sott'acqua (Antro Abissale)
-Via Vittoria (RZE)
+Via Vittoria (RZS)
 Isola Miraggio
 Grotta dei Tempi
 Isola Remota
@@ -172,7 +172,7 @@ Rovine Florabeto
 Settipelago 22
 Settipelago 23
 Settipelago 24
-Monte Cordone (FRLG)
+Monte Cordone (RFVF)
 Monte Brace
 Bosco Baccoso
 Grotta Gelata
@@ -181,11 +181,11 @@ Torre Allenatori
 Cripta dei Punti
 Grotta Sperduta
 Bosco Disegnato
-Grotta Mutevole (FRLG)
+Grotta Mutevole (RFVF)
 Sale Florabeto
 Via Terzisola
 Chiave Florabeto
-Isola Materna (FRLG)
+Isola Materna (RFVF)
 Sala A-loe
 Sala B-etulla
 Sala C-iclamino
@@ -194,11 +194,11 @@ Sala E-dera
 Sala F-elce
 Sala G-ardenia
 Terme Laviche
-Centro Azzurrop. (FRLG)
+Centro Azzurrop. (RFVF)
 Rifugio Idro
 Rifugio Magma
 Torre Miraggio
-Isola Materna (E)
+Isola Materna (S)
 Isola Suprema
 Grotta Artistica
 Grotta Mare
@@ -208,8 +208,8 @@ Sott'acqua (Percorso 105)
 Sott'acqua (Percorso 125)
 Sott'acqua (Percorso 129)
 Galleria Deserto
-Grotta Mutevole (E)
-Monte Cordone (E)
+Grotta Mutevole (S)
+Monte Cordone (S)
 Monte Allenatori
 
 

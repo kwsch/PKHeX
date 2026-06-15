@@ -265,6 +265,7 @@ public static class WinFormsTranslator
     }
 
 #if DEBUG
+    [RequiresUnreferencedCode("Debug form loading uses reflection to instantiate forms at runtime.")]
     public static void DumpAll(string baseLang, ReadOnlySpan<string> banlist, string dir)
     {
         var context = Context[baseLang];
@@ -295,6 +296,7 @@ public static class WinFormsTranslator
         return false;
     }
 
+    [RequiresUnreferencedCode("Debug form loading uses reflection to instantiate forms at runtime.")]
     public static void LoadAllForms(IEnumerable<Type> types, ReadOnlySpan<string> banlist)
     {
         foreach (var t in types)
@@ -341,6 +343,7 @@ public static class WinFormsTranslator
         }
     }
 
+    [RequiresUnreferencedCode("Debug settings loading uses reflection to inspect runtime types and attributes.")]
     public static void LoadSettings<T>(string defaultLanguage, bool add = true)
     {
         var context = (Dictionary<string, string>)Context[defaultLanguage].Lookup;
@@ -348,6 +351,7 @@ public static class WinFormsTranslator
         LoadSettings<T>(add, t, context);
     }
 
+    [RequiresUnreferencedCode("Debug settings loading uses reflection to inspect runtime types and attributes.")]
     private static void LoadSettings<T>(bool add, Type type, Dictionary<string, string> context)
     {
         var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);

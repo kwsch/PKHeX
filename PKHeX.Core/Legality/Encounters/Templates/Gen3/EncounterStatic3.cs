@@ -137,7 +137,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
                     var rand2 = LCRNG.Prev16(ref state);
                     var rand1 = LCRNG.Prev16(ref state);
                     var pid = (rand2 << 16) | rand1;
-                    if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                    if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                         continue;
                     bool shiny = ShinyUtil.GetIsShiny3(id32, pid);
                     if (criteria.Shiny.IsShiny() != shiny)
@@ -166,11 +166,10 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         {
             var seed = LCRNG.Prev2(s); // Unwind the RNG to get the real origin seed for the PID/IV
             var pid = ClassicEraRNG.GetSequentialPID(seed);
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue;
 
-            var gender = EntityGender.GetFromPIDAndRatio(pid, gr);
-            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(gender))
+            if (criteria.IsSpecifiedGender() && !criteria.IsSatisfiedGender(EntityGender.GetFromPIDAndRatio(pid, gr)))
                 continue;
 
             var abit = (int)(pid & 1);
@@ -179,7 +178,6 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
 
             pk.PID = pid;
             pk.IV32 |= iv2 << 15 | iv1;
-            pk.Gender = gender;
             pk.RefreshAbility(abit);
             return true;
         }
@@ -198,7 +196,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
             if (criteria.Shiny.IsShiny() != shiny)
                 continue;
 
-            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+            if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                 continue;
 
             var gender = EntityGender.GetFromPIDAndRatio(pid, gr);

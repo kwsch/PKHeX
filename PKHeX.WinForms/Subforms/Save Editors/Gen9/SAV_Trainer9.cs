@@ -111,7 +111,7 @@ public partial class SAV_Trainer9 : Form
 
         // Display Data
         TB_OTName.Text = SAV.OT;
-        trainerID1.LoadIDValues(SAV, SAV.Generation);
+        trainerID1.LoadTrainer(SAV);
         MT_Money.Text = SAV.Money.ToString();
         MT_LP.Text = SAV.LeaguePoints.ToString();
         CB_Language.SelectedValue = SAV.Language;

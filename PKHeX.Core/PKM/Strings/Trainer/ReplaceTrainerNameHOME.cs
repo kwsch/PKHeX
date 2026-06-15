@@ -37,6 +37,8 @@ public static class ReplaceTrainerNameHOME
             return Gen8b;
         if (SV  .IsPresentInGame(species, form) && ReplaceTrainerName9 .IsTriggerAndReplace(original, current, language))
             return Gen9;
+        if (ZA  .IsPresentInGame(species, form) && ReplaceTrainerName9a.IsTriggerAndReplace(original, current, language))
+            return Gen9a;
         if (IsTrigger(original, language) && IsReplace(current))
             return Context;
         return EntityContext.None; // No replacement
@@ -53,6 +55,8 @@ public static class ReplaceTrainerNameHOME
             return Gen8b;
         if (history.HasVisitedGen9 && ReplaceTrainerName9 .IsTriggerAndReplace(original, current, language))
             return Gen9;
+        if (history.HasVisitedZA   && ReplaceTrainerName9a.IsTriggerAndReplace(original, current, language))
+            return Gen9a;
         if (IsTrigger(original, language) && IsReplace(current))
             return Context;
         return EntityContext.None; // No replacement
@@ -77,6 +81,8 @@ public static class ReplaceTrainerNameHOME
             return Gen8b;
         if (SV  .IsPresentInGame(species, form) && ReplaceTrainerName9 .IsReplace(current, language))
             return Gen9;
+        if (ZA  .IsPresentInGame(species, form) && ReplaceTrainerName9a.IsReplace(current, language))
+            return Gen9a;
         if (current.SequenceEqual(ReplaceName))
             return Context;
         return EntityContext.None; // No replacement
@@ -93,6 +99,8 @@ public static class ReplaceTrainerNameHOME
             return Gen8b;
         if (history.HasVisitedGen9 && ReplaceTrainerName9 .IsReplace(current, language))
             return Gen9;
+        if (history.HasVisitedZA   && ReplaceTrainerName9a.IsReplace(current, language))
+            return Gen9a;
         if (IsReplace(current))
             return Context;
         return EntityContext.None; // No replacement

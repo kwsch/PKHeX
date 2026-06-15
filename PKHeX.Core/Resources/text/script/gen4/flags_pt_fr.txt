@@ -43,6 +43,7 @@
 2410	a	Rang Master en Catégorie Grâce
 2411	a	Rang Master en Catégorie Intelligence
 2412	a	Rang Master en Catégorie Robustesse
+2444	a	Connexion à la Connexion Wi-Fi Nintendo réussie
 0329	r	Motisma Capturé
 0635	s	Fantôme du Majordome Rencontré au Vieux Château
 0636	s	Fantôme de la Fillette Rencontré au Vieux Château
@@ -76,6 +77,18 @@
 0134	g	Échange Interne Mustébouée Contre Pijako (Vestigion)
 0244	g	Échange Interne Charmina Contre Spectrum (Frimapic)
 0245	g	Échange Interne Écayon Contre Magicarpe (Route 226)
+0330	g	Globe Terrestre reçu (Rico Lexion)
+0331	g	Statue Arène reçue (Rico Lexion)
+0332	g	Coupe Grâce reçue (Rico Lexion)
+0333	g	Coupe Sang-froid reçue (Rico Lexion)
+0334	g	Coupe Beauté reçue (Rico Lexion)
+0335	g	Coupe Robustesse reçue (Rico Lexion)
+0336	g	Coupe Intelligence reçue (Rico Lexion)
+0337	g	Cristal Bleu reçu (Rico Lexion)
+0338	g	Cristal Rose reçu (Rico Lexion)
+0339	g	Cristal Rouge reçu (Rico Lexion)
+0340	g	Cristal Jaune reçu (Rico Lexion)
+0347	g	Tous les articles reçus (Rico Lexion)
 0787	i	PV Plus Trouvé au Lac Vérité Séché
 2507	s	Est Entré au Show Capture du Parc des Amis
 0325	r	Les Failles de Dialga/Palkia Peuvent Apparaître

@@ -12,7 +12,7 @@ public sealed class LearnGroup9a : ILearnGroup
     private const EntityContext Context = EntityContext.Gen9a;
     public ushort MaxMoveID => Legal.MaxMoveID_9a;
 
-    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => option == LearnOption.AtAnyTimeChain ? LearnGroupHOME.Instance : null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedZA;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,
@@ -109,14 +109,8 @@ public sealed class LearnGroup9a : ILearnGroup
     private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
     {
         if (enc is IMoveset { Moves: { HasMoves: true } x })
-        {
-            foreach (var move in x.AsSpan())
-                result[move] = true;
-        }
+            x.FlagMoves(result);
         if (enc is IRelearn { Relearn: { HasMoves: true } r })
-        {
-            foreach (var move in r.AsSpan())
-                result[move] = true;
-        }
+            r.FlagMoves(result);
     }
 }

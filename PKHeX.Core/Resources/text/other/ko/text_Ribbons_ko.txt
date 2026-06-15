@@ -1,5 +1,5 @@
 RibbonChampionKalos	칼로스챔피언리본
-RibbonChampionG3	챔피언리본 (Gen3)
+RibbonChampionG3	챔피언리본 (3세대)
 RibbonChampionSinnoh	신오챔피언리본
 RibbonBestFriends	절친리본
 RibbonTraining	수행리본
@@ -44,43 +44,43 @@ RibbonMasterBeauty	아름다움마스터리본
 RibbonMasterCuteness	귀여움마스터리본
 RibbonMasterCleverness	슬기로움마스터리본
 RibbonMasterToughness	강인함마스터리본
-RibbonG3Cool	쿨리본 (G3)
+RibbonG3Cool	쿨리본 (3세대)
 RibbonG3CoolSuper	쿨리본슈퍼
 RibbonG3CoolHyper	쿨리본하이퍼
 RibbonG3CoolMaster	쿨리본마스터
-RibbonG3Beauty	뷰티리본 (G3)
+RibbonG3Beauty	뷰티리본 (3세대)
 RibbonG3BeautySuper	뷰티리본슈퍼
 RibbonG3BeautyHyper	뷰티리본하이퍼
 RibbonG3BeautyMaster	뷰티리본마스터
-RibbonG3Cute	큐트리본 (G3)
+RibbonG3Cute	큐트리본 (3세대)
 RibbonG3CuteSuper	큐트리본슈퍼
 RibbonG3CuteHyper	큐트리본하이퍼
 RibbonG3CuteMaster	큐트리본마스터
-RibbonG3Smart	지니어스리본 (G3)
+RibbonG3Smart	지니어스리본 (3세대)
 RibbonG3SmartSuper	지니어스리본슈퍼
 RibbonG3SmartHyper	지니어스리본하이퍼
 RibbonG3SmartMaster	지니어스리본마스터
-RibbonG3Tough	파워풀리본 (G3)
+RibbonG3Tough	파워풀리본 (3세대)
 RibbonG3ToughSuper	파워풀리본슈퍼
 RibbonG3ToughHyper	파워풀리본하이퍼
 RibbonG3ToughMaster	파워풀리본마스터
-RibbonG4Cool	쿨리본 (G4)
+RibbonG4Cool	쿨리본 (4세대)
 RibbonG4CoolGreat	쿨리본그레이트
 RibbonG4CoolUltra	쿨리본울트라
 RibbonG4CoolMaster	쿨리본마스터
-RibbonG4Beauty	뷰티리본 (G4)
+RibbonG4Beauty	뷰티리본 (4세대)
 RibbonG4BeautyGreat	뷰티리본그레이트
 RibbonG4BeautyUltra	뷰티리본울트라
 RibbonG4BeautyMaster	뷰티리본마스터
-RibbonG4Cute	큐트리본 (G4)
+RibbonG4Cute	큐트리본 (4세대)
 RibbonG4CuteGreat	큐트리본그레이트
 RibbonG4CuteUltra	큐트리본울트라
 RibbonG4CuteMaster	큐트리본마스터
-RibbonG4Smart	지니어스리본 (G4)
+RibbonG4Smart	지니어스리본 (4세대)
 RibbonG4SmartGreat	지니어스리본그레이트
 RibbonG4SmartUltra	지니어스리본울트라
 RibbonG4SmartMaster	지니어스리본마스터
-RibbonG4Tough	파워풀리본 (G4)
+RibbonG4Tough	파워풀리본 (4세대)
 RibbonG4ToughGreat	파워풀리본그레이트
 RibbonG4ToughUltra	파워풀리본울트라
 RibbonG4ToughMaster	파워풀리본마스터
@@ -149,7 +149,7 @@ RibbonMarkHumble	순박의증표
 RibbonMarkThorny	불순의증표
 RibbonMarkVigor	기력의증표
 RibbonMarkSlump	피곤의증표
-RibbonHisui	Hisui
+RibbonHisui	히스이리본
 RibbonTwinklingStar	트윙클스타리본
 RibbonChampionPaldea	팔데아챔피언리본
 RibbonMarkJumbo	커다란증표

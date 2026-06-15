@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using static System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes;
 
 namespace PKHeX.Core;
 
@@ -30,12 +31,19 @@ public static class ReflectUtil
         return 0;
     }
 
+    /// <summary>
+    /// Attempts to set the requested property on <see cref="obj"/> to <see cref="value"/> after converting it to the correct type.
+    /// </summary>
+    /// <param name="pi">Property to set</param>
+    /// <param name="obj">Object to set property on</param>
+    /// <param name="value">Value to set property to</param>
     public static void SetValue<T>(PropertyInfo pi, T obj, object value)
     {
         var c = ConvertValue(value, pi.PropertyType);
         pi.SetValue(obj, c, null);
     }
 
+    [RequiresUnreferencedCode("Uses reflection to access properties by name on runtime types.")]
     public static object? GetValue<T>(T obj, string name) where T : notnull
     {
         if (obj.GetType().GetTypeInfo().TryGetPropertyInfo(name, out var pi))
@@ -43,6 +51,7 @@ public static class ReflectUtil
         return null;
     }
 
+    [RequiresUnreferencedCode("Uses reflection to access properties by name on runtime types.")]
     public static bool SetValue<T>(T obj, string name, object value) where T : notnull
     {
         if (!obj.GetType().GetTypeInfo().TryGetPropertyInfo(name, out var pi))
@@ -53,7 +62,7 @@ public static class ReflectUtil
         return true;
     }
 
-    public static IEnumerable<string> GetPropertiesStartWithPrefix(Type type, string prefix)
+    public static IEnumerable<string> GetPropertiesStartWithPrefix([DynamicallyAccessedMembers(PublicProperties | NonPublicProperties)] Type type, string prefix)
     {
         return type.GetTypeInfo().GetAllTypeInfo().SelectMany(GetAllProperties)
                 .Where(p => p.Name.StartsWith(prefix, StringComparison.Ordinal))
@@ -62,20 +71,20 @@ public static class ReflectUtil
             ;
     }
 
-    public static IEnumerable<string> GetPropertiesCanWritePublic(Type type)
+    public static IEnumerable<string> GetPropertiesCanWritePublic([DynamicallyAccessedMembers(PublicProperties | NonPublicProperties)] Type type)
     {
         return GetAllPropertyInfoCanWritePublic(type).Select(p => p.Name)
                 .Distinct()
             ;
     }
 
-    public static IEnumerable<PropertyInfo> GetAllPropertyInfoCanWritePublic(Type type)
+    public static IEnumerable<PropertyInfo> GetAllPropertyInfoCanWritePublic([DynamicallyAccessedMembers(PublicProperties | NonPublicProperties)] Type type)
     {
         return type.GetTypeInfo().GetAllTypeInfo().SelectMany(GetAllProperties)
             .Where(CanWritePublic);
     }
 
-    public static IEnumerable<PropertyInfo> GetAllPropertyInfoPublic(Type type)
+    public static IEnumerable<PropertyInfo> GetAllPropertyInfoPublic([DynamicallyAccessedMembers(PublicProperties | NonPublicProperties)] Type type)
     {
         return type.GetTypeInfo().GetAllTypeInfo().SelectMany(GetAllProperties)
             .Where(CanReadOrWritePublic);
@@ -88,14 +97,14 @@ public static class ReflectUtil
         private bool CanReadOrWritePublic() => p.CanReadPublic() || p.CanWritePublic();
     }
 
-    public static IEnumerable<string> GetPropertiesPublic(Type type)
+    public static IEnumerable<string> GetPropertiesPublic([DynamicallyAccessedMembers(PublicProperties | NonPublicProperties)] Type type)
     {
         return GetAllPropertyInfoPublic(type).Select(p => p.Name)
                 .Distinct()
             ;
     }
 
-    public static IEnumerable<string> GetPropertiesCanWritePublicDeclared(Type type)
+    public static IEnumerable<string> GetPropertiesCanWritePublicDeclared([DynamicallyAccessedMembers(PublicProperties | NonPublicProperties)] Type type)
     {
         return type.GetTypeInfo().GetAllProperties()
                 .Where(CanWritePublic)
@@ -151,6 +160,7 @@ public static class ReflectUtil
     /// <param name="name">Name of the property.</param>
     /// <param name="pi">Reference to the property info for the object, if it exists.</param>
     /// <returns>True if it has property, and false if it does not have property. <see cref="pi"/> is null when returning false.</returns>
+    [RequiresUnreferencedCode("Uses reflection to inspect properties on runtime types.")]
     public static bool HasProperty<T>(T obj, string name, [NotNullWhen(true)] out PropertyInfo? pi) where T : notnull
     {
         var type = obj.GetType();
@@ -159,6 +169,7 @@ public static class ReflectUtil
 
     extension(TypeInfo typeInfo)
     {
+        [RequiresUnreferencedCode("Uses reflection to inspect properties on runtime types.")]
         public bool TryGetPropertyInfo(string name, [NotNullWhen(true)] out PropertyInfo? pi)
         {
             foreach (var t in typeInfo.GetAllTypeInfo())
@@ -185,6 +196,7 @@ public static class ReflectUtil
 
     extension(Type type)
     {
+        [RequiresUnreferencedCode("Uses reflection to enumerate fields on runtime types.")]
         public Dictionary<T, string> GetAllConstantsOfType<T>() where T : unmanaged
         {
             var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -192,6 +204,7 @@ public static class ReflectUtil
             return consts.ToDictionary(z => (T)(z.GetRawConstantValue() ?? throw new NullReferenceException(nameof(z.Name))), z => z.Name);
         }
 
+        [RequiresUnreferencedCode("Uses reflection to enumerate properties on runtime types.")]
         public Dictionary<string, T> GetAllPropertiesOfType<T>(object obj)
         {
             var props = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);

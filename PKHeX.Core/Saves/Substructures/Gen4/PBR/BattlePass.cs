@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokémon Battle Revolution Battle Pass Structure
 /// </summary>
-public class BattlePass(Memory<byte> raw)
+public sealed class BattlePass(Memory<byte> raw)
 {
     public const int Size = 0x6EC;
     public const int PokeSize = PokeCrypto.SIZE_4STORED + 4;

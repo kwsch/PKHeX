@@ -105,7 +105,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract int HeldItem { get; set; }
     public abstract byte Gender { get; set; }
     public abstract Nature Nature { get; set; }
-    public virtual Nature StatNature { get => Nature; set => Nature = value; }
+    public virtual Nature StatAlignment { get => Nature; set => Nature = value; }
     public abstract int Ability { get; set; }
     public abstract byte CurrentFriendship { get; set; }
     public abstract byte Form { get; set; }
@@ -753,8 +753,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         else
             LoadStats(stats, p, level);
 
-        // Amplify stats based on the stat nature.
-        StatNature.ModifyStatsForNature(stats);
+        // Amplify stats based on the stat alignment.
+        StatAlignment.ModifyStatsForAlignment(stats);
     }
 
     private void LoadStats(Span<ushort> stats, IBaseStat p, IHyperTrain t, byte level)
@@ -1034,6 +1034,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// Applies all shared properties from the current <see cref="PKM"/> to the <see cref="result"/> <see cref="PKM"/>.
     /// </summary>
     /// <param name="result"><see cref="PKM"/> that receives property values.</param>
+    [RequiresUnreferencedCode("Copies format-specific PKM properties via reflection for unsupported cross-format conversions.")]
     public void TransferPropertiesWithReflection(PKM result)
     {
         // Only transfer declared properties not defined in PKM.cs but in the actual type

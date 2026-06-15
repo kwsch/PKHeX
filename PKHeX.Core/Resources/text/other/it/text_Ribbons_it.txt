@@ -37,66 +37,66 @@ RibbonChampionNational	Campione Nazionale
 RibbonChampionWorld	Campione Mondiale
 RibbonCountMemoryContest	Ricordo delle Gare
 RibbonCountMemoryBattle	Ricordo delle Lotte
-RibbonChampionG6Hoenn	Campione Hoenn (ORAS)
+RibbonChampionG6Hoenn	Campione Hoenn (ROSA)
 RibbonContestStar	Stella delle Gare
 RibbonMasterCoolness	Classe Suprema
 RibbonMasterBeauty	Bellezza Suprema
 RibbonMasterCuteness	Grazia Suprema
 RibbonMasterCleverness	Acume Supremo
 RibbonMasterToughness	Grinta Suprema
-RibbonG3Cool	Cool (G3)
-RibbonG3CoolSuper	Cool Super
-RibbonG3CoolHyper	Cool Hyper
-RibbonG3CoolMaster	Cool Master
-RibbonG3Beauty	Beauty (G3)
-RibbonG3BeautySuper	Beauty Super
-RibbonG3BeautyHyper	Beauty Hyper
-RibbonG3BeautyMaster	Beauty Master
-RibbonG3Cute	Cute (G3)
-RibbonG3CuteSuper	Cute Super
-RibbonG3CuteHyper	Cute Hyper
-RibbonG3CuteMaster	Cute Master
-RibbonG3Smart	Smart (G3)
-RibbonG3SmartSuper	Smart Super
-RibbonG3SmartHyper	Smart Hyper
-RibbonG3SmartMaster	Smart Master
-RibbonG3Tough	Tough (G3)
-RibbonG3ToughSuper	Tough Super
-RibbonG3ToughHyper	Tough Hyper
-RibbonG3ToughMaster	Tough Master
-RibbonG4Cool	Cool (G4)
-RibbonG4CoolGreat	Cool Great
-RibbonG4CoolUltra	Cool Ultra
-RibbonG4CoolMaster	Cool Master
-RibbonG4Beauty	Beauty (G4)
-RibbonG4BeautyGreat	Beauty Great
-RibbonG4BeautyUltra	Beauty Ultra
-RibbonG4BeautyMaster	Beauty Master
-RibbonG4Cute	Cute (G4)
-RibbonG4CuteGreat	Cute Great
-RibbonG4CuteUltra	Cute Ultra
-RibbonG4CuteMaster	Cute Master
-RibbonG4Smart	Smart (G4)
-RibbonG4SmartGreat	Smart Great
-RibbonG4SmartUltra	Smart Ultra
-RibbonG4SmartMaster	Smart Master
-RibbonG4Tough	Tough (G4)
-RibbonG4ToughGreat	Tough Great
-RibbonG4ToughUltra	Tough Ultra
-RibbonG4ToughMaster	Tough Master
-RibbonWinning	Winning
-RibbonVictory	Victory
-RibbonAbility	Ability
-RibbonAbilityGreat	Great Ability
-RibbonAbilityDouble	Double Ability
-RibbonAbilityMulti	Multi Ability
-RibbonAbilityPair	Pair Ability
-RibbonAbilityWorld	World Ability
-RibbonCountG3Cool	Cool
-RibbonCountG3Beauty	Beauty
-RibbonCountG3Cute	Cute
-RibbonCountG3Smart	Smart
-RibbonCountG3Tough	Tough
+RibbonG3Cool	Classe (G3)
+RibbonG3CoolSuper	Classe: Livello Super
+RibbonG3CoolHyper	Classe: Livello Iper
+RibbonG3CoolMaster	Classe: Livello Master
+RibbonG3Beauty	Bellezza (G3)
+RibbonG3BeautySuper	Bellezza: Livello Super
+RibbonG3BeautyHyper	Bellezza: Livello Iper
+RibbonG3BeautyMaster	Bellezza: Livello Master
+RibbonG3Cute	Grazia (G3)
+RibbonG3CuteSuper	Grazia: Livello Super
+RibbonG3CuteHyper	Grazia: Livello Iper
+RibbonG3CuteMaster	Grazia: Livello Master
+RibbonG3Smart	Acume (G3)
+RibbonG3SmartSuper	Acume: Livello Super
+RibbonG3SmartHyper	Acume: Livello Iper
+RibbonG3SmartMaster	Acume: Livello Master
+RibbonG3Tough	Grinta (G3)
+RibbonG3ToughSuper	Grinta: Livello Super
+RibbonG3ToughHyper	Grinta: Livello Iper
+RibbonG3ToughMaster	Grinta: Livello Master
+RibbonG4Cool	Classe (G4)
+RibbonG4CoolGreat	Classe: Livello Mega
+RibbonG4CoolUltra	Classe: Livello Ultra
+RibbonG4CoolMaster	Classe: Livello Master
+RibbonG4Beauty	Bellezza (G4)
+RibbonG4BeautyGreat	Bellezza: Livello Mega
+RibbonG4BeautyUltra	Bellezza: Livello Ultra
+RibbonG4BeautyMaster	Bellezza: Livello Master
+RibbonG4Cute	Grazia (G4)
+RibbonG4CuteGreat	Grazia: Livello Mega
+RibbonG4CuteUltra	Grazia: Livello Ultra
+RibbonG4CuteMaster	Grazia: Livello Master
+RibbonG4Smart	Acume (G4)
+RibbonG4SmartGreat	Acume: Livello Mega
+RibbonG4SmartUltra	Acume: Livello Ultra
+RibbonG4SmartMaster	Acume: Livello Master
+RibbonG4Tough	Grinta (G4)
+RibbonG4ToughGreat	Grinta: Livello Mega
+RibbonG4ToughUltra	Grinta: Livello Ultra
+RibbonG4ToughMaster	Grinta: Livello Master
+RibbonWinning	Vittoria
+RibbonVictory	Trionfo
+RibbonAbility	Abilità
+RibbonAbilityGreat	Abilità Mega
+RibbonAbilityDouble	Abilità Doppia
+RibbonAbilityMulti	Abilità Multipla
+RibbonAbilityPair	Abilità Insieme
+RibbonAbilityWorld	Abilità Mondiale
+RibbonCountG3Cool	Classe
+RibbonCountG3Beauty	Bellezza
+RibbonCountG3Cute	Grazia
+RibbonCountG3Smart	Acume
+RibbonCountG3Tough	Grinta
 RibbonChampionAlola	Campione Alola
 RibbonBattleRoyale	Asso Royale
 RibbonBattleTreeGreat	Asso dell’Albero

@@ -13,7 +13,7 @@
 0x4024	r	Pokémon Salvaje en Cueva Cambiante	00:Zubat,01:Mareep (Ilegal),02:Pineco (Ilegal),03:Houndour (Ilegal),04:Teddiursa (Ilegal),05:Aipom (Ilegal),06:Shuckle (Ilegal),07:Stantler (Ilegal),08:Smeargle (Ilegal)
 
 0x4049	a	Sticker del Hall de la Fama en la Tarjeta Entrenador	0:Ningún,1:Nivel 1,2:Nivel 2,3:Nivel 3
-0x404A	a	Sticker de Huevos Eclosionados en la Tarjeta Entrenador 0:Ningún,1:Nivel 1,2:Nivel 2,3:Nivel 3
+0x404A	a	Sticker de Huevos Eclosionados en la Tarjeta Entrenador	0:Ningún,1:Nivel 1,2:Nivel 2,3:Nivel 3
 0x404B	a	Sticker de Batallas Link en la Tarjeta Entrenador	0:Ningún,1:Nivel 1,2:Nivel 2,3:Nivel 3
 
 0x408B	s	Super Nerd Fósil Derrotado (Mt. Moon)	0:No,1:Sí

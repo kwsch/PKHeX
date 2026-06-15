@@ -24,14 +24,9 @@ public sealed class LanguageVerifier : Verifier
             return;
         }
 
-        // Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
-        if (pk.Format == 4 && enc.Generation == 4 && !IsValidGen4Korean(currentLanguage)
-            && enc is not EncounterTrade4PID { IsLanguageSwap: true } // ger magikarp / eng pikachu
-           )
-        {
-            data.AddLine(GetInvalid(TransferKoreanGen4));
-            return;
-        }
+        // Check for GTS trade sanitization.
+        if (pk.Format >= 4)
+            CheckGTS(data, pk, currentLanguage, originalGeneration);
 
         if (originalGeneration <= 2)
         {
@@ -42,6 +37,47 @@ public sealed class LanguageVerifier : Verifier
             // Japanese VC is language locked; cannot obtain Japanese-Blue version as other languages.
             if (pk is { Japanese: false, Version: BU })
                 data.AddLine(GetInvalid(OTLanguageCannotPlayOnVersion_0, (byte)pk.Version));
+        }
+    }
+
+    private void CheckGTS(LegalityAnalysis data, PKM pk, LanguageID currentLanguage, byte originalGeneration)
+    {
+        bool possiblyRomanizedG4 = false;
+        if (originalGeneration is 4 && currentLanguage is Korean && !pk.IsEgg)
+        {
+            // All OT names are half-width already, so they could have been manually entered.
+            possiblyRomanizedG4 = Gen4GlobalTradeRules.IsRomanizedKoreanTrainerName(pk);
+            // If not nicknamed, the sanitization also applies to the nickname text.
+            // Check that separately, there is some nuance with trade-backs.
+            if (possiblyRomanizedG4) // apply a tag to indicate to the checker, and also downstream checks.
+                data.AddLine(GetValid(GTSTrainerSanitized)); // acts as an info tag.
+        }
+
+        if (pk.Format == 4)
+        {
+            // Any Gen4 trainer can send/receive Korean language, but can't otherwise directly trade across the language barrier.
+            // Check for lockout of Korean GTS trades.
+            var tr = ParseSettings.ActiveTrainer;
+
+            // Check if it must have been traded across the GTS to its current residence.
+            if (tr is null || !Gen4GlobalTradeRules.IsRequiredGTS(tr, currentLanguage))
+                return;
+
+            // Check if it actually can be traded across the GTS.
+            var enc = data.EncounterMatch;
+            if (enc is EncounterTrade4PID { IsLanguageSwap: true })
+                return; // Can originate in Korean games and have international Language ID without traversing the GTS.
+
+            // Eggs and Classic Ribbon cannot be traded on GTS.
+            // If it must have been traded via GTS, it must have been sanitized if Korean.
+            if (pk.IsEgg)
+                data.AddLine(GetInvalid(GTSDisallowedTradedEgg));
+            else if (enc is IRibbonSetEvent4 { RibbonClassic: true })
+                data.AddLine(GetInvalid(GTSDisallowedClassicRibbon));
+            else if (currentLanguage == Korean && !possiblyRomanizedG4)
+                data.AddLine(GetInvalid(GTSTrainerSanitizedExpected));
+            else // OK
+                data.AddLine(GetValid(GTSTradedKoreanInternational));
         }
     }
 
@@ -57,27 +93,5 @@ public sealed class LanguageVerifier : Verifier
             return false; // Missing Language value is not obtainable
 
         return true; // Language is possible
-    }
-
-    /// <summary>
-    /// Check if the <see cref="pkmLanguage"/> can exist in the Generation 4 save file.
-    /// </summary>
-    /// <remarks>
-    /// Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
-    /// Anything with Gen4 origin cannot exist in the other language save file.
-    /// </remarks>
-    public static bool IsValidGen4Korean(LanguageID pkmLanguage)
-    {
-        if (ParseSettings.ActiveTrainer is not SAV4 tr)
-            return true; // ignore
-        return IsValidGen4Korean(pkmLanguage, tr);
-    }
-
-    /// <inheritdoc cref="IsValidGen4Korean(LanguageID)"/>
-    public static bool IsValidGen4Korean(LanguageID pkmLanguage, SAV4 tr)
-    {
-        bool savKOR = (LanguageID)tr.Language == Korean;
-        bool pkmKOR = pkmLanguage == Korean;
-        return savKOR == pkmKOR;
     }
 }

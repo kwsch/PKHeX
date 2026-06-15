@@ -26,6 +26,27 @@ public sealed class LegalityAnalysis
     /// </summary>
     public IReadOnlyList<CheckResult> Results => Parse;
 
+    public bool HasResult(LegalityCheckResultCode code)
+    {
+        foreach (var result in Parse)
+        {
+            if (result.Result == code)
+                return true;
+        }
+        return false;
+    }
+
+    public int IndexOfResult(LegalityCheckResultCode code)
+    {
+        for (var i = 0; i < Parse.Count; i++)
+        {
+            var result = Parse[i];
+            if (result.Result == code)
+                return i;
+        }
+        return -1;
+    }
+
     /// <summary>
     /// Matched encounter data for the <see cref="Entity"/>.
     /// </summary>
@@ -201,6 +222,7 @@ public sealed class LegalityAnalysis
         Trainer.VerifyOTGB(this);
         MiscValues.VerifyMiscG12(this);
         MovePP.Verify(this);
+        EVs.Verify(this);
         if (Entity.Format == 2)
             Item.Verify(this);
     }
@@ -293,8 +315,8 @@ public sealed class LegalityAnalysis
     private void UpdateChecks()
     {
         PIDEC.Verify(this);
-        Nickname.Verify(this);
         LanguageIndex.Verify(this);
+        Nickname.Verify(this);
         Trainer.Verify(this);
         TrainerID.Verify(this);
         IVs.Verify(this);

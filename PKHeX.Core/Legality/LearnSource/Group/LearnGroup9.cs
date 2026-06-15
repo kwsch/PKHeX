@@ -12,7 +12,7 @@ public sealed class LearnGroup9 : ILearnGroup
     private const EntityContext Context = EntityContext.Gen9;
     public ushort MaxMoveID => Legal.MaxMoveID_9;
 
-    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => option == LearnOption.AtAnyTimeChain ? LearnGroupHOME.Instance : null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen9;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,

@@ -11,7 +11,7 @@ Sombrero vaquero B
 Sombrero vaquero C
 Sombrero vaquero D
 Disfraz de Groudon
-Disfraz de Groudon (Variocolor)
+Disfraz de Groudon (Brillante)
 Gorro Pikachu
 Corona
 Boina Pokétopia
@@ -22,12 +22,12 @@ Rojo
 Azul
 Verde azulado
 Disfraz de Groudon
-Disfraz de Groudon (Variocolor)
+Disfraz de Groudon (Brillante)
 (Quitar)
 Lentillas marrón miel
 Tirita nariz
 Disfraz de Groudon
-Disfraz de Groudon (Variocolor)
+Disfraz de Groudon (Brillante)
 Maquillaje Pikachu
 Maquillaje Poké Ball
 Maquillaje siniestro
@@ -43,7 +43,7 @@ Camiseta urbana B
 Camisa del Oeste A
 Camisa del Oeste B
 Disfraz de Groudon
-Disfraz de Groudon (Variocolor)
+Disfraz de Groudon (Brillante)
 Camiseta Pikachu
 Camiseta Pokétopia
 Camiseta Poké Ball
@@ -61,7 +61,7 @@ Pantalones urbanos B
 Pantalones Oeste A
 Pantalones Oeste B
 Disfraz de Groudon
-Disfraz de Groudon (Variocolor)
+Disfraz de Groudon (Brillante)
 Pantalones Pikachu
 Pantalones Pokétopia
 Pantalones Poké Ball
@@ -83,7 +83,7 @@ Zapatos del Oeste B
 Zapatos del Oeste C
 Zapatos del Oeste D
 Disfraz de Groudon
-Disfraz de Groudon (Variocolor)
+Disfraz de Groudon (Brillante)
 (Quitar)
 Muñequera skater A
 Muñequera skater B
@@ -98,7 +98,7 @@ Guantes Oeste B
 Guantes Oeste C
 Guantes Oeste D
 Disfraz de Groudon
-Disfraz de Groudon (Variocolor)
+Disfraz de Groudon (Brillante)
 Guantes Pikachu
 Mitones
 (Quitar)
@@ -115,7 +115,7 @@ Bolsa Oeste B
 Bolsa Oeste C
 Bolsa Oeste D
 Disfraz de Groudon
-Disfraz de Groudon (Variocolor)
+Disfraz de Groudon (Brillante)
 Bolsa Pikachu
 Riñonera Poké Ball
 (Quitar)
@@ -267,7 +267,7 @@ Sombrero de gala B
 Sombrero de gala C
 Sombrero de gala D
 Disfraz de Lucario
-Disfraz de Lucario (Variocolor)
+Disfraz de Lucario (Brillante)
 Gorro Pikachu
 Corona
 Boina Pokétopia
@@ -278,12 +278,12 @@ Rubio claro
 Verde menta
 Azul hielo
 Disfraz de Lucario
-Disfraz de Lucario (Variocolor)
+Disfraz de Lucario (Brillante)
 (Quitar)
 Lentillas verde agua
 Maquillaje de gala
 Disfraz de Lucario
-Disfraz de Lucario (Variocolor)
+Disfraz de Lucario (Brillante)
 Maquillaje Pikachu
 Maquillaje Poké Ball
 Maquillaje siniestro
@@ -299,7 +299,7 @@ Chaqueta bicicross B
 Chaqueta de gala A
 Chaqueta de gala B
 Disfraz de Lucario
-Disfraz de Lucario (Variocolor)
+Disfraz de Lucario (Brillante)
 Chaqueta Pikachu
 Chaqueta Pokétopia
 Chaqueta Poké Ball
@@ -317,7 +317,7 @@ Pantalones bicicross B
 Pantalones de gala A
 Pantalones de gala B
 Disfraz de Lucario
-Disfraz de Lucario (Variocolor)
+Disfraz de Lucario (Brillante)
 Pantalones Pikachu
 Pantalones Pokétopia
 Pantalones Poké Ball
@@ -339,19 +339,19 @@ Zapatos de gala B
 Zapatos de gala C
 Zapatos de gala D
 Disfraz de Lucario
-Disfraz de Lucario (Variocolor)
+Disfraz de Lucario (Brillante)
 (Quitar)
 Guantes bicicross A
 Guantes bicicross B
 Guantes bicicross C
 Guantes bicicross D
 Disfraz de Lucario
-Disfraz de Lucario (Variocolor)
+Disfraz de Lucario (Brillante)
 Guantes Pikachu
 Mitones
 (Quitar)
 Disfraz de Lucario
-Disfraz de Lucario (Variocolor)
+Disfraz de Lucario (Brillante)
 Bolsa Pikachu
 Riñonera Poké Ball
 (Quitar)
@@ -520,7 +520,7 @@ Casco futurista B
 Casco futurista C
 Casco futurista D
 Disfraz de Electivire
-Disfraz de Electivire (Variocolor)
+Disfraz de Electivire (Brillante)
 Gorro Pikachu
 Corona
 Boina Pokétopia
@@ -531,11 +531,11 @@ Rubio
 Caoba
 Caqui
 Disfraz de Electivire
-Disfraz de Electivire (Variocolor)
+Disfraz de Electivire (Brillante)
 (Quitar)
 Tirita deportiva
 Disfraz de Electivire
-Disfraz de Electivire (Variocolor)
+Disfraz de Electivire (Brillante)
 Maquillaje Pikachu
 Maquillaje Poké Ball
 Maquillaje siniestro
@@ -551,7 +551,7 @@ Camiseta deportiva B
 Camiseta futurista A
 Camiseta futurista B
 Disfraz de Electivire
-Disfraz de Electivire (Variocolor)
+Disfraz de Electivire (Brillante)
 Camiseta tirante Pikachu
 Camiseta tirante PKtopia
 Camiseta Poké Ball
@@ -569,7 +569,7 @@ Pantalón deportivo B
 Pantalón futurista A
 Pantalón futurista B
 Disfraz de Electivire
-Disfraz de Electivire (Variocolor)
+Disfraz de Electivire (Brillante)
 Pantalones Pikachu
 Pantalones Pokétopia
 Pantalones Poké Ball
@@ -591,7 +591,7 @@ Botas futuristas B
 Botas futuristas C
 Botas futuristas D
 Disfraz de Electivire
-Disfraz de Electivire (Variocolor)
+Disfraz de Electivire (Brillante)
 (Quitar)
 Muñequera militar A
 Muñequera militar B
@@ -606,7 +606,7 @@ Guantes futuristas B
 Guantes futuristas C
 Guantes futuristas D
 Disfraz de Electivire
-Disfraz de Electivire (Variocolor)
+Disfraz de Electivire (Brillante)
 Guantes Pikachu
 Mitones
 (Quitar)
@@ -623,7 +623,7 @@ Mochila futurista B
 Mochila futurista C
 Mochila futurista D
 Disfraz de Electivire
-Disfraz de Electivire (Variocolor)
+Disfraz de Electivire (Brillante)
 Bolsa Pikachu
 Mochila Poké Ball
 (Quitar)
@@ -779,7 +779,7 @@ Sombrero pirata B
 Sombrero pirata C
 Sombrero pirata D
 Disfraz de Kyogre
-Disfraz de Kyogre (Variocolor)
+Disfraz de Kyogre (Brillante)
 Gorro Pikachu
 Corona
 Boina Pokétopia
@@ -790,12 +790,12 @@ Fresa
 Castaño cobrizo
 Ágata azul
 Disfraz de Kyogre
-Disfraz de Kyogre (Variocolor)
+Disfraz de Kyogre (Brillante)
 (Quitar)
 Lentillas azul cielo
 Lentillas violeta
 Disfraz de Kyogre
-Disfraz de Kyogre (Variocolor)
+Disfraz de Kyogre (Brillante)
 Maquillaje Pikachu
 Maquillaje Poké Ball
 Maquillaje siniestro
@@ -811,7 +811,7 @@ Minivestido picnic B
 Minivestido pirata A
 Minivestido pirata B
 Disfraz de Kyogre
-Disfraz de Kyogre (Variocolor)
+Disfraz de Kyogre (Brillante)
 Minivestido Pikachu
 Minivestido Pokétopia
 Minivestido Poké Ball
@@ -829,7 +829,7 @@ Short picnic B
 Short pirata A
 Short pirata B
 Disfraz de Kyogre
-Disfraz de Kyogre (Variocolor)
+Disfraz de Kyogre (Brillante)
 Ciclistas Pikachu
 Ciclistas Pokétopia
 Ciclistas Poké Ball
@@ -851,7 +851,7 @@ Zapatos pirata B
 Zapatos pirata C
 Zapatos pirata D
 Disfraz de Kyogre
-Disfraz de Kyogre (Variocolor)
+Disfraz de Kyogre (Brillante)
 (Quitar)
 Muñequera tenista A
 Muñequera tenista B
@@ -866,7 +866,7 @@ Guantes piratas B
 Guantes piratas C
 Guantes piratas D
 Disfraz de Kyogre
-Disfraz de Kyogre (Variocolor)
+Disfraz de Kyogre (Brillante)
 Guantes Pikachu
 Mitones
 (Quitar)
@@ -883,7 +883,7 @@ Bolsa pirata B
 Bolsa pirata C
 Bolsa pirata D
 Disfraz de Kyogre
-Disfraz de Kyogre (Variocolor)
+Disfraz de Kyogre (Brillante)
 Bolsa Pikachu
 Bolsa Poké Ball
 (Quitar)
@@ -1035,7 +1035,7 @@ Gorro floresta B
 Gorro floresta C
 Gorro floresta D
 Disfraz de Roserade
-Disfraz de Roserade (Variocolor)
+Disfraz de Roserade (Brillante)
 Gorro Pikachu
 Corona
 Boina Pokétopia
@@ -1046,12 +1046,12 @@ Arena
 Negro seda
 Caoba claro
 Disfraz de Roserade
-Disfraz de Roserade (Variocolor)
+Disfraz de Roserade (Brillante)
 (Quitar)
 Lentillas glamurosas
 Lentillas verde mar
 Disfraz de Roserade
-Disfraz de Roserade (Variocolor)
+Disfraz de Roserade (Brillante)
 Maquillaje Pikachu
 Maquillaje Poké Ball
 Maquillaje siniestro
@@ -1067,7 +1067,7 @@ Top glamuroso B
 Top floresta A
 Top floresta B
 Disfraz de Roserade
-Disfraz de Roserade (Variocolor)
+Disfraz de Roserade (Brillante)
 Top Pikachu
 Top Pokétopia
 Top Poké Ball
@@ -1085,7 +1085,7 @@ Pantalones glamour B
 Pantalones floresta A
 Pantalones floresta B
 Disfraz de Roserade
-Disfraz de Roserade (Variocolor)
+Disfraz de Roserade (Brillante)
 Pantalones Pikachu
 Pantalones Pokétopia
 Pantalones Poké Ball
@@ -1107,7 +1107,7 @@ Sandalias floresta B
 Sandalias floresta C
 Sandalias floresta D
 Disfraz de Roserade
-Disfraz de Roserade (Variocolor)
+Disfraz de Roserade (Brillante)
 (Quitar)
 Brazalete guay A
 Brazalete guay B
@@ -1122,7 +1122,7 @@ Guantes floresta B
 Guantes floresta C
 Guantes floresta D
 Disfraz de Roserade
-Disfraz de Roserade (Variocolor)
+Disfraz de Roserade (Brillante)
 Guantes Pikachu
 Mitones
 (Quitar)
@@ -1138,7 +1138,7 @@ Gafas de sol glamour B
 Gafas de sol glamour C
 Gafas de sol glamour D
 Disfraz de Roserade
-Disfraz de Roserade (Variocolor)
+Disfraz de Roserade (Brillante)
 Gafas de intelectual
 Gafas de sol salvajes
 Gafas sin montura
@@ -1291,7 +1291,7 @@ Diadema sideral B
 Diadema sideral C
 Diadema sideral D
 Disfraz de Pachirisu
-Disfraz de Pachirisu (Variocolor)
+Disfraz de Pachirisu (Brillante)
 Orejas de Pikachu
 Corona
 Diadema Pokétopia
@@ -1302,12 +1302,12 @@ Gris perla
 Castaño miel
 Aguamarina
 Disfraz de Pachirisu
-Disfraz de Pachirisu (Variocolor)
+Disfraz de Pachirisu (Brillante)
 (Quitar)
 Lentillas celestes
 Lentillas rosa
 Disfraz de Pachirisu
-Disfraz de Pachirisu (Variocolor)
+Disfraz de Pachirisu (Brillante)
 Maquillaje Pikachu
 Maquillaje Poké Ball
 Maquillaje siniestro
@@ -1323,7 +1323,7 @@ Uniforme escolar B
 Vestido sideral A
 Vestido sideral B
 Disfraz de Pachirisu
-Disfraz de Pachirisu (Variocolor)
+Disfraz de Pachirisu (Brillante)
 Vestido Pikachu
 Vestido Pokétopia
 Vestido Poké Ball
@@ -1347,7 +1347,7 @@ Zapatos siderales B
 Zapatos siderales C
 Zapatos siderales D
 Disfraz de Pachirisu
-Disfraz de Pachirisu (Variocolor)
+Disfraz de Pachirisu (Brillante)
 (Quitar)
 Pulseritas A
 Pulseritas B
@@ -1362,7 +1362,7 @@ Guantes siderales B
 Guantes siderales C
 Guantes siderales D
 Disfraz de Pachirisu
-Disfraz de Pachirisu (Variocolor)
+Disfraz de Pachirisu (Brillante)
 Guantes Pikachu
 Mitones
 (Quitar)
@@ -1371,7 +1371,7 @@ Bolsa sideral B
 Bolsa sideral C
 Bolsa sideral D
 Disfraz de Pachirisu
-Disfraz de Pachirisu (Variocolor)
+Disfraz de Pachirisu (Brillante)
 Bolsa Pikachu
 Bolsa Poké Ball
 (Quitar)

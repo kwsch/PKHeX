@@ -40,7 +40,7 @@ public partial class SAV_UnityTower : Form
         Item_Point.InitializeBinding();
         Item_Point.DataSource = pointList;
 
-        for (int i = 1; i <= UnityTower5.CountryCount; i++)
+        for (int i = 1; i <= LocaleNDS5.CountryCount; i++)
         {
             var country = countryList[i].Value;
             var countryName = countryList[i].Text;
@@ -76,8 +76,8 @@ public partial class SAV_UnityTower : Form
     {
         DGV_UnityTower.Rows.Clear();
 
-        DGV_UnityTower.Rows.Add(UnityTower5.CountryCount);
-        for (int i = 0; i < UnityTower5.CountryCount; i++)
+        DGV_UnityTower.Rows.Add(LocaleNDS5.CountryCount);
+        for (int i = 0; i < LocaleNDS5.CountryCount; i++)
         {
             var row = DGV_UnityTower.Rows[i];
             var country = countryList[i + 1].Value;

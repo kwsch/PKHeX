@@ -125,7 +125,8 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
         s.BoxBuffer.CopyTo(BoxBuffer);
     }
 
-    public override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4; // tid-sid of depositor
+    public override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
+    public override int SIZE_BOXSLOT => PokeCrypto.SIZE_3STORED + 4; // tid-sid of depositor
     public override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY; // unused
     public override PK3 BlankPKM => new();
     public override Type PKMType => typeof(PK3);
@@ -158,7 +159,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
 
     // Storage
     public override int GetPartyOffset(int slot) => -1;
-    public override int GetBoxOffset(int box) => 8 + (SIZE_STORED * box * 30);
+    public override int GetBoxOffset(int box) => 8 + (SIZE_BOXSLOT * box * 30);
     public override int GetBoxSlotOffset(int box, int slot)
     {
         // Boxes are a 12x5 grid instead of the usual 6x5
@@ -169,7 +170,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
         if (box % 2 == 1) // right side
             col += 6;
         int boxSlot = (row * 12) + col;
-        return GetBoxOffset(box &~1) + (boxSlot * SIZE_STORED);
+        return GetBoxOffset(box &~1) + (boxSlot * SIZE_BOXSLOT);
     }
 
     public override int CurrentBox

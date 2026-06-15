@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -18,7 +19,8 @@ public static class BatchEditingUtil
     /// <param name="filters">Filters which must be satisfied.</param>
     /// <param name="obj">Object to check.</param>
     /// <returns>True if <see cref="obj"/> matches all filters.</returns>
-    public static bool IsFilterMatch<T>(IEnumerable<StringInstruction> filters, T obj) where T : notnull
+    [RequiresUnreferencedCode("Uses reflection to evaluate property-based batch filters.")]
+    public static bool IsFilterMatch<T>(IEnumerable<StringInstruction> filters, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T obj) where T : notnull
     {
         foreach (var cmd in filters)
         {

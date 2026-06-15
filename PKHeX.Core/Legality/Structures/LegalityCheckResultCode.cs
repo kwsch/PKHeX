@@ -193,13 +193,18 @@ public enum LegalityCheckResultCode : ushort
     GenderInvalidNone,
 
     // Geography
-    GeoBadOrder,
     GeoHardwareInvalid,
     GeoHardwareRange,
     GeoHardwareValid,
     GeoMemoryMissing,
     GeoNoCountryHT,
-    GeoNoRegion,
+
+    // GTS
+    GTSTrainerSanitized, // valid, tag
+    GTSTradedKoreanInternational, // valid
+    GTSTrainerSanitizedExpected,
+    GTSDisallowedClassicRibbon,
+    GTSDisallowedTradedEgg,
 
     // Hints
 
@@ -306,7 +311,7 @@ public enum LegalityCheckResultCode : ushort
     StatInvalidHeightWeight,
     StatGigantamaxInvalid,
     StatGigantamaxValid,
-    StatNatureInvalid,
+    StatAlignmentInvalid,
     StatBattleVersionInvalid,
     StatNobleInvalid,
     StatAlphaInvalid,
@@ -352,7 +357,6 @@ public enum LegalityCheckResultCode : ushort
     TransferMetLocation,
     TransferNature,
     TransferObedienceLevel,
-    TransferKoreanGen4,
     TransferEncryptGen6BitFlip,
     TransferEncryptGen6Equals,
     TransferEncryptGen6Xor,
@@ -405,6 +409,9 @@ public enum LegalityCheckResultCode : ushort
     PokerusStrainUnobtainable_0, // strain
     MemoryHTGender_0, // gender value
     G6SuperTrainBagInvalid_0,
+    GeoBadOrder_0,
+    GeoNoCountry_0,
+    GeoNoRegion_0,
     StatIncorrectHeightValue_0,
     StatIncorrectWeightValue_0,
     StatIncorrectScaleValue_0,

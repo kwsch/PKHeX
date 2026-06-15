@@ -102,16 +102,17 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     private Shiny FixedShinyType() => GetShinyXor() switch
     {
         0 => Shiny.AlwaysSquare,
-        <= 15 => Shiny.AlwaysStar,
+        <= 15 => Shiny.Always,
         _ => Shiny.Never,
     };
 
     private uint GetShinyXor()
     {
+        var id32 = IsOldIDFormat ? ID32Old : ID32;
         // Player owned anti-shiny fixed PID
-        if (ID32 == 0)
+        if (id32 == 0)
             return uint.MaxValue;
-        return ShinyUtil.GetShinyXor(PID, ID32);
+        return ShinyUtil.GetShinyXor(PID, id32);
     }
 
     // When applying the ID32, the game sets the DisplayTID7 directly, then sets PA9.DisplaySID7 as (wa9.DisplaySID7 - wa9.CardID)
@@ -527,12 +528,12 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     {
         if (IsHOMEGift) // Do not use LumioseRNG for HOME gifts
         {
-            pk.Nature = pk.StatNature = criteria.GetNature((sbyte)Nature == -1 ? Nature.Random : Nature);
+            pk.Nature = pk.StatAlignment = criteria.GetNature((sbyte)Nature == -1 ? Nature.Random : Nature);
             pk.Gender = criteria.GetGender(Gender, pi);
             var av = GetAbilityIndex(criteria, AbilityType);
             pk.RefreshAbility(av);
             SetPID(pk);
-            SetIVs(pk);
+            SetIVs(pk, criteria);
         }
         else
         {
@@ -597,31 +598,12 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         pk.PID = GetPID(pk, PIDType);
     }
 
-    private void SetIVs(PA9 pk)
+    private void SetIVs(PA9 pk, in EncounterCriteria criteria)
     {
         Span<int> finalIVs = stackalloc int[6];
         GetIVs(finalIVs);
-        var ivflag = finalIVs.IndexOfAny(0xFC, 0xFD, 0xFE);
         var rng = Util.Rand;
-        if (ivflag == -1) // Random IVs
-        {
-            for (int i = 0; i < finalIVs.Length; i++)
-            {
-                if (finalIVs[i] > 31)
-                    finalIVs[i] = rng.Next(32);
-            }
-        }
-        else // 1/2/3 perfect IVs
-        {
-            int IVCount = finalIVs[ivflag] - 0xFB;
-            do { finalIVs[rng.Next(6)] = 31; }
-            while (finalIVs.Count(31) < IVCount);
-            for (int i = 0; i < finalIVs.Length; i++)
-            {
-                if (finalIVs[i] != 31)
-                    finalIVs[i] = IsHOMEGift ? HomeBaseIV : rng.Next(32); // HOME ZA-starters gifts have 20 in non-perfect IVs
-            }
-        }
+        ApplyTemplateIVs(finalIVs, criteria, rng, _ => IsHOMEGift ? HomeBaseIV : rng.Next(32)); // HOME ZA-starters gifts have 20 in non-perfect IVs
         pk.SetIVs(finalIVs);
     }
 
@@ -704,14 +686,31 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
         if (IsHOMEGift)
         {
-            if (pk.FlawlessIVCount != FlawlessIVCount)
-                return false; // HOME ZA-starters have non-perfect IVs to 20, so IVs at 31 can't exceed the flawless count.
-
-            Span<int> IVs = stackalloc int[6];
-            pk.GetIVs(IVs);
-            foreach (var iv in IVs)
+            if (FlawlessIVCount > 0)
             {
-                if (iv != 31 && iv != HomeBaseIV)
+                if (pk.FlawlessIVCount != FlawlessIVCount)
+                    return false; // HOME ZA-starters have non-perfect IVs to 20, so IVs at 31 can't exceed the flawless count.
+
+                for (var i = 0; i < 6; i++)
+                {
+                    var iv = pk.GetIV(i);
+                    if (iv != 31 && iv != HomeBaseIV)
+                        return false;
+                }
+            }
+            else // All Specified
+            {
+                if (pk.IV_HP != IV_HP)
+                    return false;
+                if (pk.IV_ATK != IV_ATK)
+                    return false;
+                if (pk.IV_DEF != IV_DEF)
+                    return false;
+                if (pk.IV_SPA != IV_SPA)
+                    return false;
+                if (pk.IV_SPD != IV_SPD)
+                    return false;
+                if (pk.IV_SPE != IV_SPE)
                     return false;
             }
         }

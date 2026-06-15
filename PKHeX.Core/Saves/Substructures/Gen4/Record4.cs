@@ -240,10 +240,65 @@ public sealed class Record4(SAV4 SAV, Memory<byte> raw) : SaveBlock<SAV4>(SAV, r
     public enum Record4HGSSIndex
     {
         // u32
-        ApricornGet = 1,
+        StepsWalked = 0,
+        StepsBiked = 1,
         Score = 2,
-        BadgeGet = 22,
-        BattlePoints = 69,
+
+        BerriesPlanted = 5,
+
+        WildEncounters = 8,
+        TrainerBattles = 9,
+        Caught = 10,
+        Fished = 11,
+        EggsHatched = 12,
+        PokedexProgress = 13,
+
+        LocalLinkTrades = 20,
+        LocalLinkBattles = 21,
+        LocalLinkBattleWins = 22,
+        LocalLinkBattleLosses = 23,
+        LocalLinkBattleDraws = 24, // and forfeits
+        WifiTrades = 25,
+        WifiBattles = 26,
+        WifiBattleWins = 27,
+        WifiBattleLosses = 28,
+        WifiBattleDraws = 29, // and forfeits
+
+        BattleTowerWins = 30,
+
+        CurrencySpent = 36,
+        DepositedDaycare = 41,
+        OpponentsFainted = 42,
+
+        MailWritten = 46,
+
+        PremierBallsEarned = 51,
+
+        FrontierParticipations = 59,
+
+        BattlePointsReceived = 69,
+        BattlePointsSpent = 70,
+
+        LeagueWins = 74,
+        SplashUsed = 77,
+
+        SelfDestructUsed = 79,
+        ExplosionUsed = 80,
+
+        LocalContestEntries = 91,
+        CommContestEntries = 92,
+        LocalContestWins = 93,
+        CommContestWins = 94,
+        RibbonsEarned = 95,
+        IneffectiveMovesUsed = 96,
+        PlayerMonFainted = 97,
+        AlliesDamaged = 98,
+        RunFailures = 99,
+        WildPokemonFled = 100,
+        FishGotAway = 101,
+        TrainerCardsSigned = 115,
+        FossilsRevived = 116,
+        EggsSpun = 120,
 
         // u16
         FirstU16 = Record32HGSS,

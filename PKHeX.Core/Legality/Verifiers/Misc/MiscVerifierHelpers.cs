@@ -8,17 +8,17 @@ namespace PKHeX.Core;
 
 internal static class MiscVerifierHelpers
 {
-    internal static void VerifyStatNature(LegalityAnalysis data, PKM pk)
+    internal static void VerifyStatAlignment(LegalityAnalysis data, PKM pk)
     {
-        // No encounters innately come with a different Stat Nature...
+        // No encounters innately come with a different Stat Alignment...
         // If it matches the Nature, it is valid. If it doesn't, it should be one of the mint natures.
-        var statNature = pk.StatNature;
-        if (statNature == pk.Nature)
+        var alignment = pk.StatAlignment;
+        if (alignment == pk.Nature)
             return;
 
         // Must be a valid mint nature.
-        if (!statNature.IsMint)
-            data.AddLine(Get(Invalid, Misc, StatNatureInvalid));
+        if (!alignment.IsMint)
+            data.AddLine(Get(Invalid, Misc, StatAlignmentInvalid));
     }
 
     internal static void VerifyAbsoluteSizes<T>(LegalityAnalysis data, T pk) where T : IScaledSizeValue

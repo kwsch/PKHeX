@@ -1,7 +1,29 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-26/04/11 - New Update:
+26/05/05 - New Update:
+ - Legality: Updated handling for HOME=>ZA transfers.
+ - - Added: Gen9a HOME gifts are now recognized. Thanks @Manu098vm !
+ - - Added: Gen9a HOME 4.0.0 scale reset handling. Thanks ILCA !
+ - - Added: Gen9 Hisuian Zoroark WC9 being forced to Max size is now recognized as legal.
+ - - Added: Gen3 default trainer trash bytes are now handled, and regular OT trash bytes are more tightly checked.
+ - - Fixed: Gen8+ Shedinja with affixed ribbons now correctly check when ribbon is missing (due to evolution creation).
+ - - Fixed: Gen4 Evolution Move checks now work properly when transferred to Gen8+ with a met level of 100 (Gen4=>Gen5).
+ - - Fixed: Gen4 HG/SS Bug Catching Contest/Safari encounters now correctly check for the 4x 31IV reroll attempts. Thanks Unknown Warrior!
+ - - Fixed: Gen2 Odd Egg IVs are now enforced. Thanks @ry4242 !
+ - - Fixed: Gen1 Trade Evolution outsider check no longer throws an error. Thanks MrCMFTRBLE !
+ - Added: Gen6 XY Battle Chateau Rank can now be changed. Thanks @joelsrzalvarez !
+ - Added: Gen4 HG/SS save files now differentiate between versions. 
+ - Added: Gen3 Mirage Island appear cheat button to match first party slot PID, making the island appear for the day.
+ - Fixed: Box export now always saves party stats rather than leaving blank.
+ - Fixed: Gen9a pc data import now behaves as expected.
+ - Fixed: Gen3 French LeafGreen now detects better instead of assuming FireRed ("feu").
+ - Fixed: Transparent sprite pixel handling for hovering over sprites improved. Thanks @BtEtta & @abcboy101 !
+ - Updated: PK2 transfers Korean<->English now work for anything with western text chars. Thanks @abcboy101 !
+ - Updated: Drag Drop threshold setting added to lessen click accidents. Thanks @BtEtta !
+ - Updated: Translations improved for all languages. Thanks @Ka-n00b, @Coki628 !
+
+26/04/11 - New Update: (149259) [13066970]
  - Added handling for HOME's update for Z-A transfers.
  - Added backwards transfer logic for Z-A and LATAM language to previous Gen8/9 games.
  - Added: Sound setting to disable all other beeping sounds the program makes where appropriate.

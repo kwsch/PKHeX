@@ -107,6 +107,10 @@ public partial class Main : Form
         dragout.ContextMenuStrip = mnu.mnuL;
         C_SAV.menu.RequestEditorLegality = DisplayLegalityReport;
         components.Add(mnu);
+
+        // Add translatable extra menu controls.
+        Menu_Tools.DropDownItems.Add(new ToolStripSeparator());
+        Troubleshooting.AddTroubleshootingControls(Menu_Tools, Plugins, true);
     }
 
     public void LoadInitialFiles(StartupArguments args)
@@ -169,7 +173,6 @@ public partial class Main : Form
         CB_MainLanguage.Items.AddRange(Enum.GetNames<ProgramLanguage>());
         PB_Legal.Visible = !HaX;
         C_SAV.HaX = PKME_Tabs.HaX = HaX;
-
 #if DEBUG
         DevUtil.AddDeveloperControls(Menu_Tools, Plugins);
 #endif
@@ -724,7 +727,7 @@ public partial class Main : Form
             EReaderBerrySettings.LoadFrom(sav3);
     }
 
-    private bool OpenSAV(SaveFile sav, string path)
+    internal bool OpenSAV(SaveFile sav, string path, bool forceOpen = false)
     {
         if (ModifierKeys == Keys.Alt)
         {
@@ -732,7 +735,7 @@ public partial class Main : Form
             if (SaveUtil.TryOverride(sav, other, out var replace))
                 sav = replace;
         }
-        if (!sav.IsVersionValid())
+        if (!sav.IsVersionValid() && !forceOpen)
         {
             WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path);
             return true;

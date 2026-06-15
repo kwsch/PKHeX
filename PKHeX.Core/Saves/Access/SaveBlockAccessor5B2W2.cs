@@ -113,6 +113,7 @@ public sealed class SaveBlockAccessor5B2W2(SAV5B2W2 sav)
     public BattleSubway5 BattleSubway { get; } = new(sav, Block(sav, 57));
     public EntreeForest EntreeForest { get; } = new(sav, Block(sav, 60));
     public PWTBlock5 PWT { get; } = new(sav, Block(sav, 63));
+    public JoinAvenue5 JoinAvenue { get; } = new(sav, Block(sav, 67));
     public MedalList5 Medals { get; } = new(sav, Block(sav, 68));
     public KeySystem5 Keys { get; } = new(sav, Block(sav, 69));
     public FestaBlock5 Festa { get; } = new(sav, Block(sav, 70));

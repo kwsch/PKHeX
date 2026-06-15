@@ -129,8 +129,8 @@ public sealed class MarkVerifier : Verifier
         clone.Species = (int) Species.Nincada;
         var args = new RibbonVerifierArguments(clone, enc, data.Info.EvoChainsAllGens);
         affix.Fix(args, true);
-        bool invalid = RibbonVerifier.IsValidExtra(affix, args);
-        var severity = invalid ? Severity.Invalid : Severity.Fishy;
+        var valid = RibbonVerifier.IsValidExtra(affix, args);
+        var severity = !valid ? Severity.Invalid : Severity.Fishy;
         data.AddLine(Get(severity, RibbonMarkingAffixed_0, (ushort)affix));
     }
 

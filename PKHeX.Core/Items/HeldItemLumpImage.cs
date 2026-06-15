@@ -39,15 +39,15 @@ public static class HeldItemLumpUtil
     /// <param name="item">Held Item index</param>
     /// <param name="context">Generation context</param>
     /// <returns>Evaluation result.</returns>
-    public static HeldItemLumpImage GetIsLump(int item, EntityContext context) => context.Generation switch
+    public static HeldItemLumpImage GetIsLump(int item, EntityContext context) => item switch
     {
-        <= 4 when item is (>= 0328 and <= 0419) => HeldItemLumpImage.TechnicalMachine, // Gen2/3/4 TM
-        8 when item is (>= 0328 and <= 0427) => HeldItemLumpImage.TechnicalMachine, // BD/SP TMs
-        8 when item is (>= 1130 and <= 1229) => HeldItemLumpImage.TechnicalRecord, // Gen8 TR
-        9 when item is (>= 0328 and <= 0419) // TM01-TM92
-            or (>= 0618 and <= 0620) // TM093-TM095
-            or (>= 0690 and <= 0693) // TM096-TM099
-            or (>= 2160 and <= 2289) /* TM100-TM229 */ => HeldItemLumpImage.TechnicalMachine,
+           (>= 0328 and <= 0425)        // TM001-TM092, HM01-06 (Gen2/3/4 TMs)
+        or (>= 0618 and <= 0620)        // TM093-TM095
+        or (>= 0690 and <= 0694) or 737 // TM096-TM099, HM07, TM100(pre-Gen9)
+        or (>= 2160 and <= 2289)        // TM100-TM229
+        => HeldItemLumpImage.TechnicalMachine,
+
+        (>= 1130 and <= 1229) => HeldItemLumpImage.TechnicalRecord, // Gen8 TR
         _ => HeldItemLumpImage.NotLump,
     };
 }

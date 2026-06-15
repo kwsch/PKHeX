@@ -130,7 +130,7 @@ internal static class EvolutionRestrictions
         if (move is EEVEE)
             return IsValidEvolutionWithMoveAny(enc, EeveeFairyMoves, pruned, pk, head);
 
-        return MemoryPermissions.GetCanKnowMove(enc, move, pruned, pk, head);
+        return MemoryPermissions.GetCanKnowMove(enc, move, pruned, pk, head, LearnOption.AtAnyTimeChain);
     }
 
     private static bool IsMoveInRelearnSource(PKM pk, LegalInfo info, ushort move)
@@ -182,7 +182,7 @@ internal static class EvolutionRestrictions
     {
         foreach (var move in any)
         {
-            if (MemoryPermissions.GetCanKnowMove(enc, move, history, pk, head))
+            if (MemoryPermissions.GetCanKnowMove(enc, move, history, pk, head, LearnOption.AtAnyTimeChain))
                 return true;
         }
         return false;

@@ -37,7 +37,7 @@ public static class MethodH
     /// <inheritdoc cref="GetSeed{TEnc,TEvo}(TEnc, uint, TEvo, bool, byte, byte)"/>
     public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed, bool emerald, byte gender)
         where TEnc : IEncounterSlot3
-        => GetSeed(enc, seed, enc, emerald, gender, 0);
+        => GetSeed(enc, seed, enc, emerald, gender, FormatNoLevelCheck);
 
     /// <remarks>Used when generating with specific level ranges.</remarks>
     /// <inheritdoc cref="GetSeed{TEnc,TEvo}(TEnc, uint, TEvo, bool, byte, byte)"/>
@@ -55,6 +55,7 @@ public static class MethodH
     // Intimidate/Keen Eye:          rand() & 1 == 1; -- 0 will reject the encounter.
 
     private const byte Format = 3;
+    private const byte FormatNoLevelCheck = 0; // anything but `Format` will ignore met level precision (overwritten via transfer, test logic, etc.)
 
     private static bool IsCuteCharmFail(uint rand) => (rand % 3) == 0; // 1/3 odds
     private static bool IsCuteCharmPass(uint rand) => (rand % 3) != 0; // 2/3 odds
@@ -140,13 +141,10 @@ public static class MethodH
         {
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result))
             {
-                if (CheckEncounterActivationEmerald(enc, ref result))
-                {
-                    if (result.IsNoRequirement)
-                        return result;
-                    if (result.IsBetterThan(prefer))
-                        prefer = result;
-                }
+                if (result.IsNoRequirement)
+                    return result;
+                if (result.IsBetterThan(prefer))
+                    prefer = result;
             }
 
             if (reverseCount == 0)
@@ -165,13 +163,10 @@ public static class MethodH
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result) && result.IsNoRequirement)
             {
                 result.Lead = CuteCharm;
-                if (CheckEncounterActivationEmerald(enc, ref result))
-                {
-                    if (result.IsNoRequirement)
-                        return result;
-                    if (result.IsBetterThan(prefer))
-                        prefer = result;
-                }
+                if (result.IsNoRequirement)
+                    return result;
+                if (result.IsBetterThan(prefer))
+                    prefer = result;
             }
             revCute--;
             if (revCute == 0)
@@ -180,28 +175,13 @@ public static class MethodH
         }
     }
 
-    private static bool CheckEncounterActivationEmerald<T>(T enc, ref LeadSeed result)
-        where T : IEncounterSlot3
-    {
-        if (enc.Type is Rock_Smash)
-            return IsRockSmashPossible(enc.AreaRate, ref result.Seed);
-        if (enc.Type.IsFishingRodType())
-            return true; // can just wait and trigger after hooking.
-
-        // Can sweet scent trigger.
-        return true;
-    }
-
     private static LeadSeed GetOriginSeed<T>(T enc, uint seed, byte nature, int reverseCount, byte levelMin, byte levelMax, byte format = Format)
         where T : IEncounterSlot3
     {
         while (true)
         {
             if (TryGetMatchNoLead(enc, levelMin, levelMax, seed, nature, format, out var result))
-            {
-                if (CheckEncounterActivation(enc, ref result))
-                    return result;
-            }
+                return result;
             if (reverseCount == 0)
                 break;
             reverseCount--;
@@ -224,11 +204,30 @@ public static class MethodH
         return LCRNG.Next2(seed); // ESV, level.
     }
 
-    public static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
+    /// <summary>
+    /// Checks an input seed and lead by unrolling to the encounter trigger state and checking the encounter conditions along the way.
+    /// </summary>
+    /// <param name="enc">Encounter to check against.</param>
+    /// <param name="seed">Seed that immediately selects the encounter slot.</param>
+    /// <param name="lead">Party lead effect that is active at the moment of encounter slot selection.</param>
+    /// <param name="result">Un-rolled seed and lead at the moment of encounter trigger, if the check passes.</param>
+    /// <returns><see langword="true"/> if the seed and lead can trigger the encounter; otherwise, <see langword="false"/>.</returns>
+    /// <remarks>
+    /// It is necessary to check this when exploring possible leads, as different leads (or lack thereof) may consume a different quantity of RNG calls.
+    /// </remarks>
+    public static bool CheckEncounterActivation<T>(T enc, uint seed, LeadRequired lead, out LeadSeed result)
+        where T : IEncounterSlot3
+    {
+        var pass = CheckEncounterActivation(enc, ref seed, ref lead);
+        result = new(seed, lead);
+        return pass;
+    }
+
+    private static bool CheckEncounterActivation<T>(T enc, ref uint seed, ref LeadRequired _)
         where T : IEncounterSlot3
     {
         if (enc.Type is Rock_Smash)
-            return IsRockSmashPossible(enc.AreaRate, ref result.Seed);
+            return IsRockSmashPossible(enc.AreaRate, ref seed);
         if (enc.Type.IsFishingRodType())
             return true; // can just wait and trigger after hooking.
         // Can sweet scent trigger.
@@ -303,8 +302,8 @@ public static class MethodH
             if (IsSafariBlockProc(safariBlockSeed))
             {
                 var ctx = new FrameCheckDetails<T>(enc, safariBlockSeed, levelMin, levelMax, format);
-                if (IsSlotValidRegular(ctx, out uint origin))
-                { result = new(origin, None); return true; }
+                if (IsSlotValidRegular(ctx, out result))
+                    return true;
             }
         }
         if (enc.Species is (ushort)Species.Unown) // No Nature in loop
@@ -312,8 +311,8 @@ public static class MethodH
             // Consumers of the seed will assume nature is used; shift the frames so the values line up with their uses.
             var noNatureCallUsed = LCRNG.Next(seed);
             var ctx = new FrameCheckDetails<T>(enc, noNatureCallUsed, levelMin, levelMax, format);
-            if (IsSlotValidRegular(ctx, out uint origin))
-            { result = new(origin, None); return true; }
+            if (IsSlotValidRegular(ctx, out result))
+                return true;
         }
         else if (GetNature(p0) == nature)
         {
@@ -323,8 +322,8 @@ public static class MethodH
                 seed = LCRNG.Prev(seed);
 
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
-            if (IsSlotValidRegular(ctx, out uint origin))
-            { result = new(origin, None); return true; }
+            if (IsSlotValidRegular(ctx, out result))
+                return true;
         }
         result = default; return false;
     }
@@ -358,11 +357,8 @@ public static class MethodH
         if (syncProc)
         {
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
-            if (IsSlotValidRegular(ctx, out var regular))
-            {
-                result = new(regular, Synchronize);
+            if (IsSlotValidRegular(ctx, out result, Synchronize))
                 return true;
-            }
         }
         var reg = GetNature(p0) == nature;
         if (reg)
@@ -450,27 +446,27 @@ public static class MethodH
     private static bool TryGetMatchNoSync<T>(in FrameCheckDetails<T> ctx, out LeadSeed result)
         where T : IEncounterSlot3
     {
-        if (IsSlotValidRegular(ctx, out uint seed))
-        { result = new(seed, None); return true; }
+        if (IsSlotValidRegular(ctx, out result))
+            return true;
 
-        if (IsSlotValidSyncFail(ctx, out seed))
-        { result = new(seed, SynchronizeFail); return true; }
-        if (IsSlotValidCuteCharmFail(ctx, out seed))
-        { result = new(seed, CuteCharmFail); return true; }
-        if (IsSlotValidHustleVitalFail(ctx, out seed))
-        { result = new(seed, PressureHustleSpiritFail); return true; }
-        if (IsSlotValidStaticMagnetFail(ctx, out seed))
-        { result = new(seed, StaticMagnetFail); return true; }
+        if (IsSlotValidSyncFail(ctx, out var seed) && CheckEncounterActivation(ctx.Encounter, seed, SynchronizeFail, out result))
+            return true;
+        if (IsSlotValidCuteCharmFail(ctx, out seed) && CheckEncounterActivation(ctx.Encounter, seed, CuteCharmFail, out result))
+            return true;
+        if (IsSlotValidHustleVitalFail(ctx, out seed) && CheckEncounterActivation(ctx.Encounter, seed, PressureHustleSpiritFail, out result))
+            return true;
+        if (IsSlotValidStaticMagnetFail(ctx, out seed) && CheckEncounterActivation(ctx.Encounter, seed, StaticMagnetFail, out result))
+            return true;
         // Intimidate/Keen Eye failing will result in no encounter.
 
-        if (IsSlotValidStaticMagnet(ctx, out seed, out var lead))
-        { result = new(seed, lead); return true; }
-        if (IsSlotValidHustleVital(ctx, out seed))
-        { result = new(seed, PressureHustleSpirit); return true; }
-        if (IsSlotValidIntimidate(ctx, out seed))
-        { result = new(seed, IntimidateKeenEyeFail); return true; }
-        if (TryGetMatchCuteCharm(ctx, out seed))
-        { result = new(seed, CuteCharm); return true; }
+        if (IsSlotValidStaticMagnet(ctx, out seed, out var lead) && CheckEncounterActivation(ctx.Encounter, seed, lead, out result))
+            return true;
+        if (IsSlotValidHustleVital(ctx, out seed) && CheckEncounterActivation(ctx.Encounter, seed, PressureHustleSpirit, out result))
+            return true;
+        if (IsSlotValidIntimidate(ctx, out seed) && CheckEncounterActivation(ctx.Encounter, seed, IntimidateKeenEyeFail, out result))
+            return true;
+        if (TryGetMatchCuteCharm(ctx, out seed) && CheckEncounterActivation(ctx.Encounter, seed, CuteCharm, out result))
+            return true;
 
         result = default; return false;
     }
@@ -505,7 +501,7 @@ public static class MethodH
         result = 0; return false;
     }
 
-    private static bool IsSlotValidRegular<T>(in FrameCheckDetails<T> ctx, out uint result)
+    private static bool IsSlotValidRegular<T>(in FrameCheckDetails<T> ctx, out LeadSeed result, LeadRequired lead = None)
         where T : IEncounterSlot3
     {
         // -2 ESV
@@ -513,10 +509,10 @@ public static class MethodH
         //  0 Nature
         if (IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
         {
-            if (IsSlotValid(ctx.Encounter, ctx.Prev2))
-            { result = ctx.Seed3; return true; }
+            if (IsSlotValid(ctx.Encounter, ctx.Prev2) && CheckEncounterActivation(ctx.Encounter, ctx.Seed3, lead, out result))
+                return true;
         }
-        result = 0; return false;
+        result = default; return false;
     }
 
     private static bool IsSlotValidHustleVital<T>(in FrameCheckDetails<T> ctx, out uint result)
@@ -634,7 +630,7 @@ public static class MethodH
 
     private static bool IsRockSmashPossible(byte areaRate, ref uint seed)
     {
-        if (IsRatePass(seed, areaRate, None)) // Lead doesn't matter, doesn't influence.
+        if (IsRatePass(seed, areaRate)) // Lead doesn't matter, doesn't influence (Emerald Rock Smash ignores ability).
         {
             seed = LCRNG.Prev(seed);
             return true;
@@ -644,7 +640,7 @@ public static class MethodH
 
     private const ushort MaxEncounterRate = 2880; // 0xB40
 
-    private static bool IsRatePass(uint seed, byte areaRate, LeadRequired lead, bool ignoreAbility = true)
+    private static bool IsRatePass(uint seed, byte areaRate, LeadRequired lead = None, bool ignoreAbility = true)
     {
         var u16 = seed >> 16;
         var encRate = GetEncounterRate(areaRate, lead, ignoreAbility);
@@ -654,7 +650,7 @@ public static class MethodH
     private static uint GetEncounterRate(byte areaRate, LeadRequired lead, bool ignoreAbility)
     {
         uint encRate = areaRate * 16u;
-        // We intend to pass the encounter, as we want an encounter to trigger.
+        // We desire to pass the encounter, as we want an encounter to trigger.
         // Player on a Bike adjusts by *80 /100. We assume the player is not on a bike.
         // Cleanse Tag adjusts by *2 /3. We assume the player is not using a Cleanse Tag.
         // Black Flute adjusts by /2. We assume the player is not using a Black Flute.

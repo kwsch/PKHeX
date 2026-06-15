@@ -15,7 +15,7 @@ internal sealed class MiscVerifierPK8 : Verifier
 
     internal void Verify(LegalityAnalysis data, PK8 pk)
     {
-        MiscVerifierHelpers.VerifyStatNature(data, pk);
+        MiscVerifierHelpers.VerifyStatAlignment(data, pk);
         VerifyTechRecordFlags(data, pk);
         FullnessRules.Verify(data, pk);
 

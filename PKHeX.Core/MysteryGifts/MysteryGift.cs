@@ -170,6 +170,81 @@ public abstract class MysteryGift : IEncounterable, IMoveset, ITrainerID32, IFat
     public uint DisplaySID { get => this.GetDisplaySID(); set => this.SetDisplaySID(value); }
 
     /// <summary>
+    /// Criteria-conscious application of IV templates to the given IV span, with the option for a fallback value if the criteria doesn't specify a value for a random IV slot.
+    /// </summary>
+    /// <param name="finalIVs">The span of IVs to apply the template to.</param>
+    /// <param name="criteria">The user-provided encounter criteria to consider.</param>
+    /// <param name="rnd">A random number generator for selecting random IVs.</param>
+    /// <param name="getFallback">A function to provide fallback values for random IVs.</param>
+    protected static void ApplyTemplateIVs(Span<int> finalIVs, in EncounterCriteria criteria, Random rnd, Func<int, int> getFallback)
+    {
+        Span<bool> random = stackalloc bool[6]; // template, not user request
+        int flawless = 0; // template flawless count, not necessarily the same as criteria flawless count
+        int currentFlawless = 0; // how many flawless IVs we've currently assigned, either from the template or criteria.
+
+        // Scan the template IVs and pre-determine any from criteria.
+        for (int i = 0; i < finalIVs.Length; i++)
+        {
+            var value = finalIVs[i];
+            if (value <= 31)
+            {
+                if (value == 31)
+                    currentFlawless++;
+
+                // IV is required by the template.
+                continue;
+            }
+
+            // Support for random IV indicators: 0xFC-0xFE for flawless count, 0xFF for fully random.
+            // I think this is only used on the HP IV (index 0), but whatever.
+            random[i] = true;
+            if (value is >= 0xFC and <= 0xFE)
+                flawless = value - 0xFB;
+
+            if (criteria.IsRandomIV(i, out var requested))
+                continue; // Unspecified random IV.
+
+            // User wants a specific value for this IV, so apply it and remove from random pool.
+            finalIVs[i] = requested;
+            if (requested == 31)
+                currentFlawless++;
+        }
+
+        // Sanity check: if the template wants more flawless IVs than the criteria wants, we can't fulfill that request.
+        // Pick random IVs to fill the gap up to the template's flawless count.
+        if (currentFlawless < flawless)
+        {
+            // Gather candidate IV slots that are random and not already 31.
+            Span<int> candidates = stackalloc int[6];
+            int candidateCount = 0;
+            for (int i = 0; i < finalIVs.Length; i++)
+            {
+                if (random[i] && finalIVs[i] != 31)
+                    candidates[candidateCount++] = i;
+            }
+
+            // Update random IV slots to 31 until we meet the template's flawless count or run out of candidates.
+            while (currentFlawless < flawless && candidateCount != 0)
+            {
+                int pick = rnd.Next(candidateCount);
+                int index = candidates[pick];
+                finalIVs[index] = 31;
+                currentFlawless++;
+                candidates[pick] = candidates[--candidateCount];
+            }
+        }
+
+        // Determine final IV values for any remaining random slots, using criteria if specified or falling back to the provided function if not.
+        for (int i = 0; i < finalIVs.Length; i++)
+        {
+            if (!random[i] || finalIVs[i] == 31)
+                continue;
+
+            finalIVs[i] = criteria.IsRandomIV(i, out var value) ? getFallback(i) : value;
+        }
+    }
+
+    /// <summary>
     /// Checks if the <see cref="PKM"/> has the <see cref="move"/> in its current move list.
     /// </summary>
     public bool HasMove(ushort move) => Moves.Contains(move);

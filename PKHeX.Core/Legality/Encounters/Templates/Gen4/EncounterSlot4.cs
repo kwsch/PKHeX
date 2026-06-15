@@ -190,6 +190,9 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public PIDType GetSuggestedCorrelation() => PIDType.Method_1;
 
     public byte PressureLevel => Type != Grass ? LevelMax : Parent.GetPressureMax(Species, LevelMax);
+
+    // HG/SS has some encounter generation routines that sample rejects until a minimum of one 31 IV is present, up to 4x.
     public bool IsBugContest => Type == BugContest;
     public bool IsSafariHGSS => Locations4.IsSafari(Location);
+    public bool IsRerollMinimum31 => IsBugContest || IsSafariHGSS;
 }

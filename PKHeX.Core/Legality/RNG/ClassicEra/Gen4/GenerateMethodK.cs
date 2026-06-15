@@ -33,8 +33,7 @@ public static class GenerateMethodK
             {
                 if (checkProc)
                 {
-                    var check = new LeadSeed(seed, LeadRequired.None);
-                    if (!MethodK.CheckEncounterActivation(enc, ref check))
+                    if (!MethodK.CheckEncounterActivation(enc, seed, LeadRequired.None, out _))
                     {
                         seed = LCRNG.Next(seed);
                         continue;
@@ -127,7 +126,7 @@ public static class GenerateMethodK
                 var a = LCRNG.Next16(ref s);
                 var b = LCRNG.Next16(ref s);
                 var pid = GetPIDRegular(a, b);
-                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature((Nature)(pid % 25)))
+                if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(pid))
                     continue;
 
                 var gender = EntityGender.GetFromPIDAndRatio(pid, gr);

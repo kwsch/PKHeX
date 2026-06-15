@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -49,6 +50,7 @@ public sealed class RibbonInfo
     /// <summary>
     /// Gets a list of all ribbons available for the entity and their state.
     /// </summary>
+    [RequiresUnreferencedCode("Uses reflection to enumerate ribbon properties on PKM types.")]
     public static List<RibbonInfo> GetRibbonInfo(PKM pk)
     {
         var riblist = new List<RibbonInfo>();

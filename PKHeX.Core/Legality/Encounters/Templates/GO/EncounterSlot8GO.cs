@@ -173,7 +173,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
 
-        pk.Nature = pk.StatNature = nature;
+        pk.Nature = pk.StatAlignment = nature;
         pk.Gender = gender;
 
         pk.AbilityNumber = 1 << ability;

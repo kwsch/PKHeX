@@ -88,7 +88,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         var ability = criteria.GetAbilityFromNumber(Ability);
 
         criteria.SetRandomIVsGO(pk, Type.MinimumIV);
-        pk.Nature = pk.StatNature = nature;
+        pk.Nature = pk.StatAlignment = nature;
         pk.Gender = gender;
         pk.RefreshAbility(ability);
 

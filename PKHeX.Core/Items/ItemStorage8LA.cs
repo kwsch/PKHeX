@@ -65,11 +65,22 @@ public sealed class ItemStorage8LA : IItemStorage
         1828,
     ];
 
-    public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => GetItems(type).BinarySearch((ushort)itemIndex) >= 0;
+    // excludes from pouch gifting all, no held items
+    private static ReadOnlySpan<ushort> Unreleased =>
+    [
+        1785, // Strange Ball
+    ];
+
+    public bool IsLegal(InventoryType type, int itemIndex, int itemCount)
+    {
+        if (type is InventoryType.KeyItems)
+            return true;
+
+        return itemCount != 0 && !Unreleased.Contains((ushort)itemIndex);
+    }
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
-
         InventoryType.Items => General,
         InventoryType.KeyItems => Key,
         InventoryType.PCItems => General,

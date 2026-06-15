@@ -224,9 +224,7 @@ public static class LumioseSolver
         {
             if (Volatile.Read(ref found)) { state.Stop(); return; }
 
-            uint start = (uint)range.start;
-            uint endExclusive = (uint)range.end; // safe due to batching within 0..2^32
-
+            var (start, endExclusive) = range; // keep as ulong, can't overflow since endExclusive is at most 2^32
             for (ulong high = start; high < endExclusive; high++)
             {
                 if (Volatile.Read(ref found)) { state.Stop(); return; }

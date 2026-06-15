@@ -95,7 +95,6 @@ namespace PKHeX.WinForms
             L_Area18 = new System.Windows.Forms.Label();
             CHK_Area9 = new System.Windows.Forms.CheckBox();
             PB_SlotPreview = new System.Windows.Forms.PictureBox();
-            CHK_Invisible = new System.Windows.Forms.CheckBox();
             L_Animation = new System.Windows.Forms.Label();
             NUD_Animation = new System.Windows.Forms.NumericUpDown();
             L_Gender = new System.Windows.Forms.Label();
@@ -181,17 +180,9 @@ namespace PKHeX.WinForms
             L_FC = new System.Windows.Forms.Label();
             B_ImportFC = new System.Windows.Forms.Button();
             B_DumpFC = new System.Windows.Forms.Button();
-            TAB_Medals = new System.Windows.Forms.TabPage();
-            TB_MedalType = new System.Windows.Forms.TextBox();
-            B_ObtainAllMedals = new System.Windows.Forms.Button();
-            CAL_MedalDate = new System.Windows.Forms.DateTimePicker();
-            CHK_MedalUnread = new System.Windows.Forms.CheckBox();
-            CB_MedalState = new System.Windows.Forms.ComboBox();
-            CB_CurrentMedal = new System.Windows.Forms.ComboBox();
             TAB_Muscial = new System.Windows.Forms.TabPage();
+            CLB_MusicalProps = new System.Windows.Forms.CheckedListBox();
             B_UnlockAllProps = new System.Windows.Forms.Button();
-            CHK_PropObtained = new System.Windows.Forms.CheckBox();
-            CB_Prop = new System.Windows.Forms.ComboBox();
             TipExpB = new System.Windows.Forms.ToolTip(components);
             TipExpW = new System.Windows.Forms.ToolTip(components);
             TC_Misc.SuspendLayout();
@@ -252,7 +243,6 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_SingleRecord).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_SinglePast).BeginInit();
             TAB_BWCityForest.SuspendLayout();
-            TAB_Medals.SuspendLayout();
             TAB_Muscial.SuspendLayout();
             SuspendLayout();
             // 
@@ -288,7 +278,6 @@ namespace PKHeX.WinForms
             TC_Misc.Controls.Add(TAB_Forest);
             TC_Misc.Controls.Add(TAB_Subway);
             TC_Misc.Controls.Add(TAB_BWCityForest);
-            TC_Misc.Controls.Add(TAB_Medals);
             TC_Misc.Controls.Add(TAB_Muscial);
             TC_Misc.Location = new System.Drawing.Point(14, 17);
             TC_Misc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -311,11 +300,11 @@ namespace PKHeX.WinForms
             TAB_Main.Controls.Add(CHK_LibertyPass);
             TAB_Main.Controls.Add(GB_Roamer);
             TAB_Main.Controls.Add(GB_FlyDest);
-            TAB_Main.Location = new System.Drawing.Point(4, 24);
+            TAB_Main.Location = new System.Drawing.Point(4, 26);
             TAB_Main.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TAB_Main.Name = "TAB_Main";
             TAB_Main.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TAB_Main.Size = new System.Drawing.Size(390, 338);
+            TAB_Main.Size = new System.Drawing.Size(390, 336);
             TAB_Main.TabIndex = 0;
             TAB_Main.Text = "Main";
             TAB_Main.UseVisualStyleBackColor = true;
@@ -365,14 +354,14 @@ namespace PKHeX.WinForms
             NUD_Record32V.Location = new System.Drawing.Point(263, 279);
             NUD_Record32V.Maximum = new decimal(new int[] { -1, 0, 0, 0 });
             NUD_Record32V.Name = "NUD_Record32V";
-            NUD_Record32V.Size = new System.Drawing.Size(120, 23);
+            NUD_Record32V.Size = new System.Drawing.Size(120, 25);
             NUD_Record32V.TabIndex = 8;
             // 
             // NUD_Record32
             // 
             NUD_Record32.Location = new System.Drawing.Point(263, 254);
             NUD_Record32.Name = "NUD_Record32";
-            NUD_Record32.Size = new System.Drawing.Size(120, 23);
+            NUD_Record32.Size = new System.Drawing.Size(120, 25);
             NUD_Record32.TabIndex = 7;
             // 
             // NUD_Record16V
@@ -380,14 +369,14 @@ namespace PKHeX.WinForms
             NUD_Record16V.Location = new System.Drawing.Point(263, 225);
             NUD_Record16V.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Record16V.Name = "NUD_Record16V";
-            NUD_Record16V.Size = new System.Drawing.Size(120, 23);
+            NUD_Record16V.Size = new System.Drawing.Size(120, 25);
             NUD_Record16V.TabIndex = 6;
             // 
             // NUD_Record16
             // 
             NUD_Record16.Location = new System.Drawing.Point(263, 200);
             NUD_Record16.Name = "NUD_Record16";
-            NUD_Record16.Size = new System.Drawing.Size(120, 23);
+            NUD_Record16.Size = new System.Drawing.Size(120, 25);
             NUD_Record16.TabIndex = 5;
             // 
             // GB_KeySystem
@@ -423,17 +412,17 @@ namespace PKHeX.WinForms
             CLB_KeySystem.Location = new System.Drawing.Point(7, 59);
             CLB_KeySystem.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CLB_KeySystem.Name = "CLB_KeySystem";
-            CLB_KeySystem.Size = new System.Drawing.Size(149, 58);
+            CLB_KeySystem.Size = new System.Drawing.Size(149, 44);
             CLB_KeySystem.TabIndex = 1;
             // 
             // CHK_LibertyPass
             // 
             CHK_LibertyPass.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             CHK_LibertyPass.AutoSize = true;
-            CHK_LibertyPass.Location = new System.Drawing.Point(189, 149);
+            CHK_LibertyPass.Location = new System.Drawing.Point(179, 149);
             CHK_LibertyPass.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_LibertyPass.Name = "CHK_LibertyPass";
-            CHK_LibertyPass.Size = new System.Drawing.Size(131, 19);
+            CHK_LibertyPass.Size = new System.Drawing.Size(141, 21);
             CHK_LibertyPass.TabIndex = 4;
             CHK_LibertyPass.Text = "Activate LibertyPass";
             CHK_LibertyPass.UseVisualStyleBackColor = true;
@@ -464,7 +453,7 @@ namespace PKHeX.WinForms
             CB_RoamStatus.Location = new System.Drawing.Point(93, 88);
             CB_RoamStatus.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_RoamStatus.Name = "CB_RoamStatus";
-            CB_RoamStatus.Size = new System.Drawing.Size(101, 23);
+            CB_RoamStatus.Size = new System.Drawing.Size(101, 25);
             CB_RoamStatus.TabIndex = 5;
             // 
             // L_RoamStatus
@@ -505,7 +494,7 @@ namespace PKHeX.WinForms
             CB_Roamer642.Location = new System.Drawing.Point(93, 55);
             CB_Roamer642.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Roamer642.Name = "CB_Roamer642";
-            CB_Roamer642.Size = new System.Drawing.Size(101, 23);
+            CB_Roamer642.Size = new System.Drawing.Size(101, 25);
             CB_Roamer642.TabIndex = 3;
             // 
             // CB_Roamer641
@@ -516,7 +505,7 @@ namespace PKHeX.WinForms
             CB_Roamer641.Location = new System.Drawing.Point(93, 23);
             CB_Roamer641.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Roamer641.Name = "CB_Roamer641";
-            CB_Roamer641.Size = new System.Drawing.Size(101, 23);
+            CB_Roamer641.Size = new System.Drawing.Size(101, 25);
             CB_Roamer641.TabIndex = 1;
             // 
             // GB_FlyDest
@@ -541,7 +530,7 @@ namespace PKHeX.WinForms
             CLB_FlyDest.Location = new System.Drawing.Point(7, 59);
             CLB_FlyDest.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CLB_FlyDest.Name = "CLB_FlyDest";
-            CLB_FlyDest.Size = new System.Drawing.Size(149, 58);
+            CLB_FlyDest.Size = new System.Drawing.Size(149, 44);
             CLB_FlyDest.TabIndex = 1;
             // 
             // B_AllFlyDest
@@ -561,10 +550,10 @@ namespace PKHeX.WinForms
             TAB_Entralink.Controls.Add(GB_EntreeLevel);
             TAB_Entralink.Controls.Add(GB_FunfestMissions);
             TAB_Entralink.Controls.Add(GB_PassPowers);
-            TAB_Entralink.Location = new System.Drawing.Point(4, 24);
+            TAB_Entralink.Location = new System.Drawing.Point(4, 26);
             TAB_Entralink.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TAB_Entralink.Name = "TAB_Entralink";
-            TAB_Entralink.Size = new System.Drawing.Size(390, 338);
+            TAB_Entralink.Size = new System.Drawing.Size(390, 336);
             TAB_Entralink.TabIndex = 1;
             TAB_Entralink.Text = "Entralink";
             TAB_Entralink.UseVisualStyleBackColor = true;
@@ -613,7 +602,7 @@ namespace PKHeX.WinForms
             NUD_FMHosted.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FMHosted.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_FMHosted.Name = "NUD_FMHosted";
-            NUD_FMHosted.Size = new System.Drawing.Size(57, 23);
+            NUD_FMHosted.Size = new System.Drawing.Size(57, 25);
             NUD_FMHosted.TabIndex = 4;
             NUD_FMHosted.Value = new decimal(new int[] { 9999, 0, 0, 0 });
             // 
@@ -633,7 +622,7 @@ namespace PKHeX.WinForms
             NUD_FMMostParticipants.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FMMostParticipants.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_FMMostParticipants.Name = "NUD_FMMostParticipants";
-            NUD_FMMostParticipants.Size = new System.Drawing.Size(50, 23);
+            NUD_FMMostParticipants.Size = new System.Drawing.Size(50, 25);
             NUD_FMMostParticipants.TabIndex = 12;
             NUD_FMMostParticipants.Value = new decimal(new int[] { 255, 0, 0, 0 });
             // 
@@ -643,7 +632,7 @@ namespace PKHeX.WinForms
             NUD_FMParticipated.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FMParticipated.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_FMParticipated.Name = "NUD_FMParticipated";
-            NUD_FMParticipated.Size = new System.Drawing.Size(57, 23);
+            NUD_FMParticipated.Size = new System.Drawing.Size(57, 25);
             NUD_FMParticipated.TabIndex = 6;
             NUD_FMParticipated.Value = new decimal(new int[] { 9999, 0, 0, 0 });
             // 
@@ -663,7 +652,7 @@ namespace PKHeX.WinForms
             NUD_FMCompleted.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FMCompleted.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_FMCompleted.Name = "NUD_FMCompleted";
-            NUD_FMCompleted.Size = new System.Drawing.Size(57, 23);
+            NUD_FMCompleted.Size = new System.Drawing.Size(57, 25);
             NUD_FMCompleted.TabIndex = 10;
             NUD_FMCompleted.Value = new decimal(new int[] { 9999, 0, 0, 0 });
             // 
@@ -673,7 +662,7 @@ namespace PKHeX.WinForms
             NUD_FMTopScores.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FMTopScores.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_FMTopScores.Name = "NUD_FMTopScores";
-            NUD_FMTopScores.Size = new System.Drawing.Size(57, 23);
+            NUD_FMTopScores.Size = new System.Drawing.Size(57, 25);
             NUD_FMTopScores.TabIndex = 8;
             NUD_FMTopScores.Value = new decimal(new int[] { 9999, 0, 0, 0 });
             // 
@@ -711,7 +700,7 @@ namespace PKHeX.WinForms
             NUD_EntreeWhiteEXP.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_EntreeWhiteEXP.Maximum = new decimal(new int[] { 49, 0, 0, 0 });
             NUD_EntreeWhiteEXP.Name = "NUD_EntreeWhiteEXP";
-            NUD_EntreeWhiteEXP.Size = new System.Drawing.Size(43, 23);
+            NUD_EntreeWhiteEXP.Size = new System.Drawing.Size(43, 25);
             NUD_EntreeWhiteEXP.TabIndex = 5;
             NUD_EntreeWhiteEXP.Value = new decimal(new int[] { 49, 0, 0, 0 });
             NUD_EntreeWhiteEXP.ValueChanged += NUD_EntreeWhiteEXP_ValueChanged;
@@ -723,7 +712,7 @@ namespace PKHeX.WinForms
             NUD_EntreeBlackEXP.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_EntreeBlackEXP.Maximum = new decimal(new int[] { 49, 0, 0, 0 });
             NUD_EntreeBlackEXP.Name = "NUD_EntreeBlackEXP";
-            NUD_EntreeBlackEXP.Size = new System.Drawing.Size(43, 23);
+            NUD_EntreeBlackEXP.Size = new System.Drawing.Size(43, 25);
             NUD_EntreeBlackEXP.TabIndex = 2;
             NUD_EntreeBlackEXP.Value = new decimal(new int[] { 49, 0, 0, 0 });
             NUD_EntreeBlackEXP.ValueChanged += NUD_EntreeBlackEXP_ValueChanged;
@@ -735,7 +724,7 @@ namespace PKHeX.WinForms
             NUD_EntreeBlackLV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_EntreeBlackLV.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
             NUD_EntreeBlackLV.Name = "NUD_EntreeBlackLV";
-            NUD_EntreeBlackLV.Size = new System.Drawing.Size(50, 23);
+            NUD_EntreeBlackLV.Size = new System.Drawing.Size(50, 25);
             NUD_EntreeBlackLV.TabIndex = 1;
             NUD_EntreeBlackLV.Value = new decimal(new int[] { 999, 0, 0, 0 });
             NUD_EntreeBlackLV.ValueChanged += NUD_EntreeBlackLV_ValueChanged;
@@ -747,7 +736,7 @@ namespace PKHeX.WinForms
             NUD_EntreeWhiteLV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_EntreeWhiteLV.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
             NUD_EntreeWhiteLV.Name = "NUD_EntreeWhiteLV";
-            NUD_EntreeWhiteLV.Size = new System.Drawing.Size(50, 23);
+            NUD_EntreeWhiteLV.Size = new System.Drawing.Size(50, 25);
             NUD_EntreeWhiteLV.TabIndex = 4;
             NUD_EntreeWhiteLV.Value = new decimal(new int[] { 999, 0, 0, 0 });
             NUD_EntreeWhiteLV.ValueChanged += NUD_EntreeWhiteLV_ValueChanged;
@@ -847,7 +836,7 @@ namespace PKHeX.WinForms
             NUD_FMBestScore.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FMBestScore.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_FMBestScore.Name = "NUD_FMBestScore";
-            NUD_FMBestScore.Size = new System.Drawing.Size(57, 23);
+            NUD_FMBestScore.Size = new System.Drawing.Size(57, 25);
             NUD_FMBestScore.TabIndex = 8;
             NUD_FMBestScore.ValueChanged += ChangeFestaMissionValue;
             // 
@@ -858,7 +847,7 @@ namespace PKHeX.WinForms
             NUD_FMBestTotal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_FMBestTotal.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_FMBestTotal.Name = "NUD_FMBestTotal";
-            NUD_FMBestTotal.Size = new System.Drawing.Size(57, 23);
+            NUD_FMBestTotal.Size = new System.Drawing.Size(57, 25);
             NUD_FMBestTotal.TabIndex = 5;
             NUD_FMBestTotal.ValueChanged += ChangeFestaMissionValue;
             // 
@@ -870,7 +859,7 @@ namespace PKHeX.WinForms
             CB_FMLevel.Location = new System.Drawing.Point(96, 144);
             CB_FMLevel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_FMLevel.Name = "CB_FMLevel";
-            CB_FMLevel.Size = new System.Drawing.Size(104, 23);
+            CB_FMLevel.Size = new System.Drawing.Size(104, 25);
             CB_FMLevel.TabIndex = 3;
             CB_FMLevel.SelectedIndexChanged += ChangeFestaMissionValue;
             // 
@@ -899,11 +888,10 @@ namespace PKHeX.WinForms
             // 
             LB_FunfestMissions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             LB_FunfestMissions.FormattingEnabled = true;
-            LB_FunfestMissions.ItemHeight = 15;
             LB_FunfestMissions.Location = new System.Drawing.Point(7, 47);
             LB_FunfestMissions.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LB_FunfestMissions.Name = "LB_FunfestMissions";
-            LB_FunfestMissions.Size = new System.Drawing.Size(193, 94);
+            LB_FunfestMissions.Size = new System.Drawing.Size(193, 89);
             LB_FunfestMissions.TabIndex = 1;
             LB_FunfestMissions.SelectedIndexChanged += LB_FunfestMissions_SelectedIndexChanged;
             // 
@@ -929,7 +917,7 @@ namespace PKHeX.WinForms
             CB_PassPower3.Location = new System.Drawing.Point(7, 75);
             CB_PassPower3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_PassPower3.Name = "CB_PassPower3";
-            CB_PassPower3.Size = new System.Drawing.Size(145, 23);
+            CB_PassPower3.Size = new System.Drawing.Size(145, 25);
             CB_PassPower3.TabIndex = 2;
             // 
             // CB_PassPower2
@@ -940,7 +928,7 @@ namespace PKHeX.WinForms
             CB_PassPower2.Location = new System.Drawing.Point(7, 47);
             CB_PassPower2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_PassPower2.Name = "CB_PassPower2";
-            CB_PassPower2.Size = new System.Drawing.Size(145, 23);
+            CB_PassPower2.Size = new System.Drawing.Size(145, 25);
             CB_PassPower2.TabIndex = 1;
             // 
             // CB_PassPower1
@@ -951,7 +939,7 @@ namespace PKHeX.WinForms
             CB_PassPower1.Location = new System.Drawing.Point(7, 20);
             CB_PassPower1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_PassPower1.Name = "CB_PassPower1";
-            CB_PassPower1.Size = new System.Drawing.Size(145, 23);
+            CB_PassPower1.Size = new System.Drawing.Size(145, 25);
             CB_PassPower1.TabIndex = 0;
             // 
             // TAB_Forest
@@ -961,7 +949,6 @@ namespace PKHeX.WinForms
             TAB_Forest.Controls.Add(L_Area18);
             TAB_Forest.Controls.Add(CHK_Area9);
             TAB_Forest.Controls.Add(PB_SlotPreview);
-            TAB_Forest.Controls.Add(CHK_Invisible);
             TAB_Forest.Controls.Add(L_Animation);
             TAB_Forest.Controls.Add(NUD_Animation);
             TAB_Forest.Controls.Add(L_Gender);
@@ -974,11 +961,11 @@ namespace PKHeX.WinForms
             TAB_Forest.Controls.Add(CB_Species);
             TAB_Forest.Controls.Add(CB_Areas);
             TAB_Forest.Controls.Add(LB_Slots);
-            TAB_Forest.Location = new System.Drawing.Point(4, 24);
+            TAB_Forest.Location = new System.Drawing.Point(4, 26);
             TAB_Forest.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TAB_Forest.Name = "TAB_Forest";
             TAB_Forest.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TAB_Forest.Size = new System.Drawing.Size(390, 338);
+            TAB_Forest.Size = new System.Drawing.Size(390, 336);
             TAB_Forest.TabIndex = 2;
             TAB_Forest.Text = "Forest";
             TAB_Forest.UseVisualStyleBackColor = true;
@@ -1003,7 +990,7 @@ namespace PKHeX.WinForms
             NUD_Unlocked.Maximum = new decimal(new int[] { 8, 0, 0, 0 });
             NUD_Unlocked.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
             NUD_Unlocked.Name = "NUD_Unlocked";
-            NUD_Unlocked.Size = new System.Drawing.Size(43, 23);
+            NUD_Unlocked.Size = new System.Drawing.Size(43, 25);
             NUD_Unlocked.TabIndex = 3;
             NUD_Unlocked.Value = new decimal(new int[] { 2, 0, 0, 0 });
             // 
@@ -1023,10 +1010,10 @@ namespace PKHeX.WinForms
             CHK_Area9.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             CHK_Area9.AutoSize = true;
             CHK_Area9.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            CHK_Area9.Location = new System.Drawing.Point(266, 68);
+            CHK_Area9.Location = new System.Drawing.Point(255, 68);
             CHK_Area9.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Area9.Name = "CHK_Area9";
-            CHK_Area9.Size = new System.Drawing.Size(115, 19);
+            CHK_Area9.Size = new System.Drawing.Size(126, 21);
             CHK_Area9.TabIndex = 4;
             CHK_Area9.Text = "Area 9 Unlocked:";
             CHK_Area9.UseVisualStyleBackColor = true;
@@ -1041,19 +1028,6 @@ namespace PKHeX.WinForms
             PB_SlotPreview.Size = new System.Drawing.Size(81, 67);
             PB_SlotPreview.TabIndex = 13;
             PB_SlotPreview.TabStop = false;
-            // 
-            // CHK_Invisible
-            // 
-            CHK_Invisible.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            CHK_Invisible.AutoSize = true;
-            CHK_Invisible.Location = new System.Drawing.Point(297, 313);
-            CHK_Invisible.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CHK_Invisible.Name = "CHK_Invisible";
-            CHK_Invisible.Size = new System.Drawing.Size(69, 19);
-            CHK_Invisible.TabIndex = 16;
-            CHK_Invisible.Text = "Invisible";
-            CHK_Invisible.UseVisualStyleBackColor = true;
-            CHK_Invisible.CheckedChanged += UpdateSlotValue;
             // 
             // L_Animation
             // 
@@ -1073,7 +1047,7 @@ namespace PKHeX.WinForms
             NUD_Animation.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Animation.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
             NUD_Animation.Name = "NUD_Animation";
-            NUD_Animation.Size = new System.Drawing.Size(43, 23);
+            NUD_Animation.Size = new System.Drawing.Size(43, 25);
             NUD_Animation.TabIndex = 15;
             NUD_Animation.ValueChanged += UpdateSlotValue;
             // 
@@ -1096,7 +1070,7 @@ namespace PKHeX.WinForms
             CB_Gender.Location = new System.Drawing.Point(240, 249);
             CB_Gender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Gender.Name = "CB_Gender";
-            CB_Gender.Size = new System.Drawing.Size(140, 23);
+            CB_Gender.Size = new System.Drawing.Size(140, 25);
             CB_Gender.TabIndex = 11;
             CB_Gender.SelectedIndexChanged += UpdateSlotValue;
             // 
@@ -1142,7 +1116,7 @@ namespace PKHeX.WinForms
             CB_Move.Location = new System.Drawing.Point(240, 276);
             CB_Move.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Move.Name = "CB_Move";
-            CB_Move.Size = new System.Drawing.Size(140, 23);
+            CB_Move.Size = new System.Drawing.Size(140, 25);
             CB_Move.TabIndex = 13;
             CB_Move.SelectedIndexChanged += UpdateSlotValue;
             // 
@@ -1154,7 +1128,7 @@ namespace PKHeX.WinForms
             CB_Form.Location = new System.Drawing.Point(240, 223);
             CB_Form.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Form.Name = "CB_Form";
-            CB_Form.Size = new System.Drawing.Size(140, 23);
+            CB_Form.Size = new System.Drawing.Size(140, 25);
             CB_Form.TabIndex = 9;
             CB_Form.SelectedIndexChanged += UpdateSlotValue;
             // 
@@ -1167,7 +1141,7 @@ namespace PKHeX.WinForms
             CB_Species.Location = new System.Drawing.Point(240, 196);
             CB_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Species.Name = "CB_Species";
-            CB_Species.Size = new System.Drawing.Size(140, 23);
+            CB_Species.Size = new System.Drawing.Size(140, 25);
             CB_Species.TabIndex = 7;
             CB_Species.SelectedIndexChanged += UpdateSlotValue;
             // 
@@ -1179,7 +1153,7 @@ namespace PKHeX.WinForms
             CB_Areas.Location = new System.Drawing.Point(166, 7);
             CB_Areas.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Areas.Name = "CB_Areas";
-            CB_Areas.Size = new System.Drawing.Size(215, 23);
+            CB_Areas.Size = new System.Drawing.Size(215, 25);
             CB_Areas.TabIndex = 1;
             CB_Areas.SelectedIndexChanged += ChangeArea;
             // 
@@ -1187,11 +1161,10 @@ namespace PKHeX.WinForms
             // 
             LB_Slots.Dock = System.Windows.Forms.DockStyle.Left;
             LB_Slots.FormattingEnabled = true;
-            LB_Slots.ItemHeight = 15;
             LB_Slots.Location = new System.Drawing.Point(4, 3);
             LB_Slots.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             LB_Slots.Name = "LB_Slots";
-            LB_Slots.Size = new System.Drawing.Size(154, 332);
+            LB_Slots.Size = new System.Drawing.Size(154, 330);
             LB_Slots.TabIndex = 0;
             LB_Slots.SelectedIndexChanged += ChangeSlot;
             // 
@@ -1206,11 +1179,11 @@ namespace PKHeX.WinForms
             TAB_Subway.Controls.Add(GB_Multi);
             TAB_Subway.Controls.Add(GB_Doubles);
             TAB_Subway.Controls.Add(GB_Singles);
-            TAB_Subway.Location = new System.Drawing.Point(4, 24);
+            TAB_Subway.Location = new System.Drawing.Point(4, 26);
             TAB_Subway.Margin = new System.Windows.Forms.Padding(2);
             TAB_Subway.Name = "TAB_Subway";
             TAB_Subway.Padding = new System.Windows.Forms.Padding(2);
-            TAB_Subway.Size = new System.Drawing.Size(390, 338);
+            TAB_Subway.Size = new System.Drawing.Size(390, 336);
             TAB_Subway.TabIndex = 3;
             TAB_Subway.Text = "Subway";
             TAB_Subway.UseVisualStyleBackColor = true;
@@ -1241,7 +1214,7 @@ namespace PKHeX.WinForms
             CHK_Subway0.Location = new System.Drawing.Point(10, 20);
             CHK_Subway0.Margin = new System.Windows.Forms.Padding(2);
             CHK_Subway0.Name = "CHK_Subway0";
-            CHK_Subway0.Size = new System.Drawing.Size(54, 19);
+            CHK_Subway0.Size = new System.Drawing.Size(58, 21);
             CHK_Subway0.TabIndex = 1;
             CHK_Subway0.Text = "Flag0";
             CHK_Subway0.UseVisualStyleBackColor = true;
@@ -1252,7 +1225,7 @@ namespace PKHeX.WinForms
             CHK_Subway1.Location = new System.Drawing.Point(77, 20);
             CHK_Subway1.Margin = new System.Windows.Forms.Padding(2);
             CHK_Subway1.Name = "CHK_Subway1";
-            CHK_Subway1.Size = new System.Drawing.Size(54, 19);
+            CHK_Subway1.Size = new System.Drawing.Size(58, 21);
             CHK_Subway1.TabIndex = 2;
             CHK_Subway1.Text = "Flag1";
             CHK_Subway1.UseVisualStyleBackColor = true;
@@ -1263,7 +1236,7 @@ namespace PKHeX.WinForms
             CHK_Subway2.Location = new System.Drawing.Point(10, 38);
             CHK_Subway2.Margin = new System.Windows.Forms.Padding(2);
             CHK_Subway2.Name = "CHK_Subway2";
-            CHK_Subway2.Size = new System.Drawing.Size(54, 19);
+            CHK_Subway2.Size = new System.Drawing.Size(58, 21);
             CHK_Subway2.TabIndex = 3;
             CHK_Subway2.Text = "Flag2";
             CHK_Subway2.UseVisualStyleBackColor = true;
@@ -1274,7 +1247,7 @@ namespace PKHeX.WinForms
             CHK_Subway3.Location = new System.Drawing.Point(77, 38);
             CHK_Subway3.Margin = new System.Windows.Forms.Padding(2);
             CHK_Subway3.Name = "CHK_Subway3";
-            CHK_Subway3.Size = new System.Drawing.Size(54, 19);
+            CHK_Subway3.Size = new System.Drawing.Size(58, 21);
             CHK_Subway3.TabIndex = 4;
             CHK_Subway3.Text = "Flag3";
             CHK_Subway3.UseVisualStyleBackColor = true;
@@ -1285,7 +1258,7 @@ namespace PKHeX.WinForms
             CHK_SuperSingle.Location = new System.Drawing.Point(10, 56);
             CHK_SuperSingle.Margin = new System.Windows.Forms.Padding(2);
             CHK_SuperSingle.Name = "CHK_SuperSingle";
-            CHK_SuperSingle.Size = new System.Drawing.Size(101, 19);
+            CHK_SuperSingle.Size = new System.Drawing.Size(112, 21);
             CHK_SuperSingle.TabIndex = 5;
             CHK_SuperSingle.Text = "Super Singles?";
             CHK_SuperSingle.UseVisualStyleBackColor = true;
@@ -1296,7 +1269,7 @@ namespace PKHeX.WinForms
             CHK_SuperMulti.Location = new System.Drawing.Point(10, 74);
             CHK_SuperMulti.Margin = new System.Windows.Forms.Padding(2);
             CHK_SuperMulti.Name = "CHK_SuperMulti";
-            CHK_SuperMulti.Size = new System.Drawing.Size(92, 19);
+            CHK_SuperMulti.Size = new System.Drawing.Size(100, 21);
             CHK_SuperMulti.TabIndex = 7;
             CHK_SuperMulti.Text = "Super Multi?";
             CHK_SuperMulti.UseVisualStyleBackColor = true;
@@ -1307,7 +1280,7 @@ namespace PKHeX.WinForms
             CHK_SuperDouble.Location = new System.Drawing.Point(10, 92);
             CHK_SuperDouble.Margin = new System.Windows.Forms.Padding(2);
             CHK_SuperDouble.Name = "CHK_SuperDouble";
-            CHK_SuperDouble.Size = new System.Drawing.Size(107, 19);
+            CHK_SuperDouble.Size = new System.Drawing.Size(119, 21);
             CHK_SuperDouble.TabIndex = 6;
             CHK_SuperDouble.Text = "Super Doubles?";
             CHK_SuperDouble.UseVisualStyleBackColor = true;
@@ -1318,7 +1291,7 @@ namespace PKHeX.WinForms
             CHK_Subway7.Location = new System.Drawing.Point(10, 110);
             CHK_Subway7.Margin = new System.Windows.Forms.Padding(2);
             CHK_Subway7.Name = "CHK_Subway7";
-            CHK_Subway7.Size = new System.Drawing.Size(54, 19);
+            CHK_Subway7.Size = new System.Drawing.Size(58, 21);
             CHK_Subway7.TabIndex = 8;
             CHK_Subway7.Text = "Flag7";
             CHK_Subway7.UseVisualStyleBackColor = true;
@@ -1329,7 +1302,7 @@ namespace PKHeX.WinForms
             CHK_SWNPCMet.Location = new System.Drawing.Point(64, 110);
             CHK_SWNPCMet.Margin = new System.Windows.Forms.Padding(2);
             CHK_SWNPCMet.Name = "CHK_SWNPCMet";
-            CHK_SWNPCMet.Size = new System.Drawing.Size(74, 19);
+            CHK_SWNPCMet.Size = new System.Drawing.Size(78, 21);
             CHK_SWNPCMet.TabIndex = 8;
             CHK_SWNPCMet.Text = "NPC met";
             CHK_SWNPCMet.UseVisualStyleBackColor = true;
@@ -1356,7 +1329,7 @@ namespace PKHeX.WinForms
             L_CurrentType.Location = new System.Drawing.Point(45, 23);
             L_CurrentType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_CurrentType.Name = "L_CurrentType";
-            L_CurrentType.Size = new System.Drawing.Size(31, 15);
+            L_CurrentType.Size = new System.Drawing.Size(35, 17);
             L_CurrentType.TabIndex = 0;
             L_CurrentType.Text = "Type";
             L_CurrentType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1368,7 +1341,7 @@ namespace PKHeX.WinForms
             L_CurrentBattle.Location = new System.Drawing.Point(17, 47);
             L_CurrentBattle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_CurrentBattle.Name = "L_CurrentBattle";
-            L_CurrentBattle.Size = new System.Drawing.Size(59, 15);
+            L_CurrentBattle.Size = new System.Drawing.Size(65, 17);
             L_CurrentBattle.TabIndex = 0;
             L_CurrentBattle.Text = "Battle No.";
             L_CurrentBattle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1380,7 +1353,7 @@ namespace PKHeX.WinForms
             NUD_CurrentType.Margin = new System.Windows.Forms.Padding(2);
             NUD_CurrentType.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_CurrentType.Name = "NUD_CurrentType";
-            NUD_CurrentType.Size = new System.Drawing.Size(48, 23);
+            NUD_CurrentType.Size = new System.Drawing.Size(48, 25);
             NUD_CurrentType.TabIndex = 1;
             // 
             // NUD_CurrentBattle
@@ -1390,7 +1363,7 @@ namespace PKHeX.WinForms
             NUD_CurrentBattle.Margin = new System.Windows.Forms.Padding(2);
             NUD_CurrentBattle.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_CurrentBattle.Name = "NUD_CurrentBattle";
-            NUD_CurrentBattle.Size = new System.Drawing.Size(48, 23);
+            NUD_CurrentBattle.Size = new System.Drawing.Size(48, 25);
             NUD_CurrentBattle.TabIndex = 1;
             // 
             // GB_SubwaySets
@@ -1421,7 +1394,7 @@ namespace PKHeX.WinForms
             L_NormalSets.Location = new System.Drawing.Point(42, 19);
             L_NormalSets.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_NormalSets.Name = "L_NormalSets";
-            L_NormalSets.Size = new System.Drawing.Size(47, 15);
+            L_NormalSets.Size = new System.Drawing.Size(52, 17);
             L_NormalSets.TabIndex = 0;
             L_NormalSets.Text = "Normal";
             L_NormalSets.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1433,7 +1406,7 @@ namespace PKHeX.WinForms
             L_SuperSets.Location = new System.Drawing.Point(90, 19);
             L_SuperSets.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_SuperSets.Name = "L_SuperSets";
-            L_SuperSets.Size = new System.Drawing.Size(37, 15);
+            L_SuperSets.Size = new System.Drawing.Size(42, 17);
             L_SuperSets.TabIndex = 1;
             L_SuperSets.Text = "Super";
             L_SuperSets.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1445,7 +1418,7 @@ namespace PKHeX.WinForms
             CHK_SingleSet.Location = new System.Drawing.Point(16, 36);
             CHK_SingleSet.Margin = new System.Windows.Forms.Padding(2);
             CHK_SingleSet.Name = "CHK_SingleSet";
-            CHK_SingleSet.Size = new System.Drawing.Size(58, 19);
+            CHK_SingleSet.Size = new System.Drawing.Size(62, 21);
             CHK_SingleSet.TabIndex = 2;
             CHK_SingleSet.Text = "Single";
             CHK_SingleSet.UseVisualStyleBackColor = true;
@@ -1458,7 +1431,7 @@ namespace PKHeX.WinForms
             CHK_DoubleSet.Location = new System.Drawing.Point(10, 53);
             CHK_DoubleSet.Margin = new System.Windows.Forms.Padding(2);
             CHK_DoubleSet.Name = "CHK_DoubleSet";
-            CHK_DoubleSet.Size = new System.Drawing.Size(64, 19);
+            CHK_DoubleSet.Size = new System.Drawing.Size(69, 21);
             CHK_DoubleSet.TabIndex = 3;
             CHK_DoubleSet.Text = "Double";
             CHK_DoubleSet.UseVisualStyleBackColor = true;
@@ -1471,7 +1444,7 @@ namespace PKHeX.WinForms
             CHK_MultiNPCSet.Location = new System.Drawing.Point(24, 70);
             CHK_MultiNPCSet.Margin = new System.Windows.Forms.Padding(2);
             CHK_MultiNPCSet.Name = "CHK_MultiNPCSet";
-            CHK_MultiNPCSet.Size = new System.Drawing.Size(50, 19);
+            CHK_MultiNPCSet.Size = new System.Drawing.Size(52, 21);
             CHK_MultiNPCSet.TabIndex = 4;
             CHK_MultiNPCSet.Text = "NPC";
             CHK_MultiNPCSet.UseVisualStyleBackColor = true;
@@ -1484,7 +1457,7 @@ namespace PKHeX.WinForms
             CHK_MultiFriendsSet.Location = new System.Drawing.Point(10, 87);
             CHK_MultiFriendsSet.Margin = new System.Windows.Forms.Padding(2);
             CHK_MultiFriendsSet.Name = "CHK_MultiFriendsSet";
-            CHK_MultiFriendsSet.Size = new System.Drawing.Size(64, 19);
+            CHK_MultiFriendsSet.Size = new System.Drawing.Size(69, 21);
             CHK_MultiFriendsSet.TabIndex = 5;
             CHK_MultiFriendsSet.Text = "Friends";
             CHK_MultiFriendsSet.UseVisualStyleBackColor = true;
@@ -1584,7 +1557,7 @@ namespace PKHeX.WinForms
             NUD_SMultiFriendsRecord.Margin = new System.Windows.Forms.Padding(2);
             NUD_SMultiFriendsRecord.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_SMultiFriendsRecord.Name = "NUD_SMultiFriendsRecord";
-            NUD_SMultiFriendsRecord.Size = new System.Drawing.Size(48, 23);
+            NUD_SMultiFriendsRecord.Size = new System.Drawing.Size(48, 25);
             NUD_SMultiFriendsRecord.TabIndex = 9;
             // 
             // L_SMultiFriendsPast
@@ -1605,7 +1578,7 @@ namespace PKHeX.WinForms
             NUD_SMultiFriendsPast.Margin = new System.Windows.Forms.Padding(2);
             NUD_SMultiFriendsPast.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_SMultiFriendsPast.Name = "NUD_SMultiFriendsPast";
-            NUD_SMultiFriendsPast.Size = new System.Drawing.Size(48, 23);
+            NUD_SMultiFriendsPast.Size = new System.Drawing.Size(48, 25);
             NUD_SMultiFriendsPast.TabIndex = 7;
             // 
             // NUD_SMultiNpcRecord
@@ -1615,7 +1588,7 @@ namespace PKHeX.WinForms
             NUD_SMultiNpcRecord.Margin = new System.Windows.Forms.Padding(2);
             NUD_SMultiNpcRecord.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_SMultiNpcRecord.Name = "NUD_SMultiNpcRecord";
-            NUD_SMultiNpcRecord.Size = new System.Drawing.Size(48, 23);
+            NUD_SMultiNpcRecord.Size = new System.Drawing.Size(48, 25);
             NUD_SMultiNpcRecord.TabIndex = 4;
             // 
             // L_SMultiNpcPast
@@ -1636,7 +1609,7 @@ namespace PKHeX.WinForms
             NUD_SMultiNpcPast.Margin = new System.Windows.Forms.Padding(2);
             NUD_SMultiNpcPast.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_SMultiNpcPast.Name = "NUD_SMultiNpcPast";
-            NUD_SMultiNpcPast.Size = new System.Drawing.Size(48, 23);
+            NUD_SMultiNpcPast.Size = new System.Drawing.Size(48, 25);
             NUD_SMultiNpcPast.TabIndex = 2;
             // 
             // L_SMultiFriendsRecord
@@ -1683,7 +1656,7 @@ namespace PKHeX.WinForms
             NUD_SDoubleRecord.Margin = new System.Windows.Forms.Padding(2);
             NUD_SDoubleRecord.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_SDoubleRecord.Name = "NUD_SDoubleRecord";
-            NUD_SDoubleRecord.Size = new System.Drawing.Size(48, 23);
+            NUD_SDoubleRecord.Size = new System.Drawing.Size(48, 25);
             NUD_SDoubleRecord.TabIndex = 3;
             // 
             // L_SDoublePast
@@ -1704,7 +1677,7 @@ namespace PKHeX.WinForms
             NUD_SDoublePast.Margin = new System.Windows.Forms.Padding(2);
             NUD_SDoublePast.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_SDoublePast.Name = "NUD_SDoublePast";
-            NUD_SDoublePast.Size = new System.Drawing.Size(48, 23);
+            NUD_SDoublePast.Size = new System.Drawing.Size(48, 25);
             NUD_SDoublePast.TabIndex = 1;
             // 
             // L_SDoubleRecord
@@ -1740,7 +1713,7 @@ namespace PKHeX.WinForms
             NUD_SSingleRecord.Margin = new System.Windows.Forms.Padding(2);
             NUD_SSingleRecord.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_SSingleRecord.Name = "NUD_SSingleRecord";
-            NUD_SSingleRecord.Size = new System.Drawing.Size(48, 23);
+            NUD_SSingleRecord.Size = new System.Drawing.Size(48, 25);
             NUD_SSingleRecord.TabIndex = 3;
             // 
             // L_SSinglePast
@@ -1761,7 +1734,7 @@ namespace PKHeX.WinForms
             NUD_SSinglePast.Margin = new System.Windows.Forms.Padding(2);
             NUD_SSinglePast.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_SSinglePast.Name = "NUD_SSinglePast";
-            NUD_SSinglePast.Size = new System.Drawing.Size(48, 23);
+            NUD_SSinglePast.Size = new System.Drawing.Size(48, 25);
             NUD_SSinglePast.TabIndex = 1;
             // 
             // L_SSingleRecord
@@ -1825,7 +1798,7 @@ namespace PKHeX.WinForms
             NUD_MultiFriendsRecord.Margin = new System.Windows.Forms.Padding(2);
             NUD_MultiFriendsRecord.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_MultiFriendsRecord.Name = "NUD_MultiFriendsRecord";
-            NUD_MultiFriendsRecord.Size = new System.Drawing.Size(48, 23);
+            NUD_MultiFriendsRecord.Size = new System.Drawing.Size(48, 25);
             NUD_MultiFriendsRecord.TabIndex = 9;
             // 
             // L_MultiFriendsPast
@@ -1846,7 +1819,7 @@ namespace PKHeX.WinForms
             NUD_MultiFriendsPast.Margin = new System.Windows.Forms.Padding(2);
             NUD_MultiFriendsPast.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_MultiFriendsPast.Name = "NUD_MultiFriendsPast";
-            NUD_MultiFriendsPast.Size = new System.Drawing.Size(48, 23);
+            NUD_MultiFriendsPast.Size = new System.Drawing.Size(48, 25);
             NUD_MultiFriendsPast.TabIndex = 7;
             // 
             // NUD_MultiNpcRecord
@@ -1856,7 +1829,7 @@ namespace PKHeX.WinForms
             NUD_MultiNpcRecord.Margin = new System.Windows.Forms.Padding(2);
             NUD_MultiNpcRecord.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_MultiNpcRecord.Name = "NUD_MultiNpcRecord";
-            NUD_MultiNpcRecord.Size = new System.Drawing.Size(48, 23);
+            NUD_MultiNpcRecord.Size = new System.Drawing.Size(48, 25);
             NUD_MultiNpcRecord.TabIndex = 4;
             // 
             // L_MultiNpcPast
@@ -1877,7 +1850,7 @@ namespace PKHeX.WinForms
             NUD_MultiNpcPast.Margin = new System.Windows.Forms.Padding(2);
             NUD_MultiNpcPast.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_MultiNpcPast.Name = "NUD_MultiNpcPast";
-            NUD_MultiNpcPast.Size = new System.Drawing.Size(48, 23);
+            NUD_MultiNpcPast.Size = new System.Drawing.Size(48, 25);
             NUD_MultiNpcPast.TabIndex = 2;
             // 
             // L_MultiFriendsRecord
@@ -1924,7 +1897,7 @@ namespace PKHeX.WinForms
             NUD_DoubleRecord.Margin = new System.Windows.Forms.Padding(2);
             NUD_DoubleRecord.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_DoubleRecord.Name = "NUD_DoubleRecord";
-            NUD_DoubleRecord.Size = new System.Drawing.Size(48, 23);
+            NUD_DoubleRecord.Size = new System.Drawing.Size(48, 25);
             NUD_DoubleRecord.TabIndex = 3;
             // 
             // L_DoublePast
@@ -1945,7 +1918,7 @@ namespace PKHeX.WinForms
             NUD_DoublePast.Margin = new System.Windows.Forms.Padding(2);
             NUD_DoublePast.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_DoublePast.Name = "NUD_DoublePast";
-            NUD_DoublePast.Size = new System.Drawing.Size(48, 23);
+            NUD_DoublePast.Size = new System.Drawing.Size(48, 25);
             NUD_DoublePast.TabIndex = 1;
             // 
             // L_DoubleRecord
@@ -1981,7 +1954,7 @@ namespace PKHeX.WinForms
             NUD_SingleRecord.Margin = new System.Windows.Forms.Padding(2);
             NUD_SingleRecord.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_SingleRecord.Name = "NUD_SingleRecord";
-            NUD_SingleRecord.Size = new System.Drawing.Size(48, 23);
+            NUD_SingleRecord.Size = new System.Drawing.Size(48, 25);
             NUD_SingleRecord.TabIndex = 3;
             // 
             // L_SinglePast
@@ -2002,7 +1975,7 @@ namespace PKHeX.WinForms
             NUD_SinglePast.Margin = new System.Windows.Forms.Padding(2);
             NUD_SinglePast.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
             NUD_SinglePast.Name = "NUD_SinglePast";
-            NUD_SinglePast.Size = new System.Drawing.Size(48, 23);
+            NUD_SinglePast.Size = new System.Drawing.Size(48, 25);
             NUD_SinglePast.TabIndex = 1;
             // 
             // L_SingleRecord
@@ -2021,11 +1994,11 @@ namespace PKHeX.WinForms
             TAB_BWCityForest.Controls.Add(L_FC);
             TAB_BWCityForest.Controls.Add(B_ImportFC);
             TAB_BWCityForest.Controls.Add(B_DumpFC);
-            TAB_BWCityForest.Location = new System.Drawing.Point(4, 24);
+            TAB_BWCityForest.Location = new System.Drawing.Point(4, 26);
             TAB_BWCityForest.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             TAB_BWCityForest.Name = "TAB_BWCityForest";
             TAB_BWCityForest.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            TAB_BWCityForest.Size = new System.Drawing.Size(390, 338);
+            TAB_BWCityForest.Size = new System.Drawing.Size(390, 336);
             TAB_BWCityForest.TabIndex = 4;
             TAB_BWCityForest.Text = "WhiteForest/BlackCity";
             TAB_BWCityForest.UseVisualStyleBackColor = true;
@@ -2061,89 +2034,26 @@ namespace PKHeX.WinForms
             B_DumpFC.UseVisualStyleBackColor = true;
             B_DumpFC.Click += B_DumpFC_Click;
             // 
-            // TAB_Medals
-            // 
-            TAB_Medals.Controls.Add(TB_MedalType);
-            TAB_Medals.Controls.Add(B_ObtainAllMedals);
-            TAB_Medals.Controls.Add(CAL_MedalDate);
-            TAB_Medals.Controls.Add(CHK_MedalUnread);
-            TAB_Medals.Controls.Add(CB_MedalState);
-            TAB_Medals.Controls.Add(CB_CurrentMedal);
-            TAB_Medals.Location = new System.Drawing.Point(4, 24);
-            TAB_Medals.Name = "TAB_Medals";
-            TAB_Medals.Size = new System.Drawing.Size(390, 338);
-            TAB_Medals.TabIndex = 5;
-            TAB_Medals.Text = "Medals";
-            TAB_Medals.UseVisualStyleBackColor = true;
-            // 
-            // TB_MedalType
-            // 
-            TB_MedalType.Location = new System.Drawing.Point(212, 103);
-            TB_MedalType.Name = "TB_MedalType";
-            TB_MedalType.ReadOnly = true;
-            TB_MedalType.Size = new System.Drawing.Size(175, 23);
-            TB_MedalType.TabIndex = 4;
-            TB_MedalType.TabStop = false;
-            // 
-            // B_ObtainAllMedals
-            // 
-            B_ObtainAllMedals.Location = new System.Drawing.Point(3, 264);
-            B_ObtainAllMedals.Name = "B_ObtainAllMedals";
-            B_ObtainAllMedals.Size = new System.Drawing.Size(117, 71);
-            B_ObtainAllMedals.TabIndex = 5;
-            B_ObtainAllMedals.Text = "Obtain All Medals";
-            B_ObtainAllMedals.UseVisualStyleBackColor = true;
-            B_ObtainAllMedals.Click += B_ObtainAllMedals_Click;
-            // 
-            // CAL_MedalDate
-            // 
-            CAL_MedalDate.Location = new System.Drawing.Point(3, 74);
-            CAL_MedalDate.Name = "CAL_MedalDate";
-            CAL_MedalDate.Size = new System.Drawing.Size(384, 23);
-            CAL_MedalDate.TabIndex = 2;
-            CAL_MedalDate.ValueChanged += CAL_MedalDate_ValueChanged;
-            // 
-            // CHK_MedalUnread
-            // 
-            CHK_MedalUnread.AutoSize = true;
-            CHK_MedalUnread.Location = new System.Drawing.Point(3, 103);
-            CHK_MedalUnread.Name = "CHK_MedalUnread";
-            CHK_MedalUnread.Size = new System.Drawing.Size(64, 19);
-            CHK_MedalUnread.TabIndex = 3;
-            CHK_MedalUnread.Text = "Unread";
-            CHK_MedalUnread.UseVisualStyleBackColor = true;
-            CHK_MedalUnread.CheckedChanged += CHK_MedalUnread_CheckedChanged;
-            // 
-            // CB_MedalState
-            // 
-            CB_MedalState.FormattingEnabled = true;
-            CB_MedalState.Location = new System.Drawing.Point(3, 45);
-            CB_MedalState.Name = "CB_MedalState";
-            CB_MedalState.Size = new System.Drawing.Size(384, 23);
-            CB_MedalState.TabIndex = 1;
-            CB_MedalState.SelectedIndexChanged += CB_MedalState_SelectedIndexChanged;
-            // 
-            // CB_CurrentMedal
-            // 
-            CB_CurrentMedal.FormattingEnabled = true;
-            CB_CurrentMedal.Location = new System.Drawing.Point(3, 16);
-            CB_CurrentMedal.Name = "CB_CurrentMedal";
-            CB_CurrentMedal.Size = new System.Drawing.Size(384, 23);
-            CB_CurrentMedal.TabIndex = 0;
-            CB_CurrentMedal.SelectedIndexChanged += CB_CurrentMedal_SelectedIndexChanged;
-            // 
             // TAB_Muscial
             // 
+            TAB_Muscial.Controls.Add(CLB_MusicalProps);
             TAB_Muscial.Controls.Add(B_UnlockAllProps);
-            TAB_Muscial.Controls.Add(CHK_PropObtained);
-            TAB_Muscial.Controls.Add(CB_Prop);
-            TAB_Muscial.Location = new System.Drawing.Point(4, 24);
+            TAB_Muscial.Location = new System.Drawing.Point(4, 26);
             TAB_Muscial.Name = "TAB_Muscial";
             TAB_Muscial.Padding = new System.Windows.Forms.Padding(3);
-            TAB_Muscial.Size = new System.Drawing.Size(390, 338);
+            TAB_Muscial.Size = new System.Drawing.Size(390, 336);
             TAB_Muscial.TabIndex = 6;
             TAB_Muscial.Text = "Musical";
             TAB_Muscial.UseVisualStyleBackColor = true;
+            // 
+            // CLB_MusicalProps
+            // 
+            CLB_MusicalProps.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            CLB_MusicalProps.FormattingEnabled = true;
+            CLB_MusicalProps.Location = new System.Drawing.Point(6, 6);
+            CLB_MusicalProps.Name = "CLB_MusicalProps";
+            CLB_MusicalProps.Size = new System.Drawing.Size(244, 244);
+            CLB_MusicalProps.TabIndex = 3;
             // 
             // B_UnlockAllProps
             // 
@@ -2154,26 +2064,6 @@ namespace PKHeX.WinForms
             B_UnlockAllProps.Text = "Unlock All Props";
             B_UnlockAllProps.UseVisualStyleBackColor = true;
             B_UnlockAllProps.Click += B_UnlockAllProps_Click;
-            // 
-            // CHK_PropObtained
-            // 
-            CHK_PropObtained.AutoSize = true;
-            CHK_PropObtained.Location = new System.Drawing.Point(6, 35);
-            CHK_PropObtained.Name = "CHK_PropObtained";
-            CHK_PropObtained.Size = new System.Drawing.Size(75, 19);
-            CHK_PropObtained.TabIndex = 1;
-            CHK_PropObtained.Text = "Obtained";
-            CHK_PropObtained.UseVisualStyleBackColor = true;
-            CHK_PropObtained.CheckedChanged += CHK_PropObtained_CheckedChanged;
-            // 
-            // CB_Prop
-            // 
-            CB_Prop.FormattingEnabled = true;
-            CB_Prop.Location = new System.Drawing.Point(6, 6);
-            CB_Prop.Name = "CB_Prop";
-            CB_Prop.Size = new System.Drawing.Size(378, 23);
-            CB_Prop.TabIndex = 0;
-            CB_Prop.SelectedIndexChanged += CB_Prop_SelectedIndexChanged;
             // 
             // SAV_Misc5
             // 
@@ -2251,10 +2141,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_SingleRecord).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_SinglePast).EndInit();
             TAB_BWCityForest.ResumeLayout(false);
-            TAB_Medals.ResumeLayout(false);
-            TAB_Medals.PerformLayout();
             TAB_Muscial.ResumeLayout(false);
-            TAB_Muscial.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -2320,7 +2207,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Label L_Gender;
         private System.Windows.Forms.ComboBox CB_Gender;
-        private System.Windows.Forms.CheckBox CHK_Invisible;
         private System.Windows.Forms.Label L_Animation;
         private System.Windows.Forms.NumericUpDown NUD_Animation;
         private System.Windows.Forms.PictureBox PB_SlotPreview;
@@ -2406,15 +2292,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_FC;
         private System.Windows.Forms.Button B_ImportFC;
         private System.Windows.Forms.Button B_DumpFC;
-        private System.Windows.Forms.TabPage TAB_Medals;
-        private System.Windows.Forms.ComboBox CB_CurrentMedal;
-        private System.Windows.Forms.ComboBox CB_MedalState;
-        private System.Windows.Forms.DateTimePicker CAL_MedalDate;
-        private System.Windows.Forms.CheckBox CHK_MedalUnread;
-        private System.Windows.Forms.Button B_ObtainAllMedals;
         private System.Windows.Forms.TabPage TAB_Muscial;
-        private System.Windows.Forms.ComboBox CB_Prop;
-        private System.Windows.Forms.CheckBox CHK_PropObtained;
         private System.Windows.Forms.Button B_UnlockAllProps;
         private System.Windows.Forms.Label L_Record32V;
         private System.Windows.Forms.Label L_Record32;
@@ -2424,6 +2302,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_Record32;
         private System.Windows.Forms.NumericUpDown NUD_Record16V;
         private System.Windows.Forms.NumericUpDown NUD_Record16;
-        private System.Windows.Forms.TextBox TB_MedalType;
+        private System.Windows.Forms.CheckedListBox CLB_MusicalProps;
     }
 }

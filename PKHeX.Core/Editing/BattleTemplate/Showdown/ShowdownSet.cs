@@ -623,8 +623,8 @@ public sealed class ShowdownSet : IBattleTemplate
         var nameEVs = cfg.GetStatDisplay(settings.StatsEVs);
         var line = token switch
         {
-            BattleTemplateToken.EVsWithNature => GetStringStatsNatureAmp(EVs, 0, nameEVs, Nature),
-            BattleTemplateToken.EVsAppendNature => GetStringStatsNatureAmp(EVs, 0, nameEVs, Nature),
+            BattleTemplateToken.EVsWithNature => GetStringStatsStatAlignmentAmp(EVs, 0, nameEVs, Nature),
+            BattleTemplateToken.EVsAppendNature => GetStringStatsStatAlignmentAmp(EVs, 0, nameEVs, Nature),
             _ => GetStringStats(EVs, 0, nameEVs),
         };
         if (token is BattleTemplateToken.EVsAppendNature && Nature.IsFixed)
@@ -654,7 +654,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
     /// <inheritdoc cref="GetStringStats{T}(ReadOnlySpan{T}, T, StatDisplayConfig)"/>
     /// <remarks>Appends the nature amplification to the stat values, if not a neutral nature.</remarks>
-    public static string GetStringStatsNatureAmp<T>(ReadOnlySpan<T> stats, T ignoreValue, StatDisplayConfig statNames, Nature nature) where T : IEquatable<T>
+    public static string GetStringStatsStatAlignmentAmp<T>(ReadOnlySpan<T> stats, T ignoreValue, StatDisplayConfig statNames, Nature nature) where T : IEquatable<T>
     {
         var (plus, minus) = nature.GetNatureModification();
         if (plus == minus)
@@ -806,7 +806,7 @@ public sealed class ShowdownSet : IBattleTemplate
         if (Moves.Contains((ushort)Move.HiddenPower))
             HiddenPowerType = (sbyte)HiddenPower.GetType(IVs, Context);
 
-        Nature = pk.StatNature;
+        Nature = pk.StatAlignment;
         Gender = pk.Gender < 2 ? pk.Gender : (byte)2;
         Friendship = pk.CurrentFriendship;
         Level = pk.CurrentLevel;

@@ -17,6 +17,8 @@ namespace PKHeX.WinForms;
 
 public partial class SAV_MysteryGiftDB : Form
 {
+    private const int GridHeightMin = 5;
+    private const int GridHeightMax = 20;
     private readonly PKMEditor PKME_Tabs;
     private readonly SaveFile SAV;
     private readonly SAVEditor BoxView;
@@ -24,14 +26,14 @@ public partial class SAV_MysteryGiftDB : Form
     private readonly EntityInstructionBuilder UC_Builder;
 
     private const int GridWidth = 6;
-    private const int GridHeight = 11;
+    private readonly int GridHeight;
 
     public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
     {
         InitializeComponent();
 
         var settings = new TabPage { Text = "Settings", Name = "Tab_Settings" };
-        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EncounterDb });
+        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.MysteryDb });
         TC_SearchSettings.Controls.Add(settings);
 
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -50,23 +52,16 @@ public partial class SAV_MysteryGiftDB : Form
         SAV = sav.SAV;
         BoxView = sav;
         PKME_Tabs = tabs;
+        GridHeight = GetGridHeight(Main.Settings.MysteryDb.ResultsGridRowCount, MysteryPokeGrid);
 
         // Preset Filters to only show PKM available for loaded save
         CB_FormatComparator.SelectedIndex = 3; // <=
 
         var grid = MysteryPokeGrid;
-        var smallWidth = grid.Width;
-        var smallHeight = grid.Height;
+        var originalGridSize = grid.Size;
         grid.InitializeGrid(GridWidth, GridHeight, SpriteUtil.Spriter);
         grid.SetBackground(Resources.box_wp_clean);
-        var newWidth = grid.Width;
-        var newHeight = grid.Height;
-        var wDelta = newWidth - smallWidth;
-        if (wDelta != 0)
-            Width += wDelta;
-        var hDelta = newHeight - smallHeight;
-        if (hDelta != 0)
-            Height += hDelta;
+        ResizeForGrid(grid, originalGridSize);
 
         PKXBOXES = [.. grid.Entries];
 
@@ -130,10 +125,31 @@ public partial class SAV_MysteryGiftDB : Form
     private int slotSelected = -1; // = null;
     private Image? slotColor;
     private const int RES_MIN = GridWidth * 1;
-    private const int RES_MAX = GridWidth * GridHeight;
+    private int RES_MAX => PKXBOXES.Length;
     private readonly string Counter;
     private readonly string Viewed;
     private const int MAXFORMAT = Latest.Generation;
+
+    private int GetGridHeight(int requestedRows, PokeGrid grid)
+    {
+        requestedRows = Math.Clamp(requestedRows, GridHeightMin, GridHeightMax);
+        var workingAreaHeight = Screen.FromControl(this).WorkingArea.Height;
+        var otherHeight = Height - grid.Height;
+        var maxGridHeight = Math.Max(grid.Height, workingAreaHeight - otherHeight);
+        var maxRows = PokeGrid.GetMaxRowCount(maxGridHeight, SpriteUtil.Spriter.Height);
+        return Math.Max(1, Math.Min(requestedRows, maxRows));
+    }
+
+    private void ResizeForGrid(PokeGrid grid, Size originalGridSize)
+    {
+        var widthDelta = grid.Width - originalGridSize.Width;
+        if (widthDelta != 0)
+            Width += widthDelta;
+
+        var heightDelta = grid.Height - originalGridSize.Height;
+        if (heightDelta != 0)
+            Height += heightDelta;
+    }
 
     private bool GetShiftedIndex(ref int index)
     {

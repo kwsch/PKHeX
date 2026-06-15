@@ -247,7 +247,7 @@ public static class SaveLanguage
     {
         if (MaybeFR(hint)) {
             if (Contains(name, "fir")) return (English, FR);
-            if (Contains(name, "feu")) return (French, FR);
+            if (Contains(name, "feu") && !Contains(name, "feui")) return (French, FR); // ignore vert feuille
             if (Contains(name, "feuer")) return (German, FR);
             if (Contains(name, "fuoco")) return (Italian, FR);
             if (Contains(name, "fueg")) return (Spanish, FR);

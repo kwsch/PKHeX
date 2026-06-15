@@ -8,8 +8,12 @@
 0067	e	Carte Membre (Jamais Sortie)	0:Pas activée,4617:Activée
 0068	e	Lettre Chen (Jamais Sortie)	0:Pas activée,4370:Activée
 0069	e	Flûte Azur (Jamais Sortie)	0:Pas activée,4387:Activée
-0062	r	Joueurs Rencontrés dans le Souterrain	32:Spiritomb est apparu
+0062	r	Joueurs Rencontrés dans le Souterrain (Spiritomb)	32:Spiritomb est apparu
 0138	e	Tour Sacrée (Route 209)	0:Inactive,1:Active
 0248	e	Évènement de l'Auberge du Port (Jamais Sorti)	0:Pas encore complété,2:Capture de Darkrai en attente,3:Marin devant l'auberge (Darkrai capturé),4:Terminé (Darkrai capturé pendant le cauchemar)
 0280	e	Évènement de la Salle Originelle (Jamais Sorti)	0:Inactif,1:Actif
 0224	+	Meilleur Score du Show Capture (Parc des Amis)
+0070	+	Cadeaux donnés en Souterrain (Rico Lexion)
+0071	+	Fossiles Obtenus en Souterrain (Rico Lexion)
+0072	+	Joueurs piégés en Souterrain (Rico Lexion)
+0073	+	Joueurs rencontrés en Souterrain (Rico Lexion)

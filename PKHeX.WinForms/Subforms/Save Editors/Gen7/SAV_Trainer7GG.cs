@@ -73,7 +73,7 @@ public partial class SAV_Trainer7GG : Form
 
         CB_Game.SelectedValue = (int)SAV.Version;
         CB_Gender.SelectedIndex = SAV.Gender;
-        trainerID1.LoadIDValues(SAV, SAV.Generation);
+        trainerID1.LoadTrainer(SAV);
 
         NUD_M.Value = SAV.Coordinates.M;
         // Sanity Check Map Coordinates

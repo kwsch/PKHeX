@@ -17,8 +17,7 @@ public static class DevUtil
     {
         t.DropDownItems.Add(GetTranslationUpdater(Keys.D));
         t.DropDownItems.Add(GetPogoPickleReload(Keys.P));
-        t.DropDownItems.Add(GetHexImporter(Keys.I));
-        t.DropDownItems.Add(GetPluginInfo(Keys.L, plugins));
+        t.DropDownItems.Add(GetPluginInfo(Keys.U, plugins));
     }
 
     private static string DefaultLanguage => Main.CurrentLanguage;
@@ -37,13 +36,6 @@ public static class DevUtil
         DumpStringsMessage();
         UpdateTranslations();
         IsUpdatingTranslations = false;
-    }
-
-    private static ToolStripMenuItem GetHexImporter(Keys key)
-    {
-        var ti = GetHiddenMenu(key);
-        ti.Click += (_, _) => OpenFileFromClipboardHex();
-        return ti;
     }
 
     private static ToolStripMenuItem GetTranslationUpdater(Keys key)
@@ -72,25 +64,6 @@ public static class DevUtil
         ShortcutKeys = Keys.Control | Keys.Alt | key,
         Visible = false,
     };
-
-    private static void OpenFileFromClipboardHex()
-    {
-        var hex = Clipboard.GetText().Trim();
-        if (string.IsNullOrEmpty(hex))
-        {
-            WinFormsUtil.Alert("Clipboard is empty.");
-            return;
-        }
-        try
-        {
-            var data = Convert.FromHexString(hex.Replace(" ", ""));
-            Application.OpenForms.OfType<Main>().First().OpenFile(data, "", "");
-        }
-        catch (FormatException)
-        {
-            WinFormsUtil.Alert("Clipboard does not contain valid hex data.");
-        }
-    }
 
     private static void DisplayPluginList(List<IPlugin> plugins)
     {
@@ -179,8 +152,13 @@ public static class DevUtil
         typeof(PokeSize),
         typeof(PokeSizeDetailed),
 
+        typeof(PokeathlonStat4),
+        typeof(PokeathlonEvent4),
         typeof(PassPower5),
         typeof(Funfest5Mission),
+        typeof(JoinAvenueCeilingColor5),
+        typeof(MedalRank5),
+        typeof(HabitatCompletion5),
         typeof(BattleChateauRank6),
         typeof(OPower6Index),
         typeof(OPower6FieldType),
@@ -243,6 +221,12 @@ public static class DevUtil
         $"{nameof(SAV_Pokedex9a)}.CHK_SeenMega", // Dynamic text checkbox
         $"{nameof(SAV_Misc3)}.L_Stat", // Dynamic labels
         $"{nameof(SAV_Donut9a)}.L_Stat", // Dynamic labels
+
+        // unknown fields in Join Avenue, not worth translating until we know what they do.
+        $"{nameof(SAV_JoinAvenue)}.L_Unk",
+        $"{nameof(SAV_JoinAvenue)}.L_IsFlag",
+        $"{nameof(SAV_JoinAvenue)}.L_Unused",
+        $"{nameof(SAV_Medals5)}.L_Unknown",
 
         SlotList.DynamicLabelPrefix,
         $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.None)}",

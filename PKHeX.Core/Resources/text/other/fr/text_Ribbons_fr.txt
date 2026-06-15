@@ -1,10 +1,10 @@
-RibbonChampionKalos	Maître Kalos
+RibbonChampionKalos	Maître de Kalos
 RibbonChampionG3	Maître (Gen3)
-RibbonChampionSinnoh	Maître Sinnoh
+RibbonChampionSinnoh	Maître de Sinnoh
 RibbonBestFriends	Affection
 RibbonTraining	Perfectionnement
-RibbonBattlerSkillful	Élite
-RibbonBattlerExpert	Génie
+RibbonBattlerSkillful	Élite du Combat
+RibbonBattlerExpert	Génie du Combat
 RibbonEffort	Effort
 RibbonAlert	Alerte
 RibbonShock	Choc
@@ -37,7 +37,7 @@ RibbonChampionNational	Champion National
 RibbonChampionWorld	Champion du Monde
 RibbonCountMemoryContest	Souvenir Concours
 RibbonCountMemoryBattle	Souvenir Combat
-RibbonChampionG6Hoenn	Maître de Hoenn (ORAS)
+RibbonChampionG6Hoenn	Maître de Hoenn (ROSA)
 RibbonContestStar	Star des Concours
 RibbonMasterCoolness	Maître Sang-Froid
 RibbonMasterBeauty	Maître Beauté
@@ -80,11 +80,11 @@ RibbonG4Cute	Grâce (G4)
 RibbonG4CuteGreat	Grâce Méga
 RibbonG4CuteUltra	Grâce Ultra
 RibbonG4CuteMaster	Grâce Master
-RibbonG4Smart	Smart (G4)
+RibbonG4Smart	Intelligence (G4)
 RibbonG4SmartGreat	Intelligence Méga
 RibbonG4SmartUltra	Intelligence Ultra
 RibbonG4SmartMaster	Intelligence Master
-RibbonG4Tough	Tough (G4)
+RibbonG4Tough	Robustesse (G4)
 RibbonG4ToughGreat	Robustesse Méga
 RibbonG4ToughUltra	Robustesse Ultra
 RibbonG4ToughMaster	Robustesse Master
@@ -161,4 +161,4 @@ RibbonOnceInALifetime	Exceptionnel
 RibbonMarkAlpha	Insigne Baron
 RibbonMarkMightiest	Insigne Surpuissant
 RibbonMarkTitan	Insigne Dominant
-RibbonPartner	Partner Ribbon
+RibbonPartner	Partenaire

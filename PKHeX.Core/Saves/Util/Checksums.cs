@@ -105,10 +105,10 @@ public static class Checksums
     /// <returns>Checksum</returns>
     private static ushort CRC16(ReadOnlySpan<byte> data, [ConstantExpected] ushort initial)
     {
-        ushort chk = initial;
+        uint chk = initial;
         foreach (var b in data)
-            chk = (ushort)(crc16[(byte)(b ^ chk)] ^ (chk >> 8));
-        return chk;
+            chk = crc16[(byte)(b ^ chk)] ^ (chk >> 8);
+        return (ushort)chk;
     }
 
     private const ushort CRC16Initial = unchecked((ushort)~0);
@@ -166,10 +166,10 @@ public static class Checksums
     /// <returns>Checksum</returns>
     public static ushort CheckSum16(ReadOnlySpan<byte> data, [ConstantExpected] ushort initial = 0)
     {
-        ushort acc = initial;
+        uint acc = initial;
         foreach (byte b in data)
             acc += b;
-        return acc;
+        return (ushort)acc;
     }
 
     /// <summary>Calculates the 32bit checksum over an input byte array. Used in GC R/S BOX.</summary>
@@ -188,7 +188,7 @@ public static class Checksums
     /// <returns>Checksum</returns>
     public static ushort Add16(ReadOnlySpan<byte> data)
     {
-        ushort chk = 0;
+        uint chk = 0;
         foreach (var u16 in MemoryMarshal.Cast<byte, ushort>(data))
         {
             if (BitConverter.IsLittleEndian)
@@ -196,7 +196,7 @@ public static class Checksums
             else
                 chk += ReverseEndianness(u16);
         }
-        return chk;
+        return (ushort)chk;
     }
 
     /// <summary>
@@ -206,7 +206,7 @@ public static class Checksums
     /// <returns>Checksum</returns>
     public static ushort Add16BigEndian(ReadOnlySpan<byte> data)
     {
-        ushort chk = 0;
+        uint chk = 0;
         foreach (var u16 in MemoryMarshal.Cast<byte, ushort>(data))
         {
             if (!BitConverter.IsLittleEndian)
@@ -214,6 +214,6 @@ public static class Checksums
             else
                 chk += ReverseEndianness(u16);
         }
-        return chk;
+        return (ushort)chk;
     }
 }

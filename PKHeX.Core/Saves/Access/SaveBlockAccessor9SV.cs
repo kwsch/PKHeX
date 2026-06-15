@@ -146,6 +146,7 @@ public sealed class SaveBlockAccessor9SV(SAV9SV sav) : SCBlockAccessor, ISaveBlo
     private const uint KPlayerLastRoomMapName = 0x9F1ABF26; // PlayerSave_LastRoomMapName
     private const uint KPlayerLastGreenPosition = 0x5C6F8291; // PlayerSave_LastGreenPos
     private const uint KPlayerCurrentFieldID = 0xF17EB014; // PlayerSave_CurrentFieldId (0 = Paldea, 1 = Kitakami, 2 = Blueberry)
+    private const uint KPlayerCurrentLocationID = 0x19FC5B7B; // Current position's met location ID
 
     // Fashion
     public const uint KFashionUnlockedEyewear = 0xCBA20ED5; // 1000-1999

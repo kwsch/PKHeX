@@ -14,7 +14,7 @@ public static class StatusColor
     public static Color Burn => Color.FromArgb(255, 0, 0);
     public static Color Poison => Color.FromArgb(128, 0, 255);
     public static Color PoisonBad => Color.FromArgb(200, 0, 255);
-    public static Color None => Color.FromArgb(255, 255, 255, 255); // Transparent
+    public static Color None => Color.FromArgb(0, 0, 0, 0); // Transparent
 
     /// <summary>
     /// Gets the color of a <see cref="StatusCondition"/>.

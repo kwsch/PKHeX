@@ -28,6 +28,7 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Trainer9a));
             B_Cancel = new System.Windows.Forms.Button();
             B_Save = new System.Windows.Forms.Button();
             TB_OTName = new System.Windows.Forms.TextBox();
@@ -53,7 +54,6 @@ namespace PKHeX.WinForms
             L_Language = new System.Windows.Forms.Label();
             B_MaxCash = new System.Windows.Forms.Button();
             CB_Language = new System.Windows.Forms.ComboBox();
-            CB_Gender = new System.Windows.Forms.ComboBox();
             TB_MBMS = new System.Windows.Forms.MaskedTextBox();
             TB_MBMN = new System.Windows.Forms.MaskedTextBox();
             TB_MBRS = new System.Windows.Forms.MaskedTextBox();
@@ -90,10 +90,14 @@ namespace PKHeX.WinForms
             L_SinglesC = new System.Windows.Forms.Label();
             TC_Editor = new System.Windows.Forms.TabControl();
             Tab_Overview = new System.Windows.Forms.TabPage();
+            tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
+            CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             CAL_LastSavedDate = new System.Windows.Forms.DateTimePicker();
             L_LastSaved = new System.Windows.Forms.Label();
-            CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
+            flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            CB_Gender = new PKHeX.WinForms.Controls.GenderToggle();
+            FLP_Money = new System.Windows.Forms.FlowLayoutPanel();
             Tab_MiscValues = new System.Windows.Forms.TabPage();
             B_CollectTechnicalMachines = new System.Windows.Forms.Button();
             B_CollectScrews = new System.Windows.Forms.Button();
@@ -121,13 +125,17 @@ namespace PKHeX.WinForms
             P_Picture2 = new System.Windows.Forms.PictureBox();
             P_Picture3 = new System.Windows.Forms.PictureBox();
             Tab_DLC = new System.Windows.Forms.TabPage();
+            TB_StreetName = new System.Windows.Forms.TextBox();
+            L_StreetName = new System.Windows.Forms.Label();
             L_HyperspaceSurveyPoints = new System.Windows.Forms.Label();
             MT_HyperspaceSurveyPoints = new System.Windows.Forms.MaskedTextBox();
             B_HyperspaceSurveyPoints = new System.Windows.Forms.Button();
-            TB_StreetName = new System.Windows.Forms.TextBox();
-            L_StreetName = new System.Windows.Forms.Label();
+            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             TC_Editor.SuspendLayout();
             Tab_Overview.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            flowLayoutPanel2.SuspendLayout();
+            FLP_Money.SuspendLayout();
             Tab_MiscValues.SuspendLayout();
             GB_Map.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_R).BeginInit();
@@ -140,12 +148,14 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)P_Picture2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)P_Picture3).BeginInit();
             Tab_DLC.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // B_Cancel
             // 
-            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(281, 312);
+            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            B_Cancel.AutoSize = true;
+            B_Cancel.Location = new System.Drawing.Point(396, 4);
             B_Cancel.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(100, 32);
@@ -156,8 +166,9 @@ namespace PKHeX.WinForms
             // 
             // B_Save
             // 
-            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(391, 312);
+            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            B_Save.AutoSize = true;
+            B_Save.Location = new System.Drawing.Point(506, 4);
             B_Save.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(100, 32);
@@ -168,9 +179,9 @@ namespace PKHeX.WinForms
             // 
             // TB_OTName
             // 
+            TB_OTName.Anchor = System.Windows.Forms.AnchorStyles.Left;
             TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F);
-            TB_OTName.Location = new System.Drawing.Point(170, 14);
-            TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_OTName.Location = new System.Drawing.Point(3, 5);
             TB_OTName.MaxLength = 12;
             TB_OTName.Name = "TB_OTName";
             TB_OTName.Size = new System.Drawing.Size(120, 20);
@@ -181,18 +192,20 @@ namespace PKHeX.WinForms
             // 
             // L_TrainerName
             // 
-            L_TrainerName.Location = new System.Drawing.Point(66, 13);
-            L_TrainerName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_TrainerName.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_TrainerName.AutoSize = true;
+            L_TrainerName.Location = new System.Drawing.Point(35, 6);
+            L_TrainerName.Margin = new System.Windows.Forms.Padding(3);
             L_TrainerName.Name = "L_TrainerName";
-            L_TrainerName.Size = new System.Drawing.Size(104, 24);
+            L_TrainerName.Size = new System.Drawing.Size(90, 17);
             L_TrainerName.TabIndex = 3;
             L_TrainerName.Text = "Trainer Name:";
             L_TrainerName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MT_Money
             // 
-            MT_Money.Location = new System.Drawing.Point(170, 68);
-            MT_Money.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Money.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            MT_Money.Location = new System.Drawing.Point(3, 3);
             MT_Money.Mask = "0000000";
             MT_Money.Name = "MT_Money";
             MT_Money.Size = new System.Drawing.Size(67, 25);
@@ -202,10 +215,12 @@ namespace PKHeX.WinForms
             // 
             // L_Money
             // 
-            L_Money.Location = new System.Drawing.Point(132, 69);
-            L_Money.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Money.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Money.AutoSize = true;
+            L_Money.Location = new System.Drawing.Point(107, 62);
+            L_Money.Margin = new System.Windows.Forms.Padding(3);
             L_Money.Name = "L_Money";
-            L_Money.Size = new System.Drawing.Size(37, 23);
+            L_Money.Size = new System.Drawing.Size(18, 17);
             L_Money.TabIndex = 5;
             L_Money.Text = "$:";
             L_Money.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -282,28 +297,32 @@ namespace PKHeX.WinForms
             // 
             // L_Seconds
             // 
-            L_Seconds.Location = new System.Drawing.Point(285, 178);
-            L_Seconds.Margin = new System.Windows.Forms.Padding(0);
+            L_Seconds.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Seconds.AutoSize = true;
+            L_Seconds.Location = new System.Drawing.Point(94, 268);
+            L_Seconds.Margin = new System.Windows.Forms.Padding(3);
             L_Seconds.Name = "L_Seconds";
-            L_Seconds.Size = new System.Drawing.Size(41, 24);
+            L_Seconds.Size = new System.Drawing.Size(31, 17);
             L_Seconds.TabIndex = 30;
             L_Seconds.Text = "Sec:";
             L_Seconds.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Minutes
             // 
-            L_Minutes.Location = new System.Drawing.Point(198, 178);
-            L_Minutes.Margin = new System.Windows.Forms.Padding(0);
+            L_Minutes.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Minutes.AutoSize = true;
+            L_Minutes.Location = new System.Drawing.Point(92, 237);
+            L_Minutes.Margin = new System.Windows.Forms.Padding(3);
             L_Minutes.Name = "L_Minutes";
-            L_Minutes.Size = new System.Drawing.Size(67, 24);
+            L_Minutes.Size = new System.Drawing.Size(33, 17);
             L_Minutes.TabIndex = 29;
             L_Minutes.Text = "Min:";
             L_Minutes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MT_Seconds
             // 
-            MT_Seconds.Location = new System.Drawing.Point(326, 178);
-            MT_Seconds.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Seconds.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            MT_Seconds.Location = new System.Drawing.Point(131, 264);
             MT_Seconds.Mask = "00";
             MT_Seconds.Name = "MT_Seconds";
             MT_Seconds.Size = new System.Drawing.Size(25, 25);
@@ -313,8 +332,8 @@ namespace PKHeX.WinForms
             // 
             // MT_Minutes
             // 
-            MT_Minutes.Location = new System.Drawing.Point(265, 178);
-            MT_Minutes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Minutes.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            MT_Minutes.Location = new System.Drawing.Point(131, 233);
             MT_Minutes.Mask = "00";
             MT_Minutes.Name = "MT_Minutes";
             MT_Minutes.Size = new System.Drawing.Size(25, 25);
@@ -324,18 +343,20 @@ namespace PKHeX.WinForms
             // 
             // L_Hours
             // 
-            L_Hours.Location = new System.Drawing.Point(100, 178);
-            L_Hours.Margin = new System.Windows.Forms.Padding(0);
+            L_Hours.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Hours.AutoSize = true;
+            L_Hours.Location = new System.Drawing.Point(94, 206);
+            L_Hours.Margin = new System.Windows.Forms.Padding(3);
             L_Hours.Name = "L_Hours";
-            L_Hours.Size = new System.Drawing.Size(70, 24);
+            L_Hours.Size = new System.Drawing.Size(31, 17);
             L_Hours.TabIndex = 26;
             L_Hours.Text = "Hrs:";
             L_Hours.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MT_Hours
             // 
-            MT_Hours.Location = new System.Drawing.Point(170, 178);
-            MT_Hours.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Hours.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            MT_Hours.Location = new System.Drawing.Point(131, 202);
             MT_Hours.Mask = "00000";
             MT_Hours.Name = "MT_Hours";
             MT_Hours.Size = new System.Drawing.Size(56, 25);
@@ -344,18 +365,20 @@ namespace PKHeX.WinForms
             // 
             // L_Language
             // 
-            L_Language.Location = new System.Drawing.Point(66, 150);
-            L_Language.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Language.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Language.AutoSize = true;
+            L_Language.Location = new System.Drawing.Point(57, 93);
+            L_Language.Margin = new System.Windows.Forms.Padding(3);
             L_Language.Name = "L_Language";
-            L_Language.Size = new System.Drawing.Size(104, 24);
+            L_Language.Size = new System.Drawing.Size(68, 17);
             L_Language.TabIndex = 21;
             L_Language.Text = "Language:";
             L_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_MaxCash
             // 
-            B_MaxCash.Location = new System.Drawing.Point(241, 68);
-            B_MaxCash.Margin = new System.Windows.Forms.Padding(0);
+            B_MaxCash.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            B_MaxCash.Location = new System.Drawing.Point(76, 4);
             B_MaxCash.Name = "B_MaxCash";
             B_MaxCash.Size = new System.Drawing.Size(23, 23);
             B_MaxCash.TabIndex = 16;
@@ -364,24 +387,13 @@ namespace PKHeX.WinForms
             // 
             // CB_Language
             // 
+            CB_Language.Anchor = System.Windows.Forms.AnchorStyles.Left;
             CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Language.FormattingEnabled = true;
-            CB_Language.Location = new System.Drawing.Point(170, 150);
-            CB_Language.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Language.Location = new System.Drawing.Point(131, 89);
             CB_Language.Name = "CB_Language";
-            CB_Language.Size = new System.Drawing.Size(120, 25);
+            CB_Language.Size = new System.Drawing.Size(148, 25);
             CB_Language.TabIndex = 15;
-            // 
-            // CB_Gender
-            // 
-            CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_Gender.FormattingEnabled = true;
-            CB_Gender.Items.AddRange(new object[] { "♂", "♀" });
-            CB_Gender.Location = new System.Drawing.Point(298, 13);
-            CB_Gender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CB_Gender.Name = "CB_Gender";
-            CB_Gender.Size = new System.Drawing.Size(46, 25);
-            CB_Gender.TabIndex = 22;
             // 
             // TB_MBMS
             // 
@@ -632,51 +644,91 @@ namespace PKHeX.WinForms
             TC_Editor.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             TC_Editor.Name = "TC_Editor";
             TC_Editor.SelectedIndex = 0;
-            TC_Editor.Size = new System.Drawing.Size(496, 307);
+            TC_Editor.Size = new System.Drawing.Size(611, 335);
             TC_Editor.TabIndex = 54;
             // 
             // Tab_Overview
             // 
-            Tab_Overview.Controls.Add(trainerID1);
-            Tab_Overview.Controls.Add(CAL_LastSavedDate);
-            Tab_Overview.Controls.Add(L_LastSaved);
-            Tab_Overview.Controls.Add(CAL_LastSavedTime);
-            Tab_Overview.Controls.Add(MT_Hours);
-            Tab_Overview.Controls.Add(L_Hours);
-            Tab_Overview.Controls.Add(MT_Minutes);
-            Tab_Overview.Controls.Add(L_Minutes);
-            Tab_Overview.Controls.Add(TB_OTName);
-            Tab_Overview.Controls.Add(CB_Gender);
-            Tab_Overview.Controls.Add(L_TrainerName);
-            Tab_Overview.Controls.Add(MT_Money);
-            Tab_Overview.Controls.Add(L_Money);
-            Tab_Overview.Controls.Add(L_Language);
-            Tab_Overview.Controls.Add(CB_Language);
-            Tab_Overview.Controls.Add(B_MaxCash);
-            Tab_Overview.Controls.Add(MT_Seconds);
-            Tab_Overview.Controls.Add(L_Seconds);
+            Tab_Overview.Controls.Add(tableLayoutPanel1);
             Tab_Overview.Location = new System.Drawing.Point(4, 26);
             Tab_Overview.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             Tab_Overview.Name = "Tab_Overview";
             Tab_Overview.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            Tab_Overview.Size = new System.Drawing.Size(488, 277);
+            Tab_Overview.Size = new System.Drawing.Size(603, 305);
             Tab_Overview.TabIndex = 0;
             Tab_Overview.Text = "Overview";
             Tab_Overview.UseVisualStyleBackColor = true;
             // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            tableLayoutPanel1.Controls.Add(L_TrainerName, 0, 0);
+            tableLayoutPanel1.Controls.Add(MT_Seconds, 1, 11);
+            tableLayoutPanel1.Controls.Add(MT_Minutes, 1, 10);
+            tableLayoutPanel1.Controls.Add(L_Seconds, 0, 11);
+            tableLayoutPanel1.Controls.Add(L_Hours, 0, 9);
+            tableLayoutPanel1.Controls.Add(L_Minutes, 0, 10);
+            tableLayoutPanel1.Controls.Add(MT_Hours, 1, 9);
+            tableLayoutPanel1.Controls.Add(CAL_LastSavedTime, 1, 7);
+            tableLayoutPanel1.Controls.Add(CAL_LastSavedDate, 1, 6);
+            tableLayoutPanel1.Controls.Add(trainerID1, 0, 1);
+            tableLayoutPanel1.Controls.Add(L_LastSaved, 0, 6);
+            tableLayoutPanel1.Controls.Add(flowLayoutPanel2, 1, 0);
+            tableLayoutPanel1.Controls.Add(FLP_Money, 1, 3);
+            tableLayoutPanel1.Controls.Add(L_Money, 0, 3);
+            tableLayoutPanel1.Controls.Add(CB_Language, 1, 4);
+            tableLayoutPanel1.Controls.Add(L_Language, 0, 4);
+            tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanel1.Location = new System.Drawing.Point(5, 4);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 13;
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel1.Size = new System.Drawing.Size(593, 297);
+            tableLayoutPanel1.TabIndex = 75;
+            // 
             // trainerID1
             // 
-            trainerID1.Location = new System.Drawing.Point(130, 40);
-            trainerID1.Margin = new System.Windows.Forms.Padding(0);
+            tableLayoutPanel1.SetColumnSpan(trainerID1, 2);
+            trainerID1.Dock = System.Windows.Forms.DockStyle.Fill;
+            trainerID1.Location = new System.Drawing.Point(88, 30);
+            trainerID1.Margin = new System.Windows.Forms.Padding(88, 0, 0, 0);
             trainerID1.Name = "trainerID1";
-            trainerID1.Size = new System.Drawing.Size(246, 25);
+            trainerID1.Size = new System.Drawing.Size(593, 25);
             trainerID1.TabIndex = 74;
+            // 
+            // CAL_LastSavedTime
+            // 
+            CAL_LastSavedTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CAL_LastSavedTime.CustomFormat = "HH:mm:ss";
+            CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            CAL_LastSavedTime.Location = new System.Drawing.Point(131, 151);
+            CAL_LastSavedTime.MaxDate = new System.DateTime(2060, 12, 31, 0, 0, 0, 0);
+            CAL_LastSavedTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_LastSavedTime.Name = "CAL_LastSavedTime";
+            CAL_LastSavedTime.ShowUpDown = true;
+            CAL_LastSavedTime.Size = new System.Drawing.Size(84, 25);
+            CAL_LastSavedTime.TabIndex = 57;
+            CAL_LastSavedTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
             // CAL_LastSavedDate
             // 
+            CAL_LastSavedDate.Anchor = System.Windows.Forms.AnchorStyles.Left;
             CAL_LastSavedDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            CAL_LastSavedDate.Location = new System.Drawing.Point(170, 232);
-            CAL_LastSavedDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_LastSavedDate.Location = new System.Drawing.Point(131, 120);
             CAL_LastSavedDate.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
             CAL_LastSavedDate.Name = "CAL_LastSavedDate";
             CAL_LastSavedDate.Size = new System.Drawing.Size(120, 25);
@@ -685,27 +737,50 @@ namespace PKHeX.WinForms
             // 
             // L_LastSaved
             // 
-            L_LastSaved.Location = new System.Drawing.Point(75, 232);
-            L_LastSaved.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_LastSaved.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_LastSaved.AutoSize = true;
+            L_LastSaved.Location = new System.Drawing.Point(52, 124);
+            L_LastSaved.Margin = new System.Windows.Forms.Padding(3);
             L_LastSaved.Name = "L_LastSaved";
-            L_LastSaved.Size = new System.Drawing.Size(93, 23);
+            L_LastSaved.Size = new System.Drawing.Size(73, 17);
             L_LastSaved.TabIndex = 56;
             L_LastSaved.Text = "Last Saved:";
             L_LastSaved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // CAL_LastSavedTime
+            // flowLayoutPanel2
             // 
-            CAL_LastSavedTime.CustomFormat = "HH:mm:ss";
-            CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            CAL_LastSavedTime.Location = new System.Drawing.Point(205, 254);
-            CAL_LastSavedTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CAL_LastSavedTime.MaxDate = new System.DateTime(2060, 12, 31, 0, 0, 0, 0);
-            CAL_LastSavedTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
-            CAL_LastSavedTime.Name = "CAL_LastSavedTime";
-            CAL_LastSavedTime.ShowUpDown = true;
-            CAL_LastSavedTime.Size = new System.Drawing.Size(84, 25);
-            CAL_LastSavedTime.TabIndex = 57;
-            CAL_LastSavedTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            flowLayoutPanel2.AutoSize = true;
+            flowLayoutPanel2.Controls.Add(TB_OTName);
+            flowLayoutPanel2.Controls.Add(CB_Gender);
+            flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            flowLayoutPanel2.Location = new System.Drawing.Point(128, 0);
+            flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Size = new System.Drawing.Size(553, 30);
+            flowLayoutPanel2.TabIndex = 77;
+            // 
+            // CB_Gender
+            // 
+            CB_Gender.AllowClick = true;
+            CB_Gender.BackgroundImage = (System.Drawing.Image)resources.GetObject("CB_Gender.BackgroundImage");
+            CB_Gender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            CB_Gender.Gender = 2;
+            CB_Gender.Location = new System.Drawing.Point(129, 3);
+            CB_Gender.Name = "CB_Gender";
+            CB_Gender.Size = new System.Drawing.Size(24, 24);
+            CB_Gender.TabIndex = 76;
+            // 
+            // FLP_Money
+            // 
+            FLP_Money.AutoSize = true;
+            FLP_Money.Controls.Add(MT_Money);
+            FLP_Money.Controls.Add(B_MaxCash);
+            FLP_Money.Dock = System.Windows.Forms.DockStyle.Fill;
+            FLP_Money.Location = new System.Drawing.Point(128, 55);
+            FLP_Money.Margin = new System.Windows.Forms.Padding(0);
+            FLP_Money.Name = "FLP_Money";
+            FLP_Money.Size = new System.Drawing.Size(553, 31);
+            FLP_Money.TabIndex = 78;
             // 
             // Tab_MiscValues
             // 
@@ -723,7 +798,7 @@ namespace PKHeX.WinForms
             Tab_MiscValues.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             Tab_MiscValues.Name = "Tab_MiscValues";
             Tab_MiscValues.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            Tab_MiscValues.Size = new System.Drawing.Size(488, 277);
+            Tab_MiscValues.Size = new System.Drawing.Size(603, 305);
             Tab_MiscValues.TabIndex = 4;
             Tab_MiscValues.Text = "Misc";
             Tab_MiscValues.UseVisualStyleBackColor = true;
@@ -962,7 +1037,7 @@ namespace PKHeX.WinForms
             Tab_Images.Location = new System.Drawing.Point(4, 26);
             Tab_Images.Name = "Tab_Images";
             Tab_Images.Padding = new System.Windows.Forms.Padding(3);
-            Tab_Images.Size = new System.Drawing.Size(488, 277);
+            Tab_Images.Size = new System.Drawing.Size(603, 305);
             Tab_Images.TabIndex = 5;
             Tab_Images.Text = "Images";
             Tab_Images.UseVisualStyleBackColor = true;
@@ -976,7 +1051,7 @@ namespace PKHeX.WinForms
             FLP_Images.Dock = System.Windows.Forms.DockStyle.Fill;
             FLP_Images.Location = new System.Drawing.Point(3, 3);
             FLP_Images.Name = "FLP_Images";
-            FLP_Images.Size = new System.Drawing.Size(482, 271);
+            FLP_Images.Size = new System.Drawing.Size(597, 299);
             FLP_Images.TabIndex = 0;
             // 
             // P_Picture1
@@ -1025,10 +1100,31 @@ namespace PKHeX.WinForms
             Tab_DLC.Location = new System.Drawing.Point(4, 26);
             Tab_DLC.Name = "Tab_DLC";
             Tab_DLC.Padding = new System.Windows.Forms.Padding(3);
-            Tab_DLC.Size = new System.Drawing.Size(488, 277);
+            Tab_DLC.Size = new System.Drawing.Size(603, 305);
             Tab_DLC.TabIndex = 6;
             Tab_DLC.Text = "DLC";
             Tab_DLC.UseVisualStyleBackColor = true;
+            // 
+            // TB_StreetName
+            // 
+            TB_StreetName.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_StreetName.Location = new System.Drawing.Point(254, 39);
+            TB_StreetName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_StreetName.MaxLength = 18;
+            TB_StreetName.Name = "TB_StreetName";
+            TB_StreetName.Size = new System.Drawing.Size(145, 20);
+            TB_StreetName.TabIndex = 92;
+            TB_StreetName.Text = "WWWWWWWWWWWWWWWWWW";
+            // 
+            // L_StreetName
+            // 
+            L_StreetName.Location = new System.Drawing.Point(9, 35);
+            L_StreetName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_StreetName.Name = "L_StreetName";
+            L_StreetName.Size = new System.Drawing.Size(241, 24);
+            L_StreetName.TabIndex = 93;
+            L_StreetName.Text = "Street Name:";
+            L_StreetName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_HyperspaceSurveyPoints
             // 
@@ -1061,34 +1157,23 @@ namespace PKHeX.WinForms
             B_HyperspaceSurveyPoints.Text = "+";
             B_HyperspaceSurveyPoints.UseVisualStyleBackColor = true;
             // 
-            // TB_StreetName
+            // flowLayoutPanel1
             // 
-            TB_StreetName.Font = new System.Drawing.Font("Courier New", 8.25F);
-            TB_StreetName.Location = new System.Drawing.Point(254, 39);
-            TB_StreetName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            TB_StreetName.MaxLength = 18;
-            TB_StreetName.Name = "TB_StreetName";
-            TB_StreetName.Size = new System.Drawing.Size(145, 20);
-            TB_StreetName.TabIndex = 92;
-            TB_StreetName.Text = "WWWWWWWWWWWWWWWWWW";
-            // 
-            // L_StreetName
-            // 
-            L_StreetName.Location = new System.Drawing.Point(9, 35);
-            L_StreetName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            L_StreetName.Name = "L_StreetName";
-            L_StreetName.Size = new System.Drawing.Size(241, 24);
-            L_StreetName.TabIndex = 93;
-            L_StreetName.Text = "Street Name:";
-            L_StreetName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            flowLayoutPanel1.Controls.Add(B_Save);
+            flowLayoutPanel1.Controls.Add(B_Cancel);
+            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            flowLayoutPanel1.Location = new System.Drawing.Point(0, 338);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new System.Drawing.Size(611, 43);
+            flowLayoutPanel1.TabIndex = 55;
             // 
             // SAV_Trainer9a
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(496, 353);
+            ClientSize = new System.Drawing.Size(611, 381);
+            Controls.Add(flowLayoutPanel1);
             Controls.Add(TC_Editor);
-            Controls.Add(B_Save);
-            Controls.Add(B_Cancel);
             Icon = Properties.Resources.Icon;
             Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             MaximizeBox = false;
@@ -1098,7 +1183,12 @@ namespace PKHeX.WinForms
             Text = "Trainer Data Editor";
             TC_Editor.ResumeLayout(false);
             Tab_Overview.ResumeLayout(false);
-            Tab_Overview.PerformLayout();
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
+            flowLayoutPanel2.ResumeLayout(false);
+            flowLayoutPanel2.PerformLayout();
+            FLP_Money.ResumeLayout(false);
+            FLP_Money.PerformLayout();
             Tab_MiscValues.ResumeLayout(false);
             Tab_MiscValues.PerformLayout();
             GB_Map.ResumeLayout(false);
@@ -1114,6 +1204,8 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)P_Picture3).EndInit();
             Tab_DLC.ResumeLayout(false);
             Tab_DLC.PerformLayout();
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -1152,7 +1244,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_DoublesC;
         private System.Windows.Forms.Label L_SinglesC;
         private System.Windows.Forms.Label L_Language;
-        private System.Windows.Forms.ComboBox CB_Gender;
         private System.Windows.Forms.MaskedTextBox TB_MBMS;
         private System.Windows.Forms.MaskedTextBox TB_MBMN;
         private System.Windows.Forms.MaskedTextBox TB_MBRS;
@@ -1217,5 +1308,10 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_HyperspaceSurveyPoints;
         private System.Windows.Forms.TextBox TB_StreetName;
         private System.Windows.Forms.Label L_StreetName;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private Controls.GenderToggle CB_Gender;
+        private System.Windows.Forms.FlowLayoutPanel FLP_Money;
     }
 }

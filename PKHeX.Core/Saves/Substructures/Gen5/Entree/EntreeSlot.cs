@@ -38,31 +38,20 @@ public sealed class EntreeSlot(Memory<byte> Data) : ISpeciesForm
     /// <summary>
     /// <see cref="PKM.Form"/> index
     /// </summary>
-    public byte Form // bits 23-27
+    public byte Form // bits 23-28 (6 bits)
     {
-        get => (byte)((RawValue & 0x0F80_0000) >> 23);
-        set => RawValue = (RawValue & 0xF07F_FFFF) | ((value & 0x1Fu) << 23);
-    }
-
-    /// <summary>
-    /// Visibility Flag
-    /// </summary>
-    public bool Invisible // bit 28
-    {
-        get => ((RawValue >> 28) & 1) == 1;
-        set => RawValue = (RawValue & 0xEFFFFFFF) | (value ? 0 : 1u << 28);
+        get => (byte)((RawValue & 0x1F80_0000) >> 23);
+        set => RawValue = (RawValue & 0xE07F_FFFF) | ((value & 0x3Fu) << 23);
     }
 
     /// <summary>
     /// Animation Leash (How many steps it can deviate from its spawn location).
     /// </summary>
-    public int Animation // bits 29-31
+    public EntreeForestAnimation Animation // bits 29-31
     {
-        get => (int)(RawValue >> 29);
-        set => RawValue = ((RawValue << 3) >> 3) | (uint)((value & 0x7) << 29);
+        get => (EntreeForestAnimation)(RawValue >> 29);
+        set => RawValue = ((RawValue << 3) >> 3) | (uint)(((byte)value & 0x7) << 29);
     }
-
-    private Memory<byte> Data { get; } = Data;
 
     /// <summary>
     /// Raw Data Value
@@ -85,4 +74,19 @@ public sealed class EntreeSlot(Memory<byte> Data) : ISpeciesForm
     /// Extra metadata for the slot which is not stored in the raw data.
     /// </summary>
     public EntreeForestArea Area { get; init; }
+}
+
+/// <summary>
+/// Movement patterns, as observed in-game.
+/// </summary>
+public enum EntreeForestAnimation : byte
+{
+    LookRandom             = 0, // random looking around 
+    Leash3                 = 1, // walking in a 3x3 radius block
+    Leash5                 = 2, // walking in a 5x5 radius block
+    MoveUpDown             = 3, // moving up and down only
+    MoveLeftRight          = 4, // moving left and right only
+    MoveLeftRightLook      = 5, // moving left and right and looking around
+    RotateClockwise        = 6, // clockwise rotating
+    RotateCounterClockwise = 7, // counterclockwise rotating
 }

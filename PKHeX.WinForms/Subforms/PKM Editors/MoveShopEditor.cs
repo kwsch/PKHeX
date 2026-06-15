@@ -203,6 +203,7 @@ public partial class MoveShopEditor : Form
         switch (ModifierKeys)
         {
             case Keys.Shift:
+                Master.SetPurchasedFlagsAll(Entity);
                 Master.SetMoveShopFlagsAll(Entity);
                 break;
             case Keys.Control:

@@ -218,6 +218,20 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     }
 
     /// <summary>
+    /// Determines whether the Generation 3/4 PID satisfies the Nature criteria.
+    /// </summary>
+    /// <param name="pid">The original PID to check.</param>
+    /// <returns><see langword="true"/> if the Nature satisfies the criteria; otherwise, <see langword="false"/>.</returns>
+    public bool IsSatisfiedNature(uint pid)
+    {
+        if (Mutations.HasFlag(AllowOnlyNeutralNature))
+            return ((Nature)(pid % 25)).IsNeutral;
+        if (Nature == Nature.Random)
+            return true;
+        return Mutations.HasFlag(CanMintNature) || ((Nature)(pid % 25)) == Nature;
+    }
+
+    /// <summary>
     /// Determines whether the specified level satisfies the level range criteria.
     /// </summary>
     /// <param name="level">The level to check.</param>
@@ -573,6 +587,29 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
         if (!IsSatisfiedIV(IV_SPD, (int)((iv32 >> 25) & 0x1F))) return false;
         return true;
     }
+
+    /// <summary>
+    /// Checks whether the IV at the specified index should be generated randomly.
+    /// </summary>
+    /// <param name="index">Stat index (internal order).</param>
+    /// <param name="value">Requested fixed IV value, if specified.</param>
+    /// <returns><see langword="true"/> if the IV should be random; otherwise, <see langword="false"/>.</returns>
+    public bool IsRandomIV(int index, out sbyte value) => (value = GetIVInternal(index)) == RandomIV;
+
+    /// <summary>
+    /// Gets the IV based on the specified index (internal order).
+    /// </summary>
+    /// <param name="index">Stat index (internal order).</param>
+    public sbyte GetIVInternal(int index) => index switch
+    {
+        0 => IV_HP,
+        1 => IV_ATK,
+        2 => IV_DEF,
+        3 => IV_SPE,
+        4 => IV_SPA,
+        5 => IV_SPD,
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, null),
+    };
 
     /// <summary>
     /// Gets the IV based on the specified index (visual order).

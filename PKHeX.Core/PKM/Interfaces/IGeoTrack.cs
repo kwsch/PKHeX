@@ -99,36 +99,43 @@ public static partial class Extensions
         /// <summary>
         /// Checks if all Geolocation tuples are valid.
         /// </summary>
-        public bool GetIsValid() => g.GetValidity() == GeoValid.Valid;
+        public bool GetIsValid() => g.GetValidity().Result == GeoValid.Valid;
 
         /// <summary>
         /// Checks if all Geolocation tuples are valid.
         /// </summary>
-        internal GeoValid GetValidity()
+        internal (GeoValid Result, byte Index) GetValidity()
         {
-            bool end = false;
+            bool seenEmpty = false;
             GeoValid result;
-            if ((result = UpdateCheck(g.Geo1_Country, g.Geo1_Region, ref end)) != GeoValid.Valid)
-                return result;
-            if ((result = UpdateCheck(g.Geo2_Country, g.Geo2_Region, ref end)) != GeoValid.Valid)
-                return result;
-            if ((result = UpdateCheck(g.Geo3_Country, g.Geo3_Region, ref end)) != GeoValid.Valid)
-                return result;
-            if ((result = UpdateCheck(g.Geo4_Country, g.Geo4_Region, ref end)) != GeoValid.Valid)
-                return result;
-            if ((result = UpdateCheck(g.Geo5_Country, g.Geo5_Region, ref end)) != GeoValid.Valid)
-                return result;
+            if ((result = UpdateCheck(g.Geo1_Country, g.Geo1_Region, ref seenEmpty)) != GeoValid.Valid)
+                return (result, 1);
+            if ((result = UpdateCheck(g.Geo2_Country, g.Geo2_Region, ref seenEmpty)) != GeoValid.Valid)
+                return (result, 2);
+            if ((result = UpdateCheck(g.Geo3_Country, g.Geo3_Region, ref seenEmpty)) != GeoValid.Valid)
+                return (result, 3);
+            if ((result = UpdateCheck(g.Geo4_Country, g.Geo4_Region, ref seenEmpty)) != GeoValid.Valid)
+                return (result, 4);
+            if ((result = UpdateCheck(g.Geo5_Country, g.Geo5_Region, ref seenEmpty)) != GeoValid.Valid)
+                return (result, 5);
 
-            return GeoValid.Valid;
+            return (GeoValid.Valid, 0);
 
-            static GeoValid UpdateCheck(byte country, byte region, ref bool end)
+            static GeoValid UpdateCheck(byte country, byte region, ref bool seenEmpty)
             {
-                if (country != 0)
-                    return end ? GeoValid.CountryAfterPreviousEmpty : GeoValid.Valid;
-                if (region != 0) // c == 0
+                if (country == 0)
+                {
+                    if (region == 0)
+                    {
+                        seenEmpty = true;
+                        return GeoValid.Valid;
+                    }
                     return GeoValid.RegionWithoutCountry;
-                end = true;
-                return GeoValid.Valid;
+                }
+                if (!GeoLocation.GetIsCountryRegionExist(country, region))
+                    return GeoValid.CountryDoesNotHaveRegion;
+
+                return seenEmpty ? GeoValid.CountryAfterPreviousEmpty : GeoValid.Valid;
             }
         }
     }
@@ -151,4 +158,9 @@ internal enum GeoValid
     /// Zero-value country (None) with a non-zero Region (invalid).
     /// </summary>
     RegionWithoutCountry,
+
+    /// <summary>
+    /// Region does not exist within the Country (invalid).
+    /// </summary>
+    CountryDoesNotHaveRegion,
 }

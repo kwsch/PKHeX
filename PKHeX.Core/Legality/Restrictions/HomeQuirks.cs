@@ -102,7 +102,7 @@ public static class HomeQuirks
         if (s is { HeightScalar: 255, WeightScalar: 255 })
         {
             // if Scale is also present, should be 255.
-            return pk is not IScaledSize3 { Scale: not 255 }; 
+            return pk is not IScaledSize3 { Scale: not 255 };
         }
         return false;
     }

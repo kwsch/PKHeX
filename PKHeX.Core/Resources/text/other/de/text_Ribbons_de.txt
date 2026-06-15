@@ -1,49 +1,49 @@
-RibbonChampionKalos	Kalos Champion
-RibbonChampionG3	Champion (Gen3)
-RibbonChampionSinnoh	Sinnoh Champion
-RibbonBestFriends	Beste Freunde
-RibbonTraining	Training
-RibbonBattlerSkillful	Erfahrener Kämpfer
-RibbonBattlerExpert	Experten Kämpfer
+RibbonChampionKalos	Kalos-Champs
+RibbonChampionG3	Champs (Gen3)
+RibbonChampionSinnoh	Sinnoh-Champs
+RibbonBestFriends	Zutraulichkeits
+RibbonTraining	Trainings
+RibbonBattlerSkillful	Profikampf
+RibbonBattlerExpert	Meisterkampf
 RibbonEffort	Fleiß
 RibbonAlert	Wachsamkeit
-RibbonShock	Schock
-RibbonDowncast	Niederschlag
+RibbonShock	Schocks
+RibbonDowncast	Traurigkeit
 RibbonCareless	Sorglosigkeit
 RibbonRelax	Entspannung
-RibbonSnooze	Schlafen
-RibbonSmile	Lächeln
-RibbonGorgeous	Hinreißend
-RibbonRoyal	Königlich
-RibbonGorgeousRoyal	Hinreißend Königl.
-RibbonArtist	Künstler
+RibbonSnooze	Schlafens
+RibbonSmile	Lächelns
+RibbonGorgeous	Hinreißendes
+RibbonRoyal	Königliches
+RibbonGorgeousRoyal	Hinreißendes Königliches
+RibbonArtist	Künstlers
 RibbonFootprint	Fußabdruck
 RibbonRecord	Rekord
 RibbonLegend	Legende
-RibbonCountry	Land
+RibbonCountry	Landes
 RibbonNational	Nation
 RibbonEarth	Erde
 RibbonWorld	Welt
-RibbonClassic	Klassisch
+RibbonClassic	Klassisches
 RibbonPremier	Premier
-RibbonEvent	Geschichte
-RibbonBirthday	Geburtstag
-RibbonSpecial	Spezial
+RibbonEvent	Veranstaltungs
+RibbonBirthday	Geburtstags
+RibbonSpecial	Sonder
 RibbonSouvenir	Gedenk
 RibbonWishing	Wunsch
-RibbonChampionBattle	Kampfchampion
-RibbonChampionRegional	Regionaler Champion
-RibbonChampionNational	Nationaler Champion
-RibbonChampionWorld	Weltchampion
-RibbonCountMemoryContest	Verg. Wettbewerbsb.
-RibbonCountMemoryBattle	Verg. Kampfb.
-RibbonChampionG6Hoenn	Hoenn Champion (ORAS)
-RibbonContestStar	Wettbewerbs-Star
-RibbonMasterCoolness	Coolness Meister
-RibbonMasterBeauty	Schönheit Meister
-RibbonMasterCuteness	Putzigkeit Meister
-RibbonMasterCleverness	Klugheit Meister
-RibbonMasterToughness	Stärke Meister
+RibbonChampionBattle	Kampfmeister
+RibbonChampionRegional	Regionalmeister
+RibbonChampionNational	Nationalmeister
+RibbonChampionWorld	Weltmeister
+RibbonCountMemoryContest	Wettbewerbsgedenk
+RibbonCountMemoryBattle	Kampfgedenk
+RibbonChampionG6Hoenn	Hoenn-Champs (ORAS)
+RibbonContestStar	Wettbewerbsstars
+RibbonMasterCoolness	Coolness Master
+RibbonMasterBeauty	Schönheit Master
+RibbonMasterCuteness	Anmut Master
+RibbonMasterCleverness	Klugheit Master
+RibbonMasterToughness	Stärke Master
 RibbonG3Cool	Coolness (G3)
 RibbonG3CoolSuper	Coolness Super
 RibbonG3CoolHyper	Coolness Hyper
@@ -84,8 +84,8 @@ RibbonG4Tough	Stärke (G4)
 RibbonG4ToughGreat	Stärke Mega
 RibbonG4ToughUltra	Stärke Ultra
 RibbonG4ToughMaster	Stärke Master
-RibbonWinning	Gewinner
-RibbonVictory	Sieger
+RibbonWinning	Gewinners
+RibbonVictory	Sieges
 RibbonAbility	Fähigkeit
 RibbonAbilityGreat	Fähigkeit Groß
 RibbonAbilityDouble	Fähigkeit Doppel
@@ -97,12 +97,12 @@ RibbonCountG3Beauty	Schönheit
 RibbonCountG3Cute	Anmut
 RibbonCountG3Smart	Klugheit
 RibbonCountG3Tough	Stärke
-RibbonChampionAlola	Alola Champion
-RibbonBattleRoyale	Battle Royal Champion
-RibbonBattleTreeGreat	Battle Tree Great
-RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionAlola	Alola-Champs
+RibbonBattleRoyale	Battle-Royale-Meister
+RibbonBattleTreeGreat	Profibaum
+RibbonBattleTreeMaster	Meisterbaum
 RibbonChampionGalar	Galar-Champs
-RibbonTowerMaster	Turmmeister
+RibbonTowerMaster	Meisterturm
 RibbonMasterRank	Meisterrang
 RibbonMarkLunchtime	Mittags-Zeichen
 RibbonMarkSleepyTime	Mitternachts-Zeichen
@@ -161,4 +161,4 @@ RibbonOnceInALifetime	Glückstrefferband
 RibbonMarkAlpha	Elite-Zeichen
 RibbonMarkMightiest	Titanen-Zeichen
 RibbonMarkTitan	Herrscher-Zeichen
-RibbonPartner	Partnerband
+RibbonPartner	Partner

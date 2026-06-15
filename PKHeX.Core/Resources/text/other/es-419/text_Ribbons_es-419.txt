@@ -1,21 +1,21 @@
 RibbonChampionKalos	Campeón de Kalos
 RibbonChampionG3	Campeón (Gen3)
 RibbonChampionSinnoh	Campeón de Sinnoh
-RibbonBestFriends	Afecto
-RibbonTraining	Entrenamiento
-RibbonBattlerSkillful	Élite del Combate
-RibbonBattlerExpert	Experto del Combate
+RibbonBestFriends	Amistad
+RibbonTraining	Ejercicio
+RibbonBattlerSkillful	Figura del Combate
+RibbonBattlerExpert	As del Combate
 RibbonEffort	Esfuerzo
 RibbonAlert	Alerta
 RibbonShock	Impacto
 RibbonDowncast	Abatimiento
 RibbonCareless	Descuido
-RibbonRelax	Relajación
-RibbonSnooze	Siesta
+RibbonRelax	Relax
+RibbonSnooze	Cabezada
 RibbonSmile	Sonrisa
 RibbonGorgeous	Maravilla
 RibbonRoyal	Realeza
-RibbonGorgeousRoyal	Realeza Maravila
+RibbonGorgeousRoyal	Realeza Maravilla
 RibbonArtist	Artista
 RibbonFootprint	Huella
 RibbonRecord	Récord
@@ -35,55 +35,55 @@ RibbonChampionBattle	Campeón de Torneo
 RibbonChampionRegional	Campeón de Área
 RibbonChampionNational	Campeón Nacional
 RibbonChampionWorld	Campeón Mundial
-RibbonCountMemoryContest	Cintas de concursos anteriores
-RibbonCountMemoryBattle	Cintas de batallas anteriores
+RibbonCountMemoryContest	Recuerdo de Concurso
+RibbonCountMemoryBattle	Recuerdo de Combate
 RibbonChampionG6Hoenn	Campeón de Hoenn (ORAS)
-RibbonContestStar	Cinta estelar de los concursos
-RibbonMasterCoolness	Cinta estrella del carisma
-RibbonMasterBeauty	Cinta estrella de la belleza
-RibbonMasterCuteness	Cinta estrella de la dulzura
-RibbonMasterCleverness	Cinta estrella del ingenio
-RibbonMasterToughness	Cinta estrella de la solidez
+RibbonContestStar	Estelar de Concursos
+RibbonMasterCoolness	Carisma experto
+RibbonMasterBeauty	Belleza experto
+RibbonMasterCuteness	Dulzura experto
+RibbonMasterCleverness	Ingenio experto
+RibbonMasterToughness	Solidez experto
 RibbonG3Cool	Carisma (G3)
-RibbonG3CoolSuper	Carisma Alto
-RibbonG3CoolHyper	Carisma Avanzado
-RibbonG3CoolMaster	Carisma Experto
+RibbonG3CoolSuper	Carisma alto
+RibbonG3CoolHyper	Carisma avanzado
+RibbonG3CoolMaster	Carisma experto
 RibbonG3Beauty	Belleza (G3)
-RibbonG3BeautySuper	Belleza Alto
-RibbonG3BeautyHyper	Belleza Avanzado
-RibbonG3BeautyMaster	Belleza Experto
+RibbonG3BeautySuper	Belleza alto
+RibbonG3BeautyHyper	Belleza avanzado
+RibbonG3BeautyMaster	Belleza experto
 RibbonG3Cute	Dulzura (G3)
-RibbonG3CuteSuper	Dulzura Alto
-RibbonG3CuteHyper	Dulzura Avanzado
-RibbonG3CuteMaster	Dulzura Experto
+RibbonG3CuteSuper	Dulzura alto
+RibbonG3CuteHyper	Dulzura avanzado
+RibbonG3CuteMaster	Dulzura experto
 RibbonG3Smart	Ingenio (G3)
-RibbonG3SmartSuper	Ingenio Alto
-RibbonG3SmartHyper	Ingenio Avanzado
-RibbonG3SmartMaster	Ingenio Experto
+RibbonG3SmartSuper	Ingenio alto
+RibbonG3SmartHyper	Ingenio avanzado
+RibbonG3SmartMaster	Ingenio experto
 RibbonG3Tough	Solidez (G3)
-RibbonG3ToughSuper	Solidez Alto
-RibbonG3ToughHyper	Solidez Avanzado
-RibbonG3ToughMaster	Solidez Experto
+RibbonG3ToughSuper	Solidez alto
+RibbonG3ToughHyper	Solidez avanzado
+RibbonG3ToughMaster	Solidez experto
 RibbonG4Cool	Carisma (G4)
-RibbonG4CoolGreat	Carisma Difícil
-RibbonG4CoolUltra	Carisma Superior
-RibbonG4CoolMaster	Carisma Experto
+RibbonG4CoolGreat	Carisma difícil
+RibbonG4CoolUltra	Carisma superior
+RibbonG4CoolMaster	Carisma experto
 RibbonG4Beauty	Belleza (G4)
-RibbonG4BeautyGreat	Belleza Difícil
-RibbonG4BeautyUltra	Belleza Superior
-RibbonG4BeautyMaster	Belleza Experto
+RibbonG4BeautyGreat	Belleza difícil
+RibbonG4BeautyUltra	Belleza superior
+RibbonG4BeautyMaster	Belleza experto
 RibbonG4Cute	Dulzura (G4)
-RibbonG4CuteGreat	Dulzura Difícil
-RibbonG4CuteUltra	Dulzura Superior
-RibbonG4CuteMaster	Dulzura Experto
+RibbonG4CuteGreat	Dulzura difícil
+RibbonG4CuteUltra	Dulzura superior
+RibbonG4CuteMaster	Dulzura experto
 RibbonG4Smart	Ingenio (G4)
-RibbonG4SmartGreat	Ingenio Difícil
-RibbonG4SmartUltra	Ingenio Superior
-RibbonG4SmartMaster	Ingenio Experto
+RibbonG4SmartGreat	Ingenio difícil
+RibbonG4SmartUltra	Ingenio superior
+RibbonG4SmartMaster	Ingenio experto
 RibbonG4Tough	Solidez (G4)
-RibbonG4ToughGreat	Solidez Difícil
-RibbonG4ToughUltra	Solidez Superior
-RibbonG4ToughMaster	Solidez Experto
+RibbonG4ToughGreat	Solidez difícil
+RibbonG4ToughUltra	Solidez superior
+RibbonG4ToughMaster	Solidez experto
 RibbonWinning	Ganador
 RibbonVictory	Victoria
 RibbonAbility	Habilidad

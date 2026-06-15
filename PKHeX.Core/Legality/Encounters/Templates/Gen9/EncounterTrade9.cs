@@ -84,7 +84,7 @@ public sealed record EncounterTrade9 : IEncounterable, IEncounterMatch, IEncount
             MetDate = EncounterDate.GetDateSwitch(),
             Gender = Gender,
             Nature = Nature,
-            StatNature = Nature,
+            StatAlignment = Nature,
             Ball = (byte)FixedBall,
 
             ID32 = ID32,
@@ -130,7 +130,7 @@ public sealed record EncounterTrade9 : IEncounterable, IEncounterMatch, IEncount
         var rnd = Util.Rand;
         pk.PID = EncounterUtil.GetRandomPID(pk, rnd, Shiny, criteria.Shiny);
         pk.EncryptionConstant = rnd.Rand32();
-        pk.Nature = pk.StatNature = criteria.GetNature(Nature);
+        pk.Nature = pk.StatAlignment = criteria.GetNature(Nature);
         pk.Gender = criteria.GetGender(Gender, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         criteria.SetRandomIVs(pk, IVs);

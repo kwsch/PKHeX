@@ -39,6 +39,8 @@ internal static class Program
 
         if (Settings.Startup.DarkMode)
             Application.SetColorMode(SystemColorMode.Dark);
+        if (Settings.Startup.HighDpiText)
+            Application.SetHighDpiMode(HighDpiMode.DpiUnawareGdiScaled);
     }
 
     [STAThread]

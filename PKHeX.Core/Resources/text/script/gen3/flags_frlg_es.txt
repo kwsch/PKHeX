@@ -412,8 +412,8 @@
 679	e	Ori-Ticket recibido mediante Regalo Misterioso (GBA)/Hall de la Fama (Switch)
 680	e	Misti-Ticket recibido mediante Regalo Misterioso (GBA)/Hall de la Fama (Switch)
 
-699	m	Powder Jar received
-700	r	Mewtwo caught/defeated
+699	m	Bote Polvos recibido
+700	r	Capturado/Derrotado Mewtwo
 701	r	Capturado/Derrotado Moltres
 702	r	Capturado/Derrotado Articuno
 703	r	Capturado/Derrotado Zapdos
@@ -1461,54 +1461,54 @@
 2122	e	Puede viajar a Roca Ombligo
 2123	e	Puede viajar a Isla Origen
 
-2192	f	Visited/Can Fly to Pallet Town
-2193	f	Visited/Can Fly to Viridian City
-2194	f	Visited/Can Fly to Pewter City
-2195	f	Visited/Can Fly to Cerulean City
-2196	f	Visited/Can Fly to Lavender Town
-2197	f	Visited/Can Fly to Vermilion City
-2198	f	Visited/Can Fly to Celadon City
-2199	f	Visited/Can Fly to Fuchsia City
-2200	f	Visited/Can Fly to Cinnabar Island
-2201	f	Visited/Can Fly to Indigo Plateau
-2202	f	Visited/Can Fly to Saffron City
-2203	f	Visited/Can Fly to One Island
-2204	f	Visited/Can Fly to Two Island
-2205	f	Visited/Can Fly to Three Island
-2206	f	Visited/Can Fly to Four Island
-2207	f	Visited/Can Fly to Five Island
-2208	f	Visited/Can Fly to Seven Island
-2209	f	Visited/Can Fly to Six Island
-2210	f	Visited/Can Fly to Mt. Moon Pokémon Center
-2211	f	Visited/Can Fly to Route 10 Pokémon Center
-2212	m	Visited Viridian Forest
-2213	m	Visited Mt. Moon
-2214	m	Visited S.S. Anne
-2215	m	Visited Underground Path
-2216	m	Visited Underground Path Celadon City - Lavender Town
-2217	m	Visited Diglett's Cave
-2218	m	Visited Victory Road
-2219	m	Visited Rocket Hideout
-2220	m	Visited Silph Co.
-2221	m	Visited Pokémon Mansion
-2222	m	Visited Safari Zone
-2223	m	Visited Elite Four
-2224	m	Visited Rock Tunnel
-2225	m	Visited Seafoam Islands
-2226	m	Visited Pokémon Tower
-2227	m	Visited Cerulean Cave
-2228	m	Visited Power Plant
-2229	m	Visited Navel Rock
-2230	m	Visited Mt. Ember
-2231	m	Visited Berry Forest
-2232	m	Visited Icefall Cave
-2233	m	Visited Rocket Warehouse
-2234	m	Visited Trainer Tower
-2235	m	Visited Dotted Hole
-2236	m	Visited Lost Cave
-2237	m	Visited Pattern Bush
-2238	m	Visited Altering Cave
-2239	m	Visited Monean Chamber
-2240	m	Visited Three Isle Path
-2241	m	Visited Tanoby Key
-2242	m	Visited Birth Island
+2192	f	Visitó/Vuelo disponible a Pueblo Paleta
+2193	f	Visitó/Vuelo disponible a Ciudad Verde
+2194	f	Visitó/Vuelo disponible a Ciudad Plateada
+2195	f	Visitó/Vuelo disponible a Ciudad Celeste
+2196	f	Visitó/Vuelo disponible a Pueblo Lavanda
+2197	f	Visitó/Vuelo disponible a Ciudad Carmín
+2198	f	Visitó/Vuelo disponible a Ciudad Azulona
+2199	f	Visitó/Vuelo disponible a Ciudad Fucsia
+2200	f	Visitó/Vuelo disponible a Isla Canela
+2201	f	Visitó/Vuelo disponible a Meseta Añil
+2202	f	Visitó/Vuelo disponible a Ciudad Azafrán
+2203	f	Visitó/Vuelo disponible a Isla Prima
+2204	f	Visitó/Vuelo disponible a Isla Secundaria
+2205	f	Visitó/Vuelo disponible a Isla Tercia
+2206	f	Visitó/Vuelo disponible a Isla Cuarta
+2207	f	Visitó/Vuelo disponible a Isla Quinta
+2208	f	Visitó/Vuelo disponible a Isla Sétima
+2209	f	Visitó/Vuelo disponible a Isla Sexta
+2210	f	Visitó/Vuelo disponible a Centro Pokémon del Mt. Moon
+2211	f	Visitó/Vuelo disponible a Centro Pokémon de la Ruta 10
+2212	m	Visitó Bosque Verde
+2213	m	Visitó Mt. Moon
+2214	m	Visitó S.S. Anne
+2215	m	Visitó Vía Subterránea
+2216	m	Visitó Vía Subterránea Ciudad Azulona - Pueblo Lavanda
+2217	m	Visitó Cueva Diglett
+2218	m	Visitó Calle Victoria
+2219	m	Visitó Guarida Rocket
+2220	m	Visitó Silph S.A.
+2221	m	Visitó Mansión Pokémon
+2222	m	Visitó Zona Safari
+2223	m	Visitó Alto Mando
+2224	m	Visitó Túnel Roca
+2225	m	Visitó Islas Espuma
+2226	m	Visitó Torre Pokémon
+2227	m	Visitó Cueva Celeste
+2228	m	Visitó Central Energía
+2229	m	Visitó Roca Ombligo
+2230	m	Visitó Monte Ascuas
+2231	m	Visitó Bosque Baya
+2232	m	Visitó Cueva Glaciada
+2233	m	Visitó Almacén Rocket
+2234	m	Visitó Torre Desafío
+2235	m	Visitó Cueva Teira
+2236	m	Visitó Cueva Perdida
+2237	m	Visitó Bosquejo
+2238	m	Visitó Cueva Cambiante
+2239	m	Visitó Cámara Anómala
+2240	m	Visitó Vía Isla Tercia
+2241	m	Visitó Llave Sete
+2242	m	Visitó Isla Origen

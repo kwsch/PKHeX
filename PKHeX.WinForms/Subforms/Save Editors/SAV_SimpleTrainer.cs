@@ -288,7 +288,7 @@ public partial class SAV_SimpleTrainer : Form
                 sav4.Z = (int)NUD_Z.Value;
                 sav4.Y = (int)NUD_Y.Value;
             }
-            sav4.Badges = badgeval & 0xFF;
+            sav4.Badges = (byte)badgeval;
             if (sav4 is SAV4HGSS hgss)
             {
                 hgss.Badges16 = badgeval >> 8;

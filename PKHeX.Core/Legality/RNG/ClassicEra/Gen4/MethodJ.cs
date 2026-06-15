@@ -32,7 +32,7 @@ public static class MethodJ
     /// <remarks>Used when generating or ignoring level ranges.</remarks>
     /// <inheritdoc cref="GetSeed{TEnc,TEvo}(TEnc, uint, TEvo, byte)"/>
     public static LeadSeed GetSeed<TEnc>(TEnc enc, uint seed) where TEnc : IEncounterSlot4
-        => GetSeed(enc, seed, enc, 0);
+        => GetSeed(enc, seed, enc, FormatNoLevelCheck);
 
     /// <remarks>Used when generating with specific level ranges.</remarks>
     /// <inheritdoc cref="GetSeed{TEnc,TEvo}(TEnc, uint, TEvo, byte)"/>
@@ -54,6 +54,7 @@ public static class MethodJ
     // Feebas Spot:                  rand() >> 15 == 1; -- 0 will use regular encounters.
 
     private const byte Format = 4;
+    private const byte FormatNoLevelCheck = 0; // anything but `Format` will ignore met level precision (overwritten via transfer, test logic, etc.)
 
     private static bool IsCuteCharmFail(uint rand) => (rand / 0x5556) == 0; // 1/3 odds
     private static bool IsCuteCharmPass(uint rand) => (rand / 0x5556) != 0; // 2/3 odds
@@ -86,13 +87,10 @@ public static class MethodJ
         {
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result))
             {
-                if (CheckEncounterActivation(enc, ref result))
-                {
-                    if (result.IsNoRequirement)
-                        return result;
-                    if (result.IsBetterThan(prefer))
-                        prefer = result;
-                }
+                if (result.IsNoRequirement)
+                    return result;
+                if (result.IsBetterThan(prefer))
+                    prefer = result;
             }
             if (reverseCount == 0)
                 return prefer;
@@ -122,48 +120,45 @@ public static class MethodJ
         return LCRNG.Next3(seed); // Proc, ESV, level.
     }
 
-    public static bool CheckEncounterActivation<T>(T enc, ref LeadSeed result)
+    /// <summary>
+    /// Checks an input seed and lead by unrolling to the encounter trigger state and checking the encounter conditions along the way.
+    /// </summary>
+    /// <param name="enc">Encounter to check against.</param>
+    /// <param name="seed">Seed that immediately selects the encounter slot.</param>
+    /// <param name="lead">Party lead effect that is active at the moment of encounter slot selection.</param>
+    /// <param name="result">Un-rolled seed and lead at the moment of encounter trigger, if the check passes.</param>
+    /// <returns><see langword="true"/> if the seed and lead can trigger the encounter; otherwise, <see langword="false"/>.</returns>
+    /// <remarks>
+    /// It is necessary to check this when exploring possible leads, as different leads (or lack thereof) may consume a different quantity of RNG calls.
+    /// </remarks>
+    public static bool CheckEncounterActivation<T>(T enc, uint seed, LeadRequired lead, out LeadSeed result)
         where T : IEncounterSlot4
     {
-        if (enc.Type.IsFishingRodType())
-        {
-            if (enc is EncounterSlot4 { Parent.IsCoronetFeebasArea: true } s4)
-            {
-                if (!IsValidCoronetB1F(s4, ref result.Seed))
-                    return false;
-            }
-            // D/P/Pt don't update the rod rate boost for Suction Cups or Sticky Hold correctly.
-            return IsFishPossible(enc.Type, ref result.Seed);
-        }
-        if (enc.Type is HoneyTree)
-        {
-            // Doesn't actually consume the Encounter Slot call, we return true when comparing ESV.
-            // Roll forward once here rather than add a branch in each method.
-            ref var seed = ref result.Seed;
-            seed = LCRNG.Next(seed);
-        }
-        // Can sweet scent trigger.
-        return true;
+        var pass = CheckEncounterActivation(enc, ref seed, ref lead);
+        result = new(seed, lead);
+        return pass;
     }
 
-    private static bool CheckEncounterActivation<T>(T enc, ref uint result)
+    private static bool CheckEncounterActivation<T>(T enc, ref uint seed, ref LeadRequired _)
         where T : IEncounterSlot4
     {
-        // Lead is required to be Cute Charm.
         if (enc.Type.IsFishingRodType())
         {
             if (enc is EncounterSlot4 { Parent.IsCoronetFeebasArea: true } s4)
             {
-                if (!IsValidCoronetB1F(s4, ref result))
+                // 50% chance to replace the regular encounter with Feebas, only if on the tile.
+                if (!IsValidCoronetB1F(s4, ref seed))
                     return false;
+                // Previous frame still has to pass the rod check.
             }
-            return IsFishPossible(enc.Type, ref result);
+            // D/P/Pt don't update the rod rate boost for Suction Cups or Sticky Hold correctly. Having them as lead is equivalent to None.
+            return IsFishPossible(enc.Type, ref seed);
         }
         if (enc.Type is HoneyTree)
         {
             // Doesn't actually consume the Encounter Slot call, we return true when comparing ESV.
             // Roll forward once here rather than add a branch in each method.
-            result = LCRNG.Next(result);
+            seed = LCRNG.Next(seed);
         }
         // Can sweet scent trigger.
         return true;
@@ -173,6 +168,7 @@ public static class MethodJ
     {
         // The game rolls to check if it might need to replace the slots with Feebas.
         // This occurs in Mt. Coronet B1F; if passed, check if the player is on a Feebas tile before replacing.
+        // The rand() call is unavoidable when fishing in the area, regardless of fishing from a valid tile.
         // 0 - Hook
         // 1 - CheckTiles -- current seed
         // 2 - ESV
@@ -181,7 +177,6 @@ public static class MethodJ
 
         // Regular slots don't need to falsify the rand().
         // Players can just fish from a non-Feebas tile.
-        // The rand() call is unavoidable when in the area.
         result = LCRNG.Prev(result);
         return true;
     }
@@ -202,9 +197,8 @@ public static class MethodJ
 
             if (!TryGetMatchCuteCharm(ctx, out var s))
                 continue;
-            if (!CheckEncounterActivation(enc, ref s))
+            if (!CheckEncounterActivation(enc, s, CuteCharm, out result))
                 continue;
-            result = new(s, CuteCharm);
             return true;
         }
         if (CanRadar(enc))
@@ -240,14 +234,11 @@ public static class MethodJ
             return TryGetMatchNoSync(ctx, out result);
         }
         var syncProc = IsSyncPass(p0);
-        if (syncProc && !(enc.Type is Grass && enc.LevelMax < levelMin))
+        if (syncProc && levelMin <= enc.LevelMax) // can't boost level if already using Synchronize
         {
             var ctx = new FrameCheckDetails<T>(enc, seed, levelMin, levelMax, format);
-            if (IsSlotValidRegular(ctx, out seed))
-            {
-                result = new(seed, Synchronize);
+            if (IsSlotValidRegular(ctx, out result, Synchronize))
                 return true;
-            }
             if (CanRadar(enc))
             {
                 result = new(ctx.Seed1, SynchronizeRadar);
@@ -307,37 +298,35 @@ public static class MethodJ
     private static bool TryGetMatchNoSync<T>(in FrameCheckDetails<T> ctx, out LeadSeed result)
         where T : IEncounterSlot4
     {
-        if (ctx.Encounter.Type is Grass)
+        if (ctx.LevelMin > ctx.Encounter.LevelMax)
         {
-            if (ctx.Encounter.LevelMax > ctx.LevelMin) // Must be boosted via Pressure/Hustle/Vital Spirit
-            {
-                if (IsSlotValidHustleVital(ctx, out var pressure))
-                { result = new(pressure, PressureHustleSpirit); return true; }
-                result = default; return false;
-            }
+            // Must be boosted via Pressure/Hustle/Vital Spirit
+            if (IsSlotValidHustleVital(ctx, out var pressure) && CheckEncounterActivation(ctx.Encounter, pressure, PressureHustleSpirit, out result))
+                return true;
+            result = default; return false;
         }
 
-        if (IsSlotValidRegular(ctx, out uint seed))
-        { result = new(seed, None); return true; }
+        if (IsSlotValidRegular(ctx, out result))
+            return true;
 
-        if (IsSlotValidSyncFail(ctx, out seed))
-        { result = new(seed, SynchronizeFail); return true; }
-        if (IsSlotValidCuteCharmFail(ctx, out seed))
-        { result = new(seed, CuteCharmFail); return true; }
-        if (IsSlotValidHustleVitalFail(ctx, out seed))
-        { result = new(seed, PressureHustleSpiritFail); return true; }
-        if (IsSlotValidStaticMagnetFail(ctx, out seed))
-        { result = new(seed, StaticMagnetFail); return true; }
+        if (IsSlotValidSyncFail(ctx, out var seed) && CheckEncounterActivation(ctx.Encounter, seed, SynchronizeFail, out result))
+            return true;
+        if (IsSlotValidCuteCharmFail(ctx, out seed) && CheckEncounterActivation(ctx.Encounter, seed, CuteCharmFail, out result))
+            return true;
+        if (IsSlotValidHustleVitalFail(ctx, out seed) && CheckEncounterActivation(ctx.Encounter, seed, PressureHustleSpiritFail, out result))
+            return true;
+        if (IsSlotValidStaticMagnetFail(ctx, out seed) && CheckEncounterActivation(ctx.Encounter, seed, StaticMagnetFail, out result))
+            return true;
         // Intimidate/Keen Eye failing will result in no encounter.
 
-        if (IsSlotValidStaticMagnet(ctx, out seed, out var lead))
-        { result = new(seed, lead); return true; }
-        if (IsSlotValidIntimidate(ctx, out seed))
-        { result = new(seed, IntimidateKeenEyeFail); return true; }
-        if (ctx.Encounter.PressureLevel <= ctx.LevelMax) // Can be boosted, or not.
+        if (IsSlotValidStaticMagnet(ctx, out seed, out var sm) && CheckEncounterActivation(ctx.Encounter, seed, sm, out result))
+            return true;
+        if (IsSlotValidIntimidate(ctx, out seed) && CheckEncounterActivation(ctx.Encounter, seed, IntimidateKeenEyeFail, out result))
+            return true;
+        if (ctx.LevelMax >= ctx.Encounter.PressureLevel) // Can be boosted, or not.
         {
-            if (IsSlotValidHustleVital(ctx, out var pressure))
-            { result = new(pressure, PressureHustleSpirit); return true; }
+            if (IsSlotValidHustleVital(ctx, out var pressure) && CheckEncounterActivation(ctx.Encounter, pressure, PressureHustleSpirit, out result))
+                return true;
         }
 
         if (CanRadar(ctx.Encounter))
@@ -367,23 +356,23 @@ public static class MethodJ
         result = 0; return false;
     }
 
-    private static bool IsSlotValidRegular<T>(in FrameCheckDetails<T> ctx, out uint result)
+    private static bool IsSlotValidRegular<T>(in FrameCheckDetails<T> ctx, out LeadSeed result, LeadRequired lead = None)
         where T : IEncounterSlot4
     {
         if (IsLevelRand(ctx.Encounter))
         {
-            if (ctx.Encounter.IsFixedLevel|| IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
+            if (ctx.Encounter.IsFixedLevel || IsLevelValid(ctx.Encounter, ctx.LevelMin, ctx.LevelMax, ctx.Format, ctx.Prev1))
             {
-                if (IsSlotValid(ctx.Encounter, ctx.Prev2))
-                { result = ctx.Seed3; return true; }
+                if (IsSlotValid(ctx.Encounter, ctx.Prev2) && CheckEncounterActivation(ctx.Encounter, ctx.Seed3, lead, out result))
+                    return true;
             }
         }
         else // Not random level
         {
-            if (IsSlotValid(ctx.Encounter, ctx.Prev1))
-            { result = ctx.Seed2; return true; }
+            if (IsSlotValid(ctx.Encounter, ctx.Prev1) && CheckEncounterActivation(ctx.Encounter, ctx.Seed2, lead, out result))
+                return true;
         }
-        result = 0; return false;
+        result = default; return false;
     }
 
     private static bool IsSlotValidHustleVital<T>(in FrameCheckDetails<T> ctx, out uint result)

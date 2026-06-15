@@ -20,13 +20,15 @@ namespace PKHeX.WinForms;
 
 public partial class SAV_Database : Form
 {
+    private const int GridHeightMin = 5;
+    private const int GridHeightMax = 20;
     private readonly SaveFile SAV;
     private readonly SAVEditor BoxView;
     private readonly PKMEditor PKME_Tabs;
     private readonly EntityInstructionBuilder UC_Builder;
 
     private const int GridWidth = 6;
-    private const int GridHeight = 11;
+    private readonly int GridHeight;
 
     private readonly PictureBox[] PKXBOXES;
     private readonly string DatabasePath = Main.DatabasePath;
@@ -35,10 +37,9 @@ public partial class SAV_Database : Form
     private int slotSelected = -1; // = null;
     private Image? slotColor;
     private const int RES_MIN = GridWidth * 1;
-    private const int RES_MAX = GridWidth * GridHeight;
+    private int RES_MAX => PKXBOXES.Length;
     private readonly string Counter;
     private readonly string Viewed;
-    private const int MAXFORMAT = Latest.Generation;
     private readonly SummaryPreviewer ShowSet = new();
     private readonly CancellationTokenSource cts = new();
 
@@ -67,23 +68,16 @@ public partial class SAV_Database : Form
         SAV = saveditor.SAV;
         BoxView = saveditor;
         PKME_Tabs = f1;
+        GridHeight = GetGridHeight(Main.Settings.EntityDb.ResultsGridRowCount, DatabasePokeGrid);
 
         // Preset Filters to only show PKM available for loaded save
         UC_EntitySearch.InitializeSelections(SAV);
 
         var grid = DatabasePokeGrid;
-        var smallWidth = grid.Width;
-        var smallHeight = grid.Height;
+        var originalGridSize = grid.Size;
         grid.InitializeGrid(GridWidth, GridHeight, SpriteUtil.Spriter);
         grid.SetBackground(Resources.box_wp_clean);
-        var newWidth = grid.Width;
-        var newHeight = grid.Height;
-        var wdelta = newWidth - smallWidth;
-        if (wdelta != 0)
-            Width += wdelta;
-        var hdelta = newHeight - smallHeight;
-        if (hdelta != 0)
-            Height += hdelta;
+        ResizeForGrid(grid, originalGridSize);
         PKXBOXES = [.. grid.Entries];
 
         // Enable Scrolling when hovered over
@@ -166,6 +160,27 @@ public partial class SAV_Database : Form
     {
         base.OnShown(e);
         UC_EntitySearch.ResetComboBoxSelections();
+    }
+
+    private int GetGridHeight(int requestedRows, PokeGrid grid)
+    {
+        requestedRows = Math.Clamp(requestedRows, GridHeightMin, GridHeightMax);
+        var workingAreaHeight = Screen.FromControl(this).WorkingArea.Height;
+        var otherHeight = Height - grid.Height;
+        var maxGridHeight = Math.Max(grid.Height, workingAreaHeight - otherHeight);
+        var maxRows = PokeGrid.GetMaxRowCount(maxGridHeight, SpriteUtil.Spriter.Height);
+        return Math.Max(1, Math.Min(requestedRows, maxRows));
+    }
+
+    private void ResizeForGrid(PokeGrid grid, Size originalGridSize)
+    {
+        var widthDelta = grid.Width - originalGridSize.Width;
+        if (widthDelta != 0)
+            Width += widthDelta;
+
+        var heightDelta = grid.Height - originalGridSize.Height;
+        if (heightDelta != 0)
+            Height += heightDelta;
     }
 
     private void ClickView(object sender, EventArgs e)

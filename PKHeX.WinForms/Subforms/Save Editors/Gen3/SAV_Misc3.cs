@@ -35,6 +35,8 @@ public partial class SAV_Misc3 : Form
             TC_Misc.Controls.Remove(Tab_Pokeblocks);
             TC_Misc.Controls.Remove(Tab_Decorations);
             TC_Misc.Controls.Remove(Tab_Paintings);
+
+            FLP_Other.Controls.Remove(B_ForceMirageIsland);
         }
 
         if (SAV.SmallBlock is ISaveBlock3SmallExpansion j)
@@ -52,6 +54,9 @@ public partial class SAV_Misc3 : Form
             TC_Misc.Controls.Remove(TAB_Ferry);
             TC_Misc.Controls.Remove(TAB_BF);
         }
+
+        if (FLP_Other.Controls.Count == 0)
+            TC_Misc.Controls.Remove(Tab_Other);
 
         if (SAV is SAV3FRLG frlg)
         {
@@ -762,4 +767,22 @@ public partial class SAV_Misc3 : Form
             TB_SID.Text = sid.ToString();
     }
     #endregion
+
+    private void B_ForceMirageIsland_Click(object sender, EventArgs e)
+    {
+        if (SAV.SmallBlock is not ISaveBlock3SmallHoenn) // Only run for R/S/E
+            return;
+
+        // Set the mirage island value to match the PID of the first party Pokémon, which will trigger the island to appear in-game.
+
+        // First Party member slot is at offset 0 of party data.
+        var party1 = SAV.LargeBlock.PartyBuffer;
+        // PK3 structure: PID is at offset 0 of a PK3, and is 4 bytes long. We only need the lower 2 bytes for the mirage island compare value.
+        var pidLow = System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(party1);
+
+        // Mirage island rand value is work val 0x24.
+        SAV.SetWork(0x24, pidLow);
+        B_ForceMirageIsland.Enabled = false; // disable to indicate the cheat was activated.
+        WinFormsUtil.Asterisk();
+    }
 }

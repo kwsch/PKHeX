@@ -15,7 +15,8 @@ public sealed class LearnGroupHOME : ILearnGroup
     private const LearnOption Option = LearnOption.HOME;
     public ushort MaxMoveID => 0;
 
-    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) =>
+        option is LearnOption.AtAnyTimeChain ? LearnGroup8.GoBackwards(pk, history, enc, option) : null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => pk is IHomeTrack { HasTracker: true } || !ParseSettings.IgnoreTransferIfNoTracker;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,

@@ -29,7 +29,9 @@ public sealed class BK4 : G4PKM
 
     public BK4(Memory<byte> data) : base(data)
     {
-        Sanity = 0x4000;
+        IsDecryptedStateBox = true;
+        if (data.Length > SIZE_STORED)
+            IsDecryptedStateParty = true;
         ResetPartyStats();
     }
 
@@ -39,7 +41,22 @@ public sealed class BK4 : G4PKM
 
     // Structure
     public override uint PID { get => ReadUInt32BigEndian(Data); set => WriteUInt32BigEndian(Data, value); }
+
+    // Flags indicating overall state
     public override ushort Sanity { get => ReadUInt16BigEndian(Data[0x04..]); set => WriteUInt16BigEndian(Data[0x04..], value); }
+
+    public bool IsDecryptedStateBox
+    {
+        get => (Sanity & 0x4000) != 0;
+        set => Sanity = (ushort)((Sanity & ~0x4000) | (value ? 0x4000 : 0));
+    }
+
+    public bool IsDecryptedStateParty
+    {
+        get => (Sanity & 0x8000) != 0;
+        set => Sanity = (ushort)((Sanity & ~0x8000) | (value ? 0x8000 : 0));
+    }
+
     public override ushort Checksum { get => ReadUInt16BigEndian(Data[0x06..]); set => WriteUInt16BigEndian(Data[0x06..], value); }
 
     #region Block A

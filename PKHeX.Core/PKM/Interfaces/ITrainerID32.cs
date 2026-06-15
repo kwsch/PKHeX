@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using static PKHeX.Core.TrainerIDFormat;
 
 namespace PKHeX.Core;
@@ -77,7 +78,8 @@ public static class ITrainerID32Extensions
         public uint SetTrainerTID7(uint value) => tr.ID32 = ((tr.ID32 / 1000000) * 1000000) + value;
         public uint SetTrainerSID7(uint value) => tr.ID32 = (value * 1000000) + (tr.ID32 % 1000000);
         public uint SetTrainerID16(ushort tid16, ushort sid16) => tr.ID32 = ((uint)sid16 << 16) | tid16;
-        public uint SetTrainerID7(uint sid7, uint tid7) => tr.ID32 = (sid7 * 1000000) + tid7;
+        public uint SetTrainerID7(uint sid7, uint tid7) => tr.ID32 = (sid7 * 1000000) + tid7; // overflow back to sid:0 on bad combination
+        public bool IsValidTrainerID7(uint sid7, uint tid7) => ((ulong)sid7 * 1_000_000) + tid7 <= uint.MaxValue;
 
         public uint GetDisplayTID() => tr.TrainerIDDisplayFormat switch
         {
@@ -116,6 +118,33 @@ public static class ITrainerID32Extensions
                 case SixDigit: tr.SetTrainerID7(sid, tid); break;
                 default: tr.SetTrainerID16((ushort)tid, (ushort)sid); break;
             }
+        }
+
+        public string GetTextRepresentation()
+        {
+            var format = tr.TrainerIDDisplayFormat;
+            if (format is not SixteenBit)
+            {
+                var tid = tr.TID16.ToString(TrainerIDExtensions.TID16);
+                var sid = tr.SID16.ToString(TrainerIDExtensions.SID16);
+                return $"ID: {tid}/{sid}";
+            }
+
+            var id = tr.ID32;
+            var sid7 = (id / 1_000_000).ToString(TrainerIDExtensions.SID7);
+            var tid7 = (id % 1_000_000).ToString(TrainerIDExtensions.TID7);
+            return $"G7ID: ({sid7}){tid7}";
+        }
+
+        public uint GetTSV(byte generation)
+        {
+            if (tr.TrainerIDDisplayFormat is None)
+                return uint.MaxValue;
+
+            var xor = (uint)(tr.SID16 ^ tr.TID16);
+            if (generation <= 5)
+                return xor >> 3;
+            return xor >> 4;
         }
     }
 }

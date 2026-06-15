@@ -57,7 +57,7 @@ internal sealed class EggVerifier : Verifier
         {
             if (record.GetMoveRecordFlagAny())
                 data.AddLine(GetInvalid(Egg, EggRelearnFlags));
-            if (pk.StatNature != pk.Nature)
+            if (pk.StatAlignment != pk.Nature)
                 data.AddLine(GetInvalid(Egg, EggNature));
         }
     }

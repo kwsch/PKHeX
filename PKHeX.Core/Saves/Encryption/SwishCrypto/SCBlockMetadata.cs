@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 
@@ -18,6 +19,7 @@ public sealed class SCBlockMetadata
     /// <summary>
     /// Creates a new instance of <see cref="SCBlockMetadata"/> by loading properties and constants declared via reflection.
     /// </summary>
+    [RequiresUnreferencedCode("Uses reflection to enumerate save block accessor properties and constants.")]
     public SCBlockMetadata(SCBlockAccessor accessor, IEnumerable<string> extraKeyNames, params string[] exclusions)
     {
         var aType = accessor.GetType();

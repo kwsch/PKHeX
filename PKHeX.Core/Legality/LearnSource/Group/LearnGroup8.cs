@@ -14,6 +14,13 @@ public sealed class LearnGroup8 : ILearnGroup
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option)
     {
+        if (option is LearnOption.AtAnyTimeChain)
+            return LearnGroupHOME.Instance;
+        return GoBackwards(pk, history, enc, option);
+    }
+
+    internal static ILearnGroup? GoBackwards(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option)
+    {
         if (enc.Generation >= Generation)
             return null;
         if (option == LearnOption.Current && pk.IsOriginalMovesetDeleted())

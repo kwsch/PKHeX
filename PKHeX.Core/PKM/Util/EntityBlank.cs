@@ -1,10 +1,9 @@
 using System;
-using System.Reflection;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// Reflection utility to create blank <see cref="PKM"/> without specifying a constructor.
+/// Utility to create blank <see cref="PKM"/> instances.
 /// </summary>
 public static class EntityBlank
 {
@@ -13,45 +12,47 @@ public static class EntityBlank
     /// </summary>
     /// <param name="type">Type of <see cref="PKM"/> instance desired.</param>
     /// <returns>New instance of a blank <see cref="PKM"/> object.</returns>
-    public static PKM GetBlank(Type type)
-    {
-        var typeInfo = type.GetTypeInfo();
-        return GetBlank(typeInfo);
-    }
+    public static PKM GetBlank(Type type) => GetBlank(type.Name);
 
     /// <inheritdoc cref="GetBlank(Type)"/>
-    public static PKM GetBlank(TypeInfo type)
+    public static PKM GetBlank(ReadOnlySpan<char> type) => type switch
     {
-        // Not all derived types have a parameter-less constructor, so find the minimal constructor and use that.
-        ConstructorInfo? info = null;
-        int count = int.MaxValue;
-        foreach (var ctor in type.DeclaredConstructors)
-        {
-            if (ctor.IsStatic)
-                continue;
-            var parameters = ctor.GetParameters();
-            int length = parameters.Length;
-            if (length >= count)
-                continue;
-            count = length;
-            info = ctor;
-        }
+        nameof(PK1) => new PK1(),
+        nameof(PK2) => new PK2(),
+        nameof(SK2) => new SK2(),
+        nameof(PK3) => new PK3(),
+        nameof(CK3) => new CK3(),
+        nameof(XK3) => new XK3(),
+        nameof(PK4) => new PK4(),
+        nameof(BK4) => new BK4(),
+        nameof(RK4) => new RK4(),
+        nameof(PK5) => new PK5(),
+        nameof(PK6) => new PK6(),
+        nameof(PK7) => new PK7(),
+        nameof(PB7) => new PB7(),
+        nameof(PK8) => new PK8(),
+        nameof(PA8) => new PA8(),
+        nameof(PB8) => new PB8(),
+        nameof(PK9) => new PK9(),
+        nameof(PA9) => new PA9(),
+        nameof(PKH) => new PKH(),
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type.ToString(), null),
+    };
 
-        ArgumentNullException.ThrowIfNull(info);
-        var result = info.Invoke(new object?[count]);
-        if (result is not PKM x)
-            throw new InvalidCastException($"Unable to cast {result} to {typeof(PKM)}");
-        return x;
-    }
-
-    public static PKM GetBlank(byte gen, GameVersion version) => gen switch
+    /// <summary>
+    /// Gets a Blank <see cref="PKM"/> object compatible with the provided inputs.
+    /// </summary>
+    /// <param name="context">The context of the entity.</param>
+    /// <param name="language">The language of the entity. Only used for Gen 1 Japanese PKM, otherwise ignored.</param>
+    /// <returns>A blank <see cref="PKM"/> object.</returns>
+    public static PKM GetBlank(EntityContext context, LanguageID language = LanguageID.None) => context switch
     {
-        1 when version is GameVersion.BU => new PK1(true),
-        7 when version is GameVersion.GP or GameVersion.GE => new PB7(),
-        8 when version is GameVersion.BD or GameVersion.SP => new PB8(),
-        8 when version is GameVersion.PLA => new PA8(),
-        9 when version is GameVersion.ZA => new PA9(),
-        _ => GetBlank(gen),
+        EntityContext.Gen1 => new PK1(language == LanguageID.Japanese),
+        EntityContext.Gen7b => new PB7(),
+        EntityContext.Gen8b => new PB8(),
+        EntityContext.Gen8a => new PA8(),
+        EntityContext.Gen9a => new PA9(),
+        _ => GetBlank(context.Generation),
     };
 
     /// <summary>
@@ -61,17 +62,23 @@ public static class EntityBlank
     {
         if (tr is SaveFile s)
             return s.BlankPKM;
-        return GetBlank(tr.Generation, tr.Version);
+        return GetBlank(tr.Context, (LanguageID)tr.Language);
     }
 
     /// <inheritdoc cref="GetBlank(ITrainerInfo)"/>
-    public static PKM GetBlank(byte gen)
+    public static PKM GetBlank(byte gen) => gen switch
     {
-        var type = Type.GetType($"PKHeX.Core.PK{gen}");
-        ArgumentNullException.ThrowIfNull(type);
-
-        return GetBlank(type);
-    }
+        1 => new PK1(),
+        2 => new PK2(),
+        3 => new PK3(),
+        4 => new PK4(),
+        5 => new PK5(),
+        6 => new PK6(),
+        7 => new PK7(),
+        8 => new PK8(),
+        9 => new PK9(),
+        _ => throw new ArgumentOutOfRangeException(nameof(gen), gen, null),
+    };
 
     public static PKM GetIdealBlank(ushort species, byte form)
     {

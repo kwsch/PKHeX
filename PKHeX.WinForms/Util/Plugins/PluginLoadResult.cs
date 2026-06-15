@@ -28,7 +28,6 @@ public sealed class PluginLoadResult
 
     public void LoadFromAssembly(Assembly getExecutingAssembly)
     {
-        Contexts.Add(new(""));
         Assemblies.Add(getExecutingAssembly);
     }
 

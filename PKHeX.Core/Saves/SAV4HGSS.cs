@@ -26,7 +26,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     public override Zukan4 Dex { get; }
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS(Data.ToArray()) : new SAV4HGSS();
 
-    public override GameVersion Version { get => GameVersion.HGSS; set { } }
+    public override GameVersion Version { get => (GameVersion)ROMCode; set => ROMCode = (byte)value; }
     public override PersonalTable4 Personal => PersonalTable.HGSS;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_HGSS;
     public override int MaxItemID => Legal.MaxItemID_4_HGSS;
@@ -78,7 +78,6 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         OFS_Chatter = 0x4E74;
         OFS_Groups = 0x440C;
         Geonet = 0x8D44;
-        WondercardFlags = 0x9D3C;
         Seal = 0x4E20;
 
         Box = 0;
@@ -209,27 +208,22 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     }
 
     private const int OFS_GearRolodex = 0xC0EC;
-    private const byte GearMaxCallers = (byte)(PokegearNumber.Ernest + 1);
+    private const byte GearCallerCount = (byte)(PokegearNumber.Ernest + 1);
 
     public PokegearNumber GetCallerAtIndex(int index) => (PokegearNumber)General[OFS_GearRolodex + index];
     public void SetCallerAtIndex(int index, PokegearNumber caller) => General[OFS_GearRolodex + index] = (byte)caller;
 
     public Span<PokegearNumber> GetPokeGearRoloDex()
     {
-        var arr = General.Slice(OFS_GearRolodex, GearMaxCallers);
+        var arr = General.Slice(OFS_GearRolodex, GearCallerCount);
         return MemoryMarshal.Cast<byte, PokegearNumber>(arr);
     }
 
-    public void SetPokeGearRoloDex(ReadOnlySpan<PokegearNumber> value)
-    {
-        if (value.Length > GearMaxCallers)
-            throw new ArgumentOutOfRangeException(nameof(value));
-        MemoryMarshal.AsBytes(value).CopyTo(General.Slice(OFS_GearRolodex, GearMaxCallers));
-    }
+    public void SetPokeGearRoloDex(ReadOnlySpan<PokegearNumber> value) => value.CopyTo(GetPokeGearRoloDex());
 
     public void PokeGearUnlockAllCallers()
     {
-        for (int i = 0; i < GearMaxCallers; i++)
+        for (int i = 0; i < GearCallerCount; i++)
             SetCallerAtIndex(i, (PokegearNumber)i);
     }
 
@@ -262,6 +256,8 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         // clear remaining callers
         PokeGearClearAllCallers(NotTrainers.Length);
     }
+
+    public Pokeathlon4 Pokeathlon => new(GeneralBuffer.Slice(0xD9D4, Pokeathlon4.SIZE)); // 0xB80
 
     // Apricorn Pouch
     public int GetApricornCount(int index) => General[0xE558 + index];
@@ -332,9 +328,6 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         var mem = GeneralBuffer.Slice(ofs, size);
         return new Roamer4(mem);
     }
-
-    // Pokeathlon
-    public uint PokeathlonPoints { get => ReadUInt32LittleEndian(General[0xE548..]); set => WriteUInt32LittleEndian(General[0xE548..], value); }
 }
 
 public enum MapUnlockState4 : byte
