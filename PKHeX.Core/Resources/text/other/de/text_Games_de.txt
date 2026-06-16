@@ -5,8 +5,8 @@ Smaragd
 Feuerrot
 Blattgrün
 
-HeartGold
-SoulSilver
+Goldene HeartGold
+Silberne SoulSilver
 
 Diamant
 Perl
@@ -37,8 +37,8 @@ Rot
 Blau [INT]/Grün [JP]
 Blau [JP]
 Gelb
-Gold
-Silber
+Goldene
+Silberne
 Kristall
 Let's Go, Pikachu!
 Let's Go, Evoli!
