@@ -637,9 +637,6 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         ResetWeight();
     }
 
-    public float HeightRatio => GetHeightRatio(HeightScalar);
-    public float WeightRatio => GetWeightRatio(WeightScalar);
-
     public float CalcHeightAbsolute => GetHeightAbsolute(PersonalInfo, HeightScalar);
     public float CalcWeightAbsolute => GetWeightAbsolute(PersonalInfo, HeightScalar, WeightScalar);
 
