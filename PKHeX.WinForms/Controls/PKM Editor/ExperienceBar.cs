@@ -7,6 +7,8 @@ namespace PKHeX.WinForms.Controls;
 public partial class ExperienceBar : UserControl
 {
     public EventHandler? ValueChanged;
+    private bool IsDragging { get; set; }
+    private string? HoverText { get; set; }
     private byte Growth { get; set; }
     private byte Level { get; set; }
     public uint EXP { get; private set; }
@@ -26,19 +28,153 @@ public partial class ExperienceBar : UserControl
         return Experience.GetEXP(Level, Growth) + next - 1;
     }
 
-    private void HandleClick(object? sender, MouseEventArgs e)
+    private uint GetEXPAtWidth(int width)
+    {
+        var start = Experience.GetEXP(Level, Growth);
+        var range = Experience.GetEXPToLevelUp(Level, Growth);
+        var maxWidth = RealWidth;
+        if (range == 0 || maxWidth <= 0)
+            return start;
+
+        var progress = (uint)(((long)width * range) / maxWidth);
+        if (progress >= range)
+            progress = range - 1;
+        return start + progress;
+    }
+
+    private int GetRelativeX(object? sender, MouseEventArgs e) => sender == PAN_ExpPercent ? PAN_ExpPercent.Left + e.X : e.X;
+
+    private uint GetHoverEXP(int x)
+    {
+        if (Level >= Experience.MaxLevel)
+            return EXP;
+
+        var maxWidth = RealWidth;
+        if (maxWidth <= 0)
+            return Experience.GetEXP(Level, Growth);
+
+        var width = Math.Clamp(x - Border, 0, maxWidth);
+        if (width == 0)
+            return Experience.GetEXP(Level, Growth);
+        if (width == maxWidth)
+            return GetEXPEdgeHigh();
+        return GetEXPAtWidth(width);
+    }
+
+    private string GetHoverText(int x)
+    {
+        var start = Experience.GetEXP(Level, Growth);
+        var current = GetHoverEXP(x);
+        if (ModifierKeys.HasFlag(Keys.Control))
+            current = EXP;
+
+        var gained = current - start;
+        var range = Experience.GetEXPToLevelUp(Level, Growth);
+        var remain = range - gained;
+        return $"{gained}/{range} (-{remain})" + Environment.NewLine + $"{current} {((float)gained*100)/range:F0}%";
+    }
+
+    private void ShowHover(int x)
+    {
+        var text = GetHoverText(x);
+        if (HoverText == text && Width > 0)
+        {
+            TT_Exp.Show(text, this, Math.Clamp(x, 0, Width - 1), Height + 2, TT_Exp.AutoPopDelay);
+            return;
+        }
+
+        HoverText = text;
+        var tooltipX = Width <= 0 ? 0 : Math.Clamp(x, 0, Width - 1);
+        TT_Exp.Show(text, this, tooltipX, Height + 2, TT_Exp.AutoPopDelay);
+    }
+
+    private void HideHover()
+    {
+        HoverText = null;
+        TT_Exp.Hide(this);
+    }
+
+    private void HandleMouseDown(object? sender, MouseEventArgs e)
     {
         if (e.Button != MouseButtons.Left)
-            return; // ignore lol
-
-        if (TryAction())
             return;
 
-        var x = e.X;
-        var border = Border;
-        if (border != 0)
-            x = Math.Max(0, x - border);
-        SetNewPixelPercent(x, false);
+        if (TryAction())
+        {
+            HideHover();
+            return;
+        }
+
+        IsDragging = true;
+        Capture = true;
+
+        var x = GetRelativeX(sender, e);
+        SetBoundedPixelPercent(x);
+        ShowHover(x);
+    }
+
+    private void HandleMouseMove(object? sender, MouseEventArgs e)
+    {
+        var x = GetRelativeX(sender, e);
+        if (IsDragging && e.Button.HasFlag(MouseButtons.Left))
+            SetBoundedPixelPercent(x);
+
+        ShowHover(x);
+    }
+
+    private void HandleMouseUp(object? sender, MouseEventArgs e)
+    {
+        if (e.Button != MouseButtons.Left)
+            return;
+
+        IsDragging = false;
+        Capture = false;
+        ShowHover(GetRelativeX(sender, e));
+    }
+
+    private void HandleMouseEnter(object? sender, EventArgs e) => ShowHover(PAN_ExpPercent.Width + Border);
+
+    private void HandleMouseLeave(object? sender, EventArgs e)
+    {
+        if (!IsDragging)
+            HideHover();
+    }
+
+    private void HandleMouseCaptureChanged(object? sender, EventArgs e)
+    {
+        if (Capture)
+            return;
+
+        IsDragging = false;
+        if (!ClientRectangle.Contains(PointToClient(MousePosition)))
+            HideHover();
+    }
+
+    private bool TrySetEXPWithinLevel(int newWidth)
+    {
+        if (Level >= Experience.MaxLevel)
+            return false;
+
+        var maxWidth = RealWidth;
+        if (maxWidth <= 0)
+            return false;
+
+        var width = Math.Clamp(newWidth, 0, maxWidth);
+        var original = EXP;
+        if (width == 0)
+            EdgeLow();
+        else if (width == maxWidth)
+            EdgeHigh();
+        else
+            EXP = GetEXPAtWidth(width);
+
+        return EXP != original;
+    }
+
+    private void SetBoundedPixelPercent(int x)
+    {
+        if (TrySetEXPWithinLevel(x - Border))
+            NotifyUpdate();
     }
 
     /// <summary>
@@ -89,6 +225,7 @@ public partial class ExperienceBar : UserControl
             return;
 
         SetNewPixelPercent(PAN_ExpPercent.Width + value, true);
+        ShowHover(GetRelativeX(sender, e));
     }
 
     private void SetNewPixelPercent(int newWidth, bool scroll)
@@ -98,7 +235,6 @@ public partial class ExperienceBar : UserControl
             return; // unchanged, so do nothing
 
         var maxWidth = RealWidth;
-        // Recalculate EXP, trigger the event, which will trigger another Update.
         if (newWidth < 0)
         {
             Underflow();
@@ -115,7 +251,7 @@ public partial class ExperienceBar : UserControl
         {
             EdgeLow();
         }
-        else // somewhere in between
+        else
         {
             var range = Experience.GetEXPToLevelUp(Level, Growth);
             var pixelsPerEXP = (double)maxWidth / range;
@@ -134,7 +270,6 @@ public partial class ExperienceBar : UserControl
                 return;
             EXP = newEXP;
         }
-
         NotifyUpdate();
     }
 
