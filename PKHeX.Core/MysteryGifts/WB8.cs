@@ -504,7 +504,7 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
 
         if (IsScalarFixed)
         {
-            pk.HeightScalar = pk.WeightScalar = GetHomeScalar();
+            (pk.HeightScalar, pk.WeightScalar) = GetHomeScalars();
         }
         else
         {
@@ -525,11 +525,14 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
     /// <summary>
     ///  HOME Gift Manaphy is a special case where height/weight is fixed.
     /// </summary>
-    public bool IsScalarFixed => CardID is 9026;
+    public bool IsScalarFixed => CardID is (9015 or 9016 or 9017) or 9026;
 
-    private byte GetHomeScalar() => CardID switch
+    private (byte Height, byte Weight) GetHomeScalars() => CardID switch
     {
-        9026 => 128,
+        9015 => (147, 160), // Turtwig
+        9016 => (146, 063), // Chimchar
+        9017 => (061, 203), // Piplup
+        9026 => (128, 128), // Manaphy
         _ => throw new ArgumentException(),
     };
 
@@ -686,10 +689,10 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
 
         if (IsScalarFixed)
         {
-            var scalar = GetHomeScalar();
-            if (pk is IScaledSize hw && (hw.HeightScalar != scalar || hw.WeightScalar != scalar))
+            var scalar = GetHomeScalars();
+            if (pk is IScaledSize hw && (hw.HeightScalar != scalar.Height || hw.WeightScalar != scalar.Weight))
                 return false;
-            if (pk is IScaledSize3 s && s.Scale != scalar)
+            if (pk is IScaledSize3 s && s.Scale != scalar.Height)
                 return false;
         }
 

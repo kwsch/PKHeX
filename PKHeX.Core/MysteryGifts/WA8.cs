@@ -505,15 +505,20 @@ public sealed class WA8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
+        // Scale bytes
         if (IsScalarFixed)
         {
-            pk.Scale = pk.HeightScalar = pk.WeightScalar = GetHomeScalar();
+            var scalars = GetHomeScalars();
+            pk.WeightScalar = scalars.Weight;
+            pk.Scale = pk.HeightScalar = scalars.Height;
         }
         else
         {
             pk.Scale = pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
             pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rnd);
         }
+
+        // Scale floats - ignore Enamorus' irregular values as any interaction in Legends: Arceus will rectify it.
         pk.ResetHeight();
         pk.ResetWeight();
 
@@ -530,11 +535,18 @@ public sealed class WA8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     /// <summary>
     ///  HOME Gift Enamorus is a special case where height/weight is fixed.
     /// </summary>
-    public bool IsScalarFixed => CardID is 9027;
+    public bool IsScalarFixed => CardID is (9018 or 9019 or 9020) or Enamorus;
 
-    private byte GetHomeScalar() => CardID switch
+    private const int Enamorus = 9027; // 127,127 with imprecise floats.
+    internal const float EnamorusHeight = 160.0f;
+    internal const float EnamorusWeight = 479.2f;
+
+    private (byte Height, byte Weight) GetHomeScalars() => CardID switch
     {
-        9027 => 127,
+        9018 => (172, 171), // Rowlet
+        9019 => (101, 145), // Cyndaquil
+        9020 => (239, 079), // Oshawott
+        9027 => (127, 127), // Enamorus
         _ => throw new ArgumentException(),
     };
 
@@ -691,10 +703,10 @@ public sealed class WA8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
         if (IsScalarFixed)
         {
-            var scalar = GetHomeScalar();
-            if (pk is IScaledSize hw && (hw.HeightScalar != scalar || hw.WeightScalar != scalar))
+            var scalar = GetHomeScalars();
+            if (pk is IScaledSize hw && (hw.HeightScalar != scalar.Height || hw.WeightScalar != scalar.Weight))
                 return false;
-            if (pk is IScaledSize3 s && s.Scale != scalar)
+            if (pk is IScaledSize3 s && s.Scale != scalar.Height)
                 return false;
         }
 

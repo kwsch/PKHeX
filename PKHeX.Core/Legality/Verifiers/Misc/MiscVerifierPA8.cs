@@ -127,14 +127,14 @@ internal sealed class MiscVerifierPA8 : Verifier
     {
         if (IsAbsoluteRecalculated(data, pk))
             return false;
-        if (pk.EVTotal != 0)
-            return false;
+        // Can gain EVs in S/V, then transfer back to Legends: Arceus.
 
-        return pk is { HeightAbsolute: 160f, WeightAbsolute: 479.2f };
+        return pk is { HeightAbsolute: WA8.EnamorusHeight, WeightAbsolute: WA8.EnamorusWeight };
     }
 
     private static bool IsAbsoluteRecalculated(LegalityAnalysis data, PA8 pk)
     {
+        // Indicates that it was interacted with in Legends: Arceus.
         if (!data.IsStoredSlot(StorageSlotType.Box))
             return true;
         if (pk.PurchasedRecord.ContainsAnyExcept<byte>(0))
@@ -157,6 +157,9 @@ internal sealed class MiscVerifierPA8 : Verifier
         return true;
     }
 
+    private static bool IsMatchCurrent(PA8 pk) => IsMatchCurrent(pk, pk.PersonalInfo);
+    private static bool IsMatchAbsoluteHOME400(PA8 pk) => IsMatchAbsoluteHOME400(pk, pk.PersonalInfo);
+
     // ReSharper disable CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
     private static void VerifyCalculatedSizes(LegalityAnalysis data, PA8 obj)
     {
@@ -169,6 +172,7 @@ internal sealed class MiscVerifierPA8 : Verifier
             data.AddLine(GetInvalid(Encounter, StatIncorrectWeight, SingleToUInt32Bits(expectWeight)));
     }
 
+    // Static Alphas with 127 which were bumped to 255 and not yet updated in-game.
     private static bool IsMatch127(PA8 pk)
     {
         const byte scale = 127;
@@ -184,9 +188,7 @@ internal sealed class MiscVerifierPA8 : Verifier
         return true;
     }
 
-    private static bool IsMatchCurrent(PA8 pk) => IsMatchCurrent(pk, pk.PersonalInfo);
-    private static bool IsMatchAbsoluteHOME400(PA8 pk) => IsMatchAbsoluteHOME400(pk, pk.PersonalInfo);
-
+    // Recalculated in-game.
     private static bool IsMatchCurrent(PA8 pk, PersonalInfo8LA pi)
     {
         var expectHeight = PA8.GetHeightAbsolute(pi, pk.HeightScalar);
@@ -200,6 +202,7 @@ internal sealed class MiscVerifierPA8 : Verifier
         return true;
     }
 
+    // Assigned on first entry via HOME 4.0.0 (can mismatch how the game normally calculates, since the game is not an optimized FMADD).
     private static bool IsMatchAbsoluteHOME400(PA8 pk, PersonalInfo8LA pi)
     {
         var expectHeight = PA8.GetHeightAbsoluteFused((ushort)pi.Height, pk.HeightScalar);
