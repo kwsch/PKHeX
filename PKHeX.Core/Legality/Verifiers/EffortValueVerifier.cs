@@ -30,7 +30,10 @@ public sealed class EffortValueVerifier : Verifier
 
         int sum = pk.EVTotal;
         if (sum > EffortValues.Max510) // format >= 3
+        {
             data.AddLine(GetInvalid(EffortAbove510));
+            return;
+        }
 
         Span<int> evs = stackalloc int[6];
         pk.GetEVs(evs);
@@ -40,6 +43,8 @@ public sealed class EffortValueVerifier : Verifier
             data.AddLine(GetInvalid(EffortAbove252));
         else if (format < 5) // 3/4
             VerifyGainedEVs34(data, enc, evs, pk);
+        else if (sum != 0 && IsUnableToGainEVs(pk))
+            data.AddLine(GetInvalid(EffortShouldBeZero));
 
         // Only one of the following can be true: 0, 508, and x%6!=0
         if (sum == 0 && !enc.IsWithinEncounterRange(pk))
@@ -48,6 +53,16 @@ public sealed class EffortValueVerifier : Verifier
             data.AddLine(Get(Severity.Fishy, Effort2Remaining));
         else if (evs[0] != 0 && !evs.ContainsAnyExcept(evs[0]))
             data.AddLine(Get(Severity.Fishy, EffortAllEqual));
+    }
+
+    private static bool IsUnableToGainEVs(PKM pk)
+    {
+        // Legends Arceus gives EVs on defeating Pokémon, but unable to apply otherwise (no vitamins, no use in stat calcs).
+        // Don't bother checking the total gained (if it is possible or not) vs EXP gained. That's too much work; just a simple check please.
+        if (pk is PA8 { LA: true } pa8 and IHomeTrack { HasTracker: false } && pa8.EXP == Experience.GetEXP(pa8.MetLevel, pa8.PersonalInfo.EXPGrowth))
+            return true;
+
+        return false;
     }
 
     private void VerifyEVsGB(LegalityAnalysis data, PKM pk)

@@ -73,7 +73,6 @@ public abstract class PersonalInfo : IPersonalInfo
     /// <summary>
     /// Checks to see if the <see cref="PKM.Form"/> is valid within the <see cref="FormCount"/>
     /// </summary>
-    /// <param name="form"></param>
     public bool IsFormWithinRange(byte form)
     {
         if (form == 0)

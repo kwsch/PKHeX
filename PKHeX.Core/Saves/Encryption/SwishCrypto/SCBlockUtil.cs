@@ -102,8 +102,6 @@ public static class SCBlockUtil
     /// <summary>
     /// Get the suggested file name for a <see cref="block"/>, without the file extension.
     /// </summary>
-    /// <param name="block"></param>
-    /// <returns></returns>
     public static string GetBlockFileNameWithoutExtension(SCBlock block)
     {
         var key = block.Key;

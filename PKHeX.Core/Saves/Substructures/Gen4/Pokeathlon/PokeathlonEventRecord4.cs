@@ -9,7 +9,6 @@ namespace PKHeX.Core;
 /// <remarks>
 /// <see cref="PokeathlonEvent4"/>
 /// </remarks>
-/// <param name="Raw"></param>
 public struct PokeathlonEventRecord4(Memory<byte> Raw)
 {
     public const int SIZE = 8;

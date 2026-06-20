@@ -65,7 +65,7 @@ public static class EntityDetection
     /// <summary>
     /// Gets a function that can check a span to see if a <see cref="PKM"/> is possibly present.
     /// </summary>
-    /// <param name="blank"></param>
+    /// <param name="blank">Implementation detail of the desired type to check for.</param>
     /// <returns>Function that checks if a span has a <see cref="PKM"/> present</returns>
     public static Func<ReadOnlySpan<byte>, bool> GetFuncIsPresent(PKM blank) => blank switch
     {

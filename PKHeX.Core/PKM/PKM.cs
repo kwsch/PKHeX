@@ -522,7 +522,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// </summary>
     /// <param name="move">Move ID to add.</param>
     /// <param name="pushOut">If the current moveset is full, whether to push out the oldest move (index 0) to add the new one.</param>
-    /// <returns></returns>
+    /// <returns>True if the move was added, false if not added.</returns>
     public bool AddMove(ushort move, bool pushOut = true)
     {
         if (move == 0 || move >= MaxMoveID || HasMove(move))

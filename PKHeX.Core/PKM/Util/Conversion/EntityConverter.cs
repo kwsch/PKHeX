@@ -58,8 +58,8 @@ public static class EntityConverter
     /// <summary>
     /// Checks if the input <see cref="PKM"/> file is capable of being converted to the desired format.
     /// </summary>
-    /// <param name="pk"></param>
-    /// <param name="format"></param>
+    /// <param name="pk">PKM to convert</param>
+    /// <param name="format">Format to convert to</param>
     /// <returns>True if it can be converted to the requested format value.</returns>
     public static bool IsConvertibleToFormat(PKM pk, byte format)
     {

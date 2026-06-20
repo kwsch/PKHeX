@@ -51,7 +51,6 @@ public sealed class SearchSettings
     /// <summary>
     /// Adds a move to the required move list.
     /// </summary>
-    /// <param name="move"></param>
     public void AddMove(ushort move)
     {
         if (move != 0 && !Moves.Contains(move))

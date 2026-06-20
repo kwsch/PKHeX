@@ -46,6 +46,7 @@ namespace PKHeX.WinForms.Controls
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.SystemColors.ControlLight;
             Controls.Add(PAN_ExpPercent);
             Margin = new System.Windows.Forms.Padding(0);
             Name = "ExperienceBar";

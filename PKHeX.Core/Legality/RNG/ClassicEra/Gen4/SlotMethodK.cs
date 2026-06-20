@@ -83,7 +83,6 @@ public static class SlotMethodK
     /// Calculates the encounter slot index based on the roll for a Safari Zone encounter.
     /// </summary>
     /// <param name="roll">[0,9] raw roll</param>
-    /// <returns></returns>
     public static byte GetSafari(uint roll) => (byte)roll;
 
     /// <summary>
