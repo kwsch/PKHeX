@@ -95,6 +95,9 @@ public static class EntityFormat
         var pk = new PK8(data.ToArray()); // Force decryption
 
         var core = pk.Data;
+        if (ReadUInt32LittleEndian(core[0x120..]) == 0) // Uncaptured (no egg/met locations)
+            return GetFormat89Uncaptured(core);
+
         if (core[0x11F] == 0) // PK8/PB8: Unused Alignment, PK9/PA9: Obedience Level
         {
             // Can still be zero if it's an egg in S/V.
@@ -132,6 +135,19 @@ public static class EntityFormat
             return FormatPA9;
 
         return Format9or9a; // Could be either; let other clues like extension/current save file format differentiate.
+    }
+
+    private static EntityFormatDetected GetFormat89Uncaptured(ReadOnlySpan<byte> core)
+    {
+        // S/V does not set version.
+        // ZA sets version @ 0xCE; byte is used by Poké Jobs in SW/SH (unused in BD/SP), so it's a clear differentiator.
+        if (core[0xCE] == (byte)GameVersion.ZA) // Version
+            return FormatPA9;
+        if (core[0xE8] == 0) // 0xFF for Affixed Ribbon in Gen8 formats.
+            return FormatPK9;
+
+        // SW/SH and BD/SP are pretty much the same; not really interested in dumping BD/SP blank data. Defer to extension.
+        return Format8or8b;
     }
 
     /// <summary>
