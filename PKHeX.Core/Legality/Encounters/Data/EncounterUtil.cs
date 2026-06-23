@@ -202,4 +202,19 @@ public static class EncounterUtil
         var pt = version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
         return pt[species];
     }
+
+    internal static ushort GetLocationMainline<T>(T pk, ushort loc) where T : PKM
+    {
+        if (pk is PB8)
+            return Locations8b.GetLocationMainline(loc);
+        return loc;
+    }
+
+    internal static bool IsMatchEggLocation<TEnc, TEntity>(this TEnc enc, TEntity pk)
+        where TEnc : ILocation
+        where TEntity : PKM
+    {
+        var loc = GetLocationMainline(pk, pk.EggLocation);
+        return loc == enc.EggLocation;
+    }
 }

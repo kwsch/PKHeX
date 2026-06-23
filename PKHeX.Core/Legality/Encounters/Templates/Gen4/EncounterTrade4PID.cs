@@ -13,7 +13,7 @@ public sealed record EncounterTrade4PID : IEncounterable, IEncounterMatch, IEnco
     public Shiny Shiny => Shiny.FixedValue;
     public bool IsFixedNickname => true;
     public bool IsEgg => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
     public bool IsFixedTrainer => true;
@@ -168,7 +168,7 @@ public sealed record EncounterTrade4PID : IEncounterable, IEncounterMatch, IEnco
             return false;
         if (pk.OriginalTrainerGender != OTGender)
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (pk is IContestStatsReadOnly s && s.IsContestBelow(this))
             return false;
@@ -202,14 +202,6 @@ public sealed record EncounterTrade4PID : IEncounterable, IEncounterMatch, IEnco
         if (Nature != pk.Nature)
             return false;
         return true;
-    }
-
-    private bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = EggLocation;
-        if (pk is PB8)
-            expect = Locations.Default8bNone;
-        return pk.EggLocation == expect;
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;

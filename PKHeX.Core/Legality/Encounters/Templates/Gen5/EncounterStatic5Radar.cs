@@ -14,7 +14,7 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
     public bool IsShiny => false;
     public Shiny Shiny => Shiny.Never;
     public bool IsEgg => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public byte LevelMin => 5;
     public byte LevelMax => 40;
     public string Name => "Dream Radar Encounter";
@@ -77,7 +77,7 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (pk.MetLocation != Location)
             return false;
@@ -94,12 +94,6 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
         if (metLevel % 5 != 0)
             return false; // must be a multiple of 5
         return metLevel - 5u <= 35; // 5 <= x <= 40
-    }
-
-    private bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.EggLocation == expect;
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;

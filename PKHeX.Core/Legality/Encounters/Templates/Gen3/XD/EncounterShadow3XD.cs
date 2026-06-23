@@ -94,7 +94,7 @@ public sealed record EncounterShadow3XD(byte Index, ushort Gauge, ReadOnlyMemory
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
@@ -117,15 +117,6 @@ public sealed record EncounterShadow3XD(byte Index, ushort Gauge, ReadOnlyMemory
         if (!pk.FatefulEncounter)
             return true;
         return FixedBall != Ball.None && pk.Ball != (byte)FixedBall;
-    }
-
-    private static bool IsMatchEggLocation(PKM pk)
-    {
-        if (pk.Format == 3)
-            return true;
-
-        var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLevel(PKM pk, EvoCriteria evo)

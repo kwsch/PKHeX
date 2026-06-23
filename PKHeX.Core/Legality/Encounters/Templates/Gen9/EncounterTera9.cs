@@ -18,7 +18,7 @@ public sealed record EncounterTera9 : ITeraRaid9, IEncounterFormRandom
     public Ball FixedBall => Ball.None;
     public bool IsEgg => false;
     public bool IsShiny => Shiny == Shiny.Always;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
 
     public required ushort Species { get; init; }
     public required byte Form { get; init; }
@@ -240,7 +240,7 @@ public sealed record EncounterTera9 : ITeraRaid9, IEncounterFormRandom
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
@@ -248,12 +248,6 @@ public sealed record EncounterTera9 : ITeraRaid9, IEncounterFormRandom
             return false;
 
         return true;
-    }
-
-    private bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLocation(PKM pk)

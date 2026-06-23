@@ -132,7 +132,7 @@ public sealed class PCD(Memory<byte> raw)
             {
                 // met location: deferred to general transfer check
                 if (wc.CurrentLevel > pk.MetLevel) return false;
-                if (!IsMatchEggLocation(pk))
+                if (!IsMatchEggLocationInternal(pk))
                     return false;
             }
             else

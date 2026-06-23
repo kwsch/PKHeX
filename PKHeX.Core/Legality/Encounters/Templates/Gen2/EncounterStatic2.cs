@@ -18,7 +18,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
 
     public Ball FixedBall => Ball.Poke;
     ushort ILocation.Location => Location;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsShiny => Shiny == Shiny.Always;
     public AbilityPermission Ability => Species != (int)Koffing ? AbilityPermission.OnlyHidden : AbilityPermission.OnlyFirst;
     public bool IsRoaming => Species is (int)Entei or (int)Raikou or (int)Suicune && Location != 23;
@@ -145,7 +145,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             //}
         }
 
-        if (!IsMatchEggLocation(pk))
+        if (!IsMatchEggLocationInternal(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
@@ -222,13 +222,10 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
 
     private static bool IsOddEggTrainerNameValid(PKM pk) => DetectOddEggLanguage(pk) != LanguageID.None;
 
-    private bool IsMatchEggLocation(PKM pk)
+    private bool IsMatchEggLocationInternal(PKM pk)
     {
         if (pk is not ICaughtData2 c2)
-        {
-            var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-            return pk.EggLocation == expect;
-        }
+            return this.IsMatchEggLocation(pk);
 
         if (pk.IsEgg)
         {

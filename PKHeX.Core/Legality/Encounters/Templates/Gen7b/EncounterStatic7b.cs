@@ -9,7 +9,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
     public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
     ushort ILocation.Location => Location;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsShiny => false;
     public bool IsEgg => false;
 
@@ -91,7 +91,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (pk.MetLocation != Location)
             return false;
@@ -106,10 +106,5 @@ public sealed record EncounterStatic7b(GameVersion Version)
         return true;
     }
 
-    private bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.EggLocation == expect;
-    }
     #endregion
 }

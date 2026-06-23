@@ -546,7 +546,7 @@ public sealed class WC6(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
         }
         else
         {
-            if (!IsMatchEggLocation(pk)) return false;
+            if (!IsMatchEggLocationInternal(pk)) return false;
             if (Location != pk.MetLocation) return false;
         }
 

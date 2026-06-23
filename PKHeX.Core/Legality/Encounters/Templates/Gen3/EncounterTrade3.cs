@@ -15,7 +15,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
     public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname => true;
     public Nature Nature => (Nature)(PID % 25);

@@ -12,7 +12,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     private PersonalInfo6XY PersonalInfo => PersonalTable.XY[Species];

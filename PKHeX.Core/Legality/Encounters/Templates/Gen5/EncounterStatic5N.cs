@@ -21,7 +21,7 @@ public sealed record EncounterStatic5N(uint PID)
     public bool IsShiny => false;
     public Shiny Shiny => Shiny.FixedValue;
     public bool IsEgg => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public Ball FixedBall => Species == (int)Core.Species.Zorua ? Ball.Poke : Ball.None; // Zorua can't be captured; others can.
 
     public ushort TID16 => ID32;
@@ -98,7 +98,7 @@ public sealed record EncounterStatic5N(uint PID)
     {
         if (PID != pk.PID)
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (pk.MetLocation != Location)
             return false;
@@ -116,12 +116,6 @@ public sealed record EncounterStatic5N(uint PID)
         if (pk.ID32 != ID32)
             return false;
         return true;
-    }
-
-    private bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.EggLocation == expect;
     }
 
     private static string GetOT(int lang) => lang == (int)LanguageID.Japanese ? "Ｎ" : "N";

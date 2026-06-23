@@ -16,7 +16,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
     public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public bool IsShiny => Shiny.IsShiny();
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
 
     public GameVersion Version => GameVersion.GO;
     public ushort Location => Locations.GO7;

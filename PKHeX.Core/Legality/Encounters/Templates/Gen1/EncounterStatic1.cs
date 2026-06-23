@@ -9,12 +9,12 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
     public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
     public bool IsEgg => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public ushort Location => 0;
+    ushort ILocation.Location => 0;
 
     private const byte LightBallPikachuCatchRate = 0xA3; // 163 - Light Ball
     public byte Form => 0;
@@ -66,8 +66,6 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!IsMatchEggLocation(pk))
-            return false;
         if (!IsMatchLocation(pk))
             return false;
         if (Level > evo.LevelMax)
@@ -78,15 +76,6 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
         return true;
-    }
-
-    private static bool IsMatchEggLocation(PKM pk)
-    {
-        if (pk.Format <= 2)
-            return true;
-
-        var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.EggLocation == expect;
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk)

@@ -16,7 +16,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     public Ball FixedBall => Type.GetValidBall();
     public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public GameVersion Version => GameVersion.GO;
     public ushort Location => Locations.GO8;
 

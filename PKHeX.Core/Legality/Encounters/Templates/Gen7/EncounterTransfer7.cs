@@ -14,7 +14,7 @@ public sealed record EncounterTransfer7(GameVersion Version, ushort Species, byt
     public EntityContext Context => EntityContext.Gen7;
     public Ball FixedBall => Ball.Poke;
     public bool IsEgg => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
 
     public byte Form => 0;
     public ushort Location { get; private init; }

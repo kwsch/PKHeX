@@ -18,7 +18,7 @@ public sealed class QRPK7(Memory<byte> Raw) : IEncounterInfo
     public EntityContext Context => EntityContext.Gen7;
     public bool IsShiny => false;
     public ushort Location => 0;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public AbilityPermission Ability => (AbilityPermission)AbilityIndex;
     public Ball FixedBall => (Ball)Ball;
     public Shiny Shiny => Shiny.Never;

@@ -21,7 +21,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Shiny Shiny => Shiny.Never;
     public byte Form => 0;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
 
     public ushort Species { get; }
     public byte Level { get; }
@@ -132,7 +132,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
@@ -163,12 +163,6 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
             return EntityGender.GetFromPID(pk.PID, EntityGender.MF) == Gender;
 
         return true;
-    }
-
-    private static bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLocation(PKM pk)

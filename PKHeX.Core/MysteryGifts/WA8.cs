@@ -668,7 +668,7 @@ public sealed class WA8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         // Never Egg
         {
             if (!Shiny.IsValid(pk)) return false;
-            if (!IsMatchEggLocation(pk)) return false;
+            if (!IsMatchEggLocationInternal(pk)) return false;
             if (pk is PK8)
             {
                 if (pk.MetLocation != LocationsHOME.SWLA)

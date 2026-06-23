@@ -17,7 +17,7 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
     public AbilityPermission Ability => Any12;
     public Ball FixedBall => Ball.None;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public byte FlawlessIVCount { get; init; }
     public byte LevelMin => Level;
     public byte LevelMax => Level;
@@ -125,7 +125,7 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
@@ -143,7 +143,6 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
         return true;
     }
 
-    private bool IsMatchEggLocation(PKM pk) => pk.EggLocation == EggLocation;
     private bool IsMatchLocation(PKM pk)
     {
         var loc = pk.MetLocation;

@@ -271,7 +271,7 @@ public sealed record EncounterStatic4(GameVersion Version)
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!IsMatchEggLocation(pk))
+        if (!IsMatchEggLocationInternal(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
@@ -292,7 +292,7 @@ public sealed record EncounterStatic4(GameVersion Version)
 
         var met = pk4.MetLocation;
         if (IsEgg)
-            return true;
+            return !pk.IsEgg || (met == Location || met == Locations.LinkTrade4);
         if (!IsRoaming)
             return met == Location;
 
@@ -304,13 +304,10 @@ public sealed record EncounterStatic4(GameVersion Version)
         };
     }
 
-    private bool IsMatchEggLocation(PKM pk)
+    private bool IsMatchEggLocationInternal(PKM pk)
     {
         if (!IsEgg)
-        {
-            var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-            return pk.EggLocation == expect;
-        }
+            return this.IsMatchEggLocation(pk);
 
         var eggLoc = pk.EggLocation;
         // Transferring 4->5 clears Pt/HG/SS location value and keeps Faraway Place
@@ -326,11 +323,7 @@ public sealed record EncounterStatic4(GameVersion Version)
             return eggLoc == EggLocation || eggLoc == Locations.LinkTrade4;
 
         // Unhatched:
-        if (eggLoc != EggLocation)
-            return false;
-        if (pk4.MetLocation is not (0 or Locations.LinkTrade4))
-            return false;
-        return true;
+        return eggLoc == EggLocation;
     }
 
     private static bool IsMatchLocationGrass(ushort location, ushort met) => location switch

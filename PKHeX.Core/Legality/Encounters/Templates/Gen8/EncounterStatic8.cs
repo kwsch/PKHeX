@@ -150,7 +150,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
             return false;
         if (!IsMatchLocation(pk))
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (pk is PK8 d && d.DynamaxLevel < DynamaxLevel)
             return false;
@@ -165,12 +165,6 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
         if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;
         return true;
-    }
-
-    private static bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLocation(PKM pk)

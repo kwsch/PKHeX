@@ -20,7 +20,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";

@@ -19,7 +19,7 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
     public AbilityPermission Ability => TransporterLogic.IsHiddenDisallowedVC2(Species) ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";

@@ -17,7 +17,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IEncount
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname => true;
 

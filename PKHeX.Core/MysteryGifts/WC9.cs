@@ -694,7 +694,7 @@ public sealed class WC9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         else
         {
             if (!shinyType.IsValid(pk)) return false;
-            if (!IsMatchEggLocation(pk)) return false;
+            if (!IsMatchEggLocationInternal(pk)) return false;
             if (!IsMatchLocation(pk)) return false;
         }
 

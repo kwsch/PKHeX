@@ -15,7 +15,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} [{Type}] - {Weather.ToString().Replace("_", string.Empty)}";

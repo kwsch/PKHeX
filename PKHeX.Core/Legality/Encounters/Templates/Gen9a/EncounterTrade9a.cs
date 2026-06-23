@@ -18,7 +18,7 @@ public sealed record EncounterTrade9a : IEncounter9a,
     public Ball FixedBall => Ball.Poke;
     public Shiny Shiny => Shiny.Never;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public byte FlawlessIVCount { get; init; }
     public byte LevelMin => Level;
     public byte LevelMax => Level;
@@ -186,7 +186,7 @@ public sealed record EncounterTrade9a : IEncounter9a,
             return false;
         if (pk.OriginalTrainerGender != OTGender)
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
             return false;
@@ -200,7 +200,6 @@ public sealed record EncounterTrade9a : IEncounter9a,
         return true;
     }
 
-    private bool IsMatchEggLocation(PKM pk) => pk.EggLocation == EggLocation;
     private bool IsMatchLocation(PKM pk) => pk.MetLocation == Location;
 
     #endregion

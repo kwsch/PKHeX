@@ -459,7 +459,7 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
             MetLocation = Location,
             EggLocation = EggLocation,
         };
-        if (EggLocation == 0)
+        if (EggLocation == 0) // HOME gifts need to be remapped to in-game. Nothing legitimately has a 0.
             pk.EggLocation = Locations.Default8bNone;
 
         pk.HealPP();
@@ -677,7 +677,7 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
         else
         {
             if (!Shiny.IsValid(pk)) return false;
-            if (!IsMatchEggLocation(pk)) return false;
+            if (!IsMatchEggLocationInternal(pk)) return false;
             if (!IsMatchLocation(pk)) return false;
         }
 
@@ -705,7 +705,7 @@ public sealed class WB8(Memory<byte> raw) : DataMysteryGift(raw),
         return pk.PID == GetPID(pk, (ShinyType8)type);
     }
 
-    protected override bool IsMatchEggLocation(PKM pk)
+    protected override bool IsMatchEggLocationInternal(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : 0;
         return pk.EggLocation == expect;

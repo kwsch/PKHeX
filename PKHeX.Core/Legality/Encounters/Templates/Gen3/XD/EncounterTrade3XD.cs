@@ -104,7 +104,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
@@ -122,15 +122,6 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
         if (IsMatchPartial(pk))
             return EncounterMatchRating.PartialMatch;
         return EncounterMatchRating.Match;
-    }
-
-    private static bool IsMatchEggLocation(PKM pk)
-    {
-        if (pk.Format == 3)
-            return true;
-
-        var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLevel(PKM pk, EvoCriteria evo)

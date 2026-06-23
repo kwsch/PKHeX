@@ -51,7 +51,7 @@ namespace PKHeX.WinForms.Controls
             //
             // TT_Exp
             //
-            TT_Exp.AutoPopDelay = 5000;
+            TT_Exp.AutoPopDelay = 30000;
             TT_Exp.InitialDelay = 0;
             TT_Exp.ReshowDelay = 0;
             TT_Exp.ShowAlways = true;

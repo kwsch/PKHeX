@@ -15,11 +15,11 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
     public byte Generation => 1;
     public EntityContext Context => EntityContext.Gen1;
     public bool IsEgg => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public AbilityPermission Ability => AbilityPermission.OnlyHidden;
     public bool IsShiny => false;
-    public ushort Location => 0;
+    ushort ILocation.Location => 0;
     public byte Form => 0;
     public Shiny Shiny => Shiny.Random;
 
@@ -209,8 +209,6 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
     {
         if (Language != LanguageRestriction.Any && pk.Japanese != (Language == LanguageRestriction.Japanese))
             return false;
-        if (!IsMatchEggLocation(pk))
-            return false;
         if (!IsMatchLocation(pk))
             return false;
         if (Level > evo.LevelMax)
@@ -290,15 +288,6 @@ public sealed record EncounterGift1 : IEncounterable, IEncounterMatch, IEncounte
         Shiny.Always => pk.IsShiny,
         _ => true,
     };
-
-    private static bool IsMatchEggLocation(PKM pk)
-    {
-        if (pk.Format <= 2)
-            return true;
-
-        var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.EggLocation == expect;
-    }
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {

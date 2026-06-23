@@ -133,7 +133,7 @@ public sealed record EncounterStatic7(GameVersion Version)
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!IsMatchEggLocation(pk))
+        if (!IsMatchEggLocationInternal(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
@@ -161,19 +161,18 @@ public sealed record EncounterStatic7(GameVersion Version)
 
     private bool IsMatchLocation(PKM pk)
     {
-        if (IsEgg)
+        var met = pk.MetLocation;
+        if (met == Location)
             return true;
-
-        return pk.MetLocation == Location;
+        if (IsEgg)
+            return !pk.IsEgg || met == Locations.LinkTrade6;
+        return false;
     }
 
-    private bool IsMatchEggLocation(PKM pk)
+    private bool IsMatchEggLocationInternal(PKM pk)
     {
         if (!IsEgg)
-        {
-            var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-            return pk.EggLocation == expect;
-        }
+            return this.IsMatchEggLocation(pk);
 
         // Gift Eevee edge case
         if (EggLocation == Locations.Daycare5 && !Relearn.HasMoves && pk.RelearnMove1 != 0)
@@ -184,11 +183,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             return eggLoc == EggLocation || eggLoc == Locations.LinkTrade6;
 
         // Unhatched:
-        if (eggLoc != EggLocation)
-            return false;
-        if (pk.MetLocation is not (0 or Locations.LinkTrade6))
-            return false;
-        return true;
+        return eggLoc == EggLocation;
     }
 
     private bool IsMatchForm(PKM pk, EvoCriteria evo)

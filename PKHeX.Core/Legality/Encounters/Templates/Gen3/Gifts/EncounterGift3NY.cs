@@ -25,7 +25,7 @@ public sealed record EncounterGift3NY(ushort Species, Distribution3NY Distributi
     public byte LevelMin => Level;
     public byte LevelMax => Level;
     public ushort Location => 255;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Ball FixedBall => Ball.Poke;
     public Shiny Shiny => Shiny.Never;

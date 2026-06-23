@@ -170,7 +170,7 @@ public static class EncounterVerifier
         if (pk.MetLevel < EggStateLegality.EggLevel23)
             return GetInvalid(TransferEggMetLevel);
 
-        var expectEgg = pk is PB8 ? Locations.Default8bNone : 0;
+        var expectEgg = EncounterUtil.GetLocationMainline(pk, pk.EggLocation);
         if (pk.EggLocation != expectEgg)
             return GetInvalid(EggLocationNone);
 
@@ -299,6 +299,8 @@ public static class EncounterVerifier
             return GetInvalid(EggFMetLevel_0, level);
 
         var met = pk.MetLocation;
+        if (pk is not PB8)
+            met = Locations8b.GetLocationLocal(met);
         bool valid = pk.Version == GameVersion.BD
             ? EggHatchLocation8b.IsValidMet8BD(met)
             : EggHatchLocation8b.IsValidMet8SP(met);

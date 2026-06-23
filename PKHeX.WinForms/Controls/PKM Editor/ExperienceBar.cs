@@ -113,13 +113,18 @@ public partial class ExperienceBar : UserControl
         ShowHover(x);
     }
 
+    private int lastMouseMoveX = int.MinValue;
+
     private void HandleMouseMove(object? sender, MouseEventArgs e)
     {
         var x = GetRelativeX(sender, e);
+        if (x == lastMouseMoveX)
+            return;
         if (IsDragging && e.Button.HasFlag(MouseButtons.Left))
             SetBoundedPixelPercent(x);
 
         ShowHover(x);
+        lastMouseMoveX = x;
     }
 
     private void HandleMouseUp(object? sender, MouseEventArgs e)

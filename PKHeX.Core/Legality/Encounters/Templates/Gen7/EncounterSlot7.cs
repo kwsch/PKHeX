@@ -12,7 +12,7 @@ public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte 
     public Ball FixedBall => Location == Locations.Pelago7 ? Ball.Poke : Ball.None;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";

@@ -17,7 +17,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public Ball FixedBall => GetRequiredBallValue();
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
