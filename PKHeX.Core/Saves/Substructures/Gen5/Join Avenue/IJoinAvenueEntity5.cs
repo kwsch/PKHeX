@@ -17,12 +17,12 @@ public interface IJoinAvenueEntity5
     string Farewell { get; set; }
 
     /// <summary>
-    /// <see cref="UnityTower5.LegalCountries"/>
+    /// <see cref="LocaleNDS5.LegalCountries"/>
     /// </summary>
     byte Country { get; set; }
 
     /// <summary>
-    /// <see cref="UnityTower5.GetSubregionCount"/>
+    /// <see cref="LocaleNDS5.GetSubregionCount"/>
     /// </summary>
     byte Subregion { get; set; }
 

@@ -115,7 +115,10 @@ public partial class SAV_MysteryGiftDB : Form
     {
         base.OnShown(e);
         foreach (var cb in TLP_Filters.Controls.OfType<ComboBox>())
-            cb.SelectedIndex = cb.SelectionLength = 0;
+        {
+            cb.SelectedIndex = 0;
+            cb.Select(0, 0);
+        }
     }
 
     private readonly PictureBox[] PKXBOXES;

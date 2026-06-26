@@ -114,7 +114,7 @@ public static class CommonEdits
                 return true;
             }
 
-            do { pk.SetShiny(); }
+            do pk.SetShiny();
             while (!type.IsValid(pk));
 
             return true;

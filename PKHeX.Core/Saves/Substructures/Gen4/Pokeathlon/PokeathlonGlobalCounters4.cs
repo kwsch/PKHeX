@@ -76,7 +76,7 @@ public struct PokeathlonGlobalCounters4(Memory<byte> Raw)
     /// The price of the drinks are determined on how famous the Trainers selling them are.
     /// </summary>
     /// <remarks>
-    /// <see cref="Aprijuice5.Fame"/>
+    /// <see cref="Aprijuice4.Fame"/>
     /// </remarks>
     public uint Fame { get => ReadUInt32LittleEndian(Data[0x70..]); set => WriteUInt32LittleEndian(Data[0x70..], Math.Min(MaxFame, value)); }
 

@@ -18,7 +18,7 @@ public sealed class AdvancedSettings
     public string HideEvent8Contains { get; set; } = string.Empty;
 
     [LocalizedDescription("Minimum distance threshold that mouse movement must exceed before a drag operation is started from a slot.")]
-    public int DragStartThreshold { get; set; } = 0;
+    public int DragStartThreshold { get; set; }
 
     [Browsable(false)]
     public string[] GetExclusionList8() => Array.ConvertAll(HideEvent8Contains.Split(',', StringSplitOptions.RemoveEmptyEntries), z => z.Trim());

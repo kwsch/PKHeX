@@ -104,7 +104,7 @@ public partial class SAV_Encounters : Form
         L_Count.Text = "Ready...";
 
         CenterToParent();
-        CheckIsSearchDisallowed();
+        CheckIsSearchAllowed();
 
         if (Application.IsDarkModeEnabled)
         {
@@ -172,7 +172,7 @@ public partial class SAV_Encounters : Form
                         c.Checked = c == chk;
                 }
             };
-            chk.CheckStateChanged += (_, _) => CheckIsSearchDisallowed();
+            chk.CheckStateChanged += (_, _) => CheckIsSearchAllowed();
         }
     }
 
@@ -331,7 +331,10 @@ public partial class SAV_Encounters : Form
     {
         base.OnShown(e);
         foreach (var cb in TLP_Filters.Controls.OfType<ComboBox>())
-            cb.SelectedIndex = cb.SelectionLength = 0;
+        {
+            cb.SelectedIndex = 0;
+            cb.Select(0, 0);
+        }
     }
 
     // View Updates
@@ -340,7 +343,7 @@ public partial class SAV_Encounters : Form
         var settings = GetSearchSettings();
 
         // If nothing is specified, instead of just returning all possible encounters, just return nothing.
-        if (DisallowSearch(settings))
+        if (!IsSearchAllowed(settings))
             return [];
         var pk = SAV.BlankPKM;
 
@@ -378,11 +381,13 @@ public partial class SAV_Encounters : Form
         return results;
     }
 
-    private bool DisallowSearch(SearchSettings settings)
+    private bool IsSearchAllowed(SearchSettings settings)
     {
-        if (TypeFilters.Controls.OfType<CheckBox>().All(z => !z.Checked))
+        if (!TypeFilters.Controls.OfType<CheckBox>().Any(z => z.Checked))
             return false; // no types selected
-        return settings is { Species: 0, Moves.Count: 0 } && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch;
+        if (settings is { Species: 0, Moves.Count: 0 } && !Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
+            return false;
+        return true;
     }
 
     private static IEnumerable<ushort> GetFullRange(int max)
@@ -607,11 +612,11 @@ public partial class SAV_Encounters : Form
         tb.AppendText(s);
     }
 
-    private void CB_Species_SelectedIndexChanged(object sender, EventArgs e) => CheckIsSearchDisallowed();
+    private void CB_Species_SelectedIndexChanged(object sender, EventArgs e) => CheckIsSearchAllowed();
 
-    private void CheckIsSearchDisallowed()
+    private void CheckIsSearchAllowed()
     {
         var settings = GetSearchSettings();
-        B_Search.Enabled = !DisallowSearch(settings);
+        B_Search.Enabled = IsSearchAllowed(settings);
     }
 }
