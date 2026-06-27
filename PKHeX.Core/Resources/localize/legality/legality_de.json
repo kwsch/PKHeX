@@ -228,6 +228,7 @@
     "MoveEvoFCombination_0": "Attacken-Kombination ist nicht mit der Entwicklung zu {0} kompatibel.",
     "MoveFExpectSingle_0": "Erwartet: {0}",
     "MoveKeldeoMismatch": "Keldeo: Attacke und Form stimmen nicht überein.",
+    "MovePPMatchesVirtualConsole": "Die AP der Attacken stimmen exakt mit den Werten des 3DS‑Virtual‑Console‑Transferfehlers überein.",
     "MovePPExpectHealed_01": "Die AP der Attacke {0} liegen unter dem erwarteten Wert ({1}).",
     "MovePPTooHigh_01": "Die AP der Attacke {0} liegen über dem erlaubten Wert ({1}).",
     "MovePPUpsTooHigh_01": "Die Anzahl der AP-Plus bei der Attacke {0} liegt über dem erlaubten Limit ({1}).",

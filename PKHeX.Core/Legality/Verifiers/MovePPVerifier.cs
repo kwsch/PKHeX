@@ -67,12 +67,18 @@ public sealed class MovePPVerifier : Verifier
             }
         }
 
+        // Sometimes the PP count will exceed (such as VC=>Bank); rather than flag it as invalid, add a tag indicating it is an untouched VC transfer.
+        // Gen7 3DS VC: Bad values are valid only if they never move it from the box. Could be more restrictive with disallowing other attributes, alas.
+        if (pk is PK7 { VC: true } pk7 && data.IsStoredSlot(StorageSlotType.Box) && IsVirtualConsoleUntouched(pk7, moves, pp))
+        {
+            data.AddLine(GetValid(MovePPMatchesVirtualConsole));
+            return; // Don't check further; we've verified all values match.
+        }
+
         var allowedStates = GetPermittedStatePP(data, pk);
 
         for (int i = 0; i < pp.Length; i++)
         {
-            // Sometimes the PP count will exceed (such as VC=>Bank); just flag it as invalid so the user knows they need to heal them.
-            // Technically that case is legal (game bug) only if they never move it from the box, but we want to inform the user.
             var healed = pk.GetMovePP(moves[i], ups[i]);
             var value = pp[i];
             if (value > healed)
@@ -156,6 +162,30 @@ public sealed class MovePPVerifier : Verifier
         if (pk.Format >= 3) // has met level
             return pk.MetLevel != current ? OnlyHealed : Any;
         return !enc.IsLevelWithinRange(current) ? OnlyHealed : Any;
+    }
+
+    private static bool IsVirtualConsoleUntouched(PK7 pk, ReadOnlySpan<ushort> moves, ReadOnlySpan<int> pp)
+    {
+        // Sanity check the language is a possible VC-transfer language.
+        var language = (LanguageID)pk.Language;
+        if (!VirtualConsolePP.IsSupportedLanguage(language))
+            return false;
+
+        // Pre-check to ensure the moves are only available from the game they were transferred from.
+        // Can't leave the box immediately after transfer (else PP would heal), but we don't prevent the Move Verifier from passing Gen3+ moves.
+        // Maybe in a future update we can add more strict interlocks.
+        if (pk.VC1)
+        {
+            if (!VirtualConsolePP.IsPossibleVC1(moves))
+                return false; // GSC+ moves
+        }
+        else // VC2
+        {
+            if (!VirtualConsolePP.IsPossibleVC2(moves))
+                return false; // RSE+ moves
+        }
+
+        return VirtualConsolePP.IsMatch(language, moves, pp);
     }
 }
 

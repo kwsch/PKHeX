@@ -228,6 +228,7 @@
     "MoveEvoFCombination_0": "技の組み合わせは {0} 進化と両立できません。",
     "MoveFExpectSingle_0": "予想: {0}",
     "MoveKeldeoMismatch": "ケルディオの技/フォルムが一致しません。",
+    "MovePPMatchesVirtualConsole": "技のPPが3DSバーチャルコンソール転送バグの値と完全に一致しています。",
     "MovePPExpectHealed_01": "Move {0} PP is below the amount expected ({1}).",
     "MovePPTooHigh_01": "技 {0} のPPが上限を超えています ({1})。",
     "MovePPUpsTooHigh_01": "技 {0} のポイントアップ上限を超えています ({1})。",

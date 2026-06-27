@@ -173,6 +173,7 @@ public static class LegalityCheckResultCodeExtensions
             MarkValueUnusedBitsPresent => localization.MarkValueUnusedBitsPresent,
 
             // Moves
+            MovePPMatchesVirtualConsole => localization.MovePPMatchesVirtualConsole,
             MoveEvoFCombination_0 => localization.MoveEvoFCombination_0,
             MovePPExpectHealed_01 => localization.MovePPExpectHealed_01,
             MovePPTooHigh_01 => localization.MovePPTooHigh_01,

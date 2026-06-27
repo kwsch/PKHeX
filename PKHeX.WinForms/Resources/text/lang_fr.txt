@@ -380,6 +380,7 @@ LocalizedDescription.ShowEncounterColorPKM=Afficher un arrière-plan pour diffé
 LocalizedDescription.ShowEncounterOpacityBackground=Opacité pour la couche d'arrière-plan du modèle de rencontre.
 LocalizedDescription.ShowEncounterOpacityStripe=Opacité pour la couche de rayure du modèle de rencontre.
 LocalizedDescription.ShowEncounterThicknessStripe=Épaisseur de pixels à montrer lors de l'affichage de la couleur de la rayure du modèle de rencontre.
+LocalizedDescription.ShowExperienceBar=Lors de l’affichage d’une entité, afficher la barre d’expérience pour permettre l’édition de l’EXP et du niveau.
 LocalizedDescription.ShowExperiencePercent=Afficher une fine rayure pour indiquer le pourcentage de progression de niveau
 LocalizedDescription.ShowGenderGen1=Lorsqu'une entité au format génération 1 est montrée, afficher le sexe que l'entité aurait si elle devait être transférée vers d'autres générations.
 LocalizedDescription.ShowLegalBallsFirst=Lors de l'affichage de la liste des balls à choisir, montrer les balls légales avant celles illégales au lieu de simplement les trier par ID.

@@ -228,6 +228,7 @@
     "MoveEvoFCombination_0": "la combinazione di mosse non è compatibile con l'evoluzione di {0}.",
     "MoveFExpectSingle_0": "Previsto: {0}",
     "MoveKeldeoMismatch": "Mossa/Forma di Keldeo non corrispondente.",
+    "MovePPMatchesVirtualConsole": "I PP delle mosse corrispondono esattamente ai valori del bug di trasferimento della Virtual Console 3DS.",
     "MovePPExpectHealed_01": "I PP della mossa {0} sono inferiori alla quantità prevista ({1}).",
     "MovePPTooHigh_01": "I PP della mossa {0} sono oltre il massimo consentito ({1}).",
     "MovePPUpsTooHigh_01": "I PP Up della mossa {0} sono oltre il massimo consentito ({1}).",

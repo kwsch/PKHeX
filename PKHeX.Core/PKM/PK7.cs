@@ -549,6 +549,26 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         }
     }
 
+    /// <summary>
+    /// Resets the PP of moves to match Bank's initial values.
+    /// </summary>
+    public void SetVirtualConsoleTransferPP()
+    {
+        var language = (LanguageID)Language;
+        if (!VirtualConsolePP.IsSupportedLanguage(language))
+            return;
+
+        var arr = VirtualConsolePP.GetTable(language);
+        if (VirtualConsolePP.IsGlitched(Move1, arr, out var pp))
+            Move1_PP = pp;
+        if (VirtualConsolePP.IsGlitched(Move2, arr, out pp))
+            Move2_PP = pp;
+        if (VirtualConsolePP.IsGlitched(Move3, arr, out pp))
+            Move3_PP = pp;
+        if (VirtualConsolePP.IsGlitched(Move4, arr, out pp))
+            Move4_PP = pp;
+    }
+
     public override string GetString(ReadOnlySpan<byte> data)
         => StringConverter7.GetString(data);
     public override int LoadString(ReadOnlySpan<byte> data, Span<char> destBuffer)

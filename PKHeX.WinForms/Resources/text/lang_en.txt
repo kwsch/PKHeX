@@ -380,6 +380,7 @@ LocalizedDescription.ShowEncounterColorPKM=Show a background to differentiate th
 LocalizedDescription.ShowEncounterOpacityBackground=Opacity for the Encounter Type background layer.
 LocalizedDescription.ShowEncounterOpacityStripe=Opacity for the Encounter Type stripe layer.
 LocalizedDescription.ShowEncounterThicknessStripe=Amount of pixels thick to show when displaying the encounter type color stripe.
+LocalizedDescription.ShowExperienceBar=When showing an entity, show the Experience Bar to allow editing of EXP and Level.
 LocalizedDescription.ShowExperiencePercent=Show a thin stripe to indicate the percent of level-up progress
 LocalizedDescription.ShowGenderGen1=When showing a Generation 1 format entity, show the gender it would have if transferred to other generations.
 LocalizedDescription.ShowLegalBallsFirst=When showing the list of balls to select, show the legal balls before the illegal balls rather than sorting by Ball ID.

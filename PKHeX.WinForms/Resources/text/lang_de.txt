@@ -380,6 +380,7 @@ LocalizedDescription.ShowEncounterColorPKM=Hinterlege verschiedene Begegnungs Vo
 LocalizedDescription.ShowEncounterOpacityBackground=Deckkraft des Hintergrunds des Begegnungs Typen.
 LocalizedDescription.ShowEncounterOpacityStripe=Deckkraft der Begegnungs Typen Streifen Schicht.
 LocalizedDescription.ShowEncounterThicknessStripe=Anzahl der Pixel des farbigen Streifens der Begegnungs Typen.
+LocalizedDescription.ShowExperienceBar=Beim Anzeigen einer Entität die Erfahrungsleiste anzeigen, um EXP und Level bearbeiten zu können.
 LocalizedDescription.ShowExperiencePercent=Zeige einen dünnen Streifen, der den Level-Up Fortschritt darstellt.
 LocalizedDescription.ShowGenderGen1=Zeigt bei Entitäten im Generation-1-Format das Geschlecht an, das sie beim Transfer in spätere Generationen erhalten würden.
 LocalizedDescription.ShowLegalBallsFirst=Zeige in der Ball Auswahl legale Bälle zuerst und illegale Bälle darunter an.

@@ -91,9 +91,9 @@ namespace PKHeX.WinForms
             TC_Editor = new System.Windows.Forms.TabControl();
             Tab_Overview = new System.Windows.Forms.TabPage();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             CAL_LastSavedDate = new System.Windows.Forms.DateTimePicker();
+            trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             L_LastSaved = new System.Windows.Forms.Label();
             flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             CB_Gender = new PKHeX.WinForms.Controls.GenderToggle();
@@ -700,16 +700,6 @@ namespace PKHeX.WinForms
             tableLayoutPanel1.Size = new System.Drawing.Size(593, 297);
             tableLayoutPanel1.TabIndex = 75;
             // 
-            // trainerID1
-            // 
-            tableLayoutPanel1.SetColumnSpan(trainerID1, 2);
-            trainerID1.Dock = System.Windows.Forms.DockStyle.Fill;
-            trainerID1.Location = new System.Drawing.Point(88, 30);
-            trainerID1.Margin = new System.Windows.Forms.Padding(88, 0, 0, 0);
-            trainerID1.Name = "trainerID1";
-            trainerID1.Size = new System.Drawing.Size(593, 25);
-            trainerID1.TabIndex = 74;
-            // 
             // CAL_LastSavedTime
             // 
             CAL_LastSavedTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -734,6 +724,16 @@ namespace PKHeX.WinForms
             CAL_LastSavedDate.Size = new System.Drawing.Size(120, 25);
             CAL_LastSavedDate.TabIndex = 55;
             CAL_LastSavedDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            // 
+            // trainerID1
+            // 
+            tableLayoutPanel1.SetColumnSpan(trainerID1, 2);
+            trainerID1.Dock = System.Windows.Forms.DockStyle.Fill;
+            trainerID1.Location = new System.Drawing.Point(88, 30);
+            trainerID1.Margin = new System.Windows.Forms.Padding(88, 0, 0, 0);
+            trainerID1.Name = "trainerID1";
+            trainerID1.Size = new System.Drawing.Size(593, 25);
+            trainerID1.TabIndex = 74;
             // 
             // L_LastSaved
             // 

@@ -295,6 +295,7 @@ public sealed class LegalityCheckLocalization
     public string MoveEvoFCombination_0 { get; init; } = "Moves combinations is not compatible with {0} evolution.";
     public string MoveFExpectSingle_0 { get; init; } = "Expected: {0}";
     public string MoveKeldeoMismatch { get; init; } = "Keldeo Move/Form mismatch.";
+    public string MovePPMatchesVirtualConsole { get; init; } = "Move PP exactly matches values from the 3DS Virtual Console transfer bug.";
     public string MovePPExpectHealed_01 { get; init; } = "Move {0} PP is below the amount expected ({1}).";
     public string MovePPTooHigh_01 { get; init; } = "Move {0} PP is above the amount allowed ({1}).";
     public string MovePPUpsTooHigh_01 { get; init; } = "Move {0} PP Ups is above the amount allowed ({1}).";

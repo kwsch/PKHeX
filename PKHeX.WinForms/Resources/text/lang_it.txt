@@ -380,6 +380,7 @@ LocalizedDescription.ShowEncounterColorPKM=Mostra uno sfondo per differenziare i
 LocalizedDescription.ShowEncounterOpacityBackground=Opacità per lo sfondo del Tipo di Incontro.
 LocalizedDescription.ShowEncounterOpacityStripe=Opacità per la barra del Tipo di Incontro.
 LocalizedDescription.ShowEncounterThicknessStripe=Spessore dei Pixel da mostrare per la barra del Tipo di Incontro.
+LocalizedDescription.ShowExperienceBar=Quando si mostra un’entità, mostra la barra dell’esperienza per consentire la modifica di EXP e livello.
 LocalizedDescription.ShowExperiencePercent=Mostra una piccola barra per indicare la percentuale di progresso di Aumento Livello
 LocalizedDescription.ShowGenderGen1=Quando viene mostrata un'entità in formato Gen 1, mostra il sesso che avrebbe se venisse trasferita nelle altre generazioni.
 LocalizedDescription.ShowLegalBallsFirst= Quando viene mostrata la lista di Ball, mostra le Ball legali prima di quelle illegali, anziché andare per ordine di ID.

@@ -228,6 +228,7 @@
     "MoveEvoFCombination_0": "招式組合與{0}進化型不相容。",
     "MoveFExpectSingle_0": "應該是該招式： {0}。",
     "MoveKeldeoMismatch": "凱路迪歐之現時招式與當前形態不匹配。",
+    "MovePPMatchesVirtualConsole": "招式的PP與3DS虛擬主機傳輸漏洞的數值完全一致。",
     "MovePPExpectHealed_01": "招式 {0} 的PP恢復量未達預期值 ({1})。",
     "MovePPTooHigh_01": "招式 {0} PP 高於允許值。 ({1})",
     "MovePPUpsTooHigh_01": "招式 {0} PP 高於允許值。 ({1})",

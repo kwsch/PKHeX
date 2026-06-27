@@ -380,6 +380,7 @@ LocalizedDescription.ShowEncounterColorPKM=Mostrar un fondo para diferenciar el 
 LocalizedDescription.ShowEncounterOpacityBackground=Nivel de opacidad de la capa de fondo correspondiente al tipo de encuentro.
 LocalizedDescription.ShowEncounterOpacityStripe=Nivel de opacidad de la raya correspondiente al tipo de encuentro.
 LocalizedDescription.ShowEncounterThicknessStripe=Nivel de grosor (en píxeles) al mostrar la raya coloreada del tipo de encuentro.
+LocalizedDescription.ShowExperienceBar=Al mostrar una entidad, mostrar la barra de experiencia para permitir editar el EXP y el nivel.
 LocalizedDescription.ShowExperiencePercent=Mostrar una raya fina para indicar el porcentaje de subida de nivel.
 LocalizedDescription.ShowGenderGen1=Al mostrar una entidad en el formato de la 1a generación, mostrar el sexo que tendría al ser transferido a otra generación.
 LocalizedDescription.ShowLegalBallsFirst=Al mostrar la lista de Pokébolas a seleccionar, ordenarlas por Pokébolas legales primero, en vez de ordenarlas por ID.
