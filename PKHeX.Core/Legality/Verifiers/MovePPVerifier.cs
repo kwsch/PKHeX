@@ -166,11 +166,6 @@ public sealed class MovePPVerifier : Verifier
 
     private static bool IsVirtualConsoleUntouched(PK7 pk, ReadOnlySpan<ushort> moves, ReadOnlySpan<int> pp)
     {
-        // Sanity check the language is a possible VC-transfer language.
-        var language = (LanguageID)pk.Language;
-        if (!VirtualConsolePP.IsSupportedLanguage(language))
-            return false;
-
         // Pre-check to ensure the moves are only available from the game they were transferred from.
         // Can't leave the box immediately after transfer (else PP would heal), but we don't prevent the Move Verifier from passing Gen3+ moves.
         // Maybe in a future update we can add more strict interlocks.
@@ -185,7 +180,7 @@ public sealed class MovePPVerifier : Verifier
                 return false; // RSE+ moves
         }
 
-        return VirtualConsolePP.IsMatch(language, moves, pp);
+        return VirtualConsolePP.IsMatchAnyLanguage(pk.NicknameTrash, moves, pp, pk.Species);
     }
 }
 

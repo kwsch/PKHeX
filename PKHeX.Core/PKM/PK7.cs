@@ -550,11 +550,10 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     }
 
     /// <summary>
-    /// Resets the PP of moves to match Bank's initial values.
+    /// Resets the PP of moves to match Transporter's initial values.
     /// </summary>
-    public void SetVirtualConsoleTransferPP()
+    public void SetVirtualConsoleTransferPP(LanguageID language)
     {
-        var language = (LanguageID)Language;
         if (!VirtualConsolePP.IsSupportedLanguage(language))
             return;
 

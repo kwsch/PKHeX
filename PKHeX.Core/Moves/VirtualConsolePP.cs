@@ -4,7 +4,7 @@ using static PKHeX.Core.LanguageID;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Transfers from Gen1/2=>Gen7 don't set PP correctly (ignoring PP Ups and bad range fetch).
+/// Transfers from Gen1/2=>Gen7 don't set PP correctly (ignoring PP Ups and bad range fetch). Transporter app language determines which table (not ROM of source or destination).
 /// This class contains the expected PP values for each move in each language, as well as methods to check if a given set of moves and PP values match the expected values.
 /// </summary>
 public static class VirtualConsolePP
@@ -25,10 +25,13 @@ public static class VirtualConsolePP
     /// <summary>
     /// Sanity check the languages possible.
     /// </summary>
-    /// <param name="language">Language ID to check.</param>
+    /// <param name="language">Language ID of the Transporter application to check.</param>
     /// <returns>True if the language is supported for VC PP table; false otherwise.</returns>
     public static bool IsSupportedLanguage(LanguageID language) => language is (>= Japanese and <= ChineseT) and not UNUSED_6;
 
+    /// <summary>
+    /// Gets the VC PP table for the specified Transporter application language.
+    /// </summary>
     public static ReadOnlySpan<byte> GetTable(LanguageID language) => language switch
     {
         English => TableENG,
@@ -94,5 +97,31 @@ public static class VirtualConsolePP
                 return false;
         }
         return true;
+    }
+
+    /// <summary>
+    /// Checks the moves against all supported Transfer application languages to see if any match their stored PP values.
+    /// </summary>
+    public static bool IsMatchAnyLanguage(ReadOnlySpan<byte> trash, ReadOnlySpan<ushort> moves, ReadOnlySpan<int> pp, ushort species)
+    {
+        for (var language = Japanese; language <= ChineseT; language++)
+        {
+            if (language == UNUSED_6)
+                continue;
+            if (!IsMatch(language, moves, pp))
+                continue;
+            if (!IsTrashMatch(trash, species, language))
+                continue;
+            return true;
+        }
+        return false;
+    }
+
+    private static bool IsTrashMatch(ReadOnlySpan<byte> trash, ushort species, LanguageID language)
+    {
+        var expectName = SpeciesName.GetSpeciesName(species, (int)language);
+        var currentLength = TrashBytesUTF16.GetStringLength(trash) + 1; // terminator
+        var match = TrashBytesUTF16.IsUnderlayerPresent(expectName, trash, currentLength);
+        return !match.IsInvalid;
     }
 }
