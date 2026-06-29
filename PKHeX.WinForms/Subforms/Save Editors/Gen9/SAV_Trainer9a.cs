@@ -21,8 +21,8 @@ public sealed partial class SAV_Trainer9a : Form
         SAV = (SAV9ZA)(Origin = sav).Clone();
 
         Loading = true;
-        if (Main.Unicode)
-            TB_OTName.Font = FontUtil.GetPKXFont();
+        if (!Main.Unicode)
+            TB_OTName.DisableInGameFont = true;
 
         B_MaxCash.Click += (_, _) => MT_Money.Text = SAV.MaxMoney.ToString();
         B_RoyaleRegularMax.Click += (_, _) => MT_RoyaleRegular.Text = 310_000.ToString();

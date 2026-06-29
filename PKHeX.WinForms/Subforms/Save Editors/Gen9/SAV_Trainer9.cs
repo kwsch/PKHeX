@@ -22,10 +22,8 @@ public partial class SAV_Trainer9 : Form
         SAV = (SAV9SV)(Origin = sav).Clone();
 
         Loading = true;
-        if (Main.Unicode)
-        {
-            TB_OTName.Font = FontUtil.GetPKXFont();
-        }
+        if (!Main.Unicode)
+            TB_OTName.DisableInGameFont = true;
 
         B_MaxCash.Click += (_, _) => MT_Money.Text = SAV.MaxMoney.ToString();
         B_MaxLP.Click += (_, _) => MT_LP.Text = SAV.MaxMoney.ToString();
@@ -37,7 +35,7 @@ public partial class SAV_Trainer9 : Form
         CB_Game.Items.Add(games[(int)GameVersion.VL]);
 
         CB_Gender.Items.Clear();
-        CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
+        CB_Gender.Items.AddRange([.. Main.GenderSymbols.Take(2)]); // m/f depending on unicode selection
 
         GetImages();
         GetComboBoxes();

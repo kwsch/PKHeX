@@ -1,3 +1,5 @@
+using PKHeX.Core;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_SimpleTrainer
@@ -45,7 +47,7 @@ namespace PKHeX.WinForms
             L_Minutes = new System.Windows.Forms.Label();
             CAL_AdventureStartTime = new System.Windows.Forms.DateTimePicker();
             CAL_HoFTime = new System.Windows.Forms.DateTimePicker();
-            TB_OTName = new System.Windows.Forms.TextBox();
+            TB_OTName = new PKHeX.WinForms.Controls.RenderedString();
             CB_Gender = new System.Windows.Forms.ComboBox();
             L_TrainerName = new System.Windows.Forms.Label();
             L_TID = new System.Windows.Forms.Label();
@@ -315,7 +317,6 @@ namespace PKHeX.WinForms
             // 
             // TB_OTName
             // 
-            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             TB_OTName.Location = new System.Drawing.Point(115, 13);
             TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_OTName.MaxLength = 12;
@@ -987,7 +988,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_Minutes;
         private System.Windows.Forms.DateTimePicker CAL_AdventureStartTime;
         private System.Windows.Forms.DateTimePicker CAL_HoFTime;
-        private System.Windows.Forms.TextBox TB_OTName;
+        private PKHeX.WinForms.Controls.RenderedString TB_OTName;
         private System.Windows.Forms.ComboBox CB_Gender;
         private System.Windows.Forms.Label L_TrainerName;
         private System.Windows.Forms.Label L_TID;

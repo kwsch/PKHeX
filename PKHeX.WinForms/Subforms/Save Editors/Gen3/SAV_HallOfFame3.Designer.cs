@@ -1,3 +1,5 @@
+using PKHeX.Core;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_HallOfFame3
@@ -32,7 +34,7 @@ namespace PKHeX.WinForms
             CB_Species = new System.Windows.Forms.ComboBox();
             NUD_Members = new System.Windows.Forms.NumericUpDown();
             TB_PID = new System.Windows.Forms.TextBox();
-            TB_Nickname = new System.Windows.Forms.TextBox();
+            TB_Nickname = new PKHeX.WinForms.Controls.RenderedString();
             L_TID = new System.Windows.Forms.Label();
             L_SID = new System.Windows.Forms.Label();
             L_PID = new System.Windows.Forms.Label();
@@ -91,6 +93,7 @@ namespace PKHeX.WinForms
             // 
             // TB_Nickname
             // 
+            TB_Nickname.DisplayContext = EntityContext.Gen3;
             TB_Nickname.Location = new System.Drawing.Point(223, 117);
             TB_Nickname.MaxLength = 10;
             TB_Nickname.Name = "TB_Nickname";
@@ -281,7 +284,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.NumericUpDown NUD_Members;
         private System.Windows.Forms.TextBox TB_PID;
-        private System.Windows.Forms.TextBox TB_Nickname;
+        private PKHeX.WinForms.Controls.RenderedString TB_Nickname;
         private System.Windows.Forms.Label L_TID;
         private System.Windows.Forms.Label L_SID;
         private System.Windows.Forms.Label L_PID;

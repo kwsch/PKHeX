@@ -30,7 +30,7 @@ namespace PKHeX.WinForms
         {
             components = new System.ComponentModel.Container();
             Tip = new System.Windows.Forms.ToolTip(components);
-            TB_Text = new System.Windows.Forms.TextBox();
+            TB_Text = new PKHeX.WinForms.Controls.RenderedString();
             CB_Species = new System.Windows.Forms.ComboBox();
             B_Cancel = new System.Windows.Forms.Button();
             B_Save = new System.Windows.Forms.Button();
@@ -53,14 +53,16 @@ namespace PKHeX.WinForms
             // 
             Tip.AutoPopDelay = 32767;
             Tip.InitialDelay = 200;
-            Tip.IsBalloon = false;
+            Tip.ReshowDelay = 100;
             // 
             // TB_Text
             // 
             TB_Text.Location = new System.Drawing.Point(114, 14);
+            TB_Text.DisableInGameFont = false;
+            TB_Text.DisplayContext = Core.EntityContext.None;
             TB_Text.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_Text.Name = "TB_Text";
-            TB_Text.Size = new System.Drawing.Size(158, 23);
+            TB_Text.Size = new System.Drawing.Size(158, 25);
             TB_Text.TabIndex = 35;
             // 
             // CB_Species
@@ -72,7 +74,7 @@ namespace PKHeX.WinForms
             CB_Species.Location = new System.Drawing.Point(89, 18);
             CB_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Species.Name = "CB_Species";
-            CB_Species.Size = new System.Drawing.Size(100, 23);
+            CB_Species.Size = new System.Drawing.Size(100, 25);
             CB_Species.TabIndex = 36;
             // 
             // B_Cancel
@@ -129,7 +131,7 @@ namespace PKHeX.WinForms
             CB_Language.Location = new System.Drawing.Point(89, 50);
             CB_Language.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CB_Language.Name = "CB_Language";
-            CB_Language.Size = new System.Drawing.Size(100, 23);
+            CB_Language.Size = new System.Drawing.Size(100, 25);
             CB_Language.TabIndex = 41;
             // 
             // B_ApplyTrash
@@ -255,7 +257,7 @@ namespace PKHeX.WinForms
         }
 
         #endregion
-        private System.Windows.Forms.TextBox TB_Text;
+        private PKHeX.WinForms.Controls.RenderedString TB_Text;
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;

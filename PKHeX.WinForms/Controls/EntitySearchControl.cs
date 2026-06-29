@@ -96,6 +96,7 @@ public partial class EntitySearchControl : UserControl
     public void InitializeSelections(SaveFile sav, bool showContext = true)
     {
         SaveContext = sav.Context;
+        TB_Nickname.DisplayContext = SaveContext;
         if (sav.Generation >= 8)
         {
             CB_FormatComparator.SelectedIndex = 1; // ==

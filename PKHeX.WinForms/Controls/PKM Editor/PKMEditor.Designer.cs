@@ -79,7 +79,7 @@ namespace PKHeX.WinForms.Controls
             CHK_NicknamedFlag = new System.Windows.Forms.CheckBox();
             CB_Species = new System.Windows.Forms.ComboBox();
             FLP_Nickname = new System.Windows.Forms.FlowLayoutPanel();
-            TB_Nickname = new System.Windows.Forms.TextBox();
+            TB_Nickname = new PKHeX.WinForms.Controls.RenderedString();
             BTN_NicknameWarn = new System.Windows.Forms.Button();
             Label_Species = new System.Windows.Forms.Label();
             FLP_PIDRight = new System.Windows.Forms.FlowLayoutPanel();
@@ -218,7 +218,7 @@ namespace PKHeX.WinForms.Controls
             Label_Friendship = new System.Windows.Forms.Label();
             Label_HatchCounter = new System.Windows.Forms.Label();
             FLP_HT = new System.Windows.Forms.FlowLayoutPanel();
-            TB_HT = new System.Windows.Forms.TextBox();
+            TB_HT = new PKHeX.WinForms.Controls.RenderedString();
             UC_HTGender = new GenderToggle();
             CB_3DSReg = new System.Windows.Forms.ComboBox();
             Label_3DSRegion = new System.Windows.Forms.Label();
@@ -227,7 +227,7 @@ namespace PKHeX.WinForms.Controls
             CB_Country = new System.Windows.Forms.ComboBox();
             Label_Country = new System.Windows.Forms.Label();
             FLP_OT = new System.Windows.Forms.FlowLayoutPanel();
-            TB_OT = new System.Windows.Forms.TextBox();
+            TB_OT = new PKHeX.WinForms.Controls.RenderedString();
             UC_OTGender = new GenderToggle();
             BTN_OTNameWarn = new System.Windows.Forms.Button();
             Label_OT = new System.Windows.Forms.Label();
@@ -3344,7 +3344,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.FlowLayoutPanel FLP_Nickname;
         private System.Windows.Forms.FlowLayoutPanel FLP_NicknameLeft;
         private System.Windows.Forms.CheckBox CHK_NicknamedFlag;
-        private System.Windows.Forms.TextBox TB_Nickname;
+        private PKHeX.WinForms.Controls.RenderedString TB_Nickname;
         private System.Windows.Forms.Label Label_EXP;
         private System.Windows.Forms.FlowLayoutPanel FLP_EXPLevelRight;
         private System.Windows.Forms.MaskedTextBox TB_EXP;
@@ -3438,7 +3438,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button BTN_Medals;
         private System.Windows.Forms.Button BTN_History;
         private System.Windows.Forms.TextBox TB_EC;
-        private System.Windows.Forms.TextBox TB_HT;
+        private PKHeX.WinForms.Controls.RenderedString TB_HT;
         private System.Windows.Forms.Label Label_PrevOT;
         private System.Windows.Forms.Button BTN_RerollEC;
         private System.Windows.Forms.GroupBox GB_Markings;
@@ -3452,7 +3452,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.PictureBox PB_Mark4;
         private System.Windows.Forms.MaskedTextBox TB_ExtraByte;
         private System.Windows.Forms.ComboBox CB_ExtraBytes;
-        private System.Windows.Forms.TextBox TB_OT;
+        private PKHeX.WinForms.Controls.RenderedString TB_OT;
         private System.Windows.Forms.Label Label_OT;
         private System.Windows.Forms.Label Label_EncryptionConstant;
         private Controls.ShinyLeaf ShinyLeaf;

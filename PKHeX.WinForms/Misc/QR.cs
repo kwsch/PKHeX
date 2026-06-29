@@ -71,7 +71,7 @@ public partial class QR : Form
     {
         SuspendLayout();
         ResumeLayout();
-        var font = !Main.Unicode ? Font : FontUtil.GetPKXFont(8.25f);
+        var font = !Main.Unicode ? Font : FontUtil.GetFont(Entity?.Context ?? FontUtil.DefaultContext);
 
         var width = Math.Max(qr.Width, 370);
         var height = qr.Height + 50;

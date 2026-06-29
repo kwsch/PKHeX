@@ -27,7 +27,8 @@ public partial class SAV_HallOfFame : Form
         Setup();
         LB_DataEntry.SelectedIndex = 0;
         NUP_PartyIndex_ValueChanged(this, EventArgs.Empty);
-        TB_Nickname.Font = TB_OT.Font = FontUtil.GetPKXFont();
+        if (!Main.Unicode)
+            TB_Nickname.DisableInGameFont = TB_OT.DisableInGameFont = true;
         editing = true;
     }
 

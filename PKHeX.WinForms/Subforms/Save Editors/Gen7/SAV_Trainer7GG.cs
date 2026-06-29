@@ -21,10 +21,8 @@ public partial class SAV_Trainer7GG : Form
         Park = SAV.Park;
         UpdateGoSummary(0);
 
-        if (Main.Unicode)
-        {
-            TB_OTName.Font = TB_RivalName.Font = FontUtil.GetPKXFont();
-        }
+        if (!Main.Unicode)
+            TB_OTName.DisableInGameFont = TB_RivalName.DisableInGameFont = true;
 
         B_MaxCash.Click += (_, _) => MT_Money.Text = "9,999,999";
 
@@ -56,7 +54,7 @@ public partial class SAV_Trainer7GG : Form
     private void GetComboBoxes()
     {
         CB_Gender.Items.Clear();
-        CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
+        CB_Gender.Items.AddRange([.. Main.GenderSymbols.Take(2)]); // m/f depending on unicode selection
         CB_Language.InitializeBinding();
         CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation, SAV.Context);
         CB_Game.InitializeBinding();
