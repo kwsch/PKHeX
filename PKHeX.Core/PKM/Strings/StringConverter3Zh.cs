@@ -49,6 +49,28 @@ public static class StringConverter3Zh
     }
 
     /// <summary>
+    /// Checks whether a Generation 3 save file looks like a Chinese fan translation.
+    /// </summary>
+    /// <remarks>
+    /// Fan-translated games initialize box names with Chinese text (盒子1..14), so box names
+    /// beginning with a two-byte sequence are a strong signal. Requires two hits, so that a single
+    /// accented character in a renamed box of an official European save cannot trigger a false positive.
+    /// </remarks>
+    public static bool DetectFanText(SAV3 sav)
+    {
+        if (sav.Japanese)
+            return false;
+        int score = 0;
+        for (int i = 0; i < sav.BoxCount; i++)
+        {
+            var name = sav.GetBoxNameSpan(i);
+            if (name.Length >= 2 && name[0] is >= LeadMin and <= LeadMax && name[1] <= SecondMax && ++score >= 2)
+                return true;
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Tries to encode a Unicode character to a two-byte fan-translation sequence.
     /// </summary>
     public static bool TryEncode(char c, out byte lead, out byte second)

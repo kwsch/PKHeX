@@ -489,10 +489,12 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         return offset;
     }
 
-    public string GetBoxName(int box)
+    public string GetBoxName(int box) => StringConverter3.GetString(GetBoxNameSpan(box), Japanese);
+
+    public ReadOnlySpan<byte> GetBoxNameSpan(int box)
     {
         int offset = GetBoxOffset(COUNT_BOX);
-        return StringConverter3.GetString(Storage.Slice(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME), Japanese);
+        return Storage.Slice(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME);
     }
 
     public void SetBoxName(int box, ReadOnlySpan<char> value)
