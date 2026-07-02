@@ -6,12 +6,14 @@ namespace PKHeX.Core;
 /// Logic for converting Generation 3 Chinese fan-translation (bootleg) encoded strings.
 /// </summary>
 /// <remarks>
-/// Chinese fan translations of the Generation 3 games (e.g. FireRed 汉化版) encode Chinese characters
-/// as two-byte sequences: a lead byte (0x01-0x1D) followed by a second byte (0x00-0xF6).
+/// Chinese fan translations of the Generation 3 games (Ruby/Sapphire/Emerald/FireRed/LeafGreen) encode
+/// Chinese characters as two-byte sequences: a lead byte (0x01-0x1D) followed by a second byte (0x00-0xF6).
 /// The character set is the 6763 GB2312 hanzi in code-point order, split into ranges of 247 characters.
 /// Lead byte 0x06 is reserved and skipped by the font (verified against in-game data: characters on
 /// either side of the reserved range encode with lead bytes 0x05 and 0x07+).
 /// Both 0x06 and 0x07 map to the same range when decoding, to tolerate either skip convention.
+/// This is the scheme used by the widespread 2012-era translation lineage; other translations that
+/// use a different table will not decode correctly and remain displayed as raw glyphs.
 /// </remarks>
 public static class StringConverter3Zh
 {
