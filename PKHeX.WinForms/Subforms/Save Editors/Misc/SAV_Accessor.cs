@@ -20,7 +20,7 @@ public partial class SAV_Accessor<T> : Form where T : class, ISaveBlockAccessor<
         CB_Key.Items.AddRange(Metadata.GetSortedBlockList().ToArray());
         CB_Key.SelectedIndex = 0;
 
-        propertyGrid1.SelectedObject = sav;
+        PropertyGridLocalization.Apply(propertyGrid1, sav, Main.CurrentLanguage);
     }
 
     private void CB_Key_SelectedIndexChanged(object sender, EventArgs e)
