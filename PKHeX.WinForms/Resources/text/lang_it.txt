@@ -3059,3 +3059,7 @@ TrashEditor.L_Generation=Generazione
 TrashEditor.L_Language=Lingua
 TrashEditor.L_Species=Specie
 TrashEditor.L_String=Stringa
+Gen3ChineseFanTextMode.Auto=Auto
+Gen3ChineseFanTextMode.Always=Always
+Gen3ChineseFanTextMode.Never=Never
+LocalizedDescription.Gen3ChineseFanText=Gen3: Decode two-byte Chinese characters from unofficial fan-translated games when displaying names, and encode them back when saving. Auto enables this only when the loaded save file looks fan-translated.

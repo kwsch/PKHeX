@@ -62,6 +62,9 @@ public sealed class MiscVerifierG3 : Verifier
 
     private void VerifyTrash(LegalityAnalysis data, PK3 pk)
     {
+        if (StringConverter3Zh.Enabled)
+            return; // Fan-translated games initialize string buffers with their own patterns; official trash rules don't apply.
+
         if (!pk.IsEgg && TrashByteRules3.IsResetTrash(pk))
         {
             data.AddLine(GetValid(TrashBytesResetViaTransfer));

@@ -757,6 +757,8 @@ public partial class Main : Form
         PKME_Tabs.Focus(); // flush any pending changes
         StoreLegalSaveGameData(sav);
         ParseSettings.InitFromSaveFileData(sav); // physical GB, no longer used in logic
+        if (Settings.SaveLanguage.Gen3ChineseFanText == SaveLanguageSettings.Gen3ChineseFanTextMode.Auto)
+            StringConverter3Zh.Enabled = sav is SAV3 s3 && StringConverter3Zh.DetectFanText(s3);
         RecentTrainerCache.SetRecentTrainer(sav);
         SpriteUtil.Initialize(sav); // refresh sprite generator
         dragout.Size = new Size(SpriteUtil.Spriter.Width, SpriteUtil.Spriter.Height);
