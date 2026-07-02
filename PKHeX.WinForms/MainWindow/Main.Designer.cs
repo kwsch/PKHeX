@@ -55,7 +55,6 @@ namespace PKHeX.WinForms
             Menu_Folder = new System.Windows.Forms.ToolStripMenuItem();
             Menu_Options = new System.Windows.Forms.ToolStripMenuItem();
             Menu_Language = new System.Windows.Forms.ToolStripMenuItem();
-            CB_MainLanguage = new System.Windows.Forms.ToolStripComboBox();
             Menu_Undo = new System.Windows.Forms.ToolStripMenuItem();
             Menu_Redo = new System.Windows.Forms.ToolStripMenuItem();
             Menu_Settings = new System.Windows.Forms.ToolStripMenuItem();
@@ -302,19 +301,10 @@ namespace PKHeX.WinForms
             // 
             // Menu_Language
             // 
-            Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { CB_MainLanguage });
             Menu_Language.Image = Properties.Resources.language;
             Menu_Language.Name = "Menu_Language";
             Menu_Language.Size = new System.Drawing.Size(180, 22);
             Menu_Language.Text = "Language";
-            // 
-            // CB_MainLanguage
-            // 
-            CB_MainLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_MainLanguage.Name = "CB_MainLanguage";
-            CB_MainLanguage.Size = new System.Drawing.Size(121, 25);
-            CB_MainLanguage.SelectedIndexChanged += ChangeMainLanguage;
-            // 
             // Menu_Undo
             // 
             Menu_Undo.Enabled = false;
@@ -576,7 +566,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ToolStripMenuItem Menu_Tools;
         private System.Windows.Forms.ToolStripMenuItem Menu_Options;
         private System.Windows.Forms.ToolStripMenuItem Menu_Language;
-        private System.Windows.Forms.ToolStripComboBox CB_MainLanguage;
         private System.Windows.Forms.ToolStripMenuItem Menu_About;
         private System.Windows.Forms.ToolStripMenuItem Menu_ExportSAV;
         private System.Windows.Forms.ToolStripMenuItem Menu_Showdown;

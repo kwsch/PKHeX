@@ -107,7 +107,7 @@ public partial class SAV_BlockDump8 : Form
                 if (props.Count() > 1 || ModifierKeys == Keys.Shift)
                 {
                     PG_BlockView.Visible = true;
-                    PG_BlockView.SelectedObject = obj;
+                    PropertyGridLocalization.Apply(PG_BlockView, obj, Main.CurrentLanguage);
                     return;
                 }
             }
@@ -116,7 +116,7 @@ public partial class SAV_BlockDump8 : Form
             if (o is not null)
             {
                 PG_BlockView.Visible = true;
-                PG_BlockView.SelectedObject = o;
+                PropertyGridLocalization.Apply(PG_BlockView, o, Main.CurrentLanguage);
                 return;
             }
         }

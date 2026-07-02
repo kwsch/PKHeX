@@ -61,8 +61,9 @@ public partial class SettingsEditor : Form
             if (state is null)
                 continue;
 
-            var tab = new TabPage(p) { Name = $"Tab_{p}" };
-            var pg = new PropertyGrid { SelectedObject = state, Dock = DockStyle.Fill };
+            var tab = new TabPage(WinFormsTranslator.TranslateText($"SettingsEditor.{p}", p, Main.CurrentLanguage)) { Name = $"Tab_{p}" };
+            var pg = new PropertyGrid { Dock = DockStyle.Fill };
+            PropertyGridLocalization.Apply(pg, state, Main.CurrentLanguage);
             tab.Controls.Add(pg);
             pg.ExpandAllGridItems();
             tabControl1.TabPages.Add(tab);

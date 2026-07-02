@@ -797,14 +797,15 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         var form = new Form
         {
-            Text = "Simple Editor",
+            Text = WinFormsTranslator.TranslateText("SAVEditor.SimpleEditor", "Simple Editor", Main.CurrentLanguage),
             StartPosition = FormStartPosition.CenterParent,
             MinimumSize = new Size(350, 380),
             MinimizeBox = false,
             MaximizeBox = false,
             Icon = Properties.Resources.Icon,
         };
-        var pg = new PropertyGrid { SelectedObject = sav, Dock = DockStyle.Fill };
+        var pg = new PropertyGrid { Dock = DockStyle.Fill };
+        PropertyGridLocalization.Apply(pg, sav, Main.CurrentLanguage);
         form.Controls.Add(pg);
         return form;
     }

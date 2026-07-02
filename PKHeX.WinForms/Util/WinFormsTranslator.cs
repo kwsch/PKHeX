@@ -36,6 +36,8 @@ public static class WinFormsTranslator
 
     public static IReadOnlyDictionary<string, string> GetDictionary(string lang) => GetContext(lang).Lookup;
 
+    internal static string TranslateText(string key, string fallback, string lang) => GetContext(lang).GetTranslatedText(key, fallback);
+
     private static TranslationContext GetContext(string lang)
     {
         if (Context.TryGetValue(lang, out var context))

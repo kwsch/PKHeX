@@ -45,11 +45,19 @@ public static class StringConverter3
     /// <returns>Character count loaded.</returns>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, int language)
     {
-        var table = (language == (int)LanguageID.Japanese) ? G3_JP : G3_EN;
-        int i = 0;
-        for (; i < data.Length; i++)
+        bool jp = language == (int)LanguageID.Japanese;
+        var table = jp ? G3_JP : G3_EN;
+        bool zh = !jp && StringConverter3Zh.Enabled;
+        int ctr = 0;
+        for (int i = 0; i < data.Length; i++)
         {
             var value = data[i];
+            if (zh && i + 1 < data.Length && StringConverter3Zh.TryDecode(value, data[i + 1], out var hanzi))
+            {
+                result[ctr++] = hanzi;
+                i++;
+                continue;
+            }
             var c = value switch {
                 QuoteLeftByte => GetQuoteLeft(language),
                 QuoteRightByte => GetQuoteRight(language),
@@ -58,9 +66,9 @@ public static class StringConverter3
             if (c == Terminator) // Stop if Terminator/Invalid
                 break;
             c = StringConverter4Util.NormalizeGenderSymbol(c);
-            result[i] = c;
+            result[ctr++] = c;
         }
-        return i;
+        return ctr;
     }
 
     /// <inheritdoc cref="LoadString(ReadOnlySpan{byte},Span{char},int)"/>
@@ -90,18 +98,30 @@ public static class StringConverter3
 
         bool jp = language == (int)LanguageID.Japanese;
         var table = jp ? G3_JP : G3_EN;
-        int i = 0;
-        for (; i < value.Length; i++)
+        bool zh = !jp && StringConverter3Zh.Enabled;
+        int ctr = 0;
+        for (int i = 0; i < value.Length; i++)
         {
             var chr = value[i];
             if (!jp)
                 chr = StringConverter4Util.UnNormalizeGenderSymbol(chr);
-            if (!TryGetIndex(table, chr, language, out var b))
-                break;
-            buffer[i] = b;
+            if (TryGetIndex(table, chr, language, out var b))
+            {
+                if (ctr >= buffer.Length)
+                    break;
+                buffer[ctr++] = b;
+                continue;
+            }
+            if (zh && StringConverter3Zh.TryEncode(chr, out var lead, out var second) && ctr + 1 < buffer.Length)
+            {
+                buffer[ctr++] = lead;
+                buffer[ctr++] = second;
+                continue;
+            }
+            break;
         }
 
-        int count = i;
+        int count = ctr;
         if (count < buffer.Length)
             buffer[count++] = TerminatorByte;
         return count;

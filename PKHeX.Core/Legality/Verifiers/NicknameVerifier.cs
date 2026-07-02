@@ -173,8 +173,12 @@ public sealed class NicknameVerifier : Verifier
             }
             if (pk.Format <= 7 && StringConverter.HasEastAsianScriptCharacters(nickname) && pk is not PB7) // East Asian Scripts
             {
-                data.AddLine(GetInvalid(NickInvalidChar));
-                return true;
+                // Gen3 Chinese fan translations store hanzi via a custom two-byte encoding; permit when decoding support is enabled.
+                if (!(pk.Format == 3 && StringConverter3Zh.Enabled))
+                {
+                    data.AddLine(GetInvalid(NickInvalidChar));
+                    return true;
+                }
             }
             if (nickname.Length > Legal.GetMaxLengthNickname(enc.Generation, (LanguageID)pk.Language))
             {

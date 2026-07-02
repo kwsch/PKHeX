@@ -1315,6 +1315,87 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wenn bestimmte Symbole oder Texte nicht korrekt angezeigt werden: Optionen -&gt; Einstellungen -&gt; Anzeige -&gt; Unicode [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string shortcuts_de {
+            get {
+                return ResourceManager.GetString("shortcuts_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Si tienes problemas al ver ciertos símbolos/texto: Opciones -&gt; Ajustes -&gt; Pantalla -&gt; Unicode [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string shortcuts_es {
+            get {
+                return ResourceManager.GetString("shortcuts_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Si tienes problemas al ver ciertos símbolos/texto: Opciones -&gt; Configuración -&gt; Pantalla -&gt; Unicode [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string shortcuts_es_419 {
+            get {
+                return ResourceManager.GetString("shortcuts_es-419", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Si certains symboles ou textes s'affichent mal : Options -&gt; Paramètres -&gt; Affichage -&gt; Unicode [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string shortcuts_fr {
+            get {
+                return ResourceManager.GetString("shortcuts_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Se alcuni simboli o testi non vengono visualizzati correttamente: Opzioni -&gt; Impostazioni -&gt; Visualizzazione -&gt; Unicode [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string shortcuts_it {
+            get {
+                return ResourceManager.GetString("shortcuts_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 一部の記号や文字が正しく表示されない場合: オプション -&gt; 設定 -&gt; 表示 -&gt; Unicode [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string shortcuts_ja {
+            get {
+                return ResourceManager.GetString("shortcuts_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 일부 기호나 텍스트가 제대로 보이지 않는 경우: 옵션 -&gt; 설정 -&gt; 표시 -&gt; Unicode [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string shortcuts_ko {
+            get {
+                return ResourceManager.GetString("shortcuts_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 如果某些符号或文字显示异常：选项 -&gt; 设置 -&gt; 显示 -&gt; Unicode [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string shortcuts_zh_Hans {
+            get {
+                return ResourceManager.GetString("shortcuts_zh-Hans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 如果某些符號或文字顯示異常：選項 -&gt; 設定 -&gt; 顯示 -&gt; Unicode [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string shortcuts_zh_Hant {
+            get {
+                return ResourceManager.GetString("shortcuts_zh-Hant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap showdown {
