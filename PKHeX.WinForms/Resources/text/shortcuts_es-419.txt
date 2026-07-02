@@ -1,0 +1,112 @@
+Si tienes problemas al ver ciertos símbolos/texto: Opciones -> Configuración -> Pantalla -> Unicode
+
+// Ventana principal
+
+CTRL-O: Abrir
+CTRL-S: Exportar PKM
+CTRL-E: Exportar SAV
+CTRL-B: Exportar BAK
+CTRL-Q: Salir
+
+CTRL-D: Abrir base de datos PKM
+CTRL-F: Abrir lista de carpetas
+CTRL-G: Abrir base de datos de Regalo Misterioso
+CTRL-N: Abrir base de datos de encuentros
+CTRL-M: Abrir editor por lotes
+CTRL-R: Abrir reporte de cajas
+CTRL-P: Abrir Acerca de PKHeX
+CTRL-T: Importar set de Showdown
+CTRL-SHIFT-T: Exportar set de Showdown
+CTRL-SHIFT-S: Abrir configuración
+
+Control + clic en...
+- Especie: importar un set Showdown/Smogon desde el portapapeles.
+- Apodo/EO: mostrar caracteres especiales del juego.
+- IV individual: poner el IV al máximo (o máximo-1 si ya está al máximo).
+- AV individual: poner el AV al máximo (o 0 si ya está al máximo).
+- EV individual: poner el EV al máximo.
+- Estadística de concurso individual: poner al máximo.
+- Aleatorizar IVs: poner todos los IVs al máximo.
+- Aleatorizar AVs: poner todos los AVs al máximo.
+- Aleatorizar EVs: poner todos los EVs al máximo si corresponde.
+- Etiqueta de Más PP: poner todos los Más PP a 0. (clic = 3)
+- Etiqueta de amistad: poner la amistad a 0. (clic = 255 o base)
+- Casilla de nivel: poner el nivel a 100.
+- Botón shiny: hacer shiny estrella (Xor1).
+- Etiqueta de estadística: elegir una naturaleza neutra para esa estadística.
+
+Alt + clic en...
+- Sprite de vista previa: cargar desde una URL QR del portapapeles.
+- Especie: exportar un set Showdown/Smogon al portapapeles.
+- Aleatorizar IVs: poner todos los IVs a 0.
+- Aleatorizar AVs: poner todos los AVs a 0.
+- Aleatorizar EVs: poner todos los EVs a 0.
+- IV individual: poner el IV a 0.
+- AV individual: poner el AV a 0.
+- EV individual: poner el EV a 0.
+- Estadística de concurso individual: poner a 0.
+- Botón shiny: definir el SID en vez del PID al hacer shiny.
+- Etiqueta de estadística: elegir una naturaleza negativa para esa estadística.
+
+Shift + clic en...
+- Sprite de vista previa: mostrar un QR del Pokémon visto.
+- IV individual: aplicar Entrenamiento Extremo al IV (alterna el entrenamiento desde Gen7).
+- Botón shiny: hacer shiny cuadrado (Xor0).
+- Movimientos: aplicar un moveset aleatorio.
+- Etiqueta de estadística: elegir una naturaleza positiva para esa estadística.
+
+Mantén Control al arrastrar para guardar cifrado (ekx).
+
+Clic en...
+- Etiqueta EO: aplicar datos del guardado a propiedades relevantes.
+- Etiqueta de nivel/lugar de encuentro: sugerir información de encuentro para propiedades relevantes.
+- Grupo de movimientos: sugerir movimientos legales.
+- Grupo de movimientos recuerdo: sugerir movimientos recuerdo legales.
+- Sprite de Poké Ball: abrir editor de Ball; las legales se iluminan en verde y las ilegales en rojo.
+- Etiqueta de naturaleza: copiar la otra naturaleza de estadística/comportamiento.
+
+Suelta WC7/WC6/PGF/PCD/PGT para convertir a PKM en las pestañas principales.
+
+// Archivo de guardado
+
+Doble clic en la pestaña SAV: detectar automáticamente/recargar el último guardado.
+
+// Cajas
+
+Clic derecho en la pestaña Caja: limpiar/ordenar/modificar contenido. Mantén Shift al elegir la acción para aplicarla a TODAS las cajas.
+
+Control + clic derecho en un espacio de caja: mostrar opciones extra (p. ej. legalidad).
+Control + arrastrar un espacio: copiar y sobrescribir.
+Alt + arrastrar un espacio: borrar y sobrescribir.
+
+Control + Alt + clic en un espacio: clonar/borrar un Pokémon en todos los espacios de la caja.
+Control + clic en un espacio: cargar el espacio en las pestañas.
+Shift + clic en un espacio: guardar las pestañas en el espacio.
+Alt + clic en un espacio: borrar los datos del espacio.
+
+Doble clic en la pestaña Caja para abrir un nuevo visor de cajas. Solo se permite uno, salvo que mantengas Shift.
+
+Control + clic en las flechas de caja: saltar al inicio/final.
+Control + clic en Verificar sumas: comprobar legalidad de todos los Pokémon del guardado entre sí.
+
+// Equipo / Caja de combate
+Doble clic en la etiqueta Equipo o Caja de combate: exportar set Showdown/Smogon (equipo) al portapapeles.
+
+// Editores varios
+
+CINTAS:
+- Shift + clic en Dar todas: poner todas las cintas legales.
+- Shift + clic en Quitar todas: quitar todas las cintas ilegales.
+
+POKÉLITOS:
+- Control + clic en Todo: dar los mejores Pokélitos.
+- Control + clic en Ordenar: ordenar al revés.
+
+REGALO MISTERIOSO:
+- Alt + clic en QR: importar desde imagen QR.
+
+INFO ENTRENADOR (GO PIKACHU/EEVEE):
+- Suelta un archivo de entidad GO Park (gp1) para importarlo al espacio seleccionado.
+
+TERAINCURSIONES (ESCARLATA/PÚRPURA):
+- Shift + clic en Copiar a otras incursiones: copiar también la semilla y el contenido.
