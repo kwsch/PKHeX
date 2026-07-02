@@ -16,6 +16,9 @@ public sealed class SaveLanguageSettings
     [LocalizedDescription("Gen3 FR/LG: If unable to detect a language or version for a save file, use these instead.")]
     public LangVersion OverrideGen3FRLG { get; set; } = new();
 
+    [LocalizedDescription("Gen3: Decode two-byte Chinese characters from unofficial fan-translated games when displaying names, and encode them back when saving.")]
+    public bool DecodeGen3ChineseFanText { get; set; }
+
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public sealed record LangVersion
     {
@@ -25,6 +28,8 @@ public sealed class SaveLanguageSettings
 
     public void Apply()
     {
+        StringConverter3Zh.Enabled = DecodeGen3ChineseFanText;
+
         SaveLanguage.OverrideLanguageGen1 = OverrideGen1.Language;
         if (OverrideGen1.Version.IsGen1())
             SaveLanguage.OverrideVersionGen1 = OverrideGen1.Version;
