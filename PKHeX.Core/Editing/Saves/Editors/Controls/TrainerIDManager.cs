@@ -2,15 +2,26 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Wrapper for managing Trainer ID and Secret ID controls, ensuring synchronization and proper event handling between them.
+/// </summary>
 public sealed class TrainerIDManager : ITrainerIDControl
 {
     private bool _loading;
     private readonly ITrainerIDControl _tid;
     private readonly ITrainerIDControl _sid;
-    public byte Generation { private get; set; }
+
+    /// <summary>
+    /// Cached value used to prepare the Trainer Shiny Value tooltip.
+    /// </summary>
+    private byte Generation { get; set; }
 
     public event EventHandler? ValueChanged;
 
+    /// <summary>
+    /// Gets or sets the current <see cref="ITrainerID32"/> instance.
+    /// Throws an <see cref="InvalidOperationException"/> if accessed before initialization.
+    /// </summary>
     public ITrainerID32 Trainer
     {
         get => field ?? throw new InvalidOperationException("Trainer is not initialized.");
@@ -100,8 +111,14 @@ public sealed class TrainerIDManager : ITrainerIDControl
     }
 }
 
+/// <summary>
+/// Interface for controls that manage Trainer ID and Secret ID values, providing methods for loading, saving, and comparing trainer information, as well as setting tooltips.
+/// </summary>
 public interface ITrainerIDControl
 {
+    /// <summary>
+    /// Event that is raised when the Trainer ID or Secret ID value changes. This event is triggered after the internal values are synchronized and saved.
+    /// </summary>
     event EventHandler? ValueChanged;
 
     void LoadTrainer(ITrainerID32 trainer, TrainerIDFormat displayType);

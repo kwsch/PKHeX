@@ -8,6 +8,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Contains many <see cref="ITrainerInfo"/> instances to match against a <see cref="GameVersion"/>.
 /// </summary>
+/// <remarks>
+/// Not thread-safe. If multiple threads are accessing the database, use a concurrent collection or synchronize access to the database.
+/// </remarks>
 public sealed class TrainerDatabase
 {
     private readonly Dictionary<GameVersion, List<ITrainerInfo>> Database = [];

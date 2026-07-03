@@ -45,7 +45,7 @@ public sealed class EntreeSlot(Memory<byte> Data) : ISpeciesForm
     }
 
     /// <summary>
-    /// Animation Leash (How many steps it can deviate from its spawn location).
+    /// Animation restriction.
     /// </summary>
     public EntreeForestAnimation Animation // bits 29-31
     {
