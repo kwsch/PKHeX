@@ -217,17 +217,32 @@ internal sealed class LocalizedTypeConverter(TypeConverter parent, System.Type v
         var type = value.GetType();
         if (!ShouldLocalizeString(type) || type.IsPrimitive)
             return null;
-        if (!parent.GetPropertiesSupported())
-            return null;
-        if (depth >= 2)
-            return Translate($"PropertyGrid.Type.{type.Name}", type.Name);
 
         var typeName = type.Name;
         var prefix = Translate($"PropertyGrid.Type.{typeName}", typeName);
+        if (depth >= 2)
+            return prefix;
 
         PropertyDescriptorCollection? descriptors;
-        try { descriptors = parent.GetProperties(value); }
-        catch { return prefix; }
+        if (parent.GetPropertiesSupported())
+        {
+            try { descriptors = parent.GetProperties(value); }
+            catch { return prefix; }
+        }
+        else if (type.GetMethod("<Clone>$") is not null)
+        {
+            // record type: synthesize a localized summary instead of the compiler-generated ToString.
+            try { descriptors = TypeDescriptor.GetProperties(value); }
+            catch { return prefix; }
+        }
+        else if (type.GetMethod(nameof(ToString), System.Type.EmptyTypes)?.DeclaringType is { } dt && dt != typeof(object) && dt != typeof(ValueType))
+        {
+            return null; // has a meaningful ToString override; respect it.
+        }
+        else
+        {
+            return prefix; // plain object: show the (translated) type name instead of the namespace-qualified default.
+        }
         var properties = descriptors?.Cast<PropertyDescriptor>() ?? [];
         var parts = new List<string>();
         foreach (var property in properties)
