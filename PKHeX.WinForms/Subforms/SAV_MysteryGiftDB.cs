@@ -33,7 +33,9 @@ public partial class SAV_MysteryGiftDB : Form
         InitializeComponent();
 
         var settings = new TabPage { Text = "Settings", Name = "Tab_Settings" };
-        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.MysteryDb });
+        var settingsGrid = new PropertyGrid { Dock = DockStyle.Fill };
+        PropertyGridLocalization.Apply(settingsGrid, Main.Settings.MysteryDb, Main.CurrentLanguage);
+        settings.Controls.Add(settingsGrid);
         TC_SearchSettings.Controls.Add(settings);
 
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

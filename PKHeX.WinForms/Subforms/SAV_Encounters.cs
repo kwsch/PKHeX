@@ -38,7 +38,9 @@ public partial class SAV_Encounters : Form
         InitializeComponent();
 
         var settings = new TabPage { Text = "Settings", Name = "Tab_Settings" };
-        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.EncounterDb });
+        var settingsGrid = new PropertyGrid { Dock = DockStyle.Fill };
+        PropertyGridLocalization.Apply(settingsGrid, Main.Settings.EncounterDb, Main.CurrentLanguage);
+        settings.Controls.Add(settingsGrid);
         TC_SearchOptions.Controls.Add(settings);
 
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -116,7 +118,7 @@ public partial class SAV_Encounters : Form
     private void UpdateCriteriaPropertyGrid(EncounterCriteria value)
     {
         _criteriaValue = value;
-        PG_Criteria.SelectedObject = _criteriaValue; // box the struct for PropertyGrid
+        PropertyGridLocalization.Apply(PG_Criteria, _criteriaValue, Main.CurrentLanguage); // box the struct for PropertyGrid
     }
 
     private void PG_Criteria_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)

@@ -156,10 +156,30 @@ internal sealed class LocalizedTypeConverter(TypeConverter parent, System.Type v
     {
         string s => Translate(GetKey("PropertyGrid.Value", s), s),
         bool b => Translate(GetKey("PropertyGrid.Value", b.ToString()), b.ToString()),
-        Enum e => Translate(GetKey(e.GetType().Name, e.ToString()), e.ToString()),
+        Enum e => GetLocalizedEnum(e),
         ICollection => Translate(GetKey("PropertyGrid.Value", "Collection"), "(Collection)"),
         _ => GetLocalizedObjectText(value, depth),
     };
+
+    private string GetLocalizedEnum(Enum e)
+    {
+        var name = e.GetType().Name;
+        var current = e.ToString();
+        if (!current.Contains(','))
+            return Translate(GetKey(name, e.ToString()), current);
+
+        // Multiple values! Need to split and re-merge.
+        var split = current.Split(", ");
+        for (var i = 0; i < split.Length; i++)
+        {
+            var value = split[i];
+            var key = GetKey(name, value);
+            value = Translate(key, value);
+            split[i] = value;
+        }
+
+        return string.Join(", ", split);
+    }
 
     private bool TryGetOriginalValue(string text, out object? value)
     {
@@ -181,10 +201,60 @@ internal sealed class LocalizedTypeConverter(TypeConverter parent, System.Type v
             {
                 if (MatchesRaw(text, candidate)) { value = candidate; return true; }
             }
+            if (type.IsDefined(typeof(FlagsAttribute), false) && TryGetFlagsEnumValue(type, text, values, out value))
+                return true;
         }
 
         value = null;
         return false;
+    }
+
+    private bool TryGetFlagsEnumValue(Type type, string text, ReadOnlySpan<object> values, out object? value)
+    {
+        value = null;
+
+        var split = text.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        if (split.Length <= 1)
+            return false;
+
+        var names = new string[split.Length];
+        for (var i = 0; i < split.Length; i++)
+        {
+            if (!TryGetSingleEnumName(split[i], values, out var name))
+                return false;
+            names[i] = name;
+        }
+
+        try
+        {
+            value = Enum.Parse(type, string.Join(", ", names), true);
+            return true;
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
+    }
+
+    private bool TryGetSingleEnumName(string text, ReadOnlySpan<object> values, out string name)
+    {
+        name = string.Empty;
+
+        object? match = null;
+        foreach (var candidate in values)
+        {
+            if (!MatchesTranslated(text, candidate) && !MatchesRaw(text, candidate))
+                continue;
+            if (match is not null)
+                return false;
+            match = candidate;
+        }
+
+        if (match is null)
+            return false;
+
+        name = match.ToString() ?? string.Empty;
+        return name.Length != 0;
     }
 
     private bool TryGetSingleTranslatedMatch(string text, ReadOnlySpan<object> values, out object? value)
@@ -270,9 +340,6 @@ internal sealed class LocalizedTypeConverter(TypeConverter parent, System.Type v
     private static string GetKey(string parent, string name) => WinFormsTranslator.GetKey(parent, name);
 
     private string TranslatePropertyName(string name, string fallback)
-        => state.Localizer.GetValueOrDefault(GetKey("PropertyGrid", name), fallback);
-
-    private string TranslateEnumName(string name, string fallback)
         => state.Localizer.GetValueOrDefault(GetKey("PropertyGrid", name), fallback);
 
     private string Translate(string key, string fallback) => state.Localizer.GetValueOrDefault(key, fallback);

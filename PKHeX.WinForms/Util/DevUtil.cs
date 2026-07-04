@@ -115,6 +115,7 @@ public static class DevUtil
         WinFormsTranslator.LoadProperties<PKHeXSettings>(DefaultLanguage, typeof(SettingsEditor));
         WinFormsTranslator.LoadPropertyGridFields<PKHeXSettings>(DefaultLanguage);
         WinFormsTranslator.LoadPropertyGridFields<BoxExportSettings>(DefaultLanguage, includeTop: true);
+        WinFormsTranslator.LoadPropertyGridFields<EncounterCriteria>(DefaultLanguage, includeTop: true);
         WinFormsTranslator.LoadEnums(DefaultLanguage, EnumTypesToTranslate);
         WinFormsTranslator.LoadAllForms(types, LoadBanlist); // populate with every possible control
         WinFormsTranslator.TranslateControls(GetExtraControls(), DefaultLanguage);
