@@ -13,7 +13,9 @@ public partial class SettingsEditor : Form
     public bool BlankChanged { get; private set; }
 
     // Remember the last settings tab for the remainder of the session.
-    private static string? Last;
+    private static string? _last;
+
+    private readonly List<SettingItem> _settingsPages = [];
 
     public SettingsEditor(object obj)
     {
@@ -44,19 +46,24 @@ public partial class SettingsEditor : Form
             B_Reset.Visible = false;
         }
 
-        if (Last is not null && tabControl1.Controls[Last] is TabPage tab)
-            tabControl1.SelectedTab = tab;
-        tabControl1.SelectedIndexChanged += (_, _) => Last = tabControl1.SelectedTab?.Name;
+        // Set the split container width based on the longest tab name, with a minimum width of 120 pixels.
+        var longestTabName = _settingsPages.Max(z => TextRenderer.MeasureText(z.Name, LB_Tabs.Font).Width);
+        splitContainer1.SplitterDistance = Math.Max(longestTabName + SystemInformation.VerticalScrollBarWidth + 2, 120);
+
+        LB_Tabs.DisplayMember = nameof(SettingItem.Name);
+        LB_Tabs.ValueMember = nameof(SettingItem.Item);
+        LB_Tabs.DataSource = _settingsPages;
+
+        if (_last is not null && _settingsPages.Find(z => z.Name == _last) is { } find)
+            LB_Tabs.SelectedItem = find;
 
         this.CenterToForm(FindForm());
     }
 
     private void LoadSettings(object obj)
     {
-        var pages = new List<TabPage>();
         var type = obj.GetType();
-        var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(type)
-            ;
+        var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(type);
         foreach (var p in props)
         {
             var state = ReflectUtil.GetValue(obj, p);
@@ -65,19 +72,12 @@ public partial class SettingsEditor : Form
 
             var key = WinFormsTranslator.GetKey(nameof(SettingsEditor), p);
             var text = WinFormsTranslator.TranslateText(key, p, Main.CurrentLanguage);
-            var tab = new TabPage(text) { Name = $"Tab_{p}" };
-
-            var pg = new PropertyGrid { Dock = DockStyle.Fill };
-            PropertyGridLocalization.Apply(pg, state, Main.CurrentLanguage);
-            tab.Controls.Add(pg);
-            pg.ExpandAllGridItems();
-
-            pages.Add(tab);
+            _settingsPages.Add(new SettingItem { Name = text, Item = state });
         }
 
-        pages.Sort(static (a, b) => string.Compare(a.Text, b.Text, StringComparison.CurrentCulture));
-        foreach (var tab in pages)
-            tabControl1.TabPages.Add(tab);
+        _settingsPages.Sort(static (a, b) => string.Compare(a.Name, b.Name, StringComparison.CurrentCulture));
+        foreach (var page in _settingsPages)
+            LB_Tabs.Items.Add(page.Name);
     }
 
     private void SettingsEditor_KeyDown(object sender, KeyEventArgs e)
@@ -103,5 +103,27 @@ public partial class SettingsEditor : Form
         {
             WinFormsUtil.Error("Failed to delete settings.", ex.Message);
         }
+    }
+
+    private void LB_Tabs_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var state = LB_Tabs.SelectedItem;
+        if (state is not SettingItem { Item: { } obj } item)
+        {
+            _last = null;
+            PG_Editor.Visible = false;
+            return;
+        }
+
+        PropertyGridLocalization.Apply(PG_Editor, obj, Main.CurrentLanguage);
+        PG_Editor.ExpandAllGridItems();
+        _last = item.Name;
+        PG_Editor.Visible = true;
+    }
+
+    private class SettingItem
+    {
+        public required string Name { get; init; }
+        public required object Item { get; init; }
     }
 }
