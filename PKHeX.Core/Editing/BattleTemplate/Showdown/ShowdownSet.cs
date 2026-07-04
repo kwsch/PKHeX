@@ -577,6 +577,10 @@ public sealed class ShowdownSet : IBattleTemplate
                 AddEVs(result, settings, token);
                 break;
 
+            case BattleTemplateToken.SPs:
+                AddSPs(result, settings, token);
+                break;
+
             // Boolean
             case BattleTemplateToken.Shiny when Shiny:
                 result.Add(cfg.Push(token));
@@ -630,6 +634,21 @@ public sealed class ShowdownSet : IBattleTemplate
         if (token is BattleTemplateToken.EVsAppendNature && Nature.IsFixed)
             line += $" ({settings.Localization.Strings.natures[(int)Nature]})";
         result.Add(cfg.Push(BattleTemplateToken.EVs, line));
+    }
+
+    private void AddSPs(List<string> result, in BattleTemplateExportSettings settings, BattleTemplateToken token)
+    {
+        var cfg = settings.Localization.Config;
+        var nameSPs = cfg.GetStatDisplay(settings.StatsSPs);
+        Span<int> SPs = stackalloc int[6];
+        EffortValues.ConvertToChampions(EVs, SPs);
+        var sum = 0;
+        foreach (var value in SPs)
+            sum += value;
+
+        var line = GetStringStats(SPs, 0, nameSPs);
+        line += $" ({sum})";
+        result.Add(cfg.Push(BattleTemplateToken.SPs, line));
     }
 
     private static string GetAbilityHeldItem(GameStrings strings, int ability, int item, EntityContext context)

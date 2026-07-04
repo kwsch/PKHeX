@@ -37,12 +37,15 @@ public sealed class SummaryPreviewer
         }
         else if (Settings.HoverSlotShowText)
         {
-            var text = GetPreviewText(pk, settings);
             if (!settings.Order.Contains(BattleTemplateToken.FirstLine))
             {
-                var insert = GetPreviewText(pk, settings with { Order = [BattleTemplateToken.FirstLine] });
-                text = insert + Environment.NewLine + text;
+                var temp = new BattleTemplateToken[settings.Order.Length + 1];
+                settings.Order.CopyTo(temp.AsSpan(1));
+                temp[0] = BattleTemplateToken.FirstLine;
+                settings = settings with { Order = temp };
             }
+            var text = GetPreviewText(pk, settings);
+            PokePreview.TryAppendOtherStats(pk, ref text, settings);
             if (Settings.HoverSlotShowEncounter)
                 text = AppendEncounterInfo(ctx, text);
             ShowSet.SetToolTip(pb, text);

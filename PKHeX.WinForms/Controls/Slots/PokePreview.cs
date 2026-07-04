@@ -395,32 +395,42 @@ public sealed partial class PokePreview : Form
         return (start, mid, end);
     }
 
-    private static void TryAppendOtherStats(PKM pk, ref string line, in BattleTemplateExportSettings settings)
+    public static void TryAppendOtherStats(PKM pk, ref string line, in BattleTemplateExportSettings settings)
     {
         if (pk is IGanbaru g)
             AppendGanbaru(g, ref line, settings);
         if (pk is IAwakened a)
             AppendAwakening(a, ref line, settings);
+        if (!settings.IsTokenInExport(BattleTemplateToken.SPs) && settings.IncludeChampionsStatPoints)
+            AppendChampionsSP(pk, ref line, settings);
+    }
+
+    private static void AppendChampionsSP(PKM pk, ref string line, in BattleTemplateExportSettings settings)
+    {
+        Span<int> EVs = stackalloc int[6];
+        pk.GetEVs(EVs);
+        EffortValues.ConvertToChampions(EVs, EVs);
+        TryAppend(EVs, ref line, settings, BattleTemplateToken.SPs, settings.StatsSPs);
     }
 
     private static void AppendGanbaru(IGanbaru g, ref string line, in BattleTemplateExportSettings settings)
     {
         Span<byte> stats = stackalloc byte[6];
         g.GetGVs(stats);
-        TryAppend(stats, ref line, settings, BattleTemplateToken.GVs);
+        TryAppend(stats, ref line, settings, BattleTemplateToken.GVs, settings.StatsOther);
     }
 
     private static void AppendAwakening(IAwakened a, ref string line, in BattleTemplateExportSettings settings)
     {
         Span<byte> stats = stackalloc byte[6];
         a.GetAVs(stats);
-        TryAppend(stats, ref line, settings, BattleTemplateToken.AVs);
+        TryAppend(stats, ref line, settings, BattleTemplateToken.AVs, settings.StatsOther);
     }
 
-    private static void TryAppend<T>(ReadOnlySpan<T> stats, ref string line, BattleTemplateExportSettings settings, BattleTemplateToken token) where T : unmanaged, IEquatable<T>
+    private static void TryAppend<T>(ReadOnlySpan<T> stats, ref string line, in BattleTemplateExportSettings settings, BattleTemplateToken token, StatDisplayStyle style) where T : unmanaged, IEquatable<T>
     {
         var localization = settings.Localization;
-        var statNames = localization.Config.GetStatDisplay(settings.StatsOther);
+        var statNames = localization.Config.GetStatDisplay(style);
         var value = ShowdownSet.GetStringStats(stats, default, statNames);
         if (value.Length == 0)
             return;
