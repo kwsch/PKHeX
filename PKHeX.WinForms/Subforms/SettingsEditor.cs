@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -52,21 +53,31 @@ public partial class SettingsEditor : Form
 
     private void LoadSettings(object obj)
     {
+        var pages = new List<TabPage>();
         var type = obj.GetType();
         var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(type)
-            .Order();
+            ;
         foreach (var p in props)
         {
             var state = ReflectUtil.GetValue(obj, p);
             if (state is null)
                 continue;
 
-            var tab = new TabPage(p) { Name = $"Tab_{p}" };
-            var pg = new PropertyGrid { SelectedObject = state, Dock = DockStyle.Fill };
+            var key = WinFormsTranslator.GetKey(nameof(SettingsEditor), p);
+            var text = WinFormsTranslator.TranslateText(key, p, Main.CurrentLanguage);
+            var tab = new TabPage(text) { Name = $"Tab_{p}" };
+
+            var pg = new PropertyGrid { Dock = DockStyle.Fill };
+            PropertyGridLocalization.Apply(pg, state, Main.CurrentLanguage);
             tab.Controls.Add(pg);
             pg.ExpandAllGridItems();
-            tabControl1.TabPages.Add(tab);
+
+            pages.Add(tab);
         }
+
+        pages.Sort(static (a, b) => string.Compare(a.Text, b.Text, StringComparison.CurrentCulture));
+        foreach (var tab in pages)
+            tabControl1.TabPages.Add(tab);
     }
 
     private void SettingsEditor_KeyDown(object sender, KeyEventArgs e)

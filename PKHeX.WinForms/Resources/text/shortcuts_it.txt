@@ -1,0 +1,112 @@
+Se alcuni simboli o testi non vengono visualizzati correttamente: Opzioni -> Impostazioni -> Visualizzazione -> Unicode
+
+// Finestra principale
+
+CTRL-O: Apri
+CTRL-S: Esporta PKM
+CTRL-E: Esporta SAV
+CTRL-B: Esporta BAK
+CTRL-Q: Esci
+
+CTRL-D: Apri database PKM
+CTRL-F: Apri elenco cartelle
+CTRL-G: Apri database Dono Segreto
+CTRL-N: Apri database incontri
+CTRL-M: Apri editor batch
+CTRL-R: Apri report box
+CTRL-P: Apri Informazioni su PKHeX
+CTRL-T: Importa set Showdown
+CTRL-SHIFT-T: Esporta set Showdown
+CTRL-SHIFT-S: Apri impostazioni
+
+Control + clic su...
+- Specie: importa un set Showdown/Smogon dagli appunti.
+- Soprannome/AO: apre i caratteri speciali di gioco.
+- IV singolo: imposta l'IV al massimo (o massimo-1 se già al massimo).
+- AV singolo: imposta l'AV al massimo (o 0 se già al massimo).
+- EV singolo: imposta l'EV al massimo.
+- Stat gara singola: imposta al massimo.
+- IV casuali: imposta tutti gli IV al massimo.
+- AV casuali: imposta tutti gli AV al massimo.
+- EV casuali: imposta tutti gli EV al massimo se appropriato.
+- Etichetta PP Su: imposta tutti i PP Su a 0. (clic = 3)
+- Etichetta amicizia: imposta amicizia a 0. (clic = 255 o base)
+- Casella livello: imposta livello a 100.
+- Pulsante cromatico: rende cromatico stella (Xor1).
+- Etichetta stat: sceglie una natura neutra per questa stat.
+
+Alt + clic su...
+- Sprite anteprima: carica da un URL QR negli appunti.
+- Specie: esporta un set Showdown/Smogon negli appunti.
+- IV casuali: imposta tutti gli IV a 0.
+- AV casuali: imposta tutti gli AV a 0.
+- EV casuali: imposta tutti gli EV a 0.
+- IV singolo: imposta l'IV a 0.
+- AV singolo: imposta l'AV a 0.
+- EV singolo: imposta l'EV a 0.
+- Stat gara singola: imposta a 0.
+- Pulsante cromatico: imposta il SID invece del PID quando rende cromatico.
+- Etichetta stat: sceglie una natura negativa per questa stat.
+
+Shift + clic su...
+- Sprite anteprima: mostra un QR per il Pokémon visualizzato.
+- IV singolo: applica Allenamento Pro all'IV (toggle da Gen7 in poi).
+- Pulsante cromatico: rende cromatico quadrato (Xor0).
+- Mosse: applica un moveset casuale.
+- Etichetta stat: sceglie una natura positiva per questa stat.
+
+Tieni premuto Control durante il trascinamento per salvare cifrato (ekx).
+
+Clic su...
+- Etichetta AO: applica i dettagli della save alle proprietà rilevanti.
+- Etichetta livello/luogo incontro: suggerisce informazioni d'incontro per le proprietà rilevanti.
+- Gruppo mosse: suggerisce mosse legali.
+- Gruppo mosse ricordo: suggerisce mosse ricordo legali.
+- Sprite Ball: apre l'editor Ball; le Ball legali sono evidenziate in verde, quelle illegali in rosso.
+- Etichetta natura: copia l'altra natura stat/comportamento.
+
+Trascina WC7/WC6/PGF/PCD/PGT per convertire in PKM nelle schede principali.
+
+// File di salvataggio
+
+Doppio clic sulla scheda SAV: rileva automaticamente/ricarica l'ultimo salvataggio.
+
+// Box
+
+Clic destro sulla scheda Box: svuota/ordina/modifica il contenuto. Tieni Shift mentre selezioni l'azione per applicarla a TUTTI i box.
+
+Control + clic destro su uno slot box: mostra opzioni extra (es. controllo legalità).
+Control + trascina uno slot box: copia e sovrascrivi.
+Alt + trascina uno slot box: elimina e sovrascrivi.
+
+Control + Alt + clic su uno slot: clona/elimina un Pokémon in ogni slot del box.
+Control + clic su uno slot: carica lo slot nelle schede.
+Shift + clic su uno slot: scrive le schede nello slot.
+Alt + clic su uno slot: elimina i dati nello slot.
+
+Doppio clic sulla scheda Box per aprire un nuovo visualizzatore box. Ne è consentito uno solo, salvo tenere premuto Shift.
+
+Control + clic sulle frecce del box: salta all'inizio/fine.
+Control + clic su Verifica checksum: controlla la legalità di tutti i Pokémon nella save tra loro.
+
+// Squadra / Box Lotta
+Doppio clic sull'etichetta Squadra o Box Lotta: esporta il set Showdown/Smogon (team) negli appunti.
+
+// Editor vari
+
+FIOCCHI:
+- Shift + clic sul pulsante Dai tutti: imposta tutti i fiocchi legali.
+- Shift + clic sul pulsante Rimuovi tutti: rimuove tutti i fiocchi illegali.
+
+POKÉBIGNÈ:
+- Control + clic sul pulsante Tutti: dà i migliori Pokébignè.
+- Control + clic sul pulsante Ordina: ordina al contrario.
+
+DONO SEGRETO:
+- Alt + clic su QR: importa da immagine QR.
+
+INFO ALLENATORE (GO PIKACHU/EEVEE):
+- Trascina un file entità GO Park (gp1) per importarlo nello slot selezionato.
+
+TERA RAID (SCARLATTO/VIOLETTO):
+- Shift + clic sul pulsante Copia negli altri raid: copia anche Seed e contenuto.

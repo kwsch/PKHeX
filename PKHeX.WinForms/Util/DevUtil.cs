@@ -112,8 +112,10 @@ public static class DevUtil
         foreach (var lang in GameLanguage.AllSupportedLanguages) // get all languages ready to go
             _ = WinFormsTranslator.GetDictionary(lang);
         WinFormsTranslator.SetUpdateMode();
-        WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage);
-        WinFormsTranslator.LoadEnums(EnumTypesToTranslate, DefaultLanguage);
+        WinFormsTranslator.LoadProperties<PKHeXSettings>(DefaultLanguage, typeof(SettingsEditor));
+        WinFormsTranslator.LoadPropertyGridFields<PKHeXSettings>(DefaultLanguage);
+        WinFormsTranslator.LoadPropertyGridFields<BoxExportSettings>(DefaultLanguage, includeTop: true);
+        WinFormsTranslator.LoadEnums(DefaultLanguage, EnumTypesToTranslate);
         WinFormsTranslator.LoadAllForms(types, LoadBanlist); // populate with every possible control
         WinFormsTranslator.TranslateControls(GetExtraControls(), DefaultLanguage);
         var dir = GetResourcePath("PKHeX.WinForms", "Resources", "text");
@@ -152,6 +154,8 @@ public static class DevUtil
         typeof(PokeSize),
         typeof(PokeSizeDetailed),
 
+        typeof(BattleTemplateToken),
+
         typeof(PokeathlonStat4),
         typeof(PokeathlonEvent4),
         typeof(PassPower5),
@@ -186,6 +190,10 @@ public static class DevUtil
         yield return new Label { Name = $"{nameof(SAV_Misc3)}.L_RecordCleared" };
         yield return new Label { Name = $"{nameof(SAV_Misc3)}.L_CurrentStreak" };
         yield return new Label { Name = $"{nameof(SAV_Misc3)}.L_RecordStreak" };
+
+        yield return new Label { Name = SAVEditor.SimpleEditorKey };
+        yield return new Label { Name = "PropertyGrid.Value.True" };
+        yield return new Label { Name = "PropertyGrid.Value.False" };
     }
 
     /// <summary>
@@ -237,6 +245,9 @@ public static class DevUtil
         $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.FusedNecrozmaS)}",
         $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.FusedNecrozmaM)}",
         $"{nameof(StorageSlotType)}.{nameof(StorageSlotType.FusedCalyrex)}",
+
+        ..Enum.GetValues<GameVersion>().Where(z => !(z.IsValidSavedVersion() || z == GameVersion.Any)).Select(z => $"{nameof(GameVersion)}.{z}"),
+        $"{nameof(LanguageID)}.{nameof(LanguageID.UNUSED_6)}",
     ];
 
     // paths should match the project structure, so that the files are in the correct place when the logic updates them.

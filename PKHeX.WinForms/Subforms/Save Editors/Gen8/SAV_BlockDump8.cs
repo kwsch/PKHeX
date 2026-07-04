@@ -107,7 +107,6 @@ public partial class SAV_BlockDump8 : Form
                 if (props.Count() > 1 || ModifierKeys == Keys.Shift)
                 {
                     PG_BlockView.Visible = true;
-                    PG_BlockView.SelectedObject = obj;
                     return;
                 }
             }
@@ -116,7 +115,6 @@ public partial class SAV_BlockDump8 : Form
             if (o is not null)
             {
                 PG_BlockView.Visible = true;
-                PG_BlockView.SelectedObject = o;
                 return;
             }
         }
