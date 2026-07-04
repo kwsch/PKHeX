@@ -68,7 +68,7 @@ internal sealed class LocalizedPropertyDescriptor(PropertyDescriptor parent, Loc
     private TypeConverter? converter;
 
     public override string DisplayName => TranslatePropertyName(Name, parent.DisplayName);
-    public override string Category => Translate($"PropertyGrid.Category.{parent.Category}", parent.Category);
+    public override string Category => Translate(GetKey("PropertyGrid.Category", parent.Category), parent.Category);
     public override TypeConverter Converter => converter ??= new LocalizedTypeConverter(parent.Converter, PropertyType, state);
 
     public override bool CanResetValue(object component) => parent.CanResetValue(component);
@@ -81,8 +81,9 @@ internal sealed class LocalizedPropertyDescriptor(PropertyDescriptor parent, Loc
     public override bool ShouldSerializeValue(object component) => parent.ShouldSerializeValue(component);
 
     private string TranslatePropertyName(string name, string fallback)
-        => state.Localizer.GetValueOrDefault($"PropertyGrid.{name}", fallback);
+        => state.Localizer.GetValueOrDefault(GetKey("PropertyGrid", name), fallback);
 
+    private static string GetKey(string parent, string name) => WinFormsTranslator.GetKey(parent, name);
     private string Translate(string key, string fallback) => state.Localizer.GetValueOrDefault(key, fallback);
 }
 
@@ -153,10 +154,10 @@ internal sealed class LocalizedTypeConverter(TypeConverter parent, System.Type v
 
     private string? GetLocalizedText(object value, int depth) => value switch
     {
-        string s => Translate($"PropertyGrid.Value.{s}", s),
-        bool b => Translate($"PropertyGrid.Value.{b}", b.ToString()),
-        Enum e => Translate($"{e.GetType().Name}.{e}", e.ToString()),
-        ICollection => Translate("PropertyGrid.Value.Collection", "(Collection)"),
+        string s => Translate(GetKey("PropertyGrid.Value", s), s),
+        bool b => Translate(GetKey("PropertyGrid.Value", b.ToString()), b.ToString()),
+        Enum e => Translate(GetKey(e.GetType().Name, e.ToString()), e.ToString()),
+        ICollection => Translate(GetKey("PropertyGrid.Value", "Collection"), "(Collection)"),
         _ => GetLocalizedObjectText(value, depth),
     };
 
@@ -266,8 +267,13 @@ internal sealed class LocalizedTypeConverter(TypeConverter parent, System.Type v
         return parts.Count == 0 ? prefix : $"{prefix} {{ {string.Join(", ", parts)} }}";
     }
 
+    private static string GetKey(string parent, string name) => WinFormsTranslator.GetKey(parent, name);
+
     private string TranslatePropertyName(string name, string fallback)
-        => state.Localizer.GetValueOrDefault($"PropertyGrid.{name}", fallback);
+        => state.Localizer.GetValueOrDefault(GetKey("PropertyGrid", name), fallback);
+
+    private string TranslateEnumName(string name, string fallback)
+        => state.Localizer.GetValueOrDefault(GetKey("PropertyGrid", name), fallback);
 
     private string Translate(string key, string fallback) => state.Localizer.GetValueOrDefault(key, fallback);
 }

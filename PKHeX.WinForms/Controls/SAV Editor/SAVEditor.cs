@@ -793,11 +793,14 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         _ => GetPropertyForm(sav),
     };
 
+    internal static string SimpleEditorKey = WinFormsTranslator.GetKey(nameof(SAVEditor), "SimpleEditor");
+
     private static Form GetPropertyForm(object sav)
     {
+        var key = SimpleEditorKey;
         var form = new Form
         {
-            Text = WinFormsTranslator.TranslateText("SAVEditor.SimpleEditor", "Simple Editor", Main.CurrentLanguage),
+            Text = WinFormsTranslator.TranslateText(key, "Simple Editor", Main.CurrentLanguage),
             StartPosition = FormStartPosition.CenterParent,
             MinimumSize = new Size(350, 380),
             MinimizeBox = false,
