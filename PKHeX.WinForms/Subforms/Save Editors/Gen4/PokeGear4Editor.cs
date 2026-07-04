@@ -20,7 +20,7 @@ public partial class PokeGear4Editor : UserControl
 
     private void RefreshList()
     {
-        PG_Rolodex.SelectedObject = Rolodex = SAV.GetPokeGearRoloDex().ToArray();
+        PropertyGridLocalization.Apply(PG_Rolodex, Rolodex = SAV.GetPokeGearRoloDex().ToArray(), Main.CurrentLanguage);
         PG_Rolodex.Refresh();
     }
 

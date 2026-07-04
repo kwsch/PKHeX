@@ -173,7 +173,7 @@ public partial class SAV_Trainer : Form
 
             // Appearances and Nickname
             var xystat = xy.Status;
-            PG_CurrentAppearance.SelectedObject = xystat.Fashion;
+            PropertyGridLocalization.Apply(PG_CurrentAppearance, xystat.Fashion, Main.CurrentLanguage);
             TB_TRNick.Text = xystat.Nickname;
         }
 

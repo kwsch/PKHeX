@@ -391,21 +391,30 @@ public static class WinFormsTranslator
     }
 
     [RequiresUnreferencedCode("Debug settings loading uses reflection to inspect runtime types and attributes.")]
-    public static void LoadPropertyGridFields(bool add, Type type, Dictionary<string, string> context)
+    public static void LoadPropertyGridFields(string defaultLanguage, Type[] types, bool add = true, bool includeEnums = true)
+    {
+        var context = (Dictionary<string, string>)Context[defaultLanguage].Lookup;
+        foreach (var type in types)
+            LoadPropertyGridFields(add, type, context, includeEnums);
+    }
+
+    [RequiresUnreferencedCode("Debug settings loading uses reflection to inspect runtime types and attributes.")]
+    public static void LoadPropertyGridFields(bool add, Type type, Dictionary<string, string> context, bool includeEnums = true)
     {
         var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         foreach (var prop in props)
         {
             LoadCategory(context, prop, add);
             LoadProperty(context, prop, add);
+            LoadPropertyGridDescription(context, prop, add);
 
             // If t is an object type, recurse.
             var t = prop.PropertyType;
             if (t.IsArray)
-                LoadPropertyGridFields(add, t.GetElementType()!, context);
+                LoadPropertyGridFields(add, t.GetElementType()!, context, includeEnums);
             else if (t.IsClass && t != typeof(string))
                 LoadPropertyGridSubType(add, t, context);
-            else if (t.IsEnum)
+            else if (includeEnums && t.IsEnum)
                 LoadEnums(context, t);
         }
     }
@@ -432,6 +441,27 @@ public static class WinFormsTranslator
             else
                 context.Remove(key);
         }
+    }
+
+    private static void LoadPropertyGridDescription(Dictionary<string, string> context, PropertyInfo prop, bool add)
+    {
+        var description = prop.GetCustomAttribute<DescriptionAttribute>(false);
+        if (description is null or LocalizedDescriptionAttribute)
+            return;
+
+        var value = description.Description;
+        if (string.IsNullOrEmpty(value))
+            return;
+
+        var type = prop.DeclaringType?.Name;
+        if (string.IsNullOrWhiteSpace(type))
+            return;
+
+        var key = GetKey(GetKey("LocalizedDescription", type), prop.Name);
+        if (add)
+            context.TryAdd(key, value);
+        else
+            context.Remove(key);
     }
 
     private static void LoadPropertyGridSubType(bool add, Type type, Dictionary<string, string> context)

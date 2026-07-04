@@ -48,7 +48,7 @@ public partial class SAV_Raid9 : Form
         }
     }
 
-    private void LoadRaid(int index) => PG_Raid.SelectedObject = Raids.GetRaid(index);
+    private void LoadRaid(int index) => PropertyGridLocalization.Apply(PG_Raid, Raids.GetRaid(index), Main.CurrentLanguage);
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
 

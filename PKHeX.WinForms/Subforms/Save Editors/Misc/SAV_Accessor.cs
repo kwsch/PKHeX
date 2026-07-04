@@ -30,7 +30,7 @@ public partial class SAV_Accessor<T> : Form where T : class, ISaveBlockAccessor<
 
     private void UpdateBlockSummaryControls(IDataIndirect obj)
     {
-        PG_BlockView.SelectedObject = obj;
+        PropertyGridLocalization.Apply(PG_BlockView, obj, Main.CurrentLanguage);
     }
 
     private void PG_BlockView_PropertyValueChanged(object? s, PropertyValueChangedEventArgs? e)

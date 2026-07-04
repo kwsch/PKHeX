@@ -115,6 +115,8 @@ public static class DevUtil
         WinFormsTranslator.LoadProperties<PKHeXSettings>(DefaultLanguage, typeof(SettingsEditor));
         WinFormsTranslator.LoadPropertyGridFields<PKHeXSettings>(DefaultLanguage);
         WinFormsTranslator.LoadPropertyGridFields<BoxExportSettings>(DefaultLanguage, includeTop: true);
+        WinFormsTranslator.LoadPropertyGridFields(DefaultLanguage, PropertyGridTypesToTranslate, includeEnums: false);
+        WinFormsTranslator.LoadEnums(DefaultLanguage, PropertyGridEnumTypesToTranslate);
         WinFormsTranslator.LoadEnums(DefaultLanguage, EnumTypesToTranslate);
         WinFormsTranslator.LoadAllForms(types, LoadBanlist); // populate with every possible control
         WinFormsTranslator.TranslateControls(GetExtraControls(), DefaultLanguage);
@@ -177,6 +179,42 @@ public static class DevUtil
         typeof(EventVarType),
         typeof(NamedEventType),
         typeof(StorageSlotType),
+    ];
+
+    /// <summary>
+    /// PropertyGrid-backed editor types that are not reachable from the global settings object.
+    /// </summary>
+    /// <remarks>
+    /// Enum values are added separately for selected small enums; large save-editor enums can fall back
+    /// to their raw names instead of bloating every translation file.
+    /// </remarks>
+    private static readonly Type[] PropertyGridTypesToTranslate =
+    [
+        typeof(PokeBlock3),
+        typeof(Poffin4),
+        typeof(SecretBase6),
+        typeof(SecretBase6Other),
+        typeof(Fashion6Male),
+        typeof(Fashion6Female),
+
+        typeof(RaidSpawnDetail),
+        typeof(TeraRaidDetail),
+        typeof(SevenStarRaidDetail),
+        typeof(TrainerCard8Poke),
+        typeof(TitleScreen8Poke),
+    ];
+
+    /// <summary>
+    /// Small enum sets shown by the localized PropertyGrid editors.
+    /// </summary>
+    private static readonly Type[] PropertyGridEnumTypesToTranslate =
+    [
+        typeof(PokegearNumber),
+        typeof(PokeBlock3Color),
+        typeof(PoffinFlavor4),
+        typeof(SecretBase6Rank),
+        typeof(RaidType),
+        typeof(TeraRaidContentType),
     ];
 
     /// <summary>

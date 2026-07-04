@@ -68,6 +68,7 @@ internal sealed class LocalizedPropertyDescriptor(PropertyDescriptor parent, Loc
     private TypeConverter? converter;
 
     public override string DisplayName => TranslatePropertyName(Name, parent.DisplayName);
+    public override string Description => TranslateDescription();
     public override string Category => Translate(GetKey("PropertyGrid.Category", parent.Category), parent.Category);
     public override TypeConverter Converter => converter ??= new LocalizedTypeConverter(parent.Converter, PropertyType, state);
 
@@ -82,6 +83,14 @@ internal sealed class LocalizedPropertyDescriptor(PropertyDescriptor parent, Loc
 
     private string TranslatePropertyName(string name, string fallback)
         => state.Localizer.GetValueOrDefault(GetKey("PropertyGrid", name), fallback);
+
+    private string TranslateDescription()
+    {
+        var fallback = parent.Description;
+        if (string.IsNullOrEmpty(fallback))
+            return fallback; // no description; don't inject unrelated same-named keys.
+        return Translate(GetKey(GetKey("LocalizedDescription", parent.ComponentType.Name), Name), fallback);
+    }
 
     private static string GetKey(string parent, string name) => WinFormsTranslator.GetKey(parent, name);
     private string Translate(string key, string fallback) => state.Localizer.GetValueOrDefault(key, fallback);

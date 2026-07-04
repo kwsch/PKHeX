@@ -244,13 +244,13 @@ public partial class SAV_Trainer8 : Form
     private void ChangeTrainerCardIndex(object sender, EventArgs e)
     {
         var index = (int)NUD_ShowTrainerCard.Value - 1;
-        PG_ShowTrainerCard.SelectedObject = SAV.Blocks.TrainerCard.ViewPoke(index);
+        PropertyGridLocalization.Apply(PG_ShowTrainerCard, SAV.Blocks.TrainerCard.ViewPoke(index), Main.CurrentLanguage);
     }
 
     private void ChangeTitleScreenIndex(object sender, EventArgs e)
     {
         var index = (int)NUD_ShowTitleScreen.Value - 1;
-        PG_ShowTitleScreen.SelectedObject = SAV.Blocks.TitleScreen.ViewPoke(index);
+        PropertyGridLocalization.Apply(PG_ShowTitleScreen, SAV.Blocks.TitleScreen.ViewPoke(index), Main.CurrentLanguage);
     }
 
     private void B_CopyFromPartyToTrainerCard_Click(object sender, EventArgs e)

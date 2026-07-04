@@ -65,7 +65,7 @@ public partial class PoffinCase4Editor : UserControl
             LB_Poffins.SelectedIndex = 0;
             return;
         }
-        PG_Poffins.SelectedObject = Case.Poffins[index];
+        PropertyGridLocalization.Apply(PG_Poffins, Case.Poffins[index], Main.CurrentLanguage);
     }
 
     private void LB_Poffins_SelectedIndexChanged(object sender, EventArgs e)

@@ -112,7 +112,7 @@ public partial class SAV_SecretBase : Form
         loading = true;
         CurrentBase = bdata;
 
-        PG_Base.SelectedObject = bdata;
+        PropertyGridLocalization.Apply(PG_Base, bdata, Main.CurrentLanguage);
 
         var pIndex = (int)NUD_FObject.Value;
         LoadPlacement(bdata.GetPlacement(pIndex), pIndex);

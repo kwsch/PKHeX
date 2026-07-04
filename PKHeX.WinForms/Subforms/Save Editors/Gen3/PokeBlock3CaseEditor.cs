@@ -65,7 +65,7 @@ public partial class Pokeblock3CaseEditor : UserControl
             LB_Pokeblocks.SelectedIndex = 0;
             return;
         }
-        PG_Pokeblocks.SelectedObject = Case.Blocks[index];
+        PropertyGridLocalization.Apply(PG_Pokeblocks, Case.Blocks[index], Main.CurrentLanguage);
     }
 
     private void LB_Pokeblocks_SelectedIndexChanged(object sender, EventArgs e)

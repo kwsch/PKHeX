@@ -27,7 +27,7 @@ public partial class SAV_Raid8 : Form
         CB_Den.SelectedIndex = 0;
     }
 
-    private void LoadDen(int index) => PG_Den.SelectedObject = Raids.GetRaid(index);
+    private void LoadDen(int index) => PropertyGridLocalization.Apply(PG_Den, Raids.GetRaid(index), Main.CurrentLanguage);
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
 

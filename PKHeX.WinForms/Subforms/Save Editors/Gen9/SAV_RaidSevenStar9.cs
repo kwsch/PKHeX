@@ -21,7 +21,7 @@ public partial class SAV_RaidSevenStar9 : Form
         CB_Raid.SelectedIndex = 0;
     }
 
-    private void LoadRaid(int index) => PG_Raid.SelectedObject = Raids.GetRaid(index);
+    private void LoadRaid(int index) => PropertyGridLocalization.Apply(PG_Raid, Raids.GetRaid(index), Main.CurrentLanguage);
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
