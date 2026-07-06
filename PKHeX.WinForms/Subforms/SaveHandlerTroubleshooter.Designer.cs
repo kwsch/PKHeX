@@ -40,8 +40,8 @@ namespace PKHeX.WinForms
             CB_Handler = new System.Windows.Forms.ComboBox();
             B_Continue = new System.Windows.Forms.Button();
             TLP_Main = new System.Windows.Forms.TableLayoutPanel();
-            L_FileName = new System.Windows.Forms.Label();
             TB_Path = new System.Windows.Forms.TextBox();
+            L_FileName = new System.Windows.Forms.Label();
             TLP_Main.SuspendLayout();
             SuspendLayout();
             // 
@@ -78,7 +78,7 @@ namespace PKHeX.WinForms
             L_Type.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             L_Type.Name = "L_Type";
             L_Type.Size = new System.Drawing.Size(88, 17);
-            L_Type.TabIndex = 0;
+            L_Type.TabIndex = 3;
             L_Type.Text = "Save file type:";
             // 
             // CB_Type
@@ -91,7 +91,7 @@ namespace PKHeX.WinForms
             CB_Type.Location = new System.Drawing.Point(97, 56);
             CB_Type.Name = "CB_Type";
             CB_Type.Size = new System.Drawing.Size(409, 25);
-            CB_Type.TabIndex = 1;
+            CB_Type.TabIndex = 4;
             // 
             // L_SubVersion
             // 
@@ -101,7 +101,7 @@ namespace PKHeX.WinForms
             L_SubVersion.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             L_SubVersion.Name = "L_SubVersion";
             L_SubVersion.Size = new System.Drawing.Size(79, 17);
-            L_SubVersion.TabIndex = 0;
+            L_SubVersion.TabIndex = 5;
             L_SubVersion.Text = "Sub version:";
             // 
             // CB_SubVersion
@@ -114,7 +114,7 @@ namespace PKHeX.WinForms
             CB_SubVersion.Location = new System.Drawing.Point(97, 87);
             CB_SubVersion.Name = "CB_SubVersion";
             CB_SubVersion.Size = new System.Drawing.Size(409, 25);
-            CB_SubVersion.TabIndex = 1;
+            CB_SubVersion.TabIndex = 6;
             // 
             // L_Language
             // 
@@ -124,7 +124,7 @@ namespace PKHeX.WinForms
             L_Language.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             L_Language.Name = "L_Language";
             L_Language.Size = new System.Drawing.Size(68, 17);
-            L_Language.TabIndex = 0;
+            L_Language.TabIndex = 7;
             L_Language.Text = "Language:";
             // 
             // CB_Language
@@ -137,7 +137,7 @@ namespace PKHeX.WinForms
             CB_Language.Location = new System.Drawing.Point(97, 118);
             CB_Language.Name = "CB_Language";
             CB_Language.Size = new System.Drawing.Size(409, 25);
-            CB_Language.TabIndex = 1;
+            CB_Language.TabIndex = 8;
             // 
             // L_Handler
             // 
@@ -147,7 +147,7 @@ namespace PKHeX.WinForms
             L_Handler.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             L_Handler.Name = "L_Handler";
             L_Handler.Size = new System.Drawing.Size(57, 17);
-            L_Handler.TabIndex = 0;
+            L_Handler.TabIndex = 9;
             L_Handler.Text = "Handler:";
             // 
             // CB_Handler
@@ -160,19 +160,19 @@ namespace PKHeX.WinForms
             CB_Handler.Location = new System.Drawing.Point(97, 149);
             CB_Handler.Name = "CB_Handler";
             CB_Handler.Size = new System.Drawing.Size(409, 25);
-            CB_Handler.TabIndex = 1;
+            CB_Handler.TabIndex = 10;
             // 
             // B_Continue
             // 
             B_Continue.AccessibleDescription = "Attempts to load the selected file with the chosen save handler settings.";
             B_Continue.AccessibleName = "Continue Load";
-            B_Continue.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            B_Continue.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             B_Continue.AutoSize = true;
             B_Continue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            B_Continue.Location = new System.Drawing.Point(512, 181);
+            B_Continue.Location = new System.Drawing.Point(512, 183);
             B_Continue.Name = "B_Continue";
             B_Continue.Size = new System.Drawing.Size(69, 27);
-            B_Continue.TabIndex = 0;
+            B_Continue.TabIndex = 100;
             B_Continue.Text = "Continue";
             B_Continue.UseVisualStyleBackColor = true;
             B_Continue.Click += B_Continue_Click;
@@ -213,14 +213,6 @@ namespace PKHeX.WinForms
             TLP_Main.DragDrop += SaveHandlerTroubleshooter_DragDrop;
             TLP_Main.DragEnter += SaveHandlerTroubleshooter_DragEnter;
             // 
-            // L_FileName
-            // 
-            L_FileName.AutoSize = true;
-            L_FileName.Location = new System.Drawing.Point(97, 33);
-            L_FileName.Name = "L_FileName";
-            L_FileName.Size = new System.Drawing.Size(0, 17);
-            L_FileName.TabIndex = 3;
-            // 
             // TB_Path
             // 
             TB_Path.AccessibleDescription = "Path to the save file to load with the selected handler.";
@@ -231,6 +223,14 @@ namespace PKHeX.WinForms
             TB_Path.ReadOnly = true;
             TB_Path.Size = new System.Drawing.Size(409, 25);
             TB_Path.TabIndex = 1;
+            // 
+            // L_FileName
+            // 
+            L_FileName.AutoSize = true;
+            L_FileName.Location = new System.Drawing.Point(97, 33);
+            L_FileName.Name = "L_FileName";
+            L_FileName.Size = new System.Drawing.Size(0, 17);
+            L_FileName.TabIndex = 3;
             // 
             // SaveHandlerTroubleshooter
             // 

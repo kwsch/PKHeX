@@ -28,6 +28,19 @@ public interface ISaveHandler
     /// <param name="input">Combined data</param>
     void Finalize(Span<byte> input);
 }
+
+/// <summary>
+/// Default implementation of a save file handler that treats the raw input as the exact savedata used by the game (no header/footer).
+/// </summary>
+public sealed class SaveHandlerDefault : ISaveHandler
+{
+    public bool IsRecognized(long size) => true;
+
+    public SaveHandlerSplitResult TrySplit(Memory<byte> input)
+        => new(input, default, default, this);
+
+    public void Finalize(Span<byte> input) { }
+}
 #endif
 
 #if !EXCLUDE_HACKS

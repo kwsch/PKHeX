@@ -17,8 +17,18 @@ public partial class TrainerID : UserControl
         _manager.ValueChanged += (sender, e) => UpdatedID?.Invoke(sender, e);
     }
 
-    public void LoadTrainer<T>(T trainer) where T : ITrainerID32, IGeneration => _manager.LoadTrainer(trainer);
-    public void LoadTrainer(ITrainerID32 trainer, byte generation) => _manager.LoadTrainer(trainer, generation);
+    public void LoadTrainer<T>(T trainer) where T : ITrainerID32, IGeneration
+    {
+        _manager.LoadTrainer(trainer);
+        Label_SID.Visible = trainer.Generation >= 3;
+    }
+
+    public void LoadTrainer(ITrainerID32 trainer, byte generation)
+    {
+        _manager.LoadTrainer(trainer, generation);
+        Label_SID.Visible = generation >= 3;
+    }
+
     public void LoadTrainer() => _manager.LoadTrainer();
     public void SetToolTip() => _manager.SetToolTip();
 }
