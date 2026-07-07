@@ -37,8 +37,7 @@ public sealed partial class SaveHandlerTroubleshooter : Form
         var handlers = SaveUtil.Handlers.ToList();
         handlers.Insert(0, new SaveHandlerDefault());
         CB_Handler.DataSource = handlers
-            .Select(z => new HandlerItem(GetHandlerDisplayName(z), z))
-            .ToList();
+            .ConvertAll(z => new HandlerItem(GetHandlerDisplayName(z), z));
 
         UpdateSubVersionChoices();
     }
