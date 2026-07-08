@@ -203,6 +203,12 @@ public static class EncounterUtil
         return pt[species];
     }
 
+    /// <summary>
+    /// Gets the expected current egg location value for a given entity state and original location value.
+    /// </summary>
+    /// <param name="pk">Current entity state</param>
+    /// <param name="loc">Location value that is expected to be used for the egg location</param>
+    /// <returns>Expected egg location value</returns>
     internal static ushort GetExpectedEggLocation<T>(T pk, ushort loc) where T : PKM
     {
         if (pk is PB8)
@@ -214,7 +220,7 @@ public static class EncounterUtil
         where TEnc : ILocation
         where TEntity : PKM
     {
-        var loc = GetExpectedEggLocation(pk, pk.EggLocation);
-        return loc == enc.EggLocation;
+        var loc = GetExpectedEggLocation(pk, enc.EggLocation);
+        return loc == pk.EggLocation;
     }
 }
