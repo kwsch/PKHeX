@@ -59,8 +59,10 @@ public sealed class EffortValueVerifier : Verifier
     {
         // Legends Arceus gives EVs on defeating Pokémon, but unable to apply otherwise (no vitamins, no use in stat calcs).
         // Don't bother checking the total gained (if it is possible or not) vs EXP gained. That's too much work; just a simple check please.
-        if (pk is PA8 { LA: true } pa8 and IHomeTrack { HasTracker: false } && pa8.EXP == Experience.GetEXP(pa8.MetLevel, pa8.PersonalInfo.EXPGrowth))
-            return true;
+
+        // disabled: seems there is a mechanic to gain EVs without EXP or leaving the game -- to be researched further.
+        //if (pk is PA8 { LA: true } pa8 and IHomeTrack { HasTracker: false } && pa8.EXP == Experience.GetEXP(pa8.MetLevel, pa8.PersonalInfo.EXPGrowth))
+        //    return true;
 
         return false;
     }

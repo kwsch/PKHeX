@@ -79,7 +79,7 @@ internal sealed class MiscVerifierPA8 : Verifier
 
         // When creating Legends: Arceus side-data within HOME for anything not originating from Legends: Arceus, it calculates the absolute values in the app.
         // Starting in HOME 4.0.0, the app uses FMADD (Fused Multiply Add) for size calculations. Different results for 30 of 256 scalars compared to in-game step-by-step math.
-        if (enc is { Context: not EntityContext.Gen8a } && IsCalculatedHOME400(data, pk))
+        if (enc is { Context: not EntityContext.Gen8a } or EncounterSlot8GO && IsCalculatedHOME400(data, pk))
             return true;
 
         // Check for (=>)PLA=>HOME=>{other game, and evolve}=>HOME=>PLA, where the values can still match the pre-evolution.
@@ -144,8 +144,6 @@ internal sealed class MiscVerifierPA8 : Verifier
         if (pk.HasUsedGrit)
             return true;
         if (pk.Status_Condition != 0)
-            return true;
-        if (pk.Stat_HPCurrent != pk.Stat_HPMax)
             return true;
         return false;
     }

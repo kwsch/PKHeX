@@ -170,7 +170,7 @@ public static class EncounterVerifier
         if (pk.MetLevel < EggStateLegality.EggLevel23)
             return GetInvalid(TransferEggMetLevel);
 
-        var expectEgg = EncounterUtil.GetLocationMainline(pk, pk.EggLocation);
+        var expectEgg = EncounterUtil.GetExpectedEggLocation(pk, 0);
         if (pk.EggLocation != expectEgg)
             return GetInvalid(EggLocationNone);
 

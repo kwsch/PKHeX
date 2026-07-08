@@ -203,10 +203,10 @@ public static class EncounterUtil
         return pt[species];
     }
 
-    internal static ushort GetLocationMainline<T>(T pk, ushort loc) where T : PKM
+    internal static ushort GetExpectedEggLocation<T>(T pk, ushort loc) where T : PKM
     {
         if (pk is PB8)
-            return Locations8b.GetLocationMainline(loc);
+            return Locations8b.GetLocationLocal(loc);
         return loc;
     }
 
@@ -214,7 +214,7 @@ public static class EncounterUtil
         where TEnc : ILocation
         where TEntity : PKM
     {
-        var loc = GetLocationMainline(pk, pk.EggLocation);
+        var loc = GetExpectedEggLocation(pk, pk.EggLocation);
         return loc == enc.EggLocation;
     }
 }
