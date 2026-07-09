@@ -165,6 +165,20 @@ public static class ItemConverter
     }
 
     /// <summary>
+    /// Gets a format specific item index depending on the desired format and the provided item index &amp; origin format.
+    /// </summary>
+    /// <param name="itemID">Item ID to convert</param>
+    /// <param name="format">Current format</param>
+    /// <returns>Converted item ID</returns>
+    public static int GetItemDisplay(int itemID, EntityContext format) => itemID == 0 ? 0 : format switch
+    {
+        EntityContext.Gen1 => GetItemFuture2(GetItemFuture1((byte)itemID)),
+        EntityContext.Gen2 => GetItemFuture2((byte)itemID),
+        EntityContext.Gen3 => GetItemFuture3((ushort)itemID),
+        _ => itemID,
+    };
+
+    /// <summary>
     /// Gets a format specific <see cref="PKM.HeldItem"/> value depending on the desired format and the provided item index &amp; origin format.
     /// </summary>
     /// <param name="srcItem">Held Item to apply</param>

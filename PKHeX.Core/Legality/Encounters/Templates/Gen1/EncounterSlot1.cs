@@ -13,7 +13,7 @@ public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte 
     public AbilityPermission Ability => TransporterLogic.IsHiddenDisallowedVC1(Species) ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
 
     public byte Form => 0;
 

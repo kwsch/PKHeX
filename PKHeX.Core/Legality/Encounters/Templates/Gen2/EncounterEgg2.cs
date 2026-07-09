@@ -19,8 +19,8 @@ public sealed record EncounterEgg2(ushort Species, GameVersion Version) : IEncou
     public byte LevelMin => Level;
     public byte LevelMax => Level;
     public bool IsShiny => false;
-    public ushort Location => 0;
-    public ushort EggLocation => 0;
+    ushort ILocation.Location => 0;
+    ushort ILocation.EggLocation => 0;
     public Ball FixedBall => Generation <= 5 ? Ball.Poke : Ball.None;
     public Shiny Shiny => Shiny.Random;
     public AbilityPermission Ability => AbilityPermission.Any12H;

@@ -254,7 +254,6 @@ public static class WinFormsUtil
     /// Iterates the Control's child controls recursively to obtain all controls of the specified type.
     /// </summary>
     /// <typeparam name="T">Type of control</typeparam>
-    /// <param name="control"></param>
     /// <returns>All children and sub-children contained by <see cref="control"/>.</returns>
     public static IEnumerable<Control> GetAllControlsOfType<T>(Control control) where T : Control
     {

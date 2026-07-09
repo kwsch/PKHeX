@@ -8,6 +8,35 @@ namespace PKHeX.Core;
 public static class Locations8b
 {
     /// <summary>
+    /// HOME transfer logic maps `0` to `658` to allow the <see cref="Locations.Default8bNone"/> location to be `0` instead.
+    /// </summary>
+    public const ushort TransferPlaceholder0 = 658;
+
+    /// <summary>
+    /// Converts a location from BD/SP format to join the rest of the mainline games. Zero is now (None).
+    /// </summary>
+    /// <param name="loc">Location ID in BD/SP format.</param>
+    /// <returns>Sanitized mainline location ID value.</returns>
+    public static ushort GetLocationMainline(ushort loc) => loc switch
+    {
+        0 => TransferPlaceholder0,
+        Locations.Default8bNone => 0,
+        _ => loc,
+    };
+
+    /// <summary>
+    /// Converts a location from mainline format to BD/SP format. Zero is now <see cref="Locations.Default8bNone"/>.
+    /// </summary>
+    /// <param name="loc">Location ID in mainline format.</param>
+    /// <returns>Sanitized BD/SP location ID value.</returns>
+    public static ushort GetLocationLocal(ushort loc) => loc switch
+    {
+        0 => Locations.Default8bNone,
+        TransferPlaceholder0 => 0,
+        _ => loc,
+    };
+
+    /// <summary>
     /// Checks if the location is a Grand Underground location.
     /// </summary>
     /// <param name="location">Location ID to check</param>

@@ -351,7 +351,7 @@ public partial class StatEditor : UserControl
             _ => NatureAmpRequest.Increase,
         };
 
-        var newNature = request.GetNewNature(index, Entity.StatNature);
+        var newNature = request.GetNewNature(index, Entity.StatAlignment);
         if (newNature == Nature.Random)
             return;
 

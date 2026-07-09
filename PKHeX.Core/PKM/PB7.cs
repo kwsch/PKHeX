@@ -637,9 +637,6 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         ResetWeight();
     }
 
-    public float HeightRatio => GetHeightRatio(HeightScalar);
-    public float WeightRatio => GetWeightRatio(WeightScalar);
-
     public float CalcHeightAbsolute => GetHeightAbsolute(PersonalInfo, HeightScalar);
     public float CalcWeightAbsolute => GetWeightAbsolute(PersonalInfo, HeightScalar, WeightScalar);
 
@@ -665,6 +662,8 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         result += 0.8f; // 0x3F4CCCCD
         return result;
     }
+
+    // HOME does not have calculation methods, so no FMADD a*b+c issue (unlike for Legends: Arceus in HOME 4.0.0 update).
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
     public static float GetHeightAbsolute(IPersonalMisc p, byte heightScalar)

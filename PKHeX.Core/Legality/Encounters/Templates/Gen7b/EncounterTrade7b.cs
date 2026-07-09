@@ -15,7 +15,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
     public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsFixedTrainer => true;
     public AbilityPermission Ability => AbilityPermission.Any12;
 
@@ -124,16 +124,11 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
             return false;
         if (pk.OriginalTrainerGender != OTGender)
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         return true;
     }
 
-    private bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.EggLocation == expect;
-    }
 
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
 

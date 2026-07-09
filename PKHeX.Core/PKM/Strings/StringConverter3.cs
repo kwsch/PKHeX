@@ -72,7 +72,7 @@ public static class StringConverter3
     /// <summary>
     /// Converts a string to a Generation 3 encoded value array.
     /// </summary>
-    /// <param name="buffer"></param>
+    /// <param name="buffer">Backing buffer of the string.</param>
     /// <param name="value">Decoded string.</param>
     /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
     /// <param name="language">Language specific conversion</param>

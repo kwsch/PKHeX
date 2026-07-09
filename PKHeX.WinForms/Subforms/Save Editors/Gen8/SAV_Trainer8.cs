@@ -16,16 +16,14 @@ public partial class SAV_Trainer8 : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV8SWSH)(Origin = sav).Clone();
         //Loading = true;
-        if (Main.Unicode)
-        {
-            TB_OTName.Font = TB_TrainerCardName.Font = FontUtil.GetPKXFont();
-        }
+        if (!Main.Unicode)
+            TB_OTName.DisableInGameFont = TB_TrainerCardName.DisableInGameFont = true;
 
         B_MaxCash.Click += (_, _) => MT_Money.Text = SAV.MaxMoney.ToString();
         B_MaxWatt.Click += (_, _) => MT_Watt.Text = MyStatus8.MaxWatt.ToString();
 
         CB_Gender.Items.Clear();
-        CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
+        CB_Gender.Items.AddRange([.. Main.GenderSymbols.Take(2)]); // m/f depending on unicode selection
 
         TrainerStats.LoadRecords(SAV, RecordLists.RecordList_8);
 
@@ -69,7 +67,7 @@ public partial class SAV_Trainer8 : Form
         TB_TrainerCardNumber.Text = SAV.Blocks.TrainerCard.Number;
         MT_TrainerCardID.Text = SAV.Blocks.TrainerCard.TrainerID.ToString("000000");
         MT_RotoRally.Text = SAV.Blocks.TrainerCard.RotoRallyScore.ToString();
-        trainerID1.LoadIDValues(SAV, SAV.Generation);
+        trainerID1.LoadTrainer(SAV);
         MT_Money.Text = SAV.Money.ToString();
         MT_Watt.Text = SAV.MyStatus.Watt.ToString();
         CB_Language.SelectedValue = SAV.Language;

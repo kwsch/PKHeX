@@ -1,0 +1,112 @@
+Wenn bestimmte Symbole oder Texte nicht korrekt angezeigt werden: Optionen -> Einstellungen -> Anzeige -> Unicode
+
+// Hauptfenster
+
+CTRL-O: Öffnen
+CTRL-S: PKM exportieren
+CTRL-E: SAV exportieren
+CTRL-B: BAK exportieren
+CTRL-Q: Beenden
+
+CTRL-D: PKM-Datenbank öffnen
+CTRL-F: Ordnerliste öffnen
+CTRL-G: Wunderkarten-Datenbank öffnen
+CTRL-N: Begegnungsdatenbank öffnen
+CTRL-M: Batch-Editor öffnen
+CTRL-R: Box-Bericht öffnen
+CTRL-P: Über PKHeX öffnen
+CTRL-T: Showdown-Set importieren
+CTRL-SHIFT-T: Showdown-Set exportieren
+CTRL-SHIFT-S: Einstellungen öffnen
+
+Control + Klick auf...
+- Spezies: Showdown/Smogon-Set aus der Zwischenablage importieren.
+- Spitzname/OT-Feld: Spielinterne Sonderzeichen öffnen.
+- Einzelne DV: DV auf Maximum setzen (oder Maximum-1, falls bereits Maximum).
+- Einzelne AV: AV auf Maximum setzen (oder 0, falls bereits Maximum).
+- Einzelne EV: EV auf Maximum setzen.
+- Einzelne Wettbewerbswerte: Auf Maximum setzen.
+- DV zufällig: Alle DV auf Maximum setzen.
+- AV zufällig: Alle AV auf Maximum setzen.
+- EV zufällig: Alle EV auf Maximum setzen, falls passend.
+- AP-Plus-Label: Alle AP-Plus auf 0 setzen. (Klick = 3)
+- Freundschafts-Label: Freundschaft auf 0 setzen. (Klick = 255 oder Basiswert)
+- Level-Feld: Level auf 100 setzen.
+- Schillernd-Schaltfläche: Stern-Schillernd erzeugen (Xor1).
+- Statuswert-Label: Neutrales Wesen für diesen Wert wählen.
+
+Alt + Klick auf...
+- Vorschau-Sprite: Von einer QR-URL in der Zwischenablage laden.
+- Spezies: Showdown/Smogon-Set in die Zwischenablage exportieren.
+- DV zufällig: Alle DV auf 0 setzen.
+- AV zufällig: Alle AV auf 0 setzen.
+- EV zufällig: Alle EV auf 0 setzen.
+- Einzelne DV: DV auf 0 setzen.
+- Einzelne AV: AV auf 0 setzen.
+- Einzelne EV: EV auf 0 setzen.
+- Einzelne Wettbewerbswerte: Auf 0 setzen.
+- Schillernd-Schaltfläche: Beim Erzeugen von Schillernd SID statt PID setzen.
+- Statuswert-Label: Negatives Wesen für diesen Wert wählen.
+
+Shift + Klick auf...
+- Vorschau-Sprite: QR-Code für das angezeigte Pokémon anzeigen.
+- Einzelne DV: Supertraining für die DV umschalten (ab Gen7).
+- Schillernd-Schaltfläche: Quadrat-Schillernd erzeugen (Xor0).
+- Attacken: Zufälliges Moveset anwenden.
+- Statuswert-Label: Positives Wesen für diesen Wert wählen.
+
+Beim Ziehen Control gedrückt halten, um verschlüsselt zu speichern (ekx).
+
+Klick auf...
+- OT-Label: Speicherdaten in passende Eigenschaften übernehmen.
+- Level-/Fundort-Label: Begegnungsinformationen für passende Eigenschaften vorschlagen.
+- Attacken-Gruppe: Legale Attacken vorschlagen.
+- Erinnerungsattacken-Gruppe: Legale Erinnerungsattacken vorschlagen.
+- Ball-Sprite: Ball-Editor öffnen; legale Bälle sind grün, illegale rot hinterlegt.
+- Wesen-Label: Anderes Status-/Verhaltenswesen kopieren.
+
+WC7/WC6/PGF/PCD/PGT ablegen, um in den Haupt-Tabs zu PKM zu konvertieren.
+
+// Speicherdatei
+
+Doppelklick auf den SAV-Tab: Aktuelle Speicherdatei automatisch erkennen/neu laden.
+
+// Boxen
+
+Rechtsklick auf Box-Tab: Boxinhalt leeren/sortieren/ändern. Beim Auswählen der Aktion Shift halten, um sie auf ALLE Boxen anzuwenden.
+
+Control-Rechtsklick auf einen Box-Slot: Zusätzliche Optionen anzeigen, z. B. Legalitätsprüfung.
+Control-Ziehen eines Box-Slots: Kopieren und überschreiben.
+Alt-Ziehen eines Box-Slots: Löschen und überschreiben.
+
+Control-Alt-Klick auf einen Slot: Ein Pokémon in jeden Slot der Box klonen oder löschen.
+Control-Klick auf einen Slot: Slot in die Tabs laden.
+Shift-Klick auf einen Slot: Tabs in den Slot schreiben.
+Alt-Klick auf einen Slot: Daten im Slot löschen.
+
+Doppelklick auf den Box-Tab öffnet einen neuen Box-Viewer. Es ist nur einer erlaubt, außer Shift wird beim Doppelklick gehalten.
+
+Control-Klick auf die Box-Pfeile: Zum Anfang/Ende springen.
+Control-Klick auf Prüfsummen prüfen: Alle Pokémon in der Speicherdatei gegeneinander auf Legalität prüfen.
+
+// Team / Kampfbox
+Doppelklick auf das Team- oder Kampfbox-Label: Showdown/Smogon-Set (Team) in die Zwischenablage exportieren.
+
+// Sonstige Editoren
+
+BÄNDER:
+- Shift-Klick auf Alle geben: Alle legalen Bänder setzen.
+- Shift-Klick auf Alle entfernen: Alle illegalen Bänder entfernen.
+
+POFFLÉ:
+- Control-Klick auf Alle: Die besten Pofflés geben.
+- Control-Klick auf Sortieren: Umgekehrt sortieren.
+
+WUNDERKARTE:
+- Alt-Klick auf QR: Aus QR-Bild importieren.
+
+TRAINERINFO (LET'S GO PIKACHU/EVOLI):
+- GO-Park-Entitätsdatei (gp1) ablegen, um sie in den gewählten Slot zu importieren.
+
+TERA-RAIDS (KARMESIN/PURPUR):
+- Shift-Klick auf In andere Raids kopieren: Seed und Inhalt kopieren.

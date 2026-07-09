@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
@@ -19,8 +19,6 @@ public partial class SAV_Accessor<T> : Form where T : class, ISaveBlockAccessor<
 
         CB_Key.Items.AddRange(Metadata.GetSortedBlockList().ToArray());
         CB_Key.SelectedIndex = 0;
-
-        propertyGrid1.SelectedObject = sav;
     }
 
     private void CB_Key_SelectedIndexChanged(object sender, EventArgs e)

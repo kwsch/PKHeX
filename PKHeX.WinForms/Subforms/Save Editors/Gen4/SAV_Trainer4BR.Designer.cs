@@ -1,3 +1,5 @@
+using PKHeX.Core;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_Trainer4BR
@@ -28,7 +30,7 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            TB_OTName = new System.Windows.Forms.TextBox();
+            TB_OTName = new PKHeX.WinForms.Controls.RenderedString();
             L_TrainerName = new System.Windows.Forms.Label();
             MT_Money = new System.Windows.Forms.MaskedTextBox();
             L_Coupons = new System.Windows.Forms.Label();
@@ -122,6 +124,7 @@ namespace PKHeX.WinForms
             // 
             // TB_OTName
             // 
+            TB_OTName.DisplayContext = EntityContext.Gen4;
             TB_OTName.Location = new System.Drawing.Point(115, 13);
             TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_OTName.MaxLength = 7;
@@ -951,7 +954,7 @@ namespace PKHeX.WinForms
         }
 
         #endregion
-        private System.Windows.Forms.TextBox TB_OTName;
+        private PKHeX.WinForms.Controls.RenderedString TB_OTName;
         private System.Windows.Forms.Label L_TrainerName;
         private System.Windows.Forms.MaskedTextBox MT_Money;
         private System.Windows.Forms.Label L_Coupons;

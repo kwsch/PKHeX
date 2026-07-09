@@ -17,7 +17,7 @@ internal sealed class MiscVerifierPA9 : Verifier
 
     internal void Verify(LegalityAnalysis data, PA9 pa9)
     {
-        MiscVerifierHelpers.VerifyStatNature(data, pa9);
+        MiscVerifierHelpers.VerifyStatAlignment(data, pa9);
 
         LegendsZA.Verify(data);
         if (!pa9.IsBattleVersionValid(data.Info.EvoChainsAllGens))

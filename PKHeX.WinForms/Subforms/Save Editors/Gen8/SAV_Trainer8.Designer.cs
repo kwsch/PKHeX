@@ -1,3 +1,5 @@
+using PKHeX.Core;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_Trainer8
@@ -30,7 +32,7 @@ namespace PKHeX.WinForms
         {
             B_Cancel = new System.Windows.Forms.Button();
             B_Save = new System.Windows.Forms.Button();
-            TB_OTName = new System.Windows.Forms.TextBox();
+            TB_OTName = new PKHeX.WinForms.Controls.RenderedString();
             L_TrainerName = new System.Windows.Forms.Label();
             MT_Money = new System.Windows.Forms.MaskedTextBox();
             L_Money = new System.Windows.Forms.Label();
@@ -102,7 +104,7 @@ namespace PKHeX.WinForms
             MT_TrainerCardID = new System.Windows.Forms.MaskedTextBox();
             TB_TrainerCardNumber = new System.Windows.Forms.TextBox();
             L_TRCardNumber = new System.Windows.Forms.Label();
-            TB_TrainerCardName = new System.Windows.Forms.TextBox();
+            TB_TrainerCardName = new PKHeX.WinForms.Controls.RenderedString();
             L_TRCardName = new System.Windows.Forms.Label();
             GB_Stats = new System.Windows.Forms.GroupBox();
             NUD_BP = new System.Windows.Forms.NumericUpDown();
@@ -208,7 +210,7 @@ namespace PKHeX.WinForms
             // 
             // TB_OTName
             // 
-            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_OTName.DisplayContext = EntityContext.Gen8;
             TB_OTName.Location = new System.Drawing.Point(115, 8);
             TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_OTName.MaxLength = 12;
@@ -835,7 +837,7 @@ namespace PKHeX.WinForms
             // 
             // TB_TrainerCardName
             // 
-            TB_TrainerCardName.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_TrainerCardName.DisplayContext = EntityContext.Gen8;
             TB_TrainerCardName.Location = new System.Drawing.Point(386, 8);
             TB_TrainerCardName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_TrainerCardName.MaxLength = 12;
@@ -1569,7 +1571,7 @@ namespace PKHeX.WinForms
 
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
-        private System.Windows.Forms.TextBox TB_OTName;
+        private PKHeX.WinForms.Controls.RenderedString TB_OTName;
         private System.Windows.Forms.Label L_TrainerName;
         private System.Windows.Forms.MaskedTextBox MT_Money;
         private System.Windows.Forms.Label L_Money;
@@ -1657,7 +1659,7 @@ namespace PKHeX.WinForms
         private Controls.TrainerStat TrainerStats;
         private System.Windows.Forms.NumericUpDown NUD_BP;
         private System.Windows.Forms.Label L_BP;
-        private System.Windows.Forms.TextBox TB_TrainerCardName;
+        private PKHeX.WinForms.Controls.RenderedString TB_TrainerCardName;
         private System.Windows.Forms.Label L_TRCardName;
         private System.Windows.Forms.TextBox TB_TrainerCardNumber;
         private System.Windows.Forms.Label L_TRCardNumber;

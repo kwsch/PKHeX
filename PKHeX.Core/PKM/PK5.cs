@@ -375,8 +375,6 @@ public sealed class PK5 : PKM, ISanityChecksum,
             SID16 = SID16,
             EXP = EXP,
             PID = GetTransferPID(PID, ID32, out _),
-            Ability = Ability,
-            AbilityNumber = 1 << CalculateAbilityIndex(),
             MarkingValue = MarkingValue,
             Language = Math.Max((int)LanguageID.Japanese, Language), // Hacked or Bad In-game Trade (Japanese B/W)
 
@@ -508,6 +506,10 @@ public sealed class PK5 : PKM, ISanityChecksum,
         StringConverter345.TransferGlyphs56(pk6.NicknameTrash);
         StringConverter345.TransferString56(OriginalTrainerTrash, pk6.OriginalTrainerTrash);
 
+        // Fix Abilities - handle changed abilities and bugged ones like Basculin-Blue.
+        var abilityIndex = CalculateTransferAbilityIndex();
+        pk6.RefreshAbility(abilityIndex);
+
         // Fix Checksum
         pk6.RefreshChecksum();
 
@@ -547,15 +549,18 @@ public sealed class PK5 : PKM, ISanityChecksum,
         return (byte)BitOperations.PopCount(((ulong)bits1 << 20) | bits2);
     }
 
-    private int CalculateAbilityIndex()
+    private int CalculateTransferAbilityIndex()
     {
         if (HiddenAbility)
             return 2;
+
         var pi = PersonalInfo;
-        if (pi.Ability1 == Ability)
+        var ability = Ability;
+        if (ability == pi.Ability1)
             return 0;
-        if (pi.Ability2 == Ability)
+        if (ability == pi.Ability2)
             return 1;
+
         // reset ability, invalid
         var pid = PID;
         if (Gen5)

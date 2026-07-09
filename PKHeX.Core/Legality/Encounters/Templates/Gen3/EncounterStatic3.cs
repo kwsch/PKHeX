@@ -226,7 +226,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
     #region Matching
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
@@ -246,15 +246,6 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
 
     private bool IsDeferredSafari3(bool isSafariBall) => isSafariBall != Locations.IsSafariZoneLocation3(Location);
 
-    private static bool IsMatchEggLocation(PKM pk)
-    {
-        if (pk.Format == 3)
-            return true;
-
-        var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.EggLocation == expect;
-    }
-
     private bool IsMatchLevel(PKM pk, EvoCriteria evo)
     {
         if (pk.Format != 3) // Met Level lost on PK3=>PK4
@@ -269,10 +260,10 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         if (pk.Format != 3)
             return true; // transfer location verified later
 
-        if (IsEgg)
-            return !pk.IsEgg || pk.MetLocation == Location;
-
         var met = pk.MetLocation;
+        if (IsEgg)
+            return !pk.IsEgg || met == Location;
+
         if (!IsRoaming)
             return Location == met;
 

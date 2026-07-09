@@ -135,10 +135,18 @@ public sealed class FilteredGameDataSource
         for (int i = 0; i < list.Length; i++)
         {
             var value = pi.GetAbilityAtIndex(i);
-            var name = names[value];
             char suffix = i == 2 ? HiddenAbilitySuffix : (char)(AbilityIndexSuffix + i);
-            var display = $"{name} ({suffix})";
-            list[i] = new ComboItem(display, value);
+            var item = GetAbilityItem(names, value, suffix);
+            list[i] = item;
         }
+    }
+
+    public static ComboItem GetAbilityItem(ReadOnlySpan<string> names, int value, char suffix)
+        => GetAbilityItem(names[value], suffix, value);
+
+    public static ComboItem GetAbilityItem(string name, char suffix, int value)
+    {
+        var display = $"{name} ({suffix})";
+        return new ComboItem(display, value);
     }
 }

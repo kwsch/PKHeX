@@ -32,7 +32,7 @@ namespace PKHeX.WinForms.Controls
             CB_HeldItem = new System.Windows.Forms.ComboBox();
             CB_Nature = new System.Windows.Forms.ComboBox();
             CB_Species = new System.Windows.Forms.ComboBox();
-            TB_Nickname = new System.Windows.Forms.TextBox();
+            TB_Nickname = new PKHeX.WinForms.Controls.RenderedString();
             CB_Move4 = new System.Windows.Forms.ComboBox();
             CB_Move3 = new System.Windows.Forms.ComboBox();
             CB_Move2 = new System.Windows.Forms.ComboBox();
@@ -678,7 +678,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.ComboBox CB_HeldItem;
         private System.Windows.Forms.ComboBox CB_Nature;
         private System.Windows.Forms.ComboBox CB_Species;
-        private System.Windows.Forms.TextBox TB_Nickname;
+        private PKHeX.WinForms.Controls.RenderedString TB_Nickname;
         private System.Windows.Forms.ComboBox CB_Move4;
         private System.Windows.Forms.ComboBox CB_Move3;
         private System.Windows.Forms.ComboBox CB_Move2;

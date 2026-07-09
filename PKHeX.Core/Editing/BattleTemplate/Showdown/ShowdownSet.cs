@@ -577,6 +577,10 @@ public sealed class ShowdownSet : IBattleTemplate
                 AddEVs(result, settings, token);
                 break;
 
+            case BattleTemplateToken.SPs:
+                AddSPs(result, settings, token);
+                break;
+
             // Boolean
             case BattleTemplateToken.Shiny when Shiny:
                 result.Add(cfg.Push(token));
@@ -623,13 +627,28 @@ public sealed class ShowdownSet : IBattleTemplate
         var nameEVs = cfg.GetStatDisplay(settings.StatsEVs);
         var line = token switch
         {
-            BattleTemplateToken.EVsWithNature => GetStringStatsNatureAmp(EVs, 0, nameEVs, Nature),
-            BattleTemplateToken.EVsAppendNature => GetStringStatsNatureAmp(EVs, 0, nameEVs, Nature),
+            BattleTemplateToken.EVsWithNature => GetStringStatsStatAlignmentAmp(EVs, 0, nameEVs, Nature),
+            BattleTemplateToken.EVsAppendNature => GetStringStatsStatAlignmentAmp(EVs, 0, nameEVs, Nature),
             _ => GetStringStats(EVs, 0, nameEVs),
         };
         if (token is BattleTemplateToken.EVsAppendNature && Nature.IsFixed)
             line += $" ({settings.Localization.Strings.natures[(int)Nature]})";
         result.Add(cfg.Push(BattleTemplateToken.EVs, line));
+    }
+
+    private void AddSPs(List<string> result, in BattleTemplateExportSettings settings, BattleTemplateToken token)
+    {
+        var cfg = settings.Localization.Config;
+        var nameSPs = cfg.GetStatDisplay(settings.StatsSPs);
+        Span<int> SPs = stackalloc int[6];
+        EffortValues.ConvertToChampions(EVs, SPs);
+        var sum = 0;
+        foreach (var value in SPs)
+            sum += value;
+
+        var line = GetStringStats(SPs, 0, nameSPs);
+        line += $" ({sum})";
+        result.Add(cfg.Push(BattleTemplateToken.SPs, line));
     }
 
     private static string GetAbilityHeldItem(GameStrings strings, int ability, int item, EntityContext context)
@@ -654,7 +673,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
     /// <inheritdoc cref="GetStringStats{T}(ReadOnlySpan{T}, T, StatDisplayConfig)"/>
     /// <remarks>Appends the nature amplification to the stat values, if not a neutral nature.</remarks>
-    public static string GetStringStatsNatureAmp<T>(ReadOnlySpan<T> stats, T ignoreValue, StatDisplayConfig statNames, Nature nature) where T : IEquatable<T>
+    public static string GetStringStatsStatAlignmentAmp<T>(ReadOnlySpan<T> stats, T ignoreValue, StatDisplayConfig statNames, Nature nature) where T : IEquatable<T>
     {
         var (plus, minus) = nature.GetNatureModification();
         if (plus == minus)
@@ -806,7 +825,7 @@ public sealed class ShowdownSet : IBattleTemplate
         if (Moves.Contains((ushort)Move.HiddenPower))
             HiddenPowerType = (sbyte)HiddenPower.GetType(IVs, Context);
 
-        Nature = pk.StatNature;
+        Nature = pk.StatAlignment;
         Gender = pk.Gender < 2 ? pk.Gender : (byte)2;
         Friendship = pk.CurrentFriendship;
         Level = pk.CurrentLevel;

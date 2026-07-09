@@ -51,7 +51,6 @@ public sealed class SearchSettings
     /// <summary>
     /// Adds a move to the required move list.
     /// </summary>
-    /// <param name="move"></param>
     public void AddMove(ushort move)
     {
         if (move != 0 && !Moves.Contains(move))
@@ -168,7 +167,7 @@ public sealed class SearchSettings
             return false;
         if (Ability > -1 && pk.Ability != Ability)
             return false;
-        if (Nature.IsFixed && pk.StatNature != Nature)
+        if (Nature.IsFixed && pk.StatAlignment != Nature)
             return false;
         if (Item > -1 && pk.HeldItem != Item)
             return false;

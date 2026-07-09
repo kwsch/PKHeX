@@ -96,6 +96,7 @@ public partial class EntitySearchControl : UserControl
     public void InitializeSelections(SaveFile sav, bool showContext = true)
     {
         SaveContext = sav.Context;
+        TB_Nickname.DisplayContext = SaveContext;
         if (sav.Generation >= 8)
         {
             CB_FormatComparator.SelectedIndex = 1; // ==
@@ -160,7 +161,10 @@ public partial class EntitySearchControl : UserControl
     public void ResetComboBoxSelections()
     {
         foreach (var cb in TLP_Filters.Controls.OfType<ComboBox>())
-            cb.SelectedIndex = cb.SelectionLength = 0;
+        {
+            cb.SelectedIndex = 0;
+            cb.Select(0, 0);
+        }
     }
 
     /// <summary>

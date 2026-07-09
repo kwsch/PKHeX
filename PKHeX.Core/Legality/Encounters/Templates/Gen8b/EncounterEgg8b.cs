@@ -179,7 +179,7 @@ public sealed record EncounterEgg8b(ushort Species, byte Form, GameVersion Versi
             // Set the rest of the values as per our generating via the egg seed.
             pk.EncryptionConstant = rng.NextUInt(); // PID would be re-rolled after here, but we aren't going to have re-rolls in our hypothetical setup.
             pk.SetIVs(ivs);
-            pk.StatNature = pk.Nature = criteria.GetNature(); // Everstone (see above)
+            pk.StatAlignment = pk.Nature = criteria.GetNature(); // Everstone (see above)
             pk.Gender = gender;
             pk.RefreshAbility(abilityIndex);
             return;

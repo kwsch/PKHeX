@@ -13,7 +13,7 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
     public Shiny Shiny => Shiny.Random;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
 
     public byte Form => 0;
 

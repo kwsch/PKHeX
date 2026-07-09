@@ -19,15 +19,13 @@ public partial class SAV_Trainer8b : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV8BS)(Origin = sav).Clone();
         Loading = true;
-        if (Main.Unicode)
-        {
-            TB_OTName.Font = TB_Rival.Font = FontUtil.GetPKXFont();
-        }
+        if (!Main.Unicode)
+            TB_OTName.DisableInGameFont = TB_Rival.DisableInGameFont = true;
 
         B_MaxCash.Click += (_, _) => MT_Money.Text = SAV.MaxMoney.ToString();
 
         CB_Gender.Items.Clear();
-        CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
+        CB_Gender.Items.AddRange([.. Main.GenderSymbols.Take(2)]); // m/f depending on unicode selection
 
         GetComboBoxes();
         GetTextBoxes();
@@ -53,7 +51,7 @@ public partial class SAV_Trainer8b : Form
 
         // Display Data
         TB_OTName.Text = SAV.OT;
-        trainerID1.LoadIDValues(SAV, SAV.Generation);
+        trainerID1.LoadTrainer(SAV);
         MT_Money.Text = SAV.Money.ToString();
         CB_Language.SelectedValue = SAV.Language;
         TB_Rival.Text = SAV.RivalName;

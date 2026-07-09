@@ -40,7 +40,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
     public byte LevelMin => Level;
     public byte LevelMax => Level;
     public ushort Location => 255; // Event
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public string Name => "Event Gift";
     public string LongName => Name;

@@ -16,17 +16,13 @@ public partial class SAV_Trainer : Form
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV6)(Origin = sav).Clone();
-        if (Main.Unicode)
-        {
-            TB_OTName.Font = FontUtil.GetPKXFont();
-            if (SAV is SAV6XY)
-                TB_TRNick.Font = TB_OTName.Font;
-        }
+        if (!Main.Unicode)
+            TB_OTName.DisableInGameFont = TB_TRNick.DisableInGameFont = TB_OTName.DisableInGameFont = true;
 
         B_MaxCash.Click += (_, _) => MT_Money.Text = "9,999,999";
 
         CB_Gender.Items.Clear();
-        CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
+        CB_Gender.Items.AddRange([.. Main.GenderSymbols.Take(2)]); // m/f depending on unicode selection
 
         TrainerStats.LoadRecords(SAV, RecordLists.RecordList_6);
         TrainerStats.GetToolTipText = UpdateTip;

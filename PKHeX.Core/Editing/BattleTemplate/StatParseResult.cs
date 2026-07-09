@@ -75,7 +75,6 @@ public record struct StatParseResult()
     /// <remarks>
     /// This is used when not all stats are required to be parsed.
     /// </remarks>
-    /// <param name="expect"></param>
     public void FinishParse(int expect)
     {
         if (CountParsed == 0 && !HasAmps)
@@ -89,7 +88,6 @@ public record struct StatParseResult()
     /// <remarks>
     /// This is used when a specific number of stats is expected.
     /// </remarks>
-    /// <param name="expect"></param>
     public void FinishParseOnly(int expect) => IsParsedAllStats = CountParsed == expect;
 
     /// <summary>

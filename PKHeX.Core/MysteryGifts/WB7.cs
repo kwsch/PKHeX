@@ -610,7 +610,7 @@ public sealed class WB7(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, IAw
             if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
             if (EncryptionConstant != 0 && EncryptionConstant != pk.EncryptionConstant) return false;
 
-            if (!IsMatchEggLocation(pk)) return false;
+            if (!IsMatchEggLocationInternal(pk)) return false;
             if (!CanBeAnyLanguage() && !CanHaveLanguage(pk.Language))
                 return false;
         }
@@ -636,7 +636,7 @@ public sealed class WB7(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, IAw
         else
         {
             if (!Shiny.IsValid(pk)) return false;
-            if (!IsMatchEggLocation(pk)) return false;
+            if (!IsMatchEggLocationInternal(pk)) return false;
             if (Location != pk.MetLocation) return false;
         }
 

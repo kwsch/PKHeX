@@ -592,7 +592,7 @@ public sealed class WC7(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
         else
         {
             if (!Shiny.IsValid(pk)) return false;
-            if (!IsMatchEggLocation(pk)) return false;
+            if (!IsMatchEggLocationInternal(pk)) return false;
             if (Location != pk.MetLocation) return false;
         }
 

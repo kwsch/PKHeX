@@ -17,7 +17,7 @@ public sealed record EncounterOutbreak9
     public Shiny Shiny => IsShiny ? Shiny.Always : Shiny.Random;
     public bool IsEgg => false;
     public Ball FixedBall => Ball.None;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public AbilityPermission Ability => AbilityPermission.Any12;
 
     public required ushort Species { get; init; }
@@ -116,7 +116,7 @@ public sealed record EncounterOutbreak9
         var rnd = Util.Rand;
         pk.PID = EncounterUtil.GetRandomPID(pk, rnd, criteria.Shiny);
         pk.EncryptionConstant = rnd.Rand32();
-        pk.Nature = pk.StatNature = criteria.GetNature();
+        pk.Nature = pk.StatAlignment = criteria.GetNature();
         pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
@@ -142,18 +142,13 @@ public sealed record EncounterOutbreak9
             return false;
         if (evo.Form != Form)
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
         return true;
     }
 
-    private bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.EggLocation == expect;
-    }
 
     private bool IsMatchLocation(PKM pk)
     {

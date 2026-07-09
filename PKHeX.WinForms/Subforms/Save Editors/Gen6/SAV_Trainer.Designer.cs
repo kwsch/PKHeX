@@ -1,3 +1,5 @@
+using PKHeX.Core;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_Trainer
@@ -36,7 +38,7 @@ namespace PKHeX.WinForms
             Tab_Appearance = new System.Windows.Forms.TabPage();
             PG_CurrentAppearance = new System.Windows.Forms.PropertyGrid();
             L_TRNick = new System.Windows.Forms.Label();
-            TB_TRNick = new System.Windows.Forms.TextBox();
+            TB_TRNick = new PKHeX.WinForms.Controls.RenderedString();
             B_GiveAccessories = new System.Windows.Forms.Button();
             Tab_Multiplayer = new System.Windows.Forms.TabPage();
             CHK_MegaRayquazaUnlocked = new System.Windows.Forms.CheckBox();
@@ -102,7 +104,7 @@ namespace PKHeX.WinForms
             CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             CB_Vivillon = new System.Windows.Forms.ComboBox();
             L_Vivillon = new System.Windows.Forms.Label();
-            TB_OTName = new System.Windows.Forms.TextBox();
+            TB_OTName = new PKHeX.WinForms.Controls.RenderedString();
             CB_Gender = new System.Windows.Forms.ComboBox();
             CB_Game = new System.Windows.Forms.ComboBox();
             L_TrainerName = new System.Windows.Forms.Label();
@@ -249,7 +251,7 @@ namespace PKHeX.WinForms
             // 
             // TB_TRNick
             // 
-            TB_TRNick.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_TRNick.DisplayContext = EntityContext.Gen6;
             TB_TRNick.Location = new System.Drawing.Point(338, 110);
             TB_TRNick.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_TRNick.MaxLength = 12;
@@ -1046,7 +1048,7 @@ namespace PKHeX.WinForms
             // 
             // TB_OTName
             // 
-            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F);
+            TB_OTName.DisplayContext = EntityContext.Gen6;
             TB_OTName.Location = new System.Drawing.Point(115, 8);
             TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_OTName.MaxLength = 12;
@@ -1816,7 +1818,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.TabPage Tab_Appearance;
         private System.Windows.Forms.PropertyGrid PG_CurrentAppearance;
         private System.Windows.Forms.Label L_TRNick;
-        private System.Windows.Forms.TextBox TB_TRNick;
+        private PKHeX.WinForms.Controls.RenderedString TB_TRNick;
         private System.Windows.Forms.Button B_GiveAccessories;
         private System.Windows.Forms.TabPage Tab_Multiplayer;
         private System.Windows.Forms.CheckBox CHK_MegaRayquazaUnlocked;
@@ -1882,7 +1884,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.DateTimePicker CAL_LastSavedTime;
         private System.Windows.Forms.ComboBox CB_Vivillon;
         private System.Windows.Forms.Label L_Vivillon;
-        private System.Windows.Forms.TextBox TB_OTName;
+        private PKHeX.WinForms.Controls.RenderedString TB_OTName;
         private System.Windows.Forms.ComboBox CB_Gender;
         private System.Windows.Forms.ComboBox CB_Game;
         private System.Windows.Forms.Label L_TrainerName;

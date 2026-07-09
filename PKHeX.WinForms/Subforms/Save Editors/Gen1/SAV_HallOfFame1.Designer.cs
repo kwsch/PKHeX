@@ -1,3 +1,5 @@
+using PKHeX.Core;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_HallOfFame1
@@ -37,7 +39,7 @@ namespace PKHeX.WinForms
             CB_Species = new System.Windows.Forms.ComboBox();
             Label_Species = new System.Windows.Forms.Label();
             CHK_Nicknamed = new System.Windows.Forms.CheckBox();
-            TB_Nickname = new System.Windows.Forms.TextBox();
+            TB_Nickname = new PKHeX.WinForms.Controls.RenderedString();
             B_Cancel = new System.Windows.Forms.Button();
             L_Level = new System.Windows.Forms.Label();
             B_Delete = new System.Windows.Forms.Button();
@@ -161,7 +163,7 @@ namespace PKHeX.WinForms
             // TB_Nickname
             // 
             TB_Nickname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            TB_Nickname.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            TB_Nickname.DisplayContext = EntityContext.Gen1;
             TB_Nickname.Location = new System.Drawing.Point(120, 82);
             TB_Nickname.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_Nickname.MaxLength = 12;
@@ -328,7 +330,7 @@ namespace PKHeX.WinForms
         public System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Label Label_Species;
         private System.Windows.Forms.CheckBox CHK_Nicknamed;
-        public System.Windows.Forms.TextBox TB_Nickname;
+        public PKHeX.WinForms.Controls.RenderedString TB_Nickname;
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Label L_Level;
         private System.Windows.Forms.Button B_Delete;

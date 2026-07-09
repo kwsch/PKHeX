@@ -30,9 +30,19 @@ public readonly ref struct BattleTemplateExportSettings
     public StatDisplayStyle StatsOther { get; init; }
 
     /// <summary>
+    /// Display style for Champions Stat Points.
+    /// </summary>
+    public StatDisplayStyle StatsSPs { get; init; }
+
+    /// <summary>
     /// Display style for the moves.
     /// </summary>
     public MoveDisplayStyle Moves { get; init; }
+
+    /// <summary>
+    /// Whether to forcefully append Champions Stat Points in the export.
+    /// </summary>
+    public bool IncludeChampionsStatPoints { get; init; }
 
     public static BattleTemplateExportSettings Showdown => new(BattleTemplateConfig.Showdown);
     public static BattleTemplateExportSettings CommunityStandard => new(BattleTemplateConfig.CommunityStandard);

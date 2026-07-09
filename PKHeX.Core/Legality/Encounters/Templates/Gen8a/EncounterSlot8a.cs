@@ -6,7 +6,6 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.PLA"/>.
 /// </summary>
 /// <param name="AlphaType">0=Never, 1=Random, 2=Guaranteed</param>
-/// <param name="FlawlessIVCount"></param>
 public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte AlphaType, byte FlawlessIVCount, Gender Gender)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PA8>, IAlphaReadOnly, IMasteryInitialMoveShop8, IFlawlessIVCount, ISeedCorrelation64<PKM>, IGenerateSeed64
 {
@@ -17,7 +16,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
 
     public bool IsAlpha => AlphaType is not 0;
 

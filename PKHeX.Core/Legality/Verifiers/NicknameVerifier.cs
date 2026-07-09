@@ -370,7 +370,7 @@ public sealed class NicknameVerifier : Verifier
             if (str.Length > 10)
                 data.AddLine(GetInvalid(NickLengthLong, 10));
         }
-        else if (StringConverter1.GetIsJapanese(str))
+        else if (data.EncounterOriginal.Generation == 1 ? StringConverter1.GetIsJapanese(str) : StringConverter2.GetIsJapanese(str))
         {
             if (str.Length > 5)
                 data.AddLine(GetInvalid(NickLengthLong, 5));

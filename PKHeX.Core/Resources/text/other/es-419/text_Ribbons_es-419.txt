@@ -37,7 +37,7 @@ RibbonChampionNational	Campeón Nacional
 RibbonChampionWorld	Campeón Mundial
 RibbonCountMemoryContest	Recuerdo de Concurso
 RibbonCountMemoryBattle	Recuerdo de Combate
-RibbonChampionG6Hoenn	Campeón de Hoenn (ORAS)
+RibbonChampionG6Hoenn	Campeón de Hoenn (ROZA)
 RibbonContestStar	Estelar de Concursos
 RibbonMasterCoolness	Carisma experto
 RibbonMasterBeauty	Belleza experto

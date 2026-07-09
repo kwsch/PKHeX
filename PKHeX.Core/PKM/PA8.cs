@@ -21,11 +21,11 @@ public sealed class PA8 : PKM, ISanityChecksum,
         0xB4, 0xB5, 0xB6, 0xB7,
         0xD5,
         0xD6, 0xD7,
-        0xDE, 0xDF, 0xE0, 0xE1, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xE8, 0xE9, 0xEA, 0xE9,
+        0xDE, 0xDF, 0xE0, 0xE1, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xE8, 0xE9, 0xEA, 0xEB,
         0xF0, 0xF1,
         0xF3,
         0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF,
-        0x100, 0x101, 0x102, 0x103, 0x104, 0x105, 0x106, 0x107, 0x018, 0x109, 0x10A, 0x10B, 0x10C, 0x10D, 0x10E, 0x10F,
+        0x100, 0x101, 0x102, 0x103, 0x104, 0x105, 0x106, 0x107, 0x108, 0x109, 0x10A, 0x10B, 0x10C, 0x10D, 0x10E, 0x10F,
         0x12D, 0x13C,
     ];
 
@@ -138,7 +138,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     // 0x1B alignment unused
     public override uint PID { get => ReadUInt32LittleEndian(Data[0x1C..]); set => WriteUInt32LittleEndian(Data[0x1C..], value); }
     public override Nature Nature { get => (Nature)Data[0x20]; set => Data[0x20] = (byte)value; }
-    public override Nature StatNature { get => (Nature)Data[0x21]; set => Data[0x21] = (byte)value; }
+    public override Nature StatAlignment { get => (Nature)Data[0x21]; set => Data[0x21] = (byte)value; }
     public override bool FatefulEncounter { get => (Data[0x22] & 1) == 1; set => Data[0x22] = (byte)((Data[0x22] & ~0x01) | (value ? 1 : 0)); }
     public bool Flag2 { get => (Data[0x22] & 2) == 2; set => Data[0x22] = (byte)((Data[0x22] & ~0x02) | (value ? 2 : 0)); }
     public override byte Gender { get => (byte)((Data[0x22] >> 2) & 0x3); set => Data[0x22] = (byte)((Data[0x22] & 0xF3) | (value << 2)); }
@@ -385,6 +385,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public byte GV_SPE { get => Data[0xA7]; set => Data[0xA7] = value; }
     public byte GV_SPA { get => Data[0xA8]; set => Data[0xA8] = value; }
     public byte GV_SPD { get => Data[0xA9]; set => Data[0xA9] = value; }
+    public bool HasUsedGrit => Data.Slice(0xA4, 6).ContainsAnyExcept<byte>(0);
 
     // 0xAA-0xAB unused
 
@@ -514,7 +515,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public override void LoadStats(IBaseStat p, Span<ushort> stats)
     {
         var level = CurrentLevel;
-        var nature = StatNature;
+        var nature = StatAlignment;
 
         stats[0] = (ushort)(GetGanbaruStat(p.HP, HT_HP ? 31 : IV_HP, GV_HP, level) + GetStatHp(p.HP, level));
         stats[1] = (ushort)(GetGanbaruStat(p.ATK, HT_ATK ? 31 : IV_ATK, GV_ATK, level) + GetStat(p.ATK, level, nature, 0));
@@ -640,50 +641,36 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public override int MaxBallID => Legal.MaxBallID_8a;
     public override GameVersion MaxGameID => Legal.MaxGameID_HOME;
 
-    public float HeightRatio => GetHeightRatio(HeightScalar);
-    public float WeightRatio => GetWeightRatio(WeightScalar);
-
     public float CalcHeightAbsolute => GetHeightAbsolute(PersonalInfo, HeightScalar);
     public float CalcWeightAbsolute => GetWeightAbsolute(PersonalInfo, HeightScalar, WeightScalar);
 
     public void ResetHeight() => HeightAbsolute = CalcHeightAbsolute;
     public void ResetWeight() => WeightAbsolute = CalcWeightAbsolute;
-
-    [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    private static float GetHeightRatio(byte heightScalar)
-    {
-        // +/- 20% (down from +/- 40% in LGP/E)
-        float result = heightScalar / 255f; // 0x437F0000
-        result *= 0.40000004f; // 0x3ECCCCCE
-        result += 0.8f; // 0x3F4CCCCD
-        return result;
-    }
-
-    [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    private static float GetWeightRatio(byte weightScalar)
-    {
-        // +/- 20%
-        float result = weightScalar / 255f; // 0x437F0000
-        result *= 0.40000004f; // 0x3ECCCCCE
-        result += 0.8f; // 0x3F4CCCCD
-        return result;
-    }
-
-    [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
+    
     public static float GetHeightAbsolute(IPersonalMisc p, byte heightScalar)
+        => p.Height * GetScalarPercent(heightScalar);
+    public static float GetWeightAbsolute(IPersonalMisc p, byte heightScalar, byte weightScalar)
+        => p.Weight * (GetScalarPercent(heightScalar) * GetScalarPercent(weightScalar));
+
+    public static float GetHeightAbsoluteFused(ushort h, byte heightScalar)
+        => h * GetScalarPercentFused(heightScalar);
+    public static float GetWeightAbsoluteFused(ushort w, byte heightScalar, byte weightScalar)
+        => w * (GetScalarPercentFused(heightScalar) * GetScalarPercentFused(weightScalar));
+
+    /// <summary> Present in Legends: Arceus and HOME (all versions prior to 4.0.0, later optimized). </summary>
+    [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
+    private static float GetScalarPercent(byte scalar) // +/- 20%
     {
-        float HeightRatio = GetHeightRatio(heightScalar);
-        return HeightRatio * p.Height;
+        float percent = scalar / 255.0f; // 0x437F0000
+        return (percent * 0.40000004f) + 0.8f; // 0.40000004f = 0x3ECCCCCE, 0.8f = 0x3F4CCCCD
     }
 
+    /// <summary> FMADD variant, a new compiler optimization starting in HOME 4.0.0 </summary>
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    public static float GetWeightAbsolute(IPersonalMisc p, byte heightScalar, byte weightScalar)
+    private static float GetScalarPercentFused(byte scalar) // +/- 20%
     {
-        float HeightRatio = GetHeightRatio(heightScalar);
-        float WeightRatio = GetWeightRatio(weightScalar);
-
-        float ratio = (WeightRatio * HeightRatio);
-        return ratio * p.Weight;
+        float percent = scalar / 255.0f; // 0x437F0000
+        return MathF.FusedMultiplyAdd(percent, 0.40000004f, 0.8f); // 0.40000004f = 0x3ECCCCCE, 0.8f = 0x3F4CCCCD
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]

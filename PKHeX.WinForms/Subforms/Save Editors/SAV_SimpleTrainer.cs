@@ -14,6 +14,7 @@ public partial class SAV_SimpleTrainer : Form
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+        TB_OTName.DisplayContext = sav.Context;
         SAV = (Origin = sav).Clone();
         Loading = true;
 
@@ -25,7 +26,7 @@ public partial class SAV_SimpleTrainer : Form
         MT_Coins.Mask = "".PadRight((int)Math.Floor(Math.Log10(SAV.MaxCoins) + 1), '0');
 
         CB_Gender.Items.Clear();
-        CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
+        CB_Gender.Items.AddRange([.. Main.GenderSymbols.Take(2)]); // m/f depending on unicode selection
 
         L_SID.Visible = MT_SID.Visible = SAV.Generation > 2;
         L_Coins.Visible = B_MaxCoins.Visible = MT_Coins.Visible = SAV.Generation < 3;

@@ -184,18 +184,23 @@ public abstract class SpriteBuilder : ISpriteBuilder<Bitmap>
 
     private Bitmap LayerOverImageItem(Bitmap baseImage, int item, EntityContext context)
     {
-        var lump = HeldItemLumpUtil.GetIsLump(item, context);
-        var itemimg = lump switch
-        {
-            HeldItemLumpImage.TechnicalMachine => ItemTM,
-            HeldItemLumpImage.TechnicalRecord => ItemTR,
-            _ => (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? UnknownItem,
-        };
+        var itemimg = GetItemSprite(item, context);
 
         // Redraw item in bottom right corner; since images are cropped, try to not have them at the edge
         int x = baseImage.Width - itemimg.Width - ((ItemMaxSize - itemimg.Width) / 4) - ItemShiftX;
         int y = baseImage.Height - itemimg.Height - ItemShiftY;
         return ImageUtil.LayerImage(baseImage, itemimg, x, y);
+    }
+
+    public Bitmap GetItemSprite(int item, EntityContext context)
+    {
+        var lump = HeldItemLumpUtil.GetIsLump(item, context);
+        return lump switch
+        {
+            HeldItemLumpImage.TechnicalMachine => ItemTM,
+            HeldItemLumpImage.TechnicalRecord => ItemTR,
+            _ => (Bitmap?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? UnknownItem,
+        };
     }
 
     private static Bitmap LayerOverImageShiny(Bitmap baseImage, Shiny shiny)

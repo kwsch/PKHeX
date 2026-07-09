@@ -410,7 +410,7 @@ public sealed class PGF(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
             if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
             if (Language != 0 && Language != pk.Language) return false;
 
-            if (!IsMatchEggLocation(pk)) return false;
+            if (!IsMatchEggLocationInternal(pk)) return false;
             if (Location != pk.MetLocation) return false;
         }
         else

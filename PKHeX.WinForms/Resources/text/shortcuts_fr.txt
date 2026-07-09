@@ -1,0 +1,112 @@
+Si certains symboles ou textes s'affichent mal : Options -> Paramètres -> Affichage -> Unicode
+
+// Fenêtre principale
+
+CTRL-O : Ouvrir
+CTRL-S : Exporter PKM
+CTRL-E : Exporter SAV
+CTRL-B : Exporter BAK
+CTRL-Q : Quitter
+
+CTRL-D : Ouvrir la base PKM
+CTRL-F : Ouvrir la liste des dossiers
+CTRL-G : Ouvrir la base des Cadeaux Mystère
+CTRL-N : Ouvrir la base des rencontres
+CTRL-M : Ouvrir l'éditeur par lot
+CTRL-R : Ouvrir le rapport des boîtes
+CTRL-P : Ouvrir À propos de PKHeX
+CTRL-T : Importer un set Showdown
+CTRL-SHIFT-T : Exporter un set Showdown
+CTRL-SHIFT-S : Ouvrir les paramètres
+
+Control + clic sur...
+- Espèce : importer un set Showdown/Smogon depuis le presse-papiers.
+- Surnom/DO : afficher les caractères spéciaux du jeu.
+- IV individuel : mettre l'IV au maximum (ou maximum-1 s'il l'est déjà).
+- AV individuel : mettre l'AV au maximum (ou 0 s'il l'est déjà).
+- EV individuel : mettre l'EV au maximum.
+- Stat de concours individuelle : mettre au maximum.
+- IV aléatoires : mettre tous les IV au maximum.
+- AV aléatoires : mettre tous les AV au maximum.
+- EV aléatoires : mettre tous les EV au maximum si approprié.
+- Label PP Plus : mettre tous les PP Plus à 0. (clic = 3)
+- Label Amitié : mettre l'amitié à 0. (clic = 255 ou valeur de base)
+- Case Niveau : mettre le niveau à 100.
+- Bouton chromatique : rendre chromatique étoile (Xor1).
+- Label de stat : choisir une nature neutre pour cette stat.
+
+Alt + clic sur...
+- Sprite d'aperçu : charger depuis une URL QR dans le presse-papiers.
+- Espèce : exporter un set Showdown/Smogon vers le presse-papiers.
+- IV aléatoires : mettre tous les IV à 0.
+- AV aléatoires : mettre tous les AV à 0.
+- EV aléatoires : mettre tous les EV à 0.
+- IV individuel : mettre l'IV à 0.
+- AV individuel : mettre l'AV à 0.
+- EV individuel : mettre l'EV à 0.
+- Stat de concours individuelle : mettre à 0.
+- Bouton chromatique : définir le SID au lieu du PID lors de la création chromatique.
+- Label de stat : choisir une nature défavorable pour cette stat.
+
+Shift + clic sur...
+- Sprite d'aperçu : afficher un QR pour le Pokémon affiché.
+- IV individuel : appliquer l'Entraînement Ultime à l'IV (bascule l'Entraînement Ultime à partir de la Gen7).
+- Bouton chromatique : rendre chromatique carré (Xor0).
+- Capacités : appliquer un moveset aléatoire.
+- Label de stat : choisir une nature favorable pour cette stat.
+
+Maintenir Control pendant le glisser-déposer pour enregistrer en chiffré (ekx).
+
+Clic sur...
+- Label DO : appliquer les détails de la sauvegarde aux propriétés correspondantes.
+- Label Niveau / Lieu de rencontre : suggérer des informations de rencontre pour les propriétés correspondantes.
+- Groupe Capacités : suggérer des capacités légales.
+- Groupe Capacités de réapprentissage : suggérer des capacités de réapprentissage légales.
+- Sprite de Ball : ouvrir l'éditeur de Ball ; les Balls légales sont en vert, les illégales en rouge.
+- Label Nature : copier l'autre nature de stat/comportement.
+
+Déposer WC7/WC6/PGF/PCD/PGT pour convertir en PKM dans les onglets principaux.
+
+// Fichier de sauvegarde
+
+Double-clic sur l'onglet SAV : détecter automatiquement/recharger la dernière sauvegarde.
+
+// Boîtes
+
+Clic droit sur l'onglet Boîte : vider/trier/modifier le contenu. Maintenir Shift en choisissant l'action pour l'appliquer à TOUTES les boîtes.
+
+Control + clic droit sur un slot de boîte : afficher des options supplémentaires (ex. vérification de légalité).
+Control + glisser un slot : copier et écraser.
+Alt + glisser un slot : supprimer et écraser.
+
+Control + Alt + clic sur un slot : cloner/supprimer un Pokémon dans tous les slots de la boîte.
+Control + clic sur un slot : charger le slot dans les onglets.
+Shift + clic sur un slot : écrire les onglets dans le slot.
+Alt + clic sur un slot : supprimer les données du slot.
+
+Double-clic sur l'onglet Boîte pour ouvrir un nouveau visualiseur de boîte. Un seul est autorisé, sauf si Shift est maintenu.
+
+Control + clic sur les flèches de boîte : aller au début/à la fin.
+Control + clic sur Vérifier les sommes : vérifier la légalité de tous les Pokémon de la sauvegarde entre eux.
+
+// Équipe / Boîte Combat
+Double-clic sur le label Équipe ou Boîte Combat : exporter le set Showdown/Smogon (équipe) vers le presse-papiers.
+
+// Éditeurs divers
+
+RUBANS :
+- Shift + clic sur Tout donner : ajouter tous les rubans légaux.
+- Shift + clic sur Tout retirer : retirer tous les rubans illégaux.
+
+POFFINS :
+- Control + clic sur Tout : donner les meilleurs poffins.
+- Control + clic sur Trier : trier en sens inverse.
+
+CADEAU MYSTÈRE :
+- Alt + clic sur QR : importer depuis une image QR.
+
+INFOS DRESSEUR (GO PIKACHU/ÉVOLI) :
+- Déposer un fichier d'entité GO Park (gp1) pour l'importer dans le slot sélectionné.
+
+RAIDS TÉRA (ÉCARLATE/VIOLET) :
+- Shift + clic sur Copier vers les autres raids : copier le Seed ainsi que le contenu.

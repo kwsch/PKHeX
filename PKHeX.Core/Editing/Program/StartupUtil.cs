@@ -23,7 +23,7 @@ public static class StartupUtil
         SaveFile.SetUpdatePKM = write.SetUpdatePKM ? EntityImportOption.Enable : EntityImportOption.Disable;
         SaveFile.SetUpdateRecords = write.SetUpdateRecords ? EntityImportOption.Enable : EntityImportOption.Disable;
         CommonEdits.ShowdownSetIVMarkings = settings.Import.ApplyMarkings;
-        CommonEdits.ShowdownSetBehaviorNature = settings.Import.ApplyNature;
+        CommonEdits.ShowdownSetBehaviorNature = settings.Import.ApplyStatAlignment;
         ParseSettings.Initialize(settings.Legality);
 
         var converter = settings.Converter;

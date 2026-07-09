@@ -13,7 +13,6 @@ public static class Encounters8Nest
     /// <summary>
     /// Get the locations for a given nest index.
     /// </summary>
-    /// <returns></returns>
     public static ReadOnlySpan<byte> GetNestLocations(byte nestIndex) => nestIndex switch
     {
         000 => [144, 134, 122],      // 000 : Stony Wilderness, South Lake Miloch, Rolling Fields

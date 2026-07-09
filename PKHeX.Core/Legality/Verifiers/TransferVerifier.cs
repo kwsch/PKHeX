@@ -182,8 +182,7 @@ public sealed class TransferVerifier : Verifier
         if (pk.MetLocation != transfer.Location)
             data.AddLine(GetInvalid(TransferMetLocation, transfer.Location));
 
-        var expectEgg = pk is PB8 ? Locations.Default8bNone : transfer.EggLocation;
-        if (pk.EggLocation != expectEgg)
+        if (!transfer.IsMatchEggLocation(pk))
             data.AddLine(GetInvalid(EggLocationNone));
 
         // Flag Moves that cannot be transferred

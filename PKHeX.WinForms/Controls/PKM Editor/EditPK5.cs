@@ -22,7 +22,7 @@ public partial class PKMEditor
         if (HaX)
             DEV_Ability.SelectedValue = pk5.Ability;
         else if (pk5.HiddenAbility)
-            CB_Ability.SelectedIndex = CB_Ability.Items.Count - 1;
+            CB_Ability.SelectedIndex = 2;
         else
             LoadAbility4(pk5);
 
@@ -45,7 +45,7 @@ public partial class PKMEditor
         pk5.PokeStarFame = (byte)NUD_PokeStarFame.Value;
         if (!HaX)
         {
-            pk5.HiddenAbility = CB_Ability.SelectedIndex is not (0 or 1);
+            pk5.HiddenAbility = CB_Ability.SelectedIndex is 2;
         }
         else
         {

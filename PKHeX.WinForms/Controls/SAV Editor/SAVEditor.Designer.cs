@@ -60,6 +60,13 @@ namespace PKHeX.WinForms.Controls
             L_ReadOnlyOther = new System.Windows.Forms.Label();
             Tab_SAV = new System.Windows.Forms.TabPage();
             TLP_SAVEditor = new System.Windows.Forms.TableLayoutPanel();
+            FLP_SAVToolsMisc = new System.Windows.Forms.FlowLayoutPanel();
+            B_SaveBoxBin = new System.Windows.Forms.Button();
+            B_VerifyCHK = new System.Windows.Forms.Button();
+            B_VerifySaveEntities = new System.Windows.Forms.Button();
+            Menu_ExportBAK = new System.Windows.Forms.Button();
+            B_JPEG = new System.Windows.Forms.Button();
+            B_ConvertKorean = new System.Windows.Forms.Button();
             FLP_SAVtools = new System.Windows.Forms.FlowLayoutPanel();
             B_OpenTrainerInfo = new System.Windows.Forms.Button();
             B_OpenItemPouch = new System.Windows.Forms.Button();
@@ -107,13 +114,6 @@ namespace PKHeX.WinForms.Controls
             B_OpenGear = new System.Windows.Forms.Button();
             B_OpenFashion = new System.Windows.Forms.Button();
             B_OpenGlobalLink = new System.Windows.Forms.Button();
-            FLP_SAVToolsMisc = new System.Windows.Forms.FlowLayoutPanel();
-            B_SaveBoxBin = new System.Windows.Forms.Button();
-            B_VerifyCHK = new System.Windows.Forms.Button();
-            B_VerifySaveEntities = new System.Windows.Forms.Button();
-            Menu_ExportBAK = new System.Windows.Forms.Button();
-            B_JPEG = new System.Windows.Forms.Button();
-            B_ConvertKorean = new System.Windows.Forms.Button();
             L_SaveSlot = new System.Windows.Forms.Label();
             CB_SaveSlot = new System.Windows.Forms.ComboBox();
             tabBoxMulti.SuspendLayout();
@@ -126,8 +126,8 @@ namespace PKHeX.WinForms.Controls
             ((System.ComponentModel.ISupportInitialize)dcpkx1).BeginInit();
             Tab_SAV.SuspendLayout();
             TLP_SAVEditor.SuspendLayout();
-            FLP_SAVtools.SuspendLayout();
             FLP_SAVToolsMisc.SuspendLayout();
+            FLP_SAVtools.SuspendLayout();
             SuspendLayout();
             // 
             // tabBoxMulti
@@ -434,6 +434,103 @@ namespace PKHeX.WinForms.Controls
             TLP_SAVEditor.Size = new System.Drawing.Size(441, 333);
             TLP_SAVEditor.TabIndex = 105;
             // 
+            // FLP_SAVToolsMisc
+            // 
+            FLP_SAVToolsMisc.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            TLP_SAVEditor.SetColumnSpan(FLP_SAVToolsMisc, 2);
+            FLP_SAVToolsMisc.Controls.Add(B_SaveBoxBin);
+            FLP_SAVToolsMisc.Controls.Add(B_VerifyCHK);
+            FLP_SAVToolsMisc.Controls.Add(B_VerifySaveEntities);
+            FLP_SAVToolsMisc.Controls.Add(Menu_ExportBAK);
+            FLP_SAVToolsMisc.Controls.Add(B_JPEG);
+            FLP_SAVToolsMisc.Controls.Add(B_ConvertKorean);
+            FLP_SAVToolsMisc.Dock = System.Windows.Forms.DockStyle.Fill;
+            FLP_SAVToolsMisc.Location = new System.Drawing.Point(0, 0);
+            FLP_SAVToolsMisc.Margin = new System.Windows.Forms.Padding(0);
+            FLP_SAVToolsMisc.Name = "FLP_SAVToolsMisc";
+            FLP_SAVToolsMisc.Size = new System.Drawing.Size(441, 54);
+            FLP_SAVToolsMisc.TabIndex = 104;
+            // 
+            // B_SaveBoxBin
+            // 
+            B_SaveBoxBin.AutoSize = true;
+            B_SaveBoxBin.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            B_SaveBoxBin.Dock = System.Windows.Forms.DockStyle.Fill;
+            B_SaveBoxBin.Location = new System.Drawing.Point(0, 0);
+            B_SaveBoxBin.Margin = new System.Windows.Forms.Padding(0);
+            B_SaveBoxBin.Name = "B_SaveBoxBin";
+            B_SaveBoxBin.Size = new System.Drawing.Size(119, 27);
+            B_SaveBoxBin.TabIndex = 1;
+            B_SaveBoxBin.Text = "Save Box Data++";
+            B_SaveBoxBin.UseVisualStyleBackColor = true;
+            B_SaveBoxBin.Click += B_SaveBoxBin_Click;
+            // 
+            // B_VerifyCHK
+            // 
+            B_VerifyCHK.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            B_VerifyCHK.AutoSize = true;
+            B_VerifyCHK.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            B_VerifyCHK.Location = new System.Drawing.Point(119, 0);
+            B_VerifyCHK.Margin = new System.Windows.Forms.Padding(0);
+            B_VerifyCHK.Name = "B_VerifyCHK";
+            B_VerifyCHK.Size = new System.Drawing.Size(118, 27);
+            B_VerifyCHK.TabIndex = 2;
+            B_VerifyCHK.Text = "Verify Checksums";
+            B_VerifyCHK.UseVisualStyleBackColor = true;
+            B_VerifyCHK.Click += ClickVerifyCHK;
+            // 
+            // B_VerifySaveEntities
+            // 
+            B_VerifySaveEntities.AutoSize = true;
+            B_VerifySaveEntities.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            B_VerifySaveEntities.Location = new System.Drawing.Point(237, 0);
+            B_VerifySaveEntities.Margin = new System.Windows.Forms.Padding(0);
+            B_VerifySaveEntities.Name = "B_VerifySaveEntities";
+            B_VerifySaveEntities.Size = new System.Drawing.Size(105, 27);
+            B_VerifySaveEntities.TabIndex = 3;
+            B_VerifySaveEntities.Text = "Verify All PKMs";
+            B_VerifySaveEntities.UseVisualStyleBackColor = true;
+            B_VerifySaveEntities.Click += ClickVerifyStoredEntities;
+            // 
+            // Menu_ExportBAK
+            // 
+            Menu_ExportBAK.AutoSize = true;
+            Menu_ExportBAK.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            Menu_ExportBAK.Location = new System.Drawing.Point(0, 27);
+            Menu_ExportBAK.Margin = new System.Windows.Forms.Padding(0);
+            Menu_ExportBAK.Name = "Menu_ExportBAK";
+            Menu_ExportBAK.Size = new System.Drawing.Size(101, 27);
+            Menu_ExportBAK.TabIndex = 4;
+            Menu_ExportBAK.Text = "Export Backup";
+            Menu_ExportBAK.UseVisualStyleBackColor = true;
+            Menu_ExportBAK.Click += Menu_ExportBAK_Click;
+            // 
+            // B_JPEG
+            // 
+            B_JPEG.AutoSize = true;
+            B_JPEG.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            B_JPEG.Location = new System.Drawing.Point(101, 27);
+            B_JPEG.Margin = new System.Windows.Forms.Padding(0);
+            B_JPEG.Name = "B_JPEG";
+            B_JPEG.Size = new System.Drawing.Size(106, 27);
+            B_JPEG.TabIndex = 5;
+            B_JPEG.Text = "Save PGL .JPEG";
+            B_JPEG.UseVisualStyleBackColor = true;
+            B_JPEG.Click += B_JPEG_Click;
+            // 
+            // B_ConvertKorean
+            // 
+            B_ConvertKorean.AutoSize = true;
+            B_ConvertKorean.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            B_ConvertKorean.Location = new System.Drawing.Point(207, 27);
+            B_ConvertKorean.Margin = new System.Windows.Forms.Padding(0);
+            B_ConvertKorean.Name = "B_ConvertKorean";
+            B_ConvertKorean.Size = new System.Drawing.Size(160, 27);
+            B_ConvertKorean.TabIndex = 6;
+            B_ConvertKorean.Text = "Korean Save Conversion";
+            B_ConvertKorean.UseVisualStyleBackColor = true;
+            B_ConvertKorean.Click += B_ConvertKorean_Click;
+            // 
             // FLP_SAVtools
             // 
             FLP_SAVtools.AutoScroll = true;
@@ -627,7 +724,6 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_OpenSuperTraining
             // 
-            B_OpenSuperTraining.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             B_OpenSuperTraining.Location = new System.Drawing.Point(2, 178);
             B_OpenSuperTraining.Margin = new System.Windows.Forms.Padding(2);
             B_OpenSuperTraining.Name = "B_OpenSuperTraining";
@@ -1000,103 +1096,6 @@ namespace PKHeX.WinForms.Controls
             B_OpenGlobalLink.UseVisualStyleBackColor = true;
             B_OpenGlobalLink.Click += B_OpenGlobalLink_Click;
             // 
-            // FLP_SAVToolsMisc
-            // 
-            FLP_SAVToolsMisc.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            TLP_SAVEditor.SetColumnSpan(FLP_SAVToolsMisc, 2);
-            FLP_SAVToolsMisc.Controls.Add(B_SaveBoxBin);
-            FLP_SAVToolsMisc.Controls.Add(B_VerifyCHK);
-            FLP_SAVToolsMisc.Controls.Add(B_VerifySaveEntities);
-            FLP_SAVToolsMisc.Controls.Add(Menu_ExportBAK);
-            FLP_SAVToolsMisc.Controls.Add(B_JPEG);
-            FLP_SAVToolsMisc.Controls.Add(B_ConvertKorean);
-            FLP_SAVToolsMisc.Dock = System.Windows.Forms.DockStyle.Fill;
-            FLP_SAVToolsMisc.Location = new System.Drawing.Point(0, 0);
-            FLP_SAVToolsMisc.Margin = new System.Windows.Forms.Padding(0);
-            FLP_SAVToolsMisc.Name = "FLP_SAVToolsMisc";
-            FLP_SAVToolsMisc.Size = new System.Drawing.Size(441, 54);
-            FLP_SAVToolsMisc.TabIndex = 104;
-            // 
-            // B_SaveBoxBin
-            // 
-            B_SaveBoxBin.AutoSize = true;
-            B_SaveBoxBin.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            B_SaveBoxBin.Dock = System.Windows.Forms.DockStyle.Fill;
-            B_SaveBoxBin.Location = new System.Drawing.Point(0, 0);
-            B_SaveBoxBin.Margin = new System.Windows.Forms.Padding(0);
-            B_SaveBoxBin.Name = "B_SaveBoxBin";
-            B_SaveBoxBin.Size = new System.Drawing.Size(119, 27);
-            B_SaveBoxBin.TabIndex = 1;
-            B_SaveBoxBin.Text = "Save Box Data++";
-            B_SaveBoxBin.UseVisualStyleBackColor = true;
-            B_SaveBoxBin.Click += B_SaveBoxBin_Click;
-            // 
-            // B_VerifyCHK
-            // 
-            B_VerifyCHK.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            B_VerifyCHK.AutoSize = true;
-            B_VerifyCHK.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            B_VerifyCHK.Location = new System.Drawing.Point(119, 0);
-            B_VerifyCHK.Margin = new System.Windows.Forms.Padding(0);
-            B_VerifyCHK.Name = "B_VerifyCHK";
-            B_VerifyCHK.Size = new System.Drawing.Size(118, 27);
-            B_VerifyCHK.TabIndex = 2;
-            B_VerifyCHK.Text = "Verify Checksums";
-            B_VerifyCHK.UseVisualStyleBackColor = true;
-            B_VerifyCHK.Click += ClickVerifyCHK;
-            // 
-            // B_VerifySaveEntities
-            // 
-            B_VerifySaveEntities.AutoSize = true;
-            B_VerifySaveEntities.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            B_VerifySaveEntities.Location = new System.Drawing.Point(237, 0);
-            B_VerifySaveEntities.Margin = new System.Windows.Forms.Padding(0);
-            B_VerifySaveEntities.Name = "B_VerifySaveEntities";
-            B_VerifySaveEntities.Size = new System.Drawing.Size(105, 27);
-            B_VerifySaveEntities.TabIndex = 3;
-            B_VerifySaveEntities.Text = "Verify All PKMs";
-            B_VerifySaveEntities.UseVisualStyleBackColor = true;
-            B_VerifySaveEntities.Click += ClickVerifyStoredEntities;
-            // 
-            // Menu_ExportBAK
-            // 
-            Menu_ExportBAK.AutoSize = true;
-            Menu_ExportBAK.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            Menu_ExportBAK.Location = new System.Drawing.Point(0, 27);
-            Menu_ExportBAK.Margin = new System.Windows.Forms.Padding(0);
-            Menu_ExportBAK.Name = "Menu_ExportBAK";
-            Menu_ExportBAK.Size = new System.Drawing.Size(101, 27);
-            Menu_ExportBAK.TabIndex = 4;
-            Menu_ExportBAK.Text = "Export Backup";
-            Menu_ExportBAK.UseVisualStyleBackColor = true;
-            Menu_ExportBAK.Click += Menu_ExportBAK_Click;
-            // 
-            // B_JPEG
-            // 
-            B_JPEG.AutoSize = true;
-            B_JPEG.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            B_JPEG.Location = new System.Drawing.Point(101, 27);
-            B_JPEG.Margin = new System.Windows.Forms.Padding(0);
-            B_JPEG.Name = "B_JPEG";
-            B_JPEG.Size = new System.Drawing.Size(106, 27);
-            B_JPEG.TabIndex = 5;
-            B_JPEG.Text = "Save PGL .JPEG";
-            B_JPEG.UseVisualStyleBackColor = true;
-            B_JPEG.Click += B_JPEG_Click;
-            // 
-            // B_ConvertKorean
-            // 
-            B_ConvertKorean.AutoSize = true;
-            B_ConvertKorean.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            B_ConvertKorean.Location = new System.Drawing.Point(207, 27);
-            B_ConvertKorean.Margin = new System.Windows.Forms.Padding(0);
-            B_ConvertKorean.Name = "B_ConvertKorean";
-            B_ConvertKorean.Size = new System.Drawing.Size(160, 27);
-            B_ConvertKorean.TabIndex = 6;
-            B_ConvertKorean.Text = "Korean Save Conversion";
-            B_ConvertKorean.UseVisualStyleBackColor = true;
-            B_ConvertKorean.Click += B_ConvertKorean_Click;
-            // 
             // L_SaveSlot
             // 
             L_SaveSlot.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -1140,9 +1139,9 @@ namespace PKHeX.WinForms.Controls
             Tab_SAV.ResumeLayout(false);
             TLP_SAVEditor.ResumeLayout(false);
             TLP_SAVEditor.PerformLayout();
-            FLP_SAVtools.ResumeLayout(false);
             FLP_SAVToolsMisc.ResumeLayout(false);
             FLP_SAVToolsMisc.PerformLayout();
+            FLP_SAVtools.ResumeLayout(false);
             ResumeLayout(false);
         }
 

@@ -163,8 +163,6 @@ public static class MethodH
             if (TryGetMatch(enc, levelMin, levelMax, seed, nature, format, out var result) && result.IsNoRequirement)
             {
                 result.Lead = CuteCharm;
-                if (result.IsNoRequirement)
-                    return result;
                 if (result.IsBetterThan(prefer))
                     prefer = result;
             }

@@ -134,7 +134,7 @@ public static class Wild8bRNG
         if (!criteria.IsSatisfiedNature(nature))
             return false;
 
-        pk.StatNature = pk.Nature = nature;
+        pk.StatAlignment = pk.Nature = nature;
 
         // Remainder
         pk.HeightScalar = (byte)(xors.NextUInt(0x81) + xors.NextUInt(0x80));

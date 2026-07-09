@@ -254,6 +254,7 @@ public enum LegalityCheckResultCode : ushort
     // Moves - General
     MoveKeldeoMismatch,
     MovesShouldMatchRelearnMoves,
+    MovePPMatchesVirtualConsole,
 
     // Moves - Shop & Alpha
     MoveShopAlphaMoveShouldBeOther,
@@ -311,7 +312,7 @@ public enum LegalityCheckResultCode : ushort
     StatInvalidHeightWeight,
     StatGigantamaxInvalid,
     StatGigantamaxValid,
-    StatNatureInvalid,
+    StatAlignmentInvalid,
     StatBattleVersionInvalid,
     StatNobleInvalid,
     StatAlphaInvalid,

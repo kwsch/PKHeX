@@ -13,7 +13,7 @@ public static class NatureAmp
         /// <summary>
         /// Mutate the nature amp indexes to match the request
         /// </summary>
-        /// <param name="statIndex">Stat Index to mutate</param>
+        /// <param name="statIndex">Stat Index to mutate, internal order</param>
         /// <param name="currentNature">Current nature to derive the current amps from</param>
         /// <returns>New nature value</returns>
         public Nature GetNewNature(int statIndex, Nature currentNature)
@@ -26,6 +26,9 @@ public static class NatureAmp
             return type.GetNewNature(statIndex, up, dn);
         }
 
+        /// <param name="statIndex">Stat Index to mutate, internal order</param>
+        /// <param name="up">Current increased stat index, internal order</param>
+        /// <param name="dn">Current decreased stat index, internal order</param>
         /// <inheritdoc cref="GetNewNature(NatureAmpRequest,int,Nature)"/>
         public Nature GetNewNature(int statIndex, int up, int dn)
         {
@@ -54,6 +57,7 @@ public static class NatureAmp
         /// <summary>
         /// Decompose the nature to the two stat indexes that are modified
         /// </summary>
+        /// <returns>Tuple containing the increased and decreased stat indexes, internal order</returns>
         public (int up, int dn) GetNatureModification()
         {
             var up = ((byte)nature / 5);
@@ -71,8 +75,8 @@ public static class NatureAmp
         /// <summary>
         /// Checks if the nature is out of range or the stat amplifications are not neutral.
         /// </summary>
-        /// <param name="up">Increased stat</param>
-        /// <param name="dn">Decreased stat</param>
+        /// <param name="up">Increased stat, internal order</param>
+        /// <param name="dn">Decreased stat, internal order</param>
         /// <returns>True if nature modification values are equal or the Nature is out of range.</returns>
         public bool IsNeutralOrInvalid(int up, int dn)
         {
@@ -83,7 +87,7 @@ public static class NatureAmp
         /// Updates stats according to the specified nature.
         /// </summary>
         /// <param name="stats">Current stats to amplify if appropriate</param>
-        public void ModifyStatsForNature(Span<ushort> stats)
+        public void ModifyStatsForAlignment(Span<ushort> stats)
         {
             var (up, dn) = nature.GetNatureModification();
             if (nature.IsNeutralOrInvalid(up, dn))
@@ -99,8 +103,8 @@ public static class NatureAmp
     /// <summary>
     /// Recombine the stat amps into a nature value.
     /// </summary>
-    /// <param name="up">Increased stat</param>
-    /// <param name="dn">Decreased stat</param>
+    /// <param name="up">Increased stat, internal order</param>
+    /// <param name="dn">Decreased stat, internal order</param>
     /// <returns>Nature</returns>
     public static Nature CreateNatureFromAmps(int up, int dn)
     {
@@ -110,7 +114,7 @@ public static class NatureAmp
     }
 
     /// <summary>
-    /// Nature Amplification Table
+    /// Nature / Stat Alignment Amplification Table, speed last (visual order).
     /// </summary>
     /// <remarks>-1 is 90%, 0 is 100%, 1 is 110%.</remarks>
     public static ReadOnlySpan<sbyte> Table =>
@@ -145,6 +149,13 @@ public static class NatureAmp
     private const byte NatureCount = 25;
     private const int AmpWidth = 5;
 
+    /// <summary>
+    /// Amplify the stat according to the nature. If the nature is out of range, it will be treated as neutral.
+    /// </summary>
+    /// <param name="nature">Nature to use for amplification</param>
+    /// <param name="index">Stat index to amplify (0-4), visual index</param>
+    /// <param name="initial">Initial stat value</param>
+    /// <returns>Amplified stat value</returns>
     public static int AmplifyStat(Nature nature, int index, int initial) => GetNatureAmp(nature, index) switch
     {
         1 => 110 * initial / 100, // 110%
@@ -152,6 +163,12 @@ public static class NatureAmp
         _ => initial,
     };
 
+    /// <summary>
+    /// Get the nature amp for the specified stat index. If the nature is out of range, it will be treated as neutral.
+    /// </summary>
+    /// <param name="nature">Nature to use for amplification</param>
+    /// <param name="index">Stat index to amplify (0-4), visual index</param>
+    /// <returns>Nature amp value: 1 for 110%, -1 for 90%, 0 for 100%.</returns>
     private static sbyte GetNatureAmp(Nature nature, int index)
     {
         if ((uint)nature >= NatureCount)
@@ -160,6 +177,11 @@ public static class NatureAmp
         return amps[index];
     }
 
+    /// <summary>
+    /// Get the nature amps for all stats. If the nature is out of range, it will be treated as neutral.
+    /// </summary>
+    /// <param name="nature">Nature to use for amplification</param>
+    /// <returns>ReadOnlySpan of stat amps for all stats (visual order)</returns>
     public static ReadOnlySpan<sbyte> GetAmps(Nature nature)
     {
         if ((uint)nature >= NatureCount)

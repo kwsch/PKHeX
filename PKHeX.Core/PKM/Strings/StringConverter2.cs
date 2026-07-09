@@ -18,7 +18,20 @@ public static class StringConverter2
     public const char TradeOT = StringConverter1.TradeOT;
     public const char LineBreak = '⏎'; // Mail
 
-    public static bool GetIsJapanese(ReadOnlySpan<char> str) => StringConverter1.GetIsJapanese(str);
+    /// <summary>
+    /// Quick check if the input string is entirely Japanese characters.
+    /// </summary>
+    /// <remarks><seealso cref="StringConverter1.GetIsJapanese(ReadOnlySpan{char})"/>. This also adds ? and !.</remarks>
+    public static bool GetIsJapanese(ReadOnlySpan<char> str)
+    {
+        foreach (var x in str)
+        {
+            if (!IsJapanese(x))
+                return false;
+        }
+        return true;
+        static bool IsJapanese(char c) => c is (>= '\u3000' and <= '\u30FC') or ('？' or '！');
+    }
 
     public static bool GetIsEnglish(ReadOnlySpan<char> str) => !GetIsJapanese(str);
     public static bool GetIsJapanese(ReadOnlySpan<byte> raw) => AllCharsInTable(raw, TableJP);

@@ -16,7 +16,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     public Ball FixedBall => Type.GetValidBall();
     public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public GameVersion Version => GameVersion.GO;
     public ushort Location => Locations.GO8;
 
@@ -173,7 +173,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
 
-        pk.Nature = pk.StatNature = nature;
+        pk.Nature = pk.StatAlignment = nature;
         pk.Gender = gender;
 
         pk.AbilityNumber = 1 << ability;

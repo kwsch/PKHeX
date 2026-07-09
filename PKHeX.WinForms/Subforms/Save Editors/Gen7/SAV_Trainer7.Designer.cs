@@ -1,3 +1,5 @@
+using PKHeX.Core;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_Trainer7
@@ -30,7 +32,7 @@ namespace PKHeX.WinForms
         {
             B_Cancel = new System.Windows.Forms.Button();
             B_Save = new System.Windows.Forms.Button();
-            TB_OTName = new System.Windows.Forms.TextBox();
+            TB_OTName = new PKHeX.WinForms.Controls.RenderedString();
             L_TrainerName = new System.Windows.Forms.Label();
             MT_Money = new System.Windows.Forms.MaskedTextBox();
             L_Money = new System.Windows.Forms.Label();
@@ -174,7 +176,7 @@ namespace PKHeX.WinForms
             L_DaysFromRefreshed = new System.Windows.Forms.Label();
             NUD_DaysFromRefreshed = new System.Windows.Forms.NumericUpDown();
             L_PlazaName = new System.Windows.Forms.Label();
-            TB_PlazaName = new System.Windows.Forms.TextBox();
+            TB_PlazaName = new PKHeX.WinForms.Controls.RenderedString();
             CB_Fashion = new System.Windows.Forms.ComboBox();
             L_SkinColor = new System.Windows.Forms.Label();
             CB_SkinColor = new System.Windows.Forms.ComboBox();
@@ -194,7 +196,7 @@ namespace PKHeX.WinForms
             CHK_RotoLoto2 = new System.Windows.Forms.CheckBox();
             CHK_RotoLoto1 = new System.Windows.Forms.CheckBox();
             L_RotomAffection = new System.Windows.Forms.Label();
-            TB_RotomOT = new System.Windows.Forms.TextBox();
+            TB_RotomOT = new PKHeX.WinForms.Controls.RenderedString();
             NUD_RotomAffection = new System.Windows.Forms.NumericUpDown();
             L_RotomOT = new System.Windows.Forms.Label();
             GB_Surf = new System.Windows.Forms.GroupBox();
@@ -275,7 +277,7 @@ namespace PKHeX.WinForms
             // 
             // TB_OTName
             // 
-            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_OTName.DisplayContext = EntityContext.Gen7;
             TB_OTName.Location = new System.Drawing.Point(115, 8);
             TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_OTName.MaxLength = 12;
@@ -1746,7 +1748,7 @@ namespace PKHeX.WinForms
             // 
             // TB_PlazaName
             // 
-            TB_PlazaName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_PlazaName.DisplayContext = EntityContext.Gen7;
             TB_PlazaName.Location = new System.Drawing.Point(253, 173);
             TB_PlazaName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_PlazaName.MaxLength = 20;
@@ -1972,7 +1974,7 @@ namespace PKHeX.WinForms
             // 
             // TB_RotomOT
             // 
-            TB_RotomOT.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_RotomOT.DisplayContext = EntityContext.Gen7;
             TB_RotomOT.Location = new System.Drawing.Point(86, 22);
             TB_RotomOT.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_RotomOT.MaxLength = 12;
@@ -2178,7 +2180,7 @@ namespace PKHeX.WinForms
 
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_Save;
-        private System.Windows.Forms.TextBox TB_OTName;
+        private PKHeX.WinForms.Controls.RenderedString TB_OTName;
         private System.Windows.Forms.Label L_TrainerName;
         private System.Windows.Forms.MaskedTextBox MT_Money;
         private System.Windows.Forms.Label L_Money;
@@ -2310,7 +2312,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ComboBox CB_SkinColor;
         private System.Windows.Forms.Label L_SkinColor;
         private System.Windows.Forms.ComboBox CB_Fashion;
-        private System.Windows.Forms.TextBox TB_PlazaName;
+        private PKHeX.WinForms.Controls.RenderedString TB_PlazaName;
         private System.Windows.Forms.Label L_PlazaName;
         private System.Windows.Forms.Label L_Vivillon;
         private System.Windows.Forms.ComboBox CB_Vivillon;
@@ -2345,7 +2347,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_Surf2;
         private System.Windows.Forms.NumericUpDown NUD_Surf1;
         private System.Windows.Forms.NumericUpDown NUD_Surf0;
-        private System.Windows.Forms.TextBox TB_RotomOT;
+        private PKHeX.WinForms.Controls.RenderedString TB_RotomOT;
         private System.Windows.Forms.Label L_RotomOT;
         private Controls.TrainerID trainerID1;
         private Controls.TrainerStat TrainerStats;

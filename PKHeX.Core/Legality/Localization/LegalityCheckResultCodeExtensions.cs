@@ -173,6 +173,7 @@ public static class LegalityCheckResultCodeExtensions
             MarkValueUnusedBitsPresent => localization.MarkValueUnusedBitsPresent,
 
             // Moves
+            MovePPMatchesVirtualConsole => localization.MovePPMatchesVirtualConsole,
             MoveEvoFCombination_0 => localization.MoveEvoFCombination_0,
             MovePPExpectHealed_01 => localization.MovePPExpectHealed_01,
             MovePPTooHigh_01 => localization.MovePPTooHigh_01,
@@ -367,7 +368,7 @@ public static class LegalityCheckResultCodeExtensions
             StatIncorrectCP_0 => localization.StatIncorrectCP,
             StatGigantamaxInvalid => localization.StatGigantamaxInvalid,
             StatGigantamaxValid => localization.StatGigantamaxValid,
-            StatNatureInvalid => localization.StatNatureInvalid,
+            StatAlignmentInvalid => localization.StatAlignmentInvalid,
             StatBattleVersionInvalid => localization.StatBattleVersionInvalid,
             StatNobleInvalid => localization.StatNobleInvalid,
             StatAlphaInvalid => localization.StatAlphaInvalid,

@@ -146,7 +146,7 @@ public sealed class TrainerNameVerifier : Verifier
         {
             if (str.Length > 5)
                 data.AddLine(GetInvalid(OTLong, 5));
-            if (!StringConverter1.GetIsJapanese(str))
+            if (data.EncounterOriginal.Generation == 1 ? !StringConverter1.GetIsJapanese(str) : !StringConverter2.GetIsJapanese(str))
                 data.AddLine(GetInvalid(G1CharOT));
         }
         else if (pk.Korean)

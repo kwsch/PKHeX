@@ -68,7 +68,7 @@ public sealed record EncounterEgg6(ushort Species, byte Form, GameVersion Versio
             Country = geo.Country,
             Region = geo.Region,
         };
-        pk.StatNature = pk.Nature;
+        pk.StatAlignment = pk.Nature;
         pk.SetHatchMemory6();
 
         if (Species is (int)Core.Species.Scatterbug)

@@ -345,7 +345,6 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// <summary>
     /// Indicates if the <see cref="Form"/> is specified.
     /// </summary>
-    /// <returns></returns>
     public bool IsSpecifiedForm() => Form != -1;
 
     /// <summary>

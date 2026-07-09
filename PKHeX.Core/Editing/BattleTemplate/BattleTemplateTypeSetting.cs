@@ -19,8 +19,16 @@ public sealed class BattleTemplateTypeSetting
     public LanguageID Language { get; set; }
     public StatDisplayStyle StyleStatEVs { get; set; }
     public StatDisplayStyle StyleStatIVs { get; set; }
+    public StatDisplayStyle StyleStatSPs { get; set; }
     public StatDisplayStyle StyleStatOther { get; set; }
     public MoveDisplayStyle StyleMove { get; set; }
+
+    [LocalizedDescription("Whether to forcefully append Champions Stat Points in the export.")]
+    public bool IncludeChampionsStatPoints
+    {
+        get;
+        set;
+    }
 
     [LocalizedDescription("Custom stat labels and grammar.")]
     public StatDisplayConfig StatsCustom { get; set; } = StatDisplayConfig.HABCDS;
@@ -48,6 +56,8 @@ public sealed class BattleTemplateTypeSetting
         StatsEVs = StyleStatEVs,
         StatsIVs = StyleStatIVs,
         StatsOther = StyleStatOther,
+        StatsSPs = StyleStatSPs,
+        IncludeChampionsStatPoints = IncludeChampionsStatPoints,
         Moves = GetMoveDisplayStyle(StyleMove, context),
     };
 

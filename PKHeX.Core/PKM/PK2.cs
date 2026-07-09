@@ -219,6 +219,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
             pk7.FixMoves();
         }
 
+        // Don't replicate the bugged PP application method; heal the PP to correct values.
         pk7.HealPP();
         pk7.RefreshChecksum();
         return pk7;

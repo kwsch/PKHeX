@@ -1045,7 +1045,7 @@ namespace PKHeX.WinForms
             NUD_Animation.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             NUD_Animation.Location = new System.Drawing.Point(240, 309);
             NUD_Animation.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_Animation.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
+            NUD_Animation.Maximum = new decimal(new int[] { 7, 0, 0, 0 });
             NUD_Animation.Name = "NUD_Animation";
             NUD_Animation.Size = new System.Drawing.Size(43, 25);
             NUD_Animation.TabIndex = 15;

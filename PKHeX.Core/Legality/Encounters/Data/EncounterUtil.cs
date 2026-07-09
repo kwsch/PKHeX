@@ -202,4 +202,25 @@ public static class EncounterUtil
         var pt = version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
         return pt[species];
     }
+
+    /// <summary>
+    /// Gets the expected current egg location value for a given entity state and original location value.
+    /// </summary>
+    /// <param name="pk">Current entity state</param>
+    /// <param name="loc">Location value that is expected to be used for the egg location</param>
+    /// <returns>Expected egg location value</returns>
+    internal static ushort GetExpectedEggLocation<T>(T pk, ushort loc) where T : PKM
+    {
+        if (pk is PB8)
+            return Locations8b.GetLocationLocal(loc);
+        return loc;
+    }
+
+    internal static bool IsMatchEggLocation<TEnc, TEntity>(this TEnc enc, TEntity pk)
+        where TEnc : ILocation
+        where TEntity : PKM
+    {
+        var loc = GetExpectedEggLocation(pk, enc.EggLocation);
+        return loc == pk.EggLocation;
+    }
 }

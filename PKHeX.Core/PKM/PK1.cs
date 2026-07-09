@@ -247,6 +247,7 @@ public sealed class PK1 : GBPKML, IPersonalType
             pk7.Nickname = StringConverter12Transporter.GetString(NicknameTrash, Japanese);
         }
 
+        // Don't replicate the bugged PP application method; heal the PP to correct values.
         pk7.HealPP();
         pk7.RefreshChecksum();
         return pk7;

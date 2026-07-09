@@ -19,7 +19,7 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public virtual string Position => "???";
     public string Nickname => Entity.Nickname;
     public string Species => Get(Strings.specieslist, Entity.Species);
-    public string Nature => Get(Strings.natures, (byte)Entity.StatNature);
+    public string Nature => Get(Strings.natures, (byte)Entity.StatAlignment);
     public string Gender => Get(GenderSymbols, Entity.Gender);
     public string ESV => Entity.PSV.ToString("0000");
     public string HP_Type => GetSpan(Strings.HiddenPowerTypes, Entity.HPType);

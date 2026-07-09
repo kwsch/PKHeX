@@ -26,7 +26,7 @@ public sealed record EncounterInvalid : IEncounterable
     public string Name => "Invalid";
     public string LongName => "Invalid";
     public ushort Location => 0;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public AbilityPermission Ability => AbilityPermission.Any12H;
     public Ball FixedBall => Ball.None;
 

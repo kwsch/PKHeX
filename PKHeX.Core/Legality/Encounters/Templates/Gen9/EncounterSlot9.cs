@@ -13,7 +13,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
     public Ball FixedBall => Ball.None;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
@@ -88,7 +88,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         pk.EncryptionConstant = rnd.Rand32();
         criteria.SetRandomIVs(pk);
 
-        pk.Nature = pk.StatNature = criteria.GetNature();
+        pk.Nature = pk.StatAlignment = criteria.GetNature();
         pk.Gender = criteria.GetGender(Gender, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 

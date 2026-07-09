@@ -13,7 +13,7 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IEncou
     public GameVersion Version { get; }
     public Shiny Shiny => Shiny.Never;
     public bool IsEgg => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
     public bool IsFixedTrainer => true;
@@ -127,7 +127,7 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IEncou
             return false;
         if (pk.OriginalTrainerGender != OTGender)
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         return true;
     }
@@ -139,14 +139,6 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IEncou
         if (Nature != pk.Nature)
             return false;
         return true;
-    }
-
-    private bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = EggLocation;
-        if (pk is PB8)
-            expect = Locations.Default8bNone;
-        return pk.EggLocation == expect;
     }
 
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;

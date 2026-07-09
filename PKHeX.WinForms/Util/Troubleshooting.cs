@@ -9,38 +9,62 @@ namespace PKHeX.WinForms;
 
 public static class Troubleshooting
 {
-    public static void AddTroubleshootingControls(ToolStripDropDownItem item, List<IPlugin> plugins)
+    public static void AddTroubleshootingControls(ToolStripDropDownItem item, List<IPlugin> plugins, bool visible)
     {
-        item.DropDownItems.Add(GetSaveHandlerTroubleshooter(Keys.L));
-        item.DropDownItems.Add(GetHexImporter(Keys.I));
-        item.DropDownItems.Add(GetPluginInfo(Keys.U, plugins));
+        if (visible)
+        {
+            // Sub-group all controls rather than dumping them in directly.
+            const string name = "Menu_Troubleshooting";
+            var parent = new ToolStripMenuItem
+            {
+                Name = name,
+                Text = name,
+                Visible = true,
+                Image = Properties.Resources.settings,
+            };
+            item.DropDownItems.Add(parent);
+            item = parent;
+        }
+
+        var saveHandlerItem = GetSaveHandlerTroubleshooter("Menu_ForceLoadSAV", Keys.L);
+        saveHandlerItem.Image = Properties.Resources.main;
+        item.DropDownItems.Add(saveHandlerItem);
+
+        var hexImporterItem = GetHexImporter("Menu_HexImporter", Keys.I);
+        hexImporterItem.Image = Properties.Resources.database;
+        item.DropDownItems.Add(hexImporterItem);
+
+        var pluginInfoItem = GetPluginInfo("Menu_PluginInfo", Keys.U, plugins);
+        pluginInfoItem.Image = Properties.Resources.about;
+        item.DropDownItems.Add(pluginInfoItem);
     }
 
-    private static ToolStripMenuItem GetSaveHandlerTroubleshooter(Keys key)
+    private static ToolStripMenuItem GetSaveHandlerTroubleshooter(string name, Keys key)
     {
-        var item = GetHiddenMenu(key);
+        var item = GetMenu(name, key);
         item.Click += (_, _) => OpenSaveHandlerTroubleshooter();
         return item;
     }
 
-    private static ToolStripMenuItem GetHexImporter(Keys key)
+    private static ToolStripMenuItem GetHexImporter(string name, Keys key)
     {
-        var item = GetHiddenMenu(key);
+        var item = GetMenu(name, key);
         item.Click += (_, _) => OpenFileFromClipboardHex();
         return item;
     }
 
-    private static ToolStripMenuItem GetPluginInfo(Keys key, List<IPlugin> plugins)
+    private static ToolStripMenuItem GetPluginInfo(string name, Keys key, List<IPlugin> plugins)
     {
-        var item = GetHiddenMenu(key);
+        var item = GetMenu(name, key);
         item.Click += (_, _) => DisplayPluginList(plugins);
         return item;
     }
 
-    private static ToolStripMenuItem GetHiddenMenu(Keys key) => new()
+    private static ToolStripMenuItem GetMenu(string name, Keys key) => new()
     {
+        Name = name,
+        Text = name, // will be replaced by localization, but set to something for design time
         ShortcutKeys = Keys.Control | Keys.Alt | key,
-        Visible = false,
     };
 
     private static void OpenSaveHandlerTroubleshooter()
@@ -58,7 +82,7 @@ public static class Troubleshooting
         var hex = Clipboard.GetText().Trim();
         if (string.IsNullOrEmpty(hex))
         {
-            WinFormsUtil.Alert("Clipboard is empty.");
+            WinFormsUtil.Alert(MessageStrings.MsgTroubleshootingClipboardEmpty);
             return;
         }
 
@@ -69,7 +93,7 @@ public static class Troubleshooting
         }
         catch (FormatException)
         {
-            WinFormsUtil.Alert("Clipboard does not contain valid hex data.");
+            WinFormsUtil.Alert(MessageStrings.MsgTroubleshootingClipboardInvalidHex);
         }
     }
 
@@ -77,10 +101,10 @@ public static class Troubleshooting
     {
         var text = new StringBuilder();
 
-        text.AppendLine($"Loaded {plugins.Count} plugins:");
+        text.AppendLine(string.Format(MessageStrings.MsgTroubleshootingPluginListHeader, plugins.Count));
         if (plugins.Count == 0)
         {
-            text.AppendLine("None.");
+            text.AppendLine(MessageStrings.MsgTroubleshootingPluginListEmpty);
             WinFormsUtil.Alert(text.ToString());
             return;
         }

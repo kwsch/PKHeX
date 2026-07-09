@@ -26,7 +26,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncount
     public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname { get; }
 
@@ -154,7 +154,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncount
         var gender = criteria.GetGender(Gender, pi);
         var nature = criteria.GetNature(Nature);
         int ability = criteria.GetAbilityFromNumber(Ability);
-        pk.Nature = pk.StatNature = nature;
+        pk.Nature = pk.StatAlignment = nature;
         pk.Gender = gender;
         pk.RefreshAbility(ability);
         if (IVs.IsSpecified)
@@ -192,17 +192,9 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IEncount
             return false;
         if (pk.OriginalTrainerGender != OTGender)
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         return true;
-    }
-
-    private bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = EggLocation;
-        if (pk is PB8)
-            expect = Locations.Default8bNone;
-        return pk.EggLocation == expect;
     }
 
     private bool IsMatchNatureGenderShiny(PKM pk)

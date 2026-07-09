@@ -37,8 +37,7 @@ public sealed partial class SaveHandlerTroubleshooter : Form
         var handlers = SaveUtil.Handlers.ToList();
         handlers.Insert(0, new SaveHandlerDefault());
         CB_Handler.DataSource = handlers
-            .Select(z => new HandlerItem(GetHandlerDisplayName(z), z))
-            .ToList();
+            .ConvertAll(z => new HandlerItem(GetHandlerDisplayName(z), z));
 
         UpdateSubVersionChoices();
     }
@@ -57,7 +56,15 @@ public sealed partial class SaveHandlerTroubleshooter : Form
         ];
 
         CB_SubVersion.DataSource = versions;
-        CB_SubVersion.SelectedIndex = 0;
+        if (versions.Count == 0)
+        {
+            L_SubVersion.Visible = CB_SubVersion.Visible = false;
+        }
+        else
+        {
+            CB_SubVersion.SelectedIndex = 0;
+            L_SubVersion.Visible = CB_SubVersion.Visible = true;
+        }
     }
 
     private void B_Browse_Click(object? sender, EventArgs e)
@@ -69,8 +76,10 @@ public sealed partial class SaveHandlerTroubleshooter : Form
         if (!string.IsNullOrWhiteSpace(TB_Path.Text))
             ofd.FileName = TB_Path.Text;
 
-        if (ofd.ShowDialog(this) == DialogResult.OK)
-            TB_Path.Text = ofd.FileName;
+        if (ofd.ShowDialog(this) != DialogResult.OK)
+            return;
+        TB_Path.Text = ofd.FileName;
+        L_FileName.Text = Path.GetFileName(ofd.FileName);
     }
 
     private void B_Continue_Click(object? sender, EventArgs e)
@@ -136,7 +145,7 @@ public sealed partial class SaveHandlerTroubleshooter : Form
         }
     }
 
-    private static void SaveHandlerTroubleshooter_DragEnter(object? sender, DragEventArgs e)
+    private void SaveHandlerTroubleshooter_DragEnter(object? sender, DragEventArgs e)
     {
         e.Effect = e.Data?.GetDataPresent(DataFormats.FileDrop) == true
             ? DragDropEffects.Copy
@@ -175,15 +184,5 @@ public sealed partial class SaveHandlerTroubleshooter : Form
     private sealed record HandlerItem(string Text, ISaveHandler Handler)
     {
         public override string ToString() => Text;
-    }
-
-    private sealed class SaveHandlerDefault : ISaveHandler
-    {
-        public bool IsRecognized(long size) => true;
-
-        public SaveHandlerSplitResult TrySplit(Memory<byte> input)
-            => new(input, default, default, this);
-
-        public void Finalize(Span<byte> input) { }
     }
 }

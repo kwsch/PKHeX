@@ -1,7 +1,39 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-26/05/05 - New Update:
+26/07/07 - New Update:
+ - Legality:
+ - - Added: Handling for HOME 4.0.0 absolute (float) size mismatches with Legends: Arceus.
+ - - Added: Handling for HOME BD/SP "None" location remapping unused location IDs.
+ - - Added: Handling for Gen1/2=>Gen7 Virtual Console bugged current PP values. Thanks @Lusamine, @santacrab2, @Bowarcky !
+ - - Added: New check for Effort Value gains when not possible (no EXP gained or any other mechanic), like on Eggs.
+ - - Fixed: Matching errors for HG/SS swarm & safari and R/S/E swarms resolved.
+ - - Fixed: Mystery Gifts generated from encounter now respect IVs if requested.
+ - - Fixed: Gen5 handling of Basculin ability mismatches is now correct while in Gen5 format.
+ - - Fixed: Relaxed rules for Gen4 Korean <-> International trades via GTS. Thanks @abcboy101 !
+ - Added: Inventory editor now displays item sprite (if available) for a better visual editing experience.
+ - Added: Experience Bar is now indicated in the PKM editor. Can be hidden via Settings. Scroll/Drag & Shift/Alt modifiers can edge.
+ - Added: Tools/Troubleshooting - Hex Import (from Clipboard) and Plugin Info.
+ - Added: Tools/Troubleshooting - Save file force loader added to bypass sanity checks for corrupted save files.
+ - Added: Gen4 HG/SS Pokéathlon editor added.
+ - Added: Gen5 B2/W2 Join Avenue editor added.
+ - Added: Gen5 B2/W2 Medal dedicated editor added.
+ - Added: Gen5 Pokémon Global Link status editor added.
+ - Added: Settings now auto-detects dark mode on new settings.
+ - Added: Settings can now configure high Dpi text for high Dpi monitors.
+ - Added: Settings can now configure hover/set exports to show Champions-style EVs.
+ - Added: Settings can now configure the number of rows the Encounter/PKM/Mystery Gift Database.
+ - Fixed: Gen3 RSBox Pokémon no longer read erroneous status conditions.
+ - Fixed: Gen8a/9 inventory give all items no longer gives unobtainable items.
+ - Fixed: Gen8a extra byte indexes fixed, now shows correct unused data structure indexes. Thanks @gcolotti !
+ - Changed: Stat Nature renamed to Stat Alignment to match official terminology.
+ - Changed: Save File editor buttons in the SAV tab are now bigger, and the quick-actions are auto-sized.
+ - Changed: Program settings editor now shows horizontal tabs for each settings category rather than vertical.
+ - Changed: Program language selection now displays all options in a list rather than having to click a drop-down.
+ - Changed: Translations for the Settings editor, box export, and About/Shortcuts now provided. Thanks @doomsday616 !
+
+
+26/05/05 - New Update: (210612) [13277582]
  - Legality: Updated handling for HOME=>ZA transfers.
  - - Added: Gen9a HOME gifts are now recognized. Thanks @Manu098vm !
  - - Added: Gen9a HOME 4.0.0 scale reset handling. Thanks ILCA !

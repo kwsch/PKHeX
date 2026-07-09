@@ -176,7 +176,7 @@ public static class Overworld8aRNG
         var nature = (Nature)rand.NextInt(25);
         if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(nature))
             return false;
-        pk.Nature = pk.StatNature = nature;
+        pk.Nature = pk.StatAlignment = nature;
 
         var (height, weight) = para.IsAlpha
             ? (byte.MaxValue, byte.MaxValue)

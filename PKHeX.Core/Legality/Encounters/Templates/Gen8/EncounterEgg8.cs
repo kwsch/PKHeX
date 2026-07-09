@@ -59,7 +59,7 @@ public sealed record EncounterEgg8(ushort Species, byte Form, GameVersion Versio
             Nature = criteria.GetNature(),
             Gender = criteria.GetGender(pi),
         };
-        pk.StatNature = pk.Nature;
+        pk.StatAlignment = pk.Nature;
 
         SetEncounterMoves(pk);
 

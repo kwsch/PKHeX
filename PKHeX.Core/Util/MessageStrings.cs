@@ -133,6 +133,15 @@ public static class MessageStrings
 
     #endregion
 
+    #region Troubleshooting
+
+    public static string MsgTroubleshootingClipboardEmpty { get; set; } = "Clipboard is empty.";
+    public static string MsgTroubleshootingClipboardInvalidHex { get; set; } = "Clipboard does not contain a valid hex string.";
+    public static string MsgTroubleshootingPluginListHeader { get; set; } = "Loaded {0} plugins:";
+    public static string MsgTroubleshootingPluginListEmpty { get; set; } = "No plugins loaded.";
+
+    #endregion
+
     #region PKM Editor
 
     public static string MsgPKMLoadNull { get; set; } = "Attempted to load a null file.";

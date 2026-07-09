@@ -139,9 +139,13 @@ public static class RaidRNG
                 if (s.WeightScalar != weight)
                 {
                     if (height == 0 && s.WeightScalar == 0 && HomeQuirks.HasEnteredSetZeroScale(pk))
-                    { } // OK
+                    {
+                        // OK
+                    }
                     else
+                    {
                         return false;
+                    }
                 }
             }
         }
@@ -251,7 +255,7 @@ public static class RaidRNG
         if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(nature))
             return false;
 
-        pk.Nature = pk.StatNature = nature;
+        pk.Nature = pk.StatAlignment = nature;
 
         var height = rng.NextInt(0x81) + rng.NextInt(0x80);
         var weight = rng.NextInt(0x81) + rng.NextInt(0x80);

@@ -102,7 +102,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     {
         if (pk.Version != Version)
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
@@ -118,15 +118,6 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         if (IsMatchPartial(pk))
             return EncounterMatchRating.PartialMatch;
         return EncounterMatchRating.Match;
-    }
-
-    private static bool IsMatchEggLocation(PKM pk)
-    {
-        if (pk.Format == 3)
-            return true;
-
-        var expect = pk is PB8 ? Locations.Default8bNone : 0;
-        return pk.EggLocation == expect;
     }
 
     private bool IsMatchLevel(PKM pk, EvoCriteria evo)

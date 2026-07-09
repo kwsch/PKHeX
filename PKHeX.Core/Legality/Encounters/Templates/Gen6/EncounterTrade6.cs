@@ -15,7 +15,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IEncount
     public bool IsEgg => false;
     public Ball FixedBall => Ball.Poke;
     public bool IsShiny => false;
-    public ushort EggLocation => 0;
+    ushort ILocation.EggLocation => 0;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname { get; init; } = true;
 
@@ -149,18 +149,11 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IEncount
             return false;
         if (pk.OriginalTrainerGender != OTGender)
             return false;
-        if (!IsMatchEggLocation(pk))
+        if (!this.IsMatchEggLocation(pk))
             return false;
         return true;
     }
 
-    private bool IsMatchEggLocation(PKM pk)
-    {
-        var expect = EggLocation;
-        if (pk is PB8 && expect is 0)
-            expect = Locations.Default8bNone;
-        return pk.EggLocation == expect;
-    }
     private bool IsMatchNatureGenderShiny(PKM pk)
     {
         if (!Shiny.IsValid(pk))

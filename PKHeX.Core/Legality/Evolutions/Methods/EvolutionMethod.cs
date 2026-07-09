@@ -39,7 +39,7 @@ public readonly record struct EvolutionMethod(ushort Species, ushort Argument, b
     /// <param name="lvl">Current level</param>
     /// <param name="levelMin">Minimum level to sanity check with</param>
     /// <param name="skipChecks">Option to skip some comparisons to return a 'possible' evolution.</param>
-    /// <param name="tweak"></param>
+    /// <param name="tweak">Evolution rule tweaks to apply when checking.</param>
     /// <returns>True if the evolution criteria is valid.</returns>
     public EvolutionCheckResult Check(PKM pk, byte lvl, byte levelMin, bool skipChecks, EvolutionRuleTweak tweak)
     {

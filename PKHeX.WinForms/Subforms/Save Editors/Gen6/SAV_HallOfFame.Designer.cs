@@ -1,3 +1,5 @@
+using PKHeX.Core;
+
 namespace PKHeX.WinForms
 {
     partial class SAV_HallOfFame
@@ -37,7 +39,7 @@ namespace PKHeX.WinForms
             CB_Species = new System.Windows.Forms.ComboBox();
             Label_Species = new System.Windows.Forms.Label();
             CHK_Nicknamed = new System.Windows.Forms.CheckBox();
-            TB_Nickname = new System.Windows.Forms.TextBox();
+            TB_Nickname = new PKHeX.WinForms.Controls.RenderedString();
             TB_EC = new System.Windows.Forms.TextBox();
             Label_EncryptionConstant = new System.Windows.Forms.Label();
             GB_CurrentMoves = new System.Windows.Forms.GroupBox();
@@ -49,7 +51,7 @@ namespace PKHeX.WinForms
             CB_HeldItem = new System.Windows.Forms.ComboBox();
             GB_OT = new System.Windows.Forms.GroupBox();
             Label_OTGender = new System.Windows.Forms.Label();
-            TB_OT = new System.Windows.Forms.TextBox();
+            TB_OT = new PKHeX.WinForms.Controls.RenderedString();
             TB_SID = new System.Windows.Forms.MaskedTextBox();
             TB_TID = new System.Windows.Forms.MaskedTextBox();
             Label_OT = new System.Windows.Forms.Label();
@@ -185,6 +187,7 @@ namespace PKHeX.WinForms
             // TB_Nickname
             // 
             TB_Nickname.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            TB_Nickname.DisplayContext = EntityContext.Gen6;
             TB_Nickname.Location = new System.Drawing.Point(222, 93);
             TB_Nickname.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_Nickname.MaxLength = 12;
@@ -336,6 +339,7 @@ namespace PKHeX.WinForms
             // TB_OT
             // 
             TB_OT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            TB_OT.DisplayContext = EntityContext.Gen6;
             TB_OT.Location = new System.Drawing.Point(42, 53);
             TB_OT.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_OT.MaxLength = 12;
@@ -638,7 +642,7 @@ namespace PKHeX.WinForms
         public System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.Label Label_Species;
         private System.Windows.Forms.CheckBox CHK_Nicknamed;
-        public System.Windows.Forms.TextBox TB_Nickname;
+        public PKHeX.WinForms.Controls.RenderedString TB_Nickname;
         private System.Windows.Forms.TextBox TB_EC;
         private System.Windows.Forms.Label Label_EncryptionConstant;
         private System.Windows.Forms.GroupBox GB_CurrentMoves;
@@ -649,7 +653,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label Label_HeldItem;
         private System.Windows.Forms.ComboBox CB_HeldItem;
         public System.Windows.Forms.GroupBox GB_OT;
-        public System.Windows.Forms.TextBox TB_OT;
+        public PKHeX.WinForms.Controls.RenderedString TB_OT;
         private System.Windows.Forms.MaskedTextBox TB_SID;
         private System.Windows.Forms.MaskedTextBox TB_TID;
         private System.Windows.Forms.Label Label_OT;

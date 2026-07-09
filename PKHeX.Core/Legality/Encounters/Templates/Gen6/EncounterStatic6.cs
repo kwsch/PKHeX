@@ -141,7 +141,7 @@ public sealed record EncounterStatic6(GameVersion Version)
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (!IsMatchEggLocation(pk))
+        if (!IsMatchEggLocationInternal(pk))
             return false;
         if (!IsMatchLocation(pk))
             return false;
@@ -169,26 +169,25 @@ public sealed record EncounterStatic6(GameVersion Version)
 
     private bool IsMatchLocation(PKM pk)
     {
-        if (IsEgg)
-            return true;
         var met = pk.MetLocation;
         if (met == Location)
             return true;
 
-        if (Species != (int)Core.Species.Pikachu)
-            return false;
+        if (IsEgg)
+            return !pk.IsEgg || met == Locations.LinkTrade6;
 
-        // Cosplay Pikachu is given from multiple locations
-        return met is 180 or 186 or 194;
+        // Cosplay Pikachu is given from multiple other locations and can change form after; permit all.
+        if (Species == (int)Core.Species.Pikachu)
+            return met is 180 or 186 or 194;
+
+        return false;
+
     }
 
-    private bool IsMatchEggLocation(PKM pk)
+    private bool IsMatchEggLocationInternal(PKM pk)
     {
         if (!IsEgg)
-        {
-            var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-            return pk.EggLocation == expect;
-        }
+            return this.IsMatchEggLocation(pk);
 
         var eggLoc = pk.EggLocation;
         if (!pk.IsEgg) // hatched

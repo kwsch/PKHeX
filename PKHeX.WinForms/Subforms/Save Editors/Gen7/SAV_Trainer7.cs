@@ -21,15 +21,13 @@ public partial class SAV_Trainer7 : Form
 
         SAV = (SAV7)(Origin = sav).Clone();
         Loading = true;
-        if (Main.Unicode)
-        {
-            TB_OTName.Font = FontUtil.GetPKXFont();
-        }
+        if (!Main.Unicode)
+            TB_OTName.DisableInGameFont = true;
 
         B_MaxCash.Click += (_, _) => MT_Money.Text = "9,999,999";
 
         CB_Gender.Items.Clear();
-        CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
+        CB_Gender.Items.AddRange([.. Main.GenderSymbols.Take(2)]); // m/f depending on unicode selection
 
         GetComboBoxes();
         GetTextBoxes();
@@ -104,7 +102,7 @@ public partial class SAV_Trainer7 : Form
 
         // Display Data
         TB_OTName.Text = SAV.OT;
-        trainerID1.LoadIDValues(SAV, SAV.Generation);
+        trainerID1.LoadTrainer(SAV);
         MT_Money.Text = SAV.Money.ToString();
 
         CB_Country.SelectedValue = (int)SAV.Country;

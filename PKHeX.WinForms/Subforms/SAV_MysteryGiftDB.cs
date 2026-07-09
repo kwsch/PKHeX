@@ -33,7 +33,9 @@ public partial class SAV_MysteryGiftDB : Form
         InitializeComponent();
 
         var settings = new TabPage { Text = "Settings", Name = "Tab_Settings" };
-        settings.Controls.Add(new PropertyGrid { Dock = DockStyle.Fill, SelectedObject = Main.Settings.MysteryDb });
+        var settingsGrid = new PropertyGrid { Dock = DockStyle.Fill };
+        PropertyGridLocalization.Apply(settingsGrid, Main.Settings.MysteryDb, Main.CurrentLanguage);
+        settings.Controls.Add(settingsGrid);
         TC_SearchSettings.Controls.Add(settings);
 
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -115,7 +117,10 @@ public partial class SAV_MysteryGiftDB : Form
     {
         base.OnShown(e);
         foreach (var cb in TLP_Filters.Controls.OfType<ComboBox>())
-            cb.SelectedIndex = cb.SelectionLength = 0;
+        {
+            cb.SelectedIndex = 0;
+            cb.Select(0, 0);
+        }
     }
 
     private readonly PictureBox[] PKXBOXES;

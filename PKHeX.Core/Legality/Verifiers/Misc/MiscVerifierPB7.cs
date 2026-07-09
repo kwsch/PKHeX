@@ -1,3 +1,4 @@
+using static System.BitConverter; // float->uint conversion for legality messages
 using static PKHeX.Core.LegalityCheckResultCode;
 using static PKHeX.Core.CheckIdentifier;
 
@@ -15,7 +16,7 @@ internal sealed class MiscVerifierPB7 : Verifier
 
     internal void Verify(LegalityAnalysis data, PB7 pk)
     {
-        MiscVerifierHelpers.VerifyAbsoluteSizes(data, pk);
+        VerifyAbsoluteSizes(data, pk);
 
         var calc = pk.CalcCP;
         if (pk.Stat_CP != pk.CalcCP && !pk.IsStarter)
@@ -59,4 +60,43 @@ internal sealed class MiscVerifierPB7 : Verifier
         if (pk.Mood is not PB7.InitialSpiritMood)
             data.AddLine(GetInvalid(Misc, G7BSocialShouldBe100Mood, PB7.InitialSpiritMood));
     }
+    internal static void VerifyAbsoluteSizes<T>(LegalityAnalysis data, T pk) where T : IScaledSizeValue
+    {
+        // Check if the size values are correct, with some edge cases where they are fixed and not calculated.
+        // If not an edge case, must be calculated.
+        switch (pk)
+        {
+            case PB7 pb7 when data.EncounterMatch is WB7 { IsHeightWeightFixed: true } enc:
+                VerifyFixedSizes(data, pb7, enc);
+                return;
+        }
+
+        VerifyCalculatedSizes(data, pk);
+    }
+
+    // ReSharper disable CompareOfFloatsByEqualityOperator -- THESE MUST MATCH EXACTLY
+    private static void VerifyFixedSizes<T>(LegalityAnalysis data, T obj, WB7 enc) where T : IScaledSizeValue
+    {
+        // Unlike PLA, there is no way to force it to recalculate in-game.
+        // The only encounter this applies to is Meltan, which cannot reach PLA for recalculation.
+        var expectHeight = enc.GetHomeHeightAbsolute();
+        if (obj.HeightAbsolute != expectHeight)
+            data.AddLine(GetInvalid(Encounter, StatIncorrectHeight, SingleToUInt32Bits(expectHeight)));
+
+        var expectWeight = enc.GetHomeWeightAbsolute();
+        if (obj.WeightAbsolute != expectWeight)
+            data.AddLine(GetInvalid(Encounter, StatIncorrectWeight, SingleToUInt32Bits(expectWeight)));
+    }
+
+    private static void VerifyCalculatedSizes<T>(LegalityAnalysis data, T obj) where T : IScaledSizeValue
+    {
+        var expectHeight = obj.CalcHeightAbsolute;
+        if (obj.HeightAbsolute != expectHeight)
+            data.AddLine(GetInvalid(Encounter, StatIncorrectHeight, SingleToUInt32Bits(expectHeight)));
+
+        var expectWeight = obj.CalcWeightAbsolute;
+        if (obj.WeightAbsolute != expectWeight)
+            data.AddLine(GetInvalid(Encounter, StatIncorrectWeight, SingleToUInt32Bits(expectWeight)));
+    }
+    // ReSharper restore CompareOfFloatsByEqualityOperator
 }

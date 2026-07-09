@@ -189,8 +189,8 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
 
     public void InitializeFrom(IGameDataSide side, PKH pkh)
     {
-        MetLocation = side.MetLocation != Locations.Default8bNone ? side.MetLocation : (ushort)0;
-        EggLocation = side.EggLocation != Locations.Default8bNone ? side.EggLocation : (ushort)0;
+        MetLocation = side.MetLocation;
+        EggLocation = side.EggLocation;
 
         if (side is IGameDataSplitAbility a)
             AbilityNumber = a.AbilityNumber;

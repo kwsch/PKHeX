@@ -110,7 +110,7 @@ public static class LumioseRNG
         // Compromise on Nature -- some are fixed, some are random. If the request wants a specific nature, just mint it.
         if (criteria.IsSpecifiedNature() && !criteria.IsSatisfiedNature(nature))
             return false;
-        pk.Nature = pk.StatNature = nature;
+        pk.Nature = pk.StatAlignment = nature;
 
         // If Hyperspace, the player can have an active Teensy/Humungo boost. The scale is pre-determined outside of the seed=>pa9, consider it not correlated or traceable.
         // When calling the method to verify the entity, pass SizeType9.VALUE instead.

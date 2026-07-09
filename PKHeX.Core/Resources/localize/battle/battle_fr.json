@@ -17,6 +17,7 @@
   { "Token": "IVs", "Text": "IVs : " },
   { "Token": "AVs", "Text": "AVs : " },
   { "Token": "GVs", "Text": "GVs : " },
+  { "Token": "SPs", "Text": "SPs : " },
   { "Token": "Level", "Text": "Niveau : " },
   { "Token": "Ability", "Text": "Talent : " },
   { "Token": "DynamaxLevel", "Text": "Niveau Dynamax : " },

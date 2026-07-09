@@ -127,6 +127,33 @@
   <data name="shortcuts" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\shortcuts.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="shortcuts_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\shortcuts_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="shortcuts_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\shortcuts_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="shortcuts_es-419" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\shortcuts_es-419.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="shortcuts_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\shortcuts_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="shortcuts_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\shortcuts_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="shortcuts_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\shortcuts_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="shortcuts_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\shortcuts_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="shortcuts_zh-Hans" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\shortcuts_zh-Hans.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="shortcuts_zh-Hant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\shortcuts_zh-Hant.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="fashion_f_sm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\fashion_f_sm;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
