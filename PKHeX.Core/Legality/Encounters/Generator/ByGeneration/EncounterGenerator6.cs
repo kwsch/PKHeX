@@ -47,7 +47,7 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
 
     private static EncounterEgg6 CreateEggEncounter(ushort species, byte form, GameVersion version)
     {
-        if (FormInfo.IsBattleOnlyForm(species, form, Generation) || species is (int)Species.Rotom or (int)Species.Castform)
+        if (FormInfo.IsBattleOnlyForm(species, form, Generation) || species is (int)Species.Rotom or (int)Species.Castform or (int)Species.Furfrou)
             form = FormInfo.GetOutOfBattleForm(species, form, Generation);
         return new EncounterEgg6(species, form, version);
     }
