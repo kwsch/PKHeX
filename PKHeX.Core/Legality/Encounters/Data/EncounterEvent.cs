@@ -148,6 +148,7 @@ public static class EncounterEvent
                 };
                 if (!added)
                     Trace.WriteLine($"Failed to add gift in {Path.GetDirectoryName(path)}: {gift.FileName}");
+                continue;
 
                 static bool AddOrExpand<T>([NotNullWhen(true)] ref HashSet<T>? arr, ref List<T>? extra, T obj)
                 {

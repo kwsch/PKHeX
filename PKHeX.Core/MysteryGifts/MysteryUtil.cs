@@ -46,16 +46,27 @@ public static class MysteryUtil
         /// <returns>List of lines</returns>
         public string GetTitleFromIndex(GameStrings strings)
         {
-            var titles = gift.Generation switch
+            var titles = gift.Context switch
             {
-                7 => GameInfo.Strings.wondercard7,
-                8 => GameInfo.Strings.wondercard8,
-                9 => GameInfo.Strings.wondercard9,
-                _ => throw new ArgumentOutOfRangeException(nameof(gift), gift, null),
+                EntityContext.Gen7  => GameInfo.Strings.wondercard7,
+                EntityContext.Gen7b => GameInfo.Strings.wondercard7,
+                EntityContext.Gen8  => GameInfo.Strings.wondercard8,
+                EntityContext.Gen8a => GameInfo.Strings.wondercard8,
+                EntityContext.Gen8b => GameInfo.Strings.wondercard8,
+                EntityContext.Gen9  => GameInfo.Strings.wondercard9,
+                EntityContext.Gen9a => GameInfo.Strings.wondercard9,
+                _ => throw new ArgumentOutOfRangeException(nameof(gift.Context), gift.Context, null),
             };
             if (gift.CardTitleIndex < 0 || gift.CardTitleIndex >= titles.Length || titles[gift.CardTitleIndex].Length == 0)
                 return "Mystery Gift";
 
+            // Need to format the string with the appropriate args, otherwise it will just show {0} and {1} in the title.
+            var args = gift.GetArgs(strings);
+            return string.Format(titles[gift.CardTitleIndex], args);
+        }
+
+        private string[] GetArgs(GameStrings strings)
+        {
             var args = new string[15];
             if (gift.IsEntity)
             {
@@ -78,9 +89,9 @@ public static class MysteryUtil
             // 10: G8 Ranked Battle season
             // 11: G8/9 title from affixed Ribbon/mark
             // 12: G8/9 cash back money amount
-            // 13: BDSP underground item
+            // 13: BD/SP underground item
             // 14: Z-A extra side mission
-            return string.Format(titles[gift.CardTitleIndex], args);
+            return args;
         }
 
         /// <summary>

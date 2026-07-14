@@ -238,7 +238,7 @@ public sealed class SearchSettings
         };
     }
 
-    private static GameVersion GetFallbackVersion(ITrainerInfo sav)
+    private static GameVersion GetFallbackVersion<T>(T sav) where T : IGeneration, IVersion
     {
         var parent = GameUtil.GetMetLocationVersionGroup(sav.Version);
         if (parent == Invalid)
