@@ -91,7 +91,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
         if (pk.MetLevel != Level)
             return false;
         if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
-            return true;
+            return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
         return true;
