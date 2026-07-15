@@ -1,6 +1,7 @@
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
+using static PKHeX.Core.GlobalLinkPromotion;
 
 namespace PKHeX.Core;
 
@@ -69,15 +70,23 @@ public static class Encounters5B2W2
         new(533, 25, 067, 183, 409), // Gurdurr
 
         // PGL
-        new(575, 32, 243, Gender: 0), // Gothorita
-        new(025, 10, 029, Gender: 0), // Pikachu
-        new(511, 10, 437, Gender: 0), // Pansage
-        new(513, 10, 257, Gender: 0), // Pansear
-        new(515, 10, 056, Gender: 0), // Panpour
-        new(387, 10, 254, Gender: 0), // Turtwig
-        new(390, 10, 252, Gender: 0), // Chimchar
-        new(393, 10, 297, Gender: 0), // Piplup
-        new(575, 32, 286, Gender: 0), // Gothorita
+        new(025, 10, 029, Gender: 0, Promotion: Pikachu),
+        new(387, 10, 254, Gender: 0, Promotion: StartersSinnoh2), // Turtwig
+        new(390, 10, 252, Gender: 0, Promotion: StartersSinnoh2), // Chimchar
+        new(393, 10, 297, Gender: 0, Promotion: StartersSinnoh2), // Piplup
+        new(511, 10, 437, Gender: 0, Promotion: MonkeyUnova), // Pansage
+        new(513, 10, 257, Gender: 0, Promotion: MonkeyUnova), // Pansear
+        new(515, 10, 056, Gender: 0, Promotion: MonkeyUnova), // Panpour
+        new(575, 32, 243, Gender: 0, Promotion: Gothorita1), // Mirror Coat
+        new(575, 32, 286, Gender: 0, Promotion: Gothorita2), // Imprison
+
+        // PGL (Both Versions)
+        new (149, 55, 009, Gender: 0, Promotion: Dragonite1), // JPN/KOR ThunderPunch
+        new (149, 55, 245, Gender: 0, Promotion: Dragonite2), // INT ExtremeSpeed
+        new(212, 10, 211, Gender: 0, Promotion: Scizor), // INT Steel Wing
+        new(248, 55, 069, Gender: 0, Promotion: Tyranitar), // INT Seismic Toss
+        new(376, 45, 038, Gender: 0, Promotion: Metagross), // INT Double-Edge
+        new(445, 48, 242, Gender: 0, Promotion: Garchomp), // INT Crunch
     ]);
     #endregion
     #region Static Encounter/Gift Tables

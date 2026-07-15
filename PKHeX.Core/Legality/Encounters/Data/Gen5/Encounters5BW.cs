@@ -1,6 +1,7 @@
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
+using static PKHeX.Core.GlobalLinkPromotion;
 
 namespace PKHeX.Core;
 
@@ -88,34 +89,46 @@ public static class Encounters5BW
         new(336, 10, 044, 034, 401), // Seviper
 
         // PGL
-        new(134, 10, Gender: 0), // Vaporeon
-        new(135, 10, Gender: 0), // Jolteon
-        new(136, 10, Gender: 0), // Flareon
-        new(196, 10, Gender: 0), // Espeon
-        new(197, 10, Gender: 0), // Umbreon
-        new(470, 10, Gender: 0), // Leafeon
-        new(471, 10, Gender: 0), // Glaceon
-        new(001, 10, Gender: 0), // Bulbasaur
-        new(004, 10, Gender: 0), // Charmander
-        new(007, 10, Gender: 0), // Squirtle
-        new(453, 10, Gender: 0), // Croagunk
-        new(387, 10, Gender: 0), // Turtwig
-        new(390, 10, Gender: 0), // Chimchar
-        new(393, 10, Gender: 0), // Piplup
-        new(493, 100), // Arceus
-        new(252, 10, Gender: 0), // Treecko
-        new(255, 10, Gender: 0), // Torchic
-        new(258, 10, Gender: 0), // Mudkip
-        new(468, 10, 217, Gender: 0), // Togekiss
-        new(473, 34, Gender: 0), // Mamoswine
-        new(137, 10), // Porygon
-        new(384, 50), // Rayquaza
-        new(354, 37, 538, Gender: 1), // Banette
-        new(453, 10, 398, Gender: 0), // Croagunk
-        new(334, 35, 206, Gender: 0),  // Altaria
-        new(242, 10), // Blissey
-        new(448, 10, 418, Gender: 0), // Lucario
-        new(189, 27, 206, Gender: 0), // Jumpluff
+        new(134, 10, Gender: 0, Promotion: Eeveelutions), // Vaporeon
+        new(135, 10, Gender: 0, Promotion: Eeveelutions), // Jolteon
+        new(136, 10, Gender: 0, Promotion: Eeveelutions), // Flareon
+        new(196, 10, Gender: 0, Promotion: Eeveelutions), // Espeon
+        new(197, 10, Gender: 0, Promotion: Eeveelutions), // Umbreon
+        new(470, 10, Gender: 0, Promotion: Eeveelutions), // Leafeon
+        new(471, 10, Gender: 0, Promotion: Eeveelutions), // Glaceon
+        new(001, 10, Gender: 0, Promotion: StartersKanto), // Bulbasaur
+        new(004, 10, Gender: 0, Promotion: StartersKanto), // Charmander
+        new(007, 10, Gender: 0, Promotion: StartersKanto), // Squirtle
+        new(387, 10, Gender: 0, Promotion: StartersSinnoh), // Turtwig
+        new(390, 10, Gender: 0, Promotion: StartersSinnoh), // Chimchar
+        new(393, 10, Gender: 0, Promotion: StartersSinnoh), // Piplup
+        new(252, 10, Gender: 0, Promotion: StartersHoenn), // Treecko
+        new(255, 10, Gender: 0, Promotion: StartersHoenn), // Torchic
+        new(258, 10, Gender: 0, Promotion: StartersHoenn), // Mudkip
+        new(473, 34, Gender: 0, Promotion: Mamoswine),
+        new(453, 10, Gender: 0, Promotion: Croagunk1), // JPN/KOR
+
+        // PGL - Single Gender implied
+        new(493, 100, Promotion: Arceus),
+        new(137, 10, Promotion: Porygon),
+        new(384, 50, Promotion: Rayquaza),
+        new(242, 10, Promotion: Blissey),
+
+        // PGL - Now with moves!
+        new(453, 10, 398, Gender: 0, Promotion: Croagunk2), // INT
+        new(189, 27, 206, Gender: 0, Promotion: Jumpluff),
+        new(334, 35, 206, Gender: 0, Promotion: Altaria),
+        new(354, 37, 538, Gender: 1, Promotion: Banette),
+        new(448, 10, 418, Gender: 0, Promotion: Lucario),
+        new(468, 10, 217, Gender: 0, Promotion: Togekiss),
+        
+        // PGL (Both Versions)
+        new (149, 55, 009, Gender: 0, Promotion: Dragonite1), // JPN/KOR ThunderPunch
+        new (149, 55, 245, Gender: 0, Promotion: Dragonite2), // INT ExtremeSpeed
+        new(212, 10, 211, Gender: 0, Promotion: Scizor), // INT Steel Wing
+        new(248, 55, 069, Gender: 0, Promotion: Tyranitar), // INT Seismic Toss
+        new(376, 45, 038, Gender: 0, Promotion: Metagross), // INT Double-Edge
+        new(445, 48, 242, Gender: 0, Promotion: Garchomp), // INT Crunch
     ]);
 
     #endregion
