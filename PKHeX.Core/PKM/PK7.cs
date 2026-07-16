@@ -488,7 +488,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         // No geolocations are set in-game -- except for bank transfers. Don't emulate bank transfers
         // this.TradeGeoLocation(tr.Country, tr.SubRegion);
 
-        Span<char> ht = stackalloc char[TrashCharCountTrainer];
+        Span<char> ht = stackalloc char[TrashCharCountHandler];
         var len = LoadString(HandlingTrainerTrash, ht);
         ht = ht[..len];
 

@@ -59,7 +59,7 @@ public sealed class HandlerChecker : IBulkAnalyzer
         var cs = cr.Slot;
         var pk = cs.Entity;
         var tr = cs.SAV;
-        Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
+        Span<char> ht = stackalloc char[pk.TrashCharCountHandler];
         var len = pk.LoadString(pk.HandlingTrainerTrash, ht);
         ht = ht[..len];
 

@@ -508,7 +508,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         // Does not check Language or Version for equality! Can result in mismatches or empty (0) language value.
         // Check the trainer string for equality (most expensive of all last).
 
-        Span<char> exist = stackalloc char[pk.TrashCharCountTrainer];
+        Span<char> exist = stackalloc char[pk.TrashCharCountHandler];
         var len = pk.LoadString(pk.HandlingTrainerTrash, exist);
         exist = exist[..len];
 

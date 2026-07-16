@@ -136,7 +136,7 @@ public sealed class HistoryVerifier : Verifier
     /// <summary> <see cref="Bulk.HandlerChecker.CheckHandlingTrainerEquals"/> </summary>
     private void CheckHandlingTrainerEquals(LegalityAnalysis data, PKM pk, ITrainerInfo tr)
     {
-        Span<char> ht = stackalloc char[pk.TrashCharCountTrainer];
+        Span<char> ht = stackalloc char[pk.TrashCharCountHandler];
         var len = pk.LoadString(pk.HandlingTrainerTrash, ht);
         ht = ht[..len];
 

@@ -314,7 +314,9 @@ public sealed class RK4 : G4PKM
     public ushort HandlingTrainerTID { get => ReadUInt16LittleEndian(Data[0x8C..]); set => WriteUInt16LittleEndian(Data[0x8C..], value); }
     public ushort HandlingTrainerSID { get => ReadUInt16LittleEndian(Data[0x8E..]); set => WriteUInt16LittleEndian(Data[0x8E..], value); }
 
-    public override Span<byte> HandlingTrainerTrash => Data.Slice(0x90, 0x14);
+    public override Span<byte> HandlingTrainerTrash => Data.Slice(0x90, 20);
+    public override int TrashCharCountHandler => 10;
+
     public override string HandlingTrainerName
     {
         get => StringConverter4.GetString(HandlingTrainerTrash);
