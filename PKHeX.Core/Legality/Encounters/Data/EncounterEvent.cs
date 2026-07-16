@@ -78,7 +78,7 @@ public static class EncounterEvent
     #endregion
 
     private static PCD[] GetPCDDB(Memory<byte> bin) => Get(bin, PCD.Size, static d => new PCD(d));
-    private static PGF[] GetPGFDB(Memory<byte> bin) => Get(bin, PGF.Size, static d => new PGF(d));
+    private static PGF[] GetPGFDB(Memory<byte> bin) => PGF.GetArray(bin);
 
     private static WC6[] GetWC6DB(Memory<byte> wc6bin, Memory<byte> wc6full) => WC6Full.GetArray(wc6full, wc6bin);
     private static WC7[] GetWC7DB(Memory<byte> wc7bin, Memory<byte> wc7full) => WC7Full.GetArray(wc7full, wc7bin);
