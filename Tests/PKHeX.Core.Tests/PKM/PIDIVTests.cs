@@ -210,7 +210,7 @@ public class PIDIVTest
         int count = LCRNGReversal.GetSeeds(seeds, first, second);
         count.Should().NotBe(0);
 
-        seeds[..count].IndexOf(seed).Should().NotBe(-1);
+        seeds[..count].Contains(seed).Should().BeTrue();
     }
 
     [Fact]
@@ -231,8 +231,8 @@ public class PIDIVTest
         // Seeds need to be unrolled twice to account for the 2 PID rolls before IVs.
 
         var reg = seeds[..count];
-        var index = reg.IndexOf(LCRNG.Next2(0x48FBAA42u));
-        index.Should().NotBe(-1);
+        var expect = LCRNG.Next2(0x48FBAA42u);
+        reg.Contains(expect).Should().BeTrue();
     }
 
     [Fact]
@@ -247,10 +247,10 @@ public class PIDIVTest
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsIV];
         var cp = XDRNG.GetSeeds(seeds, rand0 & 0xFFFF0000, rand1 & 0xFFFF0000);
         var p = seeds[..cp];
-        p.IndexOf(seed).Should().NotBe(-1);
+        p.Contains(seed).Should().BeTrue();
 
         var ci = XDRNG.GetSeedsIVs(seeds, rand0 & 0x7FFF0000, rand1 & 0x7FFF0000);
         var i = seeds[..ci];
-        i.IndexOf(seed).Should().NotBe(-1);
+        i.Contains(seed).Should().BeTrue();
     }
 }

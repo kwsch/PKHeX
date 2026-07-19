@@ -8,6 +8,9 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>Frame advancement for forward and reverse.
 /// <br>
+/// Standard MSVC (Microsoft Visual C/C++) runtime library implementation.
+/// </br>
+/// <br>
 /// https://en.wikipedia.org/wiki/Linear_congruential_generator
 /// </br>
 /// <br>
@@ -17,8 +20,8 @@ namespace PKHeX.Core;
 public static class XDRNG
 {
     // Forward and reverse constants
-    public const uint Mult  = 0x000343FD;
-    public const uint Add   = 0x00269EC3;
+    public const uint Mult  = 0x000343FD; // 214013
+    public const uint Add   = 0x00269EC3; // 2531011
     public const uint rMult = 0xB9B33155;
     public const uint rAdd  = 0xA170F641;
 

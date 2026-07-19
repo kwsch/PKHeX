@@ -8,6 +8,13 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>Frame advancement for forward and reverse.
 /// <br>
+/// Standard MSVC (Microsoft Visual C/C++) runtime library implementation, with customized <see cref="Add"/> by GameFreak programmers.
+/// Historically, the "first" documented RNG implementation of the Pokémon games using a linear congruential generator, hence the eponymous name of this class.
+/// </br>
+/// <br>
+/// https://blog.winter-software.com/2024/06/16/emerald-rng-memes
+/// </br>
+/// <br>
 /// https://en.wikipedia.org/wiki/Linear_congruential_generator
 /// </br>
 /// <br>
@@ -17,8 +24,8 @@ namespace PKHeX.Core;
 public static class LCRNG
 {
     // Forward and reverse constants
-    public const uint Mult  = 0x41C64E6D;
-    public const uint Add   = 0x00006073;
+    public const uint Mult  = 0x41C64E6D; // Standard ISO C / POSIX implementation multiplier constant
+    public const uint Add   = 0x00006073; // (12345*2)+1, *2+1 via misguided understanding when revising rand() outputs from s16 => u16.
     public const uint rMult = 0xEEB9EB65;
     public const uint rAdd  = 0x0A3561A1;
 

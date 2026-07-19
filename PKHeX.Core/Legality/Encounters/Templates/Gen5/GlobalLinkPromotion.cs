@@ -47,9 +47,10 @@ public enum GlobalLinkPromotionLanguage : byte
     None,
     Japanese      = 1 << 0,
     Korean        = 1 << 1,
+    NotInt = Japanese | Korean,
+
     International = 1 << 2,
 
-    NotInt = Japanese | Korean,
     NotKor = Japanese | International,
     All = Japanese | Korean | International,
 }

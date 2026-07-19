@@ -75,14 +75,12 @@ public ref struct XorShift128
         var t = w ^ z ^ (z >> 19);
         t ^= t >> 8;
         t ^= t >> 16;
+        t ^= t << 11;
+        t ^= t << 22;
 
         w = z;
         z = y;
         y = x;
-
-        t ^= t << 11;
-        t ^= t << 22;
-
         x = t;
         return w;
     }

@@ -121,7 +121,7 @@ public static class Encounters5BW
         new(354, 37, 538, Gender: 1, Promotion: Banette),
         new(448, 10, 418, Gender: 0, Promotion: Lucario),
         new(468, 10, 217, Gender: 0, Promotion: Togekiss),
-        
+
         // PGL (Both Versions)
         new (149, 55, 009, Gender: 0, Promotion: Dragonite1), // JPN/KOR ThunderPunch
         new (149, 55, 245, Gender: 0, Promotion: Dragonite2), // INT ExtremeSpeed
