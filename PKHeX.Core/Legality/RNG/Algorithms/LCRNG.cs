@@ -63,8 +63,10 @@ public static class LCRNG
     private const uint rAdd9  = unchecked((rAdd8 * rMult) + rAdd);// 0x3CFD9579
 
     /// <summary> Used to pre-size a result array for the maximum number of seeds that may be returned when searching for seeds via PID. </summary>
+    /// <remarks> Also used for anything with two consecutive 16-bit upper results. </remarks>
     public const int MaxCountSeedsPID = 3;
     /// <summary> Used to pre-size a result array for the maximum number of seeds that may be returned when searching for seeds via IVs. </summary>
+    /// <remarks> Same for 1-frame gap sequential IV results. </remarks>
     public const int MaxCountSeedsIV = 6;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next (uint seed) => (seed * Mult ) + Add ;

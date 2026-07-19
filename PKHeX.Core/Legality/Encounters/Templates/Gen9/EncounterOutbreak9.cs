@@ -175,12 +175,12 @@ public sealed record EncounterOutbreak9
     {
         // Get first bitflag index
         var index = System.Numerics.BitOperations.TrailingZeroCount((ulong)flags);
-        if (index == 0)
-            index = 64 + System.Numerics.BitOperations.TrailingZeroCount((ulong)(flags >> 64));
+        if (index == 64) // no bits set in low half
+            index += System.Numerics.BitOperations.TrailingZeroCount((ulong)(flags >> 64));
         return (ushort)(met + index);
     }
 
-    private static bool IsMetLocationMatch(byte met, UInt128 flags, int actual)
+    private static bool IsMetLocationMatch(byte met, UInt128 flags, ushort actual)
     {
         var index = actual - met;
         if ((uint)index >= 128)

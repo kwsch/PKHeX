@@ -221,24 +221,24 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             return true; // Can't check.
 
         bool allowAlphaPurchaseBug = Type is not SlotType8a.MassOutbreakMassive; // Everything else Alpha is pre-1.1
-        var level = pk.MetLevel;
+        var metLevel = pk.MetLevel;
         var (learn, mastery) = GetLevelUpInfo();
         ushort alpha = pk is PA8 pa ? pa.AlphaMove : (ushort)0;
-        if (!p.IsValidPurchasedEncounter(learn, level, alpha, allowAlphaPurchaseBug))
+        if (!p.IsValidPurchasedEncounter(learn, metLevel, alpha, allowAlphaPurchaseBug))
             return false;
 
         Span<ushort> moves = stackalloc ushort[4];
         if (pk is PA8 { AlphaMove: not 0 } pa8)
         {
             moves[0] = pa8.AlphaMove;
-            learn.SetEncounterMovesBackwards(level, moves, 1);
+            learn.SetEncounterMovesBackwards(metLevel, moves, 1);
         }
         else
         {
-            learn.SetEncounterMoves(level, moves);
+            learn.SetEncounterMoves(metLevel, moves);
         }
 
-        return p.IsValidMasteredEncounter(moves, learn, mastery, level, alpha, allowAlphaPurchaseBug);
+        return p.IsValidMasteredEncounter(moves, learn, mastery, metLevel, alpha, allowAlphaPurchaseBug);
     }
     #endregion
 

@@ -18,12 +18,12 @@ public static class PluginLoader
     /// </summary>
     /// <param name="pluginPath">The directory path to search for plugin assemblies.</param>
     /// <param name="loadMerged">The plugin load setting to use.</param>
+    /// <param name="result">A <see cref="PluginLoadResult"/> instance to populate with loaded contexts and assemblies.</param>
     /// <returns>A PluginLoadResult containing contexts and assemblies.</returns>
     [RequiresUnreferencedCode("Plugin loading depends on runtime-discovered assemblies and types.")]
     [RequiresAssemblyFiles("Plugin loading reads assemblies from disk.")]
-    public static PluginLoadResult LoadPluginAssemblies(string pluginPath, bool loadMerged)
+    public static void LoadPluginAssemblies(string pluginPath, bool loadMerged, PluginLoadResult result)
     {
-        var result = new PluginLoadResult();
         var dllFileNames = !Directory.Exists(pluginPath)
             ? []
             : Directory.EnumerateFiles(pluginPath, "*.dll", SearchOption.AllDirectories);
@@ -41,7 +41,6 @@ public static class PluginLoader
         }
         if (loadMerged)
             result.LoadFromAssembly(typeof(PluginLoader).Assembly);
-        return result;
     }
 
     /// <summary>
@@ -56,7 +55,8 @@ public static class PluginLoader
     [RequiresAssemblyFiles("Plugin loading reads assemblies from disk.")]
     public static PluginLoadResult LoadPlugins<T>(string pluginPath, List<T> list, bool loadMerged) where T : class
     {
-        var result = LoadPluginAssemblies(pluginPath, loadMerged);
+        var result = new PluginLoadResult();
+        LoadPluginAssemblies(pluginPath, loadMerged, result);
         var pluginTypes = GetPluginsOfType<T>(result.GetAssemblies());
         list.AddRange(LoadPlugins<T>(pluginTypes));
         return result;
