@@ -295,59 +295,81 @@ public static class XDRNG
     /// <inheritdoc cref="GetSeeds(Span{uint}, uint, uint, uint, uint, uint, uint)"/>
     public static int GetSeedsChannel(Span<uint> result, uint hp, uint atk, uint def, uint spa, uint spd, uint spe)
     {
-        // Mult(j) = Mult^j
-        // Add(j) = Add * (Mult^0 + Mult^1 + ... + Mult^(j-1))
-        // Using j = 3 and XDRNG gives Mult = 0x45c82be5 and Add = 0xd2f65b55
-        const uint mult = Mult3; // Modified mult (3 advances)
-        const uint sub = 0xcaf65b56; // Modified add - 0x7ffffff
-        const ulong b = 0x22e415e_ea37d41a; // (Modified mult + 1) * 0x7ffffff
+        // https://github.com/StarfBerry/PokeRNG/blob/main/Recovery/LCG_Recovery.py
+        // First row of the BKZ-reduced matrix
+        const long r0 = -002_528_644;
+        const long r1 = -024_142_902;
+        const long r2 =  052_961_366;
+        const long r3 =  007_565_619;
+        const long r4 =  024_945_956;
+        const long r5 = -099_942_057;
 
-        const ulong prime = 3;
-        const ulong add = 0x3_0000_0000; // prime * 0x1_0000_0000
-        const uint rmax = 0x__1800_0000; // prime * 0x__0800_0000
-        const ulong skip = 0x661D29; // prime * 2^32 % mult
+        // Constants to bound the variables in the linear combinations for calculating potential solutions
+        const long lower0 =  0x2A_B966_D1C2;
+        const long lower1 =  0x21_69A3_AA47;
+        const long lower2 = -0x05_049D_5FDC;
+        const long lower3 = -0x02_AACD_A387;
+        const long lower4 =  0x0F_E7FF_FFFF;
+        const long lower5 = -0x08_9800_0001;
+        const long upper0 =  0x2E_8966_D1C3;
+        const long upper1 =  0x23_D9A3_AA48;
+        const long upper2 = -0x03_549D_5FDB;
+        const long upper3 = -0x00_DACD_A386;
+        const long upper4 =  0x10_9800_0000;
+        const long upper5 = -0x07_E800_0000;
 
-        uint first = hp << 27;
-        uint t = (spe << 27) - (mult * first) - sub;
-        uint kmax = (uint)((b - t) >> 32);
-        ulong x = (t * prime) % mult;
+        long f0 = ((-10L * hp) + (23L * atk) - def - (15L * spe) + (52L * spa) - (53L * spd)) << 27;
+        long x0Min = ((f0 + upper0) >> 32) * r0; // LOWER and UPPER are inverted relative to xmin and xmax because R0 is negative (same with R1 and R5)
+        long x0Max = ((f0 + lower0) >> 32) * r0;
+        long f1 = ((-14L * hp) + (7L * atk) - (18L * def) - (21L * spe) - (26L * spa) - (24L * spd)) << 27;
+        long x1Min = ((f1 + upper1) >> 32) * r1;
+        long x1Max = ((f1 + lower1) >> 32) * r1;
+        long f2 = ((24L * hp) - (5L * atk) + (22L * def) + (15L * spe) - (5L * spa) - (15L * spd)) << 27;
+        long x2Min = ((f2 + lower2) >> 32) * r2;
+        long x2Max = ((f2 + upper2) >> 32) * r2;
+        long f3 = ((-5L * hp) - (24L * atk) + (26L * def) - (12L * spe) + (9L * spa) + (14L * spd)) << 27;
+        long x3Min = ((f3 + lower3) >> 32) * r3;
+        long x3Max = ((f3 + upper3) >> 32) * r3;
+        long f4 = ((27L * atk) - (18L * spe) - (8L * spa) - spd) << 27;
+        long x4Min = ((f4 + lower4) >> 32) * r4;
+        long x4Max = ((f4 + upper4) >> 32) * r4;
+        long f5 = ((-27L * hp) + (18L * def) + (8L * spe) + spa) << 27;
+        long x5Min = ((f5 + upper5) >> 32) * r5;
+        long x5Max = ((f5 + lower5) >> 32) * r5;
 
+        // at most 720 iterations in total (around 369 in average, 48 in the best case)
         int ctr = 0;
-        for (ulong k = 0; k <= kmax;)
+        for (long x5 = x5Min; x5 <= x5Max; x5 -= r5)
         {
-            var r = (x + (skip * k)) % mult;
-            var m = r % prime;
-            if (m != 0)
+            for (long x4 = x4Min; x4 <= x4Max; x4 += r4)
             {
-                m = m == 1 ? 2u : 1u;
-                r += m * skip;
-                k += (byte)m;
-            }
-
-            var tmp = k << 32 | t;
-            while (r < rmax && k <= kmax)
-            {
-                uint seed = first | (uint)(tmp / mult); // hp
-                if (Next5(ref seed) == atk)
+                for (long x2 = x2Min; x2 <= x2Max; x2 += r2)
                 {
-                    if (Next5(ref seed) == def)
+                    for (long x3 = x3Min; x3 <= x3Max; x3 += r3)
                     {
-                        _ = Next5(ref seed); // spe
-                        if (Next5(ref seed) == spa)
+                        for (long x1 = x1Min; x1 <= x1Max; x1 -= r1)
                         {
-                            if (Next5(ref seed) == spd)
-                                result[ctr++] = Prev12(seed); // unroll to origin
+                            for (long x0 = x0Min; x0 <= x0Max; x0 -= r0)
+                            {
+                                uint seed = unchecked((uint)(x5 + x4 + x2 + x3 + x1 + x0));
+                                if ((seed >> 27) != hp)
+                                    continue;
+                                if (Next5(ref seed) != atk)
+                                    continue;
+                                if (Next5(ref seed) != def)
+                                    continue;
+                                if (Next5(ref seed) != spe)
+                                    continue;
+                                if (Next5(ref seed) != spa)
+                                    continue;
+                                if (Next5(ref seed) != spd)
+                                    continue;
+                                result[ctr++] = ChannelJirachi.PrevToOrigin(seed);
+                            }
                         }
                     }
                 }
-
-                r += prime * skip;
-                k += prime;
-                tmp += add;
             }
-
-            // Rounding up without using floats
-            k += ((mult - r) + skip - 1) / skip;
         }
 
         return ctr;

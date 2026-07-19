@@ -253,4 +253,82 @@ public class PIDIVTest
         var i = seeds[..ci];
         i.Contains(seed).Should().BeTrue();
     }
+
+    [Fact]
+    public void LCRNGReversalLatticeRecovery()
+    {
+        const uint seed = 0x12345678;
+        var first = LCRNG.Next(seed);
+        var second = LCRNG.Next(first);
+        var third = LCRNG.Next(second);
+
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
+        var count = LCRNGReversal.GetSeedsIVs(seeds, first & 0x7FFF0000, second & 0x7FFF0000);
+        seeds[..count].Contains(seed).Should().BeTrue();
+
+        count = LCRNGReversalSkip.GetSeedsIVs(seeds, first & 0x7FFF0000, third & 0x7FFF0000);
+        seeds[..count].Contains(seed).Should().BeTrue();
+    }
+
+    [Theory]
+    [InlineData(0x00000007, 0)]
+    [InlineData(0x00000065, 0)]
+    [InlineData(0x04206967, 2)]
+    [InlineData(0x0BADB015, 2)]
+    [InlineData(0x3FF07C1F, 4)] // 0 atk 0 spe
+    [InlineData(0x3FFFFFFF, 4)]
+    [InlineData(0x3FFFFC1F, 6)] // 0 atk
+    [InlineData(0x00042069, 6)]
+    public void MRNGReversalRanchRecovery(uint iv32, int recovered)
+    {
+        var hp = iv32 & 31;
+        var atk = (iv32 >> 5) & 31;
+        var def = (iv32 >> 10) & 31;
+        var spe = (iv32 >> 15) & 31;
+        var spa = (iv32 >> 20) & 31;
+        var spd = (iv32 >> 25) & 31;
+
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
+        var count = MRNGReversal.GetSeedsIVs(seeds, hp, atk, def, spa, spd, spe);
+        count.Should().Be(recovered);
+
+        // Verify all forward candidates match the IVs.
+        foreach (var seed in seeds[..count])
+        {
+            var result = MRNG.GetSequentialIVs(seed);
+            result.Should().Be(iv32);
+        }
+    }
+
+    [Theory]
+    [InlineData(0x00000000, 1, false)]
+    [InlineData(0x00000001, 7)]
+    [InlineData(0x00000087, 9)]
+    [InlineData(0x00000888, 10, false)]
+    [InlineData(0x0000F525, 11)]
+    [InlineData(0x00019994, 12)]
+    public void ChannelLatticeRecovery(uint iv32, int recovered, bool isObtainable = true)
+    {
+        var hp = iv32 & 31;
+        var atk = (iv32 >> 5) & 31;
+        var def = (iv32 >> 10) & 31;
+        var spe = (iv32 >> 15) & 31;
+        var spa = (iv32 >> 20) & 31;
+        var spd = (iv32 >> 25) & 31;
+
+        Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsChannel];
+        var count = XDRNG.GetSeedsChannel(seeds, hp, atk, def, spa, spd, spe);
+        count.Should().Be(recovered);
+
+        // Verify all forward candidates match the IVs.
+        var possible = false; // also check if the IV spread is actually reachable from any of the recovered seeds via upstream rand() logic.
+        foreach (var origin in seeds[..count])
+        {
+            var seed = ChannelJirachi.SkipToIVs(origin);
+            var result = XDRNG.GetSequentialIV32(seed);
+            result.Should().Be(iv32);
+            possible |= ChannelJirachi.IsPossible(seed);
+        }
+        possible.Should().Be(isObtainable);
+    }
 }

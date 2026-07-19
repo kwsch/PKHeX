@@ -21,6 +21,7 @@ namespace PKHeX.Core;
 /// seed_n+1 = seed_n * <see cref="Mult"/> + <see cref="Add"/>
 /// </br>
 /// </remarks>
+/// <seealso cref="MRNG"/>
 public static class LCRNG
 {
     // Forward and reverse constants

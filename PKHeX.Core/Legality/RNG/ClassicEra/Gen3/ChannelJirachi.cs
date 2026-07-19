@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
@@ -172,6 +173,22 @@ public static class ChannelJirachi
         seed = SkipAccept(seed);
         return seed;
     }
+
+    /// <summary>
+    /// Jumps from PID/IV origin seed to the seed that generates the IVs.
+    /// </summary>
+    /// <param name="seed">Origin seed of the PID/IV, after the Menu Pattern and Accept steps have passed.</param>
+    /// <returns>Seed that generates the IVs.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint SkipToIVs(uint seed) => XDRNG.Next6(seed);
+    // jump to state right before IVs are generated (after SID, PID(2), Held, Version, OTG).
+
+    /// <summary>
+    /// Skips from post-PID/IV generation seed back to the origin seed.
+    /// </summary>
+    /// <param name="seed">Seed that finished generating the PID/IV.</param>
+    /// <returns>Origin seed of the PID/IV.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint PrevToOrigin(uint seed) => XDRNG.Prev12(seed);
+    // 6 for IVs, 6 for PID+etc.
 
     /// <summary>
     /// Skips the menu pattern calculation to the seed that is used by the Accept step.

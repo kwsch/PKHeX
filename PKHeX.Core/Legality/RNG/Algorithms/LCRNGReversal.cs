@@ -6,14 +6,21 @@ namespace PKHeX.Core;
 /// Seed reversal logic for the <see cref="LCRNG"/> algorithm.
 /// </summary>
 /// <remarks>
-/// Abuses the pattern in Low16 bit results of rand() to reduce the search space to 2^2 instead of 2^16.
-/// https://github.com/StarfBerry/poke-scripts/blob/f641f3eab264e2caf1ee7c3c0e5553a9d8086921/RNG/LCG_Reversal.py#L19-L93
+/// Uses lattice-reduction bounds from https://github.com/StarfBerry/PokeRNG/blob/main/Recovery/LCG_Recovery.py.
 /// </remarks>
 public static class LCRNGReversal
 {
-    private const uint LCRNG_MOD = 0x67D3; // u32(0x67d3 * LCRNG_MUL) < 2^16 (for seed and seed + 0x67d3, we have a good chance that the 16bit high of the next output will be the same for both)
-    private const uint LCRNG_PAT = 0xD3E; // pattern in the distribution of the "low solutions" modulo 0x67d3
-    private const uint LCRNG_INC = 0x4034; // (((diff * 0x67d3 + 0x4034) >> 16) * 0xd3e) % 0x67d3 line up with the first 16bit low solution modulo 0x67d3 if it exists (see diff definition in code)
+    // https://github.com/StarfBerry/PokeRNG/blob/main/Recovery/LCG_Recovery.py
+    private const uint RMult = LCRNG.rMult; // reverse multiplier constant
+    private const uint RLag0 = 0x7ED7; // 32471
+    private const uint RLag1 = 0x71A4; // -68321 mod 32471
+    private const uint RLower = 0x79C8BF4A; // ((-0x50F40B53C37 + 0xffff_ffff) >> 16) + (32471 << 16)
+    private const uint RUpper = 0x79C8A5F4; // (-0x50E5A0B3C37 >> 16) + (32471 << 16)
+
+    private const uint Lag0 = 0x6134; // -26579 mod 51463
+    private const uint Lag1 = 0xC907; // 51463
+    private const uint Lower = 0x64833CB0; // ((-0xC34F11DB + 0x7fff_ffff) >> 16) + (51463 << 15)
+    private const uint Upper = 0x6483CBBC; // (0x4BBCEE25 >> 16) + (51463 << 15)
 
     /// <summary>
     /// Finds all seeds that can generate the IVs.
@@ -34,7 +41,7 @@ public static class LCRNGReversal
     }
 
     /// <summary>
-    /// Finds all the origin seeds for two 16 bit rand() calls
+    /// Finds all the origin seeds for two 16 bit rand() calls.
     /// </summary>
     /// <param name="result">Result storage array, to be populated starting at index 0.</param>
     /// <param name="first">First rand() call, 15 bits, already shifted left 16 bits.</param>
@@ -42,22 +49,26 @@ public static class LCRNGReversal
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeeds(Span<uint> result, uint first, uint second)
     {
-        var diff = (second - (first * LCRNG.Mult)) >> 16;
-        var low = ((((diff * LCRNG_MOD) + LCRNG_INC) >> 16) * LCRNG_PAT) % LCRNG_MOD;
+        ulong tmp = (ulong)(((first - (second * RMult)) >> 16) & 0xFFFF) * RLag0;
+        var lo = (uint)((tmp + RLower) >> 16);
+        var up = (uint)((tmp + RUpper) >> 16);
+        if (lo != up) // true in around 10% of cases
+            return 0;
 
         int ctr = 0;
-        // at most 3 iterations
+        // at most 3 iterations (around 2.02 in average)
+        uint low = (lo * RLag1) % RLag0;
         do
         {
-            var seed = first | low;
-            if ((LCRNG.Next(seed) & 0xffff0000) == second)
+            var seed = LCRNG.Prev(second | low);
+            if ((seed & 0xffff0000) == first)
                 result[ctr++] = LCRNG.Prev(seed);
-        } while ((low += LCRNG_MOD) < 0x1_0000);
+        } while ((low += RLag0) < 0x1_0000);
         return ctr;
     }
 
     /// <summary>
-    /// Finds all the origin seeds for two 15 bit rand() calls
+    /// Finds all the origin seeds for two 15 bit rand() calls.
     /// </summary>
     /// <param name="result">Result storage array, to be populated starting at index 0.</param>
     /// <param name="first">First rand() call, 15 bits, already shifted left 16 bits.</param>
@@ -65,13 +76,18 @@ public static class LCRNGReversal
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeedsIVs(Span<uint> result, uint first, uint second)
     {
-        var diff = (second - (first * LCRNG.Mult)) >> 16;
-        var start1 = ((((diff * LCRNG_MOD) + LCRNG_INC) >> 16) * LCRNG_PAT) % LCRNG_MOD;
-        var start2 = (((((diff ^ 0x8000) * LCRNG_MOD) + LCRNG_INC) >> 16) * LCRNG_PAT) % LCRNG_MOD;
+        long diff = ((long)LCRNG.Mult * first) - second;
+        ulong tmp = (ulong)((diff >> 16) & 0xFFFF) * Lag1;
+        var lo = (uint)(((tmp + Lower) >> 15) * Lag0);
+        var mi = lo + Lag0;
+        var up = (uint)(((tmp + Upper) >> 15) * Lag0);
 
         int ctr = 0;
-        AddSeeds(result, start1, first, second, ref ctr);
-        AddSeeds(result, start2, first, second, ref ctr);
+        // around 2.70 iterations in average
+        AddSeeds(result, lo % Lag1, first, second, ref ctr);
+        AddSeeds(result, mi % Lag1, first, second, ref ctr);
+        if (mi != up) // true in around 12% of cases
+            AddSeeds(result, up % Lag1, first, second, ref ctr);
         return ctr;
     }
 
@@ -80,12 +96,12 @@ public static class LCRNGReversal
         // at most 3 iterations
         do
         {
-            var test = first | low;
-            if ((LCRNG.Next(test) & 0x7fff0000) != second)
+            var seed = first | low;
+            if ((LCRNG.Next(seed) & 0x7fff0000) != second)
                 continue;
-            var seed = LCRNG.Prev(test);
+            seed = LCRNG.Prev(seed);
             result[ctr++] = seed;
             result[ctr++] = seed ^ 0x80000000;
-        } while ((low += LCRNG_MOD) < 0x1_0000);
+        } while ((low += Lag1) < 0x1_0000);
     }
 }
