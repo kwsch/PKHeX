@@ -499,7 +499,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
 
     protected override void TradeHT(ITrainerInfo tr)
     {
-        Span<char> ht = stackalloc char[TrashCharCountTrainer];
+        Span<char> ht = stackalloc char[TrashCharCountHandler];
         var len = LoadString(HandlingTrainerTrash, ht);
         ht = ht[..len];
 

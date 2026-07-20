@@ -191,6 +191,15 @@ public enum PIDType : byte
     Tera9,
 
     #endregion
+
+    #region MRNG
+
+    /// <summary>
+    /// Generation 4 Pokémon Ranch gifts generate IVs in a detectable pattern.
+    /// </summary>
+    Ranch,
+
+    #endregion
 }
 
 public static class PIDTypeExtensions

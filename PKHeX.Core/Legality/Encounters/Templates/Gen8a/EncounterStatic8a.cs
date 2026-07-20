@@ -284,18 +284,18 @@ public sealed record EncounterStatic8a
             return true;
 
         const bool allowAlphaPurchaseBug = true; // Everything else Alpha is pre-1.1
-        var level = pk.MetLevel;
+        var metLevel = pk.MetLevel;
         var (learn, mastery) = GetLevelUpInfo();
-        if (!p.IsValidPurchasedEncounter(learn, level, alpha, allowAlphaPurchaseBug))
+        if (!p.IsValidPurchasedEncounter(learn, metLevel, alpha, allowAlphaPurchaseBug))
             return false;
 
         Span<ushort> moves = stackalloc ushort[4];
         if (Moves.HasMoves)
             Moves.CopyTo(moves);
         else
-            learn.SetEncounterMoves(level, moves);
+            learn.SetEncounterMoves(metLevel, moves);
 
-        return p.IsValidMasteredEncounter(moves, learn, mastery, level, alpha, allowAlphaPurchaseBug);
+        return p.IsValidMasteredEncounter(moves, learn, mastery, metLevel, alpha, allowAlphaPurchaseBug);
     }
     #endregion
 

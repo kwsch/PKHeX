@@ -25,7 +25,7 @@ public sealed class BK4 : G4PKM
     protected override void EncryptStored(Span<byte> stored) => PokeCrypto.Encrypt4BE(stored);
     protected override void EncryptParty(Span<byte> party) { }
 
-    public override bool Valid => ChecksumValid || (Sanity == 0 && Species <= MaxSpeciesID);
+    public override bool Valid => ChecksumValid || ((Sanity == 0 || (Sanity & 0x4000) != 0) && Species <= MaxSpeciesID);
 
     public BK4(Memory<byte> data) : base(data)
     {

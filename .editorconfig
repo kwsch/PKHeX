@@ -29,7 +29,7 @@ dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:suggest
 dotnet_style_parentheses_in_other_operators = always_for_clarity:suggest
 
 csharp_indent_labels = one_less_than_current
-csharp_prefer_braces = when_multiline:warning
+csharp_prefer_braces = when_multiline:suggestion
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_prefer_system_threading_lock = true:suggestion
 csharp_style_namespace_declarations = block_scoped:silent

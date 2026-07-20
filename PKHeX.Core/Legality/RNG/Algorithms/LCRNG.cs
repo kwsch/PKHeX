@@ -8,17 +8,25 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>Frame advancement for forward and reverse.
 /// <br>
+/// Standard MSVC (Microsoft Visual C/C++) runtime library implementation, with customized <see cref="Add"/> by GameFreak programmers.
+/// Historically, the "first" documented RNG implementation of the Pokémon games using a linear congruential generator, hence the eponymous name of this class.
+/// </br>
+/// <br>
+/// https://blog.winter-software.com/2024/06/16/emerald-rng-memes
+/// </br>
+/// <br>
 /// https://en.wikipedia.org/wiki/Linear_congruential_generator
 /// </br>
 /// <br>
 /// seed_n+1 = seed_n * <see cref="Mult"/> + <see cref="Add"/>
 /// </br>
 /// </remarks>
+/// <seealso cref="MRNG"/>
 public static class LCRNG
 {
     // Forward and reverse constants
-    public const uint Mult  = 0x41C64E6D;
-    public const uint Add   = 0x00006073;
+    public const uint Mult  = 0x41C64E6D; // Standard ISO C / POSIX implementation multiplier constant
+    public const uint Add   = 0x00006073; // (12345*2)+1, *2+1 via misguided understanding when revising rand() outputs from s16 => u16.
     public const uint rMult = 0xEEB9EB65;
     public const uint rAdd  = 0x0A3561A1;
 
@@ -63,8 +71,10 @@ public static class LCRNG
     private const uint rAdd9  = unchecked((rAdd8 * rMult) + rAdd);// 0x3CFD9579
 
     /// <summary> Used to pre-size a result array for the maximum number of seeds that may be returned when searching for seeds via PID. </summary>
+    /// <remarks> Also used for anything with two consecutive 16-bit upper results. </remarks>
     public const int MaxCountSeedsPID = 3;
     /// <summary> Used to pre-size a result array for the maximum number of seeds that may be returned when searching for seeds via IVs. </summary>
+    /// <remarks> Same for 1-frame gap sequential IV results. </remarks>
     public const int MaxCountSeedsIV = 6;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next (uint seed) => (seed * Mult ) + Add ;

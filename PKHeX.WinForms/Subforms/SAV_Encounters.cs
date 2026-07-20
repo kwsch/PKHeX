@@ -387,7 +387,7 @@ public partial class SAV_Encounters : Form
     {
         if (!TypeFilters.Controls.OfType<CheckBox>().Any(z => z.Checked))
             return false; // no types selected
-        if (settings is { Species: 0, Moves.Count: 0 } && !Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
+        if (settings is { Species: 0, Moves.Count: 0 } && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
             return false;
         return true;
     }

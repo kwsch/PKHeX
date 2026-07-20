@@ -430,7 +430,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     protected override void TradeHT(ITrainerInfo tr)
     {
-        Span<char> ht = stackalloc char[TrashCharCountTrainer];
+        Span<char> ht = stackalloc char[TrashCharCountHandler];
         var len = LoadString(HandlingTrainerTrash, ht);
         ht = ht[..len];
 

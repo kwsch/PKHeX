@@ -1181,7 +1181,7 @@ public partial class Main : Form
     {
         if (!PKME_Tabs.EditsComplete)
             return; // don't copy garbage to the box
-        PKM pk = PKME_Tabs.PreparePKM();
+        var pk = PKME_Tabs.PreparePKM();
         C_SAV.SetClonesToBox(pk);
     }
 
@@ -1276,17 +1276,17 @@ public partial class Main : Form
                 pk.WriteEncryptedDataParty(data);
 
             // Create Temp File to Drag
-            var newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
+            var newFile = FileUtil.GetPKMTempFileName(pk, encrypt);
             try
             {
-                await File.WriteAllBytesAsync(newfile, data).ConfigureAwait(true);
+                await File.WriteAllBytesAsync(newFile, data).ConfigureAwait(true);
 
                 mainDragOutActive = true;
                 var pb = (PictureBox)sender;
                 if (pb.Image is Bitmap img)
                     C_SAV.M.Drag.SetOwnedCursor(pb, img);
 
-                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy);
+                DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newFile }), DragDropEffects.Copy);
             }
             // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
             catch (Exception x)
@@ -1295,7 +1295,7 @@ public partial class Main : Form
             {
                 mainDragOutActive = false;
                 C_SAV.M.Drag.ResetCursor(this);
-                await DeleteAsync(newfile, 20_000).ConfigureAwait(false);
+                await DeleteAsync(newFile, 20_000).ConfigureAwait(false);
             }
             PKME_Tabs.NotifyWasExported(preModify); // restore pre-modify state, in case the user drags into the same program window
         }

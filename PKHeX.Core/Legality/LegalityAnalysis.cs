@@ -121,23 +121,11 @@ public sealed class LegalityAnalysis
             EncounterFinder.FindVerifiedEncounter(pk, Info);
             if (!pk.IsOriginValid)
                 AddLine(Severity.Invalid, EncConditionBadSpecies, CheckIdentifier.GameOrigin);
-            GetParseMethod()();
-
-            foreach (var ext in ExternalLegalityCheck.ExternalCheckers.Values)
-                ext.Verify(this);
-
-            Valid = Parse.TrueForAll(chk => chk.Valid)
-                    && MoveResult.AllValid(Info.Moves)
-                    && MoveResult.AllValid(Info.Relearn);
-
+            GetParseMethod(pk)();
+            RunExternalVerifiers();
+            Valid = AssertValid();
             if (!Valid)
-            {
-                if (Info.EncounterMatch is EncounterInvalid && pk.IsUntraded && EvolutionTree.GetEvolutionTree(pk.Context).Reverse.GetReverse(pk.Species, pk.Form).First.Method.Method.IsTrade)
-                    AddLine(Severity.Invalid, EvoInvalid, CheckIdentifier.Evolution);
-                if (IsPotentiallyMysteryGift(Info, pk))
-                    AddLine(Severity.Invalid, FatefulGiftMissing, CheckIdentifier.Fateful);
-            }
-
+                GenerateHints(pk);
             Parsed = true;
         }
 #if SUPPRESS
@@ -146,72 +134,90 @@ public sealed class LegalityAnalysis
         {
             System.Diagnostics.Debug.WriteLine(e.Message);
             Valid = false;
-
-            // Moves and Relearn arrays can potentially be empty on error.
-            foreach (ref var p in Info.Moves.AsSpan())
-            {
-                if (!p.IsParsed)
-                    p = MoveResult.Unobtainable();
-            }
-
-            foreach (ref var p in Info.Relearn.AsSpan())
-            {
-                if (!p.IsParsed)
-                    p = MoveResult.Unobtainable();
-            }
-
+            EnsureMovesPopulated(); // Moves and Relearn arrays can potentially be empty on error.
             AddLine(Severity.Invalid, Error, CheckIdentifier.Misc);
         }
 #endif
     }
 
-    private static bool IsPotentiallyMysteryGift(LegalInfo info, PKM pk)
+    private void GenerateHints(PKM pk)
     {
-        if (info.EncounterOriginal is not EncounterInvalid enc)
-            return false;
-        if (enc.Generation <= 3)
-            return pk.Format <= 3;
-        if (!pk.FatefulEncounter)
-            return false;
-        if (enc.Generation < 6)
-            return true;
-        if (!MoveResult.AllValid(info.Relearn))
-            return true;
-        return false;
+        if (Info.EncounterMatch is not EncounterInvalid)
+            return;
+        if (pk.IsUntraded && EvolutionTree.GetEvolutionTree(pk.Context).Reverse.GetReverse(pk.Species, pk.Form).First.Method.Method.IsTrade)
+            AddLine(Severity.Invalid, EvoInvalid, CheckIdentifier.Evolution);
     }
 
-    private Action GetParseMethod()
+    private void RunExternalVerifiers()
     {
-        if (Entity.Format <= 2) // prior to storing GameVersion
-            return ParsePK1;
+        foreach (var ext in ExternalLegalityCheck.ExternalCheckers.Values)
+            ext.Verify(this);
+    }
 
-        var gen = GetParseFormat();
-        return gen switch
+    private bool AssertValid() => Parse.TrueForAll(chk => chk.Valid)
+                                  && MoveResult.AllValid(Info.Moves)
+                                  && MoveResult.AllValid(Info.Relearn);
+
+    private void EnsureMovesPopulated()
+    {
+        foreach (ref var p in Info.Moves.AsSpan())
         {
-            3 => ParsePK3,
-            4 => ParsePK4,
-            5 => ParsePK5,
-            6 => ParsePK6,
+            if (!p.IsParsed)
+                p = MoveResult.Unobtainable();
+        }
 
-            1 => ParsePK7,
-            2 => ParsePK7,
-            7 => ParsePK7,
-
-            8 => ParsePK8,
-            9 => ParsePK9,
-
-            _ => throw new ArgumentOutOfRangeException(nameof(gen)),
-        };
+        foreach (ref var p in Info.Relearn.AsSpan())
+        {
+            if (!p.IsParsed)
+                p = MoveResult.Unobtainable();
+        }
     }
 
-    private int GetParseFormat()
+    private Action GetParseMethod(PKM pk) => GetParseMethod(GetParseFormat(pk));
+
+    private Action GetParseMethod(LegalityParseFormat method) => method switch
     {
-        var gen = Entity.Generation;
-        if (gen != 0)
-            return gen;
-        if (Entity is PK9 { IsUnhatchedEgg: true })
-            return 9;
-        return Entity.Format;
+        LegalityParseFormat.GameBoy => ParsePK1,
+        LegalityParseFormat.Gen3 => ParsePK3,
+        LegalityParseFormat.Gen4 => ParsePK4,
+        LegalityParseFormat.Gen5 => ParsePK5,
+        LegalityParseFormat.Gen6 => ParsePK6,
+        LegalityParseFormat.Gen7 => ParsePK7,
+        LegalityParseFormat.Gen8 => ParsePK8,
+        LegalityParseFormat.Gen9 => ParsePK9,
+        _ => throw new ArgumentOutOfRangeException(nameof(method)),
+    };
+
+    private enum LegalityParseFormat
+    {
+        GameBoy = 1,
+        Gen3 = 3,
+        Gen4 = 4,
+        Gen5 = 5,
+        Gen6 = 6,
+        Gen7 = 7,
+        Gen8 = 8,
+        Gen9 = 9,
+    }
+
+    private static LegalityParseFormat GetParseFormat(PKM pk)
+    {
+        // prior to storing GameVersion
+        var format = pk.Format;
+        if (format < 3)
+            return LegalityParseFormat.GameBoy;
+
+        var gen = pk.Generation;
+        if (gen > 0)
+        {
+            if (gen is 1 or 2)
+                gen = 7; // VC=>Gen7, treat as Gen7
+            return (LegalityParseFormat)gen;
+        }
+
+        if (pk is PK9 { IsUnhatchedEgg: true })
+            return LegalityParseFormat.Gen9;
+        return (LegalityParseFormat)format;
     }
 
     private void ParsePK1()

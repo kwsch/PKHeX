@@ -26,6 +26,9 @@ public sealed class IndividualValueVerifier : Verifier
             case MysteryGift g:
                 VerifyIVsMystery(data, g);
                 break;
+            case EncounterTrade4RanchGift:
+                VerifyIVsRanch4(data);
+                break;
         }
         var pk = data.Entity;
         var hp = pk.IV_HP;
@@ -87,5 +90,17 @@ public sealed class IndividualValueVerifier : Verifier
     {
         if (!g.GetIVsValid(data.Entity))
             data.AddLine(GetInvalid(IVNotCorrect));
+    }
+
+    private void VerifyIVsRanch4(LegalityAnalysis data)
+    {
+        var pk = data.Entity;
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
+        // IVs are generated via 3 consecutive rand() calls. PID comes from a timer register, thus unrelated.
+        var count = MRNGReversal.GetSeedsIVs(seeds, (uint)pk.IV_HP, (uint)pk.IV_ATK, (uint)pk.IV_DEF, (uint)pk.IV_SPA, (uint)pk.IV_SPD, (uint)pk.IV_SPE);
+        if (count == 0)
+            data.AddLine(GetInvalid(PIDTypeMismatch));
+        else
+            data.Info.PIDIV = new PIDIV(PIDType.Ranch, seeds[0]); // give first seed result even though there will usually be many.
     }
 }

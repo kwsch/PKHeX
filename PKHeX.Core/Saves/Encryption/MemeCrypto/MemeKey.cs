@@ -33,7 +33,7 @@ public readonly ref struct MemeKey
         if (key.CanSign())
             D = new BigInteger(GetMemeDataSign(key), isUnsigned: true, isBigEndian: true);
         else
-            D = default;
+            D = BigInteger.Zero;
     }
 
     /// <summary>

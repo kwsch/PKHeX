@@ -87,7 +87,7 @@ public static class MoveShop8MasteryExtensions
         return true;
     }
 
-    public static bool IsValidMasteredEncounter(this IMoveShop8Mastery shop, Span<ushort> moves, Learnset learn, Learnset mastery, int metLevel, ushort alphaMove, bool allowPurchasedAlpha)
+    public static bool IsValidMasteredEncounter(this IMoveShop8Mastery shop, Span<ushort> moves, Learnset learn, Learnset mastery, byte metLevel, ushort alphaMove, bool allowPurchasedAlpha)
     {
         foreach (var move in moves)
         {

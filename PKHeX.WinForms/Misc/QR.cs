@@ -13,7 +13,7 @@ public partial class QR : Form
     private readonly Image icon;
     private Bitmap qr;
 
-    private readonly string[] Lines;
+    private readonly ReadOnlyMemory<string> Lines;
     private string extraText = string.Empty;
 
     public QR(Bitmap qr, Image icon, params string[] lines)
@@ -75,7 +75,7 @@ public partial class QR : Form
 
         var width = Math.Max(qr.Width, 370);
         var height = qr.Height + 50;
-        var img = QRImageUtil.GetQRImageExtended(font, qr, icon, width, height, Lines, extraText);
+        var img = QRImageUtil.GetQRImageExtended(font, qr, icon, width, height, Lines.Span, extraText);
         PB_QR.Image = img;
     }
 

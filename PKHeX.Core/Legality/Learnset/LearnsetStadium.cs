@@ -12,11 +12,9 @@ namespace PKHeX.Core;
 /// Moves may appear multiple times in the learnset, but only the first needs to be satisfied to be "valid" for Stadium 2's checks.
 /// https://bluemoonfalls.com/pages/general/move-reminder
 /// </remarks>
-public sealed class LearnsetStadium
+public sealed class LearnsetStadium(ReadOnlySpan<byte> input)
 {
-    private readonly StadiumTuple[] Learn;
-    public LearnsetStadium(ReadOnlySpan<byte> input)
-        => Learn = MemoryMarshal.Cast<byte, StadiumTuple>(input).ToArray();
+    private readonly StadiumTuple[] Learn = [.. MemoryMarshal.Cast<byte, StadiumTuple>(input)];
 
     /// <summary> Gets all entries. </summary>
     public ReadOnlySpan<StadiumTuple> GetMoves() => Learn;

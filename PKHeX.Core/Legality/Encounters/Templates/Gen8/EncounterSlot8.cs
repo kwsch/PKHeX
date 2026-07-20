@@ -141,7 +141,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
         return Overworld8RNG.ValidateOverworldEncounter(pk, flawless: flawless);
     }
 
-    private int GetFlawlessIVCount(int metLevel)
+    private int GetFlawlessIVCount(byte metLevel)
     {
         const int none = 0;
         const int any023 = -1;

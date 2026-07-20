@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Restriction Flags for receiving 3DS/NDS era events.
 /// </summary>
 [Flags]
-public enum MysteryGiftRestriction
+public enum MysteryGiftRestriction : ushort
 {
     None = 0,
     LangJapanese = 1 << LanguageID.Japanese,

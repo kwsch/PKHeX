@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Intermediary Representation of Dream World Data
 /// </summary>
-public readonly record struct DreamWorldEntry(ushort Species, byte Level, ushort Move1 = 0, ushort Move2 = 0, ushort Move3 = 0, byte Form = 0, byte Gender = FixedGenderUtil.GenderRandom)
+public readonly record struct DreamWorldEntry(ushort Species, byte Level, ushort Move1 = 0, ushort Move2 = 0, ushort Move3 = 0, byte Form = 0, byte Gender = FixedGenderUtil.GenderRandom, GlobalLinkPromotion Promotion = GlobalLinkPromotion.NotPromotion)
 {
     private int EntryCount => Move1 == 0 ? 1 : Move2 == 0 ? 1 : Move3 == 0 ? 2 : 3;
 
@@ -15,17 +15,17 @@ public readonly record struct DreamWorldEntry(ushort Species, byte Level, ushort
         var a = p.HasHiddenAbility ? AbilityPermission.OnlyHidden : AbilityPermission.OnlyFirst;
         if (Move1 == 0)
         {
-            result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a);
+            result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a, Promotion);
             return;
         }
 
-        result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a, Move1);
+        result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a, Move1, Promotion);
         if (Move2 == 0)
             return;
-        result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a, Move2);
+        result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a, Move2, Promotion);
         if (Move3 == 0)
             return;
-        result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a, Move3);
+        result[ctr++] = new EncounterStatic5Entree(version, Species, Level, Form, Gender, a, Move3, Promotion);
     }
 
     public static EncounterStatic5Entree[] GetArray(GameVersion version, ReadOnlySpan<DreamWorldEntry> t)

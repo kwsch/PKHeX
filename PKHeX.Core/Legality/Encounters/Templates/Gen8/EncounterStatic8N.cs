@@ -55,8 +55,8 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     protected override bool IsMatchLevel(PKM pk)
     {
         var met = pk.MetLevel;
-        var metLevel = met - 15u;
-        var rank = metLevel / 10;
+        var metRank = met - 15u;
+        var rank = metRank / 10;
         if (rank > 4)
             return false;
         if (rank > MaxRank)
@@ -73,9 +73,9 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         }
 
         if (rank < MinRank) // down-leveled
-            return IsDownLeveled(pk, metLevel, met);
+            return IsDownLeveled(pk, metRank, met);
 
-        return metLevel % 10 <= 5;
+        return metRank % 10 <= 5;
     }
 
     private const byte SharedNestMinLevel = 20;
@@ -84,23 +84,22 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
     public bool IsDownLeveled(PKM pk)
     {
-        var met = pk.MetLevel;
-        var metLevel = met - 15u;
-        return met != LevelMax && IsDownLeveled(pk, metLevel, met);
+        var metLevel = pk.MetLevel;
+        return metLevel != LevelMax && IsDownLeveled(pk, metLevel - 15u, metLevel);
     }
 
-    private bool IsDownLeveled(PKM pk, uint metLevel, int met)
+    private bool IsDownLeveled(PKM pk, uint metRank, byte metLevel)
     {
-        if (metLevel > int.MaxValue || metLevel % 5 != 0)
+        if (metRank > int.MaxValue || metRank % 5 != 0)
             return false;
 
         // shared nests can be down-leveled to any
         if (pk.MetLocation == SharedNest)
-            return met >= SharedNestMinLevel;
+            return metLevel >= SharedNestMinLevel;
 
         // native down-levels: only allow 1 rank down (1 badge 2star -> 25), (3badge 3star -> 35)
-        return ((MinRank <= 1 && 1 <= MaxRank && met == 25)
-             || (MinRank <= 2 && 2 <= MaxRank && met == 35)) && !pk.IsShiny;
+        return ((MinRank <= 1 && 1 <= MaxRank && metLevel == 25)
+             || (MinRank <= 2 && 2 <= MaxRank && metLevel == 35)) && !pk.IsShiny;
     }
 
     protected override bool IsMatchLocation(PKM pk)
