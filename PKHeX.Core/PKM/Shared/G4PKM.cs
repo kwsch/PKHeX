@@ -302,9 +302,23 @@ public abstract class G4PKM : PKM, IHandlerUpdate,
     {
         get
         {
+            if (Gen3)
+                return PossiblyPalParkHGSS;
+
             if (HGSS)
+            {
+                // Retain value if it was a transferred egg hatched outside HG/SS.
+                if (BallHGSS == 0 && WasTradedEgg && !EggHatchLocation4.IsValidMet4HGSS(MetLocationExtended))
+                    return false;
                 return !FatefulEncounter || EggLocation != 0; // Ranger Manaphy was the only egg ever distributed.
-            return Gen3 && PossiblyPalParkHGSS;
+            }
+            else // D/P/Pt
+            {
+                // Retain value if it was a transferred egg hatched in HG/SS.
+                if (BallHGSS != 0 && WasTradedEgg && EggHatchLocation4.IsValidMet4HGSS(MetLocationExtended))
+                    return true;
+                return false;
+            }
         }
     }
 

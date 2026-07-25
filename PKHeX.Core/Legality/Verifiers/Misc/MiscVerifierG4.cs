@@ -105,11 +105,18 @@ internal sealed class MiscVerifierG4 : Verifier
     {
         // Only set the HG/SS value if it originated in HG/SS and was not an event (pre-filled data only; not Manaphy egg!).
         // Pal Park transfers into HG/SS set this value as well.
-        if (pk.HGSS)
-            return enc is not PCD; // PCD: not Manaphy via PGT
         if (palPark.HasFlag(PalParkTransferOrigin.HGSS))
             return true;
-        return false;
+        if (enc is PCD) // template PK4 direct inject (never eggs).
+            return false; // PCD: not Manaphy via PGT
+
+        // In Gen4, a hatched egg is created anew, discarding properties like ribbons that may have been present on the egg.
+        // If we have a traded & hatched egg (version does not update on hatch), presence/lack indicates if it was 'made' in HG/SS or not.
+        // Hatched in HG/SS, regardless of origin game: should have the value.
+        // Hatched in D/P/Pt, regardless of origin game: should NOT have the value.
+        if (pk.WasTradedEgg)
+            return pk.BallHGSS != 0 && EggHatchLocation4.IsValidMet4HGSS(pk.MetLocationExtended);
+        return pk.HGSS;
     }
 
     private static void VerifyWalkingMood(LegalityAnalysis data, G4PKM pk)
