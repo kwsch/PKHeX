@@ -121,7 +121,7 @@
 2136	m	Visitó Gruta Solar
 2137	m	Visitó Tumba Antigua
 2138	m	Visitó Posada del Tunelero
-2139	m	Visitó Casa del buscatesoros
+2139	m	Visitó Casa del Buscatesoros
 2140	m	Visitó Cámara Sellada
 2142	m	Visitó Pilar Celeste
 2147	m	Visitó Casa del Bayólogo
