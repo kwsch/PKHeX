@@ -22,8 +22,12 @@ public record MockSlot4 : IEncounterSlot4
     public byte StaticCount { get; init; }
     public byte MagnetPullCount { get; init; }
     public byte AreaRate { get; init; }
+    public ushort Location { get; init; }
 
     public byte PressureLevel => LevelMax;
     public ushort Species => 0;
     public byte Form => 0;
+    public bool IsBugContest => Type == SlotType4.BugContest;
+    public bool IsSafariHGSS => Locations4.IsSafari(Location);
+    public bool IsRerollMinimum31 => IsBugContest || IsSafariHGSS;
 }

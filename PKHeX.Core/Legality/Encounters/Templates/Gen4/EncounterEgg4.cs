@@ -5,14 +5,7 @@ namespace PKHeX.Core;
 
 public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncounterEgg, IRandomCorrelation
 {
-    private ushort Location => GetHatchLocation(Version);
-
-    private static ushort GetHatchLocation(GameVersion version)
-    {
-        return version is GameVersion.HG or GameVersion.SS
-            ? Locations.HatchLocationHGSS
-            : Locations.HatchLocationDPPt;
-    }
+    private ushort Location => EggHatchLegality.GetHatchLocation4(Version);
 
     public string Name => "Egg";
     public string LongName => Name;
@@ -53,6 +46,7 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
         int language = (int)Language.GetSafeLanguage456((LanguageID)tr.Language);
         var date = EncounterDate.GetDateNDS();
 
+        var pi = PersonalTable.HGSS[Species];
         var pk = new PK4
         {
             Species = Species,
@@ -61,35 +55,34 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
             Ball = (byte)FixedBall,
             ID32 = tr.ID32,
             OriginalTrainerGender = tr.Gender,
-
-            // Force Hatch
+            OriginalTrainerFriendship = pi.HatchCycles,
             Language = language,
             OriginalTrainerName = tr.OT,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
-            OriginalTrainerFriendship = 120,
-            MetLevel = 0,
-            MetDate = date,
-            MetLocation = GetHatchLocation(tr.Version),
+            Nickname = SpeciesName.GetEggName(language, Generation),
+            EggLocation = Locations.Daycare4,
             EggMetDate = date,
-            EggLocation = tr.Version == Version ? Locations.Daycare4 : Locations.LinkTrade4,
+            IsEgg = true,
         };
 
+        SetPINGA(pk, criteria, pi.Gender, tr.ID32);
         SetEncounterMoves(pk);
+        EggHatchLegality.ForceHatch(pk, tr, date);
 
+        return pk;
+    }
+
+    private void SetPINGA(PK4 pk, EncounterCriteria criteria, byte gr, uint id32)
+    {
+
+        // Get a random PID that matches gender/nature/ability criteria
+        var pid = GetRandomPID(criteria, gr, id32, out var gender);
+        pk.PID = pid;
+        pk.Gender = gender;
+        pk.RefreshAbility((int)(pid & 1));
         if (criteria.IsSpecifiedIVs())
             criteria.SetRandomIVs(pk);
         else
             criteria.SetRandomIVs(pk, 3);
-
-        // Get a random PID that matches gender/nature/ability criteria
-        var pi = PersonalTable.HGSS[Species];
-        var gr = pi.Gender;
-        var pid = GetRandomPID(criteria, gr, tr.ID32, out var gender);
-        pk.PID = pid;
-        pk.Gender = gender;
-        pk.RefreshAbility((int)(pid & 1));
-
-        return pk;
     }
 
     private uint GetRandomPID(in EncounterCriteria criteria, byte gr, uint id32, out byte gender)
@@ -127,7 +120,7 @@ public sealed record EncounterEgg4(ushort Species, GameVersion Version) : IEncou
     public ILearnSource<PersonalInfo4> Learn => Version switch
     {
         GameVersion.D or GameVersion.P => LearnSource4DP.Instance,
-        GameVersion.Pt => LearnSource4DP.Instance,
+        GameVersion.Pt => LearnSource4Pt.Instance,
         GameVersion.HG or GameVersion.SS => LearnSource4HGSS.Instance,
         _ => throw new ArgumentOutOfRangeException(nameof(Version), Version, null),
     };
