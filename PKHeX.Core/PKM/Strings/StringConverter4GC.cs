@@ -208,17 +208,17 @@ public static class StringConverter4GC
     public static int SetStringUnicodeBR(ReadOnlySpan<char> value, Span<byte> destBuffer, int maxLength = -1, StringConverterOption option = StringConverterOption.ClearZero)
     {
         if (maxLength < 0)
-            maxLength = destBuffer.Length - 2;
+            maxLength = (destBuffer.Length / 2) - 1;
         if (option is StringConverterOption.ClearZero)
             destBuffer.Clear();
 
         int count = 0;
-        for (int i = 0; i < value.Length && count < maxLength; i++)
+        for (int i = 0; i < value.Length && count < maxLength * 2; i++)
         {
             var c = value[i];
             if (c is LineBreak or Proportional or PokemonName)
             {
-                if (count + 2 >= maxLength)
+                if (count + 2 >= maxLength * 2)
                     break;
                 WriteUInt16BigEndian(destBuffer[count..], VariableChar);
                 count += 2;
