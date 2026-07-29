@@ -243,6 +243,18 @@ public static class XDRNG
         return GetSeedsIVs(result, first, second);
     }
 
+    // RNG IVs Constants (bounding the second variable)
+    // https://github.com/StarfBerry/PokeRNG/blob/1e9b9ddf2494837c7d6704c7b8a3831f644bdea9/Recovery/LCG_Recovery.py#L229
+    private const uint Lag0 = 0xE8D1; // 59601
+    private const uint Lag1 = 0x5F47; // -35210 mod 59601
+    private const uint RLower = 0x55FF8537; // ((-0x92D27AC8F311 + 0xffff_ffff) >> 16) + (59601 << 16)
+    private const uint RUpper = 0x55FFBC6D; // (-0x92D14392F311 >> 16) + (59601 << 16)
+
+    private const uint Lag0IVs = 0x44C5; // 17605
+    private const uint Lag1IVs = 0xE8D1; // 59601
+    private const uint RLowerIVs = 0x1E694392; // (0x1E68C392F311 + 0x7fff_ffff) >> 16
+    private const uint RUpperIVs = 0x1E69FAC8; // (0x1E69FAC8F311 >> 16)
+
     /// <summary>
     /// Finds all the origin seeds for two 16 bit rand() calls
     /// </summary>
@@ -252,15 +264,33 @@ public static class XDRNG
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeeds(Span<uint> result, uint first, uint second)
     {
-        ulong t = second - (first * Mult) - Sub;
-        ulong kmax = (Base - t) >> 32;
+        // `tmp` must be 64bit to avoid overflow via addition with the LOWER and UPPER constants
+        ulong tmp = ((first - (second * rMult)) >> 16) * Lag0;
+        uint lo = (uint)((tmp + RLower) >> 16);
+        uint up = (uint)((tmp + RUpper) >> 16);
 
         int ctr = 0;
-        for (ulong k = 0; k <= kmax; k++, t += 0x1_0000_0000) // at most 4 iterations
+
+        // each loop performs at most 2 iterations
+        uint low = (lo * Lag1) % Lag0;
+        do
         {
-            if (t % Mult < 0x1_0000)
-                result[ctr++] = Prev(first | (ushort)(t / Mult));
-        }
+            uint seed = Prev(second | low);
+            if ((seed & 0xffff0000) == first)
+                result[ctr++] = Prev(seed);
+        } while ((low += Lag0) < 0x1_0000);
+
+        if (lo == up)
+            return ctr;
+
+        // true in around 22% of cases
+        low = (up * Lag1) % Lag0;
+        do
+        {
+            uint seed = Prev(second | low);
+            if ((seed & 0xffff0000) == first)
+                result[ctr++] = Prev(seed);
+        } while ((low += Lag0) < 0x1_0000);
         return ctr;
     }
 
@@ -273,19 +303,50 @@ public static class XDRNG
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeedsIVs(Span<uint> result, uint first, uint second)
     {
-        ulong t = (second - (first * Mult) - Sub) & 0x7FFF_FFFF;
-        ulong kmax = (Base - t) >> 31;
+        ulong tmp = ((((rMult * second) - first) >> 16) & 0xFFFF) * Lag1IVs;
+
+        var lo = (uint)((tmp + RLowerIVs) >> 15) * Lag0IVs;
+        var mi = lo + Lag0IVs;
+        var up = (uint)((tmp + RUpperIVs) >> 15) * Lag0IVs;
 
         int ctr = 0;
-        for (ulong k = 0; k <= kmax; k++, t += 0x8000_0000) // at most 7 iterations
+        // each loop performs at most 2 iterations
+        uint low = lo % Lag1IVs;
+        do
         {
-            if (t % Mult < 0x1_0000)
-            {
-                var s = Prev(first | (ushort)(t / Mult));
-                result[ctr++] = s;
-                result[ctr++] = s ^ 0x8000_0000; // top bit flip
-            }
-        }
+            uint seed = Prev(second | low);
+            if ((seed & 0x7fff0000) != first)
+                continue;
+            seed = Prev(seed);
+            result[ctr++] = seed;
+            result[ctr++] = seed ^ 0x80000000;
+        } while ((low += Lag1IVs) < 0x1_0000);
+
+        low = mi % Lag1IVs;
+        do
+        {
+            uint seed = Prev(second | low);
+            if ((seed & 0x7fff0000) != first)
+                continue;
+            seed = Prev(seed);
+            result[ctr++] = seed;
+            result[ctr++] = seed ^ 0x80000000;
+        } while ((low += Lag1IVs) < 0x1_0000);
+
+        if (mi == up)
+            return ctr;
+
+        // true in around 43% of cases
+        low = up % Lag1IVs;
+        do
+        {
+            uint seed = Prev(second | low);
+            if ((seed & 0x7fff0000) != first)
+                continue;
+            seed = Prev(seed);
+            result[ctr++] = seed;
+            result[ctr++] = seed ^ 0x80000000;
+        } while ((low += Lag1IVs) < 0x1_0000);
         return ctr;
     }
 
@@ -297,12 +358,12 @@ public static class XDRNG
     {
         // https://github.com/StarfBerry/PokeRNG/blob/main/Recovery/LCG_Recovery.py
         // First row of the BKZ-reduced matrix
-        const long r0 = -002_528_644;
-        const long r1 = -024_142_902;
-        const long r2 =  052_961_366;
-        const long r3 =  007_565_619;
-        const long r4 =  024_945_956;
-        const long r5 = -099_942_057;
+        const int r0 = -002_528_644;
+        const int r1 = -024_142_902;
+        const int r2 =  052_961_366;
+        const int r3 =  007_565_619;
+        const int r4 =  024_945_956;
+        const int r5 = -099_942_057;
 
         // Constants to bound the variables in the linear combinations for calculating potential solutions
         const long lower0 =  0x2A_B966_D1C2;
@@ -317,6 +378,8 @@ public static class XDRNG
         const long upper3 = -0x00_DACD_A386;
         const long upper4 =  0x10_9800_0000;
         const long upper5 = -0x07_E800_0000;
+
+        // IVs 20/12/6/0/0/3 overflows x5Max `int`, so all are kept as `long` as a precaution.
 
         long f0 = ((-10L * hp) + (23L * atk) - def - (15L * spe) + (52L * spa) - (53L * spd)) << 27;
         long x0Min = ((f0 + upper0) >> 32) * r0; // LOWER and UPPER are inverted relative to xmin and xmax because R0 is negative (same with R1 and R5)

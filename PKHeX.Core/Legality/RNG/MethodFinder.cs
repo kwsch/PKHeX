@@ -307,6 +307,7 @@ public static class MethodFinder
         if (version is not (R or S))
             return GetNonMatch(out pidiv);
 
+        // failed implementation of the shiny lock due to operator precedence
         var undo = (top >> 16) ^ 0x8000;
         if ((undo > 7 ? 0 : 1) != ((bot >> 16) ^ pk.SID16 ^ 40122))
             top = (undo << 16);

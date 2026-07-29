@@ -29,9 +29,9 @@ public static class MRNGReversal
     /// </summary>
     public static int GetSeedsIVs(Span<uint> result, uint first, uint third)
     {
-        ulong tmp = (ulong)(((first - (third * RMult2)) >> 16) & 0xFFFF) * RLag0;
-        var lo = (uint)((tmp + RLower) >> 15);
-        var up = (uint)((tmp + RUpper) >> 15);
+        uint tmp = ((first - (third * RMult2)) >> 16) * RLag0;
+        uint lo = (tmp + RLower) >> 15;
+        uint up = (tmp + RUpper) >> 15;
 
         int ctr = 0;
         AddSeeds(result, (lo * RLag1IVs) % RLag0, first, third, ref ctr);

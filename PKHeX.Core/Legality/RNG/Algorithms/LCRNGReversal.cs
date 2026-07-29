@@ -49,9 +49,9 @@ public static class LCRNGReversal
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeeds(Span<uint> result, uint first, uint second)
     {
-        ulong tmp = (ulong)(((first - (second * RMult)) >> 16) & 0xFFFF) * RLag0;
-        var lo = (uint)((tmp + RLower) >> 16);
-        var up = (uint)((tmp + RUpper) >> 16);
+        uint tmp = ((first - (second * RMult)) >> 16) * RLag0;
+        uint lo = (tmp + RLower) >> 16;
+        uint up = (tmp + RUpper) >> 16;
         if (lo != up) // true in around 10% of cases
             return 0;
 
@@ -76,23 +76,23 @@ public static class LCRNGReversal
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeedsIVs(Span<uint> result, uint first, uint second)
     {
-        long diff = ((long)LCRNG.Mult * first) - second;
-        ulong tmp = (ulong)((diff >> 16) & 0xFFFF) * Lag1;
+        ulong tmp = (ulong)(((LCRNG.Mult * first) - second >> 16) & 0xFFFF) * Lag1;
         var lo = (uint)(((tmp + Lower) >> 15) * Lag0);
         var mi = lo + Lag0;
         var up = (uint)(((tmp + Upper) >> 15) * Lag0);
 
         int ctr = 0;
         // around 2.70 iterations in average
-        AddSeeds(result, lo % Lag1, first, second, ref ctr);
-        AddSeeds(result, mi % Lag1, first, second, ref ctr);
+        AddSeeds(result, lo, first, second, ref ctr);
+        AddSeeds(result, mi, first, second, ref ctr);
         if (mi != up) // true in around 12% of cases
-            AddSeeds(result, up % Lag1, first, second, ref ctr);
+            AddSeeds(result, up, first, second, ref ctr);
         return ctr;
     }
 
     private static void AddSeeds(Span<uint> result, uint low, uint first, uint second, ref int ctr)
     {
+        low %= Lag1;
         // at most 3 iterations
         do
         {
