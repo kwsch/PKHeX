@@ -253,7 +253,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         return RaidRNG.Verify(pk, seed, iv, param, forceNoShiny: forceNoShiny);
     }
 
-    public virtual void GenerateSeed64(PKM pk, ulong seed)
+    public virtual void GenerateSeed64(PKM pk, ITrainerInfo tr, ulong seed)
     {
         var criteria = EncounterCriteria.Unrestricted;
         var pk8 = (PK8)pk;

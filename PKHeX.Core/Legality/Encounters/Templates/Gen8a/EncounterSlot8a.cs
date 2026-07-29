@@ -56,7 +56,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             OriginalTrainerFriendship = pi.BaseFriendship,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, language, Generation),
         };
-        SetPINGA(pk, criteria, pi);
+        SetPINGA(pk, tr, criteria, pi);
         pk.Scale = pk.HeightScalar;
         pk.ResetHeight();
         pk.ResetWeight();
@@ -65,9 +65,10 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         return pk;
     }
 
-    private void SetPINGA(PA8 pk, in EncounterCriteria criteria, PersonalInfo8LA pi)
+    private void SetPINGA(PA8 pk, ITrainerInfo tr, in EncounterCriteria criteria, PersonalInfo8LA pi)
     {
-        var para = GetParams(pi);
+        var rollCount = GetRollCount(Type, tr);
+        var para = GetParams(pi, rollCount);
         bool checkLevel = criteria.IsSpecifiedLevelRange() && this.IsLevelWithinRange(criteria);
         while (true)
         {
@@ -84,22 +85,23 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         }
     }
 
-    public void GenerateSeed64(PKM pk, ulong seed)
+    public void GenerateSeed64(PKM pk, ITrainerInfo tr, ulong seed)
     {
         if (pk is not PA8 pa8)
             throw new ArgumentException($"{nameof(pk)} must be a {nameof(PA8)} instance.", nameof(pk));
         var criteria = EncounterCriteria.Unrestricted;
         var pi = PersonalTable.LA.GetFormEntry(Species, Form);
-        var para = GetParams(pi);
+        var rollCount = GetRollCount(Type, tr);
+        var para = GetParams(pi, rollCount);
         _ = Overworld8aRNG.ApplyDetails(pa8, criteria, para, HasAlphaMove);
     }
 
-    private OverworldParam8a GetParams(PersonalInfo8LA pi) => new()
+    private OverworldParam8a GetParams(PersonalInfo8LA pi, byte rollCount) => new()
     {
         Shiny = Shiny,
         IsAlpha = IsAlpha,
         FlawlessIVs = FlawlessIVCount,
-        RollCount = GetRollCount(Type),
+        RollCount = rollCount,
         GenderRatio = Gender switch
         {
             Gender.Male => PersonalInfo.RatioMagicMale,
@@ -111,12 +113,21 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     // hardcoded 7 to assume max dex progress + shiny charm.
     private const int MaxRollCount = 7;
 
-    private static byte GetRollCount(SlotType8a type) => (byte)(MaxRollCount + type switch
+    private byte GetRollCount(SlotType8a type, ITrainerInfo tr) => (byte)(GetRollCountBase(tr, Species) + GetRollCountBoost(type));
+
+    private static byte GetRollCountBoost(SlotType8a type) => type switch
     {
         SlotType8a.MassOutbreakMassive => 12,
         SlotType8a.MassOutbreakRegular => 25,
         _ => 0,
-    });
+    };
+
+    private int GetRollCountBase(ITrainerInfo tr, ushort species)
+    {
+        if (tr is not ITrainerInfo8a la)
+            return MaxRollCount;
+        return la.GetShinyRolls(species);
+    }
 
     private void SetEncounterMoves(PA8 pk, byte level)
     {
@@ -246,7 +257,8 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     {
         // Check if it matches any single-roll seed.
         var pi = PersonalTable.LA[Species, Form];
-        var param = GetParams(pi) with { RollCount = 1 };
+        var rollCount = (byte)(1 + GetRollCountBoost(Type));
+        var param = GetParams(pi, rollCount);
         var solver = new XoroMachineSkip(pk.EncryptionConstant, pk.PID);
         foreach (var s in solver)
         {
