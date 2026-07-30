@@ -1523,7 +1523,7 @@
 2129	t	Psychic Alvaro in Trick House Puzzle 7 defeated
 2130	t	Gentleman Everett in Trick House Puzzle 7 defeated
 
-2186	m	Rain and Harsh Sunlight in eastern Hoenn
+2186	m	Sol y Lluvia en Hoenn oriental
 2159	f	Puede volar a Villa Raiz
 2160	f	Puede volar a Pueblo Escaso
 2161	f	Puede volar a Pueblo Azuliza
@@ -1540,32 +1540,32 @@
 2172	f	Puede volar a Ciudad Algaría
 2173	f	Puede volar a Arrecípolis
 2174	f	Puede volar a Ciudad Colosalia
-2216	f	Puede volar a Frontera Batalla
-2204	m	Visited Flower Shop
-2205	m	Visited Mr. Briney's Cottage
-2206	m	Visited Abandoned Ship
-2207	m	Visited Seashore House
-2208	m	Visited New Mauville
-2209	m	Visited Old Lady's Rest Stop
-2210	m	Visited Trick House
-2211	m	Visited The Winstrate Family
-2212	m	Visited Glass Workshop
-2213	m	Visited Lanette's House
-2214	m	Visited Pokémon Day Care
-2215	m	Visited Seafloor Cavern
-2218	m	Visited Fiery Path
-2228	m	Visited Pokémon League
-2229	m	Visited Island Cave
-2230	m	Visited Desert Ruins
-2231	m	Visited Fossil Maniac's House
-2232	m	Visited Scorched Slab
-2233	m	Visited Ancient Tomb
-2234	m	Visited Tunneler's Rest House
-2235	m	Visited Hunter's House
-2236	m	Visited Sealed Chamber
-2238	m	Visited Sky Pillar
-2243	m	Visited Berry Master's House
-2268	m	Visited Mirage Tower
-2269	m	Visited Altering Cave
-2270	m	Visited Desert Underpass
-2274	m	Visited Trainer Hill
+2216	f	Puede volar a Frente Batalla
+2204	m	Visitó Bosque Petalia
+2205	m	Visitó Casa del Sr. Arenque
+2206	m	Visitó Nao Abandonada
+2207	m	Visitó Casa de la Playa
+2208	m	Visitó Malvalanova
+2209	m	Visitó Posada de la Abuela
+2210	m	Visitó Casa Treta
+2211	m	Visitó La familia Estratega
+2212	m	Visitó Taller de Vidrio
+2213	m	Visitó Casa de Aredia
+2214	m	Visitó Guardería Pokémon
+2215	m	Visitó Caverna Abisal
+2218	m	Visitó Senda Ígnea
+2228	m	Visitó Liga Pokémon
+2229	m	Visitó Cueva Insular
+2230	m	Visitó Ruinas Desierto
+2231	m	Visitó Casa del Fosilmaníaco
+2232	m	Visitó Gruta Solar
+2233	m	Visitó Tumba Antigua
+2234	m	Visitó Posada del Tunelero
+2235	m	Visitó Casa del Buscatesoros
+2236	m	Visitó Cámara Sellada
+2238	m	Visitó Pilar Celeste
+2243	m	Visitó Casa del Bayólogo
+2268	m	Visitó Torre Espejismo
+2269	m	Visitó Cueva Cambiante
+2270	m	Visitó Gruta Desértica
+2274	m	Visitó Colina Desafío

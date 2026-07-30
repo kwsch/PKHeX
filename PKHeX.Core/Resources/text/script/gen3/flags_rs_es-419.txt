@@ -83,7 +83,7 @@
 0x85F	s	Puede Recibir Camp. Concha
 0x860	*	Recibidas Deportivas
 0x862	*	Reinicio de RTR Habilitado
-2090	*	Harsh Sunlight/Rain in Eastern Hoenn
+2090	*	Sol/Lluvia en Hoenn oriental
 2063	f	Puede volar a Villa Raiz
 2064	f	Puede volar a Pueblo Escaso
 2065	f	Puede volar a Pueblo Azuliza
@@ -101,31 +101,31 @@
 2077	f	Puede volar a Arrecípolis
 2078	f	Puede volar a Ciudad Colosalia
 2120	f	Puede volar a Torre Batalla
-2108	m	Visited Flower Shop
-2109	m	Visited Mr. Briney's Cottage
-2110	m	Visited Abandoned Ship
-2111	m	Visited Seashore House
-2112	m	Visited New Mauville
-2113	m	Visited Old Lady's Rest Stop
-2114	m	Visited Trick House
-2115	m	Visited The Winstrate Family
-2116	m	Visited Glass Workshop
-2117	m	Visited Lanette's House
-2118	m	Visited Pokémon Day Care
-2119	m	Visited Seafloor Cavern
-2122	m	Visited Fiery Path
-2132	m	Visited Pokémon League
-2133	m	Visited Island Cave
-2134	m	Visited Desert Ruins
-2135	m	Visited Fossil Maniac's House
-2136	m	Visited Scorched Slab
-2137	m	Visited Ancient Tomb
-2138	m	Visited Tunneler's Rest House
-2139	m	Visited Hunter's House
-2140	m	Visited Sealed Chamber
-2142	m	Visited Sky Pillar
-2147	m	Visited Berry Master's House
-0768	s	derrotado The Winstrate Family
+2108	m	Visitó Bosque Petalia
+2109	m	Visitó Casa del Sr. Arenque
+2110	m	Visitó Nao Abandonada
+2111	m	Visitó Casa de la Playa
+2112	m	Visitó Malvalanova
+2113	m	Visitó Posada de la Abuela
+2114	m	Visitó Casa Treta
+2115	m	Visitó La familia Estratega
+2116	m	Visitó Taller de Vidrio
+2117	m	Visitó Casa de Aredia
+2118	m	Visitó Guardería Pokémon
+2119	m	Visitó Caverna Abisal
+2122	m	Visitó Senda Ígnea
+2132	m	Visitó Liga Pokémon
+2133	m	Visitó Cueva Insular
+2134	m	Visitó Ruinas Desierto
+2135	m	Visitó Casa del Fosilmaníaco
+2136	m	Visitó Gruta Solar
+2137	m	Visitó Tumba Antigua
+2138	m	Visitó Posada del Tunelero
+2139	m	Visitó Casa del Buscatesoros
+2140	m	Visitó Cámara Sellada
+2142	m	Visitó Pilar Celeste
+2147	m	Visitó Casa del Bayólogo
+0768	s	La familia Estratega derrotada
 1800	t	Entrenador Pokémon Bruno en la Ruta 103 derrotado (Inicial Mudkip)
 1801	t	Entrenador Pokémon Bruno en la Ruta 110 derrotado (Inicial Mudkip)
 1802	t	Entrenador Pokémon Bruno en la Ruta 119 derrotado (Inicial Mudkip)
