@@ -358,12 +358,12 @@ public static class XDRNG
     {
         // https://github.com/StarfBerry/PokeRNG/blob/main/Recovery/LCG_Recovery.py
         // First row of the BKZ-reduced matrix
-        const int r0 = -002_528_644;
-        const int r1 = -024_142_902;
-        const int r2 =  052_961_366;
-        const int r3 =  007_565_619;
-        const int r4 =  024_945_956;
-        const int r5 = -099_942_057;
+        const uint r0 = 0xFFD96A7C; // -2528644
+        const uint r1 = 0xFE8F9BCA; // -24142902
+        const uint r2 = 0x3282056;  // 52961366
+        const uint r3 = 0x737133;   // 7565619
+        const uint r4 = 0x17CA524;  // 24945956
+        const uint r5 = 0xFA0B0157; // -99942057
 
         // Constants to bound the variables in the linear combinations for calculating potential solutions
         const long lower0 =  0x2A_B966_D1C2;
@@ -379,42 +379,44 @@ public static class XDRNG
         const long upper4 =  0x10_9800_0000;
         const long upper5 = -0x07_E800_0000;
 
-        // IVs 20/12/6/0/0/3 overflows x5Max `int`, so all are kept as `long` as a precaution.
-
         long f0 = ((-10L * hp) + (23L * atk) - def - (15L * spe) + (52L * spa) - (53L * spd)) << 27;
-        long x0Min = ((f0 + upper0) >> 32) * r0; // LOWER and UPPER are inverted relative to xmin and xmax because R0 is negative (same with R1 and R5)
-        long x0Max = ((f0 + lower0) >> 32) * r0;
+        uint x0Min = (uint)((f0 + upper0) >> 32) * r0; // LOWER and UPPER are inverted relative to xmin and xmax because r0 is negative (same with r1 and r5)
+        uint x0Max = (uint)((f0 + lower0) >> 32) * r0 - r0;
         long f1 = ((-14L * hp) + (7L * atk) - (18L * def) - (21L * spe) - (26L * spa) - (24L * spd)) << 27;
-        long x1Min = ((f1 + upper1) >> 32) * r1;
-        long x1Max = ((f1 + lower1) >> 32) * r1;
+        uint x1Min = (uint)((f1 + upper1) >> 32) * r1;
+        uint x1Max = (uint)((f1 + lower1) >> 32) * r1 - r1;
         long f2 = ((24L * hp) - (5L * atk) + (22L * def) + (15L * spe) - (5L * spa) - (15L * spd)) << 27;
-        long x2Min = ((f2 + lower2) >> 32) * r2;
-        long x2Max = ((f2 + upper2) >> 32) * r2;
+        uint x2Min = (uint)((f2 + lower2) >> 32) * r2;
+        uint x2Max = (uint)((f2 + upper2) >> 32) * r2 + r2;
         long f3 = ((-5L * hp) - (24L * atk) + (26L * def) - (12L * spe) + (9L * spa) + (14L * spd)) << 27;
-        long x3Min = ((f3 + lower3) >> 32) * r3;
-        long x3Max = ((f3 + upper3) >> 32) * r3;
+        uint x3Min = (uint)((f3 + lower3) >> 32) * r3;
+        uint x3Max = (uint)((f3 + upper3) >> 32) * r3 + r3;
         long f4 = ((27L * atk) - (18L * spe) - (8L * spa) - spd) << 27;
-        long x4Min = ((f4 + lower4) >> 32) * r4;
-        long x4Max = ((f4 + upper4) >> 32) * r4;
+        uint x4Min = (uint)((f4 + lower4) >> 32) * r4;
+        uint x4Max = (uint)((f4 + upper4) >> 32) * r4 + r4;
         long f5 = ((-27L * hp) + (18L * def) + (8L * spe) + spa) << 27;
-        long x5Min = ((f5 + upper5) >> 32) * r5;
-        long x5Max = ((f5 + lower5) >> 32) * r5;
+        uint x5Min = (uint)((f5 + upper5) >> 32) * r5;
+        uint x5Max = (uint)((f5 + lower5) >> 32) * r5 - r5;
 
         // at most 720 iterations in total (around 369 in average, 48 in the best case)
         int ctr = 0;
-        for (long x5 = x5Min; x5 <= x5Max; x5 -= r5)
+        for (uint x5 = x5Min; x5 != x5Max; x5 -= r5)
         {
-            for (long x4 = x4Min; x4 <= x4Max; x4 += r4)
+            for (uint x4 = x4Min; x4 != x4Max; x4 += r4)
             {
-                for (long x2 = x2Min; x2 <= x2Max; x2 += r2)
+                uint l4 = x5 + x4;
+                for (uint x2 = x2Min; x2 != x2Max; x2 += r2)
                 {
-                    for (long x3 = x3Min; x3 <= x3Max; x3 += r3)
+                    uint l2 = l4 + x2;
+                    for (uint x3 = x3Min; x3 != x3Max; x3 += r3)
                     {
-                        for (long x1 = x1Min; x1 <= x1Max; x1 -= r1)
+                        uint l3 = l2 + x3;
+                        for (uint x1 = x1Min; x1 != x1Max; x1 -= r1)
                         {
-                            for (long x0 = x0Min; x0 <= x0Max; x0 -= r0)
+                            uint l1 = l3 + x1;
+                            for (uint x0 = x0Min; x0 != x0Max; x0 -= r0)
                             {
-                                uint seed = unchecked((uint)(x5 + x4 + x2 + x3 + x1 + x0));
+                                uint seed = l1 + x0;
                                 if ((seed >> 27) != hp)
                                     continue;
                                 if (Next5(ref seed) != atk)
