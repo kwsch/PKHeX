@@ -14,7 +14,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public bool IsVirtualConsole => State.Exportable && Metadata.FileName is { } s && s.StartsWith("sav", StringComparison.Ordinal) && s.Contains(".dat"); // default to GB-Era for non-exportable
 
     public int SaveRevision => Japanese ? 0 : 1;
-    public string SaveRevisionString => (Japanese ? "J" : "U") + (IsVirtualConsole ? "VC" : "GB");
+    public string SaveRevisionString => (Japanese ? "-J" : "-U") + (IsVirtualConsole ? " [VC]" : " [GB]");
     public bool Japanese { get; }
     public bool Korean => false;
     public override int Language { get; set; }

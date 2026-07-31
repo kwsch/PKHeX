@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
 {
     public override int SaveRevision => Japanese ? 0 : 1;
-    public override string SaveRevisionString => Japanese ? "J" : "U";
+    public override string SaveRevisionString => Japanese ? "-J" : "-U";
 
     public override PersonalTable2 Personal => PersonalTable.C;
     public override int MaxEV => EffortValues.Max12;

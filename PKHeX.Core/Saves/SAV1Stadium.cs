@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 public sealed class SAV1Stadium : SAV_STADIUM, IStorageCleanup
 {
     public override int SaveRevision => Japanese ? 0 : 1;
-    public override string SaveRevisionString => Japanese ? "J" : "U";
+    public override string SaveRevisionString => Japanese ? "-J" : "-U";
 
     public override PersonalTable1 Personal => PersonalTable.Y;
     public override int MaxEV => EffortValues.Max12;
