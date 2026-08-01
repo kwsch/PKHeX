@@ -70,6 +70,7 @@ public enum LegalityCheckResultCode : ushort
     EggLocationTrade,
     EggLocationTradeFail,
     EggMetLocationFail,
+    EggMoveCombination,
     EggNature,
     EggPP,
     EggPPUp,

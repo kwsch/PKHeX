@@ -83,6 +83,7 @@ public static class LegalityCheckResultCodeExtensions
             EggLocationTrade => localization.EggLocationTrade,
             EggLocationTradeFail => localization.EggLocationTradeFail,
             EggMetLocationFail => localization.EggMetLocationFail,
+            EggMoveCombination => localization.EggMoveCombination,
             EggNature => localization.EggNature,
             EggPP => localization.EggPP,
             EggPPUp => localization.EggPPUp,

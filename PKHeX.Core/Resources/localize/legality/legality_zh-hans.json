@@ -53,6 +53,7 @@
     "EggLocationTrade": "能在相遇地点孵化交易的蛋。",
     "EggLocationTradeFail": "非法蛋取得场所, 不能在还是蛋时“交换”",
     "EggMetLocationFail": "不能在蛋取得场所获得蛋。",
+    "EggMoveCombination": "这一组蛋招式在本世代中无法遗传。",
     "EggNature": "不能改变蛋的能力调整（薄荷）。",
     "EggPP": "蛋不能有PP数变动。",
     "EggPPUp": "不能对蛋使用PP提升剂。",

@@ -53,6 +53,7 @@
     "EggLocationTrade": "可於遇見地點孵化「連線交換」所得蛋。",
     "EggLocationTradeFail": "不合法之蛋取得場所, 無法於寶可夢仍是蛋時「連線交換」。",
     "EggMetLocationFail": "無法於設定之蛋取得場所獲得該蛋。",
+    "EggMoveCombination": "這組蛋招式在本世代中無法遺傳。",
     "EggNature": "無法使用「薄荷」修正蛋之能力調整。",
     "EggPP": "蛋不能修改 PP 值。",
     "EggPPUp": "不能對蛋使用 PP 提升劑。",

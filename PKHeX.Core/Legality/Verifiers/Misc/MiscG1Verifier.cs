@@ -13,28 +13,37 @@ internal sealed class MiscG1Verifier : Verifier
 
     internal void VerifyG1(LegalityAnalysis data, PKM pk)
     {
-        if (pk.IsEgg)
-            Eggs.VerifyCommon(data, pk);
+        Eggs.Verify(data);
 
-        if (pk is not PK1 pk1)
-        {
-            if (pk is ICaughtData2 { CaughtData: not 0 } t)
-            {
-                var time = t.MetTimeOfDay;
-                bool valid = data.EncounterOriginal switch
-                {
-                    EncounterGift2 g2 when (!g2.IsEgg || pk.IsEgg) => time == 0,
-                    EncounterTrade2 => time == 0,
-                    _ => time is 1 or 2 or 3,
-                };
-                if (!valid)
-                    data.AddLine(GetInvalid(Encounter, MetDetailTimeOfDay));
-            }
-            return;
-        }
+        if (pk is PK1 pk1)
+            VerifyAsFormat1(data, pk1);
+        else
+            VerifyAsFormat2(data, pk);
+    }
 
+    private void VerifyAsFormat1(LegalityAnalysis data, PK1 pk1)
+    {
+        // PK1-specific properties: personal Types and Catch Rate (held item).
         VerifyMiscG1Types(data, pk1);
         VerifyMiscG1CatchRate(data, pk1);
+    }
+
+    private static void VerifyAsFormat2(LegalityAnalysis data, PKM pk)
+    {
+        // The only additional property in Gen2 is the Caught u16 with Time of Day and OT gender.
+        // OT Gender is checked separately in the Trainer verifier; still need to verify Time of Day.
+        if (pk is not ICaughtData2 { CaughtData: not 0 } t)
+            return;
+
+        var time = t.MetTimeOfDay;
+        bool valid = data.EncounterOriginal switch
+        {
+            EncounterGift2 g2 when (!g2.IsEgg || pk.IsEgg) => time == 0,
+            EncounterTrade2 => time == 0,
+            _ => time is 1 or 2 or 3,
+        };
+        if (!valid)
+            data.AddLine(GetInvalid(Encounter, MetDetailTimeOfDay));
     }
 
     private void VerifyMiscG1Types(LegalityAnalysis data, PK1 pk1)
