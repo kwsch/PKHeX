@@ -17,10 +17,10 @@ public static class ChainBreedLegality
     // an evolution/baby-species transition without allowing unbounded search.
     private const int MaxChainDepth = 8;
 
-    public static bool IsValid(ushort species, GameVersion version, params ReadOnlySpan<ushort> moves)
-        => TryValidate(species, version, moves, out _);
+    public static bool IsValid(ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves)
+        => TryValidate(species, form, version, moves, out _);
 
-    public static bool TryValidate(ushort species, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
+    public static bool TryValidate(ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
     {
         summary = default;
         int count = moves.IndexOf((ushort)0);
@@ -32,15 +32,15 @@ public static class ChainBreedLegality
             return false;
 
         var generation = version.Generation;
-        if (generation is < 2 or > 5)
-            return IsValidRelaxed(species, version, moves, out summary);
+        if (generation >= 6) // Gen6+: mothers can pass egg moves
+            return IsValidRelaxed(species, form, version, moves, out summary);
 
         var learn = GameData.GetLearnSource(version);
-        var learnset = learn.GetLearnset(species, 0);
+        var learnset = learn.GetLearnset(species, form);
         var baseMoves = learnset.GetBaseEggMoves(GetEggLevel(generation));
 
         Span<byte> flags = stackalloc byte[count];
-        if (!MarkChildMoveFlags(species, version, moves[..count], learnset, flags))
+        if (!MarkChildMoveFlags(species, form, version, moves[..count], learnset, flags))
             return false;
 
         // For male-only split breed species (Volbeat/Nidoran-M) in Gen 2-5, we need special validation:
@@ -64,12 +64,12 @@ public static class ChainBreedLegality
             if (eggMoveCount > 0)
             {
                 RemapSpeciesToMother(ref species);
-                return CanSingleFatherPassAllMoves(species, version, eggMovesOnly[..eggMoveCount], out summary);
+                return CanSingleFatherPassAllMoves(species, form, version, eggMovesOnly[..eggMoveCount], out summary);
             }
         }
 
         Span<ChainQueryState> visited = stackalloc ChainQueryState[MaxChainDepth];
-        return TryValidateCore(species, version, moves[..count], baseMoves, flags, visited, 0, out summary);
+        return TryValidateCore(species, form, version, moves[..count], baseMoves, flags, visited, 0, out summary);
     }
 
     private static void RemapSpeciesToMother(ref ushort species)
@@ -85,7 +85,7 @@ public static class ChainBreedLegality
         return species is (ushort)Species.NidoranM or (ushort)Species.Volbeat;
     }
 
-    private static bool IsValidRelaxed(ushort species, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
+    private static bool IsValidRelaxed(ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
     {
         // Gen 6+ games have relaxed breeding rules where most chains are valid as Mothers can now pass, allowing for fusing chains.
         // However, only-Female offspring still have some restrictions:
@@ -101,12 +101,11 @@ public static class ChainBreedLegality
         // - In Gen 8+, egg move sharing means this restriction doesn't apply
         summary = default;
 
-        var generation = version.Generation;
         var table = GameData.GetPersonal(version);
-        if (!table.IsPresentInGame(species, 0))
+        if (!table.IsPresentInGame(species, form))
             return true;
 
-        var pi = table[species, 0];
+        var pi = table[species, form];
 
         // Genderless species must breed with Ditto, but since they always must breed with Ditto,
         // they are already handled by the relaxed rules (no level-up moves can be inherited).
@@ -116,26 +115,20 @@ public static class ChainBreedLegality
         var isMaleSplit = IsMaleOnlySplitBreed(species);
         RemapSpeciesToMother(ref species);
 
-        // For male-only split breed species in Gen 6-7, check if father can pass moves mother can't learn
-        if (isMaleSplit && generation < 8)
-        {
-            return CanMotherAndFatherPassAllMoves(species, version, moves, out summary);
-        }
-
-        // Check if this is a baby Pokemon bred from a female-only species (Gen 8+ restriction)
-        if (generation < 8)
-            return true; // Gen 6-7: fully relaxed for non-male-split species
+        // For male-only split breed species, check if father can pass moves mother can't learn
+        if (isMaleSplit)
+            return CanMotherAndFatherPassAllMoves(species, form, version, moves, out summary);
 
         var context = version.Context;
         var tree = EvolutionTree.GetEvolutionTree(context);
-        var evolutions = tree.Forward.GetEvolutions(species, 0);
+        var evolutions = tree.Forward.GetEvolutions(species, form);
 
-        foreach (var (evoSpecies, _) in evolutions)
+        foreach (var (evoSpecies, evoForm) in evolutions)
         {
-            if (!table.IsPresentInGame(evoSpecies, 0))
+            if (!table.IsPresentInGame(evoSpecies, form))
                 continue;
 
-            var evoPi = table[evoSpecies, 0];
+            var evoPi = table[evoSpecies, evoForm];
 
             // If the evolved form is female-only, it must breed with a compatible father
             if (evoPi.OnlyFemale)
@@ -150,8 +143,8 @@ public static class ChainBreedLegality
                         break;
 
                     // Check if this is a level-up move for the baby species or evolved species
-                    var babyLearnset = learn.GetLearnset(species, 0);
-                    var evoLearnset = learn.GetLearnset(evoSpecies, 0);
+                    var babyLearnset = learn.GetLearnset(species, form);
+                    var evoLearnset = learn.GetLearnset(evoSpecies, evoForm);
 
                     bool isLevelUpMove = babyLearnset.TryGetLevelLearnMove(move, out _) || 
                                         evoLearnset.TryGetLevelLearnMove(move, out _);
@@ -175,19 +168,24 @@ public static class ChainBreedLegality
         var maxSpecies = table.MaxSpeciesID;
         for (ushort fatherSpecies = 1; fatherSpecies <= maxSpecies; fatherSpecies++)
         {
-            if (!table.IsPresentInGame(fatherSpecies, 0))
-                continue;
+            var baseFather = table[fatherSpecies];
+            var formCount = baseFather.FormCount;
+            for (byte fatherForm = 0; fatherForm < formCount; fatherForm++)
+            {
+                if (!table.IsPresentInGame(fatherSpecies, fatherForm))
+                    continue;
 
-            var fatherInfo = table[fatherSpecies, 0];
+                var fatherInfo = table[fatherSpecies, fatherForm];
 
-            // Father must be in the same egg group and not be Ditto (or genderless/female-only)
-            if (!IsCompatibleFatherForMove(motherInfo, fatherSpecies, fatherInfo))
-                continue;
+                // Father must be in the same egg group and not be Ditto (or genderless/female-only)
+                if (!IsCompatibleFatherForMove(motherInfo, fatherSpecies, fatherInfo))
+                    continue;
 
-            // Check if this father can learn the move via level-up
-            var fatherLearnset = learn.GetLearnset(fatherSpecies, 0);
-            if (fatherLearnset.TryGetLevelLearnMove(move, out _))
-                return true; // Found a compatible father that can learn this move
+                // Check if this father can learn the move via level-up
+                var fatherLearnset = learn.GetLearnset(fatherSpecies, fatherForm);
+                if (fatherLearnset.TryGetLevelLearnMove(move, out _))
+                    return true; // Found a compatible father that can learn this move
+            }
         }
 
         return false; // No compatible father found
@@ -212,48 +210,50 @@ public static class ChainBreedLegality
         return true;
     }
 
-    private static bool CanSingleFatherPassAllMoves(ushort motherSpecies, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
+    private static bool CanSingleFatherPassAllMoves(ushort motherSpecies, byte motherForm, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
     {
         // For male-only split breed species in Gen 2-5, all egg moves must come from a single father
         summary = default;
         var table = GameData.GetPersonal(version);
-        if (!table.IsPresentInGame(motherSpecies, 0))
+        if (!table.IsPresentInGame(motherSpecies, motherForm))
             return false;
 
-        var motherInfo = table[motherSpecies, 0];
+        var motherInfo = table[motherSpecies, motherForm];
         var learn = GameData.GetLearnSource(version);
         var maxSpecies = table.MaxSpeciesID;
 
         // Try each potential father species
         for (ushort fatherSpecies = 1; fatherSpecies <= maxSpecies; fatherSpecies++)
         {
-            if (!table.IsPresentInGame(fatherSpecies, 0))
-                continue;
-
-            var fatherInfo = table[fatherSpecies, 0];
-
-            // Father must be in the same egg group and not be Ditto (or genderless/female-only)
-            if (!IsCompatibleFatherForBreeding(motherInfo, fatherSpecies, fatherInfo))
-                continue;
-
-            // Check if this father can learn ALL the moves
-            bool canLearnAll = true;
-
-            foreach (var move in moves)
+            var baseFather = table[fatherSpecies];
+            var formCount = baseFather.FormCount;
+            for (byte fatherForm = 0; fatherForm < formCount; fatherForm++)
             {
-                if (move == 0)
-                    break;
+                if (!table.IsPresentInGame(fatherSpecies, fatherForm))
+                    continue;
 
-                // Father must be able to learn this move as an egg move or level-up move
-                if (!CanFatherLearnMoveForEgg(fatherSpecies, move, learn))
+                var fatherInfo = table[fatherSpecies, fatherForm];
+
+                // Father must be in the same egg group and not be Ditto (or genderless/female-only)
+                if (!IsCompatibleFatherForBreeding(motherInfo, fatherSpecies, fatherInfo))
+                    continue;
+
+                // Check if this father can learn ALL the moves
+                bool canLearnAll = true;
+                foreach (var move in moves)
                 {
+                    if (move == 0)
+                        break;
+
+                    // Father must be able to learn this move as an egg move or level-up move
+                    if (CanFatherLearnMoveForEgg(fatherSpecies, fatherForm, move, learn))
+                        continue;
                     canLearnAll = false;
                     break;
                 }
-            }
+                if (!canLearnAll)
+                    continue;
 
-            if (canLearnAll)
-            {
                 summary = new ChainBreedSummary(motherSpecies, fatherSpecies, 1);
                 return true;
             }
@@ -262,17 +262,17 @@ public static class ChainBreedLegality
         return false; // No single father can pass all moves
     }
 
-    private static bool CanMotherAndFatherPassAllMoves(ushort motherSpecies, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
+    private static bool CanMotherAndFatherPassAllMoves(ushort motherSpecies, byte motherForm, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
     {
         // For male-only split breed species in Gen 6-7:
         // - Mother can pass moves she learns as egg moves
         // - Father must pass moves the mother cannot learn
         summary = default;
         var table = GameData.GetPersonal(version);
-        if (!table.IsPresentInGame(motherSpecies, 0))
+        if (!table.IsPresentInGame(motherSpecies, motherForm))
             return false;
 
-        var motherInfo = table[motherSpecies, 0];
+        var motherInfo = table[motherSpecies, motherForm];
         var learn = GameData.GetLearnSource(version);
 
         // Determine which moves the mother can learn as egg moves
@@ -287,7 +287,7 @@ public static class ChainBreedLegality
                 break;
 
             // Check if mother can learn this move as an egg move
-            if (CanMotherLearnMoveAsEgg(motherSpecies, move, learn))
+            if (CanMotherLearnMoveAsEgg(motherSpecies, motherForm, move, learn))
             {
                 motherCanLearn[i] = true;
             }
@@ -309,51 +309,56 @@ public static class ChainBreedLegality
         var maxSpecies = table.MaxSpeciesID;
         for (ushort fatherSpecies = 1; fatherSpecies <= maxSpecies; fatherSpecies++)
         {
-            if (!table.IsPresentInGame(fatherSpecies, 0))
-                continue;
-
-            var fatherInfo = table[fatherSpecies, 0];
-
-            // Father must be in the same egg group
-            if (!IsCompatibleFatherForBreeding(motherInfo, fatherSpecies, fatherInfo))
-                continue;
-
-            // Check if this father can learn all the moves mother cannot learn
-            bool canLearnAll = true;
-            for (int i = 0; i < fatherMoveCount; i++)
+            var baseFather = table[fatherSpecies];
+            var formCount = baseFather.FormCount;
+            for (byte f = 0; f < formCount; f++)
             {
-                var move = fatherMustPass[i];
-                if (CanFatherLearnMoveForEgg(fatherSpecies, move, learn))
+                if (!table.IsPresentInGame(fatherSpecies, f))
                     continue;
-                canLearnAll = false;
-                break;
-            }
 
-            if (canLearnAll)
-            {
-                summary = new ChainBreedSummary(motherSpecies, fatherSpecies, 1);
-                return true;
+                var fatherInfo = table[fatherSpecies, f];
+
+                // Father must be in the same egg group
+                if (!IsCompatibleFatherForBreeding(motherInfo, fatherSpecies, fatherInfo))
+                    continue;
+
+                // Check if this father can learn all the moves mother cannot learn
+                bool canLearnAll = true;
+                for (int i = 0; i < fatherMoveCount; i++)
+                {
+                    var move = fatherMustPass[i];
+                    if (CanFatherLearnMoveForEgg(fatherSpecies, f, move, learn))
+                        continue;
+                    canLearnAll = false;
+                    break;
+                }
+
+                if (canLearnAll)
+                {
+                    summary = new ChainBreedSummary(motherSpecies, fatherSpecies, 1);
+                    return true;
+                }
             }
         }
 
         return false; // No father can pass all the moves mother cannot learn
     }
 
-    private static bool CanFatherLearnMoveForEgg(ushort fatherSpecies, ushort move, ILearnSource learn)
+    private static bool CanFatherLearnMoveForEgg(ushort fatherSpecies, byte fatherForm, ushort move, ILearnSource learn)
     {
         // For male-only split breed validation, check if the father can pass this move to the child
         // The father can pass a move if he can HAVE it in his moveset via level-up only
         // (not via egg moves, since that would require another breeding chain)
-        var learnset = learn.GetLearnset(fatherSpecies, 0);
+        var learnset = learn.GetLearnset(fatherSpecies, fatherForm);
 
         // Only check level-up
         return learnset.TryGetLevelLearnMove(move, out _);
     }
 
-    private static bool CanMotherLearnMoveAsEgg(ushort motherSpecies, ushort move, ILearnSource learn)
+    private static bool CanMotherLearnMoveAsEgg(ushort motherSpecies, byte motherForm, ushort move, ILearnSource learn)
     {
         // Check if the mother can learn this move as an egg move
-        var eggMoves = learn.GetEggMoves(motherSpecies, 0);
+        var eggMoves = learn.GetEggMoves(motherSpecies, motherForm);
         return eggMoves.Contains(move);
     }
 
@@ -376,13 +381,13 @@ public static class ChainBreedLegality
         return false; // No shared egg groups
     }
 
-    private static bool TryValidateCore(ushort eggSpecies, GameVersion version, ReadOnlySpan<ushort> moves, ReadOnlySpan<ushort> baseMoves, ReadOnlySpan<byte> flags, Span<ChainQueryState> visited, int depth, out ChainBreedSummary summary)
+    private static bool TryValidateCore(ushort eggSpecies, byte eggForm, GameVersion version, ReadOnlySpan<ushort> moves, ReadOnlySpan<ushort> baseMoves, ReadOnlySpan<byte> flags, Span<ChainQueryState> visited, int depth, out ChainBreedSummary summary)
     {
         summary = default;
         if ((uint)depth >= (uint)visited.Length)
             return false;
 
-        var state = new ChainQueryState(eggSpecies, moves);
+        var state = new ChainQueryState(eggSpecies, eggForm, moves);
         // Check against visited[0] through visited[depth-1] for exact duplicates
         for (int i = 0; i < depth; i++)
         {
@@ -398,10 +403,10 @@ public static class ChainBreedLegality
 
         int maxBase = Math.Min(moves.Length, baseMoves.Length);
         Span<ushort> inheritedMoves = stackalloc ushort[MaxMoveCount];
-        return TryValidateBaseCounts(eggSpecies, version, moves, baseMoves, flags, inheritedMoves, maxBase, visited, depth, out summary);
+        return TryValidateBaseCounts(eggSpecies, eggForm, version, moves, baseMoves, flags, inheritedMoves, maxBase, visited, depth, out summary);
     }
 
-    private static bool TryValidateBaseCounts(ushort eggSpecies, GameVersion version, ReadOnlySpan<ushort> moves, ReadOnlySpan<ushort> baseMoves, ReadOnlySpan<byte> flags, Span<ushort> inheritedMoves, int maxBase, Span<ChainQueryState> visited, int depth, out ChainBreedSummary summary)
+    private static bool TryValidateBaseCounts(ushort eggSpecies, byte eggForm, GameVersion version, ReadOnlySpan<ushort> moves, ReadOnlySpan<ushort> baseMoves, ReadOnlySpan<byte> flags, Span<ushort> inheritedMoves, int maxBase, Span<ChainQueryState> visited, int depth, out ChainBreedSummary summary)
     {
         summary = default;
         for (int baseCount = 0; baseCount <= maxBase; baseCount++)
@@ -421,28 +426,28 @@ public static class ChainBreedLegality
             for (int i = 0; i < inheritedCount; i++)
                 inheritedMoves[i] = suffix[i];
 
-            if (TryResolveInheritedSources(eggSpecies, version, inheritedMoves[..inheritedCount], suffixFlags, 0, visited, depth + 1, out summary))
+            if (TryResolveInheritedSources(eggSpecies, eggForm, version, inheritedMoves[..inheritedCount], suffixFlags, 0, visited, depth + 1, out summary))
                 return true;
         }
 
         return false;
     }
 
-    private static bool TryResolveInheritedSources(ushort eggSpecies, GameVersion version, ReadOnlySpan<ushort> moves, ReadOnlySpan<byte> flags, int index, Span<ChainQueryState> visited, int depth, out ChainBreedSummary summary)
+    private static bool TryResolveInheritedSources(ushort eggSpecies, byte eggForm, GameVersion version, ReadOnlySpan<ushort> moves, ReadOnlySpan<byte> flags, int index, Span<ChainQueryState> visited, int depth, out ChainBreedSummary summary)
     {
         if (index == moves.Length)
-            return TryResolveFather(eggSpecies, version, moves, visited, depth, out summary);
+            return TryResolveFather(eggSpecies, eggForm, version, moves, visited, depth, out summary);
 
         var flag = flags[index];
         if ((flag & FlagGeneral) != 0)
         {
-            if (TryResolveInheritedSources(eggSpecies, version, moves, flags, index + 1, visited, depth, out summary))
+            if (TryResolveInheritedSources(eggSpecies, eggForm, version, moves, flags, index + 1, visited, depth, out summary))
                 return true;
         }
 
         if ((flag & FlagLevelUp) != 0)
         {
-            if (TryResolveInheritedSources(eggSpecies, version, moves, flags, index + 1, visited, depth, out summary))
+            if (TryResolveInheritedSources(eggSpecies, eggForm, version, moves, flags, index + 1, visited, depth, out summary))
                 return true;
         }
 
@@ -450,51 +455,56 @@ public static class ChainBreedLegality
         return false;
     }
 
-    private static bool TryResolveFather(ushort eggSpecies, GameVersion version, ReadOnlySpan<ushort> moves, Span<ChainQueryState> visited, int depth, out ChainBreedSummary summary)
+    private static bool TryResolveFather(ushort eggSpecies, byte eggForm, GameVersion version, ReadOnlySpan<ushort> moves, Span<ChainQueryState> visited, int depth, out ChainBreedSummary summary)
     {
         summary = default;
         var table = GameData.GetPersonal(version);
-        if (!table.IsPresentInGame(eggSpecies, 0))
+        if (!table.IsPresentInGame(eggSpecies, eggForm))
             return false;
 
-        var mother = table[eggSpecies, 0];
+        var mother = table[eggSpecies, eggForm];
 
         // If the egg species can't breed (baby Pokemon like Tyrogue), check if its evolutions can act as fathers
         if (mother.Genderless || mother.OnlyMale || mother.EggGroup1 == (int)EggGroup.Undiscovered)
         {
             // Try to find evolved forms that can breed and produce this egg species
-            return TryResolveFatherViaEvolution(eggSpecies, version, moves, visited, depth, out summary);
+            return TryResolveFatherViaEvolution(eggSpecies, eggForm, version, moves, visited, depth, out summary);
         }
 
         ushort maxSpecies = table.MaxSpeciesID;
         for (ushort fatherSpecies = 1; fatherSpecies <= maxSpecies; fatherSpecies++)
         {
-            if (!table.IsPresentInGame(fatherSpecies, 0))
-                continue;
+            var fatherBase = table[fatherSpecies];
+            var formCount = fatherBase.FormCount;
+            for (byte fatherForm = 0; fatherForm < formCount; fatherForm++)
+            {
+                if (!table.IsPresentInGame(fatherSpecies, fatherForm))
+                    continue;
 
-            var father = table[fatherSpecies, 0];
-            if (!IsCompatibleFather(mother, fatherSpecies, father))
-                continue;
+                var father = table[fatherSpecies, fatherForm];
+                if (!IsCompatibleFather(mother, fatherSpecies, father))
+                    continue;
 
-            if (!CanFatherKnowAllMoves(fatherSpecies, version, moves, visited, depth, out var chainDepth))
-                continue;
+                if (!CanFatherKnowAllMoves(fatherSpecies, fatherForm, version, moves, visited, depth, out var chainDepth))
+                    continue;
 
-            summary = new ChainBreedSummary(eggSpecies, fatherSpecies, chainDepth);
-            return true;
+                summary = new ChainBreedSummary(eggSpecies, fatherSpecies, chainDepth);
+                return true;
+            }
         }
 
         return false;
     }
 
-    private static bool TryResolveFatherViaEvolution(ushort eggSpecies, GameVersion version, ReadOnlySpan<ushort> moves, Span<ChainQueryState> visited, int depth, out ChainBreedSummary summary)
+    private static bool TryResolveFatherViaEvolution(ushort eggSpecies, byte eggForm, GameVersion version, ReadOnlySpan<ushort> moves, Span<ChainQueryState> visited, int depth, out ChainBreedSummary summary)
     {
         summary = default;
         var tree = EvolutionTree.GetEvolutionTree(version.Context);
-        var evos = tree.Forward.GetEvolutions(eggSpecies, 0);
+        var evos = tree.Forward.GetEvolutions(eggSpecies, eggForm);
 
-        foreach (var (evoSpecies, _) in evos)
+        foreach (var (evoSpecies, evoForm) in evos)
         {
-            if (!CanFatherKnowAllMoves(evoSpecies, version, moves, visited, depth, out var chainDepth))
+            if (!CanFatherKnowAllMoves(evoSpecies, evoForm, version, moves, visited, depth, out var chainDepth))
                 continue;
 
             summary = new ChainBreedSummary(eggSpecies, evoSpecies, chainDepth);
@@ -504,7 +514,7 @@ public static class ChainBreedLegality
         return false;
     }
 
-    private static bool CanFatherKnowAllMoves(ushort fatherSpecies, GameVersion version, ReadOnlySpan<ushort> moves, Span<ChainQueryState> visited, int depth, out byte chainDepth)
+    private static bool CanFatherKnowAllMoves(ushort fatherSpecies, byte fatherForm, GameVersion version, ReadOnlySpan<ushort> moves, Span<ChainQueryState> visited, int depth, out byte chainDepth)
     {
         chainDepth = 1;
         Span<ushort> pending = stackalloc ushort[MaxMoveCount];
@@ -512,30 +522,30 @@ public static class ChainBreedLegality
         for (int i = 0; i < moves.Length; i++)
         {
             var move = moves[i];
-            if (!CanLearnDirectlyInLine(fatherSpecies, version, move))
+            if (!CanLearnDirectlyInLine(fatherSpecies, fatherForm, version, move))
                 pending[pendingCount++] = move;
         }
 
         if (pendingCount == 0)
             return true;
 
-        Span<ushort> eggSpecies = stackalloc ushort[2];
-        int eggSpeciesCount = GetEggSpeciesCandidates(fatherSpecies, version, eggSpecies);
+        Span<(ushort Species, byte Form)> eggSpecies = stackalloc (ushort, byte)[2];
+        int eggSpeciesCount = GetEggSpeciesCandidates(fatherSpecies, fatherForm, version, eggSpecies);
         Span<byte> flags = stackalloc byte[MaxMoveCount];
         for (int i = 0; i < eggSpeciesCount; i++)
         {
             var candidate = eggSpecies[i];
-            if (candidate == 0)
+            if (candidate.Species == 0)
                 continue;
 
             var learn = GameData.GetLearnSource(version);
-            var learnset = learn.GetLearnset(candidate, 0);
+            var learnset = learn.GetLearnset(candidate.Species, candidate.Form);
             flags.Clear();
-            if (!MarkChildMoveFlags(candidate, version, pending[..pendingCount], learnset, flags))
+            if (!MarkChildMoveFlags(candidate.Species, candidate.Form, version, pending[..pendingCount], learnset, flags))
                 continue;
 
             var baseMoves = learnset.GetBaseEggMoves(GetEggLevel(version.Generation));
-            if (!TryValidateCore(candidate, version, pending[..pendingCount], baseMoves, flags, visited, depth, out var nested))
+            if (!TryValidateCore(candidate.Species, candidate.Form, version, pending[..pendingCount], baseMoves, flags, visited, depth, out var nested))
                 continue;
 
             chainDepth = (byte)(nested.ChainDepth + 1);
@@ -545,7 +555,7 @@ public static class ChainBreedLegality
         return false;
     }
 
-    private static bool CanLearnDirectlyInLine(ushort species, GameVersion version, ushort move)
+    private static bool CanLearnDirectlyInLine(ushort species, byte form, GameVersion version, ushort move)
     {
         if (species == (ushort)Species.Smeargle)
             return MoveInfo.IsSketchValid(move, version.Context);
@@ -553,35 +563,36 @@ public static class ChainBreedLegality
         var tree = EvolutionTree.GetEvolutionTree(version.Context);
 
         // Check backwards through pre-evolutions
-        ushort current = species;
+        (ushort Species, byte Form) current = (species, form);
         while (true)
         {
-            if (CanLearnDirectly(current, version, move))
+            if (CanLearnDirectly(current.Species, current.Form, version, move))
                 return true;
 
-            ref readonly var node = ref tree.Reverse.GetReverse(current, 0);
-            var previous = node.First.Species;
-            if (previous == 0)
+            ref readonly var node = ref tree.Reverse.GetReverse(current.Species, current.Form);
+            var previous = node.First;
+            if (previous.Species == 0)
                 break;
-            current = previous;
+            current = (previous.Species, previous.Form);
+
         }
 
         // Check forward through evolutions (e.g., Tyrogue -> Hitmonlee/Hitmonchan/Hitmontop)
-        var evos = tree.Forward.GetEvolutions(species, 0);
-        foreach (var (evoSpecies, _) in evos)
+        var evos = tree.Forward.GetEvolutions(species, form);
+        foreach (var (evoSpecies, evoForm) in evos)
         {
-            if (CanLearnDirectly(evoSpecies, version, move))
+            if (CanLearnDirectly(evoSpecies, evoForm, version, move))
                 return true;
         }
 
         // Check cross-generation and special encounter sources
-        if (CanLearnFromHistoricalSource(species, version, move))
+        if (CanLearnFromHistoricalSource(species, form, version, move))
             return true;
 
         return false;
     }
 
-    private static bool CanLearnFromHistoricalSource(ushort species, GameVersion version, ushort move)
+    private static bool CanLearnFromHistoricalSource(ushort species, byte form, GameVersion version, ushort move)
     {
         var generation = version.Generation;
 
@@ -608,8 +619,8 @@ public static class ChainBreedLegality
             if (move is (> Legal.MaxMoveID_3 and <= Legal.MaxMoveID_4))
             {
                 // Check all Gen4 versions for TM availability
-                if (CanLearnDirectly(species, Pt, move) ||
-                    CanLearnDirectly(species, HGSS, move))
+                if (CanLearnDirectly(species, form, Pt, move) ||
+                    CanLearnDirectly(species, form, HGSS, move))
                     return true;
             }
 
@@ -642,30 +653,30 @@ public static class ChainBreedLegality
         return false;
     }
 
-    private static bool CanLearnDirectly(ushort species, GameVersion version, ushort move) => version switch
+    private static bool CanLearnDirectly(ushort species, byte form, GameVersion version, ushort move) => version switch
     {
-        GD or SI or GS => CanLearnDirectly2(LearnSource2GS.Instance, species, move, false),
-        C or GSC => CanLearnDirectly2(LearnSource2C.Instance, species, move, true),
+        GD or SI or GS => CanLearnDirectly2(LearnSource2GS.Instance, species, form, move, false),
+        C or GSC => CanLearnDirectly2(LearnSource2C.Instance, species, form, move, true),
 
-        R or S or RS => CanLearnDirectly3(LearnSource3RS.Instance, species, move),
-        E or RSE => CanLearnDirectly3(LearnSource3E.Instance, species, move),
-        FR or FRLG => CanLearnDirectly3(LearnSource3FR.Instance, species, move),
-        LG => CanLearnDirectly3(LearnSource3LG.Instance, species, move),
+        R or S or RS => CanLearnDirectly3(LearnSource3RS.Instance, species, form, move),
+        E or RSE => CanLearnDirectly3(LearnSource3E.Instance, species, form, move),
+        FR or FRLG => CanLearnDirectly3(LearnSource3FR.Instance, species, form, move),
+        LG => CanLearnDirectly3(LearnSource3LG.Instance, species, form, move),
 
-        D or P or DP => CanLearnDirectly4(LearnSource4DP.Instance, species, move, false),
-        Pt or DPPt => CanLearnDirectly4(LearnSource4Pt.Instance, species, move, false),
-        HG or SS or HGSS => CanLearnDirectly4(LearnSource4HGSS.Instance, species, move, true),
+        D or P or DP => CanLearnDirectly4(LearnSource4DP.Instance, species, form, move, false),
+        Pt or DPPt => CanLearnDirectly4(LearnSource4Pt.Instance, species, form, move, false),
+        HG or SS or HGSS => CanLearnDirectly4(LearnSource4HGSS.Instance, species, form, move, true),
 
-        B or W or BW => CanLearnDirectly5(LearnSource5BW.Instance, species, move),
-        B2 or W2 or B2W2 => CanLearnDirectly5(LearnSource5B2W2.Instance, species, move),
+        B or W or BW => CanLearnDirectly5(LearnSource5BW.Instance, species, form, move),
+        B2 or W2 or B2W2 => CanLearnDirectly5(LearnSource5B2W2.Instance, species, form, move),
         _ => false,
     };
 
-    private static bool CanLearnDirectly2(ILearnSource<PersonalInfo2> source, ushort species, ushort move, bool crystal)
+    private static bool CanLearnDirectly2(ILearnSource<PersonalInfo2> source, ushort species, byte form, ushort move, bool crystal)
     {
-        if (!source.TryGetPersonal(species, 0, out var pi))
+        if (!source.TryGetPersonal(species, form, out var pi))
             return false;
-        if (source.GetLearnset(species, 0).GetIsLearn(move))
+        if (source.GetLearnset(species, form).GetIsLearn(move))
             return true;
 
         var tmIndex = PersonalInfo2.MachineMoves.IndexOf((byte)move);
@@ -676,11 +687,11 @@ public static class ChainBreedLegality
         return crystal && tutorIndex >= 0 && pi.GetIsLearnTutorType(tutorIndex);
     }
 
-    private static bool CanLearnDirectly3(ILearnSource<PersonalInfo3> source, ushort species, ushort move)
+    private static bool CanLearnDirectly3(ILearnSource<PersonalInfo3> source, ushort species, byte form, ushort move)
     {
-        if (!source.TryGetPersonal(species, 0, out var pi))
+        if (!source.TryGetPersonal(species, form, out var pi))
             return false;
-        if (source.GetLearnset(species, 0).GetIsLearn(move))
+        if (source.GetLearnset(species, form).GetIsLearn(move))
             return true;
 
         var tmIndex = PersonalInfo3.MachineMovesTechnical.IndexOf(move);
@@ -691,11 +702,11 @@ public static class ChainBreedLegality
         return hmIndex >= 0 && pi.TMHM[50 + hmIndex];
     }
 
-    private static bool CanLearnDirectly4(ILearnSource<PersonalInfo4> source, ushort species, ushort move, bool hgss)
+    private static bool CanLearnDirectly4(ILearnSource<PersonalInfo4> source, ushort species, byte form, ushort move, bool hgss)
     {
-        if (!source.TryGetPersonal(species, 0, out var pi))
+        if (!source.TryGetPersonal(species, form, out var pi))
             return false;
-        if (source.GetLearnset(species, 0).GetIsLearn(move))
+        if (source.GetLearnset(species, form).GetIsLearn(move))
             return true;
 
         var tmIndex = PersonalInfo4.MachineMovesTechnical.IndexOf(move);
@@ -707,11 +718,11 @@ public static class ChainBreedLegality
         return hmIndex >= 0 && pi.GetIsLearnHM(hmIndex);
     }
 
-    private static bool CanLearnDirectly5<T>(ILearnSource<T> source, ushort species, ushort move) where T : PersonalInfo
+    private static bool CanLearnDirectly5<T>(ILearnSource<T> source, ushort species, byte form, ushort move) where T : PersonalInfo
     {
-        if (!source.TryGetPersonal(species, 0, out var pi))
+        if (!source.TryGetPersonal(species, form, out var pi))
             return false;
-        if (source.GetLearnset(species, 0).GetIsLearn(move))
+        if (source.GetLearnset(species, form).GetIsLearn(move))
             return true;
         if (pi is not IPersonalInfoTM tm)
             return false;
@@ -720,30 +731,30 @@ public static class ChainBreedLegality
         return tmIndex >= 0 && tm.GetIsLearnTM(tmIndex);
     }
 
-    private static bool MarkChildMoveFlags(ushort species, GameVersion version, ReadOnlySpan<ushort> moves, Learnset learnset, Span<byte> flags) => version switch
+    private static bool MarkChildMoveFlags(ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, Learnset learnset, Span<byte> flags) => version switch
     {
-        GD or SI or GS => MarkChildMoveFlags2(species, LearnSource2GS.Instance, PersonalTable.GS[species], version, moves, learnset, flags),
-        C or GSC => MarkChildMoveFlags2(species, LearnSource2C.Instance, PersonalTable.C[species], version, moves, learnset, flags),
+        GD or SI or GS => MarkChildMoveFlags2(species, form, LearnSource2GS.Instance, PersonalTable.GS[species, form], version, moves, learnset, flags),
+        C or GSC => MarkChildMoveFlags2(species, form, LearnSource2C.Instance, PersonalTable.C[species, form], version, moves, learnset, flags),
 
-        R or S or RS => MarkChildMoveFlags3(species, LearnSource3RS.Instance, PersonalTable.RS[species], moves, learnset, flags),
-        E or RSE or COLO or XD or CXD or EFL => MarkChildMoveFlags3(species, LearnSource3E.Instance, PersonalTable.E[species], moves, learnset, flags),
-        FR or FRLG => MarkChildMoveFlags3(species, LearnSource3FR.Instance, PersonalTable.FR[species], moves, learnset, flags),
-        LG => MarkChildMoveFlags3(species, LearnSource3LG.Instance, PersonalTable.LG[species], moves, learnset, flags),
+        R or S or RS => MarkChildMoveFlags3(species, form, LearnSource3RS.Instance, PersonalTable.RS[species, form], moves, learnset, flags),
+        E or RSE or COLO or XD or CXD or EFL => MarkChildMoveFlags3(species, form, LearnSource3E.Instance, PersonalTable.E[species, form], moves, learnset, flags),
+        FR or FRLG => MarkChildMoveFlags3(species, form, LearnSource3FR.Instance, PersonalTable.FR[species, form], moves, learnset, flags),
+        LG => MarkChildMoveFlags3(species, form, LearnSource3LG.Instance, PersonalTable.LG[species, form], moves, learnset, flags),
 
-        D or P or DP => MarkChildMoveFlags4(species, LearnSource4DP.Instance, PersonalTable.DP[species], version, moves, learnset, flags),
-        Pt or DPPt => MarkChildMoveFlags4(species, LearnSource4Pt.Instance, PersonalTable.Pt[species], version, moves, learnset, flags),
-        HG or SS or HGSS => MarkChildMoveFlags4(species, LearnSource4HGSS.Instance, PersonalTable.HGSS[species], version, moves, learnset, flags),
+        D or P or DP => MarkChildMoveFlags4(species, form, LearnSource4DP.Instance, PersonalTable.DP[species, form], version, moves, learnset, flags),
+        Pt or DPPt => MarkChildMoveFlags4(species, form, LearnSource4Pt.Instance, PersonalTable.Pt[species, form], version, moves, learnset, flags),
+        HG or SS or HGSS => MarkChildMoveFlags4(species, form, LearnSource4HGSS.Instance, PersonalTable.HGSS[species, form], version, moves, learnset, flags),
 
-        B or W or BW => MarkChildMoveFlags5(species, LearnSource5BW.Instance, PersonalTable.BW[species], moves, learnset, flags),
-        B2 or W2 or B2W2 => MarkChildMoveFlags5(species, LearnSource5B2W2.Instance, PersonalTable.B2W2[species], moves, learnset, flags),
+        B or W or BW => MarkChildMoveFlags5(species, form, LearnSource5BW.Instance, PersonalTable.BW[species, form], moves, learnset, flags),
+        B2 or W2 or B2W2 => MarkChildMoveFlags5(species, form, LearnSource5B2W2.Instance, PersonalTable.B2W2[species, form], moves, learnset, flags),
         _ => false,
     };
 
-    private static bool MarkChildMoveFlags2(ushort species, ILearnSource source, PersonalInfo2 info, GameVersion version, ReadOnlySpan<ushort> moves, Learnset learnset, Span<byte> flags)
+    private static bool MarkChildMoveFlags2(ushort species, byte form, ILearnSource source, PersonalInfo2 info, GameVersion version, ReadOnlySpan<ushort> moves, Learnset learnset, Span<byte> flags)
     {
         bool inheritLevelUp = Breeding.GetCanInheritMoves(species);
         var baseMoves = learnset.GetBaseEggMoves(GetEggLevel(2));
-        var eggMoves = source.GetEggMoves(species, 0);
+        var eggMoves = source.GetEggMoves(species, form);
         var tmMoves = PersonalInfo2.MachineMoves;
         var tutorMoves = PersonalInfo2.TutorMoves;
 
@@ -771,11 +782,11 @@ public static class ChainBreedLegality
         return true;
     }
 
-    private static bool MarkChildMoveFlags3(ushort species, ILearnSource source, PersonalInfo3 info, ReadOnlySpan<ushort> moves, Learnset learnset, Span<byte> flags)
+    private static bool MarkChildMoveFlags3(ushort species, byte form, ILearnSource source, PersonalInfo3 info, ReadOnlySpan<ushort> moves, Learnset learnset, Span<byte> flags)
     {
         bool inheritLevelUp = Breeding.GetCanInheritMoves(species);
         var baseMoves = learnset.GetBaseEggMoves(GetEggLevel(3));
-        var eggMoves = source.GetEggMoves(species, 0);
+        var eggMoves = source.GetEggMoves(species, form);
         var tms = PersonalInfo3.MachineMovesTechnical;
         var hms = PersonalInfo3.MachineMovesHidden;
         var tmhm = info.TMHM;
@@ -806,11 +817,11 @@ public static class ChainBreedLegality
         return true;
     }
 
-    private static bool MarkChildMoveFlags4(ushort species, ILearnSource source, PersonalInfo4 info, GameVersion version, ReadOnlySpan<ushort> moves, Learnset learnset, Span<byte> flags)
+    private static bool MarkChildMoveFlags4(ushort species, byte form, ILearnSource source, PersonalInfo4 info, GameVersion version, ReadOnlySpan<ushort> moves, Learnset learnset, Span<byte> flags)
     {
         bool inheritLevelUp = Breeding.GetCanInheritMoves(species);
         var baseMoves = learnset.GetBaseEggMoves(GetEggLevel(4));
-        var eggMoves = source.GetEggMoves(species, 0);
+        var eggMoves = source.GetEggMoves(species, form);
         var tms = PersonalInfo4.MachineMovesTechnical;
         var hms = version is HG or SS or HGSS ? PersonalInfo4.MachineMovesHiddenHGSS : PersonalInfo4.MachineMovesHiddenDPPt;
 
@@ -840,11 +851,11 @@ public static class ChainBreedLegality
         return true;
     }
 
-    private static bool MarkChildMoveFlags5(ushort species, ILearnSource source, IPersonalInfoTM info, ReadOnlySpan<ushort> moves, Learnset learnset, Span<byte> flags)
+    private static bool MarkChildMoveFlags5(ushort species, byte form, ILearnSource source, IPersonalInfoTM info, ReadOnlySpan<ushort> moves, Learnset learnset, Span<byte> flags)
     {
         bool inheritLevelUp = Breeding.GetCanInheritMoves(species);
         var baseMoves = learnset.GetBaseEggMoves(GetEggLevel(5));
-        var eggMoves = source.GetEggMoves(species, 0);
+        var eggMoves = source.GetEggMoves(species, form);
         var tms = PersonalInfo5BW.MachineMoves;
 
         for (int i = 0; i < moves.Length; i++)
@@ -928,30 +939,30 @@ public static class ChainBreedLegality
 
     private static bool IsBreedGroup(int group) => group is not ((int)EggGroup.None or (int)EggGroup.Ditto or (int)EggGroup.Undiscovered);
 
-    private static int GetEggSpeciesCandidates(ushort species, GameVersion version, Span<ushort> result)
+    private static int GetEggSpeciesCandidates(ushort species, byte form, GameVersion version, Span<(ushort, byte)> result)
     {
         var tree = EvolutionTree.GetEvolutionTree(version.Context);
-        ushort current = species;
-        ushort baseSpecies;
-        ushort splitSpecies = 0;
+        (ushort Species, byte Form) current = (species, form);
+        (ushort Species, byte Form) baseSpecies;
+        (ushort Species, byte Form) split = default;
 
         while (true)
         {
             baseSpecies = current;
-            if (splitSpecies == 0 && Breeding.IsSplitBreedNotBabySpecies(current, version.Generation))
-                splitSpecies = current;
+            if (split.Species == 0 && Breeding.IsSplitBreedNotBabySpecies(current.Species, version.Generation))
+                split = current;
 
-            ref readonly var node = ref tree.Reverse.GetReverse(current, 0);
-            var previous = node.First.Species;
-            if (previous == 0)
+            ref readonly var node = ref tree.Reverse.GetReverse(current.Species, current.Form);
+            var prev = node.First;
+            if (prev.Species == 0)
                 break;
-            current = previous;
+            current = (prev.Species, prev.Form);
         }
 
         result[0] = baseSpecies;
         int count = 1;
-        if (splitSpecies != 0 && splitSpecies != baseSpecies)
-            result[count++] = splitSpecies;
+        if (split.Species != 0 && split != baseSpecies)
+            result[count++] = split;
         return count;
     }
 
@@ -960,15 +971,17 @@ public static class ChainBreedLegality
     private readonly record struct ChainQueryState
     {
         private readonly Species Species;
+        private readonly byte Form;
         private readonly byte Count;
         private readonly ushort Move1;
         private readonly ushort Move2;
         private readonly ushort Move3;
         private readonly ushort Move4;
 
-        public ChainQueryState(ushort species, ReadOnlySpan<ushort> moves)
+        public ChainQueryState(ushort species, byte form, ReadOnlySpan<ushort> moves)
         {
             Species = (Species)species;
+            Form = form;
             Count = (byte)moves.Length;
             Move1 = moves.Length > 0 ? moves[0] : (ushort)0;
             Move2 = moves.Length > 1 ? moves[1] : (ushort)0;
@@ -980,6 +993,8 @@ public static class ChainBreedLegality
         {
             var sb = new StringBuilder();
             sb.Append(species[(int)Species]);
+            if (Form != 0)
+                sb.Append('-').Append(Form);
             sb.Append(" [");
             if (Count > 0) sb.Append(moves[Move1]);
             if (Count > 1) { sb.Append(", "); sb.Append(moves[Move2]); }

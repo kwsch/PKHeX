@@ -23,7 +23,7 @@ public class ChainBreedLegalityTests
     public void DetectsInvalidChains(GameVersion version, Species species, params Move[] movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.IsValid((ushort)species, version, moves).Should().BeFalse();
+        ChainBreedLegality.IsValid((ushort)species, 0, version, moves).Should().BeFalse();
     }
 
     [Theory]
@@ -33,7 +33,7 @@ public class ChainBreedLegalityTests
     [InlineData(GS, Chansey, DoubleEdge)] // via Jigglypuff (Level 39)
     [InlineData(Pt, Shellder, RapidSpin, IcicleSpear)]
     public void DetectsValidChains(GameVersion version, Species species, params Move[] movelist)
-        => ValidateSimple(version, species, movelist);
+        => ValidateSimple(version, species, 0, movelist);
 
     [Theory]
     // Avalanche learned in Gen4 TM, TakeDown learned via *special encounter* move in Gen3 XD.
@@ -41,29 +41,29 @@ public class ChainBreedLegalityTests
     [InlineData(B2W2, Shellder, Avalanche)] // Gen4 TM move
     [InlineData(B2W2, Shellder, Avalanche, TakeDown)] // Valid Gen5 parent from a Gen3 encounter=>Gen4=>Gen5 transfer route.
     public void DetectValidChainPastFather(GameVersion version, Species species, params Move[] movelist)
-        => ValidateSimple(version, species, movelist);
+        => ValidateSimple(version, species, 0, movelist);
 
     [Theory]
     // evolve=>pass chain with same species lineage: multiple Tyrogue evolutions (hitmonlee, hitmonchan, hitmontop), all providing one move.
-    [InlineData(GS, Tyrogue, HighJumpKick, MachPunch, RapidSpin)]
-    public void DetectValidChainCyclic(GameVersion version, Species species, params Move[] movelist)
-        => ValidateSimple(version, species, movelist);
+    [InlineData(GS, Tyrogue, 0, HighJumpKick, MachPunch, RapidSpin)]
+    public void DetectValidChainCyclic(GameVersion version, Species species, byte form, params Move[] movelist)
+        => ValidateSimple(version, species, form, movelist);
 
-    private static void ValidateSimple(GameVersion version, Species species, ReadOnlySpan<Move> movelist)
+    private static void ValidateSimple(GameVersion version, Species species, byte form, ReadOnlySpan<Move> movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.TryValidate((ushort)species, version, moves, out var summary).Should().BeTrue();
+        ChainBreedLegality.TryValidate((ushort)species, form, version, moves, out var summary).Should().BeTrue();
         summary.EggSpecies.Should().Be((ushort)species);
         summary.FatherSpecies.Should().NotBe(0);
         summary.ChainDepth.Should().BeGreaterThan(0);
     }
 
     [Theory]
-    [InlineData(HGSS, Mankey, Smeargle, Encore, Meditate, SmellingSalts)]
-    public void DetectsValidChainSmeargle(GameVersion version, Species species, Species father, params Move[] movelist)
+    [InlineData(HGSS, Mankey, 0, Smeargle, Encore, Meditate, SmellingSalts)]
+    public void DetectsValidChainSmeargle(GameVersion version, Species species, byte form, Species father, params Move[] movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.TryValidate((ushort)species, version, moves, out var summary).Should().BeTrue();
+        ChainBreedLegality.TryValidate((ushort)species, form, version, moves, out var summary).Should().BeTrue();
         summary.EggSpecies.Should().Be((ushort)species);
         summary.FatherSpecies.Should().Be((ushort)father);
         summary.ChainDepth.Should().BeGreaterThan(0);
@@ -76,7 +76,7 @@ public class ChainBreedLegalityTests
     public void DetectsInvalidInheritedLevelUpMove(GameVersion version, Species species, bool expect, params Move[] movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.IsValid((ushort)species, version, moves).Should().Be(expect);
+        ChainBreedLegality.IsValid((ushort)species, 0, version, moves).Should().Be(expect);
     }
 
     [Theory]
@@ -96,6 +96,6 @@ public class ChainBreedLegalityTests
     public void DetectInvalidSpeciesMaleSplit(GameVersion version, Species species, bool expect, params Move[] movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.IsValid((ushort)species, version, moves).Should().Be(expect);
+        ChainBreedLegality.IsValid((ushort)species, 0, version, moves).Should().Be(expect);
     }
 }

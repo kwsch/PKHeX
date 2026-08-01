@@ -83,15 +83,17 @@ internal sealed class EggVerifier : Verifier
         // Check if we have any moves that are as a result of breeding chain.
         Span<ushort> moves = stackalloc ushort[4];
         pk.GetMoves(moves);
-        var personal = GameData.GetPersonal(egg.Version)[egg.Species, 0];
+        var personal = GameData.GetPersonal(egg.Version)[egg.Species, egg.Form];
         var includeInheritedLevelUp = personal.OnlyFemale
             && !Breeding.IsGenderSpeciesDetermination(egg.Species);
-        var count = GatherInheritedMoves(moves, data.Info.Moves, includeInheritedLevelUp);
+
+        var source = egg.Generation >= 6 ? data.Info.Relearn : data.Info.Moves;
+        var count = GatherInheritedMoves(moves, source, includeInheritedLevelUp);
         if (count == 0 || (count == 1 && !includeInheritedLevelUp))
             return;
         moves = moves[..count];
 
-        if (!ChainBreedLegality.IsValid(egg.Species, egg.Version, moves))
+        if (!ChainBreedLegality.IsValid(egg.Species, egg.Form, egg.Version, moves))
             data.AddLine(GetInvalid(Egg, EggMoveCombination));
     }
 
