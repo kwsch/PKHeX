@@ -48,13 +48,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             new([CB_StatAlignment], pk => pk.Format >= 8, Criteria),
             new([CB_AlphaMastered], pk => pk is PA8, Criteria),
         ];
-
-        foreach (var c in WinFormsUtil.GetAllControlsOfType<ComboBox>(this))
-            c.KeyDown += WinFormsUtil.RemoveDropCB;
         foreach (var m in Moves)
         {
-            m.CB_Move.KeyDown += WinFormsUtil.RemoveDropCB;
-            m.CB_PPUps.KeyDown += WinFormsUtil.RemoveDropCB;
             m.CB_PPUps.SelectedIndexChanged += (_, _) => m.HealPP(Entity);
             m.CB_Move.DrawItem += ValidateMovePaint;
             m.CB_Move.DropDown += ValidateMoveDropDown;

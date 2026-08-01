@@ -57,7 +57,6 @@ public partial class SAV_PokedexSVKitakami : Form
 
         ListBoxToSpecies = list;
         LB_Species.SelectedIndex = 0;
-        CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         Loading = false;
         CanSave = true;
         lastIndex = 0;

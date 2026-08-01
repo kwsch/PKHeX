@@ -43,7 +43,6 @@ public partial class SAV_PokedexGG : Form
 
         editing = false;
         LB_Species.SelectedIndex = 0;
-        CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
     }
 
     private readonly Zukan7b Dex;

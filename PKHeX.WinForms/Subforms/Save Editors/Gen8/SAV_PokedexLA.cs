@@ -103,7 +103,6 @@ public partial class SAV_PokedexLA : Form
 
         Editing = false;
         LB_Species.SelectedIndex = 0;
-        CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         CanSave = true;
     }
 

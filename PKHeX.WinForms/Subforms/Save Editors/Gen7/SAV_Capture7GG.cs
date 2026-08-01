@@ -36,7 +36,6 @@ public partial class SAV_Capture7GG : Form
             LB_Species.Items.Add($"{value:000}: {text}");
 
         GetTotals();
-        CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         LB_Species.SelectedIndex = Index = 0;
         GetEntry();
         Loading = false;
