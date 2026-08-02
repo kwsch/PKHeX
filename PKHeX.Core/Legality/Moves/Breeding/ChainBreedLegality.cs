@@ -249,101 +249,6 @@ public static class ChainBreedLegality
         return true;
     }
 
-    private static bool CanMotherAndFatherPassAllMoves(ushort motherSpecies, byte motherForm, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
-    {
-        // For male-only split breed species in Gen 6-7:
-        // - Mother can pass moves she learns as egg moves
-        // - Father must pass moves the mother cannot learn
-        summary = default;
-        var table = GameData.GetPersonal(version);
-        if (!table.IsPresentInGame(motherSpecies, motherForm))
-            return false;
-
-        var motherInfo = table[motherSpecies, motherForm];
-        var learn = GameData.GetLearnSource(version);
-
-        // Determine which moves the mother can learn as egg moves
-        Span<bool> motherCanLearn = stackalloc bool[MaxMoveCount];
-        Span<ushort> fatherMustPass = stackalloc ushort[MaxMoveCount];
-        int fatherMoveCount = 0;
-
-        for (int i = 0; i < moves.Length; i++)
-        {
-            var move = moves[i];
-            if (move == 0)
-                break;
-
-            // Check if mother can learn this move as an egg move
-            if (learn.GetIsEggMove(motherSpecies, motherForm, move))
-            {
-                motherCanLearn[i] = true;
-            }
-            else
-            {
-                // Father must pass this move
-                fatherMustPass[fatherMoveCount++] = move;
-            }
-        }
-
-        // If mother can learn all moves, it's valid
-        if (fatherMoveCount == 0)
-        {
-            summary = new ChainBreedSummary(motherSpecies, 0, 0);
-            return true;
-        }
-
-        // Check if a single father can pass all the moves the mother cannot learn
-        var maxSpecies = table.MaxSpeciesID;
-        for (ushort fatherSpecies = 1; fatherSpecies <= maxSpecies; fatherSpecies++)
-        {
-            var baseFather = table[fatherSpecies];
-            var formCount = baseFather.FormCount;
-            for (byte f = 0; f < formCount; f++)
-            {
-                if (!table.IsPresentInGame(fatherSpecies, f))
-                    continue;
-
-                var fatherInfo = table[fatherSpecies, f];
-
-                // Father must be in the same egg group
-                if (!IsCompatibleFatherForBreeding(motherInfo, fatherSpecies, fatherInfo))
-                    continue;
-
-                // Check if this father can learn all the moves mother cannot learn
-                bool canLearnAll = true;
-                for (int i = 0; i < fatherMoveCount; i++)
-                {
-                    var move = fatherMustPass[i];
-                    if (CanFatherLearnMoveForEgg(fatherSpecies, f, move, learn, version))
-                        continue;
-                    canLearnAll = false;
-                    break;
-                }
-
-                if (canLearnAll)
-                {
-                    summary = new ChainBreedSummary(motherSpecies, fatherSpecies, 1);
-                    return true;
-                }
-            }
-        }
-
-        return false; // No father can pass all the moves mother cannot learn
-    }
-
-    private static bool CanFatherLearnMoveForEgg(ushort fatherSpecies, byte fatherForm, ushort move, ILearnSource learn, GameVersion version)
-    {
-        // For male-only split breed validation, check if the father can have this move in his moveset
-        // The father can have a move via:
-        // 1. Level-up (including evolution line)
-        // 2. TM/Tutor moves
-        // 3. Cross-generation transfers
-        // 4. Smeargle (Sketch)
-        // 5. Egg moves (father can be bred to get them)
-
-        return CanLearnDirectlyInLine(fatherSpecies, fatherForm, version, move);
-    }
-
     private static bool IsCompatibleFatherForBreeding(IPersonalInfo mother, ushort fatherSpecies, IPersonalInfo father)
     {
         // Ditto can't pass down egg moves
@@ -369,7 +274,7 @@ public static class ChainBreedLegality
         if ((uint)depth >= (uint)visited.Length)
             return false;
 
-        var state = new ChainQueryState(eggSpecies, eggForm, moves);
+        var state = new ChainQueryState(eggSpecies, eggForm, version, moves);
         // Check against visited[0] through visited[depth-1] for exact duplicates
         for (int i = 0; i < depth; i++)
         {
@@ -553,7 +458,41 @@ public static class ChainBreedLegality
             return true;
         }
 
+        // A father used in this generation could have been transferred from the immediately preceding generation with its complete moveset intact.
+        // Re-run the possession proof in each relevant predecessor ruleset.
+        // Recursing one generation at a time also permits the Gen3 -> Gen4 -> Gen5 path.
+        Span<GameVersion> previous = stackalloc GameVersion[2];
+        int previousCount = GetTransferPredecessorVersions(version, previous);
+        for (int i = 0; i < previousCount; i++)
+        {
+            if (!CanFatherKnowAllMoves(fatherSpecies, fatherForm, previous[i], moves, visited, depth + 1, out var previousDepth))
+                continue;
+
+            // Transfer changes neither the number of breeding links nor the father species reported by the caller.
+            chainDepth = previousDepth;
+            return true;
+        }
+
         return false;
+    }
+
+    private static int GetTransferPredecessorVersions(GameVersion version, Span<GameVersion> result)
+    {
+        // There is no main-series Gen2 -> Gen3 transfer path (only to Gen7).
+        // Aggregate versions are intentional; each represents a distinct learn/personal ruleset already supported by the switch methods below.
+        switch (version.Generation)
+        {
+            case 4:
+                result[0] = RSE;
+                result[1] = FRLG;
+                return 2;
+            case 5:
+                result[0] = HGSS;
+                result[1] = DPPt;
+                return 2;
+            default:
+                return 0;
+        }
     }
 
     private static bool CanLearnDirectlyInLine(ushort species, byte form, GameVersion version, ushort move)
@@ -970,16 +909,18 @@ public static class ChainBreedLegality
     {
         private readonly Species Species;
         private readonly byte Form;
+        private readonly GameVersion Version;
         private readonly byte Count;
         private readonly ushort Move1;
         private readonly ushort Move2;
         private readonly ushort Move3;
         private readonly ushort Move4;
 
-        public ChainQueryState(ushort species, byte form, ReadOnlySpan<ushort> moves)
+        public ChainQueryState(ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves)
         {
             Species = (Species)species;
             Form = form;
+            Version = version;
             Count = (byte)moves.Length;
             Move1 = moves.Length > 0 ? moves[0] : (ushort)0;
             Move2 = moves.Length > 1 ? moves[1] : (ushort)0;

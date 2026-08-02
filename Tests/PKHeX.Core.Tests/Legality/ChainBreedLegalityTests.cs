@@ -41,7 +41,7 @@ public class ChainBreedLegalityTests
     [InlineData(B2W2, Shellder, TakeDown)] // Gen3 encounter move (in XD)
     [InlineData(B2W2, Shellder, Avalanche)] // Gen4 TM move
     [InlineData(B2W2, Shellder, Avalanche, TakeDown)] // Valid Gen5 parent from a Gen3 encounter=>Gen4=>Gen5 transfer route.
-    [InlineData(BW, Snorlax, Curse, SelfDestruct, Counter)] // Gen3 (Curse Egg) XD Tutor SelfDestruct, Gen3 Tutor (Counter) => Gen5 breed.
+    [InlineData(BW, Munchlax, Curse, SelfDestruct, Counter)] // Gen3 (Curse Egg) XD Tutor SelfDestruct, Gen3 Tutor (Counter) => Gen5 breed.
     [InlineData(HGSS, Corphish, MetalClaw, DragonDance)] // Gen3 Charmander (Dragon Dance egg) => Gen3 Level Up => Gen4 Totodile => Gen4 Corphish.
     public void DetectValidChainPastFather(GameVersion version, Species species, params Move[] movelist)
         => ValidateSimple(version, species, 0, movelist);
