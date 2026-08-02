@@ -51,13 +51,14 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
     }
 
     // Present and not in Crystal:
-    // 001 (Bulbasaur) += Charm
     // 016 (Pidgey) += SteelWing
-    // 043 (Oddish) += Charm
     // 046 (Paras) += SweetScent
     // 083 (Farfetchd) += SteelWing
-    // 120 (Staryu) += AuroraBeam, Barrier, Supersonic
     // 142 (Aerodactyl) += SteelWing
+    // Inaccessible (no father in same egg group):
+    // 001 (Bulbasaur) += Charm
+    // 043 (Oddish) += Charm
+    // 120 (Staryu) += AuroraBeam, Barrier, Supersonic
     // 143 (Snorlax) += Charm
     // 238 (Smoochum) += LovelyKiss
 

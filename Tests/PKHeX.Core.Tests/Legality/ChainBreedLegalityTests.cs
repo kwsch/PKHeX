@@ -32,6 +32,7 @@ public class ChainBreedLegalityTests
     [InlineData(HGSS, Mankey, Encore, Meditate, SmellingSalts)]
     [InlineData(GS, Chansey, DoubleEdge)] // via Jigglypuff (Level 39)
     [InlineData(Pt, Shellder, RapidSpin, IcicleSpear)]
+    [InlineData(R, Volbeat, HelpingHand)] // level up, breed with Illumise
     public void DetectsValidChains(GameVersion version, Species species, params Move[] movelist)
         => ValidateSimple(version, species, 0, movelist);
 
@@ -60,6 +61,7 @@ public class ChainBreedLegalityTests
 
     [Theory]
     [InlineData(HGSS, Mankey, 0, Smeargle, Encore, Meditate, SmellingSalts)]
+    [InlineData(E, Pichu, 0, Smeargle, Reversal, Encore, Wish, Present)] // via Pikachu mother
     public void DetectsValidChainSmeargle(GameVersion version, Species species, byte form, Species father, params Move[] movelist)
     {
         var moves = GetMoves(movelist);

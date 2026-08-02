@@ -46,6 +46,7 @@ public static class ChainBreedLegality
         // For male-only split breed species (Volbeat/Nidoran-M) in Gen 2-5, we need special validation:
         // All EGG moves must come from a single father.
         // Level-up moves don't need this restriction (can breed with Ditto).
+        // No cases of chain breeding combinations, so we can just check if a single father can pass all egg moves.
         var isMaleSplit = IsMaleOnlySplitBreed(species);
         if (isMaleSplit)
         {
@@ -239,18 +240,7 @@ public static class ChainBreedLegality
                     continue;
 
                 // Check if this father can learn ALL the moves
-                bool canLearnAll = true;
-                foreach (var move in moves)
-                {
-                    if (move == 0)
-                        break;
-
-                    // Father must be able to learn this move as an egg move or level-up move
-                    if (CanFatherLearnMoveForEgg(fatherSpecies, fatherForm, move, learn))
-                        continue;
-                    canLearnAll = false;
-                    break;
-                }
+                var canLearnAll = CanFatherLearnAll(moves, fatherSpecies, fatherForm, learn);
                 if (!canLearnAll)
                     continue;
 
@@ -260,6 +250,20 @@ public static class ChainBreedLegality
         }
 
         return false; // No single father can pass all moves
+    }
+
+    private static bool CanFatherLearnAll(ReadOnlySpan<ushort> moves, ushort fatherSpecies, byte fatherForm, ILearnSource learn)
+    {
+        foreach (var move in moves)
+        {
+            if (move == 0)
+                break;
+            // Father must be able to learn this move as an egg move or level-up move
+            if (CanFatherLearnMoveForEgg(fatherSpecies, fatherForm, move, learn))
+                continue;
+            return false;
+        }
+        return true;
     }
 
     private static bool CanMotherAndFatherPassAllMoves(ushort motherSpecies, byte motherForm, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
@@ -423,8 +427,7 @@ public static class ChainBreedLegality
 
             var suffix = moves.Slice(baseCount, inheritedCount);
             var suffixFlags = flags.Slice(baseCount, inheritedCount);
-            for (int i = 0; i < inheritedCount; i++)
-                inheritedMoves[i] = suffix[i];
+            suffix.CopyTo(inheritedMoves);
 
             if (TryResolveInheritedSources(eggSpecies, eggForm, version, inheritedMoves[..inheritedCount], suffixFlags, 0, visited, depth + 1, out summary))
                 return true;
@@ -463,6 +466,8 @@ public static class ChainBreedLegality
             return false;
 
         var mother = table[eggSpecies, eggForm];
+        if (mother.EggGroup1 == (int)EggGroup.Undiscovered && TryGetEvolvedMother(eggSpecies, eggForm, version, out var newMother))
+            mother = table[newMother.Species, newMother.Form];
 
         // If the egg species can't breed (baby Pokemon like Tyrogue), check if its evolutions can act as fathers
         if (mother.Genderless || mother.OnlyMale || mother.EggGroup1 == (int)EggGroup.Undiscovered)
@@ -496,9 +501,28 @@ public static class ChainBreedLegality
         return false;
     }
 
+    private static bool TryGetEvolvedMother(ushort eggSpecies, byte eggForm, GameVersion version, out (ushort Species, byte Form) newMother)
+    {
+        var tree = EvolutionTree.GetEvolutionTree(version.Context);
+        var evos = tree.Forward.GetEvolutions(eggSpecies, eggForm);
+        var pt = GameData.GetPersonal(version);
+
+        foreach (var (evoSpecies, evoForm) in evos)
+        {
+            var pi = pt[evoSpecies, evoForm];
+            if (pi.EggGroup1 == (int)EggGroup.Undiscovered)
+                continue;
+
+            newMother = (evoSpecies, evoForm);
+            return true;
+
+        }
+        newMother = default;
+        return false;
+    }
+
     private static bool TryResolveFatherViaEvolution(ushort eggSpecies, byte eggForm, GameVersion version, ReadOnlySpan<ushort> moves, Span<ChainQueryState> visited, int depth, out ChainBreedSummary summary)
     {
-        summary = default;
         var tree = EvolutionTree.GetEvolutionTree(version.Context);
         var evos = tree.Forward.GetEvolutions(eggSpecies, eggForm);
 
@@ -511,6 +535,7 @@ public static class ChainBreedLegality
             return true;
         }
 
+        summary = default;
         return false;
     }
 
