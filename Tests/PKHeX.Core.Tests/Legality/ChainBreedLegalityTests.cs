@@ -55,7 +55,7 @@ public class ChainBreedLegalityTests
     private static void ValidateSimple(GameVersion version, Species species, byte form, ReadOnlySpan<Move> movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.TryValidate((ushort)species, form, version, moves, out var summary).Should().BeTrue();
+        ChainBreedLegality.IsValid((ushort)species, form, version, moves, out var summary).Should().BeTrue();
         summary.MotherSpecies.Should().NotBe(0);
         summary.FatherSpecies.Should().NotBe(0);
         summary.ChainDepth.Should().BeGreaterThan(0);
@@ -67,7 +67,7 @@ public class ChainBreedLegalityTests
     public void DetectsValidChainSmeargle(GameVersion version, Species species, byte form, Species father, params Move[] movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.TryValidate((ushort)species, form, version, moves, out var summary).Should().BeTrue();
+        ChainBreedLegality.IsValid((ushort)species, form, version, moves, out var summary).Should().BeTrue();
         summary.MotherSpecies.Should().NotBe(0);
         summary.FatherSpecies.Should().Be((ushort)father);
         summary.ChainDepth.Should().BeGreaterThan(0);
