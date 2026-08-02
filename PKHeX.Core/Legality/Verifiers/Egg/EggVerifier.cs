@@ -88,7 +88,7 @@ internal sealed class EggVerifier : Verifier
             pk.GetMoves(moves);
         var personal = GameData.GetPersonal(egg.Version)[egg.Species, egg.Form];
         var includeInheritedLevelUp = personal.OnlyFemale
-            && !Breeding.IsGenderSpeciesDetermination(egg.Species);
+            || Breeding.IsGenderSpeciesDetermination(egg.Species);
 
         var source = egg.Generation >= 6 ? data.Info.Relearn : data.Info.Moves;
         var count = GatherInheritedMoves(moves, source, includeInheritedLevelUp);

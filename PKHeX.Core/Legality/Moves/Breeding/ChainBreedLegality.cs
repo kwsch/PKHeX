@@ -80,13 +80,44 @@ public static class ChainBreedLegality
         if (!mi.OnlyFemale)
             return true;
 
-        bool ignoreEggMoves = version.Generation >= 8 || species is not (ushort)Species.Volbeat; // Nidoran-F can breed with Smeargle for lvl+egg.
+        bool isMaleSplit = IsMaleOnlySplitBreed(species);
+        bool ignoreEggMoves = version.Generation >= 8; // In Gen8+, egg move sharing
         bool checkBaby = species is not ((ushort)Species.Volbeat or (ushort)Species.NidoranM);
 
-        // Aggregate all moves that the father must provide, that the mother cannot provide.
+        // For male-only split breed species in Gen 6-7, we need to check if a single father can pass all moves
+        // that the mother cannot learn as egg moves
+        var learn = GameData.GetLearnSource(version);
+        if (isMaleSplit && !ignoreEggMoves)
+        {
+            // Collect moves that mother cannot learn as egg moves
+            Span<ushort> fatherMustPass = stackalloc ushort[MaxMoveCount];
+            int fatherMoveCount = 0;
+
+            foreach (var move in moves)
+            {
+                if (move == 0)
+                    break;
+
+                // Check if mother can learn this as an egg move
+                var motherEggMoves = learn.GetEggMoves(mother.Species, mother.Form);
+                if (!motherEggMoves.Contains(move))
+                {
+                    // Mother cannot learn this egg move, father must pass it
+                    fatherMustPass[fatherMoveCount++] = move;
+                }
+            }
+
+            // If father must pass any moves, check if a single father can pass them all
+            if (fatherMoveCount > 0)
+            {
+                if (!CanSingleFatherPassAllMovesRelaxed(mi, fatherMustPass[..fatherMoveCount], table, version))
+                    return false;
+            }
+
+            return true; // All moves can be passed
+        }
 
         // Check if any of the moves are level-up moves that cannot be inherited
-        var learn = GameData.GetLearnSource(version);
 
         // Check each move to see if it's a level-up move that has no compatible father
         foreach (var move in moves)
@@ -110,8 +141,45 @@ public static class ChainBreedLegality
         return true;
     }
 
-    private static (PersonalInfo mi, (ushort Species, byte Form) mother) ResolveMother(ushort species, byte form,
-        GameVersion version, IPersonalTable table)
+    private static bool CanSingleFatherPassAllMovesRelaxed(IPersonalInfo motherInfo, ReadOnlySpan<ushort> moves, IPersonalTable table, GameVersion version)
+    {
+        // Check if there exists a single father that can pass all the moves
+        var maxSpecies = table.MaxSpeciesID;
+        for (ushort fatherSpecies = 1; fatherSpecies <= maxSpecies; fatherSpecies++)
+        {
+            var baseFather = table[fatherSpecies];
+            var formCount = baseFather.FormCount;
+            for (byte fatherForm = 0; fatherForm < formCount; fatherForm++)
+            {
+                if (!table.IsPresentInGame(fatherSpecies, fatherForm))
+                    continue;
+
+                var fatherInfo = table[fatherSpecies, fatherForm];
+
+                // Father must be in the same egg group
+                if (!IsCompatibleFatherForBreeding(motherInfo, fatherSpecies, fatherInfo))
+                    continue;
+
+                // Check if this father can have all the moves
+                bool canLearnAll = true;
+                foreach (var move in moves)
+                {
+                    if (move == 0)
+                        break;
+                    if (CanLearnDirectlyInLine(fatherSpecies, fatherForm, version, move))
+                        continue;
+                    canLearnAll = false;
+                    break;
+                }
+                if (canLearnAll)
+                    return true; // Found a father that can pass all moves
+            }
+        }
+
+        return false; // No father can pass all the moves
+    }
+
+    private static (PersonalInfo mi, (ushort Species, byte Form) mother) ResolveMother(ushort species, byte form, GameVersion version, IPersonalTable table)
     {
         PersonalInfo mi;
         (ushort Species, byte Form) mother = (species, form);
@@ -246,7 +314,7 @@ public static class ChainBreedLegality
                 for (int i = 0; i < fatherMoveCount; i++)
                 {
                     var move = fatherMustPass[i];
-                    if (CanFatherLearnMoveForEgg(fatherSpecies, f, move, learn))
+                    if (CanFatherLearnMoveForEgg(fatherSpecies, f, move, learn, version))
                         continue;
                     canLearnAll = false;
                     break;
@@ -263,15 +331,17 @@ public static class ChainBreedLegality
         return false; // No father can pass all the moves mother cannot learn
     }
 
-    private static bool CanFatherLearnMoveForEgg(ushort fatherSpecies, byte fatherForm, ushort move, ILearnSource learn)
+    private static bool CanFatherLearnMoveForEgg(ushort fatherSpecies, byte fatherForm, ushort move, ILearnSource learn, GameVersion version)
     {
-        // For male-only split breed validation, check if the father can pass this move to the child
-        // The father can pass a move if he can HAVE it in his moveset via level-up only
-        // (not via egg moves, since that would require another breeding chain)
-        var learnset = learn.GetLearnset(fatherSpecies, fatherForm);
+        // For male-only split breed validation, check if the father can have this move in his moveset
+        // The father can have a move via:
+        // 1. Level-up (including evolution line)
+        // 2. TM/Tutor moves
+        // 3. Cross-generation transfers
+        // 4. Smeargle (Sketch)
+        // 5. Egg moves (father can be bred to get them)
 
-        // Only check level-up
-        return learnset.TryGetLevelLearnMove(move, out _);
+        return CanLearnDirectlyInLine(fatherSpecies, fatherForm, version, move);
     }
 
     private static bool IsCompatibleFatherForBreeding(IPersonalInfo mother, ushort fatherSpecies, IPersonalInfo father)
