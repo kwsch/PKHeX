@@ -43,32 +43,6 @@ public static class ChainBreedLegality
         if (!MarkChildMoveFlags(species, form, version, moves[..count], learnset, flags))
             return false;
 
-        // For male-only split breed species (Volbeat/Nidoran-M) in Gen 2-5, we need special validation:
-        // All EGG moves must come from a single father.
-        // Level-up moves don't need this restriction (can breed with Ditto).
-        // No cases of chain breeding combinations, so we can just check if a single father can pass all egg moves.
-        var isMaleSplit = IsMaleOnlySplitBreed(species);
-        if (isMaleSplit)
-        {
-            // Filter to only egg moves (not level-up moves)
-            Span<ushort> eggMovesOnly = stackalloc ushort[MaxMoveCount];
-            int eggMoveCount = 0;
-            for (int i = 0; i < count; i++)
-            {
-                // Skip if this move can be obtained via level-up
-                if ((flags[i] & FlagLevelUp) != 0)
-                    continue;
-                eggMovesOnly[eggMoveCount++] = moves[i];
-            }
-
-            // If there are egg moves, check if a single father can pass them all
-            if (eggMoveCount > 0)
-            {
-                RemapSpeciesToMother(ref species);
-                return CanSingleFatherPassAllMoves(species, form, version, eggMovesOnly[..eggMoveCount], out summary);
-            }
-        }
-
         Span<ChainQueryState> visited = stackalloc ChainQueryState[MaxChainDepth];
         return TryValidateCore(species, form, version, moves[..count], baseMoves, flags, visited, 0, out summary);
     }
@@ -81,86 +55,82 @@ public static class ChainBreedLegality
             species = (ushort)Species.Illumise;
     }
 
-    private static bool IsMaleOnlySplitBreed(ushort species)
-    {
-        return species is (ushort)Species.NidoranM or (ushort)Species.Volbeat;
-    }
+    private static bool IsMaleOnlySplitBreed(ushort species) => species is (ushort)Species.NidoranM or (ushort)Species.Volbeat;
 
     private static bool IsValidRelaxed(ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
     {
-        // Gen 6+ games have relaxed breeding rules where most chains are valid as Mothers can now pass, allowing for fusing chains.
-        // However, only-Female offspring still have some restrictions:
-        // A Smoochum(no egg group; bred from Jynx, in the Human-like group) can't inherit Powder Snow (learned at level 4)
-        // Jynx is Female only, and there are no other species of the Human-like group that can know Powder Snow.
-        // So, it must breed with a male from the same egg group; that male must know the moves needed.
+        // Gen 6+ games allow mothers to pass egg moves, allowing for fusing chains.
+        // However, some restrictions still remain:
+        // - Only-Female mothers can only pass level-up moves if any same-group father can learn all moves.
+        // ~~ Example: [BD/SP] Smoochum w/ Powder Snow (level 4).
+        // - Dual-Species (Volbeat/Illumise and Nidoran-M/Nidoran-F) must still have a compatible father for any level-up moves AND egg moves (if Mother cannot pass).
+        // ~~ Example: Volbeat w/ Dizzy Punch & Lunge (Illumise cannot learn either, and no father can share both).
+        // ~~ In Gen8+, Egg Moves can be shared from other fathers onto the male then used for breeding, thus leaving only level up moves required for both parents.
 
-        // However, Confusion is valid because Alakazam (Human-like) can learn it and breed with Jynx.
-
-        // Additionally, for male-only split breed species (Volbeat/Nidoran-M), in Gen 6-7:
-        // - Mother (Illumise/Nidoran-F) can pass moves she learns as egg moves
-        // - Father must pass moves the mother cannot learn
-        // - In Gen 8+, egg move sharing means this restriction doesn't apply
         summary = default;
 
         var table = GameData.GetPersonal(version);
-        if (!table.IsPresentInGame(species, form))
-            return true;
-
         var pi = table[species, form];
-
-        // Genderless species must breed with Ditto, but since they always must breed with Ditto,
-        // they are already handled by the relaxed rules (no level-up moves can be inherited).
+        // Genderless offspring must arise from Ditto. Inheriting Level Up moves should not occur, and no egg moves are assigned.
         if (pi.Genderless)
             return true;
 
-        var isMaleSplit = IsMaleOnlySplitBreed(species);
-        RemapSpeciesToMother(ref species);
+        var (mi, mother) = ResolveMother(species, form, version, table);
+        // If the evolved form is female-only, it must breed with a compatible father
+        if (!mi.OnlyFemale)
+            return true;
 
-        // For male-only split breed species, check if father can pass moves mother can't learn
-        if (isMaleSplit)
-            return CanMotherAndFatherPassAllMoves(species, form, version, moves, out summary);
+        bool ignoreEggMoves = version.Generation >= 8 || species is not (ushort)Species.Volbeat; // Nidoran-F can breed with Smeargle for lvl+egg.
+        bool checkBaby = species is not ((ushort)Species.Volbeat or (ushort)Species.NidoranM);
 
-        var context = version.Context;
-        var tree = EvolutionTree.GetEvolutionTree(context);
-        var evolutions = tree.Forward.GetEvolutions(species, form);
+        // Aggregate all moves that the father must provide, that the mother cannot provide.
 
-        foreach (var (evoSpecies, evoForm) in evolutions)
+        // Check if any of the moves are level-up moves that cannot be inherited
+        var learn = GameData.GetLearnSource(version);
+
+        // Check each move to see if it's a level-up move that has no compatible father
+        foreach (var move in moves)
         {
-            if (!table.IsPresentInGame(evoSpecies, form))
-                continue;
+            if (move == 0)
+                break;
 
-            var evoPi = table[evoSpecies, evoForm];
+            // Check if this is a level-up move for the baby species or evolved species
+            var babyLearnset = learn.GetLearnset(species, form);
+            var evoLearnset = learn.GetLearnset(mother.Species, mother.Form);
+            bool isLevelUpMove = checkBaby && babyLearnset.TryGetLevelLearnMove(move, out _) ||
+                                 evoLearnset.TryGetLevelLearnMove(move, out _);
 
-            // If the evolved form is female-only, it must breed with a compatible father
-            if (evoPi.OnlyFemale)
+            if (!isLevelUpMove)
+                continue; // Not a level-up move, so it can be inherited normally
+
+            // This is a level-up move. Check if any compatible father can learn it.
+            if (!CanAnyCompatibleFatherLearnMove(mi, move, table, learn))
+                return false; // No compatible father can pass this level-up move
+        }
+        return true;
+    }
+
+    private static (PersonalInfo mi, (ushort Species, byte Form) mother) ResolveMother(ushort species, byte form,
+        GameVersion version, IPersonalTable table)
+    {
+        PersonalInfo mi;
+        (ushort Species, byte Form) mother = (species, form);
+        if (IsMaleOnlySplitBreed(species))
+        {
+            RemapSpeciesToMother(ref mother.Species);
+            mi = table[mother.Species, mother.Form];
+        }
+        else
+        {
+            mi = table[mother.Species, mother.Form];
+            if (mi.EggGroup1 == (int)EggGroup.Undiscovered && TryGetEvolvedMother(species, form, version, out var newMother))
             {
-                // Check if any of the moves are level-up moves that cannot be inherited
-                var learn = GameData.GetLearnSource(version);
-
-                // Check each move to see if it's a level-up move that has no compatible father
-                foreach (var move in moves)
-                {
-                    if (move == 0)
-                        break;
-
-                    // Check if this is a level-up move for the baby species or evolved species
-                    var babyLearnset = learn.GetLearnset(species, form);
-                    var evoLearnset = learn.GetLearnset(evoSpecies, evoForm);
-
-                    bool isLevelUpMove = babyLearnset.TryGetLevelLearnMove(move, out _) || 
-                                        evoLearnset.TryGetLevelLearnMove(move, out _);
-
-                    if (!isLevelUpMove)
-                        continue; // Not a level-up move, so it can be inherited normally
-
-                    // This is a level-up move. Check if any compatible father can learn it.
-                    if (!CanAnyCompatibleFatherLearnMove(evoPi, move, table, learn))
-                        return false; // No compatible father can pass this level-up move
-                }
+                mi = table[newMother.Species, newMother.Form];
+                mother = newMother;
             }
         }
 
-        return true;
+        return (mi, mother);
     }
 
     private static bool CanAnyCompatibleFatherLearnMove(IPersonalInfo motherInfo, ushort move, IPersonalTable table, ILearnSource learn)
@@ -211,61 +181,6 @@ public static class ChainBreedLegality
         return true;
     }
 
-    private static bool CanSingleFatherPassAllMoves(ushort motherSpecies, byte motherForm, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
-    {
-        // For male-only split breed species in Gen 2-5, all egg moves must come from a single father
-        summary = default;
-        var table = GameData.GetPersonal(version);
-        if (!table.IsPresentInGame(motherSpecies, motherForm))
-            return false;
-
-        var motherInfo = table[motherSpecies, motherForm];
-        var learn = GameData.GetLearnSource(version);
-        var maxSpecies = table.MaxSpeciesID;
-
-        // Try each potential father species
-        for (ushort fatherSpecies = 1; fatherSpecies <= maxSpecies; fatherSpecies++)
-        {
-            var baseFather = table[fatherSpecies];
-            var formCount = baseFather.FormCount;
-            for (byte fatherForm = 0; fatherForm < formCount; fatherForm++)
-            {
-                if (!table.IsPresentInGame(fatherSpecies, fatherForm))
-                    continue;
-
-                var fatherInfo = table[fatherSpecies, fatherForm];
-
-                // Father must be in the same egg group and not be Ditto (or genderless/female-only)
-                if (!IsCompatibleFatherForBreeding(motherInfo, fatherSpecies, fatherInfo))
-                    continue;
-
-                // Check if this father can learn ALL the moves
-                var canLearnAll = CanFatherLearnAll(moves, fatherSpecies, fatherForm, learn);
-                if (!canLearnAll)
-                    continue;
-
-                summary = new ChainBreedSummary(motherSpecies, fatherSpecies, 1);
-                return true;
-            }
-        }
-
-        return false; // No single father can pass all moves
-    }
-
-    private static bool CanFatherLearnAll(ReadOnlySpan<ushort> moves, ushort fatherSpecies, byte fatherForm, ILearnSource learn)
-    {
-        foreach (var move in moves)
-        {
-            if (move == 0)
-                break;
-            // Father must be able to learn this move as an egg move or level-up move
-            if (CanFatherLearnMoveForEgg(fatherSpecies, fatherForm, move, learn))
-                continue;
-            return false;
-        }
-        return true;
-    }
-
     private static bool CanMotherAndFatherPassAllMoves(ushort motherSpecies, byte motherForm, GameVersion version, ReadOnlySpan<ushort> moves, out ChainBreedSummary summary)
     {
         // For male-only split breed species in Gen 6-7:
@@ -291,7 +206,7 @@ public static class ChainBreedLegality
                 break;
 
             // Check if mother can learn this move as an egg move
-            if (CanMotherLearnMoveAsEgg(motherSpecies, motherForm, move, learn))
+            if (learn.GetIsEggMove(motherSpecies, motherForm, move))
             {
                 motherCanLearn[i] = true;
             }
@@ -357,13 +272,6 @@ public static class ChainBreedLegality
 
         // Only check level-up
         return learnset.TryGetLevelLearnMove(move, out _);
-    }
-
-    private static bool CanMotherLearnMoveAsEgg(ushort motherSpecies, byte motherForm, ushort move, ILearnSource learn)
-    {
-        // Check if the mother can learn this move as an egg move
-        var eggMoves = learn.GetEggMoves(motherSpecies, motherForm);
-        return eggMoves.Contains(move);
     }
 
     private static bool IsCompatibleFatherForBreeding(IPersonalInfo mother, ushort fatherSpecies, IPersonalInfo father)
@@ -465,12 +373,10 @@ public static class ChainBreedLegality
         if (!table.IsPresentInGame(eggSpecies, eggForm))
             return false;
 
-        var mother = table[eggSpecies, eggForm];
-        if (mother.EggGroup1 == (int)EggGroup.Undiscovered && TryGetEvolvedMother(eggSpecies, eggForm, version, out var newMother))
-            mother = table[newMother.Species, newMother.Form];
+        var (mi, mother) = ResolveMother(eggSpecies, eggForm, version, table);
 
         // If the egg species can't breed (baby Pokemon like Tyrogue), check if its evolutions can act as fathers
-        if (mother.Genderless || mother.OnlyMale || mother.EggGroup1 == (int)EggGroup.Undiscovered)
+        if (mi.Genderless || mi.OnlyMale || mi.EggGroup1 == (int)EggGroup.Undiscovered)
         {
             // Try to find evolved forms that can breed and produce this egg species
             return TryResolveFatherViaEvolution(eggSpecies, eggForm, version, moves, visited, depth, out summary);
@@ -487,13 +393,13 @@ public static class ChainBreedLegality
                     continue;
 
                 var father = table[fatherSpecies, fatherForm];
-                if (!IsCompatibleFather(mother, fatherSpecies, father))
+                if (!IsCompatibleFather(mi, fatherSpecies, father))
                     continue;
 
                 if (!CanFatherKnowAllMoves(fatherSpecies, fatherForm, version, moves, visited, depth, out var chainDepth))
                     continue;
 
-                summary = new ChainBreedSummary(eggSpecies, fatherSpecies, chainDepth);
+                summary = new ChainBreedSummary(mother.Species, fatherSpecies, chainDepth);
                 return true;
             }
         }
@@ -622,35 +528,22 @@ public static class ChainBreedLegality
         var generation = version.Generation;
 
         // Gen 3: Can use XD/Colo special encounters
-        if (generation == 3)
+        if (generation >= 3 && move <= Legal.MaxMoveID_3)
         {
             if (CanLearnFromGen3Special(species, move))
                 return true;
-        }
-
-        // Gen 4: Can transfer from Gen 3 (including XD/Colo), but NOT native Gen4-only moves through XD
-        if (generation == 4)
-        {
-            // Only allow Gen 3 XD/Colo moves (not Gen 4 moves)
-            if (move <= Legal.MaxMoveID_3 && CanLearnFromGen3Special(species, move))
+            if (CanLearnDirectly(species, form, RS, move))
                 return true;
         }
 
         // Gen 5: Can transfer from Gen 3/4
-        if (generation == 5)
+        if (generation >= 5 && move <= Legal.MaxMoveID_4)
         {
             // Gen 4 TMs (e.g., Shellder + Avalanche via Gen4 TM72)
             // Check if the move is a Gen4-exclusive move learnable via TM in Gen4
-            if (move is (> Legal.MaxMoveID_3 and <= Legal.MaxMoveID_4))
-            {
-                // Check all Gen4 versions for TM availability
-                if (CanLearnDirectly(species, form, Pt, move) ||
-                    CanLearnDirectly(species, form, HGSS, move))
-                    return true;
-            }
-
-            // Gen 3 special encounters (XD/Colo)
-            if (move <= Legal.MaxMoveID_3 && CanLearnFromGen3Special(species, move))
+            // Check all Gen4 versions for TM availability
+            if (CanLearnDirectly(species, form, Pt, move) ||
+                CanLearnDirectly(species, form, HGSS, move))
                 return true;
         }
 
@@ -724,7 +617,17 @@ public static class ChainBreedLegality
             return true;
 
         var hmIndex = PersonalInfo3.MachineMovesHidden.IndexOf(move);
-        return hmIndex >= 0 && pi.TMHM[50 + hmIndex];
+        if (hmIndex >= 0 && pi.TMHM[50 + hmIndex])
+            return true;
+
+        if (LearnSource3RS.GetIsTutor(species, move))
+            return true; // XD
+        if (LearnSource3E.GetIsTutorFRLG(species, move))
+            return true; // FR/LG and Emerald
+        if (LearnSource3E.GetIsSpecialTutor(species, move))
+            return true; // Emerald
+
+        return false;
     }
 
     private static bool CanLearnDirectly4(ILearnSource<PersonalInfo4> source, ushort species, byte form, ushort move, bool hgss)
@@ -1031,4 +934,4 @@ public static class ChainBreedLegality
     }
 }
 
-public readonly record struct ChainBreedSummary(ushort EggSpecies, ushort FatherSpecies, byte ChainDepth);
+public readonly record struct ChainBreedSummary(ushort MotherSpecies, ushort FatherSpecies, byte ChainDepth);

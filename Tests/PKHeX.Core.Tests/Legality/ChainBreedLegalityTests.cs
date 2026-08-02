@@ -41,6 +41,8 @@ public class ChainBreedLegalityTests
     [InlineData(B2W2, Shellder, TakeDown)] // Gen3 encounter move (in XD)
     [InlineData(B2W2, Shellder, Avalanche)] // Gen4 TM move
     [InlineData(B2W2, Shellder, Avalanche, TakeDown)] // Valid Gen5 parent from a Gen3 encounter=>Gen4=>Gen5 transfer route.
+    [InlineData(BW, Snorlax, Curse, SelfDestruct, Counter)] // Gen3 (Curse Egg) XD Tutor SelfDestruct, Gen3 Tutor (Counter) => Gen5 breed.
+    [InlineData(HGSS, Corphish, MetalClaw, DragonDance)] // Gen3 Charmander (Dragon Dance egg) => Gen3 Level Up => Gen4 Totodile => Gen4 Corphish.
     public void DetectValidChainPastFather(GameVersion version, Species species, params Move[] movelist)
         => ValidateSimple(version, species, 0, movelist);
 
@@ -54,7 +56,7 @@ public class ChainBreedLegalityTests
     {
         var moves = GetMoves(movelist);
         ChainBreedLegality.TryValidate((ushort)species, form, version, moves, out var summary).Should().BeTrue();
-        summary.EggSpecies.Should().Be((ushort)species);
+        summary.MotherSpecies.Should().NotBe(0);
         summary.FatherSpecies.Should().NotBe(0);
         summary.ChainDepth.Should().BeGreaterThan(0);
     }
@@ -66,7 +68,7 @@ public class ChainBreedLegalityTests
     {
         var moves = GetMoves(movelist);
         ChainBreedLegality.TryValidate((ushort)species, form, version, moves, out var summary).Should().BeTrue();
-        summary.EggSpecies.Should().Be((ushort)species);
+        summary.MotherSpecies.Should().NotBe(0);
         summary.FatherSpecies.Should().Be((ushort)father);
         summary.ChainDepth.Should().BeGreaterThan(0);
     }
@@ -88,13 +90,14 @@ public class ChainBreedLegalityTests
     // Level up moves are not considered, as Volbeat/etc can breed with Ditto to pass level-up and acquired egg chain moves.
     // This check is only relevant up to Gen7, as egg move sharing became a thing.
     [InlineData(US, Volbeat, false, DizzyPunch, Lunge)] // mother can't learn either, father must pass both (none can do both).
-    [InlineData(B2, Volbeat, false, DizzyPunch, SeismicToss)] // father must pass both in Gen5
-    [InlineData(B2, Volbeat, true, DizzyPunch)] // father must pass both in Gen5
-    [InlineData(B2, Volbeat, true, SeismicToss)] // father must pass both in Gen5
-    // Amnesia via Psyduck, Head Smash via Rampardos. No father can pass both when breeding with Nidoran-F.
-    [InlineData(X, NidoranM, false, Amnesia, HeadSmash)] // mother can't learn either, father must pass both (none can do both).
+    [InlineData(B2, Volbeat, true, DizzyPunch, SeismicToss)] // Gen3 Spinda (Dizzy Punch level up) tutored with Seismic Toss
+    [InlineData(B2, Volbeat, true, DizzyPunch, BugBuzz)] // Gen3 Spinda (Dizzy Punch level up), both parents level up
+    [InlineData(B2, Volbeat, true, DizzyPunch, Trick)] // Spinda can get Trick via Tutor in B2/W2
+    [InlineData(HG, Volbeat, false, DizzyPunch, Trick)] // Spinda can get Trick via Tutor in B2/W2
+    // Amnesia via Psyduck, Head Smash via Rampardos. No father can pass both when breeding with Nidoran-F, but it can breed with Smeargle!
+    [InlineData(X, NidoranM, true, Amnesia, HeadSmash)] // mother can't learn either, father must pass both (none can do both).
     [InlineData(Y, NidoranM, true, BeatUp, HeadSmash)] // mother can pass Beat Up, father can pass Head Smash.
-    [InlineData(B2, NidoranM, false, BeatUp, HeadSmash)] // father must pass both in Gen5
+    [InlineData(B2, NidoranM, true, BeatUp, HeadSmash)] // father must pass both in Gen5 (Smeargle)
     public void DetectInvalidSpeciesMaleSplit(GameVersion version, Species species, bool expect, params Move[] movelist)
     {
         var moves = GetMoves(movelist);

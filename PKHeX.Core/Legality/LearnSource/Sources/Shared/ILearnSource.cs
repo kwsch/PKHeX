@@ -32,6 +32,7 @@ public interface ILearnSource
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form) => [];
+    public bool GetIsEggMove(ushort species, byte form, ushort move) => false;
 
     public ReadOnlySpan<ushort> GetInheritMoves(ushort species, byte form)
     {

@@ -73,7 +73,7 @@ public sealed class LearnSource3E : LearnSource3, ILearnSource<PersonalInfo3>, I
         return default;
     }
 
-    private static bool GetIsSpecialTutor(ushort species, ushort move)
+    public static bool GetIsSpecialTutor(ushort species, ushort move)
     {
         var info = Personal[species];
         var index = Tutor_E.IndexOf(move);
