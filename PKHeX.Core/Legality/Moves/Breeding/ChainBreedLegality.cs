@@ -5,7 +5,7 @@ using static PKHeX.Core.GameVersion;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Verifies if a Generation 2-5 egg move set can be produced by a single compatible father chain.
+/// Verifies if an egg move set can be produced by a single compatible father chain.
 /// </summary>
 public static class ChainBreedLegality
 {
@@ -15,7 +15,7 @@ public static class ChainBreedLegality
     private const int MaxMoveCount = 4;
     // The longest known in-generation chain is five fathers. Leave room for
     // an evolution/baby-species transition without allowing unbounded search.
-    private const int MaxChainDepth = 8;
+    private const int MaxChainDepth = 10;
 
     public static bool IsValid(ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves)
         => TryValidate(species, form, version, moves, out _);
@@ -281,10 +281,6 @@ public static class ChainBreedLegality
             if (visited[i].Equals(state))
                 return false;
         }
-        // Also check if we're about to overwrite the same state at visited[depth]
-        // (happens when recursing at the same depth level via CanFatherKnowAllMoves)
-        if ((uint)depth < (uint)visited.Length && visited[depth].Equals(state))
-            return false;
 
         visited[depth] = state;
 
@@ -497,6 +493,8 @@ public static class ChainBreedLegality
 
     private static bool CanLearnDirectlyInLine(ushort species, byte form, GameVersion version, ushort move)
     {
+        // Current ruleset only:
+        // level-up, tm/hm, tutor, evolution-line sources, same-generation encounters.
         if (species == (ushort)Species.Smeargle)
             return MoveInfo.IsSketchValid(move, version.Context);
 
@@ -945,4 +943,8 @@ public static class ChainBreedLegality
     }
 }
 
+/// <summary>
+/// Summarizes a successful breeding proof.
+/// <paramref name="ChainDepth"/> counts breeding links only; transfer transitions are not included.
+/// </summary>
 public readonly record struct ChainBreedSummary(ushort MotherSpecies, ushort FatherSpecies, byte ChainDepth);
