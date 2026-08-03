@@ -16,14 +16,16 @@ namespace PKHeX.WinForms
         private void InitializeComponent()
         {
             TLP_Main = new System.Windows.Forms.TableLayoutPanel();
+            FLP_ShopType = new System.Windows.Forms.FlowLayoutPanel();
+            CB_ShopType = new System.Windows.Forms.ComboBox();
+            NUD_ShopTypeLevel = new System.Windows.Forms.NumericUpDown();
+            NUD_ShopTypeVersion = new System.Windows.Forms.NumericUpDown();
             L_IsFlag2C = new System.Windows.Forms.Label();
             CHK_IsFlag2C = new System.Windows.Forms.CheckBox();
             L_AvenueLevel = new System.Windows.Forms.Label();
             NUD_AvenueLevel = new System.Windows.Forms.NumericUpDown();
             L_Unused2D = new System.Windows.Forms.Label();
-            NUD_Unused2D = new System.Windows.Forms.NumericUpDown();
             L_DesiredShopType = new System.Windows.Forms.Label();
-            CB_DesiredShopType = new System.Windows.Forms.ComboBox();
             L_ShopCounts = new System.Windows.Forms.Label();
             TB_ShopCounts = new System.Windows.Forms.TextBox();
             L_DexSeen = new System.Windows.Forms.Label();
@@ -72,14 +74,13 @@ namespace PKHeX.WinForms
             NUD_JoinAvenueRank = new System.Windows.Forms.NumericUpDown();
             L_UnknownAC = new System.Windows.Forms.Label();
             NUD_UnknownAC = new System.Windows.Forms.NumericUpDown();
-            L_ShopLevel = new System.Windows.Forms.Label();
-            NUD_ShopLevel = new System.Windows.Forms.NumericUpDown();
+            L_ShopRank = new System.Windows.Forms.Label();
+            NUD_ShopRank = new System.Windows.Forms.NumericUpDown();
             L_ShopExperience = new System.Windows.Forms.Label();
             NUD_ShopExperience = new System.Windows.Forms.NumericUpDown();
             L_IsInventory = new System.Windows.Forms.Label();
             NUD_IsInventory = new System.Windows.Forms.NumericUpDown();
             L_ShopType = new System.Windows.Forms.Label();
-            CB_ShopType = new System.Windows.Forms.ComboBox();
             L_ShopWork = new System.Windows.Forms.Label();
             NUD_ShopWork = new System.Windows.Forms.NumericUpDown();
             L_UnusedB8 = new System.Windows.Forms.Label();
@@ -96,9 +97,16 @@ namespace PKHeX.WinForms
             NUD_UnknownBits21_27 = new System.Windows.Forms.NumericUpDown();
             L_UnknownBits28_31 = new System.Windows.Forms.Label();
             NUD_UnknownBits28_31 = new System.Windows.Forms.NumericUpDown();
+            NUD_Unused2D = new System.Windows.Forms.NumericUpDown();
+            FLP_DesiredShop = new System.Windows.Forms.FlowLayoutPanel();
+            CB_DesiredShopType = new System.Windows.Forms.ComboBox();
+            NUD_DesiredShopLevel = new System.Windows.Forms.NumericUpDown();
+            NUD_DesiredShopVersion = new System.Windows.Forms.NumericUpDown();
             TLP_Main.SuspendLayout();
+            FLP_ShopType.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_ShopTypeLevel).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_ShopTypeVersion).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_AvenueLevel).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)NUD_Unused2D).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_DexSeen).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_MedalRank).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_MedalHint).BeginInit();
@@ -108,7 +116,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_UnknownA8).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_JoinAvenueRank).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_UnknownAC).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)NUD_ShopLevel).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_ShopRank).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_ShopExperience).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_IsInventory).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_ShopWork).BeginInit();
@@ -118,6 +126,10 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_UnknownBits13_20).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_UnknownBits21_27).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_UnknownBits28_31).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Unused2D).BeginInit();
+            FLP_DesiredShop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_DesiredShopLevel).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_DesiredShopVersion).BeginInit();
             SuspendLayout();
             // 
             // TLP_Main
@@ -126,14 +138,13 @@ namespace PKHeX.WinForms
             TLP_Main.ColumnCount = 2;
             TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            TLP_Main.Controls.Add(FLP_ShopType, 1, 31);
             TLP_Main.Controls.Add(L_IsFlag2C, 0, 0);
             TLP_Main.Controls.Add(CHK_IsFlag2C, 1, 0);
             TLP_Main.Controls.Add(L_AvenueLevel, 0, 1);
             TLP_Main.Controls.Add(NUD_AvenueLevel, 1, 1);
             TLP_Main.Controls.Add(L_Unused2D, 0, 2);
-            TLP_Main.Controls.Add(NUD_Unused2D, 1, 2);
             TLP_Main.Controls.Add(L_DesiredShopType, 0, 3);
-            TLP_Main.Controls.Add(CB_DesiredShopType, 1, 3);
             TLP_Main.Controls.Add(L_ShopCounts, 0, 4);
             TLP_Main.Controls.Add(TB_ShopCounts, 1, 4);
             TLP_Main.Controls.Add(L_DexSeen, 0, 5);
@@ -182,14 +193,13 @@ namespace PKHeX.WinForms
             TLP_Main.Controls.Add(NUD_JoinAvenueRank, 1, 26);
             TLP_Main.Controls.Add(L_UnknownAC, 0, 27);
             TLP_Main.Controls.Add(NUD_UnknownAC, 1, 27);
-            TLP_Main.Controls.Add(L_ShopLevel, 0, 28);
-            TLP_Main.Controls.Add(NUD_ShopLevel, 1, 28);
+            TLP_Main.Controls.Add(L_ShopRank, 0, 28);
+            TLP_Main.Controls.Add(NUD_ShopRank, 1, 28);
             TLP_Main.Controls.Add(L_ShopExperience, 0, 29);
             TLP_Main.Controls.Add(NUD_ShopExperience, 1, 29);
             TLP_Main.Controls.Add(L_IsInventory, 0, 30);
             TLP_Main.Controls.Add(NUD_IsInventory, 1, 30);
             TLP_Main.Controls.Add(L_ShopType, 0, 31);
-            TLP_Main.Controls.Add(CB_ShopType, 1, 31);
             TLP_Main.Controls.Add(L_ShopWork, 0, 32);
             TLP_Main.Controls.Add(NUD_ShopWork, 1, 32);
             TLP_Main.Controls.Add(L_UnusedB8, 0, 33);
@@ -206,6 +216,8 @@ namespace PKHeX.WinForms
             TLP_Main.Controls.Add(NUD_UnknownBits21_27, 1, 38);
             TLP_Main.Controls.Add(L_UnknownBits28_31, 0, 39);
             TLP_Main.Controls.Add(NUD_UnknownBits28_31, 1, 39);
+            TLP_Main.Controls.Add(NUD_Unused2D, 1, 2);
+            TLP_Main.Controls.Add(FLP_DesiredShop, 1, 3);
             TLP_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             TLP_Main.Location = new System.Drawing.Point(0, 0);
             TLP_Main.Margin = new System.Windows.Forms.Padding(0);
@@ -256,6 +268,47 @@ namespace PKHeX.WinForms
             TLP_Main.Size = new System.Drawing.Size(720, 1010);
             TLP_Main.TabIndex = 0;
             // 
+            // FLP_ShopType
+            // 
+            FLP_ShopType.AutoSize = true;
+            FLP_ShopType.Controls.Add(CB_ShopType);
+            FLP_ShopType.Controls.Add(NUD_ShopTypeLevel);
+            FLP_ShopType.Controls.Add(NUD_ShopTypeVersion);
+            FLP_ShopType.Dock = System.Windows.Forms.DockStyle.Fill;
+            FLP_ShopType.Location = new System.Drawing.Point(123, 848);
+            FLP_ShopType.Margin = new System.Windows.Forms.Padding(0);
+            FLP_ShopType.Name = "FLP_ShopType";
+            FLP_ShopType.Size = new System.Drawing.Size(572, 26);
+            FLP_ShopType.TabIndex = 81;
+            // 
+            // CB_ShopType
+            // 
+            CB_ShopType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_ShopType.FormattingEnabled = true;
+            CB_ShopType.Location = new System.Drawing.Point(0, 0);
+            CB_ShopType.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            CB_ShopType.Name = "CB_ShopType";
+            CB_ShopType.Size = new System.Drawing.Size(121, 25);
+            CB_ShopType.TabIndex = 8;
+            // 
+            // NUD_ShopTypeLevel
+            // 
+            NUD_ShopTypeLevel.Location = new System.Drawing.Point(121, 0);
+            NUD_ShopTypeLevel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            NUD_ShopTypeLevel.Maximum = new decimal(new int[] { 9, 0, 0, 0 });
+            NUD_ShopTypeLevel.Name = "NUD_ShopTypeLevel";
+            NUD_ShopTypeLevel.Size = new System.Drawing.Size(48, 25);
+            NUD_ShopTypeLevel.TabIndex = 9;
+            // 
+            // NUD_ShopTypeVersion
+            // 
+            NUD_ShopTypeVersion.Location = new System.Drawing.Point(169, 0);
+            NUD_ShopTypeVersion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            NUD_ShopTypeVersion.Maximum = new decimal(new int[] { 3, 0, 0, 0 });
+            NUD_ShopTypeVersion.Name = "NUD_ShopTypeVersion";
+            NUD_ShopTypeVersion.Size = new System.Drawing.Size(48, 25);
+            NUD_ShopTypeVersion.TabIndex = 10;
+            // 
             // L_IsFlag2C
             // 
             L_IsFlag2C.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -305,15 +358,6 @@ namespace PKHeX.WinForms
             L_Unused2D.TabIndex = 4;
             L_Unused2D.Text = "0x2D:";
             // 
-            // NUD_Unused2D
-            // 
-            NUD_Unused2D.Location = new System.Drawing.Point(123, 64);
-            NUD_Unused2D.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
-            NUD_Unused2D.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
-            NUD_Unused2D.Name = "NUD_Unused2D";
-            NUD_Unused2D.Size = new System.Drawing.Size(48, 25);
-            NUD_Unused2D.TabIndex = 5;
-            // 
             // L_DesiredShopType
             // 
             L_DesiredShopType.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -324,16 +368,6 @@ namespace PKHeX.WinForms
             L_DesiredShopType.Size = new System.Drawing.Size(90, 17);
             L_DesiredShopType.TabIndex = 6;
             L_DesiredShopType.Text = "Desired Shop:";
-            // 
-            // CB_DesiredShopType
-            // 
-            CB_DesiredShopType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_DesiredShopType.FormattingEnabled = true;
-            CB_DesiredShopType.Location = new System.Drawing.Point(123, 90);
-            CB_DesiredShopType.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
-            CB_DesiredShopType.Name = "CB_DesiredShopType";
-            CB_DesiredShopType.Size = new System.Drawing.Size(121, 25);
-            CB_DesiredShopType.TabIndex = 7;
             // 
             // L_ShopCounts
             // 
@@ -808,25 +842,25 @@ namespace PKHeX.WinForms
             NUD_UnknownAC.Size = new System.Drawing.Size(48, 25);
             NUD_UnknownAC.TabIndex = 55;
             // 
-            // L_ShopLevel
+            // L_ShopRank
             // 
-            L_ShopLevel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            L_ShopLevel.AutoSize = true;
-            L_ShopLevel.Location = new System.Drawing.Point(49, 774);
-            L_ShopLevel.Margin = new System.Windows.Forms.Padding(0);
-            L_ShopLevel.Name = "L_ShopLevel";
-            L_ShopLevel.Size = new System.Drawing.Size(74, 17);
-            L_ShopLevel.TabIndex = 56;
-            L_ShopLevel.Text = "Shop Level:";
+            L_ShopRank.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_ShopRank.AutoSize = true;
+            L_ShopRank.Location = new System.Drawing.Point(49, 774);
+            L_ShopRank.Margin = new System.Windows.Forms.Padding(0);
+            L_ShopRank.Name = "L_ShopRank";
+            L_ShopRank.Size = new System.Drawing.Size(74, 17);
+            L_ShopRank.TabIndex = 56;
+            L_ShopRank.Text = "Shop Rank:";
             // 
-            // NUD_ShopLevel
+            // NUD_ShopRank
             // 
-            NUD_ShopLevel.Location = new System.Drawing.Point(123, 770);
-            NUD_ShopLevel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
-            NUD_ShopLevel.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
-            NUD_ShopLevel.Name = "NUD_ShopLevel";
-            NUD_ShopLevel.Size = new System.Drawing.Size(40, 25);
-            NUD_ShopLevel.TabIndex = 57;
+            NUD_ShopRank.Location = new System.Drawing.Point(123, 770);
+            NUD_ShopRank.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            NUD_ShopRank.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_ShopRank.Name = "NUD_ShopRank";
+            NUD_ShopRank.Size = new System.Drawing.Size(40, 25);
+            NUD_ShopRank.TabIndex = 57;
             // 
             // L_ShopExperience
             // 
@@ -878,16 +912,6 @@ namespace PKHeX.WinForms
             L_ShopType.Size = new System.Drawing.Size(72, 17);
             L_ShopType.TabIndex = 62;
             L_ShopType.Text = "Shop Type:";
-            // 
-            // CB_ShopType
-            // 
-            CB_ShopType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_ShopType.FormattingEnabled = true;
-            CB_ShopType.Location = new System.Drawing.Point(123, 848);
-            CB_ShopType.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
-            CB_ShopType.Name = "CB_ShopType";
-            CB_ShopType.Size = new System.Drawing.Size(121, 25);
-            CB_ShopType.TabIndex = 63;
             // 
             // L_ShopWork
             // 
@@ -1048,6 +1072,56 @@ namespace PKHeX.WinForms
             NUD_UnknownBits28_31.Size = new System.Drawing.Size(40, 25);
             NUD_UnknownBits28_31.TabIndex = 79;
             // 
+            // NUD_Unused2D
+            // 
+            NUD_Unused2D.Location = new System.Drawing.Point(123, 64);
+            NUD_Unused2D.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            NUD_Unused2D.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            NUD_Unused2D.Name = "NUD_Unused2D";
+            NUD_Unused2D.Size = new System.Drawing.Size(48, 25);
+            NUD_Unused2D.TabIndex = 5;
+            // 
+            // FLP_DesiredShop
+            // 
+            FLP_DesiredShop.AutoSize = true;
+            FLP_DesiredShop.Controls.Add(CB_DesiredShopType);
+            FLP_DesiredShop.Controls.Add(NUD_DesiredShopLevel);
+            FLP_DesiredShop.Controls.Add(NUD_DesiredShopVersion);
+            FLP_DesiredShop.Dock = System.Windows.Forms.DockStyle.Fill;
+            FLP_DesiredShop.Location = new System.Drawing.Point(123, 90);
+            FLP_DesiredShop.Margin = new System.Windows.Forms.Padding(0);
+            FLP_DesiredShop.Name = "FLP_DesiredShop";
+            FLP_DesiredShop.Size = new System.Drawing.Size(572, 26);
+            FLP_DesiredShop.TabIndex = 80;
+            // 
+            // CB_DesiredShopType
+            // 
+            CB_DesiredShopType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_DesiredShopType.FormattingEnabled = true;
+            CB_DesiredShopType.Location = new System.Drawing.Point(0, 0);
+            CB_DesiredShopType.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            CB_DesiredShopType.Name = "CB_DesiredShopType";
+            CB_DesiredShopType.Size = new System.Drawing.Size(121, 25);
+            CB_DesiredShopType.TabIndex = 8;
+            // 
+            // NUD_DesiredShopLevel
+            // 
+            NUD_DesiredShopLevel.Location = new System.Drawing.Point(121, 0);
+            NUD_DesiredShopLevel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            NUD_DesiredShopLevel.Maximum = new decimal(new int[] { 9, 0, 0, 0 });
+            NUD_DesiredShopLevel.Name = "NUD_DesiredShopLevel";
+            NUD_DesiredShopLevel.Size = new System.Drawing.Size(48, 25);
+            NUD_DesiredShopLevel.TabIndex = 9;
+            // 
+            // NUD_DesiredShopVersion
+            // 
+            NUD_DesiredShopVersion.Location = new System.Drawing.Point(169, 0);
+            NUD_DesiredShopVersion.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+            NUD_DesiredShopVersion.Maximum = new decimal(new int[] { 3, 0, 0, 0 });
+            NUD_DesiredShopVersion.Name = "NUD_DesiredShopVersion";
+            NUD_DesiredShopVersion.Size = new System.Drawing.Size(48, 25);
+            NUD_DesiredShopVersion.TabIndex = 10;
+            // 
             // JoinAvenueVisitorSpecificEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1057,8 +1131,10 @@ namespace PKHeX.WinForms
             Size = new System.Drawing.Size(720, 1010);
             TLP_Main.ResumeLayout(false);
             TLP_Main.PerformLayout();
+            FLP_ShopType.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_ShopTypeLevel).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_ShopTypeVersion).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_AvenueLevel).EndInit();
-            ((System.ComponentModel.ISupportInitialize)NUD_Unused2D).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_DexSeen).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_MedalRank).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_MedalHint).EndInit();
@@ -1068,7 +1144,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_UnknownA8).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_JoinAvenueRank).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_UnknownAC).EndInit();
-            ((System.ComponentModel.ISupportInitialize)NUD_ShopLevel).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_ShopRank).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_ShopExperience).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_IsInventory).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_ShopWork).EndInit();
@@ -1078,6 +1154,10 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_UnknownBits13_20).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_UnknownBits21_27).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_UnknownBits28_31).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Unused2D).EndInit();
+            FLP_DesiredShop.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_DesiredShopLevel).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_DesiredShopVersion).EndInit();
             ResumeLayout(false);
         }
 
@@ -1091,7 +1171,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_Unused2D;
         private System.Windows.Forms.NumericUpDown NUD_Unused2D;
         private System.Windows.Forms.Label L_DesiredShopType;
-        private System.Windows.Forms.ComboBox CB_DesiredShopType;
         private System.Windows.Forms.Label L_ShopCounts;
         private System.Windows.Forms.TextBox TB_ShopCounts;
         private System.Windows.Forms.Label L_DexSeen;
@@ -1140,14 +1219,13 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_JoinAvenueRank;
         private System.Windows.Forms.Label L_UnknownAC;
         private System.Windows.Forms.NumericUpDown NUD_UnknownAC;
-        private System.Windows.Forms.Label L_ShopLevel;
-        private System.Windows.Forms.NumericUpDown NUD_ShopLevel;
+        private System.Windows.Forms.Label L_ShopRank;
+        private System.Windows.Forms.NumericUpDown NUD_ShopRank;
         private System.Windows.Forms.Label L_ShopExperience;
         private System.Windows.Forms.NumericUpDown NUD_ShopExperience;
         private System.Windows.Forms.Label L_IsInventory;
         private System.Windows.Forms.NumericUpDown NUD_IsInventory;
         private System.Windows.Forms.Label L_ShopType;
-        private System.Windows.Forms.ComboBox CB_ShopType;
         private System.Windows.Forms.Label L_ShopWork;
         private System.Windows.Forms.NumericUpDown NUD_ShopWork;
         private System.Windows.Forms.Label L_UnusedB8;
@@ -1164,5 +1242,13 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_UnknownBits21_27;
         private System.Windows.Forms.Label L_UnknownBits28_31;
         private System.Windows.Forms.NumericUpDown NUD_UnknownBits28_31;
+        private System.Windows.Forms.FlowLayoutPanel FLP_DesiredShop;
+        private System.Windows.Forms.ComboBox CB_DesiredShopType;
+        private System.Windows.Forms.NumericUpDown NUD_DesiredShopLevel;
+        private System.Windows.Forms.NumericUpDown NUD_DesiredShopVersion;
+        private System.Windows.Forms.FlowLayoutPanel FLP_ShopType;
+        private System.Windows.Forms.ComboBox CB_ShopType;
+        private System.Windows.Forms.NumericUpDown NUD_ShopTypeLevel;
+        private System.Windows.Forms.NumericUpDown NUD_ShopTypeVersion;
     }
 }

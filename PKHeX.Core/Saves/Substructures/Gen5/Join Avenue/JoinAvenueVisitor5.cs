@@ -13,7 +13,9 @@ public sealed class JoinAvenueVisitor5(Memory<byte> data) : IJoinAvenueEntity5
 
     public const int TriviaCount = 0x10;
     public const int ActivityCount = 4;
-    public const byte ShopMaxLevel = 10;
+    public const byte ShopMaxRank = 10;
+    public const byte ShopTypeCount = 8;
+    public const byte ShopVersionCount = 4;
 
     public void CopyFrom(JoinAvenueVisitor5 other) => other.Data.CopyTo(Data);
 
@@ -103,6 +105,12 @@ public sealed class JoinAvenueVisitor5(Memory<byte> data) : IJoinAvenueEntity5
     {
         get => ReadUInt16LittleEndian(Data[0x2E..]);
         set => WriteUInt16LittleEndian(Data[0x2E..], value);
+    }
+
+    public (byte Version, JoinAvenueShopType5 Type, byte Rank)? DesiredShopTypeTuple
+    {
+        get => DecodeShop(ReadUInt16LittleEndian(Data[0x2E..]));
+        set => WriteUInt16LittleEndian(Data[0x2E..], EncodeShop(value));
     }
 
     private uint ShopCounts
@@ -275,7 +283,7 @@ public sealed class JoinAvenueVisitor5(Memory<byte> data) : IJoinAvenueEntity5
 
     public byte JoinAvenueRank { get => Data[0xAB]; set => Data[0xAB] = value; }
     public byte UnknownAC { get => Data[0xAC]; set => Data[0xAC] = value; }
-    public byte ShopLevel { get => Data[0xAD]; set => Data[0xAD] = Math.Min(ShopMaxLevel, value); }
+    public byte ShopRank { get => Data[0xAD]; set => Data[0xAD] = Math.Min(ShopMaxRank, value); }
 
     public ushort ShopExperience
     {
@@ -289,10 +297,48 @@ public sealed class JoinAvenueVisitor5(Memory<byte> data) : IJoinAvenueEntity5
         set => WriteUInt32LittleEndian(Data[0xB0..], value);
     }
 
-    public JoinAvenueShopType5 ShopType
+    public ushort ShopType
     {
-        get => (JoinAvenueShopType5)ReadUInt16LittleEndian(Data[0xB4..]);
-        set => WriteUInt16LittleEndian(Data[0xB4..], (ushort)value);
+        get => ReadUInt16LittleEndian(Data[0xB4..]);
+        set => WriteUInt16LittleEndian(Data[0xB4..], value);
+    }
+
+    public (byte Version, JoinAvenueShopType5 Type, byte Rank)? ShopTypeTuple
+    {
+        get => DecodeShop(ReadUInt16LittleEndian(Data[0xB4..]));
+        set => WriteUInt16LittleEndian(Data[0xB4..], EncodeShop(value));
+    }
+
+    // 4 sets of versions, 10 sets of variants, JoinAvenueShopType5
+    private static ushort EncodeShop((byte Version, JoinAvenueShopType5 Type, byte Rank)? value)
+    {
+        if (value == null)
+            return 0;
+
+        var (version, type, level) = value.Value;
+
+        var result = version % ShopVersionCount;
+        result *= ShopVersionCount;
+        result += ((ushort)type % ShopTypeCount);
+        result *= ShopTypeCount;
+        result += level % ShopMaxRank;
+        return (ushort)(result + 1); // 0 is "empty"
+    }
+
+    private static (byte Version, JoinAvenueShopType5 Type, byte Rank)? DecodeShop(uint raw)
+    {
+        if (raw == 0)
+            return null; // none
+
+        raw -= 1;
+
+        var level = raw % ShopMaxRank;
+        raw /= ShopMaxRank;
+        var type = (JoinAvenueShopType5)(raw % ShopTypeCount);
+        raw /= ShopTypeCount;
+        var version = raw % ShopVersionCount;
+
+        return ((byte)version, type, (byte)level);
     }
 
     public ushort ShopWork

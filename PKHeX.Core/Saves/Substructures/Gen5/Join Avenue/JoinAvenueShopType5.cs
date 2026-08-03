@@ -1,6 +1,6 @@
 namespace PKHeX.Core;
 
-public enum JoinAvenueShopType5 : ushort
+public enum JoinAvenueShopType5 : byte
 {
     Raffle = 0,
     Salon = 1,
@@ -10,6 +10,4 @@ public enum JoinAvenueShopType5 : ushort
     Nurse = 5,
     Antique = 6,
     Cafe = 7,
-
-    None = 0xFFFF,
 }
