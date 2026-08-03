@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
@@ -76,8 +75,12 @@ public static class RibbonRules
         // Gen8-BDSP: Variable by species Footprint
         if (evos.HasVisitedBDSP)
         {
-            if (IsVoiceless(evos.Gen8b))
-                return true; // no voice, any level.
+            // If it was a "voiceless" species in BD/SP, then it can obtain it at any level.
+            foreach (var evo in evos.Gen8b)
+            {
+                if (PersonalInfo8BDSP.IsVoiceless(evo.Species))
+                    return true; // no voice, any level.
+            }
             if (IsWellTraveled30(pk))
                 return true; // traveled well
         }
@@ -230,42 +233,6 @@ public static class RibbonRules
     }
 
     /// <summary>
-    /// Checks if any of the species it existed as in BD/SP was "voiceless".
-    /// </summary>
-    private static bool IsVoiceless(ReadOnlySpan<EvoCriteria> evos)
-    {
-        foreach (var evo in evos)
-        {
-            if (IsVoiceless(evo.Species))
-                return true;
-        }
-        return false;
-    }
-
-    private static bool IsVoiceless(ushort species)
-    {
-        var arr = VoicelessBDSP;
-        int index = species >> 3;
-        if (index >= arr.Length)
-            return false;
-        int bit = species & 7;
-        return (arr[index] & (1 << bit)) != 0;
-    }
-
-    // If true, can obtain the Footprint ribbon at any level ("voiceless"). If false, requires gaining 30 levels to obtain ribbon.
-    // Derived from ROM data: false for all Footprint types besides `5`.
-    // Metapod, Kakuna, Paras, Parasect, Venomoth, Magnemite, Magneton, Staryu, Starmie, Porygon, Kabuto, Xatu, Unown, Pineco, Forretress,
-    // Remoraid, Porygon2, Pupitar, Silcoon, Cascoon, Seedot, Nincada, Nosepass, Lunatone, Solrock, Baltoy, Claydol, Lileep, Cradily,
-    // Anorith, Shelgon, Beldum, Metang, Regirock, Regice, Registeel, Bronzor, Bronzong, Magnezone, Porygon-Z, Probopass, Regigigas
-    private static ReadOnlySpan<byte> VoicelessBDSP =>
-    [
-        0x00, 0x48, 0x00, 0x00, 0x00, 0xC0, 0x02, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00, 0x00, 0x03,
-        0x00, 0x12, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x32, 0x00, 0x80, 0x00, 0x02, 0x80, 0x00,
-        0x00, 0x14, 0x02, 0x00, 0x04, 0x08, 0x00, 0x00, 0x00, 0x00, 0x86, 0x0F, 0x00, 0x00, 0xD0, 0x0E,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x40, 0x00, 0x14, 0x40,
-    ];
-
-    /// <summary>
     /// Checks if the input can receive the <see cref="IRibbonSetEvent3.RibbonNational"/> ribbon.
     /// </summary>
     /// <remarks>
@@ -372,7 +339,7 @@ public static class RibbonRules
     /// <summary>
     /// Checks if the input species could have participated in any Battle Frontier trial.
     /// </summary>
-    public static bool IsAllowedBattleFrontier(ushort species) => !BattleFrontierBanlist.Contains(species);
+    public static bool IsAllowedBattleFrontier(ushort species) => BattleFrontierBanlist.BinarySearch(species) < 0;
 
     /// <summary>
     /// Checks if the input species could have participated in Generation 4's Battle Frontier.
@@ -396,9 +363,12 @@ public static class RibbonRules
     }
 
     /// <summary>
-    /// Generation 3 &amp; 4 Battle Frontier Species banlist. When referencing this in context to generation 4, be sure to disallow <see cref="Pichu"/> with Form 1 (Spiky).
+    /// Generation 3 &amp; 4 Battle Frontier Species banlist. Sorted in ascending order for binary search.
     /// </summary>
-    public static readonly HashSet<ushort> BattleFrontierBanlist =
+    /// <remarks>
+    /// When referencing this in context to generation 4, be sure to disallow <see cref="Pichu"/> with Form 1 (Spiky).
+    /// </remarks>
+    public static ReadOnlySpan<ushort> BattleFrontierBanlist =>
     [
         (int)Mewtwo, (int)Mew,
         (int)Lugia, (int)HoOh, (int)Celebi,

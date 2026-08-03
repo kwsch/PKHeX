@@ -169,4 +169,32 @@ public sealed class PersonalInfo8BDSP(Memory<byte> Raw)
         (int)Move.HydroCannon,
         (int)Move.DracoMeteor,
     ];
+
+    /// <summary>
+    /// Checks if the <see cref="species"/> is "voiceless", meaning it can obtain the Footprint ribbon at any level.
+    /// </summary>
+    /// <param name="species">The species to check.</param>
+    /// <returns><c>true</c> if the species is voiceless, <c>false</c> otherwise.</returns>
+    public static bool IsVoiceless(ushort species)
+    {
+        var arr = VoicelessBDSP;
+        int index = species >> 3;
+        if (index >= arr.Length)
+            return false;
+        int bit = species & 7;
+        return (arr[index] & (1 << bit)) != 0;
+    }
+
+    // If true, can obtain the Footprint ribbon at any level ("voiceless"). If false, requires gaining 30 levels to obtain ribbon.
+    // Derived from ROM data: false for all Footprint types besides `5`.
+    // Metapod, Kakuna, Paras, Parasect, Venomoth, Magnemite, Magneton, Staryu, Starmie, Porygon, Kabuto, Xatu, Unown, Pineco, Forretress,
+    // Remoraid, Porygon2, Pupitar, Silcoon, Cascoon, Seedot, Nincada, Nosepass, Lunatone, Solrock, Baltoy, Claydol, Lileep, Cradily,
+    // Anorith, Shelgon, Beldum, Metang, Regirock, Regice, Registeel, Bronzor, Bronzong, Magnezone, Porygon-Z, Probopass, Regigigas
+    private static ReadOnlySpan<byte> VoicelessBDSP =>
+    [
+        0x00, 0x48, 0x00, 0x00, 0x00, 0xC0, 0x02, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00, 0x00, 0x03,
+        0x00, 0x12, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x32, 0x00, 0x80, 0x00, 0x02, 0x80, 0x00,
+        0x00, 0x14, 0x02, 0x00, 0x04, 0x08, 0x00, 0x00, 0x00, 0x00, 0x86, 0x0F, 0x00, 0x00, 0xD0, 0x0E,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x40, 0x00, 0x14, 0x40,
+    ];
 }
