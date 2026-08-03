@@ -361,7 +361,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IStringConverter
     private static bool IsUpdateRecord(EntityImportOption option = EntityImportOption.UseDefault)
     {
         if (option == EntityImportOption.UseDefault)
-            option = SetUpdateDex;
+            option = SetUpdateRecords;
         return option == EntityImportOption.Enable;
     }
 
