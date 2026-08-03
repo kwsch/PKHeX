@@ -61,6 +61,7 @@
     "EggShinyPokeStar": "Le Uova non possono essere Star del Pokéwood.",
     "EggSpecies": "Impossibile ottenere Uova di questa specie.",
     "EggUnhatched": "Uovo non schiuso valido.",
+    "EggBreedChain_0": "Catena di allevamento tramite uova: {0}",
     "EncCondition": "Incontro selvatico valido nel luogo.",
     "EncConditionBadRNGFrame": "Impossibile trovare una corrispondenza delle condizioni di incontro ad un possibile Frame RNG.",
     "EncConditionBadSpecies": "La specie non esiste nel gioco di origine.",

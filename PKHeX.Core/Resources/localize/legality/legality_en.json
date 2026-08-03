@@ -61,6 +61,7 @@
     "EggShinyPokeStar": "Eggs cannot be a Pokéstar Studios star.",
     "EggSpecies": "Can't obtain Egg for this species.",
     "EggUnhatched": "Valid un-hatched Egg.",
+    "EggBreedChain_0": "Egg Breed Chain: {0}",
     "EncCondition": "Valid Wild Encounter at location.",
     "EncConditionBadRNGFrame": "Unable to match encounter conditions to a possible RNG frame.",
     "EncConditionBadSpecies": "Species does not exist in origin game.",

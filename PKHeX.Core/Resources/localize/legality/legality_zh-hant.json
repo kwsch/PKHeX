@@ -61,6 +61,7 @@
     "EggShinyPokeStar": "蛋無法成為寶可夢好萊塢之星。",
     "EggSpecies": "不能獲得該種寶可夢之蛋。",
     "EggUnhatched": "合法孵化之蛋。",
+    "EggBreedChain_0": "蛋繁殖鏈：{0}",
     "EncCondition": "合法野外遇見方式。",
     "EncConditionBadRNGFrame": "遇見方式可能無法與可行之亂數幀相匹配。",
     "EncConditionBadSpecies": "該寶可夢於出身游戲中不存在。",

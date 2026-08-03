@@ -61,6 +61,7 @@
     "EggShinyPokeStar": "Eier können kein Pokéwood-Star sein.",
     "EggSpecies": "Für diese Spezies kann kein Ei erhalten werden.",
     "EggUnhatched": "Gültiges, nicht ausgebrütetes Ei.",
+    "EggBreedChain_0": "Ei-Zuchtkette: {0}",
     "EncCondition": "Gültige wilde Begegnung an diesem Ort.",
     "EncConditionBadRNGFrame": "Begegnungsbedingungen konnten keinem möglichen RNG-Frame zugeordnet werden.",
     "EncConditionBadSpecies": "Spezies existiert nicht im Herkunftsspiel.",

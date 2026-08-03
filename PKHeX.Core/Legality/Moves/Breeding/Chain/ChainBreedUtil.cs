@@ -44,7 +44,7 @@ public static class ChainBreedUtil
     }
 
     /// <inheritdoc cref="Summarize(GameStrings, ushort, byte, GameVersion, ReadOnlySpan{ushort})"/>
-    public static string Summarize(GameStrings strings, ChainBreedTrace trace)
+    public static string Summarize(GameStrings strings, in ChainBreedTrace trace)
     {
         var sb = new StringBuilder();
         WriteHeader(trace, sb);
@@ -52,7 +52,7 @@ public static class ChainBreedUtil
     }
 
     /// <inheritdoc cref="Summarize(GameStrings, ushort, byte, GameVersion, ReadOnlySpan{ushort})"/>
-    public static void Summarize(GameStrings strings, ChainBreedTrace trace, StringBuilder sb)
+    public static void Summarize(GameStrings strings, in ChainBreedTrace trace, StringBuilder sb)
     {
         WriteHeader(trace, sb);
         for (var i = trace.Steps.Length - 1; i >= 0; i--)
@@ -62,38 +62,38 @@ public static class ChainBreedUtil
         }
     }
 
-    private static void WriteHeader(ChainBreedTrace trace, StringBuilder sb)
+    private static void WriteHeader(in ChainBreedTrace trace, StringBuilder sb)
     {
         int count = trace.Count;
         var breed = trace.GetDepth(ChainBreedStepKind.Breed);
         var transfer = trace.GetDepth(ChainBreedStepKind.Transfer);
         if (transfer == 0)
-            sb.AppendLine($"{count} steps:");
+            sb.AppendLine($"{count} 🥚.");
         else
-            sb.AppendLine($"{count} steps (Breed: {breed}, Transfer: {transfer}):");
+            sb.AppendLine($"{count} = {breed} 🥚 & {transfer} ♻️.");
     }
 
-    private static void WriteEntry(ChainBreedStep entry, StringBuilder sb, GameStrings strings, int index)
+    private static void WriteEntry(in ChainBreedStep entry, StringBuilder sb, GameStrings strings, int index)
     {
         var speciesName = GetSpeciesName(strings, entry.Species, entry.Form);
         var versionName = GetGameVersionName(strings, entry.Version);
-        sb.AppendLine($"[{index}] {speciesName} ({versionName})");
+        sb.AppendLine($"{index}) {speciesName} ({versionName})");
 
         if (entry.Kind == ChainBreedStepKind.Breed)
         {
             var motherName = GetSpeciesName(strings, entry.MotherSpecies, entry.MotherForm);
             var fatherName = GetSpeciesName(strings, entry.FatherSpecies, entry.FatherForm);
-            sb.Append($"    Mother: {motherName}, Father: {fatherName}");
+            sb.Append($"    ♀: {motherName} + ♂: {fatherName}");
         }
         else if (entry.Kind == ChainBreedStepKind.Transfer)
         {
-            sb.Append($"    Transferred from {entry.OriginVersion.Context} to {entry.Version.Context}");
+            sb.Append($"    {entry.OriginVersion.Context} => {entry.Version.Context}");
         }
         sb.AppendLine();
         if (entry.MoveCount == 0)
             return;
 
-        sb.Append("    Moves: ");
+        sb.Append("    ");
         for (int moveIndex = 0; moveIndex < entry.MoveCount; moveIndex++)
         {
             ushort moveID = moveIndex switch

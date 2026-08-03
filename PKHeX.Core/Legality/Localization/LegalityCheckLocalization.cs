@@ -102,6 +102,7 @@ public sealed class LegalityCheckLocalization
     public string EggShinyPokeStar { get; init; } = "Eggs cannot be a Pokéstar Studios star.";
     public string EggSpecies { get; init; } = "Can't obtain Egg for this species.";
     public string EggUnhatched { get; init; } = "Valid un-hatched Egg.";
+    public string EggBreedChain_0 { get; set; } = "Egg Breed Chain: {0}";
 
     public string EncCondition { get; init; } = "Valid Wild Encounter at location.";
     public string EncConditionBadRNGFrame { get; init; } = "Unable to match encounter conditions to a possible RNG frame.";

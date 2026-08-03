@@ -98,6 +98,8 @@ internal sealed class EggVerifier : Verifier
 
         if (!ChainBreedLegality.IsValid(egg.Species, egg.Form, egg.Version, moves))
             data.AddLine(GetInvalid(Egg, EggMoveCombination));
+        else
+            data.AddLine(GetValid(EggBreedChain_0));
     }
 
     private static int GatherInheritedMoves(Span<ushort> moves, ReadOnlySpan<MoveResult> parse, bool includeInheritedLevelUp)

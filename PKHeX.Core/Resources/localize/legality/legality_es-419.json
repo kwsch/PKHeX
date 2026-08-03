@@ -61,6 +61,7 @@
     "EggShinyPokeStar": "Los Huevos no pueden ser estrellas cinematográficas de Estudios Pokéstar.",
     "EggSpecies": "Esta especie no puede tener Huevos.",
     "EggUnhatched": "Huevo eclosionado inválido.",
+    "EggBreedChain_0": "Cadena de crianza por huevos: {0}",
     "EncCondition": "Encuentro salvaje válido en la localización.",
     "EncConditionBadRNGFrame": "Imposible de encontrar las condiciones para un posible frame de RNG.",
     "EncConditionBadSpecies": "La especie no existe en el juego de origen.",

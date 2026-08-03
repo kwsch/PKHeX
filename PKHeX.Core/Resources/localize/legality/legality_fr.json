@@ -61,6 +61,7 @@
     "EggShinyPokeStar": "Les Œufs ne peuvent pas être de stars du Pokéwood.",
     "EggSpecies": "Un Œuf ne peut pas être obtenu pour cette espèce.",
     "EggUnhatched": "Œuf non-éclos valide.",
+    "EggBreedChain_0": "Chaîne de reproduction par œufs : {0}",
     "EncCondition": "Rencontre de Pokémon sauvage valide à cet endroit.",
     "EncConditionBadRNGFrame": "Impossible de générer une séquence RNG correspondant aux conditions de rencontre.",
     "EncConditionBadSpecies": "L'espèce n'existe pas dans le jeu d'origine.",

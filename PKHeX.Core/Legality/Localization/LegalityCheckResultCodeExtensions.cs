@@ -91,6 +91,7 @@ public static class LegalityCheckResultCodeExtensions
             EggShinyPokeStar => localization.EggShinyPokeStar,
             EggSpecies => localization.EggSpecies,
             EggUnhatched => localization.EggUnhatched,
+            EggBreedChain_0 => localization.EggBreedChain_0,
 
             // Encounter
             EncCondition => localization.EncCondition,

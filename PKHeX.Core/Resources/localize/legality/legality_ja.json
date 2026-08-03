@@ -61,6 +61,7 @@
     "EggShinyPokeStar": "タマゴにポケウッドのスターを付与することはできません。",
     "EggSpecies": "このポケモンのタマゴは入手できません。",
     "EggUnhatched": "孵化していない正規のタマゴ。",
+    "EggBreedChain_0": "タマゴ孵化チェーン：{0}",
     "EncCondition": "正規の場所で会った野生のポケモン。",
     "EncConditionBadRNGFrame": "Unable to match encounter conditions to a possible RNG frame.",
     "EncConditionBadSpecies": "このポケモンはこのゲームに登場しません。",
