@@ -1541,31 +1541,31 @@
 2173	f	Can Fly to Sootopolis City
 2174	f	Can Fly to Ever Grande City
 2216	f	Can Fly to Battle Frontier
-2204	m	Visited Flower Shop
-2205	m	Visited Mr. Briney's Cottage
-2206	m	Visited Abandoned Ship
-2207	m	Visited Seashore House
-2208	m	Visited New Mauville
-2209	m	Visited Old Lady's Rest Stop
-2210	m	Visited Trick House
-2211	m	Visited The Winstrate Family
-2212	m	Visited Glass Workshop
-2213	m	Visited Lanette's House
-2214	m	Visited Pokémon Day Care
-2215	m	Visited Seafloor Cavern
-2218	m	Visited Fiery Path
-2228	m	Visited Pokémon League
-2229	m	Visited Island Cave
-2230	m	Visited Desert Ruins
-2231	m	Visited Fossil Maniac's House
-2232	m	Visited Scorched Slab
-2233	m	Visited Ancient Tomb
-2234	m	Visited Tunneler's Rest House
-2235	m	Visited Hunter's House
-2236	m	Visited Sealed Chamber
-2238	m	Visited Sky Pillar
-2243	m	Visited Berry Master's House
-2268	m	Visited Mirage Tower
-2269	m	Visited Altering Cave
-2270	m	Visited Desert Underpass
-2274	m	Visited Trainer Hill
+2204	f	Visited Flower Shop
+2205	f	Visited Mr. Briney's Cottage
+2206	f	Visited Abandoned Ship
+2207	f	Visited Seashore House
+2208	f	Visited New Mauville
+2209	f	Visited Old Lady's Rest Stop
+2210	f	Visited Trick House
+2211	f	Visited The Winstrate Family
+2212	f	Visited Glass Workshop
+2213	f	Visited Lanette's House
+2214	f	Visited Pokémon Day Care
+2215	f	Visited Seafloor Cavern
+2218	f	Visited Fiery Path
+2228	f	Visited Pokémon League
+2229	f	Visited Island Cave
+2230	f	Visited Desert Ruins
+2231	f	Visited Fossil Maniac's House
+2232	f	Visited Scorched Slab
+2233	f	Visited Ancient Tomb
+2234	f	Visited Tunneler's Rest House
+2235	f	Visited Hunter's House
+2236	f	Visited Sealed Chamber
+2238	f	Visited Sky Pillar
+2243	f	Visited Berry Master's House
+2268	f	Visited Mirage Tower
+2269	f	Visited Altering Cave
+2270	f	Visited Desert Underpass
+2274	f	Visited Trainer Hill
