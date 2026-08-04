@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:conv="using:PKHeX.Avalonia.Converters"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.BlockEditor"
+             x:DataType="vm:BlockEditorViewModel"
+             MinWidth="600" MinHeight="500">
+    <DockPanel Margin="16">
+        <!-- Header -->
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc BlockEditor_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,12" />
+
+        <!-- Search and Action Buttons -->
+        <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="0,0,0,12">
+            <TextBox Grid.Column="0" Text="{Binding SearchText}" AutomationProperties.Name="Search" Watermark="{loc:Loc BlockEditor_SearchWatermark}" Margin="0,0,8,0" />
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                <Button Content="{loc:Loc BlockEditor_ExportButton}" Command="{Binding ExportBlockCommand}" IsEnabled="{Binding SelectedBlock, Converter={x:Static conv:ObjectConverters.IsNotNull}}" Padding="12,6" />
+                <Button Content="{loc:Loc BlockEditor_ImportButton}" Command="{Binding ImportBlockCommand}" IsEnabled="{Binding SelectedBlock, Converter={x:Static conv:ObjectConverters.IsNotNull}}" Padding="12,6" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Block List -->
+        <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}" BorderThickness="1" CornerRadius="4">
+            <DataGrid ItemsSource="{Binding FilteredBlocks}"
+                      SelectedItem="{Binding SelectedBlock}"
+                      IsReadOnly="True"
+                      SelectionMode="Single"
+                      CanUserReorderColumns="True"
+                      CanUserResizeColumns="True"
+                      CanUserSortColumns="True"
+                      AutoGenerateColumns="False"
+                      GridLinesVisibility="All"
+                      HeadersVisibility="All">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{loc:Loc BlockEditor_KeyHeader}" Binding="{Binding Key}" Width="100" />
+                    <DataGridTextColumn Header="{loc:Loc BlockEditor_NameTypeHeader}" Binding="{Binding Name}" Width="*" />
+                    <DataGridTextColumn Header="{loc:Loc BlockEditor_OffsetHeader}" Binding="{Binding OffsetString}" Width="80" />
+                    <DataGridTextColumn Header="{loc:Loc BlockEditor_SizeHeader}" Binding="{Binding SizeString}" Width="90" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </DockPanel>
+</UserControl>

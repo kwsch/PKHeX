@@ -1,0 +1,50 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:PKHeX.Avalonia.Converters"
+             x:Class="PKHeX.Avalonia.App"
+             RequestedThemeVariant="Dark">
+    <!--
+        RequestedThemeVariant above is only the XAML-time fallback used for the brief window
+        before ThemeService.Initialize() runs in App.axaml.cs, which applies the persisted
+        preference (including Light/HighContrast/System) before the main window is created.
+        Per-variant palettes live in Styles/Theme.axaml's ThemeDictionaries.
+    -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Add other resources here if needed -->
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--
+                Override FluentTheme accent colors with Pokemon Red. Kept as a single constant
+                (not a per-theme token) intentionally: this is the app's brand accent, consumed
+                internally by FluentTheme's own built-in controls, and must stay in
+                Application.Resources (not a Style's resources) to reliably take precedence over
+                FluentTheme's own SystemAccentColor* resources.
+            -->
+            <Color x:Key="SystemAccentColor">#E3350D</Color>
+            <Color x:Key="SystemAccentColorDark1">#CC0000</Color>
+            <Color x:Key="SystemAccentColorDark2">#990000</Color>
+            <Color x:Key="SystemAccentColorDark3">#660000</Color>
+            <Color x:Key="SystemAccentColorLight1">#FF5533</Color>
+            <Color x:Key="SystemAccentColorLight2">#FF7755</Color>
+            <Color x:Key="SystemAccentColorLight3">#FF9977</Color>
+
+            <!-- Override Focus Visuals to remove yellow/accent border -->
+            <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="SystemControlFocusVisualSecondaryBrush" Color="Transparent" />
+            
+            <converters:ObjectNullConverter x:Key="ObjectNullConverter" />
+            <converters:ObjectTrueConverter x:Key="ObjectTrueConverter" />
+            <converters:ObjectFalseConverter x:Key="ObjectFalseConverter" />
+            <converters:PngBytesToBitmapConverter x:Key="PngBytesToBitmap" />
+            <converters:RibbonIconConverter x:Key="RibbonIcon" />
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="avares://PKHeX.Avalonia/Styles/Theme.axaml" />
+    </Application.Styles>
+</Application>

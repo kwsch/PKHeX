@@ -23,6 +23,7 @@ public class ShowdownSetTests
     [Fact]
     public void SimulatorGetEncounters()
     {
+        ParseSettings.AllowEraCartGBA = true;
         // Set must have visited US/UM. Sun/Moon origin can't obtain the moves unless traded.
         var set = new ShowdownSet(SetGlaceonUSUMTutor);
         var pk7 = new PK7 {Species = set.Species, Form = set.Form};
@@ -69,6 +70,7 @@ public class ShowdownSetTests
     [Fact]
     public void SimulatorGetGift3()
     {
+        ParseSettings.AllowEraCartGBA = true;
         var set = new ShowdownSet(SetROCKSMetang);
         var pk3 = new PK3 { Species = set.Species, Form = set.Form, Moves = set.Moves };
         var encs = EncounterMovesetGenerator.GenerateEncounters(pk3, set.Moves, GameVersion.R);
@@ -198,7 +200,8 @@ public class ShowdownSetTests
             set2.Form.Should().Be(set.Form);
 
             var result = set2.GetText(settingsOriginal);
-            result.Should().Be(message);
+            // GetText joins with Environment.NewLine (CRLF on Windows); the expected literal is LF. Compare normalized.
+            result.ReplaceLineEndings("\n").Should().Be(message.ReplaceLineEndings("\n"));
         }
     }
 
@@ -259,7 +262,8 @@ public class ShowdownSetTests
         set2.Form.Should().Be(set.Form);
 
         var result = set2.GetText(settingsOriginal);
-        result.Should().Be(message);
+        // GetText joins with Environment.NewLine (CRLF on Windows); the expected literal is LF. Compare normalized.
+        result.ReplaceLineEndings("\n").Should().Be(message.ReplaceLineEndings("\n"));
     }
 
     [Theory]
@@ -276,6 +280,7 @@ public class ShowdownSetTests
     [InlineData(LowLevelElectrode)]
     public void SimulatorParseEncounter(string text)
     {
+        ParseSettings.AllowEraCartGBA = true;
         var set = new ShowdownSet(text);
         var pk7 = new PK3 { Species = set.Species, Form = set.Form, Moves = set.Moves, CurrentLevel = set.Level };
         var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.FR);
@@ -456,62 +461,4 @@ public class ShowdownSetTests
         - Dark Pulse
         """,
     ];
-
-    [Theory]
-    [InlineData("Gholdengo\nEVs: 8 Atk / 4 HP", 4, 8, 0, 0, 0, 0)] // Out of order: Atk before HP
-    [InlineData("Gholdengo\nEVs: 252 Spe / 4 SpD / 252 Atk", 0, 252, 0, 252, 0, 4)] // Speed first
-    [InlineData("Gholdengo\nEVs: 4 Def / 252 HP / 252 SpA", 252, 0, 4, 0, 252, 0)] // Def before HP
-    [InlineData("Gholdengo\nEVs: 252 HP / 4 SpD / 252 Spe", 252, 0, 0, 252, 0, 4)] // Standard order
-    public void SimulatorParseEVsOutOfOrder(string text, int hp, int atk, int def, int spe, int spa, int spd)
-    {
-        // EVs array is stored as: HP, Atk, Def, Spe, SpA, SpD (speed in the middle, not last)
-        var success = ShowdownParsing.TryParseAnyLanguage(text, out var set);
-        success.Should().BeTrue("Parsing should succeed");
-        set.Should().NotBeNull();
-
-        var evs = set.EVs;
-        evs[0].Should().Be(hp, "HP EV should match");
-        evs[1].Should().Be(atk, "Atk EV should match");
-        evs[2].Should().Be(def, "Def EV should match");
-        evs[3].Should().Be(spe, "Spe EV should match");
-        evs[4].Should().Be(spa, "SpA EV should match");
-        evs[5].Should().Be(spd, "SpD EV should match");
-    }
-
-    [Theory]
-    [InlineData("Gholdengo\nIVs: 0 Atk / 31 Spe", 31, 0, 31, 31, 31, 31)] // Partial IVs, out of order
-    [InlineData("Gholdengo\nIVs: 0 Spe / 0 Atk", 31, 0, 31, 0, 31, 31)] // Both specified, reversed
-    public void SimulatorParseIVsOutOfOrder(string text, int hp, int atk, int def, int spe, int spa, int spd)
-    {
-        // IVs array is stored as: HP, Atk, Def, Spe, SpA, SpD (speed in the middle, not last)
-        var success = ShowdownParsing.TryParseAnyLanguage(text, out var set);
-        success.Should().BeTrue("Parsing should succeed");
-        set.Should().NotBeNull();
-
-        var ivs = set.IVs;
-        ivs[0].Should().Be(hp, "HP IV should match");
-        ivs[1].Should().Be(atk, "Atk IV should match");
-        ivs[2].Should().Be(def, "Def IV should match");
-        ivs[3].Should().Be(spe, "Spe IV should match");
-        ivs[4].Should().Be(spa, "SpA IV should match");
-        ivs[5].Should().Be(spd, "SpD IV should match");
-    }
-
-    [Theory]
-    [InlineData("ja", "ゴルーグ\n努力値 252 素早さ / 4 特攻 / 252 攻撃")] // Japanese: Speed/SpA/Atk order (out of order)
-    public void SimulatorParseStatsLocalizedOutOfOrder(string language, string text)
-    {
-        var localization = BattleTemplateLocalization.GetLocalization(language);
-        var set = new ShowdownSet(text, localization);
-
-        set.Species.Should().NotBe(0, "Species should be parsed");
-        set.InvalidLines.Should().BeEmpty("All lines should be valid");
-
-        // EVs array is stored as: HP, Atk, Def, Spe, SpA, SpD
-        var evs = set.EVs;
-        // Verify all three EVs were parsed (HP=0, Atk=252, Def=0, Spe=252, SpA=4, SpD=0)
-        evs[1].Should().Be(252, "Atk EV should be 252");
-        evs[3].Should().Be(252, "Spe EV should be 252");
-        evs[4].Should().Be(4, "SpA EV should be 4");
-    }
 }

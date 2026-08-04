@@ -1,0 +1,108 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Misc8bEditor"
+             x:DataType="vm:Misc8bEditorViewModel">
+
+    <Design.DataContext>
+        <vm:Misc8bEditorViewModel />
+    </Design.DataContext>
+
+    <Border Padding="16" Classes="view-container">
+        <Grid RowDefinitions="*,Auto">
+            <ScrollViewer>
+                <StackPanel Spacing="16" Margin="0,8,0,0">
+                    <TextBlock Text="{loc:Loc Misc8bEditor_Title}" Classes="view-title" />
+
+                    <!-- Mythical Pokemon Section -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Misc8bEditor_MythicalSection}" FontWeight="SemiBold" Opacity="0.6" />
+                            <TextBlock Text="{loc:Loc Misc8bEditor_MythicalDescription}"
+                                       Opacity="0.7" TextWrapping="Wrap" FontSize="12"/>
+
+                            <WrapPanel Orientation="Horizontal" Margin="0,4,-8,-8">
+                                <Button Content="{loc:Loc Misc8bEditor_UnlockSpiritomb}"
+                                        Command="{Binding UnlockSpiritombCommand}"
+                                        IsEnabled="{Binding CanUnlockSpiritomb}"
+                                        Margin="0,0,8,8"/>
+                                <Button Content="{loc:Loc Misc8bEditor_UnlockDarkrai}"
+                                        Command="{Binding UnlockDarkraiCommand}"
+                                        IsEnabled="{Binding CanUnlockDarkrai}"
+                                        Margin="0,0,8,8"/>
+                                <Button Content="{loc:Loc Misc8bEditor_UnlockShaymin}"
+                                        Command="{Binding UnlockShayminCommand}"
+                                        IsEnabled="{Binding CanUnlockShaymin}"
+                                        Margin="0,0,8,8"/>
+                                <Button Content="{loc:Loc Misc8bEditor_UnlockArceus}"
+                                        Command="{Binding UnlockArceusCommand}"
+                                        IsEnabled="{Binding CanUnlockArceus}"
+                                        Margin="0,0,8,8"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Legendary Pokemon Section -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Misc8bEditor_LegendarySection}" FontWeight="SemiBold" Opacity="0.6" />
+
+                            <WrapPanel Orientation="Horizontal" Margin="0,0,-8,-8">
+                                <Button Content="{loc:Loc Misc8bEditor_RespawnBoxLegend}"
+                                        Command="{Binding UnlockBoxLegendCommand}"
+                                        IsEnabled="{Binding CanUnlockBoxLegend}"
+                                        Margin="0,0,8,8"/>
+                                <Button Content="{loc:Loc Misc8bEditor_RespawnRoamers}"
+                                        Command="{Binding RespawnRoamersCommand}"
+                                        IsEnabled="{Binding CanRespawnRoamer}"
+                                        Margin="0,0,8,8"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Trainer Battles Section -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Misc8bEditor_TrainerBattlesSection}" FontWeight="SemiBold" Opacity="0.6" />
+
+                            <WrapPanel Orientation="Horizontal" Margin="0,0,-8,-8">
+                                <Button Content="{loc:Loc Misc8bEditor_DefeatAllTrainers}"
+                                        Command="{Binding DefeatAllTrainersCommand}"
+                                        IsEnabled="{Binding CanDefeatAll}"
+                                        Margin="0,0,8,8"/>
+                                <Button Content="{loc:Loc Misc8bEditor_ResetAllTrainers}"
+                                        Command="{Binding RebattleAllTrainersCommand}"
+                                        IsEnabled="{Binding CanRebattle}"
+                                        Margin="0,0,8,8"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Unlockables Section -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Misc8bEditor_UnlockablesSection}" FontWeight="SemiBold" Opacity="0.6" />
+
+                            <WrapPanel Orientation="Horizontal" Margin="0,0,-8,-8">
+                                <Button Content="{loc:Loc Misc8bEditor_UnlockAllZones}"
+                                        Command="{Binding UnlockZonesCommand}"
+                                        IsEnabled="{Binding CanUnlockZones}"
+                                        Margin="0,0,8,8"/>
+                                <Button Content="{loc:Loc Misc8bEditor_UnlockAllFashion}"
+                                        Command="{Binding UnlockFashionCommand}"
+                                        IsEnabled="{Binding CanUnlockFashion}"
+                                        Margin="0,0,8,8"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Bottom Buttons -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12" Margin="0,16,0,0">
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

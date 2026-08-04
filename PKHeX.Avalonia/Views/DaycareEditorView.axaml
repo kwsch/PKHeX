@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.DaycareEditorView"
+             x:DataType="vm:DaycareEditorViewModel"
+             Width="400" Height="350">
+    <DockPanel Margin="16">
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc DaycareEditorView_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,12" />
+
+        <!-- No Daycare Message -->
+        <TextBlock IsVisible="{Binding !HasDaycare}" Text="{loc:Loc DaycareEditorView_NotSupported}"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <!-- Daycare Content -->
+        <StackPanel IsVisible="{Binding HasDaycare}" Spacing="12">
+            <!-- Egg Available Toggle -->
+            <Border IsVisible="{Binding HasEggState}" Classes="section-card">
+                <CheckBox Content="{loc:Loc DaycareEditorView_EggAvailable}" IsChecked="{Binding IsEggAvailable}" />
+            </Border>
+
+            <!-- Daycare Slots -->
+            <ItemsControl ItemsSource="{Binding Slots}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="vm:DaycareSlotViewModel">
+                        <Border Classes="section-card" Margin="0,0,0,8">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <Image Grid.Column="0" Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" Width="56" Height="48" Margin="0,0,12,0" />
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                                    <TextBlock Text="{Binding Species}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Level}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="4" IsVisible="{Binding $parent[UserControl].((vm:DaycareEditorViewModel)DataContext).HasExperience}">
+                                    <TextBlock Text="{loc:Loc DaycareEditorView_Exp}" FontSize="10" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                    <NumericUpDown Value="{Binding Experience}" Minimum="0" Maximum="4294967295" Width="100" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Refresh Button -->
+            <Button Content="{loc:Loc DaycareEditorView_Refresh}" Command="{Binding RefreshDaycareCommand}" HorizontalAlignment="Center" Padding="16,6" />
+        </StackPanel>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,140 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Roamer3Editor"
+             x:DataType="vm:Roamer3EditorViewModel">
+
+    <Design.DataContext>
+        <vm:Roamer3EditorViewModel />
+    </Design.DataContext>
+
+    <Border Padding="16" Classes="view-container">
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <!-- Header -->
+            <TextBlock Grid.Row="0" Text="{loc:Loc Roamer3Editor_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16" />
+            
+            <ScrollViewer Grid.Row="1">
+                <StackPanel Spacing="16">
+                    
+                    <!-- Glitch Warning -->
+                    <Border IsVisible="{Binding IsGlitched}"
+                            Background="{DynamicResource ThemeWarningGlowBrush}"
+                            BorderBrush="{DynamicResource ThemeWarningBrush}"
+                            BorderThickness="1" 
+                            CornerRadius="6" 
+                            Padding="12">
+                        <TextBlock Text="{Binding GlitchWarning}" 
+                                   Foreground="{DynamicResource ThemeWarningBrush}" 
+                                   TextWrapping="Wrap" />
+                    </Border>
+
+                    <!-- Species and Active -->
+                    <Border Classes="section-card" Padding="16">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Roamer3Editor_RoamerInfo}" FontWeight="SemiBold" Opacity="0.6" />
+
+                            <Grid ColumnDefinitions="100,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Roamer3Editor_Species}" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="0" Grid.Column="1"
+                                          ItemsSource="{Binding SpeciesList}"
+                                          SelectedIndex="{Binding SelectedSpeciesIndex}"
+                                          MinWidth="180"
+                                          HorizontalAlignment="Left">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Text}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Roamer3Editor_Active}" VerticalAlignment="Center" />
+                                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsActive}" />
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc Roamer3Editor_Level}" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="4" Grid.Column="1"
+                                               Value="{Binding CurrentLevel}"
+                                               Minimum="1" Maximum="100"
+                                               Classes="form-field"
+                                               HorizontalAlignment="Left" />
+
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc Roamer3Editor_CurrentHp}" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="6" Grid.Column="1"
+                                               Value="{Binding CurrentHp}"
+                                               Minimum="0" Maximum="999"
+                                               Classes="form-field"
+                                               HorizontalAlignment="Left" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- PID -->
+                    <Border Classes="section-card" Padding="16">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Roamer3Editor_Pid}" FontWeight="SemiBold" Opacity="0.6" />
+
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <TextBlock Text="{loc:Loc Roamer3Editor_PidHex}" VerticalAlignment="Center" Width="80" />
+                                <TextBox Text="{Binding PidHex}" Width="120" />
+                                <Button Content="{loc:Loc Roamer3Editor_Random}" Command="{Binding RandomPidCommand}" Padding="12,6" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="{loc:Loc Roamer3Editor_Shiny}" VerticalAlignment="Center" Opacity="0.7" />
+                                <TextBlock Text="{loc:Loc Roamer3Editor_Yes}" Foreground="{DynamicResource ThemeShinyGoldBrush}" FontWeight="SemiBold" IsVisible="{Binding IsShiny}" />
+                                <TextBlock Text="{loc:Loc Roamer3Editor_No}" Opacity="0.5" IsVisible="{Binding !IsShiny}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- IVs -->
+                    <Border Classes="section-card" Padding="16">
+                        <StackPanel Spacing="12">
+                            <DockPanel>
+                                <TextBlock Text="{loc:Loc Roamer3Editor_Ivs}" FontWeight="SemiBold" Opacity="0.6" VerticalAlignment="Center" />
+                                <Button Content="{loc:Loc Roamer3Editor_MaxAll}" Command="{Binding MaxIvsCommand}"
+                                        DockPanel.Dock="Right" Padding="12,4" />
+                            </DockPanel>
+
+                            <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,8,Auto">
+                                <!-- Row 1: HP, Atk, Def -->
+                                <StackPanel Grid.Row="0" Grid.Column="0" Spacing="4" Margin="0,0,8,0">
+                                    <TextBlock Text="{loc:Loc Roamer3Editor_Hp}" FontSize="12" Opacity="0.7" />
+                                    <NumericUpDown Value="{Binding IvHp}" Minimum="0" Maximum="31" Classes="form-field" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1" Spacing="4" Margin="0,0,8,0">
+                                    <TextBlock Text="{loc:Loc Roamer3Editor_Atk}" FontSize="12" Opacity="0.7" />
+                                    <NumericUpDown Value="{Binding IvAtk}" Minimum="0" Maximum="31" Classes="form-field" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="2" Spacing="4">
+                                    <TextBlock Text="{loc:Loc Roamer3Editor_Def}" FontSize="12" Opacity="0.7" />
+                                    <NumericUpDown Value="{Binding IvDef}" Minimum="0" Maximum="31" Classes="form-field" />
+                                </StackPanel>
+
+                                <!-- Row 2: Spe, SpA, SpD -->
+                                <StackPanel Grid.Row="2" Grid.Column="0" Spacing="4" Margin="0,0,8,0">
+                                    <TextBlock Text="{loc:Loc Roamer3Editor_Spe}" FontSize="12" Opacity="0.7" />
+                                    <NumericUpDown Value="{Binding IvSpe}" Minimum="0" Maximum="31" Classes="form-field" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="1" Spacing="4" Margin="0,0,8,0">
+                                    <TextBlock Text="{loc:Loc Roamer3Editor_Spa}" FontSize="12" Opacity="0.7" />
+                                    <NumericUpDown Value="{Binding IvSpa}" Minimum="0" Maximum="31" Classes="form-field" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="2" Spacing="4">
+                                    <TextBlock Text="{loc:Loc Roamer3Editor_Spd}" FontSize="12" Opacity="0.7" />
+                                    <NumericUpDown Value="{Binding IvSpd}" Minimum="0" Maximum="31" Classes="form-field" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Footer -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12" Margin="0,16,0,0">
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" Padding="16,8" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

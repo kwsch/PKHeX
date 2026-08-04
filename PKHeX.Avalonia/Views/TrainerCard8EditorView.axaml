@@ -1,0 +1,78 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.TrainerCard8EditorView"
+             x:DataType="vm:TrainerCard8EditorViewModel"
+             MinWidth="450" MinHeight="500">
+    <DockPanel Margin="16">
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc TrainerCard8EditorView_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,8" />
+        <TextBlock DockPanel.Dock="Top" Text="{Binding GameInfo}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Margin="0,0,0,12" />
+
+        <!-- Not Supported Message -->
+        <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc TrainerCard8EditorView_NotSupported}"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <!-- Trainer Card Content -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" IsVisible="{Binding IsSupported}">
+            <StackPanel Spacing="12">
+                <!-- Basic Info -->
+                <Border Classes="section-card">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc TrainerCard8EditorView_TrainerInfo}" FontWeight="SemiBold" Margin="0,0,0,4" />
+                        <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc TrainerCard8EditorView_Name}" VerticalAlignment="Center" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding TrainerName}" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc TrainerCard8EditorView_Starter}" VerticalAlignment="Center" />
+                            <ComboBox Grid.Row="1" Grid.Column="1" SelectedIndex="{Binding Starter}" HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="{loc:Loc TrainerCard8EditorView_Grookey}" />
+                                <ComboBoxItem Content="{loc:Loc TrainerCard8EditorView_Scorbunny}" />
+                                <ComboBoxItem Content="{loc:Loc TrainerCard8EditorView_Sobble}" />
+                            </ComboBox>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Stats -->
+                <Border Classes="section-card">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc TrainerCard8EditorView_Statistics}" FontWeight="SemiBold" Margin="0,0,0,4" />
+                        <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc TrainerCard8EditorView_PokedexOwned}" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding PokeDexOwned}" Minimum="0" Maximum="65535" Margin="0,0,0,4" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc TrainerCard8EditorView_ShinyPokemonFound}" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding ShinyPokemonFound}" Minimum="0" Maximum="65535" Margin="0,0,0,4" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc TrainerCard8EditorView_PokemonCaught}" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding CaughtPokemon}" Minimum="0" Maximum="99999" Margin="0,0,0,4" />
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc TrainerCard8EditorView_CurryTypesOwned}" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding CurryTypesOwned}" Minimum="0" Maximum="151" Margin="0,0,0,4" />
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc TrainerCard8EditorView_RotomRallyScore}" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding RotoRallyScore}" Minimum="0" Maximum="99999" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Pokédex Completion -->
+                <Border Classes="section-card">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc TrainerCard8EditorView_PokedexCompletion}" FontWeight="SemiBold" Margin="0,0,0,4" />
+                        <CheckBox Content="{loc:Loc TrainerCard8EditorView_GalarComplete}" IsChecked="{Binding PokeDexComplete}" />
+                        <CheckBox Content="{loc:Loc TrainerCard8EditorView_ArmorComplete}" IsChecked="{Binding ArmorDexComplete}" />
+                        <CheckBox Content="{loc:Loc TrainerCard8EditorView_CrownComplete}" IsChecked="{Binding CrownDexComplete}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Actions -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+                    <Button Content="{loc:Loc TrainerCard8EditorView_SaveChanges}" Command="{Binding SaveCommand}" Padding="16,8" />
+                    <Button Content="{loc:Loc TrainerCard8EditorView_SetPartyToCard}" Command="{Binding SetPartyToCardCommand}" Padding="16,8" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

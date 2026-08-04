@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.ChatterEditor"
+             x:DataType="vm:ChatterEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc ChatterEditor_NotAvailable}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc ChatterEditor_NotAvailableDetail}" HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" TextWrapping="Wrap" MaxWidth="400" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <TextBlock Text="{loc:Loc ChatterEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <Button Content="{loc:Loc ChatterEditor_Refresh}" Command="{Binding RefreshCommand}" HorizontalAlignment="Right" Padding="12,6" />
+                </DockPanel>
+
+                <Border Classes="section-card" CornerRadius="4" Padding="16">
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="{loc:Loc ChatterEditor_Description}" TextWrapping="Wrap" Opacity="0.8" />
+
+                        <Grid ColumnDefinitions="Auto,8,*" RowDefinitions="Auto,8,Auto,8,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc ChatterEditor_Initialized}" VerticalAlignment="Center" />
+                            <CheckBox Grid.Row="0" Grid.Column="2" IsChecked="{Binding Initialized}" Content="{loc:Loc ChatterEditor_RecordingMade}" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc ChatterEditor_ConfusionChance}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding ConfusionChance, StringFormat='{}{0}%'}" VerticalAlignment="Center" FontWeight="SemiBold" />
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc ChatterEditor_HasRecording}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding HasRecording}" VerticalAlignment="Center" />
+                        </Grid>
+
+                        <Button Content="{loc:Loc ChatterEditor_ClearRecording}" Command="{Binding ClearRecordingCommand}" HorizontalAlignment="Left" Padding="12,6" />
+
+                        <TextBlock Text="{loc:Loc ChatterEditor_ImportExportNote}" FontSize="11" Opacity="0.6" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

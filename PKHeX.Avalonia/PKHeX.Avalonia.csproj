@@ -1,0 +1,94 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <RootNamespace>PKHeX.Avalonia</RootNamespace>
+    <Product>PKHeX-Avalonia</Product>
+    <AssemblyTitle>PKHeX-Avalonia</AssemblyTitle>
+    <ApplicationIcon>Assets/Icons/icon.ico</ApplicationIcon>
+    <CFBundleIconFile>icon.icns</CFBundleIconFile>
+    <!-- Override assembly version with UIVersion for Avalonia releases -->
+    <Version>$(UIVersion)</Version>
+    <AssemblyVersion>$(UIVersion).0</AssemblyVersion>
+    <FileVersion>$(UIVersion).0</FileVersion>
+    <InformationalVersion>$(UIVersion)</InformationalVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Icons\icon.icns">
+      <Link>icon.icns</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Exposes internal helpers (e.g. SlotDragTransfer) for headless unit testing. -->
+    <InternalsVisibleTo Include="PKHeX.Avalonia.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Avalonia UI -->
+    <PackageReference Include="Avalonia" Version="11.3.18" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.13" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.18" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.18" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.18" />
+
+    <!-- MVVM -->
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+
+    <!-- DI -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
+    <PackageReference Include="QRCoder" Version="1.6.0" />
+
+    <!-- Rendering (for sprites) -->
+    <PackageReference Include="SkiaSharp" Version="3.119.4" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.4" />
+
+    <!-- Explicitly upgrade transitive native assets to avoid version conflicts -->
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.4" />
+
+    <!-- Diagnostics (dev only) -->
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.18" Condition="'$(Configuration)' == 'Debug'" />
+    <PackageReference Include="ZXing.Net" Version="0.16.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Reference existing PKHeX.Core (no modifications!) -->
+    <ProjectReference Include="..\PKHeX.Core\PKHeX.Core.csproj" />
+    <ProjectReference Include="..\PKHeX.Application\PKHeX.Application.csproj" />
+    <ProjectReference Include="..\PKHeX.Infrastructure\PKHeX.Infrastructure.csproj" />
+    <ProjectReference Include="..\PKHeX.Presentation\PKHeX.Presentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Embed all images recursively -->
+    <EmbeddedResource Include="Assets\Images\**\*.png" />
+    <AvaloniaResource Include="Assets/Icons/icon.ico" />
+  </ItemGroup>
+
+  <!-- macOS App Bundle Target -->
+  <Target Name="BundleApp" AfterTargets="Publish" Condition="'$(RuntimeIdentifier)' == 'osx-arm64' or '$(RuntimeIdentifier)' == 'osx-x64'">
+    <PropertyGroup>
+      <AppBundleDir>$(PublishDir)$(AssemblyName).app</AppBundleDir>
+      <ContentsDir>$(AppBundleDir)/Contents</ContentsDir>
+      <MacOSDir>$(ContentsDir)/MacOS</MacOSDir>
+      <ResourcesDir>$(ContentsDir)/Resources</ResourcesDir>
+    </PropertyGroup>
+    <MakeDir Directories="$(MacOSDir);$(ResourcesDir)" />
+    <ItemGroup>
+      <PublishFiles Include="$(PublishDir)**/*.*" Exclude="$(AppBundleDir)/**/*.*" />
+    </ItemGroup>
+    <Move SourceFiles="@(PublishFiles)" DestinationFolder="$(MacOSDir)" />
+    <Move SourceFiles="$(MacOSDir)/icon.icns" DestinationFolder="$(ResourcesDir)" Condition="Exists('$(MacOSDir)/icon.icns')" />
+    <!-- Info.plist -->
+    <WriteLinesToFile File="$(ContentsDir)/Info.plist" Lines="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#xA;&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;&#xA;&lt;plist version=&quot;1.0&quot;&gt;&#xA;&lt;dict&gt;&#xA;    &lt;key&gt;CFBundleName&lt;/key&gt;&#xA;    &lt;string&gt;$(AssemblyName)&lt;/string&gt;&#xA;    &lt;key&gt;CFBundleDisplayName&lt;/key&gt;&#xA;    &lt;string&gt;PKHeX&lt;/string&gt;&#xA;    &lt;key&gt;CFBundleIdentifier&lt;/key&gt;&#xA;    &lt;string&gt;io.pkhex.avalonia&lt;/string&gt;&#xA;    &lt;key&gt;CFBundleVersion&lt;/key&gt;&#xA;    &lt;string&gt;$(UIVersion)&lt;/string&gt;&#xA;    &lt;key&gt;CFBundlePackageType&lt;/key&gt;&#xA;    &lt;string&gt;APPL&lt;/string&gt;&#xA;    &lt;key&gt;CFBundleSignature&lt;/key&gt;&#xA;    &lt;string&gt;????&lt;/string&gt;&#xA;    &lt;key&gt;CFBundleExecutable&lt;/key&gt;&#xA;    &lt;string&gt;$(AssemblyName)&lt;/string&gt;&#xA;    &lt;key&gt;CFBundleIconFile&lt;/key&gt;&#xA;    &lt;string&gt;icon.icns&lt;/string&gt;&#xA;    &lt;key&gt;NSHighResolutionCapable&lt;/key&gt;&#xA;    &lt;true/&gt;&#xA;&lt;/dict&gt;&#xA;&lt;/plist&gt;" Overwrite="true" />
+    <!-- PkgInfo -->
+    <WriteLinesToFile File="$(ContentsDir)/PkgInfo" Lines="APPL????" Overwrite="true" />
+  </Target>
+</Project>

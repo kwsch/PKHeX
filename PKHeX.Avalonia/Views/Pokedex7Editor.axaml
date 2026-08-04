@@ -1,0 +1,87 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:core="clr-namespace:PKHeX.Core;assembly=PKHeX.Core"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="PKHeX.Avalonia.Views.Pokedex7Editor"
+             x:DataType="vm:Pokedex7EditorViewModel">
+    
+    <Border Padding="16" Classes="view-container">
+        <Grid ColumnDefinitions="280, 16, *" RowDefinitions="*,Auto">
+            <!-- Entry List -->
+            <Grid Grid.Column="0" RowDefinitions="Auto, 8, *">
+                <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc Pokedex7Editor_SearchSpeciesForm}" AutomationProperties.Name="Search Species/Form" />
+                <Border Grid.Row="2" Classes="section-card" Padding="0">
+                    <ListBox ItemsSource="{Binding Entries}" SelectedItem="{Binding SelectedEntry}" Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="core:ComboItem">
+                                <TextBlock Text="{Binding Text}" Padding="8,4"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+            
+            <!-- Details -->
+            <ScrollViewer Grid.Column="2">
+                <StackPanel Spacing="16">
+                    <!-- Entry Flags -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Pokedex7Editor_EntryFlags}" FontWeight="SemiBold" Opacity="0.6" />
+                            <CheckBox Content="{loc:Loc Pokedex7Editor_Caught}" IsChecked="{Binding Caught}" IsEnabled="{Binding IsCaughtEnabled}" FontWeight="SemiBold" />
+                            
+                            <Grid ColumnDefinitions="*, 16, *" RowDefinitions="Auto, 8, Auto">
+                                <!-- Headers -->
+                                <TextBlock Text="{loc:Loc Pokedex7Editor_Seen}" Grid.Column="0" FontWeight="SemiBold" Opacity="0.7" />
+                                <TextBlock Text="{loc:Loc Pokedex7Editor_Displayed}" Grid.Column="2" FontWeight="SemiBold" Opacity="0.7" />
+                                
+                                <!-- Seen Checkboxes -->
+                                <StackPanel Grid.Row="2" Grid.Column="0" Spacing="8">
+                                    <CheckBox Content="{loc:Loc Pokedex7Editor_Male}" IsChecked="{Binding SeenMale}" IsEnabled="{Binding CanBeMale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex7Editor_Female}" IsChecked="{Binding SeenFemale}" IsEnabled="{Binding CanBeFemale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex7Editor_MaleShiny}" IsChecked="{Binding SeenMaleShiny}" IsEnabled="{Binding CanBeMale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex7Editor_FemaleShiny}" IsChecked="{Binding SeenFemaleShiny}" IsEnabled="{Binding CanBeFemale}"/>
+                                </StackPanel>
+                                
+                                <!-- Displayed Checkboxes -->
+                                <StackPanel Grid.Row="2" Grid.Column="2" Spacing="8">
+                                    <CheckBox Content="{loc:Loc Pokedex7Editor_Male}" IsChecked="{Binding DisplayedMale}" IsEnabled="{Binding CanBeMale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex7Editor_Female}" IsChecked="{Binding DisplayedFemale}" IsEnabled="{Binding CanBeFemale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex7Editor_MaleShiny}" IsChecked="{Binding DisplayedMaleShiny}" IsEnabled="{Binding CanBeMale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex7Editor_FemaleShiny}" IsChecked="{Binding DisplayedFemaleShiny}" IsEnabled="{Binding CanBeFemale}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Languages -->
+                    <Border IsVisible="{Binding HasLanguages}" Classes="section-card" Padding="12">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="{loc:Loc Pokedex7Editor_Languages}" FontWeight="SemiBold" Opacity="0.6" />
+                            <WrapPanel Orientation="Horizontal">
+                                <CheckBox Content="{loc:Loc Pokedex7Editor_LangJapanese}" IsChecked="{Binding LangJPN}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex7Editor_LangEnglish}" IsChecked="{Binding LangENG}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex7Editor_LangFrench}" IsChecked="{Binding LangFRA}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex7Editor_LangGerman}" IsChecked="{Binding LangGER}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex7Editor_LangItalian}" IsChecked="{Binding LangITA}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex7Editor_LangSpanish}" IsChecked="{Binding LangSPA}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex7Editor_LangKorean}" IsChecked="{Binding LangKOR}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex7Editor_LangChineseT}" IsChecked="{Binding LangCHT}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex7Editor_LangChineseS}" IsChecked="{Binding LangCHS}" Margin="0,0,16,8"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Bottom Buttons -->
+            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0" Spacing="12">
+                <Button Content="{loc:Loc Pokedex7Editor_SaveEntry}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

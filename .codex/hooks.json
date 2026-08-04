@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/realgar/Git/PKHeX-Avalonia/.codex/hooks/block-core-edit.sh'",
+            "statusMessage": "Checking PKHeX.Core boundary..."
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/realgar/Git/PKHeX-Avalonia/.codex/hooks/block-main-writes.sh'",
+            "statusMessage": "Checking branch..."
+          }
+        ]
+      }
+    ]
+  }
+}

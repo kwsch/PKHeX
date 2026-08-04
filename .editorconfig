@@ -5,22 +5,32 @@ root = true
 charset = utf-8
 indent_style = space
 indent_size = 4
-tab_width = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.txt]
-insert_final_newline = false
+# Solution Files
+[*.sln]
+indent_style = space
+indent_size = 4
 
 # XML Project Files
-[*.{slnx,csproj}]
+[*.csproj]
+indent_style = space
 indent_size = 2
-tab_width = 2
 
 # Code Files
-[*.{cs,vb}]
+[*.cs]
+indent_style = space
+indent_size = 4
+tab_width = 4
 end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
 
+# Braces
+csharp_prefer_braces = when_multiline:warning
+
+# Parentheses
 dotnet_diagnostic.IDE0047.severity = none
 dotnet_diagnostic.IDE0048.severity = none
 dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:suggest
@@ -28,14 +38,17 @@ dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:sug
 dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:suggest
 dotnet_style_parentheses_in_other_operators = always_for_clarity:suggest
 
+# Code style
 csharp_indent_labels = one_less_than_current
-csharp_prefer_braces = when_multiline:suggestion
+csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion
-csharp_prefer_system_threading_lock = true:suggestion
 csharp_style_namespace_declarations = block_scoped:silent
 csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_prefer_top_level_statements = true:silent
 csharp_style_prefer_primary_constructors = true:suggestion
+csharp_prefer_system_threading_lock = true:suggestion
+
+# Expression-bodied members
 csharp_style_expression_bodied_methods = false:silent
 csharp_style_expression_bodied_constructors = false:silent
 csharp_style_expression_bodied_operators = false:silent
@@ -44,9 +57,11 @@ csharp_style_expression_bodied_indexers = true:silent
 csharp_style_expression_bodied_accessors = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
-csharp_using_directive_placement = outside_namespace:silent
 
+# Operator placement
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
+
+# Null / coalesce / simplification
 dotnet_style_coalesce_expression = true:suggestion
 dotnet_style_null_propagation = true:suggestion
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
@@ -58,23 +73,29 @@ dotnet_style_prefer_conditional_expression_over_assignment = true:silent
 dotnet_style_prefer_conditional_expression_over_return = true:silent
 dotnet_style_explicit_tuple_names = true:suggestion
 
-#### Naming styles ####
+# Suppressed diagnostics
+dotnet_diagnostic.WFO1000.severity = none
+dotnet_diagnostic.IDE0130.severity = none
 
-# Naming rules
+[*.{cs,vb}]
+#### Naming rules ####
 
+# Interfaces must begin with I
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
 
+# Types should be PascalCase
 dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
 
+# Non-field members should be PascalCase
 dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
-# Symbol specifications
+#### Symbol specifications ####
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
@@ -85,15 +106,9 @@ dotnet_naming_symbols.types.applicable_accessibilities = public, internal, priva
 dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 
-# Naming styles
+#### Naming styles ####
 
 dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
 dotnet_naming_style.pascal_case.capitalization = pascal_case
-
-# IDE0130: Namespace does not match folder structure
-dotnet_diagnostic.IDE0130.severity = none
-
-# WFO1000: Property does not configure the code serialization for its property content.
-dotnet_diagnostic.WFO1000.severity = none

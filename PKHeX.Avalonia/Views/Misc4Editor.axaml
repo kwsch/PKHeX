@@ -1,0 +1,192 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Misc4Editor"
+             x:DataType="vm:Misc4EditorViewModel">
+
+    <Design.DataContext>
+        <vm:Misc4EditorViewModel />
+    </Design.DataContext>
+
+    <Border Padding="16" Classes="view-container">
+        <Grid RowDefinitions="*,Auto">
+            <!-- Main Content with TabControl -->
+            <TabControl Grid.Row="0">
+                <!-- Main Tab -->
+                <TabItem Header="{loc:Loc Misc4Editor_Main}">
+                    <ScrollViewer>
+                        <StackPanel Spacing="16" Margin="0,8,0,0">
+                            <!-- Currency Section -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc Misc4Editor_Currency}" FontWeight="SemiBold" Opacity="0.6" />
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto,8,Auto,8,Auto">
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Misc4Editor_Coins}" VerticalAlignment="Center" Width="100" />
+                                        <NumericUpDown Grid.Row="0" Grid.Column="1"
+                                                       Value="{Binding Coins}"
+                                                       Minimum="0" Maximum="50000" ShowButtonSpinner="False" />
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Misc4Editor_Bp}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="2" Grid.Column="1"
+                                                       Value="{Binding Bp}"
+                                                       Minimum="0" Maximum="9999" ShowButtonSpinner="False" />
+
+                                        <!-- Sinnoh Underground Flags -->
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc Misc4Editor_UgFlags}" VerticalAlignment="Center"
+                                                   IsVisible="{Binding IsSinnoh}" />
+                                        <NumericUpDown Grid.Row="4" Grid.Column="1"
+                                                       Value="{Binding UndergroundFlags}"
+                                                       Minimum="0" Maximum="999999"
+                                                       IsVisible="{Binding IsSinnoh}" ShowButtonSpinner="False" />
+
+                                        <!-- HGSS Pokéathlon Points -->
+                                        <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc Misc4Editor_PokeathlonPts}" VerticalAlignment="Center"
+                                                   IsVisible="{Binding IsHGSS}" />
+                                        <NumericUpDown Grid.Row="6" Grid.Column="1"
+                                                       Value="{Binding PokeathlonPoints}"
+                                                       Minimum="0" Maximum="99999"
+                                                       IsVisible="{Binding IsHGSS}" ShowButtonSpinner="False" />
+
+                                        <!-- HGSS Map Upgrade -->
+                                        <TextBlock Grid.Row="8" Grid.Column="0" Text="{loc:Loc Misc4Editor_MapState}" VerticalAlignment="Center"
+                                                   IsVisible="{Binding IsHGSS}" />
+                                        <ComboBox Grid.Row="8" Grid.Column="1"
+                                                  ItemsSource="{Binding MapStates}"
+                                                  SelectedIndex="{Binding MapUnlockState}"
+                                                  IsVisible="{Binding IsHGSS}"
+                                                  HorizontalAlignment="Stretch" />
+
+                                        <!-- Sinnoh Poke Radar -->
+                                        <CheckBox Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
+                                                  Content="{loc:Loc Misc4PokeRadar}"
+                                                  IsChecked="{Binding PokeRadar, Mode=TwoWay}"
+                                                  IsVisible="{Binding IsPokeRadarVisible}" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Fly Destinations -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Text="{loc:Loc Misc4Editor_FlyDestinations}" FontWeight="SemiBold" Opacity="0.6" VerticalAlignment="Center" />
+                                        <Button Content="{loc:Loc Misc4Editor_UnlockAll}" Command="{Binding UnlockAllFlyDestinationsCommand}" FontSize="11" Padding="8,4" />
+                                    </StackPanel>
+                                    <ScrollViewer MaxHeight="250">
+                                        <ItemsControl ItemsSource="{Binding FlyDestinations}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate x:DataType="vm:FlyDestinationViewModel">
+                                                    <Border Background="{DynamicResource ThemeBackgroundElevatedBrush}" 
+                                                            CornerRadius="4" Margin="0,0,8,8" Padding="8,4">
+                                                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsUnlocked}" 
+                                                                  MinWidth="100" />
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Walker Tab (HGSS only) -->
+                <TabItem Header="{loc:Loc Misc4Editor_Walker}" IsVisible="{Binding IsWalkerVisible}">
+                    <ScrollViewer>
+                        <StackPanel Spacing="16" Margin="0,8,0,0">
+                            <!-- Stats -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc Misc4Editor_PokewalkerStats}" FontWeight="SemiBold" Opacity="0.6" />
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,8,Auto">
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Misc4Editor_Watts}" VerticalAlignment="Center" Width="60" />
+                                        <NumericUpDown Grid.Row="0" Grid.Column="1"
+                                                       Value="{Binding WalkerWatts}"
+                                                       Minimum="0" Maximum="9999999" ShowButtonSpinner="False" />
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Misc4Editor_Steps}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="2" Grid.Column="1"
+                                                       Value="{Binding WalkerSteps}"
+                                                       Minimum="0" Maximum="9999999" ShowButtonSpinner="False" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Courses -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Text="{loc:Loc Misc4Editor_Courses}" FontWeight="SemiBold" Opacity="0.6" VerticalAlignment="Center" />
+                                        <Button Content="{loc:Loc Misc4Editor_UnlockAll}" Command="{Binding UnlockAllWalkerCoursesCommand}" FontSize="11" Padding="8,4" />
+                                    </StackPanel>
+                                    <ItemsControl ItemsSource="{Binding WalkerCourses}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:WalkerCourseViewModel">
+                                                <Border Background="{DynamicResource ThemeBackgroundElevatedBrush}" 
+                                                        CornerRadius="4" Margin="0,0,8,8" Padding="8,4">
+                                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsUnlocked}" 
+                                                              MinWidth="140" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Battle Frontier Tab (Pt/HGSS only) -->
+                <TabItem Header="{loc:Loc Misc4Editor_BattleFrontier}" IsVisible="{Binding IsBattleFrontierVisible}">
+                    <ScrollViewer>
+                        <StackPanel Spacing="16" Margin="0,8,0,0">
+                            <!-- Prints -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Text="{loc:Loc Misc4Editor_FrontierPrints}" FontWeight="SemiBold" Opacity="0.6" VerticalAlignment="Center" />
+                                        <Button Content="{loc:Loc Misc4Editor_GiveAllGold}" Command="{Binding GiveAllPrintsCommand}" FontSize="11" Padding="8,4" />
+                                        <Button Content="{loc:Loc Misc4Editor_ClearAll}" Command="{Binding ClearAllPrintsCommand}" FontSize="11" Padding="8,4" />
+                                    </StackPanel>
+                                    
+                                    <ItemsControl ItemsSource="{Binding FrontierPrints}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:FrontierPrintViewModel">
+                                                <Border Margin="0,0,0,8" Padding="8" Background="{DynamicResource ThemeBackgroundElevatedBrush}" CornerRadius="4">
+                                                    <Grid ColumnDefinitions="*,Auto,Auto">
+                                                        <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center" FontWeight="SemiBold" />
+                                                        <TextBlock Grid.Column="1" Text="{Binding StatusText}" Width="100" VerticalAlignment="Center" 
+                                                                   Margin="12,0" TextAlignment="Center" />
+                                                        <Button Grid.Column="2" Content="{loc:Loc Misc4Editor_Cycle}" Command="{Binding CycleStatusCommand}"
+                                                                FontSize="11" Padding="12,6" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+
+            <!-- Bottom Buttons -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0" Spacing="12">
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

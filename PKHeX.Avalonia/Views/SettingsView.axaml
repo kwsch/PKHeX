@@ -1,0 +1,187 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:conv="using:PKHeX.Avalonia.Converters"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+
+    <UserControl.Resources>
+        <conv:SpritePreferenceLabelConverter x:Key="SpritePrefLabel"/>
+        <conv:AppThemeLabelConverter x:Key="AppThemeLabel"/>
+    </UserControl.Resources>
+
+    <ScrollViewer>
+        <StackPanel Margin="24" Spacing="24">
+            <TextBlock Text="{loc:Loc Settings_Title}" FontSize="28" FontWeight="Light" Margin="0,0,0,12"/>
+
+            <!-- Backup Settings Card -->
+            <Border Classes="section-card" Padding="20" CornerRadius="8">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock Text="💾" FontSize="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="{loc:Loc Settings_Backups}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{loc:Loc Settings_EnableBackups}" FontWeight="Medium"/>
+                            <TextBlock Text="{loc:Loc Settings_EnableBackups_Desc}"
+                                       FontSize="12" Opacity="0.6" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding BakEnabled}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Slot Write Settings Card -->
+            <Border Classes="section-card" Padding="20" CornerRadius="8">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock Text="📝" FontSize="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="{loc:Loc Settings_EditorBehavior}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{loc:Loc Settings_UpdatePokedex}" FontWeight="Medium"/>
+                            <TextBlock Text="{loc:Loc Settings_UpdatePokedex_Desc}"
+                                       FontSize="12" Opacity="0.6" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding SetUpdateDex}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{loc:Loc Settings_AdaptPKM}" FontWeight="Medium"/>
+                            <TextBlock Text="{loc:Loc Settings_AdaptPKM_Desc}"
+                                       FontSize="12" Opacity="0.6" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding SetUpdatePKM}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                             <TextBlock Text="{loc:Loc Settings_WarnClosingModified}" FontWeight="Medium"/>
+                             <TextBlock Text="{loc:Loc Settings_WarnClosingModified_Desc}"
+                                        FontSize="12" Opacity="0.6" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding ModifyUnset}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Sprite Settings Card -->
+            <Border Classes="section-card" Padding="20" CornerRadius="8">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock Text="🎨" FontSize="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="{loc:Loc Settings_Sprites}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{loc:Loc Settings_SpriteStyle}" FontWeight="Medium"/>
+                            <TextBlock Text="{loc:Loc Settings_SpriteStyle_Desc}"
+                                       FontSize="12" Opacity="0.6" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <ComboBox Grid.Column="1" MinWidth="170" VerticalAlignment="Center"
+                                  ItemsSource="{Binding SpritePreferences}"
+                                  SelectedItem="{Binding SpritePreference}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:CompileBindings="False">
+                                    <TextBlock Text="{Binding Converter={StaticResource SpritePrefLabel}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Updates Settings Card -->
+            <Border Classes="section-card" Padding="20" CornerRadius="8">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock Text="🔔" FontSize="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="{loc:Loc Settings_Updates}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{loc:Loc Settings_CheckUpdates}" FontWeight="Medium"/>
+                            <TextBlock Text="{loc:Loc Settings_CheckUpdates_Desc}"
+                                       FontSize="12" Opacity="0.6" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding CheckForUpdatesOnStartup}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{loc:Loc Settings_ShowChangelog}" FontWeight="Medium"/>
+                            <TextBlock Text="{loc:Loc Settings_ShowChangelog_Desc}"
+                                       FontSize="12" Opacity="0.6" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowChangelog}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}"/>
+                    </Grid>
+
+                    <!-- Manual check: not gated by the startup toggle above, never silent. -->
+                    <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding UpdateCheckStatus}"
+                                   FontSize="12" Opacity="0.8" TextWrapping="Wrap"
+                                   VerticalAlignment="Center"/>
+                        <Button Grid.Column="1"
+                                Content="{loc:Loc Update_CheckNow}"
+                                Command="{Binding CheckForUpdatesCommand}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Appearance Settings Card -->
+            <Border Classes="section-card" Padding="20" CornerRadius="8">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock Text="🖥️" FontSize="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="{loc:Loc Settings_Appearance}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{loc:Loc Settings_Theme}" FontWeight="Medium"/>
+                            <TextBlock Text="{loc:Loc Settings_Theme_Desc}"
+                                       FontSize="12" Opacity="0.6" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <ComboBox Grid.Column="1" MinWidth="170" VerticalAlignment="Center"
+                                  ItemsSource="{Binding Themes}"
+                                  SelectedItem="{Binding SelectedTheme}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:CompileBindings="False">
+                                    <TextBlock Text="{Binding Converter={StaticResource AppThemeLabel}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{loc:Loc Settings_Language}" FontWeight="Medium"/>
+                            <TextBlock Text="{loc:Loc Settings_Language_Desc}"
+                                       FontSize="12" Opacity="0.6" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <ComboBox Grid.Column="1" MinWidth="170" VerticalAlignment="Center"
+                                  x:CompileBindings="False"
+                                  ItemsSource="{Binding LanguageService.AvailableLanguages}"
+                                  SelectedItem="{Binding LanguageService.CurrentLanguageOption, Mode=TwoWay}"
+                                  AutomationProperties.Name="UI Language Selection"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Button Content="{loc:Loc Settings_SaveChanges}"
+                    Command="{Binding SaveCommand}"
+                    Classes="accent"
+                    HorizontalAlignment="Right"
+                    Padding="24,12"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

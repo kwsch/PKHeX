@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Misc7bEditor"
+             x:DataType="vm:Misc7bEditorViewModel">
+
+    <Design.DataContext>
+        <vm:Misc7bEditorViewModel />
+    </Design.DataContext>
+
+    <Border Padding="16" Classes="view-container">
+        <Grid RowDefinitions="*,Auto">
+            <ScrollViewer>
+                <StackPanel Spacing="16" Margin="0,8,0,0">
+                    <!-- Trainer Info -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Misc7bEditor_TrainerInfo}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,8,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Misc7bEditor_Money}" VerticalAlignment="Center" Width="80" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Money}" Minimum="0" Maximum="9999999" ShowButtonSpinner="False" />
+                                <Button Grid.Row="0" Grid.Column="2" Content="{loc:Loc Misc7bEditor_Max}" Command="{Binding MaxMoneyCommand}" Margin="8,0,0,0" Padding="8,4" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Misc7bEditor_RivalName}" VerticalAlignment="Center" />
+                                <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RivalName}" MaxLength="12" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Go Park -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Misc7bEditor_GoPark}" FontWeight="SemiBold" Opacity="0.6" />
+                            <TextBlock Text="{loc:Loc Misc7bEditor_GoParkDescription}" FontSize="12" Opacity="0.5" />
+                            <Button Content="{loc:Loc Misc7bEditor_DeleteAllGoParkPokemon}" Command="{Binding DeleteAllGoParkCommand}" HorizontalAlignment="Left" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Unlocks -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Misc7bEditor_Unlocks}" FontWeight="SemiBold" Opacity="0.6" />
+                            <WrapPanel>
+                                <Button Content="{loc:Loc Misc7bEditor_UnlockAllTrainerTitles}" Command="{Binding UnlockAllTrainerTitlesCommand}" Margin="0,0,8,8" />
+                                <Button Content="{loc:Loc Misc7bEditor_UnlockAllFashion}" Command="{Binding UnlockAllFashionCommand}" Margin="0,0,8,8" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Bottom Buttons -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0" Spacing="12">
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

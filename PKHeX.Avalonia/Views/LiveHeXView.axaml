@@ -1,0 +1,81 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="520"
+             x:Class="PKHeX.Avalonia.Views.LiveHeXView"
+             x:DataType="vm:LiveHeXViewModel"
+             MinWidth="440" MinHeight="460" Width="480" Height="520">
+
+    <DockPanel Margin="12">
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc LiveHeXView_Title}" FontSize="16" FontWeight="SemiBold" />
+        <TextBlock DockPanel.Dock="Top" Margin="0,2,0,10"
+                   Text="{loc:Loc LiveHeXView_Description}"
+                   TextWrapping="Wrap"
+                   Foreground="{DynamicResource ThemeTextMutedBrush}" FontSize="12" />
+
+        <!-- Status bar -->
+        <Border DockPanel.Dock="Bottom" Margin="0,10,0,0" Padding="8"
+                BorderThickness="1" BorderBrush="{DynamicResource ThemeBorderBrush}">
+            <StackPanel Spacing="6">
+                <TextBlock Text="{Binding Status}" TextWrapping="Wrap" FontSize="12" />
+                <TextBlock Text="{Binding SessionInfo}" TextWrapping="Wrap" FontSize="11"
+                           Foreground="{DynamicResource ThemeTextMutedBrush}"
+                           IsVisible="{Binding SessionInfo, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+            </StackPanel>
+        </Border>
+
+        <StackPanel Spacing="12">
+            <!-- Game support -->
+            <Border Padding="8" BorderThickness="1" BorderBrush="{DynamicResource ThemeBorderBrush}">
+                <StackPanel Spacing="4">
+                    <TextBlock Text="{Binding GameName}" FontWeight="SemiBold" FontSize="13" />
+                    <TextBlock Text="{Binding SupportDetail}" TextWrapping="Wrap" FontSize="12"
+                               Foreground="{DynamicResource ThemeTextMutedBrush}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Connection panel -->
+            <Grid ColumnDefinitions="Auto,*,Auto,Auto" RowDefinitions="Auto,Auto"
+                  ColumnSpacing="8" RowSpacing="8">
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc LiveHeXView_ConsoleIp}" VerticalAlignment="Center" />
+                <TextBox Grid.Row="0" Grid.Column="1"
+                         Text="{Binding IpAddress}" Watermark="192.168.0.1"
+                         IsEnabled="{Binding !IsConnected}" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc LiveHeXView_Port}" VerticalAlignment="Center" />
+                <TextBox Grid.Row="0" Grid.Column="3" Width="70"
+                         Text="{Binding Port}"
+                         IsEnabled="{Binding !IsConnected}" />
+
+                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
+                            Orientation="Horizontal" Spacing="8">
+                    <Button Content="{loc:Loc LiveHeXView_Connect}" Classes="accent" Command="{Binding ConnectCommand}" />
+                    <Button Content="{loc:Loc LiveHeXView_Disconnect}" Command="{Binding DisconnectCommand}" />
+                    <ProgressBar IsIndeterminate="True" Width="110" VerticalAlignment="Center"
+                                 IsVisible="{Binding IsBusy}" />
+                </StackPanel>
+            </Grid>
+
+            <!-- Box transfer -->
+            <StackPanel Spacing="6">
+                <TextBlock Text="{loc:Loc LiveHeXView_CurrentBox}" FontWeight="SemiBold" FontSize="13" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="{loc:Loc LiveHeXView_ReadBoxFromConsole}" Command="{Binding ReadBoxCommand}" />
+                    <Button Content="{loc:Loc LiveHeXView_WriteBoxToConsole}" Command="{Binding WriteBoxCommand}"
+                            ToolTip.Tip="{loc:Loc LiveHeXView_WriteBoxTooltip}" />
+                </StackPanel>
+                <TextBlock Text="{loc:Loc LiveHeXView_WriteWarning}"
+                           TextWrapping="Wrap" FontSize="11"
+                           Foreground="{DynamicResource ThemeTextMutedBrush}" />
+            </StackPanel>
+
+            <!-- Support matrix -->
+            <Expander Header="{loc:Loc LiveHeXView_SupportedGames}">
+                <SelectableTextBlock Text="{Binding SupportMatrix}" TextWrapping="Wrap"
+                                     FontSize="12" Padding="4" />
+            </Expander>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

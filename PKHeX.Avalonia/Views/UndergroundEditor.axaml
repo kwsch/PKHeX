@@ -1,0 +1,90 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.UndergroundEditor"
+             x:DataType="vm:UndergroundEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc UndergroundEditor_NotAvailable}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc UndergroundEditor_NotAvailableDesc}" HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <TextBlock Text="{loc:Loc UndergroundEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <Button Content="{loc:Loc UndergroundEditor_Refresh}" Command="{Binding RefreshCommand}" HorizontalAlignment="Right" Padding="12,6" />
+                </DockPanel>
+
+                <Border Classes="section-card" CornerRadius="4" Padding="16">
+                    <ScrollViewer>
+                        <Grid ColumnDefinitions="*,16,*">
+                            <!-- Left Column -->
+                            <StackPanel Grid.Column="0" Spacing="8">
+                                <TextBlock Text="{loc:Loc UndergroundEditor_SocialStats}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
+
+                                <Grid ColumnDefinitions="150,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc UndergroundEditor_PlayersMet}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding PlayersMet}" Minimum="0" Maximum="999999" />
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc UndergroundEditor_GiftsGiven}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding GiftsGiven}" Minimum="0" Maximum="999999" />
+
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc UndergroundEditor_GiftsReceived}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding GiftsReceived}" Minimum="0" Maximum="999999" />
+
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc UndergroundEditor_HelpedOthers}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding HelpedOthers}" Minimum="0" Maximum="999999" />
+                                </Grid>
+
+                                <TextBlock Text="{loc:Loc UndergroundEditor_MiningStats}" FontWeight="SemiBold" FontSize="14" Margin="0,16,0,8" />
+
+                                <Grid ColumnDefinitions="150,*" RowDefinitions="Auto,8,Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc UndergroundEditor_SpheresBuried}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding SpheresBuried}" Minimum="0" Maximum="999999" />
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc UndergroundEditor_FossilsDugUp}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding FossilsDugUp}" Minimum="0" Maximum="999999" />
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- Right Column -->
+                            <StackPanel Grid.Column="2" Spacing="8">
+                                <TextBlock Text="{loc:Loc UndergroundEditor_TrapStats}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
+
+                                <Grid ColumnDefinitions="150,*" RowDefinitions="Auto,8,Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc UndergroundEditor_TrapsOthers}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding TrapsTriggeredOthers}" Minimum="0" Maximum="999999" />
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc UndergroundEditor_TrapsSelf}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding TrapsTriggeredSelf}" Minimum="0" Maximum="999999" />
+                                </Grid>
+
+                                <TextBlock Text="{loc:Loc UndergroundEditor_FlagStats}" FontWeight="SemiBold" FontSize="14" Margin="0,16,0,8" />
+
+                                <Grid ColumnDefinitions="150,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto,8,Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc UndergroundEditor_BaseMoved}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding BaseMoved}" Minimum="0" Maximum="999999" />
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc UndergroundEditor_FlagsObtained}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding FlagsObtained}" Minimum="0" Maximum="999999" />
+
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc UndergroundEditor_MyFlagTaken}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding MyFlagTaken}" Minimum="0" Maximum="999999" />
+
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc UndergroundEditor_FlagRecovered}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding MyFlagRecovered}" Minimum="0" Maximum="999999" />
+
+                                    <TextBlock Grid.Row="8" Grid.Column="0" Text="{loc:Loc UndergroundEditor_FlagsCaptured}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="8" Grid.Column="1" Value="{Binding FlagsCaptured}" Minimum="0" Maximum="999999" />
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </Border>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

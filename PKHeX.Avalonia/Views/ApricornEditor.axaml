@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.ApricornEditor"
+             x:DataType="vm:ApricornEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc ApricornEditor_NotAvailableTitle}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc ApricornEditor_NotAvailableDesc}" HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <TextBlock Text="{loc:Loc ApricornEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                        <Button Content="{loc:Loc ApricornEditor_GiveAllButton}" Command="{Binding GiveAllCommand}" Padding="12,6" />
+                        <Button Content="{loc:Loc ApricornEditor_ClearAllButton}" Command="{Binding ClearAllCommand}" Padding="12,6" />
+                    </StackPanel>
+                </DockPanel>
+
+                <Border Classes="section-card" CornerRadius="4" Padding="16">
+                    <ItemsControl ItemsSource="{Binding Apricorns}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="vm:ApricornSlotViewModel">
+                                <Grid ColumnDefinitions="150,*" Margin="0,4">
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Column="1" Value="{Binding Count}" Minimum="0" Maximum="255" Width="100" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

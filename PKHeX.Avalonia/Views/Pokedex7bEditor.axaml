@@ -1,0 +1,102 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:core="clr-namespace:PKHeX.Core;assembly=PKHeX.Core"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="PKHeX.Avalonia.Views.Pokedex7bEditor"
+             x:DataType="vm:Pokedex7bEditorViewModel">
+    
+    <Grid ColumnDefinitions="280, *" Margin="10">
+        <!-- Entry List -->
+        <Grid Grid.Column="0" RowDefinitions="Auto, *">
+            <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc Pokedex7bEditor_SearchSpeciesForm}" Margin="0,0,0,10" AutomationProperties.Name="Search Species/Form"/>
+            <ListBox Grid.Row="1" ItemsSource="{Binding Entries}" SelectedItem="{Binding SelectedEntry}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="core:ComboItem">
+                        <TextBlock Text="{Binding Text}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        
+        <!-- Details -->
+        <ScrollViewer Grid.Column="1" Margin="10,0,0,0">
+            <StackPanel Spacing="10">
+                <Button Content="{loc:Loc Pokedex7bEditor_SaveEntry}" Command="{Binding SaveCommand}" MinWidth="100" HorizontalAlignment="Left"/>
+                
+                <!-- Entry Flags -->
+                <Border BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1" CornerRadius="4" Padding="10">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="{loc:Loc Pokedex7bEditor_EntryFlags}" FontWeight="Bold"/>
+                        <CheckBox Content="{loc:Loc Pokedex7bEditor_Caught}" IsChecked="{Binding Caught}" IsEnabled="{Binding IsCaughtEnabled}"/>
+                        
+                        <Grid ColumnDefinitions="*, *" RowDefinitions="Auto">
+                            <!-- Seen -->
+                            <StackPanel Grid.Column="0" Spacing="5">
+                                <TextBlock Text="{loc:Loc Pokedex7bEditor_Seen}" FontWeight="SemiBold"/>
+                                <CheckBox Content="{loc:Loc Pokedex7bEditor_Male}" IsChecked="{Binding SeenMale}" IsEnabled="{Binding CanBeMale}"/>
+                                <CheckBox Content="{loc:Loc Pokedex7bEditor_Female}" IsChecked="{Binding SeenFemale}" IsEnabled="{Binding CanBeFemale}"/>
+                                <CheckBox Content="{loc:Loc Pokedex7bEditor_MaleShiny}" IsChecked="{Binding SeenMaleShiny}" IsEnabled="{Binding CanBeMale}"/>
+                                <CheckBox Content="{loc:Loc Pokedex7bEditor_FemaleShiny}" IsChecked="{Binding SeenFemaleShiny}" IsEnabled="{Binding CanBeFemale}"/>
+                            </StackPanel>
+                            
+                            <!-- Displayed -->
+                            <StackPanel Grid.Column="1" Spacing="5">
+                                <TextBlock Text="{loc:Loc Pokedex7bEditor_Displayed}" FontWeight="SemiBold"/>
+                                <CheckBox Content="{loc:Loc Pokedex7bEditor_Male}" IsChecked="{Binding DisplayedMale}" IsEnabled="{Binding CanBeMale}"/>
+                                <CheckBox Content="{loc:Loc Pokedex7bEditor_Female}" IsChecked="{Binding DisplayedFemale}" IsEnabled="{Binding CanBeFemale}"/>
+                                <CheckBox Content="{loc:Loc Pokedex7bEditor_MaleShiny}" IsChecked="{Binding DisplayedMaleShiny}" IsEnabled="{Binding CanBeMale}"/>
+                                <CheckBox Content="{loc:Loc Pokedex7bEditor_FemaleShiny}" IsChecked="{Binding DisplayedFemaleShiny}" IsEnabled="{Binding CanBeFemale}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Size Data -->
+                <Border IsVisible="{Binding HasSizeData}" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1" CornerRadius="4" Padding="10">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="{loc:Loc Pokedex7bEditor_SizeRecords}" FontWeight="Bold"/>
+                        <Grid ColumnDefinitions="Auto, 80, 100, Auto, 80, 100" RowDefinitions="Auto, Auto">
+                            <Label Grid.Row="0" Grid.Column="0" Content="{loc:Loc Pokedex7bEditor_MinHeight}" VerticalAlignment="Center"/>
+                            <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding MinHeight}" Minimum="0" Maximum="255" Margin="5,0"/>
+                            <CheckBox Grid.Row="0" Grid.Column="2" Content="{loc:Loc Pokedex7bEditor_Flag}" IsChecked="{Binding MinHeightFlag}"/>
+
+                            <Label Grid.Row="0" Grid.Column="3" Content="{loc:Loc Pokedex7bEditor_MaxHeight}" VerticalAlignment="Center"/>
+                            <NumericUpDown Grid.Row="0" Grid.Column="4" Value="{Binding MaxHeight}" Minimum="0" Maximum="255" Margin="5,0"/>
+                            <CheckBox Grid.Row="0" Grid.Column="5" Content="{loc:Loc Pokedex7bEditor_Flag}" IsChecked="{Binding MaxHeightFlag}"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="{loc:Loc Pokedex7bEditor_MinWeight}" VerticalAlignment="Center"/>
+                            <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding MinWeight}" Minimum="0" Maximum="255" Margin="5,0"/>
+                            <CheckBox Grid.Row="1" Grid.Column="2" Content="{loc:Loc Pokedex7bEditor_Flag}" IsChecked="{Binding MinWeightFlag}"/>
+
+                            <Label Grid.Row="1" Grid.Column="3" Content="{loc:Loc Pokedex7bEditor_MaxWeight}" VerticalAlignment="Center"/>
+                            <NumericUpDown Grid.Row="1" Grid.Column="4" Value="{Binding MaxWeight}" Minimum="0" Maximum="255" Margin="5,0"/>
+                            <CheckBox Grid.Row="1" Grid.Column="5" Content="{loc:Loc Pokedex7bEditor_Flag}" IsChecked="{Binding MaxWeightFlag}"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Languages -->
+                <Border IsVisible="{Binding HasLanguages}" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1" CornerRadius="4" Padding="10">
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="{loc:Loc Pokedex7bEditor_Languages}" FontWeight="Bold"/>
+                        <WrapPanel Orientation="Horizontal">
+                            <CheckBox Content="{loc:Loc Pokedex7bEditor_LangJapanese}" IsChecked="{Binding LangJPN}" Margin="0,0,10,0"/>
+                            <CheckBox Content="{loc:Loc Pokedex7bEditor_LangEnglish}" IsChecked="{Binding LangENG}" Margin="0,0,10,0"/>
+                            <CheckBox Content="{loc:Loc Pokedex7bEditor_LangFrench}" IsChecked="{Binding LangFRA}" Margin="0,0,10,0"/>
+                            <CheckBox Content="{loc:Loc Pokedex7bEditor_LangGerman}" IsChecked="{Binding LangGER}" Margin="0,0,10,0"/>
+                            <CheckBox Content="{loc:Loc Pokedex7bEditor_LangItalian}" IsChecked="{Binding LangITA}" Margin="0,0,10,0"/>
+                            <CheckBox Content="{loc:Loc Pokedex7bEditor_LangSpanish}" IsChecked="{Binding LangSPA}" Margin="0,0,10,0"/>
+                            <CheckBox Content="{loc:Loc Pokedex7bEditor_LangKorean}" IsChecked="{Binding LangKOR}" Margin="0,0,10,0"/>
+                            <CheckBox Content="{loc:Loc Pokedex7bEditor_LangChineseT}" IsChecked="{Binding LangCHT}" Margin="0,0,10,0"/>
+                            <CheckBox Content="{loc:Loc Pokedex7bEditor_LangChineseS}" IsChecked="{Binding LangCHS}"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

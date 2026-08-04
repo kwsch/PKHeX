@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+# Prevent duplicate runs: group by PR number for PR events, by ref for pushes.
+# cancel-in-progress drops stale runs when new commits land on the same PR/branch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    # Skip CI on PR merge commits — the PR check already validated this code.
+    # Direct pushes (sync, bump) still run CI normally.
+    if: >-
+      github.event_name == 'pull_request' ||
+      !startsWith(github.event.head_commit.message, 'Merge pull request #')
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+          dotnet-quality: 'ga'
+
+      - name: Restore
+        run: dotnet restore PKHeX.sln
+
+      - name: Build
+        run: dotnet build PKHeX.sln -c Release --no-restore
+
+      - name: Test
+        run: dotnet test PKHeX.sln -c Release --no-build --logger "trx;LogFileName=results.trx"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results-${{ matrix.os }}
+          path: '**/TestResults/*.trx'
+          retention-days: 14

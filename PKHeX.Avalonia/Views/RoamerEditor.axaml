@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.RoamerEditor"
+             x:DataType="vm:RoamerEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc RoamerEditor_NotAvailable}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc RoamerEditor_NotAvailableDesc}" HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <TextBlock Text="{loc:Loc RoamerEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                        <Button Content="{loc:Loc RoamerEditor_SaveIvs}" Command="{Binding SaveCommand}" Padding="12,6" />
+                        <Button Content="{loc:Loc RoamerEditor_Refresh}" Command="{Binding RefreshCommand}" Padding="12,6" />
+                    </StackPanel>
+                </DockPanel>
+
+                <Border Classes="section-card" CornerRadius="4" Padding="16">
+                    <Grid ColumnDefinitions="Auto,8,*,32,Auto,8,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto,16,Auto,8,Auto,8,Auto,8,Auto,8,Auto,8,Auto">
+                        <!-- Basic Info -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc RoamerEditor_PidHex}" VerticalAlignment="Center" />
+                        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding PidHex}" MaxLength="8" />
+                        <TextBlock Grid.Row="0" Grid.Column="4" Text="{loc:Loc RoamerEditor_Shiny}" VerticalAlignment="Center" />
+                        <CheckBox Grid.Row="0" Grid.Column="6" IsChecked="{Binding IsShiny}" IsEnabled="False" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc RoamerEditor_Species}" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding Species}" Minimum="0" Maximum="999" />
+                        <TextBlock Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" Text="{Binding SpeciesName}" VerticalAlignment="Center" FontWeight="SemiBold" />
+
+                        <CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Content="{loc:Loc RoamerEditor_Active}" IsChecked="{Binding Active}" />
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc RoamerEditor_Level}" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="6" Grid.Column="2" Value="{Binding CurrentLevel}" Minimum="0" Maximum="100" />
+                        <TextBlock Grid.Row="6" Grid.Column="4" Text="{loc:Loc RoamerEditor_CurrentHp}" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="6" Grid.Column="6" Value="{Binding CurrentHP}" Minimum="0" Maximum="999" />
+
+                        <!-- IVs -->
+                        <TextBlock Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="7" Text="{loc:Loc RoamerEditor_Ivs}" FontWeight="SemiBold" FontSize="14" />
+
+                        <TextBlock Grid.Row="10" Grid.Column="0" Text="{loc:Loc RoamerEditor_Hp}" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="10" Grid.Column="2" Value="{Binding IvHp}" Minimum="0" Maximum="31" />
+                        <TextBlock Grid.Row="10" Grid.Column="4" Text="{loc:Loc RoamerEditor_Atk}" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="10" Grid.Column="6" Value="{Binding IvAtk}" Minimum="0" Maximum="31" />
+
+                        <TextBlock Grid.Row="12" Grid.Column="0" Text="{loc:Loc RoamerEditor_Def}" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="12" Grid.Column="2" Value="{Binding IvDef}" Minimum="0" Maximum="31" />
+                        <TextBlock Grid.Row="12" Grid.Column="4" Text="{loc:Loc RoamerEditor_Spe}" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="12" Grid.Column="6" Value="{Binding IvSpe}" Minimum="0" Maximum="31" />
+
+                        <TextBlock Grid.Row="14" Grid.Column="0" Text="{loc:Loc RoamerEditor_Spa}" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="14" Grid.Column="2" Value="{Binding IvSpA}" Minimum="0" Maximum="31" />
+                        <TextBlock Grid.Row="14" Grid.Column="4" Text="{loc:Loc RoamerEditor_Spd}" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="14" Grid.Column="6" Value="{Binding IvSpD}" Minimum="0" Maximum="31" />
+                    </Grid>
+                </Border>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

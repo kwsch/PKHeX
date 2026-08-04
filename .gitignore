@@ -44,6 +44,10 @@ local.properties
 *.user
 *.sln.docstates
 *.vs
+.vscode/
+.claude/worktrees/
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
 
 # Build results
 
@@ -232,3 +236,16 @@ pingme.txt
 #################
 
 *.userprefs
+
+
+#############
+## Superpowers planning/spec docs (never commit to repo)
+#############
+
+docs/superpowers/
+
+#############
+## Playwright MCP (browser automation artifacts)
+#############
+
+.playwright-mcp/

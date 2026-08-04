@@ -1,0 +1,58 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Roamer6Editor"
+             x:DataType="vm:Roamer6EditorViewModel">
+
+    <Design.DataContext>
+        <vm:Roamer6EditorViewModel />
+    </Design.DataContext>
+
+    <Border Padding="16" Classes="view-container">
+        <Grid RowDefinitions="Auto,*,Auto">
+
+            <!-- Header -->
+            <TextBlock Grid.Row="0" Text="{loc:Loc Roamer6Editor_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16" />
+
+            <ScrollViewer Grid.Row="1">
+                <StackPanel Spacing="16">
+                    <!-- Roamer Info -->
+                    <Border Classes="section-card" Padding="16">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Roamer6Editor_RoamerInfo}" FontWeight="SemiBold" Opacity="0.6" />
+
+                            <Grid ColumnDefinitions="100,*" RowDefinitions="Auto,8,Auto,8,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Roamer6Editor_Species}" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="0" Grid.Column="1"
+                                          ItemsSource="{Binding SpeciesList}"
+                                          SelectedIndex="{Binding SelectedSpeciesIndex}"
+                                          MinWidth="180"
+                                          HorizontalAlignment="Left" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Roamer6Editor_State}" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="2" Grid.Column="1"
+                                          ItemsSource="{Binding RoamStates}"
+                                          SelectedIndex="{Binding RoamStateIndex}"
+                                          MinWidth="180"
+                                          HorizontalAlignment="Left" />
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc Roamer6Editor_Encountered}" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="4" Grid.Column="1"
+                                               Value="{Binding TimesEncountered}"
+                                               Minimum="0" Maximum="255"
+                                               Classes="form-field"
+                                               HorizontalAlignment="Left" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Footer -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12" Margin="0,16,0,0">
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" Padding="16,8" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

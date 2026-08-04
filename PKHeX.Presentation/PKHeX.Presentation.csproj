@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- UI localization string tables (issue #132). English is the source of truth; the other
+         eight files provide first-pass translations with English fallback at runtime. -->
+    <EmbeddedResource Include="Localization\Strings\*.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
+    <ProjectReference Include="..\PKHeX.Application\PKHeX.Application.csproj" />
+    <ProjectReference Include="..\PKHeX.Core\PKHeX.Core.csproj" />
+  </ItemGroup>
+</Project>

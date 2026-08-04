@@ -1,0 +1,74 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.PokebeanEditor"
+             x:DataType="vm:PokebeanEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <!-- Not supported message -->
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc PokebeanEditor_NotAvailable}"
+                           FontSize="18"
+                           HorizontalAlignment="Center"
+                           Opacity="0.7" />
+                <TextBlock Text="{loc:Loc PokebeanEditor_NotAvailableDescription}"
+                           HorizontalAlignment="Center"
+                           Opacity="0.5"
+                           Margin="0,8,0,0" />
+            </StackPanel>
+
+            <!-- Main content -->
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <!-- Header -->
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <TextBlock Text="{loc:Loc PokebeanEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                        <Button Content="{loc:Loc PokebeanEditor_FillAll}" Command="{Binding FillAllCommand}" Padding="12,6" />
+                        <Button Content="{loc:Loc PokebeanEditor_ClearAll}" Command="{Binding ClearAllCommand}" Padding="12,6" />
+                        <Button Content="{loc:Loc PokebeanEditor_Refresh}" Command="{Binding RefreshCommand}" Padding="12,6" />
+                    </StackPanel>
+                </DockPanel>
+
+                <!-- Bean Grid -->
+                <Border Classes="section-card"
+                        CornerRadius="4"
+                        Padding="16">
+                    <ScrollViewer>
+                        <ItemsControl ItemsSource="{Binding Beans}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="vm:BeanSlotViewModel">
+                                    <Border Margin="4" Padding="12" CornerRadius="4"
+                                            Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                                            MinWidth="180">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock Text="{Binding Name}"
+                                                       VerticalAlignment="Center"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       ToolTip.Tip="{Binding Name}" />
+                                            <NumericUpDown Grid.Column="1"
+                                                           Value="{Binding Count}"
+                                                           Minimum="0"
+                                                           Maximum="255"
+                                                           MinWidth="70"
+                                                           ShowButtonSpinner="False"
+                                                           Margin="8,0,0,0" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Border>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

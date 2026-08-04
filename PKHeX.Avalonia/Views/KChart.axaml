@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
+             x:Class="PKHeX.Avalonia.Views.KChart"
+             x:DataType="vm:KChartViewModel">
+
+    <DataGrid ItemsSource="{Binding Entries}" CanUserSortColumns="True" IsReadOnly="True"
+              GridLinesVisibility="All" BorderThickness="1" BorderBrush="Gray">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="#" Binding="{Binding DisplayID}" Width="80"/>
+            <DataGridTemplateColumn Header="{loc:Loc KChart_Sprite}">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" Width="40" Height="30" Stretch="Uniform"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTextColumn Header="{loc:Loc KChart_Name}" Binding="{Binding Name}" Width="150"/>
+            <DataGridTextColumn Header="{loc:Loc KChart_Bst}" Binding="{Binding BST}" Width="50"/>
+            <DataGridTextColumn Header="{loc:Loc KChart_Rate}" Binding="{Binding CatchRate}" Width="50"/>
+
+            <DataGridTextColumn Header="{loc:Loc KChart_Type1}" Binding="{Binding Type1}" Width="80"/>
+            <DataGridTextColumn Header="{loc:Loc KChart_Type2}" Binding="{Binding Type2}" Width="80"/>
+
+            <DataGridTextColumn Header="{loc:Loc KChart_Hp}" Binding="{Binding HP}" Width="40"/>
+            <DataGridTextColumn Header="{loc:Loc KChart_Atk}" Binding="{Binding ATK}" Width="40"/>
+            <DataGridTextColumn Header="{loc:Loc KChart_Def}" Binding="{Binding DEF}" Width="40"/>
+            <DataGridTextColumn Header="{loc:Loc KChart_Spa}" Binding="{Binding SPA}" Width="40"/>
+            <DataGridTextColumn Header="{loc:Loc KChart_Spd}" Binding="{Binding SPD}" Width="40"/>
+            <DataGridTextColumn Header="{loc:Loc KChart_Spe}" Binding="{Binding SPE}" Width="40"/>
+
+            <DataGridTextColumn Header="{loc:Loc KChart_Ability1}" Binding="{Binding Ability1}" Width="100"/>
+            <DataGridTextColumn Header="{loc:Loc KChart_Ability2}" Binding="{Binding Ability2}" Width="100"/>
+            <DataGridTextColumn Header="{loc:Loc KChart_AbilityH}" Binding="{Binding AbilityH}" Width="100"/>
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

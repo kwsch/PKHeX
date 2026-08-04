@@ -1,0 +1,114 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.RaidEditor"
+             x:DataType="vm:RaidEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <!-- Not supported message -->
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc RaidEditor_NotAvailable}"
+                           FontSize="18"
+                           HorizontalAlignment="Center"
+                           Opacity="0.7" />
+                <TextBlock Text="{loc:Loc RaidEditor_NotAvailableDesc}"
+                           HorizontalAlignment="Center"
+                           Opacity="0.5"
+                           Margin="0,8,0,0" />
+            </StackPanel>
+
+            <!-- Main content -->
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <!-- Header -->
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="{loc:Loc RaidEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Region, StringFormat='({0})'}" FontSize="16" Opacity="0.7" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <Button Content="{loc:Loc RaidEditor_Refresh}"
+                            Command="{Binding RefreshCommand}"
+                            HorizontalAlignment="Right"
+                            Padding="12,6" />
+                </DockPanel>
+
+                <!-- Content -->
+                <Grid ColumnDefinitions="200,16,*">
+                    <!-- Den List -->
+                    <Border Grid.Column="0"
+                            Classes="section-card"
+                            CornerRadius="4">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc RaidEditor_Dens}" FontWeight="SemiBold" Margin="8" />
+                            <ListBox ItemsSource="{Binding Dens}"
+                                     SelectedItem="{Binding SelectedDen}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="vm:RaidViewModel">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="{Binding DisplayName}" />
+                                            <TextBlock Text="★" Foreground="Gold" IsVisible="{Binding IsActive}" />
+                                            <TextBlock Text="E" Foreground="Purple" IsVisible="{Binding IsEvent}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
+                    </Border>
+
+                    <!-- Selected Den Details -->
+                    <Border Grid.Column="2"
+                            Classes="section-card"
+                            CornerRadius="4"
+                            Padding="16"
+                            IsVisible="{Binding SelectedDen, Converter={x:Static ObjectConverters.IsNotNull}}">
+                        <ScrollViewer>
+                            <StackPanel DataContext="{Binding SelectedDen}" Spacing="16">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" FontSize="16" />
+                                    <TextBlock Text="{loc:Loc RaidEditor_Active}" Foreground="Green" IsVisible="{Binding IsActive}" VerticalAlignment="Center" />
+                                    <TextBlock Text="{loc:Loc RaidEditor_Inactive}" Foreground="Gray" IsVisible="{Binding !IsActive}" VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <Grid ColumnDefinitions="Auto,8,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto,8,Auto,8,Auto,8,Auto">
+                                    <CheckBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                                              Content="{loc:Loc RaidEditor_EventRaid}" IsChecked="{Binding IsEvent}" />
+
+                                    <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                                              Content="{loc:Loc RaidEditor_RareRaid}" IsChecked="{Binding IsRare}" />
+
+                                    <CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
+                                              Content="{loc:Loc RaidEditor_WishingPieceUsed}" IsChecked="{Binding IsWishingPiece}" />
+
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc RaidEditor_SeedHex}" VerticalAlignment="Center" />
+                                    <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding SeedHex}" MaxLength="16" />
+
+                                    <TextBlock Grid.Row="8" Grid.Column="0" Text="{loc:Loc RaidEditor_Stars}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="8" Grid.Column="2" Value="{Binding Stars}" Minimum="0" Maximum="5" />
+
+                                    <TextBlock Grid.Row="10" Grid.Column="0" Text="{loc:Loc RaidEditor_RandRoll}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="10" Grid.Column="2" Value="{Binding RandRoll}" Minimum="0" Maximum="255" />
+
+                                    <TextBlock Grid.Row="12" Grid.Column="0" Text="{loc:Loc RaidEditor_Flags}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="12" Grid.Column="2" Value="{Binding Flags}" Minimum="0" Maximum="255" />
+                                </Grid>
+
+                                <Button Content="{loc:Loc RaidEditor_DeactivateDen}" Command="{Binding DeactivateCommand}" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+
+                    <!-- No selection message -->
+                    <TextBlock Grid.Column="2"
+                               Text="{loc:Loc RaidEditor_SelectDen}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Opacity="0.5"
+                               IsVisible="{Binding SelectedDen, Converter={x:Static ObjectConverters.IsNull}}" />
+                </Grid>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

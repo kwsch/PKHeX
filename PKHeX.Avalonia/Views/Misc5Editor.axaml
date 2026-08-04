@@ -1,0 +1,178 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Misc5Editor"
+             x:DataType="vm:Misc5EditorViewModel">
+
+    <Design.DataContext>
+        <vm:Misc5EditorViewModel />
+    </Design.DataContext>
+
+    <Border Padding="16" Classes="view-container">
+        <Grid RowDefinitions="*,Auto">
+            <!-- Main Content with TabControl -->
+            <TabControl Grid.Row="0">
+                <!-- Main Tab -->
+                <TabItem Header="{loc:Loc Misc5Editor_Main}">
+                    <ScrollViewer>
+                        <StackPanel Spacing="16" Margin="0,8,0,0">
+                            <!-- Fly Destinations -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Text="{loc:Loc Misc5Editor_FlyDestinations}" FontWeight="SemiBold" Opacity="0.6" VerticalAlignment="Center" />
+                                        <Button Content="{loc:Loc Misc5Editor_UnlockAll}" Command="{Binding UnlockAllFlyDestinationsCommand}" FontSize="11" Padding="8,4" />
+                                    </StackPanel>
+                                    <ScrollViewer MaxHeight="250">
+                                        <ItemsControl ItemsSource="{Binding FlyDestinations}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate x:DataType="vm:FlyDestination5ViewModel">
+                                                    <Border Background="{DynamicResource ThemeBackgroundElevatedBrush}" 
+                                                            CornerRadius="4" Margin="0,0,8,8" Padding="8,4">
+                                                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsUnlocked}" 
+                                                                  MinWidth="140" />
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Key System (B2W2 only) -->
+                            <Border Classes="section-card" Padding="12" IsVisible="{Binding IsB2W2}">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Text="{loc:Loc Misc5Editor_KeySystem}" FontWeight="SemiBold" Opacity="0.6" VerticalAlignment="Center" />
+                                        <Button Content="{loc:Loc Misc5Editor_UnlockAll}" Command="{Binding UnlockAllKeysCommand}" FontSize="11" Padding="8,4" />
+                                    </StackPanel>
+                                    <ItemsControl ItemsSource="{Binding Keys}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:KeySystemViewModel">
+                                                <Border Margin="0,0,0,8" Padding="8" Background="{DynamicResource ThemeBackgroundElevatedBrush}" CornerRadius="4">
+                                                    <Grid ColumnDefinitions="*,Auto,Auto">
+                                                        <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center" FontWeight="SemiBold" />
+                                                        <CheckBox Grid.Column="1" Content="{loc:Loc Misc5Editor_Obtained}" IsChecked="{Binding IsObtained}" Margin="16,0" />
+                                                        <CheckBox Grid.Column="2" Content="{loc:Loc Misc5Editor_Unlocked}" IsChecked="{Binding IsUnlocked}" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Roamer (BW only) -->
+                            <Border Classes="section-card" Padding="12" IsVisible="{Binding IsBW}">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc Misc5Editor_Roamers}" FontWeight="SemiBold" Opacity="0.6" />
+                                    <CheckBox Content="{loc:Loc Misc5Editor_LibertyPassActivated}" IsChecked="{Binding LibertyPassActivated}" />
+                                    <ItemsControl ItemsSource="{Binding Roamers}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:RoamerViewModel">
+                                                <Grid ColumnDefinitions="Auto,*" Margin="0,8">
+                                                    <TextBlock Grid.Column="0" Text="{Binding Name}" Width="100" VerticalAlignment="Center" />
+                                                    <ComboBox Grid.Column="1" 
+                                                              ItemsSource="{Binding $parent[UserControl].((vm:Misc5EditorViewModel)DataContext).RoamerStates}"
+                                                              SelectedIndex="{Binding State}" 
+                                                              HorizontalAlignment="Stretch" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Battle Subway Tab -->
+                <TabItem Header="{loc:Loc Misc5Editor_BattleSubway}">
+                    <ScrollViewer>
+                        <StackPanel Spacing="16" Margin="0,8,0,0">
+                            <!-- Super Mode Unlocks -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Text="{loc:Loc Misc5Editor_SuperModeUnlocks}" FontWeight="SemiBold" Opacity="0.6" VerticalAlignment="Center" />
+                                        <Button Content="{loc:Loc Misc5Editor_UnlockAll}" Command="{Binding UnlockAllSuperModesCommand}" FontSize="11" Padding="8,4" />
+                                    </StackPanel>
+                                    <WrapPanel>
+                                        <CheckBox Content="{loc:Loc Misc5Editor_SuperSingle}" IsChecked="{Binding SuperSingleUnlocked}" Margin="0,0,16,8" />
+                                        <CheckBox Content="{loc:Loc Misc5Editor_SuperDouble}" IsChecked="{Binding SuperDoubleUnlocked}" Margin="0,0,16,8" />
+                                        <CheckBox Content="{loc:Loc Misc5Editor_SuperMulti}" IsChecked="{Binding SuperMultiUnlocked}" Margin="0,0,16,8" />
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Normal Mode Records -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc Misc5Editor_NormalModeRecords}" FontWeight="SemiBold" Opacity="0.6" />
+                                    <Grid ColumnDefinitions="Auto,*,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto,8,Auto">
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{loc:Loc Misc5Editor_Past}" FontWeight="SemiBold" Opacity="0.7" HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc Misc5Editor_Record}" FontWeight="SemiBold" Opacity="0.7" HorizontalAlignment="Center" />
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc Misc5Editor_Single}" VerticalAlignment="Center" Width="100" />
+                                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding SinglePast}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Single Past" />
+                                        <NumericUpDown Grid.Row="1" Grid.Column="2" Value="{Binding SingleRecord}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Single Record" />
+
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc Misc5Editor_Double}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding DoublePast}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Double Past" />
+                                        <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding DoubleRecord}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Double Record" />
+
+                                        <TextBlock Grid.Row="5" Grid.Column="0" Text="{loc:Loc Misc5Editor_MultiNpc}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding MultiNpcPast}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Multi (NPC) Past" />
+                                        <NumericUpDown Grid.Row="5" Grid.Column="2" Value="{Binding MultiNpcRecord}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Multi (NPC) Record" />
+
+                                        <TextBlock Grid.Row="7" Grid.Column="0" Text="{loc:Loc Misc5Editor_MultiFriend}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="7" Grid.Column="1" Value="{Binding MultiFriendsPast}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Multi (Friend) Past" />
+                                        <NumericUpDown Grid.Row="7" Grid.Column="2" Value="{Binding MultiFriendsRecord}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Multi (Friend) Record" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Super Mode Records -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc Misc5Editor_SuperModeRecords}" FontWeight="SemiBold" Opacity="0.6" />
+                                    <Grid ColumnDefinitions="Auto,*,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto,8,Auto">
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{loc:Loc Misc5Editor_Past}" FontWeight="SemiBold" Opacity="0.7" HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc Misc5Editor_Record}" FontWeight="SemiBold" Opacity="0.7" HorizontalAlignment="Center" />
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc Misc5Editor_Single}" VerticalAlignment="Center" Width="100" />
+                                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding SuperSinglePast}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Super Single Past" />
+                                        <NumericUpDown Grid.Row="1" Grid.Column="2" Value="{Binding SuperSingleRecord}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Super Single Record" />
+
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc Misc5Editor_Double}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding SuperDoublePast}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Super Double Past" />
+                                        <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding SuperDoubleRecord}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Super Double Record" />
+
+                                        <TextBlock Grid.Row="5" Grid.Column="0" Text="{loc:Loc Misc5Editor_MultiNpc}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding SuperMultiNpcPast}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Super Multi (NPC) Past" />
+                                        <NumericUpDown Grid.Row="5" Grid.Column="2" Value="{Binding SuperMultiNpcRecord}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Super Multi (NPC) Record" />
+
+                                        <TextBlock Grid.Row="7" Grid.Column="0" Text="{loc:Loc Misc5Editor_MultiFriend}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="7" Grid.Column="1" Value="{Binding SuperMultiFriendsPast}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Super Multi (Friend) Past" />
+                                        <NumericUpDown Grid.Row="7" Grid.Column="2" Value="{Binding SuperMultiFriendsRecord}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Super Multi (Friend) Record" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+
+            <!-- Bottom Buttons -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0" Spacing="12">
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

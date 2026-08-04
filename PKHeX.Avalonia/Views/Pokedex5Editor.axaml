@@ -1,0 +1,131 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:core="clr-namespace:PKHeX.Core;assembly=PKHeX.Core"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="PKHeX.Avalonia.Views.Pokedex5Editor"
+             x:DataType="vm:Pokedex5EditorViewModel">
+    
+    <Border Padding="16" Classes="view-container">
+        <Grid ColumnDefinitions="250, 16, *" RowDefinitions="*,Auto">
+            <!-- Species List -->
+            <Grid Grid.Column="0" RowDefinitions="Auto, 8, *">
+                <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc Pokedex5Editor_SearchSpecies}" AutomationProperties.Name="Search Species" />
+                <Border Grid.Row="2" Classes="section-card" Padding="0">
+                    <ListBox ItemsSource="{Binding Species}" SelectedItem="{Binding SelectedSpecies}" Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="core:ComboItem">
+                                <TextBlock Text="{Binding Text}" Padding="8,4" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+            
+            <!-- Details -->
+            <ScrollViewer Grid.Column="2">
+                <StackPanel Spacing="16">
+                    <!-- Global Settings -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Pokedex5Editor_GlobalSettings}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="*, 12, *, 12, *">
+                                <CheckBox Content="{loc:Loc Pokedex5Editor_NationalDexUnlocked}" IsChecked="{Binding NationalDexUnlocked}"/>
+                                <CheckBox Grid.Column="2" Content="{loc:Loc Pokedex5Editor_NationalDexMode}" IsChecked="{Binding NationalDexMode}" IsEnabled="{Binding NationalDexUnlocked}"/>
+                                <StackPanel Grid.Column="4">
+                                    <TextBlock Text="{loc:Loc Pokedex5Editor_SpindaPid}" FontWeight="SemiBold" Margin="0,0,0,4" FontSize="11" Opacity="0.7"/>
+                                    <TextBox Text="{Binding SpindaPID}" FontFamily="Consolas" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Entry Flags -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Pokedex5Editor_EntryFlags}" FontWeight="SemiBold" Opacity="0.6" />
+                            
+                            <CheckBox Content="{loc:Loc Pokedex5Editor_Caught}" IsChecked="{Binding Caught}" FontWeight="SemiBold" />
+                            
+                            <Grid ColumnDefinitions="*, 16, *">
+                                <!-- Seen -->
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="{loc:Loc Pokedex5Editor_Seen}" FontWeight="SemiBold" Opacity="0.7" />
+                                    <CheckBox Content="{loc:Loc Pokedex5Editor_Male}" IsChecked="{Binding SeenMale}" IsEnabled="{Binding CanBeMale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex5Editor_Female}" IsChecked="{Binding SeenFemale}" IsEnabled="{Binding CanBeFemale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex5Editor_MaleShiny}" IsChecked="{Binding SeenMaleShiny}" IsEnabled="{Binding CanBeMale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex5Editor_FemaleShiny}" IsChecked="{Binding SeenFemaleShiny}" IsEnabled="{Binding CanBeFemale}"/>
+                                </StackPanel>
+                                
+                                <!-- Displayed -->
+                                <StackPanel Grid.Column="2" Spacing="8">
+                                    <TextBlock Text="{loc:Loc Pokedex5Editor_Displayed}" FontWeight="SemiBold" Opacity="0.7" />
+                                    <CheckBox Content="{loc:Loc Pokedex5Editor_Male}" IsChecked="{Binding DisplayedMale}" IsEnabled="{Binding CanBeMale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex5Editor_Female}" IsChecked="{Binding DisplayedFemale}" IsEnabled="{Binding CanBeFemale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex5Editor_MaleShiny}" IsChecked="{Binding DisplayedMaleShiny}" IsEnabled="{Binding CanBeMale}"/>
+                                    <CheckBox Content="{loc:Loc Pokedex5Editor_FemaleShiny}" IsChecked="{Binding DisplayedFemaleShiny}" IsEnabled="{Binding CanBeFemale}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Languages -->
+                    <Border IsVisible="{Binding HasLanguages}" Classes="section-card" Padding="12">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="{loc:Loc Pokedex5Editor_Languages}" FontWeight="SemiBold" Opacity="0.6" />
+                            <WrapPanel Orientation="Horizontal">
+                                <CheckBox Content="{loc:Loc Pokedex5Editor_LangJapanese}" IsChecked="{Binding LangJPN}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex5Editor_LangEnglish}" IsChecked="{Binding LangENG}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex5Editor_LangFrench}" IsChecked="{Binding LangFRA}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex5Editor_LangGerman}" IsChecked="{Binding LangGER}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex5Editor_LangItalian}" IsChecked="{Binding LangITA}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex5Editor_LangSpanish}" IsChecked="{Binding LangSPA}" Margin="0,0,16,8"/>
+                                <CheckBox Content="{loc:Loc Pokedex5Editor_LangKorean}" IsChecked="{Binding LangKOR}" Margin="0,0,16,8"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Forms -->
+                    <Border IsVisible="{Binding HasForms}" Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Pokedex5Editor_Forms}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="*, 16, *">
+                                <!-- Forms Seen -->
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="{loc:Loc Pokedex5Editor_Seen}" FontWeight="SemiBold" Opacity="0.7" />
+                                    <ItemsControl ItemsSource="{Binding FormsSeen}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:FormFlagViewModel">
+                                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" Margin="0,0,0,4"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                                
+                                <!-- Forms Displayed -->
+                                <StackPanel Grid.Column="2" Spacing="8">
+                                    <TextBlock Text="{loc:Loc Pokedex5Editor_Displayed}" FontWeight="SemiBold" Opacity="0.7" />
+                                    <ItemsControl ItemsSource="{Binding FormsDisplayed}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:FormFlagViewModel">
+                                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" Margin="0,0,0,4"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Bottom Buttons -->
+            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0" Spacing="12">
+                <Button Content="{loc:Loc Pokedex5Editor_SaveEntry}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

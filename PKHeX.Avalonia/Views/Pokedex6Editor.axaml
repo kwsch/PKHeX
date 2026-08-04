@@ -1,0 +1,147 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="PKHeX.Avalonia.Views.Pokedex6Editor"
+             x:DataType="vm:Pokedex6EditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Grid ColumnDefinitions="250, 16, *" RowDefinitions="*,Auto">
+            <!-- Species List -->
+            <Grid Grid.Column="0" RowDefinitions="Auto, 8, *">
+                <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc Pokedex6Editor_SearchSpecies}" AutomationProperties.Name="Search Species" />
+                <Border Grid.Row="2" Classes="section-card" Padding="0">
+                    <ListBox ItemsSource="{Binding FilteredSpecies}" SelectedItem="{Binding SelectedSpecies}" Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{Binding Value, StringFormat={}{0:000}}" Opacity="0.5" FontSize="12" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Text}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+
+            <!-- Detail View -->
+            <ScrollViewer Grid.Column="2">
+                <StackPanel Spacing="16">
+                    <!-- Global Settings -->
+                    <Border IsVisible="{Binding SelectedSpecies, Converter={x:Static ObjectConverters.IsNotNull}}" Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Pokedex6Editor_GlobalSettings}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="*, 12, *, 12, *">
+                                <CheckBox Grid.Column="0" Content="{loc:Loc Pokedex6Editor_NationalDexUnlocked}" IsChecked="{Binding NationalDexUnlocked}"/>
+                                <CheckBox Grid.Column="2" Content="{loc:Loc Pokedex6Editor_NationalDexMode}" IsChecked="{Binding NationalDexMode}"/>
+                                <StackPanel Grid.Column="4">
+                                    <TextBlock Text="{loc:Loc Pokedex6Editor_SpindaPid}" FontWeight="SemiBold" Margin="0,0,0,4" FontSize="11" Opacity="0.7"/>
+                                    <TextBox Text="{Binding Spinda, StringFormat={}{0:X8}}" FontFamily="Consolas" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Entry Details -->
+                    <StackPanel Spacing="16" IsVisible="{Binding SelectedSpecies, Converter={x:Static ObjectConverters.IsNotNull}}">
+                        
+                        <!-- Main Flags -->
+                        <Border Classes="section-card" Padding="12">
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="{loc:Loc Pokedex6Editor_EntryFlags}" FontWeight="SemiBold" Opacity="0.6" />
+                                <CheckBox Content="{loc:Loc Pokedex6Editor_Caught}" IsChecked="{Binding Caught}" FontWeight="SemiBold" />
+                                
+                                <Grid ColumnDefinitions="Auto, Auto, Auto, Auto, Auto" RowDefinitions="Auto, 8, Auto, 8, Auto">
+                                    <TextBlock Text="{loc:Loc Pokedex6Editor_Seen}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,16,0" Opacity="0.7"/>
+                                    <TextBlock Text="{loc:Loc Pokedex6Editor_Displayed}" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,16,0" Opacity="0.7"/>
+
+                                    <TextBlock Text="{loc:Loc Pokedex6Editor_Male}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="8,0" Opacity="0.6" FontSize="11"/>
+                                    <TextBlock Text="{loc:Loc Pokedex6Editor_Female}" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Margin="8,0" Opacity="0.6" FontSize="11"/>
+                                    <TextBlock Text="{loc:Loc Pokedex6Editor_ShinyMale}" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Margin="8,0" Opacity="0.6" FontSize="11"/>
+                                    <TextBlock Text="{loc:Loc Pokedex6Editor_ShinyFemale}" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" Margin="8,0" Opacity="0.6" FontSize="11"/>
+
+                                    <!-- Seen Checkboxes -->
+                                    <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding SeenMale}" IsEnabled="{Binding CanBeMale}" HorizontalAlignment="Center"/>
+                                    <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding SeenFemale}" IsEnabled="{Binding CanBeFemale}" HorizontalAlignment="Center"/>
+                                    <CheckBox Grid.Row="2" Grid.Column="3" IsChecked="{Binding SeenShinyMale}" IsEnabled="{Binding CanBeMale}" HorizontalAlignment="Center"/>
+                                    <CheckBox Grid.Row="2" Grid.Column="4" IsChecked="{Binding SeenShinyFemale}" IsEnabled="{Binding CanBeFemale}" HorizontalAlignment="Center"/>
+
+                                    <!-- Displayed Checkboxes -->
+                                    <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding DisplayedMale}" IsEnabled="{Binding CanBeMale}" HorizontalAlignment="Center"/>
+                                    <CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding DisplayedFemale}" IsEnabled="{Binding CanBeFemale}" HorizontalAlignment="Center"/>
+                                    <CheckBox Grid.Row="4" Grid.Column="3" IsChecked="{Binding DisplayedShinyMale}" IsEnabled="{Binding CanBeMale}" HorizontalAlignment="Center"/>
+                                    <CheckBox Grid.Row="4" Grid.Column="4" IsChecked="{Binding DisplayedShinyFemale}" IsEnabled="{Binding CanBeFemale}" HorizontalAlignment="Center"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Languages -->
+                        <Border Classes="section-card" Padding="12">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{loc:Loc Pokedex6Editor_Languages}" FontWeight="SemiBold" Opacity="0.6" />
+                                <WrapPanel Orientation="Horizontal">
+                                    <CheckBox Content="{loc:Loc Pokedex6Editor_LangJapanese}" IsChecked="{Binding LangJapanese}" Margin="0,0,16,8" />
+                                    <CheckBox Content="{loc:Loc Pokedex6Editor_LangEnglish}" IsChecked="{Binding LangEnglish}" Margin="0,0,16,8" />
+                                    <CheckBox Content="{loc:Loc Pokedex6Editor_LangFrench}" IsChecked="{Binding LangFrench}" Margin="0,0,16,8" />
+                                    <CheckBox Content="{loc:Loc Pokedex6Editor_LangItalian}" IsChecked="{Binding LangItalian}" Margin="0,0,16,8" />
+                                    <CheckBox Content="{loc:Loc Pokedex6Editor_LangGerman}" IsChecked="{Binding LangGerman}" Margin="0,0,16,8" />
+                                    <CheckBox Content="{loc:Loc Pokedex6Editor_LangSpanish}" IsChecked="{Binding LangSpanish}" Margin="0,0,16,8" />
+                                    <CheckBox Content="{loc:Loc Pokedex6Editor_LangKorean}" IsChecked="{Binding LangKorean}" Margin="0,0,16,8" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                        
+                        <!-- Version Specifics -->
+                        <Grid ColumnDefinitions="*, 16, *">
+                             <!-- XY Foreign -->
+                            <Border Grid.Column="0" IsVisible="{Binding HasForeign}" Classes="section-card" Padding="12">
+                                 <StackPanel Spacing="12">
+                                     <TextBlock Text="{loc:Loc Pokedex6Editor_XySettings}" FontWeight="SemiBold" Opacity="0.6" />
+                                     <CheckBox Content="{loc:Loc Pokedex6Editor_ForeignOwned}" IsChecked="{Binding Foreign}" />
+                                 </StackPanel>
+                            </Border>
+                            
+                            <!-- ORAS Counts -->
+                            <Border Grid.Column="2" IsVisible="{Binding IsORAS}" Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc Pokedex6Editor_DexNavCounts}" FontWeight="SemiBold" Opacity="0.6" />
+                                    <Grid ColumnDefinitions="*, 12, *">
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="{loc:Loc Pokedex6Editor_SeenCount}" Margin="0,0,0,4" FontSize="11" Opacity="0.7"/>
+                                            <NumericUpDown Value="{Binding SeenCount}" Minimum="0" Maximum="65535" ShowButtonSpinner="False" />
+                                        </StackPanel>
+                                        
+                                        <StackPanel Grid.Column="2">
+                                            <TextBlock Text="{loc:Loc Pokedex6Editor_ObtainedCount}" Margin="0,0,0,4" FontSize="11" Opacity="0.7"/>
+                                            <NumericUpDown Value="{Binding ObtainedCount}" Minimum="0" Maximum="65535" ShowButtonSpinner="False" />
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- Forms -->
+                        <Border IsVisible="{Binding Forms.Count}" Classes="section-card" Padding="12">
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="{loc:Loc Pokedex6Editor_Forms}" FontWeight="SemiBold" Opacity="0.6" />
+                                <DataGrid ItemsSource="{Binding Forms}" CanUserResizeColumns="True" CanUserSortColumns="False" AutoGenerateColumns="False" Height="200"
+                                          BorderThickness="1" BorderBrush="{DynamicResource ThemeBorderMutedBrush}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="{loc:Loc Pokedex6Editor_FormName}" Binding="{Binding Name}" IsReadOnly="True" Width="*" />
+                                        <DataGridCheckBoxColumn Header="{loc:Loc Pokedex6Editor_SeenCol}" Binding="{Binding Seen}" Width="60" />
+                                        <DataGridCheckBoxColumn Header="{loc:Loc Pokedex6Editor_SeenShinyCol}" Binding="{Binding SeenShiny}" Width="80" />
+                                        <DataGridCheckBoxColumn Header="{loc:Loc Pokedex6Editor_DisplayedCol}" Binding="{Binding Displayed}" Width="70" />
+                                        <DataGridCheckBoxColumn Header="{loc:Loc Pokedex6Editor_DispShinyCol}" Binding="{Binding DisplayedShiny}" Width="80" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</UserControl>

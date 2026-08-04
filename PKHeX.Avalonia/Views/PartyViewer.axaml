@@ -1,0 +1,174 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:models="clr-namespace:PKHeX.Presentation.Models;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.PartyViewer"
+             x:DataType="vm:PartyViewerViewModel"
+             Focusable="True">
+
+    <UserControl.KeyBindings>
+        <KeyBinding Gesture="Up" Command="{Binding MoveSelectionCommand}" CommandParameter="Up" />
+        <KeyBinding Gesture="Down" Command="{Binding MoveSelectionCommand}" CommandParameter="Down" />
+        <KeyBinding Gesture="Enter" Command="{Binding ActivateSlotCommand}" />
+        <KeyBinding Gesture="Space" Command="{Binding ActivateSlotCommand}" />
+        <!-- Keyboard-only slot operations, mirroring the mouse modifier-clicks below -->
+        <KeyBinding Gesture="Ctrl+C" Command="{Binding ViewSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+        <KeyBinding Gesture="Ctrl+V" Command="{Binding SetSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+        <KeyBinding Gesture="Delete" Command="{Binding DeleteSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+    </UserControl.KeyBindings>
+
+    <Border Padding="16" Classes="view-container">
+        <DockPanel>
+            <!-- Header -->
+            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc PartyViewer_Title}" FontWeight="SemiBold" FontSize="18" Margin="0,0,0,12" />
+
+            <!-- Footer -->
+            <TextBlock DockPanel.Dock="Bottom"
+                       Text="{loc:Loc PartyViewer_Footer}"
+                       Opacity="0.5" FontSize="11" HorizontalAlignment="Center" Margin="0,12,0,0" />
+            
+            <!-- Party Grid - 2 columns, 3 rows -->
+            <Border Classes="section-card" Padding="8">
+                <ItemsControl ItemsSource="{Binding Slots}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2" Rows="3" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:PartySlotData">
+                            <Button PointerPressed="OnSlotPointerPressed"
+                                    PointerMoved="OnSlotPointerMoved"
+                                    DragDrop.AllowDrop="True"
+                                    DragDrop.Drop="OnSlotDrop"
+                                    DragDrop.DragOver="OnSlotDragOver"
+                                    ToolTip.Tip="{Binding ToolTipSummary}"
+                                    AutomationProperties.Name="{Binding AccessibleName}"
+                                    Click="OnSlotClicked"
+                                    DoubleTapped="OnSlotDoubleTapped"
+                                    Tag="{Binding}"
+                                    Padding="8"
+                                    Margin="4"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    Classes.selected="{Binding IsSelected}">
+                                
+                                <!-- Context Menu -->
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="{loc:Loc PartyViewer_ViewMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).ViewSlotCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                        <MenuItem Header="{loc:Loc PartyViewer_SetMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).SetSlotCommand}"
+                                                  CommandParameter="{Binding}" />
+                                        <Separator />
+                                        <MenuItem Header="{loc:Loc PartyViewer_DeleteMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).DeleteSlotCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                                
+                                <Button.Styles>
+                                    <Style Selector="Button">
+                                        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundElevatedBrush}" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderDefaultBrush}" />
+                                        <Setter Property="BorderThickness" Value="1" />
+                                        <Setter Property="CornerRadius" Value="8" />
+                                        <!-- Local template (replacing Fluent's default). PART_Border MUST stay
+                                             hit-test-visible with a non-null Background so a pointer press/release
+                                             resolves to this Button and its Click fires; a templated Button has no
+                                             hittable surface of its own, so an IsHitTestVisible="False" root excludes
+                                             the whole subtree from hit-testing and kills clicks (and drops). Drop
+                                             targeting still works: Avalonia walks UP from the hit element to the
+                                             nearest DragDrop.AllowDrop (this Button). The card content Panel below is
+                                             kept IsHitTestVisible="False" only so hits resolve here, not to the sprite. -->
+                                        <Setter Property="Template">
+                                            <ControlTemplate>
+                                                <Border Name="PART_Border"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="{TemplateBinding CornerRadius}">
+                                                    <ContentPresenter Name="PART_ContentPresenter"
+                                                                      Content="{TemplateBinding Content}"
+                                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                      Padding="{TemplateBinding Padding}"
+                                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter>
+                                    </Style>
+                                    <Style Selector="Button:pointerover">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+                                    </Style>
+                                    <Style Selector="Button.selected">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+                                        <Setter Property="BorderThickness" Value="2" />
+                                    </Style>
+                                </Button.Styles>
+                                
+                                <!-- Card Content - Sprite centered with overlay info. Hit-test-transparent
+                                     so drag/drop hit-testing resolves to the Button itself (which
+                                     carries DragDrop.AllowDrop) rather than the sprite Image swallowing it. -->
+                                <Panel IsHitTestVisible="False">
+                                    <!-- Empty slot -->
+                                    <Border Background="{DynamicResource ThemeBackgroundCardBrush}"
+                                            CornerRadius="4" 
+                                            IsVisible="{Binding IsEmpty}"
+                                            Height="70">
+                                        <TextBlock Text="{loc:Loc PartyViewer_Empty}"
+                                                   Opacity="0.4"
+                                                   HorizontalAlignment="Center" 
+                                                   VerticalAlignment="Center" />
+                                    </Border>
+                                    
+                                    <!-- Filled slot -->
+                                    <Grid RowDefinitions="*,Auto" IsVisible="{Binding !IsEmpty}">
+                                        <!-- Sprite with warning indicator -->
+                                        <Panel Grid.Row="0" HorizontalAlignment="Center">
+                                            <Image Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" 
+                                                   Width="56" Height="48" 
+                                                   RenderOptions.BitmapInterpolationMode="HighQuality" />
+                                            
+                                            <!-- Illegal Warning -->
+                                            <Path Data="M 8,0 L 16,14 L 0,14 Z M 8.5,12 H 7.5 V 10.5 H 8.5 V 12 Z M 8.5,9 H 7.5 V 4.5 H 8.5 V 9 Z" 
+                                                  Fill="{DynamicResource ThemeShinyBrush}"
+                                                  HorizontalAlignment="Right"
+                                                  VerticalAlignment="Top"
+                                                  IsVisible="{Binding !IsLegal}"
+                                                  Margin="0,0,0,0"
+                                                  Width="10" Height="9"/>
+                                        </Panel>
+                                        
+                                        <!-- Info: Nickname only, with level badge -->
+                                        <DockPanel Grid.Row="1" Margin="0,4,0,0">
+                                            <Border DockPanel.Dock="Right" 
+                                                    Background="{DynamicResource ThemeBackgroundCardBrush}" 
+                                                    CornerRadius="3" 
+                                                    Padding="4,1">
+                                                <TextBlock Text="{Binding Level, StringFormat='Lv.{0}'}" 
+                                                           FontSize="10" 
+                                                           Opacity="0.8" />
+                                            </Border>
+                                            <TextBlock Text="{Binding Nickname}" 
+                                                       FontWeight="SemiBold" 
+                                                       FontSize="12"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       VerticalAlignment="Center" />
+                                        </DockPanel>
+                                    </Grid>
+                                </Panel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+        </DockPanel>
+    </Border>
+</UserControl>

@@ -1,0 +1,763 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:PKHeX.Presentation.Models;assembly=PKHeX.Presentation"
+        xmlns:services="clr-namespace:PKHeX.Avalonia.Services"
+        xmlns:controls="clr-namespace:PKHeX.Avalonia.Controls">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         PKHeX Theme Tokens
+         Semantic design tokens exposed as ThemeDictionaries so the whole app can
+         switch appearance at runtime (Settings > Appearance) without a restart:
+           - Dark          : original GitHub-Dark-inspired palette (default)
+           - Light         : light surfaces, WCAG AA (4.5:1) body text
+           - HighContrast  : maximum-contrast accessibility palette
+         Every consumer below (and in Views) must use DynamicResource, not
+         StaticResource, so brushes actually re-resolve when the variant changes.
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <Style>
+        <Style.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.ThemeDictionaries>
+
+                    <!-- ═══════════════════════ Dark (default) ═══════════════════════ -->
+                    <ResourceDictionary x:Key="Dark">
+                        <!-- Base Colors -->
+                        <Color x:Key="ThemeBackgroundDeep">#0D1117</Color>
+                        <Color x:Key="ThemeBackgroundBase">#161B22</Color>
+                        <Color x:Key="ThemeBackgroundCard">#21262D</Color>
+                        <Color x:Key="ThemeBackgroundElevated">#30363D</Color>
+                        <Color x:Key="ThemeBackgroundHover">#484F58</Color>
+
+                        <!-- Border Colors -->
+                        <Color x:Key="ThemeBorderDefault">#30363D</Color>
+                        <Color x:Key="ThemeBorderMuted">#21262D</Color>
+
+                        <!-- Text Colors (AA on ThemeBackgroundBase: Primary ~13:1, Secondary ~5.7:1) -->
+                        <Color x:Key="ThemeTextPrimary">#E6EDF3</Color>
+                        <Color x:Key="ThemeTextSecondary">#8B949E</Color>
+                        <Color x:Key="ThemeTextMuted">#6E7681</Color>
+
+                        <!-- Accent Colors - Pokemon Red Theme -->
+                        <Color x:Key="ThemeAccentPrimary">#E3350D</Color>
+                        <Color x:Key="ThemeAccentSecondary">#CC0000</Color>
+                        <Color x:Key="ThemeAccentGlow">#E3350D40</Color>
+
+                        <!-- Semantic Colors -->
+                        <Color x:Key="ThemeSuccessColor">#3FB950</Color>
+                        <Color x:Key="ThemeSuccessGlow">#3FB95040</Color>
+                        <Color x:Key="ThemeErrorColor">#F85149</Color>
+                        <Color x:Key="ThemeErrorGlow">#F8514940</Color>
+                        <Color x:Key="ThemeWarningColor">#D29922</Color>
+                        <Color x:Key="ThemeWarningGlow">#D2992240</Color>
+                        <Color x:Key="ThemeShinyColor">#E3350D</Color>
+                        <Color x:Key="ThemeShinyGoldColor">#FFD700</Color>
+
+                        <!-- Full-screen scrim used behind loading/searching overlays -->
+                        <Color x:Key="ThemeOverlayScrim">#80000000</Color>
+                        <Color x:Key="ThemeOverlayForeground">#FFFFFF</Color>
+
+                        <!-- Brushes -->
+                        <SolidColorBrush x:Key="ThemeBackgroundDeepBrush" Color="{StaticResource ThemeBackgroundDeep}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundBaseBrush" Color="{StaticResource ThemeBackgroundBase}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundCardBrush" Color="{StaticResource ThemeBackgroundCard}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundElevatedBrush" Color="{StaticResource ThemeBackgroundElevated}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundHoverBrush" Color="{StaticResource ThemeBackgroundHover}" />
+
+                        <SolidColorBrush x:Key="ThemeBorderDefaultBrush" Color="{StaticResource ThemeBorderDefault}" />
+                        <SolidColorBrush x:Key="ThemeBorderMutedBrush" Color="{StaticResource ThemeBorderMuted}" />
+
+                        <SolidColorBrush x:Key="ThemeTextPrimaryBrush" Color="{StaticResource ThemeTextPrimary}" />
+                        <SolidColorBrush x:Key="ThemeTextSecondaryBrush" Color="{StaticResource ThemeTextSecondary}" />
+                        <SolidColorBrush x:Key="ThemeTextMutedBrush" Color="{StaticResource ThemeTextMuted}" />
+
+                        <SolidColorBrush x:Key="ThemeAccentPrimaryBrush" Color="{StaticResource ThemeAccentPrimary}" />
+                        <SolidColorBrush x:Key="ThemeAccentSecondaryBrush" Color="{StaticResource ThemeAccentSecondary}" />
+                        <SolidColorBrush x:Key="ThemeAccentGlowBrush" Color="{StaticResource ThemeAccentGlow}" />
+
+                        <SolidColorBrush x:Key="ThemeSuccessBrush" Color="{StaticResource ThemeSuccessColor}" />
+                        <SolidColorBrush x:Key="ThemeSuccessGlowBrush" Color="{StaticResource ThemeSuccessGlow}" />
+                        <SolidColorBrush x:Key="ThemeErrorBrush" Color="{StaticResource ThemeErrorColor}" />
+                        <SolidColorBrush x:Key="ThemeErrorGlowBrush" Color="{StaticResource ThemeErrorGlow}" />
+                        <SolidColorBrush x:Key="ThemeWarningBrush" Color="{StaticResource ThemeWarningColor}" />
+                        <SolidColorBrush x:Key="ThemeWarningGlowBrush" Color="{StaticResource ThemeWarningGlow}" />
+                        <SolidColorBrush x:Key="ThemeShinyBrush" Color="{StaticResource ThemeShinyColor}" />
+                        <SolidColorBrush x:Key="ThemeShinyGoldBrush" Color="{StaticResource ThemeShinyGoldColor}" />
+
+                        <SolidColorBrush x:Key="ThemeOverlayScrimBrush" Color="{StaticResource ThemeOverlayScrim}" />
+                        <SolidColorBrush x:Key="ThemeOverlayForegroundBrush" Color="{StaticResource ThemeOverlayForeground}" />
+
+                        <!-- Gradients -->
+                        <LinearGradientBrush x:Key="ThemeAccentGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                            <GradientStop Color="#E3350D" Offset="0" />
+                            <GradientStop Color="#FF6B4A" Offset="1" />
+                        </LinearGradientBrush>
+
+                        <LinearGradientBrush x:Key="ThemeCardGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                            <GradientStop Color="#21262D" Offset="0" />
+                            <GradientStop Color="#161B22" Offset="1" />
+                        </LinearGradientBrush>
+
+                        <LinearGradientBrush x:Key="ThemeHeaderGradient" StartPoint="0%,0%" EndPoint="100%,0%">
+                            <GradientStop Color="#E3350D20" Offset="0" />
+                            <GradientStop Color="#FF6B4A10" Offset="1" />
+                        </LinearGradientBrush>
+
+                        <!-- Box Shadow Effects -->
+                        <BoxShadows x:Key="ThemeShadowSmall">0 1 3 0 #00000040</BoxShadows>
+                        <BoxShadows x:Key="ThemeShadowMedium">0 4 12 0 #00000050</BoxShadows>
+                        <BoxShadows x:Key="ThemeShadowLarge">0 8 24 0 #00000060</BoxShadows>
+                        <BoxShadows x:Key="ThemeGlowAccent">0 0 16 0 #E3350D40</BoxShadows>
+                        <BoxShadows x:Key="ThemeGlowSuccess">0 0 16 0 #3FB95040</BoxShadows>
+                        <BoxShadows x:Key="ThemeGlowError">0 0 16 0 #F8514940</BoxShadows>
+                    </ResourceDictionary>
+
+                    <!-- ═══════════════════════════ Light ═══════════════════════════ -->
+                    <ResourceDictionary x:Key="Light">
+                        <!-- Base Colors -->
+                        <Color x:Key="ThemeBackgroundDeep">#EAEEF2</Color>
+                        <Color x:Key="ThemeBackgroundBase">#F6F8FA</Color>
+                        <Color x:Key="ThemeBackgroundCard">#FFFFFF</Color>
+                        <Color x:Key="ThemeBackgroundElevated">#E7EBEF</Color>
+                        <Color x:Key="ThemeBackgroundHover">#DCE1E6</Color>
+
+                        <!-- Border Colors -->
+                        <Color x:Key="ThemeBorderDefault">#D0D7DE</Color>
+                        <Color x:Key="ThemeBorderMuted">#E1E4E8</Color>
+
+                        <!-- Text Colors (AA on ThemeBackgroundBase/Card: Primary ~16:1, Secondary ~9:1, Muted ~4.6:1) -->
+                        <Color x:Key="ThemeTextPrimary">#1F2328</Color>
+                        <Color x:Key="ThemeTextSecondary">#383E44</Color>
+                        <Color x:Key="ThemeTextMuted">#656D76</Color>
+
+                        <!-- Accent Colors - Pokemon Red Theme (brand-consistent across variants) -->
+                        <Color x:Key="ThemeAccentPrimary">#E3350D</Color>
+                        <Color x:Key="ThemeAccentSecondary">#CC0000</Color>
+                        <Color x:Key="ThemeAccentGlow">#E3350D33</Color>
+
+                        <!-- Semantic Colors - darkened from the Dark palette so they clear 4.5:1 on white -->
+                        <Color x:Key="ThemeSuccessColor">#1A7F37</Color>
+                        <Color x:Key="ThemeSuccessGlow">#1A7F3733</Color>
+                        <Color x:Key="ThemeErrorColor">#CF222E</Color>
+                        <Color x:Key="ThemeErrorGlow">#CF222E33</Color>
+                        <Color x:Key="ThemeWarningColor">#9A6700</Color>
+                        <Color x:Key="ThemeWarningGlow">#9A670033</Color>
+                        <Color x:Key="ThemeShinyColor">#E3350D</Color>
+                        <Color x:Key="ThemeShinyGoldColor">#7A5D00</Color>
+
+                        <Color x:Key="ThemeOverlayScrim">#80000000</Color>
+                        <Color x:Key="ThemeOverlayForeground">#FFFFFF</Color>
+
+                        <!-- Brushes -->
+                        <SolidColorBrush x:Key="ThemeBackgroundDeepBrush" Color="{StaticResource ThemeBackgroundDeep}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundBaseBrush" Color="{StaticResource ThemeBackgroundBase}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundCardBrush" Color="{StaticResource ThemeBackgroundCard}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundElevatedBrush" Color="{StaticResource ThemeBackgroundElevated}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundHoverBrush" Color="{StaticResource ThemeBackgroundHover}" />
+
+                        <SolidColorBrush x:Key="ThemeBorderDefaultBrush" Color="{StaticResource ThemeBorderDefault}" />
+                        <SolidColorBrush x:Key="ThemeBorderMutedBrush" Color="{StaticResource ThemeBorderMuted}" />
+
+                        <SolidColorBrush x:Key="ThemeTextPrimaryBrush" Color="{StaticResource ThemeTextPrimary}" />
+                        <SolidColorBrush x:Key="ThemeTextSecondaryBrush" Color="{StaticResource ThemeTextSecondary}" />
+                        <SolidColorBrush x:Key="ThemeTextMutedBrush" Color="{StaticResource ThemeTextMuted}" />
+
+                        <SolidColorBrush x:Key="ThemeAccentPrimaryBrush" Color="{StaticResource ThemeAccentPrimary}" />
+                        <SolidColorBrush x:Key="ThemeAccentSecondaryBrush" Color="{StaticResource ThemeAccentSecondary}" />
+                        <SolidColorBrush x:Key="ThemeAccentGlowBrush" Color="{StaticResource ThemeAccentGlow}" />
+
+                        <SolidColorBrush x:Key="ThemeSuccessBrush" Color="{StaticResource ThemeSuccessColor}" />
+                        <SolidColorBrush x:Key="ThemeSuccessGlowBrush" Color="{StaticResource ThemeSuccessGlow}" />
+                        <SolidColorBrush x:Key="ThemeErrorBrush" Color="{StaticResource ThemeErrorColor}" />
+                        <SolidColorBrush x:Key="ThemeErrorGlowBrush" Color="{StaticResource ThemeErrorGlow}" />
+                        <SolidColorBrush x:Key="ThemeWarningBrush" Color="{StaticResource ThemeWarningColor}" />
+                        <SolidColorBrush x:Key="ThemeWarningGlowBrush" Color="{StaticResource ThemeWarningGlow}" />
+                        <SolidColorBrush x:Key="ThemeShinyBrush" Color="{StaticResource ThemeShinyColor}" />
+                        <SolidColorBrush x:Key="ThemeShinyGoldBrush" Color="{StaticResource ThemeShinyGoldColor}" />
+
+                        <SolidColorBrush x:Key="ThemeOverlayScrimBrush" Color="{StaticResource ThemeOverlayScrim}" />
+                        <SolidColorBrush x:Key="ThemeOverlayForegroundBrush" Color="{StaticResource ThemeOverlayForeground}" />
+
+                        <!-- Gradients -->
+                        <LinearGradientBrush x:Key="ThemeAccentGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                            <GradientStop Color="#E3350D" Offset="0" />
+                            <GradientStop Color="#FF6B4A" Offset="1" />
+                        </LinearGradientBrush>
+
+                        <LinearGradientBrush x:Key="ThemeCardGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                            <GradientStop Color="#FFFFFF" Offset="0" />
+                            <GradientStop Color="#F6F8FA" Offset="1" />
+                        </LinearGradientBrush>
+
+                        <LinearGradientBrush x:Key="ThemeHeaderGradient" StartPoint="0%,0%" EndPoint="100%,0%">
+                            <GradientStop Color="#E3350D20" Offset="0" />
+                            <GradientStop Color="#FF6B4A10" Offset="1" />
+                        </LinearGradientBrush>
+
+                        <!-- Box Shadow Effects - lighter, since shadows read differently on light surfaces -->
+                        <BoxShadows x:Key="ThemeShadowSmall">0 1 3 0 #00000020</BoxShadows>
+                        <BoxShadows x:Key="ThemeShadowMedium">0 4 12 0 #00000025</BoxShadows>
+                        <BoxShadows x:Key="ThemeShadowLarge">0 8 24 0 #00000030</BoxShadows>
+                        <BoxShadows x:Key="ThemeGlowAccent">0 0 16 0 #E3350D30</BoxShadows>
+                        <BoxShadows x:Key="ThemeGlowSuccess">0 0 16 0 #1A7F3730</BoxShadows>
+                        <BoxShadows x:Key="ThemeGlowError">0 0 16 0 #CF222E30</BoxShadows>
+                    </ResourceDictionary>
+
+                    <!-- ═══════════════════════ HighContrast ═══════════════════════ -->
+                    <ResourceDictionary x:Key="{x:Static services:AppThemeVariants.HighContrast}">
+                        <!-- Base Colors: pure black surfaces, bright white text/borders -->
+                        <Color x:Key="ThemeBackgroundDeep">#000000</Color>
+                        <Color x:Key="ThemeBackgroundBase">#000000</Color>
+                        <Color x:Key="ThemeBackgroundCard">#000000</Color>
+                        <Color x:Key="ThemeBackgroundElevated">#1A1A1A</Color>
+                        <Color x:Key="ThemeBackgroundHover">#333333</Color>
+
+                        <!-- Border Colors -->
+                        <Color x:Key="ThemeBorderDefault">#FFFFFF</Color>
+                        <Color x:Key="ThemeBorderMuted">#AAAAAA</Color>
+
+                        <!-- Text Colors (all >15:1 on black) -->
+                        <Color x:Key="ThemeTextPrimary">#FFFFFF</Color>
+                        <Color x:Key="ThemeTextSecondary">#E0E0E0</Color>
+                        <Color x:Key="ThemeTextMuted">#CCCCCC</Color>
+
+                        <!-- Accent Colors - brightened for maximum legibility on black -->
+                        <Color x:Key="ThemeAccentPrimary">#FF4500</Color>
+                        <Color x:Key="ThemeAccentSecondary">#FF0000</Color>
+                        <Color x:Key="ThemeAccentGlow">#FF450066</Color>
+
+                        <!-- Semantic Colors -->
+                        <Color x:Key="ThemeSuccessColor">#00FF66</Color>
+                        <Color x:Key="ThemeSuccessGlow">#00FF6650</Color>
+                        <Color x:Key="ThemeErrorColor">#FF5C4D</Color>
+                        <Color x:Key="ThemeErrorGlow">#FF5C4D50</Color>
+                        <Color x:Key="ThemeWarningColor">#FFD400</Color>
+                        <Color x:Key="ThemeWarningGlow">#FFD40050</Color>
+                        <Color x:Key="ThemeShinyColor">#FF4500</Color>
+                        <Color x:Key="ThemeShinyGoldColor">#FFFF00</Color>
+
+                        <Color x:Key="ThemeOverlayScrim">#CC000000</Color>
+                        <Color x:Key="ThemeOverlayForeground">#FFFFFF</Color>
+
+                        <!-- Brushes -->
+                        <SolidColorBrush x:Key="ThemeBackgroundDeepBrush" Color="{StaticResource ThemeBackgroundDeep}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundBaseBrush" Color="{StaticResource ThemeBackgroundBase}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundCardBrush" Color="{StaticResource ThemeBackgroundCard}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundElevatedBrush" Color="{StaticResource ThemeBackgroundElevated}" />
+                        <SolidColorBrush x:Key="ThemeBackgroundHoverBrush" Color="{StaticResource ThemeBackgroundHover}" />
+
+                        <SolidColorBrush x:Key="ThemeBorderDefaultBrush" Color="{StaticResource ThemeBorderDefault}" />
+                        <SolidColorBrush x:Key="ThemeBorderMutedBrush" Color="{StaticResource ThemeBorderMuted}" />
+
+                        <SolidColorBrush x:Key="ThemeTextPrimaryBrush" Color="{StaticResource ThemeTextPrimary}" />
+                        <SolidColorBrush x:Key="ThemeTextSecondaryBrush" Color="{StaticResource ThemeTextSecondary}" />
+                        <SolidColorBrush x:Key="ThemeTextMutedBrush" Color="{StaticResource ThemeTextMuted}" />
+
+                        <SolidColorBrush x:Key="ThemeAccentPrimaryBrush" Color="{StaticResource ThemeAccentPrimary}" />
+                        <SolidColorBrush x:Key="ThemeAccentSecondaryBrush" Color="{StaticResource ThemeAccentSecondary}" />
+                        <SolidColorBrush x:Key="ThemeAccentGlowBrush" Color="{StaticResource ThemeAccentGlow}" />
+
+                        <SolidColorBrush x:Key="ThemeSuccessBrush" Color="{StaticResource ThemeSuccessColor}" />
+                        <SolidColorBrush x:Key="ThemeSuccessGlowBrush" Color="{StaticResource ThemeSuccessGlow}" />
+                        <SolidColorBrush x:Key="ThemeErrorBrush" Color="{StaticResource ThemeErrorColor}" />
+                        <SolidColorBrush x:Key="ThemeErrorGlowBrush" Color="{StaticResource ThemeErrorGlow}" />
+                        <SolidColorBrush x:Key="ThemeWarningBrush" Color="{StaticResource ThemeWarningColor}" />
+                        <SolidColorBrush x:Key="ThemeWarningGlowBrush" Color="{StaticResource ThemeWarningGlow}" />
+                        <SolidColorBrush x:Key="ThemeShinyBrush" Color="{StaticResource ThemeShinyColor}" />
+                        <SolidColorBrush x:Key="ThemeShinyGoldBrush" Color="{StaticResource ThemeShinyGoldColor}" />
+
+                        <SolidColorBrush x:Key="ThemeOverlayScrimBrush" Color="{StaticResource ThemeOverlayScrim}" />
+                        <SolidColorBrush x:Key="ThemeOverlayForegroundBrush" Color="{StaticResource ThemeOverlayForeground}" />
+
+                        <!-- Gradients - flattened to solid-feeling gradients; HC favors flat, unambiguous fills -->
+                        <LinearGradientBrush x:Key="ThemeAccentGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                            <GradientStop Color="#FF4500" Offset="0" />
+                            <GradientStop Color="#FF6A33" Offset="1" />
+                        </LinearGradientBrush>
+
+                        <LinearGradientBrush x:Key="ThemeCardGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                            <GradientStop Color="#000000" Offset="0" />
+                            <GradientStop Color="#000000" Offset="1" />
+                        </LinearGradientBrush>
+
+                        <LinearGradientBrush x:Key="ThemeHeaderGradient" StartPoint="0%,0%" EndPoint="100%,0%">
+                            <GradientStop Color="#FF450030" Offset="0" />
+                            <GradientStop Color="#FF6A3320" Offset="1" />
+                        </LinearGradientBrush>
+
+                        <!-- Box Shadow Effects -->
+                        <BoxShadows x:Key="ThemeShadowSmall">0 1 3 0 #FFFFFF30</BoxShadows>
+                        <BoxShadows x:Key="ThemeShadowMedium">0 4 12 0 #FFFFFF40</BoxShadows>
+                        <BoxShadows x:Key="ThemeShadowLarge">0 8 24 0 #FFFFFF50</BoxShadows>
+                        <BoxShadows x:Key="ThemeGlowAccent">0 0 16 0 #FF450066</BoxShadows>
+                        <BoxShadows x:Key="ThemeGlowSuccess">0 0 16 0 #00FF6650</BoxShadows>
+                        <BoxShadows x:Key="ThemeGlowError">0 0 16 0 #FF5C4D50</BoxShadows>
+                    </ResourceDictionary>
+
+                </ResourceDictionary.ThemeDictionaries>
+            </ResourceDictionary>
+        </Style.Resources>
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Card Style - Elevated container with subtle depth
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Border.card">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundCardBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="BoxShadow" Value="{DynamicResource ThemeShadowSmall}" />
+    </Style>
+
+    <Style Selector="Border.card-elevated">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundElevatedBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="BoxShadow" Value="{DynamicResource ThemeShadowMedium}" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Global Button Overrides
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Button">
+        <Setter Property="FocusAdorner" Value="{x:Null}" />
+    </Style>
+
+    <Style Selector="Button:focus-visible">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Slot Button - Box slot with hover effects
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Button.slot">
+        <Setter Property="FocusAdorner" Value="{x:Null}" />
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundCardBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate x:DataType="models:SlotData">
+                <!-- Root MUST stay hit-test-visible with a non-null fill (Transparent counts) so a
+                     pointer press/release anywhere in the slot resolves to this Button and its Click
+                     fires. A templated Button has no independent hittable surface: if the template
+                     root is IsHitTestVisible="False" the Button's entire visual subtree is excluded
+                     from hit-testing and every click (and drop) dies. Drop targeting still works —
+                     Avalonia walks UP from the hit element to the nearest DragDrop.AllowDrop, which
+                     is this Button (see BoxViewer.axaml); the sprite content Panel is kept
+                     IsHitTestVisible="False" only so hits resolve here rather than to the Image. -->
+                <Panel Background="Transparent">
+                    <Border Name="PART_Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Padding="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <!-- Illegal Indicator - positioned inside the border with 2px inset -->
+                    <Path Data="M 6,0 L 12,11 L 0,11 Z M 6.5,9.5 H 5.5 V 8.5 H 6.5 V 9.5 Z M 6.5,7.5 H 5.5 V 3.5 H 6.5 V 7.5 Z"
+                          Fill="{DynamicResource ThemeShinyBrush}"
+                          HorizontalAlignment="Right"
+                          VerticalAlignment="Top"
+                          IsVisible="{Binding !IsLegal}"
+                          Margin="0,2,2,0"
+                          Width="12" Height="11"/>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="BorderBrush" Duration="0:0:0.15" />
+                <BrushTransition Property="Background" Duration="0:0:0.15" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="Button.slot:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundElevatedBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+    </Style>
+
+    <!-- Selected State - Enforce Red -->
+    <Style Selector="Button.slot.selected">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="ZIndex" Value="10" />
+    </Style>
+
+    <!-- Focus State - Enforce Red & Kill Yellow -->
+    <Style Selector="Button.slot:focus">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="ZIndex" Value="10" />
+    </Style>
+
+    <!-- Deep Focus Override -->
+    <Style Selector="Button.slot:focus /template/ Border#PART_Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Accent Button - Primary action button with gradient
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Button.accent-gradient">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentGradient}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Badge Styles - Status indicators
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Border.badge-success">
+        <Setter Property="Background" Value="{DynamicResource ThemeSuccessBrush}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="6,3" />
+        <Setter Property="BoxShadow" Value="{DynamicResource ThemeGlowSuccess}" />
+    </Style>
+
+    <Style Selector="Border.badge-error">
+        <Setter Property="Background" Value="{DynamicResource ThemeErrorBrush}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="6,3" />
+        <Setter Property="BoxShadow" Value="{DynamicResource ThemeGlowError}" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Header Style - Section headers with gradient accent
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Border.header-accent">
+        <Setter Property="Background" Value="{DynamicResource ThemeHeaderGradient}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderDefaultBrush}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="Padding" Value="12,8" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Empty Slot Pattern - Subtle diagonal stripes
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Border.empty-slot">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundElevatedBrush}" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Opacity" Value="0.6" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Section Card - For form sections (replaces SystemControlBackgroundChromeMediumLowBrush)
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Border.section-card">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundCardBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMutedBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="6" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         View Container - Main background for views (replaces SystemControlBackgroundAltHighBrush)
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Border.view-container">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBaseBrush}" />
+        <Setter Property="Padding" Value="8" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Overlay Scrim - Full-pane dim veil behind loading/searching spinners
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Border.overlay-scrim">
+        <Setter Property="Background" Value="{DynamicResource ThemeOverlayScrimBrush}" />
+    </Style>
+
+    <Style Selector="Grid.overlay-scrim">
+        <Setter Property="Background" Value="{DynamicResource ThemeOverlayScrimBrush}" />
+    </Style>
+
+    <Style Selector="TextBlock.overlay-text">
+        <Setter Property="Foreground" Value="{DynamicResource ThemeOverlayForegroundBrush}" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Global Button Transitions - Smooth hover for all buttons
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Button">
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.12" />
+                <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+                <DoubleTransition Property="Opacity" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="Button:pointerover">
+        <Setter Property="Opacity" Value="0.9" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Accent Button - Styled primary action button
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="Button.accent">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentSecondaryBrush}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style Selector="Button.accent:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Tab Item Animations - Smooth selection transitions
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="TabItem">
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Foreground" Duration="0:0:0.15" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="TabItem:selected">
+        <Setter Property="Foreground" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         ComboBox Transitions
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="ComboBox">
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="ComboBox:pointerover">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+    </Style>
+
+    <Style Selector="controls|FilterableComboBox">
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="controls|FilterableComboBox:pointerover">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         COMPONENT STANDARDS - NumericUpDown
+         These styles establish a consistent look for numeric inputs across all editors.
+         Use these classes:
+         - NumericUpDown.compact    : Hide spinners, centered text, good for inline use (tables, grids)
+         - NumericUpDown.form-field : Standard form field with proper sizing
+         - NumericUpDown.condensed  : Smaller variant for tight spaces (legacy, use .compact instead)
+         ═══════════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Base NumericUpDown transitions and hover -->
+    <Style Selector="NumericUpDown">
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="NumericUpDown:pointerover">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+    </Style>
+
+    <!-- Compact: Hides spinners, ideal for DataGrid cells and inline editing -->
+    <Style Selector="NumericUpDown.compact">
+        <Setter Property="ShowButtonSpinner" Value="False" />
+        <Setter Property="MinWidth" Value="50" />
+        <Setter Property="MinHeight" Value="24" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="4" />
+    </Style>
+
+    <!-- Form Field: Standard sizing for form layouts -->
+    <Style Selector="NumericUpDown.form-field">
+        <Setter Property="ShowButtonSpinner" Value="False" />
+        <Setter Property="MinWidth" Value="80" />
+        <Setter Property="MinHeight" Value="32" />
+        <Setter Property="Padding" Value="6,3" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Legacy condensed style - use .compact instead -->
+    <Style Selector="NumericUpDown.condensed">
+        <Setter Property="ShowButtonSpinner" Value="False" />
+        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="MinHeight" Value="26" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="MinWidth" Value="50" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         COMPONENT STANDARDS - DataGrid
+         Standardized DataGrid appearance for list/table views.
+         ═══════════════════════════════════════════════════════════════════════════ -->
+
+    <Style Selector="DataGrid">
+        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="RowBackground" Value="Transparent" />
+    </Style>
+
+    <Style Selector="DataGridRow">
+        <Setter Property="MinHeight" Value="36" />
+    </Style>
+
+    <Style Selector="DataGridCell">
+        <Setter Property="Padding" Value="6,3" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         COMPONENT STANDARDS - ComboBox in DataGrid
+         Transparent backgrounds for inline editing feel.
+         ═══════════════════════════════════════════════════════════════════════════ -->
+
+    <Style Selector="DataGrid ComboBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="MinHeight" Value="28" />
+    </Style>
+
+    <Style Selector="DataGrid NumericUpDown">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ShowButtonSpinner" Value="False" />
+        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="MinHeight" Value="28" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         COMPONENT STANDARDS - CheckBox in compact layouts
+         ═══════════════════════════════════════════════════════════════════════════ -->
+
+    <Style Selector="CheckBox.compact">
+        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="MinHeight" Value="24" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         RIBBON ITEM - Standard ribbon item card for RibbonEditor
+         ═══════════════════════════════════════════════════════════════════════════ -->
+
+    <Style Selector="Border.ribbon-item">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundCardBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMutedBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Width" Value="140" />
+        <Setter Property="Height" Value="100" />
+        <Setter Property="Margin" Value="4" />
+    </Style>
+
+    <Style Selector="Border.ribbon-item:pointerover">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         TextBox Transitions
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="TextBox">
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="BorderBrush" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="TextBox:focus">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Section Header Label - For labeling sections
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="TextBlock.section-header">
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeTextSecondaryBrush}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         View Title - Main view headers
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="TextBlock.view-title">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeTextPrimaryBrush}" />
+    </Style>
+
+    <!-- ─────────────────────────────────────────────────────────────────────────
+         Pane Splitter - Draggable divider between a sidebar rail and its content.
+         Shared convention for resizable filter rails (database views, etc.).
+         ───────────────────────────────────────────────────────────────────────── -->
+    <Style Selector="GridSplitter.pane-splitter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Width" Value="8" />
+        <Setter Property="ResizeDirection" Value="Columns" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Cursor" Value="SizeWestEast" />
+        <!-- Thin centred grip line, rendered via a child border in the template -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}">
+                    <Border Width="2" CornerRadius="1"
+                            HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                            Margin="0,8"
+                            Background="{DynamicResource ThemeBorderMutedBrush}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Setter Property="Transitions">
+            <Transitions>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.12" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <Style Selector="GridSplitter.pane-splitter:pointerover /template/ Border > Border">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentPrimaryBrush}" />
+    </Style>
+
+</Styles>

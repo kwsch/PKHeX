@@ -1,0 +1,122 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:core="clr-namespace:PKHeX.Core;assembly=PKHeX.Core"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="PKHeX.Avalonia.Views.Pokedex8bEditor"
+             x:DataType="vm:Pokedex8bEditorViewModel">
+    
+    <Border Padding="16" Classes="view-container">
+        <Grid ColumnDefinitions="250, 16, *" RowDefinitions="*,Auto">
+            <!-- Species List -->
+            <Grid Grid.Column="0" RowDefinitions="Auto, 8, *">
+                <TextBox Grid.Row="0" Text="{Binding SearchText}" Watermark="{loc:Loc Pokedex8bEditor_SearchSpecies}" AutomationProperties.Name="Search Species" />
+                <Border Grid.Row="2" Classes="section-card" Padding="0">
+                    <ListBox ItemsSource="{Binding FilteredSpecies}" SelectedItem="{Binding SelectedSpecies}" Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="core:ComboItem">
+                                <TextBlock Text="{Binding Text}" Padding="8,4"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+            
+            <!-- Editor Area -->
+            <ScrollViewer Grid.Column="2" Grid.Row="0">
+                <StackPanel Spacing="16">
+                    <!-- Global Settings -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Pokedex8bEditor_Global}" FontWeight="SemiBold" Opacity="0.6" />
+                            <StackPanel Orientation="Horizontal" Spacing="24">
+                                <CheckBox IsChecked="{Binding HasRegionalDex}" Content="{loc:Loc Pokedex8bEditor_RegionalDexUnlocked}"/>
+                                <CheckBox IsChecked="{Binding HasNationalDex}" Content="{loc:Loc Pokedex8bEditor_NationalDexUnlocked}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Current Entry -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Pokedex8bEditor_CurrentSpecies}" FontWeight="SemiBold" Opacity="0.6" />
+                            
+                            <Grid ColumnDefinitions="Auto, 16, *" RowDefinitions="Auto, 12, Auto">
+                                <StackPanel Grid.Row="0" Grid.Column="0" Spacing="8">
+                                    <TextBlock Text="{loc:Loc Pokedex8bEditor_State}" FontWeight="SemiBold" Opacity="0.7" />
+                                    <ComboBox ItemsSource="{Binding States}" SelectedIndex="{Binding State}" HorizontalAlignment="Stretch" MinWidth="150" />
+                                </StackPanel>
+
+                                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ColumnDefinitions="*, 16, *">
+                                    <StackPanel Grid.Column="0" Spacing="8">
+                                        <TextBlock Text="{loc:Loc Pokedex8bEditor_GenderFlags}" FontWeight="SemiBold" Opacity="0.7" />
+                                        <CheckBox IsChecked="{Binding SeenMale}" Content="{loc:Loc Pokedex8bEditor_Male}" IsEnabled="{Binding CanBeMale}"/>
+                                        <CheckBox IsChecked="{Binding SeenFemale}" Content="{loc:Loc Pokedex8bEditor_Female}" IsEnabled="{Binding CanBeFemale}"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2" Spacing="8">
+                                        <TextBlock Text="{loc:Loc Pokedex8bEditor_ShinyFlags}" FontWeight="SemiBold" Opacity="0.7" />
+                                        <CheckBox IsChecked="{Binding SeenShinyMale}" Content="{loc:Loc Pokedex8bEditor_ShinyMale}" IsEnabled="{Binding CanBeMale}"/>
+                                        <CheckBox IsChecked="{Binding SeenShinyFemale}" Content="{loc:Loc Pokedex8bEditor_ShinyFemale}" IsEnabled="{Binding CanBeFemale}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Languages -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="{loc:Loc Pokedex8bEditor_Languages}" FontWeight="SemiBold" Opacity="0.6" />
+                            <WrapPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding LangJapanese}" Content="{loc:Loc Pokedex8bEditor_LangJPN}" Margin="0,0,16,8"/>
+                                <CheckBox IsChecked="{Binding LangEnglish}" Content="{loc:Loc Pokedex8bEditor_LangENG}" Margin="0,0,16,8"/>
+                                <CheckBox IsChecked="{Binding LangFrench}" Content="{loc:Loc Pokedex8bEditor_LangFRE}" Margin="0,0,16,8"/>
+                                <CheckBox IsChecked="{Binding LangItalian}" Content="{loc:Loc Pokedex8bEditor_LangITA}" Margin="0,0,16,8"/>
+                                <CheckBox IsChecked="{Binding LangGerman}" Content="{loc:Loc Pokedex8bEditor_LangGER}" Margin="0,0,16,8"/>
+                                <CheckBox IsChecked="{Binding LangSpanish}" Content="{loc:Loc Pokedex8bEditor_LangSPA}" Margin="0,0,16,8"/>
+                                <CheckBox IsChecked="{Binding LangKorean}" Content="{loc:Loc Pokedex8bEditor_LangKOR}" Margin="0,0,16,8"/>
+                                <CheckBox IsChecked="{Binding LangChineseS}" Content="{loc:Loc Pokedex8bEditor_LangCHS}" Margin="0,0,16,8"/>
+                                <CheckBox IsChecked="{Binding LangChineseT}" Content="{loc:Loc Pokedex8bEditor_LangCHT}" Margin="0,0,16,8"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Forms -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Pokedex8bEditor_Forms}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="*,80,80">
+                                <TextBlock Grid.Column="0" Text="{loc:Loc Pokedex8bEditor_ColForm}" FontWeight="Bold" Opacity="0.7"/>
+                                <TextBlock Grid.Column="1" Text="{loc:Loc Pokedex8bEditor_ColSeen}" FontWeight="Bold" HorizontalAlignment="Center" Opacity="0.7"/>
+                                <TextBlock Grid.Column="2" Text="{loc:Loc Pokedex8bEditor_ColShiny}" FontWeight="Bold" HorizontalAlignment="Center" Opacity="0.7"/>
+                            </Grid>
+                            <ItemsControl ItemsSource="{Binding Forms}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:Pokedex8bFormViewModel">
+                                        <Grid ColumnDefinitions="*,80,80" Margin="0,4">
+                                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                            <CheckBox Grid.Column="1" IsChecked="{Binding Seen}" HorizontalAlignment="Center" AutomationProperties.Name="{Binding Name, StringFormat='{}{0} Seen'}"/>
+                                            <CheckBox Grid.Column="2" IsChecked="{Binding SeenShiny}" HorizontalAlignment="Center" AutomationProperties.Name="{Binding Name, StringFormat='{}{0} Seen Shiny'}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Actions -->
+            <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" Spacing="12" Margin="0,16,0,0" HorizontalAlignment="Right">
+                <Button Command="{Binding ModifyAllCommand}" CommandParameter="SeenNone" Content="{loc:Loc Pokedex8bEditor_SeenNone}"/>
+                <Button Command="{Binding ModifyAllCommand}" CommandParameter="CaughtNone" Content="{loc:Loc Pokedex8bEditor_CaughtNone}"/>
+                <Button Command="{Binding SeenAllCommand}" Content="{loc:Loc Pokedex8bEditor_SeenAll}"/>
+                <Button Command="{Binding CaughtAllCommand}" Content="{loc:Loc Pokedex8bEditor_CaughtAll}"/>
+                <Button Command="{Binding CompleteDexCommand}" Content="{loc:Loc Pokedex8bEditor_CompleteDex}" Classes="accent"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

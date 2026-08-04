@@ -1,0 +1,168 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="700"
+             x:Class="PKHeX.Avalonia.Views.GlobalLink5Editor"
+             x:DataType="vm:GlobalLink5EditorViewModel"
+             MinWidth="640" MinHeight="560">
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,12">
+            <TextBlock Text="{loc:Loc GlobalLink5Editor_Title}" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding GameInfo}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+        </StackPanel>
+
+        <!-- Not Supported Message -->
+        <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc GlobalLink5Editor_NotSupported}"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <!-- Content -->
+        <TabControl IsVisible="{Binding IsSupported}">
+            <!-- ===================== Status Tab ===================== -->
+            <TabItem Header="{loc:Loc GlobalLink5Editor_Status}">
+                <StackPanel Spacing="12" Margin="0,8,0,0">
+                    <!-- Counters / status -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="{loc:Loc GlobalLink5Editor_Upload}" FontWeight="SemiBold" />
+                            <Grid ColumnDefinitions="Auto,160,Auto,160" RowDefinitions="Auto,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc GlobalLink5Editor_UploadCount}" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding UploadCount}"
+                                               Minimum="-1" Maximum="2147483647" FormatString="0"
+                                               Classes="compact" Margin="0,0,16,6" />
+
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc GlobalLink5Editor_UploadStatus}" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="3" Value="{Binding UploadStatus}"
+                                               Minimum="0" Maximum="255" FormatString="0"
+                                               Classes="compact" Margin="0,0,0,6" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc GlobalLink5Editor_UploadDate}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding UploadDate}" VerticalAlignment="Center" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Flags -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="{loc:Loc GlobalLink5Editor_AccountFlags}" FontWeight="SemiBold" />
+                            <CheckBox Content="{loc:Loc GlobalLink5Editor_SlotPresent}" IsChecked="{Binding IsSlotPresent}" />
+                            <CheckBox Content="{loc:Loc GlobalLink5Editor_Registered}" IsChecked="{Binding IsRegistered}" />
+                            <CheckBox Content="{loc:Loc GlobalLink5Editor_AccountFullAccess}" IsChecked="{Binding IsAccountFullAccess}" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Furniture selection / downloaded content -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="{loc:Loc GlobalLink5Editor_SelectionContent}" FontWeight="SemiBold" />
+                            <Grid ColumnDefinitions="Auto,160,Auto,160" RowDefinitions="Auto,Auto,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc GlobalLink5Editor_SelectedFurniture}" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding SelectedFurnitureIndex}"
+                                               Minimum="0" Maximum="127" FormatString="0"
+                                               Classes="compact" Margin="0,0,16,6" />
+                                <CheckBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"
+                                          Content="{loc:Loc GlobalLink5Editor_FurnitureSynchronized}" IsChecked="{Binding IsFurnitureSynchronized}" Margin="0,0,0,6" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc GlobalLink5Editor_Musical}" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Musical}"
+                                               Minimum="0" Maximum="255" FormatString="0"
+                                               Classes="compact" Margin="0,0,16,6" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="{loc:Loc GlobalLink5Editor_CGearSkin}" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                <NumericUpDown Grid.Row="1" Grid.Column="3" Value="{Binding CGearSkin}"
+                                               Minimum="0" Maximum="255" FormatString="0"
+                                               Classes="compact" Margin="0,0,0,6" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc GlobalLink5Editor_DexSkin}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding DexSkin}"
+                                               Minimum="0" Maximum="255" FormatString="0"
+                                               Classes="compact" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+
+            <!-- ===================== Items Tab ===================== -->
+            <TabItem Header="{loc:Loc GlobalLink5Editor_Items}">
+                <Border Classes="section-card" CornerRadius="4" Padding="0" ClipToBounds="True" Margin="0,8,0,0">
+                    <DataGrid ItemsSource="{Binding Items}"
+                              AutoGenerateColumns="False"
+                              CanUserResizeColumns="True"
+                              CanUserSortColumns="False"
+                              IsReadOnly="False"
+                              MinHeight="320">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#" Binding="{Binding Slot}" Width="40" IsReadOnly="True" />
+                            <DataGridTemplateColumn Header="" Width="36">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="vm:GlobalLinkItemViewModel">
+                                        <Image Width="24" Height="24"
+                                               Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{loc:Loc GlobalLink5Editor_Item}" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="vm:GlobalLinkItemViewModel">
+                                        <ComboBox ItemsSource="{Binding ItemList}"
+                                                  SelectedValue="{Binding ItemId}"
+                                                  SelectedValueBinding="{Binding Value}"
+                                                  DisplayMemberBinding="{Binding Text}"
+                                                  HorizontalAlignment="Stretch"
+                                                  AutomationProperties.Name="Item" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{loc:Loc GlobalLink5Editor_Quantity}" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="vm:GlobalLinkItemViewModel">
+                                        <NumericUpDown Value="{Binding Quantity}"
+                                                       Minimum="0" Maximum="255" FormatString="0"
+                                                       Classes="compact"
+                                                       HorizontalAlignment="Stretch"
+                                                       AutomationProperties.Name="Quantity" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </TabItem>
+
+            <!-- ===================== Furniture Tab ===================== -->
+            <TabItem Header="{loc:Loc GlobalLink5Editor_Furniture}">
+                <Border Classes="section-card" CornerRadius="4" Padding="0" ClipToBounds="True" Margin="0,8,0,0">
+                    <DataGrid ItemsSource="{Binding Furniture}"
+                              AutoGenerateColumns="False"
+                              CanUserResizeColumns="True"
+                              CanUserSortColumns="False"
+                              IsReadOnly="False"
+                              MinHeight="200">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#" Binding="{Binding Slot}" Width="40" IsReadOnly="True" />
+                            <DataGridTextColumn Header="{loc:Loc GlobalLink5Editor_Name}" Binding="{Binding Name}" Width="*" IsReadOnly="True" />
+                            <DataGridTemplateColumn Header="{loc:Loc GlobalLink5Editor_FurnitureValue}" Width="160">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="vm:GlobalLinkFurnitureViewModel">
+                                        <NumericUpDown Value="{Binding Value}"
+                                                       Minimum="0" Maximum="65535" FormatString="0"
+                                                       Classes="compact"
+                                                       HorizontalAlignment="Stretch"
+                                                       AutomationProperties.Name="Furniture Value" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="600"
+             x:Class="PKHeX.Avalonia.Views.TrashEditor"
+             x:DataType="vm:TrashEditorViewModel">
+
+    <Grid RowDefinitions="Auto, *, Auto, Auto" Margin="10">
+        <!-- Text Preview -->
+        <StackPanel Grid.Row="0" Spacing="5">
+            <TextBlock Text="{loc:Loc TrashEditor_TextPreview}" FontWeight="Bold"/>
+            <TextBox Text="{Binding CurrentText}" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
+        </StackPanel>
+
+        <!-- Bytes Grid -->
+        <ScrollViewer Grid.Row="1" Margin="0,10">
+            <ItemsControl ItemsSource="{Binding Bytes}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Margin="2">
+                            <TextBlock Text="{Binding Index, StringFormat=X2}" FontSize="10" HorizontalAlignment="Center" Foreground="Gray"/>
+                            <TextBox Text="{Binding HexValue}" Width="40" MaxLength="2" HorizontalContentAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Trash Generator -->
+        <StackPanel Grid.Row="2" Spacing="5" Margin="0,10">
+            <TextBlock Text="{loc:Loc TrashEditor_Generator}" FontWeight="Bold"/>
+            <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto" Margin="0,5">
+                <TextBlock Text="{loc:Loc TrashEditor_Species}" Grid.Column="0" Grid.Row="0"/>
+                <ComboBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding SpeciesList}" SelectedItem="{Binding SelectedSpecies}" HorizontalAlignment="Stretch" AutomationProperties.Name="Species">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Text}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock Text="{loc:Loc TrashEditor_Language}" Grid.Column="1" Grid.Row="0" Margin="10,0,0,0"/>
+                <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding LanguageList}" SelectedItem="{Binding SelectedLanguage}" HorizontalAlignment="Stretch" Margin="10,0,0,0" AutomationProperties.Name="Language">
+                    <ComboBox.ItemTemplate>
+                         <DataTemplate>
+                            <TextBlock Text="{Binding Text}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+            <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right">
+                <Button Content="{loc:Loc TrashEditor_ApplyTrash}" Command="{Binding ApplyTrashCommand}"/>
+                <Button Content="{loc:Loc TrashEditor_ClearTrash}" Command="{Binding ClearTrashCommand}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Footer Buttons -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" Margin="0,10,0,0">
+            <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CloseRequested}"/>
+            <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

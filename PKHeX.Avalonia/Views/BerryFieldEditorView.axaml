@@ -1,0 +1,62 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.BerryFieldEditorView"
+             x:DataType="vm:BerryFieldEditorViewModel"
+             MinWidth="600" MinHeight="500">
+    <DockPanel Margin="16">
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc BerryFieldEditorView_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,8" />
+        <TextBlock DockPanel.Dock="Top" Text="{Binding GameInfo}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Margin="0,0,0,12" />
+
+        <!-- Not Supported Message -->
+        <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc BerryFieldEditorView_NotSupported}"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <!-- Berry Field Content -->
+        <DockPanel IsVisible="{Binding IsSupported}">
+            <!-- Action Buttons -->
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8" Margin="0,12,0,0">
+                <Button Content="{loc:Loc BerryFieldEditorView_SetAllFullyGrownButton}" Command="{Binding SetAllFullyGrownCommand}" Padding="12,6" />
+                <Button Content="{loc:Loc BerryFieldEditorView_ClearAllButton}" Command="{Binding ClearAllCommand}" Padding="12,6" />
+                <Button Content="{loc:Loc BerryFieldEditorView_RefreshButton}" Command="{Binding RefreshCommand}" Padding="12,6" />
+            </StackPanel>
+
+            <!-- Plots Grid -->
+            <DataGrid ItemsSource="{Binding Plots}"
+                      IsReadOnly="False"
+                      SelectionMode="Single"
+                      AutoGenerateColumns="False"
+                      GridLinesVisibility="Horizontal"
+                      CanUserSortColumns="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{loc:Loc BerryFieldEditorView_PlotHeader}" Binding="{Binding PlotLabel}" Width="70" IsReadOnly="True" />
+                    <DataGridTextColumn Header="{loc:Loc BerryFieldEditorView_BerryHeader}" Binding="{Binding BerryName}" Width="120" IsReadOnly="True" />
+                    <DataGridTemplateColumn Header="{loc:Loc BerryFieldEditorView_BerryIdHeader}" Width="90">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="vm:BerryPlotViewModel">
+                                <NumericUpDown Value="{Binding Berry}" AutomationProperties.Name="Berry ID" Minimum="0" Maximum="65534" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="{loc:Loc BerryFieldEditorView_GrowthHeader}" Binding="{Binding GrowthText}" Width="90" IsReadOnly="True" />
+                    <DataGridTemplateColumn Header="{loc:Loc BerryFieldEditorView_StageHeader}" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="vm:BerryPlotViewModel">
+                                <NumericUpDown Value="{Binding GrowthStage}" AutomationProperties.Name="Growth Stage" Minimum="0" Maximum="5" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{loc:Loc BerryFieldEditorView_CountHeader}" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="vm:BerryPlotViewModel">
+                                <NumericUpDown Value="{Binding Count}" AutomationProperties.Name="Count" Minimum="0" Maximum="99" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

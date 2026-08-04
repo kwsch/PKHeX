@@ -1,0 +1,128 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.BatchEditor"
+             x:DataType="vm:BatchEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <DockPanel>
+            <!-- Header -->
+            <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                <TextBlock Text="{loc:Loc BatchEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                <Button Content="{loc:Loc BatchEditor_RunBatchButton}"
+                        Command="{Binding RunBatchCommand}"
+                        Classes="accent"
+                        HorizontalAlignment="Right"
+                        Padding="16,8" />
+            </DockPanel>
+
+            <!-- Target Selection -->
+            <Border DockPanel.Dock="Top"
+                    Classes="section-card"
+                    CornerRadius="4"
+                    Padding="12"
+                    Margin="0,0,0,12">
+                <StackPanel Orientation="Horizontal" Spacing="24">
+                    <TextBlock Text="{loc:Loc BatchEditor_EditLabel}" VerticalAlignment="Center" FontWeight="SemiBold" />
+                    <CheckBox IsChecked="{Binding EditBoxes}" Content="{loc:Loc BatchEditor_BoxesCheckbox}" />
+                    <CheckBox IsChecked="{Binding EditParty}" Content="{loc:Loc BatchEditor_PartyCheckbox}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Quick Actions -->
+            <Border DockPanel.Dock="Top"
+                    Classes="section-card"
+                    CornerRadius="4"
+                    Padding="12"
+                    Margin="0,0,0,12">
+                <StackPanel>
+                    <TextBlock Text="{loc:Loc BatchEditor_QuickActionsHeader}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                    <WrapPanel>
+                        <Button Content="{loc:Loc BatchEditor_MaxIVsButton}" Command="{Binding SetMaxIVsCommand}" Margin="0,0,8,4" Padding="8,4" />
+                        <Button Content="{loc:Loc BatchEditor_MaxEVsButton}" Command="{Binding SetMaxEVsCommand}" Margin="0,0,8,4" Padding="8,4" />
+                        <Button Content="{loc:Loc BatchEditor_MakeShinyButton}" Command="{Binding SetShinyCommand}" Margin="0,0,8,4" Padding="8,4" />
+                        <Button Content="{loc:Loc BatchEditor_HealAllButton}" Command="{Binding HealAllCommand}" Margin="0,0,8,4" Padding="8,4" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Instruction Builder -->
+            <Border DockPanel.Dock="Top"
+                    Classes="section-card"
+                    CornerRadius="4"
+                    Padding="12"
+                    Margin="0,0,0,12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="{loc:Loc BatchEditor_InstructionBuilderHeader}" FontWeight="SemiBold" />
+                    <TextBlock FontSize="11" Opacity="0.6"
+                               TextWrapping="Wrap"
+                               Text="{loc:Loc BatchEditor_InstructionBuilderDesc}" />
+                    <Grid ColumnDefinitions="*,Auto,*,Auto,Auto">
+                        <AutoCompleteBox Grid.Column="0"
+                                         Text="{Binding SelectedProperty}"
+                                         ItemsSource="{Binding PropertySuggestions}"
+                                         FilterMode="Contains"
+                                         AutomationProperties.Name="Property Name"
+                                         Watermark="{loc:Loc BatchEditor_PropertyWatermark}" />
+                        <ComboBox Grid.Column="1"
+                                  ItemsSource="{Binding Operators}"
+                                  SelectedItem="{Binding SelectedOperator}"
+                                  AutomationProperties.Name="Operator"
+                                  MinWidth="100"
+                                  Margin="8,0" />
+                        <TextBox Grid.Column="2"
+                                 Text="{Binding SelectedValue}"
+                                 AutomationProperties.Name="Value"
+                                 Watermark="{loc:Loc BatchEditor_ValueWatermark}" />
+                        <Button Grid.Column="3"
+                                Content="{loc:Loc BatchEditor_AddFilterButton}"
+                                Command="{Binding AddFilterCommand}"
+                                Margin="8,0,0,0"
+                                Padding="8,4" />
+                        <Button Grid.Column="4"
+                                Content="{loc:Loc BatchEditor_AddModifyButton}"
+                                Command="{Binding AddInstructionCommand}"
+                                Margin="8,0,0,0"
+                                Padding="8,4" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Results -->
+            <Border DockPanel.Dock="Bottom"
+                    Classes="section-card"
+                    CornerRadius="4"
+                    Padding="12"
+                    Margin="0,12,0,0"
+                    Height="80">
+                <StackPanel>
+                    <TextBlock Text="{loc:Loc BatchEditor_ResultsHeader}" FontWeight="SemiBold" Margin="0,0,0,4" />
+                    <TextBox Text="{Binding Results}"
+                             IsReadOnly="True"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <!-- Instructions Text Area -->
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,4">
+                    <TextBlock Text="{loc:Loc BatchEditor_InstructionsHeader}" FontWeight="SemiBold" />
+                    <Button Content="{loc:Loc BatchEditor_ClearButton}"
+                            Command="{Binding ClearInstructionsCommand}"
+                            HorizontalAlignment="Right"
+                            Padding="8,2" />
+                </DockPanel>
+                <Border Classes="section-card"
+                        CornerRadius="4">
+                    <TextBox Text="{Binding Instructions}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             FontFamily="Consolas, Monaco, monospace"
+                             Watermark="{loc:Loc BatchEditor_InstructionsWatermark}" />
+                </Border>
+            </DockPanel>
+        </DockPanel>
+    </Border>
+</UserControl>

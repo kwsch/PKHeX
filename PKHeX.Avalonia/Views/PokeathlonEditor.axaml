@@ -1,0 +1,399 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="780" d:DesignHeight="720"
+             x:Class="PKHeX.Avalonia.Views.PokeathlonEditor"
+             x:DataType="vm:PokeathlonEditorViewModel"
+             MinWidth="720" MinHeight="600">
+    <UserControl.Resources>
+        <!-- Reusable species + form + sprite editor (SpeciesForm10). -->
+        <DataTemplate x:Key="SpeciesFormTemplate" DataType="vm:PokeathlonSpeciesFormViewModel">
+            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                <Image Width="28" Height="28" VerticalAlignment="Center"
+                       Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" />
+                <ComboBox Width="150" ItemsSource="{Binding SpeciesSource}"
+                          SelectedValue="{Binding Species}"
+                          SelectedValueBinding="{Binding Value}"
+                          DisplayMemberBinding="{Binding Text}"
+                          AutomationProperties.Name="Species" />
+                <ComboBox Width="110" ItemsSource="{Binding FormList}"
+                          SelectedValue="{Binding Form}"
+                          SelectedValueBinding="{Binding Value}"
+                          DisplayMemberBinding="{Binding Text}"
+                          AutomationProperties.Name="Form" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- A participant: species/form/gender/shiny + EC, TID16/SID16. -->
+        <DataTemplate x:Key="ParticipantTemplate" DataType="vm:PokeathlonParticipantViewModel">
+            <Border BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1"
+                    CornerRadius="4" Padding="8">
+                <StackPanel Spacing="6">
+                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Slot, StringFormat='Slot {0}'}" FontWeight="SemiBold" VerticalAlignment="Center" Width="56" />
+                        <Image Width="32" Height="32" VerticalAlignment="Center"
+                               Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" />
+                        <ComboBox Width="150" ItemsSource="{Binding SpeciesSource}"
+                                  SelectedValue="{Binding Species}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}"
+                                  AutomationProperties.Name="Species" />
+                        <ComboBox Width="110" ItemsSource="{Binding FormList}"
+                                  SelectedValue="{Binding Form}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}"
+                                  AutomationProperties.Name="Form" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <TextBlock Text="{loc:Loc PokeathlonEditor_Gender}" VerticalAlignment="Center" />
+                        <ComboBox Width="110" ItemsSource="{Binding GenderList}"
+                                  SelectedValue="{Binding Gender}"
+                                  SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" />
+                        <CheckBox Content="{loc:Loc PokeathlonEditor_Shiny}" IsChecked="{Binding IsShiny}" VerticalAlignment="Center" />
+                        <TextBlock Text="{loc:Loc PokeathlonEditor_ECPID}" VerticalAlignment="Center" />
+                        <TextBox Width="90" Text="{Binding EncryptionConstant}" />
+                        <TextBlock Text="{loc:Loc PokeathlonEditor_TID16}" VerticalAlignment="Center" />
+                        <NumericUpDown Width="110" Value="{Binding Tid16}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" />
+                        <TextBlock Text="{loc:Loc PokeathlonEditor_SID16}" VerticalAlignment="Center" />
+                        <NumericUpDown Width="110" Value="{Binding Sid16}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <!-- An event record: a record value + three responsible (species, form) entries. -->
+        <DataTemplate x:Key="EventRecordTemplate" DataType="vm:PokeathlonEventRecordViewModel">
+            <Border BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1"
+                    CornerRadius="4" Padding="8">
+                <StackPanel Spacing="6">
+                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Slot, StringFormat='Record {0}'}" FontWeight="SemiBold" VerticalAlignment="Center" Width="72" />
+                        <TextBlock Text="{loc:Loc PokeathlonEditor_Value}" VerticalAlignment="Center" />
+                        <NumericUpDown Width="140" Value="{Binding Record}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" />
+                    </StackPanel>
+                    <ContentControl Content="{Binding Entry0}" ContentTemplate="{StaticResource SpeciesFormTemplate}" />
+                    <ContentControl Content="{Binding Entry1}" ContentTemplate="{StaticResource SpeciesFormTemplate}" />
+                    <ContentControl Content="{Binding Entry2}" ContentTemplate="{StaticResource SpeciesFormTemplate}" />
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,12">
+            <TextBlock Text="{loc:Loc PokeathlonEditor_Title}" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding GameInfo}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+        </StackPanel>
+
+        <!-- Not Supported Message -->
+        <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc PokeathlonEditor_NotSupported}"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <TabControl IsVisible="{Binding IsSupported}">
+            <!-- ===================== General ===================== -->
+            <TabItem Header="{loc:Loc PokeathlonEditor_TabGeneral}">
+                <ScrollViewer Margin="0,8,0,0">
+                    <StackPanel Spacing="12">
+                        <Border Classes="section-card" Padding="12">
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="{loc:Loc PokeathlonEditor_PointsSection}" FontWeight="SemiBold" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{loc:Loc PokeathlonEditor_AthletePoints}" VerticalAlignment="Center" />
+                                    <NumericUpDown Value="{Binding Points}" Minimum="0" Maximum="{Binding MaxPoints}"
+                                                   FormatString="0" Classes="compact" Width="160" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="section-card" Padding="12">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{loc:Loc PokeathlonEditor_DailyShopFlags}" FontWeight="SemiBold" />
+                                <ItemsControl ItemsSource="{Binding DailyShop}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="vm:PokeathlonFlagViewModel">
+                                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" Width="130" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="section-card" Padding="12">
+                            <StackPanel Spacing="8">
+                                <Grid ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Grid.Column="0" Text="{loc:Loc PokeathlonEditor_DataCards}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <Button Grid.Column="1" Content="{loc:Loc PokeathlonEditor_GiveAll}" Command="{Binding GiveAllDataCardsCommand}" Margin="0,0,8,0" />
+                                    <Button Grid.Column="2" Content="{loc:Loc PokeathlonEditor_ClearAll}" Command="{Binding ClearAllDataCardsCommand}" />
+                                </Grid>
+                                <ItemsControl ItemsSource="{Binding DataCards}" MaxHeight="260">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="vm:PokeathlonFlagViewModel">
+                                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" Width="240" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===================== Counters ===================== -->
+            <TabItem Header="{loc:Loc PokeathlonEditor_TabCounters}">
+                <ScrollViewer Margin="0,8,0,0">
+                    <StackPanel Spacing="12">
+                        <Border Classes="section-card" Padding="12">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{loc:Loc PokeathlonEditor_GlobalCounters}" FontWeight="SemiBold" />
+                                <Grid ColumnDefinitions="Auto,140,24,Auto,140" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_TimeSpent}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding TimeSpent}" Minimum="0" Maximum="{Binding MaxPlay}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="0" Grid.Column="3" Text="{loc:Loc PokeathlonEditor_Fame}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="0" Grid.Column="4" Value="{Binding Fame}" Minimum="0" Maximum="{Binding MaxFame}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_SessionsJoined}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding SessionsJoined}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{loc:Loc PokeathlonEditor_BonusesEarned}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="1" Grid.Column="4" Value="{Binding BonusesEarned}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_PlacedFirst}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding PlacedFirst}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="2" Grid.Column="3" Text="{loc:Loc PokeathlonEditor_PlacedLast}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="2" Grid.Column="4" Value="{Binding PlacedLast}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_Instructions}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Instructions}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="3" Grid.Column="3" Text="{loc:Loc PokeathlonEditor_Acquired}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="3" Grid.Column="4" Value="{Binding Acquired}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_Failed}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Failed}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="4" Grid.Column="3" Text="{loc:Loc PokeathlonEditor_Jumped}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="4" Grid.Column="4" Value="{Binding Jumped}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_Tackled}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Tackled}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="5" Grid.Column="3" Text="{loc:Loc PokeathlonEditor_FellDown}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="5" Grid.Column="4" Value="{Binding FellDown}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_Dashed}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Dashed}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="6" Grid.Column="3" Text="{loc:Loc PokeathlonEditor_Switched}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="6" Grid.Column="4" Value="{Binding Switched}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="7" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_SelfImpeded}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="7" Grid.Column="1" Value="{Binding SelfImpeded}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="7" Grid.Column="3" Text="{loc:Loc PokeathlonEditor_TotalEventLast}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="7" Grid.Column="4" Value="{Binding TotalEventLast}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="8" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_ConnJoined}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="8" Grid.Column="1" Value="{Binding ConnectionJoined}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="8" Grid.Column="3" Text="{loc:Loc PokeathlonEditor_ConnFirst}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="8" Grid.Column="4" Value="{Binding ConnectionFirst}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="9" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_ConnLast}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="9" Grid.Column="1" Value="{Binding ConnectionLast}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="section-card" CornerRadius="4" Padding="0" ClipToBounds="True">
+                            <DataGrid ItemsSource="{Binding EventStats}"
+                                      AutoGenerateColumns="False" CanUserResizeColumns="True"
+                                      CanUserSortColumns="False" IsReadOnly="False" MinHeight="280">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="{loc:Loc PokeathlonEditor_Event}" Binding="{Binding Name}" Width="*" IsReadOnly="True" />
+                                    <DataGridTemplateColumn Header="{loc:Loc PokeathlonEditor_FirstPlaces}" Width="160">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="vm:PokeathlonEventStatViewModel">
+                                                <NumericUpDown Value="{Binding FirstPlaces}" Minimum="0" Maximum="{Binding MaxStat}" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" AutomationProperties.Name="1st Places" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="{loc:Loc PokeathlonEditor_BestScore}" Width="160">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="vm:PokeathlonEventStatViewModel">
+                                                <NumericUpDown Value="{Binding BestScore}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" AutomationProperties.Name="Best Score" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===================== Medals ===================== -->
+            <TabItem Header="{loc:Loc PokeathlonEditor_TabMedals}">
+                <DockPanel Margin="0,8,0,0">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                        <TextBlock Text="{loc:Loc PokeathlonEditor_MedalsDescription}" VerticalAlignment="Center"
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                        <Button Content="{loc:Loc PokeathlonEditor_GiveAll}" Command="{Binding GiveAllMedalsCommand}" />
+                        <Button Content="{loc:Loc PokeathlonEditor_ClearAll}" Command="{Binding ClearAllMedalsCommand}" />
+                    </StackPanel>
+                    <Border Classes="section-card" CornerRadius="4" Padding="0" ClipToBounds="True">
+                        <DataGrid ItemsSource="{Binding Medals}"
+                                  AutoGenerateColumns="False" CanUserResizeColumns="True"
+                                  CanUserSortColumns="True" IsReadOnly="False" MinHeight="360">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="#" Binding="{Binding Species}" Width="50" IsReadOnly="True" />
+                                <DataGridTemplateColumn Header="" Width="40">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="vm:PokeathlonMedalViewModel">
+                                            <Image Width="28" Height="28" Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="{loc:Loc PokeathlonEditor_Species}" Binding="{Binding SpeciesName}" Width="*" IsReadOnly="True" />
+                                <DataGridCheckBoxColumn Header="{loc:Loc PokeathlonEditor_Speed}" Binding="{Binding Speed}" Width="70" />
+                                <DataGridCheckBoxColumn Header="{loc:Loc PokeathlonEditor_Power}" Binding="{Binding Power}" Width="70" />
+                                <DataGridCheckBoxColumn Header="{loc:Loc PokeathlonEditor_Skill}" Binding="{Binding Skill}" Width="70" />
+                                <DataGridCheckBoxColumn Header="{loc:Loc PokeathlonEditor_Stamina}" Binding="{Binding Stamina}" Width="80" />
+                                <DataGridCheckBoxColumn Header="{loc:Loc PokeathlonEditor_Jump}" Binding="{Binding Jump}" Width="70" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ===================== Courses ===================== -->
+            <TabItem Header="{loc:Loc PokeathlonEditor_TabCourses}">
+                <DockPanel Margin="0,8,0,0">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                        <TextBlock Text="{loc:Loc PokeathlonEditor_Course}" VerticalAlignment="Center" />
+                        <ComboBox MinWidth="180" ItemsSource="{Binding Courses}" SelectedItem="{Binding SelectedCourse}"
+                                  DisplayMemberBinding="{Binding Name}" />
+                    </StackPanel>
+                    <ScrollViewer>
+                        <StackPanel DataContext="{Binding SelectedCourse}" Spacing="12">
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="{loc:Loc PokeathlonEditor_Scores}" FontWeight="SemiBold" />
+                                    <Grid ColumnDefinitions="Auto,140,24,Auto,140" RowDefinitions="Auto,Auto">
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_Score1}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                        <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Score0}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                        <TextBlock Grid.Row="0" Grid.Column="3" Text="{loc:Loc PokeathlonEditor_Score2}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                        <NumericUpDown Grid.Row="0" Grid.Column="4" Value="{Binding Score1}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc PokeathlonEditor_Score3}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Score2}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{loc:Loc PokeathlonEditor_BestMax}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                        <NumericUpDown Grid.Row="1" Grid.Column="4" Value="{Binding ScoreMax}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="{loc:Loc PokeathlonEditor_RecordTeam}" FontWeight="SemiBold" />
+                                    <ItemsControl ItemsSource="{Binding Participants}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="vm:PokeathlonParticipantViewModel">
+                                                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource ParticipantTemplate}" Margin="0,0,0,8" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ===================== Self Events ===================== -->
+            <TabItem Header="{loc:Loc PokeathlonEditor_TabEventData}">
+                <DockPanel Margin="0,8,0,0">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                        <TextBlock Text="{loc:Loc PokeathlonEditor_Event}" VerticalAlignment="Center" />
+                        <ComboBox MinWidth="180" ItemsSource="{Binding SelfEvents}" SelectedItem="{Binding SelectedSelfEvent}"
+                                  DisplayMemberBinding="{Binding Name}" />
+                    </StackPanel>
+                    <ScrollViewer>
+                        <StackPanel DataContext="{Binding SelectedSelfEvent}" Spacing="12">
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{loc:Loc PokeathlonEditor_Attempts}" VerticalAlignment="Center" />
+                                    <NumericUpDown Value="{Binding Attempts}" Minimum="0" Maximum="{Binding MaxAttempts}" FormatString="0" Classes="compact" Width="160" />
+                                </StackPanel>
+                            </Border>
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="{loc:Loc PokeathlonEditor_Records}" FontWeight="SemiBold" />
+                                    <ItemsControl ItemsSource="{Binding Records}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="vm:PokeathlonEventRecordViewModel">
+                                                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource EventRecordTemplate}" Margin="0,0,0,10" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ===================== Connection ===================== -->
+            <TabItem Header="{loc:Loc PokeathlonEditor_TabConnection}">
+                <DockPanel Margin="0,8,0,0">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                        <TextBlock Text="{loc:Loc PokeathlonEditor_Event}" VerticalAlignment="Center" />
+                        <ComboBox MinWidth="180" ItemsSource="{Binding Connections}" SelectedItem="{Binding SelectedConnection}"
+                                  DisplayMemberBinding="{Binding Name}" />
+                    </StackPanel>
+                    <ScrollViewer>
+                        <StackPanel DataContext="{Binding SelectedConnection}" Spacing="12">
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="{loc:Loc PokeathlonEditor_Attempts}" VerticalAlignment="Center" />
+                                    <NumericUpDown Value="{Binding Attempts}" Minimum="0" Maximum="{Binding MaxAttempts}" FormatString="0" Classes="compact" Width="160" />
+                                </StackPanel>
+                            </Border>
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="{loc:Loc PokeathlonEditor_Records}" FontWeight="SemiBold" />
+                                    <ItemsControl ItemsSource="{Binding Records}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="vm:PokeathlonEventRecordViewModel">
+                                                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource EventRecordTemplate}" Margin="0,0,0,10" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                            <Border Classes="section-card" CornerRadius="4" Padding="0" ClipToBounds="True">
+                                <DataGrid ItemsSource="{Binding Trainers}"
+                                          AutoGenerateColumns="False" CanUserResizeColumns="True"
+                                          CanUserSortColumns="False" IsReadOnly="False" MinHeight="200">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="#" Binding="{Binding Slot}" Width="40" IsReadOnly="True" />
+                                        <DataGridTextColumn Header="{loc:Loc PokeathlonEditor_OTName}" Binding="{Binding OriginalTrainerName}" Width="*" />
+                                        <DataGridTextColumn Header="{loc:Loc PokeathlonEditor_TID16}" Binding="{Binding Tid16}" Width="100" />
+                                        <DataGridTextColumn Header="{loc:Loc PokeathlonEditor_SID16}" Binding="{Binding Sid16}" Width="100" />
+                                        <DataGridTextColumn Header="{loc:Loc PokeathlonEditor_Language}" Binding="{Binding Language}" Width="90" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</UserControl>

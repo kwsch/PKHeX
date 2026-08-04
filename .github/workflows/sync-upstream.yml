@@ -1,0 +1,121 @@
+name: Sync PKHeX.Core
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+          dotnet-quality: 'ga'
+
+      - name: Detect upstream Core revision
+        id: upstream
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          latest=$(gh api 'repos/kwsch/PKHeX/commits?path=PKHeX.Core&per_page=1' --jq '.[0].sha')
+          last=$(tr -d '[:space:]' < .github/upstream-sync/last-synced-sha.txt)
+          short=${latest:0:7}
+          branch="chore/sync-pkhex-core-$short"
+
+          echo "latest_sha=$latest" >> "$GITHUB_OUTPUT"
+          echo "short_sha=$short" >> "$GITHUB_OUTPUT"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+          if [ "$latest" = "$last" ]; then
+            echo "needs_sync=false" >> "$GITHUB_OUTPUT"
+            echo "PKHeX.Core is already synced at $latest"
+          else
+            echo "needs_sync=true" >> "$GITHUB_OUTPUT"
+            echo "Sync required: $last -> $latest"
+          fi
+
+      - name: Fetch upstream and mirror PKHeX.Core
+        if: steps.upstream.outputs.needs_sync == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git remote add upstream https://github.com/kwsch/PKHeX.git
+          git fetch --no-tags --depth=1 upstream master
+          git switch -c "${{ steps.upstream.outputs.branch }}"
+          git restore --source=upstream/master --staged --worktree PKHeX.Core
+
+      - name: Update sync metadata and UI version
+        if: steps.upstream.outputs.needs_sync == 'true'
+        id: metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          current=$(sed -n 's/.*<UIVersion>\([^<]*\)<\/UIVersion>.*/\1/p' Directory.Build.props)
+          IFS=. read -r major minor patch <<< "$current"
+          next="$major.$minor.$((patch + 1))"
+          upstream_version=$(git show upstream/master:Directory.Build.props | sed -n 's/.*<Version>\([^<]*\)<\/Version>.*/\1/p')
+
+          sed -i "s#<UIVersion>[^<]*</UIVersion>#<UIVersion>$next</UIVersion>#" Directory.Build.props
+          if [ -n "$upstream_version" ]; then
+            sed -i "s#<Version>[^<]*</Version>#<Version>$upstream_version</Version>#" Directory.Build.props
+          fi
+          printf '%s\n' "${{ steps.upstream.outputs.latest_sha }}" > .github/upstream-sync/last-synced-sha.txt
+          echo "ui_version=$next" >> "$GITHUB_OUTPUT"
+          echo "UI version: $current -> $next"
+
+      - name: Build and test the synced tree
+        if: steps.upstream.outputs.needs_sync == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          dotnet restore PKHeX.sln
+          dotnet build PKHeX.sln -c Release --no-restore
+          dotnet test PKHeX.sln -c Release --no-build --logger "trx;LogFileName=results.trx"
+
+      - name: Commit and push sync branch
+        if: steps.upstream.outputs.needs_sync == 'true'
+        env:
+          BRANCH: ${{ steps.upstream.outputs.branch }}
+          SHORT_SHA: ${{ steps.upstream.outputs.short_sha }}
+          UI_VERSION: ${{ steps.metadata.outputs.ui_version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add PKHeX.Core Directory.Build.props .github/upstream-sync/last-synced-sha.txt
+          git commit -m "sync: upstream PKHeX.Core to $SHORT_SHA and bump to $UI_VERSION"
+          git push --set-upstream origin "$BRANCH"
+
+      - name: Open sync pull request
+        if: steps.upstream.outputs.needs_sync == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.upstream.outputs.branch }}
+          SHORT_SHA: ${{ steps.upstream.outputs.short_sha }}
+          UI_VERSION: ${{ steps.metadata.outputs.ui_version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh pr create \
+            --base master \
+            --head "$BRANCH" \
+            --title "sync: upstream PKHeX.Core to $SHORT_SHA + bump $UI_VERSION" \
+            --body "Automated PKHeX.Core mirror sync from kwsch/PKHeX.\n\n- Upstream Core revision: ${{ steps.upstream.outputs.latest_sha }}\n- UIVersion: $UI_VERSION\n- dotnet build: passed\n- dotnet test: passed\n\nPKHeX.Core is kept byte-for-byte identical to upstream; any consumer fixes belong outside Core."
+
+      - name: No-op summary
+        if: steps.upstream.outputs.needs_sync == 'false'
+        run: echo "No upstream PKHeX.Core changes need syncing."

@@ -1,0 +1,110 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Capture7GGEditor"
+             x:DataType="vm:Capture7GGEditorViewModel">
+
+    <Design.DataContext>
+        <vm:Capture7GGEditorViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="*,Auto" Margin="10">
+        <Grid ColumnDefinitions="200,*">
+            <!-- Left Panel - Species List -->
+            <Grid RowDefinitions="Auto,*">
+                <TextBlock Text="{loc:Loc Capture7GGEditor_SpeciesLabel}" FontWeight="Bold" Margin="0,0,0,5"/>
+                <ListBox Grid.Row="1"
+                         ItemsSource="{Binding Entries}"
+                         SelectedItem="{Binding SelectedEntry}"
+                         Margin="0,0,10,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="vm:CaptureEntryViewModel">
+                            <TextBlock Text="{Binding DisplayText}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
+            <!-- Right Panel - Capture Details -->
+            <Border Grid.Column="1"
+                    BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="15">
+                <StackPanel Spacing="15">
+                    <TextBlock Text="{loc:Loc Capture7GGEditor_Title}" FontWeight="Bold" FontSize="16"/>
+
+                    <!-- Species Selector -->
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="{loc:Loc Capture7GGEditor_SpeciesFieldLabel}"/>
+                        <ComboBox ItemsSource="{Binding SpeciesList}"
+                                  SelectedIndex="{Binding SelectedSpeciesIndex}"
+                                  MinWidth="200">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Text}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <!-- Per-Species Counts -->
+                    <Border Classes="section-card"
+                            CornerRadius="4"
+                            Padding="10">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="{loc:Loc Capture7GGEditor_SpeciesCountsHeader}" FontWeight="Bold"/>
+                            <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Capture7GGEditor_CapturedLabel}" VerticalAlignment="Center"/>
+                                <NumericUpDown Grid.Row="0" Grid.Column="1"
+                                               Value="{Binding CapturedCount}"
+                                               Minimum="0" Maximum="999999"
+                                               Width="150" HorizontalAlignment="Left"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc Capture7GGEditor_TransferredLabel}" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                                <NumericUpDown Grid.Row="1" Grid.Column="1"
+                                               Value="{Binding TransferredCount}"
+                                               Minimum="0" Maximum="999999"
+                                               Width="150" HorizontalAlignment="Left" Margin="0,5,0,0"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Total Counts -->
+                    <Border Classes="section-card"
+                            CornerRadius="4"
+                            Padding="10">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="{loc:Loc Capture7GGEditor_TotalCountsHeader}" FontWeight="Bold"/>
+                            <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Capture7GGEditor_TotalCapturedLabel}" VerticalAlignment="Center"/>
+                                <NumericUpDown Grid.Row="0" Grid.Column="1"
+                                               Value="{Binding TotalCaptured}"
+                                               Minimum="0" Maximum="999999999"
+                                               Width="150" HorizontalAlignment="Left"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc Capture7GGEditor_TotalTransferredLabel}" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                                <NumericUpDown Grid.Row="1" Grid.Column="1"
+                                               Value="{Binding TotalTransferred}"
+                                               Minimum="0" Maximum="999999999"
+                                               Width="150" HorizontalAlignment="Left" Margin="0,5,0,0"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Actions -->
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Button Content="{loc:Loc Capture7GGEditor_SetAllToCurrentButton}" Command="{Binding SetAllCapturedCommand}" ToolTip.Tip="{loc:Loc Capture7GGEditor_SetAllToCurrentTooltip}"/>
+                        <Button Content="{loc:Loc Capture7GGEditor_SumTotalsButton}" Command="{Binding SumTotalsCommand}" ToolTip.Tip="{loc:Loc Capture7GGEditor_SumTotalsTooltip}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Bottom Buttons -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" Margin="0,10,0,0">
+            <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

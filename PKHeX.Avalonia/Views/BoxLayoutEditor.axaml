@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.BoxLayoutEditor"
+             x:DataType="vm:BoxLayoutEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc BoxLayoutEditor_NotAvailableTitle}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc BoxLayoutEditor_NotAvailableDesc}"
+                           HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+                    <TextBlock Text="{loc:Loc BoxLayoutEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" IsVisible="{Binding CanEditUnlocked}">
+                        <TextBlock Text="{loc:Loc BoxLayoutEditor_UnlockedBoxesLabel}" VerticalAlignment="Center" />
+                        <ComboBox ItemsSource="{Binding UnlockedOptions}" SelectedItem="{Binding UnlockedBoxes}" Width="80" />
+                    </StackPanel>
+                </DockPanel>
+
+                <ScrollViewer>
+                    <Border Classes="section-card" CornerRadius="4" Padding="16">
+                        <ItemsControl ItemsSource="{Binding Boxes}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="vm:BoxLayoutItemViewModel">
+                                    <Grid ColumnDefinitions="80,*,150" Margin="0,4" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding DisplayIndex}" VerticalAlignment="Center" FontWeight="SemiBold" />
+                                        <TextBox Grid.Column="1" Text="{Binding Name}" AutomationProperties.Name="Box Name" Margin="8,0" />
+                                        <ComboBox Grid.Column="2"
+                                                  ItemsSource="{Binding $parent[ItemsControl].((vm:BoxLayoutEditorViewModel)DataContext).WallpaperNames}"
+                                                  SelectedIndex="{Binding Wallpaper}"
+                                                  AutomationProperties.Name="Wallpaper" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                </ScrollViewer>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

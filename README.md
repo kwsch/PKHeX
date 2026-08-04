@@ -1,53 +1,202 @@
-PKHeX
-=====
-<div>
-  <span>English</span> / <a href=".github/README-es.md">Español</a> / <a href=".github/README-fr.md">Français</a> / <a href=".github/README-de.md">Deutsch</a> / <a href=".github/README-it.md">Italiano</a> / <a href=".github/README-ko.md">한국어</a> / <a href=".github/README-zh-Hant.md">繁體中文</a> / <a href=".github/README-zh-Hans.md">简体中文</a>
-</div>
+<div align="center">
+
+# PKHeX Avalonia
 
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
+![CI](https://github.com/doctorllll/PKHeX/actions/workflows/ci.yml/badge.svg)
+![Release](https://img.shields.io/github/v/release/doctorllll/PKHeX?label=Latest%20Release)
+![Latest tag](https://img.shields.io/github/v/tag/doctorllll/PKHeX?label=Latest%20Tag)
+![Downloads](https://img.shields.io/github/downloads/doctorllll/PKHeX/total?label=Downloads)
 
-Pokémon core series save editor, programmed in [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
+A cross-platform port of [PKHeX](https://github.com/kwsch/PKHeX), the classic Pokémon save editor,
+built with Avalonia so it runs on **Windows**, **macOS**, and **Linux**.
 
-Supports the following files:
-* Save files ("main", \*.sav, \*.dsv, \*.dat, \*.gci, \*.bin)
-* GameCube Memory Card files (\*.raw, \*.bin) containing GC Pokémon savegames.
-* Individual Pokémon entity files (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4, \*.rk4)
-* Mystery Gift files (\*.pgt, \*.pcd, \*.pgf, .wc\*) including conversion to .pk\*
-* Importing GO Park entities (\*.gp1) including conversion to .pb7
-* Importing teams from Decrypted 3DS Battle Videos
-* Transferring from one generation to another, converting formats along the way.
+**[Download](#download) · [Project Structure](#project-structure) · [Features](#features) · [Building from Source](#building-from-source) · [Documentation](#documentation) · [Screenshots](#screenshots) · [Credits](#credits)**
 
-Data is displayed in a view which can be edited and saved.
-The interface can be translated with resource/external text files so that different languages can be supported.
+</div>
 
-Pokémon Showdown sets and QR codes can be imported/exported to assist in sharing.
+---
 
-PKHeX expects save files that are not encrypted with console-specific keys. Use a savedata manager to import and export savedata from the console ([Checkpoint](https://github.com/FlagBrew/Checkpoint), save_manager, [JKSM](https://github.com/J-D-K/JKSM), or SaveDataFiler).
+## Download
 
-**We do not support or condone cheating at the expense of others. Do not use significantly hacked Pokémon in battle or in trades with those who are unaware hacked Pokémon are in use.**
+Get the latest build for your platform from the [Releases](https://github.com/doctorllll/PKHeX/releases/latest) page. Every build is self-contained — no .NET install required.
+
+| Platform | File |
+|----------|------|
+| Windows (x64) | `PKHeX-Avalonia-win-x64.zip`, or the `PKHeX-Avalonia-Setup.exe` installer |
+| Linux (x64) | `PKHeX-Avalonia-linux-x64.zip`, or `PKHeX-Avalonia-linux-x64.AppImage` |
+| macOS Apple Silicon | `PKHeX-Avalonia-osx-arm64-adhoc.zip`, or `PKHeX-Avalonia-osx-arm64-adhoc.dmg` |
+| macOS Intel | `PKHeX-Avalonia-osx-x64-adhoc.zip`, or `PKHeX-Avalonia-osx-x64-adhoc.dmg` |
+
+**macOS ad-hoc builds:** the default no-cost release is ad-hoc signed for code integrity, but it is
+not Apple-trusted or notarized. On first launch, right-click → **Open**, or run:
+```bash
+xattr -dr com.apple.quarantine ~/Downloads/PKHeX.Avalonia.app
+```
+Developer ID/notarized builds have no suffix; `-selfsigned` builds are an optional intermediate
+tier. Windows artifacts ending in `-unsigned` will trigger an OS warning — click **More info** →
+**Run anyway**. See [`docs/packaging.md`](docs/packaging.md) for the signing tiers.
+Homebrew installs strip this automatically via the cask's postflight step.
+
+Package-manager installs (Homebrew cask, winget) are templated under `packaging/`, pending signed
+builds — see [`docs/packaging.md`](docs/packaging.md).
+
+The app checks GitHub Releases for updates on startup and shows a changelog after upgrading — see
+[`docs/features.md`](docs/features.md#in-app-update-checker).
+
+## Project Structure
+
+The code is split into layers so the UI stays separate from the PKHeX logic:
+
+| Project | What it does | Uses |
+|---------|--------------|------|
+| **PKHeX.Core** | Save, entity, and legality logic. Kept 1:1 with [upstream PKHeX](https://github.com/kwsch/PKHeX); never modified directly. | None |
+| **PKHeX.Application** | Use-cases and service interfaces on top of Core. | Core |
+| **PKHeX.Infrastructure** | File access, settings, backups, update checks, LiveHeX networking, and other OS bits. | Application, Core |
+| **PKHeX.Presentation** | View-models and localization. No UI framework here. | Application, Core |
+| **PKHeX.Avalonia** | The Avalonia UI: views, styles, themes, and the desktop app. | all of the above |
+| **PKHeX.AutoMod** | Vendored Auto-Legality Mod legalization engine. | Core |
+
+Tests live under `Tests/`: `PKHeX.Core.Tests`, `PKHeX.Avalonia.Tests`, and `PKHeX.Architecture.Tests`
+(checks the layers above stay separate). Full layer map, dependency rules, and vendoring policy:
+[`docs/development.md`](docs/development.md).
+
+## Features
+
+### Save editing
+
+* Edit saves from Gen 1 to Gen 9, plus Let's Go, Legends: Arceus, BDSP, and Legends: Z-A.
+* Edit any Pokémon: stats, moves, ribbons, memories, and more.
+* Checks legality as you go and can fix illegal Pokémon for you.
+* Import and export Pokémon files and Showdown sets.
+* Move Pokémon between generations — format conversion is automatic.
+* Search your boxes with the PKM, Mystery Gift, and Encounter databases.
+* Edit many Pokémon at once with the batch editor.
+* Game-specific editors under Tools, like Pokédex, Hall of Fame, and Secret Base.
+* View and manage Switch received Mystery Gift records for Sword/Shield, BDSP, Legends: Arceus,
+  and Scarlet/Violet. This manages the save's gift history—not BCAT delivery or redemption.
+
+### App experience
+
+* **Themes:** Dark, Light, High Contrast, and Follow System, switchable at runtime — no restart.
+* **Localization:** the app shell is translated into 9 languages, switchable live from the Options
+  menu. [Contribute a translation.](CONTRIBUTING.md)
+* **OS drag-and-drop:** drag entities out to Finder/Explorer, drop them onto a slot or box, or drop
+  a save file anywhere on the window to open it. [Full details.](docs/features.md#os-drag-and-drop)
+* **Accessibility:** keyboard-navigable box/party grids, accessible names on icon-only controls,
+  and visible focus in every theme. See [`docs/accessibility.md`](docs/accessibility.md).
+* **In-app update checker:** checks GitHub Releases on startup and shows a changelog after
+  upgrading.
+* **Save backup manager & diff:** automatic timestamped backups of every save you open or write,
+  with a restore UI and a slot-by-slot diff (Tools → Backup Manager).
+* **Whole-save legality audit:** runs the legality checker over every Pokémon in the save at once
+  (Tools → Data → Legality Audit).
+* **Platform-standard config/data directories**, with automatic one-time migration from the old
+  next-to-executable location.
+
+### Beyond WinForms parity
+
+Tools that go past what the original WinForms PKHeX offers — full guide in
+[`docs/features.md`](docs/features.md):
+
+* **Auto-Legality Mod:** paste a Pokémon Showdown set and get back a legal, ready-to-inject
+  Pokémon, using the same engine as the original Auto Legality Mod plugin
+  (Tools → Showdown → Import Set, `Ctrl+T`).
+* **Living Dex generator:** fills an entire Pokédex's worth of boxes with legal Pokémon using that
+  same engine (Tools → Generate Living Dex).
+* **LiveHeX:** read and write Pokémon directly on a running Nintendo Switch over Wi-Fi via
+  [sys-botbase](https://github.com/olliz0r/sys-botbase) — no save export/import round-trip needed
+  (Tools → LiveHeX). Requires a hackable/CFW console running sys-botbase.
+
+## Building from Source
+
+### Requirements
+* [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+
+### Run
+```bash
+dotnet run --project PKHeX.Avalonia
+```
+
+### Build
+```bash
+dotnet build PKHeX.sln -c Release
+```
+
+### Test
+```bash
+dotnet test PKHeX.sln
+```
+
+### Publish (example: macOS ARM)
+```bash
+dotnet publish PKHeX.Avalonia -c Release -r osx-arm64 --self-contained -p:PublishSingleFile=true
+```
+
+See [`docs/development.md`](docs/development.md) for the full layer map, the PKHeX.Core 1:1 sync
+policy, and the test suite overview.
+
+## Documentation
+
+* [`docs/features.md`](docs/features.md) — Auto-Legality Mod, Living Dex, LiveHeX, backup manager,
+  legality audit, themes, localization, and more.
+* [`docs/development.md`](docs/development.md) — build/test/run, Clean Architecture layer map,
+  PKHeX.Core sync policy, UIVersion convention, test suite overview.
+* [`docs/accessibility.md`](docs/accessibility.md) — keyboard shortcuts and screen-reader notes.
+* [`docs/packaging.md`](docs/packaging.md) — how release installers/packages are built and signed.
+* [`CONTRIBUTING.md`](CONTRIBUTING.md) — how to contribute a UI translation.
+* [`docs/README.md`](docs/README.md) — full documentation index.
 
 ## Screenshots
 
-![Main Window](https://i.imgur.com/pIHdoTp.png)
+<table>
+<tr>
+<td width="50%">
 
-## Building
+Pokémon editor and box view — the full editor next to the sprite box grid.
+![Pokémon editor and box view](docs/screenshots/pokemon-editor.png)
 
-PKHeX is a Windows Forms application which requires [.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0).
+</td>
+<td width="50%">
 
-The executable can be built with any compiler that supports C# 14.
+Inventory editor — edit items by pouch (Medicine, Balls, Berries, Mega Stones, and so on).
+![Inventory editor](docs/screenshots/inventory-editor.png)
 
-### Build Configurations
+</td>
+</tr>
+<tr>
+<td width="50%">
 
-Use the Debug or Release build configurations when building. There isn't any platform specific code to worry about!
+PKM Database — search your boxes with a filter rail you can resize or hide.
+![PKM Database](docs/screenshots/pkm-database.png)
 
-## Dependencies
+</td>
+<td width="50%">
 
-PKHeX's QR code generation code is taken from [QRCoder](https://github.com/codebude/QRCoder), which is licensed under [the MIT license](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt).
+Save editors — Gen 1 to 9 plus game-specific tools under Tools → Save Editors.
+![Save editors menu](docs/screenshots/save-editors-menu.png)
 
-PKHeX's shiny sprite collection is taken from [pokesprite](https://github.com/msikma/pokesprite), which is licensed under [the MIT license](https://github.com/msikma/pokesprite/blob/master/LICENSE).
+</td>
+</tr>
+<tr>
+<td colspan="2">
 
-PKHeX's Pokémon Legends: Arceus sprite collection is taken from the [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) project and its abundance of collaborators and contributors.
+Switch Gift Records — inspect and manage received Mystery Gift history for Sword/Shield, BDSP,
+Legends: Arceus, and Scarlet/Violet.
+![Switch Gift Records for Scarlet/Violet](docs/screenshots/gift-records-sv.png)
 
-### IDE
+</td>
+</tr>
+</table>
 
-PKHeX can be opened with IDEs such as [Visual Studio](https://visualstudio.microsoft.com/downloads/) by opening the .sln or .csproj file.
+## Credits
+
+Built on the work of the [PKHeX team](https://github.com/kwsch/PKHeX).
+
+* **Logic & Research:** [PKHeX](https://github.com/kwsch/PKHeX)
+* **Avalonia port:** [PKHeX-Avalonia](https://github.com/realgarit/PKHeX-Avalonia) by Patrik Lleshaj and contributors
+* **Auto-Legality Mod:** [PKHeX-Plugins](https://github.com/santacrab2/PKHeX-Plugins) by architdate, santacrab2, and contributors (see [`PKHeX.AutoMod/VENDORED.md`](PKHeX.AutoMod/VENDORED.md))
+* **LiveHeX protocol:** [sys-botbase](https://github.com/olliz0r/sys-botbase) by olliz0r
+* **QR Codes:** [QRCoder](https://github.com/codebude/QRCoder) (MIT)
+* **Sprites:** [pokesprite](https://github.com/msikma/pokesprite) (MIT)
+* **Arceus Sprites:** National Pokédex Icon Dex project and contributors.

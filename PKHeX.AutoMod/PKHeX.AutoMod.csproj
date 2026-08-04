@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Vendored legalization engine from santacrab2/PKHeX-Plugins (PKHeX.Core.AutoMod).
+    This project is NOT under the PKHeX.Core 1:1 upstream-mirror rule; it is a second
+    vendored sync target. See VENDORED.md for source repo, commit SHA, and adaptations.
+
+    Source files keep their upstream namespace (PKHeX.Core.AutoMod) and folder layout so
+    future re-syncs stay a near drop-in. The assembly is named PKHeX.AutoMod to match the
+    solution project name.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>PKHeX.AutoMod</AssemblyName>
+    <RootNamespace>PKHeX.Core.AutoMod</RootNamespace>
+    <Nullable>enable</Nullable>
+    <Description>Vendored PKHeX-Plugins AutoMod legalization engine, compiled against this repo's PKHeX.Core.</Description>
+    <!--
+      Warnings originating from vendored third-party code are suppressed here so the
+      solution builds warning-clean without editing upstream sources. Documented in VENDORED.md.
+      CS0618: obsolete API usage inside vendored code.
+      CS1591: missing XML doc comments (not all vendored public members are documented).
+    -->
+    <NoWarn>$(NoWarn);CS0618;CS1591</NoWarn>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PKHeX.Core\PKHeX.Core.csproj" />
+  </ItemGroup>
+
+</Project>

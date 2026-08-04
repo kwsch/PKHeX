@@ -1,0 +1,79 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="560" d:DesignHeight="540"
+             x:Class="PKHeX.Avalonia.Views.SaveHandlerTroubleshooter"
+             x:DataType="vm:SaveHandlerTroubleshooterViewModel">
+
+    <ScrollViewer>
+        <StackPanel Margin="24" Spacing="20" Width="520">
+            <StackPanel Spacing="4">
+                <TextBlock Text="{loc:Loc SaveHandlerTroubleshooter_Title}" FontSize="24" FontWeight="Light"/>
+                <TextBlock Text="{loc:Loc SaveHandlerTroubleshooter_Description}"
+                           FontSize="12" Opacity="0.6" TextWrapping="Wrap"/>
+            </StackPanel>
+
+            <!-- File selection -->
+            <Border Classes="section-card" Padding="20" CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock Text="📁" FontSize="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="{loc:Loc SaveHandlerTroubleshooter_SaveFile}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBox Grid.Column="0" Text="{Binding FilePath}" Watermark="{loc:Loc SaveHandlerTroubleshooter_PathWatermark}" VerticalAlignment="Center" Margin="0,0,12,0" AutomationProperties.Name="File Path"/>
+                        <Button Grid.Column="1" Content="{loc:Loc SaveHandlerTroubleshooter_Browse}" Command="{Binding BrowseCommand}" Padding="16,8"/>
+                    </Grid>
+                    <TextBlock Text="{Binding FileName}" FontSize="12" Opacity="0.6"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Forced parameters -->
+            <Border Classes="section-card" Padding="20" CornerRadius="8">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock Text="🔧" FontSize="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="{loc:Loc SaveHandlerTroubleshooter_ForcedParameters}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Spacing="12">
+                        <Grid ColumnDefinitions="160,*">
+                            <TextBlock Grid.Column="0" Text="{loc:Loc SaveHandlerTroubleshooter_SaveType}" FontWeight="Medium" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch"
+                                      ItemsSource="{Binding SaveTypes}" SelectedItem="{Binding SelectedSaveType}"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="160,*">
+                            <TextBlock Grid.Column="0" Text="{loc:Loc SaveHandlerTroubleshooter_Version}" FontWeight="Medium" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch"
+                                      ItemsSource="{Binding Versions}" SelectedItem="{Binding SelectedVersion}"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="160,*">
+                            <TextBlock Grid.Column="0" Text="{loc:Loc SaveHandlerTroubleshooter_Language}" FontWeight="Medium" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch"
+                                      ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="160,*">
+                            <TextBlock Grid.Column="0" Text="{loc:Loc SaveHandlerTroubleshooter_Handler}" FontWeight="Medium" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch"
+                                      ItemsSource="{Binding Handlers}" SelectedItem="{Binding SelectedHandler}"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Status / result -->
+            <Border Classes="section-card" Padding="16" CornerRadius="8">
+                <SelectableTextBlock Text="{Binding Status}" TextWrapping="Wrap" FontSize="13" MinHeight="48"/>
+            </Border>
+
+            <Button Content="{loc:Loc SaveHandlerTroubleshooter_LoadSave}"
+                    Command="{Binding LoadCommand}"
+                    Classes="accent"
+                    HorizontalAlignment="Right"
+                    Padding="24,12"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

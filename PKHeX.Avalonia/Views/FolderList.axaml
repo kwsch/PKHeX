@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PKHeX.Avalonia.Views.FolderList"
+             x:DataType="vm:FolderListViewModel">
+
+    <Grid RowDefinitions="Auto, *, Auto">
+        <!-- Header / Filter -->
+        <DockPanel Grid.Row="0" Margin="10">
+            <TextBlock Text="{loc:Loc FolderList_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center"/>
+            <TextBox Text="{Binding FilterText}" Watermark="{loc:Loc FolderList_FilterWatermark}" Width="200" HorizontalAlignment="Right" Margin="20,0,0,0"
+                     AutomationProperties.Name="Filter files"/>
+        </DockPanel>
+
+        <!-- Main Content -->
+        <TabControl Grid.Row="1" Margin="10,0">
+            <TabItem Header="{loc:Loc FolderList_RecentFiles}">
+                <DataGrid ItemsSource="{Binding RecentSaves}"
+                          SelectedItem="{Binding SelectedRecentSave}"
+                          IsReadOnly="True"
+                          GridLinesVisibility="All"
+                          BorderThickness="1" BorderBrush="Gray">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_FileName}" Binding="{Binding FileName}" Width="200"/>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_Version}" Binding="{Binding Version}" Width="80"/>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_Trainer}" Binding="{Binding TrainerName}" Width="100"/>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_PlayTime}" Binding="{Binding PlayTime}" Width="100"/>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_LastModified}" Binding="{Binding LastModified}" Width="150"/>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_Path}" Binding="{Binding FilePath}" Width="*"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{loc:Loc FolderList_Open}" Command="{Binding OpenSaveCommand}" CommandParameter="{Binding SelectedRecentSave}"/>
+                            <MenuItem Header="{loc:Loc FolderList_OpenFolder}" Command="{Binding OpenFolderCommand}" CommandParameter="{Binding SelectedRecentSave}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="{loc:Loc FolderList_Backups}">
+                 <DataGrid ItemsSource="{Binding BackupSaves}"
+                          SelectedItem="{Binding SelectedBackupSave}"
+                          IsReadOnly="True"
+                          GridLinesVisibility="All"
+                          BorderThickness="1" BorderBrush="Gray">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_FileName}" Binding="{Binding FileName}" Width="200"/>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_Version}" Binding="{Binding Version}" Width="80"/>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_Trainer}" Binding="{Binding TrainerName}" Width="100"/>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_PlayTime}" Binding="{Binding PlayTime}" Width="100"/>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_LastModified}" Binding="{Binding LastModified}" Width="150"/>
+                        <DataGridTextColumn Header="{loc:Loc FolderList_Path}" Binding="{Binding FilePath}" Width="*"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{loc:Loc FolderList_Open}" Command="{Binding OpenSaveCommand}" CommandParameter="{Binding SelectedBackupSave}"/>
+                            <MenuItem Header="{loc:Loc FolderList_OpenFolder}" Command="{Binding OpenFolderCommand}" CommandParameter="{Binding SelectedBackupSave}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+        
+        <!-- Status Bar -->
+        <TextBlock Grid.Row="2" Text="{Binding StatusText}" Margin="10,5"/>
+        
+        <!-- Loading Overlay -->
+        <Border Grid.RowSpan="3" Classes="overlay-scrim" IsVisible="{Binding IsLoading}">
+            <TextBlock Classes="overlay-text" Text="{loc:Loc FolderList_Loading}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+        </Border>
+    </Grid>
+</UserControl>
