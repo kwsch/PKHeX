@@ -101,30 +101,30 @@
 2077	f	Can Fly to Sootopolis City
 2078	f	Can Fly to Ever Grande City
 2120	f	Can Fly to Battle Tower
-2108	m	Visited Flower Shop
-2109	m	Visited Mr. Briney's Cottage
-2110	m	Visited Abandoned Ship
-2111	m	Visited Seashore House
-2112	m	Visited New Mauville
-2113	m	Visited Old Lady's Rest Stop
-2114	m	Visited Trick House
-2115	m	Visited The Winstrate Family
-2116	m	Visited Glass Workshop
-2117	m	Visited Lanette's House
-2118	m	Visited Pokémon Day Care
-2119	m	Visited Seafloor Cavern
-2122	m	Visited Fiery Path
-2132	m	Visited Pokémon League
-2133	m	Visited Island Cave
-2134	m	Visited Desert Ruins
-2135	m	Visited Fossil Maniac's House
-2136	m	Visited Scorched Slab
-2137	m	Visited Ancient Tomb
-2138	m	Visited Tunneler's Rest House
-2139	m	Visited Hunter's House
-2140	m	Visited Sealed Chamber
-2142	m	Visited Sky Pillar
-2147	m	Visited Berry Master's House
+2108	f	Visited Flower Shop
+2109	f	Visited Mr. Briney's Cottage
+2110	f	Visited Abandoned Ship
+2111	f	Visited Seashore House
+2112	f	Visited New Mauville
+2113	f	Visited Old Lady's Rest Stop
+2114	f	Visited Trick House
+2115	f	Visited The Winstrate Family
+2116	f	Visited Glass Workshop
+2117	f	Visited Lanette's House
+2118	f	Visited Pokémon Day Care
+2119	f	Visited Seafloor Cavern
+2122	f	Visited Fiery Path
+2132	f	Visited Pokémon League
+2133	f	Visited Island Cave
+2134	f	Visited Desert Ruins
+2135	f	Visited Fossil Maniac's House
+2136	f	Visited Scorched Slab
+2137	f	Visited Ancient Tomb
+2138	f	Visited Tunneler's Rest House
+2139	f	Visited Hunter's House
+2140	f	Visited Sealed Chamber
+2142	f	Visited Sky Pillar
+2147	f	Visited Berry Master's House
 0768	s	Defeated The Winstrate Family
 1800	t	Pokémon Trainer Brendan on Route 103 defeated (Starter Mudkip)
 1801	t	Pokémon Trainer Brendan on Route 110 defeated (Starter Mudkip)
