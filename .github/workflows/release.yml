@@ -93,29 +93,25 @@ jobs:
           -p:UIVersion=${{ needs.check-version.outputs.version }}
           -o publish
 
-      # macOS: ad-hoc sign and zip the .app bundle created by BundleApp MSBuild target
-      - name: Package (macOS)
-        if: startsWith(matrix.rid, 'osx')
-        shell: bash
-        run: |
-          # dotnet publish already ran BundleApp, producing publish/PKHeX.Avalonia.app
-          codesign --force --deep --sign - publish/PKHeX.Avalonia.app
-          cd publish
-          zip -r ../${{ matrix.artifact }}.zip PKHeX.Avalonia.app
-          cd ..
-
       # Three-tier signing priority for macOS (see docs/packaging.md):
       #   1. Developer ID secrets present  → full sign + notarize (below, unchanged)
       #   2. else self-signed cert secrets → stable self-signed identity (tertius
       #      pattern) so repeat Gatekeeper prompts / TCC re-grants don't happen
       #      across updates, artifact suffixed "-selfsigned"
-      #   3. else                          → ad-hoc/no identity, "-unsigned"
+      #   3. else                          → ad-hoc/no identity, "-adhoc"
       - name: Determine macOS signing capability
         if: startsWith(matrix.rid, 'osx')
         id: mac_sign
         shell: bash
+        env:
+          MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+          MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+          MACOS_SIGN_IDENTITY: ${{ secrets.MACOS_SIGN_IDENTITY }}
+          APPLE_NOTARY_KEY: ${{ secrets.APPLE_NOTARY_KEY }}
+          APPLE_NOTARY_KEY_ID: ${{ secrets.APPLE_NOTARY_KEY_ID }}
+          APPLE_NOTARY_ISSUER_ID: ${{ secrets.APPLE_NOTARY_ISSUER_ID }}
         run: |
-          if [ -n "${{ secrets.MACOS_CERT_P12 }}" ] && [ -n "${{ secrets.MACOS_SIGN_IDENTITY }}" ] && [ -n "${{ secrets.APPLE_NOTARY_KEY }}" ]; then
+          if [ -n "$MACOS_CERT_P12" ] && [ -n "$MACOS_CERT_PASSWORD" ] && [ -n "$MACOS_SIGN_IDENTITY" ] && [ -n "$APPLE_NOTARY_KEY" ] && [ -n "$APPLE_NOTARY_KEY_ID" ] && [ -n "$APPLE_NOTARY_ISSUER_ID" ]; then
             echo "Signing secrets present — will produce a Developer ID signed, notarized .dmg"
             echo "enabled=true" >> "$GITHUB_OUTPUT"
           else
@@ -214,6 +210,34 @@ jobs:
           codesign --force --deep --sign "$SELFSIGN_IDENTITY" --keychain "$SELFSIGN_KEYCHAIN" publish/PKHeX.Avalonia.app
           codesign --verify --deep --strict --verbose=2 publish/PKHeX.Avalonia.app
 
+      # The default no-secrets path is deliberately ad-hoc signed: it gives the
+      # app a code-integrity signature without pretending to be Apple-trusted.
+      - name: Codesign with ad-hoc identity
+        if: startsWith(matrix.rid, 'osx') && steps.mac_sign.outputs.enabled != 'true' && steps.mac_selfsign.outputs.enabled != 'true'
+        shell: bash
+        run: |
+          codesign --force --deep --sign - publish/PKHeX.Avalonia.app
+          codesign --verify --deep --strict --verbose=2 publish/PKHeX.Avalonia.app
+
+      # Package only after the final signing tier has run. This prevents a
+      # Developer ID/self-signed DMG from containing an earlier ad-hoc zip.
+      - name: Package (macOS)
+        if: startsWith(matrix.rid, 'osx')
+        id: mac_package
+        shell: bash
+        run: |
+          if [ "${{ steps.mac_sign.outputs.enabled }}" = "true" ]; then
+            ARTIFACT_SUFFIX=""
+          elif [ "${{ steps.mac_selfsign.outputs.enabled }}" = "true" ]; then
+            ARTIFACT_SUFFIX="-selfsigned"
+          else
+            ARTIFACT_SUFFIX="-adhoc"
+          fi
+
+          echo "suffix=$ARTIFACT_SUFFIX" >> "$GITHUB_OUTPUT"
+          cd publish
+          zip -r "../${{ matrix.artifact }}${ARTIFACT_SUFFIX}.zip" PKHeX.Avalonia.app
+
       - name: Build DMG
         if: startsWith(matrix.rid, 'osx')
         shell: bash
@@ -226,7 +250,7 @@ jobs:
           elif [ "${{ steps.mac_selfsign.outputs.enabled }}" = "true" ]; then
             DMG_NAME="${{ matrix.artifact }}-selfsigned.dmg"
           else
-            DMG_NAME="${{ matrix.artifact }}-unsigned.dmg"
+            DMG_NAME="${{ matrix.artifact }}-adhoc.dmg"
           fi
           hdiutil create -volname "PKHeX-Avalonia" -srcfolder "$DMG_STAGING" -ov -format UDZO "$DMG_NAME"
           rm -rf "$DMG_STAGING"
@@ -363,7 +387,7 @@ jobs:
         with:
           name: ${{ matrix.artifact }}
           path: |
-            ${{ matrix.artifact }}.zip
+            ${{ matrix.artifact }}*.zip
             *.AppImage
             *.dmg
             PKHeX-Avalonia-Setup*.exe
@@ -399,6 +423,15 @@ jobs:
       - name: List artifacts
         run: find artifacts -type f
 
+      - name: Generate SHA256 checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          (
+            cd artifacts
+            find . -type f ! -name 'SHA256SUMS.txt' -print0 | sort -z | xargs -0 sha256sum
+          ) > artifacts/SHA256SUMS.txt
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
@@ -406,6 +439,7 @@ jobs:
           name: v${{ needs.check-version.outputs.version }}
           generate_release_notes: true
           files: |
+            artifacts/SHA256SUMS.txt
             artifacts/**/*.zip
             artifacts/**/*.AppImage
             artifacts/**/*.dmg

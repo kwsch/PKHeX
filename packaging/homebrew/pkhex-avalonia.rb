@@ -26,7 +26,7 @@ cask "pkhex-avalonia" do
   # Strip the quarantine bit Homebrew's own download adds so Gatekeeper
   # doesn't prompt on first launch. Safe regardless of which signing tier
   # produced the .dmg (Developer ID notarized, stable self-signed identity,
-  # or unsigned) — see the "tertius pattern" section in docs/packaging.md.
+  # or ad-hoc) — see the "tertius pattern" section in docs/packaging.md.
   postflight do
     system_command "/usr/bin/xattr",
                    args: ["-dr", "com.apple.quarantine", "#{appdir}/PKHeX.Avalonia.app"],

@@ -116,8 +116,9 @@ git push origin "v$VERSION"
 
 GitHub Actions then builds the self-contained Windows, Linux, macOS Apple Silicon, and macOS
 Intel artifacts, applies the available signing tier, and publishes one GitHub Release with all
-assets. Do not reuse a version tag for a new release; increment `<UIVersion>` according to the
-SemVer policy above.
+assets plus `SHA256SUMS.txt`. With no Apple credentials configured, macOS uses the no-cost ad-hoc
+tier and names those assets with the `-adhoc` suffix. Do not reuse a version tag for a new release;
+increment `<UIVersion>` according to the SemVer policy above.
 
 ## Localization contribution guide
 

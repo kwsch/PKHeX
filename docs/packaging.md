@@ -1,12 +1,13 @@
 # Packaging & distribution
 
 This document covers how `release.yml` builds installers for each platform,
-which secrets unlock real code signing / notarization, and how to submit the
-package-manager templates under `packaging/` once signed builds exist.
+which optional secrets unlock Apple Developer ID signing / notarization, and how to submit the
+package-manager templates under `packaging/` once signed builds exist. The default release path
+does not require paid credentials: macOS artifacts are ad-hoc signed.
 
 Everything described here runs automatically on every release (a `v<UIVersion>` tag
-push, or a manual `workflow_dispatch`). There are no manual signing steps — the workflow signs
-when it can and clearly labels artifacts as unsigned when it can't.
+push, or a manual `workflow_dispatch`). There are no manual signing steps — the workflow uses the
+best available tier and labels the artifact accordingly.
 
 ## Artifact matrix
 
@@ -14,10 +15,10 @@ when it can and clearly labels artifacts as unsigned when it can't.
 |---|---|---|
 | Windows x64 | `PKHeX-Avalonia-win-x64.zip` (unchanged) + `PKHeX-Avalonia-Setup.exe` (or `PKHeX-Avalonia-Setup-unsigned.exe`) | Installer built with Inno Setup via chocolatey |
 | Linux x64 | `PKHeX-Avalonia-linux-x64.zip` (unchanged) + `PKHeX-Avalonia-linux-x64.AppImage` (unchanged) | See "Why AppImage, not Flatpak" below |
-| macOS arm64 / x64 | `PKHeX-Avalonia-osx-{arm64,x64}.zip` (unchanged, ad-hoc signed as before) + `PKHeX-Avalonia-osx-{arm64,x64}.dmg` or `-unsigned.dmg` | `.dmg` contains the `.app` bundle plus an `Applications` symlink |
+| macOS arm64 / x64 | `PKHeX-Avalonia-osx-{arm64,x64}-adhoc.zip` + `PKHeX-Avalonia-osx-{arm64,x64}-adhoc.dmg` by default; suffix changes with the signing tier | `.dmg` contains the `.app` bundle plus an `Applications` symlink |
 
-The existing `.zip` and `.AppImage` artifacts are unchanged — this is
-additive, per the acceptance criteria.
+Developer ID artifacts have no suffix; stable self-signed artifacts use `-selfsigned`. The
+ad-hoc tier is the default and requires no Apple Developer membership.
 
 ## Release trigger
 
@@ -36,7 +37,7 @@ failed tag-triggered run, re-run that workflow from the Actions history.
 ## macOS: signing & notarization
 
 `release.yml`'s `build` job (macOS legs of the matrix) gates real Developer
-ID signing on three secrets:
+ID signing on the following secrets:
 
 | Secret | Contents |
 |---|---|
@@ -47,8 +48,7 @@ ID signing on three secrets:
 | `APPLE_NOTARY_KEY` | Base64-encoded `.p8` private key for that API key |
 | `APPLE_NOTARY_ISSUER_ID` | Issuer ID (UUID) for the API key, from App Store Connect > Users and Access > Keys |
 
-If `MACOS_CERT_P12`, `MACOS_SIGN_IDENTITY`, and `APPLE_NOTARY_KEY` are all
-present, the workflow:
+If all six Developer ID/notarization secrets are present, the workflow:
 
 1. Imports the certificate into a temporary keychain.
 2. Re-signs the `.app` with `codesign --options runtime` (hardened runtime,
@@ -57,18 +57,21 @@ present, the workflow:
    with `stapler staple`.
 4. Packs the notarized `.app` into `PKHeX-Avalonia-osx-<arch>.dmg`.
 
-If any of those secrets are absent, the workflow skips straight to step 4
-and names the output `PKHeX-Avalonia-osx-<arch>-unsigned.dmg` so it's obvious
-from the filename (and should be called out in release notes) that
-Gatekeeper will still complain.
+If those secrets are absent and the optional self-signed secrets are also absent, the workflow
+uses the no-cost ad-hoc tier and creates `PKHeX-Avalonia-osx-<arch>-adhoc.zip` plus
+`PKHeX-Avalonia-osx-<arch>-adhoc.dmg`.
+Ad-hoc signing provides code-integrity checks but is not Apple-trusted or notarized, so the first
+launch may require right-click → **Open** or clearing the quarantine attribute:
 
-The existing ad-hoc-signed `.zip` artifacts are untouched by this change.
+```bash
+xattr -dr com.apple.quarantine /Applications/PKHeX-Avalonia.app
+```
 
 ## macOS: stable self-signed identity (the "tertius" pattern)
 
 Real Developer ID signing needs a paid Apple Developer account. Without one,
-`release.yml` falls back to a second tier before giving up and shipping
-unsigned: a **stable self-signed identity**.
+`release.yml` can optionally use a second tier before the default ad-hoc path:
+a **stable self-signed identity**.
 
 **Why a stable identity matters.** Gatekeeper's "this app is from an
 unidentified developer" prompt, and macOS's re-prompting for TCC permissions
@@ -119,8 +122,9 @@ When present, `release.yml` imports the cert into a dedicated CI keychain
 (`Scripts/import-cert.sh`, same idempotent import-and-unlock-partition-list
 flow used for local testing) and re-signs every Mach-O in
 `PKHeX.Avalonia.app` with that identity before building the `.dmg`. The
-artifact is named `PKHeX-Avalonia-osx-<arch>-selfsigned.dmg` so it's
-distinguishable from a Developer ID build and from a fully unsigned one.
+artifacts are named `PKHeX-Avalonia-osx-<arch>-selfsigned.zip` and
+`PKHeX-Avalonia-osx-<arch>-selfsigned.dmg` so they are distinguishable from a
+Developer ID build and from the default ad-hoc tier.
 
 **Homebrew users get the whole problem solved for them.** The cask template
 (`packaging/homebrew/pkhex-avalonia.rb`) runs a `postflight` block that
@@ -226,7 +230,7 @@ review is far more likely to reject them.
 ## Summary: what's automatic vs. gated vs. manual
 
 - **Fully automatic, every release:** zip artifacts (all platforms),
-  AppImage, `.dmg` (signed, self-signed, or unsigned), Windows installer
+  `SHA256SUMS.txt`, AppImage, `.dmg` (Developer ID, self-signed, or ad-hoc), Windows installer
   (signed or unsigned), GitHub Release creation and asset upload.
 - **Gated on secrets (automatic once configured):** Developer ID codesigning
   + notarization/stapling for macOS (tier 1), stable self-signed identity

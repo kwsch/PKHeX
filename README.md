@@ -25,18 +25,17 @@ Get the latest build for your platform from the [Releases](https://github.com/do
 |----------|------|
 | Windows (x64) | `PKHeX-Avalonia-win-x64.zip`, or the `PKHeX-Avalonia-Setup.exe` installer |
 | Linux (x64) | `PKHeX-Avalonia-linux-x64.zip`, or `PKHeX-Avalonia-linux-x64.AppImage` |
-| macOS Apple Silicon | `PKHeX-Avalonia-osx-arm64.zip`, or `PKHeX-Avalonia-osx-arm64.dmg` |
-| macOS Intel | `PKHeX-Avalonia-osx-x64.zip`, or `PKHeX-Avalonia-osx-x64.dmg` |
+| macOS Apple Silicon | `PKHeX-Avalonia-osx-arm64-adhoc.zip`, or `PKHeX-Avalonia-osx-arm64-adhoc.dmg` |
+| macOS Intel | `PKHeX-Avalonia-osx-x64-adhoc.zip`, or `PKHeX-Avalonia-osx-x64-adhoc.dmg` |
 
-**Unsigned builds:** installer/dmg artifacts are only fully code-signed and notarized once signing
-secrets are configured; macOS `.dmg`s may instead carry a stable self-signed identity
-(`-selfsigned`, avoids repeat Gatekeeper prompts on updates but still needs a one-time approval —
-see [`docs/packaging.md`](docs/packaging.md)). Filenames ending in `-unsigned` will trigger an OS
-warning on first launch — on Windows, click **More info** → **Run anyway**; on macOS, right-click →
-**Open**, or run:
+**macOS ad-hoc builds:** the default no-cost release is ad-hoc signed for code integrity, but it is
+not Apple-trusted or notarized. On first launch, right-click → **Open**, or run:
 ```bash
 xattr -dr com.apple.quarantine ~/Downloads/PKHeX.Avalonia.app
 ```
+Developer ID/notarized builds have no suffix; `-selfsigned` builds are an optional intermediate
+tier. Windows artifacts ending in `-unsigned` will trigger an OS warning — click **More info** →
+**Run anyway**. See [`docs/packaging.md`](docs/packaging.md) for the signing tiers.
 Homebrew installs strip this automatically via the cask's postflight step.
 
 Package-manager installs (Homebrew cask, winget) are templated under `packaging/`, pending signed

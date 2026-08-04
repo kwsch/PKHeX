@@ -49,16 +49,19 @@ public static class UpdateAssetSelector
     private static ReleaseAsset? SelectMac(IReadOnlyList<ReleaseAsset> assets, string[] archAliases)
     {
         // Never the ad-hoc-signed .zip — DR/notarization preservation. Prefer the self-signed DMG,
-        // then a plain (unsuffixed) DMG, then the unsigned DMG as a last resort. Prefer an
-        // arch-tagged match but fall back to any DMG if none is arch-tagged (e.g. a universal build).
+        // then a plain Developer ID DMG, then the current ad-hoc DMG, with the legacy unsigned
+        // DMG as a last resort. Prefer an arch-tagged match but fall back to any DMG if none is
+        // arch-tagged (e.g. a universal build).
         var dmgs = assets.Where(a => IsDmg(a.Name)).ToList();
         var candidates = dmgs.Where(a => MatchesArch(a.Name, archAliases)).ToList();
         if (candidates.Count == 0)
             candidates = dmgs;
 
         return candidates.FirstOrDefault(a => a.Name.Contains("-selfsigned.dmg", StringComparison.OrdinalIgnoreCase))
-            ?? candidates.FirstOrDefault(a => !a.Name.Contains("-unsigned.dmg", StringComparison.OrdinalIgnoreCase)
+            ?? candidates.FirstOrDefault(a => !a.Name.Contains("-adhoc.dmg", StringComparison.OrdinalIgnoreCase)
+                                               && !a.Name.Contains("-unsigned.dmg", StringComparison.OrdinalIgnoreCase)
                                                && !a.Name.Contains("-selfsigned.dmg", StringComparison.OrdinalIgnoreCase))
+            ?? candidates.FirstOrDefault(a => a.Name.Contains("-adhoc.dmg", StringComparison.OrdinalIgnoreCase))
             ?? candidates.FirstOrDefault(a => a.Name.Contains("-unsigned.dmg", StringComparison.OrdinalIgnoreCase));
     }
 
