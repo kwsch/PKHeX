@@ -11,11 +11,13 @@ public partial class InventoryEditorViewModel : ViewModelBase
     private readonly ISpriteRenderer _spriteRenderer;
     private readonly PlayerBag? _bag;
     private readonly IReadOnlyList<InventoryPouch> _originalPouches;
+    private readonly bool _haxMode;
 
-    public InventoryEditorViewModel(SaveFile sav, ISpriteRenderer spriteRenderer)
+    public InventoryEditorViewModel(SaveFile sav, ISpriteRenderer spriteRenderer, bool haxMode = false)
     {
         _sav = sav;
         _spriteRenderer = spriteRenderer;
+        _haxMode = haxMode;
 
         // sav.Inventory can throw on blank SCBlock-based saves (LA, SV, ZA) where
         // blocks have Type=None and are not yet populated. Fall back to empty.
@@ -46,7 +48,8 @@ public partial class InventoryEditorViewModel : ViewModelBase
         // Create pouch view models
         foreach (var pouch in _originalPouches)
         {
-            Pouches.Add(new InventoryPouchViewModel(pouch, _itemNames, _spriteRenderer));
+            int? maxCount = _haxMode && bag is not null ? bag.MaxQuantityHaX : null;
+            Pouches.Add(new InventoryPouchViewModel(pouch, _itemNames, _spriteRenderer, _haxMode, maxCount));
         }
 
         if (Pouches.Count > 0)
@@ -131,17 +134,19 @@ public partial class InventoryPouchViewModel : ViewModelBase
     private readonly InventoryPouch _pouch;
     private readonly string[] _itemNames;
     private readonly ISpriteRenderer _spriteRenderer;
+    private readonly bool _haxMode;
 
-    public InventoryPouchViewModel(InventoryPouch pouch, string[] itemNames, ISpriteRenderer spriteRenderer)
+    public InventoryPouchViewModel(InventoryPouch pouch, string[] itemNames, ISpriteRenderer spriteRenderer, bool haxMode = false, int? maxCount = null)
     {
         _pouch = pouch;
         _itemNames = itemNames;
         _spriteRenderer = spriteRenderer;
+        _haxMode = haxMode;
         PouchName = pouch.Type.ToString();
-        MaxCount = pouch.MaxCount;
+        MaxCount = maxCount ?? pouch.MaxCount;
 
         // Build item list for combo box
-        var validItems = pouch.GetAllItems().ToArray();
+        var validItems = GetValidItems();
         ItemList = validItems
             .Where(id => id < itemNames.Length)
             .Select(id => new ComboItem(itemNames[id], id))
@@ -158,7 +163,7 @@ public partial class InventoryPouchViewModel : ViewModelBase
     public void RefreshLanguage()
     {
         // Rebuild item list for combo box
-        var validItems = _pouch.GetAllItems().ToArray();
+        var validItems = GetValidItems();
         ItemList = validItems
             .Where(id => id < _itemNames.Length)
             .Select(id => new ComboItem(_itemNames[id], id))
@@ -171,6 +176,11 @@ public partial class InventoryPouchViewModel : ViewModelBase
             item.RefreshLanguage();
         }
     }
+
+    private IEnumerable<int> GetValidItems()
+        => _haxMode
+            ? GameInfo.FilteredSources.Items.Select(item => item.Value)
+            : _pouch.GetAllItems().ToArray().Select(item => (int)item);
 
     [ObservableProperty]
     private ObservableCollection<InventoryItemViewModel> _items = [];
@@ -216,7 +226,7 @@ public partial class InventoryPouchViewModel : ViewModelBase
 
     public void GiveAllItems()
     {
-        var validItems = _pouch.GetAllItems();
+        var validItems = GetValidItems();
         int slot = 0;
         foreach (var itemId in validItems)
         {

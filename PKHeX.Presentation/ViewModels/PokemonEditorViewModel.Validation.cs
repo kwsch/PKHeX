@@ -18,7 +18,9 @@ public partial class PokemonEditorViewModel
     {
         var pk = PreparePKM();
         var la = new LegalityAnalysis(pk, _sav.Personal);
-        IsLegal = la.Valid;
+        // PKHaX intentionally permits combinations the legality checker rejects. Keep the report
+        // available for diagnostics, but do not surface the normal illegal-state indicator.
+        IsLegal = _haxMode || la.Valid;
         LegalityReport = la.Report();
     }
 

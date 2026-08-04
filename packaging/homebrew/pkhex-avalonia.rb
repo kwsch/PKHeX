@@ -9,7 +9,7 @@
 cask "pkhex-avalonia" do
   arch arm: "arm64", intel: "x64"
 
-  version "1.43.3"
+  version "1.44.0"
   sha256 arm:   "REPLACE_WITH_OSX_ARM64_DMG_SHA256",
          intel: "REPLACE_WITH_OSX_X64_DMG_SHA256"
 

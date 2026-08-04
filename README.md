@@ -76,6 +76,28 @@ Tests live under `Tests/`: `PKHeX.Core.Tests`, `PKHeX.Avalonia.Tests`, and `PKHe
 * View and manage Switch received Mystery Gift records for Sword/Shield, BDSP, Legends: Arceus,
   and Scarlet/Violet. This manages the save's gift history—not BCAT delivery or redemption.
 
+### PKHaX mode
+
+PKHaX is the non-official editing mode for personal saves and ROM hacks. In the Avalonia app,
+open **Options → Settings → Startup**, enable **Start in PKHaX mode**, save the setting, and
+restart the app. The status bar and window title will show `PKHaX` when it is active.
+
+For a one-time launch on macOS, close the app first and run:
+
+```bash
+open -a "/path/to/PKHeX.Avalonia.app" --args --hax
+```
+
+The direct executable form also works:
+
+```bash
+"/path/to/PKHeX.Avalonia.app/Contents/MacOS/PKHeX.Avalonia" --hax
+```
+
+Both `hax` and `--hax` are accepted. PKHaX intentionally permits data that the normal legality
+checker rejects; make a backup before editing and do not use it when you need a conventionally
+legal Pokémon.
+
 ### App experience
 
 * **Themes:** Dark, Light, High Contrast, and Follow System, switchable at runtime — no restart.

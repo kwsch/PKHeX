@@ -69,10 +69,11 @@ public partial class MainWindowViewModel : ViewModelBase
     public bool HasSave => CurrentSave is not null;
     public bool CanUndo => _undoRedo.CanUndo;
     public bool CanRedo => _undoRedo.CanRedo;
+    public bool IsHaXMode => _settings.HaXMode;
 
     public string WindowTitle => CurrentSave is not null
-        ? $"PKHeX Avalonia - {CurrentSave.Version}"
-        : "PKHeX Avalonia";
+        ? $"{(IsHaXMode ? "PKHaX" : "PKHeX")} Avalonia - {CurrentSave.Version}"
+        : $"{(IsHaXMode ? "PKHaX" : "PKHeX")} Avalonia";
 
     /// <summary>Localized status-bar text: the loaded game version, or a "no save loaded" hint.</summary>
     public string StatusText => CurrentSave is not null
@@ -158,11 +159,12 @@ public partial class MainWindowViewModel : ViewModelBase
         }
 
         if (CurrentSave is not null)
-            GameInfo.FilteredSources = new FilteredGameDataSource(CurrentSave, GameInfo.Sources);
+            GameInfo.FilteredSources = new FilteredGameDataSource(CurrentSave, GameInfo.Sources, IsHaXMode);
 
         OnPropertyChanged(string.Empty);
         CurrentPokemonEditor?.RefreshLanguage();
         BoxViewer?.RefreshCurrentBox();
+        PartyViewer?.RefreshParty();
         TrainerEditor?.RefreshLanguage();
         InventoryEditor?.RefreshLanguage();
         MysteryGiftEditor?.RefreshLocalization();
@@ -190,13 +192,13 @@ public partial class MainWindowViewModel : ViewModelBase
             {
                 _spriteRenderer.Initialize(sav);
                 _undoRedo.Initialize(sav);
-                GameInfo.FilteredSources = new FilteredGameDataSource(sav, GameInfo.Sources);
+                GameInfo.FilteredSources = new FilteredGameDataSource(sav, GameInfo.Sources, IsHaXMode);
 
-                var pokemonEditor = new PokemonEditorViewModel(sav.BlankPKM, sav, _spriteRenderer, _dialogService, _windowService);
+                var pokemonEditor = new PokemonEditorViewModel(sav.BlankPKM, sav, _spriteRenderer, _dialogService, _windowService, IsHaXMode);
                 pokemonEditor.SaveFileDropRequested += OnSaveFileDropRequested;
                 CurrentPokemonEditor = pokemonEditor;
 
-                var boxViewer = new BoxViewerViewModel(sav, _spriteRenderer, _slotService, _windowService, _dialogService);
+                var boxViewer = new BoxViewerViewModel(sav, _spriteRenderer, _slotService, _windowService, _dialogService, IsHaXMode);
                 boxViewer.SlotActivated += OnBoxSlotActivated;
                 boxViewer.ViewSlotRequested += OnBoxViewSlot;
                 boxViewer.SetSlotRequested += OnBoxSetSlot;
@@ -204,7 +206,7 @@ public partial class MainWindowViewModel : ViewModelBase
                 boxViewer.SaveFileDropRequested += OnSaveFileDropRequested;
                 BoxViewer = boxViewer;
 
-                var partyViewer = new PartyViewerViewModel(sav, _spriteRenderer, _slotService, _dialogService);
+                var partyViewer = new PartyViewerViewModel(sav, _spriteRenderer, _slotService, _dialogService, IsHaXMode);
                 partyViewer.SlotActivated += OnPartySlotActivated;
                 partyViewer.ViewSlotRequested += OnPartyViewSlot;
                 partyViewer.SetSlotRequested += OnPartySetSlot;
@@ -212,7 +214,7 @@ public partial class MainWindowViewModel : ViewModelBase
                 PartyViewer = partyViewer;
 
                 TrainerEditor = new TrainerEditorViewModel(sav);
-                InventoryEditor = new InventoryEditorViewModel(sav, _spriteRenderer);
+                InventoryEditor = new InventoryEditorViewModel(sav, _spriteRenderer, IsHaXMode);
                 EventFlagsEditor = new EventFlagsEditorViewModel(sav);
                 MysteryGiftEditor = new MysteryGiftEditorViewModel(sav, _dialogService, _giftRecordProvider);
                 BatchEditor = new BatchEditorViewModel(sav, _dialogService);

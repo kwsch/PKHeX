@@ -32,6 +32,20 @@ per form), using the same Auto-Legality engine as the Showdown importer.
 - **Caveats:** it needs enough free box space for the full dex; run it on a save with room to
   spare, or clear boxes first.
 
+## PKHaX mode (non-official editing)
+
+PKHaX is the relaxed editing mode used for personal saves and ROM hacks. It keeps the normal save
+format and write path, but exposes broader species, move, and item lists, suppresses the normal
+illegal-state indicators, and permits incompatible entity conversion during the current process.
+
+- **Persistent macOS/Avalonia switch:** Options → Settings → Startup → **Start in PKHaX mode**;
+  save the setting and restart the app.
+- **One-time launch:** close the app and start it with `--hax` (the shorter `hax` spelling is also
+  accepted), for example `open -a "/path/to/PKHeX.Avalonia.app" --args --hax`.
+- **Visual confirmation:** the window title and status bar display `PKHaX` while the mode is active.
+- **Safety:** this mode deliberately allows combinations that are not conventionally legal. Keep
+  an untouched save backup and verify the result in the target ROM hack before use.
+
 ## Whole-save legality audit
 
 A tool window that runs the legality checker over every Pokémon in the save at once, instead of

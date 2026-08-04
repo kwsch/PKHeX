@@ -16,6 +16,7 @@ public partial class PartyViewerViewModel : ViewModelBase
     private readonly ISpriteRenderer _spriteRenderer;
     private readonly ISlotService? _slotService;
     private readonly IDialogService? _dialogService;
+    private readonly bool _haxMode;
 
     [ObservableProperty]
     private int _selectedIndex;
@@ -34,12 +35,13 @@ public partial class PartyViewerViewModel : ViewModelBase
     public event Action<int>? SetSlotRequested;
     public event Action<int>? DeleteSlotRequested;
 
-    public PartyViewerViewModel(SaveFile sav, ISpriteRenderer spriteRenderer, ISlotService? slotService = null, IDialogService? dialogService = null)
+    public PartyViewerViewModel(SaveFile sav, ISpriteRenderer spriteRenderer, ISlotService? slotService = null, IDialogService? dialogService = null, bool haxMode = false)
     {
         _sav = sav;
         _spriteRenderer = spriteRenderer;
         _slotService = slotService;
         _dialogService = dialogService;
+        _haxMode = haxMode;
         LoadParty();
     }
 
@@ -83,7 +85,7 @@ public partial class PartyViewerViewModel : ViewModelBase
                 CurrentHp = (ushort)pk.Stat_HPCurrent,
                 MaxHp = (ushort)pk.Stat_HPMax,
                 ShowdownSummary = isEmpty ? string.Empty : new ShowdownSet(pk).Text,
-                IsLegal = isEmpty || new LegalityAnalysis(pk).Valid,
+                IsLegal = isEmpty || _haxMode || new LegalityAnalysis(pk).Valid,
                 IsSelected = false
             });
         }

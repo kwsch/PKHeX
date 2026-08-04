@@ -169,14 +169,25 @@
                 BorderBrush="{DynamicResource ThemeBorderDefaultBrush}"
                 BorderThickness="0,1,0,0"
                 Padding="8,4">
-            <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Grid.Column="0"
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                <Border Grid.Column="0"
+                        IsVisible="{Binding IsHaXMode}"
+                        Background="{DynamicResource ThemeAccentBrush}"
+                        CornerRadius="4"
+                        Padding="6,2">
+                    <TextBlock Text="{loc:Loc Mode_PkHaX}"
+                               Foreground="White"
+                               FontSize="11"
+                               FontWeight="Bold" />
+                </Border>
+
+                <TextBlock Grid.Column="1"
                            Text="{Binding StatusText}"
                            Foreground="{DynamicResource ThemeTextSecondaryBrush}"
                            FontSize="12" />
 
                 <!-- Non-intrusive update notification: only visible when a newer, non-skipped release exists. -->
-                <Border Grid.Column="1" x:CompileBindings="False"
+                <Border Grid.Column="2" x:CompileBindings="False"
                         IsVisible="{Binding UpdateNotification, Converter={x:Static ObjectConverters.IsNotNull}}">
                     <StackPanel Orientation="Horizontal" Spacing="8" DataContext="{Binding UpdateNotification}">
                         <TextBlock Text="{Binding Message}"

@@ -15,6 +15,25 @@
         <StackPanel Margin="24" Spacing="24">
             <TextBlock Text="{loc:Loc Settings_Title}" FontSize="28" FontWeight="Light" Margin="0,0,0,12"/>
 
+            <!-- Startup Settings Card -->
+            <Border Classes="section-card" Padding="20" CornerRadius="8">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <TextBlock Text="🚀" FontSize="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="{loc:Loc Settings_Startup}" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{loc:Loc Settings_ForceHaX}" FontWeight="Medium"/>
+                            <TextBlock Text="{loc:Loc Settings_ForceHaX_Desc}"
+                                       FontSize="12" Opacity="0.6" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="1" IsChecked="{Binding ForceHaX}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
             <!-- Backup Settings Card -->
             <Border Classes="section-card" Padding="20" CornerRadius="8">
                 <StackPanel Spacing="16">

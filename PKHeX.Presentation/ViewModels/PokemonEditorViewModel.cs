@@ -15,6 +15,7 @@ public partial class PokemonEditorViewModel : ViewModelBase
     private readonly ISpriteRenderer _spriteRenderer;
     private readonly IDialogService _dialogService;
     private readonly IWindowService _windowService;
+    private readonly bool _haxMode;
     private bool _isLoading; // Flag to prevent modifying _pk during load
 
     // Data sources (mostly filtered by SaveFile context)
@@ -105,15 +106,17 @@ public partial class PokemonEditorViewModel : ViewModelBase
     private int _language;
 
     public bool HasForms => FormList.Count > 1;
+    public bool IsHaXMode => _haxMode;
     public PKM TargetPKM => _pk;
 
-    public PokemonEditorViewModel(PKM pk, SaveFile sav, ISpriteRenderer spriteRenderer, IDialogService dialogService, IWindowService windowService)
+    public PokemonEditorViewModel(PKM pk, SaveFile sav, ISpriteRenderer spriteRenderer, IDialogService dialogService, IWindowService windowService, bool haxMode = false)
     {
         _pk = pk.Clone(); // Always work on a copy
         _sav = sav;
         _spriteRenderer = spriteRenderer;
         _dialogService = dialogService;
         _windowService = windowService;
+        _haxMode = haxMode;
 
         var filtered = GameInfo.FilteredSources;
         SpeciesList = filtered.Species;
