@@ -101,30 +101,30 @@
 2077	f	Puede volar a Arrecípolis
 2078	f	Puede volar a Ciudad Colosalia
 2120	f	Puede volar a Torre Batalla
-2108	m	Visitó Bosque Petalia
-2109	m	Visitó Casa del Sr. Arenque
-2110	m	Visitó Nao Abandonada
-2111	m	Visitó Casa de la Playa
-2112	m	Visitó Malvalanova
-2113	m	Visitó Posada de la Abuela
-2114	m	Visitó Casa Treta
-2115	m	Visitó La familia Estratega
-2116	m	Visitó Taller de Vidrio
-2117	m	Visitó Casa de Aredia
-2118	m	Visitó Guardería Pokémon
-2119	m	Visitó Caverna Abisal
-2122	m	Visitó Senda Ígnea
-2132	m	Visitó Liga Pokémon
-2133	m	Visitó Cueva Insular
-2134	m	Visitó Ruinas Desierto
-2135	m	Visitó Casa del Fosilmaníaco
-2136	m	Visitó Gruta Solar
-2137	m	Visitó Tumba Antigua
-2138	m	Visitó Posada del Tunelero
-2139	m	Visitó Casa del Buscatesoros
-2140	m	Visitó Cámara Sellada
-2142	m	Visitó Pilar Celeste
-2147	m	Visitó Casa del Bayólogo
+2108	f	Visitó Bosque Petalia
+2109	f	Visitó Casa del Sr. Arenque
+2110	f	Visitó Nao Abandonada
+2111	f	Visitó Casa de la Playa
+2112	f	Visitó Malvalanova
+2113	f	Visitó Posada de la Abuela
+2114	f	Visitó Casa Treta
+2115	f	Visitó La familia Estratega
+2116	f	Visitó Taller de Vidrio
+2117	f	Visitó Casa de Aredia
+2118	f	Visitó Guardería Pokémon
+2119	f	Visitó Caverna Abisal
+2122	f	Visitó Senda Ígnea
+2132	f	Visitó Liga Pokémon
+2133	f	Visitó Cueva Insular
+2134	f	Visitó Ruinas Desierto
+2135	f	Visitó Casa del Fosilmaníaco
+2136	f	Visitó Gruta Solar
+2137	f	Visitó Tumba Antigua
+2138	f	Visitó Posada del Tunelero
+2139	f	Visitó Casa del Buscatesoros
+2140	f	Visitó Cámara Sellada
+2142	f	Visitó Pilar Celeste
+2147	f	Visitó Casa del Bayólogo
 0768	s	La familia Estratega derrotada
 1800	t	Entrenador Pokémon Bruno en la Ruta 103 derrotado (Inicial Mudkip)
 1801	t	Entrenador Pokémon Bruno en la Ruta 110 derrotado (Inicial Mudkip)
