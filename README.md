@@ -23,8 +23,6 @@ Get the latest build for your platform from the [Releases](https://github.com/do
 
 | Platform | File |
 |----------|------|
-| Windows (x64) | `PKHeX-Avalonia-win-x64.zip`, or the `PKHeX-Avalonia-Setup.exe` installer |
-| Linux (x64) | `PKHeX-Avalonia-linux-x64.zip`, or `PKHeX-Avalonia-linux-x64.AppImage` |
 | macOS Apple Silicon | `PKHeX-Avalonia-osx-arm64-adhoc.zip`, or `PKHeX-Avalonia-osx-arm64-adhoc.dmg` |
 | macOS Intel | `PKHeX-Avalonia-osx-x64-adhoc.zip`, or `PKHeX-Avalonia-osx-x64-adhoc.dmg` |
 
@@ -34,8 +32,7 @@ not Apple-trusted or notarized. On first launch, right-click → **Open**, or ru
 xattr -dr com.apple.quarantine ~/Downloads/PKHeX.Avalonia.app
 ```
 Developer ID/notarized builds have no suffix; `-selfsigned` builds are an optional intermediate
-tier. Windows artifacts ending in `-unsigned` will trigger an OS warning — click **More info** →
-**Run anyway**. See [`docs/packaging.md`](docs/packaging.md) for the signing tiers.
+tier. See [`docs/packaging.md`](docs/packaging.md) for the signing tiers.
 Homebrew installs strip this automatically via the cask's postflight step.
 
 Package-manager installs (Homebrew cask, winget) are templated under `packaging/`, pending signed

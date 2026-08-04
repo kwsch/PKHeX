@@ -1,6 +1,6 @@
 # Packaging & distribution
 
-This document covers how `release.yml` builds installers for each platform,
+This document covers how `release.yml` builds the maintained macOS packages,
 which optional secrets unlock Apple Developer ID signing / notarization, and how to submit the
 package-manager templates under `packaging/` once signed builds exist. The default release path
 does not require paid credentials: macOS artifacts are ad-hoc signed.
@@ -13,8 +13,6 @@ best available tier and labels the artifact accordingly.
 
 | Platform | Artifact(s) | Notes |
 |---|---|---|
-| Windows x64 | `PKHeX-Avalonia-win-x64.zip` (unchanged) + `PKHeX-Avalonia-Setup.exe` (or `PKHeX-Avalonia-Setup-unsigned.exe`) | Installer built with Inno Setup via chocolatey |
-| Linux x64 | `PKHeX-Avalonia-linux-x64.zip` (unchanged) + `PKHeX-Avalonia-linux-x64.AppImage` (unchanged) | See "Why AppImage, not Flatpak" below |
 | macOS arm64 / x64 | `PKHeX-Avalonia-osx-{arm64,x64}-adhoc.zip` + `PKHeX-Avalonia-osx-{arm64,x64}-adhoc.dmg` by default; suffix changes with the signing tier | `.dmg` contains the `.app` bundle plus an `Applications` symlink |
 
 Developer ID artifacts have no suffix; stable self-signed artifacts use `-selfsigned`. The
@@ -30,9 +28,9 @@ git tag -a v<UIVersion> -m "PKHeX-Avalonia <UIVersion>"
 git push origin v<UIVersion>
 ```
 
-The workflow validates the tag against `<UIVersion>`, builds the matrix, and creates the GitHub
-Release. A manual Actions run is available when the tag must be created by the workflow; for a
-failed tag-triggered run, re-run that workflow from the Actions history.
+The workflow validates the tag against `<UIVersion>`, builds the two macOS architecture legs,
+and creates the GitHub Release. A manual Actions run is available when the tag must be created by
+the workflow; for a failed tag-triggered run, re-run that workflow from the Actions history.
 
 ## macOS: signing & notarization
 
@@ -229,9 +227,8 @@ review is far more likely to reject them.
 
 ## Summary: what's automatic vs. gated vs. manual
 
-- **Fully automatic, every release:** zip artifacts (all platforms),
-  `SHA256SUMS.txt`, AppImage, `.dmg` (Developer ID, self-signed, or ad-hoc), Windows installer
-  (signed or unsigned), GitHub Release creation and asset upload.
+- **Fully automatic, every release:** macOS zip artifacts, `SHA256SUMS.txt`, and `.dmg`
+  (Developer ID, self-signed, or ad-hoc), GitHub Release creation and asset upload.
 - **Gated on secrets (automatic once configured):** Developer ID codesigning
   + notarization/stapling for macOS (tier 1), stable self-signed identity
   for macOS (tier 2, the "tertius" pattern — no Apple Developer account

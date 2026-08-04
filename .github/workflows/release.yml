@@ -58,12 +58,7 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - rid: win-x64
-            os: windows-latest
-            artifact: PKHeX-Avalonia-win-x64
-          - rid: linux-x64
-            os: ubuntu-latest
-            artifact: PKHeX-Avalonia-linux-x64
+          # Current maintained release targets: macOS only.
           - rid: osx-arm64
             os: macos-latest
             artifact: PKHeX-Avalonia-osx-arm64
