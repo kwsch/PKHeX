@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.HallOfFame3EditorView"
+             x:DataType="vm:HallOfFame3EditorViewModel"
+             Width="500" Height="450">
+    <DockPanel Margin="16">
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc HallOfFame3EditorView_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,8" />
+        <TextBlock DockPanel.Dock="Top" Text="{Binding GameInfo}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Margin="0,0,0,12" />
+
+        <!-- Not Supported Message -->
+        <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc HallOfFame3EditorView_NotSupported}"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <!-- Content -->
+        <DockPanel IsVisible="{Binding IsSupported}">
+            <!-- Refresh Button -->
+            <Button DockPanel.Dock="Bottom" Content="{loc:Loc HallOfFame3EditorView_Refresh}" Command="{Binding RefreshCommand}"
+                    HorizontalAlignment="Center" Margin="0,12,0,0" Padding="16,8" />
+
+            <!-- Entries List -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Entries}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="vm:HallOfFame3EntryViewModel">
+                            <Border Classes="section-card" Margin="0,0,0,8">
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                                    <ItemsControl ItemsSource="{Binding Members}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="vm:HallOfFame3MemberViewModel">
+                                                <TextBlock Text="{Binding Display}" FontSize="12" Margin="8,2,0,2" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

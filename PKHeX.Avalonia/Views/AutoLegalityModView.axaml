@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="560" d:DesignHeight="560"
+             x:Class="PKHeX.Avalonia.Views.AutoLegalityModView"
+             x:DataType="vm:AutoLegalityModViewModel"
+             MinWidth="460" MinHeight="460" Width="560" Height="560">
+
+    <DockPanel Margin="12">
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc AutoLegalityModView_Title}" FontSize="16" FontWeight="SemiBold" />
+        <TextBlock DockPanel.Dock="Top" Margin="0,2,0,8"
+                   Text="{loc:Loc AutoLegalityModView_Description}"
+                   TextWrapping="Wrap"
+                   Foreground="{DynamicResource ThemeTextMutedBrush}" FontSize="12" />
+
+        <!-- Action bar -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+            <Button Content="{loc:Loc AutoLegalityModView_PasteButton}" Command="{Binding PasteFromClipboardCommand}" />
+            <Button Content="{loc:Loc AutoLegalityModView_LegalizeButton}" Classes="accent" Command="{Binding LegalizeCommand}" />
+            <Button Content="{loc:Loc AutoLegalityModView_LoadIntoEditorButton}" Command="{Binding LoadIntoEditorCommand}"
+                    ToolTip.Tip="{loc:Loc AutoLegalityModView_LoadIntoEditorTooltip}" />
+            <ProgressBar IsIndeterminate="True" Width="120" VerticalAlignment="Center"
+                         IsVisible="{Binding IsBusy}" />
+        </StackPanel>
+
+        <!-- Status -->
+        <TextBlock DockPanel.Dock="Bottom" Text="{Binding StatusMessage}" TextWrapping="Wrap"
+                   Margin="0,8,0,0" FontSize="12" />
+
+        <!-- Input + legality report -->
+        <Grid RowDefinitions="*,Auto,2*">
+            <TextBox Grid.Row="0"
+                     Text="{Binding ShowdownText}"
+                     AutomationProperties.Name="Showdown Set"
+                     AcceptsReturn="True" AcceptsTab="False"
+                     TextWrapping="NoWrap"
+                     FontFamily="Consolas, Menlo, monospace"
+                     Watermark="{loc:Loc AutoLegalityModView_ShowdownWatermark}"
+                     VerticalContentAlignment="Top"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+
+            <TextBlock Grid.Row="1" Text="{loc:Loc AutoLegalityModView_LegalityReportHeader}" FontWeight="SemiBold"
+                       Margin="0,10,0,4"
+                       IsVisible="{Binding LegalityReport, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+            <Border Grid.Row="2"
+                    BorderThickness="1" BorderBrush="{DynamicResource ThemeBorderBrush}"
+                    IsVisible="{Binding LegalityReport, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                <ScrollViewer>
+                    <SelectableTextBlock Text="{Binding LegalityReport}" Padding="8"
+                                         FontFamily="Consolas, Menlo, monospace" FontSize="12"
+                                         TextWrapping="Wrap" />
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </DockPanel>
+</UserControl>

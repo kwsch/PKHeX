@@ -1,0 +1,74 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.BoxManipView"
+             x:DataType="vm:BoxManipViewModel"
+             Width="500" Height="450">
+    <DockPanel Margin="16">
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc BoxManipView_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,12" />
+
+        <!-- Scope Selection -->
+        <Border DockPanel.Dock="Top" Classes="section-card" Margin="0,0,0,12">
+            <StackPanel Spacing="8">
+                <TextBlock Text="{loc:Loc BoxManipView_ScopeHeader}" FontWeight="SemiBold" />
+                <StackPanel Orientation="Horizontal" Spacing="16">
+                    <RadioButton Content="{loc:Loc BoxManipView_AllBoxesOption}" IsChecked="{Binding ApplyToAllBoxes}" GroupName="Scope" />
+                    <RadioButton Content="{loc:Loc BoxManipView_CurrentBoxOnlyOption}" IsChecked="{Binding !ApplyToAllBoxes}" GroupName="Scope" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Tabs for Sort / Clear / Modify -->
+        <TabControl>
+            <TabItem Header="{loc:Loc BoxManipView_SortTab}">
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding SortActions}" Margin="8">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="vm:BoxManipItemViewModel">
+                                <Button Content="{Binding Name}"
+                                        Command="{Binding $parent[UserControl].((vm:BoxManipViewModel)DataContext).ExecuteCommand}"
+                                        CommandParameter="{Binding}"
+                                        HorizontalAlignment="Stretch"
+                                        Margin="0,0,0,4"
+                                        Padding="8,6" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{loc:Loc BoxManipView_ClearTab}">
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding ClearActions}" Margin="8">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="vm:BoxManipItemViewModel">
+                                <Button Content="{Binding Name}"
+                                        Command="{Binding $parent[UserControl].((vm:BoxManipViewModel)DataContext).ExecuteCommand}"
+                                        CommandParameter="{Binding}"
+                                        HorizontalAlignment="Stretch"
+                                        Margin="0,0,0,4"
+                                        Padding="8,6" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="{loc:Loc BoxManipView_ModifyTab}">
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding ModifyActions}" Margin="8">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="vm:BoxManipItemViewModel">
+                                <Button Content="{Binding Name}" 
+                                        Command="{Binding $parent[UserControl].((vm:BoxManipViewModel)DataContext).ExecuteCommand}" 
+                                        CommandParameter="{Binding}"
+                                        HorizontalAlignment="Stretch" 
+                                        Margin="0,0,0,4" 
+                                        Padding="8,6" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</UserControl>

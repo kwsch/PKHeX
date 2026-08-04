@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="600"
+             x:Class="PKHeX.Avalonia.Views.BoxReportView"
+             x:DataType="vm:BoxReportViewModel"
+             MinWidth="700" MinHeight="400" Width="1100" Height="600">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Padding="12,8">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="8">
+                    <Button Content="{loc:Loc BoxReportView_RefreshButton}" Command="{Binding RefreshCommand}"
+                            ToolTip.Tip="{loc:Loc BoxReportView_RefreshTooltip}" />
+                    <Button Content="{loc:Loc BoxReportView_ExportCsvButton}" Classes="accent" Command="{Binding ExportCsvCommand}" />
+                </StackPanel>
+                <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center"
+                           Foreground="{DynamicResource ThemeTextMutedBrush}" FontSize="12" />
+            </DockPanel>
+        </Border>
+
+        <DataGrid Name="ReportGrid" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}"
+                  CanUserSortColumns="True" IsReadOnly="True" CanUserResizeColumns="True"
+                  GridLinesVisibility="All" BorderThickness="1"
+                  BorderBrush="{DynamicResource ThemeBorderBrush}"
+                  DoubleTapped="OnRowDoubleTapped"
+                  ToolTip.Tip="{loc:Loc BoxReportView_RowTooltip}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_PositionHeader}" Binding="{Binding Position}" Width="70"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_SpeciesHeader}" Binding="{Binding Species}" Width="110"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_NicknameHeader}" Binding="{Binding Nickname}" Width="100"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_LvlHeader}" Binding="{Binding Level}" Width="45"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_NatureHeader}" Binding="{Binding Nature}" Width="80"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_GenderHeader}" Binding="{Binding Gender}" Width="60"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_EsvHeader}" Binding="{Binding ESV}" Width="55"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_HpTypeHeader}" Binding="{Binding HP_Type}" Width="75"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_AbilityHeader}" Binding="{Binding Ability}" Width="110"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_ItemHeader}" Binding="{Binding HeldItem}" Width="110"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_BallHeader}" Binding="{Binding Ball}" Width="90"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_Move1Header}" Binding="{Binding Move1}" Width="105"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_Move2Header}" Binding="{Binding Move2}" Width="105"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_Move3Header}" Binding="{Binding Move3}" Width="105"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_Move4Header}" Binding="{Binding Move4}" Width="105"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_HpHeader}" Binding="{Binding HP}" Width="45"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_AtkHeader}" Binding="{Binding ATK}" Width="45"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_DefHeader}" Binding="{Binding DEF}" Width="45"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_SpaHeader}" Binding="{Binding SPA}" Width="45"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_SpdHeader}" Binding="{Binding SPD}" Width="45"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_SpeHeader}" Binding="{Binding SPE}" Width="45"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_IvTotalHeader}" Binding="{Binding IVTotal}" Width="50"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_EvTotalHeader}" Binding="{Binding EVTotal}" Width="50"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_MetLocationHeader}" Binding="{Binding MetLoc}" Width="130"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_OriginHeader}" Binding="{Binding Version}" Width="80"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_OtHeader}" Binding="{Binding OT}" Width="80"/>
+                <DataGridCheckBoxColumn Header="{loc:Loc BoxReportView_ShinyHeader}" Binding="{Binding IsShiny}" Width="55"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_LegalHeader}" Binding="{Binding Legal}" Width="55"/>
+                <DataGridTextColumn Header="{loc:Loc BoxReportView_ChecksumHeader}" Binding="{Binding Checksum}" Width="80"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,84 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Raid9Editor"
+             x:DataType="vm:Raid9EditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc Raid9Editor_NotAvailable}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc Raid9Editor_NotAvailableDesc}" HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="{loc:Loc Raid9Editor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Region, StringFormat='({0})'}" FontSize="16" Opacity="0.7" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                        <Button Content="{loc:Loc Raid9Editor_CopyToOthers}" Command="{Binding CopyToOthersCommand}" Padding="12,6" />
+                        <Button Content="{loc:Loc Raid9Editor_Refresh}" Command="{Binding RefreshCommand}" Padding="12,6" />
+                    </StackPanel>
+                </DockPanel>
+
+                <!-- Seeds (if available) -->
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="16" Margin="0,0,0,12" IsVisible="{Binding HasSeeds}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="{loc:Loc Raid9Editor_CurrentSeed}" VerticalAlignment="Center" />
+                        <TextBox Text="{Binding CurrentSeedHex}" MaxLength="16" MinWidth="130" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="{loc:Loc Raid9Editor_TomorrowSeed}" VerticalAlignment="Center" />
+                        <TextBox Text="{Binding TomorrowSeedHex}" MaxLength="16" MinWidth="130" />
+                    </StackPanel>
+                </StackPanel>
+
+                <Grid ColumnDefinitions="200,16,*">
+                    <!-- Raid List -->
+                    <Border Grid.Column="0" Classes="section-card" CornerRadius="4">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc Raid9Editor_Raids}" FontWeight="SemiBold" Margin="8" />
+                            <ListBox ItemsSource="{Binding Raids9}" SelectedItem="{Binding SelectedRaid}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="vm:Raid9ViewModel">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="{Binding DisplayName}" />
+                                            <TextBlock Text="✓" Foreground="Green" IsVisible="{Binding IsEnabled}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
+                    </Border>
+
+                    <!-- Raid Details -->
+                    <Border Grid.Column="2" Classes="section-card" CornerRadius="4" Padding="16"
+                            IsVisible="{Binding SelectedRaid, Converter={x:Static ObjectConverters.IsNotNull}}">
+                        <StackPanel DataContext="{Binding SelectedRaid}" Spacing="12">
+                            <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" FontSize="16" />
+
+                            <Grid ColumnDefinitions="Auto,8,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+                                <CheckBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Content="{loc:Loc Raid9Editor_Enabled}" IsChecked="{Binding IsEnabled}" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Raid9Editor_AreaId}" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding Area}" Minimum="0" Maximum="255" />
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc Raid9Editor_SeedHex}" VerticalAlignment="Center" />
+                                <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding SeedHex}" MaxLength="8" />
+
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc Raid9Editor_Content}" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="6" Grid.Column="2" Value="{Binding Content}" Minimum="0" Maximum="255" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Grid.Column="2" Text="{loc:Loc Raid9Editor_SelectRaid}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.5"
+                               IsVisible="{Binding SelectedRaid, Converter={x:Static ObjectConverters.IsNull}}" />
+                </Grid>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

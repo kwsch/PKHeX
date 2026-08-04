@@ -1,0 +1,99 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.SuperTrainingEditor"
+             x:DataType="vm:SuperTrainingEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc SuperTrainingEditor_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16" />
+
+            <TabControl>
+                <TabItem Header="{loc:Loc SuperTrainingEditor_TrainingBags}">
+                    <ScrollViewer>
+                        <ItemsControl ItemsSource="{Binding Bags}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="vm:TrainingBagViewModel">
+                                    <Grid ColumnDefinitions="50,*" Margin="0,4">
+                                        <TextBlock Text="{Binding SlotName}" VerticalAlignment="Center" />
+                                        <ComboBox Grid.Column="1" 
+                                                  ItemsSource="{Binding $parent[UserControl].((vm:SuperTrainingEditorViewModel)DataContext).BagNames}" 
+                                                  SelectedIndex="{Binding BagId}"
+                                                  HorizontalAlignment="Stretch" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem Header="{loc:Loc SuperTrainingEditor_StagesUnlock}">
+                    <DockPanel>
+                        <Button DockPanel.Dock="Top" Content="{loc:Loc SuperTrainingEditor_UnlockAllStages}" Command="{Binding UnlockAllCommand}" Margin="0,0,0,8" />
+                        <ScrollViewer>
+                            <ItemsControl ItemsSource="{Binding Stages}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Vertical" MinHeight="400" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="vm:SuperTrainStageViewModel">
+                                        <CheckBox IsChecked="{Binding IsUnlocked}" Content="{Binding Name}" Margin="4,2" MinWidth="180" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </DockPanel>
+                </TabItem>
+
+                <TabItem Header="{loc:Loc SuperTrainingEditor_Records}">
+                    <Grid ColumnDefinitions="250, *">
+                        <ListBox Grid.Column="0" ItemsSource="{Binding Records}" SelectedItem="{Binding SelectedRecord}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <ScrollViewer Grid.Column="1" Padding="16" IsVisible="{Binding SelectedRecord, Converter={x:Static ObjectConverters.IsNotNull}}">
+                            <StackPanel Spacing="16" DataContext="{Binding SelectedRecord}">
+                                <TextBlock Text="{loc:Loc SuperTrainingEditor_Record1}" FontWeight="Bold" />
+                                <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto" Margin="0,0,0,16">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc SuperTrainingEditor_Time}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Time1}" Increment="0.1" Margin="0,0,0,4" />
+                                    
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc SuperTrainingEditor_Species}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Species1}" Minimum="0" Maximum="1025" Margin="0,0,0,4" />
+                                    
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc SuperTrainingEditor_Form}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Form1}" Minimum="0" Maximum="255" Margin="0,0,0,4" />
+                                    
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc SuperTrainingEditor_Gender}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Gender1}" Minimum="0" Maximum="2" Margin="0,0,0,4" />
+                                </Grid>
+
+                                <TextBlock Text="{loc:Loc SuperTrainingEditor_Record2}" FontWeight="Bold" />
+                                <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc SuperTrainingEditor_Time}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Time2}" Increment="0.1" Margin="0,0,0,4" />
+                                    
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc SuperTrainingEditor_Species}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Species2}" Minimum="0" Maximum="1025" Margin="0,0,0,4" />
+                                    
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc SuperTrainingEditor_Form}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Form2}" Minimum="0" Maximum="255" Margin="0,0,0,4" />
+                                    
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc SuperTrainingEditor_Gender}" VerticalAlignment="Center" Margin="0,0,8,4" />
+                                    <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Gender2}" Minimum="0" Maximum="2" Margin="0,0,0,4" />
+                                </Grid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </Border>
+</UserControl>

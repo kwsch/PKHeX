@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Misc2Editor"
+             x:DataType="vm:Misc2EditorViewModel">
+
+    <Design.DataContext>
+        <vm:Misc2EditorViewModel />
+    </Design.DataContext>
+
+    <Border Padding="16" Classes="view-container">
+        <Grid RowDefinitions="*,Auto">
+            <StackPanel Spacing="16">
+                <TextBlock Text="{loc:Loc Misc2Editor_Title}" Classes="view-title" />
+
+                <!-- GS Ball Section (Crystal only) -->
+                <Border Classes="section-card"
+                        Padding="16"
+                        IsVisible="{Binding IsCrystal}">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="{loc:Loc Misc2Editor_GsBallEvent}" FontWeight="SemiBold" FontSize="14"/>
+                        <TextBlock TextWrapping="Wrap" Opacity="0.7"
+                                   Text="{loc:Loc Misc2Editor_GsBallDescription}"/>
+
+                        <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,8,0,0">
+                            <Button Content="{loc:Loc Misc2Editor_EnableGsBallEvent}"
+                                    Command="{Binding EnableGsBallCommand}"
+                                    IsEnabled="{Binding CanEnableGsBall}"
+                                    Classes="accent"/>
+                            <TextBlock Text="{loc:Loc Misc2Editor_AlreadyEnabled}"
+                                       Foreground="{DynamicResource ThemeSuccessBrush}"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"
+                                       IsVisible="{Binding GsBallEnabled}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Non-Crystal message -->
+                <Border Classes="section-card" Padding="20" IsVisible="{Binding !IsCrystal}">
+                    <TextBlock Text="{loc:Loc Misc2Editor_NoSpecialOptions}"
+                               Opacity="0.6"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </StackPanel>
+
+            <!-- Bottom Buttons -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12" Margin="0,16,0,0">
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,99 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="500"
+             x:Class="PKHeX.Avalonia.Views.PokedexGen9Editor"
+             x:DataType="vm:PokedexGen9EditorViewModel">
+    
+    <Border Padding="16" Classes="view-container">
+        <Grid ColumnDefinitions="250, 16, *" RowDefinitions="*,Auto">
+            <!-- Left: Species List -->
+            <Grid Grid.Column="0" RowDefinitions="Auto, 8, *">
+                <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc PokedexGen9Editor_SearchSpecies}" AutomationProperties.Name="Search Species" />
+                <Border Grid.Row="2" Classes="section-card" Padding="0">
+                    <ListBox ItemsSource="{Binding FilteredSpeciesList}" SelectedItem="{Binding SelectedSpecies}" Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Text}" Padding="8,4"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+            
+            <!-- Right: Details -->
+            <ScrollViewer Grid.Column="2">
+                <StackPanel Spacing="16">
+                    <!-- Seen Flags -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc PokedexGen9Editor_SeenFlags}" FontWeight="SemiBold" Opacity="0.6" />
+                            <StackPanel Orientation="Horizontal" Spacing="24">
+                                <CheckBox Content="{loc:Loc PokedexGen9Editor_Male}" IsChecked="{Binding IsSeenMale}"/>
+                                <CheckBox Content="{loc:Loc PokedexGen9Editor_Female}" IsChecked="{Binding IsSeenFemale}"/>
+                                <CheckBox Content="{loc:Loc PokedexGen9Editor_Genderless}" IsChecked="{Binding IsSeenGenderless}"/>
+                                <CheckBox Content="{loc:Loc PokedexGen9Editor_Shiny}" IsChecked="{Binding IsSeenShiny}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Display Settings -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc PokedexGen9Editor_DisplaySettings}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="Auto, 16, *" RowDefinitions="Auto, 12, Auto">
+                                <!-- Gender & Form -->
+                                <StackPanel Grid.Row="0" Grid.Column="0" Spacing="8">
+                                    <TextBlock Text="{loc:Loc PokedexGen9Editor_Gender}" FontWeight="SemiBold" Opacity="0.7" />
+                                    <ComboBox SelectedIndex="{Binding DisplayGender}" HorizontalAlignment="Stretch">
+                                         <ComboBoxItem>{loc:Loc PokedexGen9Editor_Male}</ComboBoxItem>
+                                         <ComboBoxItem>{loc:Loc PokedexGen9Editor_Female}</ComboBoxItem>
+                                         <ComboBoxItem>{loc:Loc PokedexGen9Editor_Genderless}</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                                
+                                <StackPanel Grid.Row="0" Grid.Column="2" Spacing="8">
+                                    <TextBlock Text="{loc:Loc PokedexGen9Editor_Form}" FontWeight="SemiBold" Opacity="0.7" />
+                                    <ComboBox ItemsSource="{Binding Forms}" SelectedIndex="{Binding DisplayForm}" HorizontalAlignment="Stretch" />
+                                </StackPanel>
+                                
+                                <!-- Flags -->
+                                <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Spacing="24">
+                                    <CheckBox Content="{loc:Loc PokedexGen9Editor_ShinyDisplay}" IsChecked="{Binding DisplayShiny}"/>
+                                    <CheckBox Content="{loc:Loc PokedexGen9Editor_New}" IsChecked="{Binding IsNew}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Languages -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc PokedexGen9Editor_Languages}" FontWeight="SemiBold" Opacity="0.6" />
+                            <WrapPanel Orientation="Horizontal">
+                                 <CheckBox Content="{loc:Loc PokedexGen9Editor_LangJPN}" IsChecked="{Binding LangJPN}" Margin="0,0,16,8"/>
+                                 <CheckBox Content="{loc:Loc PokedexGen9Editor_LangENG}" IsChecked="{Binding LangENG}" Margin="0,0,16,8"/>
+                                 <CheckBox Content="{loc:Loc PokedexGen9Editor_LangFRE}" IsChecked="{Binding LangFRE}" Margin="0,0,16,8"/>
+                                 <CheckBox Content="{loc:Loc PokedexGen9Editor_LangITA}" IsChecked="{Binding LangITA}" Margin="0,0,16,8"/>
+                                 <CheckBox Content="{loc:Loc PokedexGen9Editor_LangGER}" IsChecked="{Binding LangGER}" Margin="0,0,16,8"/>
+                                 <CheckBox Content="{loc:Loc PokedexGen9Editor_LangSPA}" IsChecked="{Binding LangSPA}" Margin="0,0,16,8"/>
+                                 <CheckBox Content="{loc:Loc PokedexGen9Editor_LangKOR}" IsChecked="{Binding LangKOR}" Margin="0,0,16,8"/>
+                                 <CheckBox Content="{loc:Loc PokedexGen9Editor_LangCHS}" IsChecked="{Binding LangCHS}" Margin="0,0,16,8"/>
+                                 <CheckBox Content="{loc:Loc PokedexGen9Editor_LangCHT}" IsChecked="{Binding LangCHT}" Margin="0,0,16,8"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+            
+            <!-- Bottom Buttons -->
+            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right" Margin="0,16,0,0">
+                 <Button Content="{loc:Loc PokedexGen9Editor_SeenAllThis}" Command="{Binding SeenAllCommand}"/>
+                 <Button Content="{loc:Loc PokedexGen9Editor_SaveEntry}" Command="{Binding SaveCurrentCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

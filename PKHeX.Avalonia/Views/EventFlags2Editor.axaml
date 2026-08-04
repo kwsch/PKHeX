@@ -1,0 +1,138 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.EventFlags2Editor"
+             x:DataType="vm:EventFlags2EditorViewModel">
+
+    <Design.DataContext>
+        <vm:EventFlags2EditorViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*,Auto" Margin="10">
+        <!-- Header -->
+        <TextBlock Text="{Binding VersionText}" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+
+        <!-- Main Content - Tabs -->
+        <TabControl Grid.Row="1">
+            <!-- Flags Tab -->
+            <TabItem Header="{loc:Loc EventFlags2Editor_TabEventFlags}">
+                <Grid RowDefinitions="Auto,*,Auto">
+                    <!-- Search -->
+                    <TextBox Grid.Row="0"
+                             Text="{Binding SearchText}"
+                             AutomationProperties.Name="Search"
+                             Watermark="{loc:Loc EventFlags2Editor_SearchWatermark}"
+                             Margin="0,0,0,10"/>
+
+                    <!-- Flags Grid -->
+                    <DataGrid Grid.Row="1"
+                              ItemsSource="{Binding FilteredFlags}"
+                              AutoGenerateColumns="False"
+                              CanUserResizeColumns="True"
+                              CanUserSortColumns="True"
+                              IsReadOnly="False"
+                              GridLinesVisibility="Horizontal">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="{loc:Loc EventFlags2Editor_ColumnSet}" Binding="{Binding IsSet}"/>
+                            <DataGridTextColumn Header="{loc:Loc EventFlags2Editor_ColumnIndex}" Binding="{Binding Index}" IsReadOnly="True" Width="60"/>
+                            <DataGridTextColumn Header="{loc:Loc EventFlags2Editor_ColumnName}" Binding="{Binding Label}" IsReadOnly="True" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Custom Flag -->
+                    <Border Grid.Row="2"
+                            BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="10"
+                            Margin="0,10,0,0">
+                        <Grid ColumnDefinitions="Auto,100,Auto,Auto" RowDefinitions="Auto">
+                            <TextBlock Grid.Column="0" Text="{loc:Loc EventFlags2Editor_FlagIndexLabel}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Value="{Binding CustomFlagIndex}"
+                                           Minimum="0"
+                                           Maximum="{Binding MaxFlagIndex}"
+                                           Margin="0,0,20,0"/>
+                            <TextBlock Grid.Column="2" Text="{loc:Loc EventFlags2Editor_FlagValueLabel}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <CheckBox Grid.Column="3" IsChecked="{Binding CustomFlagValue}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <!-- Work Values Tab -->
+            <TabItem Header="{loc:Loc EventFlags2Editor_TabWorkValues}">
+                <Grid RowDefinitions="*,Auto">
+                    <!-- Work Values List -->
+                    <ScrollViewer Grid.Row="0">
+                        <ItemsControl ItemsSource="{Binding WorkValues}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="vm:EventWork2ViewModel">
+                                    <Border Margin="0,0,0,5"
+                                            Padding="10"
+                                            BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="4">
+                                        <Grid ColumnDefinitions="*,Auto,Auto" RowDefinitions="Auto">
+                                            <TextBlock Grid.Column="0"
+                                                       Text="{Binding DisplayText}"
+                                                       VerticalAlignment="Center"/>
+                                            <ComboBox Grid.Column="1"
+                                                      ItemsSource="{Binding PredefinedValues}"
+                                                      SelectedIndex="{Binding SelectedPredefinedIndex}"
+                                                      IsVisible="{Binding HasPredefinedValues}"
+                                                      AutomationProperties.Name="Predefined Value"
+                                                      MinWidth="150"
+                                                      Margin="10,0">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Text}"/>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                            <NumericUpDown Grid.Column="2"
+                                                           Value="{Binding Value}"
+                                                           Minimum="0"
+                                                           Maximum="255"
+                                                           AutomationProperties.Name="Value"
+                                                           Width="100"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <!-- Custom Work Value -->
+                    <Border Grid.Row="1"
+                            BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="10"
+                            Margin="0,10,0,0">
+                        <Grid ColumnDefinitions="Auto,100,Auto,100" RowDefinitions="Auto">
+                            <TextBlock Grid.Column="0" Text="{loc:Loc EventFlags2Editor_WorkIndexLabel}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Value="{Binding CustomWorkIndex}"
+                                           Minimum="0"
+                                           Maximum="{Binding MaxWorkIndex}"
+                                           Margin="0,0,20,0"/>
+                            <TextBlock Grid.Column="2" Text="{loc:Loc EventFlags2Editor_WorkValueLabel}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <NumericUpDown Grid.Column="3"
+                                           Value="{Binding CustomWorkValue}"
+                                           Minimum="0"
+                                           Maximum="255"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <!-- Bottom Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" Margin="0,10,0,0">
+            <Button Content="{loc:Loc EventFlags2Editor_Reset}" Command="{Binding ResetCommand}"/>
+            <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

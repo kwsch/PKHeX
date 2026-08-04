@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.PoketchEditorView"
+             x:DataType="vm:PoketchEditorViewModel"
+             MinWidth="450" MinHeight="500">
+    <DockPanel Margin="16">
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc PoketchEditorView_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,8" />
+        <TextBlock DockPanel.Dock="Top" Text="{Binding GameInfo}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Margin="0,0,0,12" />
+
+        <!-- Not Supported Message -->
+        <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc PoketchEditorView_NotSupported}" 
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" 
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <!-- Poketch Content -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" IsVisible="{Binding IsSupported}">
+            <StackPanel Spacing="12">
+                <!-- Settings -->
+                <Border Classes="section-card">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc PoketchEditorView_Settings}" FontWeight="SemiBold" Margin="0,0,0,4" />
+                        <CheckBox Content="{loc:Loc PoketchEditorView_Enabled}" IsChecked="{Binding PoketchEnabled}" />
+                        <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,Auto,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc PoketchEditorView_Color}" VerticalAlignment="Center" />
+                            <ComboBox Grid.Row="0" Grid.Column="1" SelectedIndex="{Binding ColorIndex}" ItemsSource="{Binding Colors}" HorizontalAlignment="Stretch" Margin="0,0,0,4" />
+                            
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc PoketchEditorView_CurrentApp}" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding CurrentApp}" Minimum="0" Maximum="24" Margin="0,0,0,4" />
+                            
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc PoketchEditorView_StepCounter}" VerticalAlignment="Center" />
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                                <NumericUpDown Value="{Binding StepCounter}" Minimum="0" Maximum="999999999" />
+                                <Button Content="{loc:Loc PoketchEditorView_Reset}" Command="{Binding ResetStepCounterCommand}" Padding="8,4" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Apps -->
+                <Border Classes="section-card">
+                    <StackPanel Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <TextBlock Text="{loc:Loc PoketchEditorView_UnlockedApps}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                            <Button Content="{loc:Loc PoketchEditorView_UnlockAll}" Command="{Binding UnlockAllCommand}" Padding="8,4" />
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding Apps}" Margin="0,8,0,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="vm:PoketchAppViewModel">
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsUnlocked}" MinWidth="170" Margin="0,2" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- Actions -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+                    <Button Content="{loc:Loc PoketchEditorView_SaveChanges}" Command="{Binding SaveCommand}" Padding="16,8" />
+                    <Button Content="{loc:Loc PoketchEditorView_Refresh}" Command="{Binding RefreshCommand}" Padding="16,8" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

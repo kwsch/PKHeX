@@ -1,0 +1,188 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.MedalEditorView"
+             x:DataType="vm:MedalEditorViewModel"
+             MinWidth="640" MinHeight="560">
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,12">
+            <TextBlock Text="{loc:Loc MedalEditorView_MedalRally}" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding GameInfo}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+            <TextBlock FontSize="14" Margin="0,8,0,0">
+                <Run Text="{loc:Loc MedalEditorView_TotalObtained}" />
+                <Run Text="{Binding TotalObtained}" FontWeight="SemiBold" />
+                <Run Text=" / 255" />
+            </TextBlock>
+        </StackPanel>
+
+        <!-- Not Supported Message -->
+        <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc MedalEditorView_NotSupported}"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <!-- Medal Content -->
+        <DockPanel IsVisible="{Binding IsSupported}">
+            <!-- Action Buttons -->
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8" Margin="0,12,0,0">
+                <Button Content="{loc:Loc MedalEditorView_GiveAll}" Command="{Binding GiveAllCommand}" Padding="16,6" />
+                <Button Content="{loc:Loc MedalEditorView_ClearAll}" Command="{Binding ClearAllCommand}" Padding="16,6" />
+                <Button Content="{loc:Loc MedalEditorView_Refresh}" Command="{Binding RefreshCommand}" Padding="16,6" />
+            </StackPanel>
+
+            <TabControl>
+                <!-- ===================== Medals Tab ===================== -->
+                <TabItem Header="{loc:Loc MedalEditorView_Medals}">
+                    <DockPanel>
+                        <!-- Settings + Import/Export -->
+                        <Border DockPanel.Dock="Top" Classes="section-card" Margin="0,8,0,8" Padding="12">
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="{loc:Loc MedalEditorView_Settings}" FontWeight="SemiBold" />
+                                <Grid ColumnDefinitions="Auto,160,Auto,160" RowDefinitions="Auto,Auto" >
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc MedalEditorView_PinnedMedal}" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding PinnedMedal}"
+                                                   Minimum="0" Maximum="255" FormatString="0"
+                                                   Classes="compact" Margin="0,0,16,6" />
+
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc MedalEditorView_Rank}" VerticalAlignment="Center" Margin="0,0,8,6" />
+                                    <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" Spacing="6" Margin="0,0,0,6">
+                                        <ComboBox ItemsSource="{Binding RankChoices}" SelectedIndex="{Binding RankIndex}"
+                                                  MinWidth="110" />
+                                        <Button Content="{loc:Loc MedalEditorView_Recalculate}" Command="{Binding RecalculateRankCommand}" Padding="8,4" />
+                                    </StackPanel>
+
+                                    <CheckBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                              Content="{loc:Loc MedalEditorView_TutorialComplete}" IsChecked="{Binding IsTutorialComplete}" />
+                                </Grid>
+
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Button Content="{loc:Loc MedalEditorView_ImportMl5}" Command="{Binding ImportAllCommand}" Padding="12,4" />
+                                    <Button Content="{loc:Loc MedalEditorView_ExportMl5}" Command="{Binding ExportAllCommand}" Padding="12,4" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Editable Medal Grid -->
+                        <Border Classes="section-card" CornerRadius="4" Padding="0" ClipToBounds="True">
+                            <DataGrid ItemsSource="{Binding MedalRows}"
+                                      AutoGenerateColumns="False"
+                                      CanUserResizeColumns="True"
+                                      CanUserSortColumns="False"
+                                      IsReadOnly="False"
+                                      MinHeight="320">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="#" Binding="{Binding Index}" Width="48" IsReadOnly="True" />
+                                    <DataGridTextColumn Header="{loc:Loc MedalEditorView_Type}" Binding="{Binding Type}" Width="120" IsReadOnly="True" />
+                                    <DataGridTemplateColumn Header="{loc:Loc MedalEditorView_State}" Width="160">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="vm:MedalItemViewModel">
+                                                <ComboBox ItemsSource="{Binding StateChoices}"
+                                                          SelectedIndex="{Binding StateIndex}"
+                                                          HorizontalAlignment="Stretch"
+                                                          AutomationProperties.Name="State" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="{loc:Loc MedalEditorView_Unread}" Width="70">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="vm:MedalItemViewModel">
+                                                <CheckBox IsChecked="{Binding IsUnread}"
+                                                          HorizontalAlignment="Center"
+                                                          AutomationProperties.Name="Unread" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="{loc:Loc MedalEditorView_DateFormat}" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="vm:MedalItemViewModel">
+                                                <TextBox Text="{Binding Date}"
+                                                         IsEnabled="{Binding CanHaveDate}"
+                                                         Watermark="—"
+                                                         HorizontalAlignment="Stretch"
+                                                         AutomationProperties.Name="Date" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </DockPanel>
+                </TabItem>
+
+                <!-- ===================== Habitat Tab ===================== -->
+                <TabItem Header="{loc:Loc MedalEditorView_Habitat}">
+                    <DockPanel>
+                        <!-- Habitat Settings + Actions -->
+                        <Border DockPanel.Dock="Top" Classes="section-card" Margin="0,8,0,8" Padding="12">
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="{loc:Loc MedalEditorView_Settings}" FontWeight="SemiBold" />
+                                <Grid ColumnDefinitions="Auto,160" RowDefinitions="Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc MedalEditorView_LastEncounterType}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                                    <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding EncounterTypeChoices}"
+                                              SelectedIndex="{Binding LastEncounterTypeIndex}" MinWidth="120" />
+                                </Grid>
+                                <CheckBox Content="{loc:Loc MedalEditorView_TutorialViewed}" IsChecked="{Binding HabitatTutorialViewed}" />
+                                <CheckBox Content="{loc:Loc MedalEditorView_TutorialCompleteCapture}" IsChecked="{Binding HabitatTutorialCompleteCapture}" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Button Content="{loc:Loc MedalEditorView_CompleteAll}" Command="{Binding HabitatCompleteAllCommand}" Padding="12,4" />
+                                    <Button Content="{loc:Loc MedalEditorView_ClearAll}" Command="{Binding HabitatClearAllCommand}" Padding="12,4" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Editable Habitat Grid -->
+                        <Border Classes="section-card" CornerRadius="4" Padding="0" ClipToBounds="True">
+                            <DataGrid ItemsSource="{Binding HabitatRows}"
+                                      AutoGenerateColumns="False"
+                                      CanUserResizeColumns="True"
+                                      CanUserSortColumns="False"
+                                      IsReadOnly="False"
+                                      MinHeight="320">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="#" Binding="{Binding Index}" Width="48" IsReadOnly="True" />
+                                    <DataGridTemplateColumn Header="{loc:Loc MedalEditorView_Complete}" Width="80">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="vm:HabitatRowViewModel">
+                                                <CheckBox IsChecked="{Binding IsComplete}" HorizontalAlignment="Center" AutomationProperties.Name="Complete" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="{loc:Loc MedalEditorView_Grass}" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="vm:HabitatRowViewModel">
+                                                <ComboBox ItemsSource="{Binding HabitatCompletionChoices}"
+                                                          SelectedIndex="{Binding GrassIndex}"
+                                                          HorizontalAlignment="Stretch"
+                                                          AutomationProperties.Name="Grass" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="{loc:Loc MedalEditorView_Surf}" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="vm:HabitatRowViewModel">
+                                                <ComboBox ItemsSource="{Binding HabitatCompletionChoices}"
+                                                          SelectedIndex="{Binding SurfIndex}"
+                                                          HorizontalAlignment="Stretch"
+                                                          AutomationProperties.Name="Surf" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="{loc:Loc MedalEditorView_Fish}" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate DataType="vm:HabitatRowViewModel">
+                                                <ComboBox ItemsSource="{Binding HabitatCompletionChoices}"
+                                                          SelectedIndex="{Binding FishIndex}"
+                                                          HorizontalAlignment="Stretch"
+                                                          AutomationProperties.Name="Fish" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

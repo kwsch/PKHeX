@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:conv="clr-namespace:PKHeX.Avalonia.Converters"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.QrCodeView"
+             x:DataType="vm:QrCodeViewModel"
+             Width="420">
+
+    <UserControl.Resources>
+        <conv:PngBytesToBitmapConverter x:Key="PngToBitmap" />
+    </UserControl.Resources>
+
+    <StackPanel Margin="16" Spacing="12">
+        <Border HorizontalAlignment="Center" Background="White" Padding="8" CornerRadius="4">
+            <Image Source="{Binding PngBytes, Converter={StaticResource PngToBitmap}}"
+                   Width="320" Height="320" RenderOptions.BitmapInterpolationMode="None" />
+        </Border>
+        <TextBlock Text="{Binding Caption}" TextWrapping="Wrap" HorizontalAlignment="Center"
+                   TextAlignment="Center" Foreground="{DynamicResource ThemeTextMutedBrush}" FontSize="12" />
+        <Button Content="{loc:Loc QrCodeView_SaveAsPng}" Classes="accent" HorizontalAlignment="Center"
+                Command="{Binding SaveAsPngCommand}" />
+    </StackPanel>
+</UserControl>

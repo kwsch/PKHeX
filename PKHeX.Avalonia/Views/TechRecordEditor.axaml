@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
+             x:Class="PKHeX.Avalonia.Views.TechRecordEditor"
+             x:DataType="vm:TechRecordEditorViewModel">
+
+    <Grid RowDefinitions="*, Auto" Margin="10">
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Records}" CanUserSortColumns="True" IsReadOnly="False"
+                  GridLinesVisibility="All" BorderThickness="1" BorderBrush="Gray">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="{loc:Loc TechRecordEditor_Active}" Binding="{Binding IsActive}" Width="60"/>
+                <DataGridTextColumn Header="#" Binding="{Binding Index}" IsReadOnly="True" Width="50"/>
+                <DataGridTextColumn Header="{loc:Loc TechRecordEditor_Type}" Binding="{Binding TypeName}" IsReadOnly="True" Width="80"/>
+                <DataGridTextColumn Header="{loc:Loc TechRecordEditor_Move}" Binding="{Binding Name}" IsReadOnly="True" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" Margin="0,10,0,0">
+            <Button Content="{loc:Loc TechRecordEditor_GiveAll}" Command="{Binding GiveAllCommand}"/>
+            <Button Content="{loc:Loc TechRecordEditor_RemoveAll}" Command="{Binding RemoveAllCommand}"/>
+            <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CloseCommand}"/>
+            <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

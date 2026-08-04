@@ -1,0 +1,158 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:models="clr-namespace:PKHeX.Presentation.Models;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.BoxViewer"
+             x:DataType="vm:BoxViewerViewModel"
+             Focusable="True">
+
+    <!-- Keyboard Navigation -->
+    <UserControl.KeyBindings>
+        <KeyBinding Gesture="Left" Command="{Binding MoveSelectionCommand}" CommandParameter="Left" />
+        <KeyBinding Gesture="Right" Command="{Binding MoveSelectionCommand}" CommandParameter="Right" />
+        <KeyBinding Gesture="Up" Command="{Binding MoveSelectionCommand}" CommandParameter="Up" />
+        <KeyBinding Gesture="Down" Command="{Binding MoveSelectionCommand}" CommandParameter="Down" />
+        <KeyBinding Gesture="Enter" Command="{Binding ActivateSlotCommand}" />
+        <KeyBinding Gesture="Space" Command="{Binding ActivateSlotCommand}" />
+        <KeyBinding Gesture="Home" Command="{Binding SelectFirstSlotCommand}" />
+        <KeyBinding Gesture="End" Command="{Binding SelectLastSlotCommand}" />
+        <KeyBinding Gesture="PageUp" Command="{Binding PreviousBoxCommand}" />
+        <KeyBinding Gesture="PageDown" Command="{Binding NextBoxCommand}" />
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding OpenSeekToolCommand}" />
+        <KeyBinding Gesture="F3" Command="{Binding Seek.SeekNextCommand}" />
+        <KeyBinding Gesture="Shift+F3" Command="{Binding Seek.SeekPreviousCommand}" />
+        <!-- Keyboard-only slot operations, mirroring the mouse modifier-clicks below -->
+        <KeyBinding Gesture="Ctrl+C" Command="{Binding ViewSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+        <KeyBinding Gesture="Ctrl+V" Command="{Binding SetSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+        <KeyBinding Gesture="Delete" Command="{Binding DeleteSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+    </UserControl.KeyBindings>
+
+    <Border Padding="16" Classes="view-container">
+        <DockPanel>
+            <!-- Box Navigation Header -->
+            <Border DockPanel.Dock="Top" Classes="card" Padding="0" Margin="0,0,0,12">
+                <Grid ColumnDefinitions="48,*,48,44" Height="44">
+                    <Button Grid.Column="0"
+                            Content="◀"
+                            Command="{Binding PreviousBoxCommand}"
+                            ToolTip.Tip="{loc:Loc BoxViewer_PreviousBoxTooltip}"
+                            AutomationProperties.Name="Previous Box"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="16" />
+                    
+                    <TextBlock Grid.Column="1" 
+                               Text="{Binding BoxName}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontWeight="SemiBold"
+                               FontSize="16" />
+
+                    <Button Grid.Column="2"
+                            Content="▶"
+                            Command="{Binding NextBoxCommand}"
+                            ToolTip.Tip="{loc:Loc BoxViewer_NextBoxTooltip}"
+                            AutomationProperties.Name="Next Box"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="16" />
+
+                    <Button Grid.Column="3"
+                            Content="🔍"
+                            Command="{Binding OpenSeekToolCommand}"
+                            ToolTip.Tip="{loc:Loc BoxViewer_SeekTooltip}"
+                            AutomationProperties.Name="Open Seek Tool"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="16" />
+                </Grid>
+            </Border>
+
+            <!-- Footer -->
+            <TextBlock DockPanel.Dock="Bottom"
+                       Text="{loc:Loc BoxViewer_FooterHelp}"
+                       Foreground="{DynamicResource ThemeTextMutedBrush}"
+                       FontSize="11"
+                       HorizontalAlignment="Center"
+                       Margin="0,12,0,0" />
+
+            <!-- Box Grid (6 columns x 5 rows = 30 slots) - Fills available space -->
+            <Border Classes="card-elevated" Padding="4">
+                <ItemsControl ItemsSource="{Binding Slots}" x:Name="SlotGrid">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="6" Rows="5" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:SlotData">
+                            <Button Classes="slot"
+                                    Classes.selected="{Binding IsSelected}"
+                                    Margin="1"
+                                    Width="NaN"
+                                    Height="NaN"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    PointerPressed="OnSlotPointerPressed"
+                                    PointerMoved="OnSlotPointerMoved"
+                                    DragDrop.AllowDrop="True"
+                                    DragDrop.Drop="OnSlotDrop"
+                                    DragDrop.DragOver="OnSlotDragOver"
+                                    ToolTip.Tip="{Binding ToolTipSummary}"
+                                    AutomationProperties.Name="{Binding AccessibleName}"
+                                    Click="OnSlotClicked"
+                                    DoubleTapped="OnSlotDoubleTapped"
+                                    Tag="{Binding}">
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="{loc:Loc BoxViewer_ViewMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).ViewSlotCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                        <MenuItem Header="{loc:Loc BoxViewer_SetMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).SetSlotCommand}"
+                                                  CommandParameter="{Binding}" />
+                                        <Separator />
+                                        <MenuItem Header="{loc:Loc BoxViewer_DeleteMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).DeleteSlotCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                                
+                                <!-- Content stretches to fill. Hit-test-transparent so drag/drop
+                                     hit-testing resolves to the Button itself (which carries
+                                     DragDrop.AllowDrop) rather than the sprite Image swallowing it. -->
+                                <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False">
+                                    <!-- Empty slot indicator -->
+                                    <Border Classes="empty-slot"
+                                            IsVisible="{Binding IsEmpty}" />
+
+                                    <!-- Pokemon Sprite - scales with slot size -->
+                                    <Image Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}"
+                                           Stretch="Uniform"
+                                           RenderOptions.BitmapInterpolationMode="HighQuality"
+                                           IsVisible="{Binding !IsEmpty}"
+                                           Margin="2" />
+                                </Panel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+        </DockPanel>
+    </Border>
+</UserControl>

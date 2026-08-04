@@ -1,0 +1,116 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.HallOfFameEditor"
+             x:DataType="vm:HallOfFameEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <!-- Not supported message -->
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc HallOfFameEditor_NotAvailable}"
+                           FontSize="18"
+                           HorizontalAlignment="Center"
+                           Opacity="0.7" />
+                <TextBlock Text="{loc:Loc HallOfFameEditor_NotSupportedDetail}"
+                           HorizontalAlignment="Center"
+                           Opacity="0.5"
+                           Margin="0,8,0,0" />
+            </StackPanel>
+
+            <!-- Main content -->
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <!-- Header -->
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <TextBlock Text="{loc:Loc HallOfFameEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <Button Content="{loc:Loc HallOfFameEditor_Refresh}"
+                            Command="{Binding RefreshCommand}"
+                            HorizontalAlignment="Right"
+                            Padding="12,6" />
+                </DockPanel>
+
+                <!-- Content -->
+                <Grid ColumnDefinitions="200,16,*">
+                    <!-- Entry List -->
+                    <Border Grid.Column="0"
+                            Classes="section-card"
+                            CornerRadius="4">
+                        <ListBox ItemsSource="{Binding Entries}"
+                                 SelectedItem="{Binding SelectedEntry}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="vm:HallOfFameEntryViewModel">
+                                    <StackPanel Margin="8,4">
+                                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding DateString}" FontSize="11" Opacity="0.7" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Border>
+
+                    <!-- Selected Entry Details -->
+                    <Border Grid.Column="2"
+                            Classes="section-card"
+                            CornerRadius="4"
+                            Padding="16"
+                            IsVisible="{Binding SelectedEntry, Converter={x:Static ObjectConverters.IsNotNull}}">
+                        <StackPanel DataContext="{Binding SelectedEntry}" Spacing="16">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Title}" FontSize="18" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding DateString}" Opacity="0.7" />
+                            </StackPanel>
+
+                            <!-- Team Members -->
+                            <TextBlock Text="{loc:Loc HallOfFameEditor_Team}" FontWeight="SemiBold" />
+                            <ItemsControl ItemsSource="{Binding Members}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="vm:HallOfFameMemberViewModel">
+                                        <Border Margin="4" Padding="8" CornerRadius="4"
+                                                Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+                                            <StackPanel Width="80">
+                                                <Image Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}"
+                                                       Width="68" Height="56"
+                                                       HorizontalAlignment="Center" />
+                                                <TextBlock Text="{Binding DisplayName}"
+                                                           FontSize="10"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           HorizontalAlignment="Center"
+                                                           ToolTip.Tip="{Binding DisplayName}" />
+                                                <TextBlock Text="{Binding Level, StringFormat='Lv. {0}'}"
+                                                           FontSize="10"
+                                                           Opacity="0.7"
+                                                           HorizontalAlignment="Center" />
+                                                <!-- Shiny indicator -->
+                                                <TextBlock Text="★"
+                                                           Foreground="Gold"
+                                                           FontSize="12"
+                                                           HorizontalAlignment="Center"
+                                                           IsVisible="{Binding IsShiny}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- No selection message -->
+                    <TextBlock Grid.Column="2"
+                               Text="{loc:Loc HallOfFameEditor_SelectEntry}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Opacity="0.5"
+                               IsVisible="{Binding SelectedEntry, Converter={x:Static ObjectConverters.IsNull}}" />
+                </Grid>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

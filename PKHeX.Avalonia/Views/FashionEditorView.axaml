@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.FashionEditorView"
+             x:DataType="vm:FashionEditorViewModel"
+             MinWidth="450" MinHeight="400">
+    <DockPanel Margin="16">
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc FashionEditorView_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,8" />
+        <TextBlock DockPanel.Dock="Top" Text="{Binding GameInfo}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" Margin="0,0,0,12" />
+
+        <!-- Not Supported Message -->
+        <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc FashionEditorView_NotSupported}"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <!-- Fashion Content -->
+        <DockPanel IsVisible="{Binding IsSupported}">
+            <!-- Action Buttons -->
+            <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="0,12,0,0">
+                <Button Content="{loc:Loc FashionEditorView_UnlockAll}" Command="{Binding UnlockAllCommand}" Margin="4" Padding="12,6" />
+                <Button Content="{loc:Loc FashionEditorView_UnlockAllLegal}" Command="{Binding UnlockAllLegalCommand}" Margin="4" Padding="12,6" />
+                <Button Content="{loc:Loc FashionEditorView_ResetToDefault}" Command="{Binding ResetCommand}" Margin="4" Padding="12,6" />
+                <Button Content="{loc:Loc FashionEditorView_ClearAll}" Command="{Binding ClearCommand}" Margin="4" Padding="12,6" />
+            </WrapPanel>
+
+            <!-- Regions List -->
+            <ItemsControl ItemsSource="{Binding Regions}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="vm:FashionRegionViewModel">
+                        <Border Classes="section-card" Margin="0,0,0,8">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <StackPanel Grid.Column="0" Spacing="2">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Summary}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

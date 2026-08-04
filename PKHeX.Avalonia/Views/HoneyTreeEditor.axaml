@@ -1,0 +1,72 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.HoneyTreeEditor"
+             x:DataType="vm:HoneyTreeEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc HoneyTreeEditor_NotAvailable}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc HoneyTreeEditor_NotSupportedDetail}" HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <TextBlock Text="{loc:Loc HoneyTreeEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <Button Content="{loc:Loc HoneyTreeEditor_Refresh}" Command="{Binding RefreshCommand}" HorizontalAlignment="Right" Padding="12,6" />
+                </DockPanel>
+
+                <Grid ColumnDefinitions="250,16,*">
+                    <!-- Tree List -->
+                    <Border Grid.Column="0" Classes="section-card" CornerRadius="4">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc HoneyTreeEditor_Trees}" FontWeight="SemiBold" Margin="8" />
+                            <ListBox ItemsSource="{Binding Trees}" SelectedItem="{Binding SelectedTree}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="vm:HoneyTreeViewModel">
+                                        <TextBlock Text="{Binding Name}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
+                    </Border>
+
+                    <!-- Tree Details -->
+                    <Border Grid.Column="2" Classes="section-card" CornerRadius="4" Padding="16">
+                        <DockPanel>
+                            <!-- Munchlax Info -->
+                            <Border DockPanel.Dock="Bottom" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}" CornerRadius="4" Padding="12" Margin="0,16,0,0">
+                                <TextBlock Text="{Binding MunchlaxTreesText}" FontSize="12" Opacity="0.8" />
+                            </Border>
+
+                            <!-- Selected Tree -->
+                            <StackPanel DataContext="{Binding SelectedTree}" Spacing="12" IsVisible="{Binding $parent[UserControl].((vm:HoneyTreeEditorViewModel)DataContext).SelectedTree, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="16" />
+
+                                <Grid ColumnDefinitions="Auto,8,*,8,Auto" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto,8,Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc HoneyTreeEditor_Time}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="0" Grid.Column="2" Value="{Binding Time}" Minimum="0" Maximum="65535" Classes="form-field" />
+                                    <Button Grid.Row="0" Grid.Column="4" Content="{loc:Loc HoneyTreeEditor_MakeCatchable}" Command="{Binding MakeCatchableCommand}" Padding="8,4" />
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc HoneyTreeEditor_Shake}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding Shake}" Minimum="0" Maximum="7" Classes="form-field" />
+
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc HoneyTreeEditor_Group}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="4" Grid.Column="2" Value="{Binding Group}" Minimum="0" Maximum="7" Classes="form-field" />
+
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc HoneyTreeEditor_Slot}" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="6" Grid.Column="2" Value="{Binding Slot}" Minimum="0" Maximum="5" Classes="form-field" />
+
+                                    <TextBlock Grid.Row="8" Grid.Column="0" Text="{loc:Loc HoneyTreeEditor_Species}" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Row="8" Grid.Column="2" Text="{Binding SpeciesName}" VerticalAlignment="Center" FontWeight="SemiBold" />
+                                </Grid>
+                            </StackPanel>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

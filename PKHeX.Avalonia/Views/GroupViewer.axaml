@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:models="clr-namespace:PKHeX.Presentation.Models;assembly=PKHeX.Presentation"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PKHeX.Avalonia.Views.GroupViewer"
+             x:DataType="vm:GroupViewerViewModel">
+
+    <Design.DataContext>
+        <!-- ReSharper disable once Xaml.ConstructorWarning -->
+        <vm:GroupViewerViewModel />
+    </Design.DataContext>
+
+    <UserControl.Resources>
+        <!-- Define any resources here if needed -->
+    </UserControl.Resources>
+    
+    <Grid RowDefinitions="Auto, *, Auto" Margin="10">
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+            <Button Content="&#60;" Command="{Binding PreviousGroupCommand}" AutomationProperties.Name="Previous Group"/>
+            <ComboBox ItemsSource="{Binding GroupNames}" SelectedIndex="{Binding CurrentGroupIndex}" MinWidth="180" MaxDropDownHeight="400" AutomationProperties.Name="Group Selection"/>
+            <Button Content="&#62;" Command="{Binding NextGroupCommand}" AutomationProperties.Name="Next Group"/>
+        </StackPanel>
+
+        <!-- Slots -->
+        <ScrollViewer Grid.Row="1" Margin="0,10">
+            <ItemsControl ItemsSource="{Binding Slots}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:SlotData">
+                        <Button Margin="2" Padding="4" MinWidth="80" MinHeight="100"
+                                Command="{Binding $parent[UserControl].((vm:GroupViewerViewModel)DataContext).ViewSlotCommand}"
+                                CommandParameter="{Binding}"
+                                AutomationProperties.Name="{Binding AccessibleName}"
+                                ToolTip.Tip="{Binding ToolTipSummary}">
+                            <Grid RowDefinitions="*, Auto, Auto">
+                                <!-- Sprite -->
+                                <Image Grid.Row="0" Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" Stretch="Uniform" Height="60"/>
+                                
+                                <!-- Info -->
+                                <TextBlock Grid.Row="1" Text="{Binding SpeciesName}" FontSize="10" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Grid.Row="2" Text="{Binding Nickname}" FontSize="9" HorizontalAlignment="Center" Foreground="Gray" TextTrimming="CharacterEllipsis"/>
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

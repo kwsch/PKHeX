@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
+             x:Class="PKHeX.Avalonia.Views.PokedexSimpleEditor"
+             x:DataType="vm:PokedexSimpleEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Grid RowDefinitions="Auto,*,Auto">
+            <!-- Controls -->
+            <StackPanel Grid.Row="0" Spacing="12" Margin="0,0,0,16">
+                <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc PokedexSimpleEditor_SearchSpecies}" AutomationProperties.Name="Search Species" />
+                <WrapPanel Orientation="Horizontal">
+                    <Button Content="{loc:Loc PokedexSimpleEditor_SeenAll}" Command="{Binding SeenAllCommand}" Margin="0,0,8,8" />
+                    <Button Content="{loc:Loc PokedexSimpleEditor_SeenNone}" Command="{Binding SeenNoneCommand}" Margin="0,0,8,8" />
+                    <Button Content="{loc:Loc PokedexSimpleEditor_CaughtAll}" Command="{Binding CaughtAllCommand}" Margin="0,0,8,8" />
+                    <Button Content="{loc:Loc PokedexSimpleEditor_CaughtNone}" Command="{Binding CaughtNoneCommand}" Margin="0,0,8,8" />
+                </WrapPanel>
+            </StackPanel>
+
+            <!-- List -->
+            <Border Grid.Row="1" Classes="section-card" Padding="0">
+                <DataGrid ItemsSource="{Binding FilteredEntries}" 
+                          AutoGenerateColumns="False" 
+                          CanUserResizeColumns="True" 
+                          CanUserSortColumns="True"
+                          BorderThickness="0"
+                          GridLinesVisibility="Horizontal">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{loc:Loc PokedexSimpleEditor_ColId}" Binding="{Binding Species}" Width="60" />
+                        <DataGridTextColumn Header="{loc:Loc PokedexSimpleEditor_ColName}" Binding="{Binding Name}" Width="*" />
+                        <DataGridCheckBoxColumn Header="{loc:Loc PokedexSimpleEditor_ColSeen}" Binding="{Binding IsSeen}" Width="80" />
+                        <DataGridCheckBoxColumn Header="{loc:Loc PokedexSimpleEditor_ColCaught}" Binding="{Binding IsCaught}" Width="80" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+
+            <!-- Footer -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12" Margin="0,16,0,0">
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

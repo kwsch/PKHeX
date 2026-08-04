@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Expose internal LiveHeX protocol/addressing helpers to the test project for direct unit testing. -->
+    <InternalsVisibleTo Include="PKHeX.Avalonia.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
+    <ProjectReference Include="..\PKHeX.Application\PKHeX.Application.csproj" />
+    <ProjectReference Include="..\PKHeX.Core\PKHeX.Core.csproj" />
+    <!-- Vendored ALM legalization engine. Infrastructure is the only layer that references it directly. -->
+    <ProjectReference Include="..\PKHeX.AutoMod\PKHeX.AutoMod.csproj" />
+  </ItemGroup>
+</Project>

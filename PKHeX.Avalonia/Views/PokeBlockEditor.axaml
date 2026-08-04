@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.PokeBlockEditor"
+             x:DataType="vm:PokeBlockEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc PokeBlockEditor_NotAvailable}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc PokeBlockEditor_NotAvailableDescription}" HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <TextBlock Text="{loc:Loc PokeBlockEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                        <Button Content="{loc:Loc PokeBlockEditor_GiveAll}" Command="{Binding GiveAllCommand}" Padding="12,6" />
+                        <Button Content="{loc:Loc PokeBlockEditor_ClearAll}" Command="{Binding ClearAllCommand}" Padding="12,6" />
+                    </StackPanel>
+                </DockPanel>
+
+                <Border Classes="section-card" CornerRadius="4" Padding="16">
+                    <ItemsControl ItemsSource="{Binding Blocks}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="vm:PokeBlockSlotViewModel">
+                                <Border Margin="4" Padding="12" CornerRadius="4"
+                                        Background="{DynamicResource SystemControlBackgroundBaseLowBrush}"
+                                        Width="180">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Column="1" Value="{Binding Count}" Minimum="0" Maximum="999" Width="80" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

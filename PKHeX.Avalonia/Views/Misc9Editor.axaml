@@ -1,0 +1,87 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Misc9Editor"
+             x:DataType="vm:Misc9EditorViewModel">
+
+    <Design.DataContext>
+        <vm:Misc9EditorViewModel />
+    </Design.DataContext>
+
+    <Border Padding="16" Classes="view-container">
+        <Grid RowDefinitions="*,Auto">
+            <ScrollViewer>
+                <StackPanel Spacing="16" Margin="0,8,0,0">
+                    <!-- Currency -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Misc9Editor_CurrencySection}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,8,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Misc9Editor_Money}" VerticalAlignment="Center" Width="100" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding Money}" Minimum="0" Maximum="9999999" ShowButtonSpinner="False" />
+                                <Button Grid.Row="0" Grid.Column="2" Content="{loc:Loc Misc9Editor_Max}" Command="{Binding MaxMoneyCommand}" Margin="8,0,0,0" Padding="8,4" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Misc9Editor_LeaguePoints}" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding LeaguePoints}" Minimum="0" Maximum="9999999" ShowButtonSpinner="False" />
+                                <Button Grid.Row="2" Grid.Column="2" Content="{loc:Loc Misc9Editor_Max}" Command="{Binding MaxLPCommand}" Margin="8,0,0,0" Padding="8,4" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Blueberry (DLC2) -->
+                    <Border Classes="section-card" Padding="12" IsVisible="{Binding HasBlueberry}">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Misc9Editor_BlueberrySection}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Misc9Editor_BP}" VerticalAlignment="Center" Width="100" />
+                                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding BlueberryPoints}" Minimum="0" Maximum="9999999" ShowButtonSpinner="False" />
+                                <Button Grid.Row="0" Grid.Column="2" Content="{loc:Loc Misc9Editor_Max}" Command="{Binding MaxBPCommand}" Margin="8,0,0,0" Padding="8,4" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Misc9Editor_QuestsSolo}" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding QuestsDoneSolo}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" />
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc Misc9Editor_QuestsGroup}" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding QuestsDoneGroup}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" />
+
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc Misc9Editor_ThrowStyle}" VerticalAlignment="Center" />
+                                <ComboBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{Binding ThrowStyles}" SelectedIndex="{Binding ThrowStyleIndex}" HorizontalAlignment="Stretch" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Unlocks -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Misc9Editor_UnlocksSection}" FontWeight="SemiBold" Opacity="0.6" />
+                            <WrapPanel>
+                                <Button Content="{loc:Loc Misc9Editor_UnlockFlyLocations}" Command="{Binding UnlockAllFlyLocationsCommand}" Margin="0,0,8,8" />
+                                <Button Content="{loc:Loc Misc9Editor_CollectStakes}" Command="{Binding CollectAllStakesCommand}" Margin="0,0,8,8" />
+                                <Button Content="{loc:Loc Misc9Editor_UnlockTMRecipes}" Command="{Binding UnlockAllTMRecipesCommand}" Margin="0,0,8,8" />
+                                <Button Content="{loc:Loc Misc9Editor_UnlockBikeUpgrades}" Command="{Binding UnlockBikeUpgradesCommand}" Margin="0,0,8,8" />
+                                <Button Content="{loc:Loc Misc9Editor_UnlockBaseClothing}" Command="{Binding UnlockBaseClothingCommand}" Margin="0,0,8,8" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- DLC Unlocks -->
+                    <Border Classes="section-card" Padding="12" IsVisible="{Binding HasBlueberry}">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Misc9Editor_DLCUnlocksSection}" FontWeight="SemiBold" Opacity="0.6" />
+                            <WrapPanel>
+                                <Button Content="{loc:Loc Misc9Editor_UnlockCoaches}" Command="{Binding UnlockAllCoachesCommand}" Margin="0,0,8,8" />
+                                <Button Content="{loc:Loc Misc9Editor_UnlockThrowStyles}" Command="{Binding UnlockAllThrowStylesCommand}" Margin="0,0,8,8" />
+                                <Button Content="{loc:Loc Misc9Editor_ActivateSnacksworth}" Command="{Binding ActivateSnacksworthLegendariesCommand}" Margin="0,0,8,8" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Bottom Buttons -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0" Spacing="12">
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

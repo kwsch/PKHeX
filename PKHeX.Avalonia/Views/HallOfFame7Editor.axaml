@@ -1,0 +1,76 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.HallOfFame7Editor"
+             x:DataType="vm:HallOfFame7EditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc HallOfFame7Editor_NotAvailable}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc HallOfFame7Editor_NotSupportedDetail}"
+                           HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <TextBlock DockPanel.Dock="Top" Text="{loc:Loc HallOfFame7Editor_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,16" />
+
+                <ScrollViewer>
+                    <StackPanel Spacing="16">
+                        <Border Classes="section-card" CornerRadius="4" Padding="16">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{loc:Loc HallOfFame7Editor_FirstClearTeam}" FontWeight="Bold" FontSize="14" />
+                                <ItemsControl ItemsSource="{Binding FirstEntries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="vm:HallOfFameEntry7">
+                                            <Grid ColumnDefinitions="60,10,*" Margin="0,4">
+                                                <TextBlock Grid.Column="0" Text="{Binding Label}" VerticalAlignment="Center" />
+                                                <ComboBox Grid.Column="2" ItemsSource="{Binding SpeciesOptions}" 
+                                                          SelectedValue="{Binding SelectedSpecies}"
+                                                          SelectedValueBinding="{Binding Value}"
+                                                          DisplayMemberBinding="{Binding Text}"
+                                                          HorizontalAlignment="Stretch" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="section-card" CornerRadius="4" Padding="16">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{loc:Loc HallOfFame7Editor_CurrentTeam}" FontWeight="Bold" FontSize="14" />
+                                <ItemsControl ItemsSource="{Binding CurrentEntries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="vm:HallOfFameEntry7">
+                                            <Grid ColumnDefinitions="60,10,*" Margin="0,4">
+                                                <TextBlock Grid.Column="0" Text="{Binding Label}" VerticalAlignment="Center" />
+                                                <ComboBox Grid.Column="2" ItemsSource="{Binding SpeciesOptions}" 
+                                                          SelectedValue="{Binding SelectedSpecies}"
+                                                          SelectedValueBinding="{Binding Value}"
+                                                          DisplayMemberBinding="{Binding Text}"
+                                                          HorizontalAlignment="Stretch" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="section-card" CornerRadius="4" Padding="16"
+                                IsVisible="{Binding HasStarterEc}">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{loc:Loc HallOfFame7Editor_UsumOnly}" FontWeight="Bold" FontSize="14" />
+                                <Grid ColumnDefinitions="Auto,10,*" Margin="0,4">
+                                    <TextBlock Grid.Column="0" Text="{loc:Loc HallOfFame7Editor_StarterEc}" VerticalAlignment="Center" />
+                                    <TextBox Grid.Column="2" Text="{Binding StarterEc}" MinWidth="100" HorizontalAlignment="Stretch" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
+             x:Class="PKHeX.Avalonia.Views.BackupManager"
+             x:DataType="vm:BackupManagerViewModel"
+             MinWidth="500" MinHeight="350" Width="700" Height="450">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Padding="12,8">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="8">
+                    <Button Content="{loc:Loc BackupManager_RefreshButton}" Command="{Binding RefreshCommand}" />
+                    <Button Content="{loc:Loc BackupManager_RevealButton}" Command="{Binding RevealSelectedCommand}" />
+                    <Button Content="{loc:Loc Common_Delete}" Command="{Binding DeleteSelectedCommand}" />
+                    <Button Content="{loc:Loc BackupManager_RestoreButton}" Classes="accent" Command="{Binding RestoreSelectedCommand}" />
+                </StackPanel>
+                <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center"
+                           Foreground="{DynamicResource ThemeTextMutedBrush}" FontSize="12"
+                           TextWrapping="Wrap" />
+            </DockPanel>
+        </Border>
+
+        <DataGrid ItemsSource="{Binding Backups}" SelectedItem="{Binding SelectedBackup}"
+                  CanUserSortColumns="True" IsReadOnly="True" CanUserResizeColumns="True"
+                  GridLinesVisibility="All" BorderThickness="1"
+                  BorderBrush="{DynamicResource ThemeBorderBrush}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{loc:Loc BackupManager_TimestampHeader}" Binding="{Binding Timestamp}" Width="180"/>
+                <DataGridTextColumn Header="{loc:Loc BackupManager_SizeHeader}" Binding="{Binding Size}" Width="100"/>
+                <DataGridTextColumn Header="{loc:Loc BackupManager_FileHeader}" Binding="{Binding FileName}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

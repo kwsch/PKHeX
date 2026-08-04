@@ -1,0 +1,56 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.SimpleTrainerEditor"
+             x:DataType="vm:SimpleTrainerEditorViewModel">
+
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0" Spacing="10">
+            <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" />
+        </StackPanel>
+
+        <ScrollViewer>
+            <StackPanel Spacing="15" Margin="10">
+                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="10">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc SimpleTrainerEditor_TrainerInfo}" FontWeight="Bold" FontSize="14" />
+                        <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc SimpleTrainerEditor_Name}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding TrainerName}" Margin="0,0,0,5" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc SimpleTrainerEditor_Tid}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                            <NumericUpDown Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding Tid}" Minimum="0" Maximum="65535" Margin="0,0,0,5" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc SimpleTrainerEditor_Sid}" VerticalAlignment="Center" Margin="0,0,10,5" IsVisible="{Binding HasSID}" />
+                            <NumericUpDown Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding Sid}" Minimum="0" Maximum="65535" Margin="0,0,0,5" IsVisible="{Binding HasSID}" />
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc SimpleTrainerEditor_Money}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                            <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Money}" Minimum="0" Maximum="9999999" Margin="0,0,10,5" />
+                            <Button Grid.Row="3" Grid.Column="2" Content="{loc:Loc SimpleTrainerEditor_Max}" Command="{Binding MaxMoneyCommand}" Margin="0,0,0,5" />
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc SimpleTrainerEditor_Coins}" VerticalAlignment="Center" Margin="0,0,10,5" IsVisible="{Binding HasCoins}" />
+                            <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Coins}" Minimum="0" Maximum="9999" Margin="0,0,10,5" IsVisible="{Binding HasCoins}" />
+                            <Button Grid.Row="4" Grid.Column="2" Content="{loc:Loc SimpleTrainerEditor_Max}" Command="{Binding MaxCoinsCommand}" IsVisible="{Binding HasCoins}" Margin="0,0,0,5" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="10">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc SimpleTrainerEditor_PlayTime}" FontWeight="Bold" FontSize="14" />
+                        <Grid ColumnDefinitions="*,10,*,10,*" RowDefinitions="Auto,4,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc SimpleTrainerEditor_Hours}" Opacity="0.8" FontSize="12"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc SimpleTrainerEditor_Minutes}" Opacity="0.8" FontSize="12"/>
+                            <TextBlock Grid.Row="0" Grid.Column="4" Text="{loc:Loc SimpleTrainerEditor_Seconds}" Opacity="0.8" FontSize="12"/>
+                            
+                            <NumericUpDown Grid.Row="2" Grid.Column="0" Value="{Binding PlayedHours}" Minimum="0" Maximum="999" HorizontalAlignment="Stretch" ShowButtonSpinner="False" AutomationProperties.Name="Played Hours"/>
+                            <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" HorizontalAlignment="Stretch" ShowButtonSpinner="False" AutomationProperties.Name="Played Minutes"/>
+                            <NumericUpDown Grid.Row="2" Grid.Column="4" Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" HorizontalAlignment="Stretch" ShowButtonSpinner="False" AutomationProperties.Name="Played Seconds"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

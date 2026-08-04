@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.BoxListEditor"
+             x:DataType="vm:BoxListEditorViewModel">
+
+    <DockPanel Margin="10">
+        <Border DockPanel.Dock="Top" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="10" Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBlock Text="{loc:Loc BoxListEditor_Title}" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" />
+                <Button Content="{loc:Loc BoxListEditor_RefreshButton}" Command="{Binding RefreshCommand}" FontSize="11" Padding="8,4" />
+                <Button Content="{loc:Loc BoxListEditor_ClearSelectedBoxButton}" Command="{Binding ClearSelectedBoxCommand}" FontSize="11" Padding="8,4" />
+            </StackPanel>
+        </Border>
+
+        <ListBox ItemsSource="{Binding Boxes}" SelectedItem="{Binding SelectedBox}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Display}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</UserControl>

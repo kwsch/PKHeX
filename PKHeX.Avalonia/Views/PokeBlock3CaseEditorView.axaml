@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.PokeBlock3CaseEditorView"
+             x:DataType="vm:PokeBlock3CaseEditorViewModel"
+             Width="550" Height="450">
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,12">
+            <TextBlock Text="{loc:Loc PokeBlock3CaseEditorView_Title}" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding GameInfo}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+            <TextBlock FontSize="14" Margin="0,8,0,0">
+                <Run Text="{loc:Loc PokeBlock3CaseEditorView_Filled}" />
+                <Run Text="{Binding FilledCount}" FontWeight="SemiBold" />
+                <Run Text="{loc:Loc PokeBlock3CaseEditorView_Total40}" />
+            </TextBlock>
+        </StackPanel>
+
+        <!-- Not Supported Message -->
+        <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc PokeBlock3CaseEditorView_NotSupported}"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <!-- Pokeblock Content -->
+        <DockPanel IsVisible="{Binding IsSupported}">
+            <!-- Action Buttons -->
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8" Margin="0,12,0,0">
+                <Button Content="{loc:Loc PokeBlock3CaseEditorView_FillAllGold}" Command="{Binding MaximizeAllCommand}" Padding="12,6" />
+                <Button Content="{loc:Loc PokeBlock3CaseEditorView_MaxExisting}" Command="{Binding MaximizeExistingCommand}" Padding="12,6" />
+                <Button Content="{loc:Loc PokeBlock3CaseEditorView_DeleteAll}" Command="{Binding DeleteAllCommand}" Padding="12,6" />
+            </StackPanel>
+
+            <!-- Block Grid -->
+            <DataGrid ItemsSource="{Binding Blocks}"
+                      IsReadOnly="True"
+                      SelectionMode="Single"
+                      AutoGenerateColumns="False"
+                      GridLinesVisibility="Horizontal"
+                      CanUserSortColumns="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{loc:Loc PokeBlock3CaseEditorView_Slot}" Binding="{Binding SlotLabel}" Width="55" />
+                    <DataGridTextColumn Header="{loc:Loc PokeBlock3CaseEditorView_Color}" Binding="{Binding ColorName}" Width="80" />
+                    <DataGridTextColumn Header="{loc:Loc PokeBlock3CaseEditorView_Level}" Binding="{Binding Level}" Width="55" />
+                    <DataGridTextColumn Header="{loc:Loc PokeBlock3CaseEditorView_Feel}" Binding="{Binding Feel}" Width="50" />
+                    <DataGridTextColumn Header="{loc:Loc PokeBlock3CaseEditorView_Spicy}" Binding="{Binding Spicy}" Width="50" />
+                    <DataGridTextColumn Header="{loc:Loc PokeBlock3CaseEditorView_Dry}" Binding="{Binding Dry}" Width="45" />
+                    <DataGridTextColumn Header="{loc:Loc PokeBlock3CaseEditorView_Sweet}" Binding="{Binding Sweet}" Width="50" />
+                    <DataGridTextColumn Header="{loc:Loc PokeBlock3CaseEditorView_Bitter}" Binding="{Binding Bitter}" Width="50" />
+                    <DataGridTextColumn Header="{loc:Loc PokeBlock3CaseEditorView_Sour}" Binding="{Binding Sour}" Width="45" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

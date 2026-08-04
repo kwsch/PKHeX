@@ -1,0 +1,73 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             xmlns:controls="clr-namespace:PKHeX.Avalonia.Controls"
+             x:Class="PKHeX.Avalonia.Views.EncounterDatabaseView"
+             x:DataType="vm:EncounterDatabaseViewModel"
+             x:Name="Root"
+             MinWidth="650" MinHeight="500" MaxHeight="700">
+    <DockPanel Margin="16">
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc EncounterDatabaseView_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,12" />
+
+        <!-- Search Controls -->
+        <Border DockPanel.Dock="Top" Classes="section-card" Margin="0,0,0,12">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0" Spacing="4">
+                    <TextBlock Text="{loc:Loc EncounterDatabaseView_Species}" FontWeight="SemiBold" FontSize="12" />
+                    <controls:FilterableComboBox ItemsSource="{Binding SpeciesList}"
+                              SelectedValue="{Binding SelectedSpecies}"
+                              AutomationProperties.Name="Species" />
+                </StackPanel>
+                <Button Grid.Column="1" Content="{loc:Loc EncounterDatabaseView_Search}" Command="{Binding SearchCommand}" Margin="12,0,0,0" Padding="16,8" VerticalAlignment="Bottom" Classes="accent" />
+            </Grid>
+        </Border>
+
+        <!-- Loading Indicator -->
+        <ProgressBar DockPanel.Dock="Top" IsIndeterminate="True" IsVisible="{Binding IsSearching}" Height="4" Margin="0,0,0,8" />
+
+        <!-- Results Grid — min height so the scroll area is always visible;
+             the view's MaxHeight ensures this never grows beyond the screen -->
+        <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                BorderThickness="1" CornerRadius="4" MinHeight="200">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Results}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:EncounterResultViewModel">
+                            <Button Margin="4" Padding="4"
+                                    x:CompileBindings="False"
+                                    Command="{Binding #Root.DataContext.SelectEncounterCommand}"
+                                    CommandParameter="{Binding}"
+                                    AutomationProperties.Name="{Binding AccessibleName}"
+                                    Background="Transparent" BorderThickness="0">
+                                <Border Classes="section-card"
+                                        CornerRadius="6" Padding="8" Width="240" Height="70"
+                                        BoxShadow="{DynamicResource ThemeShadowSmall}">
+                                    <Grid ColumnDefinitions="50,*">
+                                        <Image Grid.Column="0" Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" Width="40" Height="40" VerticalAlignment="Center"/>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                                            <DockPanel LastChildFill="False">
+                                                <TextBlock DockPanel.Dock="Left" Text="{Binding Species}" FontWeight="SemiBold"/>
+                                                <TextBlock DockPanel.Dock="Right" Text="{Binding Level}" FontSize="12" Opacity="0.8"/>
+                                            </DockPanel>
+                                            <TextBlock Text="{Binding Location}" FontSize="11" Opacity="0.7" TextTrimming="CharacterEllipsis"/>
+                                            <DockPanel LastChildFill="False">
+                                                 <TextBlock DockPanel.Dock="Left" Text="{Binding Version}" FontSize="10" Opacity="0.5"/>
+                                                 <TextBlock DockPanel.Dock="Right" Text="{Binding Type}" FontSize="10" Opacity="0.5"/>
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+    </DockPanel>
+</UserControl>

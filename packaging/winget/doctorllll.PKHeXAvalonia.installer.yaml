@@ -1,0 +1,16 @@
+# winget manifest template — installer manifest.
+# See doctorllll.PKHeXAvalonia.yaml for submission instructions.
+PackageIdentifier: doctorllll.PKHeXAvalonia
+PackageVersion: "{{VERSION}}"
+InstallerType: inno
+Scope: user
+InstallModes:
+  - interactive
+  - silent
+  - silentWithProgress
+Installers:
+  - Architecture: x64
+    InstallerUrl: https://github.com/doctorllll/PKHeX/releases/download/v{{VERSION}}/PKHeX-Avalonia-Setup.exe
+    InstallerSha256: "{{INSTALLER_SHA256}}"
+ManifestType: installer
+ManifestVersion: 1.6.0

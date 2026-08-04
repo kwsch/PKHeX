@@ -1,0 +1,80 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.RTC3Editor"
+             x:DataType="vm:RTC3EditorViewModel">
+
+    <Design.DataContext>
+        <vm:RTC3EditorViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="*,Auto" Margin="15">
+        <StackPanel Spacing="15">
+            <TextBlock Text="{loc:Loc RTC3Editor_Title}" FontWeight="Bold" FontSize="18"/>
+
+            <!-- Initial Clock -->
+            <Border Classes="section-card"
+                    CornerRadius="4"
+                    Padding="15">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="{loc:Loc RTC3Editor_InitialClock}" FontWeight="Bold"/>
+                    <TextBlock Text="{loc:Loc RTC3Editor_InitialClockDesc}" Opacity="0.7"/>
+
+                    <Grid ColumnDefinitions="*,10,*,10,*,10,*" RowDefinitions="Auto,4,Auto">
+                        <!-- Labels -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc RTC3Editor_Day}" Opacity="0.8" FontSize="12"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc RTC3Editor_Hour}" Opacity="0.8" FontSize="12"/>
+                        <TextBlock Grid.Row="0" Grid.Column="4" Text="{loc:Loc RTC3Editor_Minute}" Opacity="0.8" FontSize="12"/>
+                        <TextBlock Grid.Row="0" Grid.Column="6" Text="{loc:Loc RTC3Editor_Second}" Opacity="0.8" FontSize="12"/>
+
+                        <!-- Inputs -->
+                        <NumericUpDown Grid.Row="2" Grid.Column="0" Value="{Binding InitialDay}" Minimum="0" Maximum="65535" HorizontalAlignment="Stretch" ShowButtonSpinner="False" AutomationProperties.Name="Initial Day"/>
+                        <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding InitialHour}" Minimum="0" Maximum="23" HorizontalAlignment="Stretch" ShowButtonSpinner="False" AutomationProperties.Name="Initial Hour"/>
+                        <NumericUpDown Grid.Row="2" Grid.Column="4" Value="{Binding InitialMinute}" Minimum="0" Maximum="59" HorizontalAlignment="Stretch" ShowButtonSpinner="False" AutomationProperties.Name="Initial Minute"/>
+                        <NumericUpDown Grid.Row="2" Grid.Column="6" Value="{Binding InitialSecond}" Minimum="0" Maximum="59" HorizontalAlignment="Stretch" ShowButtonSpinner="False" AutomationProperties.Name="Initial Second"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Elapsed Clock -->
+            <Border Classes="section-card"
+                    CornerRadius="4"
+                    Padding="15">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="{loc:Loc RTC3Editor_ElapsedClock}" FontWeight="Bold"/>
+                    <TextBlock Text="{loc:Loc RTC3Editor_ElapsedClockDesc}" Opacity="0.7"/>
+
+                    <Grid ColumnDefinitions="*,10,*,10,*,10,*" RowDefinitions="Auto,4,Auto">
+                        <!-- Labels -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc RTC3Editor_Day}" Opacity="0.8" FontSize="12"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc RTC3Editor_Hour}" Opacity="0.8" FontSize="12"/>
+                        <TextBlock Grid.Row="0" Grid.Column="4" Text="{loc:Loc RTC3Editor_Minute}" Opacity="0.8" FontSize="12"/>
+                        <TextBlock Grid.Row="0" Grid.Column="6" Text="{loc:Loc RTC3Editor_Second}" Opacity="0.8" FontSize="12"/>
+
+                        <!-- Inputs -->
+                        <NumericUpDown Grid.Row="2" Grid.Column="0" Value="{Binding ElapsedDay}" Minimum="0" Maximum="65535" HorizontalAlignment="Stretch" ShowButtonSpinner="False" AutomationProperties.Name="Elapsed Day"/>
+                        <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding ElapsedHour}" Minimum="0" Maximum="23" HorizontalAlignment="Stretch" ShowButtonSpinner="False" AutomationProperties.Name="Elapsed Hour"/>
+                        <NumericUpDown Grid.Row="2" Grid.Column="4" Value="{Binding ElapsedMinute}" Minimum="0" Maximum="59" HorizontalAlignment="Stretch" ShowButtonSpinner="False" AutomationProperties.Name="Elapsed Minute"/>
+                        <NumericUpDown Grid.Row="2" Grid.Column="6" Value="{Binding ElapsedSecond}" Minimum="0" Maximum="59" HorizontalAlignment="Stretch" ShowButtonSpinner="False" AutomationProperties.Name="Elapsed Second"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Actions -->
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <Button Content="{loc:Loc RTC3Editor_ResetAll}" Command="{Binding ResetCommand}" ToolTip.Tip="{loc:Loc RTC3Editor_ResetAllTooltip}"/>
+                <Button Content="{loc:Loc RTC3Editor_BerryGlitchFix}" Command="{Binding BerryFixCommand}" ToolTip.Tip="{loc:Loc RTC3Editor_BerryGlitchFixTooltip}"/>
+            </StackPanel>
+
+            <TextBlock TextWrapping="Wrap" Opacity="0.6" FontSize="12">
+                <Run Text="{loc:Loc RTC3Editor_BerryGlitchNote}"/>
+            </TextBlock>
+        </StackPanel>
+
+        <!-- Bottom Buttons -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" Margin="0,10,0,0">
+            <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

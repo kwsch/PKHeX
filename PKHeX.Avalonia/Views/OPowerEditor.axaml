@@ -1,0 +1,94 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.OPowerEditor"
+             x:DataType="vm:OPowerEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc OPowerEditor_NotAvailable}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc OPowerEditor_NotAvailableDescription}" HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <TextBlock Text="{loc:Loc OPowerEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                        <Button Content="{loc:Loc OPowerEditor_UnlockAll}" Command="{Binding UnlockAllCommand}" Padding="12,6" />
+                        <Button Content="{loc:Loc OPowerEditor_ClearAll}" Command="{Binding ClearAllCommand}" Padding="12,6" />
+                    </StackPanel>
+                </DockPanel>
+
+                <!-- Points -->
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,0,0,12">
+                    <TextBlock Text="{loc:Loc OPowerEditor_Points}" VerticalAlignment="Center" />
+                    <NumericUpDown Value="{Binding Points}" Minimum="0" Maximum="255" Width="100" />
+                </StackPanel>
+
+                <Grid ColumnDefinitions="*,16,*,16,200">
+                    <!-- Field Powers -->
+                    <Border Grid.Column="0" Classes="section-card">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc OPowerEditor_FieldPowers}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
+                            <ScrollViewer>
+                                <ItemsControl ItemsSource="{Binding FieldPowers}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="vm:OPowerFieldViewModel">
+                                            <Grid ColumnDefinitions="*,60,4,60" Margin="0,2">
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="12"/>
+                                                <NumericUpDown Grid.Column="1" Value="{Binding Level1}" Minimum="0" Maximum="5" Width="55" Height="28" Padding="4" FontSize="12"
+                                                               AutomationProperties.Name="{Binding Name, StringFormat='{}{0} Level 1'}"/>
+                                                <NumericUpDown Grid.Column="3" Value="{Binding Level2}" Minimum="0" Maximum="5" Width="55" Height="28" Padding="4" FontSize="12"
+                                                               AutomationProperties.Name="{Binding Name, StringFormat='{}{0} Level 2'}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+
+                    <!-- Battle Powers -->
+                    <Border Grid.Column="2" Classes="section-card">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc OPowerEditor_BattlePowers}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
+                            <ScrollViewer>
+                                <ItemsControl ItemsSource="{Binding BattlePowers}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="vm:OPowerBattleViewModel">
+                                            <Grid ColumnDefinitions="*,60,4,60" Margin="0,2">
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="12"/>
+                                                <NumericUpDown Grid.Column="1" Value="{Binding Level1}" Minimum="0" Maximum="5" Width="55" Height="28" Padding="4" FontSize="12"
+                                                               AutomationProperties.Name="{Binding Name, StringFormat='{}{0} Level 1'}"/>
+                                                <NumericUpDown Grid.Column="3" Value="{Binding Level2}" Minimum="0" Maximum="5" Width="55" Height="28" Padding="4" FontSize="12"
+                                                               AutomationProperties.Name="{Binding Name, StringFormat='{}{0} Level 2'}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+
+                    <!-- Unlocks -->
+                    <Border Grid.Column="4" Classes="section-card">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc OPowerEditor_Unlocks}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
+                            <ScrollViewer>
+                                <ItemsControl ItemsSource="{Binding Unlocks}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="vm:OPowerUnlockViewModel">
+                                            <CheckBox IsChecked="{Binding IsUnlocked}" Content="{Binding Name}" Margin="0,1" FontSize="11"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

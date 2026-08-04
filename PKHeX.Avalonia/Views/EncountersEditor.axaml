@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.EncountersEditor"
+             x:DataType="vm:EncountersEditorViewModel">
+
+    <DockPanel Margin="10">
+        <Border DockPanel.Dock="Top" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="10" Margin="0,0,0,10">
+            <StackPanel Spacing="8">
+                <TextBlock Text="{loc:Loc EncountersEditor_Title}" FontWeight="Bold" FontSize="14" />
+                <Grid ColumnDefinitions="Auto,*,Auto,Auto" RowDefinitions="Auto">
+                    <TextBlock Grid.Column="0" Text="{loc:Loc EncountersEditor_SpeciesLabel}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding Species}" SelectedIndex="{Binding SelectedSpecies}" DisplayMemberBinding="{Binding Text}" Margin="0,0,10,0" />
+                    <Button Grid.Column="2" Content="{loc:Loc EncountersEditor_Search}" Command="{Binding SearchEncountersCommand}" Margin="0,0,5,0" />
+                    <Button Grid.Column="3" Content="{loc:Loc EncountersEditor_Reset}" Command="{Binding ResetCommand}" />
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="10">
+            <TextBlock Text="{Binding SearchResults}" TextWrapping="Wrap" />
+        </Border>
+    </DockPanel>
+</UserControl>

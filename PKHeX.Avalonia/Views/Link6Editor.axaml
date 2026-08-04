@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:core="using:PKHeX.Core"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="550"
+             x:Class="PKHeX.Avalonia.Views.Link6Editor"
+             x:DataType="vm:Link6EditorViewModel">
+
+    <ScrollViewer>
+        <StackPanel Margin="10" Spacing="10">
+            <!-- Header Controls -->
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <CheckBox Content="{loc:Loc Link6Editor_LinkAvailable}" IsChecked="{Binding IsEnabled}" />
+                    <Button Content="{loc:Loc Link6Editor_ImportPl6}" Command="{Binding ImportCommand}" />
+                    <Button Content="{loc:Loc Link6Editor_ExportPl6}" Command="{Binding ExportCommand}" />
+                </StackPanel>
+            </Grid>
+
+            <TextBlock Text="{loc:Loc Link6Editor_OriginSource}" FontWeight="Bold" />
+            <TextBox Text="{Binding Origin}" MaxLength="110" />
+
+            <Grid ColumnDefinitions="Auto, Auto, Auto, Auto" RowDefinitions="Auto, Auto">
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Link6Editor_BattlePoints}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding BattlePoints}" Minimum="0" Maximum="65535" MinWidth="100" Margin="0,0,20,0" />
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc Link6Editor_PokeMiles}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <NumericUpDown Grid.Row="0" Grid.Column="3" Value="{Binding PokeMiles}" Minimum="0" Maximum="65535" MinWidth="100" />
+            </Grid>
+
+            <Separator />
+            
+            <TextBlock Text="{loc:Loc Link6Editor_Items}" FontWeight="Bold" FontSize="16" />
+            <ItemsControl ItemsSource="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="30, *, 100" Margin="0,5">
+                            <TextBlock Text="{Binding Index, StringFormat='#{0}'}" VerticalAlignment="Center" />
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding ItemNames}" SelectedIndex="{Binding Item}" Margin="5,0" AutomationProperties.Name="Item" />
+                            <NumericUpDown Grid.Column="2" Value="{Binding Quantity}" Minimum="0" Maximum="65535" AutomationProperties.Name="Quantity" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Separator />
+
+            <TextBlock Text="{loc:Loc Link6Editor_Pokemon}" FontWeight="Bold" FontSize="16" />
+            <ItemsControl ItemsSource="{Binding Pokemon}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="5" Margin="5" MinWidth="150">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Index, StringFormat='Slot {0}'}" FontWeight="Bold" />
+                                <TextBlock Text="{Binding Nickname}" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding SpeciesName}" FontSize="12" Opacity="0.7" />
+                                <TextBlock Text="{Binding Level, StringFormat='Level {0}'}" FontSize="12" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+            <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" HorizontalAlignment="Right" Margin="0,10,0,0" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

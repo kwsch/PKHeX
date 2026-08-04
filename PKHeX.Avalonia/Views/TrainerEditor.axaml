@@ -1,0 +1,262 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.TrainerEditor"
+             x:DataType="vm:TrainerEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="16">
+                <!-- Header -->
+                <TextBlock Text="{loc:Loc TrainerEditor_TrainerInfo}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,8" />
+
+                <!-- Top Section: 2 Columns -->
+                <Grid ColumnDefinitions="*,16,*" RowDefinitions="Auto">
+                    <!-- Column 1: Identity -->
+                    <StackPanel Grid.Column="0" Spacing="16">
+                        <!-- Identity Card -->
+                        <Border Classes="section-card" Padding="12">
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="{loc:Loc TrainerEditor_Identity}" FontWeight="SemiBold" Opacity="0.6" />
+
+                                <Grid ColumnDefinitions="*,12,120">
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{loc:Loc TrainerEditor_TrainerName}" FontWeight="SemiBold" Margin="0,0,0,4" FontSize="12"/>
+                                        <TextBox Text="{Binding TrainerName}" MaxLength="12" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="{loc:Loc TrainerEditor_Gender}" FontWeight="SemiBold" Margin="0,0,0,4" FontSize="12"/>
+                                        <ComboBox ItemsSource="{Binding GenderList}"
+                                                  SelectedValue="{Binding Gender}"
+                                                  SelectedValueBinding="{Binding Value}"
+                                                  DisplayMemberBinding="{Binding Text}"
+                                                  HorizontalAlignment="Stretch" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid ColumnDefinitions="*,12,*">
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="{loc:Loc TrainerEditor_Tid}" FontWeight="SemiBold" Margin="0,0,0,4" FontSize="12"/>
+                                        <NumericUpDown Value="{Binding Tid16}" Minimum="0" Maximum="65535" FormatString="00000" ShowButtonSpinner="False" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="{loc:Loc TrainerEditor_Sid}" FontWeight="SemiBold" Margin="0,0,0,4" FontSize="12"/>
+                                        <NumericUpDown Value="{Binding Sid16}" Minimum="0" Maximum="65535" FormatString="00000" ShowButtonSpinner="False" />
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Game Info (Read-only) -->
+                        <Border Classes="section-card" Padding="12">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{loc:Loc TrainerEditor_GameInfo}" FontWeight="SemiBold" Opacity="0.6" />
+                                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" Margin="4,0">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc TrainerEditor_GameLabel}" Opacity="0.6" Width="80"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding GameVersion}" FontWeight="SemiBold"/>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc TrainerEditor_GenLabel}" Opacity="0.6" Margin="0,4,0,0"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Generation}" Margin="0,4,0,0"/>
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc TrainerEditor_TypeLabel}" Opacity="0.6" Margin="0,4,0,0"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SaveType}" Margin="0,4,0,0"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Column 2: Status & Money -->
+                    <StackPanel Grid.Column="2" Spacing="16">
+                        <!-- Play Time & Money -->
+                        <Border Classes="section-card" Padding="12">
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="{loc:Loc TrainerEditor_Status}" FontWeight="SemiBold" Opacity="0.6" />
+
+                                <!-- Money -->
+                                <StackPanel>
+                                    <TextBlock Text="{loc:Loc TrainerEditor_Money}" FontWeight="SemiBold" Margin="0,0,0,4" FontSize="12"/>
+                                    <Grid ColumnDefinitions="*,8,Auto">
+                                        <NumericUpDown Grid.Column="0" Value="{Binding Money}" Minimum="0" Maximum="{Binding MaxMoney}" FormatString="N0" ShowButtonSpinner="False" />
+                                        <Button Grid.Column="2" Content="{loc:Loc TrainerEditor_Max}" Command="{Binding MaxMoney_ClickCommand}" Padding="12,6" FontSize="12"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <!-- Play Time -->
+                                <StackPanel>
+                                    <TextBlock Text="{loc:Loc TrainerEditor_PlayTime}" FontWeight="SemiBold" Margin="0,0,0,4" FontSize="12"/>
+                                    <Grid ColumnDefinitions="*,8,*,8,*">
+                                        <NumericUpDown Grid.Column="0" Value="{Binding PlayedHours}" Minimum="0" Maximum="9999" FormatString="0" ShowButtonSpinner="False" ToolTip.Tip="{loc:Loc TrainerEditor_Hours}" AutomationProperties.Name="Hours"/>
+                                        <TextBlock Grid.Column="0" Text="h" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" Opacity="0.5" IsHitTestVisible="False"/>
+
+                                        <NumericUpDown Grid.Column="2" Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" FormatString="00" ShowButtonSpinner="False" ToolTip.Tip="{loc:Loc TrainerEditor_Minutes}" AutomationProperties.Name="Minutes"/>
+                                        <TextBlock Grid.Column="2" Text="m" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" Opacity="0.5" IsHitTestVisible="False"/>
+
+                                        <NumericUpDown Grid.Column="4" Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" FormatString="00" ShowButtonSpinner="False" ToolTip.Tip="{loc:Loc TrainerEditor_Seconds}" AutomationProperties.Name="Seconds"/>
+                                        <TextBlock Grid.Column="4" Text="s" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" Opacity="0.5" IsHitTestVisible="False"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <!-- Language -->
+                                <StackPanel>
+                                    <TextBlock Text="{loc:Loc TrainerEditor_Language}" FontWeight="SemiBold" Margin="0,0,0,4" FontSize="12"/>
+                                    <ComboBox ItemsSource="{Binding LanguageList}"
+                                              SelectedValue="{Binding Language}"
+                                              SelectedValueBinding="{Binding Value}"
+                                              DisplayMemberBinding="{Binding Text}"
+                                              HorizontalAlignment="Stretch" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Badges -->
+                <Border IsVisible="{Binding HasBadges}" Classes="section-card" Padding="12">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc TrainerEditor_Badges}" FontWeight="SemiBold" Opacity="0.6" />
+                        <ItemsControl ItemsSource="{Binding Badges}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{DynamicResource ThemeBackgroundElevatedBrush}" 
+                                            CornerRadius="4" Margin="0,0,8,8" Padding="8,4">
+                                        <CheckBox IsChecked="{Binding IsObtained}" 
+                                                  Content="{Binding DisplayName}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- Currencies (Full Width) -->
+                <Border IsVisible="{Binding AnyCurrencyVisible}" Classes="section-card" Padding="12">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="{loc:Loc TrainerEditor_Currencies}" FontWeight="SemiBold" Opacity="0.6" />
+                        <ItemsControl>
+                             <!-- I'll use a wrap panel of labeled inputs -->
+                             <WrapPanel Orientation="Horizontal" Margin="0,0,-16,-12">
+                                <StackPanel IsVisible="{Binding HasBP}" Width="140" Margin="0,0,16,12">
+                                    <TextBlock Text="{loc:Loc TrainerEditor_BP}" FontSize="11" FontWeight="SemiBold" Opacity="0.7" Margin="0,0,0,4" />
+                                    <NumericUpDown Value="{Binding BP}" Minimum="0" FormatString="0" ShowButtonSpinner="False" />
+                                </StackPanel>
+                                <StackPanel IsVisible="{Binding HasCoins}" Width="140" Margin="0,0,16,12">
+                                    <TextBlock Text="{loc:Loc TrainerEditor_Coins}" FontSize="11" FontWeight="SemiBold" Opacity="0.7" Margin="0,0,0,4" />
+                                    <NumericUpDown Value="{Binding Coins}" Minimum="0" FormatString="0" ShowButtonSpinner="False" />
+                                </StackPanel>
+                                <StackPanel IsVisible="{Binding HasWatts}" Width="140" Margin="0,0,16,12">
+                                    <TextBlock Text="{loc:Loc TrainerEditor_Watts}" FontSize="11" FontWeight="SemiBold" Opacity="0.7" Margin="0,0,0,4" />
+                                    <NumericUpDown Value="{Binding Watts}" Minimum="0" FormatString="0" ShowButtonSpinner="False" />
+                                </StackPanel>
+                                <StackPanel IsVisible="{Binding HasLP}" Width="140" Margin="0,0,16,12">
+                                    <TextBlock Text="{loc:Loc TrainerEditor_LeaguePoints}" FontSize="11" FontWeight="SemiBold" Opacity="0.7" Margin="0,0,0,4" />
+                                    <NumericUpDown Value="{Binding LP}" Minimum="0" FormatString="0" ShowButtonSpinner="False" />
+                                </StackPanel>
+                                <StackPanel IsVisible="{Binding HasBlueberryPoints}" Width="140" Margin="0,0,16,12">
+                                    <TextBlock Text="{loc:Loc TrainerEditor_BlueberryPoints}" FontSize="11" FontWeight="SemiBold" Opacity="0.7" Margin="0,0,0,4" />
+                                    <NumericUpDown Value="{Binding BlueberryPoints}" Minimum="0" FormatString="0" ShowButtonSpinner="False" />
+                                </StackPanel>
+                                <StackPanel IsVisible="{Binding HasFestaCoins}" Width="140" Margin="0,0,16,12">
+                                    <TextBlock Text="{loc:Loc TrainerEditor_FestaCoins}" FontSize="11" FontWeight="SemiBold" Opacity="0.7" Margin="0,0,0,4" />
+                                    <NumericUpDown Value="{Binding FestaCoins}" Minimum="0" FormatString="0" ShowButtonSpinner="False" />
+                                </StackPanel>
+                                <StackPanel IsVisible="{Binding HasMeritPoints}" Width="140" Margin="0,0,16,12">
+                                    <TextBlock Text="{loc:Loc TrainerEditor_MeritPoints}" FontSize="11" FontWeight="SemiBold" Opacity="0.7" Margin="0,0,0,4" />
+                                    <NumericUpDown Value="{Binding MeritPoints}" Minimum="0" FormatString="0" ShowButtonSpinner="False" />
+                                </StackPanel>
+                                <StackPanel IsVisible="{Binding HasPokeMiles}" Width="140" Margin="0,0,16,12">
+                                    <TextBlock Text="{loc:Loc TrainerEditor_PokeMiles}" FontSize="11" FontWeight="SemiBold" Opacity="0.7" Margin="0,0,0,4" />
+                                    <NumericUpDown Value="{Binding PokeMiles}" Minimum="0" FormatString="0" ShowButtonSpinner="False" />
+                                </StackPanel>
+                                <StackPanel IsVisible="{Binding HasGimmighoulCoins}" Width="140" Margin="0,0,16,12">
+                                    <TextBlock Text="{loc:Loc TrainerEditor_GimmighoulCoins}" FontSize="11" FontWeight="SemiBold" Opacity="0.7" Margin="0,0,0,4" />
+                                    <NumericUpDown Value="{Binding GimmighoulCoins}" Minimum="0" FormatString="0" ShowButtonSpinner="False" />
+                                </StackPanel>
+                             </WrapPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+                
+                <!-- Battle Chateau (Gen 6 XY) -->
+                <Border IsVisible="{Binding HasBattleChateau}" Classes="section-card" Padding="12">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="{loc:Loc TrainerEditor_BattleChateau}" FontWeight="SemiBold" Opacity="0.6" />
+                        <Grid ColumnDefinitions="*,12,*,12,Auto" RowDefinitions="Auto,4,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc TrainerEditor_Rank}" FontSize="11" FontWeight="SemiBold" Opacity="0.7" />
+                            <ComboBox Grid.Row="2" Grid.Column="0"
+                                      ItemsSource="{Binding ChateauRankList}"
+                                      SelectedValue="{Binding ChateauRank}"
+                                      SelectedValueBinding="{Binding Value}"
+                                      DisplayMemberBinding="{Binding Text}"
+                                      HorizontalAlignment="Stretch"
+                                      AutomationProperties.Name="Rank" />
+
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc TrainerEditor_Points}" FontSize="11" FontWeight="SemiBold" Opacity="0.7" />
+                            <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding ChateauPoints}" Minimum="0" Maximum="4095" FormatString="0" ShowButtonSpinner="False" AutomationProperties.Name="Points" />
+
+                            <Button Grid.Row="2" Grid.Column="4"
+                                    Content="{loc:Loc TrainerEditor_SetPointsForRank}"
+                                    Command="{Binding SetChateauPointsForRankCommand}"
+                                    VerticalAlignment="Bottom"
+                                    Padding="12,6" FontSize="12" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Adventure & Coordinates (2 Columns) -->
+                <Grid ColumnDefinitions="*,16,*" IsVisible="{Binding HasAdventureInfo}">
+                    <Border Grid.Column="0" Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc TrainerEditor_AdventureInfo}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="*,12,*" RowDefinitions="Auto,4,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc TrainerEditor_StartTimestamp}" FontSize="11" Opacity="0.7" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="0" Value="{Binding SecondsToStart}" Minimum="0" FormatString="0" ShowButtonSpinner="False" AutomationProperties.Name="Start Timestamp" />
+
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc TrainerEditor_FameTimestamp}" FontSize="11" Opacity="0.7" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding SecondsToFame}" Minimum="0" FormatString="0" ShowButtonSpinner="False" AutomationProperties.Name="Fame Timestamp" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" Classes="section-card" Padding="12" IsVisible="{Binding HasCoordinates}">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc TrainerEditor_MapCoordinates}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="*,8,*,8,*" RowDefinitions="Auto,4,Auto">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="X" FontSize="11" Opacity="0.7" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="0" Value="{Binding X}" FormatString="0.0" ShowButtonSpinner="False" AutomationProperties.Name="X Coordinate" />
+
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="Y" FontSize="11" Opacity="0.7" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding Y}" FormatString="0.0" ShowButtonSpinner="False" AutomationProperties.Name="Y Coordinate" />
+
+                                <TextBlock Grid.Row="0" Grid.Column="4" Text="Z" FontSize="11" Opacity="0.7" />
+                                <NumericUpDown Grid.Row="2" Grid.Column="4" Value="{Binding Z}" FormatString="0.0" ShowButtonSpinner="False" AutomationProperties.Name="Z Coordinate" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Footer Buttons -->
+                <Grid ColumnDefinitions="*,16,*" Margin="0,8,0,0">
+                    <Button Grid.Column="0"
+                            Content="{loc:Loc TrainerEditor_Reset}"
+                            Command="{Binding ResetCommand}"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            Height="32" />
+                    <Button Grid.Column="2"
+                            Content="{loc:Loc TrainerEditor_ApplyChanges}"
+                            Command="{Binding SaveCommand}"
+                            Classes="accent"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            Height="32" />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</UserControl>

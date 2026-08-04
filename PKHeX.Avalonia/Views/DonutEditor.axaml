@@ -1,0 +1,169 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.DonutEditor"
+             x:DataType="vm:DonutEditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <!-- Not supported message -->
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc DonutEditor_NotAvailable}"
+                           FontSize="18"
+                           HorizontalAlignment="Center"
+                           Opacity="0.7" />
+                <TextBlock Text="{loc:Loc DonutEditor_NotAvailableDetail}"
+                           HorizontalAlignment="Center"
+                           Opacity="0.5"
+                           Margin="0,8,0,0" />
+            </StackPanel>
+
+            <!-- Main content -->
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <!-- Header -->
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                    <TextBlock Text="{loc:Loc DonutEditor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                        <Button Content="{loc:Loc DonutEditor_RandomizeAll}" Command="{Binding RandomizeAllCommand}" />
+                        <Button Content="{loc:Loc DonutEditor_CloneCurrent}" Command="{Binding CloneCurrentCommand}" />
+                        <Button Content="{loc:Loc DonutEditor_ShinyAssortment}" Command="{Binding ShinyAssortmentCommand}" />
+                        <Button Content="{loc:Loc DonutEditor_Compress}" Command="{Binding CompressCommand}" />
+                        <Button Content="{loc:Loc DonutEditor_Refresh}" Command="{Binding RefreshCommand}" />
+                    </StackPanel>
+                </DockPanel>
+
+                <!-- Generator -->
+                <Expander DockPanel.Dock="Top" Header="{loc:Loc DonutEditor_Generator}" Margin="0,0,0,12" IsExpanded="False">
+                    <StackPanel Spacing="12" Margin="0,8,0,0">
+                        <TextBlock Text="{loc:Loc DonutEditor_GeneratorDescription}"
+                                   TextWrapping="Wrap" Opacity="0.7" />
+                        <Grid ColumnDefinitions="Auto,8,Auto,24,Auto,8,Auto">
+                            <TextBlock Grid.Column="0" Text="{loc:Loc DonutEditor_Start}" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Column="2" Width="120" Value="{Binding GenerateStart}" Minimum="0" Maximum="999" />
+                            <TextBlock Grid.Column="4" Text="{loc:Loc DonutEditor_End}" VerticalAlignment="Center" />
+                            <NumericUpDown Grid.Column="6" Width="120" Value="{Binding GenerateEnd}" Minimum="0" Maximum="999" />
+                        </Grid>
+                        <TextBlock Text="{loc:Loc DonutEditor_FlavorTypes}" FontWeight="SemiBold" />
+                        <Border Classes="section-card" CornerRadius="4" MaxHeight="220">
+                            <ScrollViewer>
+                                <ItemsControl ItemsSource="{Binding FlavorOptions}" Margin="8">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="vm:DonutFlavorOptionViewModel">
+                                            <CheckBox IsChecked="{Binding IsSelected}" Content="{Binding Name}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Border>
+                        <Button Content="{loc:Loc DonutEditor_Generate}" Command="{Binding GenerateCommand}" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </Expander>
+
+                <Grid ColumnDefinitions="250,16,*">
+                    <!-- Donut List -->
+                    <ListBox Grid.Column="0"
+                             ItemsSource="{Binding Donuts}"
+                             SelectedItem="{Binding SelectedDonut}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="vm:DonutEntryViewModel">
+                                <TextBlock Text="{Binding DisplayName}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <!-- Editor -->
+                    <ScrollViewer Grid.Column="2">
+                        <StackPanel Spacing="16" DataContext="{Binding SelectedDonut}">
+                            <Border Classes="section-card" Padding="12" CornerRadius="4">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc DonutEditor_GeneralStats}" FontWeight="SemiBold" />
+                                    <Grid ColumnDefinitions="Auto,8,*,16,Auto,8,*" RowDefinitions="Auto,8,Auto">
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc DonutEditor_Stars}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="0" Grid.Column="2" Value="{Binding Stars}" Minimum="0" Maximum="5" />
+
+                                        <TextBlock Grid.Row="0" Grid.Column="4" Text="{loc:Loc DonutEditor_Calories}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="0" Grid.Column="6" Value="{Binding Calories}" Minimum="0" Maximum="9999" />
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc DonutEditor_LevelBoost}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding LevelBoost}" Minimum="0" Maximum="255" />
+
+                                        <TextBlock Grid.Row="2" Grid.Column="4" Text="{loc:Loc DonutEditor_Type}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="2" Grid.Column="6" Value="{Binding DonutType}" Minimum="0" Maximum="65535" />
+                                    </Grid>
+                                    <Button Content="{loc:Loc DonutEditor_RecalculateStats}" Command="{Binding RecalculateCommand}" HorizontalAlignment="Stretch" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border Classes="section-card" Padding="12" CornerRadius="4">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc DonutEditor_Berries}" FontWeight="SemiBold" />
+                                    <Grid ColumnDefinitions="*,8,*" RowDefinitions="Auto,4,Auto,4,Auto,4,Auto,8,Auto">
+                                        <StackPanel Grid.Row="0" Grid.Column="0">
+                                            <TextBlock Text="{loc:Loc DonutEditor_Berry1}" FontSize="12" />
+                                            <NumericUpDown Value="{Binding Berry1}" Minimum="0" Maximum="65535" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="0" Grid.Column="2">
+                                            <TextBlock Text="{loc:Loc DonutEditor_Berry2}" FontSize="12" />
+                                            <NumericUpDown Value="{Binding Berry2}" Minimum="0" Maximum="65535" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="2" Grid.Column="0">
+                                            <TextBlock Text="{loc:Loc DonutEditor_Berry3}" FontSize="12" />
+                                            <NumericUpDown Value="{Binding Berry3}" Minimum="0" Maximum="65535" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="2" Grid.Column="2">
+                                            <TextBlock Text="{loc:Loc DonutEditor_Berry4}" FontSize="12" />
+                                            <NumericUpDown Value="{Binding Berry4}" Minimum="0" Maximum="65535" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="4" Grid.Column="0">
+                                            <TextBlock Text="{loc:Loc DonutEditor_Berry5}" FontSize="12" />
+                                            <NumericUpDown Value="{Binding Berry5}" Minimum="0" Maximum="65535" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="4" Grid.Column="2">
+                                            <TextBlock Text="{loc:Loc DonutEditor_Berry6}" FontSize="12" />
+                                            <NumericUpDown Value="{Binding Berry6}" Minimum="0" Maximum="65535" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="6" Grid.Column="0">
+                                            <TextBlock Text="{loc:Loc DonutEditor_Berry7}" FontSize="12" />
+                                            <NumericUpDown Value="{Binding Berry7}" Minimum="0" Maximum="65535" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="6" Grid.Column="2">
+                                            <TextBlock Text="{loc:Loc DonutEditor_Berry8}" FontSize="12" />
+                                            <NumericUpDown Value="{Binding Berry8}" Minimum="0" Maximum="65535" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3">
+                                            <TextBlock Text="{loc:Loc DonutEditor_BerryNameDisplay}" FontSize="12" />
+                                            <NumericUpDown Value="{Binding BerryName}" Minimum="0" Maximum="65535" />
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Classes="section-card" Padding="12" CornerRadius="4">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc DonutEditor_Flavors}" FontWeight="SemiBold" />
+                                    <StackPanel Spacing="8">
+                                        <Grid ColumnDefinitions="*,120">
+                                            <TextBlock Text="{Binding Flavor0Name}" VerticalAlignment="Center" />
+                                            <TextBox Grid.Column="1" Text="{Binding Flavor0, StringFormat='X16'}" />
+                                        </Grid>
+                                        <Grid ColumnDefinitions="*,120">
+                                            <TextBlock Text="{Binding Flavor1Name}" VerticalAlignment="Center" />
+                                            <TextBox Grid.Column="1" Text="{Binding Flavor1, StringFormat='X16'}" />
+                                        </Grid>
+                                        <Grid ColumnDefinitions="*,120">
+                                            <TextBlock Text="{Binding Flavor2Name}" VerticalAlignment="Center" />
+                                            <TextBox Grid.Column="1" Text="{Binding Flavor2, StringFormat='X16'}" />
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

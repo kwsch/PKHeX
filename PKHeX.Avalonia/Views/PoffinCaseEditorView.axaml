@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.PoffinCaseEditorView"
+             x:DataType="vm:PoffinCaseEditorViewModel"
+             Width="550" Height="450">
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,12">
+            <TextBlock Text="{loc:Loc PoffinCaseEditorView_Title}" FontSize="20" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding GameInfo}" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}" />
+            <TextBlock FontSize="14" Margin="0,8,0,0">
+                <Run Text="{loc:Loc PoffinCaseEditorView_Filled}" />
+                <Run Text="{Binding FilledCount}" FontWeight="SemiBold" />
+                <Run Text="{loc:Loc PoffinCaseEditorView_Total100}" />
+            </TextBlock>
+        </StackPanel>
+
+        <!-- Not Supported Message -->
+        <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc PoffinCaseEditorView_NotSupported}"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <!-- Poffin Content -->
+        <DockPanel IsVisible="{Binding IsSupported}">
+            <!-- Action Buttons -->
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8" Margin="0,12,0,0">
+                <Button Content="{loc:Loc PoffinCaseEditorView_FillAll}" Command="{Binding FillAllCommand}" Padding="12,6" />
+                <Button Content="{loc:Loc PoffinCaseEditorView_DeleteAll}" Command="{Binding DeleteAllCommand}" Padding="12,6" />
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Padding="12,6" />
+            </StackPanel>
+
+            <!-- Poffin Grid -->
+            <DataGrid ItemsSource="{Binding Poffins}"
+                      IsReadOnly="True"
+                      SelectionMode="Single"
+                      AutoGenerateColumns="False"
+                      GridLinesVisibility="Horizontal"
+                      CanUserSortColumns="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{loc:Loc PoffinCaseEditorView_Slot}" Binding="{Binding SlotLabel}" Width="60" />
+                    <DataGridTextColumn Header="{loc:Loc PoffinCaseEditorView_Flavor}" Binding="{Binding FlavorName}" Width="100" />
+                    <DataGridTextColumn Header="{loc:Loc PoffinCaseEditorView_Level}" Binding="{Binding Level}" Width="60" />
+                    <DataGridTextColumn Header="{loc:Loc PoffinCaseEditorView_Smooth}" Binding="{Binding Smoothness}" Width="60" />
+                    <DataGridTextColumn Header="{loc:Loc PoffinCaseEditorView_Spicy}" Binding="{Binding Spicy}" Width="55" />
+                    <DataGridTextColumn Header="{loc:Loc PoffinCaseEditorView_Dry}" Binding="{Binding Dry}" Width="50" />
+                    <DataGridTextColumn Header="{loc:Loc PoffinCaseEditorView_Sweet}" Binding="{Binding Sweet}" Width="55" />
+                    <DataGridTextColumn Header="{loc:Loc PoffinCaseEditorView_Bitter}" Binding="{Binding Bitter}" Width="55" />
+                    <DataGridTextColumn Header="{loc:Loc PoffinCaseEditorView_Sour}" Binding="{Binding Sour}" Width="50" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

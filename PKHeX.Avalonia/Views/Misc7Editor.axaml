@@ -1,0 +1,212 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Misc7Editor"
+             x:DataType="vm:Misc7EditorViewModel">
+
+    <Design.DataContext>
+        <vm:Misc7EditorViewModel />
+    </Design.DataContext>
+
+    <Border Padding="16" Classes="view-container">
+        <Grid RowDefinitions="*,Auto">
+            <!-- Main Content with TabControl -->
+            <TabControl Grid.Row="0">
+                <!-- Battle Tree Tab -->
+                <TabItem Header="{loc:Loc Misc7Editor_BattleTree}">
+                    <ScrollViewer>
+                        <StackPanel Spacing="16" Margin="0,8,0,0">
+                            <!-- Unlock Flags -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Text="{loc:Loc Misc7Editor_SuperModeUnlocks}" FontWeight="SemiBold" Opacity="0.6" VerticalAlignment="Center" />
+                                        <Button Content="{loc:Loc Misc7Editor_UnlockAll}" Command="{Binding UnlockAllBattleTreeModesCommand}" FontSize="11" Padding="8,4" />
+                                    </StackPanel>
+                                    <WrapPanel>
+                                        <CheckBox Content="{loc:Loc Misc7Editor_SuperSingle}" IsChecked="{Binding SuperSingleUnlocked}" Margin="0,0,16,8" />
+                                        <CheckBox Content="{loc:Loc Misc7Editor_SuperDouble}" IsChecked="{Binding SuperDoubleUnlocked}" Margin="0,0,16,8" />
+                                        <CheckBox Content="{loc:Loc Misc7Editor_SuperMulti}" IsChecked="{Binding SuperMultiUnlocked}" Margin="0,0,16,8" />
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Regular Mode -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc Misc7Editor_RegularMode}" FontWeight="SemiBold" Opacity="0.6" />
+                                    <Grid ColumnDefinitions="Auto,*,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{loc:Loc Misc7Editor_Current}" FontWeight="SemiBold" Opacity="0.7" HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc Misc7Editor_Max}" FontWeight="SemiBold" Opacity="0.7" HorizontalAlignment="Center" />
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc Misc7Editor_Single}" VerticalAlignment="Center" Width="80" />
+                                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding SingleCurrentStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Single Current Streak" />
+                                        <NumericUpDown Grid.Row="1" Grid.Column="2" Value="{Binding SingleMaxStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Single Max Streak" />
+
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc Misc7Editor_Double}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding DoubleCurrentStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Double Current Streak" />
+                                        <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding DoubleMaxStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Double Max Streak" />
+
+                                        <TextBlock Grid.Row="5" Grid.Column="0" Text="{loc:Loc Misc7Editor_Multi}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding MultiCurrentStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Multi Current Streak" />
+                                        <NumericUpDown Grid.Row="5" Grid.Column="2" Value="{Binding MultiMaxStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Multi Max Streak" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Super Mode -->
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc Misc7Editor_SuperMode}" FontWeight="SemiBold" Opacity="0.6" />
+                                    <Grid ColumnDefinitions="Auto,*,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{loc:Loc Misc7Editor_Current}" FontWeight="SemiBold" Opacity="0.7" HorizontalAlignment="Center" />
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc Misc7Editor_Max}" FontWeight="SemiBold" Opacity="0.7" HorizontalAlignment="Center" />
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc Misc7Editor_Single}" VerticalAlignment="Center" Width="80" />
+                                        <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding SuperSingleCurrentStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Super Single Current Streak" />
+                                        <NumericUpDown Grid.Row="1" Grid.Column="2" Value="{Binding SuperSingleMaxStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Super Single Max Streak" />
+
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc Misc7Editor_Double}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding SuperDoubleCurrentStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Super Double Current Streak" />
+                                        <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding SuperDoubleMaxStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Super Double Max Streak" />
+
+                                        <TextBlock Grid.Row="5" Grid.Column="0" Text="{loc:Loc Misc7Editor_Multi}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding SuperMultiCurrentStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" Margin="0,0,8,0" AutomationProperties.Name="Super Multi Current Streak" />
+                                        <NumericUpDown Grid.Row="5" Grid.Column="2" Value="{Binding SuperMultiMaxStreak}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="Super Multi Max Streak" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Poké Finder Tab -->
+                <TabItem Header="{loc:Loc Misc7Editor_PokeFinder}">
+                    <ScrollViewer>
+                        <StackPanel Spacing="16" Margin="0,8,0,0">
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Text="{loc:Loc Misc7Editor_PokeFinderStats}" FontWeight="SemiBold" Opacity="0.6" VerticalAlignment="Center" />
+                                        <Button Content="{loc:Loc Misc7Editor_MaxAll}" Command="{Binding MaxPokeFinderCommand}" FontSize="11" Padding="8,4" />
+                                    </StackPanel>
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto,8,Auto">
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Misc7Editor_SnapsTaken}" VerticalAlignment="Center" Width="120" />
+                                        <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding SnapCount}" Minimum="0" Maximum="999999" ShowButtonSpinner="False" />
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Misc7Editor_TotalThumbsUp}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding ThumbsTotal}" Minimum="0" Maximum="9999999" ShowButtonSpinner="False" />
+
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc Misc7Editor_ThumbsRecord}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding ThumbsRecord}" Minimum="0" Maximum="9999999" ShowButtonSpinner="False" />
+
+                                        <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc Misc7Editor_CameraVersion}" VerticalAlignment="Center" />
+                                        <ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding CameraVersions}" SelectedIndex="{Binding CameraVersion}" HorizontalAlignment="Stretch" />
+
+                                        <CheckBox Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Content="{loc:Loc Misc7Editor_GyroEnabled}" IsChecked="{Binding GyroEnabled}" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Stamps Tab -->
+                <TabItem Header="{loc:Loc Misc7Editor_Stamps}">
+                    <ScrollViewer>
+                        <StackPanel Spacing="16" Margin="0,8,0,0">
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Text="{loc:Loc Misc7Editor_Stamps}" FontWeight="SemiBold" Opacity="0.6" VerticalAlignment="Center" />
+                                        <Button Content="{loc:Loc Misc7Editor_UnlockAll}" Command="{Binding UnlockAllStampsCommand}" FontSize="11" Padding="8,4" />
+                                    </StackPanel>
+                                    <ItemsControl ItemsSource="{Binding Stamps}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:StampViewModel">
+                                                <Border Background="{DynamicResource ThemeBackgroundElevatedBrush}" 
+                                                        CornerRadius="4" Margin="0,0,8,8" Padding="8,4">
+                                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsObtained}" 
+                                                              MinWidth="150" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Fly Destinations Tab -->
+                <TabItem Header="{loc:Loc Misc7Editor_FlyDestinations}">
+                    <ScrollViewer>
+                        <StackPanel Spacing="16" Margin="0,8,0,0">
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Text="{loc:Loc Misc7Editor_FlyDestinations}" FontWeight="SemiBold" Opacity="0.6" VerticalAlignment="Center" />
+                                        <Button Content="{loc:Loc Misc7Editor_UnlockAll}" Command="{Binding UnlockAllFlyDestinationsCommand}" FontSize="11" Padding="8,4" />
+                                    </StackPanel>
+                                    <ItemsControl ItemsSource="{Binding FlyDestinations}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:FlyDestination7ViewModel">
+                                                <Border Background="{DynamicResource ThemeBackgroundElevatedBrush}" 
+                                                        CornerRadius="4" Margin="0,0,8,8" Padding="8,4">
+                                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsUnlocked}" 
+                                                              MinWidth="180" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Ultra Tab (USUM only) -->
+                <TabItem Header="{loc:Loc Misc7Editor_Ultra}" IsVisible="{Binding IsUSUM}">
+                    <ScrollViewer>
+                        <StackPanel Spacing="16" Margin="0,8,0,0">
+                            <Border Classes="section-card" Padding="12">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{loc:Loc Misc7Editor_MantineSurfHighScores}" FontWeight="SemiBold" Opacity="0.6" />
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Misc7Editor_Course1}" VerticalAlignment="Center" Width="100" />
+                                        <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding MantineSurf0}" Minimum="0" Maximum="999999" ShowButtonSpinner="False" />
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Misc7Editor_Course2}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding MantineSurf1}" Minimum="0" Maximum="999999" ShowButtonSpinner="False" />
+
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc Misc7Editor_Course3}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding MantineSurf2}" Minimum="0" Maximum="999999" ShowButtonSpinner="False" />
+
+                                        <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc Misc7Editor_Course4}" VerticalAlignment="Center" />
+                                        <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding MantineSurf3}" Minimum="0" Maximum="999999" ShowButtonSpinner="False" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+
+            <!-- Bottom Buttons -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0" Spacing="12">
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.LegalityView"
+             x:DataType="vm:LegalityViewModel"
+             Width="600" Height="400">
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="{loc:Loc LegalityView_CopyToClipboard}" Click="OnCopyClick" Margin="0,0,8,0" />
+            <Button Content="{loc:Loc Common_Close}" Click="OnCloseClick" HotKey="Escape" />
+        </StackPanel>
+        
+        <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}" 
+                BorderThickness="1" 
+                CornerRadius="4">
+            <ScrollViewer>
+                <SelectableTextBlock Name="ReportText"
+                                   Text="{Binding Report}"
+                                   Margin="8"
+                                   FontFamily="Courier New,Cascadia Code,Monospace"
+                                   FontSize="13"
+                                   TextWrapping="Wrap" />
+            </ScrollViewer>
+        </Border>
+    </DockPanel>
+</UserControl>

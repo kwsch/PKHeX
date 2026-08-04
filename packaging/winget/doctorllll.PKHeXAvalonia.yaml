@@ -1,0 +1,12 @@
+# winget manifest template — version manifest.
+#
+# NOT auto-published. Once a signed Windows installer exists (see
+# docs/packaging.md), fill in {{VERSION}}, run `winget validate` locally,
+# and submit via a PR to microsoft/winget-pkgs under
+# manifests/d/doctorllll/PKHeXAvalonia/{{VERSION}}/, or use
+# `wingetcreate update doctorllll.PKHeXAvalonia -u <installer-url> -v {{VERSION}}`.
+PackageIdentifier: doctorllll.PKHeXAvalonia
+PackageVersion: "{{VERSION}}"
+DefaultLocale: en-US
+ManifestType: version
+ManifestVersion: 1.6.0

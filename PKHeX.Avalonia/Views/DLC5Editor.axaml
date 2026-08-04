@@ -1,0 +1,101 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="700"
+             x:Class="PKHeX.Avalonia.Views.DLC5Editor"
+             x:DataType="vm:DLC5EditorViewModel">
+
+    <TabControl Margin="10">
+        <!-- C-Gear Skin -->
+        <TabItem Header="{loc:Loc DLC5Editor_TabCGear}">
+            <StackPanel Spacing="10" Margin="10">
+                <TextBlock Text="{loc:Loc DLC5Editor_CGearSkinBackground}" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Content="{loc:Loc DLC5Editor_ImportCGear}" Command="{Binding ImportCGearCommand}"/>
+                    <Button Content="{loc:Loc DLC5Editor_ExportCGear}" Command="{Binding ExportCGearCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+
+        <!-- Musical -->
+        <TabItem Header="{loc:Loc DLC5Editor_TabMusical}">
+            <StackPanel Spacing="10" Margin="10">
+                <TextBlock Text="{loc:Loc DLC5Editor_MusicalDownloadData}" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Content="{loc:Loc DLC5Editor_ImportMusical}" Command="{Binding ImportMusicalCommand}"/>
+                    <Button Content="{loc:Loc DLC5Editor_ExportMusical}" Command="{Binding ExportMusicalCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+
+        <!-- Pokedex Skin -->
+        <TabItem Header="{loc:Loc DLC5Editor_TabDexSkin}">
+            <StackPanel Spacing="10" Margin="10">
+                <TextBlock Text="{loc:Loc DLC5Editor_PokedexSkin}" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Content="{loc:Loc DLC5Editor_ImportSkin}" Command="{Binding ImportPokedexSkinCommand}"/>
+                    <Button Content="{loc:Loc DLC5Editor_ExportSkin}" Command="{Binding ExportPokedexSkinCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+
+        <!-- PWT (B2W2) -->
+        <TabItem Header="{loc:Loc DLC5Editor_TabPWT}" IsVisible="{Binding IsB2W2}">
+            <StackPanel Spacing="10" Margin="10">
+                <TextBlock Text="{loc:Loc DLC5Editor_PWTDownload}" FontWeight="Bold"/>
+                <ComboBox ItemsSource="{Binding PWTItems}" SelectedIndex="{Binding PWTIndex}" Width="250"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Content="{loc:Loc DLC5Editor_ImportPWT}" Command="{Binding ImportPWTCommand}"/>
+                    <Button Content="{loc:Loc DLC5Editor_ExportPWT}" Command="{Binding ExportPWTCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+
+        <!-- Pokestar (B2W2) -->
+        <TabItem Header="{loc:Loc DLC5Editor_TabPokestar}" IsVisible="{Binding IsB2W2}">
+            <StackPanel Spacing="10" Margin="10">
+                <TextBlock Text="{loc:Loc DLC5Editor_PokestarMovie}" FontWeight="Bold"/>
+                <ComboBox ItemsSource="{Binding PokestarItems}" SelectedIndex="{Binding PokestarIndex}" Width="250"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Content="{loc:Loc DLC5Editor_ImportMovie}" Command="{Binding ImportPokestarCommand}"/>
+                    <Button Content="{loc:Loc DLC5Editor_ExportMovie}" Command="{Binding ExportPokestarCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+
+        <!-- Battle Video -->
+        <TabItem Header="{loc:Loc DLC5Editor_TabBattleVideo}">
+            <StackPanel Spacing="10" Margin="10">
+                <TextBlock Text="{loc:Loc DLC5Editor_BattleVideos}" FontWeight="Bold"/>
+                <ComboBox ItemsSource="{Binding BattleVideoItems}" SelectedIndex="{Binding BattleVideoIndex}" Width="250"/>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <Button Content="{loc:Loc DLC5Editor_ImportVideo}" Command="{Binding ImportBattleVideoCommand}"/>
+                    <Button Content="{loc:Loc DLC5Editor_ExportVideo}" Command="{Binding ExportBattleVideoCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+
+        <!-- Memory Link -->
+        <TabItem Header="{loc:Loc DLC5Editor_TabMemoryLink}">
+            <StackPanel Spacing="10" Margin="10">
+                <TextBlock Text="{loc:Loc DLC5Editor_MemoryLinkData}" FontWeight="Bold"/>
+                <StackPanel Orientation="Vertical" Spacing="10">
+                     <TextBlock Text="{loc:Loc DLC5Editor_Link1}"/>
+                     <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Button Content="{loc:Loc DLC5Editor_ImportLink1}" Command="{Binding ImportMemoryLink1Command}"/>
+                        <Button Content="{loc:Loc DLC5Editor_ExportLink1}" Command="{Binding ExportMemoryLink1Command}"/>
+                     </StackPanel>
+
+                     <TextBlock Text="{loc:Loc DLC5Editor_Link2}"/>
+                     <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Button Content="{loc:Loc DLC5Editor_ImportLink2}" Command="{Binding ImportMemoryLink2Command}"/>
+                        <Button Content="{loc:Loc DLC5Editor_ExportLink2}" Command="{Binding ExportMemoryLink2Command}"/>
+                     </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+</UserControl>

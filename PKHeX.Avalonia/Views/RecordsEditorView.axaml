@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.RecordsEditorView"
+             x:DataType="vm:RecordsEditorViewModel"
+             MinWidth="500" MinHeight="500">
+    <DockPanel Margin="16">
+        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc RecordsEditorView_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,12" />
+
+        <!-- No Records Message -->
+        <TextBlock IsVisible="{Binding !HasRecords}" Text="{loc:Loc RecordsEditorView_NotSupported}"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <!-- Records Content -->
+        <DockPanel IsVisible="{Binding HasRecords}">
+            <!-- Search Bar -->
+            <Border DockPanel.Dock="Top" Classes="section-card" CornerRadius="4" Padding="8" Margin="0,0,0,12">
+                <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc RecordsEditorView_SearchWatermark}" AutomationProperties.Name="Search records" />
+            </Border>
+
+            <!-- Records List -->
+            <DataGrid ItemsSource="{Binding FilteredRecords}"
+                      IsReadOnly="False"
+                      SelectionMode="Single"
+                      CanUserSortColumns="True"
+                      AutoGenerateColumns="False"
+                      GridLinesVisibility="Horizontal">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{loc:Loc RecordsEditorView_ColumnId}" Binding="{Binding Id}" Width="60" IsReadOnly="True" />
+                    <DataGridTextColumn Header="{loc:Loc RecordsEditorView_ColumnRecord}" Binding="{Binding Name}" Width="*" IsReadOnly="True" />
+                    <DataGridTemplateColumn Header="{loc:Loc RecordsEditorView_ColumnValue}" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="vm:RecordItemViewModel">
+                                <NumericUpDown Value="{Binding Value}" Minimum="0" Maximum="999999999" AutomationProperties.Name="Value" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,144 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:core="clr-namespace:PKHeX.Core;assembly=PKHeX.Core"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PKHeX.Avalonia.Views.Pokedex4Editor"
+             x:DataType="vm:Pokedex4EditorViewModel">
+    
+    <Border Padding="16" Classes="view-container">
+        <Grid ColumnDefinitions="250, 16, *" RowDefinitions="*,Auto">
+            <!-- Species List -->
+            <Grid Grid.Column="0" RowDefinitions="Auto, 8, *">
+                <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc Pokedex4Editor_SearchSpecies}" AutomationProperties.Name="Search Species" />
+                <Border Grid.Row="2" Classes="section-card" Padding="0">
+                    <ListBox ItemsSource="{Binding Species}" SelectedItem="{Binding SelectedSpecies}" Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="core:ComboItem">
+                                <TextBlock Text="{Binding Text}" Padding="8,4" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+            
+            <!-- Details -->
+            <ScrollViewer Grid.Column="2">
+                <StackPanel Spacing="16">
+                    <!-- Basic Flags & Mode -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Pokedex4Editor_EntrySettings}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="*, 16, *">
+                                <StackPanel Grid.Column="0" Spacing="8">
+                                    <CheckBox Content="{loc:Loc Pokedex4Editor_Caught}" IsChecked="{Binding Caught}" FontWeight="SemiBold" />
+                                    <CheckBox Content="{loc:Loc Pokedex4Editor_Seen}" IsChecked="{Binding Seen}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="{loc:Loc Pokedex4Editor_DexMode}" FontWeight="SemiBold" Opacity="0.7" Margin="0,0,0,4" />
+                                    <ComboBox ItemsSource="{Binding DexModes}" SelectedIndex="{Binding DexMode}" HorizontalAlignment="Stretch" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Genders -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Pokedex4Editor_GendersOrderMatters}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="*, 8, 40, 8, *">
+                                <!-- Unseen -->
+                                <DockPanel Grid.Column="0">
+                                    <TextBlock Text="{loc:Loc Pokedex4Editor_Unseen}" DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0,0,0,4" Opacity="0.7" />
+                                    <Border BorderBrush="{DynamicResource ThemeBorderDefaultBrush}" BorderThickness="1" CornerRadius="4">
+                                        <ListBox ItemsSource="{Binding UnseenGenders}" SelectedItem="{Binding SelectedUnseenGender}" Height="120" />
+                                    </Border>
+                                </DockPanel>
+                                
+                                <!-- Move Buttons -->
+                                <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="8">
+                                    <Button Content="→" Command="{Binding AddGenderCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" AutomationProperties.Name="Add Gender"/>
+                                    <Button Content="←" Command="{Binding RemoveGenderCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" AutomationProperties.Name="Remove Gender"/>
+                                </StackPanel>
+                                
+                                <!-- Seen -->
+                                <DockPanel Grid.Column="4">
+                                    <TextBlock Text="{loc:Loc Pokedex4Editor_Seen}" DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0,0,0,4" Opacity="0.7" />
+                                    <Grid ColumnDefinitions="*, 8, Auto">
+                                        <Border Grid.Column="0" BorderBrush="{DynamicResource ThemeBorderDefaultBrush}" BorderThickness="1" CornerRadius="4">
+                                            <ListBox ItemsSource="{Binding SeenGenders}" SelectedItem="{Binding SelectedSeenGender}" Height="120" />
+                                        </Border>
+                                        <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="8">
+                                            <Button Content="▲" Command="{Binding MoveGenderUpCommand}" Padding="8,6" AutomationProperties.Name="Move Gender Up"/>
+                                            <Button Content="▼" Command="{Binding MoveGenderDownCommand}" Padding="8,6" AutomationProperties.Name="Move Gender Down"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DockPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Forms -->
+                    <Border Classes="section-card" Padding="12">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Pokedex4Editor_FormsOrderMatters}" FontWeight="SemiBold" Opacity="0.6" />
+                            <Grid ColumnDefinitions="*, 8, 40, 8, *">
+                                <!-- Unseen -->
+                                <DockPanel Grid.Column="0">
+                                    <TextBlock Text="{loc:Loc Pokedex4Editor_Unseen}" DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0,0,0,4" Opacity="0.7" />
+                                    <Border BorderBrush="{DynamicResource ThemeBorderDefaultBrush}" BorderThickness="1" CornerRadius="4">
+                                        <ListBox ItemsSource="{Binding UnseenForms}" SelectedItem="{Binding SelectedUnseenForm}" Height="120" />
+                                    </Border>
+                                </DockPanel>
+                                
+                                <!-- Move Buttons -->
+                                <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="8">
+                                    <Button Content="→" Command="{Binding AddFormCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" AutomationProperties.Name="Add Form"/>
+                                    <Button Content="←" Command="{Binding RemoveFormCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" AutomationProperties.Name="Remove Form"/>
+                                </StackPanel>
+                                
+                                <!-- Seen -->
+                                <DockPanel Grid.Column="4">
+                                    <TextBlock Text="{loc:Loc Pokedex4Editor_Seen}" DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0,0,0,4" Opacity="0.7" />
+                                    <Grid ColumnDefinitions="*, 8, Auto">
+                                        <Border Grid.Column="0" BorderBrush="{DynamicResource ThemeBorderDefaultBrush}" BorderThickness="1" CornerRadius="4">
+                                            <ListBox ItemsSource="{Binding SeenForms}" SelectedItem="{Binding SelectedSeenForm}" Height="120" />
+                                        </Border>
+                                        <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="8">
+                                            <Button Content="▲" Command="{Binding MoveFormUpCommand}" Padding="8,6" AutomationProperties.Name="Move Form Up"/>
+                                            <Button Content="▼" Command="{Binding MoveFormDownCommand}" Padding="8,6" AutomationProperties.Name="Move Form Down"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DockPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Languages -->
+                    <Border IsVisible="{Binding HasLanguages}" Classes="section-card" Padding="12">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="{loc:Loc Pokedex4Editor_Languages}" FontWeight="SemiBold" Opacity="0.6" />
+                            <WrapPanel Orientation="Horizontal">
+                                <CheckBox Content="{loc:Loc Pokedex4Editor_LangJapanese}" IsChecked="{Binding LangJPN}" Margin="0,0,16,8" />
+                                <CheckBox Content="{loc:Loc Pokedex4Editor_LangEnglish}" IsChecked="{Binding LangENG}" Margin="0,0,16,8" />
+                                <CheckBox Content="{loc:Loc Pokedex4Editor_LangFrench}" IsChecked="{Binding LangFRA}" Margin="0,0,16,8" />
+                                <CheckBox Content="{loc:Loc Pokedex4Editor_LangItalian}" IsChecked="{Binding LangITA}" Margin="0,0,16,8" />
+                                <CheckBox Content="{loc:Loc Pokedex4Editor_LangGerman}" IsChecked="{Binding LangGER}" Margin="0,0,16,8" />
+                                <CheckBox Content="{loc:Loc Pokedex4Editor_LangSpanish}" IsChecked="{Binding LangSPA}" Margin="0,0,16,8" />
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Bottom Buttons -->
+            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0" Spacing="12">
+                <Button Content="{loc:Loc Pokedex4Editor_SaveEntry}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

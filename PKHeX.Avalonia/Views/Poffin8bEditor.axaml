@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="500"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Poffin8bEditor"
+             x:DataType="vm:Poffin8bEditorViewModel">
+    <Grid ColumnDefinitions="200, *" Margin="10">
+        <!-- List of Poffins -->
+        <ListBox Grid.Column="0" ItemsSource="{Binding Poffins}" SelectedItem="{Binding SelectedPoffin}" Margin="0,0,10,0">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:Poffin8bItemViewModel">
+                    <StackPanel>
+                        <TextBlock Text="{Binding DisplayName}" FontWeight="Bold" />
+                        <TextBlock Text="{Binding PoffinName}" FontSize="12" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- Detail Panel -->
+        <ScrollViewer Grid.Column="1">
+            <StackPanel Spacing="10" IsEnabled="{Binding SelectedPoffin, Converter={x:Static ObjectConverters.IsNotNull}}">
+                <TextBlock Text="{loc:Loc Poffin8bEditor_Title}" FontSize="18" FontWeight="Bold" />
+
+                <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto" Margin="0,10">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Poffin8bEditor_TypeId}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding SelectedPoffin.MstID}" Minimum="0" Maximum="255" Margin="0,0,0,5" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc Poffin8bEditor_Level}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding SelectedPoffin.Level}" Minimum="0" Maximum="255" Margin="0,0,0,5" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Poffin8bEditor_Taste}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding SelectedPoffin.Taste}" Minimum="0" Maximum="255" Margin="0,0,0,5" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc Poffin8bEditor_New}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                    <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding SelectedPoffin.IsNew}" Margin="0,0,0,5" />
+                </Grid>
+
+                <TextBlock Text="{loc:Loc Poffin8bEditor_Flavors}" FontWeight="Bold" Margin="0,10,0,5" />
+                <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc Poffin8bEditor_Spicy}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                    <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding SelectedPoffin.Spicy}" Minimum="0" Maximum="255" Margin="0,0,0,5" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc Poffin8bEditor_Dry}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding SelectedPoffin.Dry}" Minimum="0" Maximum="255" Margin="0,0,0,5" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc Poffin8bEditor_Sweet}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                    <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding SelectedPoffin.Sweet}" Minimum="0" Maximum="255" Margin="0,0,0,5" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc Poffin8bEditor_Bitter}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                    <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding SelectedPoffin.Bitter}" Minimum="0" Maximum="255" Margin="0,0,0,5" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc Poffin8bEditor_Sour}" VerticalAlignment="Center" Margin="0,0,10,5" />
+                    <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding SelectedPoffin.Sour}" Minimum="0" Maximum="255" Margin="0,0,0,5" />
+                </Grid>
+
+                <Button Content="{loc:Loc Poffin8bEditor_SaveAll}" Command="{Binding SaveCommand}" Classes="accent" HorizontalAlignment="Right" Margin="0,20,0,0" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

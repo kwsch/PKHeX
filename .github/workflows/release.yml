@@ -1,0 +1,414 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.extract.outputs.version }}
+      should_release: ${{ steps.check_tag.outputs.should_release }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Extract UIVersion from Directory.Build.props
+        id: extract
+        shell: bash
+        run: |
+          version=$(grep -oP '(?<=<UIVersion>)[^<]+' Directory.Build.props)
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            tag_version="${GITHUB_REF_NAME#v}"
+            if [ "$tag_version" != "$version" ]; then
+              echo "Tag v$tag_version does not match UIVersion $version" >&2
+              exit 1
+            fi
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Detected UIVersion: $version"
+
+      - name: Check if tag already exists
+        id: check_tag
+        shell: bash
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            echo "Release tag is the workflow ref — building it"
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+          elif git rev-parse "v${{ steps.extract.outputs.version }}" >/dev/null 2>&1; then
+            echo "Tag v${{ steps.extract.outputs.version }} already exists — skipping duplicate release"
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Tag v${{ steps.extract.outputs.version }} does not exist — will release"
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    needs: check-version
+    if: needs.check-version.outputs.should_release == 'true'
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - rid: win-x64
+            os: windows-latest
+            artifact: PKHeX-Avalonia-win-x64
+          - rid: linux-x64
+            os: ubuntu-latest
+            artifact: PKHeX-Avalonia-linux-x64
+          - rid: osx-arm64
+            os: macos-latest
+            artifact: PKHeX-Avalonia-osx-arm64
+          - rid: osx-x64
+            os: macos-latest
+            artifact: PKHeX-Avalonia-osx-x64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+          dotnet-quality: 'ga'
+
+      - name: Publish
+        run: >
+          dotnet publish PKHeX.Avalonia/PKHeX.Avalonia.csproj
+          -c Release
+          -r ${{ matrix.rid }}
+          --self-contained
+          -p:PublishSingleFile=true
+          -p:UIVersion=${{ needs.check-version.outputs.version }}
+          -o publish
+
+      # macOS: ad-hoc sign and zip the .app bundle created by BundleApp MSBuild target
+      - name: Package (macOS)
+        if: startsWith(matrix.rid, 'osx')
+        shell: bash
+        run: |
+          # dotnet publish already ran BundleApp, producing publish/PKHeX.Avalonia.app
+          codesign --force --deep --sign - publish/PKHeX.Avalonia.app
+          cd publish
+          zip -r ../${{ matrix.artifact }}.zip PKHeX.Avalonia.app
+          cd ..
+
+      # Three-tier signing priority for macOS (see docs/packaging.md):
+      #   1. Developer ID secrets present  → full sign + notarize (below, unchanged)
+      #   2. else self-signed cert secrets → stable self-signed identity (tertius
+      #      pattern) so repeat Gatekeeper prompts / TCC re-grants don't happen
+      #      across updates, artifact suffixed "-selfsigned"
+      #   3. else                          → ad-hoc/no identity, "-unsigned"
+      - name: Determine macOS signing capability
+        if: startsWith(matrix.rid, 'osx')
+        id: mac_sign
+        shell: bash
+        run: |
+          if [ -n "${{ secrets.MACOS_CERT_P12 }}" ] && [ -n "${{ secrets.MACOS_SIGN_IDENTITY }}" ] && [ -n "${{ secrets.APPLE_NOTARY_KEY }}" ]; then
+            echo "Signing secrets present — will produce a Developer ID signed, notarized .dmg"
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Developer ID signing secrets absent — will produce an UNSIGNED .dmg"
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Determine macOS self-sign capability
+        if: startsWith(matrix.rid, 'osx') && steps.mac_sign.outputs.enabled != 'true'
+        id: mac_selfsign
+        shell: bash
+        run: |
+          if [ -n "${{ secrets.SELFSIGN_CERT_P12_BASE64 }}" ] && [ -n "${{ secrets.SELFSIGN_CERT_PASSWORD }}" ] && [ -n "${{ secrets.SELFSIGN_IDENTITY }}" ]; then
+            echo "Self-signed cert secrets present — will sign with a stable self-signed identity"
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Self-signed cert secrets absent — will produce an UNSIGNED .dmg"
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Import Developer ID certificate
+        if: startsWith(matrix.rid, 'osx') && steps.mac_sign.outputs.enabled == 'true'
+        shell: bash
+        env:
+          MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+          MACOS_CERT_PASSWORD: ${{ secrets.MACOS_CERT_PASSWORD }}
+        run: |
+          KEYCHAIN_PATH="$RUNNER_TEMP/signing.keychain-db"
+          KEYCHAIN_PASSWORD="$(uuidgen)"
+          echo "$MACOS_CERT_P12" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security import "$RUNNER_TEMP/cert.p12" -P "$MACOS_CERT_PASSWORD" -A -t cert -f pkcs12 -k "$KEYCHAIN_PATH"
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security list-keychain -d user -s "$KEYCHAIN_PATH" $(security list-keychains -d user | sed 's/"//g')
+          rm -f "$RUNNER_TEMP/cert.p12"
+
+      - name: Codesign with Developer ID (hardened runtime)
+        if: startsWith(matrix.rid, 'osx') && steps.mac_sign.outputs.enabled == 'true'
+        shell: bash
+        env:
+          MACOS_SIGN_IDENTITY: ${{ secrets.MACOS_SIGN_IDENTITY }}
+        run: |
+          codesign --force --deep --options runtime --timestamp \
+            --sign "$MACOS_SIGN_IDENTITY" publish/PKHeX.Avalonia.app
+          codesign --verify --deep --strict --verbose=2 publish/PKHeX.Avalonia.app
+
+      - name: Notarize and staple app bundle
+        if: startsWith(matrix.rid, 'osx') && steps.mac_sign.outputs.enabled == 'true'
+        shell: bash
+        env:
+          APPLE_NOTARY_KEY_ID: ${{ secrets.APPLE_NOTARY_KEY_ID }}
+          APPLE_NOTARY_KEY: ${{ secrets.APPLE_NOTARY_KEY }}
+          APPLE_NOTARY_ISSUER_ID: ${{ secrets.APPLE_NOTARY_ISSUER_ID }}
+        run: |
+          echo "$APPLE_NOTARY_KEY" | base64 --decode > "$RUNNER_TEMP/notary_key.p8"
+          ditto -c -k --keepParent publish/PKHeX.Avalonia.app "$RUNNER_TEMP/notarize.zip"
+          xcrun notarytool submit "$RUNNER_TEMP/notarize.zip" \
+            --key "$RUNNER_TEMP/notary_key.p8" \
+            --key-id "$APPLE_NOTARY_KEY_ID" \
+            --issuer "$APPLE_NOTARY_ISSUER_ID" \
+            --wait
+          xcrun stapler staple publish/PKHeX.Avalonia.app
+          rm -f "$RUNNER_TEMP/notarize.zip" "$RUNNER_TEMP/notary_key.p8"
+
+      # Tertius pattern: sign with a stable self-signed identity (not
+      # notarized — no Apple Developer ID needed) so the codesign designated
+      # requirement stays identical release over release. macOS then treats
+      # updates as the same app: keychain items and TCC (Accessibility, Full
+      # Disk Access, etc.) grants persist across `brew upgrade` / manual
+      # re-download instead of re-prompting every time. See docs/packaging.md.
+      - name: Import self-signed certificate
+        if: startsWith(matrix.rid, 'osx') && steps.mac_sign.outputs.enabled != 'true' && steps.mac_selfsign.outputs.enabled == 'true'
+        shell: bash
+        env:
+          P12_BASE64: ${{ secrets.SELFSIGN_CERT_P12_BASE64 }}
+          P12_PASSWORD: ${{ secrets.SELFSIGN_CERT_PASSWORD }}
+        run: |
+          printf '%s' "$P12_BASE64" | base64 --decode > "$RUNNER_TEMP/selfsign.p12"
+          export KEYCHAIN="$RUNNER_TEMP/pkhex-avalonia-ci.keychain-db"
+          chmod +x Scripts/import-cert.sh
+          Scripts/import-cert.sh "$RUNNER_TEMP/selfsign.p12"
+          rm -f "$RUNNER_TEMP/selfsign.p12"
+          echo "SELFSIGN_KEYCHAIN=$KEYCHAIN" >> "$GITHUB_ENV"
+
+      - name: Codesign with self-signed identity
+        if: startsWith(matrix.rid, 'osx') && steps.mac_sign.outputs.enabled != 'true' && steps.mac_selfsign.outputs.enabled == 'true'
+        shell: bash
+        env:
+          SELFSIGN_IDENTITY: ${{ secrets.SELFSIGN_IDENTITY }}
+        run: |
+          security unlock-keychain -p "pkhex-avalonia-build" "$SELFSIGN_KEYCHAIN" 2>/dev/null || true
+          # --deep re-signs every nested Mach-O (frameworks, native libs, the
+          # main executable) with the same identity, not just the top level.
+          codesign --force --deep --sign "$SELFSIGN_IDENTITY" --keychain "$SELFSIGN_KEYCHAIN" publish/PKHeX.Avalonia.app
+          codesign --verify --deep --strict --verbose=2 publish/PKHeX.Avalonia.app
+
+      - name: Build DMG
+        if: startsWith(matrix.rid, 'osx')
+        shell: bash
+        run: |
+          DMG_STAGING=$(mktemp -d)
+          cp -R publish/PKHeX.Avalonia.app "$DMG_STAGING/"
+          ln -s /Applications "$DMG_STAGING/Applications"
+          if [ "${{ steps.mac_sign.outputs.enabled }}" = "true" ]; then
+            DMG_NAME="${{ matrix.artifact }}.dmg"
+          elif [ "${{ steps.mac_selfsign.outputs.enabled }}" = "true" ]; then
+            DMG_NAME="${{ matrix.artifact }}-selfsigned.dmg"
+          else
+            DMG_NAME="${{ matrix.artifact }}-unsigned.dmg"
+          fi
+          hdiutil create -volname "PKHeX-Avalonia" -srcfolder "$DMG_STAGING" -ov -format UDZO "$DMG_NAME"
+          rm -rf "$DMG_STAGING"
+
+      # Linux: make executable and zip
+      - name: Package (Linux)
+        if: matrix.rid == 'linux-x64'
+        shell: bash
+        run: |
+          chmod +x publish/PKHeX.Avalonia
+          cd publish
+          zip -r ../${{ matrix.artifact }}.zip .
+          cd ..
+
+      - name: Build AppImage
+        if: matrix.rid == 'linux-x64'
+        shell: bash
+        run: |
+          mkdir -p AppDir/usr/bin
+
+          cp publish/* AppDir/usr/bin/
+
+          cp PKHeX.Avalonia/Assets/Icons/icon.png AppDir/pkhex.png
+
+          cat > AppDir/AppRun << 'EOF'
+          #!/bin/bash
+          HERE="$(dirname "$(readlink -f "$0")")"
+          exec "$HERE/usr/bin/PKHeX.Avalonia" "$@"
+          EOF
+
+          chmod +x AppDir/AppRun
+
+          cat > AppDir/pkhex.desktop << 'EOF'
+          [Desktop Entry]
+          Type=Application
+          Name=PKHeX
+          Exec=PKHeX.Avalonia
+          Icon=pkhex
+          Categories=Utility;
+          Terminal=false
+          EOF
+
+          wget -q \
+            https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+
+          chmod +x appimagetool-x86_64.AppImage
+
+          ARCH=x86_64 \
+            ./appimagetool-x86_64.AppImage \
+            --appimage-extract-and-run \
+            AppDir \
+            PKHeX-Avalonia-linux-x64.AppImage
+          
+          # remove the AppImage tool from the artifact list since we don't need it anymore
+          rm appimagetool-x86_64.AppImage
+
+      # Windows: zip the publish folder
+      - name: Package (Windows)
+        if: matrix.rid == 'win-x64'
+        shell: pwsh
+        run: Compress-Archive -Path publish/* -DestinationPath ${{ matrix.artifact }}.zip
+
+      - name: Install Inno Setup
+        if: matrix.rid == 'win-x64'
+        shell: pwsh
+        run: choco install innosetup --no-progress -y
+
+      # Gate real code signing on repo secrets. Without them we still ship an
+      # installer (clearly named "-unsigned") so the artifact shape stays
+      # stable either way; see docs/packaging.md for the secrets a repo
+      # owner needs to add to turn this on.
+      - name: Determine Windows signing capability
+        if: matrix.rid == 'win-x64'
+        id: win_sign
+        shell: pwsh
+        run: |
+          if ("${{ secrets.WINDOWS_CERT_P12 }}" -ne "" -and "${{ secrets.WINDOWS_CERT_PASSWORD }}" -ne "") {
+            Write-Host "Signing secrets present -- will produce a code-signed installer"
+            "enabled=true" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "Signing secrets absent -- will produce an UNSIGNED installer"
+            "enabled=false" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Import Windows code-signing certificate
+        if: matrix.rid == 'win-x64' && steps.win_sign.outputs.enabled == 'true'
+        shell: pwsh
+        env:
+          WINDOWS_CERT_P12: ${{ secrets.WINDOWS_CERT_P12 }}
+        run: |
+          $certPath = Join-Path $env:RUNNER_TEMP "windows-cert.pfx"
+          [IO.File]::WriteAllBytes($certPath, [Convert]::FromBase64String($env:WINDOWS_CERT_P12))
+          "CERT_PATH=$certPath" >> $env:GITHUB_ENV
+
+      - name: Code-sign application executable
+        if: matrix.rid == 'win-x64' && steps.win_sign.outputs.enabled == 'true'
+        shell: pwsh
+        env:
+          WINDOWS_CERT_PASSWORD: ${{ secrets.WINDOWS_CERT_PASSWORD }}
+        run: |
+          $signtool = (Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\*\x64\signtool.exe" |
+            Sort-Object FullName -Descending | Select-Object -First 1).FullName
+          & $signtool sign /f "$env:CERT_PATH" /p "$env:WINDOWS_CERT_PASSWORD" /fd SHA256 `
+            /tr http://timestamp.digicert.com /td SHA256 publish\PKHeX.Avalonia.exe
+
+      - name: Build Inno Setup installer
+        if: matrix.rid == 'win-x64'
+        shell: pwsh
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" `
+            "/DMyAppVersion=${{ needs.check-version.outputs.version }}" `
+            "/DSourceDir=$(Resolve-Path publish)" `
+            "/DOutputDir=$(Get-Location)" `
+            "packaging/windows/installer.iss"
+
+      - name: Code-sign installer
+        if: matrix.rid == 'win-x64' && steps.win_sign.outputs.enabled == 'true'
+        shell: pwsh
+        env:
+          WINDOWS_CERT_PASSWORD: ${{ secrets.WINDOWS_CERT_PASSWORD }}
+        run: |
+          $signtool = (Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\*\x64\signtool.exe" |
+            Sort-Object FullName -Descending | Select-Object -First 1).FullName
+          & $signtool sign /f "$env:CERT_PATH" /p "$env:WINDOWS_CERT_PASSWORD" /fd SHA256 `
+            /tr http://timestamp.digicert.com /td SHA256 PKHeX-Avalonia-Setup.exe
+
+      - name: Rename unsigned installer
+        if: matrix.rid == 'win-x64' && steps.win_sign.outputs.enabled != 'true'
+        shell: pwsh
+        run: Rename-Item PKHeX-Avalonia-Setup.exe PKHeX-Avalonia-Setup-unsigned.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            ${{ matrix.artifact }}.zip
+            *.AppImage
+            *.dmg
+            PKHeX-Avalonia-Setup*.exe
+          if-no-files-found: ignore
+          retention-days: 5
+
+  release:
+    needs: [check-version, build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Create tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="v${{ needs.check-version.outputs.version }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "$TAG already exists"
+          else
+            gh api repos/${{ github.repository }}/git/refs \
+              -f ref="refs/tags/$TAG" \
+              -f sha="${{ github.sha }}"
+          fi
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+
+      - name: List artifacts
+        run: find artifacts -type f
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: v${{ needs.check-version.outputs.version }}
+          name: v${{ needs.check-version.outputs.version }}
+          generate_release_notes: true
+          files: |
+            artifacts/**/*.zip
+            artifacts/**/*.AppImage
+            artifacts/**/*.dmg
+            artifacts/**/PKHeX-Avalonia-Setup*.exe
+          draft: false
+          prerelease: false

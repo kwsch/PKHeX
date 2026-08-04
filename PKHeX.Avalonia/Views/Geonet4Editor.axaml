@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Geonet4Editor"
+             x:DataType="vm:Geonet4EditorViewModel">
+
+    <Border Padding="16" Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc Geonet4Editor_NotAvailable}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc Geonet4Editor_NotSupportedDetail}"
+                           HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" TextWrapping="Wrap" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+                    <TextBlock Text="{loc:Loc Geonet4Editor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                </DockPanel>
+
+                <StackPanel Spacing="16">
+                    <Border Classes="section-card" CornerRadius="4" Padding="16">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="{loc:Loc Geonet4Editor_GlobeManagement}" FontWeight="Bold" FontSize="14" />
+                            <TextBlock Text="{loc:Loc Geonet4Editor_GlobeDescription}"
+                                       TextWrapping="Wrap" Opacity="0.7" />
+
+                            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+                                <Button Content="{loc:Loc Geonet4Editor_SetAllLocations}" Command="{Binding SetAllLocationsCommand}" Padding="16,8" />
+                                <Button Content="{loc:Loc Geonet4Editor_SetLegalLocations}" Command="{Binding SetAllLegalLocationsCommand}" Padding="16,8" />
+                                <Button Content="{loc:Loc Geonet4Editor_ClearAll}" Command="{Binding ClearAllLocationsCommand}" Padding="16,8" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Classes="section-card" CornerRadius="4" Padding="16">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="{loc:Loc Geonet4Editor_Options}" FontWeight="Bold" FontSize="14" />
+                            <CheckBox IsChecked="{Binding GlobalFlag}" Content="{loc:Loc Geonet4Editor_GlobalFlag}" />
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="{loc:Loc Geonet4Editor_Note}" Opacity="0.5" FontStyle="Italic" />
+                </StackPanel>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

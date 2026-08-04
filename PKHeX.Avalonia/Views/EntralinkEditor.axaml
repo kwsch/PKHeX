@@ -1,0 +1,149 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PKHeX.Avalonia.Views.EntralinkEditor"
+             x:DataType="vm:EntralinkEditorViewModel">
+
+    <TabControl Margin="5">
+        <TabItem Header="{loc:Loc EntralinkEditor_TabGeneral}">
+            <ScrollViewer>
+                <StackPanel Spacing="10" Margin="10">
+                    <TextBlock Text="{loc:Loc EntralinkEditor_Levels}" FontWeight="Bold" />
+                    <Grid ColumnDefinitions="Auto, *, Auto, *" RowDefinitions="Auto">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc EntralinkEditor_WhiteForest}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding WhiteLevel}" Minimum="0" Maximum="65535" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc EntralinkEditor_BlackCity}" VerticalAlignment="Center" Margin="20,0,10,0"/>
+                        <NumericUpDown Grid.Row="0" Grid.Column="3" Value="{Binding BlackLevel}" Minimum="0" Maximum="65535" />
+                    </Grid>
+
+                    <StackPanel IsVisible="{Binding IsB2W2}" Spacing="10">
+                        <Separator />
+                        <TextBlock Text="{loc:Loc EntralinkEditor_PassPowers}" FontWeight="Bold" />
+                        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto" Margin="5">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc EntralinkEditor_Power1}" VerticalAlignment="Center" Margin="0,5,10,5"/>
+                            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding PassPowers}" SelectedValue="{Binding PassPower1}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" DisplayMemberBinding="{Binding Text}" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc EntralinkEditor_Power2}" VerticalAlignment="Center" Margin="0,5,10,5"/>
+                            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding PassPowers}" SelectedValue="{Binding PassPower2}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" DisplayMemberBinding="{Binding Text}" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc EntralinkEditor_Power3}" VerticalAlignment="Center" Margin="0,5,10,5"/>
+                            <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding PassPowers}" SelectedValue="{Binding PassPower3}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" DisplayMemberBinding="{Binding Text}" />
+                        </Grid>
+
+                        <Separator />
+                        <TextBlock Text="{loc:Loc EntralinkEditor_FunfestMissions}" FontWeight="Bold" />
+                        <Grid ColumnDefinitions="Auto, *, Auto, *" RowDefinitions="Auto, Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc EntralinkEditor_Hosted}" VerticalAlignment="Center" Margin="0,5,10,5"/>
+                            <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding FestaHosted}" Minimum="0" Maximum="65535" />
+
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="{loc:Loc EntralinkEditor_Participated}" VerticalAlignment="Center" Margin="20,5,10,5"/>
+                            <NumericUpDown Grid.Row="0" Grid.Column="3" Value="{Binding FestaParticipated}" Minimum="0" Maximum="65535" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc EntralinkEditor_Completed}" VerticalAlignment="Center" Margin="0,5,10,5"/>
+                            <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding FestaCompleted}" Minimum="0" Maximum="65535" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="{loc:Loc EntralinkEditor_TopScore}" VerticalAlignment="Center" Margin="20,5,10,5"/>
+                            <NumericUpDown Grid.Row="1" Grid.Column="3" Value="{Binding FestaScore}" Minimum="0" Maximum="65535" />
+                        </Grid>
+                        <Button Content="{loc:Loc EntralinkEditor_UnlockAllMissions}" Command="{Binding UnlockAllMissionsCommand}" HorizontalAlignment="Left" />
+                    </StackPanel>
+
+                    <Separator />
+                    <TextBlock Text="{loc:Loc EntralinkEditor_EntreeForestUnlocks}" FontWeight="Bold" />
+                    <Grid ColumnDefinitions="Auto, *, Auto, *" RowDefinitions="Auto">
+                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc EntralinkEditor_UnlockedAreas}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                         <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding UnlockedAreas}" Minimum="0" Maximum="6" />
+                         <CheckBox Grid.Row="0" Grid.Column="2" Content="{loc:Loc EntralinkEditor_UnlockArea9}" IsChecked="{Binding Unlock9thArea}" Margin="20,0,0,0" />
+                    </Grid>
+                    <Button Content="{loc:Loc EntralinkEditor_UnlockAllAreas}" Command="{Binding UnlockAllAreasCmdCommand}" HorizontalAlignment="Left" />
+
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <TabItem Header="{loc:Loc EntralinkEditor_TabEntreeForest}">
+            <Grid ColumnDefinitions="250, *">
+                <Border BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="0,0,1,0" Margin="0,0,10,0">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top" Text="{loc:Loc EntralinkEditor_Areas}" FontWeight="Bold" Margin="5"/>
+                        <ListBox ItemsSource="{Binding Areas}" SelectedItem="{Binding SelectedArea}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </Border>
+
+                <Grid Grid.Column="1" RowDefinitions="*, Auto" IsVisible="{Binding SelectedArea, Converter={x:Static ObjectConverters.IsNotNull}}">
+                     <DataGrid ItemsSource="{Binding SelectedArea.Slots}" AutoGenerateColumns="False" CanUserResizeColumns="True" CanUserSortColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{loc:Loc EntralinkEditor_Pos}" Binding="{Binding SlotPosition}" IsReadOnly="True" />
+
+                            <DataGridTemplateColumn Header="{loc:Loc EntralinkEditor_Species}" Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding $parent[UserControl].((vm:EntralinkEditorViewModel)DataContext).SpeciesList}"
+                                                  SelectedValue="{Binding Species}"
+                                                  SelectedValueBinding="{Binding Value}"
+                                                  DisplayMemberBinding="{Binding Text}"
+                                                  AutomationProperties.Name="Species"
+                                                  HorizontalAlignment="Stretch" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="{loc:Loc EntralinkEditor_Move}" Width="150">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding $parent[UserControl].((vm:EntralinkEditorViewModel)DataContext).MoveList}"
+                                                  SelectedValue="{Binding Move}"
+                                                  SelectedValueBinding="{Binding Value}"
+                                                  DisplayMemberBinding="{Binding Text}"
+                                                  AutomationProperties.Name="Move"
+                                                  HorizontalAlignment="Stretch" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="{loc:Loc EntralinkEditor_Gender}" Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding $parent[UserControl].((vm:EntralinkEditorViewModel)DataContext).GenderList}"
+                                                  SelectedValue="{Binding Gender}"
+                                                  SelectedValueBinding="{Binding Value}"
+                                                  DisplayMemberBinding="{Binding Text}"
+                                                  AutomationProperties.Name="Gender"
+                                                  HorizontalAlignment="Stretch" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="{loc:Loc EntralinkEditor_Form}" Width="60">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <NumericUpDown Value="{Binding Form}" Minimum="0" Maximum="31" AutomationProperties.Name="Form" ShowButtonSpinner="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="{loc:Loc EntralinkEditor_Anim}" Width="60">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <NumericUpDown Value="{Binding Animation}" Minimum="0" Maximum="7" AutomationProperties.Name="Animation" ShowButtonSpinner="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                     </DataGrid>
+                </Grid>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</UserControl>

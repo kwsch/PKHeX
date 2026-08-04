@@ -1,0 +1,15 @@
+# Accessibility guardrail allowlist (see AccessibilityAuditTests.cs)
+#
+# One entry per line, either:
+#   RelativePath/To/View.axaml
+#     — allowlists every icon-only control in that file (use sparingly).
+#   RelativePath/To/View.axaml|<Button ...one-line snippet of the flagged element...>
+#     — allowlists a single specific control (preferred; keeps the allowlist precise).
+#
+# Lines starting with '#' and blank lines are ignored.
+#
+# As of the #137 accessibility sweep, no entries are needed — every icon-only
+# Button/ToggleButton/RepeatButton found by the scan has an AutomationProperties.Name
+# (or a real bound AccessibleName-style summary). Add entries here only for genuinely
+# justified exceptions discovered later (e.g. a decorative, non-interactive glyph
+# control that the scanner mis-flags), and explain why in a trailing comment.
