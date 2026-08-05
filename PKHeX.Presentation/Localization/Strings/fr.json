@@ -554,6 +554,7 @@
   "BoxViewer_NextBoxTooltip": "Boîte suivante (Page suivante)",
   "BoxViewer_SeekTooltip": "Rechercher dans cette sauvegarde et localiser les emplacements correspondants (Ctrl+F)",
   "BoxViewer_FooterHelp": "Flèches : Naviguer | Entrée : Sélectionner | Page préc./suiv. : Changer de boîte | Ctrl+C : Voir | Ctrl+V : Définir | Suppr : Effacer",
+  "BoxViewer_FooterHelp_Touch": "Touchez une case pour sélectionner · appui long pour Voir / Placer / Supprimer",
   "BoxViewer_ViewMenuItem": "Voir (Ctrl+Clic)",
   "BoxViewer_SetMenuItem": "Définir (Maj+Clic)",
   "BoxViewer_DeleteMenuItem": "Supprimer (Alt+Clic)",

@@ -244,7 +244,8 @@
                                             </StackPanel>
                                             <ComboBox ItemsSource="{Binding AbilityList}"
                                                       SelectedValue="{Binding Ability}" SelectedValueBinding="{Binding Value}"
-                                                      DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                                                      DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch"
+                                                      MinWidth="120" />
                                         </DockPanel>
                                     </StackPanel>
                                     

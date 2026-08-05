@@ -554,6 +554,7 @@
   "BoxViewer_NextBoxTooltip": "Caja siguiente (AvPág)",
   "BoxViewer_SeekTooltip": "Busca en este guardado y salta a las ranuras coincidentes (Ctrl+F)",
   "BoxViewer_FooterHelp": "Flechas: Navegar | Intro: Seleccionar | RePág/AvPág: Cambiar de caja | Ctrl+C: Ver | Ctrl+V: Colocar | Supr: Borrar",
+  "BoxViewer_FooterHelp_Touch": "Toca una casilla para seleccionar · mantén pulsado para Ver / Poner / Eliminar",
   "BoxViewer_ViewMenuItem": "Ver (Ctrl+Clic)",
   "BoxViewer_SetMenuItem": "Colocar (Mayús+Clic)",
   "BoxViewer_DeleteMenuItem": "Eliminar (Alt+Clic)",

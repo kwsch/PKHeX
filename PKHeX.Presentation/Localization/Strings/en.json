@@ -554,6 +554,7 @@
   "BoxViewer_NextBoxTooltip": "Next Box (PageDown)",
   "BoxViewer_SeekTooltip": "Search this save and seek to matching slots (Ctrl+F)",
   "BoxViewer_FooterHelp": "Arrow keys: Navigate | Enter: Select | PageUp/Down: Switch Box | Ctrl+C: View | Ctrl+V: Set | Delete: Clear",
+  "BoxViewer_FooterHelp_Touch": "Tap a slot to select · long-press for View / Set / Delete",
   "BoxViewer_ViewMenuItem": "View (Ctrl+Click)",
   "BoxViewer_SetMenuItem": "Set (Shift+Click)",
   "BoxViewer_DeleteMenuItem": "Delete (Alt+Click)",

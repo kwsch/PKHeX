@@ -554,6 +554,7 @@
   "BoxViewer_NextBoxTooltip": "下一个盒子（Page Down）",
   "BoxViewer_SeekTooltip": "搜索此存档并定位到匹配的槽位（Ctrl+F）",
   "BoxViewer_FooterHelp": "方向键：导航 | 回车：选择 | Page Up/Down：切换盒子 | Ctrl+C：查看 | Ctrl+V：设置 | Delete：清空",
+  "BoxViewer_FooterHelp_Touch": "点击槽位选中 · 长按可查看 / 放入 / 删除",
   "BoxViewer_ViewMenuItem": "查看（Ctrl+点击）",
   "BoxViewer_SetMenuItem": "设置（Shift+点击）",
   "BoxViewer_DeleteMenuItem": "删除（Alt+点击）",

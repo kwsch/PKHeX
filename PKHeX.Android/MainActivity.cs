@@ -5,6 +5,7 @@ using Android.Util;
 using Avalonia;
 using Avalonia.Android;
 using Avalonia.Controls.ApplicationLifetimes;
+using AndroidX.Activity;
 
 namespace PKHeX.Android;
 
@@ -34,6 +35,8 @@ public sealed class MainActivity : AvaloniaMainActivity<App>
         {
             Log.Warn("PKHEX_ANDROID", "MainActivity.OnCreate: no single-view lifetime available");
         }
+
+        OnBackPressedDispatcher.AddCallback(this, new OverlayBackCallback(this));
     }
 
     /// <summary>
@@ -42,21 +45,26 @@ public sealed class MainActivity : AvaloniaMainActivity<App>
     /// through to the platform default.
     /// </summary>
     /// <remarks>
-    /// The activity does not opt into predictive back (<c>enableOnBackInvokedCallback</c>), so the
-    /// framework still routes the gesture here on API 33+.
+    /// This must go through <see cref="OnBackPressedDispatcher"/>, not an <c>OnBackPressed</c>
+    /// override: AndroidX registers an OnBackInvokedCallback, so on API 33+ the framework routes
+    /// the gesture to the dispatcher and the legacy activity callback is never invoked.
     /// </remarks>
-#pragma warning disable CA1422 // OnBackPressed is the callback in use while predictive back is off.
-    public override void OnBackPressed()
+    private sealed class OverlayBackCallback(MainActivity activity) : OnBackPressedCallback(true)
     {
-        if (AndroidHostContext.WindowService?.TryCloseTopOverlay() == true)
+        public override void HandleOnBackPressed()
         {
-            Log.Info("PKHEX_ANDROID", "MainActivity.OnBackPressed: dismissed overlay");
-            return;
-        }
+            if (AndroidHostContext.WindowService?.TryCloseTopOverlay() == true)
+            {
+                Log.Info("PKHEX_ANDROID", "Back: dismissed overlay");
+                return;
+            }
 
-        base.OnBackPressed();
+            // Nothing of ours to close — step aside and let the platform default run.
+            Enabled = false;
+            activity.OnBackPressedDispatcher.OnBackPressed();
+            Enabled = true;
+        }
     }
-#pragma warning restore CA1422
 
     protected override AppBuilder CustomizeAppBuilder(AppBuilder builder)
         => base.CustomizeAppBuilder(builder)

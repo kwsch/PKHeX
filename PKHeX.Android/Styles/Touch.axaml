@@ -44,6 +44,14 @@
         <Setter Property="MinHeight" Value="48" />
     </Style>
 
+    <!-- Bottom navigation: five destinations only fit on one row at a label size the desktop
+         tab strip never has to consider. -->
+    <Style Selector="TabControl[TabStripPlacement=Bottom] > TabItem">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Padding" Value="6,4" />
+        <Setter Property="MinWidth" Value="0" />
+    </Style>
+
     <!-- A finger cannot reliably hit a 4px scrollbar; keep them visible and wide enough to drag. -->
     <Style Selector="ScrollBar">
         <Setter Property="MinWidth" Value="12" />

@@ -554,6 +554,7 @@
   "BoxViewer_NextBoxTooltip": "Box successivo (PageDown)",
   "BoxViewer_SeekTooltip": "Cerca in questo salvataggio e vai agli slot corrispondenti (Ctrl+F)",
   "BoxViewer_FooterHelp": "Frecce: Naviga | Invio: Seleziona | PageUp/Down: Cambia Box | Ctrl+C: Visualizza | Ctrl+V: Imposta | Canc: Cancella",
+  "BoxViewer_FooterHelp_Touch": "Tocca uno slot per selezionare · tieni premuto per Visualizza / Imposta / Elimina",
   "BoxViewer_ViewMenuItem": "Visualizza (Ctrl+Clic)",
   "BoxViewer_SetMenuItem": "Imposta (Shift+Clic)",
   "BoxViewer_DeleteMenuItem": "Elimina (Alt+Clic)",
