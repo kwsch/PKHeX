@@ -8,148 +8,191 @@
         >
 
 <DockPanel>
-        <!-- Menu Bar -->
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="{loc:Loc Menu_File}">
-                <MenuItem Header="{loc:Loc Menu_File_Open}" Command="{Binding OpenFileCommand}" InputGesture="Ctrl+O" />
-                <MenuItem Header="{loc:Loc Menu_File_Save}" Command="{Binding SaveFileCommand}" InputGesture="Ctrl+S" />
-                <MenuItem Header="{loc:Loc Menu_File_SaveAs}" Command="{Binding SaveFileAsCommand}" InputGesture="Ctrl+Shift+S" />
-                <Separator />
-                <MenuItem Header="{loc:Loc Menu_File_Close}" Command="{Binding CloseFileCommand}" />
-            </MenuItem>
-            <MenuItem Header="{loc:Loc Menu_Tools}">
-                <MenuItem Header="{loc:Loc Menu_Tools_SaveHandlerTroubleshooter}" Command="{Binding OpenSaveHandlerTroubleshooterCommand}" />
-                <Separator />
-                <MenuItem Header="{loc:Loc Menu_Tools_Showdown}">
-                    <MenuItem Header="{loc:Loc Menu_Showdown_ImportSet}" Command="{Binding ImportShowdownCommand}" InputGesture="Ctrl+T" />
-                    <MenuItem Header="{loc:Loc Menu_Showdown_ExportSet}" Command="{Binding ExportShowdownCommand}" InputGesture="Ctrl+Shift+T" />
-                    <Separator />
-                    <MenuItem Header="{loc:Loc Menu_Showdown_ImportTeam}" Command="{Binding ImportShowdownTeamCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Showdown_ExportBox}" Command="{Binding ExportShowdownBoxCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Showdown_ExportAllBoxes}" Command="{Binding ExportShowdownAllBoxesCommand}" />
-                </MenuItem>
-                <MenuItem Header="{loc:Loc Menu_Tools_AutoLegalityMod}" Command="{Binding OpenAutoLegalityModCommand}" />
-                <MenuItem Header="{loc:Loc Menu_Tools_LiveHeX}" Command="{Binding OpenLiveHeXCommand}" />
-                <MenuItem Header="{loc:Loc Menu_Tools_GenerateLivingDex}" Command="{Binding OpenLivingDexGeneratorCommand}" />
-                <MenuItem Header="{loc:Loc Menu_Tools_QRCode}">
-                    <MenuItem Header="{loc:Loc Menu_QR_ShowCurrent}" Command="{Binding ShowQrCodeCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_QR_ImportImage}" Command="{Binding ImportQrCodeCommand}" />
-                </MenuItem>
-                <MenuItem Header="{loc:Loc Menu_Tools_Data}">
-                    <MenuItem Header="{loc:Loc Menu_Data_LoadBoxes}" Command="{Binding LoadBoxesCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Data_DumpBoxes}" Command="{Binding DumpBoxesCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Data_PKMDatabase}" Command="{Binding OpenPKMDatabaseCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Data_BoxReport}" Command="{Binding OpenBoxReportCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Data_LegalityAudit}" Command="{Binding OpenLegalityAuditCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Data_MysteryGiftDatabase}" Command="{Binding OpenMysteryGiftDatabaseCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Data_BlockEditor}" Command="{Binding OpenBlockEditorCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Data_EncounterDatabase}" Command="{Binding OpenEncounterDatabaseCommand}" />
-                </MenuItem>
-                <MenuItem Header="{loc:Loc Menu_Tools_BackupManager}" Command="{Binding OpenBackupManagerCommand}" />
-                <MenuItem Header="{loc:Loc Menu_Tools_CompareSaves}" Command="{Binding OpenSaveDiffCommand}" />
-                <MenuItem Header="{loc:Loc Menu_Tools_BatchEditor}" Command="{Binding OpenBatchEditorCommand}" />
-                <MenuItem Header="{loc:Loc Menu_Tools_BoxManipulation}" Command="{Binding OpenBoxManipCommand}" />
-                <MenuItem Header="{loc:Loc Menu_Tools_SaveEditors}">
-                    <MenuItem Header="{loc:Loc Menu_Save_Daycare}" Command="{Binding OpenDaycareCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Save_Records}" Command="{Binding OpenRecordsCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Save_HallOfFame}" Command="{Binding OpenHallOfFameCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Save_MailBox}" Command="{Binding OpenMailBoxCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Save_BoxLayout}" Command="{Binding OpenBoxLayoutCommand}" />
-                    <Separator />
-                    <MenuItem Header="{loc:Loc Menu_Gen1}">
-                        <MenuItem Header="{loc:Loc Menu_Gen1_EventReset}" Command="{Binding OpenEventReset1Command}" />
-                        <MenuItem Header="{loc:Loc Menu_Save_HallOfFame}" Command="{Binding OpenHallOfFame1Command}" />
-                    </MenuItem>
-                    <MenuItem Header="{loc:Loc Menu_Gen2}">
-                        <MenuItem Header="{loc:Loc Menu_Gen2_EventFlags}" Command="{Binding OpenEventFlags2Command}" />
-                        <MenuItem Header="{loc:Loc Menu_Gen2_Misc}" Command="{Binding OpenMisc2Command}" />
-                    </MenuItem>
-                    <MenuItem Header="{loc:Loc Menu_Gen3}">
-                        <MenuItem Header="{loc:Loc Menu_Misc}" Command="{Binding OpenMisc3Command}" />
-                        <MenuItem Header="{loc:Loc Menu_Roamer}" Command="{Binding OpenRoamer3Command}" />
-                        <MenuItem Header="{loc:Loc Menu_Gen3_SecretBase}" Command="{Binding OpenSecretBaseCommand}" />
-                        <MenuItem Header="{loc:Loc Menu_Gen3_RTC}" Command="{Binding OpenRTC3Command}" />
-                        <MenuItem Header="{loc:Loc Menu_Gen3_PokeblockCase}" Command="{Binding OpenPokeBlock3CaseCommand}" />
-                        <MenuItem Header="{loc:Loc Menu_Save_HallOfFame}" Command="{Binding OpenHallOfFame3Command}" />
-                    </MenuItem>
-                    <MenuItem Header="{loc:Loc Menu_Gen4}">
-                    <MenuItem Header="{loc:Loc Menu_Misc}" Command="{Binding OpenMisc4Command}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen4_PoffinsDPPt}" Command="{Binding OpenPoffinCaseCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen4_PoketchDPPt}" Command="{Binding OpenPoketchCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen4_BlockLayout}" Command="{Binding OpenBoxLayoutCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen4_HoneyTrees}" Command="{Binding OpenHoneyTreeCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Roamer}" Command="{Binding OpenRoamerCommand}" />
-                    <Separator />
-                    <MenuItem Header="{loc:Loc Menu_Gen4_PokeGearHGSS}" Command="{Binding OpenPokeGear4Command}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen4_PokeathlonHGSS}" Command="{Binding OpenPokeathlonCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen4_GeonetDPPt}" Command="{Binding OpenGeonet4Command}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen4_BattlePassPBR}" Command="{Binding OpenBattlePassCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
-                </MenuItem>
-                <MenuItem Header="{loc:Loc Menu_Gen5}">
-                    <MenuItem Header="{loc:Loc Menu_Misc}" Command="{Binding OpenMisc5Command}" />
-                    <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen5_Chatter}" Command="{Binding OpenChatterCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen5_MedalRally}" Command="{Binding OpenMedalCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen5_JoinAvenue}" Command="{Binding OpenJoinAvenueCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen5_UnityTower}" Command="{Binding OpenUnityTower5Command}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen5_EntralinkForest}" Command="{Binding OpenEntralinkCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen5_GlobalLink}" Command="{Binding OpenGlobalLink5Command}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen5_DLC}" Command="{Binding OpenDLC5Command}" />
-                </MenuItem>
-                <MenuItem Header="{loc:Loc Menu_Gen6}">
-                    <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen6_OPowers}" Command="{Binding OpenOPowerCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen6_SuperTraining}" Command="{Binding OpenSuperTrainingCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Roamer}" Command="{Binding OpenRoamer6Command}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen6_PokemonLink}" Command="{Binding OpenLink6Command}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen6_SecretBaseEditor}" Command="{Binding OpenSecretBase6Command}" />
-                </MenuItem>
-                <MenuItem Header="{loc:Loc Menu_Gen7}">
-                    <MenuItem Header="{loc:Loc Menu_Misc}" Command="{Binding OpenMisc7Command}" />
-                    <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen7_PokeBeans}" Command="{Binding OpenPokebeanCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen7_FestivalPlaza}" Command="{Binding OpenFestivalPlazaCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen7_ZygardeCells}" Command="{Binding OpenZygardeCellCommand}" />
-                    <Separator />
-                    <MenuItem Header="{loc:Loc Menu_Gen7_CaptureRecordsLGPE}" Command="{Binding OpenCapture7GGCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen7_HallOfFameSMUSUM}" Command="{Binding OpenHallOfFame7Command}" />
-                </MenuItem>
-                <MenuItem Header="{loc:Loc Menu_Gen8}">
-                    <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen8_MaxRaidsSWSH}" Command="{Binding OpenRaidEditorCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen8_FashionSWSH}" Command="{Binding OpenFashionCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen8_TrainerCardSWSH}" Command="{Binding OpenTrainerCard8Command}" />
-                    <Separator />
-                    <MenuItem Header="{loc:Loc Menu_Gen8_MiscBDSP}" Command="{Binding OpenMisc8bCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen8_UndergroundBDSP}" Command="{Binding OpenUnderground8bCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen8_SealStickersBDSP}" Command="{Binding OpenSealStickers8bCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen8_PoffinsBDSP}" Command="{Binding OpenPoffin8bCommand}" />
-                </MenuItem>
-                <MenuItem Header="{loc:Loc Menu_Gen9}">
-                    <MenuItem Header="{loc:Loc Menu_Misc}" Command="{Binding OpenMisc9Command}" />
-                    <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
-                    <MenuItem Header="{loc:Loc Menu_Gen9_TeraRaidsSV}" Command="{Binding OpenRaid9Command}" />
-                        <MenuItem Header="{loc:Loc Menu_Gen9_SevenStarRaidsSV}" Command="{Binding OpenRaidSevenStar9Command}" />
-                        <MenuItem Header="{loc:Loc Menu_Gen9_FashionSVZA}" Command="{Binding OpenFashion9Command}" />
-                        <MenuItem Header="{loc:Loc Menu_Gen9_DonutPLZA}" Command="{Binding OpenDonutCommand}" />
-                    </MenuItem>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="{loc:Loc Menu_Options}">
-                <MenuItem Header="{loc:Loc Menu_Options_Language}">
-                    <ComboBox x:CompileBindings="False"
-                              ItemsSource="{Binding LanguageService.AvailableLanguages}"
-                              SelectedItem="{Binding LanguageService.CurrentLanguageOption, Mode=TwoWay}"
-                              AutomationProperties.Name="Language Selection"/>
-                </MenuItem>
-                <MenuItem Header="{loc:Loc Menu_Options_Undo}" Command="{Binding UndoCommand}" InputGesture="Ctrl+Z" />
-                <MenuItem Header="{loc:Loc Menu_Options_Redo}" Command="{Binding RedoCommand}" InputGesture="Ctrl+Y" />
-                <Separator />
-                <MenuItem Header="{loc:Loc Menu_Options_Settings}" Command="{Binding OpenSettingsCommand}" />
-                <MenuItem Header="{loc:Loc Menu_Options_About}" Command="{Binding OpenAboutCommand}" />
-            </MenuItem>
-        </Menu>
+        <!-- Top app bar: title, the two actions people reach for constantly, and an overflow
+             menu holding the full File/Tools/Options tree. A desktop menu bar is not a thing on
+             Android, and its rows were also easy to dismiss by accident on touch. -->
+        <Border DockPanel.Dock="Top"
+                Background="{DynamicResource ThemeBackgroundCardBrush}"
+                BorderBrush="{DynamicResource ThemeBorderDefaultBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="8,4">
+            <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                <TextBlock Grid.Column="0"
+                           Text="{Binding WindowTitle}"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           TextTrimming="CharacterEllipsis"
+                           VerticalAlignment="Center"
+                           Margin="8,0" />
+
+                <Button Grid.Column="1"
+                        Content="{loc:Loc Menu_File_Open}"
+                        Command="{Binding OpenFileCommand}"
+                        Padding="12,0"
+                        AutomationProperties.Name="Open save file" />
+
+                <Button Grid.Column="2"
+                        Content="{loc:Loc Menu_File_Save}"
+                        Command="{Binding SaveFileCommand}"
+                        Padding="12,0"
+                        Margin="4,0,0,0"
+                        AutomationProperties.Name="Save" />
+
+                <Button Grid.Column="3"
+                        Content="&#x22EE;"
+                        FontSize="20"
+                        Width="48"
+                        Padding="0"
+                        Margin="4,0,0,0"
+                        AutomationProperties.Name="More options">
+                    <Button.Flyout>
+                        <MenuFlyout>
+
+        <MenuItem Header="{loc:Loc Menu_File}">
+        <MenuItem Header="{loc:Loc Menu_File_Open}" Command="{Binding OpenFileCommand}" />
+        <MenuItem Header="{loc:Loc Menu_File_Save}" Command="{Binding SaveFileCommand}" />
+        <MenuItem Header="{loc:Loc Menu_File_SaveAs}" Command="{Binding SaveFileAsCommand}" />
+        <Separator />
+        <MenuItem Header="{loc:Loc Menu_File_Close}" Command="{Binding CloseFileCommand}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Tools}">
+        <MenuItem Header="{loc:Loc Menu_Tools_SaveHandlerTroubleshooter}" Command="{Binding OpenSaveHandlerTroubleshooterCommand}" />
+        <Separator />
+        <MenuItem Header="{loc:Loc Menu_Tools_Showdown}">
+        <MenuItem Header="{loc:Loc Menu_Showdown_ImportSet}" Command="{Binding ImportShowdownCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Showdown_ExportSet}" Command="{Binding ExportShowdownCommand}" />
+        <Separator />
+        <MenuItem Header="{loc:Loc Menu_Showdown_ImportTeam}" Command="{Binding ImportShowdownTeamCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Showdown_ExportBox}" Command="{Binding ExportShowdownBoxCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Showdown_ExportAllBoxes}" Command="{Binding ExportShowdownAllBoxesCommand}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Tools_AutoLegalityMod}" Command="{Binding OpenAutoLegalityModCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Tools_LiveHeX}" Command="{Binding OpenLiveHeXCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Tools_GenerateLivingDex}" Command="{Binding OpenLivingDexGeneratorCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Tools_QRCode}">
+        <MenuItem Header="{loc:Loc Menu_QR_ShowCurrent}" Command="{Binding ShowQrCodeCommand}" />
+        <MenuItem Header="{loc:Loc Menu_QR_ImportImage}" Command="{Binding ImportQrCodeCommand}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Tools_Data}">
+        <MenuItem Header="{loc:Loc Menu_Data_LoadBoxes}" Command="{Binding LoadBoxesCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Data_DumpBoxes}" Command="{Binding DumpBoxesCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Data_PKMDatabase}" Command="{Binding OpenPKMDatabaseCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Data_BoxReport}" Command="{Binding OpenBoxReportCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Data_LegalityAudit}" Command="{Binding OpenLegalityAuditCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Data_MysteryGiftDatabase}" Command="{Binding OpenMysteryGiftDatabaseCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Data_BlockEditor}" Command="{Binding OpenBlockEditorCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Data_EncounterDatabase}" Command="{Binding OpenEncounterDatabaseCommand}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Tools_BackupManager}" Command="{Binding OpenBackupManagerCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Tools_CompareSaves}" Command="{Binding OpenSaveDiffCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Tools_BatchEditor}" Command="{Binding OpenBatchEditorCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Tools_BoxManipulation}" Command="{Binding OpenBoxManipCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Tools_SaveEditors}">
+        <MenuItem Header="{loc:Loc Menu_Save_Daycare}" Command="{Binding OpenDaycareCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Save_Records}" Command="{Binding OpenRecordsCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Save_HallOfFame}" Command="{Binding OpenHallOfFameCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Save_MailBox}" Command="{Binding OpenMailBoxCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Save_BoxLayout}" Command="{Binding OpenBoxLayoutCommand}" />
+        <Separator />
+        <MenuItem Header="{loc:Loc Menu_Gen1}">
+        <MenuItem Header="{loc:Loc Menu_Gen1_EventReset}" Command="{Binding OpenEventReset1Command}" />
+        <MenuItem Header="{loc:Loc Menu_Save_HallOfFame}" Command="{Binding OpenHallOfFame1Command}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Gen2}">
+        <MenuItem Header="{loc:Loc Menu_Gen2_EventFlags}" Command="{Binding OpenEventFlags2Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen2_Misc}" Command="{Binding OpenMisc2Command}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Gen3}">
+        <MenuItem Header="{loc:Loc Menu_Misc}" Command="{Binding OpenMisc3Command}" />
+        <MenuItem Header="{loc:Loc Menu_Roamer}" Command="{Binding OpenRoamer3Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen3_SecretBase}" Command="{Binding OpenSecretBaseCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen3_RTC}" Command="{Binding OpenRTC3Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen3_PokeblockCase}" Command="{Binding OpenPokeBlock3CaseCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Save_HallOfFame}" Command="{Binding OpenHallOfFame3Command}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Gen4}">
+        <MenuItem Header="{loc:Loc Menu_Misc}" Command="{Binding OpenMisc4Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen4_PoffinsDPPt}" Command="{Binding OpenPoffinCaseCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen4_PoketchDPPt}" Command="{Binding OpenPoketchCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen4_BlockLayout}" Command="{Binding OpenBoxLayoutCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen4_HoneyTrees}" Command="{Binding OpenHoneyTreeCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Roamer}" Command="{Binding OpenRoamerCommand}" />
+        <Separator />
+        <MenuItem Header="{loc:Loc Menu_Gen4_PokeGearHGSS}" Command="{Binding OpenPokeGear4Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen4_PokeathlonHGSS}" Command="{Binding OpenPokeathlonCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen4_GeonetDPPt}" Command="{Binding OpenGeonet4Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen4_BattlePassPBR}" Command="{Binding OpenBattlePassCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Gen5}">
+        <MenuItem Header="{loc:Loc Menu_Misc}" Command="{Binding OpenMisc5Command}" />
+        <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen5_Chatter}" Command="{Binding OpenChatterCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen5_MedalRally}" Command="{Binding OpenMedalCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen5_JoinAvenue}" Command="{Binding OpenJoinAvenueCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen5_UnityTower}" Command="{Binding OpenUnityTower5Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen5_EntralinkForest}" Command="{Binding OpenEntralinkCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen5_GlobalLink}" Command="{Binding OpenGlobalLink5Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen5_DLC}" Command="{Binding OpenDLC5Command}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Gen6}">
+        <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen6_OPowers}" Command="{Binding OpenOPowerCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen6_SuperTraining}" Command="{Binding OpenSuperTrainingCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Roamer}" Command="{Binding OpenRoamer6Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen6_PokemonLink}" Command="{Binding OpenLink6Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen6_SecretBaseEditor}" Command="{Binding OpenSecretBase6Command}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Gen7}">
+        <MenuItem Header="{loc:Loc Menu_Misc}" Command="{Binding OpenMisc7Command}" />
+        <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen7_PokeBeans}" Command="{Binding OpenPokebeanCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen7_FestivalPlaza}" Command="{Binding OpenFestivalPlazaCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen7_ZygardeCells}" Command="{Binding OpenZygardeCellCommand}" />
+        <Separator />
+        <MenuItem Header="{loc:Loc Menu_Gen7_CaptureRecordsLGPE}" Command="{Binding OpenCapture7GGCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen7_HallOfFameSMUSUM}" Command="{Binding OpenHallOfFame7Command}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Gen8}">
+        <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen8_MaxRaidsSWSH}" Command="{Binding OpenRaidEditorCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen8_FashionSWSH}" Command="{Binding OpenFashionCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen8_TrainerCardSWSH}" Command="{Binding OpenTrainerCard8Command}" />
+        <Separator />
+        <MenuItem Header="{loc:Loc Menu_Gen8_MiscBDSP}" Command="{Binding OpenMisc8bCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen8_UndergroundBDSP}" Command="{Binding OpenUnderground8bCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen8_SealStickersBDSP}" Command="{Binding OpenSealStickers8bCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen8_PoffinsBDSP}" Command="{Binding OpenPoffin8bCommand}" />
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Gen9}">
+        <MenuItem Header="{loc:Loc Menu_Misc}" Command="{Binding OpenMisc9Command}" />
+        <MenuItem Header="{loc:Loc Menu_Pokedex}" Command="{Binding OpenPokedexCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Gen9_TeraRaidsSV}" Command="{Binding OpenRaid9Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen9_SevenStarRaidsSV}" Command="{Binding OpenRaidSevenStar9Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen9_FashionSVZA}" Command="{Binding OpenFashion9Command}" />
+        <MenuItem Header="{loc:Loc Menu_Gen9_DonutPLZA}" Command="{Binding OpenDonutCommand}" />
+        </MenuItem>
+        </MenuItem>
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Options}">
+        <MenuItem Header="{loc:Loc Menu_Options_Language}">
+        <ComboBox x:CompileBindings="False"
+        ItemsSource="{Binding LanguageService.AvailableLanguages}"
+        SelectedItem="{Binding LanguageService.CurrentLanguageOption, Mode=TwoWay}"
+        AutomationProperties.Name="Language Selection"/>
+        </MenuItem>
+        <MenuItem Header="{loc:Loc Menu_Options_Undo}" Command="{Binding UndoCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Options_Redo}" Command="{Binding RedoCommand}" />
+        <Separator />
+        <MenuItem Header="{loc:Loc Menu_Options_Settings}" Command="{Binding OpenSettingsCommand}" />
+        <MenuItem Header="{loc:Loc Menu_Options_About}" Command="{Binding OpenAboutCommand}" />
+        </MenuItem>
+
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+        </Border>
 
         <!-- Status Bar - Themed -->
         <Border DockPanel.Dock="Bottom"
@@ -219,7 +262,7 @@
                  screen, so the editor becomes the first tab and every panel gets the full width. -->
             <Grid IsVisible="{Binding HasSave}">
 
-                <TabControl Margin="0">
+                <TabControl Margin="0" TabStripPlacement="Bottom">
                     <TabItem Header="{loc:Loc Tab_Pokemon}">
                         <ContentControl Content="{Binding CurrentPokemonEditor}" Focusable="False"
                                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
@@ -245,7 +288,12 @@
                             </ContentControl.ContentTemplate>
                         </ContentControl>
                     </TabItem>
-                    <TabItem Header="{loc:Loc Tab_Inventory}">
+                    <!-- Material bottom navigation tops out around five destinations, so the
+                         less-used editors live behind "More" as collapsible sections. -->
+                    <TabItem Header="{loc:Loc Tab_More}">
+                        <ScrollViewer>
+                            <StackPanel Margin="8">
+                        <Expander Header="{loc:Loc Tab_Inventory}" HorizontalAlignment="Stretch" Margin="0,0,0,8">
                         <ContentControl Content="{Binding InventoryEditor}">
                             <ContentControl.ContentTemplate>
                                 <DataTemplate DataType="vm:InventoryEditorViewModel">
@@ -253,8 +301,8 @@
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
                         </ContentControl>
-                    </TabItem>
-                    <TabItem Header="{loc:Loc Tab_Events}">
+                                            </Expander>
+                        <Expander Header="{loc:Loc Tab_Events}" HorizontalAlignment="Stretch" Margin="0,0,0,8">
                         <ContentControl Content="{Binding EventFlagsEditor}">
                             <ContentControl.ContentTemplate>
                                 <DataTemplate DataType="vm:EventFlagsEditorViewModel">
@@ -262,8 +310,8 @@
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
                         </ContentControl>
-                    </TabItem>
-                    <TabItem Header="{loc:Loc Tab_Gifts}">
+                                            </Expander>
+                        <Expander Header="{loc:Loc Tab_Gifts}" HorizontalAlignment="Stretch" Margin="0,0,0,8">
                         <ContentControl Content="{Binding MysteryGiftEditor}">
                             <ContentControl.ContentTemplate>
                                 <DataTemplate DataType="vm:MysteryGiftEditorViewModel">
@@ -271,8 +319,8 @@
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
                         </ContentControl>
-                    </TabItem>
-                    <TabItem Header="{loc:Loc Tab_Batch}">
+                                            </Expander>
+                        <Expander Header="{loc:Loc Tab_Batch}" HorizontalAlignment="Stretch" Margin="0,0,0,8">
                         <ContentControl Content="{Binding BatchEditor}">
                             <ContentControl.ContentTemplate>
                                 <DataTemplate DataType="vm:BatchEditorViewModel">
@@ -280,6 +328,9 @@
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
                         </ContentControl>
+                                            </Expander>
+                            </StackPanel>
+                        </ScrollViewer>
                     </TabItem>
                 </TabControl>
             </Grid>
