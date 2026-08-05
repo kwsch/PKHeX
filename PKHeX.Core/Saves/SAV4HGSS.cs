@@ -221,10 +221,25 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
 
     public void SetPokeGearRoloDex(ReadOnlySpan<PokegearNumber> value) => value.CopyTo(GetPokeGearRoloDex());
 
+    /// <summary>
+    /// Returns the opposite-gender player character rival, which should not appear as a phone contact.
+    /// </summary>
+    private PokegearNumber OppositeGenderRival => Gender == 0 ? PokegearNumber.Lyra : PokegearNumber.Ethan;
+
     public void PokeGearUnlockAllCallers()
     {
+        var excluded = OppositeGenderRival;
+        int index = 0;
         for (int i = 0; i < GearCallerCount; i++)
-            SetCallerAtIndex(i, (PokegearNumber)i);
+        {
+            var caller = (PokegearNumber)i;
+            if (caller == excluded)
+                continue;
+            SetCallerAtIndex(index++, caller);
+        }
+        // clear the trailing slot left over from skipping the opposite-gender rival
+        for (; index < GearCallerCount; index++)
+            SetCallerAtIndex(index, PokegearNumber.None);
     }
 
     public void PokeGearClearAllCallers(int start = 0)
@@ -250,11 +265,19 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
 
     public void PokeGearUnlockAllCallersNoTrainers()
     {
+        var excluded = OppositeGenderRival;
         var dex = GetPokeGearRoloDex();
-        NotTrainers.CopyTo(dex);
+
+        int index = 0;
+        foreach (var caller in NotTrainers)
+        {
+            if (caller == excluded)
+                continue;
+            dex[index++] = caller;
+        }
 
         // clear remaining callers
-        PokeGearClearAllCallers(NotTrainers.Length);
+        PokeGearClearAllCallers(index);
     }
 
     public Pokeathlon4 Pokeathlon => new(GeneralBuffer.Slice(0xD9D4, Pokeathlon4.SIZE)); // 0xB80
