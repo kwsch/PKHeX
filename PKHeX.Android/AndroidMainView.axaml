@@ -213,28 +213,23 @@
                         FontSize="14" />
             </StackPanel>
 
-            <!-- Save Loaded State: WinForms-style layout -->
-            <!-- Left: PKMEditor (persistent side panel) | Right: SAVEditor (tabs with Box/Party/Trainer/etc) -->
-            <Grid IsVisible="{Binding HasSave}" ColumnDefinitions="520,*">
+            <!-- Save Loaded State: single-column layout -->
+            <!-- The desktop puts the PKM editor in a fixed 520px side panel next to the SAV editor
+                 tabs. A phone is not wide enough for both, and the side panel pushed the tabs off
+                 screen, so the editor becomes the first tab and every panel gets the full width. -->
+            <Grid IsVisible="{Binding HasSave}">
 
-            <!-- Left Panel: PKM Editor (520px) -->
-            <Border Grid.Column="0"
-                    Background="{DynamicResource ThemeBackgroundBaseBrush}"
-                    BorderThickness="0,0,1,0"
-                    BorderBrush="{DynamicResource ThemeBorderDefaultBrush}"
-                    Focusable="False">
-                <ContentControl Content="{Binding CurrentPokemonEditor}" Focusable="False"
-                                HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <ContentControl.ContentTemplate>
-                        <DataTemplate DataType="vm:PokemonEditorViewModel">
-                            <views:PokemonEditor />
-                        </DataTemplate>
-                    </ContentControl.ContentTemplate>
-                </ContentControl>
-            </Border>
-
-                <!-- Right Panel: SAV Editor (Box, Party, Trainer, etc.) -->
-                <TabControl Grid.Column="1" Margin="0">
+                <TabControl Margin="0">
+                    <TabItem Header="{loc:Loc Tab_Pokemon}">
+                        <ContentControl Content="{Binding CurrentPokemonEditor}" Focusable="False"
+                                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                            <ContentControl.ContentTemplate>
+                                <DataTemplate DataType="vm:PokemonEditorViewModel">
+                                    <views:PokemonEditor />
+                                </DataTemplate>
+                            </ContentControl.ContentTemplate>
+                        </ContentControl>
+                    </TabItem>
                     <TabItem Header="{loc:Loc Tab_Box}">
                         <views:BoxViewer DataContext="{Binding BoxViewer}" />
                     </TabItem>

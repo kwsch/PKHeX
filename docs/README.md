@@ -10,6 +10,8 @@
 - **[accessibility.md](accessibility.md)** — keyboard shortcuts and screen-reader notes.
 - **[packaging.md](packaging.md)** — how release installers/packages are built, signed, and
   distributed per platform.
+- **[releasing.md](releasing.md)** — the end-to-end release procedure: one tag ships macOS and
+  Android together, Android signing secrets, and how releases hang off the upstream-sync loop.
 - **[../CONTRIBUTING.md](../CONTRIBUTING.md)** — how to contribute a UI translation (the main
   community contribution path today).
 
