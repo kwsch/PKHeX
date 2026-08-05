@@ -17,6 +17,10 @@
     <InformationalVersion>$(UIVersion)</InformationalVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- The local .NET Android workload's fast-deploy target can stall on this Avalonia host;
+         apply the API-36 smoke-test deployment policy after the SDK targets are loaded. -->
+    <AfterMicrosoftNETSdkTargets>$(AfterMicrosoftNETSdkTargets);$(MSBuildThisFileDirectory)AndroidHost.targets</AfterMicrosoftNETSdkTargets>
   </PropertyGroup>
 
   <ItemGroup>
