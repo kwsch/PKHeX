@@ -10,6 +10,6 @@
     <Copyright>Copyright © Patrik Lleshaj</Copyright>
     <SourceRevisionId>$([System.DateTime]::UtcNow.ToString("yyMMddHHmmss"))</SourceRevisionId>
     <!-- UI version for PKHeX.Avalonia releases (semver) -->
-    <UIVersion>1.47.1</UIVersion>
+    <UIVersion>1.47.2</UIVersion>
   </PropertyGroup>
 </Project>
