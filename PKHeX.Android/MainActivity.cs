@@ -18,15 +18,17 @@ public sealed class MainActivity : AvaloniaMainActivity<App>
     protected override void OnCreate(Bundle? savedInstanceState)
     {
         Log.Info("PKHEX_ANDROID", "MainActivity.OnCreate: before Avalonia base");
+        AndroidHostContext.SetActivity(this);
         base.OnCreate(savedInstanceState);
         Log.Info("PKHEX_ANDROID", "MainActivity.OnCreate: after Avalonia base");
 
         // The Android activity can be recreated while the Avalonia Application survives. Replace
         // the single-view lifetime's root so an old Activity-owned view is never reused.
-        if (App.Current?.ApplicationLifetime is ISingleViewApplicationLifetime activity)
+        if (App.Current?.ApplicationLifetime is ISingleViewApplicationLifetime activity
+            && App.Current is App app)
         {
             Log.Info("PKHEX_ANDROID", "MainActivity.OnCreate: replacing single-view root");
-            activity.MainView = App.CreateMainView();
+            activity.MainView = app.CreateMainView();
         }
         else
         {

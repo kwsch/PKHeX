@@ -40,5 +40,6 @@
     <ProjectReference Include="..\PKHeX.Application\PKHeX.Application.csproj" />
     <ProjectReference Include="..\PKHeX.Infrastructure\PKHeX.Infrastructure.csproj" />
     <ProjectReference Include="..\PKHeX.Presentation\PKHeX.Presentation.csproj" />
+    <ProjectReference Include="..\PKHeX.Avalonia\PKHeX.Avalonia.csproj" AdditionalProperties="OutputType=Library" />
   </ItemGroup>
 </Project>
