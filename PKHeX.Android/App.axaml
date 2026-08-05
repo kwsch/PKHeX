@@ -26,5 +26,7 @@
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
         <StyleInclude Source="avares://PKHeX.Avalonia/Styles/Theme.axaml" />
+        <!-- Loaded last so touch sizing wins over the shared desktop-density styles. -->
+        <StyleInclude Source="avares://PKHeX.Android/Styles/Touch.axaml" />
     </Application.Styles>
 </Application>

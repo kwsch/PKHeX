@@ -58,12 +58,35 @@ public sealed class LocalizedStrings : INotifyPropertyChanged
     /// Resolves a UI string by key with English fallback. Bound from XAML as <c>[Key]</c> so that a
     /// single indexer invalidation refreshes every localized element on the screen.
     /// </summary>
+    /// <summary>
+    /// Suffix marking a touch-first wording of a key. Some strings name a desktop interaction the
+    /// user cannot perform on a phone (e.g. "Set (Shift+Click)"); adding <c>&lt;key&gt;_Touch</c> to
+    /// the resource files gives that key a touch-appropriate wording without forking the view.
+    /// </summary>
+    public const string TouchVariantSuffix = "_Touch";
+
+    /// <summary>
+    /// Whether <c>_Touch</c> wordings win over their desktop counterparts. Defaults to true on
+    /// Android — the only touch-first host — and can be set by a host that knows better.
+    /// </summary>
+    public static bool PreferTouchVariants { get; set; } = OperatingSystem.IsAndroid();
+
     public string this[string key]
     {
         get
         {
             if (string.IsNullOrEmpty(key))
                 return string.Empty;
+
+            if (PreferTouchVariants)
+            {
+                var touchKey = key + TouchVariantSuffix;
+                if (_active.TryGetValue(touchKey, out var touch))
+                    return touch;
+                if (_english.TryGetValue(touchKey, out var touchFallback))
+                    return touchFallback;
+            }
+
             if (_active.TryGetValue(key, out var value))
                 return value;
             if (_english.TryGetValue(key, out var fallback))
