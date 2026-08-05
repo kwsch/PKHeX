@@ -96,6 +96,30 @@ keytool -genkeypair -v -keystore release.keystore -alias pkhex \
 with a different key cannot upgrade an installed one in place — users have to uninstall first,
 losing app-private data. Losing the keystore is unrecoverable for the existing install base.
 
+Unlike Apple's Developer ID, an Android signing key costs nothing: it is self-generated and
+self-signed, and sideloaded APKs need no third-party enrolment. (A Google Play listing would need a
+one-time developer account, but this project distributes through GitHub Releases.)
+
+### Verifying a downloaded APK
+
+Every release APK from `v1.47.0` onward is signed by this key:
+
+```
+CN=doctorllll, OU=PKHeX-Avalonia, O=doctorllll, L=Shenzhen, ST=Guangdong, C=CN
+SHA-256: a8:c5:c7:09:ea:fc:c3:3a:84:e8:19:0a:c3:58:e9:3d:3a:89:a5:ee:74:5a:07:89:c3:a4:50:9d:77:36:6e:58
+```
+
+Check any downloaded APK against it before installing:
+
+```bash
+apksigner verify --print-certs PKHeX-Android-arm64.apk
+```
+
+A mismatch means the file is not ours. Note that builds produced before the release keystore
+existed — anything named `-debugsigned`, and every locally-built APK — carry the Android SDK's
+debug key instead, so the **first release-signed build cannot upgrade one of those in place**;
+uninstall the old one first. This applies only once, at the switchover.
+
 ## Following upstream
 
 Upstream `kwsch/PKHeX` moves independently of this fork. The loop is already automated; releases
