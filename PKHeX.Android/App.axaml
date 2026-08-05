@@ -1,8 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="using:PKHeX.Avalonia.Converters"
-             x:Class="PKHeX.Android.App"
-             RequestedThemeVariant="Dark">
+             x:Class="PKHeX.Android.App"><!-- No RequestedThemeVariant: follow the phone's light/dark setting. -->
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="SystemAccentColor">#E3350D</Color>
@@ -26,5 +25,7 @@
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
         <StyleInclude Source="avares://PKHeX.Avalonia/Styles/Theme.axaml" />
+        <!-- Loaded last so touch sizing wins over the shared desktop-density styles. -->
+        <StyleInclude Source="avares://PKHeX.Android/Styles/Touch.axaml" />
     </Application.Styles>
 </Application>

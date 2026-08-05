@@ -144,4 +144,55 @@ public class LocalizationServiceTests
             loc.SetLanguage("en");
         }
     }
+
+    [Fact]
+    public void TouchVariants_WinOnlyWhenPreferred_AndFallBackToTheDesktopWording()
+    {
+        var loc = LocalizedStrings.Instance;
+        var wasTouch = LocalizedStrings.PreferTouchVariants;
+        try
+        {
+            loc.SetLanguage("en");
+            var english = LoadFile("en");
+
+            // A key that has a touch wording: desktop keeps the shortcut hint, touch drops it.
+            const string withVariant = "BoxViewer_SetMenuItem";
+            LocalizedStrings.PreferTouchVariants = false;
+            Assert.Equal(english[withVariant], loc[withVariant]);
+            Assert.Contains("Click", loc[withVariant]);
+
+            LocalizedStrings.PreferTouchVariants = true;
+            Assert.Equal(english[withVariant + LocalizedStrings.TouchVariantSuffix], loc[withVariant]);
+            Assert.DoesNotContain("Click", loc[withVariant]);
+
+            // A key without a touch wording resolves to the shared string either way.
+            const string noVariant = "Menu_File_Save";
+            Assert.Equal(english[noVariant], loc[noVariant]);
+            LocalizedStrings.PreferTouchVariants = false;
+            Assert.Equal(english[noVariant], loc[noVariant]);
+        }
+        finally
+        {
+            LocalizedStrings.PreferTouchVariants = wasTouch;
+            loc.SetLanguage("en");
+        }
+    }
+
+    [Fact]
+    public void TouchVariants_ExistInEveryLanguage()
+    {
+        var english = LoadFile("en");
+        var touchKeys = english.Keys.Where(k => k.EndsWith(LocalizedStrings.TouchVariantSuffix, StringComparison.Ordinal)).ToList();
+        Assert.NotEmpty(touchKeys);
+
+        foreach (var key in touchKeys)
+        {
+            // Every touch wording overrides a real key, so the desktop string must exist too.
+            var baseKey = key[..^LocalizedStrings.TouchVariantSuffix.Length];
+            Assert.True(english.ContainsKey(baseKey), $"en.json has '{key}' but no '{baseKey}' to override.");
+
+            foreach (var code in Languages.Where(c => c != "en"))
+                Assert.True(LoadFile(code).ContainsKey(key), $"{code}.json is missing the touch wording '{key}'.");
+        }
+    }
 }

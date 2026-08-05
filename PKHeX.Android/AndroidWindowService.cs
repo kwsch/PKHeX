@@ -20,6 +20,28 @@ public sealed class AndroidWindowService : IWindowService
 {
     private readonly Dictionary<object, Border> _tools = new();
 
+    /// <summary>
+    /// Close actions for every open overlay, newest last, so the Back gesture can dismiss the
+    /// top-most one instead of leaving the activity.
+    /// </summary>
+    private readonly List<Action> _openOverlays = [];
+
+    public AndroidWindowService() => AndroidHostContext.SetWindowService(this);
+
+    /// <summary>
+    /// Dismisses the top-most overlay. Returns false when none is open, so the caller can fall
+    /// back to Android's default Back behaviour.
+    /// </summary>
+    public bool TryCloseTopOverlay()
+    {
+        if (_openOverlays.Count == 0)
+            return false;
+
+        var close = _openOverlays[^1];
+        close();
+        return true;
+    }
+
     public Task ShowDialogAsync(object viewModel, string title)
     {
         var completion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -39,6 +61,7 @@ public sealed class AndroidWindowService : IWindowService
                 overlay = CreateOverlay(title, global::PKHeX.Avalonia.ViewLocator.Build(viewModel), close);
                 if (viewModel is ICloseableDialog closeable)
                     closeable.CloseRequested = close;
+                _openOverlays.Add(close);
                 root.Overlay.Children.Add(overlay);
                 root.ShowOverlay();
             }
@@ -68,6 +91,7 @@ public sealed class AndroidWindowService : IWindowService
                 if (viewModel is ICloseableDialog closeable)
                     closeable.CloseRequested = close;
                 _tools.Add(viewModel, overlay);
+                _openOverlays.Add(close);
                 root.Overlay.Children.Add(overlay);
                 root.ShowOverlay();
             }
@@ -94,6 +118,7 @@ public sealed class AndroidWindowService : IWindowService
             }
 
             _tools.Clear();
+            _openOverlays.Clear();
             UpdateOverlayHitTesting(root);
         });
     }
@@ -187,7 +212,7 @@ public sealed class AndroidWindowService : IWindowService
         return overlay;
     }
 
-    private static void CloseOverlay(MainView root, Border? overlay, object viewModel, TaskCompletionSource<bool> completion)
+    private void CloseOverlay(MainView root, Border? overlay, object viewModel, TaskCompletionSource<bool> completion)
     {
         RunOnUiThread(() =>
         {
@@ -195,6 +220,7 @@ public sealed class AndroidWindowService : IWindowService
                 root.Overlay.Children.Remove(overlay);
             if (viewModel is ICloseableDialog closeable)
                 closeable.CloseRequested = null;
+            PopOverlay(overlay);
             UpdateOverlayHitTesting(root);
             completion.TrySetResult(true);
         });
@@ -209,8 +235,16 @@ public sealed class AndroidWindowService : IWindowService
             _tools.Remove(viewModel);
             if (viewModel is ICloseableDialog closeable)
                 closeable.CloseRequested = null;
+            PopOverlay(overlay);
             UpdateOverlayHitTesting(root);
         });
+    }
+
+    /// <summary>Drops the close action of an overlay that has just been removed.</summary>
+    private void PopOverlay(Border? overlay)
+    {
+        if (overlay is not null && _openOverlays.Count > 0)
+            _openOverlays.RemoveAt(_openOverlays.Count - 1);
     }
 
     private static void UpdateOverlayHitTesting(MainView root)

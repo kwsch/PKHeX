@@ -22,6 +22,8 @@ public partial class App : global::Avalonia.Application
     {
         Log.Info("PKHEX_ANDROID", "App.Initialize: before XAML");
         AvaloniaXamlLoader.Load(this);
+        // After the XAML palette is in place, so the system accents override the bundled defaults.
+        AndroidDynamicColor.Apply(this);
         Log.Info("PKHEX_ANDROID", "App.Initialize: after XAML");
     }
 
