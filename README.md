@@ -23,8 +23,6 @@ Get the latest build for your platform from the [Releases](https://github.com/do
 
 | Platform | File |
 |----------|------|
-| Windows (x64) | `PKHeX-Avalonia-win-x64.zip`, or the `PKHeX-Avalonia-Setup.exe` installer |
-| Linux (x64) | `PKHeX-Avalonia-linux-x64.zip`, or `PKHeX-Avalonia-linux-x64.AppImage` |
 | macOS Apple Silicon | `PKHeX-Avalonia-osx-arm64-adhoc.zip`, or `PKHeX-Avalonia-osx-arm64-adhoc.dmg` |
 | macOS Intel | `PKHeX-Avalonia-osx-x64-adhoc.zip`, or `PKHeX-Avalonia-osx-x64-adhoc.dmg` |
 
@@ -34,8 +32,7 @@ not Apple-trusted or notarized. On first launch, right-click → **Open**, or ru
 xattr -dr com.apple.quarantine ~/Downloads/PKHeX.Avalonia.app
 ```
 Developer ID/notarized builds have no suffix; `-selfsigned` builds are an optional intermediate
-tier. Windows artifacts ending in `-unsigned` will trigger an OS warning — click **More info** →
-**Run anyway**. See [`docs/packaging.md`](docs/packaging.md) for the signing tiers.
+tier. See [`docs/packaging.md`](docs/packaging.md) for the signing tiers.
 Homebrew installs strip this automatically via the cask's postflight step.
 
 Package-manager installs (Homebrew cask, winget) are templated under `packaging/`, pending signed
@@ -75,6 +72,28 @@ Tests live under `Tests/`: `PKHeX.Core.Tests`, `PKHeX.Avalonia.Tests`, and `PKHe
 * Game-specific editors under Tools, like Pokédex, Hall of Fame, and Secret Base.
 * View and manage Switch received Mystery Gift records for Sword/Shield, BDSP, Legends: Arceus,
   and Scarlet/Violet. This manages the save's gift history—not BCAT delivery or redemption.
+
+### PKHaX mode
+
+PKHaX is the non-official editing mode for personal saves and ROM hacks. In the Avalonia app,
+open **Options → Settings → Startup**, enable **Start in PKHaX mode**, save the setting, and
+restart the app. The status bar and window title will show `PKHaX` when it is active.
+
+For a one-time launch on macOS, close the app first and run:
+
+```bash
+open -a "/path/to/PKHeX.Avalonia.app" --args --hax
+```
+
+The direct executable form also works:
+
+```bash
+"/path/to/PKHeX.Avalonia.app/Contents/MacOS/PKHeX.Avalonia" --hax
+```
+
+Both `hax` and `--hax` are accepted. PKHaX intentionally permits data that the normal legality
+checker rejects; make a backup before editing and do not use it when you need a conventionally
+legal Pokémon.
 
 ### App experience
 

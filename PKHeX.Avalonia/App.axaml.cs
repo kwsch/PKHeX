@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PKHeX.Application;
 using PKHeX.Application.Abstractions;
 using PKHeX.Application.Services;
+using PKHeX.Core;
 using PKHeX.Infrastructure;
 using PKHeX.Infrastructure.Configuration;
 using PKHeX.Avalonia.Services;
@@ -42,6 +44,14 @@ public partial class App : global::Avalonia.Application
         var settings = Services.GetRequiredService<AppSettings>();
         Services.GetRequiredService<LanguageService>().SetLanguage(settings.DisplayLanguage);
 
+        // Apply the Core settings that affect editing behavior, then resolve PKHaX from either the
+        // persisted startup switch or the WinForms-compatible `hax`/`--hax` command-line option.
+        // This must happen before MainWindowViewModel creates a save-specific data source.
+        StartupUtil.ReloadSettings(settings);
+        settings.HaXMode = IsHaXRequested(settings);
+        if (settings.HaXMode)
+            EntityConverter.AllowIncompatibleConversion = EntityCompatibilitySetting.AllowIncompatibleAll;
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var mainViewModel = Services.GetRequiredService<MainWindowViewModel>();
@@ -60,6 +70,22 @@ public partial class App : global::Avalonia.Application
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private static bool IsHaXRequested(AppSettings settings)
+    {
+        if (settings.Startup.ForceHaXOnLaunch)
+            return true;
+
+        foreach (var argument in Environment.GetCommandLineArgs())
+        {
+            var trimmed = argument.AsSpan().Trim('-');
+            if (trimmed.Equals("HaX", StringComparison.CurrentCultureIgnoreCase))
+                return true;
+        }
+
+        var processPath = Environment.ProcessPath;
+        return processPath is not null && Path.GetFileNameWithoutExtension(processPath).EndsWith("HaX");
     }
 
     /// <summary>

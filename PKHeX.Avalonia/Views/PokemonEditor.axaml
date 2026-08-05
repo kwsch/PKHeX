@@ -74,6 +74,7 @@
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Spacing="4">
                                 <!-- Legality -->
                                 <Button Background="Transparent" BorderThickness="0" Padding="4"
+                                        IsVisible="{Binding !IsHaXMode}"
                                         Command="{Binding ShowLegalityCommand}" ToolTip.Tip="{Binding LegalityReport}"
                                         AutomationProperties.Name="Show Legality Report">
                                     <Panel>

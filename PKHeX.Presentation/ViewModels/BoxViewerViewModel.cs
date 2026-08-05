@@ -16,6 +16,7 @@ public partial class BoxViewerViewModel : ViewModelBase, IBoxNavigator
     private readonly ISlotService? _slotService;
     private readonly IWindowService? _windowService;
     private readonly IDialogService? _dialogService;
+    private readonly bool _haxMode;
 
     private const int Columns = 6;
 
@@ -55,13 +56,14 @@ public partial class BoxViewerViewModel : ViewModelBase, IBoxNavigator
         SelectedIndex = slot;
     }
 
-    public BoxViewerViewModel(SaveFile sav, ISpriteRenderer spriteRenderer, ISlotService? slotService = null, IWindowService? windowService = null, IDialogService? dialogService = null)
+    public BoxViewerViewModel(SaveFile sav, ISpriteRenderer spriteRenderer, ISlotService? slotService = null, IWindowService? windowService = null, IDialogService? dialogService = null, bool haxMode = false)
     {
         _sav = sav;
         _spriteRenderer = spriteRenderer;
         _slotService = slotService;
         _windowService = windowService;
         _dialogService = dialogService;
+        _haxMode = haxMode;
         Seek = new EntitySeekViewModel(sav, this);
 
         LoadBox(0);
@@ -121,7 +123,7 @@ public partial class BoxViewerViewModel : ViewModelBase, IBoxNavigator
                 Nature = (byte)pk.Nature,
                 NatureName = StringResourceLookup.Nature((int)pk.Nature),
                 ShowdownSummary = isEmpty ? string.Empty : new ShowdownSet(pk).Text,
-                IsLegal = isEmpty || new LegalityAnalysis(pk).Valid,
+                IsLegal = isEmpty || _haxMode || new LegalityAnalysis(pk).Valid,
                 IsSelected = false,
             };
 

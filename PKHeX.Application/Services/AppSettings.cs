@@ -31,6 +31,14 @@ public sealed class AppSettings : IProgramSettings
     public string DisplayLanguage { get; set; } = "en";
 
     /// <summary>
+    /// Runtime-only flag for the current process. The persisted switch lives under
+    /// <see cref="StartupSettings.ForceHaXOnLaunch"/>; this value also includes the command-line
+    /// <c>--hax</c> request and is deliberately not written to the settings file.
+    /// </summary>
+    [JsonIgnore]
+    public bool HaXMode { get; set; }
+
+    /// <summary>
     /// Forward-compatibility bucket: any JSON keys written by a newer version that this build does
     /// not recognize are captured here and re-emitted on save, so upgrading/downgrading does not
     /// silently drop settings. See issue #138 acceptance criteria.

@@ -18,8 +18,8 @@ dotnet test PKHeX.sln -c Release
 dotnet publish PKHeX.Avalonia -c Release -r osx-arm64 --self-contained -p:PublishSingleFile=true
 ```
 
-CI (`.github/workflows/ci.yml`) builds and tests on Windows, macOS, and Linux for every push and
-pull request. `release.yml` builds installers/packages when a `v*` tag is pushed — see
+CI (`.github/workflows/ci.yml`) builds and tests on macOS for every push and pull request.
+`release.yml` builds macOS installers/packages when a `v*` tag is pushed — see
 [packaging.md](packaging.md).
 
 ## Clean Architecture layer map
@@ -114,10 +114,10 @@ git tag -a "v$VERSION" -m "PKHeX-Avalonia $VERSION"
 git push origin "v$VERSION"
 ```
 
-GitHub Actions then builds the self-contained Windows, Linux, macOS Apple Silicon, and macOS
-Intel artifacts, applies the available signing tier, and publishes one GitHub Release with all
-assets plus `SHA256SUMS.txt`. With no Apple credentials configured, macOS uses the no-cost ad-hoc
-tier and names those assets with the `-adhoc` suffix. Do not reuse a version tag for a new release;
+GitHub Actions then builds the self-contained macOS Apple Silicon and macOS Intel artifacts,
+applies the available signing tier, and publishes one GitHub Release with those assets plus
+`SHA256SUMS.txt`. With no Apple credentials configured, macOS uses the no-cost ad-hoc tier and
+names those assets with the `-adhoc` suffix. Do not reuse a version tag for a new release;
 increment `<UIVersion>` according to the SemVer policy above.
 
 ## Localization contribution guide

@@ -22,8 +22,10 @@ jobs:
       !startsWith(github.event.head_commit.message, 'Merge pull request #')
     strategy:
       fail-fast: false
+      # Current maintained target: macOS. Keep the matrix shape so the artifact naming and
+      # future platform expansion remain straightforward without spending CI time today.
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
