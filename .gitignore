@@ -249,3 +249,8 @@ docs/superpowers/
 #############
 
 .playwright-mcp/
+#############
+## Local agent run logs / device screenshots (never commit)
+#############
+
+.local/

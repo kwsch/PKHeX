@@ -1,0 +1,30 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:PKHeX.Avalonia.Converters"
+             x:Class="PKHeX.Android.App"
+             RequestedThemeVariant="Dark">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="SystemAccentColor">#E3350D</Color>
+            <Color x:Key="SystemAccentColorDark1">#CC0000</Color>
+            <Color x:Key="SystemAccentColorDark2">#990000</Color>
+            <Color x:Key="SystemAccentColorDark3">#660000</Color>
+            <Color x:Key="SystemAccentColorLight1">#FF5533</Color>
+            <Color x:Key="SystemAccentColorLight2">#FF7755</Color>
+            <Color x:Key="SystemAccentColorLight3">#FF9977</Color>
+            <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="SystemControlFocusVisualSecondaryBrush" Color="Transparent" />
+            <converters:ObjectNullConverter x:Key="ObjectNullConverter" />
+            <converters:ObjectNotNullConverter x:Key="ObjectNotNullConverter" />
+            <converters:ObjectTrueConverter x:Key="ObjectTrueConverter" />
+            <converters:ObjectFalseConverter x:Key="ObjectFalseConverter" />
+            <converters:PngBytesToBitmapConverter x:Key="PngBytesToBitmap" />
+            <converters:RibbonIconConverter x:Key="RibbonIcon" />
+        </ResourceDictionary>
+    </Application.Resources>
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="avares://PKHeX.Avalonia/Styles/Theme.axaml" />
+    </Application.Styles>
+</Application>

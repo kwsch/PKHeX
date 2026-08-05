@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <!-- Use the signed APK for dotnet run so the smoke test exercises the packaged host. -->
+    <_AndroidFastDeploymentSupported>false</_AndroidFastDeploymentSupported>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+
+    <!-- The host has no debugger/Hot Reload requirement; return after am start succeeds. -->
+    <WaitForExit>false</WaitForExit>
+  </PropertyGroup>
+</Project>
