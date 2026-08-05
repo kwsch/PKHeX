@@ -40,8 +40,12 @@
         <Setter Property="MinHeight" Value="48" />
     </Style>
 
+    <!-- Desktop tab labels are sized for a wide window; at that size the entity editor's eight
+         section tabs need three rows on a phone. -->
     <Style Selector="TabItem">
         <Setter Property="MinHeight" Value="48" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="8,4" />
     </Style>
 
     <!-- Bottom navigation: five destinations only fit on one row at a label size the desktop

@@ -3,6 +3,7 @@
              xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
              xmlns:loc="using:PKHeX.Avalonia.Localization"
              xmlns:controls="clr-namespace:PKHeX.Avalonia.Controls"
+             xmlns:views="clr-namespace:PKHeX.Avalonia.Views"
              x:Class="PKHeX.Avalonia.Views.PokemonEditor"
              x:DataType="vm:PokemonEditorViewModel"
              Focusable="False"
@@ -117,7 +118,8 @@
                 </Grid>
 
                 <!-- Tab Control -->
-                <TabControl Grid.Row="1" TabStripPlacement="Left" Focusable="False" 
+                <!-- Left on desktop, top on a phone: see PlatformLayout. -->
+                <TabControl Grid.Row="1" TabStripPlacement="{x:Static views:PlatformLayout.EditorTabStripPlacement}" Focusable="False"
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                             ClipToBounds="True">
                                     <!-- Main Tab -->
@@ -235,18 +237,17 @@
                                     <!-- Ability. In PKHaX the list is every ability, not just the species' own. -->
                                     <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,8,0,0">
                                         <TextBlock Text="{loc:Loc PokemonEditor_Ability}" FontWeight="SemiBold" Margin="0,0,0,4" />
-                                        <DockPanel>
-                                            <StackPanel DockPanel.Dock="Right" IsVisible="{Binding ShowAbilityNumber}" Margin="6,0,0,0">
-                                                <TextBlock Text="{loc:Loc PokemonEditor_AbilityNumber}" FontSize="10" Opacity="0.7" />
-                                                <NumericUpDown Value="{Binding AbilityNumber}" Minimum="0" Maximum="4"
-                                                               FormatString="0" Classes="compact" Width="72"
-                                                               AutomationProperties.Name="Ability slot number" />
-                                            </StackPanel>
-                                            <ComboBox ItemsSource="{Binding AbilityList}"
-                                                      SelectedValue="{Binding Ability}" SelectedValueBinding="{Binding Value}"
-                                                      DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch"
-                                                      MinWidth="120" />
-                                        </DockPanel>
+                                        <ComboBox ItemsSource="{Binding AbilityList}"
+                                                  SelectedValue="{Binding Ability}" SelectedValueBinding="{Binding Value}"
+                                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                                        <StackPanel IsVisible="{Binding ShowAbilityNumber}" Orientation="Horizontal"
+                                                    Spacing="6" Margin="0,4,0,0">
+                                            <TextBlock Text="{loc:Loc PokemonEditor_AbilityNumber}" FontSize="10"
+                                                       Opacity="0.7" VerticalAlignment="Center" />
+                                            <NumericUpDown Value="{Binding AbilityNumber}" Minimum="0" Maximum="4"
+                                                           FormatString="0" Classes="compact" Width="72"
+                                                           AutomationProperties.Name="Ability slot number" />
+                                        </StackPanel>
                                     </StackPanel>
                                     
                                     <!-- Language -->
