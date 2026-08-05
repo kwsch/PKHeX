@@ -389,8 +389,115 @@ jobs:
           if-no-files-found: ignore
           retention-days: 5
 
+  # Android ships from the same tag as macOS so the two stay on one version.
+  # It is a separate job because the Android leg needs a JDK and the android
+  # workload, which the macOS legs do not.
+  build-android:
+    needs: check-version
+    if: needs.check-version.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'microsoft'
+          java-version: '21'
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+          dotnet-quality: 'ga'
+
+      - name: Install Android workload
+        run: dotnet workload install android
+
+      # Two-tier signing, mirroring the macOS ladder:
+      #   1. Release keystore secrets present → upgradeable, distributable APK
+      #   2. else                             → the SDK's debug keystore, artifact
+      #      suffixed "-debugsigned" so nobody mistakes it for a shippable build
+      # An APK signed by a different key cannot upgrade an installed one in
+      # place, so switching tiers means users must uninstall first.
+      - name: Determine Android signing capability
+        id: android_sign
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ] && [ -n "$ANDROID_KEYSTORE_PASSWORD" ] && [ -n "$ANDROID_KEY_ALIAS" ] && [ -n "$ANDROID_KEY_PASSWORD" ]; then
+            echo "Release keystore present — will produce a signed, upgradeable APK"
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Release keystore absent — will produce a DEBUG-SIGNED APK"
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Import release keystore
+        if: steps.android_sign.outputs.enabled == 'true'
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.keystore"
+          echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
+
+      - name: Build signed APK
+        if: steps.android_sign.outputs.enabled == 'true'
+        run: >
+          dotnet publish PKHeX.Android/PKHeX.Android.csproj
+          -c Release
+          -p:UIVersion=${{ needs.check-version.outputs.version }}
+          -p:AndroidKeyStore=true
+          -p:AndroidSigningKeyStore="$ANDROID_KEYSTORE_PATH"
+          -p:AndroidSigningStorePass="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
+          -p:AndroidSigningKeyAlias="${{ secrets.ANDROID_KEY_ALIAS }}"
+          -p:AndroidSigningKeyPass="${{ secrets.ANDROID_KEY_PASSWORD }}"
+          -o publish-android
+
+      - name: Build debug-signed APK
+        if: steps.android_sign.outputs.enabled != 'true'
+        run: >
+          dotnet publish PKHeX.Android/PKHeX.Android.csproj
+          -c Release
+          -p:UIVersion=${{ needs.check-version.outputs.version }}
+          -o publish-android
+
+      - name: Collect APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.android_sign.outputs.enabled }}" = "true" ]; then
+            SUFFIX=""
+          else
+            SUFFIX="-debugsigned"
+          fi
+          # The Android SDK emits both an unsigned and a "-Signed" APK; only the
+          # signed one is installable.
+          apk=$(find publish-android -name '*-Signed.apk' -print -quit)
+          if [ -z "$apk" ]; then
+            echo "No signed APK produced" >&2
+            exit 1
+          fi
+          cp "$apk" "PKHeX-Android-arm64${SUFFIX}.apk"
+          rm -f "$ANDROID_KEYSTORE_PATH" || true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: PKHeX-Android
+          path: PKHeX-Android-*.apk
+          if-no-files-found: error
+          retention-days: 5
+
   release:
-    needs: [check-version, build]
+    needs: [check-version, build, build-android]
     runs-on: ubuntu-latest
 
     steps:
@@ -438,6 +545,7 @@ jobs:
             artifacts/**/*.zip
             artifacts/**/*.AppImage
             artifacts/**/*.dmg
+            artifacts/**/*.apk
             artifacts/**/PKHeX-Avalonia-Setup*.exe
           draft: false
           prerelease: false

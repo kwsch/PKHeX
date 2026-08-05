@@ -205,6 +205,21 @@ WinForms UI changes, version bump, PR, and auto-merge once CI is green — is en
 
 ## Working notes
 
+- 2026-08-05 — `PKHeX.Android` is a real Avalonia host, not a PoC: it references `PKHeX.Avalonia`
+  with `OutputType=Library` (the SDK rejects a `WinExe` as a self-contained Android dependency,
+  NETSDK1150) and replaces only host adapters — SAF dialogs, a SAF↔local-path storage bridge,
+  overlay-based `IWindowService` (Android's Avalonia backend has no `Window`), clipboard. Two
+  Android-specific constraints to remember: the single view owns **one** native text-input
+  connection, so a tool overlay must *become* the root content (`MainView.ShowOverlay/
+  ShowMainContent`) rather than stack above the editor, or IME text goes to the wrong control; and
+  the desktop's fixed 520px editor side panel does not fit a phone, so `AndroidMainView.axaml`
+  makes the entity editor the first tab of one full-width `TabControl`. Android is not in `ci.yml`
+  (macOS-only) — build it locally before tagging a release.
+- 2026-08-05 — Releases: one `v<UIVersion>` tag ships macOS **and** Android from
+  `release.yml`; the `release` job needs both legs, so a broken Android build blocks the release
+  instead of publishing a macOS-only one. Procedure, signing tiers, Android keystore secrets, and
+  how releases hang off the upstream-sync loop are in `docs/releasing.md`.
+
 <!-- Any agent: append short dated notes here (YYYY-MM-DD — note). Prune notes when stale or once folded into the sections above. -->
 
 - 2026-07-19 — Issue #167 adds a save-side Switch Mystery Gift record manager in `feat/switch-gift-records`: SWSH (50 WR8 records), BDSP (50 records + 10 one-day entries, 2048 received flags, serial lock), PLA (50 trimmed WA8 records), and SV (32 retained trimmed WC9 records). Imports are deliberately limited to documented conversions; no BCAT redemption forging. The BDSP flag adapter accesses the full bitfield directly because upstream Core's helper shifts by 8 instead of 3.
