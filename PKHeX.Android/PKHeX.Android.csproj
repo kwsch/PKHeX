@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>31.0</SupportedOSPlatformVersion>
+    <AndroidMinSdkVersion>31</AndroidMinSdkVersion>
+    <AndroidTargetSdkVersion>36</AndroidTargetSdkVersion>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <ApplicationId>io.github.doctorllll.pkhex.android</ApplicationId>
+    <ApplicationTitle>PKHeX</ApplicationTitle>
+    <RootNamespace>PKHeX.Android</RootNamespace>
+    <AssemblyTitle>PKHeX Android</AssemblyTitle>
+    <Product>PKHeX</Product>
+    <Version>$(UIVersion)</Version>
+    <AssemblyVersion>$(UIVersion).0</AssemblyVersion>
+    <FileVersion>$(UIVersion).0</FileVersion>
+    <InformationalVersion>$(UIVersion)</InformationalVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.18" />
+    <PackageReference Include="Avalonia.Android" Version="11.3.18" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.18" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.18" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
+    <!-- Keep the Android native renderer on the repository's SkiaSharp 3.x line. Avalonia.Skia
+         11.3.18 otherwise resolves its legacy 2.88.9 Android native asset, which triggers the
+         Android 16 16-KB-page-size warning during APK packaging. -->
+    <PackageReference Include="SkiaSharp" Version="3.119.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PKHeX.Core\PKHeX.Core.csproj" />
+    <ProjectReference Include="..\PKHeX.Application\PKHeX.Application.csproj" />
+    <ProjectReference Include="..\PKHeX.Infrastructure\PKHeX.Infrastructure.csproj" />
+    <ProjectReference Include="..\PKHeX.Presentation\PKHeX.Presentation.csproj" />
+  </ItemGroup>
+</Project>
