@@ -153,6 +153,15 @@
                                                   DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
                                     </StackPanel>
 
+                                    <!-- PKHaX: raw form value, including forms the species does not define -->
+                                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,8,0,0"
+                                                IsVisible="{Binding ShowFormEntry}" HorizontalAlignment="Right">
+                                        <TextBlock Text="{loc:Loc PokemonEditor_FormValue}" FontWeight="SemiBold" Margin="0,0,0,4" />
+                                        <NumericUpDown Value="{Binding Form}" Minimum="0" Maximum="{Binding FormEntryMax}"
+                                                       FormatString="0" Classes="compact" Width="88"
+                                                       AutomationProperties.Name="Form value" />
+                                    </StackPanel>
+
                                     <!-- Gender -->
                                     <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,8,0,0">
                                         <TextBlock Text="{loc:Loc PokemonEditor_Gender}" FontWeight="SemiBold" Margin="0,0,0,4" />
@@ -223,12 +232,20 @@
                                         </StackPanel>
                                     </StackPanel>
 
-                                    <!-- Ability -->
+                                    <!-- Ability. In PKHaX the list is every ability, not just the species' own. -->
                                     <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,8,0,0">
                                         <TextBlock Text="{loc:Loc PokemonEditor_Ability}" FontWeight="SemiBold" Margin="0,0,0,4" />
-                                        <ComboBox ItemsSource="{Binding AbilityList}"
-                                                  SelectedValue="{Binding Ability}" SelectedValueBinding="{Binding Value}"
-                                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                                        <DockPanel>
+                                            <StackPanel DockPanel.Dock="Right" IsVisible="{Binding ShowAbilityNumber}" Margin="6,0,0,0">
+                                                <TextBlock Text="{loc:Loc PokemonEditor_AbilityNumber}" FontSize="10" Opacity="0.7" />
+                                                <NumericUpDown Value="{Binding AbilityNumber}" Minimum="0" Maximum="4"
+                                                               FormatString="0" Classes="compact" Width="72"
+                                                               AutomationProperties.Name="Ability slot number" />
+                                            </StackPanel>
+                                            <ComboBox ItemsSource="{Binding AbilityList}"
+                                                      SelectedValue="{Binding Ability}" SelectedValueBinding="{Binding Value}"
+                                                      DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" />
+                                        </DockPanel>
                                     </StackPanel>
                                     
                                     <!-- Language -->
@@ -273,6 +290,10 @@
                 <TabItem Header="{loc:Loc PokemonEditor_TabStats}">
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <StackPanel Spacing="12" Margin="6,6,6,64">
+                        <!-- PKHaX: write the final stats directly instead of deriving them -->
+                        <CheckBox Content="{loc:Loc PokemonEditor_HackedStats}" IsChecked="{Binding HackedStats}"
+                                  IsVisible="{Binding CanHackStats}" Margin="4,0,0,0"
+                                  ToolTip.Tip="{loc:Loc PokemonEditor_HackedStatsTooltip}" />
                         <Border Classes="section-card"
                                 CornerRadius="4" Padding="8">
                             <Grid ColumnDefinitions="40,*,*,*,*,*" RowDefinitions="Auto,Auto,4,Auto,Auto,Auto,Auto,Auto,Auto">
@@ -301,7 +322,8 @@
                                 <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Base_HP}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" />
                                 <NumericUpDown Grid.Row="3" Grid.Column="2" Value="{Binding IvHP}" Minimum="0" Maximum="31" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="HP IV" />
                                 <NumericUpDown Grid.Row="3" Grid.Column="3" Value="{Binding EvHP}" Minimum="0" Maximum="252" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="HP EV" />
-                                <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Stat_HP}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Stat_HP}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !HackedStats}" />
+                                <NumericUpDown Grid.Row="3" Grid.Column="4" Value="{Binding Stat_HP}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="2" IsVisible="{Binding HackedStats}" AutomationProperties.Name="HP stat" />
                                 <CheckBox Grid.Row="3" Grid.Column="5" Content="{loc:Loc StatsHyperTrained}" IsChecked="{Binding HyperTrainedHP, Mode=TwoWay}" IsEnabled="{Binding CanHyperTrain}" IsVisible="{Binding HasHyperTraining}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                                 <!-- Atk -->
@@ -309,7 +331,8 @@
                                 <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Base_ATK}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" />
                                 <NumericUpDown Grid.Row="4" Grid.Column="2" Value="{Binding IvATK}" Minimum="0" Maximum="31" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="Attack IV" />
                                 <NumericUpDown Grid.Row="4" Grid.Column="3" Value="{Binding EvATK}" Minimum="0" Maximum="252" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="Attack EV" />
-                                <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding Stat_ATK}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding Stat_ATK}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !HackedStats}" />
+                                <NumericUpDown Grid.Row="4" Grid.Column="4" Value="{Binding Stat_ATK}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="2" IsVisible="{Binding HackedStats}" AutomationProperties.Name="Attack stat" />
                                 <CheckBox Grid.Row="4" Grid.Column="5" Content="{loc:Loc StatsHyperTrained}" IsChecked="{Binding HyperTrainedATK, Mode=TwoWay}" IsEnabled="{Binding CanHyperTrain}" IsVisible="{Binding HasHyperTraining}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                                 <!-- Def -->
@@ -317,7 +340,8 @@
                                 <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Base_DEF}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" />
                                 <NumericUpDown Grid.Row="5" Grid.Column="2" Value="{Binding IvDEF}" Minimum="0" Maximum="31" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="Defense IV" />
                                 <NumericUpDown Grid.Row="5" Grid.Column="3" Value="{Binding EvDEF}" Minimum="0" Maximum="252" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="Defense EV" />
-                                <TextBlock Grid.Row="5" Grid.Column="4" Text="{Binding Stat_DEF}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="5" Grid.Column="4" Text="{Binding Stat_DEF}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !HackedStats}" />
+                                <NumericUpDown Grid.Row="5" Grid.Column="4" Value="{Binding Stat_DEF}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="2" IsVisible="{Binding HackedStats}" AutomationProperties.Name="Defense stat" />
                                 <CheckBox Grid.Row="5" Grid.Column="5" Content="{loc:Loc StatsHyperTrained}" IsChecked="{Binding HyperTrainedDEF, Mode=TwoWay}" IsEnabled="{Binding CanHyperTrain}" IsVisible="{Binding HasHyperTraining}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                                 <!-- SpA -->
@@ -325,7 +349,8 @@
                                 <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Base_SPA}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" />
                                 <NumericUpDown Grid.Row="6" Grid.Column="2" Value="{Binding IvSPA}" Minimum="0" Maximum="31" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="Special Attack IV" />
                                 <NumericUpDown Grid.Row="6" Grid.Column="3" Value="{Binding EvSPA}" Minimum="0" Maximum="252" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="Special Attack EV" />
-                                <TextBlock Grid.Row="6" Grid.Column="4" Text="{Binding Stat_SPA}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="6" Grid.Column="4" Text="{Binding Stat_SPA}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !HackedStats}" />
+                                <NumericUpDown Grid.Row="6" Grid.Column="4" Value="{Binding Stat_SPA}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="2" IsVisible="{Binding HackedStats}" AutomationProperties.Name="Special Attack stat" />
                                 <CheckBox Grid.Row="6" Grid.Column="5" Content="{loc:Loc StatsHyperTrained}" IsChecked="{Binding HyperTrainedSPA, Mode=TwoWay}" IsEnabled="{Binding CanHyperTrain}" IsVisible="{Binding HasHyperTraining}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                                 <!-- SpD -->
@@ -333,7 +358,8 @@
                                 <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding Base_SPD}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" />
                                 <NumericUpDown Grid.Row="7" Grid.Column="2" Value="{Binding IvSPD}" Minimum="0" Maximum="31" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="Special Defense IV" />
                                 <NumericUpDown Grid.Row="7" Grid.Column="3" Value="{Binding EvSPD}" Minimum="0" Maximum="252" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="Special Defense EV" />
-                                <TextBlock Grid.Row="7" Grid.Column="4" Text="{Binding Stat_SPD}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="7" Grid.Column="4" Text="{Binding Stat_SPD}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !HackedStats}" />
+                                <NumericUpDown Grid.Row="7" Grid.Column="4" Value="{Binding Stat_SPD}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="2" IsVisible="{Binding HackedStats}" AutomationProperties.Name="Special Defense stat" />
                                 <CheckBox Grid.Row="7" Grid.Column="5" Content="{loc:Loc StatsHyperTrained}" IsChecked="{Binding HyperTrainedSPD, Mode=TwoWay}" IsEnabled="{Binding CanHyperTrain}" IsVisible="{Binding HasHyperTraining}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                                 <!-- Spe -->
@@ -341,7 +367,8 @@
                                 <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding Base_SPE}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.7" />
                                 <NumericUpDown Grid.Row="8" Grid.Column="2" Value="{Binding IvSPE}" Minimum="0" Maximum="31" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="Speed IV" />
                                 <NumericUpDown Grid.Row="8" Grid.Column="3" Value="{Binding EvSPE}" Minimum="0" Maximum="252" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" Margin="2" AutomationProperties.Name="Speed EV" />
-                                <TextBlock Grid.Row="8" Grid.Column="4" Text="{Binding Stat_SPE}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Grid.Row="8" Grid.Column="4" Text="{Binding Stat_SPE}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !HackedStats}" />
+                                <NumericUpDown Grid.Row="8" Grid.Column="4" Value="{Binding Stat_SPE}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="2" IsVisible="{Binding HackedStats}" AutomationProperties.Name="Speed stat" />
                                 <CheckBox Grid.Row="8" Grid.Column="5" Content="{loc:Loc StatsHyperTrained}" IsChecked="{Binding HyperTrainedSPE, Mode=TwoWay}" IsEnabled="{Binding CanHyperTrain}" IsVisible="{Binding HasHyperTraining}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Grid>
                         </Border>
