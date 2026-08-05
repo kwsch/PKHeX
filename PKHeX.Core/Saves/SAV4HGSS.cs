@@ -222,13 +222,13 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     public void SetPokeGearRoloDex(ReadOnlySpan<PokegearNumber> value) => value.CopyTo(GetPokeGearRoloDex());
 
     /// <summary>
-    /// Returns the opposite-gender player character rival, which should not appear as a phone contact.
+    /// Returns the player's own on-screen character (Ethan/Lyra), which should not appear as a phone contact.
     /// </summary>
-    private PokegearNumber OppositeGenderRival => Gender == 0 ? PokegearNumber.Lyra : PokegearNumber.Ethan;
+    private PokegearNumber PlayerCharacterRival => Gender == 0 ? PokegearNumber.Ethan : PokegearNumber.Lyra;
 
     public void PokeGearUnlockAllCallers()
     {
-        var excluded = OppositeGenderRival;
+        var excluded = PlayerCharacterRival;
         int index = 0;
         for (int i = 0; i < GearCallerCount; i++)
         {
@@ -265,7 +265,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
 
     public void PokeGearUnlockAllCallersNoTrainers()
     {
-        var excluded = OppositeGenderRival;
+        var excluded = PlayerCharacterRival;
         var dex = GetPokeGearRoloDex();
 
         int index = 0;
