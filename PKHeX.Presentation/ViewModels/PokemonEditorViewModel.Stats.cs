@@ -89,14 +89,78 @@ public partial class PokemonEditorViewModel
     [ObservableProperty]
     private bool _hyperTrainedSPE;
 
+    /// <summary>
+    /// PKHaX: write the final stats directly instead of deriving them from level/IVs/EVs/nature.
+    /// Mirrors upstream's "hacked stats" toggle — only offered in PKHaX mode, off by default.
+    /// </summary>
+    [ObservableProperty]
+    private bool _hackedStats;
+
+    /// <summary>Whether the hacked-stats toggle is offered at all.</summary>
+    public bool CanHackStats => IsHaXMode;
+
+    partial void OnHackedStatsChanged(bool value)
+    {
+        if (_isLoading) return;
+        if (!value)
+            RecalculateStats(); // leaving hacked mode restores the derived values
+        NotifyStatsChanged();
+    }
+
     // Computed Stats — RecalculateStats() is called in the OnChanged hooks before
     // PropertyChanged fires, so _pk is already up-to-date by the time these are read.
-    public int Stat_HP => _pk.Stat_HPMax;
-    public int Stat_ATK => _pk.Stat_ATK;
-    public int Stat_DEF => _pk.Stat_DEF;
-    public int Stat_SPA => _pk.Stat_SPA;
-    public int Stat_SPD => _pk.Stat_SPD;
-    public int Stat_SPE => _pk.Stat_SPE;
+    // With HackedStats on they become writable and hold whatever was typed.
+    public int Stat_HP
+    {
+        get => _pk.Stat_HPMax;
+        set
+        {
+            if (!HackedStats || _pk.Stat_HPMax == value) return;
+            _pk.Stat_HPMax = value;
+            _pk.Stat_HPCurrent = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int Stat_ATK
+    {
+        get => _pk.Stat_ATK;
+        set { if (HackedStats && _pk.Stat_ATK != value) { _pk.Stat_ATK = value; OnPropertyChanged(); } }
+    }
+
+    public int Stat_DEF
+    {
+        get => _pk.Stat_DEF;
+        set { if (HackedStats && _pk.Stat_DEF != value) { _pk.Stat_DEF = value; OnPropertyChanged(); } }
+    }
+
+    public int Stat_SPA
+    {
+        get => _pk.Stat_SPA;
+        set { if (HackedStats && _pk.Stat_SPA != value) { _pk.Stat_SPA = value; OnPropertyChanged(); } }
+    }
+
+    public int Stat_SPD
+    {
+        get => _pk.Stat_SPD;
+        set { if (HackedStats && _pk.Stat_SPD != value) { _pk.Stat_SPD = value; OnPropertyChanged(); } }
+    }
+
+    public int Stat_SPE
+    {
+        get => _pk.Stat_SPE;
+        set { if (HackedStats && _pk.Stat_SPE != value) { _pk.Stat_SPE = value; OnPropertyChanged(); } }
+    }
+
+    private void NotifyStatsChanged()
+    {
+        OnPropertyChanged(nameof(Stat_HP));
+        OnPropertyChanged(nameof(Stat_ATK));
+        OnPropertyChanged(nameof(Stat_DEF));
+        OnPropertyChanged(nameof(Stat_SPA));
+        OnPropertyChanged(nameof(Stat_SPD));
+        OnPropertyChanged(nameof(Stat_SPE));
+    }
 
     // Base Stats
     public int Base_HP => _pk.PersonalInfo.HP;
@@ -150,7 +214,8 @@ public partial class PokemonEditorViewModel
             ht.HT_SPD = HyperTrainedSPD;
             ht.HT_SPE = HyperTrainedSPE;
         }
-        _pk.ResetPartyStats();
+        if (!HackedStats)
+            _pk.ResetPartyStats(); // hacked stats are authoritative; don't recompute over them
     }
 
     [RelayCommand]

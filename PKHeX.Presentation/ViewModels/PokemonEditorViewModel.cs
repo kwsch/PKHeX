@@ -107,6 +107,28 @@ public partial class PokemonEditorViewModel : ViewModelBase
 
     public bool HasForms => FormList.Count > 1;
     public bool IsHaXMode => _haxMode;
+
+    /// <summary>
+    /// PKHaX: offer every ability instead of the species' own. Gen1-3 derive the ability from the
+    /// PID, so there is nothing to pick there and the restricted list stays (matches upstream's
+    /// <c>format &gt; 3</c> gate).
+    /// </summary>
+    public bool ShowFullAbilityList => _haxMode && _pk.Format > 3;
+
+    /// <summary>
+    /// PKHaX: Gen6 onward stores which ability slot (1/2/H) the entity uses separately from the
+    /// ability value, so it has to be set explicitly once the value is unrestricted.
+    /// </summary>
+    public bool ShowAbilityNumber => _haxMode && _pk.Format >= 6;
+
+    /// <summary>
+    /// PKHaX: let a form value be typed even when the species has no form selection, so forms that
+    /// do not exist for the species can still be written (matches upstream's <c>format &gt;= 4</c>).
+    /// </summary>
+    public bool ShowFormEntry => _haxMode && _pk.Format >= 4;
+
+    /// <summary>Highest form index the raw form entry accepts; the field is one byte wide.</summary>
+    public int FormEntryMax => byte.MaxValue;
     public PKM TargetPKM => _pk;
 
     public PokemonEditorViewModel(PKM pk, SaveFile sav, ISpriteRenderer spriteRenderer, IDialogService dialogService, IWindowService windowService, bool haxMode = false)
@@ -435,8 +457,19 @@ public partial class PokemonEditorViewModel : ViewModelBase
     private void UpdateAbilityList(bool preserveSelection = true)
     {
         var currentAbility = Ability;
-        var pi = _sav.Personal.GetFormEntry((ushort)Species, (byte)Form);
-        AbilityList = new ObservableCollection<ComboItem>(GameInfo.FilteredSources.GetAbilityList(pi));
+
+        // Gen4 onward stores the ability value itself rather than deriving it from the PID, so any
+        // ability can be assigned. Upstream swaps its species-restricted dropdown for a full-list
+        // control in HaX; here the same dropdown just gets the unrestricted list.
+        if (ShowFullAbilityList)
+        {
+            AbilityList = new ObservableCollection<ComboItem>(GameInfo.FilteredSources.Abilities);
+        }
+        else
+        {
+            var pi = _sav.Personal.GetFormEntry((ushort)Species, (byte)Form);
+            AbilityList = new ObservableCollection<ComboItem>(GameInfo.FilteredSources.GetAbilityList(pi));
+        }
 
         if (_isLoading || !preserveSelection) return;
 
@@ -461,9 +494,13 @@ public partial class PokemonEditorViewModel : ViewModelBase
 
         if (_isLoading || !preserveSelection) return;
 
-        Form = FormList.Any(f => f.Value == currentForm)
-            ? currentForm
-            : FormList.Count > 0 ? FormList[0].Value : 0;
+        // PKHaX keeps whatever form value was typed, including one the species does not define.
+        if (!ShowFormEntry)
+        {
+            Form = FormList.Any(f => f.Value == currentForm)
+                ? currentForm
+                : FormList.Count > 0 ? FormList[0].Value : 0;
+        }
 
         OnPropertyChanged(nameof(HasForms));
     }
@@ -514,6 +551,8 @@ public partial class PokemonEditorViewModel : ViewModelBase
         _pk.StatAlignment = (Nature)StatAlignment;
         _pk.Nature = (Nature)Nature;
         _pk.Ability = Ability;
+        if (ShowAbilityNumber)
+            _pk.AbilityNumber = AbilityNumber;
         _pk.HeldItem = HeldItem;
         _pk.Ball = (byte)Ball;
         _pk.Gender = (byte)Gender;
