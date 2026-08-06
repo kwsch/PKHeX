@@ -81,13 +81,27 @@
                 </Grid>
             </Border>
 
-            <!-- Footer -->
+            <!-- Footer. While a move is armed the hint is replaced by the move prompt, so the
+                 state is visible without a separate banner. -->
             <TextBlock DockPanel.Dock="Bottom"
                        Text="{loc:Loc BoxViewer_FooterHelp}"
+                       IsVisible="{Binding !IsMovePending}"
                        Foreground="{DynamicResource ThemeTextMutedBrush}"
                        FontSize="11"
                        HorizontalAlignment="Center"
                        Margin="0,12,0,0" />
+
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="12"
+                        IsVisible="{Binding IsMovePending}"
+                        HorizontalAlignment="Center" Margin="0,12,0,0">
+                <TextBlock Text="{loc:Loc BoxViewer_MovePending}"
+                           Foreground="{DynamicResource ThemeAccentBrush}"
+                           FontSize="11" VerticalAlignment="Center" />
+                <Button Content="{loc:Loc BoxViewer_MoveCancel}"
+                        Command="{Binding CancelMoveCommand}"
+                        Padding="8,2" FontSize="11"
+                        AutomationProperties.Name="Cancel move" />
+            </StackPanel>
 
             <!-- Box Grid (6 columns x 5 rows = 30 slots) - Fills available space -->
             <Border Classes="card-elevated" Padding="4">
@@ -126,6 +140,10 @@
                                                   Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).SetSlotCommand}"
                                                   CommandParameter="{Binding}" />
                                         <Separator />
+                                        <MenuItem Header="{loc:Loc BoxViewer_MoveMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).BeginMoveCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
                                         <MenuItem Header="{loc:Loc BoxViewer_DeleteMenuItem}"
                                                   Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).DeleteSlotCommand}"
                                                   CommandParameter="{Binding}"
