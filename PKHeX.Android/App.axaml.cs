@@ -70,6 +70,19 @@ public partial class App : global::Avalonia.Application
         Log.Info("PKHEX_ANDROID", "InitializeFullApplication: services built");
 
         var settings = _services.GetRequiredService<AppSettings>();
+
+        // First run only — no settings file yet — start in the phone's language instead of English.
+        // Keyed on the file's absence rather than the language value, so someone who deliberately
+        // picks English on a Chinese phone is not flipped back on every launch. Persisting it here
+        // also means this branch never runs for them again.
+        var paths = _services.GetRequiredService<IAppPaths>();
+        if (!File.Exists(paths.ConfigFilePath))
+        {
+            settings.DisplayLanguage = AndroidSystemLanguage.Resolve(LocalizedStrings.SupportedLanguages);
+            Log.Info("PKHEX_ANDROID", $"First run: adopting system language {settings.DisplayLanguage}");
+            _services.GetRequiredService<ISettingsStore>().Save(settings);
+        }
+
         settings.HaXMode = true;
         settings.Startup.ForceHaXOnLaunch = true;
         StartupUtil.ReloadSettings(settings);
