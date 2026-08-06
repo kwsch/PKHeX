@@ -12,6 +12,17 @@
     <AssemblyTitle>PKHeX Android</AssemblyTitle>
     <Product>PKHeX</Product>
     <Version>$(UIVersion)</Version>
+
+    <!-- android:versionCode. Android decides what counts as an upgrade from this integer, not from
+         the version name, and it defaulted to 1 on every release: an updater or store would have
+         seen every build as the same version. Derived from UIVersion so it rises with each release
+         on its own. The scheme (major*100000 + minor*1000 + patch) holds minor and patch below
+         1000 and stays far under Android's 2100000000 ceiling. -->
+    <_UIVersionMajor>$([System.Version]::Parse('$(UIVersion)').Major)</_UIVersionMajor>
+    <_UIVersionMinor>$([System.Version]::Parse('$(UIVersion)').Minor)</_UIVersionMinor>
+    <_UIVersionPatch>$([System.Version]::Parse('$(UIVersion)').Build)</_UIVersionPatch>
+    <ApplicationVersion>$([MSBuild]::Add($([MSBuild]::Add($([MSBuild]::Multiply($(_UIVersionMajor), 100000)), $([MSBuild]::Multiply($(_UIVersionMinor), 1000)))), $(_UIVersionPatch)))</ApplicationVersion>
+    <ApplicationDisplayVersion>$(UIVersion)</ApplicationDisplayVersion>
     <AssemblyVersion>$(UIVersion).0</AssemblyVersion>
     <FileVersion>$(UIVersion).0</FileVersion>
     <InformationalVersion>$(UIVersion)</InformationalVersion>
