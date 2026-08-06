@@ -30,16 +30,19 @@ must already be merged to `master` before tagging.
 1. **Confirm `master` is green.** `gh run list --branch master --limit 3`. CI runs the macOS
    build + the full test suite; a red master is never releasable.
 
-2. **Confirm the Android leg builds.** Android is *not* covered by CI (`ci.yml` is macOS-only), so
-   a broken Android build would otherwise surface for the first time during the release run:
+2. **Confirm the Android leg builds.** CI's `build-android` job compiles it on every PR, so a
+   green `master` already covers this — `PKHeX.Android` is not in `PKHeX.sln`, which is why it
+   needs its own job rather than riding along with the test job. To check a change you have not
+   pushed yet:
 
    ```bash
    dotnet build PKHeX.Android/PKHeX.Android.csproj -c Release --disable-build-servers -m:1
    ```
 
-   Expect `0 Warning(s) 0 Error(s)`. If you touched anything the Android host consumes
-   (`PKHeX.Avalonia` views, `PKHeX.Presentation` view models, DI wiring), also install it on a
-   device and run the smoke checks in "Post-release verification" *before* tagging.
+   Expect `0 Warning(s) 0 Error(s)`. A build is not a UI check: if you touched anything the
+   Android host consumes (`PKHeX.Avalonia` views, `PKHeX.Presentation` view models, DI wiring),
+   install it on a device and run the smoke checks in "Post-release verification" *before*
+   tagging.
 
 3. **Verify the version.** `grep UIVersion Directory.Build.props` — this is the number about to
    become the tag. If it is wrong, fix it in a PR and merge that first.

@@ -54,3 +54,35 @@ jobs:
           name: test-results-${{ matrix.os }}
           path: '**/TestResults/*.trx'
           retention-days: 14
+
+  # The Android host is not in PKHeX.sln, so the job above never compiles it. Without this, a
+  # change that breaks the Android build only surfaces when a release tag is pushed — which is
+  # exactly when it is most expensive. Build only; the Android UI has no automated tests, and its
+  # behaviour is covered by the shared ViewModel tests in the job above.
+  build-android:
+    if: >-
+      github.event_name == 'pull_request' ||
+      !startsWith(github.event.head_commit.message, 'Merge pull request #')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'microsoft'
+          java-version: '21'
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+          dotnet-quality: 'ga'
+
+      - name: Install Android workload
+        run: dotnet workload install android
+
+      - name: Build
+        run: dotnet build PKHeX.Android/PKHeX.Android.csproj -c Release

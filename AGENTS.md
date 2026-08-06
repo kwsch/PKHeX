@@ -213,8 +213,8 @@ WinForms UI changes, version bump, PR, and auto-merge once CI is green — is en
   connection, so a tool overlay must *become* the root content (`MainView.ShowOverlay/
   ShowMainContent`) rather than stack above the editor, or IME text goes to the wrong control; and
   the desktop's fixed 520px editor side panel does not fit a phone, so `AndroidMainView.axaml`
-  makes the entity editor the first tab of one full-width `TabControl`. Android is not in `ci.yml`
-  (macOS-only) — build it locally before tagging a release.
+  makes the entity editor the first tab of one full-width `TabControl`. `PKHeX.Android` is not in
+  `PKHeX.sln`, so CI builds it in its own `build-android` job; the test job never compiles it.
 - 2026-08-05 — Releases: one `v<UIVersion>` tag ships macOS **and** Android from
   `release.yml`; the `release` job needs both legs, so a broken Android build blocks the release
   instead of publishing a macOS-only one. Procedure, signing tiers, Android keystore secrets, and
