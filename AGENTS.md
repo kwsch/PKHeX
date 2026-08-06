@@ -215,6 +215,11 @@ WinForms UI changes, version bump, PR, and auto-merge once CI is green — is en
   the desktop's fixed 520px editor side panel does not fit a phone, so `AndroidMainView.axaml`
   makes the entity editor the first tab of one full-width `TabControl`. `PKHeX.Android` is not in
   `PKHeX.sln`, so CI builds it in its own `build-android` job; the test job never compiles it.
+  That job is a **required status check** on `master`, so it must stay unconditional on pull
+  requests. Giving it a path filter would make GitHub skip it on unrelated PRs, and a skipped
+  required check blocks the merge forever — the same way `master` was unmergeable while its
+  required list named ubuntu/windows contexts that CI no longer produced. If it ever does gain a
+  filter, drop it from the required checks in the same change.
 - 2026-08-05 — Releases: one `v<UIVersion>` tag ships macOS **and** Android from
   `release.yml`; the `release` job needs both legs, so a broken Android build blocks the release
   instead of publishing a macOS-only one. Procedure, signing tiers, Android keystore secrets, and
