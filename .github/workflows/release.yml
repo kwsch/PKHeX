@@ -448,11 +448,20 @@ jobs:
           printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.keystore"
           echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
 
+      # -m:1 on both Android builds below is deliberate. The host references PKHeX.Avalonia with
+      # AdditionalProperties="OutputType=Library", so MSBuild evaluates that project and its
+      # transitive references a second time under different global properties; building those
+      # evaluations in parallel intermittently races on the shared obj/ directory:
+      #   error MSB3491: Could not write lines to file "PKHeX.Core.AssemblyInfoInputs.cache".
+      #   The file already exists.
+      # Observed once in CI and not reproducible on demand, so this serialises the build rather
+      # than claiming a root-cause fix. It matters most here: a flake blocks the whole release.
       - name: Build signed APK
         if: steps.android_sign.outputs.enabled == 'true'
         run: >
           dotnet publish PKHeX.Android/PKHeX.Android.csproj
           -c Release
+          -m:1
           -p:UIVersion=${{ needs.check-version.outputs.version }}
           -p:AndroidKeyStore=true
           -p:AndroidSigningKeyStore="$ANDROID_KEYSTORE_PATH"
@@ -466,6 +475,7 @@ jobs:
         run: >
           dotnet publish PKHeX.Android/PKHeX.Android.csproj
           -c Release
+          -m:1
           -p:UIVersion=${{ needs.check-version.outputs.version }}
           -o publish-android
 
