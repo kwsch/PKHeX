@@ -50,17 +50,12 @@ public partial class App : global::Avalonia.Application
     private void InitializeFullApplication()
     {
         Log.Info("PKHEX_ANDROID", "InitializeFullApplication: building services");
-        var settings = new AppSettings
-        {
-            DisplayLanguage = "en",
-            HaXMode = true,
-        };
-        settings.Startup.ForceHaXOnLaunch = true;
-        StartupUtil.ReloadSettings(settings);
-        EntityConverter.AllowIncompatibleConversion = EntityCompatibilitySetting.AllowIncompatibleAll;
 
+        // Let the settings store load as it does on desktop. Passing a hand-built AppSettings here
+        // told BuildServiceProvider to skip the store entirely, so every preference reverted on
+        // launch — most visibly the display language, which reset to English each time even though
+        // changing it does persist. PKHaX is forced on afterwards, since that is this host's point.
         _services = global::PKHeX.Avalonia.App.BuildServiceProvider(
-            settings: settings,
             configureOverrides: services =>
             {
                 // Desktop registrations create Avalonia Windows, which Android does not expose.
@@ -73,6 +68,12 @@ public partial class App : global::Avalonia.Application
                 services.AddSingleton<IClipboardService, AndroidClipboardService>();
             });
         Log.Info("PKHEX_ANDROID", "InitializeFullApplication: services built");
+
+        var settings = _services.GetRequiredService<AppSettings>();
+        settings.HaXMode = true;
+        settings.Startup.ForceHaXOnLaunch = true;
+        StartupUtil.ReloadSettings(settings);
+        EntityConverter.AllowIncompatibleConversion = EntityCompatibilitySetting.AllowIncompatibleAll;
 
         var languageService = _services.GetRequiredService<LanguageService>();
         Log.Info("PKHEX_ANDROID", "InitializeFullApplication: setting language");

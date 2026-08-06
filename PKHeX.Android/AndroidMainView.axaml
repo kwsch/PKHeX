@@ -38,13 +38,19 @@
                         Margin="4,0,0,0"
                         AutomationProperties.Name="Save" />
 
+                <!-- Drawn rather than the U+22EE glyph: on a real device the resolved font had no
+                     coverage for it and the button showed a tofu box. -->
                 <Button Grid.Column="3"
-                        Content="&#x22EE;"
-                        FontSize="20"
                         Width="48"
                         Padding="0"
                         Margin="4,0,0,0"
                         AutomationProperties.Name="More options">
+                    <StackPanel Orientation="Vertical" Spacing="3"
+                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Ellipse Width="4" Height="4" Fill="{DynamicResource ThemeTextPrimaryBrush}" />
+                        <Ellipse Width="4" Height="4" Fill="{DynamicResource ThemeTextPrimaryBrush}" />
+                        <Ellipse Width="4" Height="4" Fill="{DynamicResource ThemeTextPrimaryBrush}" />
+                    </StackPanel>
                     <Button.Flyout>
                         <MenuFlyout>
 
