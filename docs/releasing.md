@@ -25,6 +25,10 @@ Two version fields live in `Directory.Build.props` and mean different things:
 The release workflow refuses to run if the tag does not match `<UIVersion>` exactly, so the bump
 must already be merged to `master` before tagging.
 
+Android's `versionCode` — the integer Android actually compares to decide whether an APK is an
+upgrade — is derived from `<UIVersion>` as `major*100000 + minor*1000 + patch`, so it rises on its
+own with each release. Nothing to set by hand; just keep minor and patch below 1000.
+
 ## Cutting a release
 
 1. **Confirm `master` is green.** `gh run list --branch master --limit 3`. CI runs the macOS
