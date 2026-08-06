@@ -233,11 +233,11 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         for (int i = 0; i < GearCallerCount; i++)
         {
             var caller = (PokegearNumber)i;
-            if (caller == excluded)
+            if (caller == excluded || caller == PokegearNumber.Bike_Shop)
                 continue;
             SetCallerAtIndex(index++, caller);
         }
-        // clear the trailing slot left over from skipping the opposite-gender rival
+        // clear the trailing slots left over from skipping the rival and bike shop
         for (; index < GearCallerCount; index++)
             SetCallerAtIndex(index, PokegearNumber.None);
     }
