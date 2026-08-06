@@ -13,6 +13,8 @@ namespace PKHeX.Android;
 
 [Activity(
     Label = "PKHeX",
+    Icon = "@mipmap/appicon",
+    RoundIcon = "@mipmap/appicon_round",
     Theme = "@style/MainTheme",
     MainLauncher = true,
     ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.UiMode)]

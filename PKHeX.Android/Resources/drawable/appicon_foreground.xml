@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Poké Ball drawn as a vector so it stays crisp at every launcher density. The bundled raster icon
+  is a 64px original (the 1024px frame in icon.icns is just that upscaled), which would have been
+  visibly soft at xxxhdpi.
+
+  Adaptive-icon geometry: the canvas is 108x108 and the launcher may mask anything outside the
+  centre 66x66, so the ball is drawn at radius 30 around (54,54) to stay inside that safe zone.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="108dp"
+        android:height="108dp"
+        android:viewportWidth="108"
+        android:viewportHeight="108">
+
+    <group>
+        <!-- Clip the halves and the band to the ball so their corners cannot poke out. -->
+        <clip-path android:pathData="M24,54a30,30 0 1,0 60,0a30,30 0 1,0 -60,0z" />
+        <path android:fillColor="#F2F2F2" android:pathData="M24,24h60v60h-60z" />
+        <path android:fillColor="#E3350D" android:pathData="M24,24h60v30h-60z" />
+        <path android:fillColor="#1A1A1A" android:pathData="M24,50h60v8h-60z" />
+    </group>
+
+    <!-- Outline, then the centre button. -->
+    <path android:strokeColor="#1A1A1A" android:strokeWidth="2.5" android:fillColor="#00000000"
+          android:pathData="M24,54a30,30 0 1,0 60,0a30,30 0 1,0 -60,0z" />
+    <path android:fillColor="#1A1A1A"
+          android:pathData="M43,54a11,11 0 1,0 22,0a11,11 0 1,0 -22,0z" />
+    <path android:fillColor="#F2F2F2"
+          android:pathData="M47.5,54a6.5,6.5 0 1,0 13,0a6.5,6.5 0 1,0 -13,0z" />
+</vector>

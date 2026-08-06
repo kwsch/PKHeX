@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Adaptive-icon backdrop. Light rather than the brand red so the ball's white half still
+         reads, and so the launcher's own shape mask defines the silhouette. -->
+    <color name="appicon_background">#FFFFFF</color>
+</resources>
