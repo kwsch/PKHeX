@@ -85,4 +85,6 @@ jobs:
         run: dotnet workload install android
 
       - name: Build
-        run: dotnet build PKHeX.Android/PKHeX.Android.csproj -c Release
+        # See the note in release.yml: the Android project graph is evaluated twice and its
+        # parallel builds can race on obj/, so this is serialised.
+        run: dotnet build PKHeX.Android/PKHeX.Android.csproj -c Release -m:1
