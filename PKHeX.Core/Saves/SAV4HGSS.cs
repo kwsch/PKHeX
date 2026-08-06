@@ -259,7 +259,6 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         PokegearNumber.Daycare_Man,
         PokegearNumber.Daycare_Lady,
         PokegearNumber.Bill,
-        PokegearNumber.Bike_Shop,
         PokegearNumber.Baoba,
     ];
 
