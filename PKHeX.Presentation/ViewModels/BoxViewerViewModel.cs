@@ -152,11 +152,47 @@ public partial class BoxViewerViewModel : ViewModelBase, IBoxNavigator
         LoadBox(newBox);
     }
 
+    /// <summary>
+    /// The slot armed for a two-step move, or null when none is. Drag-and-drop is a mouse gesture;
+    /// on touch a press-and-move reads as a tap and a press-and-hold opens the slot menu, so the
+    /// same move needs an explicit "pick source, then pick destination" path.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsMovePending))]
+    private SlotData? _pendingMoveSource;
+
+    public bool IsMovePending => PendingMoveSource is not null;
+
+    /// <summary>Arms a move from this slot; the next slot tapped becomes its destination.</summary>
+    [RelayCommand]
+    private void BeginMove(SlotData? slot)
+    {
+        if (slot is null || slot.IsEmpty)
+            return;
+
+        PendingMoveSource = slot;
+    }
+
+    [RelayCommand]
+    private void CancelMove() => PendingMoveSource = null;
+
     [RelayCommand]
     private void SelectSlotByClick(SlotData? slot)
     {
         if (slot is null)
             return;
+
+        // A tap completes an armed move instead of merely selecting, which is what makes the
+        // two-step gesture feel like a move rather than two unrelated taps.
+        if (PendingMoveSource is { } source)
+        {
+            PendingMoveSource = null;
+            if (source.Slot != slot.Slot || source.Box != slot.Box)
+            {
+                _slotService?.RequestMove(source.Location, slot.Location, clone: false);
+                return;
+            }
+        }
 
         SelectedIndex = slot.Slot;
     }

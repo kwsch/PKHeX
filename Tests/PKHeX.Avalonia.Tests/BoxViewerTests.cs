@@ -237,4 +237,86 @@ public class BoxViewerTests(ITestOutputHelper output)
         Assert.Equal(0, vm.Boxes[0].OccupiedSlots);
         output.WriteLine("BoxListEditor ClearSelectedBox: box 0 cleared ✓");
     }
+
+    // -----------------------------------------------------------------------
+    // Two-step move (touch): drag-and-drop is a mouse gesture, so touch hosts
+    // arm a source slot and complete the move by tapping the destination.
+    // -----------------------------------------------------------------------
+
+    [Fact]
+    public void BeginMove_ThenTappingAnotherSlot_MovesThroughTheSlotService()
+    {
+        var sav = new SAV6XY();
+        var slots = new Mock<ISlotService>();
+        var vm = new BoxViewerViewModel(sav, SpriteMock().Object, slots.Object);
+
+        // Put something in slot 0 so the source is not empty.
+        var pk = sav.BlankPKM;
+        pk.Species = (ushort)Species.Pikachu;
+        sav.SetBoxSlotAtIndex(pk, vm.CurrentBox, 0);
+        vm.RefreshCurrentBox();
+
+        var source = vm.Slots[0];
+        var destination = vm.Slots[3];
+
+        vm.BeginMoveCommand.Execute(source);
+        Assert.True(vm.IsMovePending);
+
+        vm.SelectSlotByClickCommand.Execute(destination);
+
+        slots.Verify(s => s.RequestMove(source.Location, destination.Location, false), Times.Once);
+        Assert.False(vm.IsMovePending);
+    }
+
+    [Fact]
+    public void BeginMove_IsIgnoredForAnEmptySlot()
+    {
+        var sav = new SAV6XY();
+        var vm = new BoxViewerViewModel(sav, SpriteMock().Object, new Mock<ISlotService>().Object);
+
+        vm.BeginMoveCommand.Execute(vm.Slots[0]); // blank save: every slot is empty
+
+        Assert.False(vm.IsMovePending);
+    }
+
+    [Fact]
+    public void TappingTheSourceAgain_CancelsTheMoveInsteadOfMovingOntoItself()
+    {
+        var sav = new SAV6XY();
+        var slots = new Mock<ISlotService>();
+        var vm = new BoxViewerViewModel(sav, SpriteMock().Object, slots.Object);
+
+        var pk = sav.BlankPKM;
+        pk.Species = (ushort)Species.Pikachu;
+        sav.SetBoxSlotAtIndex(pk, vm.CurrentBox, 0);
+        vm.RefreshCurrentBox();
+
+        var source = vm.Slots[0];
+        vm.BeginMoveCommand.Execute(source);
+        vm.SelectSlotByClickCommand.Execute(source);
+
+        slots.Verify(s => s.RequestMove(It.IsAny<SlotLocation>(), It.IsAny<SlotLocation>(), It.IsAny<bool>()), Times.Never);
+        Assert.False(vm.IsMovePending);
+        Assert.Equal(source.Slot, vm.SelectedIndex);
+    }
+
+    [Fact]
+    public void CancelMove_DisarmsWithoutMoving()
+    {
+        var sav = new SAV6XY();
+        var slots = new Mock<ISlotService>();
+        var vm = new BoxViewerViewModel(sav, SpriteMock().Object, slots.Object);
+
+        var pk = sav.BlankPKM;
+        pk.Species = (ushort)Species.Pikachu;
+        sav.SetBoxSlotAtIndex(pk, vm.CurrentBox, 0);
+        vm.RefreshCurrentBox();
+
+        vm.BeginMoveCommand.Execute(vm.Slots[0]);
+        vm.CancelMoveCommand.Execute(null);
+
+        Assert.False(vm.IsMovePending);
+        vm.SelectSlotByClickCommand.Execute(vm.Slots[3]);
+        slots.Verify(s => s.RequestMove(It.IsAny<SlotLocation>(), It.IsAny<SlotLocation>(), It.IsAny<bool>()), Times.Never);
+    }
 }
