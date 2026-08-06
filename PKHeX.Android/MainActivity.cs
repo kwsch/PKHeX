@@ -4,6 +4,8 @@ using Android.OS;
 using Android.Util;
 using Avalonia;
 using Avalonia.Android;
+using Avalonia.Media;
+using Avalonia.Media.Fonts;
 using Avalonia.Controls.ApplicationLifetimes;
 using AndroidX.Activity;
 
@@ -67,7 +69,25 @@ public sealed class MainActivity : AvaloniaMainActivity<App>
     }
 
     protected override AppBuilder CustomizeAppBuilder(AppBuilder builder)
+        // Two font differences from the desktop host, both about CJK:
+        //
+        // No WithInterFont: Inter carries no CJK glyphs, so making it the default put the burden
+        // on glyph fallback for every Chinese/Japanese/Korean label. Android's own stack covers
+        // every script this UI ships in and is what a native app would use.
+        //
+        // An explicit CJK fallback family on top of that: with fallback left implicit, labels
+        // drawn at a non-regular weight — the bottom navigation and the section headers, which
+        // are semibold — still came out as tofu boxes while regular-weight text beside them was
+        // fine. Naming the family lets the font manager resolve it for any weight.
         => base.CustomizeAppBuilder(builder)
-            .WithInterFont()
+            .With(new FontManagerOptions
+            {
+                FontFallbacks =
+                [
+                    new FontFallback { FontFamily = new FontFamily("Noto Sans CJK SC") },
+                    new FontFallback { FontFamily = new FontFamily("Noto Sans CJK JP") },
+                    new FontFallback { FontFamily = new FontFamily("sans-serif") },
+                ],
+            })
             .LogToTrace();
 }
