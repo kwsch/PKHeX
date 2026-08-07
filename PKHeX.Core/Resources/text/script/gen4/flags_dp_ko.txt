@@ -69,7 +69,7 @@
 0339	g	빨갖수정 받음 (미스터 굿즈)
 0340	g	노랑수정 받음 (미스터 굿즈)
 0347	g	모두 상품 받음 (미스터 굿즈)
-0787	i	마른 입지호수에서 맥스업 찾음
+0787	h	마른 입지호수에서 숨겨진 맥스업 찾음
 2507	s	팔파크 잡기쇼에 들어갔어
 1409	t	Defeated Jogger Richard (Morning)
 1448	t	Defeated Policeman Bobby (Night)

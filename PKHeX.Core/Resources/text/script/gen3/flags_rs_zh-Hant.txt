@@ -40,7 +40,7 @@
 0x3A9	r	隱藏地區 (雷吉斯奇魯)
 0x3C3	g	隱藏地區 (根狀化石)
 0x3C4	g	隱藏地區 (爪子化石)
-1133	s	Overworld Hidden (Missed HM08 ball in Steven's House)
+1133	s	隱藏地區（錯過大吾家的祕傳學習器08 潛水）
 0x3C9	r	未發現的變隱龍 (茵鬱市)
 0x3CA	r	未發現的變隱龍 (120號道路, 橋)
 0x3D5	r	未發現的變隱龍 (120號道路, 橋)
@@ -83,294 +83,294 @@
 0x85F	s	可獲得貝殼之鈴
 0x860	*	獲得跑步鞋
 0x862	*	重置RTC啟用
-2090	*	Harsh Sunlight/Rain in Eastern Hoenn
-2063	f	Can Fly to Littleroot Town
-2064	f	Can Fly to Oldale Town
-2065	f	Can Fly to Dewford Town
-2066	f	Can Fly to Lavaridge Town
-2067	f	Can Fly to Fallarbor Town
-2068	f	Can Fly to Verdanturf Town
-2069	f	Can Fly to Pacifidlog Town
-2070	f	Can Fly to Petalburg City
-2071	f	Can Fly to Slateport City
-2072	f	Can Fly to Mauville City
-2073	f	Can Fly to Rustboro City
-2074	f	Can Fly to Fortree City
-2075	f	Can Fly to Lilycove City
-2076	f	Can Fly to Mossdeep City
-2077	f	Can Fly to Sootopolis City
-2078	f	Can Fly to Ever Grande City
-2120	f	Can Fly to Battle Tower
-2108	m	Visited Flower Shop
-2109	m	Visited Mr. Briney's Cottage
-2110	m	Visited Abandoned Ship
-2111	m	Visited Seashore House
-2112	m	Visited New Mauville
-2113	m	Visited Old Lady's Rest Stop
-2114	m	Visited Trick House
-2115	m	Visited The Winstrate Family
-2116	m	Visited Glass Workshop
-2117	m	Visited Lanette's House
-2118	m	Visited Pokémon Day Care
-2119	m	Visited Seafloor Cavern
-2122	m	Visited Fiery Path
-2132	m	Visited Pokémon League
-2133	m	Visited Island Cave
-2134	m	Visited Desert Ruins
-2135	m	Visited Fossil Maniac's House
-2136	m	Visited Scorched Slab
-2137	m	Visited Ancient Tomb
-2138	m	Visited Tunneler's Rest House
-2139	m	Visited Hunter's House
-2140	m	Visited Sealed Chamber
-2142	m	Visited Sky Pillar
-2147	m	Visited Berry Master's House
-0768	s	Defeated The Winstrate Family
-1800	t	Pokémon Trainer Brendan on Route 103 defeated (Starter Mudkip)
-1801	t	Pokémon Trainer Brendan on Route 110 defeated (Starter Mudkip)
-1802	t	Pokémon Trainer Brendan on Route 119 defeated (Starter Mudkip)
-1803	t	Pokémon Trainer Brendan on Route 103 defeated (Starter Treecko)
-1804	t	Pokémon Trainer Brendan on Route 110 defeated (Starter Treecko)
-1805	t	Pokémon Trainer Brendan on Route 119 defeated (Starter Treecko)
-1806	t	Pokémon Trainer Brendan on Route 103 defeated (Starter Torchic)
-1807	t	Pokémon Trainer Brendan on Route 110 defeated (Starter Torchic)
-1808	t	Pokémon Trainer Brendan on Route 119 defeated (Starter Torchic)
-1809	t	Pokémon Trainer May on Route 103 defeated (Starter Mudkip)
-1810	t	Pokémon Trainer May on Route 110 defeated (Starter Mudkip)
-1811	t	Pokémon Trainer May on Route 119 defeated (Starter Mudkip)
-1812	t	Pokémon Trainer May on Route 103 defeated (Starter Treecko)
-1813	t	Pokémon Trainer May on Route 110 defeated (Starter Treecko)
-1814	t	Pokémon Trainer May on Route 119 defeated (Starter Treecko)
-1815	t	Pokémon Trainer May on Route 103 defeated (Starter Torchic)
-1816	t	Pokémon Trainer May on Route 110 defeated (Starter Torchic)
-1817	t	Pokémon Trainer May on Route 119 defeated (Starter Torchic)
-1941	t	Brendan in Lilycove City defeated (Starter Mudkip)
-1942	t	Brendan in Lilycove City defeated (Starter Treecko)
-1943	t	Brendan in Lilycove City defeated (Starter Torchic)
-1944	t	May in Lilycove City defeated (Starter Mudkip)
-1945	t	May in Lilycove City defeated (Starter Treecko)
-1946	t	May in Lilycove City defeated (Starter Torchic)
-1320	t	Had Aroma Lady Rose 1st Rematch
-1321	t	Had Aroma Lady Rose 2nd Rematch
-1322	t	Had Aroma Lady Rose 3rd Rematch
-1323	t	Had Aroma Lady Rose 4th Rematch
-1327	t	Had Ruin Maniac Dusty 1st Rematch
-1328	t	Had Ruin Maniac Dusty 2nd Rematch
-1329	t	Had Ruin Maniac Dusty 3rd Rematch
-1330	t	Had Ruin Maniac Dusty 4th Rematch
-1340	t	Had Tuber Lola 1st Rematch
-1341	t	Had Tuber Lola 2nd Rematch
-1342	t	Had Tuber Lola 3rd Rematch
-1343	t	Had Tuber Lola 4th Rematch
-1347	t	Had Tuber Ricky 1st Rematch
-1348	t	Had Tuber Ricky 2nd Rematch
-1349	t	Had Tuber Ricky 3rd Rematch
-1350	t	Had Tuber Ricky 4th Rematch
-1364	t	Had Cooltrainer Wilton 1st Rematch
-1365	t	Had Cooltrainer Wilton 2nd Rematch
-1366	t	Had Cooltrainer Wilton 3rd Rematch
-1367	t	Had Cooltrainer Wilton 4th Rematch
-1381	t	Had Cooltrainer Brooke 1st Rematch
-1382	t	Had Cooltrainer Brooke 2nd Rematch
-1383	t	Had Cooltrainer Brooke 3rd Rematch
-1384	t	Had Cooltrainer Brooke 4th Rematch
-1390	t	Had Hex Maniac Valerie 1st Rematch
-1391	t	Had Hex Maniac Valerie 2nd Rematch
-1392	t	Had Hex Maniac Valerie 3rd Rematch
-1393	t	Had Hex Maniac Valerie 4th Rematch
-1400	t	Had Lady Cindy 1st Rematch
-1401	t	Had Lady Cindy 2nd Rematch
-1402	t	Had Lady Cindy 3rd Rematch
-1403	t	Had Lady Cindy 4th Rematch
-1412	t	Had Beauty Jessica 1st Rematch
-1413	t	Had Beauty Jessica 2nd Rematch
-1414	t	Had Beauty Jessica 3rd Rematch
-1415	t	Had Beauty Jessica 4th Rematch
-1419	t	Had Rich Boy Winston 1st Rematch
-1420	t	Had Rich Boy Winston 2nd Rematch
-1421	t	Had Rich Boy Winston 3rd Rematch
-1422	t	Had Rich Boy Winston 4th Rematch
-1427	t	Had PokéManiac Steve 1st Rematch
-1428	t	Had PokéManiac Steve 2nd Rematch
-1429	t	Had PokéManiac Steve 3rd Rematch
-1430	t	Had PokéManiac Steve 4th Rematch
-1455	t	Had Swimmer♂ Tony 1st Rematch
-1456	t	Had Swimmer♂ Tony 2nd Rematch
-1457	t	Had Swimmer♂ Tony 3rd Rematch
-1458	t	Had Swimmer♂ Tony 4th Rematch
-1464	t	Had Black Belt Nob 1st Rematch
-1465	t	Had Black Belt Nob 2nd Rematch
-1466	t	Had Black Belt Nob 3rd Rematch
-1467	t	Had Black Belt Nob 4th Rematch
-1477	t	Had Guitarist Dalton 1st Rematch
-1478	t	Had Guitarist Dalton 2nd Rematch
-1479	t	Had Guitarist Dalton 3rd Rematch
-1480	t	Had Guitarist Dalton 4th Rematch
-1487	t	Had Kindler Bernie 1st Rematch
-1488	t	Had Kindler Bernie 2nd Rematch
-1489	t	Had Kindler Bernie 3rd Rematch
-1490	t	Had Kindler Bernie 4th Rematch
-1499	t	Had Camper Ethan 1st Rematch
-1500	t	Had Camper Ethan 2nd Rematch
-1501	t	Had Camper Ethan 3rd Rematch
-1502	t	Had Camper Ethan 4th Rematch
-1508	t	Had Bug Maniac Brandon 1st Rematch
-1509	t	Had Bug Maniac Brandon 2nd Rematch
-1510	t	Had Bug Maniac Brandon 3rd Rematch
-1511	t	Had Bug Maniac Brandon 4th Rematch
-1519	t	Had Psychic Cameron 1st Rematch
-1520	t	Had Psychic Cameron 2nd Rematch
-1521	t	Had Psychic Cameron 3rd Rematch
-1522	t	Had Psychic Cameron 4th Rematch
-1530	t	Had Psychic Jacki 1st Rematch
-1531	t	Had Psychic Jacki 2nd Rematch
-1532	t	Had Psychic Jacki 3rd Rematch
-1533	t	Had Psychic Jacki 4th Rematch
-1537	t	Had Gentleman Walter 1st Rematch
-1538	t	Had Gentleman Walter 2nd Rematch
-1539	t	Had Gentleman Walter 3rd Rematch
-1540	t	Had Gentleman Walter 4th Rematch
-1556	t	Had School Kid Jerry 1st Rematch
-1557	t	Had School Kid Jerry 2nd Rematch
-1558	t	Had School Kid Jerry 3rd Rematch
-1559	t	Had School Kid Jerry 4th Rematch
-1562	t	Had School Kid Karen 1st Rematch
-1563	t	Had School Kid Karen 2nd Rematch
-1564	t	Had School Kid Karen 3rd Rematch
-1565	t	Had School Kid Karen 4th Rematch
-1568	t	Had Sr. and Jr. Anna and Meg 1st Rematch
-1569	t	Had Sr. and Jr. Anna and Meg 2nd Rematch
-1570	t	Had Sr. and Jr. Anna and Meg 3rd Rematch
-1571	t	Had Sr. and Jr. Anna and Meg 4th Rematch
-1575	t	Had Pokéfan Miguel 1st Rematch
-1576	t	Had Pokéfan Miguel 2nd Rematch
-1577	t	Had Pokéfan Miguel 3rd Rematch
-1578	t	Had Pokéfan Miguel 4th Rematch
-1583	t	Had Pokéfan Isabel 1st Rematch
-1584	t	Had Pokéfan Isabel 2nd Rematch
-1585	t	Had Pokéfan Isabel 3rd Rematch
-1586	t	Had Pokéfan Isabel 4th Rematch
-1588	t	Had Expert Timothy 1st Rematch
-1589	t	Had Expert Timothy 2nd Rematch
-1590	t	Had Expert Timothy 3rd Rematch
-1591	t	Had Expert Timothy 4th Rematch
-1594	t	Had Expert Shelby 1st Rematch
-1595	t	Had Expert Shelby 2nd Rematch
-1596	t	Had Expert Shelby 3rd Rematch
-1597	t	Had Expert Shelby 4th Rematch
-1608	t	Had Youngster Calvin 1st Rematch
-1609	t	Had Youngster Calvin 2nd Rematch
-1610	t	Had Youngster Calvin 3rd Rematch
-1611	t	Had Youngster Calvin 4th Rematch
-1626	t	Had Fisherman Elliot 1st Rematch
-1627	t	Had Fisherman Elliot 2nd Rematch
-1628	t	Had Fisherman Elliot 3rd Rematch
-1629	t	Had Fisherman Elliot 4th Rematch
-1634	t	Had Triathlete Benjamin 1st Rematch
-1635	t	Had Triathlete Benjamin 2nd Rematch
-1636	t	Had Triathlete Benjamin 3rd Rematch
-1637	t	Had Triathlete Benjamin 4th Rematch
-1640	t	Had Triathlete Abigail 1st Rematch
-1641	t	Had Triathlete Abigail 2nd Rematch
-1642	t	Had Triathlete Abigail 3rd Rematch
-1643	t	Had Triathlete Abigail 4th Rematch
-1650	t	Had Triathlete Maria 1st Rematch
-1651	t	Had Triathlete Maria 2nd Rematch
-1652	t	Had Triathlete Maria 3rd Rematch
-1653	t	Had Triathlete Maria 4th Rematch
-1645	t	Had Triathlete Dylan 1st Rematch
-1646	t	Had Triathlete Dylan 2nd Rematch
-1647	t	Had Triathlete Dylan 3rd Rematch
-1648	t	Had Triathlete Dylan 4th Rematch
-1659	t	Had Triathlete Isaiah 1st Rematch
-1660	t	Had Triathlete Isaiah 2nd Rematch
-1661	t	Had Triathlete Isaiah 3rd Rematch
-1662	t	Had Triathlete Isaiah 4th Rematch
-1668	t	Had Triathlete Katelyn 1st Rematch
-1669	t	Had Triathlete Katelyn 2nd Rematch
-1670	t	Had Triathlete Katelyn 3rd Rematch
-1671	t	Had Triathlete Katelyn 4th Rematch
-1673	t	Had Dragon Tamer Nicolas 1st Rematch
-1674	t	Had Dragon Tamer Nicolas 2nd Rematch
-1675	t	Had Dragon Tamer Nicolas 3rd Rematch
-1676	t	Had Dragon Tamer Nicolas 4th Rematch
-1689	t	Had Bird Keeper Robert 1st Rematch
-1690	t	Had Bird Keeper Robert 2nd Rematch
-1691	t	Had Bird Keeper Robert 3rd Rematch
-1692	t	Had Bird Keeper Robert 4th Rematch
-1701	t	Had Ninja Boy Lao 1st Rematch
-1702	t	Had Ninja Boy Lao 2nd Rematch
-1703	t	Had Ninja Boy Lao 3rd Rematch
-1704	t	Had Ninja Boy Lao 4th Rematch
-1710	t	Had Battle Girl Cyndy 1st Rematch
-1711	t	Had Battle Girl Cyndy 2nd Rematch
-1712	t	Had Battle Girl Cyndy 3rd Rematch
-1713	t	Had Battle Girl Cyndy 4th Rematch
-1717	t	Had Parasol Lady Madeline 1st Rematch
-1718	t	Had Parasol Lady Madeline 2nd Rematch
-1719	t	Had Parasol Lady Madeline 3rd Rematch
-1720	t	Had Parasol Lady Madeline 4th Rematch
-1745	t	Had Swimmer♀ Jenny 1st Rematch
-1746	t	Had Swimmer♀ Jenny 2nd Rematch
-1747	t	Had Swimmer♀ Jenny 3rd Rematch
-1748	t	Had Swimmer♀ Jenny 4th Rematch
-1757	t	Had Picnicker Diana 1st Rematch
-1758	t	Had Picnicker Diana 2nd Rematch
-1759	t	Had Picnicker Diana 3rd Rematch
-1760	t	Had Picnicker Diana 4th Rematch
-1762	t	Had Twins Amy and Liv 1st Rematch
-1767	t	Had Twins Amy and Liv 2nd Rematch
-1768	t	Had Twins Amy and Liv 3rd Rematch
-1769	t	Had Twins Amy and Liv 4th Rematch
-1777	t	Had Sailor Ernest 1st Rematch
-1778	t	Had Sailor Ernest 2nd Rematch
-1779	t	Had Sailor Ernest 3rd Rematch
-1780	t	Had Sailor Ernest 4th Rematch
-1795	t	Had Collector Edwin 1st Rematch
-1796	t	Had Collector Edwin 2nd Rematch
-1797	t	Had Collector Edwin 3rd Rematch
-1798	t	Had Collector Edwin 4th Rematch
-1821	t	Had Pokémon Breeder Isaac 1st Rematch
-1822	t	Had Pokémon Breeder Isaac 2nd Rematch
-1823	t	Had Pokémon Breeder Isaac 3rd Rematch
-1824	t	Had Pokémon Breeder Isaac 4th Rematch
-1828	t	Had Pokémon Breeder Lydia 1st Rematch
-1829	t	Had Pokémon Breeder Lydia 2nd Rematch
-1830	t	Had Pokémon Breeder Lydia 3rd Rematch
-1831	t	Had Pokémon Breeder Lydia 4th Rematch
-1835	t	Had Pokémon Ranger Jackson 1st Rematch
-1836	t	Had Pokémon Ranger Jackson 2nd Rematch
-1837	t	Had Pokémon Ranger Jackson 3rd Rematch
-1838	t	Had Pokémon Ranger Jackson 4th Rematch
-1842	t	Had Pokémon Ranger Catherine 1st Rematch
-1843	t	Had Pokémon Ranger Catherine 2nd Rematch
-1844	t	Had Pokémon Ranger Catherine 3rd Rematch
-1845	t	Had Pokémon Ranger Catherine 4th Rematch
-1887	t	Had Lass Haley 1st Rematch
-1888	t	Had Lass Haley 2nd Rematch
-1889	t	Had Lass Haley 3rd Rematch
-1890	t	Had Lass Haley 4th Rematch
-1902	t	Had Bug Catcher James 1st Rematch
-1903	t	Had Bug Catcher James 2nd Rematch
-1904	t	Had Bug Catcher James 3rd Rematch
-1905	t	Had Bug Catcher James 4th Rematch
-1916	t	Had Hiker Trent 1st Rematch
-1917	t	Had Hiker Trent 2nd Rematch
-1918	t	Had Hiker Trent 3rd Rematch
-1919	t	Had Hiker Trent 4th Rematch
-1923	t	Had Young Couple Lois and Hal 1st Rematch
-1924	t	Had Young Couple Lois and Hal 2nd Rematch
-1925	t	Had Young Couple Lois and Hal 3rd Rematch
-1926	t	Had Young Couple Lois and Hal 4th Rematch
-1937	t	Had Pokémon Trainer Wally 1st Rematch
-1938	t	Had Pokémon Trainer Wally 2nd Rematch
-1939	t	Had Pokémon Trainer Wally 3rd Rematch
-1940	t	Had Pokémon Trainer Wally 4th Rematch
-1962	t	Had Old Couple John and Jay 1st Rematch
-1963	t	Had Old Couple John and Jay 2nd Rematch
-1964	t	Had Old Couple John and Jay 3rd Rematch
-1965	t	Had Old Couple John and Jay 4th Rematch
-1968	t	Had Sis and Bro Rita and Sam 1st Rematch
-1969	t	Had Sis and Bro Rita and Sam 2nd Rematch
-1970	t	Had Sis and Bro Rita and Sam 3rd Rematch
-1971	t	Had Sis and Bro Rita and Sam 4th Rematch
+2090	*	豐緣東部大晴天／降雨
+2063	f	飛翔目的地已開啟：未白鎮
+2064	f	飛翔目的地已開啟：古玫鎮
+2065	f	飛翔目的地已開啟：武鬥鎮
+2066	f	飛翔目的地已開啟：釜炎鎮
+2067	f	飛翔目的地已開啟：秋葉鎮
+2068	f	飛翔目的地已開啟：綠蔭鎮
+2069	f	飛翔目的地已開啟：暮水鎮
+2070	f	飛翔目的地已開啟：橙華市
+2071	f	飛翔目的地已開啟：凱那市
+2072	f	飛翔目的地已開啟：紫堇市
+2073	f	飛翔目的地已開啟：卡那茲市
+2074	f	飛翔目的地已開啟：茵鬱市
+2075	f	飛翔目的地已開啟：水靜市
+2076	f	飛翔目的地已開啟：綠嶺市
+2077	f	飛翔目的地已開啟：琉璃市
+2078	f	飛翔目的地已開啟：彩悠市
+2120	f	飛翔目的地已開啟：對戰塔
+2108	f	參觀 聖橙華花店
+2109	f	參觀 哈奇老人的小屋
+2110	f	參觀 棄船
+2111	f	參觀 大海之家
+2112	f	參觀 新紫堇
+2113	f	參觀 簡康奶奶的家
+2114	f	參觀 戲法屋
+2115	f	參觀 連勝家族
+2116	f	參觀 琉璃工坊
+2117	f	參觀 真由美的屋子
+2118	f	參觀 培育屋
+2119	f	參觀 海底洞窟
+2122	f	參觀 烈焰小徑
+2132	f	參觀 寶可夢聯盟
+2133	f	參觀 小島洞穴
+2134	f	參觀 沙漠遺跡
+2135	f	參觀 化石狂的屋子
+2136	f	參觀 天旱石窟
+2137	f	參觀 古代墳墓
+2138	f	參觀 隧道工程組合屋
+2139	f	參觀 尋寶者的小屋
+2140	f	參觀 布告石室
+2142	f	參觀 天空之柱
+2147	f	參觀 樹果爺爺的屋子
+0768	s	擊敗連勝家族
+1800	t	在１０３號道路擊敗 勁敵小悠 (初始 水躍魚)
+1801	t	在１１０號道路擊敗 勁敵小悠 (初始 水躍魚)
+1802	t	在１１９號道路擊敗 勁敵小悠 (初始 水躍魚)
+1803	t	在１０３號道路擊敗 勁敵小悠 (初始 木守宮)
+1804	t	在１１０號道路擊敗 勁敵小悠 (初始 木守宮)
+1805	t	在１１９號道路擊敗 勁敵小悠 (初始 木守宮)
+1806	t	在１０３號道路擊敗 勁敵小悠 (初始 火稚雞)
+1807	t	在１１０號道路擊敗 勁敵小悠 (初始 火稚雞)
+1808	t	在１１９號道路擊敗 勁敵小悠 (初始 火稚雞)
+1809	t	在１０３號道路擊敗 勁敵小遙 (初始 水躍魚)
+1810	t	在１１０號道路擊敗 勁敵小遙 (初始 水躍魚)
+1811	t	在１１９號道路擊敗 勁敵小遙 (初始 水躍魚)
+1812	t	在１０３號道路擊敗 勁敵小遙 (初始 木守宮)
+1813	t	在１１０號道路擊敗 勁敵小遙 (初始 木守宮)
+1814	t	在１１９號道路擊敗 勁敵小遙 (初始 木守宮)
+1815	t	在１０３號道路擊敗 勁敵小遙 (初始 火稚雞)
+1816	t	在１１０號道路擊敗 勁敵小遙 (初始 火稚雞)
+1817	t	在１１９號道路擊敗 勁敵小遙 (初始 火稚雞)
+1941	t	在水靜市擊敗 勁敵小悠 (初始 水躍魚)
+1942	t	在水靜市擊敗 勁敵小悠 (初始 木守宮)
+1943	t	在水靜市擊敗 勁敵小悠 (初始 火稚雞)
+1944	t	在水靜市擊敗 勁敵小遙 (初始 水躍魚)
+1945	t	在水靜市擊敗 勁敵小遙 (初始 木守宮)
+1946	t	在水靜市擊敗 勁敵小遙 (初始 火稚雞)
+1320	t	與香氛姐姐 彌生第一次再戰
+1321	t	與香氛姐姐 彌生第二次再戰
+1322	t	與香氛姐姐 彌生第三次再戰
+1323	t	與香氛姐姐 彌生第四次再戰
+1327	t	與遺跡迷 伸夫第一次再戰
+1328	t	與遺跡迷 伸夫第二次再戰
+1329	t	與遺跡迷 伸夫第三次再戰
+1330	t	與遺跡迷 伸夫第四次再戰
+1340	t	與泳圈女孩 亞由美第一次再戰
+1341	t	與泳圈女孩 亞由美第二次再戰
+1342	t	與泳圈女孩 亞由美第三次再戰
+1343	t	與泳圈女孩 亞由美第四次再戰
+1347	t	與泳圈男孩 裕太第一次再戰
+1348	t	與泳圈男孩 裕太第二次再戰
+1349	t	與泳圈男孩 裕太第三次再戰
+1350	t	與泳圈男孩 裕太第四次再戰
+1364	t	與菁英訓練家 裕介第一次再戰
+1365	t	與菁英訓練家 裕介第二次再戰
+1366	t	與菁英訓練家 裕介第三次再戰
+1367	t	與菁英訓練家 裕介第四次再戰
+1381	t	與菁英訓練家 真理亞第一次再戰
+1382	t	與菁英訓練家 真理亞第二次再戰
+1383	t	與菁英訓練家 真理亞第三次再戰
+1384	t	與菁英訓練家 真理亞第四次再戰
+1390	t	與靈異迷 穗乃佳第一次再戰
+1391	t	與靈異迷 穗乃佳第二次再戰
+1392	t	與靈異迷 穗乃佳第三次再戰
+1393	t	與靈異迷 穗乃佳第四次再戰
+1400	t	與千金小姐 麗華第一次再戰
+1401	t	與千金小姐 麗華第二次再戰
+1402	t	與千金小姐 麗華第三次再戰
+1403	t	與千金小姐 麗華第四次再戰
+1412	t	與大姐姐 依子第一次再戰
+1413	t	與大姐姐 依子第二次再戰
+1414	t	與大姐姐 依子第三次再戰
+1415	t	與大姐姐 依子第四次再戰
+1419	t	與富家少爺 小貢第一次再戰
+1420	t	與富家少爺 小貢第二次再戰
+1421	t	與富家少爺 小貢第三次再戰
+1422	t	與富家少爺 小貢第四次再戰
+1427	t	與怪獸狂 俊夫第一次再戰
+1428	t	與怪獸狂 俊夫第二次再戰
+1429	t	與怪獸狂 俊夫第三次再戰
+1430	t	與怪獸狂 俊夫第四次再戰
+1455	t	與泳褲小夥子 英一第一次再戰
+1456	t	與泳褲小夥子 英一第二次再戰
+1457	t	與泳褲小夥子 英一第三次再戰
+1458	t	與泳褲小夥子 英一第四次再戰
+1464	t	與空手道王 吾郎第一次再戰
+1465	t	與空手道王 吾郎第二次再戰
+1466	t	與空手道王 吾郎第三次再戰
+1467	t	與空手道王 吾郎第四次再戰
+1477	t	與吉他手 泰瑞第一次再戰
+1478	t	與吉他手 泰瑞第二次再戰
+1479	t	與吉他手 泰瑞第三次再戰
+1480	t	與吉他手 泰瑞第四次再戰
+1487	t	與營火專家 信彥第一次再戰
+1488	t	與營火專家 信彥第二次再戰
+1489	t	與營火專家 信彥第三次再戰
+1490	t	與營火專家 信彥第四次再戰
+1499	t	與露營少年 義晴第一次再戰
+1500	t	與露營少年 義晴第二次再戰
+1501	t	與露營少年 義晴第三次再戰
+1502	t	與露營少年 義晴第四次再戰
+1508	t	與昆蟲狂 幹雄第一次再戰
+1509	t	與昆蟲狂 幹雄第二次再戰
+1510	t	與昆蟲狂 幹雄第三次再戰
+1511	t	與昆蟲狂 幹雄第四次再戰
+1519	t	與超能力者 薰第一次再戰
+1520	t	與超能力者 薰第二次再戰
+1521	t	與超能力者 薰第三次再戰
+1522	t	與超能力者 薰第四次再戰
+1530	t	與超能力者 志保美第一次再戰
+1531	t	與超能力者 志保美第二次再戰
+1532	t	與超能力者 志保美第三次再戰
+1533	t	與超能力者 志保美第四次再戰
+1537	t	與紳士 羅伯特第一次再戰
+1538	t	與紳士 羅伯特第二次再戰
+1539	t	與紳士 羅伯特第三次再戰
+1540	t	與紳士 羅伯特第四次再戰
+1556	t	與補習班學生 秀夫第一次再戰
+1557	t	與補習班學生 秀夫第二次再戰
+1558	t	與補習班學生 秀夫第三次再戰
+1559	t	與補習班學生 秀夫第四次再戰
+1562	t	與補習班學生 初音第一次再戰
+1563	t	與補習班學生 初音第二次再戰
+1564	t	與補習班學生 初音第三次再戰
+1565	t	與補習班學生 初音第四次再戰
+1568	t	與學姐與學妹 美穗與里子第一次再戰
+1569	t	與學姐與學妹 美穗與里子第二次再戰
+1570	t	與學姐與學妹 美穗與里子第三次再戰
+1571	t	與學姐與學妹 美穗與里子第四次再戰
+1575	t	與發燒友俱樂部 光晴第一次再戰
+1576	t	與發燒友俱樂部 光晴第二次再戰
+1577	t	與發燒友俱樂部 光晴第三次再戰
+1578	t	與發燒友俱樂部 光晴第四次再戰
+1583	t	與發燒友俱樂部 雅子第一次再戰
+1584	t	與發燒友俱樂部 雅子第二次再戰
+1585	t	與發燒友俱樂部 雅子第三次再戰
+1586	t	與發燒友俱樂部 雅子第四次再戰
+1588	t	與達人 文翔第一次再戰
+1589	t	與達人 文翔第二次再戰
+1590	t	與達人 文翔第三次再戰
+1591	t	與達人 文翔第四次再戰
+1594	t	與達人 宮子第一次再戰
+1595	t	與達人 宮子第二次再戰
+1596	t	與達人 宮子第三次再戰
+1597	t	與達人 宮子第四次再戰
+1608	t	與短褲小子 和樹第一次再戰
+1609	t	與短褲小子 和樹第二次再戰
+1610	t	與短褲小子 和樹第三次再戰
+1611	t	與短褲小子 和樹第四次再戰
+1626	t	與垂釣者 明彥第一次再戰
+1627	t	與垂釣者 明彥第二次再戰
+1628	t	與垂釣者 明彥第三次再戰
+1629	t	與垂釣者 明彥第四次再戰
+1634	t	與鐵人三項運動員 英明第一次再戰
+1635	t	與鐵人三項運動員 英明第二次再戰
+1636	t	與鐵人三項運動員 英明第三次再戰
+1637	t	與鐵人三項運動員 英明第四次再戰
+1640	t	與鐵人三項運動員 翔子第一次再戰
+1641	t	與鐵人三項運動員 翔子第二次再戰
+1642	t	與鐵人三項運動員 翔子第三次再戰
+1643	t	與鐵人三項運動員 翔子第四次再戰
+1650	t	與鐵人三項運動員 佐枝子第一次再戰
+1651	t	與鐵人三項運動員 佐枝子第二次再戰
+1652	t	與鐵人三項運動員 佐枝子第三次再戰
+1653	t	與鐵人三項運動員 佐枝子第四次再戰
+1645	t	與鐵人三項運動員 阿毅第一次再戰
+1646	t	與鐵人三項運動員 阿毅第二次再戰
+1647	t	與鐵人三項運動員 阿毅第三次再戰
+1648	t	與鐵人三項運動員 阿毅第四次再戰
+1659	t	與鐵人三項運動員 英輔第一次再戰
+1660	t	與鐵人三項運動員 英輔第二次再戰
+1661	t	與鐵人三項運動員 英輔第三次再戰
+1662	t	與鐵人三項運動員 英輔第四次再戰
+1668	t	與鐵人三項運動員 夏美第一次再戰
+1669	t	與鐵人三項運動員 夏美第二次再戰
+1670	t	與鐵人三項運動員 夏美第三次再戰
+1671	t	與鐵人三項運動員 夏美第四次再戰
+1673	t	與馴龍師 武第一次再戰
+1674	t	與馴龍師 武第二次再戰
+1675	t	與馴龍師 武第三次再戰
+1676	t	與馴龍師 武第四次再戰
+1689	t	與養鳥人 阿翼第一次再戰
+1690	t	與養鳥人 阿翼第二次再戰
+1691	t	與養鳥人 阿翼第三次再戰
+1692	t	與養鳥人 阿翼第四次再戰
+1701	t	與忍者小子 金次第一次再戰
+1702	t	與忍者小子 金次第二次再戰
+1703	t	與忍者小子 金次第三次再戰
+1704	t	與忍者小子 金次第四次再戰
+1710	t	與對戰少女 由梨香第一次再戰
+1711	t	與對戰少女 由梨香第二次再戰
+1712	t	與對戰少女 由梨香第三次再戰
+1713	t	與對戰少女 由梨香第四次再戰
+1717	t	與陽傘姐姐 圓香第一次再戰
+1718	t	與陽傘姐姐 圓香第二次再戰
+1719	t	與陽傘姐姐 圓香第三次再戰
+1720	t	與陽傘姐姐 圓香第四次再戰
+1745	t	與比基尼姐姐 小渚第一次再戰
+1746	t	與比基尼姐姐 小渚第二次再戰
+1747	t	與比基尼姐姐 小渚第三次再戰
+1748	t	與比基尼姐姐 小渚第四次再戰
+1757	t	與野餐女孩 梢第一次再戰
+1758	t	與野餐女孩 梢第二次再戰
+1759	t	與野餐女孩 梢第三次再戰
+1760	t	與野餐女孩 梢第四次再戰
+1762	t	與雙胞胎 久美和留美第一次再戰
+1767	t	與雙胞胎 久美和留美第二次再戰
+1768	t	與雙胞胎 久美和留美第三次再戰
+1769	t	與雙胞胎 久美和留美第四次再戰
+1777	t	與水手 次郎第一次再戰
+1778	t	與水手 次郎第二次再戰
+1779	t	與水手 次郎第三次再戰
+1780	t	與水手 次郎第四次再戰
+1795	t	與寶可夢收藏家 元樹第一次再戰
+1796	t	與寶可夢收藏家 元樹第二次再戰
+1797	t	與寶可夢收藏家 元樹第三次再戰
+1798	t	與寶可夢收藏家 元樹第四次再戰
+1821	t	與寶可夢培育家 誠兒第一次再戰
+1822	t	與寶可夢培育家 誠兒第二次再戰
+1823	t	與寶可夢培育家 誠兒第三次再戰
+1824	t	與寶可夢培育家 誠兒第四次再戰
+1828	t	與寶可夢培育家 鬱惠第一次再戰
+1829	t	與寶可夢培育家 鬱惠第二次再戰
+1830	t	與寶可夢培育家 鬱惠第三次再戰
+1831	t	與寶可夢培育家 鬱惠第四次再戰
+1835	t	與寶可夢巡護員 阿守第一次再戰
+1836	t	與寶可夢巡護員 阿守第二次再戰
+1837	t	與寶可夢巡護員 阿守第三次再戰
+1838	t	與寶可夢巡護員 阿守第四次再戰
+1842	t	與寶可夢巡護員 真奈美第一次再戰
+1843	t	與寶可夢巡護員 真奈美第二次再戰
+1844	t	與寶可夢巡護員 真奈美第三次再戰
+1845	t	與寶可夢巡護員 真奈美第四次再戰
+1887	t	與迷你裙 真希第一次再戰
+1888	t	與迷你裙 真希第二次再戰
+1889	t	與迷你裙 真希第三次再戰
+1890	t	與迷你裙 真希第四次再戰
+1902	t	與捕蟲少年 三樹也第一次再戰
+1903	t	與捕蟲少年 三樹也第二次再戰
+1904	t	與捕蟲少年 三樹也第三次再戰
+1905	t	與捕蟲少年 三樹也第四次再戰
+1916	t	與登山男 健作第一次再戰
+1917	t	與登山男 健作第二次再戰
+1918	t	與登山男 健作第三次再戰
+1919	t	與登山男 健作第四次再戰
+1923	t	與熱戀情侶 彩和文第一次再戰
+1924	t	與熱戀情侶 彩和文第二次再戰
+1925	t	與熱戀情侶 彩和文第三次再戰
+1926	t	與熱戀情侶 彩和文第四次再戰
+1937	t	與寶可夢訓練家 滿充第一次再戰
+1938	t	與寶可夢訓練家 滿充第二次再戰
+1939	t	與寶可夢訓練家 滿充第三次再戰
+1940	t	與寶可夢訓練家 滿充第四次再戰
+1962	t	與金婚夫妻 源和初第一次再戰
+1963	t	與金婚夫妻 源和初第二次再戰
+1964	t	與金婚夫妻 源和初第三次再戰
+1965	t	與金婚夫妻 源和初第四次再戰
+1968	t	與海上姐弟 波美和小浩第一次再戰
+1969	t	與海上姐弟 波美和小浩第二次再戰
+1970	t	與海上姐弟 波美和小浩第三次再戰
+1971	t	與海上姐弟 波美和小浩第四次再戰

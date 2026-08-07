@@ -1541,31 +1541,31 @@
 2173	f	Peut Voler à Atalanopolis
 2174	f	Peut Voler à Éternara
 2216	f	Peut Voler à la Zone de Combat
-2204	m	A Visité le Fleuriste Jolie Fleur (Route 104)
-2205	m	A Visité le Cottage de M. Marco
-2206	m	A Visité l'Épave
-2207	m	A Visité la Maison du Bord de Mer (Chenal 109)
-2208	m	A Visité New Lavandia
-2209	m	A Visité le Gîte Vieille Dame (Route 111)
-2210	m	A Visité la Maison des Pièges
-2211	m	A Visité la Maison de la Famille Stratège (Route 111)
-2212	m	A Visité l'Atelier du Verre (Route 113)
-2213	m	A Visité la Maison d'Annette (Route 114)
-2214	m	A Visité la Pension Pokémon
-2215	m	A Visité la Caverne Fondmer
-2218	m	A Visité le Chemin Ardent
-2228	m	A Visité la Ligue Pokémon
-2229	m	A Visité la Grotte Island
-2230	m	A Visité les Ruines Désert
-2231	m	A Visité la Maison du Maniaque des Fossiles (Route 114)
-2232	m	A Visité la Grotte Zénith
-2233	m	A Visité le Tombeau Antique
-2234	m	A Visité le Refuge des Foreurs (Route 116)
-2235	m	A Visité la Maison du Chercheur de Trésors (Chenal 124)
-2236	m	A Visité le Sanctuaire
-2238	m	A Visité le Pilier Céleste
-2243	m	A Visité la Maison du Maître des Baies
-2268	m	A Visité la Tour Mirage
-2269	m	A Visité la Grotte Métamo
-2270	m	A Visité la Voie du Désert
-2274	m	A Visité le Mont Dresseurs
+2204	f	A Visité le Fleuriste Jolie Fleur (Route 104)
+2205	f	A Visité le Cottage de M. Marco
+2206	f	A Visité l'Épave
+2207	f	A Visité la Maison du Bord de Mer (Chenal 109)
+2208	f	A Visité New Lavandia
+2209	f	A Visité le Gîte Vieille Dame (Route 111)
+2210	f	A Visité la Maison des Pièges
+2211	f	A Visité la Maison de la Famille Stratège (Route 111)
+2212	f	A Visité l'Atelier du Verre (Route 113)
+2213	f	A Visité la Maison d'Annette (Route 114)
+2214	f	A Visité la Pension Pokémon
+2215	f	A Visité la Caverne Fondmer
+2218	f	A Visité le Chemin Ardent
+2228	f	A Visité la Ligue Pokémon
+2229	f	A Visité la Grotte Island
+2230	f	A Visité les Ruines Désert
+2231	f	A Visité la Maison du Maniaque des Fossiles (Route 114)
+2232	f	A Visité la Grotte Zénith
+2233	f	A Visité le Tombeau Antique
+2234	f	A Visité le Refuge des Foreurs (Route 116)
+2235	f	A Visité la Maison du Chercheur de Trésors (Chenal 124)
+2236	f	A Visité le Sanctuaire
+2238	f	A Visité le Pilier Céleste
+2243	f	A Visité la Maison du Maître des Baies
+2268	f	A Visité la Tour Mirage
+2269	f	A Visité la Grotte Métamo
+2270	f	A Visité la Voie du Désert
+2274	f	A Visité le Mont Dresseurs
