@@ -70,6 +70,7 @@ public enum LegalityCheckResultCode : ushort
     EggLocationTrade,
     EggLocationTradeFail,
     EggMetLocationFail,
+    EggMoveCombination,
     EggNature,
     EggPP,
     EggPPUp,
@@ -472,6 +473,7 @@ public enum LegalityCheckResultCode : ushort
     // One/Two Arguments: Special
     FirstComplex,
     RibbonsInvalid_0 = FirstComplex, // generated string
+    EggBreedChain_0, // generated string
     WordFilterFlaggedPattern_01, // filter, pattern
     WordFilterInvalidCharacter_0, // filter, pattern
 

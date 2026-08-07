@@ -94,6 +94,7 @@ public sealed class LegalityCheckLocalization
     public string EggLocationTrade { get; init; } = "Able to hatch a traded Egg at Met Location.";
     public string EggLocationTradeFail { get; init; } = "Invalid Egg Location, shouldn't be 'traded' while an Egg.";
     public string EggMetLocationFail { get; init; } = "Can't obtain Egg from Egg Location.";
+    public string EggMoveCombination { get; init; } = "These Egg Moves cannot be inherited in combination in this generation.";
     public string EggNature { get; init; } = "Eggs cannot have their Stat Alignment changed.";
     public string EggPP { get; init; } = "Eggs cannot have modified move PP counts.";
     public string EggPPUp { get; init; } = "Cannot apply PP Ups to an Egg.";
@@ -101,6 +102,7 @@ public sealed class LegalityCheckLocalization
     public string EggShinyPokeStar { get; init; } = "Eggs cannot be a Pokéstar Studios star.";
     public string EggSpecies { get; init; } = "Can't obtain Egg for this species.";
     public string EggUnhatched { get; init; } = "Valid un-hatched Egg.";
+    public string EggBreedChain_0 { get; set; } = "Egg Breed Chain: {0}";
 
     public string EncCondition { get; init; } = "Valid Wild Encounter at location.";
     public string EncConditionBadRNGFrame { get; init; } = "Unable to match encounter conditions to a possible RNG frame.";
