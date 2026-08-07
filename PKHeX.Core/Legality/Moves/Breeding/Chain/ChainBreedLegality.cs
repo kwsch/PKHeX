@@ -339,6 +339,13 @@ public static class ChainBreedLegality
             return true;
         }
 
+        return CanFatherKnowAllMovesPast(fatherSpecies, fatherForm, version, moves, ref trace, depth);
+    }
+
+    private static bool CanFatherKnowAllMovesPast(ushort fatherSpecies, byte fatherForm, GameVersion version,
+        scoped ReadOnlySpan<ushort> moves,
+        ref ChainBreedTrace trace, int depth)
+    {
         // A father used in this generation could have been transferred from the immediately preceding generation with its complete moveset intact.
         // Re-run the possession proof in each relevant predecessor ruleset.
         // Recursing one generation at a time also permits the Gen3 -> Gen4 -> Gen5 path.
@@ -435,7 +442,7 @@ public static class ChainBreedLegality
         {
             if (CanLearnDirectly(species, form, RS, move))
                 return true;
-            // Check XD Shadow Pokemon encounters
+            // Check XD Shadow Pokemon encounters as origin.
             if (CanLearnFromEncounterSpecial(Encounters3XD.Shadow, species, move))
                 return true;
         }
@@ -553,15 +560,16 @@ public static class ChainBreedLegality
         return tmIndex >= 0 && tm.GetIsLearnTM(tmIndex);
     }
 
+    // Can potentially move these to LearnSource2/3/4/5, but they are only used here and are not part of the public API.
     private static bool MarkChildMoveFlags(ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, Learnset learnset, Span<byte> flags) => version switch
     {
         GD or SI or GS => MarkChildMoveFlags2(species, form, LearnSource2GS.Instance, PersonalTable.GS[species, form], version, moves, learnset, flags),
         C or GSC => MarkChildMoveFlags2(species, form, LearnSource2C.Instance, PersonalTable.C[species, form], version, moves, learnset, flags),
 
-        R or S or RS => MarkChildMoveFlags3(species, form, LearnSource3RS.Instance, PersonalTable.RS[species, form], moves, learnset, flags),
-        E or RSE or COLO or XD or CXD or EFL => MarkChildMoveFlags3(species, form, LearnSource3E.Instance, PersonalTable.E[species, form], moves, learnset, flags),
-        FR or FRLG => MarkChildMoveFlags3(species, form, LearnSource3FR.Instance, PersonalTable.FR[species, form], moves, learnset, flags),
-        LG => MarkChildMoveFlags3(species, form, LearnSource3LG.Instance, PersonalTable.LG[species, form], moves, learnset, flags),
+        // RSE are all the same learnsets for anything that can breed (only Deoxys differs between RS/E).
+        R or S or E or RS or RSE => MarkChildMoveFlags3(species, form, LearnSource3E.Instance, PersonalTable.E[species, form], moves, learnset, flags),
+        // FR/LG are all the same learnsets for anything that can breed (only Deoxys; Dugtrio has swapped move ordering: Sand-Attack is listed above Scratch only in LeafGreen).
+        FR or LG or FRLG => MarkChildMoveFlags3(species, form, LearnSource3FR.Instance, PersonalTable.FR[species, form], moves, learnset, flags),
 
         D or P or DP => MarkChildMoveFlags4(species, form, LearnSource4DP.Instance, PersonalTable.DP[species, form], version, moves, learnset, flags),
         Pt or DPPt => MarkChildMoveFlags4(species, form, LearnSource4Pt.Instance, PersonalTable.Pt[species, form], version, moves, learnset, flags),
@@ -873,28 +881,29 @@ public static class ChainBreedLegality
                     continue;
 
                 var fatherInfo = table[fatherSpecies, fatherForm];
-
                 // Father must be in the same egg group
-                if (!IsCompatibleFatherForBreeding(motherInfo, fatherSpecies, fatherInfo))
+                if (!IsCompatibleFatherForBreeding(motherInfo, fatherInfo))
                     continue;
 
                 // Check if this father can have all the moves
-                bool canLearnAll = true;
-                foreach (var move in moves)
-                {
-                    if (move == 0)
-                        break;
-                    if (CanLearnDirectlyInLine(fatherSpecies, fatherForm, version, move))
-                        continue;
-                    canLearnAll = false;
-                    break;
-                }
-                if (canLearnAll)
-                    return true; // Found a father that can pass all moves
+                if (CanFatherLearnAll(moves, version, fatherSpecies, fatherForm))
+                    return true;
             }
         }
 
         return false; // No father can pass all the moves
+    }
+
+    private static bool CanFatherLearnAll(ReadOnlySpan<ushort> moves, GameVersion version, ushort fatherSpecies, byte fatherForm)
+    {
+        foreach (var move in moves)
+        {
+            if (move == 0)
+                break;
+            if (!CanLearnDirectlyInLine(fatherSpecies, fatherForm, version, move))
+                return false;
+        }
+        return true;
     }
 
     private static bool CanAnyCompatibleFatherLearnMove(PersonalInfo motherInfo, ushort move, IPersonalTable table, ILearnSource learn)
@@ -913,7 +922,7 @@ public static class ChainBreedLegality
                 var fatherInfo = table[fatherSpecies, fatherForm];
 
                 // Father must be in the same egg group and not be Ditto (or genderless/female-only)
-                if (!IsCompatibleFatherForMove(motherInfo, fatherSpecies, fatherInfo))
+                if (!IsCompatibleFatherForMove(motherInfo, fatherInfo))
                     continue;
 
                 // Check if this father can learn the move via level-up
@@ -926,12 +935,8 @@ public static class ChainBreedLegality
         return false; // No compatible father found
     }
 
-    private static bool IsCompatibleFatherForMove(PersonalInfo mother, ushort fatherSpecies, PersonalInfo father)
+    private static bool IsCompatibleFatherForMove(PersonalInfo mother, PersonalInfo father)
     {
-        // Ditto can't pass down level-up moves
-        if (fatherSpecies == (ushort)Species.Ditto)
-            return false;
-
         // Father can't be genderless or female-only
         if (father.Genderless || father.OnlyFemale)
             return false;
@@ -943,12 +948,8 @@ public static class ChainBreedLegality
         return true;
     }
 
-    private static bool IsCompatibleFatherForBreeding(PersonalInfo mother, ushort fatherSpecies, PersonalInfo father)
+    private static bool IsCompatibleFatherForBreeding(PersonalInfo mother, PersonalInfo father)
     {
-        // Ditto can't pass down egg moves
-        if (fatherSpecies == (ushort)Species.Ditto)
-            return false;
-
         // Father can't be genderless or female-only
         if (father.Genderless || father.OnlyFemale)
             return false;
