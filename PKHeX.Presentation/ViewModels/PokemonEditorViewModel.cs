@@ -546,7 +546,10 @@ public partial class PokemonEditorViewModel : ViewModelBase
     {
         _pk.Species = (ushort)Species;
         _pk.Form = (byte)Form;
-        _pk.Nickname = Nickname;
+        // Only re-encode if actually edited: characters PKHeX can't decode (e.g. custom
+        // fan-translation encodings) round-trip to '?' otherwise, corrupting untouched names.
+        if (_pk.Nickname != Nickname)
+            _pk.Nickname = Nickname;
         _pk.Stat_Level = (byte)Level;
         _pk.StatAlignment = (Nature)StatAlignment;
         _pk.Nature = (Nature)Nature;
@@ -596,7 +599,8 @@ public partial class PokemonEditorViewModel : ViewModelBase
         _pk.EV_SPD = EvSPD;
         _pk.EV_SPE = EvSPE;
 
-        _pk.OriginalTrainerName = OriginalTrainerName;
+        if (_pk.OriginalTrainerName != OriginalTrainerName)
+            _pk.OriginalTrainerName = OriginalTrainerName;
         _pk.OriginalTrainerGender = (byte)OriginalTrainerGender;
         _pk.DisplayTID = (uint)TrainerID;
         _pk.DisplaySID = (uint)Sid;

@@ -132,7 +132,10 @@ public partial class HallOfFame1EditorViewModel : ViewModelBase
             {
                 entity.Species = species;
                 entity.Level = Level;
-                entity.Nickname = Nickname;
+                // Only re-encode if actually edited: characters PKHeX can't decode round-trip
+                // to a fallback character otherwise, corrupting untouched names.
+                if (entity.Nickname != Nickname)
+                    entity.Nickname = Nickname;
             }
         }
 
