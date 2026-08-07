@@ -330,7 +330,7 @@ public sealed class JoinAvenueVisitor5(Memory<byte> data) : IJoinAvenueEntity5
         if (raw == 0)
             return null; // none
 
-        raw -= 1;
+        raw--;
 
         var level = raw % ShopMaxRank;
         raw /= ShopMaxRank;

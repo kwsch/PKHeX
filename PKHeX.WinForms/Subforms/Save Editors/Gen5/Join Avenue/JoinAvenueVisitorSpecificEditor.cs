@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -9,15 +8,14 @@ namespace PKHeX.WinForms;
 
 public sealed partial class JoinAvenueVisitorSpecificEditor : UserControl, IJoinAvenueSpecificEditor<JoinAvenueVisitor5>
 {
-    private static readonly List<ComboItem> ShopTypeList = Enum.GetValues<JoinAvenueShopType5>().Select(z => new ComboItem(z.ToString(), (int)z)).ToList();
+    private static readonly List<ComboItem> ShopTypeList = [new("None", -1), ..Util.GetCBList<JoinAvenueShopType5>()];
     private static readonly List<ComboItem> OriginList = [new("NPC", 0), new("Human Player", 1)];
 
     public JoinAvenueVisitorSpecificEditor()
     {
         InitializeComponent();
-        ShopTypeList.Insert(0, new ComboItem("None", -1));
         InitializeCombo(CB_DesiredShopType, ShopTypeList);
-        InitializeCombo(CB_FavoriteSpecies, GameInfo.FilteredSources.Species.ToList());
+        InitializeCombo(CB_FavoriteSpecies, [.. GameInfo.FilteredSources.Species]);
         InitializeCombo(CB_Origin, OriginList);
         InitializeCombo(CB_ShopType, ShopTypeList);
     }

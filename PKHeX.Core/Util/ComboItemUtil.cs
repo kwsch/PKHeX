@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using static PKHeX.Core.MessageStrings;
 using static PKHeX.Core.GeonetPoint;
+using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core;
 
@@ -46,6 +46,15 @@ public static partial class Util
         for (int i = 0; i < inStrings.Length; i++)
             list.Add(new ComboItem(inStrings[i], i));
         list.Sort(Comparer);
+        return list;
+    }
+
+    public static List<ComboItem> GetCBList<T>() where T : struct, Enum
+    {
+        var src = Enum.GetValues<T>();
+        var list = new List<ComboItem>(src.Length);
+        foreach (var value in src)
+            list.Add(new ComboItem(value.ToString(), Convert.ToInt32(value)));
         return list;
     }
 

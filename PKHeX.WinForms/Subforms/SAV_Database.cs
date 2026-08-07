@@ -116,8 +116,8 @@ public partial class SAV_Database : Form
 
                 var x = Main.Settings;
                 var programLanguage = Language.GetLanguageValue(x.Startup.Language);
-                var settings = x.BattleTemplate.Hover.GetSettings(programLanguage, pk.Entity.Context);
-                slot.AccessibleDescription = ShowdownParsing.GetLocalizedPreviewText(pk.Entity, settings);
+                var s = x.BattleTemplate.Hover.GetSettings(programLanguage, pk.Entity.Context);
+                slot.AccessibleDescription = ShowdownParsing.GetLocalizedPreviewText(pk.Entity, s);
             };
         }
 

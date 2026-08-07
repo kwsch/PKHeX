@@ -71,7 +71,6 @@ public static class BinLinkerWriter
 
         // Preallocate the offset map
         int count = data.Length;
-        int dataOffset = 4 + ((count + 1) * sizeof(uint));
         for (int i = 0; i < count; i++)
             bw.Write((uint)0);
         bw.Write((uint)0);
@@ -116,7 +115,6 @@ public static class BinLinkerWriter
 
         // Preallocate the offset map
         int count = data.Length;
-        int dataOffset = 4 + ((count + 1) * sizeof(ushort));
         for (int i = 0; i < count; i++)
             bw.Write((ushort)0);
         bw.Write((ushort)0);
