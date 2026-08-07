@@ -229,17 +229,19 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
     public void PokeGearUnlockAllCallers()
     {
         var excluded = PlayerCharacterRival;
+        var dex = GetPokeGearRoloDex();
+
         int index = 0;
         for (int i = 0; i < GearCallerCount; i++)
         {
             var caller = (PokegearNumber)i;
             if (caller == excluded || caller == PokegearNumber.Bike_Shop)
                 continue;
-            SetCallerAtIndex(index++, caller);
+            dex[index++] = caller;
         }
-        // clear the trailing slots left over from skipping the rival and bike shop
-        for (; index < GearCallerCount; index++)
-            SetCallerAtIndex(index, PokegearNumber.None);
+
+        // clear remaining callers
+        PokeGearClearAllCallers(index);
     }
 
     public void PokeGearClearAllCallers(int start = 0)
