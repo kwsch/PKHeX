@@ -354,7 +354,7 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
 
     private uint GetSaneSeed(uint seed) => Method switch
     {
-        BACD_RBCD => Math.Clamp(seed, 3, 213), // BCD digit sum
+        BACD_RBCD => Math.Clamp(seed, 0, 213), // Binary Coded Decimal hh:mm:ss timestamp digit sum from RTC
         BACD_TA when Species is (ushort)Core.Species.Jirachi
             => LCRNG.Next2(seed & 0xFFFF), // table rand, but table result identical
         BACD_TA or BACD_TS // shiny depends on encounter

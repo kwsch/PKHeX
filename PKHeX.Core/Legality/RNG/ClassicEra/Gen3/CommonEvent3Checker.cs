@@ -150,7 +150,7 @@ public static class CommonEvent3Checker
     {
         if (observed is not BACD_S)
             return false;
-        if (value.OriginSeed is < 3 or > 213) // Binary Coded Decimal sum of timestamp must be possible.
+        if (value.OriginSeed > 213) // Binary Coded Decimal hh:mm:ss timestamp digit sum from RTC must be possible.
             return false;
         value = value.AsMutated(BACD_R);
         return true;
