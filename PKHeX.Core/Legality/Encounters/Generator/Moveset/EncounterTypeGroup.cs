@@ -8,6 +8,9 @@ namespace PKHeX.Core;
 [Flags]
 public enum EncounterTypeGroup
 {
+    /// <summary> Shouldn't ever use this; you want at least one of the flags set. </summary>
+    None = 0,
+
     /// <summary> Bred egg from the Daycare/etc. </summary>
     Egg = 1 << 0,
     /// <summary> Mystery Gift data from external distributions. </summary>

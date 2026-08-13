@@ -49,7 +49,7 @@ public partial class PokeGrid : UserControl
 
     public static int GetMaxRowCount(int availableHeight, int spriteHeight)
     {
-        var heightOffset = (2 * padEdge) + border;
+        const int heightOffset = (2 * padEdge) + border;
         var rowHeight = spriteHeight + border;
         if (rowHeight <= 0)
             return 1;

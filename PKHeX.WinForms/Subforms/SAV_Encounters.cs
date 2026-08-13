@@ -153,7 +153,7 @@ public partial class SAV_Encounters : Form
     private void GetTypeFilters()
     {
         var types = Enum.GetValues<EncounterTypeGroup>();
-        var checks = types.Select(z => new CheckBox
+        var checks = types.Where(z => z != 0).Select(z => new CheckBox
         {
             Name = z.ToString(),
             Text = z.ToString(),

@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace PKHeX.Core.Tests.PKM;
+namespace PKHeX.Core.Tests.Entity;
 
 public class LCRNGTest
 {

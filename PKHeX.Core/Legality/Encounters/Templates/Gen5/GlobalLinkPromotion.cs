@@ -101,7 +101,7 @@ public static class GlobalLinkPromotionExtensions
             if (restrict == NotKor && prefer == LanguageID.Korean)
                 return LanguageID.Japanese;
             if (restrict == NotInt)
-                return (prefer == LanguageID.Korean ? prefer : LanguageID.Japanese);
+                return prefer == LanguageID.Korean ? prefer : LanguageID.Japanese;
 
             // International language only.
             if (prefer is LanguageID.Japanese or LanguageID.Korean)

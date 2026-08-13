@@ -208,10 +208,6 @@ public static class XDRNG
     public const int MaxCountSeedsIV = 6;
     public const int MaxCountSeedsChannel = 12;
 
-    // Euclidean division constants
-    private const uint Sub = Add - 0xFFFF;
-    private const ulong Base = (Mult + 1ul) * 0xFFFF;
-
     /// <summary>
     /// Finds all seeds that can generate the <see cref="pid"/> by two successive rand() calls.
     /// </summary>
@@ -381,22 +377,22 @@ public static class XDRNG
 
         long f0 = ((-10L * hp) + (23L * atk) - def - (15L * spe) + (52L * spa) - (53L * spd)) << 27;
         uint x0Min = (uint)((f0 + upper0) >> 32) * r0; // LOWER and UPPER are inverted relative to xmin and xmax because r0 is negative (same with r1 and r5)
-        uint x0Max = (uint)((f0 + lower0) >> 32) * r0 - r0;
+        uint x0Max = ((uint)((f0 + lower0) >> 32) * r0) - r0;
         long f1 = ((-14L * hp) + (7L * atk) - (18L * def) - (21L * spe) - (26L * spa) - (24L * spd)) << 27;
         uint x1Min = (uint)((f1 + upper1) >> 32) * r1;
-        uint x1Max = (uint)((f1 + lower1) >> 32) * r1 - r1;
+        uint x1Max = ((uint)((f1 + lower1) >> 32) * r1) - r1;
         long f2 = ((24L * hp) - (5L * atk) + (22L * def) + (15L * spe) - (5L * spa) - (15L * spd)) << 27;
         uint x2Min = (uint)((f2 + lower2) >> 32) * r2;
-        uint x2Max = (uint)((f2 + upper2) >> 32) * r2 + r2;
+        uint x2Max = ((uint)((f2 + upper2) >> 32) * r2) + r2;
         long f3 = ((-5L * hp) - (24L * atk) + (26L * def) - (12L * spe) + (9L * spa) + (14L * spd)) << 27;
         uint x3Min = (uint)((f3 + lower3) >> 32) * r3;
-        uint x3Max = (uint)((f3 + upper3) >> 32) * r3 + r3;
+        uint x3Max = ((uint)((f3 + upper3) >> 32) * r3) + r3;
         long f4 = ((27L * atk) - (18L * spe) - (8L * spa) - spd) << 27;
         uint x4Min = (uint)((f4 + lower4) >> 32) * r4;
-        uint x4Max = (uint)((f4 + upper4) >> 32) * r4 + r4;
+        uint x4Max = ((uint)((f4 + upper4) >> 32) * r4) + r4;
         long f5 = ((-27L * hp) + (18L * def) + (8L * spe) + spa) << 27;
         uint x5Min = (uint)((f5 + upper5) >> 32) * r5;
-        uint x5Max = (uint)((f5 + lower5) >> 32) * r5 - r5;
+        uint x5Max = ((uint)((f5 + lower5) >> 32) * r5) - r5;
 
         // at most 720 iterations in total (around 369 in average, 48 in the best case)
         int ctr = 0;

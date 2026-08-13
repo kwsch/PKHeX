@@ -122,7 +122,7 @@ public static class ImageUtil
         {
             var data = bmp.GetBitmapData(out var bmpData);
             try { ChangeAllTo(data, c, start, end); }
-            finally { bmp.UnlockBits(bmpData); }    
+            finally { bmp.UnlockBits(bmpData); }
         }
 
         public int GetAverageColor()

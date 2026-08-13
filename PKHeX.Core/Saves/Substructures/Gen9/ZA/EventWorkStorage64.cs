@@ -202,7 +202,7 @@ public abstract class EventWorkStorage64<TValue>(SaveFile sav, SCBlock block) : 
 
     public TValue this[ReadOnlySpan<char> name]
     {
-        get => TryGetValue(name, out var val) ? val : throw new KeyNotFoundException($"No entry found for name '{name.ToString()}'");
+        get => TryGetValue(name, out var val) ? val : throw new KeyNotFoundException($"No entry found for name '{name}'");
         set => SetValue(name, value);
     }
 

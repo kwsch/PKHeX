@@ -101,9 +101,11 @@ public static class EntityFormat
             // Can still be zero if it's an egg in S/V.
             var ivs = ReadUInt32LittleEndian(core[0x8C..]);
             if (((ivs >> 30) & 1) != 1) // IsEgg flag not set!
+            {
                 // Not an egg, therefore should have obedience level as PK9/PA9.
                 // Since it doesn't, it's a Gen8 non-egg.
                 return IsFormatReally8b(pk);
+            }
 
             // ZA has no eggs. If 0xDE is non-zero, it's a Gen8 egg.
             if (core[0xDE] != 0) // SW/SH or BD/SP.

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Xunit;
@@ -15,31 +14,36 @@ public class GeneratorTests
     private const string SkipReasonLong = "Long duration test, run manually & very infrequently.";
     static GeneratorTests() => TestUtil.InitializeLegality();
 
-    public static IEnumerable<object[]> GetSpecies17() => GetSpecies(PT.USUM, new TR(US), () => new PK7(), []);
-    public static IEnumerable<object[]> GetSpeciesLGPE() => GetSpecies(PT.GG, new TR(GP), () => new PB7(), [GP, GE]);
-    public static IEnumerable<object[]> GetSpeciesSWSH() => GetSpecies(PT.SWSH, new TR(SW), () => new PK8(), [SW, SH]);
-    public static IEnumerable<object[]> GetSpeciesPLA() => GetSpecies(PT.LA, new TR(PLA), () => new PA8(), [PLA]);
-    public static IEnumerable<object[]> GetSpeciesBDSP() => GetSpecies(PT.BDSP, new TR(BD), () => new PB8(), [BD, SP]);
-    public static IEnumerable<object[]> GetSpeciesSV() => GetSpecies(PT.SV, new TR(SL), () => new PK9(), [SL, VL]);
+    public static TheoryData<SpeciesTestRow> Species17 => GetSpecies(PT.USUM, new(US), () => new PK7(), []);
+    public static TheoryData<SpeciesTestRow> SpeciesLGPE => GetSpecies(PT.GG, new(GP), () => new PB7(), [GP, GE]);
+    public static TheoryData<SpeciesTestRow> SpeciesSWSH => GetSpecies(PT.SWSH, new(SW), () => new PK8(), [SW, SH]);
+    public static TheoryData<SpeciesTestRow> SpeciesPLA => GetSpecies(PT.LA, new(PLA), () => new PA8(), [PLA]);
+    public static TheoryData<SpeciesTestRow> SpeciesBDSP => GetSpecies(PT.BDSP, new(BD), () => new PB8(), [BD, SP]);
+    public static TheoryData<SpeciesTestRow> SpeciesSV => GetSpecies(PT.SV, new(SL), () => new PK9(), [SL, VL]);
 
-    private static IEnumerable<object[]> GetSpecies<T>(T table, TR tr, Func<Core.PKM> ctor, GameVersion[] games) where T : IPersonalTable
+    public readonly record struct SpeciesTestRow(Species Species, TR Trainer, PKM Template, GameVersion[] Games);
+
+    private static TheoryData<SpeciesTestRow> GetSpecies<T>(T table, TR tr, Func<PKM> ctor, GameVersion[] games) where T : IPersonalTable
     {
+        var data = new TheoryData<SpeciesTestRow>();
         for (ushort i = 1; i <= table.MaxSpeciesID; i++)
         {
             if (table.IsSpeciesInGame(i))
-                yield return [(Species)i, tr, ctor(), games];
+                data.Add(new SpeciesTestRow((Species)i, tr, ctor(), games));
         }
+        return data;
     }
 
     [Theory(Skip = SkipReasonLong)]
-    [MemberData(nameof(GetSpecies17))]
-    [MemberData(nameof(GetSpeciesLGPE))]
-    [MemberData(nameof(GetSpeciesSWSH))]
-    [MemberData(nameof(GetSpeciesPLA))]
-    [MemberData(nameof(GetSpeciesBDSP))]
-    [MemberData(nameof(GetSpeciesSV))]
-    public void PokemonGenerationReturnsLegalPokemon(Species species, TR tr, Core.PKM template, GameVersion[] games)
+    [MemberData(nameof(Species17))]
+    [MemberData(nameof(SpeciesLGPE))]
+    [MemberData(nameof(SpeciesSWSH))]
+    [MemberData(nameof(SpeciesPLA))]
+    [MemberData(nameof(SpeciesBDSP))]
+    [MemberData(nameof(SpeciesSV))]
+    public void PokemonGenerationReturnsLegalPokemon(SpeciesTestRow row)
     {
+        var (species, tr, template, games) = row;
         int count = 0;
         template.Species = (ushort)species;
         template.Gender = template.PersonalInfo.RandomGender();

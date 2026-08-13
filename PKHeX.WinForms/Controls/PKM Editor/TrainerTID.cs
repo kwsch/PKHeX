@@ -31,7 +31,7 @@ internal partial class TrainerTID : UserControl, ITrainerIDControl
     {
         if (IsSixDigit)
             Save6(trainer);
-        else 
+        else
             Save5(trainer);
     }
     public bool IsValueSame(ITrainerID32 trainer)
