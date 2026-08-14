@@ -29,7 +29,7 @@ public partial class SAV_FolderList : Form
 
         var backups = Main.BackupPath;
         var drives = Environment.GetLogicalDrives();
-        Paths = GetPathList(drives, backups);
+        Paths = GetPathList(drives, backups, cts.Token);
 
         components ??= new System.ComponentModel.Container();
         dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
@@ -80,12 +80,13 @@ public partial class SAV_FolderList : Form
             Close();
     }
 
-    private static List<INamedFolderPath> GetPathList(IReadOnlyList<string> drives, string backupPath)
+    private static List<INamedFolderPath> GetPathList(IReadOnlyList<string> drives, string backupPath,
+        CancellationToken token)
     {
         List<INamedFolderPath> locs =
         [
             new CustomFolderPath(backupPath, DisplayText: "PKHeX Backups"),
-            ..GetUserPaths(), ..GetPaths3DS(drives), ..GetPathsSwitch(drives),
+            ..GetUserPaths(), ..GetPaths3DS(drives, token), ..GetPathsSwitch(drives, token),
         ];
         var filtered = locs
             .DistinctBy(z => z.Path)
@@ -129,9 +130,9 @@ public partial class SAV_FolderList : Form
         return paths.Select(x => new CustomFolderPath(x, FolderPathGroup.Custom));
     }
 
-    private static IEnumerable<CustomFolderPath> GetPaths3DS(IEnumerable<string> drives)
+    private static IEnumerable<CustomFolderPath> GetPaths3DS(IEnumerable<string> drives, CancellationToken token)
     {
-        var path3DS = SaveFinder.Get3DSLocation(drives);
+        var path3DS = SaveFinder.Get3DSLocation(drives, true, token);
         if (path3DS is null)
             return [];
 
@@ -143,9 +144,9 @@ public partial class SAV_FolderList : Form
         return paths.Select(z => new CustomFolderPath(z, FolderPathGroup.Nintendo3DS));
     }
 
-    private static IEnumerable<CustomFolderPath> GetPathsSwitch(IEnumerable<string> drives)
+    private static IEnumerable<CustomFolderPath> GetPathsSwitch(IEnumerable<string> drives, CancellationToken token)
     {
-        var pathNX = SaveFinder.GetSwitchLocation(drives);
+        var pathNX = SaveFinder.GetSwitchLocation(drives, true, token);
         if (pathNX is null)
             return [];
 
