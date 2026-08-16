@@ -116,7 +116,6 @@ namespace PKHeX.WinForms
             // 
             // SAV_DonutGenerator9a
             // 
-            AcceptButton = B_Generate;
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             CancelButton = B_Cancel;
             ClientSize = new System.Drawing.Size(536, 232);

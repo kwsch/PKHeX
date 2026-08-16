@@ -431,10 +431,13 @@ public partial class Main : Form
 
     private void MainMenuBatchEditor(object sender, EventArgs e)
     {
-        using var form = new BatchEditor(PKME_Tabs.PreparePKM(), C_SAV.SAV);
-        form.ShowDialog();
-        C_SAV.SetPKMBoxes(); // refresh
-        C_SAV.UpdateBoxViewers();
+        using var form = new BatchEditor(PKME_Tabs.PreparePKM(), C_SAV.SAV, C_SAV.EditEnv.Slots.Changelog);
+        if (form.ShowDialog() != DialogResult.OK)
+            return;
+
+        foreach (var slot in form.GetModifiedSlots())
+            C_SAV.EditEnv.Slots.UpdateSlot(slot);
+        C_SAV.UpdateUndoRedo();
     }
 
     private void MainMenuFolder(object sender, EventArgs e)

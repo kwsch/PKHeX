@@ -1,76 +1,214 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// Tracks <see cref="PKM"/> slot changes and provides the ability to revert a change.
+/// Maintains undo and redo history for changes made to a <see cref="SaveFile"/>.
 /// </summary>
-public sealed class SlotChangelog(SaveFile SAV)
+public sealed record SlotChangelog(SaveFile Parent)
 {
-    private readonly Stack<SlotReversion> UndoStack = new();
-    private readonly Stack<SlotReversion> RedoStack = new();
+    private readonly Stack<ISlotReversion> _undo = new();
+    private readonly Stack<ISlotReversion> _redo = new();
 
-    public bool CanUndo => UndoStack.Count != 0;
-    public bool CanRedo => RedoStack.Count != 0;
+    public bool CanUndo => _undo.Count != 0;
+    public bool CanRedo => _redo.Count != 0;
 
-    public void AddNewChange(ISlotInfo info)
+    /// <summary>
+    /// Begins tracking a change affecting one slot.
+    /// </summary>
+    public Change Begin(ISlotInfo info) => Begin([info]);
+
+    /// <summary>
+    /// Begins tracking a change affecting multiple slots.
+    /// The resulting change is represented by a single undo/redo entry.
+    /// </summary>
+    public Change Begin(params IEnumerable<ISlotInfo> slots)
     {
-        var revert = GetReversion(info, SAV);
-        AddUndo(revert);
+        var reversion = CreateReversion(slots, Parent);
+        return new Change(this, reversion);
     }
 
-    public ISlotInfo Undo()
+    /// <summary>
+    /// Undoes the most recent committed change.
+    /// </summary>
+    /// <returns>The slots affected by the change.</returns>
+    public IReadOnlyList<ISlotInfo> Undo()
     {
-        var change = UndoStack.Pop();
-        var revert = GetReversion(change.Info, SAV);
-        AddRedo(revert);
-        change.Revert(SAV);
-        return change.Info;
+        if (!CanUndo)
+            return [];
+
+        var change = _undo.Pop();
+
+        // Capture the state that exists immediately before the undo.
+        // That state becomes the redo operation.
+        var redo = change.CreateInverse(Parent);
+
+        change.Revert(Parent);
+        _redo.Push(redo);
+
+        return change.Slots;
     }
 
-    public ISlotInfo Redo()
+    /// <summary>
+    /// Redoes the most recently undone change.
+    /// </summary>
+    /// <returns>The slots affected by the change.</returns>
+    public IReadOnlyList<ISlotInfo> Redo()
     {
-        var change = RedoStack.Pop();
-        var revert = GetReversion(change.Info, SAV);
-        AddUndo(revert);
-        change.Revert(SAV);
-        return change.Info;
+        if (!CanRedo)
+            return [];
+
+        var change = _redo.Pop();
+
+        // Capture the state that exists immediately before the redo.
+        // That state becomes the next undo operation.
+        var undo = change.CreateInverse(Parent);
+
+        change.Revert(Parent);
+        _undo.Push(undo);
+
+        return change.Slots;
     }
 
-    private void AddRedo(SlotReversion change)
+    private void Commit(ISlotReversion slotReversion)
     {
-        RedoStack.Push(change);
+        _undo.Push(slotReversion);
+        _redo.Clear();
     }
 
-    private void AddUndo(SlotReversion change)
+    // ReSharper disable once MemberCanBeMadeStatic.Local
+    // ReSharper disable once UnusedParameter.Local
+    private void Discard(ISlotReversion slotReversion)
     {
-        UndoStack.Push(change);
-        RedoStack.Clear();
+        // A discarded change was never committed, so there is nothing to do.
+        // This method exists to keep Change's lifecycle explicit.
     }
 
-    private static SlotReversion GetReversion(ISlotInfo info, SaveFile sav) => info switch
+    private static ISlotReversion CreateReversion(IEnumerable<ISlotInfo> slots, SaveFile parent)
     {
-        SlotInfoParty p => new PartyReversion(p, sav),
-        _ => new SingleSlotReversion(info, sav),
+        var reversions = slots.Select(info => CreateReversion(info, parent)).ToArray();
+        return reversions.Length switch
+        {
+            0 => throw new ArgumentException("At least one slot is required.", nameof(slots)),
+            1 => reversions[0],
+            _ => new CompositeSlotReversion(reversions),
+        };
+    }
+
+    private static ISlotReversion CreateReversion(ISlotInfo info, SaveFile parent) => info switch
+    {
+        SlotInfoParty party => new PartySlotReversion(party, parent),
+        _ => new SlotSlotReversion(info, parent),
     };
 
-    private abstract class SlotReversion(ISlotInfo Info)
+    /// <summary>
+    /// Represents a change being prepared for commit.
+    /// Capture the change before modifying the save, then call <see cref="Commit"/>
+    /// after the modification succeeds.
+    /// </summary>
+    public sealed class Change(SlotChangelog owner, ISlotReversion slotReversion) : IDisposable
     {
-        internal readonly ISlotInfo Info = Info;
-        public abstract void Revert(SaveFile sav);
+        private bool _isCompleted;
+
+        /// <summary>
+        /// Commits the change to the undo history.
+        /// </summary>
+        public void Commit()
+        {
+            if (_isCompleted)
+                throw new InvalidOperationException("The change has already been completed.");
+
+            _isCompleted = true;
+            owner.Commit(slotReversion);
+        }
+
+        /// <summary>
+        /// Restores the state captured when the change began and discards it.
+        /// </summary>
+        public void Rollback()
+        {
+            if (_isCompleted)
+                throw new InvalidOperationException("The change has already been completed.");
+
+            _isCompleted = true;
+            slotReversion.Revert(owner.Parent);
+            owner.Discard(slotReversion);
+        }
+
+        /// <summary>
+        /// Discards the change without restoring anything.
+        /// Use this when no mutation was performed.
+        /// </summary>
+        public void Cancel()
+        {
+            if (_isCompleted)
+                throw new InvalidOperationException("The change has already been completed.");
+
+            _isCompleted = true;
+            owner.Discard(slotReversion);
+        }
+
+        public void Dispose()
+        {
+            // An uncommitted change is automatically rolled back.
+            if (!_isCompleted)
+                Rollback();
+        }
     }
 
-    private sealed class PartyReversion(ISlotInfo info, IList<PKM> Party) : SlotReversion(info)
+    public interface ISlotReversion
     {
-        public PartyReversion(ISlotInfo info, SaveFile s) : this(info, s.PartyData) { }
-
-        public override void Revert(SaveFile sav) => sav.PartyData = Party;
+        IReadOnlyList<ISlotInfo> Slots { get; }
+        ISlotReversion CreateInverse(SaveFile parent);
+        void Revert(SaveFile parent);
     }
 
-    private sealed class SingleSlotReversion(ISlotInfo info, PKM Entity) : SlotReversion(info)
+    private sealed class SlotSlotReversion(ISlotInfo info, SaveFile parent) : ISlotReversion
     {
-        public SingleSlotReversion(ISlotInfo info, SaveFile sav) : this(info, info.Read(sav)) { }
+        private readonly PKM _entity = info.Read(parent).Clone();
+        public IReadOnlyList<ISlotInfo> Slots => [info];
+        public ISlotReversion CreateInverse(SaveFile parent) => new SlotSlotReversion(info, parent);
+        public void Revert(SaveFile parent) => info.WriteTo(parent, _entity.Clone(), EntityImportSettings.None);
+    }
 
-        public override void Revert(SaveFile sav) => Info.WriteTo(sav, Entity, EntityImportSettings.None);
+    private sealed class PartySlotReversion(SlotInfoParty info, SaveFile parent) : ISlotReversion
+    {
+        private readonly PKM[] _party = CloneParty(parent.PartyData);
+        public IReadOnlyList<ISlotInfo> Slots => [info];
+        public ISlotReversion CreateInverse(SaveFile parent) => new PartySlotReversion(info, parent);
+        public void Revert(SaveFile parent) => parent.PartyData = CloneParty(_party);
+        private static PKM[] CloneParty(IEnumerable<PKM> party) => [.. party.Select(pk => pk.Clone())];
+    }
+
+    private sealed class CompositeSlotReversion : ISlotReversion
+    {
+        private readonly IReadOnlyList<ISlotReversion> Reversions;
+
+        public CompositeSlotReversion(params IReadOnlyList<ISlotReversion> reversions)
+        {
+            if (reversions.Count == 0)
+                throw new ArgumentException("At least one reversion is required.", nameof(reversions));
+            Reversions = reversions;
+        }
+
+        public IReadOnlyList<ISlotInfo> Slots => [.. Reversions.SelectMany(x => x.Slots)];
+
+        public ISlotReversion CreateInverse(SaveFile parent)
+        {
+            // Capture every inverse before modifying the save.
+            var inverse = Reversions
+                .Select(x => x.CreateInverse(parent))
+                .ToArray();
+
+            return new CompositeSlotReversion(inverse);
+        }
+
+        public void Revert(SaveFile parent)
+        {
+            foreach (var reversion in Reversions)
+                reversion.Revert(parent);
+        }
     }
 }
