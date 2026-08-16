@@ -17,6 +17,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 {
     public bool IsInitialized { get; private set; }
     private readonly ToolTip SpeciesIDTip = new();
+    private readonly ToolTip MetIDTip = new();
     private readonly ToolTip NatureTip = new();
     private readonly ToolTip TipPIDInfo = new();
     private readonly ToolTip AffixedTip = new();
@@ -1910,6 +1911,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         Entity.MetLocation = (ushort)WinFormsUtil.GetIndex(CB_MetLocation);
         Entity.EggLocation = (ushort)WinFormsUtil.GetIndex(CB_EggLocation);
         UpdateLegality();
+        MetIDTip.SetToolTip(CB_MetLocation, Entity.MetLocation.ToString("000"));
     }
 
     // Secondary Windows for Ribbons/Amie/Memories
