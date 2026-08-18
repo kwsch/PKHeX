@@ -11,6 +11,10 @@
 1762	r	Electrode (bottom corners) disappeared from Hideout B2F
 0079	g	Received Eevee
 1867	*	Legendary Beasts disappeared from Burned Tower
+1970	s	Suicune disappeared in Tin Tower
+1971	s	Entei disappeared in Tin Tower
+1972	s	Raikou disappeared in Tin Tower
+0822	s	Received Rainbow Wing
 0190	e	Kurt can check GS Ball
 0191	e	Kurt ready to return GS Ball (combine with above Flag)
 0192	e	GS Ball can be inserted into Ilex Forest Shrine
