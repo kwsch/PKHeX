@@ -14,12 +14,12 @@ public sealed class GameSpecificSettings
 public sealed class GameSpecificSettings3
 {
     /// <summary>
-    /// Pokemon Box: Ruby & Sapphire allows swapping of teams at a precise time, which can put Mythicals/Legends/Over-leveled into the team slots before the ribbon award sequence.
+    /// Pokemon Box: Ruby &amp; Sapphire allows swapping of teams at a precise time, which can put Mythicals/Legends/Over-leveled into the team slots before the ribbon award sequence.
     /// </summary>
     /// <remarks>
     /// https://projectpokemon.org/home/forums/topic/68163-how-to-give-ribbons-to-legendary-pok%C3%A9mon-using-pok%C3%A9mon-box-ruby-sapphire/
     /// </remarks>
-    [LocalizedDescription("Rule-tweak to allow the Pokemon Box: Ruby & Sapphire exploit to obtain Battle Tower ribbons illegitimately.")]
+    [LocalizedDescription("Rule-tweak to allow the Pokemon Box: Ruby && Sapphire exploit to obtain Battle Tower ribbons illegitimately.")]
     public bool AllowBattleTowerTeamSwap { get; set; }
 }
 
