@@ -96,7 +96,7 @@ internal sealed class JoinAvenueListEditor<T, TSpecific> : JoinAvenueListEditor
             LB_Entries.Items[i] = GetLabel(i, Getter(i));
     }
 
-    private string GetLabel(int index, T entity)
+    private static string GetLabel(int index, T entity)
     {
         var label = entity.Name.Trim();
         if (string.IsNullOrWhiteSpace(label))

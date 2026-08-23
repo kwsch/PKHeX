@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
@@ -34,10 +33,12 @@ public static class RibbonRules
         // Not available in Gen5
         { HasVisitedGen6: true } => true,
         { HasVisitedGen7: true } => true,
+        // No Ribbons in LGP/E
         { HasVisitedSWSH: true } => true,
         { HasVisitedBDSP: true } => true,
         // Not available in PLA
         { HasVisitedGen9: true } => true,
+        // No Ribbons in ZA
         _ => false,
     };
 
@@ -46,10 +47,12 @@ public static class RibbonRules
     /// </summary>
     public static bool IsRibbonValidBestFriends(PKM pk, EvolutionHistory evos) => evos switch
     {
-        { HasVisitedSWSH: true } => true, // Max Friendship
-        { HasVisitedBDSP: true } => true, // Max Friendship
-        { HasVisitedGen9: true } => true, // Max Friendship
+        // Via max Friendship, can be lowered afterwards.
+        { HasVisitedSWSH: true } => true,
+        { HasVisitedBDSP: true } => true,
+        { HasVisitedGen9: true } => true,
 
+        // Via max Affection, cannot be lowered afterwards. Property is not retained when transfered to Gen8+.
         { HasVisitedGen6: true } when pk is not PK6 { IsUntraded: true, OriginalTrainerAffection: < 255 } => true,
         { HasVisitedGen7: true } when pk is not PK7 { IsUntraded: true, OriginalTrainerAffection: < 255 } => true,
         _ => false,
@@ -67,23 +70,28 @@ public static class RibbonRules
         // Gen5: Can't obtain
         if (pk.Format < 6)
             return false;
-
-        // Gen6/7: Increase level by 30 from original level
-        static bool IsWellTraveled30(PKM pk) => pk.CurrentLevel - pk.MetLevel >= 30;
         if ((evos.HasVisitedGen6 || evos.HasVisitedGen7) && IsWellTraveled30(pk))
             return true;
 
         // Gen8-BDSP: Variable by species Footprint
         if (evos.HasVisitedBDSP)
         {
-            if (IsAnyWithoutFootprint8b(evos.Gen8b))
-                return true; // no footprint
+            // If it was a "voiceless" species in BD/SP, then it can obtain it at any level.
+            foreach (var evo in evos.Gen8b)
+            {
+                if (PersonalInfo8BDSP.IsVoiceless(evo.Species))
+                    return true; // no voice, any level.
+            }
             if (IsWellTraveled30(pk))
                 return true; // traveled well
         }
 
         // Otherwise: Can't obtain
         return false;
+
+        // Increase level by 30 from original level (met level).
+        // Pokémon with a met level above 70 are thus ineligible for receiving the ribbon via this method.
+        static bool IsWellTraveled30(PKM pk) => (pk.CurrentLevel - pk.MetLevel) >= 30;
     }
 
     public static bool IsRibbonValidMasterRank(PKM pk, IEncounterTemplate enc, EvolutionHistory evos)
@@ -189,6 +197,9 @@ public static class RibbonRules
     {
         if (!evos.HasVisitedGen3)
             return false;
+        if (ParseSettings.Settings.Game.Gen3.AllowBattleTowerTeamSwap)
+            return true;
+
         if (!IsAllowedBattleFrontier(evos.Gen3[0].Species))
             return false;
 
@@ -209,7 +220,7 @@ public static class RibbonRules
     public static bool IsRibbonValidVictory(EvolutionHistory evos)
     {
         if (evos.HasVisitedGen3)
-            return IsAllowedBattleFrontier(evos.Gen3[0].Species);
+            return IsAllowedBattleFrontier(evos.Gen3[0].Species) || ParseSettings.Settings.Game.Gen3.AllowBattleTowerTeamSwap;
         return false;
     }
 
@@ -228,79 +239,6 @@ public static class RibbonRules
 
         return true;
     }
-
-    /// <summary>
-    /// Checks if any of the species it existed as in BD/SP lacked footprints.
-    /// </summary>
-    private static bool IsAnyWithoutFootprint8b(EvoCriteria[] evos)
-    {
-        var arr = HasFootprintBDSP;
-        foreach (var evo in evos)
-        {
-            var species = evo.Species;
-            if (species >= arr.Length)
-                continue;
-            if (!arr[species])
-                return true;
-        }
-        return false;
-    }
-
-    // Derived from ROM data: true for all Footprint types besides 5 (5 = no feet).
-    // If true, requires gaining 30 levels to obtain ribbon. If false, can obtain ribbon at any level.
-    private static ReadOnlySpan<bool> HasFootprintBDSP =>
-    [
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true, false,  true,  true, false,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true, false, false,  true, false,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true, false, false,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-       false, false,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true, false,  true,  true,
-       false,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true, false,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true, false,  true,  true, false, false,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true, false,  true,  true,  true,  true,  true,  true,
-        true,  true,  true, false,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true, false,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true, false,  true, false,  true,
-        true,  true,  true, false,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-       false,  true,  true,  true,  true,  true,  true,  true,  true, false,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true, false, false,  true,
-        true,  true,  true, false, false, false, false, false,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true, false,  true, false, false,  true, false, false, false,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true, false, false,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        true,  true, false,  true,  true,  true,  true,  true,  true,  true,
-        true,  true,  true,  true, false,  true, false,  true,  true,  true,
-        true,  true,  true,  true,  true,  true, false,  true,  true,  true,
-        true,  true,  true,  true,
-    ];
 
     /// <summary>
     /// Checks if the input can receive the <see cref="IRibbonSetEvent3.RibbonNational"/> ribbon.
@@ -359,7 +297,9 @@ public static class RibbonRules
         {
             var head = evos.Gen3[0]; // Checking contest with Gen3 head is fine; all false cases cannot evolve (evolution chain is same Gen3/Gen4).
             var contest = IsAllowedContest4(head.Species, head.Form) ? MaxContestBoth : MaxContest3;
-            var battle = IsAllowedBattleFrontier(head.Species) ? IsRibbonValidWinning(pk, enc, evos) ? MaxBattleBoth : MaxBattleBothNoWinning : (byte)0;
+            var battle = !IsAllowedBattleFrontier(head.Species)
+                ? ParseSettings.Settings.Game.Gen3.AllowBattleTowerTeamSwap ? MaxBattle3 : (byte)0
+                : IsRibbonValidWinning(pk, enc, evos) ? MaxBattleBoth : MaxBattleBothNoWinning;
             return (contest, battle);
         }
         if (evos.HasVisitedGen4)
@@ -409,7 +349,7 @@ public static class RibbonRules
     /// <summary>
     /// Checks if the input species could have participated in any Battle Frontier trial.
     /// </summary>
-    public static bool IsAllowedBattleFrontier(ushort species) => !BattleFrontierBanlist.Contains(species);
+    public static bool IsAllowedBattleFrontier(ushort species) => BattleFrontierBanlist.BinarySearch(species) < 0;
 
     /// <summary>
     /// Checks if the input species could have participated in Generation 4's Battle Frontier.
@@ -433,9 +373,12 @@ public static class RibbonRules
     }
 
     /// <summary>
-    /// Generation 3 &amp; 4 Battle Frontier Species banlist. When referencing this in context to generation 4, be sure to disallow <see cref="Pichu"/> with Form 1 (Spiky).
+    /// Generation 3 &amp; 4 Battle Frontier Species banlist. Sorted in ascending order for binary search.
     /// </summary>
-    public static readonly HashSet<ushort> BattleFrontierBanlist =
+    /// <remarks>
+    /// When referencing this in context to generation 4, be sure to disallow <see cref="Pichu"/> with Form 1 (Spiky).
+    /// </remarks>
+    public static ReadOnlySpan<ushort> BattleFrontierBanlist =>
     [
         (int)Mewtwo, (int)Mew,
         (int)Lugia, (int)HoOh, (int)Celebi,

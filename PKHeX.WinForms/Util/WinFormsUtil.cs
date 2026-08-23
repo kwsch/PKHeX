@@ -216,6 +216,8 @@ public static class WinFormsUtil
     /// <param name="control">Control to initialize binding</param>
     public static void InitializeBinding(this ListControl control)
     {
+        if (control is ComboBox { AutoCompleteMode: AutoCompleteMode.Suggest or AutoCompleteMode.SuggestAppend } cb)
+            cb.KeyDown += RemoveDropCB;
         control.DisplayMember = nameof(ComboItem.Text);
         control.ValueMember = nameof(ComboItem.Value);
     }
@@ -233,7 +235,7 @@ public static class WinFormsUtil
         public void SetValueClamped(uint value) => nud.Value = Math.Clamp(value, nud.Minimum, nud.Maximum);
     }
 
-    public static void RemoveDropCB(object? sender, KeyEventArgs e) => (sender as ComboBox)?.DroppedDown = false;
+    private static void RemoveDropCB(object? sender, KeyEventArgs e) => (sender as ComboBox)?.DroppedDown = false;
     public static void MouseWheelIncrement1(object? sender, MouseEventArgs e) => Adjust(sender, e, 1);
     public static void MouseWheelIncrement4(object? sender, MouseEventArgs e) => Adjust(sender, e, 4);
 
@@ -336,7 +338,7 @@ public static class WinFormsUtil
         {
             try
             {
-                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
                 var sav = SaveFinder.FindMostRecentSaveFile(cts.Token);
                 return sav?.Metadata.FilePath;
             }

@@ -17,6 +17,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 {
     public bool IsInitialized { get; private set; }
     private readonly ToolTip SpeciesIDTip = new();
+    private readonly ToolTip MetIDTip = new();
     private readonly ToolTip NatureTip = new();
     private readonly ToolTip TipPIDInfo = new();
     private readonly ToolTip AffixedTip = new();
@@ -48,13 +49,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             new([CB_StatAlignment], pk => pk.Format >= 8, Criteria),
             new([CB_AlphaMastered], pk => pk is PA8, Criteria),
         ];
-
-        foreach (var c in WinFormsUtil.GetAllControlsOfType<ComboBox>(this))
-            c.KeyDown += WinFormsUtil.RemoveDropCB;
         foreach (var m in Moves)
         {
-            m.CB_Move.KeyDown += WinFormsUtil.RemoveDropCB;
-            m.CB_PPUps.KeyDown += WinFormsUtil.RemoveDropCB;
             m.CB_PPUps.SelectedIndexChanged += (_, _) => m.HealPP(Entity);
             m.CB_Move.DrawItem += ValidateMovePaint;
             m.CB_Move.DropDown += ValidateMoveDropDown;
@@ -1915,6 +1911,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         Entity.MetLocation = (ushort)WinFormsUtil.GetIndex(CB_MetLocation);
         Entity.EggLocation = (ushort)WinFormsUtil.GetIndex(CB_EggLocation);
         UpdateLegality();
+        MetIDTip.SetToolTip(CB_MetLocation, Entity.MetLocation.ToString("000"));
     }
 
     // Secondary Windows for Ribbons/Amie/Memories

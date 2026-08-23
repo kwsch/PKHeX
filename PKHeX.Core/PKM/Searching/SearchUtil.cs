@@ -167,7 +167,7 @@ public static class SearchUtil
             currentSlot += step;
 
         var totalSlots = sav.SlotCount;
-        var index = currentBox * sav.BoxSlotCount + currentSlot;
+        var index = (currentBox * sav.BoxSlotCount) + currentSlot;
         if (index < 0)
             index = totalSlots - 1;
         else if (index >= totalSlots)
@@ -175,7 +175,7 @@ public static class SearchUtil
 
         for (var i = 0; i < totalSlots; i++)
         {
-            var actualIndex = (index + i * step + totalSlots) % totalSlots;
+            var actualIndex = (index + (i * step) + totalSlots) % totalSlots;
             var pk = sav.GetBoxSlotAtIndex(actualIndex);
             if (pk.Species == 0)
                 continue;

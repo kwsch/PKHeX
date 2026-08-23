@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -11,7 +10,7 @@ public sealed partial class JoinAvenueFanSpecificEditor : UserControl, IJoinAven
     public JoinAvenueFanSpecificEditor()
     {
         InitializeComponent();
-        InitializeCombo(CB_Species, GameInfo.FilteredSources.Species.ToList());
+        InitializeCombo(CB_Species, [.. GameInfo.FilteredSources.Species]);
     }
 
     public void LoadObject(JoinAvenueFan5 entity)

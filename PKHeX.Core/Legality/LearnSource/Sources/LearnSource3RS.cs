@@ -72,7 +72,7 @@ public sealed class LearnSource3RS : LearnSource3, ILearnSource<PersonalInfo3>, 
         return default;
     }
 
-    private static bool GetIsTutor(ushort species, ushort move)
+    public static bool GetIsTutor(ushort species, ushort move)
     {
         // XD (Mew)
         if (species == (int)Species.Mew && Tutor_3Mew.Contains(move))

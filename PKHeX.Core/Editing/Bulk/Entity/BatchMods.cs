@@ -69,6 +69,7 @@ public static class BatchMods
         // Random
         new ComplexSet(nameof(PKM.PID), value => value is CONST_RAND, (pk, _) => pk.PID = Util.Rand32()),
         new ComplexSet(nameof(PKM.Gender), value => value is CONST_RAND, (pk, _) => pk.SetPIDGender(pk.Gender)),
+        new ComplexSet(nameof(PKM.Ball), value => value is CONST_RAND, (pk, _) => BallApplicator.ApplyBallLegalRandom(pk)),
         new ComplexSet(PROP_EVS, value => value is CONST_RAND, (pk, _) => SetRandomEVs(pk)),
         new ComplexSet(nameof(ITeraType.TeraTypeOverride), value => value is CONST_RAND, (pk, _) => SetRandomTeraType(pk)),
 

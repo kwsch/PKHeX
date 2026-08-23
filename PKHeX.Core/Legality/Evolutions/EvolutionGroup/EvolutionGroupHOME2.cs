@@ -118,7 +118,7 @@ public sealed class EvolutionGroupHOME2 : IEvolutionGroup
         return present;
     }
 
-    private int EvolveMulti(Span<EvoCriteria> result, PKM pk, in EvolutionOrigin enc, EvolutionHistory history)
+    private static int EvolveMulti(Span<EvoCriteria> result, PKM pk, in EvolutionOrigin enc, EvolutionHistory history)
     {
         int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)
@@ -181,7 +181,7 @@ public sealed class EvolutionGroupHOME2 : IEvolutionGroup
             evo = evo with { Form = FormInfo.GetOutOfBattleForm(species, form, Latest.Generation) };
     }
 
-    private int EvolveSingle(Span<EvoCriteria> result, PKM pk, in EvolutionOrigin enc, EvolutionHistory history)
+    private static int EvolveSingle(Span<EvoCriteria> result, PKM pk, in EvolutionOrigin enc, EvolutionHistory history)
     {
         int present = 1;
         var env = GetSingleEnv(pk);

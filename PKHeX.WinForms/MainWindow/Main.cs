@@ -431,10 +431,13 @@ public partial class Main : Form
 
     private void MainMenuBatchEditor(object sender, EventArgs e)
     {
-        using var form = new BatchEditor(PKME_Tabs.PreparePKM(), C_SAV.SAV);
-        form.ShowDialog();
-        C_SAV.SetPKMBoxes(); // refresh
-        C_SAV.UpdateBoxViewers();
+        using var form = new BatchEditor(PKME_Tabs.PreparePKM(), C_SAV.SAV, C_SAV.EditEnv.Slots.Changelog);
+        if (form.ShowDialog() != DialogResult.OK)
+            return;
+
+        foreach (var slot in form.GetModifiedSlots())
+            C_SAV.EditEnv.Slots.UpdateSlot(slot);
+        C_SAV.UpdateUndoRedo();
     }
 
     private void MainMenuFolder(object sender, EventArgs e)
@@ -838,9 +841,11 @@ public partial class Main : Form
 
     private static string GetProgramTitle(SaveFile sav)
     {
-        string title = GetProgramTitle() + $" - {sav.GetType().Name}: ";
+        var type = sav.GetType().Name;
         if (sav is ISaveFileRevision rev)
-            title = title.Insert(title.Length - 2, rev.SaveRevisionString);
+            type += rev.SaveRevisionString;
+
+        var title = GetProgramTitle() + $" - {type}: ";
         var version = GameInfo.GetVersionName(sav.Version);
         if (Settings.Privacy.HideSAVDetails)
             return title + $"[{version}]";
@@ -1387,7 +1392,7 @@ public partial class Main : Form
     {
         try
         {
-            var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             if (!SaveFinder.TryDetectSaveFile(cts.Token, out var sav))
                 return;
 

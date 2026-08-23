@@ -44,6 +44,18 @@ public readonly ref struct LegalityLocalizationContext
     public string GetLanguageName(int index) => GetSafe(Strings.languageNames, index);
     public string GetFormName(ushort species, byte form, EntityContext context) => FormConverter.GetStringFromForm(species, form, Strings, context);
 
+    private string GetEggBreedChainMessage(LegalityCheckResultCode _)
+    {
+        var pk = Analysis.Entity;
+        var enc = Analysis.EncounterOriginal;
+        Span<ushort> moves = stackalloc ushort[4];
+        if (enc.Generation >= 6)
+            pk.GetRelearnMoves(moves);
+        else
+            pk.GetMoves(moves);
+        return ChainBreedUtil.Summarize(Strings, enc.Species, enc.Form, enc.Version, moves).Message;
+    }
+
     private static string GetSafe(ReadOnlySpan<string> arr, int index)
     {
         if ((uint)index >= arr.Length)
@@ -118,6 +130,7 @@ public readonly ref struct LegalityLocalizationContext
         < FirstComplex => format, // why are you even here?
         RibbonsInvalid_0 => string.Format(format, GetRibbonMessage(code)),
         RibbonsMissing_0 => string.Format(format, GetRibbonMessage(code)),
+        EggBreedChain_0 => string.Format(format, GetEggBreedChainMessage(code)),
         WordFilterFlaggedPattern_01 => string.Format(format, WordFilter.GetPattern((WordFilterType)chk.Argument, chk.Argument2), (WordFilterType)chk.Argument),
         WordFilterInvalidCharacter_0 => string.Format(format, chk.Argument, chk.Argument.ToString("X4")),
 

@@ -36,8 +36,8 @@ public sealed class MiscVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (pk.IsEgg)
-            Eggs.Verify(data, pk);
+        // If it originated from an egg, check various egg rules.
+        Eggs.Verify(data);
 
         // Verify gimmick data
         switch (pk)

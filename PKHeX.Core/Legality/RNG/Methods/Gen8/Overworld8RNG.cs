@@ -195,9 +195,13 @@ public static class Overworld8RNG
             if (s.WeightScalar != weight)
             {
                 if (height == 0 && s.WeightScalar == 0 && HomeQuirks.HasEnteredSetZeroScale(pk))
-                { } // OK
+                {
+                    // OK
+                }
                 else
+                {
                     continue;
+                }
             }
 
             return iv_count;

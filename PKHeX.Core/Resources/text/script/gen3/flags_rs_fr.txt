@@ -101,30 +101,30 @@
 2077	f	Peut Voler à Atalanopolis
 2078	f	Peut Voler à Éternara
 2120	f	Peut Voler à la Tour de Combat
-2108	m	A Visité le Fleuriste Jolie Fleur (Route 104)
-2109	m	A Visité le Cottage de M. Marco
-2110	m	A Visité l'Épave
-2111	m	A Visité la Maison du Bord de Mer (Chenal 109)
-2112	m	A Visité New Lavandia
-2113	m	A Visité le Gîte Vieille Dame (Route 111)
-2114	m	A Visité la Maison des Pièges
-2115	m	A Visité la Maison de la Famille Stratège (Route 111)
-2116	m	A Visité l'Atelier du Verre (Route 113)
-2117	m	A Visité la Maison d'Annette (Route 114)
-2118	m	A Visité la Pension Pokémon
-2119	m	A Visité la Caverne Fondmer
-2122	m	A Visité le Chemin Ardent
-2132	m	A Visité la Ligue Pokémon
-2133	m	A Visité la Grotte Island
-2134	m	A Visité les Ruines Désert
-2135	m	A Visité la Maison du Maniaque des Fossiles (Route 114)
-2136	m	A Visité la Grotte Zénith
-2137	m	A Visité le Tombeau Antique
-2138	m	A Visité le Refuge des Foreurs (Route 116)
-2139	m	A Visité la Maison du Chercheur de Trésors (Chenal 124)
-2140	m	A Visité le Sanctuaire
-2142	m	A Visité le Pilier Céleste
-2147	m	A Visité la Maison du Maître des Baies
+2108	f	A Visité le Fleuriste Jolie Fleur (Route 104)
+2109	f	A Visité le Cottage de M. Marco
+2110	f	A Visité l'Épave
+2111	f	A Visité la Maison du Bord de Mer (Chenal 109)
+2112	f	A Visité New Lavandia
+2113	f	A Visité le Gîte Vieille Dame (Route 111)
+2114	f	A Visité la Maison des Pièges
+2115	f	A Visité la Maison de la Famille Stratège (Route 111)
+2116	f	A Visité l'Atelier du Verre (Route 113)
+2117	f	A Visité la Maison d'Annette (Route 114)
+2118	f	A Visité la Pension Pokémon
+2119	f	A Visité la Caverne Fondmer
+2122	f	A Visité le Chemin Ardent
+2132	f	A Visité la Ligue Pokémon
+2133	f	A Visité la Grotte Island
+2134	f	A Visité les Ruines Désert
+2135	f	A Visité la Maison du Maniaque des Fossiles (Route 114)
+2136	f	A Visité la Grotte Zénith
+2137	f	A Visité le Tombeau Antique
+2138	f	A Visité le Refuge des Foreurs (Route 116)
+2139	f	A Visité la Maison du Chercheur de Trésors (Chenal 124)
+2140	f	A Visité le Sanctuaire
+2142	f	A Visité le Pilier Céleste
+2147	f	A Visité la Maison du Maître des Baies
 0768	s	Famille Stratège Vaincue
 1800	t	Dresseur Pokémon Brice à la Route 103 Vaincu (Gobou comme Départ)
 1801	t	Dresseur Pokémon Brice à la Route 110 Vaincu (Gobou comme Départ)

@@ -75,7 +75,7 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
             var pb = slots[i];
             var hideLegality = info is { HideLegality: true };
             var flags = GetFlags(info.Read(SAV), hideLegality);
-            var type = SlotTouchType.None;
+            const SlotTouchType type = SlotTouchType.None;
             SlotUtil.UpdateSlot(pb, info, info.Read(SAV), SAV, flags, type);
         }
     }

@@ -284,7 +284,7 @@ public static class MethodK
     }
 
     /// <summary>
-    /// Represents the magic number that that allows any lead to be used, enabling the generation target to require or not require a synchronize lead.
+    /// Represents the magic number that allows any lead to be used, enabling the generation target to require or not require a synchronize lead.
     /// </summary>
     private const Nature LeadSyncAllowed = Nature.Random;
 

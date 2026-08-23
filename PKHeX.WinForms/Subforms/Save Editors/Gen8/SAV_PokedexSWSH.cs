@@ -55,7 +55,6 @@ public partial class SAV_PokedexSWSH : Form
 
         Loading = false;
         LB_Species.SelectedIndex = 0;
-        CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         CanSave = true;
     }
 

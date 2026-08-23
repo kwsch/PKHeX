@@ -42,7 +42,6 @@ public partial class SAV_BlockDump8 : Form
             new ComboItem(nameof(SCTypeCode.Bool2), (int)SCTypeCode.Bool2),
         };
         CB_TypeToggle.SelectedIndexChanged += CB_TypeToggle_SelectedIndexChanged;
-        CB_Key.KeyDown += WinFormsUtil.RemoveDropCB;
 
         CB_Key.SelectedIndex = 0;
     }

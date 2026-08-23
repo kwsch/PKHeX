@@ -2,7 +2,7 @@ using System;
 using FluentAssertions;
 using Xunit;
 
-namespace PKHeX.Core.Tests.PKM;
+namespace PKHeX.Core.Tests.Entity;
 
 public class PIDIVTest
 {
@@ -304,7 +304,7 @@ public class PIDIVTest
     [InlineData(0x00000000, 1, false)]
     [InlineData(0x00000001, 7)]
     [InlineData(0x00000087, 9)]
-    [InlineData(0x00000888, 10, false)]
+    [InlineData(0x00000888, 10)]
     [InlineData(0x0000F525, 11)]
     [InlineData(0x00019994, 12)]
     public void ChannelLatticeRecovery(uint iv32, int recovered, bool isObtainable = true)
@@ -327,7 +327,11 @@ public class PIDIVTest
             var seed = ChannelJirachi.SkipToIVs(origin);
             var result = XDRNG.GetSequentialIV32(seed);
             result.Should().Be(iv32);
-            possible |= ChannelJirachi.IsPossible(seed);
+
+            // check if any of the PID/IV origin seeds can unroll to a menu seed for the player to hit
+            var check = ChannelJirachi.GetPossible(origin);
+            if (check.Pattern != ChannelJirachiRandomResult.None)
+                possible = true;
         }
         possible.Should().Be(isObtainable);
     }

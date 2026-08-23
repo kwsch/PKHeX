@@ -11,6 +11,10 @@
 1762	r	Electrode (esquinas inferiores) desaparecido (Escondite Team Rocket B2F)
 0079	g	Eevee Recibido
 1867	*	Las Bestias Legendarias desaparecieron de la Torre Incendiada
+1970	s	Suicune desaparecido en Torre Hojalata
+1971	s	Entei desaparecido en Torre Hojalata
+1972	s	Raikou desaparecido en Torre Hojalata
+0822	s	Ala Arcoiris Recibida
 0190	e	César puede ver la GS Ball
 0191	e	César listo para regresar la GS Ball (combinar con la Marca de arriba)
 0192	e	GS Ball puede ser insertada en el Encinar

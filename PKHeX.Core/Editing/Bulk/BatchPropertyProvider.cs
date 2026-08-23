@@ -5,7 +5,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Default property provider that uses an <see cref="IBatchEditor{TObject}"/> for reflection.
 /// </summary>
-public class BatchPropertyProvider<TEditor, TObject>(TEditor editor) : IPropertyProvider<TObject> where TObject : notnull where TEditor : IBatchEditor<TObject>
+public class BatchPropertyProvider<TEditor, TObject>(TEditor editor) : IPropertyProvider<TObject>
+    where TEditor : IBatchEditor<TObject>
+    where TObject : notnull
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BatchPropertyProvider{TEditor, TObject}"/> class with the specified editor.

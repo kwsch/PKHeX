@@ -101,7 +101,7 @@ public static class Troubleshooting
     {
         var text = new StringBuilder();
 
-        text.AppendLine(string.Format(MessageStrings.MsgTroubleshootingPluginListHeader, plugins.Count));
+        text.AppendFormat(MessageStrings.MsgTroubleshootingPluginListHeader, plugins.Count).AppendLine();
         if (plugins.Count == 0)
         {
             text.AppendLine(MessageStrings.MsgTroubleshootingPluginListEmpty);

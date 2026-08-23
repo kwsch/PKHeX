@@ -40,9 +40,9 @@ public static class MysteryGiftVerifier
         if (!restricted)
             return CheckResult.GetValid(CheckIdentifier.GameOrigin);
 
-        var version = (int)value >> 16;
-        if (version != 0 && !CanVersionReceiveGift(g.Generation, version, pk.Version))
-            return CheckResult.Get(Severity.Invalid, CheckIdentifier.GameOrigin, EncGiftVersionNotDistributed);
+        //var version = (int)value >> 16;
+        //if (version != 0 && !CanVersionReceiveGift(g.Generation, version, pk.Version))
+        //    return CheckResult.Get(Severity.Invalid, CheckIdentifier.GameOrigin, EncGiftVersionNotDistributed);
 
         var lang = value & MysteryGiftRestriction.LangRestrict;
         if (lang != 0 && !lang.HasFlag((MysteryGiftRestriction) (1 << pk.Language)))

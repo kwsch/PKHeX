@@ -22,3 +22,11 @@ public enum EggGroup : byte
     Dragon = 14,
     Undiscovered = 15,
 }
+
+public static class EggGroupExtensions
+{
+    extension(EggGroup group)
+    {
+        public bool CanBreed => group is not (EggGroup.None or EggGroup.Ditto or EggGroup.Undiscovered);
+    }
+}

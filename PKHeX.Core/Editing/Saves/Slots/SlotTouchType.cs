@@ -16,6 +16,10 @@ public enum SlotTouchType
     Delete,
     /// <summary> Data swap/move request </summary>
     Swap,
+    /// <summary> Un-doing a previous modification </summary>
+    Undo,
+    /// <summary> Re-doing a modification that was previously un-done </summary>
+    Redo,
 
     /// <summary> Request to be handled via external logic (atypical) </summary>
     External,

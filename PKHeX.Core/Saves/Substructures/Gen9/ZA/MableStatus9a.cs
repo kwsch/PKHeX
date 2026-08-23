@@ -1,5 +1,6 @@
-using PKHeX.Core;
 using static System.Buffers.Binary.BinaryPrimitives;
+
+namespace PKHeX.Core;
 
 public sealed class MableStatus9a(SAV9ZA sav, SCBlock block) : SaveBlock<SAV9ZA>(sav, block.Raw)
 {

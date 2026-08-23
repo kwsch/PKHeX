@@ -21,7 +21,7 @@ public static class EncounterMovesetGenerator
     /// </summary>
     public static void ResetFilters() => PriorityList = GetAllGroups();
 
-    private static EncounterTypeGroup[] GetAllGroups() => Enum.GetValues<EncounterTypeGroup>();
+    private static EncounterTypeGroup[] GetAllGroups() => Enum.GetValues<EncounterTypeGroup>()[1..];
 
     /// <summary>
     /// Gets possible <see cref="IEncounterable"/> objects that allow all moves requested to be learned.

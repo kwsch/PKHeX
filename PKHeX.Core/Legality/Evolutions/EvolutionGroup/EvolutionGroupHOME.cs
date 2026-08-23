@@ -85,7 +85,7 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
         _ => false,
     };
 
-    private int DevolveMulti(Span<EvoCriteria> result, PKM pk, in EvolutionOrigin enc)
+    private static int DevolveMulti(Span<EvoCriteria> result, PKM pk, in EvolutionOrigin enc)
     {
         int present = 1;
         for (int i = 1; i < result.Length; i++)
@@ -118,7 +118,7 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
         return present;
     }
 
-    private int EvolveMulti(Span<EvoCriteria> result, PKM pk, in EvolutionOrigin enc, EvolutionHistory history)
+    private static int EvolveMulti(Span<EvoCriteria> result, PKM pk, in EvolutionOrigin enc, EvolutionHistory history)
     {
         int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)

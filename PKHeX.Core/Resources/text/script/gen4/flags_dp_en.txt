@@ -69,7 +69,7 @@
 0339	g	Received Red Crystal (Mr. Goods)
 0340	g	Received Yellow Crystal (Mr. Goods)
 0347	g	Received All Goods (Mr. Goods)
-0787	i	Found HP Up in dried Lake Valor
+0787	h	Found HP Up (hidden) in dried Lake Valor
 2507	s	Entered Pal Park Catching Show
 1409	t	Defeated Jogger Richard (Morning)
 1448	t	Defeated Policeman Bobby (Night)

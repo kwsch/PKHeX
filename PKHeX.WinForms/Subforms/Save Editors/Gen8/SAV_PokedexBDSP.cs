@@ -33,7 +33,6 @@ public partial class SAV_PokedexBDSP : Form
 
         editing = false;
         LB_Species.SelectedIndex = 0;
-        CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         CHK_National.Checked = Zukan.HasNationalDex;
     }
 

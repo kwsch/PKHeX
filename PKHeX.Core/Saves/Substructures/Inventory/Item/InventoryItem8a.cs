@@ -8,7 +8,7 @@ public sealed record InventoryItem8a : InventoryItem, IItemFavorite
     public const int SIZE = 0x10;
 
     public override string ToString() => $"{Index:000} x{Count}";
-    public bool IsFavorite { get; set; }
+    public bool IsFavorite { get; set; } // favorites stored separately, this is just a fake property mirror
 
     public override void Clear()
     {
@@ -23,7 +23,7 @@ public sealed record InventoryItem8a : InventoryItem, IItemFavorite
 
     public void Write(Span<byte> data)
     {
-        // Index is not saved.
+        // Favorite is saved separately.
         WriteUInt16LittleEndian(data, (ushort)Index);
         WriteUInt16LittleEndian(data[2..], (ushort)Count);
     }

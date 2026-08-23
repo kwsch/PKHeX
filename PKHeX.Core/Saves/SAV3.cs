@@ -13,7 +13,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
     public sealed override string Extension => ".sav";
 
     public int SaveRevision => Japanese ? 0 : 1;
-    public string SaveRevisionString => (Japanese ? "J" : "U") + (IsVirtualConsole ? "VC" : "GBA");
+    public string SaveRevisionString => (Japanese ? "-J" : "-U") + (IsVirtualConsole ? " [VC]" : " [GBA]");
     public bool Japanese { get; }
     public bool Korean => false;
 

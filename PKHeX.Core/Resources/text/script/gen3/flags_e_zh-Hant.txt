@@ -1524,48 +1524,48 @@
 2130	t	Gentleman Everett in Trick House Puzzle 7 defeated
 
 2186	m	Rain and Harsh Sunlight in eastern Hoenn
-2159	f	Can Fly to Littleroot Town
-2160	f	Can Fly to Oldale Town
-2161	f	Can Fly to Dewford Town
-2162	f	Can Fly to Lavaridge Town
-2163	f	Can Fly to Fallarbor Town
-2164	f	Can Fly to Verdanturf Town
-2165	f	Can Fly to Pacifidlog Town
-2166	f	Can Fly to Petalburg City
-2167	f	Can Fly to Slateport City
-2168	f	Can Fly to Mauville City
-2169	f	Can Fly to Rustboro City
-2170	f	Can Fly to Fortree City
-2171	f	Can Fly to Lilycove City
-2172	f	Can Fly to Mossdeep City
-2173	f	Can Fly to Sootopolis City
-2174	f	Can Fly to Ever Grande City
-2216	f	Can Fly to Battle Frontier
-2204	m	Visited Flower Shop
-2205	m	Visited Mr. Briney's Cottage
-2206	m	Visited Abandoned Ship
-2207	m	Visited Seashore House
-2208	m	Visited New Mauville
-2209	m	Visited Old Lady's Rest Stop
-2210	m	Visited Trick House
-2211	m	Visited The Winstrate Family
-2212	m	Visited Glass Workshop
-2213	m	Visited Lanette's House
-2214	m	Visited Pokémon Day Care
-2215	m	Visited Seafloor Cavern
-2218	m	Visited Fiery Path
-2228	m	Visited Pokémon League
-2229	m	Visited Island Cave
-2230	m	Visited Desert Ruins
-2231	m	Visited Fossil Maniac's House
-2232	m	Visited Scorched Slab
-2233	m	Visited Ancient Tomb
-2234	m	Visited Tunneler's Rest House
-2235	m	Visited Hunter's House
-2236	m	Visited Sealed Chamber
-2238	m	Visited Sky Pillar
-2243	m	Visited Berry Master's House
-2268	m	Visited Mirage Tower
-2269	m	Visited Altering Cave
-2270	m	Visited Desert Underpass
-2274	m	Visited Trainer Hill
+2159	f	飛翔目的地已開啟：未白鎮
+2160	f	飛翔目的地已開啟：古玫鎮
+2161	f	飛翔目的地已開啟：武鬥鎮
+2162	f	飛翔目的地已開啟：釜炎鎮
+2163	f	飛翔目的地已開啟：秋葉鎮
+2164	f	飛翔目的地已開啟：綠蔭鎮
+2165	f	飛翔目的地已開啟：暮水鎮
+2166	f	飛翔目的地已開啟：橙華市
+2167	f	飛翔目的地已開啟：凱那市
+2168	f	飛翔目的地已開啟：紫堇市
+2169	f	飛翔目的地已開啟：卡那茲市
+2170	f	飛翔目的地已開啟：茵鬱市
+2171	f	飛翔目的地已開啟：水靜市
+2172	f	飛翔目的地已開啟：綠嶺市
+2173	f	飛翔目的地已開啟：琉璃市
+2174	f	飛翔目的地已開啟：彩幽市
+2216	f	飛翔目的地已開啟：對戰開拓區
+2204	f	參觀 聖橙華花店
+2205	f	參觀 哈奇老人的小屋
+2206	f	參觀 棄船
+2207	f	參觀 大海之家
+2208	f	參觀 新紫堇
+2209	f	參觀 簡康奶奶的家
+2210	f	參觀 戲法屋
+2211	f	參觀 連勝家族
+2212	f	參觀 琉璃工坊
+2213	f	參觀 真由美的屋子
+2214	f	參觀 培育屋
+2215	f	參觀 海底洞窟
+2218	f	參觀 烈焰小徑
+2228	f	參觀 寶可夢聯盟
+2229	f	參觀 小島洞穴
+2230	f	參觀 沙漠遺跡
+2231	f	參觀 化石狂的屋子
+2232	f	參觀 天旱石窟
+2233	f	參觀 古代墳墓
+2234	f	參觀 隧道工程組合屋
+2235	f	參觀 尋寶者的小屋
+2236	f	參觀 布告石室
+2238	f	參觀 天空之柱
+2243	f	參觀 樹果爺爺的屋子
+2268	f	參觀 幻影之塔
+2269	f	參觀 變化洞窟
+2270	f	參觀 沙漠的地下道
+2274	f	參觀 訓練家之丘

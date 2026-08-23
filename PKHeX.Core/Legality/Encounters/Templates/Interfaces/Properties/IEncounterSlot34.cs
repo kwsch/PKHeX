@@ -12,6 +12,7 @@ public interface IEncounterSlot34 : ILevelRange, IMagnetStatic, INumberedSlot, I
 public interface IEncounterSlot4 : IEncounterSlot34
 {
     SlotType4 Type { get; }
+    bool IsRerollMinimum31 { get; }
 }
 
 public interface IEncounterSlot3 : IEncounterSlot34

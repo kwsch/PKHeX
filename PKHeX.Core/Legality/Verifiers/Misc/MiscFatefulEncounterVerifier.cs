@@ -95,13 +95,13 @@ internal sealed class MiscFatefulEncounterVerifier : Verifier
                 data.AddLine(GetInvalid(GameOrigin, EncGiftVersionNotDistributed));
                 return;
             case PGF pgf when pgf.RestrictLanguage != 0 && pk.Language != pgf.RestrictLanguage:
-                data.AddLine(GetInvalid(CheckIdentifier.Language, EncGiftLanguageNotDistributed_0, (ushort)pgf.RestrictLanguage));
+                data.AddLine(GetInvalid(CheckIdentifier.Language, EncGiftLanguageNotDistributed_0, pgf.RestrictLanguage));
                 return;
             case WC6 wc6 when wc6.RestrictLanguage != 0 && pk.Language != wc6.RestrictLanguage:
-                data.AddLine(GetInvalid(CheckIdentifier.Language, EncGiftLanguageNotDistributed_0, (ushort)wc6.RestrictLanguage));
+                data.AddLine(GetInvalid(CheckIdentifier.Language, EncGiftLanguageNotDistributed_0, wc6.RestrictLanguage));
                 return;
             case WC7 wc7 when wc7.RestrictLanguage != 0 && pk.Language != wc7.RestrictLanguage:
-                data.AddLine(GetInvalid(CheckIdentifier.Language, EncGiftLanguageNotDistributed_0, (ushort)wc7.RestrictLanguage));
+                data.AddLine(GetInvalid(CheckIdentifier.Language, EncGiftLanguageNotDistributed_0, wc7.RestrictLanguage));
                 return;
         }
     }

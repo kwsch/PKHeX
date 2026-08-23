@@ -17,7 +17,7 @@ public sealed class WC7(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
     public override EntityContext Context => EntityContext.Gen7;
     public override bool FatefulEncounter => true;
 
-    public int RestrictLanguage { get; set; } // None
+    public byte RestrictLanguage { get; set; } // None
     public byte RestrictVersion { get; set; } // Permit All
 
     public bool CanBeReceivedByVersion(GameVersion version)

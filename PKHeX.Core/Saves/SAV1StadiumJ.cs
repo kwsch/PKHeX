@@ -10,7 +10,7 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
 {
     // Required since PK1 logic comparing a save file assumes the save file can be U/J
     public override int SaveRevision => 0;
-    public override string SaveRevisionString => "0"; // so we're different from Japanese SAV1Stadium naming...
+    public override string SaveRevisionString => "-0"; // so we're different from Japanese SAV1Stadium naming...
 
     public override PersonalTable1 Personal => PersonalTable.Y;
     public override int MaxEV => EffortValues.Max12;

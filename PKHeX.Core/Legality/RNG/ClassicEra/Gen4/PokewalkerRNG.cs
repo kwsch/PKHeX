@@ -187,7 +187,7 @@ public static class PokewalkerRNG
                 if (IsSeedFormatNoStroll(seed))
                     return new(seed, ctr, PokewalkerSeedType.MicTestNoStroll);
                 if (ctr != 0 && IsSeedFormatStroll(seed))
-                    return new(seed, (ctr - 1), PokewalkerSeedType.MicTestStroll);
+                    return new(seed, ctr - 1, PokewalkerSeedType.MicTestStroll);
                 seed = LCRNG.Prev(seed);
             }
             ctr++;
@@ -386,6 +386,9 @@ public readonly record struct PokewalkerSeedResult
     /// <summary>Type of seed</summary>
     [field: FieldOffset(7)] public PokewalkerSeedType Type { get; }
 
+    /// <summary>
+    /// Count of Frames/Pokémon generated prior to the checked Pokémon. Interpretation depends on <see cref="Type"/>.
+    /// </summary>
     /// <remarks>
     /// Mic Test: frames advanced from initial seed to the checked seed.
     /// Not Mic Test: Count of Pokémon generated prior to the checked Pokémon. Maximum value: <see cref="PokewalkerRNG.MaxPriorPokes"/> (539)

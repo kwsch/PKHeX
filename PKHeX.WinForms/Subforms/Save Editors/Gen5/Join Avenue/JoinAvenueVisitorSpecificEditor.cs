@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -9,14 +8,14 @@ namespace PKHeX.WinForms;
 
 public sealed partial class JoinAvenueVisitorSpecificEditor : UserControl, IJoinAvenueSpecificEditor<JoinAvenueVisitor5>
 {
-    private static readonly List<ComboItem> ShopTypeList = Enum.GetValues<JoinAvenueShopType5>().Select(z => new ComboItem(z.ToString(), (int)z)).ToList();
+    private static readonly List<ComboItem> ShopTypeList = [new("None", -1), ..Util.GetCBList<JoinAvenueShopType5>()];
     private static readonly List<ComboItem> OriginList = [new("NPC", 0), new("Human Player", 1)];
 
     public JoinAvenueVisitorSpecificEditor()
     {
         InitializeComponent();
         InitializeCombo(CB_DesiredShopType, ShopTypeList);
-        InitializeCombo(CB_FavoriteSpecies, GameInfo.FilteredSources.Species.ToList());
+        InitializeCombo(CB_FavoriteSpecies, [.. GameInfo.FilteredSources.Species]);
         InitializeCombo(CB_Origin, OriginList);
         InitializeCombo(CB_ShopType, ShopTypeList);
     }
@@ -26,7 +25,6 @@ public sealed partial class JoinAvenueVisitorSpecificEditor : UserControl, IJoin
         CHK_IsFlag2C.Checked = entity.IsFlag2C;
         NUD_AvenueLevel.Value = Math.Clamp(entity.JoinAvenueLevel, (byte)0, (byte)NUD_AvenueLevel.Maximum);
         NUD_Unused2D.Value = Math.Clamp(entity.Unused2D, (byte)0, (byte)NUD_Unused2D.Maximum);
-        SetComboValue(CB_DesiredShopType, entity.DesiredShopType);
 
         byte[] counts =
         [
@@ -74,10 +72,9 @@ public sealed partial class JoinAvenueVisitorSpecificEditor : UserControl, IJoin
         CHK_IsFlagAA.Checked = entity.IsFlagAA;
         NUD_JoinAvenueRank.Value = Math.Clamp(entity.JoinAvenueRank, (byte)0, (byte)NUD_JoinAvenueRank.Maximum);
         NUD_UnknownAC.Value = Math.Clamp(entity.UnknownAC, (byte)0, (byte)NUD_UnknownAC.Maximum);
-        NUD_ShopLevel.Value = Math.Clamp(entity.ShopLevel, (byte)0, (byte)NUD_ShopLevel.Maximum);
+        NUD_ShopRank.Value = Math.Clamp(entity.ShopRank, (byte)0, (byte)NUD_ShopRank.Maximum);
         NUD_ShopExperience.Value = Math.Clamp(entity.ShopExperience, (ushort)0, (ushort)NUD_ShopExperience.Maximum);
         NUD_IsInventory.Value = Math.Clamp(entity.IsInventory, 0, (uint)NUD_IsInventory.Maximum);
-        SetComboValue(CB_ShopType, (int)entity.ShopType);
         NUD_ShopWork.Value = Math.Clamp(entity.ShopWork, (ushort)0, (ushort)NUD_ShopWork.Maximum);
         NUD_UnusedB8.Value = Math.Clamp(entity.UnusedB8, 0, (uint)NUD_UnusedB8.Maximum);
         NUD_UnknownBits0_8.Value = Math.Clamp(entity.UnknownBits0_8, (ushort)0, (ushort)NUD_UnknownBits0_8.Maximum);
@@ -86,6 +83,9 @@ public sealed partial class JoinAvenueVisitorSpecificEditor : UserControl, IJoin
         NUD_UnknownBits13_20.Value = Math.Clamp(entity.UnknownBits13_20, (byte)0, (byte)NUD_UnknownBits13_20.Maximum);
         NUD_UnknownBits21_27.Value = Math.Clamp(entity.UnknownBits21_27, (byte)0, (byte)NUD_UnknownBits21_27.Maximum);
         NUD_UnknownBits28_31.Value = Math.Clamp(entity.UnknownBits28_31, (byte)0, (byte)NUD_UnknownBits28_31.Maximum);
+
+        GetShopTuple(entity.DesiredShopTypeTuple, CB_DesiredShopType, NUD_DesiredShopLevel, NUD_DesiredShopVersion);
+        GetShopTuple(entity.ShopTypeTuple, CB_ShopType, NUD_ShopTypeLevel, NUD_ShopTypeVersion);
     }
 
     public void SaveObject(JoinAvenueVisitor5 entity)
@@ -93,7 +93,6 @@ public sealed partial class JoinAvenueVisitorSpecificEditor : UserControl, IJoin
         entity.IsFlag2C = CHK_IsFlag2C.Checked;
         entity.JoinAvenueLevel = (byte)NUD_AvenueLevel.Value;
         entity.Unused2D = (byte)NUD_Unused2D.Value;
-        entity.DesiredShopType = (ushort)WinFormsUtil.GetIndex(CB_DesiredShopType);
 
         var shopCounts = ParseByteList(TB_ShopCounts.Text, 8, 0x0F);
         entity.ShopCountRaffle = shopCounts[0];
@@ -141,10 +140,9 @@ public sealed partial class JoinAvenueVisitorSpecificEditor : UserControl, IJoin
         entity.IsFlagAA = CHK_IsFlagAA.Checked;
         entity.JoinAvenueRank = (byte)NUD_JoinAvenueRank.Value;
         entity.UnknownAC = (byte)NUD_UnknownAC.Value;
-        entity.ShopLevel = (byte)NUD_ShopLevel.Value;
+        entity.ShopRank = (byte)NUD_ShopRank.Value;
         entity.ShopExperience = (ushort)NUD_ShopExperience.Value;
         entity.IsInventory = (uint)NUD_IsInventory.Value;
-        entity.ShopType = (JoinAvenueShopType5)WinFormsUtil.GetIndex(CB_ShopType);
         entity.ShopWork = (ushort)NUD_ShopWork.Value;
         entity.UnusedB8 = (uint)NUD_UnusedB8.Value;
         entity.UnknownBits0_8 = (ushort)NUD_UnknownBits0_8.Value;
@@ -153,6 +151,31 @@ public sealed partial class JoinAvenueVisitorSpecificEditor : UserControl, IJoin
         entity.UnknownBits13_20 = (byte)NUD_UnknownBits13_20.Value;
         entity.UnknownBits21_27 = (byte)NUD_UnknownBits21_27.Value;
         entity.UnknownBits28_31 = (byte)NUD_UnknownBits28_31.Value;
+
+        entity.DesiredShopTypeTuple = SetShopTuple(CB_DesiredShopType, NUD_DesiredShopLevel, NUD_DesiredShopVersion);
+        entity.ShopTypeTuple = SetShopTuple(CB_ShopType, NUD_ShopTypeLevel, NUD_ShopTypeVersion);
+    }
+
+    private static void GetShopTuple((byte Version, JoinAvenueShopType5 Type, byte Rank)? tuple, ComboBox type, NumericUpDown level, NumericUpDown version)
+    {
+        if (tuple is not { } x)
+        {
+            level.Value = 0;
+            version.Value = 0;
+            type.SelectedValue = -1;
+            return;
+        }
+        type.SelectedValue = (int)x.Type;
+        level.Value = x.Rank;
+        version.Value = x.Version;
+    }
+
+    private static (byte Version, JoinAvenueShopType5 Type, byte Rank)? SetShopTuple(ComboBox type, NumericUpDown level, NumericUpDown version)
+    {
+        var t = WinFormsUtil.GetIndex(type);
+        if (t < 0)
+            return null;
+        return ((byte)version.Value, (JoinAvenueShopType5)t, (byte)level.Value);
     }
 
     private static void InitializeCombo(ComboBox cb, IReadOnlyList<ComboItem> source)

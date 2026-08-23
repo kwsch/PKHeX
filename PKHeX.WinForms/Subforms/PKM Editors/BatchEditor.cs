@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Controls;
@@ -11,60 +14,256 @@ namespace PKHeX.WinForms;
 
 public partial class BatchEditor : Form
 {
-    private readonly SaveFile SAV;
+    private readonly SaveFile _sav;
+    private readonly SlotChangelog _changelog;
 
-    // Mass Editing
-    private EntityBatchProcessor editor = new();
-    private readonly EntityInstructionBuilder UC_Builder;
+    // Cached source data. The cache is intentionally mutable; batch edits are accumulated here until the user chooses Save.
+    private IReadOnlyList<SlotCache>? _boxData;
+    private IReadOnlyList<SlotCache>? _party;
+    private IReadOnlyList<SlotCache>? _folder;
+    private readonly Dictionary<ISlotInfo, string> _folderPaths = new();
+    private readonly HashSet<ISlotInfo> _modifiedSlots = [];
+    private readonly string _matchingCountFormat;
 
-    private static string LastUsedCommands = string.Empty;
+    private EntityBatchProcessor _editor = new();
+    private readonly EntityInstructionBuilder _builder;
 
-    public BatchEditor(PKM pk, SaveFile sav)
+    /// <summary>
+    /// Remember the last used commands so that they can be restored when the form is reopened.
+    /// </summary>
+    private static string _lastUsedCommands = string.Empty;
+
+    public BatchEditor(PKM pk, SaveFile sav, SlotChangelog changelog)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        var above = FLP_RB.Location;
-        UC_Builder = new EntityInstructionBuilder(() => pk)
-        {
-            Location = new() { Y = above.Y + FLP_RB.Height + 4 - 1, X = above.X + 1 },
-            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
-            Width = B_Add.Location.X - above.X - 2,
-        };
-        Controls.Add(UC_Builder);
-        SAV = sav;
-        DragDrop += TabMain_DragDrop;
-        DragEnter += TabMain_DragEnter;
+        _matchingCountFormat = L_Count.Text; // cache the translated string
+        _sav = sav;
+        _changelog = changelog;
 
-        RTB_Instructions.Text = LastUsedCommands;
-        FormClosing += (_, _) => LastUsedCommands = RTB_Instructions.Text;
+        // Builder needs to be late-bound to the input PKM from the main form.
+        _builder = new EntityInstructionBuilder(() => pk) { Dock = DockStyle.Fill, Margin = new Padding(4) };
+        TLP_Bottom.Controls.Add(_builder, 0, 1);
+        TLP_Bottom.SetColumnSpan(_builder, TLP_Bottom.ColumnCount - 1); // Add button occupies last column.
+
+        // Boxes are the default source and are immediately available for filter analysis.
+        _boxData = CreateBoxData();
+        UpdateFilterCountDebounced();
+        UpdateButtons();
+
+        RTB_Instructions.Text = _lastUsedCommands;
+    }
+
+    public IReadOnlyList<ISlotInfo> GetModifiedSlots() => [.. _modifiedSlots];
+
+    private IReadOnlyList<SlotCache> CreateBoxData()
+    {
+        var data = new List<SlotCache>(_sav.SlotCount);
+        SlotInfoLoader.AddBoxData(_sav, data);
+        return data;
+    }
+
+    private IReadOnlyList<SlotCache> CreatePartyData()
+    {
+        var data = new List<SlotCache>(_sav.PartyCount);
+        SlotInfoLoader.AddPartyData(_sav, data);
+        return data;
+    }
+
+    private IReadOnlyList<SlotCache> CreateFolderData()
+    {
+        if (!Directory.Exists(TB_Folder.Text))
+            return [];
+
+        var result = new List<SlotCache>();
+        IEnumerable<string> files;
+        try
+        {
+            files = Directory.GetFiles(TB_Folder.Text, "*", SearchOption.AllDirectories);
+        }
+        catch (IOException)
+        {
+            return result;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return result;
+        }
+
+        foreach (var source in files)
+        {
+            var fi = new FileInfo(source);
+            if (!EntityDetection.IsSizePlausible(fi.Length))
+                continue;
+
+            try
+            {
+                var data = File.ReadAllBytes(source);
+                if (FileUtil.TryGetPKM(data, out var pk, fi.Extension, _sav))
+                {
+                    var info = new SlotInfoFileSingle(source);
+                    result.Add(new SlotCache(info, pk));
+                    _folderPaths[info] = source;
+                }
+            }
+            catch (IOException)
+            {
+                // A file that cannot be read is simply not a processable source entity.
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // A file that cannot be read is simply not a processable source entity.
+            }
+        }
+
+        return result;
+    }
+
+    private IReadOnlyList<SlotCache> GetCurrentData()
+    {
+        if (RB_Party.Checked)
+            return _party ??= CreatePartyData();
+
+        if (RB_Path.Checked)
+            return _folder ??= CreateFolderData();
+
+        return _boxData!;
     }
 
     private void B_Open_Click(object sender, EventArgs e)
     {
-        if (!B_Go.Enabled)
-            return;
         using var fbd = new FolderBrowserDialog();
         if (fbd.ShowDialog() != DialogResult.OK)
             return;
 
         TB_Folder.Text = fbd.SelectedPath;
         TB_Folder.Visible = true;
+        RB_Path.Checked = true;
+        _folder = null;
+        _folderPaths.Clear();
+        UpdateFilterCountDebounced();
+        UpdateButtons();
     }
 
     private void B_SAV_Click(object sender, EventArgs e)
     {
         TB_Folder.Text = string.Empty;
         TB_Folder.Visible = false;
+        _folder = null;
+        _folderPaths.Clear();
+        UpdateFilterCountDebounced();
+        UpdateButtons();
     }
 
-    private void B_Go_Click(object sender, EventArgs e)
+    private void B_Reset_Click(object sender, EventArgs e)
     {
-        RunBackgroundWorker();
+        // Reset only discards the in-memory save-file work. Folder operations have already
+        // been written to disk and intentionally cannot be reverted by this form.
+        _modifiedSlots.Clear();
+        _boxData = null;
+        _party = null;
+        _folder = null;
+        _folderPaths.Clear();
+        _editor = new EntityBatchProcessor();
+
+        RB_Boxes.Checked = true;
+        TB_Folder.Text = string.Empty;
+        TB_Folder.Visible = false;
+
+        _boxData = CreateBoxData();
+        UpdateFilterCountDebounced();
+        UpdateButtons();
+    }
+
+    private void B_Run_Click(object sender, EventArgs e)
+    {
+        ReadOnlySpan<char> text = RTB_Instructions.Text;
+        if (!TryGetInstructionSets(text, out var sets, promptForEmptyValues: true, showErrors: true))
+            return;
+
+        foreach (var set in sets)
+        {
+            EntityBatchEditor.ScreenStrings(set.Filters);
+            EntityBatchEditor.ScreenStrings(set.Instructions);
+        }
+
+        if (RB_Path.Checked)
+        {
+            RunBatchEditFolder(sets);
+            return;
+        }
+
+        RunBatchEditSaveFile(sets);
+    }
+
+    private void B_Save_Click(object sender, EventArgs e)
+    {
+        if (_modifiedSlots.Count == 0)
+        {
+            DialogResult = DialogResult.OK;
+            return;
+        }
+
+        var slots = GetChangelogSlots();
+        using var change = _changelog.Begin(slots);
+        foreach (var slot in slots)
+        {
+            if (TryGetCachedSlot(slot, out var cache))
+                slot.WriteTo(_sav, cache.Entity, EntityImportSettings.None);
+        }
+
+        change.Commit();
+        DialogResult = DialogResult.OK;
+    }
+
+    private IReadOnlyList<ISlotInfo> GetChangelogSlots()
+    {
+        // Party reversion captures the entire party, so multiple party slot entries only need
+        // one changelog slot. Box entries remain individually addressable.
+        var slots = _modifiedSlots.Where(z => z is not SlotInfoParty).ToList();
+        if (_modifiedSlots.Any(z => z is SlotInfoParty))
+            slots.Add(_modifiedSlots.First(z => z is SlotInfoParty));
+        return slots;
+    }
+
+    private bool TryGetCachedSlot(ISlotInfo source, out SlotCache cache)
+    {
+        if (_boxData is not null)
+        {
+            foreach (var slot in _boxData)
+            {
+                if (ReferenceEquals(slot.Source, source))
+                {
+                    cache = slot;
+                    return true;
+                }
+            }
+        }
+
+        if (_party is not null)
+        {
+            foreach (var slot in _party)
+            {
+                if (!ReferenceEquals(slot.Source, source))
+                    continue;
+                cache = slot;
+                return true;
+            }
+        }
+
+        cache = null!;
+        return false;
+    }
+
+    private void B_Cancel_Click(object sender, EventArgs e)
+    {
+        DialogResult = DialogResult.Cancel;
+        Close();
     }
 
     private void B_Add_Click(object sender, EventArgs e)
     {
-        var s = UC_Builder.Create();
+        var s = _builder.Create();
         if (s.Length == 0)
         { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
 
@@ -76,17 +275,17 @@ public partial class BatchEditor : Form
         RTB_Instructions.AppendText(s);
     }
 
-    private static void TabMain_DragEnter(object? sender, DragEventArgs? e)
+    private void TabMain_DragEnter(object? sender, DragEventArgs e)
     {
-        if (e?.Data is null)
+        if (e.Data is null)
             return;
         if (e.Data.GetDataPresent(DataFormats.FileDrop))
             e.Effect = DragDropEffects.Copy;
     }
 
-    private void TabMain_DragDrop(object? sender, DragEventArgs? e)
+    private void TabMain_DragDrop(object? sender, DragEventArgs e)
     {
-        if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
+        if (e.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
             return;
         if (!Directory.Exists(files[0]))
             return;
@@ -95,199 +294,251 @@ public partial class BatchEditor : Form
         TB_Folder.Visible = true;
         RB_Boxes.Checked = RB_Party.Checked = false;
         RB_Path.Checked = true;
+        _folder = null;
+        _folderPaths.Clear();
+        UpdateFilterCountDebounced();
+        UpdateButtons();
     }
 
-    private void RunBackgroundWorker()
+    private void RTB_Instructions_TextChanged(object? sender, EventArgs e) => UpdateFilterCountDebounced();
+    private CancellationTokenSource _filterCountCancellation = new();
+    private int _filterCountGeneration;
+
+    private async void UpdateFilterCountDebounced()
     {
-        ReadOnlySpan<char> text = RTB_Instructions.Text;
+        try
+        {
+            var text = RTB_Instructions.Text;
+            await (_filterCountCancellation.CancelAsync());
+            _filterCountCancellation.Dispose();
+
+            var cancellation = new CancellationTokenSource();
+            _filterCountCancellation = cancellation;
+
+            var generation = ++_filterCountGeneration;
+            await Task.Delay(250, cancellation.Token);
+            if (cancellation.IsCancellationRequested)
+                return;
+
+            var result = await Task.Run(() => TryGetFilterMessage(text, cancellation.Token, out var message)
+                    ? message
+                    : null, cancellation.Token); // return to GUI thread
+
+            if (cancellation.IsCancellationRequested)
+                return;
+            if (generation != _filterCountGeneration)
+                return;
+            L_Count.Text = result;
+        }
+        catch
+        {
+            // Don't care.
+        }
+    }
+
+    private bool TryGetFilterMessage(ReadOnlySpan<char> text, CancellationToken token, [NotNullWhen(true)] out string? result)
+    {
+        result = null;
+        var data = GetCurrentData();
+        int total = data.Count(z => z.Entity.Species != 0);
+        if (total == 0)
+        {
+            result = string.Format(_matchingCountFormat, 0, 0);
+            return true;
+        }
+
+        if (!TryGetInstructionSets(text, out var sets, promptForEmptyValues: false, allowOnlyFilters: true))
+        {
+            result = string.Format(_matchingCountFormat, "-", total);
+            return true;
+        }
+
+        foreach (var set in sets)
+            EntityBatchEditor.ScreenStrings(set.Filters);
+
+        if (token.IsCancellationRequested)
+            return false;
+
+        int matched = 0;
+        var max = _sav.MaxSpeciesID;
+        foreach (var entry in data)
+        {
+            var pk = entry.Entity;
+            if (pk.Species == 0 || pk.Species > max)
+                continue;
+            if (entry.Source is SlotInfoBox info && _sav.GetBoxSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
+                continue;
+
+            if (token.IsCancellationRequested)
+                return false;
+
+            if (sets.Any(set => IsFilterMatch(entry, set)))
+                matched++;
+        }
+
+        result = string.Format(_matchingCountFormat, matched, total);
+        return true;
+    }
+
+    private static bool IsFilterMatch(SlotCache entry, StringInstructionSet set)
+    {
+        var filterMeta = set.Filters.Where(IsMetaFilter).ToArray();
+        var filters = set.Filters.Where(z => !IsMetaFilter(z)).ToArray();
+
+        if (!EntityBatchEditor.IsFilterMatchMeta(filterMeta, entry))
+            return false;
+
+        return filters.Length == 0 || BatchEditingUtil.IsFilterMatch(filters, entry.Entity);
+    }
+
+    private static bool IsMetaFilter(StringInstruction filter) => BatchFilters.FilterMeta.Any(z => z.IsMatch(filter.PropertyName));
+
+    private static bool TryGetInstructionSets(ReadOnlySpan<char> text, out StringInstructionSet[] sets, bool promptForEmptyValues, bool showErrors = false, bool allowOnlyFilters = false)
+    {
+        sets = [];
+        if (text.IsEmpty)
+            return false;
         if (StringInstructionSet.HasEmptyLine(text))
-        { WinFormsUtil.Error(MsgBEInstructionInvalid); return; }
+        {
+            if (showErrors)
+                WinFormsUtil.Error(MsgBEInstructionInvalid);
+            return false;
+        }
 
-        var sets = StringInstructionSet.GetBatchSets(text);
+        try
+        {
+            sets = StringInstructionSet.GetBatchSets(text);
+        }
+        catch
+        {
+            if (showErrors)
+                WinFormsUtil.Error(MsgBEInstructionInvalid);
+            return false;
+        }
+
         if (Array.Exists(sets, s => s.Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue))))
-        { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
-
+        {
+            if (showErrors)
+                WinFormsUtil.Error(MsgBEFilterEmpty);
+            return false;
+        }
         if (Array.Exists(sets, z => z.Instructions.Count == 0))
-        { WinFormsUtil.Error(MsgBEInstructionNone); return; }
+        {
+            if (showErrors)
+                WinFormsUtil.Error(MsgBEInstructionNone);
+            return (allowOnlyFilters && sets.Any(z => z.Filters.Count != 0));
+        }
+
+        if (!promptForEmptyValues)
+            return true;
 
         var emptyVal = sets.SelectMany(s => s.Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue))).ToArray();
-        if (emptyVal.Length != 0)
-        {
-            string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
-            string invalid = MsgBEPropertyEmpty + Environment.NewLine + props;
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, invalid, MsgContinue))
-                return;
-        }
+        if (emptyVal.Length == 0)
+            return true;
 
-        string? destPath = null;
-        if (RB_Path.Checked)
-        {
-            WinFormsUtil.Alert(MsgExportFolder, MsgExportFolderAdvice);
-            using var fbd = new FolderBrowserDialog();
-            var dr = fbd.ShowDialog();
-            if (dr != DialogResult.OK)
-                return;
-
-            destPath = fbd.SelectedPath;
-        }
-
-        FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = false;
-
-        foreach (var set in sets)
-        {
-            EntityBatchEditor.ScreenStrings(set.Filters);
-            EntityBatchEditor.ScreenStrings(set.Instructions);
-        }
-        RunBatchEdit(sets, TB_Folder.Text, destPath);
+        string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
+        string invalid = MsgBEPropertyEmpty + Environment.NewLine + props;
+        return DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, invalid, MsgContinue);
     }
 
-    private void RunBatchEdit(StringInstructionSet[] sets, string source, string? destination)
+    private void RunBatchEditSaveFile(IReadOnlyCollection<StringInstructionSet> sets)
     {
-        editor = new EntityBatchProcessor();
-        bool finished = false, displayed = false; // hack cuz DoWork event isn't cleared after completion
-        b.DoWork += (_, _) =>
-        {
-            if (finished)
-                return;
-            if (RB_Boxes.Checked)
-                RunBatchEditSaveFile(sets, boxes: true);
-            else if (RB_Party.Checked)
-                RunBatchEditSaveFile(sets, party: true);
-            else if (destination is not null)
-                RunBatchEditFolder(sets, source, destination);
-            finished = true;
-        };
-        b.ProgressChanged += (_, e) => SetProgressBar(e.ProgressPercentage);
-        b.RunWorkerCompleted += (_, _) =>
-        {
-            string result = editor.GetEditorResults(sets);
-            if (!displayed) WinFormsUtil.Alert(result);
-            displayed = true;
-            FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
-            SetupProgressBar(0);
-        };
-        b.RunWorkerAsync();
-    }
-
-    private void RunBatchEditFolder(IReadOnlyCollection<StringInstructionSet> sets, string source, string destination)
-    {
-        var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
-        SetupProgressBar(files.Length * sets.Count);
-        foreach (var set in sets)
-            ProcessFolder(files, destination, set.Filters, set.Instructions);
-    }
-
-    private void RunBatchEditSaveFile(IReadOnlyCollection<StringInstructionSet> sets, bool boxes = false, bool party = false)
-    {
-        if (party)
-        {
-            var data = new List<SlotCache>(SAV.PartyCount);
-            SlotInfoLoader.AddPartyData(SAV, data);
-            process(data);
-            foreach (var slot in data)
-                slot.Source.WriteTo(SAV, slot.Entity, EntityImportSettings.None);
-        }
-        if (boxes)
-        {
-            var data = new List<SlotCache>(SAV.SlotCount);
-            SlotInfoLoader.AddBoxData(SAV, data);
-            process(data);
-            foreach (var slot in data)
-                slot.Source.WriteTo(SAV, slot.Entity, EntityImportSettings.None);
-        }
-        void process(IList<SlotCache> d)
-        {
-            SetupProgressBar(d.Count * sets.Count);
-            foreach (var set in sets)
-                ProcessSAV(d, set.Filters, set.Instructions);
-        }
-    }
-
-    // Progress Bar
-    private void SetupProgressBar(int count) => PB_Show.BeginInvoke(() =>
-    {
-        PB_Show.Minimum = 0;
-        PB_Show.Step = 1;
-        PB_Show.Value = 0;
-        PB_Show.Maximum = count;
-    });
-
-    private void SetProgressBar(int position) => PB_Show.BeginInvoke(() => PB_Show.Value = position);
-
-    private void ProcessSAV(IList<SlotCache> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
-    {
+        var data = GetCurrentData();
         if (data.Count == 0)
             return;
 
-        // Pull out any filter meta instructions from the filters.
-        var filterMeta = Filters.Where(f => BatchFilters.FilterMeta.Any(z => z.IsMatch(f.PropertyName))).ToArray();
+        _editor = new EntityBatchProcessor();
+        foreach (var set in sets)
+            ProcessSAV(data, set.Filters, set.Instructions);
+
+        UpdateFilterCountDebounced();
+        UpdateButtons();
+
+        string result = _editor.GetEditorResults(sets);
+        WinFormsUtil.Alert(result);
+    }
+
+    private void ProcessSAV(IReadOnlyList<SlotCache> data, IReadOnlyList<StringInstruction> filters, IReadOnlyList<StringInstruction> instructions)
+    {
+        var filterMeta = filters.Where(IsMetaFilter).ToArray();
         if (filterMeta.Length != 0)
-            Filters = Filters.Except(filterMeta).ToArray();
+            filters = [.. filters.Where(z => !IsMetaFilter(z))];
 
-        var max = SAV.MaxSpeciesID;
-
-        for (int i = 0; i < data.Count; i++)
+        var max = _sav.MaxSpeciesID;
+        foreach (var entry in data)
         {
-            var entry = data[i];
             var pk = entry.Entity;
-
-            // Ignore empty/invalid slots.
             var spec = pk.Species;
             if (spec == 0 || spec > max)
-            {
-                b.ReportProgress(i);
                 continue;
-            }
 
-            if (entry.Source is SlotInfoBox info && SAV.GetBoxSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
-                editor.AddSkipped();
-            else if (!EntityBatchEditor.IsFilterMatchMeta(filterMeta, entry))
-                editor.AddSkipped();
-            else
-                editor.Process(pk, Filters, Instructions);
+            if (entry.Source is SlotInfoBox info && _sav.GetBoxSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
+                continue;
+            if (!EntityBatchEditor.IsFilterMatchMeta(filterMeta, entry))
+                continue;
 
-            b.ReportProgress(i);
+            if (_editor.Process(pk, filters, instructions))
+                _modifiedSlots.Add(entry.Source);
         }
     }
 
-    private void ProcessFolder(IReadOnlyList<string> files, string destDir, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions)
+    private void RunBatchEditFolder(IReadOnlyCollection<StringInstructionSet> sets)
     {
-        var filterMeta = pkFilters.Where(f => BatchFilters.FilterMeta.Any(z => z.IsMatch(f.PropertyName))).ToArray();
+        if (string.IsNullOrWhiteSpace(TB_Folder.Text))
+            return;
+
+        WinFormsUtil.Alert(MsgExportFolder, MsgExportFolderAdvice);
+        using var fbd = new FolderBrowserDialog();
+        if (fbd.ShowDialog() != DialogResult.OK)
+            return;
+
+        var data = GetCurrentData();
+        if (data.Count == 0)
+            return;
+
+        var destination = fbd.SelectedPath;
+        _editor = new EntityBatchProcessor();
+        foreach (var set in sets)
+            ProcessFolder(data, destination, set.Filters, set.Instructions);
+
+        string result = _editor.GetEditorResults(sets);
+        WinFormsUtil.Alert(result);
+        UpdateFilterCountDebounced();
+    }
+
+    private void ProcessFolder(IReadOnlyList<SlotCache> data, string destDir, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions)
+    {
+        var filterMeta = pkFilters.Where(IsMetaFilter).ToArray();
         if (filterMeta.Length != 0)
-            pkFilters = pkFilters.Except(filterMeta).ToArray();
+            pkFilters = [.. pkFilters.Where(z => !IsMetaFilter(z))];
 
-        for (int i = 0; i < files.Count; i++)
+        Span<byte> maxEntity = stackalloc byte[0x800]; // lol too big, futureproof for now
+        foreach (var entry in data)
         {
-            TryProcess(files[i], destDir, filterMeta, pkFilters, instructions);
-            b.ReportProgress(i);
-        }
-    }
+            if (!EntityBatchEditor.IsFilterMatchMeta(filterMeta, entry))
+                continue;
 
-    private void TryProcess(string source, string destDir, IReadOnlyList<StringInstruction> metaFilters, IReadOnlyList<StringInstruction> pkFilters, IReadOnlyList<StringInstruction> instructions)
-    {
-        var fi = new FileInfo(source);
-        if (!EntityDetection.IsSizePlausible(fi.Length))
-            return;
+            if (!_editor.Process(entry.Entity, pkFilters, instructions))
+                continue;
 
-        byte[] data = File.ReadAllBytes(source);
-        _ = FileUtil.TryGetPKM(data, out var pk, fi.Extension, SAV);
-        if (pk is null)
-            return;
+            if (!_folderPaths.TryGetValue(entry.Source, out var source))
+                continue;
 
-        var info = new SlotInfoFileSingle(source);
-        var entry = new SlotCache(info, pk);
-        if (!EntityBatchEditor.IsFilterMatchMeta(metaFilters, entry))
-        {
-            editor.AddSkipped();
-            return;
-        }
-
-        if (editor.Process(pk, pkFilters, instructions))
-        {
-            Span<byte> result = stackalloc byte[pk.SIZE_PARTY];
-            pk.ForcePartyData();
-            pk.WriteDecryptedDataParty(result);
+            // We might have mixed size files, so we can't have a shared stackalloc
+            var result = maxEntity[..entry.Entity.SIZE_PARTY];
+            entry.Entity.ForcePartyData();
+            entry.Entity.WriteDecryptedDataParty(result);
             File.WriteAllBytes(Path.Combine(destDir, Path.GetFileName(source)), result);
         }
     }
+
+    private void UpdateButtons()
+    {
+        bool isOperatingOnFolder = RB_Path.Checked;
+        B_Run.Enabled = RTB_Instructions.Text.Length != 0 && (isOperatingOnFolder || GetCurrentData().Count(z => z.Entity.Species != 0) != 0);
+        B_Save.Enabled = isOperatingOnFolder || _modifiedSlots.Count != 0;
+        B_Reset.Enabled = _modifiedSlots.Count != 0;
+    }
+
+    private void BatchEditor_FormClosing(object? sender, FormClosingEventArgs e) => _lastUsedCommands = RTB_Instructions.Text;
 }

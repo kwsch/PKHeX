@@ -89,7 +89,7 @@
 0339	g	Cristal Rouge reçu (Rico Lexion)
 0340	g	Cristal Jaune reçu (Rico Lexion)
 0347	g	Tous les articles reçus (Rico Lexion)
-0787	i	PV Plus Trouvé au Lac Vérité Séché
+0787	h	PV Plus (Caché) Trouvé au Lac Vérité Séché
 2507	s	Est Entré au Show Capture du Parc des Amis
 0325	r	Les Failles de Dialga/Palkia Peuvent Apparaître
 1051	i	Orbe Adamant Trouvé au Mont Couronné

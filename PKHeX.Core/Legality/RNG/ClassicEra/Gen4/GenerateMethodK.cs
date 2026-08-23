@@ -91,7 +91,7 @@ public static class GenerateMethodK
                     if (filterIVs && !criteria.IsSatisfiedIVs(iv32))
                         continue;
 
-                    if (enc.Type is SlotType4.BugContest && !MethodK.IsAny31(iv32) && !MethodK.IsAny31(iv32 >> 16))
+                    if (enc.IsRerollMinimum31 && !MethodK.IsAny31(iv32) && !MethodK.IsAny31(iv32 >> 15))
                         break; // try again
 
                     pk.PID = pid;

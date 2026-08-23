@@ -118,7 +118,7 @@ public sealed record EncounterStatic8a
         SetEncounterMoves(pk, pk.MetLevel);
     }
 
-    public void GenerateSeed64(PKM pk, ulong seed)
+    public void GenerateSeed64(PKM pk, ITrainerInfo tr, ulong seed)
     {
         var pa8 = (PA8)pk;
         var criteria = EncounterCriteria.Unrestricted;

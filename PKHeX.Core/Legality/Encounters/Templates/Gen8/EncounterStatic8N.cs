@@ -160,7 +160,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         return (byte)(baseValue + boost);
     }
 
-    public override void GenerateSeed64(PKM pk, ulong seed)
+    public override void GenerateSeed64(PKM pk, ITrainerInfo tr, ulong seed)
     {
         var (_, noShiny) = IsPossibleSeed(pk, seed, false);
         var param = GetParam();

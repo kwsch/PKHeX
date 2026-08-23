@@ -41,7 +41,6 @@ public partial class SAV_PokedexXY : Form
         CHK_NationalDexActive.Checked = Zukan.IsNationalDexMode;
         CHK_NationalDexUnlocked.CheckedChanged += (_, _) => CHK_NationalDexActive.Checked = CHK_NationalDexUnlocked.Checked;
         TB_Spinda.Text = Zukan.Spinda.ToString("X8");
-        CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
     }
 
     private readonly CheckBox[] CP;

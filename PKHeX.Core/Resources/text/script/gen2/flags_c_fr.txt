@@ -10,7 +10,11 @@
 1761	r	Électrode (coins du milieu) disparus du Repaire Rocket -2
 1762	r	Électrode (coins du bas) disparus du Repaire Rocket -2
 0079	g	Évoli reçu
-1867	*	Fauves légendaires disparus de la Tour Ferraille
+1867	*	Fauves légendaires disparus de la Tour Cendrée
+1970	s	Suicune disparu du Tour Ferraille
+1971	s	Entei disparu du Tour Ferraille
+1972	s	Raikou disparu du Tour Ferraille
+0822	s	Arcenci'Aile reçu
 0190	e	Fargas peut vérifier la GS Ball
 0191	e	Fargas est prêt à rendre la GS Ball (à combiner avec le drapeau du dessus)
 0192	e	La GS Ball peut être insérée dans l'autel du Bois aux Chênes

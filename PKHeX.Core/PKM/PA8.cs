@@ -646,7 +646,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
 
     public void ResetHeight() => HeightAbsolute = CalcHeightAbsolute;
     public void ResetWeight() => WeightAbsolute = CalcWeightAbsolute;
-    
+
     public static float GetHeightAbsolute(IPersonalMisc p, byte heightScalar)
         => p.Height * GetScalarPercent(heightScalar);
     public static float GetWeightAbsolute(IPersonalMisc p, byte heightScalar, byte weightScalar)

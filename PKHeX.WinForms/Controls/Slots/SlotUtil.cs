@@ -21,6 +21,8 @@ public static class SlotUtil
         SlotTouchType.Set => SpriteUtil.Spriter.Set,
         SlotTouchType.Delete => SpriteUtil.Spriter.Delete,
         SlotTouchType.Swap => SpriteUtil.Spriter.Set,
+        SlotTouchType.Undo => SpriteUtil.Spriter.Delete,
+        SlotTouchType.Redo => SpriteUtil.Spriter.Set,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 
