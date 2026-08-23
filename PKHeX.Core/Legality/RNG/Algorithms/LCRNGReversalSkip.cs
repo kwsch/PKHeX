@@ -13,11 +13,12 @@ public static class LCRNGReversalSkip
     // https://github.com/StarfBerry/PokeRNG/blob/main/Recovery/LCG_Recovery.py
     private const uint RMult2 = 0xDC6C95D9; // reverse multiplier constant
     private const uint RLag0 = 0x6C31; // 27697
-    private const uint RLag1PID = 0x5D20; // -59251 mod 27697
+    private const uint RLag1PID = 0xF11; // 59251 mod 27697
     private const uint RLag1IVs = 0x2E90; // -43474 mod 27697
-    private const uint RLowerPID = 0x4B8D621D; // ((-0x20A49DE2F046 + 0xffff_ffff) >> 16) + (27697 << 16)
-    private const uint RLowerIVs = 0x4B8CE21D; // ((-0x20A49DE2F046 + 0x7fff_ffff) >> 16) + (27697 << 16)
-    private const uint RUpper = 0x4B8D08D7; //  (-0x20A3F728F046 >> 16) + (27697 << 16)
+    private const uint RLowerPID = 0x20A4F729; // (0x20A3F7295C77 + 0xffff_ffff) >> 16
+    private const uint RUpperPID = 0x20A49DE2; // (0x20A49DE2B5BD >> 16)
+    private const uint RLowerIVs = 0x1574621D; // ((-0x20A49DE2B5BD + 0x7fff_ffff) >> 16) + (27697 << 15)
+    private const uint RUpperIVs = 0x157488D6; // (-0x20A3F7295C77 >> 16) + (27697 << 15)
 
     /// <summary>
     /// Finds all seeds that can generate the IVs, with a vblank skip between the two IV rand() calls.
@@ -46,9 +47,9 @@ public static class LCRNGReversalSkip
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeeds(Span<uint> result, uint first, uint third)
     {
-        uint tmp = ((first - (third * RMult2)) >> 16) * RLag0;
+        uint tmp = (((third * RMult2) - first) >> 16) * RLag0;
         uint lo = (tmp + RLowerPID) >> 16;
-        uint up = (tmp + RUpper) >> 16;
+        uint up = (tmp + RUpperPID) >> 16;
         if (lo != up) // true in around 35% of cases
             return 0;
 
@@ -75,7 +76,7 @@ public static class LCRNGReversalSkip
     {
         uint tmp = ((first - (third * RMult2)) >> 16) * RLag0;
         uint lo = (tmp + RLowerIVs) >> 15;
-        uint up = (tmp + RUpper) >> 15;
+        uint up = (tmp + RUpperIVs) >> 15;
 
         int ctr = 0;
         AddSeeds(result, (lo * RLag1IVs) % RLag0, first, third, ref ctr);

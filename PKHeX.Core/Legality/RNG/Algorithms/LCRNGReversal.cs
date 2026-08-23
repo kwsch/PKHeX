@@ -13,14 +13,14 @@ public static class LCRNGReversal
     // https://github.com/StarfBerry/PokeRNG/blob/main/Recovery/LCG_Recovery.py
     private const uint RMult = LCRNG.rMult; // reverse multiplier constant
     private const uint RLag0 = 0x7ED7; // 32471
-    private const uint RLag1 = 0x71A4; // -68321 mod 32471
-    private const uint RLower = 0x79C8BF4A; // ((-0x50F40B53C37 + 0xffff_ffff) >> 16) + (32471 << 16)
-    private const uint RUpper = 0x79C8A5F4; // (-0x50E5A0B3C37 >> 16) + (32471 << 16)
+    private const uint RLag1 = 0xD33; // 68321 mod 32471
+    private const uint RLower = 0x50F5A0B; // (0x50E5A0BBB0E + 0xffff_ffff) >> 16
+    private const uint RUpper = 0x50F40B4; // (0x50F40B4D464 >> 16)
 
-    private const uint Lag0 = 0x6134; // -26579 mod 51463
+    private const uint Lag0 = 0x67D3; // 26579
     private const uint Lag1 = 0xC907; // 51463
-    private const uint Lower = 0x64833CB0; // ((-0xC34F11DB + 0x7fff_ffff) >> 16) + (51463 << 15)
-    private const uint Upper = 0x6483CBBC; // (0x4BBCEE25 >> 16) + (51463 << 15)
+    private const uint Lower = 0x3443; // (-0x4BBCEE25 + 0x7fff_ffff) >> 16
+    private const uint Upper = 0xC34E; // (0xC34E02CF >> 16)
 
     /// <summary>
     /// Finds all seeds that can generate the IVs.
@@ -49,7 +49,7 @@ public static class LCRNGReversal
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeeds(Span<uint> result, uint first, uint second)
     {
-        uint tmp = ((first - (second * RMult)) >> 16) * RLag0;
+        uint tmp = ((second * RMult - first) >> 16) * RLag0;
         uint lo = (tmp + RLower) >> 16;
         uint up = (tmp + RUpper) >> 16;
         if (lo != up) // true in around 10% of cases
@@ -76,10 +76,10 @@ public static class LCRNGReversal
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeedsIVs(Span<uint> result, uint first, uint second)
     {
-        ulong tmp = (ulong)(((LCRNG.Mult * first) - second >> 16) & 0xFFFF) * Lag1;
-        var lo = (uint)(((tmp + Lower) >> 15) * Lag0);
+        var tmp = ((second - LCRNG.Mult * first) >> 16) * Lag1;
+        var lo = ((tmp + Lower) >> 15) * Lag0;
         var mi = lo + Lag0;
-        var up = (uint)(((tmp + Upper) >> 15) * Lag0);
+        var up = ((tmp + Upper) >> 15) * Lag0;
 
         int ctr = 0;
         // around 2.70 iterations in average

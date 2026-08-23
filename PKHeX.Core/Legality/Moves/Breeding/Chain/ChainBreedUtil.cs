@@ -43,6 +43,7 @@ public static class ChainBreedUtil
         return true;
     }
 
+    #pragma warning disable RCS1242
     /// <inheritdoc cref="Summarize(GameStrings, ushort, byte, GameVersion, ReadOnlySpan{ushort})"/>
     public static string Summarize(GameStrings strings, in ChainBreedTrace trace)
     {
@@ -55,9 +56,10 @@ public static class ChainBreedUtil
     public static void Summarize(GameStrings strings, in ChainBreedTrace trace, StringBuilder sb)
     {
         WriteHeader(trace, sb);
-        for (var i = trace.Steps.Length - 1; i >= 0; i--)
+        var steps = trace.Steps;
+        for (var i = steps.Length - 1; i >= 0; i--)
         {
-            var entry = trace.Steps[i];
+            var entry = steps[i];
             WriteEntry(entry, sb, strings, i);
         }
     }
@@ -72,6 +74,7 @@ public static class ChainBreedUtil
         else
             sb.AppendLine($"{count} = {breed} 🥚 & {transfer} ♻️.");
     }
+    #pragma warning restore RCS1242
 
     private static void WriteEntry(in ChainBreedStep entry, StringBuilder sb, GameStrings strings, int index)
     {

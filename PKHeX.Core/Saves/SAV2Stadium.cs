@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokémon Stadium 2 (Pokémon Stadium GS in Japan)
 /// </summary>
-public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
+public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName, IStorageCleanup
 {
     public override int SaveRevision => Japanese ? 0 : 1;
     public override string SaveRevisionString => Japanese ? "-J" : "-U";
@@ -62,6 +62,7 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
     public SAV2Stadium(Memory<byte> data, bool japanese) : base(data, japanese, GetIsSwap(data.Span, japanese))
     {
         Box = BoxStart;
+        ConditionBoxes();
     }
 
     public SAV2Stadium(bool japanese = false) : base(japanese, SaveUtil.SIZE_G2STAD)
@@ -85,6 +86,15 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
         return chk == actual;
     }
 
+    // Box Structure:
+    // 0x00: 1 byte: initialized (1) or not (0)
+    // 0x01: 1 byte: count of present slots
+    // 0x02: 2 bytes: reserved
+    // 0x04: 0x50 (String?)
+    // 0x10: 16 bytes: box name (0x50-terminated)
+    // 0x20: SK2[n] slots
+    // ....: 0x00, 0x00, u32 Magic, u16 Checksum
+
     protected override void SetBoxMetadata(int box)
     {
         var bdata = GetBoxOffset(box);
@@ -99,20 +109,22 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
         }
 
         var boxOfs = bdata - ListHeaderSizeBox;
-        var slice = Data.Slice(boxOfs, ListHeaderSizeBox);
-        if (slice[0] == 0)
+        var header = Data.Slice(boxOfs, ListHeaderSizeBox);
+        if (header[0] == 0)
         {
-            slice[0] = 1;
-            slice[1] = (byte)count;
-            slice[4] = StringConverter2.TerminatorCode;
+            // Initialize with current count and a fake box name. This is only done for uninitialized boxes.
+            header[0] = 1;
+            header[4] = StringConverter2.TerminatorCode;
+
+            // Write a fake box name
             for (int i = 0; i < 4; i++)
-                slice[0x10 + i] = (byte)(0xF6 + i); // 1234
+                header[0x10 + i] = (byte)(0xF6 + i); // 1234
+            header[0x14] = StringConverter2.TerminatorCode;
         }
-        else
-        {
-            slice[1] = (byte)count;
-        }
+        header[1] = (byte)count;
     }
+
+    private byte GetBoxSlotCount(int boxDataStart) => Data[boxDataStart - ListHeaderSizeBox + 1];
 
     protected override void SetBoxChecksum(int box)
     {
@@ -237,6 +249,63 @@ public sealed class SAV2Stadium : SAV_STADIUM, IBoxDetailName
         if (japanese)
             return StadiumUtil.IsMagicPresentSwap(boxSpan, BoxSizeJ, MAGIC_FOOTER, 1);
         return StadiumUtil.IsMagicPresentSwap(boxSpan, BoxSizeU, MAGIC_FOOTER, 1);
+    }
+
+    private void ConditionBoxes()
+    {
+        var blank = BlankPKM;
+        for (int i = 0; i < BoxCount; i++)
+        {
+            // If the box is uninitialized, reset it to the right state.
+            var ofs = GetBoxOffset(i);
+
+            // Wipe empty slots after the count; don't display ghost slots.
+            var count = GetBoxSlotCount(ofs);
+            if (count >= BoxSlotCount)
+                continue; // already full
+
+            // Fill empty slots with blank PKM so that arbitrary reads are correct
+            // If you want to see the ghost slots, add your own code to `continue` instead of doing the loop.
+            for (int s = count; s < BoxSlotCount; s++)
+            {
+                var rel = ofs + (s * SIZE_STORED);
+                var slice = Data.Slice(rel, SIZE_STORED);
+                var species = slice[0];
+                if (species == 0) // don't bother converting from internal->national
+                    continue; // don't bother wiping already-empty slots.
+                WriteSlotBox(blank, slice);
+            }
+        }
+    }
+
+    public bool FixStoragePreWrite()
+    {
+        // Compress the storage.
+        bool anyShifted = false;
+        // For each box, move present slots to the front.
+        for (int i = 0; i < BoxCount; i++)
+        {
+            int present = 0;
+            var ofs = GetBoxOffset(i);
+            for (int s = 0; s < BoxSlotCount; s++)
+            {
+                var rel = ofs + (s * SIZE_STORED);
+                var species = Data[rel];
+                if (species == 0)
+                    continue;
+                if (present != s)
+                {
+                    anyShifted = true;
+                    var upSlot = Data[(ofs + (present * SIZE_STORED))..];
+                    var src = Data.Slice(rel, SIZE_STORED);
+                    src.CopyTo(upSlot);
+                    // wipe the old slot
+                    src.Clear();
+                }
+                present++;
+            }
+        }
+        return anyShifted;
     }
 }
 
