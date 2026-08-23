@@ -243,13 +243,13 @@ public static class XDRNG
     // https://github.com/StarfBerry/PokeRNG/blob/1e9b9ddf2494837c7d6704c7b8a3831f644bdea9/Recovery/LCG_Recovery.py#L229
     private const uint Lag0 = 0xE8D1; // 59601
     private const uint Lag1 = 0x5F47; // -35210 mod 59601
-    private const uint RLower = 0x55FF8537; // ((-0x92D27AC8F311 + 0xffff_ffff) >> 16) + (59601 << 16)
-    private const uint RUpper = 0x55FFBC6D; // (-0x92D14392F311 >> 16) + (59601 << 16)
+    private const uint RLower = 0x55FF8537; // ((-0x92D27AC8A4AC + 0xffff_ffff) >> 16) + (59601 << 16)
+    private const uint RUpper = 0x55FFBC6C; // (-0x92D14393DBE2 >> 16) + (59601 << 16)
 
     private const uint Lag0IVs = 0x44C5; // 17605
     private const uint Lag1IVs = 0xE8D1; // 59601
-    private const uint RLowerIVs = 0x1E694392; // (0x1E68C392F311 + 0x7fff_ffff) >> 16
-    private const uint RUpperIVs = 0x1E69FAC8; // (0x1E69FAC8F311 >> 16)
+    private const uint RLowerIVs = 0x1E694393; // (0x1E68C393DBE2 + 0x7fff_ffff) >> 16
+    private const uint RUpperIVs = 0x1E69FAC8; // (0x1E69FAC8A4AC >> 16)
 
     /// <summary>
     /// Finds all the origin seeds for two 16 bit rand() calls
@@ -299,7 +299,7 @@ public static class XDRNG
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeedsIVs(Span<uint> result, uint first, uint second)
     {
-        ulong tmp = ((((rMult * second) - first) >> 16) & 0xFFFF) * Lag1IVs;
+        ulong tmp = (((rMult * second) - first) >> 16) * Lag1IVs;
 
         var lo = (uint)((tmp + RLowerIVs) >> 15) * Lag0IVs;
         var mi = lo + Lag0IVs;

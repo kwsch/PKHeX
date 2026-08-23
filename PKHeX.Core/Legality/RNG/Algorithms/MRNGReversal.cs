@@ -11,8 +11,8 @@ public static class MRNGReversal
     private const uint RMult2 = 0xDC6C95D9; // reverse multiplier constant
     private const uint RLag0 = 0x6C31; // 27697
     private const uint RLag1IVs = 0x2E90; // -43474 mod 27697
-    private const uint RLower = 0x670A0357; // ((-0x5277CA86A92 + 0x7fff_ffff) >> 16) + (27697 << 16)
-    private const uint RUpper = 0x670A2A11; // (-0x526D5EE6A92 >> 16) + (27697 << 16)
+    private const uint RLower = 0x30F18357; // ((-0x5277CA86A92 + 0x7fff_ffff) >> 16) + (27697 << 15)
+    private const uint RUpper = 0x30F1AA11; // (-0x526D5EE6A92 >> 16) + (27697 << 15)
 
     /// <summary>
     /// Finds all Ranch RNG states that can generate the IVs.
