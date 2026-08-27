@@ -95,7 +95,7 @@ public partial class SAV_MysteryGiftDB : Form
 
         Counter = L_Count.Text;
         Viewed = L_Viewed.Text;
-        L_Viewed.Text = string.Empty; // invis for now
+        L_Viewed.Text = string.Empty; // invisible for now
         L_Viewed.MouseEnter += (_, _) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
 
         // Load Data

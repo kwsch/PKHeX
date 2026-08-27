@@ -6,8 +6,8 @@ namespace PKHeX.Core.Tests.Legality;
 public class LegalityData
 {
     [Theory]
-    [InlineData(Species.Feebas, 0)] // feebas, see issue #2394
-    [InlineData(Species.Crabrawler, 0)] // SV Crabrawler added a second, UseItem evolution method. Need to be sure it's before the more restrictive level-up method.
+    [InlineData(Species.Feebas, 0)] // Feebas, see issue #2394
+    [InlineData(Species.Crabrawler, 0)] // S/V Crabrawler added a second, UseItem evolution method. Need to be sure it's before the more restrictive level-up method.
     public void EvolutionsOrdered(Species species, byte form)
     {
         int count = 0;

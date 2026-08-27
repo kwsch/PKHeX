@@ -69,7 +69,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         // v1.1 additions
         RecordAdd = new RecordAddData8b(this, GetSafe(Raw, 0xE9828, 0x3C0));
         MysteryRecords = new MysteryBlock8b(this, GetSafe(Raw, 0xE9BE8, MysteryBlock8b.MinSize)); // size: ???
-        // POKETCH_POKETORE_COUNT_ARRAY -- (u16 species, u16 unused, i32 count, i32 reserved, i32 reserved)[3] = 0x10bytes
+        // POKETCH_POKETORE_COUNT_ARRAY -- (u16 species, u16 unused, i32 count, i32 reserved, i32 reserved)[3] = 0x10 bytes
         // PLAYREPORT_DATA -- reporting player progress online? 248 bytes?
         // MT_DATA mtData; -- 0x400 bytes
         // DENDOU_SAVE_ADD -- language tracking of members (hall of fame?); ADD_POKE_MEMBER[30], ADD_POKE[6]

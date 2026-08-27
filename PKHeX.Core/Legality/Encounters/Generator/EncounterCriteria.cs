@@ -541,6 +541,7 @@ public readonly record struct EncounterCriteria : IFixedNature, IFixedAbilityNum
     /// <summary>
     /// Gets the combined IVs as a single 32-bit integer, where each IV is packed into 5 bits.
     /// </summary>
+    /// <remarks>Little endian format (HP occupies the lowest bits)</remarks>
     public uint GetCombinedIVs() => (byte)IV_HP
                                   | (uint)IV_ATK << 5
                                   | (uint)IV_DEF << 10

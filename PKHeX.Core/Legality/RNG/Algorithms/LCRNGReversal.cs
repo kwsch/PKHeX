@@ -44,8 +44,8 @@ public static class LCRNGReversal
     /// Finds all the origin seeds for two 16 bit rand() calls.
     /// </summary>
     /// <param name="result">Result storage array, to be populated starting at index 0.</param>
-    /// <param name="first">First rand() call, 15 bits, already shifted left 16 bits.</param>
-    /// <param name="second">Second rand() call, 15 bits, already shifted left 16 bits.</param>
+    /// <param name="first">First rand() call, 16 bits, already shifted left 16 bits.</param>
+    /// <param name="second">Second rand() call, 16 bits, already shifted left 16 bits.</param>
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeeds(Span<uint> result, uint first, uint second)
     {

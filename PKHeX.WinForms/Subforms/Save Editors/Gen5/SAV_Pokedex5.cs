@@ -114,7 +114,6 @@ public partial class SAV_Pokedex5 : Form
 
     private void GetEntry(bool skipFormRepop = false)
     {
-        // Load Bools for the data
         int pk = species;
 
         // Load Partitions

@@ -110,7 +110,7 @@ public class PIDIVTest
         result = MethodFinder.Analyze(pkUA);
         (result is { Type: PIDType.BACD_A }).Should().BeTrue();
 
-        // berry fix zigzagoon: seed 0x0020
+        // Berry Fix Zigzagoon: seed 0x0020
         const ushort bfix = 0x20;
         var pkRS = new PK3 {PID = 0x38CA4EA0, IVs = [00, 20, 28, 11, 19, 00], TID16 = 30317, SID16 = 00000};
         result = MethodFinder.Analyze(pkRS);

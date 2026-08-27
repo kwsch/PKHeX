@@ -1,7 +1,23 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-26/07/07 - New Update:
+26/08/26 - New Update:
+ - Legality:
+ - - Added: Gen2-5 Recursive Egg Move inheritance checking to verify chain breeding movesets.
+ - - Added: Gen4 My Pokémon Ranch IV reversal and improved LCRNG seed recovery. Thanks @StarfBerry !
+ - - Added: Gen5 Global Link promotion language restrictions and additional Mystery Gift restrictions from card data.
+ - - Fixed: Gen4 encounter generation and Egg generation, including correct Platinum learnsets and HG/SS traded Egg handling.
+ - Added: Batch Editor now supports undo/redo, shows the number of affected slots while editing, and has improved reset/apply handling.
+ - Added: SaveFinder now supports cancellation and better drive type detection; network and CD drives are skipped to avoid startup hangs.
+ - Added: Stadium 2 save handling now compresses slots and ignores ghost slots.
+ - Added: Legends: Z-A encounter crossover data. Thanks @Lusamine !
+ - Fixed: Battle Revolution sanity flag handling. Thanks @abcboy101 !
+ - Fixed: Pokémon Battle Revolution string length handling. Thanks @abcboy101 !
+ - Fixed: Gen4 Pokégear caller checks to exclude same-gender rivals. Thanks @ScarlettHaze !
+ - Changed: RNG reversal/lattice recovery implementations improved for performance. Thanks @StarfBerry !
+ - Changed: Translations updated. Thanks @Ka-n00b, @ZHDreamer !
+
+26/07/07 - New Update: (175085) [13452667]
  - Legality:
  - - Added: Handling for HOME 4.0.0 absolute (float) size mismatches with Legends: Arceus.
  - - Added: Handling for HOME BD/SP "None" location remapping unused location IDs.
@@ -31,7 +47,6 @@ http://projectpokemon.org/pkhex/
  - Changed: Program settings editor now shows horizontal tabs for each settings category rather than vertical.
  - Changed: Program language selection now displays all options in a list rather than having to click a drop-down.
  - Changed: Translations for the Settings editor, box export, and About/Shortcuts now provided. Thanks @doomsday616 !
-
 
 26/05/05 - New Update: (210612) [13277582]
  - Legality: Updated handling for HOME=>ZA transfers.

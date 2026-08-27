@@ -113,7 +113,6 @@ public partial class SAV_PokedexORAS : Form
 
     private void GetEntry(bool skipFormRepop = false)
     {
-        // Load Bools for the data
         int pk = species;
 
         L_Spinda.Visible = TB_Spinda.Visible = pk == (int)Species.Spinda;

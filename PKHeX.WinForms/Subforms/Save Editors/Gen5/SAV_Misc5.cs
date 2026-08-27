@@ -149,7 +149,7 @@ public partial class SAV_Misc5 : Form
             }
 
             // Roamer status
-            // If you wish to re-catch thundurus/tornadus,
+            // If you wish to re-catch Thundurus/Tornadus,
             // set the status to "Go to route 7" and head
             // to the cabin in where old grandpa and grandma live
             // located at route 7.

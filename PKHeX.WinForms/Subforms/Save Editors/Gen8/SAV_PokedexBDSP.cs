@@ -68,7 +68,6 @@ public partial class SAV_PokedexBDSP : Form
 
     private void GetEntry()
     {
-        // Load Bools for the data
         CB_State.SelectedIndex = (int)Zukan.GetState(species);
         Zukan.GetGenderFlags(species, out var m, out var f, out var ms, out var fs);
         CHK_M.Checked = m;

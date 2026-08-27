@@ -113,7 +113,6 @@ public partial class SAV_PokedexXY : Form
 
     private void GetEntry(bool skipFormRepop = false)
     {
-        // Load Bools for the data
         int pk = species;
 
         L_Spinda.Visible = TB_Spinda.Visible = pk == (int)Species.Spinda;
@@ -169,7 +168,6 @@ public partial class SAV_PokedexXY : Form
         if (forms.Length < 1)
             return;
 
-        // 0x26 packs of bools
         for (int i = 0; i < forms.Length; i++) // Seen
             CLB_FormsSeen.Items.Add(forms[i], Zukan.GetFormFlag(TabIndex + i, 0));
         for (int i = 0; i < forms.Length; i++) // Seen Shiny
