@@ -49,7 +49,8 @@ public sealed class SlotEditor<T>(SaveFile SAV)
             return SlotTouchResult.FailWrite;
 
         using var change = Changelog.Begin(slot);
-        if (!slot.WriteTo(SAV, pk, EntityImportSettings.None))
+        var settings = type != SlotTouchType.Set ? EntityImportSettings.None : default;
+        if (!slot.WriteTo(SAV, pk, settings))
             return SlotTouchResult.FailWrite;
 
         change.Commit();

@@ -204,55 +204,27 @@ public partial class BatchEditor : Form
             return;
         }
 
+        // Flush all modified savedata slots back to the save.
         var slots = GetChangelogSlots();
         using var change = _changelog.Begin(slots);
+        var settings = default(EntityImportSettings) with { UpdateRecord = EntityImportOption.Disable };
         foreach (var slot in slots)
         {
             if (TryGetCachedSlot(slot, out var cache))
-                slot.WriteTo(_sav, cache.Entity, EntityImportSettings.None);
+                slot.WriteTo(_sav, cache.Entity, settings);
         }
 
         change.Commit();
         DialogResult = DialogResult.OK;
     }
 
-    private IReadOnlyList<ISlotInfo> GetChangelogSlots()
+    private IReadOnlyList<ISlotInfo> GetChangelogSlots() => [.. _modifiedSlots];
+
+    private bool TryGetCachedSlot(ISlotInfo source, [NotNullWhen(true)] out SlotCache? cache)
     {
-        // Party reversion captures the entire party, so multiple party slot entries only need
-        // one changelog slot. Box entries remain individually addressable.
-        var slots = _modifiedSlots.Where(z => z is not SlotInfoParty).ToList();
-        if (_modifiedSlots.Any(z => z is SlotInfoParty))
-            slots.Add(_modifiedSlots.First(z => z is SlotInfoParty));
-        return slots;
-    }
-
-    private bool TryGetCachedSlot(ISlotInfo source, out SlotCache cache)
-    {
-        if (_boxData is not null)
-        {
-            foreach (var slot in _boxData)
-            {
-                if (ReferenceEquals(slot.Source, source))
-                {
-                    cache = slot;
-                    return true;
-                }
-            }
-        }
-
-        if (_party is not null)
-        {
-            foreach (var slot in _party)
-            {
-                if (!ReferenceEquals(slot.Source, source))
-                    continue;
-                cache = slot;
-                return true;
-            }
-        }
-
-        cache = null!;
-        return false;
+        cache = _boxData?.FirstOrDefault(z => ReferenceEquals(z.Source, source))
+               ?? _party?.FirstOrDefault(z => ReferenceEquals(z.Source, source));
+        return cache is not null;
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)
@@ -329,6 +301,7 @@ public partial class BatchEditor : Form
             if (generation != _filterCountGeneration)
                 return;
             L_Count.Text = result;
+            UpdateButtons();
         }
         catch
         {

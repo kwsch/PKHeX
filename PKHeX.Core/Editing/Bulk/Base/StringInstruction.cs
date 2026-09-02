@@ -136,6 +136,7 @@ public sealed record StringInstruction(string PropertyName, string PropertyValue
         }
         else
         {
+            // Let any min > max situation throw later, if user entered in a bad rand range / parse failure of max (e.g. $100).
             Random = true;
         }
     }
