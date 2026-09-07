@@ -32,10 +32,12 @@ public sealed class BlockInfo4 : BlockInfo
         return (ID == 0 && GetRevision(data) != 0xFFFFFFFF) || (ID != 0 && GetKey(data) != 0xFFFFFFFF);
     }
 
-    public bool SizeValid(ReadOnlySpan<byte> data)
-    {
-        return GetSize(data) == Length;
-    }
+    public bool IsSizeValid(ReadOnlySpan<byte> data) => GetSize(data) == Length;
+
+    /// <summary>
+    /// Extra Blocks mismatch size slightly, off by 0x10.
+    /// </summary>
+    public bool IsSizeValidExtra(ReadOnlySpan<byte> data) => GetSize(data) + 0x10 == Length;
 
     protected override bool ChecksumValid(ReadOnlySpan<byte> data)
     {
@@ -50,7 +52,7 @@ public sealed class BlockInfo4 : BlockInfo
 
     public bool IsValid(ReadOnlySpan<byte> data)
     {
-        return IsInitialized(data) && SizeValid(data) && ChecksumValid(data);
+        return IsInitialized(data) && IsSizeValid(data) && ChecksumValid(data);
     }
 
     protected override void SetChecksum(Span<byte> data)

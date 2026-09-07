@@ -32,7 +32,7 @@ public static class StringConverter4
         for (; i < data.Length; i += 2)
         {
             var value = ReadUInt16LittleEndian(data[i..]);
-            if (value == Terminator)
+            if (value is Terminator or 0)
                 break;
             char chr = (char)ConvertValue2CharG4(value);
             chr = NormalizeGenderSymbol(chr);

@@ -16,7 +16,8 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
     public const int SIZE_USED = SIZE + SIZE_FOOTER;
   //public const int SIZE_BLOCK = 0x2000;
 
-    private Span<byte> Data => Raw.Span[..SIZE_USED];
+    public Span<byte> Data => Raw.Span[..SIZE_USED];
+    public const string Extension = "bv4";
 
     public bool IsDecrypted;
     private Span<byte> CryptoData => Data[0xE8..0x1D4C];
@@ -109,24 +110,39 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
 
     #region Conversion
 
-    private const int TrainerCount = 4;
+    public const int TrainerCount = 4;
     private const int TrainerLength = 0x2A4;
-    public Span<byte> Trainer1 => Data.Slice(0x1238, TrainerLength);
-    public Span<byte> Trainer2 => Data.Slice(0x14DC, TrainerLength);
-    public Span<byte> Trainer3 => Data.Slice(0x1780, TrainerLength);
-    public Span<byte> Trainer4 => Data.Slice(0x1A24, TrainerLength);
+    private Span<byte> Trainer1 => Data.Slice(0x1238, TrainerLength);
+    private Span<byte> Trainer2 => Data.Slice(0x14DC, TrainerLength);
+    private Span<byte> Trainer3 => Data.Slice(0x1780, TrainerLength);
+    private Span<byte> Trainer4 => Data.Slice(0x1A24, TrainerLength);
+
+    private Span<byte> TrainerDetail1 => Data.Slice(0x1CC8, 0x18);
+    private Span<byte> TrainerDetail2 => Data.Slice(0x1CE8, 0x18);
+    private Span<byte> TrainerDetail3 => Data.Slice(0x1D08, 0x18);
+    private Span<byte> TrainerDetail4 => Data.Slice(0x1D28, 0x18);
+
+    public Span<byte> GetTrainerTeam(int trainer) => trainer switch
+    {
+        0 => Trainer1,
+        1 => Trainer2,
+        2 => Trainer3,
+        3 => Trainer4,
+        _ => throw new ArgumentOutOfRangeException(nameof(trainer)),
+    };
+
+    public Span<byte> GetTrainerDetail(int trainer) => trainer switch
+    {
+        0 => TrainerDetail1,
+        1 => TrainerDetail2,
+        2 => TrainerDetail3,
+        3 => TrainerDetail4,
+        _ => throw new ArgumentOutOfRangeException(nameof(trainer)),
+    };
 
     public PK4[] GetTeam(int trainer)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)trainer, TrainerCount);
-        var span = trainer switch
-        {
-            0 => Trainer1,
-            1 => Trainer2,
-            2 => Trainer3,
-            3 => Trainer4,
-            _ => throw new ArgumentOutOfRangeException(nameof(trainer)),
-        };
+        var span = GetTrainerTeam(trainer);
 
         var state = IsDecrypted;
         Decrypt();
@@ -141,6 +157,35 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
             var entity = new PK4();
             InflateToPK4(segment, entity.Data);
             result[i] = entity;
+        }
+        SetDecryptedState(state);
+        return result;
+    }
+
+    public PK4[][] GetTeams()
+    {
+        var result = new PK4[TrainerCount][];
+        for (int i = 0; i < result.Length; i++)
+            result[i] = GetTeam(i);
+        return result;
+    }
+
+    public string[] GetTrainerNames()
+    {
+        var result = new string[TrainerCount];
+        var state = IsDecrypted;
+        Decrypt();
+        for (int i = 0; i < TrainerCount; i++)
+        {
+            // The name field is the first eight bytes of the trainer detail.
+            var region = GetTrainerDetail(i);
+            var name = StringConverter4.GetString(region[..16]);
+            if (string.IsNullOrWhiteSpace(name)) // fallback if unset to first slot's OT
+            {
+                var team = GetTeam(i);
+                name = team.FirstOrDefault()?.OriginalTrainerName ?? string.Empty;
+            }
+            result[i] = name;
         }
         SetDecryptedState(state);
         return result;
@@ -216,4 +261,36 @@ public sealed class BattleVideo4(Memory<byte> Raw) : IBattleVideo
             throw new ArgumentOutOfRangeException(nameof(entity), "Entity size is too small.");
     }
     #endregion
+
+    public static BattleVideo4DecryptionState DetectEncryption(Memory<byte> data)
+    {
+        var encrypted = new BattleVideo4(data);
+        if (encrypted.ChecksumValid)
+            return BattleVideo4DecryptionState.Encrypted;
+
+        var decrypted = new BattleVideo4(data) { IsDecrypted = true };
+        var checksum = Checksums.CRC16_CCITT(decrypted.DecryptedChecksumRegion);
+        if (checksum == decrypted.Seed)
+            return BattleVideo4DecryptionState.Decrypted;
+
+        return BattleVideo4DecryptionState.Invalid;
+    }
+
+    public string GetName()
+    {
+        var names = GetTrainerNames();
+        var name = string.Join(" vs ", names.Where(z => !string.IsNullOrWhiteSpace(z)));
+        if (string.IsNullOrWhiteSpace(name))
+            name = "Empty";
+        return name;
+    }
+
+    public override string ToString() => GetName();
+}
+
+public enum BattleVideo4DecryptionState
+{
+    Encrypted,
+    Decrypted,
+    Invalid,
 }

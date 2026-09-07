@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -59,8 +59,8 @@ public static class SAV4BlockDetection
         // Entering the Hall of Fame overwrites both copies with the new data.
         var rev1 = block.GetRevision(data1);
         var rev2 = block.GetRevision(data2);
-        var valid1 = rev1 != 0xFFFFFFFF && block.SizeValid(data1);
-        var valid2 = rev2 != 0xFFFFFFFF && block.SizeValid(data2);
+        var valid1 = rev1 != 0xFFFFFFFF && block.IsSizeValidExtra(data1);
+        var valid2 = rev2 != 0xFFFFFFFF && block.IsSizeValidExtra(data2);
         if (valid1 && (rev1 >= rev2 || !valid2))
             return First;
         if (valid2 && (rev2 > rev1 || !valid1))
@@ -75,8 +75,8 @@ public static class SAV4BlockDetection
         // Which partition is checked first is determined by a byte in the General block.
         var key1 = block.GetKey(data1);
         var key2 = block.GetKey(data2);
-        var valid1 = key1 != 0xFFFFFFFF && block.SizeValid(data1);
-        var valid2 = key2 != 0xFFFFFFFF && block.SizeValid(data2);
+        var valid1 = key1 != 0xFFFFFFFF && block.IsSizeValidExtra(data1);
+        var valid2 = key2 != 0xFFFFFFFF && block.IsSizeValidExtra(data2);
         if (prefer == First)
         {
             if (valid1 && key == key1)

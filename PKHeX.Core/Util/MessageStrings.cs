@@ -342,6 +342,18 @@ public static class MessageStrings
 
     #endregion
 
+    #region Battle Video
+    public static string MsgBattleVideo { get; set; } = "Battle Video";
+    public static string MsgBattleVideoIndex { get; set; } = "Battle Video {0}";
+    public static string MsgBattleVideoPlayerIndex { get; set; } = "Player {0}: {1}";
+    public static string MsgBattleVideoInvalid { get; set; } = "Battle Video is invalid.";
+    public static string MsgBattleVideoInvalidSlot { get; set; } = "Battle Video is not available.";
+    public static string MsgBattleVideoInvalidSize { get; set; } = "Invalid Battle Video. Expected exactly {0} bytes.";
+    public static string MsgBattleVideoInvalidIndex { get; set; } = "No battle video selected.";
+    public static string MsgBattleVideoImport { get; set; } = "Import Battle Video";
+    public static string MsgBattleVideoExport { get; set; } = "Export Battle Video";
+    #endregion
+
     #region Inventory
 
     public static string MsgItemPouchUnknown { get; set; } = "Unknown item detected.";

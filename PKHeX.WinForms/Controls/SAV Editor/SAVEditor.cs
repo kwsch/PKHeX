@@ -640,7 +640,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_LinkInfo_Click(object sender, EventArgs e) => OpenDialog(new SAV_Link6(SAV));
     private void B_OpenApricorn_Click(object sender, EventArgs e) => OpenDialog(new SAV_Apricorn((SAV4HGSS)SAV));
     private void B_OpenPokeathlon_Click(object sender, EventArgs e) => OpenDialog(new SAV_Pokeathlon4((SAV4HGSS)SAV));
-    private void B_DLC_Click(object sender, EventArgs e) => OpenDialog(new SAV_DLC5((SAV5)SAV));
     private void B_OpenTrainerInfo_Click(object sender, EventArgs e) => OpenDialog(GetTrainerEditor(SAV));
     private void B_OpenOPowers_Click(object sender, EventArgs e) => OpenDialog(new SAV_OPower((ISaveBlock6Main)SAV));
     private void B_OpenHoneyTreeEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_HoneyTree((SAV4Sinnoh)SAV));
@@ -652,6 +651,14 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_OpenChatterEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_Chatter(SAV));
     private void B_OpenGear_Click(object sender, EventArgs e) => OpenDialog(new SAV_Gear((SAV4BR)SAV));
     private void B_Donuts_Click(object sender, EventArgs e) => OpenDialog(new SAV_Donut9a((SAV9ZA)SAV));
+
+    private void B_DLC_Click(object sender, EventArgs e)
+    {
+        if (SAV is SAV5 s5)
+            OpenDialog(new SAV_DLC5(s5));
+        else if (SAV is SAV4 s4)
+            OpenDialog(new SAV_DLC4(s4));
+    }
 
     private void B_OpenSecretBase_Click(object sender, EventArgs e)
     {
@@ -1305,7 +1312,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenBerryField.Visible = sav is SAV6XY; // OR/AS undocumented
         B_OpenFriendSafari.Visible = sav is SAV6XY;
         B_OpenEventFlags.Visible = sav is IEventFlag37 or IEventFlagProvider37 or SAV1 or SAV2 or SAV8BS or SAV7b or SAV9ZA;
-        B_DLC.Visible = sav.Generation == 5;
+        B_DLC.Visible = sav is SAV5 or SAV4HGSS or SAV4Pt;
         B_OpenPokeBeans.Visible = B_CellsStickers.Visible = B_FestivalPlaza.Visible = sav is SAV7;
 
         B_OtherSlots.Visible = sav is SAV1StadiumJ or SAV1Stadium or SAV2Stadium;
