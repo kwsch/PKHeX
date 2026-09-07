@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 7 Static Encounter
 /// </summary>
 public sealed record EncounterStatic7(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK7>, IRelearn, IEncounterFormRandom, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender, IFixedNature, IFixedIVSet
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK7>, IRelearn, IMoveset, IEncounterFormRandom, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender, IFixedNature, IFixedIVSet
 {
     public byte Generation => 7;
     public EntityContext Context => EntityContext.Gen7;
@@ -16,6 +16,7 @@ public sealed record EncounterStatic7(GameVersion Version)
     public bool IsShiny => false;
 
     public Moveset Relearn { get; init; }
+    public Moveset Moves => Relearn;
     public IndividualValueSet IVs { get; init; }
     public ushort Location { get; init; }
     public ushort EggLocation { get; init; }
@@ -95,8 +96,14 @@ public sealed record EncounterStatic7(GameVersion Version)
         }
 
         if (Relearn.HasMoves)
+        {
+            pk.SetMoves(Relearn);
             pk.SetRelearnMoves(Relearn);
-        EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
+        }
+        else
+        {
+            EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
+        }
         SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();
 

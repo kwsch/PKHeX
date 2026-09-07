@@ -81,7 +81,11 @@ public static class CuteCharm4
             return false;
 
         var (species, gender) = GetGenderSpecies(pk, pid, pk.Species);
+        return IsCuteCharm(pid, gender, species);
+    }
 
+    private static bool IsCuteCharm(uint pid, byte gender, ushort species)
+    {
         switch (gender)
         {
             // case 2: break; // can't cute charm a genderless pk
@@ -126,10 +130,10 @@ public static class CuteCharm4
         (int)Marill or (int)Azumarill when IsAzurillMale(pid) => ((int)Azurill, 0),
 
         // Future evolutions
-        _ => (GetSpeciesGen4(currentSpecies), pk.Gender),
+        _ => (DevolveToSpeciesFromGen4(currentSpecies), pk.Gender),
     };
 
-    private static ushort GetSpeciesGen4(ushort species) => species switch
+    private static ushort DevolveToSpeciesFromGen4(ushort species) => species switch
     {
         <= Legal.MaxSpeciesID_4 => species, // has a valid personal reference, all good
         (int)Sylveon    => (int)Eevee,
