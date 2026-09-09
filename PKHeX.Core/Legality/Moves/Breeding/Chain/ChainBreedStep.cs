@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// One edge/state in a successful chain-breeding proof.
 /// </summary>
-public readonly record struct ChainBreedStep : ISpeciesForm
+public readonly record struct ChainBreedStep : ISpeciesForm, IVersion
 {
     public ushort Species { get; }
     public byte Form { get; }
@@ -102,6 +102,11 @@ public readonly record struct ChainBreedStep : ISpeciesForm
         if (MoveCount > 2) destination[2] = Move3;
         if (MoveCount > 3) destination[3] = Move4;
     }
+
+    /// <summary>
+    /// Inspects the current chain to see if any move is from Gen2, which prevents the chain from traveling to Gen1 to pick up more moves.
+    /// </summary>
+    public bool HasMoveGen2() => Move1 > Legal.MaxMoveID_1 || Move2 > Legal.MaxMoveID_1 || Move3 > Legal.MaxMoveID_1 || Move4 > Legal.MaxMoveID_1;
 }
 
 /// <summary>

@@ -50,9 +50,21 @@ public readonly ref struct LegalityLocalizationContext
         var enc = Analysis.EncounterOriginal;
         Span<ushort> moves = stackalloc ushort[4];
         if (enc.Generation >= 6)
+        {
             pk.GetRelearnMoves(moves);
+        }
         else
-            pk.GetMoves(moves);
+        {
+            int ctr = 0;
+            // Only retain actual moves from egg source
+            for (int i = 0; i < moves.Length; i++)
+            {
+                if (!Analysis.Info.Moves[i].Info.Method.IsEggSource)
+                    continue;
+                moves[ctr++] = pk.GetMove(i);
+            }
+            moves = moves[..ctr];
+        }
         return ChainBreedUtil.Summarize(Strings, enc.Species, enc.Form, enc.Version, moves).Message;
     }
 

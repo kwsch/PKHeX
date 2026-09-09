@@ -15,6 +15,11 @@ public ref struct ChainBreedTrace(Span<ChainBreedStep> buffer)
     public int Count { get; private set; }
 
     /// <summary>
+    /// Count of steps in the trace for internal ledger keeping. This is the number of populated entries in <see cref="Steps"/>.
+    /// </summary>
+    private int CountPending { get; set; }
+
+    /// <summary>
     /// The maximum number of steps that can be stored in the trace. This is the length of the underlying buffer.
     /// </summary>
     public readonly int Capacity => _buffer.Length;
@@ -42,7 +47,11 @@ public ref struct ChainBreedTrace(Span<ChainBreedStep> buffer)
     /// </summary>
     /// <param name="index">The index of the step in the trace to set.</param>
     /// <param name="state">The <see cref="ChainBreedStep"/> state to set at the specified index.</param>
-    internal void SetPending(int index, in ChainBreedStep state) => _buffer[index] = state;
+    internal void SetPending(int index, in ChainBreedStep state)
+    {
+        _buffer[index] = state;
+        CountPending = index + 1;
+    }
 
     /// <summary>
     /// Commits the specified count of steps to the trace, updating the <see cref="Count"/> property. The count is clamped to the maximum capacity of the trace.
@@ -119,5 +128,18 @@ public ref struct ChainBreedTrace(Span<ChainBreedStep> buffer)
                 depth++;
         }
         return depth;
+    }
+
+    /// <summary>
+    /// Inspects the current chain to see if any move is from Gen2, which prevents the chain from traveling to Gen1 to pick up more moves.
+    /// </summary>
+    public readonly bool HasMoveGen2()
+    {
+        foreach (ref readonly var step in _buffer[..CountPending])
+        {
+            if (step.HasMoveGen2())
+                return true;
+        }
+        return false;
     }
 }

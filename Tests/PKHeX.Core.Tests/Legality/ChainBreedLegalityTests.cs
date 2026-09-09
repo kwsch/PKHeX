@@ -18,7 +18,7 @@ public class ChainBreedLegalityTests
     [InlineData(B2W2, Azurill, BellyDrum, AquaJet)]
     [InlineData(FR, Squirtle, Haze, Flail)]
     [InlineData(B2W2, Chansey, EggBomb)]
-    [InlineData(GS, Oddish, Flail, RazorLeaf, SwordsDance, Synthesis)]
+    [InlineData(GS, Oddish, Flail, RazorLeaf, SwordsDance, Synthesis)] // Requires unlearning Synthesis to pick up Swords Dance
     [InlineData(GS, Smoochum, LovelyKiss)] // egg move removed from table (no parents)
     public void DetectsInvalidChains(GameVersion version, Species species, params Move[] movelist)
     {
@@ -33,6 +33,8 @@ public class ChainBreedLegalityTests
     [InlineData(GS, Chansey, DoubleEdge)] // via Jigglypuff (Level 39)
     [InlineData(Pt, Shellder, RapidSpin, IcicleSpear)]
     [InlineData(R, Volbeat, HelpingHand)] // level up, breed with Illumise
+    [InlineData(GS, Skarmory, DrillPeck, Whirlwind)] // Spearow GS @37 (Drill Peck) => Gen1 Whirlwind TM04
+    [InlineData(C, Cubone, RockSlide, SwordsDance)] // Larvitar GS @22 (Rock Slide) => Charmander => Yellow => Swords Dance TM03
     public void DetectsValidChains(GameVersion version, Species species, params Move[] movelist)
         => ValidateSimple(version, species, 0, movelist);
 
