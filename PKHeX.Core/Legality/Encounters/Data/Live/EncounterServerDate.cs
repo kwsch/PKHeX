@@ -257,6 +257,8 @@ public static class EncounterServerDate
         {0101, new(2025, 10, 31, 2027, 02, 01)}, // PokéCenter Audino Birthday Gift
         {1607, new(2025, 12, 09, 2026, 01, 20)}, // Alpha Charizard
 
+        {0603, new(2026, 08, 28, 2026, 08, 31)}, // Greninja 
+
         {9031, new(2026, 04, 02)}, // Alpha Chikorita
         {9032, new(2026, 04, 02)}, // Alpha Tepig
         {9033, new(2026, 04, 02)}, // Alpha Totodile
