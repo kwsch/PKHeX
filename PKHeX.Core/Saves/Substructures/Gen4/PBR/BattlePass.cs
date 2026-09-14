@@ -26,6 +26,7 @@ public sealed class BattlePass(Memory<byte> raw)
     // Japanese: 5 characters + terminator (0000) + 6 unused (FFFF)
     // Western:  9 characters + terminator (0000) + 2 unused (FFFF)
     public Span<byte> NameTrash => Data.Slice(0x04, 0x18);
+
     public string Name
     {
         get => StringConverter4GC.GetStringUnicodeBR(NameTrash);

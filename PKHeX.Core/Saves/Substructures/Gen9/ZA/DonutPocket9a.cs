@@ -722,4 +722,35 @@ public readonly record struct Donut9a(Memory<byte> Raw)
     /// Indicates whether a <see cref="DateTime1900"/> is stored. Does not guarantee that the date is possible/valid.
     /// </summary>
     public bool HasDateTime() => ReadUInt64LittleEndian(Data[0x20..0x28]) != 0;
+
+    public const int MaxStatValue = 760;
+
+    public int GetScaleValue(ReadOnlySpan<int> flavorProfileStats)
+    {
+        int maxStat = 0;
+        foreach (var stat in flavorProfileStats)
+        {
+            if (stat > maxStat)
+                maxStat = stat;
+        }
+        return maxStat < 100 ? 500 : Math.Min((((maxStat + 99) / 100) * 100) + 100, MaxStatValue);
+    }
+
+    public static float GetStatScale(int statValue)
+    {
+        int statMax = statValue switch
+        {
+            <= 350 => statValue + 200,
+            <= 700 => ((statValue + 99) / 100) * 100,
+            _ => MaxStatValue,
+        };
+
+        float scale = statMax > 0 ? Math.Min((float)statValue / statMax, 1.0f) : 0f;
+
+        // Use baseline scale (10%) if stat is 0, otherwise use calculated scale
+        const float baselineScale = 0.10f;
+        if (scale == 0f)
+            scale = baselineScale;
+        return scale;
+    }
 }

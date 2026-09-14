@@ -175,7 +175,6 @@ public sealed record EncounterFixed9
         return false;
     }
 
-
     private bool IsMatchLocation(PKM pk)
     {
         var metState = LocationsHOME.GetRemapState(Context, pk.Context);

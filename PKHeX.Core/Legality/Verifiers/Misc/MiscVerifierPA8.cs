@@ -42,7 +42,6 @@ internal sealed class MiscVerifierPA8 : Verifier
             data.AddLine(GetInvalid(EggRelearnFlags));
     }
 
-
     internal static void VerifyAbsoluteSizes(LegalityAnalysis data, PA8 pk)
     {
         // Check if the size values are correct, with some edge cases where they are fixed and not calculated.

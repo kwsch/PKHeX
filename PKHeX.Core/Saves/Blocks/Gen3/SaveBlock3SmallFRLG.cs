@@ -36,7 +36,6 @@ public sealed record SaveBlock3SmallFRLG(Memory<byte> Raw) : ISaveBlock3SmallExp
 
     public uint LinkFlags { get => ReadUInt32LittleEndian(Data[0x0A8..]); set => WriteUInt32LittleEndian(Data[0x0A8..], value); }
 
-
     public bool DummyFlagTrue
     {
         get => ReadUInt16LittleEndian(Data[0x0AC..]) != 0;

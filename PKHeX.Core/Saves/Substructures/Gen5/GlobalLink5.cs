@@ -61,7 +61,6 @@ public sealed class GlobalLink5(SAV5 sav, Memory<byte> raw) : SaveBlock<SAV5>(sa
     /// </summary>
     public bool IsAccountFullAccess { get => Data[0x1A5] != 0; set => Data[0x1A5] = (byte)(value ? 1 : 0); }
 
-
     // 7 bits for selecting one furniture, 0x7F if none.
     private byte Furniture { get => Data[0x1A6]; set => Data[0x1A6] = value; }
     public byte SelectedFurnitureIndex { get => (byte)(Furniture & 0x7F); set => Furniture = (byte)((Furniture & 0x80) | (value & 0x7F)); }

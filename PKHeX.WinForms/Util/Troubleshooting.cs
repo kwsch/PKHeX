@@ -123,7 +123,7 @@ public static class Troubleshooting
                     fullName = fullName[..^2];
             }
 
-            loaded.Add(new(plugin, fullName ?? "Unknown"));
+            loaded.Add((plugin, fullName ?? "Unknown"));
         }
 
         foreach (var group in loaded.GroupBy(z => z.Group).OrderBy(z => z.Key))

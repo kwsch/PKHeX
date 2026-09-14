@@ -8,18 +8,15 @@ namespace PKHeX.WinForms;
 
 public partial class DonutFlavorProfile9a : UserControl
 {
-    private const int MaxStatValue = 760;
     private const int PentagonWidth = 110;
     private const int PentagonHeight = 110;
-
-    private int ScaleValue;
 
     private readonly int[] FlavorProfileStats = new int[5];
 
     public DonutFlavorProfile9a() => InitializeComponent();
 
     /// <summary>
-    /// Load stats from a Donut9a object
+    /// Load stats from a <see cref="Donut9a"/> object.
     /// </summary>
     public void LoadFromDonut(Donut9a donut)
     {
@@ -32,12 +29,6 @@ public partial class DonutFlavorProfile9a : UserControl
         FlavorProfileStats[2] = flavorStats[1]; // Fresh - bottom-right
         FlavorProfileStats[3] = flavorStats[3]; // Bitter - bottom-left
         FlavorProfileStats[4] = flavorStats[2]; // Sweet - top-left
-
-        int maxStat = 0;
-        foreach (var stat in FlavorProfileStats)
-            if (stat > maxStat) maxStat = stat;
-
-        ScaleValue = maxStat < 100 ? 500 : Math.Min((((maxStat + 99) / 100) * 100) + 100, MaxStatValue);
 
         UpdateStatLabels(flavorStats);
         Invalidate();
@@ -87,19 +78,7 @@ public partial class DonutFlavorProfile9a : UserControl
 
     private static PointF GetStatCoordinate(float radiusX, float radiusY, int statValue, int i)
     {
-        int statMax = statValue switch
-        {
-            <= 350 => statValue + 200,
-            <= 700 => ((statValue + 99) / 100) * 100,
-            _ => MaxStatValue,
-        };
-
-        float scale = statMax > 0 ? Math.Min((float)statValue / statMax, 1.0f) : 0f;
-
-        // Use baseline scale (10%) if stat is 0, otherwise use calculated scale
-        const float baselineScale = 0.10f;
-        if (scale == 0f)
-            scale = baselineScale;
+        var scale = Donut9a.GetStatScale(statValue);
 
         const double angleStep = 2 * Math.PI / 5;
         double angle = (-Math.PI / 2) + (i * angleStep);

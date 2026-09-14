@@ -73,7 +73,6 @@ public static class HomeQuirks
         return s2.HeightScalar == value;
     }
 
-
     /// <summary>
     /// Checks if the <see cref="WC9"/> Hisuian Zoroark was erroneously updated by HOME to have 255-255 scale values.
     /// </summary>

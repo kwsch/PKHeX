@@ -175,7 +175,6 @@ public static class ChainBreedLegality
     /// </remarks>
     private static bool IsMaleOnlySplitBreed(ushort species) => species is (ushort)Species.NidoranM or (ushort)Species.Volbeat;
 
-
     private static bool TryResolveInheritedSources(ushort eggSpecies, byte eggForm, GameVersion version,
         scoped ReadOnlySpan<ushort> moves,
         scoped ReadOnlySpan<byte> flags,

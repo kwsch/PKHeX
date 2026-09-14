@@ -90,7 +90,7 @@ public static class DevUtil
                 if (fullName.EndsWith(".0"))
                     fullName = fullName[..^2];
             }
-            loaded.Add(new(p, fullName ?? "Unknown"));
+            loaded.Add((p, fullName ?? "Unknown"));
         }
 
         foreach (var group in loaded.GroupBy(z => z.Group).OrderBy(z => z.Key))

@@ -125,7 +125,6 @@ public sealed record SaveBlock3LargeRS(Memory<byte> Raw) : ISaveBlock3LargeHoenn
         value.CopyTo(GetMailSpan(ofs));
     }
 
-
     private const int Painting = 0x2EFC;
     private const int PaintingCount = 5;
     private Span<byte> GetPaintingSpan(int index)

@@ -331,7 +331,6 @@ public sealed partial class SAV_Inventory : Form
         cells[ColumnSprite].Value = itemID == 0 ? _none : SpriteUtil.Spriter.GetItemSprite(itemID, context);
     }
 
-
     private void Dgv_EditingControlShowing(object? sender, DataGridViewEditingControlShowingEventArgs e)
     {
         if (sender is not DataGridView dgv || e.Control is not ComboBox cb || !DropDownNextComboEdit)

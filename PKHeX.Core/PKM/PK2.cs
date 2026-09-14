@@ -44,7 +44,6 @@ public sealed class PK2 : GBPKML, ICaughtData2
         return clone;
     }
 
-
     // We (PKHeX) internally manage as single-entry lists in temp buffers.
     public override int WriteDecryptedDataStored(Span<byte> destination) => PokeList2.WrapSingle(this, destination);
     public override void WriteEncryptedDataStored(Span<byte> destination) => WriteDecryptedDataStored(destination);

@@ -151,7 +151,6 @@ public partial class SAV_HallOfFame3 : Form
         if (tb.Text != pk.Nickname) // preserve trash
             pk.Nickname = tb.Text;
 
-
         TrashEditor.Show(tb, SAV, pk.NicknameTrash);
     }
 

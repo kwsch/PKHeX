@@ -41,7 +41,6 @@ public sealed class SAV9ZA : SaveFile, ISCBlockArray, ISaveFileRevision, IBoxDet
         State.Edited = true;
     }
 
-
     public int SaveRevision => (int)GetValue<ulong>(SaveBlockAccessor9ZA.KSaveRevision);
 
     public string SaveRevisionString => SaveRevision switch

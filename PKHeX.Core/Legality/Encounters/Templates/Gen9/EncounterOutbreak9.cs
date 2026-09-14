@@ -149,7 +149,6 @@ public sealed record EncounterOutbreak9
         return true;
     }
 
-
     private bool IsMatchLocation(PKM pk)
     {
         var metState = LocationsHOME.GetRemapState(Context, pk.Context);

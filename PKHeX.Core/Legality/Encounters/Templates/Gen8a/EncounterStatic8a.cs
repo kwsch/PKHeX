@@ -239,7 +239,6 @@ public sealed record EncounterStatic8a
         return true;
     }
 
-
     private bool IsMatchLocation(PKM pk)
     {
         var metState = LocationsHOME.GetRemapState(Context, pk.Context);

@@ -129,7 +129,6 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
         return true;
     }
 
-
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
 
     #endregion

@@ -28,7 +28,6 @@ public sealed class TrainerIDManager : ITrainerIDControl
         set;
     }
 
-
     public TrainerIDManager(ITrainerIDControl tid, ITrainerIDControl sid)
     {
         _tid = tid;

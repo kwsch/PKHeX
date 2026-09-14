@@ -25,7 +25,6 @@ public sealed class PlayerBag8b : PlayerBag
     public PlayerBag8b(MyItem8b block) : this(block.Data) { }
     public PlayerBag8b(ReadOnlySpan<byte> data) => Pouches.LoadAll(data);
 
-
     public override void CopyTo(SaveFile sav) => CopyTo((SAV8BS)sav);
 
     public void CopyTo(SAV8BS sav) => CopyTo(sav.Items);

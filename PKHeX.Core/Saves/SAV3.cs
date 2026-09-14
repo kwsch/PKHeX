@@ -525,7 +525,6 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
         SetSeen(species, true);
     }
 
-
     private const int PokeDex = 0x18; // small
 
     public sealed override bool GetCaught(ushort species)
