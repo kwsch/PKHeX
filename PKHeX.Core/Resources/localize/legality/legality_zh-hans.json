@@ -164,7 +164,7 @@
     "G5PokeStarImpossibleValue": "宝可梦好莱坞名气数值不可达。",
     "G7BSocialShouldBe100Spirit": "不在玩家队伍中的宝可梦，其干劲值应为100。",
     "G7BSocialShouldBe100Mood": "不在玩家队伍中的宝可梦，其心情值应为 100。",
-    "GanbaruStatTooHigh": "一项或多项奋斗等级超过上限 (10 - IV个体值提升等级)。",
+    "GanbaruStatTooHigh": "一个或以上的奋斗等级超过了 (10 - 个体值奖励) 的自然上限。",
     "GenderInvalidNone": "无性别宝可梦不能有性别。",
     "GeoHardwareInvalid": "地理位置： 国家不在3DS区域内。",
     "GeoHardwareRange": "非法主机系统。",
