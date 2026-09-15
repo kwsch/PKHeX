@@ -87,7 +87,7 @@
 0311	g	Received Unova Starter
 0166	g	In-Game Trade Slakoth for Makuhita (Rustboro City)
 0167	g	In-Game Trade Spinda for Skitty (Fortree City)
-0168	g	In-Game Trade Bellosom for Corsola (Pacifidlog Town)
+0168	g	In-Game Trade Bellossom for Corsola (Pacifidlog Town)
 0692	s	Defeated Winstrate Family (Route 111)
 0806	s	Steven Disappeared from Route 120 Bridge
 0808	g	Breeder (Cosplay Pikachu Changer) Disappeared
