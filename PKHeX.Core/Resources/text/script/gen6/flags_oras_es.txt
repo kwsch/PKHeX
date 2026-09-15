@@ -85,9 +85,9 @@
 0310	g	Inicial de Johto recibido
 0349	g	Inicial de Sinnoh recibido
 0311	g	Inicial de Unova recibido
-0166	g	Intercambio por Makuhita en Ciudad Férrica
-0167	g	Intercambio por Skitty en Ciudad Arborada
-0168	g	Intercambio por Corsola en Pueblo Oromar
+0166	g	Intercambio de Slakoth por Makuhita (Ciudad Férrica)
+0167	g	Intercambio de Spinda por Skitty (Ciudad Arborada)
+0168	g	Intercambio de Bellossom por Corsola (Pueblo Oromar)
 0692	s	Família Estratega derrotada (Ruta 111)
 0806	s	Máximo desaparecido del puente de la Ruta 120
 0808	g	Criapokémon (cambio de Pikachu coqueta) desaparecida
