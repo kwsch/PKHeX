@@ -134,7 +134,17 @@ public sealed class GP1(Memory<byte> Raw)
     }
 
     public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month:00}/{Day:00}";
-    public string StatMove => $"{IV_HP:00}/{IV_ATK:00}/{IV_DEF:00}, CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
+    public string StatMove
+    {
+        get
+        {
+            int indexMove1 = MoveInfo.GetMoveIndexFromGOIndex(Move1);
+            int indexMove2 = MoveInfo.GetMoveIndexFromGOIndex(Move2);
+            string nameMove1 = indexMove1 == -1 ? $"{indexMove1:000}" : GameInfo.Strings.movelist[indexMove1];
+            string nameMove2 = indexMove2 == -1 ? $"{indexMove2:000}" : GameInfo.Strings.movelist[indexMove2];
+            return $"{IV_HP:00}/{IV_ATK:00}/{IV_DEF:00}, CP {CP:0000} ({nameMove1}, {nameMove2})";
+        }
+    }
     public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ Lv. {Level:00} - {StatMove}, {GeoTime}.";
 
     /// <summary>

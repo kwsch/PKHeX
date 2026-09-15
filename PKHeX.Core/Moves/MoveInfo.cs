@@ -252,4 +252,6 @@ public static class MoveInfo
         }
         return false;
     }
+
+    public static int GetMoveIndexFromGOIndex(int move) => MoveInfoGO.GOToCoreSeries[move];
 }
