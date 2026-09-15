@@ -164,7 +164,7 @@
     "G5PokeStarImpossibleValue": "寶可夢好萊塢名氣數值不可達。",
     "G7BSocialShouldBe100Spirit": "不在玩家隊伍中的寶可夢，其幹勁值應為100。",
     "G7BSocialShouldBe100Mood": "不在玩家隊伍中的寶可夢，其心情值應為 100。",
-    "GanbaruStatTooHigh": "一項或多項奮鬥等級超過上限 (10 減 IV 個體值提升奮鬥等級)。",
+    "GanbaruStatTooHigh": "一個或以上的奮鬥等級超過了 (10 - 個體值獎勵) 的自然上限。",
     "GenderInvalidNone": "無性別寶可夢不能有性別。",
     "GeoHardwareInvalid": "地理位置: 國家/地區不在3DS區域內。",
     "GeoHardwareRange": "不合法主機系統。",
