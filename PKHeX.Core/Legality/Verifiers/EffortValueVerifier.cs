@@ -133,7 +133,16 @@ public sealed class EffortValueVerifier : Verifier
             var growth = PersonalTable.HGSS[enc.Species].EXPGrowth;
             var baseEXP = Experience.GetEXP(metLevel, growth);
             if (baseEXP == pk.EXP)
+            {
                 data.AddLine(GetInvalid(EffortUntrainedCap_0, EffortValues.MaxVitamins34));
+            }
+            else
+            {
+                var gained = pk.EXP - baseEXP;
+                var delta = EffortExpLegality.GetRequiredEffortEXP(evs, gained, pk.IsPokerusInfected, enc.Generation, pk.Format);
+                if (delta > 0)
+                    data.AddLine(GetInvalid(EffortUntrainedMoreEXP_0, (uint)delta));
+            }
         }
     }
 

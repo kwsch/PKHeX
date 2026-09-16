@@ -97,6 +97,7 @@
     "EffortShouldBeZero": "无法获得努力值。",
     "EffortEXPIncreased": "所有努力值为0，但当前等级高于相遇等级。",
     "EffortUntrainedCap": "有努力值但没有超过{0}的经验值。",
+    "EffortUntrainedMoreEXP_0": "要获得当前的努力值，至少还需要 {0} 点经验值。",
     "EvoInvalid": "进化形态非法(或等级/交换进化型非法)。",
     "EvoTradeReqOutsider": "外来的{0}应当进化为{1}。",
     "EvoTradeRequired": "版本特定进化需要交换到另一版本。需要有最近持有人。",

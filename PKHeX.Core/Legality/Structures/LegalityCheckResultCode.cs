@@ -394,6 +394,7 @@ public enum LegalityCheckResultCode : ushort
     ContestSheenLEQ_0,
     EggFMetLevel_0,
     EffortUntrainedCap_0,
+    EffortUntrainedMoreEXP_0,
     FormArgumentLEQ_0,
     FormArgumentGEQ_0,
     FormInvalidExpect_0,

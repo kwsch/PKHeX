@@ -97,6 +97,7 @@
     "EffortShouldBeZero": "Kann keine Basispunkte erhalten.",
     "EffortEXPIncreased": "Alle Basispunkte sind null, aber das Level liegt über dem Fundlevel.",
     "EffortUntrainedCap": "Ein einzelner FP-Wert kann ohne EP-Zuwachs nicht größer als {0} sein.",
+    "EffortUntrainedMoreEXP_0": "Mindestens {0} weitere EP werden benötigt, um die aktuelle Anzahl an EVs zu erhalten.",
     "EvoInvalid": "Entwicklung nicht gültig (oder Bedingungen für Level/Tausch nicht erfüllt)",
     "EvoTradeReqOutsider": "Externes {0} hätte sich zu {1} entwickeln müssen.",
     "EvoTradeRequired": "Versionsspezifische Entwicklung erfordert einen Tausch in die Gegen-Edition. Ein Handling Trainer wird benötigt.",

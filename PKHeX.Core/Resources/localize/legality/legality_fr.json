@@ -97,6 +97,7 @@
     "EffortShouldBeZero": "Impossible de recevoir d'EVs.",
     "EffortEXPIncreased": "Tous les EVs sont à 0, mais ils sont au-dessus du niveau de rencontre.",
     "EffortUntrainedCap": "Les EVs individuels sans changer le montant d'Expérience ne peuvent pas dépasser {0}.",
+    "EffortUntrainedMoreEXP_0": "Au moins {0} EXP supplémentaires sont nécessaires pour obtenir la quantité actuelle d'EV.",
     "EvoInvalid": "Évolution invalide (conditions non satisfaites).",
     "EvoTradeReqOutsider": "Le {0} étranger aurait dû évoluer en {1}.",
     "EvoTradeRequired": "Une évolution restreinte à une version requiert un échange vers la version opposée. Un Dresseur Connu est nécessaire.",

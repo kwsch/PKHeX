@@ -1453,7 +1453,6 @@ SAV_DLC4.CHK_ExportDecrypted=Entschlüsselten Export erzwingen
 SAV_DLC4.L_Slots=Kampfvideos
 SAV_DLC4.L_VideoStatus=Wählen Sie ein Kampfvideo.
 SAV_DLC4.L_VideoTitle=Titel des Kampfvideos
-SAV_DLC4.L_VideoTitle=Battle Video Title
 SAV_DLC5.B_BattleTestExport=Exportieren
 SAV_DLC5.B_BattleTestImport=Importieren
 SAV_DLC5.B_BattleVideoExport=Exportieren

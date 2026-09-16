@@ -20,7 +20,7 @@ public static class EffortValues
     /// <summary> The leftover EVs if two stats are <see cref="Max252"/>. </summary>
     public const byte LeftoverDual252 = 6;
     /// <summary> Vitamin Max for consideration in Gen3 & Gen4. </summary>
-    public const ushort MaxVitamins34 = 100;
+    public const byte MaxVitamins34 = 100;
 
     /// <summary> Single vitamin in Gen1/2 adds 2560 EVs to a stat. </summary>
     public const ushort VitaminBoost12 = 2560;

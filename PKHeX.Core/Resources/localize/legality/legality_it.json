@@ -97,6 +97,7 @@
     "EffortShouldBeZero": "Non può ricevere EV.",
     "EffortEXPIncreased": "Gli EV sono Zero, ma il Pokémon è di livello superiore a quello di incontro.",
     "EffortUntrainedCap": "EV individuali senza guadagnare EXP non possono essere maggiori di {0}.",
+    "EffortUntrainedMoreEXP_0": "Sono necessari almeno {0} PE in più per ottenere l'attuale quantità di EV.",
     "EvoInvalid": "Evoluzione non valida (o i requisiti di livello/scambio non sono soddisfatti).",
     "EvoTradeReqOutsider": "L'outsider {0} si sarebbe dovuto evolvere in {1}.",
     "EvoTradeRequired": "L'evoluzione è specifica di una versione di gioco e richiede uno scambio. Il Pokémon deve avere un Ultimo Allenatore.",

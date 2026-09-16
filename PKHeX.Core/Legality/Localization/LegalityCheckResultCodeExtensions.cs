@@ -133,6 +133,7 @@ public static class LegalityCheckResultCodeExtensions
             EffortShouldBeZero => localization.EffortShouldBeZero,
             EffortEXPIncreased => localization.EffortEXPIncreased,
             EffortUntrainedCap_0 => localization.EffortUntrainedCap,
+            EffortUntrainedMoreEXP_0 => localization.EffortUntrainedMoreEXP_0,
 
             // Evolution
             EvoInvalid => localization.EvoInvalid,

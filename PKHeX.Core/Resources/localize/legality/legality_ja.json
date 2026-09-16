@@ -97,6 +97,7 @@
     "EffortShouldBeZero": "努力値を振ることはできません。",
     "EffortEXPIncreased": "努力値は全て0ですが、出会ったレベルを超えています。",
     "EffortUntrainedCap": "経験値を得ていないポケモンの努力値は {0} を超えることはできません。",
+    "EffortUntrainedMoreEXP_0": "現在の努力値を獲得するには、あと少なくとも{0}の経験値が必要です。",
     "EvoInvalid": "その進化は無効です。（レベルが満たない/通信進化が必要）",
     "EvoTradeReqOutsider": "交換した {0} は必ず {1} に進化します。",
     "EvoTradeRequired": "バージョン固有の進化には、もう一方のバージョンへの交換が必要です。",

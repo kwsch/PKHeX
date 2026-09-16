@@ -97,6 +97,7 @@
     "EffortShouldBeZero": "Cannot receive EVs.",
     "EffortEXPIncreased": "All EVs are zero, but leveled above Met Level.",
     "EffortUntrainedCap": "Individual EV without changing EXP cannot be greater than {0}.",
+    "EffortUntrainedMoreEXP_0": "At least {0} more EXP is needed to acquire the current number of EVs.",
     "EvoInvalid": "Evolution not valid (or level/trade evolution unsatisfied).",
     "EvoTradeReqOutsider": "Outsider {0} should have evolved into {1}.",
     "EvoTradeRequired": "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.",

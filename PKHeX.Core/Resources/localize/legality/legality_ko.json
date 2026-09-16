@@ -97,6 +97,7 @@
     "EffortShouldBeZero": "EV를 얻을 수 없습니다.",
     "EffortEXPIncreased": "현재 레벨이 만난 레벨 이상이지만 모든 EV가 0입니다.",
     "EffortUntrainedCap": "경험치를 수정하지 않은 채 변경한 EV는 {0}보다 클 수 없습니다.",
+    "EffortUntrainedMoreEXP_0": "현재 노력치를 얻으려면 최소 {0}의 추가 경험치가 필요합니다.",
     "EvoInvalid": "사용할 수 없는 진화입니다 (또는 레벨/통신진화를 만족하지 않습니다).",
     "EvoTradeReqOutsider": "동떨어진(Outsider) {0} 포켓몬은 {1}(으)로 진화해야 합니다.",
     "EvoTradeRequired": "버전에 따른 진화는 반대 버전으로의 교환이 필요하므로 소유했던 트레이너를 설정해야 합니다.",

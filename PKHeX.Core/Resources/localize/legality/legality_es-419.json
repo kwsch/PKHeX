@@ -97,6 +97,7 @@
     "EffortShouldBeZero": "No puede recibir EVs.",
     "EffortEXPIncreased": "Todos los EVs son 0, pero el nivel está por encima del nivel de encuentro.",
     "EffortUntrainedCap": "El valor del EV sin modificar la experiencia no puede ser superior a {0}.",
+    "EffortUntrainedMoreEXP_0": "Se necesitan al menos {0} EXP adicionales para obtener la cantidad actual de EV",
     "EvoInvalid": "Evolución inválida (o nivel/evolución por intercambio no satisfactorios).",
     "EvoTradeReqOutsider": "Forastero {0} debería haber evolucionado en {1}.",
     "EvoTradeRequired": "La evolución específica de la versión requiere de un intercambio con la versión opuesta. Se requiere un entrenador anterior.",
