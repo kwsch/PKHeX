@@ -17,7 +17,7 @@ public sealed class ZipReader : ISaveReader
     /// <returns><see langword="true"/> if the data length is large enough; otherwise, <see langword="false"/>.</returns>
     public bool IsRecognized(long dataLength) => dataLength > 4;
 
-    private static bool IsValidFileName(ReadOnlySpan<char> name) => Is(name, "main") || Is(name, "SaveData.bin");
+    private static bool IsValidFileName(ReadOnlySpan<char> name) => Is(name, "main") || Is(name, "SaveData.bin") || Is(name, "bankdata.bin");
     private static bool Is(ReadOnlySpan<char> value, ReadOnlySpan<char> other) => value.Equals(other, StringComparison.OrdinalIgnoreCase);
 
     // check ZIP header in first 4 bytes

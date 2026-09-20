@@ -94,7 +94,8 @@ public static class SaveUtil
     public const int SIZE_G1RAW = 0x8000;
 
     // Bank Binaries
-    public const int SIZE_G7BANK = 0xACA48;
+    public const int SIZE_G7BANK_1 = 0xACA48;
+    public const int SIZE_G7BANK_2 = 0xBB518;
     public const int SIZE_G4BANK = 0x405C4;
     public const int SIZE_G4RANCH = 0x54000;
     public const int SIZE_G4RANCH_PLAT = 0x7C000;
@@ -156,7 +157,7 @@ public static class SaveUtil
         or SIZE_G4BR
         or SIZE_G3COLO or SIZE_G3XD or SIZE_G3RAW or SIZE_G3RAWHALF
         or SIZE_G2RAW_U
-        or SIZE_G7BANK or SIZE_G4BANK or SIZE_G4RANCH or SIZE_G4RANCH_PLAT;
+        or SIZE_G7BANK_2 or SIZE_G4BANK or SIZE_G4RANCH or SIZE_G4RANCH_PLAT;
 
     /// <summary>Determines the type of the provided save data.</summary>
     /// <param name="data">Save data of which to determine the origins of</param>
@@ -443,7 +444,9 @@ public static class SaveUtil
     private static bool IsG9SV(ReadOnlySpan<byte> data) => IsSizeGen9SV(data.Length) && SwishCrypto.GetIsHashValid(data);
     private static bool IsG9ZA(ReadOnlySpan<byte> data) => IsSizeGen9ZA(data.Length) && SwishCrypto.GetIsHashValid(data);
 
-    private static bool IsBank7(ReadOnlySpan<byte> data) => data.Length == SIZE_G7BANK && data[0] != 0;
+    private static bool IsBank7(ReadOnlySpan<byte> data) => IsBank7_1(data) || IsBank7_2(data);
+    private static bool IsBank7_1(ReadOnlySpan<byte> data) => (data.Length == SIZE_G7BANK_1 && data[0x15C] == 1) && ReadUInt16LittleEndian(data[0x15E..]) == Bank7.FixedBoxCount;
+    private static bool IsBank7_2(ReadOnlySpan<byte> data) => (data.Length == SIZE_G7BANK_2 && data[0x15C] == 2) && ReadUInt16LittleEndian(data[0x15E..]) == Bank7.FixedBoxCount;
     private static bool IsBank4(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) != 0; // box name present
     private static bool IsBank3(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) == 0; // size collision with ^
     private static bool IsRanchDP(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RANCH && ReadUInt32BigEndian(data[0x22AC..]) != 0;

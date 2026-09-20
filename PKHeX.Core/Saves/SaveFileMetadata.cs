@@ -139,6 +139,8 @@ public sealed record SaveFileMetadata(SaveFile SAV)
 
         if (fileName.StartsWith("savedata ", StringComparison.OrdinalIgnoreCase) && fileName.Contains(".bin"))
             return fileName[..8] + ".bin";
+        if (fileName.StartsWith("bankdata ", StringComparison.OrdinalIgnoreCase) && fileName.Contains(".bin"))
+            return fileName[..8] + ".bin";
         if (fileName.StartsWith("main"))
             return "main";
 

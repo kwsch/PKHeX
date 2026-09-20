@@ -93,12 +93,16 @@ public sealed class HistoryVerifier : Verifier
     /// </summary>
     private void VerifyHandlerState(LegalityAnalysis data, bool neverOT)
     {
+        if (ParseSettings.ActiveTrainer is BulkStorage)
+            return;
+
         var pk = data.Entity;
         var info = data.Info;
         var enc = info.EncounterOriginal;
         var current = pk.CurrentHandler;
 
-        if (ParseSettings.Settings.Handler.CheckActiveHandler && ParseSettings.ActiveTrainer is { } tr)
+        var settings = ParseSettings.Settings.Handler;
+        if (settings.CheckActiveHandler && ParseSettings.ActiveTrainer is { } tr)
         {
             var shouldBe0 = tr.IsFromTrainer(pk);
             byte expect = shouldBe0 ? (byte)0 : (byte)1;
@@ -106,7 +110,7 @@ public sealed class HistoryVerifier : Verifier
             {
                 // generally disable this check if it's being edited inside a blank save file's environment.
                 if (tr is not SaveFile { State.Exportable: false })
-                    data.AddLine(GetInvalid(TransferCurrentHandlerInvalid));
+                    data.AddLine(Get(settings.CurrentHandlerMismatch, TransferCurrentHandlerInvalid));
                 // if there's no HT data yet specified, don't bother checking further.
                 // blank save exports will be injected and fixed later, and not-blanks will have been flagged by the above.
                 if (pk.IsUntraded)
