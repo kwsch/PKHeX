@@ -543,6 +543,7 @@ public partial class SAV_Encounters : Form
 
     private void FillPKXBoxes(int start)
     {
+        ShowSet.Clear();
         var boxes = PKXBOXES;
         if (Results.Count == 0)
         {

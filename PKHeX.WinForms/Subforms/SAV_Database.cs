@@ -586,6 +586,7 @@ public partial class SAV_Database : Form
 
     private void FillPKXBoxes(int start)
     {
+        ShowSet.Clear();
         if (Results.Count == 0)
         {
             for (int i = 0; i < RES_MAX; i++)
