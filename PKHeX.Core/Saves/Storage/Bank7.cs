@@ -294,10 +294,7 @@ public sealed class Bank7 : BulkStorage, IBoxDetailName
     public static byte[] UpgradeFormatFrom1To2(ReadOnlySpan<byte> data)
     {
         // Sanity check the input.
-        if (data.Length != SaveUtil.SIZE_G7BANK_1)
-            throw new ArgumentException($"Input data is not a valid Bank7 format revision 1 file. Expected length {SaveUtil.SIZE_G7BANK_1}, got {data.Length}.", nameof(data));
-        // Box Count should be 100, and the revision should be 1.
-        if (data.Length < 0x17C || ReadUInt16LittleEndian(data[0x15E..]) != 100 || ReadUInt16LittleEndian(data[0x15C..]) is not ((ushort)BankRevision.Gen6))
+        if (!IsFormat1(data))
             throw new ArgumentException("Input data is not a valid Bank7 format revision 1 file.", nameof(data));
 
         // Upgrade revision to 2.
@@ -316,6 +313,26 @@ public sealed class Bank7 : BulkStorage, IBoxDetailName
         PokedexMagic.CopyTo(span[PokedexDataStart..]);
         span[0xB2814] = 1; // dex flag?
         return result;
+    }
+
+    public static bool IsBank(ReadOnlySpan<byte> data) => IsFormat1(data) || IsFormat2(data);
+
+    public static bool IsFormat1(ReadOnlySpan<byte> data)
+    {
+        if (data.Length != SaveUtil.SIZE_G7BANK_1)
+            return false;
+        if (ReadUInt16LittleEndian(data[0x15E..]) != FixedBoxCount)
+            return false;
+        return ReadUInt16LittleEndian(data[0x15C..]) is ((ushort)BankRevision.Gen6);
+    }
+
+    public static bool IsFormat2(ReadOnlySpan<byte> data)
+    {
+        if (data.Length != SaveUtil.SIZE_G7BANK_2)
+            return false;
+        if (ReadUInt16LittleEndian(data[0x15E..]) != FixedBoxCount)
+            return false;
+        return ReadUInt16LittleEndian(data[0x15C..]) is ((ushort)BankRevision.Gen7);
     }
 
     protected override void SetPKM(PKM pk, bool isParty = false)

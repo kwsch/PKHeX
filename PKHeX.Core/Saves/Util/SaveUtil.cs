@@ -192,7 +192,7 @@ public static class SaveUtil
         if (IsG4BR(data)) return BattleRevolution;
 
         // Adjacent/misc.
-        if (IsBank7(data)) return Bulk7; // pokebank
+        if (Bank7.IsBank(data)) return Bulk7; // pokebank
         if (IsBank4(data)) return Bulk4; // pokestock
         if (IsBank3(data)) return Bulk3; // pokestock
         if (IsRanch4(data)) return Ranch;
@@ -444,9 +444,6 @@ public static class SaveUtil
     private static bool IsG9SV(ReadOnlySpan<byte> data) => IsSizeGen9SV(data.Length) && SwishCrypto.GetIsHashValid(data);
     private static bool IsG9ZA(ReadOnlySpan<byte> data) => IsSizeGen9ZA(data.Length) && SwishCrypto.GetIsHashValid(data);
 
-    private static bool IsBank7(ReadOnlySpan<byte> data) => IsBank7_1(data) || IsBank7_2(data);
-    private static bool IsBank7_1(ReadOnlySpan<byte> data) => (data.Length == SIZE_G7BANK_1 && data[0x15C] == 1) && ReadUInt16LittleEndian(data[0x15E..]) == Bank7.FixedBoxCount;
-    private static bool IsBank7_2(ReadOnlySpan<byte> data) => (data.Length == SIZE_G7BANK_2 && data[0x15C] == 2) && ReadUInt16LittleEndian(data[0x15E..]) == Bank7.FixedBoxCount;
     private static bool IsBank4(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) != 0; // box name present
     private static bool IsBank3(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) == 0; // size collision with ^
     private static bool IsRanchDP(ReadOnlySpan<byte> data) => data.Length == SIZE_G4RANCH && ReadUInt32BigEndian(data[0x22AC..]) != 0;
