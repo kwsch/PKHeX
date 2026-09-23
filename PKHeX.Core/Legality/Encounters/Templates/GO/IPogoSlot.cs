@@ -13,6 +13,9 @@ public interface IPogoSlot : IPogoDateRange
 
     /// <summary> Gender the Pokémon may be encountered with. </summary>
     Gender Gender { get; }
+
+    /// <summary> Minimum IV value for the encounter. </summary>
+    byte MinimumIV { get; }
 }
 
 /// <summary>
@@ -22,7 +25,7 @@ public static class PogoSlotExtensions
 {
     public static bool GetIVsAboveMinimum(this IPogoSlot slot, PKM pk)
     {
-        int min = slot.Type.MinimumIV;
+        int min = slot.MinimumIV;
         if (min == 0)
             return true;
         return GetIVsAboveMinimum(pk, min);

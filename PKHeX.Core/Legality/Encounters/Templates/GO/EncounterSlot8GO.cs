@@ -7,18 +7,19 @@ namespace PKHeX.Core;
 /// Encounter Slot representing data transferred to HOME.
 /// <inheritdoc cref="PogoSlotExtensions" />
 /// </summary>
-public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species, byte Form, byte LevelMin, byte LevelMax, Shiny Shiny, Gender Gender, PogoType Type, PogoImportFormat OriginFormat)
+public sealed record EncounterSlot8GO(ushort DayStart, ushort DayEnd, ushort Species, byte Form, byte LevelMin, byte MinimumIV, Shiny Shiny, Gender Gender, PogoType Type, PogoBallRestriction BallRestrict, PogoImportFormat OriginFormat)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PKM>, IPogoSlot, IFixedOTFriendship, IEncounterServerDate
 {
     public byte Generation => 8;
     public bool IsDateRestricted => true;
     public bool IsShiny => Shiny.IsShiny();
-    public Ball FixedBall => Type.GetValidBall();
+    public Ball FixedBall => BallRestrict.GetFixedBall();
     public bool IsEgg => false;
     public AbilityPermission Ability => AbilityPermission.Any12;
     ushort ILocation.EggLocation => 0;
     public GameVersion Version => GameVersion.GO;
     public ushort Location => Locations.GO8;
+    public byte LevelMax => EncountersGO.MAX_LEVEL;
 
     public string Name => $"GO Encounter ({Version})";
     public string LongName
@@ -26,10 +27,10 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         get
         {
             var init = $"{Name} ({Type})";
-            if (StartDate == 0 && EndDate == 0)
+            if (((IPogoDateRange)this).IsNoDateEither)
                 return init;
-            var start = PogoDateRangeExtensions.GetDateString(StartDate);
-            var end = PogoDateRangeExtensions.GetDateString(EndDate);
+            var start = PogoDateRangeExtensions.GetDateString(DayStart);
+            var end = PogoDateRangeExtensions.GetDateString(DayEnd);
             return $"{init}: {start}-{end}";
         }
     }
@@ -58,8 +59,8 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         if (currentSpecies == (int)Shedinja && currentSpecies != Species)
             return ball == Ball.Poke;
         if (ball == Ball.Master)
-            return Type.IsMasterBallUsable && pk.MetDate >= new DateOnly(2023, 5, 21);
-        return Type.IsBallValid(ball);
+            return BallRestrict.IsMasterBallUsable && pk.MetDate >= new DateOnly(2023, 5, 21);
+        return BallRestrict.IsValidBall(ball);
     }
 
     private PKM GetBlank() => OriginFormat switch
@@ -180,7 +181,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         if ((uint)ability < pi.AbilityCount)
             pk.Ability = pi.GetAbilityAtIndex(ability);
 
-        criteria.SetRandomIVsGO(pk, Type.MinimumIV);
+        criteria.SetRandomIVsGO(pk, MinimumIV);
 
         switch (Shiny)
         {
@@ -294,11 +295,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         return IsWithinDistributionWindow(date);
     }
 
-    public bool IsWithinDistributionWindow(DateOnly date)
-    {
-        var stamp = PogoDateRangeExtensions.GetTimeStamp(date.Year, date.Month, date.Day);
-        return this.IsWithinStartEnd(stamp);
-    }
+    public bool IsWithinDistributionWindow(DateOnly date) => this.IsWithinStartEnd(date);
 
     private bool IsFormArgIncorrect<T>(T pk) where T : ISpeciesForm => Species switch
     {

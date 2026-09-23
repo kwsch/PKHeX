@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="EntityContext.Gen7b"/> (GO Park).
 /// <inheritdoc cref="PogoSlotExtensions" />
 /// </summary>
-public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species, byte Form, byte LevelMin, byte LevelMax, Shiny Shiny, Gender Gender, PogoType Type)
+public sealed record EncounterSlot7GO(ushort DayStart, ushort DayEnd, ushort Species, byte Form, byte LevelMin, byte MinimumIV, Shiny Shiny, Gender Gender, PogoType Type)
     : IEncounterable, IEncounterMatch, IPogoSlot, IEncounterConvertible<PB7>, IEncounterServerDate
 {
     public bool IsDateRestricted => true;
@@ -20,16 +20,18 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
 
     public GameVersion Version => GameVersion.GO;
     public ushort Location => Locations.GO7;
+    public byte LevelMax => EncountersGO.MAX_LEVEL;
+
     public string Name => $"GO Encounter ({Version})";
     public string LongName
     {
         get
         {
             var init = $"{Name} ({Type})";
-            if (StartDate == 0 && EndDate == 0)
+            if (((IPogoDateRange)this).IsNoDateEither)
                 return init;
-            var start = PogoDateRangeExtensions.GetDateString(StartDate);
-            var end = PogoDateRangeExtensions.GetDateString(EndDate);
+            var start = PogoDateRangeExtensions.GetDateString(DayStart);
+            var end = PogoDateRangeExtensions.GetDateString(DayEnd);
             return $"{init}: {start}-{end}";
         }
     }
@@ -87,7 +89,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         var nature = criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
 
-        criteria.SetRandomIVsGO(pk, Type.MinimumIV);
+        criteria.SetRandomIVsGO(pk, MinimumIV);
         pk.Nature = pk.StatAlignment = nature;
         pk.Gender = gender;
         pk.RefreshAbility(ability);
@@ -144,11 +146,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
         return IsWithinDistributionWindow(date);
     }
 
-    public bool IsWithinDistributionWindow(DateOnly date)
-    {
-        var stamp = PogoDateRangeExtensions.GetTimeStamp(date.Year, date.Month, date.Day);
-        return this.IsWithinStartEnd(stamp);
-    }
+    public bool IsWithinDistributionWindow(DateOnly date) => this.IsWithinStartEnd(date);
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {

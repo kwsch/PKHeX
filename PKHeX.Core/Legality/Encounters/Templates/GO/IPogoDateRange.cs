@@ -3,58 +3,57 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Represents a date range for an encounter.
+/// Represents a date range for an encounter, relative to the first day of GO.
 /// </summary>
 public interface IPogoDateRange
 {
     /// <summary> Start date the encounter became available. If zero, no date specified (unbounded start). </summary>
-    int StartDate { get; }
+    ushort DayStart { get; }
 
     /// <summary> Last day the encounter was available. If zero, no date specified (unbounded finish). </summary>
     /// <remarks> If there is no end date (yet), we'll try to clamp to a date in the near-future to prevent it from being open-ended. </remarks>
-    int EndDate { get; }
+    ushort DayEnd { get; }
+
+    internal const int FirstDay = 736150 - 1; // 2016-07-06 (Launch Day), -1 for time zones.
+    internal const ushort DateNone = 0;
+    internal bool IsNoDateEnd => DayEnd == DateNone;
+    internal bool IsNoDateStart => DayStart == DateNone;
+    internal bool IsNoDateEither => IsNoDateStart && IsNoDateEnd;
 }
 
 public static class PogoDateRangeExtensions
 {
-    public static string GetDateString(int time) => time == 0 ? "X" : $"{GetDate(time):yyyy.MM.dd}";
+    public static string GetDateString(ushort day) => day == IPogoDateRange.DateNone ? "X" : $"{GetDate(day):yyyy.MM.dd}";
+    private static DateOnly GetDate(ushort day) => DateOnly.FromDayNumber(GetDayNumber(day));
+    private static int GetDayNumber(ushort day) => IPogoDateRange.FirstDay + day;
+    private static ushort GetDayRelative(in DateOnly date) => (ushort)(date.DayNumber - IPogoDateRange.FirstDay);
 
-    private static DateOnly GetDate(int time)
+    public static bool IsWithinStartEnd(this IPogoDateRange time, DateOnly date)
     {
-        var d = time & 0xFF;
-        var m = (time >> 8) & 0xFF;
-        var y = time >> 16;
-        return new DateOnly(y, m, d);
+        var day = GetDayRelative(date);
+        if (time.IsNoDateEnd)
+            return time.DayStart <= day && date <= GetMaxDate();
+        if (time.IsNoDateStart)
+            return day <= time.DayEnd;
+        return time.DayStart <= day && day <= time.DayEnd;
     }
-
-    public static bool IsWithinStartEnd(this IPogoDateRange time, int stamp)
-    {
-        if (time.EndDate == 0)
-            return time.StartDate <= stamp && GetDate(stamp) <= GetMaxDate();
-        if (time.StartDate == 0)
-            return stamp <= time.EndDate;
-        return time.StartDate <= stamp && stamp <= time.EndDate;
-    }
-
-    /// <summary>
-    /// Converts a split timestamp into a single integer.
-    /// </summary>
-    public static int GetTimeStamp(int year, int month, int day) => (year << 16) | (month << 8) | day;
 
     private static DateOnly GetMaxDate() => DateOnly.FromDateTime(DateTime.UtcNow.AddHours(12)); // UTC+12 for Kiribati, no daylight savings
+    private static DateOnly GetCurrentDateLocal() => DateOnly.FromDateTime(DateTime.Now);
 
     /// <summary>
     /// Gets a random date within the availability range.
     /// </summary>
     public static DateOnly GetRandomValidDate(this IPogoDateRange time)
     {
-        if (time.StartDate == 0)
-            return time.EndDate == 0 ? GetMaxDate() : GetDate(time.EndDate);
+        if (time.IsNoDateStart)
+            return time.IsNoDateEnd ? GetCurrentDateLocal() : GetDate(time.DayEnd);
 
-        var start = GetDate(time.StartDate);
-        if (time.EndDate == 0)
-            return start;
-        var end = GetDate(time.EndDate);
-        return DateUtil.GetRandomDateWithin(start, end);
+        if (time.IsNoDateEnd)
+            return GetDate(time.DayStart);
+
+        var delta = (time.DayEnd - time.DayStart) + 1;
+        var day = (ushort)Util.Rand.Next(delta);
+        return GetDate(day);
     }
 }
