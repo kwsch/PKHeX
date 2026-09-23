@@ -66,6 +66,18 @@ public enum PogoType : byte
 
 public static class PogoExtensions
 {
+    private const Ball TransferSafariBall = Strange;
+
+    extension(PogoType type)
+    {
+        public bool IsRaid => type is PogoType.Raid
+            or PogoType.RaidMythical
+            or PogoType.RaidUltraBeast
+            or PogoType.RaidShadow
+            or PogoType.RaidShadowMythical
+            or PogoType.RaidShadowUltraBeast;
+    }
+
     extension(PogoBallRestriction ball)
     {
         public Ball GetFixedBall() => ball switch
@@ -73,23 +85,31 @@ public static class PogoExtensions
             PogoBallRestriction.OnlyPoke => Poke,
             PogoBallRestriction.OnlyPremier => Premier,
             PogoBallRestriction.OnlyBeast => Beast,
-            PogoBallRestriction.OnlySafari => Safari,
+            PogoBallRestriction.OnlySafari => TransferSafariBall,
             _ => None,
         };
 
-        public bool IsValidBall(Ball current) => ball switch
+        public bool IsValidBall(Ball current, PogoType type, PogoFlags flags)
         {
-            PogoBallRestriction.None => true,
-            PogoBallRestriction.StandardMaster => current is Poke or Great or Ultra or Master,
-            PogoBallRestriction.Standard => current is Poke or Great or Ultra,
-            PogoBallRestriction.OnlyPoke => current is Poke,
-            PogoBallRestriction.OnlyPremier => current is Premier,
-            PogoBallRestriction.OnlyBeast => current is Beast,
-            PogoBallRestriction.OnlySafari => current is Safari,
-            _ => false,
-        };
+            if (current is Master)
+                return ball.IsMasterBallUsable(type);
+            if (current is TransferSafariBall)
+                return ball.IsSafariBallUsable(flags);
 
-        public bool IsMasterBallUsable => ball is PogoBallRestriction.StandardMaster;
+            return ball switch
+            {
+                PogoBallRestriction.None => true,
+                PogoBallRestriction.StandardMaster => current is Poke or Great or Ultra,
+                PogoBallRestriction.Standard => current is Poke or Great or Ultra,
+                PogoBallRestriction.OnlyPoke => current is Poke,
+                PogoBallRestriction.OnlyPremier => current is Premier,
+                PogoBallRestriction.OnlyBeast => current is Beast,
+                _ => false,
+            };
+        }
+
+        public bool IsMasterBallUsable(PogoType type) => ball is PogoBallRestriction.StandardMaster || type.IsRaid;
+        public bool IsSafariBallUsable(PogoFlags flags) => ball is PogoBallRestriction.OnlySafari || flags.HasFlag(PogoFlags.FeaturedWildArea);
     }
 }
 

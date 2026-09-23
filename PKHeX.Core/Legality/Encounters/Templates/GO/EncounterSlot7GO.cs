@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="EntityContext.Gen7b"/> (GO Park).
 /// <inheritdoc cref="PogoSlotExtensions" />
 /// </summary>
-public sealed record EncounterSlot7GO(ushort DayStart, ushort DayEnd, ushort Species, byte Form, byte LevelMin, byte MinimumIV, Shiny Shiny, Gender Gender, PogoType Type)
+public sealed record EncounterSlot7GO(ushort DayStart, ushort DayEnd, ushort Species, byte Form, byte LevelMin, byte MinimumIV, Shiny Shiny, Gender Gender, PogoType Type, PogoFlags Flags)
     : IEncounterable, IEncounterMatch, IPogoSlot, IEncounterConvertible<PB7>, IEncounterServerDate
 {
     public bool IsDateRestricted => true;
@@ -21,6 +21,8 @@ public sealed record EncounterSlot7GO(ushort DayStart, ushort DayEnd, ushort Spe
     public GameVersion Version => GameVersion.GO;
     public ushort Location => Locations.GO7;
     public byte LevelMax => EncountersGO.MAX_LEVEL;
+    public bool IsLocalDayStart => Flags.HasFlag(PogoFlags.LocalDateStart);
+    public bool IsLocalDayEnd => Flags.HasFlag(PogoFlags.LocalDateEnd);
 
     public string Name => $"GO Encounter ({Version})";
     public string LongName
@@ -28,10 +30,8 @@ public sealed record EncounterSlot7GO(ushort DayStart, ushort DayEnd, ushort Spe
         get
         {
             var init = $"{Name} ({Type})";
-            if (((IPogoDateRange)this).IsNoDateEither)
-                return init;
-            var start = PogoDateRangeExtensions.GetDateString(DayStart);
-            var end = PogoDateRangeExtensions.GetDateString(DayEnd);
+            var start = PogoDateRangeExtensions.GetDateString(DayStart, IsLocalDayStart ? 1 : 0, true);
+            var end = PogoDateRangeExtensions.GetDateString(DayEnd, IsLocalDayEnd ? -1 : 0);
             return $"{init}: {start}-{end}";
         }
     }
@@ -157,4 +157,11 @@ public sealed record EncounterSlot7GO(ushort DayStart, ushort DayEnd, ushort Spe
         return EncounterMatchRating.Match;
     }
     #endregion
+}
+
+public enum PogoFlags : byte
+{
+    LocalDateStart = 1 << 0,
+    LocalDateEnd = 1 << 1,
+    FeaturedWildArea = 1 << 2,
 }
