@@ -76,6 +76,11 @@ public static class PogoExtensions
             or PogoType.RaidShadow
             or PogoType.RaidShadowMythical
             or PogoType.RaidShadowUltraBeast;
+
+        public bool IsMaxBattle => type is PogoType.MaxBattle
+            or PogoType.MaxBattleMythical
+            or PogoType.MaxBattleUltraBeast
+            or PogoType.MaxBattleGigantamax;
     }
 
     extension(PogoBallRestriction ball)
@@ -94,7 +99,7 @@ public static class PogoExtensions
             if (current is Master)
                 return ball.IsMasterBallUsable(type);
             if (current is TransferSafariBall)
-                return ball.IsSafariBallUsable(flags);
+                return ball.IsSafariBallUsable(type, flags);
 
             return ball switch
             {
@@ -108,8 +113,24 @@ public static class PogoExtensions
             };
         }
 
-        public bool IsMasterBallUsable(PogoType type) => ball is PogoBallRestriction.StandardMaster || type.IsRaid;
-        public bool IsSafariBallUsable(PogoFlags flags) => ball is PogoBallRestriction.OnlySafari || flags.HasFlag(PogoFlags.FeaturedWildArea);
+        public bool IsMasterBallUsable(PogoType type) => ball is not (PogoBallRestriction.Standard or PogoBallRestriction.OnlyPoke or PogoBallRestriction.OnlyBeast);
+
+        public bool IsSafariBallUsable(PogoType type, PogoFlags flags)
+        {
+            if (ball is PogoBallRestriction.OnlySafari)
+                return true;
+            if (!flags.HasFlag(PogoFlags.FeaturedWildArea) && (type.IsRaid || type.IsMaxBattle))
+                return false;
+
+            return type switch
+            {
+                PogoType.Egg or PogoType.Egg12km => false,
+                PogoType.ResearchBreakthrough or PogoType.VivillonCollector or PogoType.ReferralBonus => false,
+                PogoType.GBL or PogoType.GBLMythical or PogoType.GBLEvent => false,
+                PogoType.Shadow or PogoType.ShadowMythical or PogoType.ShadowUltraBeast => false,
+                _ => true,
+            };
+        }
     }
 }
 
