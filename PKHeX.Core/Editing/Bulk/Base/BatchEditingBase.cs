@@ -130,8 +130,16 @@ public abstract class BatchEditingBase<TObject, TMeta> : IBatchEditor<TObject> w
         var localProps = GetProps(entity);
         foreach (var filter in filters)
         {
-            if (!IsFilterMatch(filter, info, entity, localProps))
+            try
+            {
+                if (!IsFilterMatch(filter, info, entity, localProps))
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
                 return false;
+            }
         }
         return true;
     }

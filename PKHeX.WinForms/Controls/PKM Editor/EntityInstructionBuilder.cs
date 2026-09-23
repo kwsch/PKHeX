@@ -50,6 +50,7 @@ public partial class EntityInstructionBuilder : UserControl
         foreach (Type t in EntityBatchEditor.Instance.Types)
             CB_Format.Items.Add(t.Name.ToLowerInvariant());
         CB_Format.Items.Add(MsgAll);
+        CB_Property.KeyDown += (_, _) => CB_Property.DroppedDown = false;
 
         CB_Format.SelectedIndex = 0;
         SetRequirementIndex(0);
