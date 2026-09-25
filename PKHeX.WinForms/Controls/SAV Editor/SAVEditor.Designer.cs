@@ -102,6 +102,7 @@ namespace PKHeX.WinForms.Controls
             B_FestivalPlaza = new System.Windows.Forms.Button();
             B_MailBox = new System.Windows.Forms.Button();
             B_OpenApricorn = new System.Windows.Forms.Button();
+            B_OpenGiftRibbons = new System.Windows.Forms.Button();
             B_Raids = new System.Windows.Forms.Button();
             B_RaidsDLC1 = new System.Windows.Forms.Button();
             B_RaidsDLC2 = new System.Windows.Forms.Button();
@@ -569,6 +570,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_FestivalPlaza);
             FLP_SAVtools.Controls.Add(B_MailBox);
             FLP_SAVtools.Controls.Add(B_OpenApricorn);
+            FLP_SAVtools.Controls.Add(B_OpenGiftRibbons);
             FLP_SAVtools.Controls.Add(B_Raids);
             FLP_SAVtools.Controls.Add(B_RaidsDLC1);
             FLP_SAVtools.Controls.Add(B_RaidsDLC2);
@@ -964,6 +966,17 @@ namespace PKHeX.WinForms.Controls
             B_OpenApricorn.UseVisualStyleBackColor = true;
             B_OpenApricorn.Click += B_OpenApricorn_Click;
             // 
+            // B_OpenGiftRibbons
+            // 
+            B_OpenGiftRibbons.Location = new System.Drawing.Point(2, 530);
+            B_OpenGiftRibbons.Margin = new System.Windows.Forms.Padding(2);
+            B_OpenGiftRibbons.Name = "B_OpenGiftRibbons";
+            B_OpenGiftRibbons.Size = new System.Drawing.Size(128, 44);
+            B_OpenGiftRibbons.TabIndex = 1;
+            B_OpenGiftRibbons.Text = "Gift Ribbons";
+            B_OpenGiftRibbons.UseVisualStyleBackColor = true;
+            B_OpenGiftRibbons.Click += B_OpenGiftRibbons_Click;
+            // 
             // B_Raids
             // 
             B_Raids.Location = new System.Drawing.Point(134, 530);
@@ -1204,6 +1217,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_FestivalPlaza;
         private System.Windows.Forms.Button B_MailBox;
         private System.Windows.Forms.Button B_OpenApricorn;
+        private System.Windows.Forms.Button B_OpenGiftRibbons;
         private System.Windows.Forms.Button B_OpenPokeathlon;
         internal SlotList SL_Extra;
         private PartyEditor SL_Party;
