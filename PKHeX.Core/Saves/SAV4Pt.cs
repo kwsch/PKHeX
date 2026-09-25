@@ -65,6 +65,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
         FashionCase = 0x4E38;
         OFS_Record = 0x61B0;
         OFS_Chatter = 0x64EC;
+        OFS_GiftRibbons = 0x7F10;
         Geonet = 0xA4C4;
 
         OFS_HONEY = 0x7F38;

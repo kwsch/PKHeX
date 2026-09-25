@@ -447,6 +447,17 @@ public sealed class PGT(Memory<byte> raw) : DataMysteryGift(raw), IRibbonSetEven
     public bool RibbonChampionWorld { get => PK.RibbonChampionWorld; set => PK.RibbonChampionWorld = value; }
     public bool RibbonSouvenir { get => PK.RibbonSouvenir; set => PK.RibbonSouvenir = value; }
 
+    public byte RibbonChampionWorldDescription { get => Data[0xF4]; set => Data[0xF4] = value; }
+    public byte RibbonBirthdayDescription { get => Data[0xF5]; set => Data[0xF5] = value; }
+    public byte RibbonSpecialDescription { get => Data[0xF6]; set => Data[0xF6] = value; }
+    public byte RibbonSouvenirDescription { get => Data[0xF7]; set => Data[0xF7] = value; }
+    public byte RibbonWishingDescription { get => Data[0xF8]; set => Data[0xF8] = value; }
+    public byte RibbonClassicDescription { get => Data[0xF9]; set => Data[0xF9] = value; }
+    public byte RibbonPremierDescription { get => Data[0xFA]; set => Data[0xFA] = value; }
+    public byte RibbonChampionBattleDescription { get => Data[0xFB]; set => Data[0xFB] = value; }
+    public byte RibbonChampionRegionalDescription { get => Data[0xFC]; set => Data[0xFC] = value; }
+    public byte RibbonChampionNationalDescription { get => Data[0xFD]; set => Data[0xFD] = value; }
+
     public RandomCorrelationRating IsCompatible(PIDType type, PKM pk)
     {
         if (IsManaphyEgg)

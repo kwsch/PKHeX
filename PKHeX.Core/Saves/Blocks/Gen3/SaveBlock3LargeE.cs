@@ -149,7 +149,7 @@ public sealed record SaveBlock3LargeE(Memory<byte> Raw) : ISaveBlock3LargeExpans
         set => WriteUInt32LittleEndian(Data[0x3148..], value);
     }
 
-    public Span<byte> GiftRibbons => Data.Slice(0x31B3, 11);
+    public Span<byte> GiftRibbons => Data.Slice(0x31A8, IGiftRibbons.SIZE_3);
     public int ExternalEventData => 0x31B3;
     public Memory<byte> RoamerData => Raw.Slice(0x31DC, Roamer3.SIZE);
     private const int OFFSET_EBERRY = 0x31F8;
