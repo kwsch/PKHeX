@@ -32,8 +32,6 @@ public static class RibbonVerifierEvent4
             list.Add(Birthday);
         if (r.RibbonSpecial)
             list.Add(Special);
-        if (r.RibbonWorld)
-            list.Add(World);
         if (r.RibbonChampionWorld)
             list.Add(ChampionWorld);
         if (r.RibbonSouvenir)
@@ -54,8 +52,6 @@ public static class RibbonVerifierEvent4
             list.Add(Birthday, e.RibbonBirthday);
         if (r.RibbonSpecial != e.RibbonSpecial)
             list.Add(Special, e.RibbonSpecial);
-        if (r.RibbonWorld != e.RibbonWorld)
-            list.Add(World, e.RibbonWorld);
         if (r.RibbonChampionWorld != e.RibbonChampionWorld)
             list.Add(ChampionWorld, e.RibbonChampionWorld);
         if (r.RibbonSouvenir != e.RibbonSouvenir)
@@ -76,8 +72,6 @@ public static class RibbonVerifierEvent4
             list.Add(Birthday);
         if (r.RibbonSpecial)
             list.Add(Special);
-        if (r.RibbonWorld)
-            list.Add(World);
         if (r.RibbonChampionWorld)
             list.Add(ChampionWorld);
         if (r.RibbonSouvenir)

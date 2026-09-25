@@ -30,6 +30,8 @@ public static class RibbonVerifierEvent3
                     list.Add(National, e.RibbonNational);
                 if (r.RibbonCountry != e.RibbonCountry)
                     list.Add(Country, e.RibbonCountry);
+                if (r.RibbonWorld != e.RibbonWorld)
+                    list.Add(World, e.RibbonWorld);
                 if (r.RibbonChampionBattle != e.RibbonChampionBattle)
                     list.Add(ChampionBattle, e.RibbonChampionBattle);
                 if (r.RibbonChampionRegional != e.RibbonChampionRegional)
@@ -49,6 +51,8 @@ public static class RibbonVerifierEvent3
                     list.Add(National, nationalRequired);
                 if (r.RibbonCountry)
                     list.Add(Country);
+                if (r.RibbonWorld)
+                    list.Add(World);
                 if (r.RibbonChampionBattle)
                     list.Add(ChampionBattle);
                 if (r.RibbonChampionRegional)
@@ -66,6 +70,8 @@ public static class RibbonVerifierEvent3
                 list.Add(National);
             if (r.RibbonCountry)
                 list.Add(Country);
+            if (r.RibbonWorld)
+                list.Add(World);
             if (r.RibbonChampionBattle)
                 list.Add(ChampionBattle);
             if (r.RibbonChampionRegional)

@@ -9,8 +9,6 @@ public static class RibbonVerifierOnly3
 {
     public static void Parse(this IRibbonSetOnly3 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
-        if (r.RibbonWorld)
-            list.Add(RibbonIndex.World);
 
         if (!RibbonRules.IsAllowedContest3(args.History, args.Entity))
             FlagContestAny(r, ref list);
@@ -35,9 +33,6 @@ public static class RibbonVerifierOnly3
 
     public static void ParseEgg(this IRibbonSetOnly3 r, ref RibbonResultList list)
     {
-        if (r.RibbonWorld)
-            list.Add(RibbonIndex.World);
-
         FlagContestAny(r, ref list);
     }
 

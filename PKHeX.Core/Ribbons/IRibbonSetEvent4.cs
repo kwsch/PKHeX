@@ -9,7 +9,6 @@ public interface IRibbonSetEvent4
     bool RibbonEvent { get; set; }
     bool RibbonBirthday { get; set; }
     bool RibbonSpecial { get; set; }
-    bool RibbonWorld { get; set; }
     bool RibbonChampionWorld { get; set; }
     bool RibbonSouvenir { get; set; }
 }
@@ -24,7 +23,6 @@ public static partial class RibbonExtensions
         dest.RibbonEvent = set.RibbonEvent;
         dest.RibbonBirthday = set.RibbonBirthday;
         dest.RibbonSpecial = set.RibbonSpecial;
-        dest.RibbonWorld = set.RibbonWorld;
         dest.RibbonChampionWorld = set.RibbonChampionWorld;
         dest.RibbonSouvenir = set.RibbonSouvenir;
     }

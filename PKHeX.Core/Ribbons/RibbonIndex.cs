@@ -321,6 +321,7 @@ public static class RibbonIndexExtensions
                     if (r == Country) e3.RibbonCountry = state;
                     else if (r == National) e3.RibbonNational = state;
                     else if (r == Earth) e3.RibbonEarth = state;
+                    else if (r == World) e3.RibbonWorld = state;
                     else if (r == ChampionBattle) e3.RibbonChampionBattle = state;
                     else if (r == ChampionRegional) e3.RibbonChampionRegional = state;
                     else if (r == ChampionNational) e3.RibbonChampionNational = state;
@@ -328,8 +329,7 @@ public static class RibbonIndexExtensions
                 case RibbonIndexGroup.Event4:
                     if (pk is not IRibbonSetEvent4 e4)
                         return;
-                    if (r == World) e4.RibbonWorld = state;
-                    else if (r == Classic) e4.RibbonClassic = state;
+                    if (r == Classic) e4.RibbonClassic = state;
                     else if (r == Premier) e4.RibbonPremier = state;
                     else if (r == Event) e4.RibbonEvent = state;
                     else if (r == Birthday) e4.RibbonBirthday = state;
@@ -477,7 +477,7 @@ public static class RibbonIndexExtensions
             Country => nameof(IRibbonSetEvent3.RibbonCountry),
             National => nameof(IRibbonSetEvent3.RibbonNational),
             Earth => nameof(IRibbonSetEvent3.RibbonEarth),
-            World => nameof(IRibbonSetEvent4.RibbonWorld),
+            World => nameof(IRibbonSetEvent3.RibbonWorld),
             Classic => nameof(IRibbonSetEvent4.RibbonClassic),
             Premier => nameof(IRibbonSetEvent4.RibbonPremier),
             Event => nameof(IRibbonSetEvent4.RibbonEvent),
