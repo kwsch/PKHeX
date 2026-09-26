@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.CheckIdentifier;
 
@@ -79,13 +80,56 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
         }
 
         // ID-SID16 should only occur for one Trainer name
-        if (pp.OriginalTrainerName != cp.OriginalTrainerName)
+        if (IsSharedTrainerName(pp, cp))
         {
             var severity = ca.Info.Generation == 4 ? Severity.Fishy : Severity.Invalid;
             input.AddLine(ps, cs, ident, pr.Index, cr.Index, LegalityCheckResultCode.BulkSharingTrainerIDs, s: severity);
+            return true;
         }
 
         return false;
+    }
+
+    private static bool IsSharedTrainerName(PKM pp, PKM cp)
+    {
+        if (!IsTrainerNameMatch(pp, cp))
+            return false;
+
+        // Gen3 Eggs can be JPN-Egg vs a not-JPN not-Egg. Need to guess at the eventual language ID. Don't bother checking all possible language IDs.
+        if (IsEggMatchLanguage3(pp, cp))
+            return false;
+        if (IsEggMatchLanguage3(cp, pp))
+            return false;
+
+        return true;
+    }
+
+    private static bool IsTrainerNameMatch(PKM first, PKM second)
+    {
+        var trash1 = first.OriginalTrainerTrash;
+        var trash2 = second.OriginalTrainerTrash;
+        Span<char> text1 = stackalloc char[first.MaxStringLengthTrainer];
+        Span<char> text2 = stackalloc char[second.MaxStringLengthTrainer];
+        var len1 = first.LoadString(trash1, text1);
+        var len2 = second.LoadString(trash2, text2);
+        // inner method checks length equivalence immediately, no need to do it explicitly before.
+        return text1[..len1].SequenceEqual(text2[..len2]);
+    }
+
+    private static bool IsEggMatchLanguage3(PKM egg, PKM notEgg)
+    {
+        // side games cannot receive eggs even via trade, so PK3 is the only valid type.
+        if (egg is not PK3 { IsEgg: true })
+            return false;
+        if (notEgg.IsEgg)
+            return false;
+
+        // Reinterpret trash bytes as originating from the not-egg-entity's language.
+        var language = notEgg.Language;
+        var trash = egg.OriginalTrainerTrash;
+        Span<char> text = stackalloc char[trash.Length];
+        int len = StringConverter3.LoadString(trash, text, language);
+        return text[..len].SequenceEqual(notEgg.OriginalTrainerName);
     }
 
     private static bool IsNotPlayerDetails(IEncounterTemplate enc) => enc switch
