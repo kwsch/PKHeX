@@ -638,6 +638,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_OpenSuperTraining_Click(object sender, EventArgs e) => OpenDialog(new SAV_SuperTrain((SAV6)SAV));
     private void B_CellsStickers_Click(object sender, EventArgs e) => OpenDialog(new SAV_ZygardeCell((SAV7)SAV));
     private void B_LinkInfo_Click(object sender, EventArgs e) => OpenDialog(new SAV_Link6(SAV));
+    private void B_OpenGiftRibbons_Click(object sender, EventArgs e) => OpenDialog(new SAV_GiftRibbons((IGiftRibbons)SAV));
     private void B_OpenApricorn_Click(object sender, EventArgs e) => OpenDialog(new SAV_Apricorn((SAV4HGSS)SAV));
     private void B_OpenPokeathlon_Click(object sender, EventArgs e) => OpenDialog(new SAV_Pokeathlon4((SAV4HGSS)SAV));
     private void B_OpenTrainerInfo_Click(object sender, EventArgs e) => OpenDialog(GetTrainerEditor(SAV));
@@ -1321,6 +1322,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenMiscEditor.Visible = sav is SAV2 { Version: GameVersion.C } or SAV3 or SAV4 or SAV5 or SAV8BS;
         B_Roamer.Visible = sav is SAV3 or SAV6XY;
 
+        B_OpenGiftRibbons.Visible = sav is IGiftRibbons;
         B_OpenHoneyTreeEditor.Visible = sav is SAV4Sinnoh;
         B_OpenUGSEditor.Visible = sav is SAV4Sinnoh or SAV8BS;
         B_OpenGeonetEditor.Visible = sav is SAV4;

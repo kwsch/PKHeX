@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 <see cref="SaveFile"/> object.
 /// </summary>
-public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareExperience
+public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetailName, IBoxDetailWallpaper, IDaycareStorage, IDaycareEggState, IDaycareExperience, IGiftRibbons
 {
     protected internal sealed override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public sealed override string Extension => ".sav";
@@ -652,20 +652,6 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37, IBoxDetai
 
     public Span<byte> GiftRibbons => LargeBlock.GiftRibbons;
 
-    public void GiftRibbonsImport(ReadOnlySpan<byte> trade)
-    {
-        const int maxRibbonValue = 64;
-        var self = GiftRibbons;
-        for (int i = 0; i < GiftRibbons.Length; i++)
-        {
-            // ruby doesn't sanity check against 64, but emerald does.
-            // just do it for all games to ensure "legal" values only import.
-            if (self[i] == 0 && trade[i] != 0 && trade[i] < maxRibbonValue)
-                self[i] = trade[i];
-        }
-    }
-
-    public void GiftRibbonsClear() => GiftRibbons.Clear();
     private int ExternalEventData => LargeBlock.ExternalEventData;
     protected int ExternalEventFlags => ExternalEventData + 0x14;
 

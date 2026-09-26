@@ -97,7 +97,7 @@
     "EffortShouldBeZero": "無法獲得努力值。",
     "EffortEXPIncreased": "所有努力值為0，但當前等級高於遇見等級。",
     "EffortUntrainedCap": "寶可夢擁有努力值，但尚未獲得超過{0}之經驗值。",
-    "EffortUntrainedMoreEXP_0": "要獲得目前的努力值，至少還需要 {0} 點經驗值。"
+    "EffortUntrainedMoreEXP_0": "要獲得目前的努力值，至少還需要 {0} 點經驗值。",
     "EvoInvalid": "應暫無法進化為此寶可夢（可能由於等級，通訊進化或其餘條件未滿足）。",
     "EvoTradeReqOutsider": "外來之「{0}」應當進化為「{1}」。",
     "EvoTradeRequired": "該特定進化為版本獨占，須交換至另一版本中進化，因而須有現時持有人資訊。",

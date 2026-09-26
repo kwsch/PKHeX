@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 <see cref="SaveFile"/> object for Pokémon Colosseum saves.
 /// </summary>
-public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStorage, IDaycareExperience, IGCRegion, ISaveFileRevision
+public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStorage, IDaycareExperience, IGCRegion, ISaveFileRevision, IGiftRibbons
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public override string Extension => this.GCExtension();
@@ -317,6 +317,8 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile, IBoxDetailName, IDayc
 
     /// <summary> Received Celebi Gift from JP Colosseum Bonus Disc </summary>
     public bool ReceivedAgeto { get => GetFlag(Data, 0x1C11A, 7); set => SetFlag(Data, 0x1C11A, 7, value); }
+
+    public Span<byte> GiftRibbons => Data.Slice(0x1C464, IGiftRibbons.SIZE_3);
 
     public override string GetString(ReadOnlySpan<byte> data)
         => StringConverter3GC.GetString(data);

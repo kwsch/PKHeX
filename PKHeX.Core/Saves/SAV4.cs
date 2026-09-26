@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Storage data is stored in one contiguous block, and the remaining data is stored in another block.
 /// </remarks>
-public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRandomState<uint>, IDaycareExperience, IDaycareEggState, IMysteryGiftStorageProvider
+public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRandomState<uint>, IDaycareExperience, IDaycareEggState, IMysteryGiftStorageProvider, IGiftRibbons
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public sealed override string Extension => ".sav";
@@ -241,6 +241,9 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
 
     protected int OFS_Record = int.MinValue;
     public Record4 Records => new(this, GeneralBuffer.Slice(OFS_Record, Record4.GetSize(this)));
+
+    protected int OFS_GiftRibbons = int.MinValue;
+    public Span<byte> GiftRibbons => General.Slice(OFS_GiftRibbons, IGiftRibbons.SIZE_4);
 
     protected int OFS_Groups = int.MinValue;
 

@@ -9,7 +9,6 @@ public interface IRibbonSetOnly3
     byte RibbonCountG3Smart { get; set; }
     byte RibbonCountG3Tough { get; set; }
 
-    bool RibbonWorld { get; set; }
     bool Unused1 { get; set; }
     bool Unused2 { get; set; }
     bool Unused3 { get; set; }

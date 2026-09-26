@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 <see cref="SaveFile"/> object for Pokémon XD saves.
 /// </summary>
-public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStorage, IDaycareExperience, IGCRegion, ISaveFileRevision
+public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStorage, IDaycareExperience, IGCRegion, ISaveFileRevision, IGiftRibbons
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) {PlayTimeString}";
     public int SaveRevision => 0;
@@ -35,21 +35,30 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
     private readonly int[] subOffsets = new int[16];
     private readonly Memory<byte> Container;
     private int DaycareOffset;
+    private int GiftRibbonsOffset;
 
     public SAV3XD(bool japanese = false) : base(SaveUtil.SIZE_G3XD)
     {
         Container = Memory<byte>.Empty;
         CurrentRegion = OriginalRegion = japanese ? GCRegion.NTSC_J : GCRegion.NTSC_U;
-        // create fake objects
+
+        // create fake objects, all sub-blocks in order aligned to 0x10
+        //Span<ushort> subLength = [0x88, 0x978, 0xBC50, 0x4A, 0xCC, 0x1774, 0x364, 0x2400, 0x6B4, 0xB, 0x400, 0x800, 0x1000, 0x2000, 0x2298, 0xC800];
+        subOffsets = [0x0, 0x90, 0xA10, 0xC660, 0xC6B0, 0xC780, 0xDF00, 0xE270, 0x10670, 0x10D30, 0x10D40, 0x11140, 0x11940, 0x12940, 0x14940, 0x16BE0]; // 0x233E0
+
+        Config = subOffsets[0] + 0xA8;
+        Trainer1 = subOffsets[1] + 0xA8;
+        Party = Trainer1 + 0x30;
+        Box = subOffsets[2] + 0xA8;
+        DaycareOffset = subOffsets[4] + 0xA8;
+        Memo = subOffsets[5] + 0xA8;
+        Shadow = subOffsets[7] + 0xA8;
+        GiftRibbonsOffset = subOffsets[9] + 0xA8;
+        // Purifier = subOffsets[14] + 0xA8;
+
         StrategyMemo = new StrategyMemo();
         ShadowInfo = new ShadowInfoTableXD(japanese);
-        Config = 0xA8;
-        Trainer1 = 0xCCD8;
-        Party = 0xCD08;
-        Box = 0x10E08;
-        DaycareOffset = 0x1CA68;
-        Memo = 0xF678;
-        Shadow = 0x1CB48;
+
         Initialize();
         ClearBoxes();
     }
@@ -88,6 +97,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
         DaycareOffset = subOffsets[4] + 0xA8;
         Memo = subOffsets[5] + 0xA8;
         Shadow = subOffsets[7] + 0xA8;
+        GiftRibbonsOffset = subOffsets[9] + 0xA8;
         // Purifier = subOffsets[14] + 0xA8;
 
         bool jp = subLength[7] == 0x1E00;
@@ -240,6 +250,8 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile, IBoxDetailName, IDaycareStor
         get => (byte)PlayedSpan.Seconds;
         set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromSeconds(time.Seconds) + TimeSpan.FromSeconds(value); }
     }
+
+    public Span<byte> GiftRibbons => Data.Slice(GiftRibbonsOffset, IGiftRibbons.SIZE_3);
 
     // Trainer Info
     public override GameVersion Version { get => GameVersion.XD; set { } }

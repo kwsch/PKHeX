@@ -77,6 +77,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         OFS_Record = 0x4B3C;
         OFS_Chatter = 0x4E74;
         OFS_Groups = 0x440C;
+        OFS_GiftRibbons = 0x6890;
         Geonet = 0x8D44;
         Seal = 0x4E20;
 

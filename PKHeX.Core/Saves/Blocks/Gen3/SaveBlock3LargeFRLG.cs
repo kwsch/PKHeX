@@ -82,7 +82,7 @@ public sealed record SaveBlock3LargeFRLG(Memory<byte> Raw) : ISaveBlock3LargeExp
         set => WriteUInt16LittleEndian(Data[0x3098..], value);
     }
 
-    public Span<byte> GiftRibbons => Data.Slice(0x309C, 11);
+    public Span<byte> GiftRibbons => Data.Slice(0x309C, IGiftRibbons.SIZE_3);
     public int ExternalEventData => 0x30A7;
     public Memory<byte> RoamerData => Raw.Slice(0x30D0, Roamer3.SIZE);
 
