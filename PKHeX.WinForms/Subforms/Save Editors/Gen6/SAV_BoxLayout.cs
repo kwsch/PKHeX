@@ -160,6 +160,8 @@ public partial class SAV_BoxLayout : Form
             var choice = wp.GetBoxWallpaper(box);
             var maxWallpaper = CB_BG.Items.Count - 1;
             CB_BG.SelectedIndex = Math.Clamp(choice, 0, maxWallpaper);
+            if (SAV is SAV3RSBox && choice == 20)
+                ChangeBoxBackground(sender, e); // load correct half of My Wallpaper
         }
 
         if (SAV is IBoxDetailNameRead r)
