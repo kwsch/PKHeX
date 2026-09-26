@@ -62,8 +62,14 @@ public partial class SAV_BoxLayout : Form
         var names = GameInfo.Strings.wallpapernames;
         switch (SAV.Generation)
         {
-            case 3 when SAV is SAV3 or SAV3RSBox:
+            case 3 when SAV is SAV3RS or SAV3FRLG:
                 AddRange(CB_BG, names.AsSpan(0, 16));
+                return true;
+            case 3 when SAV is SAV3E:
+                AddRange(CB_BG, names.AsSpan(0, 17));
+                return true;
+            case 3 when SAV is SAV3RSBox:
+                AddRange(CB_BG, names.AsSpan(0, 21));
                 return true;
             case 4 or 5 or 6:
                 AddRange(CB_BG, names.AsSpan(0, 24));
