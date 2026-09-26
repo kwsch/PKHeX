@@ -7,6 +7,12 @@ namespace PKHeX.WinForms;
 
 public partial class SAV_GiftRibbons : Form
 {
+    private readonly SaveFile Origin;
+    private readonly SaveFile SAV;
+    private readonly IGiftRibbons Block;
+    private static RibbonStrings RibbonStrings => GameInfo.Strings.Ribbons;
+    private int Count => Block.GiftRibbons.Length;
+
     public SAV_GiftRibbons(IGiftRibbons sav)
     {
         InitializeComponent();
@@ -16,42 +22,15 @@ public partial class SAV_GiftRibbons : Form
         Block = (IGiftRibbons)SAV;
 
         Setup();
+        LoadValues();
     }
-
-    private readonly SaveFile Origin;
-    private readonly SaveFile SAV;
-    private readonly IGiftRibbons Block;
-    private readonly RibbonStrings RibbonStrings = GameInfo.Strings.Ribbons;
-    private int Count => Block.GiftRibbons.Length;
 
     private void Setup()
     {
         dgv.Rows.Clear();
-        dgv.Columns.Clear();
-
-        DataGridViewColumn dgvRibbon = new DataGridViewTextBoxColumn()
-        {
-            HeaderText = "Ribbon",
-            DisplayIndex = 0,
-            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-            ReadOnly = true,
-            SortMode = DataGridViewColumnSortMode.NotSortable,
-            DefaultCellStyle = new() { Alignment = DataGridViewContentAlignment.MiddleCenter },
-        };
-        DataGridViewTextBoxColumn dgvCount = new()
-        {
-            HeaderText = "Desc",
-            DisplayIndex = 1,
-            Width = 45,
-            SortMode = DataGridViewColumnSortMode.NotSortable,
-        };
-        dgv.Columns.Add(dgvRibbon);
-        dgv.Columns.Add(dgvCount);
-
         dgv.Rows.Add(Count);
         for (int i = 0; i < Count; i++)
             dgv.Rows[i].Cells[0].Value = RibbonStrings.GetName(IGiftRibbons.Index[i].PropertyName);
-        LoadValues();
     }
 
     private void LoadValues()
@@ -60,10 +39,7 @@ public partial class SAV_GiftRibbons : Form
             dgv.Rows[i].Cells[1].Value = Block.GiftRibbons[i].ToString();
     }
 
-    private void B_Cancel_Click(object sender, EventArgs e)
-    {
-        Close();
-    }
+    private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
     private void B_Legal_Click(object sender, EventArgs e)
     {
@@ -94,8 +70,8 @@ public partial class SAV_GiftRibbons : Form
         for (int i = 0; i < Count; i++)
         {
             var cells = dgv.Rows[i].Cells;
-            var desc = int.TryParse(cells[1].Value?.ToString() ?? "0", out var val) ? val : 0;
-            Block.GiftRibbons[i] = (byte)Math.Min(byte.MaxValue, desc);
+            var desc = byte.TryParse(cells[1].Value?.ToString(), out var val) ? val : (byte)0;
+            Block.GiftRibbons[i] = desc;
         }
         Origin.CopyChangesFrom(SAV);
         Close();

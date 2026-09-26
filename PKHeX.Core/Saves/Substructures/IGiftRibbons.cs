@@ -11,7 +11,8 @@ public interface IGiftRibbons
     public const int MAX_3 = 64;
     public const int MAX_4 = byte.MaxValue;
 
-    public static ReadOnlySpan<RibbonIndex> Index => [
+    public static ReadOnlySpan<RibbonIndex> Index =>
+    [
         ChampionBattle,
         ChampionRegional,
         ChampionNational,

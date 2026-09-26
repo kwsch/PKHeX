@@ -243,7 +243,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
     public Record4 Records => new(this, GeneralBuffer.Slice(OFS_Record, Record4.GetSize(this)));
 
     protected int OFS_GiftRibbons = int.MinValue;
-    public Span<byte> GiftRibbons => GeneralBuffer.Slice(OFS_GiftRibbons, IGiftRibbons.SIZE_4).Span;
+    public Span<byte> GiftRibbons => General.Slice(OFS_GiftRibbons, IGiftRibbons.SIZE_4);
 
     protected int OFS_Groups = int.MinValue;
 
