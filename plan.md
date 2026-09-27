@@ -258,6 +258,45 @@ Known risk: two Unit tests depend on the runtime pack that the SDK brings, and w
 
 Decide in F7 whether those checks move to an opt-in tier, read the versions from the SDK, or are left to the Linux job. This guards Phase 1, the solution edits and the foundation PR's effect on upstream's build.
 
+**F7 status:** code complete on `web/f7-azure-parity`. The first GitHub run (PR #10, run 36339720009) found the runner image mismatch below; the fix awaits the second run.
+- **What Azure does.** Build 9738's public logs (`dev.azure.com/project-pokemon/PKHeX/_apis/build/builds/9738/logs`) give the exact steps:
+  - image `windows-2025` 20260907.255.1
+  - GitTools `gitversion/setup` + `execute` v3.2.1 with GitVersion.Tool 5.12.0 (`versionSpec 5.x`) and `/updateassemblyinfo`, giving SemVer `26.8.27`
+  - NuGet tool installer `>=7.0.0`, which downloads the newest release (7.9.0 then; the image's copy happened to be the same), and `nuget.exe restore PKHeX.slnx`
+  - Visual Studio build: x86 `MSBuild\Current\Bin\msbuild.exe` 17.14 with `/nologo /nr:false /p:Version=… /p:platform="Any CPU" /p:configuration="Release" /p:VisualStudioVersion="17.0"`, not parallel
+  - VsTest with `**\Release\*test*.dll,!**\obj\**`, which finds no sources
+  - `dotnet pack` of PKHeX.Core only
+
+  **Two SDKs are in play.** Visual Studio MSBuild resolves the newest SDK that VS 17.14 supports, 10.0.111 (runtime 10.0.11), while the `dotnet` CLI on the same agent picks 10.0.400. NETSDK1233 appears 18 times in the console log: 6 projects (Core, three Drawing, WinForms, Core.Tests), each shown three times.
+- **First run: image mismatch.** On GitHub, `windows-2025` is now the Visual Studio 2026 image (`windows-2025-vs2026`; VS 18.10.1). Its MSBuild resolved SDK 10.0.401, and it has no VS 17 `vstest.console`, so the test step stopped at its guard (whose message was split by bash-style quote escaping, now fixed). The Linux `web` job passed, moved notices tests included. Restore and build of the whole solution, Web included, succeeded there, which is useful evidence for when Azure moves to VS 2026. Azure's `windows-2025` agent has not moved: build 9754 (2026-09-27, image 20260922.270.2) still used VS 2022 17.14 and SDK 10.0.112, with the same 18 NETSDK1233 lines. GitHub's `windows-2022` image has VS 2022 17.14 and SDK 10.0.112 as well, so the job now runs there; only the Windows Server version differs from Azure.
+- **Job.** The `azure-parity` job in `web.yml` repeats those steps on `windows-2022` (see above), with pwsh steps in place of the classic tasks:
+  - Checkout uses `fetch-depth: 0`. A fork has no release tags, so on anything other than `kwsch/PKHeX` it first fetches upstream's tags; otherwise GitVersion would count from 0.1.0. On pull requests GitVersion reads the merge ref, so versions are prereleases (probably `…-PullRequestN.x`; confirm from the toolchain report), where Azure's master builds are not.
+  - There is deliberately no `setup-dotnet` or SDK pin. `DOTNET_SDK_VERSION` moved from workflow to `web`-job env so it does not appear to pin this job.
+  - `NuGet/setup-nuget` v4.0 with `>=7.0.0`, as Azure's installer.
+  - `microsoft/setup-msbuild` v3.0.0 with `msbuild-architecture: x86` (pinned by SHA, like the GitTools actions).
+  - The toolchain report goes to the step summary. It lists VS, MSBuild, the SDK MSBuild resolved (read from the build log), the CLI SDK, NuGet, the version and the projects that report NETSDK1233. It warns, rather than fails, when VS is not 17.14 or the SDK is not 10.0.1xx, because the image drifts under Azure too.
+  - `vstest.console.exe` (found with `vswhere`, VS `[17.0,18.0)`, as the VsTest task does; the step fails clearly if there is none or the pattern does not find exactly the two test assemblies) runs over `**\bin\Release\**\*Tests.dll` without `PKHEX_WEB_TEST_TIERS`, with the same `ZeroEVs_ReturnsZero` exclusion as the Linux job.
+  - Then `PKHeX.Web/tools/trx-check-opt-in-skips.ps1` fails unless the run outcome is `Completed`, every result has a test definition, no test failed, Core and Web each passed at least one test, and every Web test that did not run was skipped with the opt-in reason (with at least one such skip).
+  - The TRX, the text build log and the binlog are uploaded.
+  - Azure's artifact and `dotnet pack` steps are left out; they do not build Web.
+  - The workflow paths gain `PKHeX.WinForms/**` and `PKHeX.Drawing*/**`, because this job builds the whole solution.
+- **Runtime-pack tests.** The two notices checks moved to the E2E tier, in the new `NoticesRestoreGraphTests` (a `[TierFact(E2E)]` class without the published-app fixture). The notices only matter for a publish, and CI runs E2E on the pinned SDK. `MapsPublishedNamesToPackageFileNames` stays Unit. The notices file, the README, the csproj comment and the `TestCategory.E2E` xmldoc now say so. A mutation (one version changed in the notices) fails both moved tests when opted in.
+- **Tests.**
+  - Unit 96 (98 less the 2 moved) and E2E 28 (26 plus the 2 moved); the TRX check passes on them.
+  - `dotnet vstest` on the Web DLL without opt-in: 96 passed, 10 skipped (the opt-in methods, now including the 2 moved tests), 0 failed.
+  - The `.ps1` check passes on that TRX. It fails on a failed Web test, on a Web skip with another reason, on a Web DLL with no skips, on a missing assembly and on a missing file.
+  - The workflow is actionlint-clean.
+- **Not verified yet** (needs a run on `windows-2022`):
+  - whether `nuget.exe` 7.9 and VS 17.14 MSBuild restore and build the BlazorWebAssembly project, including the runtime pack download and ILLink/WebAssembly tasks under .NET Framework MSBuild
+  - whether `AddUpstreamNotices` and build provenance work there
+  - whether the Web Unit tier passes on SDK 10.0.112
+  - the NETSDK1233 count, which should be 8 projects once Web and Web.Tests are in the solution
+- **Adversarial review.**
+  - Fixed: NuGet taken from the image instead of Azure's `>=7.0.0` installer; the README CI section missing the Windows job; an unclear failure when no VS 17 `vstest.console` exists; `DOTNET_SDK_VERSION` visible to the unpinned job; comments overstating native-command handling and parity; TRX results without a definition ignored and the run outcome unchecked; the script not executable; the SDK regex relying on NETSDK1233 lines.
+  - Accepted: WinForms/Drawing-only changes now also run the Linux job; the restore-graph notices check now runs only after a successful publish and Playwright install, and plain local `dotnet test` no longer reports notices drift (F5's "reported by the Unit tier" is superseded).
+  - Open until the first run: vstest.console 17.14 with `Microsoft.NET.Test.Sdk` 18.0.1; nullable diagnostics from 10.0.111's compiler (Web treats them as errors); GitTools v3.2.1 declaring Node 20.
+- **Compared with PKForge:** it has no Windows job, and its CI has no second toolchain to match. Nothing to adopt.
+
 **F8 Performance baseline (WEB-PERF-001).** A script (`PKHeX.Web/tools/measure.*` or a test) records cold and warm boot under Playwright network throttling (20 Mbps/50 ms) plus artifact sizes, and uploads them as a CI artifact. There is no pass/fail threshold yet.
 
 → Gate G-A, then open the upstream foundation PR (F1–F8). It must not claim support for anything.

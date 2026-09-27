@@ -3,50 +3,15 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Keeps <c>PKHeX.Web/THIRD-PARTY-NOTICES.md</c> in step with the Web restore graph, so a new or updated package cannot ship without a notice.
+/// Maps published file names back to the package file names that <see cref="NoticesInventory"/> matches against.
 /// </summary>
-/// <remarks>The publish itself is checked against these tables by <see cref="PublishedAppTests.PublishesLicenseAndNotices"/>.</remarks>
+/// <remarks>
+/// The notices tables are checked against the restore graph by <see cref="NoticesRestoreGraphTests"/>
+/// and against the publish by <see cref="PublishedAppTests.PublishesLicenseAndNotices"/>, both in the E2E tier.
+/// </remarks>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class ThirdPartyNoticesTests
 {
-    [Fact]
-    public void ListsEveryRestoredPackageOnceWithItsVersion()
-    {
-        var rows = NoticesInventory.Rows();
-        var restored = NoticesInventory.RestoredPackages();
-        Assert.NotEmpty(restored);
-
-        var duplicates = rows.GroupBy(r => r.Id, StringComparer.OrdinalIgnoreCase).Where(g => g.Count() > 1).Select(g => g.Key);
-        Assert.Empty(duplicates);
-
-        var listed = rows.ToDictionary(r => r.Id, r => r.Version, StringComparer.OrdinalIgnoreCase);
-        var missing = restored.Where(p => !listed.TryGetValue(p.Key, out var version) || version != p.Value).Select(p => $"{p.Key} {p.Value}");
-        Assert.Empty(missing);
-
-        var stale = listed.Where(p => !restored.ContainsKey(p.Key)).Select(p => p.Key);
-        Assert.Empty(stale);
-    }
-
-    [Fact]
-    public void PublishedPackagesNameTheNoticesThatCoverThem()
-    {
-        var rows = NoticesInventory.Rows();
-        var published = rows.Where(r => r.Section == NoticesInventory.Section.Published).ToList();
-        Assert.NotEmpty(published);
-        Assert.All(published, r => Assert.True(r.Notices is not null, $"{r.Id} is published but names no upstream notices file."));
-        Assert.All(rows.Except(published), r => Assert.True(r.Notices is null, $"{r.Id} is not published but names a published notices file."));
-
-        // Every package mapped to one published file must carry exactly that file upstream.
-        foreach (var group in published.GroupBy(r => r.Notices))
-        {
-            var expected = NoticesInventory.UpstreamNotices(group.First().Id, group.First().Version);
-            foreach (var row in group)
-            {
-                Assert.True(NoticesInventory.UpstreamNotices(row.Id, row.Version).AsSpan().SequenceEqual(expected), $"{row.Id} carries different upstream notices than the others mapped to {group.Key}.");
-            }
-        }
-    }
-
     [Theory]
     [InlineData("Microsoft.JSInterop.6toomhpa9w.wasm", new[] { "Microsoft.JSInterop.6toomhpa9w.wasm", "Microsoft.JSInterop.6toomhpa9w.dll", "Microsoft.JSInterop.wasm", "Microsoft.JSInterop.dll" })]
     [InlineData("dotnet.native.rw4kynp763.wasm", new[] { "dotnet.native.rw4kynp763.wasm", "dotnet.native.rw4kynp763.dll", "dotnet.native.wasm", "dotnet.native.dll" })]

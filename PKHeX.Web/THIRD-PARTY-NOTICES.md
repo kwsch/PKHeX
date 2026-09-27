@@ -66,7 +66,7 @@ Test tooling (xUnit, FluentAssertions, Playwright and its browsers) is used only
 
 ## Keeping this list current
 
-The tables must list every package in the Web restore graph once, with its exact version; the Unit tier (`ThirdPartyNoticesTests`) fails otherwise. The E2E tier checks the publish against the tables: every published package file must belong to a package in the first table, every package there must have a published file, and no package in the second table may have one.
+The tables must list every package in the Web restore graph once, with its exact version; the E2E tier (`NoticesRestoreGraphTests`) fails otherwise. It also checks the publish against the tables: every published package file must belong to a package in the first table, every package there must have a published file, and no package in the second table may have one.
 
 The runtime pack, ILLink and WebAssembly SDK pack versions come from the installed .NET SDK, not from a package reference, so an SDK with a different runtime patch changes them. Update the versions here when moving to a new SDK. To review the graph:
 

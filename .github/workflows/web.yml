@@ -1,13 +1,16 @@
-# Builds, tests and publishes PKHeX.Web on Linux.
-# Runs Core tests and the Web Unit and E2E tiers; the RealSave tier needs private saves and never runs in CI.
+# Builds, tests and publishes PKHeX.Web.
+# The web job runs on Linux with a pinned SDK: Core tests and the Web Unit and E2E tiers; the RealSave tier needs private saves and never runs in CI.
 # The trimmed publish is checked against the trim-warning baseline and uploaded with the test results and reports.
+# The azure-parity job repeats upstream's Azure pipeline on Windows, so a change that would break that build fails here first.
 name: web
 
 on:
     pull_request:
         paths: &web-paths
             - "PKHeX.Core/**"
+            - "PKHeX.Drawing*/**"
             - "PKHeX.Web/**"
+            - "PKHeX.WinForms/**"
             - "Tests/PKHeX.Core.Tests/**"
             - "Tests/PKHeX.Web.Tests/**"
             - "Directory.Build.props"
@@ -32,8 +35,6 @@ concurrency:
     cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-    # The runtime pack and ILLink versions come from the SDK, and THIRD-PARTY-NOTICES.md lists them exactly.
-    DOTNET_SDK_VERSION: "10.0.401"
     DOTNET_CLI_TELEMETRY_OPTOUT: "1"
     DOTNET_NOLOGO: "1"
 
@@ -47,6 +48,8 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 45
         env:
+            # The runtime pack and ILLink versions come from the SDK, and THIRD-PARTY-NOTICES.md lists them exactly.
+            DOTNET_SDK_VERSION: "10.0.401"
             PUBLISH_DIR: ${{ github.workspace }}/artifacts/publish
             RESULTS_DIR: ${{ github.workspace }}/artifacts/test-results
             REPORTS_DIR: ${{ github.workspace }}/artifacts/reports
@@ -159,4 +162,146 @@ jobs:
                   path: |
                       ${{ env.RESULTS_DIR }}
                       ${{ env.REPORTS_DIR }}
+                  if-no-files-found: ignore
+
+    # Repeats the steps of upstream's Azure pipeline (a classic pipeline, so there is no file to reuse), as recorded by its builds 9738 and 9754:
+    # GitVersion 5.x through GitTools v3.2.1 with /updateassemblyinfo, a nuget.exe (>=7.0.0) restore of PKHeX.slnx,
+    # and a Release|Any CPU build with x86 Visual Studio MSBuild and /p:Version from GitVersion. There is deliberately no setup-dotnet and no SDK pin:
+    # Visual Studio MSBuild resolves the newest SDK its version supports from the image (10.0.111, later 10.0.112, on VS 17.14, while the dotnet CLI picks the newest installed),
+    # and that floating SDK is what upstream builds with.
+    # Azure's later steps (artifact publishing and a dotnet CLI pack of PKHeX.Core) are left out: they do not build the Web projects.
+    # Azure's VsTest pattern, **\Release\*test*.dll, matches no assembly, so no test runs there. This job runs vstest.console on the corrected
+    # pattern, **\bin\Release\**\*Tests.dll, without PKHEX_WEB_TEST_TIERS, and checks that Core and Web Unit pass and only the opt-in tiers skip.
+    # Azure's windows-2025 agent still has Visual Studio 2022 17.14, but GitHub's windows-2025 label now has Visual Studio 2026, whose MSBuild
+    # resolves a newer SDK and has no VS 17 vstest.console. windows-2022 has the same Visual Studio 2022 17.14 and 10.0.1xx SDK as Azure's agent;
+    # only the Windows Server version differs, and nothing in the build is known to depend on it.
+    azure-parity:
+        runs-on: windows-2022
+        timeout-minutes: 45
+        env:
+            RESULTS_DIR: ${{ github.workspace }}\artifacts\azure-parity
+        # Steps that must stop on any failing native command, not only the last, set $PSNativeCommandUseErrorActionPreference.
+        # The toolchain report does not: it is best-effort and reports what it can.
+        defaults:
+            run:
+                shell: pwsh
+        steps:
+            # GitVersion counts commits from the latest version tag, so it needs the full history.
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            # A fork does not carry upstream's release tags, so GitVersion would count from 0.1.0 instead of the release version Azure derives.
+            - name: Fetch upstream release tags
+              if: ${{ github.repository != 'kwsch/PKHeX' }}
+              run: git fetch --no-tags https://github.com/kwsch/PKHeX.git "+refs/tags/*:refs/tags/*"
+
+            - name: Set up GitVersion
+              uses: gittools/actions/gitversion/setup@51d325634925d7d9ce0a7efc2c586c0bc2b9eee6 # v3.2.1
+              with:
+                  versionSpec: "5.x"
+
+            # The repository has no AssemblyInfo files, so updating them changes nothing; it is kept to match Azure.
+            - name: GitVersion
+              id: gitversion
+              uses: gittools/actions/gitversion/execute@51d325634925d7d9ce0a7efc2c586c0bc2b9eee6 # v3.2.1
+              with:
+                  updateAssemblyInfo: true
+
+            # Azure's NuGet tool installer asks for >=7.0.0 and so gets the newest release, not the image's copy.
+            - uses: NuGet/setup-nuget@fd55a6f3b34392fa83fde1454582407d8c714123 # v4.0
+              with:
+                  nuget-version: ">=7.0.0"
+
+            - uses: microsoft/setup-msbuild@30375c66a4eea26614e0d39710365f22f8b0af57 # v3.0.0
+              with:
+                  msbuild-architecture: x86
+
+            - name: Restore
+              run: |
+                  $PSNativeCommandUseErrorActionPreference = $true
+                  New-Item -ItemType Directory -Force -Path $env:RESULTS_DIR | Out-Null
+                  nuget restore PKHeX.slnx -NonInteractive
+
+            # The same arguments as Azure's Visual Studio build task, which does not build in parallel. The text log feeds the toolchain report.
+            - name: Build
+              id: build
+              env:
+                  VERSION: ${{ steps.gitversion.outputs.semVer }}
+              run: >-
+                  msbuild PKHeX.slnx /nologo /nr:false "/p:Version=$env:VERSION" "/p:platform=Any CPU" /p:configuration=Release /p:VisualStudioVersion=17.0
+                  "/flp:logfile=$env:RESULTS_DIR\build.log;verbosity=normal" "/bl:$env:RESULTS_DIR\build.binlog"
+
+            # Upstream's image moves on for Azure too, so a toolchain that no longer matches build 9738 is a warning, not a failure.
+            - name: Toolchain report
+              if: ${{ !cancelled() && steps.build.outcome != 'skipped' }}
+              env:
+                  VERSION: ${{ steps.gitversion.outputs.semVer }}
+              run: |
+                  $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+                  $vs = & $vswhere -latest -property catalog_productDisplayVersion
+                  $msbuild = (& msbuild -version -nologo | Select-Object -Last 1).Trim()
+                  $nuget = ((& nuget help | Select-Object -First 1) -replace '^NuGet Version:\s*', '').Trim()
+                  $cliSdk = (& dotnet --version).Trim()
+                  $log = Get-Content -LiteralPath "$env:RESULTS_DIR\build.log" -Raw
+                  # Any SDK path in the log (compiler, targets, warnings) names the SDK MSBuild resolved.
+                  $buildSdk = [regex]::Match($log, '\\dotnet\\sdk\\(\d+\.\d+\.\d+[^\\]*)\\').Groups[1].Value
+                  $netsdk1233 = @([regex]::Matches($log, 'warning NETSDK1233:.*\[(?<project>[^\]]+)\]') | ForEach-Object { Split-Path -Leaf $_.Groups['project'].Value } | Sort-Object -Unique)
+                  @(
+                      '## Azure-parity toolchain'
+                      ''
+                      '| Tool | Version |'
+                      '|---|---|'
+                      "| Visual Studio | $vs |"
+                      "| MSBuild (x86) | $msbuild |"
+                      "| SDK resolved by MSBuild | $buildSdk |"
+                      "| SDK resolved by the dotnet CLI | $cliSdk |"
+                      "| NuGet | $nuget |"
+                      "| Version (GitVersion SemVer) | $env:VERSION |"
+                      ''
+                      "NETSDK1233 in $($netsdk1233.Count) projects: $($netsdk1233 -join ', ')"
+                  ) | Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY
+                  if ("$vs" -notlike '17.14.*') {
+                      Write-Host "::warning::Visual Studio is $vs; Azure build 9738 used 17.14."
+                  }
+                  if ($nuget -notlike '7.*') {
+                      Write-Host "::warning::NuGet is $nuget; Azure build 9738 used 7.9.0."
+                  }
+                  if ($buildSdk -notlike '10.0.1*') {
+                      Write-Host "::warning::MSBuild resolved SDK '$buildSdk'; Azure build 9738 used 10.0.111."
+                  }
+
+            # ZeroEVs_ReturnsZero is excluded because it fails upstream too: 9c170d99c made GetRequiredEffortEXP return -gainedEXP
+            # when vitamins explain every EV, and the test still expects 0. Drop the filter once upstream updates the test.
+            - name: Tests (vstest.console)
+              id: test
+              if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+              run: |
+                  $PSNativeCommandUseErrorActionPreference = $true
+                  Remove-Item Env:PKHEX_WEB_TEST_TIERS -ErrorAction Ignore
+                  $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+                  $vstest = & $vswhere -latest -products * -version '[17.0,18.0)' -find '**\TestPlatform\vstest.console.exe' | Select-Object -First 1
+                  $tests = @(Get-ChildItem -Recurse -File -Filter '*Tests.dll' | Where-Object { $_.FullName -like '*\bin\Release\*' -and $_.FullName -notlike '*\obj\*' } | ForEach-Object FullName)
+                  if (-not $vstest) {
+                      Write-Host "::error::No vstest.console.exe in a Visual Studio [17.0,18.0) install; Azure's VsTest task would not find one either."
+                      exit 1
+                  }
+                  $tests | ForEach-Object { Write-Host "Test assembly: $_" }
+                  if ($tests.Count -ne 2) {
+                      Write-Host "::error::Expected the PKHeX.Core.Tests and PKHeX.Web.Tests assemblies; found $($tests.Count)."
+                      exit 1
+                  }
+                  & $vstest @tests /logger:"trx;LogFileName=azure-parity.trx" "/ResultsDirectory:$env:RESULTS_DIR" "/TestCaseFilter:FullyQualifiedName!=PKHeX.Core.Tests.Legality.EffortExpLegalityTests.ZeroEVs_ReturnsZero"
+
+            - name: Check only the opt-in tiers were skipped
+              if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+              run: PKHeX.Web/tools/trx-check-opt-in-skips.ps1 "$env:RESULTS_DIR\azure-parity.trx" -Assemblies PKHeX.Core.Tests.dll, PKHeX.Web.Tests.dll
+
+            - name: Upload results and build logs
+              if: ${{ always() }}
+              uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+              with:
+                  name: pkhex-azure-parity
+                  path: ${{ env.RESULTS_DIR }}
                   if-no-files-found: ignore

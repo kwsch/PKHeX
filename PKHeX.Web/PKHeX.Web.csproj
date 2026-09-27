@@ -27,7 +27,7 @@
 
   <!--
     The published .NET packages carry four distinct upstream THIRD-PARTY-NOTICES files; each is published once under licenses/, named for the group it covers.
-    THIRD-PARTY-NOTICES.md maps every published package to one of them; the Unit tier checks the mapping and the E2E tier checks the publish against it.
+    THIRD-PARTY-NOTICES.md maps every published package to one of them; the E2E tier checks the mapping against the restore graph and the publish against the mapping.
     Package directories come from what restore actually resolved, so a servicing version that differs between packages is still found.
     Package file names differ in case (.txt/.TXT), hence the wildcards.
   -->
