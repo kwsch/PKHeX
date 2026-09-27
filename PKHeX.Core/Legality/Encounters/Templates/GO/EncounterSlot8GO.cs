@@ -22,6 +22,7 @@ public sealed record EncounterSlot8GO(ushort DayStart, ushort DayEnd, ushort Spe
     public byte LevelMax => EncountersGO.MAX_LEVEL;
     public bool IsLocalDayStart => Flags.HasFlag(PogoFlags.LocalDateStart);
     public bool IsLocalDayEnd => Flags.HasFlag(PogoFlags.LocalDateEnd);
+    public bool IsAlwaysSpecialTrade => Flags.HasFlag(PogoFlags.AlwaysSpecialTrade);
 
     public string Name => $"GO Encounter ({Version})";
     public string LongName
@@ -249,8 +250,6 @@ public sealed record EncounterSlot8GO(ushort DayStart, ushort DayEnd, ushort Spe
             return EncounterMatchRating.DeferredErrors;
         if (pk is ITeraType ro && IsTeraTypeMismatch(ro.TeraTypeOriginal, PersonalTable.SV[Species, Form]))
             return EncounterMatchRating.DeferredErrors;
-        if (!this.GetIVsValid(pk))
-            return EncounterMatchRating.Deferred;
         return EncounterMatchRating.Match;
     }
 
@@ -294,7 +293,7 @@ public sealed record EncounterSlot8GO(ushort DayStart, ushort DayEnd, ushort Spe
     {
         if (!IsWithinDistributionWindow(pk))
             return true;
-        if (!this.GetIVsAboveMinimum(pk))
+        if (!this.GetIVsValid(pk))
             return true;
 
         // Eevee & Glaceon have different base friendships. Make sure if it is invalid that we yield the other encounter before.

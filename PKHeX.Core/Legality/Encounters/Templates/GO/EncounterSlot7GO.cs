@@ -23,6 +23,7 @@ public sealed record EncounterSlot7GO(ushort DayStart, ushort DayEnd, ushort Spe
     public byte LevelMax => EncountersGO.MAX_LEVEL;
     public bool IsLocalDayStart => Flags.HasFlag(PogoFlags.LocalDateStart);
     public bool IsLocalDayEnd => Flags.HasFlag(PogoFlags.LocalDateEnd);
+    public bool IsAlwaysSpecialTrade => Flags.HasFlag(PogoFlags.AlwaysSpecialTrade);
 
     public string Name => $"GO Encounter ({Version})";
     public string LongName
@@ -164,4 +165,5 @@ public enum PogoFlags : byte
     LocalDateStart = 1 << 0,
     LocalDateEnd = 1 << 1,
     FeaturedWildArea = 1 << 2,
+    AlwaysSpecialTrade = 1 << 4,
 }
