@@ -24,23 +24,26 @@ public static class WallpaperUtil
 
     private static Bitmap GetWallpaper(SaveFile sav, int box)
     {
+        if (sav is SAV3Colosseum or SAV3XD) // fixed for each box
+            return GetWallpaperBitmap(sav.Version, box);
         if (sav is not IBoxDetailWallpaper wp)
             return DefaultWallpaper;
-
-        // City box wallpaper for Lumiose City
-        if (sav is SAV9ZA)
+        if (sav is SAV9ZA) // City box wallpaper for Lumiose City
             return Resources.box_wp02bdsp;
         if (sav is SAV8LA) // pasture for PLA
             return Resources.box_wp01bdsp;
 
         int wallpaper = wp.GetBoxWallpaper(box);
-        string s = GetWallpaperResourceName(sav.Version, wallpaper);
-        var bitmap = (Bitmap?)Resources.ResourceManager.GetObject(s) ?? DefaultWallpaper;
-
+        var bitmap = GetWallpaperBitmap(sav.Version, wallpaper);
         if (sav is SAV3RSBox rsBox && wallpaper == 20) // My Wallpaper
-            return DrawMyWallpaper(rsBox, box, bitmap);
-
+            DrawMyWallpaper(rsBox, box, ref bitmap);
         return bitmap;
+    }
+
+    private static Bitmap GetWallpaperBitmap(GameVersion version, int index)
+    {
+        string s = GetWallpaperResourceName(version, index);
+        return (Bitmap?)Resources.ResourceManager.GetObject(s) ?? DefaultWallpaper;
     }
 
     /// <summary>
@@ -67,6 +70,8 @@ public static class WallpaperUtil
     {
         SaveFileType.Emerald => "e",
         SaveFileType.FRLG when index > 12 => "frlg",
+        SaveFileType.Colosseum => "colo",
+        SaveFileType.XD => "xd",
 
         SaveFileType.Pt when index > 16 => "pt",
         SaveFileType.HGSS when index > 16 => "hgss",
@@ -94,6 +99,8 @@ public static class WallpaperUtil
         EntityContext.Gen3 when version == E => "e",
         EntityContext.Gen3 when FRLG.Contains(version) && index > 12 => "frlg",
         EntityContext.Gen3 => "rs",
+        _ when version == COLO => "colo",
+        _ when version == XD => "xd",
 
         EntityContext.Gen4 when index <= 16 => "dp",
         EntityContext.Gen4 when version == Pt => "pt",
@@ -108,7 +115,7 @@ public static class WallpaperUtil
         _ => string.Empty,
     };
 
-    private static Bitmap DrawMyWallpaper(SAV3RSBox sav, int box, Bitmap bitmap)
+    private static void DrawMyWallpaper(SAV3RSBox sav, int box, ref Bitmap bitmap)
     {
         const int width = SAV3RSBox.WP_WIDTH, height = SAV3RSBox.WP_HEIGHT;
         var data = CMPR.Decompress(sav.MyWallpaper, width, height);
@@ -119,6 +126,5 @@ public static class WallpaperUtil
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.DrawImage(picture, dst, (width / 2) * (box % 2), 0, width / 2, height, GraphicsUnit.Pixel); // left or right half depending on box
         }
-        return bitmap;
     }
 }

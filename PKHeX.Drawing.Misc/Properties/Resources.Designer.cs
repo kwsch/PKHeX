@@ -693,6 +693,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap box_wp01colo {
+            get {
+                object obj = ResourceManager.GetObject("box_wp01colo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap box_wp01dp {
             get {
                 object obj = ResourceManager.GetObject("box_wp01dp", resourceCulture);
@@ -743,6 +753,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap box_wp01xd {
+            get {
+                object obj = ResourceManager.GetObject("box_wp01xd", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap box_wp01xy {
             get {
                 object obj = ResourceManager.GetObject("box_wp01xy", resourceCulture);
@@ -766,6 +786,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         public static System.Drawing.Bitmap box_wp02bw {
             get {
                 object obj = ResourceManager.GetObject("box_wp02bw", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap box_wp02colo {
+            get {
+                object obj = ResourceManager.GetObject("box_wp02colo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -823,6 +853,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap box_wp02xd {
+            get {
+                object obj = ResourceManager.GetObject("box_wp02xd", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap box_wp02xy {
             get {
                 object obj = ResourceManager.GetObject("box_wp02xy", resourceCulture);
@@ -846,6 +886,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         public static System.Drawing.Bitmap box_wp03bw {
             get {
                 object obj = ResourceManager.GetObject("box_wp03bw", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap box_wp03colo {
+            get {
+                object obj = ResourceManager.GetObject("box_wp03colo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -896,6 +946,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         public static System.Drawing.Bitmap box_wp03swsh {
             get {
                 object obj = ResourceManager.GetObject("box_wp03swsh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap box_wp03xd {
+            get {
+                object obj = ResourceManager.GetObject("box_wp03xd", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -983,6 +1043,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap box_wp04xd {
+            get {
+                object obj = ResourceManager.GetObject("box_wp04xd", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap box_wp04xy {
             get {
                 object obj = ResourceManager.GetObject("box_wp04xy", resourceCulture);
@@ -1056,6 +1126,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         public static System.Drawing.Bitmap box_wp05swsh {
             get {
                 object obj = ResourceManager.GetObject("box_wp05swsh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap box_wp05xd {
+            get {
+                object obj = ResourceManager.GetObject("box_wp05xd", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1143,6 +1223,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap box_wp06xd {
+            get {
+                object obj = ResourceManager.GetObject("box_wp06xd", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap box_wp06xy {
             get {
                 object obj = ResourceManager.GetObject("box_wp06xy", resourceCulture);
@@ -1223,6 +1313,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap box_wp07xd {
+            get {
+                object obj = ResourceManager.GetObject("box_wp07xd", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap box_wp07xy {
             get {
                 object obj = ResourceManager.GetObject("box_wp07xy", resourceCulture);
@@ -1296,6 +1396,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         public static System.Drawing.Bitmap box_wp08swsh {
             get {
                 object obj = ResourceManager.GetObject("box_wp08swsh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap box_wp08xd {
+            get {
+                object obj = ResourceManager.GetObject("box_wp08xd", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
