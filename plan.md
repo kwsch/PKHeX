@@ -139,6 +139,35 @@ Branch `web/foundation` from `web/main`.
 
 Add `Services/FileNaming`, which sanitises separators and control characters, caps length, and preserves the extensionless `main` (WEB-SESSION-007). Unit tests cover the naming rules. E2E covers picker and drop.
 
+**F4 status:** code complete on `web/f4-browser-file-interop`.
+- **Picker and drop.** `Components/SaveFilePicker` wraps the `InputFile` in a drop zone. A valid drop is handed to the same `<input type="file">` through a `change` event, so picked and dropped files take one read path: `BrowserFileService.ReadAsync`. That checks the declared size and then counts bytes while streaming (`ReadBoundedAsync`). Every read failure except cancellation is reported as `ReadFailed`, never as a page error. Choosing the same file again (a retry) raises a new `change`, because Blazor's `InputFile` clears the input on every click, including keyboard activation.
+- **Busy state.** `App` stays busy from the start of a read until its result arrives.
+- **Typed outcomes.** Reads return `FileReadStatus` (`Ok`/`Empty`/`TooLarge`/`ReadFailed`), and refused drops report `DropRejection` (`MultipleFiles`/`Directory`/`NotAFile`/`Busy`). Neither carries display text, ready for M2's taxonomy.
+- **Drop zone.** It always accepts the drag (`dropEffect = 'copy'`), because `'none'` would cancel the drop before a refusal could be explained. If registering the zone fails, the page falls back to the picker alone, and a failed `browser.js` import is retried on next use.
+- **Navigation guard.** `drop-guard.js` is a classic script placed before the Blazor boot script in `index.html`, so it runs before the WASM app starts. It blocks file drops everywhere outside the zone. It blocks link and text drops everywhere except enabled, writable text inputs, textareas and contenteditable elements, so checkboxes and buttons are covered and text editing still works. A single file with extra string items (the `file://` uri-list file managers add) is accepted, because nothing is fetched from it.
+- **Lifecycle code moved.** `setDirty`, `beforeunload` and `pageshow` moved to `lifecycle.js` for M16, with braces added and no change in behaviour.
+- **File name.** `SaveSession.FileName` keeps the name the file was opened as (default `main`), and downloads use it.
+  - `FileNaming.Sanitize` is idempotent, because names are sanitised on read, on load and again on download. It also strips leading dots, which every engine removes when saving.
+  - The UI shows the name as a suggestion, because browsers can still adjust it: Firefox collapses spaces and renames `.lnk`, and Chromium replaces a leading `~`.
+- **Tests.**
+  - Refusals of multiple files and non-files are covered with synthetic drops; link drops also with a real Playwright drag. A mutation check confirmed the real-drag test fails with the old `'none'` drop effect.
+  - A real folder drop and drags from the OS cannot be scripted. Directory refusal is tested by calling `classifyDrop` with mock entries, and the guard through `defaultPrevented`. A real drag of a folder, two files, a link and nickname text is a manual check.
+  - Fuzzing `Sanitize` with 300k generated names found no case that broke idempotence, the length cap, the character rules or the device-name rule.
+  - Tier counts: Unit 72, E2E 24, RealSave 14, all passing. The diagnostic trim publish still reports the same 38 warnings.
+- **Adversarial review.**
+  - Fixed: unexplained link/busy refusals, the checkbox navigation hole, non-idempotent naming and the length cap, uncontained read exceptions, the boot-time guard gap, drag-over flicker and a vacuous test assertion.
+  - Second review fixed: leading-dot names offered under a different name than the one saved, a cached failed module import, the guard's load order, drag-over flicker in WebKit, stale xmldoc and brace-less JS.
+  - Second review, rejected: that choosing the same file again does nothing. `InputFile` already clears the input on click, so the extra reset that was added for it has been removed.
+  - Third review fixed: refusal messages no longer say a session was kept when none is open, and a failed rejection callback no longer surfaces as an unhandled promise rejection.
+  - Not changed: re-entrant drops in the moment before re-render. Disabling the input from JS would get out of step with Blazor's rendered `disabled` state.
+  - Not changed: the 2× peak copy of a 16 MiB read. It is the same as before and goes to M21's memory measurements.
+- **Compared with PKForge:**
+  - Matches the streamed size cap with a zero-byte reject (`AndroidEmulatorScanner`, 32 MiB), and keeping the display name apart from the bytes.
+  - Deliberately stricter on naming. `BankArchive.SanitizeFileName` uses `Path.GetInvalidFileNameChars`, which strips only `/` and `\0` on Unix/WASM. `FileNaming` also removes control, format and line-separator characters (bidi overrides) and unpaired surrogates, replaces Windows-reserved characters, trims trailing dots and prefixes device names.
+  - It caps at 120 characters and keeps the extension, where PKForge cuts at 20. It never rewrites the extension; PKForge exports `{base}-modified{ext}` with `.sav` as the default, which would break the extensionless `main`.
+  - The edited-name suggestion and the console-rename warning go to M6.
+  - Android document picking, folder scans and emulator roots are out of Web scope. PKForge has no drag-and-drop to compare.
+
 **F5 Build provenance.** MSBuild embeds the Web version + Core git commit as assembly metadata. `THIRD-PARTY-NOTICES.md` for Web lists runtime packages and licenses (WEB-SEC-004). CI later prints a `dotnet list package --include-transitive` inventory.
 
 **F6 CI workflow.** Add `.github/workflows/web.yml`:

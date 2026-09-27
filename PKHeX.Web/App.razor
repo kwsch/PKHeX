@@ -1,13 +1,13 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JS
+@inject BrowserFileService Files
 
 <PageTitle>PKHeX Web — WASM proof</PageTitle>
 <main>
     <h1>PKHeX Web — local WASM proof</h1>
     <p>Your save is processed entirely on this device and is never uploaded.</p>
     <p>Raw XY/ORAS only. Changes are temporary until you download them. Reloading discards this session.</p>
-    <label for="save-file">Open a local save (maximum 16 MiB)</label>
-    <InputFile id="save-file" OnChange="OpenFile" disabled="@busy" />
+    <SaveFilePicker Disabled="busy" OnReadStarted="() => busy = true" OnRead="OpenFile" OnDropRejected="DropRejected" />
     <p id="message" role="status">@message</p>
     @if (pending is not null)
     {
@@ -53,14 +53,14 @@
             </section>
         }
         <button id="download" @onclick="Download" disabled="@(DraftDirty || busy || !draftValid)">Download validated save</button>
-        <p>Output is named <code>main</code>. Download initiation does not confirm it was saved to disk. Verify your file before closing.</p>
+        <p>Suggested name: <code>@session.FileName</code> (your browser may adjust it). Download initiation does not confirm it was saved to disk. Verify your file before closing.</p>
     }
 </main>
 
 @code {
     private SaveSession? session, pending;
     private EditorDraft? draft;
-    private IJSObjectReference? browser;
+    private IJSObjectReference? lifecycle;
     private string message = "Choose a save to begin.", nickname = "", verdict = "Not analyzed", report = "";
     private bool nicknamed, busy, draftValid = true;
 
@@ -71,28 +71,32 @@
     {
         if (firstRender)
         {
-            browser = await JS.InvokeAsync<IJSObjectReference>("import", "./browser.js");
+            lifecycle = await JS.InvokeAsync<IJSObjectReference>("import", "./lifecycle.js");
         }
-        if (browser is not null)
+        if (lifecycle is not null)
         {
-            await browser.InvokeVoidAsync("setDirty", HasUnsavedWork);
+            await lifecycle.InvokeVoidAsync("setDirty", HasUnsavedWork);
         }
     }
 
-    private async Task OpenFile(InputFileChangeEventArgs e)
+    private void OpenFile(FileReadResult file)
     {
-        busy = true;
+        busy = false;
         pending = null;
+        if (file.Status != FileReadStatus.Ok)
+        {
+            message = file.Status switch
+            {
+                FileReadStatus.Empty => "The file is empty.",
+                FileReadStatus.TooLarge => "The file exceeds the 16 MiB limit.",
+                _ => "The file could not be read. Choose it again.",
+            } + Retained;
+            return;
+        }
+
         try
         {
-            if (e.File.Size > SaveLoader.MaxInputBytes)
-            {
-                throw new InvalidDataException("The file exceeds the 16 MiB limit.");
-            }
-            using var stream = e.File.OpenReadStream(SaveLoader.MaxInputBytes);
-            using var bytes = new MemoryStream();
-            await stream.CopyToAsync(bytes);
-            var candidate = SaveLoader.Load(bytes.ToArray());
+            var candidate = SaveLoader.Load(file.Bytes, file.FileName);
             if (HasUnsavedWork)
             {
                 pending = candidate;
@@ -107,11 +111,18 @@
         {
             ShowError(ex);
         }
-        finally
-        {
-            busy = false;
-        }
     }
+
+    private void DropRejected(DropRejection rejection) => message = rejection switch
+    {
+        DropRejection.MultipleFiles => "Drop a single save file." + Retained,
+        DropRejection.Directory => "Drop a save file, not a folder." + Retained,
+        DropRejection.Busy => "Wait for the current operation to finish, then try again.",
+        _ => "Only files can be dropped here, not text or links." + Retained,
+    };
+
+    /// <summary>Appended to refusals, but only when there is a session that the refusal left untouched.</summary>
+    private string Retained => session is null ? "" : " The previous session was retained.";
 
     private void SetSession(SaveSession candidate)
     {
@@ -247,9 +258,7 @@
             var exported = session!;
             var revision = exported.Revision;
             var data = SaveExporter.Export(exported, draft);
-            using var stream = new MemoryStream(data);
-            using var reference = new DotNetStreamReference(stream);
-            await browser!.InvokeVoidAsync("download", reference);
+            await Files.DownloadAsync(data, exported.FileName);
             exported.MarkExported(revision);
             message = "Download started — verify your file. The session remains temporary.";
         }
@@ -267,10 +276,10 @@
 
     public async ValueTask DisposeAsync()
     {
-        if (browser is not null)
+        if (lifecycle is not null)
         {
-            await browser.InvokeVoidAsync("setDirty", false);
-            await browser.DisposeAsync();
+            await lifecycle.InvokeVoidAsync("setDirty", false);
+            await lifecycle.DisposeAsync();
         }
     }
 }

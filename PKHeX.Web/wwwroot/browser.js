@@ -1,20 +1,91 @@
-let dirty = false;
-function warn(event) {
-    if (!dirty) return;
-    event.preventDefault();
-    event.returnValue = '';
+// Browser file interop: file-only drop zones and Blob downloads. Files are only ever read locally; nothing is fetched or uploaded.
+// The page-wide navigation guard is drop-guard.js, loaded by index.html before the app.
+
+/**
+ * Classifies a drop. Returns 'ok' for exactly one file, otherwise 'multiple', 'directory' or 'not-a-file'.
+ * String items next to a single file are allowed: file managers add a file:// uri-list, and nothing is fetched from it.
+ */
+export function classifyDrop(dataTransfer) {
+    const files = Array.from(dataTransfer?.items ?? []).filter(item => item.kind === 'file');
+    if (files.length === 0) {
+        return 'not-a-file';
+    }
+    if (files.length > 1 || (dataTransfer.files?.length ?? 0) > 1) {
+        return 'multiple';
+    }
+    // Entries are only available during the drop event. Files created in script have no entry, and are treated as files.
+    const entry = typeof files[0].webkitGetAsEntry === 'function' ? files[0].webkitGetAsEntry() : null;
+    if (entry?.isDirectory === true) {
+        return 'directory';
+    }
+    return 'ok';
 }
-window.addEventListener('beforeunload', warn);
-window.addEventListener('pageshow', event => {
-    if (event.persisted) window.location.reload();
-});
-export function setDirty(value) { dirty = value; }
-export async function download(reference) {
+
+/**
+ * Makes zone accept one dropped file and hand it to input (an <input type="file">) through a change event,
+ * so a drop takes the same read path as the picker. Refusals are reported to callbacks.OnRejected(code).
+ */
+export function registerDropZone(zone, input, callbacks) {
+    // dragenter/dragleave also fire when moving between the zone's own children, and WebKit gives no relatedTarget,
+    // so count them: the drag has left the zone when every enter has been matched by a leave.
+    let depth = 0;
+    const clear = () => {
+        depth = 0;
+        zone.removeAttribute('data-drag-over');
+    };
+    const over = event => {
+        event.preventDefault();
+        event.stopPropagation();
+        // Always accept the drag: a dropEffect of 'none' cancels the drop, so refused drops would never be explained.
+        event.dataTransfer.dropEffect = 'copy';
+        zone.setAttribute('data-drag-over', '');
+    };
+    const enter = event => {
+        depth++;
+        over(event);
+    };
+    const leave = () => {
+        depth = Math.max(0, depth - 1);
+        if (depth === 0) {
+            clear();
+        }
+    };
+    const drop = event => {
+        event.preventDefault();
+        event.stopPropagation();
+        clear();
+        const result = input.disabled ? 'busy' : classifyDrop(event.dataTransfer);
+        if (result !== 'ok') {
+            // Nothing awaits this; a failure (e.g. the component was just disposed) must not surface as an unhandled rejection.
+            callbacks.invokeMethodAsync('OnRejected', result).catch(() => { });
+            return;
+        }
+        input.files = event.dataTransfer.files;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+    };
+    zone.addEventListener('dragenter', enter);
+    zone.addEventListener('dragover', over);
+    zone.addEventListener('dragleave', leave);
+    zone.addEventListener('drop', drop);
+    return {
+        dispose() {
+            zone.removeEventListener('dragenter', enter);
+            zone.removeEventListener('dragover', over);
+            zone.removeEventListener('dragleave', leave);
+            zone.removeEventListener('drop', drop);
+            clear();
+        },
+    };
+}
+
+/** Downloads the streamed bytes as a binary file named fileName. The browser may still adjust the name when saving. */
+export async function download(reference, fileName) {
     const data = await reference.arrayBuffer();
     const url = URL.createObjectURL(new Blob([data], { type: 'application/octet-stream' }));
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = 'main';
+    anchor.download = fileName;
+    anchor.rel = 'noopener';
     anchor.click();
     // Permit browsers to consume the URL before releasing the generated snapshot.
     setTimeout(() => URL.revokeObjectURL(url), 30000);

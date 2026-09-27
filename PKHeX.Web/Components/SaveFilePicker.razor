@@ -1,0 +1,94 @@
+@implements IAsyncDisposable
+@inject BrowserFileService Files
+
+@* One save file, from the picker or a drop. Both paths go through InputFile, so they share the bounded read in BrowserFileService. *@
+<div id="save-drop" @ref="zone">
+    <label for="save-file">Open a local save (maximum 16 MiB)</label>
+    <InputFile id="save-file" @ref="input" OnChange="Changed" disabled="@(Disabled || reading)" />
+    @if (dropAvailable)
+    {
+        <p>or drop one file here.</p>
+    }
+</div>
+
+@code {
+    private ElementReference zone;
+    private InputFile? input;
+    private IAsyncDisposable? registration;
+    private bool disposed, reading, dropAvailable = true;
+
+    /// <summary>Disables the picker and makes drops report <see cref="DropRejection.Busy"/>.</summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>Raised when a picked or dropped file starts being read. <see cref="OnRead"/> always follows.</summary>
+    [Parameter]
+    public EventCallback OnReadStarted { get; set; }
+
+    /// <summary>Raised after a picked or dropped file has been read, whether or not the read succeeded.</summary>
+    [Parameter]
+    public EventCallback<FileReadResult> OnRead { get; set; }
+
+    /// <summary>Raised when a drop is refused before anything is read.</summary>
+    [Parameter]
+    public EventCallback<DropRejection> OnDropRejected { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || input?.Element is not { } element)
+        {
+            return;
+        }
+        IAsyncDisposable registered;
+        try
+        {
+            registered = await Files.RegisterDropZoneAsync(zone, element, rejection => InvokeAsync(() => OnDropRejected.InvokeAsync(rejection)));
+        }
+        catch (JSException)
+        {
+            // Without the zone the picker still works; drops stay blocked by drop-guard.js.
+            dropAvailable = false;
+            StateHasChanged();
+            return;
+        }
+        if (disposed)
+        {
+            await registered.DisposeAsync();
+            return;
+        }
+        registration = registered;
+    }
+
+    private async Task Changed(InputFileChangeEventArgs e)
+    {
+        // A change event can carry no file; there is nothing to report then. The input never allows more than one.
+        if (e.FileCount == 0)
+        {
+            return;
+        }
+
+        reading = true;
+        await OnReadStarted.InvokeAsync();
+        FileReadResult result;
+        try
+        {
+            result = e.FileCount == 1
+                ? await Files.ReadAsync(e.File)
+                : FileReadResult.Failed(FileReadStatus.ReadFailed, FileNaming.DefaultSaveName);
+        }
+        finally
+        {
+            reading = false;
+        }
+        await OnRead.InvokeAsync(result);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        disposed = true;
+        if (registration is not null)
+        {
+            await registration.DisposeAsync();
+        }
+    }
+}

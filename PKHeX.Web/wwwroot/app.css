@@ -8,3 +8,5 @@ button { margin: .5rem .5rem .5rem 0; min-height: 44px; }
 :focus-visible { outline: 3px solid #397bd9; outline-offset: 3px; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 #blazor-error-ui { display: none; padding: 1rem; border: 2px solid #c44; }
+#save-drop { border: 2px dashed #888; border-radius: .5rem; padding: 0 1rem; }
+#save-drop[data-drag-over] { border-color: #397bd9; background: color-mix(in srgb, #397bd9 12%, transparent); }

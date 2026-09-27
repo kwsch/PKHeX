@@ -13,22 +13,22 @@ namespace PKHeX.Web.Tests;
 /// </remarks>
 internal static class ProofPage
 {
-    /// <summary>Opens <paramref name="bytes"/> through the file picker as a file named <c>main</c>.</summary>
-    public static async Task Load(IPage page, byte[] bytes)
+    /// <summary>Opens <paramref name="bytes"/> through the file picker as a file named <paramref name="name"/>.</summary>
+    public static async Task Load(IPage page, byte[] bytes, string name = "main")
     {
         await page.Locator("#save-file").SetInputFilesAsync(new FilePayload
         {
-            Name = "main", MimeType = "application/octet-stream", Buffer = bytes,
+            Name = name, MimeType = "application/octet-stream", Buffer = bytes,
         });
     }
 
-    /// <summary>Clicks Download and returns the downloaded bytes, checking the suggested name is <c>main</c>.</summary>
-    public static async Task<byte[]> Download(IPage page)
+    /// <summary>Clicks Download and returns the downloaded bytes, checking the suggested name is <paramref name="expectedName"/>.</summary>
+    public static async Task<byte[]> Download(IPage page, string expectedName = "main")
     {
         var download = await page.RunAndWaitForDownloadAsync(() => page.Locator("#download").ClickAsync());
         var path = await download.PathAsync();
         Assert.True(path is not null, "No local download was produced.");
-        Assert.True(download.SuggestedFilename == "main", "Unexpected download naming.");
+        Assert.True(download.SuggestedFilename == expectedName, "Unexpected download naming.");
         return await File.ReadAllBytesAsync(path!);
     }
 

@@ -20,6 +20,9 @@ public sealed class SaveSession
     /// <summary>Working save that reflects every applied edit.</summary>
     internal SaveFile Working { get; private set; }
 
+    /// <summary>Sanitised name the file was opened as, kept apart from the bytes; exports are offered under this name.</summary>
+    public string FileName { get; }
+
     /// <summary>Incremented once for each apply that changed the working save.</summary>
     public int Revision { get; private set; }
 
@@ -36,9 +39,10 @@ public sealed class SaveSession
     /// <summary>Flat box-slot indexes that held an entity when the session was opened.</summary>
     public IReadOnlyList<int> OccupiedSlots { get; }
 
-    internal SaveSession(byte[] source, SaveFile save)
+    internal SaveSession(byte[] source, SaveFile save, string fileName)
     {
         original = source;
+        FileName = fileName;
         Working = save;
         OccupiedSlots = Enumerable.Range(0, save.SlotCount)
             .Where(i => GetSlot(save, i).Read(save).Species != 0).ToArray();

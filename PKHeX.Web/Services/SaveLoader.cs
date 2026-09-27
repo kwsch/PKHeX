@@ -19,9 +19,10 @@ public static class SaveLoader
     /// Parses <paramref name="bytes"/> into a new session. The caller's buffer is never mutated.
     /// </summary>
     /// <param name="bytes">Raw file contents.</param>
+    /// <param name="fileName">Name the file was opened as. It is sanitised, and <see cref="FileNaming.DefaultSaveName"/> is used when it is missing.</param>
     /// <returns>A new session with revision 0.</returns>
     /// <exception cref="InvalidDataException">The input is out of bounds, unrecognised, not enabled or fails integrity checks.</exception>
-    public static SaveSession Load(ReadOnlySpan<byte> bytes)
+    public static SaveSession Load(ReadOnlySpan<byte> bytes, string? fileName = null)
     {
         if (bytes.Length == 0 || bytes.Length > MaxInputBytes)
         {
@@ -40,6 +41,6 @@ public static class SaveLoader
         {
             throw new InvalidDataException("Save integrity validation failed. No changes were made.");
         }
-        return new SaveSession(original, save);
+        return new SaveSession(original, save, FileNaming.Sanitize(fileName));
     }
 }
