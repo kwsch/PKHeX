@@ -20,10 +20,16 @@ internal static class TestCategory
 
     /// <summary>
     /// Playwright against the published app (<c>PKHEX_WEB_PUBLISHED</c>) with synthetic fixtures,
-    /// plus the notices checks that hold only on the SDK the publish is built with.
+    /// plus the notices checks that hold only on the SDK the publish is built with and the test host's HTTP behaviour (it needs a loopback listener).
     /// </summary>
     public const string E2E = "E2E";
 
     /// <summary>Private real XY/ORAS saves (<c>PKHEX_XY_SAVE</c>, <c>PKHEX_ORAS_SAVE</c>); local runs only, never CI.</summary>
     public const string RealSave = "RealSave";
+
+    /// <summary>
+    /// Boot timing and transfer baseline of the published app (<c>PKHEX_WEB_PUBLISHED</c>), written to <c>PKHEX_WEB_PERF_REPORT</c>; see <see cref="BootBaseline"/>.
+    /// It records numbers and has no pass/fail threshold. Kept apart from <see cref="E2E"/> so its timings never share a run with other browser tests.
+    /// </summary>
+    public const string Perf = "Perf";
 }

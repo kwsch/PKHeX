@@ -3,7 +3,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// A <see cref="FactAttribute"/> in an opt-in tier (<see cref="TestCategory.E2E"/> or <see cref="TestCategory.RealSave"/>).
+/// A <see cref="FactAttribute"/> in an opt-in tier (<see cref="TestCategory.E2E"/>, <see cref="TestCategory.RealSave"/> or <see cref="TestCategory.Perf"/>).
 /// It is skipped unless the tier is named in <see cref="TestEnvironment.Tiers"/>.
 /// </summary>
 /// <remarks>
@@ -13,7 +13,7 @@ namespace PKHeX.Web.Tests;
 public sealed class TierFactAttribute : FactAttribute
 {
     /// <summary>Marks a fact in <paramref name="tier"/>, skipped unless that tier is opted in.</summary>
-    /// <param name="tier"><see cref="TestCategory.E2E"/> or <see cref="TestCategory.RealSave"/>; it must match the class's category.</param>
+    /// <param name="tier"><see cref="TestCategory.E2E"/>, <see cref="TestCategory.RealSave"/> or <see cref="TestCategory.Perf"/>; it must match the class's category.</param>
     public TierFactAttribute(string tier)
     {
         Tier = tier;
@@ -25,7 +25,7 @@ public sealed class TierFactAttribute : FactAttribute
 }
 
 /// <summary>
-/// A <see cref="TheoryAttribute"/> in an opt-in tier (<see cref="TestCategory.E2E"/> or <see cref="TestCategory.RealSave"/>).
+/// A <see cref="TheoryAttribute"/> in an opt-in tier (<see cref="TestCategory.E2E"/>, <see cref="TestCategory.RealSave"/> or <see cref="TestCategory.Perf"/>).
 /// It is skipped unless the tier is named in <see cref="TestEnvironment.Tiers"/>.
 /// </summary>
 /// <remarks>
@@ -35,7 +35,7 @@ public sealed class TierFactAttribute : FactAttribute
 public sealed class TierTheoryAttribute : TheoryAttribute
 {
     /// <summary>Marks a theory in <paramref name="tier"/>, skipped unless that tier is opted in.</summary>
-    /// <param name="tier"><see cref="TestCategory.E2E"/> or <see cref="TestCategory.RealSave"/>; it must match the class's category.</param>
+    /// <param name="tier"><see cref="TestCategory.E2E"/>, <see cref="TestCategory.RealSave"/> or <see cref="TestCategory.Perf"/>; it must match the class's category.</param>
     public TierTheoryAttribute(string tier)
     {
         Tier = tier;

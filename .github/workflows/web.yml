@@ -1,5 +1,5 @@
 # Builds, tests and publishes PKHeX.Web.
-# The web job runs on Linux with a pinned SDK: Core tests and the Web Unit and E2E tiers; the RealSave tier needs private saves and never runs in CI.
+# The web job runs on Linux with a pinned SDK: Core tests, the Web Unit and E2E tiers, and the Perf boot baseline; the RealSave tier needs private saves and never runs in CI.
 # The trimmed publish is checked against the trim-warning baseline and uploaded with the test results and reports.
 # The azure-parity job repeats upstream's Azure pipeline on Windows, so a change that would break that build fails here first.
 name: web
@@ -153,6 +153,20 @@ jobs:
             - name: Check every E2E test ran
               if: ${{ !cancelled() && steps.playwright.outcome == 'success' }}
               run: PKHeX.Web/tools/trx-all-executed.sh "$RESULTS_DIR/web-e2e.trx"
+
+            # Records cold/warm boot timings and transfer (WEB-PERF-001) with no threshold; it fails only if a boot cannot be measured.
+            # It runs after E2E, in its own step, so no other test shares the runner while boots are timed.
+            - name: Web boot baseline
+              if: ${{ !cancelled() && steps.playwright.outcome == 'success' }}
+              env:
+                  PKHEX_WEB_TEST_TIERS: Perf
+                  PKHEX_WEB_PUBLISHED: ${{ env.PUBLISH_DIR }}/wwwroot
+                  PKHEX_WEB_PERF_REPORT: ${{ env.REPORTS_DIR }}/perf
+              run: |
+                  dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter Category=Perf \
+                      --logger "trx;LogFileName=web-perf.trx" --results-directory "$RESULTS_DIR"
+                  PKHeX.Web/tools/trx-all-executed.sh "$RESULTS_DIR/web-perf.trx"
+                  cat "$PKHEX_WEB_PERF_REPORT/boot-baseline.md" >> "$GITHUB_STEP_SUMMARY"
 
             - name: Upload test results and reports
               if: ${{ always() }}

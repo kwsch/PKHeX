@@ -10,7 +10,7 @@ namespace PKHeX.Web.Tests;
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class TestCategoryTests
 {
-    private static readonly string[] Known = [TestCategory.Unit, TestCategory.E2E, TestCategory.RealSave];
+    private static readonly string[] Known = [TestCategory.Unit, TestCategory.E2E, TestCategory.RealSave, TestCategory.Perf];
 
     [Fact]
     public void EveryTestHasExactlyOneKnownCategory()
@@ -105,6 +105,8 @@ public sealed class TestCategoryTests
     [InlineData(TestCategory.RealSave, "E2E RealSave", true)]
     [InlineData(TestCategory.E2E, "E2EX,Real", false)]
     [InlineData(TestCategory.RealSave, "E2E", false)]
+    [InlineData(TestCategory.Perf, "E2E,RealSave", false)]
+    [InlineData(TestCategory.Perf, "perf", true)]
     public void TiersAreOptInAndUnitAlwaysRuns(string tier, string? optIn, bool expected) => Assert.Equal(expected, TestEnvironment.IsOptedIn(tier, optIn));
 
     /// <summary>Every <see cref="FactAttribute"/> (including <see cref="TheoryAttribute"/>) method in this assembly.</summary>

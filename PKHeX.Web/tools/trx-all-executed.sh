@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Fails unless every test in a VSTest .trx results file was executed.
 #
-# The E2E and RealSave tiers are opt-in (PKHEX_WEB_TEST_TIERS): without the opt-in, a run filtered to them skips every
-# test and still reports success. CI runs this on the E2E results so that a missing opt-in fails instead of passing
+# The E2E, RealSave and Perf tiers are opt-in (PKHEX_WEB_TEST_TIERS): without the opt-in, a run filtered to them skips every
+# test and still reports success. CI runs this on the E2E and Perf results so that a missing opt-in fails instead of passing
 # with nothing tested. A run with no tests at all fails too.
 #
 # Usage: PKHeX.Web/tools/trx-all-executed.sh <results.trx>

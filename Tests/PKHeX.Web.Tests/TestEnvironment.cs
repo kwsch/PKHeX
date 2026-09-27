@@ -1,7 +1,7 @@
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Environment variables that opt in to the <see cref="TestCategory.E2E"/> and <see cref="TestCategory.RealSave"/> tiers and supply their inputs.
+/// Environment variables that opt in to the <see cref="TestCategory.E2E"/>, <see cref="TestCategory.RealSave"/> and <see cref="TestCategory.Perf"/> tiers and supply their inputs.
 /// </summary>
 /// <remarks>
 /// Those tiers run only when named in <see cref="Tiers"/>; otherwise <see cref="TierFactAttribute"/> and <see cref="TierTheoryAttribute"/> skip them.
@@ -25,6 +25,12 @@ internal static class TestEnvironment
 
     /// <summary>Optional directory for sanitised real-save evidence JSON.</summary>
     public const string Evidence = "PKHEX_PROOF_EVIDENCE";
+
+    /// <summary>Directory the <see cref="TestCategory.Perf"/> tier writes <c>boot-baseline.md</c> and <c>boot-baseline.json</c> to.</summary>
+    public const string PerfReport = "PKHEX_WEB_PERF_REPORT";
+
+    /// <summary>Optional number of measured boots per configuration in the <see cref="TestCategory.Perf"/> tier; see <see cref="BootBaseline.DefaultRuns"/>.</summary>
+    public const string PerfRuns = "PKHEX_WEB_PERF_RUNS";
 
     /// <summary>Returns the value of <paramref name="name"/>, or throws if it is unset or blank.</summary>
     public static string Required(string name)

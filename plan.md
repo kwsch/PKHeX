@@ -299,6 +299,88 @@ Decide in F7 whether those checks move to an opt-in tier, read the versions from
 
 **F8 Performance baseline (WEB-PERF-001).** A script (`PKHeX.Web/tools/measure.*` or a test) records cold and warm boot under Playwright network throttling (20 Mbps/50 ms) plus artifact sizes, and uploads them as a CI artifact. There is no pass/fail threshold yet.
 
+**F8 status:** code complete on `web/f8-perf-baseline`. Not yet run on GitHub.
+- **Tier.** A new opt-in tier, `Perf`, with a single test, `BootBaselineTests.RecordsBootBaseline`.
+  - It sits in a collection with parallelization disabled, so it never runs alongside other browser tests.
+  - It needs `PKHEX_WEB_PUBLISHED` and `PKHEX_WEB_PERF_REPORT` (the output directory), and fails without them, like the other tiers. `PKHEX_WEB_PERF_RUNS` is optional (default 5, validated).
+  - It writes `boot-baseline.md` and `boot-baseline.json`.
+  - It fails only if a boot cannot be measured: the shell is not usable within 60 s, a page error occurs, or a response is anything other than a GET for a published file (a favicon 404 is allowed). The error names the boot, e.g. `chromium (20 Mbps / 50 ms) run 0 cold`.
+  - It has no timing threshold.
+- **Measurement (`BootBaseline`).**
+  - **Configurations.** Chromium runs throttled to 20 Mbps / 50 ms, set per page before navigation through CDP `Network.emulateNetworkConditions`, which adds the latency to each request. Chromium, Firefox and WebKit also run on unthrottled loopback, because Playwright can throttle only Chromium.
+  - **Samples.** Each configuration boots once unrecorded, then N times, each on its own temporary browser profile. The cold boot launches a new browser process on the empty profile (which meets the F3 note). The warm boot closes that browser and relaunches it on the same profile, like a returning visit, so only what the browser stored in the profile carries over, not in-process caches.
+  - **"Shell ready"** is `performance.now()` when `#save-file` first exists and is enabled, recorded by a `MutationObserver` init script. DOMContentLoaded comes from navigation timing.
+  - **Traffic.** Requests, 304s and body bytes per encoding come from the host's own log, so they are the same for every engine.
+  - **Build.** The version and commit are read from the published page's footer, not from the test assembly. M1 must update this together with the E2E footer check when it moves the build details.
+  - **Machine.** It records the CPU model, logical CPUs, memory available to .NET, OS, architecture, browser versions (Playwright's headless builds) and the Playwright version.
+- **Host.** `StaticHost` now serves requests concurrently, for every user of the host, and gained an opt-in `deploymentCaching` mode; E2E still uses the default mode. The mode:
+  - serves the `.br`/`.gz` sibling by `Accept-Encoding` (Brotli, then gzip), with `Vary`
+  - sends a strong `ETag` per representation and answers `If-None-Match` with 304
+  - sends `immutable` for fingerprinted `_framework` files (a name heuristic) and `no-cache` otherwise, which is M20's planned `_headers` policy. M20 should replace the heuristic with the checked-in file.
+
+  Warm boots make only 7 requests, and that is configured by the publish. The .NET 10 boot manifest embedded in `dotnet.js` marks the 52 fingerprinted resources `"cache": "force-cache"`, which the loader uses instead of its `no-cache` default. So only the 7 unfingerprinted files are revalidated: `index.html`, `app.css`, the three root scripts, `blazor.webassembly.js` and `dotnet.js`. The host's `immutable` header therefore does not change the measured warm boots; its ETag/304 answers matter for those 7 files. For M20, the cached start depends on revalidating those 7 files cheaply, and the cold start depends on compressed delivery.
+- **Resource cost.** WEB-PERF-001's "resource cost" is read as the cost of Core's embedded data, from `PKHeX.Web.md`'s risk table ("Embedded data/startup cost … Core resources … trimming does not automatically remove individual embedded resources"). The report lists PKHeX.Core's embedded resources by folder, with their raw size and their share of the published `PKHeX.Core` file: 1731 resources, 11.68 MiB, 65% of its 17.85 MiB (text 4.91, legality 4.47, byte 1.97, localize 0.33). Every boot downloads all of it. CPU and main-thread cost appear only as the loopback shell time; memory belongs to M21 (PERF-002). Any reduction belongs to PERF-005 (Post-MVP), not F8.
+- **Report.** It gives median and min–max per configuration and phase, with the `PKHeX.Web.md` targets alongside (≤5 s cold, ≤2 s cached, for the throttled profile only, marked not enforced). It also lists the boot set: the files a cold boot fetched, with raw, Brotli and gzip sizes on disk, which complements the whole-publish `size-report.sh`. It flags any warm boot that reused nothing from the cache.
+- **CI.** A `Web boot baseline` step in the `web` job, after the E2E check, runs `--filter Category=Perf` with the opt-in, then `trx-all-executed.sh` on `web-perf.trx`, and appends the Markdown to the run summary. The report lands in `$REPORTS_DIR/perf`, inside the `pkhex-web-results` artifact, which is uploaded `always()`. The report is written only after every boot succeeds, so a failed run uploads the TRX and its error but no partial report. That is accepted: a baseline with missing configurations would be misleading, and the error names the boot that failed.
+- **Local baseline** (Apple M4, 10 logical CPUs, 16 GiB, macOS 26.5; Chromium 153.0.8010.12, Firefox 155.0, WebKit 26.6, headless; Playwright 1.63.0; 5 runs, median):
+
+  | Engine | Network | Cold shell | Warm shell | Cold transfer |
+  |---|---|---:|---:|---:|
+  | Chromium | 20 Mbps / 50 ms | 2731 ms | 483 ms | 5.35 MiB (br), 59 requests |
+  | Chromium | loopback | 245 ms | 238 ms | 5.35 MiB (br) |
+  | Firefox | loopback | 270 ms | 267 ms | 5.35 MiB (br) |
+  | WebKit | loopback | 232 ms | 233 ms* | 7.77 MiB (gzip) |
+
+  The boot set is 59 files, 25.44 MiB raw / 5.35 MiB Brotli / 7.77 MiB gzip, of which `PKHeX.Core` is 17.85 / 2.89 / 4.73 MiB. Both throttled targets are met on this machine with room to spare. It is not the named reference desktop, so this makes no PERF-001 verdict; M21 owns that.
+
+  \*Playwright's WebKit does not accept Brotli from the plain-HTTP loopback host. In every local run its warm boot re-downloaded all 59 files without revalidating, even after relaunching on the same persistent profile, so the cause is not the ephemeral context. The report flags it. The cause has not been established, and it says nothing about Safari (G-C).
+
+  In a single-run mutation check made before the concurrency fix, with caching off, the throttled cold boot served raw bytes (25.44 MiB) and took 11.2 s. The warm Chromium boot re-downloaded 18.29 MiB in 10 requests, and warm Firefox 0.44 MiB in 9.
+- **Rejected: throttling on the host for Firefox and WebKit.** `StaticHost` could delay and rate-limit its own responses, but that would measure our shaper against each engine's connection handling rather than a browser's network emulation, and it would not be comparable with the Chromium row. The plan asks for Playwright network throttling. The profile is therefore stated for Chromium only; the other engines' loopback rows show their startup cost, and their network behaviour is left to the real-device runs in G-C.
+- **Tests.**
+  - **Unit 138**, up from 96:
+    - 2 `IsOptedIn` rows for Perf
+    - 25 `StaticHostTests` (fingerprint rule, encoding choice, `If-None-Match`)
+    - 15 `BootBaselineReportTests` (median, Markdown, the no-reuse flag, JSON round trip, run-count parsing, Core resource grouping)
+  - **E2E 30**, up from 28: `StaticHostServingTests` exercises the caching mode over HTTP (including the 304 and the rewritten subpath page) and the default mode unchanged. Those two tests open a loopback `HttpListener`, which on Windows needs administrator rights for a `127.0.0.1` prefix, so they are opt-in E2E rather than Unit. That keeps `dotnet test PKHeX.slnx` working for non-admin Windows contributors. Every E2E test executed.
+  - **Perf 1** (about 1 min 16 s for 5 runs).
+  - **`dotnet vstest` without the opt-in:** 138 passed, 13 skipped (the opt-in methods: 10 as before, plus Perf and the 2 host-serving tests), 0 failed. `pwsh` is not installed locally, so the `.ps1` check was not run here; its reason regex already accepts `Perf`. The azure-parity job will run the new Unit tests on Windows; none of them opens a listener.
+  - **Mutations:**
+    - With the shell selector changed, the test fails after the 60 s timeout, naming the boot, instead of hanging.
+    - With caching off, the host sends no 304s and the warm rows re-download (see above).
+  - **Other checks:** `actionlint` is clean. No app source changed, so the trim baseline is unaffected, and CI re-runs it anyway.
+- **Adversarial reviews.**
+  - **First review, fixed:**
+    - The host served one request at a time; it now serves them concurrently. The numbers did not move, and E2E still passes.
+    - The build was taken from the test assembly's `BuildInfo`; it now comes from the published page.
+    - A failed boot gave a bare timeout; the error now names the boot.
+    - Closing a crashed browser's page could replace the real failure.
+    - Aborting a failed response could throw from an unawaited task; every exception there is now contained.
+    - The report now says that the browsers are headless and that CDP latency is per request.
+  - **Second review (against this plan), fixed:**
+    - This status wrongly credited the 7 warm requests to the loader's `no-cache` default; the cause is `force-cache` in the boot manifest.
+    - "Resource cost" was not addressed.
+    - No chunk owned the reference-desktop verdict; M21 now does.
+    - CPU model and memory were not recorded.
+    - "Warm" reused the same browser process; it is now a relaunch on the same profile.
+    - The host-throttle alternative was not weighed (see above).
+    - The two listener tests were in Unit.
+    - The `trx-all-executed.sh` header and the README's CI order were stale.
+    - The caching-off mutation was misreported as "full" re-downloads.
+  - **Accepted:**
+    - "Shell ready" may be a few milliseconds early. It is taken when the file input is in the DOM and enabled, and `InputFile` attaches its listeners just after, in `OnAfterRenderAsync`.
+    - The ETag cache assumes files do not change while the host runs.
+    - E2E keeps a response log that nothing reads (a few thousand small records).
+    - The fingerprint rule is a name heuristic until M20.
+    - A failed Perf run writes no partial report (see CI).
+- **Compared with PKForge:**
+  - What it has:
+    - `PerfTrace`: in-app timings, opt-in and compiled out of Release (`[Conditional("DEBUG"), Conditional("DIAGNOSTIC")]`).
+    - `EncounterLookupTests` and `Gen89SweepTests`: they print stopwatch timings, and `EncounterLookupTests` also asserts a loose 20 s bound.
+    - CI: it uploads only the APK, with no size or performance artifact.
+  - Its `Platforms/Android/linker.xml` preserves all of PKHeX.Core, because full trimming under AOT stripped the resources Core loads by name. It bears on our largest asset: the Web publish keeps those resources (the proof's legality checks depend on them), and they are 65% of `PKHeX.Core`. Any future attempt to trim or split them (PERF-005) must keep what Core loads by name.
+  - Nothing to adopt for F8. In-app operation timing is relevant to M8 (legality latency, PERF-004) and M21 (memory, PERF-002). Android startup is out of Web scope.
+
 → Gate G-A, then open the upstream foundation PR (F1–F8). It must not claim support for anything.
 
 ## Phase 3 — XY/ORAS MVP (Goal 4)
@@ -348,7 +430,7 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
   - Checked-in `wwwroot/_headers` (Cloudflare: CSP, `nosniff`, referrer policy, immutable cache for fingerprinted assets, revalidate for `index.html` / boot json) and a meta-CSP fallback.
   - `PKHeX.Web/README.md` becomes a self-hosting guide (root + `/PKHeX/`, nginx/Apache snippets, no `file://`).
   - Optional `workflow_dispatch` deploy job behind a protected environment, promoting the CI artifact. It is not enabled for upstream (HOST-002/003).
-- **M21 Qualification + support report.** Memory/peak measurements on the largest admitted fixture and a repeated-session trend (PERF-002). Physical-device runs come from G-C (BROWSER-001/002). Update `PKHeX.Web.md` status/compatibility matrix (XY/ORAS → **P** only where proven) and publish a support report modelled on `PKHeX.Web.WasmProof.md`.
+- **M21 Qualification + support report.** Memory/peak measurements on the largest admitted fixture and a repeated-session trend (PERF-002). Name the reference desktop (CPU model, memory, OS, browser), run the F8 `Perf` tier on it, and record the WEB-PERF-001 verdict against the `PKHeX.Web.md` startup targets: met, or a documented, scoped limitation. Physical-device runs come from G-C (BROWSER-001/002). Update `PKHeX.Web.md` status/compatibility matrix (XY/ORAS → **P** only where proven) and publish a support report modelled on `PKHeX.Web.WasmProof.md`.
 
 MVP exit = every "Must / MVP" story in `PKHeX.Web.md` §Prioritised implementation matrix is covered by a chunk above and its test, and gates G-B/G-C are resolved or documented as reduced scope.
 
