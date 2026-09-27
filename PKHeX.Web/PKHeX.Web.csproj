@@ -19,4 +19,63 @@
     <InternalsVisibleTo Include="PKHeX.Web.Tests" />
   </ItemGroup>
 
+  <!-- A static deployment of wwwroot carries the license and notices with the binaries it distributes. -->
+  <ItemGroup>
+    <None Include="THIRD-PARTY-NOTICES.md" CopyToPublishDirectory="PreserveNewest" Link="wwwroot\THIRD-PARTY-NOTICES.md" />
+    <None Include="..\LICENSE" CopyToPublishDirectory="PreserveNewest" Link="wwwroot\LICENSE.txt" />
+  </ItemGroup>
+
+  <!--
+    The published .NET packages carry four distinct upstream THIRD-PARTY-NOTICES files; each is published once under licenses/, named for the group it covers.
+    THIRD-PARTY-NOTICES.md maps every published package to one of them; the Unit tier checks the mapping and the E2E tier checks the publish against it.
+    Package directories come from what restore actually resolved, so a servicing version that differs between packages is still found.
+    Package file names differ in case (.txt/.TXT), hence the wildcards.
+  -->
+  <Target Name="AddUpstreamNotices" BeforeTargets="GetCopyToPublishDirectoryItems" DependsOnTargets="ResolvePackageAssets;ResolveFrameworkReferences">
+    <ItemGroup>
+      <!-- A package's directory is its resolved asset path without the asset's path inside the package. -->
+      <_PKHeXPackageAsset Include="@(RuntimeCopyLocalItems)" Condition="'%(RuntimeCopyLocalItems.NuGetPackageId)' != ''">
+        <PackageRoot>$([System.String]::Copy('%(RuntimeCopyLocalItems.FullPath)').Substring(0, $([MSBuild]::Subtract($([System.String]::Copy('%(RuntimeCopyLocalItems.FullPath)').Length), $([System.String]::Copy('%(RuntimeCopyLocalItems.PathInPackage)').Length)))))</PackageRoot>
+      </_PKHeXPackageAsset>
+      <_PKHeXNoticeDirectory Include="%(_PKHeXPackageAsset.PackageRoot)" Condition="'%(_PKHeXPackageAsset.NuGetPackageId)' == 'Microsoft.AspNetCore.Components.WebAssembly'" TargetName="aspnetcore-components.txt" />
+      <_PKHeXNoticeDirectory Include="%(_PKHeXPackageAsset.PackageRoot)" Condition="'%(_PKHeXPackageAsset.NuGetPackageId)' == 'Microsoft.JSInterop'" TargetName="aspnetcore.txt" />
+      <_PKHeXNoticeDirectory Include="%(_PKHeXPackageAsset.PackageRoot)" Condition="'%(_PKHeXPackageAsset.NuGetPackageId)' == 'Microsoft.Extensions.Primitives'" TargetName="dotnet-extensions.txt" />
+      <_PKHeXNoticeDirectory Include="%(ResolvedRuntimePack.PackageDirectory)/" Condition="'%(ResolvedRuntimePack.FrameworkName)' == 'Microsoft.NETCore.App'" TargetName="dotnet-runtime.txt" />
+    </ItemGroup>
+    <!-- A missing or empty directory would make the wildcard below match this project's own THIRD-PARTY-NOTICES.md. -->
+    <Error Condition="'@(_PKHeXNoticeDirectory->Count())' != '4' or '@(_PKHeXNoticeDirectory->WithMetadataValue('Identity', '/'))' != ''" Text="Expected four resolved package directories for the upstream notices; found: @(_PKHeXNoticeDirectory)." />
+    <ItemGroup>
+      <_PKHeXUpstreamNotice Include="%(_PKHeXNoticeDirectory.Identity)THIRD-PARTY-NOTICES.*" TargetName="%(_PKHeXNoticeDirectory.TargetName)" />
+    </ItemGroup>
+    <Error Condition="'@(_PKHeXUpstreamNotice->Count())' != '4'" Text="Expected four upstream THIRD-PARTY-NOTICES files; found: @(_PKHeXUpstreamNotice)." />
+    <ItemGroup>
+      <ResolvedFileToPublish Include="@(_PKHeXUpstreamNotice)" RelativePath="wwwroot/licenses/%(TargetName)" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+    Build provenance, read at runtime by Services/BuildInfo.
+    The commit comes from the SDK's built-in git source control query. It is used only when the git repository root is this repository's root
+    (which holds both Core and Web), so a copy of the sources inside some other repository does not record that repository's commit.
+    It is the checked-out commit: uncommitted local changes are not reflected.
+    SourceRevisionId is not used: the shared Directory.Build.props sets it to a build timestamp for the desktop builds.
+    Builds without a .git directory can pass -p:PKHeXSourceCommit=<sha>; otherwise the commit is recorded as "unknown".
+  -->
+  <Target Name="AddBuildProvenance" BeforeTargets="GetAssemblyAttributes" DependsOnTargets="InitializeSourceControlInformation">
+    <PropertyGroup>
+      <_PKHeXRepositoryRootPath>$([MSBuild]::NormalizeDirectory($(MSBuildProjectDirectory), '..'))</_PKHeXRepositoryRootPath>
+    </PropertyGroup>
+    <ItemGroup>
+      <_PKHeXRepositoryRoot Include="@(SourceRoot)" Condition="'%(SourceRoot.SourceControl)' == 'git' and '%(SourceRoot.NestedRoot)' == '' and '$([MSBuild]::NormalizeDirectory(%(SourceRoot.FullPath)))' == '$(_PKHeXRepositoryRootPath)'" />
+    </ItemGroup>
+    <PropertyGroup>
+      <PKHeXSourceCommit Condition="'$(PKHeXSourceCommit)' == ''">@(_PKHeXRepositoryRoot->'%(RevisionId)')</PKHeXSourceCommit>
+      <PKHeXSourceCommit Condition="'$(PKHeXSourceCommit)' == ''">unknown</PKHeXSourceCommit>
+    </PropertyGroup>
+    <ItemGroup>
+      <AssemblyMetadata Include="PKHeXWebVersion" Value="$(Version)" />
+      <AssemblyMetadata Include="PKHeXSourceCommit" Value="$(PKHeXSourceCommit)" />
+    </ItemGroup>
+  </Target>
+
 </Project>

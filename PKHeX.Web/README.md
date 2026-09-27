@@ -13,6 +13,12 @@ python3 -m http.server 8080 --bind 127.0.0.1 --directory PKHeX.Web/bin/Release/p
 
 Open `http://127.0.0.1:8080/`. Serve only the published `wwwroot`, never the repository or directory containing your saves. Runtime hosting uses an ordinary static server; it does not need .NET. The proof does not install a service worker or require `wasm-tools`; the default Release publish trims managed assemblies but uses the stock interpreter runtime without optional native relinking/AOT.
 
+## Build provenance and notices
+
+The page footer shows the Web version (the repository `Version`) and the git commit the build was made from, which also identifies the Core revision. Both are embedded at build time as assembly metadata by the `AddBuildProvenance` target in `PKHeX.Web.csproj`, using the SDK's built-in git query, so no `git` executable is needed. The commit is the checked-out one; uncommitted changes are not reflected. It is recorded only when the git repository is this repository, so a build from a source archive, or from a copy inside another repository, records `unknown`; pass `-p:PKHeXSourceCommit=<sha>` to record it explicitly.
+
+The publish output includes `LICENSE.txt`, `THIRD-PARTY-NOTICES.md` (every package the Web build restores, with its version and license, split into published, removed by trimming and build-only) and the upstream .NET notices under `licenses/`. Serve them together with the rest of `wwwroot`. The Unit tier fails if the restore graph changes without a matching update to `THIRD-PARTY-NOTICES.md`, and the E2E tier fails if the publish contains a package file the notices do not list as published. The runtime pack version comes from the installed SDK, so a different SDK patch needs a notices update.
+
 ## Reproduce tests
 
 Private files are supplied through environment variables; never copy them into source or `wwwroot`. Use absolute paths. The two fixture variables must refer to valid, decrypted real saves, not synthetic substitutes. Test downloads live in temporary Playwright storage and are removed when the browser context closes. Screenshots and traces are not recorded.

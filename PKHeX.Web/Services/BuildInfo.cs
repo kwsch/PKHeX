@@ -1,0 +1,47 @@
+using System.Reflection;
+
+namespace PKHeX.Web.Services;
+
+/// <summary>
+/// Identifies the build that is running, so a report can name the exact Web version and source revision without a remote lookup.
+/// </summary>
+/// <remarks>
+/// The values are embedded as <see cref="AssemblyMetadataAttribute"/>s by the <c>AddBuildProvenance</c> target in <c>PKHeX.Web.csproj</c>.
+/// Core is built from the same repository, so <see cref="SourceCommit"/> also identifies the Core revision.
+/// A value that was not recorded is reported as <see cref="Unknown"/>, never guessed.
+/// </remarks>
+public static class BuildInfo
+{
+    /// <summary>Reported for any value that the build did not record.</summary>
+    public const string Unknown = "unknown";
+
+    /// <summary>Metadata key for the Web version.</summary>
+    internal const string VersionKey = "PKHeXWebVersion";
+
+    /// <summary>Metadata key for the source commit.</summary>
+    internal const string CommitKey = "PKHeXSourceCommit";
+
+    /// <summary>Length of <see cref="ShortCommit"/>.</summary>
+    public const int ShortCommitLength = 12;
+
+    private static readonly AssemblyMetadataAttribute[] Metadata = [.. typeof(BuildInfo).Assembly.GetCustomAttributes<AssemblyMetadataAttribute>()];
+
+    /// <summary>Release version of this build, shared with the rest of the repository.</summary>
+    public static string WebVersion { get; } = Read(Metadata, VersionKey);
+
+    /// <summary>Full git commit of the source tree this build was made from, or <see cref="Unknown"/>.</summary>
+    public static string SourceCommit { get; } = Read(Metadata, CommitKey);
+
+    /// <summary><see cref="SourceCommit"/> abbreviated for display.</summary>
+    public static string ShortCommit => Abbreviate(SourceCommit);
+
+    /// <summary>Returns the value recorded under <paramref name="key"/>, or <see cref="Unknown"/> if it is missing or blank.</summary>
+    internal static string Read(IEnumerable<AssemblyMetadataAttribute> metadata, string key)
+    {
+        var value = metadata.FirstOrDefault(m => m.Key == key)?.Value;
+        return string.IsNullOrWhiteSpace(value) ? Unknown : value.Trim();
+    }
+
+    /// <summary>Shortens a commit to <see cref="ShortCommitLength"/> characters; other values are returned unchanged.</summary>
+    internal static string Abbreviate(string commit) => commit == Unknown || commit.Length <= ShortCommitLength ? commit : commit[..ShortCommitLength];
+}

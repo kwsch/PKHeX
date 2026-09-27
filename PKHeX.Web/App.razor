@@ -56,6 +56,9 @@
         <p>Suggested name: <code>@session.FileName</code> (your browser may adjust it). Download initiation does not confirm it was saved to disk. Verify your file before closing.</p>
     }
 </main>
+<footer>
+    <p id="build-label">PKHeX.Web @BuildInfo.WebVersion · <span title="@BuildInfo.SourceCommit">@BuildInfo.ShortCommit</span></p>
+</footer>
 
 @code {
     private SaveSession? session, pending;

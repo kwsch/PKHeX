@@ -22,10 +22,61 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
         var baseUri = await session.Page.EvaluateAsync<string>("() => document.baseURI");
         Assert.True(new Uri(baseUri).AbsolutePath == "/" + prefix, $"Unexpected base href '{new Uri(baseUri).AbsolutePath}'.");
 
+        // The trimmed publish keeps the build provenance (BuildInfoTests checks the values against git).
+        await Expect(session.Page.Locator("#build-label")).ToHaveTextAsync($"PKHeX.Web {BuildInfo.WebVersion} · {BuildInfo.ShortCommit}");
+        await Expect(session.Page.Locator("#build-label span")).ToHaveAttributeAsync("title", BuildInfo.SourceCommit);
+
         // Give late post-boot activity (deferred fetches, service worker registration) time to show up before checking for it.
         await session.Page.WaitForTimeoutAsync(1000);
         await session.AssertNoNetworkOrPersistenceAsync();
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred during boot.");
+    }
+
+    [Fact]
+    public void PublishesLicenseAndNotices()
+    {
+        var root = SaveFixtures.RepositoryRoot;
+        Assert.Equal(File.ReadAllBytes(Path.Combine(root, "LICENSE")), File.ReadAllBytes(Path.Combine(app.Root, "LICENSE.txt")));
+        Assert.Equal(File.ReadAllBytes(NoticesInventory.SourcePath), File.ReadAllBytes(Path.Combine(app.Root, "THIRD-PARTY-NOTICES.md")));
+
+        // Exactly the upstream notices named in the table are published, and each matches every package mapped to it.
+        var rows = NoticesInventory.Rows();
+        var listed = rows.Where(r => r.Section == NoticesInventory.Section.Published).ToList();
+        var named = listed.Select(r => r.Notices!).ToHashSet();
+        var licenses = Directory.EnumerateFiles(Path.Combine(app.Root, "licenses")).Select(f => "licenses/" + Path.GetFileName(f)).ToHashSet();
+        Assert.Equal(named.Order(), licenses.Order());
+        foreach (var row in listed)
+        {
+            var upstream = NoticesInventory.UpstreamNotices(row.Id, row.Version);
+            Assert.True(File.ReadAllBytes(Path.Combine(app.Root, row.Notices!)).AsSpan().SequenceEqual(upstream), $"Published {row.Notices} differs from the notices of {row.Id}.");
+        }
+
+        // Every published framework file belongs to a package listed as published, other than this repository's own assemblies.
+        var owners = NoticesInventory.PackageFileOwners();
+        var ownFiles = new[] { "PKHeX.Core.dll", "PKHeX.Web.dll" };
+        var publishedIds = listed.Select(r => r.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var withFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var file in Directory.EnumerateFiles(Path.Combine(app.Root, "_framework")))
+        {
+            var name = Path.GetFileName(file);
+            if (name.EndsWith(".br", StringComparison.Ordinal) || name.EndsWith(".gz", StringComparison.Ordinal))
+            {
+                continue;
+            }
+            var candidates = NoticesInventory.PackageFileNames(name).ToList();
+            if (candidates.Any(ownFiles.Contains))
+            {
+                continue;
+            }
+            var fileOwners = candidates.SelectMany(c => owners.GetValueOrDefault(c) ?? []).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            Assert.True(fileOwners.Count > 0, $"Published {name} comes from no restored package.");
+            Assert.True(fileOwners.Overlaps(publishedIds), $"Published {name} comes from {string.Join(", ", fileOwners)}, which is not listed as published.");
+            withFiles.UnionWith(fileOwners);
+        }
+
+        // Each package listed as published has a file in the publish, and none listed as removed by trimming does.
+        Assert.Empty(publishedIds.Except(withFiles));
+        Assert.Empty(rows.Where(r => r.Section == NoticesInventory.Section.Trimmed && withFiles.Contains(r.Id)).Select(r => r.Id));
     }
 
     [Theory]

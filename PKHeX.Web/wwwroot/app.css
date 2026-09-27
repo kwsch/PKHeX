@@ -1,6 +1,7 @@
 :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
 body { margin: 0; }
-main { max-width: 56rem; margin: auto; padding: 1.5rem; }
+main, footer { max-width: 56rem; margin: auto; padding: 1.5rem; }
+footer { padding-block: 0 1.5rem; font-size: .875rem; }
 section { border: 1px solid #888; border-radius: .5rem; padding: 1rem; margin: 1rem 0; }
 label { display: block; margin-block: .7rem .3rem; }
 button, input, select { font: inherit; padding: .6rem; max-width: 100%; box-sizing: border-box; }

@@ -28,7 +28,7 @@ Each numbered chunk below is **one commit**. Every commit must build, and its te
 
 ## Human-only gates (not commits)
 
-- **G-A Maintainer interest:** before the Web foundation PR goes upstream, ask through the CONTRIBUTING channels. Present the static/client-only goal, the proof results, asset/crypto implications and maintenance ownership. Refactor PRs are useful on their own and do not wait on this.
+- **G-A Maintainer interest:** before the Web foundation PR goes upstream, ask through the CONTRIBUTING channels. Present the static/client-only goal, the proof results, asset/crypto implications and maintenance ownership. Refactor PRs are useful on their own and do not wait on this. Also raise: `dotnet.native.js`/`.wasm` are Emscripten output (MIT/NCSA), and the runtime pack's upstream notices do not mention Emscripten; ask whether the Web notices should add it or whether the .NET notices are considered sufficient.
 - **G-B Sprite/asset policy:** maintainers confirm that redistributing PokeSprite images on a public static host is acceptable. Until then, M5 ships text placeholders only.
 - **G-C Physical devices:** real Safari (macOS), iPadOS Safari and Android Chrome runs for M21.
 - **G-D Real-save fixtures:** the owner supplies XY/ORAS saves via env vars for local runs. They are never committed and never used in CI.
@@ -169,6 +169,34 @@ Add `Services/FileNaming`, which sanitises separators and control characters, ca
   - Android document picking, folder scans and emulator roots are out of Web scope. PKForge has no drag-and-drop to compare.
 
 **F5 Build provenance.** MSBuild embeds the Web version + Core git commit as assembly metadata. `THIRD-PARTY-NOTICES.md` for Web lists runtime packages and licenses (WEB-SEC-004). CI later prints a `dotnet list package --include-transitive` inventory.
+
+**F5 status:** code complete on `web/f5-build-provenance`.
+- **Provenance.** The `AddBuildProvenance` target in `PKHeX.Web.csproj` embeds `PKHeXWebVersion` (the repository `Version`, since Web ships with the same release as Core) and `PKHeXSourceCommit` as `AssemblyMetadata`.
+  - The commit is the `RevisionId` of the git `SourceRoot` from the SDK's built-in `Microsoft.Build.Tasks.Git`, so no `git` executable is needed. The repository holds both Core and Web, so one commit identifies both.
+  - It is used only when that root is this repository's root. Otherwise a copy inside another repository records the outer repository's commit; this was reproduced, and it now records `unknown`.
+  - `SourceRevisionId` is not used: the shared `Directory.Build.props` sets it to a build timestamp and stays untouched.
+  - Without `.git` the commit is `unknown`; `-p:PKHeXSourceCommit=<sha>` overrides it. The commit is the checked-out one; uncommitted changes are not reflected, and the notices and README say so.
+  - Worktrees, shallow clones and detached HEAD record the right commit, and a new commit regenerates the assembly info.
+- **Reading it.** `Services/BuildInfo` reads the metadata (missing or blank → `unknown`). The page footer shows `PKHeX.Web {version} · {12-char commit}` with the full commit as its title; M1's About panel replaces it. The footer is how E2E proves the trimmed publish keeps the metadata. CoreLib's link attributes do not remove `AssemblyMetadataAttribute`.
+- **Notices.** `PKHeX.Web/THIRD-PARTY-NOTICES.md` lists every package in the restore graph with its exact version and license, in three tables:
+  - **Published:** at least one file in the publish. `blazor.webassembly.js` comes from `Components.WebAssembly`; `Internal.Assets` carries an identical copy and is listed with it.
+  - **Removed by trimming:** restored for the browser, no file published.
+  - **Build-only:** Analyzers, ILLink.Tasks, Sdk.WebAssembly.Pack.
+
+  It includes the .NET MIT license verbatim, the upstream repository URL for the corresponding source, and a pointer to the build instructions. It makes no licensing statement beyond the repository `LICENSE` and Core's declared `GPL-3.0-or-later`.
+
+  Publish copies the notices, the repository `LICENSE` (as `LICENSE.txt`) and the four distinct upstream `THIRD-PARTY-NOTICES` files of the published packages (runtime pack, ASP.NET Core, Components, Extensions) into `wwwroot`, the latter under `licenses/`. Their package directories come from the resolved assets, not from a version property. The build fails if any directory or file is missing, which also keeps the wildcard from matching the project's own notices file.
+- **Tests.**
+  - Unit: `BuildInfoTests` checks the commit equals `git rev-parse HEAD` (a stale `--no-build` run fails on purpose, with a message), the version, the `unknown` fallback and abbreviation. `ThirdPartyNoticesTests` checks every restored package is listed once with its version and no stale rows, that only published rows name a notices file, that every package mapped to a notices file carries exactly that file upstream, and the published-name mapping.
+  - E2E: the boot test checks the footer on 3 engines × 2 paths. `PublishesLicenseAndNotices` checks, byte for byte, the published license, the notices and the exact set of upstream notice files. It also maps every `_framework` file (fingerprint stripped, `.wasm` → `.dll`) to the restored packages containing a file of that name. Each file must belong to a package listed as published, each published package must have a file, and no trimmed package may have one.
+  - Mutation checks all failed as expected: a dropped row, a wrong version, a wrong mapping, a published package moved to build-only or to trimmed, and a trimmed package listed as published.
+  - Tier counts: Unit 87, E2E 25, RealSave 14, all passing. The diagnostic trim publish still reports the same 38 warnings, none from PKHeX.Web. The Release build of `PKHeX.slnx` has 0 warnings.
+- **Adversarial review.**
+  - Fixed: the publish was not checked against the tables; "shipped" wording contradicted the tables; an outer repository's commit could be recorded; the notices overclaimed on corresponding source (dirty trees, no URL), on embedded data licensing and on "or later" for Web; the notices paths were coupled to one package version; the git test crashed without `git`; prerelease versions could not be parsed.
+  - Documented, not changed: the runtime pack, ILLink and WebAssembly pack versions come from the installed SDK (no `global.json`, per F2), so another SDK patch needs a notices update, which the Unit tier reports.
+  - Not changed: the notices are not linked from the UI until M1. `.md`/`.txt` are not in the test host's MIME map, which will need entries when M1 links them. `web.config` lands outside `wwwroot`, which is not deployed.
+- **Not done here.** Reproducible builds: the shared timestamp `SourceRevisionId` stays in `InformationalVersion`, and deterministic output is F6/M20 territory. A dirty-tree marker: the SDK git task does not report one, and CI builds from clean checkouts. The CI `dotnet list package --include-transitive` print is F6.
+- **Compared with PKForge:** PKForge embeds no build provenance and has no notices file; it credits its art and PKSM UI in its README. Nothing to adopt. Its credited art and network assets are out of Web scope (M5, gate G-B).
 
 **F6 CI workflow.** Add `.github/workflows/web.yml`:
 - runs on `ubuntu-latest`, triggered by `pull_request` + `push`, with `permissions: contents: read` and actions pinned to commit SHAs
