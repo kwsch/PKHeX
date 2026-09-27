@@ -27,7 +27,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         }
     }
 
-    [Theory]
+    [TierTheory(TestCategory.RealSave)]
     [MemberData(nameof(RealCases))]
     public async Task RealSavePublishedRoundTrip(string engine, string prefix, string family)
     {

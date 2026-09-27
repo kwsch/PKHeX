@@ -52,7 +52,7 @@ public sealed class FileInteropTests(PublishedAppFixture app)
         }
         """;
 
-    [Theory]
+    [TierTheory(TestCategory.E2E)]
     [MemberData(nameof(PublishedAppFixture.BrowserCases), MemberType = typeof(PublishedAppFixture))]
     public async Task DroppedFileUsesPickerPipelineAndRefusalsKeepSession(string engine, string prefix)
     {
@@ -106,7 +106,7 @@ public sealed class FileInteropTests(PublishedAppFixture app)
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred.");
     }
 
-    [Theory]
+    [TierTheory(TestCategory.E2E)]
     [MemberData(nameof(PublishedAppFixture.BrowserCases), MemberType = typeof(PublishedAppFixture))]
     public async Task PickerNamesAreSanitisedAndFoldersAreRefused(string engine, string prefix)
     {

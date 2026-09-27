@@ -22,7 +22,9 @@ public sealed class PublishedAppCollection : ICollectionFixture<PublishedAppFixt
 /// </summary>
 /// <remarks>
 /// xUnit creates this fixture only when a test in <see cref="PublishedAppCollection"/> is selected, so Unit-only runs never need a publish or browsers.
-/// When one is selected and the publish output is missing, initialisation throws and every test in the collection fails rather than skips.
+/// A run that ignores the category filter, such as <c>vstest.console</c> on the assembly, still creates it for the skipped tests of a tier that is not opted in;
+/// initialisation then throws, which xUnit does not report against skipped tests.
+/// When a tier is opted in and the publish output is missing, initialisation throws and every test in the collection fails rather than skips.
 /// </remarks>
 public sealed class PublishedAppFixture : IAsyncLifetime
 {

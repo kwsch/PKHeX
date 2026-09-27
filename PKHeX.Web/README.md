@@ -27,6 +27,7 @@ Private files are supplied through environment variables; never copy them into s
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export PKHEX_XY_SAVE='/absolute/private/path/to/xy-save'
 export PKHEX_ORAS_SAVE='/absolute/private/path/to/oras-save'
+export PKHEX_WEB_TEST_TIERS='E2E,RealSave'
 export PKHEX_WEB_PUBLISHED="$PWD/PKHeX.Web/bin/Release/publish/wwwroot"
 export PKHEX_PROOF_EVIDENCE="$(mktemp -d -t pkhex-proof-evidence)"
 
@@ -44,21 +45,29 @@ Tests/PKHeX.Web.Tests/bin/Release/net10.0/.playwright/node/darwin-arm64/node \
 Tests are split into tiers by `Category`. A run without `--filter`, including `dotnet test PKHeX.slnx`, executes only `Unit`, so desktop contributors without browsers or private saves still get a clean run. Passing any `--filter` or `--settings` replaces that default (and a filter on the solution applies to every project), so select tiers explicitly:
 
 ```sh
-dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build                              # Unit (synthetic saves, no setup)
-dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter Category=E2E         # published app + Playwright
-dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter Category=RealSave    # also needs the private saves
-dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter "Category=Unit|Category=E2E|Category=RealSave"
+dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build                                                          # Unit (synthetic saves, no setup)
+PKHEX_WEB_TEST_TIERS=E2E dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter Category=E2E             # published app + Playwright
+PKHEX_WEB_TEST_TIERS=RealSave dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter Category=RealSave   # also needs the private saves and the publish
+PKHEX_WEB_TEST_TIERS=E2E,RealSave dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter "Category=Unit|Category=E2E|Category=RealSave"
 ```
 
 Set `PLAYWRIGHT_BROWSERS_PATH` consistently for installation and testing if you want a custom browser cache location. It is separate from the machine-wide SDK.
 
-Selecting `E2E` or `RealSave` without its environment variables fails every test in that tier instead of skipping it. CI (added later) will run only `Unit` and `E2E`; `RealSave` is for local runs with private saves.
+`E2E` and `RealSave` are also opt-in: their tests run only when the tier is named in `PKHEX_WEB_TEST_TIERS` (separated by commas, semicolons or spaces; case-insensitive), and are skipped otherwise. This keeps runners that ignore the project's default filter to `Unit`: `vstest.console` run directly on the built assembly (as Azure Pipelines' VsTest task does) runs the Unit tests and skips the others instead of failing them. An opted-in tier still fails, rather than skips, when its other environment variables are missing; `RealSave` needs `PKHEX_WEB_PUBLISHED` as well as the saves, because its browser test uses the published app. A filter for a tier that is not opted in skips every test and reports success, so name the tier in both places; `PKHeX.Web/tools/trx-all-executed.sh <results.trx>` fails a run in which any test was not executed. CI runs only `Unit` and `E2E`; `RealSave` is for local runs with private saves.
 
 Browser tests share one fixture that starts a loopback-only static host for the supplied published files and checks every boot, at the root and under `/PKHeX/`: only published files are requested and none fails; each response carries the expected MIME type, `nosniff`, the Content-Security-Policy header and `Referrer-Policy`, and the page reports no CSP violations. Each test ends by checking that nothing reached the network after boot, that nothing was persisted in the browser, and that no CSP violation occurred, including across reloads. The `/PKHeX/` cases change only the served HTML base href to reproduce a subpath deployment; all application binaries are identical. The host has no upload or save-processing endpoint. An absent fixture variable or missing usable entity fails rather than silently skipping the real-save proof.
 
 Real-save tests select the first occupied, checksum-valid, writable boxed PK6 in box/slot order and fail if none exists. Party slots are not editable in this proof. Outside the edited slot and the Gen 6 block-checksum footer, the edited export must be byte-identical to the no-op export. No entity is injected into the real fixture.
 
 Evidence JSON contains only family, slot kind (box), browser/version, hosting path, timings, and pass flags. It contains no file paths, names, trainer identifiers, entity contents, or save hashes. Native reference outputs and browser downloads are compared in memory; private bytes are never included in assertion messages.
+
+## Continuous integration
+
+`.github/workflows/web.yml` runs on Linux for pull requests, and for pushes to `master` and `web/main`, that touch Core, Web or their tests. It has read-only repository permissions, no secrets, and actions pinned to commit SHAs. It installs SDK 10.0.401 and pins it with a `global.json` written outside the checkout, because the notices list the runtime pack version that SDK brings. It runs the Core tests and the Web `Unit` tier, publishes Release, checks the trim-analysis warnings against the baseline, installs the Playwright browsers and runs the `E2E` tier against that publish, with `PKHEX_WEB_TEST_TIERS=E2E` and a check that every E2E test was executed. It uploads the published `wwwroot`, the test results and reports: normalised trim warnings, the `dotnet list package --include-transitive` inventory, and a size report that is also shown in the run summary. `RealSave` never runs in CI.
+
+The E2E test `PublishesOnlyStaticDeployableFiles` keeps the publish deployable as static files: at most 20,000 files, none over 25 MiB (the Cloudflare Pages limits), only the expected asset types in their expected folders (runtime files in `_framework/`, upstream notices in `licenses/`, the app shell, license and notices at the root; so no source maps, symbols, sources or stray data files), and every precompressed `.br`/`.gz` file next to the asset it compresses. `PKHeX.Web/tools/size-report.sh <wwwroot>` prints the size report locally.
+
+Blazor hides trim-analysis warnings in a normal publish. `PKHeX.Web/tools/trim-warnings.sh` publishes again with them enabled and compares them with `PKHeX.Web/trim-warnings.baseline.txt`, ignoring source locations and the ordinals in compiler-generated names. Any difference fails: justify a new warning, or drop a fixed one, then run the script with `--update` and commit the baseline.
 
 ## Boundaries
 

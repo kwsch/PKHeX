@@ -35,18 +35,77 @@ public sealed class TestCategoryTests
     }
 
     /// <summary>
-    /// A selected tier fails when its inputs are missing (see <see cref="TestEnvironment.Required"/>); a static skip would hide that.
+    /// Opt-in tiers are skipped only through <see cref="TierFactAttribute"/>/<see cref="TierTheoryAttribute"/>, so their tier must match the class's category.
+    /// Unit tests must use exactly <see cref="FactAttribute"/>/<see cref="TheoryAttribute"/> so that they always run; any other test attribute is rejected,
+    /// because a custom subclass could skip without either guard noticing.
     /// </summary>
     [Fact]
-    public void NoTestIsSkipped()
+    public void OptInTiersUseTheMatchingTierAttribute()
     {
-        var skipped = TestMethods()
-            .Where(t => !string.IsNullOrEmpty(t.Method.GetCustomAttribute<FactAttribute>()!.Skip)
-                || t.Method.GetCustomAttributes<DataAttribute>().Any(d => !string.IsNullOrEmpty(d.Skip)))
-            .Select(t => $"{t.Type.Name}.{t.Method.Name}")
-            .ToArray();
-        Assert.True(skipped.Length == 0, $"Tests must fail rather than skip:{Environment.NewLine}{string.Join(Environment.NewLine, skipped)}");
+        var problems = new List<string>();
+        foreach (var (type, method) in TestMethods())
+        {
+            var category = GetCategories(type.GetCustomAttributesData()).Concat(GetCategories(method.GetCustomAttributesData())).FirstOrDefault();
+            var attribute = method.GetCustomAttribute<FactAttribute>()!;
+            string? tier = attribute switch
+            {
+                TierFactAttribute f => f.Tier,
+                TierTheoryAttribute t => t.Tier,
+                _ when attribute.GetType() == typeof(FactAttribute) || attribute.GetType() == typeof(TheoryAttribute) => TestCategory.Unit,
+                _ => null,
+            };
+            if (tier is null)
+            {
+                problems.Add($"{type.Name}.{method.Name}: unsupported test attribute {attribute.GetType().Name}");
+            }
+            else if (tier != category)
+            {
+                problems.Add($"{type.Name}.{method.Name}: category {category}, attribute tier {tier}");
+            }
+        }
+
+        Assert.True(problems.Count == 0, $"Use [Fact]/[Theory] for Unit and [TierFact]/[TierTheory] with the class's category otherwise:{Environment.NewLine}{string.Join(Environment.NewLine, problems)}");
     }
+
+    /// <summary>
+    /// An opted-in tier fails when its inputs are missing (see <see cref="TestEnvironment.Required"/>); any other skip would hide that.
+    /// The only skip allowed is the tier attributes' own <see cref="TestEnvironment.SkipUnlessOptedIn"/> reason; data rows may not skip at all.
+    /// Skips are read from the attribute instances, so skips set in a constructor are found as well as <c>Skip = ...</c> arguments.
+    /// </summary>
+    [Fact]
+    public void NoTestIsSkippedExceptByTheOptIn()
+    {
+        var skipped = new List<string>();
+        foreach (var (type, method) in TestMethods())
+        {
+            var attribute = method.GetCustomAttribute<FactAttribute>()!;
+            var allowed = attribute switch
+            {
+                TierFactAttribute f => TestEnvironment.SkipUnlessOptedIn(f.Tier),
+                TierTheoryAttribute t => TestEnvironment.SkipUnlessOptedIn(t.Tier),
+                _ => null,
+            };
+            if (attribute.Skip != allowed || method.GetCustomAttributes<DataAttribute>().Any(d => !string.IsNullOrEmpty(d.Skip)))
+            {
+                skipped.Add($"{type.Name}.{method.Name}");
+            }
+        }
+
+        Assert.True(skipped.Count == 0, $"Tests must fail rather than skip:{Environment.NewLine}{string.Join(Environment.NewLine, skipped)}");
+    }
+
+    [Theory]
+    [InlineData(TestCategory.Unit, null, true)]
+    [InlineData(TestCategory.Unit, "E2E", true)]
+    [InlineData(TestCategory.E2E, null, false)]
+    [InlineData(TestCategory.E2E, "", false)]
+    [InlineData(TestCategory.E2E, "E2E", true)]
+    [InlineData(TestCategory.E2E, " e2e ; RealSave ", true)]
+    [InlineData(TestCategory.RealSave, "E2E,RealSave", true)]
+    [InlineData(TestCategory.RealSave, "E2E RealSave", true)]
+    [InlineData(TestCategory.E2E, "E2EX,Real", false)]
+    [InlineData(TestCategory.RealSave, "E2E", false)]
+    public void TiersAreOptInAndUnitAlwaysRuns(string tier, string? optIn, bool expected) => Assert.Equal(expected, TestEnvironment.IsOptedIn(tier, optIn));
 
     /// <summary>Every <see cref="FactAttribute"/> (including <see cref="TheoryAttribute"/>) method in this assembly.</summary>
     private static IEnumerable<(Type Type, MethodInfo Method)> TestMethods()

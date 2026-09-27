@@ -6,7 +6,8 @@ namespace PKHeX.Web.Tests;
 /// <remarks>
 /// A run without <c>--filter</c> or <c>--settings</c> (including <c>dotnet test PKHeX.slnx</c>) executes only <see cref="Unit"/>; see <c>PKHeX.Web.Tests.runsettings</c>.
 /// <see cref="TestCategoryTests"/> fails if a test has no tier or more than one.
-/// The other tiers must be selected explicitly, and they fail rather than skip when their inputs are missing (<see cref="TestEnvironment.Required"/>).
+/// The other tiers are opt-in: they run only when named in <see cref="TestEnvironment.Tiers"/> (their tests use <see cref="TierFactAttribute"/> or <see cref="TierTheoryAttribute"/>),
+/// and select them with the filter as well. An opted-in tier fails rather than skips when its inputs are missing (<see cref="TestEnvironment.Required"/>).
 /// Browser tests share <see cref="PublishedAppFixture"/>; real-save tests read their inputs through <see cref="RealSaves.Read"/>.
 /// </remarks>
 internal static class TestCategory

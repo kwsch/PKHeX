@@ -8,7 +8,7 @@ namespace PKHeX.Web.Tests;
 [Trait(TestCategory.Name, TestCategory.RealSave)]
 public sealed class RealSavePreflightTests
 {
-    [Theory]
+    [TierTheory(TestCategory.RealSave)]
     [InlineData("XY")]
     [InlineData("ORAS")]
     public void RealSaveNativePreflight(string family)

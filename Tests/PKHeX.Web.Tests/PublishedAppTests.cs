@@ -13,7 +13,16 @@ namespace PKHeX.Web.Tests;
 [Trait(TestCategory.Name, TestCategory.E2E)]
 public sealed class PublishedAppTests(PublishedAppFixture app)
 {
-    [Theory]
+    /// <summary>Most files a Cloudflare Pages deployment may contain.</summary>
+    private const int MaxDeployedFiles = 20_000;
+
+    /// <summary>Largest single file a Cloudflare Pages deployment accepts (25 MiB).</summary>
+    private const long MaxDeployedFileBytes = 25L * 1024 * 1024;
+
+    /// <summary>Extensions of the precompressed copies the publish places next to an uncompressed asset.</summary>
+    private static readonly HashSet<string> PrecompressedExtensions = [".br", ".gz"];
+
+    [TierTheory(TestCategory.E2E)]
     [MemberData(nameof(PublishedAppFixture.BrowserCases), MemberType = typeof(PublishedAppFixture))]
     public async Task BootsWithDeploymentHeadersAndNoPersistence(string engine, string prefix)
     {
@@ -32,7 +41,7 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred during boot.");
     }
 
-    [Fact]
+    [TierFact(TestCategory.E2E)]
     public void PublishesLicenseAndNotices()
     {
         var root = SaveFixtures.RepositoryRoot;
@@ -79,7 +88,52 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
         Assert.Empty(rows.Where(r => r.Section == NoticesInventory.Section.Trimmed && withFiles.Contains(r.Id)).Select(r => r.Id));
     }
 
-    [Theory]
+    [TierFact(TestCategory.E2E)]
+    public void PublishesOnlyStaticDeployableFiles()
+    {
+        var files = Directory.EnumerateFiles(app.Root, "*", SearchOption.AllDirectories).ToList();
+        Assert.True(files.Count <= MaxDeployedFiles, $"The publish has {files.Count} files; the host limit is {MaxDeployedFiles}.");
+
+        foreach (var file in files)
+        {
+            var name = Path.GetRelativePath(app.Root, file);
+            var size = new FileInfo(file).Length;
+            Assert.True(size <= MaxDeployedFileBytes, $"Published {name} is {size} bytes; the host limit is {MaxDeployedFileBytes}.");
+
+            // A precompressed copy must sit next to the deployable asset it compresses.
+            var asset = file;
+            if (PrecompressedExtensions.Contains(Path.GetExtension(file)))
+            {
+                asset = file[..^Path.GetExtension(file).Length];
+                Assert.True(File.Exists(asset), $"Published {name} has no uncompressed asset next to it.");
+            }
+            Assert.True(IsDeployableAsset(Path.GetRelativePath(app.Root, asset)), $"Published {name} is not an expected static asset in that location.");
+        }
+    }
+
+    /// <summary>
+    /// Whether a published (uncompressed) file is one a Release publish is expected to contain, by folder and type.
+    /// Anything else, such as source maps, symbols, sources, project files, save-like or extensionless files like <c>main</c>, must not be deployed.
+    /// </summary>
+    /// <param name="relativePath">Path relative to the published <c>wwwroot</c>.</param>
+    private static bool IsDeployableAsset(string relativePath)
+    {
+        var directory = Path.GetDirectoryName(relativePath)?.Replace(Path.DirectorySeparatorChar, '/') ?? "";
+        var fileName = Path.GetFileName(relativePath);
+        var extension = Path.GetExtension(fileName);
+        return directory switch
+        {
+            // Runtime, assemblies and ICU data.
+            "_framework" => extension is ".wasm" or ".js" or ".dat",
+            // Upstream .NET notices.
+            "licenses" => extension is ".txt",
+            // App shell, scripts and styles, plus the license and notices.
+            "" => extension is ".html" or ".css" or ".js" || fileName is "LICENSE.txt" or "THIRD-PARTY-NOTICES.md",
+            _ => false,
+        };
+    }
+
+    [TierTheory(TestCategory.E2E)]
     [MemberData(nameof(PublishedAppFixture.BrowserCases), MemberType = typeof(PublishedAppFixture))]
     public async Task PublishedFailuresDraftsAndKnownLegality(string engine, string prefix)
     {

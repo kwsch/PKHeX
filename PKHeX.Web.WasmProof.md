@@ -77,15 +77,16 @@ export PKHEX_ORAS_SAVE='/absolute/private/path/to/oras-save'
 OUT="$(mktemp -d)"
 export PKHEX_WEB_PUBLISHED="$OUT/wwwroot"
 export PKHEX_PROOF_EVIDENCE="$(mktemp -d)"
+export PKHEX_WEB_TEST_TIERS='E2E,RealSave'
 
 dotnet publish PKHeX.Web/PKHeX.Web.csproj -c Release -o "$OUT"
 dotnet build Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release
 P=Tests/PKHeX.Web.Tests/bin/Release/net10.0/.playwright
 "$P/node/darwin-arm64/node" "$P/package/cli.js" install chromium firefox webkit
-dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build
+dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter "Category=E2E|Category=RealSave"
 ```
 
-If a required variable is missing, the tests fail rather than skip.
+The browser and real-save tiers run only when named in `PKHEX_WEB_TEST_TIERS` and selected by the filter; without the opt-in they are skipped. Once opted in, a missing required variable fails the tests rather than skipping them. (This procedure was updated after the proof: at the time the tiers were not yet split, and a plain `dotnet test` ran everything.)
 
 ## What the tests check
 
