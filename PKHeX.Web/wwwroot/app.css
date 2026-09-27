@@ -1,0 +1,10 @@
+:root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+body { margin: 0; }
+main { max-width: 56rem; margin: auto; padding: 1.5rem; }
+section { border: 1px solid #888; border-radius: .5rem; padding: 1rem; margin: 1rem 0; }
+label { display: block; margin-block: .7rem .3rem; }
+button, input, select { font: inherit; padding: .6rem; max-width: 100%; box-sizing: border-box; }
+button { margin: .5rem .5rem .5rem 0; min-height: 44px; }
+:focus-visible { outline: 3px solid #397bd9; outline-offset: 3px; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+#blazor-error-ui { display: none; padding: 1rem; border: 2px solid #c44; }

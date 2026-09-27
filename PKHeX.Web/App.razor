@@ -1,0 +1,276 @@
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<PageTitle>PKHeX Web — WASM proof</PageTitle>
+<main>
+    <h1>PKHeX Web — local WASM proof</h1>
+    <p>Your save is processed entirely on this device and is never uploaded.</p>
+    <p>Raw XY/ORAS only. Changes are temporary until you download them. Reloading discards this session.</p>
+    <label for="save-file">Open a local save (maximum 16 MiB)</label>
+    <InputFile id="save-file" OnChange="OpenFile" disabled="@busy" />
+    <p id="message" role="status">@message</p>
+    @if (pending is not null)
+    {
+        <section aria-label="Replace session">
+            <p>The current session contains changes. Download them first, or explicitly discard this session.</p>
+            <button id="replace-confirm" @onclick="ConfirmReplace" disabled="@busy">Discard current session and open</button>
+            <button id="replace-cancel" @onclick="CancelReplace" disabled="@busy">Keep current session</button>
+        </section>
+    }
+    @if (session is not null)
+    {
+        <section aria-label="Save overview">
+            <h2>Loaded save</h2>
+            <p>Family: <strong id="family">@session.Family</strong>. Integrity: <strong id="integrity">Valid</strong>.</p>
+            <p id="session-state">@(session.HasChangesSinceOpen ? "Edited in memory" : "Unmodified session")</p>
+            <label for="slot">Occupied box slot</label>
+            <select id="slot" value="@(draft?.SlotIndex ?? -1)" @onchange="SelectSlot" disabled="@(DraftDirty || busy || !draftValid)">
+                <option value="-1">Choose a slot</option>
+                @foreach (var index in session.OccupiedSlots)
+                {
+                    <option value="@index">@session.SlotLabel(index)</option>
+                }
+            </select>
+            @if (session.OccupiedSlots.Count == 0)
+            {
+                <p>No occupied box slots were found. A no-op round trip is still available.</p>
+            }
+        </section>
+        @if (draft is not null)
+        {
+            <section aria-label="Nickname editor">
+                <h2>Nickname draft</h2>
+                <label for="nickname">Nickname</label>
+                <input id="nickname" value="@nickname" @oninput="NicknameChanged" maxlength="@draft.MaxNicknameLength" />
+                <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="NicknameFlagChanged" /> Is nicknamed</label>
+                <p id="draft-state">@(DraftDirty ? "Unapplied draft" : "No draft changes")</p>
+                <button id="analyze" @onclick="Analyze">Analyze legality</button>
+                <button id="apply" @onclick="Apply" disabled="@(!DraftDirty || !draftValid)">Apply nickname</button>
+                <button id="cancel-draft" @onclick="CancelDraft">Cancel draft</button>
+                <p>Legality is diagnostic. Applying does not legalize or change ownership, dex entries, or trainer records.</p>
+                <p id="legality-status" role="status">@verdict</p>
+                <pre id="legality-report">@report</pre>
+            </section>
+        }
+        <button id="download" @onclick="Download" disabled="@(DraftDirty || busy || !draftValid)">Download validated save</button>
+        <p>Output is named <code>main</code>. Download initiation does not confirm it was saved to disk. Verify your file before closing.</p>
+    }
+</main>
+
+@code {
+    private SaveSession? session, pending;
+    private EditorDraft? draft;
+    private IJSObjectReference? browser;
+    private string message = "Choose a save to begin.", nickname = "", verdict = "Not analyzed", report = "";
+    private bool nicknamed, busy, draftValid = true;
+
+    private bool DraftDirty => draft?.IsDirty == true;
+    private bool HasUnsavedWork => session?.HasChangesSinceOpen == true || DraftDirty || !draftValid;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            browser = await JS.InvokeAsync<IJSObjectReference>("import", "./browser.js");
+        }
+        if (browser is not null)
+        {
+            await browser.InvokeVoidAsync("setDirty", HasUnsavedWork);
+        }
+    }
+
+    private async Task OpenFile(InputFileChangeEventArgs e)
+    {
+        busy = true;
+        pending = null;
+        try
+        {
+            if (e.File.Size > SaveLoader.MaxInputBytes)
+            {
+                throw new InvalidDataException("The file exceeds the 16 MiB limit.");
+            }
+            using var stream = e.File.OpenReadStream(SaveLoader.MaxInputBytes);
+            using var bytes = new MemoryStream();
+            await stream.CopyToAsync(bytes);
+            var candidate = SaveLoader.Load(bytes.ToArray());
+            if (HasUnsavedWork)
+            {
+                pending = candidate;
+                message = "Resolve the existing session before replacement.";
+            }
+            else
+            {
+                SetSession(candidate);
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+
+    private void SetSession(SaveSession candidate)
+    {
+        session = candidate;
+        pending = null;
+        draft = null;
+        nickname = report = "";
+        verdict = "Not analyzed";
+        draftValid = true;
+        message = "Save loaded locally; checksums valid.";
+    }
+
+    private void ConfirmReplace()
+    {
+        if (pending is not null)
+        {
+            SetSession(pending);
+        }
+    }
+
+    private void CancelReplace()
+    {
+        pending = null;
+        message = "Current session retained.";
+    }
+
+    private void SelectSlot(ChangeEventArgs e)
+    {
+        try
+        {
+            var index = int.Parse(e.Value!.ToString()!);
+            if (index < 0)
+            {
+                draft = null;
+                message = "Choose a slot to edit.";
+                return;
+            }
+            draft = session!.Select(index);
+            SyncDraft();
+            message = "Slot selected. Only nickname fields can be changed.";
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+    }
+
+    private void SyncDraft()
+    {
+        nickname = draft!.Nickname;
+        nicknamed = draft.IsNicknamed;
+        draftValid = true;
+        verdict = "Not analyzed";
+        report = "";
+    }
+
+    private void NicknameChanged(ChangeEventArgs e)
+    {
+        nickname = e.Value?.ToString() ?? "";
+        UpdateDraft();
+    }
+
+    private void NicknameFlagChanged(ChangeEventArgs e)
+    {
+        nicknamed = e.Value is true;
+        UpdateDraft();
+    }
+
+    private void UpdateDraft()
+    {
+        verdict = "Stale — analyze the current draft";
+        report = "";
+        try
+        {
+            draft!.EditNickname(nickname, nicknamed);
+            draftValid = true;
+        }
+        catch (Exception ex)
+        {
+            draftValid = false;
+            ShowError(ex);
+        }
+    }
+
+    private void Analyze()
+    {
+        if (!draftValid)
+        {
+            message = "Correct or cancel the invalid draft first.";
+            return;
+        }
+        try
+        {
+            var result = draft!.Analyze(session!);
+            verdict = result.Verdict;
+            report = result.Report;
+        }
+        catch
+        {
+            verdict = "Unavailable";
+            report = "Analysis could not complete. No changes were made.";
+        }
+    }
+
+    private void Apply()
+    {
+        try
+        {
+            session!.Apply(draft!);
+            draft = session.Select(draft!.SlotIndex);
+            SyncDraft();
+            message = "Nickname applied in memory; download to retain changes.";
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+    }
+
+    private void CancelDraft()
+    {
+        draft = session!.Select(draft!.SlotIndex);
+        SyncDraft();
+        message = "Draft canceled.";
+    }
+
+    private async Task Download()
+    {
+        busy = true;
+        try
+        {
+            // The session can be replaced while the download is awaited, so mark the one that was exported.
+            var exported = session!;
+            var revision = exported.Revision;
+            var data = SaveExporter.Export(exported, draft);
+            using var stream = new MemoryStream(data);
+            using var reference = new DotNetStreamReference(stream);
+            await browser!.InvokeVoidAsync("download", reference);
+            exported.MarkExported(revision);
+            message = "Download started — verify your file. The session remains temporary.";
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+
+    private void ShowError(Exception ex) => message = ex is InvalidDataException ? ex.Message : "Operation failed. The previous session was retained; no file was overwritten.";
+
+    public async ValueTask DisposeAsync()
+    {
+        if (browser is not null)
+        {
+            await browser.InvokeVoidAsync("setDirty", false);
+            await browser.DisposeAsync();
+        }
+    }
+}

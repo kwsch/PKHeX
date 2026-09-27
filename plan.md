@@ -11,6 +11,14 @@ Remaining goals:
 
 Each numbered chunk below is **one commit**. Every commit must build, and its tests must pass.
 
+## Reference project
+
+`PKForge` (`../PKForge`, Android save editor on `PKHeX.Core`) is the reference project. **Every chunk, in every phase, must be compared against it before it is considered done.**
+- Find PKForge's code for the same job (e.g. `src/PKForge.Engine/SaveParser.cs`, `SaveEngineSession.cs`, `WriteSafety.cs`, `src/PKForge.Infrastructure/SafeSaveWriter.cs`) and its tests (`tests/PKForge.*.Tests`).
+- Record, in the chunk's review: what we match, where we are deliberately stricter or different (and why), and what PKForge does that we don't. Each gap is either adopted in the chunk or assigned to a named later chunk in this plan.
+- Verify PKForge's claims about Core against Core's source before relying on them. PKForge is prior art, not an authority; Core's behaviour and this plan's requirements win.
+- Skip what is out of Web scope (emulator containers, ROM hacks, backups/restore points, bank storage), but say so in the review.
+
 ## Branching
 
 - Remotes: `origin` = `jcreek/PKHeX` (fork), `upstream` = `kwsch/PKHeX`. The upstream default branch is `master`.
@@ -109,6 +117,8 @@ Branch `web/foundation` from `web/main`.
 - Commit `Tests/PKHeX.Web.Tests/`. Try replacing the linked `<Compile Include=…ProofSession.cs>` with a `ProjectReference` to `PKHeX.Web`. If the BlazorWebAssembly SDK blocks that, keep linked compile items for `State/` and `Services/`.
 - `.gitignore` publish output.
 
+**F1 status:** code complete on `web/foundation` (staged, not committed). Unit, synthetic E2E and RealSave tiers pass. `.gitignore` needed no change (`bin/` and `publish/` already cover the publish output). Compared with PKForge: copy-before-parse and `EntityImportSettings.None` match; the unchanged-round-trip check goes to M2 and the structural slot diff to M9.
+
 **F2 Solution integration.** Add `PKHeX.Web` and `PKHeX.Web.Tests` to `PKHeX.slnx` and `PKHeX.sln`. Confirm they inherit from `Directory.Build.props` (C# 14, nullable) and fix any new nullable warnings. Pin `Microsoft.AspNetCore.Components.WebAssembly` to 10.0.12. Do not add a repo-wide `global.json`.
 
 **F3 Split test tiers.**
@@ -148,8 +158,10 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
 ### Slice A — load, browse, no-op export
 - **M1 Shell.** Start screen with privacy copy ("processed entirely on this device…"), supported formats, temporary-state warning, and Open + keyboard-accessible drop zone. About panel shows version/Core commit (F5), licenses and the support matrix. Top-level `ErrorBoundary` with safe reset (WEB-APP-001–004, ERR-003).
 - **M2 Load pipeline + error taxonomy.** Typed outcomes: `Empty`, `TooLarge`, `ReadFailed`, `Unrecognized`, `RecognizedNotEnabled(family)`, `IntegrityFailed`, `ParserFault`. The replacement candidate is parsed before the old session is touched, and failure keeps the session (SAVE-001–004, ERR-001/002/004). Extends the proof's failure-path tests.
+  - Unchanged round trip at open (from PKForge `SaveEngineSession.ValidateUnchangedRoundTrip`): `Write()` of the freshly parsed, unmodified save must equal the original bytes, otherwise the outcome is `IntegrityFailed`. This catches saves that pass their checksums but that Core would not write back identically.
+  - Move user-facing wording out of `State/` and `Services/`: `SaveLoader`, `SaveSession` and `EditorDraft` currently throw `InvalidDataException` with display messages (carried over from the proof). They return or throw typed outcomes instead, and the UI maps them to text.
 - **M3 Overview.** Trainer name, game, language, TID/SID in the save's display format (`TrainerIDFormat`), playtime, money, sanitised filename and size, integrity status. Unknown values are labelled, never invented (OVERVIEW-001/002, SAVE-007).
-- **M4 Party + box grid.** Party strip plus the current box only. Box selector and prev/next use Core `BoxCount`/`BoxSlotCount` and box names. The grid is a single tab stop with arrow keys and Enter, plus a list alternative. Slots are labelled with coordinates and species text. Empty slots never open a stale entity (PARTY-001, BOX-001/008, A11Y-001).
+- **M4 Party + box grid.** Party strip plus the current box only. Box selector and prev/next use Core `BoxCount`/`BoxSlotCount` and box names. The grid is a single tab stop with arrow keys and Enter, plus a list alternative. Slots are labelled with coordinates and species text. Empty slots never open a stale entity (PARTY-001, BOX-001/008, A11Y-001). Slot labels are built in the UI from box/slot coordinates, replacing `SaveSession.SlotLabel`.
 - **M5 Sprite catalog.**
   - (a) Build-time generator: it reads the existing `PKHeX.Drawing.PokeSprite` resource images and emits a fixed atlas + JSON manifest into `wwwroot`. It is reproducible, and a provenance note is committed.
   - (b) Runtime `SpriteCatalog` loads the whole atlas before file input is enabled. It resolves species/form/gender/shiny, falls back to a text placeholder, and makes no per-entity requests. E2E asserts identical request traces for two different saves (BOX-004, PERF-003, SEC-001).
@@ -162,6 +174,7 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
 - **M9 Generalised apply transaction + party.**
   - Apply stages on a `working.Clone()` and runs `ISlotInfo.CanWriteTo` for slot + entity with `EntityImportSettings.None`. It verifies the stored slot, checks party count is unchanged, and swaps atomically with a revision bump. A no-op apply is not a change.
   - Covers party slots too. It implements the **PK6 party-stat policy** from `PKHeX.Web.md` §State model: non-stat edits keep stored stats/HP/status; stat-affecting edits recalculate, keep status, and clamp HP to min(prev, newMax); fainted stays at 0. An HP-reduction preview is shown.
+  - Structural slot diff before the swap (from PKForge `WriteSafety.CheckWriteSafety`): compare every party and box slot of the working save and the staged candidate. Refuse the apply if any slot outside the targeted one changed, or if a readable entity became unreadable. This moves the slot-level part of the proof test's `AssertOnlyRangeDiffers` guarantee into the app. The slot diff does not cover non-slot blocks (dex, records), so keep the whole-file byte-range check as a test oracle.
   - Failure-injection tests (SESSION-002, TEST-003).
 - **M10 Nickname/language + friendship.** Covers the nickname flag, Core encoding/length checks with no silent truncation, language change shown with its default-name implications, and the labelled OT friendship value (PKM-003, 006).
 - **M11 Level/EXP, nature, stats/characteristic.** Level and EXP stay in sync through `Experience`. PK6 nature is independent of PID. Calculated stats and characteristic are shown on the clone (PKM-005, 007, 014).
@@ -196,5 +209,6 @@ MVP exit = every "Must / MVP" story in `PKHeX.Web.md` §Prioritised implementati
 - `dotnet publish PKHeX.Web/PKHeX.Web.csproj -c Release -o $OUT`, then `--filter Category=E2E` with `PKHEX_WEB_PUBLISHED=$OUT/wwwroot`.
 - Before Phase 3 PRs and after M9/M15/M19: `--filter Category=RealSave` with the private XY/ORAS env vars (proof README procedure).
 - Trim-warning baseline unchanged, or the diff explained in the commit.
+- PKForge comparison done and recorded (see "Reference project").
 - Phase 1 also needs a Windows WinForms build (F7 job or local) and the R3 Windows checklist (gate G-E).
 - Manually drive the app with `python3 -m http.server` on the published `wwwroot` for UI chunks.
