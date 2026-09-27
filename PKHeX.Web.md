@@ -78,7 +78,7 @@ Repository findings are source inspection, not runtime proof. A negative text se
 
 ### Projects and reusable capabilities
 
-[Directory.Build.props](Directory.Build.props) specifies version `26.08.26`, C# 14, and nullable references. Both [PKHeX.sln](PKHeX.sln) and [PKHeX.slnx](PKHeX.slnx) exist. The latter includes Core, Drawing, Drawing.PokeSprite, Drawing.Misc, WinForms, and Core tests. It references `LICENSE.md`, while this checkout's file is `LICENSE`; this pre-existing discrepancy is not a reason to rename files in a Web contribution.
+[Directory.Build.props](Directory.Build.props) specifies version `26.08.26`, C# 14, and nullable references. [PKHeX.slnx](PKHeX.slnx) is the only solution (the legacy `PKHeX.sln` was removed in F2). It includes Core, Drawing, Drawing.PokeSprite, Drawing.Misc, WinForms, Web, and the Core and Web tests. It references `LICENSE.md`, while this checkout's file is `LICENSE`; this pre-existing discrepancy is not a reason to rename files in a Web contribution.
 
 | Area | Actual implementation | Web consequence |
 |---|---|---|
@@ -135,7 +135,7 @@ The architectural lesson is small UI/application adapters over Core with explici
 
 ## Technology choice
 
-Use `PKHeX.Web/PKHeX.Web.csproj`, standalone `Microsoft.NET.Sdk.BlazorWebAssembly`, `net10.0`, direct reference to Core, and inherited repository C# settings. Add it to both maintained solution formats. No ASP.NET server project, SSR, SignalR circuit, hosted Blazor template, or “Auto” rendering mode is required. All rendering and domain work run in the client.
+Use `PKHeX.Web/PKHeX.Web.csproj`, standalone `Microsoft.NET.Sdk.BlazorWebAssembly`, `net10.0`, direct reference to Core, and inherited repository C# settings. Add it to `PKHeX.slnx`, the only solution file. No ASP.NET server project, SSR, SignalR circuit, hosted Blazor template, or “Auto” rendering mode is required. All rendering and domain work run in the client.
 
 Start with the normal interpreter/Jiterpreter configuration and Release trimming. AOT is an optional measured optimization, not a compatibility fix; larger downloads and toolchain cost must be justified by legality benchmarks. Do not describe browser execution as ordinary desktop JIT. Microsoft documents this tradeoff in [WebAssembly build tools and AOT](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-10.0).
 

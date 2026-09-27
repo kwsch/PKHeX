@@ -4,7 +4,16 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
+    <WarningsAsErrors>$(WarningsAsErrors);nullable</WarningsAsErrors>
     <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <!--
+    Plain runs execute only the Unit tier; see TestCategory.cs.
+    VSTest ANDs a runsettings filter with `dotnet test` filters, so the default applies only when no filter is given.
+  -->
+  <PropertyGroup Condition="'$(VSTestTestCaseFilter)' == ''">
+    <RunSettingsFilePath>$(MSBuildThisFileDirectory)PKHeX.Web.Tests.runsettings</RunSettingsFilePath>
   </PropertyGroup>
 
   <ItemGroup>

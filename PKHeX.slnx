@@ -6,10 +6,12 @@
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="Tests/PKHeX.Core.Tests/PKHeX.Core.Tests.csproj" />
+    <Project Path="Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj" />
   </Folder>
   <Project Path="PKHeX.Core/PKHeX.Core.csproj" />
   <Project Path="PKHeX.Drawing.Misc/PKHeX.Drawing.Misc.csproj" />
   <Project Path="PKHeX.Drawing.PokeSprite/PKHeX.Drawing.PokeSprite.csproj" />
   <Project Path="PKHeX.Drawing/PKHeX.Drawing.csproj" />
+  <Project Path="PKHeX.Web/PKHeX.Web.csproj" />
   <Project Path="PKHeX.WinForms/PKHeX.WinForms.csproj" />
 </Solution>

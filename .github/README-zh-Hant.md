@@ -45,4 +45,4 @@ PKHeX 之異色精靈圖示集合庫來源於 [pokesprite](https://github.com/ms
 PKHeX 之「寶可夢傳説：阿爾宙斯」精靈圖示集合庫來源於 [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) 項目，及其多位各界協作者和貢獻者。
 ### IDE
 
-PKHeX 可透過如 [Visual Studio](https://visualstudio.microsoft.com/downloads/) 等各類 IDE ，開啓 .sln 或 .csproj 檔案以打開。
+PKHeX 可透過如 [Visual Studio](https://visualstudio.microsoft.com/downloads/) 等各類 IDE ，開啓 .slnx 或 .csproj 檔案以打開。

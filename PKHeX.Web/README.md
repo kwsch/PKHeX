@@ -2,7 +2,7 @@
 
 This is a standalone .NET 10 Blazor WebAssembly experiment, not the full PKHeX.Web MVP. It opens raw XY/ORAS saves locally, edits an existing boxed Pokémon’s nickname fields, runs Core legality analysis, and downloads a validated save. No save-processing server, upload API, persistent browser storage, analytics, sprites, or external runtime assets are used.
 
-Install Microsoft's .NET 10 SDK for your platform. The verified development environment uses the machine-wide ARM64 SDK 10.0.401 and runtime 10.0.12. The Web package is pinned to 10.0.12; tests use Microsoft.Playwright 1.63.0. No repository-wide SDK pin or solution changes are required by this proof.
+Install Microsoft's .NET 10 SDK for your platform. The verified development environment uses the machine-wide ARM64 SDK 10.0.401 and runtime 10.0.12. The Web package is pinned to 10.0.12; tests use Microsoft.Playwright 1.63.0. No repository-wide SDK pin is required. Both projects are part of `PKHeX.slnx`.
 
 From the repository root:
 
@@ -33,8 +33,15 @@ Install the browsers matching the pinned Playwright package. If PowerShell is in
 Tests/PKHeX.Web.Tests/bin/Release/net10.0/.playwright/node/darwin-arm64/node \
   Tests/PKHeX.Web.Tests/bin/Release/net10.0/.playwright/package/cli.js \
   install chromium firefox webkit
+```
 
-dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build
+Tests are split into tiers by `Category`. A run without `--filter`, including `dotnet test PKHeX.slnx`, executes only `Unit`, so desktop contributors without browsers or private saves still get a clean run. Passing any `--filter` or `--settings` replaces that default (and a filter on the solution applies to every project), so select tiers explicitly:
+
+```sh
+dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build                              # Unit (synthetic saves, no setup)
+dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter Category=E2E         # published app + Playwright
+dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter Category=RealSave    # also needs the private saves
+dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter "Category=Unit|Category=E2E|Category=RealSave"
 ```
 
 Set `PLAYWRIGHT_BROWSERS_PATH` consistently for installation and testing if you want a custom browser cache location. It is separate from the machine-wide SDK.

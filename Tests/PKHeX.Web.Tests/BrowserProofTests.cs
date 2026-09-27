@@ -39,6 +39,7 @@ public sealed class BrowserProofTests
 
     [Theory]
     [MemberData(nameof(RealCases))]
+    [Trait(TestCategory.Name, TestCategory.RealSave)]
     public async Task RealSavePublishedRoundTrip(string engine, string prefix, string family)
     {
         // Private fixture: validate it natively before any browser run.
@@ -155,6 +156,7 @@ public sealed class BrowserProofTests
 
     [Theory]
     [MemberData(nameof(BrowserCases))]
+    [Trait(TestCategory.Name, TestCategory.E2E)]
     public async Task PublishedFailuresDraftsAndKnownLegality(string engine, string prefix)
     {
         // Boot the published app.

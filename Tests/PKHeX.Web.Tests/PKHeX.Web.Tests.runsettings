@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Default run settings for PKHeX.Web.Tests.
+    A plain `dotnet test` (including `dotnet test PKHeX.slnx`) runs only the self-contained Unit tier.
+    E2E and RealSave need a published app, Playwright browsers and private saves, so select them explicitly
+    with a Category filter on the command line (see TestCategory.cs). The project applies this file only when no
+    filter is given, because VSTest would otherwise AND the two filters together. Passing another file with
+    the settings option replaces this one entirely.
+-->
+<RunSettings>
+    <RunConfiguration>
+        <TestCaseFilter>Category=Unit</TestCaseFilter>
+    </RunConfiguration>
+</RunSettings>

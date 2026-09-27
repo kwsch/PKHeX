@@ -45,4 +45,4 @@ La collection de sprites Légendes Pokémon : Arceus de PKHeX est tirée du proj
 
 ## IDE
 
-PKHeX peut être ouvert avec des IDEs tels que [Visual Studio](https://visualstudio.microsoft.com/fr/downloads/) en ouvrant le fichier .sln ou .csproj.
+PKHeX peut être ouvert avec des IDEs tels que [Visual Studio](https://visualstudio.microsoft.com/fr/downloads/) en ouvrant le fichier .slnx ou .csproj.

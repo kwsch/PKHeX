@@ -6,6 +6,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>Native Core validation of the private real fixtures before any browser run.</summary>
+[Trait(TestCategory.Name, TestCategory.RealSave)]
 public sealed class RealSavePreflightTests
 {
     [Theory]

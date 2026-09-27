@@ -46,4 +46,4 @@ PKHeX의 Pokémon LEGENDS 아르세우스 스프라이트 컬렉션은 [National
 
 ### IDE(통합 개발 환경)
 
-PKHeX는 .sln 또는 .csproj 파일을 열어 [Visual Studio](https://visualstudio.microsoft.com/downloads/)와 같은 IDE(통합 개발 환경)로 열 수 있습니다.
+PKHeX는 .slnx 또는 .csproj 파일을 열어 [Visual Studio](https://visualstudio.microsoft.com/downloads/)와 같은 IDE(통합 개발 환경)로 열 수 있습니다.

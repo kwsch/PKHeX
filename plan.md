@@ -6,7 +6,7 @@
 
 Remaining goals:
 2. **Narrowly justified shared refactors.** These are upstream PRs to `kwsch/PKHeX`. Each needs its own evidence and desktop regression tests.
-3. **Web foundation + CI.** Promote the proof into a maintainable project skeleton, integrate it with the solutions, and add a Linux publish/test/E2E workflow plus a Windows regression job.
+3. **Web foundation + CI.** Promote the proof into a maintainable project skeleton, integrate it with the solution, and add a Linux publish/test/E2E workflow plus a Windows regression job.
 4. **XY/ORAS MVP.** The full journey from the "Definition of MVP" section of `PKHeX.Web.md`: open → summary → party/boxes → draft editor → legality → atomic apply → validated export. It has to be accessible, private and static-hosted.
 
 Each numbered chunk below is **one commit**. Every commit must build, and its tests must pass.
@@ -119,9 +119,11 @@ Branch `web/foundation` from `web/main`.
 
 **F1 status:** code complete on `web/foundation` (staged, not committed). Unit, synthetic E2E and RealSave tiers pass. `.gitignore` needed no change (`bin/` and `publish/` already cover the publish output). Compared with PKForge: copy-before-parse and `EntityImportSettings.None` match; the unchanged-round-trip check goes to M2 and the structural slot diff to M9.
 
-**F2 Solution integration.** Add `PKHeX.Web` and `PKHeX.Web.Tests` to `PKHeX.slnx` and `PKHeX.sln`. Confirm they inherit from `Directory.Build.props` (C# 14, nullable) and fix any new nullable warnings. Pin `Microsoft.AspNetCore.Components.WebAssembly` to 10.0.12. Do not add a repo-wide `global.json`.
+**F2 Solution integration.** Add `PKHeX.Web` and `PKHeX.Web.Tests` to `PKHeX.slnx`, and remove `PKHeX.sln` so that `.slnx` is the only solution. Confirm they inherit from `Directory.Build.props` (C# 14, nullable) and fix any new nullable warnings. Pin `Microsoft.AspNetCore.Components.WebAssembly` to 10.0.12. Do not add a repo-wide `global.json`.
 
-**F3 Split test tiers.**
+**F2 status:** code complete on `web/f2-solution-integration`. Both projects inherit C# 14 and nullable, and the Release build of `PKHeX.slnx` has 0 warnings. The Web projects now treat nullable warnings as errors: PKForge sets `TreatWarningsAsErrors` repo-wide, but here it covers nullable only and stays off Core/WinForms, and trim warnings are left to the F6 baseline. Adding `PKHeX.Web.Tests` to the solution made `dotnet test PKHeX.slnx` run the browser and real-save tests, which fail without their environment, so the tier tagging from F3 was pulled forward: every Web test carries `[Trait("Category", Unit|E2E|RealSave)]` (`TestCategory.cs`), and when no `--filter` is given `PKHeX.Web.Tests.runsettings` limits the run to `Unit`. It is applied only without a filter, because VSTest ANDs the two. A `TestCategoryTests` guard (itself Unit) fails if any test has no tier or more than one, so an untagged test cannot silently drop out of every run. The Unit-only default applies only when neither `--filter` nor `--settings` is given; a filter on the solution reaches every project, so exclusion filters such as `FullyQualifiedName!~X` pull in E2E/RealSave, and CI (F6) must always pass explicit `Category` filters. Removing `PKHeX.sln` goes beyond "no solution churn" (`PKHeX.Web.md` §upstream): the foundation PR text must call it out as a separate, revertible decision for maintainers (current Visual Studio and Rider open `.slnx`), and upstream edits to `PKHeX.sln` will conflict as modify/delete when rebasing.
+
+**F3 Split test tiers.** Tagging and the Unit-only default landed in F2; F3 adds the fixture and tier-specific checks below.
 - `Category=Unit`: session and naming tests with synthetic Core blank saves plus a test-only BEEF footer, as the proof does.
 - `Category=E2E`: Playwright against the published output with synthetic fixtures.
 - `Category=RealSave`: env-var driven. When this category is selected and a variable is missing, the test fails, not skips.
@@ -145,7 +147,7 @@ Add `Services/FileNaming`, which sanitises separators and control characters, ca
 - uploads the publish output, test results and size/warning/license reports
 - no secrets and no `pull_request_target`
 
-**F7 Windows regression job.** Add a `windows-latest` job (same workflow or `desktop.yml`) that builds `PKHeX.sln` Release and runs `PKHeX.Core.Tests`. This guards Phase 1 and the solution edits.
+**F7 Windows regression job.** Add a `windows-latest` job (same workflow or `desktop.yml`) that builds `PKHeX.slnx` Release and runs `PKHeX.Core.Tests`. This guards Phase 1 and the solution edits.
 
 **F8 Performance baseline (WEB-PERF-001).** A script (`PKHeX.Web/tools/measure.*` or a test) records cold and warm boot under Playwright network throttling (20 Mbps/50 ms) plus artifact sizes, and uploads them as a CI artifact. There is no pass/fail threshold yet.
 

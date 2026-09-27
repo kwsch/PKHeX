@@ -9,6 +9,7 @@ namespace PKHeX.Web.Tests;
 /// <summary>
 /// Session, draft and export rules, run on synthetic saves.
 /// </summary>
+[Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class SessionTests
 {
     [Theory]

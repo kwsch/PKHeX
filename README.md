@@ -50,4 +50,4 @@ PKHeX's Pokémon Legends: Arceus sprite collection is taken from the [National P
 
 ### IDE
 
-PKHeX can be opened with IDEs such as [Visual Studio](https://visualstudio.microsoft.com/downloads/) by opening the .sln or .csproj file.
+PKHeX can be opened with IDEs such as [Visual Studio](https://visualstudio.microsoft.com/downloads/) by opening the .slnx or .csproj file.
