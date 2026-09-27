@@ -17,7 +17,7 @@ public sealed class SessionTests
     [InlineData(true)]
     public void SyntheticDraftCancelApplyAndRoundTrip(bool oras)
     {
-        var source = ProofFixtures.Synthetic(oras);
+        var source = SaveFixtures.Synthetic(oras);
         var before = source.ToArray();
         var session = SaveLoader.Load(source);
         source.Should().Equal(before, "parsing must not mutate caller bytes");
@@ -41,7 +41,7 @@ public sealed class SessionTests
         reloaded.IsNicknamed.Should().BeTrue();
         source.Should().Equal(before);
 
-        var native = ProofFixtures.Parse(before);
+        var native = SaveFixtures.Parse(before);
         var pk = native.GetBoxSlotAtIndex(0);
         pk.Nickname = "WASM Proof";
         pk.IsNicknamed = true;
@@ -58,12 +58,12 @@ public sealed class SessionTests
         loadTooLarge.Should().Throw<InvalidDataException>();
         var loadUnrecognized = () => SaveLoader.Load(new byte[512]);
         loadUnrecognized.Should().Throw<InvalidDataException>();
-        var corrupt = ProofFixtures.Synthetic(false);
+        var corrupt = SaveFixtures.Synthetic(false);
         corrupt[0] ^= 1;
         var loadCorrupt = () => SaveLoader.Load(corrupt);
         loadCorrupt.Should().Throw<InvalidDataException>();
 
-        var session = SaveLoader.Load(ProofFixtures.Synthetic(false));
+        var session = SaveLoader.Load(SaveFixtures.Synthetic(false));
         var draft = session.Select(0);
         var editTooLong = () => draft.EditNickname(new string('a', 13), true);
         editTooLong.Should().Throw<InvalidDataException>();
@@ -86,7 +86,7 @@ public sealed class SessionTests
     [InlineData("\uE08E")] // Stored as-is but read back as '♂', so the text would change.
     public void RejectsNicknameThatCannotBeStoredUnchanged(string nickname)
     {
-        var draft = SaveLoader.Load(ProofFixtures.Synthetic(false)).Select(0);
+        var draft = SaveLoader.Load(SaveFixtures.Synthetic(false)).Select(0);
         var before = draft.Nickname;
         var act = () => draft.EditNickname(nickname, true);
         act.Should().Throw<InvalidDataException>();
@@ -99,18 +99,18 @@ public sealed class SessionTests
     [InlineData(false)]
     public void KnownEntityLegalityIsPreserved(bool legal)
     {
-        var native = new LegalityAnalysis(new PK6(ProofFixtures.ReadEntity(legal)));
+        var native = new LegalityAnalysis(new PK6(SaveFixtures.ReadEntity(legal)));
         native.Parsed.Should().BeTrue();
         native.Valid.Should().Be(legal);
 
-        var session = SaveLoader.Load(ProofFixtures.Synthetic(true, legal));
+        var session = SaveLoader.Load(SaveFixtures.Synthetic(true, legal));
         session.Select(0).Analyze(session).Verdict.Should().Be(legal ? "Valid" : "Invalid");
     }
 
     [Fact]
     public void RevisionAdvancesOnlyOnRealApply()
     {
-        var session = SaveLoader.Load(ProofFixtures.Synthetic(false));
+        var session = SaveLoader.Load(SaveFixtures.Synthetic(false));
         session.Revision.Should().Be(0);
 
         session.Apply(session.Select(0));
@@ -127,7 +127,7 @@ public sealed class SessionTests
     [Fact]
     public void ApplyWritesOnlyEditedFields()
     {
-        var session = SaveLoader.Load(ProofFixtures.Synthetic(false));
+        var session = SaveLoader.Load(SaveFixtures.Synthetic(false));
         var expected = (PK6)session.Working.GetBoxSlotAtIndex(0);
         var draft = session.Select(0);
         draft.EditNickname("Changed", true);
@@ -142,7 +142,7 @@ public sealed class SessionTests
     [Fact]
     public void MarkExportedRecordsOnlyRevisionsOfTheSession()
     {
-        var session = SaveLoader.Load(ProofFixtures.Synthetic(false));
+        var session = SaveLoader.Load(SaveFixtures.Synthetic(false));
         SaveExporter.Export(session, null);
         session.ExportedRevision.Should().BeNull("producing the bytes is not a download");
 
@@ -165,7 +165,7 @@ public sealed class SessionTests
     [Fact]
     public void StaleDraftIsRejectedUnlessClean()
     {
-        var session = SaveLoader.Load(ProofFixtures.Synthetic(false));
+        var session = SaveLoader.Load(SaveFixtures.Synthetic(false));
         var stale = session.Select(0);
         var current = session.Select(0);
         current.EditNickname("First", true);
@@ -190,8 +190,8 @@ public sealed class SessionTests
     [Fact]
     public void ForeignSessionDraftIsRejectedWithoutMutation()
     {
-        var owner = SaveLoader.Load(ProofFixtures.Synthetic(false));
-        var other = SaveLoader.Load(ProofFixtures.Synthetic(false, legal: false));
+        var owner = SaveLoader.Load(SaveFixtures.Synthetic(false));
+        var other = SaveLoader.Load(SaveFixtures.Synthetic(false, legal: false));
         other.SessionId.Should().NotBe(owner.SessionId);
         var foreign = owner.Select(0);
         foreign.EditNickname("Foreign", true);

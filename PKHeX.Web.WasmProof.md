@@ -91,7 +91,7 @@ If a required variable is missing, the tests fail rather than skip.
 
 **Native preflight** (`RealSavePreflightTests`). For each fixture: hash the file, parse it with `SaveUtil.GetSaveFile`, and require `SAV6XY`/`SAV6AO`, valid checksums and an exportable state. Then select the first occupied, checksum-valid, writable boxed `PK6` in box/slot order, failing with a clear message if there is none. Finally, confirm the Web session's no-op export equals native `SaveFile.Write()`.
 
-**Real-save browser round trip** (`BrowserProofTests.RealSavePublishedRoundTrip`, 12 cases):
+**Real-save browser round trip** (`RealSaveBrowserTests.RealSavePublishedRoundTrip`, 12 cases):
 1. Build native no-op and edited references from the same Core build. The deterministic nickname is `WASM Proof`, or `WASM Test` if the original already equals `WASM Proof`. The flag is set, and the write uses `EntityImportSettings.None`.
 2. Assert that the native edit changed only the target slot's bytes before serialization.
 3. Load the Release artifact from a loopback-only static host, and load the real file through the file input.

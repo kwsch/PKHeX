@@ -3,7 +3,10 @@ using PKHeX.Core;
 
 namespace PKHeX.Web.Tests;
 
-internal static class ProofFixtures
+/// <summary>
+/// Synthetic saves for the <see cref="TestCategory.Unit"/> and <see cref="TestCategory.E2E"/> tiers, plus shared Core helpers.
+/// </summary>
+internal static class SaveFixtures
 {
     public static string RepositoryRoot
     {

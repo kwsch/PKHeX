@@ -46,7 +46,9 @@ dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build -
 
 Set `PLAYWRIGHT_BROWSERS_PATH` consistently for installation and testing if you want a custom browser cache location. It is separate from the machine-wide SDK.
 
-Tests start their own loopback-only static host, using the supplied published files. The `/PKHeX/` cases change only the served HTML base href to reproduce a subpath deployment; all application binaries are identical. The host has no upload or save-processing endpoint. An absent fixture variable or missing usable entity fails rather than silently skipping the real-save proof.
+Selecting `E2E` or `RealSave` without its environment variables fails every test in that tier instead of skipping it. CI (added later) will run only `Unit` and `E2E`; `RealSave` is for local runs with private saves.
+
+Browser tests share one fixture that starts a loopback-only static host for the supplied published files and checks every boot, at the root and under `/PKHeX/`: only published files are requested and none fails; each response carries the expected MIME type, `nosniff`, the Content-Security-Policy header and `Referrer-Policy`, and the page reports no CSP violations. Each test ends by checking that nothing reached the network after boot, that nothing was persisted in the browser, and that no CSP violation occurred, including across reloads. The `/PKHeX/` cases change only the served HTML base href to reproduce a subpath deployment; all application binaries are identical. The host has no upload or save-processing endpoint. An absent fixture variable or missing usable entity fails rather than silently skipping the real-save proof.
 
 Real-save tests select the first occupied, checksum-valid, writable boxed PK6 in box/slot order and fail if none exists. Party slots are not editable in this proof. Outside the edited slot and the Gen 6 block-checksum footer, the edited export must be byte-identical to the no-op export. No entity is injected into the real fixture.
 

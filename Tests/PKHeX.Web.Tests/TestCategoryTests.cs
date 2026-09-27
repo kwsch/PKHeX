@@ -1,5 +1,6 @@
 using System.Reflection;
 using Xunit;
+using Xunit.Sdk;
 
 namespace PKHeX.Web.Tests;
 
@@ -16,30 +17,50 @@ public sealed class TestCategoryTests
     {
         var problems = new List<string>();
         var tests = 0;
-        foreach (var type in typeof(TestCategoryTests).Assembly.GetTypes())
+        foreach (var (type, method) in TestMethods())
         {
-            foreach (var method in type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
+            // xUnit merges class-level and method-level traits.
+            tests++;
+            var categories = GetCategories(type.GetCustomAttributesData())
+                .Concat(GetCategories(method.GetCustomAttributesData()))
+                .ToArray();
+            if (categories.Length != 1 || !Known.Contains(categories[0]))
             {
-                // TheoryAttribute derives from FactAttribute.
-                if (method.GetCustomAttribute<FactAttribute>() is null)
-                {
-                    continue;
-                }
-
-                // xUnit merges class-level and method-level traits.
-                tests++;
-                var categories = GetCategories(type.GetCustomAttributesData())
-                    .Concat(GetCategories(method.GetCustomAttributesData()))
-                    .ToArray();
-                if (categories.Length != 1 || !Known.Contains(categories[0]))
-                {
-                    problems.Add($"{type.Name}.{method.Name}: [{string.Join(", ", categories)}]");
-                }
+                problems.Add($"{type.Name}.{method.Name}: [{string.Join(", ", categories)}]");
             }
         }
 
         Assert.True(tests > 0, "No test methods were found.");
         Assert.True(problems.Count == 0, $"Each test needs exactly one of {string.Join("/", Known)}:{Environment.NewLine}{string.Join(Environment.NewLine, problems)}");
+    }
+
+    /// <summary>
+    /// A selected tier fails when its inputs are missing (see <see cref="TestEnvironment.Required"/>); a static skip would hide that.
+    /// </summary>
+    [Fact]
+    public void NoTestIsSkipped()
+    {
+        var skipped = TestMethods()
+            .Where(t => !string.IsNullOrEmpty(t.Method.GetCustomAttribute<FactAttribute>()!.Skip)
+                || t.Method.GetCustomAttributes<DataAttribute>().Any(d => !string.IsNullOrEmpty(d.Skip)))
+            .Select(t => $"{t.Type.Name}.{t.Method.Name}")
+            .ToArray();
+        Assert.True(skipped.Length == 0, $"Tests must fail rather than skip:{Environment.NewLine}{string.Join(Environment.NewLine, skipped)}");
+    }
+
+    /// <summary>Every <see cref="FactAttribute"/> (including <see cref="TheoryAttribute"/>) method in this assembly.</summary>
+    private static IEnumerable<(Type Type, MethodInfo Method)> TestMethods()
+    {
+        foreach (var type in typeof(TestCategoryTests).Assembly.GetTypes())
+        {
+            foreach (var method in type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
+            {
+                if (method.GetCustomAttribute<FactAttribute>() is not null)
+                {
+                    yield return (type, method);
+                }
+            }
+        }
     }
 
     /// <summary>

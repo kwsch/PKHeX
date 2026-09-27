@@ -5,8 +5,12 @@ using System.Text;
 namespace PKHeX.Web.Tests;
 
 /// <summary>Serves only a supplied Release wwwroot. No save-processing endpoints.</summary>
+/// <remarks>Responses carry deployment-like headers; <see cref="PublishedAppFixture"/> asserts them independently.</remarks>
 internal sealed class StaticHost : IDisposable
 {
+    /// <summary>Content Security Policy header sent with every response.</summary>
+    public const string ContentSecurityPolicy = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'";
+
     private readonly HttpListener listener = new();
     private readonly string root;
     public string Url { get; }
@@ -69,7 +73,7 @@ internal sealed class StaticHost : IDisposable
                 };
                 context.Response.Headers["X-Content-Type-Options"] = "nosniff";
                 context.Response.Headers["Referrer-Policy"] = "no-referrer";
-                context.Response.Headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'";
+                context.Response.Headers["Content-Security-Policy"] = ContentSecurityPolicy;
                 context.Response.ContentLength64 = bytes.Length;
                 await context.Response.OutputStream.WriteAsync(bytes);
                 context.Response.Close();
