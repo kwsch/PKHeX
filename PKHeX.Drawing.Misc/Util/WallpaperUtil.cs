@@ -26,6 +26,8 @@ public static class WallpaperUtil
     {
         if (sav is SAV3Colosseum or SAV3XD) // fixed for each box
             return GetWallpaperBitmap(sav.Version, box);
+        if (sav is SAV4BR) // fixed for each box
+            return GetWallpaperBitmap(DP, box % 16);
         if (sav is not IBoxDetailWallpaper wp)
             return DefaultWallpaper;
         if (sav is SAV9ZA) // City box wallpaper for Lumiose City
