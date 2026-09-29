@@ -104,7 +104,7 @@ public static class WallpaperUtil
         _ when version == COLO => "colo",
         _ when version == XD => "xd",
 
-        EntityContext.Gen4 when index <= 16 => "dp",
+        EntityContext.Gen4 when DP.Contains(version) || index <= 16 => "dp",
         EntityContext.Gen4 when version == Pt => "pt",
         EntityContext.Gen4 when HGSS.Contains(version) => "hgss",
 
