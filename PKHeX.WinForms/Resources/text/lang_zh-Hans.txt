@@ -530,6 +530,7 @@ Main.B_FestivalPlaza=圆庆广场
 Main.B_JPEG=保存PGL.JPEG
 Main.B_MailBox=邮箱
 Main.B_MoveShop=招式商店
+Main.B_MyWallpaper=保存我的壁纸
 Main.B_OpenApricorn=球果
 Main.B_OpenBattlePass=对战通行证
 Main.B_OpenBerryField=树果园

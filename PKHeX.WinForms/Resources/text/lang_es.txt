@@ -530,6 +530,7 @@ Main.B_FestivalPlaza=Festi Plaza
 Main.B_JPEG=Guardar PGL .JPEG
 Main.B_MailBox=Buzón
 Main.B_MoveShop=Tienda Movs.
+Main.B_MyWallpaper=Guardar mi papel pintado
 Main.B_OpenApricorn=Bonguri
 Main.B_OpenBattlePass=Pases
 Main.B_OpenBerryField=Huerto Bayas

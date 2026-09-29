@@ -530,6 +530,7 @@ Main.B_FestivalPlaza=Festiplaza
 Main.B_JPEG=Salva PGL .JPEG
 Main.B_MailBox=Messaggi
 Main.B_MoveShop=Negozio Mosse
+Main.B_MyWallpaper=Salva sfondo personale
 Main.B_OpenApricorn=Ghicocche
 Main.B_OpenBattlePass=Pass Lotta
 Main.B_OpenBerryField=Orto Bacche

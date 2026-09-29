@@ -530,6 +530,7 @@ Main.B_FestivalPlaza=フェスサークル
 Main.B_JPEG=PGL 画像保存
 Main.B_MailBox=メールボックス
 Main.B_MoveShop=技教え
+Main.B_MyWallpaper=マイかべがみ保存
 Main.B_OpenApricorn=ぼんぐりのみ
 Main.B_OpenBattlePass=バトルパス
 Main.B_OpenBerryField=きのみ畑
