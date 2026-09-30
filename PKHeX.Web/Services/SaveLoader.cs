@@ -7,7 +7,7 @@ namespace PKHeX.Web.Services;
 /// Opens untrusted save bytes into a <see cref="SaveSession"/>.
 /// </summary>
 /// <remarks>
-/// Input is bounded, copied before parsing, restricted to the enabled save families and integrity-checked.
+/// Input is bounded, copied before parsing, restricted to the families in <see cref="SupportMatrix"/> and integrity-checked.
 /// Every failure throws <see cref="InvalidDataException"/> with a message that is safe to show to the user.
 /// </remarks>
 public static class SaveLoader
@@ -32,10 +32,9 @@ public static class SaveLoader
         var original = bytes.ToArray();
         // Core normalises its input buffer in place (e.g. Gen 7 zeroes the MemeCrypto signature block), so parse a copy.
         var save = SaveUtil.GetSaveFile(original.ToArray());
-        // Release allowlist: only these concrete save types are enabled.
-        if (save is not (SAV6XY or SAV6AO))
+        if (save is null || !SupportMatrix.IsEnabled(save))
         {
-            throw new InvalidDataException("Only raw XY/ORAS saves are supported.");
+            throw new InvalidDataException("This release opens only raw X/Y and Omega Ruby/Alpha Sapphire saves.");
         }
         if (!save.State.Exportable || !save.ChecksumsValid)
         {

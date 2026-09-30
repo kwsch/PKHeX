@@ -1,288 +1,76 @@
 @implements IAsyncDisposable
 @inject IJSRuntime JS
-@inject BrowserFileService Files
+@inject WorkspaceState State
 
-<PageTitle>PKHeX Web — WASM proof</PageTitle>
-<main>
-    <h1>PKHeX Web — local WASM proof</h1>
-    <p>Your save is processed entirely on this device and is never uploaded.</p>
-    <p>Raw XY/ORAS only. Changes are temporary until you download them. Reloading discards this session.</p>
-    <SaveFilePicker Disabled="busy" OnReadStarted="() => busy = true" OnRead="OpenFile" OnDropRejected="DropRejected" />
-    <p id="message" role="status">@message</p>
-    @if (pending is not null)
-    {
-        <section aria-label="Replace session">
-            <p>The current session contains changes. Download them first, or explicitly discard this session.</p>
-            <button id="replace-confirm" @onclick="ConfirmReplace" disabled="@busy">Discard current session and open</button>
-            <button id="replace-cancel" @onclick="CancelReplace" disabled="@busy">Keep current session</button>
-        </section>
-    }
-    @if (session is not null)
-    {
-        <section aria-label="Save overview">
-            <h2>Loaded save</h2>
-            <p>Family: <strong id="family">@session.Family</strong>. Integrity: <strong id="integrity">Valid</strong>.</p>
-            <p id="session-state">@(session.HasChangesSinceOpen ? "Edited in memory" : "Unmodified session")</p>
-            <label for="slot">Occupied box slot</label>
-            <select id="slot" value="@(draft?.SlotIndex ?? -1)" @onchange="SelectSlot" disabled="@(DraftDirty || busy || !draftValid)">
-                <option value="-1">Choose a slot</option>
-                @foreach (var index in session.OccupiedSlots)
-                {
-                    <option value="@index">@session.SlotLabel(index)</option>
-                }
-            </select>
-            @if (session.OccupiedSlots.Count == 0)
-            {
-                <p>No occupied box slots were found. A no-op round trip is still available.</p>
-            }
-        </section>
-        @if (draft is not null)
-        {
-            <section aria-label="Nickname editor">
-                <h2>Nickname draft</h2>
-                <label for="nickname">Nickname</label>
-                <input id="nickname" value="@nickname" @oninput="NicknameChanged" maxlength="@draft.MaxNicknameLength" />
-                <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="NicknameFlagChanged" /> Is nicknamed</label>
-                <p id="draft-state">@(DraftDirty ? "Unapplied draft" : "No draft changes")</p>
-                <button id="analyze" @onclick="Analyze">Analyze legality</button>
-                <button id="apply" @onclick="Apply" disabled="@(!DraftDirty || !draftValid)">Apply nickname</button>
-                <button id="cancel-draft" @onclick="CancelDraft">Cancel draft</button>
-                <p>Legality is diagnostic. Applying does not legalize or change ownership, dex entries, or trainer records.</p>
-                <p id="legality-status" role="status">@verdict</p>
-                <pre id="legality-report">@report</pre>
-            </section>
-        }
-        <button id="download" @onclick="Download" disabled="@(DraftDirty || busy || !draftValid)">Download validated save</button>
-        <p>Suggested name: <code>@session.FileName</code> (your browser may adjust it). Download initiation does not confirm it was saved to disk. Verify your file before closing.</p>
-    }
-</main>
-<footer>
-    <p id="build-label">PKHeX.Web @BuildInfo.WebVersion · <span title="@BuildInfo.SourceCommit">@BuildInfo.ShortCommit</span></p>
-</footer>
+@* The shell: heading, About, and the workspace inside a fault boundary. It stays mounted when the workspace faults,
+   so the unsaved-changes warning keeps following WorkspaceState while the recovery screen is shown. *@
+<PageTitle>PKHeX Web</PageTitle>
+<div class="page">
+    <header>
+        <h1>PKHeX Web</h1>
+        <button id="about-toggle" type="button" aria-expanded="@(aboutOpen ? "true" : "false")" aria-controls="about" @onclick="() => aboutOpen = !aboutOpen">About</button>
+    </header>
+    <AboutPanel Id="about" Hidden="!aboutOpen" />
+    <main>
+        <FaultBoundary>
+            <Workspace />
+        </FaultBoundary>
+    </main>
+</div>
 
 @code {
-    private SaveSession? session, pending;
-    private EditorDraft? draft;
     private IJSObjectReference? lifecycle;
-    private string message = "Choose a save to begin.", nickname = "", verdict = "Not analyzed", report = "";
-    private bool nicknamed, busy, draftValid = true;
+    private bool aboutOpen;
 
-    private bool DraftDirty => draft?.IsDirty == true;
-    private bool HasUnsavedWork => session?.HasChangesSinceOpen == true || DraftDirty || !draftValid;
+    protected override void OnInitialized() => State.Changed += OnStateChanged;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             lifecycle = await JS.InvokeAsync<IJSObjectReference>("import", "./lifecycle.js");
-        }
-        if (lifecycle is not null)
-        {
-            await lifecycle.InvokeVoidAsync("setDirty", HasUnsavedWork);
+            await SyncDirtyAsync();
         }
     }
 
-    private void OpenFile(FileReadResult file)
+    private void OnStateChanged() => _ = InvokeAsync(SyncDirtyAsync);
+
+    /// <summary>Arms the <c>beforeunload</c> warning exactly while leaving would lose work.</summary>
+    private async Task SyncDirtyAsync()
     {
-        busy = false;
-        pending = null;
-        if (file.Status != FileReadStatus.Ok)
+        if (lifecycle is null)
         {
-            message = file.Status switch
-            {
-                FileReadStatus.Empty => "The file is empty.",
-                FileReadStatus.TooLarge => "The file exceeds the 16 MiB limit.",
-                _ => "The file could not be read. Choose it again.",
-            } + Retained;
-            return;
-        }
-
-        try
-        {
-            var candidate = SaveLoader.Load(file.Bytes, file.FileName);
-            if (HasUnsavedWork)
-            {
-                pending = candidate;
-                message = "Resolve the existing session before replacement.";
-            }
-            else
-            {
-                SetSession(candidate);
-            }
-        }
-        catch (Exception ex)
-        {
-            ShowError(ex);
-        }
-    }
-
-    private void DropRejected(DropRejection rejection) => message = rejection switch
-    {
-        DropRejection.MultipleFiles => "Drop a single save file." + Retained,
-        DropRejection.Directory => "Drop a save file, not a folder." + Retained,
-        DropRejection.Busy => "Wait for the current operation to finish, then try again.",
-        _ => "Only files can be dropped here, not text or links." + Retained,
-    };
-
-    /// <summary>Appended to refusals, but only when there is a session that the refusal left untouched.</summary>
-    private string Retained => session is null ? "" : " The previous session was retained.";
-
-    private void SetSession(SaveSession candidate)
-    {
-        session = candidate;
-        pending = null;
-        draft = null;
-        nickname = report = "";
-        verdict = "Not analyzed";
-        draftValid = true;
-        message = "Save loaded locally; checksums valid.";
-    }
-
-    private void ConfirmReplace()
-    {
-        if (pending is not null)
-        {
-            SetSession(pending);
-        }
-    }
-
-    private void CancelReplace()
-    {
-        pending = null;
-        message = "Current session retained.";
-    }
-
-    private void SelectSlot(ChangeEventArgs e)
-    {
-        try
-        {
-            var index = int.Parse(e.Value!.ToString()!);
-            if (index < 0)
-            {
-                draft = null;
-                message = "Choose a slot to edit.";
-                return;
-            }
-            draft = session!.Select(index);
-            SyncDraft();
-            message = "Slot selected. Only nickname fields can be changed.";
-        }
-        catch (Exception ex)
-        {
-            ShowError(ex);
-        }
-    }
-
-    private void SyncDraft()
-    {
-        nickname = draft!.Nickname;
-        nicknamed = draft.IsNicknamed;
-        draftValid = true;
-        verdict = "Not analyzed";
-        report = "";
-    }
-
-    private void NicknameChanged(ChangeEventArgs e)
-    {
-        nickname = e.Value?.ToString() ?? "";
-        UpdateDraft();
-    }
-
-    private void NicknameFlagChanged(ChangeEventArgs e)
-    {
-        nicknamed = e.Value is true;
-        UpdateDraft();
-    }
-
-    private void UpdateDraft()
-    {
-        verdict = "Stale — analyze the current draft";
-        report = "";
-        try
-        {
-            draft!.EditNickname(nickname, nicknamed);
-            draftValid = true;
-        }
-        catch (Exception ex)
-        {
-            draftValid = false;
-            ShowError(ex);
-        }
-    }
-
-    private void Analyze()
-    {
-        if (!draftValid)
-        {
-            message = "Correct or cancel the invalid draft first.";
             return;
         }
         try
         {
-            var result = draft!.Analyze(session!);
-            verdict = result.Verdict;
-            report = result.Report;
+            await lifecycle.InvokeVoidAsync("setDirty", State.HasUnsavedWork);
         }
-        catch
+        catch (JSDisconnectedException)
         {
-            verdict = "Unavailable";
-            report = "Analysis could not complete. No changes were made.";
+            // The page is going away; there is nothing left to warn about.
+        }
+        catch (JSException)
+        {
+            // The warning is a convenience; failing to update it must not break the page. The next change retries.
         }
     }
-
-    private void Apply()
-    {
-        try
-        {
-            session!.Apply(draft!);
-            draft = session.Select(draft!.SlotIndex);
-            SyncDraft();
-            message = "Nickname applied in memory; download to retain changes.";
-        }
-        catch (Exception ex)
-        {
-            ShowError(ex);
-        }
-    }
-
-    private void CancelDraft()
-    {
-        draft = session!.Select(draft!.SlotIndex);
-        SyncDraft();
-        message = "Draft canceled.";
-    }
-
-    private async Task Download()
-    {
-        busy = true;
-        try
-        {
-            // The session can be replaced while the download is awaited, so mark the one that was exported.
-            var exported = session!;
-            var revision = exported.Revision;
-            var data = SaveExporter.Export(exported, draft);
-            await Files.DownloadAsync(data, exported.FileName);
-            exported.MarkExported(revision);
-            message = "Download started — verify your file. The session remains temporary.";
-        }
-        catch (Exception ex)
-        {
-            ShowError(ex);
-        }
-        finally
-        {
-            busy = false;
-        }
-    }
-
-    private void ShowError(Exception ex) => message = ex is InvalidDataException ? ex.Message : "Operation failed. The previous session was retained; no file was overwritten.";
 
     public async ValueTask DisposeAsync()
     {
-        if (lifecycle is not null)
+        State.Changed -= OnStateChanged;
+        if (lifecycle is null)
+        {
+            return;
+        }
+        try
         {
             await lifecycle.InvokeVoidAsync("setDirty", false);
             await lifecycle.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The page is already gone, and its listeners with it.
         }
     }
 }

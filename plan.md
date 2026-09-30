@@ -389,6 +389,95 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
 
 ### Slice A — load, browse, no-op export
 - **M1 Shell.** Start screen with privacy copy ("processed entirely on this device…"), supported formats, temporary-state warning, and Open + keyboard-accessible drop zone. About panel shows version/Core commit (F5), licenses and the support matrix. Top-level `ErrorBoundary` with safe reset (WEB-APP-001–004, ERR-003).
+
+  **M1 status:** code complete on `web/m1-shell`.
+  - **Structure.** `App.razor` is now the shell: heading, About toggle, About panel, and the workspace inside `Components/FaultBoundary`.
+    - The proof UI moved to `Components/Workspace.razor` with the same element ids, so the proof E2E and RealSave flows still drive it. Changes there: the h1 and the privacy and temporary-state paragraphs moved out; an "Open a save file" / "Open another save file" heading is added above the picker; a note is added to the loaded view; the initial message differs after a recovery; `SyncDraft` became `ResetDraftView`; and the state changes go through `WorkspaceState`.
+    - Its state (session, pending replacement, draft, draft validity, `HasUnsavedWork`) moved to the scoped `State/WorkspaceState`, outside the boundary.
+    - The shell arms `lifecycle.js`'s `setDirty` from `WorkspaceState.Changed`, so the leave warning stays in force while the recovery screen is shown. Before, the workspace armed it on every render, and a fault would have cleared it on dispose. `Apply` raises `Changed` straight after `SaveSession.Apply`, so the warning is armed even if reselecting the slot fails.
+  - **Start screen** (`Components/StartScreen`, h2 "Before you open a save"):
+    - the exact privacy sentence;
+    - that the host sees ordinary requests for the app's files and may log them, while the app never sends the save or anything identifying it;
+    - what can be opened: raw, decrypted X/Y/OR/AS `main`, up to 16 MiB. The save must first be copied off the console or emulator and is never decrypted, repaired or converted, and other games are refused;
+    - the emulator prerequisites, adopted from PKForge: save in game and close the emulator first; save states cannot be opened; loading an older save state after editing can undo the edits;
+    - that the save and edits are not stored in the browser, and a reload discards them.
+
+    The Open action is the native file input under its own h2, with a 44 px selector button. It stays in one place for opening and replacing, so its drop-zone registration survives opening a save. The drop zone is an extra target around it.
+  - **About** (`Components/AboutPanel`): a disclosure (`aria-expanded`/`aria-controls`, `hidden` when collapsed; no modal until M18's focus trapping). It shows:
+    - the version, the full commit and the source repository (`https://github.com/kwsch/PKHeX`, adopted from PKForge's repository link; it points to the corresponding source for GPLv3), as `#about-version`, `#about-commit` and `#about-source`. These replace the footer's `#build-label`, and the now unused `BuildInfo.ShortCommit`/`Abbreviate` were removed;
+    - links to `LICENSE.txt`, `THIRD-PARTY-NOTICES.md` and the four `licenses/*.txt`. They are relative, so they work under `/PKHeX/`, and open in a new tab with `noopener noreferrer`, because leaving the tab ends the session;
+    - the families this release opens, each "in testing; not yet qualified as supported", with a line that no browser is qualified yet.
+
+    It makes no support claim. The loader's refusal now reads "This release opens only raw X/Y and Omega Ruby/Alpha Sapphire saves" rather than "supported".
+  - **Support matrix** (`Services/SupportMatrix`): the families this release opens (`SAV6XY`, `SAV6AO`, matched by exact type). `SaveLoader` now reads its allowlist from it, so the panel and the loader cannot disagree. This is equivalent to the old `is SAV6XY or SAV6AO`, because both types are sealed; the ORAS demo was already excluded. `SaveSession.Family` still names XY/ORAS itself; M3's overview replaces it.
+  - **Startup** (`wwwroot/boot.js`, a classic script because of the CSP). It uses ES2015 syntax only (no `?.`, `??`, optional catch binding, async, spread or `**`), so it parses in old browsers such as Safari 12, which it exists to turn away; a Unit test guards this. Blazor starts with `autostart="false"`.
+    - **Capability check.** Before starting, it checks for WebAssembly, WebAssembly SIMD and exception handling (by validating minimal modules; the bytes were checked to decode as `i8x16.popcnt(i8x16.splat)` and legacy `try … catch_all`), `BigInt64Array`, and Blob object URLs. If anything is missing, it names it and never downloads the runtime.
+    - **Failed load.** A failed asset load shows "The app's files could not be loaded" with a focused **Try again** (a reload; no file is involved). The fallback text lives in `index.html`; the script only unhides it. Blazor's error bar is kept hidden under a failure screen.
+    - **Found while testing: `Blazor.start()` never settles on a failed download.** In .NET 10 its promise does not settle when a download fails. Chromium then throws "Failed to start platform" as an unhandled rejection; Firefox and WebKit just hang. The runtime's `onExit`/`onAbort` module hooks are not called either.
+      - What every engine does raise is the loader's unhandled "download '…/_framework/…' failed" rejection. So only unhandled errors that name `/_framework/` arm a 3 s timer, and the retry screen appears once they have stopped and start has not completed. A healthy boot raises none (every E2E boot requires zero page errors).
+      - The first version counted any unhandled error. The review showed that an unrelated error, such as one from a browser extension, during a slow boot showed the failure screen. An E2E test now covers that case, and a mutation back to "any error" fails it in all 3 engines.
+      - A start that completes anyway restores the app. In testing, however, a single aborted assembly download stopped the start for good in every engine, retry or not.
+    - **Stalled download.** A download that never answers raises nothing, so after 30 s a non-destructive "Still loading … Try again" hint appears, while the loading message stays and loading continues.
+  - **Fault boundary** (`Components/FaultBoundary`, an `ErrorBoundaryBase`): a recovery screen whose heading takes focus, which announces it; it has no live region, which would announce it twice.
+    - With a session open it offers **Return to the workspace** (`RecoverAfterFault`: keeps the session and every applied change, and drops the draft and any pending replacement, which the fault may have left half-done) and **Discard session**; without one, **Start over**. It always offers **Reload page**, with the loss warning.
+    - After recovering, focus moves into the workspace (a script-focusable wrapper), instead of dropping to the page body.
+    - The session is safe to keep because `SaveSession.Apply` stages on a clone and swaps only after verifying, and exports are still validated.
+    - No exception text is rendered. The exception, including its message and stack, goes to the browser console only; M17's redaction should consider it. Guarded export after a fault is simply the normal Download on the kept session; redacted diagnostics are M17.
+  - **Other changes:**
+    - The page title is "PKHeX Web", with a single `.page` container.
+    - `StaticHost` and the fixture map `.md` → `text/markdown` and `.txt` → `text/plain` (F5's note).
+    - `BootBaseline` reads the build from the About panel (F8's note).
+    - A cold boot is now 60 requests and a warm one 8, because of `boot.js`. The F5 and F8 entries above still describe the footer, `#build-label` and "7 unfingerprinted files" as they were at the time.
+    - `App.DisposeAsync` now tolerates a disconnected page.
+  - **Tests.**
+    - **Unit 154** (up from 138):
+      - `WorkspaceStateTests` (5): unsaved-work rules, replacement, recovery keeping the applied session and its export, discard.
+      - `SupportMatrixTests` (3): exactly XY/ORAS, the demo and other families not enabled, and a Core-recognised BW save refused by the loader.
+      - `FaultBoundaryTests` (5), with **bUnit 2.11.3**. It is test-only, and the test project still resolves the Components 10.0.12 packages. They cover: the recovery screen without exception text and with focus moved; Start over without a session; Return keeps the session, drops the draft, moves focus back and catches a second fault; Discard; Reload forces a full load.
+      - `BootScriptTests` (6): the ES2015 syntax guard.
+      - 3 `BuildInfo` abbreviation rows were removed with the code.
+    - **E2E 57** (up from 30):
+      - The boot test (3 engines × 2 paths) now checks: the privacy copy; the About disclosure; the version, commit and source link; the row count; and every license link. Each link must resolve under the hosting path and carry `target="_blank"` with `noopener`. Every published license file must be linked, and each must be served by the test host with its type and be byte-identical to the published file. This checks the link attributes and the test host, not a browser opening the link or a real deployment's headers (M20).
+      - `ShellTests`, all × 3 engines:
+        - An unsupported browser, 5 cases × 3 engines, with no `_framework/dotnet*` request: WebAssembly deleted; every module rejected; only the SIMD probe rejected; only the exception-handling probe rejected; `URL.createObjectURL` deleted. The single-probe cases catch a swapped or wrong probe. A missing `BigInt64Array` cannot be simulated, because Playwright's own page scripts need it.
+        - A failed `.wasm` load shows the focused retry, then boots cleanly once reachable, checked like any boot.
+        - An unrelated rejection during a boot slowed by 5 s never shows the failure screen, recorded by an observer.
+        - A stalled `PKHeX.Core` download shows the slow-loading hint within 45 s, with the app's loading message still in place.
+        - The leave warning: no dialog with an unmodified save, one with a dirty draft, and one with an applied change and a clean draft.
+      - Every E2E test executed.
+    - **RealSave 14** and **Perf 1** pass; Perf reads the build from About.
+    - **Mutation checks:** disabling the shell's dirty sync fails the leave-warning test in all 3 engines, and so does counting any error as a boot failure for the slow-boot test.
+    - **Other checks:** the trim baseline is unchanged (38), and the `PKHeX.slnx` Release build has 0 warnings. Screenshots at 1280 px and 375 px show no horizontal scroll, and keyboard Tab reaches About first.
+  - **Adversarial review.**
+    - **Fixed:**
+      - a slow but healthy boot shown as failed after any unrelated error;
+      - `boot.js` syntax that old browsers cannot parse, which would leave them stuck on "Loading";
+      - no retry offered for a stalled download;
+      - the leave warning not armed if reselecting after an apply fails;
+      - the privacy and temporary-state note gone once a save was open;
+      - the Open control under the wrong heading;
+      - a double announcement from `role="alert"` plus focus;
+      - focus dropping to the body after recovery;
+      - `DisposeAsync` not tolerating a disconnected page;
+      - "Nothing is stored in this browser" being untrue, since the HTTP cache keeps the app's files;
+      - the loader saying "supported";
+      - dead `ShortCommit`;
+      - the missing unsupported-browser, applied-change and slow-boot tests;
+      - status claims that the UI moved "unchanged" and that exact-type matching changed behaviour;
+      - the missed PKForge emulator prerequisites and source link.
+    - **Not changed:**
+      - The license-link test uses the test host (M20 checks the real headers).
+      - `WorkspaceStateTests` raises `NotifyChanged` itself, because it tests the state class; the leave-warning E2E covers the workspace wiring.
+      - The old F5/F8 entries were left as history.
+  - **Not verified yet:**
+    - bUnit under the azure-parity job's `vstest.console` 17.14 (next CI run).
+    - How browsers present `.md` served as `text/markdown`; some may download it rather than show it, which is acceptable, and M20 sets the real headers.
+    - The unsupported-browser detection is exercised by simulation only; no real legacy browser was run (G-C).
+  - **Compared with PKForge:**
+    - `Views/AboutPopup.cs` shows the version (with a diagnostic marker), authorship, an engine credit ("Engine PKHeX · chrome PKSM (GPL-3)"), a sprite credit and the repository URL. We adopted the repository link. Our PKHeX.Core mention is a descriptive sentence rather than a credit line. We are stricter: the source commit, the full license and package notices, and the support matrix. Its art and sprite credits belong to M5/G-B.
+    - `HomePage.cs` gives per-emulator prerequisites (save in game and close the emulator, no save states, restart normally afterwards). These are adopted on the start screen.
+    - `App.CreateWindow` catches startup exceptions and shows the raw exception text, so startup is never a blank screen. We match that, but deliberately show no exception text (SEC-005), and we separate an unsupported browser, a failed load and a stalled load, which Android does not need.
+    - PKForge has no in-app error boundary or session-keeping recovery, and nothing further to adopt.
 - **M2 Load pipeline + error taxonomy.** Typed outcomes: `Empty`, `TooLarge`, `ReadFailed`, `Unrecognized`, `RecognizedNotEnabled(family)`, `IntegrityFailed`, `ParserFault`. The replacement candidate is parsed before the old session is touched, and failure keeps the session (SAVE-001–004, ERR-001/002/004). Extends the proof's failure-path tests.
   - Unchanged round trip at open (from PKForge `SaveEngineSession.ValidateUnchangedRoundTrip`): `Write()` of the freshly parsed, unmodified save must equal the original bytes, otherwise the outcome is `IntegrityFailed`. This catches saves that pass their checksums but that Core would not write back identically.
   - Move user-facing wording out of `State/` and `Services/`: `SaveLoader`, `SaveSession` and `EditorDraft` currently throw `InvalidDataException` with display messages (carried over from the proof). They return or throw typed outcomes instead, and the UI maps them to text.

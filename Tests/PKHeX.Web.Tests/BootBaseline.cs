@@ -52,16 +52,16 @@ internal static class BootBaseline
         """;
 
     /// <summary>
-    /// Reads the build the published app reports in its footer (F5): the full commit from the label's title and the version from its text.
+    /// Reads the build the published app reports in its About panel: the version and the full commit.
     /// The test assembly's own <see cref="PKHeX.Web.Services.BuildInfo"/> is not used, because the publish under test may come from another build.
-    /// Missing values read as <c>unknown</c>. M1 moves the build details to the About panel; update this with the E2E boot test's footer check.
+    /// The panel is in the page while collapsed, so nothing has to be clicked. Missing values read as <c>unknown</c>.
+    /// Keep the selectors in step with the E2E boot test's About check.
     /// </summary>
     private const string ReadBuild = """
-        () => {
-            const commit = document.querySelector('#build-label span');
-            const match = /^PKHeX\.Web (.+) · /.exec(document.getElementById('build-label')?.textContent ?? '');
-            return { version: match ? match[1] : 'unknown', commit: commit?.getAttribute('title') || 'unknown' };
-        }
+        () => ({
+            version: document.getElementById('about-version')?.textContent.trim() || 'unknown',
+            commit: document.getElementById('about-commit')?.textContent.trim() || 'unknown',
+        })
         """;
 
     /// <summary>Reads the shell-ready time and the navigation timing of the current document.</summary>

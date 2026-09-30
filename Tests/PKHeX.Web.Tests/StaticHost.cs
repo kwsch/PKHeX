@@ -184,7 +184,10 @@ internal sealed partial class StaticHost : IDisposable
             response.ContentType = Path.GetExtension(file) switch
             {
                 ".html" => "text/html", ".js" => "text/javascript", ".css" => "text/css",
-                ".json" => "application/json", ".wasm" => "application/wasm", _ => "application/octet-stream",
+                ".json" => "application/json", ".wasm" => "application/wasm",
+                // The license and notices linked from the About panel; the types Cloudflare Pages serves them with.
+                ".md" => "text/markdown; charset=utf-8", ".txt" => "text/plain; charset=utf-8",
+                _ => "application/octet-stream",
             };
             response.Headers["X-Content-Type-Options"] = "nosniff";
             response.Headers["Referrer-Policy"] = "no-referrer";

@@ -31,14 +31,60 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
         var baseUri = await session.Page.EvaluateAsync<string>("() => document.baseURI");
         Assert.True(new Uri(baseUri).AbsolutePath == "/" + prefix, $"Unexpected base href '{new Uri(baseUri).AbsolutePath}'.");
 
-        // The trimmed publish keeps the build provenance (BuildInfoTests checks the values against git).
-        await Expect(session.Page.Locator("#build-label")).ToHaveTextAsync($"PKHeX.Web {BuildInfo.WebVersion} · {BuildInfo.ShortCommit}");
-        await Expect(session.Page.Locator("#build-label span")).ToHaveAttributeAsync("title", BuildInfo.SourceCommit);
+        var page = session.Page;
+        await Expect(page.Locator("#privacy-statement")).ToHaveTextAsync("Your save is processed entirely on this device and is never uploaded.");
+        await Expect(page.Locator("#privacy-hosting")).ToContainTextAsync("may keep access logs");
+
+        // About is a disclosure: collapsed at start, and the trimmed publish keeps the build provenance (BuildInfoTests checks the values against git).
+        var toggle = page.Locator("#about-toggle");
+        await Expect(toggle).ToHaveAttributeAsync("aria-expanded", "false");
+        await Expect(page.Locator("#about")).ToBeHiddenAsync();
+        await toggle.ClickAsync();
+        await Expect(toggle).ToHaveAttributeAsync("aria-expanded", "true");
+        await Expect(page.Locator("#about")).ToBeVisibleAsync();
+        await Expect(page.Locator("#about-version")).ToHaveTextAsync(BuildInfo.WebVersion);
+        await Expect(page.Locator("#about-commit")).ToHaveTextAsync(BuildInfo.SourceCommit);
+        await Expect(page.Locator("#support-matrix tbody tr")).ToHaveCountAsync(SupportMatrix.Families.Count);
+        await Expect(page.Locator("#about-source")).ToHaveAttributeAsync("href", "https://github.com/kwsch/PKHeX");
+        await Expect(page.Locator("#about-source")).ToHaveAttributeAsync("target", "_blank");
+        await AssertLicenseLinksAsync(session);
+        await toggle.ClickAsync();
+        await Expect(page.Locator("#about")).ToBeHiddenAsync();
 
         // Give late post-boot activity (deferred fetches, service worker registration) time to show up before checking for it.
         await session.Page.WaitForTimeoutAsync(1000);
         await session.AssertNoNetworkOrPersistenceAsync();
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred during boot.");
+    }
+
+    /// <summary>
+    /// Every published license and notices file is linked from About, and every link resolves under the hosting path to that file,
+    /// served with its type, in a new tab so the session in this one survives.
+    /// </summary>
+    private async Task AssertLicenseLinksAsync(AppSession session)
+    {
+        var links = await session.Page.EvaluateAsync<LicenseLink[]>("() => [...document.querySelectorAll('#about-licenses a')].map(a => ({ href: a.href, target: a.target, rel: a.rel }))");
+        var expected = Directory.EnumerateFiles(Path.Combine(app.Root, "licenses")).Select(f => "licenses/" + Path.GetFileName(f))
+            .Append("LICENSE.txt").Append("THIRD-PARTY-NOTICES.md").Order().ToList();
+        Assert.True(links.All(l => l.Href.StartsWith(session.AppUrl, StringComparison.Ordinal)), "A license link does not resolve under the hosting path.");
+        Assert.Equal(expected, links.Select(l => l.Href[session.AppUrl.Length..]).Order().ToList());
+        foreach (var link in links)
+        {
+            var path = link.Href[session.AppUrl.Length..];
+            Assert.True(link.Target == "_blank" && link.Rel.Split(' ').Contains("noopener"), $"{path} does not open in a new tab without an opener.");
+            using var response = await app.FetchAsync(session.Prefix, path);
+            Assert.True(response.IsSuccessStatusCode, $"{path}: status {(int)response.StatusCode}.");
+            Assert.Equal(path.EndsWith(".md", StringComparison.Ordinal) ? "text/markdown" : "text/plain", response.Content.Headers.ContentType?.MediaType);
+            Assert.True((await response.Content.ReadAsByteArrayAsync()).AsSpan().SequenceEqual(File.ReadAllBytes(Path.Combine(app.Root, path))), $"{path} is not the published file.");
+        }
+    }
+
+    /// <summary>A license link as the browser resolved it. Playwright needs settable properties to deserialize it.</summary>
+    private sealed class LicenseLink
+    {
+        public string Href { get; set; } = "";
+        public string Target { get; set; } = "";
+        public string Rel { get; set; } = "";
     }
 
     [TierFact(TestCategory.E2E)]

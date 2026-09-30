@@ -1,0 +1,20 @@
+@* What the user needs to know before choosing a file: privacy, what can be opened, and that nothing is kept. *@
+<section id="start" aria-labelledby="start-title">
+    <h2 id="start-title">Before you open a save</h2>
+    <p id="privacy-statement"><strong>Your save is processed entirely on this device and is never uploaded.</strong></p>
+    <p id="privacy-hosting">The site that serves this page receives the ordinary requests for the app's own files and may keep access logs of them. The app never sends your save, its contents or anything that identifies it.</p>
+    <h3>What you can open</h3>
+    <ul>
+        <li>A raw, decrypted save file from @Games, usually named <code>main</code>, of up to 16 MiB.</li>
+        <li>Copy the save off your console or emulator with a save manager first. This app does not decrypt, repair or convert saves, and it refuses files from other games.</li>
+        <li>From an emulator: save in the game and close the emulator before copying the file. Save states are not save files and cannot be opened.</li>
+        <li>After editing, start the game normally. Loading an older save state afterwards can undo your edits.</li>
+    </ul>
+    <h3>Your changes are temporary</h3>
+    <p id="temporary-state">Your save and your edits are not stored in this browser. They exist only in this tab until you download the edited save; reloading or closing the tab discards them. Keep a backup of your original file.</p>
+</section>
+
+@code {
+    /// <summary>The games this release opens, taken from the same list the loader enforces.</summary>
+    private static string Games => string.Join(" or ", SupportMatrix.Families.Select(f => f.Games));
+}

@@ -1,13 +1,25 @@
 :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
 body { margin: 0; }
-main, footer { max-width: 56rem; margin: auto; padding: 1.5rem; }
-footer { padding-block: 0 1.5rem; font-size: .875rem; }
+[hidden] { display: none !important; }
+.page, .boot-failure { max-width: 56rem; margin: auto; padding: 1.5rem; box-sizing: border-box; }
+header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1rem; }
+header h1 { margin: 0; }
 section { border: 1px solid #888; border-radius: .5rem; padding: 1rem; margin: 1rem 0; }
+#about dd { margin: 0 0 .5rem; }
+#about code { overflow-wrap: anywhere; }
+#about li { margin-block: .5rem; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #888; padding: .5rem; text-align: start; vertical-align: top; }
 label { display: block; margin-block: .7rem .3rem; }
 button, input, select { font: inherit; padding: .6rem; max-width: 100%; box-sizing: border-box; }
-button { margin: .5rem .5rem .5rem 0; min-height: 44px; }
+button, input::file-selector-button { min-height: 44px; }
+button { margin: .5rem .5rem .5rem 0; }
+input::file-selector-button { font: inherit; padding: .6rem 1rem; margin-inline-end: 1rem; }
 :focus-visible { outline: 3px solid #397bd9; outline-offset: 3px; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 #blazor-error-ui { display: none; padding: 1rem; border: 2px solid #c44; }
+.boot-stopped #blazor-error-ui { display: none !important; }
+#fault { border: 2px solid #c44; }
+#workspace:focus { outline: none; }
 #save-drop { border: 2px dashed #888; border-radius: .5rem; padding: 0 1rem; }
 #save-drop[data-drag-over] { border-color: #397bd9; background: color-mix(in srgb, #397bd9 12%, transparent); }

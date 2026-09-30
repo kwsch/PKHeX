@@ -1,6 +1,6 @@
-# Local WebAssembly round-trip proof
+# PKHeX Web
 
-This is a standalone .NET 10 Blazor WebAssembly experiment, not the full PKHeX.Web MVP. It opens raw XY/ORAS saves locally, edits an existing boxed Pokémon’s nickname fields, runs Core legality analysis, and downloads a validated save. No save-processing server, upload API, persistent browser storage, analytics, sprites, or external runtime assets are used.
+A static .NET 10 Blazor WebAssembly editor on PKHeX.Core, in development and not yet the PKHeX.Web MVP. It opens raw XY/ORAS saves locally, edits an existing boxed Pokémon’s nickname fields, runs Core legality analysis, and downloads a validated save. No save-processing server, upload API, persistent browser storage, analytics, sprites, or external runtime assets are used.
 
 Install Microsoft's .NET 10 SDK for your platform. The verified development environment uses the machine-wide ARM64 SDK 10.0.401 and runtime 10.0.12. The Web package is pinned to 10.0.12; tests use Microsoft.Playwright 1.63.0. No repository-wide SDK pin is required. Both projects are part of `PKHeX.slnx`.
 
@@ -11,11 +11,18 @@ dotnet publish PKHeX.Web/PKHeX.Web.csproj -c Release -o PKHeX.Web/bin/Release/pu
 python3 -m http.server 8080 --bind 127.0.0.1 --directory PKHeX.Web/bin/Release/publish/wwwroot
 ```
 
-Open `http://127.0.0.1:8080/`. Serve only the published `wwwroot`, never the repository or directory containing your saves. Runtime hosting uses an ordinary static server; it does not need .NET. The proof does not install a service worker or require `wasm-tools`; the default Release publish trims managed assemblies but uses the stock interpreter runtime without optional native relinking/AOT.
+Open `http://127.0.0.1:8080/`. Serve only the published `wwwroot`, never the repository or directory containing your saves. Runtime hosting uses an ordinary static server; it does not need .NET. The app does not install a service worker or require `wasm-tools`; the default Release publish trims managed assemblies but uses the stock interpreter runtime without optional native relinking/AOT.
+
+## App shell
+
+- **Start screen.** Before a save is open, the page states that the save is processed on this device and never uploaded, that the host still sees ordinary requests for the app's own files and may log them, which files can be opened (including the emulator prerequisites: save in game and close the emulator first; save states are not save files; loading an older save state after editing can undo the edits), and that the save and edits are not kept. The games listed come from `Services/SupportMatrix`, which is also the allowlist `SaveLoader` enforces. Once a save is open, a one-line note keeps the privacy and temporary-state message in view.
+- **About.** A disclosure panel with the version, the source commit and the source repository, links to the license and notices (opened in a new tab, so the session in this one survives), and the families this release opens, none of them qualified as supported yet.
+- **Startup failures.** `wwwroot/boot.js` starts Blazor itself (`autostart="false"`) and is kept to ES2015 syntax so that the old browsers it turns away can still parse it (a Unit test checks this). A browser without WebAssembly, WebAssembly SIMD or exception handling, 64-bit integer arrays or Blob downloads gets an explanation, and the runtime is never downloaded. In .NET 10 `Blazor.start()` does not settle when a download fails, so the script watches for the loader's unhandled errors that name a file under `_framework/`. Unrelated errors, such as one from a browser extension, are ignored. Once such errors have been quiet for 3 seconds without a completed start, a retry screen replaces the loading message. A download that never answers raises no error, so after 30 seconds a "still loading" hint offers a retry while loading continues.
+- **Faults.** The workspace sits inside `Components/FaultBoundary`. A fault there shows a recovery screen instead of the page-wide error bar, and focus moves to its heading. It offers: return to the workspace (the open save and every applied change are kept; the unapplied draft is dropped), discard the session, or reload. Focus returns to the workspace after recovering. The session lives in `State/WorkspaceState` outside the boundary, and an apply is staged on a clone, so a fault cannot leave it half-written. No exception details are shown; the exception, including its message and stack, is logged to the browser console only. The unsaved-changes warning is armed by the shell, so it stays in force while the recovery screen is up.
 
 ## Build provenance and notices
 
-The page footer shows the Web version (the repository `Version`) and the git commit the build was made from, which also identifies the Core revision. Both are embedded at build time as assembly metadata by the `AddBuildProvenance` target in `PKHeX.Web.csproj`, using the SDK's built-in git query, so no `git` executable is needed. The commit is the checked-out one; uncommitted changes are not reflected. It is recorded only when the git repository is this repository, so a build from a source archive, or from a copy inside another repository, records `unknown`; pass `-p:PKHeXSourceCommit=<sha>` to record it explicitly.
+The About panel shows the Web version (the repository `Version`) and the git commit the build was made from, which also identifies the Core revision. Both are embedded at build time as assembly metadata by the `AddBuildProvenance` target in `PKHeX.Web.csproj`, using the SDK's built-in git query, so no `git` executable is needed. The commit is the checked-out one; uncommitted changes are not reflected. It is recorded only when the git repository is this repository, so a build from a source archive, or from a copy inside another repository, records `unknown`; pass `-p:PKHeXSourceCommit=<sha>` to record it explicitly.
 
 The publish output includes `LICENSE.txt`, `THIRD-PARTY-NOTICES.md` (every package the Web build restores, with its version and license, split into published, removed by trimming and build-only) and the upstream .NET notices under `licenses/`. Serve them together with the rest of `wwwroot`. The E2E tier fails if the restore graph changes without a matching update to `THIRD-PARTY-NOTICES.md`, or if the publish contains a package file the notices do not list as published. The runtime pack version comes from the installed SDK, so a different SDK patch needs a notices update; those checks are therefore in the opt-in E2E tier, which CI runs on the pinned SDK, rather than in Unit.
 
@@ -89,7 +96,7 @@ Blazor hides trim-analysis warnings in a normal publish. `PKHeX.Web/tools/trim-w
 - Core chooses the format, parses entities, analyzes legality, writes slots and serializes saves. No Core source or public API changes are required.
 - Apply edits a temporary working copy; Download does not confirm filesystem persistence. A changed session remains visibly edited after downloading.
 - Replacing a changed session requires explicit discard or cancel; users can cancel replacement and download first.
-- An empty box is not an invitation to generate a Pokémon. The proof does not import entities, legalize them, edit species/stats, or manipulate dex/records.
+- An empty box is not an invitation to generate a Pokémon. The app does not import entities, legalize them, edit species/stats, or manipulate dex/records.
 - Input and working-save integrity are checked, but console acceptance and physical Safari/iOS behavior are not established by these tests.
 - Playwright WebKit is engine coverage, not a claim of physical-device qualification.
 

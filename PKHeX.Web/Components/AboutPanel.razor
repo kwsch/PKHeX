@@ -1,0 +1,51 @@
+@* Build identity, licenses and what this release opens. Everything here is part of the publish, so it works without any remote lookup. *@
+<section id="@Id" aria-labelledby="about-title" hidden="@Hidden">
+    <h2 id="about-title">About PKHeX Web</h2>
+    <p>PKHeX Web edits Pokémon save files in your browser with PKHeX.Core, the library behind the PKHeX desktop editor.</p>
+    <dl>
+        <dt>Version</dt>
+        <dd id="about-version">@BuildInfo.WebVersion</dd>
+        <dt>Source commit (PKHeX Web and PKHeX.Core)</dt>
+        <dd><code id="about-commit">@BuildInfo.SourceCommit</code></dd>
+        <dt>Source code</dt>
+        <dd><a id="about-source" href="@SourceRepository" target="_blank" rel="noopener noreferrer">@SourceRepository</a></dd>
+    </dl>
+
+    <h3>Licenses</h3>
+    @* Links open in a new tab: leaving this one would end the in-memory session. *@
+    <ul id="about-licenses">
+        <li><a href="LICENSE.txt" target="_blank" rel="noopener noreferrer">PKHeX license</a></li>
+        <li><a href="THIRD-PARTY-NOTICES.md" target="_blank" rel="noopener noreferrer">Third-party notices for this build</a></li>
+        <li><a href="licenses/dotnet-runtime.txt" target="_blank" rel="noopener noreferrer">.NET runtime notices</a></li>
+        <li><a href="licenses/aspnetcore.txt" target="_blank" rel="noopener noreferrer">ASP.NET Core notices</a></li>
+        <li><a href="licenses/aspnetcore-components.txt" target="_blank" rel="noopener noreferrer">Blazor components notices</a></li>
+        <li><a href="licenses/dotnet-extensions.txt" target="_blank" rel="noopener noreferrer">.NET extensions notices</a></li>
+    </ul>
+
+    <h3>Save files this release opens</h3>
+    <table id="support-matrix">
+        <thead>
+            <tr><th scope="col">Games</th><th scope="col">Status</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var family in SupportMatrix.Families)
+            {
+                <tr><td>@family.Games</td><td>Opens raw, decrypted saves. In testing; not yet qualified as supported.</td></tr>
+            }
+        </tbody>
+    </table>
+    <p>Saves from other games are refused, even when PKHeX.Core recognises them. No browser has been qualified yet; automated tests run in Chromium, Firefox and WebKit.</p>
+</section>
+
+@code {
+    /// <summary>Repository the corresponding source of this build is published in; <see cref="BuildInfo.SourceCommit"/> identifies the revision.</summary>
+    private const string SourceRepository = "https://github.com/kwsch/PKHeX";
+
+    /// <summary>Element id, for the controlling button's <c>aria-controls</c>.</summary>
+    [Parameter, EditorRequired]
+    public string Id { get; set; } = "";
+
+    /// <summary>True while the panel is collapsed. It stays in the page either way.</summary>
+    [Parameter]
+    public bool Hidden { get; set; }
+}

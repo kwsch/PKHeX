@@ -21,9 +21,6 @@ public static class BuildInfo
     /// <summary>Metadata key for the source commit.</summary>
     internal const string CommitKey = "PKHeXSourceCommit";
 
-    /// <summary>Length of <see cref="ShortCommit"/>.</summary>
-    public const int ShortCommitLength = 12;
-
     private static readonly AssemblyMetadataAttribute[] Metadata = [.. typeof(BuildInfo).Assembly.GetCustomAttributes<AssemblyMetadataAttribute>()];
 
     /// <summary>Release version of this build, shared with the rest of the repository.</summary>
@@ -32,16 +29,10 @@ public static class BuildInfo
     /// <summary>Full git commit of the source tree this build was made from, or <see cref="Unknown"/>.</summary>
     public static string SourceCommit { get; } = Read(Metadata, CommitKey);
 
-    /// <summary><see cref="SourceCommit"/> abbreviated for display.</summary>
-    public static string ShortCommit => Abbreviate(SourceCommit);
-
     /// <summary>Returns the value recorded under <paramref name="key"/>, or <see cref="Unknown"/> if it is missing or blank.</summary>
     internal static string Read(IEnumerable<AssemblyMetadataAttribute> metadata, string key)
     {
         var value = metadata.FirstOrDefault(m => m.Key == key)?.Value;
         return string.IsNullOrWhiteSpace(value) ? Unknown : value.Trim();
     }
-
-    /// <summary>Shortens a commit to <see cref="ShortCommitLength"/> characters; other values are returned unchanged.</summary>
-    internal static string Abbreviate(string commit) => commit == Unknown || commit.Length <= ShortCommitLength ? commit : commit[..ShortCommitLength];
 }

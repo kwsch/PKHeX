@@ -22,7 +22,6 @@ public sealed class BuildInfoTests
         var head = GitHead();
         Assert.True(BuildInfo.SourceCommit == head, $"The build records commit {BuildInfo.SourceCommit} but HEAD is {head}; rebuild before testing.");
         Assert.Matches("^[0-9a-f]{40}$", BuildInfo.SourceCommit);
-        Assert.Equal(BuildInfo.SourceCommit[..BuildInfo.ShortCommitLength], BuildInfo.ShortCommit);
     }
 
     [Fact]
@@ -49,12 +48,6 @@ public sealed class BuildInfoTests
         Assert.Equal("1.2.3", BuildInfo.Read(metadata, BuildInfo.VersionKey));
         Assert.Equal("abc", BuildInfo.Read(metadata, BuildInfo.CommitKey));
     }
-
-    [Theory]
-    [InlineData("unknown", "unknown")]
-    [InlineData("abc", "abc")]
-    [InlineData("0123456789abcdef", "0123456789ab")]
-    public void AbbreviatesOnlyLongCommits(string commit, string expected) => Assert.Equal(expected, BuildInfo.Abbreviate(commit));
 
     private static string GitHead()
     {

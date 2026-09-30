@@ -5,13 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <base href="/" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
-    <title>PKHeX Web — WASM proof</title>
+    <title>PKHeX Web</title>
     <link rel="stylesheet" href="app.css" />
 </head>
 <body>
-    <div id="app"><p role="status">Loading local WebAssembly application…</p></div>
-    <div id="blazor-error-ui">An unexpected error occurred. Reloading discards this temporary session. <a href="">Reload</a></div>
+    <div id="app"><p role="status">Loading PKHeX Web…</p></div>
+    <!-- Shown by boot.js while loading takes unusually long; loading continues underneath. -->
+    <div id="boot-slow" class="boot-failure" hidden>
+        <p>Still loading. On a slow connection this can take a while; if nothing changes, try again.</p>
+        <button id="boot-slow-retry" type="button">Try again</button>
+    </div>
+    <!-- Shown by boot.js instead of the app. Both appear before any file can be chosen, so nothing is lost. -->
+    <section id="boot-unsupported" class="boot-failure" role="alert" hidden>
+        <h1>PKHeX Web</h1>
+        <p>This browser cannot run PKHeX Web. It lacks: <span id="boot-missing"></span>.</p>
+        <p>Use a current version of Chrome, Edge, Firefox or Safari. Some embedded or locked-down browsers disable these features.</p>
+    </section>
+    <section id="boot-failed" class="boot-failure" role="alert" hidden>
+        <h1>PKHeX Web</h1>
+        <p>The app's files could not be loaded. Check your connection, then try again.</p>
+        <button id="boot-retry" type="button">Try again</button>
+    </section>
+    <div id="blazor-error-ui">An unexpected error occurred. Reloading discards this temporary session and any changes you have not downloaded. <a href="">Reload</a></div>
     <script src="drop-guard.js"></script>
-    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
+    <script src="boot.js"></script>
 </body>
 </html>

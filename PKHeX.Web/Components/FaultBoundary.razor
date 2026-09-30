@@ -1,0 +1,80 @@
+@inherits ErrorBoundaryBase
+@inject WorkspaceState State
+@inject NavigationManager Navigation
+@inject ILogger<FaultBoundary> Logger
+
+@* Catches faults from the workspace so they end in a recoverable screen instead of Blazor's page-wide error bar.
+   No exception details are shown or sent anywhere; they go to the browser console only. *@
+@if (CurrentException is null)
+{
+    @* Focusable only from script, so focus has somewhere to land after a recovery. *@
+    <div id="workspace" tabindex="-1" @ref="content">@ChildContent</div>
+}
+else
+{
+    @* Focus moves to the heading, which announces the fault; a live region as well would announce it twice. *@
+    <section id="fault" aria-labelledby="fault-title">
+        <h2 id="fault-title" tabindex="-1" @ref="heading">This screen stopped working</h2>
+        @if (State.Session is not null)
+        {
+            <p>Your open save is still in this tab. Returning keeps every change you applied and discards the unapplied draft. Downloads are still checked before they start.</p>
+            <button id="fault-return" type="button" @onclick="Return">Return to the workspace</button>
+            <p>Discarding closes the save; changes you have not downloaded are lost.</p>
+            <button id="fault-discard" type="button" @onclick="Discard">Discard session</button>
+        }
+        else
+        {
+            <button id="fault-discard" type="button" @onclick="Discard">Start over</button>
+        }
+        <p>Reloading the page also discards the open save and any changes you have not downloaded.</p>
+        <button id="fault-reload" type="button" @onclick="Reload">Reload page</button>
+    </section>
+}
+
+@code {
+    private ElementReference heading, content;
+    private bool focused, refocus;
+
+    protected override Task OnErrorAsync(Exception exception)
+    {
+        Logger.LogError(exception, "A workspace component failed.");
+        return Task.CompletedTask;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Move focus to the fault once, so keyboard and screen reader users land on the recovery options.
+        if (CurrentException is not null && !focused)
+        {
+            focused = true;
+            await heading.FocusAsync();
+        }
+        else if (CurrentException is null && refocus)
+        {
+            // The recovery buttons are gone; without this, focus would drop to the page body.
+            refocus = false;
+            await content.FocusAsync();
+        }
+    }
+
+    private void Return()
+    {
+        State.RecoverAfterFault();
+        Reset();
+    }
+
+    private void Discard()
+    {
+        State.Discard();
+        Reset();
+    }
+
+    private void Reset()
+    {
+        focused = false;
+        refocus = true;
+        Recover();
+    }
+
+    private void Reload() => Navigation.Refresh(forceReload: true);
+}

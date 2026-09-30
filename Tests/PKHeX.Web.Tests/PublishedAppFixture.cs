@@ -43,6 +43,8 @@ public sealed class PublishedAppFixture : IAsyncLifetime
         [".json"] = "application/json",
         [".wasm"] = "application/wasm",
         [".dat"] = "application/octet-stream",
+        [".md"] = "text/markdown",
+        [".txt"] = "text/plain",
     };
 
     /// <summary>Requested by some browsers on their own; the published app has none, so it is the only 404 allowed.</summary>
@@ -94,13 +96,10 @@ public sealed class PublishedAppFixture : IAsyncLifetime
     /// </summary>
     public async Task<AppSession> BootAsync(string engine, string prefix)
     {
-        var browser = await GetBrowserAsync(engine);
-        var context = await browser.NewContextAsync(new() { AcceptDownloads = true });
-        AppSession? session = null;
+        var session = await CreateSessionAsync(engine, prefix);
         try
         {
-            session = await AppSession.CreateAsync(context, prefix, browser.Version);
-            await session.Page.GotoAsync(host!.Url + prefix);
+            await session.Page.GotoAsync(session.AppUrl);
             await Expect(session.Page.Locator("#save-file")).ToBeVisibleAsync(new() { Timeout = 60000 });
             session.BootMs = session.ElapsedMs;
             await AssertStaticBootAsync(session);
@@ -108,9 +107,38 @@ public sealed class PublishedAppFixture : IAsyncLifetime
         }
         catch
         {
+            await session.DisposeAsync();
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Opens a fresh browser context with the recorders installed, without navigating, for tests that change how the page loads
+    /// (routes or init scripts) before going to <see cref="AppSession.AppUrl"/>. Nothing about the boot is checked.
+    /// </summary>
+    public async Task<AppSession> CreateSessionAsync(string engine, string prefix)
+    {
+        var browser = await GetBrowserAsync(engine);
+        var context = await browser.NewContextAsync(new() { AcceptDownloads = true });
+        try
+        {
+            return await AppSession.CreateAsync(context, prefix, browser.Version, host!.Url + prefix);
+        }
+        catch
+        {
             await context.DisposeAsync();
             throw;
         }
+    }
+
+    /// <summary>
+    /// Fetches <paramref name="path"/> (relative to the app at <paramref name="prefix"/>) straight from the host, outside any browser,
+    /// so the request is not counted as page activity.
+    /// </summary>
+    public async Task<HttpResponseMessage> FetchAsync(string prefix, string path)
+    {
+        using var client = new HttpClient();
+        return await client.GetAsync(host!.Url + prefix + path);
     }
 
     /// <summary>
@@ -254,11 +282,12 @@ public sealed class AppSession : IAsyncDisposable
     private ConcurrentQueue<string> failures = [];
     private int pageErrors;
 
-    private AppSession(IBrowserContext context, IPage page, string prefix, string browserVersion)
+    private AppSession(IBrowserContext context, IPage page, string prefix, string browserVersion, string appUrl)
     {
         Context = context;
         Page = page;
         Prefix = prefix;
+        AppUrl = appUrl;
         BrowserVersion = browserVersion;
         page.PageError += (_, _) => Interlocked.Increment(ref pageErrors);
         page.Dialog += async (_, dialog) =>
@@ -269,9 +298,9 @@ public sealed class AppSession : IAsyncDisposable
     }
 
     /// <summary>Opens the context's page and installs the recorders. Nothing has been navigated yet.</summary>
-    internal static async Task<AppSession> CreateAsync(IBrowserContext context, string prefix, string browserVersion)
+    internal static async Task<AppSession> CreateAsync(IBrowserContext context, string prefix, string browserVersion, string appUrl)
     {
-        var session = new AppSession(context, await context.NewPageAsync(), prefix, browserVersion);
+        var session = new AppSession(context, await context.NewPageAsync(), prefix, browserVersion, appUrl);
         context.Request += (_, request) => Volatile.Read(ref session.requests).Enqueue(request);
         context.Response += (_, response) => Volatile.Read(ref session.responses).Enqueue(response);
         context.RequestFailed += (_, request) => Volatile.Read(ref session.failures).Enqueue(request.Failure ?? "unknown");
@@ -296,6 +325,9 @@ public sealed class AppSession : IAsyncDisposable
 
     /// <summary>Hosting path the app was booted at: empty for the root, or <c>PKHeX/</c>.</summary>
     public string Prefix { get; }
+
+    /// <summary>Absolute URL of the app's page on the test host, including the <see cref="Prefix"/>.</summary>
+    public string AppUrl { get; }
 
     /// <summary>Version string of the browser engine, for evidence.</summary>
     public string BrowserVersion { get; }
