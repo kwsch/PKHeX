@@ -46,8 +46,9 @@ public static class UserMessages
     /// <summary>Text for a refused session, draft or export operation.</summary>
     public static string For(SessionError error) => error switch
     {
-        SessionError.SlotNotOccupied => "Choose an occupied box slot.",
-        SessionError.EntityChecksumInvalid => "The selected Pokémon has an invalid checksum, so it cannot be edited.",
+        SessionError.SlotNotOccupied => "That position is empty. Choose a Pokémon.",
+        SessionError.PartyApplyNotAvailable => "Party members can be inspected but not changed in this release.",
+        SessionError.EntityInvalid => "The selected Pokémon is a bad egg (its data fails the game's checks), so it cannot be opened.",
         SessionError.ForeignDraft => "The draft does not belong to the open save. Select the Pokémon again.",
         SessionError.StaleDraft => "The draft is out of date. Select the Pokémon again.",
         SessionError.DraftUnapplied => "Apply or cancel the draft before downloading.",

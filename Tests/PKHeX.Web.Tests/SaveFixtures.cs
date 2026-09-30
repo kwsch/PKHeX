@@ -47,6 +47,16 @@ internal static class SaveFixtures
         return save.Write().ToArray();
     }
 
+    /// <summary>
+    /// Customisation for <see cref="Synthetic"/>: puts the known legal PK6 in party position 1, nicknamed <paramref name="nickname"/>,
+    /// so the party and box 1, slot 1 hold told-apart copies of the same entity.
+    /// </summary>
+    public static Action<SaveFile> WithPartyMember(string nickname = "PartyMon") => save =>
+    {
+        var entity = new PK6(ReadEntity(true)) { Nickname = nickname, IsNicknamed = true };
+        save.SetPartySlotAtIndex(entity, 0, EntityImportSettings.None);
+    };
+
     /// <summary>Opens <paramref name="bytes"/> through <see cref="Services.SaveLoader"/>, failing the test with the outcome if no session was created.</summary>
     public static SaveSession Open(byte[] bytes, string? fileName = null)
     {
@@ -57,17 +67,22 @@ internal static class SaveFixtures
     public static SaveFile Parse(byte[] bytes) => SaveUtil.GetSaveFile(bytes.ToArray())
         ?? throw new InvalidOperationException("Fixture recognition failed.");
 
-    public static SlotInfoBox Slot(SaveFile save, int index) => new(index / save.BoxSlotCount, index % save.BoxSlotCount, save);
+    /// <summary>Box 1, slot 1, where <see cref="Synthetic"/> stores its entity.</summary>
+    public static readonly SlotRef FirstBoxSlot = SlotRef.InBox(0, 0);
+
+    public static SlotInfoBox Slot(SaveFile save, SlotRef slot) => new(slot.Box, slot.Slot, save);
 
     /// <summary>First occupied, checksum-valid, writable boxed PK6 in box/slot order.</summary>
-    public static int WritableSlot(SaveFile save)
+    public static SlotRef WritableSlot(SaveFile save)
     {
         var result = Enumerable.Range(0, save.SlotCount).FirstOrDefault(i =>
         {
-            var slot = Slot(save, i);
+            var slot = Slot(save, SlotRef.InBox(i / save.BoxSlotCount, i % save.BoxSlotCount));
             var pk = slot.Read(save);
             return pk is PK6 && pk.Species != 0 && pk.ChecksumValid && slot.CanWriteTo(save) && slot.CanWriteTo(save, pk) == WriteBlockedMessage.None;
         }, -1);
-        return result >= 0 ? result : throw new InvalidOperationException("Real fixture contains no occupied, checksum-valid, writable boxed PK6.");
+        return result >= 0
+            ? SlotRef.InBox(result / save.BoxSlotCount, result % save.BoxSlotCount)
+            : throw new InvalidOperationException("Real fixture contains no occupied, checksum-valid, writable boxed PK6.");
     }
 }

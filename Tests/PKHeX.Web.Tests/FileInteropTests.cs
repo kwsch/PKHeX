@@ -85,7 +85,7 @@ public sealed class FileInteropTests(PublishedAppFixture app)
         Assert.True(page.Url == url, "A drop navigated the page.");
 
         // Text can still be dropped into a text field; a file cannot, and nothing can be dropped on other controls.
-        await Select(page, 0);
+        await Select(page);
         Assert.False(await Drop(page, "#nickname", [], "Dropped"), "Text drops into a field were blocked.");
         Assert.True(await Drop(page, "#nickname", [("main", oras)]), "A file dropped on a field was not blocked.");
         Assert.True(await Drop(page, "#nicknamed", [], "https://example.com/"), "A link dropped on a checkbox was not blocked.");

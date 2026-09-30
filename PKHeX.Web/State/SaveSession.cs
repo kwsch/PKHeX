@@ -32,16 +32,11 @@ public sealed class SaveSession
     /// <summary>The <see cref="Revision"/> of the last export whose download was started, or null if none.</summary>
     public int? ExportedRevision { get; private set; }
 
-    /// <summary>Flat box-slot indexes that held an entity when the session was opened.</summary>
-    public IReadOnlyList<int> OccupiedSlots { get; }
-
     internal SaveSession(byte[] source, SaveFile save, string fileName)
     {
         original = source;
         FileName = fileName;
         Working = save;
-        OccupiedSlots = Enumerable.Range(0, save.SlotCount)
-            .Where(i => GetSlot(save, i).Read(save).Species != 0).ToArray();
     }
 
     /// <summary>Returns a copy of the bytes the session was opened from.</summary>
@@ -50,32 +45,36 @@ public sealed class SaveSession
     /// <summary>Size of the file the session was opened from, in bytes.</summary>
     public int OriginalLength => original.Length;
 
-    /// <summary>Human-readable box/slot label for a flat box-slot index.</summary>
-    public string SlotLabel(int index) => $"Box {(index / Working.BoxSlotCount) + 1}, slot {(index % Working.BoxSlotCount) + 1}";
-
     /// <summary>
-    /// Starts a draft from an occupied box slot of the current revision.
+    /// Starts a draft from an occupied party position or box slot, read from the current revision.
     /// </summary>
-    /// <exception cref="SessionException"><see cref="SessionError.SlotNotOccupied"/> or <see cref="SessionError.EntityChecksumInvalid"/>.</exception>
-    public EditorDraft Select(int index)
+    /// <remarks>
+    /// The slot is read afresh on every call, so a draft is never taken from an earlier state of the save.
+    /// Party positions at or after <see cref="SaveFile.PartyCount"/> count as empty whatever bytes they still hold, as they do in game.
+    /// </remarks>
+    /// <exception cref="SessionException"><see cref="SessionError.SlotNotOccupied"/> or <see cref="SessionError.EntityInvalid"/>.</exception>
+    public EditorDraft Select(SlotRef slot)
     {
-        if (!OccupiedSlots.Contains(index))
+        if (ReadOccupied(Working, slot) is not PK6 entity)
         {
             throw new SessionException(SessionError.SlotNotOccupied);
         }
-        var entity = (PK6)GetSlot(Working, index).Read(Working);
-        if (!entity.ChecksumValid)
+        // PKM.Valid is the checksum plus the sanity flag; the game shows either failure as a bad egg, as does WinForms.
+        if (!entity.Valid)
         {
-            throw new SessionException(SessionError.EntityChecksumInvalid);
+            throw new SessionException(SessionError.EntityInvalid);
         }
-        return new EditorDraft(SessionId, index, Revision, entity, Working.MaxStringLengthNickname);
+        return new EditorDraft(SessionId, slot, Revision, entity, Working.MaxStringLengthNickname);
     }
 
     /// <summary>
     /// Writes a draft to its source slot. The write is staged on a clone of the working save and swapped in only after it is verified.
     /// </summary>
     /// <remarks>A draft with no changes is ignored and does not count as a change.</remarks>
-    /// <exception cref="SessionException">The draft is foreign or stale, the slot cannot be written, or the staged write fails verification.</exception>
+    /// <exception cref="SessionException">
+    /// The draft is foreign or stale, it is of a party position (not yet written by this release), the slot cannot be written,
+    /// or the staged write fails verification.
+    /// </exception>
     public void Apply(EditorDraft draft)
     {
         EnsureOwns(draft);
@@ -84,10 +83,14 @@ public sealed class SaveSession
             return;
         }
         EnsureCurrent(draft);
+        if (!draft.CanApply)
+        {
+            throw new SessionException(SessionError.PartyApplyNotAvailable);
+        }
 
         var entity = draft.ToStoredEntity();
         var candidate = Working.Clone();
-        var slot = GetSlot(candidate, draft.SlotIndex);
+        var slot = draft.Slot.ToSlotInfo(candidate);
         if (!slot.CanWriteTo(candidate) || slot.CanWriteTo(candidate, entity) != WriteBlockedMessage.None)
         {
             throw new SessionException(SessionError.SlotNotWritable);
@@ -144,6 +147,17 @@ public sealed class SaveSession
         }
     }
 
-    /// <summary>Resolves a flat box-slot index to its slot on <paramref name="save"/>.</summary>
-    internal static SlotInfoBox GetSlot(SaveFile save, int index) => new(index / save.BoxSlotCount, index % save.BoxSlotCount, save);
+    /// <summary>
+    /// The entity at <paramref name="slot"/> of <paramref name="save"/>, or null when the position does not exist or holds nothing.
+    /// </summary>
+    /// <remarks>Party positions at or after <see cref="SaveFile.PartyCount"/> are empty, even if an earlier member's bytes remain there.</remarks>
+    internal static PKM? ReadOccupied(SaveFile save, SlotRef slot)
+    {
+        if (!slot.IsWithin(save) || (slot.IsParty && slot.Slot >= save.PartyCount))
+        {
+            return null;
+        }
+        var entity = slot.ToSlotInfo(save).Read(save);
+        return entity.Species == 0 ? null : entity;
+    }
 }

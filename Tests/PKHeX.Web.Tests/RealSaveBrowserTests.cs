@@ -51,7 +51,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         var beforeSet = changed.Data.ToArray();
         Assert.True(SaveFixtures.Slot(changed, index).WriteTo(changed, editedPk, EntityImportSettings.None));
 
-        var start = changed.GetBoxOffset(index / changed.BoxSlotCount) + (index % changed.BoxSlotCount) * changed.SIZE_BOXSLOT;
+        var start = changed.GetBoxSlotOffset(index.Box, index.Slot);
         var slotSize = changed.SIZE_BOXSLOT;
         Assert.True(changed.PartyCount == native.PartyCount, "Party count changed.");
         Assert.True(beforeSet.AsSpan(0, start).SequenceEqual(changed.Data[..start]), "Native edit changed data before the target slot.");
@@ -109,7 +109,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         await page.ReloadAsync();
         await Expect(page.Locator("#save-file")).ToBeVisibleAsync();
         await Expect(page.Locator("#overview-title")).ToHaveCountAsync(0);
-        await Expect(page.Locator("#slot")).ToHaveCountAsync(0);
+        await Expect(page.Locator("#box-grid")).ToHaveCountAsync(0);
 
         // The reload is a second boot: check it the same way, then that it left nothing behind.
         await app.AssertStaticBootAsync(session);

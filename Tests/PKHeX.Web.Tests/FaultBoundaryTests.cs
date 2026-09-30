@@ -70,7 +70,7 @@ public sealed class FaultBoundaryTests : IDisposable
     {
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
         state.Open(session);
-        var draft = session.Select(0);
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
         draft.EditNickname("Unapplied", true);
         state.SetDraft(draft);
 

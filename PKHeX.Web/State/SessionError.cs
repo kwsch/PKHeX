@@ -5,11 +5,14 @@ namespace PKHeX.Web.State;
 /// </summary>
 public enum SessionError
 {
-    /// <summary>The chosen box slot held no entity when the session was opened.</summary>
+    /// <summary>The chosen party position or box slot holds no entity, or does not exist in the save.</summary>
     SlotNotOccupied,
 
-    /// <summary>The entity in the chosen slot fails its checksum.</summary>
-    EntityChecksumInvalid,
+    /// <summary>The entity in the chosen slot is a bad egg: it fails its checksum or its sanity check (<see cref="PKHeX.Core.PKM.Valid"/>).</summary>
+    EntityInvalid,
+
+    /// <summary>The draft is of a party position; this release inspects party members but does not write them yet.</summary>
+    PartyApplyNotAvailable,
 
     /// <summary>The draft was taken from another session.</summary>
     ForeignDraft,

@@ -582,6 +582,83 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
       - Trainer editing, which is WEB-TRAINER-001/002 (MVP+).
       - BP/coin stats, which are WEB-OVERVIEW-003 (post-MVP).
 - **M4 Party + box grid.** Party strip plus the current box only. Box selector and prev/next use Core `BoxCount`/`BoxSlotCount` and box names. The grid is a single tab stop with arrow keys and Enter, plus a list alternative. Slots are labelled with coordinates and species text. Empty slots never open a stale entity (PARTY-001, BOX-001/008, A11Y-001). Slot labels are built in the UI from box/slot coordinates, replacing `SaveSession.SlotLabel`.
+
+  **M4 status:** code complete on `web/m4-party-box-grid`.
+  - **Positions** (`State/SlotRef`): a party position or a box slot, zero-based, created through `InParty`/`InBox`. `ToSlotInfo` gives Core's `SlotInfoParty`/`SlotInfoBox`, replacing `SaveSession.GetSlot(save, int)` and the flat index. `SlotRef.PartyPositions` is 6, because Core's `MaxPartyCount` is private.
+  - **Session.** `OccupiedSlots` (a scan of every box at open) and `SlotLabel` are removed. `Select(SlotRef)` reads the live working save, so a draft is never taken from an earlier revision. Empty, out-of-range and party positions at or after `PartyCount` are `SlotNotOccupied`, even when a released member's bytes remain there; an entity that fails `PKM.Valid` (checksum or sanity flag, a bad egg as the game and WinForms' `SlotUtil` treat it) is `EntityInvalid`, renamed from `EntityChecksumInvalid`, which checked the checksum only. `EditorDraft.SlotIndex` became `Slot`, and legality uses the slot's own type, so a party member is analysed as `StorageSlotType.Party`.
+  - **Party is inspect-only** (decided for M4): `EditorDraft.CanApply` is false for party drafts, and `Apply` refuses them with the new `SessionError.PartyApplyNotAvailable` before staging anything. The nickname fields are read-only for a party draft, so it can never become dirty. M9 lifts this with the party-stat policy.
+  - **Views** (`Services/StorageView`): typed `SlotSummary` (occupied, readable, species, nickname when nicknamed, egg, shiny) and `BoxView`, read from the current revision. `StorageBrowser` reads them again whenever the session, its revision or the shown box changes (the working save changes only through an apply, which advances the revision), so a keystroke in the nickname field does not decrypt the party and a box. Only the party and the shown box are read, and no legality runs while browsing (BOX-008). Box names come from `IBoxDetailNameRead`, null when blank; `BoxName` reads a name without reading slots, for the selector. A bad egg (failing `PKM.Valid`) is reported as not readable, with nothing read from it. The first box shown is the save's in-game `CurrentBox`, or box 1 when that is out of range.
+  - **Text** (`Components/SlotText`, invariant culture): "Party position 2", "Box 3, slot 7 (row 2, column 1)", contents ("Zigzagoon \"Ziggy\", shiny", "Egg", "Empty", "Bad egg", or "Unknown species (stored value N)"), and box titles from the stored name or Core's `GetDefaultBoxName`. The selector shows "5. Box 5", so equal names stay distinct. Columns: 6 for a box and 2 for the party, as the games lay them out; rows follow `BoxSlotCount`.
+  - **UI.**
+    - `Components/SlotGrid`: `role="grid"` rows of gridcell buttons with a roving tabindex. Arrows move (no wrap at the edges), Home/End go to the row ends, Ctrl+Home/End to the first and last slot, and Enter/Space open a slot as any button does. The draft's slot is `aria-selected`, and a newly created grid (e.g. after leaving the list view) puts its tab stop there. Each button's accessible name is position plus contents, and its visible text is the short contents. The column count is a class, not an inline style, because the CSP (`style-src 'self'`) blocks style attributes.
+    - `wwwroot/grid-keys.js`: a classic script in `index.html` that cancels the default (scrolling) of navigation keys inside `[role=grid]`. It deviates from the plan's lazily imported module: an import after a save is opened is a request after boot, which `AssertNoNetworkOrPersistenceAsync` rightly fails, and would reveal to the host that a save was opened. Boot is now 61 requests cold and 9 warm (confirmed by a 2-run Perf tier; timings did not move).
+    - `Components/SlotList`: the list alternative, a table with Position, Contents and an Open button for each slot that can be opened; the draft's row has `aria-current`.
+    - `Components/StorageBrowser`: "Party and boxes" with a "Show as a list" toggle, the party ("Party (n of 6)"), the box title, Previous/Next (wrapping, as WinForms does) and a box selector. The view choice and current box live in `WorkspaceState` (`CurrentBox`, `ShowBox`, `ShowAsList`); navigation raises no `Changed`, because it cannot affect unsaved work. The box is kept across fault recovery and reset on open and discard.
+    - `WorkspaceState.OpenSlot` decides activation on the live save and returns a typed `SlotOpening`. It never replaces a dirty or refused draft (`DraftPending`; navigation is still allowed). It leaves the slot that is already open as it is (`AlreadyOpen`, which keeps its legality result). An empty slot or a bad egg closes a clean draft and opens nothing (`Empty`, `Unreadable`). `Workspace` maps each outcome to text. Opening announces "Opened {label}." in `#message`. The draft section is labelled by its heading and shows its position (`#draft-slot`); a party draft shows `#party-note`. Previous/Next announce the box they show in a visually hidden status (`#box-status`); the selector announces its own value.
+    - At 375 px the selector takes its own row with Previous/Next beneath it, and slot text shrinks. Species names can break mid-word in the 6-column grid; these are text placeholders until M5's sprites.
+  - **Tests.**
+    - **Unit 273** (up from 215):
+      - `StorageViewTests` (14): Core box and slot counts for XY and ORAS; slot contents; egg, shiny and nickname; bad eggs by checksum and by sanity flag (with a valid checksum); six party positions with empties; bytes after the party count never shown or opened; stored, blank, whitespace and hostile box names; in-game current box (4 rows); views following a new revision.
+      - `SlotTextTests` (11): exact positions, contents, labels and box titles, identical under de-DE, ar-SA and hi-IN.
+      - `SlotGridTests` (20, bUnit): rows, cells, names and the single tab stop; 15 key movements, including the edges, non-navigation keys and Alt/Meta-modified keys, with focus following; activation of any slot; `aria-selected`; the tab stop kept in range when the grid shrinks and keys still moving focus afterwards, and placed on the open slot in a new grid.
+      - `SessionTests` (+4): the party member (not the boxed copy) is opened and analysed as party, matching native Core; a party apply is refused and changes nothing; out-of-range positions; select reads the current revision.
+      - `WorkspaceStateTests` (+4): the start box and wrapping; the box kept on recovery and reset on open and discard; `OpenSlot` opening party and box entities, closing the clean draft on empty and unreadable positions, keeping the open slot's draft, and never replacing unapplied or refused work.
+      - `StorageBrowserPanelTests` (5, bUnit): the views show a new revision after an apply, and a new session at the same revision and box; a re-render without a new revision does not read the save again; box navigation and the named selector; Previous/Next announced.
+      - The existing tests moved to `SlotRef`; `SaveFixtures` gained `FirstBoxSlot` and `WithPartyMember`, and `WritableSlot` returns a `SlotRef`.
+    - **E2E 69** (up from 63): `StorageBrowserTests` (3 engines × 2 paths) covers:
+      - 31 boxes starting at the in-game box, and wrapping both ways;
+      - a hostile box name rendered as text;
+      - keyboard only: one tab stop, arrow/Home/Ctrl+Home movement with each key's default cancelled, Enter opening the slot, and Tab leaving the grid;
+      - an empty slot opening nothing;
+      - a party member read-only with Apply disabled and native party legality;
+      - a dirty draft not replaced;
+      - the list view opening the same slot;
+      - no horizontal scroll at 375 px in both views;
+      - privacy and no page errors.
+
+      `ProofPage.Select` now drives the box selector and grid, and every E2E test executed.
+    - **RealSave 14:** the preflight checks that the native writable slot shows as openable and opens the same entity. The round trip addresses the slot by `SlotRef`.
+    - **Mutation checks:**
+      - every slot a tab stop fails 17 of the 18 grid tests there were then;
+      - allowing party apply fails the refusal test;
+      - ignoring the party count fails the leftover-bytes test;
+      - wrapping ArrowRight across rows fails its edge row;
+      - `grid-keys.js` without `preventDefault` fails the E2E key check in all 3 engines. A first version of that check compared `scrollY`, which also moves when focus scrolls a slot into view; it now reads each key event's `defaultPrevented`.
+    - **Other checks:** the trim baseline is unchanged (38), and the `PKHeX.slnx` Release build has 0 warnings. Screenshots of the XY G-D save at 1280 px and 375 px show the party, box grid and navigation with no horizontal scroll.
+  - **Adversarial review.**
+    - **Fixed:**
+      - Activation rules lived only in `Workspace` and were tested only by E2E, and they were decided from the render-time summary. They are now `WorkspaceState.OpenSlot` on the live save, with Unit tests.
+      - Every workspace re-render, such as each nickname keystroke, decrypted 36 entities and decoded 31 box names. Reads are now keyed on session, revision and box.
+      - Reopening the already-open clean slot re-created its draft and dropped the legality result.
+      - A re-created grid put its tab stop on the first slot rather than the open one.
+    - **Mutation checks:** a cache key without the revision, no `AlreadyOpen` check, no dirty-draft guard and no tab-stop placement each fail their test.
+    - **Recorded, not changed:**
+      - Stored box names and nicknames are rendered as text, but bidi overrides and other format characters in them can still reorder the surrounding text, as with M3's trainer name; noted for M17's hostile-input pass.
+      - If Core threw while reading the shown box, "Return to the workspace" would show the same box and fault again; Discard session still escapes. Valid XY/ORAS saves have not been seen to do this.
+  - **Second adversarial review** (independent, read-only, with its own probes and mutations).
+    - **Fixed:**
+      - `SlotGrid` replaced its element-reference array when the slot count changed, but Blazor captures `@ref` only when an element is created, so the next arrow key threw ("ElementReference has not been configured correctly"; reproduced in bUnit). References are now a dictionary that is never replaced, and the shrink test presses keys afterwards. Latent for XY/ORAS, whose grids never change size.
+      - The session part of the read cache and the caching itself were untested: dropping either passed every Unit and E2E test. Both are now pinned (a new session at the same revision and box; a change made without an apply is not read on re-render).
+      - Readability used `ChecksumValid`, where Core (`G6PKM.Valid` also requires `Sanity == 0`), the game and WinForms treat a set sanity flag as a bad egg. It now uses `PKM.Valid`, the text is "Bad egg", and the error is `EntityInvalid`.
+      - Alt- and Meta-modified arrows moved focus while `grid-keys.js` left the browser's own shortcut to run as well; they are now ignored. The navigation rules moved to the pure `Components/GridNavigation`.
+      - Previous/Next changed the box silently for screen readers; they now announce it.
+      - Empty-slot text used `GrayText` (#808080 in some engines, about 3.9:1); it is now mixed from `CanvasText`.
+      - The locale test built its expected value from the code under test; it now compares literals.
+      - "Apply or cancel the draft before opening another Pokémon" was also shown for empty slots; it now says "another slot".
+      - This entry wrongly said PKForge's `Snapshot` is built once (it is built on demand; a stale comment in its `PartyTests` says otherwise), called `entity.Valid` legality, and gave 16 for a mutation that failed 17 tests; the README said "per occupied slot" for the list's Open buttons.
+    - **Mutation checks:** a cache key without the session, no caching, `ChecksumValid` in the view or in `Select`, lost element references, and no modifier check each fail their test.
+    - **Not changed:** the "Opened …" message is built from the activated slot's summary, which is the current revision's because every apply re-renders; `aria-selected="false"` stays on unselected cells, as the ARIA grid pattern uses it for selectable cells; the grid's name is the box title, next to the heading that numbers it; `WorkspaceState.ShowBox` repeats the wrapping of Core's `BoxEdit.MoveLeft/MoveRight`, which needs a `BoxEdit` instance.
+  - **Not verified yet:**
+    - No screen reader was run; the names, roles and announcements are checked in the DOM only (M18 adds axe). How `display: contents` rows reach the platform accessibility tree is unverified.
+    - No physical touch device (G-C).
+  - **Compared with PKForge:**
+    - **Matches:** `SlotSummary` (species, nickname, shiny, egg), with readability from `PKM.Valid` (PKForge stores it as `IsLegal`, but it is the checksum and sanity check, not legality); snapshots read live rather than cached at open; the party as a first-class storage target (its box `-1`, our `SlotRef.InParty`); box names through `IBoxDetailName` with a numbered fallback; a `ValidateCoordinates`-style range check before reading.
+    - **Stricter:**
+      - PKForge lists only party members `0..PartyCount-1`; we show all six positions and treat bytes after the count as empty.
+      - Its `Snapshot` is built on demand, like our views, but decodes every slot of every box on each access; we read only the party and the shown box, once per revision.
+      - Its fallback name is "BOX 01"; ours is Core's `GetDefaultBoxName`.
+      - It has no keyboard grid or list alternative (its UI is gamepad and touch).
+    - **Not adopted:** sprites and held-item marks (M5); box rename and wallpapers (`BoxLayoutService`; WEB-BOX-002/003, MVP+ and post-MVP); move, swap, release and sort (WEB-BOX-005, WEB-PARTY-002–004, MVP+); party edits (M9). Second-screen and gamepad views are out of Web scope.
 - **M5 Sprite catalog.**
   - (a) Build-time generator: it reads the existing `PKHeX.Drawing.PokeSprite` resource images and emits a fixed atlas + JSON manifest into `wwwroot`. It is reproducible, and a provenance note is committed.
   - (b) Runtime `SpriteCatalog` loads the whole atlas before file input is enabled. It resolves species/form/gender/shiny, falls back to a text placeholder, and makes no per-entity requests. E2E asserts identical request traces for two different saves (BOX-004, PERF-003, SEC-001).

@@ -1,0 +1,111 @@
+@inject WorkspaceState State
+
+@* The party and one box of the open save, read again whenever the session, its revision or the shown box changes. Only the shown box is read.
+   Each can be shown as a grid (single tab stop, arrow keys) or as a list, with the same slots and the same activation. *@
+<section aria-labelledby="storage-title">
+    <h2 id="storage-title">Party and boxes</h2>
+    <label><input id="storage-as-list" type="checkbox" checked="@State.ShowAsList" @onchange="ToggleList" /> Show as a list</label>
+
+    <h3 id="party-title">Party (@party.Count(s => s.Occupied) of @party.Count)</h3>
+    @if (State.ShowAsList)
+    {
+        <SlotList Id="party-list" Caption="Party" Slots="party" Selected="Selected" OnActivate="OnActivate" />
+    }
+    else
+    {
+        <SlotGrid Id="party-grid" Label="Party" Slots="party" Columns="SlotText.PartyColumns" Selected="Selected" OnActivate="OnActivate" />
+    }
+
+    <h3 id="box-title">@SlotText.BoxOption(box.Index, box.StoredName)</h3>
+    <div class="box-nav">
+        <button id="box-prev" type="button" @onclick="() => Step(-1)">Previous box</button>
+        <label for="box-select" class="visually-hidden">Box</label>
+        <select id="box-select" value="@box.Index" @onchange="ChooseBox">
+            @for (var i = 0; i < boxCount; i++)
+            {
+                <option value="@i">@SlotText.BoxOption(i, boxNames[i])</option>
+            }
+        </select>
+        <button id="box-next" type="button" @onclick="() => Step(1)">Next box</button>
+    </div>
+    @* Focus stays on Previous/Next, so the box they show is announced here. The select announces its own value, so it does not set this. *@
+    <p id="box-status" class="visually-hidden" role="status">@boxStatus</p>
+    @if (State.ShowAsList)
+    {
+        <SlotList Id="box-list" Caption="@SlotText.BoxTitle(box.Index, box.StoredName)" Slots="box.Slots" Selected="Selected" OnActivate="OnActivate" />
+    }
+    else
+    {
+        <SlotGrid Id="box-grid" Label="@SlotText.BoxTitle(box.Index, box.StoredName)" Slots="box.Slots" Columns="SlotText.BoxColumns" Selected="Selected" OnActivate="OnActivate" />
+    }
+</section>
+
+@code {
+    private IReadOnlyList<SlotSummary> party = [];
+    private BoxView box = null!;
+    private int boxCount;
+    private string?[] boxNames = [];
+    private string boxStatus = "";
+
+    /// <summary>What the views were last read from. The working save changes only through an apply, which advances the revision.</summary>
+    private (SaveSession Session, int Revision, int Box)? readFrom;
+
+    /// <summary>The open session.</summary>
+    [Parameter, EditorRequired]
+    public SaveSession Session { get; set; } = null!;
+
+    /// <summary>The slot of the open draft, if any.</summary>
+    [Parameter]
+    public SlotRef? Selected { get; set; }
+
+    /// <summary>Raised when a slot is opened, whatever it holds.</summary>
+    [Parameter]
+    public EventCallback<SlotSummary> OnActivate { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet() => Read();
+
+    /// <summary>
+    /// Reads the party, the current box and the box names from the session's current revision, unless they were read from it already.
+    /// </summary>
+    /// <remarks>
+    /// Without this, every re-render of the workspace, such as each keystroke in the nickname field, would decrypt the party and a box.
+    /// </remarks>
+    private void Read()
+    {
+        var from = (Session, Session.Revision, State.CurrentBox);
+        if (readFrom == from)
+        {
+            return;
+        }
+        party = StorageView.Party(Session);
+        box = StorageView.Box(Session, State.CurrentBox);
+        boxCount = StorageView.BoxCount(Session);
+        boxNames = Enumerable.Range(0, boxCount).Select(i => StorageView.BoxName(Session, i)).ToArray();
+        readFrom = from;
+    }
+
+    private void ChooseBox(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var index))
+        {
+            ShowBox(index);
+        }
+    }
+
+    /// <summary>Shows another box. Its own events re-render this component without new parameters, so it re-reads here.</summary>
+    private void ShowBox(int index)
+    {
+        State.ShowBox(index);
+        Read();
+    }
+
+    /// <summary>Shows the previous or next box, wrapping, and announces it.</summary>
+    private void Step(int direction)
+    {
+        ShowBox(State.CurrentBox + direction);
+        boxStatus = $"Showing {SlotText.BoxOption(box.Index, box.StoredName)}";
+    }
+
+    private void ToggleList(ChangeEventArgs e) => State.ShowAsList = e.Value is true;
+}

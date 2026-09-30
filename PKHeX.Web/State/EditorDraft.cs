@@ -3,7 +3,7 @@ using PKHeX.Core;
 namespace PKHeX.Web.State;
 
 /// <summary>
-/// An unapplied edit of one box slot. The working save is untouched until <see cref="SaveSession.Apply"/>.
+/// An unapplied edit of one party member or boxed entity. The working save is untouched until <see cref="SaveSession.Apply"/>.
 /// </summary>
 /// <remarks>
 /// Only the edited fields are held; the entity to store is rebuilt from the original slot contents,
@@ -16,8 +16,14 @@ public sealed class EditorDraft
     /// <summary><see cref="SaveSession.SessionId"/> of the session the draft was taken from.</summary>
     public Guid SessionId { get; }
 
-    /// <summary>Flat box-slot index the draft was taken from.</summary>
-    public int SlotIndex { get; }
+    /// <summary>The party position or box slot the draft was taken from.</summary>
+    public SlotRef Slot { get; }
+
+    /// <summary>
+    /// True when <see cref="SaveSession.Apply"/> can write the draft back. Party members are inspected only: writing them needs the
+    /// party-stat policy (stored stats, HP and status), which this release does not have yet.
+    /// </summary>
+    public bool CanApply => !Slot.IsParty;
 
     /// <summary><see cref="SaveSession.Revision"/> the draft was taken from.</summary>
     public int SourceRevision { get; }
@@ -34,10 +40,10 @@ public sealed class EditorDraft
     /// <summary>True when the draft differs from the slot it was taken from.</summary>
     public bool IsDirty => Nickname != baseline.Nickname || IsNicknamed != baseline.IsNicknamed;
 
-    internal EditorDraft(Guid sessionId, int slotIndex, int sourceRevision, PK6 source, int maxNicknameLength)
+    internal EditorDraft(Guid sessionId, SlotRef slot, int sourceRevision, PK6 source, int maxNicknameLength)
     {
         SessionId = sessionId;
-        SlotIndex = slotIndex;
+        Slot = slot;
         SourceRevision = sourceRevision;
         MaxNicknameLength = maxNicknameLength;
         baseline = (PK6)source.Clone();
@@ -70,7 +76,8 @@ public sealed class EditorDraft
     }
 
     /// <summary>
-    /// Runs Core legality analysis on the drafted entity, in the context of <paramref name="session"/>'s save.
+    /// Runs Core legality analysis on the drafted entity, in the context of <paramref name="session"/>'s save and the draft's slot type
+    /// (party or box).
     /// </summary>
     /// <exception cref="SessionException">The draft is foreign or stale.</exception>
     public LegalityResult Analyze(SaveSession session)
@@ -78,7 +85,7 @@ public sealed class EditorDraft
         session.EnsureOwns(this);
         session.EnsureCurrent(this);
         var save = session.Working;
-        var analysis = new LegalityAnalysis(ToStoredEntity(), save.Personal, SaveSession.GetSlot(save, SlotIndex).Type);
+        var analysis = new LegalityAnalysis(ToStoredEntity(), save.Personal, Slot.ToSlotInfo(save).Type);
         var verdict = !analysis.Parsed ? "Unavailable" : analysis.Valid ? "Valid" : "Invalid";
         return new(verdict, analysis.Report());
     }

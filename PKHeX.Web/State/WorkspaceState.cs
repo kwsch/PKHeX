@@ -29,6 +29,12 @@ public sealed class WorkspaceState
     /// <summary>True when leaving the page would lose work: applied changes, a dirty draft, or a refused draft edit.</summary>
     public bool HasUnsavedWork => Session?.HasChangesSinceOpen == true || DraftDirty || !DraftValid;
 
+    /// <summary>The box shown in the storage browser. It starts at the save's in-game current box.</summary>
+    public int CurrentBox { get; private set; }
+
+    /// <summary>True when the party and box are shown as a list rather than as grids. Kept for the tab, across opened saves.</summary>
+    public bool ShowAsList { get; set; }
+
     /// <summary>Raised after any change that can affect <see cref="HasUnsavedWork"/>.</summary>
     public event Action? Changed;
 
@@ -39,7 +45,22 @@ public sealed class WorkspaceState
         Pending = null;
         Draft = null;
         DraftValid = true;
+        CurrentBox = StorageView.InitialBox(session);
         OnChanged();
+    }
+
+    /// <summary>
+    /// Shows box <paramref name="box"/>, wrapping past either end as the game's box navigation does, so -1 is the last box.
+    /// </summary>
+    /// <remarks>
+    /// Navigation never touches the draft: an unapplied edit stays open while other boxes are browsed.
+    /// It does not raise <see cref="Changed"/>, because it cannot affect <see cref="HasUnsavedWork"/>.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">No session is open.</exception>
+    public void ShowBox(int box)
+    {
+        var count = Session is { } session ? StorageView.BoxCount(session) : throw new InvalidOperationException("No session is open.");
+        CurrentBox = ((box % count) + count) % count;
     }
 
     /// <summary>
@@ -84,6 +105,38 @@ public sealed class WorkspaceState
         OnChanged();
     }
 
+    /// <summary>
+    /// Opens the entity at <paramref name="slot"/> as the draft, read from the session's current revision.
+    /// </summary>
+    /// <remarks>
+    /// An unapplied or refused draft is never replaced, and the slot already open is left as it is, so its legality result stays.
+    /// An empty position or a bad egg opens nothing and closes the clean draft, so the editor never shows an entity the chosen
+    /// position does not hold. The decision is made on the live save, not on what the page last showed.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">No session is open.</exception>
+    public SlotOpening OpenSlot(SlotRef slot)
+    {
+        var session = Session ?? throw new InvalidOperationException("No session is open.");
+        if (Draft?.Slot == slot)
+        {
+            return SlotOpening.AlreadyOpen;
+        }
+        if (DraftDirty || !DraftValid)
+        {
+            return SlotOpening.DraftPending;
+        }
+        try
+        {
+            SetDraft(session.Select(slot));
+            return SlotOpening.Opened;
+        }
+        catch (SessionException e) when (e.Error is SessionError.SlotNotOccupied or SessionError.EntityInvalid)
+        {
+            SetDraft(null);
+            return e.Error == SessionError.SlotNotOccupied ? SlotOpening.Empty : SlotOpening.Unreadable;
+        }
+    }
+
     /// <summary>Replaces the draft, or clears it with null.</summary>
     public void SetDraft(EditorDraft? draft)
     {
@@ -121,10 +174,30 @@ public sealed class WorkspaceState
     public void Discard()
     {
         Session = null;
+        CurrentBox = 0;
         RecoverAfterFault();
     }
 
     private void OnChanged() => Changed?.Invoke();
+}
+
+/// <summary>What <see cref="WorkspaceState.OpenSlot"/> did.</summary>
+public enum SlotOpening
+{
+    /// <summary>The slot's entity is now the draft.</summary>
+    Opened,
+
+    /// <summary>The slot is already the draft's; nothing changed.</summary>
+    AlreadyOpen,
+
+    /// <summary>The draft has unapplied or refused changes, so it was kept; nothing changed.</summary>
+    DraftPending,
+
+    /// <summary>The position holds nothing; the clean draft, if any, was closed.</summary>
+    Empty,
+
+    /// <summary>The entity is a bad egg (fails its checksum or sanity check); the clean draft, if any, was closed.</summary>
+    Unreadable,
 }
 
 /// <summary>What <see cref="WorkspaceState.Accept"/> did with an opened file.</summary>

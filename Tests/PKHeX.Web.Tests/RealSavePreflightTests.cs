@@ -22,8 +22,10 @@ public sealed class RealSavePreflightTests
         var session = SaveFixtures.Open(fixture.Bytes);
         // RealSaves.Read has already checked that the native type matches the family.
         Assert.True(session.Working.GetType() == native.GetType());
-        // Not Assert.Contains: its failure message would list the private save's occupied slots.
-        Assert.True(session.OccupiedSlots.Contains(index), "Session does not list the native writable slot as occupied.");
+        // The session opens the same entity native Core reads there; the messages keep the private slot contents out.
+        var summary = StorageView.Box(session, index.Box).Slots[index.Slot];
+        Assert.True(summary.CanOpen, "Session does not show the native writable slot as an openable entity.");
+        Assert.True(session.Select(index).Nickname == SaveFixtures.Slot(native, index).Read(native).Nickname, "Session draft differs from the native entity (value withheld).");
         Assert.True(SaveExporter.Export(session, null).AsSpan().SequenceEqual(native.Clone().Write().Span), "Session no-op export differs from native.");
         fixture.AssertUnchanged();
     }

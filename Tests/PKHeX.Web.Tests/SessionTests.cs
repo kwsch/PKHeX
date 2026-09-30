@@ -23,20 +23,20 @@ public sealed class SessionTests
         source.Should().Equal(before, "parsing must not mutate caller bytes");
         session.GetOriginalBytes().Should().Equal(before);
 
-        var draft = session.Select(0);
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
         draft.EditNickname("WASM Proof", true);
         draft.IsDirty.Should().BeTrue();
         var exportDirty = () => SaveExporter.Export(session, draft);
         exportDirty.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.DraftUnapplied);
 
-        draft = session.Select(draft.SlotIndex);
+        draft = session.Select(draft.Slot);
         draft.IsDirty.Should().BeFalse();
         session.HasChangesSinceOpen.Should().BeFalse();
 
         draft.EditNickname("WASM Proof", true);
         session.Apply(draft);
-        var output = SaveExporter.Export(session, session.Select(draft.SlotIndex));
-        var reloaded = SaveFixtures.Open(output).Select(0);
+        var output = SaveExporter.Export(session, session.Select(draft.Slot));
+        var reloaded = SaveFixtures.Open(output).Select(SaveFixtures.FirstBoxSlot);
         reloaded.Nickname.Should().Be("WASM Proof");
         reloaded.IsNicknamed.Should().BeTrue();
         source.Should().Equal(before);
@@ -53,7 +53,7 @@ public sealed class SessionTests
     public void RejectsInvalidDraftWithoutMutation()
     {
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
-        var draft = session.Select(0);
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
         var editTooLong = () => draft.EditNickname(new string('a', 13), true);
         editTooLong.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.NicknameTooLong);
         draft.IsDirty.Should().BeFalse();
@@ -66,7 +66,7 @@ public sealed class SessionTests
     [InlineData("\uE08E", SessionError.NicknameNotRepresentable)] // Stored as-is but read back as '♂', so the text would change.
     public void RejectsNicknameThatCannotBeStoredUnchanged(string nickname, SessionError expected)
     {
-        var draft = SaveFixtures.Open(SaveFixtures.Synthetic(false)).Select(0);
+        var draft = SaveFixtures.Open(SaveFixtures.Synthetic(false)).Select(SaveFixtures.FirstBoxSlot);
         var before = draft.Nickname;
         var act = () => draft.EditNickname(nickname, true);
         act.Should().Throw<SessionException>().Which.Error.Should().Be(expected);
@@ -84,7 +84,7 @@ public sealed class SessionTests
         native.Valid.Should().Be(legal);
 
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(true, legal));
-        session.Select(0).Analyze(session).Verdict.Should().Be(legal ? "Valid" : "Invalid");
+        session.Select(SaveFixtures.FirstBoxSlot).Analyze(session).Verdict.Should().Be(legal ? "Valid" : "Invalid");
     }
 
     [Fact]
@@ -101,10 +101,10 @@ public sealed class SessionTests
         broken.ChecksumValid.Should().BeFalse();
 
         var session = SaveFixtures.Open(native.Write().ToArray());
-        var empty = () => session.Select(2);
+        var empty = () => session.Select(SlotRef.InBox(0, 2));
         empty.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.SlotNotOccupied);
-        var corrupt = () => session.Select(1);
-        corrupt.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.EntityChecksumInvalid);
+        var corrupt = () => session.Select(SlotRef.InBox(0, 1));
+        corrupt.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.EntityInvalid);
     }
 
     [Fact]
@@ -113,11 +113,11 @@ public sealed class SessionTests
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
         session.Revision.Should().Be(0);
 
-        session.Apply(session.Select(0));
+        session.Apply(session.Select(SaveFixtures.FirstBoxSlot));
         session.Revision.Should().Be(0);
         session.HasChangesSinceOpen.Should().BeFalse();
 
-        var draft = session.Select(0);
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
         draft.EditNickname("Changed", true);
         session.Apply(draft);
         session.Revision.Should().Be(1);
@@ -129,7 +129,7 @@ public sealed class SessionTests
     {
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
         var expected = (PK6)session.Working.GetBoxSlotAtIndex(0);
-        var draft = session.Select(0);
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
         draft.EditNickname("Changed", true);
         session.Apply(draft);
 
@@ -149,7 +149,7 @@ public sealed class SessionTests
         session.MarkExported(session.Revision);
         session.ExportedRevision.Should().Be(0);
 
-        var draft = session.Select(0);
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
         draft.EditNickname("Changed", true);
         session.Apply(draft);
         session.ExportedRevision.Should().Be(0);
@@ -166,8 +166,8 @@ public sealed class SessionTests
     public void StaleDraftIsRejectedUnlessClean()
     {
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
-        var stale = session.Select(0);
-        var current = session.Select(0);
+        var stale = session.Select(SaveFixtures.FirstBoxSlot);
+        var current = session.Select(SaveFixtures.FirstBoxSlot);
         current.EditNickname("First", true);
         session.Apply(current);
         var working = session.Working;
@@ -184,7 +184,7 @@ public sealed class SessionTests
         applyStale.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.StaleDraft);
         session.Working.Should().BeSameAs(working);
         session.Revision.Should().Be(1);
-        session.Select(0).Nickname.Should().Be("First");
+        session.Select(SaveFixtures.FirstBoxSlot).Nickname.Should().Be("First");
     }
 
     [Fact]
@@ -193,20 +193,79 @@ public sealed class SessionTests
         var owner = SaveFixtures.Open(SaveFixtures.Synthetic(false));
         var other = SaveFixtures.Open(SaveFixtures.Synthetic(false, legal: false));
         other.SessionId.Should().NotBe(owner.SessionId);
-        var foreign = owner.Select(0);
+        var foreign = owner.Select(SaveFixtures.FirstBoxSlot);
         foreign.EditNickname("Foreign", true);
         var working = other.Working;
-        var nickname = other.Select(0).Nickname;
+        var nickname = other.Select(SaveFixtures.FirstBoxSlot).Nickname;
 
         var applyForeign = () => other.Apply(foreign);
         applyForeign.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.ForeignDraft);
         var analyzeForeign = () => foreign.Analyze(other);
         analyzeForeign.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.ForeignDraft);
-        var exportForeign = () => SaveExporter.Export(other, owner.Select(0));
+        var exportForeign = () => SaveExporter.Export(other, owner.Select(SaveFixtures.FirstBoxSlot));
         exportForeign.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.ForeignDraft);
         other.Working.Should().BeSameAs(working);
         other.Revision.Should().Be(0);
         other.HasChangesSinceOpen.Should().BeFalse();
-        other.Select(0).Nickname.Should().Be(nickname);
+        other.Select(SaveFixtures.FirstBoxSlot).Nickname.Should().Be(nickname);
+    }
+
+    [Fact]
+    public void PartySelectClonesThePartyMemberAndAnalysesItAsParty()
+    {
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false, customize: SaveFixtures.WithPartyMember("Leader")));
+        var draft = session.Select(SlotRef.InParty(0));
+
+        draft.Slot.Should().Be(SlotRef.InParty(0));
+        draft.Nickname.Should().Be("Leader", "the party member, not the boxed copy, is opened");
+        draft.CanApply.Should().BeFalse();
+        session.Select(SaveFixtures.FirstBoxSlot).CanApply.Should().BeTrue();
+
+        var native = new LegalityAnalysis(session.Working.GetPartySlotAtIndex(0), session.Working.Personal, StorageSlotType.Party);
+        var result = draft.Analyze(session);
+        result.Verdict.Should().Be(ProofPage.Verdict(native));
+        result.Report.Should().Be(native.Report());
+    }
+
+    [Fact]
+    public void PartyApplyIsRefusedWithoutChangingTheSession()
+    {
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false, customize: SaveFixtures.WithPartyMember()));
+        var working = session.Working;
+        var before = SaveExporter.Export(session, null);
+        var draft = session.Select(SlotRef.InParty(0));
+        draft.EditNickname("Changed", true);
+
+        var apply = () => session.Apply(draft);
+
+        apply.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.PartyApplyNotAvailable);
+        session.Working.Should().BeSameAs(working);
+        session.Revision.Should().Be(0);
+        session.HasChangesSinceOpen.Should().BeFalse();
+        SaveExporter.Export(session, null).Should().Equal(before);
+    }
+
+    [Fact]
+    public void SelectRefusesPositionsOutsideTheSave()
+    {
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false, customize: SaveFixtures.WithPartyMember()));
+        foreach (var slot in new[] { SlotRef.InParty(1), SlotRef.InParty(6), SlotRef.InBox(31, 0), SlotRef.InBox(0, 30) })
+        {
+            var select = () => session.Select(slot);
+            select.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.SlotNotOccupied);
+        }
+    }
+
+    [Fact]
+    public void SelectReadsTheCurrentRevision()
+    {
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
+        draft.EditNickname("Current", true);
+        session.Apply(draft);
+
+        var reopened = session.Select(SaveFixtures.FirstBoxSlot);
+        reopened.Nickname.Should().Be("Current");
+        reopened.SourceRevision.Should().Be(1);
     }
 }

@@ -25,32 +25,24 @@
     <SaveOverviewPanel Session="Session" />
     <p id="session-state">@(Session.HasChangesSinceOpen ? "Edited in memory" : "Unmodified session")</p>
     <p id="session-note">This save is processed only on this device. Changes are temporary until you download them; reloading or closing the tab discards this session.</p>
-    <section aria-labelledby="slots-title">
-        <h2 id="slots-title">Box slots</h2>
-        <label for="slot">Occupied box slot</label>
-        <select id="slot" value="@(Draft?.SlotIndex ?? -1)" @onchange="SelectSlot" disabled="@(State.DraftDirty || busy || !State.DraftValid)">
-            <option value="-1">Choose a slot</option>
-            @foreach (var index in Session.OccupiedSlots)
-            {
-                <option value="@index">@Session.SlotLabel(index)</option>
-            }
-        </select>
-        @if (Session.OccupiedSlots.Count == 0)
-        {
-            <p>No occupied box slots were found. A no-op round trip is still available.</p>
-        }
-    </section>
+    <StorageBrowser Session="Session" Selected="Draft?.Slot" OnActivate="OpenSlot" />
     @if (Draft is not null)
     {
-        <section aria-label="Nickname editor">
-            <h2>Nickname draft</h2>
+        <section aria-labelledby="draft-title">
+            <h2 id="draft-title">Nickname draft</h2>
+            <p id="draft-slot">@SlotText.Position(Draft.Slot)</p>
             <label for="nickname">Nickname</label>
-            <input id="nickname" value="@nickname" @oninput="NicknameChanged" maxlength="@Draft.MaxNicknameLength" />
-            <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="NicknameFlagChanged" /> Is nicknamed</label>
+            @* A party member is inspected only, so its fields cannot be drafted into an edit that could never be applied. *@
+            <input id="nickname" value="@nickname" @oninput="NicknameChanged" maxlength="@Draft.MaxNicknameLength" readonly="@(!Draft.CanApply)" />
+            <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="NicknameFlagChanged" disabled="@(!Draft.CanApply)" /> Is nicknamed</label>
             <p id="draft-state">@(State.DraftDirty ? "Unapplied draft" : "No draft changes")</p>
             <button id="analyze" @onclick="Analyze">Analyze legality</button>
-            <button id="apply" @onclick="Apply" disabled="@(!State.DraftDirty || !State.DraftValid)">Apply nickname</button>
+            <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid)">Apply nickname</button>
             <button id="cancel-draft" @onclick="CancelDraft">Cancel draft</button>
+            @if (!Draft.CanApply)
+            {
+                <p id="party-note">@UserMessages.For(SessionError.PartyApplyNotAvailable) Legality is analysed as a party member.</p>
+            }
             <p>Legality is diagnostic. Applying does not legalize or change ownership, dex entries, or trainer records.</p>
             <p id="legality-status" role="status">@verdict</p>
             <pre id="legality-report">@report</pre>
@@ -120,20 +112,32 @@
         message = "Current session retained.";
     }
 
-    private void SelectSlot(ChangeEventArgs e)
+    /// <summary>Opens the activated slot through <see cref="WorkspaceState.OpenSlot"/> and reports what happened.</summary>
+    private void OpenSlot(SlotSummary slot)
     {
+        if (busy)
+        {
+            message = UserMessages.For(DropRejection.Busy);
+            return;
+        }
+        var position = SlotText.Position(slot.Ref);
         try
         {
-            var index = int.Parse(e.Value!.ToString()!);
-            if (index < 0)
+            var outcome = State.OpenSlot(slot.Ref);
+            if (outcome is SlotOpening.Opened or SlotOpening.Empty or SlotOpening.Unreadable)
             {
-                State.SetDraft(null);
-                message = "Choose a slot to edit.";
-                return;
+                ResetDraftView();
             }
-            State.SetDraft(Session!.Select(index));
-            ResetDraftView();
-            message = "Slot selected. Only nickname fields can be changed.";
+            message = outcome switch
+            {
+                SlotOpening.Opened => $"Opened {SlotText.Label(slot)}. " + (Draft!.CanApply
+                    ? "Only nickname fields can be changed."
+                    : UserMessages.For(SessionError.PartyApplyNotAvailable)),
+                SlotOpening.AlreadyOpen => $"{position} is already open in the editor.",
+                SlotOpening.DraftPending => "Apply or cancel the draft before opening another slot.",
+                SlotOpening.Unreadable => $"{position}: {UserMessages.For(SessionError.EntityInvalid)}",
+                _ => $"{position} is empty.",
+            };
         }
         catch (Exception ex)
         {
@@ -205,7 +209,7 @@
             Session!.Apply(Draft!);
             // The session changed; report it now, so the leave warning is armed even if reselecting the slot fails.
             State.NotifyChanged();
-            State.SetDraft(Session.Select(Draft!.SlotIndex));
+            State.SetDraft(Session.Select(Draft!.Slot));
             ResetDraftView();
             message = "Nickname applied in memory; download to retain changes.";
         }
@@ -217,7 +221,7 @@
 
     private void CancelDraft()
     {
-        State.SetDraft(Session!.Select(Draft!.SlotIndex));
+        State.SetDraft(Session!.Select(Draft!.Slot));
         ResetDraftView();
         message = "Draft canceled.";
     }

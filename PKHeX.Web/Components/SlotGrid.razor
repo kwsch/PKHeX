@@ -1,0 +1,103 @@
+@* A party or box as a grid of slot buttons with a single tab stop (roving tabindex). Arrow keys move between slots, Home and End go to
+   the ends of the row, Ctrl+Home and Ctrl+End to the first and last slot, and Enter or Space opens a slot, as any button does.
+   grid-keys.js stops those keys from also scrolling the page. Each slot's accessible name is its position and contents. *@
+@* The column count is a class, not an inline style, which the Content Security Policy (style-src 'self') would block. *@
+<div class="slot-grid columns-@Columns" role="grid" id="@Id" aria-label="@Label" aria-rowcount="@RowCount" aria-colcount="@Columns">
+    @for (var row = 0; row < RowCount; row++)
+    {
+        <div role="row" aria-rowindex="@(row + 1)">
+            @for (var column = 0; column < Columns; column++)
+            {
+                var index = (row * Columns) + column;
+                if (index >= Slots.Count)
+                {
+                    break;
+                }
+                var slot = Slots[index];
+                var selected = Selected == slot.Ref;
+                <div role="gridcell" aria-colindex="@(column + 1)" aria-selected="@(selected ? "true" : "false")">
+                    <button type="button" id="@($"{Id}-{index}")" @ref="cells[index]"
+                            class="@CssClass(slot)"
+                            tabindex="@(index == ActiveIndex ? 0 : -1)"
+                            aria-label="@SlotText.Label(slot)"
+                            data-slot="@index"
+                            @onclick="() => ActivateAsync(index)"
+                            @onkeydown="e => MoveAsync(e, index)">
+                        @SlotText.Short(slot)
+                    </button>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    // Keyed by index and never replaced: Blazor captures an element's @ref only when the element is created, so a new collection
+    // would hold no reference for buttons that survive a re-render.
+    private readonly Dictionary<int, ElementReference> cells = [];
+    private int active;
+    private bool placed;
+
+    /// <summary>The element id of the grid; each slot button gets <c>{Id}-{index}</c>.</summary>
+    [Parameter, EditorRequired]
+    public string Id { get; set; } = "";
+
+    /// <summary>The grid's accessible name, e.g. the box title.</summary>
+    [Parameter, EditorRequired]
+    public string Label { get; set; } = "";
+
+    /// <summary>The slots, in order.</summary>
+    [Parameter, EditorRequired]
+    public IReadOnlyList<SlotSummary> Slots { get; set; } = [];
+
+    /// <summary>Slots per row.</summary>
+    [Parameter, EditorRequired]
+    public int Columns { get; set; }
+
+    /// <summary>The slot of the open draft, marked as selected when it is in this grid.</summary>
+    [Parameter]
+    public SlotRef? Selected { get; set; }
+
+    /// <summary>Raised when a slot is opened with a click, Enter or Space, whatever it holds.</summary>
+    [Parameter]
+    public EventCallback<SlotSummary> OnActivate { get; set; }
+
+    /// <summary>The slot's classes; empty slots and bad eggs are also told apart by their text, not by style alone.</summary>
+    private static string CssClass(SlotSummary slot) => !slot.Occupied ? "slot slot-empty" : !slot.Readable ? "slot slot-unreadable" : "slot";
+
+    private int RowCount => (Slots.Count + Columns - 1) / Columns;
+
+    /// <summary>The slot that holds the tab stop; kept within range when the slots change, such as on a box change.</summary>
+    private int ActiveIndex => Math.Clamp(active, 0, Math.Max(0, Slots.Count - 1));
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(Columns);
+        // A new grid, such as after switching back from the list, puts its tab stop on the open slot, if it shows it.
+        if (!placed)
+        {
+            placed = true;
+            var selected = Slots.Select((s, i) => (s.Ref, i)).FirstOrDefault(p => p.Ref == Selected, (default, -1)).Item2;
+            active = Math.Max(0, selected);
+        }
+    }
+
+    private async Task ActivateAsync(int index)
+    {
+        active = index;
+        await OnActivate.InvokeAsync(Slots[index]);
+    }
+
+    private async Task MoveAsync(KeyboardEventArgs e, int index)
+    {
+        var target = GridNavigation.Target(e.Key, e.CtrlKey, e.AltKey || e.MetaKey, index, Slots.Count, Columns);
+        if (target == index)
+        {
+            return;
+        }
+        active = target;
+        // The button already exists: only its tabindex changes, so focus can move straight away.
+        await cells[target].FocusAsync();
+    }
+}

@@ -44,8 +44,8 @@ public static class SaveExporter
         }
         if (draft is not null)
         {
-            var before = SaveSession.GetSlot(working, draft.SlotIndex).Read(working);
-            var after = SaveSession.GetSlot(reopened.Working, draft.SlotIndex).Read(reopened.Working);
+            var before = draft.Slot.ToSlotInfo(working).Read(working);
+            var after = draft.Slot.ToSlotInfo(reopened.Working).Read(reopened.Working);
             if (!after.ChecksumValid || before.Nickname != after.Nickname || before.IsNicknamed != after.IsNicknamed)
             {
                 throw new SessionException(SessionError.ExportEntityMismatch);

@@ -156,7 +156,7 @@ public sealed class ShellTests(PublishedAppFixture app)
         Assert.Empty(session.Dialogs);
 
         await Load(page, SaveFixtures.Synthetic(false));
-        await Select(page, 0);
+        await Select(page);
         await page.Locator("#nickname").FillAsync("Unsaved");
         await Expect(page.Locator("#draft-state")).ToHaveTextAsync("Unapplied draft");
         await page.ReloadAsync();
@@ -165,7 +165,7 @@ public sealed class ShellTests(PublishedAppFixture app)
 
         // An applied change with a clean draft is still only in memory.
         await Load(page, SaveFixtures.Synthetic(false));
-        await Select(page, 0);
+        await Select(page);
         await page.Locator("#nickname").FillAsync("Applied");
         await page.Locator("#apply").ClickAsync();
         await Expect(page.Locator("#draft-state")).ToHaveTextAsync("No draft changes");

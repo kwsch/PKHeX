@@ -98,7 +98,7 @@ public sealed class SaveOverviewTests
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(false, customize: SetKnownTrainer));
         var before = SaveOverview.From(session);
 
-        var draft = session.Select(0);
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
         draft.EditNickname("Overview", true);
         session.Apply(draft);
 

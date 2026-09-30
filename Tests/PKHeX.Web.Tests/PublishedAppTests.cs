@@ -228,7 +228,7 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
         var expected = SaveFixtures.Parse(bytes).Write().ToArray();
         await Load(page, bytes);
         await Expect(page.Locator("#overview-game")).ToHaveTextAsync("X");
-        await Select(page, 0);
+        await Select(page);
         var originalNickname = await page.Locator("#nickname").InputValueAsync();
         await page.Locator("#nickname").FillAsync("WASM Cancel");
         await page.Locator("#nicknamed").CheckAsync();
@@ -274,7 +274,7 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
             var sample = SaveFixtures.Synthetic(true, legal);
             await Load(page, sample);
             await Expect(page.Locator("#overview-game")).ToHaveTextAsync("Omega Ruby");
-            await Select(page, 0);
+            await Select(page);
 
             var native = SaveFixtures.Parse(sample);
             await CheckLegality(page, native.GetBoxSlotAtIndex(0), native);

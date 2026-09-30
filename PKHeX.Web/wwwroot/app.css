@@ -27,3 +27,18 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 #workspace:focus { outline: none; }
 #save-drop { border: 2px dashed #888; border-radius: .5rem; padding: 0 1rem; }
 #save-drop[data-drag-over] { border-color: #397bd9; background: color-mix(in srgb, #397bd9 12%, transparent); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.box-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .5rem; }
+.box-nav button { margin-inline-end: 0; }
+.box-nav select { min-height: 44px; min-width: 0; flex: 1 1 10rem; }
+.slot-grid { display: grid; gap: .3rem; margin-block: .5rem 1rem; }
+.slot-grid.columns-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.slot-grid.columns-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 24rem; }
+.slot-grid [role="row"], .slot-grid [role="gridcell"] { display: contents; }
+.slot { margin: 0; width: 100%; min-height: 44px; padding: .3rem; font-size: .85rem; line-height: 1.2; hyphens: auto; overflow-wrap: anywhere; border: 1px solid #888; border-radius: .3rem; background: Canvas; color: CanvasText; }
+.slot-empty { border-style: dashed; color: color-mix(in srgb, CanvasText 72%, Canvas); }
+.slot-unreadable { border: 2px solid #c44; }
+[aria-selected="true"] > .slot, .slot-list tr.selected { outline: 3px solid #2a8a4a; outline-offset: -3px; font-weight: 600; }
+.slot-list caption { text-align: start; font-weight: 600; padding-block: .3rem; }
+.slot-list button { margin: 0; }
+@media (max-width: 30rem) { .box-nav select { order: -1; flex-basis: 100%; } .box-nav button { flex: 1 1 0; } .slot { font-size: .7rem; padding: .2rem; } }

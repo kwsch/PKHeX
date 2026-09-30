@@ -1,0 +1,50 @@
+@* The list alternative to SlotGrid: the same slots as a table, one row each, with an Open button for every slot that can be opened. *@
+<table id="@Id" class="slot-list">
+    <caption>@Caption</caption>
+    <thead>
+        <tr>
+            <th scope="col">Position</th>
+            <th scope="col">Contents</th>
+            <th scope="col"><span class="visually-hidden">Action</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Slots.Count; i++)
+        {
+            var index = i;
+            var slot = Slots[index];
+            <tr aria-current="@(Selected == slot.Ref ? "true" : null)" class="@(Selected == slot.Ref ? "selected" : null)">
+                <th scope="row">@SlotText.Position(slot.Ref)</th>
+                <td>@SlotText.Contents(slot)</td>
+                <td>
+                    @if (slot.CanOpen)
+                    {
+                        <button type="button" id="@($"{Id}-{index}")" aria-label="@($"Open {SlotText.Label(slot)}")" @onclick="() => OnActivate.InvokeAsync(slot)">Open</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    /// <summary>The table's element id; each Open button gets <c>{Id}-{index}</c>.</summary>
+    [Parameter, EditorRequired]
+    public string Id { get; set; } = "";
+
+    /// <summary>The table caption, e.g. the box title.</summary>
+    [Parameter, EditorRequired]
+    public string Caption { get; set; } = "";
+
+    /// <summary>The slots, in order.</summary>
+    [Parameter, EditorRequired]
+    public IReadOnlyList<SlotSummary> Slots { get; set; } = [];
+
+    /// <summary>The slot of the open draft, highlighted when it is in this list.</summary>
+    [Parameter]
+    public SlotRef? Selected { get; set; }
+
+    /// <summary>Raised when a slot's Open button is used.</summary>
+    [Parameter]
+    public EventCallback<SlotSummary> OnActivate { get; set; }
+}

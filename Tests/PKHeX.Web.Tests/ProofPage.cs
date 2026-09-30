@@ -1,5 +1,8 @@
+using System.Globalization;
 using Microsoft.Playwright;
 using PKHeX.Core;
+using PKHeX.Web.Components;
+using PKHeX.Web.State;
 using Xunit;
 using static Microsoft.Playwright.Assertions;
 
@@ -32,12 +35,23 @@ internal static class ProofPage
         return await File.ReadAllBytesAsync(path!);
     }
 
-    /// <summary>Selects box slot <paramref name="index"/> and waits for its editor.</summary>
-    public static async Task Select(IPage page, int index)
+    /// <summary>Opens <paramref name="slot"/> from the party or box grid and waits for its editor to show that position.</summary>
+    public static async Task Select(IPage page, SlotRef slot)
     {
-        await page.Locator("#slot").SelectOptionAsync(index.ToString());
-        await Expect(page.Locator("#nickname")).ToBeVisibleAsync();
+        if (slot.IsParty)
+        {
+            await page.Locator($"#party-grid-{slot.Slot}").ClickAsync();
+        }
+        else
+        {
+            await page.Locator("#box-select").SelectOptionAsync(slot.Box.ToString(CultureInfo.InvariantCulture));
+            await page.Locator($"#box-grid-{slot.Slot}").ClickAsync();
+        }
+        await Expect(page.Locator("#draft-slot")).ToHaveTextAsync(SlotText.Position(slot));
     }
+
+    /// <summary>Opens box 1, slot 1, where the synthetic saves store their entity.</summary>
+    public static Task Select(IPage page) => Select(page, SaveFixtures.FirstBoxSlot);
 
     /// <summary>The status text the app shows for <paramref name="analysis"/>.</summary>
     public static string Verdict(LegalityAnalysis analysis) => analysis.Parsed ? analysis.Valid ? "Valid" : "Invalid" : "Unavailable";

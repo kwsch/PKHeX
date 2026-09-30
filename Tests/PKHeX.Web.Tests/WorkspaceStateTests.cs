@@ -34,7 +34,7 @@ public sealed class WorkspaceStateTests
         state.Open(session);
         state.HasUnsavedWork.Should().BeFalse("an unmodified save has nothing to lose");
 
-        state.SetDraft(session.Select(0));
+        state.SetDraft(session.Select(SaveFixtures.FirstBoxSlot));
         state.HasUnsavedWork.Should().BeFalse("a clean draft has nothing to lose");
         state.Draft!.EditNickname("Draft", true);
         state.NotifyChanged();
@@ -55,7 +55,7 @@ public sealed class WorkspaceStateTests
         var state = new WorkspaceState();
         var first = Open();
         state.Open(first);
-        state.SetDraft(first.Select(0));
+        state.SetDraft(first.Select(SaveFixtures.FirstBoxSlot));
 
         var second = Open(oras: true);
         state.OfferReplacement(second);
@@ -81,12 +81,12 @@ public sealed class WorkspaceStateTests
         state.Session.Should().BeSameAs(first);
 
         var clean = Open();
-        state.SetDraft(first.Select(0));
+        state.SetDraft(first.Select(SaveFixtures.FirstBoxSlot));
         state.Accept(SaveLoadOutcome.Opened(clean)).Should().Be(OpenDisposition.Opened, "a clean draft has nothing to lose");
         state.Session.Should().BeSameAs(clean);
         state.Draft.Should().BeNull();
 
-        var draft = clean.Select(0);
+        var draft = clean.Select(SaveFixtures.FirstBoxSlot);
         draft.EditNickname("Dirty", true);
         state.SetDraft(draft);
         var held = Open(oras: true);
@@ -109,7 +109,7 @@ public sealed class WorkspaceStateTests
         var state = new WorkspaceState();
         var session = Open();
         state.Open(session);
-        var draft = session.Select(0);
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
         draft.EditNickname("Dirty", true);
         state.SetDraft(draft);
         state.SetDraftValid(false);
@@ -139,12 +139,12 @@ public sealed class WorkspaceStateTests
         var state = new WorkspaceState();
         var session = Open();
         state.Open(session);
-        var draft = session.Select(0);
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
         draft.EditNickname("Applied", true);
         session.Apply(draft);
         var revision = session.Revision;
 
-        var dirty = session.Select(0);
+        var dirty = session.Select(SaveFixtures.FirstBoxSlot);
         dirty.EditNickname("Unapplied", true);
         state.SetDraft(dirty);
         state.SetDraftValid(false);
@@ -157,7 +157,7 @@ public sealed class WorkspaceStateTests
         state.Pending.Should().BeNull();
         state.DraftValid.Should().BeTrue();
         state.HasUnsavedWork.Should().BeTrue("the applied change is still only in memory");
-        SaveFixtures.Open(SaveExporter.Export(session, null)).Select(0).Nickname.Should().Be("Applied", "the kept session still exports its applied state");
+        SaveFixtures.Open(SaveExporter.Export(session, null)).Select(SaveFixtures.FirstBoxSlot).Nickname.Should().Be("Applied", "the kept session still exports its applied state");
     }
 
     [Fact]
@@ -166,7 +166,7 @@ public sealed class WorkspaceStateTests
         var state = new WorkspaceState();
         var session = Open();
         state.Open(session);
-        state.SetDraft(session.Select(0));
+        state.SetDraft(session.Select(SaveFixtures.FirstBoxSlot));
         state.OfferReplacement(Open(oras: true));
 
         state.Discard();
@@ -174,5 +174,91 @@ public sealed class WorkspaceStateTests
         state.Pending.Should().BeNull();
         state.Draft.Should().BeNull();
         state.HasUnsavedWork.Should().BeFalse();
+    }
+
+    [Fact]
+    public void BoxNavigationStartsAtTheInGameBoxAndWraps()
+    {
+        var state = new WorkspaceState();
+        var showNoSession = () => state.ShowBox(0);
+        showNoSession.Should().Throw<InvalidOperationException>();
+
+        var changes = 0;
+        state.Changed += () => changes++;
+        state.Open(SaveFixtures.Open(SaveFixtures.Synthetic(false, customize: save => save.CurrentBox = 4)));
+        state.CurrentBox.Should().Be(4);
+
+        state.ShowBox(-1);
+        state.CurrentBox.Should().Be(30, "previous from the first box is the last");
+        state.ShowBox(31);
+        state.CurrentBox.Should().Be(0, "next from the last box is the first");
+        state.ShowBox(12);
+        state.CurrentBox.Should().Be(12);
+        changes.Should().Be(1, "navigation cannot affect unsaved work");
+    }
+
+    [Fact]
+    public void BoxIsKeptOnRecoveryAndResetOnOpenOrDiscard()
+    {
+        var state = new WorkspaceState();
+        var session = Open();
+        state.Open(session);
+        state.ShowBox(9);
+        state.SetDraft(session.Select(SaveFixtures.FirstBoxSlot));
+
+        state.RecoverAfterFault();
+        state.CurrentBox.Should().Be(9);
+        state.Draft.Should().BeNull();
+
+        state.Open(SaveFixtures.Open(SaveFixtures.Synthetic(true, customize: save => save.CurrentBox = 2)));
+        state.CurrentBox.Should().Be(2);
+
+        state.Discard();
+        state.CurrentBox.Should().Be(0);
+    }
+
+    [Fact]
+    public void OpenSlotOpensReadableEntitiesAndClosesTheCleanDraftOtherwise()
+    {
+        var native = SaveFixtures.Parse(SaveFixtures.Synthetic(false, customize: SaveFixtures.WithPartyMember()));
+        // Box 1, slot 2 holds a copy of slot 1 with one stored byte flipped, so it fails its checksum.
+        var target = native.GetBoxSlotOffset(0, 1);
+        native.Data.Slice(native.GetBoxSlotOffset(0, 0), native.SIZE_BOXSLOT).CopyTo(native.Data[target..]);
+        native.Data[target + native.SIZE_BOXSLOT - 1] ^= 1;
+        var state = new WorkspaceState();
+        var noSession = () => state.OpenSlot(SaveFixtures.FirstBoxSlot);
+        noSession.Should().Throw<InvalidOperationException>();
+        state.Open(SaveFixtures.Open(native.Write().ToArray()));
+
+        state.OpenSlot(SlotRef.InParty(0)).Should().Be(SlotOpening.Opened);
+        state.Draft!.Slot.Should().Be(SlotRef.InParty(0));
+        state.OpenSlot(SlotRef.InBox(0, 2)).Should().Be(SlotOpening.Empty);
+        state.Draft.Should().BeNull();
+        state.OpenSlot(SaveFixtures.FirstBoxSlot).Should().Be(SlotOpening.Opened);
+        state.OpenSlot(SlotRef.InBox(0, 1)).Should().Be(SlotOpening.Unreadable);
+        state.Draft.Should().BeNull();
+        state.OpenSlot(SlotRef.InParty(1)).Should().Be(SlotOpening.Empty);
+    }
+
+    [Fact]
+    public void OpenSlotKeepsTheOpenDraftAndNeverReplacesUnappliedWork()
+    {
+        var state = new WorkspaceState();
+        state.Open(SaveFixtures.Open(SaveFixtures.Synthetic(false, customize: SaveFixtures.WithPartyMember())));
+        state.OpenSlot(SaveFixtures.FirstBoxSlot).Should().Be(SlotOpening.Opened);
+        var draft = state.Draft;
+
+        state.OpenSlot(SaveFixtures.FirstBoxSlot).Should().Be(SlotOpening.AlreadyOpen);
+        state.Draft.Should().BeSameAs(draft, "reopening the open slot keeps its draft and legality result");
+
+        draft!.EditNickname("Unapplied", true);
+        state.OpenSlot(SlotRef.InParty(0)).Should().Be(SlotOpening.DraftPending);
+        state.OpenSlot(SlotRef.InBox(0, 2)).Should().Be(SlotOpening.DraftPending, "an empty slot must not close unapplied work either");
+        state.Draft.Should().BeSameAs(draft);
+
+        state.SetDraft(state.Session!.Select(SaveFixtures.FirstBoxSlot));
+        state.SetDraftValid(false);
+        state.OpenSlot(SlotRef.InParty(0)).Should().Be(SlotOpening.DraftPending);
+        state.Draft!.Slot.Should().Be(SaveFixtures.FirstBoxSlot);
     }
 }
