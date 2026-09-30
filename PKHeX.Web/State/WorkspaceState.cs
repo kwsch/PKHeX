@@ -1,3 +1,5 @@
+using PKHeX.Web.Services;
+
 namespace PKHeX.Web.State;
 
 /// <summary>
@@ -38,6 +40,25 @@ public sealed class WorkspaceState
         Draft = null;
         DraftValid = true;
         OnChanged();
+    }
+
+    /// <summary>
+    /// Takes the result of opening a file. A failure changes nothing: the session, draft and any pending replacement are kept.
+    /// A new session is opened at once when nothing would be lost, and otherwise held as the pending replacement, replacing any earlier one.
+    /// </summary>
+    public OpenDisposition Accept(SaveLoadOutcome outcome)
+    {
+        if (outcome.Session is not { } candidate)
+        {
+            return OpenDisposition.Refused;
+        }
+        if (HasUnsavedWork)
+        {
+            OfferReplacement(candidate);
+            return OpenDisposition.Held;
+        }
+        Open(candidate);
+        return OpenDisposition.Opened;
     }
 
     /// <summary>Holds <paramref name="candidate"/> until <see cref="ConfirmReplace"/> or <see cref="CancelReplace"/>.</summary>
@@ -104,4 +125,17 @@ public sealed class WorkspaceState
     }
 
     private void OnChanged() => Changed?.Invoke();
+}
+
+/// <summary>What <see cref="WorkspaceState.Accept"/> did with an opened file.</summary>
+public enum OpenDisposition
+{
+    /// <summary>The file was not opened; nothing changed.</summary>
+    Refused,
+
+    /// <summary>The file is now the open session.</summary>
+    Opened,
+
+    /// <summary>The file is held as <see cref="WorkspaceState.Pending"/> until the user confirms or cancels.</summary>
+    Held,
 }

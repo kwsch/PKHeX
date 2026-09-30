@@ -1,4 +1,5 @@
 using PKHeX.Core;
+using PKHeX.Web.Components;
 using PKHeX.Web.Services;
 using Xunit;
 using static Microsoft.Playwright.Assertions;
@@ -200,29 +201,33 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
         Assert.True(await page.Locator("#nickname").InputValueAsync() == originalNickname);
         Assert.True((await Download(page)).AsSpan().SequenceEqual(expected));
 
-        // Rejected files never replace the open session.
-        byte[][] invalidInputs =
+        // Rejected files never replace the open session, and each is reported with its own reason.
+        (byte[] Bytes, LoadFailure Failure)[] invalidInputs =
         [
-            [],
-            new byte[512],
-            bytes[..^1],
-            Corrupt(bytes),
-            new byte[SaveLoader.MaxInputBytes + 1],
-            new SAV5BW().Write().ToArray(),
-            new byte[SaveUtil.SIZE_G6ORAS],
+            ([], LoadFailure.Empty),
+            (new byte[512], LoadFailure.Unrecognized),
+            (bytes[..^1], LoadFailure.Unrecognized),
+            (Corrupt(bytes), LoadFailure.IntegrityFailed),
+            (new byte[SaveLoader.MaxInputBytes + 1], LoadFailure.TooLarge),
+            (new SAV5BW().Write().ToArray(), LoadFailure.RecognizedNotEnabled),
+            (new byte[SaveUtil.SIZE_G6ORAS], LoadFailure.Unrecognized),
         ];
-        foreach (var invalid in invalidInputs)
+        foreach (var (invalid, failure) in invalidInputs)
         {
             await Load(page, invalid);
-            await Expect(page.Locator("#message")).Not.ToHaveTextAsync("Download started — verify your file. The session remains temporary.");
+            await Expect(page.Locator("#message")).ToHaveTextAsync(Refusal(invalid, failure));
             await Expect(page.Locator("#family")).ToHaveTextAsync("XY");
             Assert.True((await Download(page)).AsSpan().SequenceEqual(expected), "Rejected replacement changed session.");
         }
 
-        // Cancelling a replacement keeps the pending draft.
+        // A pending replacement survives a rejected file, and cancelling it keeps the draft.
         await page.Locator("#nickname").FillAsync("WASM Pending");
         await page.Locator("#nicknamed").CheckAsync();
-        await Load(page, SaveFixtures.Synthetic(true));
+        await Load(page, SaveFixtures.Synthetic(true), "pending-main");
+        await Expect(page.Locator("#replace-name")).ToHaveTextAsync("pending-main");
+        await Load(page, new byte[512]);
+        await Expect(page.Locator("#message")).ToHaveTextAsync(Refusal(new byte[512], LoadFailure.Unrecognized) + " pending-main is still waiting to replace it.");
+        await Expect(page.Locator("#replace-name")).ToHaveTextAsync("pending-main");
         await page.Locator("#replace-cancel").ClickAsync();
         Assert.True(await page.Locator("#nickname").InputValueAsync() == "WASM Pending");
         await page.Locator("#cancel-draft").ClickAsync();
@@ -243,5 +248,13 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
 
         await session.AssertNoNetworkOrPersistenceAsync();
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred.");
+    }
+
+    /// <summary>The text shown when <paramref name="bytes"/> is refused while a session is open, checking it is refused for <paramref name="failure"/>.</summary>
+    private static string Refusal(byte[] bytes, LoadFailure failure)
+    {
+        var outcome = SaveLoader.Load(bytes);
+        Assert.True(outcome.Failure == failure, $"Fixture is refused as {outcome.Failure}, not {failure}.");
+        return UserMessages.For(outcome) + " The previous session was retained.";
     }
 }

@@ -57,17 +57,17 @@ public sealed class SaveSession
     /// <summary>
     /// Starts a draft from an occupied box slot of the current revision.
     /// </summary>
-    /// <exception cref="InvalidDataException">The slot is not occupied, or its entity fails its checksum.</exception>
+    /// <exception cref="SessionException"><see cref="SessionError.SlotNotOccupied"/> or <see cref="SessionError.EntityChecksumInvalid"/>.</exception>
     public EditorDraft Select(int index)
     {
         if (!OccupiedSlots.Contains(index))
         {
-            throw new InvalidDataException("Choose an occupied box slot.");
+            throw new SessionException(SessionError.SlotNotOccupied);
         }
         var entity = (PK6)GetSlot(Working, index).Read(Working);
         if (!entity.ChecksumValid)
         {
-            throw new InvalidDataException("The selected Pokémon has an invalid checksum.");
+            throw new SessionException(SessionError.EntityChecksumInvalid);
         }
         return new EditorDraft(SessionId, index, Revision, entity, Working.MaxStringLengthNickname);
     }
@@ -76,7 +76,7 @@ public sealed class SaveSession
     /// Writes a draft to its source slot. The write is staged on a clone of the working save and swapped in only after it is verified.
     /// </summary>
     /// <remarks>A draft with no changes is ignored and does not count as a change.</remarks>
-    /// <exception cref="InvalidDataException">The draft belongs to another session or is stale, the slot cannot be written, or verification fails.</exception>
+    /// <exception cref="SessionException">The draft is foreign or stale, the slot cannot be written, or the staged write fails verification.</exception>
     public void Apply(EditorDraft draft)
     {
         EnsureOwns(draft);
@@ -91,17 +91,17 @@ public sealed class SaveSession
         var slot = GetSlot(candidate, draft.SlotIndex);
         if (!slot.CanWriteTo(candidate) || slot.CanWriteTo(candidate, entity) != WriteBlockedMessage.None)
         {
-            throw new InvalidDataException("The selected slot cannot be edited.");
+            throw new SessionException(SessionError.SlotNotWritable);
         }
         // The default import settings also mark the Pokédex, bump trainer records and rewrite handler data as if traded in.
         if (!slot.WriteTo(candidate, entity, EntityImportSettings.None))
         {
-            throw new InvalidDataException("The staged slot write failed.");
+            throw new SessionException(SessionError.StagedWriteFailed);
         }
         var stored = slot.Read(candidate);
         if (!stored.ChecksumValid || stored.Nickname != entity.Nickname || stored.IsNicknamed != entity.IsNicknamed)
         {
-            throw new InvalidDataException("The staged edit failed validation.");
+            throw new SessionException(SessionError.StagedEditMismatch);
         }
 
         Working = candidate;
@@ -124,24 +124,24 @@ public sealed class SaveSession
     /// <summary>
     /// Rejects a draft that was not taken from this session.
     /// </summary>
-    /// <exception cref="InvalidDataException">The draft does not belong to this session.</exception>
+    /// <exception cref="SessionException"><see cref="SessionError.ForeignDraft"/>.</exception>
     internal void EnsureOwns(EditorDraft draft)
     {
         if (draft.SessionId != SessionId)
         {
-            throw new InvalidDataException("The draft does not belong to the open save. Select the Pokémon again.");
+            throw new SessionException(SessionError.ForeignDraft);
         }
     }
 
     /// <summary>
     /// Rejects a draft taken from an earlier revision.
     /// </summary>
-    /// <exception cref="InvalidDataException">The draft is stale.</exception>
+    /// <exception cref="SessionException"><see cref="SessionError.StaleDraft"/>.</exception>
     internal void EnsureCurrent(EditorDraft draft)
     {
         if (draft.SourceRevision != Revision)
         {
-            throw new InvalidDataException("The draft is out of date. Select the Pokémon again.");
+            throw new SessionException(SessionError.StaleDraft);
         }
     }
 

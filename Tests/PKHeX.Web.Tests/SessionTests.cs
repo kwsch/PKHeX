@@ -19,7 +19,7 @@ public sealed class SessionTests
     {
         var source = SaveFixtures.Synthetic(oras);
         var before = source.ToArray();
-        var session = SaveLoader.Load(source);
+        var session = SaveFixtures.Open(source);
         source.Should().Equal(before, "parsing must not mutate caller bytes");
         session.GetOriginalBytes().Should().Equal(before);
 
@@ -27,7 +27,7 @@ public sealed class SessionTests
         draft.EditNickname("WASM Proof", true);
         draft.IsDirty.Should().BeTrue();
         var exportDirty = () => SaveExporter.Export(session, draft);
-        exportDirty.Should().Throw<InvalidDataException>();
+        exportDirty.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.DraftUnapplied);
 
         draft = session.Select(draft.SlotIndex);
         draft.IsDirty.Should().BeFalse();
@@ -36,7 +36,7 @@ public sealed class SessionTests
         draft.EditNickname("WASM Proof", true);
         session.Apply(draft);
         var output = SaveExporter.Export(session, session.Select(draft.SlotIndex));
-        var reloaded = SaveLoader.Load(output).Select(0);
+        var reloaded = SaveFixtures.Open(output).Select(0);
         reloaded.Nickname.Should().Be("WASM Proof");
         reloaded.IsNicknamed.Should().BeTrue();
         source.Should().Equal(before);
@@ -50,46 +50,26 @@ public sealed class SessionTests
     }
 
     [Fact]
-    public void RejectsInvalidInputsAndInvalidDraftWithoutMutation()
+    public void RejectsInvalidDraftWithoutMutation()
     {
-        var loadEmpty = () => SaveLoader.Load([]);
-        loadEmpty.Should().Throw<InvalidDataException>();
-        var loadTooLarge = () => SaveLoader.Load(new byte[SaveLoader.MaxInputBytes + 1]);
-        loadTooLarge.Should().Throw<InvalidDataException>();
-        var loadUnrecognized = () => SaveLoader.Load(new byte[512]);
-        loadUnrecognized.Should().Throw<InvalidDataException>();
-        var corrupt = SaveFixtures.Synthetic(false);
-        corrupt[0] ^= 1;
-        var loadCorrupt = () => SaveLoader.Load(corrupt);
-        loadCorrupt.Should().Throw<InvalidDataException>();
-
-        var session = SaveLoader.Load(SaveFixtures.Synthetic(false));
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
         var draft = session.Select(0);
         var editTooLong = () => draft.EditNickname(new string('a', 13), true);
-        editTooLong.Should().Throw<InvalidDataException>();
+        editTooLong.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.NicknameTooLong);
         draft.IsDirty.Should().BeFalse();
         session.HasChangesSinceOpen.Should().BeFalse();
     }
 
-    [Fact]
-    public void RejectsRecognizedSaveThatIsNotEnabled()
-    {
-        var bw = new SAV5BW().Write().ToArray();
-        SaveUtil.GetSaveFile(bw.ToArray()).Should().BeOfType<SAV5BW>("Core recognises the file");
-        var act = () => SaveLoader.Load(bw);
-        act.Should().Throw<InvalidDataException>();
-    }
-
     [Theory]
-    [InlineData("Bad\nName")]
-    [InlineData("\u0007")]
-    [InlineData("\uE08E")] // Stored as-is but read back as '♂', so the text would change.
-    public void RejectsNicknameThatCannotBeStoredUnchanged(string nickname)
+    [InlineData("Bad\nName", SessionError.NicknameInvalidCharacters)]
+    [InlineData("\u0007", SessionError.NicknameInvalidCharacters)]
+    [InlineData("\uE08E", SessionError.NicknameNotRepresentable)] // Stored as-is but read back as '♂', so the text would change.
+    public void RejectsNicknameThatCannotBeStoredUnchanged(string nickname, SessionError expected)
     {
-        var draft = SaveLoader.Load(SaveFixtures.Synthetic(false)).Select(0);
+        var draft = SaveFixtures.Open(SaveFixtures.Synthetic(false)).Select(0);
         var before = draft.Nickname;
         var act = () => draft.EditNickname(nickname, true);
-        act.Should().Throw<InvalidDataException>();
+        act.Should().Throw<SessionException>().Which.Error.Should().Be(expected);
         draft.Nickname.Should().Be(before);
         draft.IsDirty.Should().BeFalse();
     }
@@ -103,14 +83,34 @@ public sealed class SessionTests
         native.Parsed.Should().BeTrue();
         native.Valid.Should().Be(legal);
 
-        var session = SaveLoader.Load(SaveFixtures.Synthetic(true, legal));
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(true, legal));
         session.Select(0).Analyze(session).Verdict.Should().Be(legal ? "Valid" : "Invalid");
+    }
+
+    [Fact]
+    public void SelectRefusesEmptySlotsAndBrokenEntities()
+    {
+        var native = SaveFixtures.Parse(SaveFixtures.Synthetic(false));
+        // Copy slot 0 into slot 1 and flip its last stored byte: the entity still reads a species, but its checksum fails.
+        var source = native.GetBoxSlotOffset(0, 0);
+        var target = native.GetBoxSlotOffset(0, 1);
+        native.Data.Slice(source, native.SIZE_BOXSLOT).CopyTo(native.Data[target..]);
+        native.Data[target + native.SIZE_BOXSLOT - 1] ^= 1;
+        var broken = native.GetBoxSlotAtIndex(0, 1);
+        broken.Species.Should().NotBe(0);
+        broken.ChecksumValid.Should().BeFalse();
+
+        var session = SaveFixtures.Open(native.Write().ToArray());
+        var empty = () => session.Select(2);
+        empty.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.SlotNotOccupied);
+        var corrupt = () => session.Select(1);
+        corrupt.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.EntityChecksumInvalid);
     }
 
     [Fact]
     public void RevisionAdvancesOnlyOnRealApply()
     {
-        var session = SaveLoader.Load(SaveFixtures.Synthetic(false));
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
         session.Revision.Should().Be(0);
 
         session.Apply(session.Select(0));
@@ -127,7 +127,7 @@ public sealed class SessionTests
     [Fact]
     public void ApplyWritesOnlyEditedFields()
     {
-        var session = SaveLoader.Load(SaveFixtures.Synthetic(false));
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
         var expected = (PK6)session.Working.GetBoxSlotAtIndex(0);
         var draft = session.Select(0);
         draft.EditNickname("Changed", true);
@@ -142,7 +142,7 @@ public sealed class SessionTests
     [Fact]
     public void MarkExportedRecordsOnlyRevisionsOfTheSession()
     {
-        var session = SaveLoader.Load(SaveFixtures.Synthetic(false));
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
         SaveExporter.Export(session, null);
         session.ExportedRevision.Should().BeNull("producing the bytes is not a download");
 
@@ -165,7 +165,7 @@ public sealed class SessionTests
     [Fact]
     public void StaleDraftIsRejectedUnlessClean()
     {
-        var session = SaveLoader.Load(SaveFixtures.Synthetic(false));
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
         var stale = session.Select(0);
         var current = session.Select(0);
         current.EditNickname("First", true);
@@ -173,15 +173,15 @@ public sealed class SessionTests
         var working = session.Working;
 
         var exportStale = () => SaveExporter.Export(session, stale);
-        exportStale.Should().Throw<InvalidDataException>();
+        exportStale.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.StaleDraft);
         var analyzeStale = () => stale.Analyze(session);
-        analyzeStale.Should().Throw<InvalidDataException>();
+        analyzeStale.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.StaleDraft);
         session.Apply(stale);
         session.Revision.Should().Be(1, "a clean stale draft has nothing to apply");
 
         stale.EditNickname("Second", true);
         var applyStale = () => session.Apply(stale);
-        applyStale.Should().Throw<InvalidDataException>();
+        applyStale.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.StaleDraft);
         session.Working.Should().BeSameAs(working);
         session.Revision.Should().Be(1);
         session.Select(0).Nickname.Should().Be("First");
@@ -190,8 +190,8 @@ public sealed class SessionTests
     [Fact]
     public void ForeignSessionDraftIsRejectedWithoutMutation()
     {
-        var owner = SaveLoader.Load(SaveFixtures.Synthetic(false));
-        var other = SaveLoader.Load(SaveFixtures.Synthetic(false, legal: false));
+        var owner = SaveFixtures.Open(SaveFixtures.Synthetic(false));
+        var other = SaveFixtures.Open(SaveFixtures.Synthetic(false, legal: false));
         other.SessionId.Should().NotBe(owner.SessionId);
         var foreign = owner.Select(0);
         foreign.EditNickname("Foreign", true);
@@ -199,11 +199,11 @@ public sealed class SessionTests
         var nickname = other.Select(0).Nickname;
 
         var applyForeign = () => other.Apply(foreign);
-        applyForeign.Should().Throw<InvalidDataException>();
+        applyForeign.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.ForeignDraft);
         var analyzeForeign = () => foreign.Analyze(other);
-        analyzeForeign.Should().Throw<InvalidDataException>();
+        analyzeForeign.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.ForeignDraft);
         var exportForeign = () => SaveExporter.Export(other, owner.Select(0));
-        exportForeign.Should().Throw<InvalidDataException>();
+        exportForeign.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.ForeignDraft);
         other.Working.Should().BeSameAs(working);
         other.Revision.Should().Be(0);
         other.HasChangesSinceOpen.Should().BeFalse();

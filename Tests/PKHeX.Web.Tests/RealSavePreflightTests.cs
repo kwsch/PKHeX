@@ -19,7 +19,7 @@ public sealed class RealSavePreflightTests
         Assert.True(SaveFixtures.Slot(native, index).Read(native) is PK6 { ChecksumValid: true });
 
         // The Web session algorithm must agree with native Core on the same bytes.
-        var session = SaveLoader.Load(fixture.Bytes);
+        var session = SaveFixtures.Open(fixture.Bytes);
         Assert.True(session.Family == family);
         // Not Assert.Contains: its failure message would list the private save's occupied slots.
         Assert.True(session.OccupiedSlots.Contains(index), "Session does not list the native writable slot as occupied.");

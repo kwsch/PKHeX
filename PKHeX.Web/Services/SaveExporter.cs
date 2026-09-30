@@ -10,7 +10,7 @@ public static class SaveExporter
 {
     /// <summary>
     /// Writes a clone of the working save and reopens it through <see cref="SaveLoader"/>. The output must pass the loader's
-    /// integrity checks, keep the family and version, and keep the drafted slot's checksum and nickname fields.
+    /// integrity and round-trip checks, keep the family and version, and keep the drafted slot's checksum and nickname fields.
     /// </summary>
     /// <remarks>
     /// This does not mark the session as exported. Once the download has been started, call
@@ -19,7 +19,7 @@ public static class SaveExporter
     /// <param name="session">Session to export.</param>
     /// <param name="draft">The open draft, if any. It must belong to <paramref name="session"/>, be current and have no unapplied changes.</param>
     /// <returns>The validated file bytes.</returns>
-    /// <exception cref="InvalidDataException">The draft is foreign, stale or unapplied, or the output fails validation.</exception>
+    /// <exception cref="SessionException">The draft is foreign, stale or unapplied, or the output fails validation.</exception>
     public static byte[] Export(SaveSession session, EditorDraft? draft)
     {
         if (draft is not null)
@@ -27,17 +27,20 @@ public static class SaveExporter
             session.EnsureOwns(draft);
             if (draft.IsDirty)
             {
-                throw new InvalidDataException("Apply or cancel the draft before downloading.");
+                throw new SessionException(SessionError.DraftUnapplied);
             }
             session.EnsureCurrent(draft);
         }
 
         var working = session.Working;
         var bytes = working.Clone().Write().ToArray();
-        var reopened = SaveLoader.Load(bytes);
+        if (SaveLoader.Load(bytes).Session is not { } reopened)
+        {
+            throw new SessionException(SessionError.ExportRevalidationFailed);
+        }
         if (reopened.Family != session.Family || reopened.Working.Version != working.Version)
         {
-            throw new InvalidDataException("Exported save identity validation failed.");
+            throw new SessionException(SessionError.ExportIdentityMismatch);
         }
         if (draft is not null)
         {
@@ -45,7 +48,7 @@ public static class SaveExporter
             var after = SaveSession.GetSlot(reopened.Working, draft.SlotIndex).Read(reopened.Working);
             if (!after.ChecksumValid || before.Nickname != after.Nickname || before.IsNicknamed != after.IsNicknamed)
             {
-                throw new InvalidDataException("Exported Pokémon validation failed.");
+                throw new SessionException(SessionError.ExportEntityMismatch);
             }
         }
         return bytes;

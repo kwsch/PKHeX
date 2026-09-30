@@ -1,3 +1,5 @@
+using PKHeX.Web.Services;
+
 namespace PKHeX.Web.Interop;
 
 /// <summary>
@@ -29,4 +31,15 @@ public sealed record FileReadResult(FileReadStatus Status, string FileName, byte
 {
     /// <summary>A failed read of <paramref name="fileName"/>, carrying no bytes.</summary>
     public static FileReadResult Failed(FileReadStatus status, string fileName) => new(status, fileName, []);
+
+    /// <summary>
+    /// Opens the read file: a failed read keeps its reason, and a successful one goes through <see cref="SaveLoader.Load(ReadOnlySpan{byte}, string?)"/>.
+    /// </summary>
+    public SaveLoadOutcome Open() => Status switch
+    {
+        FileReadStatus.Ok => SaveLoader.Load(Bytes, FileName),
+        FileReadStatus.Empty => SaveLoadOutcome.Failed(LoadFailure.Empty),
+        FileReadStatus.TooLarge => SaveLoadOutcome.Failed(LoadFailure.TooLarge),
+        _ => SaveLoadOutcome.Failed(LoadFailure.ReadFailed),
+    };
 }

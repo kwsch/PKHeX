@@ -1,5 +1,6 @@
 @inject BrowserFileService Files
 @inject WorkspaceState State
+@inject ILogger<Workspace> Logger
 
 @* The open/edit/download journey. Session state lives in WorkspaceState, so recovering from a fault here keeps the open save. *@
 @if (Session is null)
@@ -14,7 +15,8 @@
 {
     <section aria-label="Replace session">
         <p>The current session contains changes. Download them first, or explicitly discard this session.</p>
-        <button id="replace-confirm" @onclick="ConfirmReplace" disabled="@busy">Discard current session and open</button>
+        <p>Waiting to open: <code id="replace-name">@State.Pending.FileName</code></p>
+        <button id="replace-confirm" @onclick="ConfirmReplace" disabled="@busy">Discard current session and open @State.Pending.FileName</button>
         <button id="replace-cancel" @onclick="CancelReplace" disabled="@busy">Keep current session</button>
     </section>
 }
@@ -74,60 +76,41 @@
     private void OpenFile(FileReadResult file)
     {
         busy = false;
-        State.CancelReplace();
-        if (file.Status != FileReadStatus.Ok)
+        // The candidate is fully parsed and checked before anything is touched, so a failure keeps the session, draft and any pending replacement.
+        var outcome = file.Open();
+        switch (State.Accept(outcome))
         {
-            message = file.Status switch
-            {
-                FileReadStatus.Empty => "The file is empty.",
-                FileReadStatus.TooLarge => "The file exceeds the 16 MiB limit.",
-                _ => "The file could not be read. Choose it again.",
-            } + Retained;
-            return;
-        }
-
-        try
-        {
-            var candidate = SaveLoader.Load(file.Bytes, file.FileName);
-            if (State.HasUnsavedWork)
-            {
-                State.OfferReplacement(candidate);
+            case OpenDisposition.Opened:
+                ResetDraftView();
+                message = Loaded;
+                break;
+            case OpenDisposition.Held:
                 message = "Resolve the existing session before replacement.";
-            }
-            else
-            {
-                SetSession(candidate);
-            }
-        }
-        catch (Exception ex)
-        {
-            ShowError(ex);
+                break;
+            default:
+                message = UserMessages.For(outcome) + Retained + StillPending;
+                break;
         }
     }
 
-    private void DropRejected(DropRejection rejection) => message = rejection switch
-    {
-        DropRejection.MultipleFiles => "Drop a single save file." + Retained,
-        DropRejection.Directory => "Drop a save file, not a folder." + Retained,
-        DropRejection.Busy => "Wait for the current operation to finish, then try again.",
-        _ => "Only files can be dropped here, not text or links." + Retained,
-    };
+    private void DropRejected(DropRejection rejection) =>
+        message = UserMessages.For(rejection) + (rejection == DropRejection.Busy ? "" : Retained);
 
     /// <summary>Appended to refusals, but only when there is a session that the refusal left untouched.</summary>
     private string Retained => Session is null ? "" : " The previous session was retained.";
 
-    private void SetSession(SaveSession candidate)
-    {
-        State.Open(candidate);
-        ResetDraftView();
-        message = "Save loaded locally; checksums valid.";
-    }
+    /// <summary>Appended to a refused open while an earlier file still waits to replace the session, so the two are not confused.</summary>
+    private string StillPending => State.Pending is null ? "" : $" {State.Pending.FileName} is still waiting to replace it.";
+
+    private const string Loaded = "Save loaded locally; checksums valid.";
 
     private void ConfirmReplace()
     {
-        if (State.Pending is { } pending)
+        if (State.Pending is not null)
         {
-            SetSession(pending);
+            State.ConfirmReplace();
+            ResetDraftView();
+            message = Loaded;
         }
     }
 
@@ -263,5 +246,15 @@
         }
     }
 
-    private void ShowError(Exception ex) => message = ex is InvalidDataException ? ex.Message : "Operation failed. The previous session was retained; no file was overwritten.";
+    private void ShowError(Exception ex)
+    {
+        if (ex is SessionException refused)
+        {
+            message = UserMessages.For(refused.Error);
+            return;
+        }
+        // Unexpected: the details go to the browser console only, never to the page.
+        Logger.LogError(ex, "Workspace operation failed.");
+        message = UserMessages.OperationFailed;
+    }
 }

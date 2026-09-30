@@ -96,9 +96,9 @@ public sealed class BrowserFileServiceTests
     public void SessionKeepsSanitisedFileName()
     {
         var bytes = SaveFixtures.Synthetic(false);
-        SaveLoader.Load(bytes).FileName.Should().Be(FileNaming.DefaultSaveName);
-        SaveLoader.Load(bytes, "x\u0007.sav").FileName.Should().Be("x.sav");
-        SaveLoader.Load(bytes, "   ").FileName.Should().Be(FileNaming.DefaultSaveName);
+        SaveFixtures.Open(bytes).FileName.Should().Be(FileNaming.DefaultSaveName);
+        SaveFixtures.Open(bytes, "x\u0007.sav").FileName.Should().Be("x.sav");
+        SaveFixtures.Open(bytes, "   ").FileName.Should().Be(FileNaming.DefaultSaveName);
     }
 
     /// <summary>An <see cref="IBrowserFile"/> with a declared size and a stream factory.</summary>

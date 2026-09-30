@@ -1,5 +1,7 @@
 using System.Buffers.Binary;
 using PKHeX.Core;
+using PKHeX.Web.Services;
+using PKHeX.Web.State;
 
 namespace PKHeX.Web.Tests;
 
@@ -38,6 +40,13 @@ internal static class SaveFixtures
         var entity = new PK6(ReadEntity(legal));
         save.SetBoxSlotAtIndex(entity, 0, EntityImportSettings.None);
         return save.Write().ToArray();
+    }
+
+    /// <summary>Opens <paramref name="bytes"/> through <see cref="Services.SaveLoader"/>, failing the test with the outcome if no session was created.</summary>
+    public static SaveSession Open(byte[] bytes, string? fileName = null)
+    {
+        var outcome = SaveLoader.Load(bytes, fileName);
+        return outcome.Session ?? throw new InvalidOperationException($"Fixture did not open: {outcome.Failure} {outcome.Integrity}.");
     }
 
     public static SaveFile Parse(byte[] bytes) => SaveUtil.GetSaveFile(bytes.ToArray())

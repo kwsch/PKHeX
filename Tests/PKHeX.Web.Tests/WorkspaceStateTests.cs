@@ -11,7 +11,7 @@ namespace PKHeX.Web.Tests;
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class WorkspaceStateTests
 {
-    private static SaveSession Open(bool oras = false) => SaveLoader.Load(SaveFixtures.Synthetic(oras));
+    private static SaveSession Open(bool oras = false) => SaveFixtures.Open(SaveFixtures.Synthetic(oras));
 
     [Fact]
     public void StartsEmptyWithNothingToLose()
@@ -73,6 +73,67 @@ public sealed class WorkspaceStateTests
     }
 
     [Fact]
+    public void AcceptOpensWhenNothingIsLostAndOtherwiseHoldsTheCandidate()
+    {
+        var state = new WorkspaceState();
+        var first = Open();
+        state.Accept(SaveLoadOutcome.Opened(first)).Should().Be(OpenDisposition.Opened, "there is no session to lose");
+        state.Session.Should().BeSameAs(first);
+
+        var clean = Open();
+        state.SetDraft(first.Select(0));
+        state.Accept(SaveLoadOutcome.Opened(clean)).Should().Be(OpenDisposition.Opened, "a clean draft has nothing to lose");
+        state.Session.Should().BeSameAs(clean);
+        state.Draft.Should().BeNull();
+
+        var draft = clean.Select(0);
+        draft.EditNickname("Dirty", true);
+        state.SetDraft(draft);
+        var held = Open(oras: true);
+        state.Accept(SaveLoadOutcome.Opened(held)).Should().Be(OpenDisposition.Held, "the dirty draft would be lost");
+        state.Session.Should().BeSameAs(clean);
+        state.Draft.Should().BeSameAs(draft);
+        state.Pending.Should().BeSameAs(held);
+
+        var newer = Open();
+        state.Accept(SaveLoadOutcome.Opened(newer)).Should().Be(OpenDisposition.Held);
+        state.Pending.Should().BeSameAs(newer, "the latest successfully opened file replaces the earlier candidate");
+    }
+
+    public static TheoryData<LoadFailure> Failures => [.. Enum.GetValues<LoadFailure>()];
+
+    [Theory]
+    [MemberData(nameof(Failures))]
+    public void RefusedOpenChangesNothing(LoadFailure failure)
+    {
+        var state = new WorkspaceState();
+        var session = Open();
+        state.Open(session);
+        var draft = session.Select(0);
+        draft.EditNickname("Dirty", true);
+        state.SetDraft(draft);
+        state.SetDraftValid(false);
+        var pending = Open(oras: true);
+        state.OfferReplacement(pending);
+        var changes = 0;
+        state.Changed += () => changes++;
+
+        var recognized = new RecognizedSave(typeof(PKHeX.Core.SAV6XY), PKHeX.Core.GameVersion.X, 6);
+        var outcome = failure switch
+        {
+            LoadFailure.RecognizedNotEnabled => SaveLoadOutcome.NotEnabled(recognized),
+            LoadFailure.IntegrityFailed => SaveLoadOutcome.IntegrityFailed(recognized, IntegrityProblem.ChecksumsInvalid),
+            _ => SaveLoadOutcome.Failed(failure),
+        };
+        state.Accept(outcome).Should().Be(OpenDisposition.Refused);
+        state.Session.Should().BeSameAs(session);
+        state.Draft.Should().BeSameAs(draft);
+        state.DraftValid.Should().BeFalse();
+        state.Pending.Should().BeSameAs(pending);
+        changes.Should().Be(0);
+    }
+
+    [Fact]
     public void RecoveryKeepsTheAppliedSessionAndDropsHalfDoneWork()
     {
         var state = new WorkspaceState();
@@ -96,7 +157,7 @@ public sealed class WorkspaceStateTests
         state.Pending.Should().BeNull();
         state.DraftValid.Should().BeTrue();
         state.HasUnsavedWork.Should().BeTrue("the applied change is still only in memory");
-        SaveLoader.Load(SaveExporter.Export(session, null)).Select(0).Nickname.Should().Be("Applied", "the kept session still exports its applied state");
+        SaveFixtures.Open(SaveExporter.Export(session, null)).Select(0).Nickname.Should().Be("Applied", "the kept session still exports its applied state");
     }
 
     [Fact]

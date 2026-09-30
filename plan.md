@@ -481,6 +481,62 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
 - **M2 Load pipeline + error taxonomy.** Typed outcomes: `Empty`, `TooLarge`, `ReadFailed`, `Unrecognized`, `RecognizedNotEnabled(family)`, `IntegrityFailed`, `ParserFault`. The replacement candidate is parsed before the old session is touched, and failure keeps the session (SAVE-001–004, ERR-001/002/004). Extends the proof's failure-path tests.
   - Unchanged round trip at open (from PKForge `SaveEngineSession.ValidateUnchangedRoundTrip`): `Write()` of the freshly parsed, unmodified save must equal the original bytes, otherwise the outcome is `IntegrityFailed`. This catches saves that pass their checksums but that Core would not write back identically.
   - Move user-facing wording out of `State/` and `Services/`: `SaveLoader`, `SaveSession` and `EditorDraft` currently throw `InvalidDataException` with display messages (carried over from the proof). They return or throw typed outcomes instead, and the UI maps them to text.
+
+  **M2 status:** code complete on `web/m2-load-pipeline`.
+  - **Outcomes** (`Services/SaveLoadOutcome`). `SaveLoader.Load` no longer throws for bad input. It returns a `SaveLoadOutcome`: a session, or a `LoadFailure`:
+    - `Empty`, `TooLarge`, `ReadFailed`
+    - `Unrecognized`
+    - `RecognizedNotEnabled`, with a `RecognizedSave` (Core type, version, generation)
+    - `IntegrityFailed`, with an `IntegrityProblem` (`NotExportable`, `ChecksumsInvalid`, `RoundTripMismatch`) and the `RecognizedSave`
+    - `ParserFault`
+
+    It carries no text and no exception details, ready for M17's sanitised codes. `FileReadResult.Open()` (in `Interop`, so `Services` does not depend on the browser types) maps a failed read to the same taxonomy, so picker, drop and tests share one entry point.
+  - **Pipeline order:** size → own copy → parse a second copy → recognised → enabled → exportable → checksums → unchanged round trip → session. Everything from the parse to building the session (including its occupied-slot scan) is inside one `try`, so a Core exception at any point is `ParserFault`. `OutOfMemoryException` is not caught.
+  - **Unchanged round trip** (from PKForge): `SaveLoader.WriteForComparison` (`save.Clone().Write()`) must equal the original bytes. It writes a clone because `Write()` refreshes checksums in the save's own buffer. A test runs it on a save with broken checksums and requires the buffer to stay unchanged; a mutation to `save.Write()` fails it. `SaveExporter` reopens through the same loader, so every export is also round-trip checked, and a reopen failure is `ExportRevalidationFailed`.
+    - For valid XY/ORAS, Core's write is the buffer with checksums refreshed, so a natural mismatch cannot be produced. `RoundTripMismatch`, `NotExportable` and `ParserFault` are tested through an internal `Load` overload that replaces the parse and write steps.
+    - `NotExportable` is a defensive check: Core marks only blank saves built without data as not exportable, never one parsed from bytes.
+    - `ParserFault` also covers exceptions from our own code in the `try` (the session's slot scan, naming). It is not logged; redacted diagnostics for it belong to M17.
+    - All 14 real XY/ORAS saves available locally round-trip exactly: the two G-D fixtures and the 12 XY Citra saves. They are exportable and checksum-valid, checked with a throwaway script outside the repository.
+  - **Typed operation errors** (`State/SessionError`). `SaveSession`, `EditorDraft` and `SaveExporter` throw `SessionException(SessionError)`, whose message is the code name. There are 14 codes. The nickname check is split into too long, control characters and not representable. No `InvalidDataException` remains in the app.
+  - **Wording** (`Components/UserMessages`) maps every outcome, integrity problem, session error and drop rejection to text.
+    - `Unrecognized` states what the release opens (raw, decrypted X/Y and OR/AS `main` copied off the console or emulator) and claims nothing about corruption.
+    - `RecognizedNotEnabled` says "This looks like a Generation N save", with a separate line for the ORAS demo. Game names are left to M3.
+    - The family names in every refusal come from `SupportMatrix`, so the loader, refusals and the About panel name them the same way.
+    - WEB-SAVE-004's "encrypted-console prerequisites" is met by the `Unrecognized` text: it asks for the decrypted `main` exported with a save manager on the console, or taken from an emulator. Core cannot tell an encrypted save from other unknown data, so there is no separate outcome.
+    - `IntegrityFailed` names the family and the failed check, and says nothing was repaired or changed.
+    - Unexpected exceptions keep the generic text and are logged to the browser console only.
+  - **Failure keeps state.** `WorkspaceState.Accept(SaveLoadOutcome)` returns `Refused`, `Opened` or `Held`. A failure changes nothing. A parsed candidate opens when nothing would be lost, and is otherwise held as the pending replacement, replacing any earlier one. `Workspace` no longer cancels a pending replacement on every file pick, so a failed read or load keeps the session, the draft and any pending replacement.
+    - The replacement panel names the waiting file (`#replace-name`, and the confirm button). A refusal while a file is waiting adds "{name} is still waiting to replace it", so the refused file and the waiting one cannot be confused.
+  - **Tests.**
+    - **Unit 196** (up from 154):
+      - `SaveLoaderTests`: every outcome, including the zero-filled ORAS-size and truncated files as `Unrecognized` with nothing recognised; BW and the ORAS demo as `RecognizedNotEnabled`; the injected faults; no exception text in the outcome; caller bytes unchanged; read-status mapping.
+      - `UserMessagesTests`: distinct, non-empty text for every value, none says "supported", and the exact text of every load outcome. That last test pins the wording, because the E2E tier builds its expected text from the same mapping.
+      - `WorkspaceStateTests`: `Accept` opening or holding, and every `LoadFailure` refused without changing the session, draft, draft validity or pending replacement, and without raising `Changed`.
+      - `SessionTests`: every refusal now asserts its `SessionError`, and a new test covers `SlotNotOccupied` and `EntityChecksumInvalid`.
+    - **E2E 57:** `PublishedFailuresDraftsAndKnownLegality` now asserts the exact message for each of the seven rejected inputs, after checking that each fixture really fails as intended. It also checks that a pending replacement survives a rejected file, is named in the panel, and is named in the refusal. Every E2E test executed.
+    - **RealSave 14:** `SaveFixtures.Open` requires a successful outcome, so the preflight now also proves the round trip on the private saves.
+    - **Mutation checks:**
+      - Restoring the unconditional `CancelReplace` on file pick fails the pending-replacement E2E check in every engine.
+      - Cancelling the replacement in `Accept` on a refusal fails all 7 refusal rows.
+      - Writing the save itself instead of a clone fails the round-trip write test.
+    - **Other checks:** the trim baseline is unchanged (38), and the `PKHeX.slnx` Release build has 0 warnings.
+  - **Adversarial review.**
+    - **Fixed:**
+      - the waiting file was not named, so after a refused pick "Discard current session and open" could open a file other than the one just picked;
+      - the round-trip test injected its own write step and could not fail;
+      - the "failure changes nothing" rule lived only in the component, and was tested only by E2E;
+      - the E2E expected text came from the mapping under test; exact strings are now pinned in Unit;
+      - `NotExportable` was described as a real Core condition;
+      - `ParserFault`'s xmldoc said only Core throws;
+      - `Services` depended on `Interop`;
+      - the family names differed between refusals;
+      - "copied off the console" did not mention the save manager.
+    - **Recorded, not changed:** `ParserFault` is not logged (M17). WEB-SAVE-004's encrypted-console case is met by the `Unrecognized` wording (see above).
+  - **Not verified yet:** no manual pass in a browser; the E2E tier drives the same seven refusals in three engines. A save that passes its checksums but fails the round trip has not been seen in real XY/ORAS data.
+  - **Compared with PKForge:**
+    - Matches: copying before parsing (`SaveEngineSession` constructor), and `ValidateUnchangedRoundTrip` (`SaveEngineSession.cs`). PKForge runs the round trip only in `WriteSafety` for Gen 3 layout checks; we run it at every open.
+    - Stricter: PKForge reports every failure as one `InvalidDataException("… not a recognized save file")` and does not check `ChecksumsValid` or `Exportable` at open. We separate recognised-not-enabled, integrity by cause, and parser faults.
+    - Out of scope: `SaveParser`'s RetroArch container decoding, SRAM padding trim, Luminescent and ROM-hack detection, and the GameCube memory-card hint; none applies to raw XY/ORAS. Its edition hint for shared-layout saves maps to WEB-SAVE-006 (MVP+).
 - **M3 Overview.** Trainer name, game, language, TID/SID in the save's display format (`TrainerIDFormat`), playtime, money, sanitised filename and size, integrity status. Unknown values are labelled, never invented (OVERVIEW-001/002, SAVE-007).
 - **M4 Party + box grid.** Party strip plus the current box only. Box selector and prev/next use Core `BoxCount`/`BoxSlotCount` and box names. The grid is a single tab stop with arrow keys and Enter, plus a list alternative. Slots are labelled with coordinates and species text. Empty slots never open a stale entity (PARTY-001, BOX-001/008, A11Y-001). Slot labels are built in the UI from box/slot coordinates, replacing `SaveSession.SlotLabel`.
 - **M5 Sprite catalog.**

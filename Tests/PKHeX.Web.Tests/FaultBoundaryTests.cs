@@ -68,7 +68,7 @@ public sealed class FaultBoundaryTests : IDisposable
     [Fact]
     public void ReturnKeepsTheSessionAndDropsTheDraft()
     {
-        var session = SaveLoader.Load(SaveFixtures.Synthetic(false));
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
         state.Open(session);
         var draft = session.Select(0);
         draft.EditNickname("Unapplied", true);
@@ -92,7 +92,7 @@ public sealed class FaultBoundaryTests : IDisposable
     [Fact]
     public void DiscardClosesTheSession()
     {
-        state.Open(SaveLoader.Load(SaveFixtures.Synthetic(false)));
+        state.Open(SaveFixtures.Open(SaveFixtures.Synthetic(false)));
         var boundary = RenderBoundary();
         Fail(boundary);
         boundary.Find("#fault-discard").Click();

@@ -34,7 +34,9 @@ public sealed class SupportMatrixTests
     {
         var bytes = new SAV5BW().Write().ToArray();
         SaveUtil.GetSaveFile(bytes.ToArray()).Should().NotBeNull("Core recognises the file");
-        var load = () => SaveLoader.Load(bytes);
-        load.Should().Throw<InvalidDataException>();
+        var outcome = SaveLoader.Load(bytes);
+        outcome.Failure.Should().Be(LoadFailure.RecognizedNotEnabled);
+        outcome.Recognized!.SaveType.Should().Be<SAV5BW>();
+        outcome.Session.Should().BeNull();
     }
 }

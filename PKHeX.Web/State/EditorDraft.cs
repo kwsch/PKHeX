@@ -48,18 +48,22 @@ public sealed class EditorDraft
     /// <summary>
     /// Replaces the draft's nickname fields. On failure the previous values are kept.
     /// </summary>
-    /// <exception cref="InvalidDataException">The text is too long, contains control characters, or cannot be stored unchanged.</exception>
+    /// <exception cref="SessionException">The text is too long, contains control characters, or cannot be stored unchanged.</exception>
     public void EditNickname(string nickname, bool isNicknamed)
     {
-        if (nickname.Length > MaxNicknameLength || nickname.Any(char.IsControl))
+        if (nickname.Length > MaxNicknameLength)
         {
-            throw new InvalidDataException("The nickname exceeds the format limit or contains control characters.");
+            throw new SessionException(SessionError.NicknameTooLong);
+        }
+        if (nickname.Any(char.IsControl))
+        {
+            throw new SessionException(SessionError.NicknameInvalidCharacters);
         }
         var candidate = (PK6)baseline.Clone();
         candidate.Nickname = nickname;
         if (candidate.Nickname != nickname)
         {
-            throw new InvalidDataException("The nickname cannot be represented without changing its text.");
+            throw new SessionException(SessionError.NicknameNotRepresentable);
         }
         Nickname = nickname;
         IsNicknamed = isNicknamed;
@@ -68,7 +72,7 @@ public sealed class EditorDraft
     /// <summary>
     /// Runs Core legality analysis on the drafted entity, in the context of <paramref name="session"/>'s save.
     /// </summary>
-    /// <exception cref="InvalidDataException">The draft belongs to another session or is stale.</exception>
+    /// <exception cref="SessionException">The draft is foreign or stale.</exception>
     public LegalityResult Analyze(SaveSession session)
     {
         session.EnsureOwns(this);
