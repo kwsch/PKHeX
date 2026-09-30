@@ -58,6 +58,42 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred during boot.");
     }
 
+    [TierTheory(TestCategory.E2E)]
+    [MemberData(nameof(PublishedAppFixture.BrowserCases), MemberType = typeof(PublishedAppFixture))]
+    public async Task OverviewShowsTheOpenSave(string engine, string prefix)
+    {
+        await using var session = await app.BootAsync(engine, prefix);
+        var page = session.Page;
+        await Load(page, SaveFixtures.Synthetic(false, customize: SaveOverviewTests.SetKnownTrainer), "Serena's <save>");
+
+        // The strings are pinned here, as in OverviewTextTests, not built from the mapping under test.
+        var expected = new Dictionary<string, string>
+        {
+            ["#overview-game"] = "X",
+            ["#overview-family"] = "Pokémon X and Y",
+            ["#overview-trainer"] = "Serena",
+            ["#overview-language"] = "FRA (Français)",
+            ["#overview-tid"] = "00042",
+            ["#overview-sid"] = "54321",
+            ["#overview-playtime"] = "123 h 04 min 05 s",
+            ["#overview-money"] = "1,234,567 Pokédollars",
+            ["#overview-last-saved"] = "2024-05-06 07:08",
+            ["#overview-file"] = "Serena's _save_",
+            ["#overview-size"] = "415,232 bytes (405.5 KiB)",
+            ["#overview-format"] = "Raw Generation 6 save",
+            ["#overview-integrity"] = "Checksums valid and unchanged round trip verified when opened. Every download is revalidated.",
+        };
+        foreach (var (selector, text) in expected)
+        {
+            await Expect(page.Locator(selector)).ToHaveTextAsync(text);
+        }
+
+        // At phone width the overview stacks instead of scrolling sideways.
+        await page.SetViewportSizeAsync(375, 800);
+        Assert.True(await page.EvaluateAsync<bool>("() => document.documentElement.scrollWidth <= document.documentElement.clientWidth"), "The page scrolls horizontally at 375 px.");
+        Assert.True(session.PageErrors == 0, "Browser runtime errors occurred.");
+    }
+
     /// <summary>
     /// Every published license and notices file is linked from About, and every link resolves under the hosting path to that file,
     /// served with its type, in a new tab so the session in this one survives.
@@ -191,7 +227,7 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
         var bytes = SaveFixtures.Synthetic(false);
         var expected = SaveFixtures.Parse(bytes).Write().ToArray();
         await Load(page, bytes);
-        await Expect(page.Locator("#family")).ToHaveTextAsync("XY");
+        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("X");
         await Select(page, 0);
         var originalNickname = await page.Locator("#nickname").InputValueAsync();
         await page.Locator("#nickname").FillAsync("WASM Cancel");
@@ -216,7 +252,7 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
         {
             await Load(page, invalid);
             await Expect(page.Locator("#message")).ToHaveTextAsync(Refusal(invalid, failure));
-            await Expect(page.Locator("#family")).ToHaveTextAsync("XY");
+            await Expect(page.Locator("#overview-game")).ToHaveTextAsync("X");
             Assert.True((await Download(page)).AsSpan().SequenceEqual(expected), "Rejected replacement changed session.");
         }
 
@@ -237,7 +273,7 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
         {
             var sample = SaveFixtures.Synthetic(true, legal);
             await Load(page, sample);
-            await Expect(page.Locator("#family")).ToHaveTextAsync("ORAS");
+            await Expect(page.Locator("#overview-game")).ToHaveTextAsync("Omega Ruby");
             await Select(page, 0);
 
             var native = SaveFixtures.Parse(sample);

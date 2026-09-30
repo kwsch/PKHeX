@@ -164,7 +164,7 @@ public sealed class SaveLoaderTests
     {
         var outcome = new FileReadResult(FileReadStatus.Ok, "backup", SaveFixtures.Synthetic(true)).Open();
         outcome.Session!.FileName.Should().Be("backup");
-        outcome.Session.Family.Should().Be("ORAS");
+        outcome.Session.Working.Should().BeOfType<SAV6AO>();
     }
 
     [Theory]

@@ -150,7 +150,7 @@ public sealed class ShellTests(PublishedAppFixture app)
         await using var session = await app.BootAsync(engine, "");
         var page = session.Page;
         await Load(page, SaveFixtures.Synthetic(false));
-        await Expect(page.Locator("#family")).ToHaveTextAsync("XY");
+        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("X");
         await page.ReloadAsync();
         await Expect(page.Locator("#save-file")).ToBeVisibleAsync(new() { Timeout = 60000 });
         Assert.Empty(session.Dialogs);

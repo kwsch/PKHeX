@@ -538,6 +538,49 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
     - Stricter: PKForge reports every failure as one `InvalidDataException("… not a recognized save file")` and does not check `ChecksumsValid` or `Exportable` at open. We separate recognised-not-enabled, integrity by cause, and parser faults.
     - Out of scope: `SaveParser`'s RetroArch container decoding, SRAM padding trim, Luminescent and ROM-hack detection, and the GameCube memory-card hint; none applies to raw XY/ORAS. Its edition hint for shared-layout saves maps to WEB-SAVE-006 (MVP+).
 - **M3 Overview.** Trainer name, game, language, TID/SID in the save's display format (`TrainerIDFormat`), playtime, money, sanitised filename and size, integrity status. Unknown values are labelled, never invented (OVERVIEW-001/002, SAVE-007).
+
+  **M3 status:** code complete on `web/m3-overview`.
+  - **Model** (`Services/SaveOverview`): a record of typed values with no text, built by `SaveOverview.From(session)` from the working save on every render, so it follows the current revision.
+    - **Game:** `Version`, plus `VersionValid` (`IsVersionValid()`), and the `SupportedFamily` matched by exact type.
+    - **Trainer:** the name is `OT`, or null when blank or whitespace. The language is kept raw, with its name looked up in `GameInfo.LanguageDataSource(generation, context)`; a value that is not listed has a null name.
+    - **IDs:** `TrainerIDDisplayFormat` and `DisplayTID`/`DisplaySID`, padded with Core's own format strings. There is no raw ID32, because in the 16-bit format the displayed IDs are the stored values.
+    - **Other values:** playtime, `Money`, and `SAV6.Played.LastSavedDate` (null when the stored date is invalid).
+    - **File:** the sanitised file name, and the size from the new `SaveSession.OriginalLength`, so no copy is made.
+    - **Integrity** is not recomputed. `ChecksumsValid` is stale after an in-memory apply, because Core refreshes checksums only on `Write()`. Instead, the overview states what the loader checked before the session existed, and that every download is revalidated.
+    - **Left out:** Gen 6 has no save revision, so none is shown.
+  - **Wording** (`Components/OverviewText`): all text and formatting, with invariant culture throughout.
+    - The game is Core's English name (`GameInfo.GetVersionName`, e.g. "X", "Omega Ruby"), and the language is Core's own label (e.g. "FRA (Français)", as WinForms shows it).
+    - Unknown values: "Unknown (stored value N)", "Not set in this save" and "Not recorded".
+    - Playtime is "123 h 04 min 05 s", with the hours never capped. Money is "1,234,567 Pokédollars". Size is "415,232 bytes (405.5 KiB)", with the exact bytes first.
+  - **Panel** (`Components/SaveOverviewPanel`): a `<section aria-labelledby>` with an h2 "Save overview" and a `<dl>` of 13 `#overview-*` values, all rendered as text. The `dl` is a two-column grid that stacks below 30rem.
+  - **Workspace:** the overview replaces the "Loaded save" heading and the `Family`/hard-coded `Integrity: Valid` line. The slot picker now sits under its own "Box slots" heading, and `#session-state`/`#session-note` follow the overview. `SaveSession.Family` is removed, and `SaveExporter`'s identity check compares the exact save type instead (the same meaning, since the types are sealed).
+  - **Found while testing:**
+    - The loader opens a save whose stored game is outside its family, e.g. an XY layout storing OR, or 0, because it matches families by type (layout). The overview labels such a game as unknown with its raw value rather than naming it. Refusing such saves is not in M3's scope; noted for M17's hostile-input pass.
+    - `SaveFixtures.Synthetic` gained an optional `customize` hook for setting trainer values before the write.
+  - **Tests.**
+    - **Unit 215** (up from 196):
+      - `SaveOverviewTests` (10): every value read from XY and ORAS saves with distinct known values; blank and whitespace OT; languages 0, 6 and 42; an invalid last-saved date; a stored game outside the family (three cases); and a nickname apply leaving the trainer summary identical.
+      - `OverviewTextTests` (5): exact strings for known, ORAS, unknown and largest values, and identical text under de-DE, fr-FR, ar-SA and hi-IN.
+      - `SaveOverviewPanelTests` (2, bUnit): every id in order with its text, and a markup trainer name rendered as text.
+    - **E2E 63** (up from 57): `OverviewShowsTheOpenSave` (3 engines × 2 paths) asserts all 13 values against pinned strings, including the sanitised hostile file name "Serena's <save>" → "Serena's _save_", and checks for no horizontal scroll at 375 px. The earlier `#family` checks now use `#overview-game`.
+    - **RealSave 14:** the browser round trip now compares the overview's family, trainer, TID, SID and money with native Core values, with the private values withheld from failure messages. The preflight compares the session's save type.
+    - **Mutation checks:** swapping `DisplayTID`/`DisplaySID` fails the XY and ORAS value tests; showing a blank OT as-is fails both blank-name rows; formatting with the current culture fails the locale test.
+    - **Other checks:** the trim baseline is unchanged (38), and the `PKHeX.slnx` Release build has 0 warnings.
+  - **Not verified yet:**
+    - No manual browser pass or screenshots. The E2E tier covers the values and the 375 px layout in three engines.
+    - No separate adversarial review yet (M1 and M2 each had one).
+  - **Compared with PKForge:**
+    - **Matches:** PKForge has no overview screen; its save description (`SaveEngine.TryDescribe`) and trainer card (`SaveEngineSession.GetTrainer`) show OT, playtime, language, TID16/SID16 and money. We show the same values, with game names from Core's English strings.
+    - **Stricter:**
+      - IDs follow Core's `TrainerIDFormat`/`DisplayTID` rather than always raw TID16/SID16. The two are the same for Gen 6, but only ours holds for Gen 7+.
+      - A blank OT and an unknown language are labelled, where PKForge falls back to the file name or drops the tag.
+      - Money is shown in full with separators, not with a plain `ToString`.
+      - We add file size, integrity and the last-saved date, which PKForge never shows.
+      - We don't mask a money read failure the way `ReadMoneySafe` does; for SAV6 it is a plain block read, and the fault boundary covers a Core bug.
+    - **Not adopted:**
+      - `EditionPair` and the edition-from-own-Pokémon guess, because XY/ORAS store one version (the shared-layout hint is WEB-SAVE-006, MVP+).
+      - Trainer editing, which is WEB-TRAINER-001/002 (MVP+).
+      - BP/coin stats, which are WEB-OVERVIEW-003 (post-MVP).
 - **M4 Party + box grid.** Party strip plus the current box only. Box selector and prev/next use Core `BoxCount`/`BoxSlotCount` and box names. The grid is a single tab stop with arrow keys and Enter, plus a list alternative. Slots are labelled with coordinates and species text. Empty slots never open a stale entity (PARTY-001, BOX-001/008, A11Y-001). Slot labels are built in the UI from box/slot coordinates, replacing `SaveSession.SlotLabel`.
 - **M5 Sprite catalog.**
   - (a) Build-time generator: it reads the existing `PKHeX.Drawing.PokeSprite` resource images and emits a fixed atlas + JSON manifest into `wwwroot`. It is reproducible, and a provenance note is committed.

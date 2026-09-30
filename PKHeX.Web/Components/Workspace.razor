@@ -22,11 +22,11 @@
 }
 @if (Session is not null)
 {
-    <section aria-label="Save overview">
-        <h2>Loaded save</h2>
-        <p>Family: <strong id="family">@Session.Family</strong>. Integrity: <strong id="integrity">Valid</strong>.</p>
-        <p id="session-state">@(Session.HasChangesSinceOpen ? "Edited in memory" : "Unmodified session")</p>
-        <p id="session-note">This save is processed only on this device. Changes are temporary until you download them; reloading or closing the tab discards this session.</p>
+    <SaveOverviewPanel Session="Session" />
+    <p id="session-state">@(Session.HasChangesSinceOpen ? "Edited in memory" : "Unmodified session")</p>
+    <p id="session-note">This save is processed only on this device. Changes are temporary until you download them; reloading or closing the tab discards this session.</p>
+    <section aria-labelledby="slots-title">
+        <h2 id="slots-title">Box slots</h2>
         <label for="slot">Occupied box slot</label>
         <select id="slot" value="@(Draft?.SlotIndex ?? -1)" @onchange="SelectSlot" disabled="@(State.DraftDirty || busy || !State.DraftValid)">
             <option value="-1">Choose a slot</option>

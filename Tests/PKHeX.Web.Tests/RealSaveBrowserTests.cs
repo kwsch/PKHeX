@@ -1,5 +1,7 @@
+using System.Globalization;
 using System.Text.Json;
 using PKHeX.Core;
+using PKHeX.Web.Services;
 using Xunit;
 using static Microsoft.Playwright.Assertions;
 using static PKHeX.Web.Tests.ProofPage;
@@ -61,7 +63,12 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
 
         // No-op round trip: open, analyse, download unchanged.
         await Load(page, fixture.Bytes);
-        await Expect(page.Locator("#family")).ToHaveTextAsync(family);
+        await Expect(page.Locator("#overview-family")).ToHaveTextAsync(SupportMatrix.Families.Single(f => f.SaveType == native.GetType()).Games);
+        // Compared with native Core values; the private values are kept out of the failure messages.
+        Assert.True(await page.Locator("#overview-trainer").TextContentAsync() == native.OT, "Overview trainer differs from native (value withheld).");
+        Assert.True(await page.Locator("#overview-tid").TextContentAsync() == native.DisplayTID.ToString("D5"), "Overview TID differs from native (value withheld).");
+        Assert.True(await page.Locator("#overview-sid").TextContentAsync() == native.DisplaySID.ToString("D5"), "Overview SID differs from native (value withheld).");
+        Assert.True(await page.Locator("#overview-money").TextContentAsync() == string.Create(CultureInfo.InvariantCulture, $"{native.Money:#,0} Pokédollars"), "Overview money differs from native (value withheld).");
         await Select(page, index);
         await CheckLegality(page, sourcePk, native, nativeSlot.Type);
         var noOp = await Download(page);
@@ -101,7 +108,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred; no private traces retained.");
         await page.ReloadAsync();
         await Expect(page.Locator("#save-file")).ToBeVisibleAsync();
-        await Expect(page.Locator("#family")).ToHaveCountAsync(0);
+        await Expect(page.Locator("#overview-title")).ToHaveCountAsync(0);
         await Expect(page.Locator("#slot")).ToHaveCountAsync(0);
 
         // The reload is a second boot: check it the same way, then that it left nothing behind.

@@ -20,7 +20,8 @@ public sealed class RealSavePreflightTests
 
         // The Web session algorithm must agree with native Core on the same bytes.
         var session = SaveFixtures.Open(fixture.Bytes);
-        Assert.True(session.Family == family);
+        // RealSaves.Read has already checked that the native type matches the family.
+        Assert.True(session.Working.GetType() == native.GetType());
         // Not Assert.Contains: its failure message would list the private save's occupied slots.
         Assert.True(session.OccupiedSlots.Contains(index), "Session does not list the native writable slot as occupied.");
         Assert.True(SaveExporter.Export(session, null).AsSpan().SequenceEqual(native.Clone().Write().Span), "Session no-op export differs from native.");

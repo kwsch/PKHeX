@@ -68,7 +68,7 @@ public sealed class FileInteropTests(PublishedAppFixture app)
         var xy = SaveFixtures.Synthetic(false);
         var expected = SaveFixtures.Parse(xy).Write().ToArray();
         Assert.True(await Drop(page, "#save-drop", [("Y save.sav", xy)]), "The drop zone did not take over the drop.");
-        await Expect(page.Locator("#family")).ToHaveTextAsync("XY");
+        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("X");
         Assert.True((await Download(page, "Y save.sav")).AsSpan().SequenceEqual(expected));
 
         // Refused drops explain themselves, and neither replace the session nor navigate.
@@ -81,7 +81,7 @@ public sealed class FileInteropTests(PublishedAppFixture app)
         // Outside the zone, files and links are blocked and ignored.
         Assert.True(await Drop(page, "h1", [("main", oras)]), "A file dropped outside the zone was not blocked.");
         Assert.True(await Drop(page, "h1", [], "https://example.com/"), "A link dropped outside the zone was not blocked.");
-        await Expect(page.Locator("#family")).ToHaveTextAsync("XY");
+        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("X");
         Assert.True(page.Url == url, "A drop navigated the page.");
 
         // Text can still be dropped into a text field; a file cannot, and nothing can be dropped on other controls.
@@ -100,7 +100,7 @@ public sealed class FileInteropTests(PublishedAppFixture app)
         Assert.True(page.Url == url, "A dragged link navigated the page.");
         await page.Locator("#cancel-draft").ClickAsync();
 
-        await Expect(page.Locator("#family")).ToHaveTextAsync("XY");
+        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("X");
         Assert.True((await Download(page, "Y save.sav")).AsSpan().SequenceEqual(expected), "A refused drop changed the session.");
         await session.AssertNoNetworkOrPersistenceAsync();
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred.");
@@ -116,7 +116,7 @@ public sealed class FileInteropTests(PublishedAppFixture app)
         const string hostile = "backup\u0007 \u202Ecopy.sav";
         var bytes = SaveFixtures.Synthetic(true);
         await Load(page, bytes, hostile);
-        await Expect(page.Locator("#family")).ToHaveTextAsync("ORAS");
+        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("Omega Ruby");
         var sanitised = FileNaming.Sanitize(hostile);
         Assert.True(sanitised == "backup copy.sav");
         Assert.True((await Download(page, sanitised)).AsSpan().SequenceEqual(SaveFixtures.Parse(bytes).Write().Span));

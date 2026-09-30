@@ -31,9 +31,14 @@ internal static class SaveFixtures
         return File.ReadAllBytes(Path.Combine(RepositoryRoot, "Tests/PKHeX.Core.Tests", path));
     }
 
-    public static byte[] Synthetic(bool oras, bool legal = true)
+    /// <summary>A blank XY or ORAS save holding one known PK6 in box 1, slot 1.</summary>
+    /// <param name="oras">True for ORAS, false for XY.</param>
+    /// <param name="legal">Whether the stored PK6 is a known legal or a known illegal entity.</param>
+    /// <param name="customize">Applied to the save before it is written, e.g. to set trainer values.</param>
+    public static byte[] Synthetic(bool oras, bool legal = true, Action<SaveFile>? customize = null)
     {
         var save = BlankSaveFile.Get(oras ? GameVersion.OR : GameVersion.X);
+        customize?.Invoke(save);
         // Test-only synthetic container marker, matching SaveUtil.HasSaveFooterBEEF.
         // This is not a gameplay-ready save and is never used instead of a real fixture.
         BinaryPrimitives.WriteUInt32LittleEndian(save.Data[^0x1F0..], 0x42454546);

@@ -32,10 +32,6 @@ public sealed class SaveSession
     /// <summary>The <see cref="Revision"/> of the last export whose download was started, or null if none.</summary>
     public int? ExportedRevision { get; private set; }
 
-    /// <summary>Display name of the save family.</summary>
-    /// <remarks>Only XY and ORAS saves pass the <see cref="Services.SaveLoader"/> allowlist, so anything not XY is ORAS.</remarks>
-    public string Family => Working is SAV6XY ? "XY" : "ORAS";
-
     /// <summary>Flat box-slot indexes that held an entity when the session was opened.</summary>
     public IReadOnlyList<int> OccupiedSlots { get; }
 
@@ -50,6 +46,9 @@ public sealed class SaveSession
 
     /// <summary>Returns a copy of the bytes the session was opened from.</summary>
     public byte[] GetOriginalBytes() => original.ToArray();
+
+    /// <summary>Size of the file the session was opened from, in bytes.</summary>
+    public int OriginalLength => original.Length;
 
     /// <summary>Human-readable box/slot label for a flat box-slot index.</summary>
     public string SlotLabel(int index) => $"Box {(index / Working.BoxSlotCount) + 1}, slot {(index % Working.BoxSlotCount) + 1}";

@@ -38,7 +38,7 @@ public static class SaveExporter
         {
             throw new SessionException(SessionError.ExportRevalidationFailed);
         }
-        if (reopened.Family != session.Family || reopened.Working.Version != working.Version)
+        if (reopened.Working.GetType() != working.GetType() || reopened.Working.Version != working.Version)
         {
             throw new SessionException(SessionError.ExportIdentityMismatch);
         }

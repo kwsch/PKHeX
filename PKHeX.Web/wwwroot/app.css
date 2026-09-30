@@ -8,6 +8,10 @@ section { border: 1px solid #888; border-radius: .5rem; padding: 1rem; margin: 1
 #about dd { margin: 0 0 .5rem; }
 #about code { overflow-wrap: anywhere; }
 #about li { margin-block: .5rem; }
+.overview { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .4rem 1rem; margin: 0; }
+.overview dt { font-weight: 600; }
+.overview dd { margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 30rem) { .overview { grid-template-columns: minmax(0, 1fr); gap: 0; } .overview dd { margin-block-end: .6rem; } }
 table { border-collapse: collapse; width: 100%; }
 th, td { border: 1px solid #888; padding: .5rem; text-align: start; vertical-align: top; }
 label { display: block; margin-block: .7rem .3rem; }

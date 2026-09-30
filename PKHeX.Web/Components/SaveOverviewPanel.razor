@@ -1,0 +1,43 @@
+@* Read-only summary of the open save. Every value is rendered as text, so a hostile trainer name or file name stays inert. *@
+<section aria-labelledby="overview-title">
+    <h2 id="overview-title">Save overview</h2>
+    <dl class="overview">
+        <dt>Game</dt>
+        <dd id="overview-game">@OverviewText.Game(overview)</dd>
+        <dt>Opened as</dt>
+        <dd id="overview-family">@OverviewText.Family(overview)</dd>
+        <dt>Trainer</dt>
+        <dd id="overview-trainer">@OverviewText.Trainer(overview)</dd>
+        <dt>Language</dt>
+        <dd id="overview-language">@OverviewText.Language(overview)</dd>
+        <dt>Trainer ID (TID)</dt>
+        <dd id="overview-tid">@OverviewText.TrainerId(overview)</dd>
+        <dt>Secret ID (SID)</dt>
+        <dd id="overview-sid">@OverviewText.SecretId(overview)</dd>
+        <dt>Play time</dt>
+        <dd id="overview-playtime">@OverviewText.PlayTime(overview)</dd>
+        <dt>Money</dt>
+        <dd id="overview-money">@OverviewText.Money(overview)</dd>
+        <dt>Last saved in game</dt>
+        <dd id="overview-last-saved">@OverviewText.LastSaved(overview)</dd>
+        <dt>File</dt>
+        <dd id="overview-file">@overview.FileName</dd>
+        <dt>Size</dt>
+        <dd id="overview-size">@OverviewText.Size(overview)</dd>
+        <dt>Format</dt>
+        <dd id="overview-format">@OverviewText.Format(overview)</dd>
+        <dt>Integrity</dt>
+        <dd id="overview-integrity">@OverviewText.Integrity</dd>
+    </dl>
+</section>
+
+@code {
+    private SaveOverview overview = null!;
+
+    /// <summary>The open session to summarise.</summary>
+    [Parameter, EditorRequired]
+    public SaveSession Session { get; set; } = null!;
+
+    /// <inheritdoc />
+    protected override void OnParametersSet() => overview = SaveOverview.From(Session);
+}
