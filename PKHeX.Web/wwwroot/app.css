@@ -25,6 +25,9 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 .boot-stopped #blazor-error-ui { display: none !important; }
 #fault { border: 2px solid #c44; }
 #workspace:focus { outline: none; }
+/* File names are untrusted and can be 120 characters without a break; they must wrap rather than widen the page. */
+#message, #exit, #exit button, #download-name { overflow-wrap: anywhere; }
+#download-name { min-width: 0; }
 #save-drop { border: 2px dashed #888; border-radius: .5rem; padding: 0 1rem; }
 #save-drop[data-drag-over] { border-color: #397bd9; background: color-mix(in srgb, #397bd9 12%, transparent); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

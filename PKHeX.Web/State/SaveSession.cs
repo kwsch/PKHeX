@@ -32,6 +32,15 @@ public sealed class SaveSession
     /// <summary>The <see cref="Revision"/> of the last export whose download was started, or null if none.</summary>
     public int? ExportedRevision { get; private set; }
 
+    /// <summary>
+    /// Whether the applied changes are covered by a started download. It is separate from <see cref="HasChangesSinceOpen"/>,
+    /// which stays true after a download, because the session still differs from the file it was opened from.
+    /// </summary>
+    public ExportStatus ExportStatus => !HasChangesSinceOpen ? ExportStatus.Unchanged
+        : ExportedRevision is not { } exported ? ExportStatus.NotExported
+        : exported == Revision ? ExportStatus.ExportedCurrent
+        : ExportStatus.ChangedSinceExport;
+
     internal SaveSession(byte[] source, SaveFile save, string fileName)
     {
         original = source;

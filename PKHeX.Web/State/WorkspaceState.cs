@@ -3,7 +3,7 @@ using PKHeX.Web.Services;
 namespace PKHeX.Web.State;
 
 /// <summary>
-/// What the user is working on in this tab: the open session, a replacement waiting for confirmation, and the unapplied draft.
+/// What the user is working on in this tab: the open session, a request to leave it (replace or close), and the unapplied draft.
 /// </summary>
 /// <remarks>
 /// It lives outside the workspace components, so a component fault that is recovered from does not lose the open session.
@@ -14,8 +14,22 @@ public sealed class WorkspaceState
     /// <summary>The open save, or null before one is opened.</summary>
     public SaveSession? Session { get; private set; }
 
-    /// <summary>A parsed replacement for <see cref="Session"/>, held until the user confirms or cancels the replacement.</summary>
-    public SaveSession? Pending { get; private set; }
+    /// <summary>A request to leave the open session, or null when none is in progress.</summary>
+    public SessionExit? Exit { get; private set; }
+
+    /// <summary>
+    /// What <see cref="Exit"/> still waits for. It is worked out from the live session and draft every time, never stored,
+    /// so an apply made after a download (which advances the revision) takes the exit back to <see cref="ExitStage.ResolveSession"/>,
+    /// and the user's confirmation can never cover changes the download does not hold.
+    /// </summary>
+    public ExitStage ExitStage => Exit is null || Session is not { } session ? ExitStage.None
+        : DraftDirty || !DraftValid ? ExitStage.ResolveDraft
+        : session.ExportStatus switch
+        {
+            ExportStatus.Unchanged => ExitStage.Ready,
+            ExportStatus.ExportedCurrent => ExitStage.ConfirmExport,
+            _ => ExitStage.ResolveSession,
+        };
 
     /// <summary>The unapplied edit of the selected slot, or null when nothing is selected.</summary>
     public EditorDraft? Draft { get; private set; }
@@ -35,14 +49,14 @@ public sealed class WorkspaceState
     /// <summary>True when the party and box are shown as a list rather than as grids. Kept for the tab, across opened saves.</summary>
     public bool ShowAsList { get; set; }
 
-    /// <summary>Raised after any change that can affect <see cref="HasUnsavedWork"/>.</summary>
+    /// <summary>Raised after any change that can affect <see cref="HasUnsavedWork"/> or <see cref="ExitStage"/>.</summary>
     public event Action? Changed;
 
-    /// <summary>Makes <paramref name="session"/> the open session, dropping any pending replacement and draft.</summary>
+    /// <summary>Makes <paramref name="session"/> the open session, dropping any exit in progress and the draft.</summary>
     public void Open(SaveSession session)
     {
         Session = session;
-        Pending = null;
+        Exit = null;
         Draft = null;
         DraftValid = true;
         CurrentBox = StorageView.InitialBox(session);
@@ -64,8 +78,9 @@ public sealed class WorkspaceState
     }
 
     /// <summary>
-    /// Takes the result of opening a file. A failure changes nothing: the session, draft and any pending replacement are kept.
-    /// A new session is opened at once when nothing would be lost, and otherwise held as the pending replacement, replacing any earlier one.
+    /// Takes the result of opening a file. A failure changes nothing: the session, draft and any exit in progress are kept.
+    /// A new session is opened at once when nothing would be lost. Otherwise it waits as the candidate of a replace
+    /// (see <see cref="RequestReplace"/>), replacing any earlier candidate and turning a close in progress into a replace.
     /// </summary>
     public OpenDisposition Accept(SaveLoadOutcome outcome)
     {
@@ -73,36 +88,146 @@ public sealed class WorkspaceState
         {
             return OpenDisposition.Refused;
         }
-        if (HasUnsavedWork)
+        if (Exit is null && !HasUnsavedWork)
         {
-            OfferReplacement(candidate);
-            return OpenDisposition.Held;
+            Open(candidate);
+            return OpenDisposition.Opened;
         }
-        Open(candidate);
-        return OpenDisposition.Opened;
+        RequestReplace(candidate);
+        return Exit is null ? OpenDisposition.Opened : OpenDisposition.Held;
     }
 
-    /// <summary>Holds <paramref name="candidate"/> until <see cref="ConfirmReplace"/> or <see cref="CancelReplace"/>.</summary>
-    public void OfferReplacement(SaveSession candidate)
+    /// <summary>
+    /// Starts (or retargets) a replace of the open session with <paramref name="candidate"/>. It completes at once when nothing would be lost;
+    /// otherwise it waits on <see cref="ExitStage"/>. The stage is kept when the candidate changes, since it depends only on the open session.
+    /// </summary>
+    /// <remarks>With no session open, the candidate is simply opened.</remarks>
+    public void RequestReplace(SaveSession candidate)
     {
-        Pending = candidate;
+        if (Session is null)
+        {
+            Open(candidate);
+            return;
+        }
+        Exit = SessionExit.Replace(candidate);
+        Advance();
+    }
+
+    /// <summary>Starts a close of the open session. It completes at once when nothing would be lost; otherwise it waits on <see cref="ExitStage"/>.</summary>
+    /// <exception cref="InvalidOperationException">No session is open.</exception>
+    public void RequestClose()
+    {
+        if (Session is null)
+        {
+            throw new InvalidOperationException("No session is open.");
+        }
+        Exit = SessionExit.Close;
+        Advance();
+    }
+
+    /// <summary>
+    /// Applies the draft (see <see cref="ApplyDraft"/>) as the exit's draft step, then moves the exit on.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">The exit is not at <see cref="ExitStage.ResolveDraft"/>.</exception>
+    /// <exception cref="SessionException">The apply was refused; the exit stays where it was.</exception>
+    public void ApplyDraftForExit()
+    {
+        RequireStage(ExitStage.ResolveDraft);
+        ApplyDraft();
+        Advance();
+    }
+
+    /// <summary>Drops the draft (closing the editor) as the exit's draft step, then moves the exit on. The session is unchanged.</summary>
+    /// <exception cref="InvalidOperationException">The exit is not at <see cref="ExitStage.ResolveDraft"/>.</exception>
+    public void DiscardDraftForExit()
+    {
+        RequireStage(ExitStage.ResolveDraft);
+        Draft = null;
+        DraftValid = true;
+        Advance();
+    }
+
+    /// <summary>
+    /// Records the user's confirmation that they checked the download of the current revision, and completes the exit.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">The exit is not at <see cref="ExitStage.ConfirmExport"/> or <see cref="ExitStage.Ready"/>.</exception>
+    public void ConfirmExportChecked()
+    {
+        RequireStage(ExitStage.ConfirmExport, ExitStage.Ready);
+        Complete();
+    }
+
+    /// <summary>
+    /// Completes the exit without a download, losing the session's changes. This is the explicitly destructive choice.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">No exit is in progress, or its draft step is unresolved.</exception>
+    public void DiscardSessionForExit()
+    {
+        RequireStage(ExitStage.ResolveSession, ExitStage.ConfirmExport, ExitStage.Ready);
+        Complete();
+    }
+
+    /// <summary>Abandons the exit. The session, the draft and the editor are kept as they are; a waiting candidate is dropped.</summary>
+    public void CancelExit()
+    {
+        Exit = null;
         OnChanged();
     }
 
-    /// <summary>Opens the pending replacement, if there is one.</summary>
-    public void ConfirmReplace()
+    /// <summary>
+    /// Applies the draft to the session, then reopens the same slot from the new revision as a clean draft.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="Changed"/> is raised straight after the apply, so the leave warning is armed even if reopening the slot fails.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">No session or draft is open.</exception>
+    /// <exception cref="SessionException">The apply or the reselect was refused.</exception>
+    public void ApplyDraft()
     {
-        if (Pending is not null)
+        var session = Session ?? throw new InvalidOperationException("No session is open.");
+        var draft = Draft ?? throw new InvalidOperationException("No draft is open.");
+        session.Apply(draft);
+        OnChanged();
+        SetDraft(session.Select(draft.Slot));
+    }
+
+    /// <summary>Completes the exit when nothing is left to resolve, and otherwise reports the new stage.</summary>
+    private void Advance()
+    {
+        if (Exit is not null && !HasUnsavedWork)
         {
-            Open(Pending);
+            Complete();
+            return;
+        }
+        OnChanged();
+    }
+
+    /// <summary>Carries out the exit: opens the candidate, or closes the session.</summary>
+    private void Complete()
+    {
+        if (Exit is { Candidate: { } candidate })
+        {
+            Open(candidate);
+        }
+        else
+        {
+            Discard();
         }
     }
 
-    /// <summary>Drops the pending replacement and keeps the open session.</summary>
-    public void CancelReplace()
+    /// <summary>Rejects an exit step that does not belong to the current <see cref="ExitStage"/>.</summary>
+    /// <exception cref="InvalidOperationException">The stage is not one of <paramref name="allowed"/>.</exception>
+    private void RequireStage(params ReadOnlySpan<ExitStage> allowed)
     {
-        Pending = null;
-        OnChanged();
+        var stage = ExitStage;
+        foreach (var candidate in allowed)
+        {
+            if (candidate == stage)
+            {
+                return;
+            }
+        }
+        throw new InvalidOperationException($"The exit is at {stage}.");
     }
 
     /// <summary>
@@ -156,7 +281,7 @@ public sealed class WorkspaceState
     public void NotifyChanged() => OnChanged();
 
     /// <summary>
-    /// Keeps the open session after a component fault, and drops what the fault may have left half-done: the draft and any pending replacement.
+    /// Keeps the open session after a component fault, and drops what the fault may have left half-done: the draft and any exit in progress.
     /// </summary>
     /// <remarks>
     /// The session itself is safe to keep: <see cref="SaveSession.Apply"/> stages every write on a clone and swaps it in only after it is verified,
@@ -164,7 +289,7 @@ public sealed class WorkspaceState
     /// </remarks>
     public void RecoverAfterFault()
     {
-        Pending = null;
+        Exit = null;
         Draft = null;
         DraftValid = true;
         OnChanged();
@@ -209,6 +334,6 @@ public enum OpenDisposition
     /// <summary>The file is now the open session.</summary>
     Opened,
 
-    /// <summary>The file is held as <see cref="WorkspaceState.Pending"/> until the user confirms or cancels.</summary>
+    /// <summary>The file waits as the candidate of <see cref="WorkspaceState.Exit"/> until the user resolves or cancels the exit.</summary>
     Held,
 }

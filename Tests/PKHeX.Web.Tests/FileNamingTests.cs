@@ -171,4 +171,67 @@ public sealed class FileNamingTests
         FileNaming.Sanitize(raw).Should().Be(FileNaming.DefaultSaveName);
         FileNaming.Sanitize(raw, "fallback").Should().Be("fallback");
     }
+
+    private static readonly DateTime Stamp = new(2026, 10, 1, 14, 32, 5);
+
+    [Theory]
+    [InlineData("main", "main-modified-2026-10-01-143205")]
+    [InlineData("backup.sav", "backup-modified-2026-10-01-143205.sav")]
+    [InlineData("my save.dsv", "my save-modified-2026-10-01-143205.dsv")]
+    [InlineData("folder/main", "main-modified-2026-10-01-143205")]
+    [InlineData("a<b>.sav", "a_b_-modified-2026-10-01-143205.sav")]
+    [InlineData("CON", "_CON-modified-2026-10-01-143205")]
+    [InlineData("", "main-modified-2026-10-01-143205")]
+    [InlineData("...", "main-modified-2026-10-01-143205")]
+    [InlineData("main-modified-2025-01-02-030405", "main-modified-2026-10-01-143205")]
+    [InlineData("backup-modified-2025-01-02-030405.sav", "backup-modified-2026-10-01-143205.sav")]
+    [InlineData("main-modified-2025-01-02-030405-copy", "main-modified-2025-01-02-030405-copy-modified-2026-10-01-143205")]
+    [InlineData("main-modified-today", "main-modified-today-modified-2026-10-01-143205")]
+    public void EditedNameStampsTheStemAndKeepsTheExtension(string original, string expected)
+    {
+        FileNaming.EditedName(original, Stamp).Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("de-DE")]
+    [InlineData("ar-SA")]
+    [InlineData("hi-IN")]
+    [InlineData("th-TH")]
+    public void EditedNameUsesInvariantDigitsAndCalendar(string culture)
+    {
+        var previous = System.Globalization.CultureInfo.CurrentCulture;
+        try
+        {
+            System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo(culture);
+            FileNaming.EditedName("main", Stamp).Should().Be("main-modified-2026-10-01-143205");
+        }
+        finally
+        {
+            System.Globalization.CultureInfo.CurrentCulture = previous;
+        }
+    }
+
+    [Theory]
+    [InlineData(".sav")]
+    [InlineData("")]
+    [InlineData(".abcdefghijklmno")]
+    public void EditedNameKeepsTheStampAndExtensionWithinTheCap(string extension)
+    {
+        var original = FileNaming.Sanitize(new string('s', 200) + extension);
+        var result = FileNaming.EditedName(original, Stamp);
+        result.Length.Should().BeLessThanOrEqualTo(FileNaming.MaxLength);
+        result.Should().EndWith("-modified-2026-10-01-143205" + extension);
+        result.Should().StartWith("sss");
+        FileNaming.Sanitize(result).Should().Be(result, "the download name is sanitised again");
+    }
+
+    [Fact]
+    public void EditedNameNeverSplitsASurrogatePair()
+    {
+        var result = FileNaming.EditedName(string.Concat(Enumerable.Repeat("😀", 100)) + ".sav", Stamp);
+        result.Length.Should().BeLessThanOrEqualTo(FileNaming.MaxLength);
+        result.Should().EndWith("-modified-2026-10-01-143205.sav");
+        result.Where(char.IsHighSurrogate).Count().Should().Be(result.Count(char.IsLowSurrogate));
+        FileNaming.Sanitize(result).Should().Be(result);
+    }
 }

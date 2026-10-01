@@ -10,6 +10,8 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<BrowserFileService>();
 builder.Services.AddScoped<WorkspaceState>();
+// The browser's clock and time zone (the runtime reads the zone from the browser), used to stamp edited download names in local time.
+builder.Services.AddSingleton(TimeProvider.System);
 // Same-origin only: the app fetches nothing but its own published files.
 builder.Services.AddSingleton(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 // A singleton, so the instance loaded below is the one the components are given (they resolve from a scope the host creates later).

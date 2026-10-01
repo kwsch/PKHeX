@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace PKHeX.Web.Services;
 
@@ -11,7 +12,7 @@ namespace PKHeX.Web.Services;
 /// but a downloaded file can end up on any filesystem. Extensions are never added or changed, because consoles restore saves by exact name
 /// (XY/ORAS use the extensionless <c>main</c>).
 /// </remarks>
-public static class FileNaming
+public static partial class FileNaming
 {
     /// <summary>Name of the raw XY/ORAS save file, used when no usable name is available.</summary>
     public const string DefaultSaveName = "main";
@@ -21,6 +22,12 @@ public static class FileNaming
 
     /// <summary>Longest extension (including the dot) that is kept intact when a name is shortened.</summary>
     private const int MaxKeptExtension = 16;
+
+    /// <summary>Inserted before the date-time stamp of an edited name. It is the suffix PKForge uses for its exports.</summary>
+    public const string EditedMarker = "-modified-";
+
+    /// <summary>Format of the stamp in an edited name: sortable, and free of characters any filesystem reserves.</summary>
+    public const string StampFormat = "yyyy-MM-dd-HHmmss";
 
     /// <summary>Characters reserved on Windows, replaced rather than removed so that word boundaries survive.</summary>
     private const string Reserved = "<>:\"|?*";
@@ -86,6 +93,34 @@ public static class FileNaming
         return name.Length == 0 ? fallback : name;
     }
 
+    /// <summary>
+    /// The name suggested for a download of an edited save: <c>{stem}-modified-{yyyy-MM-dd-HHmmss}{extension}</c>, for example
+    /// <c>main-modified-2026-10-01-143205</c>, so it cannot be mistaken for the untouched original.
+    /// </summary>
+    /// <remarks>
+    /// A stamp already at the end of the stem (a reopened edited download) is replaced, not repeated.
+    /// The extension of <paramref name="original"/> is kept (none for the extensionless <c>main</c>), and the stem is shortened first, so the stamp
+    /// and extension always survive <see cref="MaxLength"/>. The result is sanitised, so it is stable under <see cref="Sanitize"/>.
+    /// Digits are invariant whatever the page's culture.
+    /// </remarks>
+    /// <param name="original">The name the file was opened as; it is sanitised first.</param>
+    /// <param name="localTime">The user's local date and time when the download starts.</param>
+    public static string EditedName(string? original, DateTime localTime)
+    {
+        var name = Sanitize(original);
+        var dot = name.LastIndexOf('.');
+        var extension = dot > 0 && name.Length - dot <= MaxKeptExtension ? name[dot..] : "";
+        var suffix = EditedMarker + localTime.ToString(StampFormat, CultureInfo.InvariantCulture) + extension;
+        // A file downloaded earlier and reopened already carries a stamp; replace it rather than stacking a second one.
+        var stem = EditedStamp().Replace(name[..(name.Length - extension.Length)], "");
+        if (stem.Length > MaxLength - suffix.Length)
+        {
+            stem = TrimEnds(Cut(stem, MaxLength - suffix.Length));
+        }
+        // An empty stem would leave a name starting with '-'; fall back to the default name, which always fits.
+        return Sanitize((stem.Length == 0 ? DefaultSaveName : stem) + suffix);
+    }
+
     /// <summary>Removes surrounding whitespace and dots, repeating until neither is left.</summary>
     /// <remarks>Browsers strip leading dots when saving a download, so a kept leading dot would make the offered name differ from the saved one.</remarks>
     private static string TrimEnds(string name)
@@ -117,4 +152,8 @@ public static class FileNaming
 
     /// <summary>The first <paramref name="length"/> code units of <paramref name="text"/>, one fewer if that would split a surrogate pair.</summary>
     private static string Cut(string text, int length) => char.IsHighSurrogate(text[length - 1]) ? text[..(length - 1)] : text[..length];
+
+    /// <summary>An edited-name stamp at the end of a stem.</summary>
+    [GeneratedRegex(@"-modified-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{6}$", RegexOptions.CultureInvariant)]
+    private static partial Regex EditedStamp();
 }

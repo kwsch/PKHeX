@@ -122,9 +122,10 @@ public sealed class PublishedAppFixture : IAsyncLifetime
     /// <param name="engine">One of <see cref="Engines"/>.</param>
     /// <param name="prefix">One of <see cref="Prefixes"/>.</param>
     /// <param name="sprites">Boot the publish made with sprites rather than the default one.</param>
-    public async Task<AppSession> BootAsync(string engine, string prefix, bool sprites = false)
+    /// <param name="timezoneId">The browser's time zone (an IANA name), or null for the machine's.</param>
+    public async Task<AppSession> BootAsync(string engine, string prefix, bool sprites = false, string? timezoneId = null)
     {
-        var session = await CreateSessionAsync(engine, prefix, sprites);
+        var session = await CreateSessionAsync(engine, prefix, sprites, timezoneId);
         try
         {
             await session.Page.GotoAsync(session.AppUrl);
@@ -147,11 +148,12 @@ public sealed class PublishedAppFixture : IAsyncLifetime
     /// <param name="engine">One of <see cref="Engines"/>.</param>
     /// <param name="prefix">One of <see cref="Prefixes"/>.</param>
     /// <param name="sprites">Serve the publish made with sprites rather than the default one.</param>
-    public async Task<AppSession> CreateSessionAsync(string engine, string prefix, bool sprites = false)
+    /// <param name="timezoneId">The browser's time zone (an IANA name), or null for the machine's.</param>
+    public async Task<AppSession> CreateSessionAsync(string engine, string prefix, bool sprites = false, string? timezoneId = null)
     {
         var served = sprites ? spriteHost ??= StartSpriteHost() : host!;
         var browser = await GetBrowserAsync(engine);
-        var context = await browser.NewContextAsync(new() { AcceptDownloads = true });
+        var context = await browser.NewContextAsync(new() { AcceptDownloads = true, TimezoneId = timezoneId });
         try
         {
             return await AppSession.CreateAsync(context, prefix, browser.Version, served.Url + prefix, served.Root);

@@ -282,11 +282,11 @@ public sealed partial class PublishedAppTests(PublishedAppFixture app)
         await page.Locator("#nickname").FillAsync("WASM Pending");
         await page.Locator("#nicknamed").CheckAsync();
         await Load(page, SaveFixtures.Synthetic(true), "pending-main");
-        await Expect(page.Locator("#replace-name")).ToHaveTextAsync("pending-main");
+        await Expect(page.Locator("#exit-name")).ToHaveTextAsync("pending-main");
         await Load(page, new byte[512]);
         await Expect(page.Locator("#message")).ToHaveTextAsync(Refusal(new byte[512], LoadFailure.Unrecognized) + " pending-main is still waiting to replace it.");
-        await Expect(page.Locator("#replace-name")).ToHaveTextAsync("pending-main");
-        await page.Locator("#replace-cancel").ClickAsync();
+        await Expect(page.Locator("#exit-name")).ToHaveTextAsync("pending-main");
+        await page.Locator("#exit-cancel").ClickAsync();
         Assert.True(await page.Locator("#nickname").InputValueAsync() == "WASM Pending");
         await page.Locator("#cancel-draft").ClickAsync();
 

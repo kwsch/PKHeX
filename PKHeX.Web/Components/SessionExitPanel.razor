@@ -1,0 +1,86 @@
+@* The steps of leaving a changed session (replace or close): first the draft, then the session's changes, then confirming a download.
+   It shows only the current step's choices. The step is worked out by WorkspaceState from the live session and passed in, so it cannot go stale,
+   and a change of step is a change of parameter, which re-renders the panel.
+   The work itself (apply, download) is done by the workspace through the callbacks, which also report the outcome. *@
+@if (Exit is { } exit)
+{
+    var stage = Stage;
+    <section id="exit" aria-labelledby="exit-title">
+        @* Focus moves to the heading at each step, which announces it; a live region as well would announce it twice. *@
+        <h2 id="exit-title" tabindex="-1" @ref="heading">@SessionStatusText.ExitTitle(exit)</h2>
+        @if (exit.Candidate is { } candidate)
+        {
+            <p>Waiting to open: <code id="exit-name">@candidate.FileName</code></p>
+        }
+        <p id="exit-prompt">@SessionStatusText.ExitPrompt(stage)</p>
+        @switch (stage)
+        {
+            case ExitStage.ResolveDraft:
+                @if (CanApplyDraft)
+                {
+                    <button id="exit-apply-draft" type="button" @onclick="OnApplyDraft" disabled="@Busy">Apply draft</button>
+                }
+                <button id="exit-discard-draft" type="button" @onclick="OnDiscardDraft" disabled="@Busy">Discard draft</button>
+                break;
+            case ExitStage.ResolveSession:
+                <button id="exit-export" type="button" @onclick="OnExport" disabled="@Busy">Download save</button>
+                <button id="exit-discard-session" type="button" @onclick="OnDiscardSession" disabled="@Busy">@SessionStatusText.DiscardSession(exit)</button>
+                break;
+            case ExitStage.ConfirmExport:
+                <button id="exit-continue" type="button" @onclick="OnContinue" disabled="@Busy">@SessionStatusText.Continue(exit, stage)</button>
+                <button id="exit-export" type="button" @onclick="OnExport" disabled="@Busy">Download again</button>
+                break;
+            case ExitStage.Ready:
+                <button id="exit-continue" type="button" @onclick="OnContinue" disabled="@Busy">@SessionStatusText.Continue(exit, stage)</button>
+                break;
+        }
+        <button id="exit-cancel" type="button" @onclick="OnCancel" disabled="@Busy">Cancel and keep this save</button>
+    </section>
+}
+
+@code {
+    private ElementReference heading;
+    private (SessionExit? Exit, ExitStage Stage) focusedStep;
+
+    /// <summary>The exit in progress (<see cref="WorkspaceState.Exit"/>); nothing is rendered when null.</summary>
+    [Parameter] public SessionExit? Exit { get; set; }
+
+    /// <summary>What the exit waits for (<see cref="WorkspaceState.ExitStage"/>).</summary>
+    [Parameter] public ExitStage Stage { get; set; }
+
+    /// <summary>True when the draft can be applied: it is of a box slot and its last edit was accepted. Otherwise it can only be discarded.</summary>
+    [Parameter] public bool CanApplyDraft { get; set; }
+
+    /// <summary>True while another operation runs; every choice is disabled.</summary>
+    [Parameter] public bool Busy { get; set; }
+
+    /// <summary>Apply the draft and move on.</summary>
+    [Parameter] public EventCallback OnApplyDraft { get; set; }
+
+    /// <summary>Discard the draft and move on.</summary>
+    [Parameter] public EventCallback OnDiscardDraft { get; set; }
+
+    /// <summary>Download the current revision.</summary>
+    [Parameter] public EventCallback OnExport { get; set; }
+
+    /// <summary>Complete the exit after the download was checked, or when nothing would be lost.</summary>
+    [Parameter] public EventCallback OnContinue { get; set; }
+
+    /// <summary>Complete the exit without a download.</summary>
+    [Parameter] public EventCallback OnDiscardSession { get; set; }
+
+    /// <summary>Abandon the exit.</summary>
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var step = (Exit, Stage);
+        if (step.Exit is null || step == focusedStep)
+        {
+            focusedStep = step;
+            return;
+        }
+        focusedStep = step;
+        await heading.FocusAsync();
+    }
+}

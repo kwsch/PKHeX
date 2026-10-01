@@ -1,5 +1,6 @@
 @inject BrowserFileService Files
 @inject WorkspaceState State
+@inject TimeProvider Clock
 @inject ILogger<Workspace> Logger
 
 @* The open/edit/download journey. Session state lives in WorkspaceState, so recovering from a fault here keeps the open save. *@
@@ -8,22 +9,18 @@
     <StartScreen />
 }
 @* One picker in a fixed place for opening and replacing, so it keeps its drop-zone registration when a save is opened. *@
-<h2 id="open-title">@(Session is null ? "Open a save file" : "Open another save file")</h2>
+@* Focusable only from script: focus lands here after an exit ends, so it never drops to the page body. *@
+<h2 id="open-title" tabindex="-1" @ref="openTitle">@(Session is null ? "Open a save file" : "Open another save file")</h2>
 <SaveFilePicker Disabled="busy" OnReadStarted="() => busy = true" OnRead="OpenFile" OnDropRejected="DropRejected" />
 <p id="message" role="status">@message</p>
-@if (State.Pending is not null)
-{
-    <section aria-label="Replace session">
-        <p>The current session contains changes. Download them first, or explicitly discard this session.</p>
-        <p>Waiting to open: <code id="replace-name">@State.Pending.FileName</code></p>
-        <button id="replace-confirm" @onclick="ConfirmReplace" disabled="@busy">Discard current session and open @State.Pending.FileName</button>
-        <button id="replace-cancel" @onclick="CancelReplace" disabled="@busy">Keep current session</button>
-    </section>
-}
+<SessionExitPanel Exit="State.Exit" Stage="State.ExitStage" CanApplyDraft="@(Draft is { CanApply: true } && State.DraftValid)"
+                  Busy="busy" OnApplyDraft="ApplyDraftForExit" OnDiscardDraft="DiscardDraftForExit" OnExport="() => ExportAsync()"
+                  OnContinue="ContinueExit" OnDiscardSession="DiscardSessionForExit" OnCancel="CancelExit" />
 @if (Session is not null)
 {
     <SaveOverviewPanel Session="Session" />
-    <p id="session-state">@(Session.HasChangesSinceOpen ? "Edited in memory" : "Unmodified session")</p>
+    <p id="session-state">@SessionStatusText.Changes(Session)</p>
+    <p id="export-state">@SessionStatusText.For(Session.ExportStatus)</p>
     <p id="session-note">This save is processed only on this device. Changes are temporary until you download them; reloading or closing the tab discards this session.</p>
     <StorageBrowser Session="Session" Selected="Draft?.Slot" OnActivate="OpenSlot" />
     @if (Draft is not null)
@@ -48,16 +45,62 @@
             <pre id="legality-report">@report</pre>
         </section>
     }
-    <button id="download" @onclick="Download" disabled="@(State.DraftDirty || busy || !State.DraftValid)">Download validated save</button>
-    <p>Suggested name: <code>@Session.FileName</code> (your browser may adjust it). Download initiation does not confirm it was saved to disk. Verify your file before closing.</p>
+    <section aria-labelledby="download-title">
+        <h2 id="download-title">Download</h2>
+        <fieldset id="download-name">
+            <legend>File name</legend>
+            @foreach (var choice in Enum.GetValues<ExportNameChoice>())
+            {
+                var id = $"name-{choice.ToString().ToLowerInvariant()}";
+                <label for="@id">
+                    <input id="@id" type="radio" name="download-name" checked="@(NameChoice == choice)" @onchange="() => nameChoice = choice" />
+                    @SessionStatusText.NameOption(choice, ExportNaming.NameFor(Session, choice, LocalNow))
+                </label>
+            }
+        </fieldset>
+        @if (ExportNaming.NeedsRenameToRestore(ExportNaming.NameFor(Session, NameChoice, LocalNow)))
+        {
+            <p id="rename-note">@SessionStatusText.RenameToRestore</p>
+        }
+        <button id="download" @onclick="() => ExportAsync()" disabled="@(State.DraftDirty || busy || !State.DraftValid)">Download validated save</button>
+        <button id="close-session" type="button" @ref="closeButton" @onclick="RequestClose" disabled="@busy">Close save</button>
+        <p>Your browser may adjust the name. Download initiation does not confirm it was saved to disk. Verify your file before closing.</p>
+    </section>
 }
 
 @code {
     private string message = "", nickname = "", verdict = "Not analyzed", report = "";
     private bool nicknamed, busy;
+    private ExportNameChoice? nameChoice;
+    private ElementReference openTitle, closeButton;
 
+    /// <summary>The intent of the exit whose panel was in the last render, or null when none was shown.</summary>
+    private ExitIntent? shownExit;
     private SaveSession? Session => State.Session;
     private EditorDraft? Draft => State.Draft;
+
+    /// <summary>The user's name choice, or the default for the session's state until they pick one.</summary>
+    private ExportNameChoice NameChoice => nameChoice ?? ExportNaming.DefaultFor(Session!);
+
+    /// <summary>The user's local date and time, in the browser's time zone.</summary>
+    private DateTime LocalNow => Clock.GetLocalNow().DateTime;
+
+    /// <summary>
+    /// When an exit's panel has just gone, moves focus out of the removed panel, which would otherwise leave it on the page body:
+    /// back to Close save when a close was cancelled, and otherwise to the open heading, above the status message that reports the outcome.
+    /// An exit that completed at once never showed a panel, so focus stays where it was.
+    /// </summary>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var shown = State.Exit?.Intent;
+        var ended = shownExit;
+        shownExit = shown;
+        if (ended is null || shown is not null)
+        {
+            return;
+        }
+        await (ended == ExitIntent.Close && Session is not null ? closeButton : openTitle).FocusAsync();
+    }
 
     protected override void OnInitialized()
     {
@@ -68,19 +111,18 @@
     private void OpenFile(FileReadResult file)
     {
         busy = false;
-        // The candidate is fully parsed and checked before anything is touched, so a failure keeps the session, draft and any pending replacement.
+        // The candidate is fully parsed and checked before anything is touched, so a failure keeps the session, draft and any exit in progress.
         var outcome = file.Open();
         switch (State.Accept(outcome))
         {
             case OpenDisposition.Opened:
-                ResetDraftView();
-                message = Loaded;
+                Opened();
                 break;
             case OpenDisposition.Held:
-                message = "Resolve the existing session before replacement.";
+                message = "Resolve the open session before the new file is opened.";
                 break;
             default:
-                message = UserMessages.For(outcome) + Retained + StillPending;
+                message = UserMessages.For(outcome) + Retained + StillWaiting;
                 break;
         }
     }
@@ -92,23 +134,77 @@
     private string Retained => Session is null ? "" : " The previous session was retained.";
 
     /// <summary>Appended to a refused open while an earlier file still waits to replace the session, so the two are not confused.</summary>
-    private string StillPending => State.Pending is null ? "" : $" {State.Pending.FileName} is still waiting to replace it.";
+    private string StillWaiting => State.Exit?.Candidate is { } waiting ? $" {waiting.FileName} is still waiting to replace it." : "";
 
     private const string Loaded = "Save loaded locally; checksums valid.";
 
-    private void ConfirmReplace()
+    /// <summary>Resets the editor and name choice for a session that has just been opened.</summary>
+    private void Opened()
     {
-        if (State.Pending is not null)
+        nameChoice = null;
+        ResetDraftView();
+        message = Loaded;
+    }
+
+    /// <summary>Reports what an exit step did: the new session, the start screen, or the step that is now waiting.</summary>
+    private void AfterExitStep(SaveSession? before)
+    {
+        if (State.Exit is not null)
         {
-            State.ConfirmReplace();
             ResetDraftView();
-            message = Loaded;
+            return;
+        }
+        if (Session is null)
+        {
+            nameChoice = null;
+            ResetDraftView();
+            message = "Save closed. Choose a save to begin.";
+        }
+        else if (!ReferenceEquals(Session, before))
+        {
+            Opened();
         }
     }
 
-    private void CancelReplace()
+    private void RequestClose() => RunExitStep(State.RequestClose, () =>
     {
-        State.CancelReplace();
+        if (State.Exit is not null)
+        {
+            message = "Resolve the open session before it is closed.";
+        }
+    });
+
+    private void ApplyDraftForExit() => RunExitStep(State.ApplyDraftForExit, () => message = "Draft applied in memory.");
+
+    private void DiscardDraftForExit() => RunExitStep(State.DiscardDraftForExit, () => message = "Draft discarded.");
+
+    private void ContinueExit() => RunExitStep(State.ConfirmExportChecked);
+
+    private void DiscardSessionForExit() => RunExitStep(State.DiscardSessionForExit);
+
+    /// <summary>
+    /// Runs one step of leaving the session and reports it. A refused step (a refused apply, or a step that no longer matches the exit's stage)
+    /// changes nothing and is reported like any other refusal, rather than faulting the workspace.
+    /// </summary>
+    private void RunExitStep(Action step, Action? report = null)
+    {
+        var before = Session;
+        try
+        {
+            step();
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+            return;
+        }
+        report?.Invoke();
+        AfterExitStep(before);
+    }
+
+    private void CancelExit()
+    {
+        State.CancelExit();
         message = "Current session retained.";
     }
 
@@ -206,10 +302,7 @@
     {
         try
         {
-            Session!.Apply(Draft!);
-            // The session changed; report it now, so the leave warning is armed even if reselecting the slot fails.
-            State.NotifyChanged();
-            State.SetDraft(Session.Select(Draft!.Slot));
+            State.ApplyDraft();
             ResetDraftView();
             message = "Nickname applied in memory; download to retain changes.";
         }
@@ -226,7 +319,11 @@
         message = "Draft canceled.";
     }
 
-    private async Task Download()
+    /// <summary>
+    /// Downloads the current revision, from the Download button or the exit panel. Only a download handed to the browser is recorded,
+    /// so a failed export leaves the session and any exit exactly where they were.
+    /// </summary>
+    private async Task ExportAsync()
     {
         busy = true;
         try
@@ -234,11 +331,12 @@
             // The session can be replaced while the download is awaited, so mark the one that was exported.
             var exported = Session!;
             var revision = exported.Revision;
+            var name = ExportNaming.NameFor(exported, NameChoice, LocalNow);
             var data = SaveExporter.Export(exported, Draft);
-            await Files.DownloadAsync(data, exported.FileName);
+            await Files.DownloadAsync(data, name);
             exported.MarkExported(revision);
             State.NotifyChanged();
-            message = "Download started — verify your file. The session remains temporary.";
+            message = SessionStatusText.DownloadStarted;
         }
         catch (Exception ex)
         {

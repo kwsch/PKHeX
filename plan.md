@@ -748,6 +748,79 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
     - **Not adopted:** network art and the downloadable pack (SEC-001); artwork for species 9xx (not Gen 6); held-item icons (M13); the legality dot (M8); lock and mark badges (MVP+); shiny-over-gender priority (Gen 6 has shiny images for every gendered sprite).
 - **M6 Export flow + dirty model.** Separate `draftDirty` / `hasChangesSinceOpen` / `changesSinceLastExport`. Export shows "Download started — verify your file". Replace/close of a changed session asks for Export / Discard session / Cancel, and requires "Continue; I have checked my export" before continuing (EXP-001–003, SESSION-003/005/007). E2E: open → no-op export → reopen = native bytes.
 
+  **M6 status:** code complete on `web/m6-export-flow`.
+  - **Dirty model** (`State/ExportStatus`, `SaveSession.ExportStatus`): `Unchanged`, `NotExported`, `ExportedCurrent` (`ExportedRevision == Revision`) and `ChangedSinceExport`, worked out from `HasChangesSinceOpen`, `Revision` and `ExportedRevision`.
+    - `HasChangesSinceOpen` stays true after a download, so `#session-state` still says "Edited in memory".
+    - The leave warning (`HasUnsavedWork`) stays armed after a download, as `PKHeX.Web.md` asks.
+    - A download of an unchanged session leaves it `Unchanged`; a later apply makes it `ChangedSinceExport`, because that download holds the original.
+  - **Leaving a session** (`State/SessionExit`, `WorkspaceState.Exit`/`ExitStage`): `Replace(candidate)` or `Close`; M16 adds Reset. The stage is computed from the live session and draft on every read, never stored:
+    - `ResolveDraft` (draft dirty or refused) → `ResolveSession` (changes not covered by a download of the current revision) → `ConfirmExport` (the current revision was downloaded).
+    - `Ready` covers an exit left with nothing to lose by an editor action (a draft cancelled in the editor). It waits for the user, so an editor action never closes or replaces the save by itself.
+    - An apply after the download takes the exit back to `ResolveSession`, so the confirmation never covers changes the file does not hold. The planned per-exit export record was dropped for this: a download of the current revision made before the exit also leads straight to the confirmation, which still has to be given explicitly.
+    - Each step (`ApplyDraftForExit`, `DiscardDraftForExit`, `ConfirmExportChecked`, `DiscardSessionForExit`) checks its stage and completes the exit as soon as nothing is left to lose. A request on an unchanged session completes at once.
+    - `CancelExit` keeps the session, draft and editor. A file opened during an exit replaces the candidate, and turns a close into a replace, at the same stage. Refused files change nothing.
+    - `Pending`, `OfferReplacement`, `ConfirmReplace` and `CancelReplace` are removed.
+    - `WorkspaceState.ApplyDraft` now holds the apply-then-reselect that the editor's Apply did, so the exit's draft step shares it.
+  - **Download** (`Workspace.ExportAsync`, shared by the Download button and the panel): `SaveExporter.Export`, unchanged (clone → `Write` → reopen through the loader), then the Blob download, then `MarkExported`. A failure records nothing, so the exit stays at `ResolveSession`. "Download again" retries from the same revision.
+  - **Naming** (WEB-SESSION-007, deferred from F4). **User decision:** the edited name is the default, stamped with the user's local date and time.
+    - `FileNaming.EditedName` gives `{stem}-modified-{yyyy-MM-dd-HHmmss}{extension}` (`main` → `main-modified-2026-10-01-143205`), with invariant digits. The stem is shortened first, so the stamp and extension survive the 120-character cap, and the result is stable under `Sanitize`. The `-modified` suffix is PKForge's.
+    - `Services/ExportNaming` defaults to `Edited` once changes are applied and to `Original` while the session is unchanged, because those bytes are the original's.
+    - The time comes from an injected `TimeProvider` (`GetLocalNow`); the runtime takes its zone from the browser. The stamp is taken when each download starts.
+    - A radio group offers both names with their current values. `#rename-note` appears whenever the chosen name is not exactly `main`.
+  - **UI.**
+    - `Components/SessionStatusText` holds every string.
+    - `#export-state` is a new indicator, and `#close-session` ("Close save") a new button in a "Download" section.
+    - `Components/SessionExitPanel` replaces the `#replace-*` section. It shows one step's buttons (`#exit-apply-draft`, `#exit-discard-draft`, `#exit-export`, `#exit-discard-session`, `#exit-continue`, `#exit-cancel`) and names the waiting file in `#exit-name`. Its heading takes focus at each new step; focus trapping is M18.
+    - The panel takes the exit, stage and apply availability as parameters. It first read `WorkspaceState` directly, and Blazor did not re-render it after a step, because none of its parameters had changed; the E2E close test caught this in all engines.
+  - **Tests.**
+    - **Unit 398** (up from 360):
+      - `WorkspaceStateTests`: the replacement test was rewritten, and 8 exit tests added: immediate completion, the draft → session → download order, an apply after the download, an earlier download, discarding the draft, Cancel, a file opened during a close, and `Ready`.
+      - `SessionTests`: every `ExportStatus` transition, including a no-op apply.
+      - `FileNamingTests` (+20): stamp and extension, an earlier stamp replaced rather than repeated, invariant digits under de-DE/ar-SA/hi-IN/th-TH, the cap with no extension, a short one and a 16-character one, surrogate pairs, reserved characters and device names.
+      - `SessionStatusTextTests` (5): pinned strings, and no download text says "saved".
+      - `SessionExitPanelTests` (5, bUnit): the buttons per step, focus moves only on a new step, a refused draft can only be discarded, busy disables every button, and a markup name is rendered as text.
+    - **E2E 107** (up from 95): `ExportFlowTests`, 3 engines × 2 paths.
+      - `DownloadsAreTrackedNamedInLocalTimeAndReopenUnchanged`:
+        - open → no-op download (`main`, native bytes) → reopen → the same bytes again;
+        - every `#export-state` value;
+        - the edited name stamped in the browser's zone, run with Playwright `TimezoneId` `Pacific/Kiritimati` (UTC+14);
+        - the original name with no rename note;
+        - the leave warning still firing after a download.
+      - `LeavingAChangedSessionNeedsAnExportOrAnExplicitDiscard`: Close at the draft step with focus on the heading, then Cancel; a waiting file named; Discard draft; no Continue before a download; a panel download; Continue offered; an apply after Cancel removes it; Discard session closes; an unchanged session closes at once; Apply draft → download → Continue opens the waiting file. Focus returns to Close save after a cancelled close, and to `#open-title` once an exit completes. 120-character names cause no horizontal scroll at 375 px.
+      - The existing pending-replacement and RealSave replace flows were moved to the new ids (`#exit-name`, `#exit-cancel`, `#exit-continue`). `ProofPage` gained `DownloadEdited`/`DownloadNamed`, and `BootAsync` an optional `timezoneId`.
+    - **RealSave 14** pass. The edited download is checked as `main-modified-<stamp>`, and replacing the session with its own export now needs only the confirmation.
+    - **Mutation checks:**
+      - counting any earlier download as current fails 2 Unit tests;
+      - not recording the download fails all 12 `ExportFlowTests` cases;
+      - stamping in UTC fails the time-zone test in all 6 cases;
+      - removing the wrapping CSS fails the 375 px check in all 6 cases;
+      - removing the focus restore fails the focus check in all 6 cases.
+    - **Other checks:** the trim baseline is unchanged (38), and the `PKHeX.slnx` Release build has 0 warnings. A manual keyboard pass on the published app at 375 px over the private XY save (Close → Download save → Continue): focus lands on the panel heading at each step, and there is no horizontal scroll.
+  - **Adversarial review** (after the dev work, with its own probes in a scripted browser).
+    - **Fixed:**
+      - The panel did not re-render between steps (found by E2E during development).
+      - A held Close left the previous status message in place.
+      - Long file names: an unbroken 120-character name in the name choice and the exit panel widened the page to 989–1,662 px at 375 px (probed). The fix wraps `#message`, `#exit` and `#download-name` anywhere, and sets `min-width: 0` on the fieldset.
+      - Focus dropped to the page body when the panel went away after Cancel, Continue or Discard (probed in Chromium). Focus now returns to Close save after a cancelled close, and otherwise to `#open-title` (now `tabindex="-1"`), above the status message. An exit that completed at once never moved focus.
+      - Stamps stacked when an edited download was reopened and edited again (`main-modified-…-modified-…`), until the cap cut the stem. An existing ASCII-digit stamp at the end of the stem is now replaced.
+      - An exit step that no longer matched its stage threw an uncaught `InvalidOperationException`, which would have shown the fault screen. Every step now goes through `RunExitStep`, which reports a refusal instead. This was not reproduced (Blazor re-renders before a second click reaches a removed button); it is hardening.
+    - **Recorded, not changed:**
+      - The name preview shows the time of the last render; each download takes its own stamp, and the label says so.
+      - The name choice resets when a session is opened or closed.
+      - Discard draft closes the editor rather than reopening the slot, so after a later Cancel the user reselects it.
+      - If an apply succeeds but reopening the slot then fails (an entity that passed the staged read-back check would have to fail `Select`), the old draft stays and Apply reports `StaleDraft`; Discard draft still works.
+      - Unverified, and not new in M6: Chromium may ask before allowing a second automatic download when the click's user activation has expired, which could make "Download again" wait on a permission prompt while the page says a download started. Headless Playwright allows it. Belongs to G-C's real-browser runs.
+  - **Not verified yet:** no screen reader; physical devices (G-C); how Safari and mobile browsers treat the suggested name.
+  - **Compared with PKForge:**
+    - **Matches/adopted:** the `-modified` suffix with the extension kept (`BoxBrowserPage.ExportModifiedSaveAsync`).
+    - **Stricter:**
+      - PKForge falls back to `.sav` when there is no extension, which would break `main`; we never add an extension.
+      - It reports "Exported X" as done; we say only that a download started.
+      - It shows `error.Message`; we show typed text.
+      - It shares `session.Serialize()` without reopening it; `SaveExporter` reopens and checks the output.
+      - It has no download tracking and no replace/close confirmation, because it writes in place with a backup per write (`SafeSaveWriter`), and its quit prompt relies on those backups.
+    - **Out of scope:** in-place writes, backups and restore points, and the Android share sheet.
+
 ### Slice B — editor, legality, apply
 - **M7 Draft + capability model + inspector.** `SaveCapabilities` comes from the concrete type + the release allowlist (`SAV6XY`, `SAV6AO`). The read-only PK6 inspector has sections Identity, Stats, Moves, Origin/Trainer and Advanced, showing PID/EC, shiny, OT, met, ribbons count, etc. It uses session-scoped `FilteredGameDataSource` lists. There is no reflected property grid (PKM-001).
 - **M8 Legality service.** Analysis runs on a draft clone with `working.Personal` + slot type, tagged with the revision. An edit marks the result stale immediately. Refresh is manual plus a 300 ms idle debounce. Pending, Valid, Invalid, Unavailable and Stale are separate states. The report shows Core severity with a text + icon summary and an expandable detail. The "not an online acceptance guarantee" note is included. Results from superseded revisions are dropped (LEGAL-001–003, PERF-004).

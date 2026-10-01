@@ -83,7 +83,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         await CheckLegality(page, editedPk, changed, nativeSlot.Type);
         await page.Locator("#apply").ClickAsync();
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
-        var edited = await Download(page);
+        var edited = await DownloadEdited(page);
         Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native output differs (bytes withheld).");
 
         // The edited export changes only the nickname fields of the target slot.
@@ -95,9 +95,10 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         AssertOnlyRangeDiffers(noOp, edited, start, slotSize);
         AssertOnlyNicknameChanged(sourcePk, reopenedPk);
 
-        // Replacing the edited session with its own export shows the edit persisted.
+        // Replacing the edited session with its own export shows the edit persisted. The current revision was downloaded,
+        // so the replace waits only for the confirmation that the export was checked.
         await Load(page, edited);
-        await page.Locator("#replace-confirm").ClickAsync();
+        await page.Locator("#exit-continue").ClickAsync();
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Unmodified session");
         await Select(page, index);
         Assert.True(await page.Locator("#nickname").InputValueAsync() == nickname, "Downloaded nickname did not survive reopening.");

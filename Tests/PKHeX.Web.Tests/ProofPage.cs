@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.RegularExpressions;
 using Microsoft.Playwright;
 using PKHeX.Core;
 using PKHeX.Web.Components;
@@ -28,11 +29,29 @@ internal static class ProofPage
     /// <summary>Clicks Download and returns the downloaded bytes, checking the suggested name is <paramref name="expectedName"/>.</summary>
     public static async Task<byte[]> Download(IPage page, string expectedName = "main")
     {
-        var download = await page.RunAndWaitForDownloadAsync(() => page.Locator("#download").ClickAsync());
+        var (bytes, name) = await DownloadNamed(page);
+        Assert.True(name == expectedName, "Unexpected download naming.");
+        return bytes;
+    }
+
+    /// <summary>
+    /// Clicks Download on an edited session and returns the downloaded bytes, checking the suggested name is the edited name of
+    /// <paramref name="stem"/> and <paramref name="extension"/>, stamped with some local date-time.
+    /// </summary>
+    public static async Task<byte[]> DownloadEdited(IPage page, string stem = "main", string extension = "")
+    {
+        var (bytes, name) = await DownloadNamed(page);
+        Assert.Matches($"^{Regex.Escape(stem)}-modified-\\d{{4}}-\\d{{2}}-\\d{{2}}-\\d{{6}}{Regex.Escape(extension)}$", name);
+        return bytes;
+    }
+
+    /// <summary>Clicks <paramref name="button"/> (Download by default) and returns the downloaded bytes and suggested name.</summary>
+    public static async Task<(byte[] Bytes, string Name)> DownloadNamed(IPage page, string button = "#download")
+    {
+        var download = await page.RunAndWaitForDownloadAsync(() => page.Locator(button).ClickAsync());
         var path = await download.PathAsync();
         Assert.True(path is not null, "No local download was produced.");
-        Assert.True(download.SuggestedFilename == expectedName, "Unexpected download naming.");
-        return await File.ReadAllBytesAsync(path!);
+        return (await File.ReadAllBytesAsync(path!), download.SuggestedFilename);
     }
 
     /// <summary>Opens <paramref name="slot"/> from the party or box grid and waits for its editor to show that position.</summary>

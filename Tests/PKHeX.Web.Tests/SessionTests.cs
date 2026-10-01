@@ -163,6 +163,39 @@ public sealed class SessionTests
     }
 
     [Fact]
+    public void ExportStatusSeparatesAppliedChangesFromDownloads()
+    {
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
+        session.ExportStatus.Should().Be(ExportStatus.Unchanged);
+        session.MarkExported(session.Revision);
+        session.ExportStatus.Should().Be(ExportStatus.Unchanged, "downloading an unchanged save changes nothing");
+
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
+        draft.EditNickname("Changed", true);
+        session.Apply(draft);
+        session.ExportStatus.Should().Be(ExportStatus.ChangedSinceExport, "the earlier download holds the original");
+
+        var fresh = SaveFixtures.Open(SaveFixtures.Synthetic(false));
+        var noOp = fresh.Select(SaveFixtures.FirstBoxSlot);
+        fresh.Apply(noOp);
+        fresh.ExportStatus.Should().Be(ExportStatus.Unchanged, "a no-op apply is not a change");
+        noOp.EditNickname("Changed", true);
+        fresh.Apply(noOp);
+        fresh.ExportStatus.Should().Be(ExportStatus.NotExported);
+
+        fresh.MarkExported(fresh.Revision);
+        fresh.ExportStatus.Should().Be(ExportStatus.ExportedCurrent);
+        fresh.HasChangesSinceOpen.Should().BeTrue("the session still differs from the file it was opened from");
+
+        var again = fresh.Select(SaveFixtures.FirstBoxSlot);
+        again.EditNickname("Again", true);
+        fresh.Apply(again);
+        fresh.ExportStatus.Should().Be(ExportStatus.ChangedSinceExport);
+        fresh.MarkExported(fresh.Revision);
+        fresh.ExportStatus.Should().Be(ExportStatus.ExportedCurrent);
+    }
+
+    [Fact]
     public void StaleDraftIsRejectedUnlessClean()
     {
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
