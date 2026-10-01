@@ -11,9 +11,13 @@
 # Any difference fails, in either direction: a new warning must be justified, and a removed warning is taken out of the
 # baseline so that it stays exact (and, while the baseline is not empty, a publish that reported nothing cannot pass).
 #
-# Usage: PKHeX.Web/tools/trim-warnings.sh [--update] [--report <file>]
+# Usage: PKHeX.Web/tools/trim-warnings.sh [--update] [--report <file>] [--log <file>]
 #   --update         rewrite the baseline from this publish instead of comparing
 #   --report <file>  also write the normalised warnings to <file>
+#   --log <file>     read the warnings from an existing publish log instead of publishing again. The log must come from a Release
+#                    publish with -p:SuppressTrimAnalysisWarnings=false "-flp:warningsonly;NoSummary;logfile=<file>"; the setting
+#                    changes only the diagnostics, not the published files, so CI's main publish can write it. A log in which
+#                    the linker reported nothing fails against a non-empty baseline, as a publish here would.
 set -euo pipefail
 
 tools_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -22,6 +26,7 @@ baseline="$project_dir/trim-warnings.baseline.txt"
 
 update=false
 report=""
+log=""
 while [ $# -gt 0 ]; do
     case "$1" in
         --update) update=true ;;
@@ -31,6 +36,14 @@ while [ $# -gt 0 ]; do
                 exit 2
             fi
             report="$2"
+            shift
+            ;;
+        --log)
+            if [ $# -lt 2 ] || [ ! -f "$2" ]; then
+                echo "--log needs an existing publish log." >&2
+                exit 2
+            fi
+            log="$2"
             shift
             ;;
         *) echo "Unknown argument: $1" >&2; exit 2 ;;
@@ -46,12 +59,17 @@ fi
 work="$(mktemp -d "${TMPDIR:-/tmp}/pkhex-trim.XXXXXX")"
 trap 'rm -rf "$work"' EXIT
 
-echo "Publishing with trim-analysis warnings enabled..."
-if ! dotnet publish "$project_dir/PKHeX.Web.csproj" -c Release -o "$work/publish" \
-    -p:SuppressTrimAnalysisWarnings=false "-flp:warningsonly;NoSummary;logfile=$work/warnings.log" > "$work/publish.log" 2>&1; then
-    cat "$work/publish.log" >&2
-    echo "Diagnostic publish failed." >&2
-    exit 1
+if [ -n "$log" ]; then
+    echo "Reading trim-analysis warnings from $log..."
+    cp "$log" "$work/warnings.log"
+else
+    echo "Publishing with trim-analysis warnings enabled..."
+    if ! dotnet publish "$project_dir/PKHeX.Web.csproj" -c Release -o "$work/publish" \
+        -p:SuppressTrimAnalysisWarnings=false "-flp:warningsonly;NoSummary;logfile=$work/warnings.log" > "$work/publish.log" 2>&1; then
+        cat "$work/publish.log" >&2
+        echo "Diagnostic publish failed." >&2
+        exit 1
+    fi
 fi
 
 # "  1:7>/path/File.cs(1,2): Trim analysis warning IL2070: message [/path/PKHeX.Web.csproj]" -> "IL2070: message"

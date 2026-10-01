@@ -49,24 +49,35 @@ jobs:
     web:
         runs-on: ubuntu-latest
         timeout-minutes: 45
+        # Microsoft's Playwright image for the test project's Playwright version, pinned by digest. It carries the three browsers, their
+        # system libraries and .NET SDK 10.0.401. On the stock runner, installing the browsers' ~181 system packages from the Ubuntu mirror took
+        # 0:34-3:28 in 7 of 11 runs and 14-25 min in the other 4, whenever the mirror was slow; the image replaces that with one pull from MCR.
+        # --ipc=host is Playwright's recommendation for Chromium; --user 1001 is the runner user that owns the workspace, which Firefox needs.
+        # The tag must equal PLAYWRIGHT_VERSION below (container.image cannot read env); "Check the Playwright image" enforces it.
+        container:
+            image: mcr.microsoft.com/playwright/dotnet:v1.63.0-noble@sha256:aa3eaf29a65df8c93fc32ab20cf9359f4d8ecc53e6e89f79378647ace87b46b3
+            options: --ipc=host --user 1001
         env:
             # The runtime pack and ILLink versions come from the SDK, and THIRD-PARTY-NOTICES.md lists them exactly.
             DOTNET_SDK_VERSION: "10.0.401"
-            PUBLISH_DIR: ${{ github.workspace }}/artifacts/publish
-            SPRITES_PUBLISH_DIR: ${{ github.workspace }}/artifacts/publish-sprites
-            RESULTS_DIR: ${{ github.workspace }}/artifacts/test-results
-            REPORTS_DIR: ${{ github.workspace }}/artifacts/reports
+            PLAYWRIGHT_VERSION: "1.63.0"
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
                   persist-credentials: false
 
-            - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
-              with:
-                  dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+            # In a container job, ${{ github.workspace }} is the host's path; $GITHUB_WORKSPACE is the path inside the container.
+            - name: Set paths
+              run: |
+                  {
+                      echo "PUBLISH_DIR=$GITHUB_WORKSPACE/artifacts/publish"
+                      echo "SPRITES_PUBLISH_DIR=$GITHUB_WORKSPACE/artifacts/publish-sprites"
+                      echo "RESULTS_DIR=$GITHUB_WORKSPACE/artifacts/test-results"
+                      echo "REPORTS_DIR=$GITHUB_WORKSPACE/artifacts/reports"
+                  } >> "$GITHUB_ENV"
 
-            # Without a global.json, dotnet picks the newest SDK on the runner, including preinstalled ones.
-            # It is written above the checkout so the working tree stays clean; a repository global.json would take precedence.
+            # The image brings the SDK, so there is no setup-dotnet. The global.json makes dotnet refuse any other SDK, and the check fails
+            # loudly if a new image moves it. It is written above the checkout so the working tree stays clean.
             - name: Pin the SDK
               run: |
                   printf '{ "sdk": { "version": "%s", "rollForward": "disable" } }\n' "$DOTNET_SDK_VERSION" > "$GITHUB_WORKSPACE/../global.json"
@@ -75,6 +86,21 @@ jobs:
                       echo "::error::dotnet resolves SDK $actual, expected $DOTNET_SDK_VERSION."
                       exit 1
                   fi
+
+            # A Playwright package bump without an image bump would otherwise fail later, in every browser test, with missing executables.
+            - name: Check the Playwright image
+              run: |
+                  package="$(sed -n 's/.*Include="Microsoft.Playwright" Version="\([^"]*\)".*/\1/p' Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj)"
+                  if [ "$package" != "$PLAYWRIGHT_VERSION" ]; then
+                      echo "::error::PKHeX.Web.Tests uses Microsoft.Playwright '$package', but the job's image is for $PLAYWRIGHT_VERSION. Update the image and PLAYWRIGHT_VERSION together."
+                      exit 1
+                  fi
+                  for browser in chromium chromium_headless_shell firefox webkit; do
+                      if ! compgen -G "$PLAYWRIGHT_BROWSERS_PATH/$browser-*" > /dev/null; then
+                          echo "::error::The image has no $browser under $PLAYWRIGHT_BROWSERS_PATH."
+                          exit 1
+                      fi
+                  done
 
             - name: Cache NuGet packages
               uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -104,14 +130,18 @@ jobs:
                   dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-restore --filter Category=Unit
                   --logger "trx;LogFileName=web-unit.trx" --results-directory "$RESULTS_DIR"
 
+            # Trim-analysis warnings are enabled and logged here, so the baseline check below needs no second publish.
+            # The setting changes only the diagnostics: a publish with and without it gave identical files.
             - name: Publish
               id: publish
               if: ${{ !cancelled() && steps.restore.outcome == 'success' }}
-              run: dotnet publish PKHeX.Web/PKHeX.Web.csproj -c Release --no-restore -o "$PUBLISH_DIR"
+              run: >-
+                  dotnet publish PKHeX.Web/PKHeX.Web.csproj -c Release --no-restore -o "$PUBLISH_DIR"
+                  -p:SuppressTrimAnalysisWarnings=false "-flp:warningsonly;NoSummary;logfile=$REPORTS_DIR/trim-build.log"
 
             - name: Trim-warning baseline
               if: ${{ !cancelled() && steps.publish.outcome == 'success' }}
-              run: PKHeX.Web/tools/trim-warnings.sh --report "$REPORTS_DIR/trim-warnings.txt"
+              run: PKHeX.Web/tools/trim-warnings.sh --log "$REPORTS_DIR/trim-build.log" --report "$REPORTS_DIR/trim-warnings.txt"
 
             - name: Package inventory
               if: ${{ !cancelled() && steps.publish.outcome == 'success' }}
@@ -142,36 +172,9 @@ jobs:
                       PKHeX.Web/tools/size-report.sh "$SPRITES_PUBLISH_DIR/wwwroot" 5 | tail -n +2
                   } | tee "$REPORTS_DIR/size-sprites.md" >> "$GITHUB_STEP_SUMMARY"
 
-            # The browsers depend only on the Playwright package version, so the cache is keyed on that rather than on the whole test project,
-            # whose other edits would otherwise download about 410 MiB of browsers again.
-            - name: Read the Playwright version
-              id: playwright-version
-              if: ${{ !cancelled() && steps.publish.outcome == 'success' }}
-              run: |
-                  version="$(sed -n 's/.*Include="Microsoft.Playwright" Version="\([^"]*\)".*/\1/p' Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj)"
-                  if [ -z "$version" ]; then
-                      echo "::error::Microsoft.Playwright version not found in PKHeX.Web.Tests.csproj."
-                      exit 1
-                  fi
-                  echo "version=$version" >> "$GITHUB_OUTPUT"
-
-            - name: Cache Playwright browsers
-              if: ${{ !cancelled() && steps.publish.outcome == 'success' }}
-              uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-              with:
-                  path: ~/.cache/ms-playwright
-                  key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
-
-            # Always runs: a cache hit restores the browsers but not the system libraries they need.
-            # playwright.ps1 is generated by the test project build in the Web Unit step.
-            - name: Install Playwright browsers
-              id: playwright
-              if: ${{ !cancelled() && steps.publish.outcome == 'success' }}
-              run: pwsh Tests/PKHeX.Web.Tests/bin/Release/net10.0/playwright.ps1 install --with-deps chromium firefox webkit
-
             # E2E is opt-in: without PKHEX_WEB_TEST_TIERS its tests are skipped, so the next step checks that every one ran.
             - name: Web E2E tests
-              if: ${{ !cancelled() && steps.playwright.outcome == 'success' }}
+              if: ${{ !cancelled() && steps.publish.outcome == 'success' && steps.publish-sprites.outcome == 'success' }}
               env:
                   PKHEX_WEB_TEST_TIERS: E2E
                   PKHEX_WEB_PUBLISHED: ${{ env.PUBLISH_DIR }}/wwwroot
@@ -181,14 +184,14 @@ jobs:
                   --logger "trx;LogFileName=web-e2e.trx" --results-directory "$RESULTS_DIR"
 
             - name: Check every E2E test ran
-              if: ${{ !cancelled() && steps.playwright.outcome == 'success' }}
+              if: ${{ !cancelled() && steps.publish.outcome == 'success' && steps.publish-sprites.outcome == 'success' }}
               run: PKHeX.Web/tools/trx-all-executed.sh "$RESULTS_DIR/web-e2e.trx"
 
             # Records cold/warm boot timings and transfer (WEB-PERF-001) with no threshold; it fails only if a boot cannot be measured.
             # It runs after E2E, in its own step, so no other test shares the runner while boots are timed.
             # Only on pushes to the merge targets: it has no threshold, so a pull request gains nothing from it, and it takes about two minutes.
             - name: Web boot baseline
-              if: ${{ !cancelled() && steps.playwright.outcome == 'success' && github.event_name == 'push' }}
+              if: ${{ !cancelled() && steps.publish.outcome == 'success' && github.event_name == 'push' }}
               env:
                   PKHEX_WEB_TEST_TIERS: Perf
                   PKHEX_WEB_PUBLISHED: ${{ env.PUBLISH_DIR }}/wwwroot
