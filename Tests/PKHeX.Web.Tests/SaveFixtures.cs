@@ -57,6 +57,18 @@ internal static class SaveFixtures
         save.SetPartySlotAtIndex(entity, 0, EntityImportSettings.None);
     };
 
+    /// <summary>
+    /// Customisation for <see cref="Synthetic"/>: stores a copy of the known legal PK6, changed by <paramref name="change"/>, in box
+    /// <paramref name="box"/>, slot <paramref name="slot"/> (both zero-based), e.g. to vary species, form, shininess or egg state.
+    /// </summary>
+    public static Action<SaveFile> WithBoxEntity(int box, int slot, Action<PK6> change) => save =>
+    {
+        var entity = new PK6(ReadEntity(true));
+        change(entity);
+        entity.RefreshChecksum();
+        save.SetBoxSlotAtIndex(entity, box, slot, EntityImportSettings.None);
+    };
+
     /// <summary>Opens <paramref name="bytes"/> through <see cref="Services.SaveLoader"/>, failing the test with the outcome if no session was created.</summary>
     public static SaveSession Open(byte[] bytes, string? fileName = null)
     {

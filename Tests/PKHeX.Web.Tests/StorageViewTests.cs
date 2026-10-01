@@ -39,7 +39,8 @@ public sealed class StorageViewTests
         var slots = StorageView.Box(session, 0).Slots;
         var native = new PK6(SaveFixtures.ReadEntity(true));
 
-        slots[0].Should().Be(new SlotSummary(SlotRef.InBox(0, 0), true, true, native.Species, native.IsNicknamed ? native.Nickname : null, false, native.IsShiny));
+        slots[0].Should().Be(new SlotSummary(SlotRef.InBox(0, 0), true, true, native.Species, native.IsNicknamed ? native.Nickname : null, false, native.IsShiny,
+            native.Form, native.Gender, native.HeldItem != 0));
         slots[0].CanOpen.Should().BeTrue();
         slots.Skip(1).Should().OnlyContain(s => !s.Occupied && s.Readable && !s.CanOpen && s.Species == 0 && s.Nickname == null);
     }

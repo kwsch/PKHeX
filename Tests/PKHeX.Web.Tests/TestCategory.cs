@@ -19,7 +19,7 @@ internal static class TestCategory
     public const string Unit = "Unit";
 
     /// <summary>
-    /// Playwright against the published app (<c>PKHEX_WEB_PUBLISHED</c>) with synthetic fixtures,
+    /// Playwright against the published app (<c>PKHEX_WEB_PUBLISHED</c>, and <c>PKHEX_WEB_PUBLISHED_SPRITES</c> for the publish made with sprites) with synthetic fixtures,
     /// plus the notices checks that hold only on the SDK the publish is built with and the test host's HTTP behaviour (it needs a loopback listener).
     /// </summary>
     public const string E2E = "E2E";

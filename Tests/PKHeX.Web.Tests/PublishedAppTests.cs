@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using PKHeX.Core;
 using PKHeX.Web.Components;
 using PKHeX.Web.Services;
@@ -12,7 +13,7 @@ namespace PKHeX.Web.Tests;
 /// </summary>
 [Collection(PublishedAppCollection.Name)]
 [Trait(TestCategory.Name, TestCategory.E2E)]
-public sealed class PublishedAppTests(PublishedAppFixture app)
+public sealed partial class PublishedAppTests(PublishedAppFixture app)
 {
     /// <summary>Most files a Cloudflare Pages deployment may contain.</summary>
     private const int MaxDeployedFiles = 20_000;
@@ -174,12 +175,30 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
     [TierFact(TestCategory.E2E)]
     public void PublishesOnlyStaticDeployableFiles()
     {
-        var files = Directory.EnumerateFiles(app.Root, "*", SearchOption.AllDirectories).ToList();
+        AssertStaticDeployable(app.Root, sprites: false);
+        Assert.False(Directory.Exists(Path.Combine(app.Root, "sprites")), "A default publish must not contain the sprite atlas.");
+    }
+
+    [TierFact(TestCategory.E2E)]
+    public void SpritePublishAddsOnlyTheAtlasFiles()
+    {
+        AssertStaticDeployable(app.SpriteRoot, sprites: true);
+        var sprites = Directory.GetFiles(Path.Combine(app.SpriteRoot, "sprites")).Select(f => Path.GetFileName(f)).Where(n => !PrecompressedExtensions.Contains(Path.GetExtension(n))).ToArray();
+        Assert.Equal(4, sprites.Length);
+        Assert.Contains("manifest.json", sprites);
+        Assert.Contains("sources.json", sprites);
+        Assert.Single(sprites, n => n.StartsWith("pokemon.", StringComparison.Ordinal));
+        Assert.Single(sprites, n => n.StartsWith("sprites.", StringComparison.Ordinal));
+    }
+
+    private static void AssertStaticDeployable(string root, bool sprites)
+    {
+        var files = Directory.EnumerateFiles(root, "*", SearchOption.AllDirectories).ToList();
         Assert.True(files.Count <= MaxDeployedFiles, $"The publish has {files.Count} files; the host limit is {MaxDeployedFiles}.");
 
         foreach (var file in files)
         {
-            var name = Path.GetRelativePath(app.Root, file);
+            var name = Path.GetRelativePath(root, file);
             var size = new FileInfo(file).Length;
             Assert.True(size <= MaxDeployedFileBytes, $"Published {name} is {size} bytes; the host limit is {MaxDeployedFileBytes}.");
 
@@ -190,7 +209,7 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
                 asset = file[..^Path.GetExtension(file).Length];
                 Assert.True(File.Exists(asset), $"Published {name} has no uncompressed asset next to it.");
             }
-            Assert.True(IsDeployableAsset(Path.GetRelativePath(app.Root, asset)), $"Published {name} is not an expected static asset in that location.");
+            Assert.True(IsDeployableAsset(Path.GetRelativePath(root, asset), sprites), $"Published {name} is not an expected static asset in that location.");
         }
     }
 
@@ -199,7 +218,8 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
     /// Anything else, such as source maps, symbols, sources, project files, save-like or extensionless files like <c>main</c>, must not be deployed.
     /// </summary>
     /// <param name="relativePath">Path relative to the published <c>wwwroot</c>.</param>
-    private static bool IsDeployableAsset(string relativePath)
+    /// <param name="sprites">Whether the publish was made with sprites, which adds the generated atlas files.</param>
+    private static bool IsDeployableAsset(string relativePath, bool sprites)
     {
         var directory = Path.GetDirectoryName(relativePath)?.Replace(Path.DirectorySeparatorChar, '/') ?? "";
         var fileName = Path.GetFileName(relativePath);
@@ -210,6 +230,8 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
             "_framework" => extension is ".wasm" or ".js" or ".dat",
             // Upstream .NET notices.
             "licenses" => extension is ".txt",
+            // The generated sprite atlas and stylesheet (named by a hash of their content), the manifest and the provenance list.
+            "sprites" => sprites && (fileName is "manifest.json" or "sources.json" || HashedSpriteFile().IsMatch(fileName)),
             // App shell, scripts and styles, plus the license and notices.
             "" => extension is ".html" or ".css" or ".js" || fileName is "LICENSE.txt" or "THIRD-PARTY-NOTICES.md",
             _ => false,
@@ -293,4 +315,8 @@ public sealed class PublishedAppTests(PublishedAppFixture app)
         Assert.True(outcome.Failure == failure, $"Fixture is refused as {outcome.Failure}, not {failure}.");
         return UserMessages.For(outcome) + " The previous session was retained.";
     }
+
+    /// <summary>The generator's content-hashed atlas and stylesheet names.</summary>
+    [GeneratedRegex(@"^(pokemon\.[0-9a-f]{16}\.png|sprites\.[0-9a-f]{16}\.css)$")]
+    private static partial Regex HashedSpriteFile();
 }

@@ -21,6 +21,7 @@ public sealed class StorageBrowserPanelTests : IDisposable
     {
         context.JSInterop.Mode = JSRuntimeMode.Loose;
         context.Services.AddSingleton(state);
+        SpriteFixtures.AddCatalog(context);
     }
 
     public void Dispose() => context.Dispose();

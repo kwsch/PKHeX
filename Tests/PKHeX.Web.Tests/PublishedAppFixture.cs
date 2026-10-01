@@ -19,6 +19,8 @@ public sealed class PublishedAppCollection : ICollectionFixture<PublishedAppFixt
 /// <summary>
 /// Serves the Release publish output (<see cref="TestEnvironment.Published"/>) from a loopback <see cref="StaticHost"/>
 /// and boots it in Playwright browsers, checking deployment headers, static-only boot requests and privacy.
+/// Tests of the sprite atlas boot the publish made with sprites (<see cref="TestEnvironment.PublishedSprites"/>) instead, from a second host
+/// started on first use.
 /// </summary>
 /// <remarks>
 /// xUnit creates this fixture only when a test in <see cref="PublishedAppCollection"/> is selected, so Unit-only runs never need a publish or browsers.
@@ -45,6 +47,7 @@ public sealed class PublishedAppFixture : IAsyncLifetime
         [".dat"] = "application/octet-stream",
         [".md"] = "text/markdown",
         [".txt"] = "text/plain",
+        [".png"] = "image/png",
     };
 
     /// <summary>Requested by some browsers on their own; the published app has none, so it is the only 404 allowed.</summary>
@@ -52,10 +55,14 @@ public sealed class PublishedAppFixture : IAsyncLifetime
 
     private readonly Dictionary<string, IBrowser> browsers = [];
     private StaticHost? host;
+    private StaticHost? spriteHost;
     private IPlaywright? playwright;
 
     /// <summary>The published <c>wwwroot</c> being served.</summary>
     public string Root { get; private set; } = "";
+
+    /// <summary>The <c>wwwroot</c> of the publish made with sprites; required, and served, only once a test asks for it.</summary>
+    public string SpriteRoot => (spriteHost ??= StartSpriteHost()).Root;
 
     /// <summary>All engine × hosting-path combinations, for <c>[MemberData]</c>.</summary>
     public static IEnumerable<object[]> BrowserCases()
@@ -71,13 +78,30 @@ public sealed class PublishedAppFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Root = Path.GetFullPath(TestEnvironment.Required(TestEnvironment.Published));
-        if (!File.Exists(Path.Combine(Root, "_framework", "blazor.webassembly.js")))
-        {
-            throw new InvalidOperationException($"Point {TestEnvironment.Published} to the Release publish wwwroot.");
-        }
+        Root = PublishRoot(TestEnvironment.Published);
         host = new StaticHost(Root);
         playwright = await Playwright.CreateAsync();
+    }
+
+    /// <summary>The publish <c>wwwroot</c> named by <paramref name="variable"/>, checked to be one.</summary>
+    private static string PublishRoot(string variable)
+    {
+        var root = Path.GetFullPath(TestEnvironment.Required(variable));
+        if (!File.Exists(Path.Combine(root, "_framework", "blazor.webassembly.js")))
+        {
+            throw new InvalidOperationException($"Point {variable} to the Release publish wwwroot.");
+        }
+        return root;
+    }
+
+    private static StaticHost StartSpriteHost()
+    {
+        var root = PublishRoot(TestEnvironment.PublishedSprites);
+        if (!File.Exists(Path.Combine(root, "sprites", "manifest.json")))
+        {
+            throw new InvalidOperationException($"{TestEnvironment.PublishedSprites} is not a publish made with -p:PKHeXWebSprites=true.");
+        }
+        return new StaticHost(root);
     }
 
     public async Task DisposeAsync()
@@ -89,14 +113,18 @@ public sealed class PublishedAppFixture : IAsyncLifetime
         browsers.Clear();
         playwright?.Dispose();
         host?.Dispose();
+        spriteHost?.Dispose();
     }
 
     /// <summary>
     /// Opens a fresh browser context, boots the app at <paramref name="prefix"/> and checks the boot with <see cref="AssertStaticBootAsync"/>.
     /// </summary>
-    public async Task<AppSession> BootAsync(string engine, string prefix)
+    /// <param name="engine">One of <see cref="Engines"/>.</param>
+    /// <param name="prefix">One of <see cref="Prefixes"/>.</param>
+    /// <param name="sprites">Boot the publish made with sprites rather than the default one.</param>
+    public async Task<AppSession> BootAsync(string engine, string prefix, bool sprites = false)
     {
-        var session = await CreateSessionAsync(engine, prefix);
+        var session = await CreateSessionAsync(engine, prefix, sprites);
         try
         {
             await session.Page.GotoAsync(session.AppUrl);
@@ -116,13 +144,17 @@ public sealed class PublishedAppFixture : IAsyncLifetime
     /// Opens a fresh browser context with the recorders installed, without navigating, for tests that change how the page loads
     /// (routes or init scripts) before going to <see cref="AppSession.AppUrl"/>. Nothing about the boot is checked.
     /// </summary>
-    public async Task<AppSession> CreateSessionAsync(string engine, string prefix)
+    /// <param name="engine">One of <see cref="Engines"/>.</param>
+    /// <param name="prefix">One of <see cref="Prefixes"/>.</param>
+    /// <param name="sprites">Serve the publish made with sprites rather than the default one.</param>
+    public async Task<AppSession> CreateSessionAsync(string engine, string prefix, bool sprites = false)
     {
+        var served = sprites ? spriteHost ??= StartSpriteHost() : host!;
         var browser = await GetBrowserAsync(engine);
         var context = await browser.NewContextAsync(new() { AcceptDownloads = true });
         try
         {
-            return await AppSession.CreateAsync(context, prefix, browser.Version, host!.Url + prefix);
+            return await AppSession.CreateAsync(context, prefix, browser.Version, served.Url + prefix, served.Root);
         }
         catch
         {
@@ -151,7 +183,8 @@ public sealed class PublishedAppFixture : IAsyncLifetime
     {
         await session.Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         var (requests, responses, failures) = session.TakeRecorded();
-        AssertOnlyStaticRequests(requests, session.Prefix);
+        session.BootRequests = [.. requests.Select(r => new Uri(r.Url).AbsolutePath)];
+        AssertOnlyStaticRequests(requests, session.Root, session.Prefix);
         Assert.True(failures.Count == 0, $"Boot requests failed without a response: {string.Join(", ", failures)}");
         await AssertDeploymentHeadersAsync(responses, session.Prefix);
         await session.AssertNoCspViolationsAsync();
@@ -184,10 +217,10 @@ public sealed class PublishedAppFixture : IAsyncLifetime
     /// <summary>
     /// Boot may only fetch published files (plus the root and favicon) from the loopback host, with plain GETs.
     /// </summary>
-    private void AssertOnlyStaticRequests(IReadOnlyCollection<IRequest> requests, string prefix)
+    private static void AssertOnlyStaticRequests(IReadOnlyCollection<IRequest> requests, string root, string prefix)
     {
-        var allowed = Directory.EnumerateFiles(Root, "*", SearchOption.AllDirectories)
-            .Select(p => "/" + prefix + Path.GetRelativePath(Root, p).Replace('\\', '/'))
+        var allowed = Directory.EnumerateFiles(root, "*", SearchOption.AllDirectories)
+            .Select(p => "/" + prefix + Path.GetRelativePath(root, p).Replace('\\', '/'))
             .ToHashSet();
         allowed.Add("/" + prefix);
         allowed.Add(FaviconPath);
@@ -282,12 +315,13 @@ public sealed class AppSession : IAsyncDisposable
     private ConcurrentQueue<string> failures = [];
     private int pageErrors;
 
-    private AppSession(IBrowserContext context, IPage page, string prefix, string browserVersion, string appUrl)
+    private AppSession(IBrowserContext context, IPage page, string prefix, string browserVersion, string appUrl, string root)
     {
         Context = context;
         Page = page;
         Prefix = prefix;
         AppUrl = appUrl;
+        Root = root;
         BrowserVersion = browserVersion;
         page.PageError += (_, _) => Interlocked.Increment(ref pageErrors);
         page.Dialog += async (_, dialog) =>
@@ -298,9 +332,9 @@ public sealed class AppSession : IAsyncDisposable
     }
 
     /// <summary>Opens the context's page and installs the recorders. Nothing has been navigated yet.</summary>
-    internal static async Task<AppSession> CreateAsync(IBrowserContext context, string prefix, string browserVersion, string appUrl)
+    internal static async Task<AppSession> CreateAsync(IBrowserContext context, string prefix, string browserVersion, string appUrl, string root)
     {
-        var session = new AppSession(context, await context.NewPageAsync(), prefix, browserVersion, appUrl);
+        var session = new AppSession(context, await context.NewPageAsync(), prefix, browserVersion, appUrl, root);
         context.Request += (_, request) => Volatile.Read(ref session.requests).Enqueue(request);
         context.Response += (_, response) => Volatile.Read(ref session.responses).Enqueue(response);
         context.RequestFailed += (_, request) => Volatile.Read(ref session.failures).Enqueue(request.Failure ?? "unknown");
@@ -328,6 +362,12 @@ public sealed class AppSession : IAsyncDisposable
 
     /// <summary>Absolute URL of the app's page on the test host, including the <see cref="Prefix"/>.</summary>
     public string AppUrl { get; }
+
+    /// <summary>The published <c>wwwroot</c> this session's host serves.</summary>
+    public string Root { get; }
+
+    /// <summary>Paths requested during the boot, as recorded by <see cref="PublishedAppFixture.AssertStaticBootAsync"/>; the latest boot's when called again.</summary>
+    public IReadOnlyList<string> BootRequests { get; internal set; } = [];
 
     /// <summary>Version string of the browser engine, for evidence.</summary>
     public string BrowserVersion { get; }

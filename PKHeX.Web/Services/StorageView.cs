@@ -16,7 +16,10 @@ namespace PKHeX.Web.Services;
 /// <param name="Nickname">The nickname when the entity is nicknamed, otherwise null. Eggs carry the game's egg name here.</param>
 /// <param name="IsEgg">True for an egg.</param>
 /// <param name="IsShiny">True for a shiny entity.</param>
-public sealed record SlotSummary(SlotRef Ref, bool Occupied, bool Readable, ushort Species, string? Nickname, bool IsEgg, bool IsShiny)
+/// <param name="Form">The stored form, or 0 when empty or unreadable. Used only to choose the sprite.</param>
+/// <param name="Gender">The stored gender, or 0 when empty or unreadable. Used only to choose the sprite.</param>
+/// <param name="HoldsItem">True when the entity holds an item. Used only to choose how an egg's sprite is drawn.</param>
+public sealed record SlotSummary(SlotRef Ref, bool Occupied, bool Readable, ushort Species, string? Nickname, bool IsEgg, bool IsShiny, byte Form = 0, byte Gender = 0, bool HoldsItem = false)
 {
     /// <summary>True when selecting the position opens a draft: it is occupied and not a bad egg.</summary>
     public bool CanOpen => Occupied && Readable;
@@ -94,6 +97,7 @@ public static class StorageView
             // A bad egg: nothing read from it can be trusted, so none of it is shown.
             return new SlotSummary(slot, true, false, 0, null, false, false);
         }
-        return new SlotSummary(slot, true, true, entity.Species, entity.IsNicknamed ? entity.Nickname : null, entity.IsEgg, entity.IsShiny);
+        return new SlotSummary(slot, true, true, entity.Species, entity.IsNicknamed ? entity.Nickname : null, entity.IsEgg, entity.IsShiny,
+            entity.Form, entity.Gender, entity.SpriteItem != 0);
     }
 }

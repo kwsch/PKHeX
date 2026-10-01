@@ -12,6 +12,7 @@
   <Project Path="PKHeX.Drawing.Misc/PKHeX.Drawing.Misc.csproj" />
   <Project Path="PKHeX.Drawing.PokeSprite/PKHeX.Drawing.PokeSprite.csproj" />
   <Project Path="PKHeX.Drawing/PKHeX.Drawing.csproj" />
+  <Project Path="PKHeX.Web.SpriteAtlas/PKHeX.Web.SpriteAtlas.csproj" />
   <Project Path="PKHeX.Web/PKHeX.Web.csproj" />
   <Project Path="PKHeX.WinForms/PKHeX.WinForms.csproj" />
 </Solution>

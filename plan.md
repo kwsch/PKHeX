@@ -663,6 +663,85 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
   - (a) Build-time generator: it reads the existing `PKHeX.Drawing.PokeSprite` resource images and emits a fixed atlas + JSON manifest into `wwwroot`. It is reproducible, and a provenance note is committed.
   - (b) Runtime `SpriteCatalog` loads the whole atlas before file input is enabled. It resolves species/form/gender/shiny, falls back to a text placeholder, and makes no per-entity requests. E2E asserts identical request traces for two different saves (BOX-004, PERF-003, SEC-001).
   - Until G-B is cleared, the atlas stays behind a build flag that defaults to placeholders.
+
+  **M5 status:** code complete on `web/m5-sprite-catalog`.
+  - **Flag.** `PKHeXWebSprites` (default `false`) in `PKHeX.Web.csproj`. A default build publishes no sprite file and requests none; slots are text, as in M4, and About (`#about-sprites`) says "Not included in this build". `-p:PKHeXWebSprites=true` runs the generator at publish and adds `wwwroot/sprites/` through `ResolvedFileToPublish` (the `AddUpstreamNotices` pattern). Default builds, Azure's included, never build or run the generator. `BuildInfo.SpritesIncluded` reads the flag from new assembly metadata.
+  - **Generator** (`PKHeX.Web.SpriteAtlas`, a net10.0 console project in `PKHeX.slnx`, never published):
+    - `ResxSpriteIndex` reads PokeSprite's `Properties/Resources.resx`, which maps each resource name to its file (`b_100_1` → `Big Pokemon Sprites/b_100-1.png`), rather than guessing from file names.
+    - `SpriteSelection` resolves every Generation 6 species, every form in `PersonalTable.AO`, every gender and both shininesses, and packs exactly the images that resolve, plus each species' default, `b_unknown`, `b_egg`, `b_490_e` and `rare_icon_alt`: 1,838 images.
+    - `Png` is its own minimal codec (user decision: no image library). It decodes 8-bit greyscale, RGB, palette, grey+alpha and RGBA with `tRNS`, all five filters and CRC and length checks, and refuses anything else. It encodes RGBA with the usual filter heuristic and `ZLibStream`, with no time or text chunks.
+    - `AtlasWriter` packs 68x56 cells in ordinal name order (2176x3248, 1.24 MiB). It writes `pokemon.{hash}.png`, `sprites.{hash}.css` (one `.sprite-c{n}` rule per cell: `object-position` and size, because the CSP blocks inline styles), `manifest.json` (the two names, the layout and each key's cell) and `sources.json` (each image's source file and SHA-256), with `.br`/`.gz` copies of the text files. It removes its earlier outputs first.
+    - Two runs give identical bytes. The sources carry only `sRGB`/`pHYs` ancillary chunks, which change no samples.
+  - **Choosing a sprite** (`Services/Sprites/SpriteKeys`, compiled into both the app and the generator). It uses the desktop's own naming code, `PKHeX.Drawing.PokeSprite/Util/SpriteName.cs`, link-compiled, with no refactor of Drawing. It repeats `SpriteBuilder5668s`, which the desktop suggests for XY/ORAS, in the Gen 6 context:
+    - the `b` key, then `c`; for a shiny entity without a shiny image, the same without shininess; then `b_{species}` with `b_unknown` at 50%; then `b_unknown` alone
+    - `AllowShinySprite` is true (the WinForms default)
+    - eggs follow `ShowEggSpriteAsHeldItem` (default true): the egg icon at (18,1) over the species, or, when the egg holds an item, the species faded to 33% under the egg; `b_490_e` for Manaphy
+    - the shiny star `rare_icon_alt` at 70%
+    - held-item icons are not drawn
+  - **Runtime.**
+    - `Program.cs` awaits `SpriteCatalog.LoadAsync()` between `Build()` and `RunAsync()`, so `#save-file` cannot exist before the atlas is resident. It fetches the manifest (`HttpClient`, source-generated JSON) and validates it: version, hashed names only, cells in range and not shared, required keys present. `browser.js` `preloadSprites` then loads the stylesheet and `decode()`s the atlas into a module-held `Image`.
+    - Every sprite is an `img` of that exact URL. Browsers serve it from the document's list of loaded images, so no request follows; E2E proves this in 3 engines. A failure, or 20 s without completion, leaves the catalog `Failed`: text only, and no `img` is ever rendered.
+    - `SlotSummary` gained `Form`, `Gender` and `HoldsItem`, which a bad egg does not carry.
+    - `Components/SlotSprite` renders an `aria-hidden` span of `alt=""` images: a species group (species plus unknown mark), then the egg and star. It appears in `SlotGrid` (the button also gets `title` = its label) and in `SlotList`. The visible text stays.
+    - `app.css` clips the sprite to 68x56, pixelated, with `zoom: .7` below 40rem.
+  - **Notices and docs.** `THIRD-PARTY-NOTICES.md` has a sprite section: provenance, pokesprite as PKHeX's README credits it (its MIT text reproduced; its README says the images are © Nintendo/Creatures/GAME FREAK and MIT covers the rest), and the rights holders. About credits them when loaded. `PKHeX.Web/README.md` has a Sprites section.
+  - **CI.** `web.yml` publishes again with the flag after the trim, inventory, size and upload steps (both publishes share `PKHeX.Web/obj`). It appends a sprite size table to the summary and passes `PKHEX_WEB_PUBLISHED_SPRITES` to E2E. The sprite publish is never uploaded (G-B). `PKHeX.Web.SpriteAtlas/**` is added to the paths. A flagged restore adds no package to the Web restore graph, so the notices checks are unaffected. The azure-parity job now also builds the generator (NETSDK1233 count +1 expected).
+    - **First GitHub run (PR #16, run 36909562455):** every step passed except E2E, where 96 of 97 passed. `StaticHostServingTests.DefaultModeServesRawFilesWithoutCachingHeaders` saw `[200]` instead of `[200, 404]`. That was a race from F8's concurrent host, not from sprites: `StaticHost` logged each response after `Close()`, so a client could finish reading the 404 before its entry existed. Entries are now recorded before the response is sent, and a response that then fails to send also logs status 0. The host tests passed 20 runs in a row, and Unit and Perf still pass.
+    - **CI time** (M5's first run: `web` took 17 min, up from 10, and `azure-parity` 10 min, up from 4):
+      - The browser cache was keyed on the test project's hash, so M5's edit to it downloaded all three browsers (about 410 MiB) again. It is now keyed on the Playwright version. The apt install of their system libraries still runs every time, at whatever speed the mirror gives (3½ min here, 14 min in M3's run).
+      - E2E grew by 2:40. The stalled-atlas case now runs only in Chromium, which saves two 20 s waits, so E2E is 95 tests.
+      - The Perf baseline now runs only on pushes to the merge targets, saving about 1:50 per PR.
+      - The azure-parity `vstest.console` step grew from 1:43 to 5:30, but its 1,185 tests ran in 14 s (the slowest took 3.6 s). Its log shows 5 min 3 s passing before the first test assembly was found. The time went to the two searches that run first: `vswhere -find '**\TestPlatform\vstest.console.exe'`, which walks the whole Visual Studio install, and `Get-ChildItem -Recurse` over the checkout, which includes the full git history. The first is replaced by vswhere's `installationPath` plus the fixed `Common7\IDE\Extensions\TestPlatform` location. The second now skips `.git`, which holds no assemblies. Each search prints its time, so the next run shows which one it was. Not yet run: `pwsh` is not installed locally.
+  - **Tests.**
+    - **Unit 360** (up from 273):
+      - `PngCodecTests` (26): each filter and colour type from hand-assembled PNGs with hand-worked filter bytes, the Paeth tie-break, split `IDAT`, CRC/16-bit/interlace/unknown critical chunk/wrong length/bad filter/bad palette index rejected, round trip and determinism, every packed source decodes.
+      - `SpriteKeysTests` (21): literal desktop names (cosplay Pikachu, Pyroar ♀, Meowstic, Unown, Vivillon, Floette, Hoopa), fallbacks, eggs, the star, and completeness: every Gen 6 tuple (over 4,000) has its own sprite with no unknown mark, so PKForge-style gap list is empty.
+      - `SpriteAtlasTests` (9): reproducible bytes and names, names that are content hashes, every cell equal to its decoded source, one CSS rule per cell and nothing else, `sources.json` hashes, the limits, stale-output removal, and `.br`/`.gz` round trips.
+      - `SpriteSheetTests` (19): hashed-name and layout validation (13 broken manifests), resolution to cells, the Alolan fallback, and a build without sprites making no request or JS call.
+      - `SlotSpriteTests` (5, bUnit): no image without sprites; decorative layers with the label and text kept; exact layer classes, including the grouped fade; bad eggs; the list view.
+      - `BuildInfoTests` (+7).
+    - **E2E 95** (up from 69):
+      - `SpriteCatalogBrowserTests`, 3 engines:
+        - Across both paths: the manifest, stylesheet and atlas are each fetched once, the atlas before the input was enabled. Two different saves across the party and three boxes show exactly the resolved layers with every image loaded. The list view works, with no horizontal scroll at 375 px. Nothing is requested after boot, and a second fresh visit with only the second save has the same boot requests.
+        - Every one of the 1,838 cells, drawn by the browser from the atlas, equals the browser's own decoding of its source.
+        - Each file aborted (×3) falls back to text with no later request; so does a stalled atlas, after the 20 s limit (Chromium only, since the limit is engine-independent C# and each run waits it out).
+        - A default publish shows text and requests nothing under `sprites/`.
+      - `SpritePublishAddsOnlyTheAtlasFiles`, and the default allowlist now also requires no `sprites/`. The fixture serves the sprite publish from a second, lazily started host; `.png` is mapped to `image/png`. Every E2E test executed.
+    - **RealSave 14** pass (default publish). Trim baseline unchanged (38); `PKHeX.slnx` Release 0 warnings; actionlint clean. Screenshots of the XY G-D save at 1280 and 375 px show the sprites (Vivillon patterns told apart) with no horizontal scroll.
+    - **Mutation checks:**
+      - skipping the atlas preload fails the boot-count check, and, with that disabled, the after-boot trace check, in every case
+      - a palette-alpha error in the decoder fails the browser pixel check in all 3 engines
+      - a changed Paeth tie-break fails the new tie test
+      - swapped shininess, a dropped unknown mark, a timestamp chunk and a removed manifest-name check each fail Unit
+      - a symmetric Sub-predictor change made the generator fail on a source and fail the publish
+      - an Average and a Paeth `pa` tie change were equivalent on this data: the atlas bytes were identical, since no source or chosen row exercises them
+  - **Adversarial review** (after the dev work, independent, with its own probes).
+    - **Fixed:**
+      - A stalled sprite request left the app on "Loading" forever, and `boot.js`'s slow hint had already cleared. The catalog now gives up after 20 s, with an E2E case.
+      - For an egg holding an item whose form has no sprite, the unknown mark stayed at 50% while the desktop fades the composed image to 33% (about 17%). The species and mark are now one faded group, which composites as the desktop does, with Unit and E2E cases.
+      - Fixed atlas, stylesheet and manifest names let a browser combine files from two deployments, and cells shift when an image is added. The atlas and stylesheet are now content-hashed and named by the manifest.
+      - The atlas was not regenerated when Core's data changed without its API: the generator's copy of Core is now an input.
+      - Sprites overflowed their slots between 481 and about 585 px: the zoom now starts at 40rem.
+      - The egg icon's box overhung the sprite: the sprite is clipped.
+      - "Shiny sprites … (MIT)" implied the images were MIT: reworded from pokesprite's own README.
+      - Found while fixing: a stale unhashed atlas from an earlier run survived in `obj`. The build's new "exactly one atlas" check caught it; the generator now removes hashed and unhashed outputs.
+    - **Recorded, not changed:**
+      - The E2E layer check takes its expectations from `SpriteSheet.Resolve`; mapping fidelity rests on the literal `SpriteKeysTests`. Offsets and opacities are checked by class, not by rendering.
+      - Cross-OS determinism is checked within one run, not against a golden hash (zlib-ng and Brotli ship with .NET).
+      - `AllowShinySprite` is set in `SpriteKeys`' static constructor.
+      - Invalid entities (forms past Gen 6's range, species above 721) show the default plus the unknown mark where the desktop may find a later game's image; documented in the README.
+      - The Perf tier measures only the default publish; the atlas (1.24 MiB, about 28 MB decoded) belongs in M21's measurements.
+      - The generator reruns on every flagged publish (about a second), because `Directory.Build.props`' timestamp recompiles it.
+  - **Not verified yet:** no screen reader (the sprite is `aria-hidden`); decoded-atlas memory on iPad/Android (M21); physical devices (G-C); the first GitHub run of the sprite publish and of the generator under azure-parity's VS 17.14 MSBuild.
+  - **Compared with PKForge:**
+    - **Matches:** bundled PokeSprite `Big` sprites (normal and shiny) as the base set; a mirror of `SpriteName`'s naming; an ordered fallback ending in an unknown placeholder; a gap list, which here is empty and enforced by `EveryGenerationSixFormHasItsOwnSprite`; text until sprites are ready.
+    - **Stricter:**
+      - PKForge copies `SpriteName`'s logic (`PkhexName()`); we compile the desktop file itself, so the two cannot drift.
+      - It draws an egg as its species; we draw eggs as the desktop does.
+      - It warms sprites in the background and fetches HOME, Showdown and item art from PokeAPI at runtime; we fetch one input-independent atlas before a save can be chosen, and nothing after (SEC-001).
+      - Its sprites have no accessible treatment; ours are decorative, with text and names kept.
+      - It trims margins and keeps an LRU cache of decoded images; one resident atlas makes both unnecessary here.
+    - **Not adopted:** network art and the downloadable pack (SEC-001); artwork for species 9xx (not Gen 6); held-item icons (M13); the legality dot (M8); lock and mark badges (MVP+); shiny-over-gender priority (Gen 6 has shiny images for every gendered sprite).
 - **M6 Export flow + dirty model.** Separate `draftDirty` / `hasChangesSinceOpen` / `changesSinceLastExport`. Export shows "Download started — verify your file". Replace/close of a changed session asks for Export / Discard session / Cancel, and requires "Continue; I have checked my export" before continuing (EXP-001–003, SESSION-003/005/007). E2E: open → no-op export → reopen = native bytes.
 
 ### Slice B — editor, legality, apply

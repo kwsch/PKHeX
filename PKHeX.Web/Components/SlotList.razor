@@ -15,7 +15,7 @@
             var slot = Slots[index];
             <tr aria-current="@(Selected == slot.Ref ? "true" : null)" class="@(Selected == slot.Ref ? "selected" : null)">
                 <th scope="row">@SlotText.Position(slot.Ref)</th>
-                <td>@SlotText.Contents(slot)</td>
+                <td><SlotSprite Slot="slot" />@SlotText.Contents(slot)</td>
                 <td>
                     @if (slot.CanOpen)
                     {

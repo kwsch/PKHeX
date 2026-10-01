@@ -30,6 +30,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\PKHeX.Web\PKHeX.Web.csproj" />
+    <!-- Aliased: the generator compiles in the same sprite-selection sources as PKHeX.Web, so its copies must not clash with the app's. -->
+    <ProjectReference Include="..\..\PKHeX.Web.SpriteAtlas\PKHeX.Web.SpriteAtlas.csproj" Aliases="atlas" />
   </ItemGroup>
 
 </Project>

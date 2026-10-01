@@ -42,3 +42,15 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 .slot-list caption { text-align: start; font-weight: 600; padding-block: .3rem; }
 .slot-list button { margin: 0; }
 @media (max-width: 30rem) { .box-nav select { order: -1; flex-basis: 100%; } .box-nav button { flex: 1 1 0; } .slot { font-size: .7rem; padding: .2rem; } }
+/* Sprites: each layer is an img of the whole atlas, sized to one image and shifted to its cell by the generated stylesheet (sprite-c{n}). Offsets are physical, as the desktop draws them, and the sprite is clipped to its 68x56 box, as the desktop's image is. */
+.sprite { position: relative; display: block; width: 68px; height: 56px; margin-inline: auto; overflow: hidden; }
+.sprite img, .sprite .sprite-species { position: absolute; left: 0; top: 0; }
+.sprite img { max-width: none; object-fit: none; image-rendering: pixelated; }
+.sprite .sprite-species { width: 100%; height: 100%; }
+.sprite .sprite-faded { opacity: .33; }
+.sprite .sprite-unknown { opacity: .5; }
+.sprite .sprite-egg-item { left: 18px; top: 1px; }
+.sprite .sprite-star { opacity: .7; }
+.slot-list .sprite { display: inline-block; vertical-align: middle; margin-inline: 0 .4rem; }
+/* Six 68 px sprites and their borders need about 37rem; narrower grids scale the sprites down. */
+@media (max-width: 40rem) { .sprite { zoom: .7; } }

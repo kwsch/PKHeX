@@ -19,6 +19,71 @@
     <InternalsVisibleTo Include="PKHeX.Web.Tests" />
   </ItemGroup>
 
+  <!--
+    Sprites. The desktop's resource naming is compiled in from PKHeX.Drawing.PokeSprite, so the Web chooses sprites exactly as the desktop names
+    them without referencing that Windows-only project.
+    The atlas itself is published only with -p:PKHeXWebSprites=true, until the maintainers confirm that the images may be redistributed on a
+    public static host. Without it, nothing under sprites/ is published or requested, and slots are shown as text.
+  -->
+  <PropertyGroup>
+    <PKHeXWebSprites Condition="'$(PKHeXWebSprites)' != 'true'">false</PKHeXWebSprites>
+    <_PKHeXSpriteResx>$(MSBuildProjectDirectory)/../PKHeX.Drawing.PokeSprite/Properties/Resources.resx</_PKHeXSpriteResx>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\PKHeX.Drawing.PokeSprite\Util\SpriteName.cs" Link="Services\Sprites\SpriteName.cs" />
+    <AssemblyMetadata Include="PKHeXWebSprites" Value="$(PKHeXWebSprites)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(PKHeXWebSprites)' == 'true'">
+    <!-- Built only to be run: the generator is never referenced by, or published with, the app. -->
+    <ProjectReference Include="..\PKHeX.Web.SpriteAtlas\PKHeX.Web.SpriteAtlas.csproj" ReferenceOutputAssembly="false" SkipGetTargetFrameworkProperties="true" Private="false" />
+    <_PKHeXSpriteSource Include="$(_PKHeXSpriteResx)" />
+    <_PKHeXSpriteSource Include="$(MSBuildProjectDirectory)/../PKHeX.Drawing.PokeSprite/Resources/img/**/*.png" />
+  </ItemGroup>
+
+  <Target Name="ResolveSpriteGenerator" Condition="'$(PKHeXWebSprites)' == 'true'" DependsOnTargets="ResolveProjectReferences">
+    <!-- IntermediateOutputPath is only set once the SDK targets are imported, so the output paths are worked out here. -->
+    <PropertyGroup>
+      <_PKHeXSpriteDirectory>$(MSBuildProjectDirectory)/$(IntermediateOutputPath)sprites</_PKHeXSpriteDirectory>
+    </PropertyGroup>
+    <MSBuild Projects="..\PKHeX.Web.SpriteAtlas\PKHeX.Web.SpriteAtlas.csproj" Targets="GetTargetPath" Properties="Configuration=$(Configuration)">
+      <Output TaskParameter="TargetOutputs" PropertyName="_PKHeXSpriteGenerator" />
+    </MSBuild>
+    <ItemGroup>
+      <!-- The generator's own copy of Core: its data (such as the personal tables) decides which images are packed, and it can change without
+           the generator itself being recompiled. -->
+      <_PKHeXSpriteSource Include="$([System.IO.Path]::GetDirectoryName('$(_PKHeXSpriteGenerator)'))/PKHeX.Core.dll" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+    Runs the generator when the desktop's images, their resx, Core or the generator changed. Its output is identical for identical inputs.
+    The atlas and stylesheet names carry a content hash, so the manifest, whose name is fixed, marks the output as up to date.
+    In practice it runs on every publish with sprites (about a second): Directory.Build.props stamps each build with a timestamp, so the
+    generator is recompiled each time.
+  -->
+  <Target Name="GenerateSpriteAtlas" Condition="'$(PKHeXWebSprites)' == 'true'" DependsOnTargets="ResolveSpriteGenerator"
+          Inputs="@(_PKHeXSpriteSource);$(_PKHeXSpriteGenerator)" Outputs="$(_PKHeXSpriteDirectory)/manifest.json">
+    <PropertyGroup>
+      <_PKHeXDotnet>$(DOTNET_HOST_PATH)</_PKHeXDotnet>
+      <_PKHeXDotnet Condition="'$(_PKHeXDotnet)' == ''">dotnet</_PKHeXDotnet>
+    </PropertyGroup>
+    <Exec Command="&quot;$(_PKHeXDotnet)&quot; exec &quot;$(_PKHeXSpriteGenerator)&quot; --resx &quot;$(_PKHeXSpriteResx)&quot; --out &quot;$(_PKHeXSpriteDirectory)&quot;" />
+  </Target>
+
+  <!-- Publishes everything the generator wrote; it removes its earlier outputs first, so the directory holds only this build's files. -->
+  <Target Name="AddSpriteAtlas" Condition="'$(PKHeXWebSprites)' == 'true'" BeforeTargets="GetCopyToPublishDirectoryItems" DependsOnTargets="GenerateSpriteAtlas">
+    <ItemGroup>
+      <_PKHeXSpriteOutput Include="$(_PKHeXSpriteDirectory)/*" />
+      <_PKHeXSpriteAtlasImage Include="$(_PKHeXSpriteDirectory)/*.png" />
+    </ItemGroup>
+    <Error Condition="!Exists('$(_PKHeXSpriteDirectory)/manifest.json') or '@(_PKHeXSpriteAtlasImage->Count())' != '1'" Text="The sprite generator did not write a manifest and exactly one atlas to $(_PKHeXSpriteDirectory)." />
+    <ItemGroup>
+      <ResolvedFileToPublish Include="@(_PKHeXSpriteOutput)" RelativePath="wwwroot/sprites/%(_PKHeXSpriteOutput.Filename)%(_PKHeXSpriteOutput.Extension)" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+  </Target>
+
   <!-- A static deployment of wwwroot carries the license and notices with the binaries it distributes. -->
   <ItemGroup>
     <None Include="THIRD-PARTY-NOTICES.md" CopyToPublishDirectory="PreserveNewest" Link="wwwroot\THIRD-PARTY-NOTICES.md" />
@@ -49,7 +114,7 @@
     </ItemGroup>
     <Error Condition="'@(_PKHeXUpstreamNotice->Count())' != '4'" Text="Expected four upstream THIRD-PARTY-NOTICES files; found: @(_PKHeXUpstreamNotice)." />
     <ItemGroup>
-      <ResolvedFileToPublish Include="@(_PKHeXUpstreamNotice)" RelativePath="wwwroot/licenses/%(TargetName)" CopyToPublishDirectory="PreserveNewest" />
+      <ResolvedFileToPublish Include="@(_PKHeXUpstreamNotice)" RelativePath="wwwroot/licenses/%(_PKHeXUpstreamNotice.TargetName)" CopyToPublishDirectory="PreserveNewest" />
     </ItemGroup>
   </Target>
 

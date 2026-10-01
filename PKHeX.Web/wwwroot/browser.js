@@ -1,5 +1,10 @@
 // Browser file interop: file-only drop zones and Blob downloads. Files are only ever read locally; nothing is fetched or uploaded.
 // The page-wide navigation guard is drop-guard.js, loaded by index.html before the app.
+// Also preloads the sprite atlas at startup, in builds that include it.
+
+// The preloaded atlas, kept referenced for the page's lifetime. Sprites are <img> elements with this same URL, which browsers serve from
+// the document's list of already loaded images, so drawing a sprite never makes a request.
+let spriteAtlas = null;
 
 /**
  * Classifies a drop. Returns 'ok' for exactly one file, otherwise 'multiple', 'directory' or 'not-a-file'.
@@ -89,4 +94,23 @@ export async function download(reference, fileName) {
     anchor.click();
     // Permit browsers to consume the URL before releasing the generated snapshot.
     setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
+
+/**
+ * Loads the sprite stylesheet and atlas image, resolving once both are ready to draw and rejecting if either fails.
+ * Called once, before the app renders, so both requests happen before any file can be chosen and are the same for every save.
+ */
+export async function preloadSprites(stylesheetHref, atlasHref) {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = stylesheetHref;
+    await new Promise((resolve, reject) => {
+        link.addEventListener('load', resolve, { once: true });
+        link.addEventListener('error', () => reject(new Error('The sprite stylesheet could not be loaded.')), { once: true });
+        document.head.appendChild(link);
+    });
+    const image = new Image();
+    image.src = atlasHref;
+    await image.decode();
+    spriteAtlas = image;
 }

@@ -17,6 +17,11 @@ internal static class TestEnvironment
     /// <summary>Release publish <c>wwwroot</c> served by <see cref="StaticHost"/>.</summary>
     public const string Published = "PKHEX_WEB_PUBLISHED";
 
+    /// <summary>
+    /// Release publish <c>wwwroot</c> made with <c>-p:PKHeXWebSprites=true</c>, for the sprite tests of the <see cref="TestCategory.E2E"/> tier.
+    /// </summary>
+    public const string PublishedSprites = "PKHEX_WEB_PUBLISHED_SPRITES";
+
     /// <summary>Private decrypted X/Y save.</summary>
     public const string XYSave = "PKHEX_XY_SAVE";
 

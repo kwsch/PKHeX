@@ -49,6 +49,26 @@ public sealed class BuildInfoTests
         Assert.Equal("abc", BuildInfo.Read(metadata, BuildInfo.CommitKey));
     }
 
+    [Theory]
+    [InlineData("true", true)]
+    [InlineData("True", true)]
+    [InlineData("false", false)]
+    [InlineData("yes", false)]
+    [InlineData("", false)]
+    [InlineData(null, false)]
+    public void SpritesAreIncludedOnlyWhenRecordedAsTrue(string? value, bool expected)
+    {
+        AssemblyMetadataAttribute[] metadata = value is null ? [] : [new(BuildInfo.SpritesKey, value)];
+        Assert.Equal(expected, BuildInfo.ReadFlag(metadata, BuildInfo.SpritesKey));
+    }
+
+    [Fact]
+    public void TestBuildsAreMadeWithoutSprites()
+    {
+        // The default; publishing with sprites is an explicit choice (-p:PKHeXWebSprites=true).
+        Assert.False(BuildInfo.SpritesIncluded);
+    }
+
     private static string GitHead()
     {
         var start = new ProcessStartInfo("git", "rev-parse HEAD")

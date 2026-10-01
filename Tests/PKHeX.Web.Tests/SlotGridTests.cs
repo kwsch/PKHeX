@@ -16,7 +16,11 @@ public sealed class SlotGridTests : IDisposable
 {
     private readonly BunitContext context = new();
 
-    public SlotGridTests() => context.JSInterop.Mode = JSRuntimeMode.Loose;
+    public SlotGridTests()
+    {
+        context.JSInterop.Mode = JSRuntimeMode.Loose;
+        SpriteFixtures.AddCatalog(context);
+    }
 
     public void Dispose() => context.Dispose();
 

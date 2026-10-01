@@ -1,4 +1,6 @@
 @* Build identity, licenses and what this release opens. Everything here is part of the publish, so it works without any remote lookup. *@
+@using PKHeX.Web.Services.Sprites
+@inject SpriteCatalog Sprites
 <section id="@Id" aria-labelledby="about-title" hidden="@Hidden">
     <h2 id="about-title">About PKHeX Web</h2>
     <p>PKHeX Web edits Pokémon save files in your browser with PKHeX.Core, the library behind the PKHeX desktop editor.</p>
@@ -9,6 +11,8 @@
         <dd><code id="about-commit">@BuildInfo.SourceCommit</code></dd>
         <dt>Source code</dt>
         <dd><a id="about-source" href="@SourceRepository" target="_blank" rel="noopener noreferrer">@SourceRepository</a></dd>
+        <dt>Sprites</dt>
+        <dd id="about-sprites">@SpriteText</dd>
     </dl>
 
     <h3>Licenses</h3>
@@ -40,6 +44,14 @@
 @code {
     /// <summary>Repository the corresponding source of this build is published in; <see cref="BuildInfo.SourceCommit"/> identifies the revision.</summary>
     private const string SourceRepository = "https://github.com/kwsch/PKHeX";
+
+    /// <summary>What this build shows in slots, and where its images come from; the notices give the full attribution.</summary>
+    private string SpriteText => Sprites.State switch
+    {
+        SpriteCatalogState.Loaded => "Included: the PKHeX desktop editor's box sprites (PKHeX.Drawing.PokeSprite), with its shiny sprites from the pokesprite project. Pokémon images © Nintendo, Creatures Inc. and GAME FREAK inc. See the third-party notices.",
+        SpriteCatalogState.Failed => "Part of this build, but they could not be loaded; slots are shown as text.",
+        _ => "Not included in this build; slots are shown as text.",
+    };
 
     /// <summary>Element id, for the controlling button's <c>aria-controls</c>.</summary>
     [Parameter, EditorRequired]

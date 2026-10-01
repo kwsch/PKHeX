@@ -1,6 +1,7 @@
 @* A party or box as a grid of slot buttons with a single tab stop (roving tabindex). Arrow keys move between slots, Home and End go to
    the ends of the row, Ctrl+Home and Ctrl+End to the first and last slot, and Enter or Space opens a slot, as any button does.
-   grid-keys.js stops those keys from also scrolling the page. Each slot's accessible name is its position and contents. *@
+   grid-keys.js stops those keys from also scrolling the page. Each slot's accessible name is its position and contents, and hovering
+   shows the same text as a tooltip. The sprite, when shown, is decorative: the short text stays visible beneath it. *@
 @* The column count is a class, not an inline style, which the Content Security Policy (style-src 'self') would block. *@
 <div class="slot-grid columns-@Columns" role="grid" id="@Id" aria-label="@Label" aria-rowcount="@RowCount" aria-colcount="@Columns">
     @for (var row = 0; row < RowCount; row++)
@@ -20,9 +21,11 @@
                             class="@CssClass(slot)"
                             tabindex="@(index == ActiveIndex ? 0 : -1)"
                             aria-label="@SlotText.Label(slot)"
+                            title="@SlotText.Label(slot)"
                             data-slot="@index"
                             @onclick="() => ActivateAsync(index)"
                             @onkeydown="e => MoveAsync(e, index)">
+                        <SlotSprite Slot="slot" />
                         @SlotText.Short(slot)
                     </button>
                 </div>

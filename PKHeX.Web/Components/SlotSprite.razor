@@ -1,0 +1,29 @@
+@using PKHeX.Web.Services.Sprites
+@inject SpriteCatalog Catalog
+@* A slot's sprite, drawn from the atlas preloaded at startup. It is decorative: the slot's text and accessible name say what it holds,
+   so the whole sprite is hidden from assistive technology and every image has empty alternative text.
+   Layers follow the desktop: the species (with the unknown mark over a stand-in form), then the egg icon and the shiny star.
+   The species layers are grouped, so an egg holding an item fades them together, as the desktop fades its composed image.
+   Nothing renders when sprites are not shown. *@
+@if (Catalog.Resolve(Slot) is { } cells)
+{
+    var image = Catalog.Sheet!.ImagePath;
+    <span class="sprite" aria-hidden="true">
+        <span class="@(cells.SpeciesFaded ? "sprite-species sprite-faded" : "sprite-species")">
+            @foreach (var layer in cells.SpeciesClasses())
+            {
+                <img src="@image" alt="" class="@layer" />
+            }
+        </span>
+        @foreach (var layer in cells.OverlayClasses())
+        {
+            <img src="@image" alt="" class="@layer" />
+        }
+    </span>
+}
+
+@code {
+    /// <summary>The slot whose sprite is drawn.</summary>
+    [Parameter, EditorRequired]
+    public SlotSummary Slot { get; set; } = default!;
+}
