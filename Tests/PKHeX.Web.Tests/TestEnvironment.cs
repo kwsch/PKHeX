@@ -22,6 +22,12 @@ internal static class TestEnvironment
     /// </summary>
     public const string PublishedSprites = "PKHEX_WEB_PUBLISHED_SPRITES";
 
+    /// <summary>
+    /// Optional browser engines for the browser tiers, separated by commas, semicolons or spaces (e.g. <c>firefox</c>); all of
+    /// <see cref="PublishedAppFixture.AllEngines"/> when unset. CI runs one engine per job so the engines run in parallel.
+    /// </summary>
+    public const string Engines = "PKHEX_WEB_ENGINES";
+
     /// <summary>Private decrypted X/Y save.</summary>
     public const string XYSave = "PKHEX_XY_SAVE";
 
@@ -60,6 +66,25 @@ internal static class TestEnvironment
         }
         var names = optIn?.Split([',', ';', ' '], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ?? [];
         return names.Contains(tier, StringComparer.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    /// The engines named in <paramref name="value"/> (see <see cref="Engines"/>), in the order of <paramref name="all"/>, or all of them when it is blank.
+    /// </summary>
+    /// <exception cref="ArgumentException">A name is not one of <paramref name="all"/>, so a typo cannot quietly run fewer engines.</exception>
+    public static string[] SelectEngines(string? value, IReadOnlyList<string> all)
+    {
+        var names = value?.Split([',', ';', ' '], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ?? [];
+        if (names.Length == 0)
+        {
+            return [.. all];
+        }
+        var unknown = names.Where(n => !all.Contains(n, StringComparer.OrdinalIgnoreCase)).ToArray();
+        if (unknown.Length != 0)
+        {
+            throw new ArgumentException($"{Engines} names unknown engines: {string.Join(", ", unknown)}. Use {string.Join(", ", all)}.", nameof(value));
+        }
+        return [.. all.Where(e => names.Contains(e, StringComparer.OrdinalIgnoreCase))];
     }
 
     /// <summary>Skip reason for a test in <paramref name="tier"/>, or <see langword="null"/> when the tier is opted in.</summary>

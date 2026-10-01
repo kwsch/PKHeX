@@ -180,6 +180,7 @@ public sealed partial class PublishedAppTests(PublishedAppFixture app)
     }
 
     [TierFact(TestCategory.E2E)]
+    [Trait(TestCategory.Needs, TestCategory.SpritePublish)]
     public void SpritePublishAddsOnlyTheAtlasFiles()
     {
         AssertStaticDeployable(app.SpriteRoot, sprites: true);

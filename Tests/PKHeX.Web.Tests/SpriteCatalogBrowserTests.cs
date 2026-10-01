@@ -61,6 +61,7 @@ public sealed class SpriteCatalogBrowserTests(PublishedAppFixture app)
         save.CurrentBox = 0;
     });
 
+    [Trait(TestCategory.Needs, TestCategory.SpritePublish)]
     [TierTheory(TestCategory.E2E)]
     [MemberData(nameof(PublishedAppFixture.BrowserCases), MemberType = typeof(PublishedAppFixture))]
     public async Task SpritesArePreloadedAndDrawnWithoutRequests(string engine, string prefix)
@@ -122,6 +123,7 @@ public sealed class SpriteCatalogBrowserTests(PublishedAppFixture app)
     /// Every atlas cell, as the browser draws it, has the same pixels as the browser's own decoding of its source file. This checks the
     /// generator's PNG codec and packing independently of the codec itself.
     /// </summary>
+    [Trait(TestCategory.Needs, TestCategory.SpritePublish)]
     [TierTheory(TestCategory.E2E)]
     [MemberData(nameof(Engines))]
     public async Task EveryCellMatchesTheBrowsersDecodingOfItsSource(string engine)
@@ -183,6 +185,7 @@ public sealed class SpriteCatalogBrowserTests(PublishedAppFixture app)
     /// <summary>
     /// If any sprite file fails to load, the app shows text, says so in About, and never asks for a sprite again.
     /// </summary>
+    [Trait(TestCategory.Needs, TestCategory.SpritePublish)]
     [TierTheory(TestCategory.E2E)]
     [MemberData(nameof(BlockedFiles))]
     public async Task AFailedLoadFallsBackToTextWithoutFurtherRequests(string engine, string blocked)
@@ -196,13 +199,15 @@ public sealed class SpriteCatalogBrowserTests(PublishedAppFixture app)
     /// A sprite request that never answers must not leave the app on its loading message: after the catalog's time limit it starts with text.
     /// </summary>
     /// <remarks>
-    /// Chromium only: the time limit is the catalog's own C# code, the same in every engine, and each run waits out the full limit.
-    /// The other engines' fallback is covered by <see cref="AFailedLoadFallsBackToTextWithoutFurtherRequests"/>.
+    /// One engine only, the first this run covers (Chromium in a full run): the time limit is the catalog's own C# code, the same in every engine,
+    /// and each run waits out the full limit. The other engines' fallback is covered by <see cref="AFailedLoadFallsBackToTextWithoutFurtherRequests"/>.
+    /// When CI runs one engine per job, each job runs it in its own engine, in parallel.
     /// </remarks>
     [TierFact(TestCategory.E2E)]
+    [Trait(TestCategory.Needs, TestCategory.SpritePublish)]
     public async Task AStalledAtlasFallsBackToTextAfterTheTimeLimit()
     {
-        await using var session = await app.CreateSessionAsync("chromium", "", sprites: true);
+        await using var session = await app.CreateSessionAsync(PublishedAppFixture.Engines[0], "", sprites: true);
         // Never fulfilled, continued or aborted: the request stays pending.
         await session.Page.RouteAsync(BootFilePatterns[2], _ => { });
         var started = session.ElapsedMs;

@@ -109,6 +109,49 @@ public sealed class TestCategoryTests
     [InlineData(TestCategory.Perf, "perf", true)]
     public void TiersAreOptInAndUnitAlwaysRuns(string tier, string? optIn, bool expected) => Assert.Equal(expected, TestEnvironment.IsOptedIn(tier, optIn));
 
+    [Theory]
+    [InlineData(null, "chromium,firefox,webkit")]
+    [InlineData("", "chromium,firefox,webkit")]
+    [InlineData(" ", "chromium,firefox,webkit")]
+    [InlineData("firefox", "firefox")]
+    [InlineData(" WebKit ; chromium ", "chromium,webkit")]
+    [InlineData("webkit,webkit", "webkit")]
+    public void EnginesAreAllUnlessNamed(string? value, string expected) =>
+        Assert.Equal(expected.Split(','), TestEnvironment.SelectEngines(value, PublishedAppFixture.AllEngines));
+
+    [Theory]
+    [InlineData("firefx")]
+    [InlineData("chromium,edge")]
+    public void UnknownEnginesAreRefused(string value) =>
+        Assert.Throws<ArgumentException>(() => TestEnvironment.SelectEngines(value, PublishedAppFixture.AllEngines));
+
+    /// <summary>
+    /// <see cref="TestCategory.Needs"/> lets CI leave out tests whose extra input it did not build, so it may carry only known values,
+    /// and only on browser tests: a Unit test leaving the default run would go unnoticed.
+    /// </summary>
+    [Fact]
+    public void NeedsTraitsAreKnownAndOnlyOnE2E()
+    {
+        var problems = new List<string>();
+        var tagged = 0;
+        foreach (var (type, method) in TestMethods())
+        {
+            var needs = GetTraits(type.GetCustomAttributesData(), TestCategory.Needs).Concat(GetTraits(method.GetCustomAttributesData(), TestCategory.Needs)).ToArray();
+            if (needs.Length == 0)
+            {
+                continue;
+            }
+            tagged++;
+            var category = GetCategories(type.GetCustomAttributesData()).Concat(GetCategories(method.GetCustomAttributesData())).FirstOrDefault();
+            if (category != TestCategory.E2E || needs.Any(n => n != TestCategory.SpritePublish))
+            {
+                problems.Add($"{type.Name}.{method.Name}: {category} [{string.Join(", ", needs)}]");
+            }
+        }
+        Assert.True(tagged > 0, "No test carries the Needs trait; the sprite tests should.");
+        Assert.True(problems.Count == 0, $"Needs may only be {TestCategory.SpritePublish}, on E2E tests:{Environment.NewLine}{string.Join(Environment.NewLine, problems)}");
+    }
+
     /// <summary>Every <see cref="FactAttribute"/> (including <see cref="TheoryAttribute"/>) method in this assembly.</summary>
     private static IEnumerable<(Type Type, MethodInfo Method)> TestMethods()
     {
@@ -127,7 +170,10 @@ public sealed class TestCategoryTests
     /// <summary>
     /// Reads <see cref="TestCategory.Name"/> trait values; xUnit v2's <see cref="TraitAttribute"/> keeps them only as constructor arguments.
     /// </summary>
-    private static IEnumerable<string> GetCategories(IEnumerable<CustomAttributeData> attributes)
+    private static IEnumerable<string> GetCategories(IEnumerable<CustomAttributeData> attributes) => GetTraits(attributes, TestCategory.Name);
+
+    /// <summary>Reads the values of the traits named <paramref name="name"/>.</summary>
+    private static IEnumerable<string> GetTraits(IEnumerable<CustomAttributeData> attributes, string name)
     {
         foreach (var attribute in attributes)
         {
@@ -136,7 +182,7 @@ public sealed class TestCategoryTests
                 continue;
             }
 
-            if (attribute.ConstructorArguments[0].Value is TestCategory.Name && attribute.ConstructorArguments[1].Value is string value)
+            if (attribute.ConstructorArguments[0].Value is string key && key == name && attribute.ConstructorArguments[1].Value is string value)
             {
                 yield return value;
             }

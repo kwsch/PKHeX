@@ -1,6 +1,8 @@
 # Builds, tests and publishes PKHeX.Web.
-# The web job runs on Linux with a pinned SDK: Core tests, the Web Unit and E2E tiers, and the Perf boot baseline; the RealSave tier needs private saves and never runs in CI.
-# The trimmed publish is checked against the trim-warning baseline and uploaded with the test results and reports.
+# The changes job decides from a pull request's paths whether the published app (and the publish with sprites) can differ; pushes run everything.
+# The web job runs on Linux with a pinned SDK: Core tests and the Web Unit tier always, then, when the app can differ, the publish checked against
+# the trim-warning baseline and uploaded with the test results and reports, and on pushes the Perf boot baseline.
+# The e2e jobs run the E2E tier, one browser engine each, in parallel; the RealSave tier needs private saves and never runs in CI.
 # A second publish with the sprite atlas (-p:PKHeXWebSprites=true) is tested but never uploaded: sprite redistribution awaits a maintainer decision.
 # The azure-parity job repeats upstream's Azure pipeline on Windows, so a change that would break that build fails here first.
 name: web
@@ -46,7 +48,38 @@ defaults:
         shell: bash
 
 jobs:
+    # Decides what a pull request needs from the paths it changes (PKHeX.Web/tools/ci-changes.sh): "web" when the published app can differ,
+    # "sprites" when the publish with sprites can. Pushes to the merge targets always run everything, so anything these lists miss is caught
+    # before it ships. If the diff cannot be read, everything runs.
+    changes:
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        outputs:
+            web: ${{ steps.decide.outputs.web }}
+            sprites: ${{ steps.decide.outputs.sprites }}
+        steps:
+            # A pull request checks out its merge commit, whose first parent is the base branch, so two commits are enough for the diff.
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+                  fetch-depth: 2
+
+            - name: Decide
+              id: decide
+              env:
+                  EVENT: ${{ github.event_name }}
+              run: |
+                  if [ "$EVENT" = pull_request ]; then
+                      changed="$(git diff --name-only HEAD^1 HEAD)" || changed=""
+                  else
+                      changed=""
+                  fi
+                  printf '%s\n' "$changed" | PKHeX.Web/tools/ci-changes.sh | tee -a "$GITHUB_OUTPUT"
+
+    # Core tests and the Web Unit tier always run. When the published app can differ it is also published, checked against the trim baseline,
+    # inventoried, measured and uploaded, and on pushes to the merge targets its boot baseline is recorded. E2E runs in the e2e jobs below.
     web:
+        needs: changes
         runs-on: ubuntu-latest
         timeout-minutes: 45
         # Microsoft's Playwright image for the test project's Playwright version, pinned by digest. It carries the three browsers, their
@@ -54,20 +87,24 @@ jobs:
         # 0:34-3:28 in 7 of 11 runs and 14-25 min in the other 4, whenever the mirror was slow; the image replaces that with one pull from MCR.
         # --ipc=host is Playwright's recommendation for Chromium; --user 1001 is the runner user that owns the workspace, which Firefox needs.
         # The tag must equal PLAYWRIGHT_VERSION below (container.image cannot read env); "Check the Playwright image" enforces it.
-        container:
+        container: &playwright-container
             image: mcr.microsoft.com/playwright/dotnet:v1.63.0-noble@sha256:aa3eaf29a65df8c93fc32ab20cf9359f4d8ecc53e6e89f79378647ace87b46b3
             options: --ipc=host --user 1001
-        env:
+        env: &playwright-env
             # The runtime pack and ILLink versions come from the SDK, and THIRD-PARTY-NOTICES.md lists them exactly.
             DOTNET_SDK_VERSION: "10.0.401"
             PLAYWRIGHT_VERSION: "1.63.0"
+            WEB_CHANGED: ${{ needs.changes.outputs.web }}
+            SPRITES_CHANGED: ${{ needs.changes.outputs.sprites }}
         steps:
-            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            - &checkout
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
                   persist-credentials: false
 
             # In a container job, ${{ github.workspace }} is the host's path; $GITHUB_WORKSPACE is the path inside the container.
-            - name: Set paths
+            - &set-paths
+              name: Set paths
               run: |
                   {
                       echo "PUBLISH_DIR=$GITHUB_WORKSPACE/artifacts/publish"
@@ -78,7 +115,8 @@ jobs:
 
             # The image brings the SDK, so there is no setup-dotnet. The global.json makes dotnet refuse any other SDK, and the check fails
             # loudly if a new image moves it. It is written above the checkout so the working tree stays clean.
-            - name: Pin the SDK
+            - &pin-sdk
+              name: Pin the SDK
               run: |
                   printf '{ "sdk": { "version": "%s", "rollForward": "disable" } }\n' "$DOTNET_SDK_VERSION" > "$GITHUB_WORKSPACE/../global.json"
                   actual="$(dotnet --version)"
@@ -88,7 +126,8 @@ jobs:
                   fi
 
             # A Playwright package bump without an image bump would otherwise fail later, in every browser test, with missing executables.
-            - name: Check the Playwright image
+            - &check-image
+              name: Check the Playwright image
               run: |
                   package="$(sed -n 's/.*Include="Microsoft.Playwright" Version="\([^"]*\)".*/\1/p' Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj)"
                   if [ "$package" != "$PLAYWRIGHT_VERSION" ]; then
@@ -102,7 +141,8 @@ jobs:
                       fi
                   done
 
-            - name: Cache NuGet packages
+            - &nuget-cache
+              name: Cache NuGet packages
               uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
               with:
                   path: ~/.nuget/packages
@@ -134,7 +174,7 @@ jobs:
             # The setting changes only the diagnostics: a publish with and without it gave identical files.
             - name: Publish
               id: publish
-              if: ${{ !cancelled() && steps.restore.outcome == 'success' }}
+              if: ${{ !cancelled() && steps.restore.outcome == 'success' && env.WEB_CHANGED == 'true' }}
               run: >-
                   dotnet publish PKHeX.Web/PKHeX.Web.csproj -c Release --no-restore -o "$PUBLISH_DIR"
                   -p:SuppressTrimAnalysisWarnings=false "-flp:warningsonly;NoSummary;logfile=$REPORTS_DIR/trim-build.log"
@@ -151,6 +191,7 @@ jobs:
               if: ${{ !cancelled() && steps.publish.outcome == 'success' }}
               run: PKHeX.Web/tools/size-report.sh "$PUBLISH_DIR/wwwroot" | tee "$REPORTS_DIR/size.md" >> "$GITHUB_STEP_SUMMARY"
 
+            # The uploaded build is this job's publish. The e2e jobs make their own from the same commit, SDK and image, so they can start at once.
             - name: Upload publish output
               if: ${{ !cancelled() && steps.publish.outcome == 'success' }}
               uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -159,36 +200,8 @@ jobs:
                   path: ${{ env.PUBLISH_DIR }}/wwwroot
                   if-no-files-found: error
 
-            # Runs after the steps above, which inspect the default build: both publishes share PKHeX.Web's obj directory.
-            # Its restore adds the generator project to the Web restore graph; it brings no packages, so the notices checks are unaffected.
-            - name: Publish with sprites
-              id: publish-sprites
-              if: ${{ !cancelled() && steps.restore.outcome == 'success' }}
-              run: |
-                  dotnet publish PKHeX.Web/PKHeX.Web.csproj -c Release -p:PKHeXWebSprites=true -o "$SPRITES_PUBLISH_DIR"
-                  {
-                      echo "## With sprites (tested, not uploaded)"
-                      echo
-                      PKHeX.Web/tools/size-report.sh "$SPRITES_PUBLISH_DIR/wwwroot" 5 | tail -n +2
-                  } | tee "$REPORTS_DIR/size-sprites.md" >> "$GITHUB_STEP_SUMMARY"
-
-            # E2E is opt-in: without PKHEX_WEB_TEST_TIERS its tests are skipped, so the next step checks that every one ran.
-            - name: Web E2E tests
-              if: ${{ !cancelled() && steps.publish.outcome == 'success' && steps.publish-sprites.outcome == 'success' }}
-              env:
-                  PKHEX_WEB_TEST_TIERS: E2E
-                  PKHEX_WEB_PUBLISHED: ${{ env.PUBLISH_DIR }}/wwwroot
-                  PKHEX_WEB_PUBLISHED_SPRITES: ${{ env.SPRITES_PUBLISH_DIR }}/wwwroot
-              run: >-
-                  dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter Category=E2E
-                  --logger "trx;LogFileName=web-e2e.trx" --results-directory "$RESULTS_DIR"
-
-            - name: Check every E2E test ran
-              if: ${{ !cancelled() && steps.publish.outcome == 'success' && steps.publish-sprites.outcome == 'success' }}
-              run: PKHeX.Web/tools/trx-all-executed.sh "$RESULTS_DIR/web-e2e.trx"
-
             # Records cold/warm boot timings and transfer (WEB-PERF-001) with no threshold; it fails only if a boot cannot be measured.
-            # It runs after E2E, in its own step, so no other test shares the runner while boots are timed.
+            # This job runs no other browser test, so nothing shares the runner while boots are timed.
             # Only on pushes to the merge targets: it has no threshold, so a pull request gains nothing from it, and it takes about two minutes.
             - name: Web boot baseline
               if: ${{ !cancelled() && steps.publish.outcome == 'success' && github.event_name == 'push' }}
@@ -207,6 +220,91 @@ jobs:
               uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               with:
                   name: pkhex-web-results
+                  path: |
+                      ${{ env.RESULTS_DIR }}
+                      ${{ env.REPORTS_DIR }}
+                  if-no-files-found: ignore
+
+    # The E2E tier, one browser engine per job (PKHEX_WEB_ENGINES), so the engines run in parallel on separate runners. Tests that take no engine
+    # (the publish checks) run in every job; they are quick. Each job publishes for itself rather than waiting for the web job, and builds the
+    # publish with sprites only when its inputs changed (always on pushes); without it, the tests that need it are filtered out (Needs=SpritePublish).
+    # The sprite publish is tested here but never uploaded: sprite redistribution awaits a maintainer decision.
+    e2e:
+        name: e2e (${{ matrix.engine }})
+        needs: changes
+        if: ${{ needs.changes.outputs.web == 'true' }}
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        strategy:
+            fail-fast: false
+            matrix:
+                engine: [chromium, firefox, webkit]
+        container: *playwright-container
+        env: *playwright-env
+        steps:
+            - *checkout
+            - *set-paths
+            - *pin-sdk
+            - *check-image
+            - *nuget-cache
+
+            - name: Restore
+              run: |
+                  dotnet restore Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj
+                  mkdir -p "$RESULTS_DIR" "$REPORTS_DIR"
+
+            # Built before the publishes, as in the web job, so the test run below can use --no-build.
+            - name: Build tests
+              run: dotnet build Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-restore
+
+            - name: Publish
+              run: dotnet publish PKHeX.Web/PKHeX.Web.csproj -c Release --no-restore -o "$PUBLISH_DIR"
+
+            # Both publishes share PKHeX.Web's obj directory, so this runs after the default one. Its restore adds the generator project to the
+            # Web restore graph; it brings no packages, so the notices checks are unaffected.
+            - name: Publish with sprites
+              if: ${{ env.SPRITES_CHANGED == 'true' }}
+              env:
+                  ENGINE: ${{ matrix.engine }}
+              run: |
+                  dotnet publish PKHeX.Web/PKHeX.Web.csproj -c Release -p:PKHeXWebSprites=true -o "$SPRITES_PUBLISH_DIR"
+                  # One size table per run is enough.
+                  if [ "$ENGINE" = chromium ]; then
+                      {
+                          echo "## With sprites (tested, not uploaded)"
+                          echo
+                          PKHeX.Web/tools/size-report.sh "$SPRITES_PUBLISH_DIR/wwwroot" 5 | tail -n +2
+                      } | tee "$REPORTS_DIR/size-sprites.md" >> "$GITHUB_STEP_SUMMARY"
+                  fi
+
+            # E2E is opt-in: without PKHEX_WEB_TEST_TIERS its tests are skipped, so the next step checks that every one ran.
+            - name: Web E2E tests
+              env:
+                  PKHEX_WEB_TEST_TIERS: E2E
+                  PKHEX_WEB_ENGINES: ${{ matrix.engine }}
+                  ENGINE: ${{ matrix.engine }}
+              run: |
+                  export PKHEX_WEB_PUBLISHED="$PUBLISH_DIR/wwwroot"
+                  filter="Category=E2E"
+                  if [ "$SPRITES_CHANGED" = true ]; then
+                      export PKHEX_WEB_PUBLISHED_SPRITES="$SPRITES_PUBLISH_DIR/wwwroot"
+                  else
+                      filter="$filter&Needs!=SpritePublish"
+                  fi
+                  dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter "$filter" \
+                      --logger "trx;LogFileName=web-e2e-$ENGINE.trx" --results-directory "$RESULTS_DIR"
+
+            - name: Check every E2E test ran
+              if: ${{ !cancelled() }}
+              env:
+                  ENGINE: ${{ matrix.engine }}
+              run: PKHeX.Web/tools/trx-all-executed.sh "$RESULTS_DIR/web-e2e-$ENGINE.trx"
+
+            - name: Upload test results
+              if: ${{ always() }}
+              uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+              with:
+                  name: pkhex-web-e2e-${{ matrix.engine }}
                   path: |
                       ${{ env.RESULTS_DIR }}
                       ${{ env.REPORTS_DIR }}

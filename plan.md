@@ -695,6 +695,15 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
       - The trim baseline no longer publishes a second time. The main publish logs the warnings (`SuppressTrimAnalysisWarnings=false`), and `trim-warnings.sh --log` reads that log. Publishes with the setting on and off gave identical files (198, compared by hash with a fixed `SourceRevisionId`). That saves about 55 s.
       - Not yet run on GitHub: the image pull time, and `--user 1001` with checkout, caches and uploads.
       - Deferred: running the E2E engines in parallel (5:41 one test at a time). It needs a fixture per engine and a flakiness check of the timing-sensitive tests under CPU contention first.
+      - **Done later (`web/ci-scoped-e2e`, after M6's first CI run took 11.5 min with E2E at 6:52):**
+        - The engines run as three `e2e` jobs, one per engine (`PKHEX_WEB_ENGINES`), on separate runners. No fixture per engine was needed, and with no shared CPU the contention concern does not arise.
+        - Each job publishes for itself, and builds the sprite publish only when needed, so it never waits for `web` and the sprite publish is still never uploaded.
+        - A `changes` job (`PKHeX.Web/tools/ci-changes.sh`) skips the publish checks and E2E on pull requests that cannot change the app (WinForms, Drawing, Core tests, docs), and skips the sprite publish and its tests (`[Trait("Needs", "SpritePublish")]`, filtered out with `Needs!=SpritePublish`) when no sprite input changed. Pushes to `master`/`web/main` always run everything.
+        - The Chromium-only stalled-atlas test now uses the run's first engine, so each job runs it in its own engine.
+        - Engine-free E2E tests (8: the publish and notices checks) run in every job.
+        - Local simulation of the job's test step: 37 tests in about 1:45 per engine with sprites, 29 in 1:09 without. The union of the three jobs equals the 95 tests of a full run.
+        - Unit +9: engine selection parsing, unknown engines refused, and a guard that `Needs` carries only `SpritePublish` and only on E2E tests.
+        - Not yet run on GitHub.
       - The azure-parity `vstest.console` step grew from 1:43 to 5:30, but its 1,185 tests ran in 14 s (the slowest took 3.6 s). Its log shows 5 min 3 s passing before the first test assembly was found. The time went to the two searches that run first: `vswhere -find '**\TestPlatform\vstest.console.exe'`, which walks the whole Visual Studio install, and `Get-ChildItem -Recurse` over the checkout, which includes the full git history. The first is replaced by vswhere's `installationPath` plus the fixed `Common7\IDE\Extensions\TestPlatform` location. The second now skips `.git`, which holds no assemblies. Each search prints its time, so the next run shows which one it was. Not yet run: `pwsh` is not installed locally.
   - **Tests.**
     - **Unit 360** (up from 273):

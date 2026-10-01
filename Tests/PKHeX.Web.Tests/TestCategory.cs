@@ -32,4 +32,15 @@ internal static class TestCategory
     /// It records numbers and has no pass/fail threshold. Kept apart from <see cref="E2E"/> so its timings never share a run with other browser tests.
     /// </summary>
     public const string Perf = "Perf";
+
+    /// <summary>
+    /// Trait name for what a browser test needs beyond the default publish, so a run without it can leave those tests out with <c>--filter "Needs!=SpritePublish"</c>.
+    /// </summary>
+    public const string Needs = "Needs";
+
+    /// <summary>
+    /// The publish made with sprites (<c>PKHEX_WEB_PUBLISHED_SPRITES</c>). A test that needs it but lacks this trait still fails closed, because
+    /// <see cref="PublishedAppFixture.SpriteRoot"/> throws when the variable is unset.
+    /// </summary>
+    public const string SpritePublish = "SpritePublish";
 }

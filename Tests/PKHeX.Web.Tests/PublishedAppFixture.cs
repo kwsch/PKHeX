@@ -30,8 +30,11 @@ public sealed class PublishedAppCollection : ICollectionFixture<PublishedAppFixt
 /// </remarks>
 public sealed class PublishedAppFixture : IAsyncLifetime
 {
-    /// <summary>Browser engines covered by the E2E and RealSave tiers.</summary>
-    public static readonly string[] Engines = ["chromium", "firefox", "webkit"];
+    /// <summary>Every browser engine the E2E and RealSave tiers cover.</summary>
+    public static readonly string[] AllEngines = ["chromium", "firefox", "webkit"];
+
+    /// <summary>The engines this run covers: <see cref="AllEngines"/>, or those named in <see cref="TestEnvironment.Engines"/>.</summary>
+    public static readonly string[] Engines = TestEnvironment.SelectEngines(TestEnvironment.Optional(TestEnvironment.Engines), AllEngines);
 
     /// <summary>Hosting paths: the site root and the <c>/PKHeX/</c> subpath deployment.</summary>
     public static readonly string[] Prefixes = ["", "PKHeX/"];
