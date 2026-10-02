@@ -43,6 +43,7 @@
 1023	i	Orbe Adamant/Perlé Trouvé aux Colonnes Lances
 1233	i	Plaque Ombre Trouvée au Vieux Château
 1234	i	CT90 Trouvée au Vieux Château
+0304	i	CT64 Reçu
 2401	*	Chaussures de Course Désactivées
 2433	s	2ème Revanche Contre les Dresseurs Débloquée
 0251	g	Œuf de Ptiravi Reçu
