@@ -21,6 +21,7 @@
 0106	r	Statue des Ruines Iceberg (Regice)	0:Inactive,270:Activée,280:Vaincu,290:Capturé
 0107	r	Statue des Ruines Pic Roche (Regirock)	0:Inactive,270:Activée,280:Vaincu,290:Capturé
 0062	r	Joueurs Rencontrés dans le Souterrain (Spiritomb)	32:Spiritomb est apparu
+0064	+	Niveaux bonus d’affilée au Casino (Japon et USA uniquement)
 0138	r	Tour Sacrée (Route 209)	0:Inactive,1:Active
 0089	r	Statut de Créfollet	0:En attente,1:Capturé,2:K.0./Peut réapparaître
 0088	r	Statut de Cresselia	0:En attente,1:Capturé,2:K.0./Peut réapparaître
