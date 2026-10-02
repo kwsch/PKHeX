@@ -1,5 +1,6 @@
 0318	s	Saturne Vaincu à la Caverne Courage/Lac Vérité Restauré
 0350	s	Eau du Lac Vérité Restaurée/Peut Obtenir l'Entrée de Dialga/Palkia à Célestia
+0214	s	Quête de la Mont Abrupt terminée
 0351	r	Dialga/Palkia Capturé
 0482	r	Dialga/Palkia Disparu des Colonnes Lances
 0511	r	Créhelf Disparu
