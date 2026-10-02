@@ -1,5 +1,6 @@
 0318	s	Saturno derrotado en Caverna Valor/Lago Veraz Restaurado
 0350	s	Agua del Lago Valor Restaurada
+0214	s	Misión de Montaña Sólida completada/Revancha del Élite Cuatro desbloqueada
 0481	r	Uxie desaparecido
 0295	r	Uxie capturado
 0479	r	Mesprit desaparecido (Caverna Veraz)
