@@ -9,6 +9,7 @@
 0068	e	大木的信 (未發行)	0:未解鎖,4370:已解鎖
 0069	e	天界之笛 (未發行)	0:未解鎖,4387:已解鎖
 0062	r	當前在地下通道互動的玩家 (花岩怪)	32:花岩怪出现了
+0064	+	遊戲城獎勵關卡連勝（非韓語）
 0138	e	靈魂之塔	0:未解鎖,1:已解鎖
 0248	e	碼頭旅館事件 (未發行)	0:Not Completed,2:Darkrai Capture Pending,3:Sailor outside Inn (Darkrai Caught),4:Completed (Caught Darkrai during nightmare)
 0280	e	起始之殿事件 (未發行)	0:未解鎖,1:已解鎖
