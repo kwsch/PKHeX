@@ -17,7 +17,7 @@ public sealed class BrowserFileService(IJSRuntime js) : IAsyncDisposable
     /// <summary>Size of each chunk copied while streaming a file.</summary>
     private const int ChunkSize = 81920;
 
-    private Task<IJSObjectReference>? module;
+    private readonly BrowserModule browser = new(js);
 
     /// <summary>
     /// Reads <paramref name="file"/> into memory, enforcing <see cref="SaveLoader.MaxInputBytes"/> before and while streaming.
@@ -105,7 +105,7 @@ public sealed class BrowserFileService(IJSRuntime js) : IAsyncDisposable
         var callbacks = DotNetObjectReference.Create(new DropCallbacks(onRejected));
         try
         {
-            var module = await GetModuleAsync();
+            var module = await browser.GetAsync();
             var registration = await module.InvokeAsync<IJSObjectReference>("registerDropZone", zone, input, callbacks);
             return new DropZoneRegistration(registration, callbacks);
         }
@@ -127,44 +127,14 @@ public sealed class BrowserFileService(IJSRuntime js) : IAsyncDisposable
     /// <param name="fileName">Suggested name; it is passed through <see cref="FileNaming.Sanitize"/>.</param>
     public async Task DownloadAsync(byte[] data, string fileName)
     {
-        var module = await GetModuleAsync();
+        var module = await browser.GetAsync();
         using var stream = new MemoryStream(data, writable: false);
         using var reference = new DotNetStreamReference(stream);
         await module.InvokeVoidAsync("download", reference, FileNaming.Sanitize(fileName));
     }
 
-    /// <summary>Imports <c>browser.js</c> once. A failed import is not kept, so the next call tries again.</summary>
-    private async Task<IJSObjectReference> GetModuleAsync()
-    {
-        var task = module ??= js.InvokeAsync<IJSObjectReference>("import", "./browser.js").AsTask();
-        try
-        {
-            return await task;
-        }
-        catch
-        {
-            if (ReferenceEquals(module, task))
-            {
-                module = null;
-            }
-            throw;
-        }
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (module is { IsCompletedSuccessfully: true })
-        {
-            try
-            {
-                await module.Result.DisposeAsync();
-            }
-            catch (JSDisconnectedException)
-            {
-                // The page is going away; there is nothing left to release.
-            }
-        }
-    }
+    /// <summary>Releases the imported module.</summary>
+    public ValueTask DisposeAsync() => browser.DisposeAsync();
 
     /// <summary>Receives drop rejections from <c>browser.js</c>.</summary>
     private sealed class DropCallbacks(Func<DropRejection, Task> onRejected)

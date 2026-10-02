@@ -1,6 +1,6 @@
 // Browser file interop: file-only drop zones and Blob downloads. Files are only ever read locally; nothing is fetched or uploaded.
 // The page-wide navigation guard is drop-guard.js, loaded by index.html before the app.
-// Also preloads the sprite atlas at startup, in builds that include it.
+// Also preloads the sprite atlas at startup, in builds that include it, and has two page helpers (next paint, focus a section).
 
 // The preloaded atlas, kept referenced for the page's lifetime. Sprites are <img> elements with this same URL, which browsers serve from
 // the document's list of already loaded images, so drawing a sprite never makes a request.
@@ -113,4 +113,33 @@ export async function preloadSprites(stylesheetHref, atlasHref) {
     image.src = atlasHref;
     await image.decode();
     spriteAtlas = image;
+}
+
+/**
+ * Resolves once the browser has had a chance to paint, so a status set just before (such as "Pending") is on screen before the app starts
+ * synchronous work. A hidden tab does not run animation frames, so a timeout resolves it as well.
+ */
+export function nextPaint() {
+    return new Promise(resolve => {
+        let done = false;
+        const finish = () => {
+            if (!done) {
+                done = true;
+                resolve();
+            }
+        };
+        requestAnimationFrame(() => setTimeout(finish, 0));
+        setTimeout(finish, 100);
+    });
+}
+
+/** Scrolls to the element with the given id and focuses it. Returns false when there is no such element. */
+export function focusElement(id) {
+    const element = document.getElementById(id);
+    if (!element) {
+        return false;
+    }
+    element.scrollIntoView({ block: 'start' });
+    element.focus({ preventScroll: true });
+    return true;
 }

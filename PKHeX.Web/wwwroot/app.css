@@ -61,3 +61,19 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 .slot-list .sprite { display: inline-block; vertical-align: middle; margin-inline: 0 .4rem; }
 /* Six 68 px sprites and their borders need about 37rem; narrower grids scale the sprites down. */
 @media (max-width: 40rem) { .sprite { zoom: .7; } }
+/* Legality: the status word carries the meaning; icons and colours only reinforce it. Core text wraps rather than widening the page. */
+.legality-line { display: flex; align-items: center; gap: .5rem; font-weight: 600; }
+.legality-icon { display: inline-grid; place-items: center; min-width: 1.6rem; min-height: 1.6rem; border-radius: 50%; border: 2px solid currentColor; }
+.legality-valid { color: #2e7d32; }
+.legality-invalid { color: #c62828; }
+.legality-unavailable, .legality-stale { color: #b26a00; }
+@media (prefers-color-scheme: dark) { .legality-valid { color: #81c784; } .legality-invalid { color: #ef9a9a; } .legality-unavailable, .legality-stale { color: #ffcc80; } }
+.legality-findings { padding-inline-start: 0; list-style: none; }
+.legality-findings li { margin-block: .5rem; overflow-wrap: anywhere; }
+.finding-icon { display: inline-block; min-width: 1.2rem; font-weight: 700; }
+.finding-invalid .finding-icon { color: #c62828; }
+.finding-warning .finding-icon { color: #b26a00; }
+@media (prefers-color-scheme: dark) { .finding-invalid .finding-icon { color: #ef9a9a; } .finding-warning .finding-icon { color: #ffcc80; } }
+.finding-link { display: inline-block; margin-inline-start: .5rem; padding-block: .6rem; }
+/* Padding rather than flex, which would hide the disclosure marker. */
+#legality-details summary { padding-block: .7rem; cursor: pointer; }

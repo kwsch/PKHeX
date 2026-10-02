@@ -1,7 +1,7 @@
 # Builds, tests and publishes PKHeX.Web.
 # The changes job decides from a pull request's paths whether the published app (and the publish with sprites) can differ; pushes run everything.
 # The web job runs on Linux with a pinned SDK: Core tests and the Web Unit tier always, then, when the app can differ, the publish checked against
-# the trim-warning baseline and uploaded with the test results and reports, and on pushes the Perf boot baseline.
+# the trim-warning baseline and uploaded with the test results and reports, and on pushes the Perf boot baseline and legality timing.
 # The e2e jobs run the E2E tier, one browser engine each, in parallel; the RealSave tier needs private saves and never runs in CI.
 # A second publish with the sprite atlas (-p:PKHeXWebSprites=true) is tested but never uploaded: sprite redistribution awaits a maintainer decision.
 # The azure-parity job repeats upstream's Azure pipeline on Windows, so a change that would break that build fails here first.
@@ -77,7 +77,7 @@ jobs:
                   printf '%s\n' "$changed" | PKHeX.Web/tools/ci-changes.sh | tee -a "$GITHUB_OUTPUT"
 
     # Core tests and the Web Unit tier always run. When the published app can differ it is also published, checked against the trim baseline,
-    # inventoried, measured and uploaded, and on pushes to the merge targets its boot baseline is recorded. E2E runs in the e2e jobs below.
+    # inventoried, measured and uploaded, and on pushes to the merge targets its boot baseline and legality timing are recorded. E2E runs in the e2e jobs below.
     web:
         needs: changes
         runs-on: ubuntu-latest
@@ -200,10 +200,11 @@ jobs:
                   path: ${{ env.PUBLISH_DIR }}/wwwroot
                   if-no-files-found: error
 
-            # Records cold/warm boot timings and transfer (WEB-PERF-001) with no threshold; it fails only if a boot cannot be measured.
+            # Records cold/warm boot timings and transfer (WEB-PERF-001) and selected-entity legality timings (WEB-PERF-004) with no threshold;
+            # it fails only if a boot or an analysis cannot be measured.
             # This job runs no other browser test, so nothing shares the runner while boots are timed.
             # Only on pushes to the merge targets: it has no threshold, so a pull request gains nothing from it, and it takes about two minutes.
-            - name: Web boot baseline
+            - name: Web performance baseline
               if: ${{ !cancelled() && steps.publish.outcome == 'success' && github.event_name == 'push' }}
               env:
                   PKHEX_WEB_TEST_TIERS: Perf
@@ -213,7 +214,7 @@ jobs:
                   dotnet test Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj -c Release --no-build --filter Category=Perf \
                       --logger "trx;LogFileName=web-perf.trx" --results-directory "$RESULTS_DIR"
                   PKHeX.Web/tools/trx-all-executed.sh "$RESULTS_DIR/web-perf.trx"
-                  cat "$PKHEX_WEB_PERF_REPORT/boot-baseline.md" >> "$GITHUB_STEP_SUMMARY"
+                  cat "$PKHEX_WEB_PERF_REPORT/boot-baseline.md" "$PKHEX_WEB_PERF_REPORT/legality-timing.md" >> "$GITHUB_STEP_SUMMARY"
 
             - name: Upload test results and reports
               if: ${{ always() }}

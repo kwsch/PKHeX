@@ -1,4 +1,5 @@
 using System.Buffers.Binary;
+using Microsoft.Extensions.Time.Testing;
 using PKHeX.Core;
 using PKHeX.Web.Services;
 using PKHeX.Web.State;
@@ -31,13 +32,52 @@ internal static class SaveFixtures
         return File.ReadAllBytes(Path.Combine(RepositoryRoot, "Tests/PKHeX.Core.Tests", path));
     }
 
+    /// <summary>
+    /// Every PK6 in Core's legality test fixtures (legal and illegal), ordered by path: the corpus the legality tests and timings run over.
+    /// </summary>
+    public static IReadOnlyList<(string Name, byte[] Data)> LegalityCorpus()
+    {
+        var root = Path.Combine(RepositoryRoot, "Tests/PKHeX.Core.Tests/Legality");
+        return [.. Directory.EnumerateFiles(root, "*.pk6", SearchOption.AllDirectories)
+            .Order(StringComparer.Ordinal)
+            .Select(path => (Path.GetRelativePath(root, path), File.ReadAllBytes(path)))];
+    }
+
+    /// <summary>
+    /// Customisation for <see cref="Synthetic"/>: stores <paramref name="entities"/> in box 1 from slot 2 on (zero-based slot 1), leaving slot 1
+    /// to the known entity <see cref="Synthetic"/> writes.
+    /// </summary>
+    public static Action<SaveFile> WithBoxEntities(IEnumerable<byte[]> entities) => save =>
+    {
+        var slot = 1;
+        foreach (var data in entities)
+        {
+            if (slot >= save.BoxSlotCount)
+            {
+                throw new InvalidOperationException($"Only {save.BoxSlotCount - 1} entities fit after box 1, slot 1; split them across saves.");
+            }
+            save.SetBoxSlotAtIndex(new PK6(data.ToArray()), 0, slot++, EntityImportSettings.None);
+        }
+    };
+
     /// <summary>A blank XY or ORAS save holding one known PK6 in box 1, slot 1.</summary>
-    /// <param name="oras">True for ORAS, false for XY.</param>
-    /// <param name="legal">Whether the stored PK6 is a known legal or a known illegal entity.</param>
+    /// <remarks>
+    /// Legality is analysed with the save as Core's active trainer, as the desktop editor does, and Core then checks whether the save's trainer
+    /// is the entity's original trainer. So the save belongs to the known legal entity's original trainer (ID, name and gender), and the ORAS
+    /// save is Alpha Sapphire, that entity's game: there it is its trainer's own Pokémon and is legal. No X/Y save can be its original trainer's
+    /// (Core matches the exact game), so in an XY save it is held by its original trainer without having been traded, and Core finds it invalid,
+    /// as the desktop does.
+    /// </remarks>
+    /// <param name="oras">True for ORAS (Alpha Sapphire), false for XY (X).</param>
+    /// <param name="legal">Whether the stored PK6 is the known legal or the known illegal entity.</param>
     /// <param name="customize">Applied to the save before it is written, e.g. to set trainer values.</param>
     public static byte[] Synthetic(bool oras, bool legal = true, Action<SaveFile>? customize = null)
     {
-        var save = BlankSaveFile.Get(oras ? GameVersion.OR : GameVersion.X);
+        var save = BlankSaveFile.Get(oras ? GameVersion.AS : GameVersion.X);
+        var owner = new PK6(ReadEntity(true));
+        save.ID32 = owner.ID32;
+        save.OT = owner.OriginalTrainerName;
+        save.Gender = owner.OriginalTrainerGender;
         customize?.Invoke(save);
         // Test-only synthetic container marker, matching SaveUtil.HasSaveFooterBEEF.
         // This is not a gameplay-ready save and is never used instead of a real fixture.
@@ -78,6 +118,11 @@ internal static class SaveFixtures
 
     public static SaveFile Parse(byte[] bytes) => SaveUtil.GetSaveFile(bytes.ToArray())
         ?? throw new InvalidOperationException("Fixture recognition failed.");
+
+    /// <summary>
+    /// A workspace state on a clock that never moves on its own, so no legality analysis runs unless a test advances the clock or asks for one.
+    /// </summary>
+    public static WorkspaceState NewState() => new(new FakeTimeProvider());
 
     /// <summary>Box 1, slot 1, where <see cref="Synthetic"/> stores its entity.</summary>
     public static readonly SlotRef FirstBoxSlot = SlotRef.InBox(0, 0);

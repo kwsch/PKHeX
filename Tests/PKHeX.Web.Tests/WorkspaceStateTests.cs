@@ -24,7 +24,7 @@ public sealed class WorkspaceStateTests
     /// <summary>A state with <paramref name="session"/> open and one change applied to it.</summary>
     private static WorkspaceState WithAppliedChange(SaveSession session, string nickname = "Applied")
     {
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         state.Open(session);
         state.SetDraft(Dirty(session, nickname));
         state.ApplyDraft();
@@ -34,7 +34,7 @@ public sealed class WorkspaceStateTests
     [Fact]
     public void StartsEmptyWithNothingToLose()
     {
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         state.Session.Should().BeNull();
         state.Exit.Should().BeNull();
         state.ExitStage.Should().Be(ExitStage.None);
@@ -46,7 +46,7 @@ public sealed class WorkspaceStateTests
     [Fact]
     public void UnsavedWorkFollowsAppliedChangesDirtyDraftsAndRefusedEdits()
     {
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         var changes = 0;
         state.Changed += () => changes++;
         var session = Open();
@@ -71,7 +71,7 @@ public sealed class WorkspaceStateTests
     [Fact]
     public void AcceptOpensWhenNothingIsLostAndOtherwiseHoldsTheCandidate()
     {
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         var first = Open();
         state.Accept(SaveLoadOutcome.Opened(first)).Should().Be(OpenDisposition.Opened, "there is no session to lose");
         state.Session.Should().BeSameAs(first);
@@ -103,7 +103,7 @@ public sealed class WorkspaceStateTests
     [MemberData(nameof(Failures))]
     public void RefusedOpenChangesNothing(LoadFailure failure)
     {
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         var session = Open();
         state.Open(session);
         var draft = session.Select(SaveFixtures.FirstBoxSlot);
@@ -133,7 +133,7 @@ public sealed class WorkspaceStateTests
     [Fact]
     public void RecoveryKeepsTheAppliedSessionAndDropsHalfDoneWork()
     {
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         var session = Open();
         state.Open(session);
         var draft = session.Select(SaveFixtures.FirstBoxSlot);
@@ -160,7 +160,7 @@ public sealed class WorkspaceStateTests
     [Fact]
     public void DiscardClearsEverything()
     {
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         var session = Open();
         state.Open(session);
         state.SetDraft(Dirty(session));
@@ -176,7 +176,7 @@ public sealed class WorkspaceStateTests
     [Fact]
     public void BoxNavigationStartsAtTheInGameBoxAndWraps()
     {
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         var showNoSession = () => state.ShowBox(0);
         showNoSession.Should().Throw<InvalidOperationException>();
 
@@ -197,7 +197,7 @@ public sealed class WorkspaceStateTests
     [Fact]
     public void BoxIsKeptOnRecoveryAndResetOnOpenOrDiscard()
     {
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         var session = Open();
         state.Open(session);
         state.ShowBox(9);
@@ -222,7 +222,7 @@ public sealed class WorkspaceStateTests
         var target = native.GetBoxSlotOffset(0, 1);
         native.Data.Slice(native.GetBoxSlotOffset(0, 0), native.SIZE_BOXSLOT).CopyTo(native.Data[target..]);
         native.Data[target + native.SIZE_BOXSLOT - 1] ^= 1;
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         var noSession = () => state.OpenSlot(SaveFixtures.FirstBoxSlot);
         noSession.Should().Throw<InvalidOperationException>();
         state.Open(SaveFixtures.Open(native.Write().ToArray()));
@@ -240,7 +240,7 @@ public sealed class WorkspaceStateTests
     [Fact]
     public void OpenSlotKeepsTheOpenDraftAndNeverReplacesUnappliedWork()
     {
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         state.Open(SaveFixtures.Open(SaveFixtures.Synthetic(false, customize: SaveFixtures.WithPartyMember())));
         state.OpenSlot(SaveFixtures.FirstBoxSlot).Should().Be(SlotOpening.Opened);
         var draft = state.Draft;
@@ -262,7 +262,7 @@ public sealed class WorkspaceStateTests
     [Fact]
     public void LeavingAnUnchangedSessionNeedsNoConfirmation()
     {
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         var first = Open();
         state.Open(first);
         state.SetDraft(first.Select(SaveFixtures.FirstBoxSlot));
@@ -285,7 +285,7 @@ public sealed class WorkspaceStateTests
     public void ReplaceResolvesTheDraftThenTheSessionThenTheDownload()
     {
         var session = Open();
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         state.Open(session);
         state.SetDraft(Dirty(session, "First"));
         var candidate = Open(oras: true);
@@ -355,7 +355,7 @@ public sealed class WorkspaceStateTests
     public void DiscardingTheDraftKeepsTheSessionAndMovesOn()
     {
         var session = Open();
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         state.Open(session);
         state.SetDraft(Dirty(session));
         state.SetDraftValid(false);
@@ -421,7 +421,7 @@ public sealed class WorkspaceStateTests
     public void AnExitLeftWithNothingToLoseStillWaitsForTheUser()
     {
         var session = Open();
-        var state = new WorkspaceState();
+        var state = SaveFixtures.NewState();
         state.Open(session);
         state.SetDraft(Dirty(session));
         state.RequestClose();

@@ -72,19 +72,16 @@ internal static class ProofPage
     /// <summary>Opens box 1, slot 1, where the synthetic saves store their entity.</summary>
     public static Task Select(IPage page) => Select(page, SaveFixtures.FirstBoxSlot);
 
-    /// <summary>The status text the app shows for <paramref name="analysis"/>.</summary>
-    public static string Verdict(LegalityAnalysis analysis) => analysis.Parsed ? analysis.Valid ? "Valid" : "Invalid" : "Unavailable";
-
     /// <summary>Runs legality in the browser and compares verdict and report with native Core on the same entity.</summary>
     public static async Task CheckLegality(IPage page, PKM pk, SaveFile save, StorageSlotType type = StorageSlotType.Box)
     {
-        var native = new LegalityAnalysis(pk.Clone(), save.Personal, type);
+        var native = NativeLegality.Of(save, pk, type);
         await page.Locator("#analyze").ClickAsync();
-        await Expect(page.Locator("#legality-status")).ToHaveTextAsync(Verdict(native));
+        await Expect(page.Locator("#legality-status")).ToHaveTextAsync(native.Verdict);
 
         // Do not include private reports in assertion output or public test artifacts.
         var actual = await page.Locator("#legality-report").TextContentAsync();
-        Assert.True(actual == native.Report(), "Browser/native legality reports differ (contents withheld).");
+        Assert.True(actual == native.Report, "Browser/native legality reports differ (contents withheld).");
     }
 
     /// <summary>Concatenated stored party entity data.</summary>

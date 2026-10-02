@@ -116,7 +116,7 @@ public sealed class FileInteropTests(PublishedAppFixture app)
         const string hostile = "backup\u0007 \u202Ecopy.sav";
         var bytes = SaveFixtures.Synthetic(true);
         await Load(page, bytes, hostile);
-        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("Omega Ruby");
+        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("Alpha Sapphire");
         var sanitised = FileNaming.Sanitize(hostile);
         Assert.True(sanitised == "backup copy.sav");
         Assert.True((await Download(page, sanitised)).AsSpan().SequenceEqual(SaveFixtures.Parse(bytes).Write().Span));

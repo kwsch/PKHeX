@@ -871,6 +871,151 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
     - **Not adopted:** ribbon names (WEB-PKM-023, Post-MVP); move type, power, category and effect text (M13); Tera type and marks (not Gen 6); L/R navigation between summaries (M18, if wanted); the legality verdict on the summary (M8).
 
 - **M8 Legality service.** Analysis runs on a draft clone with `working.Personal` + slot type, tagged with the revision. An edit marks the result stale immediately. Refresh is manual plus a 300 ms idle debounce. Pending, Valid, Invalid, Unavailable and Stale are separate states. The report shows Core severity with a text + icon summary and an expandable detail. The "not an online acceptance guarantee" note is included. Results from superseded revisions are dropped (LEGAL-001–003, PERF-004).
+
+  **M8 status:** code complete on `web/m8-legality`.
+  - **Service** (`Services/LegalityService`): runs Core's `LegalityAnalysis` on `EditorDraft.ToStoredEntity()` (a copy), with `working.Personal` and the slot's `StorageSlotType`, after `EnsureOwns`/`EnsureCurrent`. `EditorDraft.Analyze` is removed.
+    - Everything comes from Core, through `LegalityLocalizationContext`:
+      - the verdict
+      - the short report (still the E2E/RealSave oracle)
+      - the verbose report
+      - the findings: invalid current moves (`FormatMove`), invalid relearn moves (`FormatRelearn`, Gen 6+), invalid checks (`Humanize`), then `Severity.Fishy` checks, each with Core's `Judgement` and `CheckIdentifier`
+    - Problems are exactly the lines of Core's short report, in order.
+    - **Trainer context.** Desktop calls `ParseSettings.InitFromSaveFileData(sav)` when it loads a save. Some Core checks, such as `HistoryVerifier.VerifyHandlerState`, run only with that active trainer set. The service now does the same for each analysis and clears it afterwards (`LegalityService.InTrainerContext`, serialised by a lock because it is Core global state). Without this, the web said Valid where desktop says Invalid: with `CurrentHandler` flipped, 23 of 547 XY and 118 of 413 ORAS entities in the private saves.
+    - **Core's exception guard.** `LegalityAnalysis.cs` starts with `#define SUPPRESS`, so Core catches exceptions inside the analysis and returns `Parsed = false`, writing the cause only to its debug output. The service reports that as `Unavailable` with a stand-in console note (`NotParsedMessage`). An exception outside Core's guard (the personal-table lookup, formatting the reports) is caught by the service: any except `OutOfMemoryException` is `Unavailable` with no text, and the exception goes to the console through `DraftLegality.AnalysisFailed`.
+    - An internal constructor takes the analyser, for tests.
+  - **Result** (`State/LegalityResult`): `LegalityVerdict` (`Valid`/`Invalid`/`Unavailable`), `LegalityTag(EditorDraft, EditRevision)`, findings, both reports, problem and warning counts. No UI wording.
+  - **Edit revision**: `EditorDraft.EditRevision` counts accepted edits; a refused edit leaves it unchanged.
+  - **Scheduling** (`State/DraftLegality`, owned by `WorkspaceState.Legality`). **User decision:** analysis runs whenever the draft changes. That covers opening a slot, an accepted edit, an apply or cancel reopening the slot, and the exit's apply step.
+    - `Schedule()` waits `IdleDelay` (300 ms) through `Task.Delay(…, TimeProvider, token)` and restarts on every edit.
+    - `RunNowAsync()` ("Analyze now") cancels the wait and runs at once.
+    - `Status` is worked out from the live draft every time (None, NotAnalyzed, Pending, Stale, Valid, Invalid, Unavailable), so an accepted edit is Stale at once.
+    - A run marks itself running (`aria-busy` on the panel) and awaits `Yield`, which in the browser is `browser.js` `nextPaint` (an animation frame, then a timeout, with a 100 ms fallback for hidden tabs). It then calls Core only if its tag is still current, and keeps the result only if it still is. Superseded runs never call Core.
+    - A refused edit (`!DraftValid`) is Stale (or Not analyzed) and does not run.
+    - `IsRunning` (and so `aria-busy`) is true only for a run of the draft as it is now. A run that an edit superseded during its paint wait does not count.
+    - The result is stored before `AnalysisFailed` is raised, and a throwing handler cannot undo it.
+    - A draft from an earlier revision of the session (which happens only if reopening the slot after an apply fails) is `Unavailable` rather than Stale for good.
+    - `Reset` on open, discard, recovery and every new draft. `WorkspaceState` now takes a `TimeProvider` (the DI singleton) and is `IDisposable`.
+    - `AutoRun` exists as the PERF-004 gate. It stays on, because the timings below are well inside the budget.
+  - **UI** (`Components/LegalityPanel`, `Components/LegalityText`):
+    - `#legality-status` (role=status) shows one word per state beside an `aria-hidden` icon, coloured for light and dark.
+    - `#legality-summary` reads "No problems found.", "N problems, M warnings.", Unavailable's "does not mean the Pokémon is legal", or Stale's "analysed again once you stop typing" (or "Choose Analyze now" when `AutoRun` is off, or "the last edit was refused").
+    - `#legality-findings` is listed only for a result matching the draft as it is now. Each finding shows Core's text, which already begins with Core's severity word, so none is added. Where `Services/LegalitySections` maps the `CheckIdentifier` to an inspector section, there is a "Show in {section}" link. The link prevents navigation and moves focus to the heading (inspector headings are now `tabindex="-1"`) through `Interop/BrowserPage`, which reuses the already-loaded `browser.js` module, so it makes no request.
+    - A collapsed `#legality-details` holds `#legality-report` and `#legality-report-verbose`.
+    - The notes are the diagnostic note, "not an online acceptance guarantee", and "Analysed by PKHeX.Core {version}, source commit {12}" (new `BuildInfo.CoreVersion`, read from the running Core assembly).
+    - `#analyze` ("Analyze now") is disabled only while a run is in progress or after a refused edit, so it also skips the idle delay after a slot is opened.
+  - **Fixtures.** Legality now runs with the save as Core's active trainer, so `SaveFixtures.Synthetic` gives the save the known legal Zigzagoon's original trainer (ID, "Gouki", gender). The ORAS save is now Alpha Sapphire, the Zigzagoon's game, where it is its trainer's own Pokémon and legal. No X/Y save can be its original trainer's, because Core matches the exact game, so in an XY save it is Invalid, as on desktop. Tests that need a legal entity use the ORAS save. Four E2E overview checks now expect "Alpha Sapphire".
+  - **Tests.**
+    - All comparisons with native Core go through `NativeLegality.Of`, which analyses in the same trainer context, so no oracle can agree with the app by also leaving the trainer out.
+    - **Unit 549** (up from 451):
+      - `LegalityServiceTests` (47), including `TheSavesTrainerIsPartOfTheAnalysis` (XY and ORAS). With the current handler flipped on every fixture, at least one verdict must depend on the trainer, and every service verdict and report must match desktop's.
+        - all 18 PK6 fixtures in Core's legality tests, in XY and ORAS saves: verdict, short report, problems = Core's report lines, warnings = Core's Fishy count
+        - a guard that the corpus contains both problems and warnings
+        - party slot type
+        - nothing mutated
+        - the edited draft is what gets analysed
+        - exception → Unavailable with the cause handed back
+        - OOM not swallowed
+        - foreign and stale drafts refused
+      - `LegalitySectionsTests` (14): every `CheckIdentifier` mapped, spot rows, every link target is a real inspector heading.
+      - `DraftLegalityTests` (17), on `FakeTimeProvider` (new test-only package `Microsoft.Extensions.TimeProvider.Testing` 10.10.0):
+        - 299 ms vs 300 ms
+        - Stale at once
+        - each edit restarts the delay
+        - an edit during the paint wait supersedes the run without calling Core
+        - a new draft or session drops the result
+        - Analyze now cancels the wait and does not repeat a current result
+        - refused edits
+        - `AutoRun` off
+        - dispose
+        - apply, cancel and recovery
+        - failure reported, and a throwing failure handler keeps the Unavailable result
+        - a superseded run is not busy
+        - a draft from an earlier revision is Unavailable
+        - `Changed` raised
+        - the "nothing runs yet" checks wait up to 250 ms for a run to *start*, which a fired timer does at once, rather than for it to complete
+      - `LegalityPanelTests` (18, bUnit): every status word and icon, findings with links and click-through, nothing listed while Stale/Pending/Not analyzed, Unavailable wording, Stale wording per mode, Analyze now offered while waiting and disabled while running or refused, `aria-busy` only while running, Core text rendered as text, the engine and guarantee notes, counts wording.
+      - `WorkspaceLegalityTests` (3, bUnit): a run calls `browser.js` `nextPaint` before Core; the workspace renders the result when a run completes; a disposed workspace is unhooked.
+      - `SessionTests`: the legality cases moved out (−2), plus `EditRevisionCountsAcceptedEditsOnly`.
+      - `SaveFixtures.NewState()` (a fake clock that never advances by itself) replaces `new WorkspaceState()` in the existing tests.
+    - **E2E 125** (up from 113): `LegalityBrowserTests`, 3 engines × 2 paths.
+      - Opening a slot shows the native verdict without a click, with the native finding count, summary, short and verbose reports, the Core version and the guarantee note.
+      - A finding link focuses its inspector heading. The whole URL, fragment included, is unchanged and `location.hash` is empty. The first version compared `AbsolutePath`, which ignores the fragment, and passed with navigation allowed.
+      - An edit on the illegal entity records, in the page, exactly Invalid → Stale → Pending → native verdict. Pending starts ≥ 250 ms after Stale, and no finding is listed during Stale or Pending.
+      - A refused edit is Stale with Analyze now disabled, then Cancel restores it.
+      - No horizontal scroll at 375 px with the details open.
+      - An apply is analysed again with the applied entity's native report, and a party member gets the party-context verbose report.
+      - No network or storage use, and no page errors.
+      - The existing proof, inspector, export and RealSave flows pass unchanged with auto-analysis.
+    - **RealSave 14** pass.
+    - **Perf 2** (up from 1). New `LegalityTimingTests` (`legality-timing.md`/`.json`, in the same non-parallel collection as the boot baseline). It covers the same 18 fixtures × XY/ORAS, opened through the app's idle path in each engine on loopback. It times `aria-busy` to the verdict render, records the first analysis per page apart, and checks every verdict against native. CI's renamed "Web performance baseline" step appends it to the run summary. Local results (Apple M4, 10 logical CPUs, 16 GiB, macOS 26.5):
+
+      | Engine | First analysis | Warm p50 | Warm p95 | Warm max |
+      |---|---:|---:|---:|---:|
+      | Chromium 153 | 310 ms | 17 ms | 44 ms | 56 ms |
+      | Firefox 155 | 380 ms | 13 ms | 45 ms | 56 ms |
+      | WebKit 26.6 | 288 ms | 13 ms | 42 ms | 44 ms |
+
+      The p95 ≤ 500 ms target is met with room to spare, and no warm analysis exceeds 200 ms. So the 300 ms debounce stays on, as `PKHeX.Web.md` allows "only if measurements show acceptable responsiveness". The first analysis of a page (Core loading its legality tables) is one stall of about 300–400 ms, not repeated. This is not the named reference desktop; M21 owns the verdict.
+    - **Mutation checks** (each restored from a scratchpad copy):
+      - dropping the supersede checks → fails 1 Unit test
+      - not bumping `EditRevision` → fails 6
+      - an idle timer that is not restarted by later edits → fails 1, but only after the fix below
+      - not catching analysis exceptions → fails 2
+      - showing an older tag's verdict as current → fails 2
+      - dropping warnings → fails 7
+      - passing `Result` instead of `Current` to the panel → fails the E2E "no findings while stale" check (Chromium, both paths)
+      - after the second review:
+        - analysing without the trainer context → fails 39 Unit tests
+        - raising the failure event before storing the result, with a handler that throws → fails 1
+        - counting a superseded run as busy → fails 1
+        - dropping a stale draft's run silently → fails 1
+        - not wiring the paint wait → fails 1 (bUnit)
+        - disabling Analyze now while merely waiting → fails 1
+        - the non-restarting idle timer, against the new run-start wait → fails 1
+        - removing the link's `preventDefault` → fails the E2E link check (Chromium, both paths)
+    - **Other checks:** the trim baseline is unchanged (38), and the `PKHeX.slnx` Release build has 0 warnings. Screenshots at 1280 and 375 px over the private XY save show Valid with a Fishy warning, Stale after an edit, and no horizontal scroll. The workflow is actionlint-clean.
+  - **First review** (after the dev work, with screenshots and mutations).
+    - **Fixed:**
+      - The idle-timer mutation survived at first: the fake clock fires timers at once but their continuations are posted, so asserting straight after `Advance` could not see a run. Tests now let fired runs settle (`Pass`).
+      - The E2E Stale check used a legal entity with no findings, so it could not see findings leaking into the stale state. It now runs on the illegal entity and records the findings count at every status change.
+      - The timing harness threw from Playwright's `PageError` event thread. It now counts errors and fails afterwards.
+      - `display: flex` on the details summary hid its disclosure marker.
+      - A "Warning:" label duplicated Core's own "Fishy:"/"Invalid" prefix.
+      - "0 problems, 1 warning" now reads "No problems, 1 warning".
+    - **Recorded, not changed:**
+      - The tests show "Pending" is in the DOM before Core runs, but not that it was painted. A `MutationObserver` sees DOM changes, not frames. The paint wait is `requestAnimationFrame` then a timeout.
+      - `#legality-status` is a live region, so a screen reader hears Stale → Pending → verdict after each pause in typing. M18 should decide whether that is too chatty.
+      - `LegalitySections` has a throwing default arm, not "no default arm": C# requires handling unnamed enum values. The Unit guard catches a new Core identifier either way.
+      - Real-save timing (968 entities) was not measured; only the committed synthetic corpus is in the Perf tier. M21 measures the admitted corpus on the reference desktop.
+      - If reopening a slot after a successful apply ever failed (see M6), the old draft's result would stay shown. It describes the same bytes that were applied.
+      - Acknowledging Invalid/Unavailable before apply/export is M16.
+  - **Second review** (a separate adversarial review in a subagent, with probes over the private saves and mutations). Every item was fixed:
+    - **Missing trainer context:** web Valid where desktop says Invalid (reproduced); now matches desktop.
+    - **False claim about Core's exception handling:** the README, `plan.md` and the service remarks said Core does not catch its own analysis exceptions. It does (`#define SUPPRESS`), so Core-caught failures never reached the console; they now get a console note.
+    - **Vacuous E2E check:** the URL check ignored the fragment (reproduced by mutation).
+    - **Analyze now blocked:** it was disabled during the idle wait after opening a slot.
+    - **Lost result:** a throwing failure handler lost the Unavailable result.
+    - **Busy too long:** `aria-busy` stayed on for a superseded run.
+    - **Stale for good:** a draft from an earlier revision stayed Stale and silently never ran.
+    - **Paint wait untested:** nothing checked that the workspace waits for a real paint.
+    - **Weak timer wait:** the unit timer wait could hide a bug on a slow machine.
+    - **Smaller issues:**
+      - doc placement in `SaveFixtures`
+      - missing xmldoc on `BrowserPage.DisposeAsync`
+      - the duplicated module import, now shared as `Interop/BrowserModule`
+      - no guard that the corpus fits in box 1
+      - the `InspectorArea.Identity` doc
+    - **Not reproduced:** Core's own caught-exception path. 13 malformed entities (out-of-range species, form, version, location, ball, ability, item, move, language) all parsed and were reported Invalid, so the `!Parsed` branch is covered by reading only.
+    - **Not changed:** the verbose report is built on every run, even while collapsed. Its cost is inside the timings above.
+  - **Not verified yet:** no screen reader; physical devices (G-C); the paint before analysis on slow devices; the first GitHub run of the Perf step with the legality timing.
+  - **Compared with PKForge** (`LegalityAssistService.GetReport`, `LegalityAssistUi`):
+    - **Matches:** invalid current and relearn move lines plus non-valid and Fishy checks, each with Core's severity; a severity icon and text per line; problems ordered before warnings; Core's localized text rather than rewritten text.
+    - **Stricter:**
+      - PKForge analyses with `new LegalityAnalysis(pk)` alone; we pass the save's personal table and the slot type.
+      - It runs analysis on `Task.Run` with no revision tagging; we tag each result with the draft state and drop superseded runs before they call Core.
+      - It shows `error.Message` on failure; we show Unavailable with no exception text.
+      - It labels an unsupported game "Not analyzed"; we never show an unexamined or failed state as legal and keep Stale apart.
+    - **Not adopted:** fix suggestions and "Legalize" (WEB-LEGAL-006, no AutoMod dependency); per-move verdict rows (M13); encounter text outside Core's verbose report (WEB-LEGAL-004, MVP+); grouping by `CheckIdentifier` (we link to inspector sections instead); `Task.Run` (no threads in WASM).
 - **M9 Generalised apply transaction + party.**
   - Apply stages on a `working.Clone()` and runs `ISlotInfo.CanWriteTo` for slot + entity with `EntityImportSettings.None`. It verifies the stored slot, checks party count is unchanged, and swaps atomically with a revision bump. A no-op apply is not a change.
   - Covers party slots too. It implements the **PK6 party-stat policy** from `PKHeX.Web.md` §State model: non-stat edits keep stored stats/HP/status; stat-affecting edits recalculate, keep status, and clamp HP to min(prev, newMax); fainted stays at 0. An HP-reduction preview is shown.

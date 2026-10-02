@@ -152,7 +152,7 @@ public sealed class ExportFlowTests(PublishedAppFixture app)
         var (replaced, _) = await DownloadNamed(page, "#exit-export");
         Assert.True(SaveFixtures.Open(replaced).Select(SaveFixtures.FirstBoxSlot).Nickname == "Replaced");
         await page.Locator("#exit-continue").ClickAsync();
-        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("Omega Ruby");
+        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("Alpha Sapphire");
         await Expect(page.Locator("#open-title")).ToBeFocusedAsync();
         await Expect(page.Locator("#overview-file")).ToHaveTextAsync("other-main");
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Unmodified session");

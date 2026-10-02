@@ -1,0 +1,72 @@
+@* Legality of the drafted Pokémon: a status word with an icon, a one-line summary, Core's findings, and Core's reports in a disclosure.
+   Findings appear only for a result that matches the draft as it is now, so nothing out of date is listed while the user types.
+   Every string from Core or the save is rendered as text. Core's finding text begins with its own severity word, so none is added here. *@
+<section id="legality" aria-labelledby="legality-title" aria-busy="@(Running ? "true" : "false")">
+    <h3 id="legality-title">Legality</h3>
+    <p class="legality-line">
+        <span class="@LegalityText.IconClass(Status)" aria-hidden="true">@LegalityText.Icon(Status)</span>
+        <span id="legality-status" role="status">@LegalityText.Status(Status)</span>
+    </p>
+    <p id="legality-summary">@LegalityText.Summary(Status, Current, AutoRun, DraftValid)</p>
+    @if (Current is { Findings.Count: > 0 } current)
+    {
+        <ul id="legality-findings" class="legality-findings">
+            @foreach (var finding in current.Findings)
+            {
+                <li class="@(finding.Severity == Severity.Invalid ? "finding-invalid" : "finding-warning")">
+                    <span class="finding-icon" aria-hidden="true">@LegalityText.FindingIcon(finding.Severity)</span>
+                    <span class="finding-text">@finding.Text</span>
+                    @* Not named "section": older Razor compilers read "@section" as the section directive. *@
+                    @if (LegalityText.Section(finding.Identifier) is { } target)
+                    {
+                        <a class="finding-link" href="@($"#{target.Id}")" @onclick="() => OnShowSection.InvokeAsync(target.Id)" @onclick:preventDefault>Show in @target.Title</a>
+                    }
+                </li>
+            }
+        </ul>
+    }
+    @if (Current is { Verdict: not LegalityVerdict.Unavailable } reported)
+    {
+        <details id="legality-details">
+            <summary>Full report from PKHeX.Core</summary>
+            <h4>Summary report</h4>
+            <pre id="legality-report">@reported.Report</pre>
+            <h4>Detailed report</h4>
+            <pre id="legality-report-verbose">@reported.VerboseReport</pre>
+        </details>
+    }
+    <button id="analyze" type="button" @onclick="() => OnAnalyze.InvokeAsync()" disabled="@(!DraftValid || Running)">Analyze now</button>
+    <p>@LegalityText.Diagnostic</p>
+    <p id="legality-guarantee">@LegalityText.NotAGuarantee</p>
+    <p id="legality-engine">@LegalityText.Engine</p>
+</section>
+
+@code {
+    /// <summary>The panel's status (<see cref="DraftLegality.Status"/>).</summary>
+    [Parameter, EditorRequired]
+    public LegalityStatus Status { get; set; }
+
+    /// <summary>True while an analysis is running (<see cref="DraftLegality.IsRunning"/>); the panel is then marked busy.</summary>
+    [Parameter]
+    public bool Running { get; set; }
+
+    /// <summary>The result for the draft as it is now (<see cref="DraftLegality.Current"/>), or null.</summary>
+    [Parameter]
+    public LegalityResult? Current { get; set; }
+
+    /// <summary>Whether drafts are analysed automatically once idle (<see cref="DraftLegality.AutoRun"/>).</summary>
+    [Parameter]
+    public bool AutoRun { get; set; } = true;
+
+    /// <summary>False while the last edit was refused; analysis is then unavailable until it is corrected or cancelled.</summary>
+    [Parameter]
+    public bool DraftValid { get; set; } = true;
+
+    /// <summary>Raised by Analyze now, which is offered while an analysis waits for the idle delay and disabled only while one runs.</summary>
+    [Parameter]
+    public EventCallback OnAnalyze { get; set; }
+
+    /// <summary>Raised with the inspector heading id a finding links to, so the page can move focus there.</summary>
+    [Parameter]
+    public EventCallback<string> OnShowSection { get; set; }
+}

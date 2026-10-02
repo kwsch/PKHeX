@@ -57,7 +57,7 @@ internal static class BootBaseline
     /// The panel is in the page while collapsed, so nothing has to be clicked. Missing values read as <c>unknown</c>.
     /// Keep the selectors in step with the E2E boot test's About check.
     /// </summary>
-    private const string ReadBuild = """
+    internal const string ReadBuild = """
         () => ({
             version: document.getElementById('about-version')?.textContent.trim() || 'unknown',
             commit: document.getElementById('about-commit')?.textContent.trim() || 'unknown',
@@ -305,7 +305,7 @@ internal static class BootBaseline
 
     /// <param name="webVersion">Version the published app reports.</param>
     /// <param name="sourceCommit">Commit the published app reports.</param>
-    private static BootEnvironment DescribeEnvironment(string webVersion, string sourceCommit)
+    internal static BootEnvironment DescribeEnvironment(string webVersion, string sourceCommit)
     {
         string? ci = null;
         if (Environment.GetEnvironmentVariable("GITHUB_ACTIONS") == "true")

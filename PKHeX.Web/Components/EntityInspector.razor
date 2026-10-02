@@ -4,7 +4,8 @@
     @foreach (var group in sections)
     {
         <section aria-labelledby="@group.Id">
-            <h3 id="@group.Id">@group.Title</h3>
+            @* Focusable from script only, so a legality finding can move focus to the section it is about. *@
+            <h3 id="@group.Id" tabindex="-1">@group.Title</h3>
             @if (group.Table is { } table)
             {
                 <table id="@table.Id">

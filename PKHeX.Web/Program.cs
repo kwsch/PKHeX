@@ -9,6 +9,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<BrowserFileService>();
+builder.Services.AddScoped<BrowserPage>();
 builder.Services.AddScoped<WorkspaceState>();
 // The browser's clock and time zone (the runtime reads the zone from the browser), used to stamp edited download names in local time.
 builder.Services.AddSingleton(TimeProvider.System);

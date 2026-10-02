@@ -40,6 +40,12 @@ public sealed class EditorDraft
     /// <summary>Longest nickname the save format can store.</summary>
     public int MaxNicknameLength => Capabilities.MaxNicknameLength;
 
+    /// <summary>
+    /// Number of edits accepted since the draft was taken. It tags legality results (<see cref="LegalityTag"/>), so a result for an
+    /// earlier edit is stale at once. A refused edit leaves it unchanged, because it leaves the draft unchanged.
+    /// </summary>
+    public int EditRevision { get; private set; }
+
     /// <summary>Drafted nickname text.</summary>
     public string Nickname => working.Nickname;
 
@@ -100,6 +106,7 @@ public sealed class EditorDraft
         }
         candidate.IsNicknamed = isNicknamed;
         candidate.Data.CopyTo(working.Data);
+        EditRevision++;
     }
 
     /// <summary>A copy of the drafted entity, for read-only use. Changing it does not change the draft.</summary>
@@ -117,21 +124,6 @@ public sealed class EditorDraft
         return EntityInspection.From(copy, Slot, Capabilities);
     }
 
-    /// <summary>
-    /// Runs Core legality analysis on the drafted entity, in the context of <paramref name="session"/>'s save and the draft's slot type
-    /// (party or box).
-    /// </summary>
-    /// <exception cref="SessionException">The draft is foreign or stale.</exception>
-    public LegalityResult Analyze(SaveSession session)
-    {
-        session.EnsureOwns(this);
-        session.EnsureCurrent(this);
-        var save = session.Working;
-        var analysis = new LegalityAnalysis(ToStoredEntity(), save.Personal, Slot.ToSlotInfo(save).Type);
-        var verdict = !analysis.Parsed ? "Unavailable" : analysis.Valid ? "Valid" : "Invalid";
-        return new(verdict, analysis.Report());
-    }
-
-    /// <summary>The entity to store: a copy of the drafted entity.</summary>
+    /// <summary>The entity to store or analyse: a copy of the drafted entity.</summary>
     internal PK6 ToStoredEntity() => Preview();
 }

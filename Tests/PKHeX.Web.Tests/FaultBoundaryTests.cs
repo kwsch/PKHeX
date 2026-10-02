@@ -22,7 +22,7 @@ public sealed class FaultBoundaryTests : IDisposable
     private const string SecretDetail = "secret-exception-detail";
 
     private readonly BunitContext context = new();
-    private readonly WorkspaceState state = new();
+    private readonly WorkspaceState state = SaveFixtures.NewState();
 
     public FaultBoundaryTests()
     {

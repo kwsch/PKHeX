@@ -33,6 +33,12 @@ public static class BuildInfo
     public static string SourceCommit { get; } = Read(Metadata, CommitKey);
 
     /// <summary>
+    /// Version of the PKHeX.Core assembly that is running (major.minor.build), as shown next to legality results; <see cref="Unknown"/> if
+    /// the assembly has none.
+    /// </summary>
+    public static string CoreVersion { get; } = typeof(PKHeX.Core.PKM).Assembly.GetName().Version is { } version ? version.ToString(3) : Unknown;
+
+    /// <summary>
     /// True when this build was published with the sprite atlas (<c>-p:PKHeXWebSprites=true</c>). Otherwise slots are shown as text only,
     /// and nothing under <c>sprites/</c> is ever requested.
     /// </summary>

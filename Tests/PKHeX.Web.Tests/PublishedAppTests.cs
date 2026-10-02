@@ -296,7 +296,7 @@ public sealed partial class PublishedAppTests(PublishedAppFixture app)
         {
             var sample = SaveFixtures.Synthetic(true, legal);
             await Load(page, sample);
-            await Expect(page.Locator("#overview-game")).ToHaveTextAsync("Omega Ruby");
+            await Expect(page.Locator("#overview-game")).ToHaveTextAsync("Alpha Sapphire");
             await Select(page);
 
             var native = SaveFixtures.Parse(sample);

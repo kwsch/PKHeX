@@ -13,7 +13,7 @@ namespace PKHeX.Web.Tests;
 public sealed class SessionExitPanelTests : IDisposable
 {
     private readonly BunitContext context = new();
-    private readonly WorkspaceState state = new();
+    private readonly WorkspaceState state = SaveFixtures.NewState();
     private readonly List<string> calls = [];
 
     public SessionExitPanelTests()

@@ -96,7 +96,7 @@ public sealed class SpriteCatalogBrowserTests(PublishedAppFixture app)
         await AssertBoxSpritesAsync(page, sheet, first, 1);
 
         await Load(page, second);
-        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("Omega Ruby");
+        await Expect(page.Locator("#overview-game")).ToHaveTextAsync("Alpha Sapphire");
         await AssertBoxSpritesAsync(page, sheet, second, 0);
         await page.Locator("#box-select").SelectOptionAsync("2");
         await AssertBoxSpritesAsync(page, sheet, second, 2);

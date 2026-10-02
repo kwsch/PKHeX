@@ -74,17 +74,20 @@ public sealed class SessionTests
         draft.IsDirty.Should().BeFalse();
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void KnownEntityLegalityIsPreserved(bool legal)
+    [Fact]
+    public void EditRevisionCountsAcceptedEditsOnly()
     {
-        var native = new LegalityAnalysis(new PK6(SaveFixtures.ReadEntity(legal)));
-        native.Parsed.Should().BeTrue();
-        native.Valid.Should().Be(legal);
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
+        draft.EditRevision.Should().Be(0);
 
-        var session = SaveFixtures.Open(SaveFixtures.Synthetic(true, legal));
-        session.Select(SaveFixtures.FirstBoxSlot).Analyze(session).Verdict.Should().Be(legal ? "Valid" : "Invalid");
+        draft.EditNickname("Once", true);
+        draft.EditRevision.Should().Be(1);
+        var refused = () => draft.EditNickname(new string('A', draft.MaxNicknameLength + 1), true);
+        refused.Should().Throw<SessionException>();
+        draft.EditRevision.Should().Be(1, "a refused edit leaves the draft, and so its legality tag, unchanged");
+        draft.EditNickname("Twice", true);
+        draft.EditRevision.Should().Be(2);
     }
 
     [Fact]
@@ -288,7 +291,7 @@ public sealed class SessionTests
 
         var exportStale = () => SaveExporter.Export(session, stale);
         exportStale.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.StaleDraft);
-        var analyzeStale = () => stale.Analyze(session);
+        var analyzeStale = () => LegalityService.Default.Analyze(session, stale, out _);
         analyzeStale.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.StaleDraft);
         session.Apply(stale);
         session.Revision.Should().Be(1, "a clean stale draft has nothing to apply");
@@ -314,7 +317,7 @@ public sealed class SessionTests
 
         var applyForeign = () => other.Apply(foreign);
         applyForeign.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.ForeignDraft);
-        var analyzeForeign = () => foreign.Analyze(other);
+        var analyzeForeign = () => LegalityService.Default.Analyze(other, foreign, out _);
         analyzeForeign.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.ForeignDraft);
         var exportForeign = () => SaveExporter.Export(other, owner.Select(SaveFixtures.FirstBoxSlot));
         exportForeign.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.ForeignDraft);
@@ -325,7 +328,7 @@ public sealed class SessionTests
     }
 
     [Fact]
-    public void PartySelectClonesThePartyMemberAndAnalysesItAsParty()
+    public void PartySelectClonesThePartyMember()
     {
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(false, customize: SaveFixtures.WithPartyMember("Leader")));
         var draft = session.Select(SlotRef.InParty(0));
@@ -340,10 +343,6 @@ public sealed class SessionTests
         draft.Inspect().Stats.Source.Should().Be(StatsSource.Stored, "a party member's stored stats are shown");
         boxed.Inspect().Stats.Source.Should().Be(StatsSource.Calculated);
 
-        var native = new LegalityAnalysis(session.Working.GetPartySlotAtIndex(0), session.Working.Personal, StorageSlotType.Party);
-        var result = draft.Analyze(session);
-        result.Verdict.Should().Be(ProofPage.Verdict(native));
-        result.Report.Should().Be(native.Report());
     }
 
     [Fact]

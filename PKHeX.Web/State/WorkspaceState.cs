@@ -9,8 +9,19 @@ namespace PKHeX.Web.State;
 /// It lives outside the workspace components, so a component fault that is recovered from does not lose the open session.
 /// Nothing here is persisted; the state ends with the tab.
 /// </remarks>
-public sealed class WorkspaceState
+public sealed class WorkspaceState : IDisposable
 {
+    /// <summary>Creates the state for one tab.</summary>
+    /// <param name="clock">The clock that times the legality idle delay (<see cref="DraftLegality.IdleDelay"/>).</param>
+    public WorkspaceState(TimeProvider clock) : this(clock, LegalityService.Default)
+    {
+    }
+
+    internal WorkspaceState(TimeProvider clock, LegalityService legality) => Legality = new DraftLegality(this, clock, legality);
+
+    /// <summary>The legality result of the draft, and when it is analysed.</summary>
+    public DraftLegality Legality { get; }
+
     /// <summary>The open save, or null before one is opened.</summary>
     public SaveSession? Session { get; private set; }
 
@@ -59,6 +70,7 @@ public sealed class WorkspaceState
         Exit = null;
         Draft = null;
         DraftValid = true;
+        Legality.Reset();
         CurrentBox = StorageView.InitialBox(session);
         OnChanged();
     }
@@ -144,6 +156,7 @@ public sealed class WorkspaceState
         RequireStage(ExitStage.ResolveDraft);
         Draft = null;
         DraftValid = true;
+        Legality.Reset();
         Advance();
     }
 
@@ -262,18 +275,24 @@ public sealed class WorkspaceState
         }
     }
 
-    /// <summary>Replaces the draft, or clears it with null.</summary>
+    /// <summary>Replaces the draft, or clears it with null. A new draft is analysed once it has been left unchanged (see <see cref="DraftLegality.Schedule"/>).</summary>
     public void SetDraft(EditorDraft? draft)
     {
         Draft = draft;
         DraftValid = true;
+        Legality.Reset();
+        Legality.Schedule();
         OnChanged();
     }
 
-    /// <summary>Records whether the last edit of the draft was accepted.</summary>
+    /// <summary>
+    /// Records whether the last edit of the draft was accepted. An accepted edit makes the legality result stale and schedules a new analysis;
+    /// a refused one cancels any waiting analysis, since the draft no longer matches what the user entered.
+    /// </summary>
     public void SetDraftValid(bool valid)
     {
         DraftValid = valid;
+        Legality.Schedule();
         OnChanged();
     }
 
@@ -292,6 +311,7 @@ public sealed class WorkspaceState
         Exit = null;
         Draft = null;
         DraftValid = true;
+        Legality.Reset();
         OnChanged();
     }
 
@@ -302,6 +322,9 @@ public sealed class WorkspaceState
         CurrentBox = 0;
         RecoverAfterFault();
     }
+
+    /// <summary>Cancels any waiting legality analysis when the tab's scope ends.</summary>
+    public void Dispose() => Legality.Dispose();
 
     private void OnChanged() => Changed?.Invoke();
 }

@@ -2,6 +2,8 @@
 @inject WorkspaceState State
 @inject TimeProvider Clock
 @inject ILogger<Workspace> Logger
+@inject BrowserPage Page
+@implements IDisposable
 
 @* The open/edit/download journey. Session state lives in WorkspaceState, so recovering from a fault here keeps the open save. *@
 @if (Session is null)
@@ -34,16 +36,15 @@
             <input id="nickname" value="@nickname" @oninput="NicknameChanged" maxlength="@Draft.MaxNicknameLength" readonly="@(!CanEditNickname)" />
             <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="NicknameFlagChanged" disabled="@(!CanEditNickname)" /> Is nicknamed</label>
             <p id="draft-state">@(State.DraftDirty ? "Unapplied draft" : "No draft changes")</p>
-            <button id="analyze" @onclick="Analyze">Analyze legality</button>
             <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid)">Apply nickname</button>
             <button id="cancel-draft" @onclick="CancelDraft">Cancel draft</button>
             @if (!Draft.CanApply)
             {
                 <p id="party-note">@UserMessages.For(SessionError.PartyApplyNotAvailable) Legality is analysed as a party member.</p>
             }
-            <p>Legality is diagnostic. Applying does not legalize or change ownership, dex entries, or trainer records.</p>
-            <p id="legality-status" role="status">@verdict</p>
-            <pre id="legality-report">@report</pre>
+            <LegalityPanel Status="State.Legality.Status" Current="State.Legality.Current" AutoRun="State.Legality.AutoRun"
+                           Running="State.Legality.IsRunning"
+                           DraftValid="State.DraftValid" OnAnalyze="Analyze" OnShowSection="ShowSection" />
             @if (inspection is not null)
             {
                 <p id="inspector-note">Read-only details of the drafted Pokémon, including accepted unapplied changes (a refused edit is not shown). Other fields are kept exactly as stored.</p>
@@ -75,7 +76,7 @@
 }
 
 @code {
-    private string message = "", nickname = "", verdict = "Not analyzed", report = "";
+    private string message = "", nickname = "";
     private bool nicknamed, busy;
     private ExportNameChoice? nameChoice;
 
@@ -116,6 +117,10 @@
 
     protected override void OnInitialized()
     {
+        // Results complete after an await, outside any event handler, so the page re-renders when the legality state says it changed.
+        State.Legality.Changed += LegalityChanged;
+        State.Legality.AnalysisFailed += AnalysisFailed;
+        State.Legality.Yield = WaitForPaintAsync;
         // A new instance with a session already open means the workspace was recovered after a fault.
         message = Session is null ? "Choose a save to begin." : "The open save was kept. Any unapplied draft was discarded.";
     }
@@ -259,8 +264,6 @@
         nickname = Draft?.Nickname ?? "";
         nicknamed = Draft?.IsNicknamed ?? false;
         inspection = Draft?.Inspect();
-        verdict = "Not analyzed";
-        report = "";
     }
 
     private void NicknameChanged(ChangeEventArgs e)
@@ -275,10 +278,9 @@
         UpdateDraft();
     }
 
+    /// <summary>Applies the editor's values to the draft. <see cref="WorkspaceState.SetDraftValid"/> makes the legality result stale and reschedules it.</summary>
     private void UpdateDraft()
     {
-        verdict = "Stale — analyze the current draft";
-        report = "";
         try
         {
             Draft!.EditNickname(nickname, nicknamed);
@@ -292,24 +294,42 @@
         }
     }
 
-    private void Analyze()
+    /// <summary>Analyze now: analyses the draft at once instead of waiting for the idle delay.</summary>
+    private Task Analyze()
     {
         if (!State.DraftValid)
         {
             message = "Correct or cancel the invalid draft first.";
-            return;
+            return Task.CompletedTask;
         }
+        return State.Legality.RunNowAsync();
+    }
+
+    /// <summary>Moves focus to the inspector section a legality finding is about.</summary>
+    private async Task ShowSection(string id)
+    {
         try
         {
-            var result = Draft!.Analyze(Session!);
-            verdict = result.Verdict;
-            report = result.Report;
+            await Page.FocusAsync(id);
         }
-        catch
+        catch (JSException ex)
         {
-            verdict = "Unavailable";
-            report = "Analysis could not complete. No changes were made.";
+            Logger.LogWarning(ex, "Could not move focus to {Section}.", id);
         }
+    }
+
+    /// <summary>Waits for the browser to paint the pending state before Core's synchronous analysis starts.</summary>
+    private Task WaitForPaintAsync() => Page.NextPaintAsync();
+
+    private void LegalityChanged() => _ = InvokeAsync(StateHasChanged);
+
+    /// <summary>The cause of an unavailable analysis goes to the browser console only; the page says only that it could not complete.</summary>
+    private void AnalysisFailed(Exception ex) => Logger.LogError(ex, "Legality analysis could not complete.");
+
+    public void Dispose()
+    {
+        State.Legality.Changed -= LegalityChanged;
+        State.Legality.AnalysisFailed -= AnalysisFailed;
     }
 
     private void Apply()

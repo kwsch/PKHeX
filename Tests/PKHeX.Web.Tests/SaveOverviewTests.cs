@@ -33,7 +33,7 @@ public sealed class SaveOverviewTests
 
     [Theory]
     [InlineData(false, GameVersion.X, typeof(SAV6XY), SaveUtil.SIZE_G6XY)]
-    [InlineData(true, GameVersion.OR, typeof(SAV6AO), SaveUtil.SIZE_G6ORAS)]
+    [InlineData(true, GameVersion.AS, typeof(SAV6AO), SaveUtil.SIZE_G6ORAS)]
     public void EveryValueComesFromTheSave(bool oras, GameVersion version, Type type, int size)
     {
         var overview = Overview(oras, SetKnownTrainer, "backup/main");
