@@ -251,6 +251,6 @@ Trainer Hill
 
 
 
-(gift egg)
-(in-game trade)
-(fateful encounter)
+(Gift Egg)
+(In-game Trade)
+(Fateful Encounter)
