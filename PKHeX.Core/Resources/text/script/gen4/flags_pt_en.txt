@@ -57,6 +57,7 @@
 1337	i	Found Metal Coat in Iron Ruins
 1338	i	Found Never-Melt Ice in Iceberg Ruins
 1339	i	Found Hard Stone in Rock Peak Ruins
+0304	i	Received TM64
 0151	g	Received Porygon
 0305	g	Received Eevee
 0226	g	Riolu Egg Gift from Riley Pending (Iron Island)
