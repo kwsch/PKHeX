@@ -55,6 +55,7 @@ public static class UserMessages
         SessionError.SlotNotWritable => "The selected slot cannot be edited.",
         SessionError.StagedWriteFailed => "The edit could not be written, so it was not applied.",
         SessionError.StagedEditMismatch => "The edit did not read back as written, so it was not applied.",
+        SessionError.FieldNotEditable => "This field cannot be changed for this game in this release.",
         SessionError.NicknameTooLong => "The nickname is longer than this game can store.",
         SessionError.NicknameInvalidCharacters => "The nickname contains control characters.",
         SessionError.NicknameNotRepresentable => "This game cannot store the nickname without changing its text.",

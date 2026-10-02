@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
 using PKHeX.Core;
+using PKHeX.Web.Components;
 using PKHeX.Web.Services;
 using Xunit;
 using static Microsoft.Playwright.Assertions;
@@ -70,6 +71,12 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         Assert.True(await page.Locator("#overview-sid").TextContentAsync() == native.DisplaySID.ToString("D5"), "Overview SID differs from native (value withheld).");
         Assert.True(await page.Locator("#overview-money").TextContentAsync() == string.Create(CultureInfo.InvariantCulture, $"{native.Money:#,0} Pokédollars"), "Overview money differs from native (value withheld).");
         await Select(page, index);
+        // Every inspector value matches native Core on the same slot; the private values are kept out of the failure messages.
+        var inspected = InspectorText.Sections(SaveFixtures.Open(fixture.Bytes).Select(index).Inspect()).SelectMany(s => s.Rows);
+        foreach (var row in inspected)
+        {
+            Assert.True(await page.Locator($"#{row.Id}").TextContentAsync() == row.Value, $"Inspector {row.Id} differs from native (value withheld).");
+        }
         await CheckLegality(page, sourcePk, native, nativeSlot.Type);
         var noOp = await Download(page);
         Assert.True(noOp.AsSpan().SequenceEqual(expectedNoOp), "No-op browser/native output differs (bytes withheld).");

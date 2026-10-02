@@ -32,6 +32,9 @@ public enum SessionError
     /// <summary>The entity read back from the staged slot does not match what was written.</summary>
     StagedEditMismatch,
 
+    /// <summary>The save's family does not allow this field to be drafted in this release (see <see cref="SaveCapabilities.Editable"/>).</summary>
+    FieldNotEditable,
+
     /// <summary>The nickname is longer than the format can store.</summary>
     NicknameTooLong,
 

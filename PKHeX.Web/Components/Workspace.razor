@@ -26,12 +26,13 @@
     @if (Draft is not null)
     {
         <section aria-labelledby="draft-title">
-            <h2 id="draft-title">Nickname draft</h2>
+            <h2 id="draft-title">Selected Pokémon</h2>
             <p id="draft-slot">@SlotText.Position(Draft.Slot)</p>
+            <h3 id="draft-edit-title">Nickname draft</h3>
             <label for="nickname">Nickname</label>
-            @* A party member is inspected only, so its fields cannot be drafted into an edit that could never be applied. *@
-            <input id="nickname" value="@nickname" @oninput="NicknameChanged" maxlength="@Draft.MaxNicknameLength" readonly="@(!Draft.CanApply)" />
-            <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="NicknameFlagChanged" disabled="@(!Draft.CanApply)" /> Is nicknamed</label>
+            @* Fields the draft cannot change (all of them for a party member, which is inspected only) are read-only, so nothing is drafted that could never be applied. *@
+            <input id="nickname" value="@nickname" @oninput="NicknameChanged" maxlength="@Draft.MaxNicknameLength" readonly="@(!CanEditNickname)" />
+            <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="NicknameFlagChanged" disabled="@(!CanEditNickname)" /> Is nicknamed</label>
             <p id="draft-state">@(State.DraftDirty ? "Unapplied draft" : "No draft changes")</p>
             <button id="analyze" @onclick="Analyze">Analyze legality</button>
             <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid)">Apply nickname</button>
@@ -43,6 +44,11 @@
             <p>Legality is diagnostic. Applying does not legalize or change ownership, dex entries, or trainer records.</p>
             <p id="legality-status" role="status">@verdict</p>
             <pre id="legality-report">@report</pre>
+            @if (inspection is not null)
+            {
+                <p id="inspector-note">Read-only details of the drafted Pokémon, including accepted unapplied changes (a refused edit is not shown). Other fields are kept exactly as stored.</p>
+                <EntityInspector Inspection="inspection" />
+            }
         </section>
     }
     <section aria-labelledby="download-title">
@@ -72,12 +78,18 @@
     private string message = "", nickname = "", verdict = "Not analyzed", report = "";
     private bool nicknamed, busy;
     private ExportNameChoice? nameChoice;
+
+    /// <summary>The inspector's view of the draft, rebuilt when the draft changes rather than on every render.</summary>
+    private EntityInspection? inspection;
     private ElementReference openTitle, closeButton;
 
     /// <summary>The intent of the exit whose panel was in the last render, or null when none was shown.</summary>
     private ExitIntent? shownExit;
     private SaveSession? Session => State.Session;
     private EditorDraft? Draft => State.Draft;
+
+    /// <summary>True when the draft's nickname fields can be changed.</summary>
+    private bool CanEditNickname => Draft?.Editable.HasFlag(EditableFields.Nickname) == true;
 
     /// <summary>The user's name choice, or the default for the session's state until they pick one.</summary>
     private ExportNameChoice NameChoice => nameChoice ?? ExportNaming.DefaultFor(Session!);
@@ -246,6 +258,7 @@
     {
         nickname = Draft?.Nickname ?? "";
         nicknamed = Draft?.IsNicknamed ?? false;
+        inspection = Draft?.Inspect();
         verdict = "Not analyzed";
         report = "";
     }
@@ -269,6 +282,7 @@
         try
         {
             Draft!.EditNickname(nickname, nicknamed);
+            inspection = Draft.Inspect();
             State.SetDraftValid(true);
         }
         catch (Exception ex)

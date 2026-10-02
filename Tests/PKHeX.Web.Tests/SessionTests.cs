@@ -140,6 +140,87 @@ public sealed class SessionTests
     }
 
     [Fact]
+    public void PreviewIsADetachedCopyOfTheDraft()
+    {
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
+        draft.EditNickname("Drafted", true);
+
+        var preview = draft.Preview();
+        preview.Nickname.Should().Be("Drafted", "the preview shows unapplied edits");
+        preview.Nickname = "Tampered";
+        preview.HeldItem = 1;
+
+        draft.Nickname.Should().Be("Drafted", "changing a preview must not change the draft");
+        draft.Preview().HeldItem.Should().NotBe(1);
+        draft.Inspect().Identity.Nickname.Should().Be("Drafted");
+        draft.Inspect().Advanced.ChecksumValid.Should().BeTrue("the inspector shows the checksum an apply would store, not the stale in-memory one");
+    }
+
+    [Fact]
+    public void ReturningToTheStoredNicknameKeepsItsEncodingAndIsClean()
+    {
+        // Bytes after the terminator are kept by the game; an edit that ends at the stored text must not rewrite them.
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false, customize: SaveFixtures.WithBoxEntity(0, 1, pk =>
+        {
+            pk.Nickname = "Ziggy";
+            pk.IsNicknamed = true;
+            pk.NicknameTrash[16] = 0x7F; // after "Ziggy" and its terminator; the final two bytes stay 0, as Core requires
+        })));
+        var slot = SlotRef.InBox(0, 1);
+        var stored = session.Working.GetBoxSlotAtIndex(0, 1).NicknameTrash.ToArray();
+        var draft = session.Select(slot);
+
+        // A longer name overwrites the stored bytes after "Ziggy"; deleting back to "Ziggy" must bring the stored bytes back, not leave remnants.
+        draft.EditNickname("Ziggy Longer", true);
+        draft.IsDirty.Should().BeTrue();
+        draft.EditNickname("Ziggy", true);
+
+        draft.IsDirty.Should().BeFalse("the draft is byte for byte the stored entity again");
+        draft.Preview().NicknameTrash.ToArray().Should().Equal(stored);
+
+        draft.EditNickname("Ziggy", false);
+        draft.IsDirty.Should().BeTrue();
+        session.Apply(draft);
+        session.Working.GetBoxSlotAtIndex(0, 1).NicknameTrash.ToArray().Should().Equal(stored, "a flag-only change keeps the stored name bytes");
+    }
+
+    [Fact]
+    public void ARefusedEditLeavesTheDraftUnchanged()
+    {
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
+        draft.EditNickname("Kept", true);
+        var before = draft.Preview().Data.ToArray();
+
+        var tooLong = () => draft.EditNickname(new string('A', draft.MaxNicknameLength + 1), false);
+        tooLong.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.NicknameTooLong);
+        var control = () => draft.EditNickname("A\u0007", false);
+        control.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.NicknameInvalidCharacters);
+
+        draft.Preview().Data.ToArray().Should().Equal(before);
+    }
+
+    [Fact]
+    public void AppliedDraftIsStoredByteForByte()
+    {
+        var session = SaveFixtures.Open(SaveFixtures.Synthetic(true));
+        var draft = session.Select(SaveFixtures.FirstBoxSlot);
+        draft.EditNickname("Exact", true);
+        var expected = draft.Preview();
+        expected.RefreshChecksum();
+
+        session.Apply(draft);
+
+        var stored = session.Working.GetBoxSlotAtIndex(0);
+        stored.Data[..expected.SIZE_STORED].ToArray().Should().Equal(expected.Data[..expected.SIZE_STORED].ToArray());
+        SaveSession.StoresExactly(stored, expected).Should().BeTrue();
+        var different = expected.Clone();
+        different.HeldItem = 1;
+        SaveSession.StoresExactly(stored, different).Should().BeFalse("any differing stored byte fails the read-back check");
+    }
+
+    [Fact]
     public void MarkExportedRecordsOnlyRevisionsOfTheSession()
     {
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(false));
@@ -252,7 +333,12 @@ public sealed class SessionTests
         draft.Slot.Should().Be(SlotRef.InParty(0));
         draft.Nickname.Should().Be("Leader", "the party member, not the boxed copy, is opened");
         draft.CanApply.Should().BeFalse();
-        session.Select(SaveFixtures.FirstBoxSlot).CanApply.Should().BeTrue();
+        draft.Editable.Should().Be(EditableFields.None, "nothing is offered for editing that could never be applied");
+        var boxed = session.Select(SaveFixtures.FirstBoxSlot);
+        boxed.CanApply.Should().BeTrue();
+        boxed.Editable.Should().Be(EditableFields.Nickname);
+        draft.Inspect().Stats.Source.Should().Be(StatsSource.Stored, "a party member's stored stats are shown");
+        boxed.Inspect().Stats.Source.Should().Be(StatsSource.Calculated);
 
         var native = new LegalityAnalysis(session.Working.GetPartySlotAtIndex(0), session.Working.Personal, StorageSlotType.Party);
         var result = draft.Analyze(session);

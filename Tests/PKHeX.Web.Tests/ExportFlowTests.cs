@@ -73,7 +73,8 @@ public sealed class ExportFlowTests(PublishedAppFixture app)
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred.");
 
         // A download does not disarm the leave warning: the session is still only in memory.
-        await page.Locator("#download").ClickAsync();
+        // Wait for the download itself: Firefox treats it as a navigation, and reloading while it is starting fails.
+        await DownloadNamed(page);
         await Expect(page.Locator("#export-state")).ToHaveTextAsync("Download started for the current changes — verify your file.");
         await page.ReloadAsync();
         await Expect(page.Locator("#save-file")).ToBeVisibleAsync(new() { Timeout = 60000 });

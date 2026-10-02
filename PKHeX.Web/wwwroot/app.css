@@ -27,6 +27,10 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 #workspace:focus { outline: none; }
 /* File names are untrusted and can be 120 characters without a break; they must wrap rather than widen the page. */
 #message, #exit, #exit button, #download-name { overflow-wrap: anywhere; }
+.inspector table { margin-block-end: .6rem; }
+.inspector caption { text-align: start; font-weight: 600; padding-block-end: .3rem; }
+/* Cell text comes from Core, not the save, so cells wrap only between words; tighter padding keeps the tables within a phone. */
+.inspector td, .inspector th { padding: .35rem .4rem; overflow-wrap: break-word; }
 #download-name { min-width: 0; }
 #save-drop { border: 2px dashed #888; border-radius: .5rem; padding: 0 1rem; }
 #save-drop[data-drag-over] { border-color: #397bd9; background: color-mix(in srgb, #397bd9 12%, transparent); }

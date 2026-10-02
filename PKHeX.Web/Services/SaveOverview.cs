@@ -60,7 +60,7 @@ public sealed record SaveOverview(
         return new SaveOverview(
             save.Version,
             save.IsVersionValid(),
-            SupportMatrix.Families.Single(f => f.SaveType == save.GetType()),
+            session.Capabilities.Family,
             save.Generation,
             string.IsNullOrWhiteSpace(save.OT) ? null : save.OT,
             save.Language,

@@ -20,6 +20,9 @@ public sealed class SaveSession
     /// <summary>Working save that reflects every applied edit.</summary>
     internal SaveFile Working { get; private set; }
 
+    /// <summary>What this release can do with the save: its family, the fields that can be drafted and the session's Core lists.</summary>
+    public SaveCapabilities Capabilities { get; }
+
     /// <summary>Sanitised name the file was opened as, kept apart from the bytes; exports are offered under this name.</summary>
     public string FileName { get; }
 
@@ -46,6 +49,7 @@ public sealed class SaveSession
         original = source;
         FileName = fileName;
         Working = save;
+        Capabilities = SaveCapabilities.For(save);
     }
 
     /// <summary>Returns a copy of the bytes the session was opened from.</summary>
@@ -73,7 +77,7 @@ public sealed class SaveSession
         {
             throw new SessionException(SessionError.EntityInvalid);
         }
-        return new EditorDraft(SessionId, slot, Revision, entity, Working.MaxStringLengthNickname);
+        return new EditorDraft(SessionId, slot, Revision, entity, Capabilities);
     }
 
     /// <summary>
@@ -81,8 +85,8 @@ public sealed class SaveSession
     /// </summary>
     /// <remarks>A draft with no changes is ignored and does not count as a change.</remarks>
     /// <exception cref="SessionException">
-    /// The draft is foreign or stale, it is of a party position (not yet written by this release), the slot cannot be written,
-    /// or the staged write fails verification.
+    /// The draft is foreign or stale, its position cannot be written by this release (<see cref="SaveCapabilities.CanApply"/>),
+    /// the slot cannot be written, or the staged write fails verification.
     /// </exception>
     public void Apply(EditorDraft draft)
     {
@@ -109,8 +113,8 @@ public sealed class SaveSession
         {
             throw new SessionException(SessionError.StagedWriteFailed);
         }
-        var stored = slot.Read(candidate);
-        if (!stored.ChecksumValid || stored.Nickname != entity.Nickname || stored.IsNicknamed != entity.IsNicknamed)
+        // The slot must now hold exactly the drafted entity: every stored byte, not only the edited fields.
+        if (!StoresExactly(slot.Read(candidate), entity))
         {
             throw new SessionException(SessionError.StagedEditMismatch);
         }
@@ -118,6 +122,22 @@ public sealed class SaveSession
         Working = candidate;
         Revision++;
         HasChangesSinceOpen = true;
+    }
+
+    /// <summary>
+    /// True when <paramref name="stored"/>, read back from a slot, passes its checksum and holds the same stored-format bytes as
+    /// <paramref name="expected"/>. Party-only data (battle stats, current HP, status) is outside the stored format and is not compared.
+    /// </summary>
+    internal static bool StoresExactly(PKM stored, PKM expected)
+    {
+        if (!stored.ChecksumValid)
+        {
+            return false;
+        }
+        var reference = expected.Clone();
+        reference.RefreshChecksum();
+        var size = reference.SIZE_STORED;
+        return stored.Data[..size].SequenceEqual(reference.Data[..size]);
     }
 
     /// <summary>
