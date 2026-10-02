@@ -43,6 +43,7 @@
 1023	i	Found Adamant/Lustrous Orb in Spear Pillar
 1233	i	Found Dread Plate in Old Chateau
 1234	i	Found TM90 in Old Chateau
+0304	i	Received TM64
 2401	*	Running Shoes disabled
 2433	s	2nd Rematch Against Trainers Unlocked
 0251	g	Received Happiny Egg Gift
