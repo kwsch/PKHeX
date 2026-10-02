@@ -85,7 +85,8 @@ public sealed class LegalityBrowserTests(PublishedAppFixture app)
         await Select(page);
         await Expect(page.Locator("#legality-status")).ToHaveTextAsync("Invalid");
         var edited = native.Select(SaveFixtures.FirstBoxSlot);
-        edited.EditNickname("Quill", edited.IsNicknamed);
+        // Typing a name that is not the species' name sets the nickname flag, as on the desktop.
+        edited.TypeNickname("Quill");
         var expected = LegalityService.Default.Analyze(native, edited, out _);
         var expectedStatus = Components.LegalityText.Status(StatusOf(expected));
         await page.EvaluateAsync(RecordStatus);

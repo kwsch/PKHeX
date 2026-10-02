@@ -12,4 +12,13 @@ public enum EditableFields
 
     /// <summary>The nickname text and the nickname flag (<see cref="EditorDraft.EditNickname"/>).</summary>
     Nickname = 1 << 0,
+
+    /// <summary>The language (<see cref="EditorDraft.EditLanguage"/>), which also decides the default name of a Pokémon that is not nicknamed.</summary>
+    Language = 1 << 1,
+
+    /// <summary>
+    /// Friendship towards the original trainer and towards the handling trainer, each labelled
+    /// (<see cref="EditorDraft.EditTrainerFriendship"/>, <see cref="EditorDraft.EditHandlerFriendship"/>).
+    /// </summary>
+    Friendship = 1 << 2,
 }

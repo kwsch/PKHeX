@@ -59,6 +59,21 @@ public enum SessionError
     /// <summary>The format would store the nickname with different text.</summary>
     NicknameNotRepresentable,
 
+    /// <summary>The language is not one the save's game can give a Pokémon (see <see cref="SaveCapabilities.Lists"/>).</summary>
+    LanguageNotAvailable,
+
+    /// <summary>The friendship value is outside 0–255. It is refused, never clamped.</summary>
+    FriendshipOutOfRange,
+
+    /// <summary>The Pokémon has no handling trainer, so it has no friendship towards one to edit.</summary>
+    NoHandlingTrainer,
+
+    /// <summary>
+    /// The Pokémon is an egg. Its name must be the game's egg name and its friendship field holds the hatch counter, so this release does
+    /// not edit either.
+    /// </summary>
+    EggNotEditable,
+
     /// <summary>The exported bytes do not reopen through <see cref="Services.SaveLoader"/>.</summary>
     ExportRevalidationFailed,
 

@@ -7,7 +7,7 @@ namespace PKHeX.Web.State;
 /// An unapplied edit of one party member or boxed entity. The working save is untouched until <see cref="SaveSession.Apply"/>.
 /// </summary>
 /// <remarks>
-/// The draft owns a private clone of the slot's entity, and its typed edit methods (such as <see cref="EditNickname"/>) are the only
+/// The draft owns a private clone of the slot's entity, and its typed edit methods (such as <see cref="TypeNickname"/>) are the only
 /// code that changes it. Nothing outside the draft is ever handed that clone: readers get a copy through <see cref="Preview"/>, so an
 /// apply carries exactly the changes the edit methods made, and every other stored byte stays as it was read.
 /// </remarks>
@@ -31,8 +31,14 @@ public sealed class EditorDraft
     /// </summary>
     public bool CanApply => Capabilities.CanApply(Slot);
 
-    /// <summary>Fields the user can change in this draft: none when it cannot be applied, so nothing is drafted that could never be kept.</summary>
-    public EditableFields Editable => CanApply ? Capabilities.Editable : EditableFields.None;
+    /// <summary>
+    /// Fields the user can change in this draft: none when it cannot be applied, so nothing is drafted that could never be kept, and none
+    /// for an egg (<see cref="SessionError.EggNotEditable"/>).
+    /// </summary>
+    public EditableFields Editable => CanApply && !IsEgg ? Capabilities.Editable : EditableFields.None;
+
+    /// <summary>True when the drafted Pokémon is an egg. No edit changes the egg state.</summary>
+    public bool IsEgg => baseline.IsEgg;
 
     /// <summary><see cref="SaveSession.Revision"/> the draft was taken from.</summary>
     public int SourceRevision { get; }
@@ -51,6 +57,33 @@ public sealed class EditorDraft
 
     /// <summary>Drafted nickname flag.</summary>
     public bool IsNicknamed => working.IsNicknamed;
+
+    /// <summary>Drafted language.</summary>
+    public int Language => working.Language;
+
+    /// <summary>What the drafted name means: its default for the language, a name kept from another language, and how the game shows it.</summary>
+    public NameStatus Name => NameRules.Describe(working, Capabilities.SaveLanguage);
+
+    /// <summary>The original trainer's name, as stored.</summary>
+    public string TrainerName => working.OriginalTrainerName;
+
+    /// <summary>Drafted friendship towards the original trainer (for an egg, the hatch counter).</summary>
+    public byte TrainerFriendship => working.OriginalTrainerFriendship;
+
+    /// <summary>The handling trainer's name, as stored; empty when the Pokémon has never left its original trainer.</summary>
+    public string HandlerName => working.HandlingTrainerName;
+
+    /// <summary>True when a handling trainer is stored, so friendship towards it can be edited.</summary>
+    public bool HasHandlingTrainer => HandlerName.Length != 0;
+
+    /// <summary>Drafted friendship towards the handling trainer.</summary>
+    public byte HandlerFriendship => working.HandlingTrainerFriendship;
+
+    /// <summary>
+    /// True when the stored current handler is the handling trainer, so the game uses <see cref="HandlerFriendship"/>; otherwise it uses
+    /// <see cref="TrainerFriendship"/>. No edit changes the current handler.
+    /// </summary>
+    public bool IsWithHandler => working.CurrentHandler == 1;
 
     /// <summary>True when any stored byte of the draft differs from the slot it was taken from.</summary>
     /// <remarks>Neither copy has its checksum refreshed in memory, so the checksum bytes cannot make an unchanged draft look dirty.</remarks>
@@ -73,22 +106,146 @@ public sealed class EditorDraft
     }
 
     /// <summary>
-    /// Replaces the draft's nickname fields. On failure the previous values are kept.
+    /// Replaces the draft's nickname text and flag exactly as given. On failure the previous values are kept.
     /// </summary>
     /// <remarks>
     /// Text equal to the stored nickname keeps the stored encoding, including any bytes after the terminator, so returning to the
-    /// original text (or changing only the flag) never rewrites the name. New text is encoded by Core.
+    /// original text (or changing only the flag) never rewrites the name. New text is encoded by Core. The editor uses
+    /// <see cref="TypeNickname"/> and <see cref="SetNicknamed"/>, which also apply the desktop's name rules.
     /// </remarks>
     /// <exception cref="SessionException">
-    /// The family does not allow nickname edits, or the text is too long, contains control characters, or cannot be stored unchanged.
+    /// The family does not allow nickname edits, the Pokémon is an egg, or the text is too long, contains control characters, or cannot be
+    /// stored unchanged.
     /// </exception>
     public void EditNickname(string nickname, bool isNicknamed)
     {
-        // Gated on the family, not the position: a party draft of a family without party writes can still be edited in memory, and Apply refuses it.
-        if (!Capabilities.Editable.HasFlag(EditableFields.Nickname))
+        Require(EditableFields.Nickname);
+        var candidate = (PK6)working.Clone();
+        SetName(candidate, nickname);
+        candidate.IsNicknamed = isNicknamed;
+        Commit(candidate, affectsStats: false);
+    }
+
+    /// <summary>
+    /// Replaces the nickname text as typed. The flag is set when the text is not the species' name in any language, and is never cleared
+    /// by typing (<see cref="NameRules.FlagAfterTyping"/>). On failure the previous values are kept.
+    /// </summary>
+    /// <exception cref="SessionException">As for <see cref="EditNickname"/>.</exception>
+    public void TypeNickname(string nickname)
+    {
+        Require(EditableFields.Nickname);
+        var candidate = (PK6)working.Clone();
+        SetName(candidate, nickname);
+        candidate.IsNicknamed = NameRules.FlagAfterTyping(candidate, nickname, working.IsNicknamed);
+        Commit(candidate, affectsStats: false);
+    }
+
+    /// <summary>
+    /// Sets or clears the nickname flag. Clearing it gives the Pokémon its default name in its language, unless its name is already the
+    /// species' name in some language (<see cref="NameRules.NameAfterReset"/>). On failure the previous values are kept.
+    /// </summary>
+    /// <exception cref="SessionException">As for <see cref="EditNickname"/>.</exception>
+    public void SetNicknamed(bool isNicknamed)
+    {
+        Require(EditableFields.Nickname);
+        var candidate = (PK6)working.Clone();
+        candidate.IsNicknamed = isNicknamed;
+        if (!isNicknamed)
+        {
+            SetName(candidate, NameRules.NameAfterReset(candidate, working.Nickname, working.Language));
+        }
+        Commit(candidate, affectsStats: false);
+    }
+
+    /// <summary>
+    /// Changes the language. A Pokémon that is not nicknamed is given its default name in the new language, unless its name is already
+    /// the species' name in some language, which is kept (<see cref="NameRules.NameAfterReset"/>); <see cref="Name"/> then reports it.
+    /// On failure the previous values are kept.
+    /// </summary>
+    /// <param name="language">A language from the session's list (<see cref="SaveCapabilities.Lists"/>).</param>
+    /// <exception cref="SessionException">
+    /// The family does not allow language edits, the Pokémon is an egg, the language is not in the game's list, or the new name cannot be
+    /// stored (as for <see cref="EditNickname"/>).
+    /// </exception>
+    public void EditLanguage(int language)
+    {
+        Require(EditableFields.Language);
+        if (!Capabilities.Lists.Languages.Any(l => l.Value == language))
+        {
+            throw new SessionException(SessionError.LanguageNotAvailable);
+        }
+        var candidate = (PK6)working.Clone();
+        candidate.Language = language;
+        if (!candidate.IsNicknamed)
+        {
+            var name = NameRules.NameAfterReset(candidate, working.Nickname, language);
+            if (name != working.Nickname)
+            {
+                Require(EditableFields.Nickname);
+                SetName(candidate, name);
+            }
+        }
+        Commit(candidate, affectsStats: false);
+    }
+
+    /// <summary>
+    /// Sets the friendship towards the original trainer. The value is refused outside 0–255, never clamped, and the current handler is not
+    /// changed. Friendship does not affect Generation 6 stats. On failure the previous value is kept.
+    /// </summary>
+    /// <exception cref="SessionException">
+    /// The family does not allow friendship edits, the Pokémon is an egg, or the value is outside 0–255.
+    /// </exception>
+    public void EditTrainerFriendship(int value)
+    {
+        Require(EditableFields.Friendship);
+        var candidate = (PK6)working.Clone();
+        candidate.OriginalTrainerFriendship = Friendship(value);
+        Commit(candidate, affectsStats: false);
+    }
+
+    /// <summary>
+    /// Sets the friendship towards the handling trainer, as <see cref="EditTrainerFriendship"/> does for the original trainer.
+    /// </summary>
+    /// <exception cref="SessionException">
+    /// As for <see cref="EditTrainerFriendship"/>, or the Pokémon has no handling trainer (<see cref="SessionError.NoHandlingTrainer"/>).
+    /// </exception>
+    public void EditHandlerFriendship(int value)
+    {
+        Require(EditableFields.Friendship);
+        if (!HasHandlingTrainer)
+        {
+            throw new SessionException(SessionError.NoHandlingTrainer);
+        }
+        var candidate = (PK6)working.Clone();
+        candidate.HandlingTrainerFriendship = Friendship(value);
+        Commit(candidate, affectsStats: false);
+    }
+
+    /// <summary>Refuses an edit of <paramref name="field"/> that the family does not allow, and any edit of an egg.</summary>
+    /// <remarks>
+    /// Gated on the family, not the position: a party draft of a family without party writes can still be edited in memory, and Apply
+    /// refuses it.
+    /// </remarks>
+    private void Require(EditableFields field)
+    {
+        if (!Capabilities.Editable.HasFlag(field))
         {
             throw new SessionException(SessionError.FieldNotEditable);
         }
+        if (IsEgg)
+        {
+            throw new SessionException(SessionError.EggNotEditable);
+        }
+    }
+
+    /// <summary>
+    /// Stores <paramref name="nickname"/> in <paramref name="candidate"/>, refusing text the format cannot store unchanged.
+    /// </summary>
+    /// <remarks>
+    /// The stored nickname keeps its stored bytes, and the drafted one is left as it is, so only new text is encoded by Core.
+    /// </remarks>
+    private void SetName(PK6 candidate, string nickname)
+    {
         if (nickname.Length > MaxNicknameLength)
         {
             throw new SessionException(SessionError.NicknameTooLong);
@@ -97,22 +254,26 @@ public sealed class EditorDraft
         {
             throw new SessionException(SessionError.NicknameInvalidCharacters);
         }
-        var candidate = (PK6)working.Clone();
         if (nickname == baseline.Nickname)
         {
             baseline.NicknameTrash.CopyTo(candidate.NicknameTrash);
+            return;
         }
-        else
+        if (nickname == candidate.Nickname)
         {
-            candidate.Nickname = nickname;
-            if (candidate.Nickname != nickname)
-            {
-                throw new SessionException(SessionError.NicknameNotRepresentable);
-            }
+            return;
         }
-        candidate.IsNicknamed = isNicknamed;
-        Commit(candidate, affectsStats: false);
+        candidate.Nickname = nickname;
+        if (candidate.Nickname != nickname)
+        {
+            throw new SessionException(SessionError.NicknameNotRepresentable);
+        }
     }
+
+    /// <summary>A friendship value as stored, refusing one outside the byte's range rather than clamping it.</summary>
+    private static byte Friendship(int value) => value is >= byte.MinValue and <= byte.MaxValue
+        ? (byte)value
+        : throw new SessionException(SessionError.FriendshipOutOfRange);
 
     /// <summary>
     /// Applies an arbitrary change to the draft through the same commit path as the typed edit methods.

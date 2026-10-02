@@ -1,0 +1,165 @@
+@using System.Globalization
+@* The draft's editable fields: name and language, and friendship towards each trainer. Every change goes through OnEdit, which runs it on
+   the draft and reports a refusal; this component only turns input into typed draft edits and shows what the draft holds. *@
+<h3 id="draft-edit-title">Edit</h3>
+@if (Draft.IsEgg)
+{
+    <p id="egg-note">@EditorText.EggReadOnly</p>
+}
+<fieldset id="name-fields">
+    <legend>Name</legend>
+    <label for="nickname">Nickname</label>
+    @* Fields the draft cannot change (all of them when the position cannot be applied, or for an egg) are read-only, so nothing is drafted that could never be applied. *@
+    <input id="nickname" value="@nickname" @oninput="NicknameTyped" maxlength="@Draft.MaxNicknameLength" readonly="@(!Can(EditableFields.Nickname))" />
+    <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="FlagChanged" disabled="@(!Can(EditableFields.Nickname))" /> Is nicknamed</label>
+    <label for="language">Language</label>
+    <select id="language" @onchange="LanguageChanged" disabled="@(!Can(EditableFields.Language))">
+        @if (!Listed(language))
+        {
+            <option value="@language" selected disabled>@EditorText.UnlistedLanguage(language)</option>
+        }
+        @foreach (var item in Draft.Capabilities.Lists.Languages)
+        {
+            <option value="@item.Value" selected="@(item.Value == language)">@item.Text</option>
+        }
+    </select>
+    @* Always rendered, so a screen reader announces a change of its text. *@
+    <p id="name-note" role="status">@EditorText.NameNote(Draft.Name, Draft.IsNicknamed, LanguageName, renamed)</p>
+</fieldset>
+<fieldset id="friendship-fields">
+    <legend>Friendship</legend>
+    @* Friendship fields are text with a numeric keyboard, not type=number: a number field reports partly typed text such as "1e" or "-" as
+       empty, so it could be neither shown as typed nor told apart from a cleared field. The draft refuses anything but 0–255. *@
+    <label for="ot-friendship">@EditorText.TrainerFriendshipLabel(Draft.TrainerName)</label>
+    <input id="ot-friendship" type="text" inputmode="numeric" autocomplete="off" value="@trainerFriendship"
+           @oninput="TrainerFriendshipTyped" readonly="@(!Can(EditableFields.Friendship))" />
+    <label for="ht-friendship">@EditorText.HandlerFriendshipLabel(Draft.HandlerName)</label>
+    <input id="ht-friendship" type="text" inputmode="numeric" autocomplete="off" value="@handlerFriendship"
+           @oninput="HandlerFriendshipTyped" readonly="@(!Can(EditableFields.Friendship) || !Draft.HasHandlingTrainer)"
+           aria-describedby="@(Draft.HasHandlingTrainer ? null : "ht-note")" />
+    @if (!Draft.HasHandlingTrainer)
+    {
+        <p id="ht-note">@EditorText.NoHandler</p>
+    }
+    <p id="friendship-note">@EditorText.CurrentFriendship(Draft.IsWithHandler)</p>
+</fieldset>
+
+@code {
+    /// <summary>The draft being edited. A new draft (another slot, or after apply or cancel) reloads every field.</summary>
+    [Parameter, EditorRequired] public EditorDraft Draft { get; set; } = null!;
+
+    /// <summary>
+    /// Runs one edit on the draft. The owner applies it, makes legality stale and reports a refusal, which leaves the draft unchanged.
+    /// </summary>
+    [Parameter, EditorRequired] public EventCallback<Action<EditorDraft>> OnEdit { get; set; }
+
+    private EditorDraft? shown;
+    private string nickname = "", trainerFriendship = "", handlerFriendship = "";
+    private bool nicknamed;
+    private int language;
+
+    /// <summary>The name before and after the last edit gave the Pokémon its default name, or null when the last edit did not.</summary>
+    private (string From, string To)? renamed;
+
+    protected override void OnParametersSet()
+    {
+        if (!ReferenceEquals(shown, Draft))
+        {
+            shown = Draft;
+            renamed = null;
+            trainerFriendship = handlerFriendship = "";
+            Load();
+        }
+    }
+
+    /// <summary>Shows the draft's values in every field, replacing any refused input.</summary>
+    private void Load()
+    {
+        nickname = Draft.Nickname;
+        nicknamed = Draft.IsNicknamed;
+        language = Draft.Language;
+        trainerFriendship = Shown(trainerFriendship, Draft.TrainerFriendship);
+        handlerFriendship = Shown(handlerFriendship, Draft.HandlerFriendship);
+    }
+
+    /// <summary>
+    /// The text for a friendship field: the typed text when it already reads as the drafted value (such as "070"), so accepting it does not
+    /// rewrite the field under the cursor, and the drafted value otherwise.
+    /// </summary>
+    private static string Shown(string typed, byte value) =>
+        int.TryParse(typed, NumberStyles.None, CultureInfo.InvariantCulture, out var parsed) && parsed == value
+            ? typed
+            : value.ToString(CultureInfo.InvariantCulture);
+
+    private bool Can(EditableFields field) => Draft.Editable.HasFlag(field);
+
+    private bool Listed(int value) => Draft.Capabilities.Lists.Languages.Any(l => l.Value == value);
+
+    /// <summary>The language's name from Core's list, or the unknown wording for a stored value outside it.</summary>
+    private string LanguageName => Draft.Capabilities.Lists.Languages.FirstOrDefault(l => l.Value == Draft.Language)?.Text ?? EditorText.UnlistedLanguage(Draft.Language);
+
+    private Task NicknameTyped(ChangeEventArgs e)
+    {
+        nickname = e.Value?.ToString() ?? "";
+        var text = nickname;
+        return Run(d => d.TypeNickname(text), tracksRename: false);
+    }
+
+    private Task FlagChanged(ChangeEventArgs e)
+    {
+        nicknamed = e.Value is true;
+        var flag = nicknamed;
+        return Run(d => d.SetNicknamed(flag), tracksRename: true);
+    }
+
+    private Task LanguageChanged(ChangeEventArgs e)
+    {
+        if (!int.TryParse(e.Value?.ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out var value))
+        {
+            return Task.CompletedTask;
+        }
+        language = value;
+        return Run(d => d.EditLanguage(value), tracksRename: true);
+    }
+
+    private Task TrainerFriendshipTyped(ChangeEventArgs e)
+    {
+        trainerFriendship = e.Value?.ToString() ?? "";
+        return Run(Friendship(trainerFriendship, static (d, v) => d.EditTrainerFriendship(v)), tracksRename: false);
+    }
+
+    private Task HandlerFriendshipTyped(ChangeEventArgs e)
+    {
+        handlerFriendship = e.Value?.ToString() ?? "";
+        return Run(Friendship(handlerFriendship, static (d, v) => d.EditHandlerFriendship(v)), tracksRename: false);
+    }
+
+    /// <summary>
+    /// The edit for typed friendship text. Text that is not a whole number (an empty field, a sign or a fraction) is refused like a value out
+    /// of range, so nothing is guessed or clamped.
+    /// </summary>
+    private static Action<EditorDraft> Friendship(string text, Action<EditorDraft, int> edit) =>
+        int.TryParse(text, NumberStyles.None, CultureInfo.InvariantCulture, out var value)
+            ? d => edit(d, value)
+            : _ => throw new SessionException(SessionError.FriendshipOutOfRange);
+
+    /// <summary>
+    /// Runs <paramref name="edit"/> through <see cref="OnEdit"/>. An accepted edit reloads every field from the draft, so a flag or language
+    /// change shows the name it gave, and earlier refused input is replaced by what the draft holds. A refused edit leaves the input as typed.
+    /// </summary>
+    /// <param name="edit">The draft edit.</param>
+    /// <param name="tracksRename">True for an edit that may give the Pokémon its default name, which the name note then reports.</param>
+    private async Task Run(Action<EditorDraft> edit, bool tracksRename)
+    {
+        var draft = Draft;
+        var revision = draft.EditRevision;
+        var before = draft.Nickname;
+        await OnEdit.InvokeAsync(edit);
+        if (!ReferenceEquals(draft, Draft) || draft.EditRevision == revision)
+        {
+            return;
+        }
+        renamed = tracksRename && draft.Nickname != before ? (before, draft.Nickname) : null;
+        Load();
+    }
+}

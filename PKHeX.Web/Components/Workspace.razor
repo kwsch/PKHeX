@@ -30,14 +30,10 @@
         <section aria-labelledby="draft-title">
             <h2 id="draft-title">Selected Pokémon</h2>
             <p id="draft-slot">@SlotText.Position(Draft.Slot)</p>
-            <h3 id="draft-edit-title">Nickname draft</h3>
-            <label for="nickname">Nickname</label>
-            @* Fields the draft cannot change (all of them when the position cannot be applied) are read-only, so nothing is drafted that could never be applied. *@
-            <input id="nickname" value="@nickname" @oninput="NicknameChanged" maxlength="@Draft.MaxNicknameLength" readonly="@(!CanEditNickname)" />
-            <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="NicknameFlagChanged" disabled="@(!CanEditNickname)" /> Is nicknamed</label>
+            <DraftEditor Draft="Draft" OnEdit="Edit" />
             <p id="draft-state">@(State.DraftDirty ? "Unapplied draft" : "No draft changes")</p>
             <PartyHpPreview Change="Draft.HpChange" />
-            <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid)">Apply nickname</button>
+            <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid)">Apply changes</button>
             <button id="cancel-draft" @onclick="CancelDraft">Cancel draft</button>
             @if (!Draft.CanApply)
             {
@@ -77,8 +73,11 @@
 }
 
 @code {
-    private string message = "", nickname = "";
-    private bool nicknamed, busy;
+    private string message = "";
+
+    /// <summary>The message shown for the last refused edit, cleared from the page once a later edit is accepted.</summary>
+    private string? refusal;
+    private bool busy;
     private ExportNameChoice? nameChoice;
 
     /// <summary>The inspector's view of the draft, rebuilt when the draft changes rather than on every render.</summary>
@@ -89,9 +88,6 @@
     private ExitIntent? shownExit;
     private SaveSession? Session => State.Session;
     private EditorDraft? Draft => State.Draft;
-
-    /// <summary>True when the draft's nickname fields can be changed.</summary>
-    private bool CanEditNickname => Draft?.Editable.HasFlag(EditableFields.Nickname) == true;
 
     /// <summary>The user's name choice, or the default for the session's state until they pick one.</summary>
     private ExportNameChoice NameChoice => nameChoice ?? ExportNaming.DefaultFor(Session!);
@@ -244,11 +240,7 @@
             }
             message = outcome switch
             {
-                SlotOpening.Opened => $"Opened {SlotText.Label(slot)}. " + (!Draft!.CanApply
-                    ? UserMessages.For(SessionError.PartyApplyNotAvailable)
-                    : Draft.Slot.IsParty
-                        ? $"Only nickname fields can be changed. {PartyText.KeptOnEdit}"
-                        : "Only nickname fields can be changed."),
+                SlotOpening.Opened => $"Opened {SlotText.Label(slot)}. " + OpenedNote(Draft!),
                 SlotOpening.AlreadyOpen => $"{position} is already open in the editor.",
                 SlotOpening.DraftPending => "Apply or cancel the draft before opening another slot.",
                 SlotOpening.Unreadable => $"{position}: {UserMessages.For(SessionError.EntityInvalid)}",
@@ -261,39 +253,46 @@
         }
     }
 
-    /// <summary>Shows the current draft's values, or clears the editor when there is none.</summary>
-    private void ResetDraftView()
+    /// <summary>What can be done with a Pokémon that has just been opened.</summary>
+    private static string OpenedNote(EditorDraft draft)
     {
-        nickname = Draft?.Nickname ?? "";
-        nicknamed = Draft?.IsNicknamed ?? false;
-        inspection = Draft?.Inspect();
+        if (!draft.CanApply)
+        {
+            return UserMessages.For(SessionError.PartyApplyNotAvailable);
+        }
+        if (draft.IsEgg)
+        {
+            return UserMessages.For(SessionError.EggNotEditable);
+        }
+        var fields = EditorText.EditableSummary(draft.Editable);
+        return draft.Slot.IsParty ? $"{fields} {PartyText.KeptOnEdit}" : fields;
     }
 
-    private void NicknameChanged(ChangeEventArgs e)
-    {
-        nickname = e.Value?.ToString() ?? "";
-        UpdateDraft();
-    }
+    /// <summary>Rebuilds the inspector for the current draft, or clears it when there is none. The editor reloads its fields itself.</summary>
+    private void ResetDraftView() => inspection = Draft?.Inspect();
 
-    private void NicknameFlagChanged(ChangeEventArgs e)
-    {
-        nicknamed = e.Value is true;
-        UpdateDraft();
-    }
-
-    /// <summary>Applies the editor's values to the draft. <see cref="WorkspaceState.SetDraftValid"/> makes the legality result stale and reschedules it.</summary>
-    private void UpdateDraft()
+    /// <summary>
+    /// Runs one edit from the editor on the draft. <see cref="WorkspaceState.SetDraftValid"/> makes the legality result stale and
+    /// reschedules it; a refused edit leaves the draft unchanged and marks it invalid until an edit is accepted.
+    /// </summary>
+    private void Edit(Action<EditorDraft> edit)
     {
         try
         {
-            Draft!.EditNickname(nickname, nicknamed);
-            inspection = Draft.Inspect();
+            edit(Draft!);
+            inspection = Draft!.Inspect();
             State.SetDraftValid(true);
+            // The editor now shows the draft as it is, so an earlier edit's refusal no longer describes it.
+            if (message == refusal)
+            {
+                message = "";
+            }
         }
         catch (Exception ex)
         {
             State.SetDraftValid(false);
             ShowError(ex);
+            refusal = message;
         }
     }
 
@@ -341,7 +340,7 @@
         {
             State.ApplyDraft();
             ResetDraftView();
-            message = "Nickname applied in memory; download to retain changes.";
+            message = "Changes applied in memory; download to retain changes.";
         }
         catch (Exception ex)
         {

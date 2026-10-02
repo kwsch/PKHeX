@@ -196,7 +196,8 @@ public sealed class PartyApplyTests
     {
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(false, customize: SaveFixtures.WithPartyMember(battle: p => p.IsEgg = true)));
         var draft = session.Select(SlotRef.InParty(0));
-        draft.EditNickname("Egg", false);
+        // Eggs are not editable through the typed edits; Apply's refusal stays the backstop for any later edit path.
+        draft.EditForTest(p => p.Nickname = "Egg", affectsStats: false);
 
         var apply = () => session.Apply(draft);
 
@@ -211,7 +212,7 @@ public sealed class PartyApplyTests
             SaveFixtures.WithPartyMember(),
             SaveFixtures.WithPartyMember(battle: p => p.IsEgg = true, position: 1))));
         var draft = session.Select(SlotRef.InParty(1));
-        draft.EditNickname("Egg", false);
+        draft.EditForTest(p => p.Nickname = "Egg", affectsStats: false);
 
         session.Apply(draft);
 

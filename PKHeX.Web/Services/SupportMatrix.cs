@@ -16,9 +16,12 @@ public static class SupportMatrix
     /// <summary>Families this release opens, in display order.</summary>
     public static IReadOnlyList<SupportedFamily> Families { get; } =
     [
-        new("Pokémon X and Y", typeof(SAV6XY), typeof(PK6), EditableFields.Nickname, WritesParty: true),
-        new("Pokémon Omega Ruby and Alpha Sapphire", typeof(SAV6AO), typeof(PK6), EditableFields.Nickname, WritesParty: true),
+        new("Pokémon X and Y", typeof(SAV6XY), typeof(PK6), PK6Fields, WritesParty: true),
+        new("Pokémon Omega Ruby and Alpha Sapphire", typeof(SAV6AO), typeof(PK6), PK6Fields, WritesParty: true),
     ];
+
+    /// <summary>The PK6 fields this release lets the user draft.</summary>
+    private const EditableFields PK6Fields = EditableFields.Nickname | EditableFields.Language | EditableFields.Friendship;
 
     /// <summary>True if <paramref name="save"/> is of a type this release opens. Related types, such as the ORAS demo, are not included.</summary>
     public static bool IsEnabled(SaveFile save) => Find(save) is not null;

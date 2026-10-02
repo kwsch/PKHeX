@@ -73,7 +73,7 @@ public sealed class StorageBrowserTests(PublishedAppFixture app)
         await page.Keyboard.PressAsync("Enter");
         await Expect(page.Locator("#draft-slot")).ToHaveTextAsync(SlotText.Position(SaveFixtures.FirstBoxSlot));
         var boxed = StorageView.Box(opened, 0).Slots[0];
-        await Expect(page.Locator("#message")).ToHaveTextAsync($"Opened {SlotText.Label(boxed)}. Only nickname fields can be changed.");
+        await Expect(page.Locator("#message")).ToHaveTextAsync($"Opened {SlotText.Label(boxed)}. {EditorText.EditableSummary(opened.Capabilities.Editable)}");
         await Expect(page.Locator("#box-grid [role=gridcell][aria-selected=true] button")).ToHaveIdAsync("box-grid-0");
         await page.Keyboard.PressAsync("Tab");
         Assert.Equal("Tab:false", (await page.EvaluateAsync<string[]>("() => window.gridKeys"))[^1]);
@@ -87,7 +87,7 @@ public sealed class StorageBrowserTests(PublishedAppFixture app)
         // A party member opens for editing, says its battle state is kept, and is analysed as a party member.
         await Select(page, SlotRef.InParty(0));
         var leader = StorageView.Party(opened)[0];
-        await Expect(page.Locator("#message")).ToHaveTextAsync($"Opened {SlotText.Label(leader)}. Only nickname fields can be changed. {PartyText.KeptOnEdit}");
+        await Expect(page.Locator("#message")).ToHaveTextAsync($"Opened {SlotText.Label(leader)}. {EditorText.EditableSummary(opened.Capabilities.Editable)} {PartyText.KeptOnEdit}");
         await Expect(page.Locator("#nickname")).ToHaveValueAsync("Leader");
         await Expect(page.Locator("#nickname")).ToBeEditableAsync();
         await Expect(page.Locator("#party-note")).ToHaveCountAsync(0);

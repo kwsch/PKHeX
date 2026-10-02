@@ -1065,11 +1065,11 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
       - Stored HP above the maximum (corrupt) is clamped to the new maximum by a stat edit, and the preview reports that reduction.
     - After the fixes: Unit 616, E2E 131 (republished, with sprites), RealSave 26, trim baseline 38, `PKHeX.slnx` Release 0 warnings.
   - **Recorded, not changed:**
-    - A lone party egg can be renamed in the draft, but Apply is refused with the generic "cannot be edited" message (Core's `InvalidPartyConfiguration`). A party of only eggs cannot occur in game; M10 can give it its own message if eggs stay editable.
+    - A lone party egg can be renamed in the draft, but Apply is refused with the generic "cannot be edited" message (Core's `InvalidPartyConfiguration`). A party of only eggs cannot occur in game; M10 can give it its own message if eggs stay editable. *(M10: eggs are not editable, so this is reachable only through tests.)*
     - The open message for a party member says its stats, HP and status are kept. That is true for every edit in this release; M11 must reword it when the first stat edit arrives.
     - A party member without stored stats can still be opened and edited; only Apply refuses it. No real-save member lacks stats.
     - `PartyApplyNotAvailable` is unreachable in this release (both families write the party); it is kept for later families, which need their own policy.
-    - Boxed eggs' and party eggs' nicknames are editable (M10 decides).
+    - Boxed eggs' and party eggs' nicknames are editable (M10 decides). *(M10: eggs are read-only.)*
     - The HP preview is a live region; M18 decides whether that is too chatty.
   - **Not verified yet:** no screen reader; physical devices (G-C); the HP preview in the live UI (nothing triggers it until M11).
   - **Compared with PKForge** (`WriteSafety.CheckWriteSafety`, `SaveEngineSession.SetEntityCore`, `EvolutionService.Apply`, `MonFieldService`):
@@ -1078,6 +1078,119 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
     - **Different, to decide in M11/M15:** PKForge's evolution adds the gained maximum HP to current HP (as the game does on level-up), which can revive a fainted member; we follow `PKHeX.Web.md` (min(previous, new maximum), fainted stays fainted).
     - **Not adopted:** route/layout-risk detection for Gen 3 ROM hacks (out of Web scope); multi-slot `WriteScope` (WEB-BOX-005, MVP+).
 - **M10 Nickname/language + friendship.** Covers the nickname flag, Core encoding/length checks with no silent truncation, language change shown with its default-name implications, and the labelled OT friendship value (PKM-003, 006).
+
+  **M10 status:** code complete on `web/m10-name-friendship`.
+  - **User decisions:**
+    - Friendship is two labelled fields, original trainer (OT) and handling trainer (HT). HT is editable only when a handling trainer is stored. `CurrentHandler` is never changed.
+    - Eggs are read-only for every M10 field. This settles "eggs' nicknames editable (M10 decides)" from M7 and M9.
+    - The name follows the WinForms rules.
+  - **Name rules** (`Services/NameRules`, pure). Each mirrors a WinForms method:
+    - `FlagAfterTyping` (`UpdateIsNicknamed`): typing a name that is not the species' name in any Gen 6 language sets the flag; typing never clears it.
+    - `NameAfterReset` (`UpdateNickname` / `IsPossibleNotNicknamed`): clearing the flag, or changing the language while it is clear, gives Core's default name for the language. A name that is already the species' name in some language is kept, as in the R3 W8 case.
+    - `Describe` gives the default name, a name kept from another language, and Core's font check (`StringFontUtil`, the WinForms font warning).
+    - The desktop's egg and Gen 5 branches are left out: eggs are not edited, and no Gen 5 format is opened.
+  - **Draft** (`State/EditorDraft`):
+    - `EditNickname(text, flag)` stays as the exact primitive. `TypeNickname`, `SetNicknamed`, `EditLanguage`, `EditTrainerFriendship` and `EditHandlerFriendship` are added.
+    - Every edit commits a candidate through `Commit(…, affectsStats: false)`. Friendship does not affect Gen 6 stats.
+    - Name writes share `SetName`. The length, control-character and `NicknameNotRepresentable` checks are unchanged. The stored name keeps its stored bytes, and an unchanged name is not re-encoded.
+    - The language must be in the session's `Lists.Languages`. A language change that renames also needs `EditableFields.Nickname`.
+    - New errors: `LanguageNotAvailable`, `FriendshipOutOfRange` (refused, never clamped), `NoHandlingTrainer`, `EggNotEditable`.
+    - `Editable` is `None` for an egg.
+    - `EditableFields` gains `Language` and `Friendship`, and `SupportMatrix` grants all three to XY and ORAS. `SaveCapabilities.SaveLanguage` feeds the font check.
+  - **UI:**
+    - `Components/DraftEditor` is extracted from `Workspace`, with all wording in `Components/EditorText`.
+    - Name fieldset: nickname, flag, a language `<select>` from Core's list (a stored value outside the list is shown as "Unknown (stored value N)"), and `#name-note`, an always-present live region.
+    - Friendship fieldset: the OT and HT fields, each label naming its trainer; `#ht-note` when there is no handler; and `#friendship-note`, which says which value the game uses now and that edits never change who holds the Pokémon.
+    - Text that does not parse ("", "1.5", "1e2", "-1") is refused like an out-of-range value.
+    - An accepted edit reloads every field from the draft, so earlier refused input is replaced. Friendship text that already reads as the drafted value ("071") is kept, so the field is not rewritten under the cursor.
+    - Eggs show `#egg-note`, with every field read-only.
+    - The open message lists the editable fields (`EditorText.EditableSummary`). The heading is now "Edit" and the button "Apply changes".
+  - **Tests.**
+    - **Unit 694** (up from 616):
+      - `NameRulesTests` (28): a WinForms parity table, other-language species names, species out of range, `Describe`, and the font check against Core.
+      - `NameAndFriendshipDraftTests` (28):
+        - each edit equals the native Core edit byte for byte
+        - clearing the flag restores the stored bytes
+        - the W8 language case, the reset of a custom name, and a language round trip leaving the draft clean
+        - unlisted languages (0, 6, ChineseS, −1) refused
+        - 0, 123 and 255 accepted; 256, −1 and `int.MaxValue` refused unclamped
+        - HT accepted (current handler kept) and refused without a handler
+        - every egg edit refused
+        - per-field family gating
+        - a party member (injured, burned, with a stored Attack Core would not calculate) keeps its battle bytes through apply and export, equal to native `SetPartySlotAtIndex(…, None)`, in XY and ORAS
+        - a box export equal to native Core
+      - `DraftEditorTests` (22, bUnit): labels, HT read-only with `aria-describedby`, egg read-only, the auto-tick, every name-note state, the font warning, refused friendship kept as typed, an accepted edit replacing refused input, the typed text kept, invariant digits under ar-SA, the unlisted language option, the live region, a new draft reloading every field, and `EditableSummary`.
+      - Updated: `SaveCapabilitiesTests`, `SessionTests`, and `PartyApplyTests` (the two egg apply tests now reach Apply through `EditForTest`, since eggs are no longer editable).
+    - **E2E 155** (up from 131): `NameFriendshipBrowserTests`, 3 engines × 2 paths:
+      - a language change renaming a Pokémon that is not nicknamed, with the note; 256 refused and kept as typed with Apply disabled; apply, legality and export byte-identical to native Core; only the slot and footer differ
+      - the flag rules (auto-tick, clearing back to the default and a clean draft, a kept name after a language change)
+      - party OT and HT friendship labelled per trainer, keeping HP, status and current handler, byte-identical to native Core
+      - an egg and a Pokémon without a handler offering only what can be changed
+      - no horizontal scroll at 375 px; no network or storage use
+      - `StorageBrowserTests` and `LegalityBrowserTests` updated for the new open message and the auto-tick.
+      - The sprite cases ran against a publish with sprites.
+    - **RealSave 38** (up from 26): `RealSaveFriendshipRoundTrip` on the first writable boxed Pokémon that is not an egg, 3 engines × 2 paths × 2 families. It edits OT friendship, and HT friendship when a handler is stored (otherwise it checks the field is read-only). Byte-identical to native Core; only the slot and footer differ.
+    - **Mutation checks** (Unit tier; each file restored from a scratchpad copy; the number is how many tests failed):
+      - clamping friendship → 4
+      - no egg gate in `Require` → 1
+      - no auto-tick → 7
+      - a reset that ignores species names → 4
+      - HT editable without a handler → 1
+      - friendship declared stat-affecting → 2 (only after the party test gained a stored stat Core would not calculate)
+      - languages not validated → 4
+      - a language change that never renames → 3
+      - friendship text always rewritten → 1
+      - the rename note not tracked → 2
+      - no reload after an accepted edit → 4
+      - the font check dropped → 3
+    - **Other checks:**
+      - The trim baseline is unchanged (38), and the `PKHeX.slnx` Release build has 0 warnings.
+      - Screenshots at 1280 and 375 px (Chromium, private XY save, first party member, language changed to German, OT friendship 256) show the kept-name note, the refusal, Apply disabled and no horizontal scroll.
+  - **Review** (with throwaway probes against the private saves):
+    - Across all 976 non-egg entities of both private saves, no stored Pokémon would be renamed by clearing its flag again, or flip its flag by retyping its own name. None is reported as keeping another language's name or as using characters the font cannot show. 292 have a handling trainer.
+    - **Recorded, not changed:**
+      - A language change keeps a species name from another language, as WinForms does (W8), so the Pokémon can become Invalid. The note says so.
+      - Core names languages "ENG (English)", and the notes use those names as they are.
+      - A refused field has no visual invalid state or `aria-invalid`; only `#message` reports it. M18 owns validation focus and styling.
+      - A read-only HT field looks like an editable one, apart from the note. M18.
+      - `#name-note` is a live region and is announced after each name change. M18 decides whether that is too chatty, together with the legality status.
+      - Fixed-nickname encounters (Core's `SetDefaultNickname(LegalityAnalysis)`) are not used for the default name: WinForms' `UpdateNickname` does not use them either. M15 revisits with species changes.
+  - **Adversarial review** (after the first review, with throwaway probes against Core, the browsers and the private saves, and mutations).
+    - **Fixed:**
+      - **Clearing the flag could write an empty or foreign name.**
+        - For a stored language Core has no Gen 6 names for, Core's "default name" is empty (0, the unused 6, 255) or Chinese (9, 10).
+        - So clearing the flag on a custom name, or changing language from such a value, wrote an empty or Chinese nickname, and the note read "…default is ;". Reproduced with a probe.
+        - `NameRules.DefaultName` now gives a name only for the context's game languages (Core's `Language.GetAvailableGameLanguages`), and otherwise keeps the name. The note says the game has no default name for it.
+        - A Unit test checks that every Gen 6 species has a non-empty default name in every game language, so no extra empty-name guard is needed. Such a guard was tried and dropped: its mutation survived.
+      - **Friendship fields wiped partly typed text.**
+        - With `type=number`, a browser reports "1e" or "-" as an empty value. The refusal then wrote "" back over the visible text (reproduced in Chromium), so refused input was not kept as typed.
+        - The fields are now `type=text inputmode=numeric`, and the draft still refuses anything but 0–255.
+      - **A stale refusal stayed in `#message`** after the field was corrected. This was already so before M10, but more fields made it confusing. An accepted edit now clears the message if it is still the last edit's refusal.
+      - Mutations:
+        - dropping the game-language check → fails 2 Unit tests
+        - `type=number` back → fails 1 Unit test
+        - not clearing the refusal → fails the E2E check (all 6 browser cases)
+    - **Checked, not changed:**
+      - Core truncates a 20-character PK6 nickname to 12 without error, so refusing over-long names (rather than relying on Core) is needed, and the PKForge comparison holds.
+      - Hostile species values (0, 722, 1000, 65535) get no default name and no auto-tick, and nothing throws. Hostile save languages (0, 6, 255) do not throw in the font check.
+      - WinForms' `UpdateNickname` re-read confirms the W8 behaviour: a species name from any language is kept on a language change.
+    - **Recorded, not changed:**
+      - A Pokémon whose current handler is the handling trainer but which has no handling-trainer name gets a note saying the game uses the handler's value, which cannot be edited. Neither private save has one (0 of 976), and Core's legality reports the state.
+      - Typing the species name back after the flag was auto-set keeps the flag, so the draft stays dirty. WinForms does the same.
+      - A refused name is replaced by the drafted name when another field's edit is accepted, so text the game could not store is not kept on screen.
+    - After the fixes: Unit 694, E2E 155 (republished, with sprites), RealSave 38, trim baseline 38, `PKHeX.slnx` Release 0 warnings.
+  - **Not verified yet:** no screen reader; physical devices (G-C).
+  - **Compared with PKForge** (`SaveEngineSession.ApplyEdit` / `ApplyMetEdit`, `MonFieldService.ApplyTrainerEdit`):
+    - **Matches:**
+      - OT and HT friendship as separate values
+      - clearing the flag gives the default name (`SetDefaultNickname`)
+    - **Stricter:**
+      - PKForge clamps friendship with `Math.Clamp`; we refuse.
+      - PKForge forces `IsNicknamed = true` on any name change; we follow WinForms' species-name rule.
+      - PKForge writes the nickname with no length check, which Core silently truncates; we refuse.
+      - PKForge changes the language with no name handling; we apply WinForms' rule and say what happened.
+      - PKForge has no egg gate on these edits, and no font check.
+    - **Not adopted:** HT name, gender and language edits, and clearing the handler (Post-MVP); `SetDefaultNickname(LegalityAnalysis)` for fixed-nickname encounters (M15).
 - **M11 Level/EXP, nature, stats/characteristic.** Level and EXP stay in sync through `Experience`. PK6 nature is independent of PID. Calculated stats and characteristic are shown on the clone (PKM-005, 007, 014).
 - **M12 IVs/EVs.** Per-stat and total EV limits from Core, with no silent clamping. Changes mark legality stale and recalculate stats (PKM-013).
 - **M13 Held item, moves, PP/PP Ups.** Uses Core-filtered item/move lists. Empty moves are allowed. PP rules come from Core. The UI never claims a move is learnable (PKM-010–012).

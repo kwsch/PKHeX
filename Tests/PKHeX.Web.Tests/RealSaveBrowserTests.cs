@@ -186,4 +186,70 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred; no private traces retained.");
         fixture.AssertUnchanged();
     }
+
+    /// <summary>
+    /// The first boxed Pokémon of each private save that is not an egg: friendship towards each stored trainer, edited through the published
+    /// app, matches the same native Core edit byte for byte and changes only that slot. Values are withheld from messages.
+    /// </summary>
+    [TierTheory(TestCategory.RealSave)]
+    [MemberData(nameof(RealCases))]
+    public async Task RealSaveFriendshipRoundTrip(string engine, string prefix, string family)
+    {
+        var fixture = RealSaves.Read(family);
+        var native = fixture.Native;
+        var index = FirstWritableNonEgg(native);
+        var noOp = native.Clone().Write().ToArray();
+
+        var changed = native.Clone();
+        var editedPk = SaveFixtures.Slot(changed, index).Read(changed);
+        var trainer = editedPk.OriginalTrainerFriendship == 200 ? 201 : 200;
+        var hasHandler = editedPk.HandlingTrainerName.Length != 0;
+        var handler = editedPk.HandlingTrainerFriendship == 100 ? 101 : 100;
+        editedPk.OriginalTrainerFriendship = (byte)trainer;
+        if (hasHandler)
+        {
+            editedPk.HandlingTrainerFriendship = (byte)handler;
+        }
+        Assert.True(SaveFixtures.Slot(changed, index).WriteTo(changed, editedPk, EntityImportSettings.None));
+        var expectedEdited = changed.Clone().Write().ToArray();
+
+        await using var session = await app.BootAsync(engine, prefix);
+        var page = session.Page;
+        await Load(page, noOp);
+        await Select(page, index);
+        await page.Locator("#ot-friendship").FillAsync(trainer.ToString(CultureInfo.InvariantCulture));
+        if (hasHandler)
+        {
+            await page.Locator("#ht-friendship").FillAsync(handler.ToString(CultureInfo.InvariantCulture));
+        }
+        else
+        {
+            await Expect(page.Locator("#ht-friendship")).Not.ToBeEditableAsync();
+        }
+        await page.Locator("#apply").ClickAsync();
+        await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
+        var edited = await DownloadEdited(page);
+        Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native friendship output differs (bytes withheld).");
+        AssertOnlyRangeDiffers(noOp, edited, native.GetBoxSlotOffset(index.Box, index.Slot), native.SIZE_BOXSLOT);
+
+        await session.AssertNoNetworkOrPersistenceAsync();
+        Assert.True(session.PageErrors == 0, "Browser runtime errors occurred; no private traces retained.");
+        fixture.AssertUnchanged();
+    }
+
+    /// <summary>The first writable boxed PK6 that is not an egg, since eggs are not edited.</summary>
+    private static SlotRef FirstWritableNonEgg(SaveFile save)
+    {
+        for (var i = 0; i < save.SlotCount; i++)
+        {
+            var slot = SlotRef.InBox(i / save.BoxSlotCount, i % save.BoxSlotCount);
+            var info = SaveFixtures.Slot(save, slot);
+            var pk = info.Read(save);
+            if (pk is PK6 { Species: not 0, ChecksumValid: true, IsEgg: false } && info.CanWriteTo(save) && info.CanWriteTo(save, pk) == WriteBlockedMessage.None)
+            {
+                return slot;
+            }
+        }
+        throw new InvalidOperationException("Real fixture contains no writable boxed PK6 that is not an egg.");
+    }
 }

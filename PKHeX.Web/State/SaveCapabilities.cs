@@ -21,6 +21,7 @@ public sealed class SaveCapabilities
         CanApplyToParty = family.WritesParty && save.HasParty;
         Editable = family.Editable;
         MaxNicknameLength = save.MaxStringLengthNickname;
+        SaveLanguage = save.Language;
         Lists = new FilteredGameDataSource(save, GameInfo.Sources);
     }
 
@@ -44,6 +45,9 @@ public sealed class SaveCapabilities
 
     /// <summary>Longest nickname the save format can store, in characters.</summary>
     public int MaxNicknameLength { get; }
+
+    /// <summary>The save's language, which decides the font the game shows names in (see <see cref="NameRules.Describe"/>).</summary>
+    public int SaveLanguage { get; }
 
     /// <summary>
     /// Core's species, move, item, ball, ability, game and language lists, filtered to what this save can hold.

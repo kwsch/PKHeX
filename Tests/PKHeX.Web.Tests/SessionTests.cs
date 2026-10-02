@@ -336,11 +336,11 @@ public sealed class SessionTests
         draft.Slot.Should().Be(SlotRef.InParty(0));
         draft.Nickname.Should().Be("Leader", "the party member, not the boxed copy, is opened");
         draft.CanApply.Should().BeTrue();
-        draft.Editable.Should().Be(EditableFields.Nickname);
+        draft.Editable.Should().Be(session.Capabilities.Editable);
         draft.HpChange.Should().BeNull("nothing is drafted yet");
         var boxed = session.Select(SaveFixtures.FirstBoxSlot);
         boxed.CanApply.Should().BeTrue();
-        boxed.Editable.Should().Be(EditableFields.Nickname);
+        boxed.Editable.Should().Be(session.Capabilities.Editable);
         draft.Inspect().Stats.Source.Should().Be(StatsSource.Stored, "a party member's stored stats are shown");
         boxed.Inspect().Stats.Source.Should().Be(StatsSource.Calculated);
     }
