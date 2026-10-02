@@ -56,6 +56,78 @@ public sealed class InspectorTextTests : IDisposable
         Value(sections, "inspect-checksum").Should().Be("Valid");
     }
 
+    [Theory]
+    [InlineData(Nature.Adamant, "Attack (raised by nature)", "Sp. Atk (lowered by nature)")]
+    [InlineData(Nature.Timid, "Speed (raised by nature)", "Attack (lowered by nature)")]
+    [InlineData(Nature.Brave, "Attack (raised by nature)", "Speed (lowered by nature)")]
+    [InlineData(Nature.Calm, "Sp. Def (raised by nature)", "Attack (lowered by nature)")]
+    [InlineData(Nature.Bold, "Defense (raised by nature)", "Attack (lowered by nature)")]
+    public void TheStatsTableNamesTheStatsTheNatureRaisesAndLowers(Nature nature, string raised, string lowered)
+    {
+        var pk = Known();
+        pk.Nature = nature;
+
+        var rows = Sections(pk).Single(s => s.Id == "inspect-stats").Table!.Rows.Select(r => r[0]).ToList();
+
+        rows.Should().Contain(raised).And.Contain(lowered);
+        rows.Count(r => r.Contains("by nature", StringComparison.Ordinal)).Should().Be(2);
+    }
+
+    [Theory]
+    [InlineData(Nature.Hardy)]
+    [InlineData(Nature.Serious)]
+    [InlineData((Nature)25)]
+    public void ANeutralOrUnknownNatureMarksNoStat(Nature nature)
+    {
+        var pk = Known();
+        pk.Nature = nature;
+
+        Sections(pk).Single(s => s.Id == "inspect-stats").Table!.Rows.Select(r => r[0]).Should().Equal(InspectorText.StatNames);
+    }
+
+    [Fact]
+    public void NatureEffectsMatchCoresCalculation()
+    {
+        // Each marked stat must be the one Core's calculation raises or lowers by a tenth; at level 100 a tenth always shows.
+        var pk = Known();
+        pk.EXP = Experience.GetEXP(Experience.MaxLevel, pk.PersonalInfo.EXPGrowth);
+        foreach (var nature in Enumerable.Range(0, 25).Select(n => (Nature)n))
+        {
+            pk.Nature = nature;
+            var effect = NatureEffect.Of(nature);
+            pk.Nature = Nature.Hardy;
+            var neutral = Summary(pk.GetStats(pk.PersonalInfo));
+            pk.Nature = nature;
+            var amplified = Summary(pk.GetStats(pk.PersonalInfo));
+            var changed = Enumerable.Range(0, 6).Where(i => neutral[i] != amplified[i]).ToList();
+            if (effect.IsNeutral)
+            {
+                changed.Should().BeEmpty();
+                continue;
+            }
+            amplified[effect.Raised].Should().BeGreaterThan(neutral[effect.Raised], nature.ToString());
+            amplified[effect.Lowered].Should().BeLessThan(neutral[effect.Lowered], nature.ToString());
+            changed.Should().BeEquivalentTo([effect.Raised, effect.Lowered]);
+        }
+
+        static int[] Summary(ushort[] core) => [core[0], core[1], core[2], core[4], core[5], core[3]];
+    }
+
+    [Fact]
+    public void TheCaptionSaysWhereTheStatsComeFrom()
+    {
+        var party = SlotRef.InParty(0);
+        var pk = Known();
+        pk.ResetPartyStats();
+
+        Caption(EntityInspection.From(pk, SaveFixtures.FirstBoxSlot, Capabilities)).Should().Contain("calculated by PKHeX.Core");
+        Caption(EntityInspection.From(pk, party, Capabilities)).Should().Be("Stats as stored with this party member");
+        Caption(EntityInspection.From(pk, party, Capabilities, statsRecalculated: true))
+            .Should().Be("Stats recalculated by PKHeX.Core for this draft, as applying it will store them with this party member");
+
+        static string Caption(EntityInspection inspection) => InspectorText.Sections(inspection).Single(s => s.Id == "inspect-stats").Table!.Caption;
+    }
+
     [Fact]
     public void NumbersIgnoreTheBrowserCulture()
     {
@@ -150,7 +222,9 @@ public sealed class InspectorTextTests : IDisposable
         rendered.FindAll("#inspect-nickname b").Should().BeEmpty("a stored name is never parsed as markup");
         rendered.Find("#inspect-ot").TextContent.Should().StartWith("<i>OT</i>");
         rendered.FindAll("#inspect-stats-table tbody tr").Should().HaveCount(6);
-        rendered.FindAll("#inspect-stats-table tbody th[scope=row]").Select(t => t.TextContent).Should().Equal(InspectorText.StatNames);
+        var nature = NatureEffect.Of(pk.Nature);
+        rendered.FindAll("#inspect-stats-table tbody th[scope=row]").Select(t => t.TextContent)
+            .Should().Equal(InspectorText.StatNames.Select((_, i) => InspectorText.StatName(i, nature)));
         rendered.FindAll("#inspect-moves-table tbody tr").Should().HaveCount(4);
     }
 

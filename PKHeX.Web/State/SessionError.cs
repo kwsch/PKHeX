@@ -68,9 +68,21 @@ public enum SessionError
     /// <summary>The Pokémon has no handling trainer, so it has no friendship towards one to edit.</summary>
     NoHandlingTrainer,
 
+    /// <summary>The level is outside 1–100. It is refused, never clamped.</summary>
+    LevelOutOfRange,
+
     /// <summary>
-    /// The Pokémon is an egg. Its name must be the game's egg name and its friendship field holds the hatch counter, so this release does
-    /// not edit either.
+    /// The experience points are negative or above the most the species' growth rate counts (the level 100 threshold). They are refused,
+    /// never clamped.
+    /// </summary>
+    ExperienceOutOfRange,
+
+    /// <summary>The nature is not one of the game's natures (see <see cref="SaveCapabilities.Lists"/>).</summary>
+    NatureNotAvailable,
+
+    /// <summary>
+    /// The Pokémon is an egg. Its name must be the game's egg name, and its friendship field holds the hatch counter, so this release
+    /// edits none of its fields.
     /// </summary>
     EggNotEditable,
 

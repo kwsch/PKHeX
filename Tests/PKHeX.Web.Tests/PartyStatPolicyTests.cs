@@ -179,4 +179,52 @@ public sealed class PartyStatPolicyTests
         change!.Value.IsReduction.Should().BeFalse();
         change.Value.NewMax.Should().BeGreaterThan(change.Value.PreviousMax);
     }
+
+    [Fact]
+    public void AnEditThatLeavesTheCalculationAsItWasKeepsTheStoredBattleState()
+    {
+        var stored = Member(p =>
+        {
+            p.Stat_HPCurrent = 7;
+            p.Status_Condition = 0x10;
+            p.Stat_ATK = 1;
+        });
+        var candidate = (PK6)stored.Clone();
+        candidate.EXP++;
+
+        PartyStatPolicy.AfterStatEdit(candidate, stored);
+
+        candidate.Data[stored.SIZE_STORED..].ToArray().Should().Equal(stored.Data[stored.SIZE_STORED..].ToArray(), "the stats and level Core calculates are unchanged");
+    }
+
+    [Fact]
+    public void AnEditThatChangesTheCalculationRecalculates()
+    {
+        var stored = Member(p =>
+        {
+            p.Stat_HPCurrent = 7;
+            p.Status_Condition = 0x10;
+            p.Stat_ATK = 1;
+        });
+        var candidate = (PK6)stored.Clone();
+        candidate.Nature = stored.Nature == Nature.Adamant ? Nature.Modest : Nature.Adamant;
+
+        PartyStatPolicy.AfterStatEdit(candidate, stored);
+
+        candidate.Stat_ATK.Should().Be(candidate.GetStats(candidate.PersonalInfo)[1]);
+        candidate.Stat_HPCurrent.Should().Be(7);
+        candidate.Status_Condition.Should().Be(0x10);
+    }
+
+    [Fact]
+    public void ALevelChangeSetsTheStoredPartyLevel()
+    {
+        var stored = Member(p => p.Stat_ATK = 1);
+        var candidate = (PK6)stored.Clone();
+        candidate.EXP = Experience.GetEXP((byte)(stored.CurrentLevel + 1), stored.PersonalInfo.EXPGrowth);
+
+        PartyStatPolicy.AfterStatEdit(candidate, stored);
+
+        candidate.Stat_Level.Should().Be((byte)(stored.CurrentLevel + 1));
+    }
 }

@@ -22,6 +22,12 @@ public enum StatsSource
 
     /// <summary>Calculated by Core from base stats, IVs, EVs, level and nature; boxed Pokémon do not store battle stats.</summary>
     Calculated,
+
+    /// <summary>
+    /// A party member's battle stats as an unapplied stat edit recalculated them (<see cref="PartyStatPolicy"/>): what applying the draft
+    /// stores.
+    /// </summary>
+    Recalculated,
 }
 
 /// <summary>One stat of the six, in the games' summary order (HP, Attack, Defense, Sp. Atk, Sp. Def, Speed).</summary>
@@ -86,13 +92,15 @@ public sealed record IdentityFacts(
 /// </param>
 /// <param name="Characteristic">The characteristic (the phrase on the summary), from the IVs and encryption constant.</param>
 /// <param name="HiddenPowerType">The type Hidden Power has, from the IVs.</param>
+/// <param name="Nature">The stats the stored nature raises and lowers, which Core's calculation applies.</param>
 public sealed record StatsFacts(
     StatsSource Source,
     IReadOnlyList<StatRow> Stats,
     int? CurrentHp,
     NamedValue? Status,
     NamedValue Characteristic,
-    NamedValue HiddenPowerType)
+    NamedValue HiddenPowerType,
+    NatureEffect Nature)
 {
     /// <summary>The sum of the six IVs.</summary>
     public int IvTotal => Stats.Sum(s => s.Iv);
@@ -183,14 +191,18 @@ public sealed record EntityInspection(SlotRef Slot, IdentityFacts Identity, Stat
     /// A party member's battle stats, HP and status are shown as stored. A boxed Pokémon stores none, so its stats are calculated
     /// by Core without writing them to the entity.
     /// </remarks>
+    /// <param name="statsRecalculated">
+    /// True when <paramref name="pk"/> is a drafted party member whose stored stats an unapplied edit recalculated, so they are shown as
+    /// what an apply stores rather than as stored.
+    /// </param>
     /// <param name="pk">The entity to read; pass a copy, as the draft's <see cref="EditorDraft.Preview"/> does.</param>
     /// <param name="slot">The position it was read from, which decides whether stored party stats apply.</param>
     /// <param name="capabilities">The session's capabilities, whose lists mark values this game cannot hold.</param>
-    public static EntityInspection From(PK6 pk, SlotRef slot, SaveCapabilities capabilities)
+    public static EntityInspection From(PK6 pk, SlotRef slot, SaveCapabilities capabilities, bool statsRecalculated = false)
     {
         var strings = GameInfo.Strings;
         var lists = capabilities.Lists;
-        return new EntityInspection(slot, ReadIdentity(pk, strings, lists), ReadStats(pk, slot, strings), ReadMoves(pk, strings, lists), ReadOrigin(pk, lists), ReadAdvanced(pk));
+        return new EntityInspection(slot, ReadIdentity(pk, strings, lists), ReadStats(pk, slot, strings, statsRecalculated), ReadMoves(pk, strings, lists), ReadOrigin(pk, lists), ReadAdvanced(pk));
     }
 
     private static IdentityFacts ReadIdentity(PK6 pk, GameStrings strings, FilteredGameDataSource lists)
@@ -215,7 +227,7 @@ public sealed record EntityInspection(SlotRef Slot, IdentityFacts Identity, Stat
             pk.CurrentFriendship);
     }
 
-    private static StatsFacts ReadStats(PK6 pk, SlotRef slot, GameStrings strings)
+    private static StatsFacts ReadStats(PK6 pk, SlotRef slot, GameStrings strings, bool recalculated)
     {
         var personal = pk.PersonalInfo;
         // A party member stores the stats the game calculated; a boxed one has none, and calculating them here writes nothing to pk.
@@ -235,12 +247,13 @@ public sealed record EntityInspection(SlotRef Slot, IdentityFacts Identity, Stat
         ];
         var hiddenPower = strings.HiddenPowerTypes;
         return new StatsFacts(
-            stored ? StatsSource.Stored : StatsSource.Calculated,
+            !stored ? StatsSource.Calculated : recalculated ? StatsSource.Recalculated : StatsSource.Stored,
             rows,
             stored ? pk.Stat_HPCurrent : null,
             slot.IsParty ? Status(pk.Status_Condition) : null,
             Named(pk.Characteristic, strings.characteristics),
-            new NamedValue(pk.HPType, (uint)pk.HPType < (uint)hiddenPower.Length ? hiddenPower[pk.HPType] : null));
+            new NamedValue(pk.HPType, (uint)pk.HPType < (uint)hiddenPower.Length ? hiddenPower[pk.HPType] : null),
+            NatureEffect.Of(pk.Nature));
 
         static int[] Calculated(ushort[] core) => [core[0], core[1], core[2], core[4], core[5], core[3]];
     }

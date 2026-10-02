@@ -73,13 +73,24 @@ public static class InspectorText
             : new("inspect-friendship", "Friendship (current trainer)", OutOf(f.Friendship, 255)),
     ]);
 
+    /// <summary>
+    /// The stat's name, marked in text (not by colour alone) when the nature raises or lowers it, as the desktop colours its stat labels.
+    /// </summary>
+    public static string StatName(int index, NatureEffect nature) =>
+        index == nature.Raised ? $"{StatNames[index]} (raised by nature)"
+        : index == nature.Lowered ? $"{StatNames[index]} (lowered by nature)"
+        : StatNames[index];
+
     private static InspectorSection Stats(StatsFacts f)
     {
-        var caption = f.Source == StatsSource.Stored
-            ? "Stats as stored with this party member"
-            : "Stats calculated by PKHeX.Core (boxed Pokémon do not store them)";
+        var caption = f.Source switch
+        {
+            StatsSource.Stored => "Stats as stored with this party member",
+            StatsSource.Recalculated => "Stats recalculated by PKHeX.Core for this draft, as applying it will store them with this party member",
+            _ => "Stats calculated by PKHeX.Core (boxed Pokémon do not store them)",
+        };
         var table = new InspectorTable("inspect-stats-table", caption, ["Stat", "Base", "IV", "EV", "Value"],
-            f.Stats.Select((s, i) => (IReadOnlyList<string>)[StatNames[i], Number(s.Base), Number(s.Iv), Number(s.Ev), Number(s.Value)]).ToArray());
+            f.Stats.Select((s, i) => (IReadOnlyList<string>)[StatName(i, f.Nature), Number(s.Base), Number(s.Iv), Number(s.Ev), Number(s.Value)]).ToArray());
         var rows = new List<InspectorRow>
         {
             new("inspect-iv-total", "IV total", OutOf(f.IvTotal, 186)),

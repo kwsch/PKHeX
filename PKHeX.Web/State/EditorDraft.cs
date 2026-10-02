@@ -85,6 +85,18 @@ public sealed class EditorDraft
     /// </summary>
     public bool IsWithHandler => working.CurrentHandler == 1;
 
+    /// <summary>Drafted level, as Core derives it from the experience points.</summary>
+    public byte Level => working.CurrentLevel;
+
+    /// <summary>Drafted experience points.</summary>
+    public uint Experience => working.EXP;
+
+    /// <summary>Where the drafted experience points sit on the species' growth curve.</summary>
+    public LevelProgress Progress => LevelProgress.Of(working);
+
+    /// <summary>Drafted nature. In Generation 6 it is stored apart from the PID, and it is the nature the stats are calculated with.</summary>
+    public Nature Nature => working.Nature;
+
     /// <summary>True when any stored byte of the draft differs from the slot it was taken from.</summary>
     /// <remarks>Neither copy has its checksum refreshed in memory, so the checksum bytes cannot make an unchanged draft look dirty.</remarks>
     public bool IsDirty => !working.Data.SequenceEqual(baseline.Data);
@@ -221,6 +233,79 @@ public sealed class EditorDraft
         Commit(candidate, affectsStats: false);
     }
 
+    /// <summary>
+    /// Sets the level. The experience points become the fewest for that level on the species' growth curve, as the desktop editor sets them;
+    /// re-entering the current level keeps them, and returning to the stored level restores the stored ones. The value is refused outside 1–100, never clamped. On failure the previous values are kept.
+    /// </summary>
+    /// <remarks>
+    /// Only the experience points are written. Core's <see cref="PKM.CurrentLevel"/> setter would also write the party level byte, which a
+    /// boxed Pokémon does not store; a party member's is set by <see cref="PartyStatPolicy"/> with its stats.
+    /// </remarks>
+    /// <exception cref="SessionException">
+    /// The family does not allow level edits, the Pokémon is an egg, the level is outside 1–100, or the member is stored without party stats
+    /// (<see cref="SessionError.PartyStatsMissing"/>).
+    /// </exception>
+    public void EditLevel(int level)
+    {
+        Require(EditableFields.Level);
+        if (level is < Core.Experience.MinLevel or > Core.Experience.MaxLevel)
+        {
+            throw new SessionException(SessionError.LevelOutOfRange);
+        }
+        var candidate = (PK6)working.Clone();
+        if (level != candidate.CurrentLevel)
+        {
+            // Returning to the stored level, such as through "9" while retyping 90, gives back the stored experience points rather than the
+            // start of the level, so the draft is clean again.
+            var growth = candidate.PersonalInfo.EXPGrowth;
+            candidate.EXP = Core.Experience.GetLevel(baseline.EXP, growth) == level ? baseline.EXP : Core.Experience.GetEXP((byte)level, growth);
+        }
+        Commit(candidate, affectsStats: true);
+    }
+
+    /// <summary>
+    /// Sets the experience points; the level follows from the species' growth curve. The value is refused below 0 or above the maximum level's
+    /// threshold (<see cref="LevelProgress.Maximum"/>), never clamped. On failure the previous values are kept.
+    /// </summary>
+    /// <exception cref="SessionException">
+    /// The family does not allow level edits, the Pokémon is an egg, the value is out of range, or the member is stored without party stats.
+    /// </exception>
+    public void EditExperience(long experience)
+    {
+        Require(EditableFields.Level);
+        if (experience < 0 || experience > Progress.Maximum)
+        {
+            throw new SessionException(SessionError.ExperienceOutOfRange);
+        }
+        var candidate = (PK6)working.Clone();
+        candidate.EXP = (uint)experience;
+        Commit(candidate, affectsStats: true);
+    }
+
+    /// <summary>
+    /// Sets the nature. In Generation 6 the nature is stored apart from the PID, so the PID, and with it shininess, gender and the ability
+    /// slot, is not changed. On failure the previous value is kept.
+    /// </summary>
+    /// <remarks>
+    /// Formats that derive the nature from the PID (Generations 3 and 4) are not opened by this release, and would need a PID change instead.
+    /// </remarks>
+    /// <param name="nature">A nature from the session's list (<see cref="SaveCapabilities.Lists"/>).</param>
+    /// <exception cref="SessionException">
+    /// The family does not allow nature edits, the Pokémon is an egg, the nature is not in the game's list, or the member is stored without
+    /// party stats.
+    /// </exception>
+    public void EditNature(int nature)
+    {
+        Require(EditableFields.Nature);
+        if (!Capabilities.Lists.Natures.Any(n => n.Value == nature))
+        {
+            throw new SessionException(SessionError.NatureNotAvailable);
+        }
+        var candidate = (PK6)working.Clone();
+        candidate.Nature = (Nature)nature;
+        Commit(candidate, affectsStats: true);
+    }
+
     /// <summary>Refuses an edit of <paramref name="field"/> that the family does not allow, and any edit of an egg.</summary>
     /// <remarks>
     /// Gated on the family, not the position: a party draft of a family without party writes can still be edited in memory, and Apply
@@ -279,8 +364,8 @@ public sealed class EditorDraft
     /// Applies an arbitrary change to the draft through the same commit path as the typed edit methods.
     /// </summary>
     /// <remarks>
-    /// Test-only: no typed edit method changes stats yet, so this is how tests reach the party-stat recalculation path. It is replaced by
-    /// the typed stat edits (level/EXP, nature, IVs/EVs, species/form) as they are added.
+    /// Test-only: it reaches states no typed edit method can, such as an edited egg, so the later checks (Apply, export) can be tested on
+    /// them. Stat edits go through the typed methods (<see cref="EditLevel"/>, <see cref="EditNature"/>).
     /// </remarks>
     /// <param name="change">The change to make on a copy of the drafted entity.</param>
     /// <param name="affectsStats">Whether the change affects calculated stats, as a typed edit method would declare.</param>
@@ -296,7 +381,8 @@ public sealed class EditorDraft
     /// </summary>
     /// <remarks>
     /// For a party member, an edit that affects stats has its stats recalculated by <see cref="PartyStatPolicy"/>, so status is kept and
-    /// HP is never raised; any other edit keeps the stored stats, HP and status as they are.
+    /// HP is never raised, unless the edit leaves the calculation as it was for the stored member, which keeps its stored battle state; any
+    /// other edit keeps the stored stats, HP and status as they are.
     /// </remarks>
     /// <param name="candidate">A changed copy of the drafted entity.</param>
     /// <param name="affectsStats">True for an edit of species/form, level/EXP, nature, IVs or EVs.</param>
@@ -311,7 +397,7 @@ public sealed class EditorDraft
             {
                 throw new SessionException(SessionError.PartyStatsMissing);
             }
-            PartyStatPolicy.Recalculate(candidate);
+            PartyStatPolicy.AfterStatEdit(candidate, baseline);
         }
         candidate.Data.CopyTo(working.Data);
         EditRevision++;
@@ -329,8 +415,11 @@ public sealed class EditorDraft
     {
         var copy = Preview();
         copy.RefreshChecksum();
-        return EntityInspection.From(copy, Slot, Capabilities);
+        return EntityInspection.From(copy, Slot, Capabilities, statsRecalculated: Slot.IsParty && StatsRecalculated);
     }
+
+    /// <summary>True when the drafted battle state (stats, level, HP, status) differs from the stored one, which only a stat edit does.</summary>
+    private bool StatsRecalculated => !working.Data[working.SIZE_STORED..].SequenceEqual(baseline.Data[baseline.SIZE_STORED..]);
 
     /// <summary>The entity to store or analyse: a copy of the drafted entity.</summary>
     internal PK6 ToStoredEntity() => Preview();

@@ -10,8 +10,9 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The draft editor (WEB-PKM-003, WEB-PKM-006): labelled name, language and friendship fields that turn input into typed draft edits,
-/// show what the draft holds after an accepted edit, keep refused input as typed, and offer nothing for an egg.
+/// The draft editor (WEB-PKM-003, WEB-PKM-005, WEB-PKM-006, WEB-PKM-007): labelled name, language, friendship, level, experience and
+/// nature fields that turn input into typed draft edits, show what the draft holds after an accepted edit, keep refused input as typed,
+/// and offer nothing for an egg.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class DraftEditorTests : IDisposable
@@ -93,6 +94,123 @@ public sealed class DraftEditorTests : IDisposable
         editor.Find("#language").HasAttribute("disabled").Should().BeTrue();
         editor.Find("#ot-friendship").HasAttribute("readonly").Should().BeTrue();
         editor.Find("#ht-friendship").HasAttribute("readonly").Should().BeTrue();
+        editor.Find("#level").HasAttribute("readonly").Should().BeTrue();
+        editor.Find("#exp").HasAttribute("readonly").Should().BeTrue();
+        editor.Find("#nature").HasAttribute("disabled").Should().BeTrue();
+    }
+
+    [Fact]
+    public void ALevelEditShowsTheExperienceItSet()
+    {
+        var draft = Open(SaveFixtures.Synthetic(true));
+        var editor = Render(draft);
+
+        editor.Find("#level").Input("50");
+
+        refused.Should().BeNull();
+        editor.Find("#exp").GetAttribute("value").Should().Be("125000");
+        editor.Find("#level-note").TextContent.Should().Be(
+            "Level 50 starts at 125000 experience points; 7651 more reach level 51 at 132651. Changing the level sets the experience points to the start of the new level.");
+        editor.Find("label[for=exp]").TextContent.Should().Be("Experience points (0–1000000)");
+        editor.Find("#level-note").GetAttribute("role").Should().Be("status");
+    }
+
+    [Fact]
+    public void AnExperienceEditShowsTheLevelItReached()
+    {
+        var draft = Open(SaveFixtures.Synthetic(true));
+        var editor = Render(draft);
+
+        editor.Find("#exp").Input("1000000");
+
+        editor.Find("#level").GetAttribute("value").Should().Be("100");
+        editor.Find("#level-note").TextContent.Should().StartWith("Level 100 starts at 1000000 experience points and is the highest level.");
+    }
+
+    [Theory]
+    [InlineData("#level", "101", SessionError.LevelOutOfRange)]
+    [InlineData("#level", "0", SessionError.LevelOutOfRange)]
+    [InlineData("#level", "", SessionError.LevelOutOfRange)]
+    [InlineData("#level", "99999999999999999999", SessionError.LevelOutOfRange)]
+    [InlineData("#exp", "1000001", SessionError.ExperienceOutOfRange)]
+    [InlineData("#exp", "1e6", SessionError.ExperienceOutOfRange)]
+    [InlineData("#exp", "-1", SessionError.ExperienceOutOfRange)]
+    public void RefusedLevelOrExperienceIsKeptAsTyped(string field, string typed, SessionError error)
+    {
+        var draft = Open(SaveFixtures.Synthetic(true));
+        var editor = Render(draft);
+        var level = draft.Level;
+
+        editor.Find(field).Input(typed);
+
+        refused.Should().Be(error);
+        draft.Level.Should().Be(level);
+        draft.IsDirty.Should().BeFalse();
+        editor.Find(field).GetAttribute("value").Should().Be(typed);
+    }
+
+    [Fact]
+    public void ALevelTypedWithALeadingZeroIsKept()
+    {
+        var draft = Open(SaveFixtures.Synthetic(true));
+        var editor = Render(draft);
+
+        editor.Find("#level").Input("050");
+
+        draft.Level.Should().Be(50);
+        editor.Find("#level").GetAttribute("value").Should().Be("050", "text that reads as the drafted value is not rewritten under the cursor");
+    }
+
+    [Fact]
+    public void TheNatureBoxListsTheGamesNaturesAndNotesTheirEffect()
+    {
+        var draft = Open(SaveFixtures.Synthetic(true));
+        var editor = Render(draft);
+
+        editor.FindAll("#nature option").Select(o => o.TextContent).Should().Equal(draft.Capabilities.Lists.Natures.Select(n => n.Text));
+        editor.Find("#nature").Change(((int)Nature.Adamant).ToString(CultureInfo.InvariantCulture));
+
+        draft.Nature.Should().Be(Nature.Adamant);
+        editor.Find("#nature-note").TextContent.Should().Be(
+            "This nature raises Attack and lowers Sp. Atk. In this game the nature is stored apart from the PID, so changing it does not change shininess, gender or ability.");
+        editor.Find("#nature").Change(((int)Nature.Hardy).ToString(CultureInfo.InvariantCulture));
+        editor.Find("#nature-note").TextContent.Should().StartWith("This nature does not raise or lower any stat.");
+    }
+
+    [Fact]
+    public void TheNatureBoxShowsAnUnlistedStoredValue()
+    {
+        var draft = Open(SaveFixtures.Synthetic(true, customize: SaveFixtures.WithBoxEntity(0, 1, p => p.Nature = (Nature)30)), SlotRef.InBox(0, 1));
+        var editor = Render(draft);
+
+        var options = editor.FindAll("#nature option");
+        options.Should().HaveCount(draft.Capabilities.Lists.Natures.Count + 1);
+        options[0].TextContent.Should().Be(EditorText.UnlistedNature(30));
+        options[0].HasAttribute("selected").Should().BeTrue();
+        options[0].HasAttribute("disabled").Should().BeTrue();
+        editor.Find("#nature-note").TextContent.Should().StartWith("This nature does not raise or lower any stat.");
+    }
+
+    [Fact]
+    public void LevelAndExperienceAreWrittenWithInvariantDigits()
+    {
+        var previous = CultureInfo.CurrentCulture;
+        try
+        {
+            CultureInfo.CurrentCulture = new CultureInfo("ar-SA");
+            var draft = Open(SaveFixtures.Synthetic(true));
+            var editor = Render(draft);
+
+            editor.Find("#level").Input("50");
+
+            editor.Find("#exp").GetAttribute("value").Should().Be("125000");
+            editor.Find("#level-note").TextContent.Should().Contain("125000");
+            editor.Find("label[for=exp]").TextContent.Should().Be("Experience points (0–1000000)");
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = previous;
+        }
     }
 
     [Fact]
@@ -292,5 +410,7 @@ public sealed class DraftEditorTests : IDisposable
         EditorText.EditableSummary(EditableFields.Nickname | EditableFields.Friendship).Should().Be("Its nickname and friendship can be changed.");
         EditorText.EditableSummary(EditableFields.Language).Should().Be("Its language can be changed.");
         EditorText.EditableSummary(EditableFields.None).Should().Be("No fields can be changed.");
+        EditorText.EditableSummary(EditableFields.Nickname | EditableFields.Language | EditableFields.Friendship | EditableFields.Level | EditableFields.Nature)
+            .Should().Be("Its nickname, language, friendship, level, experience points and nature can be changed.");
     }
 }

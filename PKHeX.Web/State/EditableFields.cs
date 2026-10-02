@@ -21,4 +21,13 @@ public enum EditableFields
     /// (<see cref="EditorDraft.EditTrainerFriendship"/>, <see cref="EditorDraft.EditHandlerFriendship"/>).
     /// </summary>
     Friendship = 1 << 2,
+
+    /// <summary>
+    /// The level and experience points, kept in step through Core's growth-rate tables (<see cref="EditorDraft.EditLevel"/>,
+    /// <see cref="EditorDraft.EditExperience"/>). Both affect calculated stats.
+    /// </summary>
+    Level = 1 << 3,
+
+    /// <summary>The nature (<see cref="EditorDraft.EditNature"/>), which affects calculated stats. In Generation 6 it is stored apart from the PID.</summary>
+    Nature = 1 << 4,
 }

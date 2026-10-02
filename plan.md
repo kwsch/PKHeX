@@ -1192,6 +1192,51 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
       - PKForge has no egg gate on these edits, and no font check.
     - **Not adopted:** HT name, gender and language edits, and clearing the handler (Post-MVP); `SetDefaultNickname(LegalityAnalysis)` for fixed-nickname encounters (M15).
 - **M11 Level/EXP, nature, stats/characteristic.** Level and EXP stay in sync through `Experience`. PK6 nature is independent of PID. Calculated stats and characteristic are shown on the clone (PKM-005, 007, 014).
+
+  **M11 status:** code complete on `web/m11-level-nature`.
+  - **User decisions:**
+    - Re-entering the current level keeps the experience points; only a changed level resets them to the start of the level (PKForge's behaviour; WinForms resets on any level text change).
+    - A party stat edit that leaves the level and Core's calculated stats as they were for the stored member keeps the stored battle state byte for byte, so undoing an edit leaves the draft clean.
+  - **Draft** (`State/EditorDraft`):
+    - `EditLevel(int)`: refused outside 1–100 (`LevelOutOfRange`), never clamped; a changed level sets `EXP = Experience.GetEXP(level, growth)`. Only `EXP` is written: Core's `CurrentLevel` setter also writes the party level byte (0xEC), which a boxed draft carries but does not store.
+    - `EditExperience(long)`: refused below 0 or above the level 100 threshold (`ExperienceOutOfRange`); the level follows.
+    - `EditNature(int)`: must be in the session's `Lists.Natures` (`NatureNotAvailable`); sets `Nature` only. PK6 does not override `StatAlignment`, so the stats use it; PID, EC, gender, ability and shininess are untouched.
+    - All three are stat edits (`affectsStats: true`). Readers: `Level`, `Experience`, `Nature`, `Progress` (`State/LevelProgress`: level, EXP, level start, next level threshold, maximum).
+    - `EditableFields` gains `Level` and `Nature`; `SupportMatrix` grants both to XY and ORAS.
+    - `EditForTest` stays only for egg Apply tests; the party tests now use `EditLevel`.
+  - **Party-stat policy:** `PartyStatPolicy.AfterStatEdit(candidate, stored)` copies the stored party section back when the level and `GetStats` match the stored member's, and otherwise runs `Recalculate`. The level check is an equivalent mutant in Gen 6 (HP grows with every level, and Shedinja's Attack does), and is kept as a guard.
+  - **Inspector:** `StatsFacts.Nature` (`Services/NatureEffect`, Core's Atk/Def/Spe/SpA/SpD order mapped to the summary order) marks the raised and lowered stat in text ("Attack (raised by nature)"), not by colour. A new `StatsSource.Recalculated` captions a drafted party member's recalculated stats as what applying will store. Characteristic and Hidden Power were already read from the draft.
+  - **UI** (`Components/DraftEditor`):
+    - "Level and experience" fieldset: `#level` and `#exp` (text, numeric keyboard, refused input kept as typed, "050" not rewritten), and the live region `#level-note` with the level's range and the distance to the next level.
+    - "Nature" fieldset: `#nature` from Core's list (an unlisted stored value shows as "Unknown (stored value N)"), and `#nature-note` with the stat effect and that the Gen 6 nature is stored apart from the PID.
+    - `PartyText.KeptOnEdit` is reworded (the M9 note): name, language and friendship edits keep the battle state; level, experience and nature edits recalculate it, keep the status and never raise HP. `EditableSummary`, the egg note and `EggNotEditable` name the new fields. README updated.
+  - **Tests.**
+    - **Unit 756** (up from 694):
+      - `LevelNatureDraftTests` (36, 2 from the adversarial review): native byte parity (XY and ORAS); the party tail of a boxed draft untouched; one species per growth rate (level 50 and level 100 thresholds as literals); same level keeps EXP; EXP across a level boundary; maximum accepted and one more refused; levels 0/101/−1/`int.MaxValue` and EXP −1/`long.MaxValue`/2³² refused unclamped; stored EXP above the curve; nature changes only itself; all 25 natures; 25/−1/255 refused; nature round trip clean; family and egg gating; party level edit equals native Core through apply and export with an odd stored Attack recalculated; party nature edit keeps HP and status; EXP within a level and a nature round trip keep the stored battle state; level drop previewed; fainted stays fainted; Shedinja.
+      - `PartyStatPolicyTests` (+3), `InspectorTextTests` (+10: markers for five natures, neutral and unknown natures, markers against Core's calculation for all 25, the three captions), `DraftEditorTests` (+13, bUnit: level sets EXP, EXP sets level, 7 refusals kept as typed, "050", nature list and notes, unlisted nature, invariant digits under ar-SA, egg read-only, summary).
+      - Updated: `SaveCapabilitiesTests`, `PartyApplyTests`.
+    - **E2E 167** (up from 155): `LevelNatureBrowserTests`, 3 engines × 2 paths: a boxed level + nature edit (EXP and note follow, EXP past the curve refused and kept, Apply disabled, nature note, inspector markers, legality, export byte-identical to native Core, only the slot and footer differ, no scroll at 375 px, no network or storage); a burned level-50 party member: its level retyped a key at a time (through 5) leaves the draft clean, typing 55 keeps its HP, then a level drop (HP preview text, recalculated caption, apply, export equal to the native policy oracle, burn kept). Every E2E test executed.
+    - **RealSave 50** (up from 38): `RealSaveLevelNatureRoundTrip`, 3 engines × 2 paths × 2 families: a level step and nature change on the first writable boxed non-egg, and a level step on the first party member, byte-identical to native Core with the policy; only those two slots and the footer differ.
+    - **Mutation checks** (Unit tier; files restored from a scratchpad copy): clamp level → 6 fail; clamp EXP → 5; `CurrentLevel` setter → 3; same level rewrites EXP → 2; nature not a stat edit → 2; nature unvalidated → 3; no recalculated caption → 1; no unchanged-calculation restore → 2; always restore → 9; restore without the level check → 0 (equivalent, see above); no raised marker → 5; Core order unmapped → 6; EXP not reloaded → 2; number fields always rewritten → 2.
+    - **Other checks:** trim baseline unchanged (38); `PKHeX.slnx` Release 0 warnings. Driven on the private XY save (Chromium, 1280 and 375 px): a party Greninja at level 100 lowered to 90 with Adamant shows the HP preview (289 → 261), the level and nature notes and the recalculated caption, with no horizontal scroll.
+  - **Adversarial review** (with probe tests and mutations).
+    - **Fixed:**
+      - **Typing a party member's level could lower its HP for good.** Every keystroke is an edit, so changing 90 to 95 passes through 9 (Backspace, then 5). The level 9 edit clamped HP to the level 9 maximum, and the level 95 edit took min(that HP, new maximum), so the member would have been written at 26 HP instead of 177 (reproduced by a probe). The policy now takes the HP kept and the status restored from the stored member, not from the draft (`AfterStatEdit`), so no intermediate value outlives its keystroke.
+      - **Retyping the stored level reset its experience points.** 90 → "9" → "90" set EXP to the start of level 90, so the draft stayed dirty and the progress within the level was lost, defeating the "re-entering keeps EXP" decision. A level edit that returns to the stored level now restores the stored EXP.
+      - The first E2E used `FillAsync`, which sends the whole value as one input event, so neither bug could show in the browser. The party E2E now types with `PressSequentiallyAsync` on a level-50 member.
+      - Mutations: HP taken from the draft → 1 Unit and all 6 party E2E cases fail; no stored-level EXP restore → 1 Unit and all 6 party E2E cases fail.
+    - **Checked, not changed:** refused input and the draft-valid state follow M10 (an accepted edit elsewhere reloads every field); no other component lists the editable fields; a party member stored without stats is still refused at the level and nature edits.
+    - After the fixes: Unit 756, E2E 167 (every test executed), RealSave 50.
+  - **Recorded, not changed:**
+    - Each keystroke in the level and EXP fields is a full edit (and a legality restart, debounced as before); the live notes update with it. M18 decides whether the notes are too chatty.
+    - Stored EXP above the curve reads as level 100 and is kept by re-entering 100, but typing that value is refused like any out-of-range value.
+    - A nature change can make a fixed-nature encounter Invalid; legality reports it (M16 acknowledgements).
+    - Level-up HP gain is not modelled: HP is min(previous, new maximum), so a level gain never raises current HP (`PKHeX.Web.md`).
+  - **Not verified yet:** no screen reader; physical devices (G-C).
+  - **Compared with PKForge** (`SaveEngineSession.ApplyEdit`, `MonFieldService`, `MonSummaryService`):
+    - **Matches:** a level edit sets the level's minimum EXP; an unchanged level does not rewrite EXP (`UnchangedLevelInAnEditDoesNotRewriteExperience`); Gen 5+ nature set without touching the PID; characteristic shown.
+    - **Stricter:** PKForge clamps the level (`Math.Clamp`); we refuse. PKForge's `ApplyEdit` never recalculates stored party stats after a level or nature edit (the display recomputes on a clone, so the save keeps stale stats); we apply the PK6 policy with an HP preview. PKForge has no direct EXP edit; we add one, kept in step through `Experience`.
+    - **Not adopted:** Gen 3/4 PID-derived nature (`TrySetPidDerived`; those formats are not opened) and Gen 8+ mints/stat nature (WEB-PKM-008, MVP+). The desktop's stat-label nature shortcuts (`StatEditor.ClickStatLabel`) are not adopted either; the nature box is the one control.
 - **M12 IVs/EVs.** Per-stat and total EV limits from Core, with no silent clamping. Changes mark legality stale and recalculate stats (PKM-013).
 - **M13 Held item, moves, PP/PP Ups.** Uses Core-filtered item/move lists. Empty moves are allowed. PP rules come from Core. The UI never claims a move is learnable (PKM-010–012).
 - **M14 Ability/slot + gender.** Ability choices use `GetAbilityList(PersonalInfo)` and slot mapping. Gender follows species rules (PKM-004, 009).

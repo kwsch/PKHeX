@@ -14,12 +14,46 @@ namespace PKHeX.Web.State;
 /// <list type="bullet">
 /// <item>An edit that does not affect stats keeps the stored stats, HP and status byte for byte.</item>
 /// <item>An edit that does (species/form, level/EXP, nature, IVs/EVs) recalculates the stats through Core, keeps the status, and
-/// sets current HP to the smaller of the previous HP and the new maximum, so a fainted member stays fainted and nothing is healed.</item>
+/// sets current HP to the smaller of the previous HP and the new maximum, so a fainted member stays fainted and nothing is healed.
+/// When such an edit leaves the level and calculated stats as they were for the stored member, its stored battle state is kept instead
+/// (<see cref="AfterStatEdit"/>).</item>
 /// </list>
 /// <para>It is written for PK6 only. Later families need their own explicit policy rather than inheriting this one.</para>
 /// </remarks>
 internal static class PartyStatPolicy
 {
+    /// <summary>
+    /// Brings the battle state of <paramref name="candidate"/> in line with a stat-affecting edit of the party member stored as
+    /// <paramref name="stored"/>: recalculated by <see cref="Recalculate"/> when the edit changes the level or the stats Core calculates,
+    /// and otherwise the stored battle state, byte for byte.
+    /// </summary>
+    /// <remarks>
+    /// An edit that leaves the calculation where it was (experience points within the same level, or a nature changed and changed back)
+    /// keeps what the game stored, including stats Core would not calculate, so undoing an edit leaves the draft as it was taken. Once the
+    /// calculation differs, the stored stats no longer describe the Pokémon and are recalculated.
+    /// <para>
+    /// The HP kept and the status restored are the stored member's, not the candidate's: a draft passes through every value typed on the
+    /// way to the one meant (a level of 9 on the way from 90 to 95), and an HP clamp from such a step must not outlive it.
+    /// </para>
+    /// </remarks>
+    /// <param name="candidate">The edited copy of the member.</param>
+    /// <param name="stored">The member as stored in the slot.</param>
+    /// <exception cref="ArgumentException"><paramref name="candidate"/> has no party stats to recalculate from.</exception>
+    public static void AfterStatEdit(PK6 candidate, PK6 stored)
+    {
+        if (candidate.CurrentLevel == stored.CurrentLevel && candidate.GetStats(candidate.PersonalInfo).AsSpan().SequenceEqual(stored.GetStats(stored.PersonalInfo)))
+        {
+            // The party section holds only the battle state (status, level, HP and stats), which no other edit changes.
+            stored.Data[stored.SIZE_STORED..].CopyTo(candidate.Data[candidate.SIZE_STORED..]);
+            return;
+        }
+        if (!stored.PartyStatsPresent)
+        {
+            throw new ArgumentException("The member has no party stats to recalculate from.", nameof(stored));
+        }
+        Recalculate(candidate, stored.Stat_HPCurrent, stored.Status_Condition);
+    }
+
     /// <summary>
     /// Recalculates the party stats of <paramref name="pk"/> after a stat-affecting edit, keeping its status condition and never raising its current HP.
     /// </summary>
@@ -34,8 +68,15 @@ internal static class PartyStatPolicy
         {
             throw new ArgumentException("The member has no party stats to recalculate from.", nameof(pk));
         }
-        var status = pk.Status_Condition;
-        var hp = pk.Stat_HPCurrent;
+        Recalculate(pk, pk.Stat_HPCurrent, pk.Status_Condition);
+    }
+
+    /// <summary>
+    /// Recalculates the party stats of <paramref name="pk"/>, then sets <paramref name="status"/> and the smaller of <paramref name="hp"/>
+    /// and the new maximum HP.
+    /// </summary>
+    private static void Recalculate(PK6 pk, int hp, int status)
+    {
         // Sets the six stats and the party level from the entity, but also fills HP and clears the status, which are restored below.
         pk.ResetPartyStats();
         pk.Status_Condition = status;

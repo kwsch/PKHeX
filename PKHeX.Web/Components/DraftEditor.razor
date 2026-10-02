@@ -1,6 +1,7 @@
 @using System.Globalization
-@* The draft's editable fields: name and language, and friendship towards each trainer. Every change goes through OnEdit, which runs it on
-   the draft and reports a refusal; this component only turns input into typed draft edits and shows what the draft holds. *@
+@* The draft's editable fields: name and language, friendship towards each trainer, level and experience points, and nature. Every change
+   goes through OnEdit, which runs it on the draft and reports a refusal; this component only turns input into typed draft edits and shows
+   what the draft holds. *@
 <h3 id="draft-edit-title">Edit</h3>
 @if (Draft.IsEgg)
 {
@@ -43,6 +44,32 @@
     }
     <p id="friendship-note">@EditorText.CurrentFriendship(Draft.IsWithHandler)</p>
 </fieldset>
+<fieldset id="level-fields">
+    <legend>Level and experience</legend>
+    @* Text with a numeric keyboard, as for friendship. The draft refuses a level outside 1–100 and experience points outside the growth
+       curve; neither is clamped. *@
+    <label for="level">@EditorText.LevelLabel</label>
+    <input id="level" type="text" inputmode="numeric" autocomplete="off" value="@level" @oninput="LevelTyped" readonly="@(!Can(EditableFields.Level))" />
+    <label for="exp">@EditorText.ExperienceLabel(Draft.Progress.Maximum)</label>
+    <input id="exp" type="text" inputmode="numeric" autocomplete="off" value="@experience" @oninput="ExperienceTyped" readonly="@(!Can(EditableFields.Level))" />
+    @* Always rendered, so a screen reader announces a change of its text. *@
+    <p id="level-note" role="status">@EditorText.LevelNote(Draft.Progress)</p>
+</fieldset>
+<fieldset id="nature-fields">
+    <legend>Nature</legend>
+    <label for="nature">Nature</label>
+    <select id="nature" @onchange="NatureChanged" disabled="@(!Can(EditableFields.Nature))">
+        @if (!ListedNature(nature))
+        {
+            <option value="@nature" selected disabled>@EditorText.UnlistedNature(nature)</option>
+        }
+        @foreach (var item in Draft.Capabilities.Lists.Natures)
+        {
+            <option value="@item.Value" selected="@(item.Value == nature)">@item.Text</option>
+        }
+    </select>
+    <p id="nature-note" role="status">@EditorText.NatureNote(NatureEffect.Of(Draft.Nature))</p>
+</fieldset>
 
 @code {
     /// <summary>The draft being edited. A new draft (another slot, or after apply or cancel) reloads every field.</summary>
@@ -54,9 +81,9 @@
     [Parameter, EditorRequired] public EventCallback<Action<EditorDraft>> OnEdit { get; set; }
 
     private EditorDraft? shown;
-    private string nickname = "", trainerFriendship = "", handlerFriendship = "";
+    private string nickname = "", trainerFriendship = "", handlerFriendship = "", level = "", experience = "";
     private bool nicknamed;
-    private int language;
+    private int language, nature;
 
     /// <summary>The name before and after the last edit gave the Pokémon its default name, or null when the last edit did not.</summary>
     private (string From, string To)? renamed;
@@ -67,7 +94,7 @@
         {
             shown = Draft;
             renamed = null;
-            trainerFriendship = handlerFriendship = "";
+            trainerFriendship = handlerFriendship = level = experience = "";
             Load();
         }
     }
@@ -80,20 +107,25 @@
         language = Draft.Language;
         trainerFriendship = Shown(trainerFriendship, Draft.TrainerFriendship);
         handlerFriendship = Shown(handlerFriendship, Draft.HandlerFriendship);
+        level = Shown(level, Draft.Level);
+        experience = Shown(experience, Draft.Experience);
+        nature = (int)Draft.Nature;
     }
 
     /// <summary>
-    /// The text for a friendship field: the typed text when it already reads as the drafted value (such as "070"), so accepting it does not
+    /// The text for a number field: the typed text when it already reads as the drafted value (such as "070"), so accepting it does not
     /// rewrite the field under the cursor, and the drafted value otherwise.
     /// </summary>
-    private static string Shown(string typed, byte value) =>
-        int.TryParse(typed, NumberStyles.None, CultureInfo.InvariantCulture, out var parsed) && parsed == value
+    private static string Shown(string typed, long value) =>
+        long.TryParse(typed, NumberStyles.None, CultureInfo.InvariantCulture, out var parsed) && parsed == value
             ? typed
             : value.ToString(CultureInfo.InvariantCulture);
 
     private bool Can(EditableFields field) => Draft.Editable.HasFlag(field);
 
     private bool Listed(int value) => Draft.Capabilities.Lists.Languages.Any(l => l.Value == value);
+
+    private bool ListedNature(int value) => Draft.Capabilities.Lists.Natures.Any(n => n.Value == value);
 
     /// <summary>The language's name from Core's list, or the unknown wording for a stored value outside it.</summary>
     private string LanguageName => Draft.Capabilities.Lists.Languages.FirstOrDefault(l => l.Value == Draft.Language)?.Text ?? EditorText.UnlistedLanguage(Draft.Language);
@@ -133,6 +165,37 @@
         handlerFriendship = e.Value?.ToString() ?? "";
         return Run(Friendship(handlerFriendship, static (d, v) => d.EditHandlerFriendship(v)), tracksRename: false);
     }
+
+    private Task LevelTyped(ChangeEventArgs e)
+    {
+        level = e.Value?.ToString() ?? "";
+        return Run(Number(level, SessionError.LevelOutOfRange, static (d, v) => d.EditLevel((int)Math.Min(v, int.MaxValue))), tracksRename: false);
+    }
+
+    private Task ExperienceTyped(ChangeEventArgs e)
+    {
+        experience = e.Value?.ToString() ?? "";
+        return Run(Number(experience, SessionError.ExperienceOutOfRange, static (d, v) => d.EditExperience(v)), tracksRename: false);
+    }
+
+    private Task NatureChanged(ChangeEventArgs e)
+    {
+        if (!int.TryParse(e.Value?.ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out var value))
+        {
+            return Task.CompletedTask;
+        }
+        nature = value;
+        return Run(d => d.EditNature(value), tracksRename: false);
+    }
+
+    /// <summary>
+    /// The edit for typed level or experience text. Text that is not a whole number (an empty field, a sign, a fraction or more digits than
+    /// fit) is refused with <paramref name="refusal"/>, like a value out of range, so nothing is guessed or clamped.
+    /// </summary>
+    private static Action<EditorDraft> Number(string text, SessionError refusal, Action<EditorDraft, long> edit) =>
+        long.TryParse(text, NumberStyles.None, CultureInfo.InvariantCulture, out var value)
+            ? d => edit(d, value)
+            : _ => throw new SessionException(refusal);
 
     /// <summary>
     /// The edit for typed friendship text. Text that is not a whole number (an empty field, a sign or a fraction) is refused like a value out

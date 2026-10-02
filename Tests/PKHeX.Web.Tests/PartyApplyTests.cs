@@ -62,7 +62,7 @@ public sealed class PartyApplyTests
         var session = SaveFixtures.Open(InjuredAndBurned(true));
         var draft = session.Select(SlotRef.InParty(0));
 
-        draft.EditForTest(p => p.CurrentLevel = 2, affectsStats: true);
+        draft.EditLevel(2);
 
         var preview = draft.Preview();
         preview.Stat_Level.Should().Be(2);
@@ -89,7 +89,7 @@ public sealed class PartyApplyTests
         var draft = session.Select(SlotRef.InParty(0));
         var stored = draft.Preview();
 
-        draft.EditForTest(p => p.CurrentLevel = 2, affectsStats: true);
+        draft.EditLevel(2);
 
         var change = draft.HpChange!.Value;
         change.IsReduction.Should().BeTrue();
@@ -104,7 +104,7 @@ public sealed class PartyApplyTests
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(true, customize: SaveFixtures.WithPartyMember(battle: p => p.Stat_HPCurrent = 0)));
         var draft = session.Select(SlotRef.InParty(0));
 
-        draft.EditForTest(p => p.CurrentLevel = 100, affectsStats: true);
+        draft.EditLevel(100);
         session.Apply(draft);
 
         session.Working.GetPartySlotAtIndex(0).Stat_HPCurrent.Should().Be(0);
@@ -117,7 +117,7 @@ public sealed class PartyApplyTests
         var draft = session.Select(SlotRef.InParty(0));
         var stored = draft.Preview();
 
-        draft.EditForTest(p => p.Ball = (byte)Ball.Great, affectsStats: false);
+        draft.EditTrainerFriendship(1);
 
         draft.Preview().Data[stored.SIZE_STORED..].ToArray().Should().Equal(stored.Data[stored.SIZE_STORED..].ToArray());
         draft.HpChange.Should().BeNull();
@@ -129,7 +129,7 @@ public sealed class PartyApplyTests
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(true));
         var draft = session.Select(SaveFixtures.FirstBoxSlot);
 
-        draft.EditForTest(p => p.CurrentLevel = 2, affectsStats: true);
+        draft.EditLevel(2);
 
         draft.HpChange.Should().BeNull();
         draft.Preview().PartyStatsPresent.Should().BeFalse("stats of a boxed entity are calculated for display, never stored");
@@ -170,7 +170,7 @@ public sealed class PartyApplyTests
         var draft = session.Select(SlotRef.InParty(0));
         var before = draft.Preview().Data.ToArray();
 
-        var edit = () => draft.EditForTest(p => p.CurrentLevel = 50, affectsStats: true);
+        var edit = () => draft.EditLevel(50);
 
         edit.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.PartyStatsMissing);
         draft.Preview().Data.ToArray().Should().Equal(before);

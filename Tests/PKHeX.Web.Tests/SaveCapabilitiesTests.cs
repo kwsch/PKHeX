@@ -24,7 +24,7 @@ public sealed class SaveCapabilitiesTests
         capabilities.EntityType.Should().Be<PK6>();
         capabilities.HasParty.Should().BeTrue();
         capabilities.HasBoxes.Should().BeTrue();
-        capabilities.Editable.Should().Be(EditableFields.Nickname | EditableFields.Language | EditableFields.Friendship);
+        capabilities.Editable.Should().Be(EditableFields.Nickname | EditableFields.Language | EditableFields.Friendship | EditableFields.Level | EditableFields.Nature);
         capabilities.SaveLanguage.Should().Be(session.Working.Language);
         capabilities.MaxNicknameLength.Should().Be(session.Working.MaxStringLengthNickname);
         capabilities.CanApply(SaveFixtures.FirstBoxSlot).Should().BeTrue();

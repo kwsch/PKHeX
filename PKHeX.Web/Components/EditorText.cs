@@ -11,7 +11,7 @@ namespace PKHeX.Web.Components;
 public static class EditorText
 {
     /// <summary>Shown in place of the fields of an egg, which this release does not edit.</summary>
-    public const string EggReadOnly = "This is an egg. Its name, language and friendship (its hatch counter) are kept as stored and cannot be changed in this release.";
+    public const string EggReadOnly = "This is an egg. Its name, language, friendship (its hatch counter), level and nature are kept as stored and cannot be changed in this release.";
 
     /// <summary>Shown beside the handling trainer's friendship when no handling trainer is stored.</summary>
     public const string NoHandler = "No handling trainer is stored: this Pokémon has stayed with its original trainer, so there is no friendship towards one to change.";
@@ -25,7 +25,7 @@ public static class EditorText
     /// <summary>The fields an opened Pokémon can have changed, for the message shown when it is opened.</summary>
     public static string EditableSummary(EditableFields fields)
     {
-        var names = new List<string>(3);
+        var names = new List<string>(6);
         if (fields.HasFlag(EditableFields.Nickname))
         {
             names.Add("nickname");
@@ -37,6 +37,15 @@ public static class EditorText
         if (fields.HasFlag(EditableFields.Friendship))
         {
             names.Add("friendship");
+        }
+        if (fields.HasFlag(EditableFields.Level))
+        {
+            names.Add("level");
+            names.Add("experience points");
+        }
+        if (fields.HasFlag(EditableFields.Nature))
+        {
+            names.Add("nature");
         }
         return names.Count switch
         {
@@ -57,6 +66,43 @@ public static class EditorText
     /// <summary>Which of the two values the game uses now. Changing either never changes who holds the Pokémon.</summary>
     public static string CurrentFriendship(bool withHandler) =>
         $"The game currently uses the {(withHandler ? "handling" : "original")} trainer's value. Changing a value does not change who holds this Pokémon.";
+
+    /// <summary>The label of the level field.</summary>
+    public const string LevelLabel = "Level (1–100)";
+
+    /// <summary>The label of the experience points field, with the most the species' growth rate counts.</summary>
+    public static string ExperienceLabel(uint maximum) => string.Create(CultureInfo.InvariantCulture, $"Experience points (0–{maximum})");
+
+    /// <summary>
+    /// The note on the drafted level: the experience range the level spans and how far the next level is, so a level edit's effect on the
+    /// experience points is visible before it is made.
+    /// </summary>
+    public static string LevelNote(LevelProgress progress)
+    {
+        var range = string.Create(CultureInfo.InvariantCulture, $"Level {progress.Level} starts at {progress.LevelMinimum} experience points");
+        if (progress.NextLevel is not { } next)
+        {
+            return range + " and is the highest level. Changing the level sets the experience points to the start of the new level.";
+        }
+        var toNext = string.Create(CultureInfo.InvariantCulture, $"; {next - progress.Experience} more reach level {progress.Level + 1} at {next}.");
+        return range + toNext + " Changing the level sets the experience points to the start of the new level.";
+    }
+
+    /// <summary>
+    /// The note on the drafted nature: which stat it raises and which it lowers, by the stat names the inspector uses, and that in Generation 6
+    /// the nature is stored apart from the PID.
+    /// </summary>
+    /// <param name="effect">The nature's effect (<see cref="NatureEffect.Of"/>).</param>
+    public static string NatureNote(NatureEffect effect)
+    {
+        var stats = effect.IsNeutral
+            ? "This nature does not raise or lower any stat."
+            : $"This nature raises {InspectorText.StatNames[effect.Raised]} and lowers {InspectorText.StatNames[effect.Lowered]}.";
+        return stats + " In this game the nature is stored apart from the PID, so changing it does not change shininess, gender or ability.";
+    }
+
+    /// <summary>The name of a stored nature outside the game's list, so the nature box never shows a value that is not stored.</summary>
+    public static string UnlistedNature(int value) => string.Create(CultureInfo.InvariantCulture, $"Unknown (stored value {value})");
 
     /// <summary>The name of a stored language outside the game's list, so the language box never shows a value that is not stored.</summary>
     public static string UnlistedLanguage(int value) => string.Create(CultureInfo.InvariantCulture, $"Unknown (stored value {value})");
