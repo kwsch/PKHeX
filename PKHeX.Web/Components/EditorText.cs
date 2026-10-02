@@ -1,4 +1,5 @@
 using System.Globalization;
+using PKHeX.Core;
 using PKHeX.Web.Services;
 using PKHeX.Web.State;
 
@@ -11,7 +12,7 @@ namespace PKHeX.Web.Components;
 public static class EditorText
 {
     /// <summary>Shown in place of the fields of an egg, which this release does not edit.</summary>
-    public const string EggReadOnly = "This is an egg. Its name, language, friendship (its hatch counter), level and nature are kept as stored and cannot be changed in this release.";
+    public const string EggReadOnly = "This is an egg. Its name, language, friendship (its hatch counter), level, nature, IVs and EVs are kept as stored and cannot be changed in this release.";
 
     /// <summary>Shown beside the handling trainer's friendship when no handling trainer is stored.</summary>
     public const string NoHandler = "No handling trainer is stored: this Pokémon has stayed with its original trainer, so there is no friendship towards one to change.";
@@ -25,7 +26,7 @@ public static class EditorText
     /// <summary>The fields an opened Pokémon can have changed, for the message shown when it is opened.</summary>
     public static string EditableSummary(EditableFields fields)
     {
-        var names = new List<string>(6);
+        var names = new List<string>(8);
         if (fields.HasFlag(EditableFields.Nickname))
         {
             names.Add("nickname");
@@ -46,6 +47,14 @@ public static class EditorText
         if (fields.HasFlag(EditableFields.Nature))
         {
             names.Add("nature");
+        }
+        if (fields.HasFlag(EditableFields.Ivs))
+        {
+            names.Add("IVs");
+        }
+        if (fields.HasFlag(EditableFields.Evs))
+        {
+            names.Add("EVs");
         }
         return names.Count switch
         {
@@ -99,6 +108,41 @@ public static class EditorText
             ? "This nature does not raise or lower any stat."
             : $"This nature raises {InspectorText.StatNames[effect.Raised]} and lowers {InspectorText.StatNames[effect.Lowered]}.";
         return stats + " In this game the nature is stored apart from the PID, so changing it does not change shininess, gender or ability.";
+    }
+
+    /// <summary>The header of the IV column, with the range each IV takes.</summary>
+    public static string IvHeader(int maximum) => string.Create(CultureInfo.InvariantCulture, $"IV (0–{maximum})");
+
+    /// <summary>The header of the EV column, with the range each EV takes.</summary>
+    public static string EvHeader(int maximum) => string.Create(CultureInfo.InvariantCulture, $"EV (0–{maximum})");
+
+    /// <summary>
+    /// The note on the drafted IVs: their total, and the Hidden Power type they give, since an IV edit can change it and the characteristic.
+    /// </summary>
+    /// <param name="total">The sum of the six IVs.</param>
+    /// <param name="maximum">The highest single IV.</param>
+    /// <param name="hiddenPower">The name of the Hidden Power type, or null when Core has none for it.</param>
+    public static string IvNote(int total, int maximum, string? hiddenPower) => string.Create(CultureInfo.InvariantCulture,
+        $"IV total {total} of {maximum * EditorDraft.StatCount}. Hidden Power type: {hiddenPower ?? "unknown"}. The IVs decide the Hidden Power type and the characteristic.");
+
+    /// <summary>
+    /// The note on the drafted EVs: their total, how many remain, and what Core's grading of the total means (<see cref="EffortValues.GetGrade"/>).
+    /// </summary>
+    /// <param name="total">The sum of the six EVs.</param>
+    /// <param name="maximum">The highest total a Pokémon can hold.</param>
+    public static string EvNote(int total, int maximum)
+    {
+        var sum = total > maximum
+            ? string.Create(CultureInfo.InvariantCulture, $"EV total {total} of {maximum}: {total - maximum} over the limit.")
+            : string.Create(CultureInfo.InvariantCulture, $"EV total {total} of {maximum}; {maximum - total} remaining.");
+        var grade = EffortValues.GetGrade(total) switch
+        {
+            EffortValueGrade.MaxEffective => " Every EV that changes a stat is used; stats grow every 4 EVs, so the 2 remaining would change nothing, and legality analysis may note this total.",
+            EffortValueGrade.MaxLegal => " This is the most a Pokémon can have.",
+            EffortValueGrade.Illegal => " Lower an EV to bring the total within the limit; an EV cannot be raised until it is.",
+            _ => "",
+        };
+        return sum + grade;
     }
 
     /// <summary>The name of a stored nature outside the game's list, so the nature box never shows a value that is not stored.</summary>

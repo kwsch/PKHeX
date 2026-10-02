@@ -154,7 +154,7 @@ public sealed class PartyApplyTests
     }
 
     /// <summary>A party member stored without battle stats, written directly: Core's party setter would recalculate them.</summary>
-    private static byte[] WithoutStoredStats() => SaveFixtures.Synthetic(false, customize: SaveFixtures.All(SaveFixtures.WithPartyMember(), save =>
+    internal static byte[] WithoutStoredStats() => SaveFixtures.Synthetic(false, customize: SaveFixtures.All(SaveFixtures.WithPartyMember(), save =>
     {
         var pk = save.GetPartySlotAtIndex(0);
         pk.Stat_HPMax = 0;

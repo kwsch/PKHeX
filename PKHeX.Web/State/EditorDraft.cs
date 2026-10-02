@@ -97,6 +97,33 @@ public sealed class EditorDraft
     /// <summary>Drafted nature. In Generation 6 it is stored apart from the PID, and it is the nature the stats are calculated with.</summary>
     public Nature Nature => working.Nature;
 
+    /// <summary>Number of stats with an IV and an EV.</summary>
+    public const int StatCount = 6;
+
+    /// <summary>Drafted individual values in the summary's stat order: HP, Attack, Defense, Sp. Atk, Sp. Def, Speed.</summary>
+    public IReadOnlyList<int> Ivs => [.. CoreIndex.ToArray().Select(i => working.GetIV(i))];
+
+    /// <summary>Drafted effort values in the summary's stat order: HP, Attack, Defense, Sp. Atk, Sp. Def, Speed.</summary>
+    public IReadOnlyList<int> Evs => [.. CoreIndex.ToArray().Select(i => working.GetEV(i))];
+
+    /// <summary>The sum of the drafted IVs.</summary>
+    public int IvTotal => working.IVTotal;
+
+    /// <summary>The sum of the drafted EVs.</summary>
+    public int EvTotal => working.EVTotal;
+
+    /// <summary>The highest IV the format stores.</summary>
+    public int MaxIv => working.MaxIV;
+
+    /// <summary>The highest EV the format allows in one stat.</summary>
+    public int MaxEv => working.MaxEV;
+
+    /// <summary>The highest EV total a Pokémon can hold.</summary>
+    public int MaxEvTotal => EffortValues.Max510;
+
+    /// <summary>The type Hidden Power has with the drafted IVs, as an index into Core's Hidden Power type names.</summary>
+    public int HiddenPowerType => working.HPType;
+
     /// <summary>True when any stored byte of the draft differs from the slot it was taken from.</summary>
     /// <remarks>Neither copy has its checksum refreshed in memory, so the checksum bytes cannot make an unchanged draft look dirty.</remarks>
     public bool IsDirty => !working.Data.SequenceEqual(baseline.Data);
@@ -306,6 +333,72 @@ public sealed class EditorDraft
         Commit(candidate, affectsStats: true);
     }
 
+    /// <summary>
+    /// Sets one individual value. The value is refused outside 0 to <see cref="MaxIv"/>, never clamped. Only that stat's bits are written,
+    /// so the IVs of other stats and the egg and nickname flags stored beside them are kept. On failure the previous value is kept.
+    /// </summary>
+    /// <remarks>
+    /// The range is checked here, not left to Core: the PK6 setter clamps a value above 31, and would write a negative one over the
+    /// neighbouring bits.
+    /// </remarks>
+    /// <param name="stat">The stat, by its index in the summary order (see <see cref="Ivs"/>).</param>
+    /// <param name="value">The new individual value.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="stat"/> is not 0–5.</exception>
+    /// <exception cref="SessionException">
+    /// The family does not allow IV edits, the Pokémon is an egg, the value is out of range, or the member is stored without party stats.
+    /// </exception>
+    public void EditIv(int stat, int value)
+    {
+        var index = ToCoreIndex(stat);
+        Require(EditableFields.Ivs);
+        if (value < 0 || value > MaxIv)
+        {
+            throw new SessionException(SessionError.IvOutOfRange);
+        }
+        var candidate = (PK6)working.Clone();
+        candidate.SetIV(index, value);
+        Commit(candidate, affectsStats: true);
+    }
+
+    /// <summary>
+    /// Sets one effort value. The value is refused outside 0 to <see cref="MaxEv"/>, and refused when it raises the total above
+    /// <see cref="MaxEvTotal"/>; it is never clamped. An edit that lowers the total is accepted even while the total stays above the limit,
+    /// so a stored total over it can be brought down one stat at a time. On failure the previous value is kept.
+    /// </summary>
+    /// <param name="stat">The stat, by its index in the summary order (see <see cref="Evs"/>).</param>
+    /// <param name="value">The new effort value.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="stat"/> is not 0–5.</exception>
+    /// <exception cref="SessionException">
+    /// The family does not allow EV edits, the Pokémon is an egg, the value is out of range, the total would rise above the limit, or the
+    /// member is stored without party stats.
+    /// </exception>
+    public void EditEv(int stat, int value)
+    {
+        var index = ToCoreIndex(stat);
+        Require(EditableFields.Evs);
+        if (value < 0 || value > MaxEv)
+        {
+            throw new SessionException(SessionError.EvOutOfRange);
+        }
+        var total = working.EVTotal - working.GetEV(index) + value;
+        if (total > MaxEvTotal && total > working.EVTotal)
+        {
+            throw new SessionException(SessionError.EvTotalAboveLimit);
+        }
+        var candidate = (PK6)working.Clone();
+        candidate.SetEV(index, value);
+        Commit(candidate, affectsStats: true);
+    }
+
+    /// <summary>Core's stat index (HP, Attack, Defense, Speed, Sp. Atk, Sp. Def) of each stat in the summary order.</summary>
+    private static ReadOnlySpan<byte> CoreIndex => [0, 1, 2, 4, 5, 3];
+
+    /// <summary>Core's stat index for a summary-order <paramref name="stat"/>.</summary>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="stat"/> is not 0–5.</exception>
+    private static int ToCoreIndex(int stat) => (uint)stat < StatCount
+        ? CoreIndex[stat]
+        : throw new ArgumentOutOfRangeException(nameof(stat), stat, "The stat index must be 0–5.");
+
     /// <summary>Refuses an edit of <paramref name="field"/> that the family does not allow, and any edit of an egg.</summary>
     /// <remarks>
     /// Gated on the family, not the position: a party draft of a family without party writes can still be edited in memory, and Apply
@@ -365,7 +458,8 @@ public sealed class EditorDraft
     /// </summary>
     /// <remarks>
     /// Test-only: it reaches states no typed edit method can, such as an edited egg, so the later checks (Apply, export) can be tested on
-    /// them. Stat edits go through the typed methods (<see cref="EditLevel"/>, <see cref="EditNature"/>).
+    /// them. Stat edits go through the typed methods (<see cref="EditLevel"/>, <see cref="EditNature"/>,
+    /// <see cref="EditIv"/>, <see cref="EditEv"/>).
     /// </remarks>
     /// <param name="change">The change to make on a copy of the drafted entity.</param>
     /// <param name="affectsStats">Whether the change affects calculated stats, as a typed edit method would declare.</param>

@@ -11,7 +11,7 @@ public static class PartyText
     /// Shown when a party member is opened: edits that do not affect stats keep its battle state as stored, and those that do recalculate
     /// its stats without healing it (<see cref="PartyStatPolicy"/>).
     /// </summary>
-    public const string KeptOnEdit = "Name, language and friendship edits keep its stored stats, current HP and status. Level, experience and nature edits recalculate its stats with PKHeX.Core; its status is kept and its current HP is never raised.";
+    public const string KeptOnEdit = "Name, language and friendship edits keep its stored stats, current HP and status. Level, experience, nature, IV and EV edits recalculate its stats with PKHeX.Core; its status is kept and its current HP is never raised.";
 
     /// <summary>
     /// The preview of an HP reduction before apply, or null when applying the draft does not lower the member's current HP.

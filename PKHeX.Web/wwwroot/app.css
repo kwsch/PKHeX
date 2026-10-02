@@ -34,6 +34,10 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 #download-name { min-width: 0; }
 #save-drop { border: 2px dashed #888; border-radius: .5rem; padding: 0 1rem; }
 #save-drop[data-drag-over] { border-color: #397bd9; background: color-mix(in srgb, #397bd9 12%, transparent); }
+/* The IV/EV table holds two short number fields per row; fixed columns keep it within a phone. */
+.stat-edit { table-layout: fixed; }
+.stat-edit th, .stat-edit td { padding: .35rem .4rem; overflow-wrap: break-word; }
+.stat-edit input { width: 100%; min-width: 0; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .box-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .5rem; }
 .box-nav button { margin-inline-end: 0; }

@@ -37,7 +37,7 @@ public sealed class LevelNatureBrowserTests(PublishedAppFixture app)
         var expected = changed.Write().ToArray();
         await Load(page, bytes);
         await Select(page);
-        await Expect(page.Locator("#message")).ToContainTextAsync("level, experience points and nature can be changed");
+        await Expect(page.Locator("#message")).ToContainTextAsync("level, experience points, nature");
 
         // A level edit sets the experience points to the start of the level, and the note shows the range.
         await page.Locator("#level").FillAsync("50");

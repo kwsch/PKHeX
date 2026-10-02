@@ -30,4 +30,16 @@ public enum EditableFields
 
     /// <summary>The nature (<see cref="EditorDraft.EditNature"/>), which affects calculated stats. In Generation 6 it is stored apart from the PID.</summary>
     Nature = 1 << 4,
+
+    /// <summary>
+    /// The six individual values (<see cref="EditorDraft.EditIv"/>), each refused outside 0 to the format's maximum. They affect calculated
+    /// stats, the Hidden Power type and the characteristic.
+    /// </summary>
+    Ivs = 1 << 5,
+
+    /// <summary>
+    /// The six effort values (<see cref="EditorDraft.EditEv"/>), each refused outside 0 to the format's maximum, and refused when an edit
+    /// raises their total above the most a Pokémon can hold. They affect calculated stats.
+    /// </summary>
+    Evs = 1 << 6,
 }

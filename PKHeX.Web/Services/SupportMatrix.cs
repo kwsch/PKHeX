@@ -22,7 +22,7 @@ public static class SupportMatrix
 
     /// <summary>The PK6 fields this release lets the user draft.</summary>
     private const EditableFields PK6Fields = EditableFields.Nickname | EditableFields.Language | EditableFields.Friendship
-        | EditableFields.Level | EditableFields.Nature;
+        | EditableFields.Level | EditableFields.Nature | EditableFields.Ivs | EditableFields.Evs;
 
     /// <summary>True if <paramref name="save"/> is of a type this release opens. Related types, such as the ORAS demo, are not included.</summary>
     public static bool IsEnabled(SaveFile save) => Find(save) is not null;

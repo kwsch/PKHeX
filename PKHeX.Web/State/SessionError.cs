@@ -80,6 +80,18 @@ public enum SessionError
     /// <summary>The nature is not one of the game's natures (see <see cref="SaveCapabilities.Lists"/>).</summary>
     NatureNotAvailable,
 
+    /// <summary>The individual value is outside 0 to the format's maximum (31). It is refused, never clamped.</summary>
+    IvOutOfRange,
+
+    /// <summary>The effort value is outside 0 to the format's maximum for one stat (252). It is refused, never clamped.</summary>
+    EvOutOfRange,
+
+    /// <summary>
+    /// The effort value would raise the total of all six above the most a Pokémon can hold (510). An edit that lowers the total is accepted
+    /// even while it stays above the limit, so a stored total over it can be brought down one stat at a time.
+    /// </summary>
+    EvTotalAboveLimit,
+
     /// <summary>
     /// The Pokémon is an egg. Its name must be the game's egg name, and its friendship field holds the hatch counter, so this release
     /// edits none of its fields.

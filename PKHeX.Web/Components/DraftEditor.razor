@@ -1,5 +1,5 @@
 @using System.Globalization
-@* The draft's editable fields: name and language, friendship towards each trainer, level and experience points, and nature. Every change
+@* The draft's editable fields: name and language, friendship towards each trainer, level and experience points, nature, and IVs and EVs. Every change
    goes through OnEdit, which runs it on the draft and reports a refusal; this component only turns input into typed draft edits and shows
    what the draft holds. *@
 <h3 id="draft-edit-title">Edit</h3>
@@ -70,6 +70,36 @@
     </select>
     <p id="nature-note" role="status">@EditorText.NatureNote(NatureEffect.Of(Draft.Nature))</p>
 </fieldset>
+<fieldset id="stat-fields">
+    <legend>IVs and EVs</legend>
+    @* Text with a numeric keyboard, as for friendship. The draft refuses an IV or EV out of range, and an EV that raises the total above the
+       limit; nothing is clamped. Each field is named by its row and column headers ("Attack (raised by nature) IV (0–31)"). *@
+    <table class="stat-edit">
+        <thead>
+            <tr>
+                <th scope="col">Stat</th>
+                <th scope="col" id="iv-head">@EditorText.IvHeader(Draft.MaxIv)</th>
+                <th scope="col" id="ev-head">@EditorText.EvHeader(Draft.MaxEv)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < EditorDraft.StatCount; i++)
+            {
+                var stat = i;
+                <tr>
+                    <th scope="row" id="stat-@stat">@InspectorText.StatName(stat, NatureEffect.Of(Draft.Nature))</th>
+                    <td><input id="iv-@stat" type="text" inputmode="numeric" autocomplete="off" value="@ivs[stat]" aria-labelledby="stat-@stat iv-head"
+                               @oninput="e => IvTyped(stat, e)" readonly="@(!Can(EditableFields.Ivs))" /></td>
+                    <td><input id="ev-@stat" type="text" inputmode="numeric" autocomplete="off" value="@evs[stat]" aria-labelledby="stat-@stat ev-head"
+                               @oninput="e => EvTyped(stat, e)" readonly="@(!Can(EditableFields.Evs))" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @* Always rendered, so a screen reader announces a change of their text. *@
+    <p id="iv-note" role="status">@EditorText.IvNote(Draft.IvTotal, Draft.MaxIv, HiddenPowerName)</p>
+    <p id="ev-note" role="status">@EditorText.EvNote(Draft.EvTotal, Draft.MaxEvTotal)</p>
+</fieldset>
 
 @code {
     /// <summary>The draft being edited. A new draft (another slot, or after apply or cancel) reloads every field.</summary>
@@ -82,6 +112,7 @@
 
     private EditorDraft? shown;
     private string nickname = "", trainerFriendship = "", handlerFriendship = "", level = "", experience = "";
+    private readonly string[] ivs = new string[EditorDraft.StatCount], evs = new string[EditorDraft.StatCount];
     private bool nicknamed;
     private int language, nature;
 
@@ -95,6 +126,8 @@
             shown = Draft;
             renamed = null;
             trainerFriendship = handlerFriendship = level = experience = "";
+            Array.Fill(ivs, "");
+            Array.Fill(evs, "");
             Load();
         }
     }
@@ -110,6 +143,13 @@
         level = Shown(level, Draft.Level);
         experience = Shown(experience, Draft.Experience);
         nature = (int)Draft.Nature;
+        var draftedIvs = Draft.Ivs;
+        var draftedEvs = Draft.Evs;
+        for (var i = 0; i < EditorDraft.StatCount; i++)
+        {
+            ivs[i] = Shown(ivs[i], draftedIvs[i]);
+            evs[i] = Shown(evs[i], draftedEvs[i]);
+        }
     }
 
     /// <summary>
@@ -126,6 +166,17 @@
     private bool Listed(int value) => Draft.Capabilities.Lists.Languages.Any(l => l.Value == value);
 
     private bool ListedNature(int value) => Draft.Capabilities.Lists.Natures.Any(n => n.Value == value);
+
+    /// <summary>The name Core gives the drafted Hidden Power type, or null for a type it has no name for.</summary>
+    private string? HiddenPowerName
+    {
+        get
+        {
+            var names = GameInfo.Strings.HiddenPowerTypes;
+            var type = Draft.HiddenPowerType;
+            return (uint)type < (uint)names.Length ? names[type] : null;
+        }
+    }
 
     /// <summary>The language's name from Core's list, or the unknown wording for a stored value outside it.</summary>
     private string LanguageName => Draft.Capabilities.Lists.Languages.FirstOrDefault(l => l.Value == Draft.Language)?.Text ?? EditorText.UnlistedLanguage(Draft.Language);
@@ -178,6 +229,18 @@
         return Run(Number(experience, SessionError.ExperienceOutOfRange, static (d, v) => d.EditExperience(v)), tracksRename: false);
     }
 
+    private Task IvTyped(int stat, ChangeEventArgs e)
+    {
+        ivs[stat] = e.Value?.ToString() ?? "";
+        return Run(Number(ivs[stat], SessionError.IvOutOfRange, (d, v) => d.EditIv(stat, (int)Math.Min(v, int.MaxValue))), tracksRename: false);
+    }
+
+    private Task EvTyped(int stat, ChangeEventArgs e)
+    {
+        evs[stat] = e.Value?.ToString() ?? "";
+        return Run(Number(evs[stat], SessionError.EvOutOfRange, (d, v) => d.EditEv(stat, (int)Math.Min(v, int.MaxValue))), tracksRename: false);
+    }
+
     private Task NatureChanged(ChangeEventArgs e)
     {
         if (!int.TryParse(e.Value?.ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out var value))
@@ -189,7 +252,7 @@
     }
 
     /// <summary>
-    /// The edit for typed level or experience text. Text that is not a whole number (an empty field, a sign, a fraction or more digits than
+    /// The edit for typed level, experience, IV or EV text. Text that is not a whole number (an empty field, a sign, a fraction or more digits than
     /// fit) is refused with <paramref name="refusal"/>, like a value out of range, so nothing is guessed or clamped.
     /// </summary>
     private static Action<EditorDraft> Number(string text, SessionError refusal, Action<EditorDraft, long> edit) =>

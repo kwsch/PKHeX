@@ -298,6 +298,76 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         static byte LevelStep(byte level) => level == Experience.MaxLevel ? (byte)(level - 1) : (byte)(level + 1);
     }
 
+    /// <summary>
+    /// The first boxed Pokémon that is not an egg and the first party member of each private save: an IV and an EV step on the boxed one and
+    /// an IV step on the party member, edited through the published app, match the same native Core edits (the party member following the
+    /// PK6 party-stat policy) byte for byte and change only those two slots. Values are withheld from messages.
+    /// </summary>
+    [TierTheory(TestCategory.RealSave)]
+    [MemberData(nameof(RealCases))]
+    public async Task RealSaveIvEvRoundTrip(string engine, string prefix, string family)
+    {
+        var fixture = RealSaves.Read(family);
+        var native = fixture.Native;
+        Assert.True(native.PartyCount > 0, "The private save has no party member to edit.");
+        var index = FirstWritableNonEgg(native);
+        var noOp = native.Clone().Write().ToArray();
+
+        var changed = native.Clone();
+        var boxed = SaveFixtures.Slot(changed, index).Read(changed);
+        var speedIv = IvStep(boxed.IV_SPE);
+        // Lowering an EV is always accepted; with no EVs at all, 4 HP EVs stay within the total.
+        var (evStat, evCore, ev) = boxed.EV_HP > 0 ? (0, 0, boxed.EV_HP - 1)
+            : boxed.EV_ATK > 0 ? (1, 1, boxed.EV_ATK - 1)
+            : boxed.EVTotal == 0 ? (0, 0, 4)
+            : (5, 3, boxed.EV_SPE > 0 ? boxed.EV_SPE - 1 : Math.Min(4, EffortValues.Max510 - boxed.EVTotal));
+        boxed.IV_SPE = speedIv;
+        boxed.SetEV(evCore, ev);
+        Assert.True(SaveFixtures.Slot(changed, index).WriteTo(changed, boxed, EntityImportSettings.None));
+        var member = changed.GetPartySlotAtIndex(0);
+        var storedStats = member.GetStats(member.PersonalInfo);
+        var hpIv = IvStep(member.IV_HP);
+        member.IV_HP = hpIv;
+        if (!member.GetStats(member.PersonalInfo).AsSpan().SequenceEqual(storedStats))
+        {
+            // The policy recalculates only when the edit changes the calculation; otherwise the stored battle state is kept as stored.
+            var (hp, status) = (member.Stat_HPCurrent, member.Status_Condition);
+            member.ResetPartyStats();
+            member.Status_Condition = status;
+            member.Stat_HPCurrent = Math.Min(hp, member.Stat_HPMax);
+        }
+        changed.SetPartySlotAtIndex(member, 0, EntityImportSettings.None);
+        var expectedEdited = changed.Clone().Write().ToArray();
+
+        await using var session = await app.BootAsync(engine, prefix);
+        var page = session.Page;
+        await Load(page, noOp);
+        await Select(page, index);
+        await page.Locator("#iv-5").FillAsync(speedIv.ToString(CultureInfo.InvariantCulture));
+        await page.Locator($"#ev-{evStat}").FillAsync(ev.ToString(CultureInfo.InvariantCulture));
+        await page.Locator("#apply").ClickAsync();
+        await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
+        await Select(page, SlotRef.InParty(0));
+        await page.Locator("#iv-0").FillAsync(hpIv.ToString(CultureInfo.InvariantCulture));
+        await page.Locator("#apply").ClickAsync();
+        await Expect(page.Locator("#draft-state")).ToHaveTextAsync("No draft changes");
+        var edited = await DownloadEdited(page);
+        Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native IV and EV output differs (bytes withheld).");
+
+        // Only the two slots and the checksum footer may differ: take the party slot as edited, then check the rest against the box slot.
+        var partyOffset = native.GetPartyOffset(0);
+        var withParty = noOp.ToArray();
+        edited.AsSpan(partyOffset, native.SIZE_PARTY).CopyTo(withParty.AsSpan(partyOffset));
+        AssertOnlyRangeDiffers(withParty, edited, native.GetBoxSlotOffset(index.Box, index.Slot), native.SIZE_BOXSLOT);
+
+        await session.AssertNoNetworkOrPersistenceAsync();
+        Assert.True(session.PageErrors == 0, "Browser runtime errors occurred; no private traces retained.");
+        fixture.AssertUnchanged();
+
+        // One up, or down from the highest IV, so the edit always changes the IV.
+        static int IvStep(int iv) => iv == 31 ? 30 : iv + 1;
+    }
+
     /// <summary>The first writable boxed PK6 that is not an egg, since eggs are not edited.</summary>
     private static SlotRef FirstWritableNonEgg(SaveFile save)
     {
