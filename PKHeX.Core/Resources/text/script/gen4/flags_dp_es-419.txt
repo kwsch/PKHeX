@@ -1,5 +1,6 @@
 0318	s	Saturno derrotado en Caverna Valor/Lago Veraz Restaurado
 0350	s	Agua del Lago Valor Restaurada/Se puede obtener entrada de Palkia/Dialga en Pueblo Caelestis
+0214	s	Misión de Montaña Sólida completada
 0351	r	Dialga/Palkia capturado
 0482	r	Dialga/Palkia desaparecido del Columna Lanza
 0511	r	Uxie desaparecido
