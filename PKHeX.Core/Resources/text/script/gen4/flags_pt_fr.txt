@@ -1,5 +1,6 @@
 0318	s	Saturne Vaincu à la Caverne Courage/Lac Vérité Restauré
 0350	s	Eau du Lac Vérité Restaurée
+0214	s	Quête de la Mont Abrupt terminée/Revanche du Conseil 4 débloquée
 0481	r	Créhelf Disparu
 0295	r	Créhelf Capturé
 0479	r	Créfollet (Caverne Vérité) Disparu
