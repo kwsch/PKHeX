@@ -6,7 +6,7 @@
 0249	e	Tour Enfouie	0:N'a pas encore reçu le Pokémon de Départ de Kanto,1:A reçu le Pokémon de Départ de Kanto,2:Orbe obtenu,3:Kyogre/Groudon activé,4:Kyogre/Groudon disparu,5:A reçu l'Orbe Vert,6:Rayquaza activé,7:Rayquaza attrapé,8:Évènement complété,9:Rayquaza disparu
 0251	e	Ruines Sinjoh	1:Pas visité,4:Téléporté (1ère fois),5:Est allé à l'intérieur,6:Peut interagir avec Cynthia (chalet),7:Peut interagir avec Cynthia (temple),8:Avant le choix du légendaire,10:Premier légendaire obtenu,13:Téléporté (2nde fois),14:Second légendaire obtenu
 0259	r	Légendaire de Sinnoh (1er)	1:Dialga,2:Palkia,3:Giratina
-0258	r	(2nd) Arceus Téléportable	1:Salle Originelle,2:Rencontre Fatidique
+0258	r	(2nd) Arceus Téléportable	1:Salle Originelle,2:Rencontré par hasard
 0305	g	Pokémon de Départ de Kanto	0:Pas activé,1:Activé,2:En attente,3:Bulbizarre,4:Carapuce,5:Salamèche,6:Complété
 0116	g	Œuf de Togepi	0:Pas activé,1:Activé,2:En attente,3:Obtenu,4:Complété
 0254	r	Évènement de Celebi	0:Pas activé,5:Complété
