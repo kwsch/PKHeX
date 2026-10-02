@@ -1,5 +1,6 @@
 0318	s	Defeated Saturn in Valor Cavern/Lake Verity Restored
 0350	s	Lake Valor Water Restored
+0214	s	Stark Mountain Quest Cleared/Elite Four Rematch Unlocked
 0481	r	Uxie Disappeared
 0295	r	Uxie Captured
 0479	r	Mesprit (Verity Cavern) Disappeared
