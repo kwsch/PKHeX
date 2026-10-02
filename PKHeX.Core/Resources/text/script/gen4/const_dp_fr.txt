@@ -9,6 +9,7 @@
 0068	e	Lettre Chen (Jamais Sortie)	0:Pas activée,4370:Activée
 0069	e	Flûte Azur (Jamais Sortie)	0:Pas activée,4387:Activée
 0062	r	Joueurs Rencontrés dans le Souterrain (Spiritomb)	32:Spiritomb est apparu
+0064	+	Niveaux bonus d’affilée au Casino (Non coréen)
 0138	e	Tour Sacrée (Route 209)	0:Inactive,1:Active
 0248	e	Évènement de l'Auberge du Port (Jamais Sorti)	0:Pas encore complété,2:Capture de Darkrai en attente,3:Marin devant l'auberge (Darkrai capturé),4:Terminé (Darkrai capturé pendant le cauchemar)
 0280	e	Évènement de la Salle Originelle (Jamais Sorti)	0:Inactif,1:Actif
