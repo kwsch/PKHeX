@@ -44,12 +44,16 @@ public sealed class SaveSession
         : exported == Revision ? ExportStatus.ExportedCurrent
         : ExportStatus.ChangedSinceExport;
 
-    internal SaveSession(byte[] source, SaveFile save, string fileName)
+    /// <param name="source">The bytes the save was opened from; the session keeps them as given.</param>
+    /// <param name="save">The parsed save, which becomes the working save.</param>
+    /// <param name="fileName">The sanitised file name.</param>
+    /// <param name="capabilities">The save's capabilities; worked out from <see cref="Services.SupportMatrix"/> when null. Tests pass their own.</param>
+    internal SaveSession(byte[] source, SaveFile save, string fileName, SaveCapabilities? capabilities = null)
     {
         original = source;
         FileName = fileName;
         Working = save;
-        Capabilities = SaveCapabilities.For(save);
+        Capabilities = capabilities ?? SaveCapabilities.For(save);
     }
 
     /// <summary>Returns a copy of the bytes the session was opened from.</summary>
@@ -81,12 +85,35 @@ public sealed class SaveSession
     }
 
     /// <summary>
+    /// Writes the entity to its slot on a staged save during <see cref="Apply"/>. Tests replace it to inject failures; the default is
+    /// Core's slot write with <see cref="EntityImportSettings.None"/>.
+    /// </summary>
+    /// <remarks>
+    /// The default import settings would also mark the Pokédex, bump trainer records and rewrite handler data as if the entity were traded in.
+    /// </remarks>
+    internal Func<SaveFile, ISlotInfo, PKM, bool> StagedWriter { get; set; } = static (save, slot, entity) => slot.WriteTo(save, entity, EntityImportSettings.None);
+
+    /// <summary>
     /// Writes a draft to its source slot. The write is staged on a clone of the working save and swapped in only after it is verified.
     /// </summary>
-    /// <remarks>A draft with no changes is ignored and does not count as a change.</remarks>
+    /// <remarks>
+    /// <para>The stages, in order; a refusal at any of them leaves the session exactly as it was:</para>
+    /// <list type="number">
+    /// <item>The draft must belong to this session, be taken from the current revision and be of a position this release writes.</item>
+    /// <item>A party member must be stored with party stats, which Core would otherwise recalculate on write, restoring its HP and clearing its status.</item>
+    /// <item>Core must allow the slot and the entity (<see cref="ISlotInfo.CanWriteTo(SaveFile, PKM)"/>).</item>
+    /// <item>The entity is written to a clone of the working save with <see cref="EntityImportSettings.None"/>.</item>
+    /// <item>The slot must read back as exactly the drafted entity (<see cref="StoresExactly"/>), party stats, HP and status included.</item>
+    /// <item>The party count must be unchanged, and every party position and box slot other than the target must keep every byte (<see cref="SlotImages"/>).</item>
+    /// </list>
+    /// <para>
+    /// The verified clone then replaces the working save and the revision advances. A draft with no changes is not a change: nothing is
+    /// written and the revision stays. A changed draft always changes the slot, since it must read back exactly.
+    /// </para>
+    /// </remarks>
     /// <exception cref="SessionException">
-    /// The draft is foreign or stale, its position cannot be written by this release (<see cref="SaveCapabilities.CanApply"/>),
-    /// the slot cannot be written, or the staged write fails verification.
+    /// The draft is foreign or stale, its position cannot be written by this release (<see cref="SaveCapabilities.CanApply"/>), the party
+    /// member has no stored stats, the slot cannot be written, or the staged write fails verification.
     /// </exception>
     public void Apply(EditorDraft draft)
     {
@@ -101,6 +128,11 @@ public sealed class SaveSession
             throw new SessionException(SessionError.PartyApplyNotAvailable);
         }
 
+        // Checked on the stored member, not the draft: a stat edit gives the draft stats, recalculated from no previous HP.
+        if (draft.Slot.IsParty && ReadOccupied(Working, draft.Slot) is not { PartyStatsPresent: true })
+        {
+            throw new SessionException(SessionError.PartyStatsMissing);
+        }
         var entity = draft.ToStoredEntity();
         var candidate = Working.Clone();
         var slot = draft.Slot.ToSlotInfo(candidate);
@@ -108,15 +140,25 @@ public sealed class SaveSession
         {
             throw new SessionException(SessionError.SlotNotWritable);
         }
-        // The default import settings also mark the Pokédex, bump trainer records and rewrite handler data as if traded in.
-        if (!slot.WriteTo(candidate, entity, EntityImportSettings.None))
+
+        var before = SlotImages.Of(Working);
+        // The writer is handed a copy, so nothing it does to the entity can change what the read-back is compared with.
+        if (!StagedWriter(candidate, slot, entity.Clone()))
         {
             throw new SessionException(SessionError.StagedWriteFailed);
         }
-        // The slot must now hold exactly the drafted entity: every stored byte, not only the edited fields.
-        if (!StoresExactly(slot.Read(candidate), entity))
+        // The slot must now hold exactly the drafted entity: every byte, not only the edited fields.
+        if (!StoresExactly(draft.Slot.ToSlotInfo(candidate).Read(candidate), entity, draft.Slot.IsParty))
         {
             throw new SessionException(SessionError.StagedEditMismatch);
+        }
+        if (candidate.PartyCount != Working.PartyCount)
+        {
+            throw new SessionException(SessionError.PartyCountChanged);
+        }
+        if (SlotImages.FirstUntargetedChange(before, SlotImages.Of(candidate), draft.Slot) is not null)
+        {
+            throw new SessionException(SessionError.UntargetedSlotChanged);
         }
 
         Working = candidate;
@@ -125,10 +167,16 @@ public sealed class SaveSession
     }
 
     /// <summary>
-    /// True when <paramref name="stored"/>, read back from a slot, passes its checksum and holds the same stored-format bytes as
-    /// <paramref name="expected"/>. Party-only data (battle stats, current HP, status) is outside the stored format and is not compared.
+    /// True when <paramref name="stored"/>, read back from a slot, passes its checksum and holds the same bytes as <paramref name="expected"/>.
     /// </summary>
-    internal static bool StoresExactly(PKM stored, PKM expected)
+    /// <remarks>
+    /// A party member is compared in the party format, so its battle stats, current HP and status are compared too, and a write that healed
+    /// it or recalculated its stats does not match. A boxed entity is compared in the stored format, the only bytes a box slot holds.
+    /// </remarks>
+    /// <param name="stored">The entity read back from the slot.</param>
+    /// <param name="expected">The entity that was written.</param>
+    /// <param name="party">True when the slot is a party position.</param>
+    internal static bool StoresExactly(PKM stored, PKM expected, bool party)
     {
         if (!stored.ChecksumValid)
         {
@@ -136,8 +184,8 @@ public sealed class SaveSession
         }
         var reference = expected.Clone();
         reference.RefreshChecksum();
-        var size = reference.SIZE_STORED;
-        return stored.Data[..size].SequenceEqual(reference.Data[..size]);
+        var size = party ? reference.SIZE_PARTY : reference.SIZE_STORED;
+        return stored.Data.Length >= size && reference.Data.Length >= size && stored.Data[..size].SequenceEqual(reference.Data[..size]);
     }
 
     /// <summary>

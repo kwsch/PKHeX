@@ -15,7 +15,7 @@ public sealed class SaveCapabilitiesTests
     [Theory]
     [InlineData(false, typeof(SAV6XY))]
     [InlineData(true, typeof(SAV6AO))]
-    public void XYAndORASStorePK6AndApplyOnlyToBoxes(bool oras, Type saveType)
+    public void XYAndORASStorePK6AndApplyToPartyAndBoxes(bool oras, Type saveType)
     {
         var session = SaveFixtures.Open(SaveFixtures.Synthetic(oras));
         var capabilities = session.Capabilities;
@@ -27,8 +27,32 @@ public sealed class SaveCapabilitiesTests
         capabilities.Editable.Should().Be(EditableFields.Nickname);
         capabilities.MaxNicknameLength.Should().Be(session.Working.MaxStringLengthNickname);
         capabilities.CanApply(SaveFixtures.FirstBoxSlot).Should().BeTrue();
-        capabilities.CanApply(SlotRef.InParty(0)).Should().BeFalse("party members are inspected only until the party-stat policy exists");
+        capabilities.CanApply(SlotRef.InParty(0)).Should().BeTrue("PK6 has a party-stat policy");
+        capabilities.CanApplyToParty.Should().BeTrue();
+    }
+
+    [Fact]
+    public void AFamilyWithoutPartyWritesAppliesOnlyToBoxes()
+    {
+        var save = SaveFixtures.Parse(SaveFixtures.Synthetic(false));
+        var family = SupportMatrix.Find(save)! with { WritesParty = false };
+
+        var capabilities = SaveCapabilities.For(save, family);
+
         capabilities.CanApplyToParty.Should().BeFalse();
+        capabilities.CanApply(SlotRef.InParty(0)).Should().BeFalse();
+        capabilities.CanApply(SaveFixtures.FirstBoxSlot).Should().BeTrue();
+    }
+
+    [Fact]
+    public void AFamilyIsNotAppliedToAnotherSaveType()
+    {
+        var xy = SaveFixtures.Parse(SaveFixtures.Synthetic(false));
+        var oras = SupportMatrix.Families.Single(f => f.SaveType == typeof(SAV6AO));
+
+        var act = () => SaveCapabilities.For(xy, oras);
+
+        act.Should().Throw<NotSupportedException>();
     }
 
     [Theory]

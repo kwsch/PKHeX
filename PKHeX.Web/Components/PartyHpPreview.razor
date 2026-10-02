@@ -1,0 +1,13 @@
+@* The preview of a party member's HP reduction, shown before the draft is applied. The live region is always present and only its
+   content changes, because screen readers do not reliably announce a live region that is inserted together with its text. *@
+<div id="party-hp-region" role="status">
+    @if (PartyText.HpPreview(Change) is { } text)
+    {
+        <p id="party-hp-preview">@text</p>
+    }
+</div>
+
+@code {
+    /// <summary>The draft's HP change (see <see cref="EditorDraft.HpChange"/>), or null for a box slot or when HP is unchanged.</summary>
+    [Parameter] public PartyHpChange? Change { get; set; }
+}

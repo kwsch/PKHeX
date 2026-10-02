@@ -103,7 +103,7 @@ internal static class ProofPage
 
     /// <summary>
     /// Save-level check: every byte differing between the no-op and edited exports lies in the edited
-    /// box slot or the Gen 6 block-info footer (block checksums). Party, dex, records and handler data are untouched.
+    /// slot (a box slot or a party position) or the Gen 6 block-info footer (block checksums). Other slots, dex, records and handler data are untouched.
     /// </summary>
     public static void AssertOnlyRangeDiffers(byte[] before, byte[] after, int start, int length)
     {

@@ -217,10 +217,10 @@ public sealed class SessionTests
 
         var stored = session.Working.GetBoxSlotAtIndex(0);
         stored.Data[..expected.SIZE_STORED].ToArray().Should().Equal(expected.Data[..expected.SIZE_STORED].ToArray());
-        SaveSession.StoresExactly(stored, expected).Should().BeTrue();
+        SaveSession.StoresExactly(stored, expected, party: false).Should().BeTrue();
         var different = expected.Clone();
         different.HeldItem = 1;
-        SaveSession.StoresExactly(stored, different).Should().BeFalse("any differing stored byte fails the read-back check");
+        SaveSession.StoresExactly(stored, different, party: false).Should().BeFalse("any differing stored byte fails the read-back check");
     }
 
     [Fact]
@@ -335,23 +335,24 @@ public sealed class SessionTests
 
         draft.Slot.Should().Be(SlotRef.InParty(0));
         draft.Nickname.Should().Be("Leader", "the party member, not the boxed copy, is opened");
-        draft.CanApply.Should().BeFalse();
-        draft.Editable.Should().Be(EditableFields.None, "nothing is offered for editing that could never be applied");
+        draft.CanApply.Should().BeTrue();
+        draft.Editable.Should().Be(EditableFields.Nickname);
+        draft.HpChange.Should().BeNull("nothing is drafted yet");
         var boxed = session.Select(SaveFixtures.FirstBoxSlot);
         boxed.CanApply.Should().BeTrue();
         boxed.Editable.Should().Be(EditableFields.Nickname);
         draft.Inspect().Stats.Source.Should().Be(StatsSource.Stored, "a party member's stored stats are shown");
         boxed.Inspect().Stats.Source.Should().Be(StatsSource.Calculated);
-
     }
 
     [Fact]
-    public void PartyApplyIsRefusedWithoutChangingTheSession()
+    public void PartyApplyIsRefusedWithoutChangingTheSessionWhenTheFamilyDoesNotWriteParty()
     {
-        var session = SaveFixtures.Open(SaveFixtures.Synthetic(false, customize: SaveFixtures.WithPartyMember()));
+        var session = SaveFixtures.OpenWithoutPartyWrites(SaveFixtures.Synthetic(false, customize: SaveFixtures.WithPartyMember()));
         var working = session.Working;
         var before = SaveExporter.Export(session, null);
         var draft = session.Select(SlotRef.InParty(0));
+        draft.Editable.Should().Be(EditableFields.None, "nothing is offered for editing that could never be applied");
         draft.EditNickname("Changed", true);
 
         var apply = () => session.Apply(draft);

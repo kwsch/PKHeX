@@ -91,11 +91,38 @@ internal static class SaveFixtures
     /// Customisation for <see cref="Synthetic"/>: puts the known legal PK6 in party position 1, nicknamed <paramref name="nickname"/>,
     /// so the party and box 1, slot 1 hold told-apart copies of the same entity.
     /// </summary>
-    public static Action<SaveFile> WithPartyMember(string nickname = "PartyMon") => save =>
+    /// <param name="nickname">The party member's nickname.</param>
+    /// <param name="battle">
+    /// Changes the member after its party stats are calculated, e.g. to injure it, faint it or give it a status. Core keeps stats that are
+    /// present when it writes a party member, so these survive into the save.
+    /// </param>
+    /// <param name="position">The party position (zero-based); earlier positions must already be filled.</param>
+    public static Action<SaveFile> WithPartyMember(string nickname = "PartyMon", Action<PK6>? battle = null, int position = 0) => save =>
     {
         var entity = new PK6(ReadEntity(true)) { Nickname = nickname, IsNicknamed = true };
-        save.SetPartySlotAtIndex(entity, 0, EntityImportSettings.None);
+        entity.ResetPartyStats();
+        battle?.Invoke(entity);
+        save.SetPartySlotAtIndex(entity, position, EntityImportSettings.None);
     };
+
+    /// <summary>Applies each customisation in turn, e.g. to fill several party positions.</summary>
+    public static Action<SaveFile> All(params Action<SaveFile>[] customizations) => save =>
+    {
+        foreach (var customize in customizations)
+        {
+            customize(save);
+        }
+    };
+
+    /// <summary>
+    /// Opens <paramref name="bytes"/> as a session whose family does not write party members, as a family without a party-stat policy would be.
+    /// </summary>
+    public static SaveSession OpenWithoutPartyWrites(byte[] bytes)
+    {
+        var save = Parse(bytes);
+        var family = SupportMatrix.Find(save)! with { WritesParty = false };
+        return new SaveSession(bytes.ToArray(), save, "fixture.sav", SaveCapabilities.For(save, family));
+    }
 
     /// <summary>
     /// Customisation for <see cref="Synthetic"/>: stores a copy of the known legal PK6, changed by <paramref name="change"/>, in box

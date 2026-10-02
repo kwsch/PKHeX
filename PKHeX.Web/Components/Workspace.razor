@@ -32,10 +32,11 @@
             <p id="draft-slot">@SlotText.Position(Draft.Slot)</p>
             <h3 id="draft-edit-title">Nickname draft</h3>
             <label for="nickname">Nickname</label>
-            @* Fields the draft cannot change (all of them for a party member, which is inspected only) are read-only, so nothing is drafted that could never be applied. *@
+            @* Fields the draft cannot change (all of them when the position cannot be applied) are read-only, so nothing is drafted that could never be applied. *@
             <input id="nickname" value="@nickname" @oninput="NicknameChanged" maxlength="@Draft.MaxNicknameLength" readonly="@(!CanEditNickname)" />
             <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="NicknameFlagChanged" disabled="@(!CanEditNickname)" /> Is nicknamed</label>
             <p id="draft-state">@(State.DraftDirty ? "Unapplied draft" : "No draft changes")</p>
+            <PartyHpPreview Change="Draft.HpChange" />
             <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid)">Apply nickname</button>
             <button id="cancel-draft" @onclick="CancelDraft">Cancel draft</button>
             @if (!Draft.CanApply)
@@ -243,9 +244,11 @@
             }
             message = outcome switch
             {
-                SlotOpening.Opened => $"Opened {SlotText.Label(slot)}. " + (Draft!.CanApply
-                    ? "Only nickname fields can be changed."
-                    : UserMessages.For(SessionError.PartyApplyNotAvailable)),
+                SlotOpening.Opened => $"Opened {SlotText.Label(slot)}. " + (!Draft!.CanApply
+                    ? UserMessages.For(SessionError.PartyApplyNotAvailable)
+                    : Draft.Slot.IsParty
+                        ? $"Only nickname fields can be changed. {PartyText.KeptOnEdit}"
+                        : "Only nickname fields can be changed."),
                 SlotOpening.AlreadyOpen => $"{position} is already open in the editor.",
                 SlotOpening.DraftPending => "Apply or cancel the draft before opening another slot.",
                 SlotOpening.Unreadable => $"{position}: {UserMessages.For(SessionError.EntityInvalid)}",

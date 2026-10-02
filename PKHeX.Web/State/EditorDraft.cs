@@ -27,7 +27,7 @@ public sealed class EditorDraft
 
     /// <summary>
     /// True when <see cref="SaveSession.Apply"/> can write the draft back (see <see cref="SaveCapabilities.CanApply"/>).
-    /// Party members are inspected only until this release has the party-stat policy (stored stats, HP and status).
+    /// Party members can be applied only in families with a party-stat policy (<see cref="SupportedFamily.WritesParty"/>).
     /// </summary>
     public bool CanApply => Capabilities.CanApply(Slot);
 
@@ -56,6 +56,12 @@ public sealed class EditorDraft
     /// <remarks>Neither copy has its checksum refreshed in memory, so the checksum bytes cannot make an unchanged draft look dirty.</remarks>
     public bool IsDirty => !working.Data.SequenceEqual(baseline.Data);
 
+    /// <summary>
+    /// How applying the draft changes a party member's current and maximum HP (see <see cref="PartyStatPolicy"/>), or null for a box slot
+    /// or when neither changes. The UI previews any reduction before the draft is applied.
+    /// </summary>
+    public PartyHpChange? HpChange => Slot.IsParty ? PartyHpChange.Between(baseline, working) : null;
+
     internal EditorDraft(Guid sessionId, SlotRef slot, int sourceRevision, PK6 source, SaveCapabilities capabilities)
     {
         SessionId = sessionId;
@@ -78,7 +84,7 @@ public sealed class EditorDraft
     /// </exception>
     public void EditNickname(string nickname, bool isNicknamed)
     {
-        // Gated on the family, not the position: a party draft can still be edited in memory, and Apply refuses it.
+        // Gated on the family, not the position: a party draft of a family without party writes can still be edited in memory, and Apply refuses it.
         if (!Capabilities.Editable.HasFlag(EditableFields.Nickname))
         {
             throw new SessionException(SessionError.FieldNotEditable);
@@ -105,6 +111,47 @@ public sealed class EditorDraft
             }
         }
         candidate.IsNicknamed = isNicknamed;
+        Commit(candidate, affectsStats: false);
+    }
+
+    /// <summary>
+    /// Applies an arbitrary change to the draft through the same commit path as the typed edit methods.
+    /// </summary>
+    /// <remarks>
+    /// Test-only: no typed edit method changes stats yet, so this is how tests reach the party-stat recalculation path. It is replaced by
+    /// the typed stat edits (level/EXP, nature, IVs/EVs, species/form) as they are added.
+    /// </remarks>
+    /// <param name="change">The change to make on a copy of the drafted entity.</param>
+    /// <param name="affectsStats">Whether the change affects calculated stats, as a typed edit method would declare.</param>
+    internal void EditForTest(Action<PK6> change, bool affectsStats)
+    {
+        var candidate = (PK6)working.Clone();
+        change(candidate);
+        Commit(candidate, affectsStats);
+    }
+
+    /// <summary>
+    /// Makes a validated <paramref name="candidate"/> the drafted entity and counts the edit.
+    /// </summary>
+    /// <remarks>
+    /// For a party member, an edit that affects stats has its stats recalculated by <see cref="PartyStatPolicy"/>, so status is kept and
+    /// HP is never raised; any other edit keeps the stored stats, HP and status as they are.
+    /// </remarks>
+    /// <param name="candidate">A changed copy of the drafted entity.</param>
+    /// <param name="affectsStats">True for an edit of species/form, level/EXP, nature, IVs or EVs.</param>
+    /// <exception cref="SessionException">
+    /// <see cref="SessionError.PartyStatsMissing"/>: a stat edit of a party member stored without stats, which has no current HP to keep.
+    /// </exception>
+    private void Commit(PK6 candidate, bool affectsStats)
+    {
+        if (affectsStats && Slot.IsParty)
+        {
+            if (!baseline.PartyStatsPresent)
+            {
+                throw new SessionException(SessionError.PartyStatsMissing);
+            }
+            PartyStatPolicy.Recalculate(candidate);
+        }
         candidate.Data.CopyTo(working.Data);
         EditRevision++;
     }

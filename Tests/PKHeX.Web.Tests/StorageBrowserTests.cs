@@ -84,12 +84,13 @@ public sealed class StorageBrowserTests(PublishedAppFixture app)
         await Expect(page.Locator("#message")).ToHaveTextAsync("Box 1, slot 2 (row 1, column 2) is empty.");
         await Expect(page.Locator("#nickname")).ToHaveCountAsync(0);
 
-        // A party member opens for inspection only, and is analysed as a party member.
+        // A party member opens for editing, says its battle state is kept, and is analysed as a party member.
         await Select(page, SlotRef.InParty(0));
+        var leader = StorageView.Party(opened)[0];
+        await Expect(page.Locator("#message")).ToHaveTextAsync($"Opened {SlotText.Label(leader)}. Only nickname fields can be changed. {PartyText.KeptOnEdit}");
         await Expect(page.Locator("#nickname")).ToHaveValueAsync("Leader");
-        await Expect(page.Locator("#nickname")).Not.ToBeEditableAsync();
-        await Expect(page.Locator("#apply")).ToBeDisabledAsync();
-        await Expect(page.Locator("#party-note")).ToBeVisibleAsync();
+        await Expect(page.Locator("#nickname")).ToBeEditableAsync();
+        await Expect(page.Locator("#party-note")).ToHaveCountAsync(0);
         var native = SaveFixtures.Parse(bytes);
         await CheckLegality(page, native.GetPartySlotAtIndex(0), native, StorageSlotType.Party);
 

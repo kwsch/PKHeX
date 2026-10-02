@@ -16,8 +16,8 @@ public static class SupportMatrix
     /// <summary>Families this release opens, in display order.</summary>
     public static IReadOnlyList<SupportedFamily> Families { get; } =
     [
-        new("Pokémon X and Y", typeof(SAV6XY), typeof(PK6), EditableFields.Nickname, WritesParty: false),
-        new("Pokémon Omega Ruby and Alpha Sapphire", typeof(SAV6AO), typeof(PK6), EditableFields.Nickname, WritesParty: false),
+        new("Pokémon X and Y", typeof(SAV6XY), typeof(PK6), EditableFields.Nickname, WritesParty: true),
+        new("Pokémon Omega Ruby and Alpha Sapphire", typeof(SAV6AO), typeof(PK6), EditableFields.Nickname, WritesParty: true),
     ];
 
     /// <summary>True if <paramref name="save"/> is of a type this release opens. Related types, such as the ORAS demo, are not included.</summary>
@@ -33,7 +33,7 @@ public static class SupportMatrix
 /// <param name="EntityType">The exact Core entity type the family stores. The editor and inspector are written for this type only.</param>
 /// <param name="Editable">Entity fields this release lets the user draft for the family.</param>
 /// <param name="WritesParty">
-/// True when drafts of party members can be applied. False until the party-stat policy (stored stats, HP and status) is implemented,
-/// so party members are inspected only.
+/// True when drafts of party members can be applied. Set only for a family whose entity type has a party-stat policy (stored stats, HP
+/// and status; <see cref="PartyStatPolicy"/> for PK6); a family without one has its party members inspected only.
 /// </param>
 public sealed record SupportedFamily(string Games, Type SaveType, Type EntityType, EditableFields Editable, bool WritesParty);

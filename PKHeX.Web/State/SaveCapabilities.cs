@@ -62,6 +62,20 @@ public sealed class SaveCapabilities
     public static SaveCapabilities For(SaveFile save)
     {
         var family = SupportMatrix.Find(save) ?? throw new NotSupportedException($"{save.GetType().Name} is not opened by this release.");
+        return For(save, family);
+    }
+
+    /// <summary>
+    /// Works out the capabilities of <paramref name="save"/> as a member of <paramref name="family"/>. Tests use it to cover what a
+    /// family allows (such as a family without party writes) independently of <see cref="SupportMatrix"/>.
+    /// </summary>
+    /// <exception cref="NotSupportedException"><paramref name="save"/> is not of the family's save type or does not store its entity type.</exception>
+    internal static SaveCapabilities For(SaveFile save, SupportedFamily family)
+    {
+        if (save.GetType() != family.SaveType)
+        {
+            throw new NotSupportedException($"{save.GetType().Name} is not a {family.SaveType.Name}.");
+        }
         if (save.BlankPKM.GetType() != family.EntityType)
         {
             throw new NotSupportedException($"{save.GetType().Name} does not store {family.EntityType.Name}.");

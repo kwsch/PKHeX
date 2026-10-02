@@ -47,7 +47,8 @@ public static class UserMessages
     public static string For(SessionError error) => error switch
     {
         SessionError.SlotNotOccupied => "That position is empty. Choose a Pokémon.",
-        SessionError.PartyApplyNotAvailable => "Party members can be inspected but not changed in this release.",
+        SessionError.PartyApplyNotAvailable => "Party members of this game can be inspected but not changed in this release.",
+        SessionError.PartyStatsMissing => "This party member is stored without battle stats, so writing it would recalculate them, restoring its HP and clearing its status. It was not changed.",
         SessionError.EntityInvalid => "The selected Pokémon is a bad egg (its data fails the game's checks), so it cannot be opened.",
         SessionError.ForeignDraft => "The draft does not belong to the open save. Select the Pokémon again.",
         SessionError.StaleDraft => "The draft is out of date. Select the Pokémon again.",
@@ -55,12 +56,14 @@ public static class UserMessages
         SessionError.SlotNotWritable => "The selected slot cannot be edited.",
         SessionError.StagedWriteFailed => "The edit could not be written, so it was not applied.",
         SessionError.StagedEditMismatch => "The edit did not read back as written, so it was not applied.",
+        SessionError.PartyCountChanged => "The edit would have changed the number of party members, so it was not applied.",
+        SessionError.UntargetedSlotChanged => "The edit would have changed another Pokémon's slot, so it was not applied.",
         SessionError.FieldNotEditable => "This field cannot be changed for this game in this release.",
         SessionError.NicknameTooLong => "The nickname is longer than this game can store.",
         SessionError.NicknameInvalidCharacters => "The nickname contains control characters.",
         SessionError.NicknameNotRepresentable => "This game cannot store the nickname without changing its text.",
         SessionError.ExportRevalidationFailed => "The exported save did not pass validation when reopened, so it was not downloaded.",
-        SessionError.ExportIdentityMismatch => "The exported save reopened as a different game, so it was not downloaded.",
+        SessionError.ExportIdentityMismatch => "The exported save reopened as a different game or party, so it was not downloaded.",
         SessionError.ExportEntityMismatch => "The edited Pokémon did not survive export intact, so the save was not downloaded.",
         _ => OperationFailed,
     };

@@ -11,8 +11,17 @@ public enum SessionError
     /// <summary>The entity in the chosen slot is a bad egg: it fails its checksum or its sanity check (<see cref="PKHeX.Core.PKM.Valid"/>).</summary>
     EntityInvalid,
 
-    /// <summary>The draft is of a party position; this release inspects party members but does not write them yet.</summary>
+    /// <summary>
+    /// The draft is of a party position, and the save's family has no party-stat policy in this release
+    /// (<see cref="Services.SupportedFamily.WritesParty"/>), so its party members are inspected only.
+    /// </summary>
     PartyApplyNotAvailable,
+
+    /// <summary>
+    /// The party member is stored without battle stats. Core would recalculate them on write, which also restores its HP and clears its
+    /// status, and a stat edit has no current HP to keep, so it is neither edited for stats nor written.
+    /// </summary>
+    PartyStatsMissing,
 
     /// <summary>The draft was taken from another session.</summary>
     ForeignDraft,
@@ -32,6 +41,12 @@ public enum SessionError
     /// <summary>The entity read back from the staged slot does not match what was written.</summary>
     StagedEditMismatch,
 
+    /// <summary>The staged write changed the number of party members.</summary>
+    PartyCountChanged,
+
+    /// <summary>The staged write changed a party position or box slot other than the one the draft was taken from.</summary>
+    UntargetedSlotChanged,
+
     /// <summary>The save's family does not allow this field to be drafted in this release (see <see cref="SaveCapabilities.Editable"/>).</summary>
     FieldNotEditable,
 
@@ -47,7 +62,7 @@ public enum SessionError
     /// <summary>The exported bytes do not reopen through <see cref="Services.SaveLoader"/>.</summary>
     ExportRevalidationFailed,
 
-    /// <summary>The reopened export has a different family or version from the session.</summary>
+    /// <summary>The reopened export has a different family, version or party count from the session.</summary>
     ExportIdentityMismatch,
 
     /// <summary>The drafted entity in the reopened export fails its checksum or lost its edit.</summary>

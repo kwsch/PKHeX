@@ -52,7 +52,7 @@ public sealed class InspectorBrowserTests(PublishedAppFixture app)
         await page.Locator("#cancel-draft").ClickAsync();
         await Expect(page.Locator("#inspect-nickname")).ToHaveTextAsync(boxed.SelectMany(s => s.Rows).Single(r => r.Id == "inspect-nickname").Value);
 
-        // A party member: stored stats, HP and status, inspected only.
+        // A party member: stored stats, HP and status.
         await Select(page, SlotRef.InParty(0));
         var party = InspectorText.Sections(native.Select(SlotRef.InParty(0)).Inspect());
         await ExpectValues(page, party);

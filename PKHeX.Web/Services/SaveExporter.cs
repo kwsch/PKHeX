@@ -10,7 +10,8 @@ public static class SaveExporter
 {
     /// <summary>
     /// Writes a clone of the working save and reopens it through <see cref="SaveLoader"/>. The output must pass the loader's
-    /// integrity and round-trip checks, keep the family and version, and keep the drafted slot's entity byte for byte, with a valid checksum.
+    /// integrity and round-trip checks, keep the family, version and party count, and keep the drafted slot's entity byte for byte, with a
+    /// valid checksum (for a party member, its stored battle stats, HP and status too).
     /// </summary>
     /// <remarks>
     /// This does not mark the session as exported. Once the download has been started, call
@@ -38,7 +39,8 @@ public static class SaveExporter
         {
             throw new SessionException(SessionError.ExportRevalidationFailed);
         }
-        if (reopened.Working.GetType() != working.GetType() || reopened.Working.Version != working.Version)
+        if (reopened.Working.GetType() != working.GetType() || reopened.Working.Version != working.Version
+            || reopened.Working.PartyCount != working.PartyCount)
         {
             throw new SessionException(SessionError.ExportIdentityMismatch);
         }
@@ -46,7 +48,7 @@ public static class SaveExporter
         {
             var before = draft.Slot.ToSlotInfo(working).Read(working);
             var after = draft.Slot.ToSlotInfo(reopened.Working).Read(reopened.Working);
-            if (!SaveSession.StoresExactly(after, before))
+            if (!SaveSession.StoresExactly(after, before, draft.Slot.IsParty))
             {
                 throw new SessionException(SessionError.ExportEntityMismatch);
             }

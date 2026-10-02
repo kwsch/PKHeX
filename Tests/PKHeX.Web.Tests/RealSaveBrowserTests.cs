@@ -3,6 +3,7 @@ using System.Text.Json;
 using PKHeX.Core;
 using PKHeX.Web.Components;
 using PKHeX.Web.Services;
+using PKHeX.Web.State;
 using Xunit;
 using static Microsoft.Playwright.Assertions;
 using static PKHeX.Web.Tests.ProofPage;
@@ -137,5 +138,52 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
             var file = $"{family}-{engine}-{(prefix.Length == 0 ? "root" : "subpath")}.json";
             await File.WriteAllTextAsync(Path.Combine(evidence, file), JsonSerializer.Serialize(result));
         }
+    }
+
+    /// <summary>
+    /// The first party member of each private save: a nickname edit through the published app matches the same native Core edit byte for
+    /// byte, keeps its stored stats, HP and status, and changes only that party position. Values are withheld from messages.
+    /// </summary>
+    [TierTheory(TestCategory.RealSave)]
+    [MemberData(nameof(RealCases))]
+    public async Task RealSavePartyRoundTrip(string engine, string prefix, string family)
+    {
+        var fixture = RealSaves.Read(family);
+        var native = fixture.Native;
+        Assert.True(native.PartyCount > 0, "The private save has no party member to edit.");
+        var slot = SlotRef.InParty(0);
+        var sourcePk = native.GetPartySlotAtIndex(0);
+        var noOp = native.Clone().Write().ToArray();
+
+        var changed = native.Clone();
+        var editedPk = changed.GetPartySlotAtIndex(0);
+        var nickname = editedPk.Nickname == "WASM Party" ? "WASM Test" : "WASM Party";
+        editedPk.Nickname = nickname;
+        editedPk.IsNicknamed = true;
+        changed.SetPartySlotAtIndex(editedPk, 0, EntityImportSettings.None);
+        var expectedEdited = changed.Clone().Write().ToArray();
+
+        await using var session = await app.BootAsync(engine, prefix);
+        var page = session.Page;
+        await Load(page, noOp);
+        await Select(page, slot);
+        await page.Locator("#nickname").FillAsync(nickname);
+        await page.Locator("#nicknamed").CheckAsync();
+        await page.Locator("#apply").ClickAsync();
+        await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
+        var party = NativeLegality.Of(changed, changed.GetPartySlotAtIndex(0), StorageSlotType.Party);
+        await Expect(page.Locator("#legality-status")).ToHaveTextAsync(party.Verdict);
+        Assert.True(await page.Locator("#legality-report-verbose").TextContentAsync() == party.VerboseReport, "Party legality differs from native (report withheld).");
+        var edited = await DownloadEdited(page);
+        Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native party output differs (bytes withheld).");
+
+        var reopened = SaveFixtures.Parse(edited);
+        Assert.True(reopened.ChecksumsValid && reopened.PartyCount == native.PartyCount, "Export changed checksums or party count.");
+        AssertOnlyNicknameChanged(sourcePk, reopened.GetPartySlotAtIndex(0));
+        AssertOnlyRangeDiffers(noOp, edited, native.GetPartyOffset(0), native.SIZE_PARTY);
+
+        await session.AssertNoNetworkOrPersistenceAsync();
+        Assert.True(session.PageErrors == 0, "Browser runtime errors occurred; no private traces retained.");
+        fixture.AssertUnchanged();
     }
 }
