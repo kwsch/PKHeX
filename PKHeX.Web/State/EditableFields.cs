@@ -42,4 +42,19 @@ public enum EditableFields
     /// raises their total above the most a Pokémon can hold. They affect calculated stats.
     /// </summary>
     Evs = 1 << 6,
+
+    /// <summary>The held item (<see cref="EditorDraft.EditHeldItem"/>), chosen from Core's list of items the game lets a Pokémon hold, or none.</summary>
+    HeldItem = 1 << 7,
+
+    /// <summary>
+    /// The four moves (<see cref="EditorDraft.EditMove"/>), each chosen from Core's list of the game's moves, or left empty. A move change
+    /// sets that slot's PP as the desktop editor does; no other slot changes.
+    /// </summary>
+    Moves = 1 << 8,
+
+    /// <summary>
+    /// The current PP and PP Ups of each move (<see cref="EditorDraft.EditPp"/>, <see cref="EditorDraft.EditPpUps"/>), within Core's PP for the
+    /// move. Neither can be edited for an empty slot.
+    /// </summary>
+    Pp = 1 << 9,
 }

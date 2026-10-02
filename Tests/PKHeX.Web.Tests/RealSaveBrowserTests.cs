@@ -368,6 +368,68 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         static int IvStep(int iv) => iv == 31 ? 30 : iv + 1;
     }
 
+    /// <summary>
+    /// The first boxed Pokémon that is not an egg and the first party member of each private save: a move change and a held item change on the
+    /// boxed one and a PP step on the party member, edited through the published app, match the same native Core edits byte for byte and
+    /// change only those two slots. Values are withheld from messages.
+    /// </summary>
+    [TierTheory(TestCategory.RealSave)]
+    [MemberData(nameof(RealCases))]
+    public async Task RealSaveItemMoveRoundTrip(string engine, string prefix, string family)
+    {
+        var fixture = RealSaves.Read(family);
+        var native = fixture.Native;
+        Assert.True(native.PartyCount > 0, "The private save has no party member to edit.");
+        var index = FirstWritableNonEgg(native);
+        var noOp = native.Clone().Write().ToArray();
+
+        var changed = native.Clone();
+        var boxed = SaveFixtures.Slot(changed, index).Read(changed);
+        var move = boxed.Move1 == (ushort)Move.Thunderbolt ? (ushort)Move.Surf : (ushort)Move.Thunderbolt;
+        var item = boxed.HeldItem == ItemMoveDraftTests.Leftovers ? ItemMoveDraftTests.ChoiceScarf : ItemMoveDraftTests.Leftovers;
+        Assert.True(boxed.Move1_PPUps <= 3, "The boxed Pokémon's first move has more PP Ups than a move can take.");
+        // A move change keeps the PP Ups of the slot (or clears them for an empty one) and gives full PP.
+        var ppUps = boxed.Move1 == 0 ? 0 : boxed.Move1_PPUps;
+        boxed.Move1 = move;
+        boxed.Move1_PPUps = ppUps;
+        boxed.Move1_PP = boxed.GetMovePP(move, ppUps);
+        boxed.HeldItem = item;
+        Assert.True(SaveFixtures.Slot(changed, index).WriteTo(changed, boxed, EntityImportSettings.None));
+        var member = changed.GetPartySlotAtIndex(0);
+        Assert.True(member.Move1 != 0, "The party member's first move slot is empty.");
+        var max = member.GetMovePP(member.Move1, member.Move1_PPUps);
+        // One down, or up from none, within the move's PP, so the edit always changes the PP and is accepted.
+        var pp = member.Move1_PP == 0 ? 1 : Math.Min(member.Move1_PP, max) - 1;
+        member.Move1_PP = pp;
+        changed.SetPartySlotAtIndex(member, 0, EntityImportSettings.None);
+        var expectedEdited = changed.Clone().Write().ToArray();
+
+        await using var session = await app.BootAsync(engine, prefix);
+        var page = session.Page;
+        await Load(page, noOp);
+        await Select(page, index);
+        await page.Locator("#move-0").SelectOptionAsync(move.ToString(CultureInfo.InvariantCulture));
+        await page.Locator("#held-item").SelectOptionAsync(item.ToString(CultureInfo.InvariantCulture));
+        await page.Locator("#apply").ClickAsync();
+        await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
+        await Select(page, SlotRef.InParty(0));
+        await page.Locator("#pp-0").FillAsync(pp.ToString(CultureInfo.InvariantCulture));
+        await page.Locator("#apply").ClickAsync();
+        await Expect(page.Locator("#draft-state")).ToHaveTextAsync("No draft changes");
+        var edited = await DownloadEdited(page);
+        Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native item, move and PP output differs (bytes withheld).");
+
+        // Only the two slots and the checksum footer may differ: take the party slot as edited, then check the rest against the box slot.
+        var partyOffset = native.GetPartyOffset(0);
+        var withParty = noOp.ToArray();
+        edited.AsSpan(partyOffset, native.SIZE_PARTY).CopyTo(withParty.AsSpan(partyOffset));
+        AssertOnlyRangeDiffers(withParty, edited, native.GetBoxSlotOffset(index.Box, index.Slot), native.SIZE_BOXSLOT);
+
+        await session.AssertNoNetworkOrPersistenceAsync();
+        Assert.True(session.PageErrors == 0, "Browser runtime errors occurred; no private traces retained.");
+        fixture.AssertUnchanged();
+    }
+
     /// <summary>The first writable boxed PK6 that is not an egg, since eggs are not edited.</summary>
     private static SlotRef FirstWritableNonEgg(SaveFile save)
     {

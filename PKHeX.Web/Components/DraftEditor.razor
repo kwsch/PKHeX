@@ -1,5 +1,6 @@
 @using System.Globalization
-@* The draft's editable fields: name and language, friendship towards each trainer, level and experience points, nature, and IVs and EVs. Every change
+@* The draft's editable fields: name and language, friendship towards each trainer, level and experience points, nature, IVs and EVs, the held
+   item, and the moves with their PP and PP Ups. Every change
    goes through OnEdit, which runs it on the draft and reports a refusal; this component only turns input into typed draft edits and shows
    what the draft holds. *@
 <h3 id="draft-edit-title">Edit</h3>
@@ -14,14 +15,16 @@
     <input id="nickname" value="@nickname" @oninput="NicknameTyped" maxlength="@Draft.MaxNicknameLength" readonly="@(!Can(EditableFields.Nickname))" />
     <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="FlagChanged" disabled="@(!Can(EditableFields.Nickname))" /> Is nicknamed</label>
     <label for="language">Language</label>
-    <select id="language" @onchange="LanguageChanged" disabled="@(!Can(EditableFields.Language))">
+    @* Each select's value is set on the select, not as an option's selected attribute, which Firefox ignores once the user has chosen an option
+       (see ChoiceSelect). *@
+    <select id="language" value="@language.ToString(CultureInfo.InvariantCulture)" @onchange="LanguageChanged" disabled="@(!Can(EditableFields.Language))">
         @if (!Listed(language))
         {
-            <option value="@language" selected disabled>@EditorText.UnlistedLanguage(language)</option>
+            <option value="@language" disabled>@EditorText.UnlistedLanguage(language)</option>
         }
         @foreach (var item in Draft.Capabilities.Lists.Languages)
         {
-            <option value="@item.Value" selected="@(item.Value == language)">@item.Text</option>
+            <option value="@item.Value">@item.Text</option>
         }
     </select>
     @* Always rendered, so a screen reader announces a change of its text. *@
@@ -58,14 +61,14 @@
 <fieldset id="nature-fields">
     <legend>Nature</legend>
     <label for="nature">Nature</label>
-    <select id="nature" @onchange="NatureChanged" disabled="@(!Can(EditableFields.Nature))">
+    <select id="nature" value="@nature.ToString(CultureInfo.InvariantCulture)" @onchange="NatureChanged" disabled="@(!Can(EditableFields.Nature))">
         @if (!ListedNature(nature))
         {
-            <option value="@nature" selected disabled>@EditorText.UnlistedNature(nature)</option>
+            <option value="@nature" disabled>@EditorText.UnlistedNature(nature)</option>
         }
         @foreach (var item in Draft.Capabilities.Lists.Natures)
         {
-            <option value="@item.Value" selected="@(item.Value == nature)">@item.Text</option>
+            <option value="@item.Value">@item.Text</option>
         }
     </select>
     <p id="nature-note" role="status">@EditorText.NatureNote(NatureEffect.Of(Draft.Nature))</p>
@@ -100,6 +103,70 @@
     <p id="iv-note" role="status">@EditorText.IvNote(Draft.IvTotal, Draft.MaxIv, HiddenPowerName)</p>
     <p id="ev-note" role="status">@EditorText.EvNote(Draft.EvTotal, Draft.MaxEvTotal)</p>
 </fieldset>
+<fieldset id="item-fields">
+    <legend>Held item</legend>
+    <label for="held-item">Held item</label>
+    <ChoiceSelect Id="held-item" Items="Draft.Capabilities.Lists.Items" Value="heldItem" Disabled="!Can(EditableFields.HeldItem)" DescribedBy="item-note"
+                  Unlisted="UnlistedItem" OnChange="ItemChanged" />
+    <p id="item-note">@EditorText.ItemNote</p>
+</fieldset>
+<fieldset id="move-fields">
+    <legend>Moves</legend>
+    @* A move box lists every move of the game; choosing one sets that slot's PP as the desktop does (see EditorDraft.EditMove), and the note
+       below says what it did. PP is text with a numeric keyboard, as for friendship, refused above the move's PP and never clamped. Each field
+       is named by its row and column headers ("Move 2 PP"). *@
+    <table class="stat-edit move-edit">
+        <thead>
+            <tr>
+                <th scope="col" class="col-slot">Slot</th>
+                <th scope="col" id="move-head">Move</th>
+                <th scope="col" class="col-pp" id="pp-head">PP</th>
+                <th scope="col" class="col-ppups" id="ppups-head">@EditorText.PpUpsHeader(EditorDraft.MaxPpUps)</th>
+                <th scope="col" class="col-max" id="maxpp-head">Max PP</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < EditorDraft.MoveCount; i++)
+            {
+                var slot = i;
+                var current = moves[slot];
+                <tr>
+                    <th scope="row" id="slot-@slot">@EditorText.MoveSlotName(slot)</th>
+                    <td>
+                        <ChoiceSelect Id="@($"move-{slot}")" LabelledBy="@($"slot-{slot} move-head")" Items="Draft.Capabilities.Lists.Moves" Value="current.Move"
+                                      Disabled="!Can(EditableFields.Moves)" Unlisted="UnlistedMove" OnChange="v => MoveChanged(slot, v)" />
+                    </td>
+                    <td><input id="pp-@slot" type="text" inputmode="numeric" autocomplete="off" value="@pp[slot]" aria-labelledby="slot-@slot pp-head"
+                               @oninput="e => PpTyped(slot, e)" readonly="@(!Can(EditableFields.Pp) || current.IsEmpty)" /></td>
+                    <td>
+                        @* A move that cannot take PP Ups offers only 0 and its stored count, and is enabled only while some are stored, so they
+                           can be removed and no choice is refused. *@
+                        <select id="ppups-@slot" value="@current.PpUps.ToString(CultureInfo.InvariantCulture)" aria-labelledby="slot-@slot ppups-head" @onchange="e => PpUpsChanged(slot, e)"
+                                disabled="@(!Can(EditableFields.Pp) || current.IsEmpty || (!current.CanTakePpUps && current.PpUps == 0))">
+                            @if (current.PpUps > EditorDraft.MaxPpUps)
+                            {
+                                <option value="@current.PpUps" disabled>@EditorText.UnlistedPpUps(current.PpUps)</option>
+                            }
+                            @for (var u = 0; u <= EditorDraft.MaxPpUps; u++)
+                            {
+                                var ups = u;
+                                if (ups != 0 && ups != current.PpUps && !current.CanTakePpUps)
+                                {
+                                    continue;
+                                }
+                                <option value="@ups">@ups.ToString(CultureInfo.InvariantCulture)</option>
+                            }
+                        </select>
+                    </td>
+                    <td id="maxpp-@slot">@current.MaxPp.ToString(CultureInfo.InvariantCulture)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @* Always rendered, so a screen reader announces a change of its text. *@
+    <p id="move-note" role="status">@EditorText.MoveChangeNote(moveChange, MoveName)</p>
+    <p id="move-list-note">@EditorText.MoveListNote</p>
+</fieldset>
 
 @code {
     /// <summary>The draft being edited. A new draft (another slot, or after apply or cancel) reloads every field.</summary>
@@ -113,8 +180,13 @@
     private EditorDraft? shown;
     private string nickname = "", trainerFriendship = "", handlerFriendship = "", level = "", experience = "";
     private readonly string[] ivs = new string[EditorDraft.StatCount], evs = new string[EditorDraft.StatCount];
+    private readonly string[] pp = new string[EditorDraft.MoveCount];
+    private IReadOnlyList<MoveSlot> moves = [];
     private bool nicknamed;
-    private int language, nature;
+    private int language, nature, heldItem;
+
+    /// <summary>What the last edit did to a move slot's PP, or null when the last edit changed no move or PP Ups.</summary>
+    private MoveChange? moveChange;
 
     /// <summary>The name before and after the last edit gave the Pokémon its default name, or null when the last edit did not.</summary>
     private (string From, string To)? renamed;
@@ -125,6 +197,8 @@
         {
             shown = Draft;
             renamed = null;
+            moveChange = null;
+            Array.Fill(pp, "");
             trainerFriendship = handlerFriendship = level = experience = "";
             Array.Fill(ivs, "");
             Array.Fill(evs, "");
@@ -150,6 +224,12 @@
             ivs[i] = Shown(ivs[i], draftedIvs[i]);
             evs[i] = Shown(evs[i], draftedEvs[i]);
         }
+        heldItem = Draft.HeldItem;
+        moves = Draft.Moves;
+        for (var i = 0; i < EditorDraft.MoveCount; i++)
+        {
+            pp[i] = Shown(pp[i], moves[i].Pp);
+        }
     }
 
     /// <summary>
@@ -166,6 +246,15 @@
     private bool Listed(int value) => Draft.Capabilities.Lists.Languages.Any(l => l.Value == value);
 
     private bool ListedNature(int value) => Draft.Capabilities.Lists.Natures.Any(n => n.Value == value);
+
+    /// <summary>A stored item outside the game's list, named as the inspector names it.</summary>
+    private string UnlistedItem(int value) => EditorText.Unlisted(EntityInspection.Listed(value, Draft.Capabilities.Lists.Items, GameInfo.Strings.itemlist));
+
+    /// <summary>A stored move outside the game's list, named as the inspector names it.</summary>
+    private string UnlistedMove(int value) => EditorText.Unlisted(EntityInspection.Listed(value, Draft.Capabilities.Lists.Moves, GameInfo.Strings.movelist));
+
+    /// <summary>The move's name from Core's list, or, for a stored move outside it, the name the inspector gives it.</summary>
+    private string MoveName(ushort move) => Draft.Capabilities.Lists.Moves.FirstOrDefault(m => m.Value == move)?.Text ?? UnlistedMove(move);
 
     /// <summary>The name Core gives the drafted Hidden Power type, or null for a type it has no name for.</summary>
     private string? HiddenPowerName
@@ -251,8 +340,27 @@
         return Run(d => d.EditNature(value), tracksRename: false);
     }
 
+    private Task ItemChanged(int value) => Run(d => d.EditHeldItem(value), tracksRename: false);
+
+    private Task MoveChanged(int slot, int value) => Run(d => d.EditMove(slot, value), tracksRename: false, moveSlot: slot);
+
+    private Task PpUpsChanged(int slot, ChangeEventArgs e)
+    {
+        if (!int.TryParse(e.Value?.ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out var value))
+        {
+            return Task.CompletedTask;
+        }
+        return Run(d => d.EditPpUps(slot, value), tracksRename: false, moveSlot: slot);
+    }
+
+    private Task PpTyped(int slot, ChangeEventArgs e)
+    {
+        pp[slot] = e.Value?.ToString() ?? "";
+        return Run(Number(pp[slot], SessionError.PpOutOfRange, (d, v) => d.EditPp(slot, (int)Math.Min(v, int.MaxValue))), tracksRename: false);
+    }
+
     /// <summary>
-    /// The edit for typed level, experience, IV or EV text. Text that is not a whole number (an empty field, a sign, a fraction or more digits than
+    /// The edit for typed level, experience, IV, EV or PP text. Text that is not a whole number (an empty field, a sign, a fraction or more digits than
     /// fit) is refused with <paramref name="refusal"/>, like a value out of range, so nothing is guessed or clamped.
     /// </summary>
     private static Action<EditorDraft> Number(string text, SessionError refusal, Action<EditorDraft, long> edit) =>
@@ -275,17 +383,22 @@
     /// </summary>
     /// <param name="edit">The draft edit.</param>
     /// <param name="tracksRename">True for an edit that may give the Pokémon its default name, which the name note then reports.</param>
-    private async Task Run(Action<EditorDraft> edit, bool tracksRename)
+    /// <param name="moveSlot">The move slot of a move or PP Ups edit, whose effect on the slot's PP the move note then reports.</param>
+    private async Task Run(Action<EditorDraft> edit, bool tracksRename, int? moveSlot = null)
     {
         var draft = Draft;
         var revision = draft.EditRevision;
         var before = draft.Nickname;
+        var slotBefore = moveSlot is { } s ? draft.Moves[s] : null;
         await OnEdit.InvokeAsync(edit);
         if (!ReferenceEquals(draft, Draft) || draft.EditRevision == revision)
         {
             return;
         }
         renamed = tracksRename && draft.Nickname != before ? (before, draft.Nickname) : null;
+        moveChange = moveSlot is { } changed && slotBefore is not null
+            ? MoveChange.Between(changed, slotBefore, draft.Moves[changed], draft.StoredMoves[changed])
+            : null;
         Load();
     }
 }

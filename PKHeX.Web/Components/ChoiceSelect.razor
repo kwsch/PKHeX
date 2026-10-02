@@ -1,0 +1,76 @@
+@using System.Globalization
+@* A select over one of Core's long lists (moves, held items), showing a stored value outside the list as a disabled option.
+   The value is set on the select, not as an option's selected attribute: once the user has chosen an option, a browser following the HTML
+   standard (Firefox) ignores later changes of that attribute, so the box would keep showing a choice the draft no longer holds. Blazor applies
+   a select's value as its live value.
+   It renders again only when its own value, list, state or names change, so a keystroke elsewhere in the editor does not re-render hundreds of
+   options. *@
+<select id="@Id" value="@Value.ToString(CultureInfo.InvariantCulture)" aria-labelledby="@LabelledBy" aria-describedby="@DescribedBy"
+        disabled="@Disabled" @onchange="Changed">
+    @if (!listed)
+    {
+        <option value="@Value.ToString(CultureInfo.InvariantCulture)" disabled>@Unlisted(Value)</option>
+    }
+    @foreach (var item in choices)
+    {
+        <option value="@item.Value.ToString(CultureInfo.InvariantCulture)">@item.Text</option>
+    }
+</select>
+
+@code {
+    /// <summary>The select's id, for its label.</summary>
+    [Parameter, EditorRequired] public string Id { get; set; } = "";
+
+    /// <summary>Ids of the elements that name the select, when no label does.</summary>
+    [Parameter] public string? LabelledBy { get; set; }
+
+    /// <summary>Ids of the elements that describe the select.</summary>
+    [Parameter] public string? DescribedBy { get; set; }
+
+    /// <summary>The choices, from the session's Core lists. A value listed more than once (Core lists Pretty Feather in two pouches) is offered once.</summary>
+    [Parameter, EditorRequired] public IReadOnlyList<ComboItem> Items { get; set; } = [];
+
+    /// <summary>The drafted value.</summary>
+    [Parameter] public int Value { get; set; }
+
+    /// <summary>True when the field cannot be changed.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Names a stored value outside <see cref="Items"/>; called only for such a value.</summary>
+    [Parameter, EditorRequired] public Func<int, string> Unlisted { get; set; } = null!;
+
+    /// <summary>Receives the chosen value.</summary>
+    [Parameter] public EventCallback<int> OnChange { get; set; }
+
+    private IReadOnlyList<ComboItem>? source;
+    private IReadOnlyList<ComboItem> choices = [];
+    private HashSet<int> values = [];
+    private bool listed;
+    private (int Value, bool Disabled, string Id, string? LabelledBy, string? DescribedBy)? rendered;
+    private bool listChanged;
+
+    protected override void OnParametersSet()
+    {
+        if (!ReferenceEquals(source, Items))
+        {
+            source = Items;
+            choices = [.. Items.DistinctBy(i => i.Value)];
+            values = [.. choices.Select(i => i.Value)];
+            listChanged = true;
+        }
+        listed = values.Contains(Value);
+    }
+
+    protected override bool ShouldRender() => listChanged || rendered != (Value, Disabled, Id, LabelledBy, DescribedBy);
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        rendered = (Value, Disabled, Id, LabelledBy, DescribedBy);
+        listChanged = false;
+    }
+
+    private Task Changed(ChangeEventArgs e) =>
+        int.TryParse(e.Value?.ToString(), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var value)
+            ? OnChange.InvokeAsync(value)
+            : Task.CompletedTask;
+}

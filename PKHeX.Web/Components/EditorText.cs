@@ -12,7 +12,7 @@ namespace PKHeX.Web.Components;
 public static class EditorText
 {
     /// <summary>Shown in place of the fields of an egg, which this release does not edit.</summary>
-    public const string EggReadOnly = "This is an egg. Its name, language, friendship (its hatch counter), level, nature, IVs and EVs are kept as stored and cannot be changed in this release.";
+    public const string EggReadOnly = "This is an egg. Its name, language, friendship (its hatch counter), level, nature, IVs, EVs, held item, moves and PP are kept as stored and cannot be changed in this release.";
 
     /// <summary>Shown beside the handling trainer's friendship when no handling trainer is stored.</summary>
     public const string NoHandler = "No handling trainer is stored: this Pokémon has stayed with its original trainer, so there is no friendship towards one to change.";
@@ -26,7 +26,7 @@ public static class EditorText
     /// <summary>The fields an opened Pokémon can have changed, for the message shown when it is opened.</summary>
     public static string EditableSummary(EditableFields fields)
     {
-        var names = new List<string>(8);
+        var names = new List<string>(12);
         if (fields.HasFlag(EditableFields.Nickname))
         {
             names.Add("nickname");
@@ -55,6 +55,19 @@ public static class EditorText
         if (fields.HasFlag(EditableFields.Evs))
         {
             names.Add("EVs");
+        }
+        if (fields.HasFlag(EditableFields.HeldItem))
+        {
+            names.Add("held item");
+        }
+        if (fields.HasFlag(EditableFields.Moves))
+        {
+            names.Add("moves");
+        }
+        if (fields.HasFlag(EditableFields.Pp))
+        {
+            names.Add("PP");
+            names.Add("PP Ups");
         }
         return names.Count switch
         {
@@ -144,6 +157,82 @@ public static class EditorText
         };
         return sum + grade;
     }
+
+    /// <summary>
+    /// The note under the held item: the list is the game's holdable items. Core's legality check of an item (<c>ItemVerifier</c>) asks only
+    /// whether it was released in the generation, not whether this species could hold it, so the note claims no more.
+    /// </summary>
+    public const string ItemNote = "The list holds the items this game lets a Pokémon hold. Legality analysis reports an item never released in this generation of games.";
+
+    /// <summary>The note under the moves, always shown: the list does not say what the Pokémon can learn.</summary>
+    public const string MoveListNote = "The list holds every move this game has; it does not say which moves this Pokémon can learn. Legality analysis checks that.";
+
+    /// <summary>The header of a move row ("Move 1" to "Move 4").</summary>
+    public static string MoveSlotName(int slot) => string.Create(CultureInfo.InvariantCulture, $"Move {slot + 1}");
+
+    /// <summary>The header of the PP Ups column, with the range a move takes.</summary>
+    public static string PpUpsHeader(int maximum) => string.Create(CultureInfo.InvariantCulture, $"PP Ups (0–{maximum})");
+
+    /// <summary>
+    /// The note on the last move or PP Ups edit: what it did to the slot's PP, so a move change's PP effects are stated, not only shown in
+    /// the fields. Empty when the last edit changed neither.
+    /// </summary>
+    /// <param name="change">The last edit's effect, or null.</param>
+    /// <param name="moveName">Gives the display name of a move.</param>
+    public static string MoveChangeNote(MoveChange? change, Func<ushort, string> moveName)
+    {
+        if (change is not { } c)
+        {
+            return "";
+        }
+        var slot = MoveSlotName(c.Slot);
+        var after = c.After;
+        var name = moveName(after.Move);
+        return c.Kind switch
+        {
+            MoveChangeKind.Emptied => $"{slot} is now empty, so its PP and PP Ups are 0.",
+            MoveChangeKind.Restored => string.Create(CultureInfo.InvariantCulture,
+                $"{slot} is back to its stored move, {name}, with its stored PP ({after.Pp} of {after.MaxPp}) and {PpUps(after.PpUps)}."),
+            MoveChangeKind.PpUpsCleared => string.Create(CultureInfo.InvariantCulture,
+                $"{slot} is now {name}. PP Ups cannot be used on it, so its {PpUps(c.Before.PpUps)} were removed; its PP is set to {after.Pp} of {after.MaxPp}."),
+            MoveChangeKind.PpUpsChanged => string.Create(CultureInfo.InvariantCulture,
+                $"{slot}, {name}, now has {PpUps(after.PpUps)}; its PP is {after.Pp} of {after.MaxPp}."),
+            _ => string.Create(CultureInfo.InvariantCulture,
+                $"{slot} is now {name}, with full PP: {after.Pp} of {after.MaxPp} ({PpUps(after.PpUps)}).") + CarriedPpUps(c, moveName),
+        };
+
+        // A new move takes the slot's last PP Ups count on a move that can take them (EditorDraft.EditMove), which differs from the replaced
+        // move's count after an empty slot, a move without PP Ups, or a stored count above the most a move can take.
+        static string CarriedPpUps(MoveChange c, Func<ushort, string> moveName)
+        {
+            if (c.Before.PpUps == c.After.PpUps)
+            {
+                return "";
+            }
+            if (c.Before.PpUps > EditorDraft.MaxPpUps)
+            {
+                return string.Create(CultureInfo.InvariantCulture, $" The {c.Before.PpUps} PP Ups stored before, more than a move can take, were not carried over.");
+            }
+            var before = c.Before.IsEmpty ? "the slot was emptied" : moveName(c.Before.Move);
+            return string.Create(CultureInfo.InvariantCulture, $" It keeps the {PpUps(c.After.PpUps)} this slot had before {before}.");
+        }
+
+        static string PpUps(int count) => count switch
+        {
+            0 => "no PP Ups",
+            1 => "1 PP Up",
+            _ => string.Create(CultureInfo.InvariantCulture, $"{count} PP Ups"),
+        };
+    }
+
+    /// <summary>
+    /// The name of a stored item or move outside the game's list, as the inspector names it, so the box never shows a value that is not stored:
+    /// Core's name marked as not available in this game (such as an Omega Ruby move on a Pokémon traded into X), or the unknown wording.
+    /// </summary>
+    public static string Unlisted(NamedValue value) => InspectorText.Named(value);
+
+    /// <summary>A stored PP Ups count above the most a move can take, so the PP Ups box never shows a value that is not stored.</summary>
+    public static string UnlistedPpUps(int value) => string.Create(CultureInfo.InvariantCulture, $"{value} (stored; above the maximum)");
 
     /// <summary>The name of a stored nature outside the game's list, so the nature box never shows a value that is not stored.</summary>
     public static string UnlistedNature(int value) => string.Create(CultureInfo.InvariantCulture, $"Unknown (stored value {value})");

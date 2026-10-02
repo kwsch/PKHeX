@@ -39,7 +39,7 @@ public sealed class IvEvBrowserTests(PublishedAppFixture app)
         var expected = changed.Write().ToArray();
         await Load(page, bytes);
         await Select(page);
-        await Expect(page.Locator("#message")).ToContainTextAsync("nature, IVs and EVs can be changed");
+        await Expect(page.Locator("#message")).ToContainTextAsync("nature, IVs, EVs, held item");
 
         // An IV out of range is refused as typed and blocks Apply until corrected.
         var speed = page.Locator("#iv-5");

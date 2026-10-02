@@ -326,7 +326,7 @@ public sealed record EntityInspection(SlotRef Slot, IdentityFacts Identity, Stat
     /// The name from the session's list when <paramref name="value"/> is in it; otherwise Core's general name, if
     /// <paramref name="names"/> has one, marked as outside the game's list.
     /// </summary>
-    private static NamedValue Listed(int value, IReadOnlyList<ComboItem> list, IReadOnlyList<string> names)
+    internal static NamedValue Listed(int value, IReadOnlyList<ComboItem> list, IReadOnlyList<string> names)
     {
         foreach (var item in list)
         {

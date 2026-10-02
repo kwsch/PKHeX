@@ -16,6 +16,12 @@ public sealed class EditorDraft
     private readonly PK6 baseline;
     private readonly PK6 working;
 
+    /// <summary>
+    /// The PP Ups a move change gives each slot's new move: the count the slot last had on a move that can take them (at first, the stored
+    /// count), so passing through a move without PP Ups or an empty slot does not lose them (see <see cref="EditMove"/>).
+    /// </summary>
+    private readonly int[] carriedPpUps = new int[MoveCount];
+
     /// <summary><see cref="SaveSession.SessionId"/> of the session the draft was taken from.</summary>
     public Guid SessionId { get; }
 
@@ -124,6 +130,21 @@ public sealed class EditorDraft
     /// <summary>The type Hidden Power has with the drafted IVs, as an index into Core's Hidden Power type names.</summary>
     public int HiddenPowerType => working.HPType;
 
+    /// <summary>Drafted held item; 0 is none.</summary>
+    public int HeldItem => working.HeldItem;
+
+    /// <summary>Number of move slots.</summary>
+    public const int MoveCount = 4;
+
+    /// <summary>The most PP Ups a move can take. Core checks it per move (<see cref="Legal.IsPPUpAvailable(ushort)"/>) but names no limit; the desktop editor offers 0–3.</summary>
+    public const int MaxPpUps = 3;
+
+    /// <summary>The drafted move slots, in order. An empty slot stays where it is: nothing reorders them.</summary>
+    public IReadOnlyList<MoveSlot> Moves => [.. Enumerable.Range(0, MoveCount).Select(i => MoveSlot.Of(working, i))];
+
+    /// <summary>The move slots as stored in the slot the draft was taken from, so an edit's effect can be told from a return to the stored move.</summary>
+    public IReadOnlyList<MoveSlot> StoredMoves => [.. Enumerable.Range(0, MoveCount).Select(i => MoveSlot.Of(baseline, i))];
+
     /// <summary>True when any stored byte of the draft differs from the slot it was taken from.</summary>
     /// <remarks>Neither copy has its checksum refreshed in memory, so the checksum bytes cannot make an unchanged draft look dirty.</remarks>
     public bool IsDirty => !working.Data.SequenceEqual(baseline.Data);
@@ -142,6 +163,10 @@ public sealed class EditorDraft
         Capabilities = capabilities;
         baseline = (PK6)source.Clone();
         working = (PK6)source.Clone();
+        for (var moveSlot = 0; moveSlot < MoveCount; moveSlot++)
+        {
+            CarryPpUps(moveSlot);
+        }
     }
 
     /// <summary>
@@ -388,6 +413,167 @@ public sealed class EditorDraft
         var candidate = (PK6)working.Clone();
         candidate.SetEV(index, value);
         Commit(candidate, affectsStats: true);
+    }
+
+    /// <summary>
+    /// Sets the held item. Only the item is written; it does not affect Generation 6 stats. A stored item outside the game's list is kept
+    /// until it is changed. On failure the previous item is kept.
+    /// </summary>
+    /// <param name="item">An item from the session's list (<see cref="SaveCapabilities.Lists"/>), or 0 for none.</param>
+    /// <exception cref="SessionException">
+    /// The family does not allow held item edits, the Pokémon is an egg, or the item is not in the game's list.
+    /// </exception>
+    public void EditHeldItem(int item)
+    {
+        Require(EditableFields.HeldItem);
+        if (!Capabilities.Lists.Items.Any(i => i.Value == item))
+        {
+            throw new SessionException(SessionError.ItemNotAvailable);
+        }
+        var candidate = (PK6)working.Clone();
+        candidate.HeldItem = item;
+        Commit(candidate, affectsStats: false);
+    }
+
+    /// <summary>
+    /// Sets the move in one slot, and that slot's PP as the desktop editor sets them (<c>MoveChoice.HealPP</c>): the new move gets full PP
+    /// for the PP Ups it keeps, an empty slot has no PP or PP Ups, and a move PP Ups cannot be used on has its PP Ups cleared. Returning to
+    /// the stored move restores its stored PP and PP Ups, and choosing the drafted move again keeps them. On failure the previous values are kept.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The PP Ups a new move keeps are the slot's last count on a move that can take them, at first the stored count, not the count of the
+    /// move it replaces. A move box picks a move a keystroke at a time as a name is typed into it, so "Sky Attack" passes through "Sketch";
+    /// keeping only the replaced move's count would lose the PP Ups at that step. A stored count above <see cref="MaxPpUps"/> is never
+    /// carried, so it cannot inflate a new move's PP.
+    /// </para>
+    /// <para>
+    /// Only this slot's move, PP and PP Ups are written. The other slots keep their place, and an empty slot is not filled from the next
+    /// one, as Core's <see cref="PKM.FixMoves"/> would do. The list holds every move the game has; it says nothing about whether this
+    /// Pokémon can learn it, which legality analysis reports.
+    /// </para>
+    /// </remarks>
+    /// <param name="slot">The move slot, 0–3.</param>
+    /// <param name="move">A move from the session's list (<see cref="SaveCapabilities.Lists"/>), or 0 to empty the slot.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="slot"/> is not 0–3.</exception>
+    /// <exception cref="SessionException">
+    /// The family does not allow move edits, the Pokémon is an egg, or the move is not in the game's list.
+    /// </exception>
+    public void EditMove(int slot, int move)
+    {
+        CheckSlot(slot);
+        Require(EditableFields.Moves);
+        if (!Capabilities.Lists.Moves.Any(m => m.Value == move))
+        {
+            throw new SessionException(SessionError.MoveNotAvailable);
+        }
+        var candidate = (PK6)working.Clone();
+        var id = (ushort)move;
+        if (id != working.GetMove(slot))
+        {
+            candidate.SetMove(slot, id);
+            if (id == baseline.GetMove(slot))
+            {
+                MoveSlots.SetPp(candidate, slot, MoveSlots.GetPp(baseline, slot), MoveSlots.GetPpUps(baseline, slot));
+            }
+            else
+            {
+                var ppUps = Legal.IsPPUpAvailable(id) ? carriedPpUps[slot] : 0;
+                MoveSlots.SetPp(candidate, slot, id == 0 ? 0 : candidate.GetMovePP(id, ppUps), ppUps);
+            }
+        }
+        Commit(candidate, affectsStats: false);
+        CarryPpUps(slot);
+    }
+
+    /// <summary>
+    /// Sets the number of PP Ups on one slot's move. The PP becomes the move's PP with the new count, as the desktop editor sets it; returning
+    /// to the stored move's stored count restores the stored PP. The count is refused outside 0 to <see cref="MaxPpUps"/>, never clamped. On
+    /// failure the previous values are kept.
+    /// </summary>
+    /// <param name="slot">The move slot, 0–3.</param>
+    /// <param name="ppUps">The number of PP Ups.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="slot"/> is not 0–3.</exception>
+    /// <exception cref="SessionException">
+    /// The family does not allow PP edits, the Pokémon is an egg, the slot is empty, the count is out of range, or it is not 0 for a move
+    /// PP Ups cannot be used on.
+    /// </exception>
+    public void EditPpUps(int slot, int ppUps)
+    {
+        CheckSlot(slot);
+        Require(EditableFields.Pp);
+        var move = working.GetMove(slot);
+        if (move == 0)
+        {
+            throw new SessionException(SessionError.MoveSlotEmpty);
+        }
+        if (ppUps is < 0 or > MaxPpUps)
+        {
+            throw new SessionException(SessionError.PpUpsOutOfRange);
+        }
+        if (ppUps != 0 && !Legal.IsPPUpAvailable(move))
+        {
+            throw new SessionException(SessionError.PpUpsNotAllowed);
+        }
+        var candidate = (PK6)working.Clone();
+        if (ppUps != MoveSlots.GetPpUps(working, slot))
+        {
+            var stored = move == baseline.GetMove(slot) && ppUps == MoveSlots.GetPpUps(baseline, slot);
+            MoveSlots.SetPp(candidate, slot, stored ? MoveSlots.GetPp(baseline, slot) : candidate.GetMovePP(move, ppUps), ppUps);
+        }
+        Commit(candidate, affectsStats: false);
+        CarryPpUps(slot);
+    }
+
+    /// <summary>
+    /// Sets the current PP of one slot's move. The value is refused outside 0 to the move's PP with its PP Ups (<see cref="MoveSlot.MaxPp"/>),
+    /// never clamped. On failure the previous value is kept.
+    /// </summary>
+    /// <remarks>
+    /// PK6 stores PP in one byte, so a value above 255 is refused even when a stored PP Ups count above <see cref="MaxPpUps"/> makes Core's
+    /// figure larger; Core's setter would keep only the low byte.
+    /// </remarks>
+    /// <param name="slot">The move slot, 0–3.</param>
+    /// <param name="pp">The current PP.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="slot"/> is not 0–3.</exception>
+    /// <exception cref="SessionException">
+    /// The family does not allow PP edits, the Pokémon is an egg, the slot is empty, or the value is out of range.
+    /// </exception>
+    public void EditPp(int slot, int pp)
+    {
+        CheckSlot(slot);
+        Require(EditableFields.Pp);
+        var current = MoveSlot.Of(working, slot);
+        if (current.IsEmpty)
+        {
+            throw new SessionException(SessionError.MoveSlotEmpty);
+        }
+        if (pp < 0 || pp > Math.Min(current.MaxPp, byte.MaxValue))
+        {
+            throw new SessionException(SessionError.PpOutOfRange);
+        }
+        var candidate = (PK6)working.Clone();
+        MoveSlots.SetPp(candidate, slot, pp, current.PpUps);
+        Commit(candidate, affectsStats: false);
+    }
+
+    /// <summary>Records the drafted PP Ups of <paramref name="slot"/> for its next move change, when its move can take them and the count is one a move can have.</summary>
+    private void CarryPpUps(int slot)
+    {
+        var current = MoveSlot.Of(working, slot);
+        if (current.CanTakePpUps && current.PpUps <= MaxPpUps)
+        {
+            carriedPpUps[slot] = current.PpUps;
+        }
+    }
+
+    /// <summary>Refuses a move slot outside 0–3, which is a programming error rather than user input.</summary>
+    private static void CheckSlot(int slot)
+    {
+        if ((uint)slot >= MoveCount)
+        {
+            throw new ArgumentOutOfRangeException(nameof(slot), slot, "The move slot must be 0–3.");
+        }
     }
 
     /// <summary>Core's stat index (HP, Attack, Defense, Speed, Sp. Atk, Sp. Def) of each stat in the summary order.</summary>

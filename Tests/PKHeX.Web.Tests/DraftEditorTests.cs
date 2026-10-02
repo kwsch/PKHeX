@@ -10,9 +10,9 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The draft editor (WEB-PKM-003, WEB-PKM-005, WEB-PKM-006, WEB-PKM-007, WEB-PKM-013): labelled name, language, friendship, level,
-/// experience, nature, IV and EV fields that turn input into typed draft edits, show what the draft holds after an accepted edit, keep refused input as typed,
-/// and offer nothing for an egg.
+/// The draft editor (WEB-PKM-003, WEB-PKM-005, WEB-PKM-006, WEB-PKM-007, WEB-PKM-010–013): labelled name, language, friendship, level,
+/// experience, nature, IV, EV, held item, move, PP and PP Ups fields that turn input into typed draft edits, show what the draft holds after an
+/// accepted edit, keep refused input as typed, and offer nothing for an egg.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class DraftEditorTests : IDisposable
@@ -101,6 +101,13 @@ public sealed class DraftEditorTests : IDisposable
         {
             editor.Find($"#iv-{stat}").HasAttribute("readonly").Should().BeTrue();
             editor.Find($"#ev-{stat}").HasAttribute("readonly").Should().BeTrue();
+        }
+        editor.Find("#held-item").HasAttribute("disabled").Should().BeTrue();
+        for (var slot = 0; slot < EditorDraft.MoveCount; slot++)
+        {
+            editor.Find($"#move-{slot}").HasAttribute("disabled").Should().BeTrue();
+            editor.Find($"#pp-{slot}").HasAttribute("readonly").Should().BeTrue();
+            editor.Find($"#ppups-{slot}").HasAttribute("disabled").Should().BeTrue();
         }
     }
 
@@ -422,6 +429,8 @@ public sealed class DraftEditorTests : IDisposable
         EditorText.EditableSummary(EditableFields.Nickname | EditableFields.Language | EditableFields.Friendship | EditableFields.Level | EditableFields.Nature)
             .Should().Be("Its nickname, language, friendship, level, experience points and nature can be changed.");
         EditorText.EditableSummary(EditableFields.Nature | EditableFields.Ivs | EditableFields.Evs).Should().Be("Its nature, IVs and EVs can be changed.");
+        EditorText.EditableSummary(EditableFields.Evs | EditableFields.HeldItem | EditableFields.Moves | EditableFields.Pp)
+            .Should().Be("Its EVs, held item, moves, PP and PP Ups can be changed.");
     }
 
     /// <summary>A box 1, slot 2 Pokémon with the given EVs, in the summary order the fields use (HP, Attack, Defense, Sp. Atk, Sp. Def, Speed).</summary>
@@ -585,5 +594,298 @@ public sealed class DraftEditorTests : IDisposable
         refused.Should().BeNull();
         editor.Find("#iv-0").GetAttribute("value").Should().Be(draft.Ivs[0].ToString(CultureInfo.InvariantCulture));
         editor.Find("#ev-0").GetAttribute("value").Should().Be("0");
+    }
+
+    /// <summary>The moveset of <see cref="ItemMoveDraftTests.Moveset"/>: Tackle (20 of 49 PP, 2 PP Ups), an empty slot, Surf (24 of 24, 3 PP Ups) and Sketch.</summary>
+    private static EditorDraft Moveset(Action<PK6>? change = null) => Open(ItemMoveDraftTests.Moveset(change: change), SlotRef.InBox(0, 1));
+
+    private static string MoveName(EditorDraft draft, Move move) => draft.Capabilities.Lists.Moves.Single(m => m.Value == (int)move).Text;
+
+    [Fact]
+    public void EachMoveFieldIsNamedByItsSlotAndColumn()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+
+        editor.Find("#ppups-head").TextContent.Should().Be("PP Ups (0–3)");
+        for (var slot = 0; slot < EditorDraft.MoveCount; slot++)
+        {
+            editor.Find($"#slot-{slot}").TextContent.Should().Be($"Move {slot + 1}");
+            editor.Find($"#move-{slot}").GetAttribute("aria-labelledby").Should().Be($"slot-{slot} move-head");
+            editor.Find($"#pp-{slot}").GetAttribute("aria-labelledby").Should().Be($"slot-{slot} pp-head");
+            editor.Find($"#pp-{slot}").GetAttribute("inputmode").Should().Be("numeric");
+            editor.Find($"#ppups-{slot}").GetAttribute("aria-labelledby").Should().Be($"slot-{slot} ppups-head");
+            editor.Find($"#maxpp-{slot}").TextContent.Should().Be(draft.Moves[slot].MaxPp.ToString(CultureInfo.InvariantCulture));
+        }
+        editor.Find("#pp-0").GetAttribute("value").Should().Be("20");
+        editor.Find("#move-list-note").TextContent.Should().Be(EditorText.MoveListNote);
+        editor.Find("#move-note").GetAttribute("role").Should().Be("status");
+        editor.Find("#move-note").TextContent.Should().BeEmpty();
+        editor.Find("#held-item").GetAttribute("aria-describedby").Should().Be("item-note");
+        editor.Find("#item-note").TextContent.Should().Be(EditorText.ItemNote);
+    }
+
+    [Fact]
+    public void TheMoveAndItemBoxesListCoresChoices()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+        var lists = draft.Capabilities.Lists;
+
+        editor.FindAll("#move-0 option").Select(o => o.GetAttribute("value")).Should().Equal(lists.Moves.Select(m => m.Value.ToString(CultureInfo.InvariantCulture)));
+        // Core lists Pretty Feather (571) in two pouches; the box offers each value once.
+        lists.Items.Count(i => i.Value == 571).Should().Be(2, "the fixture must have Core's duplicate");
+        editor.FindAll("#held-item option").Select(o => o.GetAttribute("value")).Should().Equal(lists.Items.Select(i => i.Value).Distinct().Select(v => v.ToString(CultureInfo.InvariantCulture)));
+        editor.Find("#move-0 option[selected]").TextContent.Should().Be(MoveName(draft, Move.Tackle));
+        editor.Find("#move-1 option[selected]").GetAttribute("value").Should().Be("0");
+        editor.Find("#held-item option[selected]").GetAttribute("value").Should().Be(ItemMoveDraftTests.Leftovers.ToString(CultureInfo.InvariantCulture));
+        editor.FindAll("#ppups-0 option").Select(o => o.TextContent).Should().Equal("0", "1", "2", "3");
+    }
+
+    [Fact]
+    public void AnEmptySlotAndAMoveWithoutPpUpsOfferNothingToChange()
+    {
+        var editor = Render(Moveset());
+
+        editor.Find("#pp-1").HasAttribute("readonly").Should().BeTrue();
+        editor.Find("#ppups-1").HasAttribute("disabled").Should().BeTrue();
+        editor.Find("#pp-3").HasAttribute("readonly").Should().BeFalse("Sketch's PP can be lowered");
+        editor.Find("#ppups-3").HasAttribute("disabled").Should().BeTrue();
+        editor.FindAll("#ppups-3 option").Select(o => o.TextContent).Should().Equal("0");
+        editor.Find("#pp-0").HasAttribute("readonly").Should().BeFalse();
+        editor.Find("#ppups-0").HasAttribute("disabled").Should().BeFalse();
+    }
+
+    [Fact]
+    public void StoredPpUpsOnAMoveWithoutThemCanOnlyBeRemoved()
+    {
+        var draft = Moveset(p => p.Move4_PPUps = 2);
+        var editor = Render(draft);
+
+        editor.Find("#ppups-3").HasAttribute("disabled").Should().BeFalse();
+        editor.FindAll("#ppups-3 option").Select(o => o.TextContent).Should().Equal("0", "2");
+
+        editor.Find("#ppups-3").Change("0");
+
+        refused.Should().BeNull();
+        draft.Moves[3].PpUps.Should().Be(0);
+        editor.Find("#ppups-3").HasAttribute("disabled").Should().BeTrue();
+    }
+
+    [Fact]
+    public void AMoveChangeShowsThePpItSet()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+
+        editor.Find("#move-0").Change(((int)Move.Thunderbolt).ToString(CultureInfo.InvariantCulture));
+
+        refused.Should().BeNull();
+        draft.Moves[0].Move.Should().Be((ushort)Move.Thunderbolt);
+        editor.Find("#pp-0").GetAttribute("value").Should().Be("21");
+        editor.Find("#maxpp-0").TextContent.Should().Be("21");
+        editor.Find("#move-note").TextContent.Should().Be($"Move 1 is now {MoveName(draft, Move.Thunderbolt)}, with full PP: 21 of 21 (2 PP Ups).");
+    }
+
+    [Fact]
+    public void TheMoveNoteNamesEachKindOfChange()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+        var tackle = MoveName(draft, Move.Tackle);
+        var sketch = MoveName(draft, Move.Sketch);
+
+        editor.Find("#move-2").Change(((int)Move.Sketch).ToString(CultureInfo.InvariantCulture));
+        editor.Find("#move-note").TextContent.Should().Be($"Move 3 is now {sketch}. PP Ups cannot be used on it, so its 3 PP Ups were removed; its PP is set to 1 of 1.");
+
+        editor.Find("#move-0").Change("0");
+        editor.Find("#move-note").TextContent.Should().Be("Move 1 is now empty, so its PP and PP Ups are 0.");
+        editor.Find("#pp-0").HasAttribute("readonly").Should().BeTrue();
+
+        editor.Find("#move-0").Change(((int)Move.Tackle).ToString(CultureInfo.InvariantCulture));
+        editor.Find("#move-note").TextContent.Should().Be($"Move 1 is back to its stored move, {tackle}, with its stored PP (20 of 49) and 2 PP Ups.");
+
+        editor.Find("#ppups-0").Change("1");
+        editor.Find("#move-note").TextContent.Should().Be($"Move 1, {tackle}, now has 1 PP Up; its PP is 42 of 42.");
+        editor.Find("#pp-0").GetAttribute("value").Should().Be("42");
+
+        editor.Find("#pp-0").Input("40");
+        editor.Find("#move-note").TextContent.Should().BeEmpty("a PP edit shows in its own field, and the last move change is no longer the last edit");
+    }
+
+    [Fact]
+    public void AHeldItemChoiceIsDrafted()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+
+        editor.Find("#held-item").Change(ItemMoveDraftTests.ChoiceScarf.ToString(CultureInfo.InvariantCulture));
+
+        refused.Should().BeNull();
+        draft.HeldItem.Should().Be(ItemMoveDraftTests.ChoiceScarf);
+        editor.Find("#held-item").Change("0");
+        draft.HeldItem.Should().Be(0);
+    }
+
+    [Theory]
+    [InlineData("50")]
+    [InlineData("-1")]
+    [InlineData("")]
+    [InlineData("1e2")]
+    [InlineData("99999999999999999999")]
+    public void RefusedPpIsKeptAsTyped(string typed)
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+
+        editor.Find("#pp-0").Input(typed);
+
+        refused.Should().Be(SessionError.PpOutOfRange);
+        draft.IsDirty.Should().BeFalse();
+        editor.Find("#pp-0").GetAttribute("value").Should().Be(typed);
+    }
+
+    [Fact]
+    public void AnAcceptedEditReplacesRefusedPpInput()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+
+        editor.Find("#pp-0").Input("50");
+        editor.Find("#pp-2").Input("05");
+
+        refused.Should().BeNull();
+        editor.Find("#pp-0").GetAttribute("value").Should().Be("20");
+        editor.Find("#pp-2").GetAttribute("value").Should().Be("05", "text that reads as the drafted value is not rewritten under the cursor");
+    }
+
+    [Fact]
+    public void StoredValuesOutsideTheListsAreShownAsStored()
+    {
+        var draft = Moveset(p =>
+        {
+            p.HeldItem = 0x7FFF;
+            p.Move2 = 0x7FFE;
+            p.Move1_PPUps = 9;
+        });
+        var editor = Render(draft);
+
+        editor.Find("#held-item option[selected]").TextContent.Should().Be("Unknown (stored value 32767)");
+        editor.Find("#move-1 option[selected]").TextContent.Should().Be("Unknown (stored value 32766)");
+        editor.Find("#move-1").GetAttribute("value").Should().Be("32766", "the value is set on the select, which Firefox honours after a user's choice");
+        editor.Find("#ppups-0 option[selected]").TextContent.Should().Be("9 (stored; above the maximum)");
+        editor.FindAll("#held-item option[disabled]").Should().ContainSingle();
+    }
+
+    [Fact]
+    public void MoveAndPpFieldsFollowTheirOwnFlag()
+    {
+        var bytes = ItemMoveDraftTests.Moveset();
+        var save = SaveFixtures.Parse(bytes);
+        var family = PKHeX.Web.Services.SupportMatrix.Find(save)! with { Editable = EditableFields.Moves };
+        var editor = Render(new SaveSession(bytes.ToArray(), save, "fixture.sav", SaveCapabilities.For(save, family)).Select(SlotRef.InBox(0, 1)));
+
+        editor.Find("#move-0").HasAttribute("disabled").Should().BeFalse();
+        editor.Find("#pp-0").HasAttribute("readonly").Should().BeTrue();
+        editor.Find("#ppups-0").HasAttribute("disabled").Should().BeTrue();
+        editor.Find("#held-item").HasAttribute("disabled").Should().BeTrue();
+    }
+
+    [Fact]
+    public void MoveFieldsAreWrittenWithInvariantDigits()
+    {
+        var previous = CultureInfo.CurrentCulture;
+        try
+        {
+            CultureInfo.CurrentCulture = new CultureInfo("ar-SA");
+            var draft = Moveset();
+            var editor = Render(draft);
+
+            editor.Find("#ppups-0").Change("3");
+
+            editor.Find("#pp-0").GetAttribute("value").Should().Be("56");
+            editor.Find("#maxpp-0").TextContent.Should().Be("56");
+            editor.FindAll("#ppups-0 option").Select(o => o.TextContent).Should().Equal("0", "1", "2", "3");
+            editor.Find("#move-note").TextContent.Should().EndWith("now has 3 PP Ups; its PP is 56 of 56.");
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = previous;
+        }
+    }
+
+    [Fact]
+    public void ANewDraftReloadsTheMoveFieldsAndClearsTheNote()
+    {
+        var bytes = ItemMoveDraftTests.Moveset();
+        var session = SaveFixtures.Open(bytes);
+        var draft = session.Select(SlotRef.InBox(0, 1));
+        var editor = Render(draft);
+        editor.Find("#move-0").Change("0");
+        editor.Find("#pp-2").Input("99");
+
+        var other = session.Select(SaveFixtures.FirstBoxSlot);
+        editor.Render(p => p.Add(c => c.Draft, other));
+
+        editor.Find("#move-note").TextContent.Should().BeEmpty();
+        editor.Find("#pp-2").GetAttribute("value").Should().Be(other.Moves[2].Pp.ToString(CultureInfo.InvariantCulture));
+        editor.Find("#move-0 option[selected]").GetAttribute("value").Should().Be(other.Moves[0].Move.ToString(CultureInfo.InvariantCulture));
+    }
+
+    [Fact]
+    public void AMoveOrItemFromTheOtherGameIsNamedAsTheInspectorNamesIt()
+    {
+        // A Pokémon traded from Omega Ruby into X may know Dragon Ascent (620) and hold Audinite, which X's lists leave out.
+        const int audinite = 757; // line 758 of Core's English item list, which starts at 0
+        var bytes = SaveFixtures.Synthetic(false, customize: SaveFixtures.WithBoxEntity(0, 1, p =>
+        {
+            p.Move2 = (ushort)Move.DragonAscent;
+            p.HeldItem = audinite;
+        }));
+        var draft = Open(bytes, SlotRef.InBox(0, 1));
+        draft.Capabilities.Lists.Items.Any(i => i.Value == audinite).Should().BeFalse("the fixture needs an item outside X's list");
+        var editor = Render(draft);
+
+        editor.Find("#move-1 option[selected]").TextContent.Should().Be($"{GameInfo.Strings.movelist[(int)Move.DragonAscent]} (not available in this game)");
+        editor.Find("#held-item option[selected]").TextContent.Should().Be($"{GameInfo.Strings.itemlist[audinite]} (not available in this game)");
+        editor.Find("#move-1 option[selected]").TextContent.Should().Be(InspectorText.Move(draft.Inspect().Moves.Moves[1].Move));
+    }
+
+    [Fact]
+    public void AKeystrokeElsewhereDoesNotRenderTheLongListsAgain()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+        var boxes = editor.FindComponents<ChoiceSelect>();
+        boxes.Should().HaveCount(EditorDraft.MoveCount + 1);
+        var counts = boxes.Select(b => b.RenderCount).ToArray();
+
+        editor.Find("#ot-friendship").Input("100");
+        editor.Find("#ev-0").Input("4");
+
+        refused.Should().BeNull();
+        boxes.Select(b => b.RenderCount).Should().Equal(counts, "nothing the move and item boxes show changed");
+        editor.Find("#move-0").Change(((int)Move.Thunderbolt).ToString(CultureInfo.InvariantCulture));
+        boxes[1].RenderCount.Should().Be(counts[1] + 1, "the changed move box renders its new value");
+        boxes[0].RenderCount.Should().Be(counts[0], "the item box did not change");
+    }
+
+    [Fact]
+    public void TheMoveNoteSaysWhenPpUpsAreCarriedOverOrDropped()
+    {
+        var draft = Moveset(p => p.Move1_PPUps = 9);
+        var editor = Render(draft);
+        var surf = MoveName(draft, Move.Surf);
+        var sketch = MoveName(draft, Move.Sketch);
+
+        editor.Find("#move-0").Change(((int)Move.Thunderbolt).ToString(CultureInfo.InvariantCulture));
+        editor.Find("#move-note").TextContent.Should().EndWith("(no PP Ups). The 9 PP Ups stored before, more than a move can take, were not carried over.");
+
+        editor.Find("#move-2").Change(((int)Move.Sketch).ToString(CultureInfo.InvariantCulture));
+        editor.Find("#move-2").Change(((int)Move.Tackle).ToString(CultureInfo.InvariantCulture));
+        editor.Find("#move-note").TextContent.Should().Be($"Move 3 is now {MoveName(draft, Move.Tackle)}, with full PP: 56 of 56 (3 PP Ups). It keeps the 3 PP Ups this slot had before {sketch}.");
+
+        editor.Find("#move-1").Change(((int)Move.Surf).ToString(CultureInfo.InvariantCulture));
+        editor.Find("#move-note").TextContent.Should().Be($"Move 2 is now {surf}, with full PP: 15 of 15 (no PP Ups).");
     }
 }

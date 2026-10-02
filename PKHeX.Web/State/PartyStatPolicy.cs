@@ -58,7 +58,7 @@ internal static class PartyStatPolicy
     /// Recalculates the party stats of <paramref name="pk"/> after a stat-affecting edit, keeping its status condition and never raising its current HP.
     /// </summary>
     /// <remarks>
-    /// Move PP is left alone: an edit never refills it. The member must already have party stats; one without them has no current HP to
+    /// Move PP is left alone: a stat edit never refills it (only a move or PP Ups edit sets PP, see <see cref="EditorDraft.EditMove"/>). The member must already have party stats; one without them has no current HP to
     /// keep, and would be left fainted.
     /// </remarks>
     /// <exception cref="ArgumentException"><paramref name="pk"/> has no party stats (<see cref="PKM.PartyStatsPresent"/>).</exception>

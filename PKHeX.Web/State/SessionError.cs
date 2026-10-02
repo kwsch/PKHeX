@@ -92,6 +92,24 @@ public enum SessionError
     /// </summary>
     EvTotalAboveLimit,
 
+    /// <summary>The item is not one the save's game lets a Pokémon hold (see <see cref="SaveCapabilities.Lists"/>).</summary>
+    ItemNotAvailable,
+
+    /// <summary>The move is not one of the save's game's moves (see <see cref="SaveCapabilities.Lists"/>).</summary>
+    MoveNotAvailable,
+
+    /// <summary>The move slot is empty, so it has no PP or PP Ups to change.</summary>
+    MoveSlotEmpty,
+
+    /// <summary>The PP is outside 0 to the move's PP with its PP Ups. It is refused, never clamped.</summary>
+    PpOutOfRange,
+
+    /// <summary>The number of PP Ups is outside 0–3. It is refused, never clamped.</summary>
+    PpUpsOutOfRange,
+
+    /// <summary>PP Ups cannot be used on the slot's move (such as Sketch), so it can have none.</summary>
+    PpUpsNotAllowed,
+
     /// <summary>
     /// The Pokémon is an egg. Its name must be the game's egg name, and its friendship field holds the hatch counter, so this release
     /// edits none of its fields.
