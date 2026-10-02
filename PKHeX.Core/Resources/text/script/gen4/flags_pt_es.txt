@@ -57,6 +57,7 @@
 1337	i	Encontrado Revestimiento Metálico en Ruinas Hierro
 1338	i	Encontrado Antiderretir en Ruinas Iceberg
 1339	i	Encontrada Roca Dura Ruinas Pico Roca
+0304	i	MT64 recibido
 0151	g	Porygon recibido
 0305	g	Eevee recibido
 0226	g	Regalo del huevo de Riolu de Quinoa pendiente (Isla Hierro)
