@@ -251,6 +251,6 @@ Trainerberg
 
 
 
-(ei geschenk)
-(in-game tausch)
+(Ei geschenk)
+(in-game Tausch)
 (schicksalhafte begegnung)
