@@ -7,7 +7,7 @@ namespace PKHeX.Web.State;
 /// </summary>
 /// <remarks>
 /// Create instances through <see cref="Services.SaveLoader"/>. The working save is internal and is only ever replaced
-/// wholesale by a staged, validated clone, so every change goes through <see cref="Apply"/> and its revision tracking,
+/// wholesale by a staged, validated clone, so every change goes through <see cref="Apply(EditorDraft, LegalityVerdict)"/> and its revision tracking,
 /// and a failed apply leaves the session unchanged.
 /// </remarks>
 public sealed class SaveSession
@@ -34,6 +34,38 @@ public sealed class SaveSession
 
     /// <summary>The <see cref="Revision"/> of the last export whose download was started, or null if none.</summary>
     public int? ExportedRevision { get; private set; }
+
+    /// <summary>
+    /// The slots whose latest applied change legality reported as <see cref="LegalityVerdict.Invalid"/> or <see cref="LegalityVerdict.Unavailable"/>,
+    /// with that verdict. The user acknowledged each one when applying it; a download that contains them asks again
+    /// (<see cref="ExportNeedsAcknowledgement"/>). A later Valid apply of the same slot removes it. Entities that were already illegal when the
+    /// file was opened and were not changed are not listed: they are exported as they were.
+    /// </summary>
+    public IReadOnlyDictionary<SlotRef, LegalityVerdict> FlaggedChanges => flagged;
+
+    private readonly Dictionary<SlotRef, LegalityVerdict> flagged = [];
+
+    /// <summary>The <see cref="Revision"/> whose download the user acknowledged <see cref="FlaggedChanges"/> for, or null if none.</summary>
+    public int? ExportAcknowledgedRevision { get; private set; }
+
+    /// <summary>
+    /// True when the session holds <see cref="FlaggedChanges"/> and the user has not acknowledged them for the current revision. Any later apply
+    /// advances the revision and withdraws the acknowledgement, so it never covers changes the user has not seen listed.
+    /// </summary>
+    public bool ExportNeedsAcknowledgement => flagged.Count > 0 && ExportAcknowledgedRevision != Revision;
+
+    /// <summary>
+    /// Records (or, with false, withdraws) the user's acknowledgement that the download of the current revision contains <see cref="FlaggedChanges"/>.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">There are no flagged changes to acknowledge.</exception>
+    public void AcknowledgeExport(bool acknowledge)
+    {
+        if (acknowledge && flagged.Count == 0)
+        {
+            throw new InvalidOperationException("The session has no flagged changes to acknowledge.");
+        }
+        ExportAcknowledgedRevision = acknowledge ? Revision : null;
+    }
 
     /// <summary>
     /// Whether the applied changes are covered by a started download. It is separate from <see cref="HasChangesSinceOpen"/>,
@@ -85,7 +117,7 @@ public sealed class SaveSession
     }
 
     /// <summary>
-    /// Writes the entity to its slot on a staged save during <see cref="Apply"/>. Tests replace it to inject failures; the default is
+    /// Writes the entity to its slot on a staged save during <see cref="Apply(EditorDraft, LegalityVerdict)"/>. Tests replace it to inject failures; the default is
     /// Core's slot write with <see cref="EntityImportSettings.None"/>.
     /// </summary>
     /// <remarks>
@@ -115,7 +147,32 @@ public sealed class SaveSession
     /// The draft is foreign or stale, its position cannot be written by this release (<see cref="SaveCapabilities.CanApply"/>), the party
     /// member has no stored stats, the slot cannot be written, or the staged write fails verification.
     /// </exception>
-    public void Apply(EditorDraft draft)
+    /// <param name="draft">The draft to write.</param>
+    /// <param name="verdict">
+    /// The legality verdict of the draft as it is now, which the caller has checked and the user has acknowledged if it is not Valid. It is
+    /// recorded in <see cref="FlaggedChanges"/> once the write is swapped in; a refused or no-op apply records nothing.
+    /// </param>
+    public void Apply(EditorDraft draft, LegalityVerdict verdict)
+    {
+        var revision = Revision;
+        Apply(draft);
+        if (Revision == revision)
+        {
+            return;
+        }
+        if (verdict == LegalityVerdict.Valid)
+        {
+            flagged.Remove(draft.Slot);
+        }
+        else
+        {
+            flagged[draft.Slot] = verdict;
+        }
+    }
+
+    /// <summary>The apply transaction of <see cref="Apply(EditorDraft, LegalityVerdict)"/> without recording a verdict. Tests of the transaction use it.</summary>
+    /// <exception cref="SessionException">As <see cref="Apply(EditorDraft, LegalityVerdict)"/>.</exception>
+    internal void Apply(EditorDraft draft)
     {
         EnsureOwns(draft);
         if (!draft.IsDirty)

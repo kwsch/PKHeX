@@ -1,0 +1,36 @@
+@* What legality asks before a changed draft can be applied (DraftLegality.Gate): a note while the draft as it is now has no result, and a checkbox
+   that acknowledges an Invalid or Unavailable one. The workspace shows it beside Apply, and the exit panel beside its Apply draft. It is not a live
+   region: the legality status already announces each result, and the waiting note comes and goes as the user types. The region keeps its
+   height while the note and the checkbox take turns, so the page does not shift on every keystroke. *@
+<div class="apply-gate">
+    @switch (Gate)
+    {
+        case LegalityGate.Waiting:
+            <p id="@($"{Id}-waiting")">@LegalityText.ApplyWaiting</p>
+            break;
+        case LegalityGate.NeedsAcknowledgement or LegalityGate.Acknowledged:
+            <label class="acknowledge" for="@Id">
+                <input id="@Id" type="checkbox" checked="@(Gate == LegalityGate.Acknowledged)" disabled="@Disabled"
+                       @onchange="e => OnAcknowledge.InvokeAsync(e.Value is true)" />
+                @LegalityText.ApplyAcknowledgement(Verdict)
+            </label>
+            break;
+    }
+</div>
+
+@code {
+    /// <summary>The checkbox id; the waiting note is <c>{Id}-waiting</c>.</summary>
+    [Parameter, EditorRequired] public string Id { get; set; } = "";
+
+    /// <summary>What legality asks of the draft as it is now (<see cref="DraftLegality.Gate"/>). Nothing is shown when it is Clear.</summary>
+    [Parameter] public LegalityGate Gate { get; set; }
+
+    /// <summary>The verdict to acknowledge, Invalid or Unavailable; read only when <see cref="Gate"/> asks for an acknowledgement.</summary>
+    [Parameter] public LegalityVerdict Verdict { get; set; }
+
+    /// <summary>True while another operation runs.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Raised with the checkbox's new state.</summary>
+    [Parameter] public EventCallback<bool> OnAcknowledge { get; set; }
+}

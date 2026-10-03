@@ -52,7 +52,7 @@ public sealed class LevelNatureBrowserTests(PublishedAppFixture app)
         await Expect(page.Locator("#exp")).ToHaveValueAsync((maximum + 1).ToString(CultureInfo.InvariantCulture));
         await Expect(page.Locator("#apply")).ToBeDisabledAsync();
         await page.Locator("#exp").FillAsync(edited.EXP.ToString(CultureInfo.InvariantCulture));
-        await Expect(page.Locator("#apply")).ToBeEnabledAsync();
+        await ReadyToApply(page);
         await Expect(page.Locator("#message")).ToBeEmptyAsync();
 
         await page.Locator("#nature").SelectOptionAsync(((int)nature).ToString(CultureInfo.InvariantCulture));
@@ -61,7 +61,7 @@ public sealed class LevelNatureBrowserTests(PublishedAppFixture app)
         await Expect(page.Locator("#inspect-stats-table")).ToContainTextAsync(InspectorText.StatName(effect.Raised, effect));
         await Expect(page.Locator("#inspect-stats-table")).ToContainTextAsync(InspectorText.StatName(effect.Lowered, effect));
 
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#message")).ToHaveTextAsync("Changes applied in memory; download to retain changes.");
         await Expect(page.Locator("#legality-status")).ToHaveTextAsync(NativeLegality.Of(changed, changed.GetBoxSlotAtIndex(0, 0), StorageSlotType.Box).Verdict);
         var output = await DownloadEdited(page);
@@ -127,7 +127,7 @@ public sealed class LevelNatureBrowserTests(PublishedAppFixture app)
         await Expect(page.Locator("#inspect-stats-table caption")).ToContainTextAsync("recalculated");
         await Expect(page.Locator("#inspect-hp")).ToContainTextAsync(edited.Stat_HPCurrent.ToString(CultureInfo.InvariantCulture));
 
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         await Expect(page.Locator("#inspect-stats-table caption")).ToHaveTextAsync("Stats as stored with this party member");
         var output = await DownloadEdited(page);

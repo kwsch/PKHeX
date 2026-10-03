@@ -146,7 +146,7 @@ public sealed class LegalityBrowserTests(PublishedAppFixture app)
         await Expect(page.Locator("#legality-status")).ToHaveTextAsync("Valid");
         await page.Locator("#nickname").FillAsync("Applied");
         await page.Locator("#nicknamed").CheckAsync();
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#message")).ToContainTextAsync("applied in memory");
         var applied = SaveFixtures.Open(bytes).Select(SaveFixtures.FirstBoxSlot);
         applied.EditNickname("Applied", true);

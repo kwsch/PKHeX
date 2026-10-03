@@ -16,8 +16,11 @@
 <SaveFilePicker Disabled="busy" OnReadStarted="() => busy = true" OnRead="OpenFile" OnDropRejected="DropRejected" />
 <p id="message" role="status">@message</p>
 <SessionExitPanel Exit="State.Exit" Stage="State.ExitStage" CanApplyDraft="@(Draft is { CanApply: true } && State.DraftValid && !Previewing)"
+                  ApplyGate="State.Legality.Gate" ApplyVerdict="AcknowledgedVerdict" Flagged="Flagged" ExportAcknowledged="!(Session?.ExportNeedsAcknowledgement ?? false)"
+                  DraftPending="@(State.DraftDirty || !State.DraftValid)" ExportStatus="@(Session?.ExportStatus ?? ExportStatus.Unchanged)"
                   Busy="busy" OnApplyDraft="ApplyDraftForExit" OnDiscardDraft="DiscardDraftForExit" OnExport="() => ExportAsync()"
-                  OnContinue="ContinueExit" OnDiscardSession="DiscardSessionForExit" OnCancel="CancelExit" />
+                  OnContinue="ContinueExit" OnDiscardSession="DiscardSessionForExit" OnCancel="CancelExit"
+                  OnAcknowledgeApply="AcknowledgeLegality" OnAcknowledgeExport="AcknowledgeExport" />
 @if (Session is not null)
 {
     <SaveOverviewPanel Session="Session" />
@@ -37,7 +40,11 @@
             {
                 <p id="species-pending">@EditorText.SpeciesFormPending</p>
             }
-            <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid || Previewing)">Apply changes</button>
+            @if (Draft.CanApply && State.DraftDirty && State.DraftValid && !Previewing)
+            {
+                <ApplyAcknowledgement Id="apply-ack" Gate="State.Legality.Gate" Verdict="AcknowledgedVerdict" Disabled="busy" OnAcknowledge="AcknowledgeLegality" />
+            }
+            <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid || Previewing || !LegalityAllowsApply)">Apply changes</button>
             <button id="cancel-draft" @onclick="CancelDraft">Cancel draft</button>
             @if (!Draft.CanApply)
             {
@@ -70,9 +77,17 @@
         {
             <p id="rename-note">@SessionStatusText.RenameToRestore</p>
         }
-        <button id="download" @onclick="() => ExportAsync()" disabled="@(State.DraftDirty || busy || !State.DraftValid || Previewing)">Download validated save</button>
-        <button id="close-session" type="button" @ref="closeButton" @onclick="RequestClose" disabled="@busy">Close save</button>
+        <ExportAcknowledgement Id="export-ack" Flagged="Flagged" Acknowledged="!Session.ExportNeedsAcknowledgement" Disabled="busy" OnAcknowledge="AcknowledgeExport" />
+        <button id="download" @onclick="() => ExportAsync()" disabled="@(State.DraftDirty || busy || !State.DraftValid || Previewing || Session.ExportNeedsAcknowledgement)">Download validated save</button>
         <p>Your browser may adjust the name. Download initiation does not confirm it was saved to disk. Verify your file before closing.</p>
+    </section>
+    <section aria-labelledby="session-title">
+        <h2 id="session-title">Session</h2>
+        <button id="close-session" type="button" @ref="closeButton" @onclick="RequestClose" disabled="@busy">Close save</button>
+        <button id="reset-session" type="button" @ref="resetButton" @onclick="RequestReset" disabled="@(busy || !Session.HasChangesSinceOpen)">Reset to original</button>
+        <button id="discard-session" type="button" @ref="discardButton" @onclick="RequestDiscard" disabled="@busy">Discard session</button>
+        <p id="reset-note">@SessionStatusText.ResetNote</p>
+        <p id="discard-note">@SessionStatusText.DiscardNote</p>
     </section>
 }
 
@@ -95,10 +110,25 @@
 
     /// <summary>The inspector's view of the draft, rebuilt when the draft changes rather than on every render.</summary>
     private EntityInspection? inspection;
-    private ElementReference openTitle, closeButton;
+    private ElementReference openTitle, closeButton, resetButton, discardButton;
 
-    /// <summary>The intent of the exit whose panel was in the last render, or null when none was shown.</summary>
-    private ExitIntent? shownExit;
+    /// <summary>The intent of the exit whose panel was in the last render and the session it was leaving, or null when none was shown.</summary>
+    private (ExitIntent Intent, SaveSession? Session)? shownExit;
+
+    /// <summary>
+    /// True when a close, reset or discard has just completed at once, without a panel. The button that asked for it is gone (or belongs to the
+    /// new session's controls), so focus moves to the open heading rather than dropping to the page body.
+    /// </summary>
+    private bool focusOpenTitle;
+
+    /// <summary>The session's flagged changes, or none without a session.</summary>
+    private IReadOnlyDictionary<SlotRef, LegalityVerdict> Flagged => Session?.FlaggedChanges ?? new Dictionary<SlotRef, LegalityVerdict>();
+
+    /// <summary>The verdict the user is asked to acknowledge before applying, when the gate asks for one.</summary>
+    private LegalityVerdict AcknowledgedVerdict => State.Legality.Current?.Verdict ?? LegalityVerdict.Unavailable;
+
+    /// <summary>True when legality lets the draft as it is now be applied: Valid, or an acknowledged Invalid or Unavailable result.</summary>
+    private bool LegalityAllowsApply => State.Legality.Gate is LegalityGate.Clear or LegalityGate.Acknowledged;
     private SaveSession? Session => State.Session;
     private EditorDraft? Draft => State.Draft;
 
@@ -110,19 +140,35 @@
 
     /// <summary>
     /// When an exit's panel has just gone, moves focus out of the removed panel, which would otherwise leave it on the page body:
-    /// back to Close save when a close was cancelled, and otherwise to the open heading, above the status message that reports the outcome.
-    /// An exit that completed at once never showed a panel, so focus stays where it was.
+    /// back to the button that started a close, reset or discard when it was cancelled (the session is still the one it was leaving), and
+    /// otherwise to the open heading, above the status message that reports the outcome.
+    /// An exit that completed at once never showed a panel; focus moves to the open heading too (<see cref="focusOpenTitle"/>).
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var shown = State.Exit?.Intent;
+        if (focusOpenTitle)
+        {
+            focusOpenTitle = false;
+            shownExit = null;
+            await openTitle.FocusAsync();
+            return;
+        }
+        (ExitIntent, SaveSession?)? shown = State.Exit is { } exit ? (exit.Intent, Session) : null;
         var ended = shownExit;
         shownExit = shown;
-        if (ended is null || shown is not null)
+        if (ended is not { } left || shown is not null)
         {
             return;
         }
-        await (ended == ExitIntent.Close && Session is not null ? closeButton : openTitle).FocusAsync();
+        var kept = Session is not null && ReferenceEquals(Session, left.Session);
+        var target = !kept ? openTitle : left.Intent switch
+        {
+            ExitIntent.Close => closeButton,
+            ExitIntent.Reset => resetButton,
+            ExitIntent.Discard => discardButton,
+            _ => openTitle,
+        };
+        await target.FocusAsync();
     }
 
     protected override void OnInitialized()
@@ -173,23 +219,31 @@
         message = Loaded;
     }
 
-    /// <summary>Reports what an exit step did: the new session, the start screen, or the step that is now waiting.</summary>
-    private void AfterExitStep(SaveSession? before)
+    /// <summary>Reports what an exit step did: the new or reset session, the start screen, or the step that is now waiting.</summary>
+    /// <param name="before">The session before the step.</param>
+    /// <param name="intent">The exit the step belonged to, which names the outcome once the exit has completed.</param>
+    private void AfterExitStep(SaveSession? before, ExitIntent? intent)
     {
         if (State.Exit is not null)
         {
             ResetDraftView();
             return;
         }
+        // No panel was shown for a request that completed at once, so nothing else moves focus off the button that asked for it.
+        focusOpenTitle = shownExit is null && !ReferenceEquals(Session, before);
         if (Session is null)
         {
             nameChoice = null;
             ResetDraftView();
-            message = "Save closed. Choose a save to begin.";
+            message = intent == ExitIntent.Discard ? SessionStatusText.Discarded : "Save closed. Choose a save to begin.";
         }
         else if (!ReferenceEquals(Session, before))
         {
             Opened();
+            if (intent == ExitIntent.Reset)
+            {
+                message = SessionStatusText.ResetDone;
+            }
         }
     }
 
@@ -199,7 +253,23 @@
         {
             message = "Resolve the open session before it is closed.";
         }
-    });
+    }, ExitIntent.Close);
+
+    private void RequestReset() => RunExitStep(State.RequestReset, () =>
+    {
+        if (State.Exit is not null)
+        {
+            message = "Resolve the open session before it is reset.";
+        }
+    }, ExitIntent.Reset);
+
+    private void RequestDiscard() => RunExitStep(State.RequestDiscard, () =>
+    {
+        if (State.Exit is not null)
+        {
+            message = "Confirm the discard, or cancel to keep this save.";
+        }
+    }, ExitIntent.Discard);
 
     private void ApplyDraftForExit() => RunExitStep(State.ApplyDraftForExit, () => message = "Draft applied in memory.");
 
@@ -210,12 +280,16 @@
     private void DiscardSessionForExit() => RunExitStep(State.DiscardSessionForExit);
 
     /// <summary>
-    /// Runs one step of leaving the session and reports it. A refused step (a refused apply, or a step that no longer matches the exit's stage)
-    /// changes nothing and is reported like any other refusal, rather than faulting the workspace.
+    /// Runs one step of leaving the session and reports it. A refused step (a refused apply or reset, or a step that no longer matches the exit's
+    /// stage) changes nothing and is reported like any other refusal, rather than faulting the workspace.
     /// </summary>
-    private void RunExitStep(Action step, Action? report = null)
+    /// <param name="step">The step.</param>
+    /// <param name="report">Sets the message for a step that succeeded, before the outcome of a completed exit is reported.</param>
+    /// <param name="starts">The exit a request starts; otherwise the step belongs to the exit in progress.</param>
+    private void RunExitStep(Action step, Action? report = null, ExitIntent? starts = null)
     {
         var before = Session;
+        var intent = starts ?? State.Exit?.Intent;
         try
         {
             step();
@@ -226,7 +300,29 @@
             return;
         }
         report?.Invoke();
-        AfterExitStep(before);
+        AfterExitStep(before, intent);
+    }
+
+    /// <summary>Acknowledges (or withdraws) the draft's Invalid or Unavailable result, from the editor or the exit panel.</summary>
+    private void AcknowledgeLegality(bool acknowledge) => RunAcknowledgement(() => State.AcknowledgeLegality(acknowledge));
+
+    /// <summary>Acknowledges (or withdraws) the flagged changes for this download, from the Download section or the exit panel.</summary>
+    private void AcknowledgeExport(bool acknowledge) => RunAcknowledgement(() => State.AcknowledgeExport(acknowledge));
+
+    /// <summary>
+    /// Runs an acknowledgement. One made against a result that has just changed (an analysis completed between render and click) is refused by
+    /// the state; the page then shows the current result to acknowledge instead of faulting.
+    /// </summary>
+    private void RunAcknowledgement(Action acknowledge)
+    {
+        try
+        {
+            acknowledge();
+        }
+        catch (InvalidOperationException ex)
+        {
+            Logger.LogWarning(ex, "An acknowledgement no longer matched the page.");
+        }
     }
 
     private void CancelExit()

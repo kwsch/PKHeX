@@ -4,7 +4,7 @@ using PKHeX.Web.Services;
 namespace PKHeX.Web.State;
 
 /// <summary>
-/// An unapplied edit of one party member or boxed entity. The working save is untouched until <see cref="SaveSession.Apply"/>.
+/// An unapplied edit of one party member or boxed entity. The working save is untouched until <see cref="SaveSession.Apply(EditorDraft, LegalityVerdict)"/>.
 /// </summary>
 /// <remarks>
 /// The draft owns a private clone of the slot's entity, and its typed edit methods (such as <see cref="TypeNickname"/>) are the only
@@ -32,7 +32,7 @@ public sealed class EditorDraft
     public SaveCapabilities Capabilities { get; }
 
     /// <summary>
-    /// True when <see cref="SaveSession.Apply"/> can write the draft back (see <see cref="SaveCapabilities.CanApply"/>).
+    /// True when <see cref="SaveSession.Apply(EditorDraft, LegalityVerdict)"/> can write the draft back (see <see cref="SaveCapabilities.CanApply"/>).
     /// Party members can be applied only in families with a party-stat policy (<see cref="SupportedFamily.WritesParty"/>).
     /// </summary>
     public bool CanApply => Capabilities.CanApply(Slot);

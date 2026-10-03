@@ -167,7 +167,7 @@ public sealed class ShellTests(PublishedAppFixture app)
         await Load(page, SaveFixtures.Synthetic(false));
         await Select(page);
         await page.Locator("#nickname").FillAsync("Applied");
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#draft-state")).ToHaveTextAsync("No draft changes");
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         await page.ReloadAsync();

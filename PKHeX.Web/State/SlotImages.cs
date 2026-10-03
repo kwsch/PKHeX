@@ -21,7 +21,7 @@ internal readonly record struct SlotImage(SlotRef Slot, byte[] Bytes);
 /// </para>
 /// <para>
 /// Untargeted positions must keep every byte, so a readable entity there cannot become unreadable. The targeted position is not
-/// compared here; <see cref="SaveSession.Apply"/> checks that it reads back as exactly the drafted entity.
+/// compared here; <see cref="SaveSession.Apply(EditorDraft, LegalityVerdict)"/> checks that it reads back as exactly the drafted entity.
 /// </para>
 /// </remarks>
 internal static class SlotImages

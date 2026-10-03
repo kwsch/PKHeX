@@ -64,9 +64,9 @@ public sealed class IvEvBrowserTests(PublishedAppFixture app)
         await page.Locator("#ev-0").FillAsync("6");
         await Expect(page.Locator("#ev-note")).ToHaveTextAsync(EditorText.EvNote(510, 510));
         await Expect(page.Locator("#inspect-ev-total")).ToContainTextAsync("510");
-        await Expect(page.Locator("#apply")).ToBeEnabledAsync();
+        await ReadyToApply(page);
 
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#message")).ToHaveTextAsync("Changes applied in memory; download to retain changes.");
         await Expect(page.Locator("#legality-status")).ToHaveTextAsync(NativeLegality.Of(changed, changed.GetBoxSlotAtIndex(0, 0), StorageSlotType.Box).Verdict);
         var output = await DownloadEdited(page);
@@ -125,7 +125,7 @@ public sealed class IvEvBrowserTests(PublishedAppFixture app)
         await TypeAsync(page.Locator("#iv-0"), "0");
         await Expect(page.Locator("#party-hp-preview")).ToHaveTextAsync(PartyText.HpPreview(new PartyHpChange(previousHp, edited.Stat_HPCurrent, previousMax, edited.Stat_HPMax))!);
 
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         var output = await DownloadEdited(page);
         Assert.True(output.AsSpan().SequenceEqual(expected), "Browser/native party IV output differs.");

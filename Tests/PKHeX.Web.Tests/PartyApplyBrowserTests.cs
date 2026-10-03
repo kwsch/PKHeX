@@ -45,7 +45,7 @@ public sealed class PartyApplyBrowserTests(PublishedAppFixture app)
         await page.Locator("#nickname").FillAsync("Renamed");
         await page.Locator("#nicknamed").CheckAsync();
         await Expect(page.Locator("#party-hp-preview")).ToHaveCountAsync(0);
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#message")).ToContainTextAsync("applied in memory");
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
 

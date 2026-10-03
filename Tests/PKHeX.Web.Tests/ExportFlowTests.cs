@@ -44,7 +44,7 @@ public sealed class ExportFlowTests(PublishedAppFixture app)
         // An applied change is tracked apart from the download of the unchanged save, and the default name becomes the edited one.
         await Select(page);
         await page.Locator("#nickname").FillAsync("Exported");
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#export-state")).ToHaveTextAsync("Changed since the last download.");
         await Expect(page.Locator("#name-edited")).ToBeCheckedAsync();
         await Expect(page.Locator("#rename-note")).ToHaveTextAsync(SessionStatusText.RenameToRestore);
@@ -66,7 +66,7 @@ public sealed class ExportFlowTests(PublishedAppFixture app)
 
         // A later change is not covered by the download.
         await page.Locator("#nickname").FillAsync("Later");
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#export-state")).ToHaveTextAsync("Changed since the last download.");
 
         await session.AssertNoNetworkOrPersistenceAsync();
@@ -92,7 +92,7 @@ public sealed class ExportFlowTests(PublishedAppFixture app)
         await Load(page, SaveFixtures.Synthetic(false));
         await Select(page);
         await page.Locator("#nickname").FillAsync("Applied");
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#export-state")).ToHaveTextAsync("Changes not downloaded yet.");
         await page.Locator("#nickname").FillAsync("Draft");
         await page.Locator("#close-session").ClickAsync();
@@ -126,7 +126,7 @@ public sealed class ExportFlowTests(PublishedAppFixture app)
         await page.Locator("#exit-cancel").ClickAsync();
         await Select(page);
         await page.Locator("#nickname").FillAsync("Later");
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await page.Locator("#close-session").ClickAsync();
         await Expect(page.Locator("#exit-discard-session")).ToHaveTextAsync("Discard session and close");
         await Expect(page.Locator("#exit-continue")).ToHaveCountAsync(0);
@@ -141,12 +141,17 @@ public sealed class ExportFlowTests(PublishedAppFixture app)
         await Expect(page.Locator("#overview-game")).ToHaveTextAsync("X");
         await page.Locator("#close-session").ClickAsync();
         await Expect(page.Locator("#overview-game")).ToHaveCountAsync(0);
+        await Expect(page.Locator("#open-title")).ToBeFocusedAsync();
 
         // Replace through Apply draft → download → Continue opens the waiting file.
         await Load(page, SaveFixtures.Synthetic(false));
         await Select(page);
         await page.Locator("#nickname").FillAsync("Replaced");
         await Load(page, SaveFixtures.Synthetic(true), "other-main");
+        // The Zigzagoon is not its trainer's own in an X/Y save, so it is Invalid: the panel's Apply draft waits for its acknowledgement.
+        await Expect(page.Locator("#legality-status")).ToHaveTextAsync("Invalid");
+        await Expect(page.Locator("#exit-apply-draft")).ToBeDisabledAsync();
+        await page.Locator("#exit-apply-ack").CheckAsync();
         await page.Locator("#exit-apply-draft").ClickAsync();
         await Expect(page.Locator("#exit-export")).ToHaveTextAsync("Download save");
         var (replaced, _) = await DownloadNamed(page, "#exit-export");
@@ -163,7 +168,7 @@ public sealed class ExportFlowTests(PublishedAppFixture app)
         await Load(page, SaveFixtures.Synthetic(false), new string('x', 116) + ".sav");
         await Select(page);
         await page.Locator("#nickname").FillAsync("Long");
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Load(page, SaveFixtures.Synthetic(true), new string('y', 120));
         await Expect(page.Locator("#exit-discard-session")).ToBeVisibleAsync();
         Assert.True(await page.EvaluateAsync<bool>("() => document.documentElement.scrollWidth <= document.documentElement.clientWidth"), "The page scrolls horizontally at 375 px.");

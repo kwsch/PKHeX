@@ -84,4 +84,43 @@ public sealed class SessionStatusTextTests
         session.Apply(draft);
         ExportNaming.DefaultFor(session).Should().Be(ExportNameChoice.Edited);
     }
+
+    [Fact]
+    public void ResetAndDiscardTextIsPinned()
+    {
+        var fresh = SaveFixtures.Open(SaveFixtures.Synthetic(false));
+        var reset = SessionExit.Reset(fresh);
+        SessionStatusText.ExitTitle(reset).Should().Be("Reset to the file as opened?");
+        SessionStatusText.ExitTitle(SessionExit.Discard).Should().Be("Discard this session?");
+        SessionStatusText.DiscardSession(reset).Should().Be("Discard changes and reset");
+        SessionStatusText.DiscardSession(SessionExit.Discard).Should().Be("Discard session");
+        SessionStatusText.Continue(reset, ExitStage.Ready).Should().Be("Reset to original");
+        SessionStatusText.Continue(reset, ExitStage.ConfirmExport).Should().Be("Continue; I have checked my export");
+        SessionStatusText.Continue(SessionExit.Discard, ExitStage.Ready).Should().Be("Close save");
+        SessionStatusText.ResetDone.Should().Be("Reset to the file as opened. The draft, applied changes and download status were cleared.");
+        SessionStatusText.Discarded.Should().Be("Session discarded. Choose a save to begin.");
+    }
+
+    [Fact]
+    public void TheDiscardPromptNamesWhatIsLost()
+    {
+        const string end = " It cannot be undone. To keep your changes, cancel and download the save first.";
+        const string withDraft = " It cannot be undone. To keep your changes, cancel, apply the draft and download the save first.";
+        SessionStatusText.DiscardPrompt(true, ExportStatus.Unchanged).Should().Be("Discarding loses the unapplied changes in the editor." + withDraft);
+        SessionStatusText.DiscardPrompt(false, ExportStatus.NotExported).Should().Be("Discarding loses the changes applied to this save, which have not been downloaded." + end);
+        SessionStatusText.DiscardPrompt(true, ExportStatus.NotExported).Should().Be("Discarding loses the unapplied changes in the editor and the changes applied to this save, which have not been downloaded." + withDraft);
+        SessionStatusText.DiscardPrompt(false, ExportStatus.ChangedSinceExport).Should().Be("Discarding loses the changes applied to this save, including some made after the last download." + end);
+        SessionStatusText.DiscardPrompt(false, ExportStatus.ExportedCurrent).Should().Be("Discarding loses this session; a download of its current changes was started, so check that file before you discard." + end);
+        SessionStatusText.DiscardPrompt(false, ExportStatus.Unchanged).Should().Be("Discarding loses this session." + end);
+    }
+
+    [Fact]
+    public void FlaggedChangesAreListedByPositionAndVerdict()
+    {
+        SessionStatusText.FlaggedIntro(1).Should().Be("This download contains 1 applied change that legality reported a problem with:");
+        SessionStatusText.FlaggedIntro(2).Should().Be("This download contains 2 applied changes that legality reported problems with:");
+        SessionStatusText.Flagged(SlotRef.InBox(0, 0), LegalityVerdict.Invalid).Should().Be("Box 1, slot 1 (row 1, column 1): Invalid");
+        SessionStatusText.Flagged(SlotRef.InParty(1), LegalityVerdict.Unavailable).Should().Be("Party position 2: legality could not be analysed");
+        SessionStatusText.ExportAcknowledgement.Should().Be("Download them anyway. Nothing is repaired, and games or online services may refuse them.");
+    }
 }

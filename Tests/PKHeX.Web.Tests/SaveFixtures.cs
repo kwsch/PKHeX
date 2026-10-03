@@ -151,6 +151,26 @@ internal static class SaveFixtures
     /// </summary>
     public static WorkspaceState NewState() => new(new FakeTimeProvider());
 
+    /// <summary>
+    /// Analyses the draft of <paramref name="state"/> as it is now and acknowledges an Invalid or Unavailable result, as the user must before
+    /// a changed draft can be applied (<see cref="DraftLegality.Gate"/>).
+    /// </summary>
+    public static async Task ReadyToApply(WorkspaceState state)
+    {
+        await state.Legality.RunNowAsync();
+        if (state.Legality.Gate == LegalityGate.NeedsAcknowledgement)
+        {
+            state.AcknowledgeLegality(true);
+        }
+    }
+
+    /// <summary><see cref="ReadyToApply"/>, then <see cref="WorkspaceState.ApplyDraft"/>.</summary>
+    public static async Task ApplyAsync(WorkspaceState state)
+    {
+        await ReadyToApply(state);
+        state.ApplyDraft();
+    }
+
     /// <summary>Box 1, slot 1, where <see cref="Synthetic"/> stores its entity.</summary>
     public static readonly SlotRef FirstBoxSlot = SlotRef.InBox(0, 0);
 

@@ -60,7 +60,7 @@ public sealed class SpeciesFormBrowserTests(PublishedAppFixture app)
         await Expect(page.Locator("#inspect-species")).ToContainTextAsync(linoone);
         await Expect(page.Locator("#nickname")).ToHaveValueAsync(linoone);
 
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#message")).ToHaveTextAsync("Changes applied in memory; download to retain changes.");
         await Expect(page.Locator("#legality-status")).ToHaveTextAsync(NativeLegality.Of(changed, changed.GetBoxSlotAtIndex(0, 1), StorageSlotType.Box).Verdict);
         var output = await DownloadEdited(page);
@@ -107,7 +107,7 @@ public sealed class SpeciesFormBrowserTests(PublishedAppFixture app)
         await Expect(page.Locator("#inspect-stats-table caption")).ToContainTextAsync("recalculated");
         await Expect(page.Locator("#inspect-hp")).ToContainTextAsync(string.Create(CultureInfo.InvariantCulture, $"7 of {edited.Stat_HPMax}"));
 
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         var output = await DownloadEdited(page);
         Assert.True(output.AsSpan().SequenceEqual(expected), "Browser/native party species output differs.");
@@ -145,14 +145,14 @@ public sealed class SpeciesFormBrowserTests(PublishedAppFixture app)
         await Load(page, AbilityGenderDraftTests.Boxed());
         await Select(page, Boxed);
         await page.Locator("#ot-friendship").FillAsync("100");
-        await Expect(page.Locator("#apply")).ToBeEnabledAsync();
+        await ReadyToApply(page);
 
         await page.Locator("#species").SelectOptionAsync(Id((int)Species.Linoone));
 
         await Expect(page.Locator("#apply")).ToBeDisabledAsync(new() { Timeout = 2000 });
         await Expect(page.Locator("#species-pending")).ToHaveTextAsync(EditorText.SpeciesFormPending);
         await page.Locator("#species-cancel").ClickAsync();
-        await Expect(page.Locator("#apply")).ToBeEnabledAsync();
+        await ReadyToApply(page);
         await Expect(page.Locator("#species-pending")).ToHaveCountAsync(0);
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred.");
     }

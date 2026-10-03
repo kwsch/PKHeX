@@ -62,11 +62,11 @@ public sealed class NameFriendshipBrowserTests(PublishedAppFixture app)
         await Expect(page.Locator("#ot-friendship")).ToHaveValueAsync("1e");
         await Expect(page.Locator("#message")).ToHaveTextAsync(UserMessages.For(SessionError.FriendshipOutOfRange));
         await page.Locator("#ot-friendship").FillAsync("200");
-        await Expect(page.Locator("#apply")).ToBeEnabledAsync();
+        await ReadyToApply(page);
         await Expect(page.Locator("#message")).ToBeEmptyAsync();
         await Expect(page.Locator("#inspect-ot-friendship")).ToContainTextAsync("200");
 
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#message")).ToHaveTextAsync("Changes applied in memory; download to retain changes.");
         await Expect(page.Locator("#legality-status")).ToHaveTextAsync(NativeLegality.Of(changed, changed.GetBoxSlotAtIndex(0, 1), StorageSlotType.Box).Verdict);
         var output = await DownloadEdited(page);
@@ -139,7 +139,7 @@ public sealed class NameFriendshipBrowserTests(PublishedAppFixture app)
         await page.Locator("#ot-friendship").FillAsync("0");
         await page.Locator("#ht-friendship").FillAsync("255");
         await Expect(page.Locator("#party-hp-preview")).ToHaveCountAsync(0);
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
 
         var output = await DownloadEdited(page);

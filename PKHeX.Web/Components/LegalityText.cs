@@ -88,6 +88,18 @@ public static class LegalityText
     /// <summary>The note that an offline result is not an acceptance promise.</summary>
     public const string NotAGuarantee = "This is not an online acceptance guarantee: games and online services may still refuse a Pokémon this check accepts.";
 
+    /// <summary>Shown while a changed draft waits for the legality result of the draft as it is now, which Apply needs.</summary>
+    public const string ApplyWaiting = "Apply is available once legality has analysed the draft as it is now.";
+
+    /// <summary>The acknowledgement that allows applying a draft whose current result is Invalid or Unavailable; any accepted edit withdraws it.</summary>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="verdict"/> is Valid, which needs no acknowledgement.</exception>
+    public static string ApplyAcknowledgement(LegalityVerdict verdict) => verdict switch
+    {
+        LegalityVerdict.Invalid => "Legality reports this draft as Invalid. Apply it anyway; nothing is repaired.",
+        LegalityVerdict.Unavailable => "Legality could not analyse this draft. Apply it anyway, without a result.",
+        _ => throw new ArgumentOutOfRangeException(nameof(verdict), verdict, null),
+    };
+
     private static string Plural(int count, string noun) => count.ToString(CultureInfo.InvariantCulture) + " " + noun + (count == 1 ? "" : "s");
 
     private static string Abbreviate(string commit) => commit.Length > 12 ? commit[..12] : commit;

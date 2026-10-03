@@ -80,9 +80,9 @@ public sealed class ItemMoveBrowserTests(PublishedAppFixture app)
         await page.Locator("#move-3").SelectOptionAsync("0");
         await Expect(page.Locator("#move-note")).ToHaveTextAsync("Move 4 is now empty, so its PP and PP Ups are 0.");
         await Expect(page.Locator("#ppups-3")).ToBeDisabledAsync();
-        await Expect(page.Locator("#apply")).ToBeEnabledAsync();
+        await ReadyToApply(page);
 
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#message")).ToHaveTextAsync("Changes applied in memory; download to retain changes.");
         await Expect(page.Locator("#legality-status")).ToHaveTextAsync(NativeLegality.Of(changed, changed.GetBoxSlotAtIndex(0, 1), StorageSlotType.Box).Verdict);
         var output = await DownloadEdited(page);
@@ -129,7 +129,7 @@ public sealed class ItemMoveBrowserTests(PublishedAppFixture app)
         await Expect(page.Locator("#party-hp-preview")).ToHaveCountAsync(0);
         await Expect(page.Locator("#inspect-stats-table caption")).Not.ToContainTextAsync("recalculated");
 
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         var output = await DownloadEdited(page);
         Assert.True(output.AsSpan().SequenceEqual(expected), "Browser/native party move output differs.");

@@ -1,0 +1,40 @@
+@* The applied changes in this download that legality reported problems with (SaveSession.FlaggedChanges), and the checkbox that allows the
+   download. The acknowledgement belongs to the session's current revision, so any later apply clears it. Shown in the Download section and in
+   the exit panel's download step; nothing is rendered when no change is flagged. *@
+@if (Flagged.Count > 0)
+{
+    <div class="acknowledge-export">
+        <p>@SessionStatusText.FlaggedIntro(Flagged.Count)</p>
+        <ul id="@($"{Id}-list")">
+            @foreach (var (slot, verdict) in Ordered)
+            {
+                <li>@SessionStatusText.Flagged(slot, verdict)</li>
+            }
+        </ul>
+        <label class="acknowledge" for="@Id">
+            <input id="@Id" type="checkbox" checked="@Acknowledged" disabled="@Disabled" @onchange="e => OnAcknowledge.InvokeAsync(e.Value is true)" />
+            @SessionStatusText.ExportAcknowledgement
+        </label>
+    </div>
+}
+
+@code {
+    /// <summary>The checkbox id; the list is <c>{Id}-list</c>.</summary>
+    [Parameter, EditorRequired] public string Id { get; set; } = "";
+
+    /// <summary>The session's flagged changes (<see cref="SaveSession.FlaggedChanges"/>).</summary>
+    [Parameter, EditorRequired] public IReadOnlyDictionary<SlotRef, LegalityVerdict> Flagged { get; set; } = new Dictionary<SlotRef, LegalityVerdict>();
+
+    /// <summary>True when the flagged changes are acknowledged for the current revision.</summary>
+    [Parameter] public bool Acknowledged { get; set; }
+
+    /// <summary>True while another operation runs.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Raised with the checkbox's new state.</summary>
+    [Parameter] public EventCallback<bool> OnAcknowledge { get; set; }
+
+    /// <summary>The party first, then the boxes in order, as the storage browser shows them.</summary>
+    private IEnumerable<KeyValuePair<SlotRef, LegalityVerdict>> Ordered => Flagged
+        .OrderBy(f => f.Key.IsParty ? 0 : 1).ThenBy(f => f.Key.Box).ThenBy(f => f.Key.Slot);
+}

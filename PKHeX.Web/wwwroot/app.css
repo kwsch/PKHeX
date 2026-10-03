@@ -99,3 +99,10 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 .finding-link { display: inline-block; margin-inline-start: .5rem; padding-block: .6rem; }
 /* Padding rather than flex, which would hide the disclosure marker. */
 #legality-details summary { padding-block: .7rem; cursor: pointer; }
+/* Acknowledgements: the whole label is the target, at least 44px tall; the box sits beside text that wraps. */
+.acknowledge { display: flex; align-items: flex-start; gap: .6rem; min-height: 44px; overflow-wrap: anywhere; }
+.acknowledge input { flex: none; width: 1.4rem; height: 1.4rem; margin: .15rem 0 0; }
+.apply-gate { min-height: 3rem; }
+.apply-gate p { margin-block: .5rem; }
+/* Set by lifecycle.js as the page enters the back-forward cache, so a restored copy shows nothing of the old session before it reloads. */
+[data-session-ended] body { visibility: hidden; }

@@ -45,13 +45,47 @@ internal static class ProofPage
         return bytes;
     }
 
-    /// <summary>Clicks <paramref name="button"/> (Download by default) and returns the downloaded bytes and suggested name.</summary>
+    /// <summary>
+    /// Clicks <paramref name="button"/> (Download by default) and returns the downloaded bytes and suggested name. When the download contains
+    /// changes legality flagged, it first ticks the acknowledgement beside the button, as the user must (<c>#export-ack</c>, or
+    /// <c>#exit-export-ack</c> in the exit panel); tests of the acknowledgement itself check it explicitly.
+    /// </summary>
     public static async Task<(byte[] Bytes, string Name)> DownloadNamed(IPage page, string button = "#download")
     {
+        var acknowledgement = page.Locator(button == "#exit-export" ? "#exit-export-ack" : "#export-ack");
+        if (await acknowledgement.CountAsync() > 0)
+        {
+            await acknowledgement.CheckAsync();
+        }
         var download = await page.RunAndWaitForDownloadAsync(() => page.Locator(button).ClickAsync());
         var path = await download.PathAsync();
         Assert.True(path is not null, "No local download was produced.");
         return (await File.ReadAllBytesAsync(path!), download.SuggestedFilename);
+    }
+
+    /// <summary>A legality verdict for the draft as it is now, as <c>#legality-status</c> shows it.</summary>
+    public static readonly Regex VerdictPattern = new("^(Valid|Invalid|Unavailable)$");
+
+    /// <summary>
+    /// Waits until the changed draft can be applied, as the user must: for the legality result of the draft as it is now, then ticking the
+    /// acknowledgement of an Invalid or Unavailable one (<c>#apply-ack</c>). Tests of the acknowledgement itself check it explicitly.
+    /// </summary>
+    public static async Task ReadyToApply(IPage page)
+    {
+        await Expect(page.Locator("#legality-status")).ToHaveTextAsync(VerdictPattern);
+        var acknowledgement = page.Locator("#apply-ack");
+        if (await acknowledgement.CountAsync() > 0)
+        {
+            await acknowledgement.CheckAsync();
+        }
+        await Expect(page.Locator("#apply")).ToBeEnabledAsync();
+    }
+
+    /// <summary><see cref="ReadyToApply"/>, then clicks Apply.</summary>
+    public static async Task Apply(IPage page)
+    {
+        await ReadyToApply(page);
+        await page.Locator("#apply").ClickAsync();
     }
 
     /// <summary>Opens <paramref name="slot"/> from the party or box grid and waits for its editor to show that position.</summary>

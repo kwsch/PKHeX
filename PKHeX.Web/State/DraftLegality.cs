@@ -119,6 +119,42 @@ public sealed class DraftLegality : IDisposable
     /// </summary>
     public bool IsRunning => running is { } tag && IsCurrent(tag);
 
+    /// <summary>The Invalid or Unavailable result the user acknowledged, if any. It counts only while it is the draft's current result.</summary>
+    private LegalityTag? acknowledged;
+
+    /// <summary>
+    /// What legality asks before the draft as it is now can be applied. It is worked out from the live draft, so an accepted edit, which makes
+    /// the result stale, also withdraws an acknowledgement: a new result has to be acknowledged afresh.
+    /// </summary>
+    public LegalityGate Gate => Status switch
+    {
+        LegalityStatus.Valid => LegalityGate.Clear,
+        LegalityStatus.Invalid or LegalityStatus.Unavailable => acknowledged == result?.Tag ? LegalityGate.Acknowledged : LegalityGate.NeedsAcknowledgement,
+        _ => LegalityGate.Waiting,
+    };
+
+    /// <summary>
+    /// Records (or, with false, withdraws) the user's acknowledgement of the current Invalid or Unavailable result, allowing the draft as it is
+    /// now to be applied.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">The draft as it is now has no Invalid or Unavailable result to acknowledge.</exception>
+    public void Acknowledge(bool acknowledge)
+    {
+        if (!acknowledge)
+        {
+            acknowledged = null;
+        }
+        else if (Status is LegalityStatus.Invalid or LegalityStatus.Unavailable)
+        {
+            acknowledged = result!.Tag;
+        }
+        else
+        {
+            throw new InvalidOperationException($"There is no Invalid or Unavailable result to acknowledge; the legality status is {Status}.");
+        }
+        OnChanged();
+    }
+
     /// <summary>
     /// When false, nothing is analysed automatically and <see cref="Schedule"/> only cancels a waiting run; <see cref="RunNowAsync"/> still works.
     /// </summary>
@@ -177,12 +213,16 @@ public sealed class DraftLegality : IDisposable
         return Completion = RunAsync(tag);
     }
 
-    /// <summary>Cancels any waiting analysis and forgets the result. A run that is already pending finds its draft gone and does not analyse.</summary>
+    /// <summary>
+    /// Cancels any waiting analysis and forgets the result and its acknowledgement. A run that is already pending finds its draft gone and does
+    /// not analyse.
+    /// </summary>
     public void Reset()
     {
         CancelTimer();
         result = null;
         running = null;
+        acknowledged = null;
     }
 
     /// <summary>Cancels any waiting analysis.</summary>

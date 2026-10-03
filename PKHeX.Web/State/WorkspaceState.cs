@@ -3,7 +3,7 @@ using PKHeX.Web.Services;
 namespace PKHeX.Web.State;
 
 /// <summary>
-/// What the user is working on in this tab: the open session, a request to leave it (replace or close), and the unapplied draft.
+/// What the user is working on in this tab: the open session, a request to leave it (replace, close, reset or discard), and the unapplied draft.
 /// </summary>
 /// <remarks>
 /// It lives outside the workspace components, so a component fault that is recovered from does not lose the open session.
@@ -33,7 +33,9 @@ public sealed class WorkspaceState : IDisposable
     /// so an apply made after a download (which advances the revision) takes the exit back to <see cref="ExitStage.ResolveSession"/>,
     /// and the user's confirmation can never cover changes the download does not hold.
     /// </summary>
+    /// <remarks>A discard asks only to confirm what it loses, so it is <see cref="ExitStage.ConfirmDiscard"/> while there is anything to lose.</remarks>
     public ExitStage ExitStage => Exit is null || Session is not { } session ? ExitStage.None
+        : Exit.Intent == ExitIntent.Discard && HasUnsavedWork ? ExitStage.ConfirmDiscard
         : DraftDirty || !DraftValid ? ExitStage.ResolveDraft
         : session.ExportStatus switch
         {
@@ -138,6 +140,49 @@ public sealed class WorkspaceState : IDisposable
     }
 
     /// <summary>
+    /// Parses the bytes the open session was opened from again, for <see cref="RequestReset"/>. Tests replace it to make the parse fail;
+    /// the default is <see cref="SaveLoader"/> on a fresh copy, under the same file name.
+    /// </summary>
+    /// <remarks>
+    /// XY and ORAS saves open with no interpretation choices (edition or language) to repeat; a family that asks for them must pass them here.
+    /// </remarks>
+    internal Func<SaveSession, SaveLoadOutcome> Reopen { get; set; } = static session => SaveLoader.Load(session.GetOriginalBytes(), session.FileName);
+
+    /// <summary>
+    /// Starts a reset of the open session to the file as it was opened. A fresh copy of the original bytes is parsed and checked first, and
+    /// waits as the exit's candidate, so the exit is resolved like a replace: the draft, then the session's changes, then a download, each of
+    /// which can be cancelled. Completing it opens the fresh session, which clears the draft, every applied change and the download status.
+    /// </summary>
+    /// <remarks>It completes at once when nothing would be lost. A failed parse changes nothing, not even an exit already in progress.</remarks>
+    /// <exception cref="InvalidOperationException">No session is open.</exception>
+    /// <exception cref="SessionException"><see cref="SessionError.ResetFailed"/>: the original bytes did not open again.</exception>
+    public void RequestReset()
+    {
+        var session = Session ?? throw new InvalidOperationException("No session is open.");
+        if (Reopen(session).Session is not { } fresh)
+        {
+            throw new SessionException(SessionError.ResetFailed);
+        }
+        Exit = SessionExit.Reset(fresh);
+        Advance();
+    }
+
+    /// <summary>
+    /// Starts a discard of the open session: the explicitly destructive way out, which offers no draft or download step. It completes at once
+    /// when nothing would be lost; otherwise it waits at <see cref="ExitStage.ConfirmDiscard"/> for <see cref="DiscardSessionForExit"/>.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">No session is open.</exception>
+    public void RequestDiscard()
+    {
+        if (Session is null)
+        {
+            throw new InvalidOperationException("No session is open.");
+        }
+        Exit = SessionExit.Discard;
+        Advance();
+    }
+
+    /// <summary>
     /// Applies the draft (see <see cref="ApplyDraft"/>) as the exit's draft step, then moves the exit on.
     /// </summary>
     /// <exception cref="InvalidOperationException">The exit is not at <see cref="ExitStage.ResolveDraft"/>.</exception>
@@ -173,10 +218,11 @@ public sealed class WorkspaceState : IDisposable
     /// <summary>
     /// Completes the exit without a download, losing the session's changes. This is the explicitly destructive choice.
     /// </summary>
+    /// <remarks>It is also how a discard's confirmation (<see cref="ExitStage.ConfirmDiscard"/>) is given; the draft is lost with the session.</remarks>
     /// <exception cref="InvalidOperationException">No exit is in progress, or its draft step is unresolved.</exception>
     public void DiscardSessionForExit()
     {
-        RequireStage(ExitStage.ResolveSession, ExitStage.ConfirmExport, ExitStage.Ready);
+        RequireStage(ExitStage.ResolveSession, ExitStage.ConfirmExport, ExitStage.Ready, ExitStage.ConfirmDiscard);
         Complete();
     }
 
@@ -191,17 +237,55 @@ public sealed class WorkspaceState : IDisposable
     /// Applies the draft to the session, then reopens the same slot from the new revision as a clean draft.
     /// </summary>
     /// <remarks>
-    /// <see cref="Changed"/> is raised straight after the apply, so the leave warning is armed even if reopening the slot fails.
+    /// <para>
+    /// A changed draft is applied only with a legality result for it as it is now: a Valid one, or an Invalid or Unavailable one the user
+    /// acknowledged (<see cref="DraftLegality.Gate"/>). The verdict is recorded with the change (<see cref="SaveSession.FlaggedChanges"/>).
+    /// A draft without changes writes nothing, so it needs no result.
+    /// </para>
+    /// <para><see cref="Changed"/> is raised straight after the apply, so the leave warning is armed even if reopening the slot fails.</para>
     /// </remarks>
     /// <exception cref="InvalidOperationException">No session or draft is open.</exception>
-    /// <exception cref="SessionException">The apply or the reselect was refused.</exception>
+    /// <exception cref="SessionException">
+    /// The legality result is missing (<see cref="SessionError.LegalityNotCurrent"/>) or not acknowledged (<see cref="SessionError.LegalityNotAcknowledged"/>),
+    /// or the apply or the reselect was refused.
+    /// </exception>
     public void ApplyDraft()
     {
         var session = Session ?? throw new InvalidOperationException("No session is open.");
         var draft = Draft ?? throw new InvalidOperationException("No draft is open.");
-        session.Apply(draft);
+        if (draft.IsDirty)
+        {
+            var verdict = Legality.Gate switch
+            {
+                LegalityGate.Clear or LegalityGate.Acknowledged => Legality.Current!.Verdict,
+                LegalityGate.NeedsAcknowledgement => throw new SessionException(SessionError.LegalityNotAcknowledged),
+                _ => throw new SessionException(SessionError.LegalityNotCurrent),
+            };
+            session.Apply(draft, verdict);
+        }
+        else
+        {
+            session.EnsureOwns(draft);
+        }
         OnChanged();
         SetDraft(session.Select(draft.Slot));
+    }
+
+    /// <summary>Records (or withdraws) the user's acknowledgement of the draft's Invalid or Unavailable result; see <see cref="DraftLegality.Acknowledge"/>.</summary>
+    /// <exception cref="InvalidOperationException">There is no such result to acknowledge.</exception>
+    public void AcknowledgeLegality(bool acknowledge)
+    {
+        Legality.Acknowledge(acknowledge);
+        OnChanged();
+    }
+
+    /// <summary>Records (or withdraws) the user's acknowledgement of the session's flagged changes for this download; see <see cref="SaveSession.AcknowledgeExport"/>.</summary>
+    /// <exception cref="InvalidOperationException">No session is open, or it has no flagged changes.</exception>
+    public void AcknowledgeExport(bool acknowledge)
+    {
+        var session = Session ?? throw new InvalidOperationException("No session is open.");
+        session.AcknowledgeExport(acknowledge);
+        OnChanged();
     }
 
     /// <summary>Completes the exit when nothing is left to resolve, and otherwise reports the new stage.</summary>
@@ -303,7 +387,7 @@ public sealed class WorkspaceState : IDisposable
     /// Keeps the open session after a component fault, and drops what the fault may have left half-done: the draft and any exit in progress.
     /// </summary>
     /// <remarks>
-    /// The session itself is safe to keep: <see cref="SaveSession.Apply"/> stages every write on a clone and swaps it in only after it is verified,
+    /// The session itself is safe to keep: <see cref="SaveSession.Apply(EditorDraft, LegalityVerdict)"/> stages every write on a clone and swaps it in only after it is verified,
     /// so a fault can interrupt an apply but never leave it partly written. Exports are still validated before download.
     /// </remarks>
     public void RecoverAfterFault()

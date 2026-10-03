@@ -20,9 +20,16 @@ public static class SaveExporter
     /// <param name="session">Session to export.</param>
     /// <param name="draft">The open draft, if any. It must belong to <paramref name="session"/>, be current and have no unapplied changes.</param>
     /// <returns>The validated file bytes.</returns>
-    /// <exception cref="SessionException">The draft is foreign, stale or unapplied, or the output fails validation.</exception>
+    /// <exception cref="SessionException">
+    /// The session holds flagged changes the user has not acknowledged for this revision (<see cref="SaveSession.ExportNeedsAcknowledgement"/>),
+    /// the draft is foreign, stale or unapplied, or the output fails validation.
+    /// </exception>
     public static byte[] Export(SaveSession session, EditorDraft? draft)
     {
+        if (session.ExportNeedsAcknowledgement)
+        {
+            throw new SessionException(SessionError.ExportNotAcknowledged);
+        }
         if (draft is not null)
         {
             session.EnsureOwns(draft);

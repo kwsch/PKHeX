@@ -89,7 +89,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         await page.Locator("#nickname").FillAsync(nickname);
         await page.Locator("#nicknamed").CheckAsync();
         await CheckLegality(page, editedPk, changed, nativeSlot.Type);
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         var edited = await DownloadEdited(page);
         Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native output differs (bytes withheld).");
@@ -169,7 +169,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         await Select(page, slot);
         await page.Locator("#nickname").FillAsync(nickname);
         await page.Locator("#nicknamed").CheckAsync();
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         var party = NativeLegality.Of(changed, changed.GetPartySlotAtIndex(0), StorageSlotType.Party);
         await Expect(page.Locator("#legality-status")).ToHaveTextAsync(party.Verdict);
@@ -226,7 +226,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         {
             await Expect(page.Locator("#ht-friendship")).Not.ToBeEditableAsync();
         }
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         var edited = await DownloadEdited(page);
         Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native friendship output differs (bytes withheld).");
@@ -275,11 +275,11 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         await Select(page, index);
         await page.Locator("#level").FillAsync(boxedLevel.ToString(CultureInfo.InvariantCulture));
         await page.Locator("#nature").SelectOptionAsync(((int)nature).ToString(CultureInfo.InvariantCulture));
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         await Select(page, SlotRef.InParty(0));
         await page.Locator("#level").FillAsync(memberLevel.ToString(CultureInfo.InvariantCulture));
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#draft-state")).ToHaveTextAsync("No draft changes");
         var edited = await DownloadEdited(page);
         Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native level and nature output differs (bytes withheld).");
@@ -345,11 +345,11 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         await Select(page, index);
         await page.Locator("#iv-5").FillAsync(speedIv.ToString(CultureInfo.InvariantCulture));
         await page.Locator($"#ev-{evStat}").FillAsync(ev.ToString(CultureInfo.InvariantCulture));
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         await Select(page, SlotRef.InParty(0));
         await page.Locator("#iv-0").FillAsync(hpIv.ToString(CultureInfo.InvariantCulture));
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#draft-state")).ToHaveTextAsync("No draft changes");
         var edited = await DownloadEdited(page);
         Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native IV and EV output differs (bytes withheld).");
@@ -410,11 +410,11 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         await Select(page, index);
         await page.Locator("#move-0").SelectOptionAsync(move.ToString(CultureInfo.InvariantCulture));
         await page.Locator("#held-item").SelectOptionAsync(item.ToString(CultureInfo.InvariantCulture));
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         await Select(page, SlotRef.InParty(0));
         await page.Locator("#pp-0").FillAsync(pp.ToString(CultureInfo.InvariantCulture));
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#draft-state")).ToHaveTextAsync("No draft changes");
         var edited = await DownloadEdited(page);
         Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native item, move and PP output differs (bytes withheld).");
@@ -463,11 +463,11 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         await Load(page, noOp);
         await Select(page, index);
         await page.Locator("#ability").SelectOptionAsync(slot.ToString(CultureInfo.InvariantCulture));
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         await Select(page, SlotRef.InParty(position));
         await page.Locator("#gender").SelectOptionAsync(gender.ToString(CultureInfo.InvariantCulture));
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#draft-state")).ToHaveTextAsync("No draft changes");
         var edited = await DownloadEdited(page);
         Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native ability and gender output differs (bytes withheld).");
@@ -520,12 +520,12 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         await Select(page, index);
         await page.Locator("#species").SelectOptionAsync(boxedSpecies.ToString(CultureInfo.InvariantCulture));
         await page.Locator("#species-confirm").ClickAsync();
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
         await Select(page, SlotRef.InParty(position));
         await page.Locator("#species").SelectOptionAsync(memberSpecies.ToString(CultureInfo.InvariantCulture));
         await page.Locator("#species-confirm").ClickAsync();
-        await page.Locator("#apply").ClickAsync();
+        await Apply(page);
         await Expect(page.Locator("#draft-state")).ToHaveTextAsync("No draft changes");
         var edited = await DownloadEdited(page);
         Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native species output differs (bytes withheld).");

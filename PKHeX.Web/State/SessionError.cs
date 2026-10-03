@@ -131,6 +131,27 @@ public enum SessionError
     /// </summary>
     EggNotEditable,
 
+    /// <summary>
+    /// The draft as it is now has no legality result yet (<see cref="LegalityGate.Waiting"/>), so it cannot be applied: an apply never passes over
+    /// a result the user has not seen.
+    /// </summary>
+    LegalityNotCurrent,
+
+    /// <summary>Legality reported the draft as Invalid or Unavailable, and the user has not acknowledged it (<see cref="LegalityGate.NeedsAcknowledgement"/>).</summary>
+    LegalityNotAcknowledged,
+
+    /// <summary>
+    /// The session holds applied changes that legality reported as Invalid or Unavailable, and the user has not acknowledged them for the current
+    /// revision (<see cref="SaveSession.ExportNeedsAcknowledgement"/>).
+    /// </summary>
+    ExportNotAcknowledged,
+
+    /// <summary>
+    /// The bytes the session was opened from no longer open (<see cref="Services.SaveLoader"/> refused them), so it could not be reset to them.
+    /// The session was kept as it was.
+    /// </summary>
+    ResetFailed,
+
     /// <summary>The exported bytes do not reopen through <see cref="Services.SaveLoader"/>.</summary>
     ExportRevalidationFailed,
 

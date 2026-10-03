@@ -6,7 +6,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The tab's working state: what counts as unsaved work, leaving a session (replace or close), and what survives a component fault.
+/// The tab's working state: what counts as unsaved work, leaving a session (replace, close, reset or discard), and what survives a component fault.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class WorkspaceStateTests
@@ -22,12 +22,12 @@ public sealed class WorkspaceStateTests
     }
 
     /// <summary>A state with <paramref name="session"/> open and one change applied to it.</summary>
-    private static WorkspaceState WithAppliedChange(SaveSession session, string nickname = "Applied")
+    private static async Task<WorkspaceState> WithAppliedChange(SaveSession session, string nickname = "Applied")
     {
         var state = SaveFixtures.NewState();
         state.Open(session);
         state.SetDraft(Dirty(session, nickname));
-        state.ApplyDraft();
+        await SaveFixtures.ApplyAsync(state);
         return state;
     }
 
@@ -282,7 +282,7 @@ public sealed class WorkspaceStateTests
     }
 
     [Fact]
-    public void ReplaceResolvesTheDraftThenTheSessionThenTheDownload()
+    public async Task ReplaceResolvesTheDraftThenTheSessionThenTheDownload()
     {
         var session = Open();
         var state = SaveFixtures.NewState();
@@ -298,6 +298,7 @@ public sealed class WorkspaceStateTests
         var discardEarly = () => state.DiscardSessionForExit();
         discardEarly.Should().Throw<InvalidOperationException>("the draft step comes first");
 
+        await SaveFixtures.ReadyToApply(state);
         state.ApplyDraftForExit();
         state.Session.Should().BeSameAs(session);
         session.Revision.Should().Be(1);
@@ -319,10 +320,10 @@ public sealed class WorkspaceStateTests
     }
 
     [Fact]
-    public void AnApplyAfterTheDownloadTakesTheExitBackToTheSessionStep()
+    public async Task AnApplyAfterTheDownloadTakesTheExitBackToTheSessionStep()
     {
         var session = Open();
-        var state = WithAppliedChange(session);
+        var state = await WithAppliedChange(session);
         state.RequestClose();
         state.ExitStage.Should().Be(ExitStage.ResolveSession);
         session.MarkExported(session.Revision);
@@ -331,7 +332,7 @@ public sealed class WorkspaceStateTests
         // Still in the exit, the user edits and applies again from the editor.
         state.SetDraft(Dirty(session, "Later"));
         state.ExitStage.Should().Be(ExitStage.ResolveDraft, "the new draft must be resolved first");
-        state.ApplyDraft();
+        await SaveFixtures.ApplyAsync(state);
         state.ExitStage.Should().Be(ExitStage.ResolveSession, "the download does not hold the later change");
         var confirm = () => state.ConfirmExportChecked();
         confirm.Should().Throw<InvalidOperationException>();
@@ -339,10 +340,10 @@ public sealed class WorkspaceStateTests
     }
 
     [Fact]
-    public void AnEarlierDownloadOfTheCurrentRevisionOnlyNeedsTheConfirmation()
+    public async Task AnEarlierDownloadOfTheCurrentRevisionOnlyNeedsTheConfirmation()
     {
         var session = Open();
-        var state = WithAppliedChange(session);
+        var state = await WithAppliedChange(session);
         session.MarkExported(session.Revision);
         state.RequestClose();
         state.ExitStage.Should().Be(ExitStage.ConfirmExport);
@@ -352,7 +353,7 @@ public sealed class WorkspaceStateTests
     }
 
     [Fact]
-    public void DiscardingTheDraftKeepsTheSessionAndMovesOn()
+    public async Task DiscardingTheDraftKeepsTheSessionAndMovesOn()
     {
         var session = Open();
         var state = SaveFixtures.NewState();
@@ -369,7 +370,7 @@ public sealed class WorkspaceStateTests
         session.HasChangesSinceOpen.Should().BeFalse();
 
         var applied = Open();
-        state = WithAppliedChange(applied);
+        state = await WithAppliedChange(applied);
         state.SetDraft(Dirty(applied, "Unapplied"));
         state.RequestClose();
         state.DiscardDraftForExit();
@@ -381,10 +382,10 @@ public sealed class WorkspaceStateTests
     }
 
     [Fact]
-    public void CancelKeepsTheSessionDraftAndEditor()
+    public async Task CancelKeepsTheSessionDraftAndEditor()
     {
         var session = Open();
-        var state = WithAppliedChange(session);
+        var state = await WithAppliedChange(session);
         var draft = Dirty(session, "Kept");
         state.SetDraft(draft);
         state.RequestReplace(Open(oras: true));
@@ -401,10 +402,10 @@ public sealed class WorkspaceStateTests
     }
 
     [Fact]
-    public void AFileOpenedDuringACloseTurnsItIntoAReplaceAtTheSameStep()
+    public async Task AFileOpenedDuringACloseTurnsItIntoAReplaceAtTheSameStep()
     {
         var session = Open();
-        var state = WithAppliedChange(session);
+        var state = await WithAppliedChange(session);
         state.RequestClose();
         session.MarkExported(session.Revision);
         state.ExitStage.Should().Be(ExitStage.ConfirmExport);
@@ -441,5 +442,199 @@ public sealed class WorkspaceStateTests
         state.SetDraft(null);
         state.ConfirmExportChecked();
         state.Session.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task ResetReopensAFreshCopyAndIsResolvedLikeAReplace()
+    {
+        var session = Open();
+        var state = await WithAppliedChange(session);
+        session.MarkExported(session.Revision);
+        state.ShowBox(7);
+
+        state.RequestReset();
+        state.Exit!.Intent.Should().Be(ExitIntent.Reset);
+        var fresh = state.Exit.Candidate!;
+        fresh.Should().NotBeSameAs(session);
+        fresh.GetOriginalBytes().Should().Equal(session.GetOriginalBytes());
+        fresh.FileName.Should().Be(session.FileName);
+        state.ExitStage.Should().Be(ExitStage.ConfirmExport, "the current revision was downloaded, so only the confirmation is asked");
+        state.Session.Should().BeSameAs(session, "nothing is lost before the user confirms");
+
+        state.ConfirmExportChecked();
+        state.Session.Should().BeSameAs(fresh);
+        state.Exit.Should().BeNull();
+        state.Draft.Should().BeNull();
+        fresh.Revision.Should().Be(0);
+        fresh.HasChangesSinceOpen.Should().BeFalse();
+        fresh.ExportStatus.Should().Be(ExportStatus.Unchanged, "the download status belongs to the old session");
+        state.HasUnsavedWork.Should().BeFalse();
+        state.CurrentBox.Should().Be(StorageView.InitialBox(fresh));
+        SaveExporter.Export(fresh, null).Should().Equal(session.GetOriginalBytes(), "the reset session exports the file as it was opened");
+        fresh.Select(SaveFixtures.FirstBoxSlot).Nickname.Should().NotBe("Applied");
+    }
+
+    [Fact]
+    public async Task ResetResolvesTheDraftThenTheSessionAndCanBeCancelledAtEachStep()
+    {
+        var session = Open();
+        var state = await WithAppliedChange(session);
+        state.SetDraft(Dirty(session, "Draft"));
+        state.RequestReset();
+        state.ExitStage.Should().Be(ExitStage.ResolveDraft);
+        state.CancelExit();
+        state.Session.Should().BeSameAs(session);
+        state.Draft!.Nickname.Should().Be("Draft");
+
+        state.RequestReset();
+        state.DiscardDraftForExit();
+        state.ExitStage.Should().Be(ExitStage.ResolveSession, "the applied change is not downloaded");
+        var confirm = () => state.ConfirmExportChecked();
+        confirm.Should().Throw<InvalidOperationException>("nothing was downloaded");
+        state.CancelExit();
+        state.Session.Should().BeSameAs(session);
+        session.Revision.Should().Be(1);
+
+        state.RequestReset();
+        state.DiscardSessionForExit();
+        state.Session.Should().NotBeSameAs(session);
+        state.Session!.HasChangesSinceOpen.Should().BeFalse();
+    }
+
+    [Fact]
+    public void ResetOfAnUnchangedSessionCompletesAtOnce()
+    {
+        var session = Open();
+        var state = SaveFixtures.NewState();
+        state.Open(session);
+        state.RequestReset();
+        state.Exit.Should().BeNull();
+        state.Session.Should().NotBeSameAs(session, "a fresh copy is opened");
+        state.Session!.GetOriginalBytes().Should().Equal(session.GetOriginalBytes());
+
+        var empty = SaveFixtures.NewState();
+        var noSession = () => empty.RequestReset();
+        noSession.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public async Task AFailedResetKeepsEverythingAsItWas()
+    {
+        var session = Open();
+        var state = await WithAppliedChange(session);
+        var draft = Dirty(session, "Kept");
+        state.SetDraft(draft);
+        var candidate = Open(oras: true);
+        state.RequestReplace(candidate);
+        state.Reopen = _ => SaveLoadOutcome.Failed(LoadFailure.ParserFault);
+        var changes = 0;
+        state.Changed += () => changes++;
+
+        var reset = () => state.RequestReset();
+        reset.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.ResetFailed);
+        state.Session.Should().BeSameAs(session);
+        session.Revision.Should().Be(1);
+        state.Draft.Should().BeSameAs(draft);
+        state.Exit.Should().Be(SessionExit.Replace(candidate), "the exit already in progress is kept");
+        changes.Should().Be(0);
+    }
+
+    [Fact]
+    public void TheResetCandidateIsParsedFromAFreshCopyOfTheOriginalBytes()
+    {
+        var session = Open();
+        var state = SaveFixtures.NewState();
+        state.Open(session);
+        byte[]? given = null;
+        state.Reopen = s =>
+        {
+            given = s.GetOriginalBytes();
+            given[0] ^= 0xFF;
+            return SaveLoadOutcome.Failed(LoadFailure.Unrecognized);
+        };
+        var reset = () => state.RequestReset();
+        reset.Should().Throw<SessionException>();
+        given.Should().NotBeNull();
+        session.GetOriginalBytes()[0].Should().NotBe(given![0], "the session's own original bytes are never handed out");
+    }
+
+    [Fact]
+    public async Task DiscardAsksOnceAndOffersNoDraftOrDownloadStep()
+    {
+        var session = Open();
+        var state = await WithAppliedChange(session);
+        state.SetDraft(Dirty(session, "Draft"));
+
+        state.RequestDiscard();
+        state.Exit.Should().Be(SessionExit.Discard);
+        state.ExitStage.Should().Be(ExitStage.ConfirmDiscard, "the draft and the session's changes are both at stake, and one confirmation covers them");
+        var applyDraft = () => state.ApplyDraftForExit();
+        applyDraft.Should().Throw<InvalidOperationException>();
+        var discardDraft = () => state.DiscardDraftForExit();
+        discardDraft.Should().Throw<InvalidOperationException>();
+        var confirmExport = () => state.ConfirmExportChecked();
+        confirmExport.Should().Throw<InvalidOperationException>();
+
+        state.CancelExit();
+        state.Session.Should().BeSameAs(session);
+        state.Draft!.Nickname.Should().Be("Draft");
+
+        state.RequestDiscard();
+        state.DiscardSessionForExit();
+        state.Session.Should().BeNull();
+        state.Draft.Should().BeNull();
+        state.Exit.Should().BeNull();
+        state.HasUnsavedWork.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task DiscardIsConfirmedEvenAfterADownload()
+    {
+        var session = Open();
+        var state = await WithAppliedChange(session);
+        session.MarkExported(session.Revision);
+        state.RequestDiscard();
+        state.ExitStage.Should().Be(ExitStage.ConfirmDiscard, "a started download is not known to be saved");
+        state.DiscardSessionForExit();
+        state.Session.Should().BeNull();
+    }
+
+    [Fact]
+    public void DiscardWithNothingToLoseClosesAtOnce()
+    {
+        var state = SaveFixtures.NewState();
+        var session = Open();
+        state.Open(session);
+        state.SetDraft(session.Select(SaveFixtures.FirstBoxSlot));
+        state.RequestDiscard();
+        state.Session.Should().BeNull();
+        state.Exit.Should().BeNull();
+        var noSession = () => state.RequestDiscard();
+        noSession.Should().Throw<InvalidOperationException>();
+
+        // Work that goes away during the confirmation leaves the exit waiting for the user, as any exit does.
+        state.Open(session);
+        state.SetDraft(Dirty(session));
+        state.RequestDiscard();
+        state.ExitStage.Should().Be(ExitStage.ConfirmDiscard);
+        state.SetDraft(session.Select(SaveFixtures.FirstBoxSlot));
+        state.ExitStage.Should().Be(ExitStage.Ready);
+        state.Session.Should().BeSameAs(session);
+        state.ConfirmExportChecked();
+        state.Session.Should().BeNull();
+    }
+
+    [Fact]
+    public void AFileOpenedDuringADiscardTurnsItIntoAReplace()
+    {
+        var session = Open();
+        var state = SaveFixtures.NewState();
+        state.Open(session);
+        state.SetDraft(Dirty(session));
+        state.RequestDiscard();
+        var candidate = Open(oras: true);
+        state.Accept(SaveLoadOutcome.Opened(candidate)).Should().Be(OpenDisposition.Held);
+        state.Exit.Should().Be(SessionExit.Replace(candidate));
+        state.ExitStage.Should().Be(ExitStage.ResolveDraft, "a replace offers to apply the draft and download first");
     }
 }

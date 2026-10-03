@@ -8,6 +8,18 @@ public enum ExitIntent
 
     /// <summary>The user asked to close the save and return to the start screen.</summary>
     Close,
+
+    /// <summary>
+    /// The user asked to reset the session to the file as it was opened. A fresh copy of the original bytes, parsed again, waits in
+    /// <see cref="SessionExit.Candidate"/>, so the exit is resolved like a replace.
+    /// </summary>
+    Reset,
+
+    /// <summary>
+    /// The user asked to discard the session and return to the start screen. Unlike <see cref="Close"/>, it offers no draft or download step:
+    /// it asks once to confirm what will be lost (<see cref="ExitStage.ConfirmDiscard"/>).
+    /// </summary>
+    Discard,
 }
 
 /// <summary>What still has to be resolved before the open session can be left; see <see cref="WorkspaceState.ExitStage"/>.</summary>
@@ -15,6 +27,12 @@ public enum ExitStage
 {
     /// <summary>No exit is in progress.</summary>
     None,
+
+    /// <summary>
+    /// A <see cref="ExitIntent.Discard"/> would lose work (an unapplied or refused draft, or changes since the file was opened): confirm the
+    /// discard or cancel. No draft or download step is offered; that is what Close is for.
+    /// </summary>
+    ConfirmDiscard,
 
     /// <summary>The draft has unapplied or refused changes: apply it, discard it, or cancel the exit.</summary>
     ResolveDraft,
@@ -33,8 +51,11 @@ public enum ExitStage
 }
 
 /// <summary>A request to leave the open session, held until every loss it would cause has been resolved or it is cancelled.</summary>
-/// <param name="Intent">Replace or close.</param>
-/// <param name="Candidate">The parsed and checked replacement for <see cref="ExitIntent.Replace"/>; null for <see cref="ExitIntent.Close"/>.</param>
+/// <param name="Intent">Replace, close, reset or discard.</param>
+/// <param name="Candidate">
+/// The parsed and checked session that takes over: the new file for <see cref="ExitIntent.Replace"/>, or a fresh parse of the original bytes for
+/// <see cref="ExitIntent.Reset"/>; null for <see cref="ExitIntent.Close"/> and <see cref="ExitIntent.Discard"/>.
+/// </param>
 public sealed record SessionExit(ExitIntent Intent, SaveSession? Candidate)
 {
     /// <summary>Leave by replacing the session with <paramref name="candidate"/>.</summary>
@@ -42,4 +63,10 @@ public sealed record SessionExit(ExitIntent Intent, SaveSession? Candidate)
 
     /// <summary>Leave by closing the session.</summary>
     public static SessionExit Close { get; } = new(ExitIntent.Close, null);
+
+    /// <summary>Leave by replacing the session with <paramref name="fresh"/>, a new parse of the bytes it was opened from.</summary>
+    public static SessionExit Reset(SaveSession fresh) => new(ExitIntent.Reset, fresh);
+
+    /// <summary>Leave by discarding the session, after one confirmation.</summary>
+    public static SessionExit Discard { get; } = new(ExitIntent.Discard, null);
 }

@@ -1565,6 +1565,89 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
   - A `pageshow` `persisted` event (page restored from the back-forward cache) clears the session.
   - E2E covers reload, back-forward cache and storage emptiness (SESSION-004/005, SEC-002, BROWSER-003).
 
+  **M16 status:** code complete on `web/m16-acknowledgements-lifecycle`.
+  - **User decisions:** the download acknowledgement covers flagged applied changes, not whichever Pokémon is open; Discard session is a top-level button with one confirmation; Apply waits for the current result rather than letting an unresolved one be acknowledged.
+  - **Apply acknowledgement** (`State/LegalityGate`, `DraftLegality.Gate`/`Acknowledge`):
+    - A changed draft is applied only with a result for it as it is now. A Valid result is Clear. An Invalid or Unavailable result needs an acknowledgement. Any other status is Waiting.
+    - The acknowledgement is the result's `LegalityTag`, so any accepted edit withdraws it, even one back to the acknowledged values. `Reset` (every new draft) forgets it.
+    - `WorkspaceState.ApplyDraft` refuses with `LegalityNotCurrent` or `LegalityNotAcknowledged` and changes nothing. A clean draft writes nothing, so it needs no result. The exit's Apply draft uses the same check.
+  - **Flagged changes** (`SaveSession.FlaggedChanges`, `Apply(draft, verdict)`):
+    - Each slot whose latest apply was Invalid or Unavailable is recorded with that verdict, and a later Valid apply of the slot removes it.
+    - Pokémon that were already illegal when the file was opened, and were not changed, are not flagged and download without asking (PKHeX.Web.md §MVP).
+    - `ExportNeedsAcknowledgement` holds until `AcknowledgeExport` is given for the current revision, so any later apply withdraws it. `SaveExporter.Export` checks it first (`ExportNotAcknowledged`), so no download path skips it. The transaction-only `Apply(draft)` is now internal and is kept for tests.
+  - **Reset to original** (`ExitIntent.Reset`, `WorkspaceState.RequestReset`):
+    - It parses a fresh copy of the original bytes under the same name (`Reopen`, which tests can replace) before asking anything. XY and ORAS have no interpretation choices to repeat.
+    - A failure throws `ResetFailed` and keeps the session, the draft and any exit in progress. PKForge's `RevertToBaseline` closes the session instead; we are stricter.
+    - The fresh session waits as the exit's candidate and is resolved like a replace: draft, then session, then download, each step cancellable. Completing it clears the draft, the changes, the flagged changes and the download status.
+    - It is offered only once changes are applied.
+  - **Discard session** (`ExitIntent.Discard`, `ExitStage.ConfirmDiscard`): one confirmation that names what is lost (`SessionStatusText.DiscardPrompt`: the draft, changes not downloaded, or an unchecked download), with no draft or download step. A file opened meanwhile turns it into a replace. With nothing to lose it closes at once.
+  - **Lifecycle** (`wwwroot/lifecycle.js`):
+    - `pagehide` with `persisted` hides the document (`data-session-ended`, `visibility: hidden`), so a restored copy never shows or takes input for the old session.
+    - `pageshow` with `persisted` clears the leave flag and then reloads, so the reload does not warn again.
+    - `beforeunload` stays armed only while `HasUnsavedWork` (unchanged since M1).
+  - **UI:**
+    - `Components/ApplyAcknowledgement` (`#apply-ack`, `#apply-ack-waiting`) sits in a fixed-height region, so the note and the checkbox take turns without shifting the page. `Components/ExportAcknowledgement` (`#export-ack`, `#export-ack-list`, party first, then box and slot) appears in the Download section and both appear in the exit panel (`#exit-apply-ack`, `#exit-export-ack`).
+    - A new Session section holds `#close-session`, `#reset-session`, `#discard-session` and their notes.
+    - After a cancelled close, reset or discard, focus returns to the button that started it. The exit panel names a waiting file only for a replace: a reset showed "Waiting to open: main", which a new panel test caught.
+    - README updated: acknowledgements, reset, discard, page lifecycle, boundaries. The stale "does not edit species/stats" boundary was removed.
+  - **Tests.**
+    - **Unit 1020** (up from 989; 1019 before the adversarial review):
+      - `LegalityAcknowledgementTests` (10): waiting, Valid, Invalid with acknowledgement and withdrawal, an edit back to the acknowledged values, Unavailable, nothing to acknowledge, a clean draft, a Valid re-apply clearing the flag, the download acknowledgement per revision including `SaveExporter`, reset clearing the flags.
+      - `WorkspaceStateTests` (+9): reset by download confirmation and by discard; cancel at each step; at once when unchanged; a failed parse keeping everything; the original bytes copied; discard asking once; discard after a download; discard with nothing to lose; a file opened during a discard.
+      - `SessionExitPanelTests` (+5, 1 from the review), `AcknowledgementComponentTests` (4) and `SessionStatusTextTests` (+3).
+      - Existing state and panel tests now analyse and acknowledge through `SaveFixtures.ReadyToApply`/`ApplyAsync`.
+    - **E2E 260** (up from 233): `LifecycleBrowserTests`.
+      - Invalid acknowledgement before apply and before its download, withdrawn by an edit and by a later apply, including in the exit panel. Reset, with focus and a byte-identical download. Discard. Leaving for `about:blank` and coming back, unchanged and edited. These four run on 3 engines × 2 paths.
+      - A simulated back-forward restore (hidden on `pagehide`, reloaded on `pageshow` with no dialog) runs on 3 engines.
+      - No engine restores a page from its back-forward cache under Playwright, even a plain static page, and even Chromium with `--disable-back-forward-cache` removed (`notRestoredReasons`: `masked`; throwaway probe). So the back-navigation test checks only that a back navigation starts empty, and the restore is covered by the simulation. Real restores belong to G-C.
+      - Every existing Apply goes through `ProofPage.Apply`/`ReadyToApply` (wait for a verdict, tick `#apply-ack` if shown). The download helpers tick `#export-ack`/`#exit-export-ack` if shown. The exit Apply-draft E2E acknowledges explicitly. Every E2E test executed.
+    - **RealSave 98** pass with the gate.
+    - **Mutation checks** (Unit tier unless noted; files restored from a scratchpad copy; failing tests):
+
+      | Mutation | Failing tests |
+      | --- | --- |
+      | Acknowledgement survives an edit | 1 |
+      | Invalid treated as Clear | 4 |
+      | Apply without a current result | 1 |
+      | Apply without the acknowledgement | 3 |
+      | Flag not recorded | 5 |
+      | Valid re-apply keeps the flag | 1 |
+      | Download acknowledgement ignores the revision | 1 |
+      | `SaveExporter` skips the check | 1 |
+      | Discard without confirmation | 4 |
+      | Failed reset closes the session | 1 |
+      | Reset opens at once | 4 |
+      | Reset candidate shown as a waiting file | 1 |
+      | `lifecycle.js` keeps the leave flag on restore (E2E) | 3 |
+      | `lifecycle.js` does not hide on `pagehide` (E2E) | 3 |
+      | No acknowledgement at the Download again step (review) | 1 |
+      | No focus move after an immediate discard or close (review, E2E) | 12 |
+
+    - **Other checks:** trim baseline unchanged (38); `PKHeX.slnx` Release has 0 warnings. A manual drive of the published app with the private XY save at 1280 and 375 px (party member applied, Session section, discard prompt, reset panel) showed no horizontal scroll and focus on the panel heading.
+  - **Recorded, not changed:**
+    - WebKit's own text viewer sets an inline style that the app's CSP header blocks (`style-src-attr`). That page is the browser's, not ours, so the back-navigation test leaves for `about:blank`. M20 should decide whether `.txt`/`.md` license files need a laxer header.
+    - Our `beforeunload` listener is always registered, even when it does nothing; in some engines a listener can make the page ineligible for the back-forward cache. That favours privacy, so it was kept. It is unverified, because Playwright restores no page from the cache at all.
+    - The legality acknowledgement is a checkbox, not a dialog; M18 decides focus handling. A refused Apply or Download caused by a missing acknowledgement reports a message but does not move focus to the checkbox.
+  - **Adversarial review** (each finding shown by a failing test or probe first, then fixed):
+    - **Fixed:**
+      - **Download again could be disabled with no way to enable it.** After a download, unticking the acknowledgement in the Download section and then closing reached the confirmation step. There "Download again" was disabled and the panel had no checkbox. The panel now shows the acknowledgement at that step too (new panel test; it failed before).
+      - **Focus dropped to the page body after an immediate discard or close.** A Discard session or Close save with nothing to lose completes without a panel and removes the button that had focus (probed in Chromium: `BODY`). The Close case dates from M6. Focus now moves to the open heading (`focusOpenTitle`). The discard and export-flow E2E tests now check this.
+      - **The discard prompt** told a user with an unapplied draft only to "cancel and download". It now says to apply the draft too.
+      - **A vacuous test was relabelled.** The back-navigation test cannot see the back-forward cache under Playwright (above); its comment and this entry claimed more than it shows. The unverified Firefox `beforeunload` claim was reworded.
+    - **Checked, not changed:**
+      - PKForge's Pokémon editor save (`BoxBrowserViewModel.SaveEditAsync`) writes with no legality check; the comparison below stands.
+      - A checkbox that the state refuses would leave the browser's box out of step with Blazor's value. That is unreachable here, because each checkbox is rendered only while its acknowledgement can be given. `RunAcknowledgement` stays as a guard.
+      - The E2E download helpers tick a shown acknowledgement, so they would not notice an unexpected flag; `LifecycleBrowserTests` checks the flags explicitly.
+      - Applying a draft during a reset's draft step is allowed, as in a replace, though the reset then drops it.
+  - **Not verified yet:** no screen reader; real back-forward-cache restores and mobile tab eviction on physical devices (G-C).
+  - **Compared with PKForge** (`SaveSessionService.RevertToBaseline`, `BoxBrowserViewModel.DiscardPartialEdits`, `TransferPreviewPrompt`, `BoxBrowserPage` batch confirm, `App.OnSleep/OnResume`):
+    - **Matches:** the reset reopens the stored baseline bytes through the normal open path. Illegal results are confirmed rather than blocked ("Send anyway", the batch "would become ILLEGAL").
+    - **Stricter:**
+      - PKForge's single-Pokémon save has no legality gate; we acknowledge every Invalid or Unavailable apply and again the download.
+      - A failed revert closes its session; ours keeps it.
+      - Its revert runs without confirmation after a failed write; our reset is user-initiated and offers a download first.
+    - **Out of scope:** Android sleep/resume, restore points and backups; Android has no back-forward cache or unload warning to compare.
+
 ### Slice C — hardening, polish, qualification
 - **M17 Diagnostics + hostile input.** An opt-in diagnostic preview/copy/download holds build, browser, operation and a sanitised error code, with no save data. E2E renders hostile filenames and nicknames as text, and checks the CSP is honoured with no inline script (SEC-003, SEC-005).
 - **M18 Responsive + accessibility.** Desktop split panes, collapsible tablet panes, and a stacked mobile editor with a return action. Dialog focus is trapped and restored. Validation focuses the summary and then the field. Includes reduced motion, 44px targets, contrast tokens and 400% reflow. Automated axe check in Playwright (bundle `axe-core` in test assets only) (APP-003, A11Y-002/003).
