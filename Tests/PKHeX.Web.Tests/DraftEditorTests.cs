@@ -10,8 +10,8 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The draft editor (WEB-PKM-003, WEB-PKM-005, WEB-PKM-006, WEB-PKM-007, WEB-PKM-010–013): labelled name, language, friendship, level,
-/// experience, nature, IV, EV, held item, move, PP and PP Ups fields that turn input into typed draft edits, show what the draft holds after an
+/// The draft editor (WEB-PKM-003–007, WEB-PKM-009–013): labelled name, language, friendship, level, experience, nature, ability, gender,
+/// IV, EV, held item, move, PP and PP Ups fields that turn input into typed draft edits, show what the draft holds after an
 /// accepted edit, keep refused input as typed, and offer nothing for an egg.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
@@ -109,6 +109,8 @@ public sealed class DraftEditorTests : IDisposable
             editor.Find($"#pp-{slot}").HasAttribute("readonly").Should().BeTrue();
             editor.Find($"#ppups-{slot}").HasAttribute("disabled").Should().BeTrue();
         }
+        editor.Find("#ability").HasAttribute("disabled").Should().BeTrue();
+        editor.Find("#gender").HasAttribute("disabled").Should().BeTrue();
     }
 
     [Fact]
@@ -431,6 +433,8 @@ public sealed class DraftEditorTests : IDisposable
         EditorText.EditableSummary(EditableFields.Nature | EditableFields.Ivs | EditableFields.Evs).Should().Be("Its nature, IVs and EVs can be changed.");
         EditorText.EditableSummary(EditableFields.Evs | EditableFields.HeldItem | EditableFields.Moves | EditableFields.Pp)
             .Should().Be("Its EVs, held item, moves, PP and PP Ups can be changed.");
+        EditorText.EditableSummary(EditableFields.Pp | EditableFields.Ability | EditableFields.Gender)
+            .Should().Be("Its PP, PP Ups, ability and gender can be changed.");
     }
 
     /// <summary>A box 1, slot 2 Pokémon with the given EVs, in the summary order the fields use (HP, Attack, Defense, Sp. Atk, Sp. Def, Speed).</summary>
@@ -857,17 +861,18 @@ public sealed class DraftEditorTests : IDisposable
         var draft = Moveset();
         var editor = Render(draft);
         var boxes = editor.FindComponents<ChoiceSelect>();
-        boxes.Should().HaveCount(EditorDraft.MoveCount + 1);
+        boxes.Should().HaveCount(EditorDraft.MoveCount + 2, "the ability, the held item and each move");
         var counts = boxes.Select(b => b.RenderCount).ToArray();
 
         editor.Find("#ot-friendship").Input("100");
         editor.Find("#ev-0").Input("4");
 
         refused.Should().BeNull();
-        boxes.Select(b => b.RenderCount).Should().Equal(counts, "nothing the move and item boxes show changed");
+        boxes.Select(b => b.RenderCount).Should().Equal(counts, "nothing the ability, move and item boxes show changed");
         editor.Find("#move-0").Change(((int)Move.Thunderbolt).ToString(CultureInfo.InvariantCulture));
-        boxes[1].RenderCount.Should().Be(counts[1] + 1, "the changed move box renders its new value");
-        boxes[0].RenderCount.Should().Be(counts[0], "the item box did not change");
+        boxes[2].RenderCount.Should().Be(counts[2] + 1, "the changed move box renders its new value");
+        boxes[1].RenderCount.Should().Be(counts[1], "the item box did not change");
+        boxes[0].RenderCount.Should().Be(counts[0], "the ability box did not change");
     }
 
     [Fact]
@@ -887,5 +892,203 @@ public sealed class DraftEditorTests : IDisposable
 
         editor.Find("#move-1").Change(((int)Move.Surf).ToString(CultureInfo.InvariantCulture));
         editor.Find("#move-note").TextContent.Should().Be($"Move 2 is now {surf}, with full PP: 15 of 15 (no PP Ups).");
+    }
+
+    /// <summary>A box 1, slot 2 copy of the known legal Zigzagoon, changed by <paramref name="change"/>.</summary>
+    private static EditorDraft Boxed(Action<PK6> change) => Open(AbilityGenderDraftTests.Boxed(change: change), SlotRef.InBox(0, 1));
+
+    [Fact]
+    public void TheAbilityBoxListsTheSlotsFromCoresPersonalData()
+    {
+        var draft = Open(SaveFixtures.Synthetic(true));
+        var editor = Render(draft);
+        var box = editor.Find("#ability");
+
+        editor.Find("label[for=ability]").TextContent.Should().Be("Ability");
+        box.GetAttribute("aria-describedby").Should().Be("ability-note");
+        box.GetAttribute("value").Should().Be((draft.AbilityNumber >> 1).ToString(CultureInfo.InvariantCulture));
+        editor.FindAll("#ability option").Select(o => o.GetAttribute("value")).Should().Equal("0", "1", "2");
+        editor.FindAll("#ability option").Select(o => o.TextContent).Should().Equal(draft.AbilityChoices.Select(c => c.Text));
+        editor.FindAll("#ability option").Select(o => o.TextContent).Should().Equal(
+            draft.Capabilities.Lists.GetAbilityList(draft.Preview().PersonalInfo).Select(c => c.Text), "the names are Core's, with its (1), (2) and (H)");
+        editor.Find("#ability-note").TextContent.Should().Be(EditorText.AbilityNote(regularSlotsSame: false, storedUnmatched: false));
+        editor.Find("#ability-note").TextContent.Should().Contain("legality analysis checks");
+        editor.Find("#ability-note").GetAttribute("role").Should().Be("status");
+    }
+
+    [Fact]
+    public void AnAbilityChoiceIsDrafted()
+    {
+        var draft = Open(SaveFixtures.Synthetic(true));
+        var editor = Render(draft);
+
+        editor.Find("#ability").Change("2");
+
+        refused.Should().BeNull();
+        draft.AbilitySlot.Should().Be(2);
+        draft.AbilityNumber.Should().Be(4);
+        editor.Find("#ability").GetAttribute("value").Should().Be("2");
+    }
+
+    [Fact]
+    public void TwoSlotsWithTheSameAbilityAreBothOfferedAndNoted()
+    {
+        var editor = Render(Boxed(p =>
+        {
+            p.Species = (ushort)Species.Gastly;
+            p.RefreshAbility(1);
+        }));
+
+        editor.FindAll("#ability option").Should().HaveCount(3, "the slots stay apart even with the same ability");
+        editor.Find("#ability").GetAttribute("value").Should().Be("1");
+        editor.Find("#ability-note").TextContent.Should().Contain("Both regular abilities are the same, but the slot is still stored");
+    }
+
+    [Theory]
+    [InlineData(3)]
+    [InlineData(0)]
+    public void AStoredAbilityAndSlotThatDoNotMatchAreShownAsStored(int number)
+    {
+        var draft = Boxed(p => p.AbilityNumber = number);
+        var editor = Render(draft);
+        var ability = GameInfo.Strings.abilitylist[draft.Ability];
+
+        editor.Find("#ability option[disabled]").TextContent.Should().Be($"{ability} (stored; unknown slot, stored value {number})");
+        editor.Find("#ability option[selected]").TextContent.Should().Be($"{ability} (stored; unknown slot, stored value {number})");
+        editor.Find("#ability-note").TextContent.Should().Contain("do not match one of this species' slots");
+
+        editor.Find("#ability").Change("0");
+
+        editor.FindAll("#ability option[disabled]").Should().BeEmpty();
+        editor.Find("#ability").GetAttribute("value").Should().Be("0");
+        editor.Find("#ability-note").TextContent.Should().NotContain("do not match");
+    }
+
+    [Fact]
+    public void TheGenderBoxOffersBothGendersForASpeciesWithBoth()
+    {
+        var draft = Open(SaveFixtures.Synthetic(true));
+        var editor = Render(draft);
+        var other = 1 - draft.Gender;
+
+        editor.FindAll("#gender option").Select(o => o.TextContent).Should().Equal("Male", "Female");
+        editor.Find("#gender").GetAttribute("value").Should().Be(draft.Gender.ToString(CultureInfo.InvariantCulture));
+        editor.Find("#gender").HasAttribute("disabled").Should().BeFalse();
+        editor.Find("#gender").GetAttribute("aria-describedby").Should().Be("gender-note");
+        editor.Find("#gender-note").TextContent.Should().Be(EditorText.GenderNote(GenderRule.Either, formFollowsGender: false));
+
+        editor.Find("#gender").Change(other.ToString(CultureInfo.InvariantCulture));
+
+        refused.Should().BeNull();
+        draft.Gender.Should().Be((byte)other);
+        editor.Find("#gender").GetAttribute("value").Should().Be(other.ToString(CultureInfo.InvariantCulture));
+        editor.Find("#gender-change").TextContent.Should().BeEmpty("nothing else changed");
+    }
+
+    [Theory]
+    [InlineData(Species.Tauros, EntityGender.Male, "This species is always male.")]
+    [InlineData(Species.Chansey, EntityGender.Female, "This species is always female.")]
+    [InlineData(Species.Magnemite, EntityGender.Genderless, "This species is genderless.")]
+    public void ASingleGenderSpeciesShowsItsOnlyGenderReadOnly(Species species, byte gender, string note)
+    {
+        var editor = Render(Boxed(p =>
+        {
+            p.Species = (ushort)species;
+            p.Gender = gender;
+            p.RefreshAbility(0);
+        }));
+
+        editor.FindAll("#gender option").Select(o => o.TextContent).Should().Equal(EditorText.GenderName(gender));
+        editor.Find("#gender").HasAttribute("disabled").Should().BeTrue("there is nothing else to choose");
+        editor.Find("#gender-note").TextContent.Should().Be(note);
+    }
+
+    [Fact]
+    public void AWrongStoredGenderIsShownAsStoredAndCanBeCorrected()
+    {
+        var draft = Boxed(p =>
+        {
+            p.Species = (ushort)Species.Tauros;
+            p.Gender = EntityGender.Female;
+            p.RefreshAbility(0);
+        });
+        var editor = Render(draft);
+
+        editor.Find("#gender option[disabled]").TextContent.Should().Be("Female");
+        editor.Find("#gender option[selected]").TextContent.Should().Be("Female");
+        editor.Find("#gender").HasAttribute("disabled").Should().BeFalse();
+
+        editor.Find("#gender").Change("0");
+
+        draft.Gender.Should().Be(EntityGender.Male);
+        editor.FindAll("#gender option").Select(o => o.TextContent).Should().Equal("Male");
+        editor.Find("#gender").HasAttribute("disabled").Should().BeTrue();
+    }
+
+    [Fact]
+    public void AStoredGenderValueOutsideTheRangeIsShownAsUnknown()
+    {
+        var editor = Render(Boxed(p => p.Gender = 3));
+
+        editor.Find("#gender option[selected]").TextContent.Should().Be("Unknown (stored value 3)");
+        editor.Find("#gender option[disabled]").GetAttribute("value").Should().Be("3");
+    }
+
+    [Fact]
+    public void AMeowsticGenderChangeSaysWhatItChangedWithTheForm()
+    {
+        var draft = Boxed(AbilityGenderDraftTests.MaleMeowstic);
+        var stored = draft.Preview();
+        var editor = Render(draft);
+        editor.Find("#gender-note").TextContent.Should().Contain("form is its gender");
+        editor.FindAll("#ability option").Select(o => o.TextContent).Last().Should().StartWith(GameInfo.Strings.abilitylist[(int)Ability.Prankster]);
+
+        editor.Find("#gender").Change("1");
+
+        refused.Should().BeNull();
+        var competitive = GameInfo.Strings.abilitylist[(int)Ability.Competitive];
+        editor.Find("#gender-change").TextContent.Should().Be(
+            $"Its form changed with its gender. Its ability is now {competitive} (hidden ability). Its experience points are now {draft.Experience} (level 30), from {stored.EXP}.");
+        editor.Find("#gender-change").GetAttribute("role").Should().Be("status");
+        editor.FindAll("#ability option").Select(o => o.TextContent).Last().Should().Be($"{competitive} (H)", "the box lists the new form's slots");
+        editor.Find("#ability").GetAttribute("value").Should().Be("2");
+        editor.Find("#exp").GetAttribute("value").Should().Be(draft.Experience.ToString(CultureInfo.InvariantCulture));
+
+        editor.Find("#ot-friendship").Input("100");
+
+        editor.Find("#gender-change").TextContent.Should().BeEmpty("another edit clears the note");
+    }
+
+    [Fact]
+    public void AbilityAndGenderFollowTheirOwnFlag()
+    {
+        var bytes = SaveFixtures.Synthetic(true);
+        var save = SaveFixtures.Parse(bytes);
+        EditorDraft Only(EditableFields fields) => new SaveSession(bytes.ToArray(), save, "fixture.sav",
+            SaveCapabilities.For(save, PKHeX.Web.Services.SupportMatrix.Find(save)! with { Editable = fields })).Select(SaveFixtures.FirstBoxSlot);
+
+        var ability = Render(Only(EditableFields.Ability));
+        ability.Find("#ability").HasAttribute("disabled").Should().BeFalse();
+        ability.Find("#gender").HasAttribute("disabled").Should().BeTrue();
+        var gender = Render(Only(EditableFields.Gender));
+        gender.Find("#ability").HasAttribute("disabled").Should().BeTrue();
+        gender.Find("#gender").HasAttribute("disabled").Should().BeFalse();
+    }
+
+    [Fact]
+    public void ANewDraftReloadsTheAbilityAndGenderAndClearsTheNote()
+    {
+        var session = SaveFixtures.Open(AbilityGenderDraftTests.Boxed(change: AbilityGenderDraftTests.MaleMeowstic));
+        var editor = Render(session.Select(SlotRef.InBox(0, 1)));
+        editor.Find("#gender").Change("1");
+        editor.Find("#ability").Change("0");
+
+        var other = session.Select(SaveFixtures.FirstBoxSlot);
+        editor.Render(p => p.Add(c => c.Draft, other));
+
+        editor.Find("#gender-change").TextContent.Should().BeEmpty();
+        editor.Find("#gender").GetAttribute("value").Should().Be(other.Gender.ToString(CultureInfo.InvariantCulture));
+        editor.Find("#ability").GetAttribute("value").Should().Be((other.AbilityNumber >> 1).ToString(CultureInfo.InvariantCulture));
+        editor.FindAll("#ability option").Select(o => o.TextContent).Should().Equal(other.AbilityChoices.Select(c => c.Text));
     }
 }

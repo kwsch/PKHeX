@@ -57,4 +57,16 @@ public enum EditableFields
     /// move. Neither can be edited for an empty slot.
     /// </summary>
     Pp = 1 << 9,
+
+    /// <summary>
+    /// The ability slot (<see cref="EditorDraft.EditAbilitySlot"/>), chosen from the species' and form's abilities in Core's personal data.
+    /// The ability and the stored slot number are always written together, so they cannot disagree.
+    /// </summary>
+    Ability = 1 << 10,
+
+    /// <summary>
+    /// The gender (<see cref="EditorDraft.EditGender"/>), limited to the genders the species can have. For a species whose form is its gender
+    /// (Meowstic), the form changes with it, as the desktop editor changes it.
+    /// </summary>
+    Gender = 1 << 11,
 }

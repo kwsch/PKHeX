@@ -48,7 +48,7 @@ public sealed class ItemMoveBrowserTests(PublishedAppFixture app)
         var names = GameInfo.Strings;
         await Load(page, bytes);
         await Select(page, Boxed);
-        await Expect(page.Locator("#message")).ToContainTextAsync("held item, moves, PP and PP Ups can be changed");
+        await Expect(page.Locator("#message")).ToContainTextAsync("held item, moves, PP, PP Ups");
         await Expect(page.Locator("#move-list-note")).ToHaveTextAsync(EditorText.MoveListNote);
 
         await page.Locator("#held-item").SelectOptionAsync(Id(ItemMoveDraftTests.ChoiceScarf));

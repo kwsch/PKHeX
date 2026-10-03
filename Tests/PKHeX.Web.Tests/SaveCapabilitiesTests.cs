@@ -25,7 +25,8 @@ public sealed class SaveCapabilitiesTests
         capabilities.HasParty.Should().BeTrue();
         capabilities.HasBoxes.Should().BeTrue();
         capabilities.Editable.Should().Be(EditableFields.Nickname | EditableFields.Language | EditableFields.Friendship | EditableFields.Level | EditableFields.Nature
-            | EditableFields.Ivs | EditableFields.Evs | EditableFields.HeldItem | EditableFields.Moves | EditableFields.Pp);
+            | EditableFields.Ivs | EditableFields.Evs | EditableFields.HeldItem | EditableFields.Moves | EditableFields.Pp | EditableFields.Ability | EditableFields.Gender);
+        capabilities.Personal.Should().BeSameAs(session.Working.Personal);
         capabilities.SaveLanguage.Should().Be(session.Working.Language);
         capabilities.MaxNicknameLength.Should().Be(session.Working.MaxStringLengthNickname);
         capabilities.CanApply(SaveFixtures.FirstBoxSlot).Should().BeTrue();

@@ -198,7 +198,8 @@ public static class InspectorText
 
     private static string Form(IdentityFacts f) => !f.HasForms && f.Form.Value == 0 ? "No alternate forms" : Named(f.Form);
 
-    private static string Gender(byte gender) => gender switch
+    /// <summary>A gender value: Male, Female, Genderless, or the unknown wording for any other stored value.</summary>
+    public static string Gender(byte gender) => gender switch
     {
         0 => "Male",
         1 => "Female",

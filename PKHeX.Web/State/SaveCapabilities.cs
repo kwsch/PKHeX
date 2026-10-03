@@ -23,6 +23,7 @@ public sealed class SaveCapabilities
         MaxNicknameLength = save.MaxStringLengthNickname;
         SaveLanguage = save.Language;
         Lists = new FilteredGameDataSource(save, GameInfo.Sources);
+        Personal = save.Personal;
     }
 
     /// <summary>The family the save was opened as.</summary>
@@ -54,6 +55,12 @@ public sealed class SaveCapabilities
     /// The inspector uses them to point out stored values outside them; editors offer their choices from them.
     /// </summary>
     public FilteredGameDataSource Lists { get; }
+
+    /// <summary>
+    /// The save's personal table, which decides the species and forms it can hold. A form change (see <see cref="EditorDraft.EditGender"/>)
+    /// is checked against it, as the desktop editor checks it against the open save's.
+    /// </summary>
+    public IPersonalTable Personal { get; }
 
     /// <summary>True when a draft of <paramref name="slot"/> can be written back to this save.</summary>
     public bool CanApply(SlotRef slot) => slot.IsParty ? CanApplyToParty : HasBoxes;

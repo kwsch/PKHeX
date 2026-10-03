@@ -1,6 +1,6 @@
 @using System.Globalization
-@* The draft's editable fields: name and language, friendship towards each trainer, level and experience points, nature, IVs and EVs, the held
-   item, and the moves with their PP and PP Ups. Every change
+@* The draft's editable fields: name and language, friendship towards each trainer, level and experience points, nature, ability and gender,
+   IVs and EVs, the held item, and the moves with their PP and PP Ups. Every change
    goes through OnEdit, which runs it on the draft and reports a refusal; this component only turns input into typed draft edits and shows
    what the draft holds. *@
 <h3 id="draft-edit-title">Edit</h3>
@@ -72,6 +72,31 @@
         }
     </select>
     <p id="nature-note" role="status">@EditorText.NatureNote(NatureEffect.Of(Draft.Nature))</p>
+</fieldset>
+<fieldset id="ability-fields">
+    <legend>Ability and gender</legend>
+    @* The ability box lists the slots of the species and form from Core's personal data; its values are slots, so two slots with the same
+       ability stay apart, and choosing one sets the ability and its slot number together (see EditorDraft.EditAbilitySlot). *@
+    <label for="ability">Ability</label>
+    <ChoiceSelect Id="ability" Items="Draft.AbilityChoices" Value="abilitySlot" Disabled="!Can(EditableFields.Ability)" DescribedBy="ability-note"
+                  Unlisted="UnmatchedAbility" OnChange="AbilityChanged" />
+    <p id="ability-note" role="status">@EditorText.AbilityNote(Draft.RegularAbilitiesSame, Draft.AbilitySlot is null)</p>
+    @* Only the genders the species can have are offered; a stored value it cannot have is shown as stored, and is replaced by choosing one. *@
+    <label for="gender">Gender</label>
+    <select id="gender" value="@gender.ToString(CultureInfo.InvariantCulture)" @onchange="GenderChanged" aria-describedby="gender-note"
+            disabled="@(!Can(EditableFields.Gender) || (Draft.GenderChoices.Count == 1 && Draft.GenderChoices[0] == gender))">
+        @if (!Draft.GenderChoices.Any(g => g == gender))
+        {
+            <option value="@gender" disabled>@EditorText.GenderName((byte)gender)</option>
+        }
+        @foreach (var choice in Draft.GenderChoices)
+        {
+            <option value="@choice">@EditorText.GenderName(choice)</option>
+        }
+    </select>
+    <p id="gender-note">@EditorText.GenderNote(Draft.GenderRule, Draft.FormFollowsGender)</p>
+    @* Always rendered, so a screen reader announces a change of its text. *@
+    <p id="gender-change" role="status">@EditorText.GenderChangeNote(genderChange, AbilityName, Draft.Level)</p>
 </fieldset>
 <fieldset id="stat-fields">
     <legend>IVs and EVs</legend>
@@ -183,7 +208,10 @@
     private readonly string[] pp = new string[EditorDraft.MoveCount];
     private IReadOnlyList<MoveSlot> moves = [];
     private bool nicknamed;
-    private int language, nature, heldItem;
+    private int language, nature, heldItem, abilitySlot, gender;
+
+    /// <summary>What the last gender edit changed besides the gender (the form and what follows it), or null when the last edit was not one that did.</summary>
+    private GenderChange? genderChange;
 
     /// <summary>What the last edit did to a move slot's PP, or null when the last edit changed no move or PP Ups.</summary>
     private MoveChange? moveChange;
@@ -198,6 +226,7 @@
             shown = Draft;
             renamed = null;
             moveChange = null;
+            genderChange = null;
             Array.Fill(pp, "");
             trainerFriendship = handlerFriendship = level = experience = "";
             Array.Fill(ivs, "");
@@ -224,6 +253,8 @@
             ivs[i] = Shown(ivs[i], draftedIvs[i]);
             evs[i] = Shown(evs[i], draftedEvs[i]);
         }
+        abilitySlot = Draft.AbilitySlot ?? UnmatchedAbilitySlot;
+        gender = Draft.Gender;
         heldItem = Draft.HeldItem;
         moves = Draft.Moves;
         for (var i = 0; i < EditorDraft.MoveCount; i++)
@@ -246,6 +277,16 @@
     private bool Listed(int value) => Draft.Capabilities.Lists.Languages.Any(l => l.Value == value);
 
     private bool ListedNature(int value) => Draft.Capabilities.Lists.Natures.Any(n => n.Value == value);
+
+    /// <summary>The ability box's value for a stored ability and slot number that do not name one of the slots together; no slot has it.</summary>
+    private const int UnmatchedAbilitySlot = -1;
+
+    /// <summary>The stored ability and slot, named as the inspector names them, when they do not name one of the slots together.</summary>
+    private string UnmatchedAbility(int _) =>
+        EditorText.UnmatchedAbility(EntityInspection.Listed(Draft.Ability, Draft.Capabilities.Lists.Abilities, GameInfo.Strings.abilitylist), Draft.AbilityNumber);
+
+    /// <summary>The ability's name, as the inspector names it.</summary>
+    private string AbilityName(int ability) => InspectorText.Named(EntityInspection.Listed(ability, Draft.Capabilities.Lists.Abilities, GameInfo.Strings.abilitylist));
 
     /// <summary>A stored item outside the game's list, named as the inspector names it.</summary>
     private string UnlistedItem(int value) => EditorText.Unlisted(EntityInspection.Listed(value, Draft.Capabilities.Lists.Items, GameInfo.Strings.itemlist));
@@ -340,6 +381,17 @@
         return Run(d => d.EditNature(value), tracksRename: false);
     }
 
+    private Task AbilityChanged(int value) => Run(d => d.EditAbilitySlot(value), tracksRename: false);
+
+    private Task GenderChanged(ChangeEventArgs e)
+    {
+        if (!int.TryParse(e.Value?.ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out var value))
+        {
+            return Task.CompletedTask;
+        }
+        return Run(d => d.EditGender(value), tracksRename: false, tracksForm: true);
+    }
+
     private Task ItemChanged(int value) => Run(d => d.EditHeldItem(value), tracksRename: false);
 
     private Task MoveChanged(int slot, int value) => Run(d => d.EditMove(slot, value), tracksRename: false, moveSlot: slot);
@@ -384,12 +436,14 @@
     /// <param name="edit">The draft edit.</param>
     /// <param name="tracksRename">True for an edit that may give the Pokémon its default name, which the name note then reports.</param>
     /// <param name="moveSlot">The move slot of a move or PP Ups edit, whose effect on the slot's PP the move note then reports.</param>
-    private async Task Run(Action<EditorDraft> edit, bool tracksRename, int? moveSlot = null)
+    /// <param name="tracksForm">True for a gender edit, which may change the form and what follows it; the gender note then reports it.</param>
+    private async Task Run(Action<EditorDraft> edit, bool tracksRename, int? moveSlot = null, bool tracksForm = false)
     {
         var draft = Draft;
         var revision = draft.EditRevision;
         var before = draft.Nickname;
         var slotBefore = moveSlot is { } s ? draft.Moves[s] : null;
+        var dependentsBefore = draft.Dependents;
         await OnEdit.InvokeAsync(edit);
         if (!ReferenceEquals(draft, Draft) || draft.EditRevision == revision)
         {
@@ -399,6 +453,7 @@
         moveChange = moveSlot is { } changed && slotBefore is not null
             ? MoveChange.Between(changed, slotBefore, draft.Moves[changed], draft.StoredMoves[changed])
             : null;
+        genderChange = tracksForm ? GenderChange.Between(dependentsBefore, draft.Dependents) : null;
         Load();
     }
 }

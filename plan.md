@@ -1344,6 +1344,145 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
     - **Stricter:** PKForge clamps PP and PP Ups (`Math.Clamp`, `MoveDetailsTests` pins 999 → maximum) and its `ApplyEdit` writes a move without touching PP, so a new move keeps the old move's PP; we refuse instead of clamping and set PP on a move change. It allows PP Ups on Sketch; we refuse them. It writes any item ID through `ApplyEdit`; we accept only the game's list.
     - **Not adopted:** the "Show all" item filter (HaX), item descriptions and icons, type icons in the move list, the relearn editor (WEB-PKM-026, Post-MVP), and batch `healpp`/`move1_ppups` commands.
 - **M14 Ability/slot + gender.** Ability choices use `GetAbilityList(PersonalInfo)` and slot mapping. Gender follows species rules (PKM-004, 009).
+
+  **M14 status:** code complete on `web/m14-ability-gender`.
+  - **User decision:** Meowstic's form is its gender in Gen 6. A gender change changes the form too, as WinForms does (`ClickGender` sets `CB_Form`, and `UpdateForm` calls Core's `ChangeSpeciesForm`).
+  - **Core facts relied on** (checked in source):
+    - PK6 `Ability` (0x14) and `AbilityNumber` (0x15) are separate raw bytes with no PID link (`PIDAbility` is −1 for PK6). Valid slot numbers are 1, 2 and 4 (`AbilityVerifier.IsValidAbilityBits`).
+    - `SetAbilityIndex` changes the PID only for Format ≤ 5; for PK6 it is `RefreshAbility(n)`, which writes `1 << n` and the slot's ability.
+    - `GetAbilityList(pi)` returns 3 items ("Name (1)", "Name (2)", "Name (H)"). Each value is the ability ID, and duplicate abilities are kept.
+    - The PK6 `Gender` setter does not mask the value, so 3 or more spills into `Form`.
+    - `GenderVerifier` checks Gen 6-origin Pokémon only against a fixed or genderless ratio. Gen 3–5 origins are checked against the PID.
+    - `ChangeSpeciesForm` sets EXP to the start of the level, keeps the slot through `RefreshAbility` and returns `None` when the form is unchanged.
+  - **Draft** (`State/EditorDraft`):
+    - `EditAbilitySlot(slot)`:
+      - Refused outside 0 to `AbilityCount` − 1 (`AbilitySlotNotAvailable`), never clamped.
+      - Writes through Core's `SetAbilityIndex`, so the ability and its slot number always change together.
+      - `affectsStats: false`.
+    - `EditGender(gender)`:
+      - Only the values in `GenderChoices` are accepted (`GenderNotAvailable`). `State/GenderRule` maps the personal data's ratio to Either / OnlyMale / OnlyFemale / Genderless.
+      - A single-gender species is offered only its gender, which also corrects a wrong stored value, as `ClickGender` does.
+      - Ordinary species: writes the gender bits only, `affectsStats: false`.
+      - Meowstic (a dual-gender species whose current form's name in Core's form list is ♂/♀, the WinForms test): calls `ChangeSpeciesForm(species, form, save.Personal, current slot)`, then sets the gender, which covers a stored form/gender mismatch. `affectsStats: true`.
+      - Changing back undoes the last form change's side effects: the EXP (same level), ability and slot number it had before are given back, but only when nothing has changed them since (second review). Changing gender and back leaves the draft clean, and an edit made in between is kept.
+    - Readers:
+      - `Ability`, `AbilityNumber`, `AbilitySlot` (null when the pair names no slot), `AbilityChoices` (values are slots; cached per species/form), `RegularAbilitiesSame`.
+      - `Gender`, `GenderRule`, `GenderChoices`, `FormFollowsGender`, `Dependents` (`State/FormDependents`: form, ability, slot number, EXP).
+    - `SaveCapabilities.Personal` is the save's personal table. `EditableFields` gains `Ability` and `Gender`, gated separately, and `SupportMatrix` grants both to XY and ORAS.
+  - **UI** (`Components/DraftEditor`, text in `Components/EditorText`):
+    - "Ability and gender" fieldset:
+      - `#ability` is a `ChoiceSelect` over the slots. A pair that names no slot is shown as "Name (stored; unknown slot, stored value N)".
+      - `#ability-note` (live) explains (1)/(2)/(H), says legality decides whether the hidden ability is possible, and covers identical regular abilities and a mismatched stored pair.
+      - `#gender` offers only the allowed genders. It is disabled when the only one is already stored; a value the species cannot have is shown as stored.
+      - `#gender-note` states the species rule, or for Meowstic that the form follows the gender.
+      - `#gender-change` (live) says what a Meowstic gender change also changed (form, ability, EXP). Any other edit clears it.
+    - Text updated to name the ability and gender:
+      - `EditableSummary`, `EggReadOnly` and `UserMessages.EggNotEditable`.
+      - `PartyText.KeptOnEdit` (it also says a gender edit that changes the form recalculates).
+      - Two new refusal texts.
+      - README (intro, Party, Capabilities, a new "Ability and gender" bullet, the real-save round trips).
+    - `InspectorText.Gender` is now public.
+  - **Tests.**
+    - **Unit 935** (up from 864; 929 before the adversarial review):
+      - `AbilityGenderDraftTests` (49, 6 from the review):
+        - Readers match Core's names and the inspector.
+        - Each slot in XY and ORAS equals native `SetAbilityIndex`, with only 0x14/0x15 changed.
+        - Gastly's identical slots stay apart.
+        - Slots −1/3/4/`int.MaxValue`/`int.MinValue` are refused.
+        - Stored slot numbers 0/3/7/255 and a mismatched pair are kept until a slot is chosen.
+        - A gender change touches only bits 1–2 of 0x1D. Genders 2/3/4/−1/255/`int.MaxValue`/`int.MinValue` are refused on a dual-gender species.
+        - Tauros, Chansey and Magnemite: only their gender is offered, and a wrong stored value is corrected.
+        - Meowstic, male to female (XY and ORAS), equals native `ChangeSpeciesForm` plus gender: Competitive, EXP at the start of the level, new choices; back to male is clean.
+        - Meowstic keeps a changed slot through a form change and back.
+        - A stored form/gender mismatch is handled.
+        - A Meowstic party member goes through apply and export equal to native Core with its battle state kept. One stored without stats is refused (`PartyStatsMissing`).
+        - Party ability and gender edits keep the battle state and equal native Core.
+        - Family and egg gating, changed-back cleanliness and the edit count.
+        - From the review:
+          - EXP edited before a form change is given back by changing back.
+          - EXP edited after it is not replaced by the old value.
+          - Stored slot numbers 0 and 7 are given back by a form change and back.
+          - Unown F and M given the genderless value keep their form.
+      - `GenderRuleTests` (8), including every ORAS species against Core's `FixedGender()`.
+      - `DraftEditorTests` (+14, bUnit):
+        - Ability box values, Core's texts and live note; an ability choice is drafted.
+        - Identical slots are noted; an unmatched pair is shown as stored.
+        - Gender options per rule; a wrong or unknown stored gender is shown and corrected.
+        - The Meowstic change note, and that it clears.
+        - Each flag gates separately; a new draft reloads the fields.
+        - Updated: egg read-only, `EditableSummary`, and the `ChoiceSelect` count and order.
+      - Updated: `SaveCapabilitiesTests`.
+    - **E2E 209** (up from 197): `AbilityGenderBrowserTests`, 3 engines × 2 paths.
+      - A boxed Zigzagoon: Core's three slot names, the hidden slot and a gender change followed by the inspector, legality, export byte-identical to native Core with only the slot and footer differing, no scroll at 375 px.
+      - An injured, burned Meowstic party member changed to female: the note, Competitive (H), EXP, 7 HP and burn kept, no HP preview or recalculated caption, export equal to native Core.
+      - `ItemMoveBrowserTests` updated for the longer open message (its 6 cases failed on it until then). Every E2E test executed.
+    - **RealSave 86** (up from 74): `RealSaveAbilityGenderRoundTrip`, 3 engines × 2 paths × 2 families. A slot step on the first writable boxed non-egg and a gender change on the first dual-gender, non-Meowstic party member are byte-identical to native Core, and only those two slots and the footer differ.
+    - **Mutation checks** (Unit tier; files restored from a scratchpad copy; failing tests):
+
+      | Mutation | Failing tests |
+      | --- | --- |
+      | Ability ID written without the slot number | 18 |
+      | Slot range unchecked | 5 |
+      | Choices valued by ability ID | 8 |
+      | Choices cached once (not per form) | 3 |
+      | Gender unchecked | 10 |
+      | Every species either gender | 11 |
+      | Meowstic form not changed | 5 |
+      | No restore on return | 3 |
+      | Gender not set after the form change | 1 |
+      | Form change not a stat edit | 1 |
+      | Ability gated by the gender flag | 1 |
+      | Change note not tracked | 1 |
+      | Unmatched pair shown as slot 0 | 2 |
+      | Gender box offers all genders | 5 |
+      | Fixed gender not read-only | 4 |
+      | Ability box not reloaded | 7 |
+
+      Review fixes (failing tests):
+
+      | Mutation | Failing tests |
+      | --- | --- |
+      | No dual-gender guard | 2 |
+      | Undo even after an edit since | 1 |
+      | Never undo | 6 |
+      | Ability not undone | 2 |
+      | EXP not undone | 6 |
+
+      The survivor, "undo record kept after changing back" (0), is equivalent: after the form changes back, the next form change always leads away from the record's "before" form, so the record can never match.
+    - **Other checks:**
+      - Trim baseline unchanged (38). `PKHeX.slnx` Release builds with 0 warnings.
+      - Driven on the private XY save (Chromium, 1280 and 375 px): a stored Meowstic changed gender with the form note shown, no horizontal scroll, and changing back left no draft changes.
+  - **Adversarial review** (throwaway probe against the private saves):
+    - 968 non-egg entities (553 XY, 415 ORAS, boxes and party):
+      - Every stored ability pair names its slot, and every stored gender is allowed.
+      - 527 have identical regular abilities and 25 the hidden slot.
+      - 297 have a single gender; 2 XY Meowstic.
+    - Choosing the stored slot, then every slot and back, and every allowed gender and back, leaves every draft clean, including both Meowstic.
+  - **Second adversarial review** (throwaway probes against Core's form lists, the XY and ORAS personal tables and the private saves; mutations):
+    - **Fixed:**
+      - **Unown's form changed with its gender.** Unown's forms F and M read as gender symbols ('F', 'M') in Core's form list, so an Unown F or M with a wrong stored gender, given the genderless value, became Unown C. WinForms' `ClickGender` returns for any species without two genders before it looks at the form; the draft now does the same.
+      - **Changing back put stored values over the user's edits.** Returning to the stored form restored the stored EXP and ability pair whatever had happened since, so an EXP edit made before or after the form change was lost, with the draft looking clean. The draft now records the last form change and undoes only the side effects nothing has changed since.
+    - **Checked, not changed:**
+      - Core's Gen 6 form lists name genders only for Meowstic (two-gender) and Unown (genderless).
+      - XY and ORAS personal data have the same abilities and gender ratios for every species and form, so the ORAS table that `PK6.PersonalInfo` uses gives an XY save the right choices.
+      - The 968 private entities still change to every slot and gender and back cleanly, including the 2 Meowstic.
+      - After the fixes: Unit 935; E2E `AbilityGenderBrowserTests` 12 and RealSave `RealSaveAbilityGenderRoundTrip` 12 rerun on a new publish and passed. No other app behaviour changed.
+  - **Recorded, not changed:**
+    - A Meowstic gender change resets EXP within the level, as WinForms (Core's `ChangeSpeciesForm`) does, including when changing back after an EXP edit; the note says so.
+    - A Meowstic stored with invalid slot bits is normalised to slot 0 by the form change, as Core documents, and given back by changing back.
+    - Choosing the gender a Meowstic stored with a mismatched form already has changes its form to match, as WinForms does (no private save has one).
+    - A stored Gen 3–5-origin PK6 whose gender disagrees with its PID is reported by legality. This release changes no PIDs (WEB-PKM-004 leaves PID-derived formats to later correlated-edit support).
+    - Whether the hidden ability (or a slot of identical regular abilities) is possible for the encounter is reported by legality, not blocked (M16 acknowledgements).
+    - The ability and gender boxes are native selects: each choice is a full edit, announced by the live notes. M18 decides whether that is too chatty.
+  - **Not verified yet:** no screen reader; physical devices (G-C).
+  - **Compared with PKForge** (`SaveEngineSession.ApplyEdit` 175–273, `GetAbilityChoices`, the `RefreshAbility` "Potential" edit, `TrySetPidDerived`, `MonInfoService.GetAbilityChoices`):
+    - **Matches:** slot edits through Core's `RefreshAbility`; choices from the personal data.
+    - **Stricter:**
+      - PKForge's Gen 5+ ability edit writes the ability ID without `AbilityNumber`, so the pair can disagree; we write both.
+      - Its choice list skips duplicate abilities, so slot labels can be wrong; we keep every slot.
+      - It clamps gender to 0–2 with no species check; we offer and accept only the species' genders.
+      - It does not change Meowstic's form; we do, as WinForms does.
+    - **Not adopted:** the HaX "show all abilities" list, and PID-derived gender and ability for Gen 3–5 (other formats).
 - **M15 Species/form.** Uses the Phase 1 helper (depends on R2; carry the commit if the PR is not yet merged). The confirmation preview lists the returned changed-field flags (PKM-002).
 - **M16 Acknowledgements + lifecycle.**
   - An Invalid or Unavailable legality result needs explicit acknowledgement before apply/export.

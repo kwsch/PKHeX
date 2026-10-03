@@ -145,6 +145,76 @@ public sealed class EditorDraft
     /// <summary>The move slots as stored in the slot the draft was taken from, so an edit's effect can be told from a return to the stored move.</summary>
     public IReadOnlyList<MoveSlot> StoredMoves => [.. Enumerable.Range(0, MoveCount).Select(i => MoveSlot.Of(baseline, i))];
 
+    /// <summary>Drafted ability, as stored.</summary>
+    public int Ability => working.Ability;
+
+    /// <summary>Drafted ability slot number, as stored: 1 first, 2 second, 4 hidden; any other value is not a valid slot.</summary>
+    public int AbilityNumber => working.AbilityNumber;
+
+    /// <summary>
+    /// The drafted ability slot (0 first, 1 second, 2 hidden), or null when the stored ability and slot number do not name one of the
+    /// species' slots together: the slot number is not 1, 2 or 4, or the ability is not the one in that slot. Such a pair is kept until
+    /// a slot is chosen.
+    /// </summary>
+    public int? AbilitySlot
+    {
+        get
+        {
+            var number = working.AbilityNumber;
+            if (!AbilityVerifier.IsValidAbilityBits(number))
+            {
+                return null;
+            }
+            var slot = number >> 1;
+            var personal = working.PersonalInfo;
+            return slot < personal.AbilityCount && personal.GetAbilityAtIndex(slot) == working.Ability ? slot : null;
+        }
+    }
+
+    /// <summary>
+    /// The ability slots of the drafted species and form, from Core's personal data and named as the desktop names them ("Levitate (1)",
+    /// "Levitate (2)", "Levitate (H)"). Each value is the slot, not the ability, so two slots with the same ability are told apart.
+    /// </summary>
+    /// <remarks>The same list instance is returned until the species or form changes, so a select over it is not rebuilt on every edit.</remarks>
+    public IReadOnlyList<ComboItem> AbilityChoices
+    {
+        get
+        {
+            var key = (working.Species, working.Form);
+            if (abilityChoices is null || abilityChoicesFor != key)
+            {
+                var names = Capabilities.Lists.GetAbilityList(working.PersonalInfo);
+                abilityChoices = [.. names.Select((item, slot) => item with { Value = slot })];
+                abilityChoicesFor = key;
+            }
+            return abilityChoices;
+        }
+    }
+
+    /// <summary>True when the drafted species and form have the same ability in the first and second slots, so only the slot number tells them apart.</summary>
+    public bool RegularAbilitiesSame => working.PersonalInfo is IPersonalAbility12 { IsAbility12Same: true };
+
+    private IReadOnlyList<ComboItem>? abilityChoices;
+    private (ushort Species, byte Form) abilityChoicesFor;
+
+    /// <summary>Drafted gender, as stored: 0 male, 1 female, 2 genderless; any other value is not a gender.</summary>
+    public byte Gender => working.Gender;
+
+    /// <summary>Which genders the drafted species and form can have.</summary>
+    public GenderRule GenderRule => GenderRules.Of(working.PersonalInfo);
+
+    /// <summary>The genders <see cref="EditGender"/> accepts, in the order the editor offers them.</summary>
+    public IReadOnlyList<byte> GenderChoices => GenderRules.Allowed(GenderRule);
+
+    /// <summary>
+    /// True when the drafted form is a gender (Meowstic's male and female forms), so a gender edit changes the form with it, as the
+    /// desktop editor does.
+    /// </summary>
+    public bool FormFollowsGender => FormGender(working) is not null;
+
+    /// <summary>The drafted values that follow the form, which a gender edit of a species whose form is its gender can change.</summary>
+    public FormDependents Dependents => new(working.Form, working.Ability, working.AbilityNumber, working.EXP);
+
     /// <summary>True when any stored byte of the draft differs from the slot it was taken from.</summary>
     /// <remarks>Neither copy has its checksum refreshed in memory, so the checksum bytes cannot make an unchanged draft look dirty.</remarks>
     public bool IsDirty => !working.Data.SequenceEqual(baseline.Data);
@@ -557,6 +627,132 @@ public sealed class EditorDraft
         Commit(candidate, affectsStats: false);
     }
 
+    /// <summary>
+    /// Sets the ability slot. The ability becomes the one the species and form have in that slot, and the slot number is written with it,
+    /// as the desktop editor writes them; nothing else changes. On failure the previous values are kept.
+    /// </summary>
+    /// <remarks>
+    /// In Generation 6 the ability and its slot number are stored apart from the PID, so no PID change is needed (Core's
+    /// <see cref="CommonEdits.SetAbilityIndex"/> changes the PID only for Generations 3–5). Choosing the stored slot of a stored pair that
+    /// names it gives back the stored bytes. Whether the Pokémon could have the hidden ability depends on how it was met, which legality
+    /// analysis reports.
+    /// </remarks>
+    /// <param name="slot">The slot: 0 first, 1 second, 2 hidden (see <see cref="AbilityChoices"/>).</param>
+    /// <exception cref="SessionException">
+    /// The family does not allow ability edits, the Pokémon is an egg, or the species and form have no such slot.
+    /// </exception>
+    public void EditAbilitySlot(int slot)
+    {
+        Require(EditableFields.Ability);
+        if ((uint)slot >= (uint)working.PersonalInfo.AbilityCount)
+        {
+            throw new SessionException(SessionError.AbilitySlotNotAvailable);
+        }
+        var candidate = (PK6)working.Clone();
+        candidate.SetAbilityIndex(slot);
+        Commit(candidate, affectsStats: false);
+    }
+
+    /// <summary>
+    /// Sets the gender, which must be one the species can have (<see cref="GenderChoices"/>). A species with a single gender can only be
+    /// given that gender, which corrects a wrong stored value, as the desktop editor does. On failure the previous values are kept.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// In Generation 6 the gender is stored apart from the PID, so no PID change is made. A Pokémon from Generations 3–5 has its gender
+    /// checked against its PID by legality analysis, which reports a mismatch; this release does not change PIDs.
+    /// </para>
+    /// <para>
+    /// When the form is the gender (<see cref="FormFollowsGender"/>), the form changes with it through Core's
+    /// <see cref="SpeciesFormChange.ChangeSpeciesForm(PKM,ushort,byte,IPersonalTable,int)"/>, as the desktop editor changes it: the ability
+    /// slot is kept and its ability taken from the new form, and the experience points become the fewest for the level. Changing back to
+    /// the form before undoes those side effects: the experience points, ability and slot number it had before are given back, each only if
+    /// nothing has changed it since, so changing the gender and back leaves the draft as it was, and an edit made in between is kept.
+    /// </para>
+    /// </remarks>
+    /// <param name="gender">The gender: 0 male, 1 female, 2 genderless.</param>
+    /// <exception cref="SessionException">
+    /// The family does not allow gender edits, the Pokémon is an egg, the species cannot have that gender, or the form follows the gender and
+    /// the member is stored without party stats.
+    /// </exception>
+    public void EditGender(int gender)
+    {
+        Require(EditableFields.Gender);
+        if (!GenderChoices.Any(g => g == gender))
+        {
+            throw new SessionException(SessionError.GenderNotAvailable);
+        }
+        var candidate = (PK6)working.Clone();
+        var value = (byte)gender;
+        if (FormGender(working) is not { } formCount)
+        {
+            candidate.Gender = value;
+            Commit(candidate, affectsStats: false);
+            return;
+        }
+
+        // The desktop picks the form at the gender's place in the form list (PKMEditor.ClickGender).
+        var form = (byte)Math.Min(value, formCount - 1);
+        var before = Dependents;
+        candidate.ChangeSpeciesForm(working.Species, form, Capabilities.Personal, working.GetAbilitySlot());
+        candidate.Gender = value; // Core sets it from the form; set here too in case the form already matched and nothing was changed.
+        var undo = lastFormChange;
+        if (undo is not null && form == undo.Before.Form && before == undo.After)
+        {
+            UndoFormChange(candidate, undo);
+        }
+        Commit(candidate, affectsStats: true);
+        var after = Dependents;
+        lastFormChange = after.Form != before.Form ? new GenderChange(before, after) : null;
+    }
+
+    /// <summary>
+    /// The last gender edit that changed the form: the values that follow the form before and after it, so changing back can undo its side
+    /// effects. Null when there is none, or once the form has changed back.
+    /// </summary>
+    private GenderChange? lastFormChange;
+
+    /// <summary>
+    /// Gives a draft changed back to the form before <paramref name="undo"/> the experience points, ability and slot number it had then,
+    /// each only if it still has the value the form change gave it, so an edit made since is kept.
+    /// </summary>
+    /// <remarks>Called only when no edit has changed the form's dependents since the change (see <see cref="EditGender"/>).</remarks>
+    private static void UndoFormChange(PK6 candidate, GenderChange undo)
+    {
+        var growth = candidate.PersonalInfo.EXPGrowth;
+        if (Core.Experience.GetLevel(undo.Before.Experience, growth) == candidate.CurrentLevel)
+        {
+            candidate.EXP = undo.Before.Experience;
+        }
+        if (candidate.GetAbilitySlot() == SlotOf(undo.Before.AbilityNumber))
+        {
+            candidate.Ability = undo.Before.Ability;
+            candidate.AbilityNumber = undo.Before.AbilityNumber;
+        }
+    }
+
+    /// <summary>The slot Core keeps through a form change for a stored slot number: its slot, or the first for a number that names none.</summary>
+    private static int SlotOf(int abilityNumber) => AbilityVerifier.IsValidAbilityBits(abilityNumber) ? abilityNumber >> 1 : 0;
+
+    /// <summary>
+    /// The number of forms in <paramref name="pk"/>'s form list when its current form is a gender (Meowstic's "♂" and "♀"), or null when it
+    /// is not. The desktop editor tells such forms by their names in the form list (<c>PKMEditor.ClickGender</c>); so does this.
+    /// </summary>
+    /// <remarks>
+    /// Only a species with two genders has gendered forms, as the desktop checks before it looks at the form (<c>ClickGender</c> returns for
+    /// any other): Unown's forms F and M also read as gender symbols.
+    /// </remarks>
+    private static int? FormGender(PK6 pk)
+    {
+        if (!pk.PersonalInfo.IsDualGender)
+        {
+            return null;
+        }
+        var strings = GameInfo.Strings;
+        var forms = FormConverter.GetFormList(pk.Species, strings.types, strings.forms, GameInfo.GenderSymbolUnicode, pk.Context);
+        return pk.Form < forms.Length && EntityGender.GetFromString(forms[pk.Form]) < EntityGender.Genderless ? forms.Length : null;
+    }
+
     /// <summary>Records the drafted PP Ups of <paramref name="slot"/> for its next move change, when its move can take them and the count is one a move can have.</summary>
     private void CarryPpUps(int slot)
     {
@@ -665,7 +861,7 @@ public sealed class EditorDraft
     /// other edit keeps the stored stats, HP and status as they are.
     /// </remarks>
     /// <param name="candidate">A changed copy of the drafted entity.</param>
-    /// <param name="affectsStats">True for an edit of species/form, level/EXP, nature, IVs or EVs.</param>
+    /// <param name="affectsStats">True for an edit of species/form (including a gender edit that changes the form), level/EXP, nature, IVs or EVs.</param>
     /// <exception cref="SessionException">
     /// <see cref="SessionError.PartyStatsMissing"/>: a stat edit of a party member stored without stats, which has no current HP to keep.
     /// </exception>

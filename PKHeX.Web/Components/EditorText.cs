@@ -12,7 +12,7 @@ namespace PKHeX.Web.Components;
 public static class EditorText
 {
     /// <summary>Shown in place of the fields of an egg, which this release does not edit.</summary>
-    public const string EggReadOnly = "This is an egg. Its name, language, friendship (its hatch counter), level, nature, IVs, EVs, held item, moves and PP are kept as stored and cannot be changed in this release.";
+    public const string EggReadOnly = "This is an egg. Its name, language, friendship (its hatch counter), level, nature, IVs, EVs, held item, moves, PP, ability and gender are kept as stored and cannot be changed in this release.";
 
     /// <summary>Shown beside the handling trainer's friendship when no handling trainer is stored.</summary>
     public const string NoHandler = "No handling trainer is stored: this Pokémon has stayed with its original trainer, so there is no friendship towards one to change.";
@@ -26,7 +26,7 @@ public static class EditorText
     /// <summary>The fields an opened Pokémon can have changed, for the message shown when it is opened.</summary>
     public static string EditableSummary(EditableFields fields)
     {
-        var names = new List<string>(12);
+        var names = new List<string>(15);
         if (fields.HasFlag(EditableFields.Nickname))
         {
             names.Add("nickname");
@@ -68,6 +68,14 @@ public static class EditorText
         {
             names.Add("PP");
             names.Add("PP Ups");
+        }
+        if (fields.HasFlag(EditableFields.Ability))
+        {
+            names.Add("ability");
+        }
+        if (fields.HasFlag(EditableFields.Gender))
+        {
+            names.Add("gender");
         }
         return names.Count switch
         {
@@ -223,6 +231,80 @@ public static class EditorText
             1 => "1 PP Up",
             _ => string.Create(CultureInfo.InvariantCulture, $"{count} PP Ups"),
         };
+    }
+
+    /// <summary>
+    /// The note under the ability, always shown: what the slots are, and that legality analysis, not the list, decides whether the Pokémon
+    /// could have the hidden ability (WEB-PKM-009). It adds that two regular slots with the same ability are still different slots, and that
+    /// a stored ability and slot that do not name one of the species' slots together are kept until a slot is chosen.
+    /// </summary>
+    /// <param name="regularSlotsSame">True when the first and second slots have the same ability.</param>
+    /// <param name="storedUnmatched">True when the drafted ability and slot number do not name one of the slots (<see cref="EditorDraft.AbilitySlot"/> is null).</param>
+    public static string AbilityNote(bool regularSlotsSame, bool storedUnmatched)
+    {
+        var note = "(1) and (2) are the species' regular abilities and (H) its hidden ability; choosing one sets the ability and its slot together. "
+            + "Whether this Pokémon could have the hidden ability depends on how it was met, which legality analysis checks.";
+        if (regularSlotsSame)
+        {
+            note += " Both regular abilities are the same, but the slot is still stored, and legality analysis checks it too.";
+        }
+        if (storedUnmatched)
+        {
+            note += " The stored ability and slot do not match one of this species' slots; they are kept until a slot is chosen.";
+        }
+        return note;
+    }
+
+    /// <summary>
+    /// The name of a stored ability and slot number that do not name one of the species' slots together, so the ability box never shows a
+    /// value that is not stored: the ability as the inspector names it, and the stored slot.
+    /// </summary>
+    public static string UnmatchedAbility(NamedValue ability, int abilityNumber) => $"{InspectorText.Named(ability)} (stored; {InspectorText.AbilitySlot(abilityNumber)})";
+
+    /// <summary>The name of a gender value, as the inspector names it ("Male", "Female", "Genderless", or the unknown wording).</summary>
+    public static string GenderName(byte gender) => InspectorText.Gender(gender);
+
+    /// <summary>
+    /// The note under the gender, always shown: which genders the species can have, and, when its form is its gender, that the form changes
+    /// with it.
+    /// </summary>
+    public static string GenderNote(GenderRule rule, bool formFollowsGender) => rule switch
+    {
+        GenderRule.OnlyMale => "This species is always male.",
+        GenderRule.OnlyFemale => "This species is always female.",
+        GenderRule.Genderless => "This species is genderless.",
+        _ when formFollowsGender => "This species' form is its gender, so changing the gender changes the form too, as PKHeX's desktop editor does. "
+            + "The ability keeps its slot, taken from the new form, and the experience points become the fewest for the level; changing back gives back what the change altered, unless it has been edited since.",
+        _ => "This species can be male or female. In Generation 6 the gender is stored on its own, so changing it changes nothing else.",
+    };
+
+    /// <summary>
+    /// The note on the last gender edit of a species whose form is its gender: what changed besides the gender. Empty when the last edit
+    /// changed nothing else.
+    /// </summary>
+    /// <param name="change">What the last gender edit changed besides the gender, or null.</param>
+    /// <param name="abilityName">Gives the display name of an ability.</param>
+    /// <param name="level">The drafted level.</param>
+    public static string GenderChangeNote(GenderChange? change, Func<int, string> abilityName, byte level)
+    {
+        if (change is not { } c)
+        {
+            return "";
+        }
+        var parts = new List<string>(3);
+        if (c.FormChanged)
+        {
+            parts.Add("Its form changed with its gender.");
+        }
+        if (c.AbilityChanged)
+        {
+            parts.Add($"Its ability is now {abilityName(c.After.Ability)} ({InspectorText.AbilitySlot(c.After.AbilityNumber)}).");
+        }
+        if (c.ExperienceChanged)
+        {
+            parts.Add(string.Create(CultureInfo.InvariantCulture, $"Its experience points are now {c.After.Experience} (level {level}), from {c.Before.Experience}."));
+        }
+        return string.Join(" ", parts);
     }
 
     /// <summary>
