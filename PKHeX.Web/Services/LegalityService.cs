@@ -36,8 +36,6 @@ public sealed class LegalityService
 
     internal LegalityService(Analyzer analyze) => this.analyze = analyze;
 
-    /// <summary>Logged to the console when Core reports an analysis as not parsed; Core has already caught the cause.</summary>
-    internal const string NotParsedMessage = "PKHeX.Core could not complete the legality analysis (the entity was not parsed); Core caught the cause.";
 
     /// <summary>Serialises use of Core's global active trainer, so concurrent callers (tests) cannot see each other's trainer.</summary>
     private static readonly Lock TrainerContext = new();
@@ -96,7 +94,7 @@ public sealed class LegalityService
                 var analysis = analyze(entity, save.Personal, draft.Slot.ToSlotInfo(save).Type);
                 if (!analysis.Parsed)
                 {
-                    caught = new InvalidOperationException(NotParsedMessage);
+                    caught = new LegalityNotParsedException();
                     return LegalityResult.Unavailable(tag);
                 }
                 var context = LegalityLocalizationContext.Create(analysis);
@@ -159,3 +157,9 @@ public sealed class LegalityService
         return findings;
     }
 }
+
+/// <summary>
+/// Reported when Core returns an analysis as not parsed. Core has already caught the cause and keeps it to its debug output, so the type name is
+/// all a diagnostic report can say about it.
+/// </summary>
+public sealed class LegalityNotParsedException() : InvalidOperationException("PKHeX.Core could not complete the legality analysis (the entity was not parsed).");

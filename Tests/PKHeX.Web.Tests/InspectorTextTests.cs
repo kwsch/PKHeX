@@ -220,7 +220,7 @@ public sealed class InspectorTextTests : IDisposable
             .Should().Equal("inspect-identity", "inspect-stats", "inspect-moves", "inspect-origin", "inspect-advanced");
         rendered.Find("#inspect-nickname").TextContent.Should().Be("<b>x</b>");
         rendered.FindAll("#inspect-nickname b").Should().BeEmpty("a stored name is never parsed as markup");
-        rendered.Find("#inspect-ot").TextContent.Should().StartWith("<i>OT</i>");
+        rendered.Find("#inspect-ot").TextContent.Should().StartWith(TestText.Isolated("<i>OT</i>"));
         rendered.FindAll("#inspect-stats-table tbody tr").Should().HaveCount(6);
         var nature = NatureEffect.Of(pk.Nature);
         rendered.FindAll("#inspect-stats-table tbody th[scope=row]").Select(t => t.TextContent)

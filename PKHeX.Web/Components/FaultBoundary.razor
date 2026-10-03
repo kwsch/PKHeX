@@ -1,10 +1,10 @@
 @inherits ErrorBoundaryBase
 @inject WorkspaceState State
 @inject NavigationManager Navigation
-@inject ILogger<FaultBoundary> Logger
+@inject DiagnosticLog Diagnostics
 
 @* Catches faults from the workspace so they end in a recoverable screen instead of Blazor's page-wide error bar.
-   No exception details are shown or sent anywhere; they go to the browser console only. *@
+   No exception details are shown or sent anywhere: the fault is recorded, redacted, for the opt-in diagnostic report and the browser console. *@
 @if (CurrentException is null)
 {
     @* Focusable only from script, so focus has somewhere to land after a recovery. *@
@@ -28,6 +28,7 @@ else
         }
         <p>Reloading the page also discards the open save and any changes you have not downloaded.</p>
         <button id="fault-reload" type="button" @onclick="Reload">Reload page</button>
+        <DiagnosticPanel Id="fault-diag" />
     </section>
 }
 
@@ -37,7 +38,7 @@ else
 
     protected override Task OnErrorAsync(Exception exception)
     {
-        Logger.LogError(exception, "A workspace component failed.");
+        Diagnostics.Record(DiagnosticOperation.Render, exception);
         return Task.CompletedTask;
     }
 

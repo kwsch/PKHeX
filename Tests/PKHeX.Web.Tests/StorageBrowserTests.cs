@@ -44,7 +44,7 @@ public sealed class StorageBrowserTests(PublishedAppFixture app)
         await page.Locator("#box-prev").ClickAsync();
         await page.Locator("#box-prev").ClickAsync();
         await Expect(page.Locator("#box-select")).ToHaveValueAsync("0");
-        await Expect(page.Locator("#box-title")).ToHaveTextAsync("1. " + HostileBoxName);
+        await Expect(page.Locator("#box-title")).ToHaveTextAsync("1. " + TestText.Isolated(HostileBoxName));
         await Expect(page.Locator("#box-title i")).ToHaveCountAsync(0);
         await page.Locator("#box-prev").ClickAsync();
         await Expect(page.Locator("#box-select")).ToHaveValueAsync("30");

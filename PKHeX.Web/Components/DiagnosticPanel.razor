@@ -1,0 +1,123 @@
+@using System.Text
+@inject DiagnosticLog Diagnostics
+@inject WorkspaceState State
+@inject BrowserPage Page
+@inject BrowserFileService Files
+@inject TimeProvider Clock
+
+@* The opt-in diagnostic report (WEB-SEC-005): nothing is gathered until the user asks, the preview is the whole report, and it leaves the page
+   only when the user copies or downloads it. *@
+<section id="@Id" class="diagnostics" aria-labelledby="@($"{Id}-title")">
+    <h3 id="@($"{Id}-title")">@DiagnosticText.Title</h3>
+    <p>@DiagnosticText.Intro</p>
+    @if (report is null)
+    {
+        <button id="@($"{Id}-prepare")" type="button" @ref="prepareButton" @onclick="PrepareAsync">@DiagnosticText.Prepare</button>
+    }
+    else
+    {
+        <p id="@($"{Id}-note")">@DiagnosticText.PreviewNote</p>
+        @* Focusable, so a keyboard user can scroll a long report. *@
+        <pre id="@($"{Id}-preview")" class="diagnostic-preview" tabindex="0" @ref="preview">@report</pre>
+        <div class="diagnostic-actions">
+            <button id="@($"{Id}-copy")" type="button" @onclick="CopyAsync">@DiagnosticText.Copy</button>
+            <button id="@($"{Id}-download")" type="button" @onclick="DownloadAsync">@DiagnosticText.Download</button>
+            <button id="@($"{Id}-clear")" type="button" @onclick="ClearAsync">@DiagnosticText.Clear</button>
+            <button id="@($"{Id}-close")" type="button" @onclick="Close">@DiagnosticText.Close</button>
+        </div>
+    }
+    <p id="@($"{Id}-status")" role="status">@status</p>
+</section>
+
+@code {
+    private string? report;
+    private string status = "";
+    private ElementReference prepareButton, preview;
+
+    /// <summary>The element to focus after the next render: the preview once it is shown, the prepare button once it is closed.</summary>
+    private Func<ElementReference>? focusNext;
+
+    /// <summary>Element id of the section, and the prefix of every id inside it, so the About panel and the fault screen can both show one.</summary>
+    [Parameter, EditorRequired]
+    public string Id { get; set; } = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (focusNext is { } target)
+        {
+            focusNext = null;
+            await target().FocusAsync();
+        }
+    }
+
+    /// <summary>Builds the report from the build, the browser, the open family and the recorded problems, and shows it.</summary>
+    private async Task PrepareAsync()
+    {
+        report = await BuildAsync();
+        status = "";
+        focusNext = () => preview;
+    }
+
+    private async Task<string> BuildAsync()
+    {
+        string? browser;
+        try
+        {
+            browser = await Page.GetUserAgentAsync();
+        }
+        catch (JSException)
+        {
+            browser = null;
+        }
+        var context = DiagnosticContext.ForBuild(browser, State.Session?.Capabilities.Family.Games, Clock.GetUtcNow());
+        return DiagnosticReport.Build(context, Diagnostics.Entries);
+    }
+
+    /// <summary>Copies the report as shown; if the browser refuses, selects it so it can be copied by hand.</summary>
+    private async Task CopyAsync()
+    {
+        try
+        {
+            if (await Page.CopyTextAsync(report!))
+            {
+                status = DiagnosticText.Copied;
+                return;
+            }
+            await Page.SelectTextAsync($"{Id}-preview");
+        }
+        catch (JSException)
+        {
+            // Treated as a refusal: the preview is still on the page to copy by hand.
+        }
+        status = DiagnosticText.CopyRefused;
+    }
+
+    /// <summary>Downloads the report as shown, as UTF-8 text. It is not a save, so it changes nothing about the session's download state.</summary>
+    private async Task DownloadAsync()
+    {
+        try
+        {
+            await Files.DownloadAsync(Encoding.UTF8.GetBytes(report!), DiagnosticText.FileName);
+            status = DiagnosticText.Downloaded;
+        }
+        catch (JSException)
+        {
+            status = DiagnosticText.DownloadFailed;
+        }
+    }
+
+    /// <summary>Forgets the recorded problems and shows the report without them.</summary>
+    private async Task ClearAsync()
+    {
+        Diagnostics.Clear();
+        report = await BuildAsync();
+        status = DiagnosticText.Cleared;
+    }
+
+    private void Close()
+    {
+        report = null;
+        status = "";
+        focusNext = () => prepareButton;
+    }
+}

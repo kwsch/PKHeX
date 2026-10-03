@@ -114,7 +114,7 @@ public sealed class ExportFlowTests(PublishedAppFixture app)
         await Expect(page.Locator("#exit-prompt")).ToHaveTextAsync("This save has changes that have not been downloaded. Download it first, or discard the session and lose them.");
         await Expect(page.Locator("#exit-title")).ToBeFocusedAsync();
         await Expect(page.Locator("#exit-continue")).ToHaveCountAsync(0);
-        await Expect(page.Locator("#exit-discard-session")).ToHaveTextAsync("Discard session and open other-main");
+        await Expect(page.Locator("#exit-discard-session")).ToHaveTextAsync($"Discard session and open {TestText.Isolated("other-main")}");
 
         // Download from the panel; only then is the confirmation offered. The session is still open until it is given.
         var (exported, _) = await DownloadNamed(page, "#exit-export");

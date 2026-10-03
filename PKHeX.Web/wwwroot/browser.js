@@ -1,6 +1,7 @@
 // Browser file interop: file-only drop zones and Blob downloads. Files are only ever read locally; nothing is fetched or uploaded.
 // The page-wide navigation guard is drop-guard.js, loaded by index.html before the app.
-// Also preloads the sprite atlas at startup, in builds that include it, and has two page helpers (next paint, focus a section).
+// Also preloads the sprite atlas at startup, in builds that include it, and has page helpers (next paint, focus a section) and the
+// diagnostic report's helpers (user agent, copy, select).
 
 // The preloaded atlas, kept referenced for the page's lifetime. Sprites are <img> elements with this same URL, which browsers serve from
 // the document's list of already loaded images, so drawing a sprite never makes a request.
@@ -141,5 +142,40 @@ export function focusElement(id) {
     }
     element.scrollIntoView({ block: 'start' });
     element.focus({ preventScroll: true });
+    return true;
+}
+
+/** The browser's user agent string, read only when the user prepares a diagnostic report. */
+export function userAgent() {
+    return navigator.userAgent;
+}
+
+/**
+ * Copies text to the clipboard. Returns false when the browser refuses (no clipboard API outside a secure context, or permission denied),
+ * so the caller can offer the text to copy by hand.
+ */
+export async function copyText(text) {
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            return true;
+        }
+    } catch {
+        // Refused; the caller selects the text instead.
+    }
+    return false;
+}
+
+/** Selects the text content of the element with the given id, so it can be copied by hand. Returns false when there is no such element. */
+export function selectText(id) {
+    const element = document.getElementById(id);
+    if (!element) {
+        return false;
+    }
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
     return true;
 }

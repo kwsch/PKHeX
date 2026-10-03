@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using PKHeX.Web.Components;
 using PKHeX.Web.Services;
+using PKHeX.Web.Services.Diagnostics;
 using PKHeX.Web.State;
 using Xunit;
 
@@ -16,21 +17,29 @@ namespace PKHeX.Web.Tests;
 /// The workspace fault boundary (WEB-APP-004, WEB-ERR-003), rendered with bUnit around a child that fails on demand.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
-public sealed class FaultBoundaryTests : IDisposable
+public sealed class FaultBoundaryTests : IAsyncLifetime
 {
     /// <summary>Carried by the injected exception; it must never reach the page.</summary>
     private const string SecretDetail = "secret-exception-detail";
 
     private readonly BunitContext context = new();
     private readonly WorkspaceState state = SaveFixtures.NewState();
+    private readonly DiagnosticLog diagnostics;
+    private readonly RecordingLogger<DiagnosticLog> console;
 
     public FaultBoundaryTests()
     {
+        diagnostics = DiagnosticFixtures.NewLog(out console);
         context.Services.AddSingleton(state);
+        DiagnosticFixtures.AddDiagnostics(context.Services, diagnostics);
         context.JSInterop.Mode = JSRuntimeMode.Loose;
+        context.JSInterop.SetupModule("./browser.js").Mode = JSRuntimeMode.Loose;
     }
 
-    public void Dispose() => context.Dispose();
+    public Task InitializeAsync() => Task.CompletedTask;
+
+    /// <summary>The diagnostic panel's interop services are only asynchronously disposable.</summary>
+    public async Task DisposeAsync() => await context.DisposeAsync();
 
     private IRenderedComponent<FaultBoundary> RenderBoundary() =>
         context.Render<FaultBoundary>(p => p.Add(b => b.ChildContent, (RenderFragment)(b => { b.OpenComponent<Failing>(0); b.CloseComponent(); })));
@@ -110,6 +119,26 @@ public sealed class FaultBoundaryTests : IDisposable
 
         var navigation = context.Services.GetRequiredService<BunitNavigationManager>();
         navigation.History.Should().ContainSingle().Which.Options.ForceLoad.Should().BeTrue();
+    }
+
+    [Fact]
+    public void TheFaultIsRecordedRedactedAndTheReportIsOffered()
+    {
+        var boundary = RenderBoundary();
+        Fail(boundary);
+
+        var entry = diagnostics.Entries.Should().ContainSingle().Subject;
+        entry.Operation.Should().Be(DiagnosticOperation.Render);
+        entry.Code.Name.Should().Be("unexpected");
+        entry.Code.ExceptionTypes.Should().Equal(typeof(InvalidOperationException).FullName);
+        console.Messages.Should().ContainSingle().Which.Should().Contain("unexpected").And.NotContain(SecretDetail);
+        console.Exceptions.Should().BeEmpty("the exception, with its message, is never handed to the console logger");
+
+        boundary.FindAll("#fault-diag-preview").Should().BeEmpty("nothing is gathered until the user asks");
+        boundary.Find("#fault-diag-prepare").Click();
+        var report = boundary.Find("#fault-diag-preview").TextContent;
+        report.Should().Contain("Render: unexpected").And.Contain(typeof(InvalidOperationException).FullName!).And.NotContain(SecretDetail);
+        boundary.Markup.Should().NotContain(SecretDetail);
     }
 
     /// <summary>A child that throws from its click handler, standing in for any failing workspace component.</summary>

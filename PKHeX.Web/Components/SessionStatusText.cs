@@ -35,7 +35,7 @@ public static class SessionStatusText
         ExitIntent.Close => "Close this save?",
         ExitIntent.Reset => "Reset to the file as opened?",
         ExitIntent.Discard => "Discard this session?",
-        _ => $"Open {exit.Candidate!.FileName}?",
+        _ => $"Open {DisplayText.Embed(exit.Candidate!.FileName)}?",
     };
 
     /// <summary>What the current exit step asks of the user.</summary>
@@ -79,7 +79,7 @@ public static class SessionStatusText
         {
             ExitIntent.Close or ExitIntent.Discard => "Close save",
             ExitIntent.Reset => "Reset to original",
-            _ => $"Open {exit.Candidate!.FileName}",
+            _ => $"Open {DisplayText.Embed(exit.Candidate!.FileName)}",
         };
 
     /// <summary>The destructive button that completes the exit without a download.</summary>
@@ -88,7 +88,7 @@ public static class SessionStatusText
         ExitIntent.Close => "Discard session and close",
         ExitIntent.Reset => "Discard changes and reset",
         ExitIntent.Discard => "Discard session",
-        _ => $"Discard session and open {exit.Candidate!.FileName}",
+        _ => $"Discard session and open {DisplayText.Embed(exit.Candidate!.FileName)}",
     };
 
     /// <summary>What Reset to original does, shown beside it.</summary>
@@ -118,8 +118,8 @@ public static class SessionStatusText
 
     /// <summary>The label of a name choice, showing the name it would give now.</summary>
     public static string NameOption(ExportNameChoice choice, string name) => choice == ExportNameChoice.Edited
-        ? $"Edited name: {name} (stamped with the time of the download)"
-        : $"Original name: {name}";
+        ? $"Edited name: {DisplayText.Embed(name)} (stamped with the time of the download)"
+        : $"Original name: {DisplayText.Embed(name)}";
 
     /// <summary>Shown when the chosen name is not the one a console or emulator restores from.</summary>
     public const string RenameToRestore = "To restore this file with a save manager on the console, or in an emulator, rename it to main first.";

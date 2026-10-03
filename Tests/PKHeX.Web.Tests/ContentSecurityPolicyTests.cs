@@ -1,3 +1,4 @@
+using FluentAssertions;
 using System.Text.RegularExpressions;
 using Xunit;
 
@@ -27,6 +28,20 @@ public sealed partial class ContentSecurityPolicyTests
         Assert.DoesNotContain(meta.Keys, HeaderOnly.Contains);
     }
 
+    [Fact]
+    public void TheShellHasNoInlineScriptAndThePolicyAllowsNone()
+    {
+        var html = File.ReadAllText(Path.Combine(SaveFixtures.RepositoryRoot, "PKHeX.Web", "wwwroot", "index.html"));
+        var policy = Directives(MetaPolicy().Match(html).Groups["policy"].Value);
+
+        ScriptElement().Matches(html).Should().NotBeEmpty().And.OnlyContain(m => m.Groups["attributes"].Value.Contains("src=\""), "every script is a file");
+        EventHandlerAttribute().IsMatch(html).Should().BeFalse("no inline event handler attributes");
+        html.Should().NotContain("javascript:", "no script URLs");
+        policy["script-src"].Should().NotContain("'unsafe-inline'").And.NotContain("'unsafe-eval'");
+        policy["style-src"].Should().NotContain("'unsafe-inline'");
+        policy.Should().ContainKey("object-src").WhoseValue.Should().Be("'none'");
+    }
+
     private static Dictionary<string, string> Directives(string policy) => policy
         .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
         .Select(d => d.Split(' ', 2))
@@ -34,4 +49,10 @@ public sealed partial class ContentSecurityPolicyTests
 
     [GeneratedRegex(""""<meta\s+http-equiv="Content-Security-Policy"\s+content="(?<policy>[^"]*)"""", RegexOptions.IgnoreCase)]
     private static partial Regex MetaPolicy();
+
+    [GeneratedRegex(@"<script(?<attributes>[^>]*)>(?<body>[\s\S]*?)</script>", RegexOptions.IgnoreCase)]
+    private static partial Regex ScriptElement();
+
+    [GeneratedRegex(@"<[^>]*\son[a-z]+\s*=", RegexOptions.IgnoreCase)]
+    private static partial Regex EventHandlerAttribute();
 }

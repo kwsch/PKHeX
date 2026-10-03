@@ -68,9 +68,9 @@ public static class SaveLoader
         }
         catch (Exception ex) when (ex is not OutOfMemoryException)
         {
-            // The input is untrusted; any exception while reading it is a parser fault, and its details are not shown.
-            // It is not logged either: redacted diagnostics for it are M17's.
-            return SaveLoadOutcome.Failed(LoadFailure.ParserFault);
+            // The input is untrusted; any exception while reading it is a parser fault. Only its redacted code is kept, for the caller to record;
+            // its message, which can carry values from the file, is never shown or logged.
+            return SaveLoadOutcome.Faulted(ex);
         }
     }
 

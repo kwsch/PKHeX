@@ -34,8 +34,8 @@ public sealed class SlotTextTests
         SlotText.Contents(new SlotSummary(slot, false, true, 0, null, false, false)).Should().Be("Empty");
         SlotText.Contents(new SlotSummary(slot, true, false, 0, null, false, false)).Should().Be("Bad egg");
         SlotText.Contents(Holding(slot)).Should().Be("Zigzagoon");
-        SlotText.Contents(Holding(slot, nickname: "Ziggy")).Should().Be("Zigzagoon \"Ziggy\"");
-        SlotText.Contents(Holding(slot, nickname: "Ziggy", shiny: true)).Should().Be("Zigzagoon \"Ziggy\", shiny");
+        SlotText.Contents(Holding(slot, nickname: "Ziggy")).Should().Be($"Zigzagoon \"{TestText.Isolated("Ziggy")}\"");
+        SlotText.Contents(Holding(slot, nickname: "Ziggy", shiny: true)).Should().Be($"Zigzagoon \"{TestText.Isolated("Ziggy")}\", shiny");
         SlotText.Contents(Holding(slot, nickname: "Egg", egg: true)).Should().Be("Egg");
         SlotText.Contents(Holding(slot, species: 60000)).Should().Be("Unknown species (stored value 60000)");
         SlotText.Short(Holding(slot, nickname: "Ziggy", shiny: true)).Should().Be("Zigzagoon");
@@ -44,8 +44,25 @@ public sealed class SlotTextTests
     [Fact]
     public void LabelIsPositionThenContents()
     {
-        SlotText.Label(Holding(SlotRef.InBox(2, 6), nickname: "Ziggy")).Should().Be("Box 3, slot 7 (row 2, column 1): Zigzagoon \"Ziggy\"");
+        SlotText.Label(Holding(SlotRef.InBox(2, 6), nickname: "Ziggy")).Should().Be($"Box 3, slot 7 (row 2, column 1): Zigzagoon \"{TestText.Isolated("Ziggy")}\"");
         SlotText.Label(new SlotSummary(SlotRef.InParty(5), false, true, 0, null, false, false)).Should().Be("Party position 6: Empty");
+    }
+
+    [Fact]
+    public void HostileNamesCannotReorderTheLabel()
+    {
+        // An override in a nickname or box name would otherwise reverse the rest of the label, position and all.
+        SlotText.Label(Holding(SlotRef.InBox(0, 0), nickname: "\u202Eevil\u2069")).Should().Be($"Box 1, slot 1 (row 1, column 1): Zigzagoon \"{TestText.Isolated("evil")}\"");
+        SlotText.BoxTitle(0, "\u202EBox").Should().Be("Box");
+        SlotText.BoxOption(0, "\u202EBox").Should().Be($"1. {TestText.Isolated("Box")}");
+    }
+
+    [Fact]
+    public void ABoxNameOfOnlyControlsFallsBackToCoresDefault()
+    {
+        // Bidirectional controls are not whitespace, so the stored name is not blank, but nothing of it would be shown.
+        SlotText.BoxTitle(2, "\u202E\u2066").Should().Be("Box 3");
+        SlotText.BoxOption(2, "\u202E").Should().Be("3. Box 3");
     }
 
     [Fact]
@@ -54,7 +71,7 @@ public sealed class SlotTextTests
         SlotText.BoxTitle(0, "Keepers").Should().Be("Keepers");
         SlotText.BoxTitle(4, null).Should().Be("Box 5");
         SlotText.BoxOption(4, null).Should().Be("5. Box 5");
-        SlotText.BoxOption(30, "Keepers").Should().Be("31. Keepers");
+        SlotText.BoxOption(30, "Keepers").Should().Be($"31. {TestText.Isolated("Keepers")}", "a stored name is isolated from the number before it");
     }
 
     [Theory]

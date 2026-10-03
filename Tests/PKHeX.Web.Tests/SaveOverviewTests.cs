@@ -86,7 +86,8 @@ public sealed class SaveOverviewTests
     [InlineData(false, (GameVersion)0)]
     public void VersionOutsideTheFamilyIsReportedInvalid(bool oras, GameVersion stored)
     {
-        // The loader opens the save (it matches the family by layout), but the stored game is not one of the family's.
+        // The loader opens the save (it matches the family by layout), but the stored game is not one of the family's. Opening it is deliberate
+        // (M17's hostile-input pass): Core and the desktop editor open it too; the overview labels the game as unknown rather than refusing.
         var overview = Overview(oras, s => s.Version = stored);
         overview.Version.Should().Be(stored);
         overview.VersionValid.Should().BeFalse();

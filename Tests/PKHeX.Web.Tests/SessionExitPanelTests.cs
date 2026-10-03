@@ -79,7 +79,7 @@ public sealed class SessionExitPanelTests : IDisposable
     {
         var session = await OpenChangedWithDirtyDraft("other-main");
         var panel = RenderPanel();
-        panel.Find("#exit-title").TextContent.Should().Be("Open other-main?");
+        panel.Find("#exit-title").TextContent.Should().Be($"Open {TestText.Isolated("other-main")}?");
         panel.Find("#exit-name").TextContent.Should().Be("other-main");
         Buttons(panel).Should().Equal("exit-apply-draft", "exit-discard-draft", "exit-cancel");
         FocusCalls().Should().Be(1);
@@ -87,7 +87,7 @@ public sealed class SessionExitPanelTests : IDisposable
         state.DiscardDraftForExit();
         Refresh(panel);
         Buttons(panel).Should().Equal("exit-export", "exit-discard-session", "exit-cancel");
-        panel.Find("#exit-discard-session").TextContent.Should().Be("Discard session and open other-main");
+        panel.Find("#exit-discard-session").TextContent.Should().Be($"Discard session and open {TestText.Isolated("other-main")}");
         FocusCalls().Should().Be(2, "a new step moves focus to the heading again");
         Refresh(panel);
         FocusCalls().Should().Be(2, "re-rendering the same step leaves focus alone");

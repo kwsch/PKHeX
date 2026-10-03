@@ -61,7 +61,7 @@ public static class SlotText
         }
         if (summary is { IsEgg: false, Nickname: { } nickname })
         {
-            text += $" \"{nickname}\"";
+            text += $" \"{DisplayText.Embed(nickname)}\"";
         }
         return summary.IsShiny ? text + ", shiny" : text;
     }
@@ -72,11 +72,16 @@ public static class SlotText
     /// <summary>The box's stored name, or Core's numbered default when it stores none.</summary>
     /// <param name="box">The zero-based box index.</param>
     /// <param name="storedName">The name stored in the save, or null (see <see cref="StorageView.BoxName"/>).</param>
-    public static string BoxTitle(int box, string? storedName) => storedName ?? BoxDetailNameExtensions.GetDefaultBoxName(box);
+    /// <remarks>
+    /// A stored name is shown without bidirectional controls; one made only of them is treated as blank (<see cref="DisplayText.PlainOrNull"/>).
+    /// </remarks>
+    public static string BoxTitle(int box, string? storedName) => DisplayText.PlainOrNull(storedName) ?? BoxDetailNameExtensions.GetDefaultBoxName(box);
 
     /// <summary>The box selector entry: the box number, then its title, so boxes with equal names stay distinct.</summary>
     /// <inheritdoc cref="BoxTitle" path="/param"/>
-    public static string BoxOption(int box, string? storedName) => string.Create(Invariant, $"{box + 1}. {BoxTitle(box, storedName)}");
+    /// <remarks>A stored name is isolated (<see cref="DisplayText.Embed"/>), so it cannot reorder the number before it.</remarks>
+    public static string BoxOption(int box, string? storedName) =>
+        string.Create(Invariant, $"{box + 1}. {(DisplayText.PlainOrNull(storedName) is { } shown ? DisplayText.Embed(shown) : BoxTitle(box, null))}");
 
     /// <summary>Core's English species name, or a label with the stored value when it is outside Core's list.</summary>
     private static string Species(ushort species)

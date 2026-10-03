@@ -438,5 +438,24 @@ public sealed class AppSession : IAsyncDisposable
         Assert.True(directives.Length == 0, $"Content Security Policy violations: {string.Join(", ", directives)}");
     }
 
+    /// <summary>
+    /// Returns the directives of the CSP violations reported so far and forgets them, for tests that provoke a violation on purpose; a later
+    /// <see cref="AssertNoCspViolationsAsync"/> then checks only what came after.
+    /// </summary>
+    public async Task<IReadOnlyList<string>> TakeCspViolationsAsync()
+    {
+        foreach (var page in Context.Pages)
+        {
+            // Flushes reports still in flight, as in AssertNoCspViolationsAsync.
+            await page.EvaluateAsync($"async () => await window.{CspBinding}(null)");
+        }
+        var taken = new List<string>();
+        while (cspViolations.TryDequeue(out var directive))
+        {
+            taken.Add(directive);
+        }
+        return taken;
+    }
+
     public async ValueTask DisposeAsync() => await Context.DisposeAsync();
 }

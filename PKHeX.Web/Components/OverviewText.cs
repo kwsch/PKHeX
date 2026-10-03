@@ -27,7 +27,8 @@ public static class OverviewText
     public static string Family(SaveOverview overview) => overview.Family.Games;
 
     /// <summary>The trainer name, or a label when the save stores none.</summary>
-    public static string Trainer(SaveOverview overview) => overview.TrainerName ?? "Not set in this save";
+    /// <remarks>Shown without bidirectional controls; a name made only of them is treated as unset (<see cref="DisplayText.PlainOrNull"/>).</remarks>
+    public static string Trainer(SaveOverview overview) => DisplayText.PlainOrNull(overview.TrainerName) ?? "Not set in this save";
 
     /// <summary>The language name, or a label with the stored value when Core does not recognise it.</summary>
     public static string Language(SaveOverview overview) => overview.LanguageName ?? Unknown(overview.Language);

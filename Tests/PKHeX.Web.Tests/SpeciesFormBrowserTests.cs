@@ -53,7 +53,7 @@ public sealed class SpeciesFormBrowserTests(PublishedAppFixture app)
 
         await page.Locator("#species").SelectOptionAsync(Id((int)Species.Linoone));
         await Expect(page.Locator("#species-preview-title")).ToHaveTextAsync($"Change {GameInfo.Strings.specieslist[(int)Species.Zigzagoon]} to {linoone}?");
-        await Expect(page.Locator("#species-preview-changes")).ToContainTextAsync($"Name: {zigzagoon} to {linoone}, as it is not nicknamed.");
+        await Expect(page.Locator("#species-preview-changes")).ToContainTextAsync($"Name: {TestText.Isolated(zigzagoon)} to {TestText.Isolated(linoone)}, as it is not nicknamed.");
         await Expect(page.Locator("#draft-state")).ToHaveTextAsync("No draft changes");
         await page.Locator("#species-confirm").ClickAsync();
         await Expect(page.Locator("#species-change")).ToContainTextAsync("The species and form were changed.");

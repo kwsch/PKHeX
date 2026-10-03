@@ -27,8 +27,7 @@ public sealed class WorkspaceLegalityTests : IAsyncLifetime
         browser.Mode = JSRuntimeMode.Loose;
         context.Services.AddSingleton(state);
         context.Services.AddSingleton<TimeProvider>(new FakeTimeProvider());
-        context.Services.AddScoped<BrowserFileService>();
-        context.Services.AddScoped<BrowserPage>();
+        DiagnosticFixtures.AddDiagnostics(context.Services, DiagnosticFixtures.NewLog());
         SpriteFixtures.AddCatalog(context);
     }
 

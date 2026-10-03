@@ -48,7 +48,7 @@ public sealed class NameFriendshipBrowserTests(PublishedAppFixture app)
         await page.Locator("#language").SelectOptionAsync(German.ToString(CultureInfo.InvariantCulture));
         await Expect(page.Locator("#nickname")).ToHaveValueAsync(ZigzagoonIn(German));
         await Expect(page.Locator("#nicknamed")).Not.ToBeCheckedAsync();
-        await Expect(page.Locator("#name-note")).ToContainTextAsync($"its name changed from Quill to its");
+        await Expect(page.Locator("#name-note")).ToContainTextAsync($"its name changed from {TestText.Isolated("Quill")} to its");
         await Expect(page.Locator("#name-note")).ToContainTextAsync(ZigzagoonIn(German));
 
         // Out-of-range friendship is refused as typed, not clamped, and blocks Apply until corrected.

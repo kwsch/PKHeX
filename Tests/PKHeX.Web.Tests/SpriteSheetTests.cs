@@ -1,6 +1,7 @@
 using Bunit;
 using FluentAssertions;
 using PKHeX.Web.Services;
+using PKHeX.Web.Services.Diagnostics;
 using PKHeX.Web.Services.Sprites;
 using PKHeX.Web.State;
 using Xunit;
@@ -101,6 +102,24 @@ public sealed class SpriteSheetTests : IDisposable
         catalog.Resolve(Slot(25)).Should().BeNull();
         handler.Requests.Should().Be(0);
         context.JSInterop.Invocations.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task AFailedLoadIsRecordedForTheDiagnosticReport()
+    {
+        // The manifest request fails (the handler answers 404), so the catalog falls back to text and records why, by type only.
+        using var handler = new RecordingHandler();
+        var log = DiagnosticFixtures.NewLog(out var console);
+        var catalog = new SpriteCatalog(new HttpClient(handler) { BaseAddress = new Uri("https://localhost/") }, context.JSInterop.JSRuntime, log);
+
+        await catalog.LoadAsync(included: true);
+
+        catalog.State.Should().Be(SpriteCatalogState.Failed);
+        var entry = log.Entries.Should().ContainSingle().Subject;
+        entry.Operation.Should().Be(DiagnosticOperation.Sprites);
+        entry.Code.Name.Should().Be("sprites.not-loaded");
+        entry.Code.ExceptionTypes.Should().Contain(typeof(HttpRequestException).FullName);
+        console.Exceptions.Should().BeEmpty();
     }
 
     [Fact]

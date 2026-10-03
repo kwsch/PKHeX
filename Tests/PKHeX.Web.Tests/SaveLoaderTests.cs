@@ -3,6 +3,7 @@ using FluentAssertions;
 using PKHeX.Core;
 using PKHeX.Web.Interop;
 using PKHeX.Web.Services;
+using PKHeX.Web.Services.Diagnostics;
 using Xunit;
 
 namespace PKHeX.Web.Tests;
@@ -148,6 +149,14 @@ public sealed class SaveLoaderTests
         outcome.Session.Should().BeNull();
         outcome.ToString().Should().NotContain(secret);
         bytes.Should().Equal(before);
+
+        // Only the redacted code is kept: the thrown type and where it was thrown, never the message.
+        var fault = outcome.Fault!;
+        fault.Name.Should().Be("open.parser-fault");
+        fault.ExceptionTypes.Should().Equal(inParse ? typeof(InvalidOperationException).FullName : typeof(IndexOutOfRangeException).FullName);
+        fault.Frames.Should().Contain(f => f.StartsWith("PKHeX.Web.Services.SaveLoader.Load", StringComparison.Ordinal));
+        fault.ToString().Should().NotContain(secret);
+        DiagnosticCode.For(outcome).Should().BeSameAs(fault);
     }
 
     [Theory]

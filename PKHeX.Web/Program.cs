@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using PKHeX.Web;
 using PKHeX.Web.Interop;
+using PKHeX.Web.Services.Diagnostics;
 using PKHeX.Web.Services.Sprites;
 using PKHeX.Web.State;
 
@@ -11,6 +12,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<BrowserFileService>();
 builder.Services.AddScoped<BrowserPage>();
 builder.Services.AddScoped<WorkspaceState>();
+// Failures recorded for the opt-in diagnostic report, in memory only; also the one place they are written to the browser console.
+// A singleton, so the sprite catalog (also a singleton, loaded before the app renders) records into the same log the components read.
+builder.Services.AddSingleton<DiagnosticLog>();
 // The browser's clock and time zone (the runtime reads the zone from the browser), used to stamp edited download names in local time.
 builder.Services.AddSingleton(TimeProvider.System);
 // Same-origin only: the app fetches nothing but its own published files.

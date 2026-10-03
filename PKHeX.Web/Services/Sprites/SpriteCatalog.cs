@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using Microsoft.JSInterop;
+using PKHeX.Web.Services.Diagnostics;
 
 namespace PKHeX.Web.Services.Sprites;
 
@@ -32,7 +33,10 @@ public enum SpriteCatalogState
 /// The app waits for the catalog before it renders, so the time limit keeps a stalled request from leaving it on its loading message.
 /// </para>
 /// </remarks>
-public sealed class SpriteCatalog(HttpClient http, IJSRuntime js)
+/// <param name="http">Fetches the manifest from the app's own origin.</param>
+/// <param name="js">Imports <c>browser.js</c> to preload the stylesheet and atlas.</param>
+/// <param name="diagnostics">Records a failed load, redacted, for the diagnostic report; none in tests that do not need it.</param>
+public sealed class SpriteCatalog(HttpClient http, IJSRuntime js, DiagnosticLog? diagnostics = null)
 {
     /// <summary>
     /// How long the manifest, stylesheet and atlas (about 1.3 MiB together) may take to load before the app starts without sprites.
@@ -49,9 +53,12 @@ public sealed class SpriteCatalog(HttpClient http, IJSRuntime js)
     /// <summary>
     /// Loads the atlas when this build includes it; does nothing otherwise. Never throws: a failure leaves <see cref="SpriteCatalogState.Failed"/>.
     /// </summary>
-    public async Task LoadAsync()
+    public Task LoadAsync() => LoadAsync(BuildInfo.SpritesIncluded);
+
+    /// <summary>Loads the atlas when <paramref name="included"/>; for <see cref="LoadAsync()"/>, and for tests of a build with sprites.</summary>
+    internal async Task LoadAsync(bool included)
     {
-        if (!BuildInfo.SpritesIncluded)
+        if (!included)
         {
             return;
         }
@@ -68,8 +75,8 @@ public sealed class SpriteCatalog(HttpClient http, IJSRuntime js)
         catch (Exception e) when (e is not OutOfMemoryException)
         {
             State = SpriteCatalogState.Failed;
-            // Only the failure's kind: nothing about a save exists yet, and diagnostics are M17's.
-            Console.Error.WriteLine($"Sprites could not be loaded; slots are shown as text. ({e.GetType().Name})");
+            // Recorded, redacted, for the diagnostic report and the console. Nothing about a save exists yet.
+            diagnostics?.Record(DiagnosticOperation.Sprites, DiagnosticCode.FromException("sprites.not-loaded", e));
         }
     }
 

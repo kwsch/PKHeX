@@ -253,7 +253,7 @@ public sealed class DraftEditorTests : IDisposable
         editor.Find("#nicknamed").Change(false);
 
         editor.Find("#nickname").GetAttribute("value").Should().Be(ZigzagoonIn((int)LanguageID.English));
-        editor.Find("#name-note").TextContent.Should().Be($"Not nicknamed, so its name changed from Quill to its {LanguageName(draft, (int)LanguageID.English)} default, {ZigzagoonIn((int)LanguageID.English)}.");
+        editor.Find("#name-note").TextContent.Should().Be($"Not nicknamed, so its name changed from {TestText.Isolated("Quill")} to its {LanguageName(draft, (int)LanguageID.English)} default, {ZigzagoonIn((int)LanguageID.English)}.");
     }
 
     [Fact]
@@ -283,7 +283,7 @@ public sealed class DraftEditorTests : IDisposable
         editor.Find("#language").Change(German.ToString(CultureInfo.InvariantCulture));
 
         editor.Find("#nickname").GetAttribute("value").Should().Be(ZigzagoonIn(German));
-        editor.Find("#name-note").TextContent.Should().Be($"Not nicknamed, so its name changed from Quill to its {LanguageName(draft, German)} default, {ZigzagoonIn(German)}.");
+        editor.Find("#name-note").TextContent.Should().Be($"Not nicknamed, so its name changed from {TestText.Isolated("Quill")} to its {LanguageName(draft, German)} default, {ZigzagoonIn(German)}.");
     }
 
     [Fact]
@@ -313,7 +313,7 @@ public sealed class DraftEditorTests : IDisposable
 
         editor.Find("#nickname").Input("Ab😀");
 
-        editor.Find("#name-note").TextContent.Should().EndWith($"The game's font cannot show some of these characters; it would show the name as {draft.Name.Displayed}.");
+        editor.Find("#name-note").TextContent.Should().EndWith($"The game's font cannot show some of these characters; it would show the name as {TestText.Isolated(draft.Name.Displayed)}.");
     }
 
     [Theory]
@@ -1157,7 +1157,7 @@ public sealed class DraftEditorTests : IDisposable
             $"Experience points: {stored.EXP} to {preview.After.Experience}, so the level goes from 50 to {preview.After.Level} on the new growth rate."));
         lines.Should().Contain(l => l.StartsWith("Ability: ", StringComparison.Ordinal));
         lines.Should().Contain(l => l.StartsWith("Stats: HP ", StringComparison.Ordinal));
-        lines.Should().Contain($"Name: {stored.Nickname} to {names[magikarp]}, as it is not nicknamed.");
+        lines.Should().Contain($"Name: {TestText.Isolated(stored.Nickname)} to {TestText.Isolated(names[magikarp])}, as it is not nicknamed.");
         editor.Find("#species").GetAttribute("value").Should().Be(magikarp.ToString(CultureInfo.InvariantCulture), "the box holds the previewed choice");
         editor.Find("#species-confirm").TextContent.Should().Be(EditorText.ConfirmSpeciesForm);
 

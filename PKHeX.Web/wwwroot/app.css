@@ -21,6 +21,8 @@ button { margin: .5rem .5rem .5rem 0; }
 input::file-selector-button { font: inherit; padding: .6rem 1rem; margin-inline-end: 1rem; }
 :focus-visible { outline: 3px solid #397bd9; outline-offset: 3px; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+/* A long report scrolls inside its box (it is focusable for keyboard scrolling) rather than pushing the actions off screen. */
+.diagnostic-preview { max-height: 20rem; overflow-y: auto; padding: .5rem; border: 1px solid #888; }
 #blazor-error-ui { display: none; padding: 1rem; border: 2px solid #c44; }
 .boot-stopped #blazor-error-ui { display: none !important; }
 #fault { border: 2px solid #c44; }

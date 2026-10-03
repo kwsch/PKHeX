@@ -1,7 +1,7 @@
 @inject BrowserFileService Files
 @inject WorkspaceState State
 @inject TimeProvider Clock
-@inject ILogger<Workspace> Logger
+@inject DiagnosticLog Diagnostics
 @inject BrowserPage Page
 @implements IDisposable
 
@@ -195,6 +195,7 @@
                 message = "Resolve the open session before the new file is opened.";
                 break;
             default:
+                Diagnostics.Record(DiagnosticOperation.Open, DiagnosticCode.For(outcome));
                 message = UserMessages.For(outcome) + Retained + StillWaiting;
                 break;
         }
@@ -207,7 +208,7 @@
     private string Retained => Session is null ? "" : " The previous session was retained.";
 
     /// <summary>Appended to a refused open while an earlier file still waits to replace the session, so the two are not confused.</summary>
-    private string StillWaiting => State.Exit?.Candidate is { } waiting ? $" {waiting.FileName} is still waiting to replace it." : "";
+    private string StillWaiting => State.Exit?.Candidate is { } waiting ? $" {DisplayText.Embed(waiting.FileName)} is still waiting to replace it." : "";
 
     private const string Loaded = "Save loaded locally; checksums valid.";
 
@@ -296,7 +297,7 @@
         }
         catch (Exception ex)
         {
-            ShowError(ex);
+            ShowError(DiagnosticOperation.Exit, ex);
             return;
         }
         report?.Invoke();
@@ -321,7 +322,7 @@
         }
         catch (InvalidOperationException ex)
         {
-            Logger.LogWarning(ex, "An acknowledgement no longer matched the page.");
+            Diagnostics.Record(DiagnosticOperation.Acknowledge, ex);
         }
     }
 
@@ -358,7 +359,7 @@
         }
         catch (Exception ex)
         {
-            ShowError(ex);
+            ShowError(DiagnosticOperation.Slot, ex);
         }
     }
 
@@ -400,7 +401,7 @@
         catch (Exception ex)
         {
             State.SetDraftValid(false);
-            ShowError(ex);
+            ShowError(DiagnosticOperation.Edit, ex);
             refusal = message;
         }
     }
@@ -425,7 +426,7 @@
         }
         catch (JSException ex)
         {
-            Logger.LogWarning(ex, "Could not move focus to {Section}.", id);
+            Diagnostics.Record(DiagnosticOperation.Focus, ex);
         }
     }
 
@@ -434,8 +435,11 @@
 
     private void LegalityChanged() => _ = InvokeAsync(StateHasChanged);
 
-    /// <summary>The cause of an unavailable analysis goes to the browser console only; the page says only that it could not complete.</summary>
-    private void AnalysisFailed(Exception ex) => Logger.LogError(ex, "Legality analysis could not complete.");
+    /// <summary>
+    /// The cause of an unavailable analysis is recorded, redacted, for the diagnostic report and the browser console; the page says only that
+    /// it could not complete.
+    /// </summary>
+    private void AnalysisFailed(Exception ex) => Diagnostics.Record(DiagnosticOperation.Analyze, ex);
 
     public void Dispose()
     {
@@ -458,7 +462,7 @@
         }
         catch (Exception ex)
         {
-            ShowError(ex);
+            ShowError(DiagnosticOperation.Apply, ex);
         }
     }
 
@@ -495,7 +499,7 @@
         }
         catch (Exception ex)
         {
-            ShowError(ex);
+            ShowError(DiagnosticOperation.Export, ex);
         }
         finally
         {
@@ -503,15 +507,13 @@
         }
     }
 
-    private void ShowError(Exception ex)
+    /// <summary>
+    /// Reports a refused or failed operation. A failure (anything but a refusal of the user's input) is recorded, redacted, for the diagnostic
+    /// report and the browser console; the page never shows exception details.
+    /// </summary>
+    private void ShowError(DiagnosticOperation operation, Exception ex)
     {
-        if (ex is SessionException refused)
-        {
-            message = UserMessages.For(refused.Error);
-            return;
-        }
-        // Unexpected: the details go to the browser console only, never to the page.
-        Logger.LogError(ex, "Workspace operation failed.");
-        message = UserMessages.OperationFailed;
+        Diagnostics.RecordIfFailure(operation, ex);
+        message = ex is SessionException refused ? UserMessages.For(refused.Error) : UserMessages.OperationFailed;
     }
 }

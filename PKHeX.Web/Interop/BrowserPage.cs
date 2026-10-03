@@ -3,7 +3,8 @@ using Microsoft.JSInterop;
 namespace PKHeX.Web.Interop;
 
 /// <summary>
-/// Page helpers the editor needs from the browser: waiting for a paint before synchronous work, and moving focus to a section by id.
+/// Page helpers the app needs from the browser: waiting for a paint before synchronous work, moving focus to a section by id, and the
+/// diagnostic report's user agent, copy and select.
 /// </summary>
 /// <remarks>
 /// The JS side is in <c>wwwroot/browser.js</c> (see <see cref="BrowserModule"/>). That module is already imported when the drop zone
@@ -25,6 +26,27 @@ public sealed class BrowserPage(IJSRuntime js) : IAsyncDisposable
     {
         var module = await browser.GetAsync();
         return await module.InvokeAsync<bool>("focusElement", id);
+    }
+
+    /// <summary>The browser's user agent string. Read only when the user prepares a diagnostic report.</summary>
+    public async Task<string> GetUserAgentAsync()
+    {
+        var module = await browser.GetAsync();
+        return await module.InvokeAsync<string>("userAgent");
+    }
+
+    /// <summary>Copies <paramref name="text"/> to the clipboard; false when the browser refused.</summary>
+    public async Task<bool> CopyTextAsync(string text)
+    {
+        var module = await browser.GetAsync();
+        return await module.InvokeAsync<bool>("copyText", text);
+    }
+
+    /// <summary>Selects the text of the element with id <paramref name="id"/>, so it can be copied by hand; false when there is no such element.</summary>
+    public async Task<bool> SelectTextAsync(string id)
+    {
+        var module = await browser.GetAsync();
+        return await module.InvokeAsync<bool>("selectText", id);
     }
 
     /// <summary>Releases the imported module.</summary>

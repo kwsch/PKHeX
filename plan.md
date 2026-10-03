@@ -1650,6 +1650,86 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
 
 ### Slice C — hardening, polish, qualification
 - **M17 Diagnostics + hostile input.** An opt-in diagnostic preview/copy/download holds build, browser, operation and a sanitised error code, with no save data. E2E renders hostile filenames and nicknames as text, and checks the CSP is honoured with no inline script (SEC-003, SEC-005).
+
+  **M17 status:** code complete on `web/m17-diagnostics-hostile-input`.
+  - **User decisions:** an unexpected exception is reported as its type names and method frames, never its message; the browser console gets the same redacted form; names are shown with bidirectional controls removed and are isolated inside sentences; an XY/ORAS layout storing a game outside its family keeps opening, labelled as unknown (as Core and the desktop do; pinned by `SaveOverviewTests`).
+  - **Redaction** (`Services/Diagnostics/DiagnosticCode`):
+    - It is built only from the app's own names: the outcome (`open.parser-fault`, `open.integrity.round-trip-mismatch`, `session.staged-edit-mismatch`, `unexpected`), the Core save type a refused file was recognised as, up to 4 exception type names (outermost first) and up to 12 method names. The frames come from the innermost exception with a stack, parsed from `StackTrace` as text, with no arguments, files or lines.
+    - It never reads `Message`, `Data` or `ToString()`. No `TargetSite`/`StackFrame.GetMethod`, so the trim baseline is unchanged.
+    - `SaveLoader` now keeps a parser fault's redacted code on the outcome (`SaveLoadOutcome.Faulted`, `Fault`), so M2's unlogged `ParserFault` is now recorded with where it was thrown.
+    - A not-parsed legality analysis is `LegalityNotParsedException`, so the type names it; `NotParsedMessage` was removed.
+  - **Log** (`DiagnosticLog`, scoped, in memory only):
+    - It keeps the last 20 entries (UTC time, `DiagnosticOperation`, code), across sessions in the tab; a reload empties it.
+    - It records every refused file, every unexpected exception, legality Unavailable, workspace faults and the failure-class `SessionError`s (`IsFailure`: staged write, readback, party count, untargeted slot, not writable, foreign/stale draft, reset, export). Refusals of input (level, nickname, acknowledgement, …) are not recorded.
+    - It is the one place failures reach the console, as the code text, never with the exception. Every `Logger.Log*(ex, …)` in `Workspace` and `FaultBoundary` now goes through it.
+  - **Report** (`DiagnosticReport`, `Components/DiagnosticPanel`, `DiagnosticText`):
+    - Nothing is gathered until "Prepare a diagnostic report". The preview `<pre>` (focusable, scrolls) is the whole report: version, commit, Core version, sprites, the user agent (control characters removed, 512 max), the open family or none, and the entries.
+    - It never holds the file name, sizes, names, IDs or bytes, and no option adds personal data. SEC-005's "warning before adding personal data" is met by offering none; the preview warns against attaching saves or screenshots with names.
+    - **Copy** uses `navigator.clipboard`; a refusal selects the preview to copy by hand. **Download** gives `pkhex-web-diagnostics.txt` (UTF-8, through `BrowserFileService`, not touching the export state). **Clear** and **Close** are offered; focus moves to the preview and back to the button.
+    - It is in About (`#about-diag-*`) and on the fault screen (`#fault-diag-*`).
+  - **Hostile names** (`Components/DisplayText`):
+    - `Plain` removes the 12 Unicode Bidi_Control characters; `Embed` also wraps the name in FSI…PDI. With the controls removed, nothing can close the isolate early.
+    - Embedded: slot labels and messages (nickname), box selector and heading (stored box name), the OT/HT inspector rows and friendship labels, name notes and species-preview name lines, and waiting file names in the exit texts. Plain: trainer overview and inspector nickname values, and box captions.
+    - The nickname box still shows and edits the stored name.
+  - **Found while testing:** the Write tool turned `\u202E`-style escapes into raw bidi characters in three source files (a Trojan Source hazard). They were converted back to escapes, and every source file was scanned for raw Bidi_Control characters at the end.
+  - **Tests.**
+    - **Unit 1073** (up from 1020; 1076 after the adversarial review):
+      - `DiagnosticCodeTests` (15): distinct codes for every outcome and error; recognised type; types and frames without a message carrying a sentinel; frame parsing, cap and length; type-chain cap; not-parsed type; the log's capacity, clock, `Changed`, and a console that never gets the exception; failures versus input refusals.
+      - `DiagnosticReportTests` (6): the exact empty report; entries; browser cleaning; no trainer, nickname, box, file name, session id or size from a sentinel save.
+      - `DiagnosticPanelTests` (6): nothing before opt-in (not even the user agent); the preview equals the report and excludes the file name; copy; refused copy selects; the download's bytes equal the preview; clear and close with focus.
+      - `DisplayTextTests` (20), `HostileInputTests` (2), and one more each in `FaultBoundaryTests`, `SlotTextTests`, `OverviewTextTests` and `ContentSecurityPolicyTests` (no inline script, handler or `javascript:`; no `unsafe-inline`/`unsafe-eval`). `SaveLoaderTests` checks the redacted fault.
+      - Text tests updated for isolates (`TestText.Isolated`). `FaultBoundaryTests` is now async-disposed (the panel's interop services).
+    - **E2E 278** (up from 260): `HostileInputBrowserTests`, 3 engines × 2 paths.
+      - Markup trainer, box and OT names, an RLO+markup nickname and a markup/RLO/reserved file name render as text. No `b`/`i`/`script`/`img[src=x]` is created, no text node in `main` holds a bidi control outside an isolate, the nickname box keeps the stored value, and there are no dialogs, network, storage or CSP violations.
+      - No inline script or `on*` attribute after boot; an injected inline script and an inline handler do not run and raise `script-src*` violations (`AppSession.TakeCspViolationsAsync`).
+      - A refused file appears in the report as `open.unrecognized` with the build commit and not its name. The download equals the preview. Copy succeeds or leaves the preview selected (Chromium drops the last line end from the selection). Focus moves to the preview and back.
+      - Four existing literals updated for isolated names. Every E2E test executed (`trx-all-executed.sh`), with the default and sprite publishes.
+    - **RealSave 98** pass.
+    - **Mutation checks** (Unit tier unless noted; files restored from a scratchpad copy; failing tests):
+
+      | Mutation | Failing tests |
+      | --- | --- |
+      | Message included in the code | 8 |
+      | Frames keep arguments | 2 |
+      | Frames from the outermost exception | 1 |
+      | Console gets the exception | 2 |
+      | Input refusals recorded | 3 |
+      | Fault not recorded | 1 |
+      | Loader keeps no fault | 2 |
+      | Report includes the file name | 1 |
+      | Preview shown before opt-in | 8 |
+      | Bidi controls kept | 17 |
+      | No isolate | 33 |
+      | Nickname not isolated in slot labels | 5 |
+      | CSP allows inline script | 2 |
+      | Refused open not recorded (E2E) | 6 |
+
+    - **Other checks:** trim baseline unchanged (38); `PKHeX.slnx` Release has 0 warnings.
+  - **Adversarial review** (each finding shown by a failing test or probe first, then fixed; throwaway probes deleted):
+    - **Probed, holds:**
+      - Frames survive the trimmed WASM publish. A JS failure forced behind `Workspace.ShowSection` (a throwing `scrollIntoView`) reported `JSException` with `BrowserPage.FocusAsync` and `Workspace.ShowSection` in all 3 engines. The JS error's text (a fake secret and a file path) did not appear.
+      - Core's short and verbose reports and its findings for the hostile save quote no stored name, so rendering them without isolates is safe.
+    - **Fixed:**
+      - **The download name options embedded the file name without an isolate** ("Original name: …", "Edited name: … (stamped …)"), unlike every other embedded file name. A right-to-left name could carry the stamp's digits and the words after it into its own direction. `FileNaming` strips the controls but not right-to-left letters, so the E2E bidi scan could not see it.
+      - **A box or trainer name made only of bidi controls showed as empty.** Those characters are not whitespace, so `StorageView`/`SaveOverview` kept the name, and stripping left "3. " followed by an empty isolate or a blank trainer. `DisplayText.PlainOrNull` treats it as blank, so Core's "Box 3" and "Not set in this save" are shown.
+      - **A failed sprite load bypassed the log.** `SpriteCatalog` still wrote to `Console.Error` and never reached the report, so the README's "every unexpected exception" was wrong. `DiagnosticLog` is now a singleton, so the catalog (a singleton loaded before render) records `sprites.not-loaded` with the exception's type. An internal `LoadAsync(bool)` makes the failure path unit-testable.
+      - **Frames carried assembly-qualified generic arguments** (`d__23`1[[System.Boolean, System.Private.CoreLib, Version=…]].MoveNext`, seen in the probe). They used up the 200-character cap and could cut off the method name; they are now removed, keeping the arity.
+    - Mutations (failing tests): name option not isolated 2; control-only names not blank 2; generic arguments kept 1; sprite failure not recorded 1.
+    - **Checked, not changed:**
+      - An acknowledgement made against a result that has just changed is recorded as `unexpected` under Acknowledge. It is a benign race, but rare, and it was a console warning before.
+      - A drop-zone registration failure is still swallowed: the picker keeps working and drops stay blocked.
+      - The report preview `<pre>` has no accessible name (ARIA does not allow naming a generic element); left to M18's axe pass.
+    - After the fixes: Unit 1076, E2E 278, RealSave 98 on new publishes; trim baseline unchanged (38); `PKHeX.slnx` Release has 0 warnings.
+  - **Recorded, not changed:**
+    - Blazor's own framework-level errors outside the fault boundary (and the boot script's) still reach the console in the framework's form.
+    - Core's legality finding text is shown as Core writes it; no finding was seen to quote a stored name.
+    - A report's preview is a snapshot: failures recorded while it is open appear after Clear or Close and Prepare.
+    - WebKit's text viewer and the CSP header for `.txt`/`.md` remain M20's (M16 note).
+  - **Not verified yet:** no manual drive of the published app beyond the E2E runs (the 375 px layout of the panel is unchecked); no screen reader; physical devices (G-C).
+  - **Compared with PKForge** (`AboutPopup`, `BoxBrowserPage`/`PokeparkPage` alerts, `BankArchive.SanitizeFileName`):
+    - **Matches:** build identity in About.
+    - **Stricter:** PKForge has no diagnostic report (only a "diagnostic" label on debug builds), and its alerts show `ex.Message`; we never show or log a message. It does not strip bidi controls from names.
+    - **Out of scope:** `BankArchive.SanitizeFileName` covers bank export names (bank storage is out of Web scope); our file names were already cleaned by `FileNaming` (M1).
 - **M18 Responsive + accessibility.** Desktop split panes, collapsible tablet panes, and a stacked mobile editor with a return action. Dialog focus is trapped and restored. Validation focuses the summary and then the field. Includes reduced motion, 44px targets, contrast tokens and 400% reflow. Automated axe check in Playwright (bundle `axe-core` in test assets only) (APP-003, A11Y-002/003).
 - **M19 Full published journey E2E.** 3 engines × 2 paths with synthetic fixtures. Picker and drop → select box + party → edit one field from each group → legality → apply → export → reopen → assert fields plus unchanged bytes outside the slot and checksum regions. Privacy trace and keyboard-only run. The RealSave tier gets the same journey for local G-D runs (TEST-004/005).
 - **M20 Hosting + release.**

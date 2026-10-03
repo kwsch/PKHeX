@@ -44,13 +44,13 @@ public sealed class SessionStatusTextTests
     {
         var candidate = SaveFixtures.Open(SaveFixtures.Synthetic(true), "other-main");
         var replace = SessionExit.Replace(candidate);
-        SessionStatusText.ExitTitle(replace).Should().Be("Open other-main?");
+        SessionStatusText.ExitTitle(replace).Should().Be($"Open {TestText.Isolated("other-main")}?");
         SessionStatusText.ExitTitle(SessionExit.Close).Should().Be("Close this save?");
-        SessionStatusText.DiscardSession(replace).Should().Be("Discard session and open other-main");
+        SessionStatusText.DiscardSession(replace).Should().Be($"Discard session and open {TestText.Isolated("other-main")}");
         SessionStatusText.DiscardSession(SessionExit.Close).Should().Be("Discard session and close");
         SessionStatusText.Continue(replace, ExitStage.ConfirmExport).Should().Be("Continue; I have checked my export");
         SessionStatusText.Continue(SessionExit.Close, ExitStage.ConfirmExport).Should().Be("Continue; I have checked my export");
-        SessionStatusText.Continue(replace, ExitStage.Ready).Should().Be("Open other-main");
+        SessionStatusText.Continue(replace, ExitStage.Ready).Should().Be($"Open {TestText.Isolated("other-main")}");
         SessionStatusText.Continue(SessionExit.Close, ExitStage.Ready).Should().Be("Close save");
 
         SessionStatusText.ExitPrompt(ExitStage.ResolveDraft).Should().Be("The editor has changes that are not applied. Apply them to the save, or discard them.");
@@ -62,8 +62,8 @@ public sealed class SessionStatusTextTests
     [Fact]
     public void NameTextAndRenameRule()
     {
-        SessionStatusText.NameOption(ExportNameChoice.Edited, "main-modified-2026-10-01-143205").Should().Be("Edited name: main-modified-2026-10-01-143205 (stamped with the time of the download)");
-        SessionStatusText.NameOption(ExportNameChoice.Original, "main").Should().Be("Original name: main");
+        SessionStatusText.NameOption(ExportNameChoice.Edited, "main-modified-2026-10-01-143205").Should().Be($"Edited name: {TestText.Isolated("main-modified-2026-10-01-143205")} (stamped with the time of the download)");
+        SessionStatusText.NameOption(ExportNameChoice.Original, "main").Should().Be($"Original name: {TestText.Isolated("main")}");
         SessionStatusText.RenameToRestore.Should().Be("To restore this file with a save manager on the console, or in an emulator, rename it to main first.");
         ExportNaming.NeedsRenameToRestore("main").Should().BeFalse();
         ExportNaming.NeedsRenameToRestore("Main").Should().BeTrue("consoles match the name exactly");
@@ -122,5 +122,13 @@ public sealed class SessionStatusTextTests
         SessionStatusText.Flagged(SlotRef.InBox(0, 0), LegalityVerdict.Invalid).Should().Be("Box 1, slot 1 (row 1, column 1): Invalid");
         SessionStatusText.Flagged(SlotRef.InParty(1), LegalityVerdict.Unavailable).Should().Be("Party position 2: legality could not be analysed");
         SessionStatusText.ExportAcknowledgement.Should().Be("Download them anyway. Nothing is repaired, and games or online services may refuse them.");
+    }
+
+    [Fact]
+    public void DownloadNameOptionsIsolateTheFileName()
+    {
+        // A right-to-left file name would otherwise carry the digits and words after it into its own direction.
+        SessionStatusText.NameOption(ExportNameChoice.Original, "main").Should().Be($"Original name: {TestText.Isolated("main")}");
+        SessionStatusText.NameOption(ExportNameChoice.Edited, "\u05E9-modified-2026").Should().Be($"Edited name: {TestText.Isolated("\u05E9-modified-2026")} (stamped with the time of the download)");
     }
 }

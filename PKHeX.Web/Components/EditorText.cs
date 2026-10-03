@@ -91,12 +91,12 @@ public static class EditorText
     }
 
     /// <summary>The label of the original trainer's friendship, naming the trainer.</summary>
-    public static string TrainerFriendshipLabel(string trainer) => $"Friendship with original trainer {trainer} (0–255)";
+    public static string TrainerFriendshipLabel(string trainer) => $"Friendship with original trainer {DisplayText.Embed(trainer)} (0–255)";
 
     /// <summary>The label of the handling trainer's friendship, naming the trainer when one is stored.</summary>
     public static string HandlerFriendshipLabel(string handler) => handler.Length == 0
         ? "Friendship with handling trainer (none stored)"
-        : $"Friendship with handling trainer {handler} (0–255)";
+        : $"Friendship with handling trainer {DisplayText.Embed(handler)} (0–255)";
 
     /// <summary>Which of the two values the game uses now. Changing either never changes who holds the Pokémon.</summary>
     public static string CurrentFriendship(bool withHandler) =>
@@ -424,8 +424,8 @@ public static class EditorText
         if (changes.HasFlag(SpeciesFormChangeResult.Nickname))
         {
             lines.Add(a.IsNicknamed
-                ? $"Name: {b.Nickname} to {a.Nickname}."
-                : $"Name: {b.Nickname} to {a.Nickname}, as it is not nicknamed.");
+                ? $"Name: {DisplayText.Embed(b.Nickname)} to {DisplayText.Embed(a.Nickname)}."
+                : $"Name: {DisplayText.Embed(b.Nickname)} to {DisplayText.Embed(a.Nickname)}, as it is not nicknamed.");
         }
         if (preview.ChangedStats is { Count: > 0 } stats)
         {
@@ -483,7 +483,7 @@ public static class EditorText
         var parts = new List<string>(3);
         if (renamed is var (from, to))
         {
-            parts.Add($"Not nicknamed, so its name changed from {from} to its {language} default, {to}.");
+            parts.Add($"Not nicknamed, so its name changed from {DisplayText.Embed(from)} to its {language} default, {to}.");
         }
         else if (status.KeptOtherLanguageName)
         {
@@ -503,7 +503,7 @@ public static class EditorText
         }
         if (status.HasUndefinedCharacters)
         {
-            parts.Add($"The game's font cannot show some of these characters; it would show the name as {status.Displayed}.");
+            parts.Add($"The game's font cannot show some of these characters; it would show the name as {DisplayText.Embed(status.Displayed)}.");
         }
         return string.Join(" ", parts);
     }

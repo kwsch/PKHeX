@@ -40,7 +40,7 @@ public sealed class StorageBrowserPanelTests : IDisposable
         session.Apply(draft);
         browser.Render(p => p.Add(c => c.Session, session));
 
-        browser.Find("#box-grid-0").GetAttribute("aria-label").Should().NotBe(before).And.EndWith("\"Renamed\"");
+        browser.Find("#box-grid-0").GetAttribute("aria-label").Should().NotBe(before).And.EndWith($"\"{TestText.Isolated("Renamed")}\"");
     }
 
     [Fact]
@@ -52,10 +52,10 @@ public sealed class StorageBrowserPanelTests : IDisposable
         var browser = context.Render<StorageBrowser>(p => p.Add(c => c.Session, session));
 
         browser.FindAll("#box-select option").Should().HaveCount(31);
-        browser.FindAll("#box-select option")[30].TextContent.Should().Be("31. Last");
+        browser.FindAll("#box-select option")[30].TextContent.Should().Be($"31. {TestText.Isolated("Last")}");
         browser.Find("#box-prev").Click();
         state.CurrentBox.Should().Be(30);
-        browser.Find("#box-title").TextContent.Should().Be("31. Last");
+        browser.Find("#box-title").TextContent.Should().Be($"31. {TestText.Isolated("Last")}");
         browser.Find("#box-grid").GetAttribute("aria-label").Should().Be("Last");
         browser.Find("#box-select").Change("4");
         browser.Find("#box-title").TextContent.Should().Be("5. " + SlotText.BoxTitle(4, StorageView.BoxName(session, 4)));

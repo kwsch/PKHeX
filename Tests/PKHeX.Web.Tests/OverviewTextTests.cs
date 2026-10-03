@@ -45,6 +45,13 @@ public sealed class OverviewTextTests
     }
 
     [Fact]
+    public void ATrainerNameIsShownWithoutBidiControls()
+    {
+        OverviewText.Trainer(Known with { TrainerName = "\u202E<b>Ser</b>" }).Should().Be("<b>Ser</b>");
+        OverviewText.Trainer(Known with { TrainerName = "\u202E \u200F" }).Should().Be("Not set in this save", "nothing of it would be shown");
+    }
+
+    [Fact]
     public void UnknownValuesAreLabelledNotInvented()
     {
         var unknown = Known with { VersionValid = false, Version = (GameVersion)0, TrainerName = null, Language = 6, LanguageName = null, LastSaved = null };

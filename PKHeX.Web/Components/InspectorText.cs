@@ -56,7 +56,7 @@ public static class InspectorText
     [
         new("inspect-species", "Species", Species(f.Species)),
         new("inspect-form", "Form", Form(f)),
-        new("inspect-nickname", "Nickname", f.Nickname),
+        new("inspect-nickname", "Nickname", DisplayText.Plain(f.Nickname)!),
         new("inspect-nicknamed", "Nicknamed", YesNo(f.IsNicknamed)),
         new("inspect-egg", "Egg", YesNo(f.IsEgg)),
         new("inspect-gender", "Gender", Gender(f.Gender)),
@@ -121,7 +121,7 @@ public static class InspectorText
     {
         var rows = new List<InspectorRow>
         {
-            new("inspect-ot", "Original trainer", $"{f.TrainerName} ({TrainerGender(f.TrainerGender)})"),
+            new("inspect-ot", "Original trainer", $"{DisplayText.Embed(f.TrainerName)} ({TrainerGender(f.TrainerGender)})"),
             new("inspect-tid", "Trainer ID (TID)", f.DisplayTid.ToString(f.IdFormat.GetTrainerIDFormatStringTID(), Invariant)),
             new("inspect-sid", "Secret ID (SID)", f.DisplaySid.ToString(f.IdFormat.GetTrainerIDFormatStringSID(), Invariant)),
             new("inspect-origin-game", "Origin game", Named(f.OriginGame)),
@@ -139,7 +139,7 @@ public static class InspectorText
         rows.Add(isEgg
             ? new("inspect-ot-friendship", "Original trainer friendship (the hatch counter, for an egg)", Number(f.TrainerFriendship))
             : new("inspect-ot-friendship", "Friendship (original trainer)", OutOf(f.TrainerFriendship, 255)));
-        rows.Add(new("inspect-handler", "Handling trainer", f.HandlerName is { } name ? $"{name} ({TrainerGender(f.HandlerGender)})" : "None"));
+        rows.Add(new("inspect-handler", "Handling trainer", f.HandlerName is { } name ? $"{DisplayText.Embed(name)} ({TrainerGender(f.HandlerGender)})" : "None"));
         rows.Add(new("inspect-handler-friendship", "Friendship (handling trainer)", OutOf(f.HandlerFriendship, 255)));
         rows.Add(new("inspect-current-handler", "Currently held by", f.CurrentHandler switch
         {
