@@ -69,4 +69,12 @@ public enum EditableFields
     /// (Meowstic), the form changes with it, as the desktop editor changes it.
     /// </summary>
     Gender = 1 << 11,
+
+    /// <summary>
+    /// The species and form (<see cref="EditorDraft.EditSpeciesForm"/>), chosen from Core's species list for the save and the species' form
+    /// list. The fields that follow them (experience points, ability, gender and a default name) change through Core's
+    /// <see cref="PKHeX.Core.SpeciesFormChange.ChangeSpeciesForm(PKHeX.Core.PKM,ushort,byte,PKHeX.Core.IPersonalTable)"/>, as the desktop
+    /// editor changes them, and the editor previews them before the change is made (<see cref="EditorDraft.PreviewSpeciesForm"/>).
+    /// </summary>
+    Species = 1 << 12,
 }

@@ -5,7 +5,7 @@
    a select's value as its live value.
    It renders again only when its own value, list, state or names change, so a keystroke elsewhere in the editor does not re-render hundreds of
    options. *@
-<select id="@Id" value="@Value.ToString(CultureInfo.InvariantCulture)" aria-labelledby="@LabelledBy" aria-describedby="@DescribedBy"
+<select @ref="select" id="@Id" value="@Value.ToString(CultureInfo.InvariantCulture)" aria-labelledby="@LabelledBy" aria-describedby="@DescribedBy"
         disabled="@Disabled" @onchange="Changed">
     @if (!listed)
     {
@@ -42,6 +42,7 @@
     /// <summary>Receives the chosen value.</summary>
     [Parameter] public EventCallback<int> OnChange { get; set; }
 
+    private ElementReference select;
     private IReadOnlyList<ComboItem>? source;
     private IReadOnlyList<ComboItem> choices = [];
     private HashSet<int> values = [];
@@ -68,6 +69,9 @@
         rendered = (Value, Disabled, Id, LabelledBy, DescribedBy);
         listChanged = false;
     }
+
+    /// <summary>Moves focus to the select, so a control that disappears (such as a confirmation button) does not drop focus to the page.</summary>
+    public ValueTask FocusAsync() => select.FocusAsync();
 
     private Task Changed(ChangeEventArgs e) =>
         int.TryParse(e.Value?.ToString(), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var value)

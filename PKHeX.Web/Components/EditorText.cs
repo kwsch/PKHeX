@@ -12,7 +12,7 @@ namespace PKHeX.Web.Components;
 public static class EditorText
 {
     /// <summary>Shown in place of the fields of an egg, which this release does not edit.</summary>
-    public const string EggReadOnly = "This is an egg. Its name, language, friendship (its hatch counter), level, nature, IVs, EVs, held item, moves, PP, ability and gender are kept as stored and cannot be changed in this release.";
+    public const string EggReadOnly = "This is an egg. Its species, form, name, language, friendship (its hatch counter), level, nature, IVs, EVs, held item, moves, PP, ability and gender are kept as stored and cannot be changed in this release.";
 
     /// <summary>Shown beside the handling trainer's friendship when no handling trainer is stored.</summary>
     public const string NoHandler = "No handling trainer is stored: this Pokémon has stayed with its original trainer, so there is no friendship towards one to change.";
@@ -26,7 +26,12 @@ public static class EditorText
     /// <summary>The fields an opened Pokémon can have changed, for the message shown when it is opened.</summary>
     public static string EditableSummary(EditableFields fields)
     {
-        var names = new List<string>(15);
+        var names = new List<string>(17);
+        if (fields.HasFlag(EditableFields.Species))
+        {
+            names.Add("species");
+            names.Add("form");
+        }
         if (fields.HasFlag(EditableFields.Nickname))
         {
             names.Add("nickname");
@@ -305,6 +310,149 @@ public static class EditorText
             parts.Add(string.Create(CultureInfo.InvariantCulture, $"Its experience points are now {c.After.Experience} (level {level}), from {c.Before.Experience}."));
         }
         return string.Join(" ", parts);
+    }
+
+    /// <summary>
+    /// The note under the species and form, always shown: a choice is previewed before it is made, what it keeps, and that legality analysis,
+    /// not the lists, decides whether the Pokémon can be that species and form.
+    /// </summary>
+    public const string SpeciesNote = "Choosing a species or form shows what the change would alter before it is made; nothing changes until you confirm it. "
+        + "Moves, IVs, EVs, nature, held item, the PID and form timers (Furfrou's trim, Hoopa's unbound days) are kept. "
+        + "The lists hold every species this game has and each one's forms; legality analysis checks whether this Pokémon can be that species and form and know its moves.";
+
+    /// <summary>The form box's only option for a species without alternate forms.</summary>
+    public const string NoAlternateForms = "No alternate forms";
+
+    /// <summary>
+    /// The name of a form in the form box and the preview: Core's name, marked when the form exists only in battle or is not in this game, so
+    /// such a choice is explained before it is made.
+    /// </summary>
+    public static string FormName(FormChoice choice)
+    {
+        var name = BareFormName(choice.Name, choice.Form);
+        if (choice.BattleOnly)
+        {
+            name += " (battle only)";
+        }
+        if (!choice.InGame)
+        {
+            name += " (not in this game)";
+        }
+        return name;
+    }
+
+    /// <summary>Core's name of a form, or a numbered name when Core gives it none.</summary>
+    private static string BareFormName(string name, byte form) => name.Length != 0
+        ? name
+        : string.Create(CultureInfo.InvariantCulture, $"Form {form}");
+
+    /// <summary>The name of a stored form outside the species' form list, so the form box never shows a value that is not stored.</summary>
+    public static string UnlistedForm(int form) => string.Create(CultureInfo.InvariantCulture, $"Unknown form (stored value {form})");
+
+    /// <summary>
+    /// Shown beside Apply and Download while a species or form change is previewed but not confirmed: the boxes show the previewed choice, which
+    /// neither would carry.
+    /// </summary>
+    public const string SpeciesFormPending = "A species or form change is shown but not made yet. Make it or keep the current species and form before applying or downloading.";
+
+    /// <summary>The label of the button that makes a previewed species or form change.</summary>
+    public const string ConfirmSpeciesForm = "Make this change";
+
+    /// <summary>The label of the button that drops a previewed species or form change.</summary>
+    public const string CancelSpeciesForm = "Keep the current species and form";
+
+    /// <summary>The question that heads a species or form change preview, naming the species and forms before and after.</summary>
+    /// <param name="preview">The previewed change.</param>
+    /// <param name="speciesName">Gives the display name of a species.</param>
+    /// <param name="formName">Gives the display name of a form of the species before (false) or after (true) the change.</param>
+    public static string PreviewTitle(SpeciesFormPreview preview, Func<ushort, string> speciesName, Func<bool, string?> formName)
+    {
+        var before = WithForm(speciesName(preview.Before.Species), formName(false));
+        var after = WithForm(speciesName(preview.After.Species), formName(true));
+        return $"Change {before} to {after}?";
+
+        static string WithForm(string species, string? form) => form is null ? species : $"{species} ({form})";
+    }
+
+    /// <summary>The note after a species or form change is made, naming what it changed (see <see cref="SpeciesFormChanges"/>).</summary>
+    public static string SpeciesFormChanged(IReadOnlyList<string> changes) => "The species and form were changed. " + string.Join(" ", changes);
+
+    /// <summary>
+    /// What a species or form change alters, one sentence each: every dependent field Core reports changed (form, experience points and level,
+    /// ability, gender, PID, name) with its values before and after, the stats that change, and a party member's current HP; then whether the
+    /// change gives back earlier values, and what legality analysis will report about the form.
+    /// </summary>
+    /// <param name="preview">The previewed change.</param>
+    /// <param name="speciesName">Gives the display name of a species.</param>
+    /// <param name="formName">Gives the display name of a form of the species before (false) or after (true) the change, or null when it has none.</param>
+    /// <param name="abilityName">Gives the display name of an ability.</param>
+    public static IReadOnlyList<string> SpeciesFormChanges(SpeciesFormPreview preview, Func<ushort, string> speciesName, Func<bool, string?> formName, Func<int, string> abilityName)
+    {
+        var (b, a) = (preview.Before, preview.After);
+        var changes = preview.Changes;
+        var lines = new List<string>(10);
+        if (preview.SpeciesChanged)
+        {
+            lines.Add($"Species: {speciesName(b.Species)} to {speciesName(a.Species)}.");
+        }
+        if (changes.HasFlag(SpeciesFormChangeResult.Form))
+        {
+            lines.Add($"Form: {formName(false) ?? BareFormName("", b.Form)} to {formName(true) ?? BareFormName("", a.Form)}.");
+        }
+        if (changes.HasFlag(SpeciesFormChangeResult.EXP))
+        {
+            lines.Add(preview.LevelChanged
+                ? string.Create(CultureInfo.InvariantCulture, $"Experience points: {b.Experience} to {a.Experience}, so the level goes from {b.Level} to {a.Level} on the new growth rate.")
+                : string.Create(CultureInfo.InvariantCulture, $"Experience points: {b.Experience} to {a.Experience}, the start of level {a.Level}."));
+        }
+        else if (preview.LevelChanged)
+        {
+            lines.Add(string.Create(CultureInfo.InvariantCulture, $"Level: {b.Level} to {a.Level}, as the same {a.Experience} experience points count on the new growth rate."));
+        }
+        if (changes.HasFlag(SpeciesFormChangeResult.Ability))
+        {
+            lines.Add($"Ability: {abilityName(b.Ability)} ({InspectorText.AbilitySlot(b.AbilityNumber)}) to {abilityName(a.Ability)} ({InspectorText.AbilitySlot(a.AbilityNumber)}).");
+        }
+        if (changes.HasFlag(SpeciesFormChangeResult.Gender))
+        {
+            lines.Add($"Gender: {GenderName(b.Gender)} to {GenderName(a.Gender)}.");
+        }
+        if (changes.HasFlag(SpeciesFormChangeResult.PID))
+        {
+            lines.Add("PID: changed.");
+        }
+        if (changes.HasFlag(SpeciesFormChangeResult.Nickname))
+        {
+            lines.Add(a.IsNicknamed
+                ? $"Name: {b.Nickname} to {a.Nickname}."
+                : $"Name: {b.Nickname} to {a.Nickname}, as it is not nicknamed.");
+        }
+        if (preview.ChangedStats is { Count: > 0 } stats)
+        {
+            var values = string.Join(", ", stats.Select(i => string.Create(CultureInfo.InvariantCulture, $"{InspectorText.StatNames[i]} {b.Stats[i]} to {a.Stats[i]}")));
+            lines.Add($"Stats: {values}.");
+        }
+        if (preview.HpChange is { } hp && hp.PreviousHp != hp.NewHp)
+        {
+            lines.Add(string.Create(CultureInfo.InvariantCulture, $"Current HP: {hp.PreviousHp} to {hp.NewHp}; it is never raised, and its status is kept."));
+        }
+        if (lines.Count == (preview.SpeciesChanged ? 1 : 0))
+        {
+            lines.Add("Nothing else changes.");
+        }
+        if (preview.Restores)
+        {
+            lines.Add("This returns to the species and form your changes started from, so the values they changed are given back.");
+        }
+        if (preview.BattleOnly)
+        {
+            lines.Add("This form exists only during battle, so legality analysis reports a Pokémon stored in it.");
+        }
+        if (!preview.InGame)
+        {
+            lines.Add("This game does not have this form, so legality analysis reports it.");
+        }
+        return lines;
     }
 
     /// <summary>

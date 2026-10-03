@@ -116,6 +116,15 @@ public enum SessionError
     /// <summary>The gender is not one the species can have (such as female for an always-male species).</summary>
     GenderNotAvailable,
 
+    /// <summary>The species is not one the save's game can hold (see <see cref="SaveCapabilities.SpeciesChoices"/>).</summary>
+    SpeciesNotAvailable,
+
+    /// <summary>
+    /// The form is not one the species' form list offers (see <see cref="EditorDraft.FormChoices"/>); a species without alternate forms
+    /// takes only form 0.
+    /// </summary>
+    FormNotAvailable,
+
     /// <summary>
     /// The Pokémon is an egg. Its name must be the game's egg name, and its friendship field holds the hatch counter, so this release
     /// edits none of its fields.

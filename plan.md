@@ -1484,6 +1484,79 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
       - It does not change Meowstic's form; we do, as WinForms does.
     - **Not adopted:** the HaX "show all abilities" list, and PID-derived gender and ability for Gen 3–5 (other formats).
 - **M15 Species/form.** Uses the Phase 1 helper (depends on R2; carry the commit if the PR is not yet merged). The confirmation preview lists the returned changed-field flags (PKM-002).
+
+  **M15 status:** code complete on `web/m15-species-form`. R2's `ChangeSpeciesForm` is already on `web/main` (R1–R3 not yet merged upstream; gate G-E).
+  - **Core facts relied on** (checked in source and with a throwaway probe):
+    - `FilteredGameDataSource.Species` includes 0 ("---") and 721 species for XY and ORAS.
+    - `FormInfo.HasFormSelection` uses the save's personal table, so an XY save has no form choice for 22 species whose extra forms are ORAS-only (cosplay Pikachu, Primal Kyogre/Groudon, the ORAS Megas, Hoopa Unbound).
+    - Every Gen 6 form in Core's list has a name; 58 are battle-only (`FormInfo.IsBattleOnlyForm`). In XY, only Scatterbug/Spewpa's Fancy and Poké Ball patterns are listed but not present (`IsPresentInGame`).
+    - `ChangeSpeciesForm` never changes a PK6's PID; it does not touch form arguments; the PK6 name setter keeps bytes after the terminator.
+    - Gen 6 Furfrou in a trimmed form outside the party is reported by `FormVerifier`.
+  - **Draft** (`State/EditorDraft`):
+    - `PreviewSpeciesForm(species, form)` returns a `State/SpeciesFormPreview`: Core's returned `SpeciesFormChangeResult` flags, the values before and after (`SpeciesFormValues`: species, form, level, EXP, ability and slot number, gender, name, flag, the six stats as stored for a party member or calculated for a boxed one), the party HP change, battle-only and in-game flags, the new species' forms, and whether it gives back a run. It is refused exactly as the edit would be, changes nothing and is not counted as an edit.
+    - `EditSpeciesForm(species, form)` writes the same candidate. Species must be in `SaveCapabilities.SpeciesChoices` (Core's list without 0; `SpeciesNotAvailable`); the form must be in `FormChoices`, or 0 for a species without forms (`FormNotAvailable`, never reset as Core would). It is a stat edit (`PartyStatPolicy`; `PartyStatsMissing` for a member stored without stats).
+    - `FormChoices` (`State/FormChoice`: Core's name, battle-only, in game) follows `PKMEditor.SetForms`: personal-data form selection and more than one name. Cached per species.
+    - **Changing back.** M14's single-step Meowstic undo is generalised to a run of species and form changes, gender-driven Meowstic changes included: the draft before the run's first change, and the dependent values (species, form, EXP, ability, slot number, gender, name, flag) after its last. Returning to the run's start with none of those edited since gives back the stored EXP, ability pair, gender and name bytes. Editing one of them ends the run; other edits do not.
+    - `EditableFields.Species`; `SupportMatrix` grants it to XY and ORAS.
+  - **UI** (`Components/DraftEditor`, text in `Components/EditorText`):
+    - A "Species and form" fieldset first: `#species` (`ChoiceSelect`, which gains `FocusAsync`) and `#form` ("No alternate forms" when there are none; forms marked "(battle only)" and "(not in this game)"; a stored form outside the list shown as stored); `#species-note` says nothing changes until confirmed, what is kept, and that legality decides.
+    - Choosing a species (its first form, or the drafted form for the drafted species) or a form shows `#species-preview` (live): a title and one line per Core flag with before/after values, changed stats, a party member's current HP, a give-back line, and battle-only / not-in-game warnings. `#species-confirm` makes the change; `#species-cancel` drops it; both return focus to `#species`. A refused preview is shown in the region and the boxes show the draft. Choosing the drafted values, any other accepted edit or a new draft ends the preview. `#species-change` (live) repeats what the confirmed change did; any other edit clears it.
+    - Text updated: `EditableSummary` ("Its species, form, nickname, …"), `EggReadOnly`, `UserMessages.EggNotEditable`, `PartyText.KeptOnEdit`, two refusal texts, README (intro, Party, Capabilities, a "Species and form" bullet, the Meowstic wording, the real-save round trips).
+  - **Tests.**
+    - **Unit 989** (up from 935; 987 before the adversarial review):
+      - `SpeciesFormDraftTests` (42, 1 from the review): readers; Core's form lists for Charizard, Pikachu and Kyogre in XY and ORAS, with battle-only and Scatterbug's not-in-XY patterns; species changes in XY and ORAS (same growth, different growth, fixed gender, genderless, forms) equal native `ChangeSpeciesForm` writing only species, EXP, ability, gender/form and name bytes, PID/EC/nature/shiny kept, slot kept; previews equal Core's flags and the edit, change nothing, count nothing; growth-rate level change; battle-only form change; species −1/0/722/`int.MaxValue`/`int.MinValue` and out-of-list forms refused (including cosplay Pikachu in X); nicknamed kept, French not-nicknamed renamed; a four-step run and back is clean; stored bytes after the name terminator are given back; an edit of a changed value ends the run and is kept, an IV edit does not; Meowstic gender and form edits share the run; a party member (XY and ORAS) recalculated at 7 HP with its burn through apply and export equals native Core plus the party-stat policy, and changed back keeps its stored battle state; a member stored without stats refused; family and egg gating.
+      - `DraftEditorTests` (+12, bUnit, 1 from the review): species and form boxes; battle-only labels; a stored unlisted form; preview without an edit, its lines, confirm, the change note and its clearing; cancel; reselecting the drafted species; another edit ends the preview; a refused preview; a party preview's stat and HP lines; the flag gate; a new draft. Updated: egg read-only, `EditableSummary`, the `ChoiceSelect` count and order. Updated `SaveCapabilitiesTests` (species list without 0, 721 entries).
+    - **E2E 233** (up from 209; 221 before the adversarial review): `SpeciesFormBrowserTests`, 3 engines × 2 paths.
+      - A boxed Zigzagoon: Charizard's forms with battle-only labels, a Mega X preview warning, cancel with focus back and no draft change; then Linoone previewed (title, rename line) and confirmed; inspector, legality verdict, export byte-identical to native Core with only the slot and footer differing; no scroll at 375 px.
+      - An injured, burned party member changed to Chansey: preview with the stored stats (Attack 1) and new HP; recalculated caption, 7 HP kept, export equal to native Core.
+      - From the review: a refused preview (a party member stored without stats) puts the species box back to the drafted species; a pending preview disables Apply with `#species-pending` until it is cancelled.
+      - Run with a `-p:PKHeXWebSprites=true` publish for the sprite tests. Every E2E test executed.
+    - **RealSave 98** (up from 86): `RealSaveSpeciesFormRoundTrip`, 3 engines × 2 paths × 2 families. A species change of the first writable boxed non-egg and of the first party member are byte-identical to native Core plus the party-stat policy, and only those two slots and the footer differ.
+    - **Mutation checks** (Unit tier; files restored from a scratchpad copy; failing tests):
+
+      | Mutation | Failing tests |
+      | --- | --- |
+      | Forms not gated on personal data | 2 |
+      | Species 0 offered | 3 |
+      | Species unchecked | 1 |
+      | Form unchecked | 4 |
+      | Preview not settled for a party member | 5 |
+      | Never undo | 10 |
+      | Undo even after an edit since | 2 |
+      | Run not continued | 1 |
+      | Name bytes not given back | 1 (0 before `ChangingBackGivesBackTheStoredNameBytes`) |
+      | Battle-only not marked | 3 |
+      | Not-in-game not marked | 1 (0 before the Scatterbug case) |
+      | Gated by the gender flag | 1 |
+      | Edit skips the stat policy | 2 |
+      | Another edit keeps the preview | 2 |
+      | Choice made at once, without a preview | 6 |
+      | Refused preview not shown | 1 |
+
+    - **Other checks:** trim baseline unchanged (38). `PKHeX.slnx` Release builds with 0 warnings.
+  - **Adversarial review** (throwaway probe against the private saves, deleted): 968 non-egg entities (553 XY, 415 ORAS, boxes and party; 256 with forms), each changed to every species (697,928 changes) and back, and each to every form of its species and back. Every preview's flags equal Core's, every boxed change equals native Core byte for byte, every preview equals the edit it describes, and every change and back left the draft clean. No refusals.
+  - **Second adversarial review** (each finding shown by a failing test first, then fixed; mutations):
+    - **Fixed:**
+      - **A language edit did not end the run.** Core names a Pokémon that is not nicknamed in its language, so after Zigzagoon → Linoone, a French language edit (which keeps "Linoone", another language's name) and a change back, the draft restored the English "Zigzagoon" instead of Core's French "Zigzaton". The language is now part of the run's key.
+      - **Reselecting the drafted species could show a false refusal.** For a stored form outside the species' list (Zigzagoon stored as form 3), choosing another species and then the drafted one previewed the stored form and showed "no such form". Choosing the drafted species now just ends the preview.
+      - **A refused preview left the browser's box on the refused species.** The value Blazor renders did not change, so it did not reset the select the user had changed (every engine; bUnit cannot see it). Both boxes are now keyed on a refusal count, so a refusal renders them again with the draft's values.
+      - **Apply and Download ignored a pending preview.** The boxes showed the previewed species while Apply, Download and the exit panel's apply would have written the draft without it. The editor now reports a preview to `Workspace` (`OnPreviewChanged`), which disables them, guards Apply and export, and shows `EditorText.SpeciesFormPending` until the change is made or dropped.
+    - Mutations (failing tests): language not in the run's key 1; drafted species reselected previews its form 1; refusal does not reset the boxes 6 (E2E); pending preview does not hold back Apply 6 (E2E).
+    - **Checked, not changed:** a stale `previewing` reference after a new draft cannot hold anything back (compared by reference with the current draft); a language edit also ends the run of a nicknamed Pokémon, which Core would not rename, so changing back then uses Core's values rather than giving the old ones back. That is safe, so it was left.
+    - After the fixes: Unit 989, E2E 233 and RealSave 98 on new publishes; trim baseline unchanged (38); `PKHeX.slnx` Release builds with 0 warnings.
+  - **Recorded, not changed:**
+    - Form timers (Furfrou, Hoopa) are kept as stored, as the desktop editor's species/form change keeps them; legality reports a trimmed Furfrou in a box or a missing timer. PKForge sets the timer to its maximum on entering a timed form; not adopted (no form-argument field in this release; Post-MVP).
+    - Rotom's appliance move is not swapped (PKForge does; the desktop does not).
+    - Battle-only and not-in-game forms are offered, marked and warned, as the desktop offers them; legality reports them, and M16's acknowledgement gates apply/export of an Invalid result.
+    - The preview is a live region inside the editor, not a modal dialog; M18 decides focus trapping.
+  - **Not verified yet:** no screen reader; no separate manual drive beyond the E2E runs (Chromium, Firefox and WebKit, both paths, 375 px); physical devices (G-C).
+  - **Compared with PKForge** (`SaveEngineSession.ApplyEdit` 144–148, `MonFieldService.GetForm`/`SetForm`, `MonFieldTests`):
+    - **Matches:** forms from Core's form list for the entity context; battle-only and not-in-game forms flagged and warned; ability slot kept; EXP following the growth rate.
+    - **Stricter:**
+      - PKForge's species edit sets `Species` and `Form = 0` only, leaving EXP, ability, gender and name stale; we use Core's `ChangeSpeciesForm`.
+      - Its form change syncs gender only for two-entry ♂/♀ lists (the Unown F/M case M14 fixed) and recalculates party stats with `ResetPartyStats`, healing and clearing status; we follow the PK6 party-stat policy.
+      - It applies at once; we preview first and give back a run on return.
+    - **Not adopted:** form-timer seeding and the Rotom move swap (above).
 - **M16 Acknowledgements + lifecycle.**
   - An Invalid or Unavailable legality result needs explicit acknowledgement before apply/export.
   - Reset to original re-parses a fresh copy.

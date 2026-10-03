@@ -215,6 +215,33 @@ public sealed class EditorDraft
     /// <summary>The drafted values that follow the form, which a gender edit of a species whose form is its gender can change.</summary>
     public FormDependents Dependents => new(working.Form, working.Ability, working.AbilityNumber, working.EXP);
 
+    /// <summary>Drafted species, by national dex number.</summary>
+    public ushort Species => working.Species;
+
+    /// <summary>Drafted form, as an index of the species' form list.</summary>
+    public byte Form => working.Form;
+
+    /// <summary>
+    /// The forms the drafted species can be changed to, from Core's form list for the Pokémon's generation (as the desktop editor lists them),
+    /// or empty when the species has no alternate forms in the save's game, so it takes only form 0.
+    /// </summary>
+    /// <remarks>The same list instance is returned until the species changes, so a select over it is not rebuilt on every edit.</remarks>
+    public IReadOnlyList<FormChoice> FormChoices
+    {
+        get
+        {
+            if (formChoices is null || formChoicesFor != working.Species)
+            {
+                formChoices = FormsOf(working.Species);
+                formChoicesFor = working.Species;
+            }
+            return formChoices;
+        }
+    }
+
+    private IReadOnlyList<FormChoice>? formChoices;
+    private ushort formChoicesFor;
+
     /// <summary>True when any stored byte of the draft differs from the slot it was taken from.</summary>
     /// <remarks>Neither copy has its checksum refreshed in memory, so the checksum bytes cannot make an unchanged draft look dirty.</remarks>
     public bool IsDirty => !working.Data.SequenceEqual(baseline.Data);
@@ -665,9 +692,10 @@ public sealed class EditorDraft
     /// <para>
     /// When the form is the gender (<see cref="FormFollowsGender"/>), the form changes with it through Core's
     /// <see cref="SpeciesFormChange.ChangeSpeciesForm(PKM,ushort,byte,IPersonalTable,int)"/>, as the desktop editor changes it: the ability
-    /// slot is kept and its ability taken from the new form, and the experience points become the fewest for the level. Changing back to
-    /// the form before undoes those side effects: the experience points, ability and slot number it had before are given back, each only if
-    /// nothing has changed it since, so changing the gender and back leaves the draft as it was, and an edit made in between is kept.
+    /// slot is kept and its ability taken from the new form, and the experience points become the fewest for the level. It is a form change
+    /// like <see cref="EditSpeciesForm"/>, and changing back undoes it the same way: when none of the values it changed has been edited
+    /// since, the experience points, ability and slot number from before are given back, so changing the gender and back leaves the draft as
+    /// it was; once one has been edited, changing back sets them as Core does and keeps the edit.
     /// </para>
     /// </remarks>
     /// <param name="gender">The gender: 0 male, 1 female, 2 genderless.</param>
@@ -693,46 +721,210 @@ public sealed class EditorDraft
 
         // The desktop picks the form at the gender's place in the form list (PKMEditor.ClickGender).
         var form = (byte)Math.Min(value, formCount - 1);
-        var before = Dependents;
-        candidate.ChangeSpeciesForm(working.Species, form, Capabilities.Personal, working.GetAbilitySlot());
+        var before = (PK6)working.Clone();
+        var (_, restored) = ChangeSpeciesForm(candidate, working.Species, form);
         candidate.Gender = value; // Core sets it from the form; set here too in case the form already matched and nothing was changed.
-        var undo = lastFormChange;
-        if (undo is not null && form == undo.Before.Form && before == undo.After)
-        {
-            UndoFormChange(candidate, undo);
-        }
         Commit(candidate, affectsStats: true);
-        var after = Dependents;
-        lastFormChange = after.Form != before.Form ? new GenderChange(before, after) : null;
+        RecordFormChange(before, restored);
     }
 
     /// <summary>
-    /// The last gender edit that changed the form: the values that follow the form before and after it, so changing back can undo its side
-    /// effects. Null when there is none, or once the form has changed back.
+    /// Shows what changing the species and form would do, without changing the draft (WEB-PKM-002): the dependent fields Core changes with
+    /// them, their values before and after, a party member's recalculated stats and HP, and whether the form is battle-only or missing from
+    /// the save's game. It is refused exactly as <see cref="EditSpeciesForm"/> would be.
     /// </summary>
-    private GenderChange? lastFormChange;
-
-    /// <summary>
-    /// Gives a draft changed back to the form before <paramref name="undo"/> the experience points, ability and slot number it had then,
-    /// each only if it still has the value the form change gave it, so an edit made since is kept.
-    /// </summary>
-    /// <remarks>Called only when no edit has changed the form's dependents since the change (see <see cref="EditGender"/>).</remarks>
-    private static void UndoFormChange(PK6 candidate, GenderChange undo)
+    /// <param name="species">A species from <see cref="SaveCapabilities.SpeciesChoices"/>.</param>
+    /// <param name="form">A form from the species' <see cref="FormChoices"/>, or 0 for a species without alternate forms.</param>
+    /// <exception cref="SessionException">As for <see cref="EditSpeciesForm"/>.</exception>
+    public SpeciesFormPreview PreviewSpeciesForm(int species, int form)
     {
-        var growth = candidate.PersonalInfo.EXPGrowth;
-        if (Core.Experience.GetLevel(undo.Before.Experience, growth) == candidate.CurrentLevel)
+        var (candidate, changes, restored) = SpeciesFormCandidate(species, form);
+        var party = Slot.IsParty;
+        var forms = candidate.Species == working.Species ? FormChoices : FormsOf(candidate.Species);
+        return new SpeciesFormPreview(
+            SpeciesFormValues.Of(working, party),
+            SpeciesFormValues.Of(candidate, party),
+            changes,
+            FormInfo.IsBattleOnlyForm(candidate.Species, candidate.Form, candidate.Format),
+            Capabilities.Personal.IsPresentInGame(candidate.Species, candidate.Form),
+            restored,
+            party ? PartyHpChange.Between(working, candidate) : null,
+            forms);
+    }
+
+    /// <summary>
+    /// Changes the species and form through Core's <see cref="SpeciesFormChange.ChangeSpeciesForm(PKM,ushort,byte,IPersonalTable)"/>, which
+    /// updates the fields that follow them as the desktop editor does: the experience points become the fewest for the level they give on the
+    /// new growth curve, the ability keeps its slot and takes the new species' ability in it, the gender is made one the species can have
+    /// (and follows a gendered form such as Meowstic's), and a Pokémon that is not nicknamed is given the new species' name. The PID is never
+    /// changed. On failure the previous values are kept.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Changing back to the species and form a run of species and form changes started from, with none of the values they changed edited
+    /// since, gives back the values the run started with (experience points, ability and slot number, gender and name), so changing and
+    /// changing back leaves the draft as it was. Once one of those values is edited, a later change sets it as Core does.
+    /// </para>
+    /// <para>
+    /// Moves, IVs, EVs, nature, held item, the PID and form timers (Furfrou's trim, Hoopa's unbound days) are kept as stored. Whether the
+    /// Pokémon can be this species and form, know its moves or be in a battle-only form outside battle is reported by legality analysis.
+    /// </para>
+    /// </remarks>
+    /// <param name="species">A species from <see cref="SaveCapabilities.SpeciesChoices"/>.</param>
+    /// <param name="form">A form from the species' <see cref="FormChoices"/>, or 0 for a species without alternate forms.</param>
+    /// <exception cref="SessionException">
+    /// The family does not allow species edits, the Pokémon is an egg, the species is not in the game's list, the form is not in the species'
+    /// form list, or the member is stored without party stats.
+    /// </exception>
+    public void EditSpeciesForm(int species, int form)
+    {
+        var before = (PK6)working.Clone();
+        var (candidate, _, restored) = SpeciesFormCandidate(species, form);
+        Store(candidate);
+        RecordFormChange(before, restored);
+    }
+
+    /// <summary>
+    /// A validated copy of the draft changed to <paramref name="species"/> and <paramref name="form"/>, with a party member's battle state
+    /// settled as an apply will store it, and the dependent fields the change altered.
+    /// </summary>
+    private (PK6 Candidate, SpeciesFormChangeResult Changes, bool Restored) SpeciesFormCandidate(int species, int form)
+    {
+        Require(EditableFields.Species);
+        if (!Capabilities.SpeciesChoices.Any(s => s.Value == species))
         {
-            candidate.EXP = undo.Before.Experience;
+            throw new SessionException(SessionError.SpeciesNotAvailable);
         }
-        if (candidate.GetAbilitySlot() == SlotOf(undo.Before.AbilityNumber))
+        var forms = species == working.Species ? FormChoices : FormsOf((ushort)species);
+        if (forms.Count == 0 ? form != 0 : (uint)form >= (uint)forms.Count)
         {
-            candidate.Ability = undo.Before.Ability;
-            candidate.AbilityNumber = undo.Before.AbilityNumber;
+            throw new SessionException(SessionError.FormNotAvailable);
+        }
+        var candidate = (PK6)working.Clone();
+        var (changes, restored) = ChangeSpeciesForm(candidate, (ushort)species, (byte)form);
+        Settle(candidate, affectsStats: true);
+        return (candidate, changes, restored);
+    }
+
+    /// <summary>
+    /// The forms <paramref name="species"/> can be changed to: Core's form list for the generation when the save's personal data gives the
+    /// species a form choice (<see cref="FormInfo.HasFormSelection"/>) and the list has more than one form, as the desktop editor shows its
+    /// form box (<c>PKMEditor.SetForms</c>); otherwise none.
+    /// </summary>
+    private IReadOnlyList<FormChoice> FormsOf(ushort species)
+    {
+        var personal = Capabilities.Personal;
+        if (!FormInfo.HasFormSelection(personal[species], species, working.Format))
+        {
+            return [];
+        }
+        var strings = GameInfo.Strings;
+        var names = FormConverter.GetFormList(species, strings.types, strings.forms, GameInfo.GenderSymbolUnicode, working.Context);
+        if (names.Length <= 1)
+        {
+            return [];
+        }
+        return [.. names.Select((name, i) => new FormChoice((byte)i, name, FormInfo.IsBattleOnlyForm(species, (byte)i, working.Format), personal.IsPresentInGame(species, (byte)i)))];
+    }
+
+    /// <summary>
+    /// Changes <paramref name="candidate"/>'s species and form through Core, keeping its ability slot. When the change returns to where the
+    /// current run of changes started (<see cref="formChanges"/>) and nothing it changed has been edited since, the values the run started
+    /// with are given back instead.
+    /// </summary>
+    /// <returns>
+    /// The dependent fields changed (Core's flags, or for a return the fields that differ from the draft), and whether the run was undone.
+    /// </returns>
+    private (SpeciesFormChangeResult Changes, bool Restored) ChangeSpeciesForm(PK6 candidate, ushort species, byte form)
+    {
+        var changes = candidate.ChangeSpeciesForm(species, form, Capabilities.Personal);
+        if (formChanges is not { } run || DependentValues.Of(working) != run.After
+            || (species, form) != (run.Origin.Species, run.Origin.Form) || (species, form) == (working.Species, working.Form))
+        {
+            return (changes, false);
+        }
+        var origin = run.Origin;
+        candidate.EXP = origin.EXP;
+        candidate.Ability = origin.Ability;
+        candidate.AbilityNumber = origin.AbilityNumber;
+        candidate.Gender = origin.Gender;
+        origin.NicknameTrash.CopyTo(candidate.NicknameTrash);
+        candidate.IsNicknamed = origin.IsNicknamed;
+        return (Changed(working, candidate), true);
+    }
+
+    /// <summary>
+    /// Keeps <see cref="formChanges"/> in step after an edit that may have changed the species or form: a return to the run's start ends it,
+    /// a change continues the run it follows or starts a new one from <paramref name="before"/>, and an edit of a value a change alters ends it.
+    /// </summary>
+    /// <param name="before">The draft before the edit.</param>
+    /// <param name="restored">True when the edit returned to the run's start.</param>
+    private void RecordFormChange(PK6 before, bool restored)
+    {
+        var after = DependentValues.Of(working);
+        if (restored)
+        {
+            formChanges = null;
+        }
+        else if ((before.Species, before.Form) != (working.Species, working.Form))
+        {
+            formChanges = formChanges is { } run && DependentValues.Of(before) == run.After ? run with { After = after } : new FormChangeRun(before, after);
+        }
+        else if (formChanges is { } run && after != run.After)
+        {
+            formChanges = null;
         }
     }
 
-    /// <summary>The slot Core keeps through a form change for a stored slot number: its slot, or the first for a number that names none.</summary>
-    private static int SlotOf(int abilityNumber) => AbilityVerifier.IsValidAbilityBits(abilityNumber) ? abilityNumber >> 1 : 0;
+    /// <summary>
+    /// The run of species and form changes the draft is in, so changing back can give back what the run changed: the draft before its first
+    /// change, and the values that follow the species and form after its last. Null when there is none, or once it has been undone. Another
+    /// edit leaves it in place, but a change finds it broken once a value it records has been edited since (see <see cref="ChangeSpeciesForm"/>).
+    /// </summary>
+    private FormChangeRun? formChanges;
+
+    /// <summary>A run of species and form changes: the draft before it, and the dependent values after its last change.</summary>
+    private sealed record FormChangeRun(PK6 Origin, DependentValues After);
+
+    /// <summary>
+    /// The values a species or form change sets, and the language it names a Pokémon that is not nicknamed in, compared to tell whether any has
+    /// been edited since. After a language edit, changing back must give the name Core gives in the new language, not the old language's.
+    /// </summary>
+    private readonly record struct DependentValues(ushort Species, byte Form, uint Experience, int Ability, int AbilityNumber, byte Gender, string Nickname, bool IsNicknamed, int Language)
+    {
+        public static DependentValues Of(PK6 pk) => new(pk.Species, pk.Form, pk.EXP, pk.Ability, pk.AbilityNumber, pk.Gender, pk.Nickname, pk.IsNicknamed, pk.Language);
+    }
+
+    /// <summary>The dependent fields that differ between <paramref name="before"/> and <paramref name="after"/>, as Core's change flags name them.</summary>
+    private static SpeciesFormChangeResult Changed(PK6 before, PK6 after)
+    {
+        var result = SpeciesFormChangeResult.None;
+        if (before.Form != after.Form)
+        {
+            result |= SpeciesFormChangeResult.Form;
+        }
+        if (before.EXP != after.EXP)
+        {
+            result |= SpeciesFormChangeResult.EXP;
+        }
+        if (before.Ability != after.Ability || before.AbilityNumber != after.AbilityNumber)
+        {
+            result |= SpeciesFormChangeResult.Ability;
+        }
+        if (before.Gender != after.Gender)
+        {
+            result |= SpeciesFormChangeResult.Gender;
+        }
+        if (before.PID != after.PID || before.EncryptionConstant != after.EncryptionConstant)
+        {
+            result |= SpeciesFormChangeResult.PID;
+        }
+        if (before.Nickname != after.Nickname || before.IsNicknamed != after.IsNicknamed)
+        {
+            result |= SpeciesFormChangeResult.Nickname;
+        }
+        return result;
+    }
 
     /// <summary>
     /// The number of forms in <paramref name="pk"/>'s form list when its current form is a gender (Meowstic's "♂" and "♀"), or null when it
@@ -867,6 +1059,14 @@ public sealed class EditorDraft
     /// </exception>
     private void Commit(PK6 candidate, bool affectsStats)
     {
+        Settle(candidate, affectsStats);
+        Store(candidate);
+    }
+
+    /// <summary>Settles a party member's battle state in <paramref name="candidate"/> for the edit, as <see cref="Commit"/> describes.</summary>
+    /// <exception cref="SessionException"><see cref="SessionError.PartyStatsMissing"/>, as for <see cref="Commit"/>.</exception>
+    private void Settle(PK6 candidate, bool affectsStats)
+    {
         if (affectsStats && Slot.IsParty)
         {
             if (!baseline.PartyStatsPresent)
@@ -875,6 +1075,11 @@ public sealed class EditorDraft
             }
             PartyStatPolicy.AfterStatEdit(candidate, baseline);
         }
+    }
+
+    /// <summary>Makes a settled <paramref name="candidate"/> the drafted entity and counts the edit.</summary>
+    private void Store(PK6 candidate)
+    {
         candidate.Data.CopyTo(working.Data);
         EditRevision++;
     }

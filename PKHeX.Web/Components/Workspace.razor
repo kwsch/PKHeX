@@ -15,7 +15,7 @@
 <h2 id="open-title" tabindex="-1" @ref="openTitle">@(Session is null ? "Open a save file" : "Open another save file")</h2>
 <SaveFilePicker Disabled="busy" OnReadStarted="() => busy = true" OnRead="OpenFile" OnDropRejected="DropRejected" />
 <p id="message" role="status">@message</p>
-<SessionExitPanel Exit="State.Exit" Stage="State.ExitStage" CanApplyDraft="@(Draft is { CanApply: true } && State.DraftValid)"
+<SessionExitPanel Exit="State.Exit" Stage="State.ExitStage" CanApplyDraft="@(Draft is { CanApply: true } && State.DraftValid && !Previewing)"
                   Busy="busy" OnApplyDraft="ApplyDraftForExit" OnDiscardDraft="DiscardDraftForExit" OnExport="() => ExportAsync()"
                   OnContinue="ContinueExit" OnDiscardSession="DiscardSessionForExit" OnCancel="CancelExit" />
 @if (Session is not null)
@@ -30,10 +30,14 @@
         <section aria-labelledby="draft-title">
             <h2 id="draft-title">Selected Pokémon</h2>
             <p id="draft-slot">@SlotText.Position(Draft.Slot)</p>
-            <DraftEditor Draft="Draft" OnEdit="Edit" />
+            <DraftEditor Draft="Draft" OnEdit="Edit" OnPreviewChanged="shown => previewing = shown ? Draft : null" />
             <p id="draft-state">@(State.DraftDirty ? "Unapplied draft" : "No draft changes")</p>
             <PartyHpPreview Change="Draft.HpChange" />
-            <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid)">Apply changes</button>
+            @if (Previewing)
+            {
+                <p id="species-pending">@EditorText.SpeciesFormPending</p>
+            }
+            <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid || Previewing)">Apply changes</button>
             <button id="cancel-draft" @onclick="CancelDraft">Cancel draft</button>
             @if (!Draft.CanApply)
             {
@@ -66,7 +70,7 @@
         {
             <p id="rename-note">@SessionStatusText.RenameToRestore</p>
         }
-        <button id="download" @onclick="() => ExportAsync()" disabled="@(State.DraftDirty || busy || !State.DraftValid)">Download validated save</button>
+        <button id="download" @onclick="() => ExportAsync()" disabled="@(State.DraftDirty || busy || !State.DraftValid || Previewing)">Download validated save</button>
         <button id="close-session" type="button" @ref="closeButton" @onclick="RequestClose" disabled="@busy">Close save</button>
         <p>Your browser may adjust the name. Download initiation does not confirm it was saved to disk. Verify your file before closing.</p>
     </section>
@@ -74,6 +78,15 @@
 
 @code {
     private string message = "";
+
+    /// <summary>The draft whose editor is previewing a species or form change, or null; a later draft has no preview.</summary>
+    private EditorDraft? previewing;
+
+    /// <summary>
+    /// True while the editor previews a species or form change it has not made: its boxes show the previewed choice, which neither Apply nor
+    /// Download would carry, so both wait until it is made or dropped.
+    /// </summary>
+    private bool Previewing => previewing is not null && ReferenceEquals(previewing, Draft);
 
     /// <summary>The message shown for the last refused edit, cleared from the page once a later edit is accepted.</summary>
     private string? refusal;
@@ -336,6 +349,11 @@
 
     private void Apply()
     {
+        if (Previewing)
+        {
+            message = EditorText.SpeciesFormPending;
+            return;
+        }
         try
         {
             State.ApplyDraft();
@@ -361,6 +379,11 @@
     /// </summary>
     private async Task ExportAsync()
     {
+        if (Previewing)
+        {
+            message = EditorText.SpeciesFormPending;
+            return;
+        }
         busy = true;
         try
         {

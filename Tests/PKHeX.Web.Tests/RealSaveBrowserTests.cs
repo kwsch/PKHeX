@@ -483,6 +483,64 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         fixture.AssertUnchanged();
     }
 
+    /// <summary>
+    /// The first boxed Pokémon that is not an egg and the first party member of each private save that is not an egg: a species change of each,
+    /// previewed and confirmed through the published app, matches Core's species change (and, for the party member, the PK6 party-stat
+    /// policy: stats recalculated, HP never raised, status kept) byte for byte and changes only those two slots. Values are withheld from messages.
+    /// </summary>
+    [TierTheory(TestCategory.RealSave)]
+    [MemberData(nameof(RealCases))]
+    public async Task RealSaveSpeciesFormRoundTrip(string engine, string prefix, string family)
+    {
+        var fixture = RealSaves.Read(family);
+        var native = fixture.Native;
+        var index = FirstWritableNonEgg(native);
+        var position = Enumerable.Range(0, native.PartyCount).FirstOrDefault(i => native.GetPartySlotAtIndex(i) is { IsEgg: false, PartyStatsPresent: true }, -1);
+        Assert.True(position >= 0, "The private save has no party member that is not an egg.");
+        var noOp = native.Clone().Write().ToArray();
+
+        var changed = native.Clone();
+        var boxed = SaveFixtures.Slot(changed, index).Read(changed);
+        var boxedSpecies = boxed.Species == (ushort)Species.Linoone ? (ushort)Species.Zigzagoon : (ushort)Species.Linoone;
+        boxed.ChangeSpeciesForm(boxedSpecies, 0, changed.Personal);
+        Assert.True(SaveFixtures.Slot(changed, index).WriteTo(changed, boxed, EntityImportSettings.None));
+        var member = changed.GetPartySlotAtIndex(position);
+        var memberSpecies = member.Species == (ushort)Species.Chansey ? (ushort)Species.Magikarp : (ushort)Species.Chansey;
+        var (hp, status) = (member.Stat_HPCurrent, member.Status_Condition);
+        member.ChangeSpeciesForm(memberSpecies, 0, changed.Personal);
+        member.ResetPartyStats();
+        member.Status_Condition = status;
+        member.Stat_HPCurrent = Math.Min(hp, member.Stat_HPMax);
+        changed.SetPartySlotAtIndex(member, position, EntityImportSettings.None);
+        var expectedEdited = changed.Clone().Write().ToArray();
+
+        await using var session = await app.BootAsync(engine, prefix);
+        var page = session.Page;
+        await Load(page, noOp);
+        await Select(page, index);
+        await page.Locator("#species").SelectOptionAsync(boxedSpecies.ToString(CultureInfo.InvariantCulture));
+        await page.Locator("#species-confirm").ClickAsync();
+        await page.Locator("#apply").ClickAsync();
+        await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory");
+        await Select(page, SlotRef.InParty(position));
+        await page.Locator("#species").SelectOptionAsync(memberSpecies.ToString(CultureInfo.InvariantCulture));
+        await page.Locator("#species-confirm").ClickAsync();
+        await page.Locator("#apply").ClickAsync();
+        await Expect(page.Locator("#draft-state")).ToHaveTextAsync("No draft changes");
+        var edited = await DownloadEdited(page);
+        Assert.True(edited.AsSpan().SequenceEqual(expectedEdited), "Edited browser/native species output differs (bytes withheld).");
+
+        // Only the two slots and the checksum footer may differ: take the party slot as edited, then check the rest against the box slot.
+        var partyOffset = native.GetPartyOffset(position);
+        var withParty = noOp.ToArray();
+        edited.AsSpan(partyOffset, native.SIZE_PARTY).CopyTo(withParty.AsSpan(partyOffset));
+        AssertOnlyRangeDiffers(withParty, edited, native.GetBoxSlotOffset(index.Box, index.Slot), native.SIZE_BOXSLOT);
+
+        await session.AssertNoNetworkOrPersistenceAsync();
+        Assert.True(session.PageErrors == 0, "Browser runtime errors occurred; no private traces retained.");
+        fixture.AssertUnchanged();
+    }
+
     /// <summary>The first writable boxed PK6 that is not an egg, since eggs are not edited.</summary>
     private static SlotRef FirstWritableNonEgg(SaveFile save)
     {

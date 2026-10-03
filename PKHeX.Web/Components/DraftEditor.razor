@@ -1,5 +1,5 @@
 @using System.Globalization
-@* The draft's editable fields: name and language, friendship towards each trainer, level and experience points, nature, ability and gender,
+@* The draft's editable fields: species and form, name and language, friendship towards each trainer, level and experience points, nature, ability and gender,
    IVs and EVs, the held item, and the moves with their PP and PP Ups. Every change
    goes through OnEdit, which runs it on the draft and reports a refusal; this component only turns input into typed draft edits and shows
    what the draft holds. *@
@@ -8,6 +8,61 @@
 {
     <p id="egg-note">@EditorText.EggReadOnly</p>
 }
+<fieldset id="species-fields">
+    <legend>Species and form</legend>
+    @* A species or form choice is previewed before it is made (WEB-PKM-002): while a preview is shown, the boxes hold the previewed choice,
+       and the draft changes only when it is confirmed. The species box lists Core's species for the save; the form box the species' forms
+       from Core's list for the generation, marked when battle-only or not in this game (see EditorDraft.FormChoices). *@
+    <label for="species">Species</label>
+    @* Keyed on the refusal count: a refused choice leaves the value Blazor last rendered unchanged, so it would not reset the box the user
+       changed; a new key renders it again with the draft's value. *@
+    <ChoiceSelect @key="SpeciesKey" @ref="speciesSelect" Id="species" Items="Draft.Capabilities.SpeciesChoices" Value="ShownSpecies" Disabled="!Can(EditableFields.Species)"
+                  DescribedBy="species-note" Unlisted="UnlistedSpecies" OnChange="SpeciesChosen" />
+    <label for="form">Form</label>
+    <select @key="FormKey" id="form" value="@ShownForm.ToString(CultureInfo.InvariantCulture)" @onchange="FormChosen" aria-describedby="species-note"
+            disabled="@(!Can(EditableFields.Species) || ShownForms.Count == 0)">
+        @if (ShownForms.Count == 0)
+        {
+            <option value="@ShownForm">@(ShownForm == 0 ? EditorText.NoAlternateForms : EditorText.UnlistedForm(ShownForm))</option>
+        }
+        else
+        {
+            @if (ShownForm >= ShownForms.Count)
+            {
+                <option value="@ShownForm" disabled>@EditorText.UnlistedForm(ShownForm)</option>
+            }
+            @foreach (var choice in ShownForms)
+            {
+                <option value="@choice.Form">@EditorText.FormName(choice)</option>
+            }
+        }
+    </select>
+    <p id="species-note">@EditorText.SpeciesNote</p>
+    @* Always rendered, so a screen reader announces a preview or a refusal when it appears. *@
+    <div id="species-preview" role="status">
+        @if (preview is not null)
+        {
+            <p id="species-preview-title">@EditorText.PreviewTitle(preview, SpeciesName, FormNameOf(preview))</p>
+            <ul id="species-preview-changes">
+                @foreach (var line in EditorText.SpeciesFormChanges(preview, SpeciesName, FormNameOf(preview), AbilityName))
+                {
+                    <li>@line</li>
+                }
+            </ul>
+        }
+        else if (previewRefusal is { } refusal)
+        {
+            <p id="species-preview-refusal">@UserMessages.For(refusal)</p>
+        }
+    </div>
+    @if (preview is not null)
+    {
+        <button type="button" id="species-confirm" @onclick="ConfirmSpeciesForm">@EditorText.ConfirmSpeciesForm</button>
+        <button type="button" id="species-cancel" @onclick="CancelSpeciesForm">@EditorText.CancelSpeciesForm</button>
+    }
+    @* Always rendered, so a screen reader announces a change of its text. *@
+    <p id="species-change" role="status">@(speciesChange is null ? "" : EditorText.SpeciesFormChanged(speciesChange))</p>
+</fieldset>
 <fieldset id="name-fields">
     <legend>Name</legend>
     <label for="nickname">Nickname</label>
@@ -210,6 +265,33 @@
     private bool nicknamed;
     private int language, nature, heldItem, abilitySlot, gender;
 
+    /// <summary>
+    /// Told whether a species or form change is being previewed, so the owner can hold back Apply and Download, which would not carry the
+    /// choice the boxes show.
+    /// </summary>
+    [Parameter] public EventCallback<bool> OnPreviewChanged { get; set; }
+
+    /// <summary>The number of refused species or form choices, which keys the two boxes so a refusal resets them (see the markup).</summary>
+    private int refusals;
+
+    /// <summary>The species box's key: distinct from the form box's, as sibling keys must be.</summary>
+    private string SpeciesKey => string.Create(CultureInfo.InvariantCulture, $"species-{refusals}");
+
+    /// <summary>The form box's key.</summary>
+    private string FormKey => string.Create(CultureInfo.InvariantCulture, $"form-{refusals}");
+
+    /// <summary>The species select, focused again once the confirmation buttons it led to are gone.</summary>
+    private ChoiceSelect? speciesSelect;
+
+    /// <summary>The species or form change being previewed, or null when none is: the boxes then show the draft's species and form.</summary>
+    private SpeciesFormPreview? preview;
+
+    /// <summary>Why the last species or form choice could not be previewed, or null.</summary>
+    private SessionError? previewRefusal;
+
+    /// <summary>What the last edit, a confirmed species or form change, changed; null when the last edit was not one.</summary>
+    private IReadOnlyList<string>? speciesChange;
+
     /// <summary>What the last gender edit changed besides the gender (the form and what follows it), or null when the last edit was not one that did.</summary>
     private GenderChange? genderChange;
 
@@ -227,6 +309,9 @@
             renamed = null;
             moveChange = null;
             genderChange = null;
+            preview = null;
+            previewRefusal = null;
+            speciesChange = null;
             Array.Fill(pp, "");
             trainerFriendship = handlerFriendship = level = experience = "";
             Array.Fill(ivs, "");
@@ -284,6 +369,35 @@
     /// <summary>The stored ability and slot, named as the inspector names them, when they do not name one of the slots together.</summary>
     private string UnmatchedAbility(int _) =>
         EditorText.UnmatchedAbility(EntityInspection.Listed(Draft.Ability, Draft.Capabilities.Lists.Abilities, GameInfo.Strings.abilitylist), Draft.AbilityNumber);
+
+    /// <summary>The species the species box shows: the previewed one, or the drafted one.</summary>
+    private int ShownSpecies => preview?.After.Species ?? Draft.Species;
+
+    /// <summary>The form the form box shows: the previewed one, or the drafted one.</summary>
+    private int ShownForm => preview?.After.Form ?? Draft.Form;
+
+    /// <summary>The forms the form box lists: the previewed species', or the drafted species'.</summary>
+    private IReadOnlyList<FormChoice> ShownForms => preview?.Forms ?? Draft.FormChoices;
+
+    /// <summary>A stored species outside the game's list, named as the inspector names it.</summary>
+    private string UnlistedSpecies(int value) => InspectorText.Species(EntityInspection.Listed(value, Draft.Capabilities.Lists.Species, GameInfo.Strings.specieslist));
+
+    /// <summary>The species' name from the game's list, or, for a stored species outside it, the name the inspector gives it.</summary>
+    private string SpeciesName(ushort species) => Draft.Capabilities.SpeciesChoices.FirstOrDefault(s => s.Value == species)?.Text ?? UnlistedSpecies(species);
+
+    /// <summary>
+    /// Names the form before (false) or after (true) <paramref name="change"/>, from the drafted species' and the new species' form lists, or
+    /// null for a species without alternate forms.
+    /// </summary>
+    private Func<bool, string?> FormNameOf(SpeciesFormPreview change)
+    {
+        var before = Draft.FormChoices;
+        return after => after ? Named(change.Forms, change.After.Form) : Named(before, change.Before.Form);
+
+        static string? Named(IReadOnlyList<FormChoice> forms, byte form) => forms.Count == 0
+            ? null
+            : form < forms.Count ? EditorText.FormName(forms[form]) : EditorText.UnlistedForm(form);
+    }
 
     /// <summary>The ability's name, as the inspector names it.</summary>
     private string AbilityName(int ability) => InspectorText.Named(EntityInspection.Listed(ability, Draft.Capabilities.Lists.Abilities, GameInfo.Strings.abilitylist));
@@ -381,6 +495,74 @@
         return Run(d => d.EditNature(value), tracksRename: false);
     }
 
+    /// <summary>
+    /// Previews a change to the chosen species, in its first form. Choosing the drafted species again is no change and ends the preview, even
+    /// when its stored form is one its list does not offer.
+    /// </summary>
+    private Task SpeciesChosen(int species) => species == Draft.Species ? Show(null, null) : Preview(species, 0);
+
+    /// <summary>Previews a change to the chosen form of the species the species box shows.</summary>
+    private Task FormChosen(ChangeEventArgs e) =>
+        int.TryParse(e.Value?.ToString(), NumberStyles.None, CultureInfo.InvariantCulture, out var form)
+            ? Preview(ShownSpecies, form)
+            : Task.CompletedTask;
+
+    /// <summary>
+    /// Shows what changing to <paramref name="species"/> and <paramref name="form"/> would do, without changing the draft. Choosing the drafted
+    /// species and form ends the preview; a refused choice is reported in its place and the boxes show the draft again.
+    /// </summary>
+    private Task Preview(int species, int form)
+    {
+        SpeciesFormPreview change;
+        try
+        {
+            change = Draft.PreviewSpeciesForm(species, form);
+        }
+        catch (SessionException ex)
+        {
+            refusals++;
+            return Show(null, ex.Error);
+        }
+        return Show(change.IsNoChange ? null : change, null);
+    }
+
+    /// <summary>Shows <paramref name="change"/> (or no preview) and <paramref name="refusal"/>, telling the owner when a preview starts or ends.</summary>
+    private Task Show(SpeciesFormPreview? change, SessionError? refusal)
+    {
+        var was = preview is not null;
+        preview = change;
+        previewRefusal = refusal;
+        return was == (change is not null) ? Task.CompletedTask : OnPreviewChanged.InvokeAsync(change is not null);
+    }
+
+    /// <summary>Makes the previewed change, then returns focus to the species box, since the buttons are gone.</summary>
+    private async Task ConfirmSpeciesForm()
+    {
+        if (preview is not { } change)
+        {
+            return;
+        }
+        // The note is written now, while the form names before the change can still be read from the draft.
+        var changes = EditorText.SpeciesFormChanges(change, SpeciesName, FormNameOf(change), AbilityName);
+        await Run(d => d.EditSpeciesForm(change.After.Species, change.After.Form), tracksRename: false, speciesChanges: changes);
+        await FocusSpecies();
+    }
+
+    /// <summary>Drops the preview, so the boxes show the draft again, and returns focus to the species box.</summary>
+    private async Task CancelSpeciesForm()
+    {
+        await Show(null, null);
+        await FocusSpecies();
+    }
+
+    private async Task FocusSpecies()
+    {
+        if (speciesSelect is not null)
+        {
+            await speciesSelect.FocusAsync();
+        }
+    }
+
     private Task AbilityChanged(int value) => Run(d => d.EditAbilitySlot(value), tracksRename: false);
 
     private Task GenderChanged(ChangeEventArgs e)
@@ -437,7 +619,8 @@
     /// <param name="tracksRename">True for an edit that may give the Pokémon its default name, which the name note then reports.</param>
     /// <param name="moveSlot">The move slot of a move or PP Ups edit, whose effect on the slot's PP the move note then reports.</param>
     /// <param name="tracksForm">True for a gender edit, which may change the form and what follows it; the gender note then reports it.</param>
-    private async Task Run(Action<EditorDraft> edit, bool tracksRename, int? moveSlot = null, bool tracksForm = false)
+    /// <param name="speciesChanges">For a confirmed species or form change, what it changes, which the species note then reports.</param>
+    private async Task Run(Action<EditorDraft> edit, bool tracksRename, int? moveSlot = null, bool tracksForm = false, IReadOnlyList<string>? speciesChanges = null)
     {
         var draft = Draft;
         var revision = draft.EditRevision;
@@ -454,6 +637,9 @@
             ? MoveChange.Between(changed, slotBefore, draft.Moves[changed], draft.StoredMoves[changed])
             : null;
         genderChange = tracksForm ? GenderChange.Between(dependentsBefore, draft.Dependents) : null;
+        speciesChange = speciesChanges;
+        // A preview describes the draft it was taken from, so any accepted edit ends it.
         Load();
+        await Show(null, null);
     }
 }

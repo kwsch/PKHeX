@@ -25,8 +25,12 @@ public sealed class SaveCapabilitiesTests
         capabilities.HasParty.Should().BeTrue();
         capabilities.HasBoxes.Should().BeTrue();
         capabilities.Editable.Should().Be(EditableFields.Nickname | EditableFields.Language | EditableFields.Friendship | EditableFields.Level | EditableFields.Nature
-            | EditableFields.Ivs | EditableFields.Evs | EditableFields.HeldItem | EditableFields.Moves | EditableFields.Pp | EditableFields.Ability | EditableFields.Gender);
+            | EditableFields.Ivs | EditableFields.Evs | EditableFields.HeldItem | EditableFields.Moves | EditableFields.Pp | EditableFields.Ability | EditableFields.Gender
+            | EditableFields.Species);
         capabilities.Personal.Should().BeSameAs(session.Working.Personal);
+        capabilities.SpeciesChoices.Should().NotContain(s => s.Value == 0, "species 0 would empty the slot");
+        capabilities.SpeciesChoices.Select(s => s.Value).Should().BeEquivalentTo(capabilities.Lists.Species.Where(s => s.Value != 0).Select(s => s.Value));
+        capabilities.SpeciesChoices.Should().HaveCount(session.Working.MaxSpeciesID, "XY and ORAS hold every species up to Volcanion");
         capabilities.SaveLanguage.Should().Be(session.Working.Language);
         capabilities.MaxNicknameLength.Should().Be(session.Working.MaxStringLengthNickname);
         capabilities.CanApply(SaveFixtures.FirstBoxSlot).Should().BeTrue();

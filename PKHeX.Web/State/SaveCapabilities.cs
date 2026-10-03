@@ -24,6 +24,7 @@ public sealed class SaveCapabilities
         SaveLanguage = save.Language;
         Lists = new FilteredGameDataSource(save, GameInfo.Sources);
         Personal = save.Personal;
+        SpeciesChoices = [.. Lists.Species.Where(s => s.Value != 0)];
     }
 
     /// <summary>The family the save was opened as.</summary>
@@ -57,10 +58,17 @@ public sealed class SaveCapabilities
     public FilteredGameDataSource Lists { get; }
 
     /// <summary>
-    /// The save's personal table, which decides the species and forms it can hold. A form change (see <see cref="EditorDraft.EditGender"/>)
-    /// is checked against it, as the desktop editor checks it against the open save's.
+    /// The save's personal table, which decides the species and forms it can hold. A species or form change (see
+    /// <see cref="EditorDraft.EditSpeciesForm"/>, and <see cref="EditorDraft.EditGender"/> for Meowstic) is checked against it, as the
+    /// desktop editor checks it against the open save's.
     /// </summary>
     public IPersonalTable Personal { get; }
+
+    /// <summary>
+    /// The species a Pokémon can be changed to: Core's species list for the save (<see cref="FilteredGameDataSource.Species"/>), without
+    /// "none", which would empty the slot rather than change the Pokémon.
+    /// </summary>
+    public IReadOnlyList<ComboItem> SpeciesChoices { get; }
 
     /// <summary>True when a draft of <paramref name="slot"/> can be written back to this save.</summary>
     public bool CanApply(SlotRef slot) => slot.IsParty ? CanApplyToParty : HasBoxes;

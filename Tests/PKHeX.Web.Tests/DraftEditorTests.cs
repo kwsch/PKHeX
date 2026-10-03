@@ -111,6 +111,8 @@ public sealed class DraftEditorTests : IDisposable
         }
         editor.Find("#ability").HasAttribute("disabled").Should().BeTrue();
         editor.Find("#gender").HasAttribute("disabled").Should().BeTrue();
+        editor.Find("#species").HasAttribute("disabled").Should().BeTrue();
+        editor.Find("#form").HasAttribute("disabled").Should().BeTrue();
     }
 
     [Fact]
@@ -435,6 +437,7 @@ public sealed class DraftEditorTests : IDisposable
             .Should().Be("Its EVs, held item, moves, PP and PP Ups can be changed.");
         EditorText.EditableSummary(EditableFields.Pp | EditableFields.Ability | EditableFields.Gender)
             .Should().Be("Its PP, PP Ups, ability and gender can be changed.");
+        EditorText.EditableSummary(EditableFields.Species | EditableFields.Nickname).Should().Be("Its species, form and nickname can be changed.");
     }
 
     /// <summary>A box 1, slot 2 Pokémon with the given EVs, in the summary order the fields use (HP, Attack, Defense, Sp. Atk, Sp. Def, Speed).</summary>
@@ -861,18 +864,19 @@ public sealed class DraftEditorTests : IDisposable
         var draft = Moveset();
         var editor = Render(draft);
         var boxes = editor.FindComponents<ChoiceSelect>();
-        boxes.Should().HaveCount(EditorDraft.MoveCount + 2, "the ability, the held item and each move");
+        boxes.Should().HaveCount(EditorDraft.MoveCount + 3, "the species, the ability, the held item and each move");
         var counts = boxes.Select(b => b.RenderCount).ToArray();
 
         editor.Find("#ot-friendship").Input("100");
         editor.Find("#ev-0").Input("4");
 
         refused.Should().BeNull();
-        boxes.Select(b => b.RenderCount).Should().Equal(counts, "nothing the ability, move and item boxes show changed");
+        boxes.Select(b => b.RenderCount).Should().Equal(counts, "nothing the species, ability, move and item boxes show changed");
         editor.Find("#move-0").Change(((int)Move.Thunderbolt).ToString(CultureInfo.InvariantCulture));
-        boxes[2].RenderCount.Should().Be(counts[2] + 1, "the changed move box renders its new value");
-        boxes[1].RenderCount.Should().Be(counts[1], "the item box did not change");
-        boxes[0].RenderCount.Should().Be(counts[0], "the ability box did not change");
+        boxes[3].RenderCount.Should().Be(counts[3] + 1, "the changed move box renders its new value");
+        boxes[2].RenderCount.Should().Be(counts[2], "the item box did not change");
+        boxes[1].RenderCount.Should().Be(counts[1], "the ability box did not change");
+        boxes[0].RenderCount.Should().Be(counts[0], "the species box did not change");
     }
 
     [Fact]
@@ -1090,5 +1094,207 @@ public sealed class DraftEditorTests : IDisposable
         editor.Find("#gender").GetAttribute("value").Should().Be(other.Gender.ToString(CultureInfo.InvariantCulture));
         editor.Find("#ability").GetAttribute("value").Should().Be((other.AbilityNumber >> 1).ToString(CultureInfo.InvariantCulture));
         editor.FindAll("#ability option").Select(o => o.TextContent).Should().Equal(other.AbilityChoices.Select(c => c.Text));
+    }
+
+    [Fact]
+    public void TheSpeciesBoxListsTheGamesSpeciesAndTheFormBoxSaysWhenThereAreNoForms()
+    {
+        var draft = Boxed(_ => { });
+        var editor = Render(draft);
+
+        editor.Find("label[for=species]").TextContent.Should().Be("Species");
+        editor.Find("#species").GetAttribute("value").Should().Be(draft.Species.ToString(CultureInfo.InvariantCulture));
+        editor.FindAll("#species option").Select(o => o.GetAttribute("value")).Should().Equal(draft.Capabilities.SpeciesChoices.Select(s => s.Value.ToString(CultureInfo.InvariantCulture)));
+        editor.FindAll("#species option").Select(o => o.TextContent).Should().Equal(draft.Capabilities.SpeciesChoices.Select(s => s.Text), "the names are Core's");
+        editor.FindAll("#form option").Select(o => o.TextContent).Should().Equal(EditorText.NoAlternateForms);
+        editor.Find("#form").HasAttribute("disabled").Should().BeTrue();
+        editor.Find("#species-note").TextContent.Should().Be(EditorText.SpeciesNote);
+        editor.Find("#species-preview").TextContent.Should().BeEmpty();
+        editor.FindAll("#species-confirm").Should().BeEmpty();
+    }
+
+    [Fact]
+    public void TheFormBoxListsCoresFormsAndMarksBattleOnlyOnes()
+    {
+        var draft = Boxed(p => p.Species = (ushort)Species.Charizard);
+        var editor = Render(draft);
+
+        editor.FindAll("#form option").Select(o => o.TextContent).Should().Equal("Normal", "Mega X (battle only)", "Mega Y (battle only)");
+        editor.Find("#form").HasAttribute("disabled").Should().BeFalse();
+        editor.Find("#form").GetAttribute("value").Should().Be("0");
+        EditorText.FormName(new FormChoice(1, "Rock Star", false, false)).Should().Be("Rock Star (not in this game)");
+        EditorText.FormName(new FormChoice(3, "", false, true)).Should().Be("Form 3");
+    }
+
+    [Fact]
+    public void AStoredFormOutsideTheListIsShownAsStored()
+    {
+        var editor = Render(Boxed(p => p.Form = 3));
+
+        editor.FindAll("#form option").Select(o => o.TextContent).Should().Equal(EditorText.UnlistedForm(3));
+        editor.Find("#form").GetAttribute("value").Should().Be("3");
+    }
+
+    [Fact]
+    public void ChoosingASpeciesPreviewsTheChangeWithoutMakingIt()
+    {
+        var draft = Boxed(p => p.EXP = Experience.GetEXP(50, p.PersonalInfo.EXPGrowth) + 10);
+        var stored = draft.Preview();
+        var editor = Render(draft);
+        var magikarp = (int)Species.Magikarp;
+
+        editor.Find("#species").Change(magikarp.ToString(CultureInfo.InvariantCulture));
+
+        draft.EditRevision.Should().Be(0, "nothing is changed until it is confirmed");
+        refused.Should().BeNull();
+        var preview = draft.PreviewSpeciesForm(magikarp, 0);
+        var names = GameInfo.Strings.specieslist;
+        editor.Find("#species-preview").GetAttribute("role").Should().Be("status");
+        editor.Find("#species-preview-title").TextContent.Should().Be($"Change {names[(int)Species.Zigzagoon]} to {names[magikarp]}?");
+        var lines = editor.FindAll("#species-preview-changes li").Select(li => li.TextContent).ToArray();
+        lines.Should().Contain($"Species: {names[(int)Species.Zigzagoon]} to {names[magikarp]}.");
+        lines.Should().Contain(string.Create(CultureInfo.InvariantCulture,
+            $"Experience points: {stored.EXP} to {preview.After.Experience}, so the level goes from 50 to {preview.After.Level} on the new growth rate."));
+        lines.Should().Contain(l => l.StartsWith("Ability: ", StringComparison.Ordinal));
+        lines.Should().Contain(l => l.StartsWith("Stats: HP ", StringComparison.Ordinal));
+        lines.Should().Contain($"Name: {stored.Nickname} to {names[magikarp]}, as it is not nicknamed.");
+        editor.Find("#species").GetAttribute("value").Should().Be(magikarp.ToString(CultureInfo.InvariantCulture), "the box holds the previewed choice");
+        editor.Find("#species-confirm").TextContent.Should().Be(EditorText.ConfirmSpeciesForm);
+
+        editor.Find("#species-confirm").Click();
+
+        refused.Should().BeNull();
+        draft.Species.Should().Be((ushort)magikarp);
+        draft.EditRevision.Should().Be(1);
+        editor.FindAll("#species-confirm").Should().BeEmpty();
+        editor.Find("#species-preview").TextContent.Should().BeEmpty();
+        editor.Find("#species-change").TextContent.Should().Be(EditorText.SpeciesFormChanged(lines));
+        editor.Find("#exp").GetAttribute("value").Should().Be(draft.Experience.ToString(CultureInfo.InvariantCulture), "every field shows the changed draft");
+        editor.Find("#nickname").GetAttribute("value").Should().Be(names[magikarp]);
+
+        editor.Find("#ot-friendship").Input("100");
+
+        editor.Find("#species-change").TextContent.Should().BeEmpty("another edit clears the note");
+    }
+
+    [Fact]
+    public void CancellingAPreviewShowsTheDraftAgain()
+    {
+        var draft = Boxed(_ => { });
+        var editor = Render(draft);
+        editor.Find("#species").Change(((int)Species.Charizard).ToString(CultureInfo.InvariantCulture));
+        editor.FindAll("#form option").Should().HaveCount(3, "the form box lists the previewed species' forms");
+        editor.Find("#form").Change("2");
+        editor.Find("#species-preview-title").TextContent.Should().EndWith("(Mega Y (battle only))?");
+        editor.FindAll("#species-preview-changes li").Select(li => li.TextContent).Should().Contain("This form exists only during battle, so legality analysis reports a Pokémon stored in it.");
+
+        editor.Find("#species-cancel").Click();
+
+        draft.IsDirty.Should().BeFalse();
+        editor.Find("#species").GetAttribute("value").Should().Be(((int)Species.Zigzagoon).ToString(CultureInfo.InvariantCulture));
+        editor.FindAll("#form option").Select(o => o.TextContent).Should().Equal(EditorText.NoAlternateForms);
+        editor.Find("#species-preview").TextContent.Should().BeEmpty();
+        editor.FindAll("#species-cancel").Should().BeEmpty();
+    }
+
+    [Fact]
+    public void ChoosingTheDraftedSpeciesAgainEndsThePreview()
+    {
+        var editor = Render(Boxed(_ => { }));
+        editor.Find("#species").Change(((int)Species.Linoone).ToString(CultureInfo.InvariantCulture));
+
+        editor.Find("#species").Change(((int)Species.Zigzagoon).ToString(CultureInfo.InvariantCulture));
+
+        editor.FindAll("#species-confirm").Should().BeEmpty();
+        editor.Find("#species-preview").TextContent.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void ReselectingTheDraftedSpeciesWithAStoredFormOutsideTheListIsNoRefusal()
+    {
+        var draft = Boxed(p => p.Form = 3);
+        var editor = Render(draft);
+        editor.Find("#species").Change(((int)Species.Linoone).ToString(CultureInfo.InvariantCulture));
+
+        editor.Find("#species").Change(((int)Species.Zigzagoon).ToString(CultureInfo.InvariantCulture));
+
+        editor.Find("#species-preview").TextContent.Should().BeEmpty("going back to the drafted species is no change, not a refused form");
+        editor.FindAll("#species-confirm").Should().BeEmpty();
+        editor.Find("#form").GetAttribute("value").Should().Be("3");
+    }
+
+    [Fact]
+    public void AnotherEditEndsThePreview()
+    {
+        var draft = Boxed(_ => { });
+        var editor = Render(draft);
+        editor.Find("#species").Change(((int)Species.Linoone).ToString(CultureInfo.InvariantCulture));
+
+        editor.Find("#ot-friendship").Input("100");
+
+        editor.FindAll("#species-confirm").Should().BeEmpty("the preview described the draft before the edit");
+        editor.Find("#species").GetAttribute("value").Should().Be(((int)Species.Zigzagoon).ToString(CultureInfo.InvariantCulture));
+        draft.Species.Should().Be((ushort)Species.Zigzagoon);
+    }
+
+    [Fact]
+    public void ARefusedPreviewIsReportedAndTheBoxesShowTheDraft()
+    {
+        var draft = Open(PartyApplyTests.WithoutStoredStats(), SlotRef.InParty(0));
+        var editor = Render(draft);
+
+        editor.Find("#species").Change(((int)Species.Linoone).ToString(CultureInfo.InvariantCulture));
+
+        editor.Find("#species-preview-refusal").TextContent.Should().Be(UserMessages.For(SessionError.PartyStatsMissing));
+        editor.FindAll("#species-confirm").Should().BeEmpty();
+        editor.Find("#species").GetAttribute("value").Should().Be(draft.Species.ToString(CultureInfo.InvariantCulture));
+        draft.IsDirty.Should().BeFalse();
+    }
+
+    [Fact]
+    public void APartyPreviewNamesTheRecalculatedStatsAndKeptHp()
+    {
+        // At full HP: Magikarp's maximum is lower than Zigzagoon's, so the current HP comes down to it.
+        var draft = Open(SaveFixtures.Synthetic(true, customize: SaveFixtures.WithPartyMember("Leader")), SlotRef.InParty(0));
+        var full = draft.Preview().Stat_HPCurrent;
+        var editor = Render(draft);
+
+        editor.Find("#species").Change(((int)Species.Magikarp).ToString(CultureInfo.InvariantCulture));
+
+        var preview = draft.PreviewSpeciesForm((int)Species.Magikarp, 0);
+        var lines = editor.FindAll("#species-preview-changes li").Select(li => li.TextContent).ToArray();
+        preview.After.Stats[0].Should().BeLessThan(full);
+        lines.Should().Contain(string.Create(CultureInfo.InvariantCulture, $"Current HP: {full} to {preview.After.Stats[0]}; it is never raised, and its status is kept."));
+        var hpStat = string.Create(CultureInfo.InvariantCulture, $"Stats: HP {full} to {preview.After.Stats[0]}");
+        lines.Should().Contain(l => l.StartsWith(hpStat, StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void TheSpeciesAndFormFollowTheirOwnFlag()
+    {
+        var bytes = SaveFixtures.Synthetic(true);
+        var save = SaveFixtures.Parse(bytes);
+        EditorDraft Only(EditableFields fields) => new SaveSession(bytes.ToArray(), save, "fixture.sav",
+            SaveCapabilities.For(save, PKHeX.Web.Services.SupportMatrix.Find(save)! with { Editable = fields })).Select(SaveFixtures.FirstBoxSlot);
+
+        Render(Only(EditableFields.Species)).Find("#species").HasAttribute("disabled").Should().BeFalse();
+        Render(Only(EditableFields.Gender)).Find("#species").HasAttribute("disabled").Should().BeTrue();
+    }
+
+    [Fact]
+    public void ANewDraftClearsThePreviewAndTheNote()
+    {
+        var session = SaveFixtures.Open(AbilityGenderDraftTests.Boxed());
+        var editor = Render(session.Select(SlotRef.InBox(0, 1)));
+        editor.Find("#species").Change(((int)Species.Linoone).ToString(CultureInfo.InvariantCulture));
+        editor.Find("#species-confirm").Click();
+        editor.Find("#species").Change(((int)Species.Pikachu).ToString(CultureInfo.InvariantCulture));
+
+        var other = session.Select(SaveFixtures.FirstBoxSlot);
+        editor.Render(p => p.Add(c => c.Draft, other));
+
+        editor.Find("#species-change").TextContent.Should().BeEmpty();
+        editor.FindAll("#species-confirm").Should().BeEmpty();
+        editor.Find("#species").GetAttribute("value").Should().Be(other.Species.ToString(CultureInfo.InvariantCulture));
     }
 }
