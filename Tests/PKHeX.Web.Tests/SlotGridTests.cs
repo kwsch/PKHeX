@@ -98,6 +98,20 @@ public sealed class SlotGridTests : IDisposable
     }
 
     [Fact]
+    public void FocusMovedByScriptTakesTheTabStop()
+    {
+        // The narrow layout's return action focuses the selected slot from script, wherever the tab stop was left; the slot that has focus
+        // must be the tab stop, or Tab and Shift+Tab would lead back to another slot.
+        var grid = Render(Box());
+        grid.Find("#box-grid-0").KeyDown(new KeyboardEventArgs { Key = "ArrowRight" });
+        TabStop(grid).Should().Be(1);
+
+        grid.Find("#box-grid-0").Focus();
+
+        TabStop(grid).Should().Be(0);
+    }
+
+    [Fact]
     public void ActivationReportsTheSlotWhateverItHolds()
     {
         var activated = new List<SlotSummary>();

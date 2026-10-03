@@ -3,8 +3,9 @@
 @* The party and one box of the open save, read again whenever the session, its revision or the shown box changes. Only the shown box is read.
    Each can be shown as a grid (single tab stop, arrow keys) or as a list, with the same slots and the same activation. *@
 <section aria-labelledby="storage-title">
-    <h2 id="storage-title">Party and boxes</h2>
-    <label><input id="storage-as-list" type="checkbox" checked="@State.ShowAsList" @onchange="ToggleList" /> Show as a list</label>
+    @* Focusable only from script: the narrow layout's return action lands here when the selected slot is in a box not shown. *@
+    <h2 id="storage-title" tabindex="-1">Party and boxes</h2>
+    <label class="check"><input id="storage-as-list" type="checkbox" checked="@State.ShowAsList" @onchange="ToggleList" /> Show as a list</label>
 
     <h3 id="party-title">Party (@party.Count(s => s.Occupied) of @party.Count)</h3>
     @if (State.ShowAsList)

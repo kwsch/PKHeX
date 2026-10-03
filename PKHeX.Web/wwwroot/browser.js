@@ -145,6 +145,40 @@ export function focusElement(id) {
     return true;
 }
 
+// The width under which the page shows one pane at a time: the same text as app.css and WorkspaceLayout.NarrowQuery.
+const narrowQuery = '(max-width: 39.99rem)';
+
+// The width from which both panes are shown side by side: the same text as app.css.
+const wideQuery = '(min-width: 75rem)';
+
+// Headings that can take focus from script, in the order tried: the editor, the party and boxes, the open heading.
+const fallbackFocus = ['draft-title', 'storage-title', 'open-title'];
+
+/**
+ * When a change of width hides the element that has focus (a pane the new layout does not show), moves focus to the first heading still
+ * shown, rather than leaving it on a hidden element, where the next Tab would start from the page's top. Focus that stays visible is left alone.
+ */
+function keepFocusShown() {
+    // Runs after the new layout applies.
+    requestAnimationFrame(() => {
+        const active = document.activeElement;
+        if (!active || active === document.body || active.getClientRects().length > 0) {
+            return;
+        }
+        const shown = fallbackFocus.map(id => document.getElementById(id)).find(e => e && e.getClientRects().length > 0);
+        shown?.focus();
+    });
+}
+
+for (const query of [narrowQuery, wideQuery]) {
+    window.matchMedia(query).addEventListener('change', keepFocusShown);
+}
+
+/** Like focusElement, but only while the page shows one pane at a time; returns false otherwise. */
+export function focusIfNarrow(id) {
+    return window.matchMedia(narrowQuery).matches && focusElement(id);
+}
+
 /** The browser's user agent string, read only when the user prepares a diagnostic report. */
 export function userAgent() {
     return navigator.userAgent;

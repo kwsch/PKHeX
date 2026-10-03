@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 namespace PKHeX.Web.Interop;
 
 /// <summary>
-/// Page helpers the app needs from the browser: waiting for a paint before synchronous work, moving focus to a section by id, and the
+/// Page helpers the app needs from the browser: waiting for a paint before synchronous work, moving focus to a section by id (on a narrow screen only, when a pane change asks), and the
 /// diagnostic report's user agent, copy and select.
 /// </summary>
 /// <remarks>
@@ -26,6 +26,16 @@ public sealed class BrowserPage(IJSRuntime js) : IAsyncDisposable
     {
         var module = await browser.GetAsync();
         return await module.InvokeAsync<bool>("focusElement", id);
+    }
+
+    /// <summary>
+    /// Scrolls to and focuses the element with id <paramref name="id"/>, but only while the page shows one pane at a time
+    /// (<see cref="Components.WorkspaceLayout.NarrowQuery"/>); false when it does not, or there is no such element.
+    /// </summary>
+    public async Task<bool> FocusIfNarrowAsync(string id)
+    {
+        var module = await browser.GetAsync();
+        return await module.InvokeAsync<bool>("focusIfNarrow", id);
     }
 
     /// <summary>The browser's user agent string. Read only when the user prepares a diagnostic report.</summary>

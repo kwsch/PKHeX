@@ -88,9 +88,15 @@ internal static class ProofPage
         await page.Locator("#apply").ClickAsync();
     }
 
-    /// <summary>Opens <paramref name="slot"/> from the party or box grid and waits for its editor to show that position.</summary>
+    /// <summary>Opens <paramref name="slot"/> from the party or box grid (returning to it first on a narrow screen) and waits for its editor to show that position.</summary>
     public static async Task Select(IPage page, SlotRef slot)
     {
+        // A narrow layout shows one pane at a time; the party and boxes come back with the return action.
+        var back = page.Locator("#editor-return");
+        if (await back.IsVisibleAsync())
+        {
+            await back.ClickAsync();
+        }
         if (slot.IsParty)
         {
             await page.Locator($"#party-grid-{slot.Slot}").ClickAsync();

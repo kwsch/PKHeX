@@ -1,10 +1,48 @@
-:root { color-scheme: light dark; font-family: system-ui, sans-serif; }
-body { margin: 0; }
+/* Colour tokens: every colour on the page comes from here, in a light and a dark set. Text tokens keep at least 4.5:1 against --bg, and
+   border, focus and selection tokens at least 3:1 (WCAG 2.2 AA; pinned by ContrastTokensTests). The page sets its own background rather
+   than the browser's Canvas, whose value varies by browser, so the ratios hold everywhere. */
+:root {
+    color-scheme: light dark;
+    font-family: system-ui, sans-serif;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #595959;
+    --border: #767676;
+    --focus: #1f5fbf;
+    --selected: #1e7a3c;
+    --valid: #2e7d32;
+    --invalid: #c62828;
+    --warning: #8f5600;
+    --control: #f2f2f2;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #121212;
+        --fg: #e8e8e8;
+        --muted: #b0b0b0;
+        --border: #8a8a8a;
+        --focus: #7fb0ff;
+        --selected: #6fcf8a;
+        --valid: #81c784;
+        --invalid: #ef9a9a;
+        --warning: #ffcc80;
+        --control: #2b2b2b;
+    }
+}
+/* No motion is used, and none may be added that ignores the user's setting. */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0s !important; animation-iteration-count: 1 !important; transition-duration: 0s !important; scroll-behavior: auto !important; }
+}
+body { margin: 0; background: var(--bg); color: var(--fg); }
+a { color: var(--focus); }
 [hidden] { display: none !important; }
-.page, .boot-failure { max-width: 56rem; margin: auto; padding: 1.5rem; box-sizing: border-box; }
+/* Wide enough for the two panes side by side; prose sections keep a readable line length. */
+.page, .boot-failure { margin: auto; padding: 1.5rem; box-sizing: border-box; }
+.page { max-width: 90rem; }
+.boot-failure, #start, #about, #fault, #exit { max-width: 56rem; }
 header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1rem; }
 header h1 { margin: 0; }
-section { border: 1px solid #888; border-radius: .5rem; padding: 1rem; margin: 1rem 0; }
+section { border: 1px solid var(--border); border-radius: .5rem; padding: 1rem; margin: 1rem 0; }
 #about dd { margin: 0 0 .5rem; }
 #about code { overflow-wrap: anywhere; }
 #about li { margin-block: .5rem; }
@@ -13,29 +51,80 @@ section { border: 1px solid #888; border-radius: .5rem; padding: 1rem; margin: 1
 .overview dd { margin: 0; overflow-wrap: anywhere; }
 @media (max-width: 30rem) { .overview { grid-template-columns: minmax(0, 1fr); gap: 0; } .overview dd { margin-block-end: .6rem; } }
 table { border-collapse: collapse; width: 100%; }
-th, td { border: 1px solid #888; padding: .5rem; text-align: start; vertical-align: top; }
+th, td { border: 1px solid var(--border); padding: .5rem; text-align: start; vertical-align: top; }
 label { display: block; margin-block: .7rem .3rem; }
 button, input, select { font: inherit; padding: .6rem; max-width: 100%; box-sizing: border-box; }
-button, input::file-selector-button { min-height: 44px; }
+/* Controls are drawn in the token colours, not the browser's own: those differ by engine and platform (WebKit on Linux draws dark-scheme
+   buttons as white on light grey, 1.81:1), so only the tokens have a known contrast. Checkboxes and radios keep their native look. */
+button { color: var(--fg); background-color: var(--control); border: 1px solid var(--border); border-radius: .3rem; }
+select, input:not([type="checkbox"]):not([type="radio"]):not([type="file"]) { color: var(--fg); background-color: var(--bg); border: 1px solid var(--border); border-radius: .3rem; }
+input::file-selector-button { color: var(--fg); background-color: var(--control); border: 1px solid var(--border); border-radius: .3rem; }
+input::-webkit-file-upload-button { color: var(--fg); background-color: var(--control); border: 1px solid var(--border); border-radius: .3rem; }
+/* WebKit draws a coloured select at its native height (23px) and ignores min-height, but honours height: 2.75rem is 44px at the default
+   text size and grows with it, so one line of text and the padding always fit. */
+select { height: 2.75rem; }
+/* Disabled controls are exempt from contrast minimums, but still read as unavailable without colour alone: the border turns dashed. */
+button:disabled, select:disabled, input:disabled { color: var(--muted); border-style: dashed; cursor: default; }
+/* Targets: every control is at least 44px tall (WEB-A11Y-003). A checkbox or radio is small itself, so its whole label is the target. */
+button, input, select, input::file-selector-button { min-height: 44px; }
+input[type="checkbox"], input[type="radio"] { min-height: 0; }
 button { margin: .5rem .5rem .5rem 0; }
 input::file-selector-button { font: inherit; padding: .6rem 1rem; margin-inline-end: 1rem; }
-:focus-visible { outline: 3px solid #397bd9; outline-offset: 3px; }
+.check { display: flex; align-items: center; gap: .6rem; min-height: 44px; margin-block: .3rem; overflow-wrap: anywhere; }
+.check input { flex: none; width: 1.4rem; height: 1.4rem; margin: 0; }
+summary { min-height: 44px; box-sizing: border-box; padding-block: .7rem; cursor: pointer; }
+/* Links that stand alone in a list or a definition, not inside a sentence, are targets too. */
+#about li a, #about dd a { display: inline-flex; align-items: center; min-height: 44px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 /* A long report scrolls inside its box (it is focusable for keyboard scrolling) rather than pushing the actions off screen. */
-.diagnostic-preview { max-height: 20rem; overflow-y: auto; padding: .5rem; border: 1px solid #888; }
-#blazor-error-ui { display: none; padding: 1rem; border: 2px solid #c44; }
+.diagnostic-preview { max-height: 20rem; overflow-y: auto; padding: .5rem; border: 1px solid var(--border); }
+#blazor-error-ui { display: none; padding: 1rem; border: 2px solid var(--invalid); }
 .boot-stopped #blazor-error-ui { display: none !important; }
-#fault { border: 2px solid #c44; }
+#fault { border: 2px solid var(--invalid); }
 #workspace:focus { outline: none; }
 /* File names are untrusted and can be 120 characters without a break; they must wrap rather than widen the page. */
 #message, #exit, #exit button, #download-name { overflow-wrap: anywhere; }
+
+/* The workspace panes (WEB-APP-003). The DOM order (storage, editor, download, session) is the reading and tab order at every width; only
+   the placement changes. Wide: side by side. Medium: stacked, and the storage pane can be folded away while a Pokémon is open. Narrow:
+   one pane at a time, with a return action. The narrow query is the same text as WorkspaceLayout.NarrowQuery and browser.js. */
+.narrow-only, .medium-only { display: none; }
+@media (min-width: 75rem) {
+    .workspace-panes {
+        display: grid;
+        grid-template-columns: minmax(0, 40rem) minmax(0, 1fr);
+        grid-template-areas: "storage editor" "storage download" "storage session";
+        grid-template-rows: auto auto 1fr;
+        column-gap: 1.5rem;
+        align-items: start;
+    }
+    .pane-storage { grid-area: storage; }
+    .pane-editor { grid-area: editor; }
+    .pane-download { grid-area: download; }
+    .pane-session { grid-area: session; }
+}
+@media (min-width: 40rem) and (max-width: 74.99rem) {
+    .medium-only { display: inline-block; }
+    /* Decorative markers, with empty alternative text so they are not read out; aria-expanded carries the state. */
+    .medium-only::before { content: "▾ " / ""; }
+    .medium-only[aria-expanded="false"]::before { content: "▸ " / ""; }
+    [data-storage-collapsed] > .pane-storage { display: none; }
+}
+@media (max-width: 39.99rem) {
+    .narrow-only { display: inline-block; }
+    .narrow-only::before { content: "← " / ""; }
+    [data-pane="editor"] > .pane-storage { display: none; }
+    [data-pane="storage"] > .pane-editor { display: none; }
+}
+
 .inspector table { margin-block-end: .6rem; }
 .inspector caption { text-align: start; font-weight: 600; padding-block-end: .3rem; }
 /* Cell text comes from Core, not the save, so cells wrap only between words; tighter padding keeps the tables within a phone. */
 .inspector td, .inspector th { padding: .35rem .4rem; overflow-wrap: break-word; }
 #download-name { min-width: 0; }
-#save-drop { border: 2px dashed #888; border-radius: .5rem; padding: 0 1rem; }
-#save-drop[data-drag-over] { border-color: #397bd9; background: color-mix(in srgb, #397bd9 12%, transparent); }
+#save-drop { border: 2px dashed var(--border); border-radius: .5rem; padding: 0 1rem; }
+#save-drop[data-drag-over] { border-color: var(--focus); background: color-mix(in srgb, var(--focus) 12%, transparent); }
 /* The IV/EV table holds two short number fields per row; fixed columns keep it within a phone. */
 .stat-edit { table-layout: fixed; }
 .stat-edit th, .stat-edit td { padding: .35rem .4rem; overflow-wrap: break-word; }
@@ -50,7 +139,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
    under the PP headers, which wrap the same way. Every field keeps its name from aria-labelledby, which does not depend on the table layout. */
 @media (max-width: 34rem) {
     .move-edit, .move-edit thead, .move-edit tbody { display: block; }
-    .move-edit tr { display: grid; grid-template-columns: 4.2rem repeat(3, minmax(0, 1fr)); border-block-end: 1px solid #888; }
+    .move-edit tr { display: grid; grid-template-columns: 4.2rem repeat(3, minmax(0, 1fr)); border-block-end: 1px solid var(--border); }
     .move-edit th, .move-edit td { border: 0; padding: .3rem; }
     .move-edit tr > :nth-child(1) { grid-column: 1; }
     .move-edit tr > :nth-child(2) { grid-column: 2 / -1; }
@@ -61,15 +150,15 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .box-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .5rem; }
 .box-nav button { margin-inline-end: 0; }
-.box-nav select { min-height: 44px; min-width: 0; flex: 1 1 10rem; }
+.box-nav select { min-width: 0; flex: 1 1 10rem; }
 .slot-grid { display: grid; gap: .3rem; margin-block: .5rem 1rem; }
 .slot-grid.columns-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 .slot-grid.columns-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 24rem; }
 .slot-grid [role="row"], .slot-grid [role="gridcell"] { display: contents; }
-.slot { margin: 0; width: 100%; min-height: 44px; padding: .3rem; font-size: .85rem; line-height: 1.2; hyphens: auto; overflow-wrap: anywhere; border: 1px solid #888; border-radius: .3rem; background: Canvas; color: CanvasText; }
-.slot-empty { border-style: dashed; color: color-mix(in srgb, CanvasText 72%, Canvas); }
-.slot-unreadable { border: 2px solid #c44; }
-[aria-selected="true"] > .slot, .slot-list tr.selected { outline: 3px solid #2a8a4a; outline-offset: -3px; font-weight: 600; }
+.slot { margin: 0; width: 100%; padding: .3rem; font-size: .85rem; line-height: 1.2; hyphens: auto; overflow-wrap: anywhere; border: 1px solid var(--border); border-radius: .3rem; background: var(--bg); color: var(--fg); }
+.slot-empty { border-style: dashed; color: var(--muted); }
+.slot-unreadable { border: 2px solid var(--invalid); }
+[aria-selected="true"] > .slot, .slot-list tr.selected { outline: 3px solid var(--selected); outline-offset: -3px; font-weight: 600; }
 .slot-list caption { text-align: start; font-weight: 600; padding-block: .3rem; }
 .slot-list button { margin: 0; }
 @media (max-width: 30rem) { .box-nav select { order: -1; flex-basis: 100%; } .box-nav button { flex: 1 1 0; } .slot { font-size: .7rem; padding: .2rem; } }
@@ -88,19 +177,15 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 /* Legality: the status word carries the meaning; icons and colours only reinforce it. Core text wraps rather than widening the page. */
 .legality-line { display: flex; align-items: center; gap: .5rem; font-weight: 600; }
 .legality-icon { display: inline-grid; place-items: center; min-width: 1.6rem; min-height: 1.6rem; border-radius: 50%; border: 2px solid currentColor; }
-.legality-valid { color: #2e7d32; }
-.legality-invalid { color: #c62828; }
-.legality-unavailable, .legality-stale { color: #b26a00; }
-@media (prefers-color-scheme: dark) { .legality-valid { color: #81c784; } .legality-invalid { color: #ef9a9a; } .legality-unavailable, .legality-stale { color: #ffcc80; } }
+.legality-valid { color: var(--valid); }
+.legality-invalid { color: var(--invalid); }
+.legality-unavailable, .legality-stale { color: var(--warning); }
 .legality-findings { padding-inline-start: 0; list-style: none; }
 .legality-findings li { margin-block: .5rem; overflow-wrap: anywhere; }
 .finding-icon { display: inline-block; min-width: 1.2rem; font-weight: 700; }
-.finding-invalid .finding-icon { color: #c62828; }
-.finding-warning .finding-icon { color: #b26a00; }
-@media (prefers-color-scheme: dark) { .finding-invalid .finding-icon { color: #ef9a9a; } .finding-warning .finding-icon { color: #ffcc80; } }
-.finding-link { display: inline-block; margin-inline-start: .5rem; padding-block: .6rem; }
-/* Padding rather than flex, which would hide the disclosure marker. */
-#legality-details summary { padding-block: .7rem; cursor: pointer; }
+.finding-invalid .finding-icon { color: var(--invalid); }
+.finding-warning .finding-icon { color: var(--warning); }
+.finding-link { display: inline-flex; align-items: center; min-height: 44px; margin-inline-start: .5rem; }
 /* Acknowledgements: the whole label is the target, at least 44px tall; the box sits beside text that wraps. */
 .acknowledge { display: flex; align-items: flex-start; gap: .6rem; min-height: 44px; overflow-wrap: anywhere; }
 .acknowledge input { flex: none; width: 1.4rem; height: 1.4rem; margin: .15rem 0 0; }

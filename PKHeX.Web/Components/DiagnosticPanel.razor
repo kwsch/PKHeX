@@ -17,8 +17,8 @@
     else
     {
         <p id="@($"{Id}-note")">@DiagnosticText.PreviewNote</p>
-        @* Focusable, so a keyboard user can scroll a long report. *@
-        <pre id="@($"{Id}-preview")" class="diagnostic-preview" tabindex="0" @ref="preview">@report</pre>
+        @* Focusable, so a keyboard user can scroll a long report, and a named region, so what has focus is announced. *@
+        <pre id="@($"{Id}-preview")" class="diagnostic-preview" tabindex="0" role="region" aria-label="@DiagnosticText.PreviewLabel" @ref="preview">@report</pre>
         <div class="diagnostic-actions">
             <button id="@($"{Id}-copy")" type="button" @onclick="CopyAsync">@DiagnosticText.Copy</button>
             <button id="@($"{Id}-download")" type="button" @onclick="DownloadAsync">@DiagnosticText.Download</button>

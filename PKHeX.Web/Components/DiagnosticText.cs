@@ -15,6 +15,9 @@ public static class DiagnosticText
     /// <summary>The button that builds the report and shows it.</summary>
     public const string Prepare = "Prepare a diagnostic report";
 
+    /// <summary>The accessible name of the focusable report preview.</summary>
+    public const string PreviewLabel = "Report preview";
+
     /// <summary>Shown above the preview.</summary>
     public const string PreviewNote = "This is the whole report. Check it before sharing it, and do not attach your save file or screenshots that show names.";
 

@@ -69,6 +69,9 @@ public sealed class DiagnosticPanelTests : IAsyncLifetime
         var expected = DiagnosticReport.Build(DiagnosticContext.ForBuild(UserAgent, "Pokémon Omega Ruby and Alpha Sapphire", DiagnosticFixtures.Start), log.Entries);
         panel.Find("#diag-preview").TextContent.Should().Be(expected);
         panel.Find("#diag-preview").GetAttribute("tabindex").Should().Be("0", "a long report can be scrolled from the keyboard");
+        // A focusable element needs a name for what has focus to be announced; a generic one cannot take one, a region can.
+        panel.Find("#diag-preview").GetAttribute("role").Should().Be("region");
+        panel.Find("#diag-preview").GetAttribute("aria-label").Should().Be(DiagnosticText.PreviewLabel);
         panel.Find("#diag-note").TextContent.Should().Be(DiagnosticText.PreviewNote);
         panel.Markup.Should().NotContain("ZZFILE");
         FocusCalls().Should().Be(1, "focus moves to the preview");

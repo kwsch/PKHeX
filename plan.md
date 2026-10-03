@@ -1730,7 +1730,82 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
     - **Matches:** build identity in About.
     - **Stricter:** PKForge has no diagnostic report (only a "diagnostic" label on debug builds), and its alerts show `ex.Message`; we never show or log a message. It does not strip bidi controls from names.
     - **Out of scope:** `BankArchive.SanitizeFileName` covers bank export names (bank storage is out of Web scope); our file names were already cleaned by `FileNaming` (M1).
-- **M18 Responsive + accessibility.** Desktop split panes, collapsible tablet panes, and a stacked mobile editor with a return action. Dialog focus is trapped and restored. Validation focuses the summary and then the field. Includes reduced motion, 44px targets, contrast tokens and 400% reflow. Automated axe check in Playwright (bundle `axe-core` in test assets only) (APP-003, A11Y-002/003).
+- **M18 Responsive + accessibility.** Desktop split panes, collapsible tablet panes, and a stacked mobile editor with a return action. Dialog focus is trapped and restored. Validation focuses the summary and then the field. Includes reduced motion, 44px targets, contrast tokens and 400% reflow. Automated axe check in Playwright (bundle `axe-core` in test assets only) (APP-003, A11Y-002/003). With the extras M7–M17 left to it, it is split into three chunks, each its own branch and PR:
+  - **User decisions:** the exit panel becomes a native modal `<dialog>` (Escape cancels); the species preview and diagnostic report stay inline. Validation uses an error summary when Apply or Download is activated (`aria-disabled`, still focusable), with `aria-invalid` and an inline error on a refused field; typing never moves focus. Live regions stay only for verdicts and discrete choices; notes under typed fields are read through `aria-describedby`, and legality announces only the final verdict. In scope: read-only field styling, previous/next Pokémon in the editor, and a searchable move/item picker.
+- **M18a Responsive layout, visual access, axe.** Panes and their focus moves, colour tokens, targets, reflow, reduced motion, the diagnostic preview's name, and the axe check.
+
+  **M18a status:** code complete on `web/m18a-responsive-layout`.
+  - **Panes** (`Components/Workspace`, `State/WorkspaceView`, `wwwroot/app.css`):
+    - The open session is a storage pane (overview, changes, party and boxes), an editor pane (the selected Pokémon), then Download and Session. `#export-state` moved into Download, next to the button it describes. The DOM order is the reading and tab order at every width; only CSS places the panes.
+    - Wide (75rem and up): side by side, storage 40rem. Medium: stacked, with `#storage-toggle` ("Party and boxes", `aria-expanded`, `aria-controls="pane-storage"`) folding storage away while a Pokémon is open. Narrow (under 40rem): one pane at a time; `#editor-return` ("Back to party and boxes") returns.
+    - `WorkspaceView` holds the pane and the fold. Opening a slot, or activating the selected one again, shows the editor; a closed draft, a new session, a fault recovery and a discarded exit draft reset both. A refused open (draft pending) keeps the pane. The width only decides, in CSS, which choice applies, so a resize re-renders nothing and keeps the draft, the selection and the box. Folded storage stays rendered.
+    - Focus: on a narrow screen opening a slot moves focus to `#draft-title` (`focusIfNarrow`, the same media query text as the CSS, pinned by a test), since the slot that had it is now hidden; wider screens keep focus in the grid as before. The return action focuses the selected slot (`WorkspaceLayout.SlotElementId`, grid or list), or `#storage-title` when another box is shown.
+  - **Visual access:**
+    - Colour tokens (`--bg`, `--fg`, `--muted`, `--border`, `--focus`, `--selected`, `--valid`, `--invalid`, `--warning`), light and dark. The page sets its own background instead of `Canvas`. `--warning` changed from `#b26a00` (3.9:1 on white, below AA for the Stale and Unavailable text) to `#8f5600`.
+    - Every control is at least 44px tall: text fields, selects and `summary` now too, checkbox and radio labels (`.check`), finding links and About's standalone links. Inline links in sentences are exempt (WCAG 2.5.8).
+    - A `prefers-reduced-motion` block; the page has no motion.
+    - The diagnostic preview is a named region (`role="region"`, "Report preview"), the M17 axe note.
+    - At 320px nothing scrolls sideways. M12's 2px overflow of the inspector stats table no longer reproduces in any engine, even with the "Sp. Atk (lowered by nature)" header (an Adamant party member), so no rule was added for it: a row-header wrap rule written for it failed no test when removed and was dropped.
+  - **axe:** `Deque.AxeCore.Playwright` 4.13.0 (MPL-2.0, bundles axe-core) in `PKHeX.Web.Tests` only; the publish and `THIRD-PARTY-NOTICES.md` are unchanged. `Accessibility.AssertNoViolationsAsync` runs every WCAG 2.0–2.2 A and AA rule, none disabled. Injecting it raised no CSP violation in any engine.
+  - **Tests.**
+    - **Unit 1094** (up from 1076; 1095 after the adversarial review):
+      - `WorkspaceViewTests` (13): open and return keep the draft, the selected slot again, a refused open keeps the pane, the fold needs a draft and ends with it, apply and cancel keep the editor, a new session, a fault and a discarded draft reset it, the slot ids, a box not shown, the shared media query, the panes' markup with focus calls, return to the heading.
+      - `ContrastTokensTests` (5): both schemes' ratios, the same tokens in both, no colour outside the tokens (comments ignored), the ratio formula.
+      - `DiagnosticPanelTests`: the preview's role and name.
+    - **E2E 296** (up from 278): every E2E test executed (`trx-all-executed.sh`), with the default and sprite publishes.
+      - `ResponsiveBrowserTests`, 3 engines × 2 paths: desktop side by side with focus kept in the grid; phone pane switch, focus to the editor heading and back to the slot, the heading when another box is shown, a refused open; tablet fold, ignored on a wide screen and back; the draft, selection and box kept through 1280 → 375 → 800 → 1280; at 320px no sideways scroll on the start screen, About with a report, the loaded save and a party member's editor, and Download and Apply reachable (nothing on top of them); at 375px every control at least 44px; no motion in any stylesheet rule or shown element, with and without the reduced-motion preference.
+      - `AccessibilityBrowserTests`, 3 engines × 2 paths: no axe violation on the start screen, About with a report, the grid, the list, the editor with an Invalid result and its findings, and the exit panel, at 1280 and 375 in light, and at 1280 in dark.
+      - `StorageBrowserTests` now uses the return action at 375px, and checks the editor heading's focus. `ProofPage.Select` returns to storage first when the return action is shown.
+    - **RealSave 98** pass.
+    - **Mutation checks** (Unit tier unless noted; files restored from a scratchpad copy; failing tests):
+
+      | Mutation | Failing tests |
+      | --- | --- |
+      | Opening a slot does not show the editor | 4 |
+      | A hard-coded colour | 1 |
+      | The old warning colour | 1 |
+      | A slot id for a box not shown | 2 |
+      | No focus move to the editor | 1 |
+      | A reset keeps the fold | 2 |
+      | The script's media query drifts | 1 |
+      | The preview unnamed | 1 |
+      | Fold without a draft | 1 |
+      | Selects under 44px (E2E, Chromium) | 2 |
+      | A low-contrast empty slot (E2E, Chromium; axe) | 2 |
+      | The narrow layout keeps storage (E2E, Chromium) | 2 |
+      | A transition on slots (E2E) | 6 |
+
+    - The transition mutation first survived: the motion check ran while the list was shown, so no slot was on screen. It now also scans every stylesheet rule, and runs on the grid.
+    - **Other checks:** trim baseline unchanged (38); `PKHeX.slnx` Release has 0 warnings; no raw Bidi_Control characters in the changed files.
+  - **Adversarial review** (each finding shown by a probe or failing test first, then fixed; the throwaway probe was deleted):
+    - **Fixed:**
+      - **A resize could drop focus to the page body.** With a slot open on a desktop and focus in the box navigation, narrowing the window hid the storage pane and left focus on a hidden element (probed in Chromium: `BODY`); widening to a medium layout with storage folded did the same. `browser.js` now watches the narrow and wide media queries, and when the focused element is no longer shown, focuses the first heading still shown (editor, storage, open). Focus that stays visible is left alone.
+      - **A phone could not get back to a pending draft from another box.** After the return action and a box change, every slot refused to open ("Apply or cancel the draft…"), Apply was in the hidden editor and Download was disabled; only browsing back to the draft's box helped. `#editor-resume` ("Back to the selected Pokémon", narrow only, top of the storage pane) shows the editor and focuses its heading.
+      - **The returned slot was not the grid's tab stop.** The return action focused the selected slot from script while the roving tab stop stayed where arrow keys had left it (probed: focus `box-grid-0`, tab stop `box-grid-1`), so Tab and Shift+Tab led back to another slot. A focused slot now takes the tab stop (`@onfocus`).
+      - **The boot failure screens had widened to 90rem** with `.page`; they are 56rem again.
+      - **A test step claimed more than it checked.** The responsive test's "return lands on the storage heading" step never reached that case. It now does: a resize and box change, the return action focusing `#storage-title`, then the resume action.
+    - Mutations (failing tests): no focus keeper 2 (E2E, Chromium); resume hidden 2 (E2E, Chromium); focus does not take the tab stop 1.
+    - **Checked, not changed:**
+      - `WorkspaceView.HasDraft` is set only by opening a slot; every path that creates a draft opens a slot or replaces an existing draft, and every path that closes one resets the view.
+      - At a fractional width between 39.99rem and 40rem (or 74.99rem and 75rem) neither the narrow nor the medium rules apply: the panes are stacked with neither action, which loses nothing.
+      - Clicking or tabbing into a slot already set the tab stop; the new focus handler only changes script focus.
+    - After the fixes: Unit 1095, E2E 296, all executed; trim baseline unchanged (38); `PKHeX.slnx` Release has 0 warnings.
+  - **CI run on PR #30 (WebKit, Linux):** axe found `color-contrast` on `#about-toggle` in dark mode: WebKit on Linux draws a native button as white on `#c0c0c0` (1.81:1). macOS WebKit, Chromium and Firefox did not show it, so the local runs passed.
+    - **Cause:** buttons, selects and fields kept the browser's own colours, which the tokens and `ContrastTokensTests` never covered, so their contrast depended on the engine and platform.
+    - **Shown first:** a new check in `AccessibilityBrowserTests` (`AssertControlsUseTokens`) requires every visible button, select and text field to draw its text and background in token colours. It failed locally in all three engines before the fix (for example WebKit's light button background is the same `#c0c0c0`), so it does not need Linux to catch this.
+    - **Fixed:** a `--control` token (`#f2f2f2` / `#2b2b2b`) for buttons and the file button, and `--bg` for selects and fields, all with `--fg` text and a `--border` outline; disabled controls use `--muted` text and a dashed border. `ContrastTokensTests` now also checks `--fg` and `--muted` on `--control` (4.5:1) and `--border` on it (3:1). Checkboxes and radios keep their native look.
+    - **Found while fixing:** macOS WebKit draws a select with any colour set at its native 23px and ignores `min-height`, which the 44px target check caught. Selects now have `height: 2.75rem` (44px at the default text size, growing with it); WebKit keeps its arrow (checked in screenshots, light and dark).
+    - Not reproduced on Linux WebKit locally (the Playwright image would not fit in the free disk space); the next CI run is the confirmation.
+  - **Recorded, not changed:**
+    - A narrow screen remembers its pane through a detour to a wider layout (the choice made on the phone is kept).
+    - The exit panel, live regions and validation focus are M18b's; prev/next and the picker M18c's.
+  - **Visual check:** screenshots of the published app with the private XY save (a party member open) at 1280px light, 800px dark and 375px: side-by-side panes, stacked panes, and the editor alone with its heading at the top.
+  - **Not verified yet:** no screen reader; the layout on physical tablets and phones, and their rotation (G-C); no keyboard-only manual drive beyond the browser tests.
+  - **Compared with PKForge** (`src/PKForge.App/Views/Kit.cs`, `BoxBrowserPage.cs`):
+    - **Stricter:** PKForge sets no semantic or accessibility properties, uses 28–40 dp minimum heights (`Kit.cs:413,759`, `BoxBrowserPage.cs:5148,5268`) and has no accessibility tests; we check names, contrast, targets and reflow, and run axe.
+    - **Out of scope:** its Android-only adaptive layout.
+- **M18b Modal exit dialog, validation summary, live notes, read-only styling.** Not started.
+- **M18c Previous/next Pokémon and the searchable move/item picker.** Not started.
 - **M19 Full published journey E2E.** 3 engines × 2 paths with synthetic fixtures. Picker and drop → select box + party → edit one field from each group → legality → apply → export → reopen → assert fields plus unchanged bytes outside the slot and checksum regions. Privacy trace and keyboard-only run. The RealSave tier gets the same journey for local G-D runs (TEST-004/005).
 - **M20 Hosting + release.**
   - Checked-in `wwwroot/_headers` (Cloudflare: CSP, `nosniff`, referrer policy, immutable cache for fingerprinted assets, revalidate for `index.html` / boot json) and a meta-CSP fallback.

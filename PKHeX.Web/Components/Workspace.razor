@@ -23,72 +23,90 @@
                   OnAcknowledgeApply="AcknowledgeLegality" OnAcknowledgeExport="AcknowledgeExport" />
 @if (Session is not null)
 {
-    <SaveOverviewPanel Session="Session" />
-    <p id="session-state">@SessionStatusText.Changes(Session)</p>
-    <p id="export-state">@SessionStatusText.For(Session.ExportStatus)</p>
-    <p id="session-note">This save is processed only on this device. Changes are temporary until you download them; reloading or closing the tab discards this session.</p>
-    <StorageBrowser Session="Session" Selected="Draft?.Slot" OnActivate="OpenSlot" />
-    @if (Draft is not null)
-    {
-        <section aria-labelledby="draft-title">
-            <h2 id="draft-title">Selected Pokémon</h2>
-            <p id="draft-slot">@SlotText.Position(Draft.Slot)</p>
-            <DraftEditor Draft="Draft" OnEdit="Edit" OnPreviewChanged="shown => previewing = shown ? Draft : null" />
-            <p id="draft-state">@(State.DraftDirty ? "Unapplied draft" : "No draft changes")</p>
-            <PartyHpPreview Change="Draft.HpChange" />
-            @if (Previewing)
+    @* Two panes, side by side on a wide screen. A medium screen can fold the storage pane away while a Pokémon is open; a narrow one shows one
+       pane at a time, with a return action. The DOM order is the reading and tab order at every width; only the CSS places the panes, so a
+       resize never re-renders anything or loses the selection or the draft (see WorkspaceView). *@
+    <div id="workspace-panes" class="workspace-panes" data-pane="@(View.Pane == WorkspacePane.Editor ? "editor" : "storage")"
+         data-storage-collapsed="@(View.StorageCollapsed ? "true" : null)">
+        <div id="pane-storage" class="pane-storage">
+            @* When one pane is shown at a time, the way back to an open draft from wherever the user has browsed: its slot may be in a box not shown,
+               and every other slot refuses to open while it has changes. *@
+            @if (Draft is not null)
             {
-                <p id="species-pending">@EditorText.SpeciesFormPending</p>
+                <button id="editor-resume" type="button" class="narrow-only" @onclick="ResumeEditor">@WorkspaceLayout.ResumeEditor</button>
             }
-            @if (Draft.CanApply && State.DraftDirty && State.DraftValid && !Previewing)
-            {
-                <ApplyAcknowledgement Id="apply-ack" Gate="State.Legality.Gate" Verdict="AcknowledgedVerdict" Disabled="busy" OnAcknowledge="AcknowledgeLegality" />
-            }
-            <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid || Previewing || !LegalityAllowsApply)">Apply changes</button>
-            <button id="cancel-draft" @onclick="CancelDraft">Cancel draft</button>
-            @if (!Draft.CanApply)
-            {
-                <p id="party-note">@UserMessages.For(SessionError.PartyApplyNotAvailable) Legality is analysed as a party member.</p>
-            }
-            <LegalityPanel Status="State.Legality.Status" Current="State.Legality.Current" AutoRun="State.Legality.AutoRun"
-                           Running="State.Legality.IsRunning"
-                           DraftValid="State.DraftValid" OnAnalyze="Analyze" OnShowSection="ShowSection" />
-            @if (inspection is not null)
-            {
-                <p id="inspector-note">Read-only details of the drafted Pokémon, including accepted unapplied changes (a refused edit is not shown). Other fields are kept exactly as stored.</p>
-                <EntityInspector Inspection="inspection" />
-            }
-        </section>
-    }
-    <section aria-labelledby="download-title">
-        <h2 id="download-title">Download</h2>
-        <fieldset id="download-name">
-            <legend>File name</legend>
-            @foreach (var choice in Enum.GetValues<ExportNameChoice>())
-            {
-                var id = $"name-{choice.ToString().ToLowerInvariant()}";
-                <label for="@id">
-                    <input id="@id" type="radio" name="download-name" checked="@(NameChoice == choice)" @onchange="() => nameChoice = choice" />
-                    @SessionStatusText.NameOption(choice, ExportNaming.NameFor(Session, choice, LocalNow))
-                </label>
-            }
-        </fieldset>
-        @if (ExportNaming.NeedsRenameToRestore(ExportNaming.NameFor(Session, NameChoice, LocalNow)))
+            <SaveOverviewPanel Session="Session" />
+            <p id="session-state">@SessionStatusText.Changes(Session)</p>
+            <p id="session-note">This save is processed only on this device. Changes are temporary until you download them; reloading or closing the tab discards this session.</p>
+            <StorageBrowser Session="Session" Selected="Draft?.Slot" OnActivate="OpenSlot" />
+        </div>
+        @if (Draft is not null)
         {
-            <p id="rename-note">@SessionStatusText.RenameToRestore</p>
+            <section id="pane-editor" class="pane-editor" aria-labelledby="draft-title">
+                @* Each is shown only at the width it serves: the return action when one pane is shown at a time, the fold when both fit only narrowly. *@
+                <button id="editor-return" type="button" class="narrow-only" @onclick="ReturnToStorage">@WorkspaceLayout.ReturnToStorage</button>
+                <button id="storage-toggle" type="button" class="medium-only" aria-controls="pane-storage" aria-expanded="@(View.StorageCollapsed ? "false" : "true")"
+                        @onclick="View.ToggleStorage">@WorkspaceLayout.StorageToggle</button>
+                <h2 id="draft-title" tabindex="-1">Selected Pokémon</h2>
+                <p id="draft-slot">@SlotText.Position(Draft.Slot)</p>
+                <DraftEditor Draft="Draft" OnEdit="Edit" OnPreviewChanged="shown => previewing = shown ? Draft : null" />
+                <p id="draft-state">@(State.DraftDirty ? "Unapplied draft" : "No draft changes")</p>
+                <PartyHpPreview Change="Draft.HpChange" />
+                @if (Previewing)
+                {
+                    <p id="species-pending">@EditorText.SpeciesFormPending</p>
+                }
+                @if (Draft.CanApply && State.DraftDirty && State.DraftValid && !Previewing)
+                {
+                    <ApplyAcknowledgement Id="apply-ack" Gate="State.Legality.Gate" Verdict="AcknowledgedVerdict" Disabled="busy" OnAcknowledge="AcknowledgeLegality" />
+                }
+                <button id="apply" @onclick="Apply" disabled="@(!Draft.CanApply || !State.DraftDirty || !State.DraftValid || Previewing || !LegalityAllowsApply)">Apply changes</button>
+                <button id="cancel-draft" @onclick="CancelDraft">Cancel draft</button>
+                @if (!Draft.CanApply)
+                {
+                    <p id="party-note">@UserMessages.For(SessionError.PartyApplyNotAvailable) Legality is analysed as a party member.</p>
+                }
+                <LegalityPanel Status="State.Legality.Status" Current="State.Legality.Current" AutoRun="State.Legality.AutoRun"
+                               Running="State.Legality.IsRunning"
+                               DraftValid="State.DraftValid" OnAnalyze="Analyze" OnShowSection="ShowSection" />
+                @if (inspection is not null)
+                {
+                    <p id="inspector-note">Read-only details of the drafted Pokémon, including accepted unapplied changes (a refused edit is not shown). Other fields are kept exactly as stored.</p>
+                    <EntityInspector Inspection="inspection" />
+                }
+            </section>
         }
-        <ExportAcknowledgement Id="export-ack" Flagged="Flagged" Acknowledged="!Session.ExportNeedsAcknowledgement" Disabled="busy" OnAcknowledge="AcknowledgeExport" />
-        <button id="download" @onclick="() => ExportAsync()" disabled="@(State.DraftDirty || busy || !State.DraftValid || Previewing || Session.ExportNeedsAcknowledgement)">Download validated save</button>
-        <p>Your browser may adjust the name. Download initiation does not confirm it was saved to disk. Verify your file before closing.</p>
-    </section>
-    <section aria-labelledby="session-title">
-        <h2 id="session-title">Session</h2>
-        <button id="close-session" type="button" @ref="closeButton" @onclick="RequestClose" disabled="@busy">Close save</button>
-        <button id="reset-session" type="button" @ref="resetButton" @onclick="RequestReset" disabled="@(busy || !Session.HasChangesSinceOpen)">Reset to original</button>
-        <button id="discard-session" type="button" @ref="discardButton" @onclick="RequestDiscard" disabled="@busy">Discard session</button>
-        <p id="reset-note">@SessionStatusText.ResetNote</p>
-        <p id="discard-note">@SessionStatusText.DiscardNote</p>
-    </section>
+        <section id="pane-download" class="pane-download" aria-labelledby="download-title">
+            <h2 id="download-title">Download</h2>
+            <p id="export-state">@SessionStatusText.For(Session.ExportStatus)</p>
+            <fieldset id="download-name">
+                <legend>File name</legend>
+                @foreach (var choice in Enum.GetValues<ExportNameChoice>())
+                {
+                    var id = $"name-{choice.ToString().ToLowerInvariant()}";
+                    <label class="check" for="@id">
+                        <input id="@id" type="radio" name="download-name" checked="@(NameChoice == choice)" @onchange="() => nameChoice = choice" />
+                        @SessionStatusText.NameOption(choice, ExportNaming.NameFor(Session, choice, LocalNow))
+                    </label>
+                }
+            </fieldset>
+            @if (ExportNaming.NeedsRenameToRestore(ExportNaming.NameFor(Session, NameChoice, LocalNow)))
+            {
+                <p id="rename-note">@SessionStatusText.RenameToRestore</p>
+            }
+            <ExportAcknowledgement Id="export-ack" Flagged="Flagged" Acknowledged="!Session.ExportNeedsAcknowledgement" Disabled="busy" OnAcknowledge="AcknowledgeExport" />
+            <button id="download" @onclick="() => ExportAsync()" disabled="@(State.DraftDirty || busy || !State.DraftValid || Previewing || Session.ExportNeedsAcknowledgement)">Download validated save</button>
+            <p>Your browser may adjust the name. Download initiation does not confirm it was saved to disk. Verify your file before closing.</p>
+        </section>
+        <section id="pane-session" class="pane-session" aria-labelledby="session-title">
+            <h2 id="session-title">Session</h2>
+            <button id="close-session" type="button" @ref="closeButton" @onclick="RequestClose" disabled="@busy">Close save</button>
+            <button id="reset-session" type="button" @ref="resetButton" @onclick="RequestReset" disabled="@(busy || !Session.HasChangesSinceOpen)">Reset to original</button>
+            <button id="discard-session" type="button" @ref="discardButton" @onclick="RequestDiscard" disabled="@busy">Discard session</button>
+            <p id="reset-note">@SessionStatusText.ResetNote</p>
+            <p id="discard-note">@SessionStatusText.DiscardNote</p>
+        </section>
+    </div>
 }
 
 @code {
@@ -131,6 +149,23 @@
     private bool LegalityAllowsApply => State.Legality.Gate is LegalityGate.Clear or LegalityGate.Acknowledged;
     private SaveSession? Session => State.Session;
     private EditorDraft? Draft => State.Draft;
+    private WorkspaceView View => State.View;
+
+    /// <summary>Where focus moves after the next render, when a pane change hides the element that had it.</summary>
+    private PaneFocus pendingFocus;
+
+    /// <summary>A focus move a pane change asks for, made once the new pane has rendered.</summary>
+    private enum PaneFocus
+    {
+        /// <summary>Focus stays where it is.</summary>
+        None,
+
+        /// <summary>A slot was opened: on a narrow screen the storage pane, and the slot with it, is now hidden, so focus moves to the editor.</summary>
+        Editor,
+
+        /// <summary>The return action hid the editor, and the button with it: focus moves back to the selected slot.</summary>
+        Storage,
+    }
 
     /// <summary>The user's name choice, or the default for the session's state until they pick one.</summary>
     private ExportNameChoice NameChoice => nameChoice ?? ExportNaming.DefaultFor(Session!);
@@ -146,6 +181,7 @@
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await MovePaneFocusAsync();
         if (focusOpenTitle)
         {
             focusOpenTitle = false;
@@ -169,6 +205,46 @@
             _ => openTitle,
         };
         await target.FocusAsync();
+    }
+
+    /// <summary>
+    /// Makes the focus move a pane change asked for. Opening a slot moves focus only on a narrow screen, where the slot it came from is now
+    /// hidden; on a wider one both panes are shown and focus stays in the grid, as before. The return action exists only on a narrow screen.
+    /// </summary>
+    private async Task MovePaneFocusAsync()
+    {
+        var target = pendingFocus;
+        pendingFocus = PaneFocus.None;
+        try
+        {
+            switch (target)
+            {
+                case PaneFocus.Editor:
+                    await Page.FocusIfNarrowAsync(WorkspaceLayout.EditorHeadingId);
+                    break;
+                case PaneFocus.Storage when Draft is { } draft:
+                    await Page.FocusAsync(WorkspaceLayout.SlotElementId(draft.Slot, State.ShowAsList, State.CurrentBox) ?? WorkspaceLayout.StorageHeadingId);
+                    break;
+            }
+        }
+        catch (JSException ex)
+        {
+            Diagnostics.Record(DiagnosticOperation.Focus, ex);
+        }
+    }
+
+    /// <summary>The narrow layout's way back to the open draft: shows its editor again and focuses the editor's heading.</summary>
+    private void ResumeEditor()
+    {
+        View.ShowEditor();
+        pendingFocus = PaneFocus.Editor;
+    }
+
+    /// <summary>The narrow layout's return action: shows the party and boxes again, keeping the draft, and focuses the selected slot.</summary>
+    private void ReturnToStorage()
+    {
+        View.ShowStorage();
+        pendingFocus = PaneFocus.Storage;
     }
 
     protected override void OnInitialized()
@@ -347,6 +423,10 @@
             if (outcome is SlotOpening.Opened or SlotOpening.Empty or SlotOpening.Unreadable)
             {
                 ResetDraftView();
+            }
+            if (outcome is SlotOpening.Opened or SlotOpening.AlreadyOpen)
+            {
+                pendingFocus = PaneFocus.Editor;
             }
             message = outcome switch
             {

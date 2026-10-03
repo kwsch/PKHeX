@@ -62,6 +62,9 @@ public sealed class WorkspaceState : IDisposable
     /// <summary>True when the party and box are shown as a list rather than as grids. Kept for the tab, across opened saves.</summary>
     public bool ShowAsList { get; set; }
 
+    /// <summary>Which pane a narrow layout shows, and whether a medium one folds the storage pane away. Reset with every new session and closed draft.</summary>
+    public WorkspaceView View { get; } = new();
+
     /// <summary>Raised after any change that can affect <see cref="HasUnsavedWork"/> or <see cref="ExitStage"/>.</summary>
     public event Action? Changed;
 
@@ -72,6 +75,7 @@ public sealed class WorkspaceState : IDisposable
         Exit = null;
         Draft = null;
         DraftValid = true;
+        View.Reset();
         Legality.Reset();
         CurrentBox = StorageView.InitialBox(session);
         OnChanged();
@@ -200,6 +204,7 @@ public sealed class WorkspaceState : IDisposable
     {
         RequireStage(ExitStage.ResolveDraft);
         Draft = null;
+        View.Reset();
         DraftValid = true;
         Legality.Reset();
         Advance();
@@ -341,6 +346,7 @@ public sealed class WorkspaceState : IDisposable
         var session = Session ?? throw new InvalidOperationException("No session is open.");
         if (Draft?.Slot == slot)
         {
+            View.ShowEditor();
             return SlotOpening.AlreadyOpen;
         }
         if (DraftDirty || !DraftValid)
@@ -350,6 +356,7 @@ public sealed class WorkspaceState : IDisposable
         try
         {
             SetDraft(session.Select(slot));
+            View.ShowEditor();
             return SlotOpening.Opened;
         }
         catch (SessionException e) when (e.Error is SessionError.SlotNotOccupied or SessionError.EntityInvalid)
@@ -364,6 +371,10 @@ public sealed class WorkspaceState : IDisposable
     {
         Draft = draft;
         DraftValid = true;
+        if (draft is null)
+        {
+            View.Reset();
+        }
         Legality.Reset();
         Legality.Schedule();
         OnChanged();
@@ -395,6 +406,7 @@ public sealed class WorkspaceState : IDisposable
         Exit = null;
         Draft = null;
         DraftValid = true;
+        View.Reset();
         Legality.Reset();
         OnChanged();
     }

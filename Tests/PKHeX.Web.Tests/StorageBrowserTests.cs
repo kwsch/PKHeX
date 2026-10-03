@@ -70,14 +70,20 @@ public sealed class StorageBrowserTests(PublishedAppFixture app)
         await page.Keyboard.PressAsync("Control+Home");
         await Expect(page.Locator("#box-grid-0")).ToBeFocusedAsync();
         await Expect(page.Locator("#box-grid button[tabindex='0']")).ToHaveIdAsync("box-grid-0");
+        await page.Keyboard.PressAsync("Tab");
+        Assert.Equal("Tab:false", (await page.EvaluateAsync<string[]>("() => window.gridKeys"))[^1]);
+        Assert.False(await page.EvaluateAsync<bool>("() => document.activeElement.closest('[role=grid]') !== null"), "Tab did not leave the grid.");
+        await page.Keyboard.PressAsync("Shift+Tab");
+        await Expect(page.Locator("#box-grid-0")).ToBeFocusedAsync();
         await page.Keyboard.PressAsync("Enter");
         await Expect(page.Locator("#draft-slot")).ToHaveTextAsync(SlotText.Position(SaveFixtures.FirstBoxSlot));
         var boxed = StorageView.Box(opened, 0).Slots[0];
         await Expect(page.Locator("#message")).ToHaveTextAsync($"Opened {SlotText.Label(boxed)}. {EditorText.EditableSummary(opened.Capabilities.Editable)}");
         await Expect(page.Locator("#box-grid [role=gridcell][aria-selected=true] button")).ToHaveIdAsync("box-grid-0");
-        await page.Keyboard.PressAsync("Tab");
-        Assert.Equal("Tab:false", (await page.EvaluateAsync<string[]>("() => window.gridKeys"))[^1]);
-        Assert.False(await page.EvaluateAsync<bool>("() => document.activeElement.closest('[role=grid]') !== null"), "Tab did not leave the grid.");
+        // At this width the editor replaces the party and boxes, so focus moves to its heading; the return action brings the slot back.
+        await Expect(page.Locator("#draft-title")).ToBeFocusedAsync();
+        await page.Locator("#editor-return").ClickAsync();
+        await Expect(page.Locator("#box-grid-0")).ToBeFocusedAsync();
 
         // An empty slot opens nothing and closes the clean draft.
         await page.Locator("#box-grid-1").ClickAsync();
@@ -97,10 +103,14 @@ public sealed class StorageBrowserTests(PublishedAppFixture app)
         // An unapplied draft is never replaced by opening another slot.
         await Select(page);
         await page.Locator("#nickname").FillAsync("Unapplied");
+        // At this width the editor replaces the party and boxes; the return action brings them back, keeping the draft.
+        await page.Locator("#editor-return").ClickAsync();
         await page.Locator("#party-grid-0").ClickAsync();
         await Expect(page.Locator("#message")).ToHaveTextAsync("Apply or cancel the draft before opening another slot.");
         await Expect(page.Locator("#draft-slot")).ToHaveTextAsync(SlotText.Position(SaveFixtures.FirstBoxSlot));
+        await page.Locator("#box-grid-0").ClickAsync();
         await page.Locator("#cancel-draft").ClickAsync();
+        await page.Locator("#editor-return").ClickAsync();
 
         // The list alternative shows the same slots, with Open only where there is something to open.
         await page.Locator("#storage-as-list").CheckAsync();
@@ -110,6 +120,7 @@ public sealed class StorageBrowserTests(PublishedAppFixture app)
         await page.Locator("#party-list-0").ClickAsync();
         await Expect(page.Locator("#draft-slot")).ToHaveTextAsync(SlotText.Position(SlotRef.InParty(0)));
         await Expect(page.Locator("#party-list tr[aria-current=true] th")).ToHaveTextAsync("Party position 1");
+        await page.Locator("#editor-return").ClickAsync();
         Assert.True(await page.EvaluateAsync<bool>("() => document.documentElement.scrollWidth <= document.documentElement.clientWidth"), "The list scrolls horizontally at 375 px.");
         await page.Locator("#storage-as-list").UncheckAsync();
         await Expect(page.Locator("#box-grid")).ToBeVisibleAsync();

@@ -68,7 +68,7 @@
     <label for="nickname">Nickname</label>
     @* Fields the draft cannot change (all of them when the position cannot be applied, or for an egg) are read-only, so nothing is drafted that could never be applied. *@
     <input id="nickname" value="@nickname" @oninput="NicknameTyped" maxlength="@Draft.MaxNicknameLength" readonly="@(!Can(EditableFields.Nickname))" />
-    <label><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="FlagChanged" disabled="@(!Can(EditableFields.Nickname))" /> Is nicknamed</label>
+    <label class="check"><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="FlagChanged" disabled="@(!Can(EditableFields.Nickname))" /> Is nicknamed</label>
     <label for="language">Language</label>
     @* Each select's value is set on the select, not as an option's selected attribute, which Firefox ignores once the user has chosen an option
        (see ChoiceSelect). *@
