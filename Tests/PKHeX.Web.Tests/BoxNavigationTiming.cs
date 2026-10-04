@@ -31,7 +31,7 @@ internal sealed record BoxNavigationResult(BootEnvironment Environment, int BoxC
 /// </remarks>
 internal static class BoxNavigationTiming
 {
-    /// <summary>Engineering target for an ordinary box change once assets are warm; not enforced.</summary>
+    /// <summary>Target for an ordinary box change once assets are warm, shown beside the measurements; not enforced.</summary>
     public const double TargetMs = 100;
 
     /// <summary>Longest wait for one box change before the measurement counts as failed.</summary>
@@ -87,7 +87,7 @@ internal static class BoxNavigationTiming
             await page.GotoAsync(host.Url);
             await page.Locator("#save-file:enabled").WaitForAsync(new() { State = WaitForSelectorState.Attached, Timeout = StepTimeoutMs });
             build ??= await page.EvaluateAsync<JsonElement>(BootBaseline.ReadBuild);
-            await ProofPage.Load(page, save, "boxes");
+            await AppPage.Load(page, save, "boxes");
             await Expect(page.Locator("#box-title")).ToHaveTextAsync(titles[0], new() { Timeout = StepTimeoutMs });
             await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
             host.TakeLog();

@@ -530,6 +530,7 @@ Main.B_FestivalPlaza=페스서클
 Main.B_JPEG=PGL .JPEG 저장
 Main.B_MailBox=메일박스
 Main.B_MoveShop=기술 상점
+Main.B_MyWallpaper=내 벽지 저장
 Main.B_OpenApricorn=규토리
 Main.B_OpenBattlePass=Battle Passes
 Main.B_OpenBerryField=나무열매 밭

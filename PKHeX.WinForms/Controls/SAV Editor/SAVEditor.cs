@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -928,6 +929,27 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         File.WriteAllBytes(sfd.FileName, jpeg);
     }
 
+    private void B_MyWallpaper_Click(object sender, EventArgs e)
+    {
+        var sRSBox = (SAV3RSBox)SAV;
+        var cmpr = sRSBox.MyWallpaper;
+        if (!(sRSBox.MyWallpaperEnabled || cmpr.ContainsAnyExcept<byte>(0)))
+        {
+            WinFormsUtil.Alert(MsgSaveJPEGExportFail);
+            return;
+        }
+        const int width = SAV3RSBox.WP_WIDTH, height = SAV3RSBox.WP_HEIGHT;
+        var data = CMPR.Decompress(cmpr, width, height);
+        var picture = ImageUtil.GetBitmap(data, width, height, PixelFormat.Format32bppArgb);
+        string filename = "My Wallpaper";
+        using var sfd = new SaveFileDialog();
+        sfd.FileName = filename;
+        sfd.Filter = "PNG|*.png";
+        if (sfd.ShowDialog() != DialogResult.OK)
+            return;
+        picture.Save(sfd.FileName, ImageFormat.Png);
+    }
+
     private void B_OpenFashion_Click(object sender, EventArgs e)
     {
         using var form = SAV switch
@@ -1293,6 +1315,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             FLP_SAVtools.Visible = false;
             B_JPEG.Visible = false;
+            B_MyWallpaper.Visible = false;
             B_ConvertKorean.Visible = false;
             SL_Extra.HideAllSlots();
             return;
@@ -1306,6 +1329,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenPokepuffs.Visible = sav is ISaveBlock6Main;
         B_JPEG.Visible = B_OpenLinkInfo.Visible = B_OpenSuperTraining.Visible = B_OUTPasserby.Visible = sav is ISaveBlock6Main;
         B_OpenBoxLayout.Visible = sav is IBoxDetailName;
+        B_MyWallpaper.Visible = sav is SAV3RSBox;
         B_OpenWondercards.Visible = sav is IMysteryGiftStorageProvider;
         B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7 or SAV3 { IsMisconfiguredSize: false } or SAV1;
         B_OpenOPowers.Visible = sav is ISaveBlock6Main;

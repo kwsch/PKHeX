@@ -101,6 +101,6 @@ public sealed class UserMessagesTests
     private static void AssertHonest(string text)
     {
         text.Should().NotBeNullOrWhiteSpace();
-        text.Should().NotContainEquivalentOf("supported", "no family is qualified as supported yet");
+        text.Should().NotContainEquivalentOf("supported", "messages name the games that open, without claiming support for them");
     }
 }

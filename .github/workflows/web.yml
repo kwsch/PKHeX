@@ -4,7 +4,7 @@
 # the trim-warning baseline and uploaded with the test results and reports, and on pushes the Perf boot, memory, box navigation and legality baselines.
 # The e2e jobs run the E2E tier, one browser engine each, in parallel; the RealSave tier needs private saves and never runs in CI.
 # A second publish with the sprite atlas (-p:PKHeXWebSprites=true) is tested but never uploaded: sprite redistribution awaits a maintainer decision.
-# The azure-parity job repeats upstream's Azure pipeline on Windows, so a change that would break that build fails here first.
+# The azure-parity job repeats the Azure Pipelines build on Windows, so a change that would break that build fails here first.
 name: web
 
 on:
@@ -83,8 +83,8 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 45
         # Microsoft's Playwright image for the test project's Playwright version, pinned by digest. It carries the three browsers, their
-        # system libraries and .NET SDK 10.0.401. On the stock runner, installing the browsers' ~181 system packages from the Ubuntu mirror took
-        # 0:34-3:28 in 7 of 11 runs and 14-25 min in the other 4, whenever the mirror was slow; the image replaces that with one pull from MCR.
+        # system libraries and .NET SDK 10.0.401. On the stock runner, installing the browsers' ~181 system packages from the Ubuntu mirror
+        # can take many minutes when the mirror is slow; the image replaces that with one pull from MCR.
         # --ipc=host is Playwright's recommendation for Chromium; --user 1001 is the runner user that owns the workspace, which Firefox needs.
         # The tag must equal PLAYWRIGHT_VERSION below (container.image cannot read env); "Check the Playwright image" enforces it.
         container: &playwright-container
@@ -155,12 +155,9 @@ jobs:
                   dotnet restore Tests/PKHeX.Web.Tests/PKHeX.Web.Tests.csproj
                   mkdir -p "$RESULTS_DIR" "$REPORTS_DIR"
 
-            # ZeroEVs_ReturnsZero is excluded because it fails upstream too: 9c170d99c made GetRequiredEffortEXP return -gainedEXP
-            # when vitamins explain every EV, and the test still expects 0. Drop the filter once upstream updates the test.
             - name: Core tests
               run: >-
                   dotnet test Tests/PKHeX.Core.Tests/PKHeX.Core.Tests.csproj -c Release --no-restore
-                  --filter "FullyQualifiedName!=PKHeX.Core.Tests.Legality.EffortExpLegalityTests.ZeroEVs_ReturnsZero"
                   --logger "trx;LogFileName=core.trx" --results-directory "$RESULTS_DIR"
 
             # The remaining steps run after an earlier failure where their inputs exist, so one failure does not hide the other results.
@@ -171,7 +168,7 @@ jobs:
                   --logger "trx;LogFileName=web-unit.trx" --results-directory "$RESULTS_DIR"
 
             # Trim-analysis warnings are enabled and logged here, so the baseline check below needs no second publish.
-            # The setting changes only the diagnostics: a publish with and without it gave identical files.
+            # The setting changes only the diagnostics, not the published files.
             - name: Publish
               id: publish
               if: ${{ !cancelled() && steps.restore.outcome == 'success' && env.WEB_CHANGED == 'true' }}
@@ -313,11 +310,11 @@ jobs:
                       ${{ env.REPORTS_DIR }}
                   if-no-files-found: ignore
 
-    # Repeats the steps of upstream's Azure pipeline (a classic pipeline, so there is no file to reuse), as recorded by its builds 9738 and 9754:
+    # Repeats the steps of the Azure Pipelines build (a classic pipeline, so there is no file to reuse), as recorded by its builds 9738 and 9754:
     # GitVersion 5.x through GitTools v3.2.1 with /updateassemblyinfo, a nuget.exe (>=7.0.0) restore of PKHeX.slnx,
     # and a Release|Any CPU build with x86 Visual Studio MSBuild and /p:Version from GitVersion. There is deliberately no setup-dotnet and no SDK pin:
     # Visual Studio MSBuild resolves the newest SDK its version supports from the image (10.0.111, later 10.0.112, on VS 17.14, while the dotnet CLI picks the newest installed),
-    # and that floating SDK is what upstream builds with.
+    # and that floating SDK is what the Azure build uses.
     # Azure's later steps (artifact publishing and a dotnet CLI pack of PKHeX.Core) are left out: they do not build the Web projects.
     # Azure's VsTest pattern, **\Release\*test*.dll, matches no assembly, so no test runs there. This job runs vstest.console on the corrected
     # pattern, **\bin\Release\**\*Tests.dll, without PKHEX_WEB_TEST_TIERS, and checks that Core and Web Unit pass and only the opt-in tiers skip.
@@ -421,15 +418,13 @@ jobs:
                       Write-Host "::warning::MSBuild resolved SDK '$buildSdk'; Azure build 9738 used 10.0.111."
                   }
 
-            # ZeroEVs_ReturnsZero is excluded because it fails upstream too: 9c170d99c made GetRequiredEffortEXP return -gainedEXP
-            # when vitamins explain every EV, and the test still expects 0. Drop the filter once upstream updates the test.
             - name: Tests (vstest.console)
               id: test
               if: ${{ !cancelled() && steps.build.outcome == 'success' }}
               run: |
                   $PSNativeCommandUseErrorActionPreference = $true
                   Remove-Item Env:PKHEX_WEB_TEST_TIERS -ErrorAction Ignore
-                  # Both searches below are timed: in run 36909562455 they took over 5 minutes together, while the tests took 14 s.
+                  # Both searches below are timed, as they can take minutes on the runner while the tests take seconds.
                   $timer = [Diagnostics.Stopwatch]::StartNew()
                   # vstest.console sits at a fixed place in a Visual Studio install; a vswhere -find '**' glob walks the whole install to find it.
                   $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
@@ -454,7 +449,7 @@ jobs:
                       Write-Host "::error::Expected the PKHeX.Core.Tests and PKHeX.Web.Tests assemblies; found $($tests.Count)."
                       exit 1
                   }
-                  & $vstest @tests /logger:"trx;LogFileName=azure-parity.trx" "/ResultsDirectory:$env:RESULTS_DIR" "/TestCaseFilter:FullyQualifiedName!=PKHeX.Core.Tests.Legality.EffortExpLegalityTests.ZeroEVs_ReturnsZero"
+                  & $vstest @tests /logger:"trx;LogFileName=azure-parity.trx" "/ResultsDirectory:$env:RESULTS_DIR"
 
             - name: Check only the opt-in tiers were skipped
               if: ${{ !cancelled() && steps.build.outcome == 'success' }}

@@ -3,7 +3,7 @@ using PKHeX.Web.Components;
 using PKHeX.Web.State;
 using Xunit;
 using static Microsoft.Playwright.Assertions;
-using static PKHeX.Web.Tests.ProofPage;
+using static PKHeX.Web.Tests.AppPage;
 
 namespace PKHeX.Web.Tests;
 

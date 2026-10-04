@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
 <#
 .SYNOPSIS
-Checks a VSTest .trx file from a run that was not opted in to any Web test tier, as upstream's Azure VsTest step runs.
+Checks a VSTest .trx file from a run that was not opted in to any Web test tier, as the Azure Pipelines VsTest step runs.
 
 .DESCRIPTION
 Fails unless:

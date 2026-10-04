@@ -87,7 +87,7 @@ public sealed class SaveLoaderTests
     [Fact]
     public void BrokenChecksumIsAnIntegrityFailure()
     {
-        var outcome = SaveLoader.Load(ProofPage.Corrupt(SaveFixtures.Synthetic(false)));
+        var outcome = SaveLoader.Load(AppPage.Corrupt(SaveFixtures.Synthetic(false)));
         outcome.Failure.Should().Be(LoadFailure.IntegrityFailed);
         outcome.Integrity.Should().Be(IntegrityProblem.ChecksumsInvalid);
         outcome.Recognized!.SaveType.Should().Be<SAV6XY>();
@@ -124,7 +124,7 @@ public sealed class SaveLoaderTests
     public void RoundTripWriteDoesNotChangeTheSave()
     {
         // Break the checksums first: writing the save itself would then refresh them in its buffer, which the comparison must not do.
-        var save = SaveFixtures.Parse(ProofPage.Corrupt(SaveFixtures.Synthetic(false)));
+        var save = SaveFixtures.Parse(AppPage.Corrupt(SaveFixtures.Synthetic(false)));
         save.ChecksumsValid.Should().BeFalse();
         var before = save.Data.ToArray();
 

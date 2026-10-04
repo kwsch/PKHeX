@@ -5,7 +5,7 @@ using Microsoft.Playwright;
 using Xunit;
 using Xunit.Abstractions;
 using static Microsoft.Playwright.Assertions;
-using static PKHeX.Web.Tests.ProofPage;
+using static PKHeX.Web.Tests.AppPage;
 
 namespace PKHeX.Web.Tests;
 

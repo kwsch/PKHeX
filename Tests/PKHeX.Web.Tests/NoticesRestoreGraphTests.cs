@@ -7,7 +7,7 @@ namespace PKHeX.Web.Tests;
 /// </summary>
 /// <remarks>
 /// The runtime pack, ILLink and WebAssembly SDK pack versions come from the installed .NET SDK, so these checks hold only on the SDK the publish is built with (pinned in CI).
-/// They are in the opt-in E2E tier with the publish checks, not in Unit, so that builds on another SDK, such as upstream's Azure pipeline on its image's SDK, do not fail on notices they never publish.
+/// They are in the opt-in E2E tier with the publish checks, not in Unit, so that builds on another SDK, such as the Azure Pipelines build on its image's SDK, do not fail on notices they never publish.
 /// The publish itself is checked against these tables by <see cref="PublishedAppTests.PublishesLicenseAndNotices"/>.
 /// </remarks>
 [Trait(TestCategory.Name, TestCategory.E2E)]

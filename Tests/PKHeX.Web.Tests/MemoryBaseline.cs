@@ -109,7 +109,7 @@ internal static class MemoryBaseline
                 stages.Add(await ReadAsync(page, devTools, $"Opened ({entities} entities)"));
                 await EditAndApplyAsync(page, SlotRef.InBox(0, 1), "Measured");
                 stages.Add(await ReadAsync(page, devTools, "Edited, analysed and applied one box slot"));
-                await ProofPage.DownloadNamed(page);
+                await AppPage.DownloadNamed(page);
                 stages.Add(await ReadAsync(page, devTools, "Downloaded (export written and reopened to check it)"));
                 await CloseAsync(page);
                 stages.Add(await ReadAsync(page, devTools, "Closed"));
@@ -119,7 +119,7 @@ internal static class MemoryBaseline
                 {
                     await OpenAsync(page, save, $"memory-{cycle}");
                     await EditAndApplyAsync(page, SlotRef.InBox((cycle - 1) % opened.Working.BoxCount, 2), $"Cycle{cycle}");
-                    await ProofPage.DownloadNamed(page);
+                    await AppPage.DownloadNamed(page);
                     await CloseAsync(page);
                     cycles.Add(await ReadAsync(page, devTools, cycle.ToString(CultureInfo.InvariantCulture)));
                 }
@@ -150,17 +150,17 @@ internal static class MemoryBaseline
     /// <summary>Opens <paramref name="save"/> through the picker with nothing open, and waits for the session.</summary>
     private static async Task OpenAsync(IPage page, byte[] save, string fileName)
     {
-        await ProofPage.Load(page, save, fileName);
+        await AppPage.Load(page, save, fileName);
         await Expect(page.Locator("#overview-file")).ToHaveTextAsync(fileName, new() { Timeout = StepTimeoutMs });
     }
 
     /// <summary>Opens <paramref name="slot"/>, gives it <paramref name="nickname"/>, waits for its legality result and applies it.</summary>
     private static async Task EditAndApplyAsync(IPage page, SlotRef slot, string nickname)
     {
-        await ProofPage.Select(page, slot);
+        await AppPage.Select(page, slot);
         await page.Locator("#nickname").FillAsync(nickname);
         await page.Locator("#nicknamed").CheckAsync();
-        await ProofPage.Apply(page);
+        await AppPage.Apply(page);
         await Expect(page.Locator("#session-state")).ToHaveTextAsync("Edited in memory", new() { Timeout = StepTimeoutMs });
     }
 
@@ -175,7 +175,7 @@ internal static class MemoryBaseline
     /// <summary>Picks <paramref name="bytes"/> with nothing open and waits for its refusal.</summary>
     private static async Task RefuseAsync(IPage page, byte[] bytes)
     {
-        await ProofPage.Load(page, bytes);
+        await AppPage.Load(page, bytes);
         await Expect(page.Locator("#message")).ToContainTextAsync(UserMessages.For(SaveLoader.Load(bytes)), new() { Timeout = StepTimeoutMs });
     }
 

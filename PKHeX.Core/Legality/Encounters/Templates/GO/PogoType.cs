@@ -77,6 +77,13 @@ public static class PogoExtensions
             or PogoType.RaidShadowMythical
             or PogoType.RaidShadowUltraBeast;
 
+        public bool IsShadow => type is PogoType.Shadow
+            or PogoType.ShadowMythical
+            or PogoType.ShadowUltraBeast
+            or PogoType.RaidShadow
+            or PogoType.RaidShadowMythical
+            or PogoType.RaidShadowUltraBeast;
+
         public bool IsMaxBattle => type is PogoType.MaxBattle
             or PogoType.MaxBattleMythical
             or PogoType.MaxBattleUltraBeast
@@ -119,8 +126,8 @@ public static class PogoExtensions
         {
             if (ball is PogoBallRestriction.OnlySafari)
                 return true;
-            if (!flags.HasFlag(PogoFlags.FeaturedWildArea) && (type.IsRaid || type.IsMaxBattle))
-                return false;
+            if (type.IsRaid || type.IsMaxBattle)
+                return flags.HasFlag(PogoFlags.FeaturedWildArea);
 
             return type switch
             {

@@ -10,8 +10,8 @@ namespace PKHeX.Web.Tests;
 /// WCAG 2.0, 2.1 and 2.2 A and AA rules, and a test fails on any violation, naming the rule, the elements and what axe says is wrong.
 /// </summary>
 /// <remarks>
-/// No rule is disabled. axe cannot judge everything (focus order, meaningful names, announcements); <c>Incomplete</c> results are left to the
-/// manual and screen-reader passes, which the plan records as not yet done.
+/// No rule is disabled. axe cannot judge everything (focus order, meaningful names, announcements); <c>Incomplete</c> results are left to
+/// manual and screen-reader checks.
 /// </remarks>
 internal static class Accessibility
 {

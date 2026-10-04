@@ -35,7 +35,7 @@ internal static class TestEnvironment
     public const string ORASSave = "PKHEX_ORAS_SAVE";
 
     /// <summary>Optional directory for sanitised real-save evidence JSON.</summary>
-    public const string Evidence = "PKHEX_PROOF_EVIDENCE";
+    public const string Evidence = "PKHEX_WEB_EVIDENCE";
 
     /// <summary>Directory the <see cref="TestCategory.Perf"/> tier writes its reports to (<c>boot-baseline.md</c>, <c>memory-baseline.md</c> and so on, each with a JSON copy).</summary>
     public const string PerfReport = "PKHEX_WEB_PERF_REPORT";
@@ -45,7 +45,7 @@ internal static class TestEnvironment
 
     /// <summary>
     /// Optional installed Chromium release channel (e.g. <c>chrome</c>) the <see cref="TestCategory.Perf"/> tier measures instead of Playwright's
-    /// Chromium build; see <see cref="PerfBrowser.ParseChannel"/>. Used to measure on the reference desktop's release browser; CI leaves it unset.
+    /// Chromium build; see <see cref="PerfBrowser.ParseChannel"/>. Used to measure a release browser; CI leaves it unset.
     /// </summary>
     public const string PerfChannel = "PKHEX_WEB_PERF_CHANNEL";
 
@@ -61,7 +61,7 @@ internal static class TestEnvironment
         var value = Environment.GetEnvironmentVariable(name);
         if (string.IsNullOrWhiteSpace(value))
         {
-            throw new InvalidOperationException($"Set {name}; the opted-in test tier must not silently skip required evidence.");
+            throw new InvalidOperationException($"Set {name}; an opted-in test tier fails rather than skipping its tests.");
         }
         return value;
     }

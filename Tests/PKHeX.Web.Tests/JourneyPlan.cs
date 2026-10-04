@@ -248,7 +248,7 @@ internal sealed class JourneyPlan
         var partyOffset = Native.GetPartyOffset(Party.Slot);
         var withParty = NoOp.ToArray();
         edited.AsSpan(partyOffset, Native.SIZE_PARTY).CopyTo(withParty.AsSpan(partyOffset));
-        ProofPage.AssertOnlyRangeDiffers(withParty, edited, Native.GetBoxSlotOffset(Box.Box, Box.Slot), Native.SIZE_BOXSLOT);
+        AppPage.AssertOnlyRangeDiffers(withParty, edited, Native.GetBoxSlotOffset(Box.Box, Box.Slot), Native.SIZE_BOXSLOT);
     }
 
     /// <summary>

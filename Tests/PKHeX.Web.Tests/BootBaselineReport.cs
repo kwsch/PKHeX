@@ -42,10 +42,10 @@ internal sealed record BootBaselineResult(BootEnvironment Environment, int Runs,
 /// </summary>
 internal static class BootBaselineReport
 {
-    /// <summary>Engineering target for a cold usable shell on the throttled profile.</summary>
+    /// <summary>Target for a cold usable shell on the throttled profile, shown beside the measurements.</summary>
     public const double ColdTargetMs = 5000;
 
-    /// <summary>Engineering target for a cached usable shell.</summary>
+    /// <summary>Target for a cached usable shell, shown beside the measurements.</summary>
     public const double WarmTargetMs = 2000;
 
     /// <summary>Largest boot-set files listed in the Markdown report.</summary>
@@ -79,7 +79,7 @@ internal static class BootBaselineReport
         var sb = new StringBuilder();
         sb.AppendLine("## PKHeX.Web boot baseline");
         sb.AppendLine();
-        sb.AppendLine($"Measured numbers only; nothing here passes or fails. The targets are engineering targets, not claims: a usable shell within {Ms(ColdTargetMs)} ms cold on {BootBaseline.ThrottledProfile} and within {Ms(WarmTargetMs)} ms cached, on a named reference desktop. A shared CI runner is not that desktop.");
+        sb.AppendLine($"Measured numbers only; nothing here passes or fails. The targets, shown for comparison, are a usable shell within {Ms(ColdTargetMs)} ms cold on {BootBaseline.ThrottledProfile} and within {Ms(WarmTargetMs)} ms cached. Timings from a shared CI runner vary between runs; compare runs made on the same machine.");
         sb.AppendLine();
         sb.AppendLine("| | |");
         sb.AppendLine("|---|---|");

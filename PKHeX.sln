@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7C0598C9-DDF3-4ACC-B15D-6A626ADB7530}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0137B955-AED7-4769-BDFE-637034CA9F8A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.WinForms", "PKHeX.WinForms\PKHeX.WinForms.csproj", "{D1B91861-A448-4762-A313-C7BC179F4415}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.Core", "PKHeX.Core\PKHeX.Core.csproj", "{279E59F2-50EA-475D-8BA4-FA69F0578C0D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.Core.Tests", "Tests\PKHeX.Core.Tests\PKHeX.Core.Tests.csproj", "{C3B5B74F-ACE8-4FB2-A917-0DEDBFD5703B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.Drawing", "PKHeX.Drawing\PKHeX.Drawing.csproj", "{87976C6C-3E91-42DE-B098-1E97E42C9588}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.Drawing.PokeSprite", "PKHeX.Drawing.PokeSprite\PKHeX.Drawing.PokeSprite.csproj", "{990D2FB5-5F3B-44CA-8D13-A2EC99756941}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKHeX.Drawing.Misc", "PKHeX.Drawing.Misc\PKHeX.Drawing.Misc.csproj", "{BBBCAF7F-1487-46C5-8BD7-1E276AA1891E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1B91861-A448-4762-A313-C7BC179F4415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1B91861-A448-4762-A313-C7BC179F4415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1B91861-A448-4762-A313-C7BC179F4415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1B91861-A448-4762-A313-C7BC179F4415}.Release|Any CPU.Build.0 = Release|Any CPU
+		{279E59F2-50EA-475D-8BA4-FA69F0578C0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{279E59F2-50EA-475D-8BA4-FA69F0578C0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{279E59F2-50EA-475D-8BA4-FA69F0578C0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{279E59F2-50EA-475D-8BA4-FA69F0578C0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3B5B74F-ACE8-4FB2-A917-0DEDBFD5703B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B5B74F-ACE8-4FB2-A917-0DEDBFD5703B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B5B74F-ACE8-4FB2-A917-0DEDBFD5703B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B5B74F-ACE8-4FB2-A917-0DEDBFD5703B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87976C6C-3E91-42DE-B098-1E97E42C9588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87976C6C-3E91-42DE-B098-1E97E42C9588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87976C6C-3E91-42DE-B098-1E97E42C9588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87976C6C-3E91-42DE-B098-1E97E42C9588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{990D2FB5-5F3B-44CA-8D13-A2EC99756941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{990D2FB5-5F3B-44CA-8D13-A2EC99756941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{990D2FB5-5F3B-44CA-8D13-A2EC99756941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{990D2FB5-5F3B-44CA-8D13-A2EC99756941}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBBCAF7F-1487-46C5-8BD7-1E276AA1891E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBBCAF7F-1487-46C5-8BD7-1E276AA1891E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBBCAF7F-1487-46C5-8BD7-1E276AA1891E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBBCAF7F-1487-46C5-8BD7-1E276AA1891E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C3B5B74F-ACE8-4FB2-A917-0DEDBFD5703B} = {7C0598C9-DDF3-4ACC-B15D-6A626ADB7530}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AAD7224E-2087-43E8-A7C9-D5555BFBB3B9}
+	EndGlobalSection
+EndGlobal

@@ -15,7 +15,7 @@ namespace PKHeX.Web.Tests;
 /// <remarks>
 /// Kept apart from <see cref="PublishedAppFixture"/>, which owns hosting and the privacy checks.
 /// </remarks>
-internal static class ProofPage
+internal static class AppPage
 {
     /// <summary>Opens <paramref name="bytes"/> through the file picker as a file named <paramref name="name"/>.</summary>
     public static async Task Load(IPage page, byte[] bytes, string name = "main")
