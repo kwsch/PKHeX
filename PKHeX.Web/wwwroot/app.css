@@ -147,6 +147,14 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 .stat-edit input { width: 100%; min-width: 0; }
 /* The moves table: the move box takes what the fixed number columns leave. */
 .stat-edit select { width: 100%; min-width: 0; }
+/* A searchable long list (ChoiceSearch): the search field above its note and the select. */
+.choice-search { display: grid; gap: .3rem; min-width: 0; }
+.choice-search input { width: 100%; min-width: 0; }
+.search-label { font-size: .9rem; }
+.search-note { margin: 0; font-size: .85rem; color: var(--muted); }
+/* The editor's Previous and Next Pokémon, side by side, wrapping on the narrowest screens. */
+.draft-steps { display: flex; flex-wrap: wrap; gap: .5rem; margin-block: .5rem; }
+.draft-steps button { flex: 1 1 9rem; }
 .move-edit .col-slot { width: 4.5rem; }
 .move-edit .col-pp { width: 4rem; }
 .move-edit .col-ppups { width: 4.5rem; }

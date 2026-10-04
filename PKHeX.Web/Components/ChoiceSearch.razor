@@ -1,0 +1,105 @@
+@* A search field over one of Core's long lists (moves, held items), narrowing the ChoiceSelect beneath it to the names that contain what
+   is typed (ChoiceFilter). Typing only narrows the list: the select keeps the drafted value, which is always kept in it, so no keystroke
+   here changes the draft. A choice is still made in the select, as before.
+   The search is this component's own state, so a keystroke renders only this component and its select, not the editor or the other long
+   lists. Its note says how many entries match; it describes the field rather than being announced, as for every note under a typed field.
+   The search is cleared when the draft is replaced (Scope). *@
+<div class="choice-search">
+    @* A visible label, so the field is not mistaken for the box itself and speech input can name it: "Search" is shown and the rest of the
+       name ("moves for Move 2") is visually hidden, so the visible text starts the name. *@
+    <label for="@SearchId" class="search-label">@EditorText.SearchLabel<span class="visually-hidden">@SearchSubject</span></label>
+    <input id="@SearchId" type="search" autocomplete="off" spellcheck="false" aria-describedby="@NoteId"
+           value="@query" @oninput="Typed" disabled="@Disabled" />
+    <p id="@NoteId" class="search-note">@EditorText.SearchNote(query, filtered.Matches, filtered.Total, Noun)</p>
+    @if (SelectLabel is { } label)
+    {
+        @* The box's own label sits on the box, below the search. *@
+        <label for="@Id">@label</label>
+    }
+    <ChoiceSelect @ref="select" Id="@Id" LabelledBy="@LabelledBy" DescribedBy="@DescribedBy" Items="filtered.Items" Value="Value" Invalid="Invalid"
+                  Disabled="Disabled" Unlisted="Unlisted" OnChange="OnChange" />
+</div>
+
+@code {
+    /// <summary>The select's id; the search field is <c>{Id}-search</c> and its note <c>{Id}-search-note</c>.</summary>
+    [Parameter, EditorRequired] public string Id { get; set; } = "";
+
+    /// <summary>What is searched, completing the visible "Search" in the field's name: " moves for Move 2", " held items".</summary>
+    [Parameter, EditorRequired] public string SearchSubject { get; set; } = "";
+
+    /// <summary>The box's visible label, shown directly above it, when it has one; otherwise it is named by <see cref="LabelledBy"/>.</summary>
+    [Parameter] public string? SelectLabel { get; set; }
+
+    /// <summary>What the list holds, singular, for the note ("move", "item").</summary>
+    [Parameter, EditorRequired] public string Noun { get; set; } = "";
+
+    /// <summary>The draft the box edits. When it is replaced (another Pokémon, or after apply or cancel) the search is cleared.</summary>
+    [Parameter, EditorRequired] public object Scope { get; set; } = null!;
+
+    /// <summary>Ids of the elements that name the select, when no label does.</summary>
+    [Parameter] public string? LabelledBy { get; set; }
+
+    /// <summary>Ids of the elements that describe the select.</summary>
+    [Parameter] public string? DescribedBy { get; set; }
+
+    /// <summary>The whole list, from the session's Core lists.</summary>
+    [Parameter, EditorRequired] public IReadOnlyList<ComboItem> Items { get; set; } = [];
+
+    /// <summary>The drafted value.</summary>
+    [Parameter] public int Value { get; set; }
+
+    /// <summary>True while the select's last choice was refused.</summary>
+    [Parameter] public bool Invalid { get; set; }
+
+    /// <summary>True when the field cannot be changed; the search is then disabled too.</summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>Names a stored value outside <see cref="Items"/>.</summary>
+    [Parameter, EditorRequired] public Func<int, string> Unlisted { get; set; } = null!;
+
+    /// <summary>Receives the chosen value.</summary>
+    [Parameter] public EventCallback<int> OnChange { get; set; }
+
+    private ChoiceSelect? select;
+    private string query = "";
+    private object? scope;
+    private ChoiceFilterResult filtered = new([], 0, 0);
+
+    private string SearchId => $"{Id}-search";
+
+    private string NoteId => $"{Id}-search-note";
+
+    protected override void OnParametersSet()
+    {
+        if (!ReferenceEquals(scope, Scope))
+        {
+            scope = Scope;
+            query = "";
+        }
+        Refilter();
+    }
+
+    /// <summary>Moves focus to the select.</summary>
+    public ValueTask FocusAsync() => select?.FocusAsync() ?? ValueTask.CompletedTask;
+
+    private void Typed(ChangeEventArgs e)
+    {
+        query = e.Value?.ToString() ?? "";
+        Refilter();
+    }
+
+    /// <summary>
+    /// Filters the list for the search and the drafted value. The filter returns the list itself for a blank search and a new list otherwise,
+    /// so the select rebuilds its options only when what it offers can have changed.
+    /// </summary>
+    private void Refilter()
+    {
+        var next = ChoiceFilter.Filter(Items, query, Value);
+        if (filtered.Items is { } shown && !ReferenceEquals(shown, Items) && !ReferenceEquals(next.Items, Items) && shown.SequenceEqual(next.Items))
+        {
+            // The same entries as shown: keep the instance, so the select does not render its options again.
+            next = next with { Items = shown };
+        }
+        filtered = next;
+    }
+}

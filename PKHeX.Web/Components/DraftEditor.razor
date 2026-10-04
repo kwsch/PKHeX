@@ -203,15 +203,15 @@
 </fieldset>
 <fieldset id="item-fields">
     <legend>Held item</legend>
-    <label for="held-item">Held item</label>
-    <ChoiceSelect Id="held-item" Items="Draft.Capabilities.Lists.Items" Value="heldItem" Disabled="!Can(EditableFields.HeldItem)" DescribedBy="@(Described("held-item", "item-note"))" Invalid="@(IsInvalid("held-item"))"
+    <ChoiceSearch Id="held-item" SelectLabel="Held item" SearchSubject="@EditorText.ItemSearchSubject" Noun="item" Scope="Draft" Items="Draft.Capabilities.Lists.Items" Value="heldItem"
+                  Disabled="!Can(EditableFields.HeldItem)" DescribedBy="@(Described("held-item", "item-note"))" Invalid="@(IsInvalid("held-item"))"
                   Unlisted="UnlistedItem" OnChange="ItemChanged" />
     <p id="item-note">@EditorText.ItemNote</p>
     <FieldError Fieldset="item-fields" Refusal="Refusal" />
 </fieldset>
 <fieldset id="move-fields">
     <legend>Moves</legend>
-    @* A move box lists every move of the game; choosing one sets that slot's PP as the desktop does (see EditorDraft.EditMove), and the note
+    @* A move box lists every move of the game, with a search above it that narrows the list without changing the move (ChoiceSearch); choosing one sets that slot's PP as the desktop does (see EditorDraft.EditMove), and the note
        below says what it did. PP is text with a numeric keyboard, as for friendship, refused above the move's PP and never clamped. Each field
        is named by its row and column headers ("Move 2 PP"). *@
     <table class="stat-edit move-edit">
@@ -232,7 +232,8 @@
                 <tr>
                     <th scope="row" id="slot-@slot">@EditorText.MoveSlotName(slot)</th>
                     <td>
-                        <ChoiceSelect Id="@($"move-{slot}")" LabelledBy="@($"slot-{slot} move-head")" Items="Draft.Capabilities.Lists.Moves" Value="current.Move"
+                        <ChoiceSearch Id="@($"move-{slot}")" SearchSubject="@EditorText.MoveSearchSubject(slot)" Noun="move" Scope="Draft" LabelledBy="@($"slot-{slot} move-head")"
+                                      Items="Draft.Capabilities.Lists.Moves" Value="current.Move"
                                       Disabled="!Can(EditableFields.Moves)" DescribedBy="@(Described($"move-{slot}", null))" Invalid="@(IsInvalid($"move-{slot}"))"
                                       Unlisted="UnlistedMove" OnChange="v => MoveChanged(slot, v)" />
                     </td>

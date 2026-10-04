@@ -44,9 +44,25 @@ public enum DownloadBlocker
     ExportNotAcknowledged,
 }
 
+/// <summary>Why Previous and Next Pokémon cannot open another Pokémon yet, in the order the reasons are listed.</summary>
+public enum StepBlocker
+{
+    /// <summary>Another operation (a download) is running.</summary>
+    Busy,
+
+    /// <summary>The last edit was refused (<see cref="WorkspaceState.DraftRefusal"/>).</summary>
+    FieldRefused,
+
+    /// <summary>A species or form change is previewed but not made; opening another Pokémon would drop it.</summary>
+    SpeciesPreviewPending,
+
+    /// <summary>The draft has changes that are not applied, which opening another Pokémon would replace.</summary>
+    DraftNotApplied,
+}
+
 /// <summary>
 /// Whether Apply and Download can act now, and if not, every reason why. The buttons' state, their guards and the error summary shown when
-/// one is activated all come from here, so they cannot disagree.
+/// one is activated all come from here, so they cannot disagree. The same holds for Previous and Next Pokémon.
 /// </summary>
 public static class ActionReadiness
 {
@@ -126,6 +142,37 @@ public static class ActionReadiness
         if (exportNeedsAcknowledgement)
         {
             blockers.Add(DownloadBlocker.ExportNotAcknowledged);
+        }
+        return blockers;
+    }
+
+    /// <summary>The reasons Previous and Next Pokémon cannot open another Pokémon; empty when they can.</summary>
+    /// <remarks>
+    /// A refused or unapplied draft is what <see cref="WorkspaceState.Step"/> itself refuses. A pending species preview is stricter than
+    /// opening a slot from the party and boxes: the buttons sit in the editor beside the preview, which would otherwise vanish unannounced.
+    /// </remarks>
+    /// <param name="busy">True while another operation runs.</param>
+    /// <param name="dirty">True when the draft differs from its slot.</param>
+    /// <param name="refusal">The last refused edit, or null.</param>
+    /// <param name="previewing">True while a species or form change is previewed but not made.</param>
+    public static IReadOnlyList<StepBlocker> ForStep(bool busy, bool dirty, FieldRefusal? refusal, bool previewing)
+    {
+        var blockers = new List<StepBlocker>();
+        if (busy)
+        {
+            blockers.Add(StepBlocker.Busy);
+        }
+        if (refusal is not null)
+        {
+            blockers.Add(StepBlocker.FieldRefused);
+        }
+        if (previewing)
+        {
+            blockers.Add(StepBlocker.SpeciesPreviewPending);
+        }
+        if (dirty)
+        {
+            blockers.Add(StepBlocker.DraftNotApplied);
         }
         return blockers;
     }

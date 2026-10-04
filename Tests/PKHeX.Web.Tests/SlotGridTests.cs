@@ -160,4 +160,29 @@ public sealed class SlotGridTests : IDisposable
         TabStop(Render(Box(), SlotRef.InBox(0, 7))).Should().Be(7);
         TabStop(Render(Box(), SlotRef.InParty(0))).Should().Be(0, "the open slot is not in this grid");
     }
+
+    [Fact]
+    public void TheTabStopFollowsASlotOpenedFromElsewhere()
+    {
+        var grid = Render(Box(), SlotRef.InBox(0, 0));
+        grid.Find("#box-grid-3").Focus();
+        TabStop(grid).Should().Be(3);
+
+        // Previous or Next Pokémon in the editor opened slot 8.
+        grid.Render(p => p.Add(c => c.Selected, SlotRef.InBox(0, 7)));
+        TabStop(grid).Should().Be(7);
+
+        // A party member, or no draft at all, leaves it where it was.
+        grid.Render(p => p.Add(c => c.Selected, SlotRef.InParty(0)));
+        TabStop(grid).Should().Be(7);
+        grid.Render(p => p.Add(c => c.Selected, (SlotRef?)null));
+        TabStop(grid).Should().Be(7);
+
+        // The same selection again, after the user moved the tab stop, does not take it back.
+        grid.Render(p => p.Add(c => c.Selected, SlotRef.InBox(0, 0)));
+        TabStop(grid).Should().Be(0);
+        grid.Find("#box-grid-5").Focus();
+        grid.Render(p => p.Add(c => c.Selected, SlotRef.InBox(0, 0)));
+        TabStop(grid).Should().Be(5);
+    }
 }

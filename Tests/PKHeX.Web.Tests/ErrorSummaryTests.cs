@@ -81,6 +81,10 @@ public sealed class ErrorSummaryTests : IDisposable
         {
             ValidationText.For(blocker, refusal).Text.Should().NotBeNullOrWhiteSpace();
         }
+        foreach (var blocker in Enum.GetValues<StepBlocker>())
+        {
+            ValidationText.For(blocker, refusal).Text.Should().NotBeNullOrWhiteSpace();
+        }
     }
 
     [Fact]
@@ -97,6 +101,10 @@ public sealed class ErrorSummaryTests : IDisposable
         ValidationText.For(ApplyBlocker.LegalityNotAcknowledged, null, LegalityVerdict.Unavailable).Text.Should().Contain("could not analyse");
         ValidationText.For(DownloadBlocker.DraftNotApplied, null).TargetId.Should().Be("apply");
         ValidationText.For(DownloadBlocker.ExportNotAcknowledged, null).TargetId.Should().Be("export-ack");
+        ValidationText.For(StepBlocker.FieldRefused, refusal).TargetId.Should().Be("ev-2");
+        ValidationText.For(StepBlocker.SpeciesPreviewPending, null).TargetId.Should().Be("species-confirm");
+        ValidationText.For(StepBlocker.DraftNotApplied, null).TargetId.Should().Be("apply");
+        ValidationText.For(StepBlocker.Busy, null).TargetId.Should().BeNull();
         // These resolve themselves, or cannot be resolved here.
         ValidationText.For(ApplyBlocker.LegalityWaiting, null, LegalityVerdict.Valid).TargetId.Should().BeNull();
         ValidationText.For(ApplyBlocker.NoChanges, null, LegalityVerdict.Valid).TargetId.Should().BeNull();

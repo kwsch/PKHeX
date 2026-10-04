@@ -51,7 +51,16 @@ public sealed class AccessibilityBrowserTests(PublishedAppFixture app)
             await Accessibility.AssertNoViolationsAsync(page, $"editor with an Invalid result, {pass}");
             await AssertControlsUseTokens(page, $"editor, {pass}");
 
+            // A narrowed move box, and the step summary of an unapplied draft.
+            await page.Locator("#move-0-search").FillAsync("thun");
             await page.Locator("#nickname").FillAsync("Axe");
+            await page.Locator("#draft-next").FocusAsync();
+            await page.Keyboard.PressAsync("Enter");
+            await Expect(page.Locator("#step-summary")).ToBeFocusedAsync();
+            await Accessibility.AssertNoViolationsAsync(page, $"editor with a search and a step summary, {pass}");
+            await AssertControlsUseTokens(page, $"editor with a search, {pass}");
+            await page.Locator("#move-0-search").FillAsync("");
+
             await page.Locator("#close-session").ClickAsync();
             await Expect(page.Locator("#exit")).ToBeVisibleAsync();
             await Accessibility.AssertNoViolationsAsync(page, $"exit panel, {pass}");

@@ -79,11 +79,61 @@ public static class StorageView
         return string.IsNullOrWhiteSpace(name) ? null : name;
     }
 
+    /// <summary>What <paramref name="slot"/> holds, read from the current revision.</summary>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="slot"/> is not a position of the save.</exception>
+    public static SlotSummary Slot(SaveSession session, SlotRef slot)
+    {
+        var save = session.Working;
+        if (!slot.IsWithin(save))
+        {
+            throw new ArgumentOutOfRangeException(nameof(slot), slot, "The position is not in the save.");
+        }
+        return Summarise(save, slot);
+    }
+
     /// <summary>The in-game current box of the session's save, or 0 when the stored value is not a box.</summary>
     public static int InitialBox(SaveSession session)
     {
         var save = session.Working;
         return (uint)save.CurrentBox < (uint)save.BoxCount ? save.CurrentBox : 0;
+    }
+
+    /// <summary>
+    /// The next (<paramref name="direction"/> 1) or previous (-1) position after <paramref name="from"/> that can be opened, or null when no
+    /// other position can be.
+    /// </summary>
+    /// <remarks>
+    /// The order is every party position, then every box slot, box by box, as Core counts them (<see cref="SaveFile.BoxCount"/>,
+    /// <see cref="SaveFile.BoxSlotCount"/>), wrapping from the last box slot to the first party position and back. A position can be opened when
+    /// it holds an entity that is not a bad egg, as <see cref="SlotSummary.CanOpen"/> says; eggs can be. Positions are read from the current
+    /// revision, one at a time until one is found, and only when asked: a whole XY or ORAS save is 936 positions.
+    /// </remarks>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="direction"/> is not 1 or -1, or <paramref name="from"/> is not a position of the save.</exception>
+    public static SlotRef? Neighbour(SaveSession session, SlotRef from, int direction)
+    {
+        if (direction is not (1 or -1))
+        {
+            throw new ArgumentOutOfRangeException(nameof(direction), direction, "The direction is 1 (next) or -1 (previous).");
+        }
+        var save = session.Working;
+        if (!from.IsWithin(save))
+        {
+            throw new ArgumentOutOfRangeException(nameof(from), from, "The position is not in the save.");
+        }
+        var party = save.HasParty ? SlotRef.PartyPositions : 0;
+        var boxSlots = save.HasBox ? save.BoxCount * save.BoxSlotCount : 0;
+        var count = party + boxSlots;
+        var start = from.IsParty ? from.Slot : party + (from.Box * save.BoxSlotCount) + from.Slot;
+        for (var step = 1; step < count; step++)
+        {
+            var index = (((start + (step * direction)) % count) + count) % count;
+            var slot = index < party ? SlotRef.InParty(index) : SlotRef.InBox((index - party) / save.BoxSlotCount, (index - party) % save.BoxSlotCount);
+            if (SaveSession.ReadOccupied(save, slot) is { Valid: true })
+            {
+                return slot;
+            }
+        }
+        return null;
     }
 
     private static SlotSummary Summarise(SaveFile save, SlotRef slot)

@@ -43,6 +43,9 @@
     private int active;
     private bool placed;
 
+    /// <summary>The <see cref="Selected"/> slot the tab stop was last placed for.</summary>
+    private SlotRef? placedFor;
+
     /// <summary>The element id of the grid; each slot button gets <c>{Id}-{index}</c>.</summary>
     [Parameter, EditorRequired]
     public string Id { get; set; } = "";
@@ -79,13 +82,19 @@
     protected override void OnParametersSet()
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(Columns);
-        // A new grid, such as after switching back from the list, puts its tab stop on the open slot, if it shows it.
-        if (!placed)
+        // A new grid, such as after switching back from the list, puts its tab stop on the open slot, if it shows it. So does a slot opened
+        // from elsewhere (Previous or Next Pokémon in the editor), so Tab and the return action lead to the same slot; a box change alone,
+        // or a draft closed, leaves the tab stop where the user put it.
+        if (!placed || (Selected != placedFor && Selected is not null))
         {
-            placed = true;
             var selected = Slots.Select((s, i) => (s.Ref, i)).FirstOrDefault(p => p.Ref == Selected, (default, -1)).Item2;
-            active = Math.Max(0, selected);
+            if (!placed || selected >= 0)
+            {
+                active = Math.Max(0, selected);
+            }
+            placed = true;
         }
+        placedFor = Selected;
     }
 
     private async Task ActivateAsync(int index)

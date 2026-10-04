@@ -369,6 +369,40 @@ public sealed class WorkspaceState : IDisposable
         }
     }
 
+    /// <summary>
+    /// Opens the next (<paramref name="direction"/> 1) or previous (-1) Pokémon after the draft's, in party then box order, skipping empty
+    /// positions and bad eggs and wrapping at either end (<see cref="StorageView.Neighbour"/>). A box slot's box is shown, so the storage
+    /// browser follows the draft.
+    /// </summary>
+    /// <remarks>
+    /// As with <see cref="OpenSlot"/>, an unapplied or refused draft is never replaced; that is decided before anything is read, and nothing
+    /// changes. When no other position can be opened the draft and the box shown are kept.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">No session or draft is open.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="direction"/> is not 1 or -1.</exception>
+    public SlotStep Step(int direction)
+    {
+        var session = Session ?? throw new InvalidOperationException("No session is open.");
+        var draft = Draft ?? throw new InvalidOperationException("No draft is open.");
+        if (DraftDirty || !DraftValid)
+        {
+            return new SlotStep(StepOutcome.DraftPending);
+        }
+        if (StorageView.Neighbour(session, draft.Slot, direction) is not { } target)
+        {
+            return new SlotStep(StepOutcome.NoOther);
+        }
+        if (!target.IsParty)
+        {
+            ShowBox(target.Box);
+        }
+        // The target was read as openable from this same revision and is not the draft's slot, so nothing else can come back.
+        var opening = OpenSlot(target);
+        return opening == SlotOpening.Opened
+            ? new SlotStep(StepOutcome.Opened, target)
+            : throw new InvalidOperationException($"Stepping to {target} gave {opening}.");
+    }
+
     /// <summary>Replaces the draft, or clears it with null. A new draft is analysed once it has been left unchanged (see <see cref="DraftLegality.Schedule"/>).</summary>
     public void SetDraft(EditorDraft? draft)
     {
@@ -454,6 +488,24 @@ public enum SlotOpening
     /// <summary>The entity is a bad egg (fails its checksum or sanity check); the clean draft, if any, was closed.</summary>
     Unreadable,
 }
+
+/// <summary>What <see cref="WorkspaceState.Step"/> did.</summary>
+public enum StepOutcome
+{
+    /// <summary>The next or previous Pokémon is now the draft.</summary>
+    Opened,
+
+    /// <summary>The draft has unapplied or refused changes, so it was kept; nothing changed.</summary>
+    DraftPending,
+
+    /// <summary>No other position of the save holds a Pokémon that can be opened; nothing changed.</summary>
+    NoOther,
+}
+
+/// <summary>The result of <see cref="WorkspaceState.Step"/>.</summary>
+/// <param name="Outcome">What happened.</param>
+/// <param name="Target">The position opened, with <see cref="StepOutcome.Opened"/>; otherwise null.</param>
+public sealed record SlotStep(StepOutcome Outcome, SlotRef? Target = null);
 
 /// <summary>What <see cref="WorkspaceState.Accept"/> did with an opened file.</summary>
 public enum OpenDisposition

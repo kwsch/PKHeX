@@ -111,9 +111,11 @@ public sealed class DraftEditorTests : IDisposable
             editor.Find($"#ev-{stat}").HasAttribute("readonly").Should().BeTrue();
         }
         editor.Find("#held-item").HasAttribute("disabled").Should().BeTrue();
+        editor.Find("#held-item-search").HasAttribute("disabled").Should().BeTrue();
         for (var slot = 0; slot < EditorDraft.MoveCount; slot++)
         {
             editor.Find($"#move-{slot}").HasAttribute("disabled").Should().BeTrue();
+            editor.Find($"#move-{slot}-search").HasAttribute("disabled").Should().BeTrue();
             editor.Find($"#pp-{slot}").HasAttribute("readonly").Should().BeTrue();
             editor.Find($"#ppups-{slot}").HasAttribute("disabled").Should().BeTrue();
         }
@@ -1426,5 +1428,129 @@ public sealed class DraftEditorTests : IDisposable
             refusal!.FieldId.Should().Be(id);
         }
     }
-}
 
+    [Fact]
+    public void EachLongListHasANamedSearchDescribedByItsNote()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+
+        var item = editor.Find("#held-item-search");
+        item.GetAttribute("type").Should().Be("search");
+        item.GetAttribute("aria-describedby").Should().Be("held-item-search-note");
+        item.HasAttribute("disabled").Should().BeFalse();
+        var items = draft.Capabilities.Lists.Items.Where(i => i.Value != 0).Select(i => i.Value).Distinct().Count();
+        editor.Find("#held-item-search-note").TextContent.Should().Be($"Type to search the {items} items.");
+        editor.Find("#held-item-search-note").HasAttribute("role").Should().BeFalse("a note under a typed field is read with it, not announced");
+        for (var slot = 0; slot < EditorDraft.MoveCount; slot++)
+        {
+            var search = editor.Find($"#move-{slot}-search");
+            search.GetAttribute("aria-describedby").Should().Be($"move-{slot}-search-note");
+        }
+    }
+
+    [Fact]
+    public void SearchingNarrowsAMoveBoxWithoutChangingTheDraft()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+        var stored = draft.Moves[0].Move;
+
+        editor.Find("#move-0-search").Input("thun");
+
+        refused.Should().BeNull();
+        draft.IsDirty.Should().BeFalse("narrowing the list is not a choice");
+        draft.Moves[0].Move.Should().Be(stored);
+        editor.Find("#move-0").GetAttribute("value").Should().Be(stored.ToString(CultureInfo.InvariantCulture));
+        var thunder = new[] { Move.Thunder, Move.ThunderFang, Move.ThunderPunch, Move.ThunderShock, Move.ThunderWave, Move.Thunderbolt }.Select(m => (int)m);
+        var expected = draft.Capabilities.Lists.Moves.Select(m => m.Value).Where(v => v == 0 || v == stored || thunder.Contains(v));
+        editor.FindAll("#move-0 option").Select(o => int.Parse(o.GetAttribute("value")!, CultureInfo.InvariantCulture)).Should().Equal(expected);
+        editor.Find("#move-0-search-note").TextContent.Should().Be($"6 of {draft.Capabilities.Lists.Moves.Count - 1} moves match.");
+        editor.FindAll("#move-1 option").Should().HaveCount(draft.Capabilities.Lists.Moves.Count, "each box has its own search");
+
+        editor.Find("#move-0").Change(((int)Move.Thunderbolt).ToString(CultureInfo.InvariantCulture));
+        draft.Moves[0].Move.Should().Be((ushort)Move.Thunderbolt);
+        editor.Find("#move-0-search").GetAttribute("value").Should().Be("thun", "the search stays while the same Pokémon is edited");
+    }
+
+    [Fact]
+    public void SearchingTheHeldItemFindsAccentedNamesAndSaysWhenNothingMatches()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+
+        editor.Find("#held-item-search").Input("poke ball");
+        editor.FindAll("#held-item option").Select(o => o.TextContent).Should().Contain("Poké Ball");
+
+        editor.Find("#held-item-search").Input("zzzz");
+        editor.Find("#held-item-search-note").TextContent.Should().Be("No item matches. The list below keeps only the current choice and (None).");
+        editor.FindAll("#held-item option").Select(o => int.Parse(o.GetAttribute("value")!, CultureInfo.InvariantCulture)).Should()
+            .BeEquivalentTo(new[] { 0, draft.HeldItem }.Distinct());
+    }
+
+    [Fact]
+    public void AStoredValueOutsideTheListIsStillShownWhileSearching()
+    {
+        var draft = Moveset(p => p.Move2 = 0x7FFE);
+        var editor = Render(draft);
+
+        editor.Find("#move-1-search").Input("surf");
+        editor.Find("#move-1 option[disabled]").TextContent.Should().Be("Unknown (stored value 32766)");
+        editor.Find("#move-1").GetAttribute("value").Should().Be("32766");
+    }
+
+    [Fact]
+    public void ASearchKeystrokeRendersOnlyItsOwnBox()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+        var boxes = editor.FindComponents<ChoiceSelect>();
+        // The species, ability and held item boxes come first, so Move 3 is the sixth.
+        var counts = boxes.Select(b => b.RenderCount).ToArray();
+
+        editor.Find("#move-2-search").Input("a");
+        editor.Find("#move-2-search").Input("ab");
+
+        boxes[5].RenderCount.Should().Be(counts[4] + 2, "the searched move box shows each narrower list");
+        boxes.Select((b, i) => (b.RenderCount, i)).Where(p => p.i != 5).Select(p => p.RenderCount)
+            .Should().Equal(counts.Where((_, i) => i != 5), "no other long list is rebuilt");
+
+        editor.Find("#move-2-search").Input("ab ");
+        boxes[5].RenderCount.Should().Be(counts[4] + 2, "a search that finds the same entries keeps the shown list");
+    }
+
+    [Fact]
+    public void ANewDraftClearsTheSearch()
+    {
+        var draft = Moveset();
+        var editor = Render(draft);
+        editor.Find("#move-0-search").Input("thun");
+        editor.Find("#held-item-search").Input("ball");
+
+        var next = Moveset();
+        editor.Render(p => p.Add(c => c.Draft, next));
+
+        editor.Find("#move-0-search").GetAttribute("value").Should().BeEmpty();
+        editor.Find("#held-item-search").GetAttribute("value").Should().BeEmpty();
+        editor.FindAll("#move-0 option").Should().HaveCount(next.Capabilities.Lists.Moves.Count);
+    }
+
+    [Fact]
+    public void SearchFieldsHaveVisibleLabelsAndTheItemLabelSitsOnItsBox()
+    {
+        var editor = Render(Moveset());
+
+        // Each search has a visible "Search" label whose full text (with a visually hidden rest) is its name, so the visible text is in the name.
+        var itemSearch = editor.Find("label[for='held-item-search']");
+        itemSearch.TextContent.Should().Be("Search held items");
+        itemSearch.QuerySelector(".visually-hidden")!.TextContent.Should().Be(" held items");
+        editor.Find("#held-item-search").HasAttribute("aria-label").Should().BeFalse("the label names it");
+        for (var slot = 0; slot < EditorDraft.MoveCount; slot++)
+        {
+            editor.Find($"label[for='move-{slot}-search']").TextContent.Should().Be($"Search moves for Move {slot + 1}");
+        }
+
+        // The held item's own label is directly above its box, not above the search.
+        editor.Find("#held-item").PreviousElementSibling!.OuterHtml.Should().Contain("for=\"held-item\"").And.Contain(">Held item<");
+    }
+}

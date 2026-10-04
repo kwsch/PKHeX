@@ -49,6 +49,14 @@
                         @onclick="View.ToggleStorage">@WorkspaceLayout.StorageToggle</button>
                 <h2 id="draft-title" tabindex="-1">Selected Pokémon</h2>
                 <p id="draft-slot">@SlotText.Position(Draft.Slot)</p>
+                @* Party then every box, wrapping, as StorageView.Neighbour orders them. Focusable while they cannot open another Pokémon
+                   (aria-disabled rather than disabled), so activating one says why: the summary below, as for Apply. Focus stays on the button,
+                   so pressing it again walks on through the save. *@
+                <nav id="draft-steps" class="draft-steps" aria-label="@WorkspaceLayout.StepsLabel">
+                    <button id="draft-prev" type="button" @onclick="() => Step(-1)" aria-disabled="@StepDisabled">@WorkspaceLayout.PreviousPokemon</button>
+                    <button id="draft-next" type="button" @onclick="() => Step(1)" aria-disabled="@StepDisabled">@WorkspaceLayout.NextPokemon</button>
+                </nav>
+                <ErrorSummary Id="step-summary" Title="@ValidationText.StepTitle" Items="StepSummary" OnShow="ShowReason" />
                 <DraftEditor Draft="Draft" Refusal="State.DraftRefusal" OnEdit="Edit" OnPreviewChanged="shown => previewing = shown ? Draft : null" />
                 <p id="draft-state">@(State.DraftDirty ? "Unapplied draft" : "No draft changes")</p>
                 <PartyHpPreview Change="Draft.HpChange" />
@@ -132,10 +140,13 @@
     /// True once Apply (or Download) was activated while it could not act, until its reasons are resolved or the draft is replaced: its error
     /// summary is shown meanwhile. Typing never shows one.
     /// </summary>
-    private bool applyAttempted, downloadAttempted;
+    private bool applyAttempted, downloadAttempted, stepAttempted;
 
     /// <summary>Whether each error summary was in the last render, so its removal can be noticed (see <see cref="SettleSummariesAsync"/>).</summary>
-    private bool applySummaryShown, downloadSummaryShown;
+    private bool applySummaryShown, downloadSummaryShown, stepSummaryShown;
+
+    /// <summary>The id of the step button last activated, whose summary returns focus to it when it goes.</summary>
+    private string stepButton = "draft-next";
 
     /// <summary>The id of an element to focus after the next render (an error summary, or the control one of its links leads to), or null.</summary>
     private string? focusAfterRender;
@@ -148,6 +159,17 @@
     /// <summary>Why Download cannot download the save; empty when it can (<see cref="ActionReadiness.ForDownload"/>).</summary>
     private IReadOnlyList<DownloadBlocker> DownloadBlockers =>
         ActionReadiness.ForDownload(busy, State.DraftDirty, State.DraftRefusal, Previewing, Session?.ExportNeedsAcknowledgement ?? false);
+
+    /// <summary>Why Previous and Next Pokémon cannot open another Pokémon; empty when they can (<see cref="ActionReadiness.ForStep"/>).</summary>
+    private IReadOnlyList<StepBlocker> StepBlockers => ActionReadiness.ForStep(busy, State.DraftDirty, State.DraftRefusal, Previewing);
+
+    /// <summary>The step buttons' <c>aria-disabled</c> value.</summary>
+    private string StepDisabled => StepBlockers.Count > 0 ? "true" : "false";
+
+    /// <summary>The step buttons' error summary: their reasons once one has been activated, otherwise none.</summary>
+    private IReadOnlyList<SummaryItem> StepSummary => stepAttempted
+        ? [.. StepBlockers.Select(b => ValidationText.For(b, State.DraftRefusal))]
+        : [];
 
     /// <summary>Apply's error summary: its reasons once it has been activated, otherwise none.</summary>
     private IReadOnlyList<SummaryItem> ApplySummary => applyAttempted
@@ -277,9 +299,10 @@
     {
         applyAttempted &= ApplyBlockers.Count > 0;
         downloadAttempted &= DownloadBlockers.Count > 0;
-        var (applyWas, downloadWas) = (applySummaryShown, downloadSummaryShown);
-        (applySummaryShown, downloadSummaryShown) = (ApplySummary.Count > 0, DownloadSummary.Count > 0);
-        foreach (var (was, now, button) in new[] { (applyWas, applySummaryShown, "apply"), (downloadWas, downloadSummaryShown, "download") })
+        stepAttempted &= StepBlockers.Count > 0;
+        var (applyWas, downloadWas, stepWas) = (applySummaryShown, downloadSummaryShown, stepSummaryShown);
+        (applySummaryShown, downloadSummaryShown, stepSummaryShown) = (ApplySummary.Count > 0, DownloadSummary.Count > 0, StepSummary.Count > 0);
+        foreach (var (was, now, button) in new[] { (applyWas, applySummaryShown, "apply"), (downloadWas, downloadSummaryShown, "download"), (stepWas, stepSummaryShown, stepButton) })
         {
             if (was && !now)
             {
@@ -518,7 +541,7 @@
             }
             message = outcome switch
             {
-                SlotOpening.Opened => $"Opened {SlotText.Label(slot)}. " + OpenedNote(Draft!),
+                SlotOpening.Opened => OpenedMessage(slot),
                 SlotOpening.AlreadyOpen => $"{position} is already open in the editor.",
                 SlotOpening.DraftPending => "Apply or cancel the draft before opening another slot.",
                 SlotOpening.Unreadable => $"{position}: {UserMessages.For(SessionError.EntityInvalid)}",
@@ -530,6 +553,44 @@
             ShowError(DiagnosticOperation.Slot, ex);
         }
     }
+
+    /// <summary>
+    /// Previous or Next Pokémon: opens the Pokémon before or after the draft's through <see cref="WorkspaceState.Step"/>, or, while another
+    /// cannot be opened, shows and focuses the summary of why. Unlike opening a slot, focus stays on the button: the editor pane stays shown.
+    /// </summary>
+    /// <param name="direction">1 for the next Pokémon, -1 for the previous one.</param>
+    private void Step(int direction)
+    {
+        stepButton = direction < 0 ? "draft-prev" : "draft-next";
+        if (StepBlockers.Count > 0)
+        {
+            stepAttempted = true;
+            focusAfterRender = "step-summary";
+            return;
+        }
+        try
+        {
+            var step = State.Step(direction);
+            if (step is { Outcome: StepOutcome.Opened, Target: { } target })
+            {
+                ResetDraftView();
+                message = OpenedMessage(StorageView.Slot(Session!, target));
+            }
+            else
+            {
+                message = step.Outcome == StepOutcome.NoOther
+                    ? "No other Pokémon in this save can be opened."
+                    : "Apply or cancel the draft before opening another slot.";
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowError(DiagnosticOperation.Slot, ex);
+        }
+    }
+
+    /// <summary>The status message for a slot that has just been opened, from the party and boxes or a step.</summary>
+    private string OpenedMessage(SlotSummary slot) => $"Opened {SlotText.Label(slot)}. " + OpenedNote(Draft!);
 
     /// <summary>What can be done with a Pokémon that has just been opened.</summary>
     private static string OpenedNote(EditorDraft draft)
@@ -553,7 +614,7 @@
     private void ResetDraftView()
     {
         inspection = Draft?.Inspect();
-        applyAttempted = downloadAttempted = false;
+        applyAttempted = downloadAttempted = stepAttempted = false;
     }
 
     /// <summary>

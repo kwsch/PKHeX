@@ -10,7 +10,7 @@ public sealed record SummaryItem(string Text, string? LinkText = null, string? T
 
 /// <summary>
 /// Text for validation (WEB-A11Y-002): a refused field's error line, and the error summary shown when Apply or Download is activated while it
-/// cannot act (<see cref="ActionReadiness"/>).
+/// cannot act (<see cref="ActionReadiness"/>), and the one shown when Previous or Next Pokémon is.
 /// </summary>
 public static class ValidationText
 {
@@ -22,6 +22,9 @@ public static class ValidationText
 
     /// <summary>The heading of the summary shown when Download is activated but cannot download.</summary>
     public const string DownloadTitle = "The save cannot be downloaded yet";
+
+    /// <summary>The heading of the summary shown when Previous or Next Pokémon is activated but cannot open another Pokémon.</summary>
+    public const string StepTitle = "Another Pokémon cannot be opened yet";
 
     /// <summary>Why <paramref name="refusal"/>'s edit was refused.</summary>
     public static string FieldError(FieldRefusal refusal) => refusal.Error is { } error ? UserMessages.For(error) : FieldFailed;
@@ -56,6 +59,18 @@ public static class ValidationText
         DownloadBlocker.SpeciesPreviewPending => Pending,
         DownloadBlocker.DraftNotApplied => new("The editor has changes that are not applied, which the download would not hold. Apply or cancel them first.", "Go to Apply changes", "apply"),
         DownloadBlocker.ExportNotAcknowledged => new(UserMessages.For(SessionError.ExportNotAcknowledged), "Go to the acknowledgement", "export-ack"),
+        _ => throw new ArgumentOutOfRangeException(nameof(blocker), blocker, null),
+    };
+
+    /// <summary>The summary entry for <paramref name="blocker"/>.</summary>
+    /// <param name="blocker">Why Previous or Next Pokémon cannot open another Pokémon.</param>
+    /// <param name="refusal">The refused edit, for <see cref="StepBlocker.FieldRefused"/>.</param>
+    public static SummaryItem For(StepBlocker blocker, FieldRefusal? refusal) => blocker switch
+    {
+        StepBlocker.Busy => new(Busy),
+        StepBlocker.FieldRefused => Refused(refusal),
+        StepBlocker.SpeciesPreviewPending => Pending,
+        StepBlocker.DraftNotApplied => new("This Pokémon has changes that are not applied. Apply or cancel them before opening another.", "Go to Apply changes", "apply"),
         _ => throw new ArgumentOutOfRangeException(nameof(blocker), blocker, null),
     };
 

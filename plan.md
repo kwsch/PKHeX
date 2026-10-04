@@ -1903,7 +1903,83 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
     - **Matches:** confirmations are modal overlays with a scrim that take over input while open, and B (the gamepad's back) cancels, as Escape does here.
     - **Stricter:** PKForge sets no semantic or accessibility properties, so its overlays have no focus containment or names for assistive technology; ours is a native modal dialog with a named heading and focus return. Its numeric steppers clamp (`Math.Clamp`, `BoxBrowserPage.cs:594,2846`), where we refuse and say why on the field; it has no error summary or disabled-action explanation.
     - **Not adopted:** a scrim tap that cancels (PadMenu's overlay closes on a tap outside); a native modal does not light-dismiss, so a stray tap cannot discard an exit step.
-- **M18c Previous/next Pokémon and the searchable move/item picker.** Not started.
+- **M18c Previous/next Pokémon and the searchable move/item picker.**
+
+  **M18c status:** code complete on `web/m18c-prev-next-picker`.
+  - **User decisions:** the picker is a search field above each native select (not an ARIA combobox or a `datalist`), for the four move boxes and the held item only (species keeps its select and confirmed preview). Previous/next walks one sequence, the party then every box, wrapping, skipping empty slots and bad eggs. A draft with unapplied or refused changes is never replaced: the buttons stay focusable and say why, as Apply does.
+  - **Previous and Next Pokémon** (`Services/StorageView.Neighbour`, `State/WorkspaceState.Step`, `State/ActionReadiness.ForStep`, `Components/Workspace`):
+    - `Neighbour(session, from, ±1)`: party positions 0–5, then every box slot in Core's order (`BoxCount` × `BoxSlotCount`), wrapping. It skips what cannot be opened, with the same test as `SlotSummary.CanOpen` (`ReadOccupied` plus `PKM.Valid`); eggs open, read-only. It reads one position at a time from the current revision, only on activation; it returns null when nothing else can be opened, and refuses any other direction or a position outside the save. `StorageView.Slot` summarises one position for the opened message.
+    - `Step(direction)`: `DraftPending` for a dirty or refused draft, decided before anything is read; `NoOther`; otherwise `ShowBox` for a box target, so the storage browser follows, then the existing `OpenSlot`. Its own `StepOutcome`/`SlotStep`, so `SlotOpening`'s `_ =>` arm cannot absorb a new value.
+    - `ForStep` reasons, in order: busy, refused field, pending species preview, unapplied draft. The preview is stricter than opening a slot from the grid (which ignores it): the buttons sit beside it, and it would otherwise vanish unannounced.
+    - UI: `<nav id="draft-steps" aria-label="Other Pokémon in this save">` under `#draft-slot`, with `#draft-prev` and `#draft-next` (`aria-disabled`, handlers guarded). Activated while blocked: `#step-summary` (`ErrorSummary`, `h3`), focused, with links to Apply changes, the refused field or the species confirmation; it follows, resets and returns focus to its button as Apply's does. Opened: the grid's message (`OpenedMessage`, shared with `OpenSlot`) and reset path; focus stays on the button and the editor pane stays shown at every width. No other: "No other Pokémon in this save can be opened."
+    - `SlotGrid`: the roving tab stop now also moves to a changed `Selected` slot shown in the grid (a party member, no draft or the same selection leave it where the user put it), so Tab and the phone's return action land on the stepped-to slot.
+  - **Searchable moves and held item** (`State/ChoiceFilter`, `Components/ChoiceSearch`, `Components/ChoiceSelect`):
+    - `ChoiceFilter.Filter(items, query, keep)`: names containing the search after folding both (FormD, non-spacing marks dropped, invariant upper case, letters and digits only), so "poke ball" finds "Poké Ball", "uturn" "U-turn", "kings rock" "King's Rock". Folding is done in managed code, not by culture collation, so it does not depend on the runtime's ICU data. It always keeps the drafted value and "(None)", so filtering never changes a choice; it keeps Core's order; a blank search returns the list itself. Folded names are cached per list (`ConditionalWeakTable`). Counts exclude "(None)" and duplicates.
+    - `ChoiceSearch`: `<input type="search" id="{Id}-search">` with a visible "Search" label whose visually hidden rest completes the name ("Search moves for Move 2", "Search held items"; first review fix below), described by a note that is not live (`#{Id}-search-note`: "Type to search the 617 moves.", "6 of 617 moves match.", "No move matches. The list below keeps only the current choice and (None)."), then the `ChoiceSelect`. The search is the component's own state, so a keystroke renders only it and its box; a search that finds the same entries keeps the shown list, so the box is not rebuilt. It is disabled with its box and cleared when the draft is replaced (after apply or cancel too).
+    - `app.css`: `.choice-search` stacks the search, note and box in the move cell; `.draft-steps` puts the buttons side by side, wrapping on a phone.
+  - **Found by the browser tests, fixed:** narrowing a box showed "(None)" while the draft still held its move, in all three engines. Blazor rewrote the unkeyed options in place, so the selected option element became another entry, and the select's unchanged value was not set again. `ChoiceSelect` keys every option by value, so the drafted option stays the same element and stays selected.
+  - **Tests.**
+    - **Unit 1206** (up from 1158; 1205 before the adversarial review):
+      - `SlotStepTests` (14 with cases): party → box → wrap order in XY and ORAS, backwards, empty slots, a bad egg and party positions past the count skipped and eggs not, stepping from an unopenable position, one Pokémon (none other), the direction, a position outside the save; `Step` opening and showing the box, a party member leaving the box shown, refusing dirty and refused drafts without changing the box, no other keeping the draft, reading the current revision.
+      - `ChoiceFilterTests` (16 with cases): the same list for a search with no letter or digit, case, accents and punctuation, the drafted value and "(None)" kept in order, no match, an unlisted drafted value, folding, Core's move and item lists.
+      - `DraftEditorTests` (+7, 1 from the review): ids, names and the note's description, visible search labels with the held item's label on its box; narrowing without an edit, a choice from the narrowed box; accented items and no match; an unlisted stored value while searching; a search keystroke renders only its own box (and none for the same entries); a new draft clears the search. The egg test covers the disabled search fields.
+      - `WorkspaceValidationTests` (+4): focusable steps and their summary with the Apply link, a refused field linking to it, a step opening the next Pokémon, following into its box with the grid's tab stop and wrapping without moving focus to the heading, no other.
+      - `SlotGridTests` (+1), `ActionReadinessTests` (+3 with cases), `ErrorSummaryTests` (step reasons' text and links).
+    - **E2E 344** (up from 332), every test executed (`trx-all-executed.sh`), with the default and sprite publishes:
+      - `PickerBrowserTests`, 3 engines × 2 paths: "THUN" narrows Move 1 to the six matches, Tackle and "(None)" with the draft unchanged; Thunderbolt chosen from it with its PP note; "poke ball" finds Poké Ball, chosen, and a search matching nothing keeps it; apply clears the search; the export byte-identical to native Core with only the slot and footer differing; at 320px no sideways scroll and a 44px search above its box.
+      - `NavigationBrowserTests`, 3 engines × 2 paths: Next from party 1 to box 1 and box 3 (the empty slots skipped, the box selector following, focus kept, the slot the grid's tab stop), wrapping, Previous; with an unapplied change the summary is focused and its link focuses Apply; at 375px the editor stays shown and the return action focuses the stepped-to slot.
+      - `AccessibilityBrowserTests`: axe on the editor with a narrowed move box and the step summary, and the controls drawn in token colours.
+    - **RealSave 100** (up from 98): `StepsVisitEveryOpenablePokemonInOrder` on the private XY and ORAS saves: Next visits every position the party and boxes show as openable, in order, once, and wraps; Previous the reverse (counts only in messages).
+    - **Mutation checks** (Unit tier unless noted; files restored from a scratchpad copy; failing tests):
+
+      | Mutation | Failing tests |
+      | --- | --- |
+      | No wrap | 6 |
+      | Empty slots not skipped | 11 |
+      | Bad eggs not skipped | 6 |
+      | Step ignores a dirty draft | 1 |
+      | Box not shown on a step | 2 |
+      | Filter drops the drafted value | 3 |
+      | Filter drops "(None)" | 6 |
+      | Accent-sensitive folding | 4 |
+      | Punctuation kept | 5 |
+      | Search note live | 2 |
+      | Search not cleared by a new draft | 2 |
+      | Search not disabled with its box | 2 |
+      | Same entries rebuild the box | 1 |
+      | Grid tab stop does not follow | 2 |
+      | Pending preview not a step reason | 2 |
+      | Steps natively disabled | 1 |
+      | Step summary not focused | 2 |
+      | Step summary not reset by a new draft | 1 |
+      | Step moves focus to the heading | 1 |
+      | Options not keyed (E2E, all engines) | 6 |
+
+    - **Other checks:** trim baseline unchanged (38); `PKHeX.slnx` Release has 0 warnings; no raw Bidi_Control characters in the changed files.
+  - **Visual check:** the published app with the private XY save in Chromium at 1280px light, 800px dark and 375px: Next walked from the party into box 1 with focus kept on the button, the move and item searches narrowed their boxes with the draft unchanged, and nothing scrolled sideways. The blank search note was shortened after seeing it repeated in four move rows on a phone.
+  - **Adversarial review** (throwaway probes in the published app with the private XY save, and a throwaway E2E probe in all three engines, deleted afterwards; the fix shown by a failing test first):
+    - **Fixed:** **the held item's label sat on the search field.** "Held item" was directly above the new, empty search box, so a sighted user read the search as the held item field, while clicking the label focused the select further down; and no search field had a visible label, so speech input users could not know their names. Each search now has a visible "Search" label (the rest of the name visually hidden, so the visible text starts the name), and the held item's label is rendered directly above its box (`ChoiceSearch.SelectLabel`). `DraftEditorTests.SearchFieldsHaveVisibleLabelsAndTheItemLabelSitsOnItsBox` failed before the fix.
+    - **Probed, holds:**
+      - Escape in a search field: Chromium and Firefox clear it and fire `input`, so the full list returns; WebKit keeps both the text and the narrowed list. The field and the list never disagree.
+      - The box shows the drafted value through narrowing, clearing, and a search that excludes a move chosen from an earlier search, in all three engines.
+      - 40 auto-repeated Enter presses on Next Pokémon (the XY save, Chromium): 0.7 s, focus kept on the button, no page or console errors.
+      - Keystroke cost with all five searches active: about 3.3 ms per friendship keystroke against 3.2 without (Chromium, synchronous event handling), so refiltering on every editor render is left as it is.
+      - A legality result for the Pokémon stepped away from is never shown for the next one: results are tied to the draft instance (`DraftLegality.Result`, `IsCurrent`), as for opening from the grid.
+      - The step summary returns focus to the button that showed it (a mutation sending it to Apply fails a Unit test).
+    - **Checked, not changed:** pressing Next again in a save with no other Pokémon repeats the same status text, which a screen reader may not announce twice; the first press says why.
+    - After the fix: Unit 1206; E2E 344, every test executed; trim baseline unchanged (38). One earlier run of `ResponsiveBrowserTests.PanesFollowTheWidthWithoutLosingTheDraft` (Chromium, root path) failed, then passed 3 of 3 alone: the resize step M18b records as intermittent; its message was not captured.
+  - **Checked, not changed:**
+    - Playwright will not click an `aria-disabled` button, and WebKit (as Safari) does not focus a clicked button; the tests use the keyboard where that matters, as a user reaching the button would.
+    - Type-ahead on a closed move box still edits per keystroke, so `EditMove`'s PP Ups carry rule stays; the search is the way to find a move without passing through others.
+    - The searches are cleared after an apply, since apply opens a new draft.
+  - **Recorded, not changed:**
+    - Opening a slot from the grid still ignores a pending species preview (M15 behaviour); only the steps wait for it.
+    - Matches are listed in Core's alphabetical order, with no prefix-first ranking.
+  - **Not verified yet:** no screen reader (the search fields' names and notes, the step navigation's name); physical devices (G-C); no manual keyboard-only drive beyond the browser tests.
+  - **Compared with PKForge** (`PKForge.Domain/MonSummary.cs` `SummaryNavigation.Step`, `Views/MonSummaryScreen.cs`, `Views/PickerMenu.cs` `Filter`, `Views/InfoPickers.cs`; WinForms `MoveChoice`/`PKMEditor` autocomplete):
+    - **Matches:** stepping skips empty slots and wraps; the picker is a substring match ignoring case, with "(None)" always offered.
+    - **Stricter or different:** PKForge steps only within the current box or the party, in a read-only summary, does not skip bad eggs, and its editor's `SelectSlot` silently discards unapplied edits; ours crosses from the party through every box inside the editor and never replaces unapplied work. Its filter is accent-sensitive and uses hard-coded English `GameInfo` names; ours folds accents and punctuation and searches the session's `FilteredGameDataSource` lists. WinForms has no next/previous Pokémon and matches by prefix only (`AutoCompleteMode.SuggestAppend`).
+    - **Not adopted:** L/R shoulder bindings (no keyboard shortcut was asked for), PKForge's "Show all" (HaX) filter, legal-first move ordering (`MoveChoiceOrder`, WinForms' `LegalMoveComboSource`: the UI never claims a move is learnable, WEB-PKM-011), and keyword search by type, category or learn method.
 - **M19 Full published journey E2E.** 3 engines × 2 paths with synthetic fixtures. Picker and drop → select box + party → edit one field from each group → legality → apply → export → reopen → assert fields plus unchanged bytes outside the slot and checksum regions. Privacy trace and keyboard-only run. The RealSave tier gets the same journey for local G-D runs (TEST-004/005).
 - **M20 Hosting + release.**
   - Checked-in `wwwroot/_headers` (Cloudflare: CSP, `nosniff`, referrer policy, immutable cache for fingerprinted assets, revalidate for `index.html` / boot json) and a meta-CSP fallback.

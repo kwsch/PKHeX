@@ -3,17 +3,20 @@
    The value is set on the select, not as an option's selected attribute: once the user has chosen an option, a browser following the HTML
    standard (Firefox) ignores later changes of that attribute, so the box would keep showing a choice the draft no longer holds. Blazor applies
    a select's value as its live value.
+   Each option is keyed by its value. When the list is narrowed (ChoiceSearch), the option of the drafted value, which is always kept, is then
+   the same element, so the browser keeps it selected: without keys Blazor rewrote options in place, the selected element became another
+   entry, and the box showed (None) while the draft held the move, since its unchanged value was not set again.
    It renders again only when its own value, list, state or names change, so a keystroke elsewhere in the editor does not re-render hundreds of
    options. *@
 <select @ref="select" id="@Id" value="@Value.ToString(CultureInfo.InvariantCulture)" aria-labelledby="@LabelledBy" aria-describedby="@DescribedBy"
         aria-invalid="@(Invalid ? "true" : null)" disabled="@Disabled" @onchange="Changed">
     @if (!listed)
     {
-        <option value="@Value.ToString(CultureInfo.InvariantCulture)" disabled>@Unlisted(Value)</option>
+        <option @key="@Value" value="@Value.ToString(CultureInfo.InvariantCulture)" disabled>@Unlisted(Value)</option>
     }
     @foreach (var item in choices)
     {
-        <option value="@item.Value.ToString(CultureInfo.InvariantCulture)">@item.Text</option>
+        <option @key="@item.Value" value="@item.Value.ToString(CultureInfo.InvariantCulture)">@item.Text</option>
     }
 </select>
 

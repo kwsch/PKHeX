@@ -93,4 +93,27 @@ public sealed class ActionReadinessTests
     {
         ActionReadiness.ForDownload(false, true, null, false, false).Should().Equal(DownloadBlocker.DraftNotApplied);
     }
+
+    [Fact]
+    public void ACleanDraftCanStepToAnotherPokemon()
+    {
+        ActionReadiness.ForStep(false, false, null, false).Should().BeEmpty();
+    }
+
+    [Fact]
+    public void EveryStepReasonIsListedInOrder()
+    {
+        ActionReadiness.ForStep(true, true, Refused, true).Should().Equal(
+            StepBlocker.Busy, StepBlocker.FieldRefused, StepBlocker.SpeciesPreviewPending, StepBlocker.DraftNotApplied);
+    }
+
+    [Theory]
+    [InlineData(true, false, false, false, StepBlocker.Busy)]
+    [InlineData(false, true, false, false, StepBlocker.DraftNotApplied)]
+    [InlineData(false, false, true, false, StepBlocker.FieldRefused)]
+    [InlineData(false, false, false, true, StepBlocker.SpeciesPreviewPending)]
+    public void EachStepReasonHoldsItBackAlone(bool busy, bool dirty, bool refused, bool previewing, StepBlocker expected)
+    {
+        ActionReadiness.ForStep(busy, dirty, refused ? Refused : null, previewing).Should().Equal(expected);
+    }
 }

@@ -180,6 +180,37 @@ public static class EditorText
     /// <summary>The note under the moves, always shown: the list does not say what the Pokémon can learn.</summary>
     public const string MoveListNote = "The list holds every move this game has; it does not say which moves this Pokémon can learn. Legality analysis checks that.";
 
+    /// <summary>The visible label of every search field; the rest of its name is visually hidden (<see cref="MoveSearchSubject"/>, <see cref="ItemSearchSubject"/>).</summary>
+    public const string SearchLabel = "Search";
+
+    /// <summary>The visually hidden rest of a move box's search field name ("Search moves for Move 2").</summary>
+    public static string MoveSearchSubject(int slot) => $" moves for {MoveSlotName(slot)}";
+
+    /// <summary>The visually hidden rest of the held item's search field name ("Search held items").</summary>
+    public const string ItemSearchSubject = " held items";
+
+    /// <summary>
+    /// The note under a search field: what typing does while it is blank, and otherwise how many entries match. Filtering never changes the
+    /// choice, so the note says so when nothing matches.
+    /// </summary>
+    /// <param name="query">What is typed.</param>
+    /// <param name="matches">How many entries match.</param>
+    /// <param name="total">How many entries the list holds.</param>
+    /// <param name="noun">What the list holds, singular ("move", "item").</param>
+    public static string SearchNote(string query, int matches, int total, string noun)
+    {
+        if (ChoiceFilter.Fold(query).Length == 0)
+        {
+            return string.Create(CultureInfo.InvariantCulture, $"Type to search the {total} {noun}s.");
+        }
+        return matches switch
+        {
+            0 => $"No {noun} matches. The list below keeps only the current choice and (None).",
+            1 => string.Create(CultureInfo.InvariantCulture, $"1 of {total} {noun}s matches."),
+            _ => string.Create(CultureInfo.InvariantCulture, $"{matches} of {total} {noun}s match."),
+        };
+    }
+
     /// <summary>The header of a move row ("Move 1" to "Move 4").</summary>
     public static string MoveSlotName(int slot) => string.Create(CultureInfo.InvariantCulture, $"Move {slot + 1}");
 

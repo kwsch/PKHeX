@@ -26,6 +26,15 @@ public static class WorkspaceLayout
     /// <summary>The medium layout's disclosure for the storage pane; <c>aria-expanded</c> says whether it is shown.</summary>
     public const string StorageToggle = "Party and boxes";
 
+    /// <summary>The name of the editor's Previous and Next Pokémon navigation.</summary>
+    public const string StepsLabel = "Other Pokémon in this save";
+
+    /// <summary>Opens the Pokémon before the selected one, in party then box order.</summary>
+    public const string PreviousPokemon = "Previous Pokémon";
+
+    /// <summary>Opens the Pokémon after the selected one, in party then box order.</summary>
+    public const string NextPokemon = "Next Pokémon";
+
     /// <summary>The editor's heading, focused when a slot is opened on a narrow screen.</summary>
     public const string EditorHeadingId = "draft-title";
 
