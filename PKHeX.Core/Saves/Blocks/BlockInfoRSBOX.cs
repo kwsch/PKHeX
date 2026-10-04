@@ -9,9 +9,10 @@ namespace PKHeX.Core;
 public sealed class BlockInfoRSBOX : BlockInfo
 {
     public readonly uint SaveCount;
+    public readonly bool Extra;
     private const int ChecksumRegionSize = 0x1FF8;
 
-    public BlockInfoRSBOX(ReadOnlySpan<byte> data, int offset)
+    public BlockInfoRSBOX(ReadOnlySpan<byte> data, int offset, bool extra)
     {
         Offset = offset;
         Length = 4 + ChecksumRegionSize;
@@ -19,6 +20,7 @@ public sealed class BlockInfoRSBOX : BlockInfo
         // Values stored in Big Endian format
         ID = ReadUInt32BigEndian(data[(Offset + 4)..]);
         SaveCount = ReadUInt32BigEndian(data[(Offset + 8)..]);
+        Extra = extra;
     }
 
     protected override bool ChecksumValid(ReadOnlySpan<byte> data)

@@ -44,7 +44,13 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
             .Skip(ActiveSAV * BLOCK_COUNT)
             .Take(BLOCK_COUNT)
             .OrderBy(b => b.ID);
-        Blocks = [..ordered];
+
+        // Extra blocks have no backup
+        var extra = Blocks
+            .Skip(BLOCK_COUNT * 2)
+            .Take(BLOCK_EXTRA_COUNT)
+            .OrderBy(b => b.ID);
+        Blocks = [..ordered, ..extra];
 
         // Set up PC data buffer beyond end of save file.
         Box = 0;
@@ -54,11 +60,11 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
 
     private static BlockInfoRSBOX[] ReadBlocks(ReadOnlySpan<byte> data)
     {
-        var blocks = new BlockInfoRSBOX[2 * BLOCK_COUNT];
+        var blocks = new BlockInfoRSBOX[2 * BLOCK_COUNT + BLOCK_EXTRA_COUNT];
         for (int i = 0; i < blocks.Length; i++)
         {
             int offset = BLOCK_SIZE + (i * BLOCK_SIZE);
-            blocks[i] = new BlockInfoRSBOX(data, offset);
+            blocks[i] = new BlockInfoRSBOX(data, offset, i >= 2 * BLOCK_COUNT);
         }
 
         return blocks;
@@ -67,8 +73,9 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
     private BlockInfoRSBOX[] Blocks;
     private int SaveCount;
     private const int BLOCK_COUNT = 23;
+    private const int BLOCK_EXTRA_COUNT = 12;
     private const int BLOCK_SIZE = 0x2000;
-    private const int SIZE_RESERVED = BLOCK_COUNT * BLOCK_SIZE; // unpacked box data
+    private const int SIZE_RESERVED = (BLOCK_COUNT + BLOCK_EXTRA_COUNT) * BLOCK_SIZE; // unpacked box data
 
     protected override Memory<byte> GetFinalData()
     {
@@ -97,7 +104,8 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
         const int copySize = BLOCK_SIZE - 0x10;
         foreach (var b in Blocks)
         {
-            var src = BoxBuffer.Slice((int)(b.ID * copySize), copySize);
+            var ofs = (int)(b.ID * copySize) + (b.Extra ? BLOCK_COUNT * BLOCK_SIZE : 0);
+            var src = BoxBuffer.Slice(ofs, copySize);
             var dest = data.Slice(b.Offset + 0xC, copySize);
             src.CopyTo(dest);
         }
@@ -109,7 +117,8 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
         const int copySize = BLOCK_SIZE - 0x10;
         foreach (var b in Blocks)
         {
-            var dest = BoxBuffer.Slice((int)(b.ID * copySize), copySize);
+            var ofs = (int)(b.ID * copySize) + (b.Extra ? BLOCK_COUNT * BLOCK_SIZE : 0);
+            var dest = BoxBuffer.Slice(ofs, copySize);
             var src = data.Slice(b.Offset + 0xC, copySize);
             src.CopyTo(dest);
         }
@@ -243,6 +252,11 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile, IBoxDetailName, IBoxDetai
         base.WriteSlotBox(pk, data);
         WriteUInt32LittleEndian(data[PokeCrypto.SIZE_3STORED..], pk.ID32); // assume from OT
     }
+
+    public const int WP_WIDTH = 568;
+    public const int WP_HEIGHT = 216;
+    public bool MyWallpaperEnabled { get => BoxBuffer[0x2E004] != 0; set => BoxBuffer[0x2E004] = (byte)(value ? 1 : 0); }
+    public Span<byte> MyWallpaper => BoxBuffer.Slice(0x2E020, 0xEFA0);
 
     public override string GetString(ReadOnlySpan<byte> data)
         => StringConverter3.GetString(data, Japanese);

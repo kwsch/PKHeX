@@ -16,6 +16,9 @@ public interface IPogoSlot : IPogoDateRange
 
     /// <summary> Minimum IV value for the encounter. </summary>
     byte MinimumIV { get; }
+
+    /// <summary> If trading this Pokémon always results in a Special Trade. </summary>
+    bool IsAlwaysSpecialTrade { get; }
 }
 
 /// <summary>
@@ -42,8 +45,19 @@ public static class PogoSlotExtensions
 
     public static bool GetIVsValid(this IPogoSlot slot, PKM pk)
     {
-        if (!slot.GetIVsAboveMinimum(pk))
+        if (!slot.GetIVsAboveMinimum(pk) && slot.IsAlwaysSpecialTrade)
             return false;
+
+        // when trading with new friends, the IV floor is 0 before reaching Good Friends, as long as it is not a Special Trade
+        if (slot.MinimumIV == 1 && (pk.IV_HP == 1 || (pk.IV_ATK == 1 && pk.IV_SPA == 1) || (pk.IV_DEF == 1 && pk.IV_SPD == 1)))
+        {
+            if (pk.IsShiny)
+                return false;
+            if (SpeciesCategory.IsSpecialPokemon(pk.Species))
+                return false;
+            if (slot.Type.IsShadow)
+                return false;
+        }
 
         // HP * 2 | 1 -> HP
         // ATK * 2 | 1 -> ATK&SPA

@@ -10,7 +10,7 @@ namespace PKHeX.Web.Services.Diagnostics;
 public sealed record DiagnosticEntry(DateTimeOffset Time, DiagnosticOperation Operation, DiagnosticCode Code);
 
 /// <summary>
-/// The failures recorded in this tab, for an opt-in diagnostic report, and the one place failures are written to the browser console.
+/// The failures recorded in this tab, for an opt-in diagnostic report, and the only way the app writes failures to the browser console.
 /// </summary>
 /// <remarks>
 /// It holds <see cref="DiagnosticCode"/>s only, never save data, so it is kept across sessions in the tab; it lives in memory and is never stored,

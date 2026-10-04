@@ -6,7 +6,7 @@ using PKHeX.Web.Services;
 using PKHeX.Web.State;
 using Xunit;
 using static Microsoft.Playwright.Assertions;
-using static PKHeX.Web.Tests.ProofPage;
+using static PKHeX.Web.Tests.AppPage;
 
 namespace PKHeX.Web.Tests;
 
@@ -47,7 +47,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         // Native reference edit: the same nickname change, made directly through Core.
         var changed = native.Clone();
         var editedPk = SaveFixtures.Slot(changed, index).Read(changed);
-        var nickname = editedPk.Nickname == "WASM Proof" ? "WASM Test" : "WASM Proof";
+        var nickname = editedPk.Nickname == "Web Edit" ? "Web Test" : "Web Edit";
         editedPk.Nickname = nickname;
         editedPk.IsNicknamed = true;
         var beforeSet = changed.Data.ToArray();
@@ -157,7 +157,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
 
         var changed = native.Clone();
         var editedPk = changed.GetPartySlotAtIndex(0);
-        var nickname = editedPk.Nickname == "WASM Party" ? "WASM Test" : "WASM Party";
+        var nickname = editedPk.Nickname == "Web Party" ? "Web Test" : "Web Party";
         editedPk.Nickname = nickname;
         editedPk.IsNicknamed = true;
         changed.SetPartySlotAtIndex(editedPk, 0, EntityImportSettings.None);

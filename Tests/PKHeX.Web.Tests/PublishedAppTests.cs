@@ -4,7 +4,7 @@ using PKHeX.Web.Components;
 using PKHeX.Web.Services;
 using Xunit;
 using static Microsoft.Playwright.Assertions;
-using static PKHeX.Web.Tests.ProofPage;
+using static PKHeX.Web.Tests.AppPage;
 
 namespace PKHeX.Web.Tests;
 
@@ -258,7 +258,7 @@ public sealed partial class PublishedAppTests(PublishedAppFixture app)
         await Expect(page.Locator("#overview-game")).ToHaveTextAsync("X");
         await Select(page);
         var originalNickname = await page.Locator("#nickname").InputValueAsync();
-        await page.Locator("#nickname").FillAsync("WASM Cancel");
+        await page.Locator("#nickname").FillAsync("Web Cancel");
         await page.Locator("#nicknamed").CheckAsync();
         await Expect(page.Locator("#download")).ToBeDisabledAsync();
         await page.Locator("#cancel-draft").ClickAsync();
@@ -286,7 +286,7 @@ public sealed partial class PublishedAppTests(PublishedAppFixture app)
 
         // A pending replacement survives a rejected file, and cancelling it keeps the draft. The picker is inert behind the exit dialog, so a user
         // cannot choose a file meanwhile; setting the input's files directly still checks that the state never lets one replace the waiting file.
-        await page.Locator("#nickname").FillAsync("WASM Pending");
+        await page.Locator("#nickname").FillAsync("Web Pending");
         await page.Locator("#nicknamed").CheckAsync();
         await Load(page, SaveFixtures.Synthetic(true), "pending-main");
         await Expect(page.Locator("#exit-name")).ToHaveTextAsync("pending-main");
@@ -294,7 +294,7 @@ public sealed partial class PublishedAppTests(PublishedAppFixture app)
         await Expect(page.Locator("#message")).ToHaveTextAsync(Refusal(new byte[512], LoadFailure.Unrecognized) + $" {TestText.Isolated("pending-main")} is still waiting to replace it.");
         await Expect(page.Locator("#exit-name")).ToHaveTextAsync("pending-main");
         await page.Locator("#exit-cancel").ClickAsync();
-        Assert.True(await page.Locator("#nickname").InputValueAsync() == "WASM Pending");
+        Assert.True(await page.Locator("#nickname").InputValueAsync() == "Web Pending");
         await page.Locator("#cancel-draft").ClickAsync();
 
         // Known legal and illegal entities get the native verdict and report.

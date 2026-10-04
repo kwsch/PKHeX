@@ -41,7 +41,7 @@ internal sealed record TimedSave(string Family, byte[] Bytes, SaveSession Native
 /// </remarks>
 internal static class LegalityTiming
 {
-    /// <summary>Engineering target for the selected-entity analysis at p95; not enforced.</summary>
+    /// <summary>Target for the selected-entity analysis at p95, shown beside the measurements; not enforced.</summary>
     public const double TargetP95Ms = 500;
 
     /// <summary>Stall length treated as unresponsive when repeated.</summary>
@@ -112,7 +112,7 @@ internal static class LegalityTiming
             var samples = new List<LegalitySample>();
             foreach (var save in saves)
             {
-                await ProofPage.Load(page, save.Bytes, $"timing-{save.Family}");
+                await AppPage.Load(page, save.Bytes, $"timing-{save.Family}");
                 await page.Locator("#session-state").WaitForAsync();
                 foreach (var (fixture, slot) in save.Slots)
                 {
@@ -141,7 +141,7 @@ internal static class LegalityTiming
     {
         var label = $"{engine} {family} {fixture}";
         await page.EvaluateAsync(StartRecording);
-        await ProofPage.Select(page, slot);
+        await AppPage.Select(page, slot);
         await page.WaitForFunctionAsync("() => window.legalityTiming.doneAt !== null", null, new() { Timeout = AnalysisTimeoutMs });
         var record = await page.EvaluateAsync<JsonElement>("() => window.legalityTiming");
         var verdict = record.GetProperty("verdict").GetString()!;

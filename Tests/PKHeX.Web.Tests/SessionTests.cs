@@ -24,7 +24,7 @@ public sealed class SessionTests
         session.GetOriginalBytes().Should().Equal(before);
 
         var draft = session.Select(SaveFixtures.FirstBoxSlot);
-        draft.EditNickname("WASM Proof", true);
+        draft.EditNickname("Web Edit", true);
         draft.IsDirty.Should().BeTrue();
         var exportDirty = () => SaveExporter.Export(session, draft);
         exportDirty.Should().Throw<SessionException>().Which.Error.Should().Be(SessionError.DraftUnapplied);
@@ -33,17 +33,17 @@ public sealed class SessionTests
         draft.IsDirty.Should().BeFalse();
         session.HasChangesSinceOpen.Should().BeFalse();
 
-        draft.EditNickname("WASM Proof", true);
+        draft.EditNickname("Web Edit", true);
         session.Apply(draft);
         var output = SaveExporter.Export(session, session.Select(draft.Slot));
         var reloaded = SaveFixtures.Open(output).Select(SaveFixtures.FirstBoxSlot);
-        reloaded.Nickname.Should().Be("WASM Proof");
+        reloaded.Nickname.Should().Be("Web Edit");
         reloaded.IsNicknamed.Should().BeTrue();
         source.Should().Equal(before);
 
         var native = SaveFixtures.Parse(before);
         var pk = native.GetBoxSlotAtIndex(0);
-        pk.Nickname = "WASM Proof";
+        pk.Nickname = "Web Edit";
         pk.IsNicknamed = true;
         native.SetBoxSlotAtIndex(pk, 0, EntityImportSettings.None);
         output.Should().Equal(native.Write().ToArray(), "the session must match the native Core edit");

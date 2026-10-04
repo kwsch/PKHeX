@@ -14,7 +14,7 @@ public sealed class SupportMatrixTests
     [Fact]
     public void OpensExactlyXYAndORAS()
     {
-        // Widening the release is a deliberate change: it needs its own fixtures and evidence, and this test updated with it.
+        // Opening another family is a deliberate change: it needs its own test fixtures, and this test updated with it.
         SupportMatrix.Families.Select(f => f.SaveType).Should().Equal(typeof(SAV6XY), typeof(SAV6AO));
         SupportMatrix.Families.Should().OnlyContain(f => !string.IsNullOrWhiteSpace(f.Games));
     }

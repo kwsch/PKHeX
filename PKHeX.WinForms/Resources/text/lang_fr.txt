@@ -530,6 +530,7 @@ Main.B_FestivalPlaza=Place Festival
 Main.B_JPEG=Sauver jpeg PGL
 Main.B_MailBox=Boîte aux Lettres
 Main.B_MoveShop=Boutique Capacités
+Main.B_MyWallpaper=Sauver mon fond
 Main.B_OpenApricorn=Noigrumes
 Main.B_OpenBattlePass=Cartes
 Main.B_OpenBerryField=Champ Baies

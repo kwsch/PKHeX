@@ -9,7 +9,7 @@ namespace PKHeX.Web.Services;
 /// loader refuses, or miss one it opens.
 /// </summary>
 /// <remarks>
-/// Being listed means the family is opened, not that it is supported: no family is qualified until its published-app evidence exists.
+/// Being listed means the family is opened; the app does not call any family supported.
 /// </remarks>
 public static class SupportMatrix
 {

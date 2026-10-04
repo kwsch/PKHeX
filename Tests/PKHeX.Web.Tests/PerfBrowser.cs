@@ -8,7 +8,7 @@ namespace PKHeX.Web.Tests;
 /// </summary>
 /// <remarks>
 /// Without a channel the Chromium rows use Playwright's own headless Chromium build, as CI does. With one, they use the installed release
-/// browser of that channel (e.g. Google Chrome), which is what a support report can name. Firefox and WebKit have no channels in Playwright.
+/// browser of that channel (e.g. Google Chrome), as users run it. Firefox and WebKit have no channels in Playwright.
 /// </remarks>
 internal static class PerfBrowser
 {

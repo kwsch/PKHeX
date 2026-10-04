@@ -9,15 +9,16 @@ public class EffortExpLegalityTests
     private static readonly int[] Empty = new int[6];
 
     [Fact]
-    public void ZeroEVs_ReturnsZero()
+    public void ZeroEVs_AllGainedEXPIsSurplus()
     {
+        // No EVs need training, so every gained EXP point is surplus (negative = legal).
         EffortExpLegality.GetRequiredEffortEXP(
                 Empty,
                 gainedEXP: 999,
                 hasPokerus: false,
                 originFormat: 4,
                 currentFormat: 4)
-            .Should().Be(0);
+            .Should().Be(-999);
     }
 
     [Theory]
