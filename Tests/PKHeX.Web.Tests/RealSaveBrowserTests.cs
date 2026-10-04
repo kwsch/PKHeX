@@ -197,7 +197,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
     {
         var fixture = RealSaves.Read(family);
         var native = fixture.Native;
-        var index = FirstWritableNonEgg(native);
+        var index = JourneyPlan.FirstWritableNonEgg(native);
         var noOp = native.Clone().Write().ToArray();
 
         var changed = native.Clone();
@@ -249,18 +249,18 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         var fixture = RealSaves.Read(family);
         var native = fixture.Native;
         Assert.True(native.PartyCount > 0, "The private save has no party member to edit.");
-        var index = FirstWritableNonEgg(native);
+        var index = JourneyPlan.FirstWritableNonEgg(native);
         var noOp = native.Clone().Write().ToArray();
 
         var changed = native.Clone();
         var boxed = SaveFixtures.Slot(changed, index).Read(changed);
-        var boxedLevel = LevelStep(boxed.CurrentLevel);
+        var boxedLevel = JourneyPlan.LevelStep(boxed.CurrentLevel);
         var nature = boxed.Nature == Nature.Adamant ? Nature.Modest : Nature.Adamant;
         boxed.EXP = Experience.GetEXP(boxedLevel, boxed.PersonalInfo.EXPGrowth);
         boxed.Nature = nature;
         Assert.True(SaveFixtures.Slot(changed, index).WriteTo(changed, boxed, EntityImportSettings.None));
         var member = changed.GetPartySlotAtIndex(0);
-        var memberLevel = LevelStep(member.CurrentLevel);
+        var memberLevel = JourneyPlan.LevelStep(member.CurrentLevel);
         var (hp, status) = (member.Stat_HPCurrent, member.Status_Condition);
         member.EXP = Experience.GetEXP(memberLevel, member.PersonalInfo.EXPGrowth);
         member.ResetPartyStats();
@@ -293,9 +293,6 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         await session.AssertNoNetworkOrPersistenceAsync();
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred; no private traces retained.");
         fixture.AssertUnchanged();
-
-        // One level up, or down from the highest level, so the edit always changes the level.
-        static byte LevelStep(byte level) => level == Experience.MaxLevel ? (byte)(level - 1) : (byte)(level + 1);
     }
 
     /// <summary>
@@ -310,23 +307,19 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         var fixture = RealSaves.Read(family);
         var native = fixture.Native;
         Assert.True(native.PartyCount > 0, "The private save has no party member to edit.");
-        var index = FirstWritableNonEgg(native);
+        var index = JourneyPlan.FirstWritableNonEgg(native);
         var noOp = native.Clone().Write().ToArray();
 
         var changed = native.Clone();
         var boxed = SaveFixtures.Slot(changed, index).Read(changed);
-        var speedIv = IvStep(boxed.IV_SPE);
-        // Lowering an EV is always accepted; with no EVs at all, 4 HP EVs stay within the total.
-        var (evStat, evCore, ev) = boxed.EV_HP > 0 ? (0, 0, boxed.EV_HP - 1)
-            : boxed.EV_ATK > 0 ? (1, 1, boxed.EV_ATK - 1)
-            : boxed.EVTotal == 0 ? (0, 0, 4)
-            : (5, 3, boxed.EV_SPE > 0 ? boxed.EV_SPE - 1 : Math.Min(4, EffortValues.Max510 - boxed.EVTotal));
+        var speedIv = JourneyPlan.IvStep(boxed.IV_SPE);
+        var (evStat, evCore, ev) = JourneyPlan.EvStep(boxed);
         boxed.IV_SPE = speedIv;
         boxed.SetEV(evCore, ev);
         Assert.True(SaveFixtures.Slot(changed, index).WriteTo(changed, boxed, EntityImportSettings.None));
         var member = changed.GetPartySlotAtIndex(0);
         var storedStats = member.GetStats(member.PersonalInfo);
-        var hpIv = IvStep(member.IV_HP);
+        var hpIv = JourneyPlan.IvStep(member.IV_HP);
         member.IV_HP = hpIv;
         if (!member.GetStats(member.PersonalInfo).AsSpan().SequenceEqual(storedStats))
         {
@@ -363,9 +356,6 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         await session.AssertNoNetworkOrPersistenceAsync();
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred; no private traces retained.");
         fixture.AssertUnchanged();
-
-        // One up, or down from the highest IV, so the edit always changes the IV.
-        static int IvStep(int iv) => iv == 31 ? 30 : iv + 1;
     }
 
     /// <summary>
@@ -380,7 +370,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         var fixture = RealSaves.Read(family);
         var native = fixture.Native;
         Assert.True(native.PartyCount > 0, "The private save has no party member to edit.");
-        var index = FirstWritableNonEgg(native);
+        var index = JourneyPlan.FirstWritableNonEgg(native);
         var noOp = native.Clone().Write().ToArray();
 
         var changed = native.Clone();
@@ -441,7 +431,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
     {
         var fixture = RealSaves.Read(family);
         var native = fixture.Native;
-        var index = FirstWritableNonEgg(native);
+        var index = JourneyPlan.FirstWritableNonEgg(native);
         var position = Enumerable.Range(0, native.PartyCount).FirstOrDefault(i => native.GetPartySlotAtIndex(i) is { IsEgg: false, PersonalInfo.IsDualGender: true, Species: not (ushort)Species.Meowstic }, -1);
         Assert.True(position >= 0, "The private save has no party member that can be male or female.");
         var noOp = native.Clone().Write().ToArray();
@@ -494,7 +484,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
     {
         var fixture = RealSaves.Read(family);
         var native = fixture.Native;
-        var index = FirstWritableNonEgg(native);
+        var index = JourneyPlan.FirstWritableNonEgg(native);
         var position = Enumerable.Range(0, native.PartyCount).FirstOrDefault(i => native.GetPartySlotAtIndex(i) is { IsEgg: false, PartyStatsPresent: true }, -1);
         Assert.True(position >= 0, "The private save has no party member that is not an egg.");
         var noOp = native.Clone().Write().ToArray();
@@ -541,19 +531,38 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
         fixture.AssertUnchanged();
     }
 
-    /// <summary>The first writable boxed PK6 that is not an egg, since eggs are not edited.</summary>
-    private static SlotRef FirstWritableNonEgg(SaveFile save)
+    /// <summary>
+    /// The full published journey on each private save (TEST-004/005): opened through the picker and then a drop, one field of each group edited
+    /// across a boxed Pokémon and a party member, legality compared with native Core, applied, downloaded, reopened natively and in the app, and
+    /// the privacy trace checked with the save's own names as sentinels. The export matches native Core byte for byte. Values are withheld from messages.
+    /// </summary>
+    [TierTheory(TestCategory.RealSave)]
+    [MemberData(nameof(RealCases))]
+    public async Task RealSaveFullJourney(string engine, string prefix, string family)
     {
-        for (var i = 0; i < save.SlotCount; i++)
+        var fixture = RealSaves.Read(family);
+        var native = fixture.Native;
+        var plan = JourneyPlan.For(native);
+        var decoy = SaveFixtures.Synthetic(native is SAV6AO, customize: SaveFixtures.WithPartyMember("Decoy"));
+        var boxNames = native is IBoxDetailNameRead named ? Enumerable.Range(0, native.BoxCount).Select(named.GetBoxName).ToList() : [];
+
+        await using var session = await app.BootAsync(engine, prefix);
+        // A distinctive name rather than "main": the console check looks for it, and a common word could match unrelated text.
+        await PublishedJourney.RunAsync(session, plan, fixture.Bytes, "journey-private.sav", decoy, boxNames);
+        fixture.AssertUnchanged();
+
+        var evidence = TestEnvironment.Optional(TestEnvironment.Evidence);
+        if (evidence is not null)
         {
-            var slot = SlotRef.InBox(i / save.BoxSlotCount, i % save.BoxSlotCount);
-            var info = SaveFixtures.Slot(save, slot);
-            var pk = info.Read(save);
-            if (pk is PK6 { Species: not 0, ChecksumValid: true, IsEgg: false } && info.CanWriteTo(save) && info.CanWriteTo(save, pk) == WriteBlockedMessage.None)
+            Directory.CreateDirectory(evidence);
+            var result = new
             {
-                return slot;
-            }
+                family, engine, browserVersion = session.BrowserVersion, basePath = "/" + prefix, bootMs = session.BootMs, totalMs = session.ElapsedMs,
+                journey = true, fieldsets = plan.Steps.Select(s => Components.EditorFields.FieldsetOf(s.ControlId)).Distinct().Count(),
+                editedMatchesNative = true, reopened = true, originalUnchanged = true, privacyPassed = true,
+            };
+            var file = $"journey-{family}-{engine}-{(prefix.Length == 0 ? "root" : "subpath")}.json";
+            await File.WriteAllTextAsync(Path.Combine(evidence, file), JsonSerializer.Serialize(result));
         }
-        throw new InvalidOperationException("Real fixture contains no writable boxed PK6 that is not an egg.");
     }
 }

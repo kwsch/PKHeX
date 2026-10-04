@@ -329,6 +329,7 @@ public sealed class AppSession : IAsyncDisposable
         Root = root;
         BrowserVersion = browserVersion;
         page.PageError += (_, _) => Interlocked.Increment(ref pageErrors);
+        page.Console += (_, message) => ConsoleMessages.Enqueue(message.Text);
         page.Dialog += async (_, dialog) =>
         {
             Dialogs.Enqueue(dialog.Type);
@@ -391,6 +392,12 @@ public sealed class AppSession : IAsyncDisposable
     /// so tests that care whether one appeared, such as an unsaved-changes warning, assert on this list.
     /// </summary>
     public ConcurrentQueue<string> Dialogs { get; } = [];
+
+    /// <summary>
+    /// The text of every console message the page has written, for privacy checks that no save-derived value reaches the console. The text may
+    /// carry such values, so it is never put in an assertion message.
+    /// </summary>
+    public ConcurrentQueue<string> ConsoleMessages { get; } = [];
 
     /// <summary>
     /// Atomically swaps in empty recorders and returns what was recorded before: requests, responses,

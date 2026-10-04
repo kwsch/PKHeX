@@ -1981,6 +1981,85 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
     - **Stricter or different:** PKForge steps only within the current box or the party, in a read-only summary, does not skip bad eggs, and its editor's `SelectSlot` silently discards unapplied edits; ours crosses from the party through every box inside the editor and never replaces unapplied work. Its filter is accent-sensitive and uses hard-coded English `GameInfo` names; ours folds accents and punctuation and searches the session's `FilteredGameDataSource` lists. WinForms has no next/previous Pokémon and matches by prefix only (`AutoCompleteMode.SuggestAppend`).
     - **Not adopted:** L/R shoulder bindings (no keyboard shortcut was asked for), PKForge's "Show all" (HaX) filter, legal-first move ordering (`MoveChoiceOrder`, WinForms' `LegalMoveComboSource`: the UI never claims a move is learnable, WEB-PKM-011), and keyword search by type, category or learn method.
 - **M19 Full published journey E2E.** 3 engines × 2 paths with synthetic fixtures. Picker and drop → select box + party → edit one field from each group → legality → apply → export → reopen → assert fields plus unchanged bytes outside the slot and checksum regions. Privacy trace and keyboard-only run. The RealSave tier gets the same journey for local G-D runs (TEST-004/005).
+
+  **M19 status:** code complete on `web/m19-published-journey`. Tests only: no app code changed.
+  - **Choices made** (no user decision was needed):
+    - The family follows the hosting path: XY at the root and ORAS under `/PKHeX/`. Each engine therefore covers both families, and both an Invalid result (acknowledged before apply and download) and a Valid one, without running every journey twice.
+    - The keyboard run edits text fields and ticks checkboxes; it does not change selects. Type-ahead on a closed select differs between engines, and the full journey already covers every select.
+  - **Plan** (`JourneyPlan`, Core only):
+    - **Targets:** the first writable boxed PK6 that is not an egg, and the first party member that has party stats, is not an egg, can be either gender, is not Meowstic, has a first move, and has no more than 3 PP Ups on it. A save with no such member is refused with a message that carries no stored value.
+    - **The boxed Pokémon gets:** species (Zigzagoon↔Linoone, previewed and confirmed), nickname plus its flag, OT friendship (and HT friendship when there is a handler), nature, held item, and move 1 chosen through its search field.
+    - **The party member gets:** level, a Speed IV, an EV, the next ability slot, the other gender, and move 1's PP. It then follows the party-stat policy: stats recalculated, the stored status kept, HP never raised.
+    - Together the two cover all nine editor fieldsets. Each native recipe is the one the RealSave round trips already proved.
+    - `FirstWritableNonEgg`, `LevelStep`, `IvStep` and the EV choice moved here from `RealSaveBrowserTests`, so both tiers share one recipe.
+  - **Driver** (`PublishedJourney`), all steps in one session:
+    1. The picker opens a decoy, and a drop replaces it at once, since the decoy has no changes. `FileDrops` now holds the drop script that `FileInteropTests` had.
+    2. A no-op download equals native Core's output.
+    3. Each slot is edited, its legality is compared with native Core (verdict and report), and it is applied.
+    4. The edited download equals native Core's output byte for byte, with the stamped name. It reopens natively with both Pokémon byte-equal to the plan, and nothing differs outside the two slots and the checksum footer.
+    5. Reopened in the app through the picker (`#exit-continue`): every edited control holds its value, legality agrees with native Core again, and a no-op download gives back the same file.
+    6. Privacy trace:
+       - The page address never changes, and no dialog appears.
+       - No console message contains the typed nickname, the file name, the trainer name or the box names. `AppSession.ConsoleMessages` records message text only, and that text never reaches an assertion message.
+       - Nothing reaches the network or storage after boot, there are no page errors, and the given byte arrays are unchanged.
+  - **Tests.**
+    - **Unit 1215** (up from 1206; 1213 before the adversarial review): `JourneyPlanTests` (9 with cases).
+      - The steps reach exactly the nine fieldsets the editor renders (`fieldset[id]` through bUnit).
+      - Every step names a control the editor renders, including the search fields.
+      - Every step changes the value its control shows, and the name flag starts unticked (adversarial review).
+      - The native output reopens with both edits, changes nothing else, and keeps the party member's status and HP.
+      - A save with no editable party member is refused.
+    - **E2E 356** (up from 344). Every test executed (`trx-all-executed.sh`), with the default and sprite publishes; the full local run took 17 min.
+      - **`JourneyBrowserTests.FullJourneyMatchesNativeCore`** (3 engines × 2 paths): the journey above on a synthetic save with a sentinel box name and file name. A second fresh visit then opens only the decoy and selects a party member. It must make the same boot requests and none after (WEB-SEC-001).
+      - **`JourneyBrowserTests.KeyboardOnlyJourney`** (3 engines × 2 paths), using only key presses:
+        - Open the file input with Space and answer the file chooser.
+        - Enter on the party grid's tab stop; type the level and friendship; tick a shown acknowledgement with Space; Enter on Apply.
+        - Enter on the box grid's tab stop; type a nickname, which ticks the flag by itself.
+        - Tick the download acknowledgement, then Enter on Download. The download equals native Core's output.
+        - A counter of trusted pointer, mouse and touch presses must stay at 0.
+        - `TabToAsync` goes forward with Tab, or back with Shift+Tab when the control comes earlier in the page. WebKit adds Option, as in Safari.
+    - **RealSave 112** (up from 100): `RealSaveFullJourney` runs the same journey on the private XY and ORAS saves (dropped as `journey-private.sav`), with their trainer and box names as sentinels, and writes `journey-*.json` evidence (pass flags and the number of fieldsets only).
+    - **Mutation checks** (files restored from a scratchpad copy; app mutations published to a scratchpad folder; failing tests):
+
+      | Mutation | Failing tests |
+      | --- | --- |
+      | The journey skips the nature fieldset | 2 |
+      | The plan heals the party member (Unit, plus E2E Chromium: "The edited download differs from native Core") | 4 |
+      | The app writes the typed nickname to the console (E2E, Chromium: the privacy trace) | 2 |
+      | `#apply` taken out of the tab order (E2E, Chromium: "#apply could not be reached with the keyboard") | 2 |
+      | The keyboard run clicks Apply once (E2E, Chromium: the pointer counter) | 2 |
+      | The plan sets the nature it already has (adversarial review; passed every test before) | 4 (2 Unit, 2 E2E Chromium: "The nature step would not change the value shown") |
+
+    - **Other checks:** trim baseline unchanged (38); `PKHeX.slnx` Release has 0 warnings; no raw Bidi_Control characters in the changed files.
+  - **Found while writing:**
+    - Typing a nickname ticks the flag (`NameRules.FlagAfterTyping`), so pressing Space on it afterwards cleared it. The keyboard run now checks that the flag was ticked by typing.
+    - In Firefox, Tab past the last control moves focus into the browser's toolbar, and the page never gets it back. A forward-only search for an earlier control therefore failed; the helper now goes back with Shift+Tab, as a keyboard user would.
+  - **Adversarial review** (each finding shown by a probe or a surviving mutation first, then fixed; the throwaway probe was deleted):
+    - **Fixed:**
+      - **A step that changed nothing passed every test.** With the plan setting the nature the Pokémon already had, the Unit tests and the full E2E journey all passed: native Core's recipe was a no-op too, so the byte compare agreed, and the claim that every field group is edited was not enforced. On the private saves, nothing showed the recipes always change their field. The driver now checks that each control does not already show the step's value before acting, which covers the private saves too. `JourneyPlanTests.EveryStepChangesTheValueItsControlShows` checks the same on the synthetic saves. A probe of the synthetic saves showed every step changing its control (for example nature 5 → 3, PP 35 → 34).
+      - **The name flag step did not edit anything.** Typing the nickname already ticks "Is nicknamed", so `CheckAsync` was always a no-op. The step is now `JourneyAction.Ticked`: it checks the flag was ticked by typing, and the Unit guard checks it started unticked.
+      - **The private journey's file name was a weak sentinel.** It was dropped as "main", which the case-insensitive console check would match in any unrelated message containing the word. It is now `journey-private.sav`.
+      - **The keyboard run did not check the console,** although it types a nickname. It now checks the nickname, file name and box name.
+    - **Probed, holds:** the console-leak mutant (the app writing the typed nickname) fails the full journey in Firefox and WebKit as well as Chromium, and `#apply` out of the tab order fails the keyboard run in all three.
+    - **Checked, not changed:**
+      - The two visits' boot requests are made before any save is opened, so their equality only shows a deterministic boot. That nothing fetched depends on the save rests on the check that nothing is requested after boot, which both visits make. With sprites, `SpriteCatalogBrowserTests` already compares two saves' requests.
+      - `ProofPage.AssertOnlyRangeDiffers` exempts the last 0x200 bytes as the Gen 6 checksum footer, as every round trip before it does; the byte compare with native Core covers that range.
+    - After the fixes: Unit 1215; journey E2E 12 and RealSave journey 12 pass.
+  - **Review** (of the tests themselves):
+    - The healing mutation passed the legality comparisons, since Core's legality does not judge stored battle stats. The byte compare of the download caught it.
+    - The console check matches only values of at least 4 characters, so a short trainer name cannot match unrelated text. The synthetic and private saves have longer sentinels: the nickname and file name are always checked.
+    - The trace comparison covers boot requests only; that is enough, because nothing is requested after boot in either visit.
+  - **Not verified yet:**
+    - No hand drive of the published app beyond these browser runs: the keyboard-only journey is automated in Playwright, not done by hand.
+    - No screen reader; physical devices (G-C).
+    - The first CI run of the new tests.
+  - **Compared with PKForge** (`tests/PKForge.Engine.Tests/SaveRoundTripTests.cs`, `SaveWriteSafetyTests.cs`, `StatOrderAndNoOpEditTests.cs`):
+    - **Matches:** an unchanged round trip is byte-identical, and an edit is serialised, revalidated and reopened with the field kept (`EditThenSerializeRevalidatesAndPersistsField`, one nickname).
+    - **Stricter:**
+      - Ours runs through the shipped static app in three engines rather than the engine API, edits every field group across a box slot and a party member, and compares the whole file with native Core.
+      - PKForge's `ScopedWriteIsRefusedWhenAnUntargetedSlotChanges` checks that bytes outside the target slot are unchanged. We assert the same on every export, plus the party position.
+      - PKForge has no UI journey, keyboard, privacy-trace or accessibility tests.
+    - **Out of scope:** its emulator-container and ROM-hack write-safety cases.
 - **M20 Hosting + release.**
   - Checked-in `wwwroot/_headers` (Cloudflare: CSP, `nosniff`, referrer policy, immutable cache for fingerprinted assets, revalidate for `index.html` / boot json) and a meta-CSP fallback.
   - `PKHeX.Web/README.md` becomes a self-hosting guide (root + `/PKHeX/`, nginx/Apache snippets, no `file://`).

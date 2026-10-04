@@ -2,6 +2,7 @@ using Microsoft.Playwright;
 using PKHeX.Web.Services;
 using Xunit;
 using static Microsoft.Playwright.Assertions;
+using static PKHeX.Web.Tests.FileDrops;
 using static PKHeX.Web.Tests.ProofPage;
 
 namespace PKHeX.Web.Tests;
@@ -10,7 +11,7 @@ namespace PKHeX.Web.Tests;
 /// File drop, drop refusals, navigation guards and download naming in the published app (WEB-SAVE-001/002, WEB-SESSION-007).
 /// </summary>
 /// <remarks>
-/// Drops are dispatched in the page with a script-built <c>DataTransfer</c>, since Playwright cannot drag files from the OS.
+/// Drops are dispatched in the page with a script-built <c>DataTransfer</c> (<see cref="FileDrops"/>), since Playwright cannot drag files from the OS.
 /// Synthetic events never trigger browser navigation, so the guards are checked through <c>defaultPrevented</c> instead.
 /// Synthetic drops also skip the drag operation, whose <c>dropEffect</c> decides whether a drop happens at all, so link drops are
 /// additionally made with a real Playwright drag. Folders cannot be built in script, so directory refusal is checked by calling
@@ -20,26 +21,6 @@ namespace PKHeX.Web.Tests;
 [Trait(TestCategory.Name, TestCategory.E2E)]
 public sealed class FileInteropTests(PublishedAppFixture app)
 {
-    /// <summary>
-    /// Dispatches a drop on the first element matching <c>selector</c> and returns whether the page prevented the browser's default action.
-    /// Each file is <c>{ name, data }</c> with base64 data; <c>text</c>, when set, is added as a <c>text/uri-list</c> item.
-    /// </summary>
-    private const string DropScript = """
-        ({ selector, files, text }) => {
-            const dataTransfer = new DataTransfer();
-            for (const file of files) {
-                const binary = atob(file.data);
-                const bytes = new Uint8Array(binary.length);
-                for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-                dataTransfer.items.add(new File([bytes], file.name, { type: 'application/octet-stream' }));
-            }
-            if (text) dataTransfer.setData('text/uri-list', text);
-            const event = new DragEvent('drop', { dataTransfer, bubbles: true, cancelable: true });
-            document.querySelector(selector).dispatchEvent(event);
-            return event.defaultPrevented;
-        }
-        """;
-
     /// <summary>Adds a draggable element carrying a link, as if dragged from another page.</summary>
     private const string LinkSourceScript = """
         () => {
@@ -148,12 +129,4 @@ public sealed class FileInteropTests(PublishedAppFixture app)
         await session.AssertNoNetworkOrPersistenceAsync();
         Assert.True(session.PageErrors == 0, "Browser runtime errors occurred.");
     }
-
-    private static Task<bool> Drop(IPage page, string selector, (string Name, byte[] Data)[] files, string? text = null) =>
-        page.EvaluateAsync<bool>(DropScript, new
-        {
-            selector,
-            files = files.Select(f => new { name = f.Name, data = Convert.ToBase64String(f.Data) }).ToArray(),
-            text,
-        });
 }
