@@ -14,7 +14,7 @@ namespace PKHeX.Web.Interop;
 /// </remarks>
 public sealed class BrowserFileService(IJSRuntime js) : IAsyncDisposable
 {
-    /// <summary>Size of each chunk copied while streaming a file.</summary>
+    /// <summary>First buffer size when a stream sends more than its declared length (or none was declared); the buffer doubles from there.</summary>
     private const int ChunkSize = 81920;
 
     private readonly BrowserModule browser = new(js);
@@ -45,7 +45,7 @@ public sealed class BrowserFileService(IJSRuntime js) : IAsyncDisposable
         {
             // The browser's declared size is not trusted on its own: ReadBoundedAsync counts the bytes it actually receives.
             await using var stream = file.OpenReadStream(SaveLoader.MaxInputBytes, cancellationToken);
-            return await ReadBoundedAsync(stream, name, SaveLoader.MaxInputBytes, cancellationToken);
+            return await ReadBoundedAsync(stream, name, SaveLoader.MaxInputBytes, cancellationToken, file.Size);
         }
         catch (Exception) when (!cancellationToken.IsCancellationRequested)
         {
@@ -57,31 +57,56 @@ public sealed class BrowserFileService(IJSRuntime js) : IAsyncDisposable
     /// <summary>
     /// Copies <paramref name="stream"/> into memory, stopping as soon as more than <paramref name="maxBytes"/> bytes have arrived.
     /// </summary>
+    /// <remarks>
+    /// The bytes are read straight into one array sized from <paramref name="declaredLength"/>, which is handed over as it is, so a file the
+    /// browser sized correctly is held once. WebAssembly memory never shrinks, so every extra copy of a large file would raise the page's memory
+    /// for the rest of the session. The declared length is only a starting size: the limit is enforced on the bytes actually received, and
+    /// the array grows (or is trimmed) when the stream sends more (or fewer) bytes than declared.
+    /// </remarks>
     /// <param name="stream">Source stream; it is not disposed.</param>
     /// <param name="fileName">Sanitised name to carry into the result.</param>
     /// <param name="maxBytes">Largest accepted length.</param>
     /// <param name="cancellationToken">Cancels the read.</param>
+    /// <param name="declaredLength">The length the browser reported for the file, or 0 when unknown.</param>
     /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was cancelled.</exception>
-    internal static async Task<FileReadResult> ReadBoundedAsync(Stream stream, string fileName, int maxBytes, CancellationToken cancellationToken = default)
+    internal static async Task<FileReadResult> ReadBoundedAsync(Stream stream, string fileName, int maxBytes, CancellationToken cancellationToken = default, long declaredLength = 0)
     {
         try
         {
-            using var buffer = new MemoryStream();
-            var chunk = new byte[ChunkSize];
-            int read;
-            while ((read = await stream.ReadAsync(chunk, cancellationToken)) > 0)
+            var buffer = new byte[(int)Math.Clamp(declaredLength, 0, maxBytes)];
+            var length = 0;
+            while (true)
             {
-                if (buffer.Length + read > maxBytes)
+                if (length == buffer.Length)
                 {
-                    return FileReadResult.Failed(FileReadStatus.TooLarge, fileName);
+                    if (length == maxBytes)
+                    {
+                        // The buffer holds the limit: one more byte means the file is too large.
+                        var probe = new byte[1];
+                        if (await stream.ReadAsync(probe, cancellationToken) > 0)
+                        {
+                            return FileReadResult.Failed(FileReadStatus.TooLarge, fileName);
+                        }
+                        break;
+                    }
+                    Array.Resize(ref buffer, (int)Math.Min(Math.Max(2L * buffer.Length, ChunkSize), maxBytes));
                 }
-                buffer.Write(chunk, 0, read);
+                var read = await stream.ReadAsync(buffer.AsMemory(length), cancellationToken);
+                if (read == 0)
+                {
+                    break;
+                }
+                length += read;
             }
-            if (buffer.Length == 0)
+            if (length == 0)
             {
                 return FileReadResult.Failed(FileReadStatus.Empty, fileName);
             }
-            return new FileReadResult(FileReadStatus.Ok, fileName, buffer.ToArray());
+            if (length != buffer.Length)
+            {
+                Array.Resize(ref buffer, length);
+            }
+            return new FileReadResult(FileReadStatus.Ok, fileName, buffer);
         }
         catch (Exception) when (!cancellationToken.IsCancellationRequested)
         {

@@ -105,6 +105,25 @@ internal static class SaveFixtures
         save.SetPartySlotAtIndex(entity, position, EntityImportSettings.None);
     };
 
+    /// <summary>
+    /// The largest workload the release admits: a synthetic XY or ORAS save with every box slot filled from <see cref="LegalityCorpus"/>
+    /// (cycled in order) and all six party positions holding the known legal PK6. Box 1, slot 1 still holds the known entity <see cref="Synthetic"/> writes.
+    /// </summary>
+    /// <remarks>Both families have the same box count and box size, and their raw saves are a fixed size, so a full ORAS save is the largest admitted input.</remarks>
+    public static byte[] Full(bool oras)
+    {
+        var corpus = LegalityCorpus();
+        var party = Enumerable.Range(0, SlotRef.PartyPositions).Select(p => WithPartyMember($"Party{p + 1}", position: p));
+        return Synthetic(oras, customize: All([.. party, save =>
+        {
+            var slots = save.BoxCount * save.BoxSlotCount;
+            for (var i = 0; i < slots; i++)
+            {
+                save.SetBoxSlotAtIndex(new PK6(corpus[i % corpus.Count].Data.ToArray()), i / save.BoxSlotCount, i % save.BoxSlotCount, EntityImportSettings.None);
+            }
+        }]));
+    }
+
     /// <summary>Applies each customisation in turn, e.g. to fill several party positions.</summary>
     public static Action<SaveFile> All(params Action<SaveFile>[] customizations) => save =>
     {

@@ -2151,6 +2151,86 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
     - **Out of scope:** PKForge has no web hosting, headers or self-hosting guide to compare. Its Android signing and store release are out of Web scope.
 - **M21 Qualification + support report.** Memory/peak measurements on the largest admitted fixture and a repeated-session trend (PERF-002). Name the reference desktop (CPU model, memory, OS, browser), run the F8 `Perf` tier on it, and record the WEB-PERF-001 verdict against the `PKHeX.Web.md` startup targets: met, or a documented, scoped limitation. Physical-device runs come from G-C (BROWSER-001/002). Update `PKHeX.Web.md` status/compatibility matrix (XY/ORAS → **P** only where proven) and publish a support report modelled on `PKHeX.Web.WasmProof.md`.
 
+  **M21 status:** code complete on `web/m21-qualification`. The support report is `PKHeX.Web.SupportReport.md`.
+  - **User decisions:**
+    - The reference desktop is this Mac (Apple M4, 10 logical CPUs, 16 GiB, macOS 26.5) with the installed Google Chrome 154.0.8037.93, driven headless by Playwright through a channel. The Playwright builds are measured alongside.
+    - G-C is reduced scope. The claim is desktop only: Safari (macOS), iPadOS and Android are listed as not qualified, and the report carries the device checklist.
+    - Refusing a file at the 16 MiB limit cost a lot of memory (below). The read path is fixed in this chunk rather than documented or capped.
+  - **Perf tier, new and changed:**
+    - `PerfBrowser`: one launch helper for every Perf harness. `PKHEX_WEB_PERF_CHANNEL` (validated against Playwright's Chromium channels) runs the Chromium rows on an installed release browser; CI leaves it unset. Reports name the browser by its channel (`chrome`).
+    - `MemoryBaseline` (WEB-PERF-002), on `SaveFixtures.Full(true)`, a full ORAS save (every box slot and party position, 936 entities). It reads the .NET runtime's WebAssembly memory through the public `getDotnetRuntime(0).localHeapViewU8()`, in all three engines. That memory never shrinks, so each reading is the peak so far. Chromium also gives its JS heap after a forced collection (CDP).
+      - Steps: shell, open, edit and apply, download and close.
+      - Repeated sessions in one page: 40 by default, `PKHEX_WEB_PERF_SESSIONS` to change it.
+      - Then two refusals at the read limit.
+      - Native accounting of the same Web code (bytes allocated per step, as copies of the input).
+      - The atlas's decoded size from its PNG header.
+    - `BoxNavigationTiming` (WEB-BOX-008): every box of the full save, Next and back after an unrecorded lap, timed in the page from the click to the render of the new box heading. It checks that the heading names the expected box and that no request reaches the host.
+    - `LegalityTiming` takes its saves, slots and engines as parameters. `RealSaveLegalityTimingTests` (RealSave, in the non-parallel collection) times every slot the private saves let the user open, in Chromium only (or the channel browser): about six minutes, against twenty for all three engines. Its report gives positions and verdicts only, goes to the test output, and goes to `PKHEX_WEB_PERF_REPORT` when set.
+    - CI appends the memory and box reports to the run summary. The tier now takes about six minutes, on pushes only.
+  - **App change:** `BrowserFileService.ReadBoundedAsync` reads straight into one array sized from the declared length (clamped to the limit) and hands it over. It grows on a stream that sends more, trims on one that sends less, and probes one byte at the limit. The old `MemoryStream` + `ToArray` allocated 56 MiB for a 16 MiB file (3.5×); now 16 MiB. In the browser, the peak after refusing a 16 MiB file fell from about 228 to about 190 MiB (measured with the refusals before the repeated sessions).
+  - **Results on the reference desktop** (details in the support report):
+    - **PERF-001:** Chrome cold 2947 ms and warm 622 ms on 20 Mbps / 50 ms, so both targets are met. 62 files and 5.49 MiB Brotli per cold boot.
+    - **BOX-008:** p95 4–7 ms, max 11 ms, against 100 ms.
+    - **PERF-004:**
+      - Synthetic corpus: warm p95 37–45 ms.
+      - Private saves (968 slots): warm p95 17–20 ms, max 73 ms.
+      - First analysis per page: 267–355 ms.
+      - Every verdict equals native Core's.
+    - **PERF-002:**
+      - 106–111 MiB after the first full session; settled at 153–161 MiB over repeated sessions.
+      - 100 sessions: one ~26 MiB step by session 15, then flat.
+      - The Chrome JS heap creeps about 15 KiB per session.
+      - A refused 16 MiB file raises the peak to 222–272 MiB (scoped limitation; the rest is Blazor's stream transfer and the loader's two required copies).
+      - The atlas is about 27 MiB decoded.
+  - **Docs:**
+    - `PKHeX.Web.md`: the status line, the risk row, and the XY/ORAS row is now **P** on desktop only, replacing "No row has P today".
+    - `PKHeX.Web/README.md`: the performance section, with the new variables and the gated real-save timing.
+    - The support report has the MVP exit audit mapping every Must/MVP story to its chunk and tests.
+  - **Found while measuring:**
+    - **The refusals hid the trend.** Run first, the 16 MiB refusal's high-water mark covered the repeated sessions, so they looked flat whatever happened. With the refusals moved last, the sessions grew. The refusals now always come last.
+    - **The first trend rules were wrong.** A share of the second half, and then "more than one step", each flagged runs that were in fact one or two heap steps followed by a plateau. A 100-session probe showed every engine settling at the same level. The rule now flags growth in the last quarter of the run, and the report says what it cannot rule out (retention below one ~26 MiB step).
+    - The first native accounting threw `ExportNotAcknowledged`: the edited corpus entity is Invalid, so the export needs the acknowledgement, as in the page.
+  - **Tests:**
+    - **Unit 1338** (up from 1296): `PerfReportTests` (channel parsing, growth sessions and the flag, memory, box and legality Markdown, JSON round trip, native accounting of the full save, the atlas header, the full fixture, session parsing) and `BrowserFileServiceTests` (declared length right, low, over the limit or absent; trimmed; one byte over; one allocation).
+    - **E2E 367** and **RealSave 113** (112 before plus the real-save timing, about six minutes on Chrome: warm p95 20 ms) pass on this commit, every test executed.
+    - **Perf 4** on Chrome and on the Playwright builds; the real-save timing on Chrome.
+  - **Mutation checks** (files restored from a scratchpad copy; failing tests):
+
+    | Mutation | Failing tests |
+    | --- | --- |
+    | The read copies the buffer again (`ToArray`) | 1 |
+    | No one-byte probe at the limit | 2 |
+    | Growth in the last quarter never flagged | 3 |
+    | Equal readings counted as growth | 8 |
+    | Channel not validated | 3 |
+    | Channel applied to every engine | 1 |
+    | A native step not recorded | 1 |
+    | Atlas height read from the width | 1 |
+    | The full fixture without its party | 1 |
+    | Box timing stops at the click, not the render (Perf, Chromium) | 1 |
+
+  - **Other checks:** trim baseline unchanged (38); `PKHeX.slnx` Release has 0 warnings; the workflow is actionlint-clean; no raw Bidi_Control characters in the changed files.
+  - **First review** (inline, while measuring): the refusals masking the trend, and the two trend rules, above. The memory report's units: small steps showed as "0.0 MiB" (now KiB), and copies were counted against the save even for the 16 MiB file (now against each step's input).
+  - **Adversarial review** (every "Met" in the support report traced to a number in a report file of this commit's runs, and the tooling the change touches re-run):
+    - **Fixed:**
+      - **The Windows parity job would have failed.** The real-save timing had been gated on `RealSave` and `Perf` together, with a two-tier `TierFactAttribute`. Its skip reason ("Opt-in tiers; set …=RealSave,Perf …") does not match `trx-check-opt-in-skips.ps1`'s pattern, which azure-parity applies to every unopted run, so the job would fail on its first push. A RealSave-only run also always held one skipped test, which `trx-all-executed.sh` rejects. Shown by applying the script's pattern to a TRX of an unopted run (no `pwsh` here). The two-tier attribute is gone. The timing is a plain RealSave test in one engine (see above), and its skip now matches.
+      - **The report's memory ranges came from one run.** Across the four runs the first session is 106–111 MiB, the settled level 153–161 MiB and the refused 16 MiB file 222–272 MiB. The report had 109–111, 156–160 and 225–272, and an earlier note here claimed every step varied by under 10 MiB, which the refusal does not.
+      - **The support claim named Chrome,** but only the Perf tier ran on Chrome 154. The E2E and RealSave tiers ran on Playwright's Chromium 153. The claim now names the Chromium engine, Firefox and the WebKit engine, and says what ran where (`PKHeX.Web.md` too).
+      - **Box timing was on the default publish only.** The report now says the unshipped sprite publish was not timed.
+    - **Checked, not changed:**
+      - The read now allocates the declared length up front, up to the limit, before the bytes arrive. A local `File`'s size is the browser's own and is checked against the limit first, so this costs no more than a real file of that size.
+      - Each memory configuration is one run, not a median. Across four runs (Chrome and the Playwright builds, 40 and 100 sessions), each session step varied by up to 10 MiB and the settled level stayed at 153–161 MiB. The refusal's peak varied far more (222–272 MiB), with how much of the heap earlier sessions left free, so the report gives it as a range.
+      - The box timing ends at the render that changes the heading. Blazor applies one render's changes together, so the grid is in place by then, but the paint after it is not included.
+  - **Not verified yet:**
+    - Physical devices (G-C): no memory, file-provider or eviction run on an iPad, Android or Safari.
+    - No screen reader.
+    - Edge is not claimed.
+    - No Cloudflare deployment.
+    - The first GitHub run of the extended Perf step.
+  - **Compared with PKForge:**
+    - **Different:** PKForge's README claims every mainline generation, the side games and romhacks, with no per-family qualification record, and it has no memory or startup measurement. We claim raw XY/ORAS on named desktop browsers only, each verdict tied to a measured report, and list what is not qualified.
+    - **Out of scope:** Android device and emulator support.
+
 MVP exit = every "Must / MVP" story in `PKHeX.Web.md` §Prioritised implementation matrix is covered by a chunk above and its test, and gates G-B/G-C are resolved or documented as reduced scope.
 
 ## Verification (every chunk)

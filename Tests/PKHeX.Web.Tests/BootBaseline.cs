@@ -75,7 +75,8 @@ internal static class BootBaseline
     /// <summary>Measures every configuration <paramref name="runs"/> times against the publish at <paramref name="published"/>.</summary>
     /// <param name="published">The Release publish <c>wwwroot</c>.</param>
     /// <param name="runs">Measured cold/warm pairs per configuration, after one unrecorded pair.</param>
-    public static async Task<BootBaselineResult> MeasureAsync(string published, int runs)
+    /// <param name="channel">Installed Chromium channel to measure instead of Playwright's Chromium (<see cref="PerfBrowser.ParseChannel"/>), or null.</param>
+    public static async Task<BootBaselineResult> MeasureAsync(string published, int runs, string? channel = null)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(runs, 1);
         var root = Path.GetFullPath(published);
@@ -89,18 +90,14 @@ internal static class BootBaseline
         JsonElement? build = null;
         foreach (var (engine, throttled) in configurations)
         {
-            var type = engine switch
-            {
-                "chromium" => playwright.Chromium,
-                "firefox" => playwright.Firefox,
-                "webkit" => playwright.Webkit,
-                _ => throw new ArgumentOutOfRangeException(nameof(engine), engine, null),
-            };
+            var type = PerfBrowser.TypeOf(playwright, engine);
+            var launchChannel = PerfBrowser.ChannelFor(engine, channel);
+            var name = PerfBrowser.Label(engine, channel);
             var cold = new List<BootSample>();
             var warm = new List<BootSample>();
             var network = throttled ? ThrottledProfile : "loopback";
             string version;
-            await using (var browser = await type.LaunchAsync(new() { Headless = true }))
+            await using (var browser = await PerfBrowser.LaunchAsync(playwright, engine, channel))
             {
                 // A persistent context has no browser object to ask.
                 version = browser.Version;
@@ -113,9 +110,9 @@ internal static class BootBaseline
                 for (var run = 0; run <= runs; run++)
                 {
                     var profile = Path.Combine(profiles.FullName, run.ToString(System.Globalization.CultureInfo.InvariantCulture));
-                    var (coldSample, coldLog) = await BootInProfileAsync(type, profile, host, throttled, $"{engine} ({network}) run {run} cold",
+                    var (coldSample, coldLog) = await BootInProfileAsync(type, launchChannel, profile, host, throttled, $"{name} ({network}) run {run} cold",
                         async page => build ??= await page.EvaluateAsync<JsonElement>(ReadBuild));
-                    var (warmSample, _) = await BootInProfileAsync(type, profile, host, throttled, $"{engine} ({network}) run {run} warm", null);
+                    var (warmSample, _) = await BootInProfileAsync(type, launchChannel, profile, host, throttled, $"{name} ({network}) run {run} warm", null);
                     if (run == 0)
                     {
                         continue;
@@ -129,7 +126,7 @@ internal static class BootBaseline
             {
                 DeleteProfiles(profiles);
             }
-            results.Add(new(engine, version, throttled, cold, warm));
+            results.Add(new(name, version, throttled, cold, warm));
         }
 
         var reported = build!.Value;
@@ -138,11 +135,12 @@ internal static class BootBaseline
     }
 
     /// <summary>
-    /// Launches <paramref name="type"/> on the persistent <paramref name="profile"/>, boots once and closes the browser, so the next launch on the profile starts a new process.
+    /// Launches <paramref name="type"/> (from <paramref name="channel"/>, if given) on the persistent <paramref name="profile"/>, boots once and
+    /// closes the browser, so the next launch on the profile starts a new process.
     /// </summary>
-    private static async Task<(BootSample Sample, IReadOnlyList<StaticHost.ServedResponse> Log)> BootInProfileAsync(IBrowserType type, string profile, StaticHost host, bool throttled, string label, Func<IPage, Task>? afterReady)
+    private static async Task<(BootSample Sample, IReadOnlyList<StaticHost.ServedResponse> Log)> BootInProfileAsync(IBrowserType type, string? channel, string profile, StaticHost host, bool throttled, string label, Func<IPage, Task>? afterReady)
     {
-        await using var context = await type.LaunchPersistentContextAsync(profile, new() { Headless = true });
+        await using var context = await type.LaunchPersistentContextAsync(profile, new() { Headless = true, Channel = channel });
         await context.AddInitScriptAsync(ShellReadyRecorder);
         return await BootAsync(context, host, throttled, label, afterReady);
     }

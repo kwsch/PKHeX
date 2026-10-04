@@ -77,6 +77,48 @@ public sealed class BrowserFileServiceTests
         await read.Should().ThrowAsync<OperationCanceledException>();
     }
 
+    [Theory]
+    [InlineData(Limit)] // declared correctly
+    [InlineData(1000)] // the stream sends more than declared
+    [InlineData(Limit * 3)] // declared over the limit; the bytes received are what count
+    [InlineData(0)] // nothing declared
+    public async Task ReadsWhatArrivesWhateverWasDeclared(long declared)
+    {
+        var data = Enumerable.Range(0, Limit).Select(i => (byte)(i * 7)).ToArray();
+        var result = await BrowserFileService.ReadBoundedAsync(new UnseekableStream(data), "main", Limit, declaredLength: declared);
+        result.Status.Should().Be(FileReadStatus.Ok);
+        result.Bytes.Should().Equal(data);
+    }
+
+    [Fact]
+    public async Task TrimsAFileShorterThanDeclared()
+    {
+        var result = await BrowserFileService.ReadBoundedAsync(new UnseekableStream([1, 2, 3]), "main", Limit, declaredLength: 10);
+        result.Status.Should().Be(FileReadStatus.Ok);
+        result.Bytes.Should().Equal(1, 2, 3);
+    }
+
+    [Fact]
+    public async Task OneByteOverADeclaredLimitIsTooLarge()
+    {
+        var result = await BrowserFileService.ReadBoundedAsync(new UnseekableStream(new byte[Limit + 1]), "main", Limit, declaredLength: Limit);
+        result.Status.Should().Be(FileReadStatus.TooLarge);
+    }
+
+    [Fact]
+    public async Task AFileSizedAsDeclaredIsHeldOnce()
+    {
+        // WebAssembly memory never shrinks, so each extra copy of a large file raises the page's memory for good (WEB-PERF-002).
+        const int size = 4 * 1024 * 1024;
+        var stream = new MemoryStream(new byte[size]);
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        // A memory stream completes synchronously, so the awaited read finishes on this thread before the count is taken.
+        var result = await BrowserFileService.ReadBoundedAsync(stream, "main", size, declaredLength: size);
+        var allocated = GC.GetAllocatedBytesForCurrentThread() - before;
+        result.Status.Should().Be(FileReadStatus.Ok);
+        allocated.Should().BeLessThan(size + (size / 8), "the bytes are read into one array and handed over without another copy");
+    }
+
     [Fact]
     public async Task ReportsEmptyStream()
     {

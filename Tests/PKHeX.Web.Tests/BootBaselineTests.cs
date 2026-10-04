@@ -39,7 +39,9 @@ public sealed class BootBaselineTests(ITestOutputHelper output)
         var reportDirectory = Path.GetFullPath(TestEnvironment.Required(TestEnvironment.PerfReport));
         var runs = ParseRuns(TestEnvironment.Optional(TestEnvironment.PerfRuns));
 
-        var result = await BootBaseline.MeasureAsync(published, runs);
+        var channel = PerfBrowser.ParseChannel(TestEnvironment.Optional(TestEnvironment.PerfChannel));
+
+        var result = await BootBaseline.MeasureAsync(published, runs, channel);
 
         var markdown = BootBaselineReport.ToMarkdown(result);
         Directory.CreateDirectory(reportDirectory);

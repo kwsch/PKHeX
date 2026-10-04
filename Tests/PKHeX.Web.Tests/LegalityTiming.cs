@@ -8,7 +8,7 @@ using PKHeX.Web.State;
 namespace PKHeX.Web.Tests;
 
 /// <summary>One timed analysis: how long the legality panel was busy, from marking the run to showing its verdict.</summary>
-/// <param name="Fixture">The corpus file analysed.</param>
+/// <param name="Fixture">The corpus file analysed, or for a private save only the slot's position.</param>
 /// <param name="Family">"XY" or "ORAS", the save the entity was opened in.</param>
 /// <param name="Verdict">The verdict the page showed.</param>
 /// <param name="Milliseconds">Busy time in the page, including the wait for one paint and the final render.</param>
@@ -17,12 +17,21 @@ internal sealed record LegalitySample(string Fixture, string Family, string Verd
 /// <summary>Timings of one engine: the first analysis of the page (which loads Core's legality tables) and every later one.</summary>
 internal sealed record LegalityEngineTiming(string Engine, string BrowserVersion, LegalitySample First, IReadOnlyList<LegalitySample> Warm);
 
-/// <summary>The legality timing run: environment, the corpus size, and the timings per engine.</summary>
-internal sealed record LegalityTimingResult(BootEnvironment Environment, int CorpusSize, IReadOnlyList<LegalityEngineTiming> Engines);
+/// <summary>The legality timing run: environment, what was analysed, and the timings per engine.</summary>
+/// <param name="Corpus">One sentence saying what was analysed, for the report.</param>
+/// <param name="CorpusSize">Analyses per engine.</param>
+internal sealed record LegalityTimingResult(BootEnvironment Environment, string Corpus, int CorpusSize, IReadOnlyList<LegalityEngineTiming> Engines);
+
+/// <summary>A save to open in the page and the slots of it to analyse, each with the name it is reported under.</summary>
+/// <param name="Family">"XY" or "ORAS".</param>
+/// <param name="Bytes">The file opened in the page.</param>
+/// <param name="Native">The same file opened natively, for the expected verdicts.</param>
+/// <param name="Slots">The slots analysed, in order, with their report names.</param>
+internal sealed record TimedSave(string Family, byte[] Bytes, SaveSession Native, IReadOnlyList<(string Name, SlotRef Slot)> Slots);
 
 /// <summary>
-/// Times the selected-entity legality analysis in the published app (WEB-PERF-004), for each engine on loopback, over every PK6 in Core's
-/// legality test fixtures, opened in an XY and an ORAS save.
+/// Times the selected-entity legality analysis in the published app (WEB-PERF-004), for each engine on loopback: over every PK6 in Core's
+/// legality test fixtures, opened in an XY and an ORAS save, or over every occupied slot of the private real saves.
 /// </summary>
 /// <remarks>
 /// Each slot is opened as a user would, and the analysis runs through the app's idle-delay path. The time is measured in the page from the
@@ -65,28 +74,34 @@ internal static class LegalityTiming
         }
         """;
 
-    /// <summary>Measures every engine against the publish at <paramref name="published"/>.</summary>
-    public static async Task<LegalityTimingResult> MeasureAsync(string published)
+    /// <summary>Measures every engine against the publish at <paramref name="published"/> over Core's legality test fixtures.</summary>
+    /// <param name="published">The Release publish <c>wwwroot</c>.</param>
+    /// <param name="channel">Installed Chromium channel to measure instead of Playwright's Chromium (<see cref="PerfBrowser.ParseChannel"/>), or null.</param>
+    public static Task<LegalityTimingResult> MeasureAsync(string published, string? channel = null)
     {
         var corpus = SaveFixtures.LegalityCorpus();
-        (string Family, byte[] Bytes, SaveSession Native)[] saves =
-        [
-            Save(false, corpus),
-            Save(true, corpus),
-        ];
+        var slots = corpus.Select((c, i) => (c.Name, SlotRef.InBox(0, i + 1))).ToList();
+        TimedSave[] saves = [Synthetic(false, corpus, slots), Synthetic(true, corpus, slots)];
+        var description = $"Every PK6 in Core's legality test fixtures ({corpus.Count}), opened in an XY and an ORAS save, analysed once each";
+        return MeasureAsync(published, channel, saves, description);
+    }
+
+    /// <summary>Measures every engine against the publish at <paramref name="published"/> over the slots of <paramref name="saves"/>.</summary>
+    /// <param name="published">The Release publish <c>wwwroot</c>.</param>
+    /// <param name="channel">Installed Chromium channel, or null.</param>
+    /// <param name="saves">The saves to open, in order, each with the slots to analyse.</param>
+    /// <param name="corpus">What was analysed, for the report, without any saved value.</param>
+    /// <param name="engines">The engines to measure, in order; all of <see cref="PerfBrowser.Engines"/> when null.</param>
+    public static async Task<LegalityTimingResult> MeasureAsync(string published, string? channel, IReadOnlyList<TimedSave> saves, string corpus, IReadOnlyList<string>? engines = null)
+    {
         using var host = new StaticHost(Path.GetFullPath(published), deploymentCaching: true);
         using var playwright = await Playwright.CreateAsync();
-        var engines = new List<LegalityEngineTiming>();
+        var timings = new List<LegalityEngineTiming>();
         JsonElement? build = null;
-        foreach (var engine in new[] { "chromium", "firefox", "webkit" })
+        foreach (var engine in engines ?? PerfBrowser.Engines)
         {
-            var type = engine switch
-            {
-                "chromium" => playwright.Chromium,
-                "firefox" => playwright.Firefox,
-                _ => playwright.Webkit,
-            };
-            await using var browser = await type.LaunchAsync(new() { Headless = true });
+            var name = PerfBrowser.Label(engine, channel);
+            await using var browser = await PerfBrowser.LaunchAsync(playwright, engine, channel);
             var page = await browser.NewPageAsync();
             var pageErrors = 0;
             page.PageError += (_, _) => Interlocked.Increment(ref pageErrors);
@@ -95,30 +110,30 @@ internal static class LegalityTiming
             build ??= await page.EvaluateAsync<JsonElement>(BootBaseline.ReadBuild);
 
             var samples = new List<LegalitySample>();
-            foreach (var (family, bytes, native) in saves)
+            foreach (var save in saves)
             {
-                await ProofPage.Load(page, bytes, $"timing-{family}");
+                await ProofPage.Load(page, save.Bytes, $"timing-{save.Family}");
                 await page.Locator("#session-state").WaitForAsync();
-                for (var i = 0; i < corpus.Count; i++)
+                foreach (var (fixture, slot) in save.Slots)
                 {
-                    samples.Add(await TimeSlotAsync(page, engine, family, corpus[i].Name, native, SlotRef.InBox(0, i + 1)));
+                    samples.Add(await TimeSlotAsync(page, name, save.Family, fixture, save.Native, slot));
                 }
             }
             if (pageErrors != 0)
             {
-                throw new InvalidOperationException($"{engine}: {pageErrors} page errors during legality timing.");
+                throw new InvalidOperationException($"{name}: {pageErrors} page errors during legality timing.");
             }
-            engines.Add(new(engine, browser.Version, samples[0], samples.Skip(1).ToList()));
+            timings.Add(new(name, browser.Version, samples[0], samples.Skip(1).ToList()));
         }
         var reported = build!.Value;
         var environment = BootBaseline.DescribeEnvironment(reported.GetProperty("version").GetString()!, reported.GetProperty("commit").GetString()!);
-        return new(environment, corpus.Count, engines);
+        return new(environment, corpus, saves.Sum(s => s.Slots.Count), timings);
     }
 
-    private static (string, byte[], SaveSession) Save(bool oras, IReadOnlyList<(string Name, byte[] Data)> corpus)
+    private static TimedSave Synthetic(bool oras, IReadOnlyList<(string Name, byte[] Data)> corpus, IReadOnlyList<(string, SlotRef)> slots)
     {
         var bytes = SaveFixtures.Synthetic(oras, customize: SaveFixtures.WithBoxEntities(corpus.Select(c => c.Data)));
-        return (oras ? "ORAS" : "XY", bytes, SaveFixtures.Open(bytes));
+        return new(oras ? "ORAS" : "XY", bytes, SaveFixtures.Open(bytes), slots);
     }
 
     /// <summary>Opens <paramref name="slot"/>, waits for its verdict, checks it against native Core and returns the busy time.</summary>
@@ -158,7 +173,7 @@ internal static class LegalityTiming
         sb.AppendLine();
         sb.AppendLine(invariant, $"PKHeX.Web {env.WebVersion} ({env.SourceCommit}), measured {env.MeasuredUtc} UTC on {env.Processor} ({env.ProcessorCount} logical CPUs), {env.OperatingSystem} {env.Architecture}{(env.ContinuousIntegration is { } ci ? $", {ci}" : "")}.");
         sb.AppendLine();
-        sb.AppendLine(invariant, $"Every PK6 in Core's legality test fixtures ({result.CorpusSize}), opened in an XY and an ORAS save, analysed once each through the app's idle-delay path on loopback. Time is how long the panel was busy: one paint wait, Core's synchronous analysis and the render. The first analysis of each page loads Core's legality tables and is shown apart. The target (p95 ≤ {TargetP95Ms:F0} ms, `PKHeX.Web.md`) is not enforced here.");
+        sb.AppendLine(invariant, $"{result.Corpus}, through the app's idle-delay path on loopback. Time is how long the panel was busy: one paint wait, Core's synchronous analysis and the render. The first analysis of each page loads Core's legality tables and is shown apart. The target (p95 ≤ {TargetP95Ms:F0} ms, `PKHeX.Web.md`) is not enforced here.");
         sb.AppendLine();
         sb.AppendLine("| Engine | First analysis | Warm p50 | Warm p95 | Warm max | Warm over 200 ms | Samples |");
         sb.AppendLine("|---|---:|---:|---:|---:|---:|---:|");
@@ -171,7 +186,7 @@ internal static class LegalityTiming
         sb.AppendLine();
         sb.AppendLine("Slowest warm analyses:");
         sb.AppendLine();
-        sb.AppendLine("| Engine | Save | Fixture | Verdict | Time |");
+        sb.AppendLine("| Engine | Save | Analysed | Verdict | Time |");
         sb.AppendLine("|---|---|---|---|---:|");
         foreach (var engine in result.Engines)
         {

@@ -91,7 +91,7 @@ internal static class BootBaselineReport
             sb.AppendLine($"| CI | {env.ContinuousIntegration} |");
         }
         sb.AppendLine($"| Test runtime | {env.Runtime}, Playwright {env.Playwright} |");
-        sb.AppendLine($"| Browsers (Playwright, headless) | {string.Join(", ", result.Configurations.DistinctBy(c => c.Engine).Select(c => $"{c.Engine} {c.BrowserVersion}"))} |");
+        sb.AppendLine($"| Browsers (headless; Playwright builds, or the installed browser when named by its channel, e.g. `chrome`) | {string.Join(", ", result.Configurations.DistinctBy(c => c.Engine).Select(c => $"{c.Engine} {c.BrowserVersion}"))} |");
         sb.AppendLine();
 
         sb.AppendLine($"### Usable shell (median, min–max of {result.Runs} runs)");

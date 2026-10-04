@@ -37,11 +37,23 @@ internal static class TestEnvironment
     /// <summary>Optional directory for sanitised real-save evidence JSON.</summary>
     public const string Evidence = "PKHEX_PROOF_EVIDENCE";
 
-    /// <summary>Directory the <see cref="TestCategory.Perf"/> tier writes <c>boot-baseline.md</c> and <c>boot-baseline.json</c> to.</summary>
+    /// <summary>Directory the <see cref="TestCategory.Perf"/> tier writes its reports to (<c>boot-baseline.md</c>, <c>memory-baseline.md</c> and so on, each with a JSON copy).</summary>
     public const string PerfReport = "PKHEX_WEB_PERF_REPORT";
 
     /// <summary>Optional number of measured boots per configuration in the <see cref="TestCategory.Perf"/> tier; see <see cref="BootBaseline.DefaultRuns"/>.</summary>
     public const string PerfRuns = "PKHEX_WEB_PERF_RUNS";
+
+    /// <summary>
+    /// Optional installed Chromium release channel (e.g. <c>chrome</c>) the <see cref="TestCategory.Perf"/> tier measures instead of Playwright's
+    /// Chromium build; see <see cref="PerfBrowser.ParseChannel"/>. Used to measure on the reference desktop's release browser; CI leaves it unset.
+    /// </summary>
+    public const string PerfChannel = "PKHEX_WEB_PERF_CHANNEL";
+
+    /// <summary>
+    /// Optional number of repeated sessions the memory baseline runs in one page; see <see cref="MemoryBaseline.DefaultSessions"/>. A longer run
+    /// narrows the retention the trend can rule out.
+    /// </summary>
+    public const string PerfSessions = "PKHEX_WEB_PERF_SESSIONS";
 
     /// <summary>Returns the value of <paramref name="name"/>, or throws if it is unset or blank.</summary>
     public static string Required(string name)

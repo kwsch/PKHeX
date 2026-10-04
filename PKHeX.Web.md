@@ -1,8 +1,8 @@
 # PKHeX.Web — project vision and implementation design
 
-Status: proposed. A narrow local WebAssembly proof exists (see [PKHeX.Web.WasmProof.md](PKHeX.Web.WasmProof.md)); the MVP is not implemented. Evidence inspected on **2026-09-26**.
+Status: the raw XY/ORAS MVP is implemented and qualified on desktop browser engines, and only there (see [PKHeX.Web.SupportReport.md](PKHeX.Web.SupportReport.md), recorded **2026-10-04**). Physical Safari, iPadOS and Android are not yet qualified. The earlier narrow proof is [PKHeX.Web.WasmProof.md](PKHeX.Web.WasmProof.md). The rest of this document is the design as inspected on **2026-09-26**.
 
-**Demonstrated (2026-09-26, local only):** a Release-published, trimmed Blazor WebAssembly build of unmodified Core can open real raw XY and ORAS saves in Chromium, Firefox and Playwright WebKit (engine coverage only), at `/` and `/PKHeX/` on a plain static host. It validates checksums, runs legality analysis matching native Core, edits one boxed PK6 nickname through `EntityImportSettings.None`, and downloads output byte-identical to native Core for both no-op and edited round trips. It sends no post-boot network requests and uses no browser storage. Nothing else in this document is browser-proven.
+**Demonstrated (2026-09-26, local only):** a Release-published, trimmed Blazor WebAssembly build of unmodified Core can open real raw XY and ORAS saves in Chromium, Firefox and Playwright WebKit (engine coverage only), at `/` and `/PKHeX/` on a plain static host. It validates checksums, runs legality analysis matching native Core, edits one boxed PK6 nickname through `EntityImportSettings.None`, and downloads output byte-identical to native Core for both no-op and edited round trips. It sends no post-boot network requests and uses no browser storage. Nothing else in this document was browser-proven on that date; what the MVP proves since is in the support report.
 
 **Maintainer interest:** not established. No maintainer outreach, issue, PR or public deployment has been made; all work is local exploration.
 
@@ -285,7 +285,7 @@ This is a proposed release policy, not a statement that the unbuilt application 
 | iPhone Safari | Best-effort MVP usability; promotion requires complete physical-device workflow | Narrow screen, Files/share/download behavior, browser termination |
 | Embedded webviews / legacy browsers | Not promised | Explain missing required features before file selection where detectable |
 
-Record exact tested OS/browser versions in each release's support report; intersect policy with current .NET requirements. Playwright WebKit is useful automation but does not replace actual Safari/iOS tests. File System Access and shared-memory threads are not prerequisites. Desktop-first does not permit inaccessible mobile controls. A failed required iPad workflow blocks the tablet claim; publish a reduced support matrix honestly if necessary.
+Record exact tested OS/browser versions in each release's support report ([PKHeX.Web.SupportReport.md](PKHeX.Web.SupportReport.md) for the MVP); intersect policy with current .NET requirements. Playwright WebKit is useful automation but does not replace actual Safari/iOS tests. File System Access and shared-memory threads are not prerequisites. Desktop-first does not permit inaccessible mobile controls. A failed required iPad workflow blocks the tablet claim; publish a reduced support matrix honestly if necessary.
 
 ## Privacy and security model
 
@@ -339,7 +339,7 @@ Do not split Core into lazy-loaded assemblies speculatively. Lazy loading is mos
 
 ## Compatibility matrix
 
-Legend: **C** = capability exists in inspected Core; **I** = Web implementation/fixtures required; **B** = identified default browser blocker on the named path; **P** = proven on published Web. **No row has P today.** A Core class is not a promise of complete Web feature support. All admitted families need load, view, permitted edits, legality and export/reload tests; gift/dex/inventory interfaces vary independently.
+Legend: **C** = capability exists in inspected Core; **I** = Web implementation/fixtures required; **B** = identified default browser blocker on the named path; **P** = proven on published Web. **Only the XY/ORAS row has P**, and only for the desktop browsers the [support report](PKHeX.Web.SupportReport.md) names. A Core class is not a promise of complete Web feature support. All admitted families need load, view, permitted edits, legality and export/reload tests; gift/dex/inventory interfaces vary independently.
 
 | Generation / family | Core evidence | Relevant capabilities / caveats | Web status and intended stage |
 |---|---|---|---|
@@ -348,7 +348,7 @@ Legend: **C** = capability exists in inspected Core; **I** = Web implementation/
 | 3: Ruby/Sapphire/Emerald/FRLG | `SAV3RS`, `SAV3E`, `SAV3FRLG` | Party/boxes, PID-correlated attributes, ambiguous edition/personal tables | C/I; MVP+ after ambiguity and correlation gates |
 | 4: Diamond/Pearl/Platinum/HGSS | `SAV4DP`, `SAV4Pt`, `SAV4HGSS` | Party/boxes, native save structures and wrapped `.dsv` handling | C/I; MVP+; container preservation is separately gated |
 | 5: BW/B2W2 | `SAV5BW`, `SAV5B2W2` | Party/boxes, format-specific origin and gift structures | C/I; MVP+ |
-| 6: XY/ORAS | `SAV6XY`, `SAV6AO` | Party/boxes, PK6, legality, direct raw-save export | C/I; **MVP release target**, raw decrypted saves only |
+| 6: XY/ORAS | `SAV6XY`, `SAV6AO` | Party/boxes, PK6, legality, direct raw-save export | **P** on desktop (the Chromium engine, Firefox and the WebKit engine; [support report](PKHeX.Web.SupportReport.md)), raw decrypted saves only; physical Safari, iPadOS and Android unproven (G-C) |
 | 6: ORAS demo | `SAV6AODemo` | Different scope and capacities | C/I; Post-MVP, not implicitly included with ORAS |
 | 7: SM/USUM | `SAV7SM`, `SAV7USUM` | Signature normalization/export invokes MemeCrypto AES | C/I/B for signed export; MVP+ only after AES provider proof |
 | 7: Let's Go | `SAV7b` | PB7 and nontraditional storage/party model, awakening values | C/I; MVP+ separate adapter/UX gate; do not inherit the SM/USUM AES claim |
@@ -755,7 +755,7 @@ The AES/MD5 implementation, any future UI toolkit, test tooling redistributed wi
 | Gate | Required evidence / decision | Default until resolved |
 |---|---|---|
 | Maintainer interest and ownership | Agreement on project scope, maintenance/release owner and support expectations. Status 2026-09-26: not yet sought; no outreach made | Local/fork exploration only; no assumed upstream acceptance |
-| Browser feasibility | Release publish, resources/localization, XY/ORAS parsing/legality/export in real engines. Status 2026-09-26: XY/ORAS open → legality → boxed nickname edit → export demonstrated locally in three desktop engines ([proof](PKHeX.Web.WasmProof.md)); localization, other families and devices unproven | No supported Web families claimed; XY/ORAS are proof-level only |
+| Browser feasibility | Release publish, resources/localization, XY/ORAS parsing/legality/export in real engines. Status 2026-09-26: XY/ORAS open → legality → boxed nickname edit → export demonstrated locally in three desktop engines ([proof](PKHeX.Web.WasmProof.md)); localization, other families and devices unproven. Status 2026-10-04: the full MVP journey qualified on desktop engines ([support report](PKHeX.Web.SupportReport.md)); localization, other families and physical devices unproven | No supported Web families claimed; XY/ORAS are proof-level only |
 | Crypto provider | Exact synchronous AES/MD5 behavior, license/transitives, browser/native vectors and affected save fixtures | SM/USUM signed export, BDSP checksums and standalone HOME crypto disabled |
 | Shared edit semantics | Desktop-equivalent dependent-field behavior with explicit side effects and no duplicate game rules | Do not expose a write control whose dependencies are unknown |
 | Asset policy | Provenance/attribution and static sprite mapping reviewed; measured host file/size limits | Text placeholders and no third-party network fetch |
