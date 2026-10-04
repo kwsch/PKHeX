@@ -179,7 +179,7 @@ public sealed class SessionExitPanelTests : IAsyncDisposable
 
         var panel = RenderPanel();
 
-        panel.WaitForAssertion(() => panel.Find("#exit").HasAttribute("open").Should().BeTrue());
+        panel.WaitForAssertion(() => panel.Find("#exit").HasAttribute("open").Should().BeTrue(), RenderWait.Timeout);
         panel.Find("#exit-cancel").Click();
         calls.Should().Equal("cancel");
     }

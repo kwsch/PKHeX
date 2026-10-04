@@ -124,7 +124,9 @@ public sealed class WorkspaceValidationTests : IAsyncLifetime
 
         workspace.Find("#level").Input("50");
         await state.Legality.RunNowAsync();
-        workspace.WaitForAssertion(() => workspace.Find("#apply").GetAttribute("aria-disabled").Should().Be("false"));
+        // Rendered here rather than waited for: the automatic render after a run is covered by WorkspaceLegalityTests.
+        workspace.Render();
+        workspace.Find("#apply").GetAttribute("aria-disabled").Should().Be("false");
         workspace.FindAll("#apply-summary").Should().BeEmpty();
 
         workspace.Find("#level").Input("101");

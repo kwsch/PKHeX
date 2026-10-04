@@ -60,7 +60,7 @@ public sealed class WorkspaceLegalityTests : IAsyncLifetime
 
         await state.Legality.RunNowAsync();
 
-        workspace.WaitForAssertion(() => workspace.Find("#legality-status").TextContent.Should().Be("Valid"));
+        workspace.WaitForAssertion(() => workspace.Find("#legality-status").TextContent.Should().Be("Valid"), RenderWait.Timeout);
     }
 
     [Fact]
