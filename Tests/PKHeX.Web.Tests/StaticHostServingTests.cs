@@ -25,6 +25,15 @@ public sealed class StaticHostServingTests : IDisposable
         File.WriteAllText(Path.Combine(root, "_framework", "dotnet.js.br"), "brotli");
         File.WriteAllText(Path.Combine(root, "_framework", "dotnet.js.gz"), "gzip");
         File.WriteAllText(Path.Combine(root, "_framework", "PKHeX.Core.qlok0qw4y5.wasm"), "wasm");
+        File.WriteAllText(Path.Combine(root, StaticHost.NotFoundPage), "not found");
+        File.WriteAllText(Path.Combine(root, "_headers"), """
+            /*
+              X-Test: all
+              Cache-Control: no-cache
+            /_framework/*.wasm
+              ! Cache-Control
+              Cache-Control: immutable
+            """);
     }
 
     public void Dispose() => Directory.Delete(root, true);
@@ -38,7 +47,8 @@ public sealed class StaticHostServingTests : IDisposable
         var brotli = await GetAsync(client, host.Url + "_framework/dotnet.js", "br, gzip");
         Assert.Equal("brotli", await brotli.Content.ReadAsStringAsync());
         Assert.Equal(["br"], brotli.Content.Headers.ContentEncoding);
-        Assert.Equal(StaticHost.RevalidateCacheControl, brotli.Headers.CacheControl?.ToString());
+        Assert.Equal("no-cache", brotli.Headers.CacheControl?.ToString());
+        Assert.Equal(["all"], brotli.Headers.GetValues("X-Test"));
         Assert.Contains("Accept-Encoding", brotli.Headers.Vary);
         var brotliTag = brotli.Headers.ETag!;
 
@@ -55,7 +65,7 @@ public sealed class StaticHostServingTests : IDisposable
         Assert.Equal(brotliTag, revalidated.Headers.ETag);
 
         var wasm = await GetAsync(client, host.Url + "_framework/PKHeX.Core.qlok0qw4y5.wasm", "br");
-        Assert.Equal(StaticHost.ImmutableCacheControl, wasm.Headers.CacheControl?.ToString());
+        Assert.Equal("immutable", wasm.Headers.CacheControl?.ToString());
         Assert.Empty(wasm.Content.Headers.ContentEncoding);
 
         // The subpath page is rewritten and served uncompressed, under its own tag.
@@ -64,9 +74,20 @@ public sealed class StaticHostServingTests : IDisposable
         var rootPage = await GetAsync(client, host.Url, "br");
         Assert.NotEqual(rootPage.Headers.ETag, subpath.Headers.ETag);
 
+        // A missing file, or the rules themselves, get the 404 page, the rules' headers and Cloudflare's no-store.
+        foreach (var path in new[] { "missing.wasm", "_headers", "PKHeX/_headers" })
+        {
+            var missing = await GetAsync(client, host.Url + path, "br");
+            Assert.Equal(HttpStatusCode.NotFound, missing.StatusCode);
+            Assert.Equal("not found", await missing.Content.ReadAsStringAsync());
+            Assert.Equal("text/html", missing.Content.Headers.ContentType?.MediaType);
+            Assert.Equal(StaticHost.NotFoundCacheControl, missing.Headers.CacheControl?.ToString());
+            Assert.Equal(["all"], missing.Headers.GetValues("X-Test"));
+        }
+
         var log = host.TakeLog();
-        Assert.Equal([200, 200, 200, 304, 200, 200, 200], log.Select(r => r.Status));
-        Assert.Equal(["br", "gzip", null, "br", null, null, null], log.Select(r => r.Encoding));
+        Assert.Equal([200, 200, 200, 304, 200, 200, 200, 404, 404, 404], log.Select(r => r.Status));
+        Assert.Equal(["br", "gzip", null, "br", null, null, null, null, null, null], log.Select(r => r.Encoding));
         Assert.Equal(Encoding.UTF8.GetByteCount("brotli"), log[0].BodyBytes);
         Assert.Equal(0, log[3].BodyBytes);
         Assert.Empty(host.TakeLog());
@@ -84,10 +105,20 @@ public sealed class StaticHostServingTests : IDisposable
         Assert.Empty(response.Content.Headers.ContentEncoding);
         Assert.Null(response.Headers.ETag);
         Assert.Null(response.Headers.CacheControl);
+        Assert.Equal(["all"], response.Headers.GetValues("X-Test"));
 
         var missing = await GetAsync(client, host.Url + "missing.js", null);
         Assert.Equal(HttpStatusCode.NotFound, missing.StatusCode);
+        Assert.Equal("not found", await missing.Content.ReadAsStringAsync());
+        Assert.Null(missing.Headers.CacheControl);
         Assert.Equal([200, 404], host.TakeLog().Select(r => r.Status));
+    }
+
+    [TierFact(TestCategory.E2E)]
+    public void AHostWithoutHeadersRulesDoesNotStart()
+    {
+        File.Delete(Path.Combine(root, "_headers"));
+        Assert.Throws<InvalidOperationException>(() => new StaticHost(root));
     }
 
     private static async Task<HttpResponseMessage> GetAsync(HttpClient client, string url, string? acceptEncoding, EntityTagHeaderValue? ifNoneMatch = null)

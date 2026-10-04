@@ -177,6 +177,11 @@ public sealed partial class PublishedAppTests(PublishedAppFixture app)
     {
         AssertStaticDeployable(app.Root, sprites: false);
         Assert.False(Directory.Exists(Path.Combine(app.Root, "sprites")), "A default publish must not contain the sprite atlas.");
+        // The host rules and not-found page ship byte for byte as checked in.
+        foreach (var name in new[] { "_headers", StaticHost.NotFoundPage })
+        {
+            Assert.Equal(File.ReadAllBytes(Path.Combine(SaveFixtures.RepositoryRoot, "PKHeX.Web", "wwwroot", name)), File.ReadAllBytes(Path.Combine(app.Root, name)));
+        }
     }
 
     [TierFact(TestCategory.E2E)]
@@ -233,8 +238,8 @@ public sealed partial class PublishedAppTests(PublishedAppFixture app)
             "licenses" => extension is ".txt",
             // The generated sprite atlas and stylesheet (named by a hash of their content), the manifest and the provenance list.
             "sprites" => sprites && (fileName is "manifest.json" or "sources.json" || HashedSpriteFile().IsMatch(fileName)),
-            // App shell, scripts and styles, plus the license and notices.
-            "" => extension is ".html" or ".css" or ".js" || fileName is "LICENSE.txt" or "THIRD-PARTY-NOTICES.md",
+            // App shell and not-found page, scripts and styles, the license and notices, and the host header rules.
+            "" => extension is ".css" or ".js" || fileName is "index.html" or "404.html" or "LICENSE.txt" or "THIRD-PARTY-NOTICES.md" or "_headers",
             _ => false,
         };
     }

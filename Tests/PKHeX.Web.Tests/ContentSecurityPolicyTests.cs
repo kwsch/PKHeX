@@ -5,7 +5,8 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Keeps the test host's CSP header in step with the app's own meta CSP, so E2E runs enforce the policy the app ships with.
+/// Keeps the shipped <c>_headers</c> policies, the meta CSP in <c>index.html</c> and the tests' <see cref="ExpectedHeaders"/> in step,
+/// so a host that honours <c>_headers</c> and one that has only the meta fallback enforce the same policy, and E2E runs enforce it too.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed partial class ContentSecurityPolicyTests
@@ -13,25 +14,58 @@ public sealed partial class ContentSecurityPolicyTests
     /// <summary>Directives a meta CSP cannot carry; browsers honour them only as a header.</summary>
     private static readonly string[] HeaderOnly = ["frame-ancestors"];
 
+    private static string WebRoot => Path.Combine(SaveFixtures.RepositoryRoot, "PKHeX.Web", "wwwroot");
+
     [Fact]
-    public void HostHeaderMatchesMetaPolicy()
+    public void HeaderPolicyMatchesMetaPolicy()
     {
-        var html = File.ReadAllText(Path.Combine(SaveFixtures.RepositoryRoot, "PKHeX.Web", "wwwroot", "index.html"));
+        var html = File.ReadAllText(Path.Combine(WebRoot, "index.html"));
         var match = MetaPolicy().Match(html);
         Assert.True(match.Success, "index.html has no Content-Security-Policy meta element.");
 
         var meta = Directives(match.Groups["policy"].Value);
-        var header = Directives(StaticHost.ContentSecurityPolicy);
+        var header = Directives(ExpectedHeaders.AppPolicy);
         var headerShared = header.Where(d => !HeaderOnly.Contains(d.Key)).ToDictionary();
 
         Assert.Equal(meta, headerShared);
         Assert.DoesNotContain(meta.Keys, HeaderOnly.Contains);
+        Assert.Equal("'none'", header["frame-ancestors"]);
+    }
+
+    [Theory]
+    [InlineData("/")]
+    [InlineData("/index.html")]
+    [InlineData("/404.html")]
+    [InlineData("/app.css")]
+    [InlineData("/_framework/dotnet.js")]
+    [InlineData("/missing/page")]
+    public void ShippedHeadersGiveTheAppPolicy(string path)
+        => HostHeaders.Load(WebRoot).Get(path, "Content-Security-Policy").Should().Be(ExpectedHeaders.AppPolicy);
+
+    [Theory]
+    [InlineData("/LICENSE.txt")]
+    [InlineData("/THIRD-PARTY-NOTICES.md")]
+    [InlineData("/licenses/dotnet-runtime.txt")]
+    public void ShippedHeadersGiveLicenseTextOnlyTheTextPolicy(string path)
+        => HostHeaders.Load(WebRoot).Get(path, "Content-Security-Policy").Should().Be(ExpectedHeaders.TextPolicy, "one policy, not the app's joined with it");
+
+    [Fact]
+    public void TheTextPolicyAllowsNothingButTheViewersOwnStyleAndIcon()
+    {
+        var policy = Directives(ExpectedHeaders.TextPolicy);
+        policy.Should().BeEquivalentTo(new Dictionary<string, string>
+        {
+            ["default-src"] = "'none'",
+            ["img-src"] = "'self'",
+            ["style-src"] = "'unsafe-inline'",
+            ["frame-ancestors"] = "'none'",
+        });
     }
 
     [Fact]
     public void TheShellHasNoInlineScriptAndThePolicyAllowsNone()
     {
-        var html = File.ReadAllText(Path.Combine(SaveFixtures.RepositoryRoot, "PKHeX.Web", "wwwroot", "index.html"));
+        var html = File.ReadAllText(Path.Combine(WebRoot, "index.html"));
         var policy = Directives(MetaPolicy().Match(html).Groups["policy"].Value);
 
         ScriptElement().Matches(html).Should().NotBeEmpty().And.OnlyContain(m => m.Groups["attributes"].Value.Contains("src=\""), "every script is a file");

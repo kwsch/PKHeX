@@ -273,17 +273,18 @@ public sealed class PublishedAppFixture : IAsyncLifetime
             {
                 problems.Add($"{path}: Content-Type '{headers.GetValueOrDefault("content-type")}', expected '{expected}'");
             }
-            if (headers.GetValueOrDefault("x-content-type-options") != "nosniff")
+            if (headers.GetValueOrDefault("x-content-type-options") != ExpectedHeaders.ContentTypeOptions)
             {
-                problems.Add($"{path}: missing X-Content-Type-Options: nosniff");
+                problems.Add($"{path}: missing X-Content-Type-Options: {ExpectedHeaders.ContentTypeOptions}");
             }
-            if (headers.GetValueOrDefault("content-security-policy") != StaticHost.ContentSecurityPolicy)
+            var relative = isDocument ? "index.html" : path[document.Length..];
+            if (headers.GetValueOrDefault("content-security-policy") != ExpectedHeaders.PolicyFor(relative))
             {
                 problems.Add($"{path}: Content-Security-Policy header differs");
             }
-            if (headers.GetValueOrDefault("referrer-policy") != "no-referrer")
+            if (headers.GetValueOrDefault("referrer-policy") != ExpectedHeaders.ReferrerPolicy)
             {
-                problems.Add($"{path}: missing Referrer-Policy: no-referrer");
+                problems.Add($"{path}: missing Referrer-Policy: {ExpectedHeaders.ReferrerPolicy}");
             }
         }
 

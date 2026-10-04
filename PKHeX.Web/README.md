@@ -2,16 +2,79 @@
 
 A static .NET 10 Blazor WebAssembly editor on PKHeX.Core, in development and not yet the PKHeX.Web MVP. It opens raw XY/ORAS saves locally, shows the party and one box at a time, edits the species, form, nickname, language, friendship, level, experience points, nature, IVs, EVs, held item, moves, PP, PP Ups, ability and gender of an existing party member or boxed Pokémon, shows every Pokémon’s details read-only, runs Core legality analysis, and downloads a validated save. No save-processing server, upload API, persistent browser storage, analytics, or external runtime assets are used. Sprites are optional and off by default (see [Sprites](#sprites)).
 
-Install Microsoft's .NET 10 SDK for your platform. The verified development environment uses the machine-wide ARM64 SDK 10.0.401 and runtime 10.0.12. The Web package is pinned to 10.0.12; tests use Microsoft.Playwright 1.63.0. No repository-wide SDK pin is required. Both projects are part of `PKHeX.slnx`.
+## Hosting
 
-From the repository root:
+PKHeX Web is a directory of static files. A host serves them, and the browser does everything else: there is no application server, upload API or database, and the host never receives a save. The official site is served from the root of its domain; everything below also covers a subpath such as `/PKHeX/`.
+
+### Build
+
+Install Microsoft's .NET 10 SDK for your platform. The verified development environment uses the machine-wide ARM64 SDK 10.0.401 and runtime 10.0.12. The Web package is pinned to 10.0.12; tests use Microsoft.Playwright 1.63.0. No repository-wide SDK pin is required (CI pins 10.0.401, because the notices list the runtime pack that SDK brings). Both projects are part of `PKHeX.slnx`. From the repository root:
 
 ```sh
 dotnet publish PKHeX.Web/PKHeX.Web.csproj -c Release -o PKHeX.Web/bin/Release/publish
+```
+
+The site is `PKHeX.Web/bin/Release/publish/wwwroot`, and nothing else in the publish folder. The default Release publish trims managed assemblies but uses the stock interpreter runtime without optional native relinking or AOT; it does not need the `wasm-tools` workload. The app installs no service worker.
+
+### Try it locally
+
+```sh
 python3 -m http.server 8080 --bind 127.0.0.1 --directory PKHeX.Web/bin/Release/publish/wwwroot
 ```
 
-Open `http://127.0.0.1:8080/`. Serve only the published `wwwroot`, never the repository or directory containing your saves. Runtime hosting uses an ordinary static server; it does not need .NET. The app does not install a service worker or require `wasm-tools`; the default Release publish trims managed assemblies but uses the stock interpreter runtime without optional native relinking/AOT.
+Open `http://127.0.0.1:8080/`. Serve only the published `wwwroot`, never the repository or a directory containing your saves. Opening `index.html` from disk (`file://`) does not work: the runtime fetches its files, and browsers refuse those requests from a page on disk. Python's server sends none of the headers below, so the meta policy in `index.html` is the only protection; that is fine on your own machine, not for a public site.
+
+### What to deploy
+
+- Deploy the whole `wwwroot` of one publish together. Its file names under `_framework/` carry content hashes, and `dotnet.js` names the exact files of its own build, so files from two builds must never be mixed.
+- Switch releases in one step: upload each release to its own directory and point the server (or a symlink) at it, or use a host whose deployments are atomic, such as Cloudflare Pages. A tab that is already open keeps the release it loaded until it is reloaded; nothing forces a reload.
+- Keep the previous release's directory, or its CI artifact. Rolling back is deploying it again in the same way.
+- The About panel shows the version and the source commit of the running build.
+
+### Headers
+
+The site needs these response headers. `wwwroot/_headers` gives them to Cloudflare Pages, and `PKHeX.Web/hosting/` has the same rules for nginx (`nginx.conf`) and Apache httpd (`apache.conf`). A Unit test fails if the snippets drift from `_headers`, and the E2E test host serves the shipped `_headers`, so the browser tests run under it.
+
+| Header | Value | Why |
+| --- | --- | --- |
+| `Content-Security-Policy` | `default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'` | Only the site's own files may run or load (`'wasm-unsafe-eval'` lets the .NET runtime compile WebAssembly), there is no inline script or style, and no other site may frame the app. `index.html` carries the same policy as a meta element for hosts that cannot send headers, but a meta policy cannot carry `frame-ancestors`. |
+| `Content-Security-Policy` for `LICENSE.txt`, `THIRD-PARTY-NOTICES.md` and `licenses/*` | `default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; frame-ancestors 'none'` | These open in the browser's own text viewer, which runs no script from the file. WebKit's viewer styles itself inline and Firefox asks for the site's icon; the app's policy would block both and report violations. |
+| `X-Content-Type-Options` | `nosniff` | The browser uses the declared type and never guesses one. |
+| `Referrer-Policy` | `no-referrer` | Links from the app (the source and license links) send no address. |
+| `Cache-Control` | `public, max-age=31536000, immutable` for fingerprinted files; `no-cache` for everything else | Fingerprinted files (`_framework/*.wasm`, `*.dat`, `dotnet.*.js`, and the sprite atlas and stylesheet) never change under the same name. `index.html`, the scripts and stylesheet at the root, and the loaders `_framework/blazor.webassembly.js` and `_framework/dotnet.js` (which names every fingerprinted file) are revalidated on each visit, so a new release is picked up on the next load. |
+
+The server must also send `.wasm` as `application/wasm`, `.js` as a JavaScript type (`text/javascript`, or `application/javascript` as nginx's standard table does), and `.dat` as a binary type such as `application/octet-stream` (neither nginx's nor Apache's standard table knows `.dat`, so both snippets declare it).
+
+### Hosts
+
+- **Cloudflare Pages:** upload the `wwwroot` directory as it is (Direct Upload or Wrangler). Pages reads `_headers` and does not serve it. It compresses responses itself, so the `.br`/`.gz` copies are simply unused files. The publish stays within the free plan's limits (20,000 files, 25 MiB per file), which the E2E tier checks.
+- **nginx:** use `hosting/nginx.conf`. Its two `map` blocks go in the `http` block and its `server` block wherever you serve the site; set `root` to the deployed `wwwroot`. It serves the `.gz` copies with `gzip_static`; the `.br` copies need the `ngx_brotli` module (`brotli_static on`). Tested with nginx 1.30.
+- **Apache httpd 2.4:** use `hosting/apache.conf` as `.htaccess` next to `index.html` (the directory needs `AllowOverride FileInfo Indexes Options`), or inside its `<Directory>` block. It needs `mod_mime`, `mod_headers` and `mod_rewrite`, and serves the `.br` or `.gz` copy the browser accepts, with the asset's own type. Tested with Apache 2.4.66.
+- **GitHub Pages:** it cannot send custom headers, so only the meta policy applies: no `frame-ancestors`, no `nosniff`, and its own cache times. Deploy with the Pages Actions artifact flow. Branch publishing runs Jekyll, which drops folders starting with `_` such as `_framework`, unless the site has an empty `.nojekyll` file. A project site is served under `/<repository>/`, so it needs the subpath change below.
+- **Other static hosts:** send the headers in the table above. A host that reads `_headers` may not support every feature this file uses (it relies on `! Name` to replace a value set by an earlier rule), so check the served headers.
+
+### Under a subpath
+
+The app loads its files relative to `<base href="/" />` in `index.html`. To serve it at `https://example.com/PKHeX/`, put the `wwwroot` contents in that folder, change the line to `<base href="/PKHeX/" />`, and delete `index.html.br` and `index.html.gz`. Those are compressed copies of the original page, and servers that use them (both snippets do) would still send `/` to browsers that accept compression, so the app would not load. In the nginx and Apache snippets, also change the not-found page to `/PKHeX/404.html`. Cloudflare Pages reads only the `_headers` at the top of the deployment, so there, move it up and start every pattern with `/PKHeX` (`/*` becomes `/PKHeX/*`, `/_framework/*.wasm` becomes `/PKHeX/_framework/*.wasm`); the nginx and Apache patterns match the end of the path and need no change. The E2E tier runs every browser test both at the root and under `/PKHeX/`.
+
+### Missing files
+
+`404.html` is a plain page with no script or links. Without it, Cloudflare Pages would answer every missing path with `index.html` and status 200 (its single-page-app fallback), so a missing runtime file would be handed to the loader as HTML. With it, a missing file is a 404. The snippets use it in the same way.
+
+### Checking a deployment
+
+Replace the address with your site's, and use one of the fingerprinted file names from the deployed `_framework/` folder:
+
+```sh
+site=https://example.com/
+curl -sI "$site" | grep -iE 'content-security-policy|x-content-type-options|referrer-policy|cache-control'
+curl -sI -H 'Accept-Encoding: br, gzip' "${site}_framework/PKHeX.Core.<hash>.wasm" | grep -iE 'content-type|content-encoding|cache-control'
+curl -sI "${site}_framework/dotnet.js" | grep -i cache-control          # no-cache
+curl -sI "${site}LICENSE.txt" | grep -i content-security-policy         # the text policy
+curl -s -o /dev/null -w '%{http_code}\n' "${site}_framework/missing.wasm" # 404
+```
+
+Then open the site, open a save, and check the browser console for Content Security Policy errors.
 
 ## App shell
 
@@ -131,7 +194,7 @@ Set `PLAYWRIGHT_BROWSERS_PATH` consistently for installation and testing if you 
 
 `E2E`, `RealSave` and `Perf` are also opt-in: their tests run only when the tier is named in `PKHEX_WEB_TEST_TIERS` (separated by commas, semicolons or spaces; case-insensitive), and are skipped otherwise. This keeps runners that ignore the project's default filter to `Unit`: `vstest.console` run directly on the built assembly (as Azure Pipelines' VsTest task does) runs the Unit tests and skips the others instead of failing them. An opted-in tier still fails, rather than skips, when its other environment variables are missing; `RealSave` needs `PKHEX_WEB_PUBLISHED` as well as the saves, because its browser test uses the published app. A filter for a tier that is not opted in skips every test and reports success, so name the tier in both places; `PKHeX.Web/tools/trx-all-executed.sh <results.trx>` fails a run in which any test was not executed. CI runs `Unit`, `E2E` and `Perf`; `RealSave` is for local runs with private saves.
 
-Browser tests share one fixture that starts a loopback-only static host for the supplied published files and checks every boot, at the root and under `/PKHeX/`: only published files are requested and none fails; each response carries the expected MIME type, `nosniff`, the Content-Security-Policy header and `Referrer-Policy`, and the page reports no CSP violations. Each test ends by checking that nothing reached the network after boot, that nothing was persisted in the browser, and that no CSP violation occurred, including across reloads. The `/PKHeX/` cases change only the served HTML base href to reproduce a subpath deployment; all application binaries are identical. The host has no upload or save-processing endpoint. An absent fixture variable or missing usable entity fails rather than silently skipping the real-save proof.
+Browser tests share one fixture that starts a loopback-only static host for the supplied published files and checks every boot, at the root and under `/PKHeX/`: only published files are requested and none fails; each response carries the expected MIME type, `nosniff`, the Content-Security-Policy header and `Referrer-Policy`, and the page reports no CSP violations. The host sends the headers the published `_headers` gives each path, applying its rules as Cloudflare Pages does (`HostHeaders`), never serves `_headers` itself, and answers a missing file with `404.html` and status 404. The expected values are written out separately in the tests (`ExpectedHeaders`), so a wrong rule in `_headers` fails the boot checks rather than agreeing with itself. `DeploymentHeadersTests` checks the cache rule, policy and headers that `_headers`, `hosting/nginx.conf` and `hosting/apache.conf` give every file of the default and sprite publishes, that a missing file is a 404 and never the app, and that the license opens in each engine's text viewer without a policy violation. Each test ends by checking that nothing reached the network after boot, that nothing was persisted in the browser, and that no CSP violation occurred, including across reloads. The `/PKHeX/` cases change only the served HTML base href to reproduce a subpath deployment; all application binaries are identical. The host has no upload or save-processing endpoint. An absent fixture variable or missing usable entity fails rather than silently skipping the real-save proof.
 
 `JourneyBrowserTests` runs the whole journey in one session, in every engine and at both paths (XY at the root, ORAS under `/PKHeX/`). It opens a save through the picker and replaces it with a dropped one. It downloads the dropped save unchanged, then edits one field of every editor group across a boxed Pokémon and a party member, compares each draft's legality with native Core, and applies both. The edited download must equal native Core's output for the same edits byte for byte, and must reopen natively holding both Pokémon exactly as planned, with nothing changed outside the two slots and the checksum footer. Reopened in the app, every edited control must hold its value, legality must agree with native Core again, and a no-op download must give back the same file. The edits and their native recipes live in `JourneyPlan`; `JourneyPlanTests` fails if they stop reaching every fieldset of the editor, and the journey fails if a step would leave its control as it was. The journey's privacy trace checks that the page address never changed and that no typed or saved value reached the console: the nickname, the file name, the trainer and the box names. It also checks that no dialog appeared, that nothing reached the network or browser storage after boot, and that the files given were not changed. A second fresh visit that opens another save and Pokémon must make exactly the same requests. A keyboard-only run uses only Tab, Shift+Tab, Enter, Space and typing (Option is added in WebKit, as in Safari). It opens a file through the file input, opens a party member and a boxed Pokémon from their grids, edits text fields, ticks the acknowledgements, applies, and downloads output equal to native Core's, and it fails if a pointer press reaches the page.
 
@@ -146,7 +209,7 @@ The `Perf` tier measures how long the published app takes to become usable (WEB-
 - Each sample uses a new browser profile. The cold boot starts a new browser process on the empty profile; the warm boot closes that browser and relaunches it on the same profile, like a returning visit, so only what the browser stored in the profile (its HTTP cache) carries over.
 - "Shell ready" is the time from navigation start until the file input exists and is enabled, recorded in the page by a mutation observer.
 - Chromium is measured on the 20 Mbps / 50 ms profile that `PKHeX.Web.md` states its targets for (≤5 s cold, ≤2 s cached; engineering targets, not claims), throttled through the DevTools protocol, which adds the latency to each request rather than emulating TCP round trips. Playwright cannot throttle Firefox or WebKit, so all three engines are also measured on unthrottled loopback, which shows the startup cost without the network.
-- The loopback host runs in a deployment-caching mode: it serves the precompressed `.br`/`.gz` file the browser accepts, sends `ETag`s and answers revalidations with 304, and marks fingerprinted `_framework` files immutable and everything else `no-cache`. Playwright's WebKit does not accept Brotli from the plain-HTTP loopback host, so its rows are served as gzip, which overstates what an HTTPS deployment transfers; the report's boot-set table gives both sizes.
+- The loopback host runs in a deployment-caching mode: it serves the precompressed `.br`/`.gz` file the browser accepts, sends `ETag`s and answers revalidations with 304, and sends the `Cache-Control` the shipped `_headers` gives each file (immutable for fingerprinted files, `no-cache` for everything else; the browser tests' default mode leaves it out). Playwright's WebKit does not accept Brotli from the plain-HTTP loopback host, so its rows are served as gzip, which overstates what an HTTPS deployment transfers; the report's boot-set table gives both sizes.
 - The report lists the files a cold boot downloads with their raw, Brotli and gzip sizes, the raw size of each group of data embedded in PKHeX.Core (every boot downloads all of it inside the assembly) and its share of the published file, and flags a warm boot that reused nothing from the cache, since that row then measures a second download. Playwright's WebKit did so in every local run; the cause has not been established, and it is not evidence about Safari.
 
 Numbers from a shared CI runner vary between runs and are not the reference desktop the targets name; compare runs on the same machine.
@@ -163,7 +226,7 @@ Numbers from a shared CI runner vary between runs and are not the reference desk
 
 The `azure-parity` job repeats upstream's Azure Pipelines build on Windows, so that the Web projects cannot break it unnoticed. It runs on `windows-2022`, whose Visual Studio 2022 17.14 and SDK match Azure's `windows-2025` agent (GitHub's `windows-2025` now has Visual Studio 2026), and uses GitVersion 5.x for `/p:Version`, a `nuget.exe` restore of `PKHeX.slnx` and a Release build with x86 Visual Studio MSBuild. There is deliberately no SDK pin: Visual Studio MSBuild uses the newest SDK its version supports on the image, as upstream does. It then runs `vstest.console` over `**\bin\Release\**\*Tests.dll` without `PKHEX_WEB_TEST_TIERS`, and `PKHeX.Web/tools/trx-check-opt-in-skips.ps1` requires the Core and Web Unit tests to pass and only the opt-in tiers to be skipped. The run summary lists the toolchain it used.
 
-The E2E test `PublishesOnlyStaticDeployableFiles` keeps the publish deployable as static files: at most 20,000 files, none over 25 MiB (the Cloudflare Pages limits), only the expected asset types in their expected folders (runtime files in `_framework/`, upstream notices in `licenses/`, the app shell, license and notices at the root; so no source maps, symbols, sources or stray data files), and every precompressed `.br`/`.gz` file next to the asset it compresses. `SpritePublishAddsOnlyTheAtlasFiles` applies the same rules to the publish with sprites, where `sprites/` may hold only the four generated files and their precompressed copies, and the default publish must have no `sprites/` at all. `PKHeX.Web/tools/size-report.sh <wwwroot>` prints the size report locally.
+The E2E test `PublishesOnlyStaticDeployableFiles` keeps the publish deployable as static files: at most 20,000 files, none over 25 MiB (the Cloudflare Pages limits), only the expected asset types in their expected folders (runtime files in `_framework/`, upstream notices in `licenses/`, the app shell, scripts and styles, `404.html`, `_headers`, the license and the notices at the root; so no source maps, symbols, sources or stray data files), and every precompressed `.br`/`.gz` file next to the asset it compresses. `SpritePublishAddsOnlyTheAtlasFiles` applies the same rules to the publish with sprites, where `sprites/` may hold only the four generated files and their precompressed copies, and the default publish must have no `sprites/` at all. `PKHeX.Web/tools/size-report.sh <wwwroot>` prints the size report locally.
 
 Blazor hides trim-analysis warnings in a normal publish. `PKHeX.Web/tools/trim-warnings.sh` publishes again with them enabled (or, with `--log <file>`, reads the log of a publish that had them enabled, as CI does) and compares them with `PKHeX.Web/trim-warnings.baseline.txt`, ignoring source locations and the ordinals in compiler-generated names. Any difference fails: justify a new warning, or drop a fixed one, then run the script with `--update` and commit the baseline.
 

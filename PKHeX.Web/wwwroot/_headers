@@ -1,0 +1,48 @@
+# Response headers for hosts that read a `_headers` file (Cloudflare Pages and Workers static assets).
+# Every rule a path matches applies, in file order: `! Name` removes what an earlier rule set, then the rule's own headers are added.
+# hosting/nginx.conf and hosting/apache.conf give other servers the same policy; HostingSnippetsTests keeps them in step with this file,
+# and the E2E test host serves this file, so the browser tests check it.
+
+# Every response: the app's Content-Security-Policy (the meta policy in index.html plus frame-ancestors, which only a header can carry),
+# no MIME sniffing, no referrer, and revalidation before reuse.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Cache-Control: no-cache
+
+# Fingerprinted runtime files: their content never changes under the same name. The loaders blazor.webassembly.js and dotnet.js
+# (which holds the boot manifest) are not fingerprinted and keep revalidating, so these patterns name only fingerprinted shapes.
+/_framework/*.wasm
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
+
+/_framework/*.dat
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
+
+/_framework/dotnet.*.js
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
+
+# The optional sprite atlas and its stylesheet, named by a hash of their content. The manifest naming them keeps revalidating.
+/sprites/pokemon.*.png
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
+
+/sprites/sprites.*.css
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
+
+# The license and notices, shown by the browser's own text viewer, which styles itself inline and may ask for the site's icon. Text runs no script.
+/LICENSE.txt
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; frame-ancestors 'none'
+
+/THIRD-PARTY-NOTICES.md
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; frame-ancestors 'none'
+
+/licenses/*
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'none'; img-src 'self'; style-src 'unsafe-inline'; frame-ancestors 'none'

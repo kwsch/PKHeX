@@ -3,29 +3,28 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace PKHeX.Web.Tests;
 
 /// <summary>Serves only a supplied Release wwwroot. No save-processing endpoints.</summary>
 /// <remarks>
-/// Responses carry deployment-like headers; <see cref="PublishedAppFixture"/> asserts them independently.
+/// Responses carry the headers the published <c>_headers</c> file gives them (<see cref="HostHeaders"/>), as Cloudflare Pages serves them;
+/// <see cref="PublishedAppFixture"/> and <see cref="DeploymentHeadersTests"/> check them against <see cref="ExpectedHeaders"/>.
+/// Also as Cloudflare does, <c>_headers</c> itself is never served, and a missing file gets the published <c>404.html</c> with status 404.
 /// With <c>deploymentCaching</c> the host also behaves like a caching static host (see <see cref="StaticHost(string, bool)"/>),
 /// which <see cref="BootBaseline"/> needs for realistic transfer sizes and warm boots.
 /// </remarks>
-internal sealed partial class StaticHost : IDisposable
+internal sealed class StaticHost : IDisposable
 {
-    /// <summary>Content Security Policy header sent with every response.</summary>
-    public const string ContentSecurityPolicy = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'";
+    /// <summary>The published file a host serves, with status 404, for a missing file.</summary>
+    public const string NotFoundPage = "404.html";
 
-    /// <summary><c>Cache-Control</c> for fingerprinted assets, whose content never changes under the same name.</summary>
-    public const string ImmutableCacheControl = "public, max-age=31536000, immutable";
-
-    /// <summary><c>Cache-Control</c> for everything else: the browser may keep it but must revalidate before use.</summary>
-    public const string RevalidateCacheControl = "no-cache";
+    /// <summary><c>Cache-Control</c> Cloudflare puts on every 404, in place of any the rules give, so a missing file is never cached.</summary>
+    public const string NotFoundCacheControl = "no-store";
 
     private readonly HttpListener listener = new();
     private readonly string root;
+    private readonly HostHeaders rules;
     private readonly bool deploymentCaching;
     private readonly ConcurrentDictionary<(string File, bool Rewritten), string> entityTags = new();
     private ConcurrentQueue<ServedResponse> log = [];
@@ -39,13 +38,15 @@ internal sealed partial class StaticHost : IDisposable
     /// <param name="root">The published <c>wwwroot</c>.</param>
     /// <param name="deploymentCaching">
     /// When set, the host serves the precompressed <c>.br</c>/<c>.gz</c> sibling the browser accepts (with <c>Content-Encoding</c> and <c>Vary</c>),
-    /// sends a strong <c>ETag</c> and answers a matching <c>If-None-Match</c> with 304, and sends <see cref="CacheControlFor"/>.
-    /// This is the policy M20's checked-in <c>_headers</c> is planned to give a real deployment. When not set, every request gets the raw file with no caching headers.
+    /// sends a strong <c>ETag</c> and answers a matching <c>If-None-Match</c> with 304, and sends the <c>Cache-Control</c> the <c>_headers</c> file gives.
+    /// When not set, every request gets the raw file with no caching headers, so the browser tests never depend on what an earlier test cached.
     /// </param>
+    /// <exception cref="InvalidOperationException"><paramref name="root"/> has no <c>_headers</c> file, or the file uses syntax <see cref="HostHeaders"/> does not accept.</exception>
     public StaticHost(string root, bool deploymentCaching = false)
     {
         this.root = Path.GetFullPath(root);
         this.deploymentCaching = deploymentCaching;
+        rules = HostHeaders.Load(this.root);
         var reservation = new TcpListener(IPAddress.Loopback, 0);
         reservation.Start();
         var port = ((IPEndPoint)reservation.LocalEndpoint).Port;
@@ -61,18 +62,6 @@ internal sealed partial class StaticHost : IDisposable
 
     /// <summary>Atomically returns and clears the responses sent since the previous call.</summary>
     public IReadOnlyList<ServedResponse> TakeLog() => Interlocked.Exchange(ref log, []).ToArray();
-
-    /// <summary>
-    /// Whether a published file carries a content fingerprint in its name, like <c>_framework/PKHeX.Core.qlok0qw4y5.wasm</c>.
-    /// The .NET publish fingerprints every <c>_framework</c> file except the loaders <c>blazor.webassembly.js</c> and <c>dotnet.js</c>.
-    /// This is a heuristic for the test host only; M20's <c>_headers</c> will name the paths explicitly.
-    /// </summary>
-    /// <param name="relativePath">Path relative to <c>wwwroot</c>, with <c>/</c> separators.</param>
-    public static bool IsFingerprinted(string relativePath) => FingerprintedPath().IsMatch(relativePath);
-
-    /// <summary>The <c>Cache-Control</c> value for a published file in deployment-caching mode.</summary>
-    /// <param name="relativePath">Path relative to <c>wwwroot</c>, with <c>/</c> separators.</param>
-    public static string CacheControlFor(string relativePath) => IsFingerprinted(relativePath) ? ImmutableCacheControl : RevalidateCacheControl;
 
     /// <summary>
     /// Picks the content coding to serve: Brotli, then gzip, among those the <c>Accept-Encoding</c> header allows and a sibling exists for; otherwise none.
@@ -162,11 +151,16 @@ internal sealed partial class StaticHost : IDisposable
             {
                 file = Path.Combine(root, "index.html");
             }
-            if (!file.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.Ordinal) || !File.Exists(file) || method != "GET")
+            if (!file.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.Ordinal) || method != "GET")
             {
                 Volatile.Read(ref log).Enqueue(new(requestPath, method, 404, null, 0));
                 context.Response.StatusCode = 404;
                 context.Response.Close();
+                return;
+            }
+            if (!File.Exists(file) || file == Path.Combine(root, "_headers"))
+            {
+                await RespondNotFoundAsync(context.Response, requestPath, urlPath);
                 return;
             }
 
@@ -199,16 +193,13 @@ internal sealed partial class StaticHost : IDisposable
                 ".md" => "text/markdown; charset=utf-8", ".txt" => "text/plain; charset=utf-8",
                 _ => "application/octet-stream",
             };
-            response.Headers["X-Content-Type-Options"] = "nosniff";
-            response.Headers["Referrer-Policy"] = "no-referrer";
-            response.Headers["Content-Security-Policy"] = ContentSecurityPolicy;
+            ApplyRules(response, urlPath);
 
             if (deploymentCaching)
             {
                 // The tag is computed over the bytes actually served, so each coding and the rewritten page get their own.
                 var entityTag = entityTags.GetOrAdd((source, rewrite), _ => $"\"{Convert.ToHexStringLower(SHA256.HashData(bytes))[..32]}\"");
                 response.Headers["ETag"] = entityTag;
-                response.Headers["Cache-Control"] = CacheControlFor(Path.GetRelativePath(root, file).Replace('\\', '/'));
                 response.Headers["Vary"] = "Accept-Encoding";
                 if (encoding is not null)
                 {
@@ -242,9 +233,41 @@ internal sealed partial class StaticHost : IDisposable
         }
     }
 
-    /// <summary><c>_framework/{name}.{10 lowercase letters or digits}.{wasm|js|dat}</c>.</summary>
-    [GeneratedRegex(@"^_framework/[^/]+\.[a-z0-9]{10}\.(wasm|js|dat)$")]
-    private static partial Regex FingerprintedPath();
+    /// <summary>
+    /// Sends the headers the <c>_headers</c> rules give <paramref name="urlPath"/>; <c>Cache-Control</c> only in deployment-caching mode.
+    /// </summary>
+    /// <param name="urlPath">The request path from the deployment root (the <c>/PKHeX</c> subpath removed).</param>
+    private void ApplyRules(HttpListenerResponse response, string urlPath)
+    {
+        foreach (var (name, value) in rules.Resolve(urlPath))
+        {
+            if (deploymentCaching || !string.Equals(name, "Cache-Control", StringComparison.OrdinalIgnoreCase))
+            {
+                response.Headers[name] = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Answers a missing file, or the never-served <c>_headers</c>, as Cloudflare Pages does: the published <see cref="NotFoundPage"/> with status 404 and the rules' headers,
+    /// with <see cref="NotFoundCacheControl"/> in place of any <c>Cache-Control</c> in deployment-caching mode. Without a <see cref="NotFoundPage"/> the body is empty.
+    /// </summary>
+    private async Task RespondNotFoundAsync(HttpListenerResponse response, string requestPath, string urlPath)
+    {
+        var page = Path.Combine(root, NotFoundPage);
+        var bytes = File.Exists(page) ? await File.ReadAllBytesAsync(page) : [];
+        response.StatusCode = 404;
+        response.ContentType = "text/html";
+        ApplyRules(response, urlPath);
+        if (deploymentCaching)
+        {
+            response.Headers["Cache-Control"] = NotFoundCacheControl;
+        }
+        Volatile.Read(ref log).Enqueue(new(requestPath, "GET", 404, null, bytes.Length));
+        response.ContentLength64 = bytes.Length;
+        await response.OutputStream.WriteAsync(bytes);
+        response.Close();
+    }
 
     public void Dispose()
     {

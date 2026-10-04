@@ -206,7 +206,7 @@ public sealed class LifecycleBrowserTests(PublishedAppFixture app, ITestOutputHe
                 await page.Locator("#nickname").FillAsync("Applied");
                 await Apply(page);
             }
-            // A blank page, not one of the app's text files: WebKit's own text viewer sets an inline style that the app's CSP header blocks.
+            // A blank page, so the navigation away involves nothing but the app.
             await page.GotoAsync("about:blank");
             await page.GoBackAsync();
             await Expect(page.Locator("#save-file")).ToBeVisibleAsync(new() { Timeout = 60000 });
