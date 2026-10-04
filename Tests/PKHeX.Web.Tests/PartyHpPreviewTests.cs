@@ -40,12 +40,12 @@ public sealed class PartyHpPreviewTests : IDisposable
     }
 
     [Fact]
-    public void TheLiveRegionIsPresentBeforeItsTextArrives()
+    public void TheRegionIsPresentBeforeItsTextArrivesAndIsNotLive()
     {
-        // Screen readers announce changes inside an existing live region, not reliably one inserted with its text.
+        // The preview follows typed level, IV and EV edits, so it is read with Apply rather than announced on every keystroke.
         var change = new PartyHpChange(40, 12, 40, 12);
         var rendered = Render(null);
-        rendered.Find("#party-hp-region").GetAttribute("role").Should().Be("status");
+        rendered.Find("#party-hp-region").HasAttribute("role").Should().BeFalse();
         var before = rendered.Markup;
 
         rendered.Render(p => p.Add(c => c.Change, change));

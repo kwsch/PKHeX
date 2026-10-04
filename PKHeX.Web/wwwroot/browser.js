@@ -1,6 +1,6 @@
 // Browser file interop: file-only drop zones and Blob downloads. Files are only ever read locally; nothing is fetched or uploaded.
 // The page-wide navigation guard is drop-guard.js, loaded by index.html before the app.
-// Also preloads the sprite atlas at startup, in builds that include it, and has page helpers (next paint, focus a section) and the
+// Also preloads the sprite atlas at startup, in builds that include it, and has page helpers (next paint, focus a section, show a modal) and the
 // diagnostic report's helpers (user agent, copy, select).
 
 // The preloaded atlas, kept referenced for the page's lifetime. Sprites are <img> elements with this same URL, which browsers serve from
@@ -174,9 +174,41 @@ for (const query of [narrowQuery, wideQuery]) {
     window.matchMedia(query).addEventListener('change', keepFocusShown);
 }
 
+/**
+ * Focuses the element with the given id only when focus has been lost to the page body, as it is when the element that had it was removed
+ * (an error summary whose reasons were all resolved). Focus anywhere else is left alone. Returns true when it moved focus.
+ */
+export function focusIfLost(id) {
+    const active = document.activeElement;
+    if (active && active !== document.body) {
+        return false;
+    }
+    const element = document.getElementById(id);
+    if (!element) {
+        return false;
+    }
+    element.focus();
+    return true;
+}
+
 /** Like focusElement, but only while the page shows one pane at a time; returns false otherwise. */
 export function focusIfNarrow(id) {
     return window.matchMedia(narrowQuery).matches && focusElement(id);
+}
+
+/**
+ * Shows a <dialog> as a modal: the page behind it becomes inert and focus stays inside it. Does nothing when it is already open.
+ * Escape's cancel event is not allowed to close it: the app decides (it cancels the exit, which removes the dialog), so the dialog never
+ * closes while the app still shows it. A close the browser forces anyway raises close, which the app handles too.
+ */
+export function showModal(dialog) {
+    if (!dialog.pkhexCancelGuard) {
+        dialog.pkhexCancelGuard = true;
+        dialog.addEventListener('cancel', event => event.preventDefault());
+    }
+    if (!dialog.open) {
+        dialog.showModal();
+    }
 }
 
 /** The browser's user agent string, read only when the user prepares a diagnostic report. */

@@ -2,11 +2,18 @@
    A discard has a single step instead, which names what it loses.
    It shows only the current step's choices. The step is worked out by WorkspaceState from the live session and passed in, so it cannot go stale,
    and a change of step is a change of parameter, which re-renders the panel.
-   The work itself (apply, download) is done by the workspace through the callbacks, which also report the outcome. *@
+   The work itself (apply, download) is done by the workspace through the callbacks, which also report the outcome.
+   It is a native modal dialog (WEB-A11Y-002): the browser keeps focus and pointer input inside it, and makes the page behind it inert, until
+   the exit ends or is cancelled. Escape cancels, as "Cancel and keep this save" does. *@
+@inject BrowserPage Page
+@inject DiagnosticLog Diagnostics
 @if (Exit is { } exit)
 {
     var stage = Stage;
-    <section id="exit" aria-labelledby="exit-title">
+    @* The cancel event's default (closing the dialog) is prevented by browser.js showModal, so the dialog closes only by being removed when
+       the exit ends; Razor has no preventDefault modifier for this event. *@
+    @* open is rendered only when the modal could not be shown: a dialog that is not open is not displayed at all. *@
+    <dialog id="exit" aria-labelledby="exit-title" open="@modalFailed" @ref="dialog" @oncancel="Cancelled" @onclose="Closed">
         @* Focus moves to the heading at each step, which announces it; a live region as well would announce it twice. *@
         <h2 id="exit-title" tabindex="-1" @ref="heading">@SessionStatusText.ExitTitle(exit)</h2>
         @* Only a replace waits on another file; a reset's candidate is the open file parsed again. *@
@@ -14,6 +21,8 @@
         {
             <p>Waiting to open: <code id="exit-name">@candidate.FileName</code></p>
         }
+        @* The page's status message is behind the dialog, and inert while it is open, so the step outcomes it reports are repeated here. *@
+        <p id="exit-status" role="status">@Message</p>
         <p id="exit-prompt">@(stage == ExitStage.ConfirmDiscard ? SessionStatusText.DiscardPrompt(DraftPending, ExportStatus) : SessionStatusText.ExitPrompt(stage))</p>
         @switch (stage)
         {
@@ -44,11 +53,17 @@
                 break;
         }
         <button id="exit-cancel" type="button" @onclick="OnCancel" disabled="@Busy">Cancel and keep this save</button>
-    </section>
+    </dialog>
 }
 
 @code {
-    private ElementReference heading;
+    private ElementReference heading, dialog;
+
+    /// <summary>
+    /// True when the dialog could not be shown as a modal; it is then rendered open, in place, without the modal behaviour, so the exit can
+    /// still be resolved or cancelled.
+    /// </summary>
+    private bool modalFailed;
     private (SessionExit? Exit, ExitStage Stage) focusedStep;
 
     /// <summary>The exit in progress (<see cref="WorkspaceState.Exit"/>); nothing is rendered when null.</summary>
@@ -112,15 +127,59 @@
     /// <summary>Abandon the exit.</summary>
     [Parameter] public EventCallback OnCancel { get; set; }
 
+    /// <summary>The page's latest status message, repeated inside the dialog, where it is announced.</summary>
+    [Parameter] public string Message { get; set; } = "";
+
+    /// <summary>
+    /// Opens the dialog as a modal when an exit first shows it, then moves focus to the heading at each new step, which announces it.
+    /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var step = (Exit, Stage);
         if (step.Exit is null || step == focusedStep)
         {
             focusedStep = step;
+            // The next exit tries the modal again.
+            modalFailed &= step.Exit is not null;
             return;
         }
+        var opening = focusedStep.Exit is null;
         focusedStep = step;
+        if (opening)
+        {
+            await ShowModalAsync();
+        }
         await heading.FocusAsync();
+    }
+
+    /// <summary>Shows the dialog as a modal; a failure is recorded, and the dialog is then shown in place without the modal behaviour.</summary>
+    private async Task ShowModalAsync()
+    {
+        try
+        {
+            await Page.ShowModalAsync(dialog);
+        }
+        catch (JSException ex)
+        {
+            Diagnostics.Record(DiagnosticOperation.Focus, ex);
+            modalFailed = true;
+            StateHasChanged();
+        }
+    }
+
+    /// <summary>Escape: cancels the exit, as the cancel button does, unless another operation is running.</summary>
+    private Task Cancelled() => Busy ? Task.CompletedTask : OnCancel.InvokeAsync();
+
+    /// <summary>
+    /// The browser closed the dialog itself: a close request it does not let the page refuse (repeated Escape without other input, under the
+    /// close-watcher rules). The exit is cancelled as Escape would cancel it; while another operation runs, the dialog is shown again instead.
+    /// </summary>
+    private Task Closed()
+    {
+        if (Exit is null)
+        {
+            return Task.CompletedTask;
+        }
+        return Busy ? ShowModalAsync() : OnCancel.InvokeAsync();
     }
 }

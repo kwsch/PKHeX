@@ -44,11 +44,11 @@ public sealed class IvEvBrowserTests(PublishedAppFixture app)
         // An IV out of range is refused as typed and blocks Apply until corrected.
         var speed = page.Locator("#iv-5");
         await speed.FillAsync("32");
-        await Expect(page.Locator("#message")).ToHaveTextAsync(UserMessages.For(SessionError.IvOutOfRange));
+        await Expect(page.Locator("#stat-fields-error")).ToHaveTextAsync(UserMessages.For(SessionError.IvOutOfRange));
         await Expect(speed).ToHaveValueAsync("32");
         await Expect(page.Locator("#apply")).ToBeDisabledAsync();
         await speed.FillAsync(speedIv.ToString(CultureInfo.InvariantCulture));
-        await Expect(page.Locator("#message")).ToBeEmptyAsync();
+        await Expect(page.Locator("#stat-fields-error")).ToHaveCountAsync(0);
         var hiddenPower = GameInfo.Strings.HiddenPowerTypes[edited.HPType];
         await Expect(page.Locator("#iv-note")).ToHaveTextAsync(EditorText.IvNote(edited.IVTotal, 31, hiddenPower));
         await Expect(page.Locator("#inspect-hidden-power")).ToHaveTextAsync(hiddenPower);
@@ -58,7 +58,7 @@ public sealed class IvEvBrowserTests(PublishedAppFixture app)
         await TypeAsync(page.Locator("#ev-5"), "252");
         await Expect(page.Locator("#ev-note")).ToHaveTextAsync("EV total 504 of 510; 6 remaining.");
         await page.Locator("#ev-0").FillAsync("7");
-        await Expect(page.Locator("#message")).ToHaveTextAsync(UserMessages.For(SessionError.EvTotalAboveLimit));
+        await Expect(page.Locator("#stat-fields-error")).ToHaveTextAsync(UserMessages.For(SessionError.EvTotalAboveLimit));
         await Expect(page.Locator("#ev-0")).ToHaveValueAsync("7");
         await Expect(page.Locator("#apply")).ToBeDisabledAsync();
         await page.Locator("#ev-0").FillAsync("6");

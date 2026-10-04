@@ -1804,7 +1804,105 @@ Topic branches from `web/foundation`, in the order `PKHeX.Web.md` §"Proposed co
   - **Compared with PKForge** (`src/PKForge.App/Views/Kit.cs`, `BoxBrowserPage.cs`):
     - **Stricter:** PKForge sets no semantic or accessibility properties, uses 28–40 dp minimum heights (`Kit.cs:413,759`, `BoxBrowserPage.cs:5148,5268`) and has no accessibility tests; we check names, contrast, targets and reflow, and run axe.
     - **Out of scope:** its Android-only adaptive layout.
-- **M18b Modal exit dialog, validation summary, live notes, read-only styling.** Not started.
+- **M18b Modal exit dialog, validation summary, live notes, read-only styling.**
+
+  **M18b status:** code complete on `web/m18b-modal-exit-validation`.
+  - **User decisions** (recorded under M18): the exit panel is a native modal `<dialog>` and Escape cancels; validation uses an error summary on activating Apply or Download (`aria-disabled`, still focusable), with `aria-invalid` and an inline error on the refused field, and typing never moves focus; live regions only for verdicts and discrete choices, typed notes through `aria-describedby`, legality announcing only the final verdict; read-only field styling.
+  - **Refusals** (`State/FieldRefusal`, `Components/DraftEdit`, `Components/EditorFields`, `Components/FieldError`):
+    - Every editor edit carries the id of its control. `WorkspaceState.DraftRefusal` records the last refused one (`RefuseDraftEdit`); `DraftValid` is now derived from it, and `AcceptDraftEdit`, a new draft, a new session, a discarded exit draft and a fault recovery clear it. `SetDraftValid` is gone.
+    - The refused control gets `aria-invalid="true"`, and its fieldset's error line (`{fieldset}-error`, after the fieldset's controls, so table cells share one) is added to its `aria-describedby`. `ChoiceSelect` gains `Invalid`. An unexpected failure says `ValidationText.FieldFailed`.
+    - A refusal is no longer written to `#message`: that is a live region, so every refused keystroke interrupted. Failures are still recorded, redacted, for the diagnostic report.
+  - **Readiness and the error summary** (`State/ActionReadiness`, `Components/ErrorSummary`, `Components/ValidationText`):
+    - `ForApply` (busy, not writable, no changes, refused field, pending species preview, legality waiting, not acknowledged) and `ForDownload` (busy, refused field, pending preview, unapplied draft, flagged changes not acknowledged) give every reason in order. They set the buttons' `aria-disabled` and guard their handlers, so the two cannot disagree.
+    - `#apply` and `#download` drop `disabled`. Activating one while it cannot act shows `#apply-summary`/`#download-summary` beside it and focuses it (`role="region"`, `tabindex="-1"`, a heading). Each reason is a sentence with a link where there is somewhere to go: the refused field, `species-confirm`, `apply-ack`, `apply`, `export-ack`. Links prevent the default (under `/PKHeX/` a fragment would navigate) and move focus after render. A link into the editor shows the editor pane first (review fix below).
+    - The summary follows the reasons as they are resolved, goes once none is left, and is forgotten then, so a later refusal does not bring it back; a new draft or session drops it. Typing never shows or focuses one.
+    - The exit dialog's Apply draft and Download keep native `disabled`: their acknowledgement is right beside them.
+  - **Announcements:**
+    - No longer live: `level-note`, `iv-note`, `ev-note`, `name-note` and the party HP preview. Level/experience, IVs, EVs, both friendship fields and the name fields are described by their notes; `#apply` by `party-hp-preview` while shown.
+    - The rename from a flag or language choice moves to a new live `#name-change` (`EditorText.RenameNote`; `NameNote` loses its `renamed` argument).
+    - Still live (discrete choices): the species preview and change, nature, ability, gender and move notes, `#message`, the box status.
+    - `#legality-status` loses `role="status"`; a visually hidden `#legality-announce` holds "Legality: Valid/Invalid/Unavailable" and is empty while not analysed, pending or stale, so a repeated verdict is announced again.
+  - **Exit dialog** (`Components/SessionExitPanel`, `BrowserPage.ShowModalAsync`, `browser.js` `showModal`):
+    - `<dialog id="exit" aria-labelledby="exit-title">`, shown with `showModal()` when an exit first renders, before the heading focus. It is removed, not closed, when the exit ends; the workspace's focus return is unchanged.
+    - Escape: `browser.js` prevents the `cancel` event's default (Razor has no `:preventDefault` for `oncancel`; it rendered a literal attribute, caught by a unit test), and `@oncancel` cancels the exit unless a download is being prepared. A close the browser forces anyway (Chromium's close-watcher rules) raises `@onclose`: it cancels, or shows the dialog again while busy.
+    - `#exit-status` (`role="status"`) repeats the page's message inside the dialog, since `#message` is inert behind it.
+    - Token colours, a `--fg` backdrop at 40%, `width: min(56rem, 100vw - 2rem)`, `max-height: 100dvh - 2rem`, scrolling inside.
+    - The picker and drop zone are inert while it is open. The `Held` state path is kept; the PublishedAppTests step that sets a file during an exit now says it is not a user path.
+  - **Read-only styling** (`app.css`): read-only fields keep `--fg` text, with the `--control` background and a dashed border; `button[aria-disabled="true"]` looks like a disabled button; a refused field gets a 2px `--invalid` border and its error line `--invalid` bold text. The rules are written as specifically as the field rule (found while testing: written plainly, both lost to it, and the E2E check failed).
+  - **Tests.**
+    - **Unit 1158** (up from 1095; 1156 before the first adversarial review, 1157 before the second):
+      - `ActionReadinessTests` (15 with cases): every reason, the order, none when ready.
+      - `ErrorSummaryTests` (29 with cases): nothing without a reason, the region, sentences and links, a link asking for focus without navigating, field error text, every reason's text and target, every control's fieldset, unknown ids.
+      - `WorkspaceValidationTests` (8, 1 from the review): Apply and Download focusable (`aria-disabled`, `type="button"`), activating Apply, a refusal on its control and not in `#message`, the summary's link and its correction, a resolved activation not coming back, Download linking to Apply, a link into the hidden editor, a new draft dropping it.
+      - `DraftEditorTests` (+6): a refused text field, its clearing, a table cell, a choice, a failure without a reason, every edit naming its control; note and describedby tests updated.
+      - `SessionExitPanelTests` (+4, 1 from the second review): a modal dialog shown once and named by its heading with the status, Escape and busy Escape, a forced close and busy reopening, a dialog shown open when the modal fails. Now async-disposed (`BrowserPage`).
+      - `WorkspaceStateTests` (+1): the refusal's lifetime. `LegalityPanelTests`, `PartyHpPreviewTests` updated.
+    - **E2E 332** (up from 296; 326 before the second adversarial review), every test executed (`trx-all-executed.sh`), with the default and sprite publishes. The last full run after the review fix had one failure: M18a's resize step in `ResponsiveBrowserTests` (Chromium, `/PKHeX/`) did not see focus on `#draft-title`. It passed in the run before and in 10 of 10 reruns, so it is recorded below as intermittent:
+      - `ValidationBrowserTests`, 3 engines × 2 paths: a refused level marked, described, with the `--invalid` border, focus kept and `#message` unchanged; Apply reached by keyboard, Enter focuses the summary, its link (Option+Tab in WebKit, as in Safari) focuses the field with no navigation; corrected, the mark goes and `#legality-announce` holds the verdict. Download at 375px from the storage pane: summary, its link shows the editor and focuses Apply; applied and acknowledged, Download acts. Read-only fields: `--fg` on `--control`, dashed, against an editable field's `--fg` on `--bg`, solid.
+      - `ValidationBrowserTests` (second review): Apply pressed at once after typing focuses a waiting summary; when the Valid result resolves it, focus returns to Apply.
+      - `ModalExitBrowserTests`, 3 engines × 2 paths: `:modal`; 8 Tabs and 8 Shift+Tabs never focus behind the dialog; a forced click on Download behind it does nothing; Escape cancels with focus on Close save and the draft kept; a browser-forced close (`dialog.close()`) cancels the same way (second review); Escape also at the download step (with `#exit-status`); at 320px no sideways scroll and every choice fully on screen when scrolled to.
+      - Updated: the refusal assertions in ItemMove, IvEv, LevelNature and NameFriendship read the fieldset's error line; the rename reads `#name-change`. `ToBeDisabled` on `#apply`/`#download` holds unchanged (Playwright treats `aria-disabled` as disabled).
+    - **RealSave 98** pass.
+    - **Mutation checks** (Unit tier unless noted; files restored from a scratchpad copy; failing tests):
+
+      | Mutation | Failing tests |
+      | --- | --- |
+      | Apply natively disabled | 1 |
+      | Summary not focused | 4 |
+      | Summary link navigates | 1 |
+      | Refusal in the status message | 1 |
+      | No `aria-invalid` | 4 |
+      | Level note live | 1 |
+      | Legality announces Pending | 3 |
+      | Escape ignored | 1 |
+      | Busy Escape cancels | 1 |
+      | Forced close not shown again while busy | 1 |
+      | Dialog not shown as modal | 1 |
+      | No status in the dialog | 1 |
+      | Refusal kept by a new draft | 1 |
+      | Activation not forgotten | 1 |
+      | Busy not a reason | 2 |
+      | Unapplied draft not a download reason | 3 |
+      | Error line in the wrong fieldset | 1 |
+      | Wrong control id for EV edits | 2 |
+      | Name change not live | 1 |
+      | Summary not reset by a new draft | 1 |
+      | `show()` instead of `showModal()` (E2E, Chromium) | 2 |
+      | Read-only fields unstyled (E2E, Chromium) | 2 |
+      | Invalid border loses to the field rule (E2E, Chromium) | 2 |
+      | Summary link does not show the editor (review) | 1 |
+      | Failed modal not shown open (second review) | 1 |
+      | Summary title not a heading (second review) | 1 |
+      | Resolved summary does not refocus (second review, E2E, Chromium) | 2 |
+      | Forced close ignored (`@onclose` removed; E2E, Chromium) | 2 |
+
+    - **Other checks:** trim baseline unchanged (38); `PKHeX.slnx` Release has 0 warnings; no raw Bidi_Control characters in the changed files.
+  - **Adversarial review** (each finding shown by a failing test first, then fixed):
+    - **Fixed:** **a Download summary link could lead into a hidden pane.** On a phone with the party and boxes shown, the editor pane is hidden, so "Go to Apply changes" (and a refused field or pending preview) focused nothing. A link into the editor now shows the editor pane and focuses its target once rendered (`Workspace.ShowReason`). The E2E Download test now starts from the storage pane.
+    - **Checked, not changed:**
+      - A refused species or form preview is not an edit, so it stays in its own live region rather than becoming a field error.
+      - The exit dialog is removed while open when an exit ends; every engine took it out of the top layer (the export-flow and lifecycle E2E tests continue on the page afterwards).
+      - Legality Waiting has no link: Analyze now is disabled while a run is in progress, and the reason resolves itself.
+  - **Second adversarial review** (each finding shown by a failing probe first, then fixed; the probes were folded into the tests above and deleted):
+    - **Fixed:**
+      - **Focus dropped to the page body when a focused summary resolved.** Apply pressed right after typing shows "Apply is available once legality has analysed the draft as it is now" and focuses it; when the Valid result arrived the summary was removed with focus inside it (probed: `BODY` in all three engines). A summary that goes now returns focus to its button (`browser.js` `focusIfLost`, only when focus is on the body). The same holds for a Download summary that showed only "being prepared".
+      - **A dialog that could not be shown as a modal was invisible.** A `dialog` that is not open is not displayed, so a failed `showModal` left the exit unresolvable while the code comment claimed it was "shown in place". It is now rendered `open` on failure, and the next exit tries the modal again.
+      - **The summary title was a paragraph**, not the heading the plan and README describe; it is an `h3` now, under the editor's and Download's `h2`.
+    - **Probed, holds:** a browser-forced close (`dialog.close()`, as Android back or repeated Escape under Chromium's close-watcher rules) reaches `@onclose` in all three engines and cancels the exit; the probe is now part of `ModalExitBrowserTests`. An edit that comes back Invalid keeps the summary with its acknowledgement reason rather than removing it.
+    - **Checked, not changed:**
+      - Legality Waiting stays without a link: `DraftLegality.AutoRun` has no switch in the UI, so the result always arrives by itself.
+      - Apply on an egg says "no changes to apply"; the egg note above the fields already says why nothing can change.
+      - In dark mode the backdrop (`--fg` at 40%) lightens the page behind the dialog rather than darkening it; the dialog keeps its border and full-contrast tokens, and axe passes in dark mode.
+  - **Recorded, not changed:**
+    - WebKit and Safari reach links only with Option+Tab by default, which also applies to legality finding links; a keyboard user there needs that setting or key.
+    - The exit dialog's Apply draft and Download stay natively disabled (their acknowledgement is beside them in the dialog).
+    - `ResponsiveBrowserTests` failed once in a full local run at the resize that hides the focused box navigation (focus not yet on the editor heading), then passed 10 of 10 alone. `browser.js` moves focus one animation frame after the media query changes, well within the 5s expectation, so the cause is not known; M18b does not touch that path. Watch it in CI.
+    - M18c's previous/next Pokémon and the searchable move/item picker are still to come.
+  - **Not verified yet:** no screen reader (announcements, the dialog's name, the summary's reading); physical devices and their Escape equivalents, such as Android back (G-C); no manual keyboard-only drive beyond the browser tests.
+  - **Compared with PKForge** (`Views/PadMenu`, `Services/TransferPreviewPrompt`, `BoxBrowserPage` confirmations and steppers):
+    - **Matches:** confirmations are modal overlays with a scrim that take over input while open, and B (the gamepad's back) cancels, as Escape does here.
+    - **Stricter:** PKForge sets no semantic or accessibility properties, so its overlays have no focus containment or names for assistive technology; ours is a native modal dialog with a named heading and focus return. Its numeric steppers clamp (`Math.Clamp`, `BoxBrowserPage.cs:594,2846`), where we refuse and say why on the field; it has no error summary or disabled-action explanation.
+    - **Not adopted:** a scrim tap that cancels (PadMenu's overlay closes on a tap outside); a native modal does not light-dismiss, so a stray tap cannot discard an exit step.
 - **M18c Previous/next Pokémon and the searchable move/item picker.** Not started.
 - **M19 Full published journey E2E.** 3 engines × 2 paths with synthetic fixtures. Picker and drop → select box + party → edit one field from each group → legality → apply → export → reopen → assert fields plus unchanged bytes outside the slot and checksum regions. Privacy trace and keyboard-only run. The RealSave tier gets the same journey for local G-D runs (TEST-004/005).
 - **M20 Hosting + release.**

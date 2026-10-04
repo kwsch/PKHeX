@@ -24,22 +24,30 @@ public sealed class DraftEditorTests : IDisposable
     /// <summary>The refusal of the last edit, or null when it was accepted.</summary>
     private SessionError? refused;
 
+    /// <summary>The last edit with the control it came from, when it was refused, as the workspace records it; null when it was accepted.</summary>
+    private FieldRefusal? refusal;
+
     public void Dispose() => context.Dispose();
 
     private IRenderedComponent<DraftEditor> Render(EditorDraft draft) => context.Render<DraftEditor>(p => p
         .Add(c => c.Draft, draft)
-        .Add(c => c.OnEdit, EventCallback.Factory.Create<Action<EditorDraft>>(this, edit =>
+        .Add(c => c.OnEdit, EventCallback.Factory.Create<DraftEdit>(this, edit =>
         {
             refused = null;
+            refusal = null;
             try
             {
-                edit(draft);
+                edit.Edit(draft);
             }
             catch (SessionException ex)
             {
                 refused = ex.Error;
+                refusal = new FieldRefusal(edit.FieldId, ex.Error);
             }
         })));
+
+    /// <summary>Passes the last refusal back to <paramref name="editor"/>, as the workspace does when it re-renders.</summary>
+    private void ShowRefusal(IRenderedComponent<DraftEditor> editor) => editor.Render(p => p.Add(c => c.Refusal, refusal));
 
     private static EditorDraft Open(byte[] bytes, SlotRef? slot = null) => SaveFixtures.Open(bytes).Select(slot ?? SaveFixtures.FirstBoxSlot);
 
@@ -70,7 +78,7 @@ public sealed class DraftEditorTests : IDisposable
         var editor = Render(Open(SaveFixtures.Synthetic(true)));
 
         editor.Find("#ht-friendship").HasAttribute("readonly").Should().BeTrue();
-        editor.Find("#ht-friendship").GetAttribute("aria-describedby").Should().Be("ht-note");
+        editor.Find("#ht-friendship").GetAttribute("aria-describedby").Should().Be("ht-note friendship-note");
         editor.Find("#ht-note").TextContent.Should().Be(EditorText.NoHandler);
         editor.Find("label[for=ht-friendship]").TextContent.Should().Be("Friendship with handling trainer (none stored)");
         editor.Find("#friendship-note").TextContent.Should().StartWith("The game currently uses the original trainer's value.");
@@ -128,7 +136,10 @@ public sealed class DraftEditorTests : IDisposable
         editor.Find("#level-note").TextContent.Should().Be(
             "Level 50 starts at 125000 experience points; 7651 more reach level 51 at 132651. Changing the level sets the experience points to the start of the new level.");
         editor.Find("label[for=exp]").TextContent.Should().Be("Experience points (0–1000000)");
-        editor.Find("#level-note").GetAttribute("role").Should().Be("status");
+        // The note follows typing, so it is read with the fields, not announced.
+        editor.Find("#level-note").HasAttribute("role").Should().BeFalse();
+        editor.Find("#level").GetAttribute("aria-describedby").Should().Be("level-note");
+        editor.Find("#exp").GetAttribute("aria-describedby").Should().Be("level-note");
     }
 
     [Fact]
@@ -253,7 +264,8 @@ public sealed class DraftEditorTests : IDisposable
         editor.Find("#nicknamed").Change(false);
 
         editor.Find("#nickname").GetAttribute("value").Should().Be(ZigzagoonIn((int)LanguageID.English));
-        editor.Find("#name-note").TextContent.Should().Be($"Not nicknamed, so its name changed from {TestText.Isolated("Quill")} to its {LanguageName(draft, (int)LanguageID.English)} default, {ZigzagoonIn((int)LanguageID.English)}.");
+        editor.Find("#name-change").TextContent.Should().Be($"Not nicknamed, so its name changed from {TestText.Isolated("Quill")} to its {LanguageName(draft, (int)LanguageID.English)} default, {ZigzagoonIn((int)LanguageID.English)}.");
+        editor.Find("#name-note").TextContent.Should().BeEmpty("the default name needs no note");
     }
 
     [Fact]
@@ -283,7 +295,7 @@ public sealed class DraftEditorTests : IDisposable
         editor.Find("#language").Change(German.ToString(CultureInfo.InvariantCulture));
 
         editor.Find("#nickname").GetAttribute("value").Should().Be(ZigzagoonIn(German));
-        editor.Find("#name-note").TextContent.Should().Be($"Not nicknamed, so its name changed from {TestText.Isolated("Quill")} to its {LanguageName(draft, German)} default, {ZigzagoonIn(German)}.");
+        editor.Find("#name-change").TextContent.Should().Be($"Not nicknamed, so its name changed from {TestText.Isolated("Quill")} to its {LanguageName(draft, German)} default, {ZigzagoonIn(German)}.");
     }
 
     [Fact]
@@ -396,12 +408,19 @@ public sealed class DraftEditorTests : IDisposable
     }
 
     [Fact]
-    public void TheNameNoteIsAlwaysALiveRegion()
+    public void TheNameNoteDescribesTheFieldsAndOnlyARenameIsAnnounced()
     {
         var editor = Render(Open(SaveFixtures.Synthetic(true)));
 
-        editor.Find("#name-note").GetAttribute("role").Should().Be("status");
+        // The note follows typing, so it is read with the name fields; a rename by a flag or language choice is announced.
+        editor.Find("#name-note").HasAttribute("role").Should().BeFalse();
         editor.Find("#name-note").TextContent.Should().BeEmpty("the stored default name needs no note");
+        editor.Find("#name-change").GetAttribute("role").Should().Be("status");
+        editor.Find("#name-change").TextContent.Should().BeEmpty();
+        foreach (var id in new[] { "nickname", "nicknamed", "language" })
+        {
+            editor.Find($"#{id}").GetAttribute("aria-describedby").Should().Be("name-note");
+        }
     }
 
     [Fact]
@@ -497,8 +516,11 @@ public sealed class DraftEditorTests : IDisposable
         (draft.Ivs[5], draft.Evs[5]).Should().Be((31, 252));
         editor.Find("#iv-note").TextContent.Should().Be(EditorText.IvNote(draft.IvTotal, 31, GameInfo.Strings.HiddenPowerTypes[draft.HiddenPowerType]));
         editor.Find("#ev-note").TextContent.Should().Be("EV total 252 of 510; 258 remaining.");
-        editor.Find("#iv-note").GetAttribute("role").Should().Be("status");
-        editor.Find("#ev-note").GetAttribute("role").Should().Be("status");
+        // The notes follow typing, so each field is described by its note rather than the note being announced.
+        editor.Find("#iv-note").HasAttribute("role").Should().BeFalse();
+        editor.Find("#ev-note").HasAttribute("role").Should().BeFalse();
+        editor.Find("#iv-2").GetAttribute("aria-describedby").Should().Be("iv-note");
+        editor.Find("#ev-2").GetAttribute("aria-describedby").Should().Be("ev-note");
     }
 
     [Theory]
@@ -1297,4 +1319,112 @@ public sealed class DraftEditorTests : IDisposable
         editor.FindAll("#species-confirm").Should().BeEmpty();
         editor.Find("#species").GetAttribute("value").Should().Be(other.Species.ToString(CultureInfo.InvariantCulture));
     }
+    /// <summary>The ids of every element in <paramref name="editor"/> marked <c>aria-invalid</c>.</summary>
+    private static string[] InvalidIds(IRenderedComponent<DraftEditor> editor) =>
+        [.. editor.FindAll("[aria-invalid]").Select(e => e.Id!)];
+
+    [Fact]
+    public void ARefusedTypedFieldIsMarkedAndDescribedByItsError()
+    {
+        var editor = Render(Open(SaveFixtures.Synthetic(true)));
+
+        editor.Find("#level").Input("101");
+        ShowRefusal(editor);
+
+        refusal.Should().Be(new FieldRefusal("level", SessionError.LevelOutOfRange));
+        InvalidIds(editor).Should().Equal("level");
+        editor.Find("#level").GetAttribute("aria-invalid").Should().Be("true");
+        editor.Find("#level").GetAttribute("aria-describedby").Should().Be("level-note level-fields-error");
+        editor.Find("#exp").GetAttribute("aria-describedby").Should().Be("level-note", "only the refused control is described by the error");
+        var error = editor.Find("#level-fields-error");
+        error.TextContent.Should().Be(UserMessages.For(SessionError.LevelOutOfRange));
+        error.HasAttribute("role").Should().BeFalse("typing never interrupts with an error");
+        error.ParentElement!.Id.Should().Be("level-fields");
+        editor.FindAll(".field-error").Should().HaveCount(1);
+        editor.Find("#level").GetAttribute("value").Should().Be("101", "the refused input is kept as typed");
+    }
+
+    [Fact]
+    public void AnAcceptedEditClearsTheError()
+    {
+        var editor = Render(Open(SaveFixtures.Synthetic(true)));
+        editor.Find("#level").Input("101");
+        ShowRefusal(editor);
+
+        editor.Find("#level").Input("50");
+        ShowRefusal(editor);
+
+        InvalidIds(editor).Should().BeEmpty();
+        editor.FindAll(".field-error").Should().BeEmpty();
+        editor.Find("#level").GetAttribute("aria-describedby").Should().Be("level-note");
+    }
+
+    [Fact]
+    public void ARefusedTableCellIsMarkedAndItsErrorFollowsTheTable()
+    {
+        var editor = Render(Open(SaveFixtures.Synthetic(true)));
+
+        editor.Find("#ev-0").Input("252");
+        editor.Find("#ev-1").Input("252");
+        editor.Find("#ev-2").Input("252");
+        ShowRefusal(editor);
+
+        refusal.Should().Be(new FieldRefusal("ev-2", SessionError.EvTotalAboveLimit));
+        InvalidIds(editor).Should().Equal("ev-2");
+        editor.Find("#ev-2").GetAttribute("aria-describedby").Should().Be("ev-note stat-fields-error");
+        editor.Find("#ev-2").GetAttribute("aria-labelledby").Should().Be("stat-2 ev-head", "the name is unchanged");
+        editor.Find("#stat-fields-error").TextContent.Should().Be(UserMessages.For(SessionError.EvTotalAboveLimit));
+    }
+
+    [Fact]
+    public void ARefusedChoiceIsMarkedOnItsSelect()
+    {
+        var editor = Render(Open(SaveFixtures.Synthetic(true)));
+
+        editor.Find("#held-item").Change("65535");
+        ShowRefusal(editor);
+
+        refusal.Should().Be(new FieldRefusal("held-item", SessionError.ItemNotAvailable));
+        InvalidIds(editor).Should().Equal("held-item");
+        editor.Find("#held-item").GetAttribute("aria-describedby").Should().Be("item-note item-fields-error");
+        editor.Find("#item-fields-error").TextContent.Should().Be(UserMessages.For(SessionError.ItemNotAvailable));
+    }
+
+    [Fact]
+    public void AFailureWithoutAReasonSaysTheChangeWasNotMade()
+    {
+        var editor = Render(Open(SaveFixtures.Synthetic(true)));
+
+        editor.Render(p => p.Add(c => c.Refusal, new FieldRefusal("pp-1", null)));
+
+        InvalidIds(editor).Should().Equal("pp-1");
+        editor.Find("#move-fields-error").TextContent.Should().Be(ValidationText.FieldFailed);
+    }
+
+    [Fact]
+    public void EveryEditNamesItsControl()
+    {
+        // Each control reports its own id, so a refusal is shown on the control that made it.
+        var editor = Render(Open(SaveFixtures.Synthetic(true)));
+        var cases = new (string Id, Action Act)[]
+        {
+            ("nickname", () => editor.Find("#nickname").Input(new string('A', 40))),
+            ("ot-friendship", () => editor.Find("#ot-friendship").Input("300")),
+            ("level", () => editor.Find("#level").Input("0")),
+            ("exp", () => editor.Find("#exp").Input("x")),
+            ("nature", () => editor.Find("#nature").Change("99")),
+            ("iv-4", () => editor.Find("#iv-4").Input("32")),
+            ("ev-5", () => editor.Find("#ev-5").Input("253")),
+            ("held-item", () => editor.Find("#held-item").Change("65535")),
+            ("move-1", () => editor.Find("#move-1").Change("65535")),
+            ("pp-0", () => editor.Find("#pp-0").Input("99")),
+        };
+        foreach (var (id, act) in cases)
+        {
+            act();
+            refusal.Should().NotBeNull(id);
+            refusal!.FieldId.Should().Be(id);
+        }
+    }
 }
+

@@ -279,7 +279,8 @@ public sealed partial class PublishedAppTests(PublishedAppFixture app)
             Assert.True((await Download(page)).AsSpan().SequenceEqual(expected), "Rejected replacement changed session.");
         }
 
-        // A pending replacement survives a rejected file, and cancelling it keeps the draft.
+        // A pending replacement survives a rejected file, and cancelling it keeps the draft. The picker is inert behind the exit dialog, so a user
+        // cannot choose a file meanwhile; setting the input's files directly still checks that the state never lets one replace the waiting file.
         await page.Locator("#nickname").FillAsync("WASM Pending");
         await page.Locator("#nicknamed").CheckAsync();
         await Load(page, SaveFixtures.Synthetic(true), "pending-main");

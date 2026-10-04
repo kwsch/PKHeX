@@ -6,7 +6,7 @@
    It renders again only when its own value, list, state or names change, so a keystroke elsewhere in the editor does not re-render hundreds of
    options. *@
 <select @ref="select" id="@Id" value="@Value.ToString(CultureInfo.InvariantCulture)" aria-labelledby="@LabelledBy" aria-describedby="@DescribedBy"
-        disabled="@Disabled" @onchange="Changed">
+        aria-invalid="@(Invalid ? "true" : null)" disabled="@Disabled" @onchange="Changed">
     @if (!listed)
     {
         <option value="@Value.ToString(CultureInfo.InvariantCulture)" disabled>@Unlisted(Value)</option>
@@ -33,6 +33,9 @@
     /// <summary>The drafted value.</summary>
     [Parameter] public int Value { get; set; }
 
+    /// <summary>True while the select's last choice was refused; it is then marked <c>aria-invalid</c>.</summary>
+    [Parameter] public bool Invalid { get; set; }
+
     /// <summary>True when the field cannot be changed.</summary>
     [Parameter] public bool Disabled { get; set; }
 
@@ -47,7 +50,7 @@
     private IReadOnlyList<ComboItem> choices = [];
     private HashSet<int> values = [];
     private bool listed;
-    private (int Value, bool Disabled, string Id, string? LabelledBy, string? DescribedBy)? rendered;
+    private (int Value, bool Disabled, bool Invalid, string Id, string? LabelledBy, string? DescribedBy)? rendered;
     private bool listChanged;
 
     protected override void OnParametersSet()
@@ -62,11 +65,11 @@
         listed = values.Contains(Value);
     }
 
-    protected override bool ShouldRender() => listChanged || rendered != (Value, Disabled, Id, LabelledBy, DescribedBy);
+    protected override bool ShouldRender() => listChanged || rendered != (Value, Disabled, Invalid, Id, LabelledBy, DescribedBy);
 
     protected override void OnAfterRender(bool firstRender)
     {
-        rendered = (Value, Disabled, Id, LabelledBy, DescribedBy);
+        rendered = (Value, Disabled, Invalid, Id, LabelledBy, DescribedBy);
         listChanged = false;
     }
 

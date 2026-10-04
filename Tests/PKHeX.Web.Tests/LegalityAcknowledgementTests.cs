@@ -27,7 +27,7 @@ public sealed class LegalityAcknowledgementTests
     private static void Edit(WorkspaceState state, Action<EditorDraft> edit)
     {
         edit(state.Draft!);
-        state.SetDraftValid(true);
+        state.AcceptDraftEdit();
     }
 
     /// <summary>Asserts that <see cref="WorkspaceState.ApplyDraft"/> is refused with <paramref name="error"/> and changes nothing.</summary>
@@ -62,7 +62,7 @@ public sealed class LegalityAcknowledgementTests
 
         // A refused edit leaves the draft not matching what was typed, so there is nothing to apply it with.
         await state.Legality.RunNowAsync();
-        state.SetDraftValid(false);
+        state.RefuseDraftEdit(new FieldRefusal("level", SessionError.LevelOutOfRange));
         state.Legality.Gate.Should().Be(LegalityGate.Waiting);
         ApplyIsRefused(state, SessionError.LegalityNotCurrent);
     }

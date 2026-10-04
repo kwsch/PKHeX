@@ -1,0 +1,39 @@
+@* What stops Apply or Download, shown beside the button when it is activated while it cannot act (WEB-A11Y-002). The button stays focusable
+   (aria-disabled), so a keyboard or screen reader user can find out why. The workspace focuses the summary when it is activated; each link
+   then moves focus to the control that resolves its reason. Not a live region: it appears only on activation, and focus announces it.
+   Its list follows the current reasons, so it shrinks as they are resolved; the workspace removes it once none is left. *@
+@if (Items.Count > 0)
+{
+    <div id="@Id" class="error-summary" role="region" tabindex="-1" aria-labelledby="@($"{Id}-title")">
+        @* A heading, so heading navigation finds it; both places it is shown sit under a level 2 heading (the editor and Download). *@
+        <h3 id="@($"{Id}-title")" class="error-summary-title">@Title</h3>
+        <ul id="@($"{Id}-list")">
+            @foreach (var item in Items)
+            {
+                <li>
+                    @item.Text
+                    @if (item is { LinkText: { } text, TargetId: { } target })
+                    {
+                        @* A fragment link, so it reads as one and works without script, but focus is moved by the workspace: under /PKHeX/ the
+                           browser would resolve "#id" against the base path and navigate. *@
+                        <a class="finding-link" href="@($"#{target}")" @onclick="() => OnShow.InvokeAsync(target)" @onclick:preventDefault>@text</a>
+                    }
+                </li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+    /// <summary>The summary's id; its heading is <c>{Id}-title</c> and its list <c>{Id}-list</c>.</summary>
+    [Parameter, EditorRequired] public string Id { get; set; } = "";
+
+    /// <summary>The summary's heading.</summary>
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+
+    /// <summary>The reasons; nothing is rendered when there are none.</summary>
+    [Parameter] public IReadOnlyList<SummaryItem> Items { get; set; } = [];
+
+    /// <summary>Raised with the id of the element a link points to, so the page can move focus there.</summary>
+    [Parameter] public EventCallback<string> OnShow { get; set; }
+}

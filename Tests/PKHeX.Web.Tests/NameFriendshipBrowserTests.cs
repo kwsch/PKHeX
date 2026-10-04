@@ -48,22 +48,22 @@ public sealed class NameFriendshipBrowserTests(PublishedAppFixture app)
         await page.Locator("#language").SelectOptionAsync(German.ToString(CultureInfo.InvariantCulture));
         await Expect(page.Locator("#nickname")).ToHaveValueAsync(ZigzagoonIn(German));
         await Expect(page.Locator("#nicknamed")).Not.ToBeCheckedAsync();
-        await Expect(page.Locator("#name-note")).ToContainTextAsync($"its name changed from {TestText.Isolated("Quill")} to its");
-        await Expect(page.Locator("#name-note")).ToContainTextAsync(ZigzagoonIn(German));
+        await Expect(page.Locator("#name-change")).ToContainTextAsync($"its name changed from {TestText.Isolated("Quill")} to its");
+        await Expect(page.Locator("#name-change")).ToContainTextAsync(ZigzagoonIn(German));
 
         // Out-of-range friendship is refused as typed, not clamped, and blocks Apply until corrected.
         await page.Locator("#ot-friendship").FillAsync("256");
-        await Expect(page.Locator("#message")).ToHaveTextAsync(UserMessages.For(SessionError.FriendshipOutOfRange));
+        await Expect(page.Locator("#friendship-fields-error")).ToHaveTextAsync(UserMessages.For(SessionError.FriendshipOutOfRange));
         await Expect(page.Locator("#ot-friendship")).ToHaveValueAsync("256");
         await Expect(page.Locator("#apply")).ToBeDisabledAsync();
         // Partly typed text is refused and shown as typed; a number field would report it as empty and the field would be wiped.
         await page.Locator("#ot-friendship").FillAsync("");
         await page.Locator("#ot-friendship").PressSequentiallyAsync("1e");
         await Expect(page.Locator("#ot-friendship")).ToHaveValueAsync("1e");
-        await Expect(page.Locator("#message")).ToHaveTextAsync(UserMessages.For(SessionError.FriendshipOutOfRange));
+        await Expect(page.Locator("#friendship-fields-error")).ToHaveTextAsync(UserMessages.For(SessionError.FriendshipOutOfRange));
         await page.Locator("#ot-friendship").FillAsync("200");
         await ReadyToApply(page);
-        await Expect(page.Locator("#message")).ToBeEmptyAsync();
+        await Expect(page.Locator("#friendship-fields-error")).ToHaveCountAsync(0);
         await Expect(page.Locator("#inspect-ot-friendship")).ToContainTextAsync("200");
 
         await Apply(page);

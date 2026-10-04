@@ -1,6 +1,6 @@
-@* The preview of a party member's HP reduction, shown before the draft is applied. The live region is always present and only its
-   content changes, because screen readers do not reliably announce a live region that is inserted together with its text. *@
-<div id="party-hp-region" role="status">
+@* The preview of a party member's HP reduction, shown before the draft is applied. It follows typed level, IV and EV edits, so it is not a
+   live region, which would interrupt every keystroke; Apply is described by it (aria-describedby="party-hp-preview") instead. *@
+<div id="party-hp-region">
     @if (PartyText.HpPreview(Change) is { } text)
     {
         <p id="party-hp-preview">@text</p>

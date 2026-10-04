@@ -5,8 +5,11 @@
     <h3 id="legality-title">Legality</h3>
     <p class="legality-line">
         <span class="@LegalityText.IconClass(Status)" aria-hidden="true">@LegalityText.Icon(Status)</span>
-        <span id="legality-status" role="status">@LegalityText.Status(Status)</span>
+        <span id="legality-status">@LegalityText.Status(Status)</span>
     </p>
+    @* The status changes with every keystroke (stale, pending), so it is not announced itself; this region is, and holds only a final verdict.
+       It empties while the draft changes, so the same verdict is announced again once the new result arrives. *@
+    <p id="legality-announce" class="visually-hidden" role="status">@LegalityText.Announcement(Status)</p>
     <p id="legality-summary">@LegalityText.Summary(Status, Current, AutoRun, DraftValid)</p>
     @if (Current is { Findings.Count: > 0 } current)
     {

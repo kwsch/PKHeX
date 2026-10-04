@@ -47,8 +47,11 @@ public sealed class WorkspaceState : IDisposable
     /// <summary>The unapplied edit of the selected slot, or null when nothing is selected.</summary>
     public EditorDraft? Draft { get; private set; }
 
-    /// <summary>False while the last draft edit was refused; the draft then no longer matches what the user typed.</summary>
-    public bool DraftValid { get; private set; } = true;
+    /// <summary>The last draft edit, when it was refused, or null; the draft then no longer matches what the user entered in that control.</summary>
+    public FieldRefusal? DraftRefusal { get; private set; }
+
+    /// <summary>False while the last draft edit was refused (<see cref="DraftRefusal"/>).</summary>
+    public bool DraftValid => DraftRefusal is null;
 
     /// <summary>True when the draft differs from its slot.</summary>
     public bool DraftDirty => Draft?.IsDirty == true;
@@ -74,7 +77,7 @@ public sealed class WorkspaceState : IDisposable
         Session = session;
         Exit = null;
         Draft = null;
-        DraftValid = true;
+        DraftRefusal = null;
         View.Reset();
         Legality.Reset();
         CurrentBox = StorageView.InitialBox(session);
@@ -205,7 +208,7 @@ public sealed class WorkspaceState : IDisposable
         RequireStage(ExitStage.ResolveDraft);
         Draft = null;
         View.Reset();
-        DraftValid = true;
+        DraftRefusal = null;
         Legality.Reset();
         Advance();
     }
@@ -370,7 +373,7 @@ public sealed class WorkspaceState : IDisposable
     public void SetDraft(EditorDraft? draft)
     {
         Draft = draft;
-        DraftValid = true;
+        DraftRefusal = null;
         if (draft is null)
         {
             View.Reset();
@@ -381,12 +384,20 @@ public sealed class WorkspaceState : IDisposable
     }
 
     /// <summary>
-    /// Records whether the last edit of the draft was accepted. An accepted edit makes the legality result stale and schedules a new analysis;
-    /// a refused one cancels any waiting analysis, since the draft no longer matches what the user entered.
+    /// Records that the last edit of the draft was accepted, which ends any earlier refusal. It makes the legality result stale and schedules
+    /// a new analysis.
     /// </summary>
-    public void SetDraftValid(bool valid)
+    public void AcceptDraftEdit() => SetDraftRefusal(null);
+
+    /// <summary>
+    /// Records that the last edit of the draft was refused, and where. It cancels any waiting analysis, since the draft no longer matches what
+    /// the user entered.
+    /// </summary>
+    public void RefuseDraftEdit(FieldRefusal refusal) => SetDraftRefusal(refusal);
+
+    private void SetDraftRefusal(FieldRefusal? refusal)
     {
-        DraftValid = valid;
+        DraftRefusal = refusal;
         Legality.Schedule();
         OnChanged();
     }
@@ -405,7 +416,7 @@ public sealed class WorkspaceState : IDisposable
     {
         Exit = null;
         Draft = null;
-        DraftValid = true;
+        DraftRefusal = null;
         View.Reset();
         Legality.Reset();
         OnChanged();

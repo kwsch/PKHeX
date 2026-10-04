@@ -59,13 +59,43 @@ public sealed class WorkspaceStateTests
         state.NotifyChanged();
         state.HasUnsavedWork.Should().BeTrue("the draft differs from its slot");
 
-        state.SetDraftValid(false);
+        state.RefuseDraftEdit(new FieldRefusal("level", SessionError.LevelOutOfRange));
         state.HasUnsavedWork.Should().BeTrue("a refused edit no longer matches what the user typed");
 
         session.Apply(state.Draft);
         state.SetDraft(null);
         state.HasUnsavedWork.Should().BeTrue("an applied change is only in memory until downloaded");
         changes.Should().Be(5);
+    }
+
+    [Fact]
+    public void ARefusalIsKeptWithItsControlUntilAnEditIsAcceptedOrTheDraftOrSessionIsReplaced()
+    {
+        var state = SaveFixtures.NewState();
+        var session = Open();
+        state.Open(session);
+        state.SetDraft(session.Select(SaveFixtures.FirstBoxSlot));
+        var refusal = new FieldRefusal("iv-3", SessionError.IvOutOfRange);
+
+        state.RefuseDraftEdit(refusal);
+        state.DraftRefusal.Should().Be(refusal);
+        state.DraftValid.Should().BeFalse();
+        state.AcceptDraftEdit();
+        state.DraftRefusal.Should().BeNull("an accepted edit reloads every field from the draft");
+        state.DraftValid.Should().BeTrue();
+
+        state.RefuseDraftEdit(refusal);
+        state.SetDraft(session.Select(SaveFixtures.FirstBoxSlot));
+        state.DraftRefusal.Should().BeNull("a new draft shows its own values");
+
+        state.RefuseDraftEdit(refusal);
+        state.Open(Open());
+        state.DraftRefusal.Should().BeNull("a new session has no draft");
+
+        state.SetDraft(state.Session!.Select(SaveFixtures.FirstBoxSlot));
+        state.RefuseDraftEdit(refusal);
+        state.RecoverAfterFault();
+        state.DraftRefusal.Should().BeNull("a recovered workspace drops the draft");
     }
 
     [Fact]
@@ -109,7 +139,7 @@ public sealed class WorkspaceStateTests
         var draft = session.Select(SaveFixtures.FirstBoxSlot);
         draft.EditNickname("Dirty", true);
         state.SetDraft(draft);
-        state.SetDraftValid(false);
+        state.RefuseDraftEdit(new FieldRefusal("level", SessionError.LevelOutOfRange));
         var pending = Open(oras: true);
         state.RequestReplace(pending);
         var changes = 0;
@@ -144,7 +174,7 @@ public sealed class WorkspaceStateTests
         var dirty = session.Select(SaveFixtures.FirstBoxSlot);
         dirty.EditNickname("Unapplied", true);
         state.SetDraft(dirty);
-        state.SetDraftValid(false);
+        state.RefuseDraftEdit(new FieldRefusal("level", SessionError.LevelOutOfRange));
         state.RequestReplace(Open(oras: true));
 
         state.RecoverAfterFault();
@@ -254,7 +284,7 @@ public sealed class WorkspaceStateTests
         state.Draft.Should().BeSameAs(draft);
 
         state.SetDraft(state.Session!.Select(SaveFixtures.FirstBoxSlot));
-        state.SetDraftValid(false);
+        state.RefuseDraftEdit(new FieldRefusal("level", SessionError.LevelOutOfRange));
         state.OpenSlot(SlotRef.InParty(0)).Should().Be(SlotOpening.DraftPending);
         state.Draft!.Slot.Should().Be(SaveFixtures.FirstBoxSlot);
     }
@@ -359,7 +389,7 @@ public sealed class WorkspaceStateTests
         var state = SaveFixtures.NewState();
         state.Open(session);
         state.SetDraft(Dirty(session));
-        state.SetDraftValid(false);
+        state.RefuseDraftEdit(new FieldRefusal("level", SessionError.LevelOutOfRange));
         var candidate = Open(oras: true);
         state.RequestReplace(candidate);
         state.ExitStage.Should().Be(ExitStage.ResolveDraft);

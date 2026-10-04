@@ -62,12 +62,12 @@ public sealed class ItemMoveBrowserTests(PublishedAppFixture app)
 
         // PP above the maximum is refused as typed and blocks Apply; PP typed a key at a time within it is accepted.
         await page.Locator("#pp-0").FillAsync("22");
-        await Expect(page.Locator("#message")).ToHaveTextAsync(UserMessages.For(SessionError.PpOutOfRange));
+        await Expect(page.Locator("#move-fields-error")).ToHaveTextAsync(UserMessages.For(SessionError.PpOutOfRange));
         await Expect(page.Locator("#pp-0")).ToHaveValueAsync("22");
         await Expect(page.Locator("#apply")).ToBeDisabledAsync();
         await page.Locator("#pp-0").FillAsync("");
         await page.Locator("#pp-0").PressSequentiallyAsync("12");
-        await Expect(page.Locator("#message")).ToBeEmptyAsync();
+        await Expect(page.Locator("#move-fields-error")).ToHaveCountAsync(0);
         await Expect(page.Locator("#move-note")).ToBeEmptyAsync();
 
         // An empty slot filled, a PP Ups change that refills PP, and a slot emptied.

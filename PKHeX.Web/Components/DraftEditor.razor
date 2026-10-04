@@ -17,9 +17,9 @@
     @* Keyed on the refusal count: a refused choice leaves the value Blazor last rendered unchanged, so it would not reset the box the user
        changed; a new key renders it again with the draft's value. *@
     <ChoiceSelect @key="SpeciesKey" @ref="speciesSelect" Id="species" Items="Draft.Capabilities.SpeciesChoices" Value="ShownSpecies" Disabled="!Can(EditableFields.Species)"
-                  DescribedBy="species-note" Unlisted="UnlistedSpecies" OnChange="SpeciesChosen" />
+                  DescribedBy="@(Described("species", "species-note"))" Invalid="@(IsInvalid("species"))" Unlisted="UnlistedSpecies" OnChange="SpeciesChosen" />
     <label for="form">Form</label>
-    <select @key="FormKey" id="form" value="@ShownForm.ToString(CultureInfo.InvariantCulture)" @onchange="FormChosen" aria-describedby="species-note"
+    <select @key="FormKey" id="form" value="@ShownForm.ToString(CultureInfo.InvariantCulture)" @onchange="FormChosen" aria-describedby="@Described("form", "species-note")" aria-invalid="@Invalid("form")"
             disabled="@(!Can(EditableFields.Species) || ShownForms.Count == 0)">
         @if (ShownForms.Count == 0)
         {
@@ -62,17 +62,21 @@
     }
     @* Always rendered, so a screen reader announces a change of its text. *@
     <p id="species-change" role="status">@(speciesChange is null ? "" : EditorText.SpeciesFormChanged(speciesChange))</p>
+    <FieldError Fieldset="species-fields" Refusal="Refusal" />
 </fieldset>
 <fieldset id="name-fields">
     <legend>Name</legend>
     <label for="nickname">Nickname</label>
     @* Fields the draft cannot change (all of them when the position cannot be applied, or for an egg) are read-only, so nothing is drafted that could never be applied. *@
-    <input id="nickname" value="@nickname" @oninput="NicknameTyped" maxlength="@Draft.MaxNicknameLength" readonly="@(!Can(EditableFields.Nickname))" />
-    <label class="check"><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="FlagChanged" disabled="@(!Can(EditableFields.Nickname))" /> Is nicknamed</label>
+    <input id="nickname" value="@nickname" @oninput="NicknameTyped" maxlength="@Draft.MaxNicknameLength" readonly="@(!Can(EditableFields.Nickname))"
+           aria-describedby="@Described("nickname", "name-note")" aria-invalid="@Invalid("nickname")" />
+    <label class="check"><input id="nicknamed" type="checkbox" checked="@nicknamed" @onchange="FlagChanged" disabled="@(!Can(EditableFields.Nickname))"
+                              aria-describedby="@Described("nicknamed", "name-note")" aria-invalid="@Invalid("nicknamed")" /> Is nicknamed</label>
     <label for="language">Language</label>
     @* Each select's value is set on the select, not as an option's selected attribute, which Firefox ignores once the user has chosen an option
        (see ChoiceSelect). *@
-    <select id="language" value="@language.ToString(CultureInfo.InvariantCulture)" @onchange="LanguageChanged" disabled="@(!Can(EditableFields.Language))">
+    <select id="language" value="@language.ToString(CultureInfo.InvariantCulture)" @onchange="LanguageChanged" disabled="@(!Can(EditableFields.Language))"
+            aria-describedby="@Described("language", "name-note")" aria-invalid="@Invalid("language")">
         @if (!Listed(language))
         {
             <option value="@language" disabled>@EditorText.UnlistedLanguage(language)</option>
@@ -82,8 +86,11 @@
             <option value="@item.Value">@item.Text</option>
         }
     </select>
+    @* The note follows typing, so it is read with the fields rather than announced; a rename by a flag or language choice is announced. *@
+    <p id="name-note">@EditorText.NameNote(Draft.Name, Draft.IsNicknamed, LanguageName)</p>
     @* Always rendered, so a screen reader announces a change of its text. *@
-    <p id="name-note" role="status">@EditorText.NameNote(Draft.Name, Draft.IsNicknamed, LanguageName, renamed)</p>
+    <p id="name-change" role="status">@EditorText.RenameNote(LanguageName, renamed)</p>
+    <FieldError Fieldset="name-fields" Refusal="Refusal" />
 </fieldset>
 <fieldset id="friendship-fields">
     <legend>Friendship</legend>
@@ -91,32 +98,38 @@
        empty, so it could be neither shown as typed nor told apart from a cleared field. The draft refuses anything but 0–255. *@
     <label for="ot-friendship">@EditorText.TrainerFriendshipLabel(Draft.TrainerName)</label>
     <input id="ot-friendship" type="text" inputmode="numeric" autocomplete="off" value="@trainerFriendship"
-           @oninput="TrainerFriendshipTyped" readonly="@(!Can(EditableFields.Friendship))" />
+           @oninput="TrainerFriendshipTyped" readonly="@(!Can(EditableFields.Friendship))"
+           aria-describedby="@Described("ot-friendship", "friendship-note")" aria-invalid="@Invalid("ot-friendship")" />
     <label for="ht-friendship">@EditorText.HandlerFriendshipLabel(Draft.HandlerName)</label>
     <input id="ht-friendship" type="text" inputmode="numeric" autocomplete="off" value="@handlerFriendship"
            @oninput="HandlerFriendshipTyped" readonly="@(!Can(EditableFields.Friendship) || !Draft.HasHandlingTrainer)"
-           aria-describedby="@(Draft.HasHandlingTrainer ? null : "ht-note")" />
+           aria-describedby="@Described("ht-friendship", Draft.HasHandlingTrainer ? "friendship-note" : "ht-note friendship-note")" aria-invalid="@Invalid("ht-friendship")" />
     @if (!Draft.HasHandlingTrainer)
     {
         <p id="ht-note">@EditorText.NoHandler</p>
     }
     <p id="friendship-note">@EditorText.CurrentFriendship(Draft.IsWithHandler)</p>
+    <FieldError Fieldset="friendship-fields" Refusal="Refusal" />
 </fieldset>
 <fieldset id="level-fields">
     <legend>Level and experience</legend>
     @* Text with a numeric keyboard, as for friendship. The draft refuses a level outside 1–100 and experience points outside the growth
        curve; neither is clamped. *@
     <label for="level">@EditorText.LevelLabel</label>
-    <input id="level" type="text" inputmode="numeric" autocomplete="off" value="@level" @oninput="LevelTyped" readonly="@(!Can(EditableFields.Level))" />
+    <input id="level" type="text" inputmode="numeric" autocomplete="off" value="@level" @oninput="LevelTyped" readonly="@(!Can(EditableFields.Level))"
+           aria-describedby="@Described("level", "level-note")" aria-invalid="@Invalid("level")" />
     <label for="exp">@EditorText.ExperienceLabel(Draft.Progress.Maximum)</label>
-    <input id="exp" type="text" inputmode="numeric" autocomplete="off" value="@experience" @oninput="ExperienceTyped" readonly="@(!Can(EditableFields.Level))" />
-    @* Always rendered, so a screen reader announces a change of its text. *@
-    <p id="level-note" role="status">@EditorText.LevelNote(Draft.Progress)</p>
+    <input id="exp" type="text" inputmode="numeric" autocomplete="off" value="@experience" @oninput="ExperienceTyped" readonly="@(!Can(EditableFields.Level))"
+           aria-describedby="@Described("exp", "level-note")" aria-invalid="@Invalid("exp")" />
+    @* Follows typing, so it is read with the fields (aria-describedby) rather than announced on every keystroke. *@
+    <p id="level-note">@EditorText.LevelNote(Draft.Progress)</p>
+    <FieldError Fieldset="level-fields" Refusal="Refusal" />
 </fieldset>
 <fieldset id="nature-fields">
     <legend>Nature</legend>
     <label for="nature">Nature</label>
-    <select id="nature" value="@nature.ToString(CultureInfo.InvariantCulture)" @onchange="NatureChanged" disabled="@(!Can(EditableFields.Nature))">
+    <select id="nature" value="@nature.ToString(CultureInfo.InvariantCulture)" @onchange="NatureChanged" disabled="@(!Can(EditableFields.Nature))"
+            aria-invalid="@Invalid("nature")" aria-describedby="@Described("nature", null)">
         @if (!ListedNature(nature))
         {
             <option value="@nature" disabled>@EditorText.UnlistedNature(nature)</option>
@@ -127,18 +140,19 @@
         }
     </select>
     <p id="nature-note" role="status">@EditorText.NatureNote(NatureEffect.Of(Draft.Nature))</p>
+    <FieldError Fieldset="nature-fields" Refusal="Refusal" />
 </fieldset>
 <fieldset id="ability-fields">
     <legend>Ability and gender</legend>
     @* The ability box lists the slots of the species and form from Core's personal data; its values are slots, so two slots with the same
        ability stay apart, and choosing one sets the ability and its slot number together (see EditorDraft.EditAbilitySlot). *@
     <label for="ability">Ability</label>
-    <ChoiceSelect Id="ability" Items="Draft.AbilityChoices" Value="abilitySlot" Disabled="!Can(EditableFields.Ability)" DescribedBy="ability-note"
+    <ChoiceSelect Id="ability" Items="Draft.AbilityChoices" Value="abilitySlot" Disabled="!Can(EditableFields.Ability)" DescribedBy="@(Described("ability", "ability-note"))" Invalid="@(IsInvalid("ability"))"
                   Unlisted="UnmatchedAbility" OnChange="AbilityChanged" />
     <p id="ability-note" role="status">@EditorText.AbilityNote(Draft.RegularAbilitiesSame, Draft.AbilitySlot is null)</p>
     @* Only the genders the species can have are offered; a stored value it cannot have is shown as stored, and is replaced by choosing one. *@
     <label for="gender">Gender</label>
-    <select id="gender" value="@gender.ToString(CultureInfo.InvariantCulture)" @onchange="GenderChanged" aria-describedby="gender-note"
+    <select id="gender" value="@gender.ToString(CultureInfo.InvariantCulture)" @onchange="GenderChanged" aria-describedby="@Described("gender", "gender-note")" aria-invalid="@Invalid("gender")"
             disabled="@(!Can(EditableFields.Gender) || (Draft.GenderChoices.Count == 1 && Draft.GenderChoices[0] == gender))">
         @if (!Draft.GenderChoices.Any(g => g == gender))
         {
@@ -152,6 +166,7 @@
     <p id="gender-note">@EditorText.GenderNote(Draft.GenderRule, Draft.FormFollowsGender)</p>
     @* Always rendered, so a screen reader announces a change of its text. *@
     <p id="gender-change" role="status">@EditorText.GenderChangeNote(genderChange, AbilityName, Draft.Level)</p>
+    <FieldError Fieldset="ability-fields" Refusal="Refusal" />
 </fieldset>
 <fieldset id="stat-fields">
     <legend>IVs and EVs</legend>
@@ -172,23 +187,27 @@
                 <tr>
                     <th scope="row" id="stat-@stat">@InspectorText.StatName(stat, NatureEffect.Of(Draft.Nature))</th>
                     <td><input id="iv-@stat" type="text" inputmode="numeric" autocomplete="off" value="@ivs[stat]" aria-labelledby="stat-@stat iv-head"
+                               aria-describedby="@Described($"iv-{stat}", "iv-note")" aria-invalid="@Invalid($"iv-{stat}")"
                                @oninput="e => IvTyped(stat, e)" readonly="@(!Can(EditableFields.Ivs))" /></td>
                     <td><input id="ev-@stat" type="text" inputmode="numeric" autocomplete="off" value="@evs[stat]" aria-labelledby="stat-@stat ev-head"
+                               aria-describedby="@Described($"ev-{stat}", "ev-note")" aria-invalid="@Invalid($"ev-{stat}")"
                                @oninput="e => EvTyped(stat, e)" readonly="@(!Can(EditableFields.Evs))" /></td>
                 </tr>
             }
         </tbody>
     </table>
-    @* Always rendered, so a screen reader announces a change of their text. *@
-    <p id="iv-note" role="status">@EditorText.IvNote(Draft.IvTotal, Draft.MaxIv, HiddenPowerName)</p>
-    <p id="ev-note" role="status">@EditorText.EvNote(Draft.EvTotal, Draft.MaxEvTotal)</p>
+    @* They follow typing, so they are read with the fields (aria-describedby) rather than announced on every keystroke. *@
+    <p id="iv-note">@EditorText.IvNote(Draft.IvTotal, Draft.MaxIv, HiddenPowerName)</p>
+    <p id="ev-note">@EditorText.EvNote(Draft.EvTotal, Draft.MaxEvTotal)</p>
+    <FieldError Fieldset="stat-fields" Refusal="Refusal" />
 </fieldset>
 <fieldset id="item-fields">
     <legend>Held item</legend>
     <label for="held-item">Held item</label>
-    <ChoiceSelect Id="held-item" Items="Draft.Capabilities.Lists.Items" Value="heldItem" Disabled="!Can(EditableFields.HeldItem)" DescribedBy="item-note"
+    <ChoiceSelect Id="held-item" Items="Draft.Capabilities.Lists.Items" Value="heldItem" Disabled="!Can(EditableFields.HeldItem)" DescribedBy="@(Described("held-item", "item-note"))" Invalid="@(IsInvalid("held-item"))"
                   Unlisted="UnlistedItem" OnChange="ItemChanged" />
     <p id="item-note">@EditorText.ItemNote</p>
+    <FieldError Fieldset="item-fields" Refusal="Refusal" />
 </fieldset>
 <fieldset id="move-fields">
     <legend>Moves</legend>
@@ -214,14 +233,17 @@
                     <th scope="row" id="slot-@slot">@EditorText.MoveSlotName(slot)</th>
                     <td>
                         <ChoiceSelect Id="@($"move-{slot}")" LabelledBy="@($"slot-{slot} move-head")" Items="Draft.Capabilities.Lists.Moves" Value="current.Move"
-                                      Disabled="!Can(EditableFields.Moves)" Unlisted="UnlistedMove" OnChange="v => MoveChanged(slot, v)" />
+                                      Disabled="!Can(EditableFields.Moves)" DescribedBy="@(Described($"move-{slot}", null))" Invalid="@(IsInvalid($"move-{slot}"))"
+                                      Unlisted="UnlistedMove" OnChange="v => MoveChanged(slot, v)" />
                     </td>
                     <td><input id="pp-@slot" type="text" inputmode="numeric" autocomplete="off" value="@pp[slot]" aria-labelledby="slot-@slot pp-head"
+                               aria-describedby="@Described($"pp-{slot}", null)" aria-invalid="@Invalid($"pp-{slot}")"
                                @oninput="e => PpTyped(slot, e)" readonly="@(!Can(EditableFields.Pp) || current.IsEmpty)" /></td>
                     <td>
                         @* A move that cannot take PP Ups offers only 0 and its stored count, and is enabled only while some are stored, so they
                            can be removed and no choice is refused. *@
                         <select id="ppups-@slot" value="@current.PpUps.ToString(CultureInfo.InvariantCulture)" aria-labelledby="slot-@slot ppups-head" @onchange="e => PpUpsChanged(slot, e)"
+                                    aria-describedby="@Described($"ppups-{slot}", null)" aria-invalid="@Invalid($"ppups-{slot}")"
                                 disabled="@(!Can(EditableFields.Pp) || current.IsEmpty || (!current.CanTakePpUps && current.PpUps == 0))">
                             @if (current.PpUps > EditorDraft.MaxPpUps)
                             {
@@ -246,6 +268,7 @@
     @* Always rendered, so a screen reader announces a change of its text. *@
     <p id="move-note" role="status">@EditorText.MoveChangeNote(moveChange, MoveName)</p>
     <p id="move-list-note">@EditorText.MoveListNote</p>
+    <FieldError Fieldset="move-fields" Refusal="Refusal" />
 </fieldset>
 
 @code {
@@ -253,9 +276,16 @@
     [Parameter, EditorRequired] public EditorDraft Draft { get; set; } = null!;
 
     /// <summary>
-    /// Runs one edit on the draft. The owner applies it, makes legality stale and reports a refusal, which leaves the draft unchanged.
+    /// Runs one edit on the draft, named by the control it came from. The owner applies it, makes legality stale and records a refusal,
+    /// which leaves the draft unchanged and comes back as <see cref="Refusal"/>.
     /// </summary>
-    [Parameter, EditorRequired] public EventCallback<Action<EditorDraft>> OnEdit { get; set; }
+    [Parameter, EditorRequired] public EventCallback<DraftEdit> OnEdit { get; set; }
+
+    /// <summary>
+    /// The last refused edit (<see cref="WorkspaceState.DraftRefusal"/>), or null. Its control is marked invalid and described by its
+    /// fieldset's error line; focus never moves to it.
+    /// </summary>
+    [Parameter] public FieldRefusal? Refusal { get; set; }
 
     private EditorDraft? shown;
     private string nickname = "", trainerFriendship = "", handlerFriendship = "", level = "", experience = "";
@@ -359,6 +389,27 @@
 
     private bool Can(EditableFields field) => Draft.Editable.HasFlag(field);
 
+    /// <summary>True when <paramref name="id"/>'s control made the last, refused, edit.</summary>
+    private bool IsInvalid(string id) => Refusal?.FieldId == id;
+
+    /// <summary>The control's <c>aria-invalid</c>: "true" while its edit is refused, otherwise absent.</summary>
+    private string? Invalid(string id) => IsInvalid(id) ? "true" : null;
+
+    /// <summary>
+    /// The control's <c>aria-describedby</c>: its notes, then its fieldset's error line while its edit is refused; absent when there is neither.
+    /// </summary>
+    private string? Described(string id, string? notes)
+    {
+        var error = IsInvalid(id) ? EditorFields.ErrorIdFor(Refusal!) : null;
+        return (notes, error) switch
+        {
+            (null, null) => null,
+            (_, null) => notes,
+            (null, _) => error,
+            _ => $"{notes} {error}",
+        };
+    }
+
     private bool Listed(int value) => Draft.Capabilities.Lists.Languages.Any(l => l.Value == value);
 
     private bool ListedNature(int value) => Draft.Capabilities.Lists.Natures.Any(n => n.Value == value);
@@ -429,14 +480,14 @@
     {
         nickname = e.Value?.ToString() ?? "";
         var text = nickname;
-        return Run(d => d.TypeNickname(text), tracksRename: false);
+        return Run("nickname", d => d.TypeNickname(text), tracksRename: false);
     }
 
     private Task FlagChanged(ChangeEventArgs e)
     {
         nicknamed = e.Value is true;
         var flag = nicknamed;
-        return Run(d => d.SetNicknamed(flag), tracksRename: true);
+        return Run("nicknamed", d => d.SetNicknamed(flag), tracksRename: true);
     }
 
     private Task LanguageChanged(ChangeEventArgs e)
@@ -446,43 +497,43 @@
             return Task.CompletedTask;
         }
         language = value;
-        return Run(d => d.EditLanguage(value), tracksRename: true);
+        return Run("language", d => d.EditLanguage(value), tracksRename: true);
     }
 
     private Task TrainerFriendshipTyped(ChangeEventArgs e)
     {
         trainerFriendship = e.Value?.ToString() ?? "";
-        return Run(Friendship(trainerFriendship, static (d, v) => d.EditTrainerFriendship(v)), tracksRename: false);
+        return Run("ot-friendship", Friendship(trainerFriendship, static (d, v) => d.EditTrainerFriendship(v)), tracksRename: false);
     }
 
     private Task HandlerFriendshipTyped(ChangeEventArgs e)
     {
         handlerFriendship = e.Value?.ToString() ?? "";
-        return Run(Friendship(handlerFriendship, static (d, v) => d.EditHandlerFriendship(v)), tracksRename: false);
+        return Run("ht-friendship", Friendship(handlerFriendship, static (d, v) => d.EditHandlerFriendship(v)), tracksRename: false);
     }
 
     private Task LevelTyped(ChangeEventArgs e)
     {
         level = e.Value?.ToString() ?? "";
-        return Run(Number(level, SessionError.LevelOutOfRange, static (d, v) => d.EditLevel((int)Math.Min(v, int.MaxValue))), tracksRename: false);
+        return Run("level", Number(level, SessionError.LevelOutOfRange, static (d, v) => d.EditLevel((int)Math.Min(v, int.MaxValue))), tracksRename: false);
     }
 
     private Task ExperienceTyped(ChangeEventArgs e)
     {
         experience = e.Value?.ToString() ?? "";
-        return Run(Number(experience, SessionError.ExperienceOutOfRange, static (d, v) => d.EditExperience(v)), tracksRename: false);
+        return Run("exp", Number(experience, SessionError.ExperienceOutOfRange, static (d, v) => d.EditExperience(v)), tracksRename: false);
     }
 
     private Task IvTyped(int stat, ChangeEventArgs e)
     {
         ivs[stat] = e.Value?.ToString() ?? "";
-        return Run(Number(ivs[stat], SessionError.IvOutOfRange, (d, v) => d.EditIv(stat, (int)Math.Min(v, int.MaxValue))), tracksRename: false);
+        return Run($"iv-{stat}", Number(ivs[stat], SessionError.IvOutOfRange, (d, v) => d.EditIv(stat, (int)Math.Min(v, int.MaxValue))), tracksRename: false);
     }
 
     private Task EvTyped(int stat, ChangeEventArgs e)
     {
         evs[stat] = e.Value?.ToString() ?? "";
-        return Run(Number(evs[stat], SessionError.EvOutOfRange, (d, v) => d.EditEv(stat, (int)Math.Min(v, int.MaxValue))), tracksRename: false);
+        return Run($"ev-{stat}", Number(evs[stat], SessionError.EvOutOfRange, (d, v) => d.EditEv(stat, (int)Math.Min(v, int.MaxValue))), tracksRename: false);
     }
 
     private Task NatureChanged(ChangeEventArgs e)
@@ -492,7 +543,7 @@
             return Task.CompletedTask;
         }
         nature = value;
-        return Run(d => d.EditNature(value), tracksRename: false);
+        return Run("nature", d => d.EditNature(value), tracksRename: false);
     }
 
     /// <summary>
@@ -544,7 +595,7 @@
         }
         // The note is written now, while the form names before the change can still be read from the draft.
         var changes = EditorText.SpeciesFormChanges(change, SpeciesName, FormNameOf(change), AbilityName);
-        await Run(d => d.EditSpeciesForm(change.After.Species, change.After.Form), tracksRename: false, speciesChanges: changes);
+        await Run("species", d => d.EditSpeciesForm(change.After.Species, change.After.Form), tracksRename: false, speciesChanges: changes);
         await FocusSpecies();
     }
 
@@ -563,7 +614,7 @@
         }
     }
 
-    private Task AbilityChanged(int value) => Run(d => d.EditAbilitySlot(value), tracksRename: false);
+    private Task AbilityChanged(int value) => Run("ability", d => d.EditAbilitySlot(value), tracksRename: false);
 
     private Task GenderChanged(ChangeEventArgs e)
     {
@@ -571,12 +622,12 @@
         {
             return Task.CompletedTask;
         }
-        return Run(d => d.EditGender(value), tracksRename: false, tracksForm: true);
+        return Run("gender", d => d.EditGender(value), tracksRename: false, tracksForm: true);
     }
 
-    private Task ItemChanged(int value) => Run(d => d.EditHeldItem(value), tracksRename: false);
+    private Task ItemChanged(int value) => Run("held-item", d => d.EditHeldItem(value), tracksRename: false);
 
-    private Task MoveChanged(int slot, int value) => Run(d => d.EditMove(slot, value), tracksRename: false, moveSlot: slot);
+    private Task MoveChanged(int slot, int value) => Run($"move-{slot}", d => d.EditMove(slot, value), tracksRename: false, moveSlot: slot);
 
     private Task PpUpsChanged(int slot, ChangeEventArgs e)
     {
@@ -584,13 +635,13 @@
         {
             return Task.CompletedTask;
         }
-        return Run(d => d.EditPpUps(slot, value), tracksRename: false, moveSlot: slot);
+        return Run($"ppups-{slot}", d => d.EditPpUps(slot, value), tracksRename: false, moveSlot: slot);
     }
 
     private Task PpTyped(int slot, ChangeEventArgs e)
     {
         pp[slot] = e.Value?.ToString() ?? "";
-        return Run(Number(pp[slot], SessionError.PpOutOfRange, (d, v) => d.EditPp(slot, (int)Math.Min(v, int.MaxValue))), tracksRename: false);
+        return Run($"pp-{slot}", Number(pp[slot], SessionError.PpOutOfRange, (d, v) => d.EditPp(slot, (int)Math.Min(v, int.MaxValue))), tracksRename: false);
     }
 
     /// <summary>
@@ -615,19 +666,20 @@
     /// Runs <paramref name="edit"/> through <see cref="OnEdit"/>. An accepted edit reloads every field from the draft, so a flag or language
     /// change shows the name it gave, and earlier refused input is replaced by what the draft holds. A refused edit leaves the input as typed.
     /// </summary>
+    /// <param name="fieldId">The id of the control the edit came from, where a refusal is shown.</param>
     /// <param name="edit">The draft edit.</param>
     /// <param name="tracksRename">True for an edit that may give the Pokémon its default name, which the name note then reports.</param>
     /// <param name="moveSlot">The move slot of a move or PP Ups edit, whose effect on the slot's PP the move note then reports.</param>
     /// <param name="tracksForm">True for a gender edit, which may change the form and what follows it; the gender note then reports it.</param>
     /// <param name="speciesChanges">For a confirmed species or form change, what it changes, which the species note then reports.</param>
-    private async Task Run(Action<EditorDraft> edit, bool tracksRename, int? moveSlot = null, bool tracksForm = false, IReadOnlyList<string>? speciesChanges = null)
+    private async Task Run(string fieldId, Action<EditorDraft> edit, bool tracksRename, int? moveSlot = null, bool tracksForm = false, IReadOnlyList<string>? speciesChanges = null)
     {
         var draft = Draft;
         var revision = draft.EditRevision;
         var before = draft.Nickname;
         var slotBefore = moveSlot is { } s ? draft.Moves[s] : null;
         var dependentsBefore = draft.Dependents;
-        await OnEdit.InvokeAsync(edit);
+        await OnEdit.InvokeAsync(new DraftEdit(fieldId, edit));
         if (!ReferenceEquals(draft, Draft) || draft.EditRevision == revision)
         {
             return;

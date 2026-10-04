@@ -11,21 +11,28 @@ namespace PKHeX.Web.Tests;
 /// a discard's single confirmation, and the legality acknowledgements its apply and download steps wait for.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
-public sealed class SessionExitPanelTests : IDisposable
+public sealed class SessionExitPanelTests : IAsyncDisposable
 {
     private readonly BunitContext context = new();
     private readonly WorkspaceState state = SaveFixtures.NewState();
     private readonly List<string> calls = [];
 
+    /// <summary>The browser module, where the dialog is shown as a modal.</summary>
+    private readonly BunitJSModuleInterop browser;
+
     public SessionExitPanelTests()
     {
         context.JSInterop.Mode = JSRuntimeMode.Loose;
+        browser = context.JSInterop.SetupModule("./browser.js");
+        browser.Mode = JSRuntimeMode.Loose;
+        DiagnosticFixtures.AddDiagnostics(context.Services, DiagnosticFixtures.NewLog());
     }
 
-    public void Dispose() => context.Dispose();
+    public ValueTask DisposeAsync() => context.DisposeAsync();
 
-    private IRenderedComponent<SessionExitPanel> RenderPanel(bool busy = false) => context.Render<SessionExitPanel>(p => Bind(p)
+    private IRenderedComponent<SessionExitPanel> RenderPanel(bool busy = false, string message = "") => context.Render<SessionExitPanel>(p => Bind(p)
         .Add(c => c.Busy, busy)
+        .Add(c => c.Message, message)
         .Add(c => c.OnApplyDraft, () => calls.Add("apply"))
         .Add(c => c.OnDiscardDraft, () => calls.Add("discard-draft"))
         .Add(c => c.OnExport, () => calls.Add("export"))
@@ -105,11 +112,83 @@ public sealed class SessionExitPanelTests : IDisposable
         calls.Should().Equal("continue", "export", "cancel");
     }
 
+    /// <summary>How many times the dialog was shown as a modal.</summary>
+    private int ShowModalCalls() => browser.Invocations.Count(i => i.Identifier == "showModal");
+
+    [Fact]
+    public async Task AnExitIsAModalDialogShownOnceAndNamedByItsHeading()
+    {
+        var session = await OpenChangedWithDirtyDraft("other-main");
+        var panel = RenderPanel(message: "Resolve the open session before the new file is opened.");
+
+        var dialog = panel.Find("#exit");
+        dialog.TagName.Should().Be("DIALOG");
+        dialog.GetAttribute("aria-labelledby").Should().Be("exit-title");
+        ShowModalCalls().Should().Be(1);
+        // The page's status message is behind the dialog, and inert, so the dialog repeats it where it is announced.
+        panel.Find("#exit-status").GetAttribute("role").Should().Be("status");
+        panel.Find("#exit-status").TextContent.Should().Be("Resolve the open session before the new file is opened.");
+
+        state.DiscardDraftForExit();
+        Refresh(panel);
+        session.MarkExported(session.Revision);
+        Refresh(panel);
+        ShowModalCalls().Should().Be(1, "a later step keeps the dialog that is already open");
+    }
+
+    [Fact]
+    public async Task EscapeCancelsUnlessAnotherOperationRuns()
+    {
+        await OpenChangedWithDirtyDraft("other-main");
+        var panel = RenderPanel();
+
+        // The browser's own close is prevented by browser.js (checked in the browser tests): the dialog closes only by being removed.
+        panel.Find("#exit").TriggerEvent("oncancel", EventArgs.Empty);
+        calls.Should().Equal("cancel");
+
+        calls.Clear();
+        var busy = RenderPanel(busy: true);
+        busy.Find("#exit").TriggerEvent("oncancel", EventArgs.Empty);
+        calls.Should().BeEmpty("a running download cannot be cancelled from under it");
+    }
+
+    [Fact]
+    public async Task AClosedDialogCancelsOrIsShownAgainWhileBusy()
+    {
+        await OpenChangedWithDirtyDraft("other-main");
+        var panel = RenderPanel();
+
+        // A close the browser forces (repeated Escape under the close-watcher rules) cancels, as Escape would.
+        panel.Find("#exit").TriggerEvent("onclose", EventArgs.Empty);
+        calls.Should().Equal("cancel");
+
+        calls.Clear();
+        var busy = RenderPanel(busy: true);
+        var shown = ShowModalCalls();
+        busy.Find("#exit").TriggerEvent("onclose", EventArgs.Empty);
+        calls.Should().BeEmpty();
+        ShowModalCalls().Should().Be(shown + 1, "the dialog is shown again until the operation ends");
+    }
+
+    [Fact]
+    public async Task ADialogThatCannotBeModalIsStillShown()
+    {
+        // A dialog that is not open is not displayed at all, so a failed showModal would leave the exit invisible and unresolvable.
+        browser.SetupVoid("showModal", _ => true).SetException(new Microsoft.JSInterop.JSException("no modal"));
+        await OpenChangedWithDirtyDraft("other-main");
+
+        var panel = RenderPanel();
+
+        panel.WaitForAssertion(() => panel.Find("#exit").HasAttribute("open").Should().BeTrue());
+        panel.Find("#exit-cancel").Click();
+        calls.Should().Equal("cancel");
+    }
+
     [Fact]
     public async Task ARefusedDraftCanOnlyBeDiscarded()
     {
         await OpenChangedWithDirtyDraft("other-main");
-        state.SetDraftValid(false);
+        state.RefuseDraftEdit(new FieldRefusal("level", SessionError.LevelOutOfRange));
         var panel = RenderPanel();
         Buttons(panel).Should().Equal("exit-discard-draft", "exit-cancel");
     }

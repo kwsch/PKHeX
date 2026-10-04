@@ -53,7 +53,7 @@ public sealed class DraftLegalityTests
     private void Edit(string nickname)
     {
         state.Draft!.EditNickname(nickname, true);
-        state.SetDraftValid(true);
+        state.AcceptDraftEdit();
     }
 
     /// <summary>
@@ -204,7 +204,7 @@ public sealed class DraftLegalityTests
     {
         OpenDraft();
         await Idle();
-        state.SetDraftValid(false);
+        state.RefuseDraftEdit(new FieldRefusal("level", SessionError.LevelOutOfRange));
 
         Legality.Status.Should().Be(LegalityStatus.Stale, "the draft no longer matches what the user entered");
         await Idle();
@@ -221,7 +221,7 @@ public sealed class DraftLegalityTests
     public async Task ARefusedEditBeforeAnyResultIsNotAnalysed()
     {
         OpenDraft();
-        state.SetDraftValid(false);
+        state.RefuseDraftEdit(new FieldRefusal("level", SessionError.LevelOutOfRange));
         Legality.Status.Should().Be(LegalityStatus.NotAnalyzed);
         await Idle();
         analyses.Should().Be(0);

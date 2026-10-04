@@ -39,7 +39,7 @@ a { color: var(--focus); }
 /* Wide enough for the two panes side by side; prose sections keep a readable line length. */
 .page, .boot-failure { margin: auto; padding: 1.5rem; box-sizing: border-box; }
 .page { max-width: 90rem; }
-.boot-failure, #start, #about, #fault, #exit { max-width: 56rem; }
+.boot-failure, #start, #about, #fault { max-width: 56rem; }
 header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1rem; }
 header h1 { margin: 0; }
 section { border: 1px solid var(--border); border-radius: .5rem; padding: 1rem; margin: 1rem 0; }
@@ -63,8 +63,19 @@ input::-webkit-file-upload-button { color: var(--fg); background-color: var(--co
 /* WebKit draws a coloured select at its native height (23px) and ignores min-height, but honours height: 2.75rem is 44px at the default
    text size and grows with it, so one line of text and the padding always fit. */
 select { height: 2.75rem; }
-/* Disabled controls are exempt from contrast minimums, but still read as unavailable without colour alone: the border turns dashed. */
-button:disabled, select:disabled, input:disabled { color: var(--muted); border-style: dashed; cursor: default; }
+/* Disabled controls are exempt from contrast minimums, but still read as unavailable without colour alone: the border turns dashed.
+   Apply and Download stay focusable while they cannot act (aria-disabled), so activating them can say why; they look the same. */
+button:disabled, select:disabled, input:disabled, button[aria-disabled="true"] { color: var(--muted); border-style: dashed; cursor: default; }
+/* Read-only fields hold a value to read, so their text keeps full contrast; the control background and a dashed border mark them as not
+   editable, without colour alone. Written as specifically as the field rule above, which it overrides. */
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"])[readonly] { background-color: var(--control); border-style: dashed; cursor: default; }
+/* A refused field: the error line says why in text; the border's width and colour only reinforce it. */
+:is(select, input:not([type="checkbox"]):not([type="radio"]):not([type="file"]))[aria-invalid="true"] { border: 2px solid var(--invalid); }
+.field-error { color: var(--invalid); font-weight: 600; }
+/* What stops Apply or Download, shown when one is activated; it is focused, so it carries the focus outline as well. */
+.error-summary { border: 2px solid var(--invalid); border-radius: .5rem; padding: .5rem 1rem; margin-block: .5rem; overflow-wrap: anywhere; }
+.error-summary-title { font-size: 1.1rem; margin-block: .4rem; }
+.error-summary li { margin-block: .4rem; }
 /* Targets: every control is at least 44px tall (WEB-A11Y-003). A checkbox or radio is small itself, so its whole label is the target. */
 button, input, select, input::file-selector-button { min-height: 44px; }
 input[type="checkbox"], input[type="radio"] { min-height: 0; }
@@ -85,6 +96,11 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 #workspace:focus { outline: none; }
 /* File names are untrusted and can be 120 characters without a break; they must wrap rather than widen the page. */
 #message, #exit, #exit button, #download-name { overflow-wrap: anywhere; }
+/* The exit dialog: modal, in the token colours (a dialog otherwise takes the browser's Canvas), within the viewport at any width or zoom,
+   scrolling inside itself when its steps are taller than the screen. */
+#exit { color: var(--fg); background: var(--bg); border: 2px solid var(--border); border-radius: .5rem; padding: 1rem; box-sizing: border-box;
+        width: min(56rem, calc(100vw - 2rem)); max-width: none; max-height: calc(100dvh - 2rem); overflow: auto; }
+#exit::backdrop { background: color-mix(in srgb, var(--fg) 40%, transparent); }
 
 /* The workspace panes (WEB-APP-003). The DOM order (storage, editor, download, session) is the reading and tab order at every width; only
    the placement changes. Wide: side by side. Medium: stacked, and the storage pane can be folded away while a Pokémon is open. Narrow:

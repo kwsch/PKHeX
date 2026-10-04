@@ -48,12 +48,12 @@ public sealed class LevelNatureBrowserTests(PublishedAppFixture app)
         // Experience past the curve is refused as typed, not clamped, and blocks Apply until corrected.
         var maximum = Experience.GetEXP(Experience.MaxLevel, edited.PersonalInfo.EXPGrowth);
         await page.Locator("#exp").FillAsync((maximum + 1).ToString(CultureInfo.InvariantCulture));
-        await Expect(page.Locator("#message")).ToHaveTextAsync(UserMessages.For(SessionError.ExperienceOutOfRange));
+        await Expect(page.Locator("#level-fields-error")).ToHaveTextAsync(UserMessages.For(SessionError.ExperienceOutOfRange));
         await Expect(page.Locator("#exp")).ToHaveValueAsync((maximum + 1).ToString(CultureInfo.InvariantCulture));
         await Expect(page.Locator("#apply")).ToBeDisabledAsync();
         await page.Locator("#exp").FillAsync(edited.EXP.ToString(CultureInfo.InvariantCulture));
         await ReadyToApply(page);
-        await Expect(page.Locator("#message")).ToBeEmptyAsync();
+        await Expect(page.Locator("#level-fields-error")).ToHaveCountAsync(0);
 
         await page.Locator("#nature").SelectOptionAsync(((int)nature).ToString(CultureInfo.InvariantCulture));
         await Expect(page.Locator("#nature-note")).ToHaveTextAsync(EditorText.NatureNote(NatureEffect.Of(nature)));

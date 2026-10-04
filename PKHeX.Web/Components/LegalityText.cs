@@ -21,6 +21,16 @@ public static class LegalityText
         _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
     };
 
+    /// <summary>
+    /// What a screen reader is told about the legality status: the verdict once the draft as it is now has one, and nothing while it is not
+    /// analysed, pending or stale, which come and go as the user types.
+    /// </summary>
+    public static string Announcement(LegalityStatus status) => status switch
+    {
+        LegalityStatus.Valid or LegalityStatus.Invalid or LegalityStatus.Unavailable => $"Legality: {Status(status)}",
+        _ => "",
+    };
+
     /// <summary>The decorative icon shown before the status word. The word itself always carries the meaning.</summary>
     public static string Icon(LegalityStatus status) => status switch
     {

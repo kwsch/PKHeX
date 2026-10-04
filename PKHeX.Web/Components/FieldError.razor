@@ -1,0 +1,15 @@
+@* A fieldset's error line: why its control's last edit was refused (see EditorFields). Not a live region: typing never interrupts with it.
+   The refused control is marked aria-invalid and described by this line, so it is read when the control is focused, and the error summary
+   lists it when Apply or Download is activated. *@
+@if (Refusal is { } refusal && EditorFields.FieldsetOf(refusal.FieldId) == Fieldset)
+{
+    <p id="@EditorFields.ErrorId(Fieldset)" class="field-error">@ValidationText.FieldError(refusal)</p>
+}
+
+@code {
+    /// <summary>The id of the fieldset this line belongs to.</summary>
+    [Parameter, EditorRequired] public string Fieldset { get; set; } = "";
+
+    /// <summary>The last refused edit (<see cref="WorkspaceState.DraftRefusal"/>), or null.</summary>
+    [Parameter] public FieldRefusal? Refusal { get; set; }
+}

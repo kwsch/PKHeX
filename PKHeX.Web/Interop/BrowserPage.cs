@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace PKHeX.Web.Interop;
 
 /// <summary>
-/// Page helpers the app needs from the browser: waiting for a paint before synchronous work, moving focus to a section by id (on a narrow screen only, when a pane change asks), and the
+/// Page helpers the app needs from the browser: waiting for a paint before synchronous work, showing a modal dialog, moving focus to a section by id (on a narrow screen only, when a pane change asks), and the
 /// diagnostic report's user agent, copy and select.
 /// </summary>
 /// <remarks>
@@ -36,6 +37,26 @@ public sealed class BrowserPage(IJSRuntime js) : IAsyncDisposable
     {
         var module = await browser.GetAsync();
         return await module.InvokeAsync<bool>("focusIfNarrow", id);
+    }
+
+    /// <summary>
+    /// Focuses the element with id <paramref name="id"/> only when focus has been lost to the page body (the element that had it was removed);
+    /// false when focus was elsewhere, or there is no such element.
+    /// </summary>
+    public async Task<bool> FocusIfLostAsync(string id)
+    {
+        var module = await browser.GetAsync();
+        return await module.InvokeAsync<bool>("focusIfLost", id);
+    }
+
+    /// <summary>
+    /// Shows the <c>dialog</c> element <paramref name="dialog"/> as a modal, so the page behind it is inert and focus stays inside it; does
+    /// nothing when it is already open.
+    /// </summary>
+    public async Task ShowModalAsync(ElementReference dialog)
+    {
+        var module = await browser.GetAsync();
+        await module.InvokeVoidAsync("showModal", dialog);
     }
 
     /// <summary>The browser's user agent string. Read only when the user prepares a diagnostic report.</summary>

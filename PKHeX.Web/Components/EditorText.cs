@@ -471,21 +471,26 @@ public static class EditorText
     public static string UnlistedLanguage(int value) => string.Create(CultureInfo.InvariantCulture, $"Unknown (stored value {value})");
 
     /// <summary>
-    /// The note on the drafted name: a default name set by a flag or language change, a name kept from another language, the default name
-    /// for the language, and any characters the game's font cannot show. Empty when there is nothing to say.
+    /// What the last edit, a flag or language change, did to the name: given its default name in the drafted language. Empty when it did not.
+    /// It is announced as a live region; the name's own note (<see cref="NameNote"/>) follows typing, so it is not.
+    /// </summary>
+    /// <param name="language">The display name of the drafted language.</param>
+    /// <param name="renamed">The name before and after the last edit gave the Pokémon its default name, or null when it did not.</param>
+    public static string RenameNote(string language, (string From, string To)? renamed) => renamed is var (from, to)
+        ? $"Not nicknamed, so its name changed from {DisplayText.Embed(from)} to its {language} default, {to}."
+        : "";
+
+    /// <summary>
+    /// The note on the drafted name: a name kept from another language, the default name for the language, and any characters the game's font
+    /// cannot show. Empty when there is nothing to say.
     /// </summary>
     /// <param name="status">What the drafted name means (<see cref="EditorDraft.Name"/>).</param>
     /// <param name="isNicknamed">The drafted nickname flag.</param>
     /// <param name="language">The display name of the drafted language.</param>
-    /// <param name="renamed">The name before and after the last edit gave the Pokémon its default name, or null when it did not.</param>
-    public static string NameNote(NameStatus status, bool isNicknamed, string language, (string From, string To)? renamed)
+    public static string NameNote(NameStatus status, bool isNicknamed, string language)
     {
-        var parts = new List<string>(3);
-        if (renamed is var (from, to))
-        {
-            parts.Add($"Not nicknamed, so its name changed from {DisplayText.Embed(from)} to its {language} default, {to}.");
-        }
-        else if (status.KeptOtherLanguageName)
+        var parts = new List<string>(2);
+        if (status.KeptOtherLanguageName)
         {
             parts.Add($"Not nicknamed: its name was kept because it is the species' name in another language. The {language} default is {status.DefaultName}; legality analysis may report the difference.");
         }

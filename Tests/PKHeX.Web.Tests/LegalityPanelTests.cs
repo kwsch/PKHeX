@@ -55,7 +55,11 @@ public sealed class LegalityPanelTests : IDisposable
         var panel = Render(status, current);
 
         panel.Find("#legality-status").TextContent.Should().Be(word);
-        panel.Find("#legality-status").GetAttribute("role").Should().Be("status");
+        // The status follows typing (stale, pending), so it is not announced itself; the announcement holds only a final verdict.
+        panel.Find("#legality-status").HasAttribute("role").Should().BeFalse();
+        var announcement = panel.Find("#legality-announce");
+        announcement.GetAttribute("role").Should().Be("status");
+        announcement.TextContent.Should().Be(current is null ? "" : $"Legality: {word}");
         var icon = panel.Find(".legality-icon");
         icon.ClassList.Should().Contain(iconClass);
         icon.GetAttribute("aria-hidden").Should().Be("true", "the word carries the meaning; the icon only reinforces it");
