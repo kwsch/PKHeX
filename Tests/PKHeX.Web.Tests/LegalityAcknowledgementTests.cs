@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Legality findings are warnings with explicit acknowledgement, never passed over silently (WEB-LEGAL-003, PKHeX.Web.md §MVP): a changed draft
+/// Legality findings are warnings with explicit acknowledgement, never passed over silently: a changed draft
 /// is applied only with a current result, an Invalid or Unavailable one only once acknowledged, and the download that contains such a change
 /// asks again. Entities that were already illegal and were not changed are exported without asking.
 /// </summary>

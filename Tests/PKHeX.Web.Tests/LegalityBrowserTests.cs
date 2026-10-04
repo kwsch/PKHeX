@@ -9,7 +9,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Legality in the published app (WEB-LEGAL-001 to 003): opening a slot analyses it once idle, with native Core's verdict and findings; an edit
+/// Legality in the published app: opening a slot analyses it once idle, with native Core's verdict and findings; an edit
 /// shows Stale at once and is analysed again only after the idle delay; findings link to the inspector; nothing leaves the page.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]

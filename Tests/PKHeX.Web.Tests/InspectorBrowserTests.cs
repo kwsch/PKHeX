@@ -8,7 +8,7 @@ namespace PKHeX.Web.Tests;
 
 /// <summary>
 /// The read-only inspector in the published app: the same values as native Core, unapplied edits shown, party members' stored stats,
-/// and no horizontal scroll on a phone (WEB-PKM-001).
+/// and no horizontal scroll on a phone.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]
 [Trait(TestCategory.Name, TestCategory.E2E)]

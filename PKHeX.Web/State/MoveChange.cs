@@ -1,6 +1,6 @@
 namespace PKHeX.Web.State;
 
-/// <summary>What a move or PP Ups edit did to the slot's PP, so the editor can say so (WEB-PKM-012: a move change shows its PP effects).</summary>
+/// <summary>What a move or PP Ups edit did to the slot's PP, so the editor can say so (a move change shows its PP effects).</summary>
 public enum MoveChangeKind
 {
     /// <summary>A new move, given full PP for the PP Ups it kept.</summary>

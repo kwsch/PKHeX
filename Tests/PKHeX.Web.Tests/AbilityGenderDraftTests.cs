@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Drafting the ability slot and the gender (WEB-PKM-009, WEB-PKM-004): the slots come from Core's personal data for the species and form,
+/// Drafting the ability slot and the gender: the slots come from Core's personal data for the species and form,
 /// the ability and its slot number are written together, genders are limited to those the species can have, Meowstic's form follows its
 /// gender as the desktop changes it, refusals are never clamped, and none of these edits touches a party member's battle state unless the
 /// form changes.

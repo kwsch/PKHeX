@@ -200,8 +200,8 @@ jobs:
                   path: ${{ env.PUBLISH_DIR }}/wwwroot
                   if-no-files-found: error
 
-            # Records cold/warm boot timings and transfer (WEB-PERF-001), memory on the largest admitted save (WEB-PERF-002), box navigation
-            # timings (WEB-BOX-008) and selected-entity legality timings (WEB-PERF-004) with no threshold; it fails only if a step cannot be measured.
+            # Records cold/warm boot timings and transfer, memory on the largest admitted save, box navigation
+            # timings and selected-entity legality timings with no threshold; it fails only if a step cannot be measured.
             # The publish with sprites is made by the e2e jobs, so the memory report says the atlas was not measured here.
             # This job runs no other browser test, so nothing shares the runner while boots are timed.
             # Only on pushes to the merge targets: it has no threshold, so a pull request gains nothing from it, and it takes about six minutes.

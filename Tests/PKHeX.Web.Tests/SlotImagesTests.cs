@@ -5,7 +5,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The structural slot diff behind apply (from PKForge's write-safety check): every party position and box slot, the target excepted.
+/// The structural slot diff behind apply: every party position and box slot, the target excepted.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class SlotImagesTests

@@ -6,7 +6,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The exit dialog in the published app (WEB-A11Y-002, WEB-SESSION-004): a native modal that keeps focus and pointer input inside it while
+/// The exit dialog in the published app: a native modal that keeps focus and pointer input inside it while
 /// it is open, cancels on Escape at any step with focus back on the button that opened it, and fits a 320px screen.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]

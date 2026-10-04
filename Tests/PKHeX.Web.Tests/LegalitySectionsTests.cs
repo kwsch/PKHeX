@@ -6,7 +6,7 @@ using Xunit;
 
 namespace PKHeX.Web.Tests;
 
-/// <summary>Where legality findings link to in the inspector (WEB-LEGAL-002).</summary>
+/// <summary>Where legality findings link to in the inspector.</summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class LegalitySectionsTests
 {

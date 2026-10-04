@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Applying party members (WEB-SESSION-002, WEB-PKM-014): a non-stat edit keeps the stored battle stats, HP and status byte for byte,
+/// Applying party members: a non-stat edit keeps the stored battle stats, HP and status byte for byte,
 /// and a stat-affecting edit follows the PK6 party-stat policy through apply and export.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

@@ -9,7 +9,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Validation in the workspace (WEB-A11Y-002): Apply and Download stay focusable while they cannot act, activating one shows and focuses a
+/// Validation in the workspace: Apply and Download stay focusable while they cannot act, activating one shows and focuses a
 /// summary of why with links to the controls, a refused edit is shown on its control and not in the live status message, and typing never
 /// moves focus or brings a summary back.
 /// </summary>

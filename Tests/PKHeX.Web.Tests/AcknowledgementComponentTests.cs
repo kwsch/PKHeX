@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The legality acknowledgements beside Apply and Download (WEB-LEGAL-003): what each shows for each gate, and the flagged changes in order.
+/// The legality acknowledgements beside Apply and Download: what each shows for each gate, and the flagged changes in order.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class AcknowledgementComponentTests : IDisposable

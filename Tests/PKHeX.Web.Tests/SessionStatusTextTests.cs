@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The exact text for change and download state, the exit steps and the download name (WEB-SESSION-003/005/007, WEB-EXP-002).
+/// The exact text for change and download state, the exit steps and the download name.
 /// </summary>
 /// <remarks>The E2E tier builds its expected text from these pinned strings, not from the mapping under test.</remarks>
 [Trait(TestCategory.Name, TestCategory.Unit)]

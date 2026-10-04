@@ -10,10 +10,10 @@ using static Microsoft.Playwright.Assertions;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Drives the current proof UI (nickname-only editor) and holds the byte-level oracles its tests share.
+/// Drives the published app's open, slot, legality, apply and download steps, and holds the byte-level oracles their tests share.
 /// </summary>
 /// <remarks>
-/// Kept apart from <see cref="PublishedAppFixture"/> because the MVP screens replace this UI, while hosting and privacy checks stay.
+/// Kept apart from <see cref="PublishedAppFixture"/>, which owns hosting and the privacy checks.
 /// </remarks>
 internal static class ProofPage
 {

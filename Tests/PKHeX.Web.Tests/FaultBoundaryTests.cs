@@ -14,7 +14,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The workspace fault boundary (WEB-APP-004, WEB-ERR-003), rendered with bUnit around a child that fails on demand.
+/// The workspace fault boundary, rendered with bUnit around a child that fails on demand.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class FaultBoundaryTests : IAsyncLifetime

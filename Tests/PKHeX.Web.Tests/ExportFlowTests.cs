@@ -7,7 +7,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Export and leaving a session in the published app (WEB-EXP-001–003, WEB-SESSION-003/005/007), in every engine and at both paths.
+/// Export and leaving a session in the published app, in every engine and at both paths.
 /// </summary>
 /// <remarks>Expected text comes from the strings pinned in <see cref="SessionStatusTextTests"/>.</remarks>
 [Collection(PublishedAppCollection.Name)]

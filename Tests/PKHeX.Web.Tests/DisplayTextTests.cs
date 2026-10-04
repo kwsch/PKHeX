@@ -5,7 +5,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Display of stored names (WEB-SEC-003): bidirectional controls are removed, and an embedded name is isolated so it cannot reorder its
+/// Display of stored names: bidirectional controls are removed, and an embedded name is isolated so it cannot reorder its
 /// neighbours.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

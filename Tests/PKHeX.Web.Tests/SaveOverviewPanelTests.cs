@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The overview panel renders every value, as text only (WEB-OVERVIEW-001/002, WEB-SAVE-007).
+/// The overview panel renders every value, as text only.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class SaveOverviewPanelTests : IDisposable

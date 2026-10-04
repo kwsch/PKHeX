@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The legality service (WEB-LEGAL-001/002): Core's verdict, reports and severities on a copy of the draft, in the save's and slot's context.
+/// The legality service: Core's verdict, reports and severities on a copy of the draft, in the save's and slot's context.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class LegalityServiceTests

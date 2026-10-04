@@ -9,7 +9,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The slot grid is one tab stop with arrow-key movement, and every slot is named by its position and contents (WEB-A11Y-001/002).
+/// The slot grid is one tab stop with arrow-key movement, and every slot is named by its position and contents.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class SlotGridTests : IDisposable

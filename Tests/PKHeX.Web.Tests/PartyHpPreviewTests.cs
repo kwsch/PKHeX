@@ -10,7 +10,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The preview of a party member's HP reduction before apply (WEB-PKM-014): shown only when HP is lowered, never claiming a heal.
+/// The preview of a party member's HP reduction before apply: shown only when HP is lowered, never claiming a heal.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class PartyHpPreviewTests : IDisposable

@@ -89,7 +89,7 @@ public static class LegalityText
         _ => null,
     };
 
-    /// <summary>The Core build that produced the results (WEB-LEGAL-001).</summary>
+    /// <summary>The Core build that produced the results.</summary>
     public static string Engine => $"Analysed by PKHeX.Core {BuildInfo.CoreVersion}, source commit {Abbreviate(BuildInfo.SourceCommit)}.";
 
     /// <summary>The note on what a legality result means.</summary>

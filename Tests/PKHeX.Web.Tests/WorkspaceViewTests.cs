@@ -9,7 +9,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The responsive workspace's layout state (WEB-APP-003): which pane a narrow screen shows and whether a medium one folds the storage pane
+/// The responsive workspace's layout state: which pane a narrow screen shows and whether a medium one folds the storage pane
 /// away, how both follow the draft and the session, and the markup and focus targets the page builds from them.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

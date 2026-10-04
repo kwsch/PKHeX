@@ -11,7 +11,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The generated atlas is reproducible, holds each chosen image unchanged, and stays within host and browser limits (WEB-PERF-003, WEB-SEC-004).
+/// The generated atlas is reproducible, holds each chosen image unchanged, and stays within host and browser limits.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed partial class SpriteAtlasTests

@@ -5,7 +5,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Why Apply and Download cannot act (WEB-A11Y-002): every reason, in the order the error summary lists them, and none when they can. The
+/// Why Apply and Download cannot act: every reason, in the order the error summary lists them, and none when they can. The
 /// buttons' state and their guards come from here, so the summary never disagrees with what a click does.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

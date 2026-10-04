@@ -9,7 +9,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The storage browser re-reads its views when the revision or the shown box changes, and only then (WEB-BOX-008).
+/// The storage browser re-reads its views when the revision or the shown box changes, and only then.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class StorageBrowserPanelTests : IDisposable

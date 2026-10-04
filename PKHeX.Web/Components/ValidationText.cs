@@ -9,7 +9,7 @@ namespace PKHeX.Web.Components;
 public sealed record SummaryItem(string Text, string? LinkText = null, string? TargetId = null);
 
 /// <summary>
-/// Text for validation (WEB-A11Y-002): a refused field's error line, and the error summary shown when Apply or Download is activated while it
+/// Text for validation: a refused field's error line, and the error summary shown when Apply or Download is activated while it
 /// cannot act (<see cref="ActionReadiness"/>), and the one shown when Previous or Next Pokémon is.
 /// </summary>
 public static class ValidationText

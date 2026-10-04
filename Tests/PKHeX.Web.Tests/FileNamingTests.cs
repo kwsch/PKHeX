@@ -5,7 +5,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// File name sanitising for display and download names (WEB-SESSION-007, WEB-SEC-003).
+/// File name sanitising for display and download names.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class FileNamingTests

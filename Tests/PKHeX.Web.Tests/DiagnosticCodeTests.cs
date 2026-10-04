@@ -8,7 +8,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Redacted failure codes and the diagnostic log (WEB-SEC-003, WEB-SEC-005): built from the app's own names only, never from an exception's
+/// Redacted failure codes and the diagnostic log: built from the app's own names only, never from an exception's
 /// message, and written to the console in the same redacted form.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

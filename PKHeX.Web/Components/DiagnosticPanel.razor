@@ -5,7 +5,7 @@
 @inject BrowserFileService Files
 @inject TimeProvider Clock
 
-@* The opt-in diagnostic report (WEB-SEC-005): nothing is gathered until the user asks, the preview is the whole report, and it leaves the page
+@* The opt-in diagnostic report: nothing is gathered until the user asks, the preview is the whole report, and it leaves the page
    only when the user copies or downloads it. *@
 <section id="@Id" class="diagnostics" aria-labelledby="@($"{Id}-title")">
     <h3 id="@($"{Id}-title")">@DiagnosticText.Title</h3>

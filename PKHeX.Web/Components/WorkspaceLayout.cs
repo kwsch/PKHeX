@@ -4,7 +4,7 @@ namespace PKHeX.Web.Components;
 
 /// <summary>
 /// The responsive workspace's fixed names: the width at which panes stack, the pane actions' text, and the elements that focus moves to
-/// when a pane change hides the one that had it (WEB-APP-003, WEB-A11Y-002).
+/// when a pane change hides the one that had it.
 /// </summary>
 public static class WorkspaceLayout
 {

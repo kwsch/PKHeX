@@ -10,7 +10,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The held item, moves, PP and PP Ups in the published app (WEB-PKM-010, WEB-PKM-011, WEB-PKM-012): Core's lists offered, a move change's
+/// The held item, moves, PP and PP Ups in the published app: Core's lists offered, a move change's
 /// PP effect stated, PP out of range refused as typed, a party member's battle state kept, and exports byte-identical to native Core.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]

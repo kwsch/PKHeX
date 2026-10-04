@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The hostile-input fixture holds what it claims, and the app's text for it is inert and cannot reorder the page (WEB-SEC-003).
+/// The hostile-input fixture holds what it claims, and the app's text for it is inert and cannot reorder the page.
 /// The browser half is <see cref="HostileInputBrowserTests"/>.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

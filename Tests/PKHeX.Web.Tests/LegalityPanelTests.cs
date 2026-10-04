@@ -9,7 +9,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The legality panel (WEB-LEGAL-001/002): a status word with an icon, a summary, Core's findings with links, and Core's reports in a disclosure.
+/// The legality panel: a status word with an icon, a summary, Core's findings with links, and Core's reports in a disclosure.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class LegalityPanelTests : IDisposable

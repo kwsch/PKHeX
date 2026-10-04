@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Drafting the held item, moves, PP and PP Ups (WEB-PKM-010, WEB-PKM-011, WEB-PKM-012): items and moves come from Core's lists for the
+/// Drafting the held item, moves, PP and PP Ups: items and moves come from Core's lists for the
 /// game, a move change sets that slot's PP as the desktop does, PP and PP Ups are refused outside Core's rules rather than clamped, only
 /// the edited slot's bytes change, and none of these edits touches a party member's battle state.
 /// </summary>

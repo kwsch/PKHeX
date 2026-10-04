@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Drafting the species and form (WEB-PKM-002): choices come from Core's species list for the save and the species' form list, the change and
+/// Drafting the species and form: choices come from Core's species list for the save and the species' form list, the change and
 /// its dependent fields are Core's <see cref="SpeciesFormChange.ChangeSpeciesForm(PKM,ushort,byte,IPersonalTable)"/> byte for byte, a preview
 /// reports exactly what the change would do without making it, refusals are never clamped, changing back leaves the draft clean, and a party
 /// member's stats are recalculated without healing it.

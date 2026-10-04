@@ -8,7 +8,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Applying a party member in the published app (WEB-SESSION-002, WEB-PKM-014): a nickname edit keeps the member's stored stats, HP and
+/// Applying a party member in the published app: a nickname edit keeps the member's stored stats, HP and
 /// status, the export matches native Core and changes only that party position, and the applied member is analysed as a party member.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]

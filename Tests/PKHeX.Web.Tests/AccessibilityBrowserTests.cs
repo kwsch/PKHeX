@@ -6,7 +6,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The automated WCAG check of the published app (WEB-A11Y-003): axe finds no violation in any state of the journey, at desktop and phone
+/// The automated WCAG check of the published app: axe finds no violation in any state of the journey, at desktop and phone
 /// widths, in light and dark colour schemes.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]

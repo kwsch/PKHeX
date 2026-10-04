@@ -8,7 +8,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The responsive shell in the published app (WEB-APP-003, WEB-A11Y-003): side-by-side panes on a desktop, a foldable storage pane on a
+/// The responsive shell in the published app: side-by-side panes on a desktop, a foldable storage pane on a
 /// tablet and one pane at a time on a phone, with no loss of the selection or draft on resize; reflow at 400% zoom, 44px targets and
 /// reduced motion.
 /// </summary>

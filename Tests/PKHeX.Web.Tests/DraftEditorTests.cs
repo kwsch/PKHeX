@@ -10,7 +10,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The draft editor (WEB-PKM-003–007, WEB-PKM-009–013): labelled name, language, friendship, level, experience, nature, ability, gender,
+/// The draft editor: labelled name, language, friendship, level, experience, nature, ability, gender,
 /// IV, EV, held item, move, PP and PP Ups fields that turn input into typed draft edits, show what the draft holds after an
 /// accepted edit, keep refused input as typed, and offer nothing for an egg.
 /// </summary>

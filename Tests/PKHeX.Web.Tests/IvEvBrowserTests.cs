@@ -10,7 +10,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// IVs and EVs in the published app (WEB-PKM-013): values out of range and EVs over the total refused as typed, the totals and Hidden Power
+/// IVs and EVs in the published app: values out of range and EVs over the total refused as typed, the totals and Hidden Power
 /// shown, a party member's stats recalculated without healing it, and exports byte-identical to native Core.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]

@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Drafting the IVs and EVs (WEB-PKM-013): each value is refused out of Core's range rather than clamped, an EV edit may not raise the
+/// Drafting the IVs and EVs: each value is refused out of Core's range rather than clamped, an EV edit may not raise the
 /// total above Core's limit, only the edited stat's stored bits change, and a party member's stats follow the PK6 party-stat policy.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

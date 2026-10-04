@@ -6,7 +6,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The automated accessibility check (WEB-A11Y-003): axe-core, run in the page by the test, never shipped with the app. It checks the
+/// The automated accessibility check: axe-core, run in the page by the test, never shipped with the app. It checks the
 /// WCAG 2.0, 2.1 and 2.2 A and AA rules, and a test fails on any violation, naming the rule, the elements and what axe says is wrong.
 /// </summary>
 /// <remarks>

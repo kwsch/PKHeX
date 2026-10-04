@@ -3,7 +3,7 @@
    It shows only the current step's choices. The step is worked out by WorkspaceState from the live session and passed in, so it cannot go stale,
    and a change of step is a change of parameter, which re-renders the panel.
    The work itself (apply, download) is done by the workspace through the callbacks, which also report the outcome.
-   It is a native modal dialog (WEB-A11Y-002): the browser keeps focus and pointer input inside it, and makes the page behind it inert, until
+   It is a native modal dialog: the browser keeps focus and pointer input inside it, and makes the page behind it inert, until
    the exit ends or is cancelled. Escape cancels, as "Cancel and keep this save" does. *@
 @inject BrowserPage Page
 @inject DiagnosticLog Diagnostics

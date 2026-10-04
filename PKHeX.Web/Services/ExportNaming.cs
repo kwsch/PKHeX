@@ -12,7 +12,7 @@ public enum ExportNameChoice
     Original,
 }
 
-/// <summary>Chooses the suggested name of a download (WEB-SESSION-007). The browser may still adjust it when saving.</summary>
+/// <summary>Chooses the suggested name of a download. The browser may still adjust it when saving.</summary>
 public static class ExportNaming
 {
     /// <summary>

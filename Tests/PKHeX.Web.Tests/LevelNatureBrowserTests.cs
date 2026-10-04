@@ -10,7 +10,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Level, experience points and nature in the published app (WEB-PKM-005, WEB-PKM-007, WEB-PKM-014): level and experience kept in step,
+/// Level, experience points and nature in the published app: level and experience kept in step,
 /// out-of-range values refused as typed, the nature's stat effect shown, a party member's stats recalculated without healing it, and
 /// exports byte-identical to native Core.
 /// </summary>

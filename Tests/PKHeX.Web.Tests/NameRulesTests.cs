@@ -6,7 +6,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The desktop's name rules (WEB-PKM-003), as <see cref="NameRules"/> mirrors them from <c>PKMEditor.UpdateIsNicknamed</c>,
+/// The desktop's name rules, as <see cref="NameRules"/> mirrors them from <c>PKMEditor.UpdateIsNicknamed</c>,
 /// <c>UpdateNickname</c> and <c>IsPossibleNotNicknamed</c>. Expected names come from Core's species names.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

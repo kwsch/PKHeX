@@ -9,8 +9,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The party strip and box grid in the published app: navigation, keyboard use, the list alternative, and what each slot opens
-/// (WEB-PARTY-001, WEB-BOX-001/002/008, WEB-A11Y-001).
+/// The party strip and box grid in the published app: navigation, keyboard use, the list alternative, and what each slot opens.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]
 [Trait(TestCategory.Name, TestCategory.E2E)]

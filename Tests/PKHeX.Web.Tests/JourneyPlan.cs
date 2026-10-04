@@ -37,7 +37,7 @@ internal enum JourneyAction
 internal sealed record JourneyStep(string ControlId, JourneyAction Action, string Value = "", string? Query = null);
 
 /// <summary>
-/// The published journey's edits on one save and the output native Core gives for the same edits (WEB-TEST-005).
+/// The published journey's edits on one save and the output native Core gives for the same edits.
 /// </summary>
 /// <remarks>
 /// <para>

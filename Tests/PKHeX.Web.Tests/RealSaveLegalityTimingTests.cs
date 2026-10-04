@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Records the legality analysis timing of the published app (WEB-PERF-004) over every slot the private XY and ORAS saves let the user open.
+/// Records the legality analysis timing of the published app over every slot the private XY and ORAS saves let the user open.
 /// It complements <see cref="LegalityTimingTests"/>, whose synthetic corpus is small, with the
 /// entities of real play. See <see cref="LegalityTiming"/>.
 /// </summary>

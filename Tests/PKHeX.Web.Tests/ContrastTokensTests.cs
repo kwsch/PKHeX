@@ -6,7 +6,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The stylesheet's colour tokens meet WCAG 2.2 AA in both colour schemes (WEB-A11Y-003): text at least 4.5:1 against the page background,
+/// The stylesheet's colour tokens meet WCAG 2.2 AA in both colour schemes: text at least 4.5:1 against the page background,
 /// and borders, focus rings and the selection mark at least 3:1. Every colour on the page comes from the tokens, so checking them checks
 /// the page; axe checks the rendered result in the browser as well.
 /// </summary>

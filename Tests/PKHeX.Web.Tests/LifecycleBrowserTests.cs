@@ -10,7 +10,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Acknowledgements and the session lifecycle in the published app (WEB-LEGAL-003, WEB-SESSION-004/005, WEB-SEC-002, WEB-BROWSER-003):
+/// Acknowledgements and the session lifecycle in the published app:
 /// an Invalid result is acknowledged before apply and again before the download that contains it; Reset to original reopens the file as
 /// opened; Discard session asks once; and a reload, a back navigation or a page restored from the back-forward cache leaves no session,
 /// no warning and nothing stored.

@@ -4,7 +4,7 @@ namespace PKHeX.Web.Tests;
 
 /// <summary>
 /// A synthetic X/Y save whose stored names are hostile: markup, and a right-to-left override that would reverse the text after it. Used to check
-/// that names render as inert text and cannot reorder the page (WEB-SEC-003).
+/// that names render as inert text and cannot reorder the page.
 /// </summary>
 internal static class HostileFixtures
 {

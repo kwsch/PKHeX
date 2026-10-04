@@ -8,7 +8,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Slot and box text is built from coordinates and contents only, in any browser locale (WEB-A11Y-001, WEB-BOX-002).
+/// Slot and box text is built from coordinates and contents only, in any browser locale.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class SlotTextTests

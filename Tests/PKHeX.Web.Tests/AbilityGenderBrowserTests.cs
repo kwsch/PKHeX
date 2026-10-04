@@ -9,7 +9,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The ability slot and the gender in the published app (WEB-PKM-009, WEB-PKM-004): Core's slots offered with (1), (2) and (H), the species'
+/// The ability slot and the gender in the published app: Core's slots offered with (1), (2) and (H), the species'
 /// genders only, Meowstic's form changed with its gender and the change stated, a party member's battle state kept, and exports
 /// byte-identical to native Core.
 /// </summary>

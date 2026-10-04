@@ -9,7 +9,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Hostile input and safe diagnostics in the published app (WEB-SEC-003, WEB-SEC-005): stored names and file names render as inert text and
+/// Hostile input and safe diagnostics in the published app: stored names and file names render as inert text and
 /// cannot reorder the page, the shell runs no inline script and the CSP blocks one, and a diagnostic report names a refused file by code only.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]

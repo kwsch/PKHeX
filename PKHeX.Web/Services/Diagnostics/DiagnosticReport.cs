@@ -19,7 +19,7 @@ public sealed record DiagnosticContext(string WebVersion, string SourceCommit, s
 }
 
 /// <summary>
-/// Builds the plain-text diagnostic report the user previews before copying or downloading it (WEB-SEC-005).
+/// Builds the plain-text diagnostic report the user previews before copying or downloading it.
 /// </summary>
 /// <remarks>
 /// The report holds the build, the browser, the open family, and the recorded failures as redacted <see cref="DiagnosticCode"/>s. It never holds

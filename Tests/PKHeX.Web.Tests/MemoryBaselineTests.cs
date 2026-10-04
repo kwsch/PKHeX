@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Records the memory baseline of the published app (WEB-PERF-002) to <see cref="TestEnvironment.PerfReport"/>. See <see cref="MemoryBaseline"/>.
+/// Records the memory baseline of the published app to <see cref="TestEnvironment.PerfReport"/>. See <see cref="MemoryBaseline"/>.
 /// It has no threshold: it fails only if a step cannot be measured.
 /// </summary>
 [Collection(BootBaselineCollection.Name)]

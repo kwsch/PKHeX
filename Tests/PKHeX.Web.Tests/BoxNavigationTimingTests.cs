@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Records the box navigation timing of the published app (WEB-BOX-008) to <see cref="TestEnvironment.PerfReport"/>. See <see cref="BoxNavigationTiming"/>.
+/// Records the box navigation timing of the published app to <see cref="TestEnvironment.PerfReport"/>. See <see cref="BoxNavigationTiming"/>.
 /// It has no timing threshold: it fails only if a step cannot be measured, shows the wrong box, or makes a request.
 /// </summary>
 [Collection(BootBaselineCollection.Name)]

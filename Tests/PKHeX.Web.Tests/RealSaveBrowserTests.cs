@@ -532,7 +532,7 @@ public sealed class RealSaveBrowserTests(PublishedAppFixture app)
     }
 
     /// <summary>
-    /// The full published journey on each private save (TEST-004/005): opened through the picker and then a drop, one field of each group edited
+    /// The full published journey on each private save: opened through the picker and then a drop, one field of each group edited
     /// across a boxed Pokémon and a party member, legality compared with native Core, applied, downloaded, reopened natively and in the app, and
     /// the privacy trace checked with the save's own names as sentinels. The export matches native Core byte for byte. Values are withheld from messages.
     /// </summary>

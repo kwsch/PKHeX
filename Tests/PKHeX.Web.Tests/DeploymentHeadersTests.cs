@@ -77,7 +77,7 @@ public sealed class DeploymentHeadersTests(PublishedAppFixture app)
     }
 
     /// <summary>
-    /// The license opens in the browser's own viewer with no CSP violation: under the app's policy WebKit's viewer broke <c>style-src-attr</c> (M16).
+    /// The license opens in the browser's own viewer with no CSP violation: under the app's policy WebKit's viewer broke <c>style-src-attr</c>.
     /// The violation recorder is a context init script, so it runs in the viewer's document too.
     /// </summary>
     [TierTheory(TestCategory.E2E)]

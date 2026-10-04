@@ -206,10 +206,10 @@ Evidence JSON contains only family, slot kind (box) or the journey with the numb
 
 The `Perf` tier measures the published app and writes a Markdown and a JSON report of each to `PKHEX_WEB_PERF_REPORT`:
 
-- `boot-baseline`: how long the app takes to become usable (WEB-PERF-001).
-- `memory-baseline`: memory on the largest admitted save, a full ORAS save (WEB-PERF-002).
-- `box-navigation`: how long a box change takes on that save (WEB-BOX-008).
-- `legality-timing`: how long the selected-entity legality analysis takes (WEB-PERF-004).
+- `boot-baseline`: how long the app takes to become usable.
+- `memory-baseline`: memory on the largest admitted save, a full ORAS save.
+- `box-navigation`: how long a box change takes on that save.
+- `legality-timing`: how long the selected-entity legality analysis takes.
 
 It records numbers only and has no pass/fail threshold. It fails only when a step cannot be measured: the file input never became usable within 60 seconds, a page error, a request for anything other than a published file (or any request at all while browsing boxes), a box change showing the wrong box, or an analysis showing a verdict other than native Core's. `PKHEX_WEB_PERF_RUNS` sets the number of measured boots per configuration (default 5), after one unrecorded boot. `PKHEX_WEB_PERF_CHANNEL` (e.g. `chrome` or `msedge`) measures the installed release browser of that channel instead of Playwright's Chromium; CI leaves it unset. `PKHEX_WEB_PERF_SESSIONS` sets how many sessions the memory baseline repeats in one page (default 40); a longer run narrows the retention it can rule out.
 
@@ -217,7 +217,7 @@ The `RealSave` tier includes `RealSaveLegalityTimingTests`, which times the anal
 
 - Each sample uses a new browser profile. The cold boot starts a new browser process on the empty profile; the warm boot closes that browser and relaunches it on the same profile, like a returning visit, so only what the browser stored in the profile (its HTTP cache) carries over.
 - "Shell ready" is the time from navigation start until the file input exists and is enabled, recorded in the page by a mutation observer.
-- Chromium is measured on the 20 Mbps / 50 ms profile that `PKHeX.Web.md` states its targets for (≤5 s cold, ≤2 s cached; engineering targets, not claims), throttled through the DevTools protocol, which adds the latency to each request rather than emulating TCP round trips. Playwright cannot throttle Firefox or WebKit, so all three engines are also measured on unthrottled loopback, which shows the startup cost without the network.
+- Chromium is measured on the 20 Mbps / 50 ms profile the startup targets are set for (≤5 s cold, ≤2 s cached; engineering targets, not claims), throttled through the DevTools protocol, which adds the latency to each request rather than emulating TCP round trips. Playwright cannot throttle Firefox or WebKit, so all three engines are also measured on unthrottled loopback, which shows the startup cost without the network.
 - The loopback host runs in a deployment-caching mode: it serves the precompressed `.br`/`.gz` file the browser accepts, sends `ETag`s and answers revalidations with 304, and sends the `Cache-Control` the shipped `_headers` gives each file (immutable for fingerprinted files, `no-cache` for everything else; the browser tests' default mode leaves it out). Playwright's WebKit does not accept Brotli from the plain-HTTP loopback host, so its rows are served as gzip, which overstates what an HTTPS deployment transfers; the report's boot-set table gives both sizes.
 - The report lists the files a cold boot downloads with their raw, Brotli and gzip sizes, the raw size of each group of data embedded in PKHeX.Core (every boot downloads all of it inside the assembly) and its share of the published file, and flags a warm boot that reused nothing from the cache, since that row then measures a second download. Playwright's WebKit did so in every local run; the cause has not been established, and it is not evidence about Safari.
 
@@ -250,5 +250,3 @@ Blazor hides trim-analysis warnings in a normal publish. `PKHeX.Web/tools/trim-w
 - An empty box is not an invitation to generate a Pokémon. The app does not import entities, legalize them, or manipulate dex/records.
 - Input and working-save integrity are checked, but console acceptance and physical Safari/iOS behavior are not established by these tests.
 - Playwright WebKit is engine coverage, not a claim of physical-device qualification.
-
-See the root `PKHeX.Web.WasmProof.md` for the actual recorded evidence and limitations.

@@ -30,14 +30,14 @@ internal sealed record NativeAllocation(string Stage, long Bytes, long InputByte
 /// <param name="DecodedBytes">Width × height × 4 (RGBA), what a browser holds for the decoded image.</param>
 internal sealed record AtlasSize(string File, long Bytes, int Width, int Height, long DecodedBytes);
 
-/// <summary>A memory baseline run (WEB-PERF-002).</summary>
+/// <summary>A memory baseline run.</summary>
 /// <param name="SaveBytes">Size of the save measured.</param>
 /// <param name="Entities">Occupied party positions and box slots in it.</param>
 /// <param name="Atlas">Null when no publish with sprites was given.</param>
 internal sealed record MemoryBaselineResult(BootEnvironment Environment, int SaveBytes, int Entities, IReadOnlyList<NativeAllocation> Native, IReadOnlyList<MemoryEngine> Engines, AtlasSize? Atlas);
 
 /// <summary>
-/// Measures the memory of the published app (WEB-PERF-002) on the largest admitted save, <see cref="SaveFixtures.Full"/> for ORAS, in each engine
+/// Measures the memory of the published app on the largest admitted save, <see cref="SaveFixtures.Full"/> for ORAS, in each engine
 /// on loopback: after each step of a session, over repeated sessions in one page, and then after refusing files at the read limit.
 /// </summary>
 /// <remarks>
@@ -299,7 +299,7 @@ internal static class MemoryBaseline
         var invariant = CultureInfo.InvariantCulture;
         var env = result.Environment;
         var sb = new StringBuilder();
-        sb.AppendLine("## Memory baseline (WEB-PERF-002)");
+        sb.AppendLine("## Memory baseline");
         sb.AppendLine();
         sb.AppendLine(invariant, $"PKHeX.Web {env.WebVersion} (`{env.SourceCommit}`), measured {env.MeasuredUtc} UTC on {env.Processor} ({env.ProcessorCount} logical CPUs, {(env.MemoryBytes / 1073741824.0).ToString("0.0", invariant)} GiB), {env.OperatingSystem} {env.Architecture}{(env.ContinuousIntegration is { } ci ? $", {ci}" : "")}.");
         sb.AppendLine();

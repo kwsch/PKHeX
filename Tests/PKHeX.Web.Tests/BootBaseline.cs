@@ -5,7 +5,7 @@ using Microsoft.Playwright;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Measures cold and warm boots of the published app (WEB-PERF-001) through a <see cref="StaticHost"/> in deployment-caching mode.
+/// Measures cold and warm boots of the published app through a <see cref="StaticHost"/> in deployment-caching mode.
 /// </summary>
 /// <remarks>
 /// Each sample uses its own browser profile. The cold boot launches a new browser process on the empty profile; the warm boot closes that browser
@@ -19,7 +19,7 @@ internal static class BootBaseline
     /// <summary>Measured boots per configuration when <see cref="TestEnvironment.PerfRuns"/> is not set.</summary>
     public const int DefaultRuns = 5;
 
-    /// <summary>Label of the network profile <c>PKHeX.Web.md</c> states its startup targets for.</summary>
+    /// <summary>Label of the network profile the startup targets are set for.</summary>
     public const string ThrottledProfile = "20 Mbps / 50 ms";
 
     /// <summary>20 Mbps in bytes per second, for both directions.</summary>

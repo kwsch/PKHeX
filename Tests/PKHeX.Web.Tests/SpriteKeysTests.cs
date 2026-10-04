@@ -10,7 +10,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Sprites are chosen as the desktop chooses them for X/Y and Omega Ruby/Alpha Sapphire saves (WEB-BOX-004).
+/// Sprites are chosen as the desktop chooses them for X/Y and Omega Ruby/Alpha Sapphire saves.
 /// </summary>
 /// <remarks>
 /// Expected resource names are written out literally, as the desktop's resx names them, so a change in the shared naming is noticed.

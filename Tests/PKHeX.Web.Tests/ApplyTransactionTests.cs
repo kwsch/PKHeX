@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Failure injection into the apply transaction (WEB-SESSION-002, WEB-TEST-003): whatever goes wrong in or after the staged write, the
+/// Failure injection into the apply transaction: whatever goes wrong in or after the staged write, the
 /// session is left exactly as it was, and the draft can still be applied once the fault is gone.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

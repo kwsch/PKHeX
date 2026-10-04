@@ -23,7 +23,7 @@ public static partial class FileNaming
     /// <summary>Longest extension (including the dot) that is kept intact when a name is shortened.</summary>
     private const int MaxKeptExtension = 16;
 
-    /// <summary>Inserted before the date-time stamp of an edited name. It is the suffix PKForge uses for its exports.</summary>
+    /// <summary>Inserted before the date-time stamp of an edited name.</summary>
     public const string EditedMarker = "-modified-";
 
     /// <summary>Format of the stamp in an edited name: sortable, and free of characters any filesystem reserves.</summary>

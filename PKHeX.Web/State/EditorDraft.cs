@@ -729,7 +729,7 @@ public sealed class EditorDraft
     }
 
     /// <summary>
-    /// Shows what changing the species and form would do, without changing the draft (WEB-PKM-002): the dependent fields Core changes with
+    /// Shows what changing the species and form would do, without changing the draft: the dependent fields Core changes with
     /// them, their values before and after, a party member's recalculated stats and HP, and whether the form is battle-only or missing from
     /// the save's game. It is refused exactly as <see cref="EditSpeciesForm"/> would be.
     /// </summary>

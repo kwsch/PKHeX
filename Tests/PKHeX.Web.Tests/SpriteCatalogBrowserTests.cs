@@ -12,7 +12,7 @@ namespace PKHeX.Web.Tests;
 
 /// <summary>
 /// The sprite atlas in the published app: fetched once before a save can be chosen, the same for every save, and every sprite drawn from it
-/// with no further request (WEB-BOX-004, WEB-PERF-003, WEB-SEC-001). A default publish shows text and requests no sprite file.
+/// with no further request. A default publish shows text and requests no sprite file.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]
 [Trait(TestCategory.Name, TestCategory.E2E)]

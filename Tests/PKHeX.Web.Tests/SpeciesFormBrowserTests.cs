@@ -9,7 +9,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The species and form in the published app (WEB-PKM-002): a choice previewed with the fields Core changes before it is made, cancelled or
+/// The species and form in the published app: a choice previewed with the fields Core changes before it is made, cancelled or
 /// confirmed, battle-only forms marked, a party member's stats recalculated without healing it, and exports byte-identical to native Core.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]

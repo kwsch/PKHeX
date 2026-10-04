@@ -10,7 +10,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Sprites are decorative layers drawn from the preloaded atlas; the text and accessible names stay as they are (WEB-BOX-004, WEB-A11Y-001).
+/// Sprites are decorative layers drawn from the preloaded atlas; the text and accessible names stay as they are.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class SlotSpriteTests : IDisposable

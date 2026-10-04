@@ -9,7 +9,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The full published journey with synthetic saves in every engine, at the root and under <c>/PKHeX/</c> (WEB-TEST-005, WEB-SEC-001):
+/// The full published journey with synthetic saves in every engine, at the root and under <c>/PKHeX/</c>:
 /// once with every field group, compared with native Core, and once by keyboard alone.
 /// </summary>
 /// <remarks>
@@ -62,7 +62,7 @@ public sealed class JourneyBrowserTests(PublishedAppFixture app)
         await using var session = await app.BootAsync(engine, prefix);
         await PublishedJourney.RunAsync(session, plan, save, FileName, decoy, [BoxName]);
 
-        // WEB-SEC-001: a fresh visit that opens only the other save and another Pokémon makes the same requests, all at boot, so nothing the
+        // A fresh visit that opens only the other save and another Pokémon makes the same requests, all at boot, so nothing the
         // app fetches depends on the save or the selection.
         await using var other = await app.BootAsync(engine, prefix);
         await Load(other.Page, decoy);

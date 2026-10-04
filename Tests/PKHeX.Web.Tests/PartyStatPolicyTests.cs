@@ -6,7 +6,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The PK6 party-stat policy (<c>PKHeX.Web.md</c> §State model): stats are recalculated through Core, the status is kept, and current HP
+/// The PK6 party-stat policy: stats are recalculated through Core, the status is kept, and current HP
 /// is never raised, so an edit neither heals nor revives.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

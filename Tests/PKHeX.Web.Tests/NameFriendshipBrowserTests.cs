@@ -9,7 +9,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Name, language and friendship in the published app (WEB-PKM-003, WEB-PKM-006): the desktop's name rules, a language change shown with
+/// Name, language and friendship in the published app: the desktop's name rules, a language change shown with
 /// its default name, labelled friendship refused rather than clamped, eggs left alone, and exports byte-identical to native Core.
 /// </summary>
 [Collection(PublishedAppCollection.Name)]

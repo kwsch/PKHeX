@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The party and box views read the current revision, with Core's counts and names (WEB-PARTY-001, WEB-BOX-001/002/008).
+/// The party and box views read the current revision, with Core's counts and names.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class StorageViewTests

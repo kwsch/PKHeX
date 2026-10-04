@@ -8,7 +8,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// File drop, drop refusals, navigation guards and download naming in the published app (WEB-SAVE-001/002, WEB-SESSION-007).
+/// File drop, drop refusals, navigation guards and download naming in the published app.
 /// </summary>
 /// <remarks>
 /// Drops are dispatched in the page with a script-built <c>DataTransfer</c> (<see cref="FileDrops"/>), since Playwright cannot drag files from the OS.

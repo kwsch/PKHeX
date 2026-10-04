@@ -22,7 +22,7 @@ public enum InspectorArea
 }
 
 /// <summary>
-/// Where the inspector shows the values a Core legality check is about, so a finding can link to them (WEB-LEGAL-002).
+/// Where the inspector shows the values a Core legality check is about, so a finding can link to them.
 /// </summary>
 /// <remarks>
 /// The mapping follows what each inspector section shows today. A check about something the inspector does not show (relearn moves, memories,

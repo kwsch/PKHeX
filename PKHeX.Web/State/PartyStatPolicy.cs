@@ -9,7 +9,7 @@ namespace PKHeX.Web.State;
 /// <para>
 /// Core keeps a party member's stored stats when it writes it (<c>SaveFile.SetPartyValues</c> skips members whose stats are present),
 /// and <see cref="PKM.ResetPartyStats"/> recalculates them but also restores full HP and clears the status. Neither is what a player
-/// expects from an edit, so this release follows the policy in <c>PKHeX.Web.md</c> §State model:
+/// expects from an edit, so this release follows this policy:
 /// </para>
 /// <list type="bullet">
 /// <item>An edit that does not affect stats keeps the stored stats, HP and status byte for byte.</item>

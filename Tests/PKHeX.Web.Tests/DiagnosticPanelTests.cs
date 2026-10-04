@@ -12,7 +12,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The opt-in diagnostic report panel (WEB-SEC-005), rendered with bUnit: nothing is gathered until asked, the preview is the whole report, and
+/// The opt-in diagnostic report panel, rendered with bUnit: nothing is gathered until asked, the preview is the whole report, and
 /// copy and download hand over exactly what is shown.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

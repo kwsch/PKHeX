@@ -8,7 +8,7 @@ namespace PKHeX.Web.Tests;
 
 /// <summary>
 /// The read-only inspector reads every value through a typed Core member, names it with Core's strings, and labels what Core cannot
-/// name instead of guessing (WEB-PKM-001).
+/// name instead of guessing.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class EntityInspectionTests

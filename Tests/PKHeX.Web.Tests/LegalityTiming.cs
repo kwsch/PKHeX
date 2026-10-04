@@ -30,7 +30,7 @@ internal sealed record LegalityTimingResult(BootEnvironment Environment, string 
 internal sealed record TimedSave(string Family, byte[] Bytes, SaveSession Native, IReadOnlyList<(string Name, SlotRef Slot)> Slots);
 
 /// <summary>
-/// Times the selected-entity legality analysis in the published app (WEB-PERF-004), for each engine on loopback: over every PK6 in Core's
+/// Times the selected-entity legality analysis in the published app, for each engine on loopback: over every PK6 in Core's
 /// legality test fixtures, opened in an XY and an ORAS save, or over every occupied slot of the private real saves.
 /// </summary>
 /// <remarks>
@@ -41,10 +41,10 @@ internal sealed record TimedSave(string Family, byte[] Bytes, SaveSession Native
 /// </remarks>
 internal static class LegalityTiming
 {
-    /// <summary>Engineering target for the selected-entity analysis at p95 (<c>PKHeX.Web.md</c>, performance section); not enforced.</summary>
+    /// <summary>Engineering target for the selected-entity analysis at p95; not enforced.</summary>
     public const double TargetP95Ms = 500;
 
-    /// <summary>Stall length <c>PKHeX.Web.md</c> treats as unresponsive when repeated.</summary>
+    /// <summary>Stall length treated as unresponsive when repeated.</summary>
     public const double StallMs = 200;
 
     /// <summary>Longest wait for one analysis before the measurement counts as failed.</summary>
@@ -169,11 +169,11 @@ internal static class LegalityTiming
         var invariant = CultureInfo.InvariantCulture;
         var env = result.Environment;
         var sb = new StringBuilder();
-        sb.AppendLine("## Legality analysis timing (WEB-PERF-004)");
+        sb.AppendLine("## Legality analysis timing");
         sb.AppendLine();
         sb.AppendLine(invariant, $"PKHeX.Web {env.WebVersion} ({env.SourceCommit}), measured {env.MeasuredUtc} UTC on {env.Processor} ({env.ProcessorCount} logical CPUs), {env.OperatingSystem} {env.Architecture}{(env.ContinuousIntegration is { } ci ? $", {ci}" : "")}.");
         sb.AppendLine();
-        sb.AppendLine(invariant, $"{result.Corpus}, through the app's idle-delay path on loopback. Time is how long the panel was busy: one paint wait, Core's synchronous analysis and the render. The first analysis of each page loads Core's legality tables and is shown apart. The target (p95 ≤ {TargetP95Ms:F0} ms, `PKHeX.Web.md`) is not enforced here.");
+        sb.AppendLine(invariant, $"{result.Corpus}, through the app's idle-delay path on loopback. Time is how long the panel was busy: one paint wait, Core's synchronous analysis and the render. The first analysis of each page loads Core's legality tables and is shown apart. The target (p95 ≤ {TargetP95Ms:F0} ms) is not enforced here.");
         sb.AppendLine();
         sb.AppendLine("| Engine | First analysis | Warm p50 | Warm p95 | Warm max | Warm over 200 ms | Samples |");
         sb.AppendLine("|---|---:|---:|---:|---:|---:|---:|");

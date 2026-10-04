@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Drafting the level, experience points and nature (WEB-PKM-005, WEB-PKM-007, WEB-PKM-014): level and experience stay in step through
+/// Drafting the level, experience points and nature: level and experience stay in step through
 /// Core's growth curves, the Generation 6 nature changes nothing but itself, refused values are never clamped, and a party member's stats
 /// follow the PK6 party-stat policy.
 /// </summary>

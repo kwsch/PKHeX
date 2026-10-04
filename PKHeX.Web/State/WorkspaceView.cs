@@ -12,7 +12,7 @@ public enum WorkspacePane
 
 /// <summary>
 /// The layout choices of the open workspace that are independent of the screen width: which pane a stacked layout shows, and whether a
-/// medium-width layout has folded the storage pane away to give the editor room (WEB-APP-003).
+/// medium-width layout has folded the storage pane away to give the editor room.
 /// </summary>
 /// <remarks>
 /// The width decides which of these the page applies, in CSS alone: a wide layout shows both panes and ignores both choices, a medium one

@@ -9,7 +9,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Validation and announcements in the published app (WEB-A11Y-001/002): a refused field is marked and described by its error without moving
+/// Validation and announcements in the published app: a refused field is marked and described by its error without moving
 /// focus or speaking through the status message; Apply and Download stay focusable while they cannot act, and activating one focuses a
 /// summary whose links focus the controls; legality announces only a final verdict; read-only fields are marked without losing contrast.
 /// </summary>

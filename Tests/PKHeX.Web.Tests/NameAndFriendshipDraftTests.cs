@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Drafting the name, language and friendship (WEB-PKM-003, WEB-PKM-006): each edit changes only its own stored bytes, as the same native
+/// Drafting the name, language and friendship: each edit changes only its own stored bytes, as the same native
 /// Core edit does; refused values are never clamped and leave the draft unchanged; eggs are not edited.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

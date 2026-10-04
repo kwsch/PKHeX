@@ -10,7 +10,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The full published journey in one session (WEB-TEST-005): open through the picker and then a drop, download unchanged, edit one field of each
+/// The full published journey in one session: open through the picker and then a drop, download unchanged, edit one field of each
 /// group across a boxed Pokémon and a party member, compare legality with native Core, apply, download, reopen natively and in the app, and
 /// check the privacy trace. Shared by the E2E tier (synthetic saves) and the RealSave tier (private saves), so values are kept out of every
 /// failure message.

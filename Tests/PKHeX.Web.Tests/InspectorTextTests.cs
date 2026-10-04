@@ -10,7 +10,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The inspector's text: fixed sections, invariant numbers, and unknown or out-of-game values labelled rather than hidden (WEB-PKM-001).
+/// The inspector's text: fixed sections, invariant numbers, and unknown or out-of-game values labelled rather than hidden.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class InspectorTextTests : IDisposable

@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The diagnostic report text (WEB-SEC-005): build, browser, open family and redacted failures, and nothing from the save.
+/// The diagnostic report text: build, browser, open family and redacted failures, and nothing from the save.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class DiagnosticReportTests

@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The exit panel (WEB-SESSION-004/005, WEB-LEGAL-003): one step's choices at a time, focus moved at each step, the waiting file named as text,
+/// The exit panel: one step's choices at a time, focus moved at each step, the waiting file named as text,
 /// a discard's single confirmation, and the legality acknowledgements its apply and download steps wait for.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

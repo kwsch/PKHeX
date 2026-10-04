@@ -38,11 +38,11 @@ internal sealed record BootBaselineResult(BootEnvironment Environment, int Runs,
 
 /// <summary>
 /// Summarises a <see cref="BootBaselineResult"/> as Markdown (for the CI run summary) and JSON (for comparing runs).
-/// It reports numbers only: the targets from <c>PKHeX.Web.md</c> are shown next to them and are not enforced.
+/// It reports numbers only: the targets are shown next to them and are not enforced.
 /// </summary>
 internal static class BootBaselineReport
 {
-    /// <summary>Engineering target for a cold usable shell on the throttled profile (<c>PKHeX.Web.md</c>, performance section).</summary>
+    /// <summary>Engineering target for a cold usable shell on the throttled profile.</summary>
     public const double ColdTargetMs = 5000;
 
     /// <summary>Engineering target for a cached usable shell.</summary>
@@ -79,7 +79,7 @@ internal static class BootBaselineReport
         var sb = new StringBuilder();
         sb.AppendLine("## PKHeX.Web boot baseline");
         sb.AppendLine();
-        sb.AppendLine($"Measured numbers only; nothing here passes or fails. Targets from `PKHeX.Web.md` are engineering targets, not claims: a usable shell within {Ms(ColdTargetMs)} ms cold on {BootBaseline.ThrottledProfile} and within {Ms(WarmTargetMs)} ms cached, on a named reference desktop. A shared CI runner is not that desktop.");
+        sb.AppendLine($"Measured numbers only; nothing here passes or fails. The targets are engineering targets, not claims: a usable shell within {Ms(ColdTargetMs)} ms cold on {BootBaseline.ThrottledProfile} and within {Ms(WarmTargetMs)} ms cached, on a named reference desktop. A shared CI runner is not that desktop.");
         sb.AppendLine();
         sb.AppendLine("| | |");
         sb.AppendLine("|---|---|");

@@ -271,7 +271,7 @@ public static class EditorText
 
     /// <summary>
     /// The note under the ability, always shown: what the slots are, and that legality analysis, not the list, decides whether the Pokémon
-    /// could have the hidden ability (WEB-PKM-009). It adds that two regular slots with the same ability are still different slots, and that
+    /// could have the hidden ability. It adds that two regular slots with the same ability are still different slots, and that
     /// a stored ability and slot that do not name one of the species' slots together are kept until a slot is chosen.
     /// </summary>
     /// <param name="regularSlotsSame">True when the first and second slots have the same ability.</param>

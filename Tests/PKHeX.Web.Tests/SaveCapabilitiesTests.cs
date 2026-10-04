@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Capabilities come from the concrete Core save type and the release allowlist, never from a generation number (WEB-PKM-001).
+/// Capabilities come from the concrete Core save type and the release allowlist, never from a generation number.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]
 public sealed class SaveCapabilitiesTests

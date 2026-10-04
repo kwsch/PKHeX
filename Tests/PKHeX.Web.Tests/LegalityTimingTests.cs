@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Records the legality analysis timing of the published app (WEB-PERF-004) to <see cref="TestEnvironment.PerfReport"/>. See <see cref="LegalityTiming"/>.
+/// Records the legality analysis timing of the published app to <see cref="TestEnvironment.PerfReport"/>. See <see cref="LegalityTiming"/>.
 /// It has no timing threshold: it fails only if an analysis cannot be measured or its verdict differs from native Core.
 /// </summary>
 [Collection(BootBaselineCollection.Name)]

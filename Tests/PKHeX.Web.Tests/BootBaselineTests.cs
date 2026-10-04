@@ -16,7 +16,7 @@ public sealed class BootBaselineCollection
 }
 
 /// <summary>
-/// Records the boot baseline of the published app (WEB-PERF-001) to <see cref="TestEnvironment.PerfReport"/>. See <see cref="BootBaseline"/>.
+/// Records the boot baseline of the published app to <see cref="TestEnvironment.PerfReport"/>. See <see cref="BootBaseline"/>.
 /// </summary>
 [Collection(BootBaselineCollection.Name)]
 [Trait(TestCategory.Name, TestCategory.Perf)]

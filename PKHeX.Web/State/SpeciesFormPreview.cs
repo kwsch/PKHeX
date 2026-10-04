@@ -57,7 +57,7 @@ public sealed record SpeciesFormValues(
 }
 
 /// <summary>
-/// What a species or form change would do to the draft, shown before it is made (WEB-PKM-002): the dependent fields Core reports changed, the
+/// What a species or form change would do to the draft, shown before it is made: the dependent fields Core reports changed, the
 /// values before and after, and what legality analysis will say about the form.
 /// </summary>
 /// <param name="Before">The drafted values now.</param>

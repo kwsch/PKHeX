@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// The error summary and its text (WEB-A11Y-002): one sentence per reason, a link to the control that resolves it where there is one, nothing
+/// The error summary and its text: one sentence per reason, a link to the control that resolves it where there is one, nothing
 /// rendered without a reason; and where a refused edit is shown in the editor.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

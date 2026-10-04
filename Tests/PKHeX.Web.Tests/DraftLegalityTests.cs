@@ -7,7 +7,7 @@ using Xunit;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// When the draft is analysed and which result is shown (WEB-LEGAL-003, WEB-PERF-004): stale at once on an edit, analysed after the idle delay
+/// When the draft is analysed and which result is shown: stale at once on an edit, analysed after the idle delay
 /// or on request, and never showing a result for a state that has moved on.
 /// </summary>
 [Trait(TestCategory.Name, TestCategory.Unit)]

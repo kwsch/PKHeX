@@ -3,7 +3,7 @@ using PKHeX.Web.State;
 namespace PKHeX.Web.Components;
 
 /// <summary>
-/// Where a refused edit is shown in the editor (WEB-A11Y-002): the refused control is marked invalid, and its fieldset's error line, placed
+/// Where a refused edit is shown in the editor: the refused control is marked invalid, and its fieldset's error line, placed
 /// after the fieldset's controls, says why. Every control of a fieldset shares one line, since only the last edit can be refused.
 /// </summary>
 public static class EditorFields

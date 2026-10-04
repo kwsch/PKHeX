@@ -6,7 +6,7 @@ using static PKHeX.Web.Tests.ProofPage;
 namespace PKHeX.Web.Tests;
 
 /// <summary>
-/// Startup failures in the published app (WEB-APP-001/004): a browser without a required feature is told so before the runtime loads,
+/// Startup failures in the published app: a browser without a required feature is told so before the runtime loads,
 /// and a failed asset load ends in a retry screen, not a stuck loading message.
 /// </summary>
 /// <remarks>

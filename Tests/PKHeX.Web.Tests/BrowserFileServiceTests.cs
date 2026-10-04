@@ -108,7 +108,7 @@ public sealed class BrowserFileServiceTests
     [Fact]
     public async Task AFileSizedAsDeclaredIsHeldOnce()
     {
-        // WebAssembly memory never shrinks, so each extra copy of a large file raises the page's memory for good (WEB-PERF-002).
+        // WebAssembly memory never shrinks, so each extra copy of a large file raises the page's memory for good.
         const int size = 4 * 1024 * 1024;
         var stream = new MemoryStream(new byte[size]);
         var before = GC.GetAllocatedBytesForCurrentThread();

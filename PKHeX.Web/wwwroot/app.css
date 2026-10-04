@@ -76,7 +76,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="file"])[readonly] { 
 .error-summary { border: 2px solid var(--invalid); border-radius: .5rem; padding: .5rem 1rem; margin-block: .5rem; overflow-wrap: anywhere; }
 .error-summary-title { font-size: 1.1rem; margin-block: .4rem; }
 .error-summary li { margin-block: .4rem; }
-/* Targets: every control is at least 44px tall (WEB-A11Y-003). A checkbox or radio is small itself, so its whole label is the target. */
+/* Targets: every control is at least 44px tall. A checkbox or radio is small itself, so its whole label is the target. */
 button, input, select, input::file-selector-button { min-height: 44px; }
 input[type="checkbox"], input[type="radio"] { min-height: 0; }
 button { margin: .5rem .5rem .5rem 0; }
@@ -102,7 +102,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
         width: min(56rem, calc(100vw - 2rem)); max-width: none; max-height: calc(100dvh - 2rem); overflow: auto; }
 #exit::backdrop { background: color-mix(in srgb, var(--fg) 40%, transparent); }
 
-/* The workspace panes (WEB-APP-003). The DOM order (storage, editor, download, session) is the reading and tab order at every width; only
+/* The workspace panes. The DOM order (storage, editor, download, session) is the reading and tab order at every width; only
    the placement changes. Wide: side by side. Medium: stacked, and the storage pane can be folded away while a Pokémon is open. Narrow:
    one pane at a time, with a return action. The narrow query is the same text as WorkspaceLayout.NarrowQuery and browser.js. */
 .narrow-only, .medium-only { display: none; }
