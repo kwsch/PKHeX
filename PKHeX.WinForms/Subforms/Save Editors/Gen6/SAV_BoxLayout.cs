@@ -1,7 +1,9 @@
-using System;
-using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.Misc;
+using System;
+using System.Windows.Forms;
+using static PKHeX.Core.LanguageID;
+using static PKHeX.WinForms.WallpaperName;
 
 namespace PKHeX.WinForms;
 
@@ -36,6 +38,8 @@ public partial class SAV_BoxLayout : Form
         editing = false;
     }
 
+    private static ReadOnlySpan<string> Names => GameInfo.Strings.wallpapernames;
+
     private bool LoadWallpapers(SaveFile sav)
     {
         if (sav is not IBoxDetailWallpaper)
@@ -53,26 +57,90 @@ public partial class SAV_BoxLayout : Form
                 cb.Items.Add(name);
         }
 
-        static void AddPlaceholder(ComboBox cb, int count)
+        static void AddList(ComboBox cb, ReadOnlySpan<WallpaperName> indexes)
         {
-            for (int i = 1; i <= count; i++)
-                cb.Items.Add($"Wallpaper {i}");
+            foreach (var index in indexes)
+                cb.Items.Add(Names[(int)index]);
         }
 
-        var names = GameInfo.Strings.wallpapernames;
+        static void AddListPt(ComboBox cb, ReadOnlySpan<WallpaperName> indexes)
+        {
+            var suffix = GetPlatinumSuffix();
+            foreach (var index in indexes)
+                cb.Items.Add($"{Names[(int)index]}{suffix}");
+        }
+
+        static string GetPlatinumSuffix() => GameInfo.Strings.Language switch
+        {
+            Japanese => "Ｐｔ",
+            English => " (Platinum)",
+            German => " (Platin)",
+            French => " (Platine)",
+            Italian => " (Platino)",
+            Spanish or SpanishL => " (Platino)",
+            Korean => " Pt",
+            ChineseS or ChineseT => "Ｐｔ",
+
+            _ => " (Platinum)",
+        };
+
+        static void AddPlaceholder(ComboBox cb, int count)
+        {
+            var prefix = GetWallpaperPrefix();
+            for (int i = 1; i <= count; i++)
+                cb.Items.Add($"{prefix}{i}");
+        }
+
+        static string GetWallpaperPrefix() => GameInfo.Strings.Language switch
+        {
+            Japanese => "かべがみ",
+            English => "Wallpaper ",
+            German => "Hintergrund ",
+            French => "Thème ",
+            Italian => "Sfondo ",
+            Spanish or SpanishL => "Fondo ",
+            Korean => "벽지",
+            ChineseS => "壁纸",
+            ChineseT => "壁紙",
+
+            _ => "Wallpaper ",
+        };
+
         switch (SAV.Generation)
         {
-            case 3 when SAV is SAV3 or SAV3RSBox:
-                AddRange(CB_BG, names.AsSpan(0, 16));
+            case 3:
+                AddRange(CB_BG, Names[0..12]);
+                AddList(CB_BG, SAV switch
+                {
+                    _ when SAV is SAV3RS => [PolkaDot, PokemonCenter, Machine3, Plain],
+                    _ when SAV is SAV3E => [PolkaDot, PokemonCenter, Machine3, Simple, Friends],
+                    _ when SAV is SAV3FRLG => [Stars, PokemonCenter, Tiles, Simple],
+                    _ when SAV is SAV3RSBox => [PolkaDot, PokemonCenter, Machine3, Plain, Flower, Tiles, Carpet, Ruin, MyWallpaper],
+                    _ => [],
+                });
                 return true;
-            case 4 or 5 or 6:
-                AddRange(CB_BG, names.AsSpan(0, 24));
+            case 4 or 5:
+                AddRange(CB_BG, Names[0..16]);
+                AddList(CB_BG, SAV switch
+                {
+                    _ when SAV is SAV4DP => [Space, Backyard, Nostalgic, Torchic, Trio, Pikapika, Legend, TeamGalactic],
+                    _ when SAV is SAV4Pt => [Distortion, Contest, Nostalgic, Croagunk, Trio, Pikapika, Legend, TeamGalactic],
+                    _ when SAV is SAV4HGSS => [Heart, Soul, BigBrother, Pokeathlon, Trio, SpikyPika, KimonoGirl, Revival],
+                    _ when SAV is SAV5BW => [Reshiram, Zekrom, Monochrome, TeamPlasma, Munna, Zoroark, Subway, Musical],
+                    _ when SAV is SAV5B2W2 => [Monochrome, TeamPlasma, Movie, PWT, Kyurem1, Kyurem2, Reshiram, Zekrom],
+                    _ => [],
+                });
+                return true;
+            case 6:
+                AddRange(CB_BG, Names[0..24]);
                 return true;
             case 7:
-                AddRange(CB_BG, names.AsSpan(0, 16));
+                AddRange(CB_BG, Names[0..16]);
                 return true;
             case 8 when SAV is SAV8BS:
-                AddRange(CB_BG, names.AsSpan(0, 32));
+                AddRange(CB_BG, Names[0..16]);
+                AddList(CB_BG, [Space, Backyard, Nostalgic, Torchic, Trio, Pikapika, Legend, TeamGalactic]);
+                AddListPt(CB_BG, [Distortion, Contest, Nostalgic, Croagunk, Trio, Pikapika, Legend, TeamGalactic]);
                 return true;
             case 8:
                 AddPlaceholder(CB_BG, 19);
@@ -154,6 +222,8 @@ public partial class SAV_BoxLayout : Form
             var choice = wp.GetBoxWallpaper(box);
             var maxWallpaper = CB_BG.Items.Count - 1;
             CB_BG.SelectedIndex = Math.Clamp(choice, 0, maxWallpaper);
+            if (SAV is SAV3RSBox && choice == 20)
+                ChangeBoxBackground(sender, e); // load correct half of My Wallpaper
         }
 
         if (SAV is IBoxDetailNameRead r)
@@ -247,4 +317,31 @@ public partial class SAV_BoxLayout : Form
 
         editing = renamingBox = false;
     }
+}
+
+public enum WallpaperName : byte
+{
+    Forest, City, Desert, Savanna,
+    Crag, Volcano, Snow, Cave,
+    Beach, Seafloor, River, Sky,
+    PokemonCenter, Machine, Checks, Simple,
+    Special1, Special2, Special3, Special4,
+    Special5, Special6, Special7, Special8,
+
+    // Gen3
+    PolkaDot, Machine3, Plain, Friends,
+    Stars, Tiles,
+    Flower, Carpet, Ruin, MyWallpaper,
+
+    // Gen4
+    Space, Backyard, Nostalgic, Torchic,
+    Trio, Pikapika, Legend, TeamGalactic,
+    Distortion, Contest, Croagunk,
+    Heart, Soul, BigBrother, Pokeathlon,
+    SpikyPika, KimonoGirl, Revival,
+
+    // Gen5
+    Reshiram, Zekrom, Monochrome, TeamPlasma,
+    Munna, Zoroark, Subway, Musical,
+    Movie, PWT, Kyurem1, Kyurem2,
 }

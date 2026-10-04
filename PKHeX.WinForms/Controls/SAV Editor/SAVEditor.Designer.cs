@@ -66,6 +66,7 @@ namespace PKHeX.WinForms.Controls
             B_VerifySaveEntities = new System.Windows.Forms.Button();
             Menu_ExportBAK = new System.Windows.Forms.Button();
             B_JPEG = new System.Windows.Forms.Button();
+            B_MyWallpaper = new System.Windows.Forms.Button();
             B_ConvertKorean = new System.Windows.Forms.Button();
             FLP_SAVtools = new System.Windows.Forms.FlowLayoutPanel();
             B_OpenTrainerInfo = new System.Windows.Forms.Button();
@@ -444,6 +445,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVToolsMisc.Controls.Add(B_VerifySaveEntities);
             FLP_SAVToolsMisc.Controls.Add(Menu_ExportBAK);
             FLP_SAVToolsMisc.Controls.Add(B_JPEG);
+            FLP_SAVToolsMisc.Controls.Add(B_MyWallpaper);
             FLP_SAVToolsMisc.Controls.Add(B_ConvertKorean);
             FLP_SAVToolsMisc.Dock = System.Windows.Forms.DockStyle.Fill;
             FLP_SAVToolsMisc.Location = new System.Drawing.Point(0, 0);
@@ -518,6 +520,19 @@ namespace PKHeX.WinForms.Controls
             B_JPEG.Text = "Save PGL .JPEG";
             B_JPEG.UseVisualStyleBackColor = true;
             B_JPEG.Click += B_JPEG_Click;
+            // 
+            // B_MyWallpaper
+            // 
+            B_MyWallpaper.AutoSize = true;
+            B_MyWallpaper.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            B_MyWallpaper.Location = new System.Drawing.Point(101, 27);
+            B_MyWallpaper.Margin = new System.Windows.Forms.Padding(0);
+            B_MyWallpaper.Name = "B_MyWallpaper";
+            B_MyWallpaper.Size = new System.Drawing.Size(106, 27);
+            B_MyWallpaper.TabIndex = 5;
+            B_MyWallpaper.Text = "Save My Wallpaper";
+            B_MyWallpaper.UseVisualStyleBackColor = true;
+            B_MyWallpaper.Click += B_MyWallpaper_Click;
             // 
             // B_ConvertKorean
             // 
@@ -1181,6 +1196,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.ComboBox CB_SaveSlot;
         private System.Windows.Forms.Label L_SaveSlot;
         private System.Windows.Forms.Button B_JPEG;
+        private System.Windows.Forms.Button B_MyWallpaper;
         private System.Windows.Forms.Button B_SaveBoxBin;
         private System.Windows.Forms.Button B_VerifyCHK;
         private System.Windows.Forms.FlowLayoutPanel FLP_SAVtools;

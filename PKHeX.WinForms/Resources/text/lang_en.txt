@@ -530,6 +530,7 @@ Main.B_FestivalPlaza=Festival Plaza
 Main.B_JPEG=Save PGL .JPEG
 Main.B_MailBox=Mailbox
 Main.B_MoveShop=Move Shop
+Main.B_MyWallpaper=Save My Wallpaper
 Main.B_OpenApricorn=Apricorns
 Main.B_OpenBattlePass=Battle Passes
 Main.B_OpenBerryField=Berry Field
