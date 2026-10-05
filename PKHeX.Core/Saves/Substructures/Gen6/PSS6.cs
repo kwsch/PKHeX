@@ -74,7 +74,7 @@ public static class PSS6
         result.Add($"Country: {country}");
         result.Add($"Region: {region}");
         result.Add($"Favorite: {GameInfo.Strings.specieslist[favpkm]}");
-        return false;
+        return true;
     }
 
     private static string GetGameName(GameVersion version)
