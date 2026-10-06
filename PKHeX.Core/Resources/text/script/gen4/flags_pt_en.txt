@@ -1,5 +1,6 @@
 0318	s	Defeated Saturn in Valor Cavern/Lake Verity Restored
 0350	s	Lake Valor Water Restored
+0214	s	Stark Mountain Quest Cleared/Elite Four Rematch Unlocked
 0481	r	Uxie Disappeared
 0295	r	Uxie Captured
 0479	r	Mesprit (Verity Cavern) Disappeared
@@ -57,6 +58,7 @@
 1337	i	Found Metal Coat in Iron Ruins
 1338	i	Found Never-Melt Ice in Iceberg Ruins
 1339	i	Found Hard Stone in Rock Peak Ruins
+0304	i	Received TM64
 0151	g	Received Porygon
 0305	g	Received Eevee
 0226	g	Riolu Egg Gift from Riley Pending (Iron Island)

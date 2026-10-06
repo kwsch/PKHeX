@@ -1,5 +1,6 @@
 0318	s	Saturne Vaincu à la Caverne Courage/Lac Vérité Restauré
 0350	s	Eau du Lac Vérité Restaurée
+0214	s	Quête de la Mont Abrupt terminée/Revanche du Conseil 4 débloquée
 0481	r	Créhelf Disparu
 0295	r	Créhelf Capturé
 0479	r	Créfollet (Caverne Vérité) Disparu
@@ -57,6 +58,7 @@
 1337	i	Peau Métal Trouvée aux Ruines de Fer
 1338	i	Glacéternel Trouvée aux Ruines Iceberg
 1339	i	Pierre Dure Trouvée aux Ruines Pic Roche
+0304	i	CT64 Reçu
 0151	g	A Reçu Porygon
 0305	g	A Reçu Évoli
 0226	g	Œuf de Riolu d'Armand en Attente (Île de Fer)

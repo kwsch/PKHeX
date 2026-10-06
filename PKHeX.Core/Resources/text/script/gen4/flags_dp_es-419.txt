@@ -1,5 +1,6 @@
 0318	s	Saturno derrotado en Caverna Valor/Lago Veraz Restaurado
 0350	s	Agua del Lago Valor Restaurada/Se puede obtener entrada de Palkia/Dialga en Pueblo Caelestis
+0214	s	Misión de Montaña Sólida completada
 0351	r	Dialga/Palkia capturado
 0482	r	Dialga/Palkia desaparecido del Columna Lanza
 0511	r	Uxie desaparecido
@@ -43,6 +44,7 @@
 1023	i	Found Adamant/Lustrous Orb in Spear Pillar
 1233	i	Encontrada Tabla Oscura en la Vieja Mansión
 1234	i	Encontrada MT90 en la Vieja Mansión
+0304	i	MT64 recibido
 2401	*	Deportivas deshabilitadas
 2433	s	Se desbloqueó la segunda revancha contra los entrenadores
 0251	g	Huevo Happiny de regalo recibido
