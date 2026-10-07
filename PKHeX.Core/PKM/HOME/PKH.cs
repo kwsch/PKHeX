@@ -516,4 +516,26 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
         return exist.SequenceEqual(newHT);
     }
+
+    public void ClampEffort252()
+    {
+        if (EV_HP  > EffortValues.Max252)
+            EV_HP  = EffortValues.Max252;
+        if (EV_ATK > EffortValues.Max252)
+            EV_ATK = EffortValues.Max252;
+        if (EV_DEF > EffortValues.Max252)
+            EV_DEF = EffortValues.Max252;
+        if (EV_SPE > EffortValues.Max252)
+            EV_SPE = EffortValues.Max252;
+        if (EV_SPA > EffortValues.Max252)
+            EV_SPA = EffortValues.Max252;
+        if (EV_SPD > EffortValues.Max252)
+            EV_SPD = EffortValues.Max252;
+    }
+
+    public void EnforceShinyRate3()
+    {
+        if (ShinyUtil.GetShinyXor(PID, ID32) is (< 16 and >= 8))
+            PID ^= 0x1000_0000;
+    }
 }

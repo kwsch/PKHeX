@@ -63,7 +63,7 @@ public sealed class LevelVerifier : Verifier
     {
         if (gift.Level == pk.MetLevel)
             return true;
-        if (!pk.HasOriginalMetLocation)
+        if (!pk.HasOriginalMetLevel)
             return true;
 
         return gift switch

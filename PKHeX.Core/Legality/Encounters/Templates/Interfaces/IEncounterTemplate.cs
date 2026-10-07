@@ -16,7 +16,7 @@ public static partial class Extensions
     public static bool IsWithinEncounterRange(this IEncounterTemplate encounter, PKM pk)
     {
         var level = pk.CurrentLevel;
-        if (!pk.HasOriginalMetLocation)
+        if (!pk.HasOriginalMetLevel)
             return encounter.IsLevelWithinRange(level);
         if (encounter.IsEgg)
             return level == encounter.LevelMin;

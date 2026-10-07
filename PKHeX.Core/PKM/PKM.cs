@@ -631,7 +631,13 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// Checks if the PKM has its original met location.
     /// </summary>
     /// <returns>Returns false if the Met Location has been overwritten via generational transfer.</returns>
-    public virtual bool HasOriginalMetLocation => !(Format < 3 || VC || (Generation <= 4 && Format != Generation));
+    public virtual bool HasOriginalMetLocation => !(Format < 3 || VC || VC3 || (Generation <= 4 && Format != Generation));
+
+    /// <summary>
+    /// Checks if the PKM has its original met level.
+    /// </summary>
+    /// <returns>Returns false if the Met Level has been overwritten via generational transfer.</returns>
+    public virtual bool HasOriginalMetLevel => !(Format < 3 || VC || (Generation <= 4 && Format != Generation));
 
     /// <summary>
     /// Checks if the current <see cref="Gender"/> is valid.
