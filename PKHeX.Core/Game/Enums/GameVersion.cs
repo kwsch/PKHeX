@@ -235,7 +235,7 @@ public enum GameVersion : byte
     VL = 51,
 
     /// <summary>
-    /// Pokémon Legends: (Z-A) (NX)
+    /// Pokémon Legends: Z-A (NX)
     /// </summary>
     ZA = 52,
 
@@ -245,12 +245,12 @@ public enum GameVersion : byte
     CP = 53,
 
     /// <summary>
-    /// Pokémon Winds
+    /// Pokémon Winds (Ounce)
     /// </summary>
     WI = 54,
 
     /// <summary>
-    /// Pokémon Waves
+    /// Pokémon Waves (Ounce)
     /// </summary>
     WA = 55,
 

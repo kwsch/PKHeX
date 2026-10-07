@@ -582,6 +582,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         OriginMark.Gen8Arc => Properties.Resources.gen_la,
         OriginMark.Gen9Paldea => Properties.Resources.gen_sv,
         OriginMark.GameBoy => Properties.Resources.gen_vc,
+        OriginMark.GameBoyAdvance => Properties.Resources.gen_gba,
         OriginMark.Gen9ZA => Properties.Resources.gen_za,
         OriginMark.GO => Properties.Resources.gen_go,
         OriginMark.LetsGo => Properties.Resources.gen_gg,

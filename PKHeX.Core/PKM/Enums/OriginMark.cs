@@ -18,6 +18,7 @@ public enum OriginMark
     Gen9ZA,
 
     GameBoy,
+    GameBoyAdvance,
     GO,
     LetsGo,
 }
@@ -29,6 +30,8 @@ public static class OriginMarkUtil
         // Specific Markings
         if (pk.VC)
             return GameBoy;
+        if (pk.VC3)
+            return GameBoyAdvance;
         if (pk.GO)
             return GO;
         if (pk.LGPE)
