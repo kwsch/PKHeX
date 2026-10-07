@@ -46,11 +46,7 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         new(5, 0x2D000, 0x1D60), // Battle Video (Other Videos 3)
     ];
 
-    private void Initialize()
-    {
-        Version = GameVersion.HGSS;
-        GetSAVOffsets();
-    }
+    private void Initialize() => GetSAVOffsets();
 
     protected override Memory<byte> GetFinalData()
     {
