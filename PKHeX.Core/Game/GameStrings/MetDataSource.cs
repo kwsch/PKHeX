@@ -144,8 +144,10 @@ public sealed class MetDataSource(GameStrings s)
         Util.AddCBWithOffset(locations, s.Gen8.Met4, 40000, Locations8.Met4);
         Util.AddCBWithOffset(locations, s.Gen8.Met6, 60000, Locations8.Met6);
 
-        // Add in the BDSP+PLA magic met locations.
+        // Add in the HOME remapped met locations.
         locations.Add(new ComboItem($"{s.EggName} (HOME)", LocationsHOME.SWSHEgg));
+        locations.Add(new ComboItem(s.gamelist[(int)FR], LocationsHOME.SWFR));
+        locations.Add(new ComboItem(s.gamelist[(int)LG], LocationsHOME.SHLG));
         locations.Add(new ComboItem(s.gamelist[(int)SL], LocationsHOME.SWSL));
         locations.Add(new ComboItem(s.gamelist[(int)VL], LocationsHOME.SHVL));
         locations.Add(new ComboItem(s.gamelist[(int)BD], LocationsHOME.SWBD));

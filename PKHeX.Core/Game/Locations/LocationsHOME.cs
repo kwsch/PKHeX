@@ -10,6 +10,8 @@ public static class LocationsHOME
 {
     // 60000 - (version - PLA)
     private const int RemapCount = 5; // Count of future game version IDs that can transfer back into SW/SH.
+    public const ushort SHLG = 59994; // LG (Switch) traded to (SW)SH
+    public const ushort SWFR = 59995; // FR (Switch) traded to SW(SH)
     public const ushort SHVL = 59996; // VL traded to (SW)SH
     public const ushort SWSL = 59997; // SL traded to SW(SH)
     public const ushort SHSP = 59998; // SP traded to (SW)SH
@@ -32,7 +34,7 @@ public static class LocationsHOME
     /// </summary>
     public static bool IsLocationSWSH(ushort met) => met switch
     {
-        SHVL or SWSL or SHSP or SWBD or SWLA => true,
+        SHLG or SWFR or SHVL or SWSL or SHSP or SWBD or SWLA => true,
         _ => false,
     };
 
