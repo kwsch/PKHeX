@@ -25,7 +25,7 @@ public sealed class GenderVerifier : Verifier
 
         // Check for PID relationship to Gender & Nature if applicable
         var gen = data.Info.Generation;
-        if (gen is 3 or 4 or 5)
+        if (gen is 3 or 4 or 5 || data.EncounterMatch is EncounterTransfer3HOME)
         {
             // Gender-PID & Nature-PID relationship check
             var result = IsValidGenderPID(data) ? GetValid(PIDGenderMatch) : GetInvalid(PIDGenderMismatch);
@@ -55,7 +55,9 @@ public sealed class GenderVerifier : Verifier
     private static bool IsValidGenderPID(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        bool genderValid = pk.IsGenderValid();
+        bool genderValid = data.EncounterMatch is EncounterTransfer3HOME
+            ? pk.Gender == EntityGender.GetFromPID(pk.Species, pk.EncryptionConstant)
+            : pk.IsGenderValid();
         if (!genderValid)
             return IsValidGenderMismatch(pk);
 

@@ -17,7 +17,11 @@ public static class EncounterGenerator
     /// <remarks>
     /// The iterator lazily finds possible encounters. If no encounters are possible, the enumerable will be empty.
     /// </remarks>
-    public static IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info) => info.Generation switch
+    public static IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info) => EncounterTransfer3HOME.IsOrigin(pk)
+        ? EncounterGenerator3HOME.GetEncounters(pk, info)
+        : GetEncountersInternal(pk, info);
+
+    private static IEnumerable<IEncounterable> GetEncountersInternal(PKM pk, LegalInfo info) => info.Generation switch
     {
         1 => EncounterGenerator12.Instance.GetEncounters(pk, info),
         2 => EncounterGenerator12.Instance.GetEncounters(pk, info),

@@ -18,6 +18,8 @@ public static class LocationsHOME
     public const ushort SWBD = 59999; // BD traded to SW(SH)
     public const ushort SWLA = 60000; // PLA traded to SW(SH)
 
+    public const ushort Transfer3HOME = 30007; // Kanto, FR/LG (Switch) -> HOME.
+
     public const ushort SWSHEgg = 65534; // -2 = 8bNone-1..
 
     /// <summary>
@@ -25,7 +27,7 @@ public static class LocationsHOME
     /// </summary>
     /// <param name="version">Origin Game ID to be stored directly/indirectly in the PK8.</param>
     /// <returns>True if a known remap exists.</returns>
-    public static bool IsVersionRemapNeeded(GameVersion version) => GetRemapIndex(version) < RemapCount;
+    public static bool IsVersionRemapNeeded(GameVersion version) => version is FR_NX or LG_NX || GetRemapIndex(version) < RemapCount;
 
     private static int GetRemapIndex(GameVersion version) => version - PLA;
 
@@ -69,6 +71,8 @@ public static class LocationsHOME
     /// </summary>
     public static GameVersion GetVersionSWSH(GameVersion version) => version switch
     {
+        FR_NX => SW,
+        LG_NX => SH,
         PLA => SW,
         BD  => SW,
         SP  => SH,
@@ -82,6 +86,8 @@ public static class LocationsHOME
     /// </summary>
     public static ushort GetMetSWSH(ushort loc, GameVersion version) => version switch
     {
+        FR_NX => SWFR,
+        LG_NX => SHLG,
         PLA => SWLA,
         BD => SWBD,
         SP => SHSP,
@@ -92,6 +98,8 @@ public static class LocationsHOME
 
     public static GameVersion GetVersionSWSHOriginal(ushort loc) => loc switch
     {
+        SWFR => FR_NX,
+        SHLG => LG_NX,
         SWLA => PLA,
         SWBD => BD,
         SHSP => SP,

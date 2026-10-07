@@ -144,7 +144,7 @@ public static class GameUtil
             GP or GE => EntityContext.Gen7b,
             PLA => EntityContext.Gen8a,
             BD or SP => EntityContext.Gen8b,
-            SW or SH => EntityContext.Gen8,
+            SW or SH or FR_NX or LG_NX => EntityContext.Gen8,
             SL or VL => EntityContext.Gen9,
             ZA or CP => EntityContext.Gen9a,
             _ => 0
@@ -158,7 +158,7 @@ public static class GameUtil
         {
             RD or GN or BU or YW => Legal.MaxSpeciesID_1,
             GD or SI or C        => Legal.MaxSpeciesID_2,
-            S or R or E or FR or LG or CXD => Legal.MaxSpeciesID_3,
+            S or R or E or FR or LG or CXD or FR_NX or LG_NX => Legal.MaxSpeciesID_3,
             D or P or Pt or HG or SS       => Legal.MaxSpeciesID_4,
             B or W or B2 or W2 => Legal.MaxSpeciesID_5,
             X or Y or AS or OR => Legal.MaxSpeciesID_6,
@@ -195,7 +195,7 @@ public static class GameUtil
         public bool IsGen6() => version is X or Y or AS or OR;
         public bool IsGen7() => version is SN or MN or US or UM;
         public bool IsGen7b() => version is GP or GE;
-        public bool IsGen8() => version is SW or SH or PLA or BD or SP;
+        public bool IsGen8() => version is SW or SH or PLA or BD or SP or FR_NX or LG_NX;
         public bool IsGen9() => version is SL or VL or ZA;
 
         /// <summary>
@@ -245,7 +245,7 @@ public static class GameUtil
 
             SWSH   => version1 is SW or SH,
             BDSP   => version1 is BD or SP,
-            Gen8   => version1 is SW or SH or BD or SP or SWSH or BDSP or PLA,
+            Gen8   => version1 is SW or SH or BD or SP or SWSH or BDSP or PLA or FR_NX or LG_NX,
 
             SV     => version1 is SL or VL,
             Gen9   => version1 is SL or VL or SV or ZA or CP,
@@ -287,7 +287,7 @@ public static class GameUtil
 
         // HOME allows up-reach to Gen9
         if (context.IsEraHOME)
-            return versions;
+            return versions.Concat([FR_NX, LG_NX]).Distinct();
         return versions.Where(version => version.Generation <= context.Generation);
     }
 }

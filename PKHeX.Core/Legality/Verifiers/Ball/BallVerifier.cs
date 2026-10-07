@@ -80,6 +80,7 @@ public sealed class BallVerifier : Verifier
 
         return enc switch
         {
+            EncounterTransfer3HOME transfer => VerifyBall(transfer.Original, current, pk),
             EncounterInvalid => GetResult(true), // ignore ball, pass whatever
             EncounterSlot8GO g => GetResult(g.IsBallValid(current, pk.Species, pk)),
             IFixedBall { FixedBall: not None } s => VerifyBallEquals(current, s.FixedBall),

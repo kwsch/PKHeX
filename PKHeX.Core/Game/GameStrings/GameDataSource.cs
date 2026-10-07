@@ -100,6 +100,7 @@ public sealed class GameDataSource
     /// <remarks>Most recent games are at the top, loosely following Generation groups.</remarks>
     private static ReadOnlySpan<byte> OrderedVersionArray =>
     [
+        56, 57, // FR/LG (Switch)
         53,     // Champions
         52,     // 9 Z-A
         50, 51, // 9 S/V

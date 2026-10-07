@@ -54,7 +54,7 @@ public sealed class FormVerifier : Verifier
 
             case Unown when enc.Generation == 2 && form >= 26:
                 return GetInvalid(FormInvalidRangeLEQ_0F, 25);
-            case Unown when enc.Generation == 3:
+            case Unown when enc.Generation == 3 || enc is EncounterTransfer3HOME:
                 var expectUnown = EntityPID.GetUnownForm3(pk.EncryptionConstant);
                 if (expectUnown != form)
                     return GetInvalid(FormInvalidExpect_0, expectUnown);

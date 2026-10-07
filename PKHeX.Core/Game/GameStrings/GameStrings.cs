@@ -103,6 +103,9 @@ public sealed class GameStrings : IBasicStrings
         wallpapernames = Get("wallpaper");
         groundtiletypes = Get("groundtile");
         gamelist = Get("games");
+        Array.Resize(ref gamelist, (int)GameVersion.LG_NX + 1);
+        gamelist[(int)GameVersion.FR_NX] = $"{gamelist[(int)GameVersion.FR]} (Switch)";
+        gamelist[(int)GameVersion.LG_NX] = $"{gamelist[(int)GameVersion.LG]} (Switch)";
 
         var balls = Items_Ball;
         balllist = new string[balls.Length];

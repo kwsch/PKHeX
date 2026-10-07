@@ -243,6 +243,12 @@ public enum GameVersion : byte
     /// Pokémon Champions (NX)
     /// </summary>
     CP = 53,
+
+    /// <summary>Pokémon FireRed (Nintendo Switch, HOME origin).</summary>
+    FR_NX = 56,
+
+    /// <summary>Pokémon LeafGreen (Nintendo Switch, HOME origin).</summary>
+    LG_NX = 57,
     #endregion
 
     // The following values are not actually stored values in pk data,

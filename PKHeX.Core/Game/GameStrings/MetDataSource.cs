@@ -300,6 +300,14 @@ public sealed class MetDataSource(GameStrings s)
            or GD or SI or C => Partition2(MetGen7, IsMetLocation7USUM),
 
         GP or GE or GO => Partition2(MetGen7GG, IsMetLocation7GG),
+        FR_NX or LG_NX => context switch
+        {
+            EntityContext.Gen8a => MetGen8a,
+            EntityContext.Gen8b => MetGen8b,
+            EntityContext.Gen9 => MetGen9,
+            EntityContext.Gen9a => MetGen9a,
+            _ => MetGen8,
+        },
         SW or SH => Partition2(MetGen8, IsMetLocation8SWSH),
         BD or SP => Partition2(MetGen8b, IsMetLocation8BDSP),
         PLA      => Partition2(MetGen8a, IsMetLocation8LA),

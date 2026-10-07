@@ -299,6 +299,7 @@ public sealed class HistoryVerifier : Verifier
     {
         IFixedTrainer { IsFixedTrainer: true } => false,
         EncounterSlot8GO => false,
+        EncounterTransfer3HOME => false,
         WC6 { IsOriginalTrainerNameSet: true } => false,
         WC7 { IsOriginalTrainerNameSet: true, IsAshPikachu: false } => false, // Ash Pikachu QR Gift doesn't set Current Handler
         WB7 wb7 when wb7.GetHasOT(pk.Language) => false,

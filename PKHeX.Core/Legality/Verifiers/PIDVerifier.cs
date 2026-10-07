@@ -162,6 +162,12 @@ public sealed class PIDVerifier : Verifier
             data.AddLine(Get(CheckIdentifier.EC, Severity.Fishy, PIDEncryptZero));
         }
 
+        if (Info.EncounterMatch is EncounterTransfer3HOME)
+        {
+            VerifyTransferEC(data);
+            return;
+        }
+
         // Gen3-5 => Gen6 have PID==EC with an edge case exception.
         if (Info.Generation is 3 or 4 or 5)
         {
