@@ -7,6 +7,25 @@ namespace PKHeX.Core;
 
 public static partial class Util
 {
+    /// <summary>
+    /// Includes an existing stored value that is not yet represented in the display list.
+    /// </summary>
+    /// <remarks>Returns the original list when possible; otherwise creates a copy without modifying shared data sources.</remarks>
+    public static IReadOnlyList<ComboItem> GetCBListWithValue(IReadOnlyList<ComboItem> list, int value)
+    {
+        foreach (var item in list)
+        {
+            if (item.Value == value)
+                return list;
+        }
+
+        var result = new ComboItem[list.Count + 1];
+        for (int i = 0; i < list.Count; i++)
+            result[i] = list[i];
+        result[^1] = new ComboItem($"({value})", value);
+        return result;
+    }
+
     public static List<ComboItem> GetCountryRegionList(string textFile, string lang)
     {
         var inputCSV = GetStringList(textFile);

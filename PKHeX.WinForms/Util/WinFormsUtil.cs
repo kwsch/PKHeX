@@ -192,6 +192,20 @@ public static class WinFormsUtil
         return (int)(cb.SelectedValue ?? 0);
     }
 
+    /// <summary>
+    /// Selects a stored value, adding a numeric entry if the current list does not recognize it.
+    /// </summary>
+    internal static void SetValueWithFallback(this ComboBox cb, int value)
+    {
+        if (cb.DataSource is BindingSource { DataSource: IReadOnlyList<ComboItem> list })
+        {
+            var updated = Util.GetCBListWithValue(list, value);
+            if (!ReferenceEquals(updated, list))
+                cb.DataSource = new BindingSource(updated, string.Empty);
+        }
+        cb.SelectedValue = value;
+    }
+
     public static void PanelScroll(object? sender, ScrollEventArgs e)
     {
         if (sender is not ScrollableControl p || e.NewValue < 0)

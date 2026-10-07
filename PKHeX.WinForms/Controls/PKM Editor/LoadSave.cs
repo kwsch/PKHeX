@@ -233,9 +233,9 @@ public partial class PKMEditor
         UC_Gender.Gender = pk.Gender;
         CB_Nature.SelectedValue = (int)pk.Nature;
         CB_Language.SelectedValue = pk.Language;
-        CB_GameOrigin.SelectedValue = (int)pk.Version;
+        CB_GameOrigin.SetValueWithFallback((int)pk.Version);
         CB_Ball.SelectedValue = (int)pk.Ball;
-        CB_MetLocation.SelectedValue = (int)pk.MetLocation;
+        CB_MetLocation.SetValueWithFallback(pk.MetLocation);
         TB_MetLevel.Text = pk.MetLevel.ToString();
         CHK_Fateful.Checked = pk.FatefulEncounter;
 
@@ -281,7 +281,7 @@ public partial class PKMEditor
             CHK_AsEgg.Checked = GB_EggConditions.Enabled = true;
             CAL_EggDate.Value = pk.EggMetDate?.ToDateTime(new TimeOnly()) ?? new(2000, 1, 1);
         }
-        CB_EggLocation.SelectedValue = (int)pk.EggLocation;
+        CB_EggLocation.SetValueWithFallback(pk.EggLocation);
     }
 
     private void SaveMisc4(PKM pk)
@@ -428,7 +428,7 @@ public partial class PKMEditor
         Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
         CB_HTLanguage.SelectedValue = (int)pk8.HandlingTrainerLanguage;
         TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
-        CB_BattleVersion.SelectedValue = (int)pk8.BattleVersion;
+        CB_BattleVersion.SetValueWithFallback((int)pk8.BattleVersion);
     }
 
     private void SaveMisc8(PK8 pk8)
@@ -447,7 +447,7 @@ public partial class PKMEditor
         Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
         CB_HTLanguage.SelectedValue = (int)pk8.HandlingTrainerLanguage;
         TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
-        CB_BattleVersion.SelectedValue = (int)pk8.BattleVersion;
+        CB_BattleVersion.SetValueWithFallback((int)pk8.BattleVersion);
     }
 
     private void SaveMisc8(PB8 pk8)
@@ -466,7 +466,7 @@ public partial class PKMEditor
         Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
         CB_HTLanguage.SelectedValue = (int)pk8.HandlingTrainerLanguage;
         TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
-        CB_BattleVersion.SelectedValue = (int)pk8.BattleVersion;
+        CB_BattleVersion.SetValueWithFallback((int)pk8.BattleVersion);
         Stats.CHK_IsAlpha.Checked = pk8.IsAlpha;
         Stats.CHK_IsNoble.Checked = pk8.IsNoble;
         CB_AlphaMastered.SelectedValue = (int)pk8.AlphaMove;
@@ -489,7 +489,7 @@ public partial class PKMEditor
         CB_StatAlignment.SelectedValue = (int)pk9.StatAlignment;
         CB_HTLanguage.SelectedValue = (int)pk9.HandlingTrainerLanguage;
         TB_HomeTracker.Text = pk9.Tracker.ToString("X16");
-        CB_BattleVersion.SelectedValue = (int)pk9.BattleVersion;
+        CB_BattleVersion.SetValueWithFallback((int)pk9.BattleVersion);
         Stats.CB_TeraTypeOriginal.SelectedValue = (int)pk9.TeraTypeOriginal;
         Stats.CB_TeraTypeOverride.SelectedValue = (int)pk9.TeraTypeOverride;
         TB_ObedienceLevel.Text = pk9.ObedienceLevel.ToString();
@@ -510,7 +510,7 @@ public partial class PKMEditor
         CB_StatAlignment.SelectedValue = (int)pk9.StatAlignment;
         CB_HTLanguage.SelectedValue = (int)pk9.HandlingTrainerLanguage;
         TB_HomeTracker.Text = pk9.Tracker.ToString("X16");
-        CB_BattleVersion.SelectedValue = (int)pk9.BattleVersion;
+        CB_BattleVersion.SetValueWithFallback((int)pk9.BattleVersion);
         TB_ObedienceLevel.Text = pk9.ObedienceLevel.ToString();
         Stats.CHK_IsAlpha.Checked = pk9.IsAlpha;
     }
