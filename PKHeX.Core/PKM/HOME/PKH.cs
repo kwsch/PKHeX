@@ -404,6 +404,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         if (type == typeof(PA8)) return HomeGameDataFormat.PA8;
         if (type == typeof(PK9)) return HomeGameDataFormat.PK9;
         if (type == typeof(PA9)) return HomeGameDataFormat.PA9;
+        if (type == typeof(PK3)) return HomeGameDataFormat.PK8;
         return HomeGameDataFormat.None;
     }
 
@@ -438,6 +439,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         else if (pk is PA8 pa8) (DataPA8 ??= new GameDataPA8()).CopyFrom(pa8, this);
         else if (pk is PK9 pk9) (DataPK9 ??= new GameDataPK9()).CopyFrom(pk9, this);
         else if (pk is PA9 pa9) (DataPA9 ??= new GameDataPA9()).CopyFrom(pa9, this);
+        else if (pk is PK3 pk3) (DataPK8 ??= new GameDataPK8()).CopyFrom(pk3, this);
     }
 
     private IGameDataSide? FirstScaleData => DataPK9 ?? DataPA8 as IGameDataSide;

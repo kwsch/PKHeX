@@ -63,6 +63,8 @@ public sealed class LearnSource3E : LearnSource3, ILearnSource<PersonalInfo3>, I
         {
             if (GetIsTM(pi, move))
                 return new(TMHM, Game);
+
+            // HM Moves must be removed prior to transferring. Only allow if un-transferred.
             if (pk.Format == Generation && GetIsHM(pi, move))
                 return new(TMHM, Game);
         }
@@ -121,7 +123,8 @@ public sealed class LearnSource3E : LearnSource3, ILearnSource<PersonalInfo3>, I
                     result[moves[i]] = true;
             }
 
-            if (pk.Format == 3)
+            // HM Moves must be removed prior to transferring. Only allow if un-transferred.
+            if (pk.Format == Generation)
             {
                 moves = MachineMovesHidden;
                 for (int i = 0; i < moves.Length; i++)

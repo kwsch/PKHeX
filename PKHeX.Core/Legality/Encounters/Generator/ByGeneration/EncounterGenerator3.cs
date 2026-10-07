@@ -12,6 +12,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion version, EncounterTypeGroup groups)
     {
+        version = GetGameToIterate(version);
         var iterator = new EncounterPossible3(chain, groups, version);
         foreach (var enc in iterator)
             yield return enc;
@@ -49,13 +50,23 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         }
     }
 
+    /// <summary>
+    /// Remaps the Virtual Console version IDs to mainline hardware version ID for internal searching.
+    /// </summary>
+    private static GameVersion GetGameToIterate(GameVersion version) => version switch
+    {
+        GameVersion.FRX => GameVersion.FR,
+        GameVersion.LGX => GameVersion.LG,
+        _ => version,
+    };
+
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
         if (chain.Length == 0)
             yield break;
 
         info.PIDIV = MethodFinder.Analyze(pk);
-        var game = pk.Version;
+        var game = GetGameToIterate(pk.Version);
         var iterator = new EncounterEnumerator3(pk, chain, game);
         Deferral defer = default;
         var leadQueue = new LeadEncounterQueue<EncounterSlot3>();

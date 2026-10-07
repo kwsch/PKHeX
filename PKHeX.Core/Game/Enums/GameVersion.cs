@@ -243,6 +243,32 @@ public enum GameVersion : byte
     /// Pokémon Champions (NX)
     /// </summary>
     CP = 53,
+
+    /// <summary>
+    /// Pokémon Winds
+    /// </summary>
+    WI = 54,
+
+    /// <summary>
+    /// Pokémon Waves
+    /// </summary>
+    WA = 55,
+
+    /// <summary>
+    /// Pokémon FireRed (Nintendo Switch Virtual Console Transfer)
+    /// </summary>
+    /// <remarks>
+    /// <see cref="FR"/>
+    /// </remarks>
+    FRX = 56,
+
+    /// <summary>
+    /// Pokémon LeafGreen (Nintendo Switch Virtual Console Transfer)
+    /// </summary>
+    /// <remarks>
+    /// <see cref="LG"/>
+    /// </remarks>
+    LGX = 57,
     #endregion
 
     // The following values are not actually stored values in pk data,

@@ -96,7 +96,8 @@ internal sealed class EggVerifier : Verifier
             return;
         moves = moves[..count];
 
-        if (!ChainBreedLegality.IsValid(egg.Species, egg.Form, egg.Version, moves))
+        var flags = ChainBreedUtil.InferFlagsFrom(pk);
+        if (!ChainBreedLegality.IsValid(egg.Species, egg.Form, egg.Version, flags, moves))
             data.AddLine(GetInvalid(Egg, EggMoveCombination));
         else
             data.AddLine(GetValid(EggBreedChain_0));

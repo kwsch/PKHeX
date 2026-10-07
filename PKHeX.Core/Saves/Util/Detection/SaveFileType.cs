@@ -67,7 +67,7 @@ public static class SaveFileTypeExtensions
             GameVersion.GD or GameVersion.SI or GameVersion.C => GSC,
             GameVersion.R or GameVersion.S => RS,
             GameVersion.E => Emerald,
-            GameVersion.FR or GameVersion.LG => FRLG,
+            GameVersion.FR or GameVersion.LG or GameVersion.FRX or GameVersion.LGX => FRLG,
             GameVersion.CXD => XD,
             GameVersion.D or GameVersion.P => DP,
             GameVersion.Pt => Pt,

@@ -71,10 +71,12 @@ public static class ParseSettings
     public static bool AllowGBEraEvents => AllowEraCartGB;
     public static bool AllowGBStadium2 => AllowEraCartGB;
 
-    // This logic will likely need to change (format check): TODO HOME FR/LG
-    public static bool AllowGBACrossTransferXD(PKM pk) => AllowEraCartGBA;
-    public static bool AllowGBACrossTransferRSE(PKM pk) => AllowEraCartGBA;
-    public static bool AllowGen3EventTicketsAll(PKM pk) => AllowEraSwitchGBA;
+    public static bool AllowGBACrossTransferXD(PKM pk) => AllowEraCartGBA || IsGen3HOMEOriginVirtual(pk, false);
+    public static bool AllowGBACrossTransferRSE(PKM pk) => AllowEraCartGBA || IsGen3HOMEOriginVirtual(pk, false);
+    public static bool AllowGen3EventTicketsAll(PKM pk) => AllowEraSwitchGBA || !IsGen3HOMEOriginVirtual(pk, true);
+    public static bool IsExclusivelyNintendoSwitchGBA() => AllowEraSwitchGBA && !AllowEraCartGBA;
+    public static bool IsExclusivelyNintendoSwitchGBA(PKM pk) => !IsExclusivelyNintendoSwitchGBA() && pk.Format == 3;
+    private static bool IsGen3HOMEOriginVirtual(PKM pk, bool state) => pk.Format >= 8 && pk.VC3 == state;
 
     /// <summary>
     /// Initializes certain settings
@@ -92,8 +94,8 @@ public static class ParseSettings
             _ => false,
         };
         var isVirtual3 = sav is SAV3 { IsVirtualConsole: true };
-        AllowEraSwitchGBA = isVirtual3;
-        AllowEraCartGBA = !isVirtual3; // sav.Generation >= 8; TODO HOME FR/LG
+        AllowEraCartGBA = !isVirtual3;
+        AllowEraSwitchGBA = isVirtual3 || sav.Generation >= 8;
     }
 
     internal static bool IgnoreTransferIfNoTracker => Settings.HOMETransfer.HOMETransferTrackerNotPresent == Severity.Invalid;

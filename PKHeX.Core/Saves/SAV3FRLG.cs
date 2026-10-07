@@ -15,7 +15,12 @@ public sealed class SAV3FRLG : SAV3, IDaycareRandomState<ushort>
     public override GameVersion Version
     {
         get;
-        set => field = value is GameVersion.FR or GameVersion.LG ? value : GameVersion.FRLG;
+        set => field = value switch
+        {
+            GameVersion.FR or GameVersion.FRX => GameVersion.FR,
+            GameVersion.LG or GameVersion.LGX => GameVersion.LG,
+            _ => GameVersion.FRLG
+        };
     } = GameVersion.FR; // allow mutation
     private PersonalTable3 _personal = PersonalTable.FR;
     public override PersonalTable3 Personal => _personal;

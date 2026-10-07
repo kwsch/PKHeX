@@ -164,7 +164,7 @@ public static class EntityConverter
         // Sequential
         PK1 pk1 => pk1.ConvertToPK2(),
         PK2 pk2 => pk2.ConvertToPK1(),
-        PK3 pk3 => pk3.ConvertToPK4(),
+        PK3 pk3 when !IsOnlyVC3(pk3, destType) => pk3.ConvertToPK4(),
         PK4 pk4 => pk4.ConvertToPK5(),
         PK5 pk5 => pk5.ConvertToPK6(),
         PK6 pk6 => pk6.ConvertToPK7(),
@@ -178,6 +178,21 @@ public static class EntityConverter
 
         _ => GetFinalResult(pk, destType, ref result),
     };
+
+    private static bool IsOnlyVC3(PK3 pk, Type destType)
+    {
+        // Only specific events are available on the Nintendo Switch Gen3 Virtual Console.
+        // If we're not transferring to HOME, then permit it through Gen4+ as a bypass.
+        var type = PKH.GetType(destType);
+        if (type is not HomeGameDataFormat.None)
+            return false;
+
+        // Deoxys @ Birth Island(FireRed/ LeafGreen) -Never distributed in Japan during GBA Cart era. NX virtual console added for all.
+        if (pk is { Species: (int)Species.Deoxys, MetLocation: 200, Language: (int)LanguageID.Japanese })
+            return true;
+        // TODO HOME RSE -- Mew?
+        return false;
+    }
 
     private static bool TryConvertFromHOME(PKH pkh, Type destType, [NotNullWhen(true)] out PKM? result)
     {

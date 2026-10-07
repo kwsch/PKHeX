@@ -15,8 +15,10 @@ public static class LocationsHOME
     public const ushort SHSP = 59998; // SP traded to (SW)SH
     public const ushort SWBD = 59999; // BD traded to SW(SH)
     public const ushort SWLA = 60000; // PLA traded to SW(SH)
+    // todo home fr/lg: remapping location or version?
 
     public const ushort SWSHEgg = 65534; // -2 = 8bNone-1..
+    public const ushort VirtualConsole3 = 30007;
 
     /// <summary>
     /// Gets the external entity version needs to be remapped into a location for SW/SH.

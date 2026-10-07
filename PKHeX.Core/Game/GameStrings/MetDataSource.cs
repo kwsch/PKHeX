@@ -298,7 +298,8 @@ public sealed class MetDataSource(GameStrings s)
            or GD or SI or C => Partition2(MetGen7, IsMetLocation7USUM),
 
         GP or GE or GO => Partition2(MetGen7GG, IsMetLocation7GG),
-        SW or SH => Partition2(MetGen8, IsMetLocation8SWSH),
+        SW or SH or FRX or LGX
+                 => Partition2(MetGen8, IsMetLocation8SWSH),
         BD or SP => Partition2(MetGen8b, IsMetLocation8BDSP),
         PLA      => Partition2(MetGen8a, IsMetLocation8LA),
         SL or VL => Partition2(MetGen9, IsMetLocation9SV),
@@ -352,6 +353,6 @@ public sealed class MetDataSource(GameStrings s)
     {
         <= CXD when context == EntityContext.Gen4 => MetGen4Transfer ??= CreateGen4Transfer(),
         < X when context.Generation >= 5 => MetGen5Transfer ??= CreateGen5Transfer(),
-        _ => [],
+        _ => [MetGen3[0]],
     };
 }

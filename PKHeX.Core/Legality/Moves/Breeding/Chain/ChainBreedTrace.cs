@@ -9,6 +9,8 @@ public ref struct ChainBreedTrace(Span<ChainBreedStep> buffer)
 {
     private readonly Span<ChainBreedStep> _buffer = buffer;
 
+    public required ChainBreedEraFlags Flags { get; init; }
+
     /// <summary>
     /// Count of steps in the trace. This is the number of valid entries in <see cref="Steps"/>.
     /// </summary>

@@ -75,8 +75,24 @@ public sealed class TransferVerifier : Verifier
 
     public void VerifyTransferLegalityG3(LegalityAnalysis data)
     {
+        // When transferred from Gen3=>HOME, must match the NX Virtual Console pattern and restrictions.
+        // Otherwise, it must have been transferred through Pal Park (to Gen4) and Transporter (to Gen5+).
         var pk = data.Entity;
-        if (pk.Format == 4) // Pal Park (3->4)
+        if (pk.VC3)
+        {
+            if (pk.MetLocation != LocationsHOME.VirtualConsole3)
+                data.AddLine(GetInvalid(TransferMetLocation, LocationsHOME.VirtualConsole3));
+
+            // TODO HOME RSE
+            // Flag any traded foreign species that were bred as eggs.
+            if (Legal.IsForeignFRLG(data.EncounterMatch.Species))
+                data.AddLine(GetInvalid(TradeNotAvailable));
+
+            // Flag any unavailable balls that were transferred.
+            if ((Ball)pk.Ball is Ball.Dive or Ball.Premier)
+                data.AddLine(GetInvalid(BallUnavailable));
+        }
+        else if (pk.Format == 4) // Pal Park (3->4)
         {
             if (pk.MetLocation != Locations.Transfer3)
                 data.AddLine(GetInvalid(EggLocationPalPark, Locations.Transfer3));
@@ -92,6 +108,7 @@ public sealed class TransferVerifier : Verifier
     {
         var pk = data.Entity;
         ushort loc = pk.MetLocation;
+        // Anything can be transferred via Transporter.
         if (loc == Locations.Transfer4)
             return;
 

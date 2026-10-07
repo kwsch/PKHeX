@@ -52,3 +52,7 @@ Karmesin
 Purpur
 Legenden: Z-A
 Champions
+Wind
+Welle
+Feuerrot [NX]
+Blattgrün [NX]

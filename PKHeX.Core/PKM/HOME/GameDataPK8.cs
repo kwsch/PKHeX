@@ -126,6 +126,40 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         }
     }
 
+    public void CopyFrom(PK3 pk, PKH pkh)
+    {
+        this.CopyFrom(pk);
+        AbilityNumber = (byte)pk.AbilityNumber;
+        Ability = (ushort)pk.Ability;
+
+        // Remap boolean markings to the dual-bit format -- set 1 if marked.
+        pkh.MarkingValue = 0;
+        for (int i = 0; i < 4; i++)
+            pkh.SetMarking(i, pk.GetMarking(i) ? MarkingColor.Blue : MarkingColor.None);
+
+        pk.ReviseMovesRemoveHMs(pkh);
+
+        pkh.MetLevel = pk.CurrentLevel;
+        pkh.MetLocation = LocationsHOME.VirtualConsole3;
+        pkh.Core.RibbonCountMemoryContest = pk.RibbonCountContest;
+        pkh.Core.RibbonCountMemoryBattle = pk.RibbonCountBattle;
+
+        pkh.Nickname = pk.Nickname;
+        pkh.OriginalTrainerName = pk.OriginalTrainerName;
+
+        StringConverter8.TransferGlyphs78(pkh.OriginalTrainerTrash);
+        if (pk.IsNicknamed)
+        {
+            StringConverter8.TransferGlyphs78(pkh.NicknameTrash);
+        }
+        else
+        {
+            pkh.NicknameTrash.Clear();
+            var reset = SpeciesName.GetSpeciesNameImportHOME(pk.Species, pk.Language, 8);
+            pkh.SetString(pkh.NicknameTrash, reset, reset.Length, StringConverterOption.None);
+        }
+    }
+
     public PK8 ConvertToPKM(PKH pkh)
     {
         var pk = new PK8();

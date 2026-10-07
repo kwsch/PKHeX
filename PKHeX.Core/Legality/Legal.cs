@@ -152,8 +152,8 @@ public static class Legal
     internal const int MaxAbilityID_9a_MD = MaxAbilityID_9a_IK;
 
     internal const int MaxBallID_9 = (int)Ball.LAOrigin;
-    internal const GameVersion MaxGameID_HOME = GameVersion.VL;
-    internal const GameVersion MaxGameID_HOME2 = GameVersion.ZA;
+    internal const GameVersion MaxGameID_HOME = GameVersion.LGX;
+    internal const GameVersion MaxGameID_HOME2 = GameVersion.LGX;
 
     internal static readonly ushort[] HeldItems_GSC = ItemStorage2.GetAllHeld();
     internal static readonly ushort[] HeldItems_RS = ItemStorage3RS.GetAllHeld();

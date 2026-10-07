@@ -23,7 +23,8 @@ public class ChainBreedLegalityTests
     public void DetectsInvalidChains(GameVersion version, Species species, params Move[] movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.IsValid((ushort)species, 0, version, moves).Should().BeFalse();
+        var flags = ChainBreedUtil.InferFlagsFrom(version);
+        ChainBreedLegality.IsValid((ushort)species, 0, version, flags, moves).Should().BeFalse();
     }
 
     [Theory]
@@ -57,7 +58,8 @@ public class ChainBreedLegalityTests
     private static void ValidateSimple(GameVersion version, Species species, byte form, ReadOnlySpan<Move> movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.IsValid((ushort)species, form, version, moves, out var summary).Should().BeTrue();
+        var flags = ChainBreedUtil.InferFlagsFrom(version);
+        ChainBreedLegality.IsValid((ushort)species, form, version, flags, moves, out var summary).Should().BeTrue();
         summary.MotherSpecies.Should().NotBe(0);
         summary.FatherSpecies.Should().NotBe(0);
         summary.ChainDepth.Should().BeGreaterThan(0);
@@ -69,7 +71,8 @@ public class ChainBreedLegalityTests
     public void DetectsValidChainSmeargle(GameVersion version, Species species, byte form, Species father, params Move[] movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.IsValid((ushort)species, form, version, moves, out var summary).Should().BeTrue();
+        var flags = ChainBreedUtil.InferFlagsFrom(version);
+        ChainBreedLegality.IsValid((ushort)species, form, version, flags, moves, out var summary).Should().BeTrue();
         summary.MotherSpecies.Should().NotBe(0);
         summary.FatherSpecies.Should().Be((ushort)father);
         summary.ChainDepth.Should().BeGreaterThan(0);
@@ -82,7 +85,18 @@ public class ChainBreedLegalityTests
     public void DetectsInvalidInheritedLevelUpMove(GameVersion version, Species species, bool expect, params Move[] movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.IsValid((ushort)species, 0, version, moves).Should().Be(expect);
+        var flags = ChainBreedUtil.InferFlagsFrom(version);
+        ChainBreedLegality.IsValid((ushort)species, 0, version, flags, moves).Should().Be(expect);
+    }
+
+    [Theory]
+    [InlineData(FRX, FR, Snorlax, Curse, Fissure)] // Gen3 (Curse Egg) Fissure (via XD, inaccessible)
+    [InlineData(FRX, FR, Snorlax, Fissure)] // Gen3 Fissure (via XD, inaccessible)
+    public void DetectsInvalidVirtualConsole3(GameVersion source, GameVersion version, Species species, params Move[] movelist)
+    {
+        var moves = GetMoves(movelist);
+        var flags = ChainBreedUtil.InferFlagsFrom(source);
+        ChainBreedLegality.IsValid((ushort)species, 0, version, flags, moves).Should().Be(false);
     }
 
     [Theory]
@@ -103,6 +117,7 @@ public class ChainBreedLegalityTests
     public void DetectInvalidSpeciesMaleSplit(GameVersion version, Species species, bool expect, params Move[] movelist)
     {
         var moves = GetMoves(movelist);
-        ChainBreedLegality.IsValid((ushort)species, 0, version, moves).Should().Be(expect);
+        var flags = ChainBreedUtil.InferFlagsFrom(version);
+        ChainBreedLegality.IsValid((ushort)species, 0, version, flags, moves).Should().Be(expect);
     }
 }

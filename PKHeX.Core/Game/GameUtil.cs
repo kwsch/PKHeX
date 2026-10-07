@@ -77,6 +77,7 @@ public static class GameUtil
         ZA => ZA,
 
         CP => CP, // TODO: Champions
+        FRX or LGX => SWSH, // Gen3 Virtual Console transferred to HOME
 
         _ => Invalid,
     };
@@ -132,9 +133,12 @@ public static class GameUtil
         /// </summary>
         public bool IsValidSavedVersion() => version is > 0 and <= HighestGameID;
 
+        /// <summary>
+        /// Converts the <see cref="version"/> to <see cref="EntityContext"/> based on the Entity version ID origins.
+        /// </summary>
         public EntityContext GetContextFromSaved() => version switch
         {
-            S or R or E or FR or LG or CXD => EntityContext.Gen3,
+            S or R or E or FR or LG or CXD or FRX or LGX => EntityContext.Gen3,
             D or P or Pt or HG or SS or BATREV => EntityContext.Gen4,
             B or W or B2 or W2 => EntityContext.Gen5,
             X or Y or AS or OR => EntityContext.Gen6,
@@ -189,7 +193,7 @@ public static class GameUtil
 
         public bool IsGen1() => version is RD or GN or BU or YW;
         public bool IsGen2() => version is GD or SI or C;
-        public bool IsGen3() => version is S or R or E or FR or LG or CXD;
+        public bool IsGen3() => version is S or R or E or FR or LG or CXD or (FRX or LGX);
         public bool IsGen4() => version is HG or SS or D or P or Pt;
         public bool IsGen5() => version is W or B or W2 or B2;
         public bool IsGen6() => version is X or Y or AS or OR;
@@ -197,6 +201,7 @@ public static class GameUtil
         public bool IsGen7b() => version is GP or GE;
         public bool IsGen8() => version is SW or SH or PLA or BD or SP;
         public bool IsGen9() => version is SL or VL or ZA;
+        public bool IsNintendoSwitchGBA() => version is FRX or LGX;
 
         /// <summary>
         /// Checks if the <see cref="version"/> version is the lump of the requested saved <see cref="version1"/>.

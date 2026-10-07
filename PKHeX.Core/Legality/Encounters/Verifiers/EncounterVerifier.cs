@@ -174,7 +174,12 @@ public static class EncounterVerifier
         if (pk.EggLocation != expectEgg)
             return GetInvalid(EggLocationNone);
 
-        if (pk.Format != 4)
+        if (pk.VC3)
+        {
+            if (pk.MetLocation != LocationsHOME.VirtualConsole3)
+                return GetInvalid(TransferMetLocation);
+        }
+        else if (pk.Format != 4)
         {
             if (pk.MetLocation != Locations.Transfer4)
                 return GetInvalid(TransferEggLocationTransporter);

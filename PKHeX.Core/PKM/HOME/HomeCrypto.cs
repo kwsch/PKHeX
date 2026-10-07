@@ -35,9 +35,9 @@ public static class HomeCrypto
     public const int SIZE_3GAME_PK9 = 0x3D + 0xD; // 74
     public const int SIZE_3STORED = 0x247; // 583
 
-    public const int SIZE_4GAME_PA9 = 0x40; // 64 TODO HOME ZA
+    public const int SIZE_4GAME_PA9 = 0x40; // 64
     public const int SIZE_4GAME_PC9 = 0x19; // 25
-    public const int SIZE_4STORED = 0x2A6; // 702 TODO HOME ZA
+    public const int SIZE_4STORED = 0x2A6; // 702
 
     /// <summary> Latest maximum size of a Pokémon Home entity. </summary>
     public const int SIZE_STORED = SIZE_4STORED;

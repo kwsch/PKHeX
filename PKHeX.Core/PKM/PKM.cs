@@ -339,6 +339,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public bool GO => Version is GameVersion.GO;
     public bool VC1 => Version is RD or GN or BU or YW;
     public bool VC2 => Version is GD or SI or C;
+    public bool VC3 => Version is FRX or LGX;
     public bool LGPE => Version is GP or GE;
     public bool SWSH => Version is SW or SH;
     public virtual bool BDSP => Version is BD or SP;
@@ -348,6 +349,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     public bool GO_LGPE => GO && MetLocation == Locations.GO7;
     public bool GO_HOME => GO && MetLocation == Locations.GO8;
+
+    /// <summary>
+    /// Nintendo 3DS Virtual Console Game (Generation 1 and 2)
+    /// </summary>
     public bool VC => VC1 || VC2;
     public bool GG => LGPE || GO_LGPE;
     public bool Gen9 => SV || ZA;
@@ -417,10 +422,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     public string FileNameWithoutExtension => EntityFileNamer.GetName(this);
 
-    public int[] IVs
+    public ReadOnlySpan<int> IVs
     {
-        [Obsolete($"Use the {nameof(GetIVs)} method with stackalloc to not allocate.")]
-        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set => SetIVs(value);
     }
 
