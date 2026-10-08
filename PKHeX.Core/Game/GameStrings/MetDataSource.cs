@@ -146,6 +146,8 @@ public sealed class MetDataSource(GameStrings s)
 
         // Add in the BDSP+PLA magic met locations.
         locations.Add(new ComboItem($"{s.EggName} (HOME)", LocationsHOME.SWSHEgg));
+        locations.Add(new ComboItem(s.gamelist[(int)FRX], LocationsHOME.SWFR));
+        locations.Add(new ComboItem(s.gamelist[(int)LGX], LocationsHOME.SHLG));
         locations.Add(new ComboItem(s.gamelist[(int)SL], LocationsHOME.SWSL));
         locations.Add(new ComboItem(s.gamelist[(int)VL], LocationsHOME.SHVL));
         locations.Add(new ComboItem(s.gamelist[(int)BD], LocationsHOME.SWBD));
@@ -167,6 +169,7 @@ public sealed class MetDataSource(GameStrings s)
 
         // Add in the BDSP+PLA magic met locations.
         locations.Add(new ComboItem($"{s.EggName} (HOME)", LocationsHOME.SWSHEgg));
+        // No remaps for the other version IDs due to the BD/SP <-> SW/SH overwrite precedence being fixed prior to S/V.
         locations.Add(new ComboItem(s.gamelist[(int)BD], LocationsHOME.SWBD));
         locations.Add(new ComboItem(s.gamelist[(int)SP], LocationsHOME.SHSP));
         locations.Add(new ComboItem(s.gamelist[(int)PLA], LocationsHOME.SWLA));

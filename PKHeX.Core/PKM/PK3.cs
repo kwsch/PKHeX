@@ -332,21 +332,16 @@ public sealed class PK3 : G3PKM, ISanityChecksum
                 pk4.HeldItem = item;
         }
 
-        ReviseMovesRemoveHMs(pk4);
+        var banned = PersonalInfo3.MachineMovesHidden;
+        if (banned.Contains(Move1)) pk4.Move1 = 0;
+        if (banned.Contains(Move2)) pk4.Move2 = 0;
+        if (banned.Contains(Move3)) pk4.Move3 = 0;
+        if (banned.Contains(Move4)) pk4.Move4 = 0;
+        pk4.FixMoves();
+        pk4.HealPP();
 
         pk4.RefreshChecksum();
         return pk4;
-    }
-
-    internal void ReviseMovesRemoveHMs<T>(T pk) where T : PKM
-    {
-        var banned = PersonalInfo3.MachineMovesHidden;
-        if (banned.Contains(Move1)) pk.Move1 = 0;
-        if (banned.Contains(Move2)) pk.Move2 = 0;
-        if (banned.Contains(Move3)) pk.Move3 = 0;
-        if (banned.Contains(Move4)) pk.Move4 = 0;
-        pk.FixMoves();
-        pk.HealPP();
     }
 
     // Use Japanese since the JPN GC/GBA string conversion table is less lossy than INT

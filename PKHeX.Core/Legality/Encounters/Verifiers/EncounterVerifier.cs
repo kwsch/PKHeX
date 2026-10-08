@@ -176,8 +176,17 @@ public static class EncounterVerifier
 
         if (pk.VC3)
         {
-            if (pk.MetLocation != LocationsHOME.VirtualConsole3)
-                return GetInvalid(TransferMetLocation);
+            if (pk is PK8 pk8)
+            {
+                if (!LocationsHOME.IsValidMetFRLG(pk8.MetLocation, pk8.Version))
+                    return GetInvalid(TransferMetLocation);
+            }
+            else
+            {
+                if (pk.MetLocation != LocationsHOME.VirtualConsole3)
+                    return GetInvalid(TransferMetLocation);
+            }
+
             // VC3 transfer is always level 5 met level (a zero met level gets reassigned as 5).
             if (pk.MetLevel != EggStateLegality.EggLevel23)
                 return GetInvalid(TransferEggMetLevel);

@@ -83,7 +83,13 @@ public sealed class TransferVerifier : Verifier
             if (pk.MetLocation != LocationsHOME.VirtualConsole3)
                 data.AddLine(GetInvalid(TransferMetLocation, LocationsHOME.VirtualConsole3));
 
+            // HOME server sets the met date on transfer to the user's local time.
+            // The earliest that a FR/LG entity may transfer was 2026/10/06.
+            if (pk.MetDate is not { } x || x < new DateOnly(2026, 10, 6))
+                data.AddLine(GetInvalid(DateOutsideDistributionWindow));
+
             // TODO HOME RSE
+            // When RSE is legal, we can use these when determining the correct met date threshold instead of flagging.
             // Flag any traded foreign species that were bred as eggs.
             if (Legal.IsForeignFRLG(data.EncounterMatch.Species))
                 data.AddLine(GetInvalid(TradeNotAvailable));

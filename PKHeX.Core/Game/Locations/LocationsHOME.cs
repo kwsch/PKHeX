@@ -9,15 +9,19 @@ namespace PKHeX.Core;
 public static class LocationsHOME
 {
     // 60000 - (version - PLA)
-    private const int RemapCount = 5; // Count of future game version IDs that can transfer back into SW/SH.
+    public const ushort SHLG = 59994; // LG (Virtual Console) traded to (SW)SH
+    public const ushort SWFR = 59995; // FR (Virtual Console) traded to SW(SH)
     public const ushort SHVL = 59996; // VL traded to (SW)SH
     public const ushort SWSL = 59997; // SL traded to SW(SH)
     public const ushort SHSP = 59998; // SP traded to (SW)SH
     public const ushort SWBD = 59999; // BD traded to SW(SH)
     public const ushort SWLA = 60000; // PLA traded to SW(SH)
-    // todo home fr/lg: remapping location or version?
 
     public const ushort SWSHEgg = 65534; // -2 = 8bNone-1..
+
+    /// <summary>
+    /// Location value applied when transferring into HOME and used for all games except when transferred into SW/SH.
+    /// </summary>
     public const ushort VirtualConsole3 = 30007;
 
     /// <summary>
@@ -25,15 +29,17 @@ public static class LocationsHOME
     /// </summary>
     /// <param name="version">Origin Game ID to be stored directly/indirectly in the PK8.</param>
     /// <returns>True if a known remap exists.</returns>
-    public static bool IsVersionRemapNeeded(GameVersion version) => GetRemapIndex(version) < RemapCount;
+    public static bool IsVersionRemapNeeded(GameVersion version) => RemappedVersions.Contains(version);
 
-    private static int GetRemapIndex(GameVersion version) => version - PLA;
+    private static ReadOnlySpan<GameVersion> RemappedVersions => [PLA, BD, SP, SL, VL, FRX, LGX];
+    private static int GetRemapIndex(GameVersion version) => RemappedVersions.IndexOf(version);
 
     /// <summary>
     /// Checks if the SW/SH-context Met Location is one of the remapped HOME locations.
     /// </summary>
     public static bool IsLocationSWSH(ushort met) => met switch
     {
+        SHLG or SWFR => true, // VC3
         SHVL or SWSL or SHSP or SWBD or SWLA => true,
         _ => false,
     };
@@ -74,6 +80,8 @@ public static class LocationsHOME
         SP  => SH,
         SL  => SW,
         VL  => SH,
+        FRX => SW,
+        LGX => SH,
         _ => version,
     };
 
@@ -87,6 +95,8 @@ public static class LocationsHOME
         SP => SHSP,
         SL => SWSL,
         VL => SHVL,
+        FRX => SWFR,
+        LGX => SHLG,
         _ => loc,
     };
 
@@ -97,6 +107,8 @@ public static class LocationsHOME
         SHSP => SP,
         SWSL => SL,
         SHVL => VL,
+        SWFR => FRX,
+        SHLG => LGX,
         _ => SW,
     };
 
@@ -108,6 +120,17 @@ public static class LocationsHOME
     {
         SHSP when version == SH => true,
         SWBD when version == SW => true,
+        _ => false,
+    };
+
+    /// <summary>
+    /// Checks if the met location is a valid location for the input <see cref="version"/>.
+    /// </summary>
+    /// <remarks>Relevant when an entity from FR/LG is transferred to SW/SH.</remarks>
+    public static bool IsValidMetFRLG(ushort loc, GameVersion version) => loc switch
+    {
+        SHLG when version == SH => true,
+        SWFR when version == SW => true,
         _ => false,
     };
 

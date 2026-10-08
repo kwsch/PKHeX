@@ -33,9 +33,6 @@ public sealed class MiscVerifierG3 : Verifier
 
         if (ItemStorage3FRLG_VC.IsUnreleasedHeld(pk.HeldItem))
             data.AddLine(GetInvalid(ItemUnreleased));
-
-        if ((Ball)pk.Ball is Ball.Dive or Ball.Premier)
-            data.AddLine(GetInvalid(BallUnavailable));
     }
 
     private void VerifyTrash(LegalityAnalysis data, G3PKM pk)

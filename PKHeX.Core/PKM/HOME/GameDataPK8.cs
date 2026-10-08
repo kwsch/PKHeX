@@ -129,13 +129,25 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
     public void CopyFrom(PK3 pk, PKH pkh)
     {
         this.CopyFrom(pk);
+
+        var version = pkh.Version = pk.Version switch
+        {
+            GameVersion.FR => GameVersion.FRX,
+            GameVersion.LG => GameVersion.LGX,
+            _ => 0,
+        };
+
         AbilityNumber = (byte)pk.AbilityNumber;
         Ability = (ushort)pk.Ability;
-        MetLocation = LocationsHOME.VirtualConsole3;
+        MetLocation = LocationsHOME.GetMetSWSH(LocationsHOME.VirtualConsole3, version);
         if (pkh.MetLevel is 0) // Eggs get bumped to a real met level.
             pkh.MetLevel = 5;
 
-        pk.ReviseMovesRemoveHMs(pkh);
+        // Reset moves to match SW/SH for all FR/LG imports.
+        ILearnSource source = LearnSource8SWSH.Instance;
+        Span<ushort> moves = stackalloc ushort[4];
+        source.SetEncounterMoves(pk.Species, 0, pkh.CurrentLevel, moves);
+        pk.HealPP();
 
         // Triangular rand via mersenne, but there's no correlation.
         pkh.HeightScalar = PokeSizeUtil.GetRandomScalar();
