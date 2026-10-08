@@ -92,7 +92,8 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
 
     private static bool IsSharedTrainerName(PKM pp, PKM cp)
     {
-        if (!IsTrainerNameMatch(pp, cp))
+        // If it's a different trainer name, then it's considered sharing.
+        if (IsTrainerNameMatch(pp, cp))
             return false;
 
         // Gen3 Eggs can be JPN-Egg vs a not-JPN not-Egg. Need to guess at the eventual language ID. Don't bother checking all possible language IDs.
