@@ -431,6 +431,12 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     public void CopyFrom(PKM pk)
     {
+        if (pk is PK3 pk3)
+        {
+            HomeConverter.UpgradeFromPastFormat(pk3, this);
+            return;
+        }
+
         Core.CopyFrom(pk);
              if (pk is PB7 pb7) (DataPB7 ??= new GameDataPB7()).CopyFrom(pb7, this);
         else if (pk is PK7 pk7) (DataPK8 ??= new GameDataPK8()).CopyFrom(pk7, this);
@@ -439,7 +445,6 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         else if (pk is PA8 pa8) (DataPA8 ??= new GameDataPA8()).CopyFrom(pa8, this);
         else if (pk is PK9 pk9) (DataPK9 ??= new GameDataPK9()).CopyFrom(pk9, this);
         else if (pk is PA9 pa9) (DataPA9 ??= new GameDataPA9()).CopyFrom(pa9, this);
-        else if (pk is PK3 pk3) (DataPK8 ??= new GameDataPK8()).CopyFrom(pk3, this);
     }
 
     private IGameDataSide? FirstScaleData => DataPK9 ?? DataPA8 as IGameDataSide;
@@ -515,27 +520,5 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         exist = exist[..len];
 
         return exist.SequenceEqual(newHT);
-    }
-
-    public void ClampEffort252()
-    {
-        if (EV_HP  > EffortValues.Max252)
-            EV_HP  = EffortValues.Max252;
-        if (EV_ATK > EffortValues.Max252)
-            EV_ATK = EffortValues.Max252;
-        if (EV_DEF > EffortValues.Max252)
-            EV_DEF = EffortValues.Max252;
-        if (EV_SPE > EffortValues.Max252)
-            EV_SPE = EffortValues.Max252;
-        if (EV_SPA > EffortValues.Max252)
-            EV_SPA = EffortValues.Max252;
-        if (EV_SPD > EffortValues.Max252)
-            EV_SPD = EffortValues.Max252;
-    }
-
-    public void EnforceShinyRate3()
-    {
-        if (ShinyUtil.GetShinyXor(PID, ID32) is (< 16 and >= 8))
-            PID ^= 0x1000_0000;
     }
 }

@@ -126,60 +126,6 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         }
     }
 
-    public void CopyFrom(PK3 pk, PKH pkh)
-    {
-        this.CopyFrom(pk);
-
-        var version = pkh.Version = pk.Version switch
-        {
-            GameVersion.FR => GameVersion.FRX,
-            GameVersion.LG => GameVersion.LGX,
-            _ => 0,
-        };
-
-        AbilityNumber = (byte)pk.AbilityNumber;
-        Ability = (ushort)pk.Ability;
-        MetLocation = LocationsHOME.GetMetSWSH(LocationsHOME.VirtualConsole3, version);
-        if (pkh.MetLevel is 0) // Eggs get bumped to a real met level.
-            pkh.MetLevel = 5;
-
-        // Reset moves to match SW/SH for all FR/LG imports.
-        ILearnSource source = LearnSource8SWSH.Instance;
-        Span<ushort> moves = stackalloc ushort[4];
-        source.SetEncounterMoves(pk.Species, 0, pkh.CurrentLevel, moves);
-        pk.HealPP();
-
-        // Triangular rand via mersenne, but there's no correlation.
-        pkh.HeightScalar = PokeSizeUtil.GetRandomScalar();
-        pkh.WeightScalar = PokeSizeUtil.GetRandomScalar();
-
-        // Remap boolean markings to the dual-bit format -- set 1 if marked.
-        pkh.MarkingValue = 0;
-        for (int i = 0; i < 4; i++)
-            pkh.SetMarking(i, pk.GetMarking(i) ? MarkingColor.Blue : MarkingColor.None);
-
-        // Apply antishiny if xor is [8,16).
-        pkh.EnforceShinyRate3();
-        pkh.ClampEffort252();
-
-        // Overwrite met location, keep met level.
-        pkh.Core.RibbonCountMemoryContest = pk.RibbonCountContest;
-        pkh.Core.RibbonCountMemoryBattle = pk.RibbonCountBattle;
-
-        pkh.OriginalTrainerName = pk.OriginalTrainerName;
-
-        if (pk.IsNicknamed)
-        {
-            pkh.Nickname = pk.Nickname;
-        }
-        else
-        {
-            pkh.NicknameTrash.Clear();
-            var reset = SpeciesName.GetSpeciesNameImportHOME(pk.Species, pk.Language, 8);
-            pkh.SetString(pkh.NicknameTrash, reset, reset.Length, StringConverterOption.None);
-        }
-    }
-
     public PK8 ConvertToPKM(PKH pkh)
     {
         var pk = new PK8();
