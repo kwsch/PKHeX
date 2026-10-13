@@ -188,6 +188,7 @@ public static class HomeConverter
             return false;
 
         // HOME performs an eager check assuming normalization isn't required
+        // Decapitalized species names applied as nicknames will thus be reverted.
         if (currentText[..^1].SequenceEqual(speciesName))
             return true;
 
@@ -203,23 +204,17 @@ public static class HomeConverter
         // FR/LG transfers reset the move list to the SW/SH learnset for the current level.
         // HOME's stored side data starts with move PP, PP Ups and relearn moves cleared.
         Span<ushort> moves = stackalloc ushort[4];
-        ILearnSource source = LearnSource8SWSH.Instance;
-        source.SetEncounterMoves(species, form, level, moves);
+        var learn = LearnSource8SWSH.Instance.GetLearnsetHOME(species, form);
+        learn.SetEncounterMoves(level, moves);
         side.Move1 = moves[0];
         side.Move2 = moves[1];
         side.Move3 = moves[2];
         side.Move4 = moves[3];
 
-        // Set actual PP values rather than zeroes.
-        var pp = MoveInfo8.PP;
-        side.Move1_PP = pp[moves[0]];
-        side.Move2_PP = pp[moves[1]];
-        side.Move3_PP = pp[moves[2]];
-        side.Move4_PP = pp[moves[3]];
-
-        // Defensive zeroing, not necessary.
-        side.Move1_PPUps = side.Move2_PPUps = side.Move3_PPUps = side.Move4_PPUps = 0;
-        side.RelearnMove1 = side.RelearnMove2 = side.RelearnMove3 = side.RelearnMove4 = 0;
+        // PP, PP Ups, and relearn moves are already cleared by the default constructor of GameDataPK8.
+        // HOME does not set current PP for the moves it just applied; they're left 0.
+        // When transferring to a new game, the PP for that format is healed to the correct value.
+        // Same issue as in un-transferred GO entities.
     }
 
     private static GameVersion GetTransferVersion3(GameVersion version) => version switch

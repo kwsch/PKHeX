@@ -180,6 +180,10 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
         }
     }
 
+    // HOME: orion_personal_total.perbin
+    private static readonly Learnset[] LearnsetsHOME = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_ho.pkl"), "ho"u8));
+    public Learnset GetLearnsetHOME(ushort species, byte form) => LearnsetsHOME[PersonalTable.SWSH.GetFormIndex(species, form)];
+
     public LearnEnvironment Environment => Game;
     public MoveLearnInfo GetCanLearnHOME(PKM pk, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All)
     {

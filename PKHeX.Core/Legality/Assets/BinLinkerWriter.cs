@@ -12,7 +12,6 @@ public static class BinLinkerWriter
     /// <inheritdoc cref="Compress(BinLinkerAccessor, Func{byte[], byte[]}, int)"/>
     public static byte[] Compress<T>(T[] arr, ReadOnlySpan<byte> ident, Func<T, byte[]> sel, int padTo = 0)
     {
-        // Convert th
         var result = new byte[arr.Length][];
         for (int i = 0; i < arr.Length; i++)
             result[i] = sel(arr[i]);

@@ -217,6 +217,8 @@ public sealed record EncounterSlot8GO(ushort DayStart, ushort DayEnd, ushort Spe
     {
         Span<ushort> moves = stackalloc ushort[4];
         GetInitialMoves(level, moves);
+        // HOME does not set current PP for the moves it just applied; they're left 0.
+        // Since we're creating an in-game PKM rather than PKH, just let the PP heal to max.
         pk.SetMoves(moves);
     }
 

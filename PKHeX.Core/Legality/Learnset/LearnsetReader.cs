@@ -25,6 +25,19 @@ public static class LearnsetReader
     }
 
     /// <summary>
+    /// Loads a learnset by reading 16-bit move,level pairs.
+    /// </summary>
+    /// <param name="entries">Entry data</param>
+    public static Learnset[] GetArray(BinLinkerAccessor entries)
+    {
+        var result = new Learnset[entries.Length];
+        result[0] = EMPTY; // empty entry
+        for (int i = 1; i < result.Length; i++)
+            result[i] = ReadLearnset16(entries[i]);
+        return result;
+    }
+
+    /// <summary>
     /// Reads a Level up move pool definition from a single move pool definition.
     /// </summary>
     private static Learnset ReadLearnset16(ReadOnlySpan<byte> data)
