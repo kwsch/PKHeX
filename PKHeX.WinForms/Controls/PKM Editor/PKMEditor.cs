@@ -169,6 +169,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     public bool ChangingFields { get; set; }
 
     /// <summary>
+    /// Indicates the controls are being refreshed after <see cref="ChangeSpeciesForm"/>, so form selection events are ignored.
+    /// </summary>
+    private bool ApplyingSpeciesForm;
+
+    /// <summary>
     /// Currently loaded met location group that is populating Met and Egg location comboboxes
     /// </summary>
     private GameVersion origintrack;
@@ -487,12 +492,21 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         }
 
-        var str = GameInfo.Strings;
-        var forms = FormConverter.GetFormList(species, str.types, str.forms, gendersymbols, Entity.Context);
+        var forms = GetFormNames(species);
         if (forms.Length <= 1) // no choices
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = false;
         else
             CB_Form.DataSource = forms;
+    }
+
+    /// <summary>
+    /// Gets the form names listed for the species in the entity's context.
+    /// </summary>
+    /// <param name="species">Species to list the forms of.</param>
+    private string[] GetFormNames(ushort species)
+    {
+        var str = GameInfo.Strings;
+        return FormConverter.GetFormList(species, str.types, str.forms, gendersymbols, Entity.Context);
     }
 
     private void SetAbilityList()
@@ -1055,6 +1069,22 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void UpdateForm(object sender, EventArgs e)
     {
+        if (ApplyingSpeciesForm)
+        {
+            return;
+        }
+        if (FieldsLoaded && sender == CB_Form && CanChangeSpeciesFormInCore)
+        {
+            // The combo box is not rebound when the species has no form choice, and a save load can re-enable it, so it may still hold another species' or context's forms (e.g. reselected by a gender click).
+            // Only an index within the current species' form list is a form choice.
+            int count = GetFormNames(Entity.Species).Length;
+            if (count > 1 && CB_Form.SelectedIndex < count)
+            {
+                ChangeSpeciesForm(Entity.Species, (byte)CB_Form.SelectedIndex);
+            }
+            return;
+        }
+
         if (FieldsLoaded && sender == CB_Form)
         {
             Entity.Form = (byte)CB_Form.SelectedIndex;
@@ -1230,6 +1260,13 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void UpdateSpecies(object sender, EventArgs e)
     {
+        if (FieldsLoaded && CanChangeSpeciesFormInCore)
+        {
+            // The rebound form list selects its first entry.
+            ChangeSpeciesForm((ushort)WinFormsUtil.GetIndex(CB_Species), 0);
+            return;
+        }
+
         // Get Species dependent information
         if (FieldsLoaded)
             Entity.Species = (ushort)WinFormsUtil.GetIndex(CB_Species);
@@ -1253,6 +1290,109 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             UpdateNickname(sender, e);
 
         UpdateLegality();
+    }
+
+    /// <summary>
+    /// Indicates if species/form changes are applied by <see cref="SpeciesFormChange"/>.
+    /// </summary>
+    /// <remarks>
+    /// Generation 1/2 entities are not supported by the helper, and HaX allows species/forms it rejects; both keep the handler logic.
+    /// </remarks>
+    private bool CanChangeSpeciesFormInCore => Entity.Format >= 3 && !HaX;
+
+    /// <summary>
+    /// Changes the entity's species and form, then refreshes the controls showing the dependent fields that changed.
+    /// </summary>
+    /// <param name="species">Species selected.</param>
+    /// <param name="form">Form selected.</param>
+    private void ChangeSpeciesForm(ushort species, byte form)
+    {
+        SaveSpeciesFormInputs();
+        bool speciesChanged = Entity.Species != species;
+
+        // The ability combo box index is carried across changes, since Gen 4/5 entities do not store the slot when both regular abilities are the same.
+        var result = Entity.ChangeSpeciesForm(species, form, RequestSaveFile.Personal, CB_Ability.SelectedIndex);
+        LoadSpeciesFormResult(result, speciesChanged);
+
+        RefreshFormArguments();
+        UpdateStats();
+        UpdateSprite();
+        UpdateLegality();
+    }
+
+    /// <summary>
+    /// Stores the control values the species/form change reads into the entity, as they are not all written back as they are edited.
+    /// </summary>
+    private void SaveSpeciesFormInputs()
+    {
+        Entity.EXP = Util.ToUInt32(TB_EXP.Text);
+        Entity.PID = Util.GetHexValue(TB_PID.Text);
+        Entity.Gender = UC_Gender.Gender;
+        Entity.Language = WinFormsUtil.GetIndex(CB_Language);
+        Entity.IsNicknamed = CHK_NicknamedFlag.Checked;
+    }
+
+    /// <summary>
+    /// Refreshes the controls from the entity after a species/form change, without raising the handlers that write back to the entity.
+    /// </summary>
+    /// <param name="result">Dependent fields changed.</param>
+    /// <param name="speciesChanged">Whether the species changed, requiring the form list to be rebound.</param>
+    private void LoadSpeciesFormResult(SpeciesFormChangeResult result, bool speciesChanged)
+    {
+        FieldsLoaded = false;
+        ApplyingSpeciesForm = true;
+        try
+        {
+            SpeciesIDTip.SetToolTip(CB_Species, Entity.Species.ToString("000"));
+            if (speciesChanged)
+            {
+                SetForms();
+            }
+            if (Entity.Form < CB_Form.Items.Count)
+            {
+                CB_Form.SelectedIndex = Entity.Form;
+            }
+            SetAbilityList(); // restores the carried index, clamped like the helper's slot
+            UC_Gender.Gender = Entity.Gender;
+
+            if (result.HasFlag(SpeciesFormChangeResult.EXP))
+            {
+                TB_EXP.Text = Entity.EXP.ToString(); // updates the level
+            }
+            else
+            {
+                UpdateEXPLevel(TB_EXP, EventArgs.Empty); // same EXP can be a different level on the new growth curve
+            }
+
+            if (result.HasFlag(SpeciesFormChangeResult.Ability) && Entity.Format >= 6)
+            {
+                TB_AbilityNumber.Text = Entity.AbilityNumber.ToString();
+                DEV_Ability.SelectedValue = Entity.Ability;
+            }
+
+            if (result.HasFlag(SpeciesFormChangeResult.PID))
+            {
+                TB_PID.Text = Entity.PID.ToString("X8");
+                if (Entity.Format <= 4) // nature is derived from the PID
+                {
+                    CB_Nature.SelectedValue = (int)Entity.Nature;
+                    UpdateNatureModification(CB_Nature, Entity.Nature);
+                }
+                UpdateIsShiny();
+            }
+
+            if (result.HasFlag(SpeciesFormChangeResult.Nickname))
+            {
+                TB_Nickname.Text = Entity.Nickname;
+                CHK_NicknamedFlag.Checked = Entity.IsNicknamed;
+                RefreshFontWarningButton();
+            }
+        }
+        finally
+        {
+            ApplyingSpeciesForm = false;
+            FieldsLoaded = true;
+        }
     }
 
     private void UpdateOriginGame(object sender, EventArgs e)
