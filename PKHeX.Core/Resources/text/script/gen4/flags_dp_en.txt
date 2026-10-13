@@ -1,5 +1,6 @@
 0318	s	Defeated Saturn in Valor Cavern/Lake Verity Restored
 0350	s	Lake Valor Water Restored/Can get Palkia/Dialga entry at Celestic Town
+0214	s	Stark Mountain Quest Cleared
 0351	r	Dialga/Palkia Captured
 0482	r	Dialga/Palkia Disappeared from Spear Pillar
 0511	r	Uxie Disappeared
@@ -43,6 +44,7 @@
 1023	i	Found Adamant/Lustrous Orb in Spear Pillar
 1233	i	Found Dread Plate in Old Chateau
 1234	i	Found TM90 in Old Chateau
+0304	i	Received TM64
 2401	*	Running Shoes disabled
 2433	s	2nd Rematch Against Trainers Unlocked
 0251	g	Received Happiny Egg Gift

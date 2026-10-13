@@ -130,11 +130,35 @@ public partial class SAV_MailBox : Form
 
         var filtered = GameInfo.FilteredSources;
         var source = filtered.Source;
-        if (Context is EntityContext.Gen2 or EntityContext.Gen3)
+        if (Context is EntityContext.Gen2)
         {
             CB_AppearPKM1.Items.Clear();
             CB_AppearPKM1.InitializeBinding();
             CB_AppearPKM1.DataSource = new BindingSource(filtered.Species, string.Empty);
+            B_PartyUp.Visible = B_PartyDown.Visible = B_BoxUp.Visible = B_BoxDown.Visible = true;
+        }
+        else if (Context is EntityContext.Gen3)
+        {
+            var species = new List<ComboItem>();
+            foreach (var item in filtered.Species)
+            {
+                ushort value = (ushort)item.Value;
+                if ((Species)value != Species.Unown)
+                {
+                    species.Add(new ComboItem(item.Text, SpeciesConverter.GetInternal3(value)));
+                }
+                else
+                {
+                    for (int i = 0; i < 26; i++)
+                        species.Add(new ComboItem($"{item.Text} ({(char)('A' + i)})", 30000 + i));
+                    species.Add(new ComboItem($"{item.Text} (!)", 30026));
+                    species.Add(new ComboItem($"{item.Text} (?)", 30027));
+                }
+            }
+
+            CB_AppearPKM1.Items.Clear();
+            CB_AppearPKM1.InitializeBinding();
+            CB_AppearPKM1.DataSource = new BindingSource(species, string.Empty);
             B_PartyUp.Visible = B_PartyDown.Visible = B_BoxUp.Visible = B_BoxDown.Visible = true;
         }
         else if (Context is EntityContext.Gen4 or EntityContext.Gen5)
@@ -533,7 +557,7 @@ public partial class SAV_MailBox : Form
         }
         if (Context == EntityContext.Gen3)
         {
-            AppearPKMs[0].SelectedValue = (int)SpeciesConverter.GetNational3(species);
+            AppearPKMs[0].SelectedValue = (int)species;
             editing = false;
             return;
         }

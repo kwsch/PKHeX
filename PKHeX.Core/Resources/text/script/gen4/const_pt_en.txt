@@ -21,6 +21,7 @@
 0106	r	Iceberg Ruins Statue (Regice)	0:Inactive,270:Activated,280:Defeated,290:Caught
 0107	r	Rock Peak Ruins Statue (Regirock)	0:Inactive,270:Activated,280:Defeated,290:Caught
 0062	r	Current Players Met Underground (Spiritomb)	32:Spiritomb Appeared
+0064	+	Game Corner Bonus Rounds Streak (Japan and USA only)
 0138	r	Hallowed Tower	0:Inactive,1:Active
 0089	r	Mesprit Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0088	r	Cresselia Status	0:Pending,1:Caught,2:Fainted/Can Respawn

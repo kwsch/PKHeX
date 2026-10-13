@@ -29,6 +29,7 @@ public class ChainBreedLegalityTests
 
     [Theory]
     [InlineData(HGSS, Slugma, Smokescreen, HeatWave)] // Heat Wave is a Tutor in HG/SS.
+    [InlineData(HGSS, Dratini, ExtremeSpeed, DragonDance)] // ExtremeSpeed is a special encounter starting move parent.
     [InlineData(GS, Paras, Counter, Flail, LightScreen)]
     [InlineData(HGSS, Mankey, Encore, Meditate, SmellingSalts)]
     [InlineData(GS, Chansey, DoubleEdge)] // via Jigglypuff (Level 39)

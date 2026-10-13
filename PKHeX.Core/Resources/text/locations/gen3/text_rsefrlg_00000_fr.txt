@@ -252,5 +252,5 @@ Mont Dresseurs
 
 
 (Œuf reçu en cadeau)
-(échange in-game)
-(rencontré par hasard)
+(Échange in-game)
+(Évenèment spécial)

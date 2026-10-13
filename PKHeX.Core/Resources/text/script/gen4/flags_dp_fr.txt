@@ -1,5 +1,6 @@
 0318	s	Saturne Vaincu à la Caverne Courage/Lac Vérité Restauré
 0350	s	Eau du Lac Vérité Restaurée/Peut Obtenir l'Entrée de Dialga/Palkia à Célestia
+0214	s	Quête de la Mont Abrupt terminée
 0351	r	Dialga/Palkia Capturé
 0482	r	Dialga/Palkia Disparu des Colonnes Lances
 0511	r	Créhelf Disparu
@@ -43,6 +44,7 @@
 1023	i	Orbe Adamant/Perlé Trouvé aux Colonnes Lances
 1233	i	Plaque Ombre Trouvée au Vieux Château
 1234	i	CT90 Trouvée au Vieux Château
+0304	i	CT64 Reçu
 2401	*	Chaussures de Course Désactivées
 2433	s	2ème Revanche Contre les Dresseurs Débloquée
 0251	g	Œuf de Ptiravi Reçu
