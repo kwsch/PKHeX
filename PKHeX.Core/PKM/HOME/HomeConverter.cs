@@ -187,10 +187,15 @@ public static class HomeConverter
         if (currentText.Length != speciesName.Length + 1)
             return false;
 
+        // HOME performs an eager check assuming normalization isn't required
+        if (currentText[..^1].SequenceEqual(speciesName))
+            return true;
+
+        // Might be nicknamed; normalize and check again.
         Span<char> tmp = stackalloc char[speciesName.Length + 1];
         speciesName.CopyTo(tmp);
         NormalizeName(tmp, tmp);
-        return currentText.SequenceEqual(tmp);
+        return !currentText.SequenceEqual(tmp);
     }
 
     private static void PopulateMovesFRLG(GameDataPK8 side, ushort species, byte form, byte level)
