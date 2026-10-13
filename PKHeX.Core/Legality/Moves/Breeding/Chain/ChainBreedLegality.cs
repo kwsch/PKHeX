@@ -445,6 +445,13 @@ public static class ChainBreedLegality
                 return true;
         }
 
+        // Gen 4: HG/SS special encounters
+        if (generation >= 4 && move <= Legal.MaxMoveID_4)
+        {
+            if (species is (int)Species.Dratini && move == (int)Move.ExtremeSpeed)
+                return true;
+        }
+
         // Gen 5: Can transfer from Gen 3/4
         if (generation >= 5 && move <= Legal.MaxMoveID_4)
         {
