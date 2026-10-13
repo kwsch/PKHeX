@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace PKHeX.Core;
 
@@ -128,7 +129,7 @@ public static class HomeConverter
         // Our side-data is already zeroed, no need to clear it again.
 
         // A clean HOME object with an FRX/LGX origin falls back to GameDataPK8 to set up the remainder of the values.
-        side.Ball = ball; // Gen 3 ball IDs 1-12 have the same HOME/SWSH IDs.
+        side.Ball = ball; // Gen 3 ball IDs 1-12 work fine with SW/SH.
         // SW/SH won't display the met location correctly, so sanitize to the localized location ID.
         side.MetLocation = LocationsHOME.GetMetSWSH(LocationsHOME.VirtualConsole3, version);
         side.Ability = (ushort)pk3.Ability;
@@ -141,25 +142,60 @@ public static class HomeConverter
 
     private static void ConvertStrings3(GameDataCore core, PK3 pk3, ushort species, int language)
     {
-        // HOME stores strings in the Gen 8 character encoding.
-        core.OriginalTrainerName = pk3.OriginalTrainerName;
+        ConvertTrainerName3(core, pk3.OriginalTrainerTrash, language);
+        ConvertNickname3(core, pk3.NicknameTrash, species, language);
+    }
 
-        if (pk3.IsNicknamed)
+    private static void ConvertTrainerName3(GameDataCore core, ReadOnlySpan<byte> src, int language)
+    {
+        var span = core.OriginalTrainerTrash;
+        var dest = MemoryMarshal.Cast<byte, char>(span);
+        // HOME stores strings in the Gen 8 character encoding.
+        _ = StringConverter3.LoadStringHOME(src, dest, language);
+        if (BitConverter.IsLittleEndian)
+            return;
+        var self = MemoryMarshal.Cast<char, ushort>(dest);
+        System.Buffers.Binary.BinaryPrimitives.ReverseEndianness(self, self);
+    }
+
+    private static void ConvertNickname3(GameDataCore core, ReadOnlySpan<byte> src, ushort species, int language)
+    {
+        var span = core.NicknameTrash;
+        var dest = MemoryMarshal.Cast<byte, char>(span);
+        int length = StringConverter3.LoadStringHOME(src, dest, language);
+        dest = dest[.. length];
+        if (!BitConverter.IsLittleEndian)
         {
-            core.Nickname = pk3.Nickname;
+            var self = MemoryMarshal.Cast<char, ushort>(dest);
+            System.Buffers.Binary.BinaryPrimitives.ReverseEndianness(self, self);
+        }
+
+        // Check if it is nicknamed with the current language context (not friendly to traded-between-languages).
+        var future = SpeciesName.GetSpeciesName(species, language);
+        var isNicknamed = CheckIsNicknamed(dest, future);
+        if (isNicknamed) // Keep the transferred string.
             core.IsNicknamed = true;
-        }
-        else
-        {
-            core.NicknameTrash.Clear();
-            var reset = SpeciesName.GetSpeciesNameImportHOME(species, language, 8);
-            StringConverter8.SetString(core.NicknameTrash, reset, reset.Length, StringConverterOption.None);
-        }
+        else // Reset to the original species name (decapitalized), clear zero.
+            StringConverter8.SetString(span, future, future.Length);
+    }
+
+    private static bool CheckIsNicknamed(ReadOnlySpan<char> currentText, ReadOnlySpan<char> speciesName)
+    {
+        // Check the real species name after normalizing (uppercase, no accents).
+        // Eager check for length.
+        // +1 length due to null terminator.
+        if (currentText.Length != speciesName.Length + 1)
+            return false;
+
+        Span<char> tmp = stackalloc char[speciesName.Length + 1];
+        speciesName.CopyTo(tmp);
+        NormalizeName(tmp, tmp);
+        return currentText.SequenceEqual(tmp);
     }
 
     private static void PopulateMovesFRLG(GameDataPK8 side, ushort species, byte form, byte level)
     {
-        // FR/LG transfers reset the move list to the SWSH learnset for the current level.
+        // FR/LG transfers reset the move list to the SW/SH learnset for the current level.
         // HOME's stored side data starts with move PP, PP Ups and relearn moves cleared.
         Span<ushort> moves = stackalloc ushort[4];
         ILearnSource source = LearnSource8SWSH.Instance;
@@ -193,7 +229,8 @@ public static class HomeConverter
     /// </summary>
     /// <param name="species"></param>
     /// <remarks>
-    /// The disassembly's fateful-encounter helper receives species, not the obedience flag. FR/LG's event-only mythicals are therefore treated as fateful by species.
+    /// The disassembly's fateful-encounter helper receives species, not the obedience flag.
+    /// FR/LG's event-only mythical species are therefore treated as fateful by species.
     /// Assumedly, they'll precondition this check so that R/S origin returns false.
     /// </remarks>
     private static bool GetIsFatefulFRLG(ushort species) => species is
@@ -204,7 +241,7 @@ public static class HomeConverter
         (int)Species.Latios or
         (int)Species.Deoxys;
 
-    // found this in the setup logic, assumedly to clean up trainer/nicknames? Maybe it's for checking if it is nicknamed?
+    // For checking if it is nicknamed, the disassembly normalizes the name to uppercase and replaces accented E's with E.
     private static void NormalizeName(ReadOnlySpan<char> source, Span<char> destination)
     {
         // The native routine processes exactly 13 UTF-16 code units.
