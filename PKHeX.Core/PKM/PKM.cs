@@ -339,12 +339,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public bool GO => Version is GameVersion.GO;
     public bool VC1 => Version is RD or GN or BU or YW;
     public bool VC2 => Version is GD or SI or C;
-    public bool VC3 => Version is FRX or LGX;
     public bool LGPE => Version is GP or GE;
     public bool SWSH => Version is SW or SH;
     public virtual bool BDSP => Version is BD or SP;
     public virtual bool LA => Version is PLA;
     public virtual bool SV => Version is SL or VL;
+    public virtual bool VC3 => Version is FRX or LGX;
     public bool ZA => Version is GameVersion.ZA;
 
     public bool GO_LGPE => GO && MetLocation == Locations.GO7;

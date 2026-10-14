@@ -16,4 +16,8 @@ public sealed class EntityConverterSettings
 
     [LocalizedDescription("Retain the Met Date when transferring from Generation 4 to Generation 5.")]
     public bool RetainMetDateTransfer45 { get; set; }
+
+    // Enables HOME transfer route for VC3 rather than the existing Bank route.
+    [LocalizedDescription("When transferring from Generation 3 to Generation 8, prefer to jump directly to HOME rather than across Generations 4-7.")]
+    public bool IsPreferredTransferVirtualHOME { get; set; }
 }

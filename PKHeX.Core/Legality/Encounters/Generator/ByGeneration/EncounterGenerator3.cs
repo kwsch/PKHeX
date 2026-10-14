@@ -21,7 +21,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
         var chain = EncounterOrigin.GetOriginChain(pk, 3, Context);
-        return GetEncounters(pk, chain, info);
+        return GetEncounters(pk, chain, info, pk.Version);
     }
 
     private enum DeferralType
@@ -61,12 +61,15 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
     };
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
+        => GetEncounters(pk, chain, info, pk.Version);
+
+    public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info, GameVersion version)
     {
         if (chain.Length == 0)
             yield break;
 
         info.PIDIV = MethodFinder.Analyze(pk);
-        var game = GetGameToIterate(pk.Version);
+        var game = GetGameToIterate(version);
         var iterator = new EncounterEnumerator3(pk, chain, game);
         Deferral defer = default;
         var leadQueue = new LeadEncounterQueue<EncounterSlot3>();

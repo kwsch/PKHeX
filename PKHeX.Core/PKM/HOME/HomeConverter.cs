@@ -39,11 +39,12 @@ public static class HomeConverter
             language = 2;
 
         var core = pkh.Core;
-        var side = pkh.DataPK8 ?? new();
+        var side = pkh.InitializeAsTransfer();
 
         var form = pk3.Form;
         core.Species = species;
         core.Form = form;
+        core.EXP = pk3.EXP;
         uint ec = pk3.PID;
         core.EncryptionConstant = ec;
         core.Nature = (Nature)(ec % 25);
@@ -55,12 +56,7 @@ public static class HomeConverter
         core.Language = language;
         var id32 = core.ID32 = pk3.ID32;
 
-        // Simplified version of how HOME determines PID.
-        // Official logic checks if shiny as PK3, then forces the PID to be that state (with duplicate checks since it's a standard API method).
-        var pid = ec;
-        if (ShinyUtil.GetShinyXor(pid, id32) is (>= 8 and <= 15))
-            pid ^= 0x1000_0000; // Different from the PK5=>PK6 xor, but standard HOME xor.
-        core.PID = pid;
+        core.PID = GetTransferPID(ec, id32, out _);
 
         // HOME uses dual-bit marking colors; Gen 3 has four boolean markings.
         for (int i = 0; i < 4; i++)
@@ -109,7 +105,7 @@ public static class HomeConverter
 
         // Server decides date, as local time for the user.
         var date = EncounterDate.GetDate(GameConsole.NX);
-        core.MetYear = (byte)date.Year;
+        core.MetYear = (byte)(date.Year - 2000);
         core.MetMonth = (byte)date.Month;
         core.MetDay = (byte)date.Day;
         // Eggs (and any zero met level) need a real HOME met level.
@@ -121,6 +117,8 @@ public static class HomeConverter
 
         var pi = PersonalTable.SWSH[species, form];
         var level = Experience.GetLevel(core.EXP, pi.EXPGrowth);
+        if (level == 100) // HOME doesn't sanity check within the converter, but we'll do so ourselves.
+            pkh.EXP = Experience.GetEXP(level, pi.EXPGrowth);
 
         // PK3 has party HP data, but let's recalculate it instead of assuming PK3's is valid.
         core.Stat_HPCurrent = (ushort)(pi.HP == 1 ? 1 : ((core.IV_HP + (2 * pi.HP) + (core.EV_HP / 4) + 100) * level / 100) + 10);
@@ -130,8 +128,7 @@ public static class HomeConverter
 
         // A clean HOME object with an FRX/LGX origin falls back to GameDataPK8 to set up the remainder of the values.
         side.Ball = ball; // Gen 3 ball IDs 1-12 work fine with SW/SH.
-        // SW/SH won't display the met location correctly, so sanitize to the localized location ID.
-        side.MetLocation = LocationsHOME.GetMetSWSH(LocationsHOME.VirtualConsole3, version);
+        side.MetLocation = LocationsHOME.VirtualConsole3;
         side.Ability = (ushort)pk3.Ability;
         side.AbilityNumber = (byte)pk3.AbilityNumber; // determined outside the main function, inferred
 
@@ -245,7 +242,7 @@ public static class HomeConverter
     private static void NormalizeName(ReadOnlySpan<char> source, Span<char> destination)
     {
         // The native routine processes exactly 13 UTF-16 code units.
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < source.Length; i++)
         {
             var c = source[i];
             if (c is >= 'a' and <= 'z')
@@ -255,5 +252,19 @@ public static class HomeConverter
 
             destination[i] = c;
         }
+    }
+
+    // Simplified version of how HOME determines PID.
+    // Official logic checks if shiny as PK3, then forces the PID to be that state (with duplicate checks since it's a standard API method).
+    public static uint GetTransferPID(uint ec, uint id32, out bool bitflip)
+    {
+        var pid = ec;
+        if (ShinyUtil.GetShinyXor(pid, id32) is (>= 8 and <= 15))
+        {
+            pid ^= 0x1000_0000; // Different from the PK5=>PK6 xor, but standard HOME xor.
+            bitflip = true;
+        }
+        bitflip = false;
+        return pid;
     }
 }

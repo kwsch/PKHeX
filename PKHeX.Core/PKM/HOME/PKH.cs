@@ -394,6 +394,13 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public PK9? ConvertToPK9() => DataPK9 is { } x ? x.ConvertToPKM(this) : (DataPK9 ??= GameDataPK9.TryCreate(this))?.ConvertToPKM(this);
     public PA9? ConvertToPA9() => DataPA9 is { } x ? x.ConvertToPKM(this) : (DataPA9 ??= GameDataPA9.TryCreate(this))?.ConvertToPKM(this);
 
+    public GameDataPK8 InitializeAsTransfer()
+    {
+        if (DataPK8 is not null)
+            throw new Exception();
+        return DataPK8 = new();
+    }
+
     public void CopyTo(PKM pk) => Core.CopyTo(pk);
 
     public static HomeGameDataFormat GetType(Type type)

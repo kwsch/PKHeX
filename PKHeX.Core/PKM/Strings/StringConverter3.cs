@@ -298,21 +298,32 @@ public static class StringConverter3
         // Reuse the existing Gen 3 character map and language-dependent quotes.
         char result = GetG3Char(value, tableLanguage);
 
-        // HOME maps the Gen 3 triangle glyph to a right arrow.
-        if (value == 0xEF)
-            return '→'; // not enterable anyway
+        switch (value)
+        {
+            // No private use
+            // DS/3DS would keep them distinct until HOME folds them
+            case 0xB0: return '…';
+            case 0xB5: return '♂';
+            case 0xB6: return '♀';
 
-        // HOME converts Gen 3's apostrophe glyph to a curly apostrophe.
-        if (value == ApostropheByte)
-            return '’'; // Farfetch’d
+            // Not enterable
+            case 0xAF: return '・'; // always Japanese
+            case 0xB7: return '円'; // always Japanese
+            case 0xB9: return '✕'; // U+2715 instead of '×'
+            case 0xEF: return '→'; // right arrow instead of triangle glyph
 
-        // HOME's Japanese mapping differs from the existing table here.
-        if (value == 0xB8 && japanese)
-            return '、'; // not `．`, not enterable
+            // HOME converts Gen 3's apostrophe glyph to a curly apostrophe.
+            case ApostropheByte when !japanese:
+                return '’'; // Farfetch’d
 
-        // HOME's German mapping uses U+201D for the right double quotation mark.
-        if (value == QuoteRightByte && tableLanguage == (int)LanguageID.German)
-            return '”';
+            // HOME's Japanese mapping differs from the existing table here.
+            case 0xB8 when japanese:
+                return '、'; // not `．`, not enterable
+
+            // HOME's German mapping uses U+201D for the right double quotation mark.
+            case QuoteRightByte when tableLanguage == (int)LanguageID.German:
+                return '”';
+        }
 
         // The existing PKHeX tables use Terminator for unsupported byte values.
         // HOME replaces these with a fallback character instead.

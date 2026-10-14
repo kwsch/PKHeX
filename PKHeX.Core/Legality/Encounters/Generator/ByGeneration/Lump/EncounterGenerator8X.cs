@@ -38,6 +38,8 @@ public sealed class EncounterGenerator8X : IEncounterGenerator
         SH when pk.MetLocation == LocationsHOME.SHSP => EncounterGenerator8b.Instance.GetEncountersSWSH(pk, chain, SP),
         SW when pk.MetLocation == LocationsHOME.SWSL => EncounterGenerator9.Instance.GetEncountersSWSH(pk, chain, SL),
         SH when pk.MetLocation == LocationsHOME.SHVL => EncounterGenerator9.Instance.GetEncountersSWSH(pk, chain, VL),
+        SW when pk.MetLocation == LocationsHOME.SWFR && pk is PK8 => EncounterGenerator3.Instance.GetEncounters(pk, chain, info, FRX),
+        SH when pk.MetLocation == LocationsHOME.SHLG && pk is PK8 => EncounterGenerator3.Instance.GetEncounters(pk, chain, info, LGX),
         SW or SH => EncounterGenerator8.Instance.GetEncounters(pk, chain, info),
         _ => [],
     };

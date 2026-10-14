@@ -162,6 +162,11 @@ public sealed class PIDVerifier : Verifier
             data.AddLine(Get(CheckIdentifier.EC, Severity.Fishy, PIDEncryptZero));
         }
 
+        if (pk.VC3) // HOME transfers
+        {
+            VerifyTransferECHOME(data);
+            return;
+        }
         // Gen3-5 => Gen6 have PID==EC with an edge case exception.
         if (Info.Generation is 3 or 4 or 5)
         {
@@ -228,6 +233,19 @@ public sealed class PIDVerifier : Verifier
 
         // Check to see if the PID and EC are properly configured.
         var expect = PK5.GetTransferPID(pk.EncryptionConstant, pk.ID32, out var bitFlipProc);
+        if (pk.PID == expect)
+            return;
+
+        var msg = bitFlipProc ? TransferEncryptGen6BitFlip : TransferEncryptGen6Equals;
+        data.AddLine(GetInvalid(CheckIdentifier.EC, msg));
+    }
+
+    private static void VerifyTransferECHOME(LegalityAnalysis data)
+    {
+        var pk = data.Entity;
+
+        // Check to see if the PID and EC are properly configured.
+        var expect = HomeConverter.GetTransferPID(pk.EncryptionConstant, pk.ID32, out var bitFlipProc);
         if (pk.PID == expect)
             return;
 

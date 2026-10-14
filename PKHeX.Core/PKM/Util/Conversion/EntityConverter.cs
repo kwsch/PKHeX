@@ -21,6 +21,8 @@ public static class EntityConverter
     /// </summary>
     public static EntityRejuvenationSetting RejuvenateHOME { get; set; } = EntityRejuvenationSetting.MissingDataHOME;
 
+    public static bool IsPreferredTransferVirtualHOME { get; set; }
+
     /// <summary>
     /// Post-conversion rejuvenation worker to restore lost values.
     /// </summary>
@@ -184,8 +186,11 @@ public static class EntityConverter
         // Only specific events are available on the Nintendo Switch Gen3 Virtual Console.
         // If we're not transferring to HOME, then permit it through Gen4+ as a bypass.
         var type = PKH.GetType(destType);
-        if (type is not HomeGameDataFormat.None)
+        if (type == HomeGameDataFormat.None)
             return false;
+
+        if (IsPreferredTransferVirtualHOME)
+            return true;
 
         // Deoxys @ Birth Island(FireRed/ LeafGreen) -Never distributed in Japan during GBA Cart era. NX virtual console added for all.
         if (pk is { Species: (int)Species.Deoxys, MetLocation: 200, Language: (int)LanguageID.Japanese })

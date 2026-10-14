@@ -38,6 +38,8 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
             RejuvenatePLA(result, pk8);
         else if (version is GameVersion.SL or GameVersion.VL)
             RejuvenateSV(result, pk8);
+        else if (version is GameVersion.FRX or GameVersion.LGX)
+            RejuvenateVC3(result, pk8);
     }
 
     /// <summary>
@@ -217,5 +219,11 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
         // Try again with rectified locations.
         la = new LegalityAnalysis(result);
         ResetRelearn(result, la);
+    }
+
+    private static void RejuvenateVC3(PKM result, PK8 original)
+    {
+        result.MetLocation = LocationsHOME.VirtualConsole3;
+        result.EggLocation = 0;
     }
 }

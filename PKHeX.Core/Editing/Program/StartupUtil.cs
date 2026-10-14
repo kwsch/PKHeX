@@ -29,6 +29,7 @@ public static class StartupUtil
         var converter = settings.Converter;
         EntityConverter.AllowIncompatibleConversion = converter.AllowIncompatibleConversion;
         EntityConverter.RejuvenateHOME = converter.AllowGuessRejuvenateHOME;
+        EntityConverter.IsPreferredTransferVirtualHOME = converter.IsPreferredTransferVirtualHOME;
         EntityConverter.VirtualConsoleSourceGen1 = converter.VirtualConsoleSourceGen1;
         EntityConverter.VirtualConsoleSourceGen2 = converter.VirtualConsoleSourceGen2;
         EntityConverter.RetainMetDateTransfer45 = converter.RetainMetDateTransfer45;
