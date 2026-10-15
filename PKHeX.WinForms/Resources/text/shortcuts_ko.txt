@@ -20,7 +20,7 @@ CTRL-SHIFT-T: Showdown 세트 내보내기
 CTRL-SHIFT-S: 설정 열기
 
 Control + 클릭...
-- 종: 클립보드에서 Showdown/Smogon 세트를 가져옵니다.
+- 종류: 클립보드에서 Showdown/Smogon 세트를 가져옵니다.
 - 별명/OT 칸: 게임 내 특수 문자를 엽니다.
 - 개별 IV: IV를 최대로 설정합니다(이미 최대이면 최대-1).
 - 개별 AV: AV를 최대로 설정합니다(이미 최대이면 0).
