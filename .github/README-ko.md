@@ -1,4 +1,4 @@
-PKHeX(포케헥스)
+PKHeX
 =====
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
