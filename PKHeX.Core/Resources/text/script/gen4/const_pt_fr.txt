@@ -21,7 +21,7 @@
 0106	r	Statue des Ruines Iceberg (Regice)	0:Inactive,270:Activée,280:Vaincu,290:Capturé
 0107	r	Statue des Ruines Pic Roche (Regirock)	0:Inactive,270:Activée,280:Vaincu,290:Capturé
 0062	r	Joueurs Rencontrés dans le Souterrain (Spiritomb)	32:Spiritomb est apparu
-0064	+	Niveaux bonus d’affilée au Casino (Japon et USA uniquement)
+0064	+	Niveaux bonus d’affilée au Casino (JPN et USA uniquement)
 0138	r	Tour Sacrée (Route 209)	0:Inactive,1:Active
 0089	r	Statut de Créfollet	0:En attente,1:Capturé,2:K.0./Peut réapparaître
 0088	r	Statut de Cresselia	0:En attente,1:Capturé,2:K.0./Peut réapparaître
@@ -33,3 +33,6 @@
 0072	+	Joueurs piégés en Souterrain (Rico Lexion)
 0073	+	Joueurs rencontrés en Souterrain (Rico Lexion)
 0084	+	Cadeaux donnés en Souterrain (Rico Lexion)
+0065	*	Niveau recherché - Maison de la Route 221
+0229	*	Pokémon recherché - La Dépêche Pokémon
+0279	*	Récompense disponible - La Dépêche Pokémon	1:x3 Master Balls (Illégal),2:x3 Hyper Balls,3:x3 Super Balls,4:x3 Poké Balls,6:x3 Filet Balls,7:x3 Scuba Balls,8:x3 Faiblo Balls,9:x3 Bis Balls,10:x3 Chrono Balls,11:x3 Luxe Balls,12:x3 Honor Balls,13:x3 Sombre Balls,14:x3 Soin Balls,15:x3 Rapide Balls
