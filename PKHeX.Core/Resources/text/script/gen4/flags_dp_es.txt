@@ -234,4 +234,6 @@
 2136	t	2da revancha contra Veteran Brian
 2137	t	Revancha contra Veterano Armando
 2733	*	Frase de moda aprendida (Hoy)
+2737	*	Periódico Local Pokémon quest completado (Hoy)
+0220	*	Recompensa pendiente del Periódico Local Pokémon quest
 2738	t	Rival derrotado en Zona Combate (Sábado/Domingo actual)
