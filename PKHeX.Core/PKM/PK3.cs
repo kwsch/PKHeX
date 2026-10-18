@@ -186,6 +186,10 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public override bool FatefulEncounter { get => RIB0 >> 31 == 1; set => RIB0 = (RIB0 & ~(1 << 31)) | (uint)(value ? 1 << 31 : 0); }
     public override int RibbonCount => BitOperations.PopCount(RIB0 & 0b00000111_11111111_11111111_11111111);
 
+    // derived ribbon counts for API ease-of-use
+    public byte RibbonCountMemoryContest => (byte)(RibbonCountG3Cool + RibbonCountG3Beauty + RibbonCountG3Cute + RibbonCountG3Smart + RibbonCountG3Tough);
+    public byte RibbonCountMemoryBattle => (byte)((RibbonWinning ? 1 : 0) + (RibbonVictory ? 1 : 0));
+
     #endregion
 
     #region Battle Stats
@@ -329,7 +333,6 @@ public sealed class PK3 : G3PKM, ISanityChecksum
                 pk4.HeldItem = item;
         }
 
-        // Remove HM moves
         var banned = PersonalInfo3.MachineMovesHidden;
         if (banned.Contains(Move1)) pk4.Move1 = 0;
         if (banned.Contains(Move2)) pk4.Move2 = 0;

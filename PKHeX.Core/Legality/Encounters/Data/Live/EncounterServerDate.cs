@@ -122,6 +122,8 @@ public static class EncounterServerDate
         {9013, new(2021, 06, 17)}, // Gigantamax Bulbasaur
         {9014, new(2021, 06, 17)}, // Gigantamax Squirtle
         {9029, new(2025, 02, 11)}, // Shiny Keldeo
+
+        {9036, new(2026, 10, 06, +1)} // HOME Celebi
     };
 
     /// <summary>

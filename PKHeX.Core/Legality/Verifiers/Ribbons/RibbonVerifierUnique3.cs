@@ -17,7 +17,7 @@ public static class RibbonVerifierUnique3
                 PKM pk = args.Entity;
                 if (r.RibbonWinning && !RibbonRules.IsRibbonValidWinning(pk, args.Encounter, evos))
                     list.Add(Winning);
-                if (r.RibbonVictory && !RibbonRules.IsRibbonValidVictory(evos))
+                if (r.RibbonVictory && !RibbonRules.IsRibbonValidVictory(pk, evos))
                     list.Add(Victory);
             }
             else // Gen4/5

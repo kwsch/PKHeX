@@ -232,4 +232,104 @@ public static class StringConverter3
         // Make the total length 256 so that any byte access is always within the array
         Terminator, Terminator, Terminator, Terminator,
     ];
+
+    private const char NullTerminatorHOME = '\0';
+
+    /// <summary>
+    /// Decodes a Gen 3 encoded string using the character mappings used by Pokémon HOME when importing FR/LG data.
+    /// </summary>
+    /// <param name="data">Source Gen 3 encoded bytes; length is the input limit.</param>
+    /// <param name="result">Destination UTF-16 character buffer.</param>
+    /// <param name="language">Source language.</param>
+    /// <param name="replaceInvalid">
+    /// If true, unsupported characters become question marks; otherwise, spaces.
+    /// </param>
+    /// <returns>
+    /// Number of UTF-16 code units written, including the null terminator.
+    /// </returns>
+    public static int LoadStringHOME(ReadOnlySpan<byte> data, Span<char> result, int language, bool replaceInvalid = true)
+    {
+        int i = 0;
+        for (; i < data.Length; i++)
+        {
+            char c = GetHOMEChar(data[i], language, replaceInvalid);
+            result[i] = c;
+
+            // The native routine writes the terminator before returning.
+            if (c == NullTerminatorHOME)
+                return i + 1;
+        }
+
+        // If the source filled the entire destination without a terminator,
+        // reserve the last character for one by overwriting it.
+        if (i == result.Length)
+            i--;
+
+        result[i] = NullTerminatorHOME;
+        return i + 1;
+    }
+
+    private static char GetHOMEChar(byte value, int language, bool replaceInvalid)
+    {
+        // Only 0xFF terminates the native source string.
+        if (value == TerminatorByte)
+            return NullTerminatorHOME;
+
+        // HOME has separate Japanese, French, and German character maps.
+        // The other language IDs use the common international character map.
+        int tableLanguage = language switch
+        {
+            (int)LanguageID.Japanese => (int)LanguageID.Japanese,
+            (int)LanguageID.French => (int)LanguageID.French,
+            (int)LanguageID.German => (int)LanguageID.German,
+            _ => (int)LanguageID.English,
+        };
+
+        bool japanese = tableLanguage == (int)LanguageID.Japanese;
+        char fallback = replaceInvalid
+            ? japanese ? '？' : '?'
+            : japanese ? '　' : ' ';
+
+        // HOME's Japanese map does not support the Gen 3 glyphs from F1 to FE.
+        // The existing PKHeX Japanese table has mappings for some of these.
+        if (japanese && value is >= 0xF1 and <= 0xFE)
+            return fallback;
+
+        // Reuse the existing Gen 3 character map and language-dependent quotes.
+        char result = GetG3Char(value, tableLanguage);
+
+        switch (value)
+        {
+            // No private use
+            // DS/3DS would keep them distinct until HOME folds them
+            case 0xB0: return '…';
+            case 0xB5: return '♂';
+            case 0xB6: return '♀';
+
+            // Not enterable
+            case 0xAF: return '・'; // always Japanese
+            case 0xB7: return '円'; // always Japanese
+            case 0xB9: return '✕'; // U+2715 instead of '×'
+            case 0xEF: return '→'; // right arrow instead of triangle glyph
+
+            // HOME converts Gen 3's apostrophe glyph to a curly apostrophe.
+            case ApostropheByte when !japanese:
+                return '’'; // Farfetch’d
+
+            // HOME's Japanese mapping differs from the existing table here.
+            case 0xB8 when japanese:
+                return '、'; // not `．`, not enterable
+
+            // HOME's German mapping uses U+201D for the right double quotation mark.
+            case QuoteRightByte when tableLanguage == (int)LanguageID.German:
+                return '”';
+        }
+
+        // The existing PKHeX tables use Terminator for unsupported byte values.
+        // HOME replaces these with a fallback character instead.
+        if (result == (char)TerminatorByte)
+            return fallback;
+
+        return result;
+    }
 }

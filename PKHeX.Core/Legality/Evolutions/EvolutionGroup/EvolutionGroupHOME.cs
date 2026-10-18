@@ -26,6 +26,8 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
             return null;
         if (enc.Context is EntityContext.Gen7b)
             return EvolutionGroup7b.Instance;
+        if (pk.VC3)
+            return EvolutionGroup3.Instance;
         return EvolutionGroup7.Instance;
     }
 

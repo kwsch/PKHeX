@@ -86,8 +86,12 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         pk.AbilityNumber = AbilityNumber;
         pk.Ability = Ability;
 
-        if (!IsOriginallySWSH(pkh.Version, pk.MetLocation))
-            pk.Version = LocationsHOME.GetVersionSWSH(pkh.Version);
+        var source = pkh.Version;
+        if (!IsOriginallySWSH(source, pk.MetLocation))
+        {
+            pk.Version = LocationsHOME.GetVersionSWSH(source);
+            pk.MetLocation = LocationsHOME.GetMetSWSH(0, source);
+        }
     }
 
     public void CopyFrom(PK8 pk, PKH pkh)
@@ -103,6 +107,24 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         PokerusState = pk.PokerusState;
         AbilityNumber = (byte)pk.AbilityNumber;
         Ability = (ushort)pk.Ability;
+
+        if (!IsOriginallySWSH(pk.Version, pk.MetLocation))
+        {
+            var source = LocationsHOME.GetVersionSWSHOriginal(pk.MetLocation);
+            if (pkh.Version != source)
+            {
+                // Trust the currently saved values.
+            }
+            else
+            {
+                pkh.Version = source;
+                MetLocation = 0; // unknown original value, regenerate later
+            }
+        }
+        else
+        {
+            MetLocation = pk.MetLocation;
+        }
     }
 
     public void CopyFrom(PK7 pk, PKH pkh)

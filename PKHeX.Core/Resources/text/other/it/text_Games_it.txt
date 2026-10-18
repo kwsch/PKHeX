@@ -52,3 +52,7 @@ Scarlatto
 Violetto
 Leggende: Z-A
 Champions
+Vento
+Onda
+Rosso Fuoco [NX]
+Verde Foglia [NX]

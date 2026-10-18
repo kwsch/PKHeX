@@ -12,15 +12,16 @@ public static class ChainBreedUtil
     /// Summarizes a successful chain-breeding proof into a human-readable string.
     /// </summary>
     /// <param name="strings">The game strings for localization.</param>
+    /// <param name="pk">Entity the flags will be inferred from.</param>
     /// <param name="species">The species of the Pokémon egg.</param>
     /// <param name="form">The form of the Pokémon egg.</param>
     /// <param name="version">The game version the egg was obtained on.</param>
     /// <param name="moves">The moves to be summarized.</param>
     /// <returns>A tuple containing the result and the human-readable message.</returns>
-    public static (bool Result, string Message) Summarize(GameStrings strings, ushort species, byte form, GameVersion version, params ReadOnlySpan<ushort> moves)
+    public static (bool Result, string Message) Summarize(GameStrings strings, PKM pk, ushort species, byte form, GameVersion version, params ReadOnlySpan<ushort> moves)
     {
         Span<ChainBreedStep> buffer = stackalloc ChainBreedStep[ChainBreedLegality.MaxChainDepth];
-        var trace = new ChainBreedTrace(buffer);
+        var trace = new ChainBreedTrace(buffer) { Flags = InferFlagsFrom(pk) };
         var result = ChainBreedLegality.IsValid(species, form, version, moves, ref trace);
         if (!result)
             return (false, string.Empty);
@@ -30,11 +31,27 @@ public static class ChainBreedUtil
         return (true, sb.ToString());
     }
 
-    /// <inheritdoc cref="Summarize(GameStrings, ushort, byte, GameVersion, ReadOnlySpan{ushort})"/>
-    public static bool Summarize(GameStrings strings, ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, StringBuilder sb)
+    public static ChainBreedEraFlags InferFlagsFrom(PKM pk)
+    {
+        var result = ChainBreedEraFlags.None;
+        if (pk.Version.IsNintendoSwitchGBA() || ParseSettings.IsExclusivelyNintendoSwitchGBA(pk))
+            result |= ChainBreedEraFlags.NintendoSwitchGBA;
+        return result;
+    }
+
+    public static ChainBreedEraFlags InferFlagsFrom(GameVersion version)
+    {
+        var result = ChainBreedEraFlags.None;
+        if (version.IsNintendoSwitchGBA() || ParseSettings.IsExclusivelyNintendoSwitchGBA())
+            result |= ChainBreedEraFlags.NintendoSwitchGBA;
+        return result;
+    }
+
+    /// <inheritdoc cref="Summarize(GameStrings, PKM, ushort, byte, GameVersion, ReadOnlySpan{ushort})"/>
+    public static bool Summarize(GameStrings strings, PKM pk, ushort species, byte form, GameVersion version, ReadOnlySpan<ushort> moves, StringBuilder sb)
     {
         Span<ChainBreedStep> buffer = stackalloc ChainBreedStep[ChainBreedLegality.MaxChainDepth];
-        var trace = new ChainBreedTrace(buffer);
+        var trace = new ChainBreedTrace(buffer) { Flags = InferFlagsFrom(pk) };
         var result = ChainBreedLegality.IsValid(species, form, version, moves, ref trace);
         if (!result)
             return false;

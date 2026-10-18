@@ -27,7 +27,12 @@ internal static class BallUseLegality
     {
         1 => WildPokeBalls1,
         2 => WildPokeBalls2,
-        3 => WildPokeBalls3,
+        3 => version switch
+        {
+            GameVersion.FR or GameVersion.LG when ParseSettings.IsExclusivelyNintendoSwitchGBA() => WildPokeBalls3_NX,
+            GameVersion.FRX or GameVersion.LGX => WildPokeBalls3_NX,
+            _ => WildPokeBalls3,
+        },
         4 => GameVersion.HGSS.Contains(version) ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt,
         5 => WildPokeBalls5,
         6 => WildPokeballs6,
@@ -80,6 +85,7 @@ internal static class BallUseLegality
     private const ulong WildPokeBalls1 = 1 << (int)Poke;
     private const ulong WildPokeBalls2 = WildPokeBalls1;
     private const ulong WildPokeBalls3 = WildPokeRegular | WildPokeEnhance3;
+    private const ulong WildPokeBalls3_NX = WildPokeBalls3 & (~(1u << (int)Premier)) & (~(1u << (int)Dive)); // Can't obtain without R/S/E.
     private const ulong WildPokeBalls4_DPPt = WildPokeBalls3 | WildPokeEnhance4;
     public const ulong WildPokeBalls4_HGSS = WildPokeBalls4_DPPt | WildPokeKurt4;
     private const ulong WildPokeBalls5 = WildPokeBalls4_DPPt;

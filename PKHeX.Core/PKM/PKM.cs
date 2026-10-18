@@ -344,10 +344,15 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual bool BDSP => Version is BD or SP;
     public virtual bool LA => Version is PLA;
     public virtual bool SV => Version is SL or VL;
+    public virtual bool VC3 => Version is FRX or LGX;
     public bool ZA => Version is GameVersion.ZA;
 
     public bool GO_LGPE => GO && MetLocation == Locations.GO7;
     public bool GO_HOME => GO && MetLocation == Locations.GO8;
+
+    /// <summary>
+    /// Nintendo 3DS Virtual Console Game (Generation 1 and 2)
+    /// </summary>
     public bool VC => VC1 || VC2;
     public bool GG => LGPE || GO_LGPE;
     public bool Gen9 => SV || ZA;
@@ -417,10 +422,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     public string FileNameWithoutExtension => EntityFileNamer.GetName(this);
 
-    public int[] IVs
+    public ReadOnlySpan<int> IVs
     {
-        [Obsolete($"Use the {nameof(GetIVs)} method with stackalloc to not allocate.")]
-        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set => SetIVs(value);
     }
 
@@ -628,7 +631,13 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// Checks if the PKM has its original met location.
     /// </summary>
     /// <returns>Returns false if the Met Location has been overwritten via generational transfer.</returns>
-    public virtual bool HasOriginalMetLocation => !(Format < 3 || VC || (Generation <= 4 && Format != Generation));
+    public virtual bool HasOriginalMetLocation => !(Format < 3 || VC || VC3 || (Generation <= 4 && Format != Generation));
+
+    /// <summary>
+    /// Checks if the PKM has its original met level.
+    /// </summary>
+    /// <returns>Returns false if the Met Level has been overwritten via generational transfer.</returns>
+    public virtual bool HasOriginalMetLevel => !(Format < 3 || VC || (Generation <= 4 && Format != Generation));
 
     /// <summary>
     /// Checks if the current <see cref="Gender"/> is valid.

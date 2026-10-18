@@ -119,6 +119,7 @@ public sealed class PK8 : G8PKM, IHandlerUpdate
     public override bool SV => MetLocation is LocationsHOME.SWSL or LocationsHOME.SHVL;
     public override bool BDSP => MetLocation is LocationsHOME.SWBD or LocationsHOME.SHSP;
     public override bool LA => MetLocation is LocationsHOME.SWLA;
+    public override bool VC3 => MetLocation is LocationsHOME.SWFR or LocationsHOME.SHLG;
     public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !IsSideTransfer;
 
     public override string GetString(ReadOnlySpan<byte> data)

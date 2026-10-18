@@ -136,6 +136,7 @@ public static class EggStateLegality
             4 => Locations.Transfer3, // Pal Park
             _ => Locations.Transfer4,
         },
+        FRX or LGX => LocationsHOME.VirtualConsole3,
 
         D or P or Pt => format > 4 ? Locations.Transfer4 : Locations.HatchLocationDPPt,
         HG or SS => format > 4 ? Locations.Transfer4 : Locations.HatchLocationHGSS,

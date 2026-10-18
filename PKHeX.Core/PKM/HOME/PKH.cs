@@ -394,6 +394,13 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public PK9? ConvertToPK9() => DataPK9 is { } x ? x.ConvertToPKM(this) : (DataPK9 ??= GameDataPK9.TryCreate(this))?.ConvertToPKM(this);
     public PA9? ConvertToPA9() => DataPA9 is { } x ? x.ConvertToPKM(this) : (DataPA9 ??= GameDataPA9.TryCreate(this))?.ConvertToPKM(this);
 
+    public GameDataPK8 InitializeAsTransfer()
+    {
+        if (DataPK8 is not null)
+            throw new Exception();
+        return DataPK8 = new();
+    }
+
     public void CopyTo(PKM pk) => Core.CopyTo(pk);
 
     public static HomeGameDataFormat GetType(Type type)
@@ -404,6 +411,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         if (type == typeof(PA8)) return HomeGameDataFormat.PA8;
         if (type == typeof(PK9)) return HomeGameDataFormat.PK9;
         if (type == typeof(PA9)) return HomeGameDataFormat.PA9;
+        if (type == typeof(PK3)) return HomeGameDataFormat.PK8;
         return HomeGameDataFormat.None;
     }
 
@@ -430,6 +438,12 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     public void CopyFrom(PKM pk)
     {
+        if (pk is PK3 pk3)
+        {
+            HomeConverter.UpgradeFromPastFormat(pk3, this);
+            return;
+        }
+
         Core.CopyFrom(pk);
              if (pk is PB7 pb7) (DataPB7 ??= new GameDataPB7()).CopyFrom(pb7, this);
         else if (pk is PK7 pk7) (DataPK8 ??= new GameDataPK8()).CopyFrom(pk7, this);

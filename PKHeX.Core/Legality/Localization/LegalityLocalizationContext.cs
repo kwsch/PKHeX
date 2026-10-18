@@ -65,7 +65,7 @@ public readonly ref struct LegalityLocalizationContext
             }
             moves = moves[..ctr];
         }
-        return ChainBreedUtil.Summarize(Strings, enc.Species, enc.Form, enc.Version, moves).Message;
+        return ChainBreedUtil.Summarize(Strings, pk, enc.Species, enc.Form, enc.Version, moves).Message;
     }
 
     private static string GetSafe(ReadOnlySpan<string> arr, int index)

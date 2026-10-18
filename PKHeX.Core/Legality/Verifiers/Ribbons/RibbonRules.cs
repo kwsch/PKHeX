@@ -197,6 +197,8 @@ public static class RibbonRules
     {
         if (!evos.HasVisitedGen3)
             return false;
+        if (!ParseSettings.AllowGBACrossTransferRSE(pk))
+            return false;
         if (ParseSettings.Settings.Game.Gen3.AllowBattleTowerTeamSwap)
             return true;
 
@@ -217,8 +219,10 @@ public static class RibbonRules
     /// <summary>
     /// Checks if the input can receive the <see cref="IRibbonSetUnique3.RibbonVictory"/> ribbon.
     /// </summary>
-    public static bool IsRibbonValidVictory(EvolutionHistory evos)
+    public static bool IsRibbonValidVictory(PKM pk, EvolutionHistory evos)
     {
+        if (!ParseSettings.AllowGBACrossTransferRSE(pk))
+            return false;
         if (evos.HasVisitedGen3)
             return IsAllowedBattleFrontier(evos.Gen3[0].Species) || ParseSettings.Settings.Game.Gen3.AllowBattleTowerTeamSwap;
         return false;
@@ -298,7 +302,7 @@ public static class RibbonRules
             var head = evos.Gen3[0]; // Checking contest with Gen3 head is fine; all false cases cannot evolve (evolution chain is same Gen3/Gen4).
             var contest = IsAllowedContest4(head.Species, head.Form) ? MaxContestBoth : MaxContest3;
             var battle = !IsAllowedBattleFrontier(head.Species)
-                ? ParseSettings.Settings.Game.Gen3.AllowBattleTowerTeamSwap ? MaxBattle3 : (byte)0
+                ? ParseSettings.Settings.Game.Gen3.AllowBattleTowerTeamSwap && ParseSettings.AllowGBACrossTransferRSE(pk) ? MaxBattle3 : (byte)0
                 : IsRibbonValidWinning(pk, enc, evos) ? MaxBattleBoth : MaxBattleBothNoWinning;
             return (contest, battle);
         }
