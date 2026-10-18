@@ -57,7 +57,7 @@
     "EggNature": "無法使用「薄荷」修正蛋之能力調整。",
     "EggPP": "蛋不能有PP數變動。",
     "EggPPUp": "不能對蛋使用PP提升劑。",
-    "EggRelearnFlags": "預期不會重新學習技能標記。",
+    "EggRelearnFlags": "蛋沒有回憶招式。",
     "EggShinyPokeStar": "蛋無法成為寶可夢好萊塢之星。",
     "EggSpecies": "不能獲得該種寶可夢之蛋。",
     "EggUnhatched": "合法孵化之蛋。",
