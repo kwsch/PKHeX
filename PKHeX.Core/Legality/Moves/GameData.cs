@@ -67,6 +67,8 @@ public static class GameData
         Stadium => LearnSource1YW.Instance,
         Stadium2 => LearnSource2Stadium.Instance,
 
+        FRX or LGX => LearnSource8SWSH.Instance,
+
         _ => throw new ArgumentOutOfRangeException(nameof(version), $"{version} is not a valid entry in the expression."),
     };
 
@@ -120,6 +122,8 @@ public static class GameData
 
         Stadium => PersonalTable.Y,
         Stadium2 => PersonalTable.GS,
+
+        FRX or LGX => PersonalTable.SWSH,
 
         _ => throw new ArgumentOutOfRangeException(nameof(version), $"{version} is not a valid entry in the expression."),
     };

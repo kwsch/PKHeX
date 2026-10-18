@@ -525,6 +525,12 @@ public sealed class WC8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
             }
         }
 
+        if (Version is GameVersion.FRX) // HOME Celebi (temp workaround)
+        {
+            pk.Version = GameVersion.SW;
+            pk.MetLocation = LocationsHOME.SWFR;
+        }
+
         pk.ResetPartyStats();
         pk.RefreshChecksum();
         return pk;
@@ -655,7 +661,25 @@ public sealed class WC8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
             var OT = GetOT(pk.Language); // May not be guaranteed to work.
             if (!string.IsNullOrEmpty(OT) && OT != pk.OriginalTrainerName) return false;
-            if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version) return false;
+
+            if ((GameVersion)OriginGame is GameVersion.FRX) // HOME Celebi (temp workaround)
+            {
+                if (pk is PK8)
+                {
+                    if (!(pk.Version is GameVersion.SW && pk.MetLocation == LocationsHOME.SWFR))
+                        return false;
+                }
+                else
+                {
+                    if (!(pk.Version is GameVersion.FRX && pk.MetLocation != LocationsHOME.VirtualConsole3))
+                        return false;
+                }
+            }
+            else if (OriginGame != 0 && (GameVersion)OriginGame != pk.Version)
+            {
+                return false;
+            }
+
             if (EncryptionConstant != 0)
             {
                 if (EncryptionConstant != pk.EncryptionConstant)

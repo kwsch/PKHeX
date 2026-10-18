@@ -174,6 +174,11 @@ public sealed class PIDVerifier : Verifier
             return;
         }
 
+        VerifyFutureOriginEC(data, pk, Info);
+    }
+
+    private static void VerifyFutureOriginEC(LegalityAnalysis data, PKM pk, LegalInfo Info)
+    {
         // Gen1-2, Gen6+ should have PID != EC
         if (pk.PID == pk.EncryptionConstant)
         {
@@ -243,7 +248,12 @@ public sealed class PIDVerifier : Verifier
     private static void VerifyTransferECHOME(LegalityAnalysis data)
     {
         var pk = data.Entity;
-
+        if (data.EncounterMatch is WC8)
+        {
+            VerifyFutureOriginEC(data, pk, data.Info);
+            return;
+        }
+        
         // Check to see if the PID and EC are properly configured.
         var expect = HomeConverter.GetTransferPID(pk.EncryptionConstant, pk.ID32, out var bitFlipProc);
         if (pk.PID == expect)

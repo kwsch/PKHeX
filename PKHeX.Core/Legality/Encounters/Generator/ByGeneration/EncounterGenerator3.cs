@@ -68,6 +68,14 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         if (chain.Length == 0)
             yield break;
 
+        // Workaround for HOME Celebi
+        if (chain[0].Species == (int)Species.Celebi && pk.VC3)
+        {
+            foreach (var enc in EncounterGenerator8.Instance.GetEncounters(pk, chain, info))
+                yield return enc;
+            yield break;
+        }
+
         info.PIDIV = MethodFinder.Analyze(pk);
         var game = GetGameToIterate(version);
         var iterator = new EncounterEnumerator3(pk, chain, game);

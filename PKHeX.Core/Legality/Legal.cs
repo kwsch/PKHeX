@@ -195,7 +195,7 @@ public static class Legal
     {
         PA8 pa8 => !pa8.LA,
         PB8 pb8 => !pb8.BDSP,
-        PK8 pk8 => pk8.IsSideTransfer || pk8.BattleVersion != 0,
+        PK8 pk8 => pk8.BattleVersion != 0 || pk8.IsSideTransfer && (pk is not { Species: (int)Species.Celebi, VC3: true }),
         PK9 pk9 => !(pk9.SV || pk9 is { IsEgg: true, Version: 0 }),
         PA9 pa9 => !pa9.ZA,
         _ => false,
