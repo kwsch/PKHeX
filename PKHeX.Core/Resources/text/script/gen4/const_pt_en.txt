@@ -21,7 +21,7 @@
 0106	r	Iceberg Ruins Statue (Regice)	0:Inactive,270:Activated,280:Defeated,290:Caught
 0107	r	Rock Peak Ruins Statue (Regirock)	0:Inactive,270:Activated,280:Defeated,290:Caught
 0062	r	Current Players Met Underground (Spiritomb)	32:Spiritomb Appeared
-0064	+	Game Corner Bonus Rounds Streak (Japan and USA only)
+0064	+	Game Corner Bonus Rounds Streak (JPN and USA only)
 0138	r	Hallowed Tower	0:Inactive,1:Active
 0089	r	Mesprit Status	0:Pending,1:Caught,2:Fainted/Can Respawn
 0088	r	Cresselia Status	0:Pending,1:Caught,2:Fainted/Can Respawn
@@ -33,3 +33,6 @@
 0072	+	Players Trapped Underground (Mr. Goods)
 0073	+	Players Met Underground (Mr. Goods)
 0084	+	Gifts Given Underground (Mr. Goods)
+0065	*	Route 221 House Wanted Level
+0229	*	Pokémon News Press Wanted Pokémon
+0279	*	Pokémon News Press Reward Available	1:x3 Master Balls (Illegal),2:x3 Ultra Balls,3:x3 Great Balls,4:x3 Poké Balls,6:x3 Net Balls,7:x3 Dive Balls,8:x3 Nest Balls,9:x3 Repeat Balls,10:x3 Timer Balls,11:x3 Luxury Balls,12:x3 Premier Balls,13:x3 Dusk Balls,14:x3 Heal Balls,15:x3 Quick Balls

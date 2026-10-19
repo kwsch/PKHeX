@@ -18,3 +18,6 @@
 0071	+	Fósiles obtenidos en Subsuelo (Sr. Curiosidades)
 0072	+	Jugadores atrapados en Subsuelo (Sr. Curiosidades)
 0073	+	Jugadores conocidos en Subsuelo (Sr. Curiosidades)
+0065	*	Ruta 221 Nivel de búsqueda de casa
+0229	*	Periódico local Pokémon Especie buscado
+0279	*	Periódico local Pokémon Recompensa disponible	1:x3 Master Balls (Ilegal),2:x3 Ultra Balls,3:x3 Super Balls,4:x3 Poké Balls,6:x3 Malla Balls,7:x3 Buceo Balls,8:x3 Nido Balls,9:x3 Acopio Balls,10:x3 Turno Balls,11:x3 Lujo Balls,12:x3 Honor Balls,13:x3 Ocaso Balls,14:x3 Sana Balls,15:x3 Veloz Balls

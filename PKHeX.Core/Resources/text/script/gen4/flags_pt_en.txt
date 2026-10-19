@@ -257,6 +257,8 @@
 2136	t	Had Veteran Brian 2nd Rematch
 2137	t	Had Veteran Armando Rematch
 2733	*	Learned trendy phrase (Today)
+2737	*	Pokémon News Press Quest Complete (Today)
+0220	*	Pokémon News Press Reward Pending
 2738	t	Defeated Rival in Survival Area (Current Saturday/Sunday)
 2744	t	Defeated Leader Roark in Battleground (Today)
 2745	t	Defeated Leader Gardenia in Battleground (Today)

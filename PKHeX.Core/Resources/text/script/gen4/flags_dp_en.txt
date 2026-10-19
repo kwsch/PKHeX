@@ -234,4 +234,6 @@
 2136	t	Had Veteran Brian 2nd Rematch
 2137	t	Had Veteran Armando Rematch
 2733	*	Learned trendy phrase (Today)
+2737	*	Pokémon News Press Quest Complete (Today)
+0220	*	Pokémon News Press Reward Pending
 2738	t	Defeated Rival in Fight Area (Current Saturday/Sunday)

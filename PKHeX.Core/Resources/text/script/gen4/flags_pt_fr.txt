@@ -257,6 +257,8 @@
 2136	t	A Eu 2ème Revanche Contre Vénérable Théobald (Route 210)
 2137	t	A Eu Revanche Contre Vénérable Clément (Route 224)
 2733	*	A Appris Un Mot Savant (Aujourd'hui - Frimapic)
+2737	*	La Dépêche Pokémon : Quête terminée (Aujourd'hui)
+0220	*	La Dépêche Pokémon : Récompense en attente
 2738	t	Rival Vaincu à l'Aire de Survie (Samedi/Dimanche Actuel)
 2744	t	Champion Pierrick Vaincu au Café Combat (Aujourd'hui)
 2745	t	Championne Flo Vaincue au Café Combat (Aujourd'hui)

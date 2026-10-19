@@ -21,7 +21,7 @@
 0106	r	Estatua de Ruinas Iceberg (Regice)	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
 0107	r	Estatua de Ruinas Pico Roca (Regirock)	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
 0062	r	Jugadores Actuales Interactuados en Subsuelo (Spiritomb)	32:Spiritomb Aparecido
-0064	+	Rondas seguidas de bonificación en Casino (Solo Japón y EE. UU.)
+0064	+	Rondas seguidas de bonificación en Casino (Solo JPN y EE.UU)
 0138	r	Torre Sagrada	0:Desactivado,1:Activo
 0089	r	Estado Mesprit	0:Pendiente,1:Capturado,2:Derrotado/Puede reaparecer
 0088	r	Estado Cresselia	0:Pendiente,1:Capturada,2:Derrotada/Puede reaparecer
@@ -33,3 +33,6 @@
 0072	+	Jugadores atrapados en Subsuelo (Sr. Curiosidades)
 0073	+	Jugadores conocidos en Subsuelo (Sr. Curiosidades)
 0084	+	Regalos dados en Subsuelo (Sr. Curiosidades)
+0065	*	Ruta 221 Nivel de búsqueda de casa
+0229	*	Periódico local Pokémon Especie buscado
+0279	*	Periódico local Pokémon Recompensa disponible	1:x3 Master Balls (Ilegal),2:x3 Ultra Balls,3:x3 Super Balls,4:x3 Poké Balls,6:x3 Malla Balls,7:x3 Buceo Balls,8:x3 Nido Balls,9:x3 Acopio Balls,10:x3 Turno Balls,11:x3 Lujo Balls,12:x3 Honor Balls,13:x3 Ocaso Balls,14:x3 Sana Balls,15:x3 Veloz Balls
