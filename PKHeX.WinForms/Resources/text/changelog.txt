@@ -1,7 +1,24 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-26/08/26 - New Update:
+26/10/18 - New Update:
+ - Legality:
+ - - Added: FireRed/LeafGreen Virtual Console transfer to HOME now recognized.
+ - - Added: FireRed/LeafGreen Virtual Console legality checks enhanced (mostly around breeding egg move exclusivity).
+ - - Added: Gen3/4 EV checks now verify that sufficient EXP was gained to obtain the current EVs.
+ - Changed: WCS 2026 Greninja is no longer treated as expired; no end date is currently known.
+ - Added: FireRed/LeafGreen Virtual Console Pokémon can now be converted from Gen3 directly to HOME. Can be selected via Entity Converter settings.
+ - Added: Gen4 Battle Video import/export with quick preview.
+ - Added: Gen3/4 Gift Ribbon editor.
+ - Added: Missing PC Box wallpaper options and names for Gen3, Colosseum/XD, Battle Revolution, Gen4/5, and BD/SP, including custom R/S wallpaper.
+ - Fixed: Batch Editor now correctly applies slot writes, saves all changed party slots, and handles invalid filter inputs.
+ - Fixed: Gen3 Mailbox editor now handles individual Unown forms correctly.
+ - Fixed: Gen6 PSS parsing now reads every populated contact within a block.
+ - Fixed: GO Park complex's summaries now map Pokémon GO move IDs to core-series moves.
+ - Updated: Legends: Z-A distribution, raid, and outbreak data.
+ - Changed: Switch badword list updated to v23.0.0.
+
+26/08/26 - New Update: (132702) [13585369]
  - Legality:
  - - Added: Gen2-5 Recursive Egg Move inheritance checking to verify chain breeding movesets.
  - - Added: Gen4 My Pokémon Ranch IV reversal and improved LCRNG seed recovery. Thanks @StarfBerry !

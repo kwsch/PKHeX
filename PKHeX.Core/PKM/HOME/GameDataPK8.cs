@@ -86,12 +86,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         pk.AbilityNumber = AbilityNumber;
         pk.Ability = Ability;
 
-        var source = pkh.Version;
-        if (!IsOriginallySWSH(source, pk.MetLocation))
-        {
-            pk.Version = LocationsHOME.GetVersionSWSH(source);
-            pk.MetLocation = LocationsHOME.GetMetSWSH(0, source);
-        }
+        SanitizeEntity(pk, pkh.Version);
     }
 
     public void CopyFrom(PK8 pk, PKH pkh)
@@ -108,23 +103,9 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         AbilityNumber = (byte)pk.AbilityNumber;
         Ability = (ushort)pk.Ability;
 
-        if (!IsOriginallySWSH(pk.Version, pk.MetLocation))
-        {
-            var source = LocationsHOME.GetVersionSWSHOriginal(pk.MetLocation);
-            if (pkh.Version != source)
-            {
-                // Trust the currently saved values.
-            }
-            else
-            {
-                pkh.Version = source;
-                MetLocation = 0; // unknown original value, regenerate later
-            }
-        }
-        else
-        {
-            MetLocation = pk.MetLocation;
-        }
+        // Special: Let our converters know the real version.
+        if (LocationsHOME.IsLocationSWSH(pk.MetLocation))
+            pk.Version = LocationsHOME.GetVersionSWSHOriginal(pk.MetLocation);
     }
 
     public void CopyFrom(PK7 pk, PKH pkh)
@@ -197,20 +178,29 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         return result;
     }
 
-    public void InitializeFrom(IGameDataSide side, PKH pkh)
+    private static void SanitizeEntity(PK8 pk, GameVersion version)
     {
+        // Sanitize the ball regardless of origin.
+        pk.Ball = GetBall(pk.Ball);
+
+        if (!LocationsHOME.IsVersionRemapNeeded(version))
+            return;
+
+        // Sanitize the version.
+        pk.Version = LocationsHOME.GetVersionSWSH(version);
+
         // BD/SP->SW/SH: Set the Met Location to the magic Location, set the Egg Location to 0 if -1, otherwise BDSPEgg
         // (0 is a valid location, but no eggs can be EggMet there -- only hatched.)
         // PLA->SW/SH: Set the Met Location to the magic Location, set the Egg Location to 0 (no eggs in game).
-        var version = pkh.Version;
-        var met = side.MetLocation;
-        var ball = GetBall(side.Ball);
-        var egg = GetEggLocation(side.EggLocation);
-        if (!IsOriginallySWSH(version, met))
-            RemapMetEgg(version, ref met, ref egg);
-        Ball = ball;
-        MetLocation = met;
-        EggLocation = egg;
+        pk.MetLocation = LocationsHOME.GetMetSWSH(pk.MetLocation, version);
+        pk.EggLocation = LocationsHOME.GetEggSWSH(pk.EggLocation, version);
+    }
+
+    public void InitializeFrom(IGameDataSide side, PKH pkh)
+    {
+        Ball = side.Ball;
+        MetLocation = side.MetLocation;
+        EggLocation = side.EggLocation;
         if (side is IGameDataSplitAbility a)
             AbilityNumber = a.AbilityNumber;
         if (side is IPokerusStatus p)
@@ -228,18 +218,5 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         Ability = (ushort)pi.GetAbilityAtIndex(index);
     }
 
-    private static void RemapMetEgg(GameVersion version, ref ushort met, ref ushort egg)
-    {
-        var remap = LocationsHOME.GetMetSWSH(met, version);
-        if (remap == met)
-            return;
-
-        met = remap;
-        egg = egg is not (0 or Locations.Default8bNone) ? LocationsHOME.SWSHEgg : (ushort)0;
-    }
-
-    private static bool IsOriginallySWSH(GameVersion version, ushort loc) => version is GameVersion.SW or GameVersion.SH && !IsFakeMetLocation(loc);
-    private static bool IsFakeMetLocation(ushort met) => LocationsHOME.IsLocationSWSH(met);
     private static byte GetBall(byte ball) => ball > (byte)Core.Ball.Beast ? (byte)4 : ball;
-    private static ushort GetEggLocation(ushort egg) => egg != Locations.Default8bNone ? egg : (ushort)0;
 }

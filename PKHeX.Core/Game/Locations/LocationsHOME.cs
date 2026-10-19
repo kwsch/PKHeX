@@ -60,7 +60,7 @@ public static class LocationsHOME
     /// <summary>
     /// Gets the SW/SH-context Egg Location when an external entity from the input <see cref="version"/> resides in SW/SH.
     /// </summary>
-    public static ushort GetLocationSWSHEgg(GameVersion version, ushort egg)
+    public static ushort GetEggSWSH(ushort egg, GameVersion version)
     {
         if (egg == 0)
             return 0;

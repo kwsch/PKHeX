@@ -65,7 +65,7 @@ public static class ChainBreedUtil
     public static string Summarize(GameStrings strings, in ChainBreedTrace trace)
     {
         var sb = new StringBuilder();
-        WriteHeader(trace, sb);
+        Summarize(strings, trace, sb);
         return sb.ToString();
     }
 

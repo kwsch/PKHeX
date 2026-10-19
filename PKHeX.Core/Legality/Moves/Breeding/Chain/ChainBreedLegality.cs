@@ -320,6 +320,7 @@ public static class ChainBreedLegality
         if (pendingCount == 0)
             return true;
 
+        moves = pending[..pendingCount];
         Span<(ushort Species, byte Form)> eggSpecies = stackalloc (ushort, byte)[2];
         int eggSpeciesCount = GetEggSpeciesCandidates(fatherSpecies, fatherForm, version, eggSpecies);
         Span<byte> flags = stackalloc byte[MaxMoveCount];
@@ -332,11 +333,11 @@ public static class ChainBreedLegality
             var learn = GameData.GetLearnSource(version);
             var learnset = learn.GetLearnset(candidate.Species, candidate.Form);
             flags.Clear();
-            if (!MarkChildMoveFlags(candidate.Species, candidate.Form, version, pending[..pendingCount], learnset, flags))
+            if (!MarkChildMoveFlags(candidate.Species, candidate.Form, version, moves, learnset, flags))
                 continue;
 
             var baseMoves = learnset.GetBaseEggMoves(EggStateLegality.GetEggLevel(version.Generation));
-            if (!TryValidateCore(candidate.Species, candidate.Form, version, pending[..pendingCount], baseMoves, flags, ref trace, depth))
+            if (!TryValidateCore(candidate.Species, candidate.Form, version, moves, baseMoves, flags, ref trace, depth))
                 continue;
             return true;
         }
@@ -420,6 +421,7 @@ public static class ChainBreedLegality
         }
 
         // Check forward through evolutions (e.g., Tyrogue -> Hitmonlee/Hitmonchan/Hitmontop)
+        // We want to merge the branched evolutions together as any of them can source an egg move.
         var evos = tree.Forward.GetEvolutions(species, form);
         foreach (var (evoSpecies, evoForm) in evos)
         {
@@ -436,6 +438,7 @@ public static class ChainBreedLegality
 
     private static bool CanLearnFromHistoricalSource(ref ChainBreedTrace trace, ushort species, byte form, GameVersion version, ushort move)
     {
+        // Reaching this method requires all possible egg sources exhausted; only initial-moves encounters and past-generation learnsets remain.
         var generation = version.Generation;
 
         // Gen 3: Can use XD/Colo special encounters
@@ -675,6 +678,8 @@ public static class ChainBreedLegality
         var hms = PersonalInfo3.MachineMovesHidden;
         var tmhm = info.TMHM;
 
+        // Note: Pichu's Volt Tackle is a separate "bonus" move that is not an egg move. Same for other generations.
+
         for (int i = 0; i < moves.Length; i++)
         {
             var move = moves[i];
@@ -847,6 +852,11 @@ public static class ChainBreedLegality
         // ~~ Example: Volbeat w/ Dizzy Punch & Lunge (Illumise cannot learn either, and no father can share both).
         // ~~ In Gen8+, Egg Moves can be shared from other fathers onto the male then used for breeding, thus leaving only level up moves required for both parents.
 
+        // Note: all unreachable egg-move options (such as Gen7 Murkrow w/ Punishment) have been pruned from the eggmove resource.
+
+        // Not Implemented: this value is never updated, so the caller will always have an empty summary.
+        // This is only used to satisfy the out parameter requirement.
+        // The parent lineage of mixing and matching parents isn't really worth tracking.
         summary = default;
 
         var table = GameData.GetPersonal(version);
@@ -857,6 +867,7 @@ public static class ChainBreedLegality
 
         var (mi, mother) = ResolveMother(species, form, version, table);
         // If the evolved form is female-only, it must breed with a compatible father
+        // Every other male case can be solved by a single father that can pass all moves, or by a combination of fathers that can pass all moves.
         if (!mi.OnlyFemale)
             return true;
 
@@ -980,6 +991,7 @@ public static class ChainBreedLegality
                     continue;
 
                 // Check if this father can learn the move via level-up
+                // No need to check TM/Tutor because those will always be obtainable if the final egg can be TM/tutored and re-bred.
                 var fatherLearnset = learn.GetLearnset(fatherSpecies, fatherForm);
                 if (fatherLearnset.TryGetLevelLearnMove(move, out _))
                     return true; // Found a compatible father that can learn this move
