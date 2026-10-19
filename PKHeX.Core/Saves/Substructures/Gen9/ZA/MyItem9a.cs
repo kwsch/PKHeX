@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Player item pouches storage
 /// </summary>
-/// <remarks>size=0xBB80 (<see cref="ItemSaveSize"/> items)</remarks>
+/// <remarks>size=0xBC00; items plus another 0x80 bytes</remarks>
 public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
 {
     public const int ItemSaveSize = 3000;
@@ -15,6 +15,37 @@ public sealed class MyItem9a(SAV9ZA sav, SCBlock block) : MyItem(sav, block.Raw)
     private Span<byte> GetItemSpan(ushort itemIndex) => InventoryPouch9a.GetItemSpan(Data, itemIndex);
 
     public uint DefaultInitPouch => ReadUInt32LittleEndian(Data); // Item 0
+
+    private const int PouchFlagsOffset = ItemSaveSize * InventoryItem9a.SIZE; // 0xBB80
+
+    private uint PouchFlags
+    {
+        get => ReadUInt32LittleEndian(Data[PouchFlagsOffset..]);
+        set => WriteUInt32LittleEndian(Data[PouchFlagsOffset..], value);
+    }
+
+    private bool GetFlag(int bit)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(bit, 8);
+        return (PouchFlags & (1u << bit)) != 0;
+    }
+
+    private void SetFlag(int bit, bool value)
+    {
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(bit, 8);
+        uint mask = 1u << bit;
+        PouchFlags = (PouchFlags & ~mask) | (value ? mask : 0u);
+    }
+
+    public bool UnlockedMedicine   { get => GetFlag(0); set => SetFlag(0, value); }
+    public bool UnlockedBalls      { get => GetFlag(1); set => SetFlag(1, value); }
+    public bool UnlockedOther      { get => GetFlag(2); set => SetFlag(2, value); }
+    public bool UnlockedTreasure   { get => GetFlag(3); set => SetFlag(3, value); }
+    public bool UnlockedKey        { get => GetFlag(4); set => SetFlag(4, value); }
+    public bool UnlockedBerry      { get => GetFlag(5); set => SetFlag(5, value); }
+    public bool UnlockedTM         { get => GetFlag(6); set => SetFlag(6, value); } // not necessary to access
+    public bool UnlockedMegaStones { get => GetFlag(7); set => SetFlag(7, value); }
+    public bool UnlockedUnknown    { get => GetFlag(8); set => SetFlag(8, value); } // donuts? appears in DLC saves
 
     /// <summary>
     /// Deletes the item at the requested <paramref name="itemIndex"/>.

@@ -15,7 +15,6 @@ http://projectpokemon.org/pkhex/
  - Fixed: Gen3 Mailbox editor now handles individual Unown forms correctly.
  - Fixed: Gen6 PSS parsing now reads every populated contact within a block.
  - Fixed: GO Park complex's summaries now map Pokémon GO move IDs to core-series moves.
- - Updated: Legends: Z-A distribution, raid, and outbreak data.
  - Changed: Switch badword list updated to v23.0.0.
 
 26/08/26 - New Update: (132702) [13585369]
