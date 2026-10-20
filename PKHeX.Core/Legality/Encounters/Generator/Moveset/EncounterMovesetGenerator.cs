@@ -114,6 +114,8 @@ public static class EncounterMovesetGenerator
         for (int i = 0; i < versions.Length; i++)
         {
             var version = versions.Span[i];
+            if (version.Context is EntityContext.None)
+                continue;
             foreach (var enc in GenerateVersionEncounters(pk, moves, version))
                 yield return enc;
         }
