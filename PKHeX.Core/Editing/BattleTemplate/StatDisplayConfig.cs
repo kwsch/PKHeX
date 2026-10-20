@@ -220,8 +220,8 @@ public sealed class StatDisplayConfig
                 var amped = TryPeekAmp(ref value, ref rec, statIndex);
                 if (amped && value.Length == 0)
                     rec.MarkParsed(statIndex);
-                else
-                    TryParse(result, ref rec, value, statIndex);
+                else if (!TryParse(result, ref rec, value, statIndex))
+                    rec.MarkDirty();
             }
             else if (rec.WasParsed(statIndex))
             {
@@ -321,8 +321,8 @@ public sealed class StatDisplayConfig
                 var amped = TryPeekAmp(ref value, ref rec, statIndex);
                 if (amped && value.Length == 0)
                     rec.MarkParsed(statIndex);
-                else
-                    TryParse(result, ref rec, value, statIndex);
+                else if (!TryParse(result, ref rec, value, statIndex))
+                    rec.MarkDirty();
             }
             else if (rec.WasParsed(statIndex))
             {
@@ -346,7 +346,7 @@ public sealed class StatDisplayConfig
 
         // Expect the message to contain all entries of `result` separated by the separator and an arbitrary amount of spaces permitted.
         // The message is split by the separator, and each part is trimmed of whitespace.
-        for (int i = 0; i < result.Length; i++)
+        for (int statIndex = 0; statIndex < result.Length; statIndex++)
         {
             var index = message.IndexOf(separator);
             ReadOnlySpan<char> value;
@@ -367,11 +367,11 @@ public sealed class StatDisplayConfig
                 continue; // Maybe it's a duplicate separator; keep parsing and hope that the required amount are parsed.
             }
 
-            var amped = TryPeekAmp(ref value, ref rec, i);
+            var amped = TryPeekAmp(ref value, ref rec, statIndex);
             if (amped && value.Length == 0)
-                rec.MarkParsed(index);
-            else
-                TryParse(result, ref rec, value, i);
+                rec.MarkParsed(statIndex);
+            else if (!TryParse(result, ref rec, value, statIndex))
+                rec.MarkDirty();
         }
 
         if (!message.IsWhiteSpace()) // shouldn't be anything left in the message to parse
@@ -380,31 +380,42 @@ public sealed class StatDisplayConfig
         return rec;
     }
 
-    private static void TryParse(Span<int> result, ref StatParseResult rec, ReadOnlySpan<char> value, int statIndex)
+    /// <summary>
+    /// Tries to parse a single stat value from a string and store it in the result array.
+    /// </summary>
+    /// <param name="result">Result array to store the parsed stat</param>
+    /// <param name="rec">Record to track parsing state</param>
+    /// <param name="value">String representation of the stat value to parse</param>
+    /// <param name="statIndex">Index of the stat in the result array</param>
+    /// <returns>
+    /// <see langword="true"/> if the stat was successfully parsed and stored; otherwise, <see langword="false"/>.
+    /// Duplicate stats are considered a parse failure.
+    /// </returns>
+    private static bool TryParse(Span<int> result, ref StatParseResult rec, ReadOnlySpan<char> value, int statIndex)
     {
         if (!int.TryParse(value, out var stat) || stat < 0)
-        {
-            rec.MarkDirty();
-            return;
-        }
+            return false;
         result[statIndex] = stat;
-        rec.MarkParsed(statIndex);
+        return rec.MarkParsed(statIndex);
     }
 
     private static bool TryPeekAmp(ref ReadOnlySpan<char> value, ref StatParseResult rec, int statIndex)
     {
+        // Try to ingest a +/- amp to a stat index. Return false if it is already set; later logic will fail the parse as intended.
         var last = value[^1];
         if (last == '+')
         {
+            var result = rec.Plus == StatParseResult.NoStatAmp;
             rec.Plus = (sbyte)statIndex;
             value = value[..^1].TrimEnd();
-            return true;
+            return result;
         }
         if (last == '-')
         {
+            var result = rec.Plus == StatParseResult.NoStatAmp;
             rec.Minus = (sbyte)statIndex;
             value = value[..^1].TrimEnd();
-            return true;
+            return result;
         }
         return false;
     }
