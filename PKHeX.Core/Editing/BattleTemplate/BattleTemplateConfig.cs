@@ -231,6 +231,7 @@ public sealed record BattleTemplateConfig
         if (result.IsParseClean)
             return result;
 
+        StatParseResult fallback = default;
         // Check if the others get a better result
         int bestCount = result.CountParsed;
         Span<int> tmp = stackalloc int[bestResult.Length];
@@ -247,6 +248,7 @@ public sealed record BattleTemplateConfig
             {
                 bestCount = other.CountParsed;
                 tmp.CopyTo(bestResult);
+                fallback = other;
             }
         }
         // Check custom parsers
@@ -263,10 +265,11 @@ public sealed record BattleTemplateConfig
             {
                 bestCount = other.CountParsed;
                 tmp.CopyTo(bestResult);
+                fallback = other;
             }
         }
 
-        return result;
+        return fallback;
     }
 
     private static void ReorderSpeedNotLast<T>(Span<T> arr)
