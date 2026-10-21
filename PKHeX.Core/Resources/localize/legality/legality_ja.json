@@ -54,7 +54,7 @@
     "EggLocationTradeFail": "もらった場所が無効です。タマゴの状態で交換してはいけません。",
     "EggMetLocationFail": "そのもらった場所では、タマゴを入手できません。",
     "EggMoveCombination": "このタマゴわざの組み合わせは、今の世代では遺伝できません。",
-    "EggNature": "タマゴは能力調整を変更できません。",
+    "EggNature": "タマゴの能力補正は変更できません。",
     "EggPP": "タマゴは技のPPを変更することはできません。",
     "EggPPUp": "タマゴにポイントアップは使用できません",
     "EggRelearnFlags": "技を思い出すフラグがないと思われます。",
