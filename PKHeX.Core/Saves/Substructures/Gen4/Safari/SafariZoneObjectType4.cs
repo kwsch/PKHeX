@@ -1,0 +1,30 @@
+namespace PKHeX.Core;
+
+public enum SafariZoneObjectType4 : byte
+{
+    None = 0,
+    Shrubbery = 1,
+    RedFlower = 2,
+    WhiteFlower = 3,
+    Tree = 4,
+    Stump = 5,
+    Branches = 6,
+    SmallRock = 7,
+    BigRock = 8,
+    MossyRock = 9,
+    Puddle = 10,
+    Fountain = 11,
+    WaterHole = 12,
+    Bench = 13,
+    ShortFenceHorizontal = 14,
+    ShortFenceVertical = 15,
+    LongFenceHorizontal = 16,
+    LongFenceVertical = 17,
+    Signboard = 18,
+    YourStatue = 19,
+    YourFlag = 20,
+    OutsideLamp = 21,
+    GuidepostRight = 22,
+    GuidepostLeft = 23,
+    TrashCan = 24,
+}

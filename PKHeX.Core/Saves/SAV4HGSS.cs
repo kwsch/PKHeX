@@ -279,6 +279,8 @@ public sealed class SAV4HGSS : SAV4, IBoxDetailName, IBoxDetailWallpaper
         PokeGearClearAllCallers(index);
     }
 
+    public SafariZone4 Safari => new(GeneralBuffer.Slice(0xC13C, SafariZone4.SIZE)); // 0x5F8
+
     public Pokeathlon4 Pokeathlon => new(GeneralBuffer.Slice(0xD9D4, Pokeathlon4.SIZE)); // 0xB80
 
     // Apricorn Pouch

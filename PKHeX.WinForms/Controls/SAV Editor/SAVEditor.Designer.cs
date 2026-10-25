@@ -96,6 +96,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenGeonetEditor = new System.Windows.Forms.Button();
             B_OpenUnityTowerEditor = new System.Windows.Forms.Button();
             B_OpenJoinAvenueEditor = new System.Windows.Forms.Button();
+            B_OpenSafariZone = new System.Windows.Forms.Button();
             B_OpenPokeathlon = new System.Windows.Forms.Button();
             B_OpenMedalsEditor = new System.Windows.Forms.Button();
             B_OpenChatterEditor = new System.Windows.Forms.Button();
@@ -578,6 +579,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_OpenGeonetEditor);
             FLP_SAVtools.Controls.Add(B_OpenUnityTowerEditor);
             FLP_SAVtools.Controls.Add(B_OpenJoinAvenueEditor);
+            FLP_SAVtools.Controls.Add(B_OpenSafariZone);
             FLP_SAVtools.Controls.Add(B_OpenPokeathlon);
             FLP_SAVtools.Controls.Add(B_OpenMedalsEditor);
             FLP_SAVtools.Controls.Add(B_OpenChatterEditor);
@@ -903,6 +905,17 @@ namespace PKHeX.WinForms.Controls
             B_OpenJoinAvenueEditor.Text = "Join Avenue";
             B_OpenJoinAvenueEditor.UseVisualStyleBackColor = true;
             B_OpenJoinAvenueEditor.Click += B_OpenJoinAvenueEditor_Click;
+            // 
+            // B_OpenSafariZone
+            // 
+            B_OpenSafariZone.Location = new System.Drawing.Point(2, 434);
+            B_OpenSafariZone.Margin = new System.Windows.Forms.Padding(2);
+            B_OpenSafariZone.Name = "B_OpenSafariZone";
+            B_OpenSafariZone.Size = new System.Drawing.Size(128, 44);
+            B_OpenSafariZone.TabIndex = 1;
+            B_OpenSafariZone.Text = "Safari Zone";
+            B_OpenSafariZone.UseVisualStyleBackColor = true;
+            B_OpenSafariZone.Click += B_OpenSafariZone_Click;
             // 
             // B_OpenPokeathlon
             // 
@@ -1234,6 +1247,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_MailBox;
         private System.Windows.Forms.Button B_OpenApricorn;
         private System.Windows.Forms.Button B_OpenGiftRibbons;
+        private System.Windows.Forms.Button B_OpenSafariZone;
         private System.Windows.Forms.Button B_OpenPokeathlon;
         internal SlotList SL_Extra;
         private PartyEditor SL_Party;
