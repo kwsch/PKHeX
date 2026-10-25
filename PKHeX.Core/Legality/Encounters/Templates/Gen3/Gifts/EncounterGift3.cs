@@ -108,7 +108,18 @@ public sealed record EncounterGift3 : IEncounterable, IEncounterMatch, IMoveset,
         pk.SetMaximumPPCurrent(Moves);
 
         // Generate PIDIV
+        if (IsEgg)
+            pk.ID32 = tr.ID32; // temporary, so that eggs generate as desired for their final trainer.
+
         var seed = SetPINGA(pk, criteria, pi);
+        if (IsEgg) // reset back to the fixed IDs if available
+        {
+            if (TID16 is not UnspecifiedID)
+                pk.TID16 = TID16;
+            if (SID16 is not UnspecifiedID)
+                pk.SID16 = SID16;
+        }
+
         bool hatchedEgg = IsEgg && tr.Generation != 3;
         if (hatchedEgg)
         {

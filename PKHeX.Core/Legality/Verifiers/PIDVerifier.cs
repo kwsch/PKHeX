@@ -73,6 +73,12 @@ public sealed class PIDVerifier : Verifier
         var pk = data.Entity;
         var enc = data.EncounterMatch;
 
+        if (enc.IsEgg)
+        {
+            VerifyShinyEgg(data, enc, pk);
+            return;
+        }
+
         if (!enc.Shiny.IsValid(pk))
             data.AddLine(GetInvalid(CheckIdentifier.Shiny, EncStaticPIDShiny));
 
@@ -111,6 +117,24 @@ public sealed class PIDVerifier : Verifier
                 data.AddLine(GetInvalid(CheckIdentifier.Shiny, EncStaticPIDShiny));
                 break;
         }
+    }
+
+    private static void VerifyShinyEgg(LegalityAnalysis data, IEncounterable enc, PKM pk)
+    {
+        if (enc.Shiny.IsValid(pk))
+            return;
+
+        // Can be hatched by another trainer after being generated.
+        if (!pk.IsEgg) // hatched
+        {
+            // Some generations can change the shiny state via trading.
+            // If it was able to trade and hatch, must have signs of doing so.
+            if (enc.Generation is 3)
+                return; // assumedly traded to a different OT, no location tracking
+            if (enc.Generation is (4 or 5 or 6 or 7) && pk.IsTradedEgg)
+                return; // egg location indicates was traded
+        }
+        data.AddLine(GetInvalid(CheckIdentifier.Shiny, EncStaticPIDShiny));
     }
 
     private void VerifyG5PID_IDCorrelation(LegalityAnalysis data)

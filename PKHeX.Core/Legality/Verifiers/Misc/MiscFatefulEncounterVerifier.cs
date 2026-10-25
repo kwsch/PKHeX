@@ -30,11 +30,7 @@ internal sealed class MiscFatefulEncounterVerifier : Verifier
                     // else, ensure fateful is active (via below)
                 }
                 VerifyFatefulActive(data, pk);
-                VerifyGift3Shiny(data, w);
                 return;
-            case EncounterGift3 w:
-                VerifyGift3Shiny(data, w);
-                break;
             case MysteryGift g: // WC3 handled above
                 VerifyReceivability(data, g);
                 VerifyFatefulMysteryGift(data, g);
@@ -104,12 +100,5 @@ internal sealed class MiscFatefulEncounterVerifier : Verifier
                 data.AddLine(GetInvalid(CheckIdentifier.Language, EncGiftLanguageNotDistributed_0, wc7.RestrictLanguage));
                 return;
         }
-    }
-
-    private static void VerifyGift3Shiny(LegalityAnalysis data, EncounterGift3 g3)
-    {
-        // check for shiny locked gifts
-        if (!g3.Shiny.IsValid(data.Entity))
-            data.AddLine(GetInvalid(Fateful, EncGiftShinyMismatch));
     }
 }
