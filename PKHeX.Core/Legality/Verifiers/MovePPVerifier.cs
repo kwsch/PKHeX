@@ -67,13 +67,8 @@ public sealed class MovePPVerifier : Verifier
             }
         }
 
-        // Sometimes the PP count will exceed (such as VC=>Bank); rather than flag it as invalid, add a tag indicating it is an untouched VC transfer.
-        // Gen7 3DS VC: Bad values are valid only if they never move it from the box. Could be more restrictive with disallowing other attributes, alas.
-        if (pk is PK7 { VC: true } pk7 && data.IsStoredSlot(StorageSlotType.Box) && IsVirtualConsoleUntouched(pk7, moves, pp))
-        {
-            data.AddLine(GetValid(MovePPMatchesVirtualConsole));
+        if (IsEdgeCaseValues(data, pk, moves, pp))
             return; // Don't check further; we've verified all values match.
-        }
 
         var allowedStates = GetPermittedStatePP(data, pk);
 
@@ -103,6 +98,24 @@ public sealed class MovePPVerifier : Verifier
             };
             data.AddLine(GetInvalid(message, (ushort)(i + 1), (ushort)expect));
         }
+    }
+
+    private bool IsEdgeCaseValues(LegalityAnalysis data, PKM pk, ReadOnlySpan<ushort> moves, ReadOnlySpan<int> pp)
+    {
+        // Sometimes the PP count will exceed (such as VC=>Bank); rather than flag it as invalid, add a tag indicating it is an untouched VC transfer.
+        // Gen7 3DS VC: Bad values are valid only if they never move it from the box. Could be more restrictive with disallowing other attributes, alas.
+        if (pk is PK7 { VC: true } pk7 && data.IsStoredSlot(StorageSlotType.Box) && IsVirtualConsoleUntouched(pk7, moves, pp))
+        {
+            data.AddLine(GetValid(MovePPMatchesVirtualConsole));
+            return true;
+        }
+        var enc = data.EncounterOriginal;
+        if (enc is EncounterStatic4Pokewalker pw && pk is PK4 pk4 && pw.IsPossibleMovesetEmpty(pk4, data.IsStoredSlot(StorageSlotType.Box)))
+        {
+            data.AddLine(GetValid(MovePPMatchesPokewalker));
+            return true;
+        }
+        return false;
     }
 
     private static MoveHealState GetPermittedStatePP(LegalityAnalysis data, PKM pk)

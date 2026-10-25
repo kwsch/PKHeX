@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -41,6 +43,8 @@ public static partial class Extensions
 
     public static GameVersion GetSingleVersion(this GameVersion lump)
     {
+        if (lump is GameVersion.Invalid || !Enum.IsDefined(lump))
+            return default;
         const int max = (int)GameUtil.HighestGameID;
         var rnd = Util.Rand;
         while (true) // this isn't optimal, but is low maintenance

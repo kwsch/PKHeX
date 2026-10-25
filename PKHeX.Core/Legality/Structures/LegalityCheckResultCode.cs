@@ -255,6 +255,7 @@ public enum LegalityCheckResultCode : ushort
     // Moves - General
     MoveKeldeoMismatch,
     MovesShouldMatchRelearnMoves,
+    MovePPMatchesPokewalker,
     MovePPMatchesVirtualConsole,
 
     // Moves - Shop & Alpha

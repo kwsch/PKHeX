@@ -231,6 +231,7 @@
     "MoveEvoFCombination_0": "Moves combinations is not compatible with {0} evolution.",
     "MoveFExpectSingle_0": "Expected: {0}",
     "MoveKeldeoMismatch": "Keldeo Move/Form mismatch.",
+    "MovePPMatchesPokewalker": "Move PP exactly matches values from the Pokéwalker initialization bug.",
     "MovePPMatchesVirtualConsole": "Move PP exactly matches values from the 3DS Virtual Console transfer bug.",
     "MovePPExpectHealed_01": "Move {0} PP is below the amount expected ({1}).",
     "MovePPTooHigh_01": "Move {0} PP is above the amount allowed ({1}).",

@@ -1,6 +1,7 @@
 using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.RandomCorrelationRating;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
@@ -43,6 +44,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         var move3 = ReadUInt16LittleEndian(data[0x8..]);
         var move4 = ReadUInt16LittleEndian(data[0xA..]);
         Moves = new(move1, move2, move3, move4);
+        System.Diagnostics.Debug.Assert(move1 != 0); // All Pokéwalker encounters have at least one move, so this is a good sanity check for the data.
     }
 
     public static EncounterStatic4Pokewalker[] GetAll(ReadOnlySpan<byte> data)
@@ -92,13 +94,148 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         };
 
         SetPINGA(pk, criteria, pi);
-        if (Moves.HasMoves)
-            pk.SetMoves(Moves);
-        else
-            EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
+        SetMoves(pk);
 
         pk.ResetPartyStats();
         return pk;
+    }
+
+    private void SetMoves(PK4 pk)
+    {
+        // Game quirk:
+        // Initializing a PK4 from Pokéwalker encounter template:
+        // - applies normal level-up moves,
+        // - heals the PP,
+        // - overwrites the moves from the Pokéwalker encounter template,
+        // - heals the PP again
+        // Due to the PP healing not updating empty move slots, any full->empty move slot will retain the PP from the initial level-up moves.
+
+        // Initialize moves with default moves, then overwrite with the predefined moves.
+        // Immediately after this in overlay_112, it overwrites the default move IDs with the ones sent back by the Pokéwalker.
+        // When it reaches PCStorage_PlaceMonInBoxByIndexPair, it calls RestoreBoxMonPP,
+        // which only sets the new PP for moves that are not MOVE_NONE, leaving empty slot PP values unmodified.
+        const int count = 4;
+        Span<ushort> moves = stackalloc ushort[count];
+        Span<byte> pp = stackalloc byte[count];
+        PopulateMoves(moves, pp);
+
+        pk.Move1 = moves[0];
+        pk.Move2 = moves[1];
+        pk.Move3 = moves[2];
+        pk.Move4 = moves[3];
+        pk.Move1_PP = pp[0];
+        pk.Move2_PP = pp[1];
+        pk.Move3_PP = pp[2];
+        pk.Move4_PP = pp[3];
+    }
+
+    private void PopulateMoves(Span<ushort> moves, Span<byte> pp)
+    {
+        LoadInitialMoves(moves);
+        LoadInitialPP(moves, pp);
+        Moves.CopyTo(moves);
+        LoadInitialPP(moves, pp);
+    }
+
+    public bool IsPossibleMovesetEmpty(PK4 pk, bool isStored)
+    {
+        // Easy eager check.
+        if (Moves.Move4 != 0)
+            return false;
+
+        if (!IsPossibleGlitched(Species, Level))
+            return false;
+
+        // If it must have learned a level up move, then it cannot retain its empty-PP-with-value slot.
+        var level = GetNextLearnedMoveLevel(Species, pk.Species, Level);
+        if (level != NoLevelUpMoves && pk.CurrentLevel > level)
+            return false;
+
+        // Get the original moves and PP. For the two encounters that reach here, we don't care about original PP.
+        // Moves can be used (decreased PP), and PP Ups can be applied (raising the amount). The glitched slot is always 20.
+        const int count = 4;
+        Span<ushort> tmp = stackalloc ushort[count];
+        Span<byte> pp = stackalloc byte[count];
+        PopulateMoves(tmp, pp);
+
+        // Check the current values against the original values.
+        return VerifyGlitchedCounts(pk, tmp, isStored);
+    }
+
+    private static bool VerifyGlitchedCounts(PK4 pk, Span<ushort> originalMoves, bool isStored)
+    {
+        // Moves can be deleted, which shifts the move up a slot.
+        // Moves can be reordered, which doesn't heal PP for any slot. Can't have empty interstitials (verify in regular moveset checks).
+        // Moves that are non-zero can be used in battle, so don't worry about the PP value.
+
+        // If a foreign move was introduced, then it cannot retain its empty-PP-with-value slot.
+        bool seenZero = false;
+        for (int i = 0; i < 4; i++)
+        {
+            var move = pk.GetMove(i);
+            var actual = GetMovePP(pk, i);
+
+            if (move == 0)
+            {
+                // Verify the PP value of a zero-move.
+                byte expect = seenZero ? (byte)0 : (byte)20; // all glitched slots are 20
+                if (actual != expect)
+                    return false;
+                seenZero = true;
+            }
+            else
+            {
+                if (!originalMoves.Contains(move))
+                    return false; // foreign move added, cannot retain empty-PP-with-value slot
+
+                // Verify the actual PP while we're here. PP Ups can be used to increase the count.
+                var expect = pk.GetMovePP(move, GetMoveUps(pk, i));
+                if (isStored) // most common.
+                {
+                    if (actual != expect)
+                        return false;
+                }
+                else
+                {
+                    if (actual > expect)
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static int GetMoveUps(PK4 pk, int index) => index switch
+    {
+        0 => pk.Move1_PPUps,
+        1 => pk.Move2_PPUps,
+        2 => pk.Move3_PPUps,
+        _ => pk.Move4_PPUps,
+    };
+
+    private static int GetMovePP(PK4 pk, int index) => index switch
+    {
+        0 => pk.Move1_PP,
+        1 => pk.Move2_PP,
+        2 => pk.Move3_PP,
+        _ => pk.Move4_PP,
+    };
+
+    private void LoadInitialMoves(Span<ushort> tmp)
+    {
+        ILearnSource source = LearnSource4HGSS.Instance;
+        source.SetEncounterMoves(Species, Form, Level, tmp);
+    }
+
+    private static void LoadInitialPP(ReadOnlySpan<ushort> moves, Span<byte> pp)
+    {
+        var table = MoveInfo4.PP;
+        for (int i = 0; i < moves.Length; i++)
+        {
+            var move = moves[i];
+            if (move != 0)
+                pp[i] = table[move];
+        }
     }
 
     private void SetPINGA(PK4 pk, in EncounterCriteria criteria, PersonalInfo4 pi)
@@ -185,6 +322,10 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
             return EncounterMatchRating.PartialMatch;
         if (pk.IsShiny)
             return EncounterMatchRating.DeferredErrors;
+
+        // Thunder Wave (4 moves) is before the other potential matches. Need to yield the glitched move one first.
+        if (Species is (int)Pikachu && Level == 10 && Moves.Move4 != 0 && !pk.HasMove(Moves.Move4))
+            return EncounterMatchRating.Deferred;
         return EncounterMatchRating.Match;
     }
 
@@ -203,4 +344,22 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     }
 
     public PIDType GetSuggestedCorrelation() => PIDType.Pokewalker;
+
+    private const byte NoLevelUpMoves = 0;
+
+    private static bool IsPossibleGlitched(ushort species, byte lvl) =>
+        (species is (int)Pikachu && lvl == 10) ||
+        (species is (int)Geodude && lvl == 8);
+
+    private static byte GetNextLearnedMoveLevel(ushort species, ushort currentSpecies, byte lvl) => species switch
+    {
+        // Mud Slap instead of Mud Sport, no Tackle
+        (int)Geodude when lvl == 8 => 11,
+
+        // Can dodge via evolving before the level threshold. No further level-up moves.
+        // There's one Pikachu encounter without Thunder Wave at level 10.
+        (int)Pikachu when lvl == 10 => currentSpecies != species ? NoLevelUpMoves : (byte)13,
+
+        _ => NoLevelUpMoves, // No further level up moves
+    };
 }
