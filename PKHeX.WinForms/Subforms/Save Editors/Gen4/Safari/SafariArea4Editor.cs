@@ -24,6 +24,8 @@ public sealed partial class SafariArea4Editor : UserControl
         DGV_Type.DataSource = new BindingSource(ObjectNames, string.Empty);
     }
 
+    public bool IsAutoCount => CHK_Auto.Checked;
+
     public void LoadData()
     {
         IsLoading = true;

@@ -61,17 +61,15 @@ public sealed partial class SAV_Safari4 : Form
 
         for (int i = 0; i < selfTabs.Length; i++)
         {
-            var editor = new SafariArea4Editor(Self.Configurations[i]);
+            var editor = new SafariArea4Editor(Self.Configurations[i]) { Dock = DockStyle.Fill };
             SelfAreaEditors[i] = editor;
-            editor.Dock = DockStyle.Fill;
             selfTabs[i].Controls.Add(editor);
         }
 
         for (int i = 0; i < linkTabs.Length; i++)
         {
-            var editor = new SafariArea4Editor(Link.Configurations[i]);
+            var editor = new SafariArea4Editor(Link.Configurations[i]) { Dock = DockStyle.Fill };
             LinkAreaEditors[i] = editor;
-            editor.Dock = DockStyle.Fill;
             linkTabs[i].Controls.Add(editor);
         }
     }
@@ -99,23 +97,31 @@ public sealed partial class SAV_Safari4 : Form
         NUD_ObjectUnlockLevel.Value = Safari.ObjectUnlockLevel;
         NUD_AreaSwitcherState.Value = Safari.AreaSwitcherState;
 
-        LoadLevelGrid(DGV_SelfAges, Self);
-        LoadLevelGrid(DGV_LinkAges, Link);
+        LoadAgeGrid(DGV_SelfAges, Self);
+        LoadAgeGrid(DGV_LinkAges, Link);
 
         IsLoading = false;
     }
 
     private void SaveCurrentViews()
     {
-        foreach (var editor in SelfAreaEditors)
+        for (var i = 0; i < SelfAreaEditors.Length; i++)
+        {
+            var editor = SelfAreaEditors[i];
             editor.SaveData();
-        foreach (var editor in LinkAreaEditors)
-            editor.SaveData();
+            Self.FlushConfiguration(i, editor.IsAutoCount);
+        }
 
+        for (var i = 0; i < LinkAreaEditors.Length; i++)
+        {
+            var editor = LinkAreaEditors[i];
+            editor.SaveData();
+            Link.FlushConfiguration(i, editor.IsAutoCount);
+        }
+
+        Self.FlushMapAges();
+        Link.FlushMapAges();
         SaveGeneral();
-
-        Self.Flush();
-        Link.Flush();
     }
 
     private void SaveGeneral()
@@ -144,7 +150,7 @@ public sealed partial class SAV_Safari4 : Form
         }
     }
 
-    private static void LoadLevelGrid(DataGridView grid, SafariZoneAreaSet4 set) => PopulateAgeGrid(grid, set);
+    private static void LoadAgeGrid(DataGridView grid, SafariZoneAreaSet4 set) => PopulateAgeGrid(grid, set);
 
     private static byte ParseAgeCell(object? value)
     {

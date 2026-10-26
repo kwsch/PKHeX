@@ -9,7 +9,7 @@ public sealed class SafariZoneAreaSet4(Memory<byte> Raw)
     public const int MapCountConfiguration = 6;
     private const int MapCountTotal = 12;
 
-    public const int SIZE = MapCountConfiguration * SafariZoneArea4.SIZE + MapCountTotal;
+    public const int SIZE = MapCountConfiguration * SafariZoneArea4.SIZE + MapCountTotal; // 0x2E8
 
     public SafariZoneArea4[] Configurations { get; } = ReadConfigurations(Raw.Span); // raw offset 0xC13C within the save file.
     private byte[] AreaAges { get; } = ReadMapAges(Raw.Span[(MapCountConfiguration * SafariZoneArea4.SIZE)..]);
@@ -18,11 +18,7 @@ public sealed class SafariZoneAreaSet4(Memory<byte> Raw)
     public byte GetMapAge(SafariZoneType4 map) => AreaAges[(int)map];
     public void SetMapAge(SafariZoneType4 map, byte level) => AreaAges[(int)map] = level;
 
-    public void Flush(bool autoCount = false)
-    {
-        WriteConfigurations(Data, Configurations, autoCount);
-        WriteMapAges(Data[(MapCountConfiguration * SafariZoneArea4.SIZE)..], AreaAges);
-    }
+    public void FlushMapAges() => WriteMapAges(Data[(MapCountConfiguration * SafariZoneArea4.SIZE)..], AreaAges);
 
     private static SafariZoneArea4[] ReadConfigurations(ReadOnlySpan<byte> data)
     {
@@ -35,13 +31,11 @@ public sealed class SafariZoneAreaSet4(Memory<byte> Raw)
         return result;
     }
 
-    private static void WriteConfigurations(Span<byte> result, ReadOnlySpan<SafariZoneArea4> configurations, bool autoCount)
+    public void FlushConfiguration(int configurationIndex, bool autoCount = false)
     {
-        for (int i = 0; i < configurations.Length; i++)
-        {
-            var slice = result.Slice(i * SafariZoneArea4.SIZE, SafariZoneArea4.SIZE);
-            configurations[i].Write(slice, autoCount);
-        }
+        var configuration = Configurations[configurationIndex];
+        var slice = Data.Slice(configurationIndex * SafariZoneArea4.SIZE, SafariZoneArea4.SIZE);
+        configuration.Write(slice, autoCount);
     }
 
     private static byte[] ReadMapAges(ReadOnlySpan<byte> data) => [.. data[..MapCountTotal]];
