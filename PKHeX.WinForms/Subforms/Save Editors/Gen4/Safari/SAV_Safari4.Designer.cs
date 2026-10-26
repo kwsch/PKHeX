@@ -301,6 +301,7 @@ namespace PKHeX.WinForms
             DGV_SelfArea.Name = "DGV_SelfArea";
             DGV_SelfArea.ReadOnly = true;
             DGV_SelfArea.Width = 60;
+            DGV_SelfArea.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // DGV_SelfAge
             // 
@@ -308,6 +309,7 @@ namespace PKHeX.WinForms
             DGV_SelfAge.MaxInputLength = 3;
             DGV_SelfAge.Name = "DGV_SelfAge";
             DGV_SelfAge.Width = 56;
+            DGV_SelfAge.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // B_MaxAllSelf
             // 
@@ -447,6 +449,7 @@ namespace PKHeX.WinForms
             DGV_LinkArea.Name = "DGV_LinkArea";
             DGV_LinkArea.ReadOnly = true;
             DGV_LinkArea.Width = 60;
+            DGV_LinkArea.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // DGV_LinkAge
             // 
@@ -454,6 +457,7 @@ namespace PKHeX.WinForms
             DGV_LinkAge.MaxInputLength = 3;
             DGV_LinkAge.Name = "DGV_LinkAge";
             DGV_LinkAge.Width = 56;
+            DGV_LinkAge.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // B_MaxAllLink
             // 

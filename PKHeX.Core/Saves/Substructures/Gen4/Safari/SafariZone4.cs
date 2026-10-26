@@ -43,6 +43,6 @@ public sealed class SafariZone4(Memory<byte> Raw)
     public byte AreaSwitcherState // 0 or 1, even though 2 bits are available
     {
         get => (byte)((Flags >> 6) & 0x03);
-        set => Flags = (byte)((Flags & 0x3F) | (((value == 1 ? 1 : 0) & 0x03) << 6));
+        set => Flags = (byte)((Flags & 0x3F) | (((value == 1 ? 1 : 0) & 0x03) << 6)); // ignore 2 & 3, only 0 or 1 is valid
     }
 }

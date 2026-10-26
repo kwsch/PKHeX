@@ -26,13 +26,13 @@ namespace PKHeX.WinForms
             B_Export = new System.Windows.Forms.Button();
             B_ClearAll = new System.Windows.Forms.Button();
             DGV_Objects = new System.Windows.Forms.DataGridView();
-            FLP_Count = new System.Windows.Forms.FlowLayoutPanel();
-            NUD_Count = new System.Windows.Forms.NumericUpDown();
-            CHK_Auto = new System.Windows.Forms.CheckBox();
             DGV_Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             DGV_X = new System.Windows.Forms.DataGridViewTextBoxColumn();
             DGV_Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
             DGV_Z = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            FLP_Count = new System.Windows.Forms.FlowLayoutPanel();
+            NUD_Count = new System.Windows.Forms.NumericUpDown();
+            CHK_Auto = new System.Windows.Forms.CheckBox();
             TLP_Main.SuspendLayout();
             FLP_Actions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DGV_Objects).BeginInit();
@@ -66,7 +66,7 @@ namespace PKHeX.WinForms
             // 
             L_Map.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Map.AutoSize = true;
-            L_Map.Location = new System.Drawing.Point(7, 11);
+            L_Map.Location = new System.Drawing.Point(3, 7);
             L_Map.Name = "L_Map";
             L_Map.Size = new System.Drawing.Size(38, 17);
             L_Map.TabIndex = 0;
@@ -75,7 +75,7 @@ namespace PKHeX.WinForms
             // CB_Map
             // 
             CB_Map.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_Map.Location = new System.Drawing.Point(51, 7);
+            CB_Map.Location = new System.Drawing.Point(47, 3);
             CB_Map.Name = "CB_Map";
             CB_Map.Size = new System.Drawing.Size(180, 25);
             CB_Map.TabIndex = 1;
@@ -84,7 +84,7 @@ namespace PKHeX.WinForms
             // 
             L_Count.Anchor = System.Windows.Forms.AnchorStyles.Right;
             L_Count.AutoSize = true;
-            L_Count.Location = new System.Drawing.Point(26, 42);
+            L_Count.Location = new System.Drawing.Point(22, 38);
             L_Count.Name = "L_Count";
             L_Count.Size = new System.Drawing.Size(19, 17);
             L_Count.TabIndex = 2;
@@ -98,9 +98,9 @@ namespace PKHeX.WinForms
             FLP_Actions.Controls.Add(B_Export);
             FLP_Actions.Controls.Add(B_ClearAll);
             FLP_Actions.Dock = System.Windows.Forms.DockStyle.Fill;
-            FLP_Actions.Location = new System.Drawing.Point(7, 69);
+            FLP_Actions.Location = new System.Drawing.Point(3, 65);
             FLP_Actions.Name = "FLP_Actions";
-            FLP_Actions.Size = new System.Drawing.Size(406, 33);
+            FLP_Actions.Size = new System.Drawing.Size(414, 33);
             FLP_Actions.TabIndex = 4;
             // 
             // B_Import
@@ -147,42 +147,11 @@ namespace PKHeX.WinForms
             TLP_Main.SetColumnSpan(DGV_Objects, 2);
             DGV_Objects.Dock = System.Windows.Forms.DockStyle.Fill;
             DGV_Objects.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            DGV_Objects.Location = new System.Drawing.Point(7, 108);
+            DGV_Objects.Location = new System.Drawing.Point(3, 104);
             DGV_Objects.Name = "DGV_Objects";
             DGV_Objects.RowHeadersVisible = false;
-            DGV_Objects.Size = new System.Drawing.Size(406, 185);
+            DGV_Objects.Size = new System.Drawing.Size(414, 193);
             DGV_Objects.TabIndex = 5;
-            // 
-            // FLP_Count
-            // 
-            FLP_Count.AutoSize = true;
-            FLP_Count.Controls.Add(NUD_Count);
-            FLP_Count.Controls.Add(CHK_Auto);
-            FLP_Count.Dock = System.Windows.Forms.DockStyle.Fill;
-            FLP_Count.Location = new System.Drawing.Point(48, 35);
-            FLP_Count.Margin = new System.Windows.Forms.Padding(0);
-            FLP_Count.Name = "FLP_Count";
-            FLP_Count.Size = new System.Drawing.Size(368, 31);
-            FLP_Count.TabIndex = 6;
-            // 
-            // NUD_Count
-            // 
-            NUD_Count.Location = new System.Drawing.Point(3, 3);
-            NUD_Count.Maximum = new decimal(new int[] { 30, 0, 0, 0 });
-            NUD_Count.Name = "NUD_Count";
-            NUD_Count.Size = new System.Drawing.Size(50, 25);
-            NUD_Count.TabIndex = 4;
-            // 
-            // CHK_Auto
-            // 
-            CHK_Auto.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            CHK_Auto.AutoSize = true;
-            CHK_Auto.Location = new System.Drawing.Point(59, 5);
-            CHK_Auto.Name = "CHK_Auto";
-            CHK_Auto.Size = new System.Drawing.Size(54, 21);
-            CHK_Auto.TabIndex = 5;
-            CHK_Auto.Text = "Auto";
-            CHK_Auto.UseVisualStyleBackColor = true;
             // 
             // DGV_Type
             // 
@@ -216,6 +185,39 @@ namespace PKHeX.WinForms
             DGV_Z.MaxInputLength = 3;
             DGV_Z.Name = "DGV_Z";
             DGV_Z.Width = 40;
+            // 
+            // FLP_Count
+            // 
+            FLP_Count.AutoSize = true;
+            FLP_Count.Controls.Add(NUD_Count);
+            FLP_Count.Controls.Add(CHK_Auto);
+            FLP_Count.Dock = System.Windows.Forms.DockStyle.Fill;
+            FLP_Count.Location = new System.Drawing.Point(44, 31);
+            FLP_Count.Margin = new System.Windows.Forms.Padding(0);
+            FLP_Count.Name = "FLP_Count";
+            FLP_Count.Size = new System.Drawing.Size(376, 31);
+            FLP_Count.TabIndex = 6;
+            // 
+            // NUD_Count
+            // 
+            NUD_Count.Location = new System.Drawing.Point(3, 3);
+            NUD_Count.Maximum = new decimal(new int[] { 30, 0, 0, 0 });
+            NUD_Count.Name = "NUD_Count";
+            NUD_Count.Size = new System.Drawing.Size(50, 25);
+            NUD_Count.TabIndex = 4;
+            NUD_Count.ValueChanged += NUD_Count_ValueChanged;
+            // 
+            // CHK_Auto
+            // 
+            CHK_Auto.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CHK_Auto.AutoSize = true;
+            CHK_Auto.Checked = true;
+            CHK_Auto.Location = new System.Drawing.Point(59, 5);
+            CHK_Auto.Name = "CHK_Auto";
+            CHK_Auto.Size = new System.Drawing.Size(54, 21);
+            CHK_Auto.TabIndex = 5;
+            CHK_Auto.Text = "Auto";
+            CHK_Auto.UseVisualStyleBackColor = true;
             // 
             // SafariArea4Editor
             // 

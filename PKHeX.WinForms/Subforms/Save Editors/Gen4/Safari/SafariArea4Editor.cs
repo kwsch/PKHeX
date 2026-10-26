@@ -1,5 +1,6 @@
 using PKHeX.Core;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -16,6 +17,7 @@ public sealed partial class SafariArea4Editor : UserControl
     {
         Area = area;
         InitializeComponent();
+        DGV_Objects.RowCount = 30;
 
         var zoneNames = WinFormsTranslator.GetEnumTranslation<SafariZoneType4>(Main.CurrentLanguage);
         CB_Map.Items.AddRange(zoneNames);
@@ -26,7 +28,6 @@ public sealed partial class SafariArea4Editor : UserControl
     {
         IsLoading = true;
         CB_Map.SelectedIndex = Math.Min(CB_Map.Items.Count - 1, (int)Area.Map);
-        NUD_Count.Value = Math.Min(NUD_Count.Maximum, Area.Count);
         LoadObjects();
         IsLoading = false;
     }
@@ -43,9 +44,7 @@ public sealed partial class SafariArea4Editor : UserControl
 
     private void LoadObjects()
     {
-        DGV_Objects.Rows.Clear();
-        DGV_Objects.Rows.Add(SafariZoneArea4.BlockCount);
-
+        NUD_Count.Value = Math.Min(NUD_Count.Maximum, Area.Count);
         for (int i = 0; i < Area.Objects.Length; i++)
         {
             var obj = Area.Objects[i];
@@ -127,7 +126,7 @@ public sealed partial class SafariArea4Editor : UserControl
     {
         if (value is string s && ObjectNames.IndexOf(s) is var index and >= 0)
             return (SafariZoneObjectType4)index;
-        return SafariZoneObjectType4.None;
+        return default;
     }
 
     private static byte ParseByte(object? value)
@@ -147,5 +146,16 @@ public sealed partial class SafariArea4Editor : UserControl
         Area.ClearObjects();
         LoadObjects();
         WinFormsUtil.Asterisk();
+    }
+
+    private void NUD_Count_ValueChanged(object sender, EventArgs e)
+    {
+        // Color the rows based on the count.
+        var count = (int)NUD_Count.Value;
+        for (int i = 0; i < DGV_Objects.Rows.Count; i++)
+        {
+            var row = DGV_Objects.Rows[i];
+            row.DefaultCellStyle.BackColor = i < count ? SystemColors.Control : SystemColors.Window;
+        }   
     }
 }

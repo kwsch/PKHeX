@@ -10,6 +10,7 @@ public struct SafariZoneObject4
     public byte X { get; set; }
     public byte Y { get; set; }
     public byte Z { get; set; }
+    public bool IsEmpty => Type == 0 && X == 0 && Y == 0 && Z == 0;
 
     /// <summary> Initializes an empty object. </summary>
     public SafariZoneObject4() { }

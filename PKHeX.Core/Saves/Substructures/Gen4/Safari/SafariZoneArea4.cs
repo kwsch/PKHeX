@@ -57,8 +57,8 @@ public sealed class SafariZoneArea4
         // Empty type slots will be sorted to the end.
         Array.Sort(Objects, (a, b) =>
         {
-            if (a.Type == SafariZoneObjectType4.None) return 1;
-            if (b.Type == SafariZoneObjectType4.None) return -1;
+            if (a is { IsEmpty: true }) return 1;
+            if (b is { IsEmpty: true }) return -1;
 
             int typeComparison = a.Type.CompareTo(b.Type);
             if (typeComparison != 0) return typeComparison;
@@ -77,7 +77,7 @@ public sealed class SafariZoneArea4
         for (var i = 0; i < Objects.Length; i++)
         {
             ref var obj = ref Objects[i];
-            if (obj.Type == SafariZoneObjectType4.None)
+            if (obj.IsEmpty)
                 obj = default;
             else
                 count++;
@@ -103,5 +103,6 @@ public sealed class SafariZoneArea4
     {
         for (var i = 0; i < Objects.Length; i++)
             Objects[i] = default;
+        Count = 0;
     }
 }
