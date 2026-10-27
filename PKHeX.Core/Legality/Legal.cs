@@ -186,6 +186,8 @@ public static class Legal
         _ => -1,
     };
 
+    internal static int GetMaxLanguageIDHOME() => (int)LanguageID.SpanishL;
+
     /// <summary>
     /// Checks if the relearn moves should be wiped.
     /// </summary>

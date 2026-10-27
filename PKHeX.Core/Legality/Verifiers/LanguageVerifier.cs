@@ -16,7 +16,10 @@ public sealed class LanguageVerifier : Verifier
         var pk = data.Entity;
         var originalGeneration = data.Info.Generation;
         var currentLanguage = (LanguageID)pk.Language;
-        var maxLanguageID = (LanguageID)Legal.GetMaxLanguageID(originalGeneration, data.EncounterOriginal.Context);
+        var maxLanguageID = pk.GO
+            ? (LanguageID)Legal.GetMaxLanguageIDHOME() // Not constrained to Gen8 languages.
+            : (LanguageID)Legal.GetMaxLanguageID(originalGeneration, data.EncounterOriginal.Context);
+
         var enc = data.EncounterMatch;
         if (!IsValidLanguageID(currentLanguage, maxLanguageID, pk, enc))
         {
