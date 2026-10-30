@@ -16,7 +16,7 @@
   { "Token": "EVs", "Text": "EVs: " },
   { "Token": "IVs", "Text": "IVs: " },
   { "Token": "AVs", "Text": "AVs: " },
-  { "Token": "GVs", "Text": "GVs: " },
+  { "Token": "GVs", "Text": "NEs: " },
   { "Token": "SPs", "Text": "SPs: " },
   { "Token": "Level", "Text": "Nivel: " },
   { "Token": "Ability", "Text": "Habilidad: " },
