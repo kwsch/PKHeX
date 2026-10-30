@@ -258,12 +258,13 @@ public static class EncounterServerDate
         {0102, new(2025, 10, 23, 2026, 02, 01, +2)}, // Slowpoke PokéCenter Gift
         {0101, new(2025, 10, 31, 2027, 02, 01)}, // PokéCenter Audino Birthday Gift
         {1607, new(2025, 12, 09, 2026, 01, 20)}, // Alpha Charizard
+        {1615, new(2026, 10, 28, 2026, 11, 19)}, // Spewpa
 
         {0603, new(2026, 08, 28)}, // WCS 2026 Greninja
 
         {9031, new(2026, 04, 02)}, // Alpha Chikorita
         {9032, new(2026, 04, 02)}, // Alpha Tepig
         {9033, new(2026, 04, 02)}, // Alpha Totodile
-        {9034, new(2026, 04, 26)}, // Shiny Volcanion 
+        {9034, new(2026, 04, 26)}, // Shiny Volcanion
     };
 }
