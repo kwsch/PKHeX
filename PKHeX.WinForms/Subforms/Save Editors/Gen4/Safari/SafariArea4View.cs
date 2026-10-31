@@ -58,7 +58,7 @@ public sealed partial class SafariArea4View : UserControl
     }
 
     /// <summary> Updates a single object. </summary>
-    public void SetObject(int index, in SafariZoneObject4 obj)
+    public void SetObject(int index, SafariZoneObject4 obj)
     {
         if ((uint)index >= MaxObjects)
             return;
@@ -114,7 +114,7 @@ public sealed partial class SafariArea4View : UserControl
         }
     }
 
-    private void DrawObject(Graphics g, int index, in SafariZoneObject4 obj, int ox, int oy, int cell)
+    private void DrawObject(Graphics g, int index, SafariZoneObject4 obj, int ox, int oy, int cell)
     {
         var (w, d) = SafariZoneMap4.GetSize(obj.Type);
         var rect = new Rectangle(ox + (obj.X * cell), oy + (obj.Z * cell), w * cell, d * cell);
