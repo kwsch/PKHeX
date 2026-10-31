@@ -35,6 +35,7 @@ public partial class SAV_Trainer8 : Form
         ChangeTitleScreenIndex(this, EventArgs.Empty);
         ChangeTrainerCardIndex(this, EventArgs.Empty);
         CB_Fashion.SelectedIndex = 1;
+        B_UnlockBattleTeams.Enabled = SAV.TeamIndexes.IsAnyTeamLocked();
 
         if (SAV.SaveRevision == 0)
             B_CollectDiglett.Visible = false;
@@ -214,6 +215,13 @@ public partial class SAV_Trainer8 : Form
             return;
         var trash = tb == TB_OTName ? SAV.MyStatus.OriginalTrainerTrash : SAV.Blocks.TrainerCard.OriginalTrainerTrash;
         TrashEditor.Show(tb, SAV, trash);
+    }
+
+    private void B_UnlockBattleTeams_Click(object sender, EventArgs e)
+    {
+        SAV.TeamIndexes.UnlockAllTeams();
+        B_UnlockBattleTeams.Enabled = false;
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)

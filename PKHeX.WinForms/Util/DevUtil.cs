@@ -230,6 +230,7 @@ public static class DevUtil
         $"{nameof(SAV_Pokedex9a)}.CHK_SeenMega", // Dynamic text checkbox
         $"{nameof(SAV_Misc3)}.L_Stat", // Dynamic labels
         $"{nameof(SAV_Donut9a)}.L_Stat", // Dynamic labels
+        $"{nameof(SAV_Safari4)}.L_Coordinates", // Dynamic labels
 
         // unknown fields in Join Avenue, not worth translating until we know what they do.
         $"{nameof(SAV_JoinAvenue)}.L_Unk",

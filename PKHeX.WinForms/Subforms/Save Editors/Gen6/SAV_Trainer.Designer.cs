@@ -40,6 +40,7 @@ namespace PKHeX.WinForms
             L_TRNick = new System.Windows.Forms.Label();
             TB_TRNick = new PKHeX.WinForms.Controls.RenderedString();
             B_GiveAccessories = new System.Windows.Forms.Button();
+            B_UnlockBattleBox = new System.Windows.Forms.Button();
             Tab_Multiplayer = new System.Windows.Forms.TabPage();
             CHK_MegaRayquazaUnlocked = new System.Windows.Forms.CheckBox();
             CHK_MegaUnlocked = new System.Windows.Forms.CheckBox();
@@ -274,6 +275,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_Multiplayer
             // 
+            Tab_Multiplayer.Controls.Add(B_UnlockBattleBox);
             Tab_Multiplayer.Controls.Add(CHK_MegaRayquazaUnlocked);
             Tab_Multiplayer.Controls.Add(CHK_MegaUnlocked);
             Tab_Multiplayer.Controls.Add(L_MultiplayerSprite);
@@ -288,6 +290,17 @@ namespace PKHeX.WinForms
             Tab_Multiplayer.TabIndex = 1;
             Tab_Multiplayer.Text = "Multiplayer";
             Tab_Multiplayer.UseVisualStyleBackColor = true;
+            // 
+            // B_UnlockBattleBox
+            // 
+            B_UnlockBattleBox.Location = new System.Drawing.Point(7, 250);
+            B_UnlockBattleBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_UnlockBattleBox.Name = "B_UnlockBattleBox";
+            B_UnlockBattleBox.Size = new System.Drawing.Size(130, 35);
+            B_UnlockBattleBox.TabIndex = 78;
+            B_UnlockBattleBox.Text = "Unlock Battle Box";
+            B_UnlockBattleBox.UseVisualStyleBackColor = true;
+            B_UnlockBattleBox.Click += B_UnlockBattleBox_Click;
             // 
             // CHK_MegaRayquazaUnlocked
             // 
@@ -1820,6 +1833,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_TRNick;
         private PKHeX.WinForms.Controls.RenderedString TB_TRNick;
         private System.Windows.Forms.Button B_GiveAccessories;
+        private System.Windows.Forms.Button B_UnlockBattleBox;
         private System.Windows.Forms.TabPage Tab_Multiplayer;
         private System.Windows.Forms.CheckBox CHK_MegaRayquazaUnlocked;
         private System.Windows.Forms.CheckBox CHK_MegaUnlocked;

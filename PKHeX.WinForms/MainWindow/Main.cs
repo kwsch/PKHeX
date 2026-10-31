@@ -350,8 +350,10 @@ public partial class Main : Form
 
         PKME_Tabs_UpdatePreviewSprite(sender, e);
         if (C_SAV.SAV.HasBox)
-            C_SAV.ReloadSlots();
+            ReloadSlots();
     }
+
+    public void ReloadSlots() => C_SAV.ReloadSlots();
 
     private void ReloadProgramSettings(PKHeXSettings settings, bool skipCore = false)
     {

@@ -143,6 +143,7 @@ namespace PKHeX.WinForms
             CB_SkinColor = new System.Windows.Forms.ComboBox();
             B_Fashion = new System.Windows.Forms.Button();
             B_CollectDiglett = new System.Windows.Forms.Button();
+            B_UnlockBattleTeams = new System.Windows.Forms.Button();
             GB_BattleTower = new System.Windows.Forms.GroupBox();
             MT_BattleTowerDoublesStreak = new System.Windows.Forms.MaskedTextBox();
             L_Doubles = new System.Windows.Forms.Label();
@@ -1247,6 +1248,7 @@ namespace PKHeX.WinForms
             Tab_MiscValues.Controls.Add(CB_SkinColor);
             Tab_MiscValues.Controls.Add(B_Fashion);
             Tab_MiscValues.Controls.Add(B_CollectDiglett);
+            Tab_MiscValues.Controls.Add(B_UnlockBattleTeams);
             Tab_MiscValues.Controls.Add(GB_BattleTower);
             Tab_MiscValues.Location = new System.Drawing.Point(4, 24);
             Tab_MiscValues.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -1309,6 +1311,17 @@ namespace PKHeX.WinForms
             B_CollectDiglett.Text = "Collect All Diglett";
             B_CollectDiglett.UseVisualStyleBackColor = true;
             B_CollectDiglett.Click += B_GetAllDiglett_Click;
+            // 
+            // B_UnlockBattleTeams
+            // 
+            B_UnlockBattleTeams.Location = new System.Drawing.Point(285, 215);
+            B_UnlockBattleTeams.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_UnlockBattleTeams.Name = "B_UnlockBattleTeams";
+            B_UnlockBattleTeams.Size = new System.Drawing.Size(154, 78);
+            B_UnlockBattleTeams.TabIndex = 7;
+            B_UnlockBattleTeams.Text = "Unlock Battle Teams";
+            B_UnlockBattleTeams.UseVisualStyleBackColor = true;
+            B_UnlockBattleTeams.Click += B_UnlockBattleTeams_Click;
             // 
             // GB_BattleTower
             // 
@@ -1700,6 +1713,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_SkinColor;
         private System.Windows.Forms.ComboBox CB_SkinColor;
         private System.Windows.Forms.Button B_Fashion;
+        private System.Windows.Forms.Button B_UnlockBattleTeams;
         private System.Windows.Forms.Button B_ResetAppearance;
     }
 }

@@ -76,6 +76,16 @@ public sealed class TeamIndexes8 : ITeamIndexSet
         }
     }
 
+    public bool IsAnyTeamLocked()
+    {
+        for (int i = 0; i < TeamCount; i++)
+        {
+            if (GetIsTeamLocked(i))
+                return true;
+        }
+        return false;
+    }
+
     public bool GetIsTeamLocked(int team) => FlagUtil.GetFlag(Locks.Data, 0, team);
     public void SetIsTeamLocked(int team, bool value) => FlagUtil.SetFlag(Locks.Data, 0, team, value);
 }

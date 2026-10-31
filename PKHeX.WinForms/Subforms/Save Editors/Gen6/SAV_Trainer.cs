@@ -40,6 +40,8 @@ public partial class SAV_Trainer : Form
         L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled =
             L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible = PB_Sprite.Visible = SAV is not SAV6AODemo;
         CHK_MegaRayquazaUnlocked.Visible = SAV is SAV6AO;
+        B_UnlockBattleBox.Visible = SAV is ISaveBlock6Main;
+        B_UnlockBattleBox.Enabled = SAV is ISaveBlock6Main { BattleBox.Locked: true };
 
         L_Style.Visible = TB_Style.Visible = SAV is SAV6XY;
         if (SAV is not SAV6XY)
@@ -301,6 +303,15 @@ public partial class SAV_Trainer : Form
         uint tsv = (TID16 ^ SID16) >> 4;
         Tip1.SetToolTip(MT_TID, $"TSV: {tsv:0000}");
         Tip2.SetToolTip(MT_SID, $"TSV: {tsv:0000}");
+    }
+
+    private void B_UnlockBattleBox_Click(object sender, EventArgs e)
+    {
+        if (SAV is ISaveBlock6Main main)
+            main.BattleBox.Locked = false;
+        B_UnlockBattleBox.Enabled = false;
+        Application.OpenForms.OfType<Main>().First().ReloadSlots();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)

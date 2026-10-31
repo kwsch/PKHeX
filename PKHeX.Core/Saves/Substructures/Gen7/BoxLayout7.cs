@@ -16,7 +16,7 @@ public sealed class BoxLayout7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav
 
     private const int StringMaxLength = SAV6.LongStringLength / 2;
 
-    private const int TeamCount = 6;
+    public const int TeamCount = 6;
     private const int NONE_SELECTED = -1;
     public readonly int[] TeamSlots = new int[TeamCount * 6];
 
@@ -116,6 +116,17 @@ public sealed class BoxLayout7(SAV7 sav, Memory<byte> raw) : SaveBlock<SAV7>(sav
     }
 
     public bool GetIsTeamLocked(int team) => Data[PCBackgrounds - TeamCount - team] == 1;
+
+    public bool IsAnyTeamLocked()
+    {
+        for (int i = 0; i < TeamCount; i++)
+        {
+            if (GetIsTeamLocked(i))
+                return true;
+        }
+        return false;
+    }
+
     public void SetIsTeamLocked(int team, bool value) => Data[PCBackgrounds - TeamCount - team] = value ? (byte)1 : (byte)0;
 
     public string this[int i]

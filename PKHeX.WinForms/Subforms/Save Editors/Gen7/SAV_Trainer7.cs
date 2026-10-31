@@ -35,6 +35,7 @@ public partial class SAV_Trainer7 : Form
         TrainerStats.LoadRecords(SAV, RecordLists.RecordList_7);
         TrainerStats.GetToolTipText = UpdateTip;
         CB_Fashion.SelectedIndex = 1;
+        B_UnlockBattleTeams.Enabled = SAV.BoxLayout.IsAnyTeamLocked();
 
         if (SAV is SAV7USUM)
             LoadUltraData();
@@ -483,6 +484,14 @@ public partial class SAV_Trainer7 : Form
             return;
 
         TrashEditor.Show(TB_OTName, SAV, SAV.MyStatus.OriginalTrainerTrash);
+    }
+
+    private void B_UnlockBattleTeams_Click(object sender, EventArgs e)
+    {
+        SAV.BoxLayout.UnlockAllTeams();
+        B_UnlockBattleTeams.Enabled = false;
+        Application.OpenForms.OfType<Main>().First().ReloadSlots();
+        WinFormsUtil.Asterisk();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)
