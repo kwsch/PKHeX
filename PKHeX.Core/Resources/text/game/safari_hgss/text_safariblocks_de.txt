@@ -1,0 +1,24 @@
+Buchsbaum
+Rote Blume
+Weiße Blume
+Baum
+Baumstumpf
+Äste
+Kleiner Fels
+Großer Fels
+Moosstein
+Pfütze
+Springbrunn.
+Trinkbrunnen
+Bank
+Kurz. Zaun 1
+Kurz. Zaun 2
+Lg. Zaun 1
+Lg. Zaun 2
+Schild
+Denkmal
+Flagge
+Straßenlampe
+Wegweiser R
+Wegweiser L
+Mülleimer

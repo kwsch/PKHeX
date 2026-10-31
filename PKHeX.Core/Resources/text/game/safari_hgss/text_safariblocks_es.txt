@@ -1,0 +1,24 @@
+Arbusto
+Geranio
+Rosa
+Árbol
+Tocón
+Rama
+Roca pequeña
+Roca grande
+Roca musgo
+Charco
+Géiser
+Fuente
+Banco
+Valla corta1
+Valla corta2
+Valla larga1
+Valla larga2
+Tablón
+Estatua
+Bandera
+Farola
+Poste a dcha
+Poste a izda
+Papelera

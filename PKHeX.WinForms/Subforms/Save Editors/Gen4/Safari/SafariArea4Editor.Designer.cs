@@ -25,6 +25,8 @@ namespace PKHeX.WinForms
             B_Import = new System.Windows.Forms.Button();
             B_Export = new System.Windows.Forms.Button();
             B_ClearAll = new System.Windows.Forms.Button();
+            TLP_Grid = new System.Windows.Forms.TableLayoutPanel();
+            View_Map = new SafariArea4View();
             DGV_Objects = new System.Windows.Forms.DataGridView();
             DGV_Type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             DGV_X = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -35,6 +37,7 @@ namespace PKHeX.WinForms
             CHK_Auto = new System.Windows.Forms.CheckBox();
             TLP_Main.SuspendLayout();
             FLP_Actions.SuspendLayout();
+            TLP_Grid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DGV_Objects).BeginInit();
             FLP_Count.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Count).BeginInit();
@@ -49,7 +52,7 @@ namespace PKHeX.WinForms
             TLP_Main.Controls.Add(CB_Map, 1, 0);
             TLP_Main.Controls.Add(L_Count, 0, 1);
             TLP_Main.Controls.Add(FLP_Actions, 0, 2);
-            TLP_Main.Controls.Add(DGV_Objects, 0, 3);
+            TLP_Main.Controls.Add(TLP_Grid, 0, 3);
             TLP_Main.Controls.Add(FLP_Count, 1, 1);
             TLP_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             TLP_Main.Location = new System.Drawing.Point(0, 0);
@@ -79,6 +82,7 @@ namespace PKHeX.WinForms
             CB_Map.Name = "CB_Map";
             CB_Map.Size = new System.Drawing.Size(180, 25);
             CB_Map.TabIndex = 1;
+            CB_Map.SelectedIndexChanged += CB_Map_SelectedIndexChanged;
             // 
             // L_Count
             // 
@@ -136,6 +140,35 @@ namespace PKHeX.WinForms
             B_ClearAll.UseVisualStyleBackColor = true;
             B_ClearAll.Click += B_ClearAll_Click;
             // 
+            // TLP_Grid
+            // 
+            TLP_Grid.ColumnCount = 2;
+            TLP_Main.SetColumnSpan(TLP_Grid, 2);
+            TLP_Grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            TLP_Grid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 270F));
+            TLP_Grid.Controls.Add(DGV_Objects, 0, 0);
+            TLP_Grid.Controls.Add(View_Map, 1, 0);
+            TLP_Grid.Dock = System.Windows.Forms.DockStyle.Fill;
+            TLP_Grid.Location = new System.Drawing.Point(3, 104);
+            TLP_Grid.Margin = new System.Windows.Forms.Padding(0);
+            TLP_Grid.Name = "TLP_Grid";
+            TLP_Grid.RowCount = 1;
+            TLP_Grid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            TLP_Grid.Size = new System.Drawing.Size(414, 193);
+            TLP_Grid.TabIndex = 7;
+            // 
+            // View_Map
+            // 
+            View_Map.Dock = System.Windows.Forms.DockStyle.Fill;
+            View_Map.Location = new System.Drawing.Point(114, 0);
+            View_Map.Margin = new System.Windows.Forms.Padding(0);
+            View_Map.Name = "View_Map";
+            View_Map.Size = new System.Drawing.Size(300, 193);
+            View_Map.TabIndex = 1;
+            View_Map.ObjectClicked += View_Map_ObjectClicked;
+            View_Map.ObjectDeleteRequested += View_Map_ObjectDeleteRequested;
+            View_Map.EmptyTileClicked += View_Map_EmptyTileClicked;
+            // 
             // DGV_Objects
             // 
             DGV_Objects.AllowUserToAddRows = false;
@@ -143,15 +176,17 @@ namespace PKHeX.WinForms
             DGV_Objects.AllowUserToResizeRows = false;
             DGV_Objects.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             DGV_Objects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DGV_Objects.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { DGV_Type, DGV_X, DGV_Y, DGV_Z });
-            TLP_Main.SetColumnSpan(DGV_Objects, 2);
+            DGV_Objects.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { DGV_Type, DGV_X, DGV_Z, DGV_Y });
             DGV_Objects.Dock = System.Windows.Forms.DockStyle.Fill;
             DGV_Objects.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            DGV_Objects.Location = new System.Drawing.Point(3, 104);
+            DGV_Objects.Location = new System.Drawing.Point(3, 3);
+            DGV_Objects.MultiSelect = false;
             DGV_Objects.Name = "DGV_Objects";
             DGV_Objects.RowHeadersVisible = false;
-            DGV_Objects.Size = new System.Drawing.Size(414, 193);
+            DGV_Objects.Size = new System.Drawing.Size(108, 187);
             DGV_Objects.TabIndex = 5;
+            DGV_Objects.CellValueChanged += DGV_Objects_CellValueChanged;
+            DGV_Objects.CurrentCellDirtyStateChanged += DGV_Objects_CurrentCellDirtyStateChanged;
             // 
             // DGV_Type
             // 
@@ -218,6 +253,7 @@ namespace PKHeX.WinForms
             CHK_Auto.TabIndex = 5;
             CHK_Auto.Text = "Auto";
             CHK_Auto.UseVisualStyleBackColor = true;
+            CHK_Auto.CheckedChanged += CHK_Auto_CheckedChanged;
             // 
             // SafariArea4Editor
             // 
@@ -229,6 +265,7 @@ namespace PKHeX.WinForms
             TLP_Main.PerformLayout();
             FLP_Actions.ResumeLayout(false);
             FLP_Actions.PerformLayout();
+            TLP_Grid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DGV_Objects).EndInit();
             FLP_Count.ResumeLayout(false);
             FLP_Count.PerformLayout();
@@ -245,6 +282,8 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.FlowLayoutPanel FLP_Actions;
         private System.Windows.Forms.Button B_Import;
         private System.Windows.Forms.Button B_Export;
+        private System.Windows.Forms.TableLayoutPanel TLP_Grid;
+        private SafariArea4View View_Map;
         private System.Windows.Forms.DataGridView DGV_Objects;
         private System.Windows.Forms.FlowLayoutPanel FLP_Count;
         private System.Windows.Forms.NumericUpDown NUD_Count;

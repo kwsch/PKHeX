@@ -53,7 +53,7 @@ public sealed class SafariZoneArea4
 
     public void SortObjects()
     {
-        // Sort the objects by type, then by X, then by Y, then by Z.
+        // Sort the objects by type, then by X, then by Z, then by Y.
         // Empty type slots will be sorted to the end.
         Array.Sort(Objects, (a, b) =>
         {
@@ -64,9 +64,9 @@ public sealed class SafariZoneArea4
             if (typeComparison != 0) return typeComparison;
             int xComparison = a.X.CompareTo(b.X);
             if (xComparison != 0) return xComparison;
-            int yComparison = a.Y.CompareTo(b.Y);
-            if (yComparison != 0) return yComparison;
-            return a.Z.CompareTo(b.Z);
+            int zComparison = a.Z.CompareTo(b.Z);
+            if (zComparison != 0) return zComparison;
+            return a.Y.CompareTo(b.Y);
         });
     }
 

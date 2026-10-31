@@ -1,0 +1,24 @@
+Boschetto
+Rossofior
+Candidofior
+Albero
+Ceppo
+Fronda
+Minisasso
+Roccione
+Rupemuschio
+Pozzanghera
+Geyser
+Abbeveratoio
+Panchina
+Minirecin. 1
+Minirecin. 2
+Maxirecin. 1
+Maxirecin. 2
+Insegna
+Statua
+Bandiera
+Lampione
+Destra
+Sinistra
+Cestino

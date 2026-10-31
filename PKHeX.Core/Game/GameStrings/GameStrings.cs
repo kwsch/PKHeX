@@ -26,6 +26,7 @@ public sealed class GameStrings : IBasicStrings
     // Misc
     public readonly string[] wallpapernames, puffs, walkercourses;
     public readonly string[] uggoods, ugspheres, ugtraps, ugtreasures;
+    public readonly string[] safariblocks;
     public readonly string[] seals, accessories, backdrops, poketchapps;
     public readonly string[] console3ds, languageNames;
     public readonly string[] wondercard7, wondercard8, wondercard9;
@@ -128,6 +129,7 @@ public sealed class GameStrings : IBasicStrings
         ugspheres = Get("ugspheres");
         ugtraps = Get("ugtraps");
         ugtreasures = Get("ugtreasures");
+        safariblocks = Get("safariblocks");
 
         seals = Get("seals");
         accessories = Get("accessories");

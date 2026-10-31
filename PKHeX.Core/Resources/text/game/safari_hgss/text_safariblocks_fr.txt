@@ -1,0 +1,24 @@
+Bosquet
+Fleur rouge
+Fleur rose
+Arbre
+Souche
+Branches
+Petit rocher
+Gros rocher
+Roc moussu
+Flaque
+Geyser
+Point d'eau
+Banc
+Mini haie 1
+Mini haie 2
+Maxi haie 1
+Maxi haie 2
+Panneau
+Statue
+Drapeau
+Lampadaire
+Signe droite
+Signe gauche
+Corbeille

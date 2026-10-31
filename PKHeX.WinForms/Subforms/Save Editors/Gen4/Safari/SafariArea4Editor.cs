@@ -11,13 +11,14 @@ public sealed partial class SafariArea4Editor : UserControl
     private readonly SafariZoneArea4 Area;
     private bool IsLoading;
 
-    private readonly string[] ObjectNames = WinFormsTranslator.GetEnumTranslation<SafariZoneObjectType4>(Main.CurrentLanguage);
+    private readonly string[] ObjectNames = GameInfo.Strings.safariblocks;
 
     public SafariArea4Editor(SafariZoneArea4 area)
     {
         Area = area;
         InitializeComponent();
         DGV_Objects.RowCount = 30;
+        NUD_Count.Enabled = !CHK_Auto.Checked;
 
         var zoneNames = WinFormsTranslator.GetEnumTranslation<SafariZoneType4>(Main.CurrentLanguage);
         CB_Map.Items.AddRange(zoneNames);
@@ -32,6 +33,7 @@ public sealed partial class SafariArea4Editor : UserControl
         CB_Map.SelectedIndex = Math.Min(CB_Map.Items.Count - 1, (int)Area.Map);
         LoadObjects();
         IsLoading = false;
+        RefreshView();
     }
 
     public void SaveData()
@@ -53,24 +55,144 @@ public sealed partial class SafariArea4Editor : UserControl
             var row = DGV_Objects.Rows[i].Cells;
             row[0].Value = ObjectNames[Math.Min((int)obj.Type, (ObjectNames.Length - 1))];
             row[1].Value = obj.X.ToString();
-            row[2].Value = obj.Y.ToString();
-            row[3].Value = obj.Z.ToString();
+            row[2].Value = obj.Z.ToString();
+            row[3].Value = obj.Y.ToString();
         }
     }
 
     private void SaveObjects()
     {
         for (int i = 0; i < Area.Objects.Length; i++)
+            Area.Objects[i] = ReadRow(i);
+    }
+
+    private SafariZoneObject4 ReadRow(int index)
+    {
+        var row = DGV_Objects.Rows[index].Cells;
+        return new SafariZoneObject4
         {
-            var row = DGV_Objects.Rows[i].Cells;
-            Area.Objects[i] = new SafariZoneObject4
-            {
-                Type = ParseType(row[0].Value),
-                X = ParseByte(row[1].Value),
-                Y = ParseByte(row[2].Value),
-                Z = ParseByte(row[3].Value),
-            };
+            Type = ParseType(row[0].Value),
+            X = ParseByte(row[1].Value),
+            Z = ParseByte(row[2].Value),
+            Y = ParseByte(row[3].Value),
+        };
+    }
+
+    /// <summary> Pushes the whole grid to the visualizer; used after bulk changes. </summary>
+    private void RefreshView()
+    {
+        Span<SafariZoneObject4> objects = stackalloc SafariZoneObject4[DGV_Objects.RowCount];
+        for (int i = 0; i < objects.Length; i++)
+            objects[i] = ReadRow(i);
+        View_Map.SetMap((SafariZoneType4)Math.Max(0, CB_Map.SelectedIndex));
+        View_Map.SetObjects(objects);
+        UpdateAutoCount(objects);
+        ColorRows();
+    }
+
+    private void UpdateAutoCount(ReadOnlySpan<SafariZoneObject4> objects)
+    {
+        if (!CHK_Auto.Checked)
+            return;
+        int count = 0;
+        foreach (var obj in objects)
+        {
+            if (!obj.IsEmpty)
+                count++;
         }
+        NUD_Count.Value = Math.Min(NUD_Count.Maximum, count);
+    }
+
+    private void CHK_Auto_CheckedChanged(object? sender, EventArgs e)
+    {
+        NUD_Count.Enabled = !CHK_Auto.Checked;
+        if (!IsLoading)
+            RefreshView();
+    }
+
+    private void CB_Map_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (!IsLoading)
+            View_Map.SetMap((SafariZoneType4)Math.Max(0, CB_Map.SelectedIndex));
+    }
+
+    private void DGV_Objects_CurrentCellDirtyStateChanged(object? sender, EventArgs e)
+    {
+        // Combo box edits only commit on leaving the cell otherwise.
+        if (DGV_Objects.IsCurrentCellDirty && DGV_Objects.CurrentCell is DataGridViewComboBoxCell)
+            DGV_Objects.CommitEdit(DataGridViewDataErrorContexts.Commit);
+    }
+
+    private void DGV_Objects_CellValueChanged(object? sender, DataGridViewCellEventArgs e)
+    {
+        // Bulk loads set every cell; they refresh the view once afterward.
+        if (IsLoading || e.RowIndex < 0)
+            return;
+        View_Map.SetObject(e.RowIndex, ReadRow(e.RowIndex));
+        if (CHK_Auto.Checked)
+        {
+            RefreshAutoCount();
+            ColorRows();
+        }
+    }
+
+    private void RefreshAutoCount()
+    {
+        Span<SafariZoneObject4> objects = stackalloc SafariZoneObject4[DGV_Objects.RowCount];
+        for (int i = 0; i < objects.Length; i++)
+            objects[i] = ReadRow(i);
+        UpdateAutoCount(objects);
+    }
+
+    private void View_Map_EmptyTileClicked(int x, int z, int y)
+    {
+        // Claim the first blank row for the clicked tile; the user fills in the rest.
+        for (int i = 0; i < DGV_Objects.RowCount; i++)
+        {
+            if (!ReadRow(i).IsEmpty)
+                continue;
+
+            var row = DGV_Objects.Rows[i].Cells;
+            IsLoading = true;
+            row[1].Value = x.ToString();
+            row[2].Value = z.ToString();
+            row[3].Value = y.ToString();
+            IsLoading = false;
+            RefreshView();
+            SelectRow(i);
+            return;
+        }
+        System.Media.SystemSounds.Beep.Play();
+    }
+
+    private void View_Map_ObjectClicked(int index)
+    {
+        if ((uint)index >= DGV_Objects.RowCount)
+            return;
+        SelectRow(index);
+    }
+
+    private void View_Map_ObjectDeleteRequested(int index)
+    {
+        if ((uint)index >= DGV_Objects.RowCount)
+            return;
+        var cells = DGV_Objects.Rows[index].Cells;
+        IsLoading = true;
+        cells[0].Value = ObjectNames[0];
+        cells[1].Value = "0";
+        cells[2].Value = "0";
+        cells[3].Value = "0";
+        IsLoading = false;
+        RefreshView();
+        RefreshAutoCount();
+        SelectRow(index);
+    }
+
+    private void SelectRow(int index)
+    {
+        DGV_Objects.ClearSelection();
+        DGV_Objects.CurrentCell = DGV_Objects.Rows[index].Cells[0];
+        DGV_Objects.Rows[index].Selected = true;
     }
 
     private const string Filter = "Safari Area Binary (*.bin)|*.bin|All Files|*.*";
@@ -146,18 +268,27 @@ public sealed partial class SafariArea4Editor : UserControl
     {
         // Wipe all objects
         Area.ClearObjects();
+        IsLoading = true;
         LoadObjects();
+        IsLoading = false;
+        RefreshView();
         WinFormsUtil.Asterisk();
     }
 
     private void NUD_Count_ValueChanged(object sender, EventArgs e)
     {
-        // Color the rows based on the count.
+        ColorRows();
+    }
+
+    /// <summary> Shades the rows in use: non-default rows when auto counting, otherwise the first <see cref="NUD_Count"/> rows. </summary>
+    private void ColorRows()
+    {
+        var auto = CHK_Auto.Checked;
         var count = (int)NUD_Count.Value;
         for (int i = 0; i < DGV_Objects.Rows.Count; i++)
         {
-            var row = DGV_Objects.Rows[i];
-            row.DefaultCellStyle.BackColor = i < count ? SystemColors.Control : SystemColors.Window;
-        }   
+            var used = auto ? !ReadRow(i).IsEmpty : i < count;
+            DGV_Objects.Rows[i].DefaultCellStyle.BackColor = used ? SystemColors.Control : SystemColors.Window;
+        }
     }
 }

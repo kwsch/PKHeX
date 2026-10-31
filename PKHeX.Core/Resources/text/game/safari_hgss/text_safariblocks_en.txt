@@ -1,0 +1,24 @@
+Shrubbery
+Red Flower
+White Flower
+Tree
+Stump
+Branches
+Small Rock
+Big Rock
+Mossy Rock
+Puddle
+Fountain
+Water Hole
+Bench
+Short Fence1
+Short Fence2
+Long Fence1
+Long Fence2
+Signboard
+Your Statue
+Your Flag
+Outside Lamp
+Guidepost(R)
+Guidepost(L)
+Trash Can
