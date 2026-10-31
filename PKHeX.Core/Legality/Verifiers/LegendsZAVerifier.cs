@@ -202,7 +202,7 @@ public sealed class LegendsZAVerifier : Verifier
         {
             var level = levels[i];
             if (level > currentLevel)
-                break; // not able to be Plus'd, therefore no need to check.
+                continue; // instead of break, spewpa has irregular on-evo plus move levels that set later indexes.
 
             var move = moves[i];
             var index = permit.PlusMoveIndexes.IndexOf(move);

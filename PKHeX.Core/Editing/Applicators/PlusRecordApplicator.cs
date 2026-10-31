@@ -114,7 +114,7 @@ public static class PlusRecordApplicator
             for (int i = 0; i < levels.Length; i++)
             {
                 if (evo.LevelMax < levels[i])
-                    break;
+                    continue; // instead of break, spewpa has irregular on-evo plus move levels that set later indexes.
 
                 var move = moves[i];
                 var index = indexes.IndexOf(move);
@@ -138,7 +138,7 @@ public static class PlusRecordApplicator
             for (int i = 0; i < levels.Length; i++)
             {
                 if (level < levels[i])
-                    break;
+                    continue; // instead of break, spewpa has irregular on-evo plus move levels that set later indexes.
 
                 var move = moves[i];
                 var index = indexes.IndexOf(move);

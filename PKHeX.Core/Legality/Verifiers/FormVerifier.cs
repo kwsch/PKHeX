@@ -88,33 +88,27 @@ public sealed class FormVerifier : Verifier
                 return GetInvalid(FormParty);
 
             case Scatterbug or Spewpa or Vivillon when enc.Context is EntityContext.Gen9:
-                if (form > 18 && enc.Form != form) // Pokéball
+                // Wild encounters are all Fancy pattern in S/V; when a postcard from GO is sent, can be any of the X/Y forms.
+                if (form > Vivillon3DS.FancyFormID && enc.Form != form) // Pokéball
                     return GetInvalid(FormVivillonEventPre);
-                if (form != 18 && enc is IEncounterEgg) // Fancy
+                // Bred entities are still always fancy.
+                if (enc is EncounterEgg9 && form != Vivillon3DS.FancyFormID) // Fancy
                     return GetInvalid(FormVivillonNonNative);
                 break;
-            case Scatterbug or Spewpa:
+            case Scatterbug or Spewpa or Vivillon:
+                // Random form encounters, depending on geolocation of the user (lost on transfer from 3DS to Nintendo Switch).
                 if (form > Vivillon3DS.MaxWildFormID) // Fancy & Pokéball
-                    return GetInvalid(FormVivillonEventPre);
+                {
+                    // Mystery gifts are already exact-matched to form ID.
+                    if (enc is { Form: not EncounterUtil.FormVivillon })
+                        return GetValid(FormVivillon);
+                    return GetInvalid(FormVivillonInvalid);
+                }
                 if (pk is not IRegionOrigin tr)
                     break;
                 if (!Vivillon3DS.IsPatternValid(form, tr.ConsoleRegion))
                     return GetInvalid(FormVivillonInvalid);
                 if (!Vivillon3DS.IsPatternNative(form, tr.Country, tr.Region))
-                    data.AddLine(Get(Severity.Fishy, FormVivillonNonNative));
-                break;
-            case Vivillon:
-                if (form > Vivillon3DS.MaxWildFormID) // Fancy & Pokéball
-                {
-                    if (enc is not MysteryGift)
-                        return GetInvalid(FormVivillonInvalid);
-                    return GetValid(FormVivillon);
-                }
-                if (pk is not IRegionOrigin trv)
-                    break;
-                if (!Vivillon3DS.IsPatternValid(form, trv.ConsoleRegion))
-                    return GetInvalid(FormVivillonInvalid);
-                if (!Vivillon3DS.IsPatternNative(form, trv.Country, trv.Region))
                     data.AddLine(Get(Severity.Fishy, FormVivillonNonNative));
                 break;
 
