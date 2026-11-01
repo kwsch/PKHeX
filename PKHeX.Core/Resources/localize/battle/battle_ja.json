@@ -18,7 +18,7 @@
   { "Token": "AVs", "Text": "AVs " },
   { "Token": "GVs", "Text": "頑張る " },
   { "Token": "SPs", "Text": "能力P " },
-  { "Token": "Level", "Text": "Lv " },
+  { "Token": "Level", "Text": "レベル " },
   { "Token": "Ability", "Text": "特性 " },
   { "Token": "DynamaxLevel", "Text": "ダイマックスレベル " },
   { "Token": "TeraType", "Text": "テラスタイプ " },

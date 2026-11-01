@@ -54,7 +54,7 @@
     "EggLocationTradeFail": "알을 만난 장소가 잘못되었습니다. 부화 전 알을 교환할 수 없습니다.",
     "EggMetLocationFail": "알을 만난 장소에서 알을 얻을 수 없습니다.",
     "EggMoveCombination": "이 알기술 조합은 현재 세대에서 유전될 수 없습니다.",
-    "EggNature": "알은 능력치 조정을 변경할 수 없습니다.",
+    "EggNature": "알은 능력 보정을 변경할 수 없습니다.",
     "EggPP": "알은 PP를 수정할 수 없습니다.",
     "EggPPUp": "알에는 PP업을 적용할 수 없습니다.",
     "EggRelearnFlags": "떠올리기 기술 플래그가 없어야 합니다.",
