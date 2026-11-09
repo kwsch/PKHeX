@@ -83,6 +83,13 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
     private static bool GetIsShadowLockValidEReader(PKM pk, LegalInfo info, EncounterShadow3Colo s)
     {
         // E-Reader have fixed IVs, and aren't recognized as CXD (no PID-IV correlation).
+
+        // IVs are all zero.
+        Span<int> ivs = stackalloc int[6];
+        pk.GetIVs(ivs);
+        if (ivs.ContainsAnyExcept(0))
+            return false;
+
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsPID];
         var count = XDRNG.GetSeeds(seeds, pk.EncryptionConstant);
         var xdc = seeds[..count];
