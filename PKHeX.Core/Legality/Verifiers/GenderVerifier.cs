@@ -25,7 +25,7 @@ public sealed class GenderVerifier : Verifier
 
         // Check for PID relationship to Gender & Nature if applicable
         var gen = data.Info.Generation;
-        if (gen is 3 or 4 or 5)
+        if (gen is 3 or 4 or 5 && data.EncounterMatch is not WC8) // HOME gift
         {
             // Gender-PID & Nature-PID relationship check
             var result = IsValidGenderPID(data) ? GetValid(PIDGenderMatch) : GetInvalid(PIDGenderMismatch);

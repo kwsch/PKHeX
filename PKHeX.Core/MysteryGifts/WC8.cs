@@ -35,7 +35,7 @@ public sealed class WC8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
     public bool CanBeReceivedByVersion(GameVersion version) => RestrictVersion switch
     {
         0 when !IsEntity => true, // Whatever, essentially unrestricted for SW/SH receipt. No Entity gifts are 0.
-        1 => version is GameVersion.SW,
+        1 => version is GameVersion.SW || (version is GameVersion.FRX && OriginGame is (byte)GameVersion.FRX),
         2 => version is GameVersion.SH,
         3 => version is GameVersion.SW or GameVersion.SH,
         _ => throw new ArgumentOutOfRangeException(nameof(RestrictVersion), RestrictVersion, null),
@@ -671,7 +671,7 @@ public sealed class WC8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
                 }
                 else
                 {
-                    if (!(pk.Version is GameVersion.FRX && pk.MetLocation != LocationsHOME.VirtualConsole3))
+                    if (!(pk.Version is GameVersion.FRX && pk.MetLocation == LocationsHOME.VirtualConsole3))
                         return false;
                 }
             }

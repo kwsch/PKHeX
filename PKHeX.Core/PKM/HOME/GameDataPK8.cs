@@ -105,7 +105,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
 
         // Special: Let our converters know the real version.
         if (LocationsHOME.IsLocationSWSH(pk.MetLocation))
-            pk.Version = LocationsHOME.GetVersionSWSHOriginal(pk.MetLocation);
+            pkh.Version = LocationsHOME.GetVersionSWSHOriginal(pk.MetLocation);
     }
 
     public void CopyFrom(PK7 pk, PKH pkh)

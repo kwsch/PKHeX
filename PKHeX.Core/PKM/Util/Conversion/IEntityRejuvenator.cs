@@ -33,13 +33,20 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
     {
         var version = result.Version;
         if (version is GameVersion.BD or GameVersion.SP)
+        {
             RejuvenateBDSP(result, pk8);
-        else if (version is GameVersion.PLA)
+            return;
+        }
+
+        if (version is GameVersion.PLA)
             RejuvenatePLA(result, pk8);
         else if (version is GameVersion.SL or GameVersion.VL)
             RejuvenateSV(result, pk8);
         else if (version is GameVersion.FRX or GameVersion.LGX)
             RejuvenateVC3(result, pk8);
+
+        if (result.Context is EntityContext.Gen8b && result.EggLocation == 0)
+            result.EggLocation = Locations.Default8bNone;
     }
 
     /// <summary>

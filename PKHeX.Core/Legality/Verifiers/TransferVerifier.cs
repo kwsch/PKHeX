@@ -75,6 +75,9 @@ public sealed class TransferVerifier : Verifier
 
     public void VerifyTransferLegalityG3(LegalityAnalysis data)
     {
+        if (data.EncounterMatch is WC8) // HOME gift
+            return;
+
         // When transferred from Gen3=>HOME, must match the NX Virtual Console pattern and restrictions.
         // Otherwise, it must have been transferred through Pal Park (to Gen4) and Transporter (to Gen5+).
         var pk = data.Entity;
