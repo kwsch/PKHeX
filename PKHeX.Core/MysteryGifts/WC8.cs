@@ -734,7 +734,11 @@ public sealed class WC8(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         {
             if (!shinyType.IsValid(pk)) return false;
             if (!IsMatchEggLocationInternal(pk)) return false;
-            if (Location != pk.MetLocation) return false;
+            if (Location != pk.MetLocation)
+            {
+                if ((GameVersion)OriginGame is not GameVersion.FRX) // HOME Celebi (temp workaround)
+                    return false;
+            }
         }
 
         if (MetLevel != 0 && MetLevel != pk.MetLevel) return false;
