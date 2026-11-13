@@ -119,9 +119,9 @@ public sealed partial class SAV_Safari4 : Form
             Link.FlushConfiguration(i, editor.IsAutoCount);
         }
 
-        Self.FlushMapAges();
-        Link.FlushMapAges();
         SaveGeneral();
+        SaveAgeGrid(DGV_SelfAges, Self);
+        SaveAgeGrid(DGV_LinkAges, Link);
     }
 
     private void SaveGeneral()
@@ -130,12 +130,13 @@ public sealed partial class SAV_Safari4 : Form
         Safari.ElapsedPlayMinutes = (ushort)NUD_ElapsedMinutes.Value;
         Safari.ObjectUnlockLevel = (byte)NUD_ObjectUnlockLevel.Value;
         Safari.AreaSwitcherState = (byte)NUD_AreaSwitcherState.Value;
+    }
 
+    private static void SaveAgeGrid(DataGridView grid, SafariZoneAreaSet4 set)
+    {
         for (int i = 0; i < SafariZoneTypeCount; i++)
-            Self.SetMapAge((SafariZoneType4)i, ParseAgeCell(DGV_SelfAges.Rows[i].Cells[1].Value));
-
-        for (int i = 0; i < SafariZoneTypeCount; i++)
-            Link.SetMapAge((SafariZoneType4)i, ParseAgeCell(DGV_LinkAges.Rows[i].Cells[1].Value));
+            set.SetMapAge((SafariZoneType4)i, ParseAgeCell(grid.Rows[i].Cells[1].Value));
+        set.FlushMapAges();
     }
 
     private static void PopulateAgeGrid(DataGridView grid, SafariZoneAreaSet4 set)
