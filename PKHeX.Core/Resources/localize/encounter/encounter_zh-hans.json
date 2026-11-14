@@ -6,7 +6,7 @@
     "Level": "等级",
     "LevelRange": "等级范围",
     "Location": "地点",
-    "OriginSeed": "原始Seed",
+    "OriginSeed": "原始种子",
     "PIDType": "PID类型",
     "Time": "时间",
     "FrameNewGame": "新游戏：0x{0}，帧：{1}",
