@@ -75,6 +75,15 @@ public static class LumioseSolver
     private static bool TryGetSeedConsecutive(in GenerateParam9a param, PKM pk, uint ec, uint pid, out ulong seed)
     {
         var solver = new XoroMachineConsecutive(ec, pid);
+        if (TryGetSeed(param, pk, solver, out seed))
+            return true;
+
+        if (param.Shiny is not Shiny.Never)
+            return false;
+
+        // Try again assuming the FakeTrainer XORed the resulting PID to be anti-shiny (terrible luck for the player).
+        pid = LumioseRNG.AntiShiny(pid);
+        solver = new XoroMachineConsecutive(ec, pid);
         return TryGetSeed(param, pk, solver, out seed);
     }
 

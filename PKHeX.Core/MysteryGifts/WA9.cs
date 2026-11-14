@@ -91,8 +91,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
     public override Shiny Shiny => PIDType switch
     {
-        0 => Shiny.Random,
-        1 => Shiny.Never,
+        0 or 1 => Shiny.Never,
         2 => Shiny.Always,
         4 => Shiny.FixedValue,
         _ => throw new ArgumentOutOfRangeException(),
