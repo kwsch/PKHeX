@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 public static class LumioseSolver
 {
     /// <summary>
-    /// Allow searching for shiny seeds when <see cref="GenerateParam9a.Shiny"/> is <see cref="Shiny.Random"/> and <see cref="PKM.IsShiny"/> is <see langword="true"/> with only 1 roll.
+    /// Allow searching for shiny seeds when <see cref="GenerateParam9a.Shiny"/> is <see cref="Shiny.Random"/> or <see cref="Shiny.Always"/> and <see cref="PKM.IsShiny"/> is <see langword="true"/> with only 1 roll.
     /// </summary>
     /// <remarks>
     /// Recovery of seeds is too slow for realtime checks. Default is <see langword="false"/>.
@@ -37,7 +37,7 @@ public static class LumioseSolver
     {
         // Technically a rand() result of 0xFFFFFFFF for either EC/PID will double-roll, but we'll just ignore that case due to it being so rare.
 
-        if (param.Shiny is Shiny.Random && pk.IsShiny)
+        if (param.Shiny is not Shiny.Never && pk.IsShiny)
         {
             if (param.RollCount == 1 && SearchShiny1) // O(131072)
                 return TryGetSeedShiny(param, pk, out seed);

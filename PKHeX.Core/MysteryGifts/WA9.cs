@@ -91,29 +91,12 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
     public override Shiny Shiny => PIDType switch
     {
-        ShinyType8.FixedValue => FixedShinyType(),
-        ShinyType8.Random => Shiny.Random,
-        ShinyType8.Never => Shiny.Never,
-        ShinyType8.AlwaysStar => Shiny.AlwaysStar,
-        ShinyType8.AlwaysSquare => Shiny.AlwaysSquare,
+        0 => Shiny.Random,
+        1 => Shiny.Never,
+        2 => Shiny.Always,
+        4 => Shiny.FixedValue,
         _ => throw new ArgumentOutOfRangeException(),
     };
-
-    private Shiny FixedShinyType() => GetShinyXor() switch
-    {
-        0 => Shiny.AlwaysSquare,
-        <= 15 => Shiny.Always,
-        _ => Shiny.Never,
-    };
-
-    private uint GetShinyXor()
-    {
-        var id32 = IsOldIDFormat ? ID32Old : ID32;
-        // Player owned anti-shiny fixed PID
-        if (id32 == 0)
-            return uint.MaxValue;
-        return ShinyUtil.GetShinyXor(PID, id32);
-    }
 
     // When applying the ID32, the game sets the DisplayTID7 directly, then sets PA9.DisplaySID7 as (wa9.DisplaySID7 - wa9.CardID)
     // Since we expose the 16bit (PA9) component values here, just adjust them accordingly with an inlined calc.
@@ -181,7 +164,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
     public int AbilityType { get => Data[0x277]; set => Data[0x277] = (byte)value; }
 
-    public ShinyType8 PIDType { get => (ShinyType8)Data[0x278]; set => Data[0x278] = (byte)value; }
+    public byte PIDType { get => Data[0x278]; set => Data[0x278] = value; }
 
     public byte MetLevel { get => Data[0x279]; set => Data[0x279] = value; }
 
@@ -542,9 +525,6 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
             var success = this.TryApply64(pk, init, param, criteria);
             if (!success && !this.TryApply64(pk, init, param, criteria.WithoutIVs()))
                 this.TryApply64(pk, init, param, EncounterCriteria.Unrestricted);
-
-            if (PIDType is not (ShinyType8.Never or ShinyType8.Random))
-                pk.PID = GetPID(pk, PIDType);
         }
     }
 
@@ -564,13 +544,13 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         _ => AbilityPermission.Any12H,
     };
 
-    private uint GetPID(ITrainerID32 tr, ShinyType8 type) => type switch
+    private uint GetPID(ITrainerID32 tr, Shiny type) => type switch
     {
-        ShinyType8.Never        => GetAntishiny(tr), // Random, Never Shiny
-        ShinyType8.Random       => Util.Rand32(), // Random, Any
-        ShinyType8.AlwaysStar   => (1u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Star
-        ShinyType8.AlwaysSquare => (0u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Square
-        ShinyType8.FixedValue   => GetFixedPID(tr),
+        Shiny.Never        => GetAntishiny(tr), // Random, Never Shiny
+        Shiny.Random       => Util.Rand32(), // Random, Any
+        Shiny.AlwaysStar   => (1u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Star
+        Shiny.AlwaysSquare => (0u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Square
+        Shiny.FixedValue   => GetFixedPID(tr),
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
@@ -595,7 +575,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
     private void SetPID(PA9 pk)
     {
-        pk.PID = GetPID(pk, PIDType);
+        pk.PID = GetPID(pk, Shiny);
     }
 
     private void SetIVs(PA9 pk, in EncounterCriteria criteria)
@@ -640,15 +620,13 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
             return false;
 
         var shinyType = Shiny;
-        if (PIDType == ShinyType8.FixedValue)
-            shinyType = FixedShinyType();
         if (IsEgg)
         {
             if (EggLocation != pk.EggLocation) // traded
             {
                 if (pk.EggLocation != Locations.LinkTrade6)
                     return false;
-                if (PIDType == ShinyType8.Random && pk is { IsShiny: true, ShinyXor: > 1 })
+                if (Shiny == Shiny.Random && pk is { IsShiny: true, ShinyXor: > 1 })
                     return false; // shiny traded egg will always have xor0/1.
             }
             if (!shinyType.IsValid(pk))
@@ -718,8 +696,8 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         // PID Types 0 and 1 do not use the fixed PID value.
         // Values 2,3 are specific shiny states, and 4 is fixed value.
         // 2,3,4 can change if it is a traded egg to ensure the same shiny state.
-        var type = PIDType;
-        if (type is ShinyType8.Never or ShinyType8.Random)
+        var type = Shiny;
+        if (type is not Shiny.FixedValue)
             return true;
         return pk.PID == GetPID(pk, type);
     }
@@ -750,7 +728,7 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
 
     protected override bool IsMatchDeferred(PKM pk) => false;
 
-    protected override bool IsMatchPartial(PKM pk) => !IsHOMEGift && TryGetSeed(pk, out _) != SeedCorrelationResult.Success;
+    protected override bool IsMatchPartial(PKM pk) => !IsHOMEGift && TryGetSeed(pk, out _) == SeedCorrelationResult.Invalid;
 
     #region Lazy Ribbon Implementation
 
@@ -904,10 +882,67 @@ public sealed class WA9(Memory<byte> raw) : DataMysteryGift(raw), ILangNick, INa
         return false;
     }
 
-    public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed) =>
-        GetParams(PersonalTable.ZA[Species, Form]).TryGetSeed(pk, out seed)
+    public SeedCorrelationResult TryGetSeed(PKM pk, out ulong seed)
+    {
+        var pi = PersonalTable.ZA[Species, Form];
+        var param = GetParams(pi);
+        if (Shiny == Shiny.Always && !LumioseSolver.SearchShiny1)
+        {
+            // Need to check the params match the result, if we're not fully searching for a seed.
+            seed = 0;
+            if (!CheckParamsManually(pk, param))
+                return SeedCorrelationResult.Invalid;
+            return SeedCorrelationResult.Ignore;
+        }
+
+        return param.TryGetSeed(pk, out seed)
             ? SeedCorrelationResult.Success
             : SeedCorrelationResult.Invalid;
+    }
+
+    private static bool CheckParamsManually(PKM pk, GenerateParam9a param)
+    {
+        // Bare minimum check since we're bypassing Lumiose RNG solver.
+        if (pk is IScaledSize3 scale && param.SizeType == SizeType9.VALUE && param.Scale != scale.Scale)
+            return false;
+        if (param.Nature is not Nature.Random && pk.Nature != param.Nature)
+            return false;
+
+        // No way to change abilities. Index must match.
+        var abilityNumber = pk.AbilityNumber;
+        var isAbilityValid = param.Ability switch
+        {
+            AbilityPermission.Any12H => abilityNumber is 1 or 2 or 4,
+            AbilityPermission.Any12 => 1 << abilityNumber is 1 or 2,
+            _ => abilityNumber == (int)param.Ability,
+        };
+        if (!isAbilityValid)
+            return false;
+
+        var isGenderValid = param.GenderRatio switch
+        {
+            PersonalInfo.RatioMagicMale => pk.Gender == 0,
+            PersonalInfo.RatioMagicFemale => pk.Gender == 1,
+            PersonalInfo.RatioMagicGenderless => pk.Gender == 2,
+            _ => true
+        };
+        if (!isGenderValid)
+            return false;
+
+        var ivs = param.IVs;
+        if (!ivs.IsSpecified)
+            return pk.FlawlessIVCount >= param.FlawlessIVs;
+        for (int i = 0; i < 6; i++)
+        {
+            var expect = ivs[i];
+            if (expect == -1) // random
+                continue;
+            if (pk.GetIV(i) != expect)
+                return false;
+        }
+
+        return true;
+    }
 
     public LumioseCorrelation Correlation => LumioseCorrelation.SkipTrainer;
     public byte FlawlessIVCount => GetFlawlessIVCount(IV_HP);
