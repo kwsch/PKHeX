@@ -6,9 +6,14 @@ namespace PKHeX.Core;
 
 public enum GlobalLinkPromotion : byte
 {
-    // B/W
-    NotPromotion,
+    NotPromotion = 0,
+
+    // Available to Demo accounts:
+    // Triggered via external Pokémon Trainer Club (PTC) or Daisuki Club web mechanics.
     Eeveelutions,
+    Togekiss,
+
+    // Other promotions required entering a password or serial code inside the PGL website's Promotions menu.
     StartersKanto,
     StartersHoenn,
     StartersSinnoh, // No bonus moves
@@ -23,7 +28,6 @@ public enum GlobalLinkPromotion : byte
     Altaria,
     Banette,
     Lucario,
-    Togekiss,
 
     // B2/W2
     Gothorita1, // Mirror Coat (strategy guide)

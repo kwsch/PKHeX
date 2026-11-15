@@ -1,14 +1,13 @@
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
-using static PKHeX.Core.GlobalLinkPromotion;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 5 Encounters
 /// </summary>
-public static class Encounters5BW
+internal static class Encounters5BW
 {
     internal static readonly EncounterArea5[] SlotsB = EncounterArea5.GetAreas(Get("b", "51"u8), B);
     internal static readonly EncounterArea5[] SlotsW = EncounterArea5.GetAreas(Get("w", "51"u8), W);
@@ -16,122 +15,6 @@ public static class Encounters5BW
     private const string tradeBW = "tradebw";
     private static readonly string[][] TradeNames = GetLanguageStrings(tradeBW, 8);
 
-    #region DreamWorld Encounter
-
-    public static readonly EncounterStatic5Entree[] DreamWorld_BW = DreamWorldEntry.GetArray(BW,
-    [
-        // Pleasant Forest
-        new(029, 10, 010, 389, 162), // Nidoran♀
-        new(032, 10, 064, 068, 162), // Nidoran♂
-        new(174, 10, 047, 313, 270), // Igglybuff
-        new(187, 10, 235, 270, 331), // Hoppip
-        new(270, 10, 071, 073, 352), // Lotad
-        new(276, 10, 064, 119, 366), // Taillow
-        new(309, 10, 086, 423, 324), // Electrike
-        new(351, 10, 052, 466, 352), // Castform
-        new(417, 10, 098, 343, 351), // Pachirisu
-
-        // Windswept Sky
-        new(012, 10, 093, 355, 314), // Butterfree
-        new(163, 10, 193, 101, 278), // Hoothoot
-        new(278, 10, 055, 239, 351), // Wingull
-        new(333, 10, 064, 297, 355), // Swablu
-        new(425, 10, 107, 095, 285), // Drifloon
-        new(441, 10, 119, 417, 272), // Chatot
-
-        // Sparkling Sea
-        new(079, 10, 281, 335, 362), // Slowpoke
-        new(098, 10, 011, 133, 290), // Krabby
-        new(119, 33, 352, 214, 203), // Seaking
-        new(120, 10, 055, 278, 196), // Staryu
-        new(222, 10, 145, 109, 446), // Corsola
-        new(422, 10, 189, 281, 290, Form: 0), // Shellos-West
-        new(422, 10, 189, 281, 290, Form: 1), // Shellos-East
-
-        // Spooky Manor
-        new(202, 15, 243, 204, 227), // Wobbuffet
-        new(238, 10, 186, 445, 285), // Smoochum
-        new(303, 10, 313, 424, 008), // Mawile
-        new(307, 10, 096, 409, 203), // Meditite
-        new(436, 10, 095, 285, 356), // Bronzor
-        new(052, 10, 010, 095, 290), // Meowth
-        new(479, 10, 086, 351, 324), // Rotom
-        new(280, 10, 093, 194, 270), // Ralts
-        new(302, 10, 193, 389, 180), // Sableye
-        new(442, 10, 180, 220, 196), // Spiritomb
-
-        // Rugged Mountain
-        new(056, 10, 067, 179, 009), // Mankey
-        new(111, 10, 030, 068, 038), // Rhyhorn
-        new(231, 10, 175, 484, 402), // Phanpy
-        new(451, 10, 044, 097, 401), // Skorupi
-        new(216, 10, 313, 242, 264), // Teddiursa
-        new(296, 10, 292, 270, 008), // Makuhita
-        new(327, 10, 383, 252, 276), // Spinda
-        new(374, 10, 036, 428, 442), // Beldum
-        new(447, 10, 203, 418, 264), // Riolu
-
-        // Icy Cave
-        new(173, 10, 227, 312, 214), // Cleffa
-        new(213, 10, 227, 270, 504), // Shuckle
-        new(299, 10, 033, 446, 246), // Nosepass
-        new(363, 10, 181, 090, 401), // Spheal
-        new(408, 10, 029, 442, 007), // Cranidos
-        new(206, 10, 111, 277, 446), // Dunsparce
-        new(410, 10, 182, 068, 090), // Shieldon
-
-        // Dream Park
-        new(048, 10, 050, 226, 285), // Venonat
-        new(088, 10, 139, 114, 425), // Grimer
-        new(415, 10, 016, 366, 314), // Combee
-        new(015, 10, 031, 314, 210), // Beedrill
-        new(335, 10, 098, 458, 067), // Zangoose
-        new(336, 10, 044, 034, 401), // Seviper
-
-        // PGL
-        new(134, 10, Gender: 0, Promotion: Eeveelutions), // Vaporeon
-        new(135, 10, Gender: 0, Promotion: Eeveelutions), // Jolteon
-        new(136, 10, Gender: 0, Promotion: Eeveelutions), // Flareon
-        new(196, 10, Gender: 0, Promotion: Eeveelutions), // Espeon
-        new(197, 10, Gender: 0, Promotion: Eeveelutions), // Umbreon
-        new(470, 10, Gender: 0, Promotion: Eeveelutions), // Leafeon
-        new(471, 10, Gender: 0, Promotion: Eeveelutions), // Glaceon
-        new(001, 10, Gender: 0, Promotion: StartersKanto), // Bulbasaur
-        new(004, 10, Gender: 0, Promotion: StartersKanto), // Charmander
-        new(007, 10, Gender: 0, Promotion: StartersKanto), // Squirtle
-        new(387, 10, Gender: 0, Promotion: StartersSinnoh), // Turtwig
-        new(390, 10, Gender: 0, Promotion: StartersSinnoh), // Chimchar
-        new(393, 10, Gender: 0, Promotion: StartersSinnoh), // Piplup
-        new(252, 10, Gender: 0, Promotion: StartersHoenn), // Treecko
-        new(255, 10, Gender: 0, Promotion: StartersHoenn), // Torchic
-        new(258, 10, Gender: 0, Promotion: StartersHoenn), // Mudkip
-        new(473, 34, Gender: 0, Promotion: Mamoswine),
-        new(453, 10, Gender: 0, Promotion: Croagunk1), // JPN/KOR
-
-        // PGL - Single Gender implied
-        new(493, 100, Promotion: Arceus),
-        new(137, 10, Promotion: Porygon),
-        new(384, 50, Promotion: Rayquaza),
-        new(242, 10, Promotion: Blissey),
-
-        // PGL - Now with moves!
-        new(453, 10, 398, Gender: 0, Promotion: Croagunk2), // INT
-        new(189, 27, 206, Gender: 0, Promotion: Jumpluff),
-        new(334, 35, 206, Gender: 0, Promotion: Altaria),
-        new(354, 37, 538, Gender: 1, Promotion: Banette),
-        new(448, 10, 418, Gender: 0, Promotion: Lucario),
-        new(468, 10, 217, Gender: 0, Promotion: Togekiss),
-
-        // PGL (Both Versions)
-        new (149, 55, 009, Gender: 0, Promotion: Dragonite1), // JPN/KOR ThunderPunch
-        new (149, 55, 245, Gender: 0, Promotion: Dragonite2), // INT ExtremeSpeed
-        new(212, 10, 211, Gender: 0, Promotion: Scizor), // INT Steel Wing
-        new(248, 55, 069, Gender: 0, Promotion: Tyranitar), // INT Seismic Toss
-        new(376, 45, 038, Gender: 0, Promotion: Metagross), // INT Double-Edge
-        new(445, 48, 242, Gender: 0, Promotion: Garchomp), // INT Crunch
-    ]);
-
-    #endregion
     #region Static Encounter/Gift Tables
     public static readonly EncounterStatic5[] Encounter_BW =
     [

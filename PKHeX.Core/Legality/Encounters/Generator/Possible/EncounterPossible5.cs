@@ -49,6 +49,7 @@ public record struct EncounterPossible5(EvoCriteria[] Chain, EncounterTypeGroup 
         StaticEntreeB2W2,
         StaticRadar,
         StaticEntreeShared,
+        StaticEntreeDemo,
 
         SlotStart,
         SlotW,
@@ -157,7 +158,7 @@ public record struct EncounterPossible5(EvoCriteria[] Chain, EncounterTypeGroup 
                     return true;
                 Index = 0; State = YieldState.StaticEntreeBW; goto case YieldState.StaticEntreeBW;
             case YieldState.StaticEntreeBW:
-                if (TryGetNext(Encounters5BW.DreamWorld_BW))
+                if (TryGetNext(Encounters5Dream.BW))
                     return true;
                 Index = 0; State = YieldState.StaticEntreeShared; goto case YieldState.StaticEntreeShared;
 
@@ -178,16 +179,20 @@ public record struct EncounterPossible5(EvoCriteria[] Chain, EncounterTypeGroup 
                     return true;
                 Index = 0; State = YieldState.StaticEntreeB2W2; goto case YieldState.StaticEntreeB2W2;
             case YieldState.StaticEntreeB2W2:
-                if (TryGetNext(Encounters5B2W2.DreamWorld_B2W2))
+                if (TryGetNext(Encounters5Dream.B2W2))
                     return true;
                 Index = 0; State = YieldState.StaticRadar; goto case YieldState.StaticRadar;
             case YieldState.StaticRadar:
-                if (TryGetNext(Encounters5DR.Encounter_DreamRadar))
+                if (TryGetNext(Encounters5B2W2.DreamRadar))
                     return true;
                 Index = 0; State = YieldState.StaticEntreeShared; goto case YieldState.StaticEntreeShared;
 
             case YieldState.StaticEntreeShared:
-                if (TryGetNext(Encounters5DR.DreamWorld_Common))
+                if (TryGetNext(Encounters5Dream.Common))
+                    return true;
+                Index = 0; State = YieldState.StaticEntreeDemo; goto case YieldState.StaticEntreeDemo;
+            case YieldState.StaticEntreeDemo:
+                if (TryGetNext(Encounters5Dream.Demo))
                     return true;
                 Index = 0; goto case YieldState.SlotStart;
 

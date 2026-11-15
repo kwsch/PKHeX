@@ -1,14 +1,13 @@
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
-using static PKHeX.Core.GlobalLinkPromotion;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 5 Encounters
 /// </summary>
-public static class Encounters5B2W2
+internal static class Encounters5B2W2
 {
     internal static readonly EncounterArea5[] SlotsB2 = EncounterArea5.GetAreas(Get("b2", "52"u8), B2);
     internal static readonly EncounterArea5[] SlotsW2 = EncounterArea5.GetAreas(Get("w2", "52"u8), W2);
@@ -16,79 +15,6 @@ public static class Encounters5B2W2
     private const string tradeB2W2 = "tradeb2w2";
     private static readonly string[][] TradeNames = GetLanguageStrings(tradeB2W2, 8);
 
-    #region DreamWorld Encounter
-    public static readonly EncounterStatic5Entree[] DreamWorld_B2W2 = DreamWorldEntry.GetArray(B2W2,
-    [
-        // Pleasant Forest
-        new(535, 10, 496, 414, 352), // Tympole
-        new(546, 10, 073, 227, 388), // Cottonee
-        new(548, 10, 079, 204, 230), // Petilil
-        new(588, 10, 203, 224, 450), // Karrablast
-        new(616, 10, 051, 226, 227), // Shelmet
-        new(545, 30, 342, 390, 276), // Scolipede
-
-        // Windswept Sky
-        new(519, 10, 016, 095, 234), // Pidove
-        new(561, 10, 095, 500, 257), // Sigilyph
-        new(580, 10, 432, 362, 382), // Ducklett
-        new(587, 10, 098, 403, 204), // Emolga
-
-        // Sparkling Sea
-        new(550, 10, 029, 097, 428, Form: 0), // Basculin-Red
-        new(550, 10, 029, 097, 428, Form: 1), // Basculin-Blue
-        new(594, 10, 392, 243, 220), // Alomomola
-        new(618, 10, 189, 174, 281), // Stunfisk
-        new(564, 10, 205, 175, 334), // Tirtouga
-
-        // Spooky Manor
-        new(605, 10, 377, 112, 417), // Elgyem
-        new(624, 10, 210, 427, 389), // Pawniard
-        new(596, 36, 486, 050, 228), // Galvantula
-        new(578, 32, 105, 286, 271), // Duosion
-        new(622, 10, 205, 007, 009), // Golett
-
-        // Rugged Mountain
-        new(631, 10, 510, 257, 202), // Heatmor
-        new(632, 10, 210, 203, 422), // Durant
-        new(556, 10, 042, 073, 191), // Maractus
-        new(558, 34, 157, 068, 400), // Crustle
-        new(553, 40, 242, 068, 212), // Krookodile
-
-        // Icy Cave
-        new(529, 10, 229, 319, 431), // Drilbur
-        new(621, 10, 044, 424, 389), // Druddigon
-        new(525, 25, 479, 174, 484), // Boldore
-        new(583, 35, 429, 420, 286), // Vanillish
-        new(600, 38, 451, 356, 393), // Klang
-        new(610, 10, 082, 068, 400), // Axew
-
-        // Dream Park
-        new(531, 10, 270, 227, 281), // Audino
-        new(538, 10, 020, 008, 276), // Throh
-        new(539, 10, 249, 009, 530), // Sawk
-        new(559, 10, 067, 252, 409), // Scraggy
-        new(533, 25, 067, 183, 409), // Gurdurr
-
-        // PGL
-        new(025, 10, 029, Gender: 0, Promotion: Pikachu),
-        new(387, 10, 254, Gender: 0, Promotion: StartersSinnoh2), // Turtwig
-        new(390, 10, 252, Gender: 0, Promotion: StartersSinnoh2), // Chimchar
-        new(393, 10, 297, Gender: 0, Promotion: StartersSinnoh2), // Piplup
-        new(511, 10, 437, Gender: 0, Promotion: MonkeyUnova), // Pansage
-        new(513, 10, 257, Gender: 0, Promotion: MonkeyUnova), // Pansear
-        new(515, 10, 056, Gender: 0, Promotion: MonkeyUnova), // Panpour
-        new(575, 32, 243, Gender: 0, Promotion: Gothorita1), // Mirror Coat
-        new(575, 32, 286, Gender: 0, Promotion: Gothorita2), // Imprison
-
-        // PGL (Both Versions)
-        new (149, 55, 009, Gender: 0, Promotion: Dragonite1), // JPN/KOR ThunderPunch
-        new (149, 55, 245, Gender: 0, Promotion: Dragonite2), // INT ExtremeSpeed
-        new(212, 10, 211, Gender: 0, Promotion: Scizor), // INT Steel Wing
-        new(248, 55, 069, Gender: 0, Promotion: Tyranitar), // INT Seismic Toss
-        new(376, 45, 038, Gender: 0, Promotion: Metagross), // INT Double-Edge
-        new(445, 48, 242, Gender: 0, Promotion: Garchomp), // INT Crunch
-    ]);
-    #endregion
     #region Static Encounter/Gift Tables
 
     public static readonly EncounterStatic5[] Encounter_B2W2_Regular =
@@ -236,6 +162,40 @@ public static class Encounters5B2W2
     public static readonly EncounterTrade5B2W2[] TradeGift_B2 =
     [
         new(TradeNames, 00, B2  ) { Species = 548, Level = 20, Ability = OnlySecond, ID32 = 65217, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Timid }, // Petilil
+    ];
+
+    #endregion
+
+    #region Dream Radar Tables
+
+    internal static readonly EncounterStatic5Radar[] DreamRadar =
+    [
+        new(079, 0), // Slowpoke
+        new(120, 0), // Staryu
+        new(137, 0), // Porygon
+        new(163, 0), // Hoothoot
+        new(174, 0), // Igglybuff
+        new(175, 0), // Togepi
+        new(213, 0), // Shuckle
+        new(238, 0), // Smoochum
+        new(249, 0), // Lugia (SoulSilver cart)
+        new(250, 0), // Ho-Oh (HeartGold cart)
+        new(280, 0), // Ralts
+        new(333, 0), // Swablu
+        new(374, 0), // Beldum
+        new(425, 0), // Drifloon
+        new(436, 0), // Bronzor
+        new(442, 0), // Spiritomb
+        new(447, 0), // Riolu
+        new(479, 0, Any12), // Rotom (no HA)
+        new(483, 0), // Dialga (Diamond cart)
+        new(484, 0), // Palkia (Pearl cart)
+        new(487, 0), // Giratina (Platinum cart)
+        new(517, 0), // Munna
+        new(561, 0), // Sigilyph
+        new(641, 1), // Therian Tornadus
+        new(642, 1), // Therian Thundurus
+        new(645, 1), // Therian Landorus
     ];
 
     #endregion

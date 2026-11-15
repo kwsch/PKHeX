@@ -618,7 +618,11 @@ public partial class SAV_Misc5 : Form
 
     private void B_RandForest_Click(object sender, EventArgs e)
     {
-        var source = (SAV is SAV5BW ? Encounters5BW.DreamWorld_BW : Encounters5B2W2.DreamWorld_B2W2).Concat(Encounters5DR.DreamWorld_Common).ToList();
+        // Don't include rare promo/quirks unless the user requests them.
+        var includePromo = ModifierKeys == Keys.Control;
+        var allowDemoBypass = ModifierKeys == Keys.Shift;
+        var source = Encounters5Dream.GetAll(SAV is SAV5BW, includePromo, allowDemoBypass);
+
         var rnd = Util.Rand;
         foreach (var s in AllSlots)
         {
