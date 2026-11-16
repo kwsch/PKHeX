@@ -50,7 +50,6 @@ public enum PogoType : byte
     MaxBattle = 60,
     MaxBattleMythical,
     MaxBattleUltraBeast,
-    MaxBattleGigantamax,
 
     /// <summary> Pokémon captured from Special Research or Timed Research with a Premier Ball. </summary>
     /// <remarks>
@@ -86,8 +85,7 @@ public static class PogoExtensions
 
         public bool IsMaxBattle => type is PogoType.MaxBattle
             or PogoType.MaxBattleMythical
-            or PogoType.MaxBattleUltraBeast
-            or PogoType.MaxBattleGigantamax;
+            or PogoType.MaxBattleUltraBeast;
     }
 
     extension(PogoBallRestriction ball)
@@ -112,7 +110,9 @@ public static class PogoExtensions
             {
                 PogoBallRestriction.None => true,
                 PogoBallRestriction.StandardMaster => current is Poke or Great or Ultra,
+                PogoBallRestriction.StandardMasterNoSafari => current is Poke or Great or Ultra,
                 PogoBallRestriction.Standard => current is Poke or Great or Ultra,
+                PogoBallRestriction.StandardNoSafari => current is Poke or Great or Ultra,
                 PogoBallRestriction.OnlyPoke => current is Poke,
                 PogoBallRestriction.OnlyPremier => current is Premier,
                 PogoBallRestriction.OnlyBeast => current is Beast,
@@ -120,12 +120,14 @@ public static class PogoExtensions
             };
         }
 
-        public bool IsMasterBallUsable(PogoType type) => ball is not (PogoBallRestriction.Standard or PogoBallRestriction.OnlyPoke or PogoBallRestriction.OnlyBeast);
+        public bool IsMasterBallUsable(PogoType type) => ball is not (PogoBallRestriction.Standard or PogoBallRestriction.StandardNoSafari or PogoBallRestriction.OnlyPoke or PogoBallRestriction.OnlyBeast);
 
         public bool IsSafariBallUsable(PogoType type, PogoFlags flags)
         {
             if (ball is PogoBallRestriction.OnlySafari)
                 return true;
+            if (ball is PogoBallRestriction.StandardNoSafari or PogoBallRestriction.StandardMasterNoSafari)
+                return false;
             if (type.IsRaid || type.IsMaxBattle)
                 return flags.HasFlag(PogoFlags.FeaturedWildArea);
 
@@ -145,9 +147,11 @@ public enum PogoBallRestriction : byte
 {
     None = 0,
     StandardMaster = 1,
-    Standard = 2,
-    OnlyPoke = 3,
-    OnlyPremier = 4,
-    OnlyBeast = 5,
-    OnlySafari = 6,
+    StandardMasterNoSafari = 2,
+    Standard = 3,
+    StandardNoSafari = 4,
+    OnlyPoke = 5,
+    OnlyPremier = 6,
+    OnlyBeast = 7,
+    OnlySafari = 8,
 }

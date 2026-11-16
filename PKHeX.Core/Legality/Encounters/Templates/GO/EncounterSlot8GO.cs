@@ -63,6 +63,8 @@ public sealed record EncounterSlot8GO(ushort DayStart, ushort DayEnd, ushort Spe
             return false;
         if (ball == Ball.Strange && Type == PogoType.SpecialResearch && SpeciesCategory.IsSpecialPokemon(currentSpecies))
             return false;
+        if (ball == Ball.Strange && Type == PogoType.GOPass && SpeciesCategory.IsSpecialPokemon(currentSpecies) && pk.MetDate > new DateOnly(2025, 11, 17))
+            return false;
         if (ball == Ball.Strange && !IsValidWildAreaDate(pk.MetDate))
             return false;
         return BallRestrict.IsValidBall(ball, Type, Flags);
@@ -70,12 +72,12 @@ public sealed record EncounterSlot8GO(ushort DayStart, ushort DayEnd, ushort Spe
 
     private static bool IsValidWildAreaDate(DateOnly? date) => date?.DayNumber switch
     {
-        >= 739204 and <= 739207 => true, // Pokémon GO Wild Area 2024: Fukuoka
-        >= 739211 and <= 739214 => true, // Pokémon GO Wild Area 2024: Global
-        >= 739560 and <= 739564 => true, // Pokémon GO Wild Area 2025: Nagasaki
-        >= 739568 and <= 739571 => true, // Pokémon GO Wild Area 2025: Global
-        >= 739924 and <= 739928 => true, // Pokémon GO Wild Area 2026: Sendai • Tohoku / Mexico City
-        >= 739932 and <= 739935 => true, // Pokémon GO Wild Area 2026: Global
+        >= 739204 and <= 739207 => true, // 2024: Fukuoka
+        >= 739211 and <= 739214 => true, // 2024: Global
+        >= 739560 and <= 739564 => true, // 2025: Nagasaki
+        >= 739568 and <= 739571 => true, // 2025: Global
+        >= 739924 and <= 739928 => true, // 2026: Sendai・Tohoku / Mexico City
+        >= 739932 and <= 739935 => true, // 2026: Global
         _ => false,
     };
 
