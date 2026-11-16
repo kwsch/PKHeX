@@ -7,6 +7,11 @@ namespace PKHeX.Core;
 /// Encounter Slot representing data transferred to HOME.
 /// <inheritdoc cref="PogoSlotExtensions" />
 /// </summary>
+/// <param name="OriginFormat">
+/// Encounters need a Parent Game to determine the original moves when transferred to HOME.
+/// Future game releases might change this value.
+/// With respect to date legality, new dates might be incompatible with initial <seealso cref="OriginFormat"/> values.
+/// </param>
 public sealed record EncounterSlot8GO(ushort DayStart, ushort DayEnd, ushort Species, byte Form, byte LevelMin, byte MinimumIV, Shiny Shiny, Gender Gender, PogoType Type, PogoBallRestriction BallRestrict, PogoImportFormat OriginFormat, PogoFlags Flags)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PKM>, IPogoSlot, IFixedOTFriendship, IEncounterServerDate
 {
@@ -43,15 +48,6 @@ public sealed record EncounterSlot8GO(ushort DayStart, ushort DayEnd, ushort Spe
     }
 
     /// <summary>
-    /// Encounters need a Parent Game to determine the original moves when transferred to HOME.
-    /// </summary>
-    /// <remarks>
-    /// Future game releases might change this value.
-    /// With respect to date legality, new dates might be incompatible with initial <seealso cref="OriginFormat"/> values.
-    /// </remarks>
-    public PogoImportFormat OriginFormat { get; } = OriginFormat;
-
-    /// <summary>
     /// Checks if the <seealso cref="Ball"/> is compatible with the <seealso cref="PogoType"/>.
     /// </summary>
     public bool IsBallValid(Ball ball, ushort currentSpecies, PKM pk)
@@ -59,15 +55,15 @@ public sealed record EncounterSlot8GO(ushort DayStart, ushort DayEnd, ushort Spe
         // GO does not natively produce Shedinja when evolving Nincada, and thus must be evolved in future games.
         if (currentSpecies == (int)Shedinja && currentSpecies != Species)
             return ball == Ball.Poke;
-        if (ball == Ball.Master && pk.MetDate < new DateOnly(2023, 5, 21))
-            return false;
-        if (ball == Ball.Strange && Type == PogoType.SpecialResearch && SpeciesCategory.IsSpecialPokemon(currentSpecies))
-            return false;
-        if (ball == Ball.Strange && Type == PogoType.GOPass && SpeciesCategory.IsSpecialPokemon(currentSpecies) && pk.MetDate > new DateOnly(2025, 11, 17))
-            return false;
-        if (ball == Ball.Strange && !IsValidWildAreaDate(pk.MetDate))
-            return false;
-        return BallRestrict.IsValidBall(ball, Type, Flags);
+
+        return ball switch
+        {
+            Ball.Master when pk.MetDate < new DateOnly(2023, 5, 21) => false,
+            Ball.Strange when Type == PogoType.SpecialResearch && SpeciesCategory.IsSpecialPokemon(currentSpecies) => false,
+            Ball.Strange when Type == PogoType.GOPass          && SpeciesCategory.IsSpecialPokemon(currentSpecies) && pk.MetDate > new DateOnly(2025, 11, 17) => false,
+            Ball.Strange when !IsValidWildAreaDate(pk.MetDate) => false,
+            _ => BallRestrict.IsValidBall(ball, Type, Flags)
+        };
     }
 
     private static bool IsValidWildAreaDate(DateOnly? date) => date?.DayNumber switch

@@ -225,7 +225,7 @@ public static class Encounter9RNG
                 var actual = s.WeightScalar;
                 if (actual != value)
                 {
-                    var isHomeZeroed = actual != 0 && s.HeightScalar == 0 && HomeQuirks.HasEnteredSetZeroScale(pk);
+                    var isHomeZeroed = actual == 0 && s.HeightScalar == 0 && HomeQuirks.HasEnteredSetZeroScale(pk);
                     if (!isHomeZeroed)
                         return false;
                 }
