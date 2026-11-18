@@ -40,7 +40,7 @@ PKHeXは [.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) を必要�
 
 PKHeXのQRコード生成コードは、[MITライセンス](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt)の下でライセンスされている [QRCoder](https://github.com/codebude/QRCoder) から取得しています。
 
-PKHeXの色違いスプライトコレクションは、[MITライセンス](https://github.com/msikma/pokesprite/blob/master/LICENSE)の下でライセンスされている [pokesprite](https://github.com/msikma/pokesprite) から取得しています。
+PKHeXの色違いスプライトコレクションは、[MITライセンス](https://github.com/msikma/pokesprite/blob/master/license.md)の下でライセンスされている [pokesprite](https://github.com/msikma/pokesprite) から取得しています。
 
 PKHeXのPokémon LEGENDS アルセウスのスプライトコレクションは、[National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) プロジェクトと、その多くの協力者および貢献者から取得しています。
 
