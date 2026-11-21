@@ -91,6 +91,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlagProvider37, IBox
         var pk5 = (PK5)pk;
         // Apply to this Save File
         pk5.UpdateHandler(this);
+        if (!isParty)
+            pk5.HealPP(); // PP is restored when a Pokémon is deposited to a box
         pk5.RefreshChecksum();
     }
 
