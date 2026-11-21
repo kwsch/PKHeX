@@ -40,7 +40,7 @@ Benutze die Debug oder Release Konfiguration beim Erstellen. Es gibt keinen plat
 
 PKHeXs QR Code Generierung stammt von [QRCoder](https://github.com/codebude/QRCoder), welcher unter [der MIT Lizenz](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt) lizensiert ist.
 
-PKHeX nutzt Shiny Sprites von [pokesprite](https://github.com/msikma/pokesprite), diese sind unter [der MIT Lizenz](https://github.com/msikma/pokesprite/blob/master/LICENSE) lizensiert.
+PKHeX nutzt Shiny Sprites von [pokesprite](https://github.com/msikma/pokesprite), diese sind unter [der MIT Lizenz](https://github.com/msikma/pokesprite/blob/master/license.md) lizensiert.
 
 PKHeXs Pokémon Legends: Arceus Sprites kommen vom [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) Projekt und seiner Vielzahl an Mitarbeitern und Mitwirkenden.
 

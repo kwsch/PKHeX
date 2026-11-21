@@ -39,7 +39,7 @@ Utilisez la configuration Debug ou Release lors de la compilation. Aucun code sp
 
 Le code de génération des QR codes de PKHeX est extrait de [QRCoder](https://github.com/codebude/QRCoder), qui est [sous licence MIT](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt).
 
-La collection de sprites chromatiques de PKHeX est tirée de [pokesprite](https://github.com/msikma/pokesprite), qui est [sous licence MIT](https://github.com/msikma/pokesprite/blob/master/LICENSE).
+La collection de sprites chromatiques de PKHeX est tirée de [pokesprite](https://github.com/msikma/pokesprite), qui est [sous licence MIT](https://github.com/msikma/pokesprite/blob/master/license.md).
 
 La collection de sprites Légendes Pokémon : Arceus de PKHeX est tirée du projet [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934), avec son abondance de collaborateurs et de contributeurs.
 

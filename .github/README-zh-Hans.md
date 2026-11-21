@@ -40,7 +40,7 @@ PKHeX 是 Windows 窗口应用程序，依赖于 [.NET 10.0](https://dotnet.micr
 
 PKHeX 的 QR 码生成库来源于 [QRCoder](https://github.com/codebude/QRCoder)， 依据 [MIT 许可证](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt) 进行授权。
 
-PKHeX 的异色精灵图示集合库来源于 [pokesprite](https://github.com/msikma/pokesprite)， 依据 [MIT 许可证](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt) 进行授权。
+PKHeX 的异色精灵图示集合库来源于 [pokesprite](https://github.com/msikma/pokesprite)， 依据 [MIT 许可证](https://github.com/msikma/pokesprite/blob/master/license.md) 进行授权。
 
 PKHeX 的“宝可梦传说 阿尔宙斯”精灵图片集来源于 [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) 项目，及其多位各界协作者和贡献者。
 ### IDE
