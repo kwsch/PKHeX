@@ -71,12 +71,12 @@ public static class ParseSettings
     public static bool AllowGBEraEvents => AllowEraCartGB;
     public static bool AllowGBStadium2 => AllowEraCartGB;
 
-    public static bool AllowGBACrossTransferXD(PKM pk) => AllowEraCartGBA || IsGen3HOMEOriginVirtual(pk, false);
-    public static bool AllowGBACrossTransferRSE(PKM pk) => AllowEraCartGBA || IsGen3HOMEOriginVirtual(pk, false);
-    public static bool AllowGen3EventTicketsAll(PKM pk) => AllowEraSwitchGBA || !IsGen3HOMEOriginVirtual(pk, true);
+    public static bool AllowGBACrossTransferXD(PKM pk) => !IsGen3Virtual(pk);
+    public static bool AllowGBACrossTransferRSE(PKM pk) => !IsGen3Virtual(pk);
+    public static bool AllowGen3EventTicketsAll(PKM pk) => IsGen3Virtual(pk);
     public static bool IsExclusivelyNintendoSwitchGBA() => AllowEraSwitchGBA && !AllowEraCartGBA;
     public static bool IsExclusivelyNintendoSwitchGBA(PKM pk) => !IsExclusivelyNintendoSwitchGBA() && pk.Format == 3;
-    private static bool IsGen3HOMEOriginVirtual(PKM pk, bool state) => pk.Format >= 8 && pk.VC3 == state;
+    private static bool IsGen3Virtual(PKM pk) => pk.Format == 3 ? IsExclusivelyNintendoSwitchGBA() : pk is { Format: >= 8, VC3: true };
 
     /// <summary>
     /// Initializes certain settings
