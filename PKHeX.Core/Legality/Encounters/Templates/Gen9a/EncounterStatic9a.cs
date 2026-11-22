@@ -148,8 +148,13 @@ public sealed record EncounterStatic9a(ushort Species, byte Form, byte Level, by
         var loc = pk.MetLocation;
         if (loc == Location)
             return true;
+
+        // Crossovers (Player can run in a limited arena that spans across multiple met locations)
         if (Species is (ushort)Core.Species.Meltan && loc == 00070) // Rouge Sector 1
-            return true; // crossover (depends on player location)
+            return true;
+        if (Species is (ushort)Core.Species.Diggersby && loc == 00031) // Vert Sector 9
+            return true;
+
         return false;
     }
 
