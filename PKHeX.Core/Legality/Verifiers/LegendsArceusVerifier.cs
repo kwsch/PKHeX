@@ -36,7 +36,9 @@ public sealed class LegendsArceusVerifier : Verifier
             if (gv <= max)
                 continue;
 
-            data.AddLine(GetInvalid(CheckIdentifier.GVs, GanbaruStatLEQ_01, max, (ushort)i));
+            // GV index is in stored order (HP/Atk/Def/Spe/SpA/SpD); the localized stat name table is in display order (HP/Atk/Def/SpA/SpD/Spe).
+            var displayIndex = i switch { 3 => 5, 4 => 3, 5 => 4, _ => i };
+            data.AddLine(GetInvalid(CheckIdentifier.GVs, GanbaruStatLEQ_01, max, (ushort)displayIndex));
             return;
         }
     }
