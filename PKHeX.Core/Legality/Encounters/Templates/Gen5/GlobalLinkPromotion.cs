@@ -75,6 +75,7 @@ public static class GlobalLinkPromotionExtensions
             Pikachu => NotKor,
             Jumpluff => Korean,
             MonkeyUnova => Japanese,
+            StartersSinnoh => NotInt,
             StartersSinnoh2 => International,
             Gothorita2 => Japanese,
 
