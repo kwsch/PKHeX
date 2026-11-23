@@ -15,6 +15,7 @@
 #include "../src/growth.h"
 #include "../src/mon.h"
 #include "../src/romdata.h"
+#include "../src/edit.h"
 
 static int fails, checks;
 #define CHECK(what, ok) do { checks++; if (!(ok)) { fails++; printf("  FAIL  %s (line %d)\n", what, __LINE__); } } while (0)
@@ -308,7 +309,9 @@ static void test_rom(const char *rom_path, const char *sym_path) {
     const uint32_t size = (uint32_t)fread(rom, 1, sizeof rom, f);
     fclose(f);
     romdata_t rd;
-    CHECK("all four tables found", romdata_find(&rd, rom, size) == 4);
+    CHECK("all five tables found", romdata_find(&rd, rom, size) == 5);
+    CHECK("battle moves at gBattleMoves", rd.moves == sym(sym_path, "gBattleMoves") - 0x08000000);
+    CHECK("PP: Pound 35, Psycho Boost 5", romdata_move_pp(&rd, 1) == 35 && romdata_move_pp(&rd, 354) == 5);
     CHECK("species names where pret puts gSpeciesNames", rd.species_names == sym(sym_path, "gSpeciesNames") - 0x08000000);
     CHECK("move names at gMoveNames", rd.move_names == sym(sym_path, "gMoveNames") - 0x08000000);
     CHECK("items at gItems", rd.items == sym(sym_path, "gItems") - 0x08000000);
@@ -340,7 +343,57 @@ static void test_rom(const char *rom_path, const char *sym_path) {
     CHECK("experience for every level and rate matches the ROM's tables", same);
 }
 
+static void test_edits(void) {
+    printf("edits\n");
+    species_stats_t sp = {{40, 45, 35, 70, 65, 55}, GROWTH_MEDIUM_SLOW};   /* Treecko's */
+    uint8_t raw[100] = {0};
+    put32(raw, 1234567);                       /* nature 1234567 % 25 = 17, Quiet: +SpA -Spe */
+    put32(raw + 4, 0x0BADF00D);
+    raw[19] = 2;
+    mon_t m;
+    mon_load(&m, raw, 1);
+    memset(m.b + 32, 0, 48);
+    m.b[32] = 277 & 0xFF; m.b[33] = 277 >> 8;
+    edit_set_level(&m, &sp, 5);
+    CHECK("level 5: experience 135 (Medium Slow), party level 5", mon_exp(&m) == 135 && mon_level(&m) == 5);
+    CHECK("... and HP full from nothing (a new max)", mon_hp(&m) == mon_stat(&m, STAT_HP) && mon_hp(&m) > 0);
+    for (int s = 0; s < 6; s++) edit_set_iv(&m, s, 31);
+    edit_set_level(&m, &sp, 50);
+    /* HP (80+31)*50/100+60 = 115; SpA (130+31)*50/100+5 = 85, Quiet: 93;
+     * Speed (140+31)*50/100+5 = 90, Quiet: 81 */
+    CHECK("level 50, IV 31: HP 115, SpA 93 (+), Speed 81 (-)", mon_level(&m) == 50 &&
+          mon_stat(&m, STAT_HP) == 115 && mon_stat(&m, STAT_SPA) == 93 && mon_stat(&m, STAT_SPE) == 81);
+    CHECK("an IV past 31 is held at 31", edit_set_iv(&m, 0, 40) == 31 && edit_set_iv(&m, 0, -3) == 0);
+    edit_set_iv(&m, 0, 31);
+    CHECK("EVs: 252 + 252 + 6, then nothing more fits",
+          edit_set_ev(&m, 1, 252) == 252 && edit_set_ev(&m, 3, 300) == 255 && edit_set_ev(&m, 3, 252) == 252 &&
+          edit_set_ev(&m, 0, 10) == 6 && edit_set_ev(&m, 5, 1) == 0 && mon_ev_total(&m) == 510);
+    const uint16_t hp_before = mon_hp(&m), max_before = mon_stat(&m, STAT_HP);
+    edit_refresh(&m, &sp);
+    CHECK("the 6 HP EVs give one more HP, and HP follows",
+          mon_stat(&m, STAT_HP) == max_before + 1 && mon_hp(&m) == hp_before + 1);
+    edit_set_move(&m, 0, 1, 35);
+    edit_set_move(&m, 3, 0, 20);
+    CHECK("moves: Pound with 35 PP; a cleared slot has none", mon_move(&m, 0) == 1 && mon_pp(&m, 0) == 35 &&
+          mon_move(&m, 3) == 0 && mon_pp(&m, 3) == 0);
+    const uint8_t name[10] = {0xCE, 0xCC, 0xBF, 0xBF, 0xFF, 0xBB, 0xBB, 0xBB, 0xBB, 0xBB};
+    edit_set_nickname(&m, name);
+    CHECK("a nickname is padded with EOS after its end",
+          !memcmp(mon_nickname(&m), "\xCE\xCC\xBF\xBF\xFF\xFF\xFF\xFF\xFF\xFF", 10));
+    mon_store(&m, raw);
+    mon_t n;
+    mon_load(&n, raw, 1);
+    CHECK("all of it stored with a good checksum", n.checksum_ok && mon_level(&n) == 50 && mon_ev_total(&n) == 510);
+    mon_t box;
+    mon_load(&box, raw, 0);
+    edit_set_level(&box, &sp, 30);
+    CHECK("a box record: level 30 is its experience alone", edit_level(&box, &sp) == 30 && box.b[84] == 0);
+    edit_set_level(&box, &sp, 120);
+    CHECK("level 120 is held at 100", edit_level(&box, &sp) == 100);
+}
+
 int main(int argc, char **argv) {
+    test_edits();
     test_slots();
     test_records();
     test_text();

@@ -10,6 +10,9 @@
  *                  first: "????????", then "MASTER BALL"
  *   base stats     28-byte entries: species 1 is 45/49/49/45/65/65,
  *                  Grass/Poison; growth rate at byte 19
+ *   battle moves   12-byte entries: none, then Pound (power 40, Normal,
+ *                  100%, 35 PP), Karate Chop (50, Fighting, 100%, 25 PP);
+ *                  base PP at byte 4
  * English games only, for the names; a table not found shows numbers.
  */
 #ifndef ROMDATA_H
@@ -19,14 +22,14 @@
 typedef struct {
     const uint8_t *rom;
     uint32_t size;
-    uint32_t species_names, move_names, items, base_stats;   /* offsets; 0: not found */
+    uint32_t species_names, move_names, items, base_stats, moves;   /* offsets; 0: not found */
 } romdata_t;
 
 #define RD_SPECIES_MAX  411       /* internal species 1..411 (412 is the egg) */
 #define RD_MOVES_MAX    354
 #define RD_ITEMS_MAX    376       /* Emerald's last item; the others have fewer */
 
-/* Find the tables in rom[0..size). Returns how many were found (0..4). */
+/* Find the tables in rom[0..size). Returns how many were found (0..5). */
 int romdata_find(romdata_t *rd, const uint8_t *rom, uint32_t size);
 /* Names, decoded to font codes into out (12 bytes for species, 13 for
  * moves, 15 for items). A table not found gives "#123". */
@@ -36,4 +39,6 @@ void romdata_item_name(const romdata_t *rd, uint16_t item, char *out);
 /* A species' base stats and growth rate; 0 when the table is not found. */
 #include "growth.h"
 int romdata_species_stats(const romdata_t *rd, uint16_t species, species_stats_t *out);
+/* A move's base PP; 0 when the table is not found. */
+uint8_t romdata_move_pp(const romdata_t *rd, uint16_t move);
 #endif

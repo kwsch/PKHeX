@@ -10,6 +10,9 @@ static const uint8_t pound[] = {0xCA, 0xC9, 0xCF, 0xC8, 0xBE, 0xFF};
 static const uint8_t q8[] = {0xAC, 0xAC, 0xAC, 0xAC, 0xAC, 0xAC, 0xAC, 0xAC, 0xFF};
 static const uint8_t master_ball[] = {0xC7, 0xBB, 0xCD, 0xCE, 0xBF, 0xCC, 0x00, 0xBC, 0xBB, 0xC6, 0xC6, 0xFF};
 static const uint8_t bulba_stats[] = {45, 49, 49, 45, 65, 65, 12, 3};   /* types: Grass, Poison */
+/* Pound and Karate Chop: effect, power, type, accuracy, PP, effect chance */
+static const uint8_t pound_move[] = {0, 40, 0, 100, 35, 0};
+static const uint8_t chop_move[] = {43, 50, 1, 100, 25, 0};
 
 static int at(const uint8_t *p, const uint8_t *s, unsigned n) {
     for (unsigned k = 0; k < n; k++) if (p[k] != s[k]) return 0;
@@ -24,9 +27,9 @@ static int zero(const uint8_t *p, unsigned n) {
 int romdata_find(romdata_t *rd, const uint8_t *rom, uint32_t size) {
     rd->rom = rom;
     rd->size = size;
-    rd->species_names = rd->move_names = rd->items = rd->base_stats = 0;
+    rd->species_names = rd->move_names = rd->items = rd->base_stats = rd->moves = 0;
     int found = 0;
-    for (uint32_t off = 0x200; off + 64 <= size && found < 4; off += 4) {
+    for (uint32_t off = 0x200; off + 64 <= size && found < 5; off += 4) {
         const uint8_t *p = rom + off;
         /* the cheapest test first: one byte of each table's first entry */
         if (p[0] == 0xAC) {
@@ -42,6 +45,9 @@ int romdata_find(romdata_t *rd, const uint8_t *rom, uint32_t size) {
         } else if (p[0] == 0) {
             if (!rd->base_stats && at(p + 28, bulba_stats, sizeof bulba_stats) && zero(p, 8)) {
                 rd->base_stats = off; found++;
+            } else if (!rd->moves && zero(p, 12) && at(p + 12, pound_move, sizeof pound_move) &&
+                       at(p + 24, chop_move, sizeof chop_move)) {
+                rd->moves = off; found++;
             }
         }
     }
@@ -81,4 +87,9 @@ int romdata_species_stats(const romdata_t *rd, uint16_t species, species_stats_t
     for (int k = 0; k < 6; k++) out->base[k] = p[k];
     out->growth = p[19];
     return 1;
+}
+
+uint8_t romdata_move_pp(const romdata_t *rd, uint16_t move) {
+    if (!rd->moves || move == 0 || move > RD_MOVES_MAX) return 0;
+    return rd->rom[rd->moves + move * 12 + 4];
 }
