@@ -207,7 +207,7 @@ public static class Encounters5Dream
         new(149, 55, 245, Gender: 0, Promotion: Dragonite2), // INT ExtremeSpeed
         new(212, 10, 211, Gender: 0, Promotion: Scizor), // INT Steel Wing
         new(248, 55, 069, Gender: 0, Promotion: Tyranitar), // INT Seismic Toss
-        new(376, 45, 038, Gender: 0, Promotion: Metagross), // INT Double-Edge
+        new(376, 45, 038, Gender: 2, Promotion: Metagross), // INT Double-Edge
         new(445, 48, 242, Gender: 0, Promotion: Garchomp), // INT Crunch
     ]);
 
