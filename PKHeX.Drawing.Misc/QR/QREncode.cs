@@ -32,18 +32,17 @@ public static class QREncode
     /// <param name="copies">The number of copies to encode.</param>
     /// <returns>A bitmap containing the QR code.</returns>
     public static Bitmap GenerateQRCode7(PK7 pk7, int box = 0, int slot = 0, int copies = 1)
-        => GenerateQRCode(QRMessageUtil.GetMessage(pk7, box, slot, copies), ppm: 4);
+        => GenerateQRCode(QRMessageUtil.GetMessage(pk7, box, slot, copies), pixelsPerModule: 4);
 
     /// <summary>
     /// Generates a QR code bitmap from a message string.
     /// </summary>
-    /// <param name="msg">The message to encode in the QR code.</param>
-    /// <param name="ppm">Pixels per module for the QR code graphic.</param>
+    /// <param name="plainText">The message to encode in the QR code.</param>
+    /// <param name="pixelsPerModule">Pixels per module for the QR code graphic.</param>
     /// <returns>A bitmap containing the QR code.</returns>
-    private static Bitmap GenerateQRCode(string msg, int ppm = 4)
-    {
-        using var data = QRCodeGenerator.GenerateQrCode(msg, QRCodeGenerator.ECCLevel.Q);
-        using var code = new QRCode(data);
-        return code.GetGraphic(ppm, darkColor: SystemColors.ControlText, lightColor: SystemColors.ControlLightLight, drawQuietZones: true);
-    }
+    private static Bitmap GenerateQRCode(string plainText, int pixelsPerModule = 4) => QRCodeHelper.GetQRCode(plainText, pixelsPerModule,
+        darkColor: SystemColors.ControlText,
+        lightColor: SystemColors.ControlLightLight,
+        eccLevel: QRCodeGenerator.ECCLevel.Q,
+        drawQuietZones: true);
 }
