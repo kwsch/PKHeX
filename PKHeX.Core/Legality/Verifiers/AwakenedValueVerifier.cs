@@ -37,7 +37,8 @@ public sealed class AwakenedValueVerifier : Verifier
         Span<byte> current = stackalloc byte[6];
         pb7.AwakeningGetVisual(current);
 
-        // For each stat, ensure the current AV is at least the required minimum
+        // For each stat, ensure the current AV is at least the required minimum.
+        // Both spans are in display order (HP/Atk/Def/SpA/SpD/Spe), matching the localized stat name table.
         if (current[0] < required[0])
             data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[0], 0)); // HP
         if (current[1] < required[1])
@@ -45,10 +46,10 @@ public sealed class AwakenedValueVerifier : Verifier
         if (current[2] < required[2])
             data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[2], 2)); // Def
         if (current[3] < required[3])
-            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[3], 4)); // SpA
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[3], 3)); // SpA
         if (current[4] < required[4])
-            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[4], 5)); // SpD
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[4], 4)); // SpD
         if (current[5] < required[5])
-            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[5], 3)); // Speed
+            data.AddLine(GetInvalid(Identifier, AwakenedStatGEQ_01, required[5], 5)); // Speed
     }
 }
