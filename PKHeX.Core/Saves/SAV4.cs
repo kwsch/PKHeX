@@ -406,6 +406,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37, IDaycareStorage, IDaycareRa
         var pk4 = (PK4)pk;
         // Apply to this Save File
         pk4.UpdateHandler(this);
+        if (!isParty)
+            pk4.HealPP(); // PP is restored when a Pokémon is deposited to a box
         pk.RefreshChecksum();
     }
 
