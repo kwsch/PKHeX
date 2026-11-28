@@ -40,7 +40,7 @@ PKHeX는 [.NET 10.0](https://dotnet.microsoft.com/download/dotnet/10.0)이 필�
 
 PKHeX의 QR 코드 생성 코드는 [the MIT license](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt)에 따라 라이선스가 부여된 [QRCoder](https://github.com/codebude/QRCoder) 에서 가져왔습니다.
 
-PKHeX의 이로치(색이다른) 스프라이트 컬렉션은 [the MIT license](https://github.com/msikma/pokesprite/blob/master/LICENSE)에 따라 라이선스가 부여된 [pokesprite](https://github.com/msikma/pokesprite)에서 가져왔습니다.
+PKHeX의 이로치(색이다른) 스프라이트 컬렉션은 [the MIT license](https://github.com/msikma/pokesprite/blob/master/license.md)에 따라 라이선스가 부여된 [pokesprite](https://github.com/msikma/pokesprite)에서 가져왔습니다.
 
 PKHeX의 Pokémon LEGENDS 아르세우스 스프라이트 컬렉션은 [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) 프로젝트와 수많은 협력자 및 기여자의 도움을 받아 만들어졌습니다.
 

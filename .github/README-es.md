@@ -40,7 +40,7 @@ Para hacer el build puedes usar las configuraciones de Debug o de Release. ¡No 
 
 La generación de códigos QR de PKHeX es la de [QRCoder](https://github.com/codebude/QRCoder), licenciado bajo [la licencia MIT](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt).
 
-La colección de sprites de Pokémons Shiny de PKHeX fue tomada de [pokesprite](https://github.com/msikma/pokesprite), licenciado bajo [la licencia MIT](https://github.com/msikma/pokesprite/blob/master/LICENSE).
+La colección de sprites de Pokémons Shiny de PKHeX fue tomada de [pokesprite](https://github.com/msikma/pokesprite), licenciado bajo [la licencia MIT](https://github.com/msikma/pokesprite/blob/master/license.md).
 
 La colección de sprites de Leyendas Pokémon: Arceus de PKHeX proviene del proyecto [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) y su gran cantidad de colaboradores y contribuyentes.
 

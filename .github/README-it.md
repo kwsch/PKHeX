@@ -40,7 +40,7 @@ L'eseguibile può essere compilato con qualsiasi compiler che supporti C# 14.
 
 Il codice per la generazione di QR Code è preso da [QRCoder](https://github.com/codebude/QRCoder), concesso in licenza sotto [the MIT license](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt).
 
-La collezione di sprite shiny è presa da [pokesprite](https://github.com/msikma/pokesprite), concessa in licenza sotto [the MIT license](https://github.com/msikma/pokesprite/blob/master/LICENSE).
+La collezione di sprite shiny è presa da [pokesprite](https://github.com/msikma/pokesprite), concessa in licenza sotto [the MIT license](https://github.com/msikma/pokesprite/blob/master/license.md).
 
 La collezione di sprite per Leggende Pokémon: Arceus è presa dal progetto [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934), grazie a tutti i collaboratori e contribuenti.
 
