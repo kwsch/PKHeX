@@ -24,7 +24,7 @@ public partial class SAV_Raid9 : Form
             TeraRaidOrigin.BlueberryAcademy => SAV.RaidBlueberry,
             _ => throw new ArgumentOutOfRangeException($"Raid Origin {raidOrigin} is not valid for Scarlet and Violet"),
         };
-        CB_Raid.Items.AddRange(Enumerable.Range(1, Raids.CountUsed).Select(z => (object)$"Raid {z:000}").ToArray());
+        CB_Raid.Items.AddRange(Enumerable.Range(1, Raids.CountUsed).Select(object (z) => $"Raid {z:000}").ToArray());
         CB_Raid.SelectedIndex = 0;
         LoadSeeds();
     }

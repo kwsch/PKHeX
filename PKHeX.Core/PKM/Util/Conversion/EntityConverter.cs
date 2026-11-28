@@ -210,19 +210,29 @@ public static class EntityConverter
 
     private static PKM? GetFinalResult(PKM pk, Type destType, ref EntityConverterResult result)
     {
-        // Every format can eventually feed into HOME. Don't bother checking current type.
-        var type = PKH.GetType(destType);
-        if (type is not HomeGameDataFormat.None)
+        // If we reach here, we need to convert via HOME.
+        // Must be reachable from HOME convert.
+        var dest = PKH.GetType(destType);
+        if (dest == HomeGameDataFormat.None)
         {
-            var pkh = HOME.GetEntity(pk);
-            var converted = pkh.ConvertToPKM(type);
-            if (converted is null)
-                result = IncompatibleSpecies;
-            return converted;
+            result = NoTransferRoute;
+            return null;
         }
 
-        result = NoTransferRoute;
-        return null;
+        // Check if the current format can actually enter HOME.
+        var srcType = pk.GetType();
+        var src = PKH.GetTypeFirstEntry(srcType);
+        if (src == HomeGameDataFormat.None)
+        {
+            result = NoTransferRoute;
+            return null;
+        }
+
+        var pkh = HOME.GetEntity(pk);
+        var converted = pkh.ConvertToPKM(dest);
+        if (converted is null)
+            result = IncompatibleSpecies;
+        return converted;
     }
 
     /// <summary>

@@ -122,11 +122,9 @@ public static class WallpaperUtil
         const int width = SAV3RSBox.WP_WIDTH, height = SAV3RSBox.WP_HEIGHT;
         var data = CMPR.Decompress(sav.MyWallpaper, width, height);
         var picture = ImageUtil.GetBitmap(data, width, height, PixelFormat.Format32bppArgb);
-        using (Graphics g = Graphics.FromImage(bitmap))
-        {
-            var dst = new Rectangle(5, 5, 146, 106);
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.DrawImage(picture, dst, (width / 2) * (box % 2), 0, width / 2, height, GraphicsUnit.Pixel); // left or right half depending on box
-        }
+        using var g = Graphics.FromImage(bitmap);
+        var dst = new Rectangle(5, 5, 146, 106);
+        g.SmoothingMode = SmoothingMode.AntiAlias;
+        g.DrawImage(picture, dst, (width / 2) * (box % 2), 0, width / 2, height, GraphicsUnit.Pixel); // left or right half depending on box
     }
 }

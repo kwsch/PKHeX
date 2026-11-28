@@ -221,7 +221,7 @@ public static class EncounterServerDate
         {1012, new(2024, 11, 21, 2025, 06, 01)}, // Operation Get Mythical's KOR Zarude
         {1013, new(2024, 11, 21, 2025, 06, 01)}, // Operation Get Mythical's KOR Deoxys
         {1010, new(2025, 01, 21, 2025, 04, 01)}, // Pokémon Lucario & The Mystery of Mew Movie Gift KOR 아론's Lucario
-        {0514, new(2025, 02, 05, 2025, 07, 01, +2)}, // Pokémon Day 2025 Flying Tera Type Eevee
+        {0514, new(2025, 02, 04, 2025, 07, 01, +3)}, // Pokémon Day 2025 Flying Tera Type Eevee
         {0519, new(2025, 02, 20, 2025, 03, 01)}, // Marco's Jumpluff
         {0066, new(2025, 04, 18, 2025, 08, 01)}, // Wei Chyr's Rillaboom
         {1019, new(2025, 04, 24, 2025, 07, 01)}, // Pokémon Town - KOR Ditto Project

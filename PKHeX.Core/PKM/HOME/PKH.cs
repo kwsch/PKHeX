@@ -1,6 +1,7 @@
 using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
@@ -25,10 +26,15 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public PKH(Memory<byte> data) : base(DecryptHome(data))
     {
         var mem = Raw[(HomeCrypto.SIZE_1HEADER + 2)..];
-        var core = mem[..CoreDataSize];
-        var side = mem.Slice(core.Length + 2, GameDataSize);
 
+        // Lengths read from the PKH header; shouldn't really trust them... let exceptions happen if they are wrong.
+        var core = mem[..CoreDataSize];
         Core = new GameDataCore(core);
+
+        var sideLength = GameDataSize;
+        if (sideLength > mem.Length - (core.Length + 2))
+            return; // not enough data to read side-game data, just return and leave the side-game data null
+        var side = mem.Slice(core.Length + 2, sideLength);
         ReadGameData1(side);
     }
 
@@ -44,14 +50,20 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     private void ReadGameData1(Memory<byte> data)
     {
         // Can potentially have no side-game data (GO imports)
-        while (data.Length != 0)
+        while (true)
         {
+            if (data.Length < HomeOptional1.HeaderSize)
+                break; // not enough data to read header
+
             var span = data.Span;
             var format = (HomeGameDataFormat)span[0];
             var length = ReadUInt16LittleEndian(span[1..]);
             data = data[HomeOptional1.HeaderSize..];
+            if (length > data.Length)
+                break; // unexpected length value, stop reading to avoid exceptions
+
             var chunk = data[..length];
-            data = data[chunk.Length..];
+            data = data[length..];
 
             _ = ReadGameData1(chunk, format);
         }
@@ -411,6 +423,15 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         if (type == typeof(PA8)) return HomeGameDataFormat.PA8;
         if (type == typeof(PK9)) return HomeGameDataFormat.PK9;
         if (type == typeof(PA9)) return HomeGameDataFormat.PA9;
+        return HomeGameDataFormat.None;
+    }
+
+    public static HomeGameDataFormat GetTypeFirstEntry(Type type)
+    {
+        var side = GetType(type);
+        if (side != HomeGameDataFormat.None)
+            return side;
+        if (type == typeof(PK7)) return HomeGameDataFormat.PK8;
         if (type == typeof(PK3)) return HomeGameDataFormat.PK8;
         return HomeGameDataFormat.None;
     }
@@ -431,8 +452,11 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         var blank = new PKH();
         blank.CopyFrom(pk);
         blank.EnsureScaleSizeExists();
-        if (blank.Species is (int)PKHeX.Core.Species.Arceus or (int)PKHeX.Core.Species.Silvally)
+        if (blank.Species is (int)Arceus or (int)Silvally)
+        {
             blank.Form = 0;
+            blank.HeldItem = 0; // nothing should be setting this anyway, but just in case.
+        }
         return blank;
     }
 

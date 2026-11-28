@@ -99,7 +99,7 @@ public sealed class SlotEditor<T>(SaveFile SAV)
         var sourcePK = source.Read(SAV);
         var destPK = dest.Read(SAV);
 
-        using var change = Changelog.Begin([source, dest]);
+        using var change = Changelog.Begin(source, dest);
 
         if (!source.WriteTo(SAV, destPK, settings))
             return SlotTouchResult.FailSource;
